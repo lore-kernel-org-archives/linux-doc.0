@@ -1,438 +1,190 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F192E1730
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 21:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E51223328
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 21:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765919333; cv=none; b=OzjY9vczM7u0+oNsaE0xtkaRSov9Ex4XTtFI2UchBaldpXflqFCWBQfAHUU+k+CwgCwLPD5vMpAe2l7OY8txQyDY7qjiaz3GPr/ErBSiQTzQ0Lw7nizC5o7fkO4wa1Enbh5+0ALsLyY6SikkSHNXkDJbIZn4zmt2ZdlLnoiJfKM=
+	t=1765921255; cv=none; b=kZIEE1hFvjNIX/sZcLcO+X57tg5zEaFRxhhWFzkF9J5r2Eq3vtEZv2Iu4WineM40RfcQLUiAWvglixIim9CwWLsRxx7qLrNOZGIKOMGx19psx/9kot4vh5ge9KginmXi1mGr7jS6cfHVBI4pJ9mUuhfRstfH8MXlzFyc4ZybJPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765919333; c=relaxed/simple;
-	bh=VH1xl5++9O6ZB5umO6kcdRVDWOTwcHp5qpV2emSsFxk=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Subject:
-	 References:In-Reply-To; b=GsieGdnJI5wpS4RZhtwRq350YUISnATzZPrnB9poB5B0LHpm5OOA2gNh8Smh56DshF0w8+yWe8pv4uwGV/D72iE4m91WRGDwo+yq2/EnL0nP6+GuzFgNQdqjoukkblOuttHJNTHznL2lJR5h4hf+9zxjvjHBPo1C3CdxekIVOt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=aEPy0yza; arc=none smtp.client-ip=209.85.217.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1765921255; c=relaxed/simple;
+	bh=NmP7yRxuwBDOJ0jpE9VLHq7MPNAkro8YSHe8EEKaoHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PTsP5E1XZ5AiB6sm03+eFrQBXJVU57miQUKYWnzqgtey2s76kADphT1GyTy8/TLDKxKEgNyukDfXaVCHoy/UF8dWAmRJ4z/ncPVFpPJECrh53CuEBEwH8xGOq04lbh92AOZ7QNbhHcc4eecFTyCVDd0E5gfDwpQBE6AuRzZeyLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHMv9026; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="aEPy0yza"
-Received: by mail-vs1-f65.google.com with SMTP id ada2fe7eead31-5dfae681ff8so3379526137.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:08:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHMv9026"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so2594193f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:40:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1765919329; x=1766524129; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :mime-version:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CWGNFMYxe9TyC/7sdiL3Nby8ShHIEtMiyaZ/uOUZvdQ=;
-        b=aEPy0yzao8r2yCpud20YJaIJXiva9haUAOV10YAdyQeJ9CBdy4RS3jEQg7oVJhuyS7
-         n6IFX+D3+0Bm0kye0Il8OaAHjMznMASYv1SaX10SU2dUM2EzM7K13l5bgPE3ln87vQCw
-         YsAUg8fdH0q3ELnmGEFH8XN3ETPZ4/Ich62aMkF06Wax1dY/l37ZRrAbVH/vb4rMj9cz
-         mGwzxeX6PwRC0kIxq3asCnZHo3huMdZwMc28F6/8pg7yX3dgkR9WKNPbAsQTLMQGHthy
-         rfDX4CYG7Xk8/bWEjwvN3kZymsyY1ufqeGJbumsE3bBVbsOIm+OUEgpTcuX5CSWTUjag
-         ynog==
+        d=gmail.com; s=20230601; t=1765921250; x=1766526050; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8OTDbmAFb/FXvcogwunDm5PD9Y8cmiPYZgWvi7Zhmcc=;
+        b=DHMv9026B5w3Slm+85u/9rO2pQOe9LN9fRzNwr+xTp5fjv3orK4PLy91HIEeWCilg5
+         K12w1Mn4ZOx4jOvrLN8OZSq9dtsssYJnLiB6EWxdpJDiWLrzH7bPEvLpZFadUh0JoQ5c
+         S5fbPZcTCdz6vxxrOPRTwrmwIBx2UgjW0ABBh3ZT7KQAHJgofKSGa8E1g1RKcboYqiNq
+         qXTxP6Mf/exE94JGpovbYDo+8uGllkyChV/7NMt/SolOnBp20hYlDPfKgFnuzqnN6/WW
+         24wGXTMjVIgNehkOVIwDzcmApoUDsLSnrAJDqcskHdh3GJ+zuzH5c0JIwPB1FlnDL4eI
+         DTLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765919329; x=1766524129;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1765921250; x=1766526050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CWGNFMYxe9TyC/7sdiL3Nby8ShHIEtMiyaZ/uOUZvdQ=;
-        b=mS/VWzGUz8xltByAH1wcGQAEn3G7ia7mOX7x1eTsKgVkA3qKvVug00OlOU7X1NXfWo
-         jTJIEcaUj91t6YazGzIFwouJV40oXCYEPgmTtF6HPxr4lfgALqwpDfTLZPNg+iQAF0Dh
-         x2K0NEOg7AcquXFLDCBXB46DwnF79I2Rv4TokKZTbyEXhcUMaPfrSg6oiYE+rKcxzuLF
-         BkAe0vc2ngDU4zi9Z/Z7qJxpI60g5ZqmRIf+J1cLC9f13zIV6IU4MM4BGSv5V0CRZfLQ
-         UdU/uGT9SF8EFb4kcDpJPrN5grzfI5LSQfDZXWPyR8iUU8pDAdTvyO/zo845XlZ9wPOJ
-         kL1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUTpkg7tCO/WTu38iJeorW234vsC5GiiPBQoPU8ngrraXHUIG025n1zW12AtZH8T8j0D+KmVaCPI68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKaEHmsqXeR7LBpzXpOIMh70O9gMG2VJ6lunIH2d65TW21fU+U
-	ZNDpCAd8bbHezw89UMk+uheJG7jexvDVKZd2icl1PJ9esPKmSuCP9Ypqs3aBUfuFrx9EwtT+4CR
-	UaV4=
-X-Gm-Gg: AY/fxX5oV5LrH9m+beMc8T2ivYbrq0nXpYf/dNnWsgBqgm67NBqNracLvtjSqdmE9NO
-	GLcCWJWmyJqUSmVqfURrluH5rJh7G5o3NnKmcEWwwrzw4gmjn9aXdq/ja22DE8BhnADxJzK6+UI
-	aRzpJMRbbsnNGPnqp3c58RcylmaRBeH+0MqyKslWeh2JO43xx8mxBtkFdu+LGMD19MYKnopYp2l
-	axWg+P+AwX17IEAL7oPZzoPOJdzUANbmqOY8Ywgf8pMuh1vy1yeqbEMTfvGDxYVBD+0gARTgnOv
-	xmtusVSZgGZJm8JrBpIh+RAcoBZmnuoSNYhyhi+Rx23GtEFnQcQmUtAy4jEX3lOOcRlS1Xpir3/
-	Mb1YTfYLXnaiwexiqToXQz3oVFZ4PMQAGFVo6HzXobh/F6mMOlrrE1SyRujpk1mQECdtDPd7IdW
-	M0pHIY86VnViUpsMf+Sdrxe8GIb7/IVEmURzQeK1/4FBqrsty2WUft+dx1
-X-Google-Smtp-Source: AGHT+IFVHSA7PuH01Up3KfTlcb3j+0mW1Rx9zFMCTOKbQwolakScOWOD34veXElG5sffzdLQ5yZVzw==
-X-Received: by 2002:a05:620a:17a6:b0:892:ce2b:f84d with SMTP id af79cd13be357-8bb39fb1fb6mr2209857185a.33.1765918829690;
-        Tue, 16 Dec 2025 13:00:29 -0800 (PST)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8be31b66942sm259527085a.42.2025.12.16.13.00.28
+        bh=8OTDbmAFb/FXvcogwunDm5PD9Y8cmiPYZgWvi7Zhmcc=;
+        b=cU/cZGMA04V38XxyGlMa9kAm6vv1cyveP/KOyTF4XKhk7oCg/0/Hj8MSc/HmeyhjYa
+         O53OKLrFd+si3QXqFiWOMkntpzODo5EtHQRs5918bXLorHn4BjnPFts+GHmx5gWRec1U
+         I9VaMQcvL7/rbu4yBM38YQxe5og8NXvvG/4GTV2/dw1IY7XlyFlIDKylL72kHz6AVEBi
+         sF5oM5/0bphVBJQ4msrLZbFymuju7pxlKz2JfQAwghlCQzwLIfpGuWXJlfI1PPyCXTmb
+         4R1WBS4RSa5Z9Hp/tiJSIfmy/tXnongjz2oGGHJhPDzs8D0dhtycmT9g6jX5jhNn4Hls
+         1JtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1bsfjOMzx8Iyawal9awybrAofRRMsu8QlIzjfZSGvUSKxasGLeOYsP2B/sAmswIKHXoL9LhnCHZ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEFgDOaSLYmyOvXl66cBFDo3bS5zOc3EcNqiq/Vf959DcNcKDg
+	dJWWdqvTyqasH8/EsdmFd0YN7rhunTte2BWZUnr/8PPSpEf7YsJCs2G+
+X-Gm-Gg: AY/fxX5iBoZCLT9mOb4XlDjCVxXzfD151Ws/PKDC43CWB4fzwwESypOJkykgJZ/lICe
+	37T+gC1ItcJgxwA36FzXyO+vewklXU7HvxTh4P23sqT/Jzv7w5G0+l72XSgllqd6eLYqlBfEuuS
+	srTQiTtAqNNs0afUaJ1WtaDmG/oxs2oHVH/TVKOwK+RkkY4Y1ew50fE1FbFCAh7/sRi/LjgGCu/
+	/5/VZ3vtmjmKxUqBH3RH4Z6syuiZBq8NiLQQscLP9WIbwkJqAI/IvIr/WET1rXZhxkK6F5UaFTO
+	/15nsSx31Aj0BG5ARBSfNGDY/RN+K6syOWYspxTVZsJdz0fqqhXDEdCo9jUenUc2KuTy4qdoo+z
+	c2Jr9FtXN372Ys5NDnr1s5+pcET7JigUW8MwTZychqk8opsTlKCrgvINsPKZWkRVrY67svhoJy8
+	5PSkFDdmuAxS0xwJ1//+0p0ONNQHcnjYNFGw1HYx/2iAAQ//vTRksycyRXzSl/eQ005PY9WgLpo
+	JeZ7A==
+X-Google-Smtp-Source: AGHT+IGO10eGCBcDdrvXBj+bw2YCSbuKKzXZlaJczTHp8579GmMw4SpKWUZrcbx5tLa/cAKsrvAO5g==
+X-Received: by 2002:a05:6000:381:b0:430:f3bd:720a with SMTP id ffacd0b85a97d-430f3bd763amr13851035f8f.27.1765921249484;
+        Tue, 16 Dec 2025 13:40:49 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:1226:7701:85a7:67ba:ae9b:7b63])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bdc222061sm8164535e9.9.2025.12.16.13.40.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 13:00:28 -0800 (PST)
-Date: Tue, 16 Dec 2025 16:00:27 -0500
-Message-ID: <7ab3093710dc84dcd5b3fdeca106e469@paul-moore.com>
+        Tue, 16 Dec 2025 13:40:49 -0800 (PST)
+Date: Tue, 16 Dec 2025 22:40:47 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 3/9] iio: adc: Add support for ad4062
+Message-ID: <guta6xzppemql5bj6syq7zc2dsj2zd4rmle7mfhhr5wy3zhehd@yuixpaf2jrv2>
+References: <20251205-staging-ad4062-v3-0-8761355f9c66@analog.com>
+ <20251205-staging-ad4062-v3-3-8761355f9c66@analog.com>
+ <20251206173459.727fb3f5@jic23-huawei>
+ <krbiav67bscvqs6bumx5ay5tk4axeuc4z7gbn26nxgaoqrdfiz@dqzqpgcpclnz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20251216_1504/pstg-lib:20251216_1504/pstg-pwork:20251216_1504
-From: Paul Moore <paul@paul-moore.com>
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, James.Bottomley@HansenPartnership.com, dhowells@redhat.com, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH RFC 8/11] security: Hornet LSM
-References: <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <krbiav67bscvqs6bumx5ay5tk4axeuc4z7gbn26nxgaoqrdfiz@dqzqpgcpclnz>
 
-On Dec 10, 2025 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
+On Mon, Dec 08, 2025 at 10:16:35PM +0100, Jorge Marques wrote:
+> On Sat, Dec 06, 2025 at 05:34:59PM +0000, Jonathan Cameron wrote:
+> > On Fri, 5 Dec 2025 16:12:04 +0100
+> > Jorge Marques <jorge.marques@analog.com> wrote:
+> > 
+> > > The AD4060/AD4062 are versatile, 16-bit/12-bit, successive approximation
+> > > register (SAR) analog-to-digital converter (ADC) with low-power and
+> > > threshold monitoring modes.
+> > > 
+> > > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+Hi Jonathan,
+> Hi Jonathan,
+> ...
+> Yes, and for burst avg mode, 14 bits.
+> > 
+> > > +		.storagebits = 32,
+> > Given we are doing data mangling anyway why not store in a 16 bit value.
+> > 
+> > BTW it would have been easier to spot issues with this if you'd introduced
+> > the scan type stuff with the use of scans in the patch that adds buffered
+> > support.  So please move this stuff there.
+> >
+> This can be done, just note that for ad4062 in burst avg mode the
+> realbits is 24 bits, so the storagebits is 32 bits only on that case
+> and will requires a few conditionals to handle just this case.
 > 
-> This adds the Hornet Linux Security Module which provides enhanced
-> signature verification and data validation for eBPF programs. This
-> allows users to continue to maintain an invariant that all code
-> running inside of the kernel has actually been signed and verified, by
-> the kernel.
+> To not overly complicated the logic, for ad4062 I will always read
+> 32-bits still. st->reg_addr_conv then takes:
+> 	// IBI Fallback
+> 	st->reg_addr_conv = st->chip->prod_id == 0x7C ? AD4062_REG_CONV_TRIGGER_32BITS :
+> 							AD4062_REG_CONV_TRIGGER_16BITS;
+> 	// GPO IRQ
+> 	st->reg_addr_conv = st->chip->prod_id == 0x7C ? AD4062_REG_CONV_READ_32BITS :
+> 							AD4062_REG_CONV_READ_16BITS;
 > 
-> This effort builds upon the currently excepted upstream solution. It
-
-s/excepted/accepted/ ;)
-
-> further hardens it by providing deterministic, in-kernel checking of
-> map hashes to solidify auditing along with preventing TOCTOU attacks
-> against lskel map hashes.
+> Then, for sample size:
+> 	const bool is_32b = st->chip->prod_id == 0x7C;
+> 	const size_t _sizeof = is_32b ? sizeof(st->buf.be32) : sizeof(st->buf.be16);
+> instead of
+> 	const bool is_32b = st->mode == AD4062_BURST_AVERAGING_MODE && st->chip->prod_id == 0x7C;
+> 	const size_t _sizeof = is_32b ? sizeof(st->buf.be32) : sizeof(st->buf.be16);
+> 	+ extra st->reg_addr_conv_avg that may or may not be equal to
+> 	st->reg_addr_conv.
 > 
-> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
-> determines the extent which the eBFP program is signed and defers to
-> other LSMs for policy decisions.
-> 
-> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> ---
->  Documentation/admin-guide/LSM/Hornet.rst |  38 +++++
->  Documentation/admin-guide/LSM/index.rst  |   1 +
->  MAINTAINERS                              |   9 +
->  include/linux/oid_registry.h             |   3 +
->  include/uapi/linux/lsm.h                 |   1 +
->  security/Kconfig                         |   3 +-
->  security/Makefile                        |   1 +
->  security/hornet/Kconfig                  |  11 ++
->  security/hornet/Makefile                 |   7 +
->  security/hornet/hornet.asn1              |  13 ++
->  security/hornet/hornet_lsm.c             | 201 +++++++++++++++++++++++
->  11 files changed, 287 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
->  create mode 100644 security/hornet/Kconfig
->  create mode 100644 security/hornet/Makefile
->  create mode 100644 security/hornet/hornet.asn1
->  create mode 100644 security/hornet/hornet_lsm.c
+> Note that the header section of the I3C transfer (8-bits) occurs
+> at 1MHz, while the reading in 12.5MHz. I wouldn't go as far as say it is
+> negligible, but for the part, protocol and software overhead, it
+> wouldn't provide ground-breaking higher effective maximum
+> sampling frequency.
 
-...
+I went back to this and now I am properly using the already set iio_get_current_scan_type
+to set the appropriate sample register and storagesize (to reduce the protocol overhead).
+Both methods are inline and used once, but I believe having the wrapper
+methods makes things clearer.
+For read_raw, I am using the non-optimized, 4 bytes trigger_conv, in the
+next version.
 
-> diff --git a/Documentation/admin-guide/LSM/index.rst b/Documentation/admin-guide/LSM/index.rst
-> index b44ef68f6e4da..57f6e9fbe5fd1 100644
-> --- a/Documentation/admin-guide/LSM/index.rst
-> +++ b/Documentation/admin-guide/LSM/index.rst
-> @@ -49,3 +49,4 @@ subdirectories.
->     SafeSetID
->     ipe
->     landlock
-> +   Hornet
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3da2c26a796b8..64c9aaff6a219 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11399,6 +11399,15 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
->  F:	drivers/iio/pressure/mprls0025pa*
->  
-> +HORNET SECURITY MODULE
-> +M:	Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> +L:	linux-security-module@vger.kernel.org
-> +S:	Supported
-> +T:	git https://github.com/blaiseboscaccy/hornet.git
-> +F:	Documentation/admin-guide/LSM/Hornet.rst
-> +F:	scripts/hornet/
-> +F:	security/hornet/
+  /*
+   * The AD4062 in burst averaging mode increases realbits from 16-bits to
+   * 20-bits, increasing the storagebits from 16-bits to 32-bits.
+   */
+  static inline size_t ad4062_sizeof_storagebits(struct ad4062_state *st)
+  {
+  	const struct iio_scan_type *scan_type =
+  		iio_get_current_scan_type(st->indio_dev, st->chip->channels);
+  
+  	return BITS_TO_BYTES(scan_type->storagebits);
+  }
+  
+  /* Read registers only with realbits (no sign extension bytes) */
+  static inline size_t ad4062_get_conv_addr(struct ad4062_state *st, size_t _sizeof)
+  {
+  	if (st->gpo_irq[1])
+  		return _sizeof == sizeof(u32) ? AD4062_REG_CONV_READ_32BITS :
+  						AD4062_REG_CONV_READ_16BITS;
+  	return _sizeof == sizeof(u32) ? AD4062_REG_CONV_TRIGGER_32BITS :
+  					AD4062_REG_CONV_TRIGGER_16BITS;
+  }
+  
+  static int pm_ad4062_triggered_buffer_postenable(struct ad4062_state *st)
+  {
+  	int ret;
+  
+  	PM_RUNTIME_ACQUIRE(&st->i3cdev->dev, pm);
+  	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+  	if (ret)
+  		return ret;
+  
+  	if (st->wait_event)
+  		return -EBUSY;
+  
+  	ret = ad4062_set_operation_mode(st, st->mode);
+  	if (ret)
+  		return ret;
+  
+  	st->conv_sizeof = ad4062_sizeof_storagebits(st);
+  	st->conv_addr = ad4062_get_conv_addr(st, st->conv_sizeof);
+  	...
+  }
 
-I know we talked about this last time Hornet was proposed, but as a
-reminder, here are the guidelines for new LSMs:
-
-https://github.com/LinuxSecurityModule/kernel/blob/main/README.md
-
-> diff --git a/security/hornet/Kconfig b/security/hornet/Kconfig
-> new file mode 100644
-> index 0000000000000..19406aa237ac6
-> --- /dev/null
-> +++ b/security/hornet/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config SECURITY_HORNET
-> +	bool "Hornet support"
-> +	depends on SECURITY
-> +	default n
-> +	help
-> +	  This selects Hornet.
-> +	  Further information can be found in
-> +	  Documentation/admin-guide/LSM/Hornet.rst.
-> +
-> +	  If you are unsure how to answer this question, answer N.
-
-Pointing people at the docs is good, but there really should be a couple
-lines about Hornet here.  At the very least explain that it does BPF
-signature verification and allows for other LSMs to enforce policy on
-this integrity verification checks.
-
-> diff --git a/security/hornet/hornet_lsm.c b/security/hornet/hornet_lsm.c
-> new file mode 100644
-> index 0000000000000..a8499ee108ad3
-> --- /dev/null
-> +++ b/security/hornet/hornet_lsm.c
-> @@ -0,0 +1,201 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Hornet Linux Security Module
-> + *
-> + * Author: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> + *
-> + * Copyright (C) 2025 Microsoft Corporation
-> + */
-> +
-> +#include <linux/lsm_hooks.h>
-> +#include <uapi/linux/lsm.h>
-> +#include <linux/bpf.h>
-> +#include <linux/verification.h>
-> +#include <crypto/public_key.h>
-> +#include <linux/module_signature.h>
-> +#include <crypto/pkcs7.h>
-> +#include <linux/sort.h>
-> +#include <linux/asn1_decoder.h>
-> +#include <linux/oid_registry.h>
-> +#include "hornet.asn1.h"
-> +
-> +#define MAX_USED_MAPS 64
-> +
-> +struct hornet_maps {
-> +	bpfptr_t fd_array;
-> +};
-> +
-> +struct hornet_parse_context {
-> +	size_t indexes[MAX_USED_MAPS];
-> +	bool skips[MAX_USED_MAPS];
-> +	unsigned char hashes[SHA256_DIGEST_SIZE * MAX_USED_MAPS];
-> +	int hash_count;
-> +};
-> +
-> +static int hornet_verify_hashes(struct hornet_maps *maps,
-> +				struct hornet_parse_context *ctx)
-> +{
-> +	int map_fd;
-> +	u32 i;
-> +	struct bpf_map *map;
-> +	int err = 0;
-> +	unsigned char hash[SHA256_DIGEST_SIZE];
-
-I'd suggest a comment block here explaining that the hash choice is
-fixed to SHA256 to remain compatible with the existing BPF signature
-mechanism.
-
-> +	for (i = 0; i < ctx->hash_count; i++) {
-> +		if (ctx->skips[i])
-> +			continue;
-> +
-> +		err = copy_from_bpfptr_offset(&map_fd, maps->fd_array,
-> +					      ctx->indexes[i] * sizeof(map_fd),
-> +					      sizeof(map_fd));
-> +		if (err < 0)
-> +			return LSM_INT_VERDICT_BADSIG;
-> +
-> +		CLASS(fd, f)(map_fd);
-> +		if (fd_empty(f))
-> +			return LSM_INT_VERDICT_BADSIG;
-> +		if (unlikely(fd_file(f)->f_op != &bpf_map_fops))
-> +			return LSM_INT_VERDICT_BADSIG;
-> +
-> +		if (!map->frozen)
-> +			return LSM_INT_VERDICT_BADSIG;
-> +
-> +		map = fd_file(f)->private_data;
-> +		map->ops->map_get_hash(map, SHA256_DIGEST_SIZE, hash);
-> +
-> +		err = (memcmp(hash, &ctx->hashes[ctx->indexes[i] * SHA256_DIGEST_SIZE],
-> +			      SHA256_DIGEST_SIZE));
-> +		if (!err)
-> +			return LSM_INT_VERDICT_BADSIG;
-> +	}
-> +	return LSM_INT_VERDICT_OK;
-> +}
-> +
-> +int hornet_next_map(void *context, size_t hdrlen,
-> +		     unsigned char tag,
-> +		     const void *value, size_t vlen)
-> +{
-> +	struct hornet_parse_context *ctx = (struct hornet_parse_context *)value;
-> +
-> +	ctx->hash_count++;
-> +	return 0;
-> +}
-> +
-> +
-> +int hornet_map_index(void *context, size_t hdrlen,
-> +		     unsigned char tag,
-> +		     const void *value, size_t vlen)
-> +{
-> +	struct hornet_parse_context *ctx = (struct hornet_parse_context *)value;
-> +
-> +	ctx->hashes[ctx->hash_count] = *(int *)value;
-> +	return 0;
-> +}
-> +
-> +int hornet_map_hash(void *context, size_t hdrlen,
-> +		    unsigned char tag,
-> +		    const void *value, size_t vlen)
-> +
-> +{
-> +	struct hornet_parse_context *ctx = (struct hornet_parse_context *)value;
-> +
-> +	if (vlen != SHA256_DIGEST_SIZE && vlen != 0)
-> +		return -EINVAL;
-
-It seems like one could incorporate the sanity checking into the
-if-statement below.
-
-> +	if (vlen != 0) {
-> +		ctx->skips[ctx->hash_count] = false;
-> +		memcpy(&ctx->hashes[ctx->hash_count * SHA256_DIGEST_SIZE], value, vlen);
-> +	} else
-> +		ctx->skips[ctx->hash_count] = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static int hornet_check_program(struct bpf_prog *prog, union bpf_attr *attr,
-> +				struct bpf_token *token, bool is_kernel)
-> +{
-> +	struct hornet_maps maps = {0};
-> +	bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
-> +	struct pkcs7_message *msg;
-> +	struct hornet_parse_context *ctx;
-> +	void *sig;
-> +	int err;
-> +	const void *authattrs;
-> +	size_t authattrs_len;
-> +
-> +	if (!attr->signature)
-> +		return LSM_INT_VERDICT_UNSIGNED;
-
-Do we need to check the "is_kernel" flag so we don't signal UNSIGNED
-to an enforcing LSM on the second half of a lskel program load where
-the original BPF program is being loaded?
-
-I'm also not a big fan of mixing int error codes and enums in the return
-value, I'd rather see those split out into separate vars.  Perhaps
-still return the error codes, like the -ENOMEM below, but pass the
-verdict info back as a pointer in the arg list?  This applies
-elsewhere in this file/patch too.
-
-> +	ctx = kzalloc(sizeof(struct hornet_parse_context), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	maps.fd_array = make_bpfptr(attr->fd_array, is_kernel);
-> +	sig = kzalloc(attr->signature_size, GFP_KERNEL);
-> +	if (!sig) {
-> +		err = -ENOMEM;
-> +		goto out;
-> +	}
-> +	err = copy_from_bpfptr(sig, usig, attr->signature_size);
-> +	if (err != 0)
-> +		goto out;
-> +
-> +	msg = pkcs7_parse_message(sig, attr->signature_size);
-> +	if (IS_ERR(msg)) {
-> +		err = LSM_INT_VERDICT_BADSIG;
-> +		goto out;
-> +	}
-> +
-> +	if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
-> +		err = LSM_INT_VERDICT_PARTIALSIG;
-> +		goto out;
-> +	}
-
-Personally, I'd be much happier only allowing the secondary keyring on
-my systems, but we know that some people are not as concerned about
-allowing user and session keys, so we should think about ways to allow
-Hornet to support multiple keyrings so long as the keyring is factored
-into Hornet's integrity verdict.
-
-This is worth some discussion, but we could potentially encode this into
-the integrity verdict (e.g. VERDICT_GOODSIG_TRUSTEDKEY, _GOODSIG_USRKEY,
-__GOODSIG_GRPKEY, __GOODSIG_SESKEY, etc.).  We could also leave that up
-to the enforcement LSMs that care as they are passed the bpf_attr in
-security_bpf_prog_load_post_integrity() already.  Or something else?
-
-I'm also not sure how much key type granularity we want.  We definitely
-want trusted key vs others, but do we care about user vs session keys?
-Perhaps that is an argument for deferring to the enforcing LSM.
-
-If all else fails, we could add some Hornet specific configuration knobs
-for this, but considering the simplicity of Hornet, I think it would be
-nice if we can keep the zero-config nature of Hornet.
-
-> +	if (pkcs7_get_authattr(msg, OID_hornet_data,
-> +			       &authattrs, &authattrs_len) == -ENODATA) {
-> +		err = LSM_INT_VERDICT_PARTIALSIG;
-> +		goto out;
-> +	}
-> +
-> +	err = asn1_ber_decoder(&hornet_decoder, ctx, authattrs, authattrs_len);
-> +	if (err < 0 || authattrs == NULL) {
-> +		err = LSM_INT_VERDICT_PARTIALSIG;
-> +		goto out;
-> +	}
-> +	err = hornet_verify_hashes(&maps, ctx);
-> +out:
-
-Style nitpick - a line of vertical space between the
-hornet_verify_hashes() call and the jump label would be a nit nicer
-visually.
-
-While I'm talking about style, I know the old days of a strict 80-char
-line length are no more, but I still prefer the 80-char limit for code
-I'm maintaining.  As you would be maintinaing Hornet that decisions is
-up to you, but 80-char lines are nice ;)
-
-> +	kfree(ctx);
-> +	return err;
-> +}
-
-Some of this would be mitigated by the fact that Hornet verifies the
-lskel loader and all the maps, but should we worry about nested loaders?
-
-> +static const struct lsm_id hornet_lsmid = {
-> +	.name = "hornet",
-> +	.id = LSM_ID_HORNET,
-> +};
-> +
-> +static int hornet_bpf_prog_load_integrity(struct bpf_prog *prog, union bpf_attr *attr,
-> +					  struct bpf_token *token, bool is_kernel)
-> +{
-> +	int result = hornet_check_program(prog, attr, token, is_kernel);
-> +
-> +	if (result < 0)
-> +		return result;
-> +
-> +	return security_bpf_prog_load_post_integrity(prog, attr, token, is_kernel,
-> +						     &hornet_lsmid, result);
-> +}
-> +
-> +static struct security_hook_list hornet_hooks[] __ro_after_init = {
-> +	LSM_HOOK_INIT(bpf_prog_load_integrity, hornet_bpf_prog_load_integrity),
-> +};
-> +
-> +static int __init hornet_init(void)
-> +{
-> +	pr_info("Hornet: eBPF signature verification enabled\n");
-> +	security_add_hooks(hornet_hooks, ARRAY_SIZE(hornet_hooks), &hornet_lsmid);
-> +	return 0;
-> +}
-> +
-> +DEFINE_LSM(hornet) = {
-> +	.name = "hornet",
-> +	.init = hornet_init,
-> +};
-> -- 
-> 2.52.0
-
---
-paul-moore.com
+Best regards,
+Jorge
