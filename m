@@ -1,160 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CAF338594;
-	Tue, 16 Dec 2025 06:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BABB34250B;
+	Tue, 16 Dec 2025 06:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765865298; cv=none; b=hupJ+p8UiSCrjh7GVFqpGfw/+U/4l6hnLV+J68z7k2ztnevOUc5Vdn/N16Nm1LDopdiec753PATNi1DTJPO1JUTiUOz5ccspXApm1AUqf8TQcyc04Qj9fPQyyJJm4M2mtK4SIxDRnQehKNTcnH92IHum1ZMpTc2HmRNFPWk3KwU=
+	t=1765866529; cv=none; b=uzIegAIVt8cMshXZxjANErxD0m9DTqq3YGLY9Ko/JZK5HHfHx0m4oSGEHVhzawgOBQ/ajWnlT7JVypibcaK0+VBGSMG9EsrIaQtg27CE1cvMaKSMfdLJ1k2rBu+2Fm8D3lccylzdV114WjJqVxhTQg1Jn97M/tHAnlWuFSDSiOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765865298; c=relaxed/simple;
-	bh=4tcxfzmAbYpqTaHXuZRdVJ6IwC8c2vzyeVYlJ3uxgzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3PvkIFI6aD/xZ2TdkVbVWnJ2SEfcHu/Sf+ShWWxqLjNqziK5E5YNeOVWGVzNe2V/Koih4QeCt5/eWGaDJ15v8DEzl47+wBAh3Ap0DRqX7GLFM3+L0eHw248/rVXN1uAEwAzzPyFKkVPRhZ6vBhjPDBPrGp3isaquTEQl1690iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QsX80/ei; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765866529; c=relaxed/simple;
+	bh=hl72qZuidi/fLgdA/aZejsYqHxbC0jiouCeZm+C2tmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TSeAeZLAFJECqlrYNKouOyZ/EdSNkQ0sqkuUH5i0rQuEP2O/lVqAX+XDXJtMU2/hxTxUs2LkhrhqJg5e1eJjLMEPZy2gUxDy1lSMPjvgvtt7DthmiId13G2cKZaT0rLasciBTlelhOdA8QSGyFNvO3UyKuEltdfMpiSi4wLsreU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XKCGse6H; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsX80/ei"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765865294; x=1797401294;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4tcxfzmAbYpqTaHXuZRdVJ6IwC8c2vzyeVYlJ3uxgzw=;
-  b=QsX80/eiw42v4Hh0CuTCph81bXpHPwKeR+wTK/SS+1Irc+I8Gbbhhwma
-   AZlySawXco0HRGP6xGkXb9/TJ+eY/ljHYuCO+ww2lRmdhT1tWe1CL0XYF
-   AWWZUCBYDwrqiCO5NNzPRx18+o+8LJC33470Dr9xRJEUlmrTjE23Rqj3t
-   RnJXUofZYLymSZBqNc04sIAA4BBxnk35PiEUhFw2eBTIdzB5qKJPRAI4+
-   q6IRQhu99ZmgCIk8B4gCs6sgd5Za1sGLM52a114SQwAo/qUQiU/U1VLx8
-   NNUVFDKiFAamu4COQTAoUpYDIiNn3ayvrBPy5nVqHWKRskAFRCjr7Mchj
-   g==;
-X-CSE-ConnectionGUID: DsDU0UruTCSMbmXXWkk1Gg==
-X-CSE-MsgGUID: 8eCfHwYISDqB/3UdsRPvEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66764340"
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="66764340"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 22:08:08 -0800
-X-CSE-ConnectionGUID: 6Gl28I9cRJOmfcFdcuwliA==
-X-CSE-MsgGUID: AAVO/iLuTQC2XbyUdxIlEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="235330101"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Dec 2025 22:08:03 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVOE4-000000001E5-2nNw;
-	Tue, 16 Dec 2025 06:08:00 +0000
-Date: Tue, 16 Dec 2025 14:07:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhang Qilong <zhangqilong3@huawei.com>, akpm@linux-foundation.org,
-	david@kernel.org, lorenzo.stoakes@oracle.com, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, lance.yang@linux.dev, vbabka@suse.cz,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	wangkefeng.wang@huawei.com, sunnanyong@huawei.com,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Qilong <zhangqilong3@huawei.com>
-Subject: Re: [PATCH next 2/2] mm/huge_memory: Add sysfs knob for executable
- THP COW
-Message-ID: <202512161352.7XX7Lgv9-lkp@intel.com>
-References: <20251215123407.380813-3-zhangqilong3@huawei.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XKCGse6H"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=smT/G1a4XecMcL84CdWCKffzAtjOi+pTXpLkQzVzlqg=; b=XKCGse6HX6ygPEKIC4nnxVc0w/
+	ouqT7bgGYHzBIljt18QKaG8+f2Qgi8XEdZE70cbbq7ex1S13MwYG71H6WAjYPtEvROhq9PsQ6hXtJ
+	UD/m91O3zYdDb/WWvTcQM02diehZ+F6kzYqwWp/GE88kt0htOmGfJCNrsxmUaolMB5MITTzMCynbm
+	uayHye2qDA6HgJ/LtIU5GbNi0Iq0YZ8jsY5gfWXTNO/phmWc+bmEp0uDOJVIVG7FsTM3H1tftVOBd
+	QnXXlniND2SUrbv11u/PlNzlTv2bJShenznMBPw6owlCsLoVoCd16oT18MnuTtbRi5xSJoKZOqCy0
+	hqxuoN1Q==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vVOY1-00000004mqx-2Hc8;
+	Tue, 16 Dec 2025 06:28:37 +0000
+Message-ID: <f4ec1d06-0579-4484-adbe-5247374c4a57@infradead.org>
+Date: Mon, 15 Dec 2025 22:28:35 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215123407.380813-3-zhangqilong3@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: kernel-doc comment with anonymous macro?
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Virtualization <virtualization@lists.linux.dev>,
+ Linux Documentation <linux-doc@vger.kernel.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>
+References: <aUCkM-lRUmIMAh6N@archie.me>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aUCkM-lRUmIMAh6N@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Zhang,
+Hi Bagas--
 
-kernel test robot noticed the following build errors:
+On 12/15/25 4:13 PM, Bagas Sanjaya wrote:
+> Hi,
+> 
+> ./scripts/kernel-doc reports warning on include/linux/virtio.h:
+> 
+> Info: include/linux/virtio.h:16 Scanning doc for struct virtqueue
+> Info: include/linux/virtio.h:139 Scanning doc for struct virtio_device
+> Warning: include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(features' not described in 'virtio_device'
+> Info: include/linux/virtio.h:217 Scanning doc for struct virtio_driver
+> Warning: include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(features' not described in 'virtio_device'
+> 1 errors
+> 
+> struct virtio_device is defined as:
+> 
+> struct virtio_device {
+> 	int index;
+> 	bool failed;
+> 	bool config_core_enabled;
+> 	bool config_driver_disabled;
+> 	bool config_change_pending;
+> 	spinlock_t config_lock;
+> 	spinlock_t vqs_list_lock;
+> 	struct device dev;
+> 	struct virtio_device_id id;
+> 	const struct virtio_config_ops *config;
+> 	const struct vringh_config_ops *vringh_config;
+> 	const struct virtio_map_ops *map;
+> 	struct list_head vqs;
+> 	VIRTIO_DECLARE_FEATURES(features);
+> 	void *priv;
+> 	union virtio_map vmap;
+> #ifdef CONFIG_VIRTIO_DEBUG
+> 	struct dentry *debugfs_dir;
+> 	u64 debugfs_filter_features[VIRTIO_FEATURES_U64S];
+> #endif
+> };
+> 
+> where VIRTIO_DECLARE_FEATURES() is an anonymous macro.
+> 
+> What can I do to fix the warning?
 
-[auto build test ERROR on next-20251215]
+Yeah, I had seen this one also. My only though is to special-case it and then
+declare
+    union {
+	u64 features;
+	u64 features_array[];
+    };
+in kdoc_parser.py. Something similar to what syscall_munge() does there.
+I hope that would work but I don't know for sure.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Qilong/mm-huge_memory-Implementation-of-THP-COW-for-executable-file-mmap/20251215-204035
-base:   next-20251215
-patch link:    https://lore.kernel.org/r/20251215123407.380813-3-zhangqilong3%40huawei.com
-patch subject: [PATCH next 2/2] mm/huge_memory: Add sysfs knob for executable THP COW
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251216/202512161352.7XX7Lgv9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161352.7XX7Lgv9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161352.7XX7Lgv9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mm/memory.c: In function 'wp_huge_pmd':
->> mm/memory.c:6131:13: error: implicit declaration of function 'transparent_hugepage_use_exec_cow' [-Werror=implicit-function-declaration]
-    6131 |         if (transparent_hugepage_use_exec_cow() &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:6135:21: error: implicit declaration of function 'vma_is_special_huge'; did you mean 'vma_is_special_mapping'? [-Werror=implicit-function-declaration]
-    6135 |                 if (vma_is_special_huge(vma) || vma_is_shmem(vma))
-         |                     ^~~~~~~~~~~~~~~~~~~
-         |                     vma_is_special_mapping
-   cc1: some warnings being treated as errors
+At least one downside to that is that we might end up needing to add special case
+after special case ....
 
 
-vim +/transparent_hugepage_use_exec_cow +6131 mm/memory.c
-
-  6104	
-  6105	/* `inline' is required to avoid gcc 4.1.2 build error */
-  6106	static inline vm_fault_t wp_huge_pmd(struct vm_fault *vmf)
-  6107	{
-  6108		struct vm_area_struct *vma = vmf->vma;
-  6109		const bool unshare = vmf->flags & FAULT_FLAG_UNSHARE;
-  6110		vm_fault_t ret;
-  6111	
-  6112		if (vma_is_anonymous(vma)) {
-  6113			if (likely(!unshare) &&
-  6114			    userfaultfd_huge_pmd_wp(vma, vmf->orig_pmd)) {
-  6115				if (userfaultfd_wp_async(vmf->vma))
-  6116					goto split;
-  6117				return handle_userfault(vmf, VM_UFFD_WP);
-  6118			}
-  6119			return do_huge_pmd_wp_page(vmf);
-  6120		}
-  6121	
-  6122		if (vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) {
-  6123			if (vma->vm_ops->huge_fault) {
-  6124				ret = vma->vm_ops->huge_fault(vmf, PMD_ORDER);
-  6125				if (!(ret & VM_FAULT_FALLBACK))
-  6126					return ret;
-  6127			}
-  6128		}
-  6129	
-  6130	
-> 6131		if (transparent_hugepage_use_exec_cow() &&
-  6132		    is_exec_mapping(vma->vm_flags) &&
-  6133		    is_cow_mapping(vma->vm_flags)) {
-  6134			/* Skip special and shmem */
-  6135			if (vma_is_special_huge(vma) || vma_is_shmem(vma))
-  6136				goto split;
-  6137	
-  6138			ret = do_huge_pmd_exec_cow(vmf);
-  6139			if (!(ret & VM_FAULT_FALLBACK))
-  6140				return ret;
-  6141		}
-  6142	
-  6143	split:
-  6144		/* COW or write-notify handled on pte level: split pmd. */
-  6145		__split_huge_pmd(vma, vmf->pmd, vmf->address, false);
-  6146	
-  6147		return VM_FAULT_FALLBACK;
-  6148	}
-  6149	
+I guess we are waiting for the summit/LPC group to read and find time to
+respond.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
+
