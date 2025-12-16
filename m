@@ -1,170 +1,150 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B624A32B9AA;
-	Mon, 15 Dec 2025 23:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBD216D9C2
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 00:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765842162; cv=none; b=QWOP42X0ysfCsLaoMedyf1RpowfcBWlbdAuCA68vGVYDsvbMTdTIg+r/aNuQE2gZ/9EhdXMJoqNTSnZd1Jj9ed3amtCndHK4oB5SnJq2oku3JbXRK+VScbsDy3epCu5UWg40y3DqDEF4+GfDDviN77TAL48/kNn7bxdeEMuUBBM=
+	t=1765844024; cv=none; b=Vn6cIq/5nGV+PCHaevIcuBgLlFKxdR9bYZjri7lO8kKCY30IBT1mPI10tqvVTgiXgA8rWSSRg40ohYlziIrKLHZ/zw5dhRWM1uXI8SwgDREljPeQZgZIz9EJFfmHmtDsDgJfPRLXOCitl9SK36BVcbgHa27RjPigG/FPX49fgQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765842162; c=relaxed/simple;
-	bh=7LJJEHJ6NN+UBKQrcFX7zAoU4q1/IHE4dAarA1PzQCY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=khqMnwC8E24Eklm4PBYRk4EylQ3rxvDeahuzJXqB3Scev6q3b7TJOGHawwX0EEM1pQD0ttupHBDJokDN33s51UpAMvE2jHQLqa7M1zN/r6SZNpkA4THPCLYZ5fnecBKyObSBKgp+CqEYGCTY53Gp3B5CVK+wZ5tE89QqUGlow5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=SqjoxRdO; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1765844024; c=relaxed/simple;
+	bh=bozqr7ST7ZDLJLFdBwcqvBek5ZHWUh5MQd7q5BnWU6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gg9r8eTyFiO0QZPS9BdzSBhJZK33fSYB8dhXxlhdIWUS7Q0OUH2qnF51FYaajTAR69eZ9iuvACW6aKlO6fTNVh85CgcNcPEQrw2nyJFt5wsSV8NO2SpZyIwGlBebOTV9v4nhTQD0FlICGUKkhw7jD5ttMv/1pnxp34+6zq50vuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fx4BjOtc; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="SqjoxRdO"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BFJC47e2788343;
-	Mon, 15 Dec 2025 23:41:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=lxPoz
-	mTfEztdP2kf7k8psJZLAewCgMEY9vm17wI4UoQ=; b=SqjoxRdO0kJCsc8V0wSlQ
-	7l8/oaqjlmEt9WRKTrN6gKg/EReN471QO1/qTSNvE08KYcTYuLKzx//ajATne6kr
-	zd9NWR2WowxAUG0KxM1vFaVpA+f3ZLeqIhU68cPvKcYZxCzGu4i/FfcROeQqnl19
-	OKvUcTF4cxJum66P8v97kGNeJaF/w2plFl9ZMn+eRsX6P/CbyEaguNSdGXFrkTdd
-	1IxyOSbF7Ym7W0JZSD3mUBQlEvT6+apK1/OcZ7NYGGaPBLjQzSpJbSklmKgn9PjE
-	Sa6mVNJPTkijjPOx1dkqQvEhcNt6J4OHSw9wpsHOl9J2uwTDhXICxjvtl1uqQr3Z
-	w==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b10prk14h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 Dec 2025 23:41:40 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BFL609e024479;
-	Mon, 15 Dec 2025 23:41:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4b0xk9t90g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 15 Dec 2025 23:41:40 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5BFNfdlF030553;
-	Mon, 15 Dec 2025 23:41:39 GMT
-Received: from bur-virt-x6-2-100.us.oracle.com (bur-virt-x6-2-100.us.oracle.com [10.153.92.40])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4b0xk9t8y9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 15 Dec 2025 23:41:39 +0000
-From: Ross Philipson <ross.philipson@oracle.com>
-To: linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-        linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
-        James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-        jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-        nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-        davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
-        trenchboot-devel@googlegroups.com
-Subject: [PATCH v15 26/28] x86/reboot: Secure Launch SEXIT support on reboot paths
-Date: Mon, 15 Dec 2025 15:33:14 -0800
-Message-ID: <20251215233316.1076248-27-ross.philipson@oracle.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20251215233316.1076248-1-ross.philipson@oracle.com>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fx4BjOtc"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a0bb2f093aso21712425ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 16:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765844022; x=1766448822; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CJXH/uiRoHhuih5/I2ODx7WhEy17OS2PU1TLwkzpYUE=;
+        b=Fx4BjOtcaQKIdzgciaQua55EUKQKCmlpEk3f5B9GrJ9RPWC+c7epf6tspY50wtVSJo
+         tG7HM4EJwSYmxLn4zZkcaY4tF/KgzQVgUB7sr1hczF3iInxCnkoC9gDMR24lvaWgMCc8
+         G5AFD72dnTbXKYDPl9oEqJYE8JNNOaXO6SVLh/LqQUxuWHqwKoPnAH/lQQBxgfmy3KU9
+         jig0xvAdoOzb2Yk3ieCf61We+2J9001UIPgrUYTwd+/0rZrxGnjR7a18suRPnaeNmxfE
+         OH1F1JUHR9OSY08mO7nXA0+ODNzRZea24aehhSk5x2LSXnvJ8OC2t2pZMd0Gb2StIJI+
+         067Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765844022; x=1766448822;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CJXH/uiRoHhuih5/I2ODx7WhEy17OS2PU1TLwkzpYUE=;
+        b=nZi5pXQsulNNxPW2AasUeXvpy1CMSx8/1tVqCOx1sW/PMcLn+qkS0b5eO3u7nMgaqQ
+         Wzk8W7ZBqp4+1HUZO+Hlmhs2JP0Cllup3J2vT85NTFL3SdsZIfF/g9eYasJ3vHU9fjGX
+         YlTOopW9cbNpxRGRvp75m+o/SRlDZS4za08EWS752F3ioo+aMzmaDrCgRzFB0YKbOPYN
+         Afnc/1GG0hTWMmXn3q7VvumAMennZrQsR5aH4W15OSPVMZRRWgeDwM7q/c0JB6C1dYgy
+         n7BAcYt0DRdTYnwlRTCHjICwggxbAaCHtupctHQ7A+rXmbLV2AvlEBWk4niE5qGsBADk
+         ejZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4juV6VT1EuM1JcYAB4w6UyTb+wqv3QEQa7RRvOHnLGdgmR7+PggvHZQdXjSdOxt48iO/lRTfjoPs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVikFjpcad6auVKARsOvi8a2VmtUhWmQvgkG9Ifgs+/eH5L/5n
+	EhqtDK2+IT5N6xRC/wGMbbxZiDdhbrnW5hkC+idtrMPfNnfcBKqkI0ZTeQuiFVvb/X4=
+X-Gm-Gg: AY/fxX5RM5LhPFxKcCEBOADolT82R3DWhJpxOr6FiQg1n8/DHuJDuasPzZyPWN+ID0c
+	fm4gKTChjUZDE83bZBjruZe7nCGjeLwBG6SgwDxCCEwdgIDycT+cD/IKrow1+dKrcIZsbyMT1ZD
+	dUz1/IuppAxYvuDRqP+IFFm7grb7EePT/BB4q1LVYMJuz5/GbaXDo/zKsC1GtF861sOBeawTH9m
+	hJukAAYDyL3WcV8LVkk35VwXv0Q64zTV5NjZ23NE0CksNwGBbd6ZsYZ6ol1w0ZjqFhoVnEWLkyM
+	eXsYEdW9+tGUtJ3Lh3s56Hb09wsGmUfi/B3nNNORFpPxlmE6zUzrT4Zm+nipfO7iT5ss/EkbCoV
+	yjIeapcHw/z6ePjyJT5AspTgrl4AWiuDKb/03yBvlKADDDnfDAyhSjmcSoxPGODmFpkeusqrgR1
+	JNm8OOV6K3ukg=
+X-Google-Smtp-Source: AGHT+IEYHxljoowlccUR3ZGnI0jRpnLa3q1pwIE+8h2j0uQOtBvo2oRc6kvkq5/jnfF3cQXciNwmiw==
+X-Received: by 2002:a17:902:f691:b0:2a0:cb8d:2ed6 with SMTP id d9443c01a7336-2a0cb8d3232mr55756685ad.51.1765844022398;
+        Mon, 15 Dec 2025 16:13:42 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a0bb39db53sm61431625ad.11.2025.12.15.16.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 16:13:41 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 6914940B7D27; Tue, 16 Dec 2025 07:13:39 +0700 (WIB)
+Date: Tue, 16 Dec 2025 07:13:39 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Virtualization <virtualization@lists.linux.dev>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: kernel-doc comment with anonymous macro?
+Message-ID: <aUCkM-lRUmIMAh6N@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-15_05,2025-12-15_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 bulkscore=0
- suspectscore=0 phishscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2512150204
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE1MDIwNCBTYWx0ZWRfX6bmXC1p55Kh/
- CfYpKdRrnPuQz1CeFkvkdovvoF/mXdPtBhm2bnaEmSNuxuapBqPcKcRlEsZA81/dlgbsznIFnCg
- dFkbbP7/1QYpk6gsqCm5RN1iu2jodq00N24spA206yXEKAkv+OOG+lnEsoAuUC71uLoTLC6HVHl
- GjpfYoa9o4MYdGPSiiwNyrPdHDfmaW57aBRWjQPMZGnbxLYAEG3wdkVIVyOKNor2dF80yoHlGXe
- kaYdFkVibhQuvsjVcTpY6QdlpCn7cBJCJM5tvWYa+NzeB73k54p1peyzsrexjhFbgb+wpDNK/Fg
- vF6KHAiAGK0r9L77H5tIsy6/89qCX12sWm+kO09C4JzkmM4Eno2Ye9mSNm0RfPSOnuytzmLC6L4
- U3SUHDOEIMpBF22ZGn4MweUHY1rEcA==
-X-Proofpoint-GUID: VhoepOIlXnL9UnCBcbwy61aTfxl7VuwO
-X-Proofpoint-ORIG-GUID: VhoepOIlXnL9UnCBcbwy61aTfxl7VuwO
-X-Authority-Analysis: v=2.4 cv=dParWeZb c=1 sm=1 tr=0 ts=69409cb5 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8 a=UN5060LkAAAA:8
- a=9nggSWBoCkqLOezBdQMA:9 a=E6eXv-vVeS7VqOnxGRGn:22
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ePZY92H6X+PJnKhA"
+Content-Disposition: inline
 
-If the MLE kernel is being powered off, rebooted or halted,
-then SEXIT must be called. Note that the GETSEC[SEXIT] leaf
-can only be called after a machine_shutdown() has been done on
-these paths. The machine_shutdown() is not called on a few paths
-like when poweroff action does not have a poweroff callback (into
-ACPI code) or when an emergency reset is done. In these cases,
-just the TXT registers are finalized but SEXIT is skipped.
 
-Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
----
- arch/x86/kernel/reboot.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+--ePZY92H6X+PJnKhA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/x86/kernel/reboot.c b/arch/x86/kernel/reboot.c
-index 964f6b0a3d68..b1e6c1972f0b 100644
---- a/arch/x86/kernel/reboot.c
-+++ b/arch/x86/kernel/reboot.c
-@@ -13,6 +13,7 @@
- #include <linux/objtool.h>
- #include <linux/pgtable.h>
- #include <linux/kexec.h>
-+#include <linux/slaunch.h>
- #include <acpi/reboot.h>
- #include <asm/io.h>
- #include <asm/apic.h>
-@@ -778,6 +779,12 @@ static void native_machine_restart(char *__unused)
- 
- 	if (!reboot_force)
- 		machine_shutdown();
-+	/*
-+	 * The comments for slaunch_finalize() provides the explanation for the
-+	 * conditions required to do the SEXIT op reflected in the conditional
-+	 * parameter do_sexit.
-+	 */
-+	slaunch_finalize(!reboot_force);
- 	__machine_emergency_restart(0);
- }
- 
-@@ -788,6 +795,8 @@ static void native_machine_halt(void)
- 
- 	tboot_shutdown(TB_SHUTDOWN_HALT);
- 
-+	slaunch_finalize(1);
-+
- 	stop_this_cpu(NULL);
- }
- 
-@@ -796,8 +805,12 @@ static void native_machine_power_off(void)
- 	if (kernel_can_power_off()) {
- 		if (!reboot_force)
- 			machine_shutdown();
-+		slaunch_finalize(!reboot_force);
- 		do_kernel_power_off();
-+	} else {
-+		slaunch_finalize(0);
- 	}
-+
- 	/* A fallback in case there is no PM info available */
- 	tboot_shutdown(TB_SHUTDOWN_HALT);
- }
-@@ -825,6 +838,7 @@ void machine_shutdown(void)
- 
- void machine_emergency_restart(void)
- {
-+	slaunch_finalize(0);
- 	__machine_emergency_restart(1);
- }
- 
--- 
-2.43.7
+Hi,
 
+=2E/scripts/kernel-doc reports warning on include/linux/virtio.h:
+
+Info: include/linux/virtio.h:16 Scanning doc for struct virtqueue
+Info: include/linux/virtio.h:139 Scanning doc for struct virtio_device
+Warning: include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(=
+features' not described in 'virtio_device'
+Info: include/linux/virtio.h:217 Scanning doc for struct virtio_driver
+Warning: include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(=
+features' not described in 'virtio_device'
+1 errors
+
+struct virtio_device is defined as:
+
+struct virtio_device {
+	int index;
+	bool failed;
+	bool config_core_enabled;
+	bool config_driver_disabled;
+	bool config_change_pending;
+	spinlock_t config_lock;
+	spinlock_t vqs_list_lock;
+	struct device dev;
+	struct virtio_device_id id;
+	const struct virtio_config_ops *config;
+	const struct vringh_config_ops *vringh_config;
+	const struct virtio_map_ops *map;
+	struct list_head vqs;
+	VIRTIO_DECLARE_FEATURES(features);
+	void *priv;
+	union virtio_map vmap;
+#ifdef CONFIG_VIRTIO_DEBUG
+	struct dentry *debugfs_dir;
+	u64 debugfs_filter_features[VIRTIO_FEATURES_U64S];
+#endif
+};
+
+where VIRTIO_DECLARE_FEATURES() is an anonymous macro.
+
+What can I do to fix the warning?
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ePZY92H6X+PJnKhA
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaUCkLwAKCRD2uYlJVVFO
+o08dAQDbC7alvU33oTxteMC8zuSbEpk8Mo09KJzmJO79S9BT7QD/QR5gP7Iu+J7Z
+A6NJ/m764eLB+H1ZShwy14XdcZI+aQg=
+=XdjH
+-----END PGP SIGNATURE-----
+
+--ePZY92H6X+PJnKhA--
