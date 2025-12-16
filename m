@@ -1,185 +1,84 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7272459E5
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 14:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E922D2BEFF1;
+	Tue, 16 Dec 2025 14:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765894641; cv=none; b=KX0UwFSRlK2ERVufu7XFPxxZCvj8ZAXtQoXCR1EB/oVQI0oiDIEgzGOAKaQxoF8X1eGSgCJTAmEoxfmT507mxOrSHNb6J0y4Cx31gAp9I5bJtR2sCDkk7jc3c1XeBAcd4DwdnE40xG5gI2OjGFceU9yJVo9cnkKAi7I6xkRLnc0=
+	t=1765894779; cv=none; b=XE7pRF3pFgBcUyg9xf0vWTwIzgQbNmGQ4+0A52mWJouaWortGkSDHVdWEZWPwbh0BywcrK5VUn99PWIUKfTJKm/H/DJKIkfopgvwYpz5zwa4jYR2VF1EeX3kgB7yn4DAWu5ACK/6UtQ0KgFM48cOgDPRntvhrN/CjRn8jnChbg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765894641; c=relaxed/simple;
-	bh=jxyxVWryLXdewUTdvf3TJcYXWU+G97kw3pB/KMLo9fw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:References:To:Cc:
-	 In-Reply-To:Content-Type; b=gMpfSK5b/dvxCyDc/PdMpgvLH//LmDfJsw6hnoRViQnQX5zZ+NLm5kYIrL/p236hFJaBlUTyju2cwFMpM1nzDSYsIu/OcUSWwoVUruwt7Bu4wdf57xG0XrPeZvlNYh7TS5tKm6JDIONLpIYY6wHewBqGLaU1MoFPjNzsLc0t11c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDDra2gy; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765894779; c=relaxed/simple;
+	bh=XO2MgUNOWP2c8g9SA0VTCHevHSrpMg6Q77YxeAD7VrU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p/g5YV8zmFbYr2HgsmkxmgxpUixLSXLa5CFfo7J5cKBRSCACD3J+t63Xc0l7ooce5/AQy8zp/ZfR4jtbv1ahxAJDEKfy5/Evv5nphQoeITHTo2MH1cRT22f201iG2ncBaRsyQgtXmSJqJeVKwjkkEVUwidkVbtcjiVWEg/EvXNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/nuatkx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDDra2gy"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5943b62c47dso4558949e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 06:17:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765894638; x=1766499438; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:cc:to:content-language
-         :references:subject:from:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=pBec499KaHMN6ajq+mD6FMl/SnLupUZN19aWhrOOyrI=;
-        b=fDDra2gy0xa6Maj8wY99/M90M8hRvPd+k9RjoTEggiBvtyCYzO8Rw7L/ODraYTEbbu
-         W32PyKZN5epqJgfQlf1nFVFw7CKW7N2VFGjkf/WwycZWeDp2HD8q9srKXhCPceY23Tdu
-         D/nNojaHW6LASYD5L15soANZ6vea5Zr2QfMray6yt2uT4v5CXe3JlRzNdehvJpd2jZYE
-         r7rCq2b70rT/uBXd0oebiip/XDHxToJyM1Wb8yx7BOJ1xOYzGsPxkJ+N24J4eE7sls74
-         nDcATS89HArDLeQXKAH2Z/93y3+YLPkcscNf8OphJnXfUes9o/DZ8QKCI0P9RLoczH5F
-         YM6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765894638; x=1766499438;
-        h=content-transfer-encoding:in-reply-to:cc:to:content-language
-         :references:subject:from:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pBec499KaHMN6ajq+mD6FMl/SnLupUZN19aWhrOOyrI=;
-        b=O8J3KAFEGEphn6rU72rsUmFl07aIlBZQ1WSVgJilz95qr3kYOUvbqvyWCV7VidBVbp
-         rvzJlYjZcg2D2scVjGCRjX1ZMEy/YJuUQzDLysLbfpUJyrzNU9qIXkqBWbFwsGHjoefI
-         0c1wVfuuPInpACqWUeJqnAh3s8nMip/zHQk9fECssp9iwqa4xKWm/crwP3jzqXQ39wE4
-         LwALbSzbXiFUTkOZ+ZA+9iLTByvjT61+O7v6qXL136bZdlvzEehgME1myLU2aYiYnKGb
-         TvEkeABX6zJePYjeqyutDAAaDzlAeI8lhIK6wJQvkyQbBHiSyw/MLtSDzjcW9n5YqVJK
-         xR+A==
-X-Gm-Message-State: AOJu0Yxxu8iwoEA7AVmJm1e54VptY4cGCZkeRekQ1bA2XxM/LJsa/EaQ
-	KXk5EHkZftFrjfECG2ipDOdBcMENStJ288MtEiDU1ZsOdRkAKNhZBT3Q
-X-Gm-Gg: AY/fxX7+0zMdTmPoEuXWG9lZxNy2sIITWMqVIzpvsWQZ0vgq48mRix9Ave1aLU+ED8f
-	8f923Y2pekPqR668det39fSoW3uKaBEY8oeYcP70lyqDqAwfJXXhi2DGUgeSl8myyRO5irX5ZlL
-	88qr4I5EDXj4v+PL0QKo32sn0utlosFgiFcDT99Dp20JSfkzwMJL3LwRSs1DoyDWvOSWuc+8cV7
-	KI5KsMs2YjRsXuc8wBqzYVHqOkoBPWricnz8KSnvYpqSYkLV13HAOU3LuZZR68OWavr8lDCTOof
-	3iqXCtDol8u4zERlUQwv2w20wIHpFG4nYF9sNhbXa8Vj+s0/HpZvn6OjeyJqvBU2hNrCFti4H18
-	zLt0A6pdCYBVIFk4Gx2Kw+NCknLYIof/HFny4/0H1JVma8FjlzuaIbYqAjgjQxm0v+QDkaI67+T
-	c939KPZAgzAQW1ihh0VHjhDGxjpklkZhQST8K6/MJsagHp
-X-Google-Smtp-Source: AGHT+IECzB8wZ6HqfjopDqmXGNgF3m2bTGkCmXboQK1CslrkKLddE94RR4VBthxbzSBTTxtqVMzU/Q==
-X-Received: by 2002:a05:6512:3b8e:b0:598:eef2:e209 with SMTP id 2adb3069b0e04-598faa01680mr4980176e87.5.1765894637269;
-        Tue, 16 Dec 2025 06:17:17 -0800 (PST)
-Received: from [192.168.1.149] (nat-0-0.nsk.sibset.net. [5.44.169.188])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5990da5dd0dsm927794e87.78.2025.12.16.06.17.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Dec 2025 06:17:15 -0800 (PST)
-Sender: Maxim Nikulin <m.a.nikulin@gmail.com>
-Message-ID: <f0a3e0aa-e4f9-41d3-8931-57837831d136@gmail.com>
-Date: Tue, 16 Dec 2025 21:17:13 +0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/nuatkx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6944AC4CEF1;
+	Tue, 16 Dec 2025 14:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765894778;
+	bh=XO2MgUNOWP2c8g9SA0VTCHevHSrpMg6Q77YxeAD7VrU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=J/nuatkxa/P/p77Ei7wnpJPOiidvYQ53KMCKlB71/zlRcYWDpSgZ/jYVCLdMbKyOD
+	 1cCi2J3hz2nia7Tx3hruO99b7LKA9jMAm2JKxqmkO/fO23fHWRHlusi34a+LZqFst1
+	 DlfHRIgDH8TY5aqvt/qyTaGsXr8UUJde9EPloGx8mtphVFhdNNry2J/Zaoa1EIwyT8
+	 GfyDFzHh3DXJbn8CYTuaQSrrIsFgCqlcvl098WfnCdnQU3eBTbTOhOjXCHzpe3UR3g
+	 W4bqbK4g+m1fLbvCxcwQLO6ZwEoR0Gb37E45OW6ZXqeBOajAvV4rYsSFBtBrQH7W0Z
+	 rDbzEPN8oq30Q==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vVVto-00000000sPJ-25xB;
+	Tue, 16 Dec 2025 15:19:36 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v6 0/6] kernel-doc: add support for documenting vars
+Date: Tue, 16 Dec 2025 15:19:22 +0100
+Message-ID: <cover.1765894670.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Max Nikulin <manikulin@gmail.com>
-Subject: [PATCH v2 1/2] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
-References: <aSuj66nCF4r_5ksh@archie.me>
-Content-Language: en-US, ru-RU
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-scsi@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <aSuj66nCF4r_5ksh@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Don't claim that /dev/sr<N> device names for SCSI CD-ROM drives are
-deprecated and don't recommend /dev/scd<N> alternate names for them.
+Hi Jon,
 
-/dev/scd<N> device names for SCSI CD-ROM drives are not in use for more
-than a decade, see commit [1] that was a part of udev release 174.
-Earlier, related rules were volatile, sometimes /dev/scd<N> were syminks
-to /dev/sr<N>, sometimes vice versa.
+As suggested and discussed with Randy, this small series add support
+for documenting variables using kernel-doc.
 
-Recognizing of root=/dev/scd<N> kernel command line argument was removed
-in kernel 2.5.45 [2].
+- patch 1: add support for the new feature;
+- patch 2: extends to support DEFINE_*;
+- patch 3: document two media vars;
+- patch 4: fix an issue on kernel-doc.rst markups and automarkup;
+- patch 5: document it;
+- patch 6: better handle DEFINE_ macros when they don't have static/type;
 
-In the docs /dev/scd<N> became recommended names in 2.6.9 [3].
-Mention of these names appeared much earlier in 1.3.22 [4].
+On this version, I'm using "c:macro" to describe variables, as it
+avoids Sphinx C domain to try parse the variable. This makes it more
+flexible and easier to maintain in long term.
 
-[1] https://git.kernel.org/pub/scm/linux/hotplug/udev.git/commit/?id=d132be4d58
-    2011-08-12 14:05:19 +0200 Kay Sievers.
-    rules: remove legacy rules for cdrom and usb printer
+Mauro Carvalho Chehab (6):
+  kernel-doc: add support for handling global variables
+  kernel-doc: add support to handle DEFINE_ variables
+  docs: media: v4l2-ioctl.h: document two global variables
+  docs: kernel-doc.rst: don't let automarkup mangle with consts
+  docs: kernel-doc.rst: document the new "var" kernel-doc markup
+  docs: kernel-doc.rst: Parse DEFINE_ macros without prefixes
 
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/init?h=v2.5.45&id=51924607bd
-    2002-10-29 00:47:58 -0800 Alexander Viro.
-    [PATCH] removal of root_dev_names[]
+ Documentation/doc-guide/kernel-doc.rst | 48 +++++++++++-----
+ include/media/v4l2-ioctl.h             | 15 +++++
+ tools/lib/python/kdoc/kdoc_output.py   | 46 +++++++++++++++
+ tools/lib/python/kdoc/kdoc_parser.py   | 79 +++++++++++++++++++++++++-
+ 4 files changed, 172 insertions(+), 16 deletions(-)
 
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/diff/Documentation/devices.txt?h=v2.6.9-rc4&id=a74e11ffeda
-    2004-03-16 15:09:38 -0800 Andrew Morton:
-    [PATCH] devices.txt: typos and removal of dead devices
-
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/tree/Documentation/devices.txt?h=v2.6.9-rc4&id=8f0ec1f9369
-    1995-09-01 Linus Torvalds: Import 1.3.22
-
-Signed-off-by: Max Nikulin <manikulin@gmail.com>
-
----
-
-I hope, the suggested changes make kernel docs more close to reality.
-
-During discussion of a bug in wodim (a fork of cdrecord) I was confused
-that docs recommend /dev/scd<N> as SCSI CD-ROM name. The following
-thread did not clarify the issue:
-
-https://lore.kernel.org/lkml/20061105100926.GA2883@pelagius.h-e-r-e-s-y.com/
-Scsi cdrom naming confusion; sr or scd? Sun, 5 Nov 2006 10:09:26 +0000
-
-If I'm not mistaken, "sr" was always used internally in the driver
-while "scd" were limited to log strings. I have added SCSI subsystem
-to CC to confirm that there is no objection from their side.
-
-It seems, de-facto /dev/sr<N> names are used and I think, /dev/scd<N>
-should be avoided. I may be completely wrong though.
-
-I wouldn't mind if you discard this patch and to commit another one
-with better wording instead.
-
-Patch v2:
-- More verbose note on removal of /dev/scd? names.
----
- Documentation/admin-guide/devices.rst | 5 ++++-
- Documentation/admin-guide/devices.txt | 6 +++---
- 2 files changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/devices.rst b/Documentation/admin-guide/devices.rst
-index e3776d77374b..0dc8c5b98e30 100644
---- a/Documentation/admin-guide/devices.rst
-+++ b/Documentation/admin-guide/devices.rst
-@@ -97,9 +97,12 @@ It is recommended that these links exist on all systems:
- /dev/bttv0	video0		symbolic	Backward compatibility
- /dev/radio	radio0		symbolic	Backward compatibility
- /dev/i2o*	/dev/i2o/*	symbolic	Backward compatibility
--/dev/scd?	sr?		hard		Alternate SCSI CD-ROM name
- =============== =============== =============== ===============================
- 
-+Suggested earlier ``/dev/scd?`` alternative names for ``/dev/sr?``
-+CD-ROM and other optical drives (using SCSI commands) were removed
-+in ``udev`` version 174 that was released in 2011.
-+
- Locally defined links
- +++++++++++++++++++++
- 
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index 94c98be1329a..c480f230aa4a 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -389,11 +389,11 @@
- 		    ...
- 
-   11 block	SCSI CD-ROM devices
--		  0 = /dev/scd0		First SCSI CD-ROM
--		  1 = /dev/scd1		Second SCSI CD-ROM
-+		  0 = /dev/sr0		First SCSI CD-ROM
-+		  1 = /dev/sr1		Second SCSI CD-ROM
- 		    ...
- 
--		The prefix /dev/sr (instead of /dev/scd) has been deprecated.
-+		In the past the prefix /dev/scd (instead of /dev/sr) was used and even recommended.
- 
-   12 char	QIC-02 tape
- 		  2 = /dev/ntpqic11	QIC-11, no rewind-on-close
-
-base-commit: 464257baf99200d1be1c053f15aa617056361e81
 -- 
-2.39.5
+2.52.0
+
 
