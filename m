@@ -1,119 +1,169 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CA0358D2C;
-	Tue, 16 Dec 2025 13:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E722940D
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765892510; cv=none; b=FZgHWS0fmuCHczt2g2BXfjki5owoDdCVOn/6qUf3S1vS0y9XQMzYj8WrXeokfjX1lr4Re1ZnO6iFJSlVE8RKm+wE4tQq9avHBe59aHKUG0qkS9zF0Qkpe4kdNZIxqlz121RRpjWeKne+uqcyAY7ti8i8Y5fSITmXGLSw740mxs4=
+	t=1765892904; cv=none; b=KsRQXsmDZDiZDCg0A2ZfrlgYhW0lw7g0GZb4RkrZH8NLpXxMmLGG51aAvE5nwchxjZrQX2G5A8ek7DWTBGA4Luq+pve6AGhyLznsDOrsWoMB173KyNr7H0VFO1vjhjnVRTNr0WP0Ajbuqpjw5vr5HcuyCbuc5eFnidcIfNy2nCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765892510; c=relaxed/simple;
-	bh=gWLCD3iBOBUmWuAt+1zM67Tkj23VTvcGTN7S+MGr/ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPqecn0gUX9gVyVjHQzMB3U73teEXvOKockdNz+bVfX3ydDGMM1FJI807xGmQ6IepzO8XLjgtkJdyD3ox4DXJ+qz4xXjh0hofU1GVuoK9vgWibuNjgmkjGab6Cl5JAL7a6IjAIEI8m/nPO6ckdntPrOB7bWxSvGtz9zQIbvJc1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dMWulvkE; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765892904; c=relaxed/simple;
+	bh=ngiLwWOAcuL1Tg7RnoUR1jXzSaV0yuJVciviFjVjVwo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=j6/fLhDyq/AB4K5eQX7Pfp5jQfxiqTMfqyuytR6hi3WC9Q0vdMLwMz2w+F9N/J3Y7C1e8FNPuJjQw5feqy2mrT99Q1UgLR6NQTHlZbcrNH31VkMwp1Hf511JGP9tYv/LZNgV/slaEhk/MwSQ0vqsUPAupUjCR90hcplSjZ6WTv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5IDQG6A; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dMWulvkE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3682UGOf9mvj955UPR/gJlxWjdDq8XctSWFz2A093u0=; b=dMWulvkEtlHRfwLzo+fiUy1Rul
-	jjpm7Nh2E3i0jPKr9HMflOZdHLmzPwGROrRfy+9DA6rqyFyOwg/sOMcHP7z1I0KSJNIkPWJ2wBtvb
-	Ab5EX9vtW7XFPbI4t8avQsSZnbwYHlc3xLHwv/1NtPJCLFIMM2yoqbJX0EIdSz3yYrDjgMHG9FMBZ
-	xuG4HBparMxFnq8+KjCFyLlfRplAa3ifZIAEXjq5tFbyaU1w/zO0idGO9PQS93MnJhQKxuk3vQX6n
-	NUXzHndpgSJ6+YIVw3RTr17Z6URMVucWjRkhg5YJiyV6sn66SBQExl7rk/IIt4FKVR/iMv9woMrvX
-	bcL7MGng==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVVIn-00000003LNo-2njp;
-	Tue, 16 Dec 2025 13:41:21 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 0582B30029E; Tue, 16 Dec 2025 14:41:20 +0100 (CET)
-Date: Tue, 16 Dec 2025 14:41:19 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
- analysis
-Message-ID: <20251216134119.GU3707837@noisy.programming.kicks-ass.net>
-References: <20251120145835.3833031-2-elver@google.com>
- <20251120151033.3840508-7-elver@google.com>
- <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
- <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
- <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
- <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
- <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
- <aUAPbFJSv0alh_ix@elver.google.com>
- <20251216123211.GT3707837@noisy.programming.kicks-ass.net>
- <aUFdRzx1dxRx1Uqa@elver.google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5IDQG6A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765892901; x=1797428901;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=ngiLwWOAcuL1Tg7RnoUR1jXzSaV0yuJVciviFjVjVwo=;
+  b=B5IDQG6AY6DYwWOjoKPOKdqqWOtXEOQHA20lvL7Yu7ES+rQGGbWiyRxs
+   jOy/+N4oefLJqTdgjtIxdf/usQI6EmUYVC8nrE4bJQsHr/UtKr1PCvErx
+   yM3c3rIWSy4onk2RUYawBaBNcUrYa92GHnK397umLzTBT7UQc+UOTvJHs
+   C/Ss/DQm7T0YYgSpkWiyPsSlJZHu0k87LuhnpvLXb7kIXJn2/bHu3E8ll
+   J5YM46FNqdWYp7NmZL932GtWepBPFL+nN77VKZs0gLq/iQc++yJsXFIOi
+   F3SgeF3E/oCDsOb68gt5JfMs4wuyhlawYfjxkvVNW8XMSOZVl0i2G52ex
+   Q==;
+X-CSE-ConnectionGUID: TRub19ldQ7WblGxW7UMvBQ==
+X-CSE-MsgGUID: kMHPT1c0RtSN4O/GvYd4Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78447550"
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="78447550"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 05:48:20 -0800
+X-CSE-ConnectionGUID: BXu3hGRCQzKGUZEFizqORA==
+X-CSE-MsgGUID: vjnituMCTSe/CV2nh6iK4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="202434967"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.246.153])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 05:48:18 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, intel-gfx@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] drm/i915/wakeref: clean up INTEL_WAKEREF_PUT_* flag macros
+In-Reply-To: <76482fc4-7989-41ad-a244-3de4bca44043@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20251215120908.3515578-1-jani.nikula@intel.com>
+ <76482fc4-7989-41ad-a244-3de4bca44043@infradead.org>
+Date: Tue, 16 Dec 2025 15:48:15 +0200
+Message-ID: <707d40a5b84853a6403e537163c6cb97c3474792@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUFdRzx1dxRx1Uqa@elver.google.com>
+Content-Type: text/plain
 
-On Tue, Dec 16, 2025 at 02:23:19PM +0100, Marco Elver wrote:
+On Mon, 15 Dec 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 12/15/25 4:09 AM, Jani Nikula wrote:
+>> Commit 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently
+>> discarded") started emitting warnings for cases that were previously
+>> silently discarded. One such case is in intel_wakeref.h:
+>> 
+>> Warning: drivers/gpu/drm/i915/intel_wakeref.h:156 expecting prototype
+>>   for __intel_wakeref_put(). Prototype was for INTEL_WAKEREF_PUT_ASYNC()
+>>   instead
+>> 
+>> Arguably kernel-doc should be able to handle this, as it's valid C, but
+>> having the flags defined between the function declarator and the body is
+>> just asking for trouble. Move the INTEL_WAKEREF_PUT_* macros away from
+>> there, making kernel-doc's life easier.
+>> 
+>> While at it, reduce the unnecessary abstraction levels by removing the
+>> enum, and append _MASK to INTEL_WAKEREF_PUT_DELAY for clarity.
+>> 
+>> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+>
+> Thanks.
 
-> > Also, why do we need this second variable with cleanup; can't the
-> > existing __scoped_seqlock_cleanup() get the __releases_shared()
-> > attribute?
-> 
-> The existing __scoped_seqlock_cleanup() receives &_s (struct ss_tmp *),
-> and we can't refer to the _seqlock from __scoped_seqlock_cleanup(). Even
-> if I create a member seqlock_t* ss_tmp::seqlock and initialize it with
-> _seqlock, the compiler can't track that the member would be an alias of
-> _seqlock. The function __scoped_seqlock_next() does receive _seqlock to
-> effectively release it executes for every loop, so there'd be a "lock
-> imbalance" in the compiler's eyes.
-> 
-> So having the direct alias (even if we cast it to make it work in the
-> single-statement multi-definition, the compiler doesn't care) is
-> required for it to work.
+Thanks, pushed to drm-intel-next.
 
-Right -- it just clicked while I was walking outside. Without actual
-inlining it cannot see through the constructor and track the variable :/
+BR,
+Jani.
 
-OK, let me stare at this more.
+>
+>> 
+>> ---
+>> 
+>> Curiously, kernel-doc does not return non-zero exit status for these
+>> warnings even with the -Werror parameter!
+>> ---
+>>  drivers/gpu/drm/i915/intel_wakeref.c |  2 +-
+>>  drivers/gpu/drm/i915/intel_wakeref.h | 14 +++++---------
+>>  2 files changed, 6 insertions(+), 10 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+>> index b1883dccc22a..98e7cee4e1dc 100644
+>> --- a/drivers/gpu/drm/i915/intel_wakeref.c
+>> +++ b/drivers/gpu/drm/i915/intel_wakeref.c
+>> @@ -80,7 +80,7 @@ void __intel_wakeref_put_last(struct intel_wakeref *wf, unsigned long flags)
+>>  	/* Assume we are not in process context and so cannot sleep. */
+>>  	if (flags & INTEL_WAKEREF_PUT_ASYNC || !mutex_trylock(&wf->mutex)) {
+>>  		mod_delayed_work(wf->i915->unordered_wq, &wf->work,
+>> -				 FIELD_GET(INTEL_WAKEREF_PUT_DELAY, flags));
+>> +				 FIELD_GET(INTEL_WAKEREF_PUT_DELAY_MASK, flags));
+>>  		return;
+>>  	}
+>>  
+>> diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
+>> index a2894a56e18f..81308bac34ba 100644
+>> --- a/drivers/gpu/drm/i915/intel_wakeref.h
+>> +++ b/drivers/gpu/drm/i915/intel_wakeref.h
+>> @@ -128,17 +128,16 @@ intel_wakeref_get_if_active(struct intel_wakeref *wf)
+>>  	return atomic_inc_not_zero(&wf->count);
+>>  }
+>>  
+>> -enum {
+>> -	INTEL_WAKEREF_PUT_ASYNC_BIT = 0,
+>> -	__INTEL_WAKEREF_PUT_LAST_BIT__
+>> -};
+>> -
+>>  static inline void
+>>  intel_wakeref_might_get(struct intel_wakeref *wf)
+>>  {
+>>  	might_lock(&wf->mutex);
+>>  }
+>>  
+>> +/* flags for __intel_wakeref_put() and __intel_wakeref_put_last */
+>> +#define INTEL_WAKEREF_PUT_ASYNC		BIT(0)
+>> +#define INTEL_WAKEREF_PUT_DELAY_MASK	GENMASK(BITS_PER_LONG - 1, 1)
+>> +
+>>  /**
+>>   * __intel_wakeref_put: Release the wakeref
+>>   * @wf: the wakeref
+>> @@ -154,9 +153,6 @@ intel_wakeref_might_get(struct intel_wakeref *wf)
+>>   */
+>>  static inline void
+>>  __intel_wakeref_put(struct intel_wakeref *wf, unsigned long flags)
+>> -#define INTEL_WAKEREF_PUT_ASYNC BIT(INTEL_WAKEREF_PUT_ASYNC_BIT)
+>> -#define INTEL_WAKEREF_PUT_DELAY \
+>> -	GENMASK(BITS_PER_LONG - 1, __INTEL_WAKEREF_PUT_LAST_BIT__)
+>>  {
+>>  	INTEL_WAKEREF_BUG_ON(atomic_read(&wf->count) <= 0);
+>>  	if (unlikely(!atomic_add_unless(&wf->count, -1, 1)))
+>> @@ -181,7 +177,7 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
+>>  {
+>>  	__intel_wakeref_put(wf,
+>>  			    INTEL_WAKEREF_PUT_ASYNC |
+>> -			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
+>> +			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY_MASK, delay));
+>>  }
+>>  
+>>  static inline void
+
+-- 
+Jani Nikula, Intel
