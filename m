@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF2534D4DF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D658734D934;
 	Tue, 16 Dec 2025 14:26:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765895186; cv=none; b=ByueVtS+LmR40yOtXdV00LT0kBvYIH0nZeoD6YerDVSh16KCuD3BwikGxagrphv9TZKs4ab6/mGab2tKDbyAixXoR7j1rUROdensFgZwEnnF7BnrOXRVmsGmWaZ7pXGgrZ24d6sV0Mz3DD8oNjN2sTrGZAIuyrGN7sFOoo30uaI=
+	t=1765895186; cv=none; b=NT6dt03QoPVntZqmMm+wtSa/OgEnKgFY86HLhlLbjz6t393+KZJl2Oov2JDkTCrfoGYThC6RGHrF8B0VsfqpCFvAK3tk/4KWStTwb91vgZPnA5namMSOmKYHkN2ZsuLiwqOTF8Bu0myicnymUkq9xIItW98sU7G5YU1yPFSRHTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765895186; c=relaxed/simple;
-	bh=UB2o82o87HHa9AtHwJBPazCyg8AVw8kzw99ZHsm4WaA=;
+	bh=V3q0OW77JHsfRVR1rTc4eyv6RLc6cSrB8gvXSOLS46Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DHdbnLNYA9vlpx1naOtQ4rowu7KBazQ9vbem4X9WVkQxVZfNevm1P25G7qYgUd3iBp9By1/N3i0DgiL6UFkhyy+zTczsLCQg8M8iQQ/jgd9M8LOG5M5VsAMkHpndsk9RgTkVAuX44Fib/+ugKXS0H1HMTJpuRY9j0tfrX21/Ul4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQvuOZLO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=fwdgoh7DKRPRYSbM3P4CAhv81vmxamh6AUtmKEvnuloENIX9polLBiDlrZcCAZCjA1cmT6vnO0Rh6MM5Caq32rU50CvK1igwLFYer/CvkoAi1WN/sNxRIpx1fiEzJTDm7D6cyNBG3N9gqGpBGtNIPNc+Vs4zoiT+XWY2UpLxEdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXfwIuHe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQvuOZLO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175CEC4CEF1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXfwIuHe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E468C19423;
 	Tue, 16 Dec 2025 14:26:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1765895186;
-	bh=UB2o82o87HHa9AtHwJBPazCyg8AVw8kzw99ZHsm4WaA=;
+	bh=V3q0OW77JHsfRVR1rTc4eyv6RLc6cSrB8gvXSOLS46Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pQvuOZLOVf0dwIK7B9/4YLGOxmwnJUn7rQPBfuJmMFEm4A0Sw3IsTNlhH7SXcmi40
-	 LMxVUKNx9aXK1FM93IXwxBjdT3JPHczYiSg3MswSz8CZN3bAagtgZDCCWdhzz4Ebgn
-	 8rpaZigDcGxiH/rfX3rJizYYRKpaFUfnXwB2bqg3G0zzUZNH9e9oImJRQXIhnKM7NP
-	 rgQt/2ES9P8TPYzB2/BZNv8RoEtdyZZ6cA3Ne0Gd5MYD60BJOBUI1CIo1/L7pQiAqx
-	 LNYXYFnFdFMEf5A9V9Qd96vCrfyJEFtC5zn/gA2dULMJnuAxhTVzKV0AmsMmJ0Tczp
-	 E9yIsRxTu3BzQ==
+	b=fXfwIuHeMj0XhngTQfhH2LLKaJhEOkFBCU1goraFJwFGZIlg3viURjPjGYlfxpOOG
+	 mkD8HNp3SwOh6CASAMmF++l+R5Gl4qRW7za+ie0FHMPkqDcKx/Z9hsElzjMQbyyh3I
+	 w35ZV3OnvUztpboHckjaiHTgbeZKyByyX9n3aotoQKZqCUDSXwZaVL3vUfE252lNzk
+	 12GbHGVg0rFDom2OF0i/Aea59s8M5OwvU2LNGYJa4REAEJ/3eD7nsrspnEkX5cbXzf
+	 5CjJWOumBVtsa16oayXojIocHM2YdnBpHw/lrGDUYFwnJklNLU0IiqWYcSJmx74Wv9
+	 54tew7sJ1EgjA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vVW0O-00000000swy-1Vqw;
+	id 1vVW0O-00000000syA-32vm;
 	Tue, 16 Dec 2025 15:26:24 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,9 +36,9 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Randy Dunlap" <rdunlap@infradead.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 5/6] docs: kernel-doc.rst: document the new "var" kernel-doc markup
-Date: Tue, 16 Dec 2025 15:26:16 +0100
-Message-ID: <aa0e3abcd6882a62f3ab9c34033c60fca1c44604.1765894964.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v7 6/6] docs: kernel-doc.rst: Parse DEFINE_ macros without prefixes
+Date: Tue, 16 Dec 2025 15:26:17 +0100
+Message-ID: <be16e087cbc065fbd041fb6d6f8fa5cf0426cca5.1765894964.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1765894964.git.mchehab+huawei@kernel.org>
 References: <cover.1765894964.git.mchehab+huawei@kernel.org>
@@ -51,69 +51,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Add a description containing the new syntax to document
-variables within kernel-doc markups.
+Currently, the logic for vars require a
+	type DEFINE_foo();
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+where type is usually "static".
+
+Make the logic more generic.
+
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Closes: https://lore.kernel.org/linux-doc/e1dad7e4-a0ca-4be6-a33c-97b75175c12f@infradead.org/
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/doc-guide/kernel-doc.rst | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+ tools/lib/python/kdoc/kdoc_parser.py | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 2e18a810f98b..0de0e344e10d 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -342,6 +342,18 @@ Typedefs with function prototypes can also be documented::
-    */
-    typedef void (*type_name)(struct v4l2_ctrl *arg1, void *arg2);
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index aaa352855717..e137bd9a7dac 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -977,17 +977,23 @@ class KernelDoc:
+         # Variable name is at the end of the declaration
+         #
  
-+Variables documentation
-+-----------------------
++        default_val = None
 +
-+The general format of a kernel-doc variable comment is::
+         r= KernRe(OPTIONAL_VAR_ATTR + r"\w.*\s+(?:\*+)?([\w_]+)\s*[\d\]\[]*\s*(=.*)?")
+-        if not r.match(proto):
++        if r.match(proto):
++            if not declaration_name:
++                declaration_name = r.group(1)
 +
-+  /**
-+   * var var_name - Brief description.
-+   *
-+   * Description of the var_name variable.
-+   */
-+   extern int var_name;
++            default_val = r.group(2)
++        else:
++            r= KernRe(OPTIONAL_VAR_ATTR + r"(?:\w.*)?\s+(?:\*+)?(?:[\w_]+)\s*[\d\]\[]*\s*(=.*)?")
++        if r.match(proto):
++            default_val = r.group(1)
 +
- Object-like macro documentation
- -------------------------------
++        if not declaration_name:
+            self.emit_msg(ln,f"{proto}: can't parse variable")
+            return
  
-@@ -463,14 +475,18 @@ through the following syntax::
- 
- For further details, please refer to the `Sphinx C Domain`_ documentation.
- 
-+.. note::
-+   Variables aren't automatically cross referenced. For those, you need to
-+   explicitly add a C domain cross-reference.
-+
- Overview documentation comments
- -------------------------------
- 
- To facilitate having source code and comments close together, you can include
- kernel-doc documentation blocks that are free-form comments instead of being
--kernel-doc for functions, structures, unions, enums, or typedefs. This could be
--used for something like a theory of operation for a driver or library code, for
--example.
-+kernel-doc for functions, structures, unions, enums, typedefs or variables.
-+This could be used for something like a theory of operation for a driver or
-+library code, for example.
- 
- This is done by using a ``DOC:`` section keyword with a section title.
- 
-@@ -538,7 +554,8 @@ identifiers: *[ function/type ...]*
-   Include documentation for each *function* and *type* in *source*.
-   If no *function* is specified, the documentation for all functions
-   and types in the *source* will be included.
--  *type* can be a ``struct``, ``union``, ``enum``, or ``typedef`` identifier.
-+  *type* can be a ``struct``, ``union``, ``enum``, ``typedef`` or ``var``
-+  identifier.
- 
-   Examples::
+-        var_type = r.group(0)
+-
+-        if not declaration_name:
+-            declaration_name = r.group(1)
+-
+-        default_val = r.group(2)
+         if default_val:
+             default_val = default_val.lstrip("=").strip()
  
 -- 
 2.52.0
