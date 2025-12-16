@@ -1,33 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A643C33D50F;
-	Tue, 16 Dec 2025 14:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7272459E5
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 14:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765894089; cv=none; b=bMbUGMpjhdVEm+VWExEI6KBaP3YHJ8Mq/65q+KqxL1AI0ndUdFFIusjKI9+3NFnvj8vA1WK+GENuUT0zJKjjTuG2a1nIvWxiNEV9RMp6Gyr0fQkxFWf0I1LhAD0rbXSdxDdEEi0wV6v1k/+4UvJCJGOKMeY/Z9c09cIW6tH7oZs=
+	t=1765894641; cv=none; b=KX0UwFSRlK2ERVufu7XFPxxZCvj8ZAXtQoXCR1EB/oVQI0oiDIEgzGOAKaQxoF8X1eGSgCJTAmEoxfmT507mxOrSHNb6J0y4Cx31gAp9I5bJtR2sCDkk7jc3c1XeBAcd4DwdnE40xG5gI2OjGFceU9yJVo9cnkKAi7I6xkRLnc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765894089; c=relaxed/simple;
-	bh=OALa6ci07NlkXH47K1k/t/JyFtPuL55pxoqRCtxE394=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sSIOobwLO41rDBbs3u/ehDN/LQViJT20W9IGdtUfCEZycix/3tgTdDT1LV6B7Rl4cJ3+g34bfuodijGaMGPQLa9svrykNh9mBw0tfT9T6LmRBPZA13jzlgJu4EilvUkxgmec+NygFgZy84EkgErK/rIkfAC63625QoNB8LveurI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TmvLpz8m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765894641; c=relaxed/simple;
+	bh=jxyxVWryLXdewUTdvf3TJcYXWU+G97kw3pB/KMLo9fw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:References:To:Cc:
+	 In-Reply-To:Content-Type; b=gMpfSK5b/dvxCyDc/PdMpgvLH//LmDfJsw6hnoRViQnQX5zZ+NLm5kYIrL/p236hFJaBlUTyju2cwFMpM1nzDSYsIu/OcUSWwoVUruwt7Bu4wdf57xG0XrPeZvlNYh7TS5tKm6JDIONLpIYY6wHewBqGLaU1MoFPjNzsLc0t11c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDDra2gy; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TmvLpz8m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18384C16AAE;
-	Tue, 16 Dec 2025 14:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765894089;
-	bh=OALa6ci07NlkXH47K1k/t/JyFtPuL55pxoqRCtxE394=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TmvLpz8mTCdE/bd9tQgUhEPDI/lGiOnPsfZyRA6SzbND8ZxiK1TbyUy82DxzcrZJb
-	 ysCSMb+DqnUSPcjVnhsXqUDTokiQTy0eeTmyKHv9zmREwQdSU8idIKQYlAjcumn/Ml
-	 rlvsOK1nVpSbHol9VZnEe07Q0ouU0HNr7SzAOogTWxkkcYugBUK50cTYavckj7cLi2
-	 WUsGcD1Qv53yYH/m9GUUakyd8ztllM4FWyY188E4c0VJiFm+40WSTRyM+NAV4UF4Fn
-	 AoXwsvXv2i3WcHjPkScJfAFtllBMKPR7MKZeDk2xyUm28Id3h/NXWymTumsib1diGv
-	 oYa3HqmHguqKA==
-Message-ID: <ea30058d-f3e1-4a1f-bdcf-fafc92b221a0@kernel.org>
-Date: Tue, 16 Dec 2025 08:08:07 -0600
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDDra2gy"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5943b62c47dso4558949e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 06:17:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765894638; x=1766499438; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:cc:to:content-language
+         :references:subject:from:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pBec499KaHMN6ajq+mD6FMl/SnLupUZN19aWhrOOyrI=;
+        b=fDDra2gy0xa6Maj8wY99/M90M8hRvPd+k9RjoTEggiBvtyCYzO8Rw7L/ODraYTEbbu
+         W32PyKZN5epqJgfQlf1nFVFw7CKW7N2VFGjkf/WwycZWeDp2HD8q9srKXhCPceY23Tdu
+         D/nNojaHW6LASYD5L15soANZ6vea5Zr2QfMray6yt2uT4v5CXe3JlRzNdehvJpd2jZYE
+         r7rCq2b70rT/uBXd0oebiip/XDHxToJyM1Wb8yx7BOJ1xOYzGsPxkJ+N24J4eE7sls74
+         nDcATS89HArDLeQXKAH2Z/93y3+YLPkcscNf8OphJnXfUes9o/DZ8QKCI0P9RLoczH5F
+         YM6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765894638; x=1766499438;
+        h=content-transfer-encoding:in-reply-to:cc:to:content-language
+         :references:subject:from:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pBec499KaHMN6ajq+mD6FMl/SnLupUZN19aWhrOOyrI=;
+        b=O8J3KAFEGEphn6rU72rsUmFl07aIlBZQ1WSVgJilz95qr3kYOUvbqvyWCV7VidBVbp
+         rvzJlYjZcg2D2scVjGCRjX1ZMEy/YJuUQzDLysLbfpUJyrzNU9qIXkqBWbFwsGHjoefI
+         0c1wVfuuPInpACqWUeJqnAh3s8nMip/zHQk9fECssp9iwqa4xKWm/crwP3jzqXQ39wE4
+         LwALbSzbXiFUTkOZ+ZA+9iLTByvjT61+O7v6qXL136bZdlvzEehgME1myLU2aYiYnKGb
+         TvEkeABX6zJePYjeqyutDAAaDzlAeI8lhIK6wJQvkyQbBHiSyw/MLtSDzjcW9n5YqVJK
+         xR+A==
+X-Gm-Message-State: AOJu0Yxxu8iwoEA7AVmJm1e54VptY4cGCZkeRekQ1bA2XxM/LJsa/EaQ
+	KXk5EHkZftFrjfECG2ipDOdBcMENStJ288MtEiDU1ZsOdRkAKNhZBT3Q
+X-Gm-Gg: AY/fxX7+0zMdTmPoEuXWG9lZxNy2sIITWMqVIzpvsWQZ0vgq48mRix9Ave1aLU+ED8f
+	8f923Y2pekPqR668det39fSoW3uKaBEY8oeYcP70lyqDqAwfJXXhi2DGUgeSl8myyRO5irX5ZlL
+	88qr4I5EDXj4v+PL0QKo32sn0utlosFgiFcDT99Dp20JSfkzwMJL3LwRSs1DoyDWvOSWuc+8cV7
+	KI5KsMs2YjRsXuc8wBqzYVHqOkoBPWricnz8KSnvYpqSYkLV13HAOU3LuZZR68OWavr8lDCTOof
+	3iqXCtDol8u4zERlUQwv2w20wIHpFG4nYF9sNhbXa8Vj+s0/HpZvn6OjeyJqvBU2hNrCFti4H18
+	zLt0A6pdCYBVIFk4Gx2Kw+NCknLYIof/HFny4/0H1JVma8FjlzuaIbYqAjgjQxm0v+QDkaI67+T
+	c939KPZAgzAQW1ihh0VHjhDGxjpklkZhQST8K6/MJsagHp
+X-Google-Smtp-Source: AGHT+IECzB8wZ6HqfjopDqmXGNgF3m2bTGkCmXboQK1CslrkKLddE94RR4VBthxbzSBTTxtqVMzU/Q==
+X-Received: by 2002:a05:6512:3b8e:b0:598:eef2:e209 with SMTP id 2adb3069b0e04-598faa01680mr4980176e87.5.1765894637269;
+        Tue, 16 Dec 2025 06:17:17 -0800 (PST)
+Received: from [192.168.1.149] (nat-0-0.nsk.sibset.net. [5.44.169.188])
+        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5990da5dd0dsm927794e87.78.2025.12.16.06.17.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 06:17:15 -0800 (PST)
+Sender: Maxim Nikulin <m.a.nikulin@gmail.com>
+Message-ID: <f0a3e0aa-e4f9-41d3-8931-57837831d136@gmail.com>
+Date: Tue, 16 Dec 2025 21:17:13 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,243 +69,117 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
-To: "Lazar, Lijo" <lijo.lazar@amd.com>,
- "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- "Tsao, Anson" <anson.tsao@amd.com>
-References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
- <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
- <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Max Nikulin <manikulin@gmail.com>
+Subject: [PATCH v2 1/2] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
+References: <aSuj66nCF4r_5ksh@archie.me>
+Content-Language: en-US, ru-RU
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-scsi@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <aSuj66nCF4r_5ksh@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 12/16/25 3:43 AM, Lazar, Lijo wrote:
-> 
-> 
-> On 12-Dec-25 1:29 PM, Yo-Jung Leo Lin (AMD) wrote:
->> Add a uma/ directory containing two sysfs files as interfaces to
->> inspect or change UMA carveout size. These files are:
->>
->> - uma/carveout_options: a read-only file listing all the available
->>    UMA allocation options and their index.
->>
->> - uma/carveout: a file that is both readable and writable. On read,
->>    it shows the index of the current setting. Writing a valid index
->>    into this file allows users to change the UMA carveout size to that
->>    option on the next boot.
->>
->> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
->> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
->> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 143 +++++++++++++++++++ 
->> ++++++++++
->>   1 file changed, 143 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/ 
->> drm/amd/amdgpu/amdgpu_device.c
->> index 903c4706040d..e78e6982312c 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -36,6 +36,7 @@
->>   #include <linux/pci.h>
->>   #include <linux/pci-p2pdma.h>
->>   #include <linux/apple-gmux.h>
->> +#include <linux/nospec.h>
->>   #include <drm/drm_atomic_helper.h>
->>   #include <drm/drm_client_event.h>
->> @@ -417,6 +418,146 @@ static const struct attribute_group 
->> amdgpu_board_attrs_group = {
->>       .is_visible = amdgpu_board_attrs_is_visible
->>   };
->> +static ssize_t carveout_options_show(struct device *dev,
->> +                     struct device_attribute *attr,
->> +                     char *buf)
->> +{
->> +    struct drm_device *ddev = dev_get_drvdata(dev);
->> +    struct amdgpu_device *adev = drm_to_adev(ddev);
->> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
->> +    uint32_t memory_carved;
->> +    ssize_t size = 0;
->> +
->> +    if (!uma_info || !uma_info->num_entries)
->> +        return -ENODEV;
->> +
->> +    for (int i = 0; i < uma_info->num_entries; i++) {
->> +        memory_carved = uma_info->entries[i].memory_carved_mb;
->> +        if (memory_carved >= SZ_1G/SZ_1M) {
->> +            size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
->> +                          i,
->> +                          uma_info->entries[i].name,
->> +                          memory_carved >> 10);
->> +        } else {
->> +            size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
->> +                          i,
->> +                          uma_info->entries[i].name,
->> +                          memory_carved);
->> +        }
->> +    }
->> +
->> +    return size;
->> +}
->> +static DEVICE_ATTR_RO(carveout_options);
->> +
->> +static ssize_t carveout_show(struct device *dev,
->> +                 struct device_attribute *attr,
->> +                 char *buf)
->> +{
->> +    struct drm_device *ddev = dev_get_drvdata(dev);
->> +    struct amdgpu_device *adev = drm_to_adev(ddev);
->> +
->> +    return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
-> 
-> It would be better to show the size along with the index.
+Don't claim that /dev/sr<N> device names for SCSI CD-ROM drives are
+deprecated and don't recommend /dev/scd<N> alternate names for them.
 
-This idea complicates userspace parsing because rather than a atoi() 
-parser you now need to do sscanf().
+/dev/scd<N> device names for SCSI CD-ROM drives are not in use for more
+than a decade, see commit [1] that was a part of udev release 174.
+Earlier, related rules were volatile, sometimes /dev/scd<N> were syminks
+to /dev/sr<N>, sometimes vice versa.
 
-IE - I like it the way it is in the series at the moment.
+Recognizing of root=/dev/scd<N> kernel command line argument was removed
+in kernel 2.5.45 [2].
 
-> 
-> Regardless, series is -
-> 
->      Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-> 
-> Thanks,
-> Lijo
-> 
->> +}
->> +
->> +static ssize_t carveout_store(struct device *dev,
->> +                  struct device_attribute *attr,
->> +                  const char *buf, size_t count)
->> +{
->> +    struct drm_device *ddev = dev_get_drvdata(dev);
->> +    struct amdgpu_device *adev = drm_to_adev(ddev);
->> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
->> +    struct amdgpu_uma_carveout_option *opt;
->> +    unsigned long val;
->> +    uint8_t flags;
->> +    int r;
->> +
->> +    r = kstrtoul(buf, 10, &val);
->> +    if (r)
->> +        return r;
->> +
->> +    if (val >= uma_info->num_entries)
->> +        return -EINVAL;
->> +
->> +    val = array_index_nospec(val, uma_info->num_entries);
->> +    opt = &uma_info->entries[val];
->> +
->> +    if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
->> +        !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
->> +        drm_err_once(ddev, "Option %lu not supported due to lack of 
->> Custom/Auto flag", val);
->> +        return -EINVAL;
->> +    }
->> +
->> +    flags = opt->flags;
->> +    flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
->> +
->> +    guard(mutex)(&uma_info->update_lock);
->> +
->> +    r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
->> +    if (r)
->> +        return r;
->> +
->> +    uma_info->uma_option_index = val;
->> +
->> +    return count;
->> +}
->> +static DEVICE_ATTR_RW(carveout);
->> +
->> +static struct attribute *amdgpu_uma_attrs[] = {
->> +    &dev_attr_carveout.attr,
->> +    &dev_attr_carveout_options.attr,
->> +    NULL
->> +};
->> +
->> +const struct attribute_group amdgpu_uma_attr_group = {
->> +    .name = "uma",
->> +    .attrs = amdgpu_uma_attrs
->> +};
->> +
->> +static void amdgpu_uma_sysfs_init(struct amdgpu_device *adev)
->> +{
->> +    int rc;
->> +
->> +    if (!(adev->flags & AMD_IS_APU))
->> +        return;
->> +
->> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
->> +        return;
->> +
->> +    rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev- 
->> >uma_info);
->> +    if (rc) {
->> +        drm_dbg(adev_to_drm(adev),
->> +            "Failed to parse UMA carveout info from VBIOS: %d\n", rc);
->> +        goto out_info;
->> +    }
->> +
->> +    mutex_init(&adev->uma_info.update_lock);
->> +
->> +    rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
->> +    if (rc) {
->> +        drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sysfs 
->> interfaces %d\n", rc);
->> +        goto out_attr;
->> +    }
->> +
->> +    return;
->> +
->> +out_attr:
->> +    mutex_destroy(&adev->uma_info.update_lock);
->> +out_info:
->> +    return;
->> +}
->> +
->> +static void amdgpu_uma_sysfs_fini(struct amdgpu_device *adev)
->> +{
->> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
->> +
->> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
->> +        return;
->> +
->> +    mutex_destroy(&uma_info->update_lock);
->> +    uma_info->num_entries = 0;
->> +}
->> +
->>   static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
->>   /**
->> @@ -4492,6 +4633,7 @@ static int 
->> amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
->>       amdgpu_fru_sysfs_init(adev);
->>       amdgpu_reg_state_sysfs_init(adev);
->>       amdgpu_xcp_sysfs_init(adev);
->> +    amdgpu_uma_sysfs_init(adev);
->>       return r;
->>   }
->> @@ -4507,6 +4649,7 @@ static void 
->> amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
->>       amdgpu_reg_state_sysfs_fini(adev);
->>       amdgpu_xcp_sysfs_fini(adev);
->> +    amdgpu_uma_sysfs_fini(adev);
->>   }
->>   /**
->>
-> 
+In the docs /dev/scd<N> became recommended names in 2.6.9 [3].
+Mention of these names appeared much earlier in 1.3.22 [4].
+
+[1] https://git.kernel.org/pub/scm/linux/hotplug/udev.git/commit/?id=d132be4d58
+    2011-08-12 14:05:19 +0200 Kay Sievers.
+    rules: remove legacy rules for cdrom and usb printer
+
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/init?h=v2.5.45&id=51924607bd
+    2002-10-29 00:47:58 -0800 Alexander Viro.
+    [PATCH] removal of root_dev_names[]
+
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/diff/Documentation/devices.txt?h=v2.6.9-rc4&id=a74e11ffeda
+    2004-03-16 15:09:38 -0800 Andrew Morton:
+    [PATCH] devices.txt: typos and removal of dead devices
+
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/tree/Documentation/devices.txt?h=v2.6.9-rc4&id=8f0ec1f9369
+    1995-09-01 Linus Torvalds: Import 1.3.22
+
+Signed-off-by: Max Nikulin <manikulin@gmail.com>
+
+---
+
+I hope, the suggested changes make kernel docs more close to reality.
+
+During discussion of a bug in wodim (a fork of cdrecord) I was confused
+that docs recommend /dev/scd<N> as SCSI CD-ROM name. The following
+thread did not clarify the issue:
+
+https://lore.kernel.org/lkml/20061105100926.GA2883@pelagius.h-e-r-e-s-y.com/
+Scsi cdrom naming confusion; sr or scd? Sun, 5 Nov 2006 10:09:26 +0000
+
+If I'm not mistaken, "sr" was always used internally in the driver
+while "scd" were limited to log strings. I have added SCSI subsystem
+to CC to confirm that there is no objection from their side.
+
+It seems, de-facto /dev/sr<N> names are used and I think, /dev/scd<N>
+should be avoided. I may be completely wrong though.
+
+I wouldn't mind if you discard this patch and to commit another one
+with better wording instead.
+
+Patch v2:
+- More verbose note on removal of /dev/scd? names.
+---
+ Documentation/admin-guide/devices.rst | 5 ++++-
+ Documentation/admin-guide/devices.txt | 6 +++---
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/devices.rst b/Documentation/admin-guide/devices.rst
+index e3776d77374b..0dc8c5b98e30 100644
+--- a/Documentation/admin-guide/devices.rst
++++ b/Documentation/admin-guide/devices.rst
+@@ -97,9 +97,12 @@ It is recommended that these links exist on all systems:
+ /dev/bttv0	video0		symbolic	Backward compatibility
+ /dev/radio	radio0		symbolic	Backward compatibility
+ /dev/i2o*	/dev/i2o/*	symbolic	Backward compatibility
+-/dev/scd?	sr?		hard		Alternate SCSI CD-ROM name
+ =============== =============== =============== ===============================
+ 
++Suggested earlier ``/dev/scd?`` alternative names for ``/dev/sr?``
++CD-ROM and other optical drives (using SCSI commands) were removed
++in ``udev`` version 174 that was released in 2011.
++
+ Locally defined links
+ +++++++++++++++++++++
+ 
+diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+index 94c98be1329a..c480f230aa4a 100644
+--- a/Documentation/admin-guide/devices.txt
++++ b/Documentation/admin-guide/devices.txt
+@@ -389,11 +389,11 @@
+ 		    ...
+ 
+   11 block	SCSI CD-ROM devices
+-		  0 = /dev/scd0		First SCSI CD-ROM
+-		  1 = /dev/scd1		Second SCSI CD-ROM
++		  0 = /dev/sr0		First SCSI CD-ROM
++		  1 = /dev/sr1		Second SCSI CD-ROM
+ 		    ...
+ 
+-		The prefix /dev/sr (instead of /dev/scd) has been deprecated.
++		In the past the prefix /dev/scd (instead of /dev/sr) was used and even recommended.
+ 
+   12 char	QIC-02 tape
+ 		  2 = /dev/ntpqic11	QIC-11, no rewind-on-close
+
+base-commit: 464257baf99200d1be1c053f15aa617056361e81
+-- 
+2.39.5
 
