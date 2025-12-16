@@ -1,39 +1,33 @@
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BF6346AE9;
-	Tue, 16 Dec 2025 14:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A643C33D50F;
+	Tue, 16 Dec 2025 14:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765894017; cv=none; b=s8gOpz1kjJ0+UjUQ7zsUdFHKRpffFHYzsCyRyDmbENScJyb6t/DGHFiNndFVZaoCuSDI3m3LKD7EJE4KBmyVQCtRZiELIvgL2Zz9F8sCfA467KjirVUMcoiVgzQwGFT9TJ1ab9hxeYcj2A3sVJ5xDii9V42teeMeSksPn6DSbfY=
+	t=1765894089; cv=none; b=bMbUGMpjhdVEm+VWExEI6KBaP3YHJ8Mq/65q+KqxL1AI0ndUdFFIusjKI9+3NFnvj8vA1WK+GENuUT0zJKjjTuG2a1nIvWxiNEV9RMp6Gyr0fQkxFWf0I1LhAD0rbXSdxDdEEi0wV6v1k/+4UvJCJGOKMeY/Z9c09cIW6tH7oZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765894017; c=relaxed/simple;
-	bh=1kJBw9ewAFyhP05soNF5xx0EC+X1pDy+ycp2TT5An6E=;
+	s=arc-20240116; t=1765894089; c=relaxed/simple;
+	bh=OALa6ci07NlkXH47K1k/t/JyFtPuL55pxoqRCtxE394=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G9G8mCR+HdUnMHTKjS2KdY4h7Tp2t3V2poDQ9D7Ap/legZGI4ZU18q0FMKiJ+/xBi6v56tNxmTdwVanAqTxrVLHvgG9sdMG+coXe1B4C/XOWVQvU1qeU9L9djzOYQJtfoSxRGKQqt0m5LdYKplwiIhJnuGGt4KC+t04G0so4RgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=TFz8f+2S; arc=none smtp.client-ip=94.112.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	 In-Reply-To:Content-Type; b=sSIOobwLO41rDBbs3u/ehDN/LQViJT20W9IGdtUfCEZycix/3tgTdDT1LV6B7Rl4cJ3+g34bfuodijGaMGPQLa9svrykNh9mBw0tfT9T6LmRBPZA13jzlgJu4EilvUkxgmec+NygFgZy84EkgErK/rIkfAC63625QoNB8LveurI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TmvLpz8m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="TFz8f+2S"
-Received: from [192.168.88.180] (ip-94-112-34-59.bb.vodafone.cz [94.112.34.59])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 096BD5340E12;
-	Tue, 16 Dec 2025 15:06:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1765894006;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Kwd5JGsT5lP0X1c4h0ZVuRID3Oabl5FqXHQYBnk1M6k=;
-	b=TFz8f+2SyT9Mv7egQ9NzazOtUnKeuNZT4UDAoHwKdhP4KLV+62zdgwyCtkJiJXxw6EjSZr
-	p3Oj8E5AWBqDgGWuEDY7b/4v8zULy+4UU86XeRp6oLPh3+laK6LOLmPcNsZzIt4Q2EjWOQ
-	NkBoxMR3gnhzb2KFoMcMstqwzu8SXMk=
-Message-ID: <06e5bd5f-1748-4a6d-a054-64b8b73efb33@ixit.cz>
-Date: Tue, 16 Dec 2025 15:06:42 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TmvLpz8m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18384C16AAE;
+	Tue, 16 Dec 2025 14:08:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765894089;
+	bh=OALa6ci07NlkXH47K1k/t/JyFtPuL55pxoqRCtxE394=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TmvLpz8mTCdE/bd9tQgUhEPDI/lGiOnPsfZyRA6SzbND8ZxiK1TbyUy82DxzcrZJb
+	 ysCSMb+DqnUSPcjVnhsXqUDTokiQTy0eeTmyKHv9zmREwQdSU8idIKQYlAjcumn/Ml
+	 rlvsOK1nVpSbHol9VZnEe07Q0ouU0HNr7SzAOogTWxkkcYugBUK50cTYavckj7cLi2
+	 WUsGcD1Qv53yYH/m9GUUakyd8ztllM4FWyY188E4c0VJiFm+40WSTRyM+NAV4UF4Fn
+	 AoXwsvXv2i3WcHjPkScJfAFtllBMKPR7MKZeDk2xyUm28Id3h/NXWymTumsib1diGv
+	 oYa3HqmHguqKA==
+Message-ID: <ea30058d-f3e1-4a1f-bdcf-fafc92b221a0@kernel.org>
+Date: Tue, 16 Dec 2025 08:08:07 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,97 +35,243 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] Input: add ABS_SND_PROFILE
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Casey Connolly <casey.connolly@linaro.org>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
- Gergo Koteles <soyer@irl.hu>
-References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
- <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+Subject: Re: [PATCH v6 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
+To: "Lazar, Lijo" <lijo.lazar@amd.com>,
+ "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ "Tsao, Anson" <anson.tsao@amd.com>
+References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
+ <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
+ <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
 Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 13/11/2025 17:02, David Heidelberg via B4 Relay wrote:
-> From: Gergo Koteles <soyer@irl.hu>
+On 12/16/25 3:43 AM, Lazar, Lijo wrote:
 > 
-> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
-> switch. This will be used for the alert-slider on OnePlus phones or other
-> phones.
 > 
-> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
-> to input-event-codes.h so they can be used from DTS.
+> On 12-Dec-25 1:29 PM, Yo-Jung Leo Lin (AMD) wrote:
+>> Add a uma/ directory containing two sysfs files as interfaces to
+>> inspect or change UMA carveout size. These files are:
+>>
+>> - uma/carveout_options: a read-only file listing all the available
+>>    UMA allocation options and their index.
+>>
+>> - uma/carveout: a file that is both readable and writable. On read,
+>>    it shows the index of the current setting. Writing a valid index
+>>    into this file allows users to change the UMA carveout size to that
+>>    option on the next boot.
+>>
+>> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 143 +++++++++++++++++++ 
+>> ++++++++++
+>>   1 file changed, 143 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/ 
+>> drm/amd/amdgpu/amdgpu_device.c
+>> index 903c4706040d..e78e6982312c 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -36,6 +36,7 @@
+>>   #include <linux/pci.h>
+>>   #include <linux/pci-p2pdma.h>
+>>   #include <linux/apple-gmux.h>
+>> +#include <linux/nospec.h>
+>>   #include <drm/drm_atomic_helper.h>
+>>   #include <drm/drm_client_event.h>
+>> @@ -417,6 +418,146 @@ static const struct attribute_group 
+>> amdgpu_board_attrs_group = {
+>>       .is_visible = amdgpu_board_attrs_is_visible
+>>   };
+>> +static ssize_t carveout_options_show(struct device *dev,
+>> +                     struct device_attribute *attr,
+>> +                     char *buf)
+>> +{
+>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>> +    uint32_t memory_carved;
+>> +    ssize_t size = 0;
+>> +
+>> +    if (!uma_info || !uma_info->num_entries)
+>> +        return -ENODEV;
+>> +
+>> +    for (int i = 0; i < uma_info->num_entries; i++) {
+>> +        memory_carved = uma_info->entries[i].memory_carved_mb;
+>> +        if (memory_carved >= SZ_1G/SZ_1M) {
+>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
+>> +                          i,
+>> +                          uma_info->entries[i].name,
+>> +                          memory_carved >> 10);
+>> +        } else {
+>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
+>> +                          i,
+>> +                          uma_info->entries[i].name,
+>> +                          memory_carved);
+>> +        }
+>> +    }
+>> +
+>> +    return size;
+>> +}
+>> +static DEVICE_ATTR_RO(carveout_options);
+>> +
+>> +static ssize_t carveout_show(struct device *dev,
+>> +                 struct device_attribute *attr,
+>> +                 char *buf)
+>> +{
+>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +
+>> +    return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
 > 
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-> Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
-> Reviewed-by: Guido Günther <agx@sigxcpu.org>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->   Documentation/input/event-codes.rst    | 6 ++++++
->   drivers/hid/hid-debug.c                | 1 +
->   include/uapi/linux/input-event-codes.h | 9 +++++++++
->   3 files changed, 16 insertions(+)
-> 
+> It would be better to show the size along with the index.
 
-Hello Dmitry, can I count this one reaches Linux 6.20?
+This idea complicates userspace parsing because rather than a atoi() 
+parser you now need to do sscanf().
 
-Thank you
-David
+IE - I like it the way it is in the series at the moment.
 
--- 
-David Heidelberg
+> 
+> Regardless, series is -
+> 
+>      Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+> 
+> Thanks,
+> Lijo
+> 
+>> +}
+>> +
+>> +static ssize_t carveout_store(struct device *dev,
+>> +                  struct device_attribute *attr,
+>> +                  const char *buf, size_t count)
+>> +{
+>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>> +    struct amdgpu_uma_carveout_option *opt;
+>> +    unsigned long val;
+>> +    uint8_t flags;
+>> +    int r;
+>> +
+>> +    r = kstrtoul(buf, 10, &val);
+>> +    if (r)
+>> +        return r;
+>> +
+>> +    if (val >= uma_info->num_entries)
+>> +        return -EINVAL;
+>> +
+>> +    val = array_index_nospec(val, uma_info->num_entries);
+>> +    opt = &uma_info->entries[val];
+>> +
+>> +    if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
+>> +        !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
+>> +        drm_err_once(ddev, "Option %lu not supported due to lack of 
+>> Custom/Auto flag", val);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    flags = opt->flags;
+>> +    flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
+>> +
+>> +    guard(mutex)(&uma_info->update_lock);
+>> +
+>> +    r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
+>> +    if (r)
+>> +        return r;
+>> +
+>> +    uma_info->uma_option_index = val;
+>> +
+>> +    return count;
+>> +}
+>> +static DEVICE_ATTR_RW(carveout);
+>> +
+>> +static struct attribute *amdgpu_uma_attrs[] = {
+>> +    &dev_attr_carveout.attr,
+>> +    &dev_attr_carveout_options.attr,
+>> +    NULL
+>> +};
+>> +
+>> +const struct attribute_group amdgpu_uma_attr_group = {
+>> +    .name = "uma",
+>> +    .attrs = amdgpu_uma_attrs
+>> +};
+>> +
+>> +static void amdgpu_uma_sysfs_init(struct amdgpu_device *adev)
+>> +{
+>> +    int rc;
+>> +
+>> +    if (!(adev->flags & AMD_IS_APU))
+>> +        return;
+>> +
+>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
+>> +        return;
+>> +
+>> +    rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev- 
+>> >uma_info);
+>> +    if (rc) {
+>> +        drm_dbg(adev_to_drm(adev),
+>> +            "Failed to parse UMA carveout info from VBIOS: %d\n", rc);
+>> +        goto out_info;
+>> +    }
+>> +
+>> +    mutex_init(&adev->uma_info.update_lock);
+>> +
+>> +    rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
+>> +    if (rc) {
+>> +        drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sysfs 
+>> interfaces %d\n", rc);
+>> +        goto out_attr;
+>> +    }
+>> +
+>> +    return;
+>> +
+>> +out_attr:
+>> +    mutex_destroy(&adev->uma_info.update_lock);
+>> +out_info:
+>> +    return;
+>> +}
+>> +
+>> +static void amdgpu_uma_sysfs_fini(struct amdgpu_device *adev)
+>> +{
+>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>> +
+>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
+>> +        return;
+>> +
+>> +    mutex_destroy(&uma_info->update_lock);
+>> +    uma_info->num_entries = 0;
+>> +}
+>> +
+>>   static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
+>>   /**
+>> @@ -4492,6 +4633,7 @@ static int 
+>> amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
+>>       amdgpu_fru_sysfs_init(adev);
+>>       amdgpu_reg_state_sysfs_init(adev);
+>>       amdgpu_xcp_sysfs_init(adev);
+>> +    amdgpu_uma_sysfs_init(adev);
+>>       return r;
+>>   }
+>> @@ -4507,6 +4649,7 @@ static void 
+>> amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
+>>       amdgpu_reg_state_sysfs_fini(adev);
+>>       amdgpu_xcp_sysfs_fini(adev);
+>> +    amdgpu_uma_sysfs_fini(adev);
+>>   }
+>>   /**
+>>
+> 
 
