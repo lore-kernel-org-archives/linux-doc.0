@@ -1,303 +1,226 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013061.outbound.protection.outlook.com [40.107.159.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7593446C0;
-	Wed, 17 Dec 2025 12:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765973666; cv=none; b=FjnFOLA++RpjMDDOPcmht0Yyx3mLhgI5C7COG9Rl0PJlRhhKBxeBYDO7wUjiqWX5y5I6jItc75coo4bl+xBkdib0Uh5K0xT1EHK/1ZmgzDKfn6z7I+/afLmLLK2cdLzUkCKbCLlGzv+557641iVe2BHHtDhp7LPBGjMRITERrq4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765973666; c=relaxed/simple;
-	bh=rWhz1qhXX5cZm+GWRaQ9ciBLBk8IoCqoYZlI/GtAfiU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=lljBBkP4ko5LLJL/1Q+9XdeixaOgSh4vBSG4LQWsrrHVGazAhFDBILgB16X9HhwGJeVHcqcsdujaK8wtpDmu7uEDAjyFXxvcBO/04co3pnDQ0ZtJzlYMq+yGAaoEp7e/SFAez0WLzWGvBKzAeUmGe1XUtKjnwRxw2m4xlytmN4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=sgeD5y49; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F51335E549;
+	Wed, 17 Dec 2025 13:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765977295; cv=fail; b=AqBah+4e/6Z00hCqCdL03saFBGLNra3vmMJb7XtXx8NAad0AFv1r5FnsP1Sj0rgg10ciHjexZQzzzIRmj+XrpH3vAXb9hA6HDF6AwpyNa9VdYuwLMkja8Bw1Tq2ki+MEqoabaOnhgFJiMNT16c7T5NEf5Gs6rklqMl/Iph7Ddls=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765977295; c=relaxed/simple;
+	bh=njNiwniHQPnjbQsK6SBumlk6bYMjK/x6VKuEL88vPK4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=EXjT/FiueQ++HpvQ/1CZBD0TDtqXPHkfLHFfyA/q0kM5Ru9bEZh4LuFL94zBCxLZ8NNQi0tXLWrXX0uyCitkMeM+N5brqt/O1eAzBKXyJ2y5HO5C7XBatQwuj5V3XR1sBv8xSsw1dlELS74idcwgVeYCg+mY+Iys+0e3iNIJsFE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=aTQBj5yw; arc=fail smtp.client-ip=40.107.159.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="sgeD5y49"
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BHC7Tx23978997;
-	Wed, 17 Dec 2025 07:14:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=KHwHt
-	qQuusmzdK7NM7ocl1bh8RRVDH4lMJb8lzPokRI=; b=sgeD5y490ivnBlHVayFX6
-	NxU5z7mRE39VNGYf1AVEE2q2y7ZHQTQrBy+usEJTmkyy+iLiM12J4NKNU/0a0dbk
-	OlLUDHDMnKkjg1gUYNWGLcFzXbWyurXUHNNZrNutRnJPiH7JxWIwYb176seDP2x6
-	w4DOPBhVWHwUWfVEfMIHeZgR/CInXW9vUatvb4u8XSJePFY2TGEiyrvJltGr5MXI
-	GAEcmi2hkuy3R/AR9l86+lZN02pLwtj7ZONlANTGATNNN7wCK/YF+dHduQWnozKq
-	WQX9d2FLLgxS2p7yK5KORlQoKcXs0lLvSyPZlN6f/U8pBGaYVrft2iEAuBuDAWES
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4b3bbevk6u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Dec 2025 07:14:07 -0500 (EST)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 5BHCE6FF041126
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 17 Dec 2025 07:14:06 -0500
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 17 Dec
- 2025 07:14:06 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Wed, 17 Dec 2025 07:14:06 -0500
-Received: from HYB-DlYm71t3hSl.ad.analog.com (HYB-DlYm71t3hSl.ad.analog.com [10.44.3.73])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 5BHCDUvF014815;
-	Wed, 17 Dec 2025 07:13:57 -0500
-From: Jorge Marques <jorge.marques@analog.com>
-Date: Wed, 17 Dec 2025 13:13:32 +0100
-Subject: [PATCH v4 9/9] iio: adc: ad4062: Add GPIO Controller support
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="aTQBj5yw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iX53n6Vaw0x+7YynCMp3t9Yn9bAtQRT/Z2LQOYDBHYfA729J6BX9o4JQfCeJ9Aa09n2JWeMYnd/w/8c0eR4dvt4GEZ6gBIZCnl2Hju3juPsXALW6UyYN+T2iHB8kG9pYWDuGtnXgsiG1Dnlk9GNmF6iQD/H65XMK2XZ0zRUfkcST0liNBC6v6Oc4hNUKOojuvYqB6s8n4RFZykL3EKEkhpGJAqEXMQacUyLqaIO/r+CDsMv/9qiB/gekjcOUC5dwt/3Nee8acLqQb5cswT8Thw+nhjm2Rd+bP7WYrB7npybIhZw3CbAdhLvdNW6/h5qTweIhj9znWrg+h2dIDUZCnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w9yCccN5nYfZFG6ZWU4TO7/fBda7cVlelOCirXwdQmE=;
+ b=EiQcpqMhiEQSMDU/0f+ZmFzHvhtX1toh8rZuvC8eP4uLXVYn7FW4oT/SszvXz10vbq8EKsLqO9PxmMhHSjxMetWp3DdWkCuSSc3K+vhCPyJgdFbEmfcLJVuJctsCW1AXCBxxMPQ7zDXIFM2FZVbJ5IzFAT8KuSnt+huMfplOYo9YLSoxAbp9+CWxwYsHrd2LPNQBgWJsJHNtTa71JZpy+uivopc0q6Q4An6g3nPjNiYSqTAH5tf0BWjhrOCy4Z6AZhxx+DynBezULXkL9/feXLEkWQ245EO+3FPHFcJbeYZQXsJmvPWwF7H2ttCuJz7odngz8iBAbv4GhYWYRJCSiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w9yCccN5nYfZFG6ZWU4TO7/fBda7cVlelOCirXwdQmE=;
+ b=aTQBj5yw24J4ke5U5lJYzrhq/gcRbtR3TCQHA9smPiW8htSfLkQGXqEdqwXBuITB1IX6iq08ar2WxzfouObIHnF4eaYZtsGeZgZLxfufZ4LY1Zbo9E0vdC6wv6CKCubodafMNk9icFWHmkwCrkj0gHucGnwWXxIxtVIAzI3XB2UYPnQxmq4/pym1dgUdLm54xgf4rI5HdRBJBn9Og9UcZvn9VqTlKBcwwnschtX0EtdfM3wsT38rHetaR5UaPBwS+cDikcig39phgu7xy/3b2pBsW2CYtnDJYz+lGyNEscQWK5g1KfW1PuChyZjuDpYHB0g9Nx2KTDqUYGbIev8+1Q==
+Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
+ by PA6PR04MB11804.eurprd04.prod.outlook.com (2603:10a6:102:524::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 08:40:05 +0000
+Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
+ ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
+ ([fe80::e751:223e:aa3d:5827%3]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
+ 08:40:03 +0000
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
+To: Frank Li <frank.li@nxp.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
+	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [PATCH v21 5/7] firmware: drivers: imx: adds miscdev
+Thread-Topic: [PATCH v21 5/7] firmware: drivers: imx: adds miscdev
+Thread-Index: AQHca0fzBh349iqDGU2aBcz65HDXXrUeOU0AgAWeHMA=
+Date: Wed, 17 Dec 2025 08:40:03 +0000
+Message-ID:
+ <AM9PR04MB860463DED50B8371D349E3F095ABA@AM9PR04MB8604.eurprd04.prod.outlook.com>
+References: <20251212-imx-se-if-v21-0-ee7d6052d848@nxp.com>
+ <20251212-imx-se-if-v21-5-ee7d6052d848@nxp.com>
+ <aTxIsAQMe3sbxXQ4@lizhi-Precision-Tower-5810>
+In-Reply-To: <aTxIsAQMe3sbxXQ4@lizhi-Precision-Tower-5810>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|PA6PR04MB11804:EE_
+x-ms-office365-filtering-correlation-id: 5dfc26f6-a445-4933-d313-08de3d47df90
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|19092799006|7416014|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?KOYrNxBU1NdICwktIlQ2w5EPljEoiAYewNZkf9IGMPK86KCQl1OrZWJeM0lm?=
+ =?us-ascii?Q?+QgsoYmgXmvFZV8u/7k2xfK2a6m5MNLZfis1ioZN1KHAVC1SC8m3I5i5AU0E?=
+ =?us-ascii?Q?yU/pX+yGRTjQ5x6iui3ILuOo3O1VTd104/wNwtRReK1qgtEMc1WSJZot0GJv?=
+ =?us-ascii?Q?vGyKOGEyVZxTRGo/bjGLXeO9LKRngmEOiGg7Nh1PZA0gNOTARmpvzAq93ZnD?=
+ =?us-ascii?Q?f1mHqPShOjEbtcA29WtHhb1TPkV2L9tjeHp9PIBbM+jlbspqb/QFEWPJnhGA?=
+ =?us-ascii?Q?20OESDZgJloYpaoaY/N6Koc5iOHGTcMqInOb/wAD5WMNbo7bHFHooY3+3ZPr?=
+ =?us-ascii?Q?DZKOwU00q0AWP83v5mmE+abIdMV+AbcpYODYikCowrPzCTvKCNK3Kvtvjyd7?=
+ =?us-ascii?Q?95dcp+rj9kv4rJgAb6B6u8cvS5V5z2/k4VfbKr7lJfKAxc/qnv/aYvFNsQ06?=
+ =?us-ascii?Q?MdaVtKpVdkD+PZotxmSvEcuvPoAwoLaOhSUverDgoDXPZ2yOhGRwb6/YsP8C?=
+ =?us-ascii?Q?VETBfRM2vcKeFDAFHSk6ffRzaxtJtcjEhXAT09ASM7EIawIC0M249PnhKBqk?=
+ =?us-ascii?Q?XK5vjKLqs7AS2Wni3VMFJZExDm2Cv0kzE47pWZU9v5FMepHVtct7Ev/xS1aE?=
+ =?us-ascii?Q?/iuVLJBFTuykNPj11JqL4CNma0qMgP/7mgcDd/swl53yEePXg9St11qBEylu?=
+ =?us-ascii?Q?Z85IXqkB8qOJwD/dal+tiVNjxFv0OlNe7OVzUQnGZ23Mr6xNzV+E61w8Z+l+?=
+ =?us-ascii?Q?5jbezOU/CXQz7UJbKI04ZS5eVGtYqO6++R3rmPtCU4JjE7GwDLUj1Caow/iN?=
+ =?us-ascii?Q?r7UmYIzHPBAW/2LXFwmo9iQJVqvy49ZY7QLZ5pMzASp8a6GjdAf89+ppuYMC?=
+ =?us-ascii?Q?R0tXcZlwYHBINO4RJiUtrTiYGJy9tdZl6UD8+sNMHwfkmVCHZkqt2BphxLOL?=
+ =?us-ascii?Q?DEP5RvjEbDRj/L8SKTidwbfngMHBCISGHHS7ZuVAQdWw05etRiJHryFKxuG8?=
+ =?us-ascii?Q?r0yYS1ljtfjtSBkKWS0VOmQv+330by+iOoPINiX/HYGNyZCoGCPlaIIz/Rb6?=
+ =?us-ascii?Q?Hz7LtV6AYKDg5Ih0zdvMQ77gUcHO70OOZTmRGBdZGMhI1nvDaIN1hx5bwQIE?=
+ =?us-ascii?Q?vQBWtxDFpAV2D+sIr8wpxNiIX0cqNJQD45pMIsZjjb1DjZPId8qKn6JEl+BQ?=
+ =?us-ascii?Q?bap0I+NSdW6gAPzXebeChAFsK60gPzStMmEIQuefOxdbF5GFm6IjVLBJUEPW?=
+ =?us-ascii?Q?kDDFQxpY13eoKFfGEqXUmmgSSBywgQwhax+COd0aFNMXbjYSayDAezWzLRt/?=
+ =?us-ascii?Q?gRA/RLNkIOcEp3CBuzcZd6lLso8N1vO5njtpaLavoBUUlXUsaMl8NE6rcZBO?=
+ =?us-ascii?Q?KXojlgEXDd+pH49VOkaGjBrGdkQOQuajjg02SK/zkBTI9jiJgd21pWiQo9qw?=
+ =?us-ascii?Q?rNaDgM2a6oVzAfovnDkS31/IzqKTrYsXB+AykvffY9enOLZ7zE5ktq02DRJ5?=
+ =?us-ascii?Q?IHj4hxxNslcHmYFbUXvArZ2kuvSkc3AHtImgpYVEqZHMsEVPWm2hgaugEA?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(7416014)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?xvZWzqfy0COgKgFIGAi4M7KfGsNHD3jVQUFasj3x7HRToMY3csLJOdEoEJKd?=
+ =?us-ascii?Q?9SumbaMeqkE31qTjynPDtzl7MGDuN4qlJc/LtKR+KFYk/1jlc3wzmjWidFkC?=
+ =?us-ascii?Q?uol0VxgNdnlE5XqDUnKJ9+AGFiSDN70tSgD7IA+4heLDTV11fTvnRJP+qZ6S?=
+ =?us-ascii?Q?eNyXTWRoCtEoNWG8XeaqfSgpTEOAuVcWhh8fdsJYVg9xvsQSMLkaPigFsiva?=
+ =?us-ascii?Q?Ps410ASv9EK+UI5ofLPVf+qzjfpwatEWp+xBP3qbkcMrX3aLve0yzrgjmFLE?=
+ =?us-ascii?Q?AxS2GGZ66xh2qd2DVb56JGfy08DpUnXYgbhXeWSCSzbQf/1OHXlwXmHkLLE5?=
+ =?us-ascii?Q?b+qF3o2djpL3k2MkVLcSD8axjj+Jno7N5EaRoGECv0H2RfD06Pjox4InLCin?=
+ =?us-ascii?Q?3fKm+EOehrugva2CM51O+tsiF1Bg8wfDX+zYvnFwCJ0j6LMtfVDbR1COsCPe?=
+ =?us-ascii?Q?aF9FLsHB2dFlH7PyMUHSjKOofQppE1dXnKn6Ly2yYYFD/dsHdR51oxNAZeZ5?=
+ =?us-ascii?Q?lVAejO61CGld0UZQaibYmGjOkUicx82jeN8VVN4Lqv508MRVIMNh42fcbJpb?=
+ =?us-ascii?Q?nUDO6NBA1sy/PhpmRUQpemKlCOW+PbGR+nz4d6/3ByKGcnSWW60WdBG1Yjzc?=
+ =?us-ascii?Q?bvnnvMBC9VhM7JBEU2F26nImDytSaCkhbBsQgYAtQ9wuYvegVgTfaxEhtaXX?=
+ =?us-ascii?Q?iOgqm+RKlUq3Hnd8vPOS4yRl7NN9wP+gOyKy5EA1oet6zmZ1wc14RAmMOznR?=
+ =?us-ascii?Q?FCPl4sQJ9+vRyUJwELYu4JbVQw8DSBq7j8O3bWggFomW1i7Ud2SRUNG2SJOC?=
+ =?us-ascii?Q?V8HVarxqgjDo0BipjRJfUl0V3BtwOE7mCoXHaJZ3H91p91bBT2z75XeoEX5i?=
+ =?us-ascii?Q?GkGzKLGnEcJe4tLqwczNCr+G+sYpVv3Afu93xy75n46KnnLV1M116gjeE7ea?=
+ =?us-ascii?Q?hsVmQfKMD31/Uw7A6yk6v6pH2XVwil2Ef2a54U7ENK0RwfwlQSEhwO1EbQIv?=
+ =?us-ascii?Q?xVVTZT0K9WtJkqyAxcatD7ChIwbmbcu9FO7BTXEKVHFmyA2Ek3dJiUDc8yid?=
+ =?us-ascii?Q?tCnCFrrUQy6V+JJsNVlUq6xsRxb7HN+GRj1zdURDZ8lH4/8Bbu8qd7WuTDcf?=
+ =?us-ascii?Q?Do3ZDbwOW+1L4fhOkt4zmxuHMEh1Ouif9PxwPFG8iPPzzGrsMfyzsD5T4fNd?=
+ =?us-ascii?Q?z+PwOd1o4ZGgH50HFIG8M6p+d+IbwtkjcGGhv4RJFFeiGXyzZOr5FYa9y2dE?=
+ =?us-ascii?Q?k9eqEPSAn2UgNBKnTeFtLVLynPNLSEtvgk0u1QtVkUVH6ecKOU92QmmYmr9Z?=
+ =?us-ascii?Q?4OjLWP4ROv+AJBejjdja7J7eZt7DHBKztafCrv4mLIcEFaZje8MIiL3db2CE?=
+ =?us-ascii?Q?+0RO6yZbajnzXWCpscD2IMUr9NSKfIiH3SE29jt5D91aM4XR0++V7AD22Uzz?=
+ =?us-ascii?Q?iCggr1OikynMhT0EjgAAiKbVPSzYY9cYBUJ9TXR9fwguNNbodAWV2eP80ylX?=
+ =?us-ascii?Q?nG7vPeYpv1mTRvqun2og+QqvRpeJ7zd97GrbsFsIj/VK4sBnQmIdaedpK0YC?=
+ =?us-ascii?Q?e+CpXE+2z2wPKirhlzCdFXAF5t9vWASHhJm582yr?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251217-staging-ad4062-v4-9-7890a2951a8f@analog.com>
-References: <20251217-staging-ad4062-v4-0-7890a2951a8f@analog.com>
-In-Reply-To: <20251217-staging-ad4062-v4-0-7890a2951a8f@analog.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David
- Lechner <dlechner@baylibre.com>,
-        =?utf-8?q?Nuno_S=C3=A1?=
-	<nuno.sa@analog.com>,
-        Andy Shevchenko <andy@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij
-	<linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, Jorge Marques <jorge.marques@analog.com>,
-        Linus
- Walleij <linusw@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765973610; l=5630;
- i=jorge.marques@analog.com; s=20250303; h=from:subject:message-id;
- bh=rWhz1qhXX5cZm+GWRaQ9ciBLBk8IoCqoYZlI/GtAfiU=;
- b=h16QtNehE13q2APVGRNCeEMKpMfldJrbGJvTDRVuABLEbYt7oxYkLRAKNQmg8+ALzaizen8Ym
- oTUbxYvehAQAfOzzKGbEuTXlBrnsFx/opjcwaZoxHAsuIZrsrWNLFup
-X-Developer-Key: i=jorge.marques@analog.com; a=ed25519;
- pk=NUR1IZZMH0Da3QbJ2tBSznSPVfRpuoWdhBzKGSpAdbg=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: ckUSgF4LPP59bHdYNifnVx-5YPN-zhUu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA5NSBTYWx0ZWRfX6dHUfdknNgPL
- 9FVSstJkgNDxfckZxjcWQB2/JmskCToaAi252B97jS86QmiMPPZOOZUUO7pLeJnELJTFScuMOBQ
- gt5ZGmYRyIUsq/hlrSzIXyWwCko4hl9gxChnxYKNeCm2EC/t5P6ApxQbtkMP9ZF1wzdrR7Vz9Rg
- OmSiLmbGzLujoio7rGtGkzsqQ7AZKD9Ts5RlRDcjgeGHFSo1bTjMMdQ/YVIQsZWjmoLJbnDmemq
- iDcNQgvbw/IlYgB9Xj9xzhVqOKee2zw9fbptimU5YqNWcbQ+ZGmAMDV/Fsgzv3ktlpmhhkjMyO7
- 0y6T4xArldYx3tBAetS4ADcVeZ/4/mp3i1/S9kd0I2+HEBoWE68w6C6PJ2mSeSm4VS2nee2dY5q
- ASsFPXI1zFvjycYpCs5DSh0VzMHs2A==
-X-Authority-Analysis: v=2.4 cv=YqsChoYX c=1 sm=1 tr=0 ts=69429e8f cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gAnH3GRIAAAA:8 a=VwQbUJbxAAAA:8 a=xMyuZJbwAj7bCYiyej4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: ckUSgF4LPP59bHdYNifnVx-5YPN-zhUu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
- phishscore=0 impostorscore=0 clxscore=1011 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170095
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5dfc26f6-a445-4933-d313-08de3d47df90
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2025 08:40:03.5511
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L75mC9uA8FJeYZ114QvgZI0JGCmz92PW01iZboGJbF6yncXqdiliMETiBRr3eT75ECR890ni5cKkvacMEwXvJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR04MB11804
 
-When gp0 or gp1 is not taken as an interrupt, expose them as GPO if
-gpio-contoller is set in the devicetree. gpio-regmap is not used
-because the GPO static low is 'b101 and static high is 0b110; low state
-requires setting bit 0, not fitting the abstraction of low=0 and
-high=mask.
+> > Adds the driver for communication interface to secure-enclave, that
+> > enables exchanging messages with NXP secure enclave HW IP(s) like
+> > EdgeLock Enclave, from:
+> > - User-Space Applications via character driver.
+> >
+> > ABI documentation for the NXP secure-enclave driver.
+> >
+> > User-space library using this driver:
+> > - i.MX Secure Enclave library:
+> >   -- URL: https://github.com/nxp-imx/imx-secure-enclave.git,
+> > - i.MX Secure Middle-Ware:
+> >   -- URL: https://github.com/nxp-imx/imx-smw.git
+> >
+> > Following checks are performed on the incoming msg-header, to block
+> > exchanging invalid arbitrary commands:
+> > - maximum allowed words,
+> > - check if command-tag & response-tag are valid
+> > - version,
+> > - command id validation check, to allow limited base-line API(s)
+> >   and restrict following:
+> >   - exchanging power management commands.
+> >   - reset requests.
+> >   - BBSM configuration requests.
+> >   - re-initializing the FW.
+> >   - RNG init
+> >   - CAAM resource release management
+> >   - SE's internal memory management.
+> > from user-space.
+> >
+> > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> > Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> > ---
+> > changes from v20 to v21
+> > - removed "__free(kfree)" & added kfree();
+>=20
+> KK's means is that correctly use __free according to cleanup.h.
+>=20
+> fun()
+> {
+> 	...
+> 	some code logic
+> 	...
+>=20
+> 	struct .... __free(kfree) rx_msg =3D
+> kzalloc(cmd_snd_rcv_rsp_info.rx_buf_sz, GFP_KERNEL);
+> 	...
+> }
+>=20
+> Frank
 
-Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-Reviewed-by: Linus Walleij <linusw@kernel.org>
----
- drivers/iio/adc/ad4062.c | 125 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+Hi Krzysztof, Hi Frank,
 
-diff --git a/drivers/iio/adc/ad4062.c b/drivers/iio/adc/ad4062.c
-index 2084f0058627d..a6b3ccc98acfc 100644
---- a/drivers/iio/adc/ad4062.c
-+++ b/drivers/iio/adc/ad4062.c
-@@ -11,6 +11,7 @@
- #include <linux/delay.h>
- #include <linux/devm-helpers.h>
- #include <linux/err.h>
-+#include <linux/gpio/driver.h>
- #include <linux/i3c/device.h>
- #include <linux/i3c/master.h>
- #include <linux/iio/buffer.h>
-@@ -88,8 +89,11 @@
- #define AD4060_PROD_ID		0x7A
- #define AD4062_PROD_ID		0x7C
- 
-+#define AD4062_GP_DISABLED	0x0
- #define AD4062_GP_INTR		0x1
- #define AD4062_GP_DRDY		0x2
-+#define AD4062_GP_STATIC_LOW	0x5
-+#define AD4062_GP_STATIC_HIGH	0x6
- 
- #define AD4062_LIMIT_BITS	12
- 
-@@ -687,12 +691,14 @@ static int ad4062_request_irq(struct iio_dev *indio_dev)
- 		return ret;
- 
- 	if (ret < 0) {
-+		st->gpo_irq[0] = false;
- 		ret = regmap_update_bits(st->regmap, AD4062_REG_ADC_IBI_EN,
- 					 AD4062_REG_ADC_IBI_EN_MAX | AD4062_REG_ADC_IBI_EN_MIN,
- 					 AD4062_REG_ADC_IBI_EN_MAX | AD4062_REG_ADC_IBI_EN_MIN);
- 		if (ret)
- 			return ret;
- 	} else {
-+		st->gpo_irq[0] = true;
- 		ret = devm_request_threaded_irq(dev, ret, NULL,
- 						ad4062_irq_handler_thresh,
- 						IRQF_ONESHOT, indio_dev->name,
-@@ -1347,6 +1353,121 @@ static int ad4062_regulators_get(struct ad4062_state *st, bool *ref_sel)
- 	return 0;
- }
- 
-+static int ad4062_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-+{
-+	return GPIO_LINE_DIRECTION_OUT;
-+}
-+
-+static int ad4062_gpio_set(struct gpio_chip *gc, unsigned int offset, int value)
-+{
-+	struct ad4062_state *st = gpiochip_get_data(gc);
-+	unsigned int reg_val = value ? AD4062_GP_STATIC_HIGH : AD4062_GP_STATIC_LOW;
-+
-+	if (offset)
-+		return regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+					  AD4062_REG_GP_CONF_MODE_MSK_1,
-+					  FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val));
-+	else
-+		return regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+					  AD4062_REG_GP_CONF_MODE_MSK_0,
-+					  FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val));
-+}
-+
-+static int ad4062_gpio_get(struct gpio_chip *gc, unsigned int offset)
-+{
-+	struct ad4062_state *st = gpiochip_get_data(gc);
-+	unsigned int reg_val;
-+	int ret;
-+
-+	ret = regmap_read(st->regmap, AD4062_REG_GP_CONF, &reg_val);
-+	if (ret)
-+		return ret;
-+
-+	if (offset)
-+		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val);
-+	else
-+		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val);
-+
-+	return reg_val == AD4062_GP_STATIC_HIGH;
-+}
-+
-+static void ad4062_gpio_disable(void *data)
-+{
-+	struct ad4062_state *st = data;
-+	u8 val = FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_DISABLED) |
-+		 FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_DISABLED);
-+
-+	regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+			   AD4062_REG_GP_CONF_MODE_MSK_1 | AD4062_REG_GP_CONF_MODE_MSK_0,
-+			   val);
-+}
-+
-+static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
-+				       unsigned long *valid_mask,
-+				       unsigned int ngpios)
-+{
-+	struct ad4062_state *st = gpiochip_get_data(gc);
-+
-+	bitmap_zero(valid_mask, ngpios);
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(st->gpo_irq); i++)
-+		__assign_bit(i, valid_mask, !st->gpo_irq[i]);
-+
-+	return 0;
-+}
-+
-+static int ad4062_gpio_init(struct ad4062_state *st)
-+{
-+	struct device *dev = &st->i3cdev->dev;
-+	struct gpio_chip *gc;
-+	u8 val, mask;
-+	int ret;
-+
-+	if (!device_property_read_bool(dev, "gpio-controller"))
-+		return 0;
-+
-+	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
-+	if (!gc)
-+		return -ENOMEM;
-+
-+	val = 0;
-+	mask = 0;
-+	if (!st->gpo_irq[0]) {
-+		mask |= AD4062_REG_GP_CONF_MODE_MSK_0;
-+		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_STATIC_LOW);
-+	}
-+	if (!st->gpo_irq[1]) {
-+		mask |= AD4062_REG_GP_CONF_MODE_MSK_1;
-+		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_STATIC_LOW);
-+	}
-+
-+	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+				 mask, val);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(dev, ad4062_gpio_disable, st);
-+	if (ret)
-+		return ret;
-+
-+	gc->parent = dev;
-+	gc->label = st->chip->name;
-+	gc->owner = THIS_MODULE;
-+	gc->base = -1;
-+	gc->ngpio = 2;
-+	gc->init_valid_mask = ad4062_gpio_init_valid_mask;
-+	gc->get_direction = ad4062_gpio_get_direction;
-+	gc->set = ad4062_gpio_set;
-+	gc->get = ad4062_gpio_get;
-+	gc->can_sleep = true;
-+
-+	ret = devm_gpiochip_add_data(dev, gc, st);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Unable to register GPIO chip\n");
-+
-+	return 0;
-+}
-+
- static const struct i3c_device_id ad4062_id_table[] = {
- 	I3C_DEVICE(AD4062_I3C_VENDOR, AD4060_PROD_ID, &ad4060_chip_info),
- 	I3C_DEVICE(AD4062_I3C_VENDOR, AD4062_PROD_ID, &ad4062_chip_info),
-@@ -1435,6 +1556,10 @@ static int ad4062_probe(struct i3c_device *i3cdev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to request i3c ibi\n");
- 
-+	ret = ad4062_gpio_init(st);
-+	if (ret)
-+		return ret;
-+
- 	ret = devm_work_autocancel(dev, &st->trig_conv, ad4062_trigger_work);
- 	if (ret)
- 		return ret;
+Thank you for the review comments.
 
--- 
-2.51.1
+I misunderstood earlier and removed __free(kfree) in v21, thinking it was n=
+ot preferred.
+After revisiting your feedback, I see the intent is to use __free(kfree) co=
+rrectly as per cleanup.h guidelines for automatic cleanup instead of manual=
+ kfree() calls.
 
+I will revert the previous change and update the patch to follow the recomm=
+ended pattern:
+-  strucivt se_api_msg *tx_msg __free(kfree) =3D kzalloc (XXXXX, GFP_KERNEL=
+);
+-  Make sure the source files has: #include <linux/cleanup.h>
+
+This will be included in v22 along with a clear comment disposition referen=
+cing your suggestion.
+Thanks for clarifying and for your guidance.
+
+Best regards,
+Pankaj Gupta
