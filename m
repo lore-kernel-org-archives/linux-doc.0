@@ -1,288 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD67633F8D2
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 23:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B1A4A3C
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 00:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765927649; cv=none; b=cTEXDFT+4YBAG4mYaP0YThrmu3aRcfOrN7DLU1YDRzErhrrV79zdVVp0B02uo6THy76iy8dJQGx4thUlW0ShCmZSeVdRDtqI/nANnzO5W6yF5pxMdj6XY9tLzhsUE6E9bQlgxfVXIYphm4HXEzLbvZ3v6clcFsZ1i20UtxN00BM=
+	t=1765929714; cv=none; b=U/OLxqy1fr4IO94mjESWUB8ynpl5lgAwHto0aKhY77M+9B6EkNHs1bnNo7bXgzX4ZPtZdDxWyPFN8WtJOhP06TP1n64udOvAdef6thb4rMtG2dDdhBRx3KOtMkLdgM9z0WdwA2y5Ktk8q9gHi7ZkP+hB3W16pMy2FP3krF3j7JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765927649; c=relaxed/simple;
-	bh=S80CTe8C8G4EZZfdKz3GrrAxw7VwbVcuVBJSMn//kP4=;
+	s=arc-20240116; t=1765929714; c=relaxed/simple;
+	bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GiNpVoEZCSfxftxar9JTd+pvByP96uUGeNUoYZ5tonV33iAaf1QMdSwt1tR5vpUxo6hlbFPWvAOMNrAGD+GLO8nerW7PL5QAFuK3+20lMVt/CSnzcglVOg7ZxmjNv6cjxU6bbOC8Yh152WHCLqG28bQYudBjcQYaQT78vj7lBVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WbpMveA0; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cJkfPQsr; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=g6MCpUcMy9TY6OVl/7WOenpL+brhcijCFSOBpHcC5F4LJL7C9bs1eVBma4bX2GAL6fgJtOav89vQLHN8d7tSD8YPFwDu8VRzZI5VEgBnalpdfrrvWYzKtpm9wrr3IG5JH2K2NAOdUh4TAnEumuSY/dDczjmmbBbuOm7Yaz9BRPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=DPNTeLVd; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WbpMveA0";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cJkfPQsr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765927645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EKXCsKPTv+XkNeXWtY2Ss72qFYFJMdd6YX+r4JT7Hy0=;
-	b=WbpMveA0v7vkkZvqw42EPc1C4Cr/AdMq6PIhRYiQacn6S3sKZaayzoYiJNws8jR8xsfxaf
-	n4himtxnOR24r7AGFnrw6Tc/w7jG2/zE8W/eNapMsTjn2iZk2RP8DOCScWitV9OHWh+EZz
-	qUhJ83UiP6BDyg7jE5Qn4YjHUHcb0AQ=
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
- [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142-MiUsMD-dPMGmJjq77cHWdQ-1; Tue, 16 Dec 2025 18:27:24 -0500
-X-MC-Unique: MiUsMD-dPMGmJjq77cHWdQ-1
-X-Mimecast-MFC-AGG-ID: MiUsMD-dPMGmJjq77cHWdQ_1765927644
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-6455731c6e0so7826522d50.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 15:27:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="DPNTeLVd"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29f102b013fso63283885ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 16:01:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1765927644; x=1766532444; darn=vger.kernel.org;
+        d=googlemail.com; s=20230601; t=1765929712; x=1766534512; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EKXCsKPTv+XkNeXWtY2Ss72qFYFJMdd6YX+r4JT7Hy0=;
-        b=cJkfPQsr0YOR7bnss78zQC5OagaQ4W5YxZLvBLYv400CHLFhnLBdJrxbaZZGijbu/s
-         TueNiF5CFbosZoOszqpkxmDy83bLYmZvzBFMXLzNhMaBTGasR7lnvmKtNaBLb5KcvpeA
-         oikAhLwwDFkQXflggUl/XU3gDepWUFJ8ViU171qZhwvuxZwnLSYdpEC7EgWVpOm1eKPn
-         oJhHSHnBq6gYhE4e0hrHBOTApJz9HVODvfWDEHjrhMPnLRXJxx+3ofE5NFSJznvNAJ9w
-         +u0HE1f5Sbh8ZSP0bbfifHnQU4bLD6ajvBHwq4ymrcyLypYOJwwlHwBuFvDmnY4lkZ9y
-         gRRg==
+        bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
+        b=DPNTeLVdj6Yg78EERLmeJ/omTSXwJVJF/IH/5lX07mRuYY0gbR69nkDm6u15+2tOxm
+         3ki+cO1XlzRvuFqY0c6FP0RzLSSB7wPTurU7bf2ztXdvEjojvFsIYqhMIYh062QBpy0q
+         8L2Dq7b5ioHl6dbGYPXw/meGF8fa7b3ZPAgGLbOaePF/MYQe7nIzCzF2FMSqZeGiS0BV
+         RtZu3szHewiclrSIFnbfLoAT7iiTzh97i3DJgiHzDfPWpxCXBAbCj190wpSXzQCy94p6
+         ag17cKvnE7guHvy6tUazTT/WHqy1I/h/7debstrh1OIa4eA2D7tSke3WvGNNz6nY8l9g
+         bTcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765927644; x=1766532444;
+        d=1e100.net; s=20230601; t=1765929712; x=1766534512;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EKXCsKPTv+XkNeXWtY2Ss72qFYFJMdd6YX+r4JT7Hy0=;
-        b=KH/it2ajT+XEuJhDQeQ4AHlpSs3iTqc2ndSA5YSkmcweWoSmsuWC5SIYVcDoBJEbqf
-         m5uAXbyg0fW9BCcskk2D6mfgS5h8hf6lAyptEbccsVFaNh3+z/KxHAmvcEpK8Um+zfka
-         foglYSwy7qw16Dd0/1SXeKvGhmy+AkzgFddQFJ1AHjerAqqi5OBfwiMJsXexvLGudorQ
-         uQXUX67ohSVtsbdKcMAYSDesZyghFgqZZ+NtjkVtH+QDUd6GlpoK/a2+WkOejy2dd5GV
-         /v0QxtE1GaAvF4onxSgMQBLhneS6bsElfH9YL6gH4YWW/BDBSiOJxFr7bH+GgZ6RJK9D
-         o2Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWFFKueseFqX9KTeYenxLK6js0QIwPtJxuv/I9rFFvJqqe9dmFvG6nwGonuilZTTs6wTdWBfZT2xQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3gH98+HU4OHWZWoJtR8l9ax8m5SJTBX63DDa1zglkaO3vtwc7
-	qpoBnoM8V2AkE1byVETvXFbKZhrWMLNh/JtTgy57ScXNl3RaTvIGX8mS6tSbTseyg6HUrKNKW61
-	3hl/YNF8W3q8GAKN4LKLbZ0AqXHLzHUTVY+t/JlkgqXX2Vlv2eXNbws6BrI0whzNKLXxWygtZTL
-	n/zwJ7ywX6BC3hSVdpqaVoMCPf38URMoOUqpTE
-X-Gm-Gg: AY/fxX7TUsDVtnN08Gu7jkVo3PTFhMlzOdrsgdy8x8f0VIl+qvOq+V4JLrO1qLKEyaJ
-	ueYht3lMLAipwMPEYbzKd4j4iI5ysYSJh4jkwSw3mxdA8IMmy9V9E8tw5RDVO9O/CxCOivRMlH+
-	brJDHUyxEk3I9MsII4oJToRZzwXKhRKkRj6yxg6yE4zdBKyIUsdXTs/LG7nwVYNuJ5G4E=
-X-Received: by 2002:a05:690e:1505:b0:644:60d9:8679 with SMTP id 956f58d0204a3-645556807a8mr10997299d50.94.1765927643897;
-        Tue, 16 Dec 2025 15:27:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEGPptQk13QsvmOa5ZHpogOK1FLJvsnDQ3rrdzWxnJedT+7pDWOuGlSfHFv7sLII7QbkA9GW4MowA4H4/Vq3XI=
-X-Received: by 2002:a05:690e:1505:b0:644:60d9:8679 with SMTP id
- 956f58d0204a3-645556807a8mr10997248d50.94.1765927643468; Tue, 16 Dec 2025
- 15:27:23 -0800 (PST)
+        bh=O5eCzl8UBxQzsjN75O8DpTQOlVvtN45HumiW/nT7Mrc=;
+        b=wajbFKMrWLcSJWR/nwmCmHCuhaiwfkOg09XOMNu5mh6qsfgbY1lTbbR9RmolTPCxzs
+         f3bHFZ9Ms8ExyJ4uCl1nD1qkhuQtSKrYN6z9pD8Z4RVtpHy8uZK4Bdgxs5Mjn1z8v6L7
+         8L2fT65naowrVkQsg9cqrDxCGFYJEV6T1AvdNXKBvvM509tCKW2wXRK6ZCUeHCJ1UtCW
+         rCdVR2qFtexFaUm9gf7O4FdD0ufTq+QtGsfBy6KPZa9FIF5la2CF7bUjYX1xWZMHfQEm
+         ub9UTlGgqELXXNooh/scEIr3Pgdv9UZtLfxm41F4wATpBY2mzLze5dau3XbeL8SPDs1x
+         51uA==
+X-Forwarded-Encrypted: i=1; AJvYcCXThTZgpr9XjAd8dlBloVNbd8mlSlEtzlkSz/Z/NBmRw34M51txCSd91Flr4Bfs4h4HazN1C+h4llE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaWKiT+26HXL2n9uq/I5nNnK2+i77L12yFjbHg+2cMJAKFXEpu
+	UOcxcq8Syc/ICnKyioh+eu3EjhNixd8dk1sGdSIoHm0Ecra/QUabLDy+S5OVZrPy/qugfcC4pwI
+	LjjdqNPjDph2C0mme2uXjWuEfN3+ITmw=
+X-Gm-Gg: AY/fxX43VOARwry7bSVFY962bMa026iu59orh9OUz3dD7W8VoaNsi4c7gwi23Y+2hbJ
+	gOXDwWlilS43FbOvDtOMt7zGzZ5t5Rg7mcO8pOwgg1lXo1a/zbCZ+iWuMRPavq4i2bgtEtn9cCI
+	Qobser0UVArN5WFhOZ/B1usROpts5i+pklnpNkWpybYxkjbYbrGmAwzYgAOwFDD5G9FTUrhVeri
+	eKxmm+hNLFvN1k0K3KF0WSINY48gBCaSp1b9Vfb/mSIpCNEhLYs9YFFWRiL+IjJT3sFhsExeoDt
+	zUwgrlOIB2h3lJCOyhZlC5HE3gs=
+X-Google-Smtp-Source: AGHT+IGJCumVLPI6LXTb+R3wbQ5b6SSgqQC0QLByiXYYrEmbkjlG0jzydWOiaHp0sl9AgFqwMi+afZ8/iOgSdsy9IWU=
+X-Received: by 2002:a17:903:1446:b0:295:425a:350e with SMTP id
+ d9443c01a7336-29f23de66ebmr152982955ad.8.1765929712310; Tue, 16 Dec 2025
+ 16:01:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251201174627.23295-1-npache@redhat.com> <20251201174627.23295-8-npache@redhat.com>
- <95b1403f-3ddb-43ff-b481-2ecc6ab8352f@linux.alibaba.com>
-In-Reply-To: <95b1403f-3ddb-43ff-b481-2ecc6ab8352f@linux.alibaba.com>
-From: Nico Pache <npache@redhat.com>
-Date: Tue, 16 Dec 2025 16:26:57 -0700
-X-Gm-Features: AQt7F2p-rngtJz0og9IaebCiPEhh7WjpdRAgI0DfLNPmmyQ8daD3M_WcJSO7CnI
-Message-ID: <CAA1CXcCtp2OwTmm-1EYUpOhsey1sv7CRFu8454m16C=k9iaN6g@mail.gmail.com>
-Subject: Re: [PATCH v13 mm-new 07/16] khugepaged: introduce
- collapse_max_ptes_none helper function
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
-	ziy@nvidia.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
-	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
-	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
-	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
-	sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
-	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
-	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
-	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
-	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
-	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
-	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
+ <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
+ <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com> <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
+In-Reply-To: <DEZNGU4VJFK8.Y1LKWVTD7O8K@bootlin.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Wed, 17 Dec 2025 01:01:40 +0100
+X-Gm-Features: AQt7F2qigiuBf-2umKIaZyZh98eVY_wIo1vz8CYcqmMw3ZJiZleOgoOUFsOFlyM
+Message-ID: <CAFBinCBaXRNBHpY2uYy4FxyAOnRA4NxJtHbraG0=j_U6Dzz2=A@mail.gmail.com>
+Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use devm_of_drm_get_bridge()
+ to put the next bridge
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, 
+	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 16, 2025 at 1:12=E2=80=AFAM Baolin Wang
-<baolin.wang@linux.alibaba.com> wrote:
->
-> Hi Nico,
+Hi Luca,
 
-Hi Baolin! Thanks for testing :)
+On Tue, Dec 16, 2025 at 1:46=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+[...]
+> > What I'm not sure about is how this series interacts with
+> > devm_drm_of_get_bridge() which is why I'm asking before cooking a
+> > patch.
+>
+> Apologies for the long delay in getting back to you. You might have notic=
+ed
+> some discussion about the overall approach, and I waited for it to settle=
+.
+That hasn't gone unnoticed!
 
-Did you happen to test with the changes I asked Andrew to append to
-this commit?
+> About devm_drm_of_get_bridge(), it is a very different function so it doe=
+s
+> not affect this series. The name similarity is confusing indeed, but
+> devm_of_drm_get_bridge() has been removed from my approach, so one less
+> source of confusion.
+I have to confess that I'm still confused. drivers/gpu/drm/drm_bridge.c sta=
+tes:
+"Display drivers are responsible for linking encoders with the first bridge
+ in the chains. This is done by acquiring the appropriate bridge with
+ devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to t=
+he
+ encoder with a call to drm_bridge_attach().
 
-Either way, I think your fixup makes more sense than mine.
+ Bridges are responsible for linking themselves with the next bridge in the
+ chain, if any. This is done the same way as for encoders, with the call to
+ drm_bridge_attach() occurring in the &drm_bridge_funcs.attach operation."
+Does this mean your series effectively deprecates devm_drm_of_get_bridge()?
 
-Cheers,
--- Nico
+> I'm soon sending v3, and I have updated my patch to
+> eson_encoder_{cvbs,dsi,hdmi}.c, actually splitting it in 3. I'd be gratef=
+ul
+> if you could reviewd and/ot test them when I send v3. But I don't think
+> there is a need for you to send any patches related to this topic.
+Regardless of the questions I still have around
+devm_drm_of_get_bridge(): I'll give your patches a go in the next
+days.
 
 
->
-> On 2025/12/2 01:46, Nico Pache wrote:
-> > The current mechanism for determining mTHP collapse scales the
-> > khugepaged_max_ptes_none value based on the target order. This
-> > introduces an undesirable feedback loop, or "creep", when max_ptes_none
-> > is set to a value greater than HPAGE_PMD_NR / 2.
-> >
-> > With this configuration, a successful collapse to order N will populate
-> > enough pages to satisfy the collapse condition on order N+1 on the next
-> > scan. This leads to unnecessary work and memory churn.
-> >
-> > To fix this issue introduce a helper function that will limit mTHP
-> > collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-> > This effectively supports two modes:
-> >
-> > - max_ptes_none=3D0: never introduce new none-pages for mTHP collapse.
-> > - max_ptes_none=3D511 (on 4k pagesz): Always collapse to the highest
-> >    available mTHP order.
-> >
-> > This removes the possiblilty of "creep", while not modifying any uAPI
-> > expectations. A warning will be emitted if any non-supported
-> > max_ptes_none value is configured with mTHP enabled.
-> >
-> > The limits can be ignored by passing full_scan=3Dtrue, this is useful f=
-or
-> > madvise_collapse (which ignores limits), or in the case of
-> > collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
-> > collapse is available.
-> >
-> > Signed-off-by: Nico Pache <npache@redhat.com>
-> > ---
-> >   mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
-> >   1 file changed, 42 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 8dab49c53128..f425238d5d4f 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -463,6 +463,44 @@ void __khugepaged_enter(struct mm_struct *mm)
-> >               wake_up_interruptible(&khugepaged_wait);
-> >   }
-> >
-> > +/**
-> > + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for c=
-ollapse
-> > + * @order: The folio order being collapsed to
-> > + * @full_scan: Whether this is a full scan (ignore limits)
-> > + *
-> > + * For madvise-triggered collapses (full_scan=3Dtrue), all limits are =
-bypassed
-> > + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
-> > + *
-> > + * For PMD-sized collapses (order =3D=3D HPAGE_PMD_ORDER), use the con=
-figured
-> > + * khugepaged_max_ptes_none value.
-> > + *
-> > + * For mTHP collapses, we currently only support khugepaged_max_pte_no=
-ne values
-> > + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and=
- no mTHP
-> > + * collapse will be attempted
-> > + *
-> > + * Return: Maximum number of empty PTEs allowed for the collapse opera=
-tion
-> > + */
-> > +static unsigned int collapse_max_ptes_none(unsigned int order, bool fu=
-ll_scan)
-> > +{
-> > +     /* ignore max_ptes_none limits */
-> > +     if (full_scan)
-> > +             return HPAGE_PMD_NR - 1;
-> > +
-> > +     if (!is_mthp_order(order))
-> > +             return khugepaged_max_ptes_none;
-> > +
-> > +     /* Zero/non-present collapse disabled. */
-> > +     if (!khugepaged_max_ptes_none)
-> > +             return 0;
-> > +
-> > +     if (khugepaged_max_ptes_none =3D=3D HPAGE_PMD_NR - 1)
-> > +             return (1 << order) - 1;
-> > +
-> > +     pr_warn_once("mTHP collapse only supports max_ptes_none values of=
- 0 or %d\n",
-> > +                   HPAGE_PMD_NR - 1);
-> > +     return -EINVAL;
-> > +}
-> > +
-> >   void khugepaged_enter_vma(struct vm_area_struct *vma,
-> >                         vm_flags_t vm_flags)
-> >   {
-> > @@ -550,7 +588,10 @@ static int __collapse_huge_page_isolate(struct vm_=
-area_struct *vma,
-> >       pte_t *_pte;
-> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
-enced =3D 0;
-> >       const unsigned long nr_pages =3D 1UL << order;
-> > -     int max_ptes_none =3D khugepaged_max_ptes_none >> (HPAGE_PMD_ORDE=
-R - order);
-> > +     int max_ptes_none =3D collapse_max_ptes_none(order, !cc->is_khuge=
-paged);
-> > +
-> > +     if (max_ptes_none =3D=3D -EINVAL)
-> > +             goto out;
->
-> After testing your patchset, I hit the following crash. The reason is
-> that when 'max_ptes_none' is -EINVAL here, it shouldn't goto out to call
-> release_pte_pages(), because the '_pte' hasn't been initialized at this
-> point, and there's no need to release folios either.
->
-> After applying the fix below, the crash issue is resolved. I'm not sure
-> whether Andrew will help fix this or if you will send a new version to
-> address this issue.
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 8cffaf59ced8..2e8171a6d7df 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -646,7 +646,7 @@ static int __collapse_huge_page_isolate(struct
-> vm_area_struct *vma,
->          int max_ptes_none =3D collapse_max_ptes_none(order,
-> !cc->is_khugepaged);
->
->          if (max_ptes_none =3D=3D -EINVAL)
-> -               goto out;
-> +               return result;
->
->          for (_pte =3D pte; _pte < pte + nr_pages;
->               _pte++, addr +=3D PAGE_SIZE) {
->
-> "
-> [  565.319345] Unable to handle kernel paging request at virtual address
-> fffffffffffffffa
-> .......
-> [  565.319409] swapper pgtable: 4k pages, 48-bit VAs, pgdp=3D0000001f8549=
-a000
-> [  565.319416] [fffffffffffffffa] pgd=3D0000001f85f2a403,
-> p4d=3D0000001f85f2a403, pud=3D0000001f85f2b403, pmd=3D0000000000000000
-> [  565.319427] Internal error: Oops: 0000000096000006 [#1]  SMP
-> .......
-> [  565.326733] pc : release_pte_pages+0x68/0x178
-> [  565.326960] lr : __collapse_huge_page_isolate+0xc0/0x748
-> [  565.327232] sp : ffff800083593910
-> .......
-> [  565.331476] Call trace:
-> [  565.331664]  release_pte_pages+0x68/0x178 (P)
-> [  565.331940]  __collapse_huge_page_isolate+0xc0/0x748
-> [  565.332249]  collapse_huge_page+0x4cc/0xa70
-> [  565.332510]  mthp_collapse+0x254/0x2a8
-> [  565.332754]  collapse_scan_pmd+0x5a0/0x6d8
-> [  565.333010]  collapse_single_pmd+0x214/0x288
-> [  565.333275]  collapse_scan_mm_slot.constprop.0+0x2ac/0x460
-> [  565.333617]  khugepaged+0x204/0x2c8
-> [  565.333992]  kthread+0xf8/0x110
-> [  565.334368]  ret_from_fork+0x10/0x20
-> "
->
-> >
-> >       for (_pte =3D pte; _pte < pte + nr_pages;
-> >            _pte++, addr +=3D PAGE_SIZE) {
->
-
+Best regards,
+Martin
