@@ -1,93 +1,93 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B208932C94D
-	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039AD32BF48
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:51:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765954289; cv=none; b=WZQbeM7SMIRzOmoQE5llPY2/nJtQ5dP4o4cyeF27TmrEf9JHta1eCCQgakmtEvch6yRVIjW8E5SPZPiuaolBELaytcI3IGJbi07KKsSyzjCcuH2UWhB75XNPXoeAK6u42+kstGZtV7Ndg6EzLlqDf/UMG7KGjrzuQrGz1oYJuR0=
+	t=1765954294; cv=none; b=RKmhHXp1w1lcRHxUCq4y6WzgGmzcrOLGkqN0E+4sAByGU+1XlTuY0p/LoXInC3nCnntyY0Xns8Iv+nK37VOt8mP23Xu+ENMXewx7cIu22tmYAuz5egbSsvZ29BjFILHg+XimA8sR9wPb7A5a4q4k4vBw1t6GMAP8K20h7svB23U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765954289; c=relaxed/simple;
-	bh=n5Sih3s6jryc4fF2MY9dv+Gd+rAfVNaFbJvhtbsBlRA=;
+	s=arc-20240116; t=1765954294; c=relaxed/simple;
+	bh=VP+rBUGF7qVbbXP2x/EhbFqX8g8zi65PFtLqGlmueNI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RnEwLQnZEPCaMXG+1AZoMFN+wm1ODzqh3JFDE2f/TT9+/q7TMvf2jVKlhzuO3P0pQSEHUBLeSB4Xt0VgY2E3T90khM2oYDDaAl/PeszWy1npu540jU8eK92fNKlArDZFpuLCfkvoiADc772iABJ8scAI5BedK35BatpadQ6atQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W5g/UOyj; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UwiB7uWE; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=hM0/kf22EF1lyCYBdpI4Ge+XyxxDtR4CDa/INUUt72eaFgrHaRKstjoqu9rXIqy84dh4WgTlLoMejtWPVgHQJgeLf0ADbouN1WwwFCf6vFtuzIyAuN/MIKErxOIn2y+2z9YMgDHJkkfW2X1Na66vditFKmDvsD1SH9wbeMOl0+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EVcZJkyi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=APCekDP7; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W5g/UOyj";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UwiB7uWE"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH3F9fB1591246
-	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:51:22 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EVcZJkyi";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="APCekDP7"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BH3F0CU2023770
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:51:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=4iEXzkIhLRU
-	2sQ9AE5qIvZK9w6C3kkeCAzjrneXwTAA=; b=W5g/UOyjFYjrrGewB/wQNKJfm9m
-	PLgYFYKYftWriqqVUNEAUQ65OrqjDKBlR/nuUFx2mk+v13DmzLWAOi4MIjLMLngl
-	R1SmDSriarL4xw2FGc2qFxDjzraM2JUDs7yqndpNav8t09cKF49cDmI48ny/RUeM
-	YpB3SKjqbt+jb0eWgtRQ1bMFynkjHLDnetWZJeKA7xjwz9WUJwn12joSJu+/eIkf
-	YdKmSed/6fhjgbX1qK84xYa0PTPc8/czUF2ZeJGAk1pWA8s001Q93U57BPWTObWc
-	RJFkO2fguilcj517dVEUGVV/qGf1O1xr80VE2aeMwYY6e/1ex+5xaEySC6A==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b3fefhc0h-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=Dq7HdBaR+ND
+	Ov/4A5+SkcbKsybvvsE5z7g6twcyjF/c=; b=EVcZJkyi+tKjvtCbFZaRg1uqURK
+	aKOJWOL1hxwaslQ2c94co3dW7fgwYakXEFWHwOzkJaGhN0HNqU4GtPlBmcahJNI6
+	4gKBQLOFI21pcZrAnesZj3sIZB9L0yfqXMjoKy3ceQt51qUAwOAXYBUSrt4pfvON
+	sueW3OQ9JY1ikcTWI0MeAIL42EkOJK4gUT/l5wHoq48Mt65rACXtJVA+2rxuGuUl
+	UAMWN2vcPyDLd7nwX1Ag3qw9WxevvhVS4zr4on4abzcdw7ZgU/ngEjAHxEgQc2ml
+	LxCXvAlMX/gaax7uQG42ydoQIK0JgepSSrDxI0/AOibI7oejcoMU72QXfoQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b3j39gxmt-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:51:21 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2a0f4822f77so77911725ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 22:51:21 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:51:24 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b6097ca315bso9382893a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 22:51:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765954280; x=1766559080; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1765954284; x=1766559084; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4iEXzkIhLRU2sQ9AE5qIvZK9w6C3kkeCAzjrneXwTAA=;
-        b=UwiB7uWEe+H7C7NUL0+08TCprWb4pAyR9sbXykmPG1Y0jMlN+hQniQ6jzcs9t/2JRw
-         1coqnSLUsRK/+tjubqjpeGIxUw/vs0ipQzZCkIt+cXBNHxn6QyJDnbN2c7sA3Hetarqy
-         eEdLNX4zRev/KyEPbDXjZ0ZNcSF7GKjMl8zEGBWlbYB1gCaz70WvvCUC20kPpcKHS5sq
-         +pXE5uuFJ2c6JYIEdzUKasKtk7yvqpE9M6W3hnsDsuIIGTkuwcgxhZm3ObhfpE6BfBl8
-         wXtnIX7Elm9rL66UPeMikxa1muWkjxlz691Lk/z8znEy0qi+mDYGsz0mLvd9eBbfKEZF
-         Pmgw==
+        bh=Dq7HdBaR+NDOv/4A5+SkcbKsybvvsE5z7g6twcyjF/c=;
+        b=APCekDP7n77WtoPYL1q1OREvCWNj4vtX6/KWecu4Rdw6cG810aRXa6iYBcj9YhQ8W8
+         nFn/5fR+1g6oBLuSn0Z7kcxz/a+7XPXz7f1jnnNF8fHE0emcoVya2V2dAAZtvVUEPxXz
+         wj4r8ExJnihgIzoTCk4x06B91pw3/mdemvYa+zkp5OCiIBUwRCd+NjGKYHvuNpSN+tld
+         FHufiFpdR3HDoOOPHoP2suzYg7cEP01QZ2UqXIltUkkxhwXiB7RQezj/N0EL0J/AnLnr
+         mFrfsgINhww5fKStfS1wQ/lkLT2U8hXCDPjYRAVpk9DqPET2QHFVkOKtJBXFUFBoNKH4
+         WuVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765954280; x=1766559080;
+        d=1e100.net; s=20230601; t=1765954284; x=1766559084;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4iEXzkIhLRU2sQ9AE5qIvZK9w6C3kkeCAzjrneXwTAA=;
-        b=EgO1DZO9sJaJ3D5qITOSnPjX6cqLaWR69uC1UMLTj+50clbfgiE6DD9t+p5vwb3DUL
-         3v8/De/Nz+oJ+u09PjGdavAXfjFyn2jwjpd/daqc6MB02lFQ0H9FkpLsy0HoeVUV4IWD
-         wyOJaQcMKp57XvGMlwYGWOcbD6hHfRB6rJgrC5oqRzvQCYBUpmang4NW5gpQ/Shkqf9H
-         tOpfGw0vI0SH9UqfedO015c2MVm+s6h11cTgL3nnWIhUuRSfhKepY/1OIEU8pbcQX+no
-         MGAa3ZjoLymBmTolX2VJgxCrANuSK+9VmCG54Da1bM3udaXSzMbXqYK29ULMEoY8UofI
-         co/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWxpDiQTAIcEVdRdGqDw57SJlNZJNANyrjAS0ynACN+MyMDbx1KNduuy7na0RE2EFdjwHxv80PMFhI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzloJ0fp6wXHLYtEiir9gnh/qWbY7jgo+e3zI8Fovlg8oQJ+tFK
-	gNqP4UkHveC015qngm9OqIKdz4B6WlyGfRtKlNPYfzq04/kK80ow4x9f+q1Lnlqvk8wp9ilgGn2
-	FVBmb+Oo4Q5sXtwvbv1osm5WCmmxwoAh27sKD4nYeLmj2cMH8EelmKmSuhlG9lrk=
-X-Gm-Gg: AY/fxX7CzRxb8KhcgKBnuo6877+bbjbFJe+zMfUsZ50jLYrP1/Wx+yH6G1Oe/97V8z5
-	z75OeeyyHhyxyxsa73GkEJlBdxY7AlhD759AdS6uC4vh8OaCHC8gdW8cApO8mtYCxVcuPPKWRaV
-	Hf7RiWa9tG6FATrMd2OSW/sFDH56nS3QsIy87Etgtu4M31XWH3Ip2bB0JyhGpuYsmJx6/JeHbSz
-	42u05cWCPYcHWhJBNwKi5+4LaXL6ccWqp64ZpxYUQDXeSozJWPB6kDJwBs3dQOpdydojxsB7HBD
-	Q6k/C992cuP3XpTE9Hw9djsSKdwjui21DIP24KovPz+94OdGRQ71Hu64OaZWs0vzMEhjgfkbuY+
-	i0Svri4GaaX1KPqyVU2/bsADLkLaQ3Gk2pOYo5nm9KQZD92BGLyW7oEIOghf67hh4OCPkXUqSWS
-	KV
-X-Received: by 2002:a17:903:1986:b0:29d:7a96:7ba1 with SMTP id d9443c01a7336-29f2436da68mr156682885ad.46.1765954280358;
-        Tue, 16 Dec 2025 22:51:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGIbB9Knwe9bfEuTzW2OVz/ykkHTd22n1PPWbVEsjNZs6oAXaLe1AKuG0gZ8WAQKZuVACtHPg==
-X-Received: by 2002:a17:903:1986:b0:29d:7a96:7ba1 with SMTP id d9443c01a7336-29f2436da68mr156682715ad.46.1765954279899;
-        Tue, 16 Dec 2025 22:51:19 -0800 (PST)
+        bh=Dq7HdBaR+NDOv/4A5+SkcbKsybvvsE5z7g6twcyjF/c=;
+        b=qmOwxoF3bwiAVqswBjm94WN5k3/1jvJIMZ889UG5uuyvsRrfgnlmPM6NEf5y9c2r+D
+         Z/Xa4uE3l8QFXJaEcAwgH64zlhxxhokL8gKJagU1NrvZd1R4usU2+D7sd/xpQYtSi0B/
+         bKmAHKEK4+J1/RgsxdnLBsbO1wy1U0lWvHity9iOV1BtDjZGxMiSI9L2E+KkhCg7eUi2
+         nA0s7StCmPVTXcU1Hhlh985rHIU6eUYgKP6aCHdbHR8MZLURs7yCEFTEyVrNYh+x35nH
+         ByWMOycfIOsD3ADhxApEkui2KS6e8JCJea6DFNPpfvWXAvKBLM9j6FGOsDlRYg3uI5cJ
+         chsw==
+X-Forwarded-Encrypted: i=1; AJvYcCU6gpcZLQP2v0MjL9CAkgoOlS6zodWAXy5ytj/0kgCpGynKJ6w+XTKId9zsyVNQLhnhW3apLgdIlq4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXVEfkU0Ta6iZxBRKSlKK6vzaHSDcdFU9zc3Y9TSR3J3nyDiFE
+	dWgrT7EkKWtB/vQmhCwwVn/r0g+UoE6aZV9BqmMIX1mzrH5QKGfICUbZmaN8ua4AUJYrjSUzm5s
+	4ni68XNSpaIa9fmrpPBqKSSKti/4fMZh6n7LNTYYl/ytxkLDAqjM07T5q/70dtaA=
+X-Gm-Gg: AY/fxX7Cg42dUWqq+a05DBsqys+u4yh3ByRL7fjE1uYL0/tIhtL8WRjxQ0rr2F0O4a3
+	mKhCML195+kBEqu2RpuTITdtG199zxZKP4/sP+c6RnnlQI08sM1+TVU8VWFEb3qWURSvWdtKOca
+	wZbfphJuOw2+4XXZSaX9ZOEEsISJNcZYrQ3JdJLIL6+kLbO8QN8UvPulihwiHFwW1CA1aVJX9cE
+	5wI36QCY5zGOA8IrdoFoQzBP0yV56TuXwhi5qho562aOlZNT5d14JyV8BF6eSUHAg8LYkVlfuBV
+	1IswK3+leaP6w/gSq46xivPqszWINtOmG/Msfy4cYWC8LD156KBiA45UkmlMsC3KUVoacHpQ6X7
+	knr5cICEXMyJn9NQipniaCKZFinyVia/WGAcXwUfE7/PPrFmZRVeuRItEw4OMiySnNW+8pzbTa+
+	QD
+X-Received: by 2002:a05:6a20:72a3:b0:35b:b97f:7471 with SMTP id adf61e73a8af0-369adbc913bmr18285868637.4.1765954283763;
+        Tue, 16 Dec 2025 22:51:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFZM57x3z2KMv8n/8dDpTON5UMcn+/BZFIjIc6sGg09joQLGKprkmLRzvfNxzJGnpGzmQ8N3Q==
+X-Received: by 2002:a05:6a20:72a3:b0:35b:b97f:7471 with SMTP id adf61e73a8af0-369adbc913bmr18285848637.4.1765954283344;
+        Tue, 16 Dec 2025 22:51:23 -0800 (PST)
 Received: from zhonhan-gv.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a0993ab61dsm118846515ad.46.2025.12.16.22.51.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a0993ab61dsm118846515ad.46.2025.12.16.22.51.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 22:51:19 -0800 (PST)
+        Tue, 16 Dec 2025 22:51:23 -0800 (PST)
 From: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
 To: andersson@kernel.org, mathieu.poirier@linaro.org, corbet@lwn.net,
         rusty@rustcorp.com.au, ohad@wizery.com
 Cc: linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         zhongqiu.han@oss.qualcomm.com
-Subject: [PATCH 1/5] rpmsg: Replace sprintf() with sysfs_emit() in sysfs show
-Date: Wed, 17 Dec 2025 14:51:08 +0800
-Message-ID: <20251217065112.18392-2-zhongqiu.han@oss.qualcomm.com>
+Subject: [PATCH 2/5] rpmsg: core: Fix incorrect return value documentation
+Date: Wed, 17 Dec 2025 14:51:09 +0800
+Message-ID: <20251217065112.18392-3-zhongqiu.han@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251217065112.18392-1-zhongqiu.han@oss.qualcomm.com>
 References: <20251217065112.18392-1-zhongqiu.han@oss.qualcomm.com>
@@ -98,108 +98,64 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA1MyBTYWx0ZWRfX20CF/cT4W9yE
- 6nXJKbLHl4IQU7pgowCn0XqXB9BmI6bg0wJF1E0Fme5Kr58Jq+IZZHFDvehucztHEvZHEFQpA7w
- +o2UzsM7F9asEFCZ+j81G9dcSx8wOtEAP16evH2UA7eibZApL8neeXAU1p+pBLzjf16F2e918gR
- m2GiIpLCXG12nu3pnm21WWP1p2NHp6l6gfUrWNObrFDPMsneR9X25JoD7FaXw0GPBqad4hMI3WD
- U2Sul43Hti5i8MHlVcSprt5oPT9YkBne6F/949dVpwIMG6ZIvp7r0lXnGN+EFJFIthtBEHXbUec
- +JFhlqE0rWA3NQvrVBN8OmD5bQFfFR7aJr6IMxx2S/NtEh4odKQvKxkV3agVrQ+Dmy47hKhCKda
- t7RPz8oJalgqk8fmyAQs/Mkfk3KE8g==
-X-Proofpoint-ORIG-GUID: IGZC4HPUDX4R01KTfhgxk1ZXT0evsJBJ
-X-Proofpoint-GUID: IGZC4HPUDX4R01KTfhgxk1ZXT0evsJBJ
-X-Authority-Analysis: v=2.4 cv=R48O2NRX c=1 sm=1 tr=0 ts=694252e9 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDA1MyBTYWx0ZWRfX+7xaU/zYnXBQ
+ HDTjaDJfNM4C7cZhHb6ZLKC1oRyVKKm38eN0vwaHx5xcTfL43XjOI/DjIPsGspn+8xUOhUA2tHU
+ p0NBEVpEEWyDtPLQzhLEXvcxkAMkXaAQmdK3lOHH/u5TBwLqqhDtUVhV6kYWsMYLfHBp8ZZ6f2+
+ r7M6Sx/67sZkb+Hdkyl9rniCkFgWgGVh7BFDwgGU6iGdcHe8f2B5Z0FxIJMQoQOpDK8TKKneWtx
+ oIJ64v45qybPrcEUu9mxed94AW6NTZ9Pf9FpOd9bZFbYfJG2cmYlxtWNQjEQ6p95wmfw99Uib2Q
+ Ei5jAuejVxndF/tO3V15bAxgzQa/BO6QJMmjoPkQEYY2lCIgMAdsay/BPeLeOI1eqWUjh2GpSI0
+ UrkBZCyneCqRl/7UIu0oKckODWBWvw==
+X-Proofpoint-ORIG-GUID: qS7JoqRNTeTFOcoLf20Am5gnw56ecupE
+X-Proofpoint-GUID: qS7JoqRNTeTFOcoLf20Am5gnw56ecupE
+X-Authority-Analysis: v=2.4 cv=ToXrRTXh c=1 sm=1 tr=0 ts=694252ec cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=zeoL4EY6mI-QDyTLeegA:9 a=GvdueXVYPmCkWapjIL-Q:22
+ a=EUspDBNiAAAA:8 a=EyzG0aFrAOtqPBJHxvMA:9 a=_Vgx9l1VpLgwpw_dHYaR:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0 malwarescore=0 spamscore=0 impostorscore=0
- adultscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512170053
+ malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ spamscore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170053
 
-Use sysfs_emit() instead of sprintf() in sysfs attribute show functions.
-sysfs_emit() is the recommended API for sysfs output as it provides buffer
-overflow protection and proper formatting.
+The unregister_rpmsg_driver() function has a void return type but the
+documentation incorrectly described a return value. Remove the incorrect
+return value documentation to match the actual function signature.
 
-No functional changes.
-
+Fixes: bcabbccabffe ("rpmsg: add virtio-based remote processor messaging bus")
 Signed-off-by: Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>
 ---
- drivers/rpmsg/qcom_smd.c   | 2 +-
- drivers/rpmsg/rpmsg_char.c | 6 +++---
- drivers/rpmsg/rpmsg_core.c | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ Documentation/staging/rpmsg.rst | 1 -
+ drivers/rpmsg/rpmsg_core.c      | 2 --
+ 2 files changed, 3 deletions(-)
 
-diff --git a/drivers/rpmsg/qcom_smd.c b/drivers/rpmsg/qcom_smd.c
-index 42594f5ee438..2793096aba45 100644
---- a/drivers/rpmsg/qcom_smd.c
-+++ b/drivers/rpmsg/qcom_smd.c
-@@ -1458,7 +1458,7 @@ static ssize_t rpmsg_name_show(struct device *dev,
- {
- 	struct qcom_smd_edge *edge = to_smd_edge(dev);
+diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
+index 40282cca86ca..11fc22f3736a 100644
+--- a/Documentation/staging/rpmsg.rst
++++ b/Documentation/staging/rpmsg.rst
+@@ -212,7 +212,6 @@ be probed with.
  
--	return sprintf(buf, "%s\n", edge->name);
-+	return sysfs_emit(buf, "%s\n", edge->name);
- }
- static DEVICE_ATTR_RO(rpmsg_name);
+ unregisters an rpmsg driver from the rpmsg bus. user should provide
+ a pointer to a previously-registered rpmsg_driver struct.
+-Returns 0 on success, and an appropriate error value on failure.
  
-diff --git a/drivers/rpmsg/rpmsg_char.c b/drivers/rpmsg/rpmsg_char.c
-index 96fcdd2d7093..3287e7941c8c 100644
---- a/drivers/rpmsg/rpmsg_char.c
-+++ b/drivers/rpmsg/rpmsg_char.c
-@@ -365,7 +365,7 @@ static ssize_t name_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct rpmsg_eptdev *eptdev = dev_get_drvdata(dev);
  
--	return sprintf(buf, "%s\n", eptdev->chinfo.name);
-+	return sysfs_emit(buf, "%s\n", eptdev->chinfo.name);
- }
- static DEVICE_ATTR_RO(name);
- 
-@@ -374,7 +374,7 @@ static ssize_t src_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct rpmsg_eptdev *eptdev = dev_get_drvdata(dev);
- 
--	return sprintf(buf, "%d\n", eptdev->chinfo.src);
-+	return sysfs_emit(buf, "%d\n", eptdev->chinfo.src);
- }
- static DEVICE_ATTR_RO(src);
- 
-@@ -383,7 +383,7 @@ static ssize_t dst_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct rpmsg_eptdev *eptdev = dev_get_drvdata(dev);
- 
--	return sprintf(buf, "%d\n", eptdev->chinfo.dst);
-+	return sysfs_emit(buf, "%d\n", eptdev->chinfo.dst);
- }
- static DEVICE_ATTR_RO(dst);
- 
+ Typical usage
 diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
-index 96964745065b..bcfd17e5309e 100644
+index bcfd17e5309e..a5dd09f19b14 100644
 --- a/drivers/rpmsg/rpmsg_core.c
 +++ b/drivers/rpmsg/rpmsg_core.c
-@@ -348,7 +348,7 @@ field##_show(struct device *dev,					\
- {									\
- 	struct rpmsg_device *rpdev = to_rpmsg_device(dev);		\
- 									\
--	return sprintf(buf, format_string, rpdev->path);		\
-+	return sysfs_emit(buf, format_string, rpdev->path);		\
- }									\
- static DEVICE_ATTR_RO(field);
- 
-@@ -395,7 +395,7 @@ static ssize_t modalias_show(struct device *dev,
- 	if (len != -ENODEV)
- 		return len;
- 
--	return sprintf(buf, RPMSG_DEVICE_MODALIAS_FMT "\n", rpdev->id.name);
-+	return sysfs_emit(buf, RPMSG_DEVICE_MODALIAS_FMT "\n", rpdev->id.name);
- }
- static DEVICE_ATTR_RO(modalias);
- 
+@@ -627,8 +627,6 @@ EXPORT_SYMBOL(__register_rpmsg_driver);
+ /**
+  * unregister_rpmsg_driver() - unregister an rpmsg driver from the rpmsg bus
+  * @rpdrv: pointer to a struct rpmsg_driver
+- *
+- * Return: 0 on success, and an appropriate error value on failure.
+  */
+ void unregister_rpmsg_driver(struct rpmsg_driver *rpdrv)
+ {
 -- 
 2.43.0
 
