@@ -1,201 +1,308 @@
-Received: from mail-07.mail-europe.com (mail-0701.mail-europe.com [51.83.17.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f73.google.com (mail-oo1-f73.google.com [209.85.161.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC29230C34E;
-	Wed, 17 Dec 2025 22:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.83.17.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F3216A956
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 23:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766011707; cv=none; b=aQcR7+UYEK6VxI4oyVQIAKtoGoZ2hhHbMeiAKsCezMhAjgWziP1uXfX7xvErY4A3uh7Icfmj+KOqaZHtO9BKrwFh34/r/5lyf1llBe2dwTQW0wWVp9hZAEpzZM99bnX3/wXaiIKtxcFNdWz+DFFMRqGpG5tNZapEab2OWHZAxz4=
+	t=1766012625; cv=none; b=TwEY6ayvL1DhAHq3MOav+QTCmW0Qv4CCL8rklQLBvC/vqWO0x7F1X/f94q30a9MW4D6juPIsRoRh3ZfgBPWz5Push5nMbh5yOAUl9rSjHzbiSBghJnb4djavpj8ztpESfB3g/sFS5Fn5MZFbuiUMVD1dJzijiuU8f8Iff348FwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766011707; c=relaxed/simple;
-	bh=PAxAo5quNAi+gst5faXlKFJ/3qyIfTDoysXHlq8Mi9s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OF2vRf0JR+Y8u69Hs4NAN/yDAPa+8KX+0foqJk7dlOrQeRNx9Xd0om9FYgoPOSIOuAMZaGq6t5h5Qje3F+R8xSUJzr6KIbdYqpjijAN2VoGVKx5iiaq06M5KoDIhIJU/w4XxO6vMrnvHLjLNwssR9CjIlAB8dOOmkIybFOeS6Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vaga.pv.it; spf=fail smtp.mailfrom=vaga.pv.it; dkim=pass (2048-bit key) header.d=vaga.pv.it header.i=@vaga.pv.it header.b=ac5jqQO0; arc=none smtp.client-ip=51.83.17.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vaga.pv.it
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=vaga.pv.it
+	s=arc-20240116; t=1766012625; c=relaxed/simple;
+	bh=GcH2YU9svXn1lwAwNWQlWL84mdn4ZPEmHup1iY+NLn4=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=lrWp/wAohbOwJ9RHAzXzuzFRqKEu4KPIuKwSlmW3O57aJyjFOJHbBdtuLi/ozD+NFxxmEa5psysizsH0oZTC2funwPLX/XqOmXe67jjRwhDaEHraODAUhFvvefOrNxM7VDZu3z2wBorl7AY1njCISA2ngtr5x+IR36kcmegX0X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rIPrPCAK; arc=none smtp.client-ip=209.85.161.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vaga.pv.it header.i=@vaga.pv.it header.b="ac5jqQO0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaga.pv.it;
-	s=protonmail3; t=1766011685; x=1766270885;
-	bh=PAxAo5quNAi+gst5faXlKFJ/3qyIfTDoysXHlq8Mi9s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=ac5jqQO0eqpQkP0w27ilV8+f+cmRMve7XAmQkubjnpFyt7T/2Gm46zcY5VJXiCENv
-	 dS9yIIPjOGc6VljVdQNtBWdUVYF7cQbJoimhTXkwHs+V/6OSZsdUU8RO2kTja3vkOt
-	 XKhn/BvQkDYF5dfx01iMQN8jYHUoclt15fsoI9Mbf+bLhZo2+n3rXD9GwZY6uUxudK
-	 o43HC5UHQdFNCRIdlsUjZPTaTWMzzXm+pFqhtFbSUS4KRQS2k3EcLgf6U1ag5oY1R9
-	 pKr1PEXI/RsTHVNGKzn53uzIl8VV+utcF3BsVYhOYFQTEtZ7SpdgTyOhXR0u36rEuT
-	 xh5l+qztxObuQ==
-Date: Wed, 17 Dec 2025 22:48:02 +0000
-To: Andi Shyti <andi.shyti@kernel.org>
-From: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH] Doc:it_IT: Do not reference kernel.h anymore
-Message-ID: <un2p3f5qe5lwtln2c6cj5yutnhcphxawjowhfldd2h2rvpb4k7@om7ddhs6ipwd>
-In-Reply-To: <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com> <20251205111559.3089219-1-andi.shyti@kernel.org> <zylu4ulxeyni5diwnp7o7evcajqyylhzzd4d2skyi2ul2ayb3b@2kojo3dyp2vi> <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
-Feedback-ID: 124726690:user:proton
-X-Pm-Message-ID: db255a47da83f8f39ead25d753db542b3ae758de
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rIPrPCAK"
+Received: by mail-oo1-f73.google.com with SMTP id 006d021491bc7-656bc3a7ab3so9033eaf.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 15:03:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1766012622; x=1766617422; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aRTGpXalCpTw9EJ3jwwqmWQTyjHYa0HLkPGjExiFjCQ=;
+        b=rIPrPCAKLA8TVt8dJxvDb+V4hecsW6IZV/IKE1B7Wyao84NDPJag6rll8HfyFWh72T
+         QQ7q1kA1ZgcGll/QN81Eb1F/X3ZzdXDd6StpuJEiv4w/GmbYGvWMS0WvBZ0XCgeWae43
+         cstm9EcONBmeCEQtQ3uLgmE8qEzjvnE3TPT4rC7d62x/HIFdzzXsjeeT6KeawWNJYmlc
+         Guywernkj//1zm54qgEN0bn/sOUNOsBXLbQHG7H13AsEYJonMTIXH3r+kb8rfVMtYj7q
+         N9TxMrwAtpR7GU13YA12cZ3/Fh/BttjHwuYmQ8pD/KD8zJcWMSXgp4wnWZKCMEKa+fAU
+         zwCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766012622; x=1766617422;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aRTGpXalCpTw9EJ3jwwqmWQTyjHYa0HLkPGjExiFjCQ=;
+        b=TcVjBDNnOtnmAFvregcpnfyjoYJfB7MTIjEMd2joLIjzUzaATpgqLUHC2wud+nQI5c
+         cS2/cpGFOG8rzfaCNeCIvPtlwdS48hh1rfX28yPz0JVqGRm7imaQK+xJrVdK/mnlp4gl
+         2PhTxaM+/L6ZNjVoi3/LP4jKa0ReOxJUSpnX8ClDd1LaMd8NQngsAYm21/K2BlYXt8BC
+         dWQNPSD/sqFlFBKwNQ0KJy/4x3K8EjMUeTVTsM8RW+597FhA5YNN30211merPtcWUJhq
+         BCB3LpQJT8L/oFn4gutiXW/KERNSwweKR7R5581fZOtlpSNX103PTl5onwW0ECFqP8jW
+         ZqxA==
+X-Forwarded-Encrypted: i=1; AJvYcCXl6krSivoMN6h398aZftR4MRMtkrgDc4fAFweXsmEAFM9zZRpVoztSHSOm6zBzlQdk1Uw11zhrMFU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4YJI0GmdsG1haTwIXENuycGFnOAuzRxvsi63JzcnCx32WptZ5
+	JVgMX/KyqMQ8eZ/NYkieUhuqeIFvaZ+ye4StTBQzJ9IUGd9JckG+l+4JLvq1hyp49ZzMofOCeS4
+	rwylarDUA9mt9FqzvEyaU69l+Jw==
+X-Google-Smtp-Source: AGHT+IFQs5k1bWdHtz7tc4/8DEUyRxbCe8MSuSfyN2BvguDIeAIIerMywbvjRsitUO6G8RkTOEE+yjjKcwPQBwUtTA==
+X-Received: from jaii7.prod.google.com ([2002:a05:6638:4007:b0:5c6:3249:f8ff])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6820:2915:b0:659:9a49:8fb7 with SMTP id 006d021491bc7-65b452574dfmr8508202eaf.48.1766012622152;
+ Wed, 17 Dec 2025 15:03:42 -0800 (PST)
+Date: Wed, 17 Dec 2025 23:03:41 +0000
+In-Reply-To: <aUH7oC41XaEMsXf_@kernel.org> (message from Oliver Upton on Tue,
+ 16 Dec 2025 16:38:56 -0800)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Message-ID: <gsnt34583e42.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v5 14/24] KVM: arm64: Write fast path PMU register handlers
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oupton@kernel.org>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-Hi Andi,
+Oliver Upton <oupton@kernel.org> writes:
 
-On Mon, Dec 15, 2025 at 05:14:02PM +0100, Andi Shyti wrote:
->Hi Federico,
->
->> >-Il file di intestazione include/linux/kernel.h contiene un certo numer=
-o
->> >-di macro che dovreste usare piuttosto che implementarne una qualche va=
-riante.
->> >-Per esempio, se dovete calcolare la lunghezza di un vettore, sfruttate=
- la
->> >-macro:
->> >+I file header
->>
->> In Italian, the correct name for "header file" is "file di intestazione"=
-.
->> Please, don't replace correct Italian with *Itanglese* :)
->
->I absolutely disagree.
->
->If you open any C book, they are called 'header files', except
->for a few Italian technical books with excessively literal
->translations, where even non-translatable terms are translated.
->
->Italian technical translations usually preserve the original
->English terms as much as possible, which is quite different from
->what often happens in French or German.
->
->'File di intestazione' is a literal word-by-word translation.
->If you want the proper technical term, it is 'header file'.
+> On Tue, Dec 09, 2025 at 08:51:11PM +0000, Colton Lewis wrote:
+>> diff --git a/arch/arm64/include/asm/arm_pmuv3.h  
+>> b/arch/arm64/include/asm/arm_pmuv3.h
+>> index 3e25c0313263c..41ec6730ebc62 100644
+>> --- a/arch/arm64/include/asm/arm_pmuv3.h
+>> +++ b/arch/arm64/include/asm/arm_pmuv3.h
+>> @@ -39,6 +39,16 @@ static inline unsigned long read_pmevtypern(int n)
+>>   	return 0;
+>>   }
 
-Both English and Italian terms are borrowed from typography, "that thing yo=
-u see
-on top of your document": the header file. In Italian, we never had a neolo=
-gism
-for "file", but we have a typography glossary. So it becomes "file di
-intestazione". A wider audience can quickly understand where to look to fin=
-d the
-mentioned "file" because "intestazione" means at the top ("in testa"), like=
- in
-English.
+>> +static inline void write_pmxevcntr(u64 val)
+>> +{
+>> +	write_sysreg(val, pmxevcntr_el0);
+>> +}
+>> +
+>> +static inline u64 read_pmxevcntr(void)
+>> +{
+>> +	return read_sysreg(pmxevcntr_el0);
+>> +}
+>> +
+>>   static inline unsigned long read_pmmir(void)
+>>   {
+>>   	return read_cpuid(PMMIR_EL1);
+>> @@ -105,21 +115,41 @@ static inline void write_pmcntenset(u64 val)
+>>   	write_sysreg(val, pmcntenset_el0);
+>>   }
 
-As you rightly mentioned, other languages are more alive than Italian and t=
-heir
-speakers naturally make and use neologisms for the new things popping up in
-their lives without scandal. For Italian speakers, these days, it is harder
-(already this email shows that I need to justify the use of Italian words i=
-n an
-Italian document. There are some publications about this problem if you wou=
-ld
-like to know more). However, I don't think this should be a justification t=
-o
-forget that terms exist and should be used. I'm well aware of all possible
-variants that you can find in Italian original texts (they exist) or
-translations ("I file di intestazione", "L'header", "I file header", "L'hea=
-der
-file"). You wrote that the good one is "header file", but four variants exi=
-st
-and your rephrase used "file header" (swapped). When I started this work lo=
-ng
-ago I had to chose an editorial line, and I chose to use Italian terms: (a)=
- when
-they exist, (b) they have sufficient diffusion, and (c) if it adds value fo=
-r a
-wider audience.
+>> +static inline u64 read_pmcntenset(void)
+>> +{
+>> +	return read_sysreg(pmcntenset_el0);
+>> +}
+>> +
+>>   static inline void write_pmcntenclr(u64 val)
+>>   {
+>>   	write_sysreg(val, pmcntenclr_el0);
+>>   }
 
-For the case at hand, any web search will give you various results using "f=
-ile
-di intestazione". You can also use Google Books. You might still say that i=
-s not
-your taste because you prefer English words, but it can't be denied that th=
-e
-term exists and it is used.
+>> +static inline u64 read_pmcntenclr(void)
+>> +{
+>> +	return read_sysreg(pmcntenclr_el0);
+>> +}
+>> +
+>>   static inline void write_pmintenset(u64 val)
+>>   {
+>>   	write_sysreg(val, pmintenset_el1);
+>>   }
 
-On this particular subject, I think we are a bit off-topic. But if you want=
- to
-discuss more we can continue aside.
+>> +static inline u64 read_pmintenset(void)
+>> +{
+>> +	return read_sysreg(pmintenset_el1);
+>> +}
+>> +
+>>   static inline void write_pmintenclr(u64 val)
+>>   {
+>>   	write_sysreg(val, pmintenclr_el1);
+>>   }
 
->> >presenti in include/linux mettono a disposizione numerose macro
->> >+che =C3=A8 preferibile utilizzare, evitando di sviluppare implementazi=
-oni
->> >+alternative.
->>
->> I think it is less accurate. In English, it tells users what they "shoul=
-d do"
->> and "should not do". It does not speak about what is preferable and what=
- to
->> avoid. I agree that, at the end of the day, one should come at the same
->> conclusions. However, the translation should be as accurate as possible =
-and
->> make adaptations wherever necessary to improve the understanding.
->>
->> A would be perfectly fine if also the English statement changes in the s=
-ame
->> direction.
->
->I think a literal translation is not beneficial to the final
->text,
+>> +static inline u64 read_pmintenclr(void)
+>> +{
+>> +	return read_sysreg(pmintenclr_el1);
+>> +}
+>> +
+>>   static inline void write_pmccfiltr(u64 val)
+>>   {
+>>   	write_sysreg(val, pmccfiltr_el0);
+>> @@ -160,11 +190,16 @@ static inline u64 read_pmovsclr(void)
+>>   	return read_sysreg(pmovsclr_el0);
+>>   }
 
-It is not a literal translation. It is a translation. For example, if there=
- is a
-joke inside the documentation, that joke gets translated no matter my opini=
-on on
-that joke or jokes in technical documents in general. If there are implicit=
-,
-rather than explicit, references they get translated as such. If the
-documentation needs improvement, it must be first done in its original lang=
-uage,
-and the translation must follow.
+>> -static inline void write_pmuserenr(u32 val)
+>> +static inline void write_pmuserenr(u64 val)
+>>   {
+>>   	write_sysreg(val, pmuserenr_el0);
+>>   }
 
->and we have some room to rephrase it while keeping the original meaning in=
-tact.
+>> +static inline u64 read_pmuserenr(void)
+>> +{
+>> +	return read_sysreg(pmuserenr_el0);
+>> +}
+>> +
+>>   static inline void write_pmuacr(u64 val)
+>>   {
+>>   	write_sysreg_s(val, SYS_PMUACR_EL1);
 
-Why not using that room in English as well? For example:
+> I wouldn't bother with adding accessors to the PMUv3 driver header, this
+> gets a bit confusing when the 32-bit counterpart lacks matching  
+> definitions.
+> Additionally, the part of KVM you're modifying is very much an
+> "internal" part meant to run in a not-quite-kernel context.
 
-""" From the patch
-Feel free to peruse the header files to see what else is already
-defined that you shouldn't reproduce in your code.
-"""
+> Considering this, I'd prefer KVM directly accessed the PMU registers to
+> avoid the possibility of taking some instrumented codepath in the
+> future.
 
-""" Your suggestion
-=C3=88 consigliato consultare i vari file header per vedere altre macro gi=
-=C3=A0
-disponibili.
-"""
+Will do.
 
-This reprhase is not anymore -->friendly<-- inviting users to read the head=
-er
-files and discover new macros, and it is not reminding them that they shoul=
-d do
-it to avoid duplicating code, probably incorrect code (the entire intention=
- of
-point 18 of the coding style document).
+>> +	if (!kvm_vcpu_pmu_is_partitioned(vcpu)
+>> +	    || pmu_access_el0_disabled(vcpu))
 
-A reprhase for better readability would be greatly appriciated, I'm definiv=
-ely
-not Dante. In doing so, remember to not delete things or change the tone of=
- the
-original text. If that is your intention, then do the same in English.
+> Always put operators on the preceding line for line continuations.
 
-P.S. I'm interested in the non-translatable terms you found in Italian book=
-s. In
-the past I was doing some researches on the topic and I'm genuinly curious =
-to
-see what you found there and see their etymology :)
+> Also, don't call pmu_access_el0_disabled() from here. It can potentially
+> do a full emulated exception entry even though the vCPU is in an
+> extremely inconsistent state (i.e. haven't returned to kernel context
+> yet). Isn't the current value for PMUSERENR_EL0 on the CPU instead of in
+> the vCPU's saved context anyway?
 
->Andi
->
+> The fast-path accessors really need to be *just* accessors, reading
+> state from the CPU in the unfortunate situation that a TPM trap has been
+> forced upon us.
 
---=20
-Federico Vaga
+Understood.
 
+>> +	case SYS_PMXEVCNTR_EL0:
+>> +		idx = FIELD_GET(PMSELR_EL0_SEL, read_pmselr());
+>> +
+>> +		if (pmu_access_event_counter_el0_disabled(vcpu))
+>> +			return false;
+>> +
+>> +		if (!pmu_counter_idx_valid(vcpu, idx))
+>> +			return false;
+>> +
+>> +		ret = handle_pmu_reg(vcpu, &p, PMEVCNTR0_EL0 + idx, rt, val,
+>> +				     &read_pmxevcntr, &write_pmxevcntr);
+>> +		break;
+
+> It is a bit odd to handle the muxing for finding the in-memory value yet
+> using the selector-based register for hardware.
+
+Agreed
+
+>> +	case SYS_PMEVCNTRn_EL0(0) ... SYS_PMEVCNTRn_EL0(30):
+>> +		idx = ((p.CRm & 3) << 3) | (p.Op2 & 7);
+>> +
+>> +		if (pmu_access_event_counter_el0_disabled(vcpu))
+>> +			return false;
+>> +
+>> +		if (!pmu_counter_idx_valid(vcpu, idx))
+>> +			return false;
+>> +
+>> +		if (p.is_write) {
+>> +			write_pmevcntrn(idx, val);
+>> +			__vcpu_assign_sys_reg(vcpu, PMEVCNTR0_EL0 + idx, val);
+>> +		} else {
+>> +			vcpu_set_reg(vcpu, rt, read_pmevcntrn(idx));
+>> +		}
+>> +
+>> +		ret = true;
+>> +		break;
+
+> Can't both of these cases share a helper once you've worked out the
+> index? Same for PMEVTYPERn_EL0.
+
+Agreed
+
+>> +	default:
+>> +		ret = false;
+>> +	}
+>> +
+>> +	if (ret)
+>> +		__kvm_skip_instr(vcpu);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>   static inline bool kvm_hyp_handle_sysreg(struct kvm_vcpu *vcpu, u64  
+>> *exit_code)
+>>   {
+>>   	if (cpus_have_final_cap(ARM64_WORKAROUND_CAVIUM_TX2_219_TVM) &&
+>> @@ -785,6 +983,9 @@ static inline bool kvm_hyp_handle_sysreg(struct  
+>> kvm_vcpu *vcpu, u64 *exit_code)
+>>   	if (kvm_handle_cntxct(vcpu))
+>>   		return true;
+
+>> +	if (kvm_hyp_handle_pmu_regs(vcpu))
+>> +		return true;
+>> +
+
+> Since the whole partitioned PMU feature is constrained to VHE-only you
+> should call this from kvm_hyp_handle_sysreg_vhe().
+
+Will do.
+
+>> +
+>> +bool check_pmu_access_disabled(struct kvm_vcpu *vcpu, u64 flags)
+>> +{
+>> +	u64 reg = __vcpu_sys_reg(vcpu, PMUSERENR_EL0);
+>> +	bool enabled = (reg & flags) || vcpu_mode_priv(vcpu);
+>> +
+>> +	if (!enabled)
+>> +		kvm_inject_undefined(vcpu);
+>> +
+>> +	return !enabled;
+>> +}
+>> +
+>> +bool pmu_access_el0_disabled(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return check_pmu_access_disabled(vcpu, ARMV8_PMU_USERENR_EN);
+>> +}
+>> +
+>> +bool pmu_counter_idx_valid(struct kvm_vcpu *vcpu, u64 idx)
+>> +{
+>> +	u64 pmcr, val;
+>> +
+>> +	pmcr = kvm_vcpu_read_pmcr(vcpu);
+>> +	val = FIELD_GET(ARMV8_PMU_PMCR_N, pmcr);
+>> +	if (idx >= val && idx != ARMV8_PMU_CYCLE_IDX) {
+>> +		kvm_inject_undefined(vcpu);
+>> +		return false;
+>> +	}
+>> +
+>> +	return true;
+>> +}
+>> +
+>> +bool pmu_access_cycle_counter_el0_disabled(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return check_pmu_access_disabled(vcpu, ARMV8_PMU_USERENR_CR |  
+>> ARMV8_PMU_USERENR_EN);
+>> +}
+>> +
+>> +bool pmu_access_event_counter_el0_disabled(struct kvm_vcpu *vcpu)
+>> +{
+>> +	return check_pmu_access_disabled(vcpu, ARMV8_PMU_USERENR_ER |  
+>> ARMV8_PMU_USERENR_EN);
+>> +}
+
+> Refactorings need to happen in a separate patch.
+
+Will do
+
+> Thanks,
+> Oliver
