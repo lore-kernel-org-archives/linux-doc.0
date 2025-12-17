@@ -1,155 +1,79 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FC23596F8;
-	Wed, 17 Dec 2025 15:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B5D37C0E5
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 15:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765985214; cv=none; b=lPzgSkCx+wEEZnpw2x65lFExd/wT8TXaJEcV5XXSTvJ2/g44Cy8H1OUBif2fFFmS8hWr5YMSJab1yuOvsw76AvwbKCk+7PDWXsknnyo9tYjqBwzziuIxr/sTqCbojstdYXmMSs0S3DfT3KGQ4IT21H/ds2iSNMU/i7nLh7Giucs=
+	t=1765985334; cv=none; b=O47M5LLxH/Rc+bNpL+vRtJGYGtqFWibnxVsBJtFYx2w78ZHoiBGw62U6I9rgh0abeZEtY1gkO1mzr9fvH5mZq28LI2BebAM3n82/4THmFVsxNHuKRg9IbvIPxTIhIPwo3/nVjY7+fp4zUr8NZVZ2AX3SsAV64Yo0j75xBo5W0mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765985214; c=relaxed/simple;
-	bh=ckFG9yCBPCeBY082ub684scmigIUOsiKpLa2Nfi1CTg=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=qwPNDomIbJJGcFZGFhu5orr6Zk/Ingx86ViORSCAHHElKZdcRfLfCpD7Hzzx68JTYuwGHgza4O4lExcber9LEIv4I8vWgvm1O0bRDXB1PWg93272trGEut2quOv0II0+3gstw5WjAyl4ncXGvKhtnRc+T5Ivv/D6peZ/m2Z+RxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=KbRUERgU; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1765985334; c=relaxed/simple;
+	bh=g2GBN3njSzISEBsyHXvbwpMCDA/0jrfTyD+Ehz7ZsM8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n6PPFDHP055BVoSEUiMADKjHHE5632Ggp0rEmYeIMLSJJYauQP3Azn+fxIVduEUHpmBeDJW0iDyCcuD7Sb7YxNjjObLwoVET7IP2NWqBUsHoWSbh1uHkDZ2al54S4R6UHgM4fCvFkCCuCq7/kJmQsTED06PiIf4deAXvU1n5vwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4Kf/q84; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="KbRUERgU"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BH6VLZ0006896;
-	Wed, 17 Dec 2025 15:26:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=DKoXLi
-	eBOqq08z07bvl+o+dYTPY3fWPvN2EE1w2gDzA=; b=KbRUERgU4cKg2xRYFxHj2j
-	fnakyQRKHS00GNQCnYVHtc2gm6mcvdE0daxpi5SRDMe21snlmAFCerZFqiJMvPeQ
-	fUX0KkYmQxHyYoYBb4Kh5VrhXFs1prZEQxrCB8g/bJ10C3O50XyWQLaWYfZJaVRG
-	aF1KMdVj6nRpN1GD/5OGsKaZ4KRAjvuhbPozDlIZtZ4CY7gwCmGc61xfzCrwQcKz
-	ICDcxrawKmS4vHE5Bf+9zc0psTXN0EVR3UkmiF2Q3p9tgr/6UDBURXBI9Z38qCAY
-	/M+UFV9DH7RwH9KLDCYtPNTo3xYKNwBGtwb60bgxrOmI3Z1G5vBrKs/fTjZdHJ/w
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0wjq54m7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Dec 2025 15:26:25 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BHFDvXE000797;
-	Wed, 17 Dec 2025 15:26:24 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0wjq54m4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Dec 2025 15:26:24 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BHCmEsQ012816;
-	Wed, 17 Dec 2025 15:26:24 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b1juyb4rg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Dec 2025 15:26:24 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BHFQN7Y19202578
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 17 Dec 2025 15:26:23 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EA1458052;
-	Wed, 17 Dec 2025 15:26:23 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A8EA5805A;
-	Wed, 17 Dec 2025 15:26:22 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.66.168])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 17 Dec 2025 15:26:22 +0000 (GMT)
-Message-ID: <45ca26a5b08f42fb1318cd78a62dda20b9adb84e.camel@linux.ibm.com>
-Subject: Re: [RFC][PATCH v2] ima: Add support for staging measurements for
- deletion and trimming
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com,
-        nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-In-Reply-To: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
-References: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Dec 2025 10:26:22 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4Kf/q84"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54C7C116B1
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 15:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765985333;
+	bh=g2GBN3njSzISEBsyHXvbwpMCDA/0jrfTyD+Ehz7ZsM8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=k4Kf/q84Ays23eHaSOpgsQjrbt3sCf1ABQeRmFMST0zqpaLKqxEIAzoxc1Skq3zcX
+	 wwUbrPtFJuiWy0r5ehThItRlySTgiMjS+vQ0ug1RfTeaWRzKTZpxTQ/91kn62VJc1K
+	 6RN7rg5bvQb/n50je4j8FV9qIesN8o3hUQsG6mzwapbHbNlJ/olfEjY2LoZWczWpFh
+	 8rDyczzT7cU9EmjzfSAtm4xLGRvMmDAKfi5VOWNMcbOwFYTS+OAFjclIsxjhwpQqud
+	 8CrfY+uI391DE+1yrLohV0COTaTkcDewU3mWQ66yVRxDYGp10DO63puiwbpYxLEYg+
+	 nITRrJjJ4XENg==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5958187fa55so4915759e87.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 07:28:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWe6hcofgvwhvE/19h2bypC3o9gADm2jG2uoZIF7xHQhKYTGJ/6NgZEaX/iKzzNY5Q9fqEw1c2/CEI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZFN/JVrLBuyZGEMWCoFR1LawmdhNw+qr1dCmuvg0HKrhnyVXV
+	88dUswapu0H6z1Uapa5gDMyV5kGHfbujA8ra5i26yXEn/onTdSdS7pYVPMy9z76AAokS5hAsIAt
+	3u0JqGnoqPz9wAKtCSMR4zXQIwMuyJsuHNfk0WPZ+aA==
+X-Google-Smtp-Source: AGHT+IHLFGulb3z/eo2szi6786N8kGEmVFIwSvl4dUMvlzw1VLQQUCCeWzohDS2Sm0Bl5s7XXHCH8EBa2sM93x2lPWA=
+X-Received: by 2002:a05:6512:1096:b0:595:9d6b:1174 with SMTP id
+ 2adb3069b0e04-598faa86c0bmr5281960e87.35.1765985332003; Wed, 17 Dec 2025
+ 07:28:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEzMDAwMSBTYWx0ZWRfX5rvLz0ncaOzW
- h0iKXDggcsekEWak9J/7FAlGCRDqWsFmsh4SHQbuGTdJYpKYeVgMdGWXIW2FsvcuiMgmqdYB7RW
- j6q5oBOTMlG2inw/i1PcxmhA1snYkJN3BRs+LGGNhX6cz7KHspIE5dKdCw9oB1Hcc2JBBhEutEN
- jpakLy9wE4UGkkr6Hbp7fSqRCwYEVHpkHgKm97De7VTJjny9rEPY/WYos3izVgWmBm5sCUNRyfH
- ijmVvO0I8Q4TktMptm1vcy0nCNSIr6XQlfx9QHAvY2kw9LMYDRXTMkPhXXSm0ujCXAiTBS17CaU
- t9djVNI3A2sGy3r9/x9Fj1BynCQJVNiiC+cYpW4KmgKHteZG/f9+qHK0XHiyS5GSDkiiMrGH0rf
- 5VkltOO7IATJC2xpxumK9oSta2J1Tg==
-X-Proofpoint-GUID: 38Hu_ad1YeVrF7BzaAGbKW6hy2OzGMaf
-X-Proofpoint-ORIG-GUID: WPBA0wQp3Kfkxu4HDCrvmpRN7PbyFtSX
-X-Authority-Analysis: v=2.4 cv=Kq5AGGWN c=1 sm=1 tr=0 ts=6942cba1 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=i0EeH86SAAAA:8 a=JtGQKGBNXkVSYQT4CyIA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-17_02,2025-12-16_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015 spamscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2512130001
+References: <20251217-staging-ad4062-v4-0-7890a2951a8f@analog.com> <20251217-staging-ad4062-v4-9-7890a2951a8f@analog.com>
+In-Reply-To: <20251217-staging-ad4062-v4-9-7890a2951a8f@analog.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 17 Dec 2025 16:28:40 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McPAORcG2hiLO35q5UgXpTvbzAhdoprgE_9xSCJG=QPoA@mail.gmail.com>
+X-Gm-Features: AQt7F2oNHCsrRoHfSHESys1l2uJDHi95XvDyM4YYcEDD4aTW-_SzkbJW2Zj6aGg
+Message-ID: <CAMRc=McPAORcG2hiLO35q5UgXpTvbzAhdoprgE_9xSCJG=QPoA@mail.gmail.com>
+Subject: Re: [PATCH v4 9/9] iio: adc: ad4062: Add GPIO Controller support
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Roberto,
+On Wed, Dec 17, 2025 at 1:14=E2=80=AFPM Jorge Marques <jorge.marques@analog=
+.com> wrote:
+>
+> When gp0 or gp1 is not taken as an interrupt, expose them as GPO if
+> gpio-contoller is set in the devicetree. gpio-regmap is not used
+> because the GPO static low is 'b101 and static high is 0b110; low state
+> requires setting bit 0, not fitting the abstraction of low=3D0 and
+> high=3Dmask.
+>
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> Reviewed-by: Linus Walleij <linusw@kernel.org>
+> ---
 
-Thank you!  Everything is working as designed.
-
-- Only public functions require kernel-doc comments, but other functions wo=
-uld
-benefit having a comment.
-
-- As I mentioned in response to Steven's patch, "After trimming the measure=
-ment
-list, existing verifiers, which walk the IMA measurement list, will obvious=
-ly
-fail to match the PCRs.  Breaking existing userspace applications is a prob=
-lem
-and, unfortunately, requires yet another Kconfig option.  It needs to be at
-least mentioned here in the patch description."
-
-On Fri, 2025-12-12 at 18:19 +0100, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->=20
-> Introduce the ability of staging the entire (or a portion of the) IMA
-> measurement list for deletion. Staging means moving the current content o=
-f
-> the measurement list to a separate location, and allowing users to read a=
-nd
-> delete it. This causes the measurement list to be atomically truncated
-> before new measurements can be added.=C2=A0
-
-This last sentence is the crux of your of your proposal.
- -> "quickly be atomically ... so ..."
-
-I must be missing something.  With the ability of trimming N records, it's
-unclear to me the benefit of staging the measurement list and requiring a
-separate deletion. The measurement list can be read before trimming without
-loosing any measurements.  Like now, the entire measurement list could be m=
-oved
-to a staging area. Instead of freeing all of the records, only N records wo=
-uld
-be freed.  Afterwards the remaining staged measurements (N+1) could be rest=
-ored
-to the head of the measurement list.
-
---=20
-thanks,
-
-Mimi
-
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
