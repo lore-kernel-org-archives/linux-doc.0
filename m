@@ -1,226 +1,464 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013061.outbound.protection.outlook.com [40.107.159.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F51335E549;
-	Wed, 17 Dec 2025 13:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765977295; cv=fail; b=AqBah+4e/6Z00hCqCdL03saFBGLNra3vmMJb7XtXx8NAad0AFv1r5FnsP1Sj0rgg10ciHjexZQzzzIRmj+XrpH3vAXb9hA6HDF6AwpyNa9VdYuwLMkja8Bw1Tq2ki+MEqoabaOnhgFJiMNT16c7T5NEf5Gs6rklqMl/Iph7Ddls=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765977295; c=relaxed/simple;
-	bh=njNiwniHQPnjbQsK6SBumlk6bYMjK/x6VKuEL88vPK4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=EXjT/FiueQ++HpvQ/1CZBD0TDtqXPHkfLHFfyA/q0kM5Ru9bEZh4LuFL94zBCxLZ8NNQi0tXLWrXX0uyCitkMeM+N5brqt/O1eAzBKXyJ2y5HO5C7XBatQwuj5V3XR1sBv8xSsw1dlELS74idcwgVeYCg+mY+Iys+0e3iNIJsFE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=aTQBj5yw; arc=fail smtp.client-ip=40.107.159.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A45F36C0BB
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 13:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765978797; cv=none; b=Tz8iLzgZ8qrRNVqJJyk6VQUyOxanjkoHGc+mBd1zkAuBoOJvX+hUvLEbPJFeeUtiIqLxXYUFJ0nh587lRd8CHx5FV4pf7qGGgjdjsuJCteygw2S9WFe7FYtT+hgP7HxFcrBB0sNTj6k/VNp+y6Ei0P6h648aO06oyS8RwN2xbsU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765978797; c=relaxed/simple;
+	bh=Y8HwpCJLp5JuXwZzLKV+3HBK3WSOBZDnT2hxF952di4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sRQM/AMkQLkR3Z+GF8GnrHFKOFHIQe92ZWnsKRbCM0EEWDZi1s6zKa84C67cV4OlQ8FVAxT6+3i9O9GRqlVvfYxBzYIUV4kWw1y57IBmvyGg9Dkqch8uQrjjt3ac1KWc25RgXeRLNTFCUjf8r+VAc2NTuTOnQtGlORvIts4U6C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cpTGQEAs; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="aTQBj5yw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iX53n6Vaw0x+7YynCMp3t9Yn9bAtQRT/Z2LQOYDBHYfA729J6BX9o4JQfCeJ9Aa09n2JWeMYnd/w/8c0eR4dvt4GEZ6gBIZCnl2Hju3juPsXALW6UyYN+T2iHB8kG9pYWDuGtnXgsiG1Dnlk9GNmF6iQD/H65XMK2XZ0zRUfkcST0liNBC6v6Oc4hNUKOojuvYqB6s8n4RFZykL3EKEkhpGJAqEXMQacUyLqaIO/r+CDsMv/9qiB/gekjcOUC5dwt/3Nee8acLqQb5cswT8Thw+nhjm2Rd+bP7WYrB7npybIhZw3CbAdhLvdNW6/h5qTweIhj9znWrg+h2dIDUZCnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w9yCccN5nYfZFG6ZWU4TO7/fBda7cVlelOCirXwdQmE=;
- b=EiQcpqMhiEQSMDU/0f+ZmFzHvhtX1toh8rZuvC8eP4uLXVYn7FW4oT/SszvXz10vbq8EKsLqO9PxmMhHSjxMetWp3DdWkCuSSc3K+vhCPyJgdFbEmfcLJVuJctsCW1AXCBxxMPQ7zDXIFM2FZVbJ5IzFAT8KuSnt+huMfplOYo9YLSoxAbp9+CWxwYsHrd2LPNQBgWJsJHNtTa71JZpy+uivopc0q6Q4An6g3nPjNiYSqTAH5tf0BWjhrOCy4Z6AZhxx+DynBezULXkL9/feXLEkWQ245EO+3FPHFcJbeYZQXsJmvPWwF7H2ttCuJz7odngz8iBAbv4GhYWYRJCSiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w9yCccN5nYfZFG6ZWU4TO7/fBda7cVlelOCirXwdQmE=;
- b=aTQBj5yw24J4ke5U5lJYzrhq/gcRbtR3TCQHA9smPiW8htSfLkQGXqEdqwXBuITB1IX6iq08ar2WxzfouObIHnF4eaYZtsGeZgZLxfufZ4LY1Zbo9E0vdC6wv6CKCubodafMNk9icFWHmkwCrkj0gHucGnwWXxIxtVIAzI3XB2UYPnQxmq4/pym1dgUdLm54xgf4rI5HdRBJBn9Og9UcZvn9VqTlKBcwwnschtX0EtdfM3wsT38rHetaR5UaPBwS+cDikcig39phgu7xy/3b2pBsW2CYtnDJYz+lGyNEscQWK5g1KfW1PuChyZjuDpYHB0g9Nx2KTDqUYGbIev8+1Q==
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com (2603:10a6:20b:43b::21)
- by PA6PR04MB11804.eurprd04.prod.outlook.com (2603:10a6:102:524::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
- 2025 08:40:05 +0000
-Received: from AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827]) by AM9PR04MB8604.eurprd04.prod.outlook.com
- ([fe80::e751:223e:aa3d:5827%3]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
- 08:40:03 +0000
-From: Pankaj Gupta <pankaj.gupta@nxp.com>
-To: Frank Li <frank.li@nxp.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH v21 5/7] firmware: drivers: imx: adds miscdev
-Thread-Topic: [PATCH v21 5/7] firmware: drivers: imx: adds miscdev
-Thread-Index: AQHca0fzBh349iqDGU2aBcz65HDXXrUeOU0AgAWeHMA=
-Date: Wed, 17 Dec 2025 08:40:03 +0000
-Message-ID:
- <AM9PR04MB860463DED50B8371D349E3F095ABA@AM9PR04MB8604.eurprd04.prod.outlook.com>
-References: <20251212-imx-se-if-v21-0-ee7d6052d848@nxp.com>
- <20251212-imx-se-if-v21-5-ee7d6052d848@nxp.com>
- <aTxIsAQMe3sbxXQ4@lizhi-Precision-Tower-5810>
-In-Reply-To: <aTxIsAQMe3sbxXQ4@lizhi-Precision-Tower-5810>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR04MB8604:EE_|PA6PR04MB11804:EE_
-x-ms-office365-filtering-correlation-id: 5dfc26f6-a445-4933-d313-08de3d47df90
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|19092799006|7416014|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?KOYrNxBU1NdICwktIlQ2w5EPljEoiAYewNZkf9IGMPK86KCQl1OrZWJeM0lm?=
- =?us-ascii?Q?+QgsoYmgXmvFZV8u/7k2xfK2a6m5MNLZfis1ioZN1KHAVC1SC8m3I5i5AU0E?=
- =?us-ascii?Q?yU/pX+yGRTjQ5x6iui3ILuOo3O1VTd104/wNwtRReK1qgtEMc1WSJZot0GJv?=
- =?us-ascii?Q?vGyKOGEyVZxTRGo/bjGLXeO9LKRngmEOiGg7Nh1PZA0gNOTARmpvzAq93ZnD?=
- =?us-ascii?Q?f1mHqPShOjEbtcA29WtHhb1TPkV2L9tjeHp9PIBbM+jlbspqb/QFEWPJnhGA?=
- =?us-ascii?Q?20OESDZgJloYpaoaY/N6Koc5iOHGTcMqInOb/wAD5WMNbo7bHFHooY3+3ZPr?=
- =?us-ascii?Q?DZKOwU00q0AWP83v5mmE+abIdMV+AbcpYODYikCowrPzCTvKCNK3Kvtvjyd7?=
- =?us-ascii?Q?95dcp+rj9kv4rJgAb6B6u8cvS5V5z2/k4VfbKr7lJfKAxc/qnv/aYvFNsQ06?=
- =?us-ascii?Q?MdaVtKpVdkD+PZotxmSvEcuvPoAwoLaOhSUverDgoDXPZ2yOhGRwb6/YsP8C?=
- =?us-ascii?Q?VETBfRM2vcKeFDAFHSk6ffRzaxtJtcjEhXAT09ASM7EIawIC0M249PnhKBqk?=
- =?us-ascii?Q?XK5vjKLqs7AS2Wni3VMFJZExDm2Cv0kzE47pWZU9v5FMepHVtct7Ev/xS1aE?=
- =?us-ascii?Q?/iuVLJBFTuykNPj11JqL4CNma0qMgP/7mgcDd/swl53yEePXg9St11qBEylu?=
- =?us-ascii?Q?Z85IXqkB8qOJwD/dal+tiVNjxFv0OlNe7OVzUQnGZ23Mr6xNzV+E61w8Z+l+?=
- =?us-ascii?Q?5jbezOU/CXQz7UJbKI04ZS5eVGtYqO6++R3rmPtCU4JjE7GwDLUj1Caow/iN?=
- =?us-ascii?Q?r7UmYIzHPBAW/2LXFwmo9iQJVqvy49ZY7QLZ5pMzASp8a6GjdAf89+ppuYMC?=
- =?us-ascii?Q?R0tXcZlwYHBINO4RJiUtrTiYGJy9tdZl6UD8+sNMHwfkmVCHZkqt2BphxLOL?=
- =?us-ascii?Q?DEP5RvjEbDRj/L8SKTidwbfngMHBCISGHHS7ZuVAQdWw05etRiJHryFKxuG8?=
- =?us-ascii?Q?r0yYS1ljtfjtSBkKWS0VOmQv+330by+iOoPINiX/HYGNyZCoGCPlaIIz/Rb6?=
- =?us-ascii?Q?Hz7LtV6AYKDg5Ih0zdvMQ77gUcHO70OOZTmRGBdZGMhI1nvDaIN1hx5bwQIE?=
- =?us-ascii?Q?vQBWtxDFpAV2D+sIr8wpxNiIX0cqNJQD45pMIsZjjb1DjZPId8qKn6JEl+BQ?=
- =?us-ascii?Q?bap0I+NSdW6gAPzXebeChAFsK60gPzStMmEIQuefOxdbF5GFm6IjVLBJUEPW?=
- =?us-ascii?Q?kDDFQxpY13eoKFfGEqXUmmgSSBywgQwhax+COd0aFNMXbjYSayDAezWzLRt/?=
- =?us-ascii?Q?gRA/RLNkIOcEp3CBuzcZd6lLso8N1vO5njtpaLavoBUUlXUsaMl8NE6rcZBO?=
- =?us-ascii?Q?KXojlgEXDd+pH49VOkaGjBrGdkQOQuajjg02SK/zkBTI9jiJgd21pWiQo9qw?=
- =?us-ascii?Q?rNaDgM2a6oVzAfovnDkS31/IzqKTrYsXB+AykvffY9enOLZ7zE5ktq02DRJ5?=
- =?us-ascii?Q?IHj4hxxNslcHmYFbUXvArZ2kuvSkc3AHtImgpYVEqZHMsEVPWm2hgaugEA?=
- =?us-ascii?Q?=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8604.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(7416014)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?xvZWzqfy0COgKgFIGAi4M7KfGsNHD3jVQUFasj3x7HRToMY3csLJOdEoEJKd?=
- =?us-ascii?Q?9SumbaMeqkE31qTjynPDtzl7MGDuN4qlJc/LtKR+KFYk/1jlc3wzmjWidFkC?=
- =?us-ascii?Q?uol0VxgNdnlE5XqDUnKJ9+AGFiSDN70tSgD7IA+4heLDTV11fTvnRJP+qZ6S?=
- =?us-ascii?Q?eNyXTWRoCtEoNWG8XeaqfSgpTEOAuVcWhh8fdsJYVg9xvsQSMLkaPigFsiva?=
- =?us-ascii?Q?Ps410ASv9EK+UI5ofLPVf+qzjfpwatEWp+xBP3qbkcMrX3aLve0yzrgjmFLE?=
- =?us-ascii?Q?AxS2GGZ66xh2qd2DVb56JGfy08DpUnXYgbhXeWSCSzbQf/1OHXlwXmHkLLE5?=
- =?us-ascii?Q?b+qF3o2djpL3k2MkVLcSD8axjj+Jno7N5EaRoGECv0H2RfD06Pjox4InLCin?=
- =?us-ascii?Q?3fKm+EOehrugva2CM51O+tsiF1Bg8wfDX+zYvnFwCJ0j6LMtfVDbR1COsCPe?=
- =?us-ascii?Q?aF9FLsHB2dFlH7PyMUHSjKOofQppE1dXnKn6Ly2yYYFD/dsHdR51oxNAZeZ5?=
- =?us-ascii?Q?lVAejO61CGld0UZQaibYmGjOkUicx82jeN8VVN4Lqv508MRVIMNh42fcbJpb?=
- =?us-ascii?Q?nUDO6NBA1sy/PhpmRUQpemKlCOW+PbGR+nz4d6/3ByKGcnSWW60WdBG1Yjzc?=
- =?us-ascii?Q?bvnnvMBC9VhM7JBEU2F26nImDytSaCkhbBsQgYAtQ9wuYvegVgTfaxEhtaXX?=
- =?us-ascii?Q?iOgqm+RKlUq3Hnd8vPOS4yRl7NN9wP+gOyKy5EA1oet6zmZ1wc14RAmMOznR?=
- =?us-ascii?Q?FCPl4sQJ9+vRyUJwELYu4JbVQw8DSBq7j8O3bWggFomW1i7Ud2SRUNG2SJOC?=
- =?us-ascii?Q?V8HVarxqgjDo0BipjRJfUl0V3BtwOE7mCoXHaJZ3H91p91bBT2z75XeoEX5i?=
- =?us-ascii?Q?GkGzKLGnEcJe4tLqwczNCr+G+sYpVv3Afu93xy75n46KnnLV1M116gjeE7ea?=
- =?us-ascii?Q?hsVmQfKMD31/Uw7A6yk6v6pH2XVwil2Ef2a54U7ENK0RwfwlQSEhwO1EbQIv?=
- =?us-ascii?Q?xVVTZT0K9WtJkqyAxcatD7ChIwbmbcu9FO7BTXEKVHFmyA2Ek3dJiUDc8yid?=
- =?us-ascii?Q?tCnCFrrUQy6V+JJsNVlUq6xsRxb7HN+GRj1zdURDZ8lH4/8Bbu8qd7WuTDcf?=
- =?us-ascii?Q?Do3ZDbwOW+1L4fhOkt4zmxuHMEh1Ouif9PxwPFG8iPPzzGrsMfyzsD5T4fNd?=
- =?us-ascii?Q?z+PwOd1o4ZGgH50HFIG8M6p+d+IbwtkjcGGhv4RJFFeiGXyzZOr5FYa9y2dE?=
- =?us-ascii?Q?k9eqEPSAn2UgNBKnTeFtLVLynPNLSEtvgk0u1QtVkUVH6ecKOU92QmmYmr9Z?=
- =?us-ascii?Q?4OjLWP4ROv+AJBejjdja7J7eZt7DHBKztafCrv4mLIcEFaZje8MIiL3db2CE?=
- =?us-ascii?Q?+0RO6yZbajnzXWCpscD2IMUr9NSKfIiH3SE29jt5D91aM4XR0++V7AD22Uzz?=
- =?us-ascii?Q?iCggr1OikynMhT0EjgAAiKbVPSzYY9cYBUJ9TXR9fwguNNbodAWV2eP80ylX?=
- =?us-ascii?Q?nG7vPeYpv1mTRvqun2og+QqvRpeJ7zd97GrbsFsIj/VK4sBnQmIdaedpK0YC?=
- =?us-ascii?Q?e+CpXE+2z2wPKirhlzCdFXAF5t9vWASHhJm582yr?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cpTGQEAs"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34c84ec3b6eso4167733a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 05:39:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765978794; x=1766583594; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6pIj46nVvtUq+4eec5aThnrTEmEGNk5gVfAEDmgIrpg=;
+        b=cpTGQEAs+MbjtnSc1P7z9XQx590NDBC3jqO55epJUksXi7Lk3VvHMG65d9+7P5N8X8
+         cMhSjOqxgvFcYPSYe04Iix9FH2Rh0eD2mwd56ZY1UAqZA5o4TNYZIOoBJwizsmD8KtNQ
+         37deqL/gv1+nRuLSUlacjYmE3RtvdcqugtDcXWOCtn+yBtIbxJl2KzH1jrNZzPlsu4uF
+         i7fEDI1VBjaBghltESg0pjT9NkXPkppNjEXYu44KzENZUJEKUj3ZGNFJs3sa1DNLmwk3
+         qllVcBuVbUOjnNlYUDNLHNki3M09/98GQDLMZtG7tAypXS7eRp8LvIVAe299vMHkRgxe
+         EcQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765978794; x=1766583594;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6pIj46nVvtUq+4eec5aThnrTEmEGNk5gVfAEDmgIrpg=;
+        b=YonPq2q4AV1A7dp+eEfuPb1kyLqoDU2wZpHLF0lWe7wQ/s63uVPA9lt7cQjUpID+WF
+         vIgb7dLMKA5DQ01U4WnOn1CDlSaalR0+DPQkWI+fcnf56O4jCeFB/4J2fwSEWZGQPCbw
+         Gx/39NdsbNvFmWPSp+BB8U+4+JW0ispFVozYnxIDxHHSFscBh72ftwCS3L9Rd164po8Y
+         fJVDYHgJ8fqS98vLi8BR38o6bYKhiE4EyqWCNSSunl6PPieS7uq8DM+Ah6n1cuqLUTO1
+         4N7aRA3LCobm3NUjsWcEbrtHI6Op7+ECI3nPzFUlxjFqJNYFytA/BOlgwt3qk/EusLEY
+         aGbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUihBLfhdpX1bkY0VZbQ2xqJr5CdhDVpKPF/fj+v5fKV4lzj8sMOkAB8c103PgSeo2zMCKYLJUwozY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQkfxz+tXoU9jhpzY4Z7PmOiNSrxqFap9rhfPX7UMLUG2IycMk
+	Pd0O4nyGQskYK8WNXW9Xek9BIMnunLoElod6nkzuI45L3zOtpWDvcB/d
+X-Gm-Gg: AY/fxX7xErTV37DTTdBoGnQIFQJgBQnQ+uGFfzlgxeLak4QIk2TQheKPy2oso/ctvpo
+	K3BmDRkHLXOSCnXQOWKDh5yAtJgSD6RqzrMhsGmcYsedOZEurVtKqF80FeguAMG6kaGvphONC5u
+	xLWnAV7ok3iVB0Rt4Yw3KMOtHOFYhvJ/SaiUyicwFEz3k8cHpsTtYXXqLeJVXnHLVIJF9O4+Dkm
+	cKcH5Oy9y7ka+ybjcGqtQRusUJwkqTS1FoutHf44bhnGXJM6zpFt4w679rlntdq1amr6stQLLi7
+	FDnD8bSXazEdAnPUrcGrQOW3KEZtQnIOT5BLfGD2zbzzEN4YEeEDXIVrdnB5IKqwQrlZtlWW0mO
+	ApmwNvdrm84ZMhhA87sTcOyvT6KBEZ2gDsMptmgx1gj6UJ88kUeXGKeL/6oYEHhvXAyUus3mm8l
+	C5Vfsfyk5ko7oNQ6rhu0SAAc6Wpc932Qlkh319Wq1MLQICcwq6FGTOiWjCZoSRgx1YFpzKKHJKU
+	Vy6TpsKpecKrW7VetvROSyDf1M=
+X-Google-Smtp-Source: AGHT+IG3LzjynQX7X4H7S9Io3Ynamjd2a9PPbU+36SGNDnZcAgiWppcnGVLBSdjNiAVnsvjUFOBbeQ==
+X-Received: by 2002:a17:90b:2ccf:b0:340:cb18:922 with SMTP id 98e67ed59e1d1-34abd71f7e6mr16889624a91.14.1765978794294;
+        Wed, 17 Dec 2025 05:39:54 -0800 (PST)
+Received: from [172.27.236.53] (ec2-13-250-3-147.ap-southeast-1.compute.amazonaws.com. [13.250.3.147])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c0c25b7d59dsm18602604a12.6.2025.12.17.05.39.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Dec 2025 05:39:53 -0800 (PST)
+Message-ID: <87df4cba-b191-49cf-9486-fc379470a6eb@gmail.com>
+Date: Wed, 17 Dec 2025 21:39:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8604.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dfc26f6-a445-4933-d313-08de3d47df90
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2025 08:40:03.5511
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: L75mC9uA8FJeYZ114QvgZI0JGCmz92PW01iZboGJbF6yncXqdiliMETiBRr3eT75ECR890ni5cKkvacMEwXvJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR04MB11804
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF
+ events
+To: Tian Zheng <zhengtian10@huawei.com>, maz@kernel.org,
+ oliver.upton@linux.dev, catalin.marinas@arm.com, corbet@lwn.net,
+ pbonzini@redhat.com, will@kernel.org
+Cc: linux-kernel@vger.kernel.org, yuzenghui@huawei.com,
+ wangzhou1@hisilicon.com, yezhenyu2@huawei.com, xiexiangyou@huawei.com,
+ zhengchuan@huawei.com, linuxarm@huawei.com, joey.gouly@arm.com,
+ kvmarm@lists.linux.dev, kvm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ suzuki.poulose@arm.com
+References: <20251121092342.3393318-1-zhengtian10@huawei.com>
+ <20251121092342.3393318-5-zhengtian10@huawei.com>
+Content-Language: en-US
+From: Robert Hoo <robert.hoo.linux@gmail.com>
+In-Reply-To: <20251121092342.3393318-5-zhengtian10@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> > Adds the driver for communication interface to secure-enclave, that
-> > enables exchanging messages with NXP secure enclave HW IP(s) like
-> > EdgeLock Enclave, from:
-> > - User-Space Applications via character driver.
-> >
-> > ABI documentation for the NXP secure-enclave driver.
-> >
-> > User-space library using this driver:
-> > - i.MX Secure Enclave library:
-> >   -- URL: https://github.com/nxp-imx/imx-secure-enclave.git,
-> > - i.MX Secure Middle-Ware:
-> >   -- URL: https://github.com/nxp-imx/imx-smw.git
-> >
-> > Following checks are performed on the incoming msg-header, to block
-> > exchanging invalid arbitrary commands:
-> > - maximum allowed words,
-> > - check if command-tag & response-tag are valid
-> > - version,
-> > - command id validation check, to allow limited base-line API(s)
-> >   and restrict following:
-> >   - exchanging power management commands.
-> >   - reset requests.
-> >   - BBSM configuration requests.
-> >   - re-initializing the FW.
-> >   - RNG init
-> >   - CAAM resource release management
-> >   - SE's internal memory management.
-> > from user-space.
-> >
-> > Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> > changes from v20 to v21
-> > - removed "__free(kfree)" & added kfree();
->=20
-> KK's means is that correctly use __free according to cleanup.h.
->=20
-> fun()
-> {
-> 	...
-> 	some code logic
-> 	...
->=20
-> 	struct .... __free(kfree) rx_msg =3D
-> kzalloc(cmd_snd_rcv_rsp_info.rx_buf_sz, GFP_KERNEL);
-> 	...
-> }
->=20
-> Frank
+On 11/21/2025 5:23 PM, Tian Zheng wrote:
+> From: eillon <yezhenyu2@huawei.com>
+> 
+> Implement the HDBSS enable/disable functionality using the
+> KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl.
+> 
+> Userspace (e.g., QEMU) can enable HDBSS by invoking the ioctl
+> at the start of live migration, configuring the buffer size.
+> The feature is disabled by invoking the ioctl again with size
+> set to 0 once migration completes.
+> 
+> Add support for updating the dirty bitmap based on the HDBSS
+> buffer. Similar to the x86 PML implementation, KVM flushes the
+> buffer on all VM-Exits, so running vCPUs only need to be kicked
+> to force a VM-Exit.
+> 
+> Signed-off-by: eillon <yezhenyu2@huawei.com>
+> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+> ---
+>   arch/arm64/include/asm/kvm_host.h |  10 +++
+>   arch/arm64/include/asm/kvm_mmu.h  |  17 +++++
+>   arch/arm64/kvm/arm.c              | 107 ++++++++++++++++++++++++++++++
+>   arch/arm64/kvm/handle_exit.c      |  45 +++++++++++++
+>   arch/arm64/kvm/hyp/vhe/switch.c   |   1 +
+>   arch/arm64/kvm/mmu.c              |  10 +++
+>   arch/arm64/kvm/reset.c            |   3 +
+>   include/linux/kvm_host.h          |   1 +
+>   8 files changed, 194 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index d962932f0e5f..408e4c2b3d1a 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -87,6 +87,7 @@ int __init kvm_arm_init_sve(void);
+>   u32 __attribute_const__ kvm_target_cpu(void);
+>   void kvm_reset_vcpu(struct kvm_vcpu *vcpu);
+>   void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu);
+> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
+> 
+>   struct kvm_hyp_memcache {
+>   	phys_addr_t head;
+> @@ -793,6 +794,12 @@ struct vcpu_reset_state {
+>   	bool		reset;
+>   };
+> 
+> +struct vcpu_hdbss_state {
+> +	phys_addr_t base_phys;
+> +	u32 size;
+> +	u32 next_index;
+> +};
+> +
+>   struct vncr_tlb;
+> 
+>   struct kvm_vcpu_arch {
+> @@ -897,6 +904,9 @@ struct kvm_vcpu_arch {
+> 
+>   	/* Per-vcpu TLB for VNCR_EL2 -- NULL when !NV */
+>   	struct vncr_tlb	*vncr_tlb;
+> +
+> +	/* HDBSS registers info */
+> +	struct vcpu_hdbss_state hdbss;
+>   };
+> 
+>   /*
+> diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/kvm_mmu.h
+> index e4069f2ce642..6ace1080aed5 100644
+> --- a/arch/arm64/include/asm/kvm_mmu.h
+> +++ b/arch/arm64/include/asm/kvm_mmu.h
+> @@ -331,6 +331,23 @@ static __always_inline void __load_stage2(struct kvm_s2_mmu *mmu,
+>   	asm(ALTERNATIVE("nop", "isb", ARM64_WORKAROUND_SPECULATIVE_AT));
+>   }
+> 
+> +static __always_inline void __load_hdbss(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm *kvm = vcpu->kvm;
+> +	u64 br_el2, prod_el2;
+> +
+> +	if (!kvm->enable_hdbss)
+> +		return;
+> +
+> +	br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu->arch.hdbss.size);
+> +	prod_el2 = vcpu->arch.hdbss.next_index;
+> +
+> +	write_sysreg_s(br_el2, SYS_HDBSSBR_EL2);
+> +	write_sysreg_s(prod_el2, SYS_HDBSSPROD_EL2);
+> +
+> +	isb();
+> +}
+> +
+>   static inline struct kvm *kvm_s2_mmu_to_kvm(struct kvm_s2_mmu *mmu)
+>   {
+>   	return container_of(mmu->arch, struct kvm, arch);
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index 870953b4a8a7..64f65e3c2a89 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -79,6 +79,92 @@ int kvm_arch_vcpu_should_kick(struct kvm_vcpu *vcpu)
+>   	return kvm_vcpu_exiting_guest_mode(vcpu) == IN_GUEST_MODE;
+>   }
+> 
+> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
+> +{
+> +	struct page *hdbss_pg = NULL;
+> +
+> +	hdbss_pg = phys_to_page(vcpu->arch.hdbss.base_phys);
+> +	if (hdbss_pg)
+> +		__free_pages(hdbss_pg, vcpu->arch.hdbss.size);
+> +
+> +	vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
+> +		.base_phys = 0,
+> +		.size = 0,
+> +		.next_index = 0,
+> +	};
+> +}
+> +
+> +static int kvm_cap_arm_enable_hdbss(struct kvm *kvm,
+> +				    struct kvm_enable_cap *cap)
+> +{
+> +	unsigned long i;
+> +	struct kvm_vcpu *vcpu;
+> +	struct page *hdbss_pg = NULL;
+> +	int size = cap->args[0];
+> +	int ret = 0;
+> +
+> +	if (!system_supports_hdbss()) {
+> +		kvm_err("This system does not support HDBSS!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (size < 0 || size > HDBSS_MAX_SIZE) {
+> +		kvm_err("Invalid HDBSS buffer size: %d!\n", size);
+> +		return -EINVAL;
+> +	}
+> +
 
-Hi Krzysztof, Hi Frank,
+I think you should check if it's already enabled here. What if user space calls 
+this twice?
 
-Thank you for the review comments.
+> +	/* Enable the HDBSS feature if size > 0, otherwise disable it. */
+> +	if (size) {
+> +		kvm_for_each_vcpu(i, vcpu, kvm) {
+> +			hdbss_pg = alloc_pages(GFP_KERNEL_ACCOUNT, size);
+> +			if (!hdbss_pg) {
+> +				kvm_err("Alloc HDBSS buffer failed!\n");
+> +				ret = -ENOMEM;
+> +				goto error_alloc;
+> +			}
+> +
+> +			vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
+> +				.base_phys = page_to_phys(hdbss_pg),
+> +				.size = size,
+> +				.next_index = 0,
+> +			};
+> +		}
+> +
+> +		kvm->enable_hdbss = true;
+> +		kvm->arch.mmu.vtcr |= VTCR_EL2_HD | VTCR_EL2_HDBSS;
 
-I misunderstood earlier and removed __free(kfree) in v21, thinking it was n=
-ot preferred.
-After revisiting your feedback, I see the intent is to use __free(kfree) co=
-rrectly as per cleanup.h guidelines for automatic cleanup instead of manual=
- kfree() calls.
+VTCR_EL2_HA is also a necessity for VTCR_EL2_HDBSS to take effect.
 
-I will revert the previous change and update the patch to follow the recomm=
-ended pattern:
--  strucivt se_api_msg *tx_msg __free(kfree) =3D kzalloc (XXXXX, GFP_KERNEL=
-);
--  Make sure the source files has: #include <linux/cleanup.h>
+> +
+> +		/*
+> +		 * We should kick vcpus out of guest mode here to load new
+> +		 * vtcr value to vtcr_el2 register when re-enter guest mode.
+> +		 */
+> +		kvm_for_each_vcpu(i, vcpu, kvm)
+> +			kvm_vcpu_kick(vcpu);
+> +	} else if (kvm->enable_hdbss) {
+> +		kvm->arch.mmu.vtcr &= ~(VTCR_EL2_HD | VTCR_EL2_HDBSS);
+> +
+> +		kvm_for_each_vcpu(i, vcpu, kvm) {
+> +			/* Kick vcpus to flush hdbss buffer. */
+> +			kvm_vcpu_kick(vcpu);
+> +
+> +			kvm_arm_vcpu_free_hdbss(vcpu);
+> +		}
+> +
+> +		kvm->enable_hdbss = false;
+> +	}
+> +
+> +	return ret;
+> +
+> +error_alloc:
+> +	kvm_for_each_vcpu(i, vcpu, kvm) {
+> +		if (!vcpu->arch.hdbss.base_phys && !vcpu->arch.hdbss.size)
+> +			continue;
+> +
+> +		kvm_arm_vcpu_free_hdbss(vcpu);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>   int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>   			    struct kvm_enable_cap *cap)
+>   {
+> @@ -132,6 +218,11 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>   		}
+>   		mutex_unlock(&kvm->lock);
+>   		break;
+> +	case KVM_CAP_ARM_HW_DIRTY_STATE_TRACK:
+> +		mutex_lock(&kvm->lock);
+> +		r = kvm_cap_arm_enable_hdbss(kvm, cap);
+> +		mutex_unlock(&kvm->lock);
+> +		break;
+>   	default:
+>   		break;
+>   	}
+> @@ -420,6 +511,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>   			r = kvm_supports_cacheable_pfnmap();
+>   		break;
+> 
+> +	case KVM_CAP_ARM_HW_DIRTY_STATE_TRACK:
+> +		r = system_supports_hdbss();
+> +		break;
+>   	default:
+>   		r = 0;
+>   	}
+> @@ -1837,7 +1931,20 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+> 
+>   void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
+>   {
+> +	/*
+> +	 * Flush all CPUs' dirty log buffers to the dirty_bitmap.  Called
+> +	 * before reporting dirty_bitmap to userspace.  KVM flushes the buffers
+> +	 * on all VM-Exits, thus we only need to kick running vCPUs to force a
+> +	 * VM-Exit.
+> +	 */
+> +	struct kvm_vcpu *vcpu;
+> +	unsigned long i;
+> 
+> +	if (!kvm->enable_hdbss)
+> +		return;
+> +
+> +	kvm_for_each_vcpu(i, vcpu, kvm)
+> +		kvm_vcpu_kick(vcpu);
+>   }
+> 
+>   static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
+> index cc7d5d1709cb..9ba0ea6305ef 100644
+> --- a/arch/arm64/kvm/handle_exit.c
+> +++ b/arch/arm64/kvm/handle_exit.c
+> @@ -412,6 +412,49 @@ static exit_handle_fn kvm_get_exit_handler(struct kvm_vcpu *vcpu)
+>   	return arm_exit_handlers[esr_ec];
+>   }
+> 
+> +static void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu)
+> +{
+> +	int idx, curr_idx;
+> +	u64 *hdbss_buf;
+> +	struct kvm *kvm = vcpu->kvm;
+> +	u64 br_el2;
+> +
+> +	if (!kvm->enable_hdbss)
+> +		return;
+> +
+> +	dsb(sy);
+> +	isb();
+> +	curr_idx = HDBSSPROD_IDX(read_sysreg_s(SYS_HDBSSPROD_EL2));
+> +	br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu->arch.hdbss.size);
+> +
+> +	/* Do nothing if HDBSS buffer is empty or br_el2 is NULL */
+> +	if (curr_idx == 0 || br_el2 == 0)
+> +		return;
+> +
+> +	hdbss_buf = page_address(phys_to_page(vcpu->arch.hdbss.base_phys));
+> +	if (!hdbss_buf) {
+> +		kvm_err("Enter flush hdbss buffer with buffer == NULL!");
+> +		return;
+> +	}
+> +
+> +	guard(write_lock_irqsave)(&vcpu->kvm->mmu_lock);
+> +	for (idx = 0; idx < curr_idx; idx++) {
+> +		u64 gpa;
+> +
+> +		gpa = hdbss_buf[idx];
+> +		if (!(gpa & HDBSS_ENTRY_VALID))
+> +			continue;
+> +
+> +		gpa &= HDBSS_ENTRY_IPA;
+> +		kvm_vcpu_mark_page_dirty(vcpu, gpa >> PAGE_SHIFT);
+> +	}
+> +
+> +	/* reset HDBSS index */
+> +	write_sysreg_s(0, SYS_HDBSSPROD_EL2);
+> +	vcpu->arch.hdbss.next_index = 0;
+> +	isb();
+> +}
+> +
+>   /*
+>    * We may be single-stepping an emulated instruction. If the emulation
+>    * has been completed in the kernel, we can return to userspace with a
+> @@ -447,6 +490,8 @@ int handle_exit(struct kvm_vcpu *vcpu, int exception_index)
+>   {
+>   	struct kvm_run *run = vcpu->run;
+> 
+> +	kvm_flush_hdbss_buffer(vcpu);
+> +
+>   	if (ARM_SERROR_PENDING(exception_index)) {
+>   		/*
+>   		 * The SError is handled by handle_exit_early(). If the guest
+> diff --git a/arch/arm64/kvm/hyp/vhe/switch.c b/arch/arm64/kvm/hyp/vhe/switch.c
+> index 9984c492305a..3787c9c5810d 100644
+> --- a/arch/arm64/kvm/hyp/vhe/switch.c
+> +++ b/arch/arm64/kvm/hyp/vhe/switch.c
+> @@ -220,6 +220,7 @@ void kvm_vcpu_load_vhe(struct kvm_vcpu *vcpu)
+>   	__vcpu_load_switch_sysregs(vcpu);
+>   	__vcpu_load_activate_traps(vcpu);
+>   	__load_stage2(vcpu->arch.hw_mmu, vcpu->arch.hw_mmu->arch);
+> +	__load_hdbss(vcpu);
+>   }
+> 
+>   void kvm_vcpu_put_vhe(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 7cc964af8d30..91a2f9dbb406 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -1843,6 +1843,9 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>   	if (writable)
+>   		prot |= KVM_PGTABLE_PROT_W;
+> 
+> +	if (writable && kvm->enable_hdbss && logging_active)
+> +		prot |= KVM_PGTABLE_PROT_DBM;
+> +
+>   	if (exec_fault)
+>   		prot |= KVM_PGTABLE_PROT_X;
+> 
+> @@ -1950,6 +1953,13 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
+> 
+>   	is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
+> 
+> +	/*
+> +	 * HDBSS buffer already flushed when enter handle_trap_exceptions().
+> +	 * Nothing to do here.
+> +	 */
+> +	if (ESR_ELx_ISS2(esr) & ESR_ELx_HDBSSF)
+> +		return 1;
+> +
+>   	if (esr_fsc_is_translation_fault(esr)) {
+>   		/* Beyond sanitised PARange (which is the IPA limit) */
+>   		if (fault_ipa >= BIT_ULL(get_kvm_ipa_limit())) {
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index 959532422d3a..65e8f890f863 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -161,6 +161,9 @@ void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu)
+>   	free_page((unsigned long)vcpu->arch.ctxt.vncr_array);
+>   	kfree(vcpu->arch.vncr_tlb);
+>   	kfree(vcpu->arch.ccsidr);
+> +
+> +	if (vcpu->arch.hdbss.base_phys || vcpu->arch.hdbss.size)
+> +		kvm_arm_vcpu_free_hdbss(vcpu);
+>   }
+> 
+>   static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 5bd76cf394fa..aa8138604b1e 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -876,6 +876,7 @@ struct kvm {
+>   	struct xarray mem_attr_array;
+>   #endif
+>   	char stats_id[KVM_STATS_NAME_SIZE];
+> +	bool enable_hdbss;
+>   };
+> 
+>   #define kvm_err(fmt, ...) \
+> --
+> 2.33.0
+> 
+> 
 
-This will be included in v22 along with a clear comment disposition referen=
-cing your suggestion.
-Thanks for clarifying and for your guidance.
-
-Best regards,
-Pankaj Gupta
