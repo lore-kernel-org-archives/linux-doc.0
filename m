@@ -1,99 +1,106 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8F33A3EE2;
-	Wed, 17 Dec 2025 14:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6693A4EA7
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 14:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765981875; cv=none; b=WAFyc5hEpfdYb6u7iwVLALd2lhiA3Il9oU57l68tzMlU4RPQJszEci4GzhKUMMM4IY/E6PkQtre8oXW49MgpdXgOzAJ3/GdCOJVTBpHP71Uy7EP18cYmvIffASWVREubFRCSsojNY/OzzeJQa8vWaeA14K5QQgx9RevfAk6mIUY=
+	t=1765981914; cv=none; b=D2pq6KvG6yZ5LHh3Ru02hfxkwGbu+mDmlBaYXzzR7ZiOsWC0SLfQGsTKaGQVnJfmyezZ6CUO8RZbZ/1snnVi/Di0e9YUMV6M64ULOPvQDyL1xu2phxxN81lyEWYWzAPqqH2rF6hUENMIzX2urL0elbRTVuARENGx40ql8dhF18E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765981875; c=relaxed/simple;
-	bh=yAjEzU0lnm6w9HbHvxnWCw8lQ0bKDnGFd7xXe5yjJo0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=dmpjFdhdnDuF1ZT5vjR9cwiE5bJcX54phpr8wC8xCrAvZCKGDhDgxUHdxTBHg03bcvzwcQ6ozPpNvVn1QCkqR09VqoWvbcKevmsqbch+7Vpaqp7bxrN+0OKicalpQNFDAIiB6V57v4vCcwi+l+Oos0DG0iqDahXKXs9vFJSGJic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=xrG4jKk1; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1765981914; c=relaxed/simple;
+	bh=Twvbew+EhoTVlmKoPOFwDPUMzhThCCuzjaszlgaYBqs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CjslqtI4/ZqfQEspwaXFogcvcDPjlKz19wC3UM7iTcnB8Nj+6gHcZ8piorGF6+xVQNUqpUDgoCi71G+5wn2yM8SA2UfVISEgRn4KzAw5fyvX5YIZSMaW+vtH7qaPLYK5GflLS2X2K25VrmqBv2U8cWbxKB7P1XDQiTVWb3AlNdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUPo9bFt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="xrG4jKk1"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 62E75C1A59E;
-	Wed, 17 Dec 2025 14:30:46 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D3C3E6072F;
-	Wed, 17 Dec 2025 14:31:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 08228102F0ADF;
-	Wed, 17 Dec 2025 15:31:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765981869; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=yAjEzU0lnm6w9HbHvxnWCw8lQ0bKDnGFd7xXe5yjJo0=;
-	b=xrG4jKk1868Dv7dPhgpQxbWfGUHPcegpZHAbpsi68LNt1qCvLavT7qg6pk0LyAOpy6g8vf
-	uCI/c6WhBKRbvJfH/9PevUAINIRZeoOldyX4fOqO+SKCVogGMwcD+YyeCa1fh6K0TiTtqw
-	i7q5sRSu4GJyjVf7mR9Y3/Qri1jAxFNDNws2wV4hE/ssLWNgu61nMSLCC09UXg1/i5guEu
-	143vac/E0zy0QYBvBIJMD6V50VaSq7IRSfaV3EGMI8yx/9ZEj9u8cmOSJceVeRYhrjLvTr
-	yt97q0vB58aPCsDXYu3m2nq3B4klQ0rtZb1eI7qcWYQlJfN12/1sBA27uTxx/w==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUPo9bFt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E11BC116C6
+	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 14:31:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765981914;
+	bh=Twvbew+EhoTVlmKoPOFwDPUMzhThCCuzjaszlgaYBqs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RUPo9bFtc96/qXYttmLuf5b2qJRGG2AEJHKICzMNGyHzZMwsja+c39Yj9G356lzxX
+	 xqGXEk7Ax1orqqJ8BM69cGPm/fmDohioKToeDpqlTCTG9m1quei6TEbbGz2XMlOKtf
+	 3D2x3OcIQuVToEipBXOymcsvk2Tgp/ClTTqbTxRf6Y6cz0d9jZH2+aq/3OzrG+Gyb0
+	 5WLrcC7+RwVJAE1mGSDtJmh1sslJsCwqHeh/xTmZb5/1SaTpp7QHdA4Z18L02JIGJ6
+	 fjhdccF+3SoRL/mEgmz4/IXXe667wsTIEE0dtOSewDZ4Q9zIAd+rN9jX7vveAvRYyx
+	 bXpRu8HDvLylQ==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-596ba05aaecso6610092e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 06:31:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWlk4OyrEJgIpjB9ARPm1OX2WwwQN8F257PlOhVmxL2i2PdORSfNcCR+s8VdmCKkDDGgL1/v5wFCUQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFzqBK+ywYNKOy6id1xP06dt0I1f0nSqaTpZhkLT6h87b4hPmG
+	tYOZV/3Kxm44hF19CxR07sQu3auiE5tXI5fwkgeTa4VMdKXSH9AFbGZgZmdUUGfw603BbTj1qIg
+	q+2pye36FjUym/LwhZNGIVMGWvlGkuF3z4dv0l604CQ==
+X-Google-Smtp-Source: AGHT+IGRbLj/uR8hkC4na71nBGSN5MEUADmkjmodn9FYE8tlwpXY9bvs7YlPlkEudqPyCr/JsCwnVXUWF1kCWSOUywU=
+X-Received: by 2002:a05:6512:2256:b0:59a:118c:5c78 with SMTP id
+ 2adb3069b0e04-59a118c5e39mr163631e87.22.1765981912877; Wed, 17 Dec 2025
+ 06:31:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
+ <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
+ <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+ <aUF2gj_0svpygHmD@vaman>
+In-Reply-To: <aUF2gj_0svpygHmD@vaman>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 17 Dec 2025 15:31:41 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+X-Gm-Features: AQt7F2pjuaUR7buaWgZYO9r4vqpnu-UacctXZLHNqn9jUOB1mObxTHCF93tVtH0
+Message-ID: <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 17 Dec 2025 15:31:01 +0100
-Message-Id: <DF0KBN5Y22XW.2RE8HKDFY87XK@bootlin.com>
-Subject: Re: [PATCH v3 01/22] drm/bridge: add of_drm_find_and_get_bridge()
-Cc: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
- <linux-amlogic@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Alexey Brodkin" <abrodkin@synopsys.com>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "David Airlie"
- <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>, "Hui Pu"
- <Hui.Pu@gehealthcare.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Jerome Brunet" <jbrunet@baylibre.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jonathan Corbet" <corbet@lwn.net>, "Kevin Hilman" <khilman@baylibre.com>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu Ying"
- <victor.liu@nxp.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Martin Blumenstingl"
- <martin.blumenstingl@googlemail.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Phong LE" <ple@baylibre.com>, "Robert Foss"
- <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn Guo"
- <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>
-To: "Maxime Ripard" <mripard@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com> <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
-In-Reply-To: <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Maxime,
-
-On Wed Dec 17, 2025 at 11:15 AM CET, Maxime Ripard wrote:
-> On Tue, 16 Dec 2025 18:58:34 +0100, Luca Ceresoli wrote:
->> of_drm_find_bridge() does not increment the refcount for the returned
->> bridge, but that is required now. However converting it and all its user=
-s
->> is not realistically doable at once given the large amount of (direct an=
-d
->> indirect) callers and the complexity of some.
->>
->>
->> [ ... ]
+On Tue, Dec 16, 2025 at 4:11=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrote=
+:
 >
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> > > > +
+> > > > +     switch (metadata->op) {
+> > > > +     case BAM_META_CMD_LOCK:
+> > > > +             if (bchan->bam_locked)
+> > > > +                     return -EBUSY;
+> > > > +
+> > > > +             hw_desc->flags |=3D DESC_FLAG_LOCK;
+> > >
+> > > Why does this flag imply for the hardware.
+>
+> s/Why/What !
+> >
+> > Please rephrase, I don't get what you mean.
+>
+> I am trying to understand what the flag refers to and why do you need
+> this.. What is the problem that lock tries to solve
+>
 
-Thank you for the prompt review!
+In the DRM use-case the TA will use the QCE simultaneously with linux.
+It will perform register I/O with DMA using the BAM locking mechanism
+for synchronization. Currently linux doesn't use BAM locking and is
+using CPU for register I/O so trying to access locked registers will
+result in external abort. I'm trying to make the QCE driver use DMA
+for register I/O AND use BAM locking. To that end: we need to pass
+information about wanting the command descriptor to contain the
+LOCK/UNLOCK flag (this is what we set here in the hardware descriptor)
+from the QCE driver to the BAM driver. I initially used a global flag.
+Dmitry said it's too Qualcomm-specific and to use metadata instead.
+This is what I did in this version.
 
-All patches are reviewed now except patch 18 which has no reply. I'm just
-pointing out in case it's something you missed.
+As I said: I'm open to other suggestions but I'm not sure if we have
+any other existing options.
 
-Luca
+What exactly is the problem with using the attach callback?
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Bart
