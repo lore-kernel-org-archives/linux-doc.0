@@ -1,79 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B5D37C0E5
-	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 15:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158CF362156;
+	Wed, 17 Dec 2025 16:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765985334; cv=none; b=O47M5LLxH/Rc+bNpL+vRtJGYGtqFWibnxVsBJtFYx2w78ZHoiBGw62U6I9rgh0abeZEtY1gkO1mzr9fvH5mZq28LI2BebAM3n82/4THmFVsxNHuKRg9IbvIPxTIhIPwo3/nVjY7+fp4zUr8NZVZ2AX3SsAV64Yo0j75xBo5W0mk=
+	t=1765987321; cv=none; b=XJ77gL7CKfbVvsVqtPCC8I/KFPEgJDArJA+VDkFYiL9O/M0/TyLGTpFc/vvbJb2m56nY1cPcvUgLowCuWCcTwtdFbEU+2uYQrEJuvjA6iAdI/IIIODSL0PfNL5rO73OqR1bmokgFMNioAOZpm4OrnJ5xfis+3a0X/f0SXAx0MkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765985334; c=relaxed/simple;
-	bh=g2GBN3njSzISEBsyHXvbwpMCDA/0jrfTyD+Ehz7ZsM8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n6PPFDHP055BVoSEUiMADKjHHE5632Ggp0rEmYeIMLSJJYauQP3Azn+fxIVduEUHpmBeDJW0iDyCcuD7Sb7YxNjjObLwoVET7IP2NWqBUsHoWSbh1uHkDZ2al54S4R6UHgM4fCvFkCCuCq7/kJmQsTED06PiIf4deAXvU1n5vwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4Kf/q84; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4Kf/q84"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54C7C116B1
-	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 15:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765985333;
-	bh=g2GBN3njSzISEBsyHXvbwpMCDA/0jrfTyD+Ehz7ZsM8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=k4Kf/q84Ays23eHaSOpgsQjrbt3sCf1ABQeRmFMST0zqpaLKqxEIAzoxc1Skq3zcX
-	 wwUbrPtFJuiWy0r5ehThItRlySTgiMjS+vQ0ug1RfTeaWRzKTZpxTQ/91kn62VJc1K
-	 6RN7rg5bvQb/n50je4j8FV9qIesN8o3hUQsG6mzwapbHbNlJ/olfEjY2LoZWczWpFh
-	 8rDyczzT7cU9EmjzfSAtm4xLGRvMmDAKfi5VOWNMcbOwFYTS+OAFjclIsxjhwpQqud
-	 8CrfY+uI391DE+1yrLohV0COTaTkcDewU3mWQ66yVRxDYGp10DO63puiwbpYxLEYg+
-	 nITRrJjJ4XENg==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5958187fa55so4915759e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 07:28:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWe6hcofgvwhvE/19h2bypC3o9gADm2jG2uoZIF7xHQhKYTGJ/6NgZEaX/iKzzNY5Q9fqEw1c2/CEI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZFN/JVrLBuyZGEMWCoFR1LawmdhNw+qr1dCmuvg0HKrhnyVXV
-	88dUswapu0H6z1Uapa5gDMyV5kGHfbujA8ra5i26yXEn/onTdSdS7pYVPMy9z76AAokS5hAsIAt
-	3u0JqGnoqPz9wAKtCSMR4zXQIwMuyJsuHNfk0WPZ+aA==
-X-Google-Smtp-Source: AGHT+IHLFGulb3z/eo2szi6786N8kGEmVFIwSvl4dUMvlzw1VLQQUCCeWzohDS2Sm0Bl5s7XXHCH8EBa2sM93x2lPWA=
-X-Received: by 2002:a05:6512:1096:b0:595:9d6b:1174 with SMTP id
- 2adb3069b0e04-598faa86c0bmr5281960e87.35.1765985332003; Wed, 17 Dec 2025
- 07:28:52 -0800 (PST)
+	s=arc-20240116; t=1765987321; c=relaxed/simple;
+	bh=3tBfnhIcvaOCvVLu6oUHI66R0KQ2Zu83oZM/wnioNdU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qkc/t+hyDcOgouNiB8pcovdVwR3SGD5Uu7gVPYM/we3Rui+UaEkcCAiEy9AOe9+ZnTeLESu0MN51nPKC8X8gwy98gyXyACcYA/AlozBH7UAJjmVfcUaxhmqWH1U8PCU1UESaeQ7Jv70PoxV+2HIb72nbJXBmZ4o+BGSe/zjzZH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.224.196])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTPS id 4dWdmL2wszzpTpL;
+	Thu, 18 Dec 2025 00:00:02 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 73E8B40499;
+	Thu, 18 Dec 2025 00:01:49 +0800 (CST)
+Received: from [10.204.63.22] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwAX4Wvj00JpZZRFAA--.54377S2;
+	Wed, 17 Dec 2025 17:01:48 +0100 (CET)
+Message-ID: <41ead1c44a678b597ffd3350cce332a8a5d4ac7c.camel@huaweicloud.com>
+Subject: Re: [RFC][PATCH v2] ima: Add support for staging measurements for
+ deletion and trimming
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
+ dmitry.kasatkin@gmail.com,  eric.snowberg@oracle.com, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com, 
+	nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+Date: Wed, 17 Dec 2025 17:01:36 +0100
+In-Reply-To: <45ca26a5b08f42fb1318cd78a62dda20b9adb84e.camel@linux.ibm.com>
+References: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
+	 <45ca26a5b08f42fb1318cd78a62dda20b9adb84e.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251217-staging-ad4062-v4-0-7890a2951a8f@analog.com> <20251217-staging-ad4062-v4-9-7890a2951a8f@analog.com>
-In-Reply-To: <20251217-staging-ad4062-v4-9-7890a2951a8f@analog.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 17 Dec 2025 16:28:40 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McPAORcG2hiLO35q5UgXpTvbzAhdoprgE_9xSCJG=QPoA@mail.gmail.com>
-X-Gm-Features: AQt7F2oNHCsrRoHfSHESys1l2uJDHi95XvDyM4YYcEDD4aTW-_SzkbJW2Zj6aGg
-Message-ID: <CAMRc=McPAORcG2hiLO35q5UgXpTvbzAhdoprgE_9xSCJG=QPoA@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] iio: adc: ad4062: Add GPIO Controller support
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Linus Walleij <linusw@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID:GxC2BwAX4Wvj00JpZZRFAA--.54377S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF1fZFyUJw1rZrWrCr1UGFg_yoW5GrW7pF
+	WfW3409a1DJ34Syr18Gw48K34Fv3yxtan8Jrn8G3s5AFn8GFy09F90kw4ava98Jryktr1Y
+	vwsIvFZ8W3WDAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
+	v3UUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAFBGlCIZcJMQABsn
 
-On Wed, Dec 17, 2025 at 1:14=E2=80=AFPM Jorge Marques <jorge.marques@analog=
-.com> wrote:
->
-> When gp0 or gp1 is not taken as an interrupt, expose them as GPO if
-> gpio-contoller is set in the devicetree. gpio-regmap is not used
-> because the GPO static low is 'b101 and static high is 0b110; low state
-> requires setting bit 0, not fitting the abstraction of low=3D0 and
-> high=3Dmask.
->
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> ---
+On Wed, 2025-12-17 at 10:26 -0500, Mimi Zohar wrote:
+> Hi Roberto,
+>=20
+> Thank you!  Everything is working as designed.
+>=20
+> - Only public functions require kernel-doc comments, but other functions =
+would
+> benefit having a comment.
+>=20
+> - As I mentioned in response to Steven's patch, "After trimming the measu=
+rement
+> list, existing verifiers, which walk the IMA measurement list, will obvio=
+usly
+> fail to match the PCRs.  Breaking existing userspace applications is a pr=
+oblem
+> and, unfortunately, requires yet another Kconfig option.  It needs to be =
+at
+> least mentioned here in the patch description."
 
-Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Hi Mimi
+
+sure.
+
+> On Fri, 2025-12-12 at 18:19 +0100, Roberto Sassu wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Introduce the ability of staging the entire (or a portion of the) IMA
+> > measurement list for deletion. Staging means moving the current content=
+ of
+> > the measurement list to a separate location, and allowing users to read=
+ and
+> > delete it. This causes the measurement list to be atomically truncated
+> > before new measurements can be added.=C2=A0
+>=20
+> This last sentence is the crux of your of your proposal.
+>  -> "quickly be atomically ... so ..."
+
+Ok.
+
+> I must be missing something.  With the ability of trimming N records, it'=
+s
+> unclear to me the benefit of staging the measurement list and requiring a
+> separate deletion. The measurement list can be read before trimming witho=
+ut
+> loosing any measurements.  Like now, the entire measurement list could be=
+ moved
+> to a staging area. Instead of freeing all of the records, only N records =
+would
+> be freed.  Afterwards the remaining staged measurements (N+1) could be re=
+stored
+> to the head of the measurement list.
+
+My hope is to avoid trimming based on N in the kernel, but rather offer
+the same functionality on a user space service that simply gets all the
+measurements it can from the kernel (with the stage all approach), and
+exposes the desired measurements to requesting applications (based on N
+or based on a PCR value, as Microsoft requested).
+
+I think it was already mentioned earlier in the discussion. By reading
+and trimming at two different times, there is a race window where two
+separate remote attestation agents determine N on the current
+measurements list and attempt to trim one after another with the same
+N, but the latter attempts to do it on an already trimmed measurements
+list. They could take the write lock for the read too to avoid that.
+
+The stage all approach is not susceptible to this race window, because
+it does not require a prior read before the operation.
+
+Thanks
+
+Roberto
+
