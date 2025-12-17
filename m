@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEB935CB72;
-	Wed, 17 Dec 2025 10:15:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5146835F8D3;
+	Wed, 17 Dec 2025 10:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765966531; cv=none; b=uS9yFURPVdyZSlhSa4Grsa6l4JBFHo0l1raAgrjf4kL25RIabknZsxGWoI4jVjug/3E0d2GZVsdIpYEziXWPnCliNBcvHEnijuWAagbhn3tyGvdMEYiyJnsANLn9Y+L4IjT3sK/itGnPr9ngL1TlAwc3FlRak++JInYgzgnGyWg=
+	t=1765966583; cv=none; b=kF2niO7j3SNXEX846aVrCqXSJeR5yZHTq0GbTjTnKO5zgIpSGHyeux2K+gUwJqq38G9etSzoNf0yWMoBDdliP6x1yfbyK3Nmv6V2XYnw4sgNXxZwGLj5kHY5WNTNAUW3bmDqkb42CPS2Ilbv84OhLmmudqeqFBGi+4Ki5F+jXN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765966531; c=relaxed/simple;
-	bh=skfOYgfAuvLlvVFtYXO0nED04VoALMEVUW5taGZIDUg=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=MnSEZkt7FNDpODQLAKQL1LwzmhJ1ULkTEHMSH2lTJup7qZxzahsZw6wNxWgk4Ol8Tc2EDkcbaJU0MuKYbm90UT9s/c1jyvQ6B5Xro9JjGXh15rAjh6YEb3SlhEWPElTcz2QJx6g9K2mDiT21ABgYuXHM8qCJcMQTZBfGBfsZwqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nz6p3DZz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765966583; c=relaxed/simple;
+	bh=14N7+pYy72kfKgLZ+eBjOCn+SrYbkirrM1jMUhs1cHQ=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=deLgoacOiKhnsL8WKLQTwvF4hv/ddHd2Z2aAFu0/NrTj40MMOA4HjKzmbCUHNjRV+miEO8IXiVs/GowSXCJpQG/jLbSLR7w3Aafbk0XFVqJL3I0pdjw3C9hBVEC5HM9OOIJgq23rNqIc1arK3VmUjkju0Lv8O0sllryhNp5rwek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aO4cKOOV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nz6p3DZz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07F6C4CEF5;
-	Wed, 17 Dec 2025 10:15:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aO4cKOOV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DA0C4CEF5;
+	Wed, 17 Dec 2025 10:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765966531;
-	bh=skfOYgfAuvLlvVFtYXO0nED04VoALMEVUW5taGZIDUg=;
+	s=k20201202; t=1765966582;
+	bh=14N7+pYy72kfKgLZ+eBjOCn+SrYbkirrM1jMUhs1cHQ=;
 	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=Nz6p3DZzkqG8H4Nvbd2AHyWRx3TWgtrkGHCbG7nJP/yZ7YpQbUQ4sScJ0axpFSM76
-	 N3I04sjA4YLG+NMnOi+SoQIqDF1B4dY/9PK8lKk7/0Ac6Kknuhe3HgXPUfh1dMkWaL
-	 gGtES1r559SgmtcLu2EFp2cMk2ewcqkb19tBrfbdgplxNfF+Y9Pf1SbaPVem2zSlaP
-	 rRBieyJeZ4v6dRrrqHwDQZDFBOJQdzqi9c/tID5E3JhRqWUOg026uwBdbq6QPX5GKc
-	 p8HKcRIw2JDAKvrK23Ukl+qpfo+Ew8yzKm60eggM9XvyoV4GM2kJUpBxmyM6Rv6pA2
-	 udWFcrUaXyBwg==
-Message-ID: <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
-Date: Wed, 17 Dec 2025 10:15:28 +0000
+	b=aO4cKOOVeefvLNc7CIcIB6uIcGA3BuF9GQzoKy8YZd8b2Y4g5nJG7VGIYtYX1RgJl
+	 JtCo8irlnMdjj//V1tJESEEtgcwreO/bhOOE84u8Ntu9XqZw92P5hPXukEJKxtiLAv
+	 oqyivM4O3SUfDmtimYCyNzvkYi/LxQrGOK/Wt4Vl+DOtQGKylSV3oiCYtzz4GU7V1B
+	 aHi4qtO8bodJ7FZa7y1cSasyLx7CbX2x6gEmyA0QSXJzandD7d1JdaL5z0LQb+ReSx
+	 6iMnJVp+NV9mw+hyfHBdymKVubU/pQ8ljPbc8lS/nTiWokbnOqar3D3bq0e+DMzan4
+	 sZwiYbbCTfCCQ==
+Message-ID: <bf2654046433c0f580bac440c3e72299@kernel.org>
+Date: Wed, 17 Dec 2025 10:16:20 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 01/22] drm/bridge: add of_drm_find_and_get_bridge()
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 04/22] drm/bridge: make of_drm_find_bridge() a
+ wrapper of of_drm_find_and_get_bridge()
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-4-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-4-b5165fab8058@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
  Brodkin" <abrodkin@synopsys.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "David
  Airlie" <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Jernej
@@ -51,12 +52,14 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-On Tue, 16 Dec 2025 18:58:34 +0100, Luca Ceresoli wrote:
-> of_drm_find_bridge() does not increment the refcount for the returned
-> bridge, but that is required now. However converting it and all its users
-> is not realistically doable at once given the large amount of (direct and
-> indirect) callers and the complexity of some.
+On Tue, 16 Dec 2025 18:58:37 +0100, Luca Ceresoli wrote:
+> of_drm_find_bridge() is identical to of_drm_find_and_get_bridge() except =
+it
+> does not increment the refcount. Rewrite it as a wrapper and put the brid=
+ge
+> being returned so the behaviour is still the same.
 >=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 >=20
 > [ ... ]
 
