@@ -1,68 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA75221FBA;
-	Wed, 17 Dec 2025 10:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C468F34D4E4;
+	Wed, 17 Dec 2025 11:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765968066; cv=none; b=NMWdxRFAnPYjs7wZbusCZBseeA9zMjtfINuDLvQWlX6zfdU3CcxGBJyVIO7YkNP31prmStS6EbBNGU/2h2kBEhGi9IPdRvw9rhDX4RNZC4h0kFqVC3aGVDEYhOQ7/9JPZqzLTXGUtZBuDblKiCdjhDAQlGDaJjuV/s0kqOfaS2c=
+	t=1765970937; cv=none; b=VQmpmnqgL8jQhydWqUvQvai9S2sol1z4uzjUotSNkk1eHzI9LkY4Nng94PVxhgcu0IXdN26tCIivKlv3ARqkm/bx2egGKPnGGcGMuvTk+Pp3y+Uyfok76K7SHf6sqtR/B6+9XOrUrysGZEqEQv9dGsBTAMbHyUp3pbh7X4l4eig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765968066; c=relaxed/simple;
-	bh=HS77sf4V8YC7YSp8UgyycGNSNR1n+CSMJ+7dfOmB8yM=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=dBpZj0A/DKAQn+H8HER8lgYRTj73V5p4LU1WZh5Rd5Wu3SdV54oQSx4Qnx4K7NKjLs72Ag4JyYZgCTfL43hrMusiMF2z1Kj5aU8NCYc+p7UiFzsXSnw58FN9ScID5pIWidwRpz5LVLtk3gp/czR0r15cnt2ees9JRRxYR/pPyok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DQxUNVuV; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DQxUNVuV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128FEC4CEF5;
-	Wed, 17 Dec 2025 10:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765968065;
-	bh=HS77sf4V8YC7YSp8UgyycGNSNR1n+CSMJ+7dfOmB8yM=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=DQxUNVuVjHEimXd0sj6alZGotMu3GsO6SG4ExH0jB7DUFOOA7XPV0xy08fhrpjVu9
-	 VciicFfPEd4ej90eC7nUpJeuwltg87Ozm+dawEbMOaPnfcLSvhLGWcEqLFme4UKIoT
-	 uQfCTacFDVT3B2NMKlgrXN+ukZw/VFiX5AGD2gNBmbNwKf1FwNvLdGDMKZRZ/OJXRY
-	 xfrw+/Si1SMoxQYcBhLu5J9cLyUzdfcS2pdEWlIGWPqYDU05zKrWEiw2XIrqRKKaZP
-	 lsDuU6s4dd4tmJ/7s3sM0bSpZLLjx0yZPC+qJ3SelOpQbb+q/NXmymoUEDaS5XHrNh
-	 E0ghXx1NPKEMA==
-Message-ID: <654c1bbfcade818bfea35b52bc5e80ae@kernel.org>
-Date: Wed, 17 Dec 2025 10:41:03 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 09/22] drm/bridge: simple-bridge: get/put the next
- bridge
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-9-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-9-b5165fab8058@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "Alexey
- Brodkin" <abrodkin@synopsys.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "David
- Airlie" <airlied@gmail.com>, "Fabio Estevam" <festevam@gmail.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jerome Brunet" <jbrunet@baylibre.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Jonathan Corbet" <corbet@lwn.net>, "Kevin
- Hilman" <khilman@baylibre.com>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
- Ying" <victor.liu@nxp.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Martin
- Blumenstingl" <martin.blumenstingl@googlemail.com>, "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Phong
- LE" <ple@baylibre.com>, "Robert Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn
- Guo" <shawnguo@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1765970937; c=relaxed/simple;
+	bh=a7kpjgX+R64zDwghcI5SJingJevntasZlpZAFDn2lf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fiMd9A1Raogc8heotcSZwMqpcRGEAlOAtTGW8qg+E1INeU60R1d3G+CELdrs1KfekIP94lf2ZYIo4cXlIAlNB0pILfb5CM6eYF9mAP1hkVr+T695aq6UVtQFcrVOMUHO6XD+3klubFBadED4KpQJhglCNLPPDeVfNFh3GqThhqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9033114BF;
+	Wed, 17 Dec 2025 03:28:46 -0800 (PST)
+Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8F0A3F73B;
+	Wed, 17 Dec 2025 03:28:51 -0800 (PST)
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+To: linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: tony.luck@intel.com,
+	bp@alien8.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rafael@kernel.org,
+	linux-doc@vger.kernel.org,
+	Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com,
+	ahmed.tiba@arm.com
+Subject: [PATCH 00/12] ras: share firmware-first estatus handling
+Date: Wed, 17 Dec 2025 11:28:33 +0000
+Message-ID: <20251217112845.1814119-1-ahmed.tiba@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Dec 2025 18:58:42 +0100, Luca Ceresoli wrote:
-> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
-be
-> function and stores it until driver removal. of_drm_find_bridge() is
-> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
-> refcounted and use bridge->next_bridge to put the reference on
-> deallocation.
->=20
-> [ ... ]
+Platforms that rely on firmware-first RAS today only get the full Linux
+handling pipeline when the records arrive through ACPI/APEI GHES. This
+series lifts the generic parts of GHES into a reusable estatus core, wires
+GHES up to that core, and adds a DeviceTree-facing provider so non-ACPI
+systems can route CPER records through the same logic. The final patches
+document the binding and the admin-guide flow.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+The end result is a single estatus implementation that covers vendor record
+notifier support, memory error queueing, IRQ/NMI handling and the CXL/PCIe.
+GHES and DT users now simply provide transport-specific ops.
 
-Thanks!
-Maxime
+This is based on v6.19-rc1
+
+Ahmed Tiba (12):
+  ras: add estatus core interfaces
+  ras: add estatus core implementation
+  ras: add estatus vendor handling and processing
+  ras: add estatus queuing and IRQ/NMI handling
+  ras: flesh out estatus processing core
+  efi/cper: adopt estatus iteration helpers
+  ghes: prepare estatus hooks for shared handling
+  ghes: add estatus provider ops
+  ghes: route error handling through shared estatus core
+  dt-bindings: ras: document estatus provider
+  ras: add DeviceTree estatus provider driver
+  doc: ras: describe firmware-first estatus flow
+
+ Documentation/admin-guide/RAS/main.rst        |   24 +
+ .../devicetree/bindings/ras/arm,ras-ffh.yaml  |   95 ++
+ MAINTAINERS                                   |    8 +
+ arch/arm64/include/asm/fixmap.h               |    5 +
+ drivers/acpi/apei/Kconfig                     |    1 +
+ drivers/acpi/apei/ghes.c                      | 1292 +++--------------
+ drivers/firmware/efi/Kconfig                  |   11 +
+ drivers/firmware/efi/Makefile                 |    1 +
+ drivers/firmware/efi/cper.c                   |   29 +-
+ drivers/firmware/efi/estatus.c                | 1056 ++++++++++++++
+ drivers/ras/Kconfig                           |   14 +
+ drivers/ras/Makefile                          |    1 +
+ drivers/ras/estatus-dt.c                      |  318 ++++
+ include/acpi/ghes.h                           |   58 +-
+ include/linux/estatus.h                       |  267 ++++
+ 15 files changed, 2001 insertions(+), 1179 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
+ create mode 100644 drivers/firmware/efi/estatus.c
+ create mode 100644 drivers/ras/estatus-dt.c
+ create mode 100644 include/linux/estatus.h
+
+-- 
+2.43.0
+
