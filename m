@@ -1,329 +1,295 @@
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011006.outbound.protection.outlook.com [52.101.70.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E381A9F93;
-	Thu, 18 Dec 2025 07:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.50.185
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766043929; cv=none; b=u8wQLbhkldpw44d3ZPvfyBDMuUmtHSVXRgsBb76xJw1vyJv9aO5XrSUqmtwQiBO6rIA9GBL/vj2lnbmkuCZMd4DWodS3hVWI2X42VTVcLVGGY9KkX/vOjbG3H+PJkPZZYWH2QfLg43R2FpbzRL73Q6QT/ut6EhRLYj0bmZGlCI8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766043929; c=relaxed/simple;
-	bh=lIrqEheH75dwIuIbwc3o2Y09PyH6CIX8B0Nts/uv3lw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=k6j+6BPgwU5z1IduEXTdTbKwgiPNamqD3W0fvjL/Ficm2ES3vGvOgGrBAHCpJhiNPFRd1zt6tPF7VC04LGFn9bDkrVDKJEDhET/VnTe8OUFFGic4+Y3RWZF1jl5vo9Rxg9Fo5PlAr6DPGrHROVvm5DmzGf7hueXTfbiiiQH5cBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=220.181.50.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
-From: lirongqing <lirongqing@baidu.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Lance Yang
-	<lance.yang@linux.dev>
-CC: Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
-	<chleroy@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
- Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
-	<yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
- Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
-	<haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-openrisc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<dri-devel@lists.freedesktop.org>, <bpf@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <wireguard@lists.zx2c4.com>,
-	<netdev@vger.kernel.org>, Li RongQing <lirongqing@baidu.com>
-Subject: [PATCH][v2] watchdog: softlockup: panic when lockup duration exceeds N thresholds
-Date: Thu, 18 Dec 2025 02:43:00 -0500
-Message-ID: <20251218074300.4080-1-lirongqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E835724678F;
+	Thu, 18 Dec 2025 08:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766046120; cv=fail; b=RVFeGDK1JjTAWUumpcNR3DulHK0coL6SxQ2c+qCfJ5pDrFGYL9hMBFl7uodqycyEZjtKDQyk1Q7+Wq94eR1gFsw2tCRcSvxSd6xtSAaifGRfFOXUo+fmW4fyZmx8m2yyFc9p3bcBTGtVVIfXOnD6I4tU2w+mcdHSUWLB9oXRQvU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766046120; c=relaxed/simple;
+	bh=tOtSXomq2KH+8clEacb9RWYs1iYcwyaRAGNdBtHVSY4=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=igxVagqPxFJHnv4J4CBeBMaxx8VVFIaeOkB1ezsw6k5peD/mUSWlJNxTWzRhtUmRsQMKLA0HYGHfP8TAmm08/kkdcU6oftJeak4lYm3NhEP0hUGcWijHzUxrhAwyXKjEOYat5yuYl1C2+xR1JfzLQ8HdzL/xCt/1oU3kJVMRcec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=U51/R0b6; arc=fail smtp.client-ip=52.101.70.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="U51/R0b6"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=razN69/Fhh2OFG46nOuOdDyNf16LGEESfnayFSHP2L2UuG/Ia7smN8Ma9K1dX4alhqGZodITMTWndIBe7bUujFTAZHozpSShnVVO0tZg3D2y80UNX8jjvyzSMRhyPmzoY674jhRCHswg15BG5C2+CPkWP170a+Y0X38oA7ouUzECwilc0dUJa9opsy09ixqnC+SEEb8ibawBOakX2j7dH6ZL1rjyUlC4R4bK+v1dX+xJf4ASsCgxXKcxlrjQzdHddPIYIfRM0GVddju1Lzkix+YERcE4GYVtG66gpjm17Ktv2EdPXIBdIHA0GFg1EJSOCGAVSFpkN5BFJeiSmaBFuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q9LQ6U97DJmOvAnP/Hm3/sLsl0YOZft52i2nAtpwopw=;
+ b=PxDdqpd0NUPh6KRCtMSNagySbloQ2yJxO0FgeIYECmoKKGK+OSvKm6mt9B/qETcGpJVdF/wL/VyA7O1PpeJcQWMxghnYTTGeFzsFi8JB0KH1h4SifOUuPuNEliQVRaF18JSk3enodduUxIlNiBVA0xER4h6XQWFUQ6Bxa7KIZb5y7EsvGrYDMScTrUamsKXvQOzuHAnJujYt95MMqJtURe3sj5nDZDE7/+eAryHeuENSHcBYQ6vmsJCV22Qnndpg4CfIDoNtgx77hXjgny3T6279fZTyAyjQPmLEsXE8OMas7YATH7Z96/Jd5RzxJQ9Byv7M5SmKxIeWN6dgHhGwWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q9LQ6U97DJmOvAnP/Hm3/sLsl0YOZft52i2nAtpwopw=;
+ b=U51/R0b6I9JI+XjyLfFg6+ONxEqvvWSbS/npd5WHqwVQXvslVH0qNFk6fV8Qm7jPv3NpHXmX57Yc6YukpTEswSjl5Z28ZgD74FOiT/2+k6f1PNil/QRqP1ECXbWK0GmF00eymQqx7FnxddjG4nPm0XFPSjEZJLEVNYygEgek8+SCsy9OJdDLYfveGkmQHDqlH1b/4syw7lf0w10tUnmoPL/CYnWfjPRe/GbAB6+qT9creKo8sbFnqIn3dy+x52JV2CWKFfI7a2tuQGdBukRR9poP2s3RICPV4mdEYb6gF4FuApfECSO9Qc9EetCyOAhgW4niiCPGxajClyJiXjSsFA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8599.eurprd04.prod.outlook.com (2603:10a6:10:2da::7)
+ by DBBPR04MB7756.eurprd04.prod.outlook.com (2603:10a6:10:1e3::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
+ 2025 06:47:54 +0000
+Received: from DU2PR04MB8599.eurprd04.prod.outlook.com
+ ([fe80::c32a:2bd1:a6c0:601]) by DU2PR04MB8599.eurprd04.prod.outlook.com
+ ([fe80::c32a:2bd1:a6c0:601%6]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 06:47:54 +0000
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
+Date: Thu, 18 Dec 2025 12:16:25 +0530
+Subject: [PATCH v22 2/7] dt-bindings: arm: fsl: add imx-se-fw binding doc
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251218-imx-se-if-v22-2-07418c872509@nxp.com>
+References: <20251218-imx-se-if-v22-0-07418c872509@nxp.com>
+In-Reply-To: <20251218-imx-se-if-v22-0-07418c872509@nxp.com>
+To: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766040412; l=3201;
+ i=pankaj.gupta@nxp.com; s=20240523; h=from:subject:message-id;
+ bh=tOtSXomq2KH+8clEacb9RWYs1iYcwyaRAGNdBtHVSY4=;
+ b=iXgdmTV8Bxvg93eAk90beMTE4byrhJw8UD/DJPdpBuac0AkY+w8CgPZ2I5PxnBvnSP4TQdpse
+ bj8hEz4FUraDGzC4Us2OR7fhU0Tr3R6O7kdJbgSYaOJmXceBo5RNIVz
+X-Developer-Key: i=pankaj.gupta@nxp.com; a=ed25519;
+ pk=OA0pBQoupy5lV0XfKzD8B0OOBVB6tpAoIf+0x1bYGRg=
+X-ClientProxiedBy: SI2PR02CA0024.apcprd02.prod.outlook.com
+ (2603:1096:4:195::18) To DU2PR04MB8599.eurprd04.prod.outlook.com
+ (2603:10a6:10:2da::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: bjkjy-exc13.internal.baidu.com (172.31.51.13) To
- bjkjy-exc3.internal.baidu.com (172.31.50.47)
-X-FEAS-Client-IP: 172.31.50.47
-X-FE-Policy-ID: 52:10:53:SYSTEM
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8599:EE_|DBBPR04MB7756:EE_
+X-MS-Office365-Filtering-Correlation-Id: be482323-cc06-4922-e71b-08de3e015f0e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|52116014|7416014|19092799006|366016|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?ZzVMYld6RVdMTE9DTFdFOGxydDdlaVlaZGdIejhZUWZaUTN3NkpaU1ZJbHJU?=
+ =?utf-8?B?UUJHUWYzWk8wM2kyQUd6OE56SFJ0cnI3b3ZXU2YreU5CQVpONGo5MGdJQ3VT?=
+ =?utf-8?B?aklUNldJVi9RUUpjVzdjNDdFWUE0azhaV3Z4TFJma3pkdGQwVkZLWDltZ1Nu?=
+ =?utf-8?B?czZRem8rRlRkVlg3WlBvMkt4ZXpBdktPdjVqVWJNVHJVcHNmQU8reCtWR1Ri?=
+ =?utf-8?B?V2IrR1RvQ2xDSFhucUZtaHYwZVlRRnl4VHhaSTJsbHdBUUNMa3NScEVMOFV5?=
+ =?utf-8?B?cWVqVjlKMHhUaE95NFprY01SdWdIQXdQQU5SK3BnYWJ3bEF6aXpzdzlzWFJy?=
+ =?utf-8?B?TlRrVjA1KzdSeVV1Y3RMa1NGd3U3K1kzd3A0YitxaHZuSEgyRTdReGw1WW4y?=
+ =?utf-8?B?cXJ4SFllMWlnUDE3SlhsRkJhZVVER3M5dVZSRmg2dkIxSThhUk5wckFTdHZH?=
+ =?utf-8?B?ZDE0Nkd3U1ZmcllTaDN1dGhycmdIV25kL2JpU1BNNHg5N0NDQjdKbHJMQVFv?=
+ =?utf-8?B?Qy94U2o4bnA0OWxWWlppRUlVSXFLUHoyVWRPYmsvNkdDc3pEL1VGY3VZSE5u?=
+ =?utf-8?B?WDlWM2I0eXJlSnJTemwxZW95ZlpHL3pVRjQ1aWtLMVBFUEZYcXpIUGVleUcv?=
+ =?utf-8?B?UXljVG5GUVZwb25SZnRDVkY2dEpHNU84NENNTm5qdm9BZlRFOG9qOS8wZzdI?=
+ =?utf-8?B?aWVmTEVpbDhBOVNPQUh6SEI4cUw0SUxMOExqV2piQm9rRUR0bjNXbXE5OGw2?=
+ =?utf-8?B?dHkyVC9SREVpNm1PRS9oQWVtaDRoNmhjelpWOWlBbWh0bFhEY09naENyTUxz?=
+ =?utf-8?B?aUVTcXFHT2tzRjhYekRjelZjWnZsWmlSbW9vVEk1cDF4bzRhV0FhTXRySzNv?=
+ =?utf-8?B?WHlDRkdWMkI0QWJDeDVkZ1UvTWVLd3lhYVRlczNUbGh5THR3clJGd2NpYmE5?=
+ =?utf-8?B?NTQ0WEt4TS84ZjhHUmVmZVlkdXVpRzlWTVpEdk81b1JvNU55VjZIOUFJdEow?=
+ =?utf-8?B?VGgwZzdlSkE2S2JJbG9SMFNYQU4wbG1wZ2hrVS8xOWlhdUxRaHhmOTRmVGRn?=
+ =?utf-8?B?N3NWcUQxYm1weGxiRmZkWHhLaGpYT09mM2poeEFCV0RjMU9lcVhrd25xTy8w?=
+ =?utf-8?B?a29KdC9kcndVWk9BMlQ4OUVmMDN4Kyt5MTFPb2ZoMDg1VDE1Z1UvQUsyQmNW?=
+ =?utf-8?B?cno4VWFwVnB0b2lDWDVWWjlGOHZPZkVvSDhpclo5NUhmalVMYmlHQkJXWnB1?=
+ =?utf-8?B?SW9VT2I1L2VMQlNXSy9LbE44bGNhSUdVMW5CR3poTFFFZDVlcDBteXVKWXVj?=
+ =?utf-8?B?amVOZkVUZFhtY3ZNaGd0bjlMcWFlbVFTNUpKNVhCK1UrejFNcEUzQlFjYjd3?=
+ =?utf-8?B?Sm8rTXNoa256MG9zcDdWNW0yWWZsdEg3ZUIxRy94YmdQLzcybGt5MDlYYmlp?=
+ =?utf-8?B?R2FSeHRFZHZJZi9Yc1ZhVTh0OUw1aHYwdENyaXlPUjlkUVcxOFFVWGRWWjV6?=
+ =?utf-8?B?NWpUSkZHRHhqQ0pCRnNDSFZVNTVCcVhKZ3JLYzU0Y3A4bVc0L0hJTmlGK092?=
+ =?utf-8?B?eHdkakFaNkViMEpLcWpQZnR1d2tDSnhkVHY3eWJ6TGRnUXdmckIxK3pYSm5O?=
+ =?utf-8?B?L3FuVHZ4cVFiV3diNnJ5ZjZBbWlMOXR5MGVRaHArME9ZMm9oU1dmeDhsbXNj?=
+ =?utf-8?B?OFduZ2o4OEhpTkdXNUtONlh4RUZpdThKR1g3ZjZ4Y1BoUEYvejRrbk1DSjhL?=
+ =?utf-8?B?eWR1S3k5RTh5b1ZsbzMra0NBM1NTMnNBaURIWE9YTENGdE1TeWQ2bVMvY3pX?=
+ =?utf-8?B?SWRjU24yUGpaeXZ3RDR6b3ZaU1N4T00wSHgwdWI4eHdrMEFrK3NnLy9zZitm?=
+ =?utf-8?B?WERGTGphN0VYRkFibDJ1aVlMYlBRUHNUU1hqNk04SXlpaytZc2VEblg1WWJy?=
+ =?utf-8?B?NW9vQ0RLNGlVbnZEa2hkbStRUHVCeXpQT2kxVFhla01vZFlkVmdTNkkxRUp4?=
+ =?utf-8?B?dFFETlkvelp3PT0=?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8599.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(19092799006)(366016)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?L0xWL1VoM3FVWVRvWFIrSVhodmRXanBadXc4QjJYaFNpeis4VkthRHJucEg2?=
+ =?utf-8?B?dDhUbGdsM3MwRjVoeExQMHNFQ0t4aTdGN1cvYU8yUGpxNDE5QzdpNUFvbEl4?=
+ =?utf-8?B?emhDWHprSlp4VG50SVkrTERuMDhGQlVRZms2dWdIY01pa3Z4LzhUeHhpN0N5?=
+ =?utf-8?B?RGx2aGh2blRaWWVIQUdZeXAvTi9CdXp1c0VIUFVXN3lzOGpoYmdNczd3TDBK?=
+ =?utf-8?B?WmhpcHk3OFhsYXRaakNrS3krc1h0dDczSmpIYjkwZVZQL1YwVk56SVlhd2Jh?=
+ =?utf-8?B?OWlkNEg5NzJaRG1tM3dRZjRsTVEzWlQ5N0tYM3hsci9Yc2I1VzBTMzhTZTI4?=
+ =?utf-8?B?bFlvTzY2U1lGRjJwZzRwRHQ0N2tIdDBLUFYzTmZqMWdraFhZYUFuMmdZT3Y3?=
+ =?utf-8?B?QkcrUVpPRFdGeHdKS05EMjc5ejZDaHI0cmtETTVDMjRodzBlR2VTcnV4TjNy?=
+ =?utf-8?B?d1pqTmhlc0hjTE02NGxZNytVejE4RUFTYjZxaGZINjZoYXlhZDRDYU1vdito?=
+ =?utf-8?B?KytlYmt6Y3N3eDlSR1c5bzEyS2hoYkJiWnh5YnRnOHZ2bUQ5OU1DVXNMV2Fj?=
+ =?utf-8?B?VGFRbHVROExHdlBYcHFSaE9ud0dMcVlZZW5wM3hWZHFIRTBUcnQ1VTBmMW81?=
+ =?utf-8?B?KzFRS1VIdTB4dU94Y3U1aUNpTDJTRnd1QW9oTW5zaWV3ZmloNFMyMjhDODZS?=
+ =?utf-8?B?SkdHTlp0aVROWGJydzUwSGJhYU9SL05DMERWYVd5NEc1bWxQbEt3Vk9tZTE0?=
+ =?utf-8?B?bWlBd0xEYXpvdkJGaHdTbTBSeXVVUkNMQ3l0aG4yVWZEUTFCWWtMTmFDSWZu?=
+ =?utf-8?B?QktMQ0R0ZmJEV0J2V0RRa2ZqeXZSS1pKTVNxY2w1akE3ZmptT2VxRE8vVGRu?=
+ =?utf-8?B?Umd4NG9ZdXBKdHg1M0RxNGlkSkkvMTYwK2tKWE9wcWprZHIxMUc0YUlzeXV6?=
+ =?utf-8?B?RjIrVG5La0Zzb0hka3lBaEo1QlVja0NpaDM5VzAvMEc0cWJnbXE0RTZTMmF6?=
+ =?utf-8?B?Nml4Qk1xc1NaKzJjZGpFa09pNjYrWGxvbGswamEzQmYrT2hDRkJOWEVoM2VV?=
+ =?utf-8?B?KysvaURvOWpHeUxCT2F1d2JDRGU3NFNHTXNlaFYzT0xDRVgvMitjcm9vSXN6?=
+ =?utf-8?B?WHdoYXJiUUZ6bkE5bUdBdHhkeHRRL2ZqSTI1K0IrTzkrRGs2REVvUUxwNERr?=
+ =?utf-8?B?RHNMYXdpUG1EZ2trc0t6eW9ybVdtTHdSQ0ZZQVp4YmwxQmRzUlFrcUlKczcz?=
+ =?utf-8?B?THJ3MXAxdDEyNjNqK3RIV1pvRDUwbVM2K2JrY0Y5YTROSmlHRXM5d2FDek1v?=
+ =?utf-8?B?Z2RZc3A5d0VQanc5SFlJU0NHNmx1ZWdnTXZBVytSMVhFaW5zdDFHblBEL2dr?=
+ =?utf-8?B?a05KU3pOU3dySVJzS01aVW9WSHB5SXFZcml0dGFRb0pNWkIxVnZNb3hMSTY4?=
+ =?utf-8?B?eGlkS2dPalRCbm1ONDE2WlJLMXBQV3BTa3JJMVoxRGRvTWhXMFI5MCs0WVBQ?=
+ =?utf-8?B?bzAxR3hmbFZsalgrakJnNHhFWitNQXlXczBoZWVxSlBOUTdTeXo4ZG1SSVk4?=
+ =?utf-8?B?STF5azVhZ0w2YjRvdkJhM1lPRjlTaVhObXVMZUtJQUZnb3Y4QjJUdTFmbCsx?=
+ =?utf-8?B?NFdSOWtqZ0hMOWFEeXVqWjlvTVorSFg1TS91Q1BrME1vNTBUWEtQOWtGd1hK?=
+ =?utf-8?B?Y2tGeGNhdStxVWxBSGg4cEs1OFBxV25QbFZkeVk4a3AvdWRod2hDTWZSSUgv?=
+ =?utf-8?B?MlFBVW9hOWlVeTY3TU9sbVpxTnRnNk1tNkk4TXZFbkRnRUNuWHN3N25SdzZM?=
+ =?utf-8?B?cFFTVWhld1Y2cnM2dWoxblVCbzU1TFZzOTRzNXJMR1dYV2c2Tk1yQXkwQ0k4?=
+ =?utf-8?B?T2hpTUx5TUY2S1g3aUxpdUxqV0pOSzBjK1F1SVNrVnZEZ3YzT3VxRyt2aXJR?=
+ =?utf-8?B?Skd4ZS9TdzhOL05YM0k0c0lwT2lrSmFKdUovOGk3YjFBQUdiT1pJMHcxVDJa?=
+ =?utf-8?B?V0dYcUd3M25YeEtxQURFZmVIYU5GTGt0RDlNd05JUUNuWmpMTVpWSXF3RW5I?=
+ =?utf-8?B?S3ArOGltWnk1czA4KzJSRUZjVmprMjBBL2RTcVhaaFRJZFh1dU9oSTJKZ0tL?=
+ =?utf-8?Q?4prhoJkFeZpCSQLCYEDP+NFDJ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be482323-cc06-4922-e71b-08de3e015f0e
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8599.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 06:47:54.6042
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UN+Ubqhb5ZUNqDI0FCVALkAx4s1wHZRJ/p0MBGePRDu0Ucr0NlNXXa40FfG+HzH4FMdw/xxHsLvUNsivRnQMHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7756
 
-From: Li RongQing <lirongqing@baidu.com>
+The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
+creates an embedded secure enclave within the SoC boundary to enable
+features like:
+- HSM
+- SHE
+- V2X
 
-The softlockup_panic sysctl is currently a binary option: panic immediately
-or never panic on soft lockups.
+Secure-Enclave(s) communication interface are typically via message
+unit, i.e., based on mailbox linux kernel driver. This driver enables
+communication ensuring well defined message sequence protocol between
+Application Core and enclave's firmware.
 
-Panicking on any soft lockup, regardless of duration, can be overly
-aggressive for brief stalls that may be caused by legitimate operations.
-Conversely, never panicking may allow severe system hangs to persist
-undetected.
+Driver configures multiple misc-device on the MU, for multiple
+user-space applications, to be able to communicate over single MU.
 
-Extend softlockup_panic to accept an integer threshold, allowing the kernel
-to panic only when the normalized lockup duration exceeds N watchdog
-threshold periods. This provides finer-grained control to distinguish
-between transient delays and persistent system failures.
+It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
 
-The accepted values are:
-- 0: Don't panic (unchanged)
-- 1: Panic when duration >= 1 * threshold (20s default, original behavior)
-- N > 1: Panic when duration >= N * threshold (e.g., 2 = 40s, 3 = 60s.)
-
-The original behavior is preserved for values 0 and 1, maintaining full
-backward compatibility while allowing systems to tolerate brief lockups
-while still catching severe, persistent hangs.
-
-Signed-off-by: Li RongQing <lirongqing@baidu.com>
-Cc: Eduard Zingerman <eddyz87@gmail.com>
-Cc: Hao Luo <haoluo@google.com>
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: John Fastabend <john.fastabend@gmail.com>
-Cc: KP Singh <kpsingh@kernel.org>
-Cc: Lance Yang <lance.yang@linux.dev>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Song Liu <song@kernel.org>
-Cc: Stanislav Fomichev <sdf@fomichev.me>
-Cc: Yonghong Song <yonghong.song@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-Diff with v1: add a temp variable thresh_count
-              chang config to 0 in kernel/configs/debug.config 
- Documentation/admin-guide/kernel-parameters.txt      | 10 +++++-----
- arch/arm/configs/aspeed_g5_defconfig                 |  2 +-
- arch/arm/configs/pxa3xx_defconfig                    |  2 +-
- arch/openrisc/configs/or1klitex_defconfig            |  2 +-
- arch/powerpc/configs/skiroot_defconfig               |  2 +-
- drivers/gpu/drm/ci/arm.config                        |  2 +-
- drivers/gpu/drm/ci/arm64.config                      |  2 +-
- drivers/gpu/drm/ci/x86_64.config                     |  2 +-
- kernel/configs/debug.config                          |  2 +-
- kernel/watchdog.c                                    | 10 ++++++----
- lib/Kconfig.debug                                    | 13 +++++++------
- tools/testing/selftests/bpf/config                   |  2 +-
- tools/testing/selftests/wireguard/qemu/kernel.config |  2 +-
- 13 files changed, 28 insertions(+), 25 deletions(-)
+ .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 91 ++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a8d0afd..27c5f96 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6934,12 +6934,12 @@ Kernel parameters
- 
- 	softlockup_panic=
- 			[KNL] Should the soft-lockup detector generate panics.
--			Format: 0 | 1
-+			Format: <int>
- 
--			A value of 1 instructs the soft-lockup detector
--			to panic the machine when a soft-lockup occurs. It is
--			also controlled by the kernel.softlockup_panic sysctl
--			and CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC, which is the
-+			A value of non-zero instructs the soft-lockup detector
-+			to panic the machine when a soft-lockup duration exceeds
-+			N thresholds. It is also controlled by the kernel.softlockup_panic
-+			sysctl and CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC, which is the
- 			respective build-time switch to that functionality.
- 
- 	softlockup_all_cpu_backtrace=
-diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
-index 2e6ea13..ec558e5 100644
---- a/arch/arm/configs/aspeed_g5_defconfig
-+++ b/arch/arm/configs/aspeed_g5_defconfig
-@@ -306,7 +306,7 @@ CONFIG_SCHED_STACK_END_CHECK=y
- CONFIG_PANIC_ON_OOPS=y
- CONFIG_PANIC_TIMEOUT=-1
- CONFIG_SOFTLOCKUP_DETECTOR=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
- CONFIG_WQ_WATCHDOG=y
- # CONFIG_SCHED_DEBUG is not set
-diff --git a/arch/arm/configs/pxa3xx_defconfig b/arch/arm/configs/pxa3xx_defconfig
-index 07d422f..fb272e3 100644
---- a/arch/arm/configs/pxa3xx_defconfig
-+++ b/arch/arm/configs/pxa3xx_defconfig
-@@ -100,7 +100,7 @@ CONFIG_PRINTK_TIME=y
- CONFIG_DEBUG_KERNEL=y
- CONFIG_MAGIC_SYSRQ=y
- CONFIG_DEBUG_SHIRQ=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- # CONFIG_SCHED_DEBUG is not set
- CONFIG_DEBUG_SPINLOCK=y
- CONFIG_DEBUG_SPINLOCK_SLEEP=y
-diff --git a/arch/openrisc/configs/or1klitex_defconfig b/arch/openrisc/configs/or1klitex_defconfig
-index fb1eb9a..984b0e3 100644
---- a/arch/openrisc/configs/or1klitex_defconfig
-+++ b/arch/openrisc/configs/or1klitex_defconfig
-@@ -52,5 +52,5 @@ CONFIG_LSM="lockdown,yama,loadpin,safesetid,integrity,bpf"
- CONFIG_PRINTK_TIME=y
- CONFIG_PANIC_ON_OOPS=y
- CONFIG_SOFTLOCKUP_DETECTOR=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- CONFIG_BUG_ON_DATA_CORRUPTION=y
-diff --git a/arch/powerpc/configs/skiroot_defconfig b/arch/powerpc/configs/skiroot_defconfig
-index 2b71a6d..a4114fc 100644
---- a/arch/powerpc/configs/skiroot_defconfig
-+++ b/arch/powerpc/configs/skiroot_defconfig
-@@ -289,7 +289,7 @@ CONFIG_SCHED_STACK_END_CHECK=y
- CONFIG_DEBUG_STACKOVERFLOW=y
- CONFIG_PANIC_ON_OOPS=y
- CONFIG_SOFTLOCKUP_DETECTOR=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- CONFIG_HARDLOCKUP_DETECTOR=y
- CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
- CONFIG_WQ_WATCHDOG=y
-diff --git a/drivers/gpu/drm/ci/arm.config b/drivers/gpu/drm/ci/arm.config
-index 411e814..d7c5167 100644
---- a/drivers/gpu/drm/ci/arm.config
-+++ b/drivers/gpu/drm/ci/arm.config
-@@ -52,7 +52,7 @@ CONFIG_TMPFS=y
- CONFIG_PROVE_LOCKING=n
- CONFIG_DEBUG_LOCKDEP=n
- CONFIG_SOFTLOCKUP_DETECTOR=n
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=n
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=0
- 
- CONFIG_FW_LOADER_COMPRESS=y
- 
-diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
-index fddfbd4..ea0e307 100644
---- a/drivers/gpu/drm/ci/arm64.config
-+++ b/drivers/gpu/drm/ci/arm64.config
-@@ -161,7 +161,7 @@ CONFIG_TMPFS=y
- CONFIG_PROVE_LOCKING=n
- CONFIG_DEBUG_LOCKDEP=n
- CONFIG_SOFTLOCKUP_DETECTOR=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- 
- CONFIG_DETECT_HUNG_TASK=y
- 
-diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
-index 8eaba388..7ac98a7 100644
---- a/drivers/gpu/drm/ci/x86_64.config
-+++ b/drivers/gpu/drm/ci/x86_64.config
-@@ -47,7 +47,7 @@ CONFIG_TMPFS=y
- CONFIG_PROVE_LOCKING=n
- CONFIG_DEBUG_LOCKDEP=n
- CONFIG_SOFTLOCKUP_DETECTOR=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- 
- CONFIG_DETECT_HUNG_TASK=y
- 
-diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
-index 9f6ab7d..774702591 100644
---- a/kernel/configs/debug.config
-+++ b/kernel/configs/debug.config
-@@ -84,7 +84,7 @@ CONFIG_SLUB_DEBUG_ON=y
- # Debug Oops, Lockups and Hangs
- #
- CONFIG_BOOTPARAM_HUNG_TASK_PANIC=0
--# CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=0
- CONFIG_DEBUG_ATOMIC_SLEEP=y
- CONFIG_DETECT_HUNG_TASK=y
- CONFIG_PANIC_ON_OOPS=y
-diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index 0685e3a..8168e0d 100644
---- a/kernel/watchdog.c
-+++ b/kernel/watchdog.c
-@@ -363,7 +363,7 @@ static struct cpumask watchdog_allowed_mask __read_mostly;
- 
- /* Global variables, exported for sysctl */
- unsigned int __read_mostly softlockup_panic =
--			IS_ENABLED(CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC);
-+			CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC;
- 
- static bool softlockup_initialized __read_mostly;
- static u64 __read_mostly sample_period;
-@@ -774,8 +774,8 @@ static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
- {
- 	unsigned long touch_ts, period_ts, now;
- 	struct pt_regs *regs = get_irq_regs();
--	int duration;
- 	int softlockup_all_cpu_backtrace;
-+	int duration, thresh_count;
- 	unsigned long flags;
- 
- 	if (!watchdog_enabled)
-@@ -879,7 +879,9 @@ static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
- 
- 		add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
- 		sys_info(softlockup_si_mask & ~SYS_INFO_ALL_BT);
--		if (softlockup_panic)
-+		thresh_count = duration / get_softlockup_thresh();
+diff --git a/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+new file mode 100644
+index 000000000000..fa81adbf9b80
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/fsl,imx-se.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/fsl,imx-se.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+		if (softlockup_panic && thresh_count >= softlockup_panic)
- 			panic("softlockup: hung tasks");
- 	}
- 
-@@ -1228,7 +1230,7 @@ static const struct ctl_table watchdog_sysctls[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.extra2		= SYSCTL_INT_MAX,
- 	},
- 	{
- 		.procname	= "softlockup_sys_info",
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ba36939..17a7a77 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1110,13 +1110,14 @@ config SOFTLOCKUP_DETECTOR_INTR_STORM
- 	  the CPU stats and the interrupt counts during the "soft lockups".
- 
- config BOOTPARAM_SOFTLOCKUP_PANIC
--	bool "Panic (Reboot) On Soft Lockups"
-+	int "Panic (Reboot) On Soft Lockups"
- 	depends on SOFTLOCKUP_DETECTOR
-+	default 0
- 	help
--	  Say Y here to enable the kernel to panic on "soft lockups",
--	  which are bugs that cause the kernel to loop in kernel
--	  mode for more than 20 seconds (configurable using the watchdog_thresh
--	  sysctl), without giving other tasks a chance to run.
-+	  Set to a non-zero value N to enable the kernel to panic on "soft
-+	  lockups", which are bugs that cause the kernel to loop in kernel
-+	  mode for more than (N * 20 seconds) (configurable using the
-+	  watchdog_thresh sysctl), without giving other tasks a chance to run.
- 
- 	  The panic can be used in combination with panic_timeout,
- 	  to cause the system to reboot automatically after a
-@@ -1124,7 +1125,7 @@ config BOOTPARAM_SOFTLOCKUP_PANIC
- 	  high-availability systems that have uptime guarantees and
- 	  where a lockup must be resolved ASAP.
- 
--	  Say N if unsure.
-+	  Say 0 if unsure.
- 
- config HAVE_HARDLOCKUP_DETECTOR_BUDDY
- 	bool
-diff --git a/tools/testing/selftests/bpf/config b/tools/testing/selftests/bpf/config
-index 558839e..2485538 100644
---- a/tools/testing/selftests/bpf/config
-+++ b/tools/testing/selftests/bpf/config
-@@ -1,6 +1,6 @@
- CONFIG_BLK_DEV_LOOP=y
- CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- CONFIG_BPF=y
- CONFIG_BPF_EVENTS=y
- CONFIG_BPF_JIT=y
-diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
-index 0504c11..bb89d2d 100644
---- a/tools/testing/selftests/wireguard/qemu/kernel.config
-+++ b/tools/testing/selftests/wireguard/qemu/kernel.config
-@@ -80,7 +80,7 @@ CONFIG_HARDLOCKUP_DETECTOR=y
- CONFIG_WQ_WATCHDOG=y
- CONFIG_DETECT_HUNG_TASK=y
- CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
--CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-+CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
- CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
- CONFIG_PANIC_TIMEOUT=-1
- CONFIG_STACKTRACE=y
++title: NXP i.MX HW Secure Enclave(s) EdgeLock Enclave
++
++maintainers:
++  - Pankaj Gupta <pankaj.gupta@nxp.com>
++
++description: |
++  NXP's SoC may contain one or multiple embedded secure-enclave HW
++  IP(s) like i.MX EdgeLock Enclave, V2X etc. These NXP's HW IP(s)
++  enables features like
++    - Hardware Security Module (HSM),
++    - Security Hardware Extension (SHE), and
++    - Vehicular to Anything (V2X)
++
++  Communication interface to the secure-enclaves(se) is based on the
++  messaging unit(s).
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8ulp-se-ele-hsm
++      - fsl,imx93-se-ele-hsm
++      - fsl,imx95-se-ele-hsm
++
++  mboxes:
++    items:
++      - description: mailbox phandle to send message to se firmware
++      - description: mailbox phandle to receive message from se firmware
++
++  mbox-names:
++    items:
++      - const: tx
++      - const: rx
++
++  memory-region:
++    maxItems: 1
++
++  sram:
++    maxItems: 1
++
++required:
++  - compatible
++  - mboxes
++  - mbox-names
++
++allOf:
++  # memory-region
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx8ulp-se-ele-hsm
++              - fsl,imx93-se-ele-hsm
++    then:
++      required:
++        - memory-region
++    else:
++      properties:
++        memory-region: false
++
++  # sram
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx8ulp-se-ele-hsm
++    then:
++      required:
++        - sram
++
++    else:
++      properties:
++        sram: false
++
++additionalProperties: false
++
++examples:
++  - |
++    secure-enclave {
++      compatible = "fsl,imx95-se-ele-hsm";
++      mboxes = <&ele_mu0 0 0>, <&ele_mu0 1 0>;
++      mbox-names = "tx", "rx";
++    };
++...
+
 -- 
-2.9.4
+2.43.0
 
