@@ -1,118 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E7E329C6E;
-	Thu, 18 Dec 2025 06:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592D2330D30;
+	Thu, 18 Dec 2025 06:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766040513; cv=none; b=m9h/ZFnh5GuVZUbQFJA0YcKK5nQRjCyPG7P+UAMcQvRpwyq2bmxLtqUSbC05rkifWa1PVS4e1pFEPYuKEdxqB5jtOhCVf+yauSD2YjbJpUqO+ezRq/kbzPZPOqO5h80lqXtiTspYYP24oR6rSloB2+ewOEWapCSB71LcKKuAxsU=
+	t=1766040612; cv=none; b=ZRf5uo2iAZCsEbHdgS/XO3eyHn56C64dYrcG4R9IpiuO7CNNcr3rnxDHcfiyV4Yu2pPPjH1f/TvUsmZOrMhZ/Z5t8+7t6vXsTndra/4DUqPHESt7bMWHXDOJGKQsR8qpP7u7qukQ00X1XVVoc6/wq7DVTXYLxkyZ2opy2aoLi4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766040513; c=relaxed/simple;
-	bh=LP52q0y4w97pKIkgFw09eC7QgAi5ZrZf9nSc0NpqLYI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RtCdcxy+v/fEHmqFqI7AsWZXiKRMlEbe2/J+g/lcHMerHamCSBumSkqJzkXtEAxKidRqi/MsQc8JA467nxvy3iGexhiI5dL+TVYiMU4rwfkN8IVYV90+WgsLipo11+AVV6vljAsM6yIPqN4iZrJQDxANZsw2ahuQFSYXB1ZA4J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUi+MWJ1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766040612; c=relaxed/simple;
+	bh=sLR5ycW13Ee+BW0II1CaUwlFCxgLKorpCzmXU5oGFKE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Gf3AIlPLhgJM7O1vDPsw70kMD0pXKYKTB3aUIfcWlFv8s8RI0Ub/C4oJAcL+8+e9xdPmvy86JIfu59qmjf3V08pflsXw1rtfC6ntAgjv9LNTdPaXjrJPw7hMc2f5hRklm7pW0mdvmdQSRpSgranuq94A+nRemTMnNyalNSQfxL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BJBePF4w; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cyqy2sk1; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUi+MWJ1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D00C19422;
-	Thu, 18 Dec 2025 06:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766040511;
-	bh=LP52q0y4w97pKIkgFw09eC7QgAi5ZrZf9nSc0NpqLYI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KUi+MWJ1coE0AofShTJxbnhYwnkpNsHcxDjhFbAMIUxfj43LSocc4Ft34dIHOI+mS
-	 jqUfAF0aAXyefgMhnWdn0ZIN3xg4yyb9qZScvmgHABeDbmPhmzrw/qWg2wzYt38AqS
-	 QOoRuKpFGl9i8QfkgQD5dSEwGnwLVNY6B4nwFTUdSy0e0JH6aJH+NSfGhQZUfFzY2u
-	 fvT+tOddJpmpMM9cU3VphuHC9boWM390916gQtR0r+XbbXu9mezjsXzt4ap4sJbeWY
-	 PTJ5ei8JLkgvOm6pObeBChJA1jAHjFbmVxeswwtH/Z0t7LoFfml8eYlAb6W2klVytO
-	 jhiXjH/Rp0rpA==
-Message-ID: <2a2baef6-c294-4c31-bec2-10fbaa3f7941@kernel.org>
-Date: Thu, 18 Dec 2025 07:48:26 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BJBePF4w";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cyqy2sk1"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1766040609;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sLR5ycW13Ee+BW0II1CaUwlFCxgLKorpCzmXU5oGFKE=;
+	b=BJBePF4wUPbXGmABKn9c9RyBLWJvRALhaPEawgpGNG953KcNBtqZusdWP+MPzwZy9BN85Q
+	1fSJ9DMVoDG2Oo6xrt5x/tJtTyxn3/F8v8flysJ1tgoB6pPXqeUTgU5/IkWw4UV8y2hFBR
+	oRZowEAKj6SDHE8X75z6IDs99nVfKD7EdzwwJCLQ8cmUw6403H+4vYingXypWEFQXgR8xJ
+	9drwpg5iZpU/lkP357cSNCjCyLwFeio43kWZ8VVJamkFxQvp//MQm2BD8syAXhwuJoxQ4I
+	HdF/E0bmlUpd1BGEy2Did+A9yVDXGJE+4U9Pj1Cd6O+9nq8IVwv58rIZgB07lw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1766040609;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sLR5ycW13Ee+BW0II1CaUwlFCxgLKorpCzmXU5oGFKE=;
+	b=cyqy2sk1uox55aquzCmbA0DuUYV05Eu6El+gIeeIOB8HDHFurHCYRz4i0aZ9uvqCzSBEPW
+	r7WgFHKqaMs3oRCw==
+To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, Gabriele Monaco
+ <gmonaco@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Masami Hiramatsu
+ <mhiramat@kernel.org>, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark
+ Williams <williams@redhat.com>, John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v3 07/13] rv: Convert the opid monitor to a hybrid
+ automaton
+In-Reply-To: <20251205131621.135513-8-gmonaco@redhat.com>
+References: <20251205131621.135513-1-gmonaco@redhat.com>
+ <20251205131621.135513-8-gmonaco@redhat.com>
+Date: Thu, 18 Dec 2025 13:50:01 +0700
+Message-ID: <87qzssi8rq.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/12] dt-bindings: ras: document estatus provider
-To: Ahmed Tiba <ahmed.tiba@arm.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org
-Cc: tony.luck@intel.com, bp@alien8.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com, Michael.Zhao2@arm.com
-References: <cd04e23a-9523-4d25-8240-29a0dffa0e75@kernel.org>
- <20251217174933.1938909-1-ahmed.tiba@arm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251217174933.1938909-1-ahmed.tiba@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 17/12/2025 18:49, Ahmed Tiba wrote:
-> On 17/12/2025 12:41, Krzysztof Kozlowski wrote:
->> What is ras? There is no such directory so some description would be
->> useful. Usually you do not get your own directory per binding.
-> 
-> Would it make sense to move it under `Documentation/devicetree/bindings/firmware`
-> and expand the description so it spells out that
-> Arm RAS refers to reliability, availability and serviceability firmware.
-> 
->> Do not describe what the binding does. Describe the hardware or firmware.
-> 
-> I'll reword that section.
-> 
->> Again ras - what's that? Your patch or binding must explain that.
+Gabriele Monaco <gmonaco@redhat.com> writes:
+> The opid monitor validates that wakeup and need_resched events only
+> occur with interrupts and preemption disabled by following the
+> preemptirq tracepoints.
+> As reported in [1], those tracepoints might be inaccurate in some
+> situations (e.g. NMIs).
+>
+> Since the monitor doesn't validate other ordering properties, remove the
+> dependency on preemptirq tracepoints and convert the monitor to a hybrid
+> automaton to validate the constraint during event handling.
+> This makes the monitor more robust by also removing the workaround for
+> interrupts missing the preemption tracepoints, which was working on
+> PREEMPT_RT only and allows the monitor to be built on kernels without
+> the preemptirqs tracepoints.
+>
+> [1] - https://lore.kernel.org/lkml/20250625120823.60600-1-gmonaco@redhat.com
+>
+> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
 
-You cut almost entire context, so I don't know what these parts are
-referring to.
-
-Please follow standard mailing list reply style. I am not reading the
-rest and I still expect to implement my feedback fully.
-
-Best regards,
-Krzysztof
+Reviewed-by: Nam Cao <namcao@linutronix.de>
