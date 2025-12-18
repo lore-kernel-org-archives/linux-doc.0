@@ -1,102 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1771337BA1;
-	Thu, 18 Dec 2025 21:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011FE1E4BE;
+	Thu, 18 Dec 2025 21:07:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766091613; cv=none; b=GgKcbBVUVfIJvetaujyTs1NhYXuxFNDMnNOjd+c+U5kk/619qxjKV+jGvbRicQOBE+UJa+xpwPczojE/G75vegpIxOpEmcIjZfU006Tr96cRtRXbiNk/59zRbI8jdzyqCbhAMW52zKZBzjbGkg1TIlaTrtr17R3lzsSGAFS92xQ=
+	t=1766092047; cv=none; b=LwjLIUBqHGgFxhPgV8MbpopMyPwxYRGObBbkFq8tob2px105Scsvx6iMt0QrihKq/jvcw/nf2eTpefw8NqVNKAtNGMwn+dKm178rbb6W8Y870aB3r6gslHj1h76z3DVh+BF3INQgdOELn5Nkx0rf7bEYiUqsj2Onh/wA1RrmZLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766091613; c=relaxed/simple;
-	bh=T0HudyPQiXlEcaSonXnq9yf2eOFygMh6mpUvZEIaQq8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TkUv6aLSS2AaBSzcph+kHOBNcdL1w24lxfnMDEYyI3IOYAnJaBccMFIKOpuML3FV0SVy9Jp+7cfMulMFZ2pc9nU33Cv4Wknuln273nfazztqcneYms53YjHN722hfKg7ydpEZ71r4qRs29FuGwyLYv41mB0h00nWHWTHBq//G+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHJc8vrh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766092047; c=relaxed/simple;
+	bh=czZ/4vR5yvVxsVNPYVzpm5JY4ARL2xkcDHo47mxPjZM=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=KhZwuwXao/ygyJ5K+75M5EIgDLc7SDoSEhBeOl5PSCE9xjNN/oN9pipcmekAAPzVoq2pqWplSi4A6fILJw48YVbd5zBDeKaZaF+4lElIf0zbr8UH4MzbA+T36Hf68CPqKgWoHZYiwmcr+HdEPTNfDMJJ7nTPnFSWM19ZNife1lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=wfiMB7xm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHJc8vrh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89681C4CEFB;
-	Thu, 18 Dec 2025 21:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766091613;
-	bh=T0HudyPQiXlEcaSonXnq9yf2eOFygMh6mpUvZEIaQq8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lHJc8vrhIoLAQtagdpMI10ecYbintFf8od6yiCak2iGx/eenO13Jhzwt12oYhfuUD
-	 7pRi73KTbM7O87a0FYZ9KkoCr8ZaKbHyclVoSN36bDJ4IulzavdUiYctxaaCYQvC38
-	 iguG9xUBawTeKSwfr9ZPpnIbtm239TlABUV2xE75rky3R4hX56nbNQt3nv1wT9mG4r
-	 JREEUDsxSIEDBqhT0rvUBJVD1/eXhl6f2jUyKfI+CzAYWXXzLAHBJCsf7kG4sNGD3s
-	 hOoc2rnylS8/LMN6QCOdqL3i4MUsY37qmT9yuC9rullkN6zPCAsTpqFVAQhQLHxRfy
-	 zUWMoprBhWZdg==
-From: Daniel Gomez <da.gomez@kernel.org>
-Date: Thu, 18 Dec 2025 21:59:45 +0100
-Subject: [PATCH 2/2] docs: hacking: clarify reserved -EEXIST in
- module_init()
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wfiMB7xm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A131AC4CEFB;
+	Thu, 18 Dec 2025 21:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1766092046;
+	bh=czZ/4vR5yvVxsVNPYVzpm5JY4ARL2xkcDHo47mxPjZM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=wfiMB7xmtRtOQexVNJka1t2G/nwRTH5NVIRGgpABK3ZzyeLNcy8xYzX0LVv5VUzuO
+	 2OVwhOg4nKXGNmUlGn3YExsKzxRbufMfrxbY7VOVe0RUQuzGx0puJetjv2okTSRp65
+	 dUWebdFSJeD6X3JqnyVlwkyv21aXFiCx22BWaBD8=
+Date: Thu, 18 Dec 2025 13:07:25 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, rppt@kernel.org, dmatlack@google.com,
+ skhawaja@google.com, rientjes@google.com, corbet@lwn.net, kees@kernel.org,
+ davidgow@google.com, pmladek@suse.com, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, nicolas.frattaroli@collabora.com,
+ linux-doc@vger.kernel.org, tamird@gmail.com, raemoar63@gmail.com,
+ graf@amazon.com
+Subject: Re: [PATCH v2 0/5] list private v2 & luo flb v9
+Message-Id: <20251218130725.1b93a521c039ce121de62472@linux-foundation.org>
+In-Reply-To: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
+References: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-dev-module-init-eexists-modules-docs-v1-2-361569aa782a@samsung.com>
-References: <20251218-dev-module-init-eexists-modules-docs-v1-0-361569aa782a@samsung.com>
-In-Reply-To: <20251218-dev-module-init-eexists-modules-docs-v1-0-361569aa782a@samsung.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
- Lucas De Marchi <demarchi@kernel.org>
-Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Daniel Gomez <da.gomez@samsung.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1223; i=da.gomez@samsung.com;
- h=from:subject:message-id; bh=3/juWpuVSytzeR+Q94yJU1Q00H8YiC2jNnM7Cj+uyis=;
- b=owEBbQKS/ZANAwAIAUCeo8QfGVH7AcsmYgBpRGtVjfIFrM2mvSEzkoG55N8iP84wo1gZ192UO
- GqVoRhx2xeJAjMEAAEIAB0WIQTvdRrhHw9z4bnGPFNAnqPEHxlR+wUCaURrVQAKCRBAnqPEHxlR
- +3HHD/92depapZq7iMsUsJXJdVEMKLcumRhNP+Nx/HM7u3b7B6t4zsBFoHqmPflmqwHtJpl1IcO
- 7Fr9Q9JPGAV22731bBEo9m+GNH1wUyeSfjzAWddb7Cu+wwyosDL25NvuwPOdw4diVcYgQEPNrYM
- IDYoHJeqs0NSmMWmKSH3E5eytsnRFcjwDhvOQykxKqIMxJpAKetNEFuhjzCBEkaowpJUr5gzj8l
- L8TdROj4fgSTavRYw9bHMeBanjMQVxMZKlF1FWR7cK277hbNfWJAm30jzixpBHQ9mz9p4gADaPH
- wzn5Z4NmCwbNNspCchdE4qe8A9SaYdBXemdUEjDxJE9zKsO4KhqURfl7GpjN8X12vGDbnYuvtHK
- TefIgbYv0tCxh+GQu7QtKr+iHqPfmLKj5aXplshNXy0UidxJ/IKaOsHy9W4y3ynGPAFmf8dKbc+
- o8xWqEqaFKGfgDvKEMK5xAK2DG3nZnqPv0FcAD/wRkq3F9AGBOk/So77zEzwPfVh9zKYwEtJn4t
- Qb0GBlT5cLgXOQ3XxLmFyiQ2rk19g3ccCbvyPFcZL56mVCVTLAzJC9Qup87TTnLT6jSEIOda9B2
- dKwa3kaLjCQtB1rvoJqQ9GOtooQR1rApq2c+JuEZbaYPfRdmEA/z5x3z08CR3ye5/KMKr9x+Otf
- rpypRdw3Ux2jZYw==
-X-Developer-Key: i=da.gomez@samsung.com; a=openpgp;
- fpr=B2A7A9CFDD03B540FF58B27185F56EA4E9E8138F
 
-From: Daniel Gomez <da.gomez@samsung.com>
+On Thu, 18 Dec 2025 10:57:47 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
 
-The error code -EEXIST is reserved by the kernel module loader to
-indicate that a module with the same name is already loaded. Add
-a warning note to clarify what these means for module authors and
-maintainers to ensure the module_init() path return error do not
-conflict with the reserved one.
+> This series includes two separate workstreams. This is because FLB
+> should be applied on top of list_private, as it uses some of its
+> interfaces.
+> 
+> 1. List private v2 (first 3 patches) Previous version:
+> https://lore.kernel.org/all/20251126185725.4164769-1-pasha.tatashin@soleen.com
+> For details, please read the cover letter from the previous submission.
+> 
+> v2 Changelog:
+> - Added a Reviewed-by from David Gow.
+> 
+> 2. LUO FLB v9 (last 2 patches) Previous version:
+> https://lore.kernel.org/all/20251125225006.3722394-2-pasha.tatashin@soleen.com
 
-Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
----
- Documentation/kernel-hacking/hacking.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+Please, no.
 
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 0042776a9e17..2c929ab93143 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -459,6 +459,13 @@ to fail (unfortunately, this has no effect if the module is compiled
- into the kernel). This function is called in user context with
- interrupts enabled, so it can sleep.
- 
-+.. warning::
-+
-+    The error code ``-EEXIST`` is reserved by the module loader to
-+    indicate a module is already loaded. kmod interprets this as success,
-+    so ``module_init()`` must never return ``-EEXIST``. Use ``-EBUSY`` or
-+    ``-EALREADY`` instead.
-+
- :c:func:`module_exit()`
- -----------------------
- 
+This patch series is intended for the Linux kernel.  Your grandchildren
+will read the above wondering "what did granddad do".  It's just lazy
+for us to expect readers to have to chase down links to earlier
+versions and then to figure out what changed and why we changed it,
+etc, etc.
 
--- 
-2.52.0
+Let's give our audience a nice, self-contained and complete description
+of the proposed changes which doesn't refer them to the minute details
+of the ongoing development process.  A process which is utterly
+uninteresting three years from now.
 
+IOW, can we please have a complete and standalone description of *this
+patchset* which doesn't refer to earlier obsolete stuff?
+
+Thanks.
