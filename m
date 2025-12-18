@@ -1,211 +1,113 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3713570C6;
-	Thu, 18 Dec 2025 15:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9084533A00F
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766071586; cv=none; b=LfMlggbKh0xcJWltUU6KwgD0QvYxkLMiwNJ11vw0APu6S3g+15WkXUXBxTZCs7Xl6WTaseKqsBBvmnWHfzpQ3240pgk7AgT3OzDcoctVbf3K7x0H48rBwWxMMtXv6HKbuaFPaznkfiF+8lAcRnzAgkghDUmc/FwCIWdlwAkNE6U=
+	t=1766071955; cv=none; b=tQydcDqKXe6j5e2d4/HGWrSNA/FGrUpB0rwctqHo2ibNDZDFM5MblMo+NN3kEnZAgq0wSuXSfHX6DRN9DmzsBEpXw+HKWn8k3dxDHNMj0LrcWhSBLC3GMgrVNJVL6i+PDIJ13g9f/n5KjuJkR8B0gvihb0+AxLXZWdqCeRtm+s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766071586; c=relaxed/simple;
-	bh=bJgkiMqX9YlHLjTI/Lv0jp6/0k3FJQPRz9YD4GRo2hI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CX7k4iO33Rb8j0J6xDGZOy19t6dtEiNdhaUv55EIOx1+FH/Y2uSKAvyfvsxGlYaXnMBcHrfs195PmB/etePEiGa+V8t4Rovi/rszxSAHnSnlNxUqi50LEzUUR074QW7gw6yBHfL79dMttUQrjaSeL/iMX9TzE0bfYLxnJ/9exnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXDyR1959zHnH7D;
-	Thu, 18 Dec 2025 23:25:51 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 879EA40565;
-	Thu, 18 Dec 2025 23:26:18 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 18 Dec
- 2025 15:26:17 +0000
-Date: Thu, 18 Dec 2025 15:26:16 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Gregory Price <gourry@gourry.net>
-CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <dave@stgolabs.net>, <dave.jiang@intel.com>,
-	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
-	<ira.weiny@intel.com>, <dan.j.williams@intel.com>, <corbet@lwn.net>,
-	<kernel-team@meta.com>, <alejandro.lucero-palau@amd.com>
-Subject: Re: [PATCH] Documentation/driver-api/cxl: device hotplug section
-Message-ID: <20251218152616.00005b73@huawei.com>
-In-Reply-To: <20251218144636.1232527-1-gourry@gourry.net>
-References: <20251218144636.1232527-1-gourry@gourry.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1766071955; c=relaxed/simple;
+	bh=mtJEaxRJ0pSaciF6SUw8joG1pAlhDTsgA230AZ93/YI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S3bOcPVTJptQuMclDZCu9vKoprGsB9Ev3OXvdqxDenb8cgxbwoJhKO8wUu+FRODY50dRZI8d/x/YprTKJhAWb/J3Th8CMoUIFVBp+/Ot6dYX705P/EVmG0387I+zGu6W4rBGmT8v6LOBVzLouA6jHca3yU68Vb9hZg0yIwora7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oeWyc7MN; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oeWyc7MN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A4EC2BCAF
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:32:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766071955;
+	bh=mtJEaxRJ0pSaciF6SUw8joG1pAlhDTsgA230AZ93/YI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oeWyc7MNHd7xMNURlUMQSB2cKjZLIoO1fWwRQCKIl5mEiJEIRQG/wCJzkVujuOHwX
+	 Tmm6USZvdic4Zg2DeI98s5v10XmOgitA0hQJDlfcqw1dttw06+NOnDuWGBZLogEDxq
+	 E4SIgshvsg7CNH4BEaTPKF5B5MPlDu9rV7qETF3yki/2r+198/1bD/MbCdK+3ygiMz
+	 NHnWwLof7mQP2Xj0lTyUc2jrp6uW55pGFcFR/hoxMtaFoE/eYjx4sFnxlmf2F2CrBn
+	 MalY2IPKkYcos5DbyQwxBEiDHiuvV0y27BjyUVi36nva+tcxcjaDok+PtqDDvuEgPZ
+	 y4FUjry+Nfe3A==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-37e6dd536b0so7165471fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 07:32:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXalUtPe29TcI5vaEMG8Msdl7CxWMOyeNDI2gXaCC4PSVQbY4ihv7XqEvOIq5Rr4PXl2I9cmYmuwng=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywlMorxQW+LHZ8I5Ye6ULPIoKnKru2j1V7I9Ibe5FZ1Log485d
+	G+3wL/Lxw7VMp+EWjJZ0hM8uxx2fVCw31T0upaH/o0/3CdQR/AutNGU+w8e5s8x5H31O8a/Wt2/
+	AaRCYTyqyaqOywc+8guH5C3O+rwG/9SiNjtvlWDbjJQ==
+X-Google-Smtp-Source: AGHT+IF6LzK0HuPfeatnJq9XbiQ0+26VjO0wEIfZhLGkpB7aa4MhNQWClndM2CR4LTEg/jW+unYGn+Uqi4sUq1ySSKs=
+X-Received: by 2002:a2e:be22:0:b0:37f:c5ca:a0ed with SMTP id
+ 38308e7fff4ca-37fd087a5a3mr65865261fa.26.1766071953627; Thu, 18 Dec 2025
+ 07:32:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
+ <20251128-qcom-qce-cmd-descr-v9-10-9a5f72b89722@linaro.org> <c15e156f-fd11-4d38-98c0-f89b78044407@oss.qualcomm.com>
+In-Reply-To: <c15e156f-fd11-4d38-98c0-f89b78044407@oss.qualcomm.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 18 Dec 2025 16:32:20 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MeDQgDzjRDVodJhPpHye6LYLmigsHhRjDqTK1Kn5+EhqQ@mail.gmail.com>
+X-Gm-Features: AQt7F2oR1ydtP2acJpQiF8tSxBxoIBWtjl_WKVgiAkSvnymIweDphsjTepEVa7M
+Message-ID: <CAMRc=MeDQgDzjRDVodJhPpHye6LYLmigsHhRjDqTK1Kn5+EhqQ@mail.gmail.com>
+Subject: Re: [PATCH v9 10/11] crypto: qce - Add support for BAM locking
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 18 Dec 2025 09:46:36 -0500
-Gregory Price <gourry@gourry.net> wrote:
+On Mon, Dec 1, 2025 at 2:03=E2=80=AFPM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 11/28/25 12:44 PM, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > Implement the infrastructure for using the new DMA controller lock/unlo=
+ck
+> > feature of the BAM driver. No functional change for now.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > ---
+> >  drivers/crypto/qce/common.c | 18 ++++++++++++++++++
+> >  drivers/crypto/qce/dma.c    | 39 ++++++++++++++++++++++++++++++++++---=
+--
+> >  drivers/crypto/qce/dma.h    |  4 ++++
+> >  3 files changed, 56 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/crypto/qce/common.c b/drivers/crypto/qce/common.c
+> > index 04253a8d33409a2a51db527435d09ae85a7880af..74756c222fed6d0298eb6c9=
+57ed15b8b7083b72f 100644
+> > --- a/drivers/crypto/qce/common.c
+> > +++ b/drivers/crypto/qce/common.c
+> > @@ -593,3 +593,21 @@ void qce_get_version(struct qce_device *qce, u32 *=
+major, u32 *minor, u32 *step)
+> >       *minor =3D (val & CORE_MINOR_REV_MASK) >> CORE_MINOR_REV_SHIFT;
+> >       *step =3D (val & CORE_STEP_REV_MASK) >> CORE_STEP_REV_SHIFT;
+> >  }
+> > +
+> > +int qce_bam_lock(struct qce_device *qce)
+> > +{
+> > +     qce_clear_bam_transaction(qce);
+> > +     /* Dummy write to acquire the lock on the BAM pipe. */
+> > +     qce_write(qce, REG_AUTH_SEG_CFG, 0);
+>
+> This works because qce_bam_lock() isn't used in a place where the state
+> of this register matters which isn't obvious.. but I'm not sure there's
+> a much better one to use in its place
+>
+> Wonder if we could use the VERSION one (base+0x0) - although it's suppose=
+d
+> to be read-only, but at the same time I don't think that matters much for
+> the BAM engine
+>
 
-> Describe cxl memory device hotplug implications, in particular how the
-> platform CEDT CFMWS must be described to support successful hot-add of
-> memory devices.
-> 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
+It seems that we can use VERSION as well, so I'll change that in v10.
 
-Hi Gregory,
-
-Thanks for drawing this up.
-
-> ---
->  Documentation/driver-api/cxl/index.rst        |  1 +
->  .../cxl/platform/device-hotplug.rst           | 77 +++++++++++++++++++
->  2 files changed, 78 insertions(+)
->  create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
-> 
-> diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-> index c1106a68b67c..5a734988a5af 100644
-> --- a/Documentation/driver-api/cxl/index.rst
-> +++ b/Documentation/driver-api/cxl/index.rst
-> @@ -30,6 +30,7 @@ that have impacts on each other.  The docs here break up configurations steps.
->     platform/acpi
->     platform/cdat
->     platform/example-configs
-> +   platform/device-hotplug
->  
->  .. toctree::
->     :maxdepth: 2
-> diff --git a/Documentation/driver-api/cxl/platform/device-hotplug.rst b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-> new file mode 100644
-> index 000000000000..9af8988bd47a
-> --- /dev/null
-> +++ b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-> @@ -0,0 +1,77 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==================
-> +CXL Device Hotplug
-> +==================
-> +
-> +Device hotplug refers to *physical* hotplug of a device (addition or removal
-> +of a physical device from the machine).
-> +
-> +Hot-Remove
-> +==========
-> +Hot removal of a device typically requires careful removal of software
-> +constructs (memory regions, associated drivers) which manage these devices.
-> +
-> +Hard-removing a CXL.mem device without carefully tearing down driver stacks
-> +is likely to cause the system to machine-check (or at least SIGBUS if memory
-> +access is limited to user space).
-> +
-> +Memory Device Hot-Add
-> +=====================
-> +Hot-adding a memory device requires that the memory associated with that
-> +device fits in a pre-defined (*static*) CXL Fixed Memory Window in the
-> +:doc:`CEDT<acpi/cedt>`.
-> +
-> +There are two basic hot-add scenarios which may occur.
-> +
-> +Device Present at Boot
-> +----------------------
-> +A device present at boot likely had its capacity reported in the
-> +:doc:`CEDT<acpi/cedt>`.  If a device is removed and a new device hotplugged,
-
-The concept of reporting in CEDT is a little vague. Perhaps expand on that a little
-with something like:
-
-A device present at boot will be associated with a CFMWS reported in
-@doc:`CEDT<acpi/cedt>` and that CFMWS may match the size of the device.
-
-> +the capacity of the new device will be limited to the original CFMWS capacity.
-> +
-> +Adding a device larger than the original device will cause memory region
-> +creation to fail if the region size is greater than the CFMWS size.
-
-Adding capacity larger than the original device
-(can add a subset of the new device capacity)
-> +
-> +The CFMWS is *static* and cannot be adjusted.  Platforms which may expect
-> +different sized devices to be hotplugged must allocate sufficient CFMWS space
-> +*at boot time* to cover all future expected devices.
-> +
-> +No CXL Device Present at Boot
-> +-----------------------------
-> +When no CXL device is present on boot, most platforms omit the CFMWS in the
-> +:doc:`CEDT<acpi/cedt>`.  When this occurs, hot-add is not possible.
-
-Relax to 'some platforms'
-
-Just to future proof the doc for when people start mostly doing the sensible thing.
-
-> +
-> +For a platform to support hot-add of a memory device, it must allocate a
-For a platofmr to support hot-add of a full memory device
-(see above for partial capacity being fine)
-
-> +CEDT CFMWS region with sufficient memory capacity to cover all future
-> +potentially added capacity.
-> +
-> +Switches in the fabric should report the max possible memory capacity
-> +expected to be hot-added so that platform software may construct the
-> +appropriately sized CFMWS.
-
-How do switches report this? I don't think they can as it really has nothing
-to do with the switch beyond maybe how many DSPs it has (which incidentally
-is what is used to work out space for PCI HP where the code divides up space
-left over space between HP DSPs.).
-
-Obviously this excludes the weird switches that are out there than pretend
-to be a single memory device as those are not switches at all as far
-as Linux is concerned.
-
-> +
-> +Interleave Sets
-> +===============
-> +
-> +Host Bridge Interleave
-> +----------------------
-> +Host-bridge interleaved memory regions are defined *statically* in the
-> +:doc:`CEDT<acpi/cedt>`.  To apply cross-host-bridge interleave, a CFMWS entry
-> +describing that interleave must have been provided *at boot*.  Hotplugged
-> +devices cannot add host-bridge interleave capabilities at hotplug time.
-> +
-> +See the :doc:`Flexible CEDT Configuration<example-configurations/flexible>`
-> +example to see how a platform can provide this kind of flexibility regarding
-> +hotplugged memory devices.
-> +
-> +Platform vendors should work with switch vendors to work out how this
-> +HPA space reservation should work when one or more interleave options are
-> +intended to be presented to a host.
-
-Same as above. Nothing to do with switches as far as I understand things
-beyond them providing fan out. So if you have
-       HB0          HB1
-    RP0 RP1         RP2
-     |   |           | 
-   Empty Empty      USP
-              _______|_______
-             |    |   |     |
-            DSP  DSP  DSP   DSP
-             |    |   |     |
-                All empty
-
-You might provide more room for devices below HB1 than HB0 if you don't expect
-to see switches being hot added.
-
-Jonathan
-
-> +
-> +HDM Interleave
-> +--------------
-> +Decoder-applied interleave can flexibly handle hotplugged devices, as decoders
-> +can be re-programmed after hotplug.
-> +
-> +To add or remove a device to/from an existing HDM-applied interleaved region,
-> +that region must be torn down an re-created.
-
+Bart
