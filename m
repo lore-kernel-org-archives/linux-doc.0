@@ -1,81 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011FE1E4BE;
-	Thu, 18 Dec 2025 21:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFACB23D7E3;
+	Thu, 18 Dec 2025 21:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766092047; cv=none; b=LwjLIUBqHGgFxhPgV8MbpopMyPwxYRGObBbkFq8tob2px105Scsvx6iMt0QrihKq/jvcw/nf2eTpefw8NqVNKAtNGMwn+dKm178rbb6W8Y870aB3r6gslHj1h76z3DVh+BF3INQgdOELn5Nkx0rf7bEYiUqsj2Onh/wA1RrmZLA=
+	t=1766093190; cv=none; b=J8jES5E75O/mk7Ml31Nx/7crSGxYHWEJ8rjY8mvcKSDNj8D/LrbP4+8RCNedlxIDSkpWH9a33qwuXoJ96aKEa4W9T1YyiaaVvi8ebaT2gLiZDNOxDJkjh2wqAkB6gOx5Q8lw9ydxxjWCQqxTl+19goWNVaWstUUZBoAEz2bGDDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766092047; c=relaxed/simple;
-	bh=czZ/4vR5yvVxsVNPYVzpm5JY4ARL2xkcDHo47mxPjZM=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=KhZwuwXao/ygyJ5K+75M5EIgDLc7SDoSEhBeOl5PSCE9xjNN/oN9pipcmekAAPzVoq2pqWplSi4A6fILJw48YVbd5zBDeKaZaF+4lElIf0zbr8UH4MzbA+T36Hf68CPqKgWoHZYiwmcr+HdEPTNfDMJJ7nTPnFSWM19ZNife1lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=wfiMB7xm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766093190; c=relaxed/simple;
+	bh=LAtNYEGxuLllj1y2htSF42nFPqyLzUxXVeuDgAiNbu4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=a6AAJImSI8NAEadf2oMDSvlDQ9RHH8xVy2NDWxDYyvsapv6TB7ZvMORVibOHid+yvfibQa7ZO4cpzBkc3QX3Q/sobxdU+kxSOUWXIq9u0W9WDEAk5EXGNPBCI6La5V9W2I6gTHzNLVlKV1YyIU9YsF7YW7KbrSKDD/nviPb+t2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=YwgZKJDA; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wfiMB7xm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A131AC4CEFB;
-	Thu, 18 Dec 2025 21:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1766092046;
-	bh=czZ/4vR5yvVxsVNPYVzpm5JY4ARL2xkcDHo47mxPjZM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=wfiMB7xmtRtOQexVNJka1t2G/nwRTH5NVIRGgpABK3ZzyeLNcy8xYzX0LVv5VUzuO
-	 2OVwhOg4nKXGNmUlGn3YExsKzxRbufMfrxbY7VOVe0RUQuzGx0puJetjv2okTSRp65
-	 dUWebdFSJeD6X3JqnyVlwkyv21aXFiCx22BWaBD8=
-Date: Thu, 18 Dec 2025 13:07:25 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, rppt@kernel.org, dmatlack@google.com,
- skhawaja@google.com, rientjes@google.com, corbet@lwn.net, kees@kernel.org,
- davidgow@google.com, pmladek@suse.com, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, nicolas.frattaroli@collabora.com,
- linux-doc@vger.kernel.org, tamird@gmail.com, raemoar63@gmail.com,
- graf@amazon.com
-Subject: Re: [PATCH v2 0/5] list private v2 & luo flb v9
-Message-Id: <20251218130725.1b93a521c039ce121de62472@linux-foundation.org>
-In-Reply-To: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
-References: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YwgZKJDA"
+Received: from narnia (unknown [40.86.181.13])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 060B62012446;
+	Thu, 18 Dec 2025 13:26:24 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 060B62012446
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1766093186;
+	bh=gyjPTOJwCEMIQbaQzrFflt+1ISwpXtDpYWfuEbvXRXk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YwgZKJDAJYBbyPsenApgLWxwGhZUw03YNYaByi1jH1fiFDeFEoTTUzTNSaIQ6albD
+	 LNZHWDQgPsD8XbFgYHeuZ6ZKnMo8kJPKvcKf/08ijR3oIaWLjJUQ1yOlg4UE/fHYL2
+	 NmzY72xE88B9oMl8+eTZuOugV+7YOsjao3w+DPkE=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, =?utf-8?Q?G=C3=BC?=
+ =?utf-8?Q?nther?= Noack <gnoack@google.com>, "Dr.
+ David Alan Gilbert" <linux@treblig.org>, Andrew Morton
+ <akpm@linux-foundation.org>, James Bottomley
+ <James.Bottomley@hansenpartnership.com>, David Howells
+ <dhowells@redhat.com>, LSM List <linux-security-module@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML
+ <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+Subject: Re: [RFC 08/11] security: Hornet LSM
+In-Reply-To: <CAADnVQJ1CRvTXBU771KaYzrx-vRaWF+k164DcFOqOsCxmuL+ig@mail.gmail.com>
+References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
+ <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
+ <CAADnVQJ1CRvTXBU771KaYzrx-vRaWF+k164DcFOqOsCxmuL+ig@mail.gmail.com>
+Date: Thu, 18 Dec 2025 13:26:23 -0800
+Message-ID: <87qzsrh474.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 18 Dec 2025 10:57:47 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
 
-> This series includes two separate workstreams. This is because FLB
-> should be applied on top of list_private, as it uses some of its
-> interfaces.
-> 
-> 1. List private v2 (first 3 patches) Previous version:
-> https://lore.kernel.org/all/20251126185725.4164769-1-pasha.tatashin@soleen.com
-> For details, please read the cover letter from the previous submission.
-> 
-> v2 Changelog:
-> - Added a Reviewed-by from David Gow.
-> 
-> 2. LUO FLB v9 (last 2 patches) Previous version:
-> https://lore.kernel.org/all/20251125225006.3722394-2-pasha.tatashin@soleen.com
+> On Wed, Dec 10, 2025 at 6:14=E2=80=AFPM Blaise Boscaccy
+> <bboscaccy@linux.microsoft.com> wrote:
+>> +++ b/security/hornet/Kconfig
+>> @@ -0,0 +1,11 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +config SECURITY_HORNET
+>> +       bool "Hornet support"
+>> +       depends on SECURITY
+>> +       default n
+>
+> So you're disallowing this new LSM to be a module?
+> That doesn't smell good.
+>
+>> +static int hornet_verify_hashes(struct hornet_maps *maps,
+>> +                               struct hornet_parse_context *ctx)
+>> +{
+>> +       int map_fd;
+>> +       u32 i;
+>> +       struct bpf_map *map;
+>> +       int err =3D 0;
+>> +       unsigned char hash[SHA256_DIGEST_SIZE];
+>> +
+>> +       for (i =3D 0; i < ctx->hash_count; i++) {
+>> +               if (ctx->skips[i])
+>> +                       continue;
+>> +
+>> +               err =3D copy_from_bpfptr_offset(&map_fd, maps->fd_array,
+>> +                                             ctx->indexes[i] * sizeof(m=
+ap_fd),
+>> +                                             sizeof(map_fd));
+>
+> As was pointed out several times earlier this is an obvious TOCTOU bug.
+> An attacker can change this map_fd between LSM checks and later verifier =
+use.
+> All the "security" checks further are useless.
 
-Please, no.
+Thank you, Alexei, for pointing that out. I=E2=80=99ll ensure it=E2=80=99s =
+addressed in
+the next iteration.
 
-This patch series is intended for the Linux kernel.  Your grandchildren
-will read the above wondering "what did granddad do".  It's just lazy
-for us to expect readers to have to chase down links to earlier
-versions and then to figure out what changed and why we changed it,
-etc, etc.
+>
+>> +               if (err < 0)
+>> +                       return LSM_INT_VERDICT_BADSIG;
+>> +
+>> +               CLASS(fd, f)(map_fd);
+>> +               if (fd_empty(f))
+>> +                       return LSM_INT_VERDICT_BADSIG;
+>> +               if (unlikely(fd_file(f)->f_op !=3D &bpf_map_fops))
+>
+> Ohh. So this is why this LSM has to be built-in.
+> bpf_map_fops is bpf internal detail. It's not going to be exported.
+> You cannot open code __bpf_map_get() and get away with it.
+>
+>> +                       return LSM_INT_VERDICT_BADSIG;
+>> +
+>> +               if (!map->frozen)
+>> +                       return LSM_INT_VERDICT_BADSIG;
+>> +
+>> +               map =3D fd_file(f)->private_data;
+>> +               map->ops->map_get_hash(map, SHA256_DIGEST_SIZE, hash);
+>
+> This too. It's absolutely not ok for LSM to mess with bpf internal state.
+>
+> The whole LSM is one awful hack.
+> The diff stat doesn't touch anything in the kernel/bpf/
+> yet you're messing with bpf internals.
+>
+> Clearly, you guys want to merge this garbage through LSM tree.
+> Make sure to keep my Nack when you send it during the merge window.
 
-Let's give our audience a nice, self-contained and complete description
-of the proposed changes which doesn't refer them to the minute details
-of the ongoing development process.  A process which is utterly
-uninteresting three years from now.
+Sure thing. I'll include your Nacked-by: in future versions.
 
-IOW, can we please have a complete and standalone description of *this
-patchset* which doesn't refer to earlier obsolete stuff?
 
-Thanks.
+-blaise
