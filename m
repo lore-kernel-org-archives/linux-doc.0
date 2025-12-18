@@ -1,93 +1,110 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3A322F77E
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 17:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5ADD2FF669;
+	Thu, 18 Dec 2025 17:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766080245; cv=none; b=g0RPGUGGSWBurFlHf4DgR6BjKGG83vZpBpEHODVt8v2SL/c62uR7fN4mbQeSZsT6iBSjrFsq2NVphFl6w1gIrcQwUHyM/2w6uqC3PFKfOXsVmdIPwHosxnIf0yukUGTIj7fR60PLfv46c+XLd/eVmQSdL6MfzJh3Rx7FvVrjODI=
+	t=1766080600; cv=none; b=Z/v2isiTxS0YWVyx6xol0YOJD2RG3JxlaNXQFXXcVzHJy0V70k3gEbsw9GVUYCyU3nHNWmvWAQNNN3ulYv4Ysabj8Zs9Ee9YP0zOYw3Ii0r8Pe368JUH8v9aaKZYchPf47RSht8OgARqyCcMHZRqO9fuAA1ozDmcTosghLI2iTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766080245; c=relaxed/simple;
-	bh=aHyjjtFiuLJz+Tk2dbywtBxpbEC6rOqtXlmGXk+Pd24=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awzZs1m2U+vknlsQXdF2+OKI0MUBIMNYqxy1YwWJHpVotTXPok+YYccUikySUQZIlXHB7r3wVHCSK0yB7zGgywQs6CmlLAPWoWDVUBgEZoNBFpBQ0e1Ylz7PhnPWoLvfneXCL1Vo/bhu7Tolb3nod2YuT4Jf4A1JRllFe7dwm6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fvcQStuc; arc=none smtp.client-ip=209.85.210.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766080600; c=relaxed/simple;
+	bh=0Xp7gkpflePA3BG+17uECNNMKEDAlimmV9QL/XtMfXM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=k+2pTJ1/puo0TrFFshB6aJkvUBhEgQ1wjIEx42LztlX34LP34X85PItlbHkl2hny+y24PDcKzkafZB57I6OR2snbV/hI5b7jbhldCw4LFI9m5P3S5/XwROnFq3TH27bn9HaCkVf5YV2Nx2eOnNMrQadJA58951p2E5wLuYUTG2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ggJ0w6ey; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fvcQStuc"
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-7b80fed1505so1006968b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 09:50:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766080243; x=1766685043; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ddQ5E5GMF6Avzka0ZvfzwUtsxi4gaOVkF7bsXtZ9eis=;
-        b=fvcQStuccOhdVdPGl4IUeoCS42vQhK8EI6+3vXSAF/J7PsR5t2DjJPlctOQuENVxx+
-         LTDrityWmp7H6zycxnniyDadfxbtblwHOre4kRgDZF7s3TDoMdg64OUDye0MmxdbPGmv
-         GCMXpG7OJYnDIqNWbReX788RqsIsJNO178s2kyUpy07Bm42DAXNbXsJjFKre5sHQWQ6+
-         GZP0sW3DbX76QnHl2oWHou56OGoKYF0aDpXdGpV4DY7fuUHQqCrAglBmmEB8mJJDCkOy
-         YWacgaeVfbuBy5kiKOUSYHiXPZBl0sjxVYXTGzyopc+OaboClII3Ep0teXrhC/AOHi5Y
-         V9NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766080243; x=1766685043;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ddQ5E5GMF6Avzka0ZvfzwUtsxi4gaOVkF7bsXtZ9eis=;
-        b=Y1qtXTfT0PfeLxXCt0K6NJ0ep9ZccxJ+BBPHljjKF2syWTYrfFm2/7ARghtJBZFhbo
-         r2g+2VI8YlBwp2UQ2fWHS7BFa37XiG/fpwW55tf9dYgxLS52AO+M3RgtSVd8pDYUBCq/
-         3UUZlISR8ZOfFv/1pFXILYdB08Tn/yeDu50C2FvoqcZo5FZUL26Ew+XSYxDwqxKFXu6t
-         EUo0JevyEV2R2+0KJhnnDZjFcWF0pQJxMYzVhGO1GrBhUre1gaZ77n9XdRHYct5TEDBe
-         tcYO2AGecDKB6eJ6l0Qfer23PJAbcs7KjFruzo/nRMYZVo7Emi4ruGwQGKh/reSxTg1J
-         hYIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnlj76fRgVXKuzCgWN/RJ7KwVqi4twpSeqD+kjJgj0DzJ7J8ooazjW7ThBCo+I9DkQsrxJFyyn1kE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yytv/73BdxSrVsYhpYF/hTvXKkVbQrhdIHNefipHNKMytFHksFg
-	qonabx3imQM+ooz7RPrgU6AhTcEldY3+c+PC25ObsLF9MbDvevcYA4xy
-X-Gm-Gg: AY/fxX5vsw7u0g1mNErxOMCEG6wz5GQBCb4dM0CI417CcvpCs+eNnrNS2lDLbrxDxnO
-	EjDIQ8QAidqx+S5II/yLIAkxP02f2kAQAJJRQ54Zw4m0a2JmYNESnjIXdJBNgUGNRu2abX/IgIM
-	IO1DzQq+tWl+8RVmwLxbDRIfyj5pZdbpFZ7+FBpRqJX5WyfPzdjfH8hRImmnX41J+N2PW18fkRj
-	OttLvCBkLpJFFWTC+GgEz4awv5tkENj/4NkByn28JyCacLeIwNLHcX50QU3/z7hKz6Qp2ICBN63
-	7AP3unK89VilmmU0Fc5XaEJPtskYdOvuWc0fx+uwC8n3B6amMVpit1MEhMwWDyljm1litJZ9zQH
-	YT10uVbZBbONHb6YUzec7IqUzVnhilWVbh/TIrxNSHkESjSA9WepdLJrve+M7MsUMrsUOhDX2Io
-	xuGoS02cjOcH/9O0TOoJhebnaS
-X-Google-Smtp-Source: AGHT+IGdqSHdO+D54IUIPzd51Uw0/tPli9hSmW7LLbejRAyhwgD9XQOCvub9597BJ18BANnaYqtQbA==
-X-Received: by 2002:a05:7022:a88:b0:11b:7f9a:9f00 with SMTP id a92af1059eb24-121722ac2afmr100974c88.4.1766080243216;
-        Thu, 18 Dec 2025 09:50:43 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12061fc5534sm10203427c88.9.2025.12.18.09.50.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 09:50:42 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 18 Dec 2025 09:50:42 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Okan Akyuz <okan.akyuz.linux@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] hwmon: (DS620) Update broken Datasheet URL in driver
- documentation
-Message-ID: <de60e982-33da-4f28-9789-4b538f7d532a@roeck-us.net>
-References: <20251215204423.80242-1-okan.akyuz.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ggJ0w6ey"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id C444B4E41C8D;
+	Thu, 18 Dec 2025 17:56:33 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 80A4260715;
+	Thu, 18 Dec 2025 17:56:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AE7A0102F0B31;
+	Thu, 18 Dec 2025 18:56:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766080588; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ZTLcDk8d5i3Rexvj7YyN4SglVlwj+gSdp24i49y8hqs=;
+	b=ggJ0w6eycHRM8Cv+aeVg6/a7Gwsod8uL8PlL9YF0NPxoTx+ulCQH1dtQUZt4MvmoX8/ycW
+	bnvU8g2b4x7PEuupd8wfwGVx9urI4YGoZTZfUY4D1QxgBx2a4q66tMBh4CO0P/s87jWnHY
+	9KEXZSfuwi/fCArXRtVim4XSkWrQp0QIQ1/amYQCtWWUZMYlRXkCE9iskxFNrVCPE7eSdz
+	tWOIzsGwe1Uv45vAYVedWmvnQt8lz2O5/+P1tdWF9MJj9dGm9wRhfVKPehsmEw3nbkv8Jg
+	cTqQf73LvjRBRX8616husu0PJGVARI9hmsEybEZlQJmNREZnkSaUVZaMZVm+dQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215204423.80242-1-okan.akyuz.linux@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 18 Dec 2025 18:56:22 +0100
+Message-Id: <DF1JBF0STHG6.2KNTJ0BZN168B@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH RESEND v2 01/32] drm/drm_mode_config: Add helper to get
+ plane type name
+Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
+ <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
+ <melissa.srw@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
+ <corbet@lwn.net>
+X-Mailer: aerc 0.20.1
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-1-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-1-a49a2d4cba26@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Dec 15, 2025 at 08:44:22PM +0000, Okan Akyuz wrote:
-> The URL for the DS620 datasheet has changed. Update it to reflect the
-> current location.
-> 
-> Signed-off-by: Okan Akyuz <okan.akyuz.linux@gmail.com>
+Hi Louis,
 
-Applied.
+On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
+> Create and export an helper to display plane type using the
+> property string. This could be used to display debug
+> information in VKMS.
+>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_mode_config.c | 13 +++++++++++++
+>  include/drm/drm_mode_config.h     |  3 +++
+>  2 files changed, 16 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
+_config.c
+> index 25f376869b3a..1a1a3f43db4d 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -226,6 +226,19 @@ static const struct drm_prop_enum_list drm_plane_typ=
+e_enum_list[] =3D {
+>  	{ DRM_PLANE_TYPE_CURSOR, "Cursor" },
+>  };
+>
+> +/**
+> + * drm_get_plane_type_name - return a string for plane name
+> + * @type: plane type to compute name of
+> + */
+> +const char *drm_get_plane_type_name(enum drm_plane_type type)
+> +{
+> +	if (type < ARRAY_SIZE(drm_plane_type_enum_list))
+> +		return drm_plane_type_enum_list[type].name;
+> +	else
+> +		return "(unknown)";
+> +}
 
-Thanks,
-Guenter
+AFAIK an enum can be signed, so you should check for >=3D 0 too for extra
+safety.
+
+Otherwise looks good.
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
