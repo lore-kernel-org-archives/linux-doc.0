@@ -1,38 +1,38 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F692D061D
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 17:59:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C70034DCC2
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 18:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766080793; cv=none; b=N3o7F3O1bce/0AvPyiu6+/VzldAHagaiUmQ4vMfygjyYI4g+c9+GgX7Px9qSOam/P1d7GMeIxL7T58gQ8ZHEzgQS3ZScmDt10FZMHxKWokXAjHorBnXszV9A3gwMMfSvGez8+O9HgGBg1NGWQHq+k0AiVuhrfYBWKGvNsCfR/VA=
+	t=1766080805; cv=none; b=N9eOMNejeXnS2UDiEhgdkDSgQTCnEqEhS0olwI5Mp+jVh2V8aBDyHg53vWXoBmyrpz0ctPkZL692nXTmFMc4vxyX47L+zQgXMGnjZ+4yUvyLgS0nTHZ9VAyXX4F5gEAAJFdE8LtCL7c/qUgI/X5k6bpq/lAClUr4+w/1tl3fr4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766080793; c=relaxed/simple;
-	bh=JcRJBYdg+mMo2FaDW2kt8JpqFPY0us9vM839n1+cKd8=;
+	s=arc-20240116; t=1766080805; c=relaxed/simple;
+	bh=jj0tNM+lmo3XjQQ/uISADuMxUunB4+FqDPkrcFKqgnY=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=hep7+SXuYvj9+qgIL04Zjg0Ri4HtThTzBIpe+GgGC7rY5cc1WjX1Ac6qgmPIPwvGWbVxP7d7zyPSV8R/qETom3Q3Q6Wfv/BMm4k6mO7pXpmYbUZYri7byREeaNYH/uc7+QaAB/sZ6kWgCprmYxDkXgvNXV3/21ACw7TY0GWxGqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TeOMwZeK; arc=none smtp.client-ip=185.171.202.116
+	 References:In-Reply-To; b=q+xbdWMjoguenWXg9kA7VugcFMHXbOP8Ha6uvRAsj6HXkVbL0UW1RuF+PTkdnBPTuDOEtLZlia1ZTl91H+r7QRWE2DxKO5WTpQ78ygPivZ7A0VE1c0Es5N3h2DoD0Zi78uBTBAr+5mm3GBDcVFkCRWTnczhjHsk8v00hNH+H4+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oavx17NP; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TeOMwZeK"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oavx17NP"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 83E5EC1A5B7;
-	Thu, 18 Dec 2025 17:59:25 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id C68054E41C91;
+	Thu, 18 Dec 2025 18:00:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2552460715;
-	Thu, 18 Dec 2025 17:59:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CFAB8102F0B31;
-	Thu, 18 Dec 2025 18:59:43 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9B75660715;
+	Thu, 18 Dec 2025 18:00:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B1125102F0B66;
+	Thu, 18 Dec 2025 18:59:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766080785; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766080797; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=JcRJBYdg+mMo2FaDW2kt8JpqFPY0us9vM839n1+cKd8=;
-	b=TeOMwZeK1kU8ygOCUEV63INU3k0t3WOJILyiYt/KIK4NtANP7fqfSxKmnbD1Dmz1iLuKxW
-	qHRzmtdZFjqw2fYeEdOPEFRqA6aFDjOWB87egArVMstv1cv5iqqsvdJspV9qZI0H6p949w
-	iLxtEKr/1F8Bv2MbZth1AvtthlVs2OH6aP3eMslxbaqrQ+6w9Jy6QF8cOnfd3ndQ4PJyUu
-	pR73Yfpy+aOCFQlcea6VlZ0NtG55i76W42CBywmAlhUynoxojP8Te71pt21bGzH7szMzLo
-	HH2DhaGOgonlW7+hJiHjz527wUcuBJaG7Qddx4Wle2JGeRyxM27bo55oq5M/vg==
+	bh=BFK3V89iVHuZJBa6vSsSmmmTu6bXzz29SnYF25k2xlc=;
+	b=oavx17NPOGY8okb8f30ZWu45gJMJu3/0iigviezRHSlHzeMsXWnzqic0fmp/RkUdmVAO06
+	AAiCFhl1zKWxfThXJxnOQ7cW4422qT4qBO1QoOUmzME1FXR+08R5biwK91Ob7a2wB0gyfR
+	I50E0ZQmfJghU4+/LyVS0Qlh0AAYMtOhfLOyh46fmO5KmJwREEwlCOhm3BFXYW7bKYasfM
+	swMPNXttNOAey/Nlfd+w4FnrfvldV3mRA6L5DGhA7AT0aAVB9p40XSpmsI9+loTkxJ8qXc
+	LHj0fzX5ui0RRFBiLCaEXRs/RFPOD8uNW6fkSu4NdqT2AaWYiIHS0phXwYb4Dg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,10 +41,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 18 Dec 2025 18:59:43 +0100
-Message-Id: <DF1JDZFKRUY7.1X2VH3FB9B1AD@bootlin.com>
-Subject: Re: [PATCH RESEND v2 13/32] drm/drm_color_mgmt: Expose
- drm_get_color_range_name
+Date: Thu, 18 Dec 2025 18:59:55 +0100
+Message-Id: <DF1JE4UKS0X1.2KM5UAE92I3UZ@bootlin.com>
+Subject: Re: [PATCH RESEND v2 14/32] drm/vkms: Introduce config for plane
+ color range
 Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
@@ -58,17 +58,65 @@ To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-13-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-13-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-14-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-14-a49a2d4cba26@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
 On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
-> drm_get_color_range_name can be useful to print debugging information.
-> Export it so it could be used from VKMS.
+> VKMS driver supports all the color range on planes, but for testing it ca=
+n
+> be useful to only advertise few of them. This new configuration interface
+> will allow configuring the color range per planes.
 >
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+
+> @@ -359,6 +379,16 @@ bool vkms_config_is_valid(const struct vkms_config *=
+config)
+>
+>  		if (!vkms_config_valid_plane_color_encoding(config, plane_cfg))
+>  			return false;
+> +
+> +		if (!vkms_config_valid_plane_color_range(config, plane_cfg))
+> +			return false;
+> +
+> +		if ((vkms_config_plane_get_supported_color_encodings(plane_cfg) =3D=3D=
+ 0) !=3D
+> +		    (vkms_config_plane_get_supported_color_ranges(plane_cfg) =3D=3D 0)=
+) {
+> +			drm_info(dev,
+> +				 "Both supported color encoding and color range must be set, or none=
+\n");
+                                                       encodings          r=
+anges
+
+> @@ -441,6 +471,12 @@ static int vkms_config_show(struct seq_file *m, void=
+ *data)
+>  		seq_puts(m, "\n");
+>  		seq_printf(m, "\tdefault color encoding=3D%s\n",
+>  			   drm_get_color_encoding_name(vkms_config_plane_get_default_color_en=
+coding(plane_cfg)));
+> +		seq_puts(m, "\tsupported color range=3D");
+                                               ranges
+
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -47,6 +47,8 @@ struct vkms_config {
+>   *         must be managed by other means.
+>   * @default_color_encoding: Default color encoding that should be used b=
+y this plane
+>   * @supported_color_encodings: Color encoding that this plane will suppo=
+rt
+> + * @default_color_range: Default color range that should be used by this=
+ plane
+> + * @supported_color_ranges: Color range that this plane will support
+                                     ranges
+
+With those fixed you can add:
+
+ Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 --
 Luca Ceresoli, Bootlin
