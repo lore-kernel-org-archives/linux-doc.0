@@ -1,64 +1,64 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2881A2673A5
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 23:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0AB2192FA
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 23:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766099824; cv=none; b=h59mxdPWycTkiLhNKHxK3iVfvat1UPDKWZJDyP08CSy6mROqARSMCJDO1CE5wmX/I5ANnYwud0NH7HwM64H+e6ZmJBhMYXAL0YmXVoiT3ZKlLbyr+uEHp4bDDJkbjEAVLNU362TOjPhWAQW+jaOtxwVuFESzOWt9rbzdMJG9V4s=
+	t=1766099828; cv=none; b=Bj/G4Xy7spBytHOiCR20Br2PDNTR0qH8Zusn+Oi6Joz5x9gv2HcSIjDJgEI1kLNjAcXCLnQqku6Ed8q70UoP19lmK3a0LhwONg005dUr82QJQWx6Oq4ze6Gx16PxV4br+KGU8lR2ckdDn9jwKVD/pejEOa8hnfm5P+C8O9vcHuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766099824; c=relaxed/simple;
-	bh=RLmCV+OvagHoUUMbZBs9y0NlkZFNV2ezWAtZucgHerc=;
+	s=arc-20240116; t=1766099828; c=relaxed/simple;
+	bh=p5egn43EaueyETI+hZzja1wc8CVuE4ruaw5H/t0jRQk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X6M88JTAlcSncg/IDthCJy7eP+qhtjbX1xa+CCkl9wBSw6zQsfqUwMmV/tuZ2Nlj/5jRTllM7uHd5DkKmig5VLStfwhufBeSiYc3BWi66pHmOG8od+ZjTFIrt8oj1td4R7oUxuDJ6xqpXaqyN3oZcqEkitVHFmkQbvdE3I7yYW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbpr3dxX; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version:Content-Type; b=DsCCOcJlG9yk6O3uRRQy3UtfJeuVId+4/KeY16QsNSVTX5+gT2egfDAphYSBEjxGzz1b6o4k5/H+ahuFHdtDCeVyEnDfSYYXfvsM9nFDVtW6faTTz+smBztdDRRXtlL7cCr0+xGLbdVx43sOfsuCZOvDO5yW4Wo4orL91za1khQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HcAZRkXt; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbpr3dxX"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a1388cdac3so10811765ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:17:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HcAZRkXt"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0d06ffa2aso13516715ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:17:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766099821; x=1766704621; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766099825; x=1766704625; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UhZeyKLTA9ibrUMZZxWygcC3Nvlu+qMnZ6MHbwZrAhQ=;
-        b=fbpr3dxXMzHSNtN3MBHZ5I2S5phhDD+yYeq9exCVzSc23N7X/xpym0z0yF1blCEcN4
-         JDZQquoNnAkmpGyPbghYZtzxes3U8dP2AD7O2xFpK7uHSm1VVG42Kfnwgs/S1bmHwh6R
-         B+4kYpkFC4pJZH6BVtKhAsSijnk18P/GjdVqc8HND3Y+keVd+JZdvOpWYc2lknzj2cGl
-         xf+O+Wqgj7Y8v14eSC6Pcyl+54ZO/1cAfnsjrD1/0fR63876z+lPychFs+NzgxSw9Jt4
-         Iuswu7KbkLzmRAhIauowSQnpPbQ0fTeq1lAPClnCRmSou1KxucvQkfhT8XelECNw3tyP
-         Q82g==
+        bh=Z6yEgERrbfgvs5YkYCITocFC3b0dII/O2Ppx2dvZqYk=;
+        b=HcAZRkXtwmizOtc0lYmM3eFxAzzAEdAtyaDxjNKdFdrEiYh6JI2QO9FF4ptDb2lorw
+         jvVFCCPI0NLfc2Sf2kkGaimtTu3Kxuse4DNEjAjTV0OfUXWy/JzuWp29cb7sEiTstT3w
+         rLtMYCsnJ2hvzLInAY1JDA2KuP1caUCUU/0FKxyvWrXQ5MPUlm81dAJvlYtSTbtv54zq
+         mR9OfCCPQwB9NDdT3Jgh31+GteKl6PcYSKb7AeIrKMKm2sAALrmjWk/JJBfkYkXAhAPg
+         SxDf+0u6sU8Qa+BFIdFYgVl/P9Y12EhC0wDP/Qxsz0h1wLXbNoNV71jdv2Tf14912OlB
+         l7LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766099821; x=1766704621;
+        d=1e100.net; s=20230601; t=1766099825; x=1766704625;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UhZeyKLTA9ibrUMZZxWygcC3Nvlu+qMnZ6MHbwZrAhQ=;
-        b=FbdAk6SxMtlw4NcdQcC1sY5a4L5k9J1o9JC2v3N9m7hvfmBg8LETr+uorpKVOstZMX
-         Xxr/EB5A0RtzdwpAnUHrUytIURgj4RLoIUExuL92splk3HEokSfE/hj6pEdSu95wxvkt
-         5OgJjExDZdIycZcUl/aMiOT2aYYC8semyiwdOaXWrKNhKeXOrDsRA/XdbslyA0FiZuXL
-         7x8g1/qMu/1FtuChAJFfhrElOJSzyssXB375ae+xNftHuru4eITogyTkbpBtIFYfp3iF
-         szKVxjQRHWOgxlejSOH16TKowty79yPeFANkhSHWeLfNNm4h7gKsHT24L/2z63hf2fAC
-         xFFg==
-X-Forwarded-Encrypted: i=1; AJvYcCWldrhSybY6smB4bQ+tjXCRBscCXkzri7lBiDOpFf+yKl6HTeRFWI+iI9K3R2AoR9WaAx0DEpsprDc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqVKCybiLX3AHI/IYfccq08aqydGo+MgePHyjaxG64aEeoK1uW
-	3NbpaTgJE9Qdk3N4fAjRGswZepkfypWtiyaYaqcFgL+a6R5x83yLIeM3
-X-Gm-Gg: AY/fxX4BSRlLGcXaVZnAhgM13tvHMeFMYgu49esvicxRb2O/seZXey/f3ImQwqmS92q
-	/jgDkQX9pgo1VFiJbbXK2Z7EefsBP5JPlkndx49i/PxEu5oVH9uObig6ouF66Kf/9UG2NaK7mo8
-	8EoRTTd2fK1xtwsIPww8mzbObcI/5+DTxlAdFEdncfaCkb5ZEp9KeJVk1SNajijUXoXLM49TFft
-	AHKo8m5CXMfcRogyYZbGcZW92aub8BdzrZHUlL6QkGw2ZJaZqzOqc6aN/v4RuZHR4D/cih2Drat
-	bb7e7Zvd3nJMSfWG6ygV8en5NJPp9ZbEfzUNpgq8L5aNnH8JzQ3eDeJs77m8fK3SwJtuwCq+qCZ
-	GgBebbB4Ui+scHaDRLZbBtNBkV2fNnwkdVbPtDAqFFzCbR0DpQFuq2Q2xK6Brt4k65RJunUOhuF
-	GbjRaKLgbJtc53faZZMVkZEd6vJGYb1NU5XkQGeYfdjt1BMw==
-X-Google-Smtp-Source: AGHT+IEJJK2/UdJoX3M765iVXn/ZuPzXlocYBzJ0cM8ct2mul9m5Z8TTPJHb6WbIrdPUvbpl6Rvqhw==
-X-Received: by 2002:a17:902:ec8a:b0:29f:2f40:76c4 with SMTP id d9443c01a7336-2a2f2a34fe0mr9213765ad.34.1766099821207;
-        Thu, 18 Dec 2025 15:17:01 -0800 (PST)
+        bh=Z6yEgERrbfgvs5YkYCITocFC3b0dII/O2Ppx2dvZqYk=;
+        b=My4I7OmxyMqoWflC681skVNKQuak7Hkq+71xHXE8kyZfoC+JwzY7wKGFFob0tLZnTk
+         nUlbgJQgAPzP5DAKJNdBQ94Qphi4jo6GO3yy7BNMeXgIQJFiSa5gIQNRYJ9n9uIgzv6x
+         hLlk1OyMor05v4JTbVTfebkeeXh4RREL2mXJ6boIcgOsS/trAFcM+oS5+GTesY+7BnoW
+         NELl4QM4z+RMu9ZmJhutOW57gXORh6mmUO5oZiQoiCqPIRNxmYc7CArAzNoln53/c3Y3
+         gUCqc+3pu5aNEw8icalvCDSAAGbn/icCwXJjyXDvatVgM8gHKuXE1uKUP00GUgMjorB3
+         HEhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvKw/H/pqdUUBAeJyuricvmKC+5O3ft9ztop6QPR4mSguD2o226v+TzbxzKmkAHp/0edwmne7rjMg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkoqnYTcJ7tvwKvPvAzlWFCSmyQIHAjHbFrL6AoEdxs9P3Mn6I
+	Ha1EfbWuFPL/4ow3tgBY+BYOS/yzJVgb1TaptuNi0b0uq9xBPm5gz1Hv
+X-Gm-Gg: AY/fxX4vYX5t7x5qKQIpP0LNO7hM3vlHS7btanG7/z0rgiSaQ7A8EXT4dw21ydigcZ+
+	ibpgiZhCEkOVEvSO7H1JvJBhMTyr8IgN2MynUnFg4HbjihFsdgd92xcKLBYmG+T1ET+NwXmU4A/
+	8XdkM6Se/ohtu8a6CWC6glkz35nA2yZwH6y9UCUuwBOYNyq7b7FI0PjBANdFSAXiks2vpDKcTYO
+	PkMj4+iiVHhu9k6XRHGz3Sck/DXjBFDpZfQ8NfQPqreOeqfEzPM6DfqVSbJoBayNu8W3FMHD7EX
+	+nsOplJCkSpbLPYFwQh63tw2VZDof9KfyQb0TG7bGvrK5kBuFJW3ceLeS6jdTVr+as2hT0s5nbF
+	yGiSZkF0lVT1JEXFQiIWO6hIL1fY8ItBI6JlJFb9lBessx2yFvAxuxCZVxRvE6X7psIvLVoZctJ
+	KUHD5Fs/plGwBTrlvrw6Q+0eluC0jyAdtPybITjSi/iREvcdltnFtKkSij
+X-Google-Smtp-Source: AGHT+IHiVf7VgVad0eOuU4iO0sqY9Wdyo+FaWyngwgkeNLTIXrqibUnJh8/GEq/nrTKLyUTmbTaf9g==
+X-Received: by 2002:a17:903:290:b0:2a1:e19:ff5 with SMTP id d9443c01a7336-2a2f273818fmr8662165ad.38.1766099824342;
+        Thu, 18 Dec 2025 15:17:04 -0800 (PST)
 Received: from Lingbou.localdomain ([113.225.44.231])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb48sm3311955ad.64.2025.12.18.15.16.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb48sm3311955ad.64.2025.12.18.15.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 15:17:00 -0800 (PST)
+        Thu, 18 Dec 2025 15:17:03 -0800 (PST)
 From: Xingqiu Xu <hilbertanjou83@gmail.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
@@ -67,9 +67,9 @@ Cc: dzm91@hust.edu.cn,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Xingqiu Xu <hilbertanjou83@gmail.com>
-Subject: [PATCH 1/7] docs/zh_CN: Add timers directory Chinese translation
-Date: Fri, 19 Dec 2025 07:16:43 +0800
-Message-Id: <e6efa01104fb4476abbee4e4b4fe4f6bb99464f7.1766099040.git.hilbertanjou83@gmail.com>
+Subject: [PATCH 2/7] docs/zh_CN: Translate timers/timekeeping.rst
+Date: Fri, 19 Dec 2025 07:16:44 +0800
+Message-Id: <eeae5740c178a47ac74dd00fabc60f08b48981e2.1766099040.git.hilbertanjou83@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1766099040.git.hilbertanjou83@gmail.com>
 References: <cover.1766099040.git.hilbertanjou83@gmail.com>
@@ -82,73 +82,247 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/timers/ into Chinese and update subsystem-apis.rst
-translation.
+Translate .../timers/timekeeping.rst into Chinese.
+Update timers/index.rst to include the translated file.
 
-Update the translation through commit 1f455f601e20
-("timers/Documentation: Cleanup delay/sleep documentation")
+Update translation through commit 458f69ef3665
+("docs: timers: convert docs to ReST and rename to *.rst")
 
 Signed-off-by: Xingqiu Xu <hilbertanjou83@gmail.com>
 ---
- .../translations/zh_CN/subsystem-apis.rst     |  5 +--
- .../translations/zh_CN/timers/index.rst       | 33 +++++++++++++++++++
- 2 files changed, 34 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/timers/index.rst
+ .../translations/zh_CN/timers/index.rst       |   3 +-
+ .../translations/zh_CN/timers/timekeeping.rst | 203 ++++++++++++++++++
+ 2 files changed, 205 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/timers/timekeeping.rst
 
-diff --git a/Documentation/translations/zh_CN/subsystem-apis.rst b/Documentation/translations/zh_CN/subsystem-apis.rst
-index 830217140fb6..f6445e256ee9 100644
---- a/Documentation/translations/zh_CN/subsystem-apis.rst
-+++ b/Documentation/translations/zh_CN/subsystem-apis.rst
-@@ -29,10 +29,7 @@
-    power/index
-    scheduler/index
-    locking/index
--
--TODOList:
--
--* timers/index
-+   timers/index
- 
- 人机接口
- --------
 diff --git a/Documentation/translations/zh_CN/timers/index.rst b/Documentation/translations/zh_CN/timers/index.rst
-new file mode 100644
-index 000000000000..55286759a04a
---- /dev/null
+index 55286759a04a..ae40f8b91346 100644
+--- a/Documentation/translations/zh_CN/timers/index.rst
 +++ b/Documentation/translations/zh_CN/timers/index.rst
-@@ -0,0 +1,33 @@
+@@ -15,13 +15,14 @@
+ .. toctree::
+     :maxdepth: 1
+ 
++    timekeeping
++
+ TODOList:
+ 
+ * highres
+ * hpet
+ * hrtimers
+ * no_hz
+-* timekeeping
+ * delay_sleep_functions
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/translations/zh_CN/timers/timekeeping.rst b/Documentation/translations/zh_CN/timers/timekeeping.rst
+new file mode 100644
+index 000000000000..bfff5ce36303
+--- /dev/null
++++ b/Documentation/translations/zh_CN/timers/timekeeping.rst
+@@ -0,0 +1,203 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/timers/index.rst
++:Original: Documentation/timers/timekeeping.rst
 +
 +:翻译:
 +
 +  徐兴球 Xingqiu Xu <hilbertanjou83@gmail.com>
 +
-+======
-+定时器
-+======
++===============================================
++时钟源、时钟事件、sched_clock() 和延迟定时器
++===============================================
 +
-+.. toctree::
-+    :maxdepth: 1
++本文档试图简要解释一些基本的内核时间保持抽
++象。它部分涉及通常在内核树的
++drivers/clocksource 中找到的驱动程序，但
++代码可能分散在整个内核中。
 +
-+TODOList:
++如果您通过 grep 浏览内核源代码，您会发现许
++多特定于架构的时钟源、时钟事件实现以及类似
++的几个特定于架构的 sched_clock() 函数覆盖
++和一些延迟定时器。
 +
-+* highres
-+* hpet
-+* hrtimers
-+* no_hz
-+* timekeeping
-+* delay_sleep_functions
++为了为您的平台提供时间保持，时钟源提供基本
++时间线，而时钟事件在此时间线上的某些点触发
++中断，提供诸如高分辨率定时器之类的功能。
++sched_clock() 用于调度和时间戳，延迟定时器
++使用硬件计数器提供准确的延迟源。
 +
-+.. only::  subproject and html
 +
-+   索引
-+   ====
++时钟源
++------
 +
-+   * :ref:`genindex`
++时钟源的目的是为系统提供时间线，告诉系统当
++前的时间位置。例如，在 Linux 系统上发出
++"date" 命令最终将读取时钟源以确定确切的时
++间。
++
++通常，时钟源是一个单调的原子计数器，它将提
++供 n 位，从 0 计数到 (2^n)-1，然后回绕到 0
++并重新开始。只要系统运行，它理想地永远不会
++停止计时。它可能在系统挂起期间停止。
++
++时钟源应该具有尽可能高的分辨率，并且与实际
++的墙上时钟相比，频率应该尽可能稳定和正确。
++它不应该在时间上不可预测地来回移动或在这里
++和那里错过几个周期。
++
++它必须对硬件中发生的那种效果免疫，例如在总
++线上分两个阶段读取计数器寄存器：首先读取最
++低 16 位，然后在第二个总线周期中读取较高的
++16 位，而计数器位可能在两者之间更新，这会
++导致计数器产生非常奇怪的值。
++
++当时钟源的挂钟时间精度不令人满意时，时间保
++持代码中有各种特殊处理机制和层次，用于例如
++将用户可见时间同步到系统中的 RTC 时钟或使
++用 NTP 针对网络时间服务器，但它们所做的基
++本上是更新针对时钟源的偏移量，时钟源为系统
++提供基本时间线。这些措施不会影响时钟源本身，
++它们只是使系统适应时钟源的缺点。
++
++时钟源结构应提供将提供的计数器转换为纳秒值
++作为无符号 64 位整数的方法。由于此操作可能
++被非常频繁地调用，因此在严格的数学意义上这
++样做是不可取的：相反，使用仅算术操作乘法和
++移位将数字尽可能接近纳秒值，因此在
++clocksource_cyc2ns() 中您会发现：
++
++  ns ~= (clocksource * mult) >> shift
++
++您会在时钟源代码中找到许多辅助函数，旨在帮
++助提供这些 mult 和 shift 值，例如
++clocksource_khz2mult()、
++clocksource_hz2mult()，它们帮助从固定的
++shift 确定 mult 因子，以及
++clocksource_register_hz() 和
++clocksource_register_khz()，它们将使用时
++钟源的频率作为唯一输入来帮助分配 shift 和
++mult 因子。
++
++对于从单个 I/O 内存位置访问的真正简单的时
++钟源，现在甚至有 clocksource_mmio_init()，
++它将接受内存位置、位宽、一个参数告诉寄存器
++中的计数器是向上还是向下计数以及定时器时钟
++速率，然后生成所有必要的参数。
++
++由于 100 MHz 的 32 位计数器将在大约 43 秒
++后回绕到零，处理时钟源的代码将不得不对此进
++行补偿。这就是为什么时钟源结构还包含一个
++'mask' 成员，说明源的多少位是有效的。这样，
++时间保持代码就知道计数器何时会回绕，并可以
++在回绕点的两侧插入必要的补偿代码，以便系统
++时间线保持单调。
++
++
++时钟事件
++--------
++
++时钟事件在概念上是时钟源的反向操作：它们采
++用所需的时间规范值并计算要写入硬件定时器寄
++存器的值。
++
++时钟事件与时钟源正交。相同的硬件和寄存器范
++围可用于时钟事件，但它本质上是不同的东西。
++驱动时钟事件的硬件必须能够触发中断，以便在
++系统时间线上触发事件。在 SMP 系统上，理想
++（并且习惯）每个 CPU 核心有一个这样的事件
++驱动定时器，以便每个核心可以独立于任何其他
++核心触发事件。
++
++您会注意到时钟事件设备代码基于关于使用 mult
++和 shift 算术将计数器转换为纳秒的相同基本
++思想，并且您会再次找到用于分配这些值的相同
++辅助函数系列。但是，时钟事件驱动程序不需要
++'mask' 属性：系统不会尝试在时钟事件的时间
++范围之外规划事件。
++
++
++sched_clock()
++-------------
++
++除了时钟源和时钟事件之外，内核中还有一个特
++殊的弱函数，称为 sched_clock()。此函数应
++返回自系统启动以来的纳秒数。架构可能会也可
++能不会提供 sched_clock() 的自己的实现。如
++果不提供本地实现，系统 jiffy 计数器将用作
++sched_clock()。
++
++顾名思义，sched_clock() 用于调度系统，例
++如在 CFS 调度程序中确定某个进程的绝对时间
++片。它还用于 printk 时间戳，当您选择在
++printk 中包含时间信息以用于引导图表等事情
++时。
++
++与时钟源相比，sched_clock() 必须非常快：它
++被调用得更频繁，尤其是被调度程序调用。如果
++您必须在与时钟源相比的精度之间进行权衡，您
++可以在 sched_clock() 中牺牲精度以换取速度。
++但是，它需要与时钟源相同的一些基本特征，即
++它应该是单调的。
++
++sched_clock() 函数只能在无符号长整型边界上
++回绕，即 64 位之后。由于这是一个纳秒值，这
++意味着它在大约 585 年后回绕。（对于大多数
++实际系统，这意味着"永不"。）
++
++如果架构不提供此函数的自己实现，它将回退到
++使用 jiffies，使其最大分辨率为架构的 jiffy
++频率的 1/HZ。这将影响调度精度，并可能在系
++统基准测试中显示出来。
++
++驱动 sched_clock() 的时钟可能在系统挂起/
++睡眠期间停止或重置为零。这对它所服务的调度
++系统事件功能无关紧要。但是，它可能导致
++printk() 中出现有趣的时间戳。
++
++sched_clock() 函数应该在任何上下文中可调
++用，IRQ 和 NMI 安全，并在任何上下文中返回
++合理的值。
++
++某些架构可能具有有限的时间源集并且缺乏一个
++很好的计数器来派生 64 位纳秒值，因此例如在
++ARM 架构上，已经创建了特殊的辅助函数，以从
++16 位或 32 位计数器提供 sched_clock() 纳
++秒基数。有时，也用作时钟源的同一计数器也用
++于此目的。
++
++在 SMP 系统上，对于性能至关重要的是
++sched_clock() 可以在每个 CPU 上独立调用而
++不会产生任何同步性能损失。某些硬件（例如
++x86 TSC）将导致 sched_clock() 函数在系统
++上的 CPU 之间漂移。内核可以通过启用
++CONFIG_HAVE_UNSTABLE_SCHED_CLOCK 选项来解
++决此问题。这是使 sched_clock() 与普通时钟
++源不同的另一个方面。
++
++
++延迟定时器（仅某些架构）
++------------------------
++
++在具有可变 CPU 频率的系统上，各种内核
++delay() 函数有时会表现得很奇怪。基本上，这
++些延迟通常使用硬循环来延迟使用在引导时校准
++的"lpj"（每 jiffy 循环数）值的一定数量的
++jiffy 分数。
++
++让我们希望您的系统在校准此值时以最大频率运
++行：结果是当频率降至一半频率时，任何 delay()
++将是两倍长。通常这不会造成伤害，因为您通常
++要求至少那么多的延迟。但基本上，在此类系统
++上，语义是相当不可预测的。
++
++进入基于定时器的延迟。使用这些，可以使用定
++时器读取而不是硬编码循环来提供所需的延迟。
++
++这是通过声明一个 struct delay_timer 并为此
++延迟定时器分配适当的函数指针和速率设置来完
++成的。
++
++这在某些架构上可用，例如 OpenRISC 或 ARM。
 +
 -- 
 2.34.1
