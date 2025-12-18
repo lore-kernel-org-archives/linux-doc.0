@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC49342CA7
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27E9344031
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766070615; cv=none; b=XAmKi1K9nOgLSX239xmLXJAoC4Aq5k1Wxsgcb6Tj7af7UXQQQ418XMHQCfaLQSbvGzsAak6aAbFO9X8dH0wgvqx3M/wFjs580zxYY+vKzb1IOwPAdQLtW4WfAQYBh4JmmxnauLNm/8cyZNMiOpHWqJA8OMzDwwwAqf344+VxNXo=
+	t=1766070616; cv=none; b=GMB3ALT5bkEDXf/w3p8uji9QKjzwYg56ktQ691Wmss1vkvpLGMDFVrHTohQXSZcZJEHvoTJ+OW/fNfvvZaWRQJlsa5jYS5XJkIWFk3MALqVbue7eSOX+x+3cj5/jKoH48WA/tjucy4kZZgemqAtMUcJ3Kg35t8kLVp6Voc7HEeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766070615; c=relaxed/simple;
-	bh=B1eibsAcWSn5y/4mdCGhgsGHb7qIzuBZJfdR09u3QuM=;
+	s=arc-20240116; t=1766070616; c=relaxed/simple;
+	bh=gUJboi084+oJ/+7QBnw/f3iBTg5QbRgqWMYm6NfXmSs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DY9/eXKxfPatQLdpcVvmPGRnRrtd6dymjk1Rmr2P2++BJ82BCCcdrB6UEWlx9ZjtSEUrMZmo+JCZmCN9QuMWzkGFp/Dwdq34zl3MrdCx4U1IlBsblTtsUk07jRha0KVggWfDanxnVlYJk2nSscHkm21tzJ3vDVhkVoo3gJFU7e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJacVhkQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=qqgsFiLnovR3O+bYUINvIDXVyTPg/ms2C7XC1nbtRrDG89hbdkw0SP38lLjnasKgDpEMufLvtieumLotAxVgXjGhrctCZ38DfYp3pSR65BCTkR1OyDeKs8xn9199eeGq9jqtu0eD7NOaUFVxMT4tWxGpURi2VJPzPuDpr4jT4aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIq6z2Mb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJacVhkQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70AB8C4CEFB;
-	Thu, 18 Dec 2025 15:10:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIq6z2Mb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E443BC116D0;
+	Thu, 18 Dec 2025 15:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766070615;
-	bh=B1eibsAcWSn5y/4mdCGhgsGHb7qIzuBZJfdR09u3QuM=;
+	s=k20201202; t=1766070616;
+	bh=gUJboi084+oJ/+7QBnw/f3iBTg5QbRgqWMYm6NfXmSs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LJacVhkQPLYFRT+bJ2vM8A7HwCIPArlwYIv8IJtOmXYgoFjQKETVuVklGANvu1pWJ
-	 rjkurIpKERJo3LRtBfokpqtUdnUKRuqigGEJYwt1aGJ6CI20p9bX63RoMqbjm84vDj
-	 pOz8cTNCA+X3oAoQ0az0VNHtP+J7c7zaPyXyDejvuKwDozFH12ePc2dVYcRLE19CGj
-	 f2PQ4k9V93mrNb7gW+zSQSU6u5Ouvm/E6/htNWqfWwZ2ZTp4rWmJ27ERTswS5pshRI
-	 bWjBcMS+F429gPSPQaUlBFeQzb7472LRdcuEnkTN2XDAACRcwRe2D5tLsJg+qG9lji
-	 x8J3f7GY2uiyg==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.phl.internal (Postfix) with ESMTP id C101CF40078;
-	Thu, 18 Dec 2025 10:10:13 -0500 (EST)
+	b=iIq6z2MbTCm85m6bFIbnBycalop6OftakaUBDSFiEYt66jEGEiz6tgjaDIwVC5qmk
+	 HqcvKtaoTsTjQipEUGcAoFpkj345wNaV2S4IyDjJWpdIWZSFZC3pAIwBK9NGldIJ/r
+	 SkGCaEh5jxMo9FmGxZZ7smE7Dscav9bvlN7mk3vJx0JvzDOEjDp5AKNd7wQO/Up3VW
+	 y/KNGtq/yUmx/WRSxe5RTSPGS6NkdJ5ayJkv97SNxIwXegjItP6erYK+p4QzSK5hSK
+	 SaRgD+WnJx9f6KJmtnFxJfl8j1ohG8uqJ1qJzYVgLeCMX8Qr8edVWO2BznZ8Sx5RTe
+	 eNyCNInjwMPCQ==
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 41F17F40078;
+	Thu, 18 Dec 2025 10:10:15 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Thu, 18 Dec 2025 10:10:13 -0500
-X-ME-Sender: <xms:VRlEaTLQ4VM1hsLkcIo2jLIurPbv0o27FYk879rbEKt1GfEn2vLAeQ>
-    <xme:VRlEaWbJAAcco9_sWEYBf8glqJGPOy-oP69TygLdsWwH17SDS-A6U_F_LESARbonS
-    w8MvQ3jK2c7kPrZUE04nASfNEILU7rOhgoLtRjtCUzlL-zTkogaHg>
-X-ME-Received: <xmr:VRlEaehYrujDKY5hqtZc0e6PVcoImMLP0cGnhIwtm-uEGPdmh4FcUMMOzwkyDw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheejhecutefuodetggdotefrod
+  by phl-compute-08.internal (MEProxy); Thu, 18 Dec 2025 10:10:15 -0500
+X-ME-Sender: <xms:VxlEaaVuPks7R6wFtEDdIRQst4L0eZII5IxfeesvzBw2zQWV4wZK7g>
+    <xme:VxlEaV2Sz1sC-al6neE3iWWLrmBqmOYDcrsSAI1bG7Bk1eKjSV3lVjpXrmRmvoZGh
+    45pVUfeuaPhTTsD5Fut4f3rDiPeQs0rGazKDjZpO4_vLvoX0LkTwg>
+X-ME-Received: <xmr:VxlEaRPU-0IGZbBXnCcORcqggFh6n7ZMQjt1oBR1xnBMGG1lo3v53nhcyXeYCg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheejgecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmihhrhihlucfu
     hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
     hnpefhudefjeehhfektdeuvdefveejffdvhfevtddugfduffejfeeikeelhedvtedvveen
-    ucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
     hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
     vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
     grmhgvpdhnsggprhgtphhtthhopedvtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
@@ -52,14 +52,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheejhecutefuodetgg
     phhtthhopehfvhgulhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepohhsrghlvhgrug
     horhesshhushgvrdguvgdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhgpdhr
     tghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgii
-X-ME-Proxy: <xmx:VRlEaT4izlgYmEwGkIOV2AztU3kXJy105Lsg1xmAeBLtWZ4JCSsLXg>
-    <xmx:VRlEaeqQ_IrHVosLaiJaTKRZLHdlCorHOQaauSlobmdwkDsNe2699w>
-    <xmx:VRlEaYg-d3dPoyLqeNQ4OnI2NvIjdnTxkW2kE3zwPqU4qptTcLLoiw>
-    <xmx:VRlEaeu2Z56K-BcD3cDfgAq7Cn7s268CT14t23ZWea_CvExjcIVjzQ>
-    <xmx:VRlEaR3ull44ZKmgYLFg0vf7AcAI5GpXJVPAnrWchn76wB8DKbOxXLD_>
+X-ME-Proxy: <xmx:VxlEaY01GD6ZoysoBopTypgNlWdBBwY27VD0U7FB309DXJkzfAc7aA>
+    <xmx:VxlEaY3DswfPDhOqXXnG9Y24GlsHYwBv1uTzO1uaso0zEqoMVD6XTQ>
+    <xmx:VxlEae8_OjEKaK1E1ACpgVsQX8cQtZLLqmqrzPll3krKjhm6c8hqMw>
+    <xmx:VxlEacbZpYbK2_Lc-86Kkn4fZ0j98DTsrUbG9E9OWBJn0Sv2ZzErLQ>
+    <xmx:VxlEaVyHQCDTEmAITVu5K3-xSZ367ekPRu_NBoygEbUs0YfDl9RKDEdA>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Dec 2025 10:10:13 -0500 (EST)
+ 18 Dec 2025 10:10:14 -0500 (EST)
 From: Kiryl Shutsemau <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Muchun Song <muchun.song@linux.dev>,
@@ -81,9 +81,9 @@ Cc: Oscar Salvador <osalvador@suse.de>,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Kiryl Shutsemau <kas@kernel.org>
-Subject: [PATCHv2 11/14] hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
-Date: Thu, 18 Dec 2025 15:09:42 +0000
-Message-ID: <20251218150949.721480-12-kas@kernel.org>
+Subject: [PATCHv2 12/14] mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
+Date: Thu, 18 Dec 2025 15:09:43 +0000
+Message-ID: <20251218150949.721480-13-kas@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251218150949.721480-1-kas@kernel.org>
 References: <20251218150949.721480-1-kas@kernel.org>
@@ -95,106 +95,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The VMEMMAP_SYNCHRONIZE_RCU flag triggered synchronize_rcu() calls to
-prevent a race between HVO remapping and page_ref_add_unless(). The
-race could occur when a speculative PFN walker tried to modify the
-refcount on a struct page that was in the process of being remapped
-to a fake head.
+The hugetlb_optimize_vmemmap_key static key was used to guard fake head
+detection in compound_head() and related functions. It allowed skipping
+the fake head checks entirely when HVO was not in use.
 
-With fake heads eliminated, page_ref_add_unless() no longer needs RCU
-protection.
-
-Remove the flag and synchronize_rcu() calls.
+With fake heads eliminated and the detection code removed, the static
+key serves no purpose. Remove its definition and all increment/decrement
+calls.
 
 Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 ---
- mm/hugetlb_vmemmap.c | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ include/linux/page-flags.h |  2 --
+ mm/hugetlb_vmemmap.c       | 14 ++------------
+ 2 files changed, 2 insertions(+), 14 deletions(-)
 
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 9d89beed9df6..2255e7e6759c 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -198,8 +198,6 @@ enum pageflags {
+ 
+ #ifndef __GENERATING_BOUNDS_H
+ 
+-DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
+-
+ static __always_inline unsigned long _compound_head(const struct page *page)
+ {
+ 	unsigned long info = READ_ONCE(page->compound_info);
 diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 63d79ac80594..cc0fcf847810 100644
+index cc0fcf847810..f68ed7ebf873 100644
 --- a/mm/hugetlb_vmemmap.c
 +++ b/mm/hugetlb_vmemmap.c
-@@ -48,8 +48,6 @@ struct vmemmap_remap_walk {
- #define VMEMMAP_SPLIT_NO_TLB_FLUSH	BIT(0)
- /* Skip the TLB flush when we remap the PTE */
- #define VMEMMAP_REMAP_NO_TLB_FLUSH	BIT(1)
--/* synchronize_rcu() to avoid writes from page_ref_add_unless() */
--#define VMEMMAP_SYNCHRONIZE_RCU		BIT(2)
- 	unsigned long		flags;
- };
- 
-@@ -423,9 +421,6 @@ static int __hugetlb_vmemmap_restore_folio(const struct hstate *h,
- 	if (!folio_test_hugetlb_vmemmap_optimized(folio))
- 		return 0;
- 
--	if (flags & VMEMMAP_SYNCHRONIZE_RCU)
--		synchronize_rcu();
--
- 	vmemmap_start	= (unsigned long)folio;
- 	vmemmap_end	= vmemmap_start + hugetlb_vmemmap_size(h);
- 
-@@ -456,7 +451,7 @@ static int __hugetlb_vmemmap_restore_folio(const struct hstate *h,
-  */
- int hugetlb_vmemmap_restore_folio(const struct hstate *h, struct folio *folio)
- {
--	return __hugetlb_vmemmap_restore_folio(h, folio, VMEMMAP_SYNCHRONIZE_RCU);
-+	return __hugetlb_vmemmap_restore_folio(h, folio, 0);
+@@ -399,9 +399,6 @@ static int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+ 	return vmemmap_remap_range(start, end, &walk);
  }
  
- /**
-@@ -479,14 +474,11 @@ long hugetlb_vmemmap_restore_folios(const struct hstate *h,
- 	struct folio *folio, *t_folio;
- 	long restored = 0;
- 	long ret = 0;
--	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
-+	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH;
- 
- 	list_for_each_entry_safe(folio, t_folio, folio_list, lru) {
- 		if (folio_test_hugetlb_vmemmap_optimized(folio)) {
- 			ret = __hugetlb_vmemmap_restore_folio(h, folio, flags);
--			/* only need to synchronize_rcu() once for each batch */
--			flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
+-DEFINE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
+-EXPORT_SYMBOL(hugetlb_optimize_vmemmap_key);
 -
- 			if (ret)
- 				break;
- 			restored++;
-@@ -576,8 +568,6 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+ static bool vmemmap_optimize_enabled = IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP_DEFAULT_ON);
+ static int __init hugetlb_vmemmap_optimize_param(char *buf)
+ {
+@@ -431,10 +428,8 @@ static int __hugetlb_vmemmap_restore_folio(const struct hstate *h,
+ 	 * discarded vmemmap pages must be allocated and remapping.
+ 	 */
+ 	ret = vmemmap_remap_alloc(vmemmap_start, vmemmap_end, flags);
+-	if (!ret) {
++	if (!ret)
+ 		folio_clear_hugetlb_vmemmap_optimized(folio);
+-		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+-	}
  
- 	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+ 	return ret;
+ }
+@@ -566,8 +561,6 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+ 	if (!vmemmap_tail)
+ 		return -ENOMEM;
  
--	if (flags & VMEMMAP_SYNCHRONIZE_RCU)
--		synchronize_rcu();
+-	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+-
  	/*
  	 * Very Subtle
  	 * If VMEMMAP_REMAP_NO_TLB_FLUSH is set, TLB flushing is not performed
-@@ -636,7 +626,7 @@ void hugetlb_vmemmap_optimize_folio(const struct hstate *h, struct folio *folio)
- {
- 	LIST_HEAD(vmemmap_pages);
+@@ -604,10 +597,8 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+ 				 vmemmap_head, vmemmap_tail,
+ 				 vmemmap_pages, flags);
+ out:
+-	if (ret) {
+-		static_branch_dec(&hugetlb_optimize_vmemmap_key);
++	if (ret)
+ 		folio_clear_hugetlb_vmemmap_optimized(folio);
+-	}
  
--	__hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, VMEMMAP_SYNCHRONIZE_RCU);
-+	__hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, 0);
- 	free_vmemmap_page_list(&vmemmap_pages);
+ 	return ret;
  }
+@@ -673,7 +664,6 @@ static void __hugetlb_vmemmap_optimize_folios(struct hstate *h,
+ 			register_page_bootmem_memmap(pfn_to_section_nr(spfn),
+ 					&folio->page,
+ 					HUGETLB_VMEMMAP_RESERVE_SIZE);
+-			static_branch_inc(&hugetlb_optimize_vmemmap_key);
+ 			continue;
+ 		}
  
-@@ -664,7 +654,7 @@ static void __hugetlb_vmemmap_optimize_folios(struct hstate *h,
- 	struct folio *folio;
- 	int nr_to_optimize;
- 	LIST_HEAD(vmemmap_pages);
--	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
-+	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH;
- 
- 	nr_to_optimize = 0;
- 	list_for_each_entry(folio, folio_list, lru) {
-@@ -717,8 +707,6 @@ static void __hugetlb_vmemmap_optimize_folios(struct hstate *h,
- 		int ret;
- 
- 		ret = __hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
--		/* only need to synchronize_rcu() once for each batch */
--		flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
- 
- 		/*
- 		 * Pages to be freed may have been accumulated.  If we
 -- 
 2.51.2
 
