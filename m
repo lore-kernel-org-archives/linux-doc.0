@@ -1,305 +1,178 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AC033FE2F;
-	Thu, 18 Dec 2025 13:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A33234575D;
+	Thu, 18 Dec 2025 13:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766065794; cv=none; b=b5c11ZBu5dPLa+GLyG2PTWV6LprUAbKCWO4KrEDypxK+dD97m/NX7HW1VbruRTsC5aaRt52eKpW5kjlfrb/S856o4MBBVEF5RQYGC68mXLohNvSeUvWDfRGZk2aQ9g8/FuZj8iU2cvm2gXLVyoF2ZnScJPVTTQU4PZkBUb0RJAw=
+	t=1766066038; cv=none; b=eI5ADYikyc0fxPNycKcTExm/eeVmYVzo4teAikHb7yw2LWooZsALzMNCI8X+rejqflaRm5jmRxK1mMJigM0zLZmHWgstzDLpD/ViyazerspP1TIGgyD3FuSSynVyp0cT6rfRaVhgw+D+0gNhCiHzWIeGUU6ecJl38Fe8LhBX6i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766065794; c=relaxed/simple;
-	bh=OrchZcNzVkiRDk/IccOTw5EqSHvJfTxEqYaQxnqjGaw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=tqC5F+Dbe0Qn1rs/rDhr5ViCe4sXW19iePpkQh5czAr3Nwl5no9BptUBlGsNLUMq1gjEXZFkqUCDDs5nEBoUiSJotQh6f4Q8FbXtHaJ1o8MS4XGbWRRA6OI4J6Tqq30DHp+3CHGm1c8J0PAfiSE5vbGS+97vKrqpq+R4MTaiWP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=mFGxQa35; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1766066038; c=relaxed/simple;
+	bh=Gb408fVHMLonuRAakmkxdDWU8SK3ZsmJh94vFt7tIrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TGVO+XP6VbRdyuLwLPMZoaNKrpo/oZDXsRpcJ1y10oaIsjgdwiHQcscZkD6drQmZ+pNW8AvgeNKRD5oR5zzHGa/C1IUH8Ol6AOCxaYo9iWtQcPXWWjTs5lc13+ADMMXUwR+aaTpaElccSd+TuFnQeP6HxxgMeo4gVJSSvIfqUuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qFohZZY8; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="mFGxQa35"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1766065791; x=1797601791;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=OrchZcNzVkiRDk/IccOTw5EqSHvJfTxEqYaQxnqjGaw=;
-  b=mFGxQa35P80UK0zSDB+ItnoIeIjBqIjvFBAqTnAR9NZ9wjCSD/QwPKAb
-   9Nf3l4BcGvtz6t6HveVp5khmuQt4xh/NuJGkcsq57S/DbJmQXvn0nJRjC
-   ADyec9QnQuLPA51CP0xE0/jf5MODPM2sxwcFRdvGZcBe2xu9+5qumZ+fA
-   tpi4O0MYC6Bpx1R6KdEio9VQqT95eDyvH8ys7tfaiGohtFwWocoztH62C
-   z2QlXh+Bit/hn9I71xk6ADc6w0MMHDr5kv23U89gn+L5BMx59sDQwIV2H
-   AIG+2rBAwFZErGSzLVsntmCQ8k2RPBHPngaNUQUSy7nu9R2cw+4PFIWs1
-   Q==;
-X-CSE-ConnectionGUID: OPa4VeZnRsOT0259GpNwAw==
-X-CSE-MsgGUID: vVXsID5YTZKma0wTGfElnA==
-X-IronPort-AV: E=Sophos;i="6.21,158,1763449200"; 
-   d="scan'208";a="218051740"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Dec 2025 06:49:49 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 18 Dec 2025 06:49:08 -0700
-Received: from marius-VM.mshome.net (10.10.85.11) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Thu, 18 Dec 2025 06:49:06 -0700
-From: Marius Cristea <marius.cristea@microchip.com>
-Date: Thu, 18 Dec 2025 15:48:57 +0200
-Subject: [PATCH v3 1/2] dt-bindings: hwmon: temperature: add support for
- EMC1812
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qFohZZY8"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id DECB91A22CD;
+	Thu, 18 Dec 2025 13:53:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A4BEE606B6;
+	Thu, 18 Dec 2025 13:53:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 66249102F0B2D;
+	Thu, 18 Dec 2025 14:53:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766066026; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=RhgSGQYStNGcdPoB3dTlM/CB5TE2tva/NS/z3ptd3wM=;
+	b=qFohZZY8adtmwbRo28+tcgXOIuD5T9ZV6GmStiiS0ZAEXQPvVe9Zcnoe53YsCQv7j9c1kT
+	pTrvVf3pcUkunP7HW/oQvdBg/Lk3nsGsCiYCx3SHIHn49cINe+SDypYYTUNdpwsJxK0JVh
+	ocSroqcU2Nk7str55AMgKkPgbWDRxk2+yhvbttnAqOzQlGRqdP2i4+xde+ODjyK3Zpm5be
+	ZSBh2N3dOdtUob6QOjlSHuVExl0oaNjoD8HBgFGaCPqRDPAFBwnRVvZxfM0UXeEISM/0Op
+	YG/ULfUWn7tCLkV8LWmaP9dHfiDTFdsnlQ2sM6hNfJi3OczZvwptkZvMOkvVJQ==
+Date: Thu, 18 Dec 2025 14:53:32 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	David Howells <dhowells@redhat.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org, linux-mips@vger.kernel.org,
+	netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver
+ callbacks
+Message-ID: <20251218135332f323fa91@mail.local>
+References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+ <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251218-hw_mon-emc1812-v3-1-a123ada7b859@microchip.com>
-References: <20251218-hw_mon-emc1812-v3-0-a123ada7b859@microchip.com>
-In-Reply-To: <20251218-hw_mon-emc1812-v3-0-a123ada7b859@microchip.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Marius Cristea
-	<marius.cristea@microchip.com>, Conor Dooley <conor.dooley@microchip.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6877;
- i=marius.cristea@microchip.com; h=from:subject:message-id;
- bh=OrchZcNzVkiRDk/IccOTw5EqSHvJfTxEqYaQxnqjGaw=;
- b=owGbwMvMwCW2tbSTZa7u0x2Mp9WSGDJd2PyMXQ/8eHKrzL6kR904hv3EWis5q4z160tDP/qum
- KtcnKPSUcrCIMbFICumyLLirZ9a1doPl5XEMnVg5rAygQxh4OIUgInc5mdkODtjxj1f9w3TQxc2
- epnuS5v4tG7uhJBjVqJSF2fz55TsTmP4p5Wz/z7HXKHdCbKvXRi9al49KbatF1wvnJu8vCY09r4
- fMwA=
-X-Developer-Key: i=marius.cristea@microchip.com; a=openpgp;
- fpr=E32F8D4396E72E463E8CCD91446DE0ABD9140C3E
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-This is the devicetree schema for Microchip EMC1812/13/14/15/33
-Multichannel Low-Voltage Remote Diode Sensor Family.
+On 18/12/2025 08:21:27+0100, Jens Wiklander wrote:
+> Hi,
+> 
+> On Mon, Dec 15, 2025 at 3:17 PM Uwe Kleine-König
+> <u.kleine-koenig@baylibre.com> wrote:
+> >
+> > Hello,
+> >
+> > the objective of this series is to make tee driver stop using callbacks
+> > in struct device_driver. These were superseded by bus methods in 2006
+> > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
+> > methods.")) but nobody cared to convert all subsystems accordingly.
+> >
+> > Here the tee drivers are converted. The first commit is somewhat
+> > unrelated, but simplifies the conversion (and the drivers). It
+> > introduces driver registration helpers that care about setting the bus
+> > and owner. (The latter is missing in all drivers, so by using these
+> > helpers the drivers become more correct.)
+> >
+> > v1 of this series is available at
+> > https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@baylibre.com
+> >
+> > Changes since v1:
+> >
+> >  - rebase to v6.19-rc1 (no conflicts)
+> >  - add tags received so far
+> >  - fix whitespace issues pointed out by Sumit Garg
+> >  - fix shutdown callback to shutdown and not remove
+> >
+> > As already noted in v1's cover letter, this series should go in during a
+> > single merge window as there are runtime warnings when the series is
+> > only applied partially. Sumit Garg suggested to apply the whole series
+> > via Jens Wiklander's tree.
+> > If this is done the dependencies in this series are honored, in case the
+> > plan changes: Patches #4 - #17 depend on the first two.
+> >
+> > Note this series is only build tested.
+> >
+> > Uwe Kleine-König (17):
+> >   tee: Add some helpers to reduce boilerplate for tee client drivers
+> >   tee: Add probe, remove and shutdown bus callbacks to tee_client_driver
+> >   tee: Adapt documentation to cover recent additions
+> >   hwrng: optee - Make use of module_tee_client_driver()
+> >   hwrng: optee - Make use of tee bus methods
+> >   rtc: optee: Migrate to use tee specific driver registration function
+> >   rtc: optee: Make use of tee bus methods
+> >   efi: stmm: Make use of module_tee_client_driver()
+> >   efi: stmm: Make use of tee bus methods
+> >   firmware: arm_scmi: optee: Make use of module_tee_client_driver()
+> >   firmware: arm_scmi: Make use of tee bus methods
+> >   firmware: tee_bnxt: Make use of module_tee_client_driver()
+> >   firmware: tee_bnxt: Make use of tee bus methods
+> >   KEYS: trusted: Migrate to use tee specific driver registration
+> >     function
+> >   KEYS: trusted: Make use of tee bus methods
+> >   tpm/tpm_ftpm_tee: Make use of tee specific driver registration
+> >   tpm/tpm_ftpm_tee: Make use of tee bus methods
+> >
+> >  Documentation/driver-api/tee.rst             | 18 +----
+> >  drivers/char/hw_random/optee-rng.c           | 26 ++----
+> >  drivers/char/tpm/tpm_ftpm_tee.c              | 31 +++++---
+> >  drivers/firmware/arm_scmi/transports/optee.c | 32 +++-----
+> >  drivers/firmware/broadcom/tee_bnxt_fw.c      | 30 ++-----
+> >  drivers/firmware/efi/stmm/tee_stmm_efi.c     | 25 ++----
+> >  drivers/rtc/rtc-optee.c                      | 27 ++-----
+> >  drivers/tee/tee_core.c                       | 84 ++++++++++++++++++++
+> >  include/linux/tee_drv.h                      | 12 +++
+> >  security/keys/trusted-keys/trusted_tee.c     | 17 ++--
+> >  10 files changed, 164 insertions(+), 138 deletions(-)
+> >
+> > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > --
+> > 2.47.3
+> >
+> 
+> Thank you for the nice cleanup, Uwe.
+> 
+> I've applied patch 1-3 to the branch tee_bus_callback_for_6.20 in my
+> tree at https://git.kernel.org/pub/scm/linux/kernel/git/jenswi/linux-tee.git/
+> 
+> The branch is based on v6.19-rc1, and I'll try to keep it stable for
+> others to depend on, if needed. Let's see if we can agree on taking
+> the remaining patches via that branch.
 
-EMC1812 has one external remote temperature monitoring channel.
-EMC1813 has two external remote temperature monitoring channels.
-EMC1814 has three external remote temperature monitoring channels and
-channels 2 and 3 supports anti parallel diode.
-EMC1815 has four external remote temperature monitoring channels and
-channels 1/2  and 3/4 supports anti parallel diode.
-EMC1833 has two external remote temperature monitoring channels and
-channels 1 and 2 supports anti parallel diode.
-
-Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
----
- .../bindings/hwmon/microchip,emc1812.yaml          | 182 +++++++++++++++++++++
- MAINTAINERS                                        |   6 +
- 2 files changed, 188 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/hwmon/microchip,emc1812.yaml b/Documentation/devicetree/bindings/hwmon/microchip,emc1812.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..759e004eafdfc0772e110fe484767eb66a623294
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/microchip,emc1812.yaml
-@@ -0,0 +1,182 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/microchip,emc1812.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Microchip EMC1812/13/14/15/33 multichannel temperature sensor
-+
-+maintainers:
-+  - Marius Cristea <marius.cristea@microchip.com>
-+
-+description: |
-+  The Microchip EMC1812/13/14/15/33 is a high-accuracy 2-wire multichannel
-+  low-voltage remote diode temperature monitor.
-+
-+  The datasheet can be found here:
-+    https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/EMC1812-3-4-5-33-Data-Sheet-DS20005751.pdf
-+
-+  EMC1812 has one external remote temperature monitoring channel
-+  EMC1813 has two external remote temperature monitoring channels
-+  EMC1814 has three external remote temperature monitoring channels and
-+    channels 2 and 3 supports anti parallel diode
-+  EMC1815 has four external remote temperature monitoring channels and
-+    channels 1/2  and 3/4 supports anti parallel diode
-+  EMC1833 has two external remote temperature monitoring channels and
-+    channels 1 and 2 supports anti parallel diode
-+
-+properties:
-+  compatible:
-+    enum:
-+      - microchip,emc1812
-+      - microchip,emc1813
-+      - microchip,emc1814
-+      - microchip,emc1815
-+      - microchip,emc1833
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: alert-therm2 asserts when the ALERT limit is exceeded.
-+      - description: therm-addr asserts when the THERM limit is exceeded.
-+    minItems: 1
-+
-+  interrupt-names:
-+    items:
-+      - enum: [alert-therm2, therm-addr]
-+
-+  "#address-cells":
-+    const: 1
-+
-+  "#size-cells":
-+    const: 0
-+
-+  microchip,parasitic-res-on-channel1-2:
-+    description:
-+      Indicates that the chip and the diodes/transistors are sufficiently
-+      far apart that a parasitic resistance is added to the wires, which can
-+      affect the measurements. Due to the anti-parallel diode connections,
-+      channels 1 and 2 are affected together.
-+    type: boolean
-+
-+  microchip,parasitic-res-on-channel3-4:
-+    description:
-+      Indicates that the chip and the diodes/transistors are sufficiently far
-+      apart that a parasitic resistance is added to the wires, which can affect
-+      the measurements. Due to the anti-parallel diode connections, channels
-+      3 and 4 are affected together.
-+    type: boolean
-+
-+  vdd-supply: true
-+
-+patternProperties:
-+  "^channel@[1-4]$":
-+    description:
-+      Represents the external temperature channels to which
-+      a remote diode is connected.
-+    type: object
-+
-+    properties:
-+      reg:
-+        items:
-+          minimum: 1
-+          maximum: 4
-+
-+      label:
-+        description: Unique name to identify which channel this is.
-+
-+    required:
-+      - reg
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - vdd-supply
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - microchip,emc1812
-+              - microchip,emc1813
-+              - microchip,emc1833
-+    then:
-+      properties:
-+        microchip,parasitic-res-on-channel3-4: false
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - microchip,emc1812
-+    then:
-+      properties:
-+        channel@1:
-+          properties:
-+            reg:
-+              items:
-+                const: 1
-+      patternProperties:
-+        "^channel@[2-4]$": false
-+  - if:
-+      properties:
-+        compatible:
-+          pattern: "^microchip,emc18[13]3"
-+    then:
-+      patternProperties:
-+        "^channel@[12]$":
-+          properties:
-+            reg:
-+              items:
-+                maximum: 2
-+        "^channel@[34]$": false
-+  - if:
-+      properties:
-+        compatible:
-+          pattern: "^microchip,emc1814"
-+    then:
-+      patternProperties:
-+        "^channel@[1-3]$":
-+          properties:
-+            reg:
-+              items:
-+                maximum: 3
-+      properties:
-+        channel@4: false
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        temperature-sensor@4c {
-+            compatible = "microchip,emc1813";
-+            reg = <0x4c>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            microchip,parasitic-res-on-channel1-2;
-+
-+            vdd-supply = <&vdd>;
-+
-+            channel@1 {
-+                reg = <1>;
-+                label = "External CH1 Temperature";
-+            };
-+
-+            channel@2 {
-+                reg = <2>;
-+                label = "External CH2 Temperature";
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6d7b697bfdba16e4f0ee5f4f0195b9d7da06dae5..85c236df781e47c78deeb7ef4d80bc94bba604c4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16646,6 +16646,12 @@ S:	Supported
- F:	Documentation/devicetree/bindings/interrupt-controller/microchip,sama7g5-eic.yaml
- F:	drivers/irqchip/irq-mchp-eic.c
- 
-+MICROCHIP EMC1812 DRIVER
-+M:	Marius Cristea <marius.cristea@microchip.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/hwmon/microchip,emc1812.yaml
-+
- MICROCHIP I2C DRIVER
- M:	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
- L:	linux-i2c@vger.kernel.org
+6 and 7 can go through your branch.
 
 -- 
-2.51.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
