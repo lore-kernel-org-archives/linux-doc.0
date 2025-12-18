@@ -1,78 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD08029AAF7;
-	Thu, 18 Dec 2025 16:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E165636656B
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 16:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766073899; cv=none; b=cJlzDjo238aM+O+qEBkTyE/qEvGpr30RSz20QVo74rV2WNVNUxGyHaZ0DEr7bl25rl7ghdQ8nqq9/GjQdM3FFJ/LSxLDxLh4Gqdns/bv0sTetNMni/GQQ1ZKGio3dmFeegVViimMBswNjVAS5ZFNKuLqAdZYuK31mmG+LIgNovI=
+	t=1766075367; cv=none; b=leWfXCNI+rvhnB0Ml3WMxv2XRebExImHHiCNdhP3jT51uhcx6OupsCsi66G4mT1ICOEvptIZHMnqV+xG8QnuaNdO1WdZEsYa1OyFaVN9hu1yLmBC2ENuj7J/GdzVG6chV2CFEi7Z7Zu96mzNDQIVxq7Xf0dKy29H5ISmbVJeeFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766073899; c=relaxed/simple;
-	bh=gzFkONFYOr71raXYHjqduidbBwfeoTNGqEuP2iomJ+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LUwEatCBznRZZXy4Hw7TMsBZkbZG7G/87s/rbE5X1pixJb0zjJ3lQuU5xHATTOBcZKk5mUbDTdfCZeIyvUw6kHUcFjlkFZ/CoX/4jd24SyewHW6ADkqp316/M9stGxrcGihBE7wOEvKElU8/4ZHpuCox1bGpV57FveTYAQU8264=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dwM4D9Kk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766075367; c=relaxed/simple;
+	bh=zXX2/NiUfkloBnXKh4lMbliIbzAn7LdSq2fbSJlmbS4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PMEuMFPeY4oSI4KHFuw6m1ufuDgGIXXofx3Zvs+7AJ6gCu+6X9cAnzDJi+HH+r1VQ90wwhd+ykqn7rdm6pX+/vjwfFOmiAIKP8EoAVPv0oajAV4sqluKRT07m1AbRZSHlAZeM1cYh9lfRkuF2pjny19qswYSE0+K38wv+ikv/NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kOrYbKyM; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dwM4D9Kk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA2BC4CEFB;
-	Thu, 18 Dec 2025 16:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766073899;
-	bh=gzFkONFYOr71raXYHjqduidbBwfeoTNGqEuP2iomJ+g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dwM4D9KklNSbYCtuU9tVvtuEfH4VpJ7/nAc0EItPJdiI1dhki+01lCXdVgCIgcHRa
-	 CoZb3CSjm0/FhxeS1PVJYRNUPZUTKJpbHnqNO6I3+4nn4fp5MIGISMo/eah8yKEDOJ
-	 BhNgpmKLiD2tkFtW7W+/O+96MaGEzmpdepQQTrp9Yb7wCALEAkWCp2F8b/XrZCdGFS
-	 w1eNsNglFFbiWKCTY8MXKXKB6IXuLtiQz5lZTfBL7QjqusOPkroUyZ9f/EfXMtxuHO
-	 h14y8oAPRCmsPMm/ZptP2fq54jPO/wO+8xCgPPvIAeha/vQQZGARJBEQ+wpod49nFR
-	 JG9dBvlPoWo/g==
-Date: Thu, 18 Dec 2025 17:04:53 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
- tony.luck@intel.com, bp@alien8.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com, Michael.Zhao2@arm.com
-Subject: Re: [PATCH 03/12] ras: add estatus vendor handling and processing
-Message-ID: <20251218170453.23be9049@foz.lan>
-In-Reply-To: <20251217112845.1814119-4-ahmed.tiba@arm.com>
-References: <20251217112845.1814119-1-ahmed.tiba@arm.com>
-	<20251217112845.1814119-4-ahmed.tiba@arm.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kOrYbKyM"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-657509d761dso431383eaf.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 08:29:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1766075364; x=1766680164; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zMSbry1+P/RNP4K+kKiw/SAaU8hSKKePZ7aYLlJ/2Ro=;
+        b=kOrYbKyMd2wZymPsuzAKT6xrOvB4aJzZjNSLJWOTzJJ2PVkFASLC23EEaVV7ebm3Pm
+         XPHbpFxM1Ede9y8XQKTufZVArc7p5AwbcFaOaXAzmpMgSrn1Oa0uiXjVMRm4/vT2PY0Y
+         y7Q6RzMmmNa2VbyD1sRj3+1bhHkZzRqewdpVMCCm1jJH+CAWgHmZEw3igmL+YoDu9nEf
+         B8BcciPRZupYwiCR9e1It7WL/mw2rfj73Cx9Zm1gYN7bkkvJ/5oRCWZ2F7YOININuEoh
+         uTX5bqd7xV/QHl+7TAXaN/hRQtAFJM5xvHVV7QonO6eqnOrFV/76ZIz9uq+hMdDE61bw
+         FGTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766075364; x=1766680164;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zMSbry1+P/RNP4K+kKiw/SAaU8hSKKePZ7aYLlJ/2Ro=;
+        b=cC7F1gIllR4AXjnRO7BOndyZau4T/mIjCs66+aeD6kD18fj2Pxj7mXPA1b1P1KCBXb
+         IJ2qMNq//m9kjFYM+GXcixoeC/bEJFxYoc30WThy2ZkTCvQaHhG7Autqw9QynWE3N4V8
+         QMPUuWwiF82RQlNmxkFtt5PQpmWRbb5d5+coQRHdT0UXXjIsEasotPBeIJBzpc+Q6Z0c
+         fvqlw10MeAnhk07zomgl1t86PL7Bf8mw9ebKaZHuP6CP4RlrcsJSB4L9YM2nFtIA2eZh
+         fbjUFYMnLyZf5NcKVj6QoySZNBrd41/Z1ihR5uHLszEeHSdaTvOLvRH0SbCzjO0TIcEL
+         Pwjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUR79KWYOqXYd0U4Z3G0TTiVa6DC8+NypNHTdFEhhDKiBbGhZtQ+rMJtU1JmTrgKBCe8Drm+Nsyno=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMJHHcP921xqVXeMC+VZ1BnTSUz9/oxMyRro9Vq+OFBos0MaNZ
+	TgSq424SXhfzgDAxmbY7SaW19qSTzeDu5FnyBCoufKZGjUa0CjjDxsjoK8GqpVKI3Th4CRUURi1
+	GgV4Q2c+X9WDlvciajNELryxzusDKaYVkQtrp1uXgdQ==
+X-Gm-Gg: AY/fxX7Eo8OowlJAFV8lOwQauQrsvhQ81GqHhz+Z8aZ/U+Yi+GWrGqynxi+0OL8CwYt
+	Gr6sG3/GLylH+N/NWUrF2jt0s870aKOXQ9wmGLYHJ579FKuQIcTpovoyIOrvNvSmH3kKgbtweIR
+	6lcerH5eirh4qiIrnZgVBwC7lPfiPg1PdFnu+qLJ/63IMTjWmvPj5yVl2Cp1StlgEpG5MYu79sJ
+	fLOUUKR0UGU2tuKZ2vI57l5bGzNtDBcqjwUTtyZO1Vg9wDc+6IRw3qQdfzNNSlbZAW7zLMOa6OH
+	6i0ysnijh2V88Rz6AN5k9KmhpA==
+X-Google-Smtp-Source: AGHT+IG4Ae8pfu7GZWy4M+xMepW+pZBXhOq0aMMfvpQMcwHosUK2iqdP0ZilC2IC9nPL0ue49M44wROrYBjFkfFnq4M=
+X-Received: by 2002:a05:6820:6389:b0:657:4e49:83b7 with SMTP id
+ 006d021491bc7-65d0e9fe36fmr11432eaf.1.1766075363719; Thu, 18 Dec 2025
+ 08:29:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+ <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com> <20251218135332f323fa91@mail.local>
+In-Reply-To: <20251218135332f323fa91@mail.local>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 18 Dec 2025 17:29:11 +0100
+X-Gm-Features: AQt7F2pA2I_HJOEbadmjsOrYtjrxD8lxVlzGBd-sNqyaYCgybyYAHq_YVDlH-Pg
+Message-ID: <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver callbacks
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Sumit Garg <sumit.garg@kernel.org>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Garg <sumit.garg@oss.qualcomm.com>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, 
+	Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
+	linux-mips@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Wed, 17 Dec 2025 11:28:36 +0000
-Ahmed Tiba <ahmed.tiba@arm.com> escreveu:
+On Thu, Dec 18, 2025 at 2:53=E2=80=AFPM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> On 18/12/2025 08:21:27+0100, Jens Wiklander wrote:
+> > Hi,
+> >
+> > On Mon, Dec 15, 2025 at 3:17=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+> > <u.kleine-koenig@baylibre.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > the objective of this series is to make tee driver stop using callbac=
+ks
+> > > in struct device_driver. These were superseded by bus methods in 2006
+> > > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
+> > > methods.")) but nobody cared to convert all subsystems accordingly.
+> > >
+> > > Here the tee drivers are converted. The first commit is somewhat
+> > > unrelated, but simplifies the conversion (and the drivers). It
+> > > introduces driver registration helpers that care about setting the bu=
+s
+> > > and owner. (The latter is missing in all drivers, so by using these
+> > > helpers the drivers become more correct.)
+> > >
+> > > v1 of this series is available at
+> > > https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@bayl=
+ibre.com
+> > >
+> > > Changes since v1:
+> > >
+> > >  - rebase to v6.19-rc1 (no conflicts)
+> > >  - add tags received so far
+> > >  - fix whitespace issues pointed out by Sumit Garg
+> > >  - fix shutdown callback to shutdown and not remove
+> > >
+> > > As already noted in v1's cover letter, this series should go in durin=
+g a
+> > > single merge window as there are runtime warnings when the series is
+> > > only applied partially. Sumit Garg suggested to apply the whole serie=
+s
+> > > via Jens Wiklander's tree.
+> > > If this is done the dependencies in this series are honored, in case =
+the
+> > > plan changes: Patches #4 - #17 depend on the first two.
+> > >
+> > > Note this series is only build tested.
+> > >
+> > > Uwe Kleine-K=C3=B6nig (17):
+> > >   tee: Add some helpers to reduce boilerplate for tee client drivers
+> > >   tee: Add probe, remove and shutdown bus callbacks to tee_client_dri=
+ver
+> > >   tee: Adapt documentation to cover recent additions
+> > >   hwrng: optee - Make use of module_tee_client_driver()
+> > >   hwrng: optee - Make use of tee bus methods
+> > >   rtc: optee: Migrate to use tee specific driver registration functio=
+n
+> > >   rtc: optee: Make use of tee bus methods
+> > >   efi: stmm: Make use of module_tee_client_driver()
+> > >   efi: stmm: Make use of tee bus methods
+> > >   firmware: arm_scmi: optee: Make use of module_tee_client_driver()
+> > >   firmware: arm_scmi: Make use of tee bus methods
+> > >   firmware: tee_bnxt: Make use of module_tee_client_driver()
+> > >   firmware: tee_bnxt: Make use of tee bus methods
+> > >   KEYS: trusted: Migrate to use tee specific driver registration
+> > >     function
+> > >   KEYS: trusted: Make use of tee bus methods
+> > >   tpm/tpm_ftpm_tee: Make use of tee specific driver registration
+> > >   tpm/tpm_ftpm_tee: Make use of tee bus methods
+> > >
+> > >  Documentation/driver-api/tee.rst             | 18 +----
+> > >  drivers/char/hw_random/optee-rng.c           | 26 ++----
+> > >  drivers/char/tpm/tpm_ftpm_tee.c              | 31 +++++---
+> > >  drivers/firmware/arm_scmi/transports/optee.c | 32 +++-----
+> > >  drivers/firmware/broadcom/tee_bnxt_fw.c      | 30 ++-----
+> > >  drivers/firmware/efi/stmm/tee_stmm_efi.c     | 25 ++----
+> > >  drivers/rtc/rtc-optee.c                      | 27 ++-----
+> > >  drivers/tee/tee_core.c                       | 84 ++++++++++++++++++=
+++
+> > >  include/linux/tee_drv.h                      | 12 +++
+> > >  security/keys/trusted-keys/trusted_tee.c     | 17 ++--
+> > >  10 files changed, 164 insertions(+), 138 deletions(-)
+> > >
+> > > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > > --
+> > > 2.47.3
+> > >
+> >
+> > Thank you for the nice cleanup, Uwe.
+> >
+> > I've applied patch 1-3 to the branch tee_bus_callback_for_6.20 in my
+> > tree at https://git.kernel.org/pub/scm/linux/kernel/git/jenswi/linux-te=
+e.git/
+> >
+> > The branch is based on v6.19-rc1, and I'll try to keep it stable for
+> > others to depend on, if needed. Let's see if we can agree on taking
+> > the remaining patches via that branch.
+>
+> 6 and 7 can go through your branch.
 
-> Teach the estatus core how to walk CPER records and expose the vendor
-> record notification path. This adds the section iteration helpers,
-> the logging helpers that mirror the GHES behaviour, and the deferred
-> work used to hand vendor GUIDs to interested drivers. No users switch
-> over yet; this simply moves the common logic out of GHES so the next
-> patches can wire it up.
-> 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-
-...
-
-> +static bool estatus_handle_arm_hw_error(estatus_generic_data *gdata, int sev, bool sync)
-
-Huh?
-
-This is a CPER record from GHES. Why are you moving CPER code out
-of ghes.c, placing in a file named estatus.c? Doesn't make much
-sense on my eyes...
-
-Same applies to to other GHES CPER record types.
-
+Good, I've added them to my branch now.
 
 Thanks,
-Mauro
+Jens
