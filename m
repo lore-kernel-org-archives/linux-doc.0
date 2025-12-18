@@ -1,64 +1,64 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA842673A5
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 23:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419C326C3BE
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 23:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766099838; cv=none; b=IZCf/WehEHSUcwlNLlUUKWhCZr/0We8wyHMJWl2378TBM/bi6qfYiaZZ+kmDMU26JAKdTXIegWcYolCTMZGlvGBxVf6/3+69qFLnPnCuafXejl3fL7roCRdWjn9PtZaQocqLDAcQLilS9dkD+bMub+YzQOOgiQ9aVg7xtHKuaoE=
+	t=1766099842; cv=none; b=OtxhVHLoAt9ZYIeCd1RAYovfZ8yplrr/e6pdWAyOk44wY+CFShRI+YzvENuGsP1O2bxvlr7Y0LPE1Lgsc4pTpihGo7PWhrOeL332JehPQK9kCt7eWtbE9sg4rs41vBAidJxZNPHEwwfrxWimsVeSWooG24Eai4Yiyq5HvOKVnVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766099838; c=relaxed/simple;
-	bh=mEh9y4VH0mMCx+1a9mm5mwO/8pSQbC83R7DVFpL2xG0=;
+	s=arc-20240116; t=1766099842; c=relaxed/simple;
+	bh=ApTGCg/BkWNc+2Q5P+sTM0pbwEXXBGaFodpJU1Zd98s=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YxT6Jnwf/4i5RJeG1HLeZwyO/ucR5sgQ5mHG9WGocOqpAigNjRVQcFY1PKs6xtQsTKSTD05vldSMWtMd8hU7+KII8xA1O4M3jVjelO4os+Jo1p63LkIJRnOUNMj6F/wAQSIfUaxTHJC6669nlYCuvgddof7TjJ8+yRc3fsc90Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOewc5tw; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version:Content-Type; b=dbVpnLW4VlF+8wv+qZzo8zw040k6IFGbQ0VjzvHDY6uRPPK+suY5xtBnmBibQ3y8sNZaezKHDwYGP1GJRaHb79x2ylH+Ek+358QnPiJn2pqthUCy0Nr6G/rWQcMQcRGf0CwdhmYJ5Jtk8N9BC34yV2udEHLyUrxTO4oF0IV4RWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=goKNNc2B; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOewc5tw"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0c20ee83dso14771025ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:17:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="goKNNc2B"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a110548cdeso15967865ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:17:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766099835; x=1766704635; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766099838; x=1766704638; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wiGyNwgOgMnEqrQlv4A6WrZ42YqulQyoDVifi9M5msw=;
-        b=VOewc5twlG0XnIxxJcEogwY28TqcknVZAfGzQhZKVngoiBEieyFqEUwuL56o9z+x0c
-         YCTGMs+hG1Mi743EsC8/2ogrUMcUvKEC6u3ALkn74udhxE5yOnc4Z1Ms0Kp9Yf+hdPoW
-         eQOGAT7dVP8xIKn7mVRY/nMZ4kUlXLXWh3EJOra5fPV/Tj046wJEENWOtzZf7+9R3Kyo
-         V/dTFVGogZKcf05Pehx7l7F1/iOqFfTBLnQkEBaS18ejUlWSY9CoL0/VUeM5QQeQ1RGg
-         eUXKO/Hjy2+t6WRmfWWMarTYPs0xnmku5BGgOAw3M97BcYmtG3e947TMD92dKHi8BgoG
-         9HXQ==
+        bh=MrCEMemSIAOarY9/jOgqH6g+c+kM/mk1DzXfDOTJTK8=;
+        b=goKNNc2Be5tEyuav7ECyPaeaxbLwSqbAeQcL40DtV95HbGHaPI4pImt8Krgd2z46Ph
+         J7J0B5O52syHt12rPRbIaigz3Rurj6mnPLIu3MCJJj9geNhL/aUCT0KdTMu4FwdHWKIH
+         F1bb2O1VLYCbWfcCDlm1eldHJ6/grJM1p5WQkXpz/s+n2oD3wPmohji3/GjXs1u2J3HW
+         hU/gTryLpBsCTvzzWd1Ei/bHvLu0BqOFVK4TTPvzuE1nP1Nx9yLDRrNp85frFUIfM+wj
+         GBNABl9WzMfcMLEQhxVp1Z3KvVn03hcOyLYJ9I93SJ4ZVmWtii3as0/fXjE3Kykj9Rb2
+         KwwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766099835; x=1766704635;
+        d=1e100.net; s=20230601; t=1766099838; x=1766704638;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wiGyNwgOgMnEqrQlv4A6WrZ42YqulQyoDVifi9M5msw=;
-        b=nUd/3N2fpF1lyhCrMnLleV6LYqRauFKGCLbDRtbet+GF9WR7N3x9D6aG4I9xruyA/q
-         xNHcao71G+qRYrxyfMc9BMYRkwHmhQwH+vxSnr9rfvEslbOUu20soFGblxhCSBGz1ssY
-         ZUNs+pOEoPIeQLgGOpvxI+bHN9CzDaadRISVgia7MtBcAOYqXM5sTL8VAo7yd7idaxXG
-         LxwXZCQrjF/v6yBWcRYrLWNRhHf10xc9dcz5s8j1TFDZ3S568n1EI3UWP6Yutw/X3fNr
-         Hu3HJc+IoY1ybt/soPQfwv5SfWshPXqf7vEWpBpXbC3inv5b0wdXkD61dV+GhCVI4Z5N
-         57fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXwduFW6IKHzPXDZwBw8DkWFSC3UXZ6MLd0bP7j38xcVnj3E1IlFA1WKMhHdSdgF6XGNDm5xtuWg8k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUFZVW3bcRovvydDYLLuEDQ0a4YTUVn6PKT59NGIfCY5iFzjgz
-	gS5M0XshfZXe1tRqNp7ZAvzay3AZ4bjCGgo6+B4tnVHO/zjswG0QPs3S
-X-Gm-Gg: AY/fxX6HA6zUA0nGv6SCnTDB/i2r/fVz0/dJJzXfvaaeV93L9mQu1Sww1SctxNqZ0fV
-	HReyFCTKkYia8gZQgLolufDr76D1T+nk78WM+2dxaGDg1fth3p0QEcj9RkZjnFXcCzopXRG4XJi
-	MhrQfarnnj1VLD2kio6l87IM3Al/cPQBZYsNlFWnMkRv4pw5Mkur1/KDB1jcTtOxioEYJ78vl9E
-	IKDQN2i+BiChD8Xjdh3ak545axVGwL4iQcWxsfb1REKvX0V/HqGhCH6nwuO3Ao8NzUcLNFajewI
-	GS8qYtrJIruLl0g54VB5qWnSWiOH33Xn63gYL7kkmHRGPpaUfm4d5Ca0PhDRUnN6lXMVDbpJI6l
-	PfoM034VObpk4gbhTtEgySngujTqSdGhYA2eqHIi171wFpjRHFMntNF159D600Xu22xGsCgiuRC
-	0kjf009iPHySSEUaEQlb3pOEZxa01IsHZaaYZk43rtAn+JKw==
-X-Google-Smtp-Source: AGHT+IHddA93QPjFEZpQ7SryIGfGGAfKAX9S6eMSeC8sjxyGKKUaofFtL43A32MWoexCxRbRRK3hdA==
-X-Received: by 2002:a17:902:f60b:b0:2a0:b44e:9ab6 with SMTP id d9443c01a7336-2a2f222aedcmr8416655ad.7.1766099834716;
-        Thu, 18 Dec 2025 15:17:14 -0800 (PST)
+        bh=MrCEMemSIAOarY9/jOgqH6g+c+kM/mk1DzXfDOTJTK8=;
+        b=g0dT7m+H9SEScckaj1ihbyLr8JEMLNDwuJi8HKsYaXtmG2uBhWHuUi2DVE/3R8VRN1
+         zXXCDs5/eWODQaV/A0GUP8VuMlGD/hbSXxK9bJXQ4P0e5e4u+Gy/UjtrB5ur7GyL8NTV
+         OzJirPHKQ0sCPmont6Tn6w+WkLl2hdxHZ2dve1dk6FDLRntVwgrjmzcLhZ3ICN4lnyJo
+         9fp3fAx+d/n6v4REkEkVP/+9MaD1F+FsG48O8AbaLRMdFOIhgZw5kSJRAjxN4CJNxhpO
+         I57kqBdn1BuE+S+K9b+t+IL9fMxeMZ2Dm6ooQIHPHiISQttZ15o6OWMloIecM1XyXkjr
+         URlg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKnEcZX20W4sK9urgpD41LzySnAQ5Eq9zw5c5tfUazg/Z/E+C9baULooevJxL5lB9E17KqEfJt7Y4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXkgNdBW1BN5hhKyVeidOyVMZdXmtN0slOss39YvSLT6a/Ysd6
+	stm+evcNKRy0pIZi7KeKLMNx6Iy+W3TDpfvXWU2UQmq2YThgELbKy64z
+X-Gm-Gg: AY/fxX6XssMbff+aaBBiEocZYw00RMF6RZVlvY4xcJAkjRYcoryMzLTA1bwZ4fsWZm6
+	vLldjhX/H3FFGB6E+Ie6bpqWLPNztVTnpWSxAE3hEIbgbxlPhqyrIPemq84dkGbbsPEssbXY5Bk
+	aK03XSczmtZF2zj+r+LIcFL7gRzOUs1VKHxzKmDGjU8UVdBTgN0S0VQ2HPHEArqnhGmDJ/3HcNl
+	tQiVUAeUzJwii6cUxkNihSqSOD0aqLnSy7modl+z9lxd1ENxbHd/dIwyM8i76F/1vfAFj6zgR5l
+	y8rzD23vl9BCvIvI/DNmXANjHnO6qtwKGSPiIPu0UuP0JNdre+c/wI06KEOppF1jn3tFMi/l1mO
+	r+zB4VSbLHygF9jubT3qF8Ds6JKhK+7BaDrqLt6JXWTKVyIMs/+pu6M87yPGxF/x/FDP8DK/kJZ
+	AbHbz47CDOIxoQRblvwDoi4KzpNDgvSmb5GPj1nCOoWg==
+X-Google-Smtp-Source: AGHT+IFIm2WKsJMdHoIhSVSOCl2JmDV9ISKNGcY6ONvUpVYCzWK8uOhW6MkZAWXbeBllCqe7ic1xdg==
+X-Received: by 2002:a17:903:4b0c:b0:2a2:dc1f:78d8 with SMTP id d9443c01a7336-2a2f293d04cmr6918435ad.42.1766099837966;
+        Thu, 18 Dec 2025 15:17:17 -0800 (PST)
 Received: from Lingbou.localdomain ([113.225.44.231])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb48sm3311955ad.64.2025.12.18.15.17.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb48sm3311955ad.64.2025.12.18.15.17.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 15:17:14 -0800 (PST)
+        Thu, 18 Dec 2025 15:17:17 -0800 (PST)
 From: Xingqiu Xu <hilbertanjou83@gmail.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
@@ -67,9 +67,9 @@ Cc: dzm91@hust.edu.cn,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Xingqiu Xu <hilbertanjou83@gmail.com>
-Subject: [PATCH 5/7] docs/zh_CN: Translate timers/highres.rst
-Date: Fri, 19 Dec 2025 07:16:47 +0800
-Message-Id: <55557a6d914e941b3b018599b0e017fc93ef5c50.1766099040.git.hilbertanjou83@gmail.com>
+Subject: [PATCH 6/7] docs/zh_CN: Translate timers/no_hz.rst
+Date: Fri, 19 Dec 2025 07:16:48 +0800
+Message-Id: <e9ec49b14f2ca44ccf3b78734f50bf93a9b1048c.1766099040.git.hilbertanjou83@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1766099040.git.hilbertanjou83@gmail.com>
 References: <cover.1766099040.git.hilbertanjou83@gmail.com>
@@ -82,315 +82,380 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate .../timers/highres.rst into Chinese.
+Translate .../timers/no_hz.rst into Chinese.
 Update timers/index.rst to include the translated file.
 
-Update translation through commit 458f69ef3665
-("docs: timers: convert docs to ReST and rename to *.rst")
+Update translation through commit 5097cbcb38e6
+("sched/isolation: Prevent boot crash when the boot CPU is nohz_full")
 
 Signed-off-by: Xingqiu Xu <hilbertanjou83@gmail.com>
 ---
- .../translations/zh_CN/timers/highres.rst     | 271 ++++++++++++++++++
  .../translations/zh_CN/timers/index.rst       |   2 +-
- 2 files changed, 272 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/timers/highres.rst
+ .../translations/zh_CN/timers/no_hz.rst       | 338 ++++++++++++++++++
+ 2 files changed, 339 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/timers/no_hz.rst
 
-diff --git a/Documentation/translations/zh_CN/timers/highres.rst b/Documentation/translations/zh_CN/timers/highres.rst
+diff --git a/Documentation/translations/zh_CN/timers/index.rst b/Documentation/translations/zh_CN/timers/index.rst
+index 101341d1033c..339e87e28baa 100644
+--- a/Documentation/translations/zh_CN/timers/index.rst
++++ b/Documentation/translations/zh_CN/timers/index.rst
+@@ -18,11 +18,11 @@
+     highres
+     hpet
+     hrtimers
++    no_hz
+     timekeeping
+ 
+ TODOList:
+ 
+-* no_hz
+ * delay_sleep_functions
+ 
+ .. only::  subproject and html
+diff --git a/Documentation/translations/zh_CN/timers/no_hz.rst b/Documentation/translations/zh_CN/timers/no_hz.rst
 new file mode 100644
-index 000000000000..a26ae1e13fd0
+index 000000000000..3933c9673e5b
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/timers/highres.rst
-@@ -0,0 +1,271 @@
++++ b/Documentation/translations/zh_CN/timers/no_hz.rst
+@@ -0,0 +1,338 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/timers/highres.rst
++:Original: Documentation/timers/no_hz.rst
 +
 +:翻译:
 +
 +  徐兴球 Xingqiu Xu <hilbertanjou83@gmail.com>
 +
-+==========================================
-+高分辨率定时器和动态时钟刻度设计笔记
-+==========================================
-+
-+可以在 OLS 2006 演讲"hrtimers 及其超越"的
-+论文中找到更多信息。该论文是 OLS 2006 论文
-+集第 1 卷的一部分，可以在 OLS 网站上找到：
-+https://www.kernel.org/doc/ols/2006/ols2006v1-pages-333-346.pdf
-+
-+该演讲的幻灯片可从以下网址获得：
-+http://www.cs.columbia.edu/~nahum/w6998/papers/ols2006-hrtimers-slides.pdf
-+
-+幻灯片包含五个图（第 2、15、18、20、22 页），
-+说明了 Linux 时间(r)相关子系统的变化。图 #1
-+（第 2 页）显示了在 hrtimers 和其他构建块合
-+并到主线之前 Linux 时间(r)系统的设计。
-+
-+注意：论文和幻灯片讨论的是"时钟事件源"，而我
-+们同时切换到了名称"时钟事件设备"。
-+
-+该设计包含以下基本构建块：
-+
-+- hrtimer 基础设施
-+- 时间日期和时钟源管理
-+- 时钟事件管理
-+- 高分辨率定时器功能
-+- 动态时钟刻度
++============================
++NO_HZ：减少调度时钟刻度
++============================
 +
 +
-+hrtimer 基础设施
-+----------------
++本文档描述了可以减少调度时钟中断数量的
++Kconfig 选项和引导参数，从而提高能效并减
++少操作系统抖动。减少操作系统抖动对于某些类
++型的计算密集型高性能计算（HPC）应用程序以
++及实时应用程序非常重要。
 +
-+hrtimer 基础设施已合并到 2.6.16 内核中。基
-+本实现的详细信息包含在
-+Documentation/timers/hrtimers.rst 中。另请
-+参见图 #2（OLS 幻灯片第 15 页）
++管理调度时钟中断（也称为"调度时钟刻度"或简
++称"刻度"）有三种主要方式：
 +
-+与保存已武装的 timer_list 类型定时器的定时
-+器轮的主要区别是：
++1.	从不省略调度时钟刻度（CONFIG_HZ_PERIODIC=y
++	或对于旧内核为 CONFIG_NO_HZ=n）。您通常
++	不会想要选择此选项。
 +
-+       - 按时间顺序入队到红黑树中
-+       - 独立于时钟节拍（处理基于纳秒）
++2.	在空闲 CPU 上省略调度时钟刻度
++	（CONFIG_NO_HZ_IDLE=y 或对于旧内核为
++	CONFIG_NO_HZ=y）。这是最常见的方法，应
++	该是默认值。
 +
++3.	在空闲或只有一个可运行任务的 CPU 上省
++	略调度时钟刻度（CONFIG_NO_HZ_FULL=y）。
++	除非您正在运行实时应用程序或某些类型的
++	HPC 工作负载，否则您通常不会想要此选项。
 +
-+时间日期和时钟源管理
-+--------------------
-+
-+John Stultz 的通用时间日期（GTOD）框架将
-+大部分代码从特定于架构的区域移动到通用管理
-+框架中，如图 #3（OLS 幻灯片第 18 页）所示。
-+特定于架构的部分被简化为时钟源的低级硬件细
-+节，这些时钟源在框架中注册并根据基于质量的
-+决策进行选择。低级代码提供硬件设置和读出例
-+程，并初始化数据结构，通用时间保持代码使用
-+这些数据结构将时钟刻度转换为基于纳秒的时间
-+值。所有其他与时间保持相关的功能都移到了通
-+用代码中。GTOD 基础补丁已合并到 2.6.18 内
-+核中。
-+
-+有关通用时间日期框架的更多信息，请参见 OLS
-+2005 论文集第 1 卷：
-+
-+	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
-+
-+论文"We Are Not Getting Any Younger: A New
-+Approach to Time and Timers"由 J. Stultz、
-+D.V. Hart 和 N. Aravamudan 撰写。
-+
-+图 #3（OLS 幻灯片第 18 页）说明了这一转变。
++这三种情况将在以下三节中描述，然后是关于
++RCU 特定考虑的第三节，讨论测试的第四节，以
++及列出已知问题的第五节和最后一节。
 +
 +
-+时钟事件管理
-+------------
++从不省略调度时钟刻度
++====================
 +
-+虽然时钟源提供对单调递增时间值的读访问，但
-+时钟事件设备用于调度下一个事件中断。下一个
-+事件当前定义为周期性的，其周期在编译时定义。
-+事件设备的设置和选择用于各种事件驱动功能被
-+硬编码到依赖于架构的代码中。这导致所有架构
-+都有重复代码，并且使得更改系统配置以使用除
-+已内置到架构中的事件中断设备之外的其他设备
-+变得极其困难。当前设计的另一个含义是，为了
-+提供诸如高分辨率定时器或动态时钟刻度之类的
-+新功能，必须触及所有特定于架构的实现。
++来自 1990 年代和 21 世纪初期的非常旧版本
++的 Linux 无法省略调度时钟刻度。事实证明，
++在某些情况下，这种老派方法仍然是正确的方法，
++例如，在具有大量使用短暂 CPU 突发的任务的
++繁重工作负载中，其中有非常频繁的空闲期，但
++这些空闲期也非常短（数十或数百微秒）。对于
++这些类型的工作负载，调度时钟中断通常无论如
++何都会传递，因为每个 CPU 经常会有多个可运
++行的任务。在这些情况下，尝试关闭调度时钟中
++断除了增加进出空闲以及在用户和内核执行之间
++转换的开销外没有任何效果。
 +
-+时钟事件子系统试图通过提供通用解决方案来管
-+理时钟事件设备及其用于各种时钟事件驱动的内
-+核功能来解决此问题。时钟事件子系统的目标是
-+将时钟事件相关的依赖于架构的代码最小化为纯
-+硬件相关的处理，并允许轻松添加和利用新的时
-+钟事件设备。它还最小化了跨架构的重复代码，
-+因为它提供了从中断服务处理程序向下的通用功
-+能，这几乎本质上是硬件依赖的。
++可以使用 CONFIG_HZ_PERIODIC=y（或对于旧内
++核为 CONFIG_NO_HZ=n）选择此操作模式。
 +
-+时钟事件设备由依赖于架构的引导代码或在模块
-+插入时注册。每个时钟事件设备填充一个数据结
-+构，其中包含时钟特定的属性参数和回调函数。
-+时钟事件管理通过使用指定的属性参数决定时钟
-+事件设备将用于支持的系统功能集。这包括区分
-+每 CPU 和每系统全局事件设备。
++但是，如果您正在运行具有较长空闲期的轻量级
++工作负载，则无法省略调度时钟中断将导致过度
++的功耗。这在电池供电的设备上尤其糟糕，它会
++导致电池寿命极短。如果您正在运行轻量级工作
++负载，因此应该阅读以下部分。
 +
-+系统级全局事件设备用于 Linux 周期时钟刻度。
-+每 CPU 事件设备用于提供本地 CPU 功能，例如
-+进程记账、分析和高分辨率定时器。
-+
-+管理层为时钟事件设备分配以下一个或多个功能：
-+
-+      - 系统全局周期时钟刻度（jiffies 更新）
-+      - cpu 本地 update_process_times
-+      - cpu 本地分析
-+      - cpu 本地下一个事件中断（非周期模式）
-+
-+时钟事件设备将这些定时器中断相关功能的选择
-+完全委托给管理层。时钟管理层在设备描述结构
-+中存储一个函数指针，必须从硬件级处理程序调
-+用该指针。这从特定于架构的定时器中断处理程
-+序中删除了大量重复代码，并将对时钟事件设备
-+的控制以及定时器中断相关功能的分配交给核心
-+代码。
-+
-+时钟事件层 API 相当小。除了时钟事件设备注
-+册接口外，它还提供用于调度下一个事件中断、
-+时钟事件设备通知服务以及对挂起和恢复的支持
-+的函数。
-+
-+该框架添加了大约 700 行代码，这导致内核二
-+进制大小增加 2KB。i386 的转换删除了大约
-+100 行代码。二进制大小减少约 400 字节。我
-+们认为，灵活性的增加和跨架构的重复代码的避
-+免证明了二进制大小的轻微增加是合理的。
-+
-+架构的转换没有功能影响，但允许在不更改时钟
-+事件设备和定时器中断代码的情况下利用高分辨
-+率和动态时钟刻度功能。转换后，只需将
-+kernel/time/Kconfig 文件添加到特定于架构
-+的 Kconfig 并将动态时钟刻度特定调用添加到
-+空闲例程（总共向空闲函数和 Kconfig 文件添
-+加 3 行）即可简单地提供高分辨率定时器和动
-+态时钟刻度的启用。
-+
-+图 #4（OLS 幻灯片第 20 页）说明了这一转变。
++此外，如果您正在运行实时工作负载或具有短迭
++代的 HPC 工作负载，调度时钟中断可能会降低
++您的应用程序性能。如果这描述了您的工作负载，
++您应该阅读以下两节。
 +
 +
-+高分辨率定时器功能
-+------------------
++为空闲 CPU 省略调度时钟刻度
++===========================
 +
-+在系统引导期间无法使用高分辨率定时器功能，
-+虽然实现这一功能会很困难且没有实际用途。必
-+须完成时钟事件设备框架、时钟源框架（GTOD）
-+和 hrtimers 本身的初始化，并且必须注册适当
-+的时钟源和时钟事件设备，然后高分辨率功能才
-+能工作。直到 hrtimers 初始化完成之前，系统
-+以通常的低分辨率周期模式工作。
-+时钟源和时钟事件设备层提供通知功能，通知
-+hrtimers 有关新硬件的可用性。hrtimers 在
-+切换到高分辨率模式之前验证已注册时钟源和时
-+钟事件设备的可用性。这也确保了配置为高分辨
-+率定时器的内核可以在缺乏必要硬件支持的系统
-+上运行。
++如果 CPU 处于空闲状态，向其发送调度时钟中
++断意义不大。毕竟，调度时钟中断的主要目的是
++强制繁忙的 CPU 在多个任务之间转移其注意力，
++而空闲 CPU 没有需要转移注意力的任务。
 +
-+高分辨率定时器代码不支持仅具有全局时钟事件
-+设备的 SMP 机器。对此类硬件的支持将涉及中
-+断发生时的 IPI 调用。开销将远大于收益。这
-+就是为什么我们目前在 i386 SMP 系统上禁用
-+高分辨率和动态时钟刻度，这些系统在 C3 电
-+源状态下停止本地 APIC。解决方法作为想法可
-+用，但尚未解决该问题。
++不接收调度时钟中断的空闲 CPU 被称为
++"dyntick-idle"、"处于 dyntick-idle 模式"、
++"处于 nohz 模式"或"无刻度运行"。本文档的其
++余部分将使用"dyntick-idle 模式"。
 +
-+定时器的时间排序插入提供了所有基础设施，以
-+在添加定时器时决定是否必须重新编程事件设备。
-+该决定是按定时器基础做出的，并在支持函数中
-+跨每 CPU 定时器基础同步。该设计允许系统为
-+每 CPU 定时器基础使用单独的每 CPU 时钟事
-+件设备，但当前每个 CPU 仅使用一个可重新编
-+程的时钟事件设备。
++CONFIG_NO_HZ_IDLE=y Kconfig 选项使内核避
++免向空闲 CPU 发送调度时钟中断，这对于电池
++供电的设备和高度虚拟化的大型机都至关重要。
++运行 CONFIG_HZ_PERIODIC=y 内核的电池供电设
++备将非常快速地耗尽其电池，轻松地比运行
++CONFIG_NO_HZ_IDLE=y 内核的同一设备快 2-3
++倍。运行 1,500 个操作系统实例的大型机可能
++会发现其一半的 CPU 时间被不必要的调度时钟
++中断消耗。在这些情况下，有强烈的动机避免向
++空闲 CPU 发送调度时钟中断。也就是说，
++dyntick-idle 模式不是免费的：
 +
-+当定时器中断发生时，从时钟事件分发代码调用
-+下一个事件中断处理函数，并将过期的定时器从
-+红黑树移动到单独的双向链表，并调用软中断处
-+理函数。hrtimer 结构中的额外模式字段允许
-+系统直接从下一个事件中断处理函数执行回调函
-+数。这仅限于可以在硬中断上下文中安全执行的
-+代码。例如，这适用于 nanosleep 使用的唤醒
-+函数的常见情况。在中断上下文中执行处理函数
-+的优点是避免了多达两次上下文切换——从中断的
-+上下文到软中断以及到被过期定时器唤醒的任务。
++1.	它增加了进出空闲循环的路径上执行的指令
++	数量。
 +
-+一旦系统切换到高分辨率模式，周期时钟节拍就
-+会关闭。这会禁用系统级全局周期时钟事件设备
-+——例如 i386 SMP 系统上的 PIT。
++2.	在许多架构上，dyntick-idle 模式还会增
++	加昂贵的时钟重新编程操作的数量。
 +
-+周期时钟节拍功能由每 CPU hrtimer 提供。回
-+调函数在下一个事件中断上下文中执行，并更新
-+jiffies 并调用 update_process_times 和分
-+析。基于 hrtimer 的周期时钟节拍的实现旨在
-+扩展动态时钟节拍功能。这允许使用单个时钟事
-+件设备在 UP 系统上调度高分辨率定时器和周期
-+事件（jiffies 时钟节拍、分析、进程记账）。
-+这已被证明可以在 i386 上的 PIT 和 PPC 上
-+的增量器上工作。
++因此，具有激进实时响应约束的系统通常运行
++CONFIG_HZ_PERIODIC=y 内核（或对于旧内核为
++CONFIG_NO_HZ=n），以避免降低从空闲转换延迟。
 +
-+用于运行 hrtimer 队列和执行回调的软中断已
-+从时钟节拍绑定的定时器软中断中分离出来，以
-+允许准确传递 itimer 和 POSIX 间隔定时器使
-+用的高分辨率定时器信号。此软中断的执行仍可
-+能被其他软中断延迟，但这种分离已显著改善了
-+总体延迟。
-+
-+图 #5（OLS 幻灯片第 22 页）说明了这一转变。
++还有一个引导参数"nohz="，可用于通过指定
++"nohz=off"在 CONFIG_NO_HZ_IDLE=y 内核中禁
++用 dyntick-idle 模式。默认情况下，
++CONFIG_NO_HZ_IDLE=y 内核使用"nohz=on"引导，
++启用 dyntick-idle 模式。
 +
 +
-+动态时钟节拍
-+------------
++为只有一个可运行任务的 CPU 省略调度时钟刻度
++=============================================
 +
-+动态时钟节拍是基于 hrtimer 的周期时钟节拍
-+替换（sched_tick）的逻辑结果。sched_tick
-+hrtimer 的功能由三个函数扩展：
++如果 CPU 只有一个可运行任务，向其发送调度
++时钟中断意义不大，因为没有其他任务可以切换
++到。请注意，为只有一个可运行任务的 CPU 省
++略调度时钟刻度也意味着为空闲 CPU 省略它们。
 +
-+- hrtimer_stop_sched_tick
-+- hrtimer_restart_sched_tick
-+- hrtimer_update_jiffies
++CONFIG_NO_HZ_FULL=y Kconfig 选项使内核避
++免向具有单个可运行任务的 CPU 发送调度时钟
++中断，此类 CPU 被称为"自适应刻度 CPU"。这
++对于具有激进实时响应约束的应用程序非常重要，
++因为它允许它们通过调度时钟中断的最大持续时
++间来改善其最坏情况响应时间。对于计算密集型
++短迭代工作负载也很重要：如果在给定迭代期间
++任何 CPU 被延迟，所有其他 CPU 将被迫在延迟
++的 CPU 完成时空闲等待。因此，延迟乘以比
++CPU 数量少一的数量。在这些情况下，再次有强
++烈的动机避免发送调度时钟中断。
 +
-+当 CPU 进入空闲状态时调用
-+hrtimer_stop_sched_tick()。该代码评估下一
-+个预定的定时器事件（来自 hrtimers 和定时
-+器轮），如果下一个事件比下一个时钟节拍更远，
-+它会将 sched_tick 重新编程到这个未来事件，
-+以允许更长的空闲睡眠，而不会受到周期时钟节
-+拍的无用中断。当空闲期间发生中断但不会导致
-+重新调度时，也会调用该函数。该调用是必要的，
-+因为中断处理函数可能已经启动了一个新定时器，
-+其到期时间早于在上一次调用
-+hrtimer_stop_sched_tick 时识别的最近事件
-+的时间。
++默认情况下，没有 CPU 将是自适应刻度 CPU。
++"nohz_full=" 引导参数指定自适应刻度 CPU。
++例如，"nohz_full=1,6-8" 表示 CPU 1、6、7
++和 8 是自适应刻度 CPU。请注意，您被禁止将
++所有 CPU 标记为自适应刻度 CPU：至少必须保
++留一个非自适应刻度 CPU 在线以处理时间保持
++任务，以确保在自适应刻度 CPU 上像
++gettimeofday() 这样的系统调用返回准确的值。
++（这对于 CONFIG_NO_HZ_IDLE=y 不是问题，因
++为没有运行中的用户进程来观察时钟速率的轻微
++漂移。）请注意，这意味着您的系统必须至少有
++两个 CPU，CONFIG_NO_HZ_FULL=y 才能为您做
++任何事情。
 +
-+当 CPU 在调用 schedule() 之前离开空闲状态
-+时，调用 hrtimer_restart_sched_tick()。
-+hrtimer_restart_sched_tick() 恢复周期时
-+钟节拍，该节拍保持活动状态直到下次调用
-+hrtimer_stop_sched_tick()。
++最后，自适应刻度 CPU 必须卸载其 RCU 回调。
++这在下面的"RCU 影响"部分中介绍。
 +
-+从 irq_enter() 调用 hrtimer_update_jiffies()
-+当空闲期间发生中断时，以确保 jiffies 是最
-+新的，并且中断处理函数不必处理可能过时的
-+jiffy 值。
++通常，CPU 尽可能长时间保持在自适应刻度模
++式下。特别是，转换到内核模式不会自动更改模
++式。相反，CPU 只有在需要时才会退出自适应刻
++度模式，例如，如果该 CPU 将 RCU 回调排入
++队列。
 +
-+动态时钟节拍功能提供统计值，这些值通过
-+/proc/stat 导出到用户空间，并可用于增强的
-+电源管理控制。
++就像 dyntick-idle 模式一样，自适应刻度模
++式的好处不是免费的：
 +
-+该实现为进一步开发留下了空间，例如完全无节
-+拍系统，其中时间片由调度程序控制、可变频率
-+分析以及将来完全删除 jiffies。
++1.	CONFIG_NO_HZ_FULL 选择 CONFIG_NO_HZ_COMMON，
++	因此您不能在没有 dyntick idle 的情况下
++	运行自适应刻度。这种依赖关系延伸到实现
++	中，因此 CONFIG_NO_HZ_IDLE 的所有成本
++	也由 CONFIG_NO_HZ_FULL 承担。
++
++2.	由于需要通知内核子系统（例如 RCU）有关
++	模式更改，用户/内核转换稍微昂贵一些。
++
++3.	POSIX CPU 定时器阻止 CPU 进入自适应刻
++	度模式。需要基于 CPU 时间消耗采取行动
++	的实时应用程序需要使用其他方法来实现。
++
++4.	如果待处理的 perf 事件多于硬件可以容纳
++	的，它们通常会轮转，以便随着时间的推移
++	收集所有事件。自适应刻度模式可能会阻止
++	这种轮转发生。这可能会通过阻止具有大量
++	待处理 perf 事件的 CPU 进入自适应刻度
++	模式来修复。
++
++5.	自适应刻度 CPU 的调度程序统计信息可能
++	与非自适应刻度 CPU 的统计信息计算方式
++	略有不同。这可能反过来扰乱实时任务的负
++	载平衡。
++
++尽管预计随着时间的推移会有所改进，但自适应
++刻度对于许多类型的实时和计算密集型应用程序
++非常有用。但是，上面列出的缺点意味着自适应
++刻度不应该（还）默认启用。
 +
 +
-+除了当前 i386 支持的初始提交外，补丁集已经
-+扩展到 x86_64 和 ARM。MIPS 和 PowerPC 的
-+初始（正在进行的工作）支持也可用。
++RCU 影响
++========
 +
-+	  Thomas, Ingo
++在某些情况下，不能允许空闲 CPU 进入
++dyntick-idle 模式或自适应刻度模式，最常见
++的是当该 CPU 有 RCU 回调挂起时。
 +
-diff --git a/Documentation/translations/zh_CN/timers/index.rst b/Documentation/translations/zh_CN/timers/index.rst
-index 513143c5222d..101341d1033c 100644
---- a/Documentation/translations/zh_CN/timers/index.rst
-+++ b/Documentation/translations/zh_CN/timers/index.rst
-@@ -15,13 +15,13 @@
- .. toctree::
-     :maxdepth: 1
- 
-+    highres
-     hpet
-     hrtimers
-     timekeeping
- 
- TODOList:
- 
--* highres
- * no_hz
- * delay_sleep_functions
- 
++通过使用 CONFIG_RCU_NOCB_CPU=y Kconfig 选
++项将 RCU 回调处理卸载到"rcuo"内核线程来避
++免这种情况。可以使用"rcu_nocbs=" 内核引导
++参数选择要卸载的特定 CPU，该参数接受逗号分
++隔的 CPU 和 CPU 范围列表，例如，"1,3-5"选
++择 CPU 1、3、4 和 5。请注意，由"nohz_full"
++内核引导参数指定的 CPU 也会被卸载。
++
++卸载的 CPU 将永远不会排队 RCU 回调，因此
++RCU 永远不会阻止卸载的 CPU 进入
++dyntick-idle 模式或自适应刻度模式。也就是
++说，请注意，如果需要，将"rcuo"内核线程固定
++到特定 CPU 取决于用户空间。否则，调度程序
++将决定在哪里运行它们，这可能是也可能不是您
++希望它们运行的地方。
++
++
++测试
++====
++
++因此，您启用了本文档中描述的所有操作系统抖
++动功能，但在工作负载的行为中看不到任何变化。
++这是因为您的工作负载受操作系统抖动的影响不
++大，还是因为其他东西挡在了路上？本节通过提
++供一个简单的操作系统抖动测试套件来帮助回答
++这个问题，该套件可在以下 git 存档的 master
++分支上获得：
++
++git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
++
++克隆此存档并按照 README 文件中的说明进行
++操作。此测试过程将产生一个跟踪，允许您评估
++是否成功从系统中删除了操作系统抖动。如果此
++跟踪显示您已尽可能多地删除了操作系统抖动，
++那么您可以得出结论，您的工作负载对操作系统
++抖动不是那么敏感。
++
++注意：此测试要求您的系统至少有两个 CPU。我
++们目前没有从单 CPU 系统中删除操作系统抖动
++的好方法。
++
++
++已知问题
++========
++
++*	Dyntick-idle 会稍微减慢进出空闲的转换。
++	在实践中，除了最激进的实时工作负载外，
++	这不是问题，它们可以选择禁用
++	dyntick-idle 模式，大多数工作负载都采
++	用了这个选项。但是，一些工作负载无疑会
++	希望使用自适应刻度来消除调度时钟中断延
++	迟。以下是这些工作负载的一些选项：
++
++	a.	使用用户空间的 PMQOS 通知内核您的
++		延迟要求（首选）。
++
++	b.	在 x86 系统上，使用"idle=mwait"引导
++		参数。
++
++	c.	在 x86 系统上，使用"intel_idle.max_cstate="
++		来限制最大 C 状态深度。
++
++	d.	在 x86 系统上，使用"idle=poll"引导
++		参数。但是，请注意，使用此参数可能
++		会导致 CPU 过热，这可能会导致热节
++		流降低您的延迟——而且这种降低可能比
++		dyntick-idle 更糟糕。此外，此参数
++		有效地禁用了 Intel CPU 上的 Turbo
++		Mode，这会显著降低最大性能。
++
++*	自适应刻度会稍微减慢用户/内核转换。对于
++	计算密集型工作负载，这不会成为问题，因
++	为它们很少有此类转换。需要仔细的基准测
++	试来确定其他工作负载是否受到此效果的显
++	著影响。
++
++*	除非给定 CPU 只有一个可运行任务，否则自
++	适应刻度不会执行任何操作，即使还有许多
++	其他情况不需要调度时钟刻度。举一个例子，
++	考虑一个 CPU，它有一个可运行的高优先级
++	SCHED_FIFO 任务和任意数量的低优先级
++	SCHED_OTHER 任务。在这种情况下，需要
++	CPU 运行 SCHED_FIFO 任务，直到它阻塞或
++	某个其他更高优先级的任务在此 CPU 上唤醒
++	（或被分配给此 CPU），因此向此 CPU 发
++	送调度时钟中断是没有意义的。但是，当前
++	实现仍然向具有单个可运行 SCHED_FIFO 任
++	务和多个可运行 SCHED_OTHER 任务的 CPU
++	发送调度时钟中断，即使这些中断是不必要的。
++
++	即使在给定 CPU 上有多个可运行任务时，在
++	当前运行任务的时间片到期之前中断该 CPU
++	也意义不大，这几乎总是比下一个调度时钟
++	中断的时间长得多。
++
++	更好地处理这些情况是未来的工作。
++
++*	需要重新启动才能重新配置自适应空闲和
++	RCU 回调卸载。如果需要，可以提供运行时
++	重新配置，但是，由于在运行时重新配置
++	RCU 的复杂性，需要有一个非常好的理由。
++	特别是考虑到您有简单的选项，即从所有
++	CPU 卸载 RCU 回调，并在您想要固定它们时
++	将它们固定到您想要的位置。
++
++*	需要额外的配置来处理操作系统抖动的其他
++	来源，包括中断和系统实用程序任务和进程。
++	此配置通常涉及将中断和任务绑定到特定
++	CPU。
++
++*	某些操作系统抖动源目前只能通过约束工作
++	负载来消除。例如，消除由于全局 TLB
++	shootdown 引起的操作系统抖动的唯一方法
++	是避免导致这些 shootdown 的取消映射操
++	作（例如内核模块卸载操作）。再举一个例
++	子，通过使用巨页并通过约束应用程序使用
++	的内存量，可以减少（在某些情况下消除）
++	页面错误和 TLB 未命中。预先发生工作集
++	也可能有帮助，尤其是与 mlock() 和
++	mlockall() 系统调用结合使用时。
++
++*	除非所有 CPU 都处于空闲状态，否则至少一
++	个 CPU 必须保持调度时钟中断运行以支持准
++	确的时间保持。
++
++*	如果可能有一些自适应刻度 CPU，即使所有
++	CPU 都处于空闲状态，也将至少有一个 CPU
++	保持调度时钟中断运行。
++
++	更好地处理这种情况是正在进行的工作。
++
++*	某些进程处理操作仍然需要偶尔的调度时钟
++	刻度。这些操作包括计算 CPU 负载、维护
++	sched average、计算 CFS 实体 vruntime、
++	计算 avenrun 以及执行负载平衡。它们当前
++	通过每秒左右的调度时钟刻度来容纳。正在
++	进行的工作将消除对这些不频繁的调度时钟
++	刻度的需求。
++
 -- 
 2.34.1
 
