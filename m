@@ -1,168 +1,231 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E97E29A9FE;
-	Thu, 18 Dec 2025 16:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F03813B284
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 17:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766075681; cv=none; b=BnwLr6Kij4uDW11GXb01wnnQcF+mmdAvC/2irVPqVPWWyGKDG2g3w5F3JZQTWAEWvLxXmDoaFuDhciiUHfwQcZE+MUwNMQo/dPSrMNMloyF43JPoc33qUE5APOA1pFxqJhIzG587hDTlHUfNgjyN05uS/0Cn+hxmjM8TavYYexM=
+	t=1766077708; cv=none; b=Spko27rvEsVyaJF9n7jQu2Y7O0f0ED/s5dhcu+1t01xJlaH3y9DtrO1n0hTT9tzfDY72Gf05s0NnlUam0RRmHNCKx1xImWA3lKDEb/ap09GFw/kIEh4/Wc74zSnOm3kY0EOiVTEYKPrTp18kskvzT6lZhU3J85wRRj8biacD+Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766075681; c=relaxed/simple;
-	bh=VbEZ0jE8XPrfDNLq0G7nf0a8uF3thjekVdzkvacdeeY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MkoTT3Ubsl4nQ8hmiHac5CngZyv4H3gVWuh0rqT/d1Ik1sbPzixsOOBHynUBYQZPMJImJ7Ywyp9wDSQcYPlVXfR1hf87lrKOh+m+m6TFpG7mlDQP9TAIRUVZpnsGFPjWFPEdTpz9ypPGndBjHgjyY16uUT4umUlrcqaUYrhOOmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2FFuCst; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766077708; c=relaxed/simple;
+	bh=8ye9FD0BFmVlW+0teHeZBRRFLyYOXqRaeSCCyvdA6iQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eEs0fsCiNpL4h9eVMh94Gd8VsyW+mr0Eyuyf1RhtP38OufZuXcq+AyYHXF3AdvGwOjJCfNwUTJ8EJJRBTvwnq/YDPuueCwqvsNO3XT0h+IMxRnjhWxXsafnCeUzg8Usnj0fC6PA30J2P2bwK0LoNmzVbqTMj2cKxMVJ3DuDfExg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ssLttwpL; arc=none smtp.client-ip=209.85.217.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2FFuCst"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766075680; x=1797611680;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=VbEZ0jE8XPrfDNLq0G7nf0a8uF3thjekVdzkvacdeeY=;
-  b=H2FFuCstVkvsHv6NO87yCkF3nziXQhJGsIjRZhho5gB73Zai94s8ZzBt
-   /zJrW2NbYnMoR1yCn1sygT+MpNj9Hg3l0habLyCf4/nYQsWlTC4xIx82U
-   jgMl5NruWaJwHmzM8esxbMiW6kS+Tq/c/XaqD2HebUrMzVlS0YVQ/JsjN
-   7LFWZJdJ95mf1B499DnDF8+eVB0VgP2rKBdt5w4hquWa8W9j/Ge/cHTVW
-   qn+fMfTt+YpSv/WFyMbyuVhi/zTXsYW4DFay6yzSU6pNBXgxJE6dXxMbF
-   Mn/tmbr3jR23FDDkp8ydBC4KSQg+lHydsDhMg/FkV8d+iipBPw0sjZZO2
-   w==;
-X-CSE-ConnectionGUID: ZXx7eKAiSS6gk1dol0opYw==
-X-CSE-MsgGUID: RqENIS9TRcKdBv3nP+VbUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="93508936"
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="93508936"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 08:34:38 -0800
-X-CSE-ConnectionGUID: km/MzlcvQMSKtMba/hbKFQ==
-X-CSE-MsgGUID: 4LrMg2ZbSVqF+gAWjo3O8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="203525480"
-Received: from spandruv-mobl4.amr.corp.intel.com (HELO [10.125.111.56]) ([10.125.111.56])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 08:34:37 -0800
-Message-ID: <6ddb3366-31a8-4d18-a553-908a035f7cf2@intel.com>
-Date: Thu, 18 Dec 2025 08:34:36 -0800
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ssLttwpL"
+Received: by mail-vs1-f68.google.com with SMTP id ada2fe7eead31-5dbe6304b79so326994137.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 09:08:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1766077705; x=1766682505; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Ya4unRoujhVC5tGQqPhGTBiLoZbxvuuVtCstkzd5+M=;
+        b=ssLttwpLcnlzjVXrr+dQDTqJfXF3X+Ro3uMaia9IJB2PiRkn1mv+LcGpVhvtd+gkR8
+         9OGyuRReXTviKVbj+32ofb9RuwFLPkclD7rXvfo9ZZyM8llVrMoH2vw/5lP6lB076kiz
+         XEb2QFgSo5eGzDYqMWFGNcf1ueuK7v9OvcFvkn6BMRkBcNEaKjm0PT05x5pZzUZt/T32
+         VPFtBOfH9EPgtfSAJcidDwkb6RkJzUBjjzBddqiG2JO95II0riYO2xgeJukh1bp7x0Jk
+         O6KmzqiIkZhEoDdbXfBSX0//rQ2hPiWIKwUX9rgBCZsd94MSSKZWbaS2+xc01kPAcEkq
+         K2CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766077705; x=1766682505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Ya4unRoujhVC5tGQqPhGTBiLoZbxvuuVtCstkzd5+M=;
+        b=BbWprICKMq80D6L4BsAj4THZPb102vR8ePZnJtPqktH2Duh2XbteQj84JgPqH4uYXy
+         nkRkyy/MC17R5tC101A9/B+P1NY/HOQEl9sUBdzr/v1Z7wD4C0VK+0oWkm+cDVObx4Ig
+         S8maId5za+I8jYUUeiiWMbFdxHfNmFoP02TJxjWPxLP27Wljx93mpBHC4eI7Ur6DXrT/
+         6SFxnEiTamHTCVtjuxZEXAiZ5agqrXiha8CF3DG3PCRct5MUDhGD7igycgDZ/9FZy/5m
+         yUsxrlMPeIY8PQ4x9VXyjhy9bofTf9U00fGIptGKnGkpx+70d+/W9KAO4n+zF3SnsTxQ
+         UQCw==
+X-Gm-Message-State: AOJu0YxwmBOUbWD1dTdzDQa7hBv1J644jPIxJuqcDGjo82Z5zlboMGVi
+	4S5LBV73aXi7BOZot8PPRcZWTFeOBWgsvE0ga7sev7beArEwDpGs+iWAnpX23QDbIqI=
+X-Gm-Gg: AY/fxX5thlvaxXiubGcBh4e19ofAZv/4hFul5/7K+FB3njL10TDS32aTq12f1s5if0U
+	gNtm2aaM58Mm7OgXNLp+rzLbkYKM7qJln70e9/fSbDmoS7uf5q2XAQQve8XiOG9J6d/GfDTdx7Z
+	e7MVzR1W37Hn4cqtHlHcLaLg5Aa4xRxTq5SK6Z15J0FHQXGZOt5EizKOBQ5u2ZF6AyDDRTRJwA6
+	ZoTDT9P2inJwI4gAVQxKddQeUO8kByGL3GSw2vW03vQh07DYZipqw1TH+YQOmEcgXQSZ8rgCgNb
+	PfgXNyA91vD1F8Vx3LFLp8GOpORzojTL1QNq2BZ3MbfmHtf/8jEsjLZHrA1GjQBK1qow40HbRSc
+	MVmuy7HcUNWZNhGiqITY0mrLiEgcQ7u1zg8tpn1HwJw3FPBeM0WUcY36O/CffA4oWX1cijL+2c1
+	JkEIpVuORjZ5Nd25vGIjB7000IbYae7v8SOvOJ8RHa5HfOCFMKjqUnhXoz7rhidwrNAZEPC/vu1
+	OygICrfTcfh8g==
+X-Google-Smtp-Source: AGHT+IFSHbw0chfOWEQxtTLWjVKiGVd/5ep5H3OHMkfwYCMbPQeVBTd2RA/79NAFdzsJerniQ+4zzg==
+X-Received: by 2002:a05:6102:3e84:b0:5db:cf38:f4f3 with SMTP id ada2fe7eead31-5e8277cde55mr7853764137.28.1766077704903;
+        Thu, 18 Dec 2025 09:08:24 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9623ffe8sm222186d6.12.2025.12.18.09.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Dec 2025 09:08:24 -0800 (PST)
+From: Gregory Price <gourry@gourry.net>
+To: linux-cxl@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	dave@stgolabs.net,
+	jonathan.cameron@huawei.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	vishal.l.verma@intel.com,
+	ira.weiny@intel.com,
+	dan.j.williams@intel.com,
+	corbet@lwn.net,
+	gourry@gourry.net
+Subject: [PATCH v2] Documentation/driver-api/cxl: device hotplug section
+Date: Thu, 18 Dec 2025 12:07:47 -0500
+Message-ID: <20251218170747.1278327-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 16/28] x86/txt: Intel Trusted eXecution Technology
- (TXT) definitions
-To: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <20251215233316.1076248-17-ross.philipson@oracle.com>
-Content-Language: en-US
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20251215233316.1076248-17-ross.philipson@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/15/25 15:33, Ross Philipson wrote:
-> +static inline void *txt_sinit_mle_data_start(void *heap)
-> +{
-> +	return heap + txt_bios_data_size(heap) +
-> +		txt_os_mle_data_size(heap) +
-> +		txt_os_sinit_data_size(heap) + sizeof(u64);
-> +}
+Describe cxl memory device hotplug implications, in particular how the
+platform CEDT CFMWS must be described to support successful hot-add of
+memory devices.
 
-So each one of these walks through the entire table?
+Signed-off-by: Gregory Price <gourry@gourry.net>
+---
+v2: Jonathan's clarifications and diagrams.
 
-Maybe I'm naive, but wouldn't this all be a lot more sane if it was just
-parsed *once* into a table of pointers?
+ Documentation/driver-api/cxl/index.rst        |   1 +
+ .../cxl/platform/device-hotplug.rst           | 112 ++++++++++++++++++
+ 2 files changed, 113 insertions(+)
+ create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
 
-enum {
-	FIELD1,
-	FIELD2,
-	FIELD3,
-	MAX_NR
-};
+diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
+index c1106a68b67c..5a734988a5af 100644
+--- a/Documentation/driver-api/cxl/index.rst
++++ b/Documentation/driver-api/cxl/index.rst
+@@ -30,6 +30,7 @@ that have impacts on each other.  The docs here break up configurations steps.
+    platform/acpi
+    platform/cdat
+    platform/example-configs
++   platform/device-hotplug
+ 
+ .. toctree::
+    :maxdepth: 2
+diff --git a/Documentation/driver-api/cxl/platform/device-hotplug.rst b/Documentation/driver-api/cxl/platform/device-hotplug.rst
+new file mode 100644
+index 000000000000..617e340bd556
+--- /dev/null
++++ b/Documentation/driver-api/cxl/platform/device-hotplug.rst
+@@ -0,0 +1,112 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==================
++CXL Device Hotplug
++==================
++
++Device hotplug refers to *physical* hotplug of a device (addition or removal
++of a physical device from the machine).
++
++Hot-Remove
++==========
++Hot removal of a device typically requires careful removal of software
++constructs (memory regions, associated drivers) which manage these devices.
++
++Hard-removing a CXL.mem device without carefully tearing down driver stacks
++is likely to cause the system to machine-check (or at least SIGBUS if memory
++access is limited to user space).
++
++Memory Device Hot-Add
++=====================
++A device present at boot will be associated with a CXL Fixed Memory Window
++reported in :doc:`CEDT<acpi/cedt>`.  That CFMWS may match the size of the
++device, but the construction of the CEDT CFMWS is platform-defined.
++
++Hot-adding a memory device requires this pre-defined (*static*) CFMWS has
++sufficient space to describe that device.
++
++There are a few common scenarios to consider.
++
++Single-Endpoint Memory Device Present at Boot
++---------------------------------------------
++A device present at boot likely had its capacity reported in the
++:doc:`CEDT<acpi/cedt>`.  If a device is removed and a new device hotplugged,
++the capacity of the new device will be limited to the original CFMWS capacity.
++
++Adding capacity larger than the original device will cause memory region
++creation to fail if the region size is greater than the CFMWS size.
++
++The CFMWS is *static* and cannot be adjusted.  Platforms which may expect
++different sized devices to be hotplugged must allocate sufficient CFMWS space
++*at boot time* to cover all future expected devices.
++
++Multi-Endpoint Memory Device Present at Boot
++--------------------------------------------
++A hot-plug capable CXL memory device, such as one which presents multiple
++expanders as a single large-capacity device, should report the maximum
++*possible* capacity for the device at boot. ::
++
++                  HB0
++                  RP0
++                   |
++     [Multi-Endpoint Memory Device]
++              _____|_____
++             |          |
++        [Endpoint0]   [Empty]
++
++
++Limiting the size to the capacity preset at boot will limit hot-add support
++to replacing capacity that was present at boot.
++
++No CXL Device Present at Boot
++-----------------------------
++When no CXL memory device is present on boot, some platforms omit the CFMWS
++in the :doc:`CEDT<acpi/cedt>`.  When this occurs, hot-add is not possible.
++
++For a platform to support hot-add of a full memory device, it must allocate
++a CEDT CFMWS region with sufficient memory capacity to cover all future
++potentially added capacity.
++
++To support memory hotplug directly on the host bridge, or on a switch
++downstream of the host bridge (but not contained within a CXL memory device),
++a platform must construct a CEDT CFMWS at boot with sufficient resources to
++support the max possible (or expected) hotplug memory capacity. ::
++
++         HB0                 HB1
++      RP0    RP1             RP2
++       |      |               |
++     Empty  Empty            USP
++                      ________|________
++                      |    |    |     |
++                     DSP  DSP  DSP   DSP
++                      |    |    |    |
++                         All  Empty
++
++For example, a BIOS/EFI may expose an option to configure a CEDT CFMWS with
++a pre-configured amount of memory capacity (per host bridge, or host bridge
++interleave set), even if no device is attached to Root Ports or Downstream
++Ports at boot (as depicted in the figure above).
++
++
++Interleave Sets
++===============
++
++Host Bridge Interleave
++----------------------
++Host-bridge interleaved memory regions are defined *statically* in the
++:doc:`CEDT<acpi/cedt>`.  To apply cross-host-bridge interleave, a CFMWS entry
++describing that interleave must have been provided *at boot*.  Hotplugged
++devices cannot add host-bridge interleave capabilities at hotplug time.
++
++See the :doc:`Flexible CEDT Configuration<example-configurations/flexible>`
++example to see how a platform can provide this kind of flexibility regarding
++hotplugged memory devices.  BIOS/EFI software should consider options to
++present flexible CEDT configurations with hotplug support.
++
++HDM Interleave
++--------------
++Decoder-applied interleave can flexibly handle hotplugged devices, as decoders
++can be re-programmed after hotplug.
++
++To add or remove a device to/from an existing HDM-applied interleaved region,
++that region must be torn down an re-created.
+-- 
+2.52.0
 
-void *parseit(u8 *heap)
-{
-	void *ptr_array[MAX_NR] = {};
-	void *place = heap;
-
-	for (int i = 0; i < MAX_NR; i++) {
-		// The buffer starts with the length:
-		u32 *size_ptr = place;
-
-		// Consume the length:
-		place += sizeof(*size_ptr);
-
-		// Point at the data:
-		ptr_array[i] = place;
-		// Consume the data:
-		place += *size_ptr;
-	}
-	// along with some sanity checks
-}
-
-Then, to access FIELDs you do:
-
-	struct field1_struct *f1s = ptr_array[FIELD1];
-	struct field2_struct *f1s = ptr_array[FIELD2];
-
-Yeah, it means keeping that pointer array around. But <shrug>. It's also
-not about performance. That ^ is a billion times easier to understand
-because it lays out the "heap" logic in one place. You don't have to
-recurse through half a dozen helpers to figure things out.
