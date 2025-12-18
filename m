@@ -1,90 +1,44 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3375E2853EE;
-	Thu, 18 Dec 2025 11:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1E532E14F;
+	Thu, 18 Dec 2025 12:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766057019; cv=none; b=TeSNhJetdKuNQMO0X2KybJMsaGQ240517+R9slB/zUJwxbvsJVW/uAmwg/nQbJ8ld2u0RyBjO5wFC+xfykTCnBfX+nW8ZETppsbOYKc+k7xDFr5PiOB3TROICm1gMBkToIUTzkCAHNbwbF89SZUsCFFpO5JyQTAWHEnWisMMY4I=
+	t=1766060011; cv=none; b=FYFf3JCwufksYiLrxti5re7guJS55fVkYo91YUh+/CB0d2eUZxoRdXGrrYlfxpsOhFyllJjRhJDmHl0MNFtUMOhd3e6NyzphWxnKpPWSQipN81sYgwp/zDYEnahmPSh4ZqULX+9H2guU4Ag9gVFWDHQli0Pi6xde+ftg1ZpXdrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766057019; c=relaxed/simple;
-	bh=WWs/FMKLopR8GlxWJLTbeh62Yklb02RoamS4e6t082k=;
+	s=arc-20240116; t=1766060011; c=relaxed/simple;
+	bh=QjcyqYgAAiCVwktzssjIvKksa8RRHKln7unjqaGozug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nj/KxinKKXSXl0H98ikO5+zkWB28juM3DI1KmJZUvAUz39Dnm57l9KZy6vdGnM7+2/JUjvfKdI2mZGL4H/xI7/D7+sQviEyMkgU0m/KUh262elWwE1CyvEJuHWtKzqomPUFMgFaNYpw4L7POfsXzesQQtwuHu4Q5M0fNaUszBG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MMhSvlZ1; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ulH4+7QMT33w3339ksYEAGDAdALIoWO7Ds1EckQuzt+xYALBDV0LzLmGjcWDEp/5Ttspf/xr/ipzLIIyBWlDq+rtuOuRaO6WAdGSkNJ3mpJRcASyJqkzZ4xveSLsi1F1/CAscmdt/xhrmzWNwbBgTqvFdU8Ct0jeAjFtZlYdvIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FqTCY3LZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MMhSvlZ1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WWs/FMKLopR8GlxWJLTbeh62Yklb02RoamS4e6t082k=; b=MMhSvlZ1U0lhTWOGU4FNuxYI3Z
-	GRAr+CdcUkTNZseY0omR8YLKLA1QJlpPz1h86m2c3EhJzJB5yGJ/CygiILJOK+qNvILaFDFwhuAw3
-	EJQbrqkHxY/iK3OjSwLrw+rUQdfX56nRe6Db43U9YpR6ybFZf3B6r2x30ztvg5jS67xA/pUoZXDVb
-	C+Mdp/HiC6X/EPz8pwEx4Ulki1zvOIk/I0ObPrwEXdFYBvYpYS2o6qvadq5aCBujtL64qu3Wyq7WI
-	LhK84HnA/xPWUkY0PFgKtEEIwQVN91FdDzOSntpHWyeqHY7S9olXkJWkJuT/Mc2wTOwAluJ2qhhEs
-	CwoFBrow==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWBEi-00000008e0m-01ZP;
-	Thu, 18 Dec 2025 10:27:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id DCB0D300578; Thu, 18 Dec 2025 12:23:08 +0100 (CET)
-Date: Thu, 18 Dec 2025 12:23:08 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
- analysis
-Message-ID: <20251218112308.GU3911114@noisy.programming.kicks-ass.net>
-References: <20251120151033.3840508-7-elver@google.com>
- <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
- <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
- <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
- <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
- <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
- <aUAPbFJSv0alh_ix@elver.google.com>
- <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
- <aUE77hgJa58waFOy@elver.google.com>
- <aUGBff8Oko5O8EsP@elver.google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FqTCY3LZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB30C4CEFB;
+	Thu, 18 Dec 2025 12:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766060011;
+	bh=QjcyqYgAAiCVwktzssjIvKksa8RRHKln7unjqaGozug=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FqTCY3LZvoQPHjGcorl9DXffWz6ePn53FCjtqjWN+Lk3rtHtrsab4QLd2aT+Tygv7
+	 UZHbk8n4YTGjKfSaiN+Sk6tDk3Rr5Z4amciKYFjyj0vf9FO8o8ZMpZJwiVTr5xPJK/
+	 iXhqbj82swpKH+BwHcMtpl9MoZpOapQu822X4DvBynPxv75i9eCiaAEyZkQXyJ1KjB
+	 lh4BbbWNQGFcXUyxFS0Lq/fgY8gBENJ7fdLqIrIo8HrFEgfNUnz8h8ci5ty8B60W75
+	 arKbFNHHlyfpLosVXe6kUxPRFwSoHeTVPtaVohyLzY4ek7B6h5wt4depCLldeyIjks
+	 8OGMl3sx8v09w==
+Date: Thu, 18 Dec 2025 12:13:25 +0000
+From: Will Deacon <will@kernel.org>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
+	tony.luck@intel.com, bp@alien8.de, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, catalin.marinas@arm.com,
+	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
+	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com
+Subject: Re: [PATCH 11/12] ras: add DeviceTree estatus provider driver
+Message-ID: <aUPv5UfBByVoLbRV@willie-the-truck>
+References: <20251217112845.1814119-1-ahmed.tiba@arm.com>
+ <20251217112845.1814119-12-ahmed.tiba@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,17 +47,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aUGBff8Oko5O8EsP@elver.google.com>
+In-Reply-To: <20251217112845.1814119-12-ahmed.tiba@arm.com>
 
-On Tue, Dec 16, 2025 at 04:57:49PM +0100, Marco Elver wrote:
+On Wed, Dec 17, 2025 at 11:28:44AM +0000, Ahmed Tiba wrote:
+> Introduce a platform driver that maps the CPER status block described
+> in DeviceTree, feeds it into the estatus core and handles either IRQ- or
+> poll-driven notifications. Arm64 gains a FIX_ESTATUS_IRQ slot so the
+> driver can safely map the shared buffer while copying records.
+> 
+> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+> ---
+>  MAINTAINERS                     |   1 +
+>  arch/arm64/include/asm/fixmap.h |   5 +
+>  drivers/ras/Kconfig             |  14 ++
+>  drivers/ras/Makefile            |   1 +
+>  drivers/ras/estatus-dt.c        | 318 ++++++++++++++++++++++++++++++++
+>  include/linux/estatus.h         |   3 +-
+>  6 files changed, 341 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/ras/estatus-dt.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6b2ef2ddc0c7..5567d5e82053 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21761,6 +21761,7 @@ RAS ERROR STATUS
+>  M:	Ahmed Tiba <ahmed.tiba@arm.com>
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
+> +F:	drivers/ras/estatus-dt.c
+>  F:	drivers/firmware/efi/estatus.c
+>  F:	include/linux/estatus.h
+>  
+> diff --git a/arch/arm64/include/asm/fixmap.h b/arch/arm64/include/asm/fixmap.h
+> index 65555284446e..85ffba87bab9 100644
+> --- a/arch/arm64/include/asm/fixmap.h
+> +++ b/arch/arm64/include/asm/fixmap.h
+> @@ -64,6 +64,11 @@ enum fixed_addresses {
+>  #endif
+>  #endif /* CONFIG_ACPI_APEI_GHES */
+>  
+> +#ifdef CONFIG_RAS_ESTATUS_DT
+> +	/* Used for ESTATUS mapping from assorted contexts */
+> +	FIX_ESTATUS_IRQ,
+> +#endif /* CONFIG_RAS_ESTATUS_DT */
 
-> Below is the preview of the complete changes to make the lock guards
-> work properly.
+Why do we need this in addition to the four existing GHES slots? The DT
+code doesn't use it and I was assuming that the ACPI code would continue
+to use the existing irq; is that not the case?
 
-Right. Not pretty but it works.
-
-I did spend a few hours yesterday trying out various thing that don't
-work -- as I'm sure you did too -- but could not come up with something
-saner.
-
-So yeah, lets just do this.
+Will
