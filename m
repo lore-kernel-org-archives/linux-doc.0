@@ -1,148 +1,68 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DCC3BBF0
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 01:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707F0327C15;
+	Thu, 18 Dec 2025 06:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766020966; cv=none; b=SeWpOaJBlJfDTQq1+Tf9gy/yyBnnOED0U/hbvNAJfOcWWfOnXmJeBNDbJal2ZExu0wfVISAaJA1MM/VESV8M2uwtmjFtp3Y7fo7OWodaj2d20v/qYmdfjJ26svP5AVLglS8B3pmRo1SE0JWwbQykHhnK+aNBdIB9705vCZyIdVc=
+	t=1766039557; cv=none; b=KLepPX3YrmJQeLBUHEyJCE8hxPMC4N8jBVgsqsSrDgnBYu+lwGu7iuAMs6uBWNDUijC4sqjOWnmno0AkU80O8CdI6W6+OY0DZUj+iztHlJJcGHGYz1GAb2QHnipt84owd2ckUuuK4dcuVxhqfCE//XAEV/19mrNaLpMMxYVaJgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766020966; c=relaxed/simple;
-	bh=EfOagSKtMPrAituOBjbg9sgoDPP1BxPBt4MiTxip3EQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IEIwNJI+sRyo34v+xd3w4T6omKOB4NhuptlpmvyrO9YcUoHz4B/QSuWd3mUAfpGnKW/U8JC6wJM0HdyX0fwdrtdLmwVIZa55pkl9RdStRuEW1LW5rH3776rmxVdrjEk4X8j8NDkTm5HwpCms3fk2NBxbkOH47zozEF6uR1dkikI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DN55ENsN; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766039557; c=relaxed/simple;
+	bh=8yWek50NkVJ72M7bGCmnTou5Og5jhclrTkTic20rUOA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GypBwZC2sXcbI2qKNyohlwVd51atVlUOj8f95k+hh4bSdrCEFURQuipj85nBp4J0ch0ksLGL3S3Cf4ysfHeSdW8SFJwQR9arveJHKY+fGRXrnP6jCSaJZ9oFjnl/Xk0XJ7QWPIkWX1RHCiZDeOGiyrRM/fPMf87hIrqAlw4fv2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=klwAVBgm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5D0vmXcO; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DN55ENsN"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4775ae77516so1419295e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 17:22:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766020962; x=1766625762; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pUfWSU55e6klqk06RT8DooaLMYJUGtBJoBI7Mktsq84=;
-        b=DN55ENsNgF+7YGhsoHuvLt6apieEJ1LPFRaaosUYvut7V/c6wUrYq5vBUgbgfep8dG
-         m2u9c+BKzWIczWyN539tepMkIGU3JTE7Sg/cs3Z+chyZd0VqE4roZwxLXBEaHcCyB7Cy
-         Y9SyhM9T+2tVykRZC9QCZujcSP6aJbl6nchIve9RCjZnsMAzdAKHBVaQvB8Yes2X4tmb
-         8xNB8aqoNJyNgb2BG1DcaF4j4EiCcpAULrWOUXh7Y67ikN0P4lgigb6EmKN2VdFFl6xU
-         YDNjlRuIa/5QDTjAxRudbN/ZR6/fRXE5Cfy1AJpKvutZ4xQj494UCfKtlCvMtcK+soJb
-         vlhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766020962; x=1766625762;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pUfWSU55e6klqk06RT8DooaLMYJUGtBJoBI7Mktsq84=;
-        b=dmwwnaqxVW8RG5gu3DCj/9fZsV0VD0FP+1MCswrvKCbWQFJP8FPgrb80wzcnBXeJnZ
-         D0PwjUEFb4V8heId/rf/G/8trrTnak0LMVorxLtusXU0S61vU87OBtlfeluDGdUvpiai
-         GxjABxRkVnSGI2fCpVTvEOqHjDcD7d8bs2DHPqPq/O4vw/XsuAT/RUw+3/YPerubfH0k
-         athj0uzl91bF2HZmtPsMMZjnG8E7V7UOj4/WmxeVOXbEyxfmWKT6jJ5goNuxaKFYmvi1
-         JPYR5OmJYNbDXl35yXS06bfn0tqSKI6tz4hr0zo3QYeqVajGRQdgjKVKiLZyDT1CKdA0
-         Axrg==
-X-Forwarded-Encrypted: i=1; AJvYcCWRl45PVaamYQhCv2FIt32NDqsDVK1GyuBDXX0fTrNZ18rMfPwhxMhFzoyz9NluOjFpn7vAqefbiFU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEL8etV/atroPSm1tRo2DgxjeaDAurnjssoSak+Llp7XRpE90Q
-	rvc6aVe+NlZOweh5ytD2pfURz75+t6Py6sv65RNfxQXgF2JRkH3aBdrJluhB0s2UHyyV5wpkk/f
-	3+yCL0BAskVSHMWb9csESiePfzYcIu/A=
-X-Gm-Gg: AY/fxX56ceFdJ6kPYZCvKMqoWfmYSJnNT5bce3mDC5WjH6I+xfptiROtGD+JiTKKlEX
-	JaZgWq+R7pwtAeyC9fSrf2cZVYV/pvKsSBronbgtdsW2/uxFeuiRCbE2hjLDm8eCcBTFnMf0wOm
-	vqbgqT6v2xYyk9MnALZqHGmcK4g8xsAiKH7aN1IR24nwj42m+RAZJa8t24FTa8W9SYrgPRTZCRR
-	5aTXQoYJgWv79nEnhXrTvdojs3EI/dYp3eYd8G4GG01sRodoBrr0fB59+iQCRKw5Yv5+UBjvVKV
-	aFYwjICcM7nN1CIqgOlMiyGkNhq6mJVfk1+KyoY=
-X-Google-Smtp-Source: AGHT+IHI3Zc9UJLZXFYBDkFjZPO4pblK6riURRpClPTH4+jaz0+GBZQG1W/4BPm+kxxoU98+ZUMSkwR1ds2u6Ik3HAo=
-X-Received: by 2002:a05:600d:f:b0:47b:da85:b9f3 with SMTP id
- 5b1f17b1804b1-47bda85bcf1mr52495445e9.23.1766020962351; Wed, 17 Dec 2025
- 17:22:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="klwAVBgm";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5D0vmXcO"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1766039553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8yWek50NkVJ72M7bGCmnTou5Og5jhclrTkTic20rUOA=;
+	b=klwAVBgmntDdO//TpkkzEeZtitlcuiSrspOt4KeUnEIP6geoYKA3K/c3xnGGmdQYLoMPLC
+	Iz/V5J8dJV6An51lH9pdDD0KBn1kIk+EQcg/rYIPeBryXcm4kNh4ar8ty5hWGFNjFhVIvL
+	pPmYHCGK5m6L0LGkyxZt170LHHV7sI0e60rJzkAnFjLJCYtHMokZYEq85danb3l5Wp2hEy
+	ar7WM+3WGCZT/dWA9kGwl4uSufE0Uzz1ieKJIbAcqS/uDKeMD26mmnSBJXWkknD26zfcEj
+	q4YfV+qu1luwfa19bGfK85HQUmelJKZAZpRNQqArIsafkazWRYeNXdantv45gQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1766039553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8yWek50NkVJ72M7bGCmnTou5Og5jhclrTkTic20rUOA=;
+	b=5D0vmXcOmcCGxwNnHI2c+Gi72oFnClLb53xxU/TfoJyTBaGP0zBL/GrFPfeUialuh2by9N
+	Ju4OR6fICyDIv2CA==
+To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
+ Gabriele Monaco <gmonaco@redhat.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, linux-doc@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark
+ Williams <williams@redhat.com>, John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v3 06/13] rv: Add sample hybrid monitors stall
+In-Reply-To: <20251205131621.135513-7-gmonaco@redhat.com>
+References: <20251205131621.135513-1-gmonaco@redhat.com>
+ <20251205131621.135513-7-gmonaco@redhat.com>
+Date: Thu, 18 Dec 2025 13:32:25 +0700
+Message-ID: <87tsxoi9l2.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com> <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Wed, 17 Dec 2025 17:22:31 -0800
-X-Gm-Features: AQt7F2rvXmPxXxfmFoBVvyhzz_llncbRbWXwHKjWzs06OF3RTcKub-VfqDonp-0
-Message-ID: <CAADnVQJ1CRvTXBU771KaYzrx-vRaWF+k164DcFOqOsCxmuL+ig@mail.gmail.com>
-Subject: Re: [RFC 08/11] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, David Howells <dhowells@redhat.com>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Dec 10, 2025 at 6:14=E2=80=AFPM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
-> +++ b/security/hornet/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config SECURITY_HORNET
-> +       bool "Hornet support"
-> +       depends on SECURITY
-> +       default n
+Gabriele Monaco <gmonaco@redhat.com> writes:
+> Add a sample monitor to showcase hybrid/timed automata.
+> The stall monitor identifies tasks stalled for longer than a threshold
+> and reacts when that happens.
+>
+> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
 
-So you're disallowing this new LSM to be a module?
-That doesn't smell good.
-
-> +static int hornet_verify_hashes(struct hornet_maps *maps,
-> +                               struct hornet_parse_context *ctx)
-> +{
-> +       int map_fd;
-> +       u32 i;
-> +       struct bpf_map *map;
-> +       int err =3D 0;
-> +       unsigned char hash[SHA256_DIGEST_SIZE];
-> +
-> +       for (i =3D 0; i < ctx->hash_count; i++) {
-> +               if (ctx->skips[i])
-> +                       continue;
-> +
-> +               err =3D copy_from_bpfptr_offset(&map_fd, maps->fd_array,
-> +                                             ctx->indexes[i] * sizeof(ma=
-p_fd),
-> +                                             sizeof(map_fd));
-
-As was pointed out several times earlier this is an obvious TOCTOU bug.
-An attacker can change this map_fd between LSM checks and later verifier us=
-e.
-All the "security" checks further are useless.
-
-> +               if (err < 0)
-> +                       return LSM_INT_VERDICT_BADSIG;
-> +
-> +               CLASS(fd, f)(map_fd);
-> +               if (fd_empty(f))
-> +                       return LSM_INT_VERDICT_BADSIG;
-> +               if (unlikely(fd_file(f)->f_op !=3D &bpf_map_fops))
-
-Ohh. So this is why this LSM has to be built-in.
-bpf_map_fops is bpf internal detail. It's not going to be exported.
-You cannot open code __bpf_map_get() and get away with it.
-
-> +                       return LSM_INT_VERDICT_BADSIG;
-> +
-> +               if (!map->frozen)
-> +                       return LSM_INT_VERDICT_BADSIG;
-> +
-> +               map =3D fd_file(f)->private_data;
-> +               map->ops->map_get_hash(map, SHA256_DIGEST_SIZE, hash);
-
-This too. It's absolutely not ok for LSM to mess with bpf internal state.
-
-The whole LSM is one awful hack.
-The diff stat doesn't touch anything in the kernel/bpf/
-yet you're messing with bpf internals.
-
-Clearly, you guys want to merge this garbage through LSM tree.
-Make sure to keep my Nack when you send it during the merge window.
+Reviewed-by: Nam Cao <namcao@linutronix.de>
