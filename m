@@ -1,38 +1,38 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C70034DCC2
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 18:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0935B352925
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 18:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766080805; cv=none; b=N9eOMNejeXnS2UDiEhgdkDSgQTCnEqEhS0olwI5Mp+jVh2V8aBDyHg53vWXoBmyrpz0ctPkZL692nXTmFMc4vxyX47L+zQgXMGnjZ+4yUvyLgS0nTHZ9VAyXX4F5gEAAJFdE8LtCL7c/qUgI/X5k6bpq/lAClUr4+w/1tl3fr4w=
+	t=1766080858; cv=none; b=LvbXd743SaW2MOCPgfPA+vFeT7+e4GT0nOssLkE8iNpIvVihHyWX+S/tfkMvg3bDbK5327gUqPKAaXs88pIM0ByOxH5h/BpLro6CpLkKIn1hyzU6SWve0T2/TiVbj/1f4nCzrEGk7OyA8bSmUpREZMhtSvqMLIsrkXmmAQo1WFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766080805; c=relaxed/simple;
-	bh=jj0tNM+lmo3XjQQ/uISADuMxUunB4+FqDPkrcFKqgnY=;
+	s=arc-20240116; t=1766080858; c=relaxed/simple;
+	bh=AstMwyrc9ZlNvilncAUr2MLmkYTnJy/Ra7JqyM7o2Kk=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=q+xbdWMjoguenWXg9kA7VugcFMHXbOP8Ha6uvRAsj6HXkVbL0UW1RuF+PTkdnBPTuDOEtLZlia1ZTl91H+r7QRWE2DxKO5WTpQ78ygPivZ7A0VE1c0Es5N3h2DoD0Zi78uBTBAr+5mm3GBDcVFkCRWTnczhjHsk8v00hNH+H4+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oavx17NP; arc=none smtp.client-ip=185.246.85.4
+	 References:In-Reply-To; b=I0AKM6KJG1Oc3GobKl7xvSrT3mvhB2G401TEFjr5QzFAYeGRgWlHM+LziDiquJAozdpltotyd7wh91jpeETiWZKqKlWtkuM0R9Jq8MgzBsUChIWdb01Gf5Fs9IbwOUwgt4DxjD68c5jgC96HCnWTSzNU77Q1a1uj3KzOtJ3xaO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qaXzUB/C; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oavx17NP"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qaXzUB/C"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C68054E41C91;
-	Thu, 18 Dec 2025 18:00:02 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D3F5EC1A5B5;
+	Thu, 18 Dec 2025 18:00:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9B75660715;
-	Thu, 18 Dec 2025 18:00:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B1125102F0B66;
-	Thu, 18 Dec 2025 18:59:55 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7471C60715;
+	Thu, 18 Dec 2025 18:00:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D9ADC102F0B52;
+	Thu, 18 Dec 2025 19:00:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766080797; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766080850; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=BFK3V89iVHuZJBa6vSsSmmmTu6bXzz29SnYF25k2xlc=;
-	b=oavx17NPOGY8okb8f30ZWu45gJMJu3/0iigviezRHSlHzeMsXWnzqic0fmp/RkUdmVAO06
-	AAiCFhl1zKWxfThXJxnOQ7cW4422qT4qBO1QoOUmzME1FXR+08R5biwK91Ob7a2wB0gyfR
-	I50E0ZQmfJghU4+/LyVS0Qlh0AAYMtOhfLOyh46fmO5KmJwREEwlCOhm3BFXYW7bKYasfM
-	swMPNXttNOAey/Nlfd+w4FnrfvldV3mRA6L5DGhA7AT0aAVB9p40XSpmsI9+loTkxJ8qXc
-	LHj0fzX5ui0RRFBiLCaEXRs/RFPOD8uNW6fkSu4NdqT2AaWYiIHS0phXwYb4Dg==
+	bh=NiVoi+M8qO/I/Ju9YOlhfK4FUtabWy/e5OhxAn7IcBk=;
+	b=qaXzUB/CqkZ8vwDkHMM3y4NfStLMgvR8/Shng1MSlidZn1D1HgO+Gw0lNHrFRruwL9x7p9
+	7U0SLaWibDoMRQ3wtgCr+34WqIensWQPrgx+GV991FP8oUn/jpJSr/tdfMebehZj/ngp9D
+	8bgCLOelY++7B6sTc2865WvIOzQYuOsvbVKH0Ewfcbe2SG2REZbmp6P1tgm8FhjunZP3yk
+	3Lpj1kXCF1yPqweqjAvYyMxxR5qrS1NvfUDfVwMqwIgupxGH/L1NQLIljNB/4T0oK3mNEl
+	hUda+z6j7+Tb9VaFaoJR1F3IdjOyHNJ8dVHqx2/eueUTX6hSb9RudmqNvpuGxA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,9 +41,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 18 Dec 2025 18:59:55 +0100
-Message-Id: <DF1JE4UKS0X1.2KM5UAE92I3UZ@bootlin.com>
-Subject: Re: [PATCH RESEND v2 14/32] drm/vkms: Introduce config for plane
+Date: Thu, 18 Dec 2025 19:00:48 +0100
+Message-Id: <DF1JETBGEUFA.EK2SDN9BJMB6@bootlin.com>
+Subject: Re: [PATCH RESEND v2 15/32] drm/vkms: Introduce configfs for plane
  color range
 Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
@@ -58,65 +58,97 @@ To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-14-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-14-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-15-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-15-a49a2d4cba26@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
 On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
-> VKMS driver supports all the color range on planes, but for testing it ca=
-n
-> be useful to only advertise few of them. This new configuration interface
-> will allow configuring the color range per planes.
+> To allows the userspace to test many hardware configuration, introduce a
+> new interface to configure the available color ranges per planes. VKMS
+> supports multiple color ranges, so the userspace can choose any
+> combination.
+>
+> The supported color ranges are configured by writing a color range bitmas=
+k
+> to the file `supported_color_ranges` and the default color range is
+> chosen by writing a color encoding bitmask to `default_color_range`.
 >
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> --- a/drivers/gpu/drm/vkms/vkms_config.c
-> +++ b/drivers/gpu/drm/vkms/vkms_config.c
-
-> @@ -359,6 +379,16 @@ bool vkms_config_is_valid(const struct vkms_config *=
-config)
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/=
+vkms_configfs.c
+> index ee2e8d141f9e..3f658dd41272 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -439,6 +439,91 @@ static ssize_t plane_default_rotation_store(struct c=
+onfig_item *item,
+>  	return count;
+>  }
 >
->  		if (!vkms_config_valid_plane_color_encoding(config, plane_cfg))
->  			return false;
+> +static ssize_t plane_supported_color_ranges_show(struct config_item *ite=
+m, char *page)
+> +{
+> +	struct vkms_configfs_plane *plane;
+> +	unsigned int supported_color_range;
+                     supported_color_ranges
+
 > +
-> +		if (!vkms_config_valid_plane_color_range(config, plane_cfg))
-> +			return false;
+> +	plane =3D plane_item_to_vkms_configfs_plane(item);
+
+As for previous patches, set this on declaration for consistency (same belo=
+w).
+
+> +static ssize_t plane_supported_color_ranges_store(struct config_item *it=
+em,
+> +						  const char *page, size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
+(item);
+> +	int ret, val =3D 0;
 > +
-> +		if ((vkms_config_plane_get_supported_color_encodings(plane_cfg) =3D=3D=
- 0) !=3D
-> +		    (vkms_config_plane_get_supported_color_ranges(plane_cfg) =3D=3D 0)=
-) {
-> +			drm_info(dev,
-> +				 "Both supported color encoding and color range must be set, or none=
-\n");
-                                                       encodings          r=
-anges
+> +	ret =3D kstrtouint(page, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Should be a supported value */
+> +	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
+> +		return -EINVAL;
+> +	/* Should at least provide one color range */
+> +	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) =3D=3D 0)
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &plane->dev->lock) {
+> +		/* Ensures that the default rotation is included in supported rotation=
+ */
 
-> @@ -441,6 +471,12 @@ static int vkms_config_show(struct seq_file *m, void=
- *data)
->  		seq_puts(m, "\n");
->  		seq_printf(m, "\tdefault color encoding=3D%s\n",
->  			   drm_get_color_encoding_name(vkms_config_plane_get_default_color_en=
-coding(plane_cfg)));
-> +		seq_puts(m, "\tsupported color range=3D");
-                                               ranges
+Oh no, that comment again! :-)
 
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
-> @@ -47,6 +47,8 @@ struct vkms_config {
->   *         must be managed by other means.
->   * @default_color_encoding: Default color encoding that should be used b=
-y this plane
->   * @supported_color_encodings: Color encoding that this plane will suppo=
-rt
-> + * @default_color_range: Default color range that should be used by this=
- plane
-> + * @supported_color_ranges: Color range that this plane will support
-                                     ranges
+> +static ssize_t plane_default_color_range_store(struct config_item *item,
+> +					       const char *page, size_t count)
+> +{
+> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
+(item);
+> +	int ret, val =3D 0;
+> +
+> +	ret =3D kstrtouint(page, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Should be a supported value */
+> +	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
+> +		return -EINVAL;
+> +	/* Should at least provide one color range */
+> +	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) =3D=3D 0)
+> +		return -EINVAL;
 
-With those fixed you can add:
+As in patch 12, replace this with is_power_of_2() to check that exactly one
+bit is set.
 
- Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Luca
 
 --
 Luca Ceresoli, Bootlin
