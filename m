@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8E133987D;
-	Thu, 18 Dec 2025 15:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FEB33986C
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766070596; cv=none; b=odmnAvapwggMrlFQODAtXF0C+fiF9eazB3o+VHnC/WTmLhcLsHGoSAndYoKn2HrzNGJau2iLTn9rVOKi749zLJF8jbgOQh56fz1oDZQKAjSF0XG0+UBL1rf4zI2KSIjV3PpOG3U2ARLr7AmHPvVWPkbxpHwXwEYYM+siIJ3TyBo=
+	t=1766070597; cv=none; b=YMRSzN1/lWD6al3XSp7c4Rdz7JdD3chJOnSuqsxFyrtqE6Hcl8O7jcGS6JBj50JrIROFjK7wwLvjvmXuDq+IjKZmSfhTRvrsTNPa6llrNSKIWu9ZnMEkRcKnmKTZVBc4YxfH/hMO6NzxrZdbxooriLzNqxp26IHxCDCIFYO4UGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766070596; c=relaxed/simple;
-	bh=G2Gy4F6FoeycA/U+pPvXXH1RbWzUZ5Scx06TlxyQkj0=;
+	s=arc-20240116; t=1766070597; c=relaxed/simple;
+	bh=9tLpQ9D7laIhJe2k13i2JMUzd18FwyrCUsedyAAXldw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AoP8S0RddOpZbsgi6xjg5Hr0xYZE69ltXezUyyRb9dJGNO+PSsjTxezqyH5DxPYNWEzL35wO2HVvYrHWpjZJ+HdrwPLu1NGRYS85K6EjX2DgEZxmCc3jWFc7utB27hRbkWkR2pWFdvCXVKkbkiOhqY23As0qhNQTpoj3C7IV8ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVRFTe4j; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=rD9e2vj1cf3awo48/bJj/PeJAbAxYjDFTrewCpUVBbVMwXaiUwQbFADpULUumF6T13FhMtkal43li82BmDw0Aoy1GfT4pdC90S7wmYTUCM9CsCUhfFwQf1SLv0rY8lx4Oz6U0CJ38IauJ6mJjxprfylloZu+rHwCcQctU+/SiVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QQSva+qX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVRFTe4j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F027C4AF0B;
-	Thu, 18 Dec 2025 15:09:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QQSva+qX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F21BFC19421;
+	Thu, 18 Dec 2025 15:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766070595;
-	bh=G2Gy4F6FoeycA/U+pPvXXH1RbWzUZ5Scx06TlxyQkj0=;
+	s=k20201202; t=1766070597;
+	bh=9tLpQ9D7laIhJe2k13i2JMUzd18FwyrCUsedyAAXldw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uVRFTe4jk3ut7r6wqnkj3Jxi5XLk6IYH7mPpTOUKlG7Y3AIh/jTkq62vOZBxZtQEr
-	 Bf2RVoE7/f7/kCy3bTpmCXg/yXiYyGDmwat3tVYZ60OtKCXepNqZAJLLEwynyorSma
-	 UyKcu+iPCUobh7JtvZQTqSmlZMn1X6s/hfgDT7ZcQDWlp+9VtkawDs4iCgLnojmsVQ
-	 rbfUAt8/dgPUtREpFd7Y6Gdx5Gvs2x0gV8Or/8wkHaQj1SZvFdsEwHmjfDHxbfDQ4o
-	 voktf5M/lAvOsKFFIC9nem9+NKMsbO/5ztccqBOuU0kpq/LAOM3EZ2tOwtBlW1SM4i
-	 A4sF4yTgLLb0w==
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfauth.phl.internal (Postfix) with ESMTP id AB7CDF40072;
-	Thu, 18 Dec 2025 10:09:54 -0500 (EST)
+	b=QQSva+qXAV/iy5U1+Gb1iCUvWGDgAUWoCxTdIxlEzvm3gjMlXKlFAmGWvuvRb1nAn
+	 G++siGXaPMw2oW3hDZ6e3lmPQfgw82PUxPEtLgG/Sf9rMlLfmIO2t5lKlBhtfEbPri
+	 gRdwMG1mnHkWRmHNlrLbSEAWdEbIcYB2SuyhsleYH4A0Mu6MBgkF5qrRMGcNrsD+95
+	 iwoIh5vUXWvCjlKQOjwG7HF4RHD9vgt9bBxyKr0PRxwMFCOFFCx9ScYtTU970nSIH0
+	 gc2FkgrlSYakJRiRAtSmwJNr0LQiaJuyCOOVIf0lm9l5aLOLX+/Y1LbzmG/v5xZ7Ij
+	 xZXApF1PZjbzA==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 4AEC9F40072;
+	Thu, 18 Dec 2025 10:09:56 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Thu, 18 Dec 2025 10:09:54 -0500
-X-ME-Sender: <xms:QhlEaTLChUksQdxGfL_F4iMxjTdxjIqEuSXMGptHVbCQkrVyZiDQmg>
-    <xme:QhlEaWbTOgHBdwrw6gs4YLd5oLiAxVBbF6Z9Ut4FP9gMtvy4uyP86kKIjBCCh0KUQ
-    57NG_4Mxozxt9GL1uRFL2Mrbg7HvyqTHuzFbkNw_95xC-47xo0KATI>
-X-ME-Received: <xmr:QhlEaeiaYNDWgawyVA6BZCW3Jok1zgmypH2zw1LTIAqn7Ul5kmX2RgOYx8-cXw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheejgecutefuodetggdotefrod
+  by phl-compute-04.internal (MEProxy); Thu, 18 Dec 2025 10:09:56 -0500
+X-ME-Sender: <xms:RBlEaR2fhvEo3I9H223A72c6QsadcD4W7NTs-DWLoZ2GIiX0IS_J5Q>
+    <xme:RBlEaXUFuML-YtoKCtgPb_v_qpZoAEklCVMMLXU11m9Psq8aVzztt2CkknpUJUBFT
+    R7LdTn8byNjQJsVYBtF_x4RObdLjo05rDA-Oe6MavTdvloco9LGNg>
+X-ME-Received: <xmr:RBlEaUtlfNUdPkONed9hQfRlWsncL2uJc28fJUvNEA4HznICdEcGmEbDEefAZQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheejhecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmihhrhihlucfu
@@ -52,14 +52,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegheejgecutefuodetgg
     phhtthhopehfvhgulhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepohhsrghlvhgrug
     horhesshhushgvrdguvgdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhgpdhr
     tghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgii
-X-ME-Proxy: <xmx:QhlEaT48AP_7kD7HeRNX4RgkmGf1um-SQAZ0xfKgxFalhNu9fyhzqQ>
-    <xmx:QhlEaeqirUk0QiQuH6DXq3f09uxiHxyZYWUgAyx_aG2VVNmaiKERRA>
-    <xmx:QhlEaYjoB1chisENo0TEkaOBTY6Mys4IVInPtCdIZVGSoDCIO-hnCw>
-    <xmx:QhlEaesYvH_0zHWxrnlvAAwY_FX7h5Uurjm26xmu-VHKPJSlSKiBMg>
-    <xmx:QhlEaR2okHc-HMuzaoIVbaCEWuZzZrZEY1XLX2ZwvkqAva87xBLMfxDd>
+X-ME-Proxy: <xmx:RBlEaWVa7pBUSoyh5o9OpVxLvmRGihXg4NkKFWXPF89VPvA_4O8dgg>
+    <xmx:RBlEaYWDG_mf7dg3FyvkwvsuduL1uWK99-R01OILjMXZhE-vfM0kvQ>
+    <xmx:RBlEaYfMfznDdC95GykU4faxoeMRXO47A96pX_L0hdHAqVQTyt6MVg>
+    <xmx:RBlEaX5Gs_RBbVT_gsY8ikb1t26jitSlNbV2JM8p7aFa71YUjGoGuw>
+    <xmx:RBlEabQhRdV8GFZstDQfSbfpFuwG7ZmiWxUtbFjrhnEuxW2ppVacABTz>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Dec 2025 10:09:54 -0500 (EST)
+ 18 Dec 2025 10:09:55 -0500 (EST)
 From: Kiryl Shutsemau <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Muchun Song <muchun.song@linux.dev>,
@@ -81,9 +81,9 @@ Cc: Oscar Salvador <osalvador@suse.de>,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Kiryl Shutsemau <kas@kernel.org>
-Subject: [PATCHv2 01/14] mm: Move MAX_FOLIO_ORDER definition to mmzone.h
-Date: Thu, 18 Dec 2025 15:09:32 +0000
-Message-ID: <20251218150949.721480-2-kas@kernel.org>
+Subject: [PATCHv2 02/14] mm/sparse: Check memmap alignment
+Date: Thu, 18 Dec 2025 15:09:33 +0000
+Message-ID: <20251218150949.721480-3-kas@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251218150949.721480-1-kas@kernel.org>
 References: <20251218150949.721480-1-kas@kernel.org>
@@ -95,115 +95,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move MAX_FOLIO_ORDER definition from mm.h to mmzone.h.
+The upcoming changes in compound_head() require memmap to be naturally
+aligned to the maximum folio size.
 
-This is preparation for adding the vmemmap_tails array to struct
-pglist_data, which requires MAX_FOLIO_ORDER to be available in mmzone.h.
+Add a warning if it is not.
+
+A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so the
+kernel is still likely to be functional if this strict check fails.
 
 Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 ---
- include/linux/mm.h     | 31 -------------------------------
- include/linux/mmzone.h | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+), 31 deletions(-)
+ include/linux/mmzone.h | 1 +
+ mm/sparse.c            | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 7c79b3369b82..2c409f583569 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -26,7 +26,6 @@
- #include <linux/page-flags.h>
- #include <linux/page_ref.h>
- #include <linux/overflow.h>
--#include <linux/sizes.h>
- #include <linux/sched.h>
- #include <linux/pgtable.h>
- #include <linux/kasan.h>
-@@ -2074,36 +2073,6 @@ static inline unsigned long folio_nr_pages(const struct folio *folio)
- 	return folio_large_nr_pages(folio);
- }
- 
--#if !defined(CONFIG_HAVE_GIGANTIC_FOLIOS)
--/*
-- * We don't expect any folios that exceed buddy sizes (and consequently
-- * memory sections).
-- */
--#define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
--#elif defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
--/*
-- * Only pages within a single memory section are guaranteed to be
-- * contiguous. By limiting folios to a single memory section, all folio
-- * pages are guaranteed to be contiguous.
-- */
--#define MAX_FOLIO_ORDER		PFN_SECTION_SHIFT
--#elif defined(CONFIG_HUGETLB_PAGE)
--/*
-- * There is no real limit on the folio size. We limit them to the maximum we
-- * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
-- * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
-- */
--#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
--#else
--/*
-- * Without hugetlb, gigantic folios that are bigger than a single PUD are
-- * currently impossible.
-- */
--#define MAX_FOLIO_ORDER		PUD_ORDER
--#endif
--
--#define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
--
- /*
-  * compound_nr() returns the number of pages in this potentially compound
-  * page.  compound_nr() can be called on a tail page, and is defined to
 diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 7fb7331c5725..6cfede39570a 100644
+index 6cfede39570a..9f44dc760cdc 100644
 --- a/include/linux/mmzone.h
 +++ b/include/linux/mmzone.h
-@@ -23,6 +23,7 @@
- #include <linux/page-flags.h>
- #include <linux/local_lock.h>
- #include <linux/zswap.h>
-+#include <linux/sizes.h>
- #include <asm/page.h>
+@@ -91,6 +91,7 @@
+ #endif
  
- /* Free memory management - zoned buddy allocator.  */
-@@ -61,6 +62,36 @@
-  */
- #define PAGE_ALLOC_COSTLY_ORDER 3
+ #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
++#define MAX_FOLIO_SIZE		(PAGE_SIZE << MAX_FOLIO_ORDER)
  
-+#if !defined(CONFIG_HAVE_GIGANTIC_FOLIOS)
-+/*
-+ * We don't expect any folios that exceed buddy sizes (and consequently
-+ * memory sections).
-+ */
-+#define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
-+#elif defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
-+/*
-+ * Only pages within a single memory section are guaranteed to be
-+ * contiguous. By limiting folios to a single memory section, all folio
-+ * pages are guaranteed to be contiguous.
-+ */
-+#define MAX_FOLIO_ORDER		PFN_SECTION_SHIFT
-+#elif defined(CONFIG_HUGETLB_PAGE)
-+/*
-+ * There is no real limit on the folio size. We limit them to the maximum we
-+ * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
-+ * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
-+ */
-+#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
-+#else
-+/*
-+ * Without hugetlb, gigantic folios that are bigger than a single PUD are
-+ * currently impossible.
-+ */
-+#define MAX_FOLIO_ORDER		PUD_ORDER
-+#endif
-+
-+#define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
-+
  enum migratetype {
  	MIGRATE_UNMOVABLE,
- 	MIGRATE_MOVABLE,
+diff --git a/mm/sparse.c b/mm/sparse.c
+index 17c50a6415c2..c5810ff7c6f7 100644
+--- a/mm/sparse.c
++++ b/mm/sparse.c
+@@ -600,6 +600,9 @@ void __init sparse_init(void)
+ 	BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+ 	memblocks_present();
+ 
++	WARN_ON(!IS_ALIGNED((unsigned long)pfn_to_page(0),
++			    MAX_FOLIO_SIZE / sizeof(struct page)));
++
+ 	pnum_begin = first_present_section_nr();
+ 	nid_begin = sparse_early_nid(__nr_to_section(pnum_begin));
+ 
 -- 
 2.51.2
 
