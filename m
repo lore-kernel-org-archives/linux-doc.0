@@ -1,108 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75495333743;
-	Thu, 18 Dec 2025 12:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51F41330321;
+	Thu, 18 Dec 2025 13:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766062240; cv=none; b=jceGsUZkYCRBdKydzyNEmuxasKUptVQ4FJFPooutmlheauSgqa6OmZAI64NojvHdAC0F7feQgxCouYc8ITDLb6yD9XyF5Fce02L419RaNCtTWgSZCcG5ZtOLyz0Zf0zIXfBVgqF3sng4jbXUapzN1MWKBeqbFrhsLuoaY4o2ZGY=
+	t=1766065409; cv=none; b=lRYaK9kD9yfmYY79zeqOlUAsMhSjLRVrWbHhUbfK4oxTEmiPqRlH5n1/msZmfP6itBWijiHz5XrgY7etRf3U4Nx5FfN00W5YXGzVqMmdCcKy/hREftxq/EOqpcAwLevdlKfr4M4QcqXJtBcrKmgLjJ50weTZ+ENbRXplOknHTMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766062240; c=relaxed/simple;
-	bh=Zhj03AbbOmOd3fZIlx006hZCyE5QvjNNAfFodJdpKhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWjkWEvaJQXboBxauqpRPljsyO549sY46Gwh2tSXNtX9SwTv0s/ZavreqQWrpHGFLAwcehsKCQjorKFHkz2w39a+V1ogyUhiYfRdTt1RzHpI05NHJ4h6fqNlHfzXD0Xl8P98M01qCgavr/5LrQDRZnzwWUTKgh/wBUldESvC6qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7EbKW1d; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7EbKW1d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F473C116B1;
-	Thu, 18 Dec 2025 12:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766062240;
-	bh=Zhj03AbbOmOd3fZIlx006hZCyE5QvjNNAfFodJdpKhs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p7EbKW1dGx7j7mWKhfmU60knOCzLOmUcabi+gxUzgLC+uEdwqWurPXJPZXuCCV0H/
-	 H1slZ7+kvqFN8U0pnmWGBSaYi+x98e2WXTpJyqtIZuAc0Jq7UuuqPe8ogVNHIw+pr1
-	 HfBwaGZD7uKTxNZKzXg/WAEN4h7f7okJ04vzQOLkAYaqjYQSOBkXi05ICZxcVd03vC
-	 1NvhPTx6ft+8u/CYHxULLLWN9rNRm35YX+4KoPQlc3lzh21qEdCACl7S7KMGkA4/pU
-	 EpEajcg2EuRSI3G2gFgRBhe3V4N0TGTcI8BrOn8DjU/ltSjj6888eDfGrpquQbkopI
-	 W2k/RZ/dZUn+Q==
-Date: Thu, 18 Dec 2025 13:50:37 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
-	Fabio Estevam <festevam@gmail.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jonathan Corbet <corbet@lwn.net>, 
-	Kevin Hilman <khilman@baylibre.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Liu Ying <victor.liu@nxp.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Phong LE <ple@baylibre.com>, Robert Foss <rfoss@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 01/22] drm/bridge: add of_drm_find_and_get_bridge()
-Message-ID: <20251218-shiny-rugged-bug-d1d3e8@houat>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-1-b5165fab8058@bootlin.com>
- <0ba037c65f9cadd51082abf2b7857ba7@kernel.org>
- <DF0KBN5Y22XW.2RE8HKDFY87XK@bootlin.com>
+	s=arc-20240116; t=1766065409; c=relaxed/simple;
+	bh=/AaIDgKuALtCg10abo9vm26ltNIsWu9j839w7R1WVlE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Th6QybUr+RlaJNBRuM8gmToelsJ2Ssunv54BmX4mf3J3GP80q7ZhMVED5qdoPaJmLC8U1YPNg/RDAQNpa5YoLA1rTYQKKjWJqQfm9XGXtivLhScCbFx1FELgXEzz3e75HWQK52vPfmsM7+JR1nQ7yf0XEY9IWiH7S4eDGpDAe1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71BD6FEC;
+	Thu, 18 Dec 2025 05:43:19 -0800 (PST)
+Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A45493F73F;
+	Thu, 18 Dec 2025 05:43:24 -0800 (PST)
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+To: will@kernel.org
+Cc: linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	tony.luck@intel.com,
+	bp@alien8.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	catalin.marinas@arm.com,
+	linux-arm-kernel@lists.infradead.org,
+	rafael@kernel.org,
+	linux-doc@vger.kernel.org,
+	Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com,
+	Ahmed.Tiba@arm.com
+Subject: Re: [PATCH 11/12] ras: add DeviceTree estatus provider driver
+Date: Thu, 18 Dec 2025 13:42:47 +0000
+Message-ID: <20251218134311.2309421-1-ahmed.tiba@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aUPv5UfBByVoLbRV@willie-the-truck>
+References: <aUPv5UfBByVoLbRV@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="vszq3vrbwpm6jkyb"
-Content-Disposition: inline
-In-Reply-To: <DF0KBN5Y22XW.2RE8HKDFY87XK@bootlin.com>
+Content-Transfer-Encoding: 8bit
+
+On Thu, 18 Dec 2025 12:13:25PM +0000, Will Deacon wrote:
+>> Introduce a platform driver that maps the CPER status block described
+>> in DeviceTree, feeds it into the estatus core and handles either IRQ- or
+>> poll-driven notifications. Arm64 gains a FIX_ESTATUS_IRQ slot so the
+>> driver can safely map the shared buffer while copying records.
+>>
+>> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+>> ---
+>>  MAINTAINERS                     |   1 +
+>>  arch/arm64/include/asm/fixmap.h |   5 +
+>>  drivers/ras/Kconfig             |  14 ++
+>>  drivers/ras/Makefile            |   1 +
+>>  drivers/ras/estatus-dt.c        | 318 ++++++++++++++++++++++++++++++++
+>>  include/linux/estatus.h         |   3 +-
+>>  6 files changed, 341 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/ras/estatus-dt.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 6b2ef2ddc0c7..5567d5e82053 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -21761,6 +21761,7 @@ RAS ERROR STATUS
+>>  M:   Ahmed Tiba <ahmed.tiba@arm.com>
+>>  S:   Maintained
+>>  F:   Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
+>> +F:   drivers/ras/estatus-dt.c
+>>  F:   drivers/firmware/efi/estatus.c
+>>  F:   include/linux/estatus.h
+>> 
+>> diff --git a/arch/arm64/include/asm/fixmap.h b/arch/arm64/include/asm/fixmap.h
+>> index 65555284446e..85ffba87bab9 100644
+>> --- a/arch/arm64/include/asm/fixmap.h
+>> +++ b/arch/arm64/include/asm/fixmap.h
+>> @@ -64,6 +64,11 @@ enum fixed_addresses {
+>>  #endif
+>>  #endif /* CONFIG_ACPI_APEI_GHES */
+>> 
+>> +#ifdef CONFIG_RAS_ESTATUS_DT
+>> +     /* Used for ESTATUS mapping from assorted contexts */
+>> +     FIX_ESTATUS_IRQ,
+>> +#endif /* CONFIG_RAS_ESTATUS_DT */
+>
+> Why do we need this in addition to the four existing GHES slots? The DT
+> code doesn't use it and I was assuming that the ACPI code would continue
+> to use the existing irq; is that not the case?
 
 
---vszq3vrbwpm6jkyb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 01/22] drm/bridge: add of_drm_find_and_get_bridge()
-MIME-Version: 1.0
+We still need a dedicated slot when only the DT provider is built.
+All four GHES slots are defined as part of the ACPI implementation,
+so they are not present in a DT-only configuration.
 
-Hi,
+The estatus core always requests a fixmap index from each provider
+before copying a CPER record. As a result, the DT driver must supply
+its own slot to return a valid enum value to satisfy the common code.
 
-On Wed, Dec 17, 2025 at 03:31:01PM +0100, Luca Ceresoli wrote:
-> On Wed Dec 17, 2025 at 11:15 AM CET, Maxime Ripard wrote:
-> > On Tue, 16 Dec 2025 18:58:34 +0100, Luca Ceresoli wrote:
-> >> of_drm_find_bridge() does not increment the refcount for the returned
-> >> bridge, but that is required now. However converting it and all its us=
-ers
-> >> is not realistically doable at once given the large amount of (direct =
-and
-> >> indirect) callers and the complexity of some.
-> >>
-> >>
-> >> [ ... ]
-> >
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
->=20
-> Thank you for the prompt review!
->=20
-> All patches are reviewed now except patch 18 which has no reply. I'm just
-> pointing out in case it's something you missed.
+The ACPI/GHES path continues to use the existing four slots exactly as
+before. This change simply ensures that the DT provider does not depend
+on ACPI being enabled solely to satisfy the estatus core interface.
 
-Yes, I couldn't really understand the implications of that one, so I'll
-leave the review to the maintainers.
-
-Maxime
-
---vszq3vrbwpm6jkyb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUP4nAAKCRAnX84Zoj2+
-dkREAYDMzyGsQO2Sx3OBs9bux6ITkH/bFGwHZ4tpRgWit4a1jMHeNuozqpDBMT8K
-WmLrt7EBgJR1HTyQ6KH6xqqoS2wwREqGdMPi/YcBXvOdlzPZCFsQrfYdAFhAw8ky
-AW0aV5QIbg==
-=GFoU
------END PGP SIGNATURE-----
-
---vszq3vrbwpm6jkyb--
+Best regards,
+Ahmed
