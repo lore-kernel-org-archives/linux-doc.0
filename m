@@ -1,404 +1,673 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A2035CBD7
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F54A35FF77;
+	Thu, 18 Dec 2025 15:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766073487; cv=none; b=MVmbW/I0XjsV0kw1Xh2Kebhokt5+2oJfOgAbu36ImfgnzKHN27CLGNqt8HdUgAGXhmiXJQW7OGYp/YRv6tSP3DWHGWDlhpXAVG2op/yLWqhjKZzXmOw0tmnLWhMdWoW4FZl9ZJW+MzDJVBYPFyYdSHxLZ/d/yBCVQdqt8nvSZVI=
+	t=1766073497; cv=none; b=CXvz26Y3a3oHrIac5J431sDrs/prFzMZYBiuwmlBj1en723u/V8bESgshOQFKpwO2n4kf/Avv3ePOCI0v6iuFPstgw5dm/8lBFgQoEbaikQB78QGLT9PhJeKFesMw5ISnIFLIIWAeV/JMZG6eRFZa0IsYLCkCaMcn0z9r2FsTJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766073487; c=relaxed/simple;
-	bh=FMjdBmMGwwhHssNMW8N3x0mp46UX3zaLEfgfZTx3lzU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MFj1kPgcOPYBstSKKZ1l8YE5uXqpgvNZDasOiJmltzTrzpS9/muNRhBFP2rEYBHT5GBZVwFbwGv78zJuEl5H1mRn67UMuumoMGFzm9lC0mJUJ++8MYsLtmYDVLZkzbWNULcuFySe1SSHLwf9n92twWhnWopok/yOQdJLsGODY3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hM7hkEe4; arc=none smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1766073497; c=relaxed/simple;
+	bh=eYLSjabc3lxrWUD3joy0AohRmvTtr+01/ZPVbcKGqeo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DnXQ0LwatQ7SlGVq0w4YOLU2z03/cGoH7f9tw+e1ZeyXmOoMy1Rikf2RRd67LVAfsXdRaTJNItsR/NdgwilylhMTTaWCHRWD4djvS3WBthTEsP1uvRuhy6NPkeXt/DeHOwvuS+FvcYtcR/OxXI+U57InxELVDzG7TBHqN7fNWA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQaiFQaJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hM7hkEe4"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64467071f9fso611008d50.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 07:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1766073482; x=1766678282; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y2GvxvWgw+C5A6znHXWAufIHkp3YvrzYE+ZzMWkjVVs=;
-        b=hM7hkEe4ihM7iu1VXXFA425y7KzdfJRbUFpGM9A5qxEfR0yb3058W7T+44M8YBRom/
-         ew84rRu3b+JQg2Iidyru8mRY/uQBilX3UpHNWkFW6z6615FBI0zIbaQKMpST7LTeUkos
-         jyl00un7XWek948CuOPqcZNP3j3t1cf3YjiHv/rVATgxRziKIksgJcvVbeOT+5WZ1Ffl
-         uLhJxf4ZPYV3Itf6oySriB4ucx5QPH8lP/qrJEWF+ejgky7M9jN0U1LWgTYgz9tFV6eG
-         dYadHHl6PZnQ1Md1wdQq3/zeQBMzE5zusozH1Uo69S8n5v+8di/oE/3IVoew+9TA/Z/z
-         TasA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766073482; x=1766678282;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Y2GvxvWgw+C5A6znHXWAufIHkp3YvrzYE+ZzMWkjVVs=;
-        b=fpONIeu/molmfCWS0gT+YhiyPQswSrZ4pepMqfafWaX3SZrYDLFfZX93/HmBvojYPU
-         S+vy72nwKr8OdXTuMld8c9gGwB/xd3J7PCrWt4rOZ6nbYpEwmfnKle5ejmhrGlNuv7/Z
-         z1DouS+khvGvcwsVjcQQXrGGn6YfmmPAVvwU/MRxV5kxCj1F6D+iH476LeqBoNdMk7QM
-         FMps1AWhDlVodSdEdJdUa4BqJUnTRhh8S8+J/cnsXG8fhhOTSfXYWb7PDiUpw6WCvRtO
-         +VUGOnG3x8/W8zdTOn2pGulOqlmTmSlpRbCgyMnGQhIg8xK5NHB61EyZ0XNhrQwnMU/R
-         wVtw==
-X-Forwarded-Encrypted: i=1; AJvYcCUoEuLQiiLhhddPyODBCI8/+rsmet9nElY5chDuyVbrvjcV5jmWghaxCGFuD+tmkVaSP6liMYUnw/c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0coxPqsLqTIj476EgmH6D5Uj3lmAyWEaL7AY+uDA6SJ4xaT4v
-	2Ib5SRxxBf+ZMoblWVxe6/DEYqZnZxYp4+XnOUk0k/lMesJDNAyy+xJUUmhGnnEfNMc=
-X-Gm-Gg: AY/fxX5Yt2P0gm9cMeyfsXMgD8xf7xShYKO40XKzwBEKbEeFqFimd8iYo7Ve3JZWBN0
-	u6g+4J+V4pJ/qDiP6Gr3re3SNEmssc84lEe+RNeQo11/XtFq9Umi4LWUeS9uaEq8Iht5VChBCFd
-	x8pWw+9q97IXGZKy2qDZahabKaRQuionK1BXLkQKbs6vEsB9XW08bAHq+3Gx5tpSL7YeswTXLQ1
-	I62xdnDyfWrqRz04g1dY1UBGzKnixqWShsgdHy8z578qWCfd+7TNqSJ1XskDmXwMkeg5HnK/5M/
-	9skeH41xGZnc3+xokLmtA/ql63Zgs6GGAFQ/0e9eN5O+LKZIzcMXDfcKJd0yvp6dxWwCvrYSc4e
-	o62HZmpA6BjXoXF2mjlvvJrjuYwkAqDoL/4bBwOMcodR7PuKgNBnoTEqNT4g5hRBjVgwi/IYB+S
-	UP/gymKGWcmh/ABNZIJtZh1GrNz3a2GH4sZCqx0MefTbR84HwtKMCRmfiklcMwyNRDy+TcPZ7/A
-	7acEAPKpqngm6tBcFx4Rx6ju6hGXolPojH6eA==
-X-Google-Smtp-Source: AGHT+IFmbIoqILeKHhuczXPRMgfqJxIXux1ceJzUQG9pkHU0LZvckHem2z07ZnG7v2PKrT/gLLGB4Q==
-X-Received: by 2002:a53:c082:0:b0:63f:c487:17ab with SMTP id 956f58d0204a3-64555651309mr19343654d50.47.1766073482595;
-        Thu, 18 Dec 2025 07:58:02 -0800 (PST)
-Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fa6f52bb2sm9348467b3.16.2025.12.18.07.58.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 07:58:02 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: pratyush@kernel.org,
-	pasha.tatashin@soleen.com,
-	rppt@kernel.org,
-	dmatlack@google.com,
-	skhawaja@google.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	akpm@linux-foundation.org,
-	kees@kernel.org,
-	davidgow@google.com,
-	pmladek@suse.com,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	nicolas.frattaroli@collabora.com,
-	linux-doc@vger.kernel.org,
-	tamird@gmail.com,
-	raemoar63@gmail.com,
-	graf@amazon.com
-Subject: [PATCH v9 5/5] tests/liveupdate: Add in-kernel liveupdate test
-Date: Thu, 18 Dec 2025 10:57:52 -0500
-Message-ID: <20251218155752.3045808-6-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.52.0.313.g674ac2bdf7-goog
-In-Reply-To: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
-References: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQaiFQaJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D7CC116B1;
+	Thu, 18 Dec 2025 15:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766073496;
+	bh=eYLSjabc3lxrWUD3joy0AohRmvTtr+01/ZPVbcKGqeo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TQaiFQaJetA8F/PgWOXGZeYl5GEeUyt0kvPlUfbcu/m3Qc/DNev7yksxTp+ojj9xr
+	 +4HsM4Du+dYJlRYawu6uzjM2PR5hSGJlPCIhD/30E/wcj2PpnhTzntWbBPZdQLkIHD
+	 xpsG8Je758IPlXE4pc/7kYAcnFwaQGwiYwN4yx9F8afNXCxyzUiZGVS9HjvFP+s4g8
+	 Zp4cbDfHWDNYjx9E8l9yuHOthbQEz/Su/uT17GuHGC/7QTpaAooN+kJGR/QGiuGTIy
+	 UcDmiTnUMbZaZe1Ccez2NXJI0ejW0EGzWS2FKvh44vBiZGwZqvyjsA0ifvFkXaxes4
+	 b9Ola+SshDnIQ==
+Date: Thu, 18 Dec 2025 09:58:13 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-imx@nxp.com, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v6 4/5] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <mnpg4xanzl45lal72c6kgog7qmqgk2zcp734eqdpk3gsonq63f@vlewh6jgdjy4>
+References: <20251212194341.966387-1-shenwei.wang@nxp.com>
+ <20251212194341.966387-5-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212194341.966387-5-shenwei.wang@nxp.com>
 
-Introduce an in-kernel test module to validate the core logic of the
-Live Update Orchestrator's File-Lifecycle-Bound feature. This
-provides a low-level, controlled environment to test FLB registration
-and callback invocation without requiring userspace interaction or
-actual kexec reboots.
+On Fri, Dec 12, 2025 at 01:43:40PM -0600, Shenwei Wang wrote:
+> On an AMP platform, the system may include two processors:
 
-The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
+We have many examples where there's N systems and it's certainly not
+unreasonable to have multiple remote processors expose GPIOs in this
+fashion.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- MAINTAINERS                      |   1 +
- include/linux/kho/abi/luo.h      |   5 +
- kernel/liveupdate/luo_file.c     |   8 +-
- kernel/liveupdate/luo_internal.h |   8 ++
- lib/Kconfig.debug                |  23 +++++
- lib/tests/Makefile               |   1 +
- lib/tests/liveupdate.c           | 158 +++++++++++++++++++++++++++++++
- 7 files changed, 203 insertions(+), 1 deletion(-)
- create mode 100644 lib/tests/liveupdate.c
+> 	- An MCU running an RTOS
+> 	- An MPU running Linux
+> 
+> These processors communicate via the RPMSG protocol.
+> The driver implements the standard GPIO interface, allowing
+> the Linux side to control GPIO controllers which reside in
+> the remote processor via RPMSG protocol.
+> 
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
+> ---
+>  drivers/gpio/Kconfig      |  16 ++
+>  drivers/gpio/Makefile     |   1 +
+>  drivers/gpio/gpio-rpmsg.c | 490 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 507 insertions(+)
+>  create mode 100644 drivers/gpio/gpio-rpmsg.c
+> 
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index bd185482a7fd..7a72b5dbd4a9 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -1883,6 +1883,22 @@ config GPIO_SODAVILLE
+>  
+>  endmenu
+>  
+> +menu "RPMSG GPIO drivers"
+> +	depends on RPMSG
+> +
+> +config GPIO_RPMSG
+> +	tristate "Generic RPMSG GPIO support"
+> +	select GPIOLIB_IRQCHIP
+> +	default REMOTEPROC
+> +	help
+> +	  Say yes here to support the generic GPIO functions over the RPMSG
+> +	  bus. Currently supported devices: i.MX7ULP, i.MX8ULP, i.MX8x,and
+> +	  i.MX9x.
+> +
+> +	  If unsure, say N.
+> +
+> +endmenu
+> +
+>  menu "SPI GPIO expanders"
+>  	depends on SPI_MASTER
+>  
+> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+> index 2421a8fd3733..b1373ec274c8 100644
+> --- a/drivers/gpio/Makefile
+> +++ b/drivers/gpio/Makefile
+> @@ -156,6 +156,7 @@ obj-$(CONFIG_GPIO_RDC321X)		+= gpio-rdc321x.o
+>  obj-$(CONFIG_GPIO_REALTEK_OTTO)		+= gpio-realtek-otto.o
+>  obj-$(CONFIG_GPIO_REG)			+= gpio-reg.o
+>  obj-$(CONFIG_GPIO_ROCKCHIP)	+= gpio-rockchip.o
+> +obj-$(CONFIG_GPIO_RPMSG)		+= gpio-rpmsg.o
+>  obj-$(CONFIG_GPIO_RTD)			+= gpio-rtd.o
+>  obj-$(CONFIG_ARCH_SA1100)		+= gpio-sa1100.o
+>  obj-$(CONFIG_GPIO_SAMA5D2_PIOBU)	+= gpio-sama5d2-piobu.o
+> diff --git a/drivers/gpio/gpio-rpmsg.c b/drivers/gpio/gpio-rpmsg.c
+> new file mode 100644
+> index 000000000000..cf10e2958374
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-rpmsg.c
+> @@ -0,0 +1,490 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2025 NXP
+> + *
+> + * The driver exports a standard gpiochip interface to control
+> + * the GPIO controllers via RPMSG on a remote processor.
+> + */
+> +#include <linux/completion.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/init.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/rpmsg.h>
+> +#include <linux/rpmsg/rpdev_info.h>
+> +
+> +#define RPMSG_GPIO_ID		5
+> +#define RPMSG_VENDOR		1
+> +#define RPMSG_VERSION		0
+> +
+> +#define GPIOS_PER_PORT		32
+> +#define RPMSG_TIMEOUT		1000
+> +
+> +enum gpio_input_trigger_type {
+> +	GPIO_RPMSG_TRI_IGNORE,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5b11839cba9d..dac0f87eba5b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14641,6 +14641,7 @@ F:	include/linux/liveupdate.h
- F:	include/linux/liveupdate/
- F:	include/uapi/linux/liveupdate.h
- F:	kernel/liveupdate/
-+F:	lib/tests/liveupdate.c
- F:	mm/memfd_luo.c
- F:	tools/testing/selftests/liveupdate/
- 
-diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/luo.h
-index 2734d1020dda..4a1cc6a5f3f8 100644
---- a/include/linux/kho/abi/luo.h
-+++ b/include/linux/kho/abi/luo.h
-@@ -239,4 +239,9 @@ struct luo_flb_ser {
- 	u64 count;
- } __packed;
- 
-+/* Kernel Live Update Test ABI */
-+#ifdef CONFIG_LIVEUPDATE_TEST
-+#define LIVEUPDATE_TEST_FLB_COMPATIBLE(i)	"liveupdate-test-flb-v" #i
-+#endif
-+
- #endif /* _LINUX_KHO_ABI_LUO_H */
-diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-index cade273c50c9..35d2a8b1a0df 100644
---- a/kernel/liveupdate/luo_file.c
-+++ b/kernel/liveupdate/luo_file.c
-@@ -864,6 +864,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
- 	list_add_tail(&ACCESS_PRIVATE(fh, list), &luo_file_handler_list);
- 	luo_session_resume();
- 
-+	liveupdate_test_register(fh);
-+
- 	return 0;
- 
- err_resume:
-@@ -895,8 +897,10 @@ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
- 	if (!liveupdate_enabled())
- 		return -EOPNOTSUPP;
- 
-+	liveupdate_test_unregister(fh);
-+
- 	if (!luo_session_quiesce())
--		return -EBUSY;
-+		goto err_register;
- 
- 	if (!list_empty(&ACCESS_PRIVATE(fh, flb_list)))
- 		goto err_resume;
-@@ -909,5 +913,7 @@ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
- 
- err_resume:
- 	luo_session_resume();
-+err_register:
-+	liveupdate_test_register(fh);
- 	return err;
- }
-diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-index 99db13d99530..8083d8739b09 100644
---- a/kernel/liveupdate/luo_internal.h
-+++ b/kernel/liveupdate/luo_internal.h
-@@ -107,4 +107,12 @@ int __init luo_flb_setup_outgoing(void *fdt);
- int __init luo_flb_setup_incoming(void *fdt);
- void luo_flb_serialize(void);
- 
-+#ifdef CONFIG_LIVEUPDATE_TEST
-+void liveupdate_test_register(struct liveupdate_file_handler *fh);
-+void liveupdate_test_unregister(struct liveupdate_file_handler *fh);
-+#else
-+static inline void liveupdate_test_register(struct liveupdate_file_handler *fh) { }
-+static inline void liveupdate_test_unregister(struct liveupdate_file_handler *fh) { }
-+#endif
-+
- #endif /* _LINUX_LUO_INTERNAL_H */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 0760b24f7cd6..7c94961bf49d 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2819,6 +2819,29 @@ config LINEAR_RANGES_TEST
- 
- 	  If unsure, say N.
- 
-+config LIVEUPDATE_TEST
-+	bool "Live Update Kernel Test"
-+	default n
-+	depends on LIVEUPDATE
-+	help
-+	  Enable a built-in kernel test module for the Live Update
-+	  Orchestrator.
-+
-+	  This module validates the File-Lifecycle-Bound subsystem by
-+	  registering a set of mock FLB objects with any real file handlers
-+	  that support live update (such as the memfd handler).
-+
-+	  When live update operations are performed, this test module will
-+	  output messages to the kernel log (dmesg), confirming that its
-+	  registration and various callback functions (preserve, retrieve,
-+	  finish, etc.) are being invoked correctly.
-+
-+	  This is a debugging and regression testing tool for developers
-+	  working on the Live Update subsystem. It should not be enabled in
-+	  production kernels.
-+
-+	  If unsure, say N
-+
- config CMDLINE_KUNIT_TEST
- 	tristate "KUnit test for cmdline API" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index 62a7f115f622..439a99c8d32c 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -29,6 +29,7 @@ obj-$(CONFIG_LIST_PRIVATE_KUNIT_TEST) += list-private-test.o
- obj-$(CONFIG_KFIFO_KUNIT_TEST) += kfifo_kunit.o
- obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-+obj-$(CONFIG_LIVEUPDATE_TEST) += liveupdate.o
- 
- CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
- obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
-diff --git a/lib/tests/liveupdate.c b/lib/tests/liveupdate.c
-new file mode 100644
-index 000000000000..496d6ef91a30
---- /dev/null
-+++ b/lib/tests/liveupdate.c
-@@ -0,0 +1,158 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME " test: " fmt
-+
-+#include <linux/cleanup.h>
-+#include <linux/errno.h>
-+#include <linux/init.h>
-+#include <linux/liveupdate.h>
-+#include <linux/module.h>
-+#include "../../kernel/liveupdate/luo_internal.h"
-+
-+static const struct liveupdate_flb_ops test_flb_ops;
-+#define DEFINE_TEST_FLB(i) {						\
-+	.ops = &test_flb_ops,						\
-+	.compatible = LIVEUPDATE_TEST_FLB_COMPATIBLE(i),		\
-+}
-+
-+/* Number of Test FLBs to register with every file handler */
-+#define TEST_NFLBS 3
-+static struct liveupdate_flb test_flbs[TEST_NFLBS] = {
-+	DEFINE_TEST_FLB(0),
-+	DEFINE_TEST_FLB(1),
-+	DEFINE_TEST_FLB(2),
-+};
-+
-+#define TEST_FLB_MAGIC_BASE 0xFEEDF00DCAFEBEE0ULL
-+
-+static int test_flb_preserve(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+
-+	pr_info("%s: preserve was triggered\n", argp->flb->compatible);
-+	argp->data = TEST_FLB_MAGIC_BASE + index;
-+
-+	return 0;
-+}
-+
-+static void test_flb_unpreserve(struct liveupdate_flb_op_args *argp)
-+{
-+	pr_info("%s: unpreserve was triggered\n", argp->flb->compatible);
-+}
-+
-+static int test_flb_retrieve(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+	u64 expected_data = TEST_FLB_MAGIC_BASE + index;
-+
-+	if (argp->data == expected_data) {
-+		pr_info("%s: found flb data from the previous boot\n",
-+			argp->flb->compatible);
-+		argp->obj = (void *)argp->data;
-+	} else {
-+		pr_err("%s: ERROR - incorrect data handle: %llx, expected %llx\n",
-+		       argp->flb->compatible, argp->data, expected_data);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void test_flb_finish(struct liveupdate_flb_op_args *argp)
-+{
-+	ptrdiff_t index = argp->flb - test_flbs;
-+	void *expected_obj = (void *)(TEST_FLB_MAGIC_BASE + index);
-+
-+	if (argp->obj == expected_obj) {
-+		pr_info("%s: finish was triggered\n", argp->flb->compatible);
-+	} else {
-+		pr_err("%s: ERROR - finish called with invalid object\n",
-+		       argp->flb->compatible);
-+	}
-+}
-+
-+static const struct liveupdate_flb_ops test_flb_ops = {
-+	.preserve	= test_flb_preserve,
-+	.unpreserve	= test_flb_unpreserve,
-+	.retrieve	= test_flb_retrieve,
-+	.finish		= test_flb_finish,
-+	.owner		= THIS_MODULE,
-+};
-+
-+static void liveupdate_test_init(void)
-+{
-+	static DEFINE_MUTEX(init_lock);
-+	static bool initialized;
-+	int i;
-+
-+	guard(mutex)(&init_lock);
-+
-+	if (initialized)
-+		return;
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+		void *obj;
-+		int err;
-+
-+		err = liveupdate_flb_get_incoming(flb, &obj);
-+		if (err && err != -ENODATA && err != -ENOENT) {
-+			pr_err("liveupdate_flb_get_incoming for %s failed: %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+		}
-+	}
-+	initialized = true;
-+}
-+
-+void liveupdate_test_register(struct liveupdate_file_handler *fh)
-+{
-+	int err, i;
-+
-+	liveupdate_test_init();
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+
-+		err = liveupdate_register_flb(fh, flb);
-+		if (err) {
-+			pr_err("Failed to register %s %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+		}
-+	}
-+
-+	err = liveupdate_register_flb(fh, &test_flbs[0]);
-+	if (!err || err != -EEXIST) {
-+		pr_err("Failed: %s should be already registered, but got err: %pe\n",
-+		       test_flbs[0].compatible, ERR_PTR(err));
-+	}
-+
-+	pr_info("Registered %d FLBs with file handler: [%s]\n",
-+		TEST_NFLBS, fh->compatible);
-+}
-+
-+void liveupdate_test_unregister(struct liveupdate_file_handler *fh)
-+{
-+	int err, i;
-+
-+	for (i = 0; i < TEST_NFLBS; i++) {
-+		struct liveupdate_flb *flb = &test_flbs[i];
-+
-+		err = liveupdate_unregister_flb(fh, flb);
-+		if (err) {
-+			pr_err("Failed to unregister %s %pe\n",
-+			       flb->compatible, ERR_PTR(err));
-+		}
-+	}
-+
-+	pr_info("Unregistered %d FLBs from file handler: [%s]\n",
-+		TEST_NFLBS, fh->compatible);
-+}
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Pasha Tatashin <pasha.tatashin@soleen.com>");
-+MODULE_DESCRIPTION("In-kernel test for LUO mechanism");
--- 
-2.52.0.313.g674ac2bdf7-goog
+These aren't enumerations, they are well defined constants of the
+protocol. I think #define is better.
 
+> +	GPIO_RPMSG_TRI_RISING,
+> +	GPIO_RPMSG_TRI_FALLING,
+> +	GPIO_RPMSG_TRI_BOTH_EDGE,
+> +	GPIO_RPMSG_TRI_LOW_LEVEL,
+> +	GPIO_RPMSG_TRI_HIGH_LEVEL,
+> +};
+> +
+> +enum gpio_rpmsg_header_type {
+> +	GPIO_RPMSG_SETUP,
+> +	GPIO_RPMSG_REPLY,
+> +	GPIO_RPMSG_NOTIFY,
+> +};
+> +
+> +enum gpio_rpmsg_header_cmd {
+> +	GPIO_RPMSG_INPUT_INIT,
+> +	GPIO_RPMSG_OUTPUT_INIT,
+> +	GPIO_RPMSG_INPUT_GET,
+> +	GPIO_RPMSG_DIRECTION_GET,
+> +};
+> +
+> +struct gpio_rpmsg_head {
+> +	u8 id;		/* Message ID Code */
+> +	u8 vendor;	/* Vendor ID number */
+> +	u8 version;	/* Vendor-specific version number */
+> +	u8 type;	/* Message type */
+> +	u8 cmd;		/* Command code */
+> +	u8 reserved[5];
+> +} __packed;
+> +
+> +struct gpio_rpmsg_packet {
+> +	struct gpio_rpmsg_head header;
+> +	u8 pin_idx;
+> +	u8 port_idx;
+> +	union {
+> +		u8 event;
+> +		u8 retcode;
+> +		u8 value;
+> +	} out;
+> +	union {
+> +		u8 wakeup;
+> +		u8 value;
+> +	} in;
+> +} __packed __aligned(8);
+> +
+> +struct gpio_rpmsg_pin {
+> +	u8 irq_shutdown;
+> +	u8 irq_unmask;
+> +	u8 irq_mask;
+> +	u32 irq_wake_enable;
+> +	u32 irq_type;
+> +	struct gpio_rpmsg_packet msg;
+> +};
+> +
+> +struct gpio_rpmsg_info {
+> +	struct rpmsg_device *rpdev;
+> +	struct gpio_rpmsg_packet *notify_msg;
+> +	struct gpio_rpmsg_packet *reply_msg;
+> +	struct completion cmd_complete;
+> +	struct mutex lock;
+> +	void **port_store;
+> +};
+> +
+> +struct rpmsg_gpio_port {
+> +	struct gpio_chip gc;
+> +	struct gpio_rpmsg_pin gpio_pins[GPIOS_PER_PORT];
+> +	struct gpio_rpmsg_info info;
+> +	int idx;
+> +};
+> +
+> +static int gpio_send_message(struct rpmsg_gpio_port *port,
+> +			     struct gpio_rpmsg_packet *msg,
+> +			     bool sync)
+> +{
+> +	struct gpio_rpmsg_info *info = &port->info;
+> +	int err;
+> +
+> +	if (!info->rpdev) {
+> +		pr_err("rpmsg channel doesn't exist, is remote core ready?\n");
+
+How is this possible? You're creating and destroying the platform_device
+based on the presence of the rpmsg channel/endpoint, in what case would
+you end up here without a valid rpdev?
+
+And if this is to deal with the race during removal, I guess the error
+message is wrong and rpdev might go away before you access it below?
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	reinit_completion(&info->cmd_complete);
+> +	err = rpmsg_send(info->rpdev->ept, (void *)msg,
+> +			 sizeof(struct gpio_rpmsg_packet));
+> +	if (err) {
+> +		dev_err(&info->rpdev->dev, "rpmsg_send failed: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	if (sync) {
+> +		err = wait_for_completion_timeout(&info->cmd_complete,
+> +						  msecs_to_jiffies(RPMSG_TIMEOUT));
+> +		if (!err) {
+> +			dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n");
+> +			return -ETIMEDOUT;
+> +		}
+> +
+> +		if (info->reply_msg->out.retcode != 0) {
+> +			dev_err(&info->rpdev->dev, "remote core replies an error: %d!\n",
+> +				info->reply_msg->out.retcode);
+> +			return -EINVAL;
+> +		}
+> +
+> +		/* copy the reply message */
+> +		memcpy(&port->gpio_pins[info->reply_msg->pin_idx].msg,
+> +		       info->reply_msg, sizeof(*info->reply_msg));
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct gpio_rpmsg_packet *gpio_setup_msg_header(struct rpmsg_gpio_port *port,
+> +						       unsigned int offset,
+> +						       u8 cmd)
+> +{
+> +	struct gpio_rpmsg_packet *msg = &port->gpio_pins[offset].msg;
+> +
+> +	memset(msg, 0, sizeof(struct gpio_rpmsg_packet));
+> +	msg->header.id = RPMSG_GPIO_ID;
+> +	msg->header.vendor = RPMSG_VENDOR;
+> +	msg->header.version = RPMSG_VERSION;
+> +	msg->header.type = GPIO_RPMSG_SETUP;
+> +	msg->header.cmd = cmd;
+> +	msg->pin_idx = offset;
+> +	msg->port_idx = port->idx;
+> +
+> +	return msg;
+> +};
+> +
+> +static int rpmsg_gpio_get(struct gpio_chip *gc, unsigned int gpio)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	struct gpio_rpmsg_packet *msg = NULL;
+
+There's no reason to initialize msg here, the first reference is an
+assignment.
+
+> +	int ret;
+> +
+> +	guard(mutex)(&port->info.lock);
+> +
+> +	msg = gpio_setup_msg_header(port, gpio, GPIO_RPMSG_INPUT_GET);
+> +
+> +	ret = gpio_send_message(port, msg, true);
+> +	if (!ret)
+> +		ret = !!port->gpio_pins[gpio].msg.in.value;
+> +
+> +	return ret;
+> +}
+> +
+> +static int rpmsg_gpio_get_direction(struct gpio_chip *gc, unsigned int gpio)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	struct gpio_rpmsg_packet *msg = NULL;
+> +	int ret;
+> +
+> +	guard(mutex)(&port->info.lock);
+> +
+> +	msg = gpio_setup_msg_header(port, gpio, GPIO_RPMSG_DIRECTION_GET);
+> +
+> +	ret = gpio_send_message(port, msg, true);
+> +	if (!ret)
+> +		ret = !!port->gpio_pins[gpio].msg.in.value;
+> +
+> +	return ret;
+> +}
+> +
+> +static int rpmsg_gpio_direction_input(struct gpio_chip *gc, unsigned int gpio)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	struct gpio_rpmsg_packet *msg = NULL;
+> +
+> +	guard(mutex)(&port->info.lock);
+> +
+> +	msg = gpio_setup_msg_header(port, gpio, GPIO_RPMSG_INPUT_INIT);
+> +
+> +	return gpio_send_message(port, msg, true);
+> +}
+> +
+> +static int rpmsg_gpio_set(struct gpio_chip *gc, unsigned int gpio, int val)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	struct gpio_rpmsg_packet *msg = NULL;
+> +
+> +	guard(mutex)(&port->info.lock);
+> +
+> +	msg = gpio_setup_msg_header(port, gpio, GPIO_RPMSG_OUTPUT_INIT);
+> +	msg->out.value = val;
+> +
+> +	return gpio_send_message(port, msg, true);
+> +}
+> +
+> +static int rpmsg_gpio_direction_output(struct gpio_chip *gc,
+> +				       unsigned int gpio,
+> +				       int val)
+> +{
+> +
+> +	return rpmsg_gpio_set(gc, gpio, val);
+> +}
+> +
+> +static int gpio_rpmsg_irq_set_type(struct irq_data *d, u32 type)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 gpio_idx = d->hwirq;
+> +	int edge = 0;
+> +	int ret = 0;
+> +
+> +	switch (type) {
+> +	case IRQ_TYPE_EDGE_RISING:
+> +		edge = GPIO_RPMSG_TRI_RISING;
+> +		irq_set_handler_locked(d, handle_simple_irq);
+> +		break;
+> +	case IRQ_TYPE_EDGE_FALLING:
+> +		edge = GPIO_RPMSG_TRI_FALLING;
+> +		irq_set_handler_locked(d, handle_simple_irq);
+> +		break;
+> +	case IRQ_TYPE_EDGE_BOTH:
+> +		edge = GPIO_RPMSG_TRI_BOTH_EDGE;
+> +		irq_set_handler_locked(d, handle_simple_irq);
+> +		break;
+> +	case IRQ_TYPE_LEVEL_LOW:
+> +		edge = GPIO_RPMSG_TRI_LOW_LEVEL;
+> +		irq_set_handler_locked(d, handle_level_irq);
+> +		break;
+> +	case IRQ_TYPE_LEVEL_HIGH:
+> +		edge = GPIO_RPMSG_TRI_HIGH_LEVEL;
+> +		irq_set_handler_locked(d, handle_level_irq);
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		irq_set_handler_locked(d, handle_bad_irq);
+> +		break;
+> +	}
+> +
+> +	port->gpio_pins[gpio_idx].irq_type = edge;
+> +
+> +	return ret;
+> +}
+> +
+> +static int gpio_rpmsg_irq_set_wake(struct irq_data *d, u32 enable)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 gpio_idx = d->hwirq;
+> +
+> +	port->gpio_pins[gpio_idx].irq_wake_enable = enable;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * This function will be called at:
+> + *  - one interrupt setup.
+> + *  - the end of one interrupt happened
+> + * The gpio over rpmsg driver will not write the real register, so save
+> + * all infos before this function and then send all infos to M core in this
+> + * step.
+> + */
+> +static void gpio_rpmsg_unmask_irq(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 gpio_idx = d->hwirq;
+> +
+> +	port->gpio_pins[gpio_idx].irq_unmask = 1;
+> +}
+> +
+> +static void gpio_rpmsg_mask_irq(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 gpio_idx = d->hwirq;
+> +	/*
+> +	 * No need to implement the callback at A core side.
+> +	 * M core will mask interrupt after a interrupt occurred, and then
+> +	 * sends a notify to A core.
+> +	 * After A core dealt with the notify, A core will send a rpmsg to
+> +	 * M core to unmask this interrupt again.
+
+There's nothing in this scheme that dictates that we have A cores and M
+cores, or that we have a single core system on both sides, or that they
+are Arm cores, please describe things in terms of Linux system and
+"remote system".
+
+> +	 */
+> +	port->gpio_pins[gpio_idx].irq_mask = 1;
+> +}
+> +
+> +static void gpio_rpmsg_irq_shutdown(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 gpio_idx = d->hwirq;
+> +
+> +	port->gpio_pins[gpio_idx].irq_shutdown = 1;
+> +}
+> +
+> +static void gpio_rpmsg_irq_bus_lock(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +
+> +	mutex_lock(&port->info.lock);
+> +}
+> +
+> +static void gpio_rpmsg_irq_bus_sync_unlock(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	struct gpio_rpmsg_packet *msg = NULL;
+> +	u32 gpio_idx = d->hwirq;
+> +
+> +	if (!port)
+> +		return;
+> +
+> +	/*
+> +	 * For mask irq, do nothing here.
+> +	 * M core will mask interrupt after a interrupt occurred, and then
+> +	 * sends a notify to A core.
+> +	 * After A core dealt with the notify, A core will send a rpmsg to
+> +	 * M core to unmask this interrupt again.
+> +	 */
+> +
+> +	if (port->gpio_pins[gpio_idx].irq_mask && !port->gpio_pins[gpio_idx].irq_unmask) {
+> +		port->gpio_pins[gpio_idx].irq_mask = 0;
+> +		mutex_unlock(&port->info.lock);
+> +		return;
+> +	}
+> +
+> +	msg = gpio_setup_msg_header(port, gpio_idx, GPIO_RPMSG_INPUT_INIT);
+> +
+> +	if (port->gpio_pins[gpio_idx].irq_shutdown) {
+> +		msg->out.event = GPIO_RPMSG_TRI_IGNORE;
+> +		msg->in.wakeup = 0;
+> +		port->gpio_pins[gpio_idx].irq_shutdown = 0;
+> +	} else {
+> +		 /* if not set irq type, then use low level as trigger type */
+> +		msg->out.event = port->gpio_pins[gpio_idx].irq_type;
+> +		if (!msg->out.event)
+> +			msg->out.event = GPIO_RPMSG_TRI_LOW_LEVEL;
+> +		if (port->gpio_pins[gpio_idx].irq_unmask) {
+> +			msg->in.wakeup = 0;
+> +			port->gpio_pins[gpio_idx].irq_unmask = 0;
+> +		} else /* irq set wake */
+> +			msg->in.wakeup = port->gpio_pins[gpio_idx].irq_wake_enable;
+> +	}
+> +
+> +	gpio_send_message(port, msg, false);
+> +	mutex_unlock(&port->info.lock);
+> +}
+> +
+> +static const struct irq_chip gpio_rpmsg_irq_chip = {
+> +	.irq_mask = gpio_rpmsg_mask_irq,
+> +	.irq_unmask = gpio_rpmsg_unmask_irq,
+> +	.irq_set_wake = gpio_rpmsg_irq_set_wake,
+> +	.irq_set_type = gpio_rpmsg_irq_set_type,
+> +	.irq_shutdown = gpio_rpmsg_irq_shutdown,
+> +	.irq_bus_lock = gpio_rpmsg_irq_bus_lock,
+> +	.irq_bus_sync_unlock = gpio_rpmsg_irq_bus_sync_unlock,
+> +	.flags = IRQCHIP_IMMUTABLE,
+> +};
+> +
+> +static int rpmsg_gpio_callback(struct rpmsg_device *rpdev,
+> +			       void *data, int len, void *priv, u32 src)
+> +{
+> +	struct gpio_rpmsg_packet *msg = (struct gpio_rpmsg_packet *)data;
+> +	struct rpmsg_gpio_port *port = NULL;
+> +	struct rpdev_platform_info *drvdata;
+> +
+> +	drvdata = dev_get_drvdata(&rpdev->dev);
+> +	if (msg)
+> +		port = drvdata->channel_devices[msg->port_idx];
+> +
+> +	if (!port)
+> +		return -ENODEV;
+> +
+> +	if (msg->header.type == GPIO_RPMSG_REPLY) {
+> +		port->info.reply_msg = msg;
+
+As soon as you return from this function, the msg buffer is put back
+into the virtqueue, so you can't just stash a reference to it here and
+hope that it's still available when gpio_send_message() tries to read
+it.
+
+> +		complete(&port->info.cmd_complete);
+> +	} else if (msg->header.type == GPIO_RPMSG_NOTIFY) {
+> +		port->info.notify_msg = msg;
+
+Ditto.
+
+Although notify_msg is assigned, but I never see any further access to
+it.
+
+> +		generic_handle_domain_irq_safe(port->gc.irq.domain, msg->pin_idx);
+> +	} else
+> +		dev_err(&rpdev->dev, "wrong command type!\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static void rpmsg_gpio_remove_action(void *data)
+> +{
+> +	struct rpmsg_gpio_port *port = data;
+> +
+> +	port->info.port_store[port->idx] = NULL;
+> +}
+> +
+> +static int rpmsg_gpio_probe(struct platform_device *pdev)
+> +{
+> +	struct rpdev_platform_info *pltdata = pdev->dev.platform_data;
+> +	struct rpmsg_gpio_port *port;
+> +	struct gpio_irq_chip *girq;
+> +	struct gpio_chip *gc;
+> +	int ret;
+> +
+> +	if (!pltdata)
+> +		return -EPROBE_DEFER;
+
+EPROBE_DEFER would imply that if we try again a bit later, platform_data
+is suddenly non-NULL, that seems unlikely.
+
+> +
+> +	port = devm_kzalloc(&pdev->dev, sizeof(*port), GFP_KERNEL);
+> +	if (!port)
+> +		return -ENOMEM;
+> +
+> +	ret = device_property_read_u32(&pdev->dev, "reg", &port->idx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (port->idx > MAX_DEV_PER_CHANNEL)
+> +		return -EINVAL;
+> +
+> +	ret = devm_mutex_init(&pdev->dev, &port->info.lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	init_completion(&port->info.cmd_complete);
+> +	port->info.rpdev = pltdata->rpdev;
+> +	port->info.port_store = pltdata->channel_devices;
+> +	port->info.port_store[port->idx] = port;
+> +	if (!pltdata->rx_callback)
+> +		pltdata->rx_callback = rpmsg_gpio_callback;
+
+What happens if you rmmod your rpmsg gpio driver and then trigger an
+interrupt?
+
+> +
+> +	gc = &port->gc;
+> +	gc->owner = THIS_MODULE;
+> +	gc->parent = &pdev->dev;
+> +	gc->label = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-gpio%d",
+> +				   pltdata->rproc_name, port->idx);
+> +	gc->ngpio = GPIOS_PER_PORT;
+> +	gc->base = -1;
+> +
+> +	gc->direction_input = rpmsg_gpio_direction_input;
+> +	gc->direction_output = rpmsg_gpio_direction_output;
+> +	gc->get_direction = rpmsg_gpio_get_direction;
+> +	gc->get = rpmsg_gpio_get;
+> +	gc->set = rpmsg_gpio_set;
+> +
+> +	platform_set_drvdata(pdev, port);
+> +	girq = &gc->irq;
+> +	gpio_irq_chip_set_chip(girq, &gpio_rpmsg_irq_chip);
+> +	girq->parent_handler = NULL;
+> +	girq->num_parents = 0;
+> +	girq->parents = NULL;
+> +	girq->chip->name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s-gpio%d",
+> +					  pltdata->rproc_name, port->idx);
+> +
+> +	ret = devm_add_action_or_reset(&pdev->dev, rpmsg_gpio_remove_action, port);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_gpiochip_add_data(&pdev->dev, gc, port);
+> +}
+> +
+> +static const struct of_device_id rpmsg_gpio_dt_ids[] = {
+> +	{ .compatible = "rpmsg-gpio" },
+> +	{ /* sentinel */ }
+> +};
+> +
+> +static struct platform_driver rpmsg_gpio_driver = {
+
+It's an "rpmsg gpio driver", but it's a platform_driver...
+
+I don't think this is the correct design, but if it is then this needs
+to be well documented.
+
+Same thing as platform_data forms a strong ABI between some other driver
+and this platform_driver, this needs to be well documented (but should
+be avoided).
+
+Regards,
+Bjorn
+
+> +	.driver	= {
+> +		.name = "gpio-rpmsg",
+> +		.of_match_table = rpmsg_gpio_dt_ids,
+> +	},
+> +	.probe = rpmsg_gpio_probe,
+> +};
+> +
+> +module_platform_driver(rpmsg_gpio_driver);
+> +
+> +MODULE_AUTHOR("Shenwei Wang <shenwei.wang@nxp.com>");
+> +MODULE_DESCRIPTION("generic rpmsg gpio driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.43.0
+> 
