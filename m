@@ -1,195 +1,229 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013016.outbound.protection.outlook.com [40.107.162.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6662029B789
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 14:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766069240; cv=none; b=SDplVwL3U5nIVShXYgtdbDQ1fCDlCTr5u7qJC5yIOjJq6Rh+JTDgrYQUJz2j5C+cpbzPDNFOC+qWlYBDNxepxAtmY2AHZghLWRx5kuDYKQVyvscXn1ARMXm3CgVg1MFLDYklUzTpub40UrUYCP98d8HnRJoBdb93rN71+31n8GI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766069240; c=relaxed/simple;
-	bh=wUkrh8TV1+RwPKNKqlybTP/4u0tI61BgBs1sDpD1Mn8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vy4Cqvfd2BfmGI6XO26z3Kt8Q/iI+ozxJAq/S13sqbkdEUktMLz/TZnuJVyqG+3F/garkfc/0qVJmqMXJPG+22q3wME/ptehVPzLUzk6Y72LA+dFB6Z2xhyOt0XsTa2lW1AaZ1UQCAbVHBqFLuZ9b92YrlVAUhlB2GIriX4+MoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=FguINTqc; arc=none smtp.client-ip=209.85.222.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C57327BE0;
+	Thu, 18 Dec 2025 14:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766069642; cv=fail; b=l5uZK5FGdHReBIM/RyIzxH6KH5YamHtbM+ACcCxQl1Bp7xlhWCAeUBuIEFfzRaxe101LhSmQyONwlw27w4QOQ9LdVKVEwjbkZIXzPuINHiX10fvb8K0c1s9Pn446vpMOEWQZ3PVbOUHiAGv2oIxUUDAC4XgotsIQ94gaRFo20xo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766069642; c=relaxed/simple;
+	bh=ZrXd34hT5bqmoyqBqtOgYK2Q43gTF+g5p72X3L7fyjc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QyTWl7ilZHGBkseC67E6/TYdGfb6N0oChuxPY7fAt9j5ZESl4kOi43r+geDYn9PJuzqccK5EnqiebJT9BkaJUSBE0uG5oF5fc/5hE+A63ZRLEW6eZ/w4+TS4wahtVc61wtUbYm2M1SCLxu9m6WF+DcVXpezxwmRcghypNcS1AKg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=HpPI0VSL; arc=fail smtp.client-ip=40.107.162.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="FguINTqc"
-Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8b2627269d5so73498085a.2
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 06:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1766069235; x=1766674035; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=80Wj3hQjVTosfLzfe42v+uXysTzJn7NF93jJAzRmue0=;
-        b=FguINTqc/xR8BzBmDZJE/YWPVmI0KgSp++X/tMalDopEJeOOTblT+a8USadhSBMelJ
-         1tOxOoCdAd/GfPB785xWwcUfUx+az0ZX+1SpAFaiJfTGMmMNCyu7TWtKFsWpLBNkw3aY
-         NXjfDxB796Y7sj26k6Elj8mahTmLSLvxQZccBqYg6k8S+oeTrdz5MY4osGhP+WyHWUJJ
-         kF0jXl+W+QyyTmwpQP7AGMyb5Ydl6QIQ8U0GEVbuvpXIBzhl1RmArxdSywmuDL2F/2R0
-         Q24U2DQH+L/y1dUZ8l/ORhb3wQiwZYAJAFem378n60cOkoiZmIpa0g4RlQHkh7ZtBPPx
-         1lrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766069235; x=1766674035;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=80Wj3hQjVTosfLzfe42v+uXysTzJn7NF93jJAzRmue0=;
-        b=ueGTB2TMRKmN6WvMItPuOXA4PS34QMAAr6/hTdArxasp/11fCC90K7iJdJVq4PsyBy
-         eAwpqzUaNRUdfrQRr2O3aaCndcBFG0TEur0aMOV46V8rlsgtGsbv5zmzVdtdC/mUEv/z
-         PtMhuDBmjrdL2sFlHnavL0C2JlEB0NedjuZJmUEBXdQZBNGllUcWQKAHmHEyZk69+ceV
-         zpDOFGn1rma4/ahNxZEOISFAXoscJ1GeBPNGqPLBil/46/F2PAt3uAphG0nleZ0NpKJf
-         PlEtMNt48+kx4i07K2yYnZcJ3h9VoGMt4LPzEIOUn7l6FQ6tV3bc6GIw0qjn6Iqa7Dyc
-         asYQ==
-X-Gm-Message-State: AOJu0YyqqDYytu9J7npRDod7ys0+NlTUj5eG76PsnuE1N0JebEPrf4Ei
-	/FZI/WIAck3iNH712uRZ83fvWb1EeQtSqaCSivJOBNL1nYfLhZYYVlzk3W2bc+pttok=
-X-Gm-Gg: AY/fxX706jq83MKF2hpnVDTx9ihjdrNM3FxQsXXY6EUexDpxcPKxiywa0QZmJ5HSz+O
-	AoC0MlsfnnHAlK7w+EEtic2udKBtzM3SP0nVvm4HdAsOXmzJF3+T6AcwYuiO5Oq5mUtnVKwU/wp
-	etFvPwGZf/KL2IahsZ2NQKPOmgZfS4UORx7vqQ8SPw3CyxCj3aGFkb9gDDKTBZtTVhd5kQyqEcg
-	lIfdpppzVfXg5hLcGYsZz5X67ZToG9O8AKJLBTexWGPUPZnXfGCAhtY5qJgwP5Dq4uSwdQl/AF/
-	MFTZRND2agjHMu6X0rzyuQtyorSyP2/uQwDNM0rRvA8Me7QlG0d5l4r/ZiyWL72WMDuLBM82q5H
-	1ti1LJsBE/lbRACf5StSM3MjEBdVsiv+PvpO57eBWcBztqP/MpFzPbMokJlDkqbPGn8K6mUVisy
-	cOizG1V49rysa2g/1eY1cd+QXPQK93H5HGZeOsXxJ1HbY5a8Ro8xUsoJp1wxLHY2LDheiWflWPv
-	qM=
-X-Google-Smtp-Source: AGHT+IEdAyMXoma3TrY3Lym0Vh+WqzB3ClBsV+sicG97PTfmTxHbrxYNEk6Y81DCqBXNEjeXI5rhbQ==
-X-Received: by 2002:a05:620a:40d3:b0:8b2:f145:7f2e with SMTP id af79cd13be357-8bb3a39bdd9mr2875380285a.77.1766069235039;
-        Thu, 18 Dec 2025 06:47:15 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8beeb5f189fsm177076185a.14.2025.12.18.06.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 06:47:14 -0800 (PST)
-From: Gregory Price <gourry@gourry.net>
-To: linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	corbet@lwn.net,
-	gourry@gourry.net,
-	kernel-team@meta.com,
-	alejandro.lucero-palau@amd.com
-Subject: [PATCH] Documentation/driver-api/cxl: device hotplug section
-Date: Thu, 18 Dec 2025 09:46:36 -0500
-Message-ID: <20251218144636.1232527-1-gourry@gourry.net>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="HpPI0VSL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wmi6dECvC0xB57fn4ukBNRbaaf7hpumnMLQMYlpwqIQP0U4etHMVEKLjfSVgiddMWb3adViTinvvRiD+dzXbRiQAPzHg8iXfOhyGfVwvgi40g99m+tag5sGwQ3BX0oruL0LxjX0ptnoAHCV+C0vkJ/blXVZqVBCQk027TCuibbYA83nH3dUOfJjmRgVl7CHXFe3iZagGg1fyMMWxJUhpmRbyVdblpLYm5Deb6Tdm9zOT9FU76T09P+gDjeFxQP7j2hYoOL8hDaks9ummvJou0VpkBDcfybH0QMasQIGo686ACTKqd/6+Yqdt1FyMeAmqjFgGZ16fB50fHyYn3N+/4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L7vKTTeoUuwb6jOBegA0oNX0lf+wGVFG76G7578l3ro=;
+ b=nYBtxSCfjih2WPqBc8Pwv1fXfl+0oz3lXB5IZEfTLZIxmEDLsNdNPL6nmn8y8AzTIqW9IyMLCwy7hxGo/ZVgPaDkGFv3oWa5m1aN3UK3yhCdGi3EyDP2ueV7t+BNHTFVnvKY1Rv6VkAVaTLJYINyi2U/BGy8ogXtaq3SnTgXvYdFi2eioztT/quxOeVI4wCSmQDwGXGmO9CxhKw4qDm3kg7A4gm6ZdH+IZHgrjL9P+qzPahH9Qlz25hYJDEgu/cwZQ4eUi/agw81TScdk43xwmqT+iY3/YF0URbgYe0cGTS2zDDfPkiMXeigDQ2nNpBQuIiOHOFixZyAszvSmmeJAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L7vKTTeoUuwb6jOBegA0oNX0lf+wGVFG76G7578l3ro=;
+ b=HpPI0VSLIYCxL9TRGa/kqk3NxrWEDknBS+v3hRIYVxGzlypaU1wmFBI3CsQs/t/yeovS0zqb6+DoIpfNR4RMYvg8fDdHZx4HWBYq7liKP3IE/dwmcOEw1SIiVG5FI4vFCm8iH8XUSkzJOf36d+DRVLn2BOErEZXoBTW9Yzdw8u97mwS5Njm1/HIDL00xBhrexmDqqYdVyg/gH0PX8EU3Q+r/2lC1RvXDGu6b1g+7ZBbJxkRuUZe/A2qyX7oQb1Urrf86lUWgKE3NnC5NYSQhrL1A+/85tM08MWICCiJJe1Qmo/wmGmpzoFA9OOTCXci/10RaqCQk0ojIiHBXQ5ko4A==
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by PAXPR04MB9218.eurprd04.prod.outlook.com (2603:10a6:102:221::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
+ 2025 14:53:55 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::21bf:975e:f24d:1612]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::21bf:975e:f24d:1612%5]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 14:53:55 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Linus Walleij
+	<linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Mathieu
+ Poirier <mathieu.poirier@linaro.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+	<festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH v6 1/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
+ subnode support
+Thread-Topic: [PATCH v6 1/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
+ subnode support
+Thread-Index: AQHccC4hz+aC8+IZZkGsM1CDssj1CQ==
+Date: Thu, 18 Dec 2025 14:53:55 +0000
+Message-ID:
+ <PAXPR04MB918536F2859B9A57A0BAE84E89A8A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <20251212194341.966387-1-shenwei.wang@nxp.com>
+ <20251212194341.966387-2-shenwei.wang@nxp.com>
+ <f53639e8-feef-438a-9b1a-c349fc17d0c6@foss.st.com>
+In-Reply-To: <f53639e8-feef-438a-9b1a-c349fc17d0c6@foss.st.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|PAXPR04MB9218:EE_
+x-ms-office365-filtering-correlation-id: bb045e35-2e5c-4a3a-9970-08de3e45445c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|376014|7416014|366016|1800799024|38070700021|921020;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?BoJ1uY6XmdZZoHfYuAGMBzuKTy/O/Kog+RFEGoOK6p62Gpx3JRp+wXXdeXuc?=
+ =?us-ascii?Q?ujdHJGUKxqO4QWv2lh56rGtTwcKAneQZlKlHq5VI9bD9pBCbS9KrzAWesvx6?=
+ =?us-ascii?Q?ttf7VUCIA/SOP4wRN4lffjSRAUr488gvB8I7yxrkLxfJbsdByKDQZrNpwZCm?=
+ =?us-ascii?Q?LOrlTBeCKNmqtTYbz9zLMK3URXHkLwtspVJnWIS0GRKnRTzaVvfjJibe6/Gp?=
+ =?us-ascii?Q?Xf/R9rmwaJiwr3tCymgFHQii3CUz5IU7bxKJWSyDNXLbkkIIvunivWY3zWbW?=
+ =?us-ascii?Q?l9HMYO2/lcFz9KmcWtt30U4WUZpJdDTbebseaPJwU0vyRS42n7F22ufPrbXM?=
+ =?us-ascii?Q?Gy5CZReoJTlKvAxOhoNXoqGoeONmXkg7++rAqPB2kORey2z8bGpsI0lfnsNn?=
+ =?us-ascii?Q?tZG8WItC50rF4Bat7r/xj5pOC22LdGkpKyTSG3BbH39xC5WRIsLtwEsM5bSX?=
+ =?us-ascii?Q?f3NLY9ZrL8Rd34ZS3V1WcAneuF7RkIl74G0V2hpxT421bzdLEQXgU8WkW92l?=
+ =?us-ascii?Q?TRSAfZvuuq/egDUERC+EP27CFYP3OjBNYMwnBCnSBYHSrQeHKr5qWy6s7hvN?=
+ =?us-ascii?Q?dV+ajkh3smacFmaHNNKYTHg56can3MC0QsQVk2nYC2cZZKFwXoh7V0Wfobpn?=
+ =?us-ascii?Q?bjQvep1QXrk+1r9FT/pEy4VO5mM0VxuX/ofvcMBKMBntYEsKxVY8tSB78vTB?=
+ =?us-ascii?Q?1jBSoBKuSUy9GbLDWmTMOX8i2/vq/bLJk5bCeSFSnJEGx/cPWv0sUmFVmGRK?=
+ =?us-ascii?Q?rH3TBgvAHUwNN9lMI8Cyi8oDkdM4rtjcehdIPJADY5m+eRF0bD5qIih6I3MX?=
+ =?us-ascii?Q?syxTShZFBoM8aOV091YzXZaCF+jCn2c84cbMYpqJU4u3CR/hvzTpMlTA1L9n?=
+ =?us-ascii?Q?buiX1aQ9cMoSjOOG38HuaUFGufMbljrlMLCVVv202IGZ9Yd6kSuBtWb67Kbr?=
+ =?us-ascii?Q?P2vXIneT54a8Ww1vj89NxEJFwkdqjAfTInm+2d8kDS0eFtP/kZWnDkDGnfrd?=
+ =?us-ascii?Q?gAZzUQ6XIF8VspWBtyNAkzzN3PkK0NY0oY4t97li70sA8ufQf87i2+aRKh6+?=
+ =?us-ascii?Q?Ac0+AcC+XMflLEhod0AW7bgzzNs+60uXjcJ3j2TPLR9iSP2gcCDhdurXAgkq?=
+ =?us-ascii?Q?ijzIcf1PzfNblWg+xPUF7DON6V9MGP3iuRpignc1KzPOxFHWFOc3BfXUurAP?=
+ =?us-ascii?Q?jiq+Y0+GrcBxd3mH5s0lrzlGjfmJksYBlxRpALFp0R6aP2yjDbn2FEJYRCxu?=
+ =?us-ascii?Q?k9IicrKwDkWMjlMInsqzgPcbADZgEzjHCK/iN9ZC1Hlso7j6dsK7K9K8n4Nr?=
+ =?us-ascii?Q?OGRZI5didNOcwgTbTs7wqB/ZzEV1Biy5dIphyBHCkD6HK8uLY0+6FenWRASU?=
+ =?us-ascii?Q?x4u4edBAPXz8hZ+H9IViPngkDwUrUwiFuZoey5ztAjZUZxWpfaElgnOa0y0O?=
+ =?us-ascii?Q?bGuLBSAiTS86yNO3P9DVnM1ViY2T2plQiEybN20/HEahR+Rbb8BOlZQBW+L/?=
+ =?us-ascii?Q?HTyzbK2hEGDmkCt6nZj5Aa5oGSVgN4IuGYA1cBloB1nGGl3q64rPhQAZkQ?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(7416014)(366016)(1800799024)(38070700021)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?+fHj95mh4UyEoK3dFKXOH8Egt4luRI0uL1Q6Ill71Fe0u+IpaE23U2qZQr6b?=
+ =?us-ascii?Q?OrCnx/bpN0KQusK5GVtAIHNkfH03LYrAvOXIf1PaxK+oFXn+U1XqedIakh1j?=
+ =?us-ascii?Q?GnS/XAcDXBapyMQwtMZsvktJCtqWW8RW1a5/XqxREiZ2u6iGffCTMtxd/2bM?=
+ =?us-ascii?Q?HnTstlIARAwk4EjGw/anlbC5NLMu9NYilyXHTXPGPaxulECMpIvCDXjpXHDL?=
+ =?us-ascii?Q?Xa8reKoC91iXrAnOBtdgwfyaO75uYQ+uGUsRHB/l8tzsMIHvmbcuj+HKvCNL?=
+ =?us-ascii?Q?o0v+piZsY0cffCVMzZV/CREaaJ2bx5R8030Ldo3ZchcRaW8wBnp5//g/nPVi?=
+ =?us-ascii?Q?1AFdHA1NPdNLXS7nG8Tb59S5TiNZS3NYWliW+nY/17hcVBYpYe0Qu85GLKM/?=
+ =?us-ascii?Q?TIjsImbyjwb/DFGyCY/s3PpTRhFv32BBVxxIPAEQmJhrUIoh20XDrrql8LgS?=
+ =?us-ascii?Q?06IMRRAUH9bv1eR3pCYKJy7oR91FvZCOn6/Y/dYoq7l2wUg6wJGaZy9v2T+d?=
+ =?us-ascii?Q?18jndbdRjzTgXaIWRgZqeVzcvnKGyAV9v/YuDxrneuOMyNIEVxUBexIROD1b?=
+ =?us-ascii?Q?xEPQMOKQ8cQuGq6YJ+2X2mDpKNOoCymylw4Km2DdC7HnFtOWMtAOoXz9ydV1?=
+ =?us-ascii?Q?dmjvPXEdXIaqlLAd6ADl2nru6Jc/jbNFlqFccnsuY2d4m0h2cL95YxSyrmBB?=
+ =?us-ascii?Q?FxlktJbL896wmqr+R83WhqRRNgAVBAlx+CTIRs27RQhsGpNtJ1GEIMx4NtUq?=
+ =?us-ascii?Q?2mpZ1bgTc8md4jWsy4pQROWXXD0cTMmyKCIJ7VK6gExMY2TD4RzxCeenkbgb?=
+ =?us-ascii?Q?NFcf8IChsXhpgz6C6m/SFtwTz5On7TIqgj1/pOEAImtvAZkqh6SCQcKoC/vV?=
+ =?us-ascii?Q?MwjQt+gRs5xOAHulUlwY5vXOx+hyGt21WnQZdjczmPkvwQlUKnbwtwY781ss?=
+ =?us-ascii?Q?0uL9MUx0ddKM3SKE0FnjQPkZqpxWpO6dpR5WH1AFcfkCyQ7FYN8Rmjd7jwMJ?=
+ =?us-ascii?Q?m4QKqJCFpaKJtsMsM+KhEhMcWkhQr2ywttR11xpzrIIC6yhaTZiLYPpcViGN?=
+ =?us-ascii?Q?LiqBbmjO2zbLrqFDvtHpGXqoDCA7nZpsCQyitjP+aBGjIbg4f2Io5iLxOTzK?=
+ =?us-ascii?Q?J3aXPXxXKaCcfRB4Wx1X8xgwexZJr1Ku4TPkhZC7Aan9WuKQsPljOQu8/I9g?=
+ =?us-ascii?Q?SqMkLU2qsEnsFWECrtCo0vRmm6mnhH1CGJiaGkEjvZH4GM6WP5R+uYKtNw1v?=
+ =?us-ascii?Q?GK3DtgFfTeB/EAgRsx55qSoCO001D8y16hm5e4KSbktDdKnvuMFWad3buLWz?=
+ =?us-ascii?Q?poemMCHI5rbogPb2H4DqdZv6yNJKGtA3W9lnwpp6UiC+BgbLmtaa+nbNxqfT?=
+ =?us-ascii?Q?xHOpLqiurxL8K/YhGo8yjPZ5oTtvH16Tu832xB1nntk9y395Zq9lHAkOfOVv?=
+ =?us-ascii?Q?C0XI+vwdPiD7HnaEYIqhCiCzsRQtnaEG9tb0ZW7RSPJYXQYHioTHZalsncJB?=
+ =?us-ascii?Q?uokRpse4y5ldMKNMqbJZEaaxZwnqhQE15CYVIg2xXZzpR3FBaMwEWMI7CPL3?=
+ =?us-ascii?Q?+sdocv4MJbKuEh6jshusdst7jd5JDHonS06rrzQS?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb045e35-2e5c-4a3a-9970-08de3e45445c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2025 14:53:55.3628
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: syUbHG4HTXw4i2ob2fysttm9bFVzOJfGsezXVAkkzvG7x74zj/yTXEIH+3c2sRaaeneSypQe73ChAILrsvKWHw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9218
 
-Describe cxl memory device hotplug implications, in particular how the
-platform CEDT CFMWS must be described to support successful hot-add of
-memory devices.
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- Documentation/driver-api/cxl/index.rst        |  1 +
- .../cxl/platform/device-hotplug.rst           | 77 +++++++++++++++++++
- 2 files changed, 78 insertions(+)
- create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
 
-diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-index c1106a68b67c..5a734988a5af 100644
---- a/Documentation/driver-api/cxl/index.rst
-+++ b/Documentation/driver-api/cxl/index.rst
-@@ -30,6 +30,7 @@ that have impacts on each other.  The docs here break up configurations steps.
-    platform/acpi
-    platform/cdat
-    platform/example-configs
-+   platform/device-hotplug
- 
- .. toctree::
-    :maxdepth: 2
-diff --git a/Documentation/driver-api/cxl/platform/device-hotplug.rst b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-new file mode 100644
-index 000000000000..9af8988bd47a
---- /dev/null
-+++ b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-@@ -0,0 +1,77 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
-+CXL Device Hotplug
-+==================
-+
-+Device hotplug refers to *physical* hotplug of a device (addition or removal
-+of a physical device from the machine).
-+
-+Hot-Remove
-+==========
-+Hot removal of a device typically requires careful removal of software
-+constructs (memory regions, associated drivers) which manage these devices.
-+
-+Hard-removing a CXL.mem device without carefully tearing down driver stacks
-+is likely to cause the system to machine-check (or at least SIGBUS if memory
-+access is limited to user space).
-+
-+Memory Device Hot-Add
-+=====================
-+Hot-adding a memory device requires that the memory associated with that
-+device fits in a pre-defined (*static*) CXL Fixed Memory Window in the
-+:doc:`CEDT<acpi/cedt>`.
-+
-+There are two basic hot-add scenarios which may occur.
-+
-+Device Present at Boot
-+----------------------
-+A device present at boot likely had its capacity reported in the
-+:doc:`CEDT<acpi/cedt>`.  If a device is removed and a new device hotplugged,
-+the capacity of the new device will be limited to the original CFMWS capacity.
-+
-+Adding a device larger than the original device will cause memory region
-+creation to fail if the region size is greater than the CFMWS size.
-+
-+The CFMWS is *static* and cannot be adjusted.  Platforms which may expect
-+different sized devices to be hotplugged must allocate sufficient CFMWS space
-+*at boot time* to cover all future expected devices.
-+
-+No CXL Device Present at Boot
-+-----------------------------
-+When no CXL device is present on boot, most platforms omit the CFMWS in the
-+:doc:`CEDT<acpi/cedt>`.  When this occurs, hot-add is not possible.
-+
-+For a platform to support hot-add of a memory device, it must allocate a
-+CEDT CFMWS region with sufficient memory capacity to cover all future
-+potentially added capacity.
-+
-+Switches in the fabric should report the max possible memory capacity
-+expected to be hot-added so that platform software may construct the
-+appropriately sized CFMWS.
-+
-+Interleave Sets
-+===============
-+
-+Host Bridge Interleave
-+----------------------
-+Host-bridge interleaved memory regions are defined *statically* in the
-+:doc:`CEDT<acpi/cedt>`.  To apply cross-host-bridge interleave, a CFMWS entry
-+describing that interleave must have been provided *at boot*.  Hotplugged
-+devices cannot add host-bridge interleave capabilities at hotplug time.
-+
-+See the :doc:`Flexible CEDT Configuration<example-configurations/flexible>`
-+example to see how a platform can provide this kind of flexibility regarding
-+hotplugged memory devices.
-+
-+Platform vendors should work with switch vendors to work out how this
-+HPA space reservation should work when one or more interleave options are
-+intended to be presented to a host.
-+
-+HDM Interleave
-+--------------
-+Decoder-applied interleave can flexibly handle hotplugged devices, as decoders
-+can be re-programmed after hotplug.
-+
-+To add or remove a device to/from an existing HDM-applied interleaved region,
-+that region must be torn down an re-created.
--- 
-2.52.0
+> -----Original Message-----
+> From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+> Sent: Thursday, December 18, 2025 4:30 AM
+> To: Shenwei Wang <shenwei.wang@nxp.com>; Linus Walleij
+> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Rob Herring
+> <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> <conor+dt@kernel.org>; Bjorn Andersson <andersson@kernel.org>; Mathieu
+> Poirier <mathieu.poirier@linaro.org>; Shawn Guo <shawnguo@kernel.org>;
+> Sascha Hauer <s.hauer@pengutronix.de>; Jonathan Corbet <corbet@lwn.net>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>; linux-
+> gpio@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-remoteproc@vger.kernel.org; imx@lists.linux=
+.dev;
+> linux-arm-kernel@lists.infradead.org; linux-doc@vger.kernel.org; dl-linux=
+-imx
+> <linux-imx@nxp.com>
+> Subject: [EXT] Re: [PATCH v6 1/5] dt-bindings: remoteproc: imx_rproc: Add
+> "rpmsg" subnode support
+>         syscon =3D <&src>;
+> > +
+> > +      rpmsg {
+> > +        rpmsg-io-channel {
+> > +          #address-cells =3D <1>;
+> > +          #size-cells =3D <0>;
+> > +
+> > +          gpio@0 {
+> > +            compatible =3D "rpmsg-gpio";
+> > +            reg =3D <0>;
+> > +            gpio-controller;
+> > +            #gpio-cells =3D <2>;
+> > +            #interrupt-cells =3D <2>;
+> > +            interrupt-controller;
+> > +            interrupt-parent =3D <&rpmsg_gpioa>;
+>=20
+>=20
+> "rpmsg_gpioa" seems not defined, or I missed something?
+>=20
+
+That's just a reference alias in the DTS example, so you can ignore it. I c=
+an also remove=20
+it in the next version to avoid any confusion.
+
+Regards,
+Shenwei
+
+> Regards,
+> Arnaud
+>=20
+> > +          };
+> > +
+> > +          gpio@1 {
+> > +            compatible =3D "rpmsg-gpio";
+> > +            reg =3D <1>;
+> > +            gpio-controller;
+> > +            #gpio-cells =3D <2>;
+> > +            #interrupt-cells =3D <2>;
+> > +            interrupt-controller;
+> > +            interrupt-parent =3D <&rpmsg_gpiob>;
+> > +          };
+> > +        };
+> > +      };
+> >       };
+> >   ...
 
