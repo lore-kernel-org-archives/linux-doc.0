@@ -1,172 +1,123 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A5C2E2846
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 22:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9641DB125
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 23:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766097341; cv=none; b=UTyBLoKqHwElJ5QZwftimnSZx/qC1lMw3fvWIee+unjgZJqNS1FBk3UwyRSrTT3/yaG0T/aEliz6pPf2NsxzoYuyUHg8ID+gcVIyByuyvgBHDwssYMVsrEgMVYlckDRHnxVngjdoqaIvskZaSAucFR3BxVry6f339hsdW+gdmKw=
+	t=1766099820; cv=none; b=MJyVhADtiRAXLUiJZO7YrC8G8a85l4LG974Lsc6pNL9wMR1l/pSdLfvvLjZzxPspLS2/fjcAphCUpRblRsml3oamXbdaTNOPN+a2kTkk2IhSkdD2qfAeWZpIxSgqmiHuM+tbZtllwY2Cu06rv4Tn/vrwM4g/yuNP1Yrki9u97IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766097341; c=relaxed/simple;
-	bh=1rEz2SpieKvFFlhRTKIDaL9wL2Xxn/072e5AuChwSHQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qMvm7LcsKD7aOAQKMGQzs/Vr+bkFZYyZeLmIaS6mzRA2ZsGLqXRE0ZhRoQOhXhnkun0c/O5aDx0Zir/t/Yaf2ZEBxyRFafgYaDd0iYuTIwznab1T+MMpjqTUJ1QddaWo/LUwXprpdiccWsSvGhqAOpBtY7NFwQQUBsXkUaQkdY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ieSugPGU; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1766099820; c=relaxed/simple;
+	bh=J5Q1NVVfA0iJWms8qOBTvjMIMAUouUGbt/kzShoSpDE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f27/8YK5BlRceWGbIJL4wEmAczvmAEM35MkwV0T2zp7Hqv1cAjbQOV7A2/OQIN3p7QqYeAUsaSkI51RV5+4yOFHlRv03j0INlzCNz81MrCcinZ1mfTYt5OckcmavL+lvI7L73fBJbXvTBYTqL9EFPyd1rkccPuR99MCpKVrFPbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCPi3+JK; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ieSugPGU"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a1388cdac3so10592695ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 14:35:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCPi3+JK"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0c09bb78cso8091745ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 15:16:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766097339; x=1766702139; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SGSB8tFcgzkyljD9wGESd303bCg+1DFy0fRL6Ry6PQQ=;
-        b=ieSugPGUyr6cJv46jgTk+xPoebH7lCD5xALsAdyW2A1Af/WcG9E/f4NbIGWZXNVnjd
-         5WWld6FeS6YcSi3wrCRCqpdt1qVYbGEyD7vvpJ9nq0NG0Poz+fWOguc3mu5t/K//aDwz
-         2tL7q2cc9rkXaLDQIsUa/BtItvpSZy+MwAn/a2Nfy1/X1x6Xpb2y+Wstq/hHjUa83FG7
-         OyTj93JgWYaI4WsVBVuh4Jf2wj2riOPTL7DI1XcRjPEJDNJaoZdGe2ksLuzTfXjTP6LK
-         ifqexmKXD0Q2dzjbNCJrWmuVY6dnwyOwmJ2M3GmITPF2OCGbqjygXkLqeqhilnpd08nk
-         rdOg==
+        d=gmail.com; s=20230601; t=1766099818; x=1766704618; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eMGnbRF5EuWagLgSiOQJqKiOq6nBvcHGQU5/LKlFP6M=;
+        b=QCPi3+JKTfV4GQOxSBTvMV9tTYlgOQYbPqWgzpF+MasHFGNPvi7nXHG5ZuM1g3GcmM
+         y3kKFzJwhvcT6O9jGvgOlA9ZJeA5XIpmouoppcq8lMYSNbARfDw2a27Gj5PoIkCtxtlk
+         MbJwD9/h0dGRpdyyVxTvKgzkPk3c+oOXpnK/9wA6ZgvhdhcSkyGlEF8dxbYYNwpfB3nf
+         v0svrg/7I0KMGn0kDZ8+27Ijazqw3T5C6EoevRv1/ueDgLoFGSRCZooFwoLdy24k941P
+         owJTJ/jO4UsAoYUHZE0XBoNHfyGJd00D8T31aQT8Z+tFbwbnnzVwzTdOfnX+j0qY1Q+i
+         BZbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766097339; x=1766702139;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SGSB8tFcgzkyljD9wGESd303bCg+1DFy0fRL6Ry6PQQ=;
-        b=dyBOgfH/26Ff91zqkbIZHlbrpGDSvOgzvT9kMolljc9i/litTrBNVcJAPsZyC9GpDM
-         qxytQhiysKxc+XpGubEbEQODWJ27AMGfnxmvlIVGLVAo+8PDFxtPrW5Ktc5M/w/gnp30
-         7VIDvzME02yJmnf2eAWohL1gM66bTkMGQQsA4cpfZw4eA1V+vbzHeASV6P93ilmPBlit
-         3J8ZDNrxuFmb8i/Q0DNRb4SuuU+EYHnlb1+q3gzs2RKb4XGNGWl0xhqJADUH91qspmyi
-         9dqNsJtCbzKk8WhH5RbE1Wr1WZlrRTob6ha/P7UZP6Dm0Ak/4I+xm1kqxg7jet+smGax
-         w3qg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLxXYmyBlfEfxeKYszVJryq0Y5w5SFSMWM8R6fyAZLqGXNUBGe1NGr9X4iYZiSfP+BwHjkDfTHy8I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzI1ahS8/8icQbfjg6B0LTrTUGEk2/jWOv92H2jSPGotzlK1u2I
-	BCK10TDG5Wf4fOgWeWZKnMFyjvcDACI07G9CVCUZlv+YyEhLLCzlxuVa
-X-Gm-Gg: AY/fxX7ZXN/Ouh5RJRbHB1xFOsBnckoqlLK5JZi4+T0qcCXvw6mH4/nT5NPbB9TvuHM
-	Sw4uQ27RDOjt11Tl2bsY0oiqD4tvHS+S94+neWOfmw4s6sBiA9i9g1NAMuZGcTaoeAYMxUm7rlq
-	/6VMKZCmYRV3GsgmgYSFj6+DrLWB+D1Ia+OEz8k0vBo736+qtAzwx7y2kc7dcfAggLcjbQnA2fl
-	jGYqfaAqFz744eoSitSocFeXSvq2Ecyba+dHtofi1U5QqbbaA4lH12rcjIwyy/1EIY3OpUPMdkE
-	HTgl2hQl/GmUoTr7VSBAO5UuDneAzXaAvkm7Awd5cua09SyMyofb6Wx2NXi6TeK1p3yadP/fxGs
-	LBkQfLo89cutW2lYMnRz3uikOAnyVg6SKkOVs60/UVJ1HtIIgppOrBefgNK60pcxrDKd8i0OnLW
-	elWnv0ukN/Vhc7eTai3ubd90q5LneSDSQnTC07MOrN5TCXaChXG1I1DtVc29aW
-X-Google-Smtp-Source: AGHT+IGmkFRNyvzcHV6uQ/GIj5H0PGPsWpQdM2HeY9Fv9vQn//BR+z5tXQWqOamwxMRwsghJRPj2cQ==
-X-Received: by 2002:a05:7022:e04:b0:11b:d211:3a64 with SMTP id a92af1059eb24-1217213fb1fmr1199123c88.0.1766097338698;
-        Thu, 18 Dec 2025 14:35:38 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217253c0c6sm1967151c88.12.2025.12.18.14.35.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Dec 2025 14:35:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <978d7a38-787a-4b84-be58-d2784ebfcf6f@roeck-us.net>
-Date: Thu, 18 Dec 2025 14:35:36 -0800
+        d=1e100.net; s=20230601; t=1766099818; x=1766704618;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eMGnbRF5EuWagLgSiOQJqKiOq6nBvcHGQU5/LKlFP6M=;
+        b=uHtI83QFYsAZhYpgV0EX3Yko58K7fQxBT3/N0qUqvnh2/zo5bpfWhtLlzzXfHKZmwL
+         uEGc4rZAiFig8PkYx0cYl+rfUVK49HwxZdQgdIpfNX+8cpQgUPbIkR8cs8Xrxbe51jmP
+         fOZvNf2PcPbmI7gMZKqUBevOAErGjZhfLGOsZPRyNvmdfVi8gA3UxLHrcR3KNPppkkG1
+         ToHEG+q884egRAtDFCF1NI6+iZdybqd0EA5G+uqetMqsKmPix8JPgWy29Je9aRHGVhK/
+         b2cmw+kMervnA4q/pCThM/T2b57H0NdTlzBTRL1xnqsxyakLLnnh7ybhhi2xF5+XCwfW
+         6Yhg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1WLKgagevJUffVQOaNLwqo4FWpKDCzlgoZFvwprH+LW1ATTRrS1ZSojLVwufxixvHhQzacoacPIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmK70hEejS4SuqJy2OTIenOLkXM00w0RY2pTkU8/TSgoM20Mof
+	sfHrhvETjf3qt/z9rPXPBz0TPUAz42ypkJE+1ivd8NeksX/J90vcz/7f
+X-Gm-Gg: AY/fxX4RHzCdDJFSS2xDK5qwwHy/QzRbpWpV7okkOOi/HmVz2oFYGHy2oGCZ5hrfrrL
+	F9qcDOZjQl82CHR+dn/TIseCP6k8JR0k2oU77Uvvfs4g4NdcLUMHNW425wXTlWqECn8q7DsZ/Lw
+	Xf52Ew23iKLfG1yFXezov5iwJGWOy8mwx1K09vXsszMV6PO5QyVeKZPT/MvWEW9wTYkFcKXFPgo
+	69ZMBWU8noit5GQbAEM3z8THjrZw8YdjQ9xw8JnNfrTl18cPLqUyJ0AYWYWfdsYnYW/bj9cIHHf
+	G4m4jfVQshZ5CYEsaCm6z/23EiF3yJWYMC0VMTlBlHC6Z4QFcl5krkCuRPOAkla70xR38TqUOsG
+	QTNzGdfY84FgcmWrR5y1NCsQiTj3YncsKI/2Po03NXuQQWQka0S1TwtXe4mhYV1pg8M+uF2byWJ
+	TF/4FKxC5Wpz/FHVrmUDHgut6sTg+MPWIOcIXwk+gcOA==
+X-Google-Smtp-Source: AGHT+IEV4weDcMDmvPNP6rWQdW5Jgf63ZSAcgHkjM9/Uoq+r28bqVXyq41EmW2rCs3rFIQhrhd+rCg==
+X-Received: by 2002:a17:903:17ce:b0:299:daf0:e044 with SMTP id d9443c01a7336-2a2f0d2db36mr11573985ad.18.1766099818170;
+        Thu, 18 Dec 2025 15:16:58 -0800 (PST)
+Received: from Lingbou.localdomain ([113.225.44.231])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb48sm3311955ad.64.2025.12.18.15.16.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Dec 2025 15:16:57 -0800 (PST)
+From: Xingqiu Xu <hilbertanjou83@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xingqiu Xu <hilbertanjou83@gmail.com>
+Subject: [PATCH 0/7] docs/zh_CN: Add timers subsystem translation
+Date: Fri, 19 Dec 2025 07:16:42 +0800
+Message-Id: <cover.1766099040.git.hilbertanjou83@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] hwmon: temperature: add support for EMC1812
-To: Marius Cristea <marius.cristea@microchip.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251218-hw_mon-emc1812-v3-0-a123ada7b859@microchip.com>
- <20251218-hw_mon-emc1812-v3-2-a123ada7b859@microchip.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251218-hw_mon-emc1812-v3-2-a123ada7b859@microchip.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/18/25 05:48, Marius Cristea wrote:
-> This is the devicetree schema for Microchip EMC1812/13/14/15/33
-> Multichannel Low-Voltage Remote Diode Sensor Family.
-> 
-> EMC1812 has one external remote temperature monitoring channel.
-> EMC1813 has two external remote temperature monitoring channels.
-> EMC1814 has three external remote temperature monitoring channels and
-> channels 2 and 3 supports anti parallel diode.
-> EMC1815 has four external remote temperature monitoring channels and
-> channels 1/2  and 3/4 supports anti parallel diode.
-> EMC1833 has two external remote temperature monitoring channels and
-> channels 1 and 2 supports anti parallel diode.
-> 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+This patch series translates the complete timers subsystem
+documentation into Chinese, including:
 
-A quick module test run shows:
+- timers/index.rst: Main index with file structure
+- timers/timekeeping.rst: Clock sources and events
+- timers/hpet.rst: High Precision Event Timer driver
+- timers/hrtimers.rst: High-resolution timer subsystem
+- timers/highres.rst: High-resolution timers design notes
+- timers/no_hz.rst: Reducing scheduling-clock ticks
+- timers/delay_sleep_functions.rst: Delay and sleep mechanisms
 
-temp1_crit_alarm: bad permissions: -rw-r--r--, expected -r--r--r--
-temp1_input: bad permissions: -rw-r--r--, expected -r--r--r--
-temp1_max_alarm: bad permissions: -rw-r--r--, expected -r--r--r--
-temp1_max_hyst: bad permissions: -rw-r--r--, expected -r--r--r--
-temp1_min_alarm: bad permissions: -rw-r--r--, expected -r--r--r--
-temp1_min_hyst: bad permissions: -rw-r--r--, expected -r--r--r--
+Also updates subsystem-apis.rst to include timers/index.
 
-for all alarms and temperature readings. Indeed, the driver
-sets that. Please fix.
+All translations are based on the latest English documentation.
 
-Also, I get
+Xingqiu Xu (7):
+  docs/zh_CN: Add timers directory Chinese translation
+  docs/zh_CN: Translate timers/timekeeping.rst
+  docs/zh_CN: Translate timers/hpet.rst
+  docs/zh_CN: Translate timers/hrtimers.rst
+  docs/zh_CN: Translate timers/highres.rst
+  docs/zh_CN: Translate timers/no_hz.rst
+  docs/zh_CN: Translate timers delay_sleep_functions
 
-temp1_crit: Deviation out of range [max 500, seen 800 (val=-64000) with -63200]
-temp1_crit_hyst: Deviation out of range [max 500, seen 800 (val=-64000) with -63200]
-temp1_min: Deviation out of range [max 500, seen 800 (val=-64000) with -63200]
-temp1_max: Deviation out of range [max 500, seen 800 (val=-64000) with -63200]
-temp2_crit: Deviation out of range [max 500, seen 800 (val=-64000) with -63200]
-temp2_crit_hyst: Suspected underflow: [min=-74000, read -64000, written -2147483648]
-temp3_crit: Deviation out of range [max 500, seen 800 (val=-64000) with -63200]
-temp3_crit_hyst: min [-64000] is equal to max [-64000]
+ .../translations/zh_CN/subsystem-apis.rst     |   5 +-
+ .../zh_CN/timers/delay_sleep_functions.rst    | 136 +++++++
+ .../translations/zh_CN/timers/highres.rst     | 271 ++++++++++++++
+ .../translations/zh_CN/timers/hpet.rst        |  44 +++
+ .../translations/zh_CN/timers/hrtimers.rst    | 188 ++++++++++
+ .../translations/zh_CN/timers/index.rst       |  31 ++
+ .../translations/zh_CN/timers/no_hz.rst       | 338 ++++++++++++++++++
+ .../translations/zh_CN/timers/timekeeping.rst | 203 +++++++++++
+ 8 files changed, 1212 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/timers/delay_sleep_functions.rst
+ create mode 100644 Documentation/translations/zh_CN/timers/highres.rst
+ create mode 100644 Documentation/translations/zh_CN/timers/hpet.rst
+ create mode 100644 Documentation/translations/zh_CN/timers/hrtimers.rst
+ create mode 100644 Documentation/translations/zh_CN/timers/index.rst
+ create mode 100644 Documentation/translations/zh_CN/timers/no_hz.rst
+ create mode 100644 Documentation/translations/zh_CN/timers/timekeeping.rst
 
-I'll need to track that down unless you find the probem before I do.
-
-Thanks,
-Guenter
+-- 
+2.34.1
 
