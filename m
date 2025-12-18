@@ -1,114 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8C034FF7E;
-	Thu, 18 Dec 2025 15:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3713570C6;
+	Thu, 18 Dec 2025 15:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766071163; cv=none; b=n/f8qcKCL/8N4CNwK5WsZr8FQfPF8xgw3QU4TeIutuErNfoqgTy/ABamhCj0JoZCH6IM+tyTMbiXmhkWQ+2s+QDqNOu5lwjLnxZxzivywqy5hBQ9rAPfy7GRnEFH8hK0sKbRLb9uu6LOMlEY+FUzmirIAPAMmSjlIhrYxjnb+TI=
+	t=1766071586; cv=none; b=LfMlggbKh0xcJWltUU6KwgD0QvYxkLMiwNJ11vw0APu6S3g+15WkXUXBxTZCs7Xl6WTaseKqsBBvmnWHfzpQ3240pgk7AgT3OzDcoctVbf3K7x0H48rBwWxMMtXv6HKbuaFPaznkfiF+8lAcRnzAgkghDUmc/FwCIWdlwAkNE6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766071163; c=relaxed/simple;
-	bh=lNs6h/Tn6npet126alMraOzQWAdHEXctBs9xqAtaI9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+a/lgjDJysMn/VQch1pPb9fnlYGqFrvgERtjbotp3iczuPQwCQRM9xuhK2e57JvmjkT7SUjlVIwZfRLw6Z75oF+dYXop2x6mKGl8uXDqorL9ceNUTsXDtvjbFFSbonI6gYe6R819bWvZLPCd+lJgHeLHq9psi6qTuCtgxau0jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mh9vl8cO; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mh9vl8cO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7037CC4CEFB;
-	Thu, 18 Dec 2025 15:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766071163;
-	bh=lNs6h/Tn6npet126alMraOzQWAdHEXctBs9xqAtaI9M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mh9vl8cO8g3zNkwI0qQEywi4S51l7RjjDFD+/NdoNaLkGqyRx/m6rMMWhNUAe/f7p
-	 ayNsqjF0dga4H1hM0eBbT33xWsC3nBBDkCMb7NkPrqoSg4v74duc9/Q2XD17wHljdm
-	 yojfvvwp03tfkXiwRvLb2udPhmZpeXD5MFNHzWHzDxSj0GvUIms23wcwgZC2ISjAcM
-	 k1paKBb6BaFYcG4p5jQMYoICzy5HtZwhZLJ07d6szQNEo9aHjh1dO3uVvrc+DZy+9Z
-	 SPQMmbht7uYv8YsFigMu2U/9a4X5PAY02AWgZ98AhbxtK9EMCcOShNkr0uzeJPImFd
-	 MlBo/i78fGf2Q==
-Date: Thu, 18 Dec 2025 15:19:17 +0000
-From: Will Deacon <will@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
-	tony.luck@intel.com, bp@alien8.de, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, catalin.marinas@arm.com,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com
-Subject: Re: [PATCH 11/12] ras: add DeviceTree estatus provider driver
-Message-ID: <aUQbdZHkzumTnwVP@willie-the-truck>
-References: <aUPv5UfBByVoLbRV@willie-the-truck>
- <20251218134311.2309421-1-ahmed.tiba@arm.com>
+	s=arc-20240116; t=1766071586; c=relaxed/simple;
+	bh=bJgkiMqX9YlHLjTI/Lv0jp6/0k3FJQPRz9YD4GRo2hI=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CX7k4iO33Rb8j0J6xDGZOy19t6dtEiNdhaUv55EIOx1+FH/Y2uSKAvyfvsxGlYaXnMBcHrfs195PmB/etePEiGa+V8t4Rovi/rszxSAHnSnlNxUqi50LEzUUR074QW7gw6yBHfL79dMttUQrjaSeL/iMX9TzE0bfYLxnJ/9exnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXDyR1959zHnH7D;
+	Thu, 18 Dec 2025 23:25:51 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 879EA40565;
+	Thu, 18 Dec 2025 23:26:18 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 18 Dec
+ 2025 15:26:17 +0000
+Date: Thu, 18 Dec 2025 15:26:16 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Gregory Price <gourry@gourry.net>
+CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <dave@stgolabs.net>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>, <dan.j.williams@intel.com>, <corbet@lwn.net>,
+	<kernel-team@meta.com>, <alejandro.lucero-palau@amd.com>
+Subject: Re: [PATCH] Documentation/driver-api/cxl: device hotplug section
+Message-ID: <20251218152616.00005b73@huawei.com>
+In-Reply-To: <20251218144636.1232527-1-gourry@gourry.net>
+References: <20251218144636.1232527-1-gourry@gourry.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218134311.2309421-1-ahmed.tiba@arm.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Thu, Dec 18, 2025 at 01:42:47PM +0000, Ahmed Tiba wrote:
-> On Thu, 18 Dec 2025 12:13:25PM +0000, Will Deacon wrote:
-> >> Introduce a platform driver that maps the CPER status block described
-> >> in DeviceTree, feeds it into the estatus core and handles either IRQ- or
-> >> poll-driven notifications. Arm64 gains a FIX_ESTATUS_IRQ slot so the
-> >> driver can safely map the shared buffer while copying records.
-> >>
-> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-> >> ---
-> >>  MAINTAINERS                     |   1 +
-> >>  arch/arm64/include/asm/fixmap.h |   5 +
-> >>  drivers/ras/Kconfig             |  14 ++
-> >>  drivers/ras/Makefile            |   1 +
-> >>  drivers/ras/estatus-dt.c        | 318 ++++++++++++++++++++++++++++++++
-> >>  include/linux/estatus.h         |   3 +-
-> >>  6 files changed, 341 insertions(+), 1 deletion(-)
-> >>  create mode 100644 drivers/ras/estatus-dt.c
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 6b2ef2ddc0c7..5567d5e82053 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -21761,6 +21761,7 @@ RAS ERROR STATUS
-> >>  M:   Ahmed Tiba <ahmed.tiba@arm.com>
-> >>  S:   Maintained
-> >>  F:   Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
-> >> +F:   drivers/ras/estatus-dt.c
-> >>  F:   drivers/firmware/efi/estatus.c
-> >>  F:   include/linux/estatus.h
-> >> 
-> >> diff --git a/arch/arm64/include/asm/fixmap.h b/arch/arm64/include/asm/fixmap.h
-> >> index 65555284446e..85ffba87bab9 100644
-> >> --- a/arch/arm64/include/asm/fixmap.h
-> >> +++ b/arch/arm64/include/asm/fixmap.h
-> >> @@ -64,6 +64,11 @@ enum fixed_addresses {
-> >>  #endif
-> >>  #endif /* CONFIG_ACPI_APEI_GHES */
-> >> 
-> >> +#ifdef CONFIG_RAS_ESTATUS_DT
-> >> +     /* Used for ESTATUS mapping from assorted contexts */
-> >> +     FIX_ESTATUS_IRQ,
-> >> +#endif /* CONFIG_RAS_ESTATUS_DT */
-> >
-> > Why do we need this in addition to the four existing GHES slots? The DT
-> > code doesn't use it and I was assuming that the ACPI code would continue
-> > to use the existing irq; is that not the case?
-> 
-> 
-> We still need a dedicated slot when only the DT provider is built.
-> All four GHES slots are defined as part of the ACPI implementation,
-> so they are not present in a DT-only configuration.
-> 
-> The estatus core always requests a fixmap index from each provider
-> before copying a CPER record. As a result, the DT driver must supply
-> its own slot to return a valid enum value to satisfy the common code.
+On Thu, 18 Dec 2025 09:46:36 -0500
+Gregory Price <gourry@gourry.net> wrote:
 
-Sorry, but I still don't follow this. The DT code doesn't use the fixmap,
-does it? It looks like it maps the buffer ahead of time using
-devm_ioremap_resource() and then the accessors don't use the fixmap
-index at all, hence the horrible '(void)fixmap_idx;' cast which presumably
-stops the compiler from complaining about an unused variable.
+> Describe cxl memory device hotplug implications, in particular how the
+> platform CEDT CFMWS must be described to support successful hot-add of
+> memory devices.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
 
-Will
+Hi Gregory,
+
+Thanks for drawing this up.
+
+> ---
+>  Documentation/driver-api/cxl/index.rst        |  1 +
+>  .../cxl/platform/device-hotplug.rst           | 77 +++++++++++++++++++
+>  2 files changed, 78 insertions(+)
+>  create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
+> 
+> diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
+> index c1106a68b67c..5a734988a5af 100644
+> --- a/Documentation/driver-api/cxl/index.rst
+> +++ b/Documentation/driver-api/cxl/index.rst
+> @@ -30,6 +30,7 @@ that have impacts on each other.  The docs here break up configurations steps.
+>     platform/acpi
+>     platform/cdat
+>     platform/example-configs
+> +   platform/device-hotplug
+>  
+>  .. toctree::
+>     :maxdepth: 2
+> diff --git a/Documentation/driver-api/cxl/platform/device-hotplug.rst b/Documentation/driver-api/cxl/platform/device-hotplug.rst
+> new file mode 100644
+> index 000000000000..9af8988bd47a
+> --- /dev/null
+> +++ b/Documentation/driver-api/cxl/platform/device-hotplug.rst
+> @@ -0,0 +1,77 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==================
+> +CXL Device Hotplug
+> +==================
+> +
+> +Device hotplug refers to *physical* hotplug of a device (addition or removal
+> +of a physical device from the machine).
+> +
+> +Hot-Remove
+> +==========
+> +Hot removal of a device typically requires careful removal of software
+> +constructs (memory regions, associated drivers) which manage these devices.
+> +
+> +Hard-removing a CXL.mem device without carefully tearing down driver stacks
+> +is likely to cause the system to machine-check (or at least SIGBUS if memory
+> +access is limited to user space).
+> +
+> +Memory Device Hot-Add
+> +=====================
+> +Hot-adding a memory device requires that the memory associated with that
+> +device fits in a pre-defined (*static*) CXL Fixed Memory Window in the
+> +:doc:`CEDT<acpi/cedt>`.
+> +
+> +There are two basic hot-add scenarios which may occur.
+> +
+> +Device Present at Boot
+> +----------------------
+> +A device present at boot likely had its capacity reported in the
+> +:doc:`CEDT<acpi/cedt>`.  If a device is removed and a new device hotplugged,
+
+The concept of reporting in CEDT is a little vague. Perhaps expand on that a little
+with something like:
+
+A device present at boot will be associated with a CFMWS reported in
+@doc:`CEDT<acpi/cedt>` and that CFMWS may match the size of the device.
+
+> +the capacity of the new device will be limited to the original CFMWS capacity.
+> +
+> +Adding a device larger than the original device will cause memory region
+> +creation to fail if the region size is greater than the CFMWS size.
+
+Adding capacity larger than the original device
+(can add a subset of the new device capacity)
+> +
+> +The CFMWS is *static* and cannot be adjusted.  Platforms which may expect
+> +different sized devices to be hotplugged must allocate sufficient CFMWS space
+> +*at boot time* to cover all future expected devices.
+> +
+> +No CXL Device Present at Boot
+> +-----------------------------
+> +When no CXL device is present on boot, most platforms omit the CFMWS in the
+> +:doc:`CEDT<acpi/cedt>`.  When this occurs, hot-add is not possible.
+
+Relax to 'some platforms'
+
+Just to future proof the doc for when people start mostly doing the sensible thing.
+
+> +
+> +For a platform to support hot-add of a memory device, it must allocate a
+For a platofmr to support hot-add of a full memory device
+(see above for partial capacity being fine)
+
+> +CEDT CFMWS region with sufficient memory capacity to cover all future
+> +potentially added capacity.
+> +
+> +Switches in the fabric should report the max possible memory capacity
+> +expected to be hot-added so that platform software may construct the
+> +appropriately sized CFMWS.
+
+How do switches report this? I don't think they can as it really has nothing
+to do with the switch beyond maybe how many DSPs it has (which incidentally
+is what is used to work out space for PCI HP where the code divides up space
+left over space between HP DSPs.).
+
+Obviously this excludes the weird switches that are out there than pretend
+to be a single memory device as those are not switches at all as far
+as Linux is concerned.
+
+> +
+> +Interleave Sets
+> +===============
+> +
+> +Host Bridge Interleave
+> +----------------------
+> +Host-bridge interleaved memory regions are defined *statically* in the
+> +:doc:`CEDT<acpi/cedt>`.  To apply cross-host-bridge interleave, a CFMWS entry
+> +describing that interleave must have been provided *at boot*.  Hotplugged
+> +devices cannot add host-bridge interleave capabilities at hotplug time.
+> +
+> +See the :doc:`Flexible CEDT Configuration<example-configurations/flexible>`
+> +example to see how a platform can provide this kind of flexibility regarding
+> +hotplugged memory devices.
+> +
+> +Platform vendors should work with switch vendors to work out how this
+> +HPA space reservation should work when one or more interleave options are
+> +intended to be presented to a host.
+
+Same as above. Nothing to do with switches as far as I understand things
+beyond them providing fan out. So if you have
+       HB0          HB1
+    RP0 RP1         RP2
+     |   |           | 
+   Empty Empty      USP
+              _______|_______
+             |    |   |     |
+            DSP  DSP  DSP   DSP
+             |    |   |     |
+                All empty
+
+You might provide more room for devices below HB1 than HB0 if you don't expect
+to see switches being hot added.
+
+Jonathan
+
+> +
+> +HDM Interleave
+> +--------------
+> +Decoder-applied interleave can flexibly handle hotplugged devices, as decoders
+> +can be re-programmed after hotplug.
+> +
+> +To add or remove a device to/from an existing HDM-applied interleaved region,
+> +that region must be torn down an re-created.
+
