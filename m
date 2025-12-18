@@ -1,231 +1,197 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F03813B284
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 17:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5612F744C
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 17:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766077708; cv=none; b=Spko27rvEsVyaJF9n7jQu2Y7O0f0ED/s5dhcu+1t01xJlaH3y9DtrO1n0hTT9tzfDY72Gf05s0NnlUam0RRmHNCKx1xImWA3lKDEb/ap09GFw/kIEh4/Wc74zSnOm3kY0EOiVTEYKPrTp18kskvzT6lZhU3J85wRRj8biacD+Ps=
+	t=1766079647; cv=none; b=hbKhLA+3RSXkdrhH8deabjC0ui2wosARpJHa0Qv13RYis8i69Mq0q0+wTT1XeZ6l8iKIVWvz9ZtY1I5iVDVQGLyAEetxoATqArp75YOV+pANgfDzbCi6ThDp/Z/ZOrEjU2mzli5PnLJb1K/sFWZ9tsk1BY28k0JBeKZJYxxoBGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766077708; c=relaxed/simple;
-	bh=8ye9FD0BFmVlW+0teHeZBRRFLyYOXqRaeSCCyvdA6iQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eEs0fsCiNpL4h9eVMh94Gd8VsyW+mr0Eyuyf1RhtP38OufZuXcq+AyYHXF3AdvGwOjJCfNwUTJ8EJJRBTvwnq/YDPuueCwqvsNO3XT0h+IMxRnjhWxXsafnCeUzg8Usnj0fC6PA30J2P2bwK0LoNmzVbqTMj2cKxMVJ3DuDfExg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ssLttwpL; arc=none smtp.client-ip=209.85.217.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1766079647; c=relaxed/simple;
+	bh=76DOHh5woYV0UnKHUm9yPfjZMy2N+QEGCZd9dXKIa04=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IK4lQ/bcJieMElQbTP3ItcJ0CrbZSrKlEphlRzr2SXZBqCY1OaE8fWVZZS5wEF8aDHp3g2VLXEQMFCF/b/hUWDwfnFG4Z7HLvemIJz1YUzF12WNz0UDXfIMokJOF/9nXTp4CQW++iFMk+JnVaZjdMPVZK5Z06cs25Enx9VIPggw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeAVe+HR; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ssLttwpL"
-Received: by mail-vs1-f68.google.com with SMTP id ada2fe7eead31-5dbe6304b79so326994137.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 09:08:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FeAVe+HR"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-34c5f0222b0so790812a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 09:40:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1766077705; x=1766682505; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Ya4unRoujhVC5tGQqPhGTBiLoZbxvuuVtCstkzd5+M=;
-        b=ssLttwpLcnlzjVXrr+dQDTqJfXF3X+Ro3uMaia9IJB2PiRkn1mv+LcGpVhvtd+gkR8
-         9OGyuRReXTviKVbj+32ofb9RuwFLPkclD7rXvfo9ZZyM8llVrMoH2vw/5lP6lB076kiz
-         XEb2QFgSo5eGzDYqMWFGNcf1ueuK7v9OvcFvkn6BMRkBcNEaKjm0PT05x5pZzUZt/T32
-         VPFtBOfH9EPgtfSAJcidDwkb6RkJzUBjjzBddqiG2JO95II0riYO2xgeJukh1bp7x0Jk
-         O6KmzqiIkZhEoDdbXfBSX0//rQ2hPiWIKwUX9rgBCZsd94MSSKZWbaS2+xc01kPAcEkq
-         K2CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766077705; x=1766682505;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766079645; x=1766684445; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4Ya4unRoujhVC5tGQqPhGTBiLoZbxvuuVtCstkzd5+M=;
-        b=BbWprICKMq80D6L4BsAj4THZPb102vR8ePZnJtPqktH2Duh2XbteQj84JgPqH4uYXy
-         nkRkyy/MC17R5tC101A9/B+P1NY/HOQEl9sUBdzr/v1Z7wD4C0VK+0oWkm+cDVObx4Ig
-         S8maId5za+I8jYUUeiiWMbFdxHfNmFoP02TJxjWPxLP27Wljx93mpBHC4eI7Ur6DXrT/
-         6SFxnEiTamHTCVtjuxZEXAiZ5agqrXiha8CF3DG3PCRct5MUDhGD7igycgDZ/9FZy/5m
-         yUsxrlMPeIY8PQ4x9VXyjhy9bofTf9U00fGIptGKnGkpx+70d+/W9KAO4n+zF3SnsTxQ
-         UQCw==
-X-Gm-Message-State: AOJu0YxwmBOUbWD1dTdzDQa7hBv1J644jPIxJuqcDGjo82Z5zlboMGVi
-	4S5LBV73aXi7BOZot8PPRcZWTFeOBWgsvE0ga7sev7beArEwDpGs+iWAnpX23QDbIqI=
-X-Gm-Gg: AY/fxX5thlvaxXiubGcBh4e19ofAZv/4hFul5/7K+FB3njL10TDS32aTq12f1s5if0U
-	gNtm2aaM58Mm7OgXNLp+rzLbkYKM7qJln70e9/fSbDmoS7uf5q2XAQQve8XiOG9J6d/GfDTdx7Z
-	e7MVzR1W37Hn4cqtHlHcLaLg5Aa4xRxTq5SK6Z15J0FHQXGZOt5EizKOBQ5u2ZF6AyDDRTRJwA6
-	ZoTDT9P2inJwI4gAVQxKddQeUO8kByGL3GSw2vW03vQh07DYZipqw1TH+YQOmEcgXQSZ8rgCgNb
-	PfgXNyA91vD1F8Vx3LFLp8GOpORzojTL1QNq2BZ3MbfmHtf/8jEsjLZHrA1GjQBK1qow40HbRSc
-	MVmuy7HcUNWZNhGiqITY0mrLiEgcQ7u1zg8tpn1HwJw3FPBeM0WUcY36O/CffA4oWX1cijL+2c1
-	JkEIpVuORjZ5Nd25vGIjB7000IbYae7v8SOvOJ8RHa5HfOCFMKjqUnhXoz7rhidwrNAZEPC/vu1
-	OygICrfTcfh8g==
-X-Google-Smtp-Source: AGHT+IFSHbw0chfOWEQxtTLWjVKiGVd/5ep5H3OHMkfwYCMbPQeVBTd2RA/79NAFdzsJerniQ+4zzg==
-X-Received: by 2002:a05:6102:3e84:b0:5db:cf38:f4f3 with SMTP id ada2fe7eead31-5e8277cde55mr7853764137.28.1766077704903;
-        Thu, 18 Dec 2025 09:08:24 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9623ffe8sm222186d6.12.2025.12.18.09.08.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 09:08:24 -0800 (PST)
-From: Gregory Price <gourry@gourry.net>
-To: linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com,
-	dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	corbet@lwn.net,
-	gourry@gourry.net
-Subject: [PATCH v2] Documentation/driver-api/cxl: device hotplug section
-Date: Thu, 18 Dec 2025 12:07:47 -0500
-Message-ID: <20251218170747.1278327-1-gourry@gourry.net>
-X-Mailer: git-send-email 2.52.0
+        bh=6jrjlt/iGNNCo/YYSDSZW1rUpJUDWoV/i2JFPWjGwsI=;
+        b=FeAVe+HRnjhoTJZfmiByN9pTRoQYCBfz1/sD+EBDZV55+93J8JRYnnY53l0Adr+Sco
+         BA5jvhswgWnCXVkSFCyTPLvnOa6QKiAmF9Q8vXLXhnA1TGWCfSPlnlya3S8J1PK6hNs6
+         k7DI8Mu9LVJ13186oY8MjCwn5lRYdpw2Xs3JXQ9dbrEhTomfAO3vwq92sQ5NAq8DRPHW
+         4iTPCeFqUm6KGUWt53Fos78ydtWCt/afwcaHGdk/KUqW0P5sbcMkAuMGihA8P07TsHSI
+         qkW1NpI3dKJUB6BVZNio/oRivHwfnqKCNx22zF+SKlwvMx2leQV8BGbRj1jBS0ZntXAU
+         85tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766079645; x=1766684445;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6jrjlt/iGNNCo/YYSDSZW1rUpJUDWoV/i2JFPWjGwsI=;
+        b=J7jq0oy8Fuz/i4Gtd9fluIdcXA+BznqWrhb/oJR8DFGO/6nisHpCfij+ezP8cLrUwE
+         inZ+eAoMvADpUYGu8L4kgf4gy9MOSRcoIrthQlzuvFdGQOHG76grqp5XzqbCLC07iXHe
+         OgMrXw6b+fphX13C7PgKI+ecxwDwLOpoIEfCa9XtiNZd1tREd2M6X98TEbmT/X5BLZZk
+         YawQZUy8YVXYkKpfxP/CC79VqSVxAnkoHCRn40BX+LP9ZswSsGwidMzlUnM1eSRV/I7e
+         w380Zq9CKREJkblXdYJa6PzMUpPE/ofrEZJ4+MMMZumwlh/yhqRdt9sEeVSQMzysBJIC
+         Vvsw==
+X-Forwarded-Encrypted: i=1; AJvYcCWV4RR/VZMwqk2GO8YUAeEjKZ6Tbbgpd2l6Pxhg25nJIoeB2/U6hYDtmvSL8av6G9Q8H2iPoYQPhVs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDSeoMWyZTqZhGXt5SduivGwJu6ZCweZ/xNZxR4CmSqKPwkez3
+	yI4vT1GGLJsqk9TtN3IDBF1svAecBzZXpgbDcjyDJvekKMyHh/l3f1xd1SYVclSnaxPRuptj8Fn
+	XuWsG1c+QGhlPyQveJi/AmsU5vxR6nHA=
+X-Gm-Gg: AY/fxX6VMS51Wpyw+fgpKic8Fs8ttNP8RkoWL1FXEGcYuJW73VxjU4VYV5wIc/beAVF
+	ESZq3V8pfsGsHoOx5ydC7PlnHujZbWN/WZCCYoxnzjluvHqyBWA4zMj1fWpGpz/hTKkMieyIF/a
+	DPFOA1xhf7+Vq5XYb4KpEriUhDB+yWeCP+0YhxF4vVIxp1SeLDP2KktgNr0fXQixLq9xkV5Y+Zz
+	y4UCew5AWXtMCyp1Y/RU8+WY6fSmqox3WDKSFhWeszz4DZYBuFMOpIZEklSafeVfMLJvbihNg4N
+	65WkvnGZyGnYNTGYNcsL6s1ik5yR/sH/iJTxvYFUJlhQFcFpq7s=
+X-Google-Smtp-Source: AGHT+IGZxOrOa47brG46M0MtYHWndTn0lfrZidL7/W2PPWvA8LJSTJwrhVcEshiQ32enfNYo3kSQ53r5ZD4xODqn4pc=
+X-Received: by 2002:a17:90b:2f47:b0:34c:3501:d118 with SMTP id
+ 98e67ed59e1d1-34e9211d455mr145781a91.1.1766079644838; Thu, 18 Dec 2025
+ 09:40:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAHtS32-Zh3knxSdR=DUqQH4rX4QU8ewgu+KHGq6Af3qs9S0FAg@mail.gmail.com>
+ <87v7i4hpi4.fsf@microsoft.com> <CAHtS329aD5DyYSUkcuZXXjZKywqqTHe_1pA6uyaQH=Zwi9kydw@mail.gmail.com>
+In-Reply-To: <CAHtS329aD5DyYSUkcuZXXjZKywqqTHe_1pA6uyaQH=Zwi9kydw@mail.gmail.com>
+From: ryan foster <foster.ryan.r@gmail.com>
+Date: Thu, 18 Dec 2025 09:40:32 -0800
+X-Gm-Features: AQt7F2pWi3NWvO0tQV8cjd-0T99ySge_U9MedSd_1j4tPvIggUAVTRhDTP69saE
+Message-ID: <CAHtS32_TPrURNQkn+a1RrJRhUm7sPBWz37CPX81sG-LnYGuh5Q@mail.gmail.com>
+Subject: Re: [RFC 00/11] Reintroduce Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: James.Bottomley@hansenpartnership.com, akpm@linux-foundation.org, 
+	bpf@vger.kernel.org, corbet@lwn.net, dhowells@redhat.com, gnoack@google.com, 
+	jmorris@namei.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux@treblig.org, mic@digikod.net, 
+	paul@paul-moore.com, serge@hallyn.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Describe cxl memory device hotplug implications, in particular how the
-platform CEDT CFMWS must be described to support successful hot-add of
-memory devices.
+Hi Paul, Blaise,
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
-v2: Jonathan's clarifications and diagrams.
+Thanks for clarifying, that matches my understanding.
 
- Documentation/driver-api/cxl/index.rst        |   1 +
- .../cxl/platform/device-hotplug.rst           | 112 ++++++++++++++++++
- 2 files changed, 113 insertions(+)
- create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
+My read is Hornet's semantic goal is load-time provenance and
+integrity: validate the user-generated inputs once the kernel has
+constructed the final in-kernel program instance (post-relocation,
+with any integrity-relevant referenced inputs accounted for), and
+record that result so LSM/policy can make decisions based on a fact
+the kernel can truthfully assert.
 
-diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-index c1106a68b67c..5a734988a5af 100644
---- a/Documentation/driver-api/cxl/index.rst
-+++ b/Documentation/driver-api/cxl/index.rst
-@@ -30,6 +30,7 @@ that have impacts on each other.  The docs here break up configurations steps.
-    platform/acpi
-    platform/cdat
-    platform/example-configs
-+   platform/device-hotplug
- 
- .. toctree::
-    :maxdepth: 2
-diff --git a/Documentation/driver-api/cxl/platform/device-hotplug.rst b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-new file mode 100644
-index 000000000000..617e340bd556
---- /dev/null
-+++ b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-@@ -0,0 +1,112 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
-+CXL Device Hotplug
-+==================
-+
-+Device hotplug refers to *physical* hotplug of a device (addition or removal
-+of a physical device from the machine).
-+
-+Hot-Remove
-+==========
-+Hot removal of a device typically requires careful removal of software
-+constructs (memory regions, associated drivers) which manage these devices.
-+
-+Hard-removing a CXL.mem device without carefully tearing down driver stacks
-+is likely to cause the system to machine-check (or at least SIGBUS if memory
-+access is limited to user space).
-+
-+Memory Device Hot-Add
-+=====================
-+A device present at boot will be associated with a CXL Fixed Memory Window
-+reported in :doc:`CEDT<acpi/cedt>`.  That CFMWS may match the size of the
-+device, but the construction of the CEDT CFMWS is platform-defined.
-+
-+Hot-adding a memory device requires this pre-defined (*static*) CFMWS has
-+sufficient space to describe that device.
-+
-+There are a few common scenarios to consider.
-+
-+Single-Endpoint Memory Device Present at Boot
-+---------------------------------------------
-+A device present at boot likely had its capacity reported in the
-+:doc:`CEDT<acpi/cedt>`.  If a device is removed and a new device hotplugged,
-+the capacity of the new device will be limited to the original CFMWS capacity.
-+
-+Adding capacity larger than the original device will cause memory region
-+creation to fail if the region size is greater than the CFMWS size.
-+
-+The CFMWS is *static* and cannot be adjusted.  Platforms which may expect
-+different sized devices to be hotplugged must allocate sufficient CFMWS space
-+*at boot time* to cover all future expected devices.
-+
-+Multi-Endpoint Memory Device Present at Boot
-+--------------------------------------------
-+A hot-plug capable CXL memory device, such as one which presents multiple
-+expanders as a single large-capacity device, should report the maximum
-+*possible* capacity for the device at boot. ::
-+
-+                  HB0
-+                  RP0
-+                   |
-+     [Multi-Endpoint Memory Device]
-+              _____|_____
-+             |          |
-+        [Endpoint0]   [Empty]
-+
-+
-+Limiting the size to the capacity preset at boot will limit hot-add support
-+to replacing capacity that was present at boot.
-+
-+No CXL Device Present at Boot
-+-----------------------------
-+When no CXL memory device is present on boot, some platforms omit the CFMWS
-+in the :doc:`CEDT<acpi/cedt>`.  When this occurs, hot-add is not possible.
-+
-+For a platform to support hot-add of a full memory device, it must allocate
-+a CEDT CFMWS region with sufficient memory capacity to cover all future
-+potentially added capacity.
-+
-+To support memory hotplug directly on the host bridge, or on a switch
-+downstream of the host bridge (but not contained within a CXL memory device),
-+a platform must construct a CEDT CFMWS at boot with sufficient resources to
-+support the max possible (or expected) hotplug memory capacity. ::
-+
-+         HB0                 HB1
-+      RP0    RP1             RP2
-+       |      |               |
-+     Empty  Empty            USP
-+                      ________|________
-+                      |    |    |     |
-+                     DSP  DSP  DSP   DSP
-+                      |    |    |    |
-+                         All  Empty
-+
-+For example, a BIOS/EFI may expose an option to configure a CEDT CFMWS with
-+a pre-configured amount of memory capacity (per host bridge, or host bridge
-+interleave set), even if no device is attached to Root Ports or Downstream
-+Ports at boot (as depicted in the figure above).
-+
-+
-+Interleave Sets
-+===============
-+
-+Host Bridge Interleave
-+----------------------
-+Host-bridge interleaved memory regions are defined *statically* in the
-+:doc:`CEDT<acpi/cedt>`.  To apply cross-host-bridge interleave, a CFMWS entry
-+describing that interleave must have been provided *at boot*.  Hotplugged
-+devices cannot add host-bridge interleave capabilities at hotplug time.
-+
-+See the :doc:`Flexible CEDT Configuration<example-configurations/flexible>`
-+example to see how a platform can provide this kind of flexibility regarding
-+hotplugged memory devices.  BIOS/EFI software should consider options to
-+present flexible CEDT configurations with hotplug support.
-+
-+HDM Interleave
-+--------------
-+Decoder-applied interleave can flexibly handle hotplugged devices, as decoders
-+can be re-programmed after hotplug.
-+
-+To add or remove a device to/from an existing HDM-applied interleaved region,
-+that region must be torn down an re-created.
--- 
-2.52.0
+Attaching and linking are separate runtime policy/capability
+questions. It makes sense that SELinux, IPE, or a BPF LSM program
+could choose to gate attach/link based on whether Hornet recorded the
+program as verified, but that enforcement is orthogonal to Hornet's
+core integrity/provenance objective.
 
+Thanks
+
+
+On Thu, Dec 18, 2025 at 9:39=E2=80=AFAM ryan foster <foster.ryan.r@gmail.co=
+m> wrote:
+>
+> Hi Paul, Blaise,
+>
+> Thanks for clarifying, that matches my understanding.
+>
+> My read is Hornet's semantic goal is load-time provenance and integrity: =
+validate the user-generated inputs once the kernel has constructed the fina=
+l in-kernel program instance (post-relocation, with any integrity-relevant =
+referenced inputs accounted for), and record that result so LSM/policy can =
+make decisions based on a fact the kernel can truthfully assert.
+>
+> Attaching and linking are separate runtime policy/capability questions. I=
+t makes sense that SELinux, IPE, or a BPF LSM program could choose to gate =
+attach/link based on whether Hornet recorded the program as verified, but t=
+hat enforcement is orthogonal to Hornet's core integrity/provenance objecti=
+ve.
+>
+> Thanks
+>
+>
+> On Wed, Dec 17, 2025 at 11:33=E2=80=AFAM Blaise Boscaccy <bboscaccy@linux=
+.microsoft.com> wrote:
+>>
+>> ryan foster <foster.ryan.r@gmail.com> writes:
+>>
+>> > Hi all,
+>> >
+>>
+>> Hi Ryan,
+>>
+>> > I want to confirm I understand the current semantics, and specific iss=
+ues
+>> > this series is addressing.
+>> >
+>> > In the signed BPF two step flow, the LSM makes decisions using what is
+>> > known at the time of run hooks.  At load time, the only clear fact is =
+"the
+>> > loader is signed".  However, if we really want integrity for "the fina=
+l
+>> > program that will execute after relocation, and any inputs as part of =
+the
+>> > contract, matches what was signed".  The fact exists after loader runs=
+, so
+>> > the kernel could end up allowing and auditing based on the signed load=
+er,
+>> > even though it cannot yet truthfully say the runnable payload has been
+>> > verified.
+>> >
+>>
+>> Correct.
+>>
+>> > If this is the right understanding, perhaps we could consider a design=
+ that
+>> > moves enforcement to the moment the program becomes effective. E.g.  L=
+oad
+>> > can create a program object, but it is inert by default.  The kernel s=
+hould
+>> > only allow attach or link creation if the kernel has already recorded =
+a
+>> > verified record of the final relocated instruction stream plus
+>> > referenced state for inputs, is included in the "integrity contract".
+>> >
+>> > If the referenced state is mutable, then either state must be frozen b=
+efore
+>> > the contract is verified, or any mutation must invalidate verified and
+>> > force re-verification and a new policy decision. Otherwise the state i=
+s
+>> > susceptible to TOCTOU issues.
+>> >
+>> > Is this the semantic goal Hortnet is aiming for, and is attack or link
+>> > creation the intended enforcement point for the "cannot become effecti=
+ve
+>> > until verified" rule, instead of trying to make a load time hook repre=
+sent
+>> > final payload verification?
+>> >
+>> > Thanks
+>> >
+>> > Regard, Ryan
+>>
+>>
+>> The semantic goal for Hornet is to validate the provenance and integrity
+>> of all the user-generated inputs when they are loaded into the kernel,
+>> in order to allow users to make intelligent security decisions based
+>> on that. IMO, attaching and linking are orthogonal run-time policy issue=
+s
+>> that are seperate from provenance and data integrity concerns.
+>>
+>> Allowing or disallowing linking and attaching based on the completeness =
+of
+>> signature validation does make sense. That kind of decision would
+>> probably be handled by selinux, IPE, or a custom BPF LSM program most
+>> likely though.
+>>
+>> -blaise
