@@ -1,227 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198AE22A1E1
-	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 22:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D5D1A5B84
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 22:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766096299; cv=none; b=DRI7WSnPa3ocMdNdIQcNKdvQIcerMv56n3FNz7YS09P+krj0Cc4iSkg9pYr3L2behy/mLPLsRw3PAw2RsGO75gJokTGYYeYQqJwwj7Hmrd/1gaQG04l6qvvJydDo2D/vwNDHUAY1iIjDeZ49n0/C4xEzQ1VUI6dAJgBBZXgqiT8=
+	t=1766097085; cv=none; b=YtAyfCNauXH09Lx8weKo1tRO3zulociT6Oe+AVXcfhPMwBXHIBdlM639b21C3jLHdWsSYiI/J7iKNiv/fMWwCnN8V4abcOsXE9SiqgkP6UUtcyeEokgELpTVR/l+4+8hygE2MmQeBcTcVmP3NBgYdl468ckN3EqngQAvTTMhVYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766096299; c=relaxed/simple;
-	bh=FUgCeuiQNT4muIFBCmCzgaZfGQk40jmJWu4fIl3oYKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awjEuXR1lbwR7NTK9dpvF+RbCs/1bYG6as6y84RBeLRMikPlK7KEKHGIfowY0x5mpmQlUlNABx1j3hzw9Hk8PtW0o+/yszPUpOXLGIdzKGHedapa02EmN85PMaNHSTIBZQ6Q38AKGKUYyL118A8rNLLgOVnz4O5UABdixSjUJZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyJgYb7t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766097085; c=relaxed/simple;
+	bh=T9A9RSx6r68PRmG7Ulq/Q4BbIkwiLt9JIVWG5jnzuXM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ALp3Ibypy91L69LPs0xfC3sAvVIbsczXIHO04FA3Dd/KPtvBSVYDDoGxc0xPT1Ra1mrxWmP5j7I6G/uGeQqGwqur3+ZkVCGi10HEq9jZki5NPZMDphrjtumB7lfvNeYpfmSQIFzX1fW4B+V1uM8Nw/bYjcdezDvWC7s85g9cgO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dSedXJqY; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyJgYb7t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20046C113D0;
-	Thu, 18 Dec 2025 22:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766096298;
-	bh=FUgCeuiQNT4muIFBCmCzgaZfGQk40jmJWu4fIl3oYKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eyJgYb7tg2MAyuKG6rI5UMjAdV3cDZNb9nU9LITotkmynISVw6eD/yPFDWZREz9vc
-	 TF5DAwkRgvFQ1eSeGM0OJlP267Ahm3WbPM5LZqb/VJTwAWDija/3HEJo0MNstuc2Hv
-	 93WEJWYFsihbwo2Jg9oO00IaoMXWYnvi+2d/cNO1EZoO7XIDKlivVDslLTuA/VIrU+
-	 47Ol2bd48vSkaueLGIx5kINEJeQCQWLQAl1Z06FkxnhI5WYnlx24e15q8/CFlwqZEd
-	 wur4hOBdx9Fhqig5THqzTZxSPHPhOKAJN8aIVd1dzd1O4v9vrafv2uRmIsjZh+AEE/
-	 uJQuF/nCCR/sg==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 601C4F4006D;
-	Thu, 18 Dec 2025 17:18:17 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 18 Dec 2025 17:18:17 -0500
-X-ME-Sender: <xms:qX1EaTz7izvLcduUg_22qEkWYwvSQKkS767iaRTZ_AefNM1zIW1abg>
-    <xme:qX1EadXmUu5mhezqQPZMguY3coq1_DaOHq-wdNtsbhpc-eNBt7z57l4ImB35k5FA1
-    B6kJmWEBuRceL_ji1nbuYKFiprIEyvCfWUJ_o1h5u1ocs1ERnZxQuaI>
-X-ME-Received: <xmr:qX1EaXbuduq-XfSLSednr-WC547i5NufmCeS_MoAIo49zTXUpG2lue4BuCD6jw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegieeitdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpefmihhrhihlucfu
-    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeehieekueevudehvedtvdffkefhueefhfevtdduheehkedthfdtheejveelueffgeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
-    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
-    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
-    grmhgvpdhnsggprhgtphhtthhopeefkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    oheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhope
-    hmuhgthhhunhdrshhonhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepuggrvhhiuges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdroh
-    hrghdprhgtphhtthhopehushgrmhgrrghrihhfieegvdesghhmrghilhdrtghomhdprhgt
-    phhtthhopehfvhgulhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepohhsrghlvhgrug
-    horhesshhushgvrdguvgdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgii
-X-ME-Proxy: <xmx:qX1EaYN3Ut09ZxqGoJd7XQHjVn2v9-CjaYEQ55sURW6WMfKIdR6ZpA>
-    <xmx:qX1Eabu-pbi6_iJ7-E9PpWEBG9kBksqjrInQovTtek8uqPM3mX308A>
-    <xmx:qX1Eae0BdE73PogicHJtHPSjs76zOCGfcACPYnH36G71iX6ew8GONQ>
-    <xmx:qX1EaZUaAMF0a6DbR9gUnSeEsKM4zxuVtybMoEg2ta2gSDDVer78vg>
-    <xmx:qX1EaUuSs4NqwYdss3vvgbRdATZV5nf85GISJc6bdTGWXiwjUZHWfAHV>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Dec 2025 17:18:16 -0500 (EST)
-Date: Thu, 18 Dec 2025 22:18:15 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
-	Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCHv2 00/14] Eliminate fake head pages from vmemmap
- optimization
-Message-ID: <pr22ew7pmqercu5tlabw2ros4cdeoyhlqbqmogvfqgekesfbfz@f5nls3gxj76t>
-References: <20251218150949.721480-1-kas@kernel.org>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dSedXJqY"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-64b8123c333so1026477a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 14:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1766097082; x=1766701882; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N0ZERnv75ipSNvUOdThWl0eF0juyZyQV8vJbbiWVzrk=;
+        b=dSedXJqYrrYf9JtpByiZn1p/imDLzvtgU+gM5amXanF4cnct6jhw6iGX2m4nacscws
+         JfZoGnpbr79UueaVr1wlw3gsaAIgG78KiAfaGzM4aAq3dNgJPB6H/pbGnHvfIHkRQgNl
+         TBDTYrtWazhFpFMFrwzenHl5isCaq11QnlNXcX+SlKDHXoXiHQb42u6hM7IJ7h46J/X/
+         yNGt0VRxukK/+oZq1ACUIjbVTWn2JAqC0sj8MWCBaUe/mwPWwkKBC5PDH1LzOZfxXZTq
+         rSipWqsKmebcgnFml+qz8y7dnuoZrQwyoCNDNXjjhuEIOug4IoMraIzUuaLRMzSXqtKT
+         bVDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766097082; x=1766701882;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N0ZERnv75ipSNvUOdThWl0eF0juyZyQV8vJbbiWVzrk=;
+        b=mmDwBH6fkRayzub3ZwUK6PFr19ATV74fTCfb6HXb9X1CS2IYh0nqWtROk72fcHQeGN
+         YKiq9khlFTsdWavUkd3sL8OvTYHT633SCg3bXppzGosr2pQvAqowlwlxqcF13OfU8FTj
+         2Mt9xZjcH1Abc5ecgMz4BACZe/aFPCNtqCyeZeREkeZORqu/qEEEBpSCVROyG82Bxvpr
+         yoygDN7TtryP9EQHoMbXjrLXvVZ0L1hPHim8t/3pBfrVbP92hVrs1+60XjH3alGrkwiy
+         ZQCZeKKWwdpAYBqPnSpfO1cLyQVfF1yMNHXQzdCsWV2QYcECRdVcrTJLbwTO77oR7mkJ
+         769Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX0cJPeA2/ymSOVTl6or+w5qX6EhHMZZVFVpFIKiOdRDfijea8HYAbtpWqhABbcsgH/2QXEt/EoeqE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFP4d5dDhY5RRNo8bOVMXYcYaxSycggmxIuyOkbym3mReBDSxt
+	pSTtdz9iLwz4bkkKNbHCLv1K/SUofdeNyIs8qsE4Gh8XnOvBMUPxs4FjmJ945gznXyNsYuo8BEz
+	MmPAFdWcBT3iDlZiO8DXTqmPL19I24zTUUN3C1xdKXA==
+X-Gm-Gg: AY/fxX4tKZN4uaK7or4s39NuHR9/KMlKAS59dXZbYj6nwoGqFU0jHrbMSEPwMZlUUqW
+	04o9EjTkVFo0e0S2U3EEnyxaiXvA42dryqaJmJcYgyIWWcEk6jtAJDDB1RQMEVyFomQqvwciwFX
+	/qfCvpugnX18grxQ4QkBIuLAipV4+Fwk+Ngz4KLgo+z08IzYbNMNz/lUrk+l3nnZ6zWIJzpJ5oM
+	uw+5rQN9ABsL6b4X9F8a+hZ/e062NkNs9ryAwmu4xJz5hnQF9FlGwuoO2tgu5LDIv0qBB+GpKbX
+	FJ+4BPX0ferMDt22rIMIs1Js
+X-Google-Smtp-Source: AGHT+IGygu6eRodSik3Bfkp3czBNQVMW6XjM1dVil21tieZxpnGb6arOF2/iB4pEiGfMJZadLyOPhelEhWbcfWH40bo=
+X-Received: by 2002:a05:6402:13c9:b0:64b:4037:6f52 with SMTP id
+ 4fb4d7f45d1cf-64b8e94e075mr973035a12.12.1766097081599; Thu, 18 Dec 2025
+ 14:31:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218150949.721480-1-kas@kernel.org>
+References: <20251218155752.3045808-1-pasha.tatashin@soleen.com> <20251218130725.1b93a521c039ce121de62472@linux-foundation.org>
+In-Reply-To: <20251218130725.1b93a521c039ce121de62472@linux-foundation.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 18 Dec 2025 17:30:45 -0500
+X-Gm-Features: AQt7F2rxtCEBDZim20tERMGFS7BGfrYSNxBBeVmqar1M0y5_ubwYl7w-lYf7Aq8
+Message-ID: <CA+CK2bD41sMDbN670G5RrNQ-3Qq36dO3LmD18zFu6uc9KxhRzQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] list private v2 & luo flb v9
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: pratyush@kernel.org, rppt@kernel.org, dmatlack@google.com, 
+	skhawaja@google.com, rientjes@google.com, corbet@lwn.net, kees@kernel.org, 
+	davidgow@google.com, pmladek@suse.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, nicolas.frattaroli@collabora.com, 
+	linux-doc@vger.kernel.org, tamird@gmail.com, raemoar63@gmail.com, 
+	graf@amazon.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Dec 18, 2025 at 4:07=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Thu, 18 Dec 2025 10:57:47 -0500 Pasha Tatashin <pasha.tatashin@soleen.=
+com> wrote:
+>
+> > This series includes two separate workstreams. This is because FLB
+> > should be applied on top of list_private, as it uses some of its
+> > interfaces.
+> >
+> > 1. List private v2 (first 3 patches) Previous version:
+> > https://lore.kernel.org/all/20251126185725.4164769-1-pasha.tatashin@sol=
+een.com
+> > For details, please read the cover letter from the previous submission.
+> >
+> > v2 Changelog:
+> > - Added a Reviewed-by from David Gow.
+> >
+> > 2. LUO FLB v9 (last 2 patches) Previous version:
+> > https://lore.kernel.org/all/20251125225006.3722394-2-pasha.tatashin@sol=
+een.com
+>
+> Please, no.
+>
+> This patch series is intended for the Linux kernel.  Your grandchildren
+> will read the above wondering "what did granddad do".  It's just lazy
+> for us to expect readers to have to chase down links to earlier
+> versions and then to figure out what changed and why we changed it,
+> etc, etc.
+>
+> Let's give our audience a nice, self-contained and complete description
+> of the proposed changes which doesn't refer them to the minute details
+> of the ongoing development process.  A process which is utterly
+> uninteresting three years from now.
+>
+> IOW, can we please have a complete and standalone description of *this
+> patchset* which doesn't refer to earlier obsolete stuff?
 
-Oopsie. Add the Subject.
+Hi Andrew,
 
-On Thu, Dec 18, 2025 at 03:09:31PM +0000, Kiryl Shutsemau wrote:
-> This series removes "fake head pages" from the HugeTLB vmemmap
-> optimization (HVO) by changing how tail pages encode their relationship
-> to the head page.
-> 
-> It simplifies compound_head() and page_ref_add_unless(). Both are in the
-> hot path.
-> 
-> Background
-> ==========
-> 
-> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
-> and remapping the freed virtual addresses to a single physical page.
-> Previously, all tail page vmemmap entries were remapped to the first
-> vmemmap page (containing the head struct page), creating "fake heads" -
-> tail pages that appear to have PG_head set when accessed through the
-> deduplicated vmemmap.
-> 
-> This required special handling in compound_head() to detect and work
-> around fake heads, adding complexity and overhead to a very hot path.
-> 
-> New Approach
-> ============
-> 
-> For architectures/configs where sizeof(struct page) is a power of 2 (the
-> common case), this series changes how position of the head page is encoded
-> in the tail pages.
-> 
-> Instead of storing a pointer to the head page, the ->compound_info
-> (renamed from ->compound_head) now stores a mask.
-> 
-> The mask can be applied to any tail page's virtual address to compute
-> the head page address. Critically, all tail pages of the same order now
-> have identical compound_info values, regardless of which compound page
-> they belong to.
-> 
-> The key insight is that all tail pages of the same order now have
-> identical compound_info values, regardless of which compound page they
-> belong to. This allows a single page of tail struct pages to be shared
-> across all huge pages of the same order on a NUMA node.
-> 
-> Benefits
-> ========
-> 
-> 1. Simplified compound_head(): No fake head detection needed, can be
->    implemented in a branchless manner.
-> 
-> 2. Simplified page_ref_add_unless(): RCU protection removed since there's
->    no race with fake head remapping.
-> 
-> 3. Cleaner architecture: The shared tail pages are truly read-only and
->    contain valid tail page metadata.
-> 
-> If sizeof(struct page) is not power-of-2, there are no functional changes.
-> HVO is not supported in this configuration.
-> 
-> I had hoped to see performance improvement, but my testing thus far has
-> shown either no change or only a slight improvement within the noise.
-> 
-> Series Organization
-> ===================
-> 
-> Patches 1-2: Preparation - move MAX_FOLIO_ORDER, add alignment check
-> Patches 3-5: Refactoring - interface changes, field rename, code movement
-> Patch 6: Core change - new mask-based compound_head() encoding
-> Patch 7: Correctness fix - page_zonenum() must use head page
-> Patch 8: Refactor vmemmap_walk for new design
-> Patch 9: Eliminate fake heads with shared tail pages
-> Patches 10-13: Cleanup - remove fake head infrastructure
-> Patch 14: Documentation update
-> 
-> Changes in v2:
-> ==============
-> 
-> - Handle boot-allocated huge pages correctly. (Frank)
-> 
-> - Changed from per-hstate vmemmap_tail to per-node vmemmap_tails[] array
->   in pglist_data. (Muchun)
-> 
-> - Added spin_lock(&hugetlb_lock) protection in vmemmap_get_tail() to fix
->   a race condition where two threads could both allocate tail pages.
->   The losing thread now properly frees its allocated page. (Usama)
-> 
-> - Add warning if memmap is not aligned to MAX_FOLIO_SIZE, which is
->   required for the mask approach. (Muchun)
-> 
-> - Make page_zonenum() use head page - correctness fix since shared
->   tail pages cannot have valid zone information. (Muchun)
-> 
-> - Added 'const' qualifier to head parameter in set_compound_head() and
->   prep_compound_tail(). (Usama)
-> 
-> - Updated commit messages.
-> 
-> Kiryl Shutsemau (14):
->   mm: Move MAX_FOLIO_ORDER definition to mmzone.h
->   mm/sparse: Check memmap alignment
->   mm: Change the interface of prep_compound_tail()
->   mm: Rename the 'compound_head' field in the 'struct page' to
->     'compound_info'
->   mm: Move set/clear_compound_head() next to compound_head()
->   mm: Rework compound_head() for power-of-2 sizeof(struct page)
->   mm: Make page_zonenum() use head page
->   mm/hugetlb: Refactor code around vmemmap_walk
->   mm/hugetlb: Remove fake head pages
->   mm: Drop fake head checks
->   hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
->   mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
->   mm: Remove the branch from compound_head()
->   hugetlb: Update vmemmap_dedup.rst
-> 
->  .../admin-guide/kdump/vmcoreinfo.rst          |   2 +-
->  Documentation/mm/vmemmap_dedup.rst            |  62 ++--
->  include/linux/mm.h                            |  31 --
->  include/linux/mm_types.h                      |  20 +-
->  include/linux/mmzone.h                        |  47 +++
->  include/linux/page-flags.h                    | 163 ++++-------
->  include/linux/page_ref.h                      |   8 +-
->  include/linux/types.h                         |   2 +-
->  kernel/vmcore_info.c                          |   2 +-
->  mm/hugetlb.c                                  |   8 +-
->  mm/hugetlb_vmemmap.c                          | 270 +++++++++---------
->  mm/internal.h                                 |  12 +-
->  mm/mm_init.c                                  |   2 +-
->  mm/page_alloc.c                               |   4 +-
->  mm/slab.h                                     |   2 +-
->  mm/sparse-vmemmap.c                           |  44 ++-
->  mm/sparse.c                                   |   3 +
->  mm/util.c                                     |  16 +-
->  18 files changed, 345 insertions(+), 353 deletions(-)
-> 
-> -- 
-> 2.51.2
-> 
+Point taken. You are right; the cover letter should be self-contained
+and stand on its own for future readers. Here is the standalone
+description of this patch series:
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+This series introduces two connected infrastructure improvements: a
+new API for handling private linked lists, and the
+"File-Lifecycle-Bound" (FLB) mechanism for the Live Update
+Orchestrator.
+
+1. Private List Primitives (patches 1-3)
+Recently, Linux introduced the ability to mark structure members as
+__private and access them via ACCESS_PRIVATE(). This enforces better
+encapsulation by ensuring internal details are only accessible by the
+owning subsystem.
+
+However, struct list_head is frequently used as an internal linkage
+mechanism within these private sections. The standard macros in
+<linux/list.h> do not support ACCESS_PRIVATE() natively. Consequently,
+subsystems using private lists are forced to implement ad-hoc
+workarounds or local iterator macros.
+
+This series adds <linux/list_private.h>, providing a set of primitives
+identical to those in <linux/list.h> but designed for private list
+heads. It also includes a KUnit test suite to verify that the macros
+correctly handle pointer offsets and qualifiers.
+
+2. This series adds FLB (patches 4-5) support to Live Update that also
+internally uses private lists.
+
+FLB allows global kernel state (such as IOMMU domains or HugeTLB
+state) to be preserved once, shared across multiple file descriptors,
+and restored when needed. This is necessary for subsystems where
+multiple preserved file descriptors depend on a single, shared
+underlying resource. Preserving this state for each individual file
+would be redundant and incorrect.
+
+FLB uses reference counting tied to the lifecycle of preserved files.
+The state is preserved when the first file depending on it is
+preserved, and restored or cleaned up only when the last file is
+handled.
+
+Changelog:
+List-Private v2:
+- Added a Reviewed-by from David Gow.
+FLB v9:
+- Addressed suggestions from David Matlack and Pratyush Yadav: added
+  booleans to track if an object was retrieved and/or finished.
+- Modified the patches to use the list_private interfaces.
+
+Previous submissions:
+List-Private:
+v1 https://lore.kernel.org/all/20251126185725.4164769-1-pasha.tatashin@sole=
+en.com
+
+FLB:
+v8 https://lore.kernel.org/all/20251125225006.3722394-2-pasha.tatashin@sole=
+en.com
+
+Thank you,
+Pasha
