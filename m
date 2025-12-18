@@ -1,130 +1,96 @@
-Received: from mail-ot1-f74.google.com (mail-ot1-f74.google.com [209.85.210.74])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308D4277C9A
-	for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 23:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0550723F26A
+	for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 00:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766012729; cv=none; b=to8Za0bQZ4V7cqbnOykTA+855iWUgBmhrU8pA/Mp6SwHZIuDm+oXEubUk/a8q0UqiswNpPdXu7KdLYaq0TUG6ArxErZAnDLUHbF20BMGlknLopnMhJBypYUwoHRGU8yyV5n5leSFvhMJDaSvoy3HNw40RIsTWtq7Cm9LBopYo6s=
+	t=1766019570; cv=none; b=fjtwxzqO65dnzW7Iigbbb0DdTVLuOZTizt8W0IvLFqxwqb6pMxEGxXnfvKD3wsHFj9GubwEJwZ3Yz0pnbl6vRnMt3X0ekd/3U+p0/yaQa3p4Yc2/qyc4/hiJpAlGn6OpJrtfhwA/3NoAhrFjRB6VZvSkFB9ZhD2PQFlet7BlGoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766012729; c=relaxed/simple;
-	bh=0l/omZO1v8asiZJMEMWG7M0JnZi5IJrGYo3/p+gESCE=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=F+u/269Fqrd0CmUda0i8q39HyoKULEOCyYBc9tIQ4SxRgMPP0AwnQQX2qAoEkGjpetAXVItYidQT/DXHWUZGI3rYoKHlPVcwo6kq4u44sNSlaZE4zfr/2VKiaAi73Svh4P1sMkn4n6vNw/Uw5KQvTcnDa9CZtiJdhGpywucQlxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EBb1p8bz; arc=none smtp.client-ip=209.85.210.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1766019570; c=relaxed/simple;
+	bh=FPMENRAt57ubCRxfjLzcF+5Snhpf/6c7ZPbigIQkbLs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vl0bO9uu4hU0HbKbxsoCO0VUhw1rY0UmDzuxBZHdVdWNb9OX2gnJ1ApplgXV4uNrkrl0z6yzTQ8416+VRaGRn6FLAyQgz4C7CNHgHdvEfgHiF0BwbXNtvECSpkGvnIvJDa1DAQnu1g33vrCyjj6GtV6dsNuMRGSVQf/bKYV188M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=SeD3zVkN; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EBb1p8bz"
-Received: by mail-ot1-f74.google.com with SMTP id 46e09a7af769-7c72ccd60f5so2260a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 15:05:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="SeD3zVkN"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-640aa1445c3so99079a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Dec 2025 16:59:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1766012727; x=1766617527; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GLCAorwrKlMW8FunTjt8zj7Va5wWm7XneVrIZBSPv24=;
-        b=EBb1p8bzEwiF3Lu+DMjXUQwtVzw5gBRP72IVghNFvFFa0z7qC/VrsSVB3FLCt5H0AM
-         cJeT1Q5eAutT1RyaPO9goRXe/O8erhAbEj6W0BnVASJ/W26oRRZbDu2X4zjLK7+xsb84
-         k9P/nLv/zwBjdHGGZSg8SI+rXle+u3d1N1O/FRLsv74rddRMufLT6Cy+ZI9f8yEOBprA
-         xsOqku1qz1AlMzgd2YfyJbbDh2Tvv6atVMY3CAunxEp3gFbSlUTtyURuGpgDyP1hJ6zx
-         QFGmI19GEDL2MRqpYN2E/nowvTVLtrxWz6r/bW54R+BPIpv3RheWK/ovhOCzDviKF6HI
-         WwfQ==
+        d=soleen.com; s=google; t=1766019567; x=1766624367; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7PPCL6/y7z3/CEOFmp8Lif2XeKIDUmNh/4C8MEQX3rw=;
+        b=SeD3zVkN3111ayrWIi/4RXdJ/Vra/wDGEidciBJZU6BPnX0zlynkiHQsPGCOpPy+Kz
+         91OjysYFCoOh6ZQ62laWG7jFNSVQmm7HQBOpsGl5ISrSdfU0WtH+y3Z4SzR/tr/BC1Bt
+         Sf1MbyOS5MMuel0OtJmWN+55+jgjdVp+UN0uxNDna7Vhqf2LkQYjoltiNirdlQz9dQPD
+         yTygSGL6hnxFvsOT9s7utGqHrcFCTfOZX79bGa5d/fTquq3ULNV8MaExEBhrz3etTOIA
+         HC6d13i/7y/JyTieZZ0sKYRtbxM9CpIuD28yNSKEiulYZ89C7o+7cdhfFsT5J+SgWYYN
+         vlzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766012727; x=1766617527;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GLCAorwrKlMW8FunTjt8zj7Va5wWm7XneVrIZBSPv24=;
-        b=ffD4Jad7Z14bWuJyKZWKjkQip4GXSxKMo0OISqxScH7U+Q6FLa6mIlrARgo4bXEkPS
-         kZpRdGMPtN5MbYGCy8OsYfP4TxmpqYBTyGJ+lOWG29MoJDB7eANxWIh6Kbjfe/YdOxuW
-         Vo+tsPblWFH23WwpNJ/FQX3gwNai5JAoXqDdosfrOi6/+2s+6o65oc2Bo4mmxVK4ixMh
-         vZ2AscZhQzwoMd/SxE8Hz+eawDsepWOIXkolts3mXba5HnO+uKWNAuFi3Nl+hFA6+dUH
-         MtlMUXN+7Wzc0cwWCEj+oO6PoWRM359PPMDeTmDTmQ4Tj/REbcWjKfnMxHMXOyszpnZ6
-         /KgA==
-X-Forwarded-Encrypted: i=1; AJvYcCWaKoenkq/PQIJhgkcGYbWgSVgV4sdi5gXUCFTXJx+PDbLpIRnWaLrIuXhpafAHvUkPpq9162dEnKs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1NPKDDUiZh8aW53ElBAndTohVwHi6NyJrXQd2V0JsChrKwKGe
-	HPDuXlKWhvsffRpPPg9sO2GO/j81wfz20ffSFY6f/nlezPLZ+OGrp7eiorXVyv4c3A1r0WHqO0e
-	gofi/n8b6FfcU8CJ9sOVRJNS0gQ==
-X-Google-Smtp-Source: AGHT+IFeAgC0uw9c+8LafGLGz/f6/NPZAPXmK9qXp7aoSKF9A72AfmoYnPNSSr0uyMWXg523FecZ0oA8sQssQiXDkg==
-X-Received: from ilbbo32.prod.google.com ([2002:a05:6e02:3420:b0:430:ccc7:4f1e])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:4815:b0:65c:fe5b:9f4d with SMTP id 006d021491bc7-65cfe5ba58emr301994eaf.47.1766012727236;
- Wed, 17 Dec 2025 15:05:27 -0800 (PST)
-Date: Wed, 17 Dec 2025 23:05:26 +0000
-In-Reply-To: <aUH_7yYZsmFlRvEc@kernel.org> (message from Oliver Upton on Tue,
- 16 Dec 2025 16:57:19 -0800)
+        d=1e100.net; s=20230601; t=1766019567; x=1766624367;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7PPCL6/y7z3/CEOFmp8Lif2XeKIDUmNh/4C8MEQX3rw=;
+        b=Nr+Xqmb1G/8RwZ+w42IEa45kAbyxxdjS4gyvUqj/3v6DcHqM2lafoYmkgX7tuLzKz4
+         eMZNGKKl7wuv/k6mNpkoQwrRElYwVy+6ct4oLt7wGOHV/pL5W08WoA/kOS4Xgi1om4HT
+         3OI8khk4UD5sVAk/7misi4VvkA2zojDKzAgtdxUuouS5BzsMfkB8iQllx66YE7eDJE0x
+         lm3qdbDZpObuRCnnDPd29AeenbOJHKCSNaw8sc3sJYhAch5ThIlkiM6f/Oay9noklA07
+         iozKnYjBBZ0FypL4lXdjRs5Qsf4ztnjPJkdhoW1Vem/g/5LFpAUU0ovDE7mu5h61D8lK
+         M/bQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5VZAElHjLzNRXBvC8ZD3X9d7A5zjtEQCygINlSfDa6mBwXCAKjB11S5NCAFFz46IymuJdcZI2SRA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyktZBBypydNVg7EV8jqecI0wDUKa3HxoTkktUDTgJEA69a3Df
+	RsJAq5ioCVcI+BL1q/sRhF4kloAvZ+Ud+BwharTcjznvWatE6wnvsYhdSanJE6Piu+GnbzRmSCY
+	PcYWWYlFnieKGM7JWXQz4ylPoYvo5Pppel6DpLJxrjA==
+X-Gm-Gg: AY/fxX6eFT1E75zV3JyBkDkDQbOcAZ88Cb+kLOjn1PCpdrOj4uJWmivFyLLbCnQmHrf
+	C5koKjmxwXU6JIskHsGv50mzbpBizsNwKAqEEZ7V4/L+SGdKbh3R231rnr5FcTIK0ZhaNrHT6XZ
+	VO/GnPIZlPGWEivnAPgHiXj298kCnmPZInrmblld8/XfaXwGUG52/wE7yHiYK29dCvgGvmiufZg
+	1ID0mXeC4w34kH9YSTspXtvon6NicvW++ylaNZuGn7AZ5AM2M2sfAn+Lf1eh1AkJKeQR+C0rw9a
+	RESRv7ipcpzHmP2/7hZzKbz5
+X-Google-Smtp-Source: AGHT+IFx9ffWc21rG4psT22kose81nPaCccfbhPkdHVZfB+qDflR9MAT1n08bDGSRJoJQIBJyKqvxMeFWeXCiGrpOHo=
+X-Received: by 2002:a05:6402:40c8:b0:649:6b4e:2839 with SMTP id
+ 4fb4d7f45d1cf-6499b30896amr18067579a12.23.1766019567186; Wed, 17 Dec 2025
+ 16:59:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntzf7g1zgp.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v5 18/24] KVM: arm64: Enforce PMU event filter at vcpu_load()
-From: Colton Lewis <coltonlewis@google.com>
-To: Oliver Upton <oupton@kernel.org>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+References: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
+ <20251126185725.4164769-4-pasha.tatashin@soleen.com> <20251217144758.4cb7fc20f6fe32a36e8e52ea@linux-foundation.org>
+In-Reply-To: <20251217144758.4cb7fc20f6fe32a36e8e52ea@linux-foundation.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 17 Dec 2025 19:58:50 -0500
+X-Gm-Features: AQt7F2rGMD0sbeNn6J8mWDXpcf-6WIYHb-5NK3iAuPwipvOFDYSdceCMXc5vciQ
+Message-ID: <CA+CK2bBbAEngUx0E16c69=RH+C=eAU1nn3RtJCtUNz5B5-gqjg@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] liveupdate: luo_file: Use private list
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: corbet@lwn.net, nicolas.frattaroli@collabora.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kees@kernel.org, 
+	davidgow@google.com, pmladek@suse.com, tamird@gmail.com, raemoar63@gmail.com, 
+	ebiggers@kernel.org, diego.daniel.professional@gmail.com, rppt@kernel.org, 
+	pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oliver Upton <oupton@kernel.org> writes:
+On Wed, Dec 17, 2025 at 5:48=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Wed, 26 Nov 2025 13:57:25 -0500 Pasha Tatashin <pasha.tatashin@soleen.=
+com> wrote:
+>
+> > Switch LUO to use the private list iterators.
+>
+> Seems kernel/liveupdate/luo_flb.c now needs conversion.  Oh well, I'll
+> await v2.
 
-> Re-reading this patch...
+Now that list_private in your branch, I will send an updated FLB.
 
-> On Tue, Dec 09, 2025 at 08:51:15PM +0000, Colton Lewis wrote:
->> The KVM API for event filtering says that counters do not count when
->> blocked by the event filter. To enforce that, the event filter must be
->> rechecked on every load since it might have changed since the last
->> time the guest wrote a value.
-
-> Just directly state that this is guarding against userspace programming
-> an unsupported event ID.
-
-Sure
-
->> +static void kvm_pmu_apply_event_filter(struct kvm_vcpu *vcpu)
->> +{
->> +	struct arm_pmu *pmu = vcpu->kvm->arch.arm_pmu;
->> +	u64 evtyper_set = ARMV8_PMU_EXCLUDE_EL0 |
->> +		ARMV8_PMU_EXCLUDE_EL1;
->> +	u64 evtyper_clr = ARMV8_PMU_INCLUDE_EL2;
->> +	u8 i;
->> +	u64 val;
->> +	u64 evsel;
->> +
->> +	if (!pmu)
->> +		return;
->> +
->> +	for (i = 0; i < pmu->hpmn_max; i++) {
-
-> Iterate the bitmask of counters and you'll handle the cycle counter 'for
-> free'.
-
-Will do.
-
-> <snip>
-
->> +		val = __vcpu_sys_reg(vcpu, PMEVTYPER0_EL0 + i);
->> +		evsel = val & kvm_pmu_event_mask(vcpu->kvm);
->> +
->> +		if (vcpu->kvm->arch.pmu_filter &&
->> +		    !test_bit(evsel, vcpu->kvm->arch.pmu_filter))
->> +			val |= evtyper_set;
->> +
->> +		val &= ~evtyper_clr;
->> +		write_pmevtypern(i, val);
-
-> </snip>
-
-> This all needs to be shared with writethrough_pmevtyper() instead of
-> open-coding the same thing.
-
-Will do.
-
-> Thanks,
-> Oliver
+Thank you,
+Pasha
