@@ -1,74 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8422E1E520C;
-	Fri, 19 Dec 2025 21:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B853233DEDF;
+	Fri, 19 Dec 2025 21:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766178300; cv=none; b=O2SQdtyq3pTs/BqmjiIawahC8MJqR8++TB0GKbJDO5jNRrMTiIcLaxSHQcspDb0ysi0H78wIWZPSsejOK7Ghtxu2Yc1QWqUNSctEUtPtkuGHdGc1svj/b+Rtrb1fXykiqKgLJR5myWamJDJacDMGX8b1Sa1JMMQTdRYKxKjC54Q=
+	t=1766178380; cv=none; b=BgkF7nPTFRQJeCyDdMHK0jWCYhQABNvtWix3kU3QUauKddZhFWRPf6zBMS1A7sHGAtdjnNruZ6N4tAGcqQoWyOT3KyocflLl4jy71/H6dItTcirJfe5Gij3qohsnay4SG8J+lgVycjy2G9aQ9/CDq/20Y/5XygEdB/vvc0zimuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766178300; c=relaxed/simple;
-	bh=4sgIqEwPXXLAOBFYR/9KviOsCVn5w5BeCFeoELqc7Mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PS2dZVoLRIb2NKqXz6GKK6lFZFon46Ps4V2ExsUdfcIR9Ih5CxrLQHjBlduqd7qKowOXEmgJi9Lfq5zfpjz1RC6WaJNwcl1dRdT6TKLlygg9dJrUyMoPaE5eYbPfYV1cm4oDd/ZE/kF6rIxwNLpMDmKmYLaIhPOtUem52qQwpzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfMs3aZS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766178380; c=relaxed/simple;
+	bh=KbLUB8IaJRvBl5lXgJ7Cs0r+YarnKCWMUwz4SWOikvM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WjeLFpt/FTEWgypD0M4Rp0ZvMqyTcF+KJSZL4vmi6/+ilgML7wuTyr7Z4oN1zOo0sySJROcTJYxfgh/4nvef3b3T9CMmXw97FGMXD8O+M6CdNJPEyzJZhQoueQSp4wjWGbmuANTng3rYhrs7e3/fhho3AQIlGSw+hHecuqoiOg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=biL2fFLA; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfMs3aZS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA953C4CEF1;
-	Fri, 19 Dec 2025 21:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766178300;
-	bh=4sgIqEwPXXLAOBFYR/9KviOsCVn5w5BeCFeoELqc7Mo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZfMs3aZSNNfkQ9MoZuxxd+vbw82OrHIh/AKb8fyfm5jNcaTraQayNloRHtyjaM//P
-	 DgvdFLVvl+4P7NnH6m8tVhw6DNodUcsXCoziLQBwP0Frp8Amb6aMFcC0DdUo3Ub7T0
-	 YPCCRnXBXU1why3bYJiVEy/IWpIJtCrQ81Mppt46NvONPRycpVbBBtjjm606fxz0cJ
-	 /tMBHJnntONP3QhGxeGthJHUCCmJ/R+YMPxAzXl6RwFR37g95To62VMbZRVvjr4Kyi
-	 TKFVctjpumN1YCUFUsIJu9P3En05rUJWXMJ4IAj2yNS0igWUrA/jsamySjwgdGFvpO
-	 LzZX2mYwJiQEg==
-Date: Fri, 19 Dec 2025 15:04:57 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: linux-kernel@vger.kernel.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	linux-gpio@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko <andy@kernel.org>,
-	linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	David Lechner <dlechner@baylibre.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v4 1/9] dt-bindings: iio: adc: Add adi,ad4062
-Message-ID: <176617829657.3934846.6702160905493410565.robh@kernel.org>
-References: <20251217-staging-ad4062-v4-0-7890a2951a8f@analog.com>
- <20251217-staging-ad4062-v4-1-7890a2951a8f@analog.com>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="biL2fFLA"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4dY0Sp0FgnzlwqPk;
+	Fri, 19 Dec 2025 21:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1766178370; x=1768770371; bh=smhZ+HMOPx/2qzqSsA1Ia7Ur
+	+56UUYwNTrJDmSp3Lho=; b=biL2fFLApXPBmQ8TkRiQaN7joqG7DMeHj6mylEkD
+	tBlkgGUzRoC9PLYlhABCpwHU2kS/gcSVCoHuSawmvmv9A+1ZB6+DzaHAtAtJr0Vy
+	Gaw2/ivM9zN+LSh5+NNmhdaNX0vgalSYo7eljPfVpvrgPReDXQnD4sdGtTGVaz9z
+	Umt7RruBkXjgNb6vOZRtw7fRLVHhFXClAviuwN2fuGGoSbXWAzM1RGdqWYqf2Gnq
+	lkb7sLgp+Rc36kuO9w/2+dhSaDlkra7TX68tuxqKu4/a6scJfx5XonCslZVz57gx
+	Ubj0Ir+QQt9kHEnwxXlB8oeIRqIUDvcEmp3KYmWisFVRDw==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id EEu5ZjhUq7eo; Fri, 19 Dec 2025 21:06:10 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4dY0SP39w9zllB6t;
+	Fri, 19 Dec 2025 21:05:57 +0000 (UTC)
+Message-ID: <8086c568-9386-4231-b928-3e887c8679b4@acm.org>
+Date: Fri, 19 Dec 2025 13:05:56 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251217-staging-ad4062-v4-1-7890a2951a8f@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 22/36] um: Fix incorrect __acquires/__releases
+ annotations
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+ Will Deacon <will@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+ Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
+ <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
+ Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Triplett <josh@joshtriplett.org>, Justin Stitt
+ <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
+ <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+ Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
+ kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Tiwei Bie <tiwei.btw@antgroup.com>
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-23-elver@google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20251219154418.3592607-23-elver@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 12/19/25 7:40 AM, Marco Elver wrote:
+> -void enter_turnstile(struct mm_id *mm_id) __acquires(turnstile)
+> +struct mutex *__get_turnstile(struct mm_id *mm_id)
+>   {
+>   	struct mm_context *ctx = container_of(mm_id, struct mm_context, id);
+>   
+> -	mutex_lock(&ctx->turnstile);
+> +	return &ctx->turnstile;
+>   }
 
-On Wed, 17 Dec 2025 13:13:24 +0100, Jorge Marques wrote:
-> Add dt-bindings for AD4062 family, devices AD4060/AD4062, low-power with
-> monitor capabilities SAR ADCs. Each variant of the family differs in
-> resolution. The device contains two outputs (gp0, gp1). The outputs can
-> be configured for range of options, such as threshold and data ready.
-> The device uses a 2-wire I3C interface.
-> 
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> ---
->  .../devicetree/bindings/iio/adc/adi,ad4062.yaml    | 120 +++++++++++++++++++++
->  MAINTAINERS                                        |   6 ++
->  2 files changed, 126 insertions(+)
-> 
+Many "container_of()" wrappers have "to" in their name. Please follow
+that convention and rename this function into e.g. mm_id_to_turnstile().
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Thanks,
 
+Bart.
