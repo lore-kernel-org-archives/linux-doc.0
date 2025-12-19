@@ -1,130 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850F828726E;
-	Fri, 19 Dec 2025 13:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1354D218ACC
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 13:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766149215; cv=none; b=Q6uyxGsf5CVS3s3ykOFTzaOtOJTzYtJoy2x/Xs7RwamGqU45aQ7zNly1znd1DizjVLpt0q36B3U9m1L/JPG/YzfA8ocDxf5zI85YTPZS76aKnd/9wBM6mG/iR6a/AU2QJ+SKcVXA6z4bUoHFgo+IXnE7EWJzqmYDeSa8q4ivmCQ=
+	t=1766150594; cv=none; b=cpWoHI1UWq7R3VhNUoNm64ejO8mU6kHLwNhEpBZUBbEX6+9zFiFLYs7oIilZpJpl+Seld5E1bHtwizfaOmJqMaBycge8i7MthLDSEmaOiuPDYZlTFiNXgvLxaP5hoIyaX85dtQ5yXneo59UhBAf5ReteNtqz6yzHVKSAZ4yU27I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766149215; c=relaxed/simple;
-	bh=E1H9BqH+g14za3jaZiHkm73npLmISjQWVm0QNQCmXXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFywHQcRK63p99yR98E/GM8Qy1LXKkEbIrykTLa6lpgDN8k7G17nhwYGWty5ANmywtHBd35hDjNu3H6lAGfCoc7grfOGfGccBfjLJ9SgMDoKbJ5MOvgMW+J1HCDMmWzdvFpWi59byHYru+fZ9ks6HZRqB70zrOZJQd433eHZuTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdDR0Iz2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766150594; c=relaxed/simple;
+	bh=8+A/IoT3qzTEtkBSztG66SNwQCevAKiUbP8ZTa7uZMs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=P+XHJnXjrZsaRfVu9SO7k/9GayLi9Ah/AGeAb8YVHvTMzC+RsQVFCu1r4CoN7OOQrtGK+Q2TXQLHSEuxPLYr6wIwAbhEyHI4kYhDbwDYhCNvWu9xzZhMHFL0fZlD2bms0SA9vbJ3D6NFYkEIaKTb/CFK/738x6NATn6QuAc/SZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QFM1oS1N; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdDR0Iz2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C3BDC4CEF1;
-	Fri, 19 Dec 2025 13:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766149214;
-	bh=E1H9BqH+g14za3jaZiHkm73npLmISjQWVm0QNQCmXXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qdDR0Iz28N5oUNg9bIT7XwJBY2IGAwSnpuHZ260vwBHj0jXvZwGQDC6H7g3scs+Y8
-	 Rw0OXzA/9ATIlHvHYioB0rP4eyrjmpzcoQeArJ0GnWZqqKhfuHCec6ceKKfH1Yoogv
-	 RwQMDXfLGMn3FMeryeJYuUKfEZuBSS5WcBK1HssLYjxSincWZ2wUfC9MuQ/lG1QYNO
-	 nLnCxOgSaRy52WiOHuQAcIuTjCALk2IfFEFpHD/kHkBM0lgvyxeG8+IPLioaS0U+EI
-	 BrU1f0D/Gs2K+kdDOfblvsg1G0f/AS56BKLvkxkPbL7P+XO/XBwK2PpjLx7prmWxue
-	 DbPh/7K3NNbZA==
-Date: Fri, 19 Dec 2025 13:00:08 +0000
-From: Will Deacon <will@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
-	tony.luck@intel.com, bp@alien8.de, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, catalin.marinas@arm.com,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com
-Subject: Re: [PATCH 11/12] ras: add DeviceTree estatus provider driver
-Message-ID: <aUVMWMMmiG8_I2I2@willie-the-truck>
-References: <aUQbdZHkzumTnwVP@willie-the-truck>
- <20251219090239.2692458-1-ahmed.tiba@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QFM1oS1N"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7f651586be1so851581b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 05:23:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766150592; x=1766755392; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HMxI71AsP39xHxFMR+R7tbuu3wKkDNBuv07zEwTQuM4=;
+        b=QFM1oS1NH5YZDmtj9yhQN/rUDGDknh/jnkvZIhxg0jeYS1N7sjfShSjJIHlWSFWlBJ
+         IHplIY3/7egBk0kLG3GMMVpvqseU8ktjzS7/LIJrnUtEkrpKeyVqkEWaIp+yXJegu8H2
+         kHzqctNMb/K2oPC7bBTpcwEnKbh0kOgRVKwRD73lWd1NQc4I5XyLrSdOFxeDIih9/Met
+         meUYefoM64FJHHF64WZMZQjbgZ+C82oIOo8VRdwdEM+S6BlZ3C7DceV4uW+ChxyMEAuq
+         vClBQ0mS0NELwP6H0YISZJQPgVBaek0Vvc23eDz0AcmCrnz+fUGbjTMvLcd2pBAloYzr
+         zNvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766150592; x=1766755392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HMxI71AsP39xHxFMR+R7tbuu3wKkDNBuv07zEwTQuM4=;
+        b=o55ywSkwYZsRznBtALOrvu2UqsKN3NJLD4wVCWMyZOpirYiVc6pgDLK5IE7XeN1EL6
+         otowhSS7VnDUD1ixZUpUeQ4xVTU/fapU/SgvT8sNP4b6C0TLSBDEXkQse74Fo8bcRWpA
+         BnU9QwDvQh+Nhjb6WA+j6KiAZ+Sd+0WlSkCGi6/ehGV66FX+0Xo+1HQ3r/pwXPktPOhk
+         b16C1WjmWy+KYDAerJm4hocuGZq0JGzKv6QRn8tZkXvyIT1hWSg4UrkT8nIHe5xiRIeY
+         WQnOEZwByGr4nbc2qxvv9Az3AZ9ierkypw3pwmvqLQQg9qyqylAF80EzhSsrjRJnfHM1
+         kEEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJIGmu/9ybntG+mZj0nwnPKPelLloqDfA2E1ewlzZo1d8cYOH7cvbvf1ULxPLQnUymAHZLeMBPNNM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx81pHD0G2g8roXFZC8WdK526qDn0ioQkg4orpIWOUlOHznUzvQ
+	oSqKgUjTBTDU/dQcbDJkiTvel6uzm1HKbMCzMMEilRRkqOg9ubSHTv9S
+X-Gm-Gg: AY/fxX65cWThO6+zfCQtaAIUbsSJZBswk3aCFCOeS09aeE07G+wGxdUS19Q5krIizwh
+	EvscrX0kf3nmj5C7tgXkm8ifTMJuQajX+k/oP+SuT/aPZ9CIwiz/PfCyuDThRYAR2l1deWhNzxS
+	MM4SKDEWgfkbuswx1e0uWHC8McNtX/iG40tMAA57lQ5yUK7qa4A5WOVPukMkbHr0yVHaq6KdMrB
+	6xt7B4ThnbRI9SrOoj5kDgSL4N4Awm9erhSKSD1ikHoINBiDNgkXX4xDqkSVY9l6nCN9+PRkYOD
+	Kh2ObOS5XJ3h/woOHcw5e+g45qVtkyHrzJ6MJws/l+MBV7uZhFkdyZYIImL5V8qKh3GrG4BiWVv
+	+9IBQ4+Z6stEK40OJUakgl45FRsEvPvikldOb0MvOny5kw8ta2HUglEFR1YK0cPxwfrQi/oE30o
+	yhSdLK489/HN5HqxXcbMs9
+X-Google-Smtp-Source: AGHT+IFY8TgFi1qi6y1UY6A5VLscdghOVbd0kb71FhUq5slHD6d4HdwC8vt4Eb1w1srPeRtvYZonNw==
+X-Received: by 2002:aa7:9312:0:b0:7ae:b13f:37c2 with SMTP id d2e1a72fcca58-7fe0be08739mr5464561b3a.10.1766150592116;
+        Fri, 19 Dec 2025 05:23:12 -0800 (PST)
+Received: from xiao.mioffice.cn ([43.224.245.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7a843ee4sm2496518b3a.10.2025.12.19.05.23.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Dec 2025 05:23:11 -0800 (PST)
+From: Xiang Gao <gxxa03070307@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net,
+	2023002089@link.tyut.edu.cn
+Cc: dzm91@hust.edu.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xiang Gao <gaoxiang17@xiaomi.com>
+Subject: [PATCH v1] kasan: docs: modify the translation of CONFIG_KASAN_SW_TAGS
+Date: Fri, 19 Dec 2025 21:23:05 +0800
+Message-Id: <20251219132305.959779-1-gxxa03070307@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251219090239.2692458-1-ahmed.tiba@arm.com>
 
-On Fri, Dec 19, 2025 at 09:02:35AM +0000, Ahmed Tiba wrote:
-> On Thu, 18 Dec 2025 03:19:17PM +0000, Will Deacon wrote:
-> > On Thu, Dec 18, 2025 at 01:42:47PM +0000, Ahmed Tiba wrote:
-> >> On Thu, 18 Dec 2025 12:13:25PM +0000, Will Deacon wrote:
-> >> >> Introduce a platform driver that maps the CPER status block described
-> >> >> in DeviceTree, feeds it into the estatus core and handles either IRQ- or
-> >> >> poll-driven notifications. Arm64 gains a FIX_ESTATUS_IRQ slot so the
-> >> >> driver can safely map the shared buffer while copying records.
-> >> >>
-> >> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-> >> >> ---
-> >> >>  MAINTAINERS                     |   1 +
-> >> >>  arch/arm64/include/asm/fixmap.h |   5 +
-> >> >>  drivers/ras/Kconfig             |  14 ++
-> >> >>  drivers/ras/Makefile            |   1 +
-> >> >>  drivers/ras/estatus-dt.c        | 318 ++++++++++++++++++++++++++++++++
-> >> >>  include/linux/estatus.h         |   3 +-
-> >> >>  6 files changed, 341 insertions(+), 1 deletion(-)
-> >> >>  create mode 100644 drivers/ras/estatus-dt.c
-> >> >>
-> >> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> >> index 6b2ef2ddc0c7..5567d5e82053 100644
-> >> >> --- a/MAINTAINERS
-> >> >> +++ b/MAINTAINERS
-> >> >> @@ -21761,6 +21761,7 @@ RAS ERROR STATUS
-> >> >>  M:   Ahmed Tiba <ahmed.tiba@arm.com>
-> >> >>  S:   Maintained
-> >> >>  F:   Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
-> >> >> +F:   drivers/ras/estatus-dt.c
-> >> >>  F:   drivers/firmware/efi/estatus.c
-> >> >>  F:   include/linux/estatus.h
-> >> >>
-> >> >> diff --git a/arch/arm64/include/asm/fixmap.h b/arch/arm64/include/asm/fixmap.h
-> >> >> index 65555284446e..85ffba87bab9 100644
-> >> >> --- a/arch/arm64/include/asm/fixmap.h
-> >> >> +++ b/arch/arm64/include/asm/fixmap.h
-> >> >> @@ -64,6 +64,11 @@ enum fixed_addresses {
-> >> >>  #endif
-> >> >>  #endif /* CONFIG_ACPI_APEI_GHES */
-> >> >>
-> >> >> +#ifdef CONFIG_RAS_ESTATUS_DT
-> >> >> +     /* Used for ESTATUS mapping from assorted contexts */
-> >> >> +     FIX_ESTATUS_IRQ,
-> >> >> +#endif /* CONFIG_RAS_ESTATUS_DT */
-> >> >
-> >> > Why do we need this in addition to the four existing GHES slots? The DT
-> >> > code doesn't use it and I was assuming that the ACPI code would continue
-> >> > to use the existing irq; is that not the case?
-> >>
-> >>
-> >> We still need a dedicated slot when only the DT provider is built.
-> >> All four GHES slots are defined as part of the ACPI implementation,
-> >> so they are not present in a DT-only configuration.
-> >>
-> >> The estatus core always requests a fixmap index from each provider
-> >> before copying a CPER record. As a result, the DT driver must supply
-> >> its own slot to return a valid enum value to satisfy the common code.
-> >
-> > Sorry, but I still don't follow this. The DT code doesn't use the fixmap,
-> > does it? It looks like it maps the buffer ahead of time using
-> > devm_ioremap_resource() and then the accessors don't use the fixmap
-> > index at all, hence the horrible '(void)fixmap_idx;' cast which presumably
-> > stops the compiler from complaining about an unused variable.
-> 
-> Correct. The current DT driver keeps the CPER buffer permanently mapped with
-> devm_ioremap_resource() and that (void)fixmap_idx; line is just silencing
-> the warning. I’ll fix that by dropping the permanent mapping and copying the
-> status block via the fixmap entry, so the DT implementation mirrors GHES. That
-> gets rid of the cast and makes FIX_ESTATUS_IRQ do real work.
+From: Xiang Gao <gaoxiang17@xiaomi.com>
 
-Why can't you just drop FIX_ESTATUS_IRQ entirely? Your original
-justification was:
+CONFIG_KASAN_SW_TAGS means software tags.
 
-> We still need a dedicated slot when only the DT provider is built.
+Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+---
+ Documentation/translations/zh_CN/dev-tools/kasan.rst | 2 +-
+ Documentation/translations/zh_TW/dev-tools/kasan.rst | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-but as above, the DT driver doesn't actually need it.
+diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+index fd2e3afbdfad..767b280d8af0 100644
+--- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
++++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+@@ -79,7 +79,7 @@ KASAN只支持SLUB。
+ 	  CONFIG_KASAN=y
+ 
+ 同时在 ``CONFIG_KASAN_GENERIC`` (启用通用KASAN模式)， ``CONFIG_KASAN_SW_TAGS``
+-(启用基于硬件标签的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签
++(启用基于软件标签的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (启用基于硬件标签
+ 的KASAN模式)之间进行选择。
+ 
+ 对于软件模式，还可以在 ``CONFIG_KASAN_OUTLINE`` 和 ``CONFIG_KASAN_INLINE``
+diff --git a/Documentation/translations/zh_TW/dev-tools/kasan.rst b/Documentation/translations/zh_TW/dev-tools/kasan.rst
+index 27fb7645174d..50316f98e773 100644
+--- a/Documentation/translations/zh_TW/dev-tools/kasan.rst
++++ b/Documentation/translations/zh_TW/dev-tools/kasan.rst
+@@ -79,7 +79,7 @@ KASAN只支持SLUB。
+ 	  CONFIG_KASAN=y
+ 
+ 同時在 ``CONFIG_KASAN_GENERIC`` (啓用通用KASAN模式)， ``CONFIG_KASAN_SW_TAGS``
+-(啓用基於硬件標籤的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (啓用基於硬件標籤
++(啓用基於軟件標籤的KASAN模式)，和 ``CONFIG_KASAN_HW_TAGS`` (啓用基於硬件標籤
+ 的KASAN模式)之間進行選擇。
+ 
+ 對於軟件模式，還可以在 ``CONFIG_KASAN_OUTLINE`` 和 ``CONFIG_KASAN_INLINE``
+-- 
+2.34.1
 
-Will
