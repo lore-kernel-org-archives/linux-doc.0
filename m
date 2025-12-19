@@ -1,68 +1,139 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A7629B76F
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBFC23EA82;
+	Fri, 19 Dec 2025 17:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766164734; cv=none; b=QwQ2p1r+iqbCJskJiowZ0iG1O4B2u/boWrO8L2QxgQlMK3dn+0+uE/7/hX251E6QjwL2Xj+HXmbKhXdnlnWc5VoZSFQT3KCBD3VR6t/ZwWPcoPphC6j82/Jm6+ZgR1Oi1iL3U4xsjy7HS1pK7j5p3zyWxhFPsv8T/xaeDQYiL3A=
+	t=1766164948; cv=none; b=F147PIf6tS/jYUjHYxaq6Ieud46nrOVA7sfvXhQ77srafGrbb9/eeWe0v0UitQ9ubJ0SswL6h84P1vUQ4wQUJAJ6Xu9ui672b5H5cUJ6f2Zm2gRcXqNrj7ideG1+sXEHF6v5bDNifGOsRdD2oW4BwGvjhTaeZWLWhkovBLAFbiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766164734; c=relaxed/simple;
-	bh=A5CNpnVdW3A1xY+wKTwWENUP/Wz9NPD/eZUD+3yyMos=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XSsP6x4dfICQaZ6MbUMPVqDY64RwwXgzRJeFeyrxfV45kPEV9/Am6jZwImSnyadPsZO/wytBbFqRhyVAGMIbl3JFIpwXEfWkLkXy9W3r0rk9bXRb7hQa0OaD1PKIX/cKRaux1i4m6Xh99xUj28W3yH78Ar83apSiM3fyePyyVfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BRZdIBqD; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BRZdIBqD"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766164730;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cWvDfk0GKrvCrlYz9aF47qBNsBtUgWddP1I/pwoSFEQ=;
-	b=BRZdIBqDI89HGkplLMGxjVP1hbIDbKiMpE6R8nhZZ4IVUVUr3LAjObGxiIeJpI0cfLZNyf
-	wPt5+cLx2+xbnIL3rcpqOQikhXMrM4VHqNOFCynsVqGUXSQQr+pND9mv9Y+E1kuH/sZ5Vk
-	CFX2MFlV5C2O6Cg0sTB/czaVA8uUKSo=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	s=arc-20240116; t=1766164948; c=relaxed/simple;
+	bh=5adtQGEsmql7kNYZuPJLKOR3AirF0fKcZftpFBcrCPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Fb/WnvHhRxjBhRhcdfmbmDMJcD1uyke7JdbTlZEnx6uCUZRdf8dtyqGZ4BlgaRZNnE33rM6R1D1ZCDmMHSqLPvbiiloJDXjyiOKyzi9cxBfANn8LSjhuqLzRvWqa4vSW1awApj7+nj400uPaaL2OOtBAf+cE4325ww3U6rdbZU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AAC2DFEC;
+	Fri, 19 Dec 2025 09:22:17 -0800 (PST)
+Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 421CB3F73F;
+	Fri, 19 Dec 2025 09:22:22 -0800 (PST)
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+To: Will Deacon <will@kernel.org>
+Cc: linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	tony.luck@intel.com,
+	bp@alien8.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	catalin.marinas@arm.com,
+	linux-arm-kernel@lists.infradead.org,
+	rafael@kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: kernel-hacking: Remove comma
-Date: Fri, 19 Dec 2025 18:18:26 +0100
-Message-ID: <20251219171827.44015-2-thorsten.blum@linux.dev>
+	Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com,
+	Ahmed.Tiba@arm.com
+Subject: Re: [PATCH 11/12] ras: add DeviceTree estatus provider driver
+Date: Fri, 19 Dec 2025 17:21:54 +0000
+Message-ID: <20251219172212.2844694-1-ahmed.tiba@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aUVMWMMmiG8_I2I2@willie-the-truck>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-The comma is wrong, remove it.
+On Fri, 19 Dec 2025 13:00:08 +0000, Will Deacon wrote:
+>On Fri, Dec 19, 2025 at 09:02:35AM +0000, Ahmed Tiba wrote:
+>> On Thu, 18 Dec 2025 03:19:17PM +0000, Will Deacon wrote:
+>> > On Thu, Dec 18, 2025 at 01:42:47PM +0000, Ahmed Tiba wrote:
+>> >> On Thu, 18 Dec 2025 12:13:25PM +0000, Will Deacon wrote:
+>> >> >> Introduce a platform driver that maps the CPER status block described
+>> >> >> in DeviceTree, feeds it into the estatus core and handles either IRQ- or
+>> >> >> poll-driven notifications. Arm64 gains a FIX_ESTATUS_IRQ slot so the
+>> >> >> driver can safely map the shared buffer while copying records.
+>> >> >>
+>> >> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+>> >> >> ---
+>> >> >>  MAINTAINERS                     |   1 +
+>> >> >>  arch/arm64/include/asm/fixmap.h |   5 +
+>> >> >>  drivers/ras/Kconfig             |  14 ++
+>> >> >>  drivers/ras/Makefile            |   1 +
+>> >> >>  drivers/ras/estatus-dt.c        | 318 ++++++++++++++++++++++++++++++++
+>> >> >>  include/linux/estatus.h         |   3 +-
+>> >> >>  6 files changed, 341 insertions(+), 1 deletion(-)
+>> >> >>  create mode 100644 drivers/ras/estatus-dt.c
+>> >> >>
+>> >> >> diff --git a/MAINTAINERS b/MAINTAINERS
+>> >> >> index 6b2ef2ddc0c7..5567d5e82053 100644
+>> >> >> --- a/MAINTAINERS
+>> >> >> +++ b/MAINTAINERS
+>> >> >> @@ -21761,6 +21761,7 @@ RAS ERROR STATUS
+>> >> >>  M:   Ahmed Tiba <ahmed.tiba@arm.com>
+>> >> >>  S:   Maintained
+>> >> >>  F:   Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
+>> >> >> +F:   drivers/ras/estatus-dt.c
+>> >> >>  F:   drivers/firmware/efi/estatus.c
+>> >> >>  F:   include/linux/estatus.h
+>> >> >>
+>> >> >> diff --git a/arch/arm64/include/asm/fixmap.h b/arch/arm64/include/asm/fixmap.h
+>> >> >> index 65555284446e..85ffba87bab9 100644
+>> >> >> --- a/arch/arm64/include/asm/fixmap.h
+>> >> >> +++ b/arch/arm64/include/asm/fixmap.h
+>> >> >> @@ -64,6 +64,11 @@ enum fixed_addresses {
+>> >> >>  #endif
+>> >> >>  #endif /* CONFIG_ACPI_APEI_GHES */
+>> >> >>
+>> >> >> +#ifdef CONFIG_RAS_ESTATUS_DT
+>> >> >> +     /* Used for ESTATUS mapping from assorted contexts */
+>> >> >> +     FIX_ESTATUS_IRQ,
+>> >> >> +#endif /* CONFIG_RAS_ESTATUS_DT */
+>> >> >
+>> >> > Why do we need this in addition to the four existing GHES slots? The DT
+>> >> > code doesn't use it and I was assuming that the ACPI code would continue
+>> >> > to use the existing irq; is that not the case?
+>> >>
+>> >>
+>> >> We still need a dedicated slot when only the DT provider is built.
+>> >> All four GHES slots are defined as part of the ACPI implementation,
+>> >> so they are not present in a DT-only configuration.
+>> >>
+>> >> The estatus core always requests a fixmap index from each provider
+>> >> before copying a CPER record. As a result, the DT driver must supply
+>> >> its own slot to return a valid enum value to satisfy the common code.
+>> >
+>> > Sorry, but I still don't follow this. The DT code doesn't use the fixmap,
+>> > does it? It looks like it maps the buffer ahead of time using
+>> > devm_ioremap_resource() and then the accessors don't use the fixmap
+>> > index at all, hence the horrible '(void)fixmap_idx;' cast which presumably
+>> > stops the compiler from complaining about an unused variable.
+>> 
+>> Correct. The current DT driver keeps the CPER buffer permanently mapped with
+>> devm_ioremap_resource() and that (void)fixmap_idx; line is just silencing
+>> the warning. I’ll fix that by dropping the permanent mapping and copying the
+>> status block via the fixmap entry, so the DT implementation mirrors GHES. That
+>> gets rid of the cast and makes FIX_ESTATUS_IRQ do real work.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- Documentation/kernel-hacking/hacking.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Why can't you just drop FIX_ESTATUS_IRQ entirely? Your original
+> justification was:
+>
+>> We still need a dedicated slot when only the DT provider is built.
+>
+> but as above, the DT driver doesn't actually need it.
 
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 0042776a9e17..06fcb7c662d3 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -49,7 +49,7 @@ User Context
- 
- User context is when you are coming in from a system call or other trap:
- like userspace, you can be preempted by more important tasks and by
--interrupts. You can sleep, by calling :c:func:`schedule()`.
-+interrupts. You can sleep by calling :c:func:`schedule()`.
- 
- .. note::
- 
--- 
-Thorsten Blum <thorsten.blum@linux.dev>
-GPG: 1D60 735E 8AEF 3BE4 73B6  9D84 7336 78FD 8DFE EAD4
+The DT provider is intended to mirror the GHES path, so both need to supply a
+fixmap slot to satisfy the estatus core interface.
 
+I could drop FIX_ESTATUS_IRQ entirely, but that would require relaxing the
+estatus core so a provider can explicitly indicate that it does not use a
+fixmap and instead relies on a permanent mapping. If we want to stay aligned
+with the ACPI/GHES model, keeping the fixmap-based approach seems preferable.
+
+Thanks,
+Ahmed
