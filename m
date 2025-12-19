@@ -1,38 +1,38 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6C533A013
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7277823EAAE
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766164102; cv=none; b=gTwm7TYPJAjlVXPrwt9w9oAUeZJ90EMGO6eeFZz1ys8kCYSN/RF+YaTbqYmSBfYsBird7MCtxhBRn8MjbwVbgLUWXXg21jaibWilmPIq/ouOsRNedPMdGeqLT2mOmFhd+VqJXjZRAd0rtGD379KK7XPWx1/TRIZjXZn0pyXt1lY=
+	t=1766164117; cv=none; b=VkyRkCOriDcIiyNpnAlDCB1097k2Uz4z2eFUlOsivNToMyPlr73HbHilrL7AtwgHOGOsx8txo09N+/izXRuD97NhNwiVXvUEjBROnRyHT1RQg+w23GkFfvxnRHlvUYnsiayXp6cfyNOm5LzOJ/Rm1+Thb01MPqFcOD8f+9IVkAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766164102; c=relaxed/simple;
-	bh=Bfp9BY9cMWF3UTAEiW+vuNC8Hk01GPMQGjyXPaOSzM0=;
+	s=arc-20240116; t=1766164117; c=relaxed/simple;
+	bh=15Vs4KUsN1Kja5PW6rdcFwMcqVZYbKN3e9SRzOUtpN0=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=dZRceGIGPcEmLF9IFzHQIU7X13eauZmJh9XzB06gQY5p2TKSuAtIsonxgi0AMEZnMuR/gwj8podKYOFYAcUz1sCfKegRNGy5YxJkJ13gsZBYVlRuuxgBClnVraeMaeDtzkt2Devwb3k8pgbeWPYpTWi03IE8rCVBbwVkO3CWoYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QfQYYRuG; arc=none smtp.client-ip=185.246.85.4
+	 References:In-Reply-To; b=ZfooRoZ6VO7znNo9ZmcdNbzUNNKCDVexdvA2s87bp/v7+KgrdoLGjIJNQaLDFLEKfeM5WLXrHAiriaz30TaXORBnehk7sRTWsfGFm89yKDuFscth6WV3Eqc+gTkH6if/O4mP9GiEe90nOvEotn4WGHuRPKdNdXjOpXF+PqkdH+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iurcc38x; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QfQYYRuG"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iurcc38x"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 124444E41CB8;
-	Fri, 19 Dec 2025 17:08:18 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 1A5AAC1B20C;
+	Fri, 19 Dec 2025 17:08:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DBF346071D;
-	Fri, 19 Dec 2025 17:08:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6A62C10AA95D6;
-	Fri, 19 Dec 2025 18:08:10 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C9C556071D;
+	Fri, 19 Dec 2025 17:08:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0B9D010AA9172;
+	Fri, 19 Dec 2025 18:08:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766164093; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766164113; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=Bfp9BY9cMWF3UTAEiW+vuNC8Hk01GPMQGjyXPaOSzM0=;
-	b=QfQYYRuGdOinhxJKPwQCy+wMA3/T+T1qML0ii978ebQg8bfKULEyvB3d+C3Q5/nUYL+KQV
-	lVCGmVWhzVptSmmAF7GMEQ5y4uw08SZngF9PlBvHzKb1+dlJKJBq/L1VtrX74yJLjZEN7D
-	bwHVdAK1ZXZG9JZ7EdANEJspIEdSiAhiTJ68laOkpJl9t6LxCk+jOMuAd6pgkJnftOQEhy
-	Lc4WpZAvZdi6FNl4r7/Iv3Z2wVhGriHe/gzS1xeKpB/pFsy0Ma7M3hC5WLccAGNMDIDZez
-	CGhChIra7mn4uPau6c5CuKb60dB0zqnw0lvFRqMnxp7n585/O75J65Coljwdwg==
+	bh=ZH46bQxb2Ubo9qlnssD68uQSXwsr8CWd4hPiAzbuELw=;
+	b=iurcc38xzziKbrgKzIZ5kZHbMTUTZg139oY8cppy04kaoK13H4mJwT20AL1z33F/3ymDOc
+	MgzPa0LyToGRd68C0/F+plCVAe0hYKqvFwFxZJwTl3SIJqF58BtektT/3qK/xIxWP91y63
+	OiZj40ml3nf2rcCyNwh56Z4+4DfBYQHDPUqfA7IXYaPCsUYWEmm8uNK+aTCo2cjapP8DBM
+	GjZUWR2IsUtEAQ+ufAku4zGXntdtrqjRdaYPc4vNyC08lyqRavPxR/fMv+Y/L5KwxXBMMA
+	CBbhGJMDIcsQ2WPE3CQ+WOtuV6uMWgeEjFDrYRWb3m73K0VmwVtN4InUBe1YNg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,10 +41,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 18:08:09 +0100
-Message-Id: <DF2CX1X8BDJI.3FU896WV87QZI@bootlin.com>
-Subject: Re: [PATCH RESEND v2 18/32] drm/vkms: Properly render plane using
- their zpos
+Date: Fri, 19 Dec 2025 18:08:30 +0100
+Message-Id: <DF2CXBF8ZCSQ.28C9DWKRIFW8Y@bootlin.com>
+Subject: Re: [PATCH RESEND v2 19/32] drm/vkms: Introduce config for plane
+ zpos property
 Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
  <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
@@ -58,19 +58,187 @@ To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-18-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-18-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-19-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-19-a49a2d4cba26@bootlin.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
 On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
-> Currently planes are rendered in creation order. This is not an issue, bu=
-t
-> with the introduction of new zpos configuration, it is required to
-> properly render planes.
+> VKMS can render plane in any order. Introduce the appropriate
+> configuration.
 >
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> --- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> +++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+
+> @@ -606,6 +609,94 @@ static void vkms_config_test_valid_plane_color_range=
+(struct kunit *test)
+>  	vkms_config_destroy(config);
+>  }
+>
+> +static void vkms_config_test_valid_plane_zpos(struct kunit *test)
+> +{
+> +	struct vkms_config *config;
+> +	struct vkms_config_plane *plane_cfg;
+> +
+> +	config =3D vkms_config_default_create(false, false, false);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+> +
+> +	plane_cfg =3D get_first_plane(config);
+> +
+> +	/* Valid, all color range supported */
+> +	plane_cfg =3D get_first_plane(config);
+
+These 2 lines should be removed? Invalid comment and duplicated line,
+apparently.
+
+> +	/* Valid, zpos disabled */
+> +	vkms_config_plane_set_zpos_enabled(plane_cfg, false);
+> +	vkms_config_plane_set_zpos_mutable(plane_cfg, false);
+> +	vkms_config_plane_set_zpos_initial(plane_cfg, 0);
+> +	vkms_config_plane_set_zpos_min(plane_cfg, 0);
+> +	vkms_config_plane_set_zpos_max(plane_cfg, 0);
+> +	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+> +
+> +	/* Valid, zpos disabled, min/max are ignored */
+> +	vkms_config_plane_set_zpos_enabled(plane_cfg, false);
+> +	vkms_config_plane_set_zpos_mutable(plane_cfg, false);
+> +	vkms_config_plane_set_zpos_initial(plane_cfg, 8);
+> +	vkms_config_plane_set_zpos_min(plane_cfg, 3);
+> +	vkms_config_plane_set_zpos_max(plane_cfg, 2);
+> +	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+> +
+> +	/* Valid, zpos enabled but initial value is out of range */
+> +	vkms_config_plane_set_zpos_enabled(plane_cfg, true);
+> +	vkms_config_plane_set_zpos_mutable(plane_cfg, false);
+> +	vkms_config_plane_set_zpos_initial(plane_cfg, 1);
+> +	vkms_config_plane_set_zpos_min(plane_cfg, 0);
+> +	vkms_config_plane_set_zpos_max(plane_cfg, 0);
+> +	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+
+vkms_config_valid_plane_zpos() returns OK if mutable is false. So the test
+is correct but the comment is misleading. It should read:
+
+	/* Valid, zpos enabled but mutable disabled */
+
+> +	/* Valid, zpos enabled with valid initial value */
+> +	vkms_config_plane_set_zpos_enabled(plane_cfg, true);
+> +	vkms_config_plane_set_zpos_mutable(plane_cfg, false);
+> +	vkms_config_plane_set_zpos_initial(plane_cfg, 0);
+> +	vkms_config_plane_set_zpos_min(plane_cfg, 0);
+> +	vkms_config_plane_set_zpos_max(plane_cfg, 0);
+> +	KUNIT_EXPECT_TRUE(test, vkms_config_is_valid(config));
+
+Here the comment is misleading as well, it should still be:
+
+	/* Valid, zpos enabled but mutable disabled */
+
+> --- a/drivers/gpu/drm/vkms/vkms_config.c
+> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+
+> @@ -249,6 +252,37 @@ bool vkms_config_valid_plane_color_range(const struc=
+t vkms_config *config,
+>  }
+>  EXPORT_SYMBOL_IF_KUNIT(vkms_config_valid_plane_color_range);
+>
+> +VISIBLE_IF_KUNIT
+> +bool vkms_config_valid_plane_zpos(const struct vkms_config *config,
+> +				  const struct vkms_config_plane *plane_cfg)
+> +{
+> +	struct drm_device *dev =3D config->dev ? &config->dev->drm : NULL;
+> +
+> +	if (!vkms_config_plane_get_zpos_enabled(plane_cfg) ||
+> +	    !vkms_config_plane_get_zpos_mutable(plane_cfg))
+> +		return true;
+> +
+> +	if (vkms_config_plane_get_zpos_initial(plane_cfg) >
+> +	    vkms_config_plane_get_zpos_max(plane_cfg)) {
+> +		drm_info(dev, "Configured initial zpos value bigger than zpos max\n");
+> +		return false;
+> +	}
+> +
+> +	if (vkms_config_plane_get_zpos_max(plane_cfg) <
+> +	    vkms_config_plane_get_zpos_min(plane_cfg)) {
+> +		drm_info(dev, "Configured zpos max value smaller than zpos min\n");
+> +		return false;
+> +	}
+> +
+> +	if (vkms_config_plane_get_zpos_initial(plane_cfg) <
+> +	    vkms_config_plane_get_zpos_min(plane_cfg)) {
+> +		drm_info(dev, "Configured initial zpos value smaller than zpos min\n")=
+;
+> +		return false;
+> +	}
+
+Maybe merge the if(initial < min) and the if(initial > max) into a single
+if(), to avoid unnecessarily detailed error reporting. Not a strong request
+however, up to you.
+
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+> @@ -51,6 +51,11 @@ struct vkms_config {
+>   * @supported_color_ranges: Color range that this plane will support
+>   * @supported_formats: List of supported formats
+>   * @supported_formats_count: Length of @supported_formats
+> + * @zpos_enabled: Enable or disable the zpos property
+> + * @zpos_mutable: Make the zpos property mutable or not (ignored if @zpo=
+s_enabled is false)
+> + * @zpos_initial: Initial value for zpos property (ignored if @zpos_enab=
+led is false)
+> + * @zpos_min: Minimal value for zpos property (ignored if @zpos_enabled =
+is false)
+> + * @zpos_max: Maximal value for zpos property (ignored if @zpos_enabled =
+is false)
+>   */
+>  struct vkms_config_plane {
+>  	struct list_head link;
+
+[...]
+
+> +/**
+> + * vkms_config_plane_set_zpos_min() - Set the minimum zpos value
+> + * @plane_cfg: Plane configuration to modify
+> + * @zpos_min: Minimum zpos value
+> + */
+> +static inline
+> +void vkms_config_plane_set_zpos_min(struct vkms_config_plane *plane_cfg,
+> +				    unsigned int zpos_min)
+> +{
+> +	plane_cfg->zpos_min =3D zpos_min;
+> +}
+> +
+> +/**
+> + * vkms_config_plane_set_zpos_max() - Set the maximum zpos value
+> + * @plane_cfg: Plane configuration to modify
+> + * @zpos_max: Maximum zpos value
+> + *
+> + * Sets the maximum allowed value for the zpos property. This setting is
+> + * ignored if zpos is disabled.
+
+These two lines are not present for the other functions. I suggest removing
+them here, the kdoc in struct vkms_config is already saying so.
+
+> +/**
+> + * vkms_config_plane_get_zpos_mutable() - Check if zpos property is muta=
+ble
+> + * @plane_cfg: Plane configuration to check
+> + *
+> + * Returns:
+> + * True if the zpos property is mutable for this plane, false otherwise.
+> + * Returns false if zpos is disabled.
+
+This last line is correct? There is no check in the code. I think it's OK
+to leave the code as is and remove this line.
+
+> + */
+> +static inline
+> +bool vkms_config_plane_get_zpos_mutable(const struct vkms_config_plane *=
+plane_cfg)
+> +{
+> +	return plane_cfg->zpos_mutable;
+> +}
+
+Luca
 
 --
 Luca Ceresoli, Bootlin
