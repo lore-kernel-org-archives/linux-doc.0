@@ -1,211 +1,74 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B629133DED1
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 21:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8422E1E520C;
+	Fri, 19 Dec 2025 21:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766178219; cv=none; b=ISnomMBJ7qxgb88gKc7hAvWPOpRwWDdhxNQodT8srOjKd4Jv7ZoPqdKyMVNV6FVXqDQtHRM82tAna1lK+P3jKwiJDSNmn5xvnYjXZpuVHl8IlllBgiq9UOmpS1sTRmwIgHuC/JSMUmy08C56ckpmCSRIpm6wcaHMW2uXavZLOco=
+	t=1766178300; cv=none; b=O2SQdtyq3pTs/BqmjiIawahC8MJqR8++TB0GKbJDO5jNRrMTiIcLaxSHQcspDb0ysi0H78wIWZPSsejOK7Ghtxu2Yc1QWqUNSctEUtPtkuGHdGc1svj/b+Rtrb1fXykiqKgLJR5myWamJDJacDMGX8b1Sa1JMMQTdRYKxKjC54Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766178219; c=relaxed/simple;
-	bh=Gv0sx2crcIg2ojZmxyqSmjTC12L5Iz95jTVidDAOXEw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QU8t+UTvlaL7cTdwpxNYXcYOhAkJ3UF10Cw7RkI/ecsQj7jsTeJakqvYjEPObMZC7JKAbcYewcV9iXNZjmGAY5Wbxa/vT1J+KIU7O2RHZekyaOaMD+o3PJD4NUzD9oClOoU+fqY9JPs0+/rURkgk8jnfY0FUHtf1CeduYXV+uFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B99HG+hi; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1766178300; c=relaxed/simple;
+	bh=4sgIqEwPXXLAOBFYR/9KviOsCVn5w5BeCFeoELqc7Mo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PS2dZVoLRIb2NKqXz6GKK6lFZFon46Ps4V2ExsUdfcIR9Ih5CxrLQHjBlduqd7qKowOXEmgJi9Lfq5zfpjz1RC6WaJNwcl1dRdT6TKLlygg9dJrUyMoPaE5eYbPfYV1cm4oDd/ZE/kF6rIxwNLpMDmKmYLaIhPOtUem52qQwpzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfMs3aZS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B99HG+hi"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c1cf2f0523eso1526717a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 13:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1766178214; x=1766783014; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=de8pCxnipY54b0+yxIRceTprHyPFDweXvtkEVQB+6ZQ=;
-        b=B99HG+hiCogXcUIsi1bSDeJY1RehHhF6CMoJ2UNn+9nmpcR3hF2A96mHhUP4T6ptgY
-         S0AcaD3j3DlHvJ+Wq7mdDG3lLeFwR292pkWiCz7l05dT/8XB2IL6vMGor/hagC0d92qX
-         9Nb6xwfVzfVZI1kyATwZlELdw0xtCb20q/AFYc4XGYjXLXCj0uNvjePhNK23877wyYlV
-         iDpKD0jDasZ4E7wOFSUcUZIKwRmUA7tX2RfJ/j3kJbDVCT3mNehQ9LKEgpigjjJq0/0U
-         +YTqntdEaRTuX8INyZ0o3qFpXPp2k8pJFXTEPO4rbHZebyqBG0MU7dx2EzvUXo9KQwNU
-         50fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766178214; x=1766783014;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=de8pCxnipY54b0+yxIRceTprHyPFDweXvtkEVQB+6ZQ=;
-        b=g94Ak+v7HHZqyTAKTjWCzm9cn0P2Hm/7Vta2cQd7VsMiDUoDsNR/kCg1a38VYFtwsT
-         ObAYgTxiTYT7LUROs/Fe36MQouo47+mO5tXgEAMMVp+P4jOJhT6NG2IgeQtlCWc9a7mi
-         QHpNWbCiJ9eT/Cc9NoipF08d057IgZkTVMcML8w+Pu16ra4Tkhd4Pd4SAunL9Ke9ouhz
-         5QOBe8clp+TD70q4FDGRv/7UKdhlauhBIqpNiy8GtE8dq57FrYrkLc9vQNEdFdBznhhU
-         LAgum3vAsQpCKWg66KEybKR96bgsA3Sc5wK1gYdn21YsL8icLtT9cF7CCAlx9SQElxRR
-         ZF2A==
-X-Forwarded-Encrypted: i=1; AJvYcCWEUnTTjBm6GmXaVjT36x36utd19rfZ5G1bc64N2ZrMGNXm2mAGBfJX31qP+bg6TykQE5fdR6wePK0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDwTowwSjP/KjrQggfey2EYjAxHyweHYUUd0N3dO/9PtfaJ7Ec
-	JWVr/xgBhN5xJnna+cUYYUa4Ak7//xY7w62jjXrokHSdVFycLreXaLfmSdgu0MTLfT/Cn5dvQBo
-	z03RuXAUM+Rm9IZK7k7LfA0FbELaHNRviDX9ipDwq
-X-Gm-Gg: AY/fxX5soIHvuTOBx/OFFAHbHegvHG4RRdLaniHzPrio/fNNtNKRZhA6EvObtaxUb0S
-	gs6Idugr4HEQbst5X0EA11fSLSQ4rblOvg2ECSchC8HUTd/RD5WA9ByVqb0CAqiVCMTz6sAc4Uv
-	u850stGuPJuGsLhQ41NDGIjE+NYm2OZDlnurNelOwuwu86ldVUEMdgzXXsqNMKKppsNhk6xWe8z
-	r88M2Zg8yL+zaDxNOA0SeaxtYjDL54Pb25mDmoejx7Jrlc0vYenwH2cJ00BYnbf0kw6xvobaQkc
-	ToadJy/lHY82CBRqh3FVatOl3hc=
-X-Google-Smtp-Source: AGHT+IFg+H7bSZfFX25VI1D2TcRvhiMGdeLrAoERYZ7E84os+Kz9RUi2WSmTBrf46N46WhW85ro17M8H8dzWFnHpZdU=
-X-Received: by 2002:a05:7022:150d:b0:11c:e661:2590 with SMTP id
- a92af1059eb24-121722ba459mr3928518c88.20.1766178213442; Fri, 19 Dec 2025
- 13:03:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfMs3aZS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA953C4CEF1;
+	Fri, 19 Dec 2025 21:04:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766178300;
+	bh=4sgIqEwPXXLAOBFYR/9KviOsCVn5w5BeCFeoELqc7Mo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZfMs3aZSNNfkQ9MoZuxxd+vbw82OrHIh/AKb8fyfm5jNcaTraQayNloRHtyjaM//P
+	 DgvdFLVvl+4P7NnH6m8tVhw6DNodUcsXCoziLQBwP0Frp8Amb6aMFcC0DdUo3Ub7T0
+	 YPCCRnXBXU1why3bYJiVEy/IWpIJtCrQ81Mppt46NvONPRycpVbBBtjjm606fxz0cJ
+	 /tMBHJnntONP3QhGxeGthJHUCCmJ/R+YMPxAzXl6RwFR37g95To62VMbZRVvjr4Kyi
+	 TKFVctjpumN1YCUFUsIJu9P3En05rUJWXMJ4IAj2yNS0igWUrA/jsamySjwgdGFvpO
+	 LzZX2mYwJiQEg==
+Date: Fri, 19 Dec 2025 15:04:57 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: linux-kernel@vger.kernel.org,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-gpio@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko <andy@kernel.org>,
+	linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	David Lechner <dlechner@baylibre.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v4 1/9] dt-bindings: iio: adc: Add adi,ad4062
+Message-ID: <176617829657.3934846.6702160905493410565.robh@kernel.org>
+References: <20251217-staging-ad4062-v4-0-7890a2951a8f@analog.com>
+ <20251217-staging-ad4062-v4-1-7890a2951a8f@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251219154418.3592607-1-elver@google.com> <20251219154418.3592607-9-elver@google.com>
- <17723ae6-9611-4731-905c-60dab9fb7102@acm.org>
-In-Reply-To: <17723ae6-9611-4731-905c-60dab9fb7102@acm.org>
-From: Marco Elver <elver@google.com>
-Date: Fri, 19 Dec 2025 22:02:57 +0100
-X-Gm-Features: AQt7F2r1zeH05SJ6k_ASDq36JbXz12zcm_odE6qCh7vpVVaB3K5VKsjzaangmPo
-Message-ID: <CANpmjNO0B_BBse12kAobCRBK0D2pKkSu7pKa5LQAbdzBZa2xcw@mail.gmail.com>
-Subject: Re: [PATCH v5 08/36] locking/rwlock, spinlock: Support Clang's
- context analysis
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
-	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251217-staging-ad4062-v4-1-7890a2951a8f@analog.com>
 
-On Fri, 19 Dec 2025 at 21:26, Bart Van Assche <bvanassche@acm.org> wrote:
-> On 12/19/25 7:39 AM, Marco Elver wrote:
-> > - extern void do_raw_read_lock(rwlock_t *lock) __acquires(lock);
-> > + extern void do_raw_read_lock(rwlock_t *lock) __acquires_shared(lock);
->
-> Given the "one change per patch" rule, shouldn't the annotation fixes
-> for rwlock operations be moved into a separate patch?
->
-> > -typedef struct {
-> > +context_lock_struct(rwlock) {
-> >       arch_rwlock_t raw_lock;
-> >   #ifdef CONFIG_DEBUG_SPINLOCK
-> >       unsigned int magic, owner_cpu;
-> > @@ -31,7 +31,8 @@ typedef struct {
-> >   #ifdef CONFIG_DEBUG_LOCK_ALLOC
-> >       struct lockdep_map dep_map;
-> >   #endif
-> > -} rwlock_t;
-> > +};
-> > +typedef struct rwlock rwlock_t;
->
-> This change introduces a new globally visible "struct rwlock". Although
-> I haven't found any existing "struct rwlock" definitions, maybe it's a
-> good idea to use a more unique name instead.
 
-This doesn't actually introduce a new globally visible "struct
-rwlock", it's already the case before.
-An inlined struct definition in a typedef is available by its struct
-name, so this is not introducing a new name
-(https://godbolt.org/z/Y1jf66e1M).
+On Wed, 17 Dec 2025 13:13:24 +0100, Jorge Marques wrote:
+> Add dt-bindings for AD4062 family, devices AD4060/AD4062, low-power with
+> monitor capabilities SAR ADCs. Each variant of the family differs in
+> resolution. The device contains two outputs (gp0, gp1). The outputs can
+> be configured for range of options, such as threshold and data ready.
+> The device uses a 2-wire I3C interface.
+> 
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4062.yaml    | 120 +++++++++++++++++++++
+>  MAINTAINERS                                        |   6 ++
+>  2 files changed, 126 insertions(+)
+> 
 
-> > diff --git a/include/linux/spinlock_api_up.h b/include/linux/spinlock_api_up.h
-> > index 819aeba1c87e..018f5aabc1be 100644
-> > --- a/include/linux/spinlock_api_up.h
-> > +++ b/include/linux/spinlock_api_up.h
-> > @@ -24,68 +24,77 @@
-> >    * flags straight, to suppress compiler warnings of unused lock
-> >    * variables, and to add the proper checker annotations:
-> >    */
-> > -#define ___LOCK(lock) \
-> > -  do { __acquire(lock); (void)(lock); } while (0)
-> > +#define ___LOCK_void(lock) \
-> > +  do { (void)(lock); } while (0)
->
-> Instead of introducing a new macro ___LOCK_void(), please expand this
-> macro where it is used ((void)(lock)). I think this will make the code
-> in this header file easier to read.
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-If I recall right, we needed this to generalize __LOCK(),
-__LOCK_IRQ(), etc. which do preempt_disable(), local_irq_disable() in
-the right way, but then need to make sure we call the right
-acquire/release helper, which require different cases depending on the
-lock kind. Obviously we could just expand all the macros below, but
-the current pattern tried to not rewrite this altogether.
-
-There's probably a way this can all be simplified for UP, but maybe a
-separate patch. I'd leave it to the locking maintainers which way they
-prefer to go.
-
->     > -#define __LOCK(lock) \
-> > -  do { preempt_disable(); ___LOCK(lock); } while (0)
-> > +#define ___LOCK_(lock) \
-> > +  do { __acquire(lock); ___LOCK_void(lock); } while (0)
->
-> Is the macro ___LOCK_() used anywhere? If not, can it be left out?
-
-Yes, it's the default case if __VA_ARGS__ is empty.
-
-> > -#define __LOCK_BH(lock) \
-> > -  do { __local_bh_disable_ip(_THIS_IP_, SOFTIRQ_LOCK_OFFSET); ___LOCK(lock); } while (0)
-> > +#define ___LOCK_shared(lock) \
-> > +  do { __acquire_shared(lock); ___LOCK_void(lock); } while (0)
->
-> The introduction of the new macros in this header file make the changes
-> hard to follow. Please consider splitting the changes for this header
-> file as follows:
-> * A first patch that splits ___LOCK() into ___LOCK_exclusive() and
->    ___LOCK_shared().
-> * A second patch with the thread-safety annotation changes
->    (__acquire() -> __acquire_shared()).
-
-I've wrangled with this maze of interdependent macros and definitions
-for days (though that was earlier in the year), believe me when I say
-I tried to split it up. I think the commit message hints at this:
-
-> Add support for Clang's context analysis for raw_spinlock_t,
-> spinlock_t, and rwlock. This wholesale conversion is required because
-> all three of them are interdependent.
-
-It's like a carefully crafted house of cards: you take one away, the
-whole thing breaks apart. If I recall correctly, the main problem was
-that as soon as you make one of these a context lock type, and because
-they are all interdependent, the compiler will just complain endlessly
-about either wrong attributes or incorrectly acquired/released locks
-until they are all precisely in the way you see them here.
-
-> >   /* Non PREEMPT_RT kernels map spinlock to raw_spinlock */
-> > -typedef struct spinlock {
-> > +context_lock_struct(spinlock) {
-> >       union {
-> >               struct raw_spinlock rlock;
-> >
-> > @@ -26,7 +26,8 @@ typedef struct spinlock {
-> >               };
-> >   #endif
-> >       };
-> > -} spinlock_t;
-> > +};
-> > +typedef struct spinlock spinlock_t;
->
-> Also here, a new global struct name is introduced (spinlock). Maybe the
-> name of this new struct should be made more unique?
-
-As above.
