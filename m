@@ -1,103 +1,136 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B60832B981;
-	Fri, 19 Dec 2025 14:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0C333D6D4;
+	Fri, 19 Dec 2025 14:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766155828; cv=none; b=ogb7FpekrMWul52kEj+CfQ+W/N56JZUVLfHU2/NDK8lMpqvMIzw8riBXCzTfDvFcwfiC4g9B2RMSlPOb6G1OjqLdr5bsHOhtaIqmaZhnPUG5F2oegxhdetbMZJjdOSJ+9KFbCDfmmVvalYMGnx1s3t7vncK2ZDuXqUMccLeSjPo=
+	t=1766156121; cv=none; b=upRfK6xgiWWPXzTwidHA3KrenXJSjXWyfw6Smoy8e5+a41tAz3Eb7nUknGT/OFnhsSS95lSh++kPvpHKPye77t19xBlAO9oeuyG2Jl6obAAxb28tcAlcfYocLNtEYrQxnjv5Q83pUyWTC0dCvbI9ZQr6ReIEyIgdsx3aKlS3GcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766155828; c=relaxed/simple;
-	bh=diXfoksOnTBJJqaVMdnjmsZNa+G+lgmt0/AkhAteGv0=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gzC5rBhoYHhngMxgSzYLVh7uhBsRwCujT8kTt89YyVUCYrcmdGBYH1diqYFpYZ1LwZrtDnB/t5+MQk5h9f2Uy5AEoSyoEEG+i86pfXE7iXnvc4mCyiBDWGN7NLkUso68rW5/YmvyX1EsoBGyqfxDRGpwVUVzW3kXUSHpHnF2zvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXr6Q6nC3zJ46ZY;
-	Fri, 19 Dec 2025 22:49:50 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id AE3F940565;
-	Fri, 19 Dec 2025 22:50:23 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 19 Dec
- 2025 14:50:22 +0000
-Date: Fri, 19 Dec 2025 14:50:21 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Gregory Price <gourry@gourry.net>
-CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kernel-team@meta.com>, <dave@stgolabs.net>,
-	<dave.jiang@intel.com>, <alison.schofield@intel.com>,
-	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
-	<dan.j.williams@intel.com>, <corbet@lwn.net>
-Subject: Re: [PATCH v2] Documentation/driver-api/cxl: device hotplug section
-Message-ID: <20251219145021.00001071@huawei.com>
-In-Reply-To: <aUVhxIJzGiiGs9ee@gourry-fedora-PF4VCD3F>
-References: <20251218170747.1278327-1-gourry@gourry.net>
-	<20251219105518.00005ca6@huawei.com>
-	<aUVhxIJzGiiGs9ee@gourry-fedora-PF4VCD3F>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1766156121; c=relaxed/simple;
+	bh=OpiQEgEi0WQX9tN4Wlnz3qHZlw3e0oUHYG+9HsjwIJg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=e23LwOrcj/Ce7hej405GhQdVEfzgGRseKr7s4p5lf2UEwqNsYnxrMHDg0H1Jq4SzTp6fZtJx94DDvsMb3vM7rdMM0h03SkRJP3j8FFMWky+fwRFuA/gyrkd8a49nw8e74i1T3y7RKaHDgN2kzCkxgSz4lExykW+oP7HiLeR13n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rSZSLSSj; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rSZSLSSj"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id DA13C4E41C87;
+	Fri, 19 Dec 2025 14:55:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AA7DD6071D;
+	Fri, 19 Dec 2025 14:55:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 58568102F0B7F;
+	Fri, 19 Dec 2025 15:55:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766156110; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=GV9S+xc9D71Uwlbo2vNh/GdtKzweopawR08NIo0wto4=;
+	b=rSZSLSSj61Ppq8s5mGApSpZT2fEpy5KklEyIXMQ7Z9kXpAN8YnfHpsq3dVgctjiKk3AAFq
+	d/cQIW/kSKd89pVlQaxXtTt2ddv/67W29RJ+tjMWIwCjODjiN0Dlv/72H1V9Kl0aa9WINQ
+	t08JcxDeU/m2WnXkNz7AaW1OVCm9EQr5CVvfoAizlmOocRtc/H+yljTe6HB1+9DiHCBiVA
+	U6AUV55ome4WuGFMoSXBVMYFQrXWJ5SHTzHx38iG8Dn44QFbQBnsLBbk7tI7eFz/Bjm9rL
+	Z2m98of2PcG109M9rL7WOWK1Akukb7j+U9cNTSeYsuLF64/Qr3b6RvtGe5iOUA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 19 Dec 2025 15:55:03 +0100
+Message-Id: <DF2A35683YPN.2TH0WT8JJAJ70@bootlin.com>
+Subject: Re: [PATCH RESEND v2 16/32] drm/vkms: Introduce config for plane
+ format
+Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
+ <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
+ <melissa.srw@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
+ <corbet@lwn.net>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-16-a49a2d4cba26@bootlin.com>
+In-Reply-To: <20251029-vkms-all-config-v2-16-a49a2d4cba26@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 19 Dec 2025 09:31:32 -0500
-Gregory Price <gourry@gourry.net> wrote:
+Hi Louis,
 
-> On Fri, Dec 19, 2025 at 10:55:18AM +0000, Jonathan Cameron wrote:
-> > On Thu, 18 Dec 2025 12:07:47 -0500
-> > Gregory Price <gourry@gourry.net> wrote:
-> >   
-> > > +
-> > > +Multi-Endpoint Memory Device Present at Boot
-> > > +--------------------------------------------
-> > > +A hot-plug capable CXL memory device, such as one which presents multiple
-> > > +expanders as a single large-capacity device, should report the maximum
-> > > +*possible* capacity for the device at boot. ::
-> > > +
-> > > +                  HB0
-> > > +                  RP0
-> > > +                   |
-> > > +     [Multi-Endpoint Memory Device]  
-> > 
-> > So this is the weird switch as end point thing?   Maybe a reference.
-> > My guess is these will go away as switch and memory device vendors catch
-> > up with the spec, but maybe I'm wrong.
-> >   
-> 
-> I guess I just don't want to dictate the innards of a multi-endpoint
-> memory device.  It *really really* implies there must be some kind of
-> switch inside - but that switch might not even be runtime programmable
-> or discoverable (basically all the settings get locked on boot and it
-> becomes passthrough).
-> 
-> If you'd rather just not have this section at all, I'm ok with that.
-> The switch case below this covers the base case for a switch-based
-> device where everything is programmable.
+On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
+> VKMS driver supports all the pixel formats for planes, but for testing it
+> can be useful to only advertise few of them. This new configuration
+> interface will allow configuring the pixel format per planes.
 
-Maybe just state at the top of this section that these things are
-outside of the types of device that the CXL specification explicitly
-talks about. That should be enough of a future breadcrumb for people
-to decide if they can ignore these.
+[...]
 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *=
+plane_cfg, u32 drm_format)
+> +{
+> +	bool found =3D false;
+> +
+> +	for (int i =3D 0; i < ARRAY_SIZE(vkms_supported_plane_formats); i++) {
+> +		if (vkms_supported_plane_formats[i] =3D=3D drm_format) {
+> +			found =3D true;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!found)
+> +		return -EINVAL;
+> +	for (unsigned int i =3D 0; i < plane_cfg->supported_formats_count; i++)=
+ {
+> +		if (plane_cfg->supported_formats[i] =3D=3D drm_format)
+> +			return 0;
+> +	}
+> +	u32 *new_ptr =3D krealloc_array(plane_cfg->supported_formats,
+> +				      plane_cfg->supported_formats_count + 1,
+> +				      sizeof(*plane_cfg->supported_formats), GFP_KERNEL);
+> +	if (!new_ptr)
+> +		return -ENOMEM;
+> +
+> +	plane_cfg->supported_formats =3D new_ptr;
+> +	plane_cfg->supported_formats[plane_cfg->supported_formats_count] =3D dr=
+m_format;
+> +	plane_cfg->supported_formats_count++;
+> +
+> +	return 0;
+> +}
 
-> 
-> > > +              _____|_____
-> > > +             |          |
-> > > +        [Endpoint0]   [Empty]
-> > > +
-> > > +
-> > > +Limiting the size to the capacity preset at boot will limit hot-add support
-> > > +to replacing capacity that was present at boot.  
-> > 
-> >   
+This whole logic appears quite complex for what you need here. I suspect
+using the facilities in linux/bitmap.h would make your code simpler by
+allocating a (multi-)ulong array of
+ARRAY_SIZE(vkms_supported_plane_formats) bits. This would surely use less
+memory and avoid all reallocations, too.
 
+> --- a/drivers/gpu/drm/vkms/vkms_config.h
+> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+
+> +/**
+> + * vkms_config_plane_remove_format - Remove a specific format from a pla=
+ne
+> + * @plane_cfg: Plane to remove the format to
+> + * @drm_format: Format to remove
+> + */
+> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg=
+, u32 drm_format);
+> +
+> +/**
+> + * vkms_config_plane_remove_all_formats - Remove all formast from a plan=
+e
+                                                        formats
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
