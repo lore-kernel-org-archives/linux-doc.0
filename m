@@ -1,40 +1,37 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FC8327C0C;
-	Fri, 19 Dec 2025 17:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC36E34AAE0;
+	Fri, 19 Dec 2025 17:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766166688; cv=none; b=nCzwRy4QQH0/tSerh5U3NUv/opfkSs/1TTlDxQ7EZD2QIM5VY5e7m2q4ytPWuITia3i9gE0EtLDJahuB5btwx7nYdTC5ceEFuCIuqRBC8DQWLP3tm3Ge3afx2nLBgD+O+JAGbBdd93sL2F7JZQ5gQ5NKEAJX4KI64NCooRy21QE=
+	t=1766166944; cv=none; b=WL+NcXI22zgzDcZc+z1x855naUUQiJfKb4q/hHGyJqmNYiKEDVS1grTBnXvAGSvnNVAUY+iKq+4R1yP2wmPKUd7cFAFHazQBBLTZZh5Nc8AQoYZxSQSI5d6gGAAek8rM3Uwgs5h0a+4G7h/PdiSNqNPe8Xu/dKUFCzUHYF1eqK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766166688; c=relaxed/simple;
-	bh=Q4uhQM8LwFXCcSV2WY9KfZOT50CWN7df9lWe+CGXOq8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ifir4NA+dgIjN1G0rPJe+RNDz3b7TbBqBd3+9MoLzhgqxnppGiPdudrLvbjQK/iH5UDQAkQCLI/xa+lrFgd72iDwPL74UWvxCp72f5p7A11sLcqx0FFytFRP0t1M0JeWRosXkmgSdcquEcGrMazpC7MwSzjhIa6GQ8q2p0ZoOuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IX5qyWp6; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1766166944; c=relaxed/simple;
+	bh=SJv6+hvH9ZVKy53uhm6T0C/UglfTrJjihu6cZ5L9gSI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HBzH4VwLKulZaVoEV4OVK12zIHNgZ78UXf4QR3zkOf9Qn5MT1pX4FoOIGqgWpaT+l12ocErxg/kbA6ntfA/iVbJdBEh0A6L42ShjUwncUam3ZHExWQzBRX2iOfZbJ09GTPO1LyUiUS65Pep7m33nNfZuLxuU2Jv4PggHfRjq48I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qvRHlcW1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IX5qyWp6"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 4F6AFC1B20B;
-	Fri, 19 Dec 2025 17:50:59 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D4B7A6071D;
-	Fri, 19 Dec 2025 17:51:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5A099102F0B50;
-	Fri, 19 Dec 2025 18:51:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766166683; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=gZbsi0/3CZI5iarKyG4+kknPxxal0vEqKpFXZJhtcU8=;
-	b=IX5qyWp6BgdVqIKfMv1qi8h7GIJUZAnKj+KErS5E92teFxs0a/aue8nsSwbQVBZ6T7cFFG
-	Tv40kzCvJLp8lTeXJJueMJ81d7eZm3GXkhShU64s2zuB20Wh1x9BJnAQN0QZAwS9lOYO04
-	x5Md+/ZZtLgEd22EDtCWOYBwi+qq/LeMgQtL5HyPQJlRKCqrrmdDFPnOcGuBa3H8TbV/WV
-	Skg2KHfsIakVO+jIiDsvACwB6hHIgSEKYLcs3JkQodp408euTUWOFgJKI+nyBhqMIxXJAy
-	rdoqW87wpistffUjZx8ZbH3a6YdDqM/ApwrESYaxGK6YdN4FtmjLPfBK0jFKfg==
-Message-ID: <4fbe256e-503c-47c3-959a-5fe8d19d7d4a@bootlin.com>
-Date: Fri, 19 Dec 2025 18:51:27 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qvRHlcW1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3aW+h2P7/Tt7Gd/nWwpsJRVh3t7oBihrK8aIJSRotrY=; b=qvRHlcW1xkaDCV1RcnXc3NmKmN
+	tzmrAClrqFi3cQxxnGokJQQQP4QGX95g5uy2kck56TJmaoAKZTMjMOh8HUtqUJ338X3QO2lLVWT83
+	cwWb4wP+UHu8o+Odx2MCrx6BcuTVWKzeCUClsHW5rMd/sAd1NQzyL2glyBl4bCxmuPiRLJVsNXI03
+	qImp3fQHiGQ7kpvaxzg11uuDTGwfYhEI/thdUyfDL+ZNuJHpfhNtU6dhxiJe598E5rZE/i9kxKkzv
+	1KvF6SsV4Mkdzb3XhDbx292BhbSFdf6QN/4IeFpoyjwRVSyVT29RBL0UfWC6FxtM6CV84fQ1V/WFI
+	KKutA0RA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vWehV-0000000AjuP-2IsB;
+	Fri, 19 Dec 2025 17:55:37 +0000
+Message-ID: <6bcc9d9f-102e-4f13-97a8-7ee273e71fdd@infradead.org>
+Date: Fri, 19 Dec 2025 09:55:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,71 +39,42 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v2 12/32] drm/vkms: Introduce configfs for plane
- color encoding
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-12-a49a2d4cba26@bootlin.com>
- <DF1JDXPWYWVQ.2FSDNACYTUOMH@bootlin.com>
- <bd38f577-7a09-4287-b71b-6e6e3e0f2cf2@bootlin.com>
+Subject: Re: [PATCH] Documentation: kernel-hacking: Remove comma
+To: Thorsten Blum <thorsten.blum@linux.dev>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251219171827.44015-2-thorsten.blum@linux.dev>
 Content-Language: en-US
-In-Reply-To: <bd38f577-7a09-4287-b71b-6e6e3e0f2cf2@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251219171827.44015-2-thorsten.blum@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
->>> +
->>> +    ret = kstrtouint(page, 10, &val);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    /* Should be a supported value */
->>> +    if (val & ~(BIT(DRM_COLOR_YCBCR_BT601) |
->>> +            BIT(DRM_COLOR_YCBCR_BT709) |
->>> +            BIT(DRM_COLOR_YCBCR_BT2020)))
->>> +        return -EINVAL;
->>> +    /* Should at least provide one color range */
->>> +    if ((val & (BIT(DRM_COLOR_YCBCR_BT601) |
->>> +            BIT(DRM_COLOR_YCBCR_BT709) |
->>> +            BIT(DRM_COLOR_YCBCR_BT2020))) == 0)
->>> +        return -EINVAL;
->>
->> Shouldn't you check that exactly one bit is set? As in patch 9.
+
+On 12/19/25 9:18 AM, Thorsten Blum wrote:
+> The comma is wrong, remove it.
 > 
-> Because this code is wrong... the default rotation should be 
-> DRM_COLOR_YCBCR_BT601 / DRM_COLOR_YCBCR_BT709 / DRM_COLOR_YCBCR_BT2020
-> not a bitfield...
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-And after fixing this, I think I will keep bitmask with only one bit set 
-so supported_color_encodings and default_color_encoding will have 
-exactly the same values. Same for color ranges. Thanks for the report!
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
+> ---
+>  Documentation/kernel-hacking/hacking.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->>> +
->>> +    scoped_guard(mutex, &plane->dev->lock) {
->>> +        /* Ensures that the default rotation is included in 
->>> supported rotation */
->>> +        if (plane->dev->enabled)
->>> +            return -EINVAL;
->>
->> As before, wrong comment.
->>
->> Luca
->>
->> -- 
->> Luca Ceresoli, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
-> 
+> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+> index 0042776a9e17..06fcb7c662d3 100644
+> --- a/Documentation/kernel-hacking/hacking.rst
+> +++ b/Documentation/kernel-hacking/hacking.rst
+> @@ -49,7 +49,7 @@ User Context
+>  
+>  User context is when you are coming in from a system call or other trap:
+>  like userspace, you can be preempted by more important tasks and by
+> -interrupts. You can sleep, by calling :c:func:`schedule()`.
+> +interrupts. You can sleep by calling :c:func:`schedule()`.
+>  
+>  .. note::
+>  
 
+-- 
+~Randy
