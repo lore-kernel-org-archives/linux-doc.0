@@ -1,87 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C8230FC08;
-	Fri, 19 Dec 2025 14:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B60832B981;
+	Fri, 19 Dec 2025 14:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766155795; cv=none; b=ovyAFPJkX5+28uqqlqxW4+nR834fyIJ00mvqjUATW+Ou5slmxu1tI7k6qu6DXfpLJzwJHR0nro18ruMlY/IJ2MmLbbL30IuPMFlZuBN9DmkgXAHVidMvgVkFo72YbeEyQgMgQbMOnsH1YQH9fJvf2q2QCzc2qt5b9j24Y4qu52A=
+	t=1766155828; cv=none; b=ogb7FpekrMWul52kEj+CfQ+W/N56JZUVLfHU2/NDK8lMpqvMIzw8riBXCzTfDvFcwfiC4g9B2RMSlPOb6G1OjqLdr5bsHOhtaIqmaZhnPUG5F2oegxhdetbMZJjdOSJ+9KFbCDfmmVvalYMGnx1s3t7vncK2ZDuXqUMccLeSjPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766155795; c=relaxed/simple;
-	bh=GxCWED1lQ3xQHAfEzdEfYQo+mnCg8pklLKYy52Nrj2g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ivOQFHC0rEbZXLufVtP6yjmkmd5Ebcm8Fhn6SyCwyJEKaii9G0vUQ8/tHvOczAxtf0WlPew+3pqQanIrS8yIrxqpUzzG2pgWDJmfTCCTLT/YE1molTqLve9ax/pjTny1mgAFjEkNUasDPNTBYrTvnkx4ZSBOwuZRoP9HwroJGUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 30454FEC;
-	Fri, 19 Dec 2025 06:49:45 -0800 (PST)
-Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 588433F5CA;
-	Fri, 19 Dec 2025 06:49:50 -0800 (PST)
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-acpi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	tony.luck@intel.com,
-	bp@alien8.de,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	rafael@kernel.org,
-	linux-doc@vger.kernel.org,
-	Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com,
-	Ahmed.Tiba@arm.com
-Subject: Re: [PATCH 03/12] ras: add estatus vendor handling and processing
-Date: Fri, 19 Dec 2025 14:49:02 +0000
-Message-ID: <20251219144943.2798169-1-ahmed.tiba@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251218170453.23be9049@foz.lan>
-References: 
+	s=arc-20240116; t=1766155828; c=relaxed/simple;
+	bh=diXfoksOnTBJJqaVMdnjmsZNa+G+lgmt0/AkhAteGv0=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gzC5rBhoYHhngMxgSzYLVh7uhBsRwCujT8kTt89YyVUCYrcmdGBYH1diqYFpYZ1LwZrtDnB/t5+MQk5h9f2Uy5AEoSyoEEG+i86pfXE7iXnvc4mCyiBDWGN7NLkUso68rW5/YmvyX1EsoBGyqfxDRGpwVUVzW3kXUSHpHnF2zvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXr6Q6nC3zJ46ZY;
+	Fri, 19 Dec 2025 22:49:50 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id AE3F940565;
+	Fri, 19 Dec 2025 22:50:23 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 19 Dec
+ 2025 14:50:22 +0000
+Date: Fri, 19 Dec 2025 14:50:21 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Gregory Price <gourry@gourry.net>
+CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kernel-team@meta.com>, <dave@stgolabs.net>,
+	<dave.jiang@intel.com>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
+	<dan.j.williams@intel.com>, <corbet@lwn.net>
+Subject: Re: [PATCH v2] Documentation/driver-api/cxl: device hotplug section
+Message-ID: <20251219145021.00001071@huawei.com>
+In-Reply-To: <aUVhxIJzGiiGs9ee@gourry-fedora-PF4VCD3F>
+References: <20251218170747.1278327-1-gourry@gourry.net>
+	<20251219105518.00005ca6@huawei.com>
+	<aUVhxIJzGiiGs9ee@gourry-fedora-PF4VCD3F>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
+
+On Fri, 19 Dec 2025 09:31:32 -0500
+Gregory Price <gourry@gourry.net> wrote:
+
+> On Fri, Dec 19, 2025 at 10:55:18AM +0000, Jonathan Cameron wrote:
+> > On Thu, 18 Dec 2025 12:07:47 -0500
+> > Gregory Price <gourry@gourry.net> wrote:
+> >   
+> > > +
+> > > +Multi-Endpoint Memory Device Present at Boot
+> > > +--------------------------------------------
+> > > +A hot-plug capable CXL memory device, such as one which presents multiple
+> > > +expanders as a single large-capacity device, should report the maximum
+> > > +*possible* capacity for the device at boot. ::
+> > > +
+> > > +                  HB0
+> > > +                  RP0
+> > > +                   |
+> > > +     [Multi-Endpoint Memory Device]  
+> > 
+> > So this is the weird switch as end point thing?   Maybe a reference.
+> > My guess is these will go away as switch and memory device vendors catch
+> > up with the spec, but maybe I'm wrong.
+> >   
+> 
+> I guess I just don't want to dictate the innards of a multi-endpoint
+> memory device.  It *really really* implies there must be some kind of
+> switch inside - but that switch might not even be runtime programmable
+> or discoverable (basically all the settings get locked on boot and it
+> becomes passthrough).
+> 
+> If you'd rather just not have this section at all, I'm ok with that.
+> The switch case below this covers the base case for a switch-based
+> device where everything is programmable.
+
+Maybe just state at the top of this section that these things are
+outside of the types of device that the CXL specification explicitly
+talks about. That should be enough of a future breadcrumb for people
+to decide if they can ignore these.
 
 
-On Wed, Dec 18, 2025 at 05:04:53PM +0100, Mauro Carvalho Chehab wrote:
+> 
+> > > +              _____|_____
+> > > +             |          |
+> > > +        [Endpoint0]   [Empty]
+> > > +
+> > > +
+> > > +Limiting the size to the capacity preset at boot will limit hot-add support
+> > > +to replacing capacity that was present at boot.  
+> > 
+> >   
 
->> Teach the estatus core how to walk CPER records and expose the vendor
->> record notification path. This adds the section iteration helpers,
->> the logging helpers that mirror the GHES behaviour, and the deferred
->> work used to hand vendor GUIDs to interested drivers. No users switch
->> over yet; this simply moves the common logic out of GHES so the next
->> patches can wire it up.
->>
->> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
->
->...
->
->> +static bool estatus_handle_arm_hw_error(estatus_generic_data *gdata, int sev, bool sync)
->
-> Huh?
->
-> This is a CPER record from GHES. Why are you moving CPER code out
-> of ghes.c, placing in a file named estatus.c? Doesn't make much
-> sense on my eyes...
->
-> Same applies to to other GHES CPER record types.
-
-GHES still fills in the CPER record, but the parsing and logging logic is
-shared with the new DeviceTree provider so I pulled those helpers into the
-estatus core. Both providers already call into the same notifier chain and
-memory-pool helpers; this patch just moves the generic CPER walking routines
-next to the rest of the common code so the DT path doesn’t have to grow its
-own copy. If you’d prefer a different file layout or naming to make that
-intent clearer, I’m happy to adjust.
-
-
-Thanks,
-Ahmed
