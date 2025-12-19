@@ -1,79 +1,75 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3560E27EFE3
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 14:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EBB328610
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 14:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766154009; cv=none; b=U6UbFZIUegyvZDySO3P3qkXCsmTWK8xEPEk799fDY8QvNH8kbB4qhKYw2Fh+lwqSGI/p4zVWCCXsOLawWpcC2ZS/t6QspVxiW3amfiFlzZKm691+rgNnValT8dD/yXBrITsRyG0S5P/7Q6u6NBU81dpl9oanvXKXHf49b6aKUpk=
+	t=1766154732; cv=none; b=cvNAOWj0n578spdiASwi+nBr9iFPifevoctHlB4AeZbI0Q0VIKxnUamOqiAroxuEX13xiefaoFOo+QBlXaCXIK64gmU0eE7XnMHIZnE+WCkl2gjnj0y3dHmDOHcpg/Xy/BxVuIvEHkWPqV7Y9r/MpPeliXTndAm9NEKsPd4vagc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766154009; c=relaxed/simple;
-	bh=NBuj7vehVfrpXLwgulyjPT0R37vSRcyvtRGC+VQKuw8=;
+	s=arc-20240116; t=1766154732; c=relaxed/simple;
+	bh=ADWK1K6u6t0CaWFJITvqzw+3tp6y+TaCRw5mAd3q2gU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exM61JYcnFFaHIjNRoeiS7ntpaYB5SXXK/AZ9j2YdSnAsYD4YKp86oLNijrvHWNcf4iKtpeyndfyc06wIL2kn8byCIPS9KvkCuGpFqeKkdEDacb8EajscFq3JPxGWcTyasQpxhXSrCepAe2G65u6eFauOEU9wYiNWe7II3/GJyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Mh0w9yfN; arc=none smtp.client-ip=209.85.222.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=QdC3gw/QGzQQ857qneqffs6u4mhYdlllYKGt93csrkm6fAcKURTpU+o2YxHO3xp3qhsgfniC3ueY7dkdXGbINOsMrYfCv6Xp06YEgbhAWCfIpp7wriay81VFFlHFbkpI+BM5+Lg1lFmETdXO4BBRk1bRyZlKzAahLbs+bHbWJ/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=gNDdAWLp; arc=none smtp.client-ip=209.85.219.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Mh0w9yfN"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8b25ed53fcbso257963685a.0
-        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 06:20:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="gNDdAWLp"
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-88a26ce6619so17900026d6.3
+        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 06:32:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1766154003; x=1766758803; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1766154729; x=1766759529; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hW7NRm3sDPFQ7nrkAaNC4Y4Wd/wDKIKOLKQhRLlFa/g=;
-        b=Mh0w9yfNzZWDw22maBDQgi4m9xla0R2GW5tXgs68wAQ7a6pwFggD3ZxUU2A3+22SYs
-         n18Gihl6r4x9EGp9BvJywcUwqC0UBPLr1dX1ZOTisHCzxw+goEb8wWOa4ozEtTjwdW5d
-         2BWRy6/IrpfkSNlu2nJuzeZqw66f+KncTY6Sadp9dlzBop5X77AEIDwAt9B9ktrSurjE
-         SuWEc1F/je5VYIzRbU/UYxJy/OSiahTdCLsGOCmj0pjMwSjajuSL1jY801+WcDbEM8ED
-         8wY6RqpI8kA2BgpuYi1qhV9azNFKsaOkJrhRqed0vsElItNJJiFD/vxc2eTbIPHLTEvd
-         HIOA==
+        bh=Ivd5VUDwxKrJjsOzp1+SZHitpb44btNy0UY1qm1oXXk=;
+        b=gNDdAWLpTkL4yzLz4kJEKfQZiQ04pNofmdooFUhwckx3MWcSeUkw67hsz5q4w83T3E
+         u2IPd1JsLAuI6zYH1TnyTsLCOuFIkunOb3tbvCKnFouEtyhOY3vFKSXB5ugyQs7NpeFo
+         w3s+GpsPfxDiajzMU7NbnWR2+X9UDUm+L6JEt+/5qWmvzQY9dJwr5a6ePtILcjlXDuWk
+         IL5uBNqNwlbgWtM1nq61Ubu5fYEhI4VyXFupZAlOXa6iDxPJr4QOK5Vf66O82m9s+UZi
+         QGvMUJZMEnTQ02ZK/bE8v8Ag/GlsYIvjkVzhKEMaYWDQGAhV3vtS4oQ2Zt7DIlTrvFDx
+         Ihbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766154003; x=1766758803;
+        d=1e100.net; s=20230601; t=1766154729; x=1766759529;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hW7NRm3sDPFQ7nrkAaNC4Y4Wd/wDKIKOLKQhRLlFa/g=;
-        b=ltk/QN1GOZpYUMwAhTZAMLGosdxAx9sBHw5aL5DNUPL/C1yJohO6qllJPn56wRSHpv
-         ZNy5GkKplqjYaPin1kvxA4HYBKSHjH+92ZoAJ6Ky/0G12l4CgqJWGyu5EgNYnD7veudw
-         LWVy/d6CiS8t6/OMsI4eOIBbkyspsgjpDKioRvY2OVobP1qHTdnvbFJfgCwtCZG8jgns
-         82EzJD8mDQmZTZt4s8rbqg/wrmQoGcrWoMLU/xfTsxKwibGlxF8ff+9RCdZCKO7AG3ZJ
-         MW7ZVBHL8m/IPOMRMShfsn6MUemg6AL94oiSOJY2dA7lsUapkmHe5zd3UN+R1ht2xmwz
-         UhKA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtG/qzq+tN7Bu206xH0LX1LZbVQLlFgfwTtSK3GRcY9614hloUPkPQ5wdqMwEMLVj4q6c33Mf5FVQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGUAQasDcuwFdFOgcjI51ZCAXG+5LAI2/LBdfvOpq8k/irBQdA
-	SjVYnMfR7Pjh4BVB8yqOjAZUIhBpdzaEk+HsBpGQ8OJK5hLPhb4SkgKLFNKxglTXCkc=
-X-Gm-Gg: AY/fxX7cY4j6xVNLIcl974iFPT/XOGyl4ti9uZWPt0oUmbbMJHiK6NNfK3gJJJ5oAEK
-	bgnZTZg9Vm4S939ZKYdFm2IRRCLK6UToX99XSV9z65nr4CRoG1Kv34NzBE6g/Oike/DLccHVVwS
-	vQSWJLwobMsJXqT6V4z4qWCHkfayoeEwx1fcWbbyT82sfsDkehqKlFw+T7408vzqOgsfjtupIfq
-	n5SQvq9wM6Dzq/QQAD6xzqIHN9fPkZU3h/IKxKDlVn89cLbmws3WiygoYyGZFsLsln9rQjsMrrB
-	0W+RguIqdVmMVzArF1HBVELWYU2utB3KVArtOIyIdRT2qCdOBHcoM66MUjNygste8xGv2O5MfG7
-	Qax9/4SOt4U0WEzG64oQNdWI/fhdpB2gl7xArGaZJUM7uzM0QKNS1Wd97eimJZsko1qOHPyJSKy
-	Xn7yPwLeLSyoszZe2KGATYDHmQqau0T+U4Xo44q2hr2F0ePE/zUQPXXMNY9MQU1PLH1eVJ2w==
-X-Google-Smtp-Source: AGHT+IHYIJem5uFvmhfvke6poQSoVh8bw4dQD1q/LPyab5JVfwmTl1oj56sHyV4WyvlwsvYQx1rjSg==
-X-Received: by 2002:a05:620a:4108:b0:8b3:3d62:67f5 with SMTP id af79cd13be357-8c08f65683amr458504385a.11.1766154003033;
-        Fri, 19 Dec 2025 06:20:03 -0800 (PST)
+        bh=Ivd5VUDwxKrJjsOzp1+SZHitpb44btNy0UY1qm1oXXk=;
+        b=MEAFvveua/Cr29KTp7EO+uGG7rRtxexP0b3SLXHzBoKBVOOS6FBl4DMJtLK7Y/v/vo
+         +pagRj1HQVW+8RhpJs+C7Gy4W7R9w21wjlI6xEGeTsxC2veppHYP7O5Rr3n5ZCHmc4dy
+         AxUeNbTOKhg2kiCEtQk0tFr0lw9nb6fXXXTXby7agYAUkWSMhEu/ZY5sGwadWDNrk0T6
+         1XOrZ8EQ2UefKd5kFUta5BryEf3iLTEH0oHRE1scuZXAZ3FYVGyT6KzBfv6/Z336wQ8h
+         ZoZygb9KZNrhQCxYO12T1dTAyZvbOdw0oIqehcRngEUGrqVRkV6FbucU2z7j4TZI37Eh
+         8Sug==
+X-Forwarded-Encrypted: i=1; AJvYcCUj+FeUXNiBCnCcCpPH767Yh5y0Yf9dKX6jpNTHgSu4ZXGOtxDQyGwnqYh1QQ5ITsHHBqPHBv0LqDg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yymk4wRfRdQvh5CDK5DZjwDJCZxAZ3qebfE3A2tk6bvKS+Qr+V8
+	6f91WwRzebqIKgazFA/uB+IooNvbbm4eJZtUdroD9aCAnGw4R2wOO2f/+TyzLPgE4dw=
+X-Gm-Gg: AY/fxX6uqpLiBsNIe0zoQOtiEB6zRiaGNx4bmF4YODSznZCRvuQTXA7a1hX5pNjvPc0
+	BXzxYxMmcntp94eglHj73pxwVS8YSr0Cp01872Zuy9bCMa/v32QB4pTGPWx74iCTFwu9iLBGFES
+	TOS5j5FHPkE2+6wk9tl5dKIN+mSh77pOHPXvts6hydb3LqU+/5DS5+GbqUGlcbqFrYGdahC8Jhv
+	0ViPEtx4Gx6oYqSRjGok4GOpJZTE360ZDxNpCLp4W1O8pC35PTPng+26y/j4jMoy92PWV4iZChc
+	PlIODhcMqsKDQzHiV2BNaHOzZUHqWIVOJosHRcM0Ln5a8QHPdWdimkwV8mMurG+rBpzc+hBtflP
+	zynQFCgC28ndAOcTbI9WxVliAfOzFwohmOJQJOQolb8dElEcodnjfRevJzj8Rt+NruUzvT7JYVa
+	Bqgctkw0WIkRX0pXxFu0d+eQ4DDtOERjkI7Srm0tbc7P/a8fbk/nUwy2KyFNakS5fy4w3WJQ==
+X-Google-Smtp-Source: AGHT+IHFFb9WYMCs70KCnwOLuU8Gjvo2loQhh9U7/SRr9OdjbdGz6to5W9XjQQ2TooWYSjdCemC3fg==
+X-Received: by 2002:ad4:5003:0:b0:88a:347c:4117 with SMTP id 6a1803df08f44-88d85bae7c9mr33202336d6.19.1766154729462;
+        Fri, 19 Dec 2025 06:32:09 -0800 (PST)
 Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c0975ec0f0sm188333085a.50.2025.12.19.06.20.02
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d997aeef5sm20208696d6.27.2025.12.19.06.32.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 06:20:02 -0800 (PST)
-Date: Fri, 19 Dec 2025 09:19:25 -0500
+        Fri, 19 Dec 2025 06:32:09 -0800 (PST)
+Date: Fri, 19 Dec 2025 09:31:32 -0500
 From: Gregory Price <gourry@gourry.net>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, kernel-team@meta.com,
-	david@kernel.org, osalvador@suse.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-	muchun.song@linux.dev, laoar.shao@gmail.com, brauner@kernel.org,
-	jack@suse.cz, hannes@cmpxchg.org, mclapinski@google.com,
-	joel.granados@kernel.org, David Hildenbrand <david@redhat.com>,
-	Mel Gorman <mgorman@suse.de>, David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
-Message-ID: <aUVe7Q90PxGBCt9e@gourry-fedora-PF4VCD3F>
-References: <20251218151211.1237411-1-gourry@gourry.net>
- <20251218165538.b299508aacdaf7d941035ec3@linux-foundation.org>
+	dave@stgolabs.net, dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	dan.j.williams@intel.com, corbet@lwn.net
+Subject: Re: [PATCH v2] Documentation/driver-api/cxl: device hotplug section
+Message-ID: <aUVhxIJzGiiGs9ee@gourry-fedora-PF4VCD3F>
+References: <20251218170747.1278327-1-gourry@gourry.net>
+ <20251219105518.00005ca6@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,48 +78,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218165538.b299508aacdaf7d941035ec3@linux-foundation.org>
+In-Reply-To: <20251219105518.00005ca6@huawei.com>
 
-On Thu, Dec 18, 2025 at 04:55:38PM -0800, Andrew Morton wrote:
-> On Thu, 18 Dec 2025 10:12:11 -0500 Gregory Price <gourry@gourry.net> wrote:
+On Fri, Dec 19, 2025 at 10:55:18AM +0000, Jonathan Cameron wrote:
+> On Thu, 18 Dec 2025 12:07:47 -0500
+> Gregory Price <gourry@gourry.net> wrote:
 > 
-> > This reintroduces a concept removed by:
-> > commit d6cb41cc44c6 ("mm, hugetlb: remove hugepages_treat_as_movable sysctl")
-> > 
-> > This sysctl provides flexibility between ZONE_MOVABLE use cases:
-> > 1) onlining memory in ZONE_MOVABLE to maintain hotplug compatibility
-> > 2) onlining memory in ZONE_MOVABLE to make hugepage allocate reliable
+> > +
+> > +Multi-Endpoint Memory Device Present at Boot
+> > +--------------------------------------------
+> > +A hot-plug capable CXL memory device, such as one which presents multiple
+> > +expanders as a single large-capacity device, should report the maximum
+> > +*possible* capacity for the device at boot. ::
+> > +
+> > +                  HB0
+> > +                  RP0
+> > +                   |
+> > +     [Multi-Endpoint Memory Device]
 > 
-> My x86_64 allmodconfig blew up.
-> 
-> > ...
-> >
-> > --- a/mm/hugetlb.c
-> > +++ b/mm/hugetlb.c
-> > @@ -49,7 +49,6 @@
-> >  #include "internal.h"
-> >  #include "hugetlb_vmemmap.h"
-> >  #include "hugetlb_cma.h"
-> > -#include "hugetlb_internal.h"
-> >  #include <linux/page-isolation.h>
-> 
-> What's that doing there?  I put it back.  Helped!
+> So this is the weird switch as end point thing?   Maybe a reference.
+> My guess is these will go away as switch and memory device vendors catch
+> up with the spec, but maybe I'm wrong.
 > 
 
-erk, this must have been carried over from a forward port, when all
-these things moved into hugetlb_sysfs.c - very sorry, I will be more
-careful.
+I guess I just don't want to dictate the innards of a multi-endpoint
+memory device.  It *really really* implies there must be some kind of
+switch inside - but that switch might not even be runtime programmable
+or discoverable (basically all the settings get locked on boot and it
+becomes passthrough).
 
-> But the build still failed because the patch refers to
-> 
-> 	extern int movable_gigantic_pages __read_mostly;
-> 
-> but forgot to define it.  v5, please ;)
-> 
-> 
+If you'd rather just not have this section at all, I'm ok with that.
+The switch case below this covers the base case for a switch-based
+device where everything is programmable.
 
-doh, well that's just embarassing
-
-Will sus this out and send v5, sorry for the time sink
-
-~Gregory
+> > +              _____|_____
+> > +             |          |
+> > +        [Endpoint0]   [Empty]
+> > +
+> > +
+> > +Limiting the size to the capacity preset at boot will limit hot-add support
+> > +to replacing capacity that was present at boot.
+> 
+> 
