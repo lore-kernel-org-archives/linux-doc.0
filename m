@@ -1,25 +1,27 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 937D22D97B4
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 10:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A94074BE1;
+	Fri, 19 Dec 2025 10:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766140766; cv=none; b=oD5nchyvSZoyAG9sg1A3HV+LMXaZjEvdC3b++WMFV2zMpDhQ5rxbau5TcjAs7Aw+PU02CELNQCA7XwYp/w4Xt2XIZmyE3WqAqTBBMvb0WEWvnf+sKuuPp1NrtUbfU9VEH4XvIwGJQJw0aiR8UCgxnQmorSAaXz3JruN2OA5OJ5c=
+	t=1766141292; cv=none; b=uzsoicJF60cjoynCqayxeBekAZXwisdwzIEr86XWlWd5SU+hmNZNYMx/HmjHsl2S3VQCOsf1eZIwSOodwAQHo+syyRR8reIRzTdmh5ub1GsFyD+bjCxdQRSezD5lyc1DiLOODBPUCMRu7rhhFaE1jyGg+hu1ATouSi+93TjqdKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766140766; c=relaxed/simple;
+	s=arc-20240116; t=1766141292; c=relaxed/simple;
 	bh=mGsn0FM6mPE/Zvdf2Mf1taBhL3tfR6lmIzngSQM89TM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y2SPq8pnWNkhl99Kr9O31Zvk4AG5vQP3Cd4hptbB2zifMx+KaUP/cZ8PZ+3kekLiHhxc9qsF6pO/c4rHTuC+nWRvVIm8usBkFTpKsNGycDX+x1+WBUEvUi06DDQcCAcToigQlfvbNZxStARDUOmI2/UQ4WNrGuKHo8IeEIaaU3M=
+	 MIME-Version:Content-Type; b=gmfBxIw7+ch+ax3SPCzj4qXqc+A5RyibSYvX5Hqzynh+yj+nfO0kpNc+CnMVIAhtWztL7CZ0n8dNOIn8F/zG+56+mus6iFW7DlwoHtZAG6OA9xhZX+J5CpwmoYd11VqEQaa3gp4V4okMIqDoJbxIe/rsAP0sqK+dlsh5ZFuJyFI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47CEAFEC;
-	Fri, 19 Dec 2025 02:39:16 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B75DFEC;
+	Fri, 19 Dec 2025 02:48:03 -0800 (PST)
 Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AF7B3F5CA;
-	Fri, 19 Dec 2025 02:39:21 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD0803F5CA;
+	Fri, 19 Dec 2025 02:48:08 -0800 (PST)
 From: Ahmed Tiba <ahmed.tiba@arm.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org
 Cc: tony.luck@intel.com,
 	bp@alien8.de,
 	robh@kernel.org,
@@ -34,8 +36,8 @@ Cc: tony.luck@intel.com,
 	Michael.Zhao2@arm.com,
 	Ahmed.Tiba@arm.com
 Subject: Re: [PATCH 10/12] dt-bindings: ras: document estatus provider
-Date: Fri, 19 Dec 2025 10:37:57 +0000
-Message-ID: <20251219103850.2722580-1-ahmed.tiba@arm.com>
+Date: Fri, 19 Dec 2025 10:47:53 +0000
+Message-ID: <20251219104759.2726164-1-ahmed.tiba@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <57772b40-e4d9-4152-9709-04ba897608d0@kernel.org>
 References: 
