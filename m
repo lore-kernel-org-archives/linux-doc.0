@@ -1,71 +1,125 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F17F29C321;
-	Fri, 19 Dec 2025 21:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D533B1B3
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 22:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766181521; cv=none; b=KPwGAYXkHYls8CJjEaeiPXWEXiXNFP16qCi3cV97qEyiUJVD8vRf6YgUGQ/mk0D7X5ii7YGJ9w8R0qJfDdsvdV9X/lvyX2nC8FtlArRFMdguUvE3R+YiLazbVAfaRP2dsz0w+2iPmryvGQgYjmebQL5pNGt6XwArXml/Npw3N+A=
+	t=1766181676; cv=none; b=iHuaPszuLxgE1z5iwL2Xl6868N2E7XdUzGAYATzSA2qY9Mu2v9zSlTzIqpMd1MmEv2SXzA76nqclQaBRcQHwLK414c5ANZmRGdTGjuk5bArwUV1lHKpMCbcR14bUphhdo0jmYLzgxgLMA2VUlQWMuQIQd6JecWW40WNAyGvCTpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766181521; c=relaxed/simple;
-	bh=hDEruFfcRoGfhML7YkjM42I6dIEbVQxQ2i2Faqy6h4k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=As9R4BFr0vUXiUPcZcoPSwbLc0p+B9RPWff3XtLv8sMDI7ljJZcWybJ0Yha9zP9W2KxqKRTA0KaeFsVgfDmy4qw8WeYnTLpZcQhC+Fe/Oo2zHSaSm+2C3tIpeBnfC9AP1x5SQ4yJp+PeVYTlPt1+KXik/UFaPag06UA6DbCRW90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PKQihxZx; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1766181676; c=relaxed/simple;
+	bh=3431ox0ZbFQjlMMdoL22e/G2T8QFX+FQBznI2vzsZe8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BTVSLQXyi9VghC5ZLkTzVa3wlekA+7XvWHpi9e2tU/B6aJ+GvKsdrC8w4ZCA+w7T79ATFDmhr9rImC9IOddD25DkuZ5ovHYiyJ9y3EZYOeYNzNW4TDM5gOG0PG3nNeVn9tS41l0Ac5u1wx6pAdjLT2VALS3VVGMySMqcT+LM2Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gtS0+pfg; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PKQihxZx"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 62DFD40AE7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766181519; bh=dNAQjlDU4MkSP/JveEHkAbXTqdjBzDXyWIXKtM48mRs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PKQihxZxLNy1fWSIX6/2eGE3LTt1ANeZqBIQZMKIXXhjiFeNu//giva+GgUzK1wiC
-	 zcvxB1uA/KfoJRsVnD3sJYXp6b71zGrYfCViq9V4q+lMbjEnka86iX66g8X90/AKVX
-	 aZeiIJqtiSCsMSBXSIq6BllFV9wW9nGG2D3ZDZ6JjvPL/mjSzh8jeIrycP019ox7nj
-	 ubYWD88vNTZbqbrK0vIFcLVxLGWnQqowOTvDcwIxVPPkHqRnzJ2RjCpbnrvhG2TEKG
-	 4vVxR/JkBpHetwc+Kwredx8HP0e0tyQwgWi07MtFs8Nd5pA07PobFkdaHQSv+RlO/W
-	 KMiFG/hSAgm5g==
-Received: from localhost (unknown [IPv6:2607:fb91:7e8:98b9:6989:490e:a537:bfce])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 62DFD40AE7;
-	Fri, 19 Dec 2025 21:58:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kernel-hacking: Remove comma
-In-Reply-To: <7BF3E93E-DA92-4FC0-B352-C3766A97B3CD@linux.dev>
-References: <20251219171827.44015-2-thorsten.blum@linux.dev>
- <87pl8akvkv.fsf@trenco.lwn.net>
- <7BF3E93E-DA92-4FC0-B352-C3766A97B3CD@linux.dev>
-Date: Fri, 19 Dec 2025 14:58:37 -0700
-Message-ID: <87ecoqkub6.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gtS0+pfg"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id CAD1F4E41CC2;
+	Fri, 19 Dec 2025 22:01:10 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8D0956071D;
+	Fri, 19 Dec 2025 22:01:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8F0A10AA90A2;
+	Fri, 19 Dec 2025 23:01:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766181665; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=Hcf0kFeXH7oqQdJ4h33PEPQp1m05Fo5cD4GMBj4xBKU=;
+	b=gtS0+pfgoBfTSfM9F/q5Z7G1JYvo665vPP3BBhqlA/6Fgg8JOoH8ciosrqWz2XqfoumeDZ
+	SancNmCsbKVYM/Qpqs9ifM3be8rO9U4M30KU7CLfl9XODUA92b26YbB770X9J9F1veL+FJ
+	Ss7s2lYFjP0jwGZLj7m9BUuARtEGFRu3Gn4pHPWuK5OQu3MUlcoplL8kH810zLh74x/XLn
+	pQDFAIla9RBTRICecWBNvYz1vNOuBnf0YpECNwlVMCcKSlwvCSkc62dy27OmP4ZpAQRA1D
+	2ttaYZcGAcSU5moCcSKCGZ0wjDXZg6sZL9PM377hwncs8xHlgLHljHZv5Q2Kbw==
+Message-ID: <5b173e9e-bcff-4b19-b16f-fe57796b99ae@bootlin.com>
+Date: Fri, 19 Dec 2025 23:01:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 32/32] drm/vkms: Introduce configfs for dynamic
+ connector creation
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-32-a49a2d4cba26@bootlin.com>
+ <DF2HL69KF83U.GX59AN7IN8L@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <DF2HL69KF83U.GX59AN7IN8L@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thorsten Blum <thorsten.blum@linux.dev> writes:
 
->> That's a fine change, but can I prevail upon you to get rid of the
->> usless :c:func: annotation while you're playing with that line?
->
-> So just `schedule()`?
 
-Yes.  We should never use :c:func:, our automarkup code will do the
-right thing in its absence.
+On 12/19/25 21:47, Luca Ceresoli wrote:
+> On Wed Oct 29, 2025 at 3:37 PM CET, Louis Chauvet wrote:
+>> DRM allows the connector to be created after the device. To allows
+>> emulating this, add two configfs attributes to connector to allows this.
+>>
+>> Using the dynamic attribute you can set if a connector will be dynamic or
+>> not.
+>> Using the enabled attribute, you can set at runtime if a dynamic connector
+>> is present or not.
+>>
+>> Co-developed-by: José Expósito <jose.exposito89@gmail.com>
+>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> 
+>> @@ -1215,8 +1223,10 @@ static ssize_t connector_type_store(struct config_item *item,
+>>   	}
+>>
+>>   	scoped_guard(mutex, &connector->dev->lock) {
+>> -		if (connector->dev->enabled)
+>> -			return -EINVAL;
+>> +		if (connector->dev->enabled) {
+>> +			if (connector_is_enabled(connector->config))
+>> +				return -EBUSY;
+>> +		}
+> 
+> You are changing from -EINVAL to -EBUSY. Why? Was -EINVAL wrong in the
+> first place?
 
-> :c:func: is used very often in the same file - maybe we should remove
-> them all in a separate patch? I'm fine either way.
+EINVAL was wrong in the first place, we try to remove EBUSY when you 
+can't do something because the device is already enabled and EINVAL when 
+the value is false.
 
-If you want to do them all, a separate patch probably makes sense.  That
-would be wonderful.
+> 
+> And you can avoid the nested if:
+> 
+> 		if (connector->dev->enabled && connector_is_enabled(connector->config))
+> 			return -E<WHATEVER>;
 
-Thanks,
+It is probably a remaining of previous implementation, thanks!
 
-jon
+>> +static ssize_t connector_dynamic_show(struct config_item *item, char *page)
+>> +{
+>> +	struct vkms_configfs_connector *connector;
+>> +	bool enabled;
+>               ^^^^^^^
+>               dynamic
+> 
+> Luca
+> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
