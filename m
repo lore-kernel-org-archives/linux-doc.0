@@ -1,102 +1,128 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048AE15A85A;
-	Fri, 19 Dec 2025 17:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE26B33CE87
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766165300; cv=none; b=BuVC6WRm+XospzYpQcYeIMJczBqHe2XD5NbxfHCqXCeKXhNzbe95kQtuyi1Oq5cEwMJoxdticsKEg3Sbmz9pNtHEVmcUD4ojtl0dDOaKpGwyxPmcTKMMPIoLqbTW5Chv3yy2bBbfA/vEFPlaScm69dIRHs1aw2Y/G5qolGwIaVg=
+	t=1766165321; cv=none; b=gcty/P3nDAfpOW5Dop/hohmaU3VElHX38d/dujIo6Hx/P0mVsjUhvOMAlZDllMpKuZmcGZ45xFfvUUx32euYjdTy9Hod2j6tjpn44eKbRK7INPyfsQ0ri66gaCR2hx/6TjC8UyDzSGaPmddIBzwDEarGCXo/COb/uRDQbKAflnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766165300; c=relaxed/simple;
-	bh=lj7yWJhLosdrP3IbA/4LdJD7bpDpKcinqc+lleIOb28=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tYjdmi1W/NNxAzJlbpoIwaRJmJYuEQ8SRaBfMl3wnts2WKpnMvX20gOL5VwTIUOpTcpxAbF2JZCiUit2c2Bs/lvbci/ARtJWdzIIFycyOewNQsB25NDtMd8LvofBGtmv5mri4/DVyHdg0DpFPrqhKpf/dEVrOCFo1t8/mo3wX0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXvcb27MJzHnGjf;
-	Sat, 20 Dec 2025 01:27:43 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id C8EAB40570;
-	Sat, 20 Dec 2025 01:28:12 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 19 Dec
- 2025 17:28:12 +0000
-Date: Fri, 19 Dec 2025 17:28:10 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Gregory Price <gourry@gourry.net>
-CC: <linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kernel-team@meta.com>, <dave@stgolabs.net>,
-	<dave.jiang@intel.com>, <alison.schofield@intel.com>,
-	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
-	<dan.j.williams@intel.com>, <corbet@lwn.net>, <rakuram.e96@gmail.com>,
-	<alucerop@amd.com>
-Subject: Re: [PATCH v3 1/2] Documentation/driver-api/cxl: BIOS/EFI
- expectation update
-Message-ID: <20251219172810.00002e70@huawei.com>
-In-Reply-To: <20251219170538.1675743-2-gourry@gourry.net>
-References: <20251219170538.1675743-1-gourry@gourry.net>
-	<20251219170538.1675743-2-gourry@gourry.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1766165321; c=relaxed/simple;
+	bh=AIR3Fcvvp4QIn2aUQ7QK6f3x3IbhcnKEmAM73sUpW1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aoCZV8H5vbs33vUJecuWKlO9eY1WvRKr8pfNBvGM0srRitF1Q91zG0tWwk2pT4BKzkqcc+inCxBLl2Nf+NFRx3MMs+7C8l+9Y/q/+x+lVDNlMXwk/CFI++HwwYAHfvBikvFu8FaY+J01EsB21CBGKjaVjMUyVyecNG5txtvXEzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=f6+ELuDI; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="f6+ELuDI"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 51923C1B20B;
+	Fri, 19 Dec 2025 17:28:12 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 077F86071D;
+	Fri, 19 Dec 2025 17:28:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF68010AA8D37;
+	Fri, 19 Dec 2025 18:28:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766165316; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=nPZD8vHkydT/3viYLb5wlAUsI81jn4g76Cg2Qd3s3z0=;
+	b=f6+ELuDIxl+Vaf6595UvwIX0YbjzwZKdVYWu5iakw/nTwUhjGHGX97ASAJUMx8jmkbIzkV
+	RqGUxMu/pREJkTgaF+J2CHa8BN6TJ1Mhl6mqf7sQ1kvr02xyWArUJSfDWx/f/muy6AD5CO
+	CKQO7ZyvM8jcc5scgohnvoWJlOGALP47nXGLtzOtcH9Ll+tcHVP/HjfUVNvFJcozj6yUsE
+	7Q+92vv5CZX5cAU68U2IcVO0I8JX3BmEIhja6qQ2KQ9ZdCCjjGhvCEp5CpcC4WMi9y3+xi
+	LRswkiMdw2dMJil4aoQXicijig7RiilqlWCYkVj6JITESeoGCvXXFyans1BodA==
+Message-ID: <e3d3538b-e432-4221-bb79-e8155f42edab@bootlin.com>
+Date: Fri, 19 Dec 2025 18:28:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 17/32] drm/vkms: Introduce configfs for plane
+ format
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-17-a49a2d4cba26@bootlin.com>
+ <DF2CWONRF4X6.2N7MHWSI1WU6T@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <DF2CWONRF4X6.2N7MHWSI1WU6T@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 19 Dec 2025 12:05:37 -0500
-Gregory Price <gourry@gourry.net> wrote:
+[...]
 
-> Add a snippet about what Linux expects BIOS/EFI to do (and not
-> to do) to the BIOS/EFI section.
+>> +		.expected_offset = 1
+>> +	}, {
+>> +		.data = "-R1111",
+>> +		.data_len = 3,
 > 
-> Suggested-by: Alejandro Lucero Palau <alucerop@amd.com>
-> Signed-off-by: Gregory Price <gourry@gourry.net>
+> The string is longer than 3 chars, is this intended?
 
-Nice.  Best of all I can blame you if our bios folk moan at me :)
+Yes, I wanted to ensure that the algorithm stop at data_len and not \0
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-
-> ---
->  .../driver-api/cxl/platform/bios-and-efi.rst  | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
 > 
-> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> index a9aa0ccd92af..9034c206cf8e 100644
-> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> @@ -29,6 +29,26 @@ at :doc:`ACPI Tables <acpi>`.
->     on physical memory region size and alignment, memory holes, HDM interleave,
->     and what linux expects of HDM decoders trying to work with these features.
->  
-> +
-> +Linux Expectations of BIOS/EFI Software
-> +=======================================
-> +Linux expects BIOS/EFI software to construct sufficient ACPI tables (such as
-> +CEDT, SRAT, HMAT, etc) and platform-specific configurations (such as HPA spaces
-> +and host-bridge interleave configurations) to allow the Linux driver to
-> +subsequently configure the devices in the CXL fabric at runtime.
-> +
-> +Programming of HDM decoders and switch ports is not required, and may be
-> +deferred to the CXL driver based on admin policy (e.g. udev rules).
-> +
-> +Some platforms may require pre-programming HDM decoders and locking them
-> +due to quirks (see: Zen5 address translation), but this is not the normal,
-> +"expected" configuration path.  This should be avoided if possible.
-> +
-> +Some platforms may wish to pre-configure these resources to bring memory
-> +up without requiring CXL driver support.  These platform vendors should
-> +test their configurations with the existing CXL driver and provide driver
-> +support for their auto-configurations if features like RAS are required.
-> +
->  UEFI Settings
->  =============
->  If your platform supports it, the :code:`uefisettings` command can be used to
+>> +static ssize_t plane_supported_formats_store(struct config_item *item,
+>> +					     const char *page, size_t count)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+>> +	int ret = 0;
+>> +	const char *end_page = page + count;
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock) {
+>> +		while (1) {
+>> +			char *tmp;
+>> +			char fmt[4] = {' ', ' ', ' ', ' '};
+>> +			int len = vkms_configfs_parse_next_format(page, end_page, &tmp);
+>> +
+>> +			// No fourcc code found
+>> +			if (len <= 1)
+>> +				break;
+>> +
+>> +			page = tmp + len;
+>> +			memcpy(tmp, &fmt[1], min(len - 1, 4));
+> Should this be instead:        fmt   tmp
+> ?
+
+memcpy(void *to, const void *from
+
+Make sense yes... My tests were not sufficient :(
+
+I will triple check this before sending the v3
+
+> Also I think it would be good to reject strings longer than 4 chars (len >
+> 5), because they cannot br fourccs.
+
+I will add this limitation.
+
+Thanks!
+
+> Otherwise looks good.
+> 
+> BTW, I feel your pain in implementing the parsing!
+> 
+> Luca
+> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
