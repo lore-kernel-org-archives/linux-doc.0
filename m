@@ -1,159 +1,106 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C211D63E4
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 16:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CF9264FBD
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766163323; cv=none; b=arH5LH+POWemSQfpAb+MyPdb2RRJZarUbQqbbeCRmcoN5EQzc6KzusNgMA08bh0f5lfXn9vAffDTtcyvc++dfSHmDsZt3p4c8l10lqgfJRKb182rl172heRJj6xYyINRMr3rtFuuvA6GxZ5CKmGlFkObot4L7q+U8pyIIbApU2U=
+	t=1766163982; cv=none; b=B6m/BhaS9q1Xjark9tbZPxOGmNptj0oqj1tY5AVTZ7VRxmQUk8hWTgHfZX2086WsvHMWAI+UmXJ01uOnKcKiglXRTLfhm4SJwXaVjoteP/Wv8KS7d44sCTZ32TbEhoJeqsbsm0LyDkM4pkXlJQ27X6WF22qUoi49+uJu1DcI39Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766163323; c=relaxed/simple;
-	bh=/6gsh4zVCbbqtwwE86Z7rz1TML9FY+k2VMQn+/qEFDY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K7Kn7fbQKPvw5O3eJ3teVU54r0fOPkObwxqquuWjvBhfwQcUMkPzS+LiaH3O3sJQkecvjWLMIFUw1DIXrr0uipXuYys+jAaBWOmjR69vaTl78rcS0N0WBV72K7nrokpbFKhiA3c52d08yzlCUHUTPxa2+SsQs9tUlX5j15IdnKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G/hmILSX; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1766163982; c=relaxed/simple;
+	bh=zQQIdqNjp01QHJgc8T49LTRPfERcB9yikYEMSaVkSjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tBewarOVJXiCYWGsDN9lNu6fOwv+Bh20ycKjWf9G1G1g5+08r1BO3Bt1MyTeBPcGamj8A2ta7VE33SwOjNM/aSfS2zS7fr+WyUnh78a22Fvsqa1dwknrZPmBJeeM7clOuIXb1eXb8eeDMWlGXR4rBBhYczizna7bEa5z9Mxn39Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=C2JQleBV; arc=none smtp.client-ip=209.85.222.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G/hmILSX"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 2FBEC1A22FA;
-	Fri, 19 Dec 2025 16:55:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EFF8A6071D;
-	Fri, 19 Dec 2025 16:55:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5ED6110AA95A8;
-	Fri, 19 Dec 2025 17:55:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766163314; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=4nHU9XmgDwXcH4eBRcNAYGOBdRZWdKYOayQoIo8y2/c=;
-	b=G/hmILSXfOSizlvwNV+mhGwYT6j/GEdeSgbN0mavlCeuX2rmz35vPM+n67rk7YHCIGxolW
-	vNsvH3n0S9wiklZa7tsYwYUQtLnZZnaGpyX60QmpygCCbDiBQuWe17tYIPCXdTbHc0vdc2
-	yC6B2U+Zxx+4HIoYRmr9LslNGPHwfGOScgFgT8fZNFvgbwW6zaWN+yD80cBp7qz2F94DX0
-	nqN77i0HCpVa8I+X8t7T3fA9ZC9UWbrIFTO/PkqoGlCLYzpmD2c2r+2iDlnkT3roYzgH2q
-	VqSN+tTh8K6fT8tH0vjrBGavnUxcYNfGsAWWjCTuCESBod128p8Gh520YB2Hlg==
-Message-ID: <5eeedbf9-7ca0-4e5b-9db0-616866af4ac8@bootlin.com>
-Date: Fri, 19 Dec 2025 17:55:19 +0100
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="C2JQleBV"
+Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8b2d6df99c5so294342385a.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 09:06:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1766163979; x=1766768779; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MAi40aONYYS2GMctKaFM3RiE3Hz7UFN2kCA4YupvU+0=;
+        b=C2JQleBVJLosFAHXA8ac2qKskwiMAd2osixkMjIdzwhExEtk2qafW9sCaeAC8+adSB
+         1Ehfi8FyGBghq01DkqBq0sNKBIzK5UUj52LRJ4wYIRhligd0XOOFSTlvwis0RGjd7m9M
+         wBfGXLWrCMZO/ReqKo/5hpoS+c+L40BzBoGRkAWUd3p53fArs47S/1rHxb6racojYtnB
+         BtkNC84urIH1XirOT+Nyn4NlizXen18XI9gv5InOE2k99IKbEXLPQZUAOdc+oNYkDHs1
+         f0+PhnkcSP9AVPTrKel7ZcxNIIPjUsYLS0mMrVo6C30pTTRMHJZiu0WPoRhgK0Tbt9pr
+         3QFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766163979; x=1766768779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MAi40aONYYS2GMctKaFM3RiE3Hz7UFN2kCA4YupvU+0=;
+        b=Bgo/+K5o8CrJGrYK99p6nIo5KFYTS7MIRbAydkq1m0bD2Ry8k+GjNCDfqHPyStHj83
+         NCAZfoaXsCxXZ5IH9VtrDAWWFkfu01BEVoczox5ng86OAJeAbTDrKUMI5fqLRTv7P+TP
+         o7j9yvgmTRETXqQP0O2iIrRrRLgY+G0jgKTWbsOTsRSXOUwuANN1RRUBxp89ooYb9kye
+         YBdt4QKmabxYmEtOyy3NH8XZBvAzC5l5kGmCmE8w5fNiGO5+6ZUMXi2pHcHo1pzFJHkb
+         CZ2itKR0hM6eFOjHHVcAWZTbNIIoTKh1ct6eiNVc+xxBVwLcqyahWYRbHiVK2zcJMf9Z
+         Kd6w==
+X-Gm-Message-State: AOJu0Yw5ujFtUNc4PfeoC05k2eLF0H44WGAcjIJxxDSpeqxZBdVUVOU+
+	wp3D1cN4GKCjsTKR3XnmGYOVdm8OLE2uPudkpKwaO/Z0sAXrVImoZNDspvmyNTlLs9U=
+X-Gm-Gg: AY/fxX4Bkl7rn0ZG8VC3CV4Joqt1m+DtlMi0keszTOHYkt53j6pD4F8oA0/2fULbHLl
+	vy/Z8Mo+WABYuePa9hFDp1WiGND7veKsDX4dqUqm3qLQcdDidL8l2dPYWJHBq2Rzj/OYhXXewml
+	heFcrsz8YyvnOmLi290BhA9VH0iFydcRjaPkhATsC/CG3jJ4vTRg3juPW5GL3NvLrVroHWOshGU
+	2qGG3A6OZ4oo+8wyS9GqGoDKqNSGOUKvZYRVEgWXPBTxf1eiPZYE0aSzA+eJJ/fxIzPtMxWKXu2
+	Nxqc03ldbC0BjdQpbfAa9T2SbOUBme1fRUnNGghqdPRFs0GbtirJckSxiPgeRSmfJL4H7yHk6wZ
+	OWgR/roX+65B4x1cZUbWkwCyzttW+shdU+0ckGxpJF+D7FGe7vDFIILh0PF4BUOI/bTLqrqK8I/
+	j08gvtZSKy8+GtHJUMb7S/ZiE9ovtpht6Njv4/NoGAtPAF98AUXesKV69TXEqkKSkx3Nziu7LBq
+	w8=
+X-Google-Smtp-Source: AGHT+IGhbIcoK3R4lJkefP2BB6CcSiL4xwMlpDlJgBcatznJIZP2btkmkXBd4Jhxo+7BWvO0haAtZA==
+X-Received: by 2002:a05:620a:2945:b0:8a3:6c1f:31cb with SMTP id af79cd13be357-8c090029a91mr524959885a.26.1766163979186;
+        Fri, 19 Dec 2025 09:06:19 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c096787536sm223197185a.4.2025.12.19.09.06.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Dec 2025 09:06:18 -0800 (PST)
+From: Gregory Price <gourry@gourry.net>
+To: linux-cxl@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	dave@stgolabs.net,
+	jonathan.cameron@huawei.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	vishal.l.verma@intel.com,
+	ira.weiny@intel.com,
+	dan.j.williams@intel.com,
+	corbet@lwn.net,
+	gourry@gourry.net,
+	rakuram.e96@gmail.com,
+	alucerop@amd.com
+Subject: [PATCH v3 0/2] Documentation/driver-api/cxl: device hotplug
+Date: Fri, 19 Dec 2025 12:05:36 -0500
+Message-ID: <20251219170538.1675743-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v2 15/32] drm/vkms: Introduce configfs for plane
- color range
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-15-a49a2d4cba26@bootlin.com>
- <DF1JETBGEUFA.EK2SDN9BJMB6@bootlin.com>
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <DF1JETBGEUFA.EK2SDN9BJMB6@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
+Add some documentation on Linux expectations of platform software
+configurations to support device hotplug.
 
+Add some docs about general BIOS/EFI expectations regarding CXL devices
+in general as a predicate.
 
-On 12/18/25 19:00, Luca Ceresoli wrote:
-> On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
->> To allows the userspace to test many hardware configuration, introduce a
->> new interface to configure the available color ranges per planes. VKMS
->> supports multiple color ranges, so the userspace can choose any
->> combination.
->>
->> The supported color ranges are configured by writing a color range bitmask
->> to the file `supported_color_ranges` and the default color range is
->> chosen by writing a color encoding bitmask to `default_color_range`.
->>
->> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> 
->> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
->> index ee2e8d141f9e..3f658dd41272 100644
->> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
->> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
->> @@ -439,6 +439,91 @@ static ssize_t plane_default_rotation_store(struct config_item *item,
->>   	return count;
->>   }
->>
->> +static ssize_t plane_supported_color_ranges_show(struct config_item *item, char *page)
->> +{
->> +	struct vkms_configfs_plane *plane;
->> +	unsigned int supported_color_range;
->                       supported_color_ranges
-> 
->> +
->> +	plane = plane_item_to_vkms_configfs_plane(item);
-> 
-> As for previous patches, set this on declaration for consistency (same below).
-> 
->> +static ssize_t plane_supported_color_ranges_store(struct config_item *item,
->> +						  const char *page, size_t count)
->> +{
->> +	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
->> +	int ret, val = 0;
->> +
->> +	ret = kstrtouint(page, 10, &val);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Should be a supported value */
->> +	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
->> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
->> +		return -EINVAL;
->> +	/* Should at least provide one color range */
->> +	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
->> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) == 0)
->> +		return -EINVAL;
->> +
->> +	scoped_guard(mutex, &plane->dev->lock) {
->> +		/* Ensures that the default rotation is included in supported rotation */
-> 
-> Oh no, that comment again! :-)
-> 
->> +static ssize_t plane_default_color_range_store(struct config_item *item,
->> +					       const char *page, size_t count)
->> +{
->> +	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
->> +	int ret, val = 0;
->> +
->> +	ret = kstrtouint(page, 10, &val);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Should be a supported value */
->> +	if (val & ~(BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
->> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE)))
->> +		return -EINVAL;
->> +	/* Should at least provide one color range */
->> +	if ((val & (BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
->> +		    BIT(DRM_COLOR_YCBCR_FULL_RANGE))) == 0)
->> +		return -EINVAL;
-> 
-> As in patch 12, replace this with is_power_of_2() to check that exactly one
-> bit is set.
+Gregory Price (2):
+  Documentation/driver-api/cxl: BIOS/EFI expectation update
+  Documentation/driver-api/cxl: device hotplug section
 
-And as the previous patch, this code is simply wrong...
-I shoud check if val is one of DRM_COLOR_YCBCR_LIMITED_RANGE / 
-DRM_COLOR_YCBCR_FULL_RANGE
+ Documentation/driver-api/cxl/index.rst        |   1 +
+ .../driver-api/cxl/platform/bios-and-efi.rst  |  23 ++++
+ .../cxl/platform/device-hotplug.rst           | 130 ++++++++++++++++++
+ 3 files changed, 154 insertions(+)
+ create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
 
-Thanks
-
-> Luca
-> 
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+-- 
+2.52.0
 
