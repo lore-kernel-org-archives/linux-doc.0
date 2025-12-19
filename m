@@ -1,116 +1,68 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13EC33CE95
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A7629B76F
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 17:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766164146; cv=none; b=TEgn+LPSN4WO60TA251sY3ND1zdFUpeT4MuIJVrNscO/5tWZxMBT14g7tjtxMCaD4cvN5uuG/ZpcvBwTrGpLnOxNb2uu3SHSDir2xOyLVxvw93EpKCUVt++gQqgDkfTBJ48ZYg/gg3b2S467dkKrNowoKhDt4fnmm9kHjj0/Jgg=
+	t=1766164734; cv=none; b=QwQ2p1r+iqbCJskJiowZ0iG1O4B2u/boWrO8L2QxgQlMK3dn+0+uE/7/hX251E6QjwL2Xj+HXmbKhXdnlnWc5VoZSFQT3KCBD3VR6t/ZwWPcoPphC6j82/Jm6+ZgR1Oi1iL3U4xsjy7HS1pK7j5p3zyWxhFPsv8T/xaeDQYiL3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766164146; c=relaxed/simple;
-	bh=ADIO2w6EbDt79sgU4Mep9kZtcpqpRoZnzcA7zgIRGjc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=lpmYXS0TXdBiBAWjoIaoQrRU5esZs3hmwiz66QfiFlgpD76ys6xVNa66AIc5SG0ZMf4AjDW0MrAS7H6qC6AVwgSp9VLnU9l8WACikAOLvWXmkBHVF0Fq6P97a0669Tlz3pL55fK3eLhZC0ng+7Xso4jG6nm68nUioYJTEf5f6PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rAKFFDAX; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1766164734; c=relaxed/simple;
+	bh=A5CNpnVdW3A1xY+wKTwWENUP/Wz9NPD/eZUD+3yyMos=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XSsP6x4dfICQaZ6MbUMPVqDY64RwwXgzRJeFeyrxfV45kPEV9/Am6jZwImSnyadPsZO/wytBbFqRhyVAGMIbl3JFIpwXEfWkLkXy9W3r0rk9bXRb7hQa0OaD1PKIX/cKRaux1i4m6Xh99xUj28W3yH78Ar83apSiM3fyePyyVfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BRZdIBqD; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rAKFFDAX"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 704A5C1B20C;
-	Fri, 19 Dec 2025 17:08:38 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2A2256071D;
-	Fri, 19 Dec 2025 17:09:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6014C10AA95D9;
-	Fri, 19 Dec 2025 18:08:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766164138; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ClEy6WtcmlKP3pzmylHb4tVl/LC3l48kBxppr9SOblc=;
-	b=rAKFFDAX4lhIi/pi61yIJOq1ZDwWw4gAMtRTJR3AbVLehWaencDuxnx8Y1o90QXVQ5O2Pp
-	Gsug8JmMjLp28zoJAmEPMBNWtfubCpUTLavJQjS4XHj4Uc+1x4iB3ZCfCSFEerVwllvfXh
-	Zypr0KkoSfBp1f5AobtVZNlGpPSIFzJwVnjnGT5JMEpahyuY8NUvkyV9cJSfj+7kLCapiF
-	NfqMaZr5xH7KL+UfCv8/+T2FQ3CAUnurVN6wr7RaEJfZE7ZFiULhczGyst6GeJrtk08V3I
-	0MsR24FGLVV/UUUf5H7WejXNXKQr/BUwbiIng1AaCNlpLmAiSn+wfQup4M5U8A==
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BRZdIBqD"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766164730;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cWvDfk0GKrvCrlYz9aF47qBNsBtUgWddP1I/pwoSFEQ=;
+	b=BRZdIBqDI89HGkplLMGxjVP1hbIDbKiMpE6R8nhZZ4IVUVUr3LAjObGxiIeJpI0cfLZNyf
+	wPt5+cLx2+xbnIL3rcpqOQikhXMrM4VHqNOFCynsVqGUXSQQr+pND9mv9Y+E1kuH/sZ5Vk
+	CFX2MFlV5C2O6Cg0sTB/czaVA8uUKSo=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: kernel-hacking: Remove comma
+Date: Fri, 19 Dec 2025 18:18:26 +0100
+Message-ID: <20251219171827.44015-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 18:08:56 +0100
-Message-Id: <DF2CXN2CODZZ.14PL0961FZLGQ@bootlin.com>
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH RESEND v2 24/32] drm/vkms: Introduce config for
- connector supported colorspace
-X-Mailer: aerc 0.20.1
-References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
- <20251029-vkms-all-config-v2-24-a49a2d4cba26@bootlin.com>
-In-Reply-To: <20251029-vkms-all-config-v2-24-a49a2d4cba26@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed Oct 29, 2025 at 3:37 PM CET, Louis Chauvet wrote:
-> To emulate some HDR features of displays, it is required to expose some
-> properties on HDMI, eDP and DP connectors.
->
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+The comma is wrong, remove it.
 
-> --- a/drivers/gpu/drm/vkms/vkms_config.h
-> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ Documentation/kernel-hacking/hacking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> @@ -241,6 +246,31 @@ struct vkms_config *vkms_config_default_create(bool =
-enable_cursor,
->   */
->  void vkms_config_destroy(struct vkms_config *config);
->
-> +/**
-> + * vkms_config_connector_set_supported_colorspaces() - Set the supported=
- colorspaces for a connector
-> + * @connector_cfg: Connector configuration to modify
-> + * @supported_colorspaces: Bitmask of supported colorspaces (DRM_COLOR_Y=
-CBCR_*)
-                                                                ^^^^^^^^^^^=
-^^^^^
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index 0042776a9e17..06fcb7c662d3 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -49,7 +49,7 @@ User Context
+ 
+ User context is when you are coming in from a system call or other trap:
+ like userspace, you can be preempted by more important tasks and by
+-interrupts. You can sleep, by calling :c:func:`schedule()`.
++interrupts. You can sleep by calling :c:func:`schedule()`.
+ 
+ .. note::
+ 
+-- 
+Thorsten Blum <thorsten.blum@linux.dev>
+GPG: 1D60 735E 8AEF 3BE4 73B6  9D84 7336 78FD 8DFE EAD4
 
-You're dealing with colorpsaces, so this should be DRM_MODE_COLORIMETRY_*.
-
-> + */
-> +static inline void
-> +vkms_config_connector_set_supported_colorspaces(struct vkms_config_conne=
-ctor *connector_cfg,
-> +						u32 supported_colorspaces)
-> +{
-> +	connector_cfg->supported_colorspaces =3D supported_colorspaces;
-> +}
-> +
-> +/**
-> + * vkms_config_connector_get_supported_colorspaces() - Get the supported=
- colorspaces for a connector
-> + * @connector_cfg: Connector configuration to query
-> + *
-> + * Returns:
-> + * Bitmask of supported colorspaces (DRM_COLOR_YCBCR_*)
-
-Same here.
-
-With those fixed you can add:
-
- Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
