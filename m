@@ -1,187 +1,260 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B71317A2EA;
-	Fri, 19 Dec 2025 16:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AE233DECA
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 16:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766162417; cv=none; b=IJcFve5M28fLIRo8yhsrNz5Tg7GKDDHwDhmZqiWZsE5cyrbgG6fVYgrYejt53SyY+5/08dXtPBHA4QlzoMLVwqgNVwi+Yce/enrocOzPUftkr/R24BT00YHtvcxojD8UONcCNE7ujsU56/++jHdxFh/ehri5TF3QJhQ7XJc62Y8=
+	t=1766162452; cv=none; b=G+vkoxrPgO5uZJfHfo3hTvKDoZ5sQNCwUOqRHbKVeWRPcB42BwpBbg1Z8RVqxpedZ6g1fBOEJheMz8PLXUn3pFY1YOdHLGcSQ1wmkXiq1Cl/94n1hG0GCzL0sj6t9QqnqvyqRCxEjVuZm+DBptiTuihkxw+eZ7kxdF5aZ3Pbps0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766162417; c=relaxed/simple;
-	bh=Qnt5Ry3F4wGHOQAR8Zm+Q2n2lWPabtn+cXRIdgbU/j4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lsTNk9v13UbKNRd74uySeEYmZ7SFRmZDKAySLihlvDdARuCN4ga229e+qZf37B/Ea5Yj+tZAx8V7Aqd+LR9K18py+U01us4lVuliNWTjVY8Jo5cPdMXt79UU0FaC1Zu+b0iMPdoO4gO8IxfB8Zc9gG+a3yYJZpXEVJ5c+f85JZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXtY01cMbzJ46Bq;
-	Sat, 20 Dec 2025 00:39:32 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1BC9B40570;
-	Sat, 20 Dec 2025 00:40:05 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 19 Dec
- 2025 16:40:04 +0000
-Date: Fri, 19 Dec 2025 16:40:02 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Janani Sunil <janani.sunil@analog.com>
-CC: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
-	<Michael.Hennerich@analog.com>, Alexandru Ardelean
-	<alexandru.ardelean@analog.com>, Jonathan Cameron <jic23@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: iio: dac: Add max22007
-Message-ID: <20251219164002.00004c74@huawei.com>
-In-Reply-To: <20251219-max22007-dev-v1-1-242da2c2b868@analog.com>
-References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
-	<20251219-max22007-dev-v1-1-242da2c2b868@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1766162452; c=relaxed/simple;
+	bh=YRw5nFfsSdP5m4HvFMFEcnnPHHYsfASuaK/2XD6kHBs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oc4RFMZtdLd1I/MmQ51+KiK50Lb4ohs/KKWKDGUXi2T10OqVDUwf7dwXLtYmlwjX2LIA2gXSEN8ARAzlNNdJCXXRMtUc2d9EDcyI1hfZEEJCKapWuoO03EzLWJogdWi5V595cjHiAAfZHg24jDdf5fbs0tSNs1kId08lLVxCP7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mIr9rN0q; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mIr9rN0q"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 089341A22FA;
+	Fri, 19 Dec 2025 16:40:46 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D168F6071D;
+	Fri, 19 Dec 2025 16:40:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4BF6810AA9569;
+	Fri, 19 Dec 2025 17:40:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1766162444; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=NCMEYgYBBOfsMOSUVOgb5Vc8+vHUsWS6MI3ekHQpRuw=;
+	b=mIr9rN0qnlHIUjN9gq2nWMmNEjhWz7LA/JIWjvHP2+RhFO1kwwH7ywjCUUA9iZwypa5QbC
+	ZaDTcpY3zQlIlKos5uFarkAbX7p053yw0a0ZBHJKcn7aJCF+It3yCNNO9Xf6To58pwJHsN
+	UIXJp4pPoJzfNswtkMnZR8Ix3Dy4b3dA+NzjB3+z1Qo6xqeWZ+ElyO1Ll+vViWrUuslf55
+	vrN3qsjmqOlqBQsCZn8U5lFUqkrl0v/Hy9kbtC2RXEQ+XfDkXb9n+/iBNRGM5PLjvpPzb+
+	8kE19JSdOxf9i8CdWuu3x4SYm02k8ipovymFORjhM1/1lO9nGGqHLHuxw5fPcg==
+Message-ID: <bd38f577-7a09-4287-b71b-6e6e3e0f2cf2@bootlin.com>
+Date: Fri, 19 Dec 2025 17:40:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 12/32] drm/vkms: Introduce configfs for plane
+ color encoding
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-12-a49a2d4cba26@bootlin.com>
+ <DF1JDXPWYWVQ.2FSDNACYTUOMH@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <DF1JDXPWYWVQ.2FSDNACYTUOMH@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- dubpeml100005.china.huawei.com (7.214.146.113)
-
-On Fri, 19 Dec 2025 16:31:15 +0100
-Janani Sunil <janani.sunil@analog.com> wrote:
-
-Hi Janani and welcome to IIO.
+X-Last-TLS-Session-Version: TLSv1.3
 
 
-> Devicetree bindings for MAX22007 4-channel
-> 12-bit DAC that drives a voltage or current
-> output on each channel
 
-This is a very short wrap. Aim for 75 characters in patch description lines
-(so slightly shorter than 80 chars standard for everything else).
-
+On 12/18/25 18:59, Luca Ceresoli wrote:
+> On Wed Oct 29, 2025 at 3:36 PM CET, Louis Chauvet wrote:
+>> To allows the userspace to test many hardware configuration, introduce a
+>> new interface to configure the available color encoding per planes. VKMS
+>> supports multiple color encoding, so the userspace can choose any
+>> combination.
+>>
+>> The supported color encoding are configured by writing a color encoding
+>> bitmask to the file `supported_color_encoding` and the default color
+>> encoding is chosen by writing a color encoding bitmask to
+>> `default_color_encoding`.
+>>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> ---
+>>   Documentation/gpu/vkms.rst           |  7 ++-
+>>   drivers/gpu/drm/vkms/vkms_configfs.c | 98 ++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 104 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>> index eac1a942d6c4..dab6811687a2 100644
+>> --- a/Documentation/gpu/vkms.rst
+>> +++ b/Documentation/gpu/vkms.rst
+>> @@ -87,7 +87,7 @@ Start by creating one or more planes::
+>>
+>>     sudo mkdir /config/vkms/my-vkms/planes/plane0
+>>
+>> -Planes have 4 configurable attributes:
+>> +Planes have 6 configurable attributes:
+>>
+>>   - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
+>>     exposed by the "type" property of a plane)
+>> @@ -97,6 +97,11 @@ Planes have 4 configurable attributes:
+>>     (same values as those exposed by the "rotation" property of a plane)
+>>   - default_rotation: Default rotation presented to the userspace, same values as
+>>     possible_rotations.
+>> +- supported_color_encoding: Available encoding for a plane, as a bitmask:
+>                                           encodings
 > 
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-
-> ---
->  .../devicetree/bindings/iio/dac/adi,max22007.yaml  | 116 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 ++
->  2 files changed, 123 insertions(+)
+>> +  0x01 YCBCR_BT601, 0x02: YCBCR_BT709, 0x04 YCBCR_BT2020 (same values as those exposed
+>                             ^
 > 
-> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
-> new file mode 100644
-> index 000000000000..c2f65d9e42d4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+> Unintended colon? While I think it's nice to have, there is none elsewhere,
+> even in previous patches, and I'd say we can live happy without.
+> 
+>> +  by the COLOR_ENCODING property of a plane)
+>> +- default_color_encoding: Default color encoding presented to the userspace, same
+>> +  values as supported_color_encoding
+>>
+>>   Continue by creating one or more CRTCs::
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+>> index 7cc8ba315ef0..ee2e8d141f9e 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+>> @@ -439,16 +439,114 @@ static ssize_t plane_default_rotation_store(struct config_item *item,
+>>   	return count;
+>>   }
+>>
+>> +static ssize_t plane_supported_color_encodings_show(struct config_item *item, char *page)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +	unsigned int supported_color_encoding;
+>                       supported_color_encodings
+> 
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+> 
+> As for patch 9, for consistency:
+> 
+>    struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
+> 
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock) {
+>> +		supported_color_encoding = vkms_config_plane_get_supported_color_encodings(plane->config);
+>> +	}
+>> +
+>> +	return sprintf(page, "%u", supported_color_encoding);
+>> +}
+>> +
+>> +static ssize_t plane_supported_color_encodings_store(struct config_item *item,
+>> +						     const char *page, size_t count)
+>> +{
+>> +	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
+>> +	int ret, val = 0;
+>> +
+>> +	ret = kstrtouint(page, 10, &val);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Should be a supported value */
+>> +	if (val & ~(BIT(DRM_COLOR_YCBCR_BT601) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT709) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT2020)))
+>> +		return -EINVAL;
+>> +	/* Should at least provide one color range */
+>> +	if ((val & (BIT(DRM_COLOR_YCBCR_BT601) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT709) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT2020))) == 0)
+> 
+> I'm mentioning here as it comes to mind, but it's valid for other similar
+> patches in this series: why not adding a
+> 
+>    #define DRM_COLOR_ENCODINGS_SUPPORTED ( \
+>                     BIT(DRM_COLOR_YCBCR_BT601) |
+>                     BIT(DRM_COLOR_YCBCR_BT709) |
+>                     BIT(DRM_COLOR_YCBCR_BT2020))
+> 
+> and use it in place of the various bitwise-or sequences?
+> 
+> This would simplify work later on if adding a new color encoding (or color
+> range, or...).
+> 
+> Somewhat like DRM_MODE_*_MASK.
+> 
+>> +		return -EINVAL;
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock) {
+>> +		/* Ensures that the default rotation is included in supported rotation */
+>> +		if (plane->dev->enabled)
+>> +			return -EINVAL;
+> 
+> And here the comment is definitely wrong. :-)
+> 
+>> +
+>> +		vkms_config_plane_set_supported_color_encodings(plane->config, val);
+>> +	}
+>> +
+>> +	return count;
+>> +}
+>> +
+>> +/* Plane default_color_encoding : vkms/<device>/planes/<plane>/default_color_encoding */
+> 
+> There's no such comment in other places, so for consistency remove it (or
+> add it everywhere?!? ... no, just kidding).
+> 
+>> +
+>> +static ssize_t plane_default_color_encoding_show(struct config_item *item, char *page)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +	unsigned int default_color_encoding;
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock) {
+>> +		default_color_encoding = vkms_config_plane_get_default_color_encoding(plane->config);
+>> +	}
+>> +
+>> +	return sprintf(page, "%u", default_color_encoding);
+>> +}
+>> +
+>> +static ssize_t plane_default_color_encoding_store(struct config_item *item,
+>> +						  const char *page, size_t count)
+>> +{
+>> +	struct vkms_configfs_plane *plane = plane_item_to_vkms_configfs_plane(item);
+>> +	int ret, val = 0;
+>> +
+>> +	ret = kstrtouint(page, 10, &val);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Should be a supported value */
+>> +	if (val & ~(BIT(DRM_COLOR_YCBCR_BT601) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT709) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT2020)))
+>> +		return -EINVAL;
+>> +	/* Should at least provide one color range */
+>> +	if ((val & (BIT(DRM_COLOR_YCBCR_BT601) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT709) |
+>> +		    BIT(DRM_COLOR_YCBCR_BT2020))) == 0)
+>> +		return -EINVAL;
+> 
+> Shouldn't you check that exactly one bit is set? As in patch 9.
 
-...
+Because this code is wrong... the default rotation should be 
+DRM_COLOR_YCBCR_BT601 / DRM_COLOR_YCBCR_BT709 / DRM_COLOR_YCBCR_BT2020
+not a bitfield...
 
-> +  vdd-supply:
-> +    description: Low-Voltage Power Supply from +2.7V to +5.5V.
-> +
-> +  hvdd-supply:
-> +    description:
-> +      Positive High-Voltage Power Supply from +8V to (HVSS +24V) for
-> +      the Output Channels.
-> +
-> +  hvss-supply:
-> +    description:
-> +      Negative High-Voltage Power Supply from -2V to 0V for the Output Channels.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO used for hardware reset of the device.
-> +
-> +patternProperties:
-> +  "^channel@[0-3]$":
-> +    allOf:
-> +      - $ref: /schemas/iio/dac/dac.yaml#
-> +      - type: object
-> +        description:
-> +          Represents the external channels which are connected to the DAC.
-> +          Channels not specified in the device tree will be powered off.
-> +
-> +        properties:
-> +          reg:
-> +            description: Channel number
-> +            maxItems: 1
-
-min / max?
-
-> +
-> +          adi,type:
-> +            description: Channel output type.
-> +            $ref: /schemas/types.yaml#/definitions/string
-> +            enum: [voltage, current]
-This is much more constrained (as only two types of channel) but we do have
-precedence for adi,ch-func in adi,ad74115.yaml and adi,ad74413r.yaml
-
-That's not a particularly pretty binding but we should probably stick to
-it anyway.
-
-adi,type is too vague a name for this property anyway.
-
-> +
-> +        required:
-> +          - reg
-> +          - adi,type
-> +
-> +        unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-
-For supplies we document as required any that are needed for the device
-to function, whether or not we happen to need to specify them on
-a given board (given fallbacks that apply on assumption that fixes
-always on supplies are in use).  So I'd expect to see at least some
-of the supplies listed here.
-
-> +  - reg
-> +
-> +anyOf:
-> +  - required: [channel@0]
-> +  - required: [channel@1]
-> +  - required: [channel@2]
-> +  - required: [channel@3]
-
-Interesting. I'm not sure we have never bothered to document this before and there
-are other devices for which some sort of channel config is pretty much needed.
-What is the justification to have this explicitly listed here?
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        dac@0 {
-> +            compatible = "adi,max22007";
-> +            reg = <0>;
-> +            spi-max-frequency = <500000>;
-> +            reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            channel@0 {
-> +                reg = <0>;
-> +                adi,type = "voltage";
-> +            };
-> +
-> +            channel@1 {
-> +                reg = <1>;
-> +                adi,type = "current";
-> +            };
-> +        };
-> +    };
-> +...
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock) {
+>> +		/* Ensures that the default rotation is included in supported rotation */
+>> +		if (plane->dev->enabled)
+>> +			return -EINVAL;
+> 
+> As before, wrong comment.
+> 
+> Luca
+> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
