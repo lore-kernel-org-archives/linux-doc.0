@@ -1,126 +1,187 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A733A9D9
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 16:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B71317A2EA;
+	Fri, 19 Dec 2025 16:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766161553; cv=none; b=DU5Ayy5BfqhqXOuo+fpey5gkvlkhW5Cf8tnbEaiBpVyZ99cLHxFvSvnP52VgziwoVgBwxXIgUC3D8h6dEwinUPhcWE850JXQogNSG3VaAc9eiwGgf7AxF8vzm9+502NCna6ePKVWPCzcj0zz6I/eEHdnqHHpQC4ZDLSNlZ18T54=
+	t=1766162417; cv=none; b=IJcFve5M28fLIRo8yhsrNz5Tg7GKDDHwDhmZqiWZsE5cyrbgG6fVYgrYejt53SyY+5/08dXtPBHA4QlzoMLVwqgNVwi+Yce/enrocOzPUftkr/R24BT00YHtvcxojD8UONcCNE7ujsU56/++jHdxFh/ehri5TF3QJhQ7XJc62Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766161553; c=relaxed/simple;
-	bh=CMK829RbR/cqodEMz1CQfod5xixxJSOxdHQqYlxeOn0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aX6ctoN3/o2UGV2Rf3IlJ5A7UMxhY5NdHdNE18ONDMUp5vnr57oeEmTvkyOlYaD+JWL167G9WF5V6deYavQD99M1qBPYx6pi5jEHWv7dtwDr27N0hZ+FbuBQGNW7refgkyCh5ysOfmNBHleuuiojV+700WSrHDSguMNrn9khQ9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPjxNK4K; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPjxNK4K"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59431f57bf6so2102800e87.3
-        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 08:25:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766161546; x=1766766346; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C2sXGiLjEP33Ipi83odeXebzbV/gG4IuU75KeeEkNK0=;
-        b=EPjxNK4K0qvKqCH33tvxPdAPSfen6G/Z/Ir7vm/Z1g+gBHfVwhMr3OThhKr+PSDtAv
-         ZiYwDEzxihBcUMrE0h3xhSxL9dJygA81Ai9jCFzI3dmHPjKjafCRcga9dIMnI4X6skK1
-         Tyn1bZ12NBmOUrKlGw1qb7fOZyRX7cG48E2fsoe++nqwNZ/HAJVuw1+sr1WMk/ZEItke
-         vyl1uVZFrwKH10fwQZvIm+dxPontt689ebATJ6NKBkUT2Nj7PwY+fu6p8SmqxwFnR39Z
-         D34NucGmzfqunb2DrBE3+Wik7XwvyL3ccPl0srICw5U6jdYhi3cjcupv8YCiKTPMmMWC
-         b0EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766161546; x=1766766346;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C2sXGiLjEP33Ipi83odeXebzbV/gG4IuU75KeeEkNK0=;
-        b=AF/ElyHkQYJcibYPKHSAXCCgdGXackqVo1vTfESMMx94RU5NWbAFNJRZNEQ5yP1Lzz
-         VG2J9oOEwzBX4IYuZXXwnt/qf8HTcE8Ngq7CUoNBRX3QAHvrbV5z6BGbdqgOkzqLUFyO
-         DxLT4OGzdLyM/P3U8nEfuoMSUkDrHEvSFhmzsgUQq/nUNi14KZnB3h3Lz5NiL1MJX25u
-         0/D9l5/QgbPfvYdmBPgMOMo4OKQIf5AT8r3rKeTc++Tuz+iFCWr01TrSt5Hnr0Tb0iM4
-         TO4fYYWhmRgWfbFfKVaHniQompYFo4lw+odMm0hiX5K40YecerXC1DQnBkftqcxP8rsx
-         MmNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXwAF0qPFppIWyLWGwcOLC5h0tGhKKwVMQjAnAMd97HgYR67CMQiiuKVf8zQtYtKWDGsRFN2k4cVYs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcRQblBvlnwigbZWdR52fOV4vnhPJ4cNmgpbc3AEKGbBRPnq1j
-	xAfXMCPP8ig7f7q0Mg7D5c1P7rSKsWdtIdDpN6yntbXdRG5MvXOYNvQS
-X-Gm-Gg: AY/fxX6dMz6hEyeTCLQ35ONQCZGNkQnQrpRymTZmdOKvumAkjNXgKeLslTMU3nHNorL
-	5M2BfIBzBMXbVQqYwOEEMpeNdMKuaWczsvsbQq25ewm9SJs3hWwXZO0wxXi9EukHn+brJmmeroV
-	NfZUoCwDQhw0hpogTdKG1EXYMzUgFaEFJCtWjEHRaasoLiNtzyQ/FHhPREvJs7WAUKIBXMFcyVQ
-	T4cdqQ+EvwoNUQe4TJuwIGdA+VuahpiIibz1nA9nVjL2dZ2ZMl3e1iKdZYomYIuaL7FQ2nnMuPD
-	oJPmVr4Pw84p2lE6lnMbsB19B+TDi1DjOlJPuAk2aXesb6lG8gbFqQnzwG+rDiEuEy1myuTxIuR
-	n+A8S1f4Gtrwy35AkGLMhrrqDZMDafpoLiIVOg3B0kpiau0PTkzPDE8rFXz2SdZqEDxcKqDjyA6
-	2tLH5Lzu6dcMWeCqTw/BFjH8bWt2K/ssxCANYsh34SmINsiPGd6J+JGlXH0PIjoVO+C8svIyXQf
-	lr1RA==
-X-Google-Smtp-Source: AGHT+IG/2jtPNoy3x3yAlpma5tKlPeGWFiiAw6R+w4li8UrT5buqiV3Zb6xaLXlIG3Rd42ZLm/IvFg==
-X-Received: by 2002:a05:6512:b8b:b0:598:ef90:3ea3 with SMTP id 2adb3069b0e04-59a17d448bemr1162405e87.29.1766161545717;
-        Fri, 19 Dec 2025 08:25:45 -0800 (PST)
-Received: from LT-5CG5341NQ4.nordic.imtech.com (84-253-208-48.bb.dnainternet.fi. [84.253.208.48])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a18618cc2sm811161e87.64.2025.12.19.08.25.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 08:25:43 -0800 (PST)
-From: Kari Argillander <kari.argillander@gmail.com>
-Date: Fri, 19 Dec 2025 18:25:11 +0200
-Subject: [PATCH] editorconfig: Add rst extension
+	s=arc-20240116; t=1766162417; c=relaxed/simple;
+	bh=Qnt5Ry3F4wGHOQAR8Zm+Q2n2lWPabtn+cXRIdgbU/j4=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lsTNk9v13UbKNRd74uySeEYmZ7SFRmZDKAySLihlvDdARuCN4ga229e+qZf37B/Ea5Yj+tZAx8V7Aqd+LR9K18py+U01us4lVuliNWTjVY8Jo5cPdMXt79UU0FaC1Zu+b0iMPdoO4gO8IxfB8Zc9gG+a3yYJZpXEVJ5c+f85JZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dXtY01cMbzJ46Bq;
+	Sat, 20 Dec 2025 00:39:32 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1BC9B40570;
+	Sat, 20 Dec 2025 00:40:05 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 19 Dec
+ 2025 16:40:04 +0000
+Date: Fri, 19 Dec 2025 16:40:02 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Janani Sunil <janani.sunil@analog.com>
+CC: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+	<Michael.Hennerich@analog.com>, Alexandru Ardelean
+	<alexandru.ardelean@analog.com>, Jonathan Cameron <jic23@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: iio: dac: Add max22007
+Message-ID: <20251219164002.00004c74@huawei.com>
+In-Reply-To: <20251219-max22007-dev-v1-1-242da2c2b868@analog.com>
+References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
+	<20251219-max22007-dev-v1-1-242da2c2b868@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251219-editorconfig-rst-v1-1-58d4fa397664@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAGZ8RWkC/x3MQQqAIBBA0avIrBN0KKmuEi2iJpuNxigRiHdPW
- r7F/wUSCVOCWRUQejhxDA22U7BfW/Ck+WgGNDhYtJOmg3OUPYaTvZaUtRuQemMn7EcHLbuFTn7
- /5bLW+gHNHd2SYgAAAA==
-X-Change-ID: 20251219-editorconfig-rst-652e40192486
-To: Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: =?utf-8?q?=C3=8D=C3=B1igo_Huguet?= <ihuguet@redhat.com>, 
- Danny Lin <danny@kdrag0n.dev>, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- Masahiro Yamada <masahiroy@kernel.org>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Kari Argillander <kari.argillander@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766161543; l=1112;
- i=kari.argillander@gmail.com; s=20251219; h=from:subject:message-id;
- bh=CMK829RbR/cqodEMz1CQfod5xixxJSOxdHQqYlxeOn0=;
- b=e4/YdG+m75XrlwJmZlLv+vWEPbBIP4Ci9Bb72au0dEzbTeHtnAcmlgljWcRXUQ44tdbewnijC
- g27SRHlRsNvDqvk5O28AfbYq3YMOd0FK2sYhb6QybgcIVDgi913yFI5
-X-Developer-Key: i=kari.argillander@gmail.com; a=ed25519;
- pk=RwSxyhTpE3z4sywdDbIkC3q33ZQLNyhYWxT44iTY6r4=
+X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-We have a lot of .rst documentation; use editorconfig rules for those.
-This sets the default tab width to 8, which makes indentation consistent
-and avoids requiring developers to adjust editor settings manually.
+On Fri, 19 Dec 2025 16:31:15 +0100
+Janani Sunil <janani.sunil@analog.com> wrote:
 
-Signed-off-by: Kari Argillander <kari.argillander@gmail.com>
----
-If anyone knows why this should not be added to editorconfig I could
-also send patch and document that to .editorconfig file so no one send
-another patch because of this.
----
- .editorconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Janani and welcome to IIO.
 
-diff --git a/.editorconfig b/.editorconfig
-index b5ea32b6954b..69718ac91747 100644
---- a/.editorconfig
-+++ b/.editorconfig
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--[{*.{awk,c,dts,dtsi,dtso,h,mk,s,S},Kconfig,Makefile,Makefile.*}]
-+[{*.{awk,c,dts,dtsi,dtso,h,mk,rst,s,S},Kconfig,Makefile,Makefile.*}]
- charset = utf-8
- end_of_line = lf
- insert_final_newline = true
 
----
-base-commit: cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-change-id: 20251219-editorconfig-rst-652e40192486
+> Devicetree bindings for MAX22007 4-channel
+> 12-bit DAC that drives a voltage or current
+> output on each channel
 
-Best regards,
--- 
-Kari Argillander <kari.argillander@gmail.com>
+This is a very short wrap. Aim for 75 characters in patch description lines
+(so slightly shorter than 80 chars standard for everything else).
+
+> 
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+
+> ---
+>  .../devicetree/bindings/iio/dac/adi,max22007.yaml  | 116 +++++++++++++++++++++
+>  MAINTAINERS                                        |   7 ++
+>  2 files changed, 123 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+> new file mode 100644
+> index 000000000000..c2f65d9e42d4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+
+...
+
+> +  vdd-supply:
+> +    description: Low-Voltage Power Supply from +2.7V to +5.5V.
+> +
+> +  hvdd-supply:
+> +    description:
+> +      Positive High-Voltage Power Supply from +8V to (HVSS +24V) for
+> +      the Output Channels.
+> +
+> +  hvss-supply:
+> +    description:
+> +      Negative High-Voltage Power Supply from -2V to 0V for the Output Channels.
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used for hardware reset of the device.
+> +
+> +patternProperties:
+> +  "^channel@[0-3]$":
+> +    allOf:
+> +      - $ref: /schemas/iio/dac/dac.yaml#
+> +      - type: object
+> +        description:
+> +          Represents the external channels which are connected to the DAC.
+> +          Channels not specified in the device tree will be powered off.
+> +
+> +        properties:
+> +          reg:
+> +            description: Channel number
+> +            maxItems: 1
+
+min / max?
+
+> +
+> +          adi,type:
+> +            description: Channel output type.
+> +            $ref: /schemas/types.yaml#/definitions/string
+> +            enum: [voltage, current]
+This is much more constrained (as only two types of channel) but we do have
+precedence for adi,ch-func in adi,ad74115.yaml and adi,ad74413r.yaml
+
+That's not a particularly pretty binding but we should probably stick to
+it anyway.
+
+adi,type is too vague a name for this property anyway.
+
+> +
+> +        required:
+> +          - reg
+> +          - adi,type
+> +
+> +        unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+
+For supplies we document as required any that are needed for the device
+to function, whether or not we happen to need to specify them on
+a given board (given fallbacks that apply on assumption that fixes
+always on supplies are in use).  So I'd expect to see at least some
+of the supplies listed here.
+
+> +  - reg
+> +
+> +anyOf:
+> +  - required: [channel@0]
+> +  - required: [channel@1]
+> +  - required: [channel@2]
+> +  - required: [channel@3]
+
+Interesting. I'm not sure we have never bothered to document this before and there
+are other devices for which some sort of channel config is pretty much needed.
+What is the justification to have this explicitly listed here?
+
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        dac@0 {
+> +            compatible = "adi,max22007";
+> +            reg = <0>;
+> +            spi-max-frequency = <500000>;
+> +            reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            channel@0 {
+> +                reg = <0>;
+> +                adi,type = "voltage";
+> +            };
+> +
+> +            channel@1 {
+> +                reg = <1>;
+> +                adi,type = "current";
+> +            };
+> +        };
+> +    };
+> +...
 
