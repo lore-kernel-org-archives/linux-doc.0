@@ -1,122 +1,697 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EBB328610
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 14:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EAC9339701;
+	Fri, 19 Dec 2025 14:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766154732; cv=none; b=cvNAOWj0n578spdiASwi+nBr9iFPifevoctHlB4AeZbI0Q0VIKxnUamOqiAroxuEX13xiefaoFOo+QBlXaCXIK64gmU0eE7XnMHIZnE+WCkl2gjnj0y3dHmDOHcpg/Xy/BxVuIvEHkWPqV7Y9r/MpPeliXTndAm9NEKsPd4vagc=
+	t=1766154957; cv=none; b=O1ZqR3YDV/ia6KaqkBHdD8AgwhQppH9lDgYzWbcJ7Y3gYUewRw4Q4X/rLayiV7j+pSqJ9W9y/+qkH7qMhn3VicNEcjrAXBW79zcGytL3g05G7P+Bwm0dmcVozmOZEGWiLZhDmFR77UrCAmWFsTo87jxXPYMliK1cTvXaKdUnMmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766154732; c=relaxed/simple;
-	bh=ADWK1K6u6t0CaWFJITvqzw+3tp6y+TaCRw5mAd3q2gU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QdC3gw/QGzQQ857qneqffs6u4mhYdlllYKGt93csrkm6fAcKURTpU+o2YxHO3xp3qhsgfniC3ueY7dkdXGbINOsMrYfCv6Xp06YEgbhAWCfIpp7wriay81VFFlHFbkpI+BM5+Lg1lFmETdXO4BBRk1bRyZlKzAahLbs+bHbWJ/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=gNDdAWLp; arc=none smtp.client-ip=209.85.219.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="gNDdAWLp"
-Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-88a26ce6619so17900026d6.3
-        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 06:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1766154729; x=1766759529; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ivd5VUDwxKrJjsOzp1+SZHitpb44btNy0UY1qm1oXXk=;
-        b=gNDdAWLpTkL4yzLz4kJEKfQZiQ04pNofmdooFUhwckx3MWcSeUkw67hsz5q4w83T3E
-         u2IPd1JsLAuI6zYH1TnyTsLCOuFIkunOb3tbvCKnFouEtyhOY3vFKSXB5ugyQs7NpeFo
-         w3s+GpsPfxDiajzMU7NbnWR2+X9UDUm+L6JEt+/5qWmvzQY9dJwr5a6ePtILcjlXDuWk
-         IL5uBNqNwlbgWtM1nq61Ubu5fYEhI4VyXFupZAlOXa6iDxPJr4QOK5Vf66O82m9s+UZi
-         QGvMUJZMEnTQ02ZK/bE8v8Ag/GlsYIvjkVzhKEMaYWDQGAhV3vtS4oQ2Zt7DIlTrvFDx
-         Ihbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766154729; x=1766759529;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ivd5VUDwxKrJjsOzp1+SZHitpb44btNy0UY1qm1oXXk=;
-        b=MEAFvveua/Cr29KTp7EO+uGG7rRtxexP0b3SLXHzBoKBVOOS6FBl4DMJtLK7Y/v/vo
-         +pagRj1HQVW+8RhpJs+C7Gy4W7R9w21wjlI6xEGeTsxC2veppHYP7O5Rr3n5ZCHmc4dy
-         AxUeNbTOKhg2kiCEtQk0tFr0lw9nb6fXXXTXby7agYAUkWSMhEu/ZY5sGwadWDNrk0T6
-         1XOrZ8EQ2UefKd5kFUta5BryEf3iLTEH0oHRE1scuZXAZ3FYVGyT6KzBfv6/Z336wQ8h
-         ZoZygb9KZNrhQCxYO12T1dTAyZvbOdw0oIqehcRngEUGrqVRkV6FbucU2z7j4TZI37Eh
-         8Sug==
-X-Forwarded-Encrypted: i=1; AJvYcCUj+FeUXNiBCnCcCpPH767Yh5y0Yf9dKX6jpNTHgSu4ZXGOtxDQyGwnqYh1QQ5ITsHHBqPHBv0LqDg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yymk4wRfRdQvh5CDK5DZjwDJCZxAZ3qebfE3A2tk6bvKS+Qr+V8
-	6f91WwRzebqIKgazFA/uB+IooNvbbm4eJZtUdroD9aCAnGw4R2wOO2f/+TyzLPgE4dw=
-X-Gm-Gg: AY/fxX6uqpLiBsNIe0zoQOtiEB6zRiaGNx4bmF4YODSznZCRvuQTXA7a1hX5pNjvPc0
-	BXzxYxMmcntp94eglHj73pxwVS8YSr0Cp01872Zuy9bCMa/v32QB4pTGPWx74iCTFwu9iLBGFES
-	TOS5j5FHPkE2+6wk9tl5dKIN+mSh77pOHPXvts6hydb3LqU+/5DS5+GbqUGlcbqFrYGdahC8Jhv
-	0ViPEtx4Gx6oYqSRjGok4GOpJZTE360ZDxNpCLp4W1O8pC35PTPng+26y/j4jMoy92PWV4iZChc
-	PlIODhcMqsKDQzHiV2BNaHOzZUHqWIVOJosHRcM0Ln5a8QHPdWdimkwV8mMurG+rBpzc+hBtflP
-	zynQFCgC28ndAOcTbI9WxVliAfOzFwohmOJQJOQolb8dElEcodnjfRevJzj8Rt+NruUzvT7JYVa
-	Bqgctkw0WIkRX0pXxFu0d+eQ4DDtOERjkI7Srm0tbc7P/a8fbk/nUwy2KyFNakS5fy4w3WJQ==
-X-Google-Smtp-Source: AGHT+IHFFb9WYMCs70KCnwOLuU8Gjvo2loQhh9U7/SRr9OdjbdGz6to5W9XjQQ2TooWYSjdCemC3fg==
-X-Received: by 2002:ad4:5003:0:b0:88a:347c:4117 with SMTP id 6a1803df08f44-88d85bae7c9mr33202336d6.19.1766154729462;
-        Fri, 19 Dec 2025 06:32:09 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d997aeef5sm20208696d6.27.2025.12.19.06.32.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 06:32:09 -0800 (PST)
-Date: Fri, 19 Dec 2025 09:31:32 -0500
-From: Gregory Price <gourry@gourry.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com,
-	dave@stgolabs.net, dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, corbet@lwn.net
-Subject: Re: [PATCH v2] Documentation/driver-api/cxl: device hotplug section
-Message-ID: <aUVhxIJzGiiGs9ee@gourry-fedora-PF4VCD3F>
-References: <20251218170747.1278327-1-gourry@gourry.net>
- <20251219105518.00005ca6@huawei.com>
+	s=arc-20240116; t=1766154957; c=relaxed/simple;
+	bh=Ai8buLZOjsV1/1tNsDKHrdoCKC5Y2zXnMkOcugx9j1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qi5NaDlxaCO23RuuoxhFqgY075a4/fO4SpeyLTH/fMOOduo2mHqXXXDDpFErh58EBEjT4HTM3UUMRxx7Wjtpc68MENID+/VnDY9v2619o832iucj09niY1dm9lyIquEhVzS5fTgih2BufjrpKVtnWJF4GtvNek+IhZL2eoSwFDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 06F3EFEC;
+	Fri, 19 Dec 2025 06:35:46 -0800 (PST)
+Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C3733F5CA;
+	Fri, 19 Dec 2025 06:35:50 -0800 (PST)
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	tony.luck@intel.com,
+	bp@alien8.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rafael@kernel.org,
+	linux-doc@vger.kernel.org,
+	Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com,
+	Ahmed.Tiba@arm.com
+Subject: Re: [PATCH 02/12] ras: add estatus core implementation
+Date: Fri, 19 Dec 2025 14:35:42 +0000
+Message-ID: <20251219143545.2792858-1-ahmed.tiba@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6vlj35rmfm7dzjdngxibaygcgmcj3h2ibhuqnoeqqrsrxmsqbt@qpqnm5xndok6>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251219105518.00005ca6@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 19, 2025 at 10:55:18AM +0000, Jonathan Cameron wrote:
-> On Thu, 18 Dec 2025 12:07:47 -0500
-> Gregory Price <gourry@gourry.net> wrote:
-> 
-> > +
-> > +Multi-Endpoint Memory Device Present at Boot
-> > +--------------------------------------------
-> > +A hot-plug capable CXL memory device, such as one which presents multiple
-> > +expanders as a single large-capacity device, should report the maximum
-> > +*possible* capacity for the device at boot. ::
-> > +
-> > +                  HB0
-> > +                  RP0
-> > +                   |
-> > +     [Multi-Endpoint Memory Device]
-> 
-> So this is the weird switch as end point thing?   Maybe a reference.
-> My guess is these will go away as switch and memory device vendors catch
-> up with the spec, but maybe I'm wrong.
-> 
+On Wed, Dec 18, 2025 at 04:42:42PM +0100, Mauro Carvalho Chehab wrote:
+>> Add estatus.c, hook it into the EFI Makefile, and register
+>> the MAINTAINERS entry for the new code. The implementation provides the
+>> memory-pool helpers, notifier plumbing, and utility functions that the
+>> GHES and DeviceTree providers will reuse in later commits.
+>>
+>> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+>> ---
+>>  MAINTAINERS                    |   1 +
+>>  drivers/firmware/efi/Makefile  |   1 +
+>>  drivers/firmware/efi/estatus.c | 560 +++++++++++++++++++++++++++++++++
 
-I guess I just don't want to dictate the innards of a multi-endpoint
-memory device.  It *really really* implies there must be some kind of
-switch inside - but that switch might not even be runtime programmable
-or discoverable (basically all the settings get locked on boot and it
-becomes passthrough).
-
-If you'd rather just not have this section at all, I'm ok with that.
-The switch case below this covers the base case for a switch-based
-device where everything is programmable.
-
-> > +              _____|_____
-> > +             |          |
-> > +        [Endpoint0]   [Empty]
-> > +
-> > +
-> > +Limiting the size to the capacity preset at boot will limit hot-add support
-> > +to replacing capacity that was present at boot.
+> If I'm understanding this patch series, you will be basically moving more than
+> half of the code from drivers/acpi/apei/ghes.c to drivers/firmware/efi/estatus.c:
 > 
+>  drivers/acpi/apei/ghes.c                   | 1292 ++-------------
+>  drivers/firmware/efi/estatus.c             | 1056 ++++++++++++
 > 
+>  $ wc drivers/acpi/apei/ghes.c drivers/firmware/efi/estatus.c -l
+>   894 drivers/acpi/apei/ghes.c
+>  1056 drivers/firmware/efi/estatus.c
+>  1950 total
+> 
+> The way you're doing of adding things first, and then removing on
+> separate patches is error prone, makes it hard to review and
+> it becomes a lot harder to identify whose are the original authors
+> of the code.
+
+I see your point. I tried staging the additions ahead of the removals so the new helpers
+were readable, but I can see that makes review and authorship tracking painful.
+
+> This will cause undetected conflicts with already-submitted patches
+> that are under review.
+> 
+> You should instead be moving function per function as-is. Then,
+> adjust the code to make it more generic.
+
+I did try moving each helper first and doing the cleanup afterwards,
+but the series quickly ballooned and the ordering became confusing
+once later patches started depending on code that was still in transit.
+
+I’m happy to try again, though I expect to run into the same issue
+unless there’s a known pattern to follow. If you have a reference series or a preferred ordering
+that you’d recommend, please point me to it so I can align with that approach.
+
+
+>>  3 files changed, 562 insertions(+)
+>>  create mode 100644 drivers/firmware/efi/estatus.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 501b6d300aa5..67d79d4e612d 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -21760,6 +21760,7 @@ F:    drivers/rapidio/
+>>  RAS ERROR STATUS
+>>  M:   Ahmed Tiba <ahmed.tiba@arm.com>
+>>  S:   Maintained
+>> +F:   drivers/firmware/efi/estatus.c
+>>  F:   include/linux/estatus.h
+>> 
+>>  RAS INFRASTRUCTURE
+>> diff --git a/drivers/firmware/efi/Makefile b/drivers/firmware/efi/Makefile
+>> index 8efbcf699e4f..03708d915bcf 100644
+>> --- a/drivers/firmware/efi/Makefile
+>> +++ b/drivers/firmware/efi/Makefile
+>> @@ -20,6 +20,7 @@ obj-$(CONFIG_EFI_PARAMS_FROM_FDT)   += fdtparams.o
+>>  obj-$(CONFIG_EFI_ESRT)                       += esrt.o
+>>  obj-$(CONFIG_EFI_VARS_PSTORE)                += efi-pstore.o
+>>  obj-$(CONFIG_UEFI_CPER)                      += cper.o cper_cxl.o
+>> +obj-$(CONFIG_RAS_ESTATUS_CORE)               += estatus.o
+>>  obj-$(CONFIG_EFI_RUNTIME_WRAPPERS)   += runtime-wrappers.o
+>>  subdir-$(CONFIG_EFI_STUB)            += libstub
+>>  obj-$(CONFIG_EFI_BOOTLOADER_CONTROL) += efibc.o
+>> diff --git a/drivers/firmware/efi/estatus.c b/drivers/firmware/efi/estatus.c
+>> new file mode 100644
+>> index 000000000000..8dae5c73ce27
+>> --- /dev/null
+>> +++ b/drivers/firmware/efi/estatus.c
+>> @@ -0,0 +1,560 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Firmware-first RAS: Generic Error Status Core
+>> + *
+>> + * Copyright (C) 2025 ARM Ltd.
+>> + * Author: Ahmed Tiba <ahmed.tiba@arm.com>
+>> + */
+>> +
+>> +#include <linux/kernel.h>
+>> +#include <linux/cper.h>
+>> +#include <linux/ratelimit.h>
+>> +#include <linux/vmalloc.h>
+>> +#include <linux/llist.h>
+>> +#include <linux/genalloc.h>
+>> +#include <linux/pci.h>
+>> +#include <linux/pfn.h>
+>> +#include <linux/aer.h>
+>> +#include <linux/nmi.h>
+>> +#include <linux/sched/clock.h>
+>> +#include <linux/uuid.h>
+>> +#include <linux/kconfig.h>
+>> +#include <linux/ras.h>
+>> +#include <linux/mutex.h>
+>> +#include <linux/notifier.h>
+>> +#include <linux/workqueue.h>
+>> +#include <linux/task_work.h>
+>> +#include <ras/ras_event.h>
+>> +
+>> +#include <linux/estatus.h>
+>> +#include <asm/fixmap.h>
+>> +
+>> +void estatus_pool_region_free(unsigned long addr, u32 size);
+>> +
+>> +static void estatus_log_hw_error(char level, const char *seq_tag,
+>> +                              const char *name)
+>> +{
+>> +     switch (level) {
+>> +     case '0':
+>> +             pr_emerg("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     case '1':
+>> +             pr_alert("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     case '2':
+>> +             pr_crit("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     case '3':
+>> +             pr_err("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     case '4':
+>> +             pr_warn("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     case '5':
+>> +             pr_notice("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     case '6':
+>> +             pr_info("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     default:
+>> +             pr_debug("%sHardware error from %s\n", seq_tag, name);
+>> +             break;
+>> +     }
+>> +}
+>> +
+>> +static inline u32 estatus_len(struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     if (estatus->raw_data_length)
+>> +             return estatus->raw_data_offset + estatus->raw_data_length;
+>> +
+>> +     return sizeof(*estatus) + estatus->data_length;
+>> +}
+>> +
+>> +#define ESTATUS_PFX  "ESTATUS: "
+>> +
+>> +#define ESTATUS_ESOURCE_PREALLOC_MAX_SIZE_SIZE       65536
+>> +
+>> +#define ESTATUS_POOL_MIN_ALLOC_ORDER 3
+>> +
+>> +/* This is just an estimation for memory pool allocation */
+>> +#define ESTATUS_CACHE_AVG_SIZE       512
+>> +
+>> +#define ESTATUS_CACHES_SIZE  4
+>> +
+>> +#define ESTATUS_IN_CACHE_MAX_NSEC    10000000000ULL
+>> +/* Prevent too many caches are allocated because of RCU */
+>> +#define ESTATUS_CACHE_ALLOCED_MAX    (ESTATUS_CACHES_SIZE * 3 / 2)
+>> +
+>> +#define ESTATUS_CACHE_LEN(estatus_len)                       \
+>> +     (sizeof(struct estatus_cache) + (estatus_len))
+>> +#define ESTATUS_FROM_CACHE(cache)                    \
+>> +     ((struct acpi_hest_generic_status *)            \
+>> +      ((struct estatus_cache *)(cache) + 1))
+>> +
+>> +#define ESTATUS_NODE_LEN(estatus_len)                        \
+>> +     (sizeof(struct estatus_node) + (estatus_len))
+>> +#define ESTATUS_FROM_NODE(node)                              \
+>> +     ((struct acpi_hest_generic_status *)            \
+>> +      ((struct estatus_node *)(node) + 1))
+>> +
+>> +#define ESTATUS_VENDOR_ENTRY_LEN(gdata_len)          \
+>> +     (sizeof(struct estatus_vendor_record_entry) + (gdata_len))
+>> +#define ESTATUS_GDATA_FROM_VENDOR_ENTRY(vendor_entry)        \
+>> +     ((struct acpi_hest_generic_data *)              \
+>> +     ((struct estatus_vendor_record_entry *)(vendor_entry) + 1))
+>> +
+>> +static ATOMIC_NOTIFIER_HEAD(estatus_report_chain);
+>> +
+>> +struct estatus_vendor_record_entry {
+>> +     struct work_struct work;
+>> +     int error_severity;
+>> +     char vendor_record[];
+>> +};
+>> +
+>> +static struct estatus_cache __rcu *estatus_caches[ESTATUS_CACHES_SIZE];
+>> +static atomic_t estatus_cache_alloced;
+>> +
+>> +static int estatus_panic_timeout __read_mostly = 30;
+>> +
+>> +static struct gen_pool *estatus_pool;
+>> +static DEFINE_MUTEX(estatus_pool_mutex);
+>> +
+>> +static inline const char *estatus_source_name(struct estatus_source *source)
+>> +{
+>> +     if (source->ops && source->ops->get_name)
+>> +             return source->ops->get_name(source);
+>> +
+>> +     return "unknown";
+>> +}
+>> +
+>> +static inline size_t estatus_source_max_len(struct estatus_source *source)
+>> +{
+>> +     if (source->ops && source->ops->get_max_len)
+>> +             return source->ops->get_max_len(source);
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +static inline enum estatus_notify_mode
+>> +estatus_source_notify_mode(struct estatus_source *source)
+>> +{
+>> +     if (source->ops && source->ops->get_notify_mode)
+>> +             return source->ops->get_notify_mode(source);
+>> +
+>> +     return ESTATUS_NOTIFY_ASYNC;
+>> +}
+>> +
+>> +static inline int estatus_source_get_phys(struct estatus_source *source,
+>> +                                       phys_addr_t *addr)
+>> +{
+>> +     if (!source->ops || !source->ops->get_phys)
+>> +             return -EOPNOTSUPP;
+>> +
+>> +     return source->ops->get_phys(source, addr);
+>> +}
+>> +
+>> +static inline int estatus_source_read(struct estatus_source *source,
+>> +                                   phys_addr_t addr, void *buf, size_t len,
+>> +                                   enum fixed_addresses fixmap_idx)
+>> +{
+>> +     if (!source->ops || !source->ops->read)
+>> +             return -EOPNOTSUPP;
+>> +
+>> +     return source->ops->read(source, addr, buf, len, fixmap_idx);
+>> +}
+>> +
+>> +static inline int estatus_source_write(struct estatus_source *source,
+>> +                                    phys_addr_t addr, const void *buf,
+>> +                                    size_t len,
+>> +                                    enum fixed_addresses fixmap_idx)
+>> +{
+>> +     if (!source->ops || !source->ops->write)
+>> +             return -EOPNOTSUPP;
+>> +
+>> +     return source->ops->write(source, addr, buf, len, fixmap_idx);
+>> +}
+>> +
+>> +static inline void estatus_source_ack(struct estatus_source *source)
+>> +{
+>> +     if (source->ops && source->ops->ack)
+>> +             source->ops->ack(source);
+>> +}
+>> +
+>> +int estatus_pool_init(unsigned int num_ghes)
+>> +{
+>> +     unsigned long addr, len;
+>> +     int rc = 0;
+>> +
+>> +     mutex_lock(&estatus_pool_mutex);
+>> +     if (estatus_pool)
+>> +             goto out_unlock;
+>> +
+>> +     estatus_pool = gen_pool_create(ESTATUS_POOL_MIN_ALLOC_ORDER, -1);
+>> +     if (!estatus_pool) {
+>> +             rc = -ENOMEM;
+>> +             goto out_unlock;
+>> +     }
+>> +
+>> +     if (!num_ghes)
+>> +             num_ghes = 1;
+>> +
+>> +     len = ESTATUS_CACHE_AVG_SIZE * ESTATUS_CACHE_ALLOCED_MAX;
+>> +     len += (num_ghes * ESTATUS_ESOURCE_PREALLOC_MAX_SIZE_SIZE);
+>> +
+>> +     addr = (unsigned long)vmalloc(PAGE_ALIGN(len));
+>> +     if (!addr) {
+>> +             rc = -ENOMEM;
+>> +             goto err_pool_alloc;
+>> +     }
+>> +
+>> +     rc = gen_pool_add(estatus_pool, addr, PAGE_ALIGN(len), -1);
+>> +     if (rc)
+>> +             goto err_pool_add;
+>> +
+>> +out_unlock:
+>> +     mutex_unlock(&estatus_pool_mutex);
+>> +     return rc;
+>> +
+>> +err_pool_add:
+>> +     vfree((void *)addr);
+>> +err_pool_alloc:
+>> +     gen_pool_destroy(estatus_pool);
+>> +     estatus_pool = NULL;
+>> +     goto out_unlock;
+>> +}
+>> +
+>> +/**
+>> + * estatus_pool_region_free - free previously allocated memory
+>> + *                              from the estatus_pool.
+>> + * @addr: address of memory to free.
+>> + * @size: size of memory to free.
+>> + *
+>> + * Returns none.
+>> + */
+>> +void estatus_pool_region_free(unsigned long addr, u32 size)
+>> +{
+>> +     gen_pool_free(estatus_pool, addr, size);
+>> +}
+>> +EXPORT_SYMBOL_GPL(estatus_pool_region_free);
+>> +
+>> +/* Check the top-level record header has an appropriate size. */
+>> +static int __estatus_check_estatus(struct estatus_source *source,
+>> +                                struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     u32 len = estatus_len(estatus);
+>> +     size_t max_len = estatus_source_max_len(source);
+>> +
+>> +     if (len < sizeof(*estatus)) {
+>> +             pr_warn_ratelimited(FW_WARN ESTATUS_PFX "Truncated error status block!\n");
+>> +             return -EIO;
+>> +     }
+>> +
+>> +     if (max_len && len > max_len) {
+>> +             pr_warn_ratelimited(FW_WARN ESTATUS_PFX "Invalid error status block length!\n");
+>> +             return -EIO;
+>> +     }
+>> +
+>> +     if (cper_estatus_check_header(estatus)) {
+>> +             pr_warn_ratelimited(FW_WARN ESTATUS_PFX "Invalid CPER header!\n");
+>> +             return -EIO;
+>> +     }
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +/* Read the CPER block, returning its address, and header in estatus. */
+>> +static int __estatus_peek_estatus(struct estatus_source *source,
+>> +                               struct acpi_hest_generic_status *estatus,
+>> +                               phys_addr_t *buf_paddr,
+>> +                               enum fixed_addresses fixmap_idx)
+>> +{
+>> +     int rc;
+>> +
+>> +     rc = estatus_source_get_phys(source, buf_paddr);
+>> +     if (rc) {
+>> +             *buf_paddr = 0;
+>> +             pr_warn_ratelimited(FW_WARN ESTATUS_PFX
+>> +                                 "Failed to get error status block address for provider %s: %d\n",
+>> +                                 estatus_source_name(source), rc);
+>> +             return rc;
+>> +     }
+>> +
+>> +     if (!*buf_paddr)
+>> +             return -ENOENT;
+>> +
+>> +     rc = estatus_source_read(source, *buf_paddr, estatus,
+>> +                              sizeof(*estatus), fixmap_idx);
+>> +     if (rc)
+>> +             return rc;
+>> +
+>> +     if (!estatus->block_status) {
+>> +             *buf_paddr = 0;
+>> +             return -ENOENT;
+>> +     }
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +static int __estatus_read_estatus(struct estatus_source *source,
+>> +                               struct acpi_hest_generic_status *estatus,
+>> +                               phys_addr_t buf_paddr,
+>> +                               enum fixed_addresses fixmap_idx,
+>> +                               size_t buf_len)
+>> +{
+>> +     int rc;
+>> +
+>> +     rc = estatus_source_read(source, buf_paddr, estatus, buf_len,
+>> +                              fixmap_idx);
+>> +     if (rc)
+>> +             return rc;
+>> +
+>> +     if (cper_estatus_check(estatus)) {
+>> +             pr_warn_ratelimited(FW_WARN ESTATUS_PFX
+>> +                                 "Failed to read error status block for provider %s!\n",
+>> +                                 estatus_source_name(source));
+>> +             return -EIO;
+>> +     }
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +static int estatus_read_estatus(struct estatus_source *source,
+>> +                             struct acpi_hest_generic_status *estatus,
+>> +                             phys_addr_t *buf_paddr,
+>> +                             enum fixed_addresses fixmap_idx)
+>> +{
+>> +     int rc;
+>> +
+>> +     rc = __estatus_peek_estatus(source, estatus, buf_paddr, fixmap_idx);
+>> +     if (rc)
+>> +             return rc;
+>> +
+>> +     rc = __estatus_check_estatus(source, estatus);
+>> +     if (rc)
+>> +             return rc;
+>> +
+>> +     return __estatus_read_estatus(source, estatus, *buf_paddr,
+>> +                                   fixmap_idx, estatus_len(estatus));
+>> +}
+>> +
+>> +static void estatus_clear_estatus(struct estatus_source *source,
+>> +                               struct acpi_hest_generic_status *estatus,
+>> +                               phys_addr_t buf_paddr,
+>> +                               enum fixed_addresses fixmap_idx)
+>> +{
+>> +     int rc;
+>> +
+>> +     estatus->block_status = 0;
+>> +
+>> +     if (!buf_paddr)
+>> +             return;
+>> +
+>> +     rc = estatus_source_write(source, buf_paddr, estatus,
+>> +                               sizeof(estatus->block_status), fixmap_idx);
+>> +     if (rc)
+>> +             pr_warn_ratelimited(FW_WARN ESTATUS_PFX
+>> +                                 "Failed to clear error status block for provider %s: %d\n",
+>> +                                 estatus_source_name(source), rc);
+>> +
+>> +     estatus_source_ack(source);
+>> +}
+>> +
+>> +static inline int estatus_severity(int severity)
+>> +{
+>> +     switch (severity) {
+>> +     case CPER_SEV_INFORMATIONAL:
+>> +             return ESTATUS_SEV_NO;
+>> +     case CPER_SEV_CORRECTED:
+>> +             return ESTATUS_SEV_CORRECTED;
+>> +     case CPER_SEV_RECOVERABLE:
+>> +             return ESTATUS_SEV_RECOVERABLE;
+>> +     case CPER_SEV_FATAL:
+>> +             return ESTATUS_SEV_PANIC;
+>> +     default:
+>> +             /* Unknown, go panic */
+>> +             return ESTATUS_SEV_PANIC;
+>> +     }
+>> +}
+>> +
+>> +static void __estatus_print_estatus(const char *pfx,
+>> +                                 struct estatus_source *source,
+>> +                                 const struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     static atomic_t seqno;
+>> +     unsigned int curr_seqno;
+>> +     char pfx_seq[64];
+>> +     char seq_tag[64];
+>> +     const char *name = estatus_source_name(source);
+>> +     const char *level = pfx;
+>> +     char level_char = '4';
+>> +
+>> +     if (!level) {
+>> +             if (estatus_severity(estatus->error_severity) <=
+>> +                 ESTATUS_SEV_CORRECTED)
+>> +                     level = KERN_WARNING;
+>> +             else
+>> +                     level = KERN_ERR;
+>> +     }
+>> +
+>> +     if (level[0] == KERN_SOH_ASCII && level[1])
+>> +             level_char = level[1];
+>> +     else if (estatus_severity(estatus->error_severity) > ESTATUS_SEV_CORRECTED)
+>> +             level_char = '3';
+>> +
+>> +     curr_seqno = atomic_inc_return(&seqno);
+>> +     snprintf(seq_tag, sizeof(seq_tag), "{%u}" HW_ERR, curr_seqno);
+>> +     snprintf(pfx_seq, sizeof(pfx_seq), "%s%s", level, seq_tag);
+>> +     estatus_log_hw_error(level_char, seq_tag, name);
+>> +     cper_estatus_print(pfx_seq, estatus);
+>> +}
+>> +
+>> +static int estatus_print_estatus(const char *pfx,
+>> +                              struct estatus_source *source,
+>> +                              const struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     /* Not more than 2 messages every 5 seconds */
+>> +     static DEFINE_RATELIMIT_STATE(ratelimit_corrected, 5 * HZ, 2);
+>> +     static DEFINE_RATELIMIT_STATE(ratelimit_uncorrected, 5 * HZ, 2);
+>> +     struct ratelimit_state *ratelimit;
+>> +
+>> +     if (estatus_severity(estatus->error_severity) <= ESTATUS_SEV_CORRECTED)
+>> +             ratelimit = &ratelimit_corrected;
+>> +     else
+>> +             ratelimit = &ratelimit_uncorrected;
+>> +     if (__ratelimit(ratelimit)) {
+>> +             __estatus_print_estatus(pfx, source, estatus);
+>> +             return 1;
+>> +     }
+>> +     return 0;
+>> +}
+>> +
+>> +/*
+>> + * GHES error status reporting throttle, to report more kinds of
+>> + * errors, instead of just most frequently occurred errors.
+>> + */
+>> +static int estatus_cached(struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     u32 len;
+>> +     int i, cached = 0;
+>> +     unsigned long long now;
+>> +     struct estatus_cache *cache;
+>> +     struct acpi_hest_generic_status *cache_estatus;
+>> +
+>> +     len = estatus_len(estatus);
+>> +     rcu_read_lock();
+>> +     for (i = 0; i < ESTATUS_CACHES_SIZE; i++) {
+>> +             cache = rcu_dereference(estatus_caches[i]);
+>> +             if (!cache)
+>> +                     continue;
+>> +             if (len != cache->estatus_len)
+>> +                     continue;
+>> +             cache_estatus = ESTATUS_FROM_CACHE(cache);
+>> +             if (memcmp(estatus, cache_estatus, len))
+>> +                     continue;
+>> +             atomic_inc(&cache->count);
+>> +             now = sched_clock();
+>> +             if (now - cache->time_in < ESTATUS_IN_CACHE_MAX_NSEC)
+>> +                     cached = 1;
+>> +             break;
+>> +     }
+>> +     rcu_read_unlock();
+>> +     return cached;
+>> +}
+>> +
+>> +static struct estatus_cache *estatus_cache_alloc(struct estatus_source *source,
+>> +                                              struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     int alloced;
+>> +     u32 len, cache_len;
+>> +     struct estatus_cache *cache;
+>> +     struct acpi_hest_generic_status *cache_estatus;
+>> +
+>> +     alloced = atomic_add_return(1, &estatus_cache_alloced);
+>> +     if (alloced > ESTATUS_CACHE_ALLOCED_MAX) {
+>> +             atomic_dec(&estatus_cache_alloced);
+>> +             return NULL;
+>> +     }
+>> +     len = estatus_len(estatus);
+>> +     cache_len = ESTATUS_CACHE_LEN(len);
+>> +     cache = (void *)gen_pool_alloc(estatus_pool, cache_len);
+>> +     if (!cache) {
+>> +             atomic_dec(&estatus_cache_alloced);
+>> +             return NULL;
+>> +     }
+>> +     cache_estatus = ESTATUS_FROM_CACHE(cache);
+>> +     memcpy(cache_estatus, estatus, len);
+>> +     cache->estatus_len = len;
+>> +     atomic_set(&cache->count, 0);
+>> +     cache->source = source;
+>> +     cache->time_in = sched_clock();
+>> +     return cache;
+>> +}
+>> +
+>> +static void estatus_cache_rcu_free(struct rcu_head *head)
+>> +{
+>> +     struct estatus_cache *cache;
+>> +     u32 len;
+>> +
+>> +     cache = container_of(head, struct estatus_cache, rcu);
+>> +     len = estatus_len(ESTATUS_FROM_CACHE(cache));
+>> +     len = ESTATUS_CACHE_LEN(len);
+>> +     gen_pool_free(estatus_pool, (unsigned long)cache, len);
+>> +     atomic_dec(&estatus_cache_alloced);
+>> +}
+>> +
+>> +static void estatus_cache_add(struct estatus_source *source,
+>> +                           struct acpi_hest_generic_status *estatus)
+>> +{
+>> +     unsigned long long now, duration, period, max_period = 0;
+>> +     struct estatus_cache *cache, *new_cache;
+>> +     struct estatus_cache __rcu *victim;
+>> +     int i, slot = -1, count;
+>> +
+>> +     new_cache = estatus_cache_alloc(source, estatus);
+>> +     if (!new_cache)
+>> +             return;
+>> +
+>> +     rcu_read_lock();
+>> +     now = sched_clock();
+>> +     for (i = 0; i < ESTATUS_CACHES_SIZE; i++) {
+>> +             cache = rcu_dereference(estatus_caches[i]);
+>> +             if (!cache) {
+>> +                     slot = i;
+>> +                     break;
+>> +             }
+>> +             duration = now - cache->time_in;
+>> +             if (duration >= ESTATUS_IN_CACHE_MAX_NSEC) {
+>> +                     slot = i;
+>> +                     break;
+>> +             }
+>> +             count = atomic_read(&cache->count);
+>> +             period = duration;
+>> +             do_div(period, (count + 1));
+>> +             if (period > max_period) {
+>> +                     max_period = period;
+>> +                     slot = i;
+>> +             }
+>> +     }
+>> +     rcu_read_unlock();
+>> +
+>> +     if (slot != -1) {
+>> +             /*
+>> +              * Use release semantics to ensure that estatus_cached()
+>> +              * running on another CPU will see the updated cache fields if
+>> +              * it can see the new value of the pointer.
+>> +              */
+>> +             victim = xchg_release(&estatus_caches[slot],
+>> +                                   RCU_INITIALIZER(new_cache));
+>> +
+>> +             /*
+>> +              * At this point, victim may point to a cached item different
+>> +              * from the one based on which we selected the slot. Instead of
+>> +              * going to the loop again to pick another slot, let's just
+>> +              * drop the other item anyway: this may cause a false cache
+>> +              * miss later on, but that won't cause any problems.
+>> +              */
+>> +             if (victim)
+>> +                     call_rcu(&unrcu_pointer(victim)->rcu,
+>> +                              estatus_cache_rcu_free);
+>> +     }
+>> +}
+>> --
+>> 2.43.0
+>>
+
+Thanks,
+Ahmed
