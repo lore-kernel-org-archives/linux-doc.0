@@ -1,671 +1,478 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B98A33C199;
-	Fri, 19 Dec 2025 15:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FD22D23A4
+	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 15:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766158317; cv=none; b=tnrhKBLzEsvm7z/ORMYKERfgsj+BGx2eGYh1q5kOZ0aN9Fuxoz7wC4wRSvniLsgs/RLf+vKJ63kfa9P7X179w38372xu27LqbiV5B+cnkOHBN6ijhuHcjSiiGhkyxqi0luriQlcPoj2od7sav8vKH7E8IK02AiKek6DgEb1I80E=
+	t=1766159113; cv=none; b=SXOSXTlLG2fNXH6NmED97LYRm/JwB+sV+nevz5UAUkX0HwF17L8c/LA6KaFdNlY+nEkjnifrtzFdwRvqEWbJnOp2+ZXruMhJWP8FAPPDOU3PmY7+t7BJG9N2+sRx1i6BR+XRbtIbvcP+pVK6oN1xPLGw/YPBJ09Lfq2ZwYANCZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766158317; c=relaxed/simple;
-	bh=HLfmjfSksFXOiFK7tzDolD0RnFJGx+FPYSQzaKAdP6s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=hXTDqoNGklrh7+OrQH8aj247BpjKQwBXzOqbshfmzClAUe+OoOvp8FLaoGYAz3fwPFez9KZ22MWjz2DiDWeKFRKEZ5voTvhKV7fE0c0wUVT5AXfGTBvKgmMrG7omPXYhawI6zC3QpmZSWh0lfcNwNFQ+qyzzvHjLufevP6bvEUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=0afRbzzb; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1766159113; c=relaxed/simple;
+	bh=jxRVFkcZ/dQRiG15u55eeTK008jHW8Kue4PgzUH7FSw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=dk+7oHiiYtpQlksNVCm7WDbJmLjfRm7gfVTYbpjjNEDs20NtwzCx42PrszoCMsxIxGXyndXhyJYJzMfbnXJuBSroCyUG4hgiIvivZ76C44rViJhlKOV+td1+17tn/sVDiUbcTjLRKPuFwDIU5o0aqpke1Ov7QYtUr9Lbk1aHzwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4iYQ7wzQ; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="0afRbzzb"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BJFJbfR2393780;
-	Fri, 19 Dec 2025 10:31:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=SY7Pc
-	Co6IOBy7BOsPzc2/39lmPEabkDovevpwISlQqE=; b=0afRbzzbjv/WAyMlMQk8Z
-	cZZcykg8qG0OwnU2G27a34z/xeOEoDnDrRGkeJg6zWfEN7GJLPO30AbxyajZkY4z
-	ueJrXvpWBuV3XcSmV8wq8dyLKQWjlFpo7VW7mVkwemiYMDxOJ2RyqzlFhZB0ElZV
-	+/DT34/BSx/1PV/vs3EQvIMTZko4YNaFqzEbDUOkGKw+Efc09X4f/6couGdl/19D
-	8RUUUGeTDYtJ8W1niR21o9K5ieSXnKPfypAVQgrejqGrkNWoCbDGE/WY7V9W5ReL
-	4CZu/a5AEbmyaMV5xHKUUEp7i7zImcCYJS9u+FtVqwdJKsBIhyQ5w8DGVceb2h2u
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4b4r3v4nkw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Dec 2025 10:31:37 -0500 (EST)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 5BJFVagQ051288
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 19 Dec 2025 10:31:36 -0500
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Fri, 19 Dec 2025 10:31:36 -0500
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Fri, 19 Dec 2025 10:31:35 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Fri, 19 Dec 2025 10:31:35 -0500
-Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.88])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 5BJFVIW5004160;
-	Fri, 19 Dec 2025 10:31:29 -0500
-From: Janani Sunil <janani.sunil@analog.com>
-Date: Fri, 19 Dec 2025 16:31:17 +0100
-Subject: [PATCH 3/3] iio: dac: Add MAX22007 DAC driver support
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4iYQ7wzQ"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b80055977feso186491366b.0
+        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 07:45:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1766159107; x=1766763907; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DevBKjiUQ1DYWG4NWpg0hsHH+Nds87DWeoh34BFlORw=;
+        b=4iYQ7wzQ7qhG0V5MEgF9zHw2vOjSm/te1265sEKuaLrm9aqPHlpWPTyqmv9NEaHBhm
+         eVaRusb3LZdpcmWsC4sQkMLtBVrdLOG+Q2UKeHyaPqqxQpkkze26xxtC7UaEXVWgji8u
+         DLLUNwUf+BP+JALIprY68FdjxEImBNCzChTEnedax95kM7gMSsymwDNocEH7g9OsarSy
+         Inj9EJMcJABNTJhoPJDsdUyG44y6iKvhqPFJIz4SoSezVVf6qiyrAZYoLmLKmSMM/QrI
+         NaHV6R0RNTbqtAp0aEDpCCwtdGOorBUFgwYcAnt64S+NZlrLZhm/I2bsQoFdI9XQYswa
+         QqEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766159107; x=1766763907;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DevBKjiUQ1DYWG4NWpg0hsHH+Nds87DWeoh34BFlORw=;
+        b=HPhPfu3qJwMEq9N+trVASOlftyVscL0uBiz52hbyNkqiLfvqafbthV8DBVO2AyWUNC
+         Xk0i2UtN4B8449Sm3r8MZ3hqBb/9QF8A7wyf8EgOTNqW/gaCyUitIVxkFKeZcRFPeNdu
+         LJu+NXuSLeyzisGSCuEVVqPN9vwn6xmV/0wrgFLsiFfB4yhv0odz793DtTzhynKk8Oj8
+         YhUdmqWZM0jWw/JSBOj/SbEXQw4pCFNgFZ0MedqnUpcnrj4zVL2r9Ari5ZTsXKaLC2mn
+         Bbe4DDYCHovz3XpBrhrEAg2ufLNFJZml+V0tQNBL9RWv8AXWT0LQ7Hg7XHsgvk1hCs2/
+         aIzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWY/yBxkJr9PTWodVprkV/thWHLcVRTrujvvY47WCaVFmXAe1ByBQ8T7Ij0E+Ca8GY7Uy95WljZJYk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR6ml0WZYDncH0N3pkpYqqSF5Y+R7GY6MjCYihsFABonwZwitg
+	OgGqPOk+A3ycY0FrclVK1Iyn2sxQBlZjHtHRSsvQ7r5zel+xJ11h2cDxQXuc2XnTCWURkKAQqFr
+	MAg==
+X-Google-Smtp-Source: AGHT+IHtV88uBWdFWDpxHAn+aJGoZ7Ne2Qv7ftKEp6v1rUUmlYkJyqA6HCtPYVARKi6mxF17jdhYcvZpxA==
+X-Received: from edya2.prod.google.com ([2002:aa7:cf02:0:b0:64b:a037:21b4])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:2d08:b0:b72:af1f:af7d
+ with SMTP id a640c23a62f3a-b8036f608aemr336350066b.29.1766159106427; Fri, 19
+ Dec 2025 07:45:06 -0800 (PST)
+Date: Fri, 19 Dec 2025 16:39:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251219-max22007-dev-v1-3-242da2c2b868@analog.com>
-References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
-In-Reply-To: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Alexandru Ardelean
-	<alexandru.ardelean@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>, "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Janani Sunil
-	<janani.sunil@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766158278; l=16256;
- i=janani.sunil@analog.com; h=from:subject:message-id;
- bh=HLfmjfSksFXOiFK7tzDolD0RnFJGx+FPYSQzaKAdP6s=;
- b=+87hU/725Y8pc9D3uC/IXZDFI6uVr6+8girsGFc39zZ/EC0zZMBtXKHl/lOXCOBWcMfRFUsGb
- 0GV/XnoAJwQAXLC9zZDTOdpYJb3zbIVNUajew2VRK0BMON+GKO+6Ex5
-X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
- pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Authority-Analysis: v=2.4 cv=LtafC3dc c=1 sm=1 tr=0 ts=69456fd9 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gAnH3GRIAAAA:8 a=m_tgWmm3jMfkRiQ7QVwA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: MDOk6NDtStZfSYMabAWBtLAfaZ0g4PmQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE5MDEzMCBTYWx0ZWRfX25KK95HYcaON
- 9j/qc5R0wBU3MIu4JofvE17IlmOLf9IgxCcooXZIir5V098Xumit6yqJHbH/IPUuFT0SKh+JK1I
- zS38N9gsS91YGRpRRXc3SWpAQWfOxCBcjxx94kQuPzEXd2WqOgrW3cWIzVsijTX4YBDmJf+CpZG
- t/qVo35Ob7bH3FCVCz0X68gM/MkNFpMM4851Gbn+90HWDz3ht9miAMIDPM0lKxLZ1HCHnYJXsbs
- vmLO9zVgF33bvRon0jhX1gLJmqqdjKMjjNLIunqel99/mW8BzAySSxa0DFxPz13jJKoQdqt0w3S
- j0OlFaMvgBJ45hk1ipRUgQUauuFBjzQegU3WbwV7feQW1HA/nFfcHnEiOK+1mep/TxoPvLFN4gW
- 5keq9Xm1sbQxDpjwEr+62d37sWeheFbOvgyPiV1/CGTVFtf/HlNoXaKBeJ8bKqfzzG8JMQext16
- aDYQGLRlFSS/DB6dOLw==
-X-Proofpoint-GUID: MDOk6NDtStZfSYMabAWBtLAfaZ0g4PmQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-19_05,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 impostorscore=0 clxscore=1011 spamscore=0
- suspectscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512190130
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.322.g1dd061c0dc-goog
+Message-ID: <20251219154418.3592607-1-elver@google.com>
+Subject: [PATCH v5 00/36] Compiler-Based Context- and Locking-Analysis
+From: Marco Elver <elver@google.com>
+To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>, 
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
+	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Add support for the MAX22007 4 channel DAC
-that drives a voltage or current output on each channel.
+Context Analysis is a language extension, which enables statically
+checking that required contexts are active (or inactive) by acquiring
+and releasing user-definable "context locks". An obvious application is
+lock-safety checking for the kernel's various synchronization primitives
+(each of which represents a "context lock"), and checking that locking
+rules are not violated.
 
-Signed-off-by: Janani Sunil <janani.sunil@analog.com>
----
- MAINTAINERS                |   1 +
- drivers/iio/dac/Kconfig    |  13 ++
- drivers/iio/dac/Makefile   |   1 +
- drivers/iio/dac/max22007.c | 487 +++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 502 insertions(+)
+The feature requires Clang 22 (unreleased) or later. Clang originally
+called the feature "Thread Safety Analysis" [1]. This was later changed
+and the feature became more flexible, gaining the ability to define
+custom "capabilities". Its foundations can be found in "Capability
+Systems" [2], used to specify the permissibility of operations to depend
+on some "capability" being held (or not held).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6561455732c9..7efd5cf98023 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1600,6 +1600,7 @@ S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
- F:	Documentation/iio/max22007.rst
-+F:	drivers/iio/dac/max22007.c
- 
- ANALOG DEVICES INC ADA4250 DRIVER
- M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
-diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
-index 7cd3caec1262..4a31993f5b14 100644
---- a/drivers/iio/dac/Kconfig
-+++ b/drivers/iio/dac/Kconfig
-@@ -482,6 +482,19 @@ config MAX517
- 	  This driver can also be built as a module.  If so, the module
- 	  will be called max517.
- 
-+config MAX22007
-+	tristate "Analog Devices MAX22007 DAC Driver"
-+	depends on SPI
-+	select REGMAP_SPI
-+	select CRC8
-+	help
-+	  Say Y here if you want to build a driver for Analog Devices MAX22007.
-+
-+	  MAX22007 is a quad-channel, 12-bit, voltage-output digital to
-+	  analog converter (DAC) with SPI interface.
-+
-+	  If compiled as a module, it will be called max22007.
-+
- config MAX5522
- 	tristate "Maxim MAX5522 DAC driver"
- 	depends on SPI_MASTER
-diff --git a/drivers/iio/dac/Makefile b/drivers/iio/dac/Makefile
-index e6ac4c67e337..0bbc6d09d22c 100644
---- a/drivers/iio/dac/Makefile
-+++ b/drivers/iio/dac/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_LTC2664) += ltc2664.o
- obj-$(CONFIG_LTC2688) += ltc2688.o
- obj-$(CONFIG_M62332) += m62332.o
- obj-$(CONFIG_MAX517) += max517.o
-+obj-$(CONFIG_MAX22007) += max22007.o
- obj-$(CONFIG_MAX5522) += max5522.o
- obj-$(CONFIG_MAX5821) += max5821.o
- obj-$(CONFIG_MCP4725) += mcp4725.o
-diff --git a/drivers/iio/dac/max22007.c b/drivers/iio/dac/max22007.c
-new file mode 100644
-index 000000000000..0d57fee27367
---- /dev/null
-+++ b/drivers/iio/dac/max22007.c
-@@ -0,0 +1,487 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * max22007.c - MAX22007 DAC driver
-+ *
-+ * Driver for Analog Devices MAX22007 Digital to Analog Converter.
-+ *
-+ * Copyright (c) 2025 Analog Devices Inc.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/crc8.h>
-+#include <linux/dev_printk.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/iio/iio.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+#include <linux/spi/spi.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
-+#include <linux/unaligned.h>
-+
-+#define MAX22007_NUM_CHANNELS				4
-+#define MAX22007_REV_ID_REG				0x00
-+#define MAX22007_STAT_INTR_REG				0x01
-+#define MAX22007_INTERRUPT_EN_REG			0x02
-+#define MAX22007_CONFIG_REG				0x03
-+#define MAX22007_CONTROL_REG				0x04
-+#define MAX22007_CHANNEL_MODE_REG			0x05
-+#define MAX22007_SOFT_RESET_REG				0x06
-+#define MAX22007_DAC_CHANNEL_REG(ch)			(0x07 + (ch))
-+#define MAX22007_GPIO_CTRL_REG				0x0B
-+#define MAX22007_GPIO_DATA_REG				0x0C
-+#define MAX22007_GPI_EDGE_INT_CTRL_REG			0x0D
-+#define MAX22007_GPI_INT_STATUS_REG			0x0E
-+
-+/* Channel mask definitions */
-+#define     MAX22007_CH_MODE_CH_MASK(channel)		BIT(12 + (channel))
-+#define     MAX22007_CH_PWR_CH_MASK(channel)		BIT(8 + (channel))
-+#define     MAX22007_DAC_LATCH_MODE_MASK(channel)	BIT(12 + (channel))
-+#define     MAX22007_LDAC_UPDATE_MASK(channel)		BIT(12 + (channel))
-+#define     MAX22007_SW_RST_MASK			BIT(8)
-+#define     MAX22007_SW_CLR_MASK			BIT(12)
-+#define     MAX22007_SOFT_RESET_BITS_MASK		(MAX22007_SW_RST_MASK | \
-+	    MAX22007_SW_CLR_MASK)
-+#define     MAX22007_DAC_DATA_MASK			GENMASK(15, 4)
-+#define     MAX22007_DAC_MAX_RAW			GENMASK(11, 0)
-+#define     MAX22007_CRC8_POLYNOMIAL			0x8C
-+#define     MAX22007_CRC_EN_MASK			BIT(0)
-+#define     MAX22007_RW_MASK				BIT(0)
-+#define     MAX22007_CRC_OVERHEAD			1
-+
-+/* Field value preparation macros with masking */
-+#define     MAX22007_CH_PWR_VAL(channel, val)	(((val) & 0x1) << (8 + (channel)))
-+#define     MAX22007_CH_MODE_VAL(channel, val)	(((val) & 0x1) << (12 + (channel)))
-+#define     MAX22007_DAC_LATCH_MODE_VAL(channel, val)	(((val) & 0x1) << (12 + (channel)))
-+
-+static u8 max22007_crc8_table[256];
-+
-+enum max22007_channel_mode {
-+	MAX22007_VOLTAGE_MODE,
-+	MAX22007_CURRENT_MODE
-+};
-+
-+enum max22007_channel_power {
-+	MAX22007_CH_POWER_OFF,
-+	MAX22007_CH_POWER_ON,
-+};
-+
-+struct max22007_state {
-+	struct spi_device *spi;
-+	struct regmap *regmap;
-+	struct iio_chan_spec *iio_chan;
-+	u8 tx_buf[4] __aligned(IIO_DMA_MINALIGN);
-+	u8 rx_buf[4];
-+};
-+
-+static int max22007_spi_read(void *context, const void *reg, size_t reg_size,
-+			     void *val, size_t val_size)
-+{
-+	struct max22007_state *st = context;
-+	u8 calculated_crc, received_crc;
-+	u8 crc_data[3];
-+	int ret;
-+	struct spi_transfer xfer = {
-+		.tx_buf = st->tx_buf,
-+		.rx_buf = st->rx_buf,
-+	};
-+
-+	xfer.len = reg_size + val_size + MAX22007_CRC_OVERHEAD;
-+
-+	memcpy(st->tx_buf, reg, reg_size);
-+
-+	ret = spi_sync_transfer(st->spi, &xfer, 1);
-+	if (ret) {
-+		dev_err(&st->spi->dev, "SPI transfer failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	crc_data[0] = st->tx_buf[0];
-+	crc_data[1] = st->rx_buf[1];
-+	crc_data[2] = st->rx_buf[2];
-+
-+	calculated_crc = crc8(max22007_crc8_table, crc_data, 3, 0x00);
-+	received_crc = st->rx_buf[3];
-+
-+	if (calculated_crc != received_crc) {
-+		dev_err(&st->spi->dev, "CRC mismatch on read register %02x:\n", *(u8 *)reg);
-+		return -EIO;
-+	}
-+
-+	/* Ignore the dummy byte 0 */
-+	memcpy(val, &st->rx_buf[1], val_size);
-+
-+	return 0;
-+}
-+
-+static int max22007_spi_write(void *context, const void *data, size_t count)
-+{
-+	struct max22007_state *st = context;
-+	struct spi_transfer xfer = {
-+		.tx_buf = st->tx_buf,
-+		.rx_buf = st->rx_buf,
-+	};
-+
-+	memset(st->tx_buf, 0, sizeof(st->tx_buf));
-+
-+	xfer.len = count + MAX22007_CRC_OVERHEAD;
-+
-+	memcpy(st->tx_buf, data, count);
-+	st->tx_buf[count] = crc8(max22007_crc8_table, st->tx_buf,
-+				 sizeof(st->tx_buf) - 1, 0x00);
-+
-+	return spi_sync_transfer(st->spi, &xfer, 1);
-+}
-+
-+static bool max22007_reg_readable(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case MAX22007_REV_ID_REG:
-+	case MAX22007_STAT_INTR_REG:
-+	case MAX22007_CONFIG_REG:
-+	case MAX22007_CONTROL_REG:
-+	case MAX22007_CHANNEL_MODE_REG:
-+	case MAX22007_SOFT_RESET_REG:
-+	case MAX22007_GPIO_CTRL_REG:
-+	case MAX22007_GPIO_DATA_REG:
-+	case MAX22007_GPI_EDGE_INT_CTRL_REG:
-+	case MAX22007_GPI_INT_STATUS_REG:
-+		return true;
-+	case MAX22007_DAC_CHANNEL_REG(0) ... MAX22007_DAC_CHANNEL_REG(MAX22007_NUM_CHANNELS - 1):
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool max22007_reg_writable(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case MAX22007_CONFIG_REG:
-+	case MAX22007_CONTROL_REG:
-+	case MAX22007_CHANNEL_MODE_REG:
-+	case MAX22007_SOFT_RESET_REG:
-+	case MAX22007_GPIO_CTRL_REG:
-+	case MAX22007_GPIO_DATA_REG:
-+	case MAX22007_GPI_EDGE_INT_CTRL_REG:
-+		return true;
-+	case MAX22007_DAC_CHANNEL_REG(0) ... MAX22007_DAC_CHANNEL_REG(MAX22007_NUM_CHANNELS - 1):
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_bus max22007_regmap_bus = {
-+	.read = max22007_spi_read,
-+	.write = max22007_spi_write,
-+	.read_flag_mask = MAX22007_RW_MASK,
-+	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
-+	.val_format_endian_default = REGMAP_ENDIAN_BIG,
-+};
-+
-+static const struct regmap_config max22007_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 16,
-+	.reg_shift = -1,
-+	.readable_reg = max22007_reg_readable,
-+	.writeable_reg = max22007_reg_writable,
-+	.max_register = 0x0E,
-+};
-+
-+static int max22007_write_channel_data(struct max22007_state *state, unsigned int channel,
-+				       unsigned int data)
-+{
-+	unsigned int reg_val;
-+
-+	if (data > MAX22007_DAC_MAX_RAW)
-+		return -EINVAL;
-+
-+	reg_val = FIELD_PREP(MAX22007_DAC_DATA_MASK, data);
-+
-+	return regmap_write(state->regmap, MAX22007_DAC_CHANNEL_REG(channel), reg_val);
-+}
-+
-+static int max22007_read_channel_data(struct max22007_state *state, unsigned int channel,
-+				      int *data)
-+{
-+	int ret;
-+	unsigned int reg_val;
-+
-+	ret = regmap_read(state->regmap, MAX22007_DAC_CHANNEL_REG(channel), &reg_val);
-+	if (ret)
-+		return ret;
-+
-+	*data = FIELD_GET(MAX22007_DAC_DATA_MASK, reg_val);
-+
-+	return 0;
-+}
-+
-+static int max22007_read_raw(struct iio_dev *indio_dev,
-+			     struct iio_chan_spec const *chan,
-+			     int *val, int *val2, long mask)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+	int ret;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		ret = max22007_read_channel_data(st, chan->channel, val);
-+		if (ret)
-+			return ret;
-+		return IIO_VAL_INT;
-+	case IIO_CHAN_INFO_SCALE:
-+		if (chan->type == IIO_VOLTAGE) {
-+			*val = 5 * 2500;  /* 5 * Vref(2.5V) in mV */
-+			*val2 = 12;  /* 12-bit DAC resolution (2^12) */
-+		} else {
-+			*val = 25;  /* Vref / (2 * Rsense) = 2500mV / 100 */
-+			*val2 = 12;  /* 12-bit DAC resolution (2^12) */
-+		}
-+		return IIO_VAL_FRACTIONAL_LOG2;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int max22007_write_raw(struct iio_dev *indio_dev,
-+			      struct iio_chan_spec const *chan,
-+			      int val, int val2, long mask)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		return max22007_write_channel_data(st, chan->channel, val);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct iio_info max22007_info = {
-+	.read_raw = max22007_read_raw,
-+	.write_raw = max22007_write_raw,
-+};
-+
-+static ssize_t max22007_read_dac_powerdown(struct iio_dev *indio_dev,
-+					   uintptr_t private,
-+					   const struct iio_chan_spec *chan,
-+					   char *buf)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+	unsigned int reg_val;
-+	bool powerdown;
-+	int ret;
-+
-+	ret = regmap_read(st->regmap, MAX22007_CHANNEL_MODE_REG, &reg_val);
-+	if (ret)
-+		return ret;
-+
-+	powerdown = !(reg_val & MAX22007_CH_PWR_CH_MASK(chan->channel));
-+
-+	return sysfs_emit(buf, "%d\n", powerdown);
-+}
-+
-+static ssize_t max22007_write_dac_powerdown(struct iio_dev *indio_dev,
-+					    uintptr_t private,
-+					    const struct iio_chan_spec *chan,
-+					    const char *buf, size_t len)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+	bool powerdown;
-+	int ret;
-+
-+	ret = kstrtobool(buf, &powerdown);
-+	if (ret)
-+		return ret;
-+
-+	if (powerdown)
-+		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-+					 MAX22007_CH_PWR_CH_MASK(chan->channel),
-+					 MAX22007_CH_PWR_VAL(chan->channel, MAX22007_CH_POWER_OFF));
-+	else
-+		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-+					 MAX22007_CH_PWR_CH_MASK(chan->channel),
-+					 MAX22007_CH_PWR_VAL(chan->channel, MAX22007_CH_POWER_ON));
-+	if (ret)
-+		return ret;
-+
-+	return len;
-+}
-+
-+static const struct iio_chan_spec_ext_info max22007_ext_info[] = {
-+	{
-+		.name = "powerdown",
-+		.read = max22007_read_dac_powerdown,
-+		.write = max22007_write_dac_powerdown,
-+		.shared = IIO_SEPARATE,
-+	},
-+	{ },
-+};
-+
-+static const struct iio_chan_spec max22007_channel_template = {
-+	.output = 1,
-+	.indexed = 1,
-+	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE),
-+	.ext_info = max22007_ext_info,
-+};
-+
-+static int max22007_parse_channel_cfg(struct max22007_state *st, u8 *num_channels)
-+{
-+	struct device *dev = &st->spi->dev;
-+	struct iio_chan_spec *iio_chan;
-+	int ret, num_chan = 0, i = 0;
-+	u32 reg;
-+
-+	num_chan = device_get_child_node_count(dev);
-+	if (!num_chan)
-+		return dev_err_probe(dev, -ENODEV, "no channels configured\n");
-+
-+	st->iio_chan = devm_kcalloc(dev, num_chan, sizeof(*st->iio_chan), GFP_KERNEL);
-+	if (!st->iio_chan)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node_scoped(dev, child) {
-+		const char *channel_type_str;
-+		enum max22007_channel_mode mode;
-+
-+		ret = fwnode_property_read_u32(child, "reg", &reg);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to read reg property of %pfwP\n", child);
-+
-+		if (reg >= MAX22007_NUM_CHANNELS)
-+			return dev_err_probe(dev, -EINVAL,
-+					     "reg out of range in %pfwP\n", child);
-+
-+		iio_chan = &st->iio_chan[i];
-+
-+		*iio_chan = max22007_channel_template;
-+		iio_chan->channel = reg;
-+
-+		ret = fwnode_property_read_string(child, "adi,type", &channel_type_str);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "missing adi,type property for %pfwP\n", child);
-+
-+		if (strcmp(channel_type_str, "current") == 0) {
-+			mode = MAX22007_CURRENT_MODE;
-+			iio_chan->type = IIO_CURRENT;
-+		} else if (strcmp(channel_type_str, "voltage") == 0) {
-+			mode = MAX22007_VOLTAGE_MODE;
-+			iio_chan->type = IIO_VOLTAGE;
-+		} else {
-+			return dev_err_probe(dev, -EINVAL,
-+					     "invalid adi,type '%s' for %pfwP\n",
-+					     channel_type_str, child);
-+		}
-+
-+		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-+					 MAX22007_CH_MODE_CH_MASK(reg),
-+					 MAX22007_CH_MODE_VAL(reg, mode));
-+		if (ret)
-+			return ret;
-+
-+		/* Set DAC to transparent mode (immediate update) */
-+		ret = regmap_update_bits(st->regmap, MAX22007_CONFIG_REG,
-+					 MAX22007_DAC_LATCH_MODE_MASK(reg),
-+					 MAX22007_DAC_LATCH_MODE_VAL(reg, 1));
-+		if (ret)
-+			return ret;
-+
-+		i++;
-+	}
-+
-+	*num_channels = num_chan;
-+
-+	return 0;
-+}
-+
-+static int max22007_probe(struct spi_device *spi)
-+{
-+	struct iio_dev *indio_dev;
-+	struct max22007_state *state;
-+	struct gpio_desc *reset_gpio;
-+	u8 num_channels;
-+	int ret;
-+
-+	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*state));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	state = iio_priv(indio_dev);
-+	state->spi = spi;
-+
-+	crc8_populate_lsb(max22007_crc8_table, MAX22007_CRC8_POLYNOMIAL);
-+
-+	state->regmap = devm_regmap_init(&spi->dev, &max22007_regmap_bus, state,
-+					 &max22007_regmap_config);
-+	if (IS_ERR(state->regmap))
-+		return dev_err_probe(&spi->dev, PTR_ERR(state->regmap),
-+				     "Failed to initialize regmap\n");
-+
-+	reset_gpio = devm_gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(reset_gpio))
-+		return dev_err_probe(&spi->dev, PTR_ERR(reset_gpio),
-+				     "Failed to get reset GPIO\n");
-+
-+	if (reset_gpio) {
-+		gpiod_set_value_cansleep(reset_gpio, 0);
-+	} else {
-+		ret = regmap_write(state->regmap, MAX22007_SOFT_RESET_REG,
-+				   MAX22007_SOFT_RESET_BITS_MASK);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = regmap_update_bits(state->regmap, MAX22007_CONFIG_REG,
-+				 MAX22007_CRC_EN_MASK,
-+				 MAX22007_CRC_EN_MASK);
-+	if (ret)
-+		return ret;
-+
-+	ret = max22007_parse_channel_cfg(state, &num_channels);
-+	if (ret)
-+		return ret;
-+
-+	indio_dev->info = &max22007_info;
-+	indio_dev->modes = INDIO_DIRECT_MODE;
-+	indio_dev->channels = state->iio_chan;
-+	indio_dev->num_channels = num_channels;
-+	indio_dev->name = "max22007";
-+
-+	return devm_iio_device_register(&spi->dev, indio_dev);
-+}
-+
-+static const struct spi_device_id max22007_id[] = {
-+	{ "max22007" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, max22007_id);
-+
-+static const struct of_device_id max22007_of_match[] = {
-+	{ .compatible = "adi,max22007" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, max22007_of_match);
-+
-+static struct spi_driver max22007_driver = {
-+	.driver = {
-+		.name = "max22007",
-+		.of_match_table = max22007_of_match,
-+	},
-+	.probe = max22007_probe,
-+	.id_table = max22007_id,
-+};
-+module_spi_driver(max22007_driver);
-+
-+MODULE_AUTHOR("Janani Sunil <janani.sunil@analog.com>");
-+MODULE_DESCRIPTION("Analog Devices MAX22007 DAC");
-+MODULE_LICENSE("GPL");
+Because the feature is not just able to express "capabilities" related
+to synchronization primitives, and "capability" is already overloaded in
+the kernel, the naming chosen for the kernel departs from Clang's
+"Thread Safety" and "capability" nomenclature; we refer to the feature
+as "Context Analysis" to avoid confusion. The internal implementation
+still makes references to Clang's terminology in a few places, such as
+`-Wthread-safety` being the warning option that also still appears in
+diagnostic messages.
+
+Additional details can be found in the added kernel-doc documentation.
+An LWN article covered v2 of the series: https://lwn.net/Articles/1012990/
+
+ [1] https://clang.llvm.org/docs/ThreadSafetyAnalysis.html
+ [2] https://www.cs.cornell.edu/talc/papers/capabilities.pdf
+
+=== Design ===
+
+Prior art exists in the form of Sparse's Context Tracking. Locking
+annotations on functions already exist sparsely, so the concept of
+analyzing locking rules is not foreign to the kernel's codebase.
+
+However, Clang's analysis is more complete vs. Sparse's, with the
+typical trade-offs in static analysis: improved completeness is
+sacrificed for more possible false positives or additional annotations
+required by the programmer. Numerous options exist to disable or opt out
+certain code from analysis.
+
+This series initially aimed to retain compatibility with Sparse, which
+can provide tree-wide analysis of a subset of the context analysis
+introduced, but it was later decided to drop Sparse compatibility. For
+the most part, the new (and old) keywords used for annotations remain
+the same, and many of the pre-existing annotations remain valid.
+
+One big question is how to enable this feature, given we end up with a
+new dialect of C; two approaches have been considered:
+
+  A. Tree-wide all-or-nothing approach. This approach requires tree-wide
+     changes, adding annotations or selective opt-outs. Making more
+     primitives context-analysis aware increases churn where maintainers
+     are unfamiliar with the feature and the analysis is unable to deal
+     with complex code patterns as-is.
+
+Because we can't change the programming language (even if from one C
+dialect to another) of the kernel overnight, a different approach might
+cause less friction.
+
+  B. A selective, incremental, and much less intrusive approach.
+     Maintainers of subsystems opt in their modules or directories into
+     context analysis (via Makefile):
+
+       CONTEXT_ANALYSIS_foo.o := y	# foo.o only
+       CONTEXT_ANALYSIS := y  		# all TUs
+
+     Most (eventually all) synchronization primitives, and more
+     context locks including ones that track "irq disabled",
+     "preemption" disabled, etc. could be supported.
+
+The approach taken by this series is B. This ensures that only
+subsystems where maintainers are willing to deal with any warnings are
+opted-in. Introducing the feature can be done incrementally, without
+large tree-wide changes and adding numerous opt-outs and annotations to
+the majority of code.
+
+  Note: Bart Van Assche concurrently worked on enabling -Wthread-safety:
+  https://lore.kernel.org/all/20250206175114.1974171-1-bvanassche@acm.org/
+  Bart's work has shown what it might take to go with approach A
+  (tree-wide, restricted to 'mutex' usage). This has shown that the
+  analysis finds real issues when applied to enough subsystems!  We hope
+  this serves as motivation to eventually enable the analysis in as many
+  subsystems as possible, particularly subsystems that are not as easily
+  tested by CI systems and test robots.
+
+=== Initial Uses ===
+
+With this initial series, the following synchronization primitives are
+supported: `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`,
+`seqlock_t`, `bit_spinlock`, RCU, SRCU (`srcu_struct`), `rw_semaphore`,
+`local_lock_t`, `ww_mutex`.
+
+To demonstrate use of the feature on real kernel code, the series also
+enables context analysis for the following subsystems:
+
+	* kernel/kcov
+	* kernel/kcsan
+	* kernel/sched/
+	* lib/rhashtable
+	* lib/stackdepot
+	* mm/kfence
+	* security/tomoyo
+    	* crypto/
+
+The initial benefits are static detection of violations of locking
+rules. As more context locks are supported, we would see more static
+checking beyond what regular C can provide, all while remaining easy
+(and quick) to use via the Clang compiler.
+
+  Note: The kernel already provides dynamic analysis tools Lockdep and
+  KCSAN for lock-safety checking and data-race detection respectively.
+  Unlike those, Clang's context analysis is a compile-time static
+  analysis with no runtime impact. The static analysis complements
+  existing dynamic analysis tools, as it may catch some issues before
+  even getting into a running kernel, but is *not* a replacement for
+  whole-kernel testing with the dynamic analysis tools enabled!
+
+=== Appendix ===
+
+A Clang version that supports `-Wthread-safety-pointer` and the new
+alias-analysis of context lock pointers is required (from this version
+onwards):
+
+	https://github.com/llvm/llvm-project/commit/7ccb5c08f0685d4787f12c3224a72f0650c5865e
+
+The minimum required release version will be Clang 22.
+
+This series is also available at this Git tree:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
+
+The feature itself is usable when all patches up to the "MAINTAINERS"
+patch are applied; the subsequent "enablement" patches are optional and
+could be applied by the respective maintainers to their own tree after
+the context analysis infrastructure is available.
+
+=== Changelog ===
+
+v5:
+
+  - Rename "context guard" -> "context lock".
+
+  - Rework cleanup.h support to properly release at scope guard end.
+
+  - Use new cleanup.h helpers to properly support scoped lock guards.
+
+  - Support new scoped_seqlock_read().
+
+  - Also remove include/linux/lockref.h's deprecated use of __cond_lock().
+
+  - Fix invalid __releases/__acquires in um skas/mm_id.h header
+    (transitively included through mm_types.h which is included by
+    subsystems that may want to enable context analysis).
+
+  - Better document Clang's `assert_capability` attribute.
+
+  - Rebase on v6.19-rc1.
+
+v4: https://lore.kernel.org/all/20251120145835.3833031-2-elver@google.com/
+
+  - Rename capability -> context analysis, per Linus's suggestion:
+    https://lore.kernel.org/all/CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com/
+
+  - Minor fixes.
+
+v3: https://lore.kernel.org/all/20250918140451.1289454-1-elver@google.com/
+
+  - Bump min. Clang version to 22+ (unreleased), which now supports:
+
+	* re-entrancy via __attribute__((reentrant_capability));
+	* basic form of capability alias analysis - which is the
+	  biggest improvement since v2.
+
+    This was the result of conclusions from this discussion:
+    https://lore.kernel.org/all/CANpmjNPquO=W1JAh1FNQb8pMQjgeZAKCPQUAd7qUg=5pjJ6x=Q@mail.gmail.com/
+
+  - Rename __asserts_cap/__assert_cap to __assumes_cap/__assume_cap.
+
+  - Switch to DECLARE_LOCK_GUARD_1_ATTRS().
+
+  - Add __acquire_ret and __acquire_shared_ret helper macros - can be
+    used to define function-like macros that return objects which
+    contains a held capabilities. Works now because of capability alias
+    analysis.
+
+  - Add capability_unsafe_alias() helper, where the analysis rightfully
+    points out we're doing strange things with aliases but we don't
+    care.
+
+  - Support multi-argument attributes.
+
+  - Enable for kernel/sched/{core,fair}.c, kernel/kcsan.
+  - Drop drivers/tty changes (revisit later).
+
+v2: https://lore.kernel.org/all/20250304092417.2873893-1-elver@google.com/
+
+  - Remove Sparse context tracking support - after the introduction of
+    Clang support, so that backports can skip removal of Sparse support.
+
+  - Remove __cond_lock() function-like helper.
+
+  - ww_mutex support.
+
+  - -Wthread-safety-addressof was reworked and committed in upstream
+    Clang as -Wthread-safety-pointer.
+
+  - Make __cond_acquires() and __cond_acquires_shared() take abstract
+    value, since compiler only cares about zero and non-zero.
+
+  - Rename __var_guarded_by to simply __guarded_by. Initially the idea
+    was to be explicit about if the variable itself or the pointed-to
+    data is guarded, but in the long-term, making this shorter might be
+    better.
+
+  - Likewise rename __ref_guarded_by to __pt_guarded_by.
+
+  - Introduce common header warning suppressions - this is a better
+    solution than guarding header inclusions with disable_ +
+    enable_capability_analysis(). Header suppressions are disabled when
+    selecting CONFIG_WARN_CAPABILITY_ANALYSIS_ALL=y. This bumps the
+    minimum Clang version required to 20+.
+
+  - Make the data_race() macro imply disabled capability analysis.
+    Writing capability_unsafe(data_race(..)) is unnecessarily verbose
+    and data_race() on its own already indicates something subtly unsafe
+    is happening.  This change was made after analysis of a finding in
+    security/tomoyo.
+
+  - Enable analysis in the following subsystems as additional examples
+    of larger subsystem. Where it was obvious, the __guarded_by
+    attribute was added to lock-guarded variables to improve coverage.
+
+    	* drivers/tty
+	* security/tomoyo
+    	* crypto/
+
+RFC v1: https://lore.kernel.org/lkml/20250206181711.1902989-1-elver@google.com
+
+Marco Elver (36):
+  compiler_types: Move lock checking attributes to
+    compiler-context-analysis.h
+  compiler-context-analysis: Add infrastructure for Context Analysis
+    with Clang
+  compiler-context-analysis: Add test stub
+  Documentation: Add documentation for Compiler-Based Context Analysis
+  checkpatch: Warn about context_unsafe() without comment
+  cleanup: Basic compatibility with context analysis
+  lockdep: Annotate lockdep assertions for context analysis
+  locking/rwlock, spinlock: Support Clang's context analysis
+  compiler-context-analysis: Change __cond_acquires to take return value
+  locking/mutex: Support Clang's context analysis
+  locking/seqlock: Support Clang's context analysis
+  bit_spinlock: Include missing <asm/processor.h>
+  bit_spinlock: Support Clang's context analysis
+  rcu: Support Clang's context analysis
+  srcu: Support Clang's context analysis
+  kref: Add context-analysis annotations
+  locking/rwsem: Support Clang's context analysis
+  locking/local_lock: Include missing headers
+  locking/local_lock: Support Clang's context analysis
+  locking/ww_mutex: Support Clang's context analysis
+  debugfs: Make debugfs_cancellation a context lock struct
+  um: Fix incorrect __acquires/__releases annotations
+  compiler-context-analysis: Remove Sparse support
+  compiler-context-analysis: Remove __cond_lock() function-like helper
+  compiler-context-analysis: Introduce header suppressions
+  compiler: Let data_race() imply disabled context analysis
+  MAINTAINERS: Add entry for Context Analysis
+  kfence: Enable context analysis
+  kcov: Enable context analysis
+  kcsan: Enable context analysis
+  stackdepot: Enable context analysis
+  rhashtable: Enable context analysis
+  printk: Move locking annotation to printk.c
+  security/tomoyo: Enable context analysis
+  crypto: Enable context analysis
+  sched: Enable context analysis for core.c and fair.c
+
+ Documentation/dev-tools/context-analysis.rst  | 145 +++++
+ Documentation/dev-tools/index.rst             |   1 +
+ Documentation/dev-tools/sparse.rst            |  19 -
+ Documentation/mm/process_addrs.rst            |   6 +-
+ MAINTAINERS                                   |  11 +
+ Makefile                                      |   1 +
+ arch/um/include/shared/skas/mm_id.h           |   5 +-
+ arch/um/kernel/skas/mmu.c                     |  13 +-
+ crypto/Makefile                               |   2 +
+ crypto/acompress.c                            |   6 +-
+ crypto/algapi.c                               |   2 +
+ crypto/api.c                                  |   1 +
+ crypto/crypto_engine.c                        |   2 +-
+ crypto/drbg.c                                 |   5 +
+ crypto/internal.h                             |   2 +-
+ crypto/proc.c                                 |   3 +
+ crypto/scompress.c                            |  24 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.c    |   4 +-
+ .../net/wireless/intel/iwlwifi/iwl-trans.h    |   6 +-
+ .../intel/iwlwifi/pcie/gen1_2/internal.h      |   5 +-
+ .../intel/iwlwifi/pcie/gen1_2/trans.c         |   4 +-
+ fs/dlm/lock.c                                 |   2 +-
+ include/crypto/internal/acompress.h           |   7 +-
+ include/crypto/internal/engine.h              |   2 +-
+ include/linux/bit_spinlock.h                  |  24 +-
+ include/linux/cleanup.h                       |  50 ++
+ include/linux/compiler-context-analysis.h     | 441 +++++++++++++
+ include/linux/compiler.h                      |   2 +
+ include/linux/compiler_types.h                |  18 +-
+ include/linux/console.h                       |   4 +-
+ include/linux/debugfs.h                       |  12 +-
+ include/linux/kref.h                          |   2 +
+ include/linux/list_bl.h                       |   2 +
+ include/linux/local_lock.h                    |  51 +-
+ include/linux/local_lock_internal.h           |  73 ++-
+ include/linux/lockdep.h                       |  12 +-
+ include/linux/lockref.h                       |   4 +-
+ include/linux/mm.h                            |  33 +-
+ include/linux/mutex.h                         |  38 +-
+ include/linux/mutex_types.h                   |   4 +-
+ include/linux/rcupdate.h                      |  90 +--
+ include/linux/refcount.h                      |   6 +-
+ include/linux/rhashtable.h                    |  16 +-
+ include/linux/rwlock.h                        |  22 +-
+ include/linux/rwlock_api_smp.h                |  43 +-
+ include/linux/rwlock_rt.h                     |  44 +-
+ include/linux/rwlock_types.h                  |  10 +-
+ include/linux/rwsem.h                         |  76 ++-
+ include/linux/sched.h                         |   6 +-
+ include/linux/sched/signal.h                  |  16 +-
+ include/linux/sched/task.h                    |   6 +-
+ include/linux/sched/wake_q.h                  |   3 +
+ include/linux/seqlock.h                       |  38 +-
+ include/linux/seqlock_types.h                 |   5 +-
+ include/linux/spinlock.h                      | 112 +++-
+ include/linux/spinlock_api_smp.h              |  34 +-
+ include/linux/spinlock_api_up.h               | 112 +++-
+ include/linux/spinlock_rt.h                   |  37 +-
+ include/linux/spinlock_types.h                |  10 +-
+ include/linux/spinlock_types_raw.h            |   5 +-
+ include/linux/srcu.h                          |  73 ++-
+ include/linux/srcutiny.h                      |   6 +
+ include/linux/srcutree.h                      |  10 +-
+ include/linux/ww_mutex.h                      |  22 +-
+ kernel/Makefile                               |   2 +
+ kernel/kcov.c                                 |  36 +-
+ kernel/kcsan/Makefile                         |   2 +
+ kernel/kcsan/report.c                         |  11 +-
+ kernel/printk/printk.c                        |   2 +
+ kernel/sched/Makefile                         |   3 +
+ kernel/sched/core.c                           |  89 ++-
+ kernel/sched/fair.c                           |   7 +-
+ kernel/sched/sched.h                          | 126 +++-
+ kernel/signal.c                               |   4 +-
+ kernel/time/posix-timers.c                    |  13 +-
+ lib/Kconfig.debug                             |  44 ++
+ lib/Makefile                                  |   6 +
+ lib/dec_and_lock.c                            |   8 +-
+ lib/lockref.c                                 |   1 -
+ lib/rhashtable.c                              |   5 +-
+ lib/stackdepot.c                              |  20 +-
+ lib/test_context-analysis.c                   | 604 ++++++++++++++++++
+ mm/kfence/Makefile                            |   2 +
+ mm/kfence/core.c                              |  20 +-
+ mm/kfence/kfence.h                            |  14 +-
+ mm/kfence/report.c                            |   4 +-
+ mm/memory.c                                   |   4 +-
+ mm/pgtable-generic.c                          |  19 +-
+ net/ipv4/tcp_sigpool.c                        |   2 +-
+ scripts/Makefile.context-analysis             |  11 +
+ scripts/Makefile.lib                          |  10 +
+ scripts/checkpatch.pl                         |   7 +
+ scripts/context-analysis-suppression.txt      |  33 +
+ security/tomoyo/Makefile                      |   2 +
+ security/tomoyo/common.c                      |  52 +-
+ security/tomoyo/common.h                      |  77 +--
+ security/tomoyo/domain.c                      |   1 +
+ security/tomoyo/environ.c                     |   1 +
+ security/tomoyo/file.c                        |   5 +
+ security/tomoyo/gc.c                          |  28 +-
+ security/tomoyo/mount.c                       |   2 +
+ security/tomoyo/network.c                     |   3 +
+ tools/include/linux/compiler_types.h          |   2 -
+ 103 files changed, 2523 insertions(+), 609 deletions(-)
+ create mode 100644 Documentation/dev-tools/context-analysis.rst
+ create mode 100644 include/linux/compiler-context-analysis.h
+ create mode 100644 lib/test_context-analysis.c
+ create mode 100644 scripts/Makefile.context-analysis
+ create mode 100644 scripts/context-analysis-suppression.txt
 
 -- 
-2.43.0
-
+2.52.0.322.g1dd061c0dc-goog
