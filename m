@@ -1,138 +1,115 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5CA1E1DE5
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 06:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77892E613A;
+	Fri, 19 Dec 2025 08:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766127248; cv=none; b=FdXt7VqtgWcKP6jI92db4Oo4PkocyQRD5i0PgGRwFmKBRhX6p9Y5MzgpDxqufNBTKPjubUHVmgHmnXO5JHLtb0qbgyuAjA0V7Hr5HR9g/7V+me5+hdx2defxcqHjt4TBR62e7LibDcV56Xbk8eH/WB9BgDlCN/Co2AXCaez2H+o=
+	t=1766131998; cv=none; b=ZqDiu1YL7b/shFJ7CWMqUv0ZMjCa6YN17Cjans1z2KeZF5ODZOPahzjQm7CsnTtIfeYYmdJ2k2wn2vZnC9VBIYdftRSs2/8J3GneLWBeh1LJJNvb969VJfkYwybFaXEkr2PIqDRY/GxV1XOGrUNe6LNLncXTuDfvd0qYlDqbRuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766127248; c=relaxed/simple;
-	bh=OhXDT/gdHwYNhVmM3aPEZp+jo4HhjFTIZFLPnMw3sLc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rRIcwsBmORtc9+3u/9fFw+4u0Ui3Um4HsAyScYNbz2wyJkN7J6BLSfHMY6ahRKY8LTDccveoci67FdhYCi0rRgloOyX9k8sinPmXQySbBu9TnKQ8x4xiNUJ98eTUOVXecPVFSBAV2D4v7w4lOwzWWBt4ao8CgQ7J6OOm2yaCRWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=KJ/rjuzS; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1766131998; c=relaxed/simple;
+	bh=r0gi6Pa7RYkDOmLxwP7sAf14xxMtRN2sCVwGszpsTD8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=sv5aNjHXIPmVCsc9/kWOAikp0AepMyHX2x+hLywCupHFsEhEmZxCsZG4hj5R8JIvhOq9oNLgxD7ddi0Sn21KS6MFCaOaMxb0oxZk46gq5ip57IJirWPmeKnRmtQ2A2ozLNcKLC5/hTdUhh1o5QyscTv2jB9lLKAw6jV449mlV9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpE0mTgP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="KJ/rjuzS"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64b4f730a02so2093965a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Dec 2025 22:54:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1766127245; x=1766732045; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9xPgikAmC9i7Nsw/6vUb2OZB8xX6nsoxbg7H2rqfFGg=;
-        b=KJ/rjuzSPAL1LbeVazvBc7QuSPfF1ExC8inscYTYJNe43oaLeVZxj9CN5ZYY45xZ43
-         bbXlQtpIaXL7zJWUDuKCSmcg8ARJ12ZA4ijNgp5sNDCHqRr4mj6Dl0VuEvfl/C6IO1Yy
-         SNC7uEiulGeidSUiVQ8GiXwj4st2e3+NTz7zP9YfN39Ilw9BSWMHkGaHxt+VPQmOyn9v
-         yaMOcNEVZKiR8l0nvnvxjv4zCu1fqghz0KtYnc5/5cohDWZwRmDI/KDs0+L73NGu3fG/
-         17BEfspj9FOkEY8aOfETVIDvM9FcgZU3gUlv1/SpkpP2PAqBkB+Ud8URmQNIBvW99V1S
-         tfHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766127245; x=1766732045;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9xPgikAmC9i7Nsw/6vUb2OZB8xX6nsoxbg7H2rqfFGg=;
-        b=bgRIFMJzutB7mn1q42pk0q3gVfMVzHPmiuBZE7tegC/6sfrQZsKyhW5NAEN4NLIEi4
-         2Yyle9eMchHkxPJ0/lnTeNP8sNBcdfkO0Lz4YJjaKEvanSrOIIT0icY920XAi/239nhr
-         WxAg9FqJY2Sty/G1YaCcb7a00xcdati6OHHQw8qSIwRwIwNwEodfc6JV43r16X/356Un
-         lmNSE83RbXWzwesjChp0yOIzs3sdG43NTyJEUAhaiO0yUqBuu2QGJblGgi8t3R35n0dk
-         sntxR1sxGY92AP85OfB8EVrZR+Rc+U8LMCpddzQ/POmkgIb7WYRuJyoC2Zkz7VlCn9Xj
-         iyuA==
-X-Forwarded-Encrypted: i=1; AJvYcCXaAkjyVIlJI7ok4E91jJOwOgxJsB40AwOIIr9t5Fi4g4Z/jXz/OCDWpJFbiSBi6Ddj15hTeWNCQwQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFiGG3+FzKKc++S5dCokwsOy6VS58b51odoEYXt0ierP9SVSRR
-	j+fQ3HimT8X7z1KskB/MDeyqqcGM0hlXfZ+5cOZxOht8880rkYFghA+fEBQ+XLycJ+uLWXWYk6f
-	xhbHZNqfScNyGCJSQ+lZMV9jMc9+3WrbG4fQj8xhQaw==
-X-Gm-Gg: AY/fxX46wAMzPSSKvuOVeoe3z8XY1o7V/a0bK133UbRjf5PuL4wmZe0QJqK0NYBIC4s
-	YIRNapRFeZoKF8uVIqfqJZ7166UO64hlECxeKwbHuBm+jwgecWnrf3vcHwyatehbJ/76PFdKjkZ
-	BSD3qYdyqk2sFgwRPH0qtIMqKXMA8litt5cXvhjrovjIPf+5gsEC9wEzFJZTzvxeh/Cd3+cW02h
-	gQ7ibrUjguYtCUL0SP3IGwvcvVlbL8klpDqOquwSfeDtd2LSCYovh1bhOHrXpCGPyJZV0S8u+VF
-	xl1Bt0jDFzW+kCaqLMiBAmAJ
-X-Google-Smtp-Source: AGHT+IHrr7hQ3L9AzJHAIVCcMTLwAuIUALeFI8OkI6T6XMYbQqiUt4uWpGU71bncz0pI6DpLPHJmKO73H1onEQqgyIs=
-X-Received: by 2002:a05:6402:1474:b0:64b:588b:4375 with SMTP id
- 4fb4d7f45d1cf-64b8eb62574mr1699136a12.2.1766127244662; Thu, 18 Dec 2025
- 22:54:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpE0mTgP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054CCC4CEF1;
+	Fri, 19 Dec 2025 08:13:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766131997;
+	bh=r0gi6Pa7RYkDOmLxwP7sAf14xxMtRN2sCVwGszpsTD8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=tpE0mTgPIT9GZb7i4tCzc+1kWFUUpEt3N8OCk8gahe8sUIZU+QM5VKaOKMnGm2HF7
+	 LE/93tXVAbbpEfMRCO0TA5nXQSDsvo+kGraLsLIeHAqpCQlvysfBn716wUVfKqjO4X
+	 VqKFhvtW0qFFn8sgJQjYrzL8IDZWQJ+mvYYRgGz0/UXcYHwV38MIeAx3hbgUvd3cD0
+	 yJuls34RHzicXsTGUSjz2orXhjV/biH+Nf5ualKn0NY0nt/cx0NSFzYWgM29o+PfuG
+	 UnDHj8988x5clcZ/qiKVhVZZlGMAcbfNq+L3bnWfkn+pUL5L1iWBR5SB1SgnwjOnGS
+	 JB+jew0Fkl5Og==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3BEA0380AA50;
+	Fri, 19 Dec 2025 08:10:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
- <20251218130725.1b93a521c039ce121de62472@linux-foundation.org> <aUT0sJsDWZHGT-Q9@kernel.org>
-In-Reply-To: <aUT0sJsDWZHGT-Q9@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 19 Dec 2025 15:53:28 +0900
-X-Gm-Features: AQt7F2qsC_Dg8UikLympbtL4IhWS-dbiSuY-RHAMjIQpkrLWg8l_6viyY9c8OTc
-Message-ID: <CA+CK2bDGzUrh6-hJMtZZ3rWLmvQYKa=WnXrwHK_tZEWgP1=n3w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] list private v2 & luo flb v9
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, pratyush@kernel.org, dmatlack@google.com, 
-	skhawaja@google.com, rientjes@google.com, corbet@lwn.net, kees@kernel.org, 
-	davidgow@google.com, pmladek@suse.com, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, nicolas.frattaroli@collabora.com, 
-	linux-doc@vger.kernel.org, tamird@gmail.com, raemoar63@gmail.com, 
-	graf@amazon.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v8 00/15] Consolidate iommu page table implementations
+ (AMD)
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <176613180577.3684357.2034328332423326144.git-patchwork-notify@kernel.org>
+Date: Fri, 19 Dec 2025 08:10:05 +0000
+References: <0-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
+In-Reply-To: <0-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-riscv@lists.infradead.org, alex@ghiti.fr, anup@brainfault.org,
+ aou@eecs.berkeley.edu, corbet@lwn.net, iommu@lists.linux.dev,
+ joro@8bytes.org, justinstitt@google.com, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com,
+ nathan@kernel.org, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org,
+ palmer@dabbelt.com, pjw@kernel.org, robin.murphy@arm.com, shuah@kernel.org,
+ suravee.suthikulpanit@amd.com, will@kernel.org, aik@amd.com,
+ alejandro.j.jimenez@oracle.com, jgowans@amazon.com, kevin.tian@intel.com,
+ michael.roth@amd.com, pasha.tatashin@soleen.com, patches@lists.linux.dev,
+ skhawaja@google.com, vasant.hegde@amd.com
 
-On Fri, Dec 19, 2025 at 3:46=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Thu, Dec 18, 2025 at 01:07:25PM -0800, Andrew Morton wrote:
-> > On Thu, 18 Dec 2025 10:57:47 -0500 Pasha Tatashin <pasha.tatashin@solee=
-n.com> wrote:
-> >
-> > > This series includes two separate workstreams. This is because FLB
-> > > should be applied on top of list_private, as it uses some of its
-> > > interfaces.
-> > >
-> > > 1. List private v2 (first 3 patches) Previous version:
-> > > https://lore.kernel.org/all/20251126185725.4164769-1-pasha.tatashin@s=
-oleen.com
-> > > For details, please read the cover letter from the previous submissio=
-n.
-> > >
-> > > v2 Changelog:
-> > > - Added a Reviewed-by from David Gow.
-> > >
-> > > 2. LUO FLB v9 (last 2 patches) Previous version:
-> > > https://lore.kernel.org/all/20251125225006.3722394-2-pasha.tatashin@s=
-oleen.com
-> >
-> > Please, no.
-> >
-> > This patch series is intended for the Linux kernel.  Your grandchildren
-> > will read the above wondering "what did granddad do".  It's just lazy
-> > for us to expect readers to have to chase down links to earlier
-> > versions and then to figure out what changed and why we changed it,
-> > etc, etc.
-> >
-> > Let's give our audience a nice, self-contained and complete description
-> > of the proposed changes which doesn't refer them to the minute details
-> > of the ongoing development process.  A process which is utterly
-> > uninteresting three years from now.
-> >
-> > IOW, can we please have a complete and standalone description of *this
-> > patchset* which doesn't refer to earlier obsolete stuff?
->
-> And I would even say this should be two patchsets, one with private list
-> and the other one with FLB.
+Hello:
 
-They are not bundled, I sent them together only because FLB was
-already in Andrew's tree, but it should be placed after private list
-(since private list patch series deletes the LUO private list iterator
-macro), now they are properly placed, and the private list can be
-merged before FLB.
+This series was applied to riscv/linux.git (fixes)
+by Joerg Roedel <joerg.roedel@amd.com>:
 
-Pasha
+On Tue,  4 Nov 2025 14:29:58 -0400 you wrote:
+> [Joerg, can you put this and vtd in linux-next please. The vtd series is still
+> good at v3 thanks]
+> 
+> Currently each of the iommu page table formats duplicates all of the logic
+> to maintain the page table and perform map/unmap/etc operations. There are
+> several different versions of the algorithms between all the different
+> formats. The io-pgtable system provides an interface to help isolate the
+> page table code from the iommu driver, but doesn't provide tools to
+> implement the common algorithms.
+> 
+> [...]
 
->
-> > Thanks.
->
-> --
-> Sincerely yours,
-> Mike.
+Here is the summary with links:
+  - [v8,01/15] genpt: Generic Page Table base API
+    https://git.kernel.org/riscv/c/7c5b184db714
+  - [v8,02/15] genpt: Add Documentation/ files
+    https://git.kernel.org/riscv/c/ab0b572847ac
+  - [v8,03/15] iommupt: Add the basic structure of the iommu implementation
+    https://git.kernel.org/riscv/c/cdb39d918579
+  - [v8,04/15] iommupt: Add the AMD IOMMU v1 page table format
+    https://git.kernel.org/riscv/c/879ced2bab1b
+  - [v8,05/15] iommupt: Add iova_to_phys op
+    https://git.kernel.org/riscv/c/9d4c274cd7d5
+  - [v8,06/15] iommupt: Add unmap_pages op
+    https://git.kernel.org/riscv/c/7c53f4238aa8
+  - [v8,07/15] iommupt: Add map_pages op
+    https://git.kernel.org/riscv/c/dcd6a011a8d5
+  - [v8,08/15] iommupt: Add read_and_clear_dirty op
+    https://git.kernel.org/riscv/c/4a00f9434891
+  - [v8,09/15] iommupt: Add a kunit test for Generic Page Table
+    https://git.kernel.org/riscv/c/1dd4187f53c3
+  - [v8,10/15] iommupt: Add a mock pagetable format for iommufd selftest to use
+    https://git.kernel.org/riscv/c/e5359dcc617a
+  - [v8,11/15] iommufd: Change the selftest to use iommupt instead of xarray
+    https://git.kernel.org/riscv/c/e93d5945ed5b
+  - [v8,12/15] iommupt: Add the x86 64 bit page table format
+    https://git.kernel.org/riscv/c/aef5de756ea8
+  - [v8,13/15] iommu/amd: Use the generic iommu page table
+    (no matching commit)
+  - [v8,14/15] iommu/amd: Remove AMD io_pgtable support
+    https://git.kernel.org/riscv/c/2fdf6db436e3
+  - [v8,15/15] iommupt: Add a kunit test for the IOMMU implementation
+    https://git.kernel.org/riscv/c/bc5233c0904e
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
