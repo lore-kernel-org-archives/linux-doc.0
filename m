@@ -1,128 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B48346A18;
-	Fri, 19 Dec 2025 12:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850F828726E;
+	Fri, 19 Dec 2025 13:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766147694; cv=none; b=dulf7qeGaHUpgxPQWjAJ8fpPxr1jdGoLVCc2Q41zKEpUMsmpP/fZpVH50FQS2NWnFGSz3bkb9VCwz7MCf1LqH9NogkUlcUFMEC00mQFABJFVToAvmI2+lbpkTaVfOZhedYhIZwW30eQIW3wMqkn2hjZTf4mR5b5xEm3fxkViFBw=
+	t=1766149215; cv=none; b=Q6uyxGsf5CVS3s3ykOFTzaOtOJTzYtJoy2x/Xs7RwamGqU45aQ7zNly1znd1DizjVLpt0q36B3U9m1L/JPG/YzfA8ocDxf5zI85YTPZS76aKnd/9wBM6mG/iR6a/AU2QJ+SKcVXA6z4bUoHFgo+IXnE7EWJzqmYDeSa8q4ivmCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766147694; c=relaxed/simple;
-	bh=fOzAHkxt5iinVm06DoISIgR3PqOmEltc+dyaPliZvww=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kOEoXNour6KYqz/8wJ4/fw7CJ7Rq41vDv6HeX4rQYh5T7MTGp1iJFABfCGtTztScbAMn68o2k/0jAwQWS6KFaAAIh3iGd2HCFVI+ayofjgp3wXczPTpIwiKZc8tjWBzuPLt8ohDMjuibo+ueu/isNSljI5DSDED7p9Tc1vLkhMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=teBvR8B7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766149215; c=relaxed/simple;
+	bh=E1H9BqH+g14za3jaZiHkm73npLmISjQWVm0QNQCmXXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFywHQcRK63p99yR98E/GM8Qy1LXKkEbIrykTLa6lpgDN8k7G17nhwYGWty5ANmywtHBd35hDjNu3H6lAGfCoc7grfOGfGccBfjLJ9SgMDoKbJ5MOvgMW+J1HCDMmWzdvFpWi59byHYru+fZ9ks6HZRqB70zrOZJQd433eHZuTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdDR0Iz2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="teBvR8B7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 08ED3C2BCB1;
-	Fri, 19 Dec 2025 12:34:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdDR0Iz2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C3BDC4CEF1;
+	Fri, 19 Dec 2025 13:00:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766147694;
-	bh=fOzAHkxt5iinVm06DoISIgR3PqOmEltc+dyaPliZvww=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=teBvR8B7UAfz22+Cnkv52nIeZ2mqh/xJCCwJyFI/tEeSoJZOkMOTd+iSJ5KRmxUi5
-	 cqu1e8GnNmu8DvTMatnx1TgaCd2NoLUF3h+XKv9Ip98L8U0plMrUN4mKvYzRgf8ysl
-	 Z8qR3UIN5A6LImgkFctiGkaRgjWbCjgk/WlEeU3xKvW7O126wkJrN28QvWvaNE++IR
-	 Nica6YKQpLjl9o+LskvoafwdXj/8mzLXZ5SVxnfRuXzf+kAWp/TUG9F+lmHk0wMJpc
-	 I15P0t8zTh38wHDreupTjVxCEicG1lVUiTH2BV7W1bCLXyvwVQeRH3VXkw77jkcrcE
-	 F7izyvaXOYEBQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F32DFD78769;
-	Fri, 19 Dec 2025 12:34:53 +0000 (UTC)
-From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Fri, 19 Dec 2025 12:34:53 +0000
-Subject: [PATCH v2 6/6] Documentation: ABI: testing: add support for
- ADF41513
+	s=k20201202; t=1766149214;
+	bh=E1H9BqH+g14za3jaZiHkm73npLmISjQWVm0QNQCmXXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qdDR0Iz28N5oUNg9bIT7XwJBY2IGAwSnpuHZ260vwBHj0jXvZwGQDC6H7g3scs+Y8
+	 Rw0OXzA/9ATIlHvHYioB0rP4eyrjmpzcoQeArJ0GnWZqqKhfuHCec6ceKKfH1Yoogv
+	 RwQMDXfLGMn3FMeryeJYuUKfEZuBSS5WcBK1HssLYjxSincWZ2wUfC9MuQ/lG1QYNO
+	 nLnCxOgSaRy52WiOHuQAcIuTjCALk2IfFEFpHD/kHkBM0lgvyxeG8+IPLioaS0U+EI
+	 BrU1f0D/Gs2K+kdDOfblvsg1G0f/AS56BKLvkxkPbL7P+XO/XBwK2PpjLx7prmWxue
+	 DbPh/7K3NNbZA==
+Date: Fri, 19 Dec 2025 13:00:08 +0000
+From: Will Deacon <will@kernel.org>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
+	tony.luck@intel.com, bp@alien8.de, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, catalin.marinas@arm.com,
+	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
+	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com
+Subject: Re: [PATCH 11/12] ras: add DeviceTree estatus provider driver
+Message-ID: <aUVMWMMmiG8_I2I2@willie-the-truck>
+References: <aUQbdZHkzumTnwVP@willie-the-truck>
+ <20251219090239.2692458-1-ahmed.tiba@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251219-adf41513-iio-driver-v2-6-be29a83d5793@analog.com>
-References: <20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com>
-In-Reply-To: <20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com>
-To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766147692; l=2353;
- i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=1MCQTuBKOvCkCb1guQDYrrs5FOybrR5OguIAEADSstQ=;
- b=zX4QIZP0+UKrF3EhmsaEgvJ+ku29ecs1Afhul5WA+1NSVinSR8fzUk+v/JjcoiJWKOrnVn10h
- x3AsagCyzkNB0F8aWFXZOghVDX6URAaVvjHkzeqnoL/fsMbTRi/X1/7
-X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
- pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
-X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
- with auth_id=561
-X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Reply-To: rodrigo.alencar@analog.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251219090239.2692458-1-ahmed.tiba@arm.com>
 
-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Fri, Dec 19, 2025 at 09:02:35AM +0000, Ahmed Tiba wrote:
+> On Thu, 18 Dec 2025 03:19:17PM +0000, Will Deacon wrote:
+> > On Thu, Dec 18, 2025 at 01:42:47PM +0000, Ahmed Tiba wrote:
+> >> On Thu, 18 Dec 2025 12:13:25PM +0000, Will Deacon wrote:
+> >> >> Introduce a platform driver that maps the CPER status block described
+> >> >> in DeviceTree, feeds it into the estatus core and handles either IRQ- or
+> >> >> poll-driven notifications. Arm64 gains a FIX_ESTATUS_IRQ slot so the
+> >> >> driver can safely map the shared buffer while copying records.
+> >> >>
+> >> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+> >> >> ---
+> >> >>  MAINTAINERS                     |   1 +
+> >> >>  arch/arm64/include/asm/fixmap.h |   5 +
+> >> >>  drivers/ras/Kconfig             |  14 ++
+> >> >>  drivers/ras/Makefile            |   1 +
+> >> >>  drivers/ras/estatus-dt.c        | 318 ++++++++++++++++++++++++++++++++
+> >> >>  include/linux/estatus.h         |   3 +-
+> >> >>  6 files changed, 341 insertions(+), 1 deletion(-)
+> >> >>  create mode 100644 drivers/ras/estatus-dt.c
+> >> >>
+> >> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> >> index 6b2ef2ddc0c7..5567d5e82053 100644
+> >> >> --- a/MAINTAINERS
+> >> >> +++ b/MAINTAINERS
+> >> >> @@ -21761,6 +21761,7 @@ RAS ERROR STATUS
+> >> >>  M:   Ahmed Tiba <ahmed.tiba@arm.com>
+> >> >>  S:   Maintained
+> >> >>  F:   Documentation/devicetree/bindings/ras/arm,ras-ffh.yaml
+> >> >> +F:   drivers/ras/estatus-dt.c
+> >> >>  F:   drivers/firmware/efi/estatus.c
+> >> >>  F:   include/linux/estatus.h
+> >> >>
+> >> >> diff --git a/arch/arm64/include/asm/fixmap.h b/arch/arm64/include/asm/fixmap.h
+> >> >> index 65555284446e..85ffba87bab9 100644
+> >> >> --- a/arch/arm64/include/asm/fixmap.h
+> >> >> +++ b/arch/arm64/include/asm/fixmap.h
+> >> >> @@ -64,6 +64,11 @@ enum fixed_addresses {
+> >> >>  #endif
+> >> >>  #endif /* CONFIG_ACPI_APEI_GHES */
+> >> >>
+> >> >> +#ifdef CONFIG_RAS_ESTATUS_DT
+> >> >> +     /* Used for ESTATUS mapping from assorted contexts */
+> >> >> +     FIX_ESTATUS_IRQ,
+> >> >> +#endif /* CONFIG_RAS_ESTATUS_DT */
+> >> >
+> >> > Why do we need this in addition to the four existing GHES slots? The DT
+> >> > code doesn't use it and I was assuming that the ACPI code would continue
+> >> > to use the existing irq; is that not the case?
+> >>
+> >>
+> >> We still need a dedicated slot when only the DT provider is built.
+> >> All four GHES slots are defined as part of the ACPI implementation,
+> >> so they are not present in a DT-only configuration.
+> >>
+> >> The estatus core always requests a fixmap index from each provider
+> >> before copying a CPER record. As a result, the DT driver must supply
+> >> its own slot to return a valid enum value to satisfy the common code.
+> >
+> > Sorry, but I still don't follow this. The DT code doesn't use the fixmap,
+> > does it? It looks like it maps the buffer ahead of time using
+> > devm_ioremap_resource() and then the accessors don't use the fixmap
+> > index at all, hence the horrible '(void)fixmap_idx;' cast which presumably
+> > stops the compiler from complaining about an unused variable.
+> 
+> Correct. The current DT driver keeps the CPER buffer permanently mapped with
+> devm_ioremap_resource() and that (void)fixmap_idx; line is just silencing
+> the warning. I’ll fix that by dropping the permanent mapping and copying the
+> status block via the fixmap entry, so the DT implementation mirrors GHES. That
+> gets rid of the cast and makes FIX_ESTATUS_IRQ do real work.
 
-Add ABI documentation for ADF41513 PLL sysfs interfaces
+Why can't you just drop FIX_ESTATUS_IRQ entirely? Your original
+justification was:
 
-Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
----
- .../ABI/testing/sysfs-bus-iio-frequency-adf41513   | 27 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 28 insertions(+)
+> We still need a dedicated slot when only the DT provider is built.
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf41513 b/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf41513
-new file mode 100644
-index 000000000000..11ffd248eedb
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf41513
-@@ -0,0 +1,27 @@
-+What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_resolution
-+KernelVersion:	6.20
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Stores channel Y frequency resolution/channel spacing in Hz.
-+		The value given directly influences the choice of operation:
-+
-+		- integer-N: requested frequency is a multiple of the Phase Detector
-+		frequency.
-+		- fixed modulus: fractional-N mode with fixed modulus.
-+		- variable modulus: dual-modulus fractional-N mode with extra variable
-+		modulus added on top of the fixed one.
-+
-+		It is assumed that the algorithm that is used to compute the various
-+		dividers, is able to generate proper values for multiples of channel
-+		spacing.
-+
-+What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_refin_frequency
-+KernelVersion:	6.20
-+Contact:	linux-iio@vger.kernel.org
-+Description:
-+		Sets channel Y REFin frequency in Hz. In some clock chained
-+		applications, the reference frequency used by the PLL may change during
-+		runtime. This attribute allows the user to adjust the reference
-+		frequency accordingly.
-+		To avoid glitches in the RF output, consider using out_altvoltageY_powerdown
-+		to power down the PLL and its RFOut buffers during REFin changes.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c536c3afc1ae..48fa1011b797 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1606,6 +1606,7 @@ M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
- L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
-+F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-adf41513
- F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
- F:	Documentation/iio/adf41513.rst
- F:	drivers/iio/frequency/adf41513.c
+but as above, the DT driver doesn't actually need it.
 
--- 
-2.43.0
-
-
+Will
