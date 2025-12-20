@@ -1,151 +1,131 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AB24C92
-	for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 23:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB41242D67;
+	Sat, 20 Dec 2025 03:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766187105; cv=none; b=FN0YeMbucO4m5jehxKbpPr44HtA5cLcgDAvZ6a0GAQd1jiu+ZK641Pr5Us3z6FMQBn6ZTPGgvW0pYpGMgh+a1oSqJtZIfmVxMYNlLkAAlQaqzUhRKn5COadHNvKhwGzjHg0RS6hEdeLH8SUjWimF5AljwWWzd3rlecsp6HNlbns=
+	t=1766201175; cv=none; b=Kh/hdYK3oER9w6lIsACta+5l39gn5gn/xfdq/oZIHkZO4c6oDfY7iF2GKtLhYmWmwN+2Pib+hzd6exraoOWCU5Irqldxiod71KuyuBLoUosXdK1+P4v3r65Ie/vIgh0d/F9FAx+2OjeiixOVgsM0s+05DeeoeQ+E+aiLQ68MHZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766187105; c=relaxed/simple;
-	bh=kqYAQZ609rJygFWC7CbHOEHNatKsPADzGjHUdHPU3XE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=pCZMbyEWTPPlvcdTiZJ7AXMb0jYCZfEUsr1WJVEoOvFk4i3K8mVU68GWj3NUGJFtf1qoG3GSP9qayH8Pg7E+BVkg3LzpZemxxCo2T75kuxwtxLLyE+TCcCCA+3smrTMOz2AAqoPBcvWmm7s8u3EkEkX3rwkQfCnFA6jzu50i7a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWAI0O59; arc=none smtp.client-ip=209.85.215.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766201175; c=relaxed/simple;
+	bh=EnAo8tjl0LeLPwSTVsKJgQguKuTTfJq16l9GOU0BmgI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JpmVByQ2Q7IMzHlHQ853dreydeVS0VUZuGUfc3E2ViuGwOmE2BfzrkdHa+nolo7PoY5UvaGHR+aC5nt4DpT+ztQlBnGGW2jhcV7QENOcLBKzYreTur09xLQsJJp/bUn4ZR0ucfqr9HuCj5bo2vAAQRz5xgsaQfcvfJxNk1Qatoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phms4Nd6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWAI0O59"
-Received: by mail-pg1-f196.google.com with SMTP id 41be03b00d2f7-bc274b8b15bso2251469a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Dec 2025 15:31:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766187103; x=1766791903; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Xjhz9NvSIj1nkwStS3EsBbpnWvjG3hzX9yFNjSmaNpQ=;
-        b=cWAI0O591Gv+dba/YfAcSU7vr3T6X/mvNzA4PPUsPf6SyphsBqlqsT6xjeVcdnQiaE
-         wxJUdii/zwpubuF+icsr7gCzTRHSL27lmLSejNJNOdXajr70hbEHv1miSuFv2yckOKi0
-         ZqbyooP37njNz5uqPY08lR3IjhojGNiJiL0Q8CGrsqU4ByHQ97hGFX2k+UugxjPYQSdh
-         +f2wmqv7aagqW9L9u4TThxLVedaMt00AZQVVpHLdURgOH0p4vzyOFr7m59KY9yxB1hrb
-         rB9bggdpi3sq5EUEw2ryihS+o08Xa0yFxZcCf5ivKvQjPnFiCLbu6YCz97hnqb1KgvG+
-         lG5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766187103; x=1766791903;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xjhz9NvSIj1nkwStS3EsBbpnWvjG3hzX9yFNjSmaNpQ=;
-        b=BPCVoLO6rCO+XVhH+Z5DyBfRFJC0scNi1UYLX02umr3h668FPxjxg07W99ctQBo1xm
-         PP+amz2lY5L4mexNfQZMphFqsgKvqQcqcjTMWkqyOK25c/PEE5236SrGmcaSruI+C/rg
-         Ngt3/zXfHPYdNwh6dUUTWZtU1vgisOq8Bs3WJoN99iW5HmczSQM9ewo/KpQ5REMqUoS1
-         vTRejCbLMMra5QA66eZUXl0Gxk50FnUOLpUDsL2vFMUIrDFN9VCr3vmhjQ3FwarHQeoC
-         9+NIv5592GBUZxxqrXcrSA6O25JtT7em1bkBMwwEl83rX+zAqTwRVwM1v8BDLokXemZJ
-         2bHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhzhjDZIQT6ieOaX0lLP8ocQD7h6eR3KiQxFedcKba9XXmOHGSfDFLuWBBoK3iXTe1cT6ORwkRJUM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwULRVYHz8yTegQI+gCHBQQ6tZcs+VrXuCcU7uKQ9aLcIEVfhr2
-	6Xydk/qVrHlTtK/JH8llkiZHPgLNhZCYhYvGq6lvdOQITd99SWXha3H7
-X-Gm-Gg: AY/fxX4VttAwxAqsSW6/IAusF2rU+e36N/CbHzZj1HqzgjDWj86nJeP+5etkQYCHDG4
-	dzj8AE6MmsZe3ZuhjjUldhb7ZkrXoabc3R5YPYi9F3fR/6cP2JCjXulRMsbMN2kucTmaJg8Oqfx
-	OJ8zJifpkVTC+yq7CBR6h3VNqsaA405VBUpJ9jViBPRtyWP4RckOPRpomxuzH3CHh4Y6BNVoK4L
-	uayDrjPTJu/2KnP0sDmX+Ley/kp9H43LhInR81+z6co6yBSaXgf75MzfdLFE5lV0AuyBpY01Klr
-	EfstJ6F2LDYTjFBnZC1r4omrdJKR1dcMRg6f/uNXDwo6fkh7TWHnnMa2ThIiXa+X3F0fCh6QBh1
-	K/mULncK+yWLUPwOMggacEJQlzlgIM3JAjaZK0dzfdvp43P4CBxKg+f34U5LuLNRj1BhHnuVLC1
-	YCW8EJbR6CyH0bR6o+sQ8MLM+7wJs2BC2FA7UOUHXBdQsMK4nYhQAnRvbRAHoG+o8eVWVyiXKFC
-	nRQRHahOJdNiqNCp81EdSig4se4wZZBRzSeOu4O6n0b5EMMRh2PWYt6afMV/G6V25DDJvhkgvX8
-	GRA=
-X-Google-Smtp-Source: AGHT+IFD9VEfhTkWGAUJ+KrkgUpiheofAxrSZVwNtEffu0+8gx+hrdlGu9tKXSDKwQO+mDr4xt9mXg==
-X-Received: by 2002:a05:7022:3a83:b0:11c:b397:2657 with SMTP id a92af1059eb24-121722be81emr4954809c88.22.1766180747284;
-        Fri, 19 Dec 2025 13:45:47 -0800 (PST)
-Received: from ?IPV6:2a00:79e0:2e7c:8:5874:79f3:80da:a7a3? ([2a00:79e0:2e7c:8:5874:79f3:80da:a7a3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05fe99410sm10260116eec.2.2025.12.19.13.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Dec 2025 13:45:46 -0800 (PST)
-Message-ID: <ae957ee5-cb47-433f-b0b3-f4ac8ec7116b@gmail.com>
-Date: Fri, 19 Dec 2025 14:45:45 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phms4Nd6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15A2C4CEF5;
+	Sat, 20 Dec 2025 03:26:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766201175;
+	bh=EnAo8tjl0LeLPwSTVsKJgQguKuTTfJq16l9GOU0BmgI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=phms4Nd6aQSaSqIIrs7tdFGtUthysBdYR/4KUwsLEko27qXKr9jeITU/Y660l86gX
+	 dnDJBEWToNz9fEG6IGkuV7uKzIcIKzTF5pnuo52ubwmGMfSHDV4Ab5LQetAx4dhYLU
+	 DQCPur2SWniNGSj6O0YbWfGGYPomemOaisSZyoDKGQhG5uF6ymmvwXdf4cdLCrYrFe
+	 gUtTS33mU/WNSQKk+AeI/8T1+lFeukh+B5DmNx6bFr1a6ihStU+lxVih2azmbAVTie
+	 hS9hWVFX2ObIMZWnGz4wektpS41jHSJ8W+XdOE2HhKwLgZcUrfbZI7EeUm7LkphO5S
+	 Y5ZiABDTgnitQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
+  Andrew Morton <akpm@linux-foundation.org>,  David Hildenbrand
+ <david@kernel.org>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
+  Suren Baghdasaryan <surenb@google.com>,  Michal Hocko <mhocko@suse.com>,
+  Jonathan Corbet <corbet@lwn.net>,  Thomas Gleixner <tglx@linutronix.de>,
+  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov <bp@alien8.de>,  Dave
+ Hansen <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
+ <hpa@zytor.com>,  Muchun Song <muchun.song@linux.dev>,  Oscar Salvador
+ <osalvador@suse.de>,  Alexander Graf <graf@amazon.com>,  David Matlack
+ <dmatlack@google.com>,  David Rientjes <rientjes@google.com>,  Jason
+ Gunthorpe <jgg@nvidia.com>,  Samiullah Khawaja <skhawaja@google.com>,
+  Vipin Sharma <vipinsh@google.com>,  Zhu Yanjun <yanjun.zhu@linux.dev>,
+  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  linux-doc@vger.kernel.org,  kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 04/10] liveupdate: flb: allow getting FLB data in
+ early boot
+In-Reply-To: <CA+CK2bAV1y_LySjyj-wcn1cdSuVBdC+r+zQL7AQTY64nk3OxuQ@mail.gmail.com>
+	(Pasha Tatashin's message of "Thu, 18 Dec 2025 13:25:32 -0500")
+References: <20251206230222.853493-1-pratyush@kernel.org>
+	<20251206230222.853493-5-pratyush@kernel.org>
+	<CA+CK2bAV1y_LySjyj-wcn1cdSuVBdC+r+zQL7AQTY64nk3OxuQ@mail.gmail.com>
+Date: Sat, 20 Dec 2025 12:26:05 +0900
+Message-ID: <86wm2hj0ky.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Bart Van Assche <bart.vanassche@gmail.com>
-Subject: Re: [PATCH v5 08/36] locking/rwlock, spinlock: Support Clang's
- context analysis
-To: Peter Zijlstra <peterz@infradead.org>, Marco Elver <elver@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
- Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
- Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
- Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
- <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
- Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Josh Triplett <josh@joshtriplett.org>, Justin Stitt
- <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
- Kentaro Takeda <takedakn@nttdata.co.jp>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
- <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
- Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
- kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-9-elver@google.com>
- <17723ae6-9611-4731-905c-60dab9fb7102@acm.org>
- <CANpmjNO0B_BBse12kAobCRBK0D2pKkSu7pKa5LQAbdzBZa2xcw@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CANpmjNO0B_BBse12kAobCRBK0D2pKkSu7pKa5LQAbdzBZa2xcw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 12/19/25 1:02 PM, Marco Elver wrote:
-> On Fri, 19 Dec 2025 at 21:26, Bart Van Assche <bvanassche@acm.org> wrote:
->> On 12/19/25 7:39 AM, Marco Elver wrote:
->>> - extern void do_raw_read_lock(rwlock_t *lock) __acquires(lock);
->>> + extern void do_raw_read_lock(rwlock_t *lock) __acquires_shared(lock);
->>
->> Given the "one change per patch" rule, shouldn't the annotation fixes
->> for rwlock operations be moved into a separate patch?
->>
->>> -typedef struct {
->>> +context_lock_struct(rwlock) {
->>>        arch_rwlock_t raw_lock;
->>>    #ifdef CONFIG_DEBUG_SPINLOCK
->>>        unsigned int magic, owner_cpu;
->>> @@ -31,7 +31,8 @@ typedef struct {
->>>    #ifdef CONFIG_DEBUG_LOCK_ALLOC
->>>        struct lockdep_map dep_map;
->>>    #endif
->>> -} rwlock_t;
->>> +};
->>> +typedef struct rwlock rwlock_t;
->>
->> This change introduces a new globally visible "struct rwlock". Although
->> I haven't found any existing "struct rwlock" definitions, maybe it's a
->> good idea to use a more unique name instead.
-> 
-> This doesn't actually introduce a new globally visible "struct
-> rwlock", it's already the case before.
-> An inlined struct definition in a typedef is available by its struct
-> name, so this is not introducing a new name
-> (https://godbolt.org/z/Y1jf66e1M).
+On Thu, Dec 18 2025, Pasha Tatashin wrote:
 
-Please take another look. The godbolt example follows the pattern
-"typedef struct name { ... } name_t;". The "name" part is missing from
-the rwlock_t definition. This is why I wrote that the above code
-introduces a new global struct name.
+> On Sat, Dec 6, 2025 at 6:03=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
+g> wrote:
+>>
+>> To support hugepage preservation using LUO, the hugetlb subsystem needs
+>> to get liveupdate data when it allocates the hugepages to find out how
+>> many pages are coming from live update. This data is preserved via LUO
+>> FLB.
+>>
+>> Since gigantic hugepage allocations happen before LUO (and much of the
+>> rest of the system) is initialized, the usual
+>> liveupdate_flb_get_incoming() can not work.
+>>
+>> Add a read-only variant that fetches the FLB data but does not trigger
+>> its retrieve or do any locking or reference counting. It is the caller's
+>> responsibility to make sure there are no side effects of using this data
+>> to the proper retrieve call that would happen later.
+>>
+>> Refactor the logic to find the right FLB in the serialized data in a
+>> helper that can be used from both luo_flb_retrieve_one() (called from
+>> luo_flb_get_incoming()), and from luo_flb_get_incoming_early().
+>>
+>> Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
+>> ---
+>>  include/linux/liveupdate.h  |  6 ++++
+>>  kernel/liveupdate/luo_flb.c | 69 +++++++++++++++++++++++++++++--------
+>>  2 files changed, 60 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
+>> index 78e8c529e4e7..39b429d2c62c 100644
+>> --- a/include/linux/liveupdate.h
+>> +++ b/include/linux/liveupdate.h
+>> @@ -232,6 +232,7 @@ int liveupdate_unregister_flb(struct liveupdate_file=
+_handler *fh,
+>>
+>>  int liveupdate_flb_get_incoming(struct liveupdate_flb *flb, void **objp=
+);
+>>  int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb, void **objp=
+);
+>> +int liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *data=
+p);
+>
+> Hi Pratyush,
+>
+> [Follow-up from LPC discussion]
+>
+> This patch is not needed, you can use liveupdate_flb_get_incoming()
+> directly in early boot. The main concern is that we take mutex in that
+> function, but that I think is safe. The might_sleep() has the proper
+> handling to be called early in boot, it has "system_state =3D=3D
+> SYSTEM_BOOTING" check to silence warning during boot.
 
-Bart.
+Right. I will give it a try. For hugetlb, this works fine since it
+doesn't really need to do much in FLB retrieve anyway, it just needs to
+parse some data structures.
+
+If other subsystems end up needing a two-part retrieve, one in early
+boot and one later, then I think it would be a good idea to model that
+properly instead of leaving it up to the subsystem to manage it.
+
+Anyway, that isn't a real problem today so let's look at it when it does
+show up.
+
+--=20
+Regards,
+Pratyush Yadav
