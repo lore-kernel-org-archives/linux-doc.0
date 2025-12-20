@@ -1,157 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAA0156678;
-	Sat, 20 Dec 2025 09:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C422723A9B3
+	for <linux-doc@vger.kernel.org>; Sat, 20 Dec 2025 12:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766222489; cv=none; b=Y9SiGmpMhKfa/N7Ad8zaPItvWkMwyNbHNFXRhvUxFWb8RJtRXzhpY3QsMkLT1rSj85dJ5HqH4f9t3EZZayhaE1eAEOneYHScBIgFBk43g8AFoZXG2dJH8ih4Ny+FOazn+j5q6bsEgavoQ6wOZsKFChVyzGjknYlkpCtSzCxGTYU=
+	t=1766235129; cv=none; b=XcOlCpfm4ynNVKB7g2xrvsKY7gSxxCE9tHy1bdXk4QiHyeH4YRA6xObowpZdf3ZQJ/IidbH75Q1z3QqQ6IO7zPm1vXAOwtFhZHLv3gdDy9/7O9HS16D91FG32XP5EdYR4cwK9f/CGUvA9gPF9bqjnfr0fEo8f31Ou0rU/s3o7Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766222489; c=relaxed/simple;
-	bh=A5E7SDuf7s71s7Xpwhh1fIjfwD+NEhAu730QEr/YR9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mK7dSkvJTUBD6/U67zzf7Wy6mP8vDhMxBXBKz8nCupyc3yJRA6DBig0LLauvGOAWJKO1IEeXv1LjVpo2oY//IQzPByT4a3iuHBJpZ5NyeVYeQFkC6XIncDTmgAIvXRN+6Ngop4TDWEjahstuWaYqt2m3JCkodT63ZnvblmdHq30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dqqswYzE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766235129; c=relaxed/simple;
+	bh=wkv3Ho3KGiVJkt5Z4uain5drk7TOMSZYfvI9aQbzCrQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=scjnGHrh9D3m6QUPcPgNRwwhu9HTYMA+tHjvaecKUq0KBBncsNW2ubCs1ooR1mLMfCeSMxQUF9ZnwhYkaa5oQyEre530cAPMNrLPNhg1jnmAR/5ZpugBVZO6O0iodFeS5npgaVcJFLfPPoKcckuKHcJ8ijj7EyiGj4ugYerav6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4fKfKSKv; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dqqswYzE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E60C4CEF5;
-	Sat, 20 Dec 2025 09:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766222488;
-	bh=A5E7SDuf7s71s7Xpwhh1fIjfwD+NEhAu730QEr/YR9M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dqqswYzEb0SJWK5KIEnkChjiHjGZsCWbXgmOh+tu2STfrQPnvDqeT5Mqc52UhQ2zS
-	 3nwJiXD7eyexOzfNlqS8mQFREpSwQfQUBIY382JOyat0qcPlwAQ8Iu+su90fnBHQEe
-	 3crbxb8FkZhV/V32s/1hy+BmWze1Tc6uQo50/wOH21l7QD/kOm1t3NQrzE5/GTIWuD
-	 8Ui7bqiMXrBurxqpYoV/nqA36DO056HpMRhcrQxlNq250pYvo7ereGLVjlbEa5aTtj
-	 CVtY4UypiNIqYcr0rXnjCLCrnPF/ysuNSxJfswIWpsGk4+6HlRIdU2XfbcDoivCiF/
-	 VRsK+rODWXuvg==
-Date: Sat, 20 Dec 2025 10:21:25 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 1/6] dt-bindings: iio: frequency: add adf41513
-Message-ID: <20251220-bouncy-perky-tarantula-d9b3be@quoll>
-References: <20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com>
- <20251219-adf41513-iio-driver-v2-1-be29a83d5793@analog.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4fKfKSKv"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso1674620a12.3
+        for <linux-doc@vger.kernel.org>; Sat, 20 Dec 2025 04:52:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1766235127; x=1766839927; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+dbDPICBAvFxThOmxuLLN+XESg+4otRZJCktLSd/IHI=;
+        b=4fKfKSKvM1SC6Tzv/bJ7SpdOWrpUGOe+n+A0s4HucJnyJXoUvg0bBqgs3cJDHd9d0P
+         fxyPZ1jO4LYfkUJb/NShyPV2B7ey2yft+RzlVDNvS34KL0lvRtgDj8MYBTSJ4uB11TOb
+         kJgeX/fWH4r3ZoBCu5rGx9tgC0Almi31+Rg7noxwgSeyltZaSWzD5G26BrXB4I3DxRCX
+         yQDd1uSFawTeGBdhklItdKxkhJ5GeWzKj2oZPIE5K/jf9Jg5LMnqMxEaFGTIiDw+BYK0
+         QnIBI5evkUDynqRI//PJWAeBUCPNPRR5RX5+KOrMK+tZHSGNK+Co9jfADrmS1yHAKKBU
+         /Q9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766235127; x=1766839927;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+dbDPICBAvFxThOmxuLLN+XESg+4otRZJCktLSd/IHI=;
+        b=CT2MO2y+LkjHDk0ar4JCPyZUA/ZeqNllrXLLukCJbrjqR4FSKxmG4KAX8d9zK1riin
+         peVe46PhVovC2qfaQa5owCosl8PJ68h4bXNXpdWBTdVv7akIznJvrGGN5UAjG1lg/GA7
+         iWrv9nT2ZSKuyuB/JSetl64eQLqah9qtHteqxg5BLLUTbyAU2Jgs9ovhaBOL66uoQOoQ
+         JzxNMg+fVgg7+TZHOPaP+Dfv7YmD4qsZ/xQkeE4y4luJNmiCjWZ4H71IPoxoo9IW+UBf
+         lZgb3BG9l1XFW9jm/hXm4oYuttClpKJK7C4eoSXS/MMb382Af/rmskr4hTcqcYkbA7wM
+         iKLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXUWXuUaYUn9q9GqG//fovvO6hOzr6z1KBGLoAKv5wE1kIhDi7xzupN2sAb/WoMACf2hRfadyzHKsU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdrF/yptL1I5fE1d9qatado6aLzxptX3dJbU3M/NNIAb06drDB
+	Ppyt9AXdgyBaMXFXBTlYeeiX2TzHUVxh6oCnOoU7yNhfYF6BIfgzcVMxSXC801kaCxMFgzA/fJ1
+	h7ZBJ2wLWEG65lMQgdz8e0VJGfoZRxJp7KadiJgwt
+X-Gm-Gg: AY/fxX6FNgURutLchs3KHylI1ikVlHnIA+me4riH8poXK3WrDORnDucfiPKk0Kfleru
+	gdQJcB+porbWft97corVL6THQe+JCZXdcDmf+C15OGaTrGVDmk486pq+w2n7jiDB7qgI8cq202O
+	NeHeSyDft81DoeqTry8iBtAkd+VElUhe+clN197YdSnpOikjlxRbnSuih5AbYdNx8QzCWUdY4Mv
+	mu/hAa4hjoRNds68KEzC6u7LGAAgjNJCgoxC4A+Utbzz6lMuEYp5oHAHDnfeHhTFJWYNqeSqb8t
+	oebISexoGo8L0g2CDxgAWDJ+oN0=
+X-Google-Smtp-Source: AGHT+IFK+Y5PBS3dXibTZfBS01UEAFChnwqe6iaCyTB/4jIaIz5ZwPF8qLO8d7Qf00M2Z85ZCatTVKEE522UP0jz/Ik=
+X-Received: by 2002:a05:7022:6291:b0:119:e569:f61e with SMTP id
+ a92af1059eb24-121722e12e7mr5961881c88.23.1766235126461; Sat, 20 Dec 2025
+ 04:52:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251219-adf41513-iio-driver-v2-1-be29a83d5793@analog.com>
+References: <20251219154418.3592607-1-elver@google.com> <20251219154418.3592607-25-elver@google.com>
+ <9af0d949-45f5-45cd-b49d-d45d53f5d8f6@gmail.com>
+In-Reply-To: <9af0d949-45f5-45cd-b49d-d45d53f5d8f6@gmail.com>
+From: Marco Elver <elver@google.com>
+Date: Sat, 20 Dec 2025 13:51:30 +0100
+X-Gm-Features: AQt7F2ppWjAa_1uLXQb3ar2W4qqqhjA5uP_vsvi-YrCuihuPYztcukGp4Yjpido
+Message-ID: <CANpmjNOUr8rHmui_nPpGBzmXe4VRn=70dT7n6sWpJc6FD2qLbA@mail.gmail.com>
+Subject: Re: [PATCH v5 24/36] compiler-context-analysis: Remove __cond_lock()
+ function-like helper
+To: Bart Van Assche <bart.vanassche@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
+	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Dec 19, 2025 at 12:34:48PM +0000, Rodrigo Alencar wrote:
-> dt-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
-> can be used to implement local oscillators (LOs) as high as 26.5 GHz.
-> Most properties refer to existing PLL driver properties (e.g. ADF4350).
+On Fri, 19 Dec 2025 at 22:42, Bart Van Assche <bart.vanassche@gmail.com> wrote:
+> On 12/19/25 8:40 AM, Marco Elver wrote:
+> >   Documentation/dev-tools/context-analysis.rst  |  2 -
+> >   Documentation/mm/process_addrs.rst            |  6 +-
+> >   .../net/wireless/intel/iwlwifi/iwl-trans.c    |  4 +-
+> >   .../net/wireless/intel/iwlwifi/iwl-trans.h    |  6 +-
+> >   .../intel/iwlwifi/pcie/gen1_2/internal.h      |  5 +-
+> >   .../intel/iwlwifi/pcie/gen1_2/trans.c         |  4 +-
+> >   include/linux/compiler-context-analysis.h     | 31 ----------
+> >   include/linux/lockref.h                       |  4 +-
+> >   include/linux/mm.h                            | 33 ++--------
+> >   include/linux/rwlock.h                        | 11 +---
+> >   include/linux/rwlock_api_smp.h                | 14 ++++-
+> >   include/linux/rwlock_rt.h                     | 21 ++++---
+> >   include/linux/sched/signal.h                  | 14 +----
+> >   include/linux/spinlock.h                      | 45 +++++---------
+> >   include/linux/spinlock_api_smp.h              | 20 ++++++
+> >   include/linux/spinlock_api_up.h               | 61 ++++++++++++++++---
+> >   include/linux/spinlock_rt.h                   | 26 ++++----
+> >   kernel/signal.c                               |  4 +-
+> >   kernel/time/posix-timers.c                    | 13 +---
+> >   lib/dec_and_lock.c                            |  8 +--
+> >   lib/lockref.c                                 |  1 -
+> >   mm/memory.c                                   |  4 +-
+> >   mm/pgtable-generic.c                          | 19 +++---
+> >   tools/include/linux/compiler_types.h          |  2 -
+>
+> This patch should be split into one patch per subsystem or driver.
+> E.g. one patch for the iwlwifi driver, another patch for the mm
+> subsystem, one patch for the rwlock primitive, one patch for the
+> spinlock primitive, etc.
+>
+> The tools/include/linux/compiler_types.h change probably should be
+> left out because it is user space code instead of kernel code and
+> the rest of the series applies to kernel code only.
 
-What is "existing PLL driver"? I know about motor drivers, but can you
-drive PLL?
+AFAIK, the user space version is just a copy of the kernel version to
+support headers that are used by both. See
+4bba4c4bb09ad4a2b70836725e08439c86d8f9e4. The sparse annotations were
+copied in ab3c0ddb0d71dc214b61d11deb8770196ef46c05.
 
-And how is ADF4350 related to this binding. I do not see ADF4350
-compatible here at all. Describe hardware, a real one.
+And there's no point in keeping it around given it's all gone:
 
-
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
->  .../bindings/iio/frequency/adi,adf41513.yaml       | 246 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 253 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-> new file mode 100644
-> index 000000000000..01ceb2a7d21b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-> @@ -0,0 +1,246 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/frequency/adi,adf41513.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices ADF41513 PLL Frequency Synthesizer
-> +
-> +maintainers:
-> +  - Rodrigo Alencar <rodrigo.alencar@analog.com>
-> +
-> +description:
-> +  The ADF41513 is an ultralow noise frequency synthesizer that can be used to
-> +  implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
-> +  downconversion sections of wireless receivers and transmitters. The ADF41510
-> +  supports frequencies up to 10 GHz.
-> +
-> +  https://www.analog.com/en/products/adf41513.html
-> +  https://www.analog.com/en/products/adf41510.html
-> +
-> +$ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,adf41510
-> +      - adi,adf41513
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    maximum: 25000000
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: Clock that provides the reference input frequency.
-> +
-> +  avdd1-supply:
-> +    description: PFD and Up and Down Digital Driver Power Supply (3.3 V)
-> +
-> +  avdd2-supply:
-> +    description: RF Buffer and Prescaler Power Supply (3.3 V)
-> +
-> +  avdd3-supply:
-> +    description: N Divider Power Supply (3.3 V)
-> +
-> +  avdd4-supply:
-> +    description: R Divider and Lock Detector Power Supply (3.3 V)
-> +
-> +  avdd5-supply:
-> +    description: Sigma-Delta Modulator and SPI Power Supply (3.3 V)
-> +
-> +  vp-supply:
-> +    description: Charge Pump Power Supply (3.3 V)
-> +
-> +  enable-gpios:
-> +    description:
-> +      GPIO that controls the chip enable pin. A logic low on this pin
-> +      powers down the device and puts the charge pump output into
-> +      three-state mode.
-> +    maxItems: 1
-> +
-> +  lock-detect-gpios:
-> +    description:
-> +      GPIO for lock detect functionality. When configured for digital lock
-> +      detect, this pin will output a logic high when the PLL is locked.
-> +    maxItems: 1
-> +
-> +  adi,power-up-frequency:
-
-Nothing improved.
-
-You ignored comments, did not bother to respond to them and then sent
-the same.
-
-NAK
-
-Best regards,
-Krzysztof
-
+% git grep __cond_lock
+<nothing>
