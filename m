@@ -1,105 +1,113 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4786B1B4224;
-	Sat, 20 Dec 2025 13:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3825426ED45
+	for <linux-doc@vger.kernel.org>; Sat, 20 Dec 2025 15:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766237617; cv=none; b=a0G91FaMEZpde2sAn7GiUnPIILdpsaTwF/NCrMaiLj4643IQXENYtUQ/hU7G3eX5TjCpr0qLjkaH4DutersI3Q4qavellMLWfuA0/dgJMSB/d4Fh+rvacWn+/B0ZSUfas6UHDzBSSgqabMxmmJjWhCWhFxy7Jr7GanLYaLd9LOs=
+	t=1766243533; cv=none; b=a+jssS+h/tMo3L4CFpWcXHdTwXXWGI9XBr0kaG2qznHVhR4AS189lHqCXXTDg63lxCWzNpDyUE+g4DdJp1ntF6FAHAJZpVnU945+kcY+XcKCnJjij+Ww5jfDitYld6EG2so3HEzszAv6Vx2NdkccY48BLaYIvVwDNiud9s3rb0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766237617; c=relaxed/simple;
-	bh=sd8MF34DcKU450XHBOHX76rfibz+4ayylz6CA0Z+S7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBNobeAOry050Pslj3lt9dLYuqvM/6C7aKWc73g+51LzJy6jFw8ZsM1WjajjW9JdCPVZqBuc+jpOswsbqTpBochgl1Tm/stk8jmlfYNg71b8WJ2Dj7n39h1PAsPaex8hPBIE+SfunHE7DC/7PNWBTba7a5ekFllV9rHG0EwawD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JRF85bcV; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1766243533; c=relaxed/simple;
+	bh=NirtzK3cSKP6Dn8RC3SUqGY+8QtbdDa8PCdCAnfz/Ds=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BPtYYbjq7fvvRNkJaEq6lbLo/92M9mx0TJ1tlOFe30fCQxJNm6myd5JEWyAXWXYL7YSL7RZIXPzd7R2HlV+gH5uilmpk6789zaYmitTNc4iVDIPpL/6aIsnlDeOonC+JU+Ipl2SVTjofMNPSsNNPlFEDZL1PXs8BZwDTQOb9wGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Noj6aOAz; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JRF85bcV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=sd8MF34DcKU450XHBOHX76rfibz+4ayylz6CA0Z+S7s=; b=JRF85bcVfuUAbdlqGNRlYDFj2X
-	MBZkp9kK6+DWxZ52qXPI17aJHnxE/PD7M59fMz0XlJkLJw11Z17OWWZbt5mZH1ys+rOn3Z1KDVB6S
-	pu4iTEanoYUavMKRG903o1dahMZ0gDpPnnVx7+/+hgxgbEKW50uF8kBQ4HY+A+nfVPf7NwCSjB9tQ
-	XFVRPahMmUPfQxml3WuS3Qv3Gc4CPdqRroheFVCf5xskR0ix6PWdP9YZCg3meap4C/doiZ3x74vL0
-	lUxDktQDZJqJIqf19QBR8eASqGGVYD+WDF8aIslzL0CNI572PyCVjjutiJoMAXmXAHHze0S35TE0X
-	1Sb5xwug==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWwDb-0000000CS0m-1fEQ;
-	Sat, 20 Dec 2025 12:37:55 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 0441C30057E; Sat, 20 Dec 2025 14:33:07 +0100 (CET)
-Date: Sat, 20 Dec 2025 14:33:07 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Bart Van Assche <bvanassche@acm.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v5 02/36] compiler-context-analysis: Add infrastructure
- for Context Analysis with Clang
-Message-ID: <20251220133307.GR3707891@noisy.programming.kicks-ass.net>
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-3-elver@google.com>
- <97e832b7-04a9-49cb-973a-bf9870c21c2f@acm.org>
- <CANpmjNM=4baTiSWGOiSWLfQV2YqMt6qkdV__uj+QtD4zAY8Weg@mail.gmail.com>
- <2f0c27eb-eca5-4a7f-8035-71c6b0c84e30@acm.org>
- <aUWjfxQ1fIZdxd-C@elver.google.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Noj6aOAz"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-640ca678745so4601750a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 20 Dec 2025 07:12:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1766243530; x=1766848330; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NirtzK3cSKP6Dn8RC3SUqGY+8QtbdDa8PCdCAnfz/Ds=;
+        b=Noj6aOAzYt7uhz7Gl41awf7Vp7AWle6jgYAwSuDNul8LoW+54IcCgWOTFybp3OGNJb
+         70nEqugqtcpfT+1f2wQtFbTpwKUdxSsOmripXXky7mxZF612LfH+e1PjQck46yU+wOsC
+         Zr4pCMdc27bkhuD57QRTnwjvHrh3lobbYs65Fa6esUZBwdX5sxdSJVHQqe2zP/GVFf5k
+         jkEzWbwbaty7kPGXZjdGokUZtGSpnAlv15f7PwO2O7C4zJyWokaN9GLRge3YxEOeOWdo
+         onw+ehWP3XR/eTNlF9AzHdSlLGikVeGniKjjL+2EiCEOVPZjoMOfb1zC3Vno6RfgqmXh
+         jDJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766243530; x=1766848330;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NirtzK3cSKP6Dn8RC3SUqGY+8QtbdDa8PCdCAnfz/Ds=;
+        b=mIaUcNmt1CRtmdsTRS9zU0RhF31rYwkXATh/1kTYf1iRxB0J0PWtSiyyuU4U2TuMtn
+         p0Aevzoltw1TwcVTcl0O/LyvDhOllPRi0j4PPE59H6VpoqIo1in2x3GsjO5A8peRPG9n
+         fhOkMohofOziAFK//WTluF2zEe1B9gB/GFqG7GhCF5/ZJSbes489qRp0VyqeTSOVp4fY
+         pVwI+lF1HrJiETZ3j2lv/SBInUbuuTmaoYtQh3djrGcwjerjMIzA9WzRqBCg2t9DZHpS
+         KXB+5z5cKvc4P93Z2G7nq79TAhyv8ehTJoZ/3cjvlbrkXY6FkDYLtiE8Ni8bUSsNF6Dr
+         iSQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUZNLCx7fN5OtdmzcdrETNM2I1QKI8yHTGSfmMyC80zEiH9jzhTniuEDrW55nBkZ6Whns7vBZgWhws=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5Y7wCUZ5gp6h0lFx6o4sbcQDRlF7ZwXwwME8UPkPU63w7ZAWx
+	zssRaxA0/GlQtb6rcKVEGd9vkcFGFqnR8ATrmbGMOFXTY9bMTxvW9kkOlcPHzb2ZuStfCdaZ4el
+	d6PHxcffD0ioRIbly6ZbBAsKlbVnQqsJ93KkmiCo3GA==
+X-Gm-Gg: AY/fxX5nzt9orrB0vFePaPpWluvywwxqCdKtlOt6/AjmTSThIYzZ2TERpsl1TsoyI5z
+	l6Sw70Y+O4r6Ai91t7RV8MFhKPIYoK6oM9KOduxg7feBl3x8v3+gRdLrcwMeSp9yAj5QiB/KDGn
+	9I3X+rh6Cx9rV+9fhxMHqSn5kM60ky6zpNanGCIBA69Ha4lW9ro8kle57c4aLSRbWSltHfe/YxA
+	3jkJOW8dGO4Y6JbIdwNvpyn+qXaUEbGcNmMRjlv25nSNkt4EWrSkSv/1VI8DblmJYvFqa5T/3c9
+	MjdDVvF+ea8ldDrXU8VGJIb4XEnpdQRQowGLWE9NjIarEMaX4kbCwdEyHBwwiw==
+X-Google-Smtp-Source: AGHT+IG2H0JMzpZ4Rw9d+GSeTdHtlvEwfcgulZM7WmjLKT/BwHOEpNubFax4Xm7riytdiegSHPUBkYePz2N2H5EqPpE=
+X-Received: by 2002:a05:6402:34c5:b0:649:230e:ec52 with SMTP id
+ 4fb4d7f45d1cf-64b8e935a65mr4687631a12.1.1766243530490; Sat, 20 Dec 2025
+ 07:12:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUWjfxQ1fIZdxd-C@elver.google.com>
+References: <20251206230222.853493-1-pratyush@kernel.org> <20251206230222.853493-5-pratyush@kernel.org>
+ <CA+CK2bAV1y_LySjyj-wcn1cdSuVBdC+r+zQL7AQTY64nk3OxuQ@mail.gmail.com> <86wm2hj0ky.fsf@kernel.org>
+In-Reply-To: <86wm2hj0ky.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sat, 20 Dec 2025 10:11:34 -0500
+X-Gm-Features: AQt7F2rkD8DzKJtnBrRBVjSiNOllvUXl1o05w5fOraa6mNPG1z2m3wrrR9PJQmQ
+Message-ID: <CA+CK2bDWF6pbNQRkJFa+WcD1pwUOr3yQdrRUs-mgLWu5ght+7A@mail.gmail.com>
+Subject: Re: [RFC PATCH 04/10] liveupdate: flb: allow getting FLB data in
+ early boot
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, Alexander Graf <graf@amazon.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Vipin Sharma <vipinsh@google.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, kexec@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Dec 19, 2025 at 08:11:59PM +0100, Marco Elver wrote:
+> > [Follow-up from LPC discussion]
+> >
+> > This patch is not needed, you can use liveupdate_flb_get_incoming()
+> > directly in early boot. The main concern is that we take mutex in that
+> > function, but that I think is safe. The might_sleep() has the proper
+> > handling to be called early in boot, it has "system_state ==
+> > SYSTEM_BOOTING" check to silence warning during boot.
+>
+> Right. I will give it a try. For hugetlb, this works fine since it
+> doesn't really need to do much in FLB retrieve anyway, it just needs to
+> parse some data structures.
+>
+> If other subsystems end up needing a two-part retrieve, one in early
+> boot and one later, then I think it would be a good idea to model that
+> properly instead of leaving it up to the subsystem to manage it.
+>
+> Anyway, that isn't a real problem today so let's look at it when it does
+> show up.
 
-> > Many kernel developers are used to look up the definition of a data
-> > structure either by using ctags, etags or a similar tool or by using
-> > grep and a pattern like "${struct_name} {\$". Breaking the tools kernel
-> > developer use today to look up data structure definitions might cause
-> > considerable frustration and hence shouldn't be done lightly.
+FLB has exactly one .retrieve() lifecycle event. Once called, the data
+is considered fully available and cached in private->incoming.obj.
 
-Its a simple matter of adding a regex to scripts/tags.sh :-) Also clangd
-language server sees right through it as is. So all 'modern' stuff using
-that will have no problems.
+If a subsystem has a requirement where it needs a specific state
+available very early and other state available much later, the clean
+solution is simply to register two separate FLBs.
 
+Pasha
