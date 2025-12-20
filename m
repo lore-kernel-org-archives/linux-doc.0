@@ -1,131 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010050.outbound.protection.outlook.com [52.101.56.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB41242D67;
-	Sat, 20 Dec 2025 03:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766201175; cv=none; b=Kh/hdYK3oER9w6lIsACta+5l39gn5gn/xfdq/oZIHkZO4c6oDfY7iF2GKtLhYmWmwN+2Pib+hzd6exraoOWCU5Irqldxiod71KuyuBLoUosXdK1+P4v3r65Ie/vIgh0d/F9FAx+2OjeiixOVgsM0s+05DeeoeQ+E+aiLQ68MHZ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766201175; c=relaxed/simple;
-	bh=EnAo8tjl0LeLPwSTVsKJgQguKuTTfJq16l9GOU0BmgI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JpmVByQ2Q7IMzHlHQ853dreydeVS0VUZuGUfc3E2ViuGwOmE2BfzrkdHa+nolo7PoY5UvaGHR+aC5nt4DpT+ztQlBnGGW2jhcV7QENOcLBKzYreTur09xLQsJJp/bUn4ZR0ucfqr9HuCj5bo2vAAQRz5xgsaQfcvfJxNk1Qatoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phms4Nd6; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6A728A72B;
+	Sat, 20 Dec 2025 06:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766213639; cv=fail; b=ftvUERXNxrHTDLO4xa29WTIZoLZUNq/kAcNJkvnr3r8egeFEEpMvZesdi3fDWQawTaW2l4NIsheZhNDIlCCm9W0s4FoixY7lLzdb1oA16hG5bIduqpKdnCw4iQu0mnfeRQQZRUeSOoRi6LiX0GVsVBK3/7Q4AFUM4fklYYKmiDo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766213639; c=relaxed/simple;
+	bh=rWS+Fwp3qEY5sw6dxXpHhoowLGpCAOP/O4M7FCRPsHw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hqwzbrQCISs4cs7pjsdYXHXnqsjZqjXwIRJgudbkATZHXAg8RC7gnyel1OcfCggdxlgJEPbhkXsNlSKoCGZIsCE4XWCFc3VodRAOnmuQDi/zTdaKd9LxM0+lydafA/hPOjlgKRD9QPMS/fAFY4DLOU3Fmte+rcST5zxQw4bggJg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Iyyrjno+; arc=fail smtp.client-ip=52.101.56.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phms4Nd6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15A2C4CEF5;
-	Sat, 20 Dec 2025 03:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766201175;
-	bh=EnAo8tjl0LeLPwSTVsKJgQguKuTTfJq16l9GOU0BmgI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=phms4Nd6aQSaSqIIrs7tdFGtUthysBdYR/4KUwsLEko27qXKr9jeITU/Y660l86gX
-	 dnDJBEWToNz9fEG6IGkuV7uKzIcIKzTF5pnuo52ubwmGMfSHDV4Ab5LQetAx4dhYLU
-	 DQCPur2SWniNGSj6O0YbWfGGYPomemOaisSZyoDKGQhG5uF6ymmvwXdf4cdLCrYrFe
-	 gUtTS33mU/WNSQKk+AeI/8T1+lFeukh+B5DmNx6bFr1a6ihStU+lxVih2azmbAVTie
-	 hS9hWVFX2ObIMZWnGz4wektpS41jHSJ8W+XdOE2HhKwLgZcUrfbZI7EeUm7LkphO5S
-	 Y5ZiABDTgnitQ==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
-  Andrew Morton <akpm@linux-foundation.org>,  David Hildenbrand
- <david@kernel.org>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  "Liam
- R. Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
-  Suren Baghdasaryan <surenb@google.com>,  Michal Hocko <mhocko@suse.com>,
-  Jonathan Corbet <corbet@lwn.net>,  Thomas Gleixner <tglx@linutronix.de>,
-  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov <bp@alien8.de>,  Dave
- Hansen <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
- <hpa@zytor.com>,  Muchun Song <muchun.song@linux.dev>,  Oscar Salvador
- <osalvador@suse.de>,  Alexander Graf <graf@amazon.com>,  David Matlack
- <dmatlack@google.com>,  David Rientjes <rientjes@google.com>,  Jason
- Gunthorpe <jgg@nvidia.com>,  Samiullah Khawaja <skhawaja@google.com>,
-  Vipin Sharma <vipinsh@google.com>,  Zhu Yanjun <yanjun.zhu@linux.dev>,
-  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
-  linux-doc@vger.kernel.org,  kexec@lists.infradead.org
-Subject: Re: [RFC PATCH 04/10] liveupdate: flb: allow getting FLB data in
- early boot
-In-Reply-To: <CA+CK2bAV1y_LySjyj-wcn1cdSuVBdC+r+zQL7AQTY64nk3OxuQ@mail.gmail.com>
-	(Pasha Tatashin's message of "Thu, 18 Dec 2025 13:25:32 -0500")
-References: <20251206230222.853493-1-pratyush@kernel.org>
-	<20251206230222.853493-5-pratyush@kernel.org>
-	<CA+CK2bAV1y_LySjyj-wcn1cdSuVBdC+r+zQL7AQTY64nk3OxuQ@mail.gmail.com>
-Date: Sat, 20 Dec 2025 12:26:05 +0900
-Message-ID: <86wm2hj0ky.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Iyyrjno+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jx+UdJCJIu945BVBWHvStx4Yiz1yOOjviDHzLWVhgZbVvOJ57HanjNDH4uYoiAksfsZpRgoajCIlx41U0GgrqQtQAFlKyKIgw08fmTQq4oXMzf6FQ/bKyaSMys0An/X72kOia9nGsKuAK3CXyUrwB5HMt2Ue04GfvtNtNWkYEAmzPyUavJzlQ3waFkoizGtJAhqawyQ1g6Iqi4sbF7BoCimJN1cANUWLWYyCfM3VDnf8tbQw5cbBxNf7qpCZ8SXH4Jvu1XbQd2oqvVs868uwvr/2yByS8AZig/I4TBsjJfeUUB+wCiuAHArOFD/8PLPDddlPXPmRXGLDqo/LcXXlNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=onc/wSevv0yyG3tSgidjASAgpH/lDVYS9HZShP3fvN8=;
+ b=xfy/EHoh3TudsugE/jD3IJMkpGw6e8yhkzadBp2S9lrMjJFOYWIEMaBkcMWsCPie/sAPpMEdgRGTJJQZYNV0vurQrBJ5gsCzU9sO0dMuKuM4rdcAa5tAtnUUV43l22q5+vLI+o0QV572D//uyEchU8XyahSynYVYuIA5O28KW6tRC87vFvzt1eEMhGADuhdH2LvmVsOLATLMM8ot6dv9YQSLDenM+qUEBNEph1AmFTOOsBL03J0ZvQ/za44SOuCRdubbJqKkQlMkxCuvTT8nN11DOmtXtDSBVUlr/bQTDgb1MPSyhM0rXy0Ue1pZk/X5bGFeYIYmQGy5KvteFIvCzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=onc/wSevv0yyG3tSgidjASAgpH/lDVYS9HZShP3fvN8=;
+ b=Iyyrjno+7zdy7LsGzNLlm/ZTeC9NeeaHAU1KQnn2McqkCRJ/0rcKYNBywDQ6vWnXUIk5Pe7yPlc2ukCIlXNg2hCWaTD2SzUCi0UzAxWSaA98bAYht/fx/VVk0chtciZMz8Z4JAbfE0SkufdMGT93tvJwHYpxoAE/0YZqDTir5b8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com (2603:10b6:5:219::22)
+ by DM4PR12MB6398.namprd12.prod.outlook.com (2603:10b6:8:b5::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Sat, 20 Dec
+ 2025 06:53:53 +0000
+Received: from DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::f943:600c:2558:af79]) by DM6PR12MB4202.namprd12.prod.outlook.com
+ ([fe80::f943:600c:2558:af79%5]) with mapi id 15.20.9434.009; Sat, 20 Dec 2025
+ 06:53:53 +0000
+Message-ID: <9be1e001-2fd9-4da8-b602-4ac55002888e@amd.com>
+Date: Sat, 20 Dec 2025 06:53:48 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] Documentation/driver-api/cxl: BIOS/EFI expectation
+ update
+Content-Language: en-US
+To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+ dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com,
+ ira.weiny@intel.com, dan.j.williams@intel.com, corbet@lwn.net,
+ rakuram.e96@gmail.com
+References: <20251219170538.1675743-1-gourry@gourry.net>
+ <20251219170538.1675743-2-gourry@gourry.net>
+From: Alejandro Lucero Palau <alucerop@amd.com>
+In-Reply-To: <20251219170538.1675743-2-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P302CA0004.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c2::9) To DM6PR12MB4202.namprd12.prod.outlook.com
+ (2603:10b6:5:219::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4202:EE_|DM4PR12MB6398:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd31ebac-b847-4456-13e7-08de3f9489c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UDlWaVNxTnZWc05hNW1DemVoMjlWT0w0eXBvQjRvRng1OG1uTFEzZ3NwcEpL?=
+ =?utf-8?B?YTE1UG0xU0N2bzUwOHo0UDlzTDI5WjIwRGdQbGdaMXliVXU3ZURVd093TlAw?=
+ =?utf-8?B?TkdFOHF5dzRQMGtZbDhSMHh1SFltRG8weVRZR0hValBhQ01HYWZhMG9kbmRB?=
+ =?utf-8?B?SENlOStqYlBXZlV1MFAvL1EwRXBIQjZpanNaeU9sMzNJKzVqKy9pRmRnUitP?=
+ =?utf-8?B?SXVJN3MvYVd1aCsxa0VJWit1WUdDUGJlZUxvUEJZamoyTE9XbEhZSDFqOVNx?=
+ =?utf-8?B?cS9KVHhGSXdUL1YvajF1R241N1ZnY21JMS9HZjlyaDVBNHFIaEROUkNVbURU?=
+ =?utf-8?B?blA1WmtTTUt6TlRyQlQ1bWpHelByWEdZbkQ2NjlzSnhOZ0pwN001RzNGUmsv?=
+ =?utf-8?B?bk56MHgzL1RVS2ZBcytrQkhKYjh1aVdNY3laM3FjRXlJSW9KUWFmVGN4T21o?=
+ =?utf-8?B?SUxwaWtzNjJTaW9nQkc3VmVxUUZFT2JYK0R1UHZoNzg0bnYzVUhGTHBJZ3lM?=
+ =?utf-8?B?bTdKQ3BiZ0hJVXhnaW9xLzN0VXBtZERuQWxzMkN3bEpqNThFMHVxZGtXQ2pl?=
+ =?utf-8?B?bkdpeWMxb3JaUGErbE43V2F6a2JWT3VsTkZpbXBRYStGamRJQktpeTRreWRr?=
+ =?utf-8?B?a0NXQmhSbzh4U3YrOXEvcS9tbVlLNUsvQjRqNitWenpaSE1rNWZXaTlNYXhj?=
+ =?utf-8?B?Rzh5d25BUitpQVpKZnc5N1IzMDBKaW42bGlUT09xd0UvNENVTStWZUo2elBv?=
+ =?utf-8?B?dFYxUG4xS2ZVbTVpaTJtbnpJNWw3N0JMNFdPb0JxbjlmemhSS0o4OGJrdTR4?=
+ =?utf-8?B?ZVJkeVNvd0lOSGpCazQ1eUt0WkZZaS9PdndkNzl0RUlvdFUvY0JIbUdJTXF6?=
+ =?utf-8?B?QktQQ0dNdXdJeVcrbEkxcGsydWdCaExFS3Y3eStyUjJOVjdOWEZXMUZoSWJQ?=
+ =?utf-8?B?Ujc3enlHY1d5ZTQyVnd6N0EvQm5vZlRtbUZaQ3VoWFIwZDFEVjlyWTlRSWF3?=
+ =?utf-8?B?VklKSE5DWE5VSUpJR21UWUU4SUdVQWU5bm5wSS9BTTFVU3JIV1hXZ3V6MVl6?=
+ =?utf-8?B?UkNHNWtDblEvaEh2Z0pkV2tGMVpqdUIzMloyanlnUkl3dTJnb2VqK25rdHVu?=
+ =?utf-8?B?eGZsVEpuUUVWczlheEY3OUNoNDd0U1lac3R2alBDRU5sMHU0U2JLS2NpbEVI?=
+ =?utf-8?B?eEhXU1g1YkNCc2pEQ1BnYmc3ck5Za1JYWkZFanRhMEtocnZHNW1yalRvRWt2?=
+ =?utf-8?B?RnBsMjh3bmRWaDg2aEdoN293OThsSXZ2M2hLbDNDeUk4dTd0ZFJRdE1qektD?=
+ =?utf-8?B?TXl0U0Vxb3lXT0N6aVVSUGVHS05JYzhLL011Y3FNaGREK0lnclVqNlUxdnVl?=
+ =?utf-8?B?a1B3R01lUS81a2FzVDRLdzk0dnBvUCtFMXBtUG1INlhuVlBMaWwvZDlyWlBI?=
+ =?utf-8?B?UkQ5MnVtL3FRNWNrTnRxUEVJTEtOcTJmN0RhUG1RUUlRVkI0M2I5MTIzRC82?=
+ =?utf-8?B?ck52RGtmM3gvTDZwTWxaZ29lR0RLWjgwWkJ1by8zSm9PajRLWmZTYVd2YUZ4?=
+ =?utf-8?B?UFBNSzVZaERUQWFRZWZmd2lsWGxPc04vbFhaajVRN29ZNzM1N3JZelBoTHM1?=
+ =?utf-8?B?clZiR2JLS1hIK2Y0MHZ3bWpZL0JTQXlydUJncjN6WmQ5djhoc0JTUkFvVDM0?=
+ =?utf-8?B?WmNHU0hlQ0RwVFBaZERYU0tMRFVZUWpkSUZJZTM1TUNwWVhaUlFtelp4d0VT?=
+ =?utf-8?B?VVdsM2VJR3RUNDFCU1BtYkVxcS9zZ2pwaG9kU2JCQXVJbUpsdVRwSjZXRW5U?=
+ =?utf-8?B?ZkQyZm1aMnU3eFF3NVhvbExOaDZwMEJ6TTNXb1pXWFVQdGZEalhTdzZPZ1ZJ?=
+ =?utf-8?B?TExZSmRWeUV5SEt1Si9RQ1RJYUowV1NXNDNlSnJCRlE2algzaFo1MndFMnNM?=
+ =?utf-8?Q?K+9JnFbIj7xE+xXBWemXtzqTqwVO4cU/?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d2xPenY5d01BOEJadVZGMjUzeDMrMHhQdkxqVzcyWmFWLzVhZTFVYURONHFy?=
+ =?utf-8?B?UmN4ckY5Q0FqcU5WTDZzZFR3WlA5NStZVE1RTWN6d0ttWVhMRER1bTZGNG5Q?=
+ =?utf-8?B?VzlDd3YzT01YdVU5Z1B4cnlYa1N4WjdVZVBaWnE5WEVZamhJcjErNnlqUG1T?=
+ =?utf-8?B?WmE0aytyeE0wSVJHSVRiS29nNFpINHJlZndIRnhMV1ZlV2RmY3JtMHFVbnd2?=
+ =?utf-8?B?VXp4b1ZQQlRtSkkwamtSRHBnYXlYbGpENElmYTF0MWVhQU1nQUErNmJIMTJu?=
+ =?utf-8?B?eTNEeExYYjNTQmpTdVQ1NGNvUWlwSzhjSXdDU3J4VEJhWEY1bjdKUlhiL0wy?=
+ =?utf-8?B?cjhZR2JzZHpIRis2UDdncHRudmo3a0IrUzhpOW1CekVYWEJUSTNCSkJzM0p6?=
+ =?utf-8?B?elNoaFdFbU1aOE5taldlek9qRVM5bGpCN1RsZzZBVm9UK1djdTZvUldwaTdk?=
+ =?utf-8?B?cTVDUkxiSkF6SUNHckVCWFhlYXFoRFQ4QWZmSlFQbVRuQ0szdE5LSWduSkR6?=
+ =?utf-8?B?OGoxWHB1cXZFVlVzckI0ZENJT2hIalg1QmJwQmc0WnpyYXN5L2QyV05LZFo1?=
+ =?utf-8?B?cUFsNzF2UWg1TTJPbXp5Yi8xcmI1Y292OVYyTTZCdEw1VC9HOWNjZzR5SzNO?=
+ =?utf-8?B?WmhMMXg5YXpjQ1pPOEMrLzR3OGZ6dDN1TXZEcTBMNDFuekxmbFprMlN1ZjFE?=
+ =?utf-8?B?VXNmYnc3VHpWQ0YvdGlaTjI3S1EvdHdxUEpHYVNScHNvb1BDc09EUllNS2NM?=
+ =?utf-8?B?UnRMZTlSVmdEMTU1K3ZONno4cDg0WHJ1K1VBME1VSjV0V0ZvRTJTTmFOM0NQ?=
+ =?utf-8?B?UzR1azYzNzJhcGdxQWZsM0J4bTRDWTR0L3hDL0xIMFBBbk1XcmRVdlV5WGpR?=
+ =?utf-8?B?SDhnZERrVlpBOVNJZjYvVFhHQkZ3Z1NYODdraVR5ckdTd2hjNEdvN0pzVnhH?=
+ =?utf-8?B?L1FsNGNSU2VDREVMTktLNmgrWlBCNEJWcHYvcjVaVnNvd0lFWGFFdWNmcGVH?=
+ =?utf-8?B?dlh0d1Q1M2d2alFLVkkrcXFZSjArTkhLSzRaV1BmNXV5Z3V6QXg3czBVTERR?=
+ =?utf-8?B?Y1B2Z0wxaXBmM2cyQURtMGpCR2wrYzFxVzZJUFpWYUJ2U3hEN3JkWGYvWFQv?=
+ =?utf-8?B?WFhqNHNnUytKeGx1NUtPK1MxR1FQOHpsVDlvQmRZcmp2V1I2SzJjU08zazRZ?=
+ =?utf-8?B?THRld2FFNnIwVXhuNFNFdzIvZDVLbDVBdGlydU5uM2tYOUN3S3ZJYy9VakR6?=
+ =?utf-8?B?NTExQUUvMW9sdUVVYS8yWW4xRHFHK0xpRUFaOGJEM3pGVytHVnFMbjgza2Jl?=
+ =?utf-8?B?N0djV0NsaHVBajJmMUpSWUJzZkF3elBLN1QvQTBOSCtHcFZHeWZLTXdHYjhU?=
+ =?utf-8?B?MlE1RG9kdEdraG14RndmeVFLb0wyamx6REZ0cUhEVEt4VU9yZzNzYnA3Sy9S?=
+ =?utf-8?B?SnF6VHFIZzdhbzlLa0NsaEFCcVJld3ZWblk4S2kwTFZYeHlTU2pibms5YnEx?=
+ =?utf-8?B?UXpZODR3eEFVa05ObFFrTVhNYUhvUnIrUFdPdjhvNElOZk82dWdCSGtFZzV2?=
+ =?utf-8?B?R3N1VDBCN1htbjdZei82ZS9IK01relZaTDdQYmhmUVorOStpa3dBTmROWkdx?=
+ =?utf-8?B?bHdCNnlIUDRJZldwcldWekNoSXg2RmRtdTNDaUpWQWc1MmFMb2VHVXVyYyt2?=
+ =?utf-8?B?T2FTdlcyZzlKaUFuWkw1aFpWRHVUM3FXZHdmeGUzMkxkdlBobHFodVYwQmI0?=
+ =?utf-8?B?eU5HVlVRbkRLd01QZTlXelluZ1JJMnhNSkI2RUZ6aisyaVorMW5UTzNSNko4?=
+ =?utf-8?B?a25tU1cxdmk1b204S0IwcFlCWGtzTXg4cXc0L3lXWEJUK0RkN09EZ0FOOU5j?=
+ =?utf-8?B?NDI2NG9ndktvdmV3eDYzY1VoS200U3loU2I4Tkl1Mm1MRUdhNkt2WCtSNnRD?=
+ =?utf-8?B?UzNxam8yMlBiQzVNaEt4RllBZWcxT0IrTDhUNHJkejRTdTlZZkgzdVlVN3lE?=
+ =?utf-8?B?OXFib2s1U05Kc2ZQVnh1Q2J1ck9kdjJ3clBFSzFsL3Q5UXg3M2JFZ2ExUTZY?=
+ =?utf-8?B?QmQwYnJQWHJPSnhWRzNlRDZiWm1nMjJpTjFYdjNUVWZwNFQ1RTJTQ0p2ZlNx?=
+ =?utf-8?B?NzVXMmJDbGpGYURVa1ArNnAxeHpjVzZsNDdLNzFyMVIrTURuU0dtODNMQXBq?=
+ =?utf-8?B?OFUwbmxFaldTU1RTU25BdlFabXJBNURNYjVUb3Qvdm9TZXBWZCsrS29CVWVq?=
+ =?utf-8?B?cXNOdW1LRDY2U3c4RW91eTNvMjNsa2w3RUM3ckh6OGhLc3I2ZldkNGlZRi8z?=
+ =?utf-8?B?Q1RpOCtEOHQ0ZmY1eWpWQ2tMUWRHYzlTazB3aXNWUW0wemdhL3dqUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd31ebac-b847-4456-13e7-08de3f9489c8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4202.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2025 06:53:53.3730
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: npiF75KXSS7k8jAYW+tlS9084GER3PFkPfmYLD7mD3rRFkYjjI7l5yoLREEfnhmpGLvKXzCn5iFRxECnMOfqVQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6398
 
-On Thu, Dec 18 2025, Pasha Tatashin wrote:
 
-> On Sat, Dec 6, 2025 at 6:03=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
-g> wrote:
->>
->> To support hugepage preservation using LUO, the hugetlb subsystem needs
->> to get liveupdate data when it allocates the hugepages to find out how
->> many pages are coming from live update. This data is preserved via LUO
->> FLB.
->>
->> Since gigantic hugepage allocations happen before LUO (and much of the
->> rest of the system) is initialized, the usual
->> liveupdate_flb_get_incoming() can not work.
->>
->> Add a read-only variant that fetches the FLB data but does not trigger
->> its retrieve or do any locking or reference counting. It is the caller's
->> responsibility to make sure there are no side effects of using this data
->> to the proper retrieve call that would happen later.
->>
->> Refactor the logic to find the right FLB in the serialized data in a
->> helper that can be used from both luo_flb_retrieve_one() (called from
->> luo_flb_get_incoming()), and from luo_flb_get_incoming_early().
->>
->> Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
->> ---
->>  include/linux/liveupdate.h  |  6 ++++
->>  kernel/liveupdate/luo_flb.c | 69 +++++++++++++++++++++++++++++--------
->>  2 files changed, 60 insertions(+), 15 deletions(-)
->>
->> diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
->> index 78e8c529e4e7..39b429d2c62c 100644
->> --- a/include/linux/liveupdate.h
->> +++ b/include/linux/liveupdate.h
->> @@ -232,6 +232,7 @@ int liveupdate_unregister_flb(struct liveupdate_file=
-_handler *fh,
->>
->>  int liveupdate_flb_get_incoming(struct liveupdate_flb *flb, void **objp=
-);
->>  int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb, void **objp=
-);
->> +int liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *data=
-p);
+On 12/19/25 17:05, Gregory Price wrote:
+> Add a snippet about what Linux expects BIOS/EFI to do (and not
+> to do) to the BIOS/EFI section.
 >
-> Hi Pratyush,
+> Suggested-by: Alejandro Lucero Palau <alucerop@amd.com>
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+
+
+Reviewed-by: Alejandro Lucero Palau <alucerop@amd.com>
+
+
+> ---
+>   .../driver-api/cxl/platform/bios-and-efi.rst  | 20 +++++++++++++++++++
+>   1 file changed, 20 insertions(+)
 >
-> [Follow-up from LPC discussion]
->
-> This patch is not needed, you can use liveupdate_flb_get_incoming()
-> directly in early boot. The main concern is that we take mutex in that
-> function, but that I think is safe. The might_sleep() has the proper
-> handling to be called early in boot, it has "system_state =3D=3D
-> SYSTEM_BOOTING" check to silence warning during boot.
-
-Right. I will give it a try. For hugetlb, this works fine since it
-doesn't really need to do much in FLB retrieve anyway, it just needs to
-parse some data structures.
-
-If other subsystems end up needing a two-part retrieve, one in early
-boot and one later, then I think it would be a good idea to model that
-properly instead of leaving it up to the subsystem to manage it.
-
-Anyway, that isn't a real problem today so let's look at it when it does
-show up.
-
---=20
-Regards,
-Pratyush Yadav
+> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> index a9aa0ccd92af..9034c206cf8e 100644
+> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+> @@ -29,6 +29,26 @@ at :doc:`ACPI Tables <acpi>`.
+>      on physical memory region size and alignment, memory holes, HDM interleave,
+>      and what linux expects of HDM decoders trying to work with these features.
+>   
+> +
+> +Linux Expectations of BIOS/EFI Software
+> +=======================================
+> +Linux expects BIOS/EFI software to construct sufficient ACPI tables (such as
+> +CEDT, SRAT, HMAT, etc) and platform-specific configurations (such as HPA spaces
+> +and host-bridge interleave configurations) to allow the Linux driver to
+> +subsequently configure the devices in the CXL fabric at runtime.
+> +
+> +Programming of HDM decoders and switch ports is not required, and may be
+> +deferred to the CXL driver based on admin policy (e.g. udev rules).
+> +
+> +Some platforms may require pre-programming HDM decoders and locking them
+> +due to quirks (see: Zen5 address translation), but this is not the normal,
+> +"expected" configuration path.  This should be avoided if possible.
+> +
+> +Some platforms may wish to pre-configure these resources to bring memory
+> +up without requiring CXL driver support.  These platform vendors should
+> +test their configurations with the existing CXL driver and provide driver
+> +support for their auto-configurations if features like RAS are required.
+> +
+>   UEFI Settings
+>   =============
+>   If your platform supports it, the :code:`uefisettings` command can be used to
