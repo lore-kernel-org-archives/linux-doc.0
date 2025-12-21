@@ -1,96 +1,268 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840F31925BC;
-	Sun, 21 Dec 2025 01:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7172126C17
+	for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 04:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766280980; cv=none; b=E9cvhcX9uWB4GCXe+PcEqd64btBR3XGh3utEJHVPapLbWb9oLQMagYzIG8x1logIZDYHIhN/L47Cj41THr81vQgZqy8b9JH78Oe7jPwuKw8s45j806GHVje4bNF2hL6UEcN3tV6I+tHsSMxAd0gLxTvif3PAvkFkDGxWDjQdpJ4=
+	t=1766290823; cv=none; b=QT93glIryMPJi2wnSFQ8i/Ivw+rx2rNuVxCxW3xcwNPDSfuyMhulInsGB5WdIwdpUOUPGFmzFMwpM8J/5nL1x0zX9kzD9hUFO8tV37T7CHcaXaxuSJiPM2XZ2O351XTtot/klEyJEMOOa/MFNIr44NvbFYXERmLEJ5gmgoKUDdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766280980; c=relaxed/simple;
-	bh=cTDDwgLD4HNSLH1/6xskLOhEMN3ylhPn/oZKOEJNegc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bhdfeFg62YAKC5D1n8yRPV0TD5FsSOj4sKanj5qlz9DleLnEHo+QGkpi9Pg9eTxTcvcI0X9k5dswL9E1hGI3B0cA1AxK6JLLbOuJs2OVLze1BFhNgyAd7Z+Sxbk+ZdR3cQdXMmLOu/ODPpvTIv0Cj7b5aXvlpWPeK9dKVOEJLmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=XDMU0oYJ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1766290823; c=relaxed/simple;
+	bh=Xz2orvjMxUjNOH2W84kanSJLhVfgcCrkgfjZNB/glh0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aX/vBjGK0MuC66c1xFnYi5Sz2dp9/bu3hCmaP3KsURaTpqcaXLqCicvxhVOGqli6jXenaaZL2T1uJZB+1MQ0CQj+8a48iAletTMP0ncQEXGv3YVKxRRpX+bv8WQRfHLFHwOEnEKmrJajhrlDMi/Gw8EyxhAWDirQQA9Ndef6irE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N8HnKX0M; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="XDMU0oYJ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 707F540E015A;
-	Sun, 21 Dec 2025 01:36:07 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id s9plmLMQekvx; Sun, 21 Dec 2025 01:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1766280960; bh=u3fK9PcG+cgEjukRqBJXMkL2CRTOlA5j9EObKIvbhrc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XDMU0oYJVL787+ElQKmC+FBYUENoOXT7WeKGnB5oHGThYKBdTQ3AWqFIpVeSlGb78
-	 xABcw2DZyhYbf0DNMDX8LBOBBf0kUobVThFiz0BU7eY5ymF5hdIUGUhKprVH/GhZaI
-	 fBn5sdN/L5HMHYyfMb8ZjxuR403+kdLyLyEeJlHR7aRkxLncNS8o+fbtSAizQ4jnvp
-	 2NGF9Ri/iJi6JSN5v0yz4jQyOCg2F715zXcB/cGnMONRs1dfS5805agDsVOETNbl6M
-	 tEDH45KyuHHjp5xy9YeQIZVcxpOldEWRBh6IheN9QXpKdVrelSM3k+AkEN3+UkzrJp
-	 RFTpwhqlYYsVM6nAfsBgUGEdeX9ozBkIk+S3Tf15S/s787d8mkP7JyQNCgiQVYjIfG
-	 PN5yurEZQKN87fmViypq1c4kXEfE/wp9wddBIElgG5C+jMGvQNqIx2xllazc4Aa8LR
-	 rrgyvbZAfyekehmwY0pFUeLNREbwWPq+ZxqocshUnODjC1PXOzcI9Ias7cnImY994j
-	 f86pHV80AOSexaDPR82Fe2NYzMAZMDCXtfHh45c/Vv0hRfm+HebHSjmN9yh77Bko9x
-	 mVnvX2XW+6JQd1F7RetdYPxXXf6Cx97NYU22+l2rUV3lwWj1rcofWBuT4BhShnu1RP
-	 c8N+BImz9MTUY6Pj1h72mk5Q=
-Received: from rn.tnic (unknown [160.86.253.35])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 4886740E0163;
-	Sun, 21 Dec 2025 01:35:44 +0000 (UTC)
-Date: Sun, 21 Dec 2025 02:35:34 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
-	tony.luck@intel.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com
-Subject: Re: [PATCH 00/12] ras: share firmware-first estatus handling
-Message-ID: <20251221013534.GAaUdO5vWqMWAdbWbd@renoirsky.local>
-References: <20251217112845.1814119-1-ahmed.tiba@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N8HnKX0M"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2a0a33d0585so27893355ad.1
+        for <linux-doc@vger.kernel.org>; Sat, 20 Dec 2025 20:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766290820; x=1766895620; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mia4arb217YTBcb9kJZ2HR6SMk0Gx/PAcON52vTXcDY=;
+        b=N8HnKX0MzhUVDV+kp1TxHHWlkpfFo2WtbI97G/MES39YenRDY1/TBn333BuB5qHoje
+         82NFLnAu6p4wtfM+C4bRIEKm4P72mqXvjtnykjrvNvoyb7Umjel+8ZtfjBAl6VPb4+ec
+         CsGQqss9F+8VJK45efBydt826I5gH4gdoBfMP+nW11uy5UmVZIFPX4on5TwXVWiG5L9v
+         lGJKKxbuSX9B+jiEiqCXsNe3ADV85CB2sMwr17JxZVgs3V6XdAB/vFki2Ke9M94DDGAD
+         UhfgufLbayDEiAVxyYca5iU1wsFIVX7/ddGqnmCkhPNtlDn5Pek1vgBb3L/OX6/KnK0X
+         khIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766290820; x=1766895620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mia4arb217YTBcb9kJZ2HR6SMk0Gx/PAcON52vTXcDY=;
+        b=dTgRG/AV+MIwq1kp6y9qCkg2U+HPvPQve6575LA+xaa+PdWVVzLc4UsrpPL5UPTEO4
+         MUQJNPs/Y4dIK2a/Qft/QNLr7QvKSHp6Y7D2xSHoV8orKkcxJF46X8PWguux8mgd8dsI
+         fZy5Nsh47R6qqxu0ypY6xPXuEQoQR7RfxkiE0+SSU9dEVMQrFVPFqJhZdkBvG19AFkjx
+         hHvNwydA2oSTqyiByrSBSId9thEdDUvEoETI49LZcWV5tOeMhFcFpG0eYTvW3rMRGccF
+         t+GPP5xGQhWT4NxoxxLpjPi64ivcbiFUvEvBkGukngUmgbfP7/0hdwPTKIn2WzKTRFfM
+         6Qkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBxqi6GkRosr2vABrTFz6NdZm6KQy2TUG7nrRLYRhu9ZlHONN6h27eITsu0n0umFNpFxki7mRnZGc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwA9g9KCHaUtGE1cbAO+gSZhN4ifd7b4r5LMId/pooLxJuizbXp
+	O7ECdQkbuP8RUZL2JaLojw4Oy8oaM9bU9tDFBVks3vJwkLBXQl7/eVxw
+X-Gm-Gg: AY/fxX4yRDHt3cNvRHkGhNB5GCd2Xb4yixDjZ0e6JiqyoVAQQnhpT8fYCRIaXyb25L/
+	JR10UnKmcWZnnKlmIbX1KRCuVJN2pA5DKp6RAOMoBopa67A3o0NGXNXGN60Fag7aIBxOnwx21Vh
+	lKFtKb3oT7mmBwG1wy2fzSsKrRxaFnu5iqKjfSzLdbB04m+z+/htmyQkAjAsyEuro2fdi9S2a8q
+	t1pImgVO/xBPc/FO3+Qw6wlqDT1vojJ/E0X16VEaX8sf3yk/EH89BFzqNkO8wVIYFx4rPz6Oyxh
+	67eSuh+VPSpzt1FjOWr6U9OgY7ii9KJliDzWMlclmJRGiS1e/RNgzzwUNQWTuCOoe4kNwahCmxB
+	5J/49TcjeAjBWujrV3GXo4oO4IfJxLNirGWDNZL0DPkvnZll0BgwQyH/ReWILAL6SWEOVU51ISb
+	D3I4jP9czpOdLMFF3iWNM9WI4=
+X-Google-Smtp-Source: AGHT+IFV6KIycYa2uc5L7MlqMF3r7j3FI6km/KfEtkOwNMIbl0CMKz144eYEiNlykJxDS5npcgVwsQ==
+X-Received: by 2002:a17:903:1c8:b0:2a1:3769:1cf8 with SMTP id d9443c01a7336-2a2f2734d5emr66763305ad.33.1766290819928;
+        Sat, 20 Dec 2025 20:20:19 -0800 (PST)
+Received: from localhost.localdomain ([14.255.43.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cb90sm62319245ad.51.2025.12.20.20.20.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Dec 2025 20:20:19 -0800 (PST)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	gregkh@linuxfoundation.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v20 0/3] leds: add new LED driver for TI LP5812
+Date: Sun, 21 Dec 2025 11:19:47 +0700
+Message-Id: <20251221041950.4631-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251217112845.1814119-1-ahmed.tiba@arm.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 17, 2025 at 11:28:33AM +0000, Ahmed Tiba wrote:
-> Platforms that rely on firmware-first RAS today only get the full Linux
-> handling pipeline when the records arrive through ACPI/APEI GHES. This
-> series lifts the generic parts of GHES into a reusable estatus core, wires
+This patch series adds initial support for the TI LP5812,
+a 4x3 matrix RGB LED driver with autonomous engine control.
+This version provides a minimal, clean implementation focused
+on core functionality only. The goal is to upstream a solid
+foundation, with the expectation that additional features can
+be added incrementally in future patches.
 
-Why is this thing called "error status"?
+The driver integrates with the LED multicolor framework and
+supports a set of basic sysfs interfaces for LED control and
+chip management.
 
-Why is error status so significant so that you need to call it a thing,
-much less a "core"?
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v20:
+- Rebase on v6.19-rc1
+- Link to v19: https://lore.kernel.org/linux-leds/20251130153956.241375-1-trannamatk@gmail.com/
 
-It looks like you basically want to dump error records from a system
-which doesn't support GHES into the common path so they get decoded?
+Changes in v19:
+- DT bindings: Reverted to v17, as making `label` required in v18 was incorrect.
+- Driver: Drop validation code enforcing parsing of the optional `label` property.
+- Driver: Renamed unions for clarity: replaced u_scan_order { s_scan_order, scan_order_val} with
+  lp5812_scan_order { bits, val }. Applied the same pattern to the drive-mode union.
+- Driver: Updated all code to use the new `bits` and `val` fields.
+- Documentation: Fix links (remove backticks, add `.rst`) and make attribute formatting consistent.
+- Link to v18: https://lore.kernel.org/linux-leds/20251123191042.116917-1-trannamatk@gmail.com/
 
-I mean, I'm only guessing because I don't get any wiser from this text.
+Changes in v18:
+- Mark `label` as required for all LED nodes for proper sysfs naming, including single-color
+  (led@[0-3]) and multi-color parent nodes (multi-led@[4-7]); remove previous Reviewed-by tag.
+- Simplified parse_drive_mode() logic: replaced nested if checks with continue to reduce indentation.
+- Use leds[i] instead of each in lp5812_register_leds() for clarity.
+- Remove wrapper function lp5812_auto_dc()
+- Define all magic numbers.
+- Handle parsing properties safely and removed unnecessary pre-initialization.
+- Rename lp5812_of_populate_pdata() to lp5812_of_probe().
+- Save chip in i2c_set_clientdata(), not led; use leds instead of led for the array in lp5812_probe().
+- Remove chip register map structure; use register addresses directly.
+- Minor formatting, blank line, comment clean-ups, and add email to MODULE_AUTHOR().
+- Link to v17: https://lore.kernel.org/linux-leds/20251021155927.140929-1-trannamatk@gmail.com/
 
-So how about you give the high-level, practical use spiel first? What's
-the use case?
+Changes in v17:
+- Dropped direct_mode from ti,scan-mode property.
+- Updated logic so that omitting ti,scan-mode now implies direct-drive mode by default.
+- Refactor lp5812_parse_led_channel() to simplify function arguments.
+- Mark lp5812_cfg as const since it contains only static configuration data.
+- Link to v16: https://lore.kernel.org/linux-leds/20251013173551.108205-1-trannamatk@gmail.com/
 
-Then we can talk implementation details.
+Changes in v16:
+- Renamed property 'ti,operation-mode' to 'ti,scan-mode'.
+- Simplified allowed values using regex pattern instead of long enum list.
+- Updated description accordingly and noted 'direct_mode' as default.
+- Updated core driver to match the binding change.
+- Link to v15: https://lore.kernel.org/linux-leds/20251005153337.94025-1-trannamatk@gmail.com/
 
-Thx.
+Changes in v15:
+- Removed all custom sysfs attributes; driver now fully relies on standard LED multicolor class interfaces.
+- Added new device tree property `ti,operation-mode` to configure direct, TCM, and mix scan modes.
+- Dropped previous Reviewed-by tag from the binding patch due to property addition.
+- Removed ABI documentation since no new sysfs entries are created.
+- Updated lp5812.rst documentation accordingly.
+- Link to v14: https://lore.kernel.org/linux-leds/20250907160944.149104-1-trannamatk@gmail.com/
 
+Changes in v14:
+- Replaced inline constants with proper macros for readability and maintainability.
+- Refactored lp5812_read() and lp5812_write() to simplify logic and improve clarity.
+- Updated lp5812_fault_clear() to use switch() instead of if/else chain.
+- Refactored parse_drive_mode() for cleaner logic, removed string parsing of concatenated data.
+- Updated activate_store() and led_current_store() to replace strsep()/kstrtoint() parsing with sscanf().
+- Removed redundant comments and renamed variables for better clarity.
+- Link to v13: https://lore.kernel.org/lkml/20250818012654.143058-1-trannamatk@gmail.com/
+
+Changes in v13:
+- Fixes build warnings reported by kernel test robot:
+  - Inconsistent indent in lp5812_probe()
+  - Uninitialized variable 'ret' in lp5812_multicolor_brightness()
+- Drop of_match_ptr() and directly assign of_match_table, as the driver is DT-only.
+- Link to v12: https://lore.kernel.org/lkml/20250728065814.120769-1-trannamatk@gmail.com/
+
+Changes in v12:
+- Reordered helper functions above lp5812_probe() for better structure.
+- Clarified DT-only support by removing fallback paths and i2c_device_id table.
+- Directly assign platform_data to the correct pointer instead of relying on
+  string comparisons (LP5812_SC_LED, LP5812_MC_LED) and container_of() casting.
+  This simplifies the logic and avoids unnecessary type checks.
+- Removed redundant messages.
+- Update ABI documentation to reflect reduced feature set.
+- Link to v11: https://lore.kernel.org/lkml/20250714172355.84609-1-trannamatk@gmail.com/
+
+Changes in v11:
+- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
+- Simplify LED parsing to use a unified path.
+- Clean up and streamline code
+  - Use alphabetically ordered includes
+  - Remove redundant comments
+  - Fix style issues (e.g., comment capitalization, code placement)
+- Update ABI documentation to reflect reduced feature set.
+- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
+
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
+
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
+
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
+
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
+
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
+
+Nam Tran (3):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add basic support for TI/National Semiconductor LP5812 LED
+    Driver
+  docs: leds: Document TI LP5812 LED driver
+
+ .../devicetree/bindings/leds/ti,lp5812.yaml   | 246 +++++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-lp5812.rst            |  50 ++
+ MAINTAINERS                                   |  11 +
+ drivers/leds/rgb/Kconfig                      |  13 +
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-lp5812.c                | 642 ++++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h                | 172 +++++
+ 8 files changed, 1136 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
+
+
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
