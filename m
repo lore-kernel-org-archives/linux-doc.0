@@ -1,110 +1,101 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974051EBA19
-	for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 07:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F09B23BF91
+	for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 12:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766300453; cv=none; b=ps/mOrEeLLWAmYjY/SfWyWy3g4mIxog/5m9TAPZFY8XoWhUbltyiKg9qNx/gSUafOvf1lTzP4G/uy2kuaaOYZ9eDCo6/Jyd2KQaqVZCWTpX3fcj3PdwREkrZDN0LL0V/jMHnoVn4yTUI24YSmUWq7KaFK/pM8H7y1DCQbXVO0jU=
+	t=1766320685; cv=none; b=Zo4MN7mMe91o1K1L6vCl1wzEg1joB7j2VeXKuqS+KFYVmffiIsCQmg95BDod1xfzk4SYhZKQ6TzHbaVxAtsHpPqv0cave2nlJj/VUfIwOAW3x2GQmiDC1TymASFo7RusMVRYYWucTBh6aeBu4cejG5pYES61o88jMxr5JuqTeD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766300453; c=relaxed/simple;
-	bh=yGU327kh4Bf6zZy2Yagp8yzrreRNuA+F+B6N0rpT9oY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NEUwlycLQdRL829Z4jMhW5NEsSnytk+UMFHeEC0s9+DsxZldsPxfY+7yYWeSKdPo81KxXQrizp7gJ+JiGpW39LDzrVDJIN6bKda7WEiEl11/IA/ldpArWoRGHCzyev+DSwsFwfYXhAabnnAg5ltDmVUWAtadeFv+DBBwMmqLamI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Id6jsMCQ; arc=none smtp.client-ip=209.85.216.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766320685; c=relaxed/simple;
+	bh=Exm20J/F7QXWjAs2l1Cv+RU/KQ0cszKrykYUgF/vu/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ATq0R4fIJ6CRtKi/KWOcyfwXRCfp6DNySWaFo5ovETwiqrW0Y5DiaNF+DbGMrL+clSWpVC3/2neQq0KME/MnR37wh8syomMfe7E/YAWQWCNG4LdcL/1LpvMjnumJoJwYNSo95zUnleDb37v+w5Om7z868mnfZVqh6tPHIOhkxP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xd8wcGNu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Id6jsMCQ"
-Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-34ccdcbe520so1560884a91.1
-        for <linux-doc@vger.kernel.org>; Sat, 20 Dec 2025 23:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766300451; x=1766905251; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wm4lYrd1UEAfe1OMJYAL+6fR/c/Hp392vfi3YhuFblk=;
-        b=Id6jsMCQCHx2Et3K0SiD6f92fLTrqr1aePvpJy/Z3hIVDdvfc7nmDjg7tJhSRbLgy9
-         fWSqTfPsQWvRd4jyaHGlrwFTRDKg6uFXwhuAteyiqTWKjlTiN4WMcBSVAzXSpbVnzSoC
-         FJQeAzldJKr8hoAA5sYn4uqUU771ISD39mpcbBLiLguVrkVaANEdV+M5PePfSsCQpWg4
-         vvLafpGoy5fUavjr7QVv/ofX4yfMiMwgPZmdhazvIo8Oo4NBOqrY2KxsddlReEWZJ9Mg
-         7eFZ8l515ooTfOV+MplZnWmjqp8JYR+uyl2eT6SrY0NZzhzsPf+9D/VtDJkr5bcmHy8T
-         JHHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766300451; x=1766905251;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wm4lYrd1UEAfe1OMJYAL+6fR/c/Hp392vfi3YhuFblk=;
-        b=kx1xlXur5YNbOmuN8i1p1Hl8lZYIkD+Oc5tcwgTLKyAJP/ieugM516MpOof56WPhfR
-         4pQFaT1CFB0Rozk0J12aep4+YjGKZ7kkPd2SuJnEz47dvsFujOAafxBW1S7J++U0mk+U
-         mv3bxnIh8jcqzcqTySWsY9a1nIVVT9r9lfJ4u1q2YBHnBpwJvzi3jY99da0WRIsccm/s
-         MO1Yy2kAcgTPn4Qwazh/0T8HQL8DSzwvv3C4iC182qs1ZJGI8XJBAgTJPQ8shyAqsN24
-         VPgyENbz//wJr6N9/B30YfrmyXPCair3QFngT88WqE4bEkSVZblKBvLKIm5HusS4FsTz
-         KsLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWQP2UBTWIztuoPdYthTn1UdGSwBJh/+TVGtjTrcoJVFSNcug4+03oeEuPS+m2mOBPZwqNKia0TpfU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymG/gmkds00Z7uhkPlM8o3AzGbkOP0M+ZDVORWqz7fQmCRojo5
-	53xn2fl1DztC+VHvp7h6h6HNHeU8VTkko+CYMvTiJGaATUHYFAWLMlcJ
-X-Gm-Gg: AY/fxX7dt5o/JB6nz3sHywpggovvEiWPmfyPP+Iw59iDY2P8nVMXZKoElOzLufvyD1+
-	0dzoz/EjUPZ2IK6NDf2nWIuiKGiu0XMK8fbpBB/EjQjNMVIuMtOgHDWTEDKJuqEWevgqhvm0U71
-	iAHJHhoVZLTkNFLqNqrq9vKs+JYGKJExK6mrTII7xQkuwu1Rt0cgEQHZVV4Tv/eip9b/gI90Ef/
-	QHrcFcUazYt+6WmySqiCxrXfh2hZV4ALKKywbE9PMA4kFQs+vcUQ/Zs+osK/OotJ2OoBXth7Ael
-	xkjBFJpTQsOGnVr7lixPMBZmg1f9bVF57flsgeA6LPXVmpquSe5RgQXe9xnlZYGFLbKiki/wdnf
-	OpuJNVps9k66WoBEIi5b/eTkHOWQnXotnozPpvnGNGDjAC8TnD483lRaC9yr6yWDQoAe60NW1MR
-	xDR6uMSMiY0jPjgbRnnGk777FsST5BqQuvsMCyQc16mrRaGQDvlqkWJbANnh2LkSt54w==
-X-Google-Smtp-Source: AGHT+IEVTyoizp72hHa2oRLjdKpOv2xTmjBKmKZHtuDvcFdYNCRlNJ1HgycXM39JHS+fOnG6zZbWAg==
-X-Received: by 2002:a17:90b:4b0b:b0:340:c094:fbff with SMTP id 98e67ed59e1d1-34e71e09fecmr9309489a91.10.1766300450888;
-        Sat, 20 Dec 2025 23:00:50 -0800 (PST)
-Received: from cncf-development.local (90.106.216.35.bc.googleusercontent.com. [35.216.106.90])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-34ebeac8623sm652843a91.1.2025.12.20.23.00.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Dec 2025 23:00:49 -0800 (PST)
-From: SungRock Jung <tjdfkr2421@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Alexei Starovoitov <ast@kernel.org>
-Cc: bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	SungRock Jung <tjdfkr2421@gmail.com>
-Subject: [PATCH] Documentation/bpf: Update PROG_TYPE for BPF_PROG_RUN
-Date: Sun, 21 Dec 2025 07:00:41 +0000
-Message-ID: <20251221070041.26592-1-tjdfkr2421@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xd8wcGNu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766320683; x=1797856683;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Exm20J/F7QXWjAs2l1Cv+RU/KQ0cszKrykYUgF/vu/0=;
+  b=Xd8wcGNuEYo0+SVaX/RRoFb112aWaMLSlxDAJu1QjLdEYGdakhVDXweP
+   4KJC5GRLDxRW1SVtQer6KeuBVQsuoyKtJ/2WpVuS5yP2y8Rfl6ZV07YWm
+   nUP+SgxCg10/iOks1J52n0ZKJ3u54KKXy6xRoo7XDi61XlTRwGBb1GhTh
+   kmovNn65JD+CbqB1dcEwNdejqErKXovpyy7kwv1D6zSMFt+5mtccpbZ9c
+   nRLaibJjvfC7xXvsTRzsicchTs2fW0SGde9O0jSeDP1srg3FPQipdPYI3
+   0BU3EuIXoUeXR/dSQOFMsW2xAP/rmS90YeBbCHn5pGb4kxwHycIM7t6IS
+   Q==;
+X-CSE-ConnectionGUID: mpVXOuC2TFejP/HmAZ032w==
+X-CSE-MsgGUID: 59eBF0vWRx+wm5F0xS/UEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72065207"
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="72065207"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 04:38:01 -0800
+X-CSE-ConnectionGUID: 7jBlt3rqT9uFOFrVaKgwpg==
+X-CSE-MsgGUID: aysWff40QmGINTdUv+Miqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="199592121"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2025 04:37:59 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXIhB-0000000053Q-3Axy;
+	Sun, 21 Dec 2025 12:37:57 +0000
+Date: Sun, 21 Dec 2025 13:37:46 +0100
+From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sashal:spec 1/131] htmldocs:
+ Documentation/dev-tools/kernel-api-spec.rst: WARNING: document isn't
+ included in any toctree [toc.not_included]
+Message-ID: <202512211329.2JmvrzuC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-LWT_SEG6LOCAL no longer supports test_run starting from v6.11
-so remove it from the list of program types supported by BPF_PROG_RUN.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: 0255afb0b87746723affbefad17b2caa26d29180 [1/131] kernel/api: introduce kernel API specification framework
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211329.2JmvrzuC-lkp@intel.com/reproduce)
 
-Add TRACING and NETFILTER to reflect the
-current set of program types that implement test_run support.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211329.2JmvrzuC-lkp@intel.com/
 
-Signed-off-by: SungRock Jung <tjdfkr2421@gmail.com>
----
- Documentation/bpf/bpf_prog_run.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/bpf/bpf_prog_run.rst b/Documentation/bpf/bpf_prog_run.rst
-index 4868c909d..81ef768c7 100644
---- a/Documentation/bpf/bpf_prog_run.rst
-+++ b/Documentation/bpf/bpf_prog_run.rst
-@@ -34,11 +34,12 @@ following types:
- - ``BPF_PROG_TYPE_LWT_IN``
- - ``BPF_PROG_TYPE_LWT_OUT``
- - ``BPF_PROG_TYPE_LWT_XMIT``
--- ``BPF_PROG_TYPE_LWT_SEG6LOCAL``
- - ``BPF_PROG_TYPE_FLOW_DISSECTOR``
- - ``BPF_PROG_TYPE_STRUCT_OPS``
- - ``BPF_PROG_TYPE_RAW_TRACEPOINT``
- - ``BPF_PROG_TYPE_SYSCALL``
-+- ``BPF_PROG_TYPE_TRACING``
-+- ``BPF_PROG_TYPE_NETFILTER``
- 
- When using the ``BPF_PROG_RUN`` command, userspace supplies an input context
- object and (for program types operating on network packets) a buffer containing
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
+   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/touchscreen/himax,hx83112b.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/admin-guide/kernel-api-spec.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/mediatek-mdp.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
+   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
+--
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+>> Documentation/dev-tools/kernel-api-spec.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/netlink_spec/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
+>> MAINTAINERS:30080: WARNING: unknown document: '../admin-guide/kernel-api-spec' [ref.doc]
+
 -- 
-2.48.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
