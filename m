@@ -1,108 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC27182B8
-	for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 21:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA9D182B8
+	for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 21:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766353814; cv=none; b=F/wCcUXydsj1wMwfihqdDe6kOX+Tohnu4tkGtJ9dyQKv+dSLSaxFAiF64atxVSrrQmGMpublLEFsVCJHPQT2ImYIbxrE1nASoUoF1nDBDGxQPnkBnoGSlVMbHx+upeEGwWWLnyVy0kg1AfnMcGpU45wFblWh2E4w8np1wwzjj7U=
+	t=1766353837; cv=none; b=gunN37f8qVRR9jpPmzzdKU3HOttZogUfFqs7d6c8iXTSmdKCqUxV/EE2ak1bGALp659I5YYnEYFKdner3DCBhcQeTvRmONkWrYsPCl3I9ZDotykFzF4MQw/+oBUf4FiTclD5YLC9NbS0CbkuKcwao6eUoyvhObk2vIWi0panfFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766353814; c=relaxed/simple;
-	bh=wK4hv0liv6fI13orAi0jiRtUoKbQmRln9wYbtPfdaww=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pHZOdu4UewNR2Cv/y9/XBUJzkl8I4DLuxPNFWGkg1WQYr2TxgOmslsKF3YxvOUf+pCaxQvG0iluJImZQJryb1P6HwRlQ0vD/gY2JVP7vaXW6JvMGU9zcqK95SJU375z7ZU7frPBcTBkolXIYR7OBTBL4qzD0cl+/tMEHUlPSems=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Abyp3va0; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766353837; c=relaxed/simple;
+	bh=I8ESPuhbHJz02YptQK1tw7Lrl7Cucbn6A3EDj5euzbk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LvLItA9MkZ25lMRuyZKPtIxA4FyjkQEAgIyv0yw7WTULoKHwPV+D7heU+cY4YdHBM+sVb4K/Qwi8A7QrY6iXXeB4T8oY+xdJ+fQUCamwnaY7L6R3vyVPIjDYlRgaenHV8lIwSDHcLw2wmWjzuqiMog6q3pufPDMhOfZu2dMSHu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=ElduFbF1; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Abyp3va0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766353811; x=1797889811;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wK4hv0liv6fI13orAi0jiRtUoKbQmRln9wYbtPfdaww=;
-  b=Abyp3va0bsvDvW1rlBcQluza35Eo/1vHTJASUFLCWytmX6h0S2Mq16NZ
-   1XCv1maxMEstz9VW22wTREOzMhMDkrLsnTweY2AZh/H6RR3XZWmBjw9Cn
-   4QeJRz8dNexur3fflpXNf6rrjdoqx0esJR6B4AC6VOohcVm1y9c6jgU4m
-   LuYXirryH4WbjP81K7fBWUrPAaA/6zeqT/WfHzKokkYNiYWz7Oi3I2LNp
-   d32cXuIG1+geM6Mh22fmGmlPWXokrxnJVe9YVLCERmwYx52/YHVc2DNjt
-   frEX85sR9x4Ao45my5mKmKCgT1LhHjT8CXJBpgg3JuJu6++HjvZ9Mbdk6
-   Q==;
-X-CSE-ConnectionGUID: kjBGlOutRESvQDFNYhOHZw==
-X-CSE-MsgGUID: dO9wiQKtReOX82BSsNyvfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68297116"
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="68297116"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 13:50:11 -0800
-X-CSE-ConnectionGUID: uo4ihW/PTWSHu3aVVECjsA==
-X-CSE-MsgGUID: YRLluMLfRx2WOVe2/d3vTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="199388689"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 21 Dec 2025 13:50:09 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXRJW-000000005Fk-2E3C;
-	Sun, 21 Dec 2025 21:50:06 +0000
-Date: Sun, 21 Dec 2025 22:49:44 +0100
-From: kernel test robot <lkp@intel.com>
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Shakeel Butt <shakeel.butt@linux.dev>, linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-new 98/101] htmldocs:
- Documentation/admin-guide/laptops/index.rst:7: WARNING: toctree contains
- reference to nonexisting document 'admin-guide/laptops/laptop-mode'
- [toc.not_readable]
-Message-ID: <202512212211.GvfwAGPP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="ElduFbF1"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0d0788adaso29265075ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 13:50:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1766353836; x=1766958636; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I8ESPuhbHJz02YptQK1tw7Lrl7Cucbn6A3EDj5euzbk=;
+        b=ElduFbF1Wm9HzMRGVYz7mVZ2fchfCwkukqrYOiO1Q15hVZHph128EN9lDdQah93HRj
+         biZfrTPDvrDDVuNznWjIux2Z3/D8Va09Alua61X01mSnUI9svw26+Xi3hepXtb1HdK+4
+         9XeR5RuNGuNmgS90PGkGMt+vWKVFGvaZU07T5MwbgdBQGzdlEmaIZq9zWkmhoU+kEt++
+         RRHaUbdMlizzn8XDUzlFS6o+WDbu5Bf74t2GRGj10eVn2gM8BWVc6ZkaOu5EfRctSy8j
+         0gkuuANmbGktLoUF1M7PiiWPI5nb5reP/hx+39g+48wcwzZUf+8s6G//sCRbpU8l+KaX
+         JiXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766353836; x=1766958636;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=I8ESPuhbHJz02YptQK1tw7Lrl7Cucbn6A3EDj5euzbk=;
+        b=haazRU7JTlVRTnHRKZTMejIiAMyHgxeMTync8VDXb8zW7cja4+MFiu1muvRtyiJ0Qb
+         pM0CGfIHhGJiiBM1MjlHjICPqSu8KRlszVCkE514nbcBrx6g5BBFtTjBDxjF1reZ330j
+         uOb+GjBnJIzjfIx4JCxkyQgy2CurvV/2YRRDhsTdGw9yohajO3WhLTBr+JKE4F91I0gh
+         2QRLRK7B+7tY//fBxYHbtFu0ldX2c7dzMFQcrddo4pSmFgmRlajwvIa+ss8RwmiYpZb9
+         /pcDuAud26dRrgguUAepFcW0lKINGyxZclQZeLt6W9UYW2115klUSRfXujbMK/aMu5tU
+         IoWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPnr9w3tKdKfoiS54QaZfhaiYZQvSmnk/mbZvKD8thGpgtikoFxUQ/bu8vdG0Mxjz85zLM6EtBvyk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyutf9FnyFuUWahy8mvXWnzC1NJmE64WbmZ/Y4+Njz7uXYv2dN/
+	f/wSfZ60zb0NJ92f+XwV5zH/wXCLIlhsGUIS4ukTH5PPCULAAHOSq+Xph5tpITH6o8j4NtlB3vf
+	nFgellt6+SSqLA5n0zrxpbG3t3z20A68=
+X-Gm-Gg: AY/fxX6eEqzllPNJuB8F+A6PMydCxAX4gYLc7pdBD+Sl+G3ZMlQ2NJHQewkaRkRdTLB
+	MnqVjCGu3HgeoSG8EFvfLCqBGsrOIsz4klrNufHd6EJ60T2riV0QIkXTHaVEanvY4GDt7Wuz+pF
+	m+jQT7S/V0vzWjwxcn1MvtqYP+N6AGFs9s3lBT7HKJA3nmNvb8FZfcth53D/lVXNXtB6E1VXCkc
+	18Ys0Y5W9OUGio8xtetBsR3h3KEWHkMEph6X6nhjpPbTTOQe7FvkHuvGDDNn2LeU0f2O9JxvsW9
+	HKjJzcMfymE6RYuuXc7RKL2Ql9So
+X-Google-Smtp-Source: AGHT+IGw0n+Vw3mSNWIuK6jiR5TwNM1Orq2NMptHhH0WFtIprggK0653bvytXvjKFmmgd9+xofkm/n3sIE9SOEugciA=
+X-Received: by 2002:a17:903:b83:b0:2a1:388d:8ef3 with SMTP id
+ d9443c01a7336-2a2f222bc6amr92154845ad.18.1766353835637; Sun, 21 Dec 2025
+ 13:50:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
+ <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-10-b5165fab8058@bootlin.com>
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-10-b5165fab8058@bootlin.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sun, 21 Dec 2025 22:50:23 +0100
+X-Gm-Features: AQt7F2repQdtBoV8d-ez3LVKkRTtOC5SATWZ81V_d9C-sFP5czyoEjd7MirbIfc
+Message-ID: <CAFBinCDt=9H1ccXatr8JYA=atG+vDCBX9x0xor9kibUfo1NKpA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/22] drm/meson: encoder_cvbs: get/put the next bridge
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, 
+	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   287373d0b6ee3872d95edfd1921fb2f18535d6cd
-commit: 7cc91bf52584387445d654cde466ba5cb1235757 [98/101] mm/block/fs: remove laptop_mode
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512212211.GvfwAGPP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512212211.GvfwAGPP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   WARNING: No kernel-doc for file ./include/linux/pci.h
-   ERROR: Cannot find file ./include/linux/mod_devicetable.h
-   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
-   ERROR: Cannot find file ./include/linux/bootconfig.h
-   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
->> Documentation/admin-guide/laptops/index.rst:7: WARNING: toctree contains reference to nonexisting document 'admin-guide/laptops/laptop-mode' [toc.not_readable]
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
-
-
-vim +7 Documentation/admin-guide/laptops/index.rst
-
-b02f1651ff7758 Documentation/laptops/index.rst Mauro Carvalho Chehab 2019-04-18  6  
-b02f1651ff7758 Documentation/laptops/index.rst Mauro Carvalho Chehab 2019-04-18 @7  .. toctree::
-
-:::::: The code at line 7 was first introduced by commit
-:::::: b02f1651ff7758c4db0d759ab765d39986a79f5a docs: laptops: convert to ReST
-
-:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Tue, Dec 16, 2025 at 7:00=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+>
+> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
+be
+> function and stores it until driver removal. of_drm_find_bridge() is
+> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
+> refcounted and use bridge->next_bridge to put the reference on
+> deallocation.
+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
