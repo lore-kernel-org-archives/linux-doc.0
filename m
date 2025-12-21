@@ -1,65 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48F02F84F;
-	Sun, 21 Dec 2025 19:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51356239E8B
+	for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 19:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766345534; cv=none; b=Y9fUA0G2jnxHqZsaAs8XrQLaige0WeBNPNHdSvUGnFEDZL1zMg8bNj6dFd7BoIUyfAUe5M5Yu/Z5USLZlD03kP9aHY6Rcvo2BWtUL3lTXyDcIISvlcDX4lL8Xvg60RLZVnfU6CgI+TmBbWbcG2m5ESzBeGZjz4HeFEkDtOehORw=
+	t=1766346324; cv=none; b=OVn5AqawxkpuKYmOmuEf7aduP494QWdQF+BeqKZKjqwi11SDKU6C5y9ZCbpcfylPTUs+vly2rMyiRia61YJn9OJ9Ty5r9al6xwCv9XOxlluqJIOEwUfJrR0NBmcLybEy/t1JELVFqwkzmX+4Rrq4ka5DEvBY9PwIMd0lY9n74Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766345534; c=relaxed/simple;
-	bh=b9Nwd9sXKSYEQNfuaVJPScUfQ1fvQxMuXpR46Wa/4LM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kln3TquclvfcJG5xE7ERShkA2U1ANQl/cvf05S1Q6tCLt7XU5J+vJfsG7rFuC5e3rHUuhCoD5w2RErkOR4vPmR6ZFk/qA1Ur3/7Wqv5999vIa5JZg3rVg9lXR+Lpp5n6/3PlzRByfmEuZIhpX/g2I2PKPc4Bd43HU+WDdLFTOMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wuzr45lr; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766346324; c=relaxed/simple;
+	bh=cSTfWtKPoKhckOr3jRJj3j0TxOGe28VrRa/l9N3NMqw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bLYf/jkTGi9CeJMdqbStvnvlJi00/WXTkVtYt7fzgXQg965pvQszcshff8xXeCqNGFcA77VEZOoc874bxk5wWTuHO9ojxOv+1KT+/aRNA9w5/Lh0iz+0lj5xv2CTeUV0YaPgf4izTyHUPr7Z2w5+7clho9DKdAsrbCOAW4N6hn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aiXbbWx4; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wuzr45lr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766345532; x=1797881532;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b9Nwd9sXKSYEQNfuaVJPScUfQ1fvQxMuXpR46Wa/4LM=;
-  b=Wuzr45lrHAYD6ZghjB9sF76SPdFjJEk1aS1QJk9rEt3vv7xN0FLTc1rK
-   ctAmkmf/JRePX1wjgtiF8Q5+lmA6b55didaCXalFdykeh0ma+iE4CGwya
-   2wpkcCHVMY6+tG+63IsynkMuEQHz0g3IUr5sZwU4c8aZtYqa/sroI7v0Y
-   dv3ijORrdRXmy+4O7U92URVfmM3NrY8m0kJPvSSb873Cl+Mj+6byvaaNy
-   1rY5hK8MShxaBXchb7+KP32Ig5ATRvxgmKyJVGMDgT2xeHseGNFgd1j/A
-   dTTcsNWX4Mr+9vAq8nACg0AaTxjsim9dR2qGG6yiYlRi0TWVT8hvBr5e0
-   g==;
-X-CSE-ConnectionGUID: DDkiu8YMTlegYJYWJL80tg==
-X-CSE-MsgGUID: 4BctYJZ6RnCU9da1pm62UQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79582785"
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="79582785"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 11:32:11 -0800
-X-CSE-ConnectionGUID: ZAYyN8XSTVSW1Pl8TDrcXg==
-X-CSE-MsgGUID: k5+MMjNURX+fVBoDoahJDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="236766300"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 21 Dec 2025 11:32:07 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXP9w-000000005DA-2giu;
-	Sun, 21 Dec 2025 19:32:04 +0000
-Date: Sun, 21 Dec 2025 20:31:25 +0100
-From: kernel test robot <lkp@intel.com>
-To: Ahmed Tiba <ahmed.tiba@arm.com>, linux-acpi@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, tony.luck@intel.com, bp@alien8.de,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	catalin.marinas@arm.com, will@kernel.org,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com, ahmed.tiba@arm.com
-Subject: Re: [PATCH 02/12] ras: add estatus core implementation
-Message-ID: <202512212012.arq4zqYv-lkp@intel.com>
-References: <20251217112845.1814119-3-ahmed.tiba@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aiXbbWx4"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47796a837c7so22928335e9.0
+        for <linux-doc@vger.kernel.org>; Sun, 21 Dec 2025 11:45:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766346321; x=1766951121; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iTecQnEOiM4cqOp9HNhUH1paLZE1WIZf/qWmCV1hARc=;
+        b=aiXbbWx4JAxuuenNxxGmwCK9I8wnpWsE1uKCotfZEiKsxJyf2c6psPkMa2gwWP8pbN
+         GWdmM9wbY2LmqIXtMGfCc9gVllEjNNF+UPb0xT9Pb5DPvyjp/dELdw+yPpZf081LznlA
+         xyyplTa+ziAT6++NznzWc9S3b2tf+vGHxwgXf/VcfiDjgCBFbK7stMHvGjLRKxGzKS6/
+         ifvmHqelQ17NMry3RmtBqn6k2fkzr4dHPo14KRvT/cjl6PLsnYHQr0AIQXhTBEayPsfL
+         wAATmITRBCMTZ7igRGwZDLnm8ROg7zxXoUdRXOz86IGuHtPV2iuA7T/PJGfVgB2vqvw/
+         QwsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766346321; x=1766951121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iTecQnEOiM4cqOp9HNhUH1paLZE1WIZf/qWmCV1hARc=;
+        b=lR9DbUVpmHCwwwRp/8fFde7sy73lZqvCmpbjePHFs2AY47J38XZSkaFk/xrkJftS16
+         fbncrN2aFdozguWTzd1p56CzbJg4T2pO7KvPVJ15W4vvNk2DEEcxt6luAy9+iGFHpyTf
+         HlY5zYLMsMSiwjlPkL7jEXg0nMPPVRGbQSiX+DvDZgwaBomYTd0mDAAwxMB6CP4nJEkp
+         VwY5zFU4iT5FN/jZSljYSHxOSbNmGC4D1/4IvdteEogI2LEa7VuN24xGQL3cZRj+dDYt
+         UDbIeHBl4l9qXqgr6bEyTz+uxx2dZ6xDdznf+5SdQgy64NwEIO4DH7wHzUCHyHHnBcI/
+         XUNA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEj6zEP676OWtOkrdRT0DHDH7Eqk9NerRR7kUcK4SfJ73ZEjM9/hsJS7tZvCgmzzT86CtV1D7e1cQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPp8JNR+5OLlSKO95cVk3+thGfNa+mucrgdNsnxwCbbXHUd2Br
+	kyeMKJkc2/UQPOESuHXuW9EdPDI6WoL4t6SfouE6nXL4Mr7SkwSsdE/9
+X-Gm-Gg: AY/fxX6DlSt8OJfZFf+3MU9tRC3tBXVEdpYrv8hnlsYwHIhMRIBDzvsFRRA4UKe9v8/
+	9SnlP2nhYpVaANVDUNUmW03z/ywjo/RDvaO+Im6yK7gBYoRIAabwQi2XsB6WrnigMLOkEJdCdN6
+	OR3gOcIUhFIBcTLPUl5Km6Ifs6YW6K+7MOtAefRo3cs/KFK1VUINrGT/uw6M0bOOIKpE53S2gFh
+	xXM4BktvP1M6Dn7QnONrS0ViimcbGDwQWnDLxgc0BnPuEnXHuIvK6eDbE9ESdInlKLduOOgyUAo
+	Vht2WZCSPhmLUdJBj2a2ecth45/ekYgl4qb/S0IsPIXx5ehI9Dr0hqKdpWU1CAGosAu8WgSm+Cq
+	EghMN5xloN46NPRvv4xUCSWQ1yqdctBm58HWDa/C7u2W7nkXVTHL/FVRHgvsECDCsPtj2SvT6D8
+	T4s8gvnnRA7rOv9DhY55f6x/bMCUCuB1ZnWdY7GVfoKdGXaNQBIfN2qNg+0cqnHFLrWpnU78F1t
+	s2q
+X-Google-Smtp-Source: AGHT+IFTts7ykm/dTtNEBPERRiikHRCeJkCXmDKtdntcwtIRm4AZRPX9IX3X0hecxYJbCjN/4/xU4Q==
+X-Received: by 2002:a05:600c:4e8f:b0:479:3a89:121d with SMTP id 5b1f17b1804b1-47d1959c74fmr90402945e9.36.1766346320235;
+        Sun, 21 Dec 2025 11:45:20 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d19346dfcsm185559065e9.1.2025.12.21.11.45.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Dec 2025 11:45:19 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Sun, 21 Dec 2025 19:45:11 +0000
+To: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 1/6] dt-bindings: iio: frequency: add adf41513
+Message-ID: <2tpnfgcrr4k27ghdz4ciwkoekf3gof4l4rnp5xr7ukxi37ouls@c33ey3kytevc>
+References: <20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com>
+ <20251219-adf41513-iio-driver-v2-1-be29a83d5793@analog.com>
+ <20251221165928.324db536@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,80 +83,264 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217112845.1814119-3-ahmed.tiba@arm.com>
-
-Hi Ahmed,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on efi/next]
-[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge robh/for-next linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ras-add-estatus-core-interfaces/20251217-200718
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
-patch link:    https://lore.kernel.org/r/20251217112845.1814119-3-ahmed.tiba%40arm.com
-patch subject: [PATCH 02/12] ras: add estatus core implementation
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512212012.arq4zqYv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212012.arq4zqYv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512212012.arq4zqYv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/firmware/efi/estatus.c:505:13: warning: 'estatus_cache_add' defined but not used [-Wunused-function]
-     505 | static void estatus_cache_add(struct estatus_source *source,
-         |             ^~~~~~~~~~~~~~~~~
-   drivers/firmware/efi/estatus.c:435:12: warning: 'estatus_cached' defined but not used [-Wunused-function]
-     435 | static int estatus_cached(struct acpi_hest_generic_status *estatus)
-         |            ^~~~~~~~~~~~~~
-   drivers/firmware/efi/estatus.c:411:12: warning: 'estatus_print_estatus' defined but not used [-Wunused-function]
-     411 | static int estatus_print_estatus(const char *pfx,
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/efi/estatus.c:340:13: warning: 'estatus_clear_estatus' defined but not used [-Wunused-function]
-     340 | static void estatus_clear_estatus(struct estatus_source *source,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/efi/estatus.c:321:12: warning: 'estatus_read_estatus' defined but not used [-Wunused-function]
-     321 | static int estatus_read_estatus(struct estatus_source *source,
-         |            ^~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/efi/estatus.c:117:12: warning: 'estatus_panic_timeout' defined but not used [-Wunused-variable]
-     117 | static int estatus_panic_timeout __read_mostly = 30;
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/uprobes.h:13,
-                    from include/linux/uprobes.h:66,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs/super_types.h:7,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/seq_file.h:11,
-                    from include/linux/seq_buf.h:7,
-                    from include/linux/trace_seq.h:5,
-                    from include/linux/cper.h:13,
-                    from drivers/firmware/efi/estatus.c:10:
-   drivers/firmware/efi/estatus.c:106:29: warning: 'estatus_report_chain' defined but not used [-Wunused-variable]
-     106 | static ATOMIC_NOTIFIER_HEAD(estatus_report_chain);
-         |                             ^~~~~~~~~~~~~~~~~~~~
-   include/linux/notifier.h:116:37: note: in definition of macro 'ATOMIC_NOTIFIER_HEAD'
-     116 |         struct atomic_notifier_head name =                      \
-         |                                     ^~~~
+In-Reply-To: <20251221165928.324db536@jic23-huawei>
 
 
-vim +/estatus_panic_timeout +117 drivers/firmware/efi/estatus.c
+Hi Jonathan, thanks for your time.
 
-   116	
- > 117	static int estatus_panic_timeout __read_mostly = 30;
-   118	
+On 25/12/21 04:59PM, Jonathan Cameron wrote:
+> On Fri, 19 Dec 2025 12:34:48 +0000
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> 
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > dt-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
+> > can be used to implement local oscillators (LOs) as high as 26.5 GHz.
+> > Most properties refer to existing PLL driver properties (e.g. ADF4350).
+> 
+> "Refer" implies a cross reference in this document.   Based upon is probably a better
+> way to put this.
+> 
+> Otherwise I've mostly commented on properties that to me don't sound like
+> they belong in the dt-binding as they are policy things that we want
+> to make runtime configurable.
+> 
+> Thanks,
+> 
+> Jonathan
+> 
+> > 
+> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > ---
+> >  .../bindings/iio/frequency/adi,adf41513.yaml       | 246 +++++++++++++++++++++
+> >  MAINTAINERS                                        |   7 +
+> >  2 files changed, 253 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+> > new file mode 100644
+> > index 000000000000..01ceb2a7d21b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+> > @@ -0,0 +1,246 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/iio/frequency/adi,adf41513.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Analog Devices ADF41513 PLL Frequency Synthesizer
+> > +
+> > +maintainers:
+> > +  - Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > +
+> > +description:
+> > +  The ADF41513 is an ultralow noise frequency synthesizer that can be used to
+> > +  implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
+> > +  downconversion sections of wireless receivers and transmitters. The ADF41510
+> > +  supports frequencies up to 10 GHz.
+> > +
+> > +  https://www.analog.com/en/products/adf41513.html
+> > +  https://www.analog.com/en/products/adf41510.html
+> > +
+> > +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - adi,adf41510
+> > +      - adi,adf41513
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  spi-max-frequency:
+> > +    maximum: 25000000
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +    description: Clock that provides the reference input frequency.
+> > +
+> > +  avdd1-supply:
+> > +    description: PFD and Up and Down Digital Driver Power Supply (3.3 V)
+> > +
+> > +  avdd2-supply:
+> > +    description: RF Buffer and Prescaler Power Supply (3.3 V)
+> > +
+> > +  avdd3-supply:
+> > +    description: N Divider Power Supply (3.3 V)
+> > +
+> > +  avdd4-supply:
+> > +    description: R Divider and Lock Detector Power Supply (3.3 V)
+> > +
+> > +  avdd5-supply:
+> > +    description: Sigma-Delta Modulator and SPI Power Supply (3.3 V)
+> > +
+> > +  vp-supply:
+> > +    description: Charge Pump Power Supply (3.3 V)
+> > +
+> > +  enable-gpios:
+> > +    description:
+> > +      GPIO that controls the chip enable pin. A logic low on this pin
+> > +      powers down the device and puts the charge pump output into
+> > +      three-state mode.
+> > +    maxItems: 1
+> > +
+> > +  lock-detect-gpios:
+> > +    description:
+> > +      GPIO for lock detect functionality. When configured for digital lock
+> > +      detect, this pin will output a logic high when the PLL is locked.
+> 
+> This seems to be one potential use of the muxout pin.  So to me feels like
+> a policy decision that belongs with the driver or userspace, not in dt.
+> mux-out-gpios:
+> would make more sense to me.
+> Some of the potential settings probably don't make sense but then we just
+> don't support those in the driver if this is connected to a gpio.
+ 
+Actually, there is the DLD pin (separate pin from muxout) dedicated for lock detection.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > +    maxItems: 1
+> > +
+> > +  adi,power-up-frequency:
+> > +    $ref: /schemas/types.yaml#/definitions/uint64
+> > +    minimum: 1000000000
+> > +    maximum: 26500000000
+> > +    default: 10000000000
+> > +    description:
+> > +      The PLL tunes to this frequency (in Hz) during the initialization
+> > +      sequence. This property should be set to a frequency supported by the
+> > +      loop filter and VCO used in the design. Range is 1 GHz to 26.5 GHz for
+> > +      ADF41513, and 1 GHz to 10 GHz for ADF41510.
+> 
+> Why is this in DT?  Feels like this should be done by userspace control
+> prior to setting an enable rather than being in DT.
+
+The initialization sequence of the PLL requires the write of all the registers.
+This property exist so that meaningful values are written at start up.
+Here it is desired to have a frequency value that is within the range supported
+by the loop-filter and the external VCO.  
+ 
+> > +
+> > +  adi,reference-div-factor:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    minimum: 1
+> > +    maximum: 32
+> > +    default: 1
+> > +    description:
+> > +      Value for the reference division factor (R Counter). The driver will
+> > +      increment R Counter as needed to achieve a PFD frequency within the
+> > +      allowed range. High R counter values will reduce the PFD frequency, which
+> > +      lowers the frequency resolution, and affects phase noise performance.
+> 
+> Why is this in DT?  Is there not a 'best' choice to be made given a particular
+> input frequency and desired output frequency?
+
+When designing the external circuitry to the PLL, customers often refers to
+https://www.analog.com/en/lp/resources/adisimpll.html
+which is a piece of software that assists the choice of some parts and
+simulates performance metrics. After having the suggested design simulated,
+it turns out that the reference signal path defines the output frequency
+of the Phase-Frequency Detector (PFD), which is set as a constraint for
+the loop-filter design. Therefore, those properties (reference-div-factor,
+reference-doubler-enable and reference-div2-enable) are meant to reflect
+a hardware constraint for a PFD frequency value expected by the loop-filter/VCO
+
+> > +
+> > +  adi,reference-doubler-enable:
+> > +    description:
+> > +      Enables the reference doubler. The maximum reference frequency when
+> > +      the doubler is enabled is 225 MHz.
+> As above.
+
+explained above as part of a hardware constraint for external circuitry design
+
+> > +    type: boolean
+> > +
+> > +  adi,reference-div2-enable:
+> > +    description:
+> > +      Enables the reference divide-by-2 function. This provides a 50%
+> > +      duty cycle signal to the PFD.
+> As above.
+
+same
+
+> > +    type: boolean
+> > +
+> > +  adi,charge-pump-resistor-ohms:
+> > +    minimum: 1800
+> > +    maximum: 10000
+> > +    default: 2700
+> > +    description:
+> > +      External charge pump resistor (R_SET) value in ohms. This sets the maximum
+> > +      charge pump current along with the charge pump current setting.
+> > +
+> > +  adi,charge-pump-current-microamp:
+> > +    description:
+> > +      Charge pump current (I_CP) in microamps. The value will be rounded to the
+> > +      nearest supported value. Range of acceptable values depends on the
+> > +      charge pump resistor value, such that 810 mV <= I_CP * R_SET <= 12960 mV.
+> > +      This value depends on the loop filter design.
+> > +
+> > +  adi,muxout-select:
+> > +    description:
+> > +      On chip multiplexer output selection.
+> > +      high_z - MUXOUT Pin set to high-Z. (default)
+> > +      muxout_high - MUXOUT Pin set to high.
+> > +      muxout_low - MUXOUT Pin set to low.
+> > +      f_div_rclk - MUXOUT Pin set to R divider output
+> > +      f_div_nclk - MUXOUT Pin set to N divider output
+> > +      lock_detect - MUXOUT Pin set to Digital lock detect
+> > +      serial_data - MUXOUT Pin set to Serial data output
+> > +      readback - MUXOUT Pin set to Readback mode
+> > +      f_div_clk1 - MUXOUT Pin set to CLK1 divider output
+> > +      f_div_rclk_2 - MUXOUT Pin set to R divider/2 output
+> > +      f_div_nclk_2 - MUXOUT Pin set to N divider/2 output
+> > +    enum: [high_z, muxout_high, muxout_low, f_div_rclk, f_div_nclk, lock_detect,
+> > +           serial_data, readback, f_div_clk1, f_div_rclk_2, f_div_nclk_2]
+> 
+> This needs explanation of 'why' it should be in DT?  To me it seems mostly
+> to be a debug feature that should be controlled perhaps via a debugfs interface.
+
+There has been a discussion on that, and I understand the concerns.
+Altough it looks like a debug pin, I suppose some board designs might
+expect the muxout pin to be working as a specific function.
+The device driver provides register access through the debugfs interface,
+so worst case, the muxout select value could be changed there.
+
+> > +
+> > +  adi,muxout-level-1v8-enable:
+> > +    description:
+> > +      Set MUXOUT and DLD logic levels to 1.8V. Default is 3.3V.
+> > +    type: boolean
+> > +
+> > +  adi,phase-detector-polarity-positive-enable:
+> > +    description:
+> > +      Set phase detector polarity to positive. Default is negative.
+> > +      Use positive polarity with non-inverting loop filter and VCO with
+> > +      positive tuning slope, or with inverting loop filter and VCO with
+> > +      negative tuning slope.
+> > +    type: boolean
+> > +
+> > +  adi,lock-detector-count:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    default: 64
+> > +    description:
+> > +      Sets the value for Lock Detector count of the PLL, which determines the
+> > +      number of consecutive phase detector cycles that must be within the lock
+> > +      detector window before lock is declared. Lower values increase the lock
+> > +      detection sensitivity.
+> > +    enum: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
+> 
+> Sounds like policy.  Maybe it is related to the circuit design and there
+> is a right choice for  particular board? If not we should figure out how to leave
+> this to userspace control.  Probably as some form of event property.
+
+There was also a internal discussion around that. I'd say that this might
+be related to the application where the design is being used. There should
+be value on making it configurable at runtime, mostly for tunning for
+specific needs, but this is not a value to be changed at runtime in
+field-deployed products.
+
+kind regards,
+
+Rodrigo Alencar
