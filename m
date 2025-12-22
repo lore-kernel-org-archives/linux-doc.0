@@ -1,47 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B218227380A;
-	Mon, 22 Dec 2025 21:53:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4DA2D191C;
+	Mon, 22 Dec 2025 21:57:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766440413; cv=none; b=pg2Pa/ir3ouhpdmxOfFQO2awzut98RxPyeTftBCTiP476VHrRe1YOC8lj4eq7xOJZ99XZiwKuCtVrnExz4ZwRfAPnTExpo4eR7Eh2a4mJaf9zuzlLZKC8KqCpmKStKcPODpdMTsVF8JB/g21IAvdT+5A7TNUBUMtcpDj5eQJ7Ro=
+	t=1766440629; cv=none; b=k9zQR3BoLg5LquK/A0llAPz3NXyzAAZDEkDytSve7bpzx7FHBXVzN8kn9N7JCDV/2samENArBx7flZqbvLaj6UTkzLNFtu69w78WIZiEGuWC+EQOWexww/gaCkT32YLiDQ3yt/DYFXgPW2YQf6dXXUzFeBxrB2n3ncDTOKHgGaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766440413; c=relaxed/simple;
-	bh=qJht2+TAYpiWsuIe/ACIFRmcALr0rLAwGfSlyqvdLzc=;
+	s=arc-20240116; t=1766440629; c=relaxed/simple;
+	bh=X5Ip7mYmMvWuOaqB2DPjVfQNu7VYRWI2yaL0nUY6FJw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ruS5juewvYj6VCBkN2L5pUMssLhnX9Sh6vHyd3YIVhZhKHw7NTQ1uGONAyd0CvjbqrjUeVAKHPXWPiQDmGhE8URU5+S0yLoNMiHV9aC6nbKXzGsCw3hVQMjbLWF8UlYzME+TX5Yeh27UF7RAGexwLZeFvSdI0XSV8MQR5Ywbk38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DCOhkcXm; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=GJ7xpLcIYe5TpBKsXf/rRfVsPO9KpL6QtWkCGQt0GTI8YXEY9+r+RqpNkLUt3lHtSUQg5fLHSSB59RHaMYysMGhU53XXXPFMjEoGCSdf2UdnBcGf8Dksb60VLrGEhyRHEhKErDnLf4c1Kw3sOJPcl0yDm7MYNHW5JAk/7NBm7PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VE1JIut7; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DCOhkcXm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E3EFD4040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VE1JIut7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5127D4040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766440411; bh=qJht2+TAYpiWsuIe/ACIFRmcALr0rLAwGfSlyqvdLzc=;
+	t=1766440624; bh=X5Ip7mYmMvWuOaqB2DPjVfQNu7VYRWI2yaL0nUY6FJw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DCOhkcXmfmR4bIU4QNJ2oJ/uGqOgJU6Jj+NzP/j5CQdSXoeZlJi+ii4hW5hbIXZqG
-	 M5sIawCPJ3JYIAXNG9L0yOiTsk/uFOAFnlPJ9a9ds3d+9Sgnh1Lz/McBkX6H4/afA2
-	 /pUz1a0awr7FR2z/MiwVRaB7M+0gvK5T1P0KeS+mbML8hxpWKFk9+PszbrSoaFchID
-	 qnbmHPZ6Qnn+4qui4jeTYRf7EG0CQ3Z6kdpy1i+nOAI4AEeFvKltOPlC/GrenkXRef
-	 LkroTwqZ7ndMa3559OUtRxuPDrUY+YtQXD01+UUuPXukEdADAgDuP1XoTB9uqwy8zV
-	 VOvGfvc5RHq9A==
+	b=VE1JIut7GUbFPMzQpctI3A9FK1QEyp2Ldqfw0B0NieAbMk3CwtrUNCqg6Rsjwt1DP
+	 34FmuAmhgyA9icj6YwpQ1JZ6LuReNA2mZfgfO7NbnNSwlovciw1C0ryi8uijzrqhZm
+	 gbva7e8Vk3om/A8eF7w7UXp5AMcbdfVn1uIZEbPleLoPcUzXcEawE8OKyjjTbj38VQ
+	 qd4HlmSJaKnHAKlurCK4vOukNA03/PUO0OW6KRon+U3A5gARjcSN1kbYgLCizbs1Rq
+	 7dUqEtZ4Nq9QN875HzTdA9viuUXQOTfIbEJl0q4VNFTfBAiZGvedPvgW/bMPMmKrdR
+	 3+w/pry6NPEpA==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E3EFD4040B;
-	Mon, 22 Dec 2025 21:53:30 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5127D4040B;
+	Mon, 22 Dec 2025 21:57:04 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 0/6] kernel-doc: add support for documenting vars
-In-Reply-To: <cover.1765894964.git.mchehab+huawei@kernel.org>
-References: <cover.1765894964.git.mchehab+huawei@kernel.org>
-Date: Mon, 22 Dec 2025 14:53:29 -0700
-Message-ID: <87sed218va.fsf@trenco.lwn.net>
+To: Max Nikulin <manikulin@gmail.com>
+Cc: linux-doc@vger.kernel.org, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org, Bagas Sanjaya
+ <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2 1/2] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
+In-Reply-To: <f0a3e0aa-e4f9-41d3-8931-57837831d136@gmail.com>
+References: <aSuj66nCF4r_5ksh@archie.me>
+ <f0a3e0aa-e4f9-41d3-8931-57837831d136@gmail.com>
+Date: Mon, 22 Dec 2025 14:57:03 -0700
+Message-ID: <87o6nq18pc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,26 +52,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Max Nikulin <manikulin@gmail.com> writes:
 
-> Hi Jon,
+> Don't claim that /dev/sr<N> device names for SCSI CD-ROM drives are
+> deprecated and don't recommend /dev/scd<N> alternate names for them.
 >
-> Please ignore v6. I ended adding a R-B at patch 6 instead of on patch 5.
+> /dev/scd<N> device names for SCSI CD-ROM drives are not in use for more
+> than a decade, see commit [1] that was a part of udev release 174.
+> Earlier, related rules were volatile, sometimes /dev/scd<N> were syminks
+> to /dev/sr<N>, sometimes vice versa.
 >
-> As suggested and discussed with Randy, this small series add support
-> for documenting variables using kernel-doc.
+> Recognizing of root=/dev/scd<N> kernel command line argument was removed
+> in kernel 2.5.45 [2].
 >
-> - patch 1: add support for the new feature;
-> - patch 2: extends to support DEFINE_*;
-> - patch 3: document two media vars;
-> - patch 4: fix an issue on kernel-doc.rst markups and automarkup;
-> - patch 5: document it;
-> - patch 6: better handle DEFINE_ macros when they don't have static/type;
->
-> Since version 5, I'm using "c:macro" to describe variables, as it
-> avoids Sphinx C domain to try parse the variable. This makes it more
-> flexible and easier to maintain in long term.
+> In the docs /dev/scd<N> became recommended names in 2.6.9 [3].
+> Mention of these names appeared much earlier in 1.3.22 [4].
 
-I've applied the set, thanks.
+I've applied this one, thanks.
 
 jon
