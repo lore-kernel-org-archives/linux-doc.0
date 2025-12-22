@@ -1,92 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5898233D4E1
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 20:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BB93009C1
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 21:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766433867; cv=none; b=Chc4EGudGV1xDwN9UX8/PcZh8y8nIhLchQBDXqCOvDQSIhoeulOkKUgrfiPBdgVJ3AvpFvF+3lmeOK944iFXX8e9TvqJnWauR+uVd5efLa/FWbSwRgU0chMISO9wwkJg7iUZTcwWmGxqCR+KiAy5KHu5iT9FU0F4VkC5OKh2b5E=
+	t=1766438312; cv=none; b=lgptsaBgQNCa8iQFS8BYlQvCliqTpiZfNtCltTur8U7Xt3U8yIClkjSu438wNZbIgEI65eh/MnSxRFuwuXBasKPVV1m0MzFo4AllBPygLGH2owl+xP7fnXjZ+9/s1as7pQkV5R/ECksp7TC2d7P1ed/giiQ6NTI9KQYH8NZV8tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766433867; c=relaxed/simple;
-	bh=EzzN5J05CdSsPNtN0eHvoVAMfh931ECpKEn3Ew2y/+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K/Dk7r3oCp+nWqh+Ut+kLxRaNDCU5FLtCYeRif2XqCZZRdF3Odv0GXn6TlRYEtHYixtoKkyY5Smp4NUvUKJ6YWDNvSFtzhRFk8q/eT9IqL0kaerK3boj81GV5JnOZDOYSm92MHvt13Mz6D7akfWgJwE7Z28dP/ddKnEjkKdEBJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzcYyU0r; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766438312; c=relaxed/simple;
+	bh=ttWVVM7HLB5GBVmAMxfx/AMMnlK5gq/P5KJxfQRvi6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ak8xZ3KIgu88jKVaGhxi9zbBUPkV4hhIhN+gugsVQ4y4bvJHhVgBncHN4dGWXWdFV5uLBBGR/76pi4MX60/C1Im8Mve8HZZIsd2F/CmDE+LjkaFO7XB6y80PPjJMnssOES05T4zCO0AW2dIVcr0Wm+teehEDE0YrgwdUAXpQ/G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XXc8sb9N; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzcYyU0r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766433866; x=1797969866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EzzN5J05CdSsPNtN0eHvoVAMfh931ECpKEn3Ew2y/+U=;
-  b=GzcYyU0r3tG48N6+2WTc0Qq7SHaoROIY/vcxhXMNzzl30qMjoW2X6/CU
-   AWxsmG4j3d1jUqbXMAQQJcvmHMOYXv5qGepibYP2Mrx4QFrMMCYbT5SPs
-   ErumOa+YvIr4CAYPdKUkdRPj9UamjJ4LDweWotfs+paxURAAmqQEG7gYq
-   rDHm/yCIr78q21c1CsPBvBLyKOCukcn+J/YSDB/oKAwR8tMRlWcjmJrDE
-   YD+DUCaWu8ycL5I8RCywMkEZM4z58CQp+Lkb+YtuJg++5YkQR9oMzRwrx
-   AcUKf68cUusxorUMQhU6DH5cF/CJCzmeniUXIOIc8zSgw3EkJL+bWoTK9
-   g==;
-X-CSE-ConnectionGUID: ssgY4AjFQBC8R9kH8ePoQA==
-X-CSE-MsgGUID: cy+CInBvSEC+ufPuYSoRkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68333888"
-X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="68333888"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 12:04:26 -0800
-X-CSE-ConnectionGUID: ccMR6aEFR4CAUN5qcvBtJA==
-X-CSE-MsgGUID: mk1C9NRXTe2qF5HHPloNVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="204656240"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 22 Dec 2025 12:04:25 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXm8k-000000005bM-0tjP;
-	Mon, 22 Dec 2025 20:04:22 +0000
-Date: Mon, 22 Dec 2025 21:03:24 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal:spec 67/131] htmldocs: Documentation/filesystems/splice:11:
- ./fs/splice.c:1759: WARNING: Block quote ends without a blank line;
- unexpected unindent. [docutils]
-Message-ID: <202512222156.TVN3h6Be-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XXc8sb9N"
+Date: Mon, 22 Dec 2025 13:18:11 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766438298;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AaxUjlZxSdQz9/5dRF6Cc68Fz36EXnwL9Uc3LhEeHkM=;
+	b=XXc8sb9NyRg7njft/+mJ44wRJyMaMGjFqvXQSSqukW9hsuDuYBVGMhKnxkNAc3w+MM3YzI
+	E3f3eHGP7RLPm2E+XMINKkwPm6wtt35Meyhyh572Afp0YFmi1ks3ZYGHfyQpwtensNeX4Y
+	+kwmwRnsCwqmV6Orlgi6NIpWqTdZitU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, 
+	yuanchu@google.com, weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, zhengqi.arch@bytedance.com, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	lujialin4@huawei.com, zhongjinji@honor.com
+Subject: Re: [PATCH -next 1/5] mm/mglru: use mem_cgroup_iter for global
+ reclaim
+Message-ID: <c4fjngkwbjlfnbjl5merldg5k2fiu43p46osagmy3ibr62cgxh@oesgt5l35kns>
+References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
+ <20251209012557.1949239-2-chenridong@huaweicloud.com>
+ <gkudpvytcc3aa5yjaigwtkyyyglmvnnqngrexfuqiv2mzxj5cn@e7rezszexd7l>
+ <702b6c0b-5e65-4f55-9a2f-4d07c3a84e39@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <702b6c0b-5e65-4f55-9a2f-4d07c3a84e39@huaweicloud.com>
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
-head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
-commit: bed3e754e9e820f768b4de8fd6924e69291f1314 [67/131] kernel/api: add API specification for sys_vmsplice
-reproduce: (https://download.01.org/0day-ci/archive/20251222/202512222156.TVN3h6Be-lkp@intel.com/reproduce)
+On Mon, Dec 22, 2025 at 03:27:26PM +0800, Chen Ridong wrote:
+> 
+[...]
+> 
+> >> -		if (should_abort_scan(lruvec, sc))
+> >> +		if (should_abort_scan(lruvec, sc)) {
+> >> +			if (cookie)
+> >> +				mem_cgroup_iter_break(target, memcg);
+> >>  			break;
+> > 
+> > This seems buggy as we may break the loop without calling
+> > mem_cgroup_iter_break(). I think for kswapd the cookie will be NULL and
+> > if should_abort_scan() returns true, we will break the loop without
+> > calling mem_cgroup_iter_break() and will leak a reference to memcg.
+> > 
+> 
+> Thank you for catching that—my mistake.
+> 
+> This also brings up another point: In kswapd, the traditional LRU iterates through all memcgs, but
+> stops for the generational LRU (GENLRU) when should_abort_scan is met (i.e., enough pages are
+> reclaimed or the watermark is satisfied). Shouldn't both behave consistently?
+> 
+> Perhaps we should add should_abort_scan(lruvec, sc) in shrink_node_memcgs for the traditional LRU as
+> well?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512222156.TVN3h6Be-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Documentation/filesystems/splice:11: ./fs/splice.c:1664: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1722: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1734: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1744: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1756: ERROR: Unexpected indentation. [docutils]
->> Documentation/filesystems/splice:11: ./fs/splice.c:1759: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1765: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1768: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1775: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1778: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/splice:11: ./fs/splice.c:1784: ERROR: Unexpected indentation. [docutils]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+We definitely should discuss about should_abort_scan() for traditional
+reclaim but to keep things simple, let's do that after this series. For
+now, follow Johannes' suggestion of lru_gen_should_abort_scan().
