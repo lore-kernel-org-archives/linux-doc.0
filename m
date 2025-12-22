@@ -1,51 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EBD1A285;
-	Mon, 22 Dec 2025 22:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35A21DF980;
+	Mon, 22 Dec 2025 22:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766440919; cv=none; b=NTZ3OHiySS1Pj8ht7yVixUElWyeGMRIQy3QbLqDuCnXlnO3GjGQ26ZpowshshOEWtv6dtmBT/+eNo+1TWDf41XOtCsrJJmwu+bgjP1GfpC0PD+kgyeyo4USRxAZc+QdQuGeaPl8pOrtfeIi6G6frNPgiJVVgELrycB/juijta98=
+	t=1766441091; cv=none; b=aSQWYPfZIYBnDOcQBXlTLUjRhle3zkIKFCj5hIXhTzi0R18Qx8mOpJHxGxWIk0QQbARdyYVrfI8c1ApI5CEXeaDIL2j67D3DT6KLUOAFuPLckVYX2iknhPz1I9uXnBi/RDFz3f02LA4F872noEfW9dmadtyetz8vo5g4h/kGqAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766440919; c=relaxed/simple;
-	bh=m1QVUMeu7cjjFKBNNrg5Oh8fXASjEsrO+BPSw0qJ/q8=;
+	s=arc-20240116; t=1766441091; c=relaxed/simple;
+	bh=FJpNfwTfs8IwrQnA47tP7zbelq8Zpp7Zhqq0uOuEuzk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fKZKQKvx+vcmXUl71B1bnxZiQFKAWXxBkvH0uZ89Ccf5rOYi2uminRV9s0Yv+Vto+Rz+m0UpRZd3uEYF1v7ncDMw0dhkFNiPV0YXWA5NQXN7tmKKqub4S8o9tWhDUwJY5IyY42Pl+0Ja7+k9cjohsVXxTI8oxTokl8Dxt/ikyP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=niRvO+39; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=RTYNyf4Sb01jwhERqijwK11Lt8CrB6kO/vtNk6GW6h0A2QYJ7XR5KYsnzd22HJ8UIaKSP4wDTcyLNqgFciiB4ssM6ZkT6NEPR13utSaONmreidFMt0MN0+m5ZV2S3JWa7tU7CUieTMPkV4y+OCtocCCEHitn/6d7CPicKOEmXfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=M4F93OGW; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="niRvO+39"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C5CCE4040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="M4F93OGW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 014354040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766440918; bh=hrNzlMEzipfRavMUu3WOT9c1i/kNS++4suB4Qf+vO50=;
+	t=1766441087; bh=NRu+mCuo2pzM8q+dlKypHrQYJH2xPbXsZyRleXGOLgE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=niRvO+39nYWvcWf4T3FC/tIqVVe+2hiP8hJicQmxkvuZdI1lqoCWXNWGVFtT74J1t
-	 dzKnxrJ5kwOHHipICX9Mdd9wxKyh9dD+gK+4dMRHqkkkEbDwBMGKzLFMudQRfp2J/d
-	 Ixccbk/hbASIi1SdXO61pKEd4bKZ3Lxj93nZn5k3W7mWJ0BaihxHU0GC20b9Onm/0B
-	 LrYBU8zZsDXvcCEr3Lnp3OJ1wojjIrVOg1FuDrjai+kHtOtuKUyplVDhQB3lE2HKEa
-	 qTBDqguAiepH8R8QrVISJ0F/xj9Fi/W2gICgtggeVluy4mYKmtoG+KnCIL70JyNLJl
-	 /p1boLUzzJM/A==
+	b=M4F93OGW/DB+X50HZjvSjCpTCl46acouUVh6L6+mpI6Sn4gHqJdtS5mFP3GkPUyVA
+	 hyY9cDf6iy8kFyhLcbHJAOYBKcAveDry8HMVV7VKr2vn+ijIkr3a5sZjyDEFHuU2RK
+	 KPLboih3neupSBfDMMCBPm34rv9hsbuB+0DQPqUv6Py829lJFvAJ7DtLnC3z7XCnej
+	 M26I9k+EV5ct0d6G+IAVFucb7HXEri8B5JCyZPnV9L8jR+pMPagxzDiAL7Pk5ohYaH
+	 6lk0DNsKzRLvnSD/QNChVD5Hu/ntvx7zN62RXrsO6a9Cmyp+alpY01TXqfG9SfRNas
+	 7ye1qjLBNidZw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C5CCE4040B;
-	Mon, 22 Dec 2025 22:01:57 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 014354040B;
+	Mon, 22 Dec 2025 22:04:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Andi Shyti <andi.shyti@kernel.org>, Federico Vaga
- <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH] Doc:it_IT: Do not reference kernel.h anymore
-In-Reply-To: <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
- <20251205111559.3089219-1-andi.shyti@kernel.org>
- <zylu4ulxeyni5diwnp7o7evcajqyylhzzd4d2skyi2ul2ayb3b@2kojo3dyp2vi>
- <klzag46p6mlqqdrogqofancqyjpvs5lmwa4m3tjszcgavdwa6s@nay2uuwpsvlt>
-Date: Mon, 22 Dec 2025 15:01:57 -0700
-Message-ID: <87bjjq18h6.fsf@trenco.lwn.net>
+To: Sasha Levin <sashal@kernel.org>
+Cc: joe@perches.com, kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, rostedt@goodmis.org, Sasha Levin
+ <sashal@kernel.org>
+Subject: Re: [PATCH] README: add AI Coding Assistants section
+In-Reply-To: <20251214010711.370328-1-sashal@kernel.org>
+References: <20251214010711.370328-1-sashal@kernel.org>
+Date: Mon, 22 Dec 2025 15:04:46 -0700
+Message-ID: <877bue18ch.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,28 +51,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Andi Shyti <andi.shyti@kernel.org> writes:
+Sasha Levin <sashal@kernel.org> writes:
 
-> Hi Federico,
+> Add guidance for AI assistants and developers using AI tools for kernel
+> contributions, per the consensus reached at the 2025 Maintainers Summit.
 >
->> >-Il file di intestazione include/linux/kernel.h contiene un certo numero
->> >-di macro che dovreste usare piuttosto che implementarne una qualche variante.
->> >-Per esempio, se dovete calcolare la lunghezza di un vettore, sfruttate la
->> >-macro:
->> >+I file header
->> 
->> In Italian, the correct name for "header file" is "file di intestazione".
->> Please, don't replace correct Italian with *Itanglese* :)
+> This will allow coding assistants to easily parse these instructions and comply
+> with guidelines set by the community.
 >
-> I absolutely disagree.
+> Link: https://lwn.net/Articles/1049830/
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  README | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
 >
-> If you open any C book, they are called 'header files', except
-> for a few Italian technical books with excessively literal
-> translations, where even non-translatable terms are translated.
+> diff --git a/README b/README
+> index a9fc263ccd711..f6016e553ba4c 100644
+> --- a/README
+> +++ b/README
+> @@ -38,6 +38,7 @@ Find your role below:
+>  * Maintainer - Leading subsystems and reviewing patches
+>  * Hardware Vendor - Writing drivers for new hardware
+>  * Distribution Maintainer - Packaging kernels for distros
+> +* AI Coding Assistants - AI tools and developers using AI for contributions
+>  
+>  
+>  For Specific Users
+> @@ -144,6 +145,38 @@ Package and distribute the kernel:
+>  * Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
+>  * Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
+>  
+> +AI Coding Assistants
+> +--------------------
+> +
+> +AI assistants and developers using AI tools for kernel contributions must follow
+> +the standard kernel development processes:
+> +
+> +* Development Process: Documentation/process/development-process.rst
+> +* Coding Style: Documentation/process/coding-style.rst
+> +* Submitting Patches: Documentation/process/submitting-patches.rst
+> +* Programming Language: Documentation/process/programming-language.rst
+> +
+> +Important requirements:
+> +
+> +* License Compliance: All contributions must comply with GPL-2.0-only licensing.
+> +  See Documentation/process/license-rules.rst for SPDX identifier requirements.
+> +
+> +* Signed-off-by: AI agents MUST NOT add Signed-off-by tags. Only humans can
+> +  legally certify the Developer Certificate of Origin (Documentation/process/
+> +  submitting-patches.rst). The human submitting AI-assisted code is responsible
+> +  for the Signed-off-by certification.
+> +
+> +* Attribution: Contributions involving AI assistance should include an Assisted-by
+> +  tag in the following format:
+> +
+> +    Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2] ...
+> +
+> +  Where AGENT_NAME is the AI tool/assistant name, MODEL_VERSION is the specific
+> +  model or version used, and optional tool names indicate specialized analysis
+> +  tools used during development.
+> +
+> +  List specialized tools (coccinelle, sparse, smatch, cppcheck, clang-tidy,
+> +  custom scripts) but omit basic tools (git, gcc, make, editors).
 
-I'm unconvinced about "file di intestazione" based on my own
-understanding of the language... but, in a case like this, I will defer
-to the creator and maintainer of the translation.
+I won't dig in my heels on this, but I do have to ask ... I can only
+imagine that this stuff will grow over time, to the point that it
+dominates our top-level README file, which is intended for humans.  What
+do you think about creating Documentation/process/coding-assistants.rst,
+putting this material there, and adding a single line to README telling
+these tools to refer to the file and follow it rigorously?
 
 Thanks,
 
