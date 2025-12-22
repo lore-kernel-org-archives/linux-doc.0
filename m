@@ -1,44 +1,44 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281D831ED68
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 05:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91369173
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 06:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766383045; cv=none; b=GLBuZd4+7ZKBsahsFoBpqWY7QpJ2P0gJLrG85p9PHG290FYwkeZSqcqCUpZTDjiklqYvfuQygbTzT3Q8qYUpAq/xMazvwkumBGMrrqbSwXqWQmS19EE4qm7PueI0tXN7i7F6D/DGOingODHhL7TUO2nLFxUJnsDqhYTYP96xIaM=
+	t=1766383257; cv=none; b=o9G6ZAB9CCAyslflYxR+i8sPIKqj9YRwonOmHzgB7ob6+8xxnAFP6IgcqeCauwT5/m0jbVCXvydlBYikQ9xuLYP/YPKBLbSaL18RiHai1XtkX2kU0b9aDFw5/lo7kKomwsZeejR5cVeWavMhuh9rlQN8xNTav43/c9X1716YPXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766383045; c=relaxed/simple;
-	bh=M2Rp9gglET4JHEu5TnTDixKzBu7p8ieW8jV0WAMrz00=;
+	s=arc-20240116; t=1766383257; c=relaxed/simple;
+	bh=o8y1CWN2EuV9Ih7JQZtkhVY5yoTfAnN7idKMq57LXcI=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=bwt1q/2qIU1r4p54+fAyOIhjeE+57TboeX5GW7a0kYf+kzb4TQuqLes2/sbLBURY6Cnkc4XMixVkdKera+PKFcJDzID/9XSOkZV3Qfuzq1+IG+v4d0oujxsxFOJU3mc05ud/9tjAri43/BoSAhULaveIfKewSDSOK82XRY+6DZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n6bo2KzN; arc=none smtp.client-ip=91.218.175.181
+	 Message-Id:References:To; b=qHuzMaihloyujK6UsxT69nJc8GbOe8VJaYTEtE3yBsMbV/d+Gd8AF7y9QKU3k52PS/pUldBeIsbCg4PGAyUBczEsmmoVbUs2UQgu88HvF2k6YjAydWKA4bE4nKrMHTnkHnEG40B+oWGnDbE63hSOUqEDGsi69XAFyUQyG7/v8JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vCJCZ7o8; arc=none smtp.client-ip=95.215.58.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n6bo2KzN"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vCJCZ7o8"
 Content-Type: text/plain;
 	charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766383026;
+	t=1766383253;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WVeKoBMBLx8hWDfGjFnYOboKEJqD6vtX332hwypLAQ0=;
-	b=n6bo2KzNzuDV0QONoVz74ohKZIircu59lQvoar4w+OorHluDTi7UO0Dq7AFwG1RJSbgBYT
-	PoUnqvTvlaiw5wUIO3/B9F68bvudg/HyQVtfhaCujlDVg8b5tRH5pqykc7Ib70+3JaMe2k
-	+sVT61EDxvLxAVL1lHKLS55E1Lm9CQg=
+	bh=0YnoYetntYAKPTmqMpJsArUchXzDuI0E7C6KJhIP8qU=;
+	b=vCJCZ7o8DllOX7DhHQAOSMjpud6aq+CN2IihG311TfQhv+av3UubulNaD4JSFsSEdBcOGh
+	k6nDd5vsE24k8HuNJMnH2bXYy5zpCtpbg1nq0o9pDRlpJWTM4CW5OBrhkChuZpY23svjWc
+	C2qAK0G5/0NANd9hQtXBveEyohdXQb8=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
-Subject: Re: [PATCHv2 10/14] mm: Drop fake head checks
+Subject: Re: [PATCHv2 11/14] hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20251218150949.721480-11-kas@kernel.org>
-Date: Mon, 22 Dec 2025 13:56:25 +0800
+In-Reply-To: <20251218150949.721480-12-kas@kernel.org>
+Date: Mon, 22 Dec 2025 14:00:09 +0800
 Cc: Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@kernel.org>,
  Matthew Wilcox <willy@infradead.org>,
@@ -58,9 +58,9 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
 Content-Transfer-Encoding: 7bit
-Message-Id: <976A9938-0228-4230-92B2-7F6708E96199@linux.dev>
+Message-Id: <48BA4DA6-DE9D-4F07-B347-19D2F68B357A@linux.dev>
 References: <20251218150949.721480-1-kas@kernel.org>
- <20251218150949.721480-11-kas@kernel.org>
+ <20251218150949.721480-12-kas@kernel.org>
 To: Kiryl Shutsemau <kas@kernel.org>
 X-Migadu-Flow: FLOW_OUT
 
@@ -68,16 +68,16 @@ X-Migadu-Flow: FLOW_OUT
 
 > On Dec 18, 2025, at 23:09, Kiryl Shutsemau <kas@kernel.org> wrote:
 > 
-> With fake head pages eliminated in the previous commit, remove the
-> supporting infrastructure:
+> The VMEMMAP_SYNCHRONIZE_RCU flag triggered synchronize_rcu() calls to
+> prevent a race between HVO remapping and page_ref_add_unless(). The
+> race could occur when a speculative PFN walker tried to modify the
+> refcount on a struct page that was in the process of being remapped
+> to a fake head.
 > 
->  - page_fixed_fake_head(): no longer needed to detect fake heads;
->  - page_is_fake_head(): no longer needed;
->  - page_count_writable(): no longer needed for RCU protection;
->  - RCU read_lock in page_ref_add_unless(): no longer needed;
+> With fake heads eliminated, page_ref_add_unless() no longer needs RCU
+> protection.
 > 
-> This substantially simplifies compound_head() and page_ref_add_unless(),
-> removing both branches and RCU overhead from these hot paths.
+> Remove the flag and synchronize_rcu() calls.
 > 
 > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 
