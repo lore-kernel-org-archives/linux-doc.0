@@ -1,46 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CF82DEA67;
-	Mon, 22 Dec 2025 21:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1D22DEA67;
+	Mon, 22 Dec 2025 21:41:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766439622; cv=none; b=jVnkgE4HKvJ5nLKjeDIIrvnI7RYot0/7+Z4vDN9bscu/LE9SWkCLhRs/97w3b9kRlrrI9O0JkwiuMVJMJVCF5V0t1FmdFC4U6xs7nX+EYR0Nv36S/JZDfg+7bjqg8NvwJOwyCSOgjSgr3dckhipbeodHy3Rg01ARkquTW3nffe0=
+	t=1766439665; cv=none; b=jLLyuBLlu3inhVso/4y1i7z8TJSKVE418MK4o3Fd/xLTasjJ7qMzzyBZLq20B9l/9sDfB4zFIXviYnebmyct5dgiFoUb1BXYj8KxBQnSU2mpyVGPg/FhViJqi02E6HpLBT0EI9UukbZm5wIKcm+6ORORFP643SrL+GK2xxtUDP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766439622; c=relaxed/simple;
-	bh=CkVyHDCNUmtYyyEJtsapd91cEpcJQjgRl/97Nrtahx0=;
+	s=arc-20240116; t=1766439665; c=relaxed/simple;
+	bh=BT1eqoXwig79c8++CJz0ouOMQrJbaduFZuEBEWltq/o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jW6rp+G3b2jhJMrYF+vV8exY64eTAz4stO10U4eIqybTen1w5sMysNB+FJblxygzeEem2Zzu0guM9LLw6TjJKhr0iRnGd2K22OJuUFeKu33LkTybv27AXMsVheGHi9u666Snbf1sy6QASrb/KZmfeSgNh/MQKrH6FXouEJIMtJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FWg7pQNq; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=CQRudachZ9OgDL3uPHG6L5y0T26oL3HSLoUe76ZZbbqo672SWMYB8Z3kS0aDusu695tiTC8mrtz9AZlbLL7+/H3s08JNwl1gKqa1Xt9IIDC8xNVMU0I48K2H7kfNPoRGfxwcSyWgxab/uR2QLB44wZjIhdpGW5kmAVYKm8ZMOkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tAlNWbal; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FWg7pQNq"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE8F14040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tAlNWbal"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DE99E4040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766439613; bh=TMbDm/NtBcLFz8Y3uB8XRsFo4EW5b/piEv40a2PpBH0=;
+	t=1766439661; bh=NcZyJ+rS6qy6+jvh5bcwSVoRWqgXOdRkDex6OWrzZjY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FWg7pQNqCZ4BWw2o42GvAkhj++fls8LPyi8J1M+Z7Hg9TL5ZZbOZP2v2khrfC0KI4
-	 +N7QxMm3QLGW0xPFyDcR592+R22mKwzYjaSzcUt4ILwfafeh5AN1PGQRerFJOKs3hF
-	 zcO7bul8SYvf/egvVQIks4un/RzsJNvlVIFC20ZfRXjQS6euXQ+M6nXFBi+9W7n58E
-	 9aF/doSxthxcfof4GvZ6MopijgSh5PglFujenoMKwM6Kys2vmz6pbZQ6V99M7w+kcf
-	 8G8nERg+GX6l6VVNz8vfaXryLPyO7O2NQxZ6bG+EJgyhcRFicbSgOvdglaQ+CMA4Oq
-	 DcvpvdQc1IuuQ==
+	b=tAlNWbaltE3uCozNBV26lTCuaFbAS+UdMSdySUl8jXNVINOViAj411tywNBtq2VVE
+	 2rlCKder2aGnit74Kcye37ULNszYvhEnufGGK3DCIcpPkrVlg1oTRKsiiJ8q6dogrL
+	 SKWgGN46fLp4RxL045IsILEFlnYrr/CD4vlIhzFUxCZH4+fT+4Apx53Z54WzFOCsGn
+	 zKolTt6GPS1Kk4q+ZrvAiuPceZODbXcZYBRWWr4BtVm7+NY/vwnhbRZYUAoXtNEYsR
+	 8WO88EyvWm5NOXM29NW/0VF46hDNqtRItqQa9husN3MAvCIuBiVRsotvDl27cYTvEM
+	 jBF+M3Uz53cPw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BE8F14040B;
-	Mon, 22 Dec 2025 21:40:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id DE99E4040B;
+	Mon, 22 Dec 2025 21:41:00 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: cp0613@linux.alibaba.com, nathan@kernel.org, nsc@kernel.org
-Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Chen Pei <cp0613@linux.alibaba.com>
-Subject: Re: [PATCH] docs: kbuild: Fix typos in makefiles.rst
-In-Reply-To: <20251220125434.2430-1-cp0613@linux.alibaba.com>
-References: <20251220125434.2430-1-cp0613@linux.alibaba.com>
-Date: Mon, 22 Dec 2025 14:40:12 -0700
-Message-ID: <875x9y2o1v.fsf@trenco.lwn.net>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kernel-hacking: Remove comma
+In-Reply-To: <20251219171827.44015-2-thorsten.blum@linux.dev>
+References: <20251219171827.44015-2-thorsten.blum@linux.dev>
+Date: Mon, 22 Dec 2025 14:41:00 -0700
+Message-ID: <871pkm2o0j.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,29 +49,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-cp0613@linux.alibaba.com writes:
+Thorsten Blum <thorsten.blum@linux.dev> writes:
 
-> From: Chen Pei <cp0613@linux.alibaba.com>
+> The comma is wrong, remove it.
 >
-> The correct command to generate header files is
-> make headers_install.
->
-> Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 > ---
->  Documentation/kbuild/makefiles.rst | 2 +-
+>  Documentation/kernel-hacking/hacking.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 8aef3650c1f3..24a4708d26e8 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -1264,7 +1264,7 @@ Add prerequisites to archheaders
->  --------------------------------
+> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+> index 0042776a9e17..06fcb7c662d3 100644
+> --- a/Documentation/kernel-hacking/hacking.rst
+> +++ b/Documentation/kernel-hacking/hacking.rst
+> @@ -49,7 +49,7 @@ User Context
 >  
->  The archheaders: rule is used to generate header files that
-> -may be installed into user space by ``make header_install``.
-> +may be installed into user space by ``make headers_install``.
-
-Applied, thanks.
+>  User context is when you are coming in from a system call or other trap:
+>  like userspace, you can be preempted by more important tasks and by
+> -interrupts. You can sleep, by calling :c:func:`schedule()`.
+> +interrupts. You can sleep by calling :c:func:`schedule()`.
+>  
+Applied, thanks,
 
 jon
