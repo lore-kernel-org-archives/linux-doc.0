@@ -1,141 +1,213 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2019930BB96
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 08:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEEE24E4C3;
+	Mon, 22 Dec 2025 08:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766390772; cv=none; b=qMrSPSgRaoku8iaLc9P2q9yLzgAxN/VoIL7v07nT8NImAW8b8pL0NcLSp7+xA0BeREHpp+2CHS9/E/2+BASjCMgyA/hk67L9Jho14zhWp6Dd8f61yyyNGwvKhDEFLwyZU6G7vQPhNhPEDiPaengV60cBn7vv/kXm6kxcTiLqXXE=
+	t=1766391221; cv=none; b=F06rvlsd7dlVrGb3lJSDzjf12pxQ8OOhz0Ya43LvH4s/8lZ8gwxzeyFRUZBHdrMtyOkXnq7QxZK3L9/iYugfUgumhaQiRS250+zIB2MkSnpqGP8wXGOhoZbsv1FhLKOK098B8wV/3xIukgLLCIgWlGMoP5lspCTGS6wfYJdHsSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766390772; c=relaxed/simple;
-	bh=7NnfB95d/qjSb47h2oPcevWqYAT/LhhPCnd3bmfXZg8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A1VdZI3aa6YMJBwfRP8iM6NyglIc8dgRe9J+2KH+RAdaZQPr0BiUjGYCbDno0pBN+C5Pj7ItelPuTNjwVtBO4X7I0L6ahybmdar9czb53QTP7/FNimzcBhm89O6vMuyaSnueDEL5Z+rLIkhDNAAfVqvyj8SPbmRrS8Q6ITDHjCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mSrINbub; arc=none smtp.client-ip=209.85.216.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766391221; c=relaxed/simple;
+	bh=+LZc9sH1FCeBixh1w4vXv6wQcF1lRDxb/ilDg7ghLhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FicflmfnslndAfEfzgzlfNV4/asrqRLbzcsWrKPBCLPrHXfGOO9wqGOsxhY+mNOr0NTWOwGjVr+2T7U4yjfrXRjlT5YAK0vkeq0kVSZprrwguJlWdwPjHIk42s30I7XYpkvxakGekqC6l5pRLVDJols1HqIynXcffQm9cXv3Yv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+xFP6nK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mSrINbub"
-Received: by mail-pj1-f66.google.com with SMTP id 98e67ed59e1d1-34ccdcbe520so1944514a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 00:06:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766390770; x=1766995570; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g2Fdnpcojf4DLWy5W3E6d4c2QXgA2ovsHAVLQ3QTW4Y=;
-        b=mSrINbubZ4EP9+SL4tKlClUS93XULf2sXIM0WJ2zFUSIAzOGBS44oddw7CTbr2k4WP
-         k9kvA16/hnyr9U1dD0xCS2/jGfJeNI8RKwFgu1hyKirOr5iY60ebR2erE3beb7yQwDmA
-         xiek6xvilcAlNpw+9QnWeTiTUfoBsDNSvCmG1duIaz8IUh3sYA5e+gXfu7TWj5xR3qiu
-         oHdXgLwpkjBqKxOaHZEQkkoZUxrCmCqme4hWEpDxiqayQCjumKR594bAISf3vOv3GI5F
-         +xVGRlzTx+SmPfqShGEMlPNOTIOl1iD9ZZmoU9Dqgtmh7dY6rmkB4gE/HEBAfHNgbvIe
-         Cj9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766390770; x=1766995570;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=g2Fdnpcojf4DLWy5W3E6d4c2QXgA2ovsHAVLQ3QTW4Y=;
-        b=DwBFy5y5yor1NFFdOPIHGcJY0xbwsE8ReJqpP+V1B+Yi+9cCXXhOLb8eFZxn/f9iMA
-         ahp0IP1j+Z8kzgPyT5uT0H1R0ixli1kaoMmvLrjLBq1xCOgOzDZX3LxOADYAuy0YBNLG
-         oqiIMZYmbiwwY5qd0NE4a3IA5ChBhI1IfRw9u8U5n4MvFjEahfkKscZSalA/4xCpUTYJ
-         xJtjwuQmAu4wu64FKUgELUhNy7FjwIXH7zU0i0yx8IVuilvwMaO0pzrgx40oMwH5Sc5S
-         mKrZRYEuYuKiHqwhu8QVShkEmaC/CcrtwYV/zhb01AdUXjKWVNurJ/I/Xlq+ABHsOto2
-         8Eww==
-X-Gm-Message-State: AOJu0Yzi2rHSFJAeyOU2dIlSQGZwYIt8JzoRnQb7a7572M0/Lx4nTqHs
-	+pU1sf+niUOM3z0MdK2Bu/YQjoJBike9op3wA0mjkFehslhOtauG/PsM
-X-Gm-Gg: AY/fxX5GB5sg2mXunPzZh1FGwqnrrqvh8K8wWQtqQXv9oEZRXkHNLZemXb6/EvfltVh
-	CBqJxTf/N3LcwcwJWQeojwAVkRIDMyg5pZJUOkTnIgL2QSKyu++BfRBv7gHcnRqSXbz0c4f7d5j
-	Usjne0MXYkAmmzSlG+X9Ciej3fG089JCsm17+aNDbyvHwsXkQ+cYrUFuA6jCFoeNeBiw4yahWsq
-	HYipjZ5ECnyIpw3az7fxheDFk+ToJcWRHFm3mQjbTg5cgeYmFBFEDR7+6r3t/Lr+aZUMUk1rHOL
-	q6gxx8+YCa/uuX91MRCl/eP0LXUaOscspzuqwAs+D0rSIbxmV9gH/860EP1e/DmXV5bIJt8BdBG
-	kjH9g6iaGGSqgIWiMP0yI/IOKYUOaskYOAfbEQcf3tODYK1Ku1iS4uLbsImJbN3i2NQRWV4Ff0z
-	+IK+cxxptfO9ehUJXhFiX/c8lKbGOka58iqOFAi14KRDxvYYXYGmdFgb0kbWD9gCTi/T0et26bX
-	VAjulKWVhE0mwJEr/4qbK1JMdU6hFHk
-X-Google-Smtp-Source: AGHT+IHwhpn/fb7A9/k1WMZFSZ8+UUJV7UQ969ESY5Lf0jsCicVtzq+LBU7c0024woSREPqweY0jpA==
-X-Received: by 2002:a17:90a:c106:b0:34c:2f40:c662 with SMTP id 98e67ed59e1d1-34e71e2955bmr11901858a91.14.1766390770383;
-        Mon, 22 Dec 2025 00:06:10 -0800 (PST)
-Received: from ubuntu-2504-ThinkPad-X9-14-Gen-1.lenovo.com (zz20234032476F6CA7C5.userreverse.dion.ne.jp. [111.108.167.197])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e7729b04dsm5622557a91.6.2025.12.22.00.06.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 00:06:09 -0800 (PST)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: srinivas.pandruvada@linux.intel.com,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	corbet@lwn.net,
-	vsankar@lenovo.com
-Cc: linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH v3 2/2] Documentation: hid: intel-ish-hid: Document PRODUCT_FAMILY firmware matching
-Date: Mon, 22 Dec 2025 17:05:12 +0900
-Message-ID: <20251222080512.956519-2-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251222080512.956519-1-vishnuocv@gmail.com>
-References: <20251222080512.956519-1-vishnuocv@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+xFP6nK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD91EC4CEF1;
+	Mon, 22 Dec 2025 08:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766391220;
+	bh=+LZc9sH1FCeBixh1w4vXv6wQcF1lRDxb/ilDg7ghLhQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=R+xFP6nK0qe53POnY7jjyszn3iOUZuinw6ZqS6AJsoqWcuZII35RkzQ7YGVYI1xeK
+	 LQE264oNB8kS+JJ5I3UO561Y3JAxbMY/Zf5Vi3PjC7YxsXnP/dPk+0tWsSiMPcd732
+	 /olnqcnrwQ6tECTPRewTAgLaNLMGayFaJi8zIzSAmQAG8ZzZuW+5VQmFraNq2XDYE/
+	 oHRotrUO1oKqgjF1gSLrHo2x7YcBsUUyGzXES/pEXpIT/lxGg6TJ2AStLzGOzjSvRE
+	 0JTBn7ixNl1imKBUIDCPicOnAe5qbaF4/hzD6C1QAZidh6OB6uCAWY6P8ZjyYQddYh
+	 oX2BxKQQyK2+g==
+Date: Mon, 22 Dec 2025 09:13:34 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
+ tony.luck@intel.com, bp@alien8.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+ linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
+ linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com, Michael.Zhao2@arm.com,
+ linux-efi@vger.kernel.org
+Subject: Re: [PATCH 03/12] ras: add estatus vendor handling and processing
+Message-ID: <20251222091334.5cb8465f@foz.lan>
+In-Reply-To: <20251219181226.2859763-1-ahmed.tiba@arm.com>
+References: <euhams5heiuaawxq4e5ty7iijuvwt5gvdx3flsm4npligjeulq@lv3cwekyb2o2>
+	<20251219181226.2859763-1-ahmed.tiba@arm.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Document the ISH firmware filename matching rules, including the
-new PRODUCT_FAMILY-based patterns and their search order.
+Em Fri, 19 Dec 2025 18:11:54 +0000
+Ahmed Tiba <ahmed.tiba@arm.com> escreveu:
 
-This aligns the documentation with the driver behavior and provides
-clear guidance for vendors supplying custom ISH firmware.
+> On Fri, Dec 19, 2025 at 04:30:40PM +0100, Mauro Carvalho Chehab wrote:
+> >On Fri, Dec 19, 2025 at 02:49:02PM +0000, Ahmed Tiba wrote: =20
+> >>
+> >> On Wed, Dec 18, 2025 at 05:04:53PM +0100, Mauro Carvalho Chehab wrote:
+> >> =20
+> >> >> Teach the estatus core how to walk CPER records and expose the vend=
+or
+> >> >> record notification path. This adds the section iteration helpers,
+> >> >> the logging helpers that mirror the GHES behaviour, and the deferred
+> >> >> work used to hand vendor GUIDs to interested drivers. No users swit=
+ch
+> >> >> over yet; this simply moves the common logic out of GHES so the next
+> >> >> patches can wire it up.
+> >> >>
+> >> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com> =20
+> >> >
+> >> >...
+> >> > =20
+> >> >> +static bool estatus_handle_arm_hw_error(estatus_generic_data *gdat=
+a, int sev, bool sync) =20
+> >> >
+> >> > Huh?
+> >> >
+> >> > This is a CPER record from GHES. Why are you moving CPER code out
+> >> > of ghes.c, placing in a file named estatus.c? Doesn't make much
+> >> > sense on my eyes...
+> >> >
+> >> > Same applies to to other GHES CPER record types. =20
+> >>
+> >> GHES still fills in the CPER record, but the parsing and logging logic=
+ is
+> >> shared with the new DeviceTree provider so I pulled those helpers into=
+ the
+> >> estatus core. =20
+> >
+> > I see, but this is not really estatus core. Instead, it is part of GHES=
+ CPER
+> > handling logic, which is defined at ACPI and UEFI specs. moving it to e=
+status
+> > sounds odd, at least on my eyes.
+> >=20
+> > Perhaps I'm failing to see where at ACPI/UEFI specs how CPER would be
+> > integrated with an OpenFirmware approach to handle CPER without GHES.
+> > Care to point to the relevant specs, if any? =20
+>=20
+> ACPI/APEI (via GHES) defines how CPER records are discovered and notified=
+ on ACPI systems,
+> but there is no ACPI or UEFI-defined equivalent for OpenFirmware/DeviceTr=
+ee platforms.
+> UEFI standardises the CPER record format itself, not the transport or dis=
+covery mechanism.
+>=20
+> On non-ACPI systems we still receive the same UEFI-defined CPER payload
+> from firmware, but Linux needs a different, platform-specific contract
+> to locate and acknowledge it. The DT binding is a Linux-side description
+> of that contract rather than something defined by ACPI/UEFI.
 
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
----
- Documentation/hid/intel-ish-hid.rst | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+That's where I'm failing to understand: CPER is part of UEFI spec, and
+the only deliverable mechanism I'm aware of for CPER is via GHES or
+GHESv2 - e.g. via ACPI.
 
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-index 2adc174fb576..068a5906b177 100644
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -413,6 +413,10 @@ Vendors who wish to upstream their custom firmware should follow these guideline
- 
- - The firmware filename should use one of the following patterns:
- 
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+  - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}.bin``
-   - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-   - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-   - ``ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-@@ -420,16 +424,21 @@ Vendors who wish to upstream their custom firmware should follow these guideline
- 
- - ``${intel_plat_gen}`` indicates the Intel platform generation (e.g., ``lnlm`` for Lunar Lake) and must not exceed 8 characters in length.
- - ``${SYS_VENDOR_CRC32}`` is the CRC32 checksum of the ``sys_vendor`` value from the DMI field ``DMI_SYS_VENDOR``.
-+- ``${PRODUCT_FAMILY_CRC32}`` is the CRC32 checksum of the ``product_family`` value from the DMI field ``DMI_PRODUCT_FAMILY``.
- - ``${PRODUCT_NAME_CRC32}`` is the CRC32 checksum of the ``product_name`` value from the DMI field ``DMI_PRODUCT_NAME``.
- - ``${PRODUCT_SKU_CRC32}`` is the CRC32 checksum of the ``product_sku`` value from the DMI field ``DMI_PRODUCT_SKU``.
- 
- During system boot, the ISH Linux driver will attempt to load the firmware in the following order, prioritizing custom firmware with more precise matching patterns:
- 
--1. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
--2. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
--3. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
--4. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}.bin``
--5. ``intel/ish/ish_${intel_plat_gen}.bin``
-+1. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+2. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+3. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+4. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_FAMILY_CRC32}.bin``
-+5. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+6. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_SKU_CRC32}.bin``
-+7. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}_${PRODUCT_NAME_CRC32}.bin``
-+8. ``intel/ish/ish_${intel_plat_gen}_${SYS_VENDOR_CRC32}.bin``
-+9. ``intel/ish/ish_${intel_plat_gen}.bin``
- 
- The driver will load the first matching firmware and skip the rest. If no matching firmware is found, it will proceed to the next pattern in the specified order. If all searches fail, the default Intel firmware, listed last in the order above, will be loaded.
- 
--- 
-2.51.0
+Within the scope of https://uefi.org/specifications, I'm failing
+to see any other deliverable mechanism.
+=20
+> >> Both providers already call into the same notifier chain and
+> >> memory-pool helpers; this patch just moves the generic CPER walking ro=
+utines
+> >> next to the rest of the common code so the DT path doesn=E2=80=99t hav=
+e to grow its
+> >> own copy. If you=E2=80=99d prefer a different file layout or naming to=
+ make that
+> >> intent clearer, I=E2=80=99m happy to adjust. =20
+>=20
+> > Moving the code from ghes.c to estatus.c or to elsewhere shouldn't make=
+ any
+> > difference, as the DT handling logic could simply be calling the functi=
+ons
+> > from ghes.c (or estatus.c). I fail to see why they need to be moved. =20
+>=20
+> The motivation is to provide a shared implementation for non-ACPI provide=
+rs,
+> so that the DT path does not depend on ACPI/APEI.
+>=20
+> While the helpers currently live in ghes.c, they are CPER-specific and do=
+ not rely on ACPI tables,
+> APEI infrastructure, or GHES notification semantics. Keeping them there e=
+ffectively makes GHES
+> the only place those helpers can live, even though the logic itself is pr=
+ovider-agnostic.
 
+The logic is related to GHES, as this seems to be the only standardized
+mechanism to report CPER records. As it is part of APEI, get_maintainers
+points to the people that have been maintaining it as:
+
+	$ ./scripts/get_maintainer.pl -f ./drivers/acpi/apei/ghes.c
+	"Rafael J. Wysocki" <rafael@kernel.org> (maintainer:ACPI APEI,commit_signe=
+r:6/13=3D46%)
+	Tony Luck <tony.luck@intel.com> (reviewer:ACPI APEI,commit_signer:3/13=3D2=
+3%)
+	Borislav Petkov <bp@alien8.de> (reviewer:ACPI APEI,removed_lines:5/62=3D8%)
+	Hanjun Guo <guohanjun@huawei.com> (reviewer:ACPI APEI,commit_signer:4/13=
+=3D31%)
+	Mauro Carvalho Chehab <mchehab@kernel.org> (reviewer:ACPI APEI,authored:1/=
+13=3D8%,removed_lines:6/62=3D10%)
+	Shuai Xue <xueshuai@linux.alibaba.com> (reviewer:ACPI APEI,commit_signer:5=
+/13=3D38%,authored:2/13=3D15%,added_lines:56/218=3D26%,removed_lines:34/62=
+=3D55%)
+	Len Brown <lenb@kernel.org> (reviewer:ACPI)
+	Jonathan Cameron <Jonathan.Cameron@huawei.com> (commit_signer:5/13=3D38%)
+	Breno Leitao <leitao@debian.org> (authored:2/13=3D15%,added_lines:38/218=
+=3D17%)
+	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> (authored:2/13=
+=3D15%,added_lines:103/218=3D47%)
+	Ankit Agrawal <ankita@nvidia.com> (authored:1/13=3D8%,removed_lines:6/62=
+=3D10%)
+	Jason Tian <jason@os.amperecomputing.com> (removed_lines:7/62=3D11%)
+	linux-acpi@vger.kernel.org (open list:ACPI APEI)
+	linux-kernel@vger.kernel.org (open list)
+
+Moving it elsewhere would make it confusing, as the expected deliverable
+mechanism for CPER is via GHES - as this is the only one defined at the
+uefi.org specs.
+
+While it might be moved to EFI and placed under cper.c,=20
+get_maintainers.pl would point to:
+
+	$ ./scripts/get_maintainer.pl -f ./drivers/firmware/efi/cper.c
+	Ard Biesheuvel <ardb@kernel.org> (maintainer:EXTENSIBLE FIRMWARE INTERFACE=
+ (EFI))
+	linux-efi@vger.kernel.org (open list:EXTENSIBLE FIRMWARE INTERFACE (EFI))
+	linux-kernel@vger.kernel.org (open list)
+
+which is not the people that have been maintaining RAS.
+
+Placing it under a "estatus.c" file would make it completely
+dissociated with UEFI/ACPI specs, as this name means nothing at
+the specs.
+
+Also, adding a new maintainer's entry won't make any sense, as the
+people that currently reviews and maintains GHES/CPER records
+should be kept.
+
+> By moving the CPER parsing and logging pieces into a common location,
+> both GHES and the DT provider can reuse the same implementation,
+> while the ACPI-specific discovery and notification code remains under dri=
+vers/acpi/apei/.
+> This avoids having the DT provider reach into GHES internals or duplicate=
+ CPER handling code.
+
+As Boris mentioned on patch 00/12, we need to better understand
+the high level scenario, as it is still not clear to me how a
+firmware-first notification would happen without ACPI.
+
+> If the current naming or file layout makes that separation unclear, I=E2=
+=80=99m happy to adjust it.
+
+Thanks,
+Mauro
