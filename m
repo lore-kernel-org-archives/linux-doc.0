@@ -1,113 +1,99 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB03A2D0283
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 14:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A7630F532;
+	Mon, 22 Dec 2025 14:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766415368; cv=none; b=iB43iwUt8/haOjbs+xnsWKTAAKh9IkH7fS+CqYYedwkhI+P72MuQpgveNULLcWZX1EirPXYeOr29A07HdULgDTU3LdzYBs6sQ4byFnMhLM6pn4esOcLuTXTcfqUw43IcUEb57a6Mr4JnOxOpDLuk5Ym72oqN8IB5WTlZbKgMOks=
+	t=1766415534; cv=none; b=qUFvf9T1CHfriL2EzuV7DfW5w1xIduVh2ompddnwgDJoprUlYkNuyg1iVQ9PkjUU05CtljwoAVMptH1pgb+aMlNJ8qBDlwz1BN0yh9ZQ9eBFAZR9SLwR6uJnxPo+NrnJ7pVy1tz/7V+6e43XL/xwvQ7++nSF29gDRL66qNxF/Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766415368; c=relaxed/simple;
-	bh=ug6CF6jCTPeVAFS2QI1pQi+kiqg4TBi7NpuKWEmGN1A=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=RQXVfVHlN0skGLbVnLLdGeKgjY9WhbUGDwdIp1QXwbD7L03Ig4SIOXzJxSQsP/sD6hbC/Er49crkEPqd11K0XxOTq0CG5hpSc8c5DiM/aJRwvSxl7DHCK/pb5JjEMhhLCjHmy58GcEvaMYsAV3MtHO4nbisZ4ZdczFSx8rPMEP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mR0ZYIay; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1766415534; c=relaxed/simple;
+	bh=b4wwckHCSEHA9/WsH/82v8iyuGooOfYc2si289h0qdk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EcwOpU3iC+Zu171ODAccN+Q7VFRN0afSqgTp8Rnp+DbgBurgUhK5/b9oAxGM8PajOWDFq8m8zQUC1JqMkqSBeIrH2WhcP9ij6dvuC3viOvDKmznCGc7EozhpxHgdVpCSnqRUHNmhSL8QJOLgM/USakgkADsoiyGXi9sxsChm1v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sf8cvv97; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mR0ZYIay"
-Content-Type: text/plain; charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766415363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ug6CF6jCTPeVAFS2QI1pQi+kiqg4TBi7NpuKWEmGN1A=;
-	b=mR0ZYIay0khLE3eWzfTfMrMUBSfzPivyFLCYkJg7umNNHmi1J+CWjiGZd5hgbuhCY4VByv
-	bwPiRmnU/E9MGfwey8vGWPmFmFp+7HIigwWdGxEs7jK1Ehu7BWDxBLRxU3ii55jZXrk4TD
-	3rMA+8byHGekh6B28hIX+XG4QKisfRY=
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sf8cvv97"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BA5C4CEF1;
+	Mon, 22 Dec 2025 14:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766415533;
+	bh=b4wwckHCSEHA9/WsH/82v8iyuGooOfYc2si289h0qdk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Sf8cvv973Ocy86SIfrhCawHgAShUAwMSVQXJmWzuodPbT41k1EQD8ytVx625GsbjA
+	 SW8CeuEhVcF9igA8P6YYwwKKILnQ4wtjZ9NJUZC8GVOJy1YFzowIKCHG9Wpke6Cd3p
+	 4hlh6ZLKMflh9K4G4Fn2woo7rNi6d3jEcqdrNbRMhKV4lClYGgNb/eEA1oF9C9q53H
+	 PjiLu8ZRc9IoV32IPqFBobyygCnl0aDln4g75qhv3K1GZNkghCwfXPs4qohTcHGSXW
+	 Mqh2ghyKhw/orybk4h09OSXMzd0E0OMiPtbla5X7ljWCIHF1WJ1K2PrewNZlPqPMoN
+	 ptWtwVifEgDeQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
+  Andrew Morton <akpm@linux-foundation.org>,  David Hildenbrand
+ <david@kernel.org>,  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
+  Suren Baghdasaryan <surenb@google.com>,  Michal Hocko <mhocko@suse.com>,
+  Jonathan Corbet <corbet@lwn.net>,  Thomas Gleixner <tglx@linutronix.de>,
+  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov <bp@alien8.de>,  Dave
+ Hansen <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
+ <hpa@zytor.com>,  Muchun Song <muchun.song@linux.dev>,  Oscar Salvador
+ <osalvador@suse.de>,  Alexander Graf <graf@amazon.com>,  David Matlack
+ <dmatlack@google.com>,  David Rientjes <rientjes@google.com>,  Jason
+ Gunthorpe <jgg@nvidia.com>,  Samiullah Khawaja <skhawaja@google.com>,
+  Vipin Sharma <vipinsh@google.com>,  Zhu Yanjun <yanjun.zhu@linux.dev>,
+  linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
+  linux-doc@vger.kernel.org,  kexec@lists.infradead.org
+Subject: Re: [RFC PATCH 04/10] liveupdate: flb: allow getting FLB data in
+ early boot
+In-Reply-To: <CA+CK2bDWF6pbNQRkJFa+WcD1pwUOr3yQdrRUs-mgLWu5ght+7A@mail.gmail.com>
+	(Pasha Tatashin's message of "Sat, 20 Dec 2025 10:11:34 -0500")
+References: <20251206230222.853493-1-pratyush@kernel.org>
+	<20251206230222.853493-5-pratyush@kernel.org>
+	<CA+CK2bAV1y_LySjyj-wcn1cdSuVBdC+r+zQL7AQTY64nk3OxuQ@mail.gmail.com>
+	<86wm2hj0ky.fsf@kernel.org>
+	<CA+CK2bDWF6pbNQRkJFa+WcD1pwUOr3yQdrRUs-mgLWu5ght+7A@mail.gmail.com>
+Date: Mon, 22 Dec 2025 23:58:43 +0900
+Message-ID: <86o6nqd0m4.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
-Date: Mon, 22 Dec 2025 22:55:16 +0800
-Message-Id: <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
-References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>
-In-Reply-To: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
-To: David Hildenbrand <david@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain
 
+On Sat, Dec 20 2025, Pasha Tatashin wrote:
 
+>> > [Follow-up from LPC discussion]
+>> >
+>> > This patch is not needed, you can use liveupdate_flb_get_incoming()
+>> > directly in early boot. The main concern is that we take mutex in that
+>> > function, but that I think is safe. The might_sleep() has the proper
+>> > handling to be called early in boot, it has "system_state ==
+>> > SYSTEM_BOOTING" check to silence warning during boot.
+>>
+>> Right. I will give it a try. For hugetlb, this works fine since it
+>> doesn't really need to do much in FLB retrieve anyway, it just needs to
+>> parse some data structures.
+>>
+>> If other subsystems end up needing a two-part retrieve, one in early
+>> boot and one later, then I think it would be a good idea to model that
+>> properly instead of leaving it up to the subsystem to manage it.
+>>
+>> Anyway, that isn't a real problem today so let's look at it when it does
+>> show up.
+>
+> FLB has exactly one .retrieve() lifecycle event. Once called, the data
+> is considered fully available and cached in private->incoming.obj.
+>
+> If a subsystem has a requirement where it needs a specific state
+> available very early and other state available much later, the clean
+> solution is simply to register two separate FLBs.
 
-> On Dec 22, 2025, at 22:18, David Hildenbrand (Red Hat) <david@kernel.org> w=
-rote:
->=20
-> =EF=BB=BFOn 12/22/25 15:02, Kiryl Shutsemau wrote:
->>> On Mon, Dec 22, 2025 at 04:34:40PM +0800, Muchun Song wrote:
->>>=20
->>>=20
->>> On 2025/12/18 23:09, Kiryl Shutsemau wrote:
->>>> The upcoming changes in compound_head() require memmap to be naturally
->>>> aligned to the maximum folio size.
->>>>=20
->>>> Add a warning if it is not.
->>>>=20
->>>> A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so the
->>>> kernel is still likely to be functional if this strict check fails.
->>>=20
->>> Different architectures default to 2 MB alignment (mainly to
->>> enable huge mappings), which only accommodates folios up to
->>> 128 MB. Yet 1 GB huge pages are still fairly common, so
->>> validating 16 GB (MAX_FOLIO_SIZE) alignment seems likely to
->>> miss the most frequent case.
->> I don't follow. 16 GB check is more strict that anything smaller.
->> How can it miss the most frequent case?
->>> I=E2=80=99m concerned that this might plant a hidden time bomb: it
->>> could detonate at any moment in later code, silently triggering
->>> memory corruption or similar failures. Therefore, I don=E2=80=99t
->>> think a WARNING is a good choice.
->> We can upgrade it BUG_ON(), but I want to understand your logic here
->> first.
->=20
-> Definitely no BUG_ON(). I would assume this is something we would find ear=
-ly during testing, so even a VM_WARN_ON_ONCE() should be good enough?
->=20
-> This smells like a possible problem, though, as soon as some architecture w=
-ants to increase the folio size. What would be the expected step to ensure t=
-he alignment is done properly?
->=20
-> But OTOH, as I raised Willy's work will make all of that here obsolete eit=
-her way, so maybe not worth worrying about that case too much,
+Hmm, that can work too. Anyway, let's figure that out when there is a
+real use case. For now, the current FLB design works fine.
 
-Hi David,
-
-I hope you're doing well. I must admit I have limited knowledge of Willy's w=
-ork, and I was wondering if you might be kind enough to share any publicly a=
-vailable links where I could learn more about the future direction of this p=
-roject. I would be truly grateful for your guidance.
-Thank you very much in advance.
-
-Best regards,
-
->=20
-> --
-> Cheers
->=20
-> David
+-- 
+Regards,
+Pratyush Yadav
