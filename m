@@ -1,102 +1,101 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E7722759C
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 07:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE4F32573D;
+	Mon, 22 Dec 2025 07:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766388679; cv=none; b=M2OZtoUdfP1mBH/kjVrOfeyO33GOrnNFKzc33xy3qs9zx4xBun4SxXVXyv+wCO4xOR/3GMpsWWkuTx/pV4V0Tk34QtUtw/czQQKNW5pWSkkFPoNViDyOELgMKMNTJcWoiuXyp1Gcn17C7ZadDYt032MbgUgQyCwE8VntAO4Ehek=
+	t=1766389254; cv=none; b=FJ/j+eTVjn2+dGSUYLXjdKer2HyclzaRMLwCFa4n0znEE3upQiyqgUwMXU8zJlu6AYdboMb/hfKLo2nAXt3JPdQoid0+J1UA8SVjZevZMksgUSvrepa8Fu2+RQEroRmqQLHd8g+8afIZeN5w0ZWEkE8dU6oNQb+L1SuEE/CvXIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766388679; c=relaxed/simple;
-	bh=FhfvIIRgj6Aycs5UyhUwijnDEuwt7q2c8fX68qjbfxI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=lVsT7hZBmtN5RZm0bFiwOOhts1CDrNl1wxb+AXtkifp/279+qyNBz2Gw9ix+IQCHfnFOx8q92MckUo3ZcFsayed1n+BMZ438LcvMbItTq/uSyKooQNhk+NLcpPMqE1JD8P1UxUSDctgWJQ30/7tooPE28A0xEviZOsXyQGpmMq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dds3KG6i; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dds3KG6i"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 0DEB21A2365;
-	Mon, 22 Dec 2025 07:31:09 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D36DF606C1;
-	Mon, 22 Dec 2025 07:31:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AED821037114E;
-	Mon, 22 Dec 2025 08:30:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766388663; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=FhfvIIRgj6Aycs5UyhUwijnDEuwt7q2c8fX68qjbfxI=;
-	b=dds3KG6i2S3Ix1WU4NKTXXyH21pMocW+PTkSDO3Egjok8yzK5zVeHJ3kbiumuGq3Yj2HRo
-	NVBdWWaPxPlQBlayK1IYfKdtbQXz8UbiLzTmGWwtuOZNSfN1xHWHEl3OmAwjZph4aMysaY
-	cOXQENMUe4sMpLVsi1J1TBSR80NIqn3DWJVvZC/1isGu4OQFATbvYVT/R8YGfEIQInjFwt
-	LLS8tjB70jTmOZ7DJOZrqy6J6sHcEDqBiFm/SOzacWNl6J4KlwJBKTtIlEHYC5dxziUrrK
-	IXQLQcVVwdUsfQWxqpQBhLDT9lQ5XYU+M8hgbzYw9WBfLx5gLgarvXMFQYCGbA==
+	s=arc-20240116; t=1766389254; c=relaxed/simple;
+	bh=VoLg4/ohDa7XtABuLGlVpUnX768QrqzYcC25Qz3X0KU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iAuE6A93FJ9PY544Co5S1RQzh9T6xBsE7mFqct+UjM6M+ocHgm3c+43kRnJCwUzHr5Ddp+0AKXZtkVqBfdGHISKyQkc5f0EwpowJucVuL9Lr1JS++0Kmqlryat1HIxFz+52Igrw1qu86QnzP6Qsy12aGLWEde8h0BSCg3QO2SOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dZVRf3NlmzKHMRT;
+	Mon, 22 Dec 2025 15:40:30 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id DE4F44056D;
+	Mon, 22 Dec 2025 15:40:46 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgC3F_j99UhpLPhCBA--.61919S2;
+	Mon, 22 Dec 2025 15:40:46 +0800 (CST)
+Message-ID: <f9593c1e-feda-4c03-a1c9-7e84637819f8@huaweicloud.com>
+Date: Mon, 22 Dec 2025 15:40:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 4/5] mm/mglru: combine shrink_many into
+ shrink_node_memcgs
+To: Johannes Weiner <hannes@cmpxchg.org>,
+ Shakeel Butt <shakeel.butt@linux.dev>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
+ weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, corbet@lwn.net, roman.gushchin@linux.dev,
+ shakeel.butt@linux.dev, muchun.song@linux.dev, zhengqi.arch@bytedance.com,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, lujialin4@huawei.com, zhongjinji@honor.com
+References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
+ <20251209012557.1949239-5-chenridong@huaweicloud.com>
+ <20251215211754.GG905277@cmpxchg.org>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20251215211754.GG905277@cmpxchg.org>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Dec 2025 08:30:53 +0100
-Message-Id: <DF4KIOREQYK3.2JEGF51OECQCE@bootlin.com>
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Alexey Brodkin" <abrodkin@synopsys.com>, "Phong
- LE" <ple@baylibre.com>, "Liu Ying" <victor.liu@nxp.com>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "Kevin Hilman" <khilman@baylibre.com>, "Jerome
- Brunet" <jbrunet@baylibre.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>
-To: "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 12/22] drm/meson: encoder_hdmi: get/put the next
- bridge
-X-Mailer: aerc 0.20.1
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com> <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-12-b5165fab8058@bootlin.com> <CAFBinCCUVOYsiwwVmyGtxN=MdqYatAaj-piVO9_E_iZX9gwiMQ@mail.gmail.com>
-In-Reply-To: <CAFBinCCUVOYsiwwVmyGtxN=MdqYatAaj-piVO9_E_iZX9gwiMQ@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgC3F_j99UhpLPhCBA--.61919S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF1DArW8uw43CFy7tw17Awb_yoWDArgE9w
+	1FvF1Iyw1UCw4vganrCrsYyFnxGF17CrykJw18XryxW345Zry7uF4kGF93WFn2grWFy345
+	Cas8ZrySkry3ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxo
+	7KDUUUU
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-Hello Martin,
 
-On Sun Dec 21, 2025 at 10:51 PM CET, Martin Blumenstingl wrote:
-> On Tue, Dec 16, 2025 at 7:00=E2=80=AFPM Luca Ceresoli <luca.ceresoli@boot=
-lin.com> wrote:
->>
->> This driver obtains a bridge pointer from of_drm_find_bridge() in the pr=
-obe
->> function and stores it until driver removal. of_drm_find_bridge() is
->> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
->> refcounted and use bridge->next_bridge to put the reference on
->> deallocation.
->>
->> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> And additionally I runtime tested this on meson-gxl-s905x-libretech-cc
-> where I still have HDMI output, so:
-> Tested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
-Thank you for the quick testing!
+On 2025/12/16 5:17, Johannes Weiner wrote:
+> On Tue, Dec 09, 2025 at 01:25:56AM +0000, Chen Ridong wrote:
+>> @@ -5822,6 +5779,12 @@ static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc)
+>>  
+>>  		shrink_one(lruvec, sc);
+>>  
+>> +		if (should_abort_scan(lruvec, sc)) {
+> 
+> Can you please rename this and add the jump label check?
+> 
+> 		if (lru_gen_enabled() && lru_gen_should_abort_scan())
+> 
+> The majority of the checks in there already happen inside
+> shrink_node_memcgs() itself. Factoring those out is probably better in
+> another patch, but no need to burden classic LRU in the meantime.
 
-I think I can append '# meson-gxl-s905x-libretech-cc' to your 'Tested-by:'
-line when I'll apply the patch, to make it more informative.
+Adding should_abort_scan for the classic LRU seems reasonable, as it would allow the scan to stop
+earlier when sufficient pages have been reclaimed or watermark is satisfied for global recalim.
 
+Refer to the discussion here:
+
+https://lore.kernel.org/lkml/20251209012557.1949239-1-chenridong@huaweicloud.com/T/#m4eea017f5a222ba676d9222f59ad8c898ac2aefe
+
+-- 
 Best regards,
-Luca
+Ridong
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
