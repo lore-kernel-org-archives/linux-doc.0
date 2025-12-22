@@ -1,213 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEEE24E4C3;
-	Mon, 22 Dec 2025 08:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E763161B8
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 08:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766391221; cv=none; b=F06rvlsd7dlVrGb3lJSDzjf12pxQ8OOhz0Ya43LvH4s/8lZ8gwxzeyFRUZBHdrMtyOkXnq7QxZK3L9/iYugfUgumhaQiRS250+zIB2MkSnpqGP8wXGOhoZbsv1FhLKOK098B8wV/3xIukgLLCIgWlGMoP5lspCTGS6wfYJdHsSE=
+	t=1766391724; cv=none; b=EL5tMvXZh8FOstRYMg/2W0in82xfpcCEQQvO6vZ2tZhvwpFm6Xp8Zdx3REBitHDdOauTWiMM+dO82dbFmtIsxnSBS4y1qlgQ1DqPYfs5i7vfs9s1LPCIAdgNrMV3pMUPD3Jee2WCTtm+CdmUU1p4d7UEBq4cJNLiba5UvDbyUpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766391221; c=relaxed/simple;
-	bh=+LZc9sH1FCeBixh1w4vXv6wQcF1lRDxb/ilDg7ghLhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FicflmfnslndAfEfzgzlfNV4/asrqRLbzcsWrKPBCLPrHXfGOO9wqGOsxhY+mNOr0NTWOwGjVr+2T7U4yjfrXRjlT5YAK0vkeq0kVSZprrwguJlWdwPjHIk42s30I7XYpkvxakGekqC6l5pRLVDJols1HqIynXcffQm9cXv3Yv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+xFP6nK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766391724; c=relaxed/simple;
+	bh=EqxGeITc2UKYaMAzZMDYQfg02UCHl3X6FUpCJ4R9urE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SfIXwiJJWd3z/SaSRmdCQ85LZQiu9lWOFj2oZ0d4/b7vQfhCyzeyA1D/iNDduy//iGexb8k7RmGufUu/Gc5IrjwT9qFVMPigtTW6s0gvbnWGm5gqdIkKzLo7i1tfHb3LUiQbQyqM7+4y1zZ8ffVaoHSVNXPcv5jQbjycEARVpxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eJXpRmsj; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+xFP6nK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD91EC4CEF1;
-	Mon, 22 Dec 2025 08:13:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766391220;
-	bh=+LZc9sH1FCeBixh1w4vXv6wQcF1lRDxb/ilDg7ghLhQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=R+xFP6nK0qe53POnY7jjyszn3iOUZuinw6ZqS6AJsoqWcuZII35RkzQ7YGVYI1xeK
-	 LQE264oNB8kS+JJ5I3UO561Y3JAxbMY/Zf5Vi3PjC7YxsXnP/dPk+0tWsSiMPcd732
-	 /olnqcnrwQ6tECTPRewTAgLaNLMGayFaJi8zIzSAmQAG8ZzZuW+5VQmFraNq2XDYE/
-	 oHRotrUO1oKqgjF1gSLrHo2x7YcBsUUyGzXES/pEXpIT/lxGg6TJ2AStLzGOzjSvRE
-	 0JTBn7ixNl1imKBUIDCPicOnAe5qbaF4/hzD6C1QAZidh6OB6uCAWY6P8ZjyYQddYh
-	 oX2BxKQQyK2+g==
-Date: Mon, 22 Dec 2025 09:13:34 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
- tony.luck@intel.com, bp@alien8.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com, Michael.Zhao2@arm.com,
- linux-efi@vger.kernel.org
-Subject: Re: [PATCH 03/12] ras: add estatus vendor handling and processing
-Message-ID: <20251222091334.5cb8465f@foz.lan>
-In-Reply-To: <20251219181226.2859763-1-ahmed.tiba@arm.com>
-References: <euhams5heiuaawxq4e5ty7iijuvwt5gvdx3flsm4npligjeulq@lv3cwekyb2o2>
-	<20251219181226.2859763-1-ahmed.tiba@arm.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eJXpRmsj"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7fc0c1d45a4so3369621b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 00:22:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766391721; x=1766996521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dFfaj1jg7DkAQbZ2xQqGZ0nerYqYJ2u1eC/UX4LEwiY=;
+        b=eJXpRmsjLS3VyGb8byupvVr5yTocjvkDkbcR3XuO6rdwDL7aCCy0Hg4jHwQOjjgmJ6
+         oWJ15u6kkZhZUdF3NyqIqTAa6BVl5RYexz5XbXRbemf6AZqctZD2x5aosKb44UpMSXJM
+         xZ/sYgWGEQjd9nRs9VJJ8X+jnsEhoSBzgE80MXKDCfOPvvfKhJGskO+m/I6hYmqpvrMx
+         GLBuDeR2oJqueRHPKUoA+13rfESg7uvJ/sL958TEmv0nSijITW1TYTvQRXJB98WKAod/
+         UBBucn1bWWIxxYIlUms7Aj5/jVlmeF0iL4i82SPWK0SssLsBVU/hzxZwqJ4/OVPjVFu2
+         ADow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766391721; x=1766996521;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dFfaj1jg7DkAQbZ2xQqGZ0nerYqYJ2u1eC/UX4LEwiY=;
+        b=d1NnYdMGeDFjRJuRW1O4iXnfOscQ3n+YNIovfOYaxk7BABz2gdduasAQWrdRdij4/y
+         ClpIdBpoaC7GaNXTcnekXDT4Vskb5RkKsERoCIsiBR0dkVLEDaMgrX91PJOailn2JKZG
+         otwpOpszUc57BOpSrQH8rYxp6BRam2IBPhUYvPwI4Xfp9HfuQGrZE4Q8yY8yS15GMNZM
+         7rIM2qDwZlmFD+UNnKSTuu/wrRZGv9q7AfeU0q/jBEBrrGtZXZ6gEBa+6+yz56WtpeVv
+         SXFQE09R06V3cdAxKDnjQlHDZS5KHwYr59q31aL0r7b/oEsrEaWYDgqkqplvQmX8vXAi
+         asgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWaMe4k4/EjnHBQz2q1bwMYfmkmoEDQCveeXQF3B6R3gfTadmFikE3/PZ/hLOwbCAX4Q68voeVX6Bk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3tpoJIAQZ2WI6jDFvuRRGSZHt6HBuabdEVRc+Y1GkhU5G/yF0
+	5vOJDmuoT1gcUcz4fvrHGcfdjgaXjGViWQutyI5hIdEaY6rYUFQFnlD/
+X-Gm-Gg: AY/fxX7V9AK4wcuCywDlZwut2cCuBs0danpBW8VlGypb6RMavIg4lwEwPGnQQK3QQQ+
+	5Q+AnmeB6mV+kr409LqC2z7LTiFooN8mx+AirahasAb+xCgQN8JQ7of2Rqf0DY0ILmGCGuSd5k8
+	SCmQy2r/E+Yrmyvj61Lse8bHDkGEm+baeS0Qb40yJx+/RTwsDlEhG65+Og/ERZC0h6sGBbf/vc0
+	mThO1LNt5e28hF/0qx2b5yqddJ1foPvGMqe1DvbASFhY4ioghIGdLP7DyuuMWtbfiJISlNhPsE5
+	mDSECJXBbMQZ2TRMh9aMX1LD8Cov0ATAHkSjoUaoHbWmxakJ3Z/wELSk8nHxf3DouPmaFj5gdZ7
+	ZWfLlNmPxOssxnsLpZXKSkl0S42XI01MtWvGlYecNdJi4JF68uEnr5L21QinbWWUSMsaUxGfuXf
+	4XOhpsQw60
+X-Google-Smtp-Source: AGHT+IG3eUuB5Tb1s+Zs70IjrZagHo/mf8fIHvmKfCB1AS8Rh4HCdjBPUwGbrg6oNBn8UN6DCsv0tQ==
+X-Received: by 2002:a05:6a00:3e2a:b0:7ff:9657:d6c8 with SMTP id d2e1a72fcca58-7ff9657d93bmr10043630b3a.27.1766391721087;
+        Mon, 22 Dec 2025 00:22:01 -0800 (PST)
+Received: from frodo ([2404:4400:417e:3d00:8b90:7f55:1261:772f])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm9540699b3a.50.2025.12.22.00.21.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Dec 2025 00:22:00 -0800 (PST)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	jbaron@akamai.com,
+	gregkh@linuxfoundation.org,
+	ukaszb@chromium.org,
+	louis.chauvet@bootlin.com
+Cc: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	daniel.vetter@ffwll.ch,
+	tvrtko.ursulin@linux.intel.com,
+	jani.nikula@intel.com,
+	ville.syrjala@linux.intel.com,
+	seanpaul@chromium.org,
+	robdclark@gmail.com,
+	groeck@google.com,
+	yanivt@google.com,
+	bleung@google.com,
+	quic_saipraka@quicinc.com,
+	will@kernel.org,
+	catalin.marinas@arm.com,
+	quic_psodagud@quicinc.com,
+	maz@kernel.org,
+	arnd@arndb.de,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	mingo@redhat.com,
+	jim.cromie@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v7 04/31] docs/dyndbg: explain flags parse 1st
+Date: Mon, 22 Dec 2025 21:20:21 +1300
+Message-ID: <20251222082049.1782440-5-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251222082049.1782440-3-jim.cromie@gmail.com>
+References: <20251222082049.1782440-3-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em Fri, 19 Dec 2025 18:11:54 +0000
-Ahmed Tiba <ahmed.tiba@arm.com> escreveu:
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
-> On Fri, Dec 19, 2025 at 04:30:40PM +0100, Mauro Carvalho Chehab wrote:
-> >On Fri, Dec 19, 2025 at 02:49:02PM +0000, Ahmed Tiba wrote: =20
-> >>
-> >> On Wed, Dec 18, 2025 at 05:04:53PM +0100, Mauro Carvalho Chehab wrote:
-> >> =20
-> >> >> Teach the estatus core how to walk CPER records and expose the vend=
-or
-> >> >> record notification path. This adds the section iteration helpers,
-> >> >> the logging helpers that mirror the GHES behaviour, and the deferred
-> >> >> work used to hand vendor GUIDs to interested drivers. No users swit=
-ch
-> >> >> over yet; this simply moves the common logic out of GHES so the next
-> >> >> patches can wire it up.
-> >> >>
-> >> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com> =20
-> >> >
-> >> >...
-> >> > =20
-> >> >> +static bool estatus_handle_arm_hw_error(estatus_generic_data *gdat=
-a, int sev, bool sync) =20
-> >> >
-> >> > Huh?
-> >> >
-> >> > This is a CPER record from GHES. Why are you moving CPER code out
-> >> > of ghes.c, placing in a file named estatus.c? Doesn't make much
-> >> > sense on my eyes...
-> >> >
-> >> > Same applies to to other GHES CPER record types. =20
-> >>
-> >> GHES still fills in the CPER record, but the parsing and logging logic=
- is
-> >> shared with the new DeviceTree provider so I pulled those helpers into=
- the
-> >> estatus core. =20
-> >
-> > I see, but this is not really estatus core. Instead, it is part of GHES=
- CPER
-> > handling logic, which is defined at ACPI and UEFI specs. moving it to e=
-status
-> > sounds odd, at least on my eyes.
-> >=20
-> > Perhaps I'm failing to see where at ACPI/UEFI specs how CPER would be
-> > integrated with an OpenFirmware approach to handle CPER without GHES.
-> > Care to point to the relevant specs, if any? =20
->=20
-> ACPI/APEI (via GHES) defines how CPER records are discovered and notified=
- on ACPI systems,
-> but there is no ACPI or UEFI-defined equivalent for OpenFirmware/DeviceTr=
-ee platforms.
-> UEFI standardises the CPER record format itself, not the transport or dis=
-covery mechanism.
->=20
-> On non-ACPI systems we still receive the same UEFI-defined CPER payload
-> from firmware, but Linux needs a different, platform-specific contract
-> to locate and acknowledge it. The DT binding is a Linux-side description
-> of that contract rather than something defined by ACPI/UEFI.
+cc: linux-doc@vger.kernel.org
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst         | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-That's where I'm failing to understand: CPER is part of UEFI spec, and
-the only deliverable mechanism I'm aware of for CPER is via GHES or
-GHESv2 - e.g. via ACPI.
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 4ac18c0a1d95..e76ccd987704 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -109,10 +109,19 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
+ 
+-
+-A match specification is a keyword, which selects the attribute of
+-the callsite to be compared, and a value to compare against.  Possible
+-keywords are:::
++Note that since the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword and value.  Flag errs will hide keyword errs::
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
++So a match-spec is a keyword, which selects the attribute of the
++callsite to be compared, and a value to compare against.  Possible
++keywords are::
+ 
+   match-spec ::= 'func' string |
+ 		 'file' string |
+-- 
+2.52.0
 
-Within the scope of https://uefi.org/specifications, I'm failing
-to see any other deliverable mechanism.
-=20
-> >> Both providers already call into the same notifier chain and
-> >> memory-pool helpers; this patch just moves the generic CPER walking ro=
-utines
-> >> next to the rest of the common code so the DT path doesn=E2=80=99t hav=
-e to grow its
-> >> own copy. If you=E2=80=99d prefer a different file layout or naming to=
- make that
-> >> intent clearer, I=E2=80=99m happy to adjust. =20
->=20
-> > Moving the code from ghes.c to estatus.c or to elsewhere shouldn't make=
- any
-> > difference, as the DT handling logic could simply be calling the functi=
-ons
-> > from ghes.c (or estatus.c). I fail to see why they need to be moved. =20
->=20
-> The motivation is to provide a shared implementation for non-ACPI provide=
-rs,
-> so that the DT path does not depend on ACPI/APEI.
->=20
-> While the helpers currently live in ghes.c, they are CPER-specific and do=
- not rely on ACPI tables,
-> APEI infrastructure, or GHES notification semantics. Keeping them there e=
-ffectively makes GHES
-> the only place those helpers can live, even though the logic itself is pr=
-ovider-agnostic.
-
-The logic is related to GHES, as this seems to be the only standardized
-mechanism to report CPER records. As it is part of APEI, get_maintainers
-points to the people that have been maintaining it as:
-
-	$ ./scripts/get_maintainer.pl -f ./drivers/acpi/apei/ghes.c
-	"Rafael J. Wysocki" <rafael@kernel.org> (maintainer:ACPI APEI,commit_signe=
-r:6/13=3D46%)
-	Tony Luck <tony.luck@intel.com> (reviewer:ACPI APEI,commit_signer:3/13=3D2=
-3%)
-	Borislav Petkov <bp@alien8.de> (reviewer:ACPI APEI,removed_lines:5/62=3D8%)
-	Hanjun Guo <guohanjun@huawei.com> (reviewer:ACPI APEI,commit_signer:4/13=
-=3D31%)
-	Mauro Carvalho Chehab <mchehab@kernel.org> (reviewer:ACPI APEI,authored:1/=
-13=3D8%,removed_lines:6/62=3D10%)
-	Shuai Xue <xueshuai@linux.alibaba.com> (reviewer:ACPI APEI,commit_signer:5=
-/13=3D38%,authored:2/13=3D15%,added_lines:56/218=3D26%,removed_lines:34/62=
-=3D55%)
-	Len Brown <lenb@kernel.org> (reviewer:ACPI)
-	Jonathan Cameron <Jonathan.Cameron@huawei.com> (commit_signer:5/13=3D38%)
-	Breno Leitao <leitao@debian.org> (authored:2/13=3D15%,added_lines:38/218=
-=3D17%)
-	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> (authored:2/13=
-=3D15%,added_lines:103/218=3D47%)
-	Ankit Agrawal <ankita@nvidia.com> (authored:1/13=3D8%,removed_lines:6/62=
-=3D10%)
-	Jason Tian <jason@os.amperecomputing.com> (removed_lines:7/62=3D11%)
-	linux-acpi@vger.kernel.org (open list:ACPI APEI)
-	linux-kernel@vger.kernel.org (open list)
-
-Moving it elsewhere would make it confusing, as the expected deliverable
-mechanism for CPER is via GHES - as this is the only one defined at the
-uefi.org specs.
-
-While it might be moved to EFI and placed under cper.c,=20
-get_maintainers.pl would point to:
-
-	$ ./scripts/get_maintainer.pl -f ./drivers/firmware/efi/cper.c
-	Ard Biesheuvel <ardb@kernel.org> (maintainer:EXTENSIBLE FIRMWARE INTERFACE=
- (EFI))
-	linux-efi@vger.kernel.org (open list:EXTENSIBLE FIRMWARE INTERFACE (EFI))
-	linux-kernel@vger.kernel.org (open list)
-
-which is not the people that have been maintaining RAS.
-
-Placing it under a "estatus.c" file would make it completely
-dissociated with UEFI/ACPI specs, as this name means nothing at
-the specs.
-
-Also, adding a new maintainer's entry won't make any sense, as the
-people that currently reviews and maintains GHES/CPER records
-should be kept.
-
-> By moving the CPER parsing and logging pieces into a common location,
-> both GHES and the DT provider can reuse the same implementation,
-> while the ACPI-specific discovery and notification code remains under dri=
-vers/acpi/apei/.
-> This avoids having the DT provider reach into GHES internals or duplicate=
- CPER handling code.
-
-As Boris mentioned on patch 00/12, we need to better understand
-the high level scenario, as it is still not clear to me how a
-firmware-first notification would happen without ACPI.
-
-> If the current naming or file layout makes that separation unclear, I=E2=
-=80=99m happy to adjust it.
-
-Thanks,
-Mauro
