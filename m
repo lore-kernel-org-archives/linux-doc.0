@@ -1,53 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF74E3491FB;
-	Mon, 22 Dec 2025 22:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D884A306B05;
+	Mon, 22 Dec 2025 22:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766442312; cv=none; b=YQKjpRQsKd98emU5CaW1ZhzmPbIJuS1rDVM092e8xiKChN1LDhlzT2IzdR1UtzW+3YJInkRgvOYSSJHQ4SnUleuwB6mji2ht1sJhNnLr9uXatEMwk8h6vfhR81eb+tWkIg0gWUDPxfwn16NdXe10YtsNw9PtnAZnsKgsF3qlIWs=
+	t=1766442360; cv=none; b=CZkk2j+wSrmz0OLv8b4BtGkiv01rts0cnN/KzYamVfnO4tGkJh7EpVsgrlYuAGB6+fpDoZsv4jjX0+ng9zUdqOKWEXQlPj+5PoAM53pbo4lIg4nXvsMtXWlBvGj3dL6kmgB9JtmM6XJ/UZ6hWZPu24DVdmZgN/gqJANheiU5HH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766442312; c=relaxed/simple;
-	bh=UTE3e3zRqag9whWqOByHRu2cmId+V2NVcCFEvxb8Pwc=;
+	s=arc-20240116; t=1766442360; c=relaxed/simple;
+	bh=I6AwnvjgxNSimNSzo9NNcymGlkxWweetadZ8KY9FQko=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=I2An6uYdwR0MJ8yLgv8kR5ciCWKkqQDa7rpZ5SVWLcQTeH6GNLvd/Zmkq5DjLDV+aBbgRDD43HAv3cpoLAyil8Cxokl4rWwq/30ZBXeiSZ2dQ4v7DgieqBaHofRAkmNBU1AmMuzOZsUNaq6NVuAdbG/Qz0qkc9s/hhScnEDo+B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nOIe/MqV; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=n47/9olO2SYZ/92vSNsYkHK+YlGxBk9WJxFqdFnYqVTaesvaUvz5eHOO+1SRw4b7/sV7WdWKBmh+JclTIE4JFwqTbHQF7VockGmL9W7rWhfx48SLl5AIw16O87QNYr+og+dRLsNtHV78GyboyIa0DVs25RKWwsonjraAJ/nHHlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hKQ1uxiv; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nOIe/MqV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EB9374040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hKQ1uxiv"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1BCBE4040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766442310; bh=H6dkgP5nDXtUY2fgbr9pLhBkMHgH1gFtdMcuO2qFves=;
+	t=1766442358; bh=wkle73ThyqsQGArsm85eb59XbTAqhgZpSAwasHttKHE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nOIe/MqVOXG8sSpS7Nhg1Vg9qTrnZcIn6lRCysA8sOU7noG7oOuhWJznFlKKj685L
-	 ge78hG/BNeud7+BRNwcKL1xS66LFc/Y7fmswL/BCf1MEjDuYCRJazYTL0MtgjTXUQT
-	 Y1v63S3Zn0d4Cq8nFPhFnPrDjHoo0E2/szdeALIzIKT3t1dUCxOAfoAiv2VxGfF7Go
-	 hXhD7dADEwbFM/l3kLB8ZwDGY5yreyaTRUvSa+gXVCxgJ/I9wZIntLpm2FjarJHE4c
-	 TUgXHFF8uLUVJB7Fs9RPmwuV/N+eGyNbwyY6SFMc8cvNdSvT1QzQBUWyoPMe/MB+2P
-	 yQKE552y6uH7w==
+	b=hKQ1uxivBP0oKqo+3w7nT2Gt2Yy9KMUGPOF2AWNDjJzdSG3p0fg3IhTYZY7eHyp9R
+	 pfuTXiEgDCHPMnRBzV/yBR6V0EX28/ymsj9NW4V3cH5ziO7kk6ibqAoDHPlZ/fDCkh
+	 jfMVSAhbVwyLOlKzo8iH96Hqg0oWnDiKALZAxIyycD15DJefVOfGmKOjuPH5hMXH1k
+	 aVPhM6iRgQNtBEvUby3EtVHUNuBdkMYSqNq6aPaECKcGQNvuZp82HNd8Hrf6nFEYLF
+	 FeM4/o+66kaXcLpRZS1ijuAOqPIv3bMp4j99EXdIONT13LlEVwxcqtpFMyEDOscNpa
+	 CIgAQ65qNhf8g==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EB9374040B;
-	Mon, 22 Dec 2025 22:25:09 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1BCBE4040B;
+	Mon, 22 Dec 2025 22:25:58 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Steven Rostedt <rostedt@goodmis.org>, Gabriele Monaco <gmonaco@redhat.com>
-Cc: Soham Metha <sohammetha01@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
- skhan@linuxfoundation.org, namcao@linutronix.de,
- mathieu.desnoyers@efficios.com, mhiramat@kernel.org, bagasdotme@gmail.com,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation/rv: Fix dead link to
- monitor_synthesis.rst
-In-Reply-To: <20251204101415.284a7a96@gandalf.local.home>
-References: <20251204032452.9523-1-sohammetha01@gmail.com>
- <a34546391cc59f9f880ec271292ac201292bac61.camel@redhat.com>
- <20251204101415.284a7a96@gandalf.local.home>
-Date: Mon, 22 Dec 2025 15:25:09 -0700
-Message-ID: <87h5tiyx16.fsf@trenco.lwn.net>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Thierry Reding
+ <treding@nvidia.com>, Jassi Brar <jaswinder.singh@linaro.org>
+Cc: linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] Documentation: mailbox: mbox_chan_ops.flush() is optional
+In-Reply-To: <6a50a5d4f0d0da26e5cccf348550879e53792e6e.1764861174.git.geert+renesas@glider.be>
+References: <6a50a5d4f0d0da26e5cccf348550879e53792e6e.1764861174.git.geert+renesas@glider.be>
+Date: Mon, 22 Dec 2025 15:25:57 -0700
+Message-ID: <87cy46ywzu.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,22 +50,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Steven Rostedt <rostedt@goodmis.org> writes:
+Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-> On Thu, 04 Dec 2025 07:36:57 +0100
-> Gabriele Monaco <gmonaco@redhat.com> wrote:
+> When the optional .flush() method was added to the mbox_chan structure,
+> the documentation was not updated.
 >
->> Anyway looks good to me.
->> 
->> Acked-by: Gabriele Monaco <gmonaco@redhat.com>
+> Fixes: a8803d7421cc2be2 ("mailbox: Support blocking transfers in atomic context")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/driver-api/mailbox.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Jon,
->
-> Care to take this through your tree? Gabriele is the maintainer of this
-> code.
+> diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
+> index 0ed95009cc307a41..463dd032b96cd45d 100644
+> --- a/Documentation/driver-api/mailbox.rst
+> +++ b/Documentation/driver-api/mailbox.rst
+> @@ -27,7 +27,7 @@ Controller Driver (See include/linux/mailbox_controller.h)
+>  
+>  
+>  Allocate mbox_controller and the array of mbox_chan.
+> -Populate mbox_chan_ops, except peek_data() all are mandatory.
+> +Populate mbox_chan_ops, except flush() and peek_data() all are mandatory.
+>  The controller driver might know a message has been consumed
 
-Done (finally).
-
-Thanks,
+Applied, thanks.
 
 jon
