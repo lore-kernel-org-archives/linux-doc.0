@@ -1,298 +1,112 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21323321D1
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 08:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535163126B6
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 08:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766392117; cv=none; b=YsLHj8UfSgGChO2BjwxT7kMuIxAyop9Vcv5Gg6EUFlDynorCpp9pweRIkAbc6H5i3N2znTjr5ZKpRDnXCDeEoNohPl1d+g9l6NQTsURuhANamTMzRcT8HUyAzr/4PBlC0j+R7A1sB141pAghD5xGFcBNSbxmlNGVyXMVDYU1sNY=
+	t=1766392511; cv=none; b=JMSJITkXcdu3xi0HVz4TT4LyIZNsi7FFfg3WQgZiy/e7sRpqmy33rq1kR9TOQ9hTJU1eyyhsK/ZqMmnmuBf4zLr4viz8Rk0s5gIElhTC7nWIX7yuPCS0OypVWjrCtKze8PEWQm+PUGLyAxZ5xZNGb6WrLhnvCh4Aojo8tjwCQSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766392117; c=relaxed/simple;
-	bh=AK/bnfFexI75Q/0N26IRCouQSTxRNRsO2xPVvCV9E/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BEfqXIa3jE0MMv/sN7hrws67VT81ifGJcZGFkXqezrSvqPoNWR3FhQpsaeReFIK85Jxbdu66VsqM39gTeW5Bal1V2wv/eIRvlIDB+nbWam20b2FC8qrCnxEVR1I1KBsqKFULTP45oxQcKUj7MasYvsg/LW/7S5cOKnjve0tBGaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fIJtwn1D; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766392511; c=relaxed/simple;
+	bh=cDMQNUR0okHS9AXG8ZFEw0sTpkxYpdZUtBB7xh8eW10=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M0EzMIzTBCBOJNL1RAB6dtlnQDq4mR3UZdk9uT0v5CuZ2KtM5InE/7yvoFS8aZhHPiUe0M0vjVDEhjzWj+K81ps2Cr8hjXwuNLpqyBhV3fPlYueSauC30uyOkYVZPkaR0Aw/EV4+uJ14JeOZIWhVZ/i12NG90i86PK1TFJ4GTHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jDn+ac/N; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fIJtwn1D"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so2867491b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 00:28:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766392115; x=1766996915; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/ABMBtHazCQPbXZPvqunvxRiAtO4J7KVdTol8wYfw0Q=;
-        b=fIJtwn1D8uTLW1F9gJriRM38SkoDbyBPhwPYT07LKFiJLCvH75BTWZlb8uXhl3GJjf
-         6j8gV9kdbCLm857eFC1c1ZTGZyp7gA3AA3co/Q0ektpv6WH9XXDgl4JWBlNBhfZ5dB1B
-         vWYwU4dBTzTZBbZi/K8R0k/I2TSQ9QBy4kx9TTS7/6SvxfWjKcn4ZsY+MixLsxjFsrPv
-         3YnOvU9Ttqytr+PmNBG4JYewgWWbJ9BKJSYq/68RS5vWgCYkc8zIO5ZEkoyWfonWa0zy
-         QniPvQsLjULzQpBNX2ahpsJE7LP5wfeRdAI/ExMBzoSbvDye823C55kR9VuYN0TlGTU6
-         ARzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766392115; x=1766996915;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/ABMBtHazCQPbXZPvqunvxRiAtO4J7KVdTol8wYfw0Q=;
-        b=CQNExEV1JIlHS8uT96d+YiciZ6hdtEGUlSWvo2KYILMa0jRwN/7DWLwX4rmdJHfmZ5
-         weCRZLyOUtrA/ehOaa3OdtLV+eLoMNFYSRLF0cTbfrwZW7TRp9SCUfFv7zdKqZuZUjIr
-         puI592aFh7IHyo2nW+T41FH37hId8huoMmIYFc3OH6w521PRjGtA9AvaYmWCsB2HdJl4
-         mY5V9hHI1PrIJ9MnRzbNujAWPdAdRdsFKx6yBmNF04Iokbnyj7TWDKzcK1IshO4o79HZ
-         R1eXiiF2QgCDEM+BgcAvv1cfaGnBhvoel0KNLc1mU/BMPSSBIVz18LldYCJFZbXI2Key
-         XKYg==
-X-Forwarded-Encrypted: i=1; AJvYcCXgu28yTtvQ+l4YATlvXgF8oCVPlw/OP/DovB29eVtZ+P74yXWMrbNfJOtI5rU9qNk6xd0Xk72y17M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzS8UH95Dwd0T5Fbd8QXOA5H1kqcQ79FFWskWy35zUjbzxPnJQ
-	9DILZNdJBeiaeJPv0id9X0MMQlNVuziTK8wSHA8FUdwB986xJTGObxts
-X-Gm-Gg: AY/fxX56DNo015VjJWMnaCl10GOixQp7bfywYH25++AQLleRk7bU5yY+UbquMpKZPec
-	YvDEodvDxsNaHTTIz1NKn1bIlNF26nFXd1Vij2mzAZf9R/l9w72EVwUbUTeNy1Xorpl9IvcTk55
-	TsXIRtZk1krJ4QjzP8CwW5ws5hSg2dS64nuxHYSnDIgUxMhVFPTq6p6DZvp0Z9XAQSka9agmkhV
-	6fgH+MXTmiOvBO8BgO3rFRiPdAxS12MkEuTbFkgC8o6fKQDI57ubqPRsfXGxawZoCqp/x4SdG+6
-	l1pI0+SlMf2qzwZzYLqvbTaxhtYunbxAqCO4lnSrXH2hX5Ou2A30a5e4N4e+cirwM4GdpNLt+Fb
-	4mtC97TGEp+cO5LI8Gf5tXzHU9lAIa50s/7ZGiIMRJy/W0EJL9PLn9kHoJ5lKBqz3ZZpypxD/L9
-	Q9X9tS+S2I
-X-Google-Smtp-Source: AGHT+IEdf8lOhDtPYqKizeM1Dh4nWRJWzDSgY4CwDeK+ppE6vvK3k4DXx/lWFGZRYtXZSu5qWUHggg==
-X-Received: by 2002:a05:6a00:1d98:b0:7aa:8397:7754 with SMTP id d2e1a72fcca58-7ff64ed1413mr8654654b3a.2.1766392115098;
-        Mon, 22 Dec 2025 00:28:35 -0800 (PST)
-Received: from frodo ([2404:4400:417e:3d00:8b90:7f55:1261:772f])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-7ff7e493123sm9540699b3a.50.2025.12.22.00.28.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 00:28:34 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	jbaron@akamai.com,
-	gregkh@linuxfoundation.org,
-	ukaszb@chromium.org,
-	louis.chauvet@bootlin.com
-Cc: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org,
-	intel-gvt-dev@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	daniel.vetter@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com,
-	jani.nikula@intel.com,
-	ville.syrjala@linux.intel.com,
-	seanpaul@chromium.org,
-	robdclark@gmail.com,
-	groeck@google.com,
-	yanivt@google.com,
-	bleung@google.com,
-	quic_saipraka@quicinc.com,
-	will@kernel.org,
-	catalin.marinas@arm.com,
-	quic_psodagud@quicinc.com,
-	maz@kernel.org,
-	arnd@arndb.de,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	mingo@redhat.com,
-	jim.cromie@gmail.com,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v7 31/31] docs/dyndbg: add classmap info to howto
-Date: Mon, 22 Dec 2025 21:20:48 +1300
-Message-ID: <20251222082049.1782440-32-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251222082049.1782440-3-jim.cromie@gmail.com>
-References: <20251222082049.1782440-3-jim.cromie@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jDn+ac/N"
+Message-ID: <430d554c-840f-4813-b715-5191d74571a0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766392492;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5PRh51T16nCJuabLwN7Opr84pXwH4nCR12V2Dg0ZqfY=;
+	b=jDn+ac/Nr+VRGnnw5XTkr1JE4nLu78ku2s6wnDFuQAYHlvBnlSw8vDc4Y7yOIG4MRhjjC9
+	+GGKlxU1W4OSt3feZKSYrOi0ZjJqNFJIpTOFsmC+k2KGLfCkjou1xH9z6Dogp6OuvjzSi1
+	pmzmYW9QCsQ1ptZJaBi4BI4wZJNouYU=
+Date: Mon, 22 Dec 2025 16:34:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+References: <20251218150949.721480-1-kas@kernel.org>
+ <20251218150949.721480-3-kas@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20251218150949.721480-3-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Describe the 3 API macros providing dynamic_debug's classmaps
 
-DYNAMIC_DEBUG_CLASSMAP_DEFINE - create & export a classmap
-DYNAMIC_DEBUG_CLASSMAP_USE    - refer to exported map
-DYNAMIC_DEBUG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNAMIC_DEBUG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
 
-NB: The _DEFINE & _USE model makes the user dependent on the definer,
-just like EXPORT_SYMBOL(__drm_debug) already does.
+On 2025/12/18 23:09, Kiryl Shutsemau wrote:
+> The upcoming changes in compound_head() require memmap to be naturally
+> aligned to the maximum folio size.
+>
+> Add a warning if it is not.
+>
+> A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so the
+> kernel is still likely to be functional if this strict check fails.
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       | 135 ++++++++++++++++--
- 1 file changed, 123 insertions(+), 12 deletions(-)
+Different architectures default to 2 MB alignment (mainly to
+enable huge mappings), which only accommodates folios up to
+128 MB. Yet 1 GB huge pages are still fairly common, so
+validating 16 GB (MAX_FOLIO_SIZE) alignment seems likely to
+miss the most frequent case.
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 89ee15d7ae58..c85266ee8eed 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -146,6 +146,9 @@ keywords are::
-   "1-30" is valid range but "1 - 30" is not.
- 
- 
-+Keywords
-+--------
-+
- The meanings of each keyword are:
- 
- func
-@@ -194,16 +197,6 @@ format
- 	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
- 	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
- 
--class
--    The given class_name is validated against each module, which may
--    have declared a list of known class_names.  If the class_name is
--    found for a module, callsite & class matching and adjustment
--    proceeds.  Examples::
--
--	class DRM_UT_KMS	# a DRM.debug category
--	class JUNK		# silent non-match
--	// class TLD_*		# NOTICE: no wildcard in class names
--
- line
-     The given line number or range of line numbers is compared
-     against the line number of each ``pr_debug()`` callsite.  A single
-@@ -218,6 +211,25 @@ line
- 	line -1605          // the 1605 lines from line 1 to line 1605
- 	line 1600-          // all lines from line 1600 to the end of the file
- 
-+class
-+
-+    The given class_name is validated against each module, which may
-+    have declared a list of class_names it accepts.  If the class_name
-+    accepted by a module, callsite & class matching and adjustment
-+    proceeds.  Examples::
-+
-+	class DRM_UT_KMS	# a drm.debug category
-+	class JUNK		# silent non-match
-+	// class TLD_*		# NOTICE: no wildcard in class names
-+
-+.. note::
-+
-+    Unlike other keywords, classes are "name-to-change", not
-+    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-+
-+Flags
-+-----
-+
- The flags specification comprises a change operation followed
- by one or more flag characters.  The change operation is one
- of the characters::
-@@ -238,11 +250,15 @@ The flags are::
-   s    Include the source file name
-   l    Include line number
- 
-+.. note::
-+
-+   * To query without changing	``+_`` or ``-_``.
-+   * To clear all flags		``=_`` or ``-fslmpt``.
-+
- For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
- the ``p`` flag has meaning, other flags are ignored.
- 
--Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
--To clear all flags at once, use ``=_`` or ``-fslmpt``.
-+The regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- 
- 
- Debug messages during Boot Process
-@@ -394,3 +410,98 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+.. _dyndbg-classmaps:
-+
-+Dynamic Debug Classmaps
-+=======================
-+
-+The "class" keyword selects prdbgs based on author supplied,
-+domain-oriented names.  This complements the nested-scope keywords:
-+module, file, function, line.
-+
-+The main difference from the others: classes must be named to be
-+changed.  This protects them from unintended overwrite::
-+
-+  # IOW this cannot undo any drm.debug settings
-+  :#> ddcmd -p
-+
-+This protection is needed; /sys/module/drm/parameters/debug is ABI.
-+drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
-+is an implementation detail, and must not behave erratically, just
-+because another admin fed >control something unrelated.
-+
-+So each class must be enabled individually (no wildcards)::
-+
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+That makes direct >control wordy and annoying, but it is a secondary
-+interface; it is not intended to replace the ABI, just slide in
-+underneath and reimplement the guaranteed behavior.  So DRM would keep
-+using the convenient way, and be able to trust it::
-+
-+  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-+
-+That said, since the sysfs/kparam is the ABI, if the author omits the
-+CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
-+pedantic >control interface.  In this case, protection is dropped.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
-+classnames (a list of strings) onto class-ids consecutively, starting
-+at _base.
-+
-+DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
-+call this to refer to the var _DEFINEd elsewhere (and exported).
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
-+maps/exposes bits 0..N as class-names.
-+
-+Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-+dyndbg to update those named classes.  "class FOO" queries are
-+validated against the classes defined or used by the module, this
-+finds the classid to alter; classes are not directly selectable by
-+their classid.
-+
-+Classnames are global in scope, so subsystems (module-groups) should
-+prepend a subsystem name; unqualified names like "CORE" are discouraged.
-+
-+NB: It is an inherent API limitation (due to class_id's int type) that
-+the following are possible:
-+
-+  // these errors should be caught in review
-+  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-+  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does nothing
-+
-+There are 2 types of classmaps:
-+
-+* DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
-+* DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-+refers to a DEFINEd classmap, and associates it to the param's
-+data-store.  This state is then applied to DEFINEr and USEr modules
-+when they're modprobed.
-+
-+The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.  There is no implied meaning in names like "V4"
-+or "PL_ERROR" vs "PL_WARNING".
-+
-+Modules or subsystems (drm & drivers) can define multiple classmaps,
-+as long as they (all the classmaps) share the limited 0..62
-+per-module-group _class_id range, without overlap.
-+
-+If a module encounters a conflict between 2 classmaps it is _USEing or
-+_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
-+de-conflict the respective ranges.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.52.0
+I’m concerned that this might plant a hidden time bomb: it
+could detonate at any moment in later code, silently triggering
+memory corruption or similar failures. Therefore, I don’t
+think a WARNING is a good choice.
+
+>
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> ---
+>   include/linux/mmzone.h | 1 +
+>   mm/sparse.c            | 3 +++
+>   2 files changed, 4 insertions(+)
+>
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 6cfede39570a..9f44dc760cdc 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -91,6 +91,7 @@
+>   #endif
+>   
+>   #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
+> +#define MAX_FOLIO_SIZE		(PAGE_SIZE << MAX_FOLIO_ORDER)
+>   
+>   enum migratetype {
+>   	MIGRATE_UNMOVABLE,
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 17c50a6415c2..c5810ff7c6f7 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+> @@ -600,6 +600,9 @@ void __init sparse_init(void)
+>   	BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+>   	memblocks_present();
+>   
+> +	WARN_ON(!IS_ALIGNED((unsigned long)pfn_to_page(0),
+> +			    MAX_FOLIO_SIZE / sizeof(struct page)));
+> +
+>   	pnum_begin = first_present_section_nr();
+>   	nid_begin = sparse_early_nid(__nr_to_section(pnum_begin));
+>   
 
