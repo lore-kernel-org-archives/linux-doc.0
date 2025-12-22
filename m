@@ -1,45 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042923321A3
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 22:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D5733CE8D;
+	Mon, 22 Dec 2025 22:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766441952; cv=none; b=GlIy5Q/ghEoWoj5YyvivYognflqdQGX6e5PSNYqJrQPvDuxiALk+5K0lr20LD8z1fb5kdpJEAwyCI0W3R3TkCD7BusVKqnELgQPsXYqjwGKKo4vclXMlryFQ1R9vQCXtUGAQuc0/vR5RbBFVkI+RrebNBv2EvmKn3GzuIqvp9+Y=
+	t=1766442017; cv=none; b=ZKFPVK8GCbsieOzO8bVDoXPXrSMJxj2vQvE4+m3l9zD1j2e1Lt7lToRWLyXHQ5BEL0HT4+tAu72rMxRweV5hmNMlBQvduQ3se6kIrKz/2ZsvRqvMTV8g1i7EaSFwbQLkUiwHnaJkM46O3u5O1qrkKFJL0JLd2R4M0EfzS1C+zwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766441952; c=relaxed/simple;
-	bh=wD5oZZSfKyWp/yJFlDDXVw4B1A0Xt6RHagQ6lQ3S2Us=;
+	s=arc-20240116; t=1766442017; c=relaxed/simple;
+	bh=/GzBfeRnmhNe2geyiW6zwO3HIHw1a0FtOKJAwpJTMUg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WWgZjmDCKIZ+TCAiF2WfM3Z4QNoecSrX86qzZ3fDz5DoxW4mtqqfx6FDtoZpLpBkACEoeRhdLXNdliLcOJCbduXuyiJhZhddE/PXL+jkrsm1dj8AzyN+sHt8cOiQZrs1E3V+kCr6SkhjUIFLHEq+P+RI+FNGjhXxEsC5HHEaF8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=k1DnLfl7; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=L70+onMSPvtay6VbOj62vbIzE1aWJU79MVOlP6Z7VYcgExOVVbEoYYBu59AayrSVlTA6V224HUvEmck5Zt2CvsFYJLrOi4oxvVCVypHblJc08yhf2sLn8gH+WiwOPENx+kHeg3inHYKBP90RLEIcDPgb3INJqcp+iQ+BoRs4skI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Tn6adbyc; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="k1DnLfl7"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB0034040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Tn6adbyc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CB5694040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766441947; bh=dkJ90dCp+iCWCr2Xa8y/y7wtoODxOLApbWDBHgS1wro=;
+	t=1766442016; bh=3RY1QMMacobDKJORWNk1aPIovOrQVB4hR4b5BeI6Zlo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=k1DnLfl7AYYPFm324wb4QrwQ1+I2N8+HnYhok6z13H78xNebw7pTd+HP8pDrGo3bJ
-	 3D7MhAR1x78WlyG59ftZiVYsKvQd4tlVVSastX+05cH1vqcJwwk1rfYxB9NkEnWUyQ
-	 FJfnG4SiLWJ5LF1GX9pWZdK4Lnl+C7h1e99PHyaQbza+xUl9gNjbLhIeTdasd17Lao
-	 DxcGn9rNOEFfuP+heiCbyLbZOmHAoBd2bIjLE1S19XClOY6yXWF8dnQCr9HNpCH6P8
-	 jTy1NcNz8fiGB4szD1dZb6I5cffpax+9pzcDcguO2Z17wQJcfk96JpqWMc05tC+wSL
-	 80SiwBs4tt67w==
+	b=Tn6adbycveFcH83+7oZkYfsIT9OdyCpYf/XEksGPUazLsXkpU5KoHKuZliv/0shIB
+	 M5cpbcF/5Fwpk12DbWjekvhIQ8vMhC1DI7difvSYOKPpPtElQXOLq86R9/FJ5t393j
+	 0pZa0ULjhgadEZ47SG2BZEXeCO18ebh4nEvEV1AlEpZSnXUovcXrkxkOG6iJevE5G9
+	 3okb6PaBdEnsp1YDr/ASFWUGJ3X+ICC6gvvACSIDPti0CRql++4ZJdJ5UMaCVKfEI/
+	 XM/X+sL8e2rr7IDdSS+zP/7BNOL/Rks0OgGzcvyMfhlsV83+pN3MWNSr9BwCJ2OMaY
+	 O40oSMkKg3+kw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AB0034040B;
-	Mon, 22 Dec 2025 22:19:07 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id CB5694040B;
+	Mon, 22 Dec 2025 22:20:15 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Addison English <addison.englishw@gmail.com>
-Cc: linux-doc@vger.kernel.org, Addison English <addison.englishw@gmail.com>
-Subject: Re: [PATCH v2] docs: fix typo in clang-format documentation
-In-Reply-To: <20251208065136.9092-1-addison.englishw@gmail.com>
-References: <20251208065136.9092-1-addison.englishw@gmail.com>
-Date: Mon, 22 Dec 2025 15:19:06 -0700
-Message-ID: <87y0muyxb9.fsf@trenco.lwn.net>
+To: Shubham Sharma <slopixelz@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Shubham Sharma
+ <slopixelz@gmail.com>
+Subject: Re: [PATCH] Documentation: arm: keystone: update DT binding reference
+In-Reply-To: <20251207195632.68681-1-slopixelz@gmail.com>
+References: <20251207195632.68681-1-slopixelz@gmail.com>
+Date: Mon, 22 Dec 2025 15:20:15 -0700
+Message-ID: <87tsxiyx9c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,28 +49,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Addison English <addison.englishw@gmail.com> writes:
+Shubham Sharma <slopixelz@gmail.com> writes:
 
-> The clang-format documentation contains a minor spelling issue where
-> "intended" is used instead of "indented" when describing deeply nested
-> code. This patch corrects the typo to improve the clarity and consistency.
+> Update the device tree binding reference from .txt to YAML.
+> Binding was converted in commit 20b3c9a403ee ("dt-bindings: arm: Convert ti,keystone to DT schema")
+> and moved to Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml.
 >
-> Signed-off-by: Addison English <addison.englishw@gmail.com>
+> Signed-off-by: Shubham Sharma <slopixelz@gmail.com>
 > ---
->  Documentation/dev-tools/clang-format.rst | 2 +-
+>  Documentation/arch/arm/keystone/overview.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/dev-tools/clang-format.rst b/Documentation/dev-tools/clang-format.rst
-> index 1d089a847c1b..6c8a0df5a00c 100644
-> --- a/Documentation/dev-tools/clang-format.rst
-> +++ b/Documentation/dev-tools/clang-format.rst
-> @@ -88,7 +88,7 @@ Reformatting blocks of code
+> diff --git a/Documentation/arch/arm/keystone/overview.rst b/Documentation/arch/arm/keystone/overview.rst
+> index cd90298c493c..bf791b2fc43f 100644
+> --- a/Documentation/arch/arm/keystone/overview.rst
+> +++ b/Documentation/arch/arm/keystone/overview.rst
+> @@ -65,7 +65,7 @@ specified through DTS. Following are the DTS used:
 >  
->  By using an integration with your text editor, you can reformat arbitrary
->  blocks (selections) of code with a single keystroke. This is specially
-> -useful when moving code around, for complex code that is deeply intended,
-> +useful when moving code around, for complex code that is deeply indented,
->  for multi-line macros (and aligning their backslashes), etc.
+>  The device tree documentation for the keystone machines are located at
+>  
+> -        Documentation/devicetree/bindings/arm/keystone/keystone.txt
+> +        Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml
 
 Applied, thanks.
 
