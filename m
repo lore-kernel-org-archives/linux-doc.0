@@ -1,105 +1,92 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C5B32AAD3
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 15:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B59A3093DD
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 15:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766417390; cv=none; b=ZmIr5h3ODvpvYk7B7H9anV2dss7NMSa0zAWK2ztsF59rLm6z6jCX5IS2p2Bwmr+juDY8SutG8SWE3FhCjDw+TpQWprhnhzZAZ5AiT2kL/1dpmeLiZSLnhPECN3QsNQb1fCwtxiabSGyUlLIwNPYQ7N8qKuPRaZ7I67bf3mItOGg=
+	t=1766418026; cv=none; b=pDxxxCumv5o1F426H9nCwMpaXPk5qQsWPsnOZHZBqzvACGYTAXp7ASWMqO6i2hr6utiQgzQH3Y0xNHRlNFMR2LNJJKTaM6oKJmVmuyMduTaWJnskU7KlaMbsqO1QNcaybBVWaBoYvxcYWHSq+3nGIQ9v8NeNFh5LKzznj0950D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766417390; c=relaxed/simple;
-	bh=VKYVMzmse4VENDeaxPRZlnUBo4oocwkoZeRYW616Yh0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A2x0HDHY6SSFpKn1XAnzOGVUMQo7SX6DhuskUwOxrYHehqavja+lWbLsYWZnnIjdjxs52owIuzKw5QMAQn6cOdtBlmHKoAGo1B/SyHPBHar5Mn1SRaSqjbFHtSV62TXS8S/v4l1YIa4e+eTl1PvqLHRf4NCV+1Wsgo8GBpAkjiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jZfnMFU1; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766418026; c=relaxed/simple;
+	bh=TpOZb9Ula88X8E67IHKfQuIuJTY6DADi+wVJyD1yhUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OXSBQ5eii3lZIeaQ/d5Dqj1bEQlR+ZibzBWESX0W+KYpBVkE5p7vy6I55YZidpVyf0NLlHGLGR30K9NVgPVL5i5V53cJiA4yL+BKxyqKYWr0SIkjr2AtwWTTtExl7CxpQ6H2Jq+W8F1tqUJKRQiwLmADhsdk6VzaJnRjvPuo0Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFttlJWG; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jZfnMFU1"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47d1d8a49f5so17137245e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 07:29:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766417387; x=1767022187; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j+OKjLww5FUfSr52sUiaIMe+sYSZvUySZJiUbOG9H3w=;
-        b=jZfnMFU1neYz2N0+LZ0xZBvAMMGME99q80aCW09FNEb5XJ4fvdzUoItA0Z2PnEpIt8
-         2cLFmD/1Lfrz1LLz8LL6wSLR3g3AptCvUOHKvz9JthfxbNLzURY/xdA0+GrV7VUo/OA1
-         hrG3UAD2d0uLtjI1RFgbg3krwI2PdY4NbaniL63Uh7yHfEewxQ8y/ek/E4iaI0RprnzY
-         WQYWhkymAFmJ6gejWhpPyRNdNby2CDCrYVCl69scI/EcLOCyHizaUZG4V98s4lqGq7t2
-         dPHXSKfpJEutBWg+siqyJtA0l0pdcmq5/jrdVMfCxKcP9nVYM5ppnN62UZMVLLYmGMOU
-         O5wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766417387; x=1767022187;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j+OKjLww5FUfSr52sUiaIMe+sYSZvUySZJiUbOG9H3w=;
-        b=RwG2e4raPHFOwc4mwuVuUlO7Z9h2+pQRaxlX83tFI1mrx7Q5BNXySeZHYhJbVtxHaY
-         /kAK0FfkNYJ5x88IDT8906m2iXItYFG15ppxIYMaZR4iJ5jqy2EFRAMccVdg3LQ8RUy7
-         QWJUFuzgUxP8rcUcfvCs6jkn7alqoNL/OHPLIEkQKx0CmaoU+FEgHAtn+54SaBteVuKK
-         c5v7ba6wtDCh3T7SuV+ETqd8EJIPw5vnM8xKhvWbpsdfC1H9UhcCaRiHzLY//r1ewiUR
-         dY7kTZojh0hn/z/Cq3PcdBjIrKNl6rJR90/AYWJsQfVpOwRNa4GIApFAHuQKXJOcN5A4
-         QXTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUlXS1vMzLipS/FhEgjApLBJ1lIaQotVtig17QjTIsPGwhrK09EPHkAhLgctsxNIUMEWTWO8vqsfO4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKuXyi2J3X3nMEfbGQtPFeK8ahwhIcOW/lbTMkmIBGwUfmudue
-	Yu7VEfQ+vANeOnru70TY5nH1bGFFAnov3LqJTJP3a7aVRtEaXd4kv3Od
-X-Gm-Gg: AY/fxX67iUocGYg1fZ7Kq1bmfElvp6kh9Q+wqdiajc7dMcZwLy5Vj4wCmfsHmcYGEAV
-	YktbqMAMIAiDwVQLIAqVYpZykJg6fjI83v3dm6EwRM7M0lS6Vj67ytvMWGONe0NHuCy2J/i4GP1
-	MCXau3jKIwjJVwS0LgRNYyvp5vMt3m15zsc3U+939lzHdLY2J0zZyOXUQiC/1bJBKhxPy17vtYN
-	Y9xCkXcsn0kTjG5goJols/ZEAE+BmLau5Ie7dSeOz4GRXpDjO7Uvj7NFxbgBhXDujXjl8YkG9eT
-	TVdGIReYVCSUbbP74HRNx06RY431Krn+U59rGFSDi4/0kdftnBDgNnM4XdCbMcexVnFrvu2U3EE
-	Upl/4AOBLvoJoDHLd/LNz2N1BC/9Ihsoh1syacPXNriaTL2WS7BQArjByiSlEP7Gxg36vlGHk/v
-	51BMZmn5BKzMFwXK9lu3mPgQXHKcIgQcADBr5kKFm0KChTiTrE7jGtbl/WYAM2yg==
-X-Google-Smtp-Source: AGHT+IGM6fQvuIIOpREP+B+O3M3ibRqFT50uyGcMNAnyJoixh9A0Qh1WuuHB5+i9945AYtgxkpjduQ==
-X-Received: by 2002:a05:600c:37c6:b0:47a:7fd0:9eea with SMTP id 5b1f17b1804b1-47d1953c178mr121525005e9.3.1766417386840;
-        Mon, 22 Dec 2025 07:29:46 -0800 (PST)
-Received: from localhost (224.85-87-222.dynamic.clientes.euskaltel.es. [85.87.222.224])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be2724fe8sm296520225e9.1.2025.12.22.07.29.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 07:29:46 -0800 (PST)
-From: Jaime Saguillo Revilla <jaime.saguillo@gmail.com>
-To: andreas.noever@gmail.com,
-	westeri@kernel.org
-Cc: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Jaime Saguillo Revilla <jaime.saguillo@gmail.com>
-Subject: [PATCH] docs: admin-guide: thunderbolt: replace ifconfig with ip
-Date: Mon, 22 Dec 2025 16:29:26 +0100
-Message-ID: <20251222152927.38101-1-jaime.saguillo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFttlJWG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766418023; x=1797954023;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TpOZb9Ula88X8E67IHKfQuIuJTY6DADi+wVJyD1yhUc=;
+  b=bFttlJWGYw7uhAJUwNEt8/B9OeZY4NWhk6Pi5FA9xR257BE5sC/PaYqQ
+   BNvKOw9rs0Cg6OC6Yj+eLuaErXF0UZT+GJjM1b0LVG+1MhCsxVEEuTaZo
+   rB0q9a2+zNiTA2g6jh+xZEPTZ9LSdl8dBIuoQyxtqgysBRo4zzvuXXINm
+   7O+JTmAF+l4V3luOrOL7ILvwww5GnBG7cIE1dYBI++Axa2KM30wjUoi6a
+   H+ejrUn+oi25wilcOI/0mida6m5r5sNvhd+H/ExkWdDKBvT2n8REVQ8a9
+   HWbZFpRwjRZQHl/NxVszBlEE1HvXiiDYnvbT/Cf4IRuRCDk6zUlUMUXPw
+   A==;
+X-CSE-ConnectionGUID: BENYZjg3RD2FtcazLiO/Yw==
+X-CSE-MsgGUID: F5epEfY8Qpmwt2jnolMNQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79726546"
+X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
+   d="scan'208";a="79726546"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 07:40:23 -0800
+X-CSE-ConnectionGUID: OwTv2z1WTJSwMAqwnsAcsQ==
+X-CSE-MsgGUID: PbpC0UMRRXGGnFdT9m3EQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
+   d="scan'208";a="200053541"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Dec 2025 07:40:22 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXi1D-000000005Y8-3n6V;
+	Mon, 22 Dec 2025 15:40:19 +0000
+Date: Mon, 22 Dec 2025 16:40:09 +0100
+From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sashal:spec 57/131] htmldocs: Documentation/filesystems/splice:22:
+ ./fs/pipe.c:1186: WARNING: Block quote ends without a blank line; unexpected
+ unindent. [docutils]
+Message-ID: <202512221640.OsojlLOw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-ifconfig is a legacy tool and no longer installed by default on many
-modern distributions. Update the documentation to reference ip from
-iproute2 instead.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: bd9f37decec6a41e77b2e9432155529859a72285 [57/131] kernel/api: add API specification for sys_pipe2
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512221640.OsojlLOw-lkp@intel.com/reproduce)
 
-No functional change.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221640.OsojlLOw-lkp@intel.com/
 
-Signed-off-by: Jaime Saguillo Revilla <jaime.saguillo@gmail.com>
----
- Documentation/admin-guide/thunderbolt.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
-index 07303c1346fb..89df26553aa0 100644
---- a/Documentation/admin-guide/thunderbolt.rst
-+++ b/Documentation/admin-guide/thunderbolt.rst
-@@ -370,7 +370,7 @@ is built-in to the kernel image, there is no need to do anything.
- 
- The driver will create one virtual ethernet interface per Thunderbolt
- port which are named like ``thunderbolt0`` and so on. From this point
--you can either use standard userspace tools like ``ifconfig`` to
-+you can either use standard userspace tools like ``ip`` to
- configure the interface or let your GUI handle it automatically.
- 
- Forcing power
+   ERROR: Cannot find file ./include/linux/pipe_fs_i.h
+   WARNING: No kernel-doc for file ./include/linux/pipe_fs_i.h
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1118: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1175: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1183: ERROR: Unexpected indentation. [docutils]
+>> Documentation/filesystems/splice:22: ./fs/pipe.c:1186: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1192: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1195: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1201: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1203: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/splice:22: ./fs/pipe.c:1209: ERROR: Unexpected indentation. [docutils]
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
