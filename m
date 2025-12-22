@@ -1,42 +1,42 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF00313539
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0431327BF8
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766398370; cv=none; b=N5uqe+YOUEyPZvYRcMRPu0uLjJo4Fy0Ed5am8YAGfuGN0By5vGU3MvaxczqcK06lW0sA1A0Zrr6uY5wAgw0m2Y09Hb8ASb1pBCTUP3S+jCPzxazNs/HRH3dj37TP4NfLTH47PYoX5JoGLO9tojs8hlNPemNO/e3tx/4enRaLuJw=
+	t=1766398374; cv=none; b=IpCDLZ7ZoQviSucib22DvpIQG+D2ALrVV5CSSMezg2kKDdCe+tNWAudpJdEdEBtYewUfybk4VLe5Va9F3twqQFGG309kiklJlZusYWZY7L/iqIG9gfp2g5rsOG3JcwjN6oB8RvGeY48+UnsSNVrZo9RI0x+fV2l4UrTF4wWTFT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766398370; c=relaxed/simple;
-	bh=V/+e1zKI4sX8lqdyAbtlaxr1nfQRLxcCFIcUk2OVYxQ=;
+	s=arc-20240116; t=1766398374; c=relaxed/simple;
+	bh=yoSv2zmqsM08XpGUmJQS+2SLpyZ6XFDF5YGQcog13kY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KFWUnAoQ8WIS6QsxsRZDXFIR4Vt4QgcDlbCSI15n/VikoDDdHFnHOsff5jS1TqHPOl05lw+NLh5McnU5IjUnwxfmLtqmfO+dX+3axc3aZcWrdAIh+ZkFpL4fmNq79U9abMqYTZEmTGqNp6GaIQ2DBzHbQJDJurUgWTIroBKpDws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=1AfHk5l2; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=TPxlkpb7pCHyqj31d4iF4GJrOUBArIAxU0tTTSjdsnd8UcdTZgTtMdnn4H7UCesLGCeERHPwIqwnmF6qSpCZZ1ABnEAVv6H3i1GxR+jiimaD4icLf8wwq0jQJOOW3zhew6QGFlAX3TZB1m8VK2fLdjFanI0A1VT7ThD2zrffyz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bsl812Fd; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="1AfHk5l2"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bsl812Fd"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 28D6C1A2374;
-	Mon, 22 Dec 2025 10:12:47 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 656E0C1AE07;
+	Mon, 22 Dec 2025 10:12:24 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F25BB606C1;
-	Mon, 22 Dec 2025 10:12:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A05810AB01A3;
-	Mon, 22 Dec 2025 11:12:43 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 62C16606C1;
+	Mon, 22 Dec 2025 10:12:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6169C10AB01A2;
+	Mon, 22 Dec 2025 11:12:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766398365; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766398368; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=gvdZH6gGBykKk6CN6i1s7cZc+6EPuOT+mmajVf0RNVY=;
-	b=1AfHk5l2SsMt70cFXOCdBJC2HMNvKiFSKcRbWOCAtoQBv7ZTYmWnjU205fX5WGvyQ105Gj
-	EFF2Sbbv663amS7PeCBL/7RuDTfL6EE9zUTowjlx3fEJ7YuSryuYwcefpSWiZZTQ0sK4Ed
-	FTcmMrGe9mDfCslEajVmY55QvZgXR/34GYjgd6ZJty+B6ILXzMdFkMp2oWGS3GpA08GMYR
-	+mbkmhnJtLT7kx9jrHMa29fc37S49nFq3K+qkpp6DlqmnFArE9YhGXImP8g8Q+WjKEXJb3
-	sUko6VZ7z0b53rOM0RXbjNEOm6rqpO8kizuA5Jt7AfFmQwj/vCR8htuARbIxzA==
+	bh=J5RVBRf87Z75m13rh/8P2VEYGRdPDGtnY1g07bc3IJY=;
+	b=bsl812FdCqEO+N+0WJtuN6pshbab9NIO37B5AcT34pIR5ccw6dx67sUxawso2fHS7g9YE3
+	F8R9CTWPyUvbfRT5zEGitaCHVlrn+6f/+JEXbvlcwacnEDvg++b96z/VYjN9p8e/08nNC6
+	1XZqddx21C7rwD2Wu4fHONEtB3WLr06zM/PkWxeqKH/+2brT6e+GQ+k/hcCIP8XEU0rOAn
+	jMOs0dI89iVMufkY5l7XSJc+NbrP0M7sFN9dhGWZUR/SOKFoR1CXE3g3APQnUTrz+fSmNq
+	Iypse/EuXXwtQFvB8MuHM7vsJsvalz1pLvDTplt9ldTuXSsGgiBlMDC5qrdDhQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 22 Dec 2025 11:11:32 +0100
-Subject: [PATCH v3 30/33] drm/vkms: Rename vkms_connector_init to
- vkms_connector_init_static
+Date: Mon, 22 Dec 2025 11:11:33 +0100
+Subject: [PATCH v3 31/33] drm/vkms: Extract common code for connector
+ initialization
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-vkms-all-config-v3-30-ba42dc3fb9ff@bootlin.com>
+Message-Id: <20251222-vkms-all-config-v3-31-ba42dc3fb9ff@bootlin.com>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 In-Reply-To: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -60,92 +60,98 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com,
  linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2889;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2829;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=V/+e1zKI4sX8lqdyAbtlaxr1nfQRLxcCFIcUk2OVYxQ=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlDphUscokf1eiCZ2vgNVfSNct+s7RRZqc7h
- x4aYelzmFaJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZQxsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOLpbhAAha+Iuj9NzBYBF/mC20878EOQye8EFCV
- dn1BDFJuIsIZmuxcQcO/2vyDvbxrAdbKQDnh9RU7c38J3xt2OhMRFSVpYU9GVT/xEdObIF9Dc29
- jsKtGoATWPblExsS/rmtr7BD176w026qOtiI4q4krM6AcRWkF2CHHu8RiOUrVYl4HBi3bmNhCMx
- lAi6S6lse1VsrD0dwkhJXp7uoBXqphnbSL8EHKDwru3LtCkoKRFcCNFtPy/anf/HBN5XAFOPFJt
- JJ7GugKrUrf4UyfCmOj3OiAk24xl7ilWzjwnV90WY4kvFGChuZJXFeoLcbpiy1NMl+BQ244vSVn
- GAT0+/8WeW/bYFz5SSLQuoKlG2QhDiA6WHk71taz/UgzPqn2IgUAGg70X2dX3mpwnrexSqjAFeS
- i0qhJEBqfCncmky81n+QRzpdyQDAnmf4PMyek0i/bNuW6YC/NYWWHcI30PDCyMGISzGgfAmG0+V
- RiDXv+eC716vRjSojGiU5nWOhhJn+UdNlHuY092ox3CFsIzbZFo4KCi29vYcwNgDlt+R/TIWbJ7
- 1eGQcCSLH7oEfKfO+H6TczcfvBU4qA4ZSF/f5AfJlK4Cz1Ix9bMGGPnuYYdcxr7J7Xr0KyEbKzw
- Gw6vThpOfZIkixBTMt1Xml1E8djqOwx8EMxePJji6YuSF4Fi21eA=
+ bh=yoSv2zmqsM08XpGUmJQS+2SLpyZ6XFDF5YGQcog13kY=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlEJCgtE5ARQGGmxPsWE4yqYjRrHcDbYsD3m
+ 2RJNzKvn+GJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZRBsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOJnhg//bbmrzzKtS7SA6vQs1AyEkPLg3GEepj6
+ gSsOyymWjglj1v5udl/3z/bALIQASIcW6vH69RPGEEIzWlt482OZENL2GkcdbslE2jg1f9iES31
+ sOHe8PJyq2Rcrfe9s3a9IPPWUr2+4HWBzAjANtitFRF9thuUF5P7x61ZVtaTj6LDazMfWX46z51
+ GAZgVvKk1JCgeKJFeZyKLvVaAmIzp7FMvRAUL69sLWKPrnUc7GWx7JcpH18IL7CX+PDWiweuLff
+ A0BRWWU0wgxVQv5s/SZ5PRPBvqT4KVIoOxZU6XBRdkKIPL5tryvmkBTdF8tUI8nVUYytmxDMfbW
+ oz8wn8EnjiU7SiREn4mxFWyp7G4oiy2cpUl70zdWij/6OovZevC9Lqht7G2/NUZCUqzTfRZJfdx
+ MgV1aSV50lqPoQEWyELJa+u+idKM8RCzzUDYMW8Ez+1u104XTS1X3lEd8Ke0SbrzMZMDVrQsflP
+ hgsA7on7FyNbs7De6mE+1i0OHJaSL+VLtAbH5VmU1S8wG7ZDRCGVha+JTzxTfZ3b3I6vYr+hojj
+ ZU3w2K+V9g6FjwT7YKgTQVR6TxzvdsjBMJCarDZRUmnul3zs8Yctim4xKPeq/l3K+1Ff6bpzMjm
+ SL6Z29kGAaUPNiOy1+j4VStn5MExTC94kBgatHyVWHfza/nfgzeU=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-With the introduction of dynamic connectors we will have two way of
-initializing a VKMS connector. Rename the current function to clarify
-the case.
+With the introduction of dynamic connector, some code will be shared
+between dynamic and static connectors. Extract this part to avoid code
+duplication
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_connector.c | 4 ++--
- drivers/gpu/drm/vkms/vkms_connector.h | 6 +++---
- drivers/gpu/drm/vkms/vkms_output.c    | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vkms/vkms_connector.c | 44 +++++++++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-index 311858727175..211f11c8473d 100644
+index 211f11c8473d..3ad614642355 100644
 --- a/drivers/gpu/drm/vkms/vkms_connector.c
 +++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -110,8 +110,8 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
+@@ -110,22 +110,17 @@ static const struct drm_connector_helper_funcs vkms_conn_helper_funcs = {
  	.best_encoder = vkms_conn_best_encoder,
  };
  
--struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
--					   struct vkms_config_connector *connector_cfg)
+-struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
+-						  struct vkms_config_connector *connector_cfg)
++/**
++ * vkms_connector_init() - Common initialization of vkms connector
++ * @vkmsdev: VKMS device containing the device
++ * @connector: VKMS connector to init. @connector->base must be
++ *             already initialized by DRM core.
++ * @connector_cfg: Connector configuration to apply
++ */
++static void vkms_connector_init(struct vkms_device *vkmsdev,
++				struct vkms_connector *connector,
++				const struct vkms_config_connector *connector_cfg)
+ {
+-	struct drm_device *dev = &vkmsdev->drm;
+-	struct vkms_connector *connector;
+-	int ret;
+-
+-	connector = drmm_kzalloc(dev, sizeof(*connector), GFP_KERNEL);
+-	if (!connector)
+-		return ERR_PTR(-ENOMEM);
+-
+-	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
+-				  vkms_config_connector_get_type(connector_cfg), NULL);
+-	if (ret)
+-		return ERR_PTR(ret);
+-
+ 	if (vkms_config_connector_get_supported_colorspaces(connector_cfg)) {
+ 		if (connector_cfg->type == DRM_MODE_CONNECTOR_HDMIA) {
+ 			drm_mode_create_hdmi_colorspace_property(&connector->base,
+@@ -145,6 +140,25 @@ struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
+ 
+ 	if (vkms_config_connector_get_edid_enabled(connector_cfg))
+ 		drm_connector_attach_edid_property(&connector->base);
++}
++
 +struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
 +						  struct vkms_config_connector *connector_cfg)
- {
- 	struct drm_device *dev = &vkmsdev->drm;
- 	struct vkms_connector *connector;
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
-index 33253d29b1cc..85f9082c710e 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.h
-+++ b/drivers/gpu/drm/vkms/vkms_connector.h
-@@ -19,14 +19,14 @@ struct vkms_connector {
- };
++{
++	struct drm_device *dev = &vkmsdev->drm;
++	struct vkms_connector *connector;
++	int ret;
++
++	connector = drmm_kzalloc(dev, sizeof(*connector), GFP_KERNEL);
++	if (!connector)
++		return ERR_PTR(-ENOMEM);
++
++	ret = drmm_connector_init(dev, &connector->base, &vkms_connector_funcs,
++				  vkms_config_connector_get_type(connector_cfg), NULL);
++	if (ret)
++		return ERR_PTR(ret);
++
++	vkms_connector_init(vkmsdev, connector, connector_cfg);
  
- /**
-- * vkms_connector_init() - Initialize a connector
-+ * vkms_connector_init_static() - Initialize a connector
-  * @vkmsdev: VKMS device containing the connector
-  *
-  * Returns:
-  * The connector or an error on failure.
-  */
--struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev,
--					   struct vkms_config_connector *connector_cfg);
-+struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
-+						  struct vkms_config_connector *connector_cfg);
- 
- /**
-  * vkms_trigger_connector_hotplug() - Update the device's connectors status
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 1288c8551bc8..13c4ca5fd39d 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -93,11 +93,11 @@ int vkms_output_init(struct vkms_device *vkmsdev)
- 		}
- 	}
- 
--	vkms_config_for_each_connector(vkmsdev->config, connector_cfg) {
-+	vkms_config_for_each_connector_static(vkmsdev->config, connector_cfg) {
- 		struct vkms_config_encoder *possible_encoder;
- 		unsigned long idx = 0;
- 
--		connector_cfg->connector = vkms_connector_init(vkmsdev, connector_cfg);
-+		connector_cfg->connector = vkms_connector_init_static(vkmsdev, connector_cfg);
- 		if (IS_ERR(connector_cfg->connector)) {
- 			DRM_ERROR("Failed to init connector\n");
- 			return PTR_ERR(connector_cfg->connector);
+ 	return connector;
+ }
 
 -- 
 2.51.2
