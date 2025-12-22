@@ -1,134 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229D62C859;
-	Mon, 22 Dec 2025 02:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34FD2857CF
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 02:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766369157; cv=none; b=ggHPqKejJpD950SOff8kZnxIGz5ruUqodrsMqXU8Y2x75XoAXgDNoXIl8d2VdWjoTHSHibr4NfpvztK1TUIXoH/no6u5rE4aDkFAVCZe1q/PhqEoLFrFVg8SqeXoGGE+c+OT/yk2q94ec9cF18/AAP0lmhImKG1orqNBiSb4zAA=
+	t=1766372173; cv=none; b=oKTH/shV4wl3Iby6uCZlkWY0PR5HxPGmRR7ctORAe9Lljla+LBdVGvPQWZArJ8cw7aLw4oRHPTjBnNl0306tkkXf/ukqPfIN+WYTho9yvbfRqYQK3veEvb89qrjsvlcpHDJ/1yj3L6e4QXLGYaRdsCwHkoJWhrIA5/+98O3rzOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766369157; c=relaxed/simple;
-	bh=74Ut1XHK0Vm4PFNeT//uEB30ynxJ0edLsHANsPIf0HY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NjAN7L65XbHvc10K4PM4VaikKRpgTZsYMfX/fPHn0q7oURSIzauN0yoyh9Oq20qDJCocoSeKkpSIWg4Qu8nLcLxjMi03/oNWAuZIKi7U6wpRgQnDfpmKNKZo8sYcf7PJUld7fSpVCYvOMWlXFM5KTkf5HXjnpoEG+MxMoU2qTIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aS5C+Cq4; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766372173; c=relaxed/simple;
+	bh=JpzxShXFLNg65tGq6mlMsiFX/3fntlXQumXJwhZZRmo=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=g+ZWuOJ3Ph5KkGtbaiqEuEeRk9j8kncYOuPQgJWgWd06cMLxXNjcr1hKKDXzTfp5+E21EeBrSoyl8r90FLMDm4XHsLyNm+eYgq1dtTiKSMsjvHdPl9If+/RPRMDPW/sE1acqHAi+7ZbeUTGLvvhYciKAN2B4BAExq/tXM0zd0H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=X+sI79a3; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aS5C+Cq4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766369156; x=1797905156;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=74Ut1XHK0Vm4PFNeT//uEB30ynxJ0edLsHANsPIf0HY=;
-  b=aS5C+Cq4daRQr5kEiMNanZZBQZdlFnGNUkSGtVktj1sjy7zFnskhYUjV
-   xdLtZTfOzXkRKmNMFEoSsCCAL0cE+mbUy6Rt+zs7Dau1d4iX7/bMwLToM
-   IAVCtJ0RhihZiq+Zn64QvbOWspBI13ujp/9Jg9Aoh8uA5I+rzfn1H6qyU
-   34zeqnUF72ymZG6xSAprxVH4K+V0K3GBP3WAHt1Zs1TnAoqZwbPiznCAE
-   gl1IWRVuLrQBBnkBEqXrT+58Kdm+8fhtVP7fPfBUtbMNzACbvAhjP11hI
-   /QBSamFhR/4Qoyvl+LApEdR+1sd3WyCBao+UmARLBHbep47fO8yiJrYRr
-   Q==;
-X-CSE-ConnectionGUID: aMNQZD5tTvmFTLRHHjiQ+w==
-X-CSE-MsgGUID: DNicunHSTieS2vfT+9EriQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68380073"
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68380073"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 18:05:55 -0800
-X-CSE-ConnectionGUID: yyog3z2hQm6/itLrAJirFQ==
-X-CSE-MsgGUID: G27CFI2eSW6N9+rNHGbJrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="203873738"
-Received: from lkp-server02.sh.intel.com (HELO 9d662e18a02b) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Dec 2025 18:05:52 -0800
-Received: from kbuild by 9d662e18a02b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXVIY-0000000003B-2U6u;
-	Mon, 22 Dec 2025 02:05:35 +0000
-Date: Mon, 22 Dec 2025 10:03:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v23 3/7] firmware: imx: add driver for NXP EdgeLock
- Enclave
-Message-ID: <202512220932.Gu4LnMge-lkp@intel.com>
-References: <20251219-imx-se-if-v23-3-5c6773d00318@nxp.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="X+sI79a3"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766372158;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=may1VAVjkO+zB0UvFCBS01JYcKyy3lFkszihsMfdWYs=;
+	b=X+sI79a3FlFoFhRdYSV/hUyZHjdEV9uc+F61polrYlodt7W7DYCBy5Ew9gGWEPZNl5grZr
+	Xbl0hTwwzYRNb+9K/3+5JEiFPLSAM/kd/BauJFTO8kkiB3mdMkw4+lUXIOvl/ShCQZ8FWR
+	HTCtndsplIG4A5DNm06wfivP/goFfpY=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251219-imx-se-if-v23-3-5c6773d00318@nxp.com>
-
-Hi Pankaj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4a26e7032d7d57c998598c08a034872d6f0d3945]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20251219-132830
-base:   4a26e7032d7d57c998598c08a034872d6f0d3945
-patch link:    https://lore.kernel.org/r/20251219-imx-se-if-v23-3-5c6773d00318%40nxp.com
-patch subject: [PATCH v23 3/7] firmware: imx: add driver for NXP EdgeLock Enclave
-config: xtensa-randconfig-001-20251221 (https://download.01.org/0day-ci/archive/20251222/202512220932.Gu4LnMge-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220932.Gu4LnMge-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220932.Gu4LnMge-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/firmware/imx/ele_base_msg.h:14,
-                    from drivers/firmware/imx/ele_common.c:6:
-   drivers/firmware/imx/ele_common.c: In function 'se_val_rsp_hdr_n_status':
->> drivers/firmware/imx/se_ctrl.h:16:25: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-    #define RES_STATUS(x)   FIELD_GET(0x000000ff, x)
-                            ^~~~~~~~~
-   drivers/firmware/imx/ele_common.c:241:11: note: in expansion of macro 'RES_STATUS'
-     status = RES_STATUS(msg->data[0]);
-              ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/firmware/imx/se_ctrl.c: In function 'get_se_soc_info':
->> drivers/firmware/imx/se_ctrl.c:168:6: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     if (FIELD_GET(DEV_GETINFO_MIN_VER_MASK, var_se_info.soc_rev))
-         ^~~~~~~~~
-   At top level:
-   drivers/firmware/imx/se_ctrl.c:374:12: warning: 'se_resume' defined but not used [-Wunused-function]
-    static int se_resume(struct device *dev)
-               ^~~~~~~~~
-   drivers/firmware/imx/se_ctrl.c:357:12: warning: 'se_suspend' defined but not used [-Wunused-function]
-    static int se_suspend(struct device *dev)
-               ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
+Subject: Re: [PATCHv2 03/14] mm: Change the interface of prep_compound_tail()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20251218150949.721480-4-kas@kernel.org>
+Date: Mon, 22 Dec 2025 10:55:18 +0800
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <79633EDC-7CD1-4A2E-BEC9-44866F0D7741@linux.dev>
+References: <20251218150949.721480-1-kas@kernel.org>
+ <20251218150949.721480-4-kas@kernel.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
 
-vim +/FIELD_GET +16 drivers/firmware/imx/se_ctrl.h
 
-    15	
-  > 16	#define RES_STATUS(x)			FIELD_GET(0x000000ff, x)
-    17	#define MAX_NVM_MSG_LEN			(256)
-    18	#define MESSAGING_VERSION_6		0x6
-    19	#define MESSAGING_VERSION_7		0x7
-    20	
+> On Dec 18, 2025, at 23:09, Kiryl Shutsemau <kas@kernel.org> wrote:
+> 
+> Instead of passing down the head page and tail page index, pass the tail
+> and head pages directly, as well as the order of the compound page.
+> 
+> This is a preparation for changing how the head position is encoded in
+> the tail page.
+> 
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Muchun Song <muchun.song@linux.dev>
+
+Thanks.
+
