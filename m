@@ -1,207 +1,124 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9155925C6EE
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1452313542
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766398907; cv=none; b=tApJSxGCTWsQlXjQ3rQMUA0HqL1YzBQdxkA0mqS7MA99FuVVTS0yB4sn3uPwp8CLf3OawJbAtYk0UYHt4UTH+EntTqYD5W6RjLJ0SQzSzfTXSkt156gWZe/bBmxkkYZ/8sGTQFHkPr+vQlElBUSZEL6ZVdaxZRoUFYznt/WvFMw=
+	t=1766399912; cv=none; b=AQ/dQEoZ9vVRvrVlYb7SV7eGU+jR0UrD+fYk+8bWoDZ91DvIuGLpAiHWbRkAMs9y4zEtcAbza0+3hSk5oKoHXBYm97XFYeSzLLW4anAe0A1QkL837tAkRJSOg/9bbw3msVhbVWl1L4vzpfqgsSt8IUbCidbs0Az3vrgK3UbuMss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766398907; c=relaxed/simple;
-	bh=fiu+7IDZg7iGHWuMWejacCouV4YQDEBOd326O/hrIX8=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCICItrgycAOk5awEjRj5wScEWpWWKE1HkPBn9hMeAV0262gC2omTjXO1ceqpPtHSWWSCJfW51uHjuPzc8yVa1hAooDb8WseuT6LVIwk6bQAMOqXO6w9HTOOXw8UJON7qHW5cmv/YzEq7zHxNbEm+ddmfKYzKnyFmHyHL/BbQCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GL48gxBd; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766399912; c=relaxed/simple;
+	bh=RtYAJjQTwxOFdnR190NRlUogWwYsXWlIsU8SdM1astc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MPrephIGt0rtLtD0rd7MJ12lblnebVsYaSwG4+8sp2/YsPbfGsYCp9gvTNbPwgmFl2tSTFlrqEpQElyJ+agqnmZ8vsLGQlyFlH0AeGzx6HiNWoWCnYxAf3bZyf6+Y9w8sQcNC1gG4SBXI9VGnrtIucSDDT/x0suxdd6KYiJTCrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=dW6tLiAK; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GL48gxBd"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8b2ed01b95dso403030585a.0
-        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 02:21:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="dW6tLiAK"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-29f0f875bc5so55017345ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 02:38:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766398902; x=1767003702; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iSVxw9ZmIdQgXSzndsIC58cZVndwux1ConW+UpHN898=;
-        b=GL48gxBdXZCGyrlGuWsIte5fkUaFwCdD9cjI3PSxCNkUuG5nmnSfMlqtUHmNoxsv69
-         vEBO1qCXSmbGpXV+5wpXfo+TeMWQgpDbwkfd+aXNlQLuCh01gEwMMbCT6jN6juqRCckr
-         IPy5tJmaNXfpiAVCpTKwSeicN/JpXlve0xKWIG/mEFjS/P7PBRgegFMK9S55UVfV5bjm
-         tnVntLGIe4rGBjj0U02UPGkWjlQCFv2woLwNSUW8LjP3IQBj3Rye2IMaKQQog0QdeMbt
-         +Z11OowUyw2kR8i5fsqfVqxqOaNTa1IFbL9UNSvRGcBx3KS+mdqfTVJ2HWENoAT+Kgy0
-         hXfQ==
+        d=googlemail.com; s=20230601; t=1766399910; x=1767004710; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RtYAJjQTwxOFdnR190NRlUogWwYsXWlIsU8SdM1astc=;
+        b=dW6tLiAK041TJr1Wsp1pD07tPLUnrgJX0/WB0b1lUiqu8jrSWclW46Z3c2vjNdO5/j
+         WO0pzQE3lnetjZ/muO4XaPrPOP+1Z2+BXMUCuem7vmQ765IkTity7rHbbqrztOXVyrl/
+         JS+KwPB8uwZ3twODRm3aC3h0OaIfJG3w6lPAOf1THXZlReD4Eb3JvW4uJv4mYQHC+64K
+         S9TECaZUDq4ItSrrGZffXrQUkM35VdfvF/6340mIK6Yvt/abRu2j/ZTRvipm1W/NEqQN
+         ucHEcpk/BShi+Vt4uKSo56Ta1ax/PyEO3ZcpV9ir5bODTLdZoXcyreoWiEDmcHc/27pc
+         Adog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766398902; x=1767003702;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iSVxw9ZmIdQgXSzndsIC58cZVndwux1ConW+UpHN898=;
-        b=Z7Eya3LKPoDoZYfc7H23P6EDNi7eyNHnGSyW6g6Srae3lrGJJzDm6bz1HPyBKflZce
-         MSByA5mKPmV/bCboAHAxdBbPJDmQykr9rDHoMkK1anLb/84ZUTcA/gs70IH3tz1L0pOg
-         9899502X1SsaSioEH4IP+zvkIPZu6L32ACWShOCXxxwBegcUqSfKgI9G/PVTAMk9PHjF
-         WbEpi4ZvFb8jlVArz0sIbk7Wl9EGCp5sh7AD8r1q3t7vbY7jG1b53om4tZk8EPpwYNO1
-         XHdUoPZFl7j3xL/u6WBZMi6YZbGWQ6bHcxFZw3/1U9RVd/dIGqKxofU9Pscl3GDi3jnP
-         5NKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfoep1BlIQHzFSRa34FoIU3wlvLms1BlMmjBX/tFkHCf4JYD7T3SkUyxwv+Ttl4hqHJTg3Z6u7340=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9EZzORyI949lc7Mlgc1++fCOYbZJ2L3uRhWDvHmzira8UZpSJ
-	+pUUAuUzKDYbz4fIosqSGct0LAQefSZKqqG0j4BmiyNaXzT9Eoa1szE+wP0Lgw==
-X-Gm-Gg: AY/fxX6dnabDEDZphOw8XSjnaieU5ppHDBjf4lZlpPO+eoHpBEjSx5jqN8BsGgzPmPU
-	uiKQa8qFzARUSJDn+a5w3engbBw3hMBy82bdTJEL4Dh5TSFP2nLL6SzjUqJZHXdDMVnd0Ru7sWh
-	S5u3sg/Xyi63gWIJMKgL/ZlurukEiB3gn7a2H8tloGB5IIF2cQFcpHcoWQZAkS0wUgiTS9z+TiJ
-	VhTsusI8K9lh1rv7zqpBnvTayhAKm1DQ+VfR+y81naYxB34Uu1j2itONT0FZtp30XwZzgu99XaD
-	XNMfXqQNrSBKAeUsnQVfZ+FjxsCO0CrSPs/ujewYwRHthw963VpDiYSp3WyqE9gwL5GiviWzlDk
-	tgpiYqAE+JqHa5vAwZV8ueHbCgs+Ttw9YVhLgE4QmxrnVYiIvSX5eDqOkd4N2cHBdpc2IYcU/aE
-	A09swIFqn8WnWJ/aHUFf+1P7DLa3qk9uVBd+kiqnXivP4YCfCEP+d9Mu/H3KFOZa9g4l9NNfuu/
-	32z
-X-Google-Smtp-Source: AGHT+IElhBkWJr2Owy7kS2H7e5EkrIkHXV9GSmGV4saFfOnNmCFz9qEFMfmL8CLkpnT41AF4gm0Big==
-X-Received: by 2002:a05:620a:31a8:b0:8b2:6b9e:5396 with SMTP id af79cd13be357-8c0906fc8bcmr1532358385a.83.1766398902393;
-        Mon, 22 Dec 2025 02:21:42 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c096783662sm828237685a.5.2025.12.22.02.21.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 02:21:41 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 22 Dec 2025 10:21:32 +0000
-To: Krzysztof Kozlowski <krzk@kernel.org>, 
-	Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 1/6] dt-bindings: iio: frequency: add adf41513
-Message-ID: <3mmzedwjwraepmhams5w3navb3cyga3wr7fvkrdgls2zkzdqwb@vogpd527ovgr>
-References: <20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com>
- <20251219-adf41513-iio-driver-v2-1-be29a83d5793@analog.com>
- <20251220-bouncy-perky-tarantula-d9b3be@quoll>
- <gz36kmewv4bhwqz6d3xqatcx65uzukqcgsvfbwhr7c3yhw225z@edeggfhjws2h>
- <326c3e83-059e-4e96-ab99-d4a33eb3b56f@kernel.org>
+        d=1e100.net; s=20230601; t=1766399910; x=1767004710;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RtYAJjQTwxOFdnR190NRlUogWwYsXWlIsU8SdM1astc=;
+        b=r7wDNCK2IMm03Oo6mevgri4WSTI4baVI4iVrFKGr+lkYATcn9WuNVErRbIJxfzwbhm
+         yMVykMlnN+xGisPnJwfI1oSVF9yETL4fhFT3GNXDZMGeHXVsJpg9ZbqE33rtz5NuQIt+
+         1EHWkBPEOeQaUW8u9+2tLVgdDIR0IbmXKlmzcbp7/YhaB2Cw6X8miTCTDE/PB8F9Z12X
+         XgjNjpmLpolwc6y8ncThofa/EJYseG5IMCrpn0+zDndGxPrAUmhoQDI8s1x62EfGQevp
+         zc38rP8tcwlj02n44xTbJEjAI7qWOSRqrJXg6FQqEJ1sqlxPWT5x6JhkLWQ0LNBHwFij
+         pJwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUEWaPGilorxxDtDZEIacU8ZG4Q6gqI6t/55AhDFOwspie5Bqiq07Fynz/90hNSccAVGdxbadRFZPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBcS58CNrH77Pr7F8MUgEUooYu1UDPLzHUAabGYkkgr3v3ScVa
+	CIrc+nXG0Aop6WSOZFZR2ccDsjuoV/o0gQ0DrfcEF0+f94hyJYqvoBKSjZ2XxWTcMhEgyIJnjSd
+	dEinWTEbAQdjpHZsTfT0AwequXyxV92s=
+X-Gm-Gg: AY/fxX7o4P0/boIYMoSYzFuKbvd03ZZ9nwEbOKccRyO4c+JS2lMvkAhC8FtKAxaG07t
+	NfU+IoXKKRKRb5AyMUgmStFGSmeqdKzI1HJ66cl0sTILXNLDviVTG/+4H68lNXUNaK2WdlavX7F
+	pHxpo1sx3z2SlDLqVlLJm3tCmLv+MmhxhBeF+zeLxLyzVRFt2eoBkBGita/uel3ZBEke+gCe/UK
+	X6EtgwviYZzTdob/Z9e2MH1DDNHXQD+iZUcvCNSCpXNQJCokgjlUzTCk2p3yAsEh02f6sONKbUc
+	yiBlu/p+7T6cGw/8ODuH9Ikgr1LK
+X-Google-Smtp-Source: AGHT+IEO/ZgFQp5AyfAAtwrHxXoiHa/X/03D0WDYxc4kBLqyULymzY/eR1r0RM8KzOikMvm9YYXtJ3AkgKqBI277jTk=
+X-Received: by 2002:a17:902:f552:b0:297:c71d:851c with SMTP id
+ d9443c01a7336-2a2f2736bc0mr91265875ad.36.1766399910127; Mon, 22 Dec 2025
+ 02:38:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <326c3e83-059e-4e96-ab99-d4a33eb3b56f@kernel.org>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
+ <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-12-b5165fab8058@bootlin.com>
+ <CAFBinCCUVOYsiwwVmyGtxN=MdqYatAaj-piVO9_E_iZX9gwiMQ@mail.gmail.com> <DF4KIOREQYK3.2JEGF51OECQCE@bootlin.com>
+In-Reply-To: <DF4KIOREQYK3.2JEGF51OECQCE@bootlin.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Mon, 22 Dec 2025 11:38:19 +0100
+X-Gm-Features: AQt7F2oefOvD1VauOsJ6RYNy_cI4jR0Cqg9gQFauSbHiZ7j1ecdJHG9Us9r2rRA
+Message-ID: <CAFBinCBX+DA71OA79SqrE20Nd=QUrU86SmYGXu0dAYG-R5nZ4Q@mail.gmail.com>
+Subject: Re: [PATCH v3 12/22] drm/meson: encoder_hdmi: get/put the next bridge
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, 
+	Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25/12/21 02:02PM, Krzysztof Kozlowski wrote:
-> On 20/12/2025 19:05, 455.rodrigo.alencar@gmail.com wrote:
-> > Hi Krzystof,
-> > 
-> > thanks for taking a look into this again. It was my first patch it didn't want
-> > to draw more attention or discussion to the V1 patch as it was declared not ready
-> > at its very first review.
-> > 
-> > On 25/12/20 10:21AM, Krzysztof Kozlowski wrote:
-> >> On Fri, Dec 19, 2025 at 12:34:48PM +0000, Rodrigo Alencar wrote:
-> >>> dt-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
-> >>> can be used to implement local oscillators (LOs) as high as 26.5 GHz.
-> >>> Most properties refer to existing PLL driver properties (e.g. ADF4350).
+Hi Luca,
+
+On Mon, Dec 22, 2025 at 8:31=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+>
+> Hello Martin,
+>
+> On Sun Dec 21, 2025 at 10:51 PM CET, Martin Blumenstingl wrote:
+> > On Tue, Dec 16, 2025 at 7:00=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bo=
+otlin.com> wrote:
 > >>
-> >> What is "existing PLL driver"? I know about motor drivers, but can you
-> >> drive PLL?
+> >> This driver obtains a bridge pointer from of_drm_find_bridge() in the =
+probe
+> >> function and stores it until driver removal. of_drm_find_bridge() is
+> >> deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
+> >> refcounted and use bridge->next_bridge to put the reference on
+> >> deallocation.
 > >>
-> >> And how is ADF4350 related to this binding. I do not see ADF4350
-> >> compatible here at all. Describe hardware, a real one.
-> > 
-> > ADF4350 is an older one, and its bindings can be found at:
-> > Documentation/devicetree/bindings/iio/frequency/adi,adf4350.yaml
-> > It is a similar part, but yet very different.
-> > 
-> >>
-> >> Nothing improved.
-> >>
-> >> You ignored comments, did not bother to respond to them and then sent
-> >> the same.
-> > 
-> > Sorry for not responding on the V1 thread, but the previous patch had to be reviewed internally
-> > first. It is not true that nothing is improved, in fact, it has changed a lot, here are some notes:
-> 
-> Process is not like that. You first review internally, then you send.
-> After you sent and receive comments, you respond to these comments.
+> >> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> > And additionally I runtime tested this on meson-gxl-s905x-libretech-cc
+> > where I still have HDMI output, so:
+> > Tested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+>
+> Thank you for the quick testing!
+Thank you for doing the hard work ;-)
 
-ack.
- 
-> > * adi,power-up-frequency is not carrying the -hz postfix because it forces to be a uint32 by
-> > the dt-bindings check. For that variable it needs to be uint64 as the part supports up to 26.5 GHz > 2^32
-> 
-> And what granularity do you need? Why mhz does not work?
+> I think I can append '# meson-gxl-s905x-libretech-cc' to your 'Tested-by:=
+'
+> line when I'll apply the patch, to make it more informative.
+Sure, please go ahead with that!
 
-~Hz granularity is needed to adjust frequency offsets spotted by calibration,
-but I suppose that is a whim that can be dropped indeed, as the important
-thing about this property is to populate frequency configs for the initialization
-sequence, which requires all registers to be written.
 
-> > * The properties related to the reference input signal path: reference-div-factor, reference-doubler-enable
-> > reference-div2-enable are declared here because they are constraints for the PFD frequency definition,
-> > which is the frequency that the output signal is updated, important for the loop-filter and VCO design.
-> > * added support for all different power supply regulators.
-> 
-> Sorry, but I cannot respond that way. We discuss inline, so I have
-> entire picture, not some parts of message semi-quoted here. I don't
-> remember what was there and I am not going to keep looking for that.
-> 
-> You need to adjust to mailing list discussion style, not introduce the
-> others. I have just way too many other patches to deal with, so
-> implement the feedback or respond properly.
-
-ack. Will adjust to the requested style. Already deviating from it again,
-but those were the comments from the V1 review:
-(https://lore.kernel.org/all/20251111-feathered-winged-bloodhound-b7e1a3@kuoka/)
-
-> 
-> Please organize the patch documenting compatible (DT bindings) before their user.
-> See also: https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
-
-done.
-
-> > +
-> > +  chip-enable-gpios:
-> 
-> enable-gpios
-
-done.
-
-> > +  adi,power-up-frequency:
-> > +    $ref: /schemas/types.yaml#/definitions/uint64
-> 
-> Use standard unit suffixes. Frequency is in Hz for example.
-
-sorry, this was the problem, will use -mhz as suggested.
-
-> > +  adi,reference-div-factor:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    minimum: 1
-> > +    maximum: 32
-> > +    description:
-> > +      Reference division factor (R Counter). If not specified, the driver
-> > +      will calculate the optimal value automatically.
-> 
-> Then why do you need this property? If driver calculates the optimal,
-> why anyone would put wrong or sub-optimal value to DT?
-> 
-> Drop.
-
-The description was bad so I rewrote this. The value is hardware constraint
-for the output frequency of the Phase-Frequency Detector (PFD),
-which is important for the external loop-filter/VCO design. The driver may
-only change the R counter if the PFD frequency goes off limits. In that case,
-some designs can acomodate different PFD frequencies, but that is not usual
-and likely not recommended.
-
-> > +
-> > +        /* Example with advanced features enabled */
-> > +        pll_advanced@0 {
-> 
-> pll@
-
-done
-
-thanks for the patience.
-
-kind regards,
-
-Rodrigo Alencar
+Best regards,
+Martin
