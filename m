@@ -1,46 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F3F2DEA67;
-	Mon, 22 Dec 2025 21:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B218227380A;
+	Mon, 22 Dec 2025 21:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766439746; cv=none; b=C826U+maiKlnKeLfgZk+RvrIw7ztaWImi4Eay99i46RTfHbuFA+cVfJCMizOJrXGsvf/7PI85/0IYaz7/haYISobMfTlqALfY6aR10UfYoHHffVXT4RAnI4kN3z1HeRcW9UC/EN4vb+H18K7pFAu7Fk2Na9KZ/quvAOLRZaYBOg=
+	t=1766440413; cv=none; b=pg2Pa/ir3ouhpdmxOfFQO2awzut98RxPyeTftBCTiP476VHrRe1YOC8lj4eq7xOJZ99XZiwKuCtVrnExz4ZwRfAPnTExpo4eR7Eh2a4mJaf9zuzlLZKC8KqCpmKStKcPODpdMTsVF8JB/g21IAvdT+5A7TNUBUMtcpDj5eQJ7Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766439746; c=relaxed/simple;
-	bh=Bv0omzE08Zk7kM/IO/BvY0cScYkJUEPfxXEvOhbUuXk=;
+	s=arc-20240116; t=1766440413; c=relaxed/simple;
+	bh=qJht2+TAYpiWsuIe/ACIFRmcALr0rLAwGfSlyqvdLzc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dRT0AqNn+93evcaAEVmRlTThSXkkUrIMn7ZHREZr9G8Nh5Qn7ue1s+OCWmbVXH7parR06ho2Qc2qhWBkt0GKjGZaq/ibhHLElRuqTedV74X01Fewk+huBI4WksD0Nm9hREXnS0bf8MBtW1CePaUljkcoCXwDp77nkFGSdmgJk5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=tZn3QUXR; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=ruS5juewvYj6VCBkN2L5pUMssLhnX9Sh6vHyd3YIVhZhKHw7NTQ1uGONAyd0CvjbqrjUeVAKHPXWPiQDmGhE8URU5+S0yLoNMiHV9aC6nbKXzGsCw3hVQMjbLWF8UlYzME+TX5Yeh27UF7RAGexwLZeFvSdI0XSV8MQR5Ywbk38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DCOhkcXm; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="tZn3QUXR"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F08A94040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DCOhkcXm"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E3EFD4040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766439744; bh=R0HTf05dpOfumAzNM+F81A0MdhpGNkX4skg+/iRsRIg=;
+	t=1766440411; bh=qJht2+TAYpiWsuIe/ACIFRmcALr0rLAwGfSlyqvdLzc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=tZn3QUXRs6rikM0MFKaDlYwEPyUCTkJJRAoQVlChikSIUU5Cl+I4zibXGhoHeIxST
-	 yS8tlRfX5MXuXKjyl1AHQwETcGzuVQi6bSW7DgXjLvMwm8t4YgD6he6vejC47nuqZw
-	 WN2yElgszt4E5IcptI4n1NAHg6ZJ87RaSD5HTt588oJwaHO2muwpO3XJ9R1hmJQBJQ
-	 x+sRTfg4FAbO0xAZsQDBVXO6a4HAPdorDa4HpMnWkCtrfRGmmy296wfGa8AfSPbujd
-	 zU12pvsQysP2VO39uuBFMurKZ2/hGKe/AkX0E2RQDHQCxNGQ0MHUzndUXy2V9JyoRv
-	 jcjjaPWHHbrBw==
+	b=DCOhkcXmfmR4bIU4QNJ2oJ/uGqOgJU6Jj+NzP/j5CQdSXoeZlJi+ii4hW5hbIXZqG
+	 M5sIawCPJ3JYIAXNG9L0yOiTsk/uFOAFnlPJ9a9ds3d+9Sgnh1Lz/McBkX6H4/afA2
+	 /pUz1a0awr7FR2z/MiwVRaB7M+0gvK5T1P0KeS+mbML8hxpWKFk9+PszbrSoaFchID
+	 qnbmHPZ6Qnn+4qui4jeTYRf7EG0CQ3Z6kdpy1i+nOAI4AEeFvKltOPlC/GrenkXRef
+	 LkroTwqZ7ndMa3559OUtRxuPDrUY+YtQXD01+UUuPXukEdADAgDuP1XoTB9uqwy8zV
+	 VOvGfvc5RHq9A==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F08A94040B;
-	Mon, 22 Dec 2025 21:42:23 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E3EFD4040B;
+	Mon, 22 Dec 2025 21:53:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kernel-hacking: Remove :c:func: annotations
-In-Reply-To: <20251220125233.76312-2-thorsten.blum@linux.dev>
-References: <20251220125233.76312-2-thorsten.blum@linux.dev>
-Date: Mon, 22 Dec 2025 14:42:23 -0700
-Message-ID: <87wm2e19ds.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 0/6] kernel-doc: add support for documenting vars
+In-Reply-To: <cover.1765894964.git.mchehab+huawei@kernel.org>
+References: <cover.1765894964.git.mchehab+huawei@kernel.org>
+Date: Mon, 22 Dec 2025 14:53:29 -0700
+Message-ID: <87sed218va.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,32 +50,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Thorsten Blum <thorsten.blum@linux.dev> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Remove the useless :c:func: annotations.
+> Hi Jon,
 >
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
-> Only applies after applying https://lore.kernel.org/lkml/20251219171827.44015-2-thorsten.blum@linux.dev/
-> ---
->  Documentation/kernel-hacking/hacking.rst | 169 +++++++++++------------
->  1 file changed, 84 insertions(+), 85 deletions(-)
+> Please ignore v6. I ended adding a R-B at patch 6 instead of on patch 5.
 >
-> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-> index 06fcb7c662d3..8593ef3b8e6c 100644
-> --- a/Documentation/kernel-hacking/hacking.rst
-> +++ b/Documentation/kernel-hacking/hacking.rst
-> @@ -49,7 +49,7 @@ User Context
->  
->  User context is when you are coming in from a system call or other trap:
->  like userspace, you can be preempted by more important tasks and by
-> -interrupts. You can sleep by calling :c:func:`schedule()`.
-> +interrupts. You can sleep by calling `schedule()`.
+> As suggested and discussed with Randy, this small series add support
+> for documenting variables using kernel-doc.
+>
+> - patch 1: add support for the new feature;
+> - patch 2: extends to support DEFINE_*;
+> - patch 3: document two media vars;
+> - patch 4: fix an issue on kernel-doc.rst markups and automarkup;
+> - patch 5: document it;
+> - patch 6: better handle DEFINE_ macros when they don't have static/type;
+>
+> Since version 5, I'm using "c:macro" to describe variables, as it
+> avoids Sphinx C domain to try parse the variable. This makes it more
+> flexible and easier to maintain in long term.
 
-Almost ... the `backticks` are part of the :c:func: markup and need to
-go as well.
-
-Thanks,
+I've applied the set, thanks.
 
 jon
