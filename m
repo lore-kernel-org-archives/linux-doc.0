@@ -1,31 +1,31 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A86819992C
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 03:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A697260F;
+	Mon, 22 Dec 2025 03:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766373915; cv=none; b=tKcX5UeV2h6/KmdQouvJGFEqu1pHaMHMr4FfSqHcxowlNUsrM8qBEri5WW2u4X1VTKKu97bNqLVZrCV/3OsEpD9B+a2/ItbW46bBPT+yFmfrL1m4oM6TN+f1M5KrW7OtzgucjaxklyI+F2Y0fcf0sebmUp4ApVnST7FnPhNIw5k=
+	t=1766375381; cv=none; b=WgyQjIdbJoq29RJp2l2QpdYPWWolVI/YICHztoI1uebidysi1XhX/U1vv1LO0D9kJ095RUGcqj874npsEecPKijnxTZh3U09iFKoWkCjIET6aV495gURd5sEaip/9UG/y+zCfoCMXEK1K92R9KePvKLauT5w1DU1PdWQC4HzIuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766373915; c=relaxed/simple;
-	bh=E14KLDJYnbCvau5ukT1PEURZ3MN9M+hiKhHCXwaiop4=;
+	s=arc-20240116; t=1766375381; c=relaxed/simple;
+	bh=ZKBKDyIf9aNl9ZXxo2pKhG1CGsCvMu5NEzkBAwecv2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o8QcYQ8AFPyR61E2y3sLXIAwoA5YAX1z9ts63aAbEoQhAMaXg1UkLGvldOW5ksqTlx07jFleqVxiMJwhRlFl/UdfPorvkgtTPMNR1W5hOqhaAVEcFRR7T/zphVjryCG2Zuad4S/iaYFlfZTiYHxzS79t82EFa2Fs0rXm3MG8tOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Sdi7U+P7; arc=none smtp.client-ip=91.218.175.183
+	 Content-Type:Content-Disposition:In-Reply-To; b=OAw/XxvbxSe4DLc5y7rPPAJjHGNLfn3BcvRvMKIo4NppBeIfBxK+v6h8wFoJs5Y3aCvVxs+K20gvQTTU6CBGJa2jln1RG/JH65XH8saxsb+pKuH6j9Pie9ucIz/ECcBvU1Y4JSW70Cm6FsvCKEfxqjSFTL2MMxRvklQom3DYkkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CubJn3AN; arc=none smtp.client-ip=95.215.58.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Sdi7U+P7"
-Date: Sun, 21 Dec 2025 19:24:57 -0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CubJn3AN"
+Date: Sun, 21 Dec 2025 19:49:24 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766373906;
+	t=1766375377;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b0q4BK1/oVFhcJwzFlC5ht870mAKf8HPK6uMRHcO9Sw=;
-	b=Sdi7U+P7Md9MMdxEhS9bY644UrWGJOemPmiAhz09WAvxljkfCRmUjyFOOs4VreUHeK52Vh
-	SNBV2yIPsXL/iVv56ShDHATEYCKpkwEUFEgEBkqnfsbl7jpLS0CG/ivFbn9k+eVvqD8lg6
-	6xQVyC40N7IsI4mFWm8Mc3/JO7HJKPA=
+	bh=TWtO2zr1nSZbFFTYCOCRQr/+4k/J53t+G3n+jZ7uCYk=;
+	b=CubJn3ANnS6RtnAXOMiFKILfrbjbKzo5g8zBWH1n9uvolk/8eBB55AkKcKKq59hn8ynGkG
+	IguJvE3mlAc4K6URHr9stf72+kL03aeSVq2yeoMTSIoGGsY0gunvROZsBErbArNjOvbPP2
+	eLZIS9vLy48ZSaGr/0S20xmoUHX88Gg=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Shakeel Butt <shakeel.butt@linux.dev>
 To: Chen Ridong <chenridong@huaweicloud.com>
@@ -36,10 +36,11 @@ Cc: akpm@linux-foundation.org, axelrasmussen@google.com,
 	muchun.song@linux.dev, zhengqi.arch@bytedance.com, linux-mm@kvack.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
 	lujialin4@huawei.com, zhongjinji@honor.com
-Subject: Re: [PATCH -next 2/5] mm/mglru: remove memcg lru
-Message-ID: <ytbajfyzgazpgx7qftafyt2ar6xzpxiarkdih4p2xiihovxci4@ugdmji5uboih>
+Subject: Re: [PATCH -next 3/5] mm/mglru: extend shrink_one for both lrugen
+ and non-lrugen
+Message-ID: <7oyimceude4iqtc6z6e2l2l2em236qa3s6r5daf4c64mzmafp5@s5ayqhbow7s4>
 References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
- <20251209012557.1949239-3-chenridong@huaweicloud.com>
+ <20251209012557.1949239-4-chenridong@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,17 +49,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209012557.1949239-3-chenridong@huaweicloud.com>
+In-Reply-To: <20251209012557.1949239-4-chenridong@huaweicloud.com>
 X-Migadu-Flow: FLOW_OUT
 
-On Tue, Dec 09, 2025 at 01:25:54AM +0000, Chen Ridong wrote:
+On Tue, Dec 09, 2025 at 01:25:55AM +0000, Chen Ridong wrote:
 > From: Chen Ridong <chenridong@huawei.com>
 > 
-> Now that the previous patch has switched global reclaim to use
-> mem_cgroup_iter, the specialized memcg LRU infrastructure is no longer
-> needed. This patch removes all related code:
+> Currently, flush_reclaim_state is placed differently between
+> shrink_node_memcgs and shrink_many. shrink_many (only used for gen-LRU)
+> calls it after each lruvec is shrunk, while shrink_node_memcgs calls it
+> only after all lruvecs have been shrunk.
 > 
-> Signed-off-by: Chen Ridong <chenridong@huawei.com>
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> This patch moves flush_reclaim_state into shrink_node_memcgs and calls it
+> after each lruvec. This unifies the behavior and is reasonable because:
+> 
+> 1. flush_reclaim_state adds current->reclaim_state->reclaimed to
+>    sc->nr_reclaimed.
+> 2. For non-MGLRU root reclaim, this can help stop the iteration earlier
+>    when nr_to_reclaim is reached.
+> 3. For non-root reclaim, the effect is negligible since flush_reclaim_state
+>    does nothing in that case.
 
-Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
+Please decouple flush_reclaim_state() changes in a separate patch i.e.
+making calls to flush_reclaim_state() similar for MGLRU and non-MGLRU.
+
+For the remaining of the patch, I will respond on the other email chain.
