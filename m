@@ -1,46 +1,59 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A697260F;
-	Mon, 22 Dec 2025 03:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B094315A
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 05:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766375381; cv=none; b=WgyQjIdbJoq29RJp2l2QpdYPWWolVI/YICHztoI1uebidysi1XhX/U1vv1LO0D9kJ095RUGcqj874npsEecPKijnxTZh3U09iFKoWkCjIET6aV495gURd5sEaip/9UG/y+zCfoCMXEK1K92R9KePvKLauT5w1DU1PdWQC4HzIuc=
+	t=1766381898; cv=none; b=ewidPEq7tFPKJL+w3BfBpxBcD9ytFA6c6FGSMT3wF9QuQCo3ghs28sa7QiGt3VieIZ7VFb4gSOTj+5fAQi62D9XOJtdvxuAeu5X0yQun64GlRGt1BhAJFaZ0C5FEJIWCa8dWmVI9UfNDF1TQvRCvoWGEOFOA+9NJB95aDuQEXBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766375381; c=relaxed/simple;
-	bh=ZKBKDyIf9aNl9ZXxo2pKhG1CGsCvMu5NEzkBAwecv2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OAw/XxvbxSe4DLc5y7rPPAJjHGNLfn3BcvRvMKIo4NppBeIfBxK+v6h8wFoJs5Y3aCvVxs+K20gvQTTU6CBGJa2jln1RG/JH65XH8saxsb+pKuH6j9Pie9ucIz/ECcBvU1Y4JSW70Cm6FsvCKEfxqjSFTL2MMxRvklQom3DYkkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CubJn3AN; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1766381898; c=relaxed/simple;
+	bh=eSRZZaZcXJRlDQhxtvk2EQ8i9i8zgWz+Y+D56ODgW3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=D7zSbreWjBtbzSpbWqdKf2ZMNxtaFdNZaxS10ppFWTIP7phOW0W0V3GFnLoA7sT8fsDztTGBGms6tR6mfbDcQg0itS1x8NIEfD6q7C7jw/wECNIyiHWqPo5RmxiAYuBNaccCvAAzTFnF9rYquJImLJNOVntkXNgFErsaHag/PK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KGr6Ean7; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CubJn3AN"
-Date: Sun, 21 Dec 2025 19:49:24 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1766375377;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TWtO2zr1nSZbFFTYCOCRQr/+4k/J53t+G3n+jZ7uCYk=;
-	b=CubJn3ANnS6RtnAXOMiFKILfrbjbKzo5g8zBWH1n9uvolk/8eBB55AkKcKKq59hn8ynGkG
-	IguJvE3mlAc4K6URHr9stf72+kL03aeSVq2yeoMTSIoGGsY0gunvROZsBErbArNjOvbPP2
-	eLZIS9vLy48ZSaGr/0S20xmoUHX88Gg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Chen Ridong <chenridong@huaweicloud.com>
-Cc: akpm@linux-foundation.org, axelrasmussen@google.com, 
-	yuanchu@google.com, weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, zhengqi.arch@bytedance.com, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	lujialin4@huawei.com, zhongjinji@honor.com
-Subject: Re: [PATCH -next 3/5] mm/mglru: extend shrink_one for both lrugen
- and non-lrugen
-Message-ID: <7oyimceude4iqtc6z6e2l2l2em236qa3s6r5daf4c64mzmafp5@s5ayqhbow7s4>
-References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
- <20251209012557.1949239-4-chenridong@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGr6Ean7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766381897; x=1797917897;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eSRZZaZcXJRlDQhxtvk2EQ8i9i8zgWz+Y+D56ODgW3Y=;
+  b=KGr6Ean7aolVtX5x5I9n01/NLF+GsIQkdZyMKFCYj2mLSCwQ9xLizI6t
+   RMOjCeTJWmIMz/KT5wmbX/DTktlbzvBXVqQCMW9X8UYYhxXINRZm4aFd+
+   CAjqaMsF3r4kw4TPpqTQTkpjMnEWKIyMNUv6z/AHLltetzqujiIoh9QKp
+   IdTm689ivzKNhjxB7AQGEgasSv2IkYwzRHUI6XMdKPgdt7dm0N5moVYmf
+   aP65S8vKOCymxdsbU362W85Lt8nbrbCai3J/Y2RTIbqxuNW9zlBxtgl6T
+   pwGrwFjjBZpBlmgnmqfAlD2MJs3njSbZ8WowO77VK8wTora5e5VeeSF0j
+   w==;
+X-CSE-ConnectionGUID: m8SPIWo+Saud7pUTRrFjvg==
+X-CSE-MsgGUID: NzwrY1QgQOaSa4qlH+yRXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="85819946"
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="85819946"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 21:38:16 -0800
+X-CSE-ConnectionGUID: ECKxL/r8R5uSmuSbmFU3Ew==
+X-CSE-MsgGUID: zsz1g7CWQtu7Hqc60/yR4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="236856084"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 21 Dec 2025 21:38:14 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXYcW-000000005NA-04iv;
+	Mon, 22 Dec 2025 05:38:12 +0000
+Date: Mon, 22 Dec 2025 06:37:34 +0100
+From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sashal:spec 27/131] htmldocs:
+ Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2220: WARNING:
+ Block quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202512220607.HoC4BSEa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,28 +62,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209012557.1949239-4-chenridong@huaweicloud.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Tue, Dec 09, 2025 at 01:25:55AM +0000, Chen Ridong wrote:
-> From: Chen Ridong <chenridong@huawei.com>
-> 
-> Currently, flush_reclaim_state is placed differently between
-> shrink_node_memcgs and shrink_many. shrink_many (only used for gen-LRU)
-> calls it after each lruvec is shrunk, while shrink_node_memcgs calls it
-> only after all lruvecs have been shrunk.
-> 
-> This patch moves flush_reclaim_state into shrink_node_memcgs and calls it
-> after each lruvec. This unifies the behavior and is reasonable because:
-> 
-> 1. flush_reclaim_state adds current->reclaim_state->reclaimed to
->    sc->nr_reclaimed.
-> 2. For non-MGLRU root reclaim, this can help stop the iteration earlier
->    when nr_to_reclaim is reached.
-> 3. For non-root reclaim, the effect is negligible since flush_reclaim_state
->    does nothing in that case.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: b886d10007f0ffbc60bd09f6ec5e1184d397f3b9 [27/131] kernel/api: add API specification for sys_epoll_create1
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220607.HoC4BSEa-lkp@intel.com/reproduce)
 
-Please decouple flush_reclaim_state() changes in a separate patch i.e.
-making calls to flush_reclaim_state() similar for MGLRU and non-MGLRU.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220607.HoC4BSEa-lkp@intel.com/
 
-For the remaining of the patch, I will respond on the other email chain.
+All warnings (new ones prefixed by >>):
+
+   WARNING: No kernel-doc for file ./include/linux/dcache.h
+   WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
+   WARNING: ./fs/namei.c:2853 function parameter 'state' not described in '__start_dirop'
+   WARNING: ./fs/namei.c:2853 expecting prototype for start_dirop(). Prototype was for __start_dirop() instead
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2219: ERROR: Unexpected indentation. [docutils]
+>> Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2220: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2254: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2294: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2301: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2307: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2311: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2317: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2322: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2326: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2327: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/filesystems/api-summary:125: ./fs/eventpoll.c:2351: WARNING: Inline emphasis start-string without end-string. [docutils]
+   ERROR: Cannot find file ./include/linux/buffer_head.h
+   WARNING: No kernel-doc for file ./include/linux/buffer_head.h
+   ERROR: Cannot find file ./include/linux/fscache-cache.h
+   WARNING: No kernel-doc for file ./include/linux/fscache-cache.h
+   ERROR: Cannot find file ./include/linux/fscache.h
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
