@@ -1,46 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D5733CE8D;
-	Mon, 22 Dec 2025 22:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4771333445;
+	Mon, 22 Dec 2025 22:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766442017; cv=none; b=ZKFPVK8GCbsieOzO8bVDoXPXrSMJxj2vQvE4+m3l9zD1j2e1Lt7lToRWLyXHQ5BEL0HT4+tAu72rMxRweV5hmNMlBQvduQ3se6kIrKz/2ZsvRqvMTV8g1i7EaSFwbQLkUiwHnaJkM46O3u5O1qrkKFJL0JLd2R4M0EfzS1C+zwc=
+	t=1766442088; cv=none; b=QmkBkHHcOLmXE2Fhs1q2Ww2Nox6HuWkeDDmWxjF4TrW+OHI4mf11oHOV1XIw9Rgz/qRKszKRM0OJeRly9skFfAmneVCRzq9OU8EYcpJPxutgHKF/XrTQw1ENk1tVRdEq1FZnXCzRiQ9PQYO7F1/J57hVVaxjcEkY30QV6/mKDsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766442017; c=relaxed/simple;
-	bh=/GzBfeRnmhNe2geyiW6zwO3HIHw1a0FtOKJAwpJTMUg=;
+	s=arc-20240116; t=1766442088; c=relaxed/simple;
+	bh=nYZyvIgObbL548ZBd5zRe8zPoOCaz0bntqdr7VG/8gM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=L70+onMSPvtay6VbOj62vbIzE1aWJU79MVOlP6Z7VYcgExOVVbEoYYBu59AayrSVlTA6V224HUvEmck5Zt2CvsFYJLrOi4oxvVCVypHblJc08yhf2sLn8gH+WiwOPENx+kHeg3inHYKBP90RLEIcDPgb3INJqcp+iQ+BoRs4skI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Tn6adbyc; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=NT7N5DdyXYwDwvLXzQN01sXgUXk5WEtNd1vU3XsmVT0z+7RxsetL989vp7TBUPFDo4s2DIksdKrvPhSQAYwhR5t8lzf2OzWnRdE5+8lZkWt+BzopeLCPReypdBTbp7U+f50MykcajMyBqfxsHgHPDhLR6dWP3TGVQogTKDdrtNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Av3tEkwG; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Tn6adbyc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CB5694040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Av3tEkwG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EE3604040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766442016; bh=3RY1QMMacobDKJORWNk1aPIovOrQVB4hR4b5BeI6Zlo=;
+	t=1766442086; bh=jqdgCWgotsYy+h5FasTSMHMxG9T8DaQR9N7YLK+pCG0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Tn6adbycveFcH83+7oZkYfsIT9OdyCpYf/XEksGPUazLsXkpU5KoHKuZliv/0shIB
-	 M5cpbcF/5Fwpk12DbWjekvhIQ8vMhC1DI7difvSYOKPpPtElQXOLq86R9/FJ5t393j
-	 0pZa0ULjhgadEZ47SG2BZEXeCO18ebh4nEvEV1AlEpZSnXUovcXrkxkOG6iJevE5G9
-	 3okb6PaBdEnsp1YDr/ASFWUGJ3X+ICC6gvvACSIDPti0CRql++4ZJdJ5UMaCVKfEI/
-	 XM/X+sL8e2rr7IDdSS+zP/7BNOL/Rks0OgGzcvyMfhlsV83+pN3MWNSr9BwCJ2OMaY
-	 O40oSMkKg3+kw==
+	b=Av3tEkwGp/ZykaF8oGgJywGnEHYl0xEoxoXzBZrTtWeFpSNKX6LKIhamN3hjqSsT/
+	 Ix5Jh3Q7VT4PL5fXwTesUT715JnhqqJeAXRT8K2xethBH2Zg0bcnzw2zJ5nxcS6EXQ
+	 4nWUrhR1cB8tJgS+iYiCbFmVOe4bfW18JFe6kPX0Jk7F4K6G0fYM3XWU3lWEXyRZZb
+	 +feKgA2kPgDsNIJeFfJ8CDX2ewzzghqb2zvbacy8W6PvN8thxPCde/qX0a/Drp75AW
+	 ujORN7A762KLL5pVXGMPUvx22wTFD9hJRXRFXfZmu6zMiOB18IoqV5lcniMWNYqZ+V
+	 gAkHZ0UHHfy2g==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CB5694040B;
-	Mon, 22 Dec 2025 22:20:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id EE3604040B;
+	Mon, 22 Dec 2025 22:21:25 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Shubham Sharma <slopixelz@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Shubham Sharma
- <slopixelz@gmail.com>
-Subject: Re: [PATCH] Documentation: arm: keystone: update DT binding reference
-In-Reply-To: <20251207195632.68681-1-slopixelz@gmail.com>
-References: <20251207195632.68681-1-slopixelz@gmail.com>
-Date: Mon, 22 Dec 2025 15:20:15 -0700
-Message-ID: <87tsxiyx9c.fsf@trenco.lwn.net>
+To: Kathara Sasikumar <katharasasikumar007@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ shuah@kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ katharasasikumar007@gmail.com
+Subject: Re: [PATCH] docs: arm: keystone: fix link to devicetree binding
+ document
+In-Reply-To: <20251205174933.619122-1-katharasasikumar007@gmail.com>
+References: <20251205174933.619122-1-katharasasikumar007@gmail.com>
+Date: Mon, 22 Dec 2025 15:21:24 -0700
+Message-ID: <87pl86yx7f.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,13 +51,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Shubham Sharma <slopixelz@gmail.com> writes:
+Kathara Sasikumar <katharasasikumar007@gmail.com> writes:
 
-> Update the device tree binding reference from .txt to YAML.
-> Binding was converted in commit 20b3c9a403ee ("dt-bindings: arm: Convert ti,keystone to DT schema")
-> and moved to Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml.
+> make refcheckdocs reports a broken link in the Keystone architecture
+> overview. The referenced devicetree binding was converted from .txt to
+> YAML schema and moved under arm/ti/. Updated the link to point to the
+> current location.
 >
-> Signed-off-by: Shubham Sharma <slopixelz@gmail.com>
+> Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
 > ---
 >  Documentation/arch/arm/keystone/overview.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -71,6 +74,10 @@ Shubham Sharma <slopixelz@gmail.com> writes:
 > -        Documentation/devicetree/bindings/arm/keystone/keystone.txt
 > +        Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml
 
-Applied, thanks.
+Thanks for this ... I applied another patch to the same effect only
+because I stumbled across it first in my overflowing docs folder.
+Otherwise this would have been fine.
+
+Thanks,
 
 jon
