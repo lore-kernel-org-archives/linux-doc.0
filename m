@@ -1,47 +1,53 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D8B482EB;
-	Mon, 22 Dec 2025 22:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF74E3491FB;
+	Mon, 22 Dec 2025 22:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766442238; cv=none; b=UrGzHS7kjb8g5LyqPNOsPi1Z2wBBoiw/gW9M3pEovy5wNMXIlBXMKKjVsZokSn2hYDAqHqxBMC2imQMtZAbu+WAiZachwVbYM/I0GkU/wlR+/xaLoW2LwjG68FJzb8ryF2bdFdnnslLzrZ2eKn26oetVT/bOoVhzbFZH6lAKVfg=
+	t=1766442312; cv=none; b=YQKjpRQsKd98emU5CaW1ZhzmPbIJuS1rDVM092e8xiKChN1LDhlzT2IzdR1UtzW+3YJInkRgvOYSSJHQ4SnUleuwB6mji2ht1sJhNnLr9uXatEMwk8h6vfhR81eb+tWkIg0gWUDPxfwn16NdXe10YtsNw9PtnAZnsKgsF3qlIWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766442238; c=relaxed/simple;
-	bh=G2q3tFVw3jM3bLGEedAR+CXYy8TWOh0ghaMlPTwt18I=;
+	s=arc-20240116; t=1766442312; c=relaxed/simple;
+	bh=UTE3e3zRqag9whWqOByHRu2cmId+V2NVcCFEvxb8Pwc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HT1cWlCR4GX7NT884Ea3jVdwaEL5ZHYihEF2lM18sKIEQEYYiyuCWFCYEe3hDLuks+8tPumszHqFWyfYKbRipG9etXRGz16PjbZBUREbP+QPCGVuXAoCvhpbASm6GF0keyqpNUhVP2w/eiEJHSlOVCzrNnU1GIYF4k/1mbAFaic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bEWqIc+b; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=I2An6uYdwR0MJ8yLgv8kR5ciCWKkqQDa7rpZ5SVWLcQTeH6GNLvd/Zmkq5DjLDV+aBbgRDD43HAv3cpoLAyil8Cxokl4rWwq/30ZBXeiSZ2dQ4v7DgieqBaHofRAkmNBU1AmMuzOZsUNaq6NVuAdbG/Qz0qkc9s/hhScnEDo+B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nOIe/MqV; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bEWqIc+b"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 208294040B
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nOIe/MqV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EB9374040B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766442236; bh=YZndtjFVmDjPYoXXRznMxawPfgKcpRWQr9W88SxOwX0=;
+	t=1766442310; bh=H6dkgP5nDXtUY2fgbr9pLhBkMHgH1gFtdMcuO2qFves=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bEWqIc+by0UMaPCC+JGrNJhz5dXXoq/oiCsqaHQlJF3btRzwU6tmUYISXYVIVsa8t
-	 GpgVuRwn6BZWo43wa87aTARYE+kgjoqVVYTjXxgf2UMAmrHw1LfRsdzcHuBqCaGy24
-	 dlH7j+G0SlDFnK1byqGUiKYFDnWM/3OCOsC/QwOFZfUqstlUopGC6HbdDPyjb5yM0B
-	 YZsgxo1K3kqFTCrwlmFde/VkPaK2tCBiiYcOCl9+8nczddHjUqn7W7wxHWy3E8pbkT
-	 j84nvNoq/fpemAQlZllc9AbZpJUTsPK4hNztyqK0pVfW1YgO4+Um/JSqK8fTrKvbmG
-	 D45sIzwBiUTvA==
+	b=nOIe/MqVOXG8sSpS7Nhg1Vg9qTrnZcIn6lRCysA8sOU7noG7oOuhWJznFlKKj685L
+	 ge78hG/BNeud7+BRNwcKL1xS66LFc/Y7fmswL/BCf1MEjDuYCRJazYTL0MtgjTXUQT
+	 Y1v63S3Zn0d4Cq8nFPhFnPrDjHoo0E2/szdeALIzIKT3t1dUCxOAfoAiv2VxGfF7Go
+	 hXhD7dADEwbFM/l3kLB8ZwDGY5yreyaTRUvSa+gXVCxgJ/I9wZIntLpm2FjarJHE4c
+	 TUgXHFF8uLUVJB7Fs9RPmwuV/N+eGyNbwyY6SFMc8cvNdSvT1QzQBUWyoPMe/MB+2P
+	 yQKE552y6uH7w==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 208294040B;
-	Mon, 22 Dec 2025 22:23:56 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id EB9374040B;
+	Mon, 22 Dec 2025 22:25:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Marc Herbert <marc.herbert@linux.intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Marc Herbert <marc.herbert@linux.intel.com>
-Subject: Re: [PATCH] docs: make kptr_restrict and hash_pointers reference
- each other
-In-Reply-To: <20251205-doc-hash-ptr-v1-1-573966cfa404@linux.intel.com>
-References: <20251205-doc-hash-ptr-v1-1-573966cfa404@linux.intel.com>
-Date: Mon, 22 Dec 2025 15:23:55 -0700
-Message-ID: <87ldiuyx38.fsf@trenco.lwn.net>
+To: Steven Rostedt <rostedt@goodmis.org>, Gabriele Monaco <gmonaco@redhat.com>
+Cc: Soham Metha <sohammetha01@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
+ skhan@linuxfoundation.org, namcao@linutronix.de,
+ mathieu.desnoyers@efficios.com, mhiramat@kernel.org, bagasdotme@gmail.com,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation/rv: Fix dead link to
+ monitor_synthesis.rst
+In-Reply-To: <20251204101415.284a7a96@gandalf.local.home>
+References: <20251204032452.9523-1-sohammetha01@gmail.com>
+ <a34546391cc59f9f880ec271292ac201292bac61.camel@redhat.com>
+ <20251204101415.284a7a96@gandalf.local.home>
+Date: Mon, 22 Dec 2025 15:25:09 -0700
+Message-ID: <87h5tiyx16.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,26 +56,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Marc Herbert <marc.herbert@linux.intel.com> writes:
+Steven Rostedt <rostedt@goodmis.org> writes:
 
-> vsprintf.c uses a mix of the `kernel.kptr_restrict` sysctl and the
-> `hash_pointers` boot param to control pointer hashing. But that wasn't
-> possible to tell without looking at the source code.
+> On Thu, 04 Dec 2025 07:36:57 +0100
+> Gabriele Monaco <gmonaco@redhat.com> wrote:
 >
-> They have a different focus and purpose. To avoid wasting the time of
-> users trying to use one instead of the other, simply have them reference
-> each other in the Documentation.
+>> Anyway looks good to me.
+>> 
+>> Acked-by: Gabriele Monaco <gmonaco@redhat.com>
 >
-> Signed-off-by: Marc Herbert <marc.herbert@linux.intel.com>
-> ---
-> (please just go ahead with any minor corrections; I mean do not ask
-> for my opinion)
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 +++
->  Documentation/admin-guide/sysctl/kernel.rst     | 2 ++
->  2 files changed, 5 insertions(+)
+> Jon,
+>
+> Care to take this through your tree? Gabriele is the maintainer of this
+> code.
 
-This one doesn't apply to docs-next; any chance I could get a respin?
+Done (finally).
 
 Thanks,
 
