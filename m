@@ -1,41 +1,42 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37DC313554
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7731C31354B
+	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766398283; cv=none; b=fGQDuduMVQDIqFNQ857tDYXTvYYMVwY4oqsZhEWiGgZreFEUAr9+XV3IkfgO74hRLLWNL6LPhCsNMwqD12ddOhSz3Sj7ylbMQBM+x/hoeN7NEBEi76Ka/BY2uaLXbABpaLCdgWGPS12h51ChHr41CKNYzUPI5aCKkCvUrreS/vU=
+	t=1766398286; cv=none; b=q1/jgdJMvKLsgJfa6955m7Wh4Gtsj5wkkkCwH8dPhML0FqYrfRiepfrYmR7NAnMs1+Nz0L5jFcCfQbYvfLerCuMh0Lto2GoNxMhyqqS7Sv3jBm3GIJEaLt2ULfEltZ6lm6D85B/bZ/Z7JWcvso3N8SGM23HPy/6cbg/AOoJgOx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766398283; c=relaxed/simple;
-	bh=g1vbeumKRvYydQoIx12RB5g9ouajWh+dHntqU6W9eGc=;
+	s=arc-20240116; t=1766398286; c=relaxed/simple;
+	bh=K38wOBTG/91e6Yb1mIir+Yt1rsf04yjLLgb90rfe0BA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=U6/3iWibKilMcsQCzrgOI9aVnaJ+IP2y+BipA0WXK3EbqTCh6AjD4WYnzFCceObRz61ku2kb61kbW2gtE68+tPlZGchWXp0OscLXnTTjbwzlUUeLKCq2E4w1/+4fKP/b0vjaBWTiQI1S+ybZshkik77IMTfh1UlVjvvY95NiweY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RI2qcdOr; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=I/Q10BY1AodDqZW38dmlfZwk/UcHDGo7uK+G1En1756BO4EZg5/Sw5JDXaG2iBeprWaULtJdnrhx/ReJs4MEAqGNpiPBMACYL76xxAzQpEaAe80fw3MSvPFRlzspz4n7rxCeuarfcfleFMkwXJf1lObKQ2JQm0Dm0W4pe51nqNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MAvTand2; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RI2qcdOr"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MAvTand2"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 756A11A2371;
-	Mon, 22 Dec 2025 10:11:19 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 605074E41D35;
+	Mon, 22 Dec 2025 10:11:21 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C62B606C1;
-	Mon, 22 Dec 2025 10:11:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 36A9710AB0199;
-	Mon, 22 Dec 2025 11:11:16 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 36D5D606C1;
+	Mon, 22 Dec 2025 10:11:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7C4AC10AB019D;
+	Mon, 22 Dec 2025 11:11:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766398277; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766398280; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=70aS4LgI4fXlyEns96sw8SPFGUG5N1Qg9z4OxGLWrGA=;
-	b=RI2qcdOrMk7R7cOBt/d1ItB2eVcgsRleFIjNrJRQjbFMOEcnY32Bo3IlAPXb3z/vy3VOSq
-	RcWatsbAQnKaIiENHbdcwK42YfHROw3ftmO4iWlZ/R1UjO6LUGitclD9bokcJjYvvUZB6j
-	BqKcvGXcw+ZQW+a2JlbSC7Sf/mSfp3c49SA4dFVt8ofVbt9yegXdLeCzRsn1IKeO2NiWc3
-	kfhYYKwH0ldfYMV4jw+NiJoE1WqtmopJmiUebcR0Z8O6EyCjjT2Yyyy2emlnYFhh2TT2IQ
-	DJJeuMBlxBB0Qb4mHGTw6469YwqLS9YB6lbFLNhmJkhfetiEE2dLXCQi+4EFPA==
+	bh=WhU6P3hf6ihdOZrrfK4WQvf2PxNpGmlUzFEm+JAPP1I=;
+	b=MAvTand2XwqPG2hVIIB0F6FOHEgJi/+nrlAx0l6G8YTdLizSU7UieFaxnNHVUcHG58zGNE
+	YNhnNvqIMnWNDBlVzRW8uys7YxWuOpeCllrGucT+QpFXxVkcvULbWsKqSF7aBuMQKQACeZ
+	lhuR120ytYtMe0DYXLO+OrP2fM/mMxG/8CA4iwsqfeRRyafX16Cxy42IKwg8IRe7HNDOUA
+	EcTXWQ3xGoWWDpo/uKVpGzrdDA48lkuN0+Wuj5Bu6w+tUNxsdI5/zkwsPuI5oSg6Wsxo9G
+	myHtnt4MZYG1b3rVFAAkMk/y1ss4HMb3e5o6uiygsHw9J14GOZsqt2FkxYGDvg==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 22 Dec 2025 11:11:05 +0100
-Subject: [PATCH v3 03/33] drm/vkms: Explicitly display plane type
+Date: Mon, 22 Dec 2025 11:11:06 +0100
+Subject: [PATCH v3 04/33] drm/vkms: Use enabled/disabled instead of 1/0 for
+ debug
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251222-vkms-all-config-v3-3-ba42dc3fb9ff@bootlin.com>
+Message-Id: <20251222-vkms-all-config-v3-4-ba42dc3fb9ff@bootlin.com>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 In-Reply-To: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -60,50 +61,58 @@ Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com,
  =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>, 
  Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1010;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1207;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=g1vbeumKRvYydQoIx12RB5g9ouajWh+dHntqU6W9eGc=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRk/twntv97Gc2/zyiPUtWL4X09t7H2W7kHFD
- /ZhlW1HhdqJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZPxsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOJNhw//ePEOQU3RKMhD342ewl5rDYAb2Pn3TLo
- jqfWNFcyN1Br10R0E/SBUiKx5rxz3Zle6Tr4hkaoxF0ZMysWXEoOjmoOB9OBD2KBU5KpT4+TP+/
- YmsJGdc1bmq15RfJ3/r90xII0nNg7qEzGHbO5dK/UJp578tVnWV16URObD/sI65MJ5K59EbrEoT
- tLRKaBQdjLQdcec6MtTK1ifFGDHvJJOJuWtYUuN/ZWbXVmvLjMJBPX9ljkMH/4pK1o8S0RKNr8P
- u9AEjpCFrPZ3kuuRhiEvbKL0pglNZERdWiqu0MiUz0Agt8pO+okmsmVIjbEiKFrKJXPVUwmLRjB
- vqNY2N2tRPlg1r/xdFViO8nCOTP1LrhfXVl7xDRXWCGGzf0X3dj5EOur+CWAGHxzjYGOursOcfw
- xe0pbI/3ykwvncozX+4W2tt0oUDmGRHGh8VtMKNulqxpWhmcJhpZHmWTmszn/vNzcCTsZtTClj9
- kVusGO7bggVA2z2YGBXn45rLSTr9TmZGAfL5y0x7EM+LmCw5by/A2ppXyUmZbRKmMSfyTuAznLc
- tE8ebEJhhNv7Ks6W4X0CGXZJUGvZuclUPmq6D/q6rhZvV1UL/t6YThtCaACzW2RG3Nlg7OPJof0
- 5F0a2inCksb6T4l5iKUBOSFwIy6bUXannuTOWHuueCEwzPOEHIYo=
+ bh=K38wOBTG/91e6Yb1mIir+Yt1rsf04yjLLgb90rfe0BA=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRlAvLUGPQZwHMBR/TUb5LaWTeklGbtDXi+2R
+ 0/Q9cnANDqJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZQBsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOKsxRAAm+vzQ5iHLsHMl01wgOLVvQhLSWd7HKo
+ b/IGpsinU3Nj43ZEUMdIW7oORzWyMUmVHofdC6XL4zm37pPNsu2/9pIhykmSCOzLQsHqmkE2/iw
+ kust0y9ek265rWVbn+iQgkAhTdpYAauUEiejr3BgmMBue8JBTTbD4jsTrIBWKGwR0KoIDfi+nQP
+ hcj3ZlZxJLRMhq+bETXkVkHk0C9yyDqlOGH7SLhM/bWeUtoUkTE6j/mI3zE0tm7mkP7ZYF4xJEQ
+ NqnRoHFb02U3Z6W70bCa9rFzOySCal3zyJhiW8kvljqdEKgGiKTkip79V9OQJWK9qMv8dXSvK3n
+ DOxDzxgsnhGTkQDIVvk82FBR4iutD8sEpCoxnFQAnDEXNPbnqF8NvwvrrtIljM+0Jn03ZgelAJp
+ 8G8BysnXGcynGk5zR9i2fO10Xfq0BCPkXXOb5AE73/2DR7tb5LpSwW8FFKP4oUI3o7A4fiUQKIY
+ jHPROp4M75Y+tDJHeLSz1pzKY774pwK+GVkRLKae7ZEDFX7buVHHYkICl0sBgx3Qn/dV6Kcm7sE
+ r8Ca9T0nfeGd0DHXRr+RLp95lFZ/BNgZC0gh+uIkou5EvlvBK3v8aQtp2k5EdkPw7NH7G0fG6Bv
+ k5DhLvQYiuU+a6tTGEW9LNrDSfxwRi3nkOUCcUGH0SnjOffpMm8Y=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-Debug information are mainly read by human, so use full name instead
-of values.
+Debug information are mainly read by human, so display human
+readable values.
 
 Reviewed-by: José Expósito <jose.exposito@redhat.com>
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_config.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vkms/vkms_config.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 8788df9edb7c..ec0001adc4d1 100644
+index ec0001adc4d1..233e7ad4d45b 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -352,8 +352,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0+
  
- 	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
- 		seq_puts(m, "plane:\n");
--		seq_printf(m, "\ttype=%d\n",
--			   vkms_config_plane_get_type(plane_cfg));
-+		seq_printf(m, "\ttype=%s\n",
-+			   drm_get_plane_type_name(vkms_config_plane_get_type(plane_cfg)));
- 	}
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include <drm/drm_print.h>
+ #include <drm/drm_debugfs.h>
+@@ -358,8 +359,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
  
  	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
+ 		seq_puts(m, "crtc:\n");
+-		seq_printf(m, "\twriteback=%d\n",
+-			   vkms_config_crtc_get_writeback(crtc_cfg));
++		seq_printf(m, "\twriteback=%s\n",
++			   str_enabled_disabled(vkms_config_crtc_get_writeback(crtc_cfg)));
+ 	}
+ 
+ 	vkms_config_for_each_encoder(vkmsdev->config, encoder_cfg)
 
 -- 
 2.51.2
