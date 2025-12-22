@@ -1,86 +1,104 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33807358D00;
-	Mon, 22 Dec 2025 22:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6296833064E;
+	Mon, 22 Dec 2025 23:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766442918; cv=none; b=eV3B0px03cOt/0FWSeORBBcVbrb5uJPMHbapWMUCpEt5eclKc7GCFuSmOUcu4UrLpa68/rOZZ+GMfLXYvokuCSkcbFuODgahg8O14EDlORcAeAZkj/ujcK3gOwIMyLjnvwKFLcuE7Qgh6kSUJ85PNz5QiO4ij2xhYzWrOA3OZNk=
+	t=1766445279; cv=none; b=HsNWrIA7goTQkRs3kmXmwHtSQWx6DcGLo/s3MNY4tM4DIBxZuYNt4tPgUrS8hAa1gQbC7hBediMv1vAL+J7qfUlS94uPk56Dr46APRe9mu73ALIZjOdf+6Cw+Ri2pwrumPbnrthmB/OejsI27RhcXZfnb/aChLr7iXvPUm/ucRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766442918; c=relaxed/simple;
-	bh=GSKsp1tL5XWySG9N8gPclLRwT1ctjdcM0v5lU06dUaI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ruB94QxmWdgC3N1bS7afxA9XEv07pT33/0VJS0sI8O0t25v3SjELeyBLY6S9W//bgyMZcmu5D/YI0BPTgiJTouQ15pgWKpZTwVb7Kf9wWjboKurSsSLqqqgnc7Hsnssk9UWM/R6VE0xOz7xyZDBI0Tb95gClyjXO8VKAqAkEpDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XNUz8oPX; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1766445279; c=relaxed/simple;
+	bh=gNlLZ5nOeoUzeuq4K/SxKHWJSYmyPmdCkyNhtbZvdOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IfFzPFJUMJV0O4Ii8qyJm+/5JY/dULBwR3IbbYfJgIANbtMdpYYU/MRL+Hj0btQjrGAwOC0jcBaI/d++33JLv0JnYhEDy/HK0M3QZBOGFEngyH3ju1rWl4CEidFfxlh9jMkFshZKin9xacDvChi+P33iRgZN7KGqK7tsEbbL4Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLDvjaFE; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XNUz8oPX"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E004C4040B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1766442915; bh=TUEuW0fHa6kMfeithA5xJodq6Ikm0TL8c0pT5q/8Q50=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XNUz8oPXKygV64KpxvjI2rOiUr1HrQm1qsn28edY/HVNTO9bnXPyBjKzPHvDkIDnH
-	 MngCOgbGWnhKTtNvlc10bTyZe5tU6CZSto0IcZbEej6atAF/liL3Q7g2Cgs2RUGN0I
-	 XuBeG3EEdqzHamA2Z/93OrklFoR3DY0kyqAYjW179sXUT4wP8ECma2u0f8J0x0gchZ
-	 53cAJXqbspHpawAdo3y6MhbkIOAP30A2hBi28ZLxp/eOICK82K1VfuYiH3+Y4TiLFl
-	 B80JFE7DPeKf0hBebroNUGewgMFKjZU4EpW7909rwUBnSsan1ol/4WzECg7Bf2heLj
-	 64TG0HFsw3nZQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E004C4040B;
-	Mon, 22 Dec 2025 22:35:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Cc: Clark Williams <clrkwllms@kernel.org>, John Ogness
- <john.ogness@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [PATCH v2 0/3] Documentation: Update the real-time documentation
-In-Reply-To: <20251127154343.292156-1-bigeasy@linutronix.de>
-References: <20251127154343.292156-1-bigeasy@linutronix.de>
-Date: Mon, 22 Dec 2025 15:35:14 -0700
-Message-ID: <87zf7axhzx.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLDvjaFE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766445274; x=1797981274;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gNlLZ5nOeoUzeuq4K/SxKHWJSYmyPmdCkyNhtbZvdOU=;
+  b=FLDvjaFEkm1tedn18irkFhs2tIZWN7jsH6h8e2UtFeIo9RlkzZKbu9FQ
+   K9x6goa5C1aiklPC1gcHkL4TA+Wt4wOM69Si5t1ICAILiHYswNqFdigex
+   H/79QuqcOK+CIjvOWDAVOmJZWGhOwa3fSBNgIoXzJw+HFo4lYUk9Fk6Qc
+   ASt2cbT4R1dZT3LYHJwJnxV0RxW8vqwxY4KJNFHyHXbNyIQ0+1WGmA/0U
+   97itDvkI/dh5WwX/RdCgbCkWs7nx6vMlE48jGkRDlpCurBT5yueuowIP7
+   G0OsbRAq7slvJ4UhVzc7iLVjCBiYNNeHKhVmIugxUD2AEyPR298WgdNqz
+   w==;
+X-CSE-ConnectionGUID: RtbReEZiT9qfnq5AOky0/w==
+X-CSE-MsgGUID: 2UJMBhhhTqSDX0W2qN/8ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68284285"
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="68284285"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 15:14:33 -0800
+X-CSE-ConnectionGUID: YQjmy6IhR2CJ08GerPwzXw==
+X-CSE-MsgGUID: fHY8B+FaQYKhC32W+AnbJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="204120079"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 22 Dec 2025 15:14:30 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXp6O-000000001Co-3RkE;
+	Mon, 22 Dec 2025 23:14:13 +0000
+Date: Tue, 23 Dec 2025 07:12:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, victoria@system76.com,
+	sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <202512230638.scAuFLVV-lkp@intel.com>
+References: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
+Hi Louis,
 
-> This series adds an overview over hardware. It does not explain every
-> tiny bit but explains for instance why power management or USB might be
-> a bad thing.
->
-> I also collected Lukas' patches which rename a referenced Kconfig symbol
-> and a maintainers entry for the docs.
->
-> v1=E2=80=A6v2: https://lore.kernel.org/all/20251120113708.83671-1-bigeasy=
-@linutronix.de/
-> - picked up tags
-> - s/busses/buses/ as per Randy Dunlap
->
-> Lukas Bulwahn (2):
->   Documentation: update config name in real-time architecture support
->   MAINTAINERS: Add doc files on real-time support to Real-time Linux
->
-> Sebastian Andrzej Siewior (1):
->   Documentation: Add some hardware hints for real-time
->
->  .../real-time/architecture-porting.rst        |   3 +-
->  Documentation/core-api/real-time/hardware.rst | 132 ++++++++++++++++++
->  Documentation/core-api/real-time/index.rst    |   1 +
->  MAINTAINERS                                   |   1 +
->  4 files changed, 136 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/core-api/real-time/hardware.rst
+kernel test robot noticed the following build warnings:
 
-Set applied, thanks.
+[auto build test WARNING on 8e7460eac786c72f48c4e04ce9be692b939428ce]
 
-jon
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Documentation-ABI-vkms-Add-current-VKMS-ABI-documentation/20251222-181426
+base:   8e7460eac786c72f48c4e04ce9be692b939428ce
+patch link:    https://lore.kernel.org/r/20251222-vkms-all-config-v3-18-ba42dc3fb9ff%40bootlin.com
+patch subject: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+config: i386-randconfig-141-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230638.scAuFLVV-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230638.scAuFLVV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230638.scAuFLVV-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/vkms/vkms_configfs.c:676 expecting prototype for parse_next_format(). Prototype was for vkms_configfs_parse_next_format() instead
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
