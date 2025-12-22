@@ -1,42 +1,42 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AA130C600
-	for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 10:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B213128D9;
+	Mon, 22 Dec 2025 10:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766398278; cv=none; b=R3BycjMLLsRXwMBGT61IbEgSge0yZ3AkVlMe/J3sQfaPbIAonucKLsPvhkGv4HzfTdPHmxYVN64kFh95M1SGGA8BaMWNjCv2EV94tpY9NartzyhGqvTiZpIDDSdNwFLg9oo+wBf42EEs6cN0k7VhisMkgdNsYfmUnCD4QR8MlDQ=
+	t=1766398280; cv=none; b=DK+pcbjj01isej23pFGxHWtQxi7/qoH0MfM89F1Slhp9DozQlzR8rl3RlIJXixikA1Y6fNslXfpXgRuJ2ayjK0O45ODoEjYaQqFMeq1WVpeXni1gURq+ZK/yuznBiY5Zg483rnPiku2t+yncoGHsix7XgNxR5jrgCO++PyrNysQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766398278; c=relaxed/simple;
-	bh=fKVcqX3gt9HWv3UrYSPLutXF0KAtxtD01MuzRGvxfOk=;
+	s=arc-20240116; t=1766398280; c=relaxed/simple;
+	bh=67GX81QjAKaNiRN7eRAMsUYloq514Vv/5gM6Eubw9LY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JDUIDvDEu9H/dTFi5FSB/eYQ7vM63bQO/FhWjS6kVBeJynx8awX0vuwc6NqcGy2F+vOSrNURwYstsqaBSaYxvb+hcaHyrKH6K5nz7KMsC/cl/VCKAeLyAYXIzafQi3mfMMRZjgoULvYgTmzV5WLqm+0bcJrX61tCystb6Q4wleg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DijC7KBl; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=tZtjh12X7VWAYp2l6sApm3M6qXNnq87SFzTdG8WisVKN3zgbE/5jOC0VGt7qdotNxzRFTGwMQCXPnC2uLc2kwCmfLozfXEgXuU8RifHoO2Qz3ZoDQG0hQ+SPLH8w7QAFeGLX2Y3kjBgB4o4qq0nMMDj/Exy5xPB0txO+qzzB6D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yrQ13n9f; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DijC7KBl"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="yrQ13n9f"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C13C54E41D33;
-	Mon, 22 Dec 2025 10:11:14 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D245FC1AE06;
+	Mon, 22 Dec 2025 10:10:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8DCF3606C1;
-	Mon, 22 Dec 2025 10:11:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8ADD010AB0194;
-	Mon, 22 Dec 2025 11:11:11 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CE325606C1;
+	Mon, 22 Dec 2025 10:11:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DB34910AB019F;
+	Mon, 22 Dec 2025 11:11:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766398273; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1766398275; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=HmDVzyqEe/Jq+20MUVsc6IeQHVqNx5QgQOxY/IMi8X0=;
-	b=DijC7KBlG8Cjl7hcxJRC4Qbk979zAa8sTGu5kuLIo/Jy3e61JzKFv2xhdngNR6d7ir6FqO
-	UvOPYOMAl8IUfLpKrCt35fIr96UbFfEXSJ9zjy6QeL/yUiWilcONAWmXKt+ix76Pk5GNfS
-	j32U9I1SEW9QzhrMFrx9aCTzbEXVVUpirEa7DuWJ6RJh0Zx5lpWdkbDPq18xjfb17gbWCA
-	4Y+ffpIAac041rRLhOuDoHLXcPqsz2gPn+3m1oxw427iXVd2nhfpHMfBS8guPIAr5+2wdL
-	s52MKT6F9FRq/Zpyx3bRS9eV5WX6LnkP7lNiLd2p/KrjXE7nzEqeHMu9ehBEFg==
+	bh=gJ1Zow46kC2t8niE60P0MnSu70oxI/H0jOwJmcAOuLU=;
+	b=yrQ13n9fGAL0bsXnhjsJr113U3eeQOg7JmH3uaT6mCfBDk/A1UkY6O1GyQ7ys1IgWpIo5e
+	TTPf0NiSn0njeiYEby6ZqpppVsMEtCtbVKcW2QnsXfD4/s/uImGVPeXNj6aAwWKls8xkmP
+	EL8EnWM8LMJm+7weWBhNJl/8MxsSDV+qGLfrGDxJ4Jk412KloCJ+gBLDxg3pm6FOXzKOtx
+	RqMrNfa+1Zum9Qip8D1BJ+CnQdjY5UBJKwMWVH+4ocUwhx7S+WzAhmEgfxuNicE6Nz7h7D
+	vocgBeJMgk6Dsff82hCs8qLK0M1IzGxB7LW6Ek5xtZzoTwlpZD/6jbHKe0UAyA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Mon, 22 Dec 2025 11:11:03 +0100
-Subject: [PATCH v3 01/33] Documentation: ABI: vkms: Add current VKMS ABI
- documentation
+Date: Mon, 22 Dec 2025 11:11:04 +0100
+Subject: [PATCH v3 02/33] drm/drm_mode_config: Add helper to get plane type
+ name
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,8 +44,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-vkms-all-config-v3-1-ba42dc3fb9ff@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251222-vkms-all-config-v3-2-ba42dc3fb9ff@bootlin.com>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 In-Reply-To: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
 To: Haneen Mohammed <hamohammed.sa@gmail.com>, 
@@ -57,159 +57,85 @@ To: Haneen Mohammed <hamohammed.sa@gmail.com>,
 Cc: victoria@system76.com, sebastian.wick@redhat.com, victoria@system76.com, 
  airlied@gmail.com, thomas.petazzoni@bootlin.com, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>
+ linux-doc@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito@redhat.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4636;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1969;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=fKVcqX3gt9HWv3UrYSPLutXF0KAtxtD01MuzRGvxfOk=;
- b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRk/7dPZjWG8ymYs690lI5XNikF3uUZ9I3XpZ
- qhES8XSgYiJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZPxsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOKqgA/8DAfnpGDTv51JM8eswwjhrhZTuAm6cED
- KerAGakI4Wp6DHJ4j8HcJ5ma6ZURfbf5q4Y6bbCxem4YjGkHIYHH86Zm92uUzJ3puqgXQSPbS1O
- BDHg6FzSx3ggDEbNSkPqo7XHXrcJ4ktpBZ+k/5DT6h2+gro97QqQYdP7Lj9KVH6vQqqloKqfMlJ
- c2aRedJsNk02zWkhoM2LlJtfz9ayG46lUZJ8ZJ1XPgkYBF38fhgYHqqPJ7AYqgjm2mzZF+cqHdh
- /HHuSdQOfAeuXZ+MhjQVQMCVg5hEq9glgsv/7hVDW5dVnqhzafeZ9CPSmBw/z73cvgxFjVvsJl/
- 7HUnkP6WzjjM4OoKiha8FINJ3c+nbZaM5ho6g2FYMyoiglHGuUNs+wgoXESzZiA5Q1rrpQRxdNo
- VS0JJNMw4pmOTm0/A5VxEYLLZSuxvkPugd/KRvCxmKYnt48H8hTP6daQU2IRSFnel/rjN0OVXwm
- 1dvw29Ao9aq8IPlVB9Ii7/uOR6l8XTivjfsXKVqq06GBwPVyOpzos0GQVnoQjeHAHBTC3KZGupl
- ENYsfgle7G3EWkFTZi9XpnNhDlacuaq8+ot1+aVyn1AGtuYl6ngXNgC3lc1pDNAjyz2mDPbOi/g
- i5ZUFACTQhKWeBeSwmI5OMLrSGwco7BJWAYDiyvMJpKEX1Fk8fLw=
+ bh=67GX81QjAKaNiRN7eRAMsUYloq514Vv/5gM6Eubw9LY=;
+ b=owEBiQJ2/ZANAwAIASCtLsZbECziAcsmYgBpSRk/lkUL9Esjf7fYdWIIYfgsyKwbbiEcPzHQV
+ emrMFA9AZWJAk8EAAEIADkWIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaUkZPxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQIK0uxlsQLOK+eQ//V4FWeLzgRsoB4/0mhVGkZMMs8Ox2kDm
+ OL/W/1jDKntANvDaHcD4TKu395pAA8RZomn2CugiEXX4FtrLF2LE6dyk7e1AK4+I6oeUU8C3E2T
+ g29ML1D2PjObucd3XoZQvxPyo1RRXpc1nK6fPTgBYg0yfdYaTsKlXAEjatM7vUjF5HkMHk5Urk9
+ pME34tvApNhr4YVrrPEDgvtsQsaSz9pNMHC+DJTP1SuGuPUY6hNfFYofBlVOvfB1G4wb6J/Ij5Y
+ NVXMhR6nq7N6HzySUCCZpY14aqGDOAALDZVovn1boEysn6uA8KMpBqzBVf06RHacJ1mvwVsDtzS
+ ixBTVMvK0HUWpxSfAPWKM8LIgBSrGdeVcSQKXLIBozx3aluCj/iItW6SVdeKQgUhDHGoa/VtpCx
+ AJEOF0U6mrhfsLHG4xI1qKS4AE5KOLB0KDnaRU6HU8eMu9K7XH7fEWF5Kx2DGRVuknSBT+C16uK
+ yAybnMsUDh2BHcJToC+2t4gN/XbCqbBOTU8C+rBraxn5SyFszDxFho5ylkfbBrAAqWbFX1riow7
+ QTl+snbIoYwCNfvFhfnhuwI4R+yRUphVhDyxuVntae4+UM13KFlcYxN7apRXKG5fIPDcgKx+oOQ
+ 5e946kLrLcvp8HKFep7gTvMrdOLZx/LYspLdpRzyT8O8z9xyzLcY=
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-Last-TLS-Session-Version: TLSv1.3
 
-VKMS recently introduced a ConfigFS API to configure new devices.
-Add proper ABI documentation.
+Create and export an helper to display plane type using the
+property string. This could be used to display debug
+information in VKMS.
 
+Reviewed-by: José Expósito <jose.exposito@redhat.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/ABI/testing/configfs-vkms | 118 ++++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
+ drivers/gpu/drm/drm_mode_config.c | 16 ++++++++++++++++
+ include/drm/drm_mode_config.h     |  3 +++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-new file mode 100644
-index 000000000000..0beaa25f30ba
---- /dev/null
-+++ b/Documentation/ABI/testing/configfs-vkms
-@@ -0,0 +1,118 @@
-+What:		/sys/kernel/config/vkms/
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains sub-groups corresponding to created
-+		VKMS devices.
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index d12db9b0bab8..c940a67e255b 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -231,6 +231,22 @@ static const struct drm_prop_enum_list drm_plane_type_enum_list[] = {
+ 	{ DRM_PLANE_TYPE_CURSOR, "Cursor" },
+ };
+ 
++/**
++ * drm_get_plane_type_name - return a string for plane name
++ * @type: plane type to compute name of
++ *
++ * Returns: The name of the plane type. "(unknown)" if type is not a known
++ * plane type.
++ */
++const char *drm_get_plane_type_name(enum drm_plane_type type)
++{
++	if (type > 0 && type < ARRAY_SIZE(drm_plane_type_enum_list))
++		return drm_plane_type_enum_list[type].name;
++	else
++		return "(unknown)";
++}
++EXPORT_SYMBOL(drm_get_plane_type_name);
 +
-+What:		/sys/kernel/config/vkms/<device>
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains sub-groups corresponding to the VKMS
-+        device <device>.
+ static int drm_mode_create_standard_properties(struct drm_device *dev)
+ {
+ 	struct drm_property *prop;
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 895fb820dba0..f4c580fa2a52 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -30,6 +30,7 @@
+ #include <linux/llist.h>
+ 
+ #include <drm/drm_modeset_lock.h>
++#include <drm/drm_plane.h>
+ 
+ struct drm_file;
+ struct drm_device;
+@@ -1001,4 +1002,6 @@ static inline int drm_mode_config_init(struct drm_device *dev)
+ void drm_mode_config_reset(struct drm_device *dev);
+ void drm_mode_config_cleanup(struct drm_device *dev);
+ 
++const char *drm_get_plane_type_name(enum drm_plane_type type);
 +
-+What:		/sys/kernel/config/vkms/<device>/connectors
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains sub-groups corresponding to the
-+        connectors of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/connectors/<connector>
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains attributes corresponding to the
-+        connector <connector> of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/status
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        Connection status of the connector. Possible values:
-+        1 - connected, 2 - disconnected, 3 - unknown.
-+
-+What:		/sys/kernel/config/vkms/<device>/connectors/<connector>/possible_encoders
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains symbolic links to possible encoders
-+        for this connector.
-+
-+What:		/sys/kernel/config/vkms/<device>/crtcs
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains sub-groups corresponding to the
-+        CRTCs of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/crtcs/<crtc>
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains attributes corresponding to the
-+        CRTC <crtc> of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/crtcs/<crtc>/writeback
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        Enable or disable writeback connector support for this
-+        CRTC. Value: 1 - enabled, 0 - disabled.
-+
-+What:		/sys/kernel/config/vkms/<device>/encoders
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains sub-groups corresponding to the
-+        encoders of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/encoders/<encoder>
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains attributes corresponding to the
-+        encoder <encoder> of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/encoders/<encoder>/possible_crtcs
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains symbolic links to possible CRTCs
-+        for this encoder.
-+
-+What:		/sys/kernel/config/vkms/<device>/planes
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains sub-groups corresponding to the
-+        planes of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains attributes corresponding to the
-+        plane <plane> of the VKMS device <device>.
-+
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>/type
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        Plane type. Possible values: 0 - overlay, 1 - primary,
-+        2 - cursor.
-+
-+What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        This group contains symbolic links to possible CRTCs
-+        for this plane.
-+
-+What:		/sys/kernel/config/vkms/<device>/enabled
-+Date:		Nov 2025
-+Contact:	dri-devel@lists.freedesktop.org
-+Description:
-+        Enable or disable the VKMS device. Value: 1 - enabled,
-+        0 - disabled.
+ #endif
 
 -- 
 2.51.2
