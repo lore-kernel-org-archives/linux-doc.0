@@ -1,129 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DD5328B79;
-	Tue, 23 Dec 2025 12:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7EB221FA0;
+	Tue, 23 Dec 2025 13:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766494704; cv=none; b=jL7eOeSNPNW/ZAWpPPH4izvIXaKn4FQbCm16t7QJjwz/iq4/pGnYrnghPlFTIot57UnBn/G4TIkjcEVg/WHbHhl42nvhApf3M3VB6FrcKPKTrhFxjdHQFMvhz2s8rI0d0rn5sbabgRwV3QR/RVqKIaxjlP7dghlqGQ7aaoXc+9o=
+	t=1766495206; cv=none; b=S9v1z7vbI6+xVnICLTbyX0shvDv+Rgwkr+bDdiaS7sRo6x0g5CbmMMgYQ+ZGBGeNXMZtcPm0FUdRPBsTPIuc9d8v+O5ZKVYi5dEuj9UbtpqFgio7bC9muRKYHLvHc9751sHLzPvpS1A1Kr7Y89/V/twkzAN0NWNqi7lQYpufBjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766494704; c=relaxed/simple;
-	bh=GelePM2/rzKVnTx6xZkND24wIhH+GyObS5uf8hoVE9U=;
+	s=arc-20240116; t=1766495206; c=relaxed/simple;
+	bh=VL07pAku+WMfh2Tgms4l8zBYIH0Nriu7UpIJArRTLIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZJPnJuqlSe+rc1L0NMxNhWBvpcaAycbaqpuqtLXibpy+ni9BLxk6Bxo1FX3jr3caGtxJCsZktK4DMVBtNaWZJtXHjaJD1zI38CWoEb4e10qBnzhOA6n8hYXY8pjq2u/kcUUAOfufoSss3ovWyvV8I+LXhjDpuXBjztU/Fxn08rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibrV99l8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQPFwdqdh6jDTzwuKnF48S6qTvlXaWI7DU6zIxQFU81DC91VJ4Zl3Nxz2f8PJKfMf7zVSmcFdt6Wh3znuwYwdejMAQxseahcLRk6Ebv4SDydAZ94mUN9Gibaim3NLkRNVftty+SIGaJ1kVKGF9EooX9pNchkzV3rG10KEEVGRDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkK1pPZN; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibrV99l8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE669C113D0;
-	Tue, 23 Dec 2025 12:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766494703;
-	bh=GelePM2/rzKVnTx6xZkND24wIhH+GyObS5uf8hoVE9U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ibrV99l8yC9mtRis5bOw5djBep9SwSZ2NeVCvmcu32HrM7M2VdL9QH/SkCMCQeZNs
-	 EpGkmF1cAz4LHE5PtNs28eCP7y1i4WHvbJKSVCZZmJpA2BO1qBZ3S58dwXwicPY6AP
-	 /Q7PkufHXRNkSNgeAgUWYCFecV97K5CnT7/Vh4BzHSaY3NOLOGX515eNdnrpDV9bFY
-	 r2gFMgAEq958KhHmuV+1f+hbWRpuigvGlaMbCmhz+XKwiOvZWXTc/cNlPR+lPhTynw
-	 UnlAFc/ISIkLzbjkQa8oAD4zPg/B+6DCxQ+/orP1g4DylY/OpH3vnGQAGb9CWcFiHE
-	 /ZHGKmGtbdIIw==
-Date: Tue, 23 Dec 2025 13:58:19 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Charles Hsu <hsu.yungteng@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: add STEF48H28
-Message-ID: <20251223-hissing-wonderful-sawfly-1b41ce@quoll>
-References: <20251223014832.1813114-1-hsu.yungteng@gmail.com>
- <20251223014832.1813114-2-hsu.yungteng@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkK1pPZN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766495205; x=1798031205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VL07pAku+WMfh2Tgms4l8zBYIH0Nriu7UpIJArRTLIo=;
+  b=OkK1pPZNzLOUEBYGOKZANLeE5GrhBChVMxFlY4hO7i8CS052RI24pjfr
+   Z5QLO26yEYKFU3S7vG4iaH/QKWk+O97hkoDaH/W8N8T73gJKcBnvffsD+
+   VcGp0ITsJlHWQOa5oGgX9pZxJ7hNAZK10/JQ/XCdbxyW0Lh1DwyRpHySR
+   /KSxoSxSkThs0SeDAx1p+KTWpbhjCvbvUwqzjEMHtKPp9kMqHCD2NtD1V
+   u7fa3h7hfizbSoxon6fhl02+BtWx5B5v+DDGqO47QBvG1+iZhG2mQB6uY
+   tRDYHypv0KU/CXDzSjBX83RV9VOWzMFBG1CpU/qSokKhWP6MM15NthIJv
+   g==;
+X-CSE-ConnectionGUID: 4Uh3rk7XRmu1gs6BKsmmvw==
+X-CSE-MsgGUID: IW0y4tNdRVqm9bi1jpo3Bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="85931716"
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="85931716"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:06:44 -0800
+X-CSE-ConnectionGUID: QHI9sH8zSw+VzWNEjJHO3Q==
+X-CSE-MsgGUID: 3Fxvn/v1TimMHiVPVYHmpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="200077636"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Dec 2025 05:06:41 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vY262-000000005w8-2btX;
+	Tue, 23 Dec 2025 13:06:38 +0000
+Date: Tue, 23 Dec 2025 14:06:15 +0100
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, victoria@system76.com,
+	sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <202512231419.lVidy4qV-lkp@intel.com>
+References: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251223014832.1813114-2-hsu.yungteng@gmail.com>
+In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 
-On Tue, Dec 23, 2025 at 09:48:31AM +0800, Charles Hsu wrote:
-> Add device tree bindings for the hot-swap controller STEF48H28.
-> 
-> Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
-> ---
->  .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> 
+Hi Louis,
 
-I do not understand what happened here and nothing is explained WHY in
-the cover letter.
+kernel test robot noticed the following build warnings:
 
-You did not respond to any comments
+[auto build test WARNING on 8e7460eac786c72f48c4e04ce9be692b939428ce]
 
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> new file mode 100644
-> index 000000000000..e4711c4ef38a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Infineon XDP730 hot-swap controller with PMBus interface
-> +
-> +maintainers:
-> +  - Charles Hsu <hsu.yungteng@gmail.com>
-> +
-> +description: |
-> +  The STEF48H28 is an advanced 30A integrated electronic fuse for
-> +  the 9-80V DC power lines.
-> +
-> +  Datasheet:
-> +    https://www.infineon.com/assets/row/public/documents/24/49/infineon-xdp730-001-datasheet-en.pdf
-> +
-> +allOf:
-> +  - $ref: /schemas/regulator/regulator.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - st,stef48h28
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        stef48h28@11 {
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Documentation-ABI-vkms-Add-current-VKMS-ABI-documentation/20251222-181426
+base:   8e7460eac786c72f48c4e04ce9be692b939428ce
+patch link:    https://lore.kernel.org/r/20251222-vkms-all-config-v3-18-ba42dc3fb9ff%40bootlin.com
+patch subject: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+reproduce: (https://download.01.org/0day-ci/archive/20251223/202512231419.lVidy4qV-lkp@intel.com/reproduce)
 
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-If you cannot find a name matching your device, please check in kernel
-sources for similar cases or you can grow the spec (via pull request to
-DT spec repo).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512231419.lVidy4qV-lkp@intel.com/
 
-> +            compatible = "st,stef48h28";
-> +            reg = <0x11>;
+All warnings (new ones prefixed by >>):
 
-Incomplete. Where are all other regulator properties (you claim this is
-regulator), suplies, etc.
+   Using alabaster theme
+   ERROR: Cannot find file ./include/linux/pci.h
+   WARNING: No kernel-doc for file ./include/linux/pci.h
+   ERROR: Cannot find file ./include/linux/mod_devicetable.h
+   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
+>> Documentation/ABI/testing/configfs-vkms:156: WARNING: Inline emphasis start-string without end-string. [docutils]
+   ERROR: Cannot find file ./include/linux/bootconfig.h
+   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
 
-Best regards,
-Krzysztof
 
+vim +156 Documentation/ABI/testing/configfs-vkms
+
+ > 156	What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
+   157	Date:		Nov 2025
+   158	Contact:	dri-devel@lists.freedesktop.org
+   159	Description:
+   160	        List of supported formats for this plane. To add a new
+   161	        item, write its fourcc code prefixed with '+'. To remove,
+   162	        use '-' prefix. Use '+*' to add all formats, '-*' to
+   163	        remove all.
+   164	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
