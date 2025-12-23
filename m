@@ -1,109 +1,128 @@
-Received: from mail-yw1-f195.google.com (mail-yw1-f195.google.com [209.85.128.195])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260072D0C7E
-	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 03:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796672DC320
+	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 03:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766459370; cv=none; b=mzjmjgeYsYsYeuxrBSqiT+aw3XitOD9OqpcgJchx6jmiHS92STnqvUdm9eYXkaU029B4PQ+zEeIH/7gVLaDCrMcqGZdfIVM+gkOlTosWXS1KfzijjYfCAtTFw2sD0m4CISmiCLoEYT3Y/6Wy8W8pC1ON307/EFo+GzjnnLNIGAk=
+	t=1766461995; cv=none; b=r3z3dQrO6MjPAKGA7uSAUPIvrf1G8sqabE/O7xADhkVO5zDa40SVMkmSxrdbmMhCox21Tv6rWeUCVJNPIyEZXAyOm/q5ptFZd/F5ruWiR31RymKM4Sl3BRhmdjd+tGEocLOyNAnQt3DegG5AIcITWZeqpROnvC81rDGNTFb7bOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766459370; c=relaxed/simple;
-	bh=z25X9RJAJcXbGtqIqD5CkXNEq9zX0WGe0qUFOZB7mfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XzFIFChkPgd3SrrxnbpjU7dkmcemVyoyE3m4uHNNhUyfRmUbE8LCrM0iSqj5Dvbvg+hefw5j6QFySDpHMptV7ToJL0Hwy4wraWM5oFL+sbdU/Q/A/J9LSfgOIj833w1Z0Va8+rMhMiwT96215AWIGJ14kNT3y/A+swepQIQUVOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KpI6Q3pn; arc=none smtp.client-ip=209.85.128.195
+	s=arc-20240116; t=1766461995; c=relaxed/simple;
+	bh=l8vpVY569Oyckx40UX5H0330UfQOdKlUhrq3Q1dNFf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rT6A1Kl9lyA0p/txBPZzzPc8N54pr3D8hlhsNj/wdEyKJsLiEqjzKncRAb8N1KDRKPBJsYToKC3pUCxA2H+apQCs80f2UDmc5vvIoCpkzfXsuzlJucg2RBcSxXrMm2XPYoinErGX4nwSvEDbJNx4ubPKSaP5tEQl93sAQ1OBF1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PulckeHh; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KpI6Q3pn"
-Received: by mail-yw1-f195.google.com with SMTP id 00721157ae682-78ab039ddb4so43789677b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 19:09:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PulckeHh"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7fc0c1d45a4so4185636b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 19:53:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766459368; x=1767064168; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z25X9RJAJcXbGtqIqD5CkXNEq9zX0WGe0qUFOZB7mfs=;
-        b=KpI6Q3pncToGQoyFhPBBkzSkRblsEtwWPaMKILI+vhkzUrGuZ2X/yrQPaZiPqx9KhZ
-         hrSLNx/E6xpoGgGw8ju4YJ8haTKX5euAmUjoMTbjCkh7WlMtblKXD8Ebsb7eApxQvBjD
-         oXxLEVsRg2OIYXa7T1e6d3Kgni/4LxNijInaiQ+//aMeGsit9b1CLCy6UElgutOX7Usq
-         wzSsIGKtcSme0p12i9wtA0qU0aSCJPTm7+/4UWslrl5zOV3PqVRHMmT49wllefa+VH3s
-         LDRCemRoAgmCpPFhTNTP8i6ZOdto5EIuMRMx3nG67AsR4R7XHg/nmYRmnw/vgQc3yFpv
-         n7EA==
+        d=gmail.com; s=20230601; t=1766461991; x=1767066791; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0D24J6uXd4deKAojVFzs7zUHCvmT7uQTdrQcmJj/QTQ=;
+        b=PulckeHhEi1vUUHDeh0c6cNUZIU0nkZOyIzz8IBHCE0G/WDVLEb7Hw0zQMgWo5ojvz
+         8O9+YKOUWekX2pqsiN2dfkT+thiPYb0p9Ng35Sqy1ytiM2iK87hUseel25NpOiN/txub
+         s9ek4f7UubugP1NIWOBjHAiocIFK4yLx5BnINV3ollKexcuYEfEW3YeWkIvyzt2AxGTY
+         gN0yoTcp2T5oyiKxWNMOHKcnHnXtV67zxtGG+P/vpdLBBLvz13pAuOLdxTBpnu+S2joV
+         4KoqthsCXk9oIVWCXAIM6Z6tkNQEG/5NZk119iZFMM/wCVyIrsusdZoB+6dSPjFQGR4B
+         wkrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766459368; x=1767064168;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z25X9RJAJcXbGtqIqD5CkXNEq9zX0WGe0qUFOZB7mfs=;
-        b=px2QomQK8aRqP6uyupVTC8+g5PRQF4E3ml2J07BZoF4RMLUNvlelmlz15K3B+HbUFD
-         ck/s0BoDomd/4WA7UPfA7wCH2LFg2IBo8Sw9KfkcOdSnTquMDbe0DtasmPP1Pz68q9CE
-         YjblvOr9UPiRlaPP46xNC9D//56/lyniOOwbfgYYQNAQYJA89cUee2dI4lSzlovhw522
-         qKatfYNttBSGzpp4vXGfLWysId4xn2t4dQQDnpK75I7u/LSYT5RcYTWgxNmdmCi05OrM
-         8LW4Du4Pz+uODoiFmE5qj4hWkCPcVdevjJarMhi1Kntl3yKZP/L4+KIAcwcYZ7etcAR2
-         8TGA==
-X-Gm-Message-State: AOJu0YyrimsP+XLStADpYizg2B2b2ibJ6cailF2Zyn3zCjKi6CGuWdoR
-	eo3TU8qF2LC3GyiA6CBX+QQViMOM1cS6gE1Y6Azi9+WAmdEVxyJG875U
-X-Gm-Gg: AY/fxX7p9r9NHStJ/678G47N7bLYlew+hX1va2X4pVLisUFo9xKnkLOmR34LMq0hMgB
-	npusUrr0XKYMSPm/kRwEx+xUhFeNJZF5nKFOgifnA4kBHeklBAdfdsZIzcvMnnK46TOVg2V4M2f
-	9he9wtPI9m5maKu6Ulyq9Yu9xk+J0gUfm54kTA3aU7r3LECNa5VL7B4wccZ2Q5jzH2M2zy79JBO
-	iU21fdZ2YRyhGUEaaAYOM2yNIP4fvnap9RNQ4IqLhrkdnC4P82Um3MyadSBCU19aVHHjKEsxejh
-	+IMFFOnE0bnSCHWeE8o1/jON+qS5k8a92VysZJ+yWKAcnVza7MuAxTrTiTHQ8BKJKZwS0XHQUiV
-	/LrLhl6HNeT/v37N/wJyQsRN1Hm/VFzOZOIiIcZqWJLj6RwQEmw+DcHDVzzawIdg3ny9cviisoF
-	ZkEz2jegNNY8k=
-X-Google-Smtp-Source: AGHT+IHUIUNlXPNJRTAngOEC8ma0w9tcXlKNR/2WPNbxbqc4s+u8xvSoFCu9SCTeGCec7VsCe/0nFg==
-X-Received: by 2002:a05:690c:4483:b0:78f:b044:edbb with SMTP id 00721157ae682-78fb3f28c9cmr113429327b3.22.1766459368064;
-        Mon, 22 Dec 2025 19:09:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1766461991; x=1767066791;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0D24J6uXd4deKAojVFzs7zUHCvmT7uQTdrQcmJj/QTQ=;
+        b=MLqYAiPKlUx2lVpXL+WwMCp1699RmPejANi5u+bBLYQIvdm4T3qtadxbwW1GAdf8Zl
+         lwQUvFB+Gra+vIkDD54VdktmspWWLWEuXrdh4yvgu0CfkYjFZe76pqQl3Wj/V+fcV4aD
+         HClCFSCcZitpXmU9POP5xyrXzl/RG29nBfommIa47zFNxfqJIvVhY4Q3G5YtsBJdxKZV
+         xNspoUxXMIhOvhjjiYdRkS+Mx6VTETDZFsuO46hoEdGvI/kiMGsPaXuacUiVW/2CxIP7
+         n/U4fC2q8dSMgSZjfqQyrnyrNy/1os2GHcDbwjdFjRdxdX99X+hiPzrhoWPqo6adxBd2
+         wdCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXmbTVuzlUYFdRSLpyYH+JRy4bo5J4P04MJ8LZ+3TYQFgvk+cp5oTUUe1DoP+9jfzaxgjFWt1MnxqQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH/iRyK6kh+Z60LOkl8Z1yiuGRsyk8MfkiXGZLlYo/uH46cESK
+	l55Wzef6TWfryYnOoaE4RsS+pVTa2MMG3nWbVBih9YsaKSW3j4axyTimqAh8lzXKxRI=
+X-Gm-Gg: AY/fxX6vOPfUZgsOIqqYhd1HoAMDnPUZnl/Uai+kvLFukRAlqAfkGHdg/kd6tBe9VB7
+	pultaE0VXG3d1COHV95xo87tY037Pin+AkPw8SUmiq9b9CBGzQDYV6a2/FX/PJ/jk8dTSrfiDcZ
+	gMTJhGsUWi/3Nffno04zaqCstO2w3cDxUPfXRhVsrbJrantr2vFLsCjSzoLTT/2BYBB6G+gPTcz
+	NQ3Sn5d1ImP0BnRy0xU+T3IZ7fj6POrmBRQaAfazptJxkY/1lPaOc15xthHJyukcCWQkvK1O+kT
+	SIg0Poz6PqWKTPfxNoMbMTZ7vUPwRoaAgXCWMvP4IV1ca2OSBNaed+hI8/9iLgcn+7WYrHQkKsx
+	tIbbzXrbSBVzaMN324giHoQFncPKpt7Vh1UP6fmo1QKqLZ8VLkW/jMdGbzlH2R3w4aOZ2iR/e+T
+	sywB6DxSvxKEw=
+X-Google-Smtp-Source: AGHT+IEx8Kxuzpauxz8j5bexuvVg4OSB4GXVnot/Oby6DYNgp6h3jjSxVX637GGChiCWB3TqaeT9eA==
+X-Received: by 2002:a05:6a20:4310:b0:366:14ac:e200 with SMTP id adf61e73a8af0-376aa6fb43bmr9894669637.62.1766461990991;
+        Mon, 22 Dec 2025 19:53:10 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fb4377c99sm50053177b3.3.2025.12.22.19.09.25
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7c14747csm10427342a12.27.2025.12.22.19.53.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 19:09:26 -0800 (PST)
+        Mon, 22 Dec 2025 19:53:10 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 4DCD9420B572; Tue, 23 Dec 2025 10:09:23 +0700 (WIB)
-Date: Tue, 23 Dec 2025 10:09:23 +0700
+	id 5DA8C40AF86C; Tue, 23 Dec 2025 10:53:07 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Thorsten Blum <thorsten.blum@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: kernel-hacking: Remove :c:func:
- annotations
-Message-ID: <aUoH4_rcdNr_YV7h@archie.me>
-References: <20251222232506.2615-2-thorsten.blum@linux.dev>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 3/3] Documentation: kernel-hacking: Convert internal links
+Date: Tue, 23 Dec 2025 10:52:53 +0700
+Message-ID: <20251223035254.22894-4-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251223035254.22894-1-bagasdotme@gmail.com>
+References: <20251223035254.22894-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nRrZtquQWCYHAFwT"
-Content-Disposition: inline
-In-Reply-To: <20251222232506.2615-2-thorsten.blum@linux.dev>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1951; i=bagasdotme@gmail.com; s=Zp7juWIhw0R1; h=from:subject; bh=l8vpVY569Oyckx40UX5H0330UfQOdKlUhrq3Q1dNFf0=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJlegp5dL18e+5V2kv/GmwwhbZbbviyynvf62bvXVqvcv aMRcripo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABO5NJ/hv9cDFt2bryLWyah5 sW6ZJNfFHfEo/Gi1dMIJ4556J6PtXxgZzohelu6+ErTlieerhJ9pKvZXdznvcu4t1l4q11frMvM 5GwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Convert internal cross-references in "Putting Your Stuff in the kernel"
+section from inline code to internal links.
 
---nRrZtquQWCYHAFwT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/kernel-hacking/hacking.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Tue, Dec 23, 2025 at 12:25:04AM +0100, Thorsten Blum wrote:
-> Remove the useless :c:func: annotations.
-
-The patch LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index 1d120ff80f956c..ef527bdc5f8daa 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -735,7 +735,7 @@ make a neat patch, there's administrative work to be done:
+ -  Usually you want a configuration option for your kernel hack. Edit
+    ``Kconfig`` in the appropriate directory. The Config language is
+    simple to use by cut and paste, and there's complete documentation in
+-   ``Documentation/kbuild/kconfig-language.rst``.
++   Documentation/kbuild/kconfig-language.rst.
+ 
+    In your description of the option, make sure you address both the
+    expert user and the user who knows nothing about your feature.
+@@ -745,7 +745,7 @@ make a neat patch, there's administrative work to be done:
+ 
+ -  Edit the ``Makefile``: the CONFIG variables are exported here so you
+    can usually just add a "obj-$(CONFIG_xxx) += xxx.o" line. The syntax
+-   is documented in ``Documentation/kbuild/makefiles.rst``.
++   is documented in Documentation/kbuild/makefiles.rst.
+ 
+ -  Put yourself in ``CREDITS`` if you consider what you've done
+    noteworthy, usually beyond a single file (your name should be at the
+@@ -754,7 +754,7 @@ make a neat patch, there's administrative work to be done:
+    it implies a more-than-passing commitment to some part of the code.
+ 
+ -  Finally, don't forget to read
+-   ``Documentation/process/submitting-patches.rst``
++   Documentation/process/submitting-patches.rst.
+ 
+ Kernel Cantrips
+ ===============
+-- 
 An old man doll... just what I always wanted! - Clara
 
---nRrZtquQWCYHAFwT
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaUoH3gAKCRD2uYlJVVFO
-o2GZAP9pgNX4TxrJ1Yu0ylpBfyZv2C/IOXQjG27AF4jfyZFcyAEA/WdgXG7wts0k
-IbSThRZVRryQnnneRbtIN23s68dLBAo=
-=GgDP
------END PGP SIGNATURE-----
-
---nRrZtquQWCYHAFwT--
