@@ -1,149 +1,129 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456CA311C11
-	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 12:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DD5328B79;
+	Tue, 23 Dec 2025 12:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766494581; cv=none; b=ILzuyshJm0OyLkZ5JdB/6jfGPXsp18Y7L2NjvxQawHZgNZS/iT/S9Q7CSogH9THdx2M+53/R10ClhF9ZYOBiR2/47a7d53ZGdViCQ6EhLgrUx7rL+0izXtTqE44ZG5vbdNhNaQDBcbDsfxGKyTYTc/uTLko1B62wnxypg6n7LHA=
+	t=1766494704; cv=none; b=jL7eOeSNPNW/ZAWpPPH4izvIXaKn4FQbCm16t7QJjwz/iq4/pGnYrnghPlFTIot57UnBn/G4TIkjcEVg/WHbHhl42nvhApf3M3VB6FrcKPKTrhFxjdHQFMvhz2s8rI0d0rn5sbabgRwV3QR/RVqKIaxjlP7dghlqGQ7aaoXc+9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766494581; c=relaxed/simple;
-	bh=+vNrHV00bDw+659hIS/F03Bd6EpmW6mCxIjl4rYYDVw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=aq+bN/19C7bqnxmCu0nXROvC3S1TkpEHsga3x6LfE1+3bWb4DMm1l0AAT4C5nFk1WPKECHxPhJ09euInCtWuPwrxfUag9hP4FmVJbmdzZsd9QptEyKXDvOtGmXwIKtP9uBE0mlRLXNRabTpXxNW5q/1og/yoVbmMyZT8n8o4l/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lObb7jai; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1766494704; c=relaxed/simple;
+	bh=GelePM2/rzKVnTx6xZkND24wIhH+GyObS5uf8hoVE9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZJPnJuqlSe+rc1L0NMxNhWBvpcaAycbaqpuqtLXibpy+ni9BLxk6Bxo1FX3jr3caGtxJCsZktK4DMVBtNaWZJtXHjaJD1zI38CWoEb4e10qBnzhOA6n8hYXY8pjq2u/kcUUAOfufoSss3ovWyvV8I+LXhjDpuXBjztU/Fxn08rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibrV99l8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lObb7jai"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 772E54E41D5C;
-	Tue, 23 Dec 2025 12:56:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3083260716;
-	Tue, 23 Dec 2025 12:56:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 67B6E10AB047E;
-	Tue, 23 Dec 2025 13:56:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1766494575; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=v11StIVYhZW6pNTNvm2d00yDP+Y/pPkF0IvfYZUT+Hw=;
-	b=lObb7jaiJpxfKsS5jJoLgOlK4NgWwBycnaEXq+JymdWbNgc+WIXZt6hp+/qRB+2+72A5O5
-	gIuqWhh3YVKUSVqnPu0Hl3nUDoolNihHzsS4nuxLxBCTQw65IWpH5AsddvbwxoqMCgrSGT
-	BOANIJSp3YgSGVAn3dPXHroctC7h+izv34dpc2+vlW/pjvvT0EXfElYX8V2tXcWbLNf3Du
-	iwSX7WpK2RGjk6brF6c8kY5eRBBJuKI2JTQPXEG/07AnHgoD6INeEbCHXjg7VU4Txhu0k4
-	YcNJQjlvjWvJwa9ox7/aZO8LTPfnII4XnhKNqJBq8EpDYqWrkt91I5iFsw2VDg==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibrV99l8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE669C113D0;
+	Tue, 23 Dec 2025 12:58:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766494703;
+	bh=GelePM2/rzKVnTx6xZkND24wIhH+GyObS5uf8hoVE9U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ibrV99l8yC9mtRis5bOw5djBep9SwSZ2NeVCvmcu32HrM7M2VdL9QH/SkCMCQeZNs
+	 EpGkmF1cAz4LHE5PtNs28eCP7y1i4WHvbJKSVCZZmJpA2BO1qBZ3S58dwXwicPY6AP
+	 /Q7PkufHXRNkSNgeAgUWYCFecV97K5CnT7/Vh4BzHSaY3NOLOGX515eNdnrpDV9bFY
+	 r2gFMgAEq958KhHmuV+1f+hbWRpuigvGlaMbCmhz+XKwiOvZWXTc/cNlPR+lPhTynw
+	 UnlAFc/ISIkLzbjkQa8oAD4zPg/B+6DCxQ+/orP1g4DylY/OpH3vnGQAGb9CWcFiHE
+	 /ZHGKmGtbdIIw==
+Date: Tue, 23 Dec 2025 13:58:19 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Charles Hsu <hsu.yungteng@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: add STEF48H28
+Message-ID: <20251223-hissing-wonderful-sawfly-1b41ce@quoll>
+References: <20251223014832.1813114-1-hsu.yungteng@gmail.com>
+ <20251223014832.1813114-2-hsu.yungteng@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Dec 2025 13:56:09 +0100
-Message-Id: <DF5M2A4RT005.KU8DTLA3CGI0@bootlin.com>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 13/33] drm/vkms: Introduce configfs for plane color
- encoding
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-13-ba42dc3fb9ff@bootlin.com>
-In-Reply-To: <20251222-vkms-all-config-v3-13-ba42dc3fb9ff@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251223014832.1813114-2-hsu.yungteng@gmail.com>
 
-On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
-> To allows the userspace to test many hardware configuration, introduce a
-> new interface to configure the available color encoding per planes. VKMS
-> supports multiple color encoding, so the userspace can choose any
-> combination.
->
-> The supported color encoding are configured by writing a color encoding
-> bitmask to the file `supported_color_encoding` and the default color
-> encoding is chosen by writing a color encoding bitmask to
-> `default_color_encoding`.
->
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+On Tue, Dec 23, 2025 at 09:48:31AM +0800, Charles Hsu wrote:
+> Add device tree bindings for the hot-swap controller STEF48H28.
+> 
+> Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
+> ---
+>  .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+> 
 
-> --- a/Documentation/ABI/testing/configfs-vkms
-> +++ b/Documentation/ABI/testing/configfs-vkms
-> @@ -124,6 +124,20 @@ Description:
->          Default rotation presented to userspace, same values as
->          possible_rotations.
->
-> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_color_e=
-ncoding
-                                                                           =
-             ^
-supported_color_encodings (final 's').
+I do not understand what happened here and nothing is explained WHY in
+the cover letter.
 
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
+You did not respond to any comments
 
-> +static ssize_t plane_supported_color_encodings_store(struct config_item =
-*item,
-> +						     const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
-(item);
-> +	int ret, val =3D 0;
+> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+> new file mode 100644
+> index 000000000000..e4711c4ef38a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	ret =3D kstrtouint(page, 10, &val);
-> +	if (ret)
-> +		return ret;
+> +title: Infineon XDP730 hot-swap controller with PMBus interface
 > +
-> +	/* Should be a supported value */
-> +	if (val & ~(VKMS_SUPPORTED_COLOR_ENCODINGS))
-> +		return -EINVAL;
-> +	/* Should at least provide one color range */
-                                             ^ encoding
-
-> +static ssize_t plane_default_color_encoding_show(struct config_item *ite=
-m, char *page)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +	unsigned int default_color_encoding;
+> +maintainers:
+> +  - Charles Hsu <hsu.yungteng@gmail.com>
 > +
-> +	plane =3D plane_item_to_vkms_configfs_plane(item);
-
-Set on declare, for consistency (and conciseness).
-
-> +static ssize_t plane_default_color_encoding_store(struct config_item *it=
-em,
-> +						  const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane =3D plane_item_to_vkms_configfs_plane=
-(item);
-> +	int ret, val =3D 0;
+> +description: |
+> +  The STEF48H28 is an advanced 30A integrated electronic fuse for
+> +  the 9-80V DC power lines.
 > +
-> +	ret =3D kstrtouint(page, 10, &val);
-> +	if (ret)
-> +		return ret;
+> +  Datasheet:
+> +    https://www.infineon.com/assets/row/public/documents/24/49/infineon-xdp730-001-datasheet-en.pdf
 > +
-> +	/* Should be a supported value */
-> +	if (val & ~VKMS_SUPPORTED_COLOR_ENCODINGS)
-> +		return -EINVAL;
-> +	/* Should at least provide one color range */
-> +	if ((val & VKMS_SUPPORTED_COLOR_ENCODINGS) =3D=3D 0)
-> +		return -EINVAL;
+> +allOf:
+> +  - $ref: /schemas/regulator/regulator.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - st,stef48h28
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        stef48h28@11 {
 
-This if() is redundant, the is_power_of_2() implies it because you already
-ruled out any unsupported bit. Also, the comment is wrong. You can drop
-these 3 lines entirely.
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+If you cannot find a name matching your device, please check in kernel
+sources for similar cases or you can grow the spec (via pull request to
+DT spec repo).
 
-Luca
+> +            compatible = "st,stef48h28";
+> +            reg = <0x11>;
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Incomplete. Where are all other regulator properties (you claim this is
+regulator), suplies, etc.
+
+Best regards,
+Krzysztof
+
