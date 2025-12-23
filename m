@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EC218EFD1
-	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 00:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC1C1DF736
+	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 00:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766449290; cv=none; b=VptGfgLPXGDPXz1gtL88ZOGtSi2iSllqkAnlhOXTDWRN5jVYvPJg+kg7yS6Cpm6KdhD5p/gyN77rS3vXbbyc4L0/xsZgXPA4hsT++G9YfsEVWsOGVfKLjj/cOZeOd0yosvF+avyYvsv343tmptMbJrCL37+xObh7Bk6g9KjVdSE=
+	t=1766450052; cv=none; b=SiHXs5nTJlhTThZuWJfJv299PL65leIJ9PsKmHSO7lRh4/4Uu0gT2N10/d+KoZJ+AJ7HNsSrnRhO8+YBGByOxdZcKwMoAko3kvGRbvuaKtDCmgoNnszazBG6Czj6D4qugQwLXCYFE3M0UgAzCxNHIVyLPxngHYD1ac2oqYv4z18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766449290; c=relaxed/simple;
-	bh=Z7tYIiWOrQpe4HwViy0qGAsbxltSoshHpG6bgv3dVSA=;
+	s=arc-20240116; t=1766450052; c=relaxed/simple;
+	bh=FKklEHyeI/njf60Igo29V9POwCT98B5Ns21zj+AF4wQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HbrRRbTFVMopdryU5hc+42HgVgMMsGbx5A1N0oGFkmQ/c+s4cjam641okqpbX8p1webD5GOLDlTlT6kcHaJiRz6r0fF1pWmv462LQvDh4/9DNzoTQ1Of0iK0kafzPovA2vXL5CEDjm8h4jXyXt22gEfOQI9oqmWp+U0pNvLb3Ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbQfbFB4; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=G0SYztSHSGwUShIP1oVlmCj3Gf1sP/BE0ZF2JTrbAGZmcthZKmZyllSainkysBmiLJOZO3OuDsl46R54wLIjpj8hR0N4IxpsYFCL2oQTp/D3tSnS0nfR5B/cwgTTis9LUaZvX9Xgri5vjm98ACqImhbZ8V0ydIGaHOM5YTz//l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMFPzbzR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbQfbFB4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMFPzbzR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766449289; x=1797985289;
+  t=1766450051; x=1797986051;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z7tYIiWOrQpe4HwViy0qGAsbxltSoshHpG6bgv3dVSA=;
-  b=lbQfbFB4ZHy1La3T26Pv0dKNB18rlbD+C3lzN+kmMJHFS9JU5w4F8lO9
-   T/25e11LRPKniuKAGY1iVhCf/D0pAbzDkokfG+yxr89WpRw1FdYqyoC1x
-   DXInKfMR+cOYZroMkOZ2I/eNv5AikSPjjCdqw49FfouAWJpasItSjb4Hd
-   mPNulAeZqfI4OPZEzvboG5DuKn5v09wz3wI4FvuSw1N+LD5x/R4jfPLnJ
-   dsmbVoPpJ+7lP6w23EtyhTqj6u8egItpyIjacOoJxkwAd9kaEkOs3XHEs
-   1Z4ONQ160REl8EFml5RPPlPQMzNeecv8UZeAcXg8T1ULNkxfeWJJSt9cq
+  bh=FKklEHyeI/njf60Igo29V9POwCT98B5Ns21zj+AF4wQ=;
+  b=OMFPzbzRyeRWNlPTxS+7N3VKNE+98MbiPsjo1zPSN4yxQnC5czp194QS
+   2IdD3w0M+5hj5bhqSJglFaWnY2Mk5/zhKcJaPRsT7cIrDawfely8awt1z
+   9cFh0na58pMH7pLYL2zxS9dhLJRvR5Dd6oNCR6JVjrDcYdXzplSj4pIyH
+   RJ2MZ1knXCCWDtuBK825X3vDHSbA7U2jwKygCBrBBNETl5bk2qmQ3a7cN
+   SgklDGOkW/u1RjPKxEQbNWBarisIUY7n5f7CinWIjIq+oTnHpAWiyimdC
+   AwZxbRv0r75G2tPeeOP9EgSjiuMI9sEFBHi+nSl+95GEZHL5m81sXXalP
    A==;
-X-CSE-ConnectionGUID: PBpTzylkQHGOi79yYDBhfg==
-X-CSE-MsgGUID: IkzkLOF+SxORGuy8PlcoqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68240439"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68240439"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:21:29 -0800
-X-CSE-ConnectionGUID: ivOTUad2QEKEvjeJoD/7Ew==
-X-CSE-MsgGUID: qVXmiNqiQO63NPRbD0fFLw==
+X-CSE-ConnectionGUID: Qo+Sl2zbT+mFmhf47c8Zag==
+X-CSE-MsgGUID: DHL/vHHGRrS/phhmV5mBBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79755973"
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="79755973"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:33:29 -0800
+X-CSE-ConnectionGUID: lj/fqBRPT1GKAvbGkui9cA==
+X-CSE-MsgGUID: 5Gout/c5SsSiJIZDd37BUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="203774765"
+   d="scan'208";a="199303883"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2025 16:21:28 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Dec 2025 16:33:29 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXq9V-000000005fk-38Pe;
-	Tue, 23 Dec 2025 00:21:25 +0000
-Date: Tue, 23 Dec 2025 01:20:27 +0100
+	id 1vXqL8-000000005g8-05b3;
+	Tue, 23 Dec 2025 00:33:26 +0000
+Date: Tue, 23 Dec 2025 01:32:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [frederic-dynticks:kthread/core-v5 32/32] htmldocs:
- Documentation/cpu_isolation/housekeeping.rst: WARNING: document isn't
- included in any toctree [toc.not_included]
-Message-ID: <202512230100.aEd6A437-lkp@intel.com>
+Subject: [sashal:spec 76/131] htmldocs:
+ Documentation/core-api/kernel-api:304: ./kernel/acct.c:306: WARNING: Block
+ quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202512230159.BhWPpHr4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,24 +63,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git kthread/core-v5
-head:   fcdc00137b51b2bfb81523f82122c1c8269c4c65
-commit: fcdc00137b51b2bfb81523f82122c1c8269c4c65 [32/32] doc: Add housekeeping documentation
-reproduce: (https://download.01.org/0day-ci/archive/20251223/202512230100.aEd6A437-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: e272cfa94fbbaa41a1ef6f26105a0d4d3e4d8cbb [76/131] kernel/api: add API specification for sys_acct
+reproduce: (https://download.01.org/0day-ci/archive/20251223/202512230159.BhWPpHr4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230100.aEd6A437-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230159.BhWPpHr4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/cpu_isolation/housekeeping.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   WARNING: No kernel-doc for file ./include/linux/math64.h
+   ERROR: Cannot find file ./include/linux/kfifo.h
+   ERROR: Cannot find file ./include/linux/kfifo.h
+   WARNING: No kernel-doc for file ./include/linux/kfifo.h
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:301: ERROR: Unexpected indentation. [docutils]
+>> Documentation/core-api/kernel-api:304: ./kernel/acct.c:306: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:355: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:440: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:452: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:463: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:474: ERROR: Unexpected indentation. [docutils]
+--
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:530: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:540: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:549: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:553: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/kernel-api:304: ./kernel/acct.c:555: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/core-api/kernel-api:304: ./kernel/acct.c:557: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/bio.h
+   WARNING: No kernel-doc for file ./include/linux/bio.h
+   ERROR: Cannot find file ./include/linux/clk.h
+   ERROR: Cannot find file ./include/linux/clk.h
+   WARNING: No kernel-doc for file ./include/linux/clk.h
 
 -- 
 0-DAY CI Kernel Test Service
