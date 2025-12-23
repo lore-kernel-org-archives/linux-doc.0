@@ -1,138 +1,129 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3631624C0;
-	Tue, 23 Dec 2025 22:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD54242D9B;
+	Tue, 23 Dec 2025 22:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766529188; cv=none; b=SbeVxcPveEkymXVbDYtrbXOs6RuwkufyzHMXIWlLl5ZkGe4glpI3Ep7ViBAz8CyAGI61i9+stgL0P3JQP86CVjmQdEMtzhVmM86Hly4FqbwULAJVz2qmzszlR+o1kVDoO3QpX5mglgn4NC3Fl5avBPZrj7RE7BQMtwKXddkmvDE=
+	t=1766529284; cv=none; b=BG7PtDXIEusnSBHzPBU2dcX2MS4rq23vGkkrQoyC5ij4LcMJ7u4bevOXfgA26ZYZpgUBVELZViJfh0Cdz6zd+dldaDW40KXkyMyAhvnrrntzueMH3JtPHjqToyUEkCtqe2LHy+JF8qORFLVflzTX0InBzb40K+Boxu+1CecWZtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766529188; c=relaxed/simple;
-	bh=Fopdh603CQTT10896Z20gpo2SSvmF/o0M3R3fNxpAzU=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Ql3xU4kgG+UOnHNQA/zIHCGU3ejv6rHC5G6FovIqn/l+lutezDw943tnCFyO/JLbZkrCV5zFDrwJ057V4i4cpiHZc/T0nD1ojHA3izzczE5LrCJom/rF8TlttAYLo7/wlDMtfPtkE99h9oSazwRNoouxPY3I/Dp0S7nbg6P82L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=o+x0peDn; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1766529284; c=relaxed/simple;
+	bh=Fes5loOBsU+mC0Ceq2TtLjtj3mpKZi3TTjEVwXp7psU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7t8+rtOdhoYowWbuC5/xiEMy4y1o4Spc9lfCGM8nlcZP51z4/dxmHlgb2l3J2yxtk77jhyjhU+xyjjrEMZjoE53XJ144FU8SN1usNU6M/p6YtDvRF2Cf5sFw8DlsBPLkE1zDXwBrRjh4lpPmATbGRDLiAL62Zj19P7Nat/DIh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DN+8W+Dh; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="o+x0peDn"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BNExln9003146;
-	Tue, 23 Dec 2025 22:32:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=DH2X4C
-	oi53+Ydia//Ib0Jip+APf6u237n9coHTJNB9c=; b=o+x0peDnJdjFqrgtts7bDm
-	4/HX67f+ajReZzpUaNH/t5Di+4GsC4AURCx8j8gIlrRUS8DzYaB0wwP22jowoO/c
-	6G3yl73qO0ls47S7TEciy2OnogRVZBQZ2u0LHwijrnE1KuUqJJ7WYbnqz/anjF/X
-	tcgzHFtOpT5YGaD6as4RMQM1ipUom7S+/06JHkKtH4XkatVNJTCuCgQvYNyO3PJx
-	39mUehomAk7VXVGLWZpf59ryifz7bJ9E7By+U45W98+siQzIoEee2c22kQQVID/8
-	jMgl3Updh5xV82I+CoQHaB+gFfwDBaEXC4QqqFk/KiHlIuGw3jmBBRNauZs72Sug
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5kh4evgg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 22:32:38 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BNMWbeN020236;
-	Tue, 23 Dec 2025 22:32:37 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5kh4evgd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 22:32:37 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BNKll7H030183;
-	Tue, 23 Dec 2025 22:32:36 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b66gxwhg1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 22:32:36 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BNMWZ6U19137058
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Dec 2025 22:32:36 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DFCFC58065;
-	Tue, 23 Dec 2025 22:32:35 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D4F9B58056;
-	Tue, 23 Dec 2025 22:32:34 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.160.131])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 23 Dec 2025 22:32:34 +0000 (GMT)
-Message-ID: <9a26898f46406314be1308e5416c0d51cedf44a4.camel@linux.ibm.com>
-Subject: Re: [PATCH V2 1/1] IMA event log trimming
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: steven chen <chenste@linux.microsoft.com>, linux-integrity@vger.kernel.org
-Cc: roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
-        eric.snowberg@oracle.com, corbet@lwn.net, serge@hallyn.com,
-        paul@paul-moore.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, anirudhve@linux.microsoft.com,
-        gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
-        sushring@linux.microsoft.com, linux-doc@vger.kernel.org
-In-Reply-To: <b9d7bcea-3784-4ad6-b494-374db0c00cc6@linux.microsoft.com>
-References: <20251210235314.3341-1-chenste@linux.microsoft.com>
-	 <20251210235314.3341-2-chenste@linux.microsoft.com>
-	 <d80958ec-f139-41e9-afa0-a5aca94221de@linux.microsoft.com>
-	 <c93907cb0f08f9baa320488989aa87e7867ee9da.camel@linux.ibm.com>
-	 <b9d7bcea-3784-4ad6-b494-374db0c00cc6@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Dec 2025 17:32:34 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DN+8W+Dh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766529283; x=1798065283;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fes5loOBsU+mC0Ceq2TtLjtj3mpKZi3TTjEVwXp7psU=;
+  b=DN+8W+DhrAHUUEqjjd2UebXZVTEg2omWxL9EjbfxVy4k+5gXyW7uTfp0
+   hAGBxnCA2bDlEVVknG58dMh4NpJgPrTehu1PAIytXmQTZPgYHNs4oxrOC
+   DSxnjBGovPBi1DzyZ/VeJnA1aKEbFf14rFPAjggS8HFYeAUrHaHhhAtQt
+   r1PuHvnZ7hqb0DYYup2AiHg1wN/3lnO2hO3jzA3ZlTgIZqtbtH8m6t841
+   CxrB7VpLiqIF1a7rp3f1FsxALEuuiRsJPWTpF748kLyiQyrzVCChiWj64
+   sT18rFNpCxCo7JpMgQZp/CAsQkKMVTKsrG9o+O5Gc4SXNR2FeCTH7Kpg9
+   w==;
+X-CSE-ConnectionGUID: s0azDM5YTXCSSqisgF6WUA==
+X-CSE-MsgGUID: mHsPy1L2SLKo+1MJ0yzjdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79099102"
+X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
+   d="scan'208";a="79099102"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 14:34:41 -0800
+X-CSE-ConnectionGUID: kdb3EiWAQeqPbPvmCjRM3w==
+X-CSE-MsgGUID: YKgfYRbQRqympAkXtZtTdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
+   d="scan'208";a="204414911"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 23 Dec 2025 14:34:38 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vYAxg-000000002RN-0Dgu;
+	Tue, 23 Dec 2025 22:34:36 +0000
+Date: Wed, 24 Dec 2025 06:33:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mark.rutland@arm.com,
+	mathieu.desnoyers@efficios.com, corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, atomlin@atomlin.com, sean@ashe.io,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] tracing: Add bitmask-list option for human-readable
+ bitmask display
+Message-ID: <202512240638.SumtF5C4-lkp@intel.com>
+References: <20251223035622.2084081-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=bulBxUai c=1 sm=1 tr=0 ts=694b1886 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=9tRBcEDlKUlfiG1y_IYA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: GJ0Sf3WYduDmX7aQQsYDRJNnrNQ7gZui
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDE4NyBTYWx0ZWRfX82gw8e3Ej1YK
- uR3ER0RbQvMJDng+kDhvIcpww8bubrjpQtK2aVuCSPN9cPo0YZnbOOJH1E3dsS9aq+n4pzFbllW
- LVvYKJdU1noI24gIaXWwnGUZANMQlrET738Xw9pTGxWsqyu7zdZk28CeylQ5QZJjD1697pUxO07
- RxYp8iXEcx+eukoOeWMdkRVpBjpR2F8iUQX6F7rdIOoBQGA7w2n/RAo5BhPtzphsx2XV3Vhdnmy
- OmLTSp9iBaRi9nqebJUtvOmgTwZcKmjOsrJptpSidWONAk8mJF1PFBYMMprk9evaEBovMOOGJI9
- PcRNKHHipXniz7jJV4jY3oIUX83c3A+mVnrNjhx1lUgZSNTYF7PuUfmNJuXPpSK2tqdsMcKSAbZ
- BoNwCW8p5V3//OmySE76rxlGVUXekXmIomfPq+qbXBu8Nq3l4qSU9D54ZXj2CAOmWYyRk4wtUBx
- Dfic+lj30WL5u5+uuxw==
-X-Proofpoint-GUID: zKZjc7fslhq8_ETL89wlljnzRjR-jAGY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-23_05,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 spamscore=0 malwarescore=0 bulkscore=0 phishscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2512120000
- definitions=main-2512230187
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251223035622.2084081-1-atomlin@atomlin.com>
 
-On Tue, 2025-12-16 at 11:59 -0800, steven chen wrote:
-> > > > +{
-> > > > +	struct ima_queue_entry *qe, *qe_tmp;
-> > > > +	LIST_HEAD(ima_measurements_staged);
-> > > > +	unsigned int i;
-> > > > +	long cur =3D number_logs;
-> > The variable name "number_logs" is confusing.=C2=A0 As I mentioned in t=
-he patch
-> > description, there is one measurement list with multiple records.=C2=A0=
- There aren't
-> > multiple logs in the kernel (other than the staged list).
->=20
-> Will update it to "req_value". Thanks!
+Hi Aaron,
 
-Please refer to the section titled "Naming" in Documentation/process/coding=
--
-style.rst.  Since this is the number of records being deleted, perhaps a be=
-tter
-variable name would be "num_records".
+kernel test robot noticed the following build errors:
 
---=20
-thanks,
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Mimi
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tracing-Add-bitmask-list-option-for-human-readable-bitmask-display/20251223-120923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251223035622.2084081-1-atomlin%40atomlin.com
+patch subject: [PATCH] tracing: Add bitmask-list option for human-readable bitmask display
+config: s390-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240638.SumtF5C4-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240638.SumtF5C4-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240638.SumtF5C4-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   kernel/trace/trace_output.c: In function 'trace_print_bitmask_seq':
+>> kernel/trace/trace_output.c:202:33: error: implicit declaration of function 'trace_get_global_array'; did you mean 'ftrace_init_global_array_ops'? [-Werror=implicit-function-declaration]
+     const struct trace_array *tr = trace_get_global_array();
+                                    ^~~~~~~~~~~~~~~~~~~~~~
+                                    ftrace_init_global_array_ops
+>> kernel/trace/trace_output.c:202:33: warning: initialization of 'const struct trace_array *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
+
+
+vim +202 kernel/trace/trace_output.c
+
+   196	
+   197	const char *
+   198	trace_print_bitmask_seq(struct trace_seq *p, void *bitmask_ptr,
+   199				unsigned int bitmask_size)
+   200	{
+   201		const char *ret = trace_seq_buffer_ptr(p);
+ > 202		const struct trace_array *tr = trace_get_global_array();
+   203		bool show_bitmask_list = tr->trace_flags &
+   204					 TRACE_ITER(BITMASK_LIST);
+   205	
+   206		trace_seq_bitmask(p, bitmask_ptr, bitmask_size * 8,
+   207				  show_bitmask_list);
+   208		trace_seq_putc(p, 0);
+   209	
+   210		return ret;
+   211	}
+   212	EXPORT_SYMBOL_GPL(trace_print_bitmask_seq);
+   213	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
