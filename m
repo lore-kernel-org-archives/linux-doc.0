@@ -1,98 +1,78 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBB8145348
-	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 18:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067A3207A32;
+	Tue, 23 Dec 2025 18:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766513857; cv=none; b=jCvsIiSa+9WN1Y1l4+vSs1FBiDvLDGXaqsAA/DblTsb8DcG0dXpWy2MpO7h5Tv74TuL8CAtsDejDELtioiU/TjXT3TMxNWZZlkZxqk4I+R2FKBwRMr6phss44NwKrav+zs1q8FfXNO6wWLbYOLu6h6+UHSMdSbhK/7rUTfine88=
+	t=1766514796; cv=none; b=Gxn1l3HIHRDPhZWw0Pu24e9cEif7gmqES0UMcSS+UlWyZIDAjMEYY69yCt/xkbs1s2vUD7uVTywr4UMmmuU1aXkrUxG1GokbPCIXoqMHW+p0KgIPSHTcWnDF5YHjjxrO0RlnxSorCyXgonXW4w5ohA+rfVuK2RoJV3PaASacx9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766513857; c=relaxed/simple;
-	bh=+2RXmFBnuoUZNP9t3XSeZExCz/tGXq4+QrVc7VKG6+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YUlK1AmVyLNxHJxajxpu93AkM1eFtaKOOgrOHJhg59MZpXkVLcwnK8EN1GHb2EtetGYMlV+3sRHnflRyg7M5hct4PzKZCupoyWeySJaTpM4LM5dkPqmdt3s7Gu5nvV293RsnSF2gjeSE6L6gXh1gnKuq5+kXI0FEc4ZdXxMGIRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=K6RIEzDe; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="K6RIEzDe"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64b4f730a02so8514850a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 10:17:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1766513854; x=1767118654; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+2RXmFBnuoUZNP9t3XSeZExCz/tGXq4+QrVc7VKG6+Y=;
-        b=K6RIEzDeLWR8YrR65usBGB8vTsK6JuB+Zcg3jNFUp5rlfprAwTrBYB8+Zl0fVby9IF
-         gGJ8bPGXLA0PWiP4W+QmesMEmYf9VFvJCKHzqHYHpKB40NF+R6BLDmOgOg0OR8FiCa7g
-         lLA4Au5VYmxEtqlrXGVYZvpxl1pqydmTaXn61ze5sHYaKvPugGNGNq6Of0kR83QA710Q
-         fe8tN+aTkfhmdNq5j0jDaPBLa+tySSUiuEjSMp96U/eTWjVTzxrRYzM6Zya1cer7HrYl
-         oOfJkL9pMqFyB97m+578BkIt23/GLL/L165e5scf/IKCieLOzAAV9W8hj0EZ6mQA0SJd
-         uf/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766513854; x=1767118654;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+2RXmFBnuoUZNP9t3XSeZExCz/tGXq4+QrVc7VKG6+Y=;
-        b=OtLoJnfcb3NWHqERBiWgookkPjMNivo+ho6KikKSnyLqtVvkpTyPT0gs6RQKy6W5lk
-         k6I8pHoxlcemjMqS8YGLHNty+ChH4rxmlU+SuhyWjGcIIRmsNEHs/hGy3lNHVeZToWvd
-         b3UVgksI1K7X6YoBq6U1dkWPEF39fnsoYK8MA8Wx6Cm3aieDAFCTJEDypcV5iB9pdhfi
-         vmppdinLks09g0D74UEO5Wmi7ayQDKhargDkR+x2ZciLVpXr6KS/JPKN6pZxDZNWp3x/
-         PpJxRuMYLapZoeSGhAZhH2WikBTqUPrWe6ijGSQYaMa2W+DCc3Gw44QuYO8py/Pj7T6X
-         FW5g==
-X-Forwarded-Encrypted: i=1; AJvYcCV/dxfIl3VlleQ1yY/UEnAmHPGX4ueWO1RSlCMKKxV28Z13Vo4m5gPop7IOJZ4Y5fqNVqLoIyt7cI8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCnva/aNOkfkLT2b8Dkhb/g/OdNNAo+uKzA7x6VoDdzTZe5zM5
-	fYv1EmrUoLpgEsKBqNGgeAaghrha77fWMzTxM9AmI2rfKoRbJNpMc7jL3Rq6OT+OzIzp36/knzH
-	RWNXvnOqv+i0WaQFcsSPJBlTVS4KKP0q/ZcJ7F4EnMA==
-X-Gm-Gg: AY/fxX7rV+OPg50JuMLekH3kCo0UfK7bGSIg0CK95wlCEBUAlFB3VctoZREB07SXIhn
-	VZn2P+q9jPeveqn/iPPoKt8S3wuzV1yzrO4TgwUYnT47L11adIFZ18xjZWWwVF2A6GaxCG4fCxH
-	8Ie2m9ZVDUqQ82CzcM+aWlrBnBDlAzAuTv69m3wuMmGpewCJy/whkiX1rUt4lEx7ajJok51+3+A
-	7oo7tH0knP+BW0jspXJe0SHPRvtqm9Gty4BfWgpaplbMoZSrAxGrP/YXLms9QScpUEWbPAmxdWU
-	EuK70ScPPgLfN/QsL3HVtSDvPSxjjpuBmAtK
-X-Google-Smtp-Source: AGHT+IG7R8OufzxbkFMNpnBpqEEtRO/h0PChaYqg3fbSuA3NHtdOdOdeSWlvgqHDikQUpiHUXPkzTwN9tQJ5alYq+AI=
-X-Received: by 2002:a05:6402:5112:b0:64b:ea6b:a884 with SMTP id
- 4fb4d7f45d1cf-64bea6baac4mr14256712a12.17.1766513853843; Tue, 23 Dec 2025
- 10:17:33 -0800 (PST)
+	s=arc-20240116; t=1766514796; c=relaxed/simple;
+	bh=+CGRUldF+tXtsy85N0VVRIZj8/rzXAZBcZI2UBBG5No=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=piOWWD6nryMcfb1xp56Z1/SCDRmAaDAuDY17o5eiHmxcrlHg0VPdu0On50NdGaiC8RVr2482Gr07VQt4rLN3NlrgPzOFXuyitR4cUmm/N6FI64tatfJu8P3Gh18mRqyarAOeHhDRiQ/7BI24rAGUzX8NLfgJTXKhzjBtRGG8zCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id DA687B98B0;
+	Tue, 23 Dec 2025 18:33:04 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id C2CD62000E;
+	Tue, 23 Dec 2025 18:33:02 +0000 (UTC)
+Date: Tue, 23 Dec 2025 13:34:52 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: mhiramat@kernel.org, mark.rutland@arm.com,
+ mathieu.desnoyers@efficios.com, corbet@lwn.net, sean@ashe.io,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH] tracing: Add bitmask-list option for human-readable
+ bitmask display
+Message-ID: <20251223133452.416fd539@gandalf.local.home>
+In-Reply-To: <20251223035622.2084081-1-atomlin@atomlin.com>
+References: <20251223035622.2084081-1-atomlin@atomlin.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251206230222.853493-1-pratyush@kernel.org> <20251206230222.853493-9-pratyush@kernel.org>
-In-Reply-To: <20251206230222.853493-9-pratyush@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 23 Dec 2025 13:16:57 -0500
-X-Gm-Features: AQt7F2o9lKh-MiYjTN0jydTh4lXfEZrS5Ed5W1ywUvAOmrIraj_P1WZBiW42-WU
-Message-ID: <CA+CK2bBeJwACBiKsuXLcbzC4m0zLhu0yNg2HDGR=AQGeEVCJjg@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/10] mm: hugetlb: disable CMA if liveupdate is enabled
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Alexander Graf <graf@amazon.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Vipin Sharma <vipinsh@google.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 959ot59se51o3yyt75a8sdoxxzsdtf55
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: C2CD62000E
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19hB6BnmJ+DtMmyI19AhDAN0bGqc8g8+zQ=
+X-HE-Tag: 1766514782-842014
+X-HE-Meta: U2FsdGVkX18riX5AnSpKO8pyDy4psDxAtdL/wwM8e9m7kH2ntMnQDLthD2jRpnlOn1O7lYbLb0NrXTNo07JL9HKHuhgRJM8aV+rDsffrKawb3qt9ks4njR7dCoAdNkwYKbeYoJrwzQ8d6ogFS1I3VsG8oIdrP7Jsv9R04JwI0XUFE+4FqoHakq6l6usiS5zb+zvOD3rIZKlbnRemzUASwQ0Y2jK1gcM7/fBvBqD38CRDJAvzgrTK0JsL8SPIh+sve9vhXPxW8krlT0xm4BuMx2jDA9AbWo+Jz9Pow0xXLQlnkHJx7AXqe8YHIXwkNObV33DKQ+jIIzCIQLs8VIu81bllPWxJ0MDVblLmH8td246bKpZBgM1QJdCvCrQCrrrq
 
-On Sat, Dec 6, 2025 at 6:03=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org>=
- wrote:
->
-> Hugetlb live update support does not yet work with CMA. Print a warning
-> and disable CMA if the config for live updating hugetlb is enabled, and
-> liveupdate is enabled at runtime.
+On Mon, 22 Dec 2025 22:56:22 -0500
+Aaron Tomlin <atomlin@atomlin.com> wrote:
 
-Could you please elaborate this commit to explain why it is not
-supported, and what it would take to support CMA.
+> Add support for displaying bitmasks in human-readable list format (e.g.,
+> 0,2-5,7) in addition to the default hexadecimal bitmap representation.
+> This is particularly useful when tracing CPU masks and other large
+> bitmasks where individual bit positions are more meaningful than their
+> hexadecimal encoding.
+> 
+> When the "bitmask-list" option is enabled, the printk "%*pbl" format
+> specifier is used to render bitmasks as comma-separated ranges, making
+> trace output easier to interpret for complex CPU configurations and
+> large bitmask values.
 
-Thanks,
-Pasha
+Hmm, I have a couple of issues with this change. One, this is global. It
+affects all instances. The other is that if this is going to be done, then
+instead of adding a parameter to trace_seq_bitmask(), another trace_seq_*
+API should be created. Perhaps trace_seq_bitmask_cnt()? And have
+trace_print_bitmask_seq() call them separately.
+
+I'm still not convinced that this is needed. What examples do you see?
+Should it be only for CPU bitmasks?
+
+I think a bit more thought needs to be made on a change like this. There's
+other options that were added that I now regret. I don't want to add
+another one I wish we didn't have.
+
+-- Steve
