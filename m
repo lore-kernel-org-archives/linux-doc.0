@@ -1,63 +1,65 @@
 Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04859245005
-	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 01:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E152727F3
+	for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 01:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766454642; cv=none; b=qRJOzabsO84gUhW4R31GwDL23w2kbc8b7KcOa2Qm8QVlT7Oa8c5djn6CplhCJuXI9ryIHX3kLMahgFtJttGr724Ni9Oq2NvDEwEl9SEK7IwMNT4b+M2+sz7/HUmNrprfSDErdETebPV6aaIfM+895j0Oh/7OsvTAMRQ9UUDpLMk=
+	t=1766454645; cv=none; b=TK0k73Fy8lPnHbfxGWt3DH7U8DY6vSnPGzOhHAbMAcBBrANxQ+eOmjrskqALc3yOSp2bnuB8JXH9a07vGUVZNora3oUJbLe0+d9EvNeDhrRWvg6E4v3EANWdbNvBVDmTPwYKuP1JMFBA56zFPo0c6XZSDRhyn/N7knurdL3xY4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766454642; c=relaxed/simple;
-	bh=q0MXU2V4yXyG9Dt8boTEYRc02KHOaBnXIrWKxjNu/rs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XJIHY8z7sK27BuSqtoc9CrasrZlMS4MaaTlCJUkhwKdNnjw/8du6mF+iENz5hL2+MZb08RxaMduD6FtTo8HyAzIjmiur6FThHs0X3LhO8v8MxfDOObVGlx0B99Y4tQXErbpaUm2TszbY5cR2yNNFxMQ0Hkta1cgQV7KGP5wOGpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ax1IsyRM; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1766454645; c=relaxed/simple;
+	bh=+DRRDzLT8DTORlxy/aZPYTHIgYcOA6ac65ZoTv8eqdM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YLUcwQUQJFTLLgESb90bhKni5rFXcVVhfAgSLInOYZglRkC/CP0s++rQyqrIEP2KNFErLaMbIJAllum0z7y5KzMu9svqmy8UZtfqlFSkehcQhir2YqsXAPfR5Keaou7yXkSOk+bf7RgiL8UoQM3DBUa2jXUuRdqiCQe9qvghYyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AmJnJjPq; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ax1IsyRM"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a0834769f0so44978985ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 17:50:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmJnJjPq"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29f0f875bc5so65464445ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Dec 2025 17:50:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766454639; x=1767059439; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xscG6RZGK6mPQrxphjn8rTShXaTt3nErGk5YzbghIBo=;
-        b=Ax1IsyRMESMAzOm7/biofvpHE/ScxEpJ4shxHE01jD3fUEiW2Qow75LyGfIc4Y/Qhf
-         0y0Uov3K3cTHLoVlIdpIq3JGkFMSWSAgOCQGGYl1mgJ9T4F5mgvNlGQ5tL/uDACG5Jbr
-         HTVsciZc4iCOBZ1gxdbgtpYq+JWdxBzoOAITPljkzZ7NWS9/5+faDu09/PwJm3Q3Ikkm
-         Eycn73c/9n7+XK4Dcx5NPYT/IlNMLrsam+G4g7rZXYYNW2Rp8pINNiYGJFtua5f7mDvI
-         EyjVTn+fsYkbtwE3slvsLxlumQM76B/DYPVwK5ECTeYbbjPVr8xtsOSQIuFoeOjP+OFt
-         dbdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766454639; x=1767059439;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766454644; x=1767059444; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xscG6RZGK6mPQrxphjn8rTShXaTt3nErGk5YzbghIBo=;
-        b=xMOdX/psb4woIOjD7YFVyad3ryChREgXXNwerjJbx38r/A6Rb4a3I3oLdyowDOClqg
-         r/swMH1R79VSmZBW2tzqOXvk/JhY/8OvrhCJIflHe9AigHDfmn02wXmnS5FHvEj+wJbk
-         ij3SzUjRLWXHJUDNzUFhXU//GzDafxc37BNpnPXsmalMO6o7Z82n1K9c80wErXi4MbWX
-         9ig/cimwM3ypep7h3Lv4hSZPlqcfv/izCsxF3te6sTIvLM5BcD9lbhjqktN5bp8TFv8o
-         iLukpG+t6MWl4Fk6TcPlIAkML7XiSAJ87YM+N0+nkbpONsJ//h9g1kvPuTRTpk/L2Z5a
-         A8oQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWm6kqYy3upAQgM3DG8T2tw7PrDGONFydmWfZNTePhqMF3b0l06WumvXolojs0UvGd+IiVKmzXzcRU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzzrv6DK57uW3Irriq2Z6iDpCzOcPRLhDYohwznzZw3uE+A1GlR
-	r2ekF7svOR1WOaZFHNQbam/FIbKrS/3Q/SyJwZjlGXpF2xUAO/Nu75y6
-X-Gm-Gg: AY/fxX7HLRjnuQSjGqsKPcqyqCxlgX0yO2NoitWh2m+hSq1CxpbysquRobEhDFWAci1
-	gecOCah1XCld216W+cEVwA897vADdph7z/Eips9fxD+u4iayfBT3kr5Lis5cNn5XOR1ymnbapso
-	lVScOF19L+H2qgFG4BEFhzNNiVjnctRfh02iun/K0beUruxr9OoRuDUHdTd/JeT/PQTReXwVkgB
-	ejPyO/XfqYh7pKR0wGinJUZoydJ/GJDwB6TgfZPWqPHtuT2viKftVmpgrkr+Ju8S/GyRI+TMMcP
-	Am5FMsKu0C+3zFh3wFL4UX5zo3MsO8DCvwNHEDvIwPI7UOEcL29R3cR1q86sgoH5V4k1ZMHLp7K
-	RkoFRu4CXrQADvCVCESTDQo02PjQlhz22EgYxbhK7KYZNW4cXhCZY/irbvU5X1Si6b1ucfBtE3C
-	6amYNwlc9FO9HmM5cCuet+T11eBUFFONff885e0WCIC4WTod9eqhS2hp02imGeE9mEp8VkLcO5Y
-	WTnwF0PBmvd9XMvS8+bz8EJpc/aNfQ=
-X-Google-Smtp-Source: AGHT+IEUcD+B/8rPGyakTek4aNTU9jw6ozofbVuGAW/e6r2m680KkKenDeJ2iflpi617B8bEK2YU3Q==
-X-Received: by 2002:a17:902:c943:b0:295:9db1:ff3a with SMTP id d9443c01a7336-2a2f2735164mr131611775ad.28.1766454639100;
-        Mon, 22 Dec 2025 17:50:39 -0800 (PST)
+        bh=XByBk8lgIUY6LkZMpTEMonf8apmm2vmEOstW9GDn3gk=;
+        b=AmJnJjPqJo0qP4vu1xD3ln74+i1i7G389pI112du8DUZv8otrNz7AQ//4HUOvsNodV
+         6LmEhKw8Q8KA1FPuFhp8gfepM7kaubPE99i3W2NFb9RkUIK1jSOnxFfopclhECHxNNPQ
+         wPrh4A2RMTTShGgdHg/wytqHnQX+cBdGak3WAm0XgWNc1bGk/GTFm2tG6Oo33FtkiIrY
+         fETBN2DHKHsw7FHgijT1dJN9aISJ6STKOjV6O8m27N7q7i0/fAgao2trgeuFlH/67P2m
+         fpWZ5J6Iobt9tOItPAdxAFglQ+NWcI//8NaZGTEbS1XBLoOBgDrZmdbb2/BmuvmIW2WQ
+         dacw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766454644; x=1767059444;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XByBk8lgIUY6LkZMpTEMonf8apmm2vmEOstW9GDn3gk=;
+        b=IbPpX/Zh0Uq3XWZUSl3LvZiOiG52xS1jK0YznowkFFWxOGl/bWIUlkkxDUCwvHVcNJ
+         E0PhgKq2QkF4Qcd8dYWlJWJlwiRMFTXxEXwf1+yVtbvIExhgTcJ5IAw4cfyVJcxbdvUp
+         q8MC7wNQPjRj+kSe1U5oO0VEPkW4iPtFSax4pmVZsAauLNXdmO5qxPSJ1Os7XFsjtVRQ
+         nDE+Wzqh0WqA2H3xK+KiOHqQChv2cWZy3DATG0wwph2YhJUK37JYjwEqs5JcNF7+Wfuj
+         ByzdgNkhvQlRbaa8gfsTj7d5kMfpVz2bPLosZCzkiueoq+2CdhedJzbBNaxdf7INnfXD
+         IxuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXiejIKXunI6ipmDuOYCOskxqHWVhTY8eqrHqszCp0PkRW5IDWCWYtSOXWMAOztchLqcTVEJQj15lk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVc6PSCAOP3PIBBWFz/BPoKOADk0R8zz7CbbfmwxVS8NmSYVKK
+	k+kcDAuscJkSyjGn3c7BOXUIE7aUZ9/emi+d03t0mvf+fHkx5UkO6itG
+X-Gm-Gg: AY/fxX49MJrA6ZXhtuDzYtDJiufIArT2yfdC9ZUR+svczkxScDBej8Cp6YpJOBf4RHy
+	61gaG9Xc4ECchQfG6Ws/n0E/G1kt8cf9m++PnV7zTkRHJ+DStf6kopomUBUnFgwevIYMlOG+1qx
+	tRsHek+Zv8eINiUKCOvgxd3G0On2XFHNWlkoRkjDEts46HzN67YgZydxY50psGGl2r6RSzMDOFq
+	XY3j1o6eaUPZHD3hGJlwO08OvWObpThgxDAb99DF/mEV4OGLKSWzAbC6+IiuZsUe9x9pAJYYQIS
+	BBrIXUZdYNhq0WBxpCmoK2/dm0bAIJRktuYtyPiq2gc9DYvreXMr9b/WAmzz4Y9jeU4i0UOCkMY
+	+CejqqZ5KelsGWN6cIYHecvfUYQ6pEoPE2v0A0309Cp57KK+e6tNPG0E6Dd01va37bW+9j0UbDH
+	r6dVQxSbMUkh3qd8fMzjczlCHzOBeDxe7AA1YkrSN5o4KTsP0t0UGBr0/8rGwvGvoroX8YjgmDk
+	Zy+5+zT7LzM1XWFSTqREsJo97NE/XU=
+X-Google-Smtp-Source: AGHT+IFuLmSgGCHBA8ArEdz0YQFPa1X9JXSVLCSg9VUSqix/ullq3l5owDpKTQ9DPoUEa4WlUL9fCw==
+X-Received: by 2002:a17:902:d488:b0:29f:2b8a:d3d with SMTP id d9443c01a7336-2a2f2202ccamr121012555ad.4.1766454643637;
+        Mon, 22 Dec 2025 17:50:43 -0800 (PST)
 Received: from charles-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c66834sm107316205ad.9.2025.12.22.17.50.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c66834sm107316205ad.9.2025.12.22.17.50.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 17:50:38 -0800 (PST)
+        Mon, 22 Dec 2025 17:50:43 -0800 (PST)
 From: Charles Hsu <hsu.yungteng@gmail.com>
 To: Guenter Roeck <linux@roeck-us.net>
 Cc: linux-hwmon@vger.kernel.org,
@@ -69,10 +71,12 @@ Cc: linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Charles Hsu <hsu.yungteng@gmail.com>
-Subject: [PATCH v3 0/2] move STEF48H28 to pmbus YAML
-Date: Tue, 23 Dec 2025 09:48:30 +0800
-Message-Id: <20251223014832.1813114-1-hsu.yungteng@gmail.com>
+Subject: [PATCH v3 1/2] dt-bindings: hwmon: add STEF48H28
+Date: Tue, 23 Dec 2025 09:48:31 +0800
+Message-Id: <20251223014832.1813114-2-hsu.yungteng@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251223014832.1813114-1-hsu.yungteng@gmail.com>
+References: <20251223014832.1813114-1-hsu.yungteng@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,30 +85,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Changes in v3:
-- This patch series moves the STEF48H28 device tree binding
-  from trivial-devices.yaml to pmbus/STEF48H28.yaml.
+Add device tree bindings for the hot-swap controller STEF48H28.
 
-Changes in v2:
-- Fix the entry added to trivial-devices.yaml by correcting the
-  comment and compatible string ordering.
-
-Charles Hsu (2):
-  dt-bindings: hwmon: add STEF48H28
-  hwmon: pmbus: add support for STEF48H28
-
- .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 46 +++++++++++
- Documentation/hwmon/index.rst                 |  1 +
- Documentation/hwmon/stef48h28.rst             | 73 ++++++++++++++++++
- MAINTAINERS                                   |  7 ++
- drivers/hwmon/pmbus/Kconfig                   |  9 +++
- drivers/hwmon/pmbus/Makefile                  |  1 +
- drivers/hwmon/pmbus/stef48h28.c               | 76 +++++++++++++++++++
- 7 files changed, 213 insertions(+)
+Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
+---
+ .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
- create mode 100644 Documentation/hwmon/stef48h28.rst
- create mode 100644 drivers/hwmon/pmbus/stef48h28.c
 
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+new file mode 100644
+index 000000000000..e4711c4ef38a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+@@ -0,0 +1,46 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Infineon XDP730 hot-swap controller with PMBus interface
++
++maintainers:
++  - Charles Hsu <hsu.yungteng@gmail.com>
++
++description: |
++  The STEF48H28 is an advanced 30A integrated electronic fuse for
++  the 9-80V DC power lines.
++
++  Datasheet:
++    https://www.infineon.com/assets/row/public/documents/24/49/infineon-xdp730-001-datasheet-en.pdf
++
++allOf:
++  - $ref: /schemas/regulator/regulator.yaml#
++
++properties:
++  compatible:
++    enum:
++      - st,stef48h28
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        stef48h28@11 {
++            compatible = "st,stef48h28";
++            reg = <0x11>;
++        };
++    };
 -- 
 2.34.1
 
