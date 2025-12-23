@@ -1,71 +1,229 @@
-Received: from mail.monolithicpower.com (unknown [12.33.0.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BAF335567;
-	Tue, 23 Dec 2025 01:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=12.33.0.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4073533BBBD;
+	Tue, 23 Dec 2025 01:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766452998; cv=none; b=ujR7MOVtn/up4kjB2B3AI5GIgAE9Sa3/SljfiJ1ZRxk1hyHwsJJrmDXCgD+2KjPKQslZj46Hxh2+joj8OuJ4zV3gvgC862ywiTwErgZQ7Hg3nNnaTmHefb/IyHa+SZ8+6iQA+H18x8AqjJXlAv5AE2Hk+incBoY31Evv7AGD+Ug=
+	t=1766452999; cv=none; b=b12z+sxi0qCkWBhJTNq81wbbW/Hjz31oY2WVUK/PlS0cvOYVgClsiWW9+AqWehG48Grx4q6X4Z/M/674hJSZ3IgQcljxwambezudlvBYNdIlmVwjiqr/cVNvAISd55LR2l36NtvvKBYx9t9O4nwiALWrelHfEPdcFPiP6PxuN5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766452998; c=relaxed/simple;
-	bh=qVOb+IBGjBVmmvopDg2bgGKrH2EV9a51KV+WnKwcG4g=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MxEPrk6eVdR8M/4gfdVk1/IoeCfPqrtJtn8PpOD/yxDCjuo8GQA+ZhLzdVBdRMH1PzC6hW8Mrspw4EQRBMsvHc/e9MsRamw8Uofdhz68yJI5XvcJ1zLtNQcZlSuqT8CW7mrnRN3rV/pZdnUZRmoHR7346LFo6BfXrrsRmggvy5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com; spf=pass smtp.mailfrom=monolithicpower.com; arc=none smtp.client-ip=12.33.0.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=monolithicpower.com
-Received: from CD-MSH04.monolithicpower.com (10.10.70.213) by
- MPS-MSH04.monolithicpower.com (10.10.10.206) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 22 Dec 2025 17:23:15 -0800
-Received: from HZ-200D-C0727.monolithicpower.com (10.53.66.137) by
- CD-MSH04.monolithicpower.com (10.10.70.213) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Tue, 23 Dec 2025 09:23:13 +0800
-From: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
-To: <Yuxi.Wang@monolithicpower.com>, <linux@roeck-us.net>, <corbet@lwn.net>,
-	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
-CC: <wyx137120466@gmail.com>, <linux-hwmon@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>
-Subject: [PATCH v4 1/2] dt-bindings: hwmon: Add mps mp5926 driver bindings
-Date: Tue, 23 Dec 2025 09:22:30 +0800
-Message-ID: <20251223012231.1701-2-Yuxi.Wang@monolithicpower.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <20251223012231.1701-1-Yuxi.Wang@monolithicpower.com>
-References: <20251223012231.1701-1-Yuxi.Wang@monolithicpower.com>
+	s=arc-20240116; t=1766452999; c=relaxed/simple;
+	bh=OMYDhkHK0uSmrb5MCtocsFGAxnEKImTpr9foZYZOt40=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=obG3HgxSjwHJCUAO32I8bsvWwmZeo9SdPlotbkBePUNb2vA2DeiAlKQtn2BCgkM4O7c0Wk6B5q94BrWZRT4Phz3MSR/nm4O8f5Mu/VFjRDWK0IFCqJft9Cv4RpevP0dYb00Jhb0A0dBvnVuhp+hVO3j5QUvE5qunPUKa3kAI1S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paagAQx7; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paagAQx7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33F9C16AAE;
+	Tue, 23 Dec 2025 01:23:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766452998;
+	bh=OMYDhkHK0uSmrb5MCtocsFGAxnEKImTpr9foZYZOt40=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=paagAQx7DR6OQLYiKBAyUmfJRqlLlWo0B/WqnSJp4UaOnSVTpvnrpUs9rcihKjl4p
+	 ogMcwM5pPsv/N9M33qjhe6cKUTe342MSgPkdFwJpdTym2v4trsvEbHhy95LD360o3R
+	 qLBV2NftYFVYZx+uE0s4Ssjtb8ibMpKk4S5S/8wlfAjQ/xO49jLR7ibxWsahklWyeQ
+	 No0fZBXZCr2JE8NV+rqTfIEy0M8VaCR2TzaqJ2ZLsTAEjFPwp7UVrzTdwBEwKB3OBz
+	 2Caq0zVLjO5ggXaRtoVNOUcy3BrUbxnGbtNFsIZGfYwCdkudTZyWdqOYV+qx3y/1g8
+	 KyVynz/qGHrnA==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 23 Dec 2025 01:21:18 +0000
+Subject: [PATCH v9 24/30] KVM: arm64: Handle SME exceptions
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CD-MSLBN02.monolithicpower.com (192.168.86.32) To
- CD-MSH04.monolithicpower.com (10.10.70.213)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251223-kvm-arm64-sme-v9-24-8be3867cb883@kernel.org>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+To: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
+ Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Eric Auger <eric.auger@redhat.com>, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6175; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=OMYDhkHK0uSmrb5MCtocsFGAxnEKImTpr9foZYZOt40=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpSe6VqS1KxXhksu/eI5v73oOXVDUthEn9H58Vo
+ YU6O35PgUmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaUnulQAKCRAk1otyXVSH
+ 0L1tB/wLo9tdtbFcIkmIi1HKbhc864xEQx6SfbiiClSarEelE69s8aYGZLnVomleYwO9ihwJ/db
+ VG0WTa4bvoXtF6vvC9ofVeHdrQJZtvEoByhdb7keq06H9phc40haHz6hM2srQPizn567WOlYnuE
+ +FyxthfbZuW+gRWHGhpKqX/AK1EiSZuLY56NHNtDnUhOd/0RUvzc+RoVt2nKIqJfQ1vUfY16/85
+ YfOmduvBlsRgsmKKUikWxth3cxX671UNztDNAqr9QyanllLBVD+4IiLeNzvIrlhQXB26F6/cftB
+ xvjMa3/76Jp6tLql+8q+RNXbXvn8fGwBz+NufDvtf3cEz9PE
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add a device tree bindings for mp5926 device.
+The access control for SME follows the same structure as for the base FP
+and SVE extensions, with control being via CPACR_ELx.SMEN and CPTR_EL2.TSM
+mirroring the equivalent FPSIMD and SVE controls in those registers. Add
+handling for these controls and exceptions mirroring the existing handling
+for FPSIMD and SVE.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/kvm/handle_exit.c            | 14 ++++++++++++++
+ arch/arm64/kvm/hyp/include/hyp/switch.h | 11 ++++++-----
+ arch/arm64/kvm/hyp/nvhe/switch.c        |  4 +++-
+ arch/arm64/kvm/hyp/vhe/switch.c         | 17 ++++++++++++-----
+ 4 files changed, 35 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index d0f7dbf15d6f..df3f74b9dd28 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -319,6 +319,8 @@ properties:
-           - mps,mp5023
-             # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5920
-           - mps,mp5920
-+            # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5926
-+          - mps,mp5926
-             # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5990
-           - mps,mp5990
-             # Monolithic Power Systems Inc. multi-phase hot-swap controller mp5998
+diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
+index cc7d5d1709cb..1e54d5d722e4 100644
+--- a/arch/arm64/kvm/handle_exit.c
++++ b/arch/arm64/kvm/handle_exit.c
+@@ -237,6 +237,19 @@ static int handle_sve(struct kvm_vcpu *vcpu)
+ 	return 1;
+ }
+ 
++/*
++ * Guest access to SME registers should be routed to this handler only
++ * when the system doesn't support SME.
++ */
++static int handle_sme(struct kvm_vcpu *vcpu)
++{
++	if (guest_hyp_sme_traps_enabled(vcpu))
++		return kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
++
++	kvm_inject_undefined(vcpu);
++	return 1;
++}
++
+ /*
+  * Two possibilities to handle a trapping ptrauth instruction:
+  *
+@@ -390,6 +403,7 @@ static exit_handle_fn arm_exit_handlers[] = {
+ 	[ESR_ELx_EC_SVC64]	= handle_svc,
+ 	[ESR_ELx_EC_SYS64]	= kvm_handle_sys_reg,
+ 	[ESR_ELx_EC_SVE]	= handle_sve,
++	[ESR_ELx_EC_SME]	= handle_sme,
+ 	[ESR_ELx_EC_ERET]	= kvm_handle_eret,
+ 	[ESR_ELx_EC_IABT_LOW]	= kvm_handle_guest_abort,
+ 	[ESR_ELx_EC_DABT_LOW]	= kvm_handle_guest_abort,
+diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
+index 5bcc72ae48ff..ad88cc7bd5d3 100644
+--- a/arch/arm64/kvm/hyp/include/hyp/switch.h
++++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
+@@ -69,11 +69,8 @@ static inline void __activate_cptr_traps_nvhe(struct kvm_vcpu *vcpu)
+ {
+ 	u64 val = CPTR_NVHE_EL2_RES1 | CPTR_EL2_TAM | CPTR_EL2_TTA;
+ 
+-	/*
+-	 * Always trap SME since it's not supported in KVM.
+-	 * TSM is RES1 if SME isn't implemented.
+-	 */
+-	val |= CPTR_EL2_TSM;
++	if (!vcpu_has_sme(vcpu) || !guest_owns_fp_regs())
++		val |= CPTR_EL2_TSM;
+ 
+ 	if (!vcpu_has_sve(vcpu) || !guest_owns_fp_regs())
+ 		val |= CPTR_EL2_TZ;
+@@ -101,6 +98,8 @@ static inline void __activate_cptr_traps_vhe(struct kvm_vcpu *vcpu)
+ 		val |= CPACR_EL1_FPEN;
+ 		if (vcpu_has_sve(vcpu))
+ 			val |= CPACR_EL1_ZEN;
++		if (vcpu_has_sme(vcpu))
++			val |= CPACR_EL1_SMEN;
+ 	}
+ 
+ 	if (!vcpu_has_nv(vcpu))
+@@ -142,6 +141,8 @@ static inline void __activate_cptr_traps_vhe(struct kvm_vcpu *vcpu)
+ 		val &= ~CPACR_EL1_FPEN;
+ 	if (!(SYS_FIELD_GET(CPACR_EL1, ZEN, cptr) & BIT(0)))
+ 		val &= ~CPACR_EL1_ZEN;
++	if (!(SYS_FIELD_GET(CPACR_EL1, SMEN, cptr) & BIT(0)))
++		val &= ~CPACR_EL1_SMEN;
+ 
+ 	if (kvm_has_feat(vcpu->kvm, ID_AA64MMFR3_EL1, S2POE, IMP))
+ 		val |= cptr & CPACR_EL1_E0POE;
+diff --git a/arch/arm64/kvm/hyp/nvhe/switch.c b/arch/arm64/kvm/hyp/nvhe/switch.c
+index d3b9ec8a7c28..b2cba7c92b0f 100644
+--- a/arch/arm64/kvm/hyp/nvhe/switch.c
++++ b/arch/arm64/kvm/hyp/nvhe/switch.c
+@@ -181,6 +181,7 @@ static const exit_handler_fn hyp_exit_handlers[] = {
+ 	[ESR_ELx_EC_CP15_32]		= kvm_hyp_handle_cp15_32,
+ 	[ESR_ELx_EC_SYS64]		= kvm_hyp_handle_sysreg,
+ 	[ESR_ELx_EC_SVE]		= kvm_hyp_handle_fpsimd,
++	[ESR_ELx_EC_SME]		= kvm_hyp_handle_fpsimd,
+ 	[ESR_ELx_EC_FP_ASIMD]		= kvm_hyp_handle_fpsimd,
+ 	[ESR_ELx_EC_IABT_LOW]		= kvm_hyp_handle_iabt_low,
+ 	[ESR_ELx_EC_DABT_LOW]		= kvm_hyp_handle_dabt_low,
+@@ -192,7 +193,8 @@ static const exit_handler_fn pvm_exit_handlers[] = {
+ 	[0 ... ESR_ELx_EC_MAX]		= NULL,
+ 	[ESR_ELx_EC_SYS64]		= kvm_handle_pvm_sys64,
+ 	[ESR_ELx_EC_SVE]		= kvm_handle_pvm_restricted,
+-	[ESR_ELx_EC_FP_ASIMD]		= kvm_hyp_handle_fpsimd,
++	[ESR_ELx_EC_SME]		= kvm_handle_pvm_restricted,
++	[ESR_ELx_EC_FP_ASIMD]		= kvm_handle_pvm_restricted,
+ 	[ESR_ELx_EC_IABT_LOW]		= kvm_hyp_handle_iabt_low,
+ 	[ESR_ELx_EC_DABT_LOW]		= kvm_hyp_handle_dabt_low,
+ 	[ESR_ELx_EC_WATCHPT_LOW]	= kvm_hyp_handle_watchpt_low,
+diff --git a/arch/arm64/kvm/hyp/vhe/switch.c b/arch/arm64/kvm/hyp/vhe/switch.c
+index 9984c492305a..8449004bc24e 100644
+--- a/arch/arm64/kvm/hyp/vhe/switch.c
++++ b/arch/arm64/kvm/hyp/vhe/switch.c
+@@ -458,22 +458,28 @@ static bool kvm_hyp_handle_cpacr_el1(struct kvm_vcpu *vcpu, u64 *exit_code)
+ 	return true;
+ }
+ 
+-static bool kvm_hyp_handle_zcr_el2(struct kvm_vcpu *vcpu, u64 *exit_code)
++static bool kvm_hyp_handle_vec_cr_el2(struct kvm_vcpu *vcpu, u64 *exit_code)
+ {
+ 	u32 sysreg = esr_sys64_to_sysreg(kvm_vcpu_get_esr(vcpu));
+ 
+ 	if (!vcpu_has_nv(vcpu))
+ 		return false;
+ 
+-	if (sysreg != SYS_ZCR_EL2)
++	switch (sysreg) {
++	case SYS_ZCR_EL2:
++	case SYS_SMCR_EL2:
++		break;
++	default:
+ 		return false;
++	}
+ 
+ 	if (guest_owns_fp_regs())
+ 		return false;
+ 
+ 	/*
+-	 * ZCR_EL2 traps are handled in the slow path, with the expectation
+-	 * that the guest's FP context has already been loaded onto the CPU.
++	 * ZCR_EL2 and SMCR_EL2 traps are handled in the slow path,
++	 * with the expectation that the guest's FP context has
++	 * already been loaded onto the CPU.
+ 	 *
+ 	 * Load the guest's FP context and unconditionally forward to the
+ 	 * slow path for handling (i.e. return false).
+@@ -493,7 +499,7 @@ static bool kvm_hyp_handle_sysreg_vhe(struct kvm_vcpu *vcpu, u64 *exit_code)
+ 	if (kvm_hyp_handle_cpacr_el1(vcpu, exit_code))
+ 		return true;
+ 
+-	if (kvm_hyp_handle_zcr_el2(vcpu, exit_code))
++	if (kvm_hyp_handle_vec_cr_el2(vcpu, exit_code))
+ 		return true;
+ 
+ 	return kvm_hyp_handle_sysreg(vcpu, exit_code);
+@@ -522,6 +528,7 @@ static const exit_handler_fn hyp_exit_handlers[] = {
+ 	[0 ... ESR_ELx_EC_MAX]		= NULL,
+ 	[ESR_ELx_EC_CP15_32]		= kvm_hyp_handle_cp15_32,
+ 	[ESR_ELx_EC_SYS64]		= kvm_hyp_handle_sysreg_vhe,
++	[ESR_ELx_EC_SME]		= kvm_hyp_handle_fpsimd,
+ 	[ESR_ELx_EC_SVE]		= kvm_hyp_handle_fpsimd,
+ 	[ESR_ELx_EC_FP_ASIMD]		= kvm_hyp_handle_fpsimd,
+ 	[ESR_ELx_EC_IABT_LOW]		= kvm_hyp_handle_iabt_low,
+
 -- 
-2.39.2
+2.47.3
 
