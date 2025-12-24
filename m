@@ -1,465 +1,173 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3279F3594F;
-	Wed, 24 Dec 2025 06:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774CB329E54
+	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 06:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766556926; cv=none; b=U4qKenfUT/73zKdPWRQg2tkF0uh/IonxPVrnbox331YbbB6jerKAMbNG4JMD5wfQ5xwcNwLmeQc0AAI5bGhAgXW6g6GBu72Gp5t/g5AFGA6Gmry4dDC3fH2s0TB7Ip7kwJ8HnDArEGl0onR/oS+xyiX8DJAbA6wxF1oNoMsnuPE=
+	t=1766558502; cv=none; b=k5poLcsQezXFjLCj5jlwhn9YBJZ5OPIvy4ZTXaG3Hyrz1M9hV0tNNkMVkjoSgqEot7KouSpV7m/VIiOVp04W+Wpnx0PxElZUp8Ao2pDHSqqDGghLl/AlKhWb8gIzGVuyba6USIR+ee9z8nVRDFz7wYuGrh2CQWIkmlTxIw7pwU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766556926; c=relaxed/simple;
-	bh=qq1SXME7AbXDnt9RsKYhB1tyhzC+kttGZlFvm92MYoI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kxIXY6t1xQSRhqfdpIjOZqNYq6gSRdfj4tnXhdCCvpgzJQ8xkdSNwEhxdxNIjbG0Uj6CctBpedWzY9tPs7gXXl5gszmwtzVJAYQbuAV24GbufMl78b2aDdOWMEICUvVRsPe41r2c9C/FOUIRrTg42Itl5lsi6JiL9KJ60OJr6fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=2e60XrQO; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1766558502; c=relaxed/simple;
+	bh=bq+vufCo8wRGet2ZSxB+C5P+sd2ZOC5WrglH1AMUSBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bkita0kqAf+rBK5gx0MSpc3tu2JKPte46s5Hv2Y3/RvBicIttUyuKAAyr+EUogfQ+biadW2ktHa0+OBheeoxO+bzK0f1HG7F9XziDwbPOylyo9QB6nz9S5VbvB5iEUov/Vp5mUfTdpeN3I6gYm+zXMCWfIwlpnjnQwqxpoSv6Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDiUnGRg; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="2e60XrQO"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Z6s05Oe7JEqfjJMZVFBnicnBj32uLD/EjtUJ4enaUBc=;
-	b=2e60XrQOFa7j0KVjV71Czh6e+qNB8ck0r8Jfr9X5NX//5QpJviYIVvgk0DBLeFREGJPM7VrpL
-	94uDpymmPdWyeR5qy7ya7NSxRO7BuEMI3CWituejwcAygkqWy6AF6xH+JlrxmvaMSIXcproui1C
-	rptUFBImIyfI+i+y9WXS/uA=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dbhNj56j3z12LJy;
-	Wed, 24 Dec 2025 14:12:05 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2CE2040363;
-	Wed, 24 Dec 2025 14:15:18 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 24 Dec 2025 14:15:17 +0800
-Message-ID: <f8e59e80-33b2-47cd-a042-11f28cc61645@huawei.com>
-Date: Wed, 24 Dec 2025 14:15:16 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDiUnGRg"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34c1d84781bso6476226a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Dec 2025 22:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766558500; x=1767163300; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bq+vufCo8wRGet2ZSxB+C5P+sd2ZOC5WrglH1AMUSBc=;
+        b=cDiUnGRg7gZttst+TV1V9JkD0d1KjPsHPo9O3JXNb9QM+aX7P1r2HTXlRQfeLZfEDf
+         Q/IUXll5UMRLMnBhEhLTLedaR408EpejWcPXSsuaL9ESjoc2k775QWHEssz3XRIAsCYO
+         UJL/2/wk/TYbj+MdF3aYqZdr6KBPdBo8FlohoeMc0xYPBPtp0eOU4Vd8ECZ+si+1eU6m
+         AVX7qqlrY2HFh9WDZ7nbKr0yyBluvEWZla/25PVnzRdbk16uBn/MsKbt7T+qeQZEBLWV
+         1tIhZqqgyiaBy65oLjQ9U4SpwiWG9EQvVHuL3txgaP3cj0gOXpC5LfDbA7PKnySGhzT5
+         F68Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766558500; x=1767163300;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bq+vufCo8wRGet2ZSxB+C5P+sd2ZOC5WrglH1AMUSBc=;
+        b=O8u8eSSFgngJsHd85hKCIcAqTJ0vkGRxjbnHLvgOzoC3nRqWz3MNd52Cz5IjiReOfx
+         aHck42sBSw/lXMw0M7b7N63TCBLZubRA4SnbTukR4MKClpzDH5FMHDPmwIxi7GybtwF2
+         eRgjaCU8iaGtbB/Dwi2634ULohTtuijK5q9dvYsighr2Qtz9/dSDlxcemKVz0hBLsOE9
+         6sjDzdB9itlmySlxDUPeNgwLifSMRxAyyFugBtIiLFLz79Mv/nQJ10Czmnka3MWskiNp
+         3ZRiwbL9yr63p1Z9S+hrMtP9cyuXjSVPDyslMMhZNRSnGijv3fvD/HfJEITHzX+nIFrt
+         9YAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrN0M/Jk8S4yeqrJSItvo6ZV7mVqc064iHsBz3sUQRtFcnkP5Nh9zgR3j3L31yBRPowW8BlElLjDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYgm8y3NLHNRx+J3DVYwmEcNTy0QJBFO4xHakjrLNGUSI4gE1p
+	fP3wYUcgxnlFRjoKuy0CISwO1TyGYWym9k6roxzRTxltB8nc6EvJkPLw
+X-Gm-Gg: AY/fxX7zeLWFvgv0lDAeikDJqTnCpJSJVHkMCvMZmNw4r+Bhb/NhR9F+WkWpKaHbFzz
+	01TMX14eCix8Rpjx7EelOC+a6QDfhPSw1Gv1nnmNh+rw0Xg/HHTTqWcAf9mFmur7sDrSt/5sl8+
+	SnRziq0L4BZ5pSpeQRuI1qYLTqODPsm4pF1IgoJVmXyS3aJuTrcLNaQT/zMvB7RdmaKZj5tF/f5
+	toFDVS6p1TTOuEiGNU2qHBauzptgzaloGrHW9dn/g0fK/tnDnO31ALbAblQtcu+IFb0XHTX5Xcz
+	Nj1KLYvJrPY6JtHwA6+gnFIq0hODB5a7sOT4qkM8PQmoB3AC1E9TRJjtoPeaDXvCcFxKpGeDscZ
+	R1nm2PePhd7X/L/d9NSUs7VhV6/gfnx7nfG+b5hGDWUjgKLoZ4v+eXNjuroenPnkmUgAQ//tlO9
+	YBWWhV2Ocmfwg=
+X-Google-Smtp-Source: AGHT+IEgCZoyx2O75kxoEMfoJk/QK1exkq2h58uTDwsgQiSgm5wW6qFv0Xa6ZtRpSo46krMU5VkaMg==
+X-Received: by 2002:a17:90b:6c7:b0:34c:a29d:992a with SMTP id 98e67ed59e1d1-34e921d6cbamr13205903a91.34.1766558499526;
+        Tue, 23 Dec 2025 22:41:39 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e9223adf5sm14661068a91.14.2025.12.23.22.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 22:41:38 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id ECD6A420A81F; Wed, 24 Dec 2025 13:41:35 +0700 (WIB)
+Date: Wed, 24 Dec 2025 13:41:35 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [REGRESSION] Unexpected section title false positive warnings on
+ DOC: directive
+Message-ID: <aUuLHzk5jdyBAxD7@archie.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF
- events
-To: Robert Hoo <robert.hoo.linux@gmail.com>, Tian Zheng
-	<zhengtian10@huawei.com>, <maz@kernel.org>, <oliver.upton@linux.dev>,
-	<catalin.marinas@arm.com>, <corbet@lwn.net>, <pbonzini@redhat.com>,
-	<will@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <yuzenghui@huawei.com>,
-	<wangzhou1@hisilicon.com>, <yezhenyu2@huawei.com>, <xiexiangyou@huawei.com>,
-	<zhengchuan@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <suzuki.poulose@arm.com>
-References: <20251121092342.3393318-1-zhengtian10@huawei.com>
- <20251121092342.3393318-5-zhengtian10@huawei.com>
- <87df4cba-b191-49cf-9486-fc379470a6eb@gmail.com>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <87df4cba-b191-49cf-9486-fc379470a6eb@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8ZYU0AtWDRBkFeIb"
+Content-Disposition: inline
 
 
+--8ZYU0AtWDRBkFeIb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/17/2025 9:39 PM, Robert Hoo wrote:
-> On 11/21/2025 5:23 PM, Tian Zheng wrote:
->> From: eillon <yezhenyu2@huawei.com>
->>
->> Implement the HDBSS enable/disable functionality using the
->> KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl.
->>
->> Userspace (e.g., QEMU) can enable HDBSS by invoking the ioctl
->> at the start of live migration, configuring the buffer size.
->> The feature is disabled by invoking the ioctl again with size
->> set to 0 once migration completes.
->>
->> Add support for updating the dirty bitmap based on the HDBSS
->> buffer. Similar to the x86 PML implementation, KVM flushes the
->> buffer on all VM-Exits, so running vCPUs only need to be kicked
->> to force a VM-Exit.
->>
->> Signed-off-by: eillon <yezhenyu2@huawei.com>
->> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->> ---
->>   arch/arm64/include/asm/kvm_host.h |  10 +++
->>   arch/arm64/include/asm/kvm_mmu.h  |  17 +++++
->>   arch/arm64/kvm/arm.c              | 107 ++++++++++++++++++++++++++++++
->>   arch/arm64/kvm/handle_exit.c      |  45 +++++++++++++
->>   arch/arm64/kvm/hyp/vhe/switch.c   |   1 +
->>   arch/arm64/kvm/mmu.c              |  10 +++
->>   arch/arm64/kvm/reset.c            |   3 +
->>   include/linux/kvm_host.h          |   1 +
->>   8 files changed, 194 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/ 
->> asm/kvm_host.h
->> index d962932f0e5f..408e4c2b3d1a 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -87,6 +87,7 @@ int __init kvm_arm_init_sve(void);
->>   u32 __attribute_const__ kvm_target_cpu(void);
->>   void kvm_reset_vcpu(struct kvm_vcpu *vcpu);
->>   void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu);
->> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
->>
->>   struct kvm_hyp_memcache {
->>       phys_addr_t head;
->> @@ -793,6 +794,12 @@ struct vcpu_reset_state {
->>       bool        reset;
->>   };
->>
->> +struct vcpu_hdbss_state {
->> +    phys_addr_t base_phys;
->> +    u32 size;
->> +    u32 next_index;
->> +};
->> +
->>   struct vncr_tlb;
->>
->>   struct kvm_vcpu_arch {
->> @@ -897,6 +904,9 @@ struct kvm_vcpu_arch {
->>
->>       /* Per-vcpu TLB for VNCR_EL2 -- NULL when !NV */
->>       struct vncr_tlb    *vncr_tlb;
->> +
->> +    /* HDBSS registers info */
->> +    struct vcpu_hdbss_state hdbss;
->>   };
->>
->>   /*
->> diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/ 
->> asm/kvm_mmu.h
->> index e4069f2ce642..6ace1080aed5 100644
->> --- a/arch/arm64/include/asm/kvm_mmu.h
->> +++ b/arch/arm64/include/asm/kvm_mmu.h
->> @@ -331,6 +331,23 @@ static __always_inline void __load_stage2(struct 
->> kvm_s2_mmu *mmu,
->>       asm(ALTERNATIVE("nop", "isb", ARM64_WORKAROUND_SPECULATIVE_AT));
->>   }
->>
->> +static __always_inline void __load_hdbss(struct kvm_vcpu *vcpu)
->> +{
->> +    struct kvm *kvm = vcpu->kvm;
->> +    u64 br_el2, prod_el2;
->> +
->> +    if (!kvm->enable_hdbss)
->> +        return;
->> +
->> +    br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu- 
->> >arch.hdbss.size);
->> +    prod_el2 = vcpu->arch.hdbss.next_index;
->> +
->> +    write_sysreg_s(br_el2, SYS_HDBSSBR_EL2);
->> +    write_sysreg_s(prod_el2, SYS_HDBSSPROD_EL2);
->> +
->> +    isb();
->> +}
->> +
->>   static inline struct kvm *kvm_s2_mmu_to_kvm(struct kvm_s2_mmu *mmu)
->>   {
->>       return container_of(mmu->arch, struct kvm, arch);
->> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->> index 870953b4a8a7..64f65e3c2a89 100644
->> --- a/arch/arm64/kvm/arm.c
->> +++ b/arch/arm64/kvm/arm.c
->> @@ -79,6 +79,92 @@ int kvm_arch_vcpu_should_kick(struct kvm_vcpu *vcpu)
->>       return kvm_vcpu_exiting_guest_mode(vcpu) == IN_GUEST_MODE;
->>   }
->>
->> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
->> +{
->> +    struct page *hdbss_pg = NULL;
->> +
->> +    hdbss_pg = phys_to_page(vcpu->arch.hdbss.base_phys);
->> +    if (hdbss_pg)
->> +        __free_pages(hdbss_pg, vcpu->arch.hdbss.size);
->> +
->> +    vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
->> +        .base_phys = 0,
->> +        .size = 0,
->> +        .next_index = 0,
->> +    };
->> +}
->> +
->> +static int kvm_cap_arm_enable_hdbss(struct kvm *kvm,
->> +                    struct kvm_enable_cap *cap)
->> +{
->> +    unsigned long i;
->> +    struct kvm_vcpu *vcpu;
->> +    struct page *hdbss_pg = NULL;
->> +    int size = cap->args[0];
->> +    int ret = 0;
->> +
->> +    if (!system_supports_hdbss()) {
->> +        kvm_err("This system does not support HDBSS!\n");
->> +        return -EINVAL;
->> +    }
->> +
->> +    if (size < 0 || size > HDBSS_MAX_SIZE) {
->> +        kvm_err("Invalid HDBSS buffer size: %d!\n", size);
->> +        return -EINVAL;
->> +    }
->> +
-> 
-> I think you should check if it's already enabled here. What if user 
-> space calls this twice?
+Hi,
 
-Ok, I review the implement of qemu, when disable the hdbss feature in
-ram_save_cleanup, size=0 will be set, so here can add a check, if (size
-&& kvm->arch.enable_hdbss), we will do nothing.
+Building htmldocs on docs-next currenly produces about 50 new warnings; whi=
+ch
+all of them are unexpected section title on DOC: kernel-doc directive, like:
 
-> 
->> +    /* Enable the HDBSS feature if size > 0, otherwise disable it. */
->> +    if (size) {
->> +        kvm_for_each_vcpu(i, vcpu, kvm) {
->> +            hdbss_pg = alloc_pages(GFP_KERNEL_ACCOUNT, size);
->> +            if (!hdbss_pg) {
->> +                kvm_err("Alloc HDBSS buffer failed!\n");
->> +                ret = -ENOMEM;
->> +                goto error_alloc;
->> +            }
->> +
->> +            vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
->> +                .base_phys = page_to_phys(hdbss_pg),
->> +                .size = size,
->> +                .next_index = 0,
->> +            };
->> +        }
->> +
->> +        kvm->enable_hdbss = true;
->> +        kvm->arch.mmu.vtcr |= VTCR_EL2_HD | VTCR_EL2_HDBSS;
-> 
-> VTCR_EL2_HA is also a necessity for VTCR_EL2_HDBSS to take effect.
+/home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers=
+/target/target_core_user.c:35: CRITICAL: Unexpected section title.
 
-I see, thanks! I checked the architecture spec, and it indeed states
-that HA needs to be enabled for AF hardware management to function
-properly.
+Userspace I/O
+------------- [docutils]
+WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'U=
+serspace I/O' ./drivers/target/target_core_user.c' processing failed with: =
+SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/targe=
+t:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected section=
+ title.\n\nUserspace I/O\n-------------')
+/home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include=
+/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
 
-> 
->> +
->> +        /*
->> +         * We should kick vcpus out of guest mode here to load new
->> +         * vtcr value to vtcr_el2 register when re-enter guest mode.
->> +         */
->> +        kvm_for_each_vcpu(i, vcpu, kvm)
->> +            kvm_vcpu_kick(vcpu);
->> +    } else if (kvm->enable_hdbss) {
->> +        kvm->arch.mmu.vtcr &= ~(VTCR_EL2_HD | VTCR_EL2_HDBSS);
->> +
->> +        kvm_for_each_vcpu(i, vcpu, kvm) {
->> +            /* Kick vcpus to flush hdbss buffer. */
->> +            kvm_vcpu_kick(vcpu);
->> +
->> +            kvm_arm_vcpu_free_hdbss(vcpu);
->> +        }
->> +
->> +        kvm->enable_hdbss = false;
->> +    }
->> +
->> +    return ret;
->> +
->> +error_alloc:
->> +    kvm_for_each_vcpu(i, vcpu, kvm) {
->> +        if (!vcpu->arch.hdbss.base_phys && !vcpu->arch.hdbss.size)
->> +            continue;
->> +
->> +        kvm_arm_vcpu_free_hdbss(vcpu);
->> +    }
->> +
->> +    return ret;
->> +}
->> +
->>   int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->>                   struct kvm_enable_cap *cap)
->>   {
->> @@ -132,6 +218,11 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->>           }
->>           mutex_unlock(&kvm->lock);
->>           break;
->> +    case KVM_CAP_ARM_HW_DIRTY_STATE_TRACK:
->> +        mutex_lock(&kvm->lock);
->> +        r = kvm_cap_arm_enable_hdbss(kvm, cap);
->> +        mutex_unlock(&kvm->lock);
->> +        break;
->>       default:
->>           break;
->>       }
->> @@ -420,6 +511,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, 
->> long ext)
->>               r = kvm_supports_cacheable_pfnmap();
->>           break;
->>
->> +    case KVM_CAP_ARM_HW_DIRTY_STATE_TRACK:
->> +        r = system_supports_hdbss();
->> +        break;
->>       default:
->>           r = 0;
->>       }
->> @@ -1837,7 +1931,20 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->>
->>   void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot 
->> *memslot)
->>   {
->> +    /*
->> +     * Flush all CPUs' dirty log buffers to the dirty_bitmap.  Called
->> +     * before reporting dirty_bitmap to userspace.  KVM flushes the 
->> buffers
->> +     * on all VM-Exits, thus we only need to kick running vCPUs to 
->> force a
->> +     * VM-Exit.
->> +     */
->> +    struct kvm_vcpu *vcpu;
->> +    unsigned long i;
->>
->> +    if (!kvm->enable_hdbss)
->> +        return;
->> +
->> +    kvm_for_each_vcpu(i, vcpu, kvm)
->> +        kvm_vcpu_kick(vcpu);
->>   }
->>
->>   static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
->> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
->> index cc7d5d1709cb..9ba0ea6305ef 100644
->> --- a/arch/arm64/kvm/handle_exit.c
->> +++ b/arch/arm64/kvm/handle_exit.c
->> @@ -412,6 +412,49 @@ static exit_handle_fn kvm_get_exit_handler(struct 
->> kvm_vcpu *vcpu)
->>       return arm_exit_handlers[esr_ec];
->>   }
->>
->> +static void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu)
->> +{
->> +    int idx, curr_idx;
->> +    u64 *hdbss_buf;
->> +    struct kvm *kvm = vcpu->kvm;
->> +    u64 br_el2;
->> +
->> +    if (!kvm->enable_hdbss)
->> +        return;
->> +
->> +    dsb(sy);
->> +    isb();
->> +    curr_idx = HDBSSPROD_IDX(read_sysreg_s(SYS_HDBSSPROD_EL2));
->> +    br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu- 
->> >arch.hdbss.size);
->> +
->> +    /* Do nothing if HDBSS buffer is empty or br_el2 is NULL */
->> +    if (curr_idx == 0 || br_el2 == 0)
->> +        return;
->> +
->> +    hdbss_buf = page_address(phys_to_page(vcpu->arch.hdbss.base_phys));
->> +    if (!hdbss_buf) {
->> +        kvm_err("Enter flush hdbss buffer with buffer == NULL!");
->> +        return;
->> +    }
->> +
->> +    guard(write_lock_irqsave)(&vcpu->kvm->mmu_lock);
->> +    for (idx = 0; idx < curr_idx; idx++) {
->> +        u64 gpa;
->> +
->> +        gpa = hdbss_buf[idx];
->> +        if (!(gpa & HDBSS_ENTRY_VALID))
->> +            continue;
->> +
->> +        gpa &= HDBSS_ENTRY_IPA;
->> +        kvm_vcpu_mark_page_dirty(vcpu, gpa >> PAGE_SHIFT);
->> +    }
->> +
->> +    /* reset HDBSS index */
->> +    write_sysreg_s(0, SYS_HDBSSPROD_EL2);
->> +    vcpu->arch.hdbss.next_index = 0;
->> +    isb();
->> +}
->> +
->>   /*
->>    * We may be single-stepping an emulated instruction. If the emulation
->>    * has been completed in the kernel, we can return to userspace with a
->> @@ -447,6 +490,8 @@ int handle_exit(struct kvm_vcpu *vcpu, int 
->> exception_index)
->>   {
->>       struct kvm_run *run = vcpu->run;
->>
->> +    kvm_flush_hdbss_buffer(vcpu);
->> +
->>       if (ARM_SERROR_PENDING(exception_index)) {
->>           /*
->>            * The SError is handled by handle_exit_early(). If the guest
->> diff --git a/arch/arm64/kvm/hyp/vhe/switch.c b/arch/arm64/kvm/hyp/vhe/ 
->> switch.c
->> index 9984c492305a..3787c9c5810d 100644
->> --- a/arch/arm64/kvm/hyp/vhe/switch.c
->> +++ b/arch/arm64/kvm/hyp/vhe/switch.c
->> @@ -220,6 +220,7 @@ void kvm_vcpu_load_vhe(struct kvm_vcpu *vcpu)
->>       __vcpu_load_switch_sysregs(vcpu);
->>       __vcpu_load_activate_traps(vcpu);
->>       __load_stage2(vcpu->arch.hw_mmu, vcpu->arch.hw_mmu->arch);
->> +    __load_hdbss(vcpu);
->>   }
->>
->>   void kvm_vcpu_put_vhe(struct kvm_vcpu *vcpu)
->> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
->> index 7cc964af8d30..91a2f9dbb406 100644
->> --- a/arch/arm64/kvm/mmu.c
->> +++ b/arch/arm64/kvm/mmu.c
->> @@ -1843,6 +1843,9 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, 
->> phys_addr_t fault_ipa,
->>       if (writable)
->>           prot |= KVM_PGTABLE_PROT_W;
->>
->> +    if (writable && kvm->enable_hdbss && logging_active)
->> +        prot |= KVM_PGTABLE_PROT_DBM;
->> +
->>       if (exec_fault)
->>           prot |= KVM_PGTABLE_PROT_X;
->>
->> @@ -1950,6 +1953,13 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
->>
->>       is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
->>
->> +    /*
->> +     * HDBSS buffer already flushed when enter handle_trap_exceptions().
->> +     * Nothing to do here.
->> +     */
->> +    if (ESR_ELx_ISS2(esr) & ESR_ELx_HDBSSF)
->> +        return 1;
->> +
->>       if (esr_fsc_is_translation_fault(esr)) {
->>           /* Beyond sanitised PARange (which is the IPA limit) */
->>           if (fault_ipa >= BIT_ULL(get_kvm_ipa_limit())) {
->> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
->> index 959532422d3a..65e8f890f863 100644
->> --- a/arch/arm64/kvm/reset.c
->> +++ b/arch/arm64/kvm/reset.c
->> @@ -161,6 +161,9 @@ void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu)
->>       free_page((unsigned long)vcpu->arch.ctxt.vncr_array);
->>       kfree(vcpu->arch.vncr_tlb);
->>       kfree(vcpu->arch.ccsidr);
->> +
->> +    if (vcpu->arch.hdbss.base_phys || vcpu->arch.hdbss.size)
->> +        kvm_arm_vcpu_free_hdbss(vcpu);
->>   }
->>
->>   static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
->> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
->> index 5bd76cf394fa..aa8138604b1e 100644
->> --- a/include/linux/kvm_host.h
->> +++ b/include/linux/kvm_host.h
->> @@ -876,6 +876,7 @@ struct kvm {
->>       struct xarray mem_attr_array;
->>   #endif
->>       char stats_id[KVM_STATS_NAME_SIZE];
->> +    bool enable_hdbss;
->>   };
->>
->>   #define kvm_err(fmt, ...) \
->> -- 
->> 2.33.0
->>
->>
-> 
+Ring Design
+----------- [docutils]
+WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'R=
+ing Design' ./include/uapi/linux/target_core_user.h' processing failed with=
+: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/tar=
+get:28: ./include/uapi/linux/target_core_user.h:14: (SEVERE/4) Unexpected s=
+ection title.\n\nRing Design\n-----------')
 
+These turns out to be false-positive as touching the source file in question
+(e.g. drivers/target/target_core_user.c) and making htmldocs again makes the
+regression go away for the corresponding docs.
+
+Bisection (with git-bisect(1)) points to bea467aa5da1f5 ("docs: media:
+v4l2-ioctl.h: document two global variables") as the first bad commit, even
+though that I suspect that bdd1cf87847ff6 ("kernel-doc: add support to hand=
+le
+DEFINE_ variables") may be the actual culprit (regressor).
+
+The full bisection log:
+
+git bisect start
+# status: waiting for both good and bad commits
+# bad: [7f3c3a0a9103dc92c823f27db3284ac2914e7558] MAINTAINERS: Add doc file=
+s on real-time support to Real-time Linux
+git bisect bad 7f3c3a0a9103dc92c823f27db3284ac2914e7558
+# status: waiting for good commit(s), bad commit known
+# good: [9448598b22c50c8a5bb77a9103e2d49f134c9578] Linux 6.19-rc2
+git bisect good 9448598b22c50c8a5bb77a9103e2d49f134c9578
+# bad: [5188f6bd408f937d81c0c37eb59ddc1035cd912c] docs: admin: devices: /de=
+v/sr<N> for SCSI CD-ROM
+git bisect bad 5188f6bd408f937d81c0c37eb59ddc1035cd912c
+# bad: [bea467aa5da1f51834501da3ac3c40204027a221] docs: media: v4l2-ioctl.h=
+: document two global variables
+git bisect bad bea467aa5da1f51834501da3ac3c40204027a221
+# good: [82e87387f6e2af9f69a7528733e953fd22e815aa] Documentation: kernel-ha=
+cking: Remove comma
+git bisect good 82e87387f6e2af9f69a7528733e953fd22e815aa
+# good: [bdd1cf87847ff6aaadd53a185209d2bb2db72165] kernel-doc: add support =
+to handle DEFINE_ variables
+git bisect good bdd1cf87847ff6aaadd53a185209d2bb2db72165
+# first bad commit: [bea467aa5da1f51834501da3ac3c40204027a221] docs: media:=
+ v4l2-ioctl.h: document two global variables
+
+Mauro: Since you're the author of regressor, can you please take a look on =
+it?
+
+Thanks.
+
+#regzbot introduced: bea467aa5da1f5
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--8ZYU0AtWDRBkFeIb
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaUuLFgAKCRD2uYlJVVFO
+o83XAQCJcTXukZzv0/X0PWBYI57OBqNpUtvshGIWlzzmT8UfxQD+Ip7xjplmoYLi
+6BbKfNq/aBq8OqXAEbKfzatPtLOg+gU=
+=AUip
+-----END PGP SIGNATURE-----
+
+--8ZYU0AtWDRBkFeIb--
