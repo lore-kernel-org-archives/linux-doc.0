@@ -1,64 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5482DC357;
-	Tue, 23 Dec 2025 23:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9C13C1F;
+	Wed, 24 Dec 2025 00:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766532416; cv=none; b=N3WrJF9X0LLhL317cqVFPLn/BoLEILwl4eTYE3uYW/qtoStfaSyIIldQyLtsBr7maFe44NZJx0Z6QvyccnWq83em/vI6LlVH1kr0ni/SakAmqD73/4+Zug+O/xdJcD3xHUZ9SMkyoSXARF0DW4vYN4I6SHJ7X8bwplOuPCpwZ5k=
+	t=1766534989; cv=none; b=cmkkbONUVqqw3O9Gaeeo5KehwcVKPf1BLo0mn6u7f3wY5tKgabgok6UsFt4JQKFaC9RcNvls3DilyC9W4BcnpXW6I3I2v74XNnLvt6ObnYFbFgIKTFJ6o7GTbdMypDBGiDj6WHh4ku6fDvbuv0FFynf0ME+qt1LnOLWyUHvXpJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766532416; c=relaxed/simple;
-	bh=Tw8UXfWso5ZhHWbNrvlqYW+gPtiQiCffnCLVViVVMJA=;
+	s=arc-20240116; t=1766534989; c=relaxed/simple;
+	bh=9762YMZ3e4dNH0leV0xqlBgFdKvF9MnhJqn+Wiy6al4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DmC46+8QqA6lgEHlSVfRuujhmJKxNzxpuihLMjdSZOinxUuigo4n39G6rT4pqAPW/p7bsduIJsQmVPheOExuEpLNLsPjeox+9P2deDhe1NPC48yzjeNqnKXk/Vo8GxAPZG26SPtgJJFFncsbV00Y8uGmk0FEfxtOE/0FJOCDGCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QshJ+71f; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sKU9OzTfOPQv03sVPbqMkYG1uoFnf9rGsafYkWqT0tEPcVFOCjSQ6/dAuJy5oFQiAQREHkn73qengKyNaLgjCCQrfqecNmBklaUHLhd1ejdNu2Rs16SnFGUn+UONANERGdETfMh65NWuL/HTDYzq9bZF8EeIMxejOowvsX4Zkk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XmHlMsNd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QshJ+71f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766532415; x=1798068415;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tw8UXfWso5ZhHWbNrvlqYW+gPtiQiCffnCLVViVVMJA=;
-  b=QshJ+71f2oqLHQwwq/nAKaqdsklP1weiG0rhQX1YRyU6kVK7uCShzC+/
-   TbAUa27XBYlOp4/4UhAg8tamWePehHw/nWZQEcF3TPUl+K9Ef8QOAC6Hm
-   vLFAxuZxdhfilVjSGEkGJjb0L6JYYWaOcFVocjg4p+29tVLUaGUOA3MhO
-   7GnrEwEYbHHkMba1ARPXDB2OYicbzK/O/LYHy3BWGsojNvtg1KVQ4k7zv
-   q61xn9DGMIAI+FU5UAU/h33q3jYi5DLBEEmTxIV4EyasOLAslWXFo0fn7
-   TK6rjwD7bYWFOB7IiyJZGkLSkXibQROC/4QHPFNvWxlHmPN8NH1sRviYo
-   Q==;
-X-CSE-ConnectionGUID: E5hocf+tSKaI4dkhF5egvQ==
-X-CSE-MsgGUID: 7+E/oEE6TzWTCUi8uyJEbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68262038"
-X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="68262038"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 15:26:55 -0800
-X-CSE-ConnectionGUID: Ej3pIFH8Siu+t+Ohp6Z4PQ==
-X-CSE-MsgGUID: fUmbiYWtSY6SST1jNYIyPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="199639655"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 23 Dec 2025 15:26:51 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vYBmD-000000002Th-1WRB;
-	Tue, 23 Dec 2025 23:26:49 +0000
-Date: Wed, 24 Dec 2025 07:26:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mark.rutland@arm.com,
-	mathieu.desnoyers@efficios.com, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, atomlin@atomlin.com, sean@ashe.io,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] tracing: Add bitmask-list option for human-readable
- bitmask display
-Message-ID: <202512240709.cPAuuxFj-lkp@intel.com>
-References: <20251223035622.2084081-1-atomlin@atomlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XmHlMsNd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3AC5C113D0;
+	Wed, 24 Dec 2025 00:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766534989;
+	bh=9762YMZ3e4dNH0leV0xqlBgFdKvF9MnhJqn+Wiy6al4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XmHlMsNddxVT09HRcBH/WYCdWtTAjhgNqDroROJ/EAyO7vCd9ktC5lPaCHV3OnOK4
+	 Mexi8z/9J4MMsfuFpJyc5tPeegMajXKgbapMBe1RlPoi0dRaiiqiqXx4a60KOG1tKi
+	 A5G5ble91/4izwKAn+3DXjs/Z0hXZs4OamgjP7649gyjg5R+Ovk2eQ8YusgjqzEZ0J
+	 d27wfLTnWRrp5ZrU7wrkq7JAZLPe1MSOH6FJty/yJP9T2Ng+h0sGdXP2+Ca7/VhUoY
+	 VrXLZklKFm1mPQwvat6ngYvvfRU8AWlKLp3tuOLhJpp5aDPEcMLl37jKw4J5fL2yrx
+	 bK5yt1IiETvaw==
+Date: Tue, 23 Dec 2025 18:09:44 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	dl-linux-imx <linux-imx@nxp.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v6 4/5] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <xiqftcgga24bypbux276u56t2lxjy4oxzggixrhy5h7woc4aon@2zbcfxxrzqig>
+References: <20251212194341.966387-1-shenwei.wang@nxp.com>
+ <20251212194341.966387-5-shenwei.wang@nxp.com>
+ <mnpg4xanzl45lal72c6kgog7qmqgk2zcp734eqdpk3gsonq63f@vlewh6jgdjy4>
+ <PAXPR04MB9185B16A2B08E739B2FB64C889B5A@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,62 +55,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251223035622.2084081-1-atomlin@atomlin.com>
+In-Reply-To: <PAXPR04MB9185B16A2B08E739B2FB64C889B5A@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-Hi Aaron,
+On Tue, Dec 23, 2025 at 08:20:49PM +0000, Shenwei Wang wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Bjorn Andersson <andersson@kernel.org>
+> > Sent: Thursday, December 18, 2025 9:58 AM
+> > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > Cc: Linus Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
+> > Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
+> > Conor Dooley <conor+dt@kernel.org>; Mathieu Poirier
+> > <mathieu.poirier@linaro.org>; Shawn Guo <shawnguo@kernel.org>; Sascha
+> > Hauer <s.hauer@pengutronix.de>; Jonathan Corbet <corbet@lwn.net>;
+> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > On Fri, Dec 12, 2025 at 01:43:40PM -0600, Shenwei Wang wrote:
+> > > On an AMP platform, the system may include two processors:
+[..]
+> > > +static int rpmsg_gpio_callback(struct rpmsg_device *rpdev,
+> > > +                            void *data, int len, void *priv, u32 src)
+> > > +{
+[..]
+> > > +     init_completion(&port->info.cmd_complete);
+> > > +     port->info.rpdev = pltdata->rpdev;
+> > > +     port->info.port_store = pltdata->channel_devices;
+> > > +     port->info.port_store[port->idx] = port;
+> > > +     if (!pltdata->rx_callback)
+> > > +             pltdata->rx_callback = rpmsg_gpio_callback;
+> > 
+> > What happens if you rmmod your rpmsg gpio driver and then trigger an interrupt?
+> > 
+> 
+> The driver has a rpmsg_gpio_remove_action which will clear the devices in the pltdata->channel_devices[].
+> In the rpmsg callback function, it will just return -NODEV error.
 
-kernel test robot noticed the following build errors:
+When you rmmod the rpmsg_gpio driver, the code will go away, so at the
+address of rpmsg_gpio_callback there's going to be some undefined data.
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+>      if (msg)
+>              port = drvdata->channel_devices[msg->port_idx];
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tracing-Add-bitmask-list-option-for-human-readable-bitmask-display/20251223-120923
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20251223035622.2084081-1-atomlin%40atomlin.com
-patch subject: [PATCH] tracing: Add bitmask-list option for human-readable bitmask display
-config: i386-randconfig-141-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240709.cPAuuxFj-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240709.cPAuuxFj-lkp@intel.com/reproduce)
+So this code is no longer going to be there, or maybe there's some
+remnants of it? But jumping to the address of rpmsg_gpio_callback (not
+the actual rpmsg_gpio_callback) is best case going to result in a crash.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240709.cPAuuxFj-lkp@intel.com/
+> 
+>      if (!port)
+>              return -ENODEV;
+> 
+> > > +
+[..]
+> > > +static const struct of_device_id rpmsg_gpio_dt_ids[] = {
+> > > +     { .compatible = "rpmsg-gpio" },
+> > > +     { /* sentinel */ }
+> > > +};
+> > > +
+> > > +static struct platform_driver rpmsg_gpio_driver = {
+> > 
+> > It's an "rpmsg gpio driver", but it's a platform_driver...
+> > 
+> > I don't think this is the correct design, but if it is then this needs to be well
+> > documented.
+> > 
+> > Same thing as platform_data forms a strong ABI between some other driver and
+> > this platform_driver, this needs to be well documented (but should be avoided).
+> > 
+> 
+> Are you suggesting to use "rpmsg_driver" framework here?
+> 
 
-All errors (new ones prefixed by >>):
+Yes, making the functional driver bind to the particular rpmsg channel
+is exactly what I would expect from a "rpmsg gpio driver".
 
-   kernel/trace/trace_output.c: In function 'trace_print_bitmask_seq':
-   kernel/trace/trace_output.c:202:40: error: implicit declaration of function 'trace_get_global_array'; did you mean 'ftrace_init_global_array_ops'? [-Wimplicit-function-declaration]
-     202 |         const struct trace_array *tr = trace_get_global_array();
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                                        ftrace_init_global_array_ops
->> kernel/trace/trace_output.c:202:40: error: initialization of 'const struct trace_array *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+Regards,
+Bjorn
 
-
-vim +202 kernel/trace/trace_output.c
-
-   196	
-   197	const char *
-   198	trace_print_bitmask_seq(struct trace_seq *p, void *bitmask_ptr,
-   199				unsigned int bitmask_size)
-   200	{
-   201		const char *ret = trace_seq_buffer_ptr(p);
- > 202		const struct trace_array *tr = trace_get_global_array();
-   203		bool show_bitmask_list = tr->trace_flags &
-   204					 TRACE_ITER(BITMASK_LIST);
-   205	
-   206		trace_seq_bitmask(p, bitmask_ptr, bitmask_size * 8,
-   207				  show_bitmask_list);
-   208		trace_seq_putc(p, 0);
-   209	
-   210		return ret;
-   211	}
-   212	EXPORT_SYMBOL_GPL(trace_print_bitmask_seq);
-   213	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Thank you very much for the review.
+> Shenwei
+> 
+> > Regards,
+> > Bjorn
+> > 
+> > > +     .driver = {
+> > > +             .name = "gpio-rpmsg",
+> > > +             .of_match_table = rpmsg_gpio_dt_ids,
+> > > +     },
+> > > +     .probe = rpmsg_gpio_probe,
+> > > +};
+> > > +
+> > > +module_platform_driver(rpmsg_gpio_driver);
+> > > +
+> > > +MODULE_AUTHOR("Shenwei Wang <shenwei.wang@nxp.com>");
+> > > +MODULE_DESCRIPTION("generic rpmsg gpio driver");
+> > > +MODULE_LICENSE("GPL");
+> > > --
+> > > 2.43.0
+> > >
