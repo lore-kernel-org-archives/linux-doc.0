@@ -1,177 +1,257 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD492882CD
-	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 14:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56E12DE6F1
+	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 15:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766585611; cv=none; b=URDEBM0UgEj6tED4u2zb6qNqVB2CtGV3e+7JtjNIIzTKcZzv36Ixw3Hunza/fGgfhYq1rcle0yx2od9KaAk0sAmSLUuSE8iWnTSHPH+R4DcosCCebpF7ndVi1Jd3E6Vhr4cCnmFGpZh7XXQcuSbtUPMQg6zeO4WusVZ4Hv+vvtk=
+	t=1766590774; cv=none; b=qVk2Fap39IoBRizlmp1SLt9rzbBwnhc6xuyiJCqXfbg5Dk/JLT1MU6CD53r4bQKvWjxZmjzAYOZjZ5D4sJ4hAY3zukfBbaADrWRJzRgPDA1zwwJaQc4+LB7Hm2Mz5J2A6XmBpy14qS7ynmhgVN7AH0WCFwm2dDTndxVHG5Uueus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766585611; c=relaxed/simple;
-	bh=x8pJJIM/R06HelItOz0mnR+O24PLB75z92hRRpCFFeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ugc/u4Bhd2I0cbHTWi2dL41wDDAfDI27NhNm7hPYVdT93Nc4MjOOn8sFHy4V/0Tf7AAJzIQkBFkSyUaAI98Of/PaeQ6WMwQf5NX7W6EaFdx10dCQRGxxyqAeOeK6/lDicmv+y+jLoV39QJ6vWa6ZwlUogOPW1meQLibD4I5wYfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTOSExkU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766590774; c=relaxed/simple;
+	bh=V8fJyoE3LNmPBgSO30v6KNG/sPF/vAGaGrWf60SkB60=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Av2TyeaWOkqCCA5hbGzTft9oATirJs4hPwIY7GRkrflRGrDEpb22+TSe41sgIZxwNW9OpPAk5Q3v0Dxyt7Ceocd7aoKcq8iRPcpd6eLkNp4Hj8zuA9ly/EpTwuMe2INo4WAtluGHjGxvmZwBimq+DZYeCF9v4zXCbnor1XoFRqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=fail smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b=negWqxrH; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTOSExkU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D6FBC4CEF7;
-	Wed, 24 Dec 2025 14:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766585611;
-	bh=x8pJJIM/R06HelItOz0mnR+O24PLB75z92hRRpCFFeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pTOSExkUKpjzCNkKM4XRqcER33A4BloR9ew66rphUXocMGJtT1hYJrhJBWBepz2jU
-	 0AY0KEJZ3kPgQLrS/wFRJBu4bsmMASBtbLZL3SU4zi9mGY3rKnuNPsHY/S2MPB/AJi
-	 /8L8oavjE728O8UiMQKSlQzpvpMoXF0QN2Nn0vxA9lOcpxzNkMa7qGnCUkr1cu1qyJ
-	 qbx+e4wT81KKmforYbN4cvbgL6u3QU2saJVbtneZqcsyK84eZP94/LzeruJ9nPpFgD
-	 e0sbjBjr6iqlJWoeQM3Q/H0ptY6QcQH+rgafijesN80/gkobrFCCgsHM8RSnN85ZqX
-	 5+rW0aF6lYz6g==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 834B7F40068;
-	Wed, 24 Dec 2025 09:13:29 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 24 Dec 2025 09:13:29 -0500
-X-ME-Sender: <xms:CfVLac-XX2AxodhMm2mUM5fRSkfYO3sjew5HQLb5H_m7r92kjH_Glw>
-    <xme:CfVLaQG8Kn4K6xiF50TYZCxH_2Uz-uASo_yTsKOi9vkkLfCCYAshPunSctm6b8LvI
-    MgLIUuefwwwIiID7se007ajPfGyu0zELphyntpfFGm-G4OHGgegUqA>
-X-ME-Received: <xmr:CfVLabb4t3iCERwBSA2ye8Xqd2k23DDo9Y_G32SgQqovU6hLGfVGUOwoj8tzJg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeivdeludcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgestheksfdttddtjeenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepvddufeetkedvheektdefhfefjeeujeejtdejuedufefhveekkeeffeetvedvffek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmuhgthhhunhdrsh
-    honhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggr
-    ugdrohhrghdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpdhrtghpth
-    htoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvsggrsghkrgesshhu
-    shgvrdgtiidprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvg
-    drtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomhdprhgtphhtthhopegs
-    hhgvsehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:CfVLaUOx-z6rz2cOkZTXqlMD7SVzr_JasznpUOQR_W4nbGIocrSoPw>
-    <xmx:CfVLacyW2XttqkD_f7r3SSyY329K9l__Gd6JRd2zpul-LSdyEFzl1A>
-    <xmx:CfVLadCmlcOXe_qvSVLcH65ZUWmmT7zCnJ_DPdjzrVIXPYfb5aO7Og>
-    <xmx:CfVLad6weKrosgU6y7QTtpOYp-LbHLKKriDGpJvsEcGMVH2be6LVnA>
-    <xmx:CfVLaTIdV2jFWK8oq9ccPbQ88T8QPugBXrDk1urbA8innEyGNP2Nr0Z3>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Dec 2025 09:13:28 -0500 (EST)
-Date: Wed, 24 Dec 2025 14:13:27 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: Muchun Song <muchun.song@linux.dev>, 
-	Matthew Wilcox <willy@infradead.org>, Oscar Salvador <osalvador@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
-	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Frank van der Linden <fvdl@google.com>
-Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
-Message-ID: <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
-References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
- <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
- <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
+	dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b="negWqxrH"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so44224945e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 07:39:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osyx-tech.20230601.gappssmtp.com; s=20230601; t=1766590769; x=1767195569; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ehfxbEVnQJDewCWJrGs2ak+KMNFyhQdtz7cgsTLXZDQ=;
+        b=negWqxrHW6g6x9fWLOneBGelzYUjGLyU7LKek03gtSFOw3LhBEy4nAPoi2gYM5RvhD
+         ihsExrVuzKlMQSbxFpgS5c+NAY1PZJV3aMK8/5Yw8ags3xMUncABgMZjpcBCY25yvceq
+         auBDHPDVBXB0zX4IEqMQv2mg3jkkcYBy4dPuhoSy/FCC3hCKTyOgnwDd69GTTeKfP0d3
+         on57E0yDQyG7jTAlpdT1SjR7IEnotu/wA/iqxRfRSDy8fTQ4MwS3sJR2PhK8oyuJZJvQ
+         Xv3FPgxGrKP065xCl6F+x7MRjfW/VF4Yg0471tU0K+//IZ7dq03UNkzFXV8lNzX6YJt3
+         GT5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766590769; x=1767195569;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ehfxbEVnQJDewCWJrGs2ak+KMNFyhQdtz7cgsTLXZDQ=;
+        b=qwWOa4RelApk3h8g2pvEnZ37bJvtjQ9NHqgW3AzOBee7etBpmg6u7XxdEJL70awlOh
+         2YxYXNP/zGxZKGXa5+VTu/nWrxjtg2gy2MoQUZ3lcarPW0kCVl+0xenKETp/72uZC9Gg
+         S+grKtfZGJeBu7ccYFhHqnn8RwDrku98y7fQMf3UqoTuXeER/fqJ/eO00qk/iWSolH8w
+         fXxK1gB0iqw2C8f6iMHcxpYEPkssBa+Z8Icj+yvt0rL2rFR6YTEJkHG3ZdGNU/dh8fG7
+         tMBIOHQDwfZcuuqDU2lQRaHaWUOOf990npq3gDLFEdXPt3RmmPzYTidKJOFPVl5bTvyg
+         AjBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVsyrpgO4wiLcdaN/2s39uBhH3DEWtJFwEHXQN6jkQeOvTz1P1YzebGPhREKOrAp2HNQHEcFQjw03g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywld3Ez2yPXKrbAn1pm/+njgmfQxQWmaZfcf8fjNLXSQqvJdo2Q
+	fV7Sd0lUPHoqJVpR6z3vyUI+D/5wPxe3A2I8573iVbEA9Q1woiTTclG+Ub6btRvoP5nh
+X-Gm-Gg: AY/fxX4nQ16WJ25ZKQUx+oUZc9w4m50t0oq1xLN2sVP7vWhZ+YoiEf3QenzTBl4Ic1B
+	CsOKc/zuf0u0pUeYY4Yd1dBnRVQKZ2zmcvLo1+lovRH0XKgVmQyRBx1q54c0aRbLRpLwINUSHV5
+	BC0zuLb8qfkso3EQBF8yo05RYhbz7laDliSLvj7P9g35JbsZks7NKw5XO3JS7mwzaZgMrstnm+Z
+	LeYBwQGxpEy9Co9v4oPRWvG8VB1qM8AsvdtokWSysGf4c1zvCILAiZpRQS6tU4dqMsGfMOqvPB2
+	zJrHyktmWN4qdcMvcqy1f9KZad6FoAd9fSnMz7910xpfVdA/ZPLs4z8PlWV+Ct2BSwTI6H7SGDQ
+	P0X0APxLs2IBvPi28IYXTnUuDc4127M/X4tkqgqm4U3JF7KcgCpJZ/R6w3AueRflfCv84wZs11F
+	YO5gUYwW/fsnX9geogHg==
+X-Google-Smtp-Source: AGHT+IFqP19dt2VG1hPpM2WYJhNqheRS/5whksM3UdvdL2gWh2MKdA11saX7GOb3KMgk63dxD3aa3A==
+X-Received: by 2002:a05:6000:2909:b0:42b:2dfd:5350 with SMTP id ffacd0b85a97d-4324e7077c8mr21170738f8f.56.1766584379482;
+        Wed, 24 Dec 2025 05:52:59 -0800 (PST)
+Received: from jp-linux.Home ([2001:8a0:f59c:a900:39e4:e84d:192a:5c5c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa64cesm34494677f8f.35.2025.12.24.05.52.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Dec 2025 05:52:59 -0800 (PST)
+From: joaopeixoto@osyx.tech
+To: linux-kernel@vger.kernel.org
+Cc: ajd@linux.ibm.com,
+	alex@ghiti.fr,
+	aou@eecs.berkeley.edu,
+	bagasdotme@gmail.com,
+	catalin.marinas@arm.com,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	dan.j.williams@intel.com,
+	davidmcerdeira@osyx.tech,
+	devicetree@vger.kernel.org,
+	dev@kael-k.io,
+	gregkh@linuxfoundation.org,
+	haren@linux.ibm.com,
+	heiko@sntech.de,
+	joaopeixoto@osyx.tech,
+	jose@osyx.tech,
+	kever.yang@rock-chips.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux@armlinux.org.uk,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	maddy@linux.ibm.com,
+	mani@kernel.org,
+	nathan@kernel.org,
+	neil.armstrong@linaro.org,
+	palmer@dabbelt.com,
+	pjw@kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	robh@kernel.org,
+	will@kernel.org
+Subject: [PATCH 1/5] dt-bindings: Add Bao IPC shared memory driver binding
+Date: Wed, 24 Dec 2025 13:52:13 +0000
+Message-ID: <20251224135217.25350-2-joaopeixoto@osyx.tech>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251224135217.25350-1-joaopeixoto@osyx.tech>
+References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
 
-On Tue, Dec 23, 2025 at 10:38:26AM +0100, David Hildenbrand (Red Hat) wrote:
-> On 12/22/25 15:55, Muchun Song wrote:
-> > 
-> > 
-> > > On Dec 22, 2025, at 22:18, David Hildenbrand (Red Hat) <david@kernel.org> wrote:
-> > > 
-> > > ﻿On 12/22/25 15:02, Kiryl Shutsemau wrote:
-> > > > > On Mon, Dec 22, 2025 at 04:34:40PM +0800, Muchun Song wrote:
-> > > > > 
-> > > > > 
-> > > > > On 2025/12/18 23:09, Kiryl Shutsemau wrote:
-> > > > > > The upcoming changes in compound_head() require memmap to be naturally
-> > > > > > aligned to the maximum folio size.
-> > > > > > 
-> > > > > > Add a warning if it is not.
-> > > > > > 
-> > > > > > A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so the
-> > > > > > kernel is still likely to be functional if this strict check fails.
-> > > > > 
-> > > > > Different architectures default to 2 MB alignment (mainly to
-> > > > > enable huge mappings), which only accommodates folios up to
-> > > > > 128 MB. Yet 1 GB huge pages are still fairly common, so
-> > > > > validating 16 GB (MAX_FOLIO_SIZE) alignment seems likely to
-> > > > > miss the most frequent case.
-> > > > I don't follow. 16 GB check is more strict that anything smaller.
-> > > > How can it miss the most frequent case?
-> > > > > I’m concerned that this might plant a hidden time bomb: it
-> > > > > could detonate at any moment in later code, silently triggering
-> > > > > memory corruption or similar failures. Therefore, I don’t
-> > > > > think a WARNING is a good choice.
-> > > > We can upgrade it BUG_ON(), but I want to understand your logic here
-> > > > first.
-> > > 
-> > > Definitely no BUG_ON(). I would assume this is something we would find early during testing, so even a VM_WARN_ON_ONCE() should be good enough?
-> > > 
-> > > This smells like a possible problem, though, as soon as some architecture wants to increase the folio size. What would be the expected step to ensure the alignment is done properly?
-> > > 
-> > > But OTOH, as I raised Willy's work will make all of that here obsolete either way, so maybe not worth worrying about that case too much,
-> > 
-> > Hi David,
-> > 
-> 
-> Hi! :)
-> 
-> > I hope you're doing well. I must admit I have limited knowledge of Willy's work, and I was wondering if you might be kind enough to share any publicly available links where I could learn more about the future direction of this project. I would be truly grateful for your guidance.
-> > Thank you very much in advance.
-> 
-> There is some information to be had at [1], but more at [2]. Take a look at
-> [2] in "After those projects are complete - Then we can shrink struct page
-> to 32 bytes:"
-> 
-> In essence, all pages (belonging to a memdesc) will have a "memdesc" pointer
-> (that replaces the compound_head pointer).
-> 
-> "Then we make page->compound_head point to the dynamically allocated memdesc
-> rather than the first page. Then we can transition to the above layout. "
+From: João Peixoto <joaopeixoto@osyx.tech>
 
-I am not sure I understand how it is going to work.
+This patch adds a Device Tree binding for the Bao IPC shared memory
+device, which provides a standardized description of the hardware
+interface used for inter-VM communication in Bao-based systems.
 
-32-byte layout indicates that flags will stay in the statically
-allocated part, but most (all?) flags are in the head page and we would
-need a way to redirect from tail to head in the statically allocated
-pages.
+The binding documents the following properties:
 
-> The "memdesc" could be a pointer to a "struct folio" that is allocated from
-> the slab.
-> 
-> So in the new memdesc world, all pages part of a folio will point at the
-> allocated "struct folio", not the head page where "struct folio" currently
-> overlays "struct page".
-> 
-> That would mean that the proposal in this patch set will have to be reverted
-> again.
-> 
-> 
-> At LPC, Willy said that he wants to have something out there in the first
-> half of 2026.
+  - compatible: "bao,ipcshmem"
+  - reg: Memory region for the shared memory device
+  - id: Unique device identifier
+  - read-channel: [offset, size] for reading from the shared memory
+  - write-channel: [offset, size] for writing to the shared memory
+  - interrupts: Interrupts used by the device
 
-Okay, seems ambitious to me.
+This enables kernel drivers and userspace tools to correctly
+instantiate and configure Bao IPC shared memory devices based
+on the DT description, facilitating efficient communication
+between VMs.
 
-Last time I asked, we had no idea how much performance would additional
-indirection cost us. Do we have a clue?
+Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
+---
+ .../devicetree/bindings/bao/ipcshmem.yaml     | 99 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/bao/ipcshmem.yaml
 
-I like memdesc idea, but indirection cost always bothered me.
-
+diff --git a/Documentation/devicetree/bindings/bao/ipcshmem.yaml b/Documentation/devicetree/bindings/bao/ipcshmem.yaml
+new file mode 100644
+index 000000000000..398ac610c29f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/bao/ipcshmem.yaml
+@@ -0,0 +1,99 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/bao/ipcshmem.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Bao IPC Shared Memory Device
++
++maintainers:
++  - José Martins <jose@osyx.tech>
++  - David Cerdeira <davidmcerdeira@osyx.tech>
++  - João Peixoto <joaopeixoto@osyx.tech>
++
++description: |
++  Shared memory based communication device for Bao hypervisor guests.
++  It allows the kernel to interface with guests running under
++	the Bao hypervisor, providing a character device interface
++	for exchanging data through dedicated shared-memory regions.
++
++properties:
++  compatible:
++    const: "bao,ipcshmem"
++
++  reg:
++    description: |
++      Memory resource for the shared memory device.
++    maxItems: 4
++    type: array
++    items:
++      type: integer
++
++  id:
++    description: Driver instance ID
++    type: integer
++    minimum: 0
++
++  read-channel:
++    description: |
++      Defines the shared-memory region used by the guest → host data path.
++
++      The value is a 2-cell array describing a sub-region inside the main
++      `reg` area:
++        - The first cell is the byte offset from the beginning of the
++          shared-memory region specified in `reg`.
++        - The second cell is the size of the readable region in bytes.
++
++      The driver will only read data from this sub-region.
++    type: array
++    items:
++      type: integer
++    minItems: 2
++    maxItems: 2
++
++  write-channel:
++    description: |
++      Defines the shared-memory region used by the host → guest data path.
++
++      The value is a 2-cell array describing a sub-region inside the main
++      `reg` area:
++        - The first cell is the byte offset from the beginning of the
++          shared-memory region specified in `reg`.
++        - The second cell is the size of the writable region in bytes.
++
++      The driver will only write data into this sub-region.
++    type: array
++    items:
++      type: integer
++    minItems: 2
++    maxItems: 2
++
++  interrupts:
++    description: |
++      Interrupt specification for the device.
++    type: array
++    items:
++      type: integer
++    minItems: 3
++    maxItems: 3
++
++required:
++  - compatible
++  - reg
++  - id
++  - read-channel
++  - write-channel
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    bao-ipc@f0000000 {
++        compatible = "bao,ipcshmem";
++        reg = <0x0 0xf0000000 0x0 0x00010000>;
++        read-channel = <0x0 0x2000>;
++        write-channel = <0x2000 0x2000>;
++        interrupts = <0 52 1>;
++        id = <0>;
++    };
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index c7591b2aec2a..c047fbd6b91a 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -223,6 +223,8 @@ patternProperties:
+     description: Shenzhen AZW Technology Co., Ltd.
+   "^baikal,.*":
+     description: BAIKAL ELECTRONICS, JSC
++  "^bao,.*":
++    description: Bao Hypervisor
+   "^bananapi,.*":
+     description: BIPAI KEJI LIMITED
+   "^beacon,.*":
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.43.0
+
