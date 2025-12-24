@@ -1,170 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEF21DED5C;
-	Wed, 24 Dec 2025 10:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB4336212C
+	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 13:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766570617; cv=none; b=h8YPO6cWf1O3BbT3utxkTrOWbTpxEKfw9pgPJw+yHV4QKSxzHSx7YCab7BfvKi3Nq6qGzQSf2AQzUXBWYLbm834wgtso0/AQ8m+xI7qhaTdySEXRiHvVrT1MRGKu1SS2N7c3RtoJLs21MTbfxK2SwIEYgTxJ579Y09vBAPAQ1Dc=
+	t=1766584379; cv=none; b=OhbSloRO6cp8fGfjPeEoKJ597TmNOGFP0BzkjY1AOyds66w3GNu2ZeMt5VkvoLldEE6/OCy3hJ1CcC60AwsQyEegf7AgGxBEdhvkivnpGHDAfYzxZLX/gh/DOhMErnmW/DJCAi9LCyoHQplWiFO9gdt40SHE+ZuomlHuVvdLPLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766570617; c=relaxed/simple;
-	bh=N3YTmAuaZf+KgOQOjNKuLPHx3jykifDN7Ee4LyNeh1o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aAkm2m9LA86ogZwo+9QHk1N2m99ZE5baZiVay1UHmzK48/mRDsG8H4zgPV7RwmsvGsExkCayKuHDYmOHJqPzvfzYQ+iz14jb0RVbqIo7g+Vv0cpOxHlzJkM2irw1zIqKA6eU2qG2ew9dGHpXpezs6QasSYmdNx+bDZTRldqSX+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uLn4NEcT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766584379; c=relaxed/simple;
+	bh=BK+eiGyjn9LH57WJfWYe7fb00iIJqC+M08226JDyDKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=H8dSxzmJs1EsBz5VcR50zfyyu9UQ8nm9yqPru42/+048+hF57UsEth0jevCCrkVVQm4gpcpXKlM1ki8zsLp0LTQ8EWWPQ7niGz/5PGFpjCNZjopIRwt9DYhD30jmf4SUgl9cSd63J4epDONJfVaymspBGB1uYISdgavwCl5g5ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=fail smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b=mCUuMFTH; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uLn4NEcT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A8DC4CEFB;
-	Wed, 24 Dec 2025 10:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766570616;
-	bh=N3YTmAuaZf+KgOQOjNKuLPHx3jykifDN7Ee4LyNeh1o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uLn4NEcT+ZsjsS7E66Oo4Hlwe1OwtBGbJ6jGENPOycThBUY68sua4OFZrcuuhXj/R
-	 ykREksrMviIci68JomlVoM/9utrggx/pETj1DWE0QQj8TgukrdO3NFrgtFU5WpOIBI
-	 X4wLzYTEb2BJy7zrznNLNdgjGj7ZrIg1cMchbx1e8vfQvlvj6IA3sgaCxQ/KJylu3F
-	 U2sHTc1urvD9/StUNDu+dIIFlMU6h0dLWKA+oq9qrGkqN/JHaHrDZA+b5DaZW9KkBO
-	 gZJmZWHQDuphyLgJOJj9GwViI7Wz5TRgQcnZE4ZFaMvdrzqyU2GS4wRAq0maBUBfGG
-	 dztdOH5cMTPpQ==
-Message-ID: <490569f8-a434-4297-b11e-ad34ddc4ae1e@kernel.org>
-Date: Wed, 24 Dec 2025 11:03:29 +0100
+	dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b="mCUuMFTH"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43277900fb4so69657f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 05:52:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osyx-tech.20230601.gappssmtp.com; s=20230601; t=1766584373; x=1767189173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DmuPTBK1+j/xQcR53nZlLGqYmcBMfxzHRcOOd3xh0JY=;
+        b=mCUuMFTHHSLk2injFRCqEcMgv3kQgZJ7/CpKvaZZTWg7xO3WphqTFYq60c3xTUUSRS
+         BxD751XwW7iZCtiuVfcfXLU7oOpZiiczEuiQYE0f8pDUCTysgWNyb50/2qTpVqOQAhRX
+         vspfTT6kpg0Fnltg4+GH0i6C1F0l82soioJPv+fiMVHduX1FvceGJp+X9KlSqTjpbBg5
+         k9OL43RFJHyT6oheSpbkT+za4QCPqM9eghlIhHE+80u7MosCAmuwf+pQJHAIAX+KG+Sv
+         2xIDDPE3XeTb6XzktY1M2KWvXy4a4cX7Tyz0eHHMc4NTsc9GhrbVRvUwTb0YPlE+vkwW
+         R2Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766584373; x=1767189173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DmuPTBK1+j/xQcR53nZlLGqYmcBMfxzHRcOOd3xh0JY=;
+        b=CG0WCRvIvbPAQ02mTaVFjBCzLJqmRCSdhv7KKjeJBsVPAKoxwv7MEytQHCU2w4evKo
+         euaB1Arctnqnq6g7VsQKL3ZxcodZ44lldo6EHljhen4qD3EvUVwLU/MpwNUSoYythwGX
+         SyNCQ0btKqkUt15DcjVMnbxTXV+AF8HSvyqMgZB8kJ6KKBXti7sxqsEz6mumBiQLphgG
+         s1ohugcYg/VfjIJTNX11jJaSQgd/P+qC7eOJbE6LfHna1iT03cE3cjDXe/pKdU71aF4t
+         KDnwIG2dZCm2Z3fYsksudTd3AOtDHAZ7+JjfHbKx4AuyPy8ZyK2QcCPsYI3e90TtbP7Z
+         aszg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3i+CSAcCDlCzcoVrqpRg387Lh7iERYFHwZHQ8hsiA6Hf3oL1NVzRFKz61yxe8M2oDUGm6fnCrY7Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9HAJ8nH9ddBdhG4lOY0gLIG5P3jacDh6npF9cm+C3nmBBYdII
+	n46uh/0DXh4lAn9ppSxOASvNonmT45ANnf0cysndAEAVLaXdnBvuz3enlg6KXE0rBv2X
+X-Gm-Gg: AY/fxX5NvlF5BswzPB4N9hlWHseg23KIHAMfcqOJyTBXtTQni234CsGCK7Yv4MjLB+O
+	YKqkh2fYx5cWPv3hu+Gt1kmAktBZMTE+DBzvx9G1RXiwPF5Fv40qNQFAgWnxLzIzCQ+3xAQN2ND
+	oVrQMOjiL3pYVupTaBShkngmCu7vXwYjlUIUXJpnyzgpDDKPMyw2AAAK9JterSO9acl+Ko8qv9e
+	kmlbF1ZWYOHFEB1PkGHiMcv3MrY1DyWncxmttZvSONoxeZBthZfL/8GZBxAKujc7lzXbAD+Tb9n
+	z8oZxG1pz0VjLOOVh22qQ6hOjOPAEnIYNR0CDLg2Avx0HGgzho9drDwa1lZBmktjFiY44MGW2WP
+	iv6bO6RtMA+4oUXSU0x5TXuIDJwtO498HBYYDIkIKAAC+l7Z+hriG0i2mwglKPI0hCKaOLKvuwb
+	+BFkj4aqgUbYaFNmHi1w==
+X-Google-Smtp-Source: AGHT+IHoJrb07B1cdykCE7qYkiqA5eIOoSQMy9mbNo39VeuUJ9/LLv9crUrYThO0HyLNCGIS21PtnA==
+X-Received: by 2002:a5d:5d02:0:b0:431:66a:cbda with SMTP id ffacd0b85a97d-4324425829amr25725416f8f.0.1766584372997;
+        Wed, 24 Dec 2025 05:52:52 -0800 (PST)
+Received: from jp-linux.Home ([2001:8a0:f59c:a900:39e4:e84d:192a:5c5c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa64cesm34494677f8f.35.2025.12.24.05.52.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Dec 2025 05:52:52 -0800 (PST)
+From: joaopeixoto@osyx.tech
+To: linux-kernel@vger.kernel.org
+Cc: ajd@linux.ibm.com,
+	alex@ghiti.fr,
+	aou@eecs.berkeley.edu,
+	bagasdotme@gmail.com,
+	catalin.marinas@arm.com,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	dan.j.williams@intel.com,
+	davidmcerdeira@osyx.tech,
+	devicetree@vger.kernel.org,
+	dev@kael-k.io,
+	gregkh@linuxfoundation.org,
+	haren@linux.ibm.com,
+	heiko@sntech.de,
+	joaopeixoto@osyx.tech,
+	jose@osyx.tech,
+	kever.yang@rock-chips.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux@armlinux.org.uk,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	maddy@linux.ibm.com,
+	mani@kernel.org,
+	nathan@kernel.org,
+	neil.armstrong@linaro.org,
+	palmer@dabbelt.com,
+	pjw@kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	robh@kernel.org,
+	will@kernel.org
+Subject: [PATCH 0/5] virt: Add Bao hypervisor IPC and I/O dispatcher drivers
+Date: Wed, 24 Dec 2025 13:52:12 +0000
+Message-ID: <20251224135217.25350-1-joaopeixoto@osyx.tech>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: add STEF48H28
-To: Charles Hsu <hsu.yungteng@gmail.com>, Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251224084821.2092169-1-hsu.yungteng@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251224084821.2092169-1-hsu.yungteng@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 24/12/2025 09:48, Charles Hsu wrote:
-> Add device tree bindings for the hot-swap controller STEF48H28.
-> 
-> Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
-> ---
+From: João Peixoto <joaopeixoto@osyx.tech>
 
+This series introduces support for the Bao hypervisor guest-side drivers
+under drivers/virt/bao and the associated Device Tree bindings, UAPI,
+and MAINTAINERS entries.
 
-Where is any changelog? You keep sending versions but you never
-responded, never said what happened with this.
+Bao is a lightweight static-partitioning hypervisor for embedded and
+safety-critical systems. This series adds:
+- The Bao IPC shared memory driver, which enables Linux guests to
+  communicate with each other through shared memory regions.
+- The Bao I/O Dispatcher driver, which allows Bao's VMs to share I/O
+  devices using device paravirtualization (VirtIO).
 
->  .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> new file mode 100644
-> index 000000000000..c6a4b02bcd84
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> @@ -0,0 +1,43 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: STMicroelectronics hot-swap controller with PMBus interface
-> +
-> +maintainers:
-> +  - Charles Hsu <hsu.yungteng@gmail.com>
-> +
-> +description: |
-> +  The STEF48H28 is an advanced 30A integrated electronic fuse for
-> +  the 9-80V DC power lines.
-> +
-> +  Datasheet:
-> +    https://www.st.com/resource/en/data_brief/stef48h28.pdf
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - st,stef48h28
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        pmic@11 {
+Patch overview:
 
-Your description says something else? Confusing.
+1. dt-bindings: Add Bao IPC shared memory driver binding
+   - Provides a standardized DT description for Bao IPC shared memory
+     devices used for inter-VM communication.
 
+2. virt: add Bao IPC shared memory driver
+   - Character device driver that maps shared-memory regions and
+     communicates with the hypervisor via architecture-specific hypercalls
+     (SMC/HVC on ARM, SBI ecall on RISC-V).
 
-> +            compatible = "st,stef48h28";
-> +            reg = <0x11>;
+3. dt-bindings: Add Bao I/O dispatcher driver binding
+   - DT binding for the Bao I/O Dispatcher, describing memory regions,
+     interrupts, and compatible strings for backend VMs.
 
-You keep ignoring comments. Can you start responding to them?
+4. virt: add Bao I/O dispatcher driver
+   - Implements the I/O Dispatcher kernel module bridging Bao Remote I/O
+     with VirtIO backend devices.
+   - Includes architecture-specific headers for ARM, ARM64, and RISC-V,
+     driver framework files, UAPI headers, Kconfig/Makefile integration,
+     and ioctl documentation.
 
-NAK
+5. MAINTAINERS: Add entries for Bao hypervisor drivers
+   - Registers maintainers for all Bao hypervisor components to ensure
+     proper kernel review and notifications.
 
-> +        };
-> +    };
+This series has been validated on Linux guests running under Bao hypervisor,
+ensuring correct initialization, read/write operations for IPC shared
+memory, and proper I/O Dispatcher functionality for backend VMs.
 
+Feedback and review from maintainers of virtualization, architecture-specific
+code (ARM, ARM64, RISC-V), Device Tree bindings, and UAPI are welcome.
 
-Best regards,
-Krzysztof
+João Peixoto (5):
+  dt-bindings: Add Bao IPC shared memory driver binding
+  virt: add Bao IPC shared memory driver
+  dt-bindings: Add Bao I/O dispatcher driver binding
+  virt: add Bao I/O dispatcher driver
+  MAINTAINERS: Add entries for Bao hypervisor drivers, headers, and DT
+    bindings
+
+ .../bindings/bao/io-dispatcher.yaml           |  67 +++
+ .../devicetree/bindings/bao/ipcshmem.yaml     |  99 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ MAINTAINERS                                   |  12 +
+ arch/arm/include/asm/bao.h                    |  62 ++
+ arch/arm64/include/asm/bao.h                  |  62 ++
+ arch/riscv/include/asm/bao.h                  |  61 ++
+ drivers/virt/Kconfig                          |   2 +
+ drivers/virt/Makefile                         |   2 +
+ drivers/virt/bao/Kconfig                      |   5 +
+ drivers/virt/bao/Makefile                     |   4 +
+ drivers/virt/bao/io-dispatcher/Kconfig        |  16 +
+ drivers/virt/bao/io-dispatcher/Makefile       |   4 +
+ drivers/virt/bao/io-dispatcher/bao_drv.h      | 386 +++++++++++++
+ drivers/virt/bao/io-dispatcher/dm.c           | 330 +++++++++++
+ drivers/virt/bao/io-dispatcher/driver.c       | 348 +++++++++++
+ drivers/virt/bao/io-dispatcher/hypercall.h    |  30 +
+ drivers/virt/bao/io-dispatcher/intc.c         |  68 +++
+ drivers/virt/bao/io-dispatcher/io_client.c    | 435 ++++++++++++++
+ .../virt/bao/io-dispatcher/io_dispatcher.c    | 207 +++++++
+ drivers/virt/bao/io-dispatcher/ioctls.c       | 145 +++++
+ drivers/virt/bao/io-dispatcher/ioeventfd.c    | 336 +++++++++++
+ drivers/virt/bao/io-dispatcher/irqfd.c        | 341 +++++++++++
+ drivers/virt/bao/ipcshmem/Kconfig             |   9 +
+ drivers/virt/bao/ipcshmem/Makefile            |   3 +
+ drivers/virt/bao/ipcshmem/ipcshmem.c          | 539 ++++++++++++++++++
+ include/uapi/linux/bao.h                      | 124 ++++
+ 28 files changed, 3701 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/bao/io-dispatcher.yaml
+ create mode 100644 Documentation/devicetree/bindings/bao/ipcshmem.yaml
+ create mode 100644 arch/arm/include/asm/bao.h
+ create mode 100644 arch/arm64/include/asm/bao.h
+ create mode 100644 arch/riscv/include/asm/bao.h
+ create mode 100644 drivers/virt/bao/Kconfig
+ create mode 100644 drivers/virt/bao/Makefile
+ create mode 100644 drivers/virt/bao/io-dispatcher/Kconfig
+ create mode 100644 drivers/virt/bao/io-dispatcher/Makefile
+ create mode 100644 drivers/virt/bao/io-dispatcher/bao_drv.h
+ create mode 100644 drivers/virt/bao/io-dispatcher/dm.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/driver.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/hypercall.h
+ create mode 100644 drivers/virt/bao/io-dispatcher/intc.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/io_client.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/io_dispatcher.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/ioctls.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/ioeventfd.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/irqfd.c
+ create mode 100644 drivers/virt/bao/ipcshmem/Kconfig
+ create mode 100644 drivers/virt/bao/ipcshmem/Makefile
+ create mode 100644 drivers/virt/bao/ipcshmem/ipcshmem.c
+ create mode 100644 include/uapi/linux/bao.h
+
+-- 
+2.43.0
+
