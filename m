@@ -1,66 +1,185 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA0C31D38B;
-	Wed, 24 Dec 2025 15:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92262356BE;
+	Wed, 24 Dec 2025 16:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766591683; cv=none; b=c0QogI4tyiucrbdSLsGwcRRZuXhPjMm4uac1QD+HFGkw5I/PwJfljIdMaV8De7FaRUXzmjc/7SsNPuFBI4ku7HBwJE9AKYgeQXBEZj0vW6YesWlScrh0GGwthlmDxv04YgiHSffHHB8j3KZ7Z5uMk8TmVzUg/gjzDk6nKq8r60o=
+	t=1766593099; cv=none; b=FuhJuXDJNRyUDLz3gSDO96kxZb4aRD8MvcFONZtC6a0aM2Zg3RdYFs6OjwOqj1Ut21dgDPIidfXL7tnFbRVPcINtaSSZdutU98euAk277X9wH9tEaAKLOX5+0ZRu7aXo8hjAqrRYRvjG9mmHmHuvGuEChmIxWq0Ma7NRgd7K1pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766591683; c=relaxed/simple;
-	bh=gBgZUdgdaIOopU8i+Mbp/KWtjXuza0duQmAUavj0oUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8LXC//+IJ8mgJIgaRlU6+TG9oGr5k2cmfRL/yVNH09UMs6wF1UDVAzUuZ6tP1FJYeRltZyc3EpeBJmuntrAFh0bvdv/RbXKG6bnEyCoLnLJ4Hb4Ak84xKDEJQts4VqhdjndbmNOht8BfUvoCwlyo4kUEb9jPldtgk5F86Jn0JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PW0H7t/M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766593099; c=relaxed/simple;
+	bh=jzhJfxnvJUvERodafb6uRPp3to4d4hQE2SKWE3YryHY=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=ORU73yxV5Qkpu4kLC/mTj4Yrjiiyn3UheV6R8QZ7YkWaCEg+LDrawIwSfbMhs8tHpJvuCowYpHDahF0G7Em6aEKHGAt6xAi3ES7uOReb3tHnWkmZuImUO4kBJRtJFCkxj6uJSm433kKyg6e5KdC14rsEMPCjsRENDP4yMi3cQCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCp+/KOh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PW0H7t/M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD0EC116D0;
-	Wed, 24 Dec 2025 15:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1766591683;
-	bh=gBgZUdgdaIOopU8i+Mbp/KWtjXuza0duQmAUavj0oUI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PW0H7t/M7DdJTQMer8paEQT9Htxa0aWSnBgQcv7MiEF+eXbwF1rY94nI1UYrdMzHw
-	 vaZtUX9Y7e5EllK3uIsziDjWO92kbF3tLPVZQhUXXJ+lTGcUj1w5dEwL2s/GajD5sd
-	 MMS4NCaHMURQW0EzPYED6wNXu4E0WkJVEx+KzzZQ=
-Date: Wed, 24 Dec 2025 16:54:40 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: joaopeixoto@osyx.tech
-Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr,
-	aou@eecs.berkeley.edu, bagasdotme@gmail.com,
-	catalin.marinas@arm.com, conor+dt@kernel.org, corbet@lwn.net,
-	dan.j.williams@intel.com, davidmcerdeira@osyx.tech,
-	devicetree@vger.kernel.org, dev@kael-k.io, haren@linux.ibm.com,
-	heiko@sntech.de, jose@osyx.tech, kever.yang@rock-chips.com,
-	krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux@armlinux.org.uk, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, maddy@linux.ibm.com,
-	mani@kernel.org, nathan@kernel.org, neil.armstrong@linaro.org,
-	palmer@dabbelt.com, pjw@kernel.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, robh@kernel.org,
-	will@kernel.org
-Subject: Re: [PATCH 2/5] virt: add Bao IPC shared memory driver
-Message-ID: <2025122401-drainer-pedigree-45ae@gregkh>
-References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
- <20251224135217.25350-3-joaopeixoto@osyx.tech>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCp+/KOh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1340CC4CEF7;
+	Wed, 24 Dec 2025 16:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766593097;
+	bh=jzhJfxnvJUvERodafb6uRPp3to4d4hQE2SKWE3YryHY=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=FCp+/KOhwYp98tnwqGwWl8jrc/X5Z/Q4Q8YJmARm0sL3g9KO7lgOnfT9cmlzHPe9Z
+	 QWjUspxRLmTGsvUvOJCMlErLfQLehAM4kFU8asmQV8KZyxG+CacSkcAIDy8Caf8nm2
+	 NMBZ+th33jQtp81ci0vKx3zV0E99Zvkg1UuWbKhPDEgdWflK19Ujzn60Z/IigTPG85
+	 J2ZhCxsZ8dM4HWxl5+LxVYNmnngUhIj3tm2SXy/kP/vs9fll7dCDCXAydHowKCqCw0
+	 f0yg4Xto3pISXrooax5EKL43DKr+5RXvlk4R4HjmBo6Ev/HfEMWtnJuGCZ3dcI9O7p
+	 R5hOz3toSaeag==
+Date: Wed, 24 Dec 2025 10:18:16 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251224135217.25350-3-joaopeixoto@osyx.tech>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: mani@kernel.org, linux@armlinux.org.uk, linux-riscv@lists.infradead.org, 
+ nathan@kernel.org, devicetree@vger.kernel.org, catalin.marinas@arm.com, 
+ kever.yang@rock-chips.com, dan.j.williams@intel.com, 
+ linux-doc@vger.kernel.org, haren@linux.ibm.com, palmer@dabbelt.com, 
+ conor+dt@kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, alex@ghiti.fr, jose@osyx.tech, 
+ neil.armstrong@linaro.org, gregkh@linuxfoundation.org, heiko@sntech.de, 
+ prabhakar.mahadev-lad.rj@bp.renesas.com, will@kernel.org, corbet@lwn.net, 
+ dev@kael-k.io, aou@eecs.berkeley.edu, krzk+dt@kernel.org, 
+ maddy@linux.ibm.com, bagasdotme@gmail.com, ajd@linux.ibm.com, 
+ pjw@kernel.org, davidmcerdeira@osyx.tech
+To: joaopeixoto@osyx.tech
+In-Reply-To: <20251224135217.25350-4-joaopeixoto@osyx.tech>
+References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
+ <20251224135217.25350-4-joaopeixoto@osyx.tech>
+Message-Id: <176659309471.2305281.17349642622422527927.robh@kernel.org>
+Subject: Re: [PATCH 3/5] dt-bindings: Add Bao I/O dispatcher driver binding
 
-On Wed, Dec 24, 2025 at 01:52:14PM +0000, joaopeixoto@osyx.tech wrote:
-> +struct class *cl;
 
-Why not just use the misc device api instead?  No need for a full class
-for just one char device, right?  Or even if you have multiple ones,
-again, no need for a whole class.  That should make the code much
-simpler overall.
+On Wed, 24 Dec 2025 13:52:15 +0000, joaopeixoto@osyx.tech wrote:
+> From: João Peixoto <joaopeixoto@osyx.tech>
+> 
+> This patch adds a Device Tree binding for the Bao I/O Dispatcher kernel
+> module, which can be loaded into backend VMs. The I/O Dispatcher
+> provides the bridge between the Bao hypervisor Remote I/O system and the
+> frontend device model in userspace, offering a unified API to support
+> various VirtIO backends.
+> 
+> The dispatcher handles hypercalls to the Bao hypervisor, IRQ/eventfd
+> forwarding, and provides a character device interface for frontend
+> devices, enabling efficient communication between the hypervisor and
+> userspace device models.
+> 
+> The binding documents the following properties:
+>   - compatible: "bao,io-dispatcher"
+>   - reg: Memory regions for the dispatcher (multiple VirtIO devices)
+>   - interrupts: Interrupts used by the devices
+>   - interrupt-parent: Parent interrupt controller
+> 
+> This enables kernel drivers to correctly instantiate and configure Bao
+> I/O Dispatcher modules based on the DT description.
+> 
+> Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
+> ---
+>  .../bindings/bao/io-dispatcher.yaml           | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/bao/io-dispatcher.yaml
+> 
 
-thanks,
+My bot found errors running 'make dt_binding_check' on your patch:
 
-greg k-h
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/bao/ipcshmem.yaml:4:6: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/bao/ipcshmem.yaml:5:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/bao/ipcshmem.yaml:17:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+./Documentation/devicetree/bindings/bao/io-dispatcher.yaml:4:6: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/bao/io-dispatcher.yaml:5:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/bao/io-dispatcher.yaml:20:12: [error] string value is redundantly quoted with any quotes (quoted-strings)
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/ipcshmem.yaml: ignoring, error parsing file
+./Documentation/devicetree/bindings/bao/ipcshmem.yaml:17:1: found a tab character where an indentation space is expected
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:reg: 'anyOf' conditional failed, one must be fixed:
+	'type' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	'items' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	Additional properties are not allowed ('type' was unexpected)
+		hint: Arrays must be described with a combination of minItems/maxItems/items
+	'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	'type' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	'items' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:reg:items: 'anyOf' conditional failed, one must be fixed:
+		'maxItems' is a required property
+			hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+		'type' is not one of ['maxItems', 'description', 'deprecated']
+			hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+		Additional properties are not allowed ('type' was unexpected)
+			hint: Arrays must be described with a combination of minItems/maxItems/items
+		'type' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+			hint: "items" can be a list defining each entry or a schema applying to all items. A list has an implicit size. A schema requires minItems/maxItems to define the size.
+		hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+		from schema $id: http://devicetree.org/meta-schemas/cell.yaml
+	1 was expected
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+	from schema $id: http://devicetree.org/meta-schemas/cell.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:reg:type: 'array' is not one of ['boolean', 'object']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:interrupts:type: 'array' is not one of ['boolean', 'object']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:interrupt-parent:type: 'string' is not one of ['boolean', 'object']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:interrupts: 'anyOf' conditional failed, one must be fixed:
+	'type' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	'items' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	'minItems' is not one of ['maxItems', 'description', 'deprecated']
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	Additional properties are not allowed ('type' was unexpected)
+		hint: Arrays must be described with a combination of minItems/maxItems/items
+	'type' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	'items' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	'minItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties:interrupts:items: 'anyOf' conditional failed, one must be fixed:
+		'maxItems' is a required property
+			hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+		'type' is not one of ['maxItems', 'description', 'deprecated']
+			hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+		Additional properties are not allowed ('type' was unexpected)
+			hint: Arrays must be described with a combination of minItems/maxItems/items
+		'type' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+			hint: "items" can be a list defining each entry or a schema applying to all items. A list has an implicit size. A schema requires minItems/maxItems to define the size.
+		hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+		from schema $id: http://devicetree.org/meta-schemas/cell.yaml
+	1 was expected
+		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+	from schema $id: http://devicetree.org/meta-schemas/cell.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bao/io-dispatcher.yaml: properties: False schema does not allow {'description': 'Parent interrupt controller node', 'type': 'string'}
+	from schema $id: http://devicetree.org/meta-schemas/interrupts.yaml
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/bao/ipcshmem.example.dts'
+Documentation/devicetree/bindings/bao/ipcshmem.yaml:17:1: found a tab character where an indentation space is expected
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/bao/ipcshmem.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1565: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20251224135217.25350-4-joaopeixoto@osyx.tech
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
