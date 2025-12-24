@@ -1,143 +1,130 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7440178F20
-	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 08:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7FA32F746
+	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 08:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766566231; cv=none; b=lFtD9nS9moIFNji+AIzdSVxkrHCLh7r2tRxqQIJ5wasIpGUAqp/1b2Zn2qLNpdjcLFleNfN81jbY9wtBuZPGkleP26s4K4PvO0N8im44xwXmeaXeia6Y+S9SCSGNOpt7uWWK9es6UChAqvcIshG7UqWAKsjRZMPs89DYAsYyN6s=
+	t=1766566700; cv=none; b=qDeLnAqOPlWdukBMuhcdtkIfKRUyuwhZDtUjt0D2FGnBrVI9JttpGBkG0jV1MHbT/NSX5zJxppoD3V+bm5JemxwggwJjj4R8OJ5gnAVlq9OPVCeI6JgKREiG0xwBt4rYvy2ML3P9x9v+loARNwlivPgexEAhEg417pjHDhpWNBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766566231; c=relaxed/simple;
-	bh=14Q2KrQgefP7k2CkV/AvXV2dv7qPTPm5udnPs2slKWQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WOMB3LX151fb/ppxcW1nJ4CQ/LYaMHOoqjNijg/NXKY8G6Ou35DuMwqvZyo3pyo7deQe/MgJK0iRbPFdhLXleLoqxFsx2Q7K8F0GymegIJymqvhA5nYgxqdd3Jpi02XsQJ/AeIscQvgANMFInuRC5I9up25jaONru7d6HhKDguA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BhwYUUMY; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766566700; c=relaxed/simple;
+	bh=Agykw1UWdIlmNGGbRoXH+kiyz33Jt+a4FoRWg6PklU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VDGJ9Hn6f3v600DYjQeuJJ+3DnuJBo6kLx0v5Ta4x5lle3TT54UfJcFy3cWG2x0Rdt7F4ZCqG4SEYlLtjW7MplPvZERX9VJGgwHoUEkNR16zocVgZZaRgD8wVjv2rfp7Npr0UcrdzHcfutrprg8YsCjcTplTyAqH7duP4g7CqLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uk8aS6CN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BhwYUUMY"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-34c708702dfso5963575a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 00:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766566229; x=1767171029; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EqUvLG+FaPCBDIi8nSafdxPiptVy75Ukg1G+12V+F10=;
-        b=BhwYUUMYW3Xa46ALpJDNKFo6VZi2DT851YcABY7RkevD0rDbLgF02Vo3HKEt1LE1lp
-         3D6RR3EZT2ViOckgvPVSIQcBpQLl+/Tq0nXiKii4yNDthyWls1Q2NV5JkAMsFqtxEAG4
-         iKM9+qdm8awnvtbd0wNUn+FKXToq6ls3cJr1XDCx5RzaWtsP09sp6lbBklSRpujkg6NH
-         Eq3LLgOu21oPQ+IHJ9x7rQXXo4Q3k8E6pQ+1+sL5ko7sQ9ZzWIxVwR4oLU+yc18j4fos
-         XHZ4jCNbVjv9rd+83ykD3PLMNsHO44kakjLhywhDK/5NEIimThRFNFqQVMpYDSfPMmeH
-         Hf+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766566229; x=1767171029;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EqUvLG+FaPCBDIi8nSafdxPiptVy75Ukg1G+12V+F10=;
-        b=iVOWk9zdV+uoqOEXsJ2LPad5fIA15w2JhS/5xD2qEdL9iWgkbrAiNg0QbMTK3xNeHl
-         Ph1zv4INuiYGINkUSUxsHVhPPYZ/JSBxpN2AhzEMY2IyeLV7YFse93cfQ8Zvd68JoHRI
-         Qk3h4JbiZyGY1ONA1NUnKekRS3sBxvU/plnfLTC0tlVhjAV6A7CVUdvgkfN5aDd6xElD
-         Pc4NiKPqmjU6t0plFX/VSmsXfqgoztg6a4O3+qzO2h8MBtFw4vy0721lc9S7KfQuw4Dz
-         rsSxrLCjfyuihpDee6iOtKKwIkUPNnFN/Nxu6wgRReEZfyCELQ4VxLRmRbYznUgEeLda
-         8kwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMSTw/7O7w410H78dcPVfMKGma3B/CVBh7FrU0dSKSN4suFxMEwyj3iwD1qx6kLtFySzqBCWAjIoo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3gucejFOwVfF92Mya4lEXoHxHBHdKpmT4nh3fZGoVtLSMX9Ak
-	3veYnylsb+w1W66Wn0TdshG0nUv57YBXVN2noVFmosHgRinFLbxGiKd6
-X-Gm-Gg: AY/fxX46x6hDrk04cW8O3CyBzeZx3Fnn7gdNZZSFUeT0uNg4n9TxdKHZyyARQ+3JMbt
-	lwv6xZwgBwTD7Rw1tJ+7nw1K/HRvVT563xSuA4LCUcphFvvKWz5ZSKqi+3HXj6oO/l4JIMCEDhb
-	SruLKKdbkZVqGl1KnSA1nKGz/5yX+AN2spNKURVZdptqjq9zYBI1sxCDvLdMAi5ybW8cdSvcNTW
-	9LhrsmD7fJGckNUmPc2W4fHFWHBkSiOfn3v3a8rNBWB31hyRcKW+rjiH4oKm4Nt/+t2hI9ufuxn
-	WZ5yBUUPnmIcxUatN2zphhlNvqHThSCU3iT8v7kB4BA0rwt0wEzE8E+/IVGIXwNbZJPd2VxZVQ5
-	JoUgLW8sMG+DhfPLNNHWrvkaGUiPJKR+YZkpPzp53P459PsDFQjQ0HTo/jI8iJUD8dld8OvDn/o
-	5LYorvwa3dP0NOyQymYvVYKQX2/rSqjBFENBdwlWtfUxhyCXLw3/NbHeFtOZvBp9HUQCYigG3No
-	ACvoEhL+7iAuiVTP1ViXjYnAmT+fJ0=
-X-Google-Smtp-Source: AGHT+IG32bEqtgGX+aUU+Vghs/FHpYAMoBhmbtVYpF3KZbFDPID9DvkIR8rsUWNz2u9SL+Wd3iWElQ==
-X-Received: by 2002:a17:90b:1f8c:b0:349:2936:7f4 with SMTP id 98e67ed59e1d1-34e921bc5c1mr12117693a91.32.1766566228667;
-        Wed, 24 Dec 2025 00:50:28 -0800 (PST)
-Received: from charles-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e9219eb13sm14994055a91.1.2025.12.24.00.50.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 00:50:28 -0800 (PST)
-From: Charles Hsu <hsu.yungteng@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Charles Hsu <hsu.yungteng@gmail.com>
-Subject: [PATCH v4 1/2] dt-bindings: hwmon: add STEF48H28
-Date: Wed, 24 Dec 2025 16:48:20 +0800
-Message-Id: <20251224084821.2092169-1-hsu.yungteng@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uk8aS6CN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC51C2BC87
+	for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 08:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766566700;
+	bh=Agykw1UWdIlmNGGbRoXH+kiyz33Jt+a4FoRWg6PklU4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Uk8aS6CNHa2N9goRBT70lisCoGZ/qslnwI/4uAOjYVi6An1lxsPrxD/36VGZnKGKv
+	 M0gfjH0vjkwRugI3jokP4VNSKo0lMjcMD/U25o2KA+rX9/z/yloiIdFKOOoxuD8SiB
+	 y051UzPLRvcLRURh44irYqegoUz4a4MKcruFAFeqZZzrlDy4rbrX9qHLkzaIZ8iKho
+	 fbH9Lhg8dnQ4uSjTc3+vnFJtxCXNnygVfUEmZt2anTbBQIeo5+oKELZm7odFlWA/Oe
+	 IMTkg/+sopwcg7WM8Myrw2U8cfKHcyade3Tzgp3BoEg8fikYJeT+tcdXSqUZRlIorI
+	 yKFWHGZNbombg==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-37b95f87d4eso51153731fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Dec 2025 00:58:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUEp2Vo/6OrwVBXlp5rmxVqPCk8OhxjT0YNrA2eHPvTaJa0BBBa2pKrjHhgLfUMIbG9KF+mWqVKSYI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt5PouOpSgBxsR1H/t3QWsk5MLIXBvqc7eIaxQnDdh9bDLj2LR
+	TdZCgavQf238ohMTvOspw+WmUvXoVCP9/zuZnC3g4qpXJtgZRRGoI9fBpupc2L7kBbJX4hiXNhy
+	CTwSdlbXtluczK1zscv3nbsJWu5yyfGGxZvJLFzLx3A==
+X-Google-Smtp-Source: AGHT+IEingVT+n+8YdVgTso4ZzTuzbOc22MHQbhbirPXhrT8luipXdASVItpQL6PNdBu/f24535BGV92RvU1trjKZ4c=
+X-Received: by 2002:a05:651c:1541:b0:37f:aa44:2cd6 with SMTP id
+ 38308e7fff4ca-38121614ef5mr54061241fa.28.1766566698742; Wed, 24 Dec 2025
+ 00:58:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
+ <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
+ <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+ <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+ <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <c2ctqk7z6n5mmrr2namz4psmpcohefyv6qu6gkycqykzgdpz2u@2qwils6lwwz4>
+In-Reply-To: <c2ctqk7z6n5mmrr2namz4psmpcohefyv6qu6gkycqykzgdpz2u@2qwils6lwwz4>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 24 Dec 2025 09:58:05 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Md8nAVWvKK=Vib7TKVzC15M4FmET7TCCdrdS74DKQQjzg@mail.gmail.com>
+X-Gm-Features: AQt7F2qHo8ax2BJ5527NPXgH7eTCAHicS5tGpM49gAynivHaNzKegq2WIJRBUwc
+Message-ID: <CAMRc=Md8nAVWvKK=Vib7TKVzC15M4FmET7TCCdrdS74DKQQjzg@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add device tree bindings for the hot-swap controller STEF48H28.
+On Tue, Dec 23, 2025 at 9:19=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Tue, Dec 23, 2025 at 01:35:30PM +0100, Bartosz Golaszewski wrote:
+> > On Tue, Dec 23, 2025 at 11:45=E2=80=AFAM Vinod Koul <vkoul@kernel.org> =
+wrote:
+> > >
+> > > On 17-12-25, 15:31, Bartosz Golaszewski wrote:
+> > > > On Tue, Dec 16, 2025 at 4:11=E2=80=AFPM Vinod Koul <vkoul@kernel.or=
+g> wrote:
+> > >
+> > > > >
+> > > > > I am trying to understand what the flag refers to and why do you =
+need
+> > > > > this.. What is the problem that lock tries to solve
+> > > > >
+> > > >
+> > > > In the DRM use-case the TA will use the QCE simultaneously with lin=
+ux.
+> > >
+> > > TA..?
+> >
+> > Trusted Application, the one to which we offload the decryption of the
+> > stream. That's not really relevant though.
+> >
+> > >
+> > > > It will perform register I/O with DMA using the BAM locking mechani=
+sm
+> > > > for synchronization. Currently linux doesn't use BAM locking and is
+> > > > using CPU for register I/O so trying to access locked registers wil=
+l
+> > > > result in external abort. I'm trying to make the QCE driver use DMA
+> > > > for register I/O AND use BAM locking. To that end: we need to pass
+> > > > information about wanting the command descriptor to contain the
+> > > > LOCK/UNLOCK flag (this is what we set here in the hardware descript=
+or)
+> > > > from the QCE driver to the BAM driver. I initially used a global fl=
+ag.
+> > > > Dmitry said it's too Qualcomm-specific and to use metadata instead.
+> > > > This is what I did in this version.
+> > >
+> > > Okay, how will client figure out should it set the lock or not? What =
+are
+> > > the conditions where the lock is set or not set by client..?
+> > >
+> >
+> > I'm not sure what you refer to as "client". The user of the BAM engine
+> > - the crypto driver? If so - we convert it to always lock/unlock
+> > assuming the TA *may* use it and it's better to be safe. Other users
+> > are not affected.
+>
+> Just to confirm, we support QCE since IPQ4019 and MSM8996. Is lock
+> semantics supported on those platforms?
+>
 
-Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
----
- .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+Yes, locking is supported on BAM since version 1.4. The only user of
+this feature right now is the crypto engine and even on IPQ4019 and
+MSM8996 the crypto BAM is version 1.7.
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-new file mode 100644
-index 000000000000..c6a4b02bcd84
---- /dev/null
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMicroelectronics hot-swap controller with PMBus interface
-+
-+maintainers:
-+  - Charles Hsu <hsu.yungteng@gmail.com>
-+
-+description: |
-+  The STEF48H28 is an advanced 30A integrated electronic fuse for
-+  the 9-80V DC power lines.
-+
-+  Datasheet:
-+    https://www.st.com/resource/en/data_brief/stef48h28.pdf
-+
-+properties:
-+  compatible:
-+    enum:
-+      - st,stef48h28
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        pmic@11 {
-+            compatible = "st,stef48h28";
-+            reg = <0x11>;
-+        };
-+    };
--- 
-2.34.1
-
+Bartosz
