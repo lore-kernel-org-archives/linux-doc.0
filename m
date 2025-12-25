@@ -1,169 +1,111 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9311D1E5B94;
-	Thu, 25 Dec 2025 13:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766671023; cv=none; b=kpvUIQ1OdgtgWlOkJy18etL4p50c4qIEmWJrlUszn7quVYX8PI7r2/7YG0w/7VJDzLY0Ke6a3zxHOT9NS2rwTcO0H+Nyr8CDzwO6gq5SxTS+WLfCO16bobyXZ+xrfLPkRKLy1SXr92IKJOY3QJq9euo51Yb/sKEAd2N/GlU/qMk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766671023; c=relaxed/simple;
-	bh=gjPy0+yDnkEXIB8ggarAwk+MlKdkx/zGb2/HIwySSCE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GYRdSvtyKiyf6T7afEqnJj0EweLyEKRTWJTv5D8G/hK5j2lKmlOVZ87EPCS76q5Ewu1sDIDlXRfBGhyftjT7MKKnivMLTGhdG6R8Ol3wI/JoMcUEspiBZTEnVe32Jry6EQ3tocWDG32HmV9BeldMlLmDwxjdm80X0tYBlJT94ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=nQWN4l1e; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D600563B9;
+	Thu, 25 Dec 2025 16:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766679397; cv=pass; b=BC0Pbh/S9lbaCYlyptBCiWMeOLy18Kuaw4+SPEaqEvFojbdByxxLXlHYSpDH7eAxduELkyA4WZy7k4n9GzMpK7SfdgWN0cIJgGxxaHhyfL4oA2zPFeTWfk7ErJI0XE2Xd7ygcTwHvrRgB1UzVZuwsTqnrKHd75HjC4Piv8ejbsY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766679397; c=relaxed/simple;
+	bh=UyaiQYhk65x6zgsjlDmFPPuGtkt0Hu/eirlxxTS9uF0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HHpwIedD2GiQ3GtDi1oNQwhQeQhst56EYKIzwgkjq0RGagDacU7rf1QaG/SYh0mNp+HN0SJCoVHse9zNqqhKheL3NRHdzTynuUSHhQ0Bq9o/UDovdHdmVJOy8fLPytoCPt+lKXcIN+adGH7oA9gPJgonAIc7gZ3Djgn2n4f1eAw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=k+rai9gS; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="nQWN4l1e"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=yZRXKTBvTJnA1kBQ+hVGPiGikKPmA7mMfIkfGuLZJXI=;
-	b=nQWN4l1eteRfbAnFOMsv4DMzcAUnLk3bIMQP41mlSAQQl2Qb7CkoVZ5XLHND5xOdSS6UY1FTK
-	ajdv5d4MHnqeV0RaayoQ8664tpEmXDbjB0PWy3splBE6iMgQBHgVxvI1QcLmC3pLdW1541RFLnY
-	jB6+BAhDX1FeaKb3rOM8qFY=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4dcVZs1n15zLlTC;
-	Thu, 25 Dec 2025 21:53:41 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3B27B40565;
-	Thu, 25 Dec 2025 21:56:48 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 25 Dec
- 2025 21:56:47 +0800
-Message-ID: <9ea62a14-46a1-4238-97ed-aeabf9f3ab77@huawei.com>
-Date: Thu, 25 Dec 2025 21:56:46 +0800
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="k+rai9gS"
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 5BPGGMYU093622
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 26 Dec 2025 01:16:23 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id A998D109D6C01;
+	Fri, 26 Dec 2025 01:16:22 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id mfzykGPWz9wj; Fri, 26 Dec 2025 01:16:18 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 848BB109D6CBD; Fri, 26 Dec 2025 01:16:18 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1766679378;
+	cv=none; b=U+d73EtocvAQrpTQIHEdrdBE40tplz4r9Mb/yBxe9KG2dTMBiA5gyt4nL0OkvkiBKedQIYsWed1uLLOlxNK2JGA+JNCXHCy0uq27xBuVQSHplV1AKdRq9Sumnj6w5mMljUN+za6yUbQBoiKOp1EdhXtmQScUS2/j35XwOTD8D7s=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1766679378; c=relaxed/relaxed;
+	bh=8ChEyV5fmSDKZ2ZgXn1GYJ7h6kclQsVyxXAqRaKWiCI=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=HGohX4KtlmkHu7/+euVY8LWnIjtVzsun8NFDAPw1uAekNvQPzf781o6v4NDsNDhjmYPHpE1WOmxdptGwcBXTTDJcR/r0UjVRtBwWU/7v6vDCBXcBJOIwu/4sYMrb9mwWAt0X6zrItRqoTXcIe0Lup7AYShCpvDkRykFkQyFdDFg=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 848BB109D6CBD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1766679378;
+	bh=8ChEyV5fmSDKZ2ZgXn1GYJ7h6kclQsVyxXAqRaKWiCI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k+rai9gSvATeBP8LJ1sDv2jCsLEr/SGmYgaocK55gx72YnNdqMU8XnyosZftCIRno
+	 wdmxTgv2+S1DuiPnn79RRV3offJ57SFk3GpzDuydNkmvB7vcfLRk9No3BHUhyQkkjM
+	 f+TKSv0/pNTmwywjdLAIaXZYu30FP4VqPyIVDAys=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] docs: spufs: fix ppc64 architecture line break
+Date: Fri, 26 Dec 2025 01:16:15 +0900
+Message-ID: <20251225161615.3107808-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/11] cpufreq: CPPC: sync policy limits when updating
- min/max_perf
-To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
-	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
-	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20251223121307.711773-1-sumitg@nvidia.com>
- <20251223121307.711773-9-sumitg@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <20251223121307.711773-9-sumitg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf200001.china.huawei.com (7.202.181.227)
+Content-Transfer-Encoding: quoted-printable
 
-On 2025/12/23 20:13, Sumit Gupta wrote:
-> When min_perf or max_perf is updated via sysfs in autonomous mode, the
-> policy frequency limits should also be updated to reflect the new
-> performance bounds.
-> 
-> Add @update_policy parameter to cppc_cpufreq_set_mperf_limit() to
-> control whether policy constraints are synced with HW registers.
-> The policy is updated only when autonomous selection is enabled to
-> keep SW limits in sync with HW.
-> 
-> This ensures that scaling_min_freq and scaling_max_freq values remain
-> consistent with the actual min/max_perf register values when operating
-> in autonomous mode.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/cppc_cpufreq.c | 35 ++++++++++++++++++++++++++--------
->  1 file changed, 27 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 1f8825006940..0202c7b823e6 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -544,14 +544,20 @@ static void populate_efficiency_class(void)
->   * cppc_cpufreq_set_mperf_limit - Set min/max performance limit
->   * @policy: cpufreq policy
->   * @val: performance value to set
-> + * @update_policy: whether to update policy constraints
->   * @is_min: true for min_perf, false for max_perf
-> + *
-> + * When @update_policy is true, updates cpufreq policy frequency limits.
-> + * @update_policy is false during cpu_init when policy isn't fully set up.
->   */
->  static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
-> -					bool is_min)
-> +					bool update_policy, bool is_min)
->  {
->  	struct cppc_cpudata *cpu_data = policy->driver_data;
->  	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
->  	unsigned int cpu = policy->cpu;
-> +	struct freq_qos_request *req;
-> +	unsigned int freq;
->  	u32 perf;
->  	int ret;
->  
-> @@ -571,15 +577,26 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
->  	else
->  		cpu_data->perf_ctrls.max_perf = perf;
->  
-> +	if (update_policy) {
-> +		freq = cppc_perf_to_khz(caps, perf);
-> +		req = is_min ? policy->min_freq_req : policy->max_freq_req;
-> +
-> +		ret = freq_qos_update_request(req, freq);
-> +		if (ret < 0) {
-> +			pr_warn("Failed to update %s_freq constraint for CPU%d: %d\n",
-> +				is_min ? "min" : "max", cpu, ret);
-> +			return ret;
-> +		}
-> +	}
-> +
+Fix a broken line break in the word "architecture" in the spufs
+documentation.
 
-OK. Now I see the necessity of extracting this function. But why not use
-freq_khz as a input parameter and convert it to perf in this funciton,
-since you need the freq here?
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ Documentation/filesystems/spufs/spu_create.rst | 4 ++--
+ Documentation/filesystems/spufs/spu_run.rst    | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
->  	return 0;
->  }
->  
-> -#define cppc_cpufreq_set_min_perf(policy, val) \
-> -	cppc_cpufreq_set_mperf_limit(policy, val, true)
-> -
-> -#define cppc_cpufreq_set_max_perf(policy, val) \
-> -	cppc_cpufreq_set_mperf_limit(policy, val, false)
-> +#define cppc_cpufreq_set_min_perf(policy, val, update_policy) \
-> +	cppc_cpufreq_set_mperf_limit(policy, val, update_policy, true)
->  
-> +#define cppc_cpufreq_set_max_perf(policy, val, update_policy) \
-> +	cppc_cpufreq_set_mperf_limit(policy, val, update_policy, false)
->  static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->  {
->  	struct cppc_cpudata *cpu_data;
-> @@ -988,7 +1005,8 @@ static ssize_t store_min_perf(struct cpufreq_policy *policy, const char *buf,
->  	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
->  
->  	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
-> -	ret = cppc_cpufreq_set_min_perf(policy, perf);
-> +	ret = cppc_cpufreq_set_min_perf(policy, perf,
-> +					cpu_data->perf_ctrls.auto_sel);
->  	if (ret)
->  		return ret;
->  
-> @@ -1045,7 +1063,8 @@ static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
->  	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
->  
->  	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
-> -	ret = cppc_cpufreq_set_max_perf(policy, perf);
-> +	ret = cppc_cpufreq_set_max_perf(policy, perf,
-> +					cpu_data->perf_ctrls.auto_sel);
->  	if (ret)
->  		return ret;
->  
+diff --git a/Documentation/filesystems/spufs/spu_create.rst b/Documentation=
+/filesystems/spufs/spu_create.rst
+index 83108c099696..c1f1d857f911 100644
+--- a/Documentation/filesystems/spufs/spu_create.rst
++++ b/Documentation/filesystems/spufs/spu_create.rst
+@@ -113,8 +113,8 @@ Files
+=20
+ Conforming to
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-       This call is Linux specific and only implemented by the ppc64 archi=
+tec-
+-       ture. Programs using this system call are not portable.
++       This call is Linux specific and only implemented by the ppc64
++       architecture. Programs using this system call are not portable.
+=20
+=20
+ Bugs
+diff --git a/Documentation/filesystems/spufs/spu_run.rst b/Documentation/fi=
+lesystems/spufs/spu_run.rst
+index 7fdb1c31cb91..c5fb416296a9 100644
+--- a/Documentation/filesystems/spufs/spu_run.rst
++++ b/Documentation/filesystems/spufs/spu_run.rst
+@@ -120,8 +120,8 @@ Notes
+=20
+ Conforming to
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-       This call is Linux specific and only implemented by the ppc64 archi=
+tec-
+-       ture. Programs using this system call are not portable.
++       This call is Linux specific and only implemented by the ppc64
++       architecture. Programs using this system call are not portable.
+=20
+=20
+ Bugs
+--=20
+2.47.3
 
