@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1A929D277;
-	Thu, 25 Dec 2025 08:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E828E26FDA8;
+	Thu, 25 Dec 2025 08:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766652713; cv=none; b=TcuJBY9Z9VCoOAZS5qg0oQE+JXyHiRfgYQ7QtjdjG8txK3JR/IK6ixzBHTQCJJBhdmD30p3Y9bfc+wz6pJMkrlTT7swPDLp6tO/JmtuepbuKYML5dFsE0MNV5gPbSeklA3vMLFbnR5ih3lq776KJW4AaVCXKPNBACB9er4F+vvU=
+	t=1766652747; cv=none; b=SxVZHkAd8iv7cF+gNuVabhUb1hc8wcIJ1r7C+d/bq4KHu1hdhmew4D3Wu5O46Va465qgtBk1qK6tlPVDT7rEG3mrfnRKkuSo6SjXtNo9a85VuyPDz2M0G2XHSGADQCfhOLgMUE/Om/2SFlhbxH5+z6otPACCcCDdXvn8wQBILog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766652713; c=relaxed/simple;
-	bh=D9mysTcv+Jgh35PRk6Sd3Rn3Bu9gIl/Jg7Ezf6E68ag=;
+	s=arc-20240116; t=1766652747; c=relaxed/simple;
+	bh=qDR6aHVeZknX7OzXBltgBV84PUQq/D015YpphkF9kWc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VHyWpN7t8pQPU312oIJajrD6+MY7/R+VEUfvCkGZ02N+UTacJa0JIIzPQeI1fiF3fBzGiIwzD1x7DNGPMy7AR3ZFrbmNhAUfjcDTk0+N17dJYxoGh+rQWDOHV2JULkL19nT1UX1hgn4jwS+tJIb/papGB3AWLLbcwSfP2gMTWCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gN1gv9OV; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=OVjKDmXY4aaWLRWz2Ce3QHn6sEZO9ULULEyRrJX5FA/L7/xlXs8pZ+xSKARM1/CsPjD1/xEfZrcoBwDu1sMRR/ib92G075sge7/xfgKyChozorvjwJJQKfPLDnIbABNOJ3PiBsBGnSPDf44ceK4k5/hQzHkNqRgDVsfs7EV8Z/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4RkF2EI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gN1gv9OV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02AF0C4CEF1;
-	Thu, 25 Dec 2025 08:51:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4RkF2EI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1947FC4CEF1;
+	Thu, 25 Dec 2025 08:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766652712;
-	bh=D9mysTcv+Jgh35PRk6Sd3Rn3Bu9gIl/Jg7Ezf6E68ag=;
+	s=k20201202; t=1766652746;
+	bh=qDR6aHVeZknX7OzXBltgBV84PUQq/D015YpphkF9kWc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gN1gv9OVCSNgOkGlHboJ16lonZxFU2Tp7IU07L5a3//qsgtDy3MeYkXZR/q0yGJWA
-	 KwdmyrmwuhruBE6FAdTDKKVhKgah1xZ9p4BuB5nbPQPNr+uQa2jm+2FxjA08Deqw9G
-	 94itPTsGuBVPmomvGaXrseALwpI6yDVCIaH2lZM6RlNwMfSoiY9mdNF96DO6FKa68o
-	 Kh9s0gornhY5u9V/4Q97VSpeCAW6suYslJkHrRLUFZfSRi7VyrqaFAroiGjNYH2Xr+
-	 EY5rCYO2A33Y1DL1tQoFwKb3uPrFACfhIL2ViSTLefsc37GxopRByhr83OpgbAo/WL
-	 dG1UUWIpS+Zlw==
-Message-ID: <3538f671-8a16-4b71-b15f-3ef5cfeacd40@kernel.org>
-Date: Thu, 25 Dec 2025 09:51:39 +0100
+	b=Q4RkF2EI6QworjJ5wAlnPIW9/w6glKsrlEHYyCdBISo0g5nGleb4kQ8ZmyNySBmx7
+	 wQoBdcoS4185ir6kR+YgoKLXnMztRRDTC/+uleAHHtx/XBzUf9TQjUhfadX71sfFy7
+	 tcvQb7bni/dMFRnjn8+WN6DzFl+ChWro9GKpckC6P9UPU32SYCEXp9jaNLMV1YuuGQ
+	 otR1jrKYe0EsSQI0CeecATJxKZZuFNGT7+26cIobT12vIIXnOxyTww/kEFNmjW6og6
+	 1Ly6owbKNEpy5DmcZy2HkgJOFgo4t5IKCTCp6jktFMqb0D5fYhLuz+Z+N3PE6wz2uh
+	 HfF7VgAhP4IhA==
+Message-ID: <15fcc60d-b12e-4e20-9c3d-2426a4762c55@kernel.org>
+Date: Thu, 25 Dec 2025 09:52:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] virt: Add Bao hypervisor IPC and I/O dispatcher
- drivers
+Subject: Re: [PATCH 5/5] MAINTAINERS: Add entries for Bao hypervisor drivers,
+ headers, and DT bindings
 To: joaopeixoto@osyx.tech, linux-kernel@vger.kernel.org
 Cc: ajd@linux.ibm.com, alex@ghiti.fr, aou@eecs.berkeley.edu,
  bagasdotme@gmail.com, catalin.marinas@arm.com, conor+dt@kernel.org,
@@ -50,6 +50,7 @@ Cc: ajd@linux.ibm.com, alex@ghiti.fr, aou@eecs.berkeley.edu,
  neil.armstrong@linaro.org, palmer@dabbelt.com, pjw@kernel.org,
  prabhakar.mahadev-lad.rj@bp.renesas.com, robh@kernel.org, will@kernel.org
 References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
+ <20251224135217.25350-6-joaopeixoto@osyx.tech>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,28 +96,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251224135217.25350-1-joaopeixoto@osyx.tech>
+In-Reply-To: <20251224135217.25350-6-joaopeixoto@osyx.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 24/12/2025 14:52, joaopeixoto@osyx.tech wrote:
 > From: João Peixoto <joaopeixoto@osyx.tech>
 > 
-> This series introduces support for the Bao hypervisor guest-side drivers
-> under drivers/virt/bao and the associated Device Tree bindings, UAPI,
-> and MAINTAINERS entries.
+> Add MAINTAINERS entries for the Bao hypervisor components including:
+> - Bao IPC shared memory driver and its device tree bindings
+> - Bao I/O dispatcher driver and its device tree bindings
+> - Kernel headers for Bao (ARM, ARM64, and RISC-V)
+> - UAPI header
+
+This is irrelevant.
+
 > 
-> Bao is a lightweight static-partitioning hypervisor for embedded and
-> safety-critical systems. This series adds:
-> - The Bao IPC shared memory driver, which enables Linux guests to
->   communicate with each other through shared memory regions.
-> - The Bao I/O Dispatcher driver, which allows Bao's VMs to share I/O
->   devices using device paravirtualization (VirtIO).
-> 
+> This ensures that the kernel review and notification system correctly
+> identifies the maintainers for all Bao hypervisor components in the
+> kernel tree.
 
 
-None of these patches, except MAINTAINERS reached my mailbox. Fix your
-submission process, so it will not be marked by spam and bounced.
+This is irrelevant as well. Write concise yet useful commit msgs.
 
 Best regards,
 Krzysztof
