@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324AB3A1E6D;
-	Thu, 25 Dec 2025 12:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CD5321456;
+	Thu, 25 Dec 2025 12:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766665952; cv=none; b=gFCFKkZ2w0w0roDphcrb2RkiTlSgglUs+21bMj+u6dlR1chMH4oYgI91WWw32rqoBSwZ/6nQ9BNR5pCqBvn1hgj+VBfE4cUOGRIO17z06tnIz+6/AV8Yn+0CqNi5onal3Opu24fn9CXu1UjuvxOJ7vhRvzvRMXyO/YoNEutuV4k=
+	t=1766666866; cv=none; b=DDgbVulnH0Qlmtkod1C4uCPHIeMaj19Wc41fez4zxLDv5jxnQib/uo1Nx1TBPKD+s7d5zgFO2fZnC7DKiQ/Jh59t7Yt5g1o4SK5VIj3lmVl194Foi5ukqeu6DLyxnSfyvPYu20CHb0oGl+4eEApSfW94B7LKCXXXdE2AImUAats=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766665952; c=relaxed/simple;
-	bh=v9bryisTSBRr+BXg4C4EsjyO9/G1RYyLeXWoRywa+wg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fJkHyK46L7i6c9upqASlfcu34gxSbtmXX4XnCRe194P83AuNElQp6SLWpSD7814RhcPBSuweCSef0ovNbkX6ylLuR3onoadNEOLEtCryU4xMgFXSdV3AHOIa9fhINozDTWQHX65EdDBU8L9c5hQGGlLzxIhlpeUn3+SHVL/Pq/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCqn3XLj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766666866; c=relaxed/simple;
+	bh=DoB/m1OhIvv1qflXUXHbavl+iPRatPjDaXpMfugpylU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nilgN/pATXaDRPcEiXyBKDChTNN7nnzKa71w8A7n1MA2sxunl0+fcR+Et4Ub8uulUZ5spagCIQLYByddrLolDkMwAs7IFhPk8S3dleu+iNVXw+BC9iMCNsH5wfmXY7xFBdsVT7xIPaYt47lrXd6SJly6wYthwBcfFtxsrZTIHBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnk9Rcd0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCqn3XLj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E84BC116B1;
-	Thu, 25 Dec 2025 12:32:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnk9Rcd0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95734C4CEF1;
+	Thu, 25 Dec 2025 12:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766665951;
-	bh=v9bryisTSBRr+BXg4C4EsjyO9/G1RYyLeXWoRywa+wg=;
+	s=k20201202; t=1766666865;
+	bh=DoB/m1OhIvv1qflXUXHbavl+iPRatPjDaXpMfugpylU=;
 	h=From:Date:Subject:To:Cc:From;
-	b=nCqn3XLj3djU3D7hODSjOe4YK5BwLyIMuOnl23UDDS/X0JoqrgyWJXHOHiQ50rmZf
-	 qmdGvf+Mp/cN6HFjDxSsZgij13rPjPwHVOXX8f3nRLA0xRQ/g7oFmmoobLwU0uWNQX
-	 WEkXRyKgeP+xWpcuYclz9dHTsnCngygB3BixAO3E11yAymUi0njGut0qDMEyTr5jbq
-	 ecXqaKgT6wOygOxbLjBOGauHfZxJCIisjHQ6RHoYai+xI1I2NJywFm4SooOLkSkn8/
-	 msgXJqjlBWLpaTxL6TL40iV4l+ITK8jjXSYLmXXzScUnVHQfXOWT8TvsHaRf5ilRa0
-	 CNyJ0PR6W17Qg==
+	b=cnk9Rcd0Nbtbcy1V/P1OPxVjJ5zxstnZk6pChCjK9f8ptNy54het/NsqjB6MHfM04
+	 D8vzawN2n8Yjq4QYoSiOXnhQSL/7AdxxgMCDT08DcuSsV+UIfYg7pqITtw2KUlLxNQ
+	 6It0K12tRovnLyyGZB+jI/aapvUOKrWM3nvuP4ORx3c0HQEJLZOPoweDyBYKpuWWIC
+	 tXAKEm2sRACPTpqNMNKfh3EVxwVRa9VqAok6yH+R8AqSHgLzQp0ZuqQHeMYWxa5w+q
+	 SthrVGX8kBSgaDYf6xRESYQWvK2gV9+YSo2+MlGOvrQFxkmVDs+8eJP9rC2r+iNNdk
+	 z7Pqavbwx3ALg==
 From: Vincent Mailhol <mailhol@kernel.org>
-Date: Thu, 25 Dec 2025 13:32:18 +0100
-Subject: [PATCH] docs: process: email-client: add Thunderbird "Toggle Line
- Wrap" extension
+Date: Thu, 25 Dec 2025 13:47:37 +0100
+Subject: [PATCH] doc-guide: kernel-doc: specify that W=n does not check
+ header files
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,77 +36,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251225-docs_thunderbird-toggle-line-wrap-v1-1-24794afa4abf@kernel.org>
-X-B4-Tracking: v=1; b=H4sIANEuTWkC/x3N0QqDMAxA0V+RPC+gHR1svyIymiarAWkl1W0g/
- vvKHs/LvQdUMZUKj+4Ak7dWLblhuHQQ55CToHIzuN75wTmPXGJ9bvOeWYzUGLeS0iK4aBb8WFi
- RSa53inTzPUHrrCYv/f4f43SeP8fX7ZpzAAAA
-X-Change-ID: 20251225-docs_thunderbird-toggle-line-wrap-dbe39bcb650b
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Rob Landley <rlandley@parallels.com>, 
- Sotir Danailov <sndanailov@gmail.com>, 
- =?utf-8?q?Giedrius_Statkevi=C4=8Dius?= <giedrius.statkevicius@gmail.com>, 
- Paul McQuade <paulmcquad@gmail.com>, Randy Dunlap <rdunlap@infradead.org>, 
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251225-doc-format-check-v1-1-dff637a4d275@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAGgyTWkC/x3MTQqAIBBA4avErBtIQ/q5SrSQccohytCIQLp70
+ vJbvJchcRROMFYZIt+SJBwFqq6AvD1WRnHFoBttlNYGXSBcQtztheSZNmxdZyyroaHeQcnOyIs
+ 8/3Ka3/cDiFDFvmIAAAA=
+X-Change-ID: 20251225-doc-format-check-3d75ae190c8d
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Vincent Mailhol <mailhol@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2070; i=mailhol@kernel.org;
- h=from:subject:message-id; bh=v9bryisTSBRr+BXg4C4EsjyO9/G1RYyLeXWoRywa+wg=;
- b=owGbwMvMwCV2McXO4Xp97WbG02pJDJm+ejc19T6y1PbNnb5cO9JgWc21fof3wl0bzr459Stew
- /xS9jHNjoksDGJcDJZiiizLyjm5FToKvcMO/bWEmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
- DXWATAYuTgGY6v3SjAxzbu9/Ghw71V+lqWju7O95FdMVn9bf38CiMv/I27htbx9cYfin89dFw4H
- jIOvE/TzhnSH5zLG3XzjO1tk5c9rvLzl7LuhxAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1864; i=mailhol@kernel.org;
+ h=from:subject:message-id; bh=DoB/m1OhIvv1qflXUXHbavl+iPRatPjDaXpMfugpylU=;
+ b=owGbwMvMwCV2McXO4Xp97WbG02pJDJm+RjkGW52MWoUP166bd3+j2xvde9mhn6s4ly3P8FLQO
+ LZswgTTjoksDGJcDJZiiizLyjm5FToKvcMO/bWEmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ DXWATAYuTgGY6q3MjAzr0n0aeIWtdD2+nfZreptzN9f06sbA7eLXn9W43uz89KaWkeHu8maHt88
+ vn53nq63MdONTF0PxqsmP628Zn3rRbHz/2QouAA==
 X-Developer-Key: i=mailhol@kernel.org; a=openpgp;
  fpr=ED8F700574E67F20E574E8E2AB5FEB886DBB99C2
 
-While reading the git-format-patch manpages [1], I discovered the existence
-of the "Toggle Line Wrap" extension for Thunderbird which I found rather
-convenient.
+The documentation states that:
 
-Looking at the history, the ancestor of this extension was added to the
-documentation in commit e0e34e977a7c ("Documentation/email-clients.txt:
-update Thunderbird docs with wordwrap plugin") but then removed in commit
-f9a0974d3f70 ("Documentation: update thunderbird email client settings").
+  make W=n
 
-Extend the paragraph on Thunderbird's mailnews.wraplength register to
-mention the existence of the "Toggle Line Wrap" extension. The goal is not
-to create a war on what is the best option so make it clear that this is an
-alternative.
+can be used to verify the documentation format. This is true for .c
+files but not for headers [1].
 
-[1] man git-format-patch -- §Thunderbird
-Link: https://git-scm.com/docs/git-format-patch#_thunderbird
+Modify the documentation to specify that headers files are not covered
+by make W=n and that these need to be checked separately with
+scripts/kernel-doc.
 
+[1] commit 3a025e1d1c2e ("Add optional check for bad kernel-doc comments")
+Link: https://git.kernel.org/torvalds/c/3a025e1d1c2e
+
+Fixes: 8fcce5803afd ("doc-guide: kernel-doc: add comment about formatting verification")
 Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 ---
-and Merry Christmas!
----
- Documentation/process/email-clients.rst | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+This is a resend of a patch which I sent more than two years ago, on
+which I got no answers and which I then forgot about.
 
-diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
-index 84a2450bb6ec..27cd43b185dd 100644
---- a/Documentation/process/email-clients.rst
-+++ b/Documentation/process/email-clients.rst
-@@ -324,7 +324,14 @@ To beat some sense out of the internal editor, do this:
+Link: https://lore.kernel.org/all/20230531093951.358769-1-mailhol.vincent@wanadoo.fr/
+---
+ Documentation/doc-guide/kernel-doc.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index fd89a6d56ea9..9ebcb2da8606 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -56,11 +56,14 @@ documentation comments. For example::
  
-   - Set ``mailnews.send_plaintext_flowed`` to ``false``
+ 	scripts/kernel-doc -v -none drivers/foo/bar.c
  
--  - Set ``mailnews.wraplength`` from ``72`` to ``0``
-+  - Set ``mailnews.wraplength`` from ``72`` to ``0`` **or** install the
-+    "Toggle Line Wrap" extension
-+
-+    https://github.com/jan-kiszka/togglelinewrap
-+
-+    https://addons.thunderbird.net/fr/thunderbird/addon/toggle-line-wrap/
-+
-+    to control this registry on the fly.
+-The documentation format is verified by the kernel build when it is
+-requested to perform extra gcc checks::
++The documentation format of ``.c`` files is also verified by the kernel build
++when it is requested to perform extra gcc checks::
  
- - Don't write HTML messages! Go to the main window
-   :menuselection:`Main Menu-->Account Settings-->youracc@server.something-->Composition & Addressing`!
+ 	make W=n
+ 
++However, the above command does not verify header files. These should be checked
++separately using ``kernel-doc``.
++
+ Function documentation
+ ----------------------
+ 
 
 ---
-base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
-change-id: 20251225-docs_thunderbird-toggle-line-wrap-dbe39bcb650b
+base-commit: efc362716ef356f3bb2e9584be1f4d61dbb39eb6
+change-id: 20251225-doc-format-check-3d75ae190c8d
 
 Best regards,
 -- 
