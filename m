@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED801C701F;
-	Thu, 25 Dec 2025 08:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1A929D277;
+	Thu, 25 Dec 2025 08:51:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766652592; cv=none; b=OuRs7XXLkGW6wZ5rAO27IQmH6a2ep4XzuATSGfYyoAdLGRN9emzEY1oGZEx5lgGbOOvV+GCBwSqzyIoITsibDucG8Mdvm/5KyUQfzu86xOC79+OZGXqpENxrrE1W/mzINx2SxXMwRPWQY2+25RqtO6IKSqTHG+YeRJAFcDoqbEM=
+	t=1766652713; cv=none; b=TcuJBY9Z9VCoOAZS5qg0oQE+JXyHiRfgYQ7QtjdjG8txK3JR/IK6ixzBHTQCJJBhdmD30p3Y9bfc+wz6pJMkrlTT7swPDLp6tO/JmtuepbuKYML5dFsE0MNV5gPbSeklA3vMLFbnR5ih3lq776KJW4AaVCXKPNBACB9er4F+vvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766652592; c=relaxed/simple;
-	bh=SPlhtQqt0ffpS5fGWDWsndH9zzKAZx+aJ6fsOmkyMfU=;
+	s=arc-20240116; t=1766652713; c=relaxed/simple;
+	bh=D9mysTcv+Jgh35PRk6Sd3Rn3Bu9gIl/Jg7Ezf6E68ag=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GghvhUjO/IQfnqdvQkrgRd6K4jEDWbMTVaHWDNA0/YJuoE6R2dCSKJSppaXXbttrcSiZLlC0PMV/IEbkl0AZrqFFF98HJnyTBJUd+xqqtPEFTQy0dkY8TpfN3VOcZWPvnDlfC/W0ryUGNCMmlkQ8hmM9bi6HgmuGKFKHtZ9tses=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gfhm2RVn; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=VHyWpN7t8pQPU312oIJajrD6+MY7/R+VEUfvCkGZ02N+UTacJa0JIIzPQeI1fiF3fBzGiIwzD1x7DNGPMy7AR3ZFrbmNhAUfjcDTk0+N17dJYxoGh+rQWDOHV2JULkL19nT1UX1hgn4jwS+tJIb/papGB3AWLLbcwSfP2gMTWCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gN1gv9OV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gfhm2RVn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09550C4CEF1;
-	Thu, 25 Dec 2025 08:49:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gN1gv9OV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02AF0C4CEF1;
+	Thu, 25 Dec 2025 08:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766652591;
-	bh=SPlhtQqt0ffpS5fGWDWsndH9zzKAZx+aJ6fsOmkyMfU=;
+	s=k20201202; t=1766652712;
+	bh=D9mysTcv+Jgh35PRk6Sd3Rn3Bu9gIl/Jg7Ezf6E68ag=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gfhm2RVnFpmW2K2LkWdB6tL8KBy636bQiGQ02ukMd0yY7KpQtaubbOVwMQyzmd3Pc
-	 U6DoPCUzknYfZYEF93vSb6+lPWUEfpl+ybmfrDFdi7CNBzh6kvF2CaM5pKwbU05r1b
-	 wpL5oN8eiVGKr8J/dCQ1WUY7jtyn1e6POWZDkldH+O61e1ptTH5dUMB2R8T/ubum8a
-	 AZCBLLjLTakj0cVaMCbm8ah5O8aPF8+PItRqislOYRh3zG+v3+5Spr8oAVPepDq9qp
-	 f7u1UBOz+EPrWc7mcmpVZA6FpEx3ODRobbhFMUROilmQv9GV5ANDyX/i2GwuzdBhgk
-	 UZA86HBjFRLvQ==
-Message-ID: <ac6e9bcc-66bf-40e6-8de2-be1f6e823e0e@kernel.org>
-Date: Thu, 25 Dec 2025 09:49:44 +0100
+	b=gN1gv9OVCSNgOkGlHboJ16lonZxFU2Tp7IU07L5a3//qsgtDy3MeYkXZR/q0yGJWA
+	 KwdmyrmwuhruBE6FAdTDKKVhKgah1xZ9p4BuB5nbPQPNr+uQa2jm+2FxjA08Deqw9G
+	 94itPTsGuBVPmomvGaXrseALwpI6yDVCIaH2lZM6RlNwMfSoiY9mdNF96DO6FKa68o
+	 Kh9s0gornhY5u9V/4Q97VSpeCAW6suYslJkHrRLUFZfSRi7VyrqaFAroiGjNYH2Xr+
+	 EY5rCYO2A33Y1DL1tQoFwKb3uPrFACfhIL2ViSTLefsc37GxopRByhr83OpgbAo/WL
+	 dG1UUWIpS+Zlw==
+Message-ID: <3538f671-8a16-4b71-b15f-3ef5cfeacd40@kernel.org>
+Date: Thu, 25 Dec 2025 09:51:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,16 +35,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: dt-bindings: remoteproc: fix Keystone DSP GPIO
- binding link
-To: Kathara Sasikumar <katharasasikumar007@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20251223221019.28823-2-katharasasikumar007@gmail.com>
+Subject: Re: [PATCH 0/5] virt: Add Bao hypervisor IPC and I/O dispatcher
+ drivers
+To: joaopeixoto@osyx.tech, linux-kernel@vger.kernel.org
+Cc: ajd@linux.ibm.com, alex@ghiti.fr, aou@eecs.berkeley.edu,
+ bagasdotme@gmail.com, catalin.marinas@arm.com, conor+dt@kernel.org,
+ corbet@lwn.net, dan.j.williams@intel.com, davidmcerdeira@osyx.tech,
+ devicetree@vger.kernel.org, dev@kael-k.io, gregkh@linuxfoundation.org,
+ haren@linux.ibm.com, heiko@sntech.de, jose@osyx.tech,
+ kever.yang@rock-chips.com, krzk+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux@armlinux.org.uk,
+ linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ maddy@linux.ibm.com, mani@kernel.org, nathan@kernel.org,
+ neil.armstrong@linaro.org, palmer@dabbelt.com, pjw@kernel.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, robh@kernel.org, will@kernel.org
+References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,20 +95,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251223221019.28823-2-katharasasikumar007@gmail.com>
+In-Reply-To: <20251224135217.25350-1-joaopeixoto@osyx.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/12/2025 23:10, Kathara Sasikumar wrote:
-> make refcheckdocs reports a broken link in the Keystone remoteproc
-> binding documentation.
+On 24/12/2025 14:52, joaopeixoto@osyx.tech wrote:
+> From: João Peixoto <joaopeixoto@osyx.tech>
 > 
-> Update the reference to point to the current YAML schema.
+> This series introduces support for the Bao hypervisor guest-side drivers
+> under drivers/virt/bao and the associated Device Tree bindings, UAPI,
+> and MAINTAINERS entries.
 > 
-> Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
+> Bao is a lightweight static-partitioning hypervisor for embedded and
+> safety-critical systems. This series adds:
+> - The Bao IPC shared memory driver, which enables Linux guests to
+>   communicate with each other through shared memory regions.
+> - The Bao I/O Dispatcher driver, which allows Bao's VMs to share I/O
+>   devices using device paravirtualization (VirtIO).
+> 
 
 
-This was already sent (and received comments).
+None of these patches, except MAINTAINERS reached my mailbox. Fix your
+submission process, so it will not be marked by spam and bounced.
 
 Best regards,
 Krzysztof
