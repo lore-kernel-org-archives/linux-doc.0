@@ -1,101 +1,118 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5CD3A1E7E
-	for <linux-doc@vger.kernel.org>; Thu, 25 Dec 2025 19:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF042765FF;
+	Thu, 25 Dec 2025 20:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766692104; cv=none; b=lCqauFlpG1VIO7ZbCaY6THtA9z/d8Wp/HAwuRcG4DnxS5GHYavHMlG7/fpMRC8kouRlbcawf4HX4QcB+bKHfTIW+ZbLVZuLLJ8xat39A9KSCUZEYBdBcqUqX53YoFZY4HDbQuIpqkH0ejsPN+DepdyH+uBGMlQgzaJiSRn03t0Q=
+	t=1766695300; cv=none; b=rtk1x9l8t7IpUDuz9CATIo56xkmg09pGkG4R4nBaMLhmIjGHWtIKieLyKl1qfhNnvKHsWINd2qRvNPIWoQ1xroX5Y/mS8KmrKVZ5dYEILKSxK2Brh6fWHszPtdiQOe1fzMQhxT/tK5LFlSDHelIOrG/disiulBp9QcnBN6qTYRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766692104; c=relaxed/simple;
-	bh=N4yfqmX7QLMKhI+VsbWUt4ofOQzxrfnpzPNaJ8o1jQ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xzii1ZPH8QqFQ6PkJEqHa3R6hVA7+R2VcbBgIRVWE9Ncx/ljhrIb3NR8rJmNCkSbXj8d8oZTNNvm3Gk3rvo0eBel6TYbooUfEEB5czzHRpQb5uAVs/e95Tyt54jsH/LCSm3wEQ0phS/fUJr65r1u2xUHIUiLgxAVCfFUWFFUPJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/jbuPpB; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766695300; c=relaxed/simple;
+	bh=XFl2TPmrr3leEnScio/DtUIp1dXpFdsWFkUDO7kYzc0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kWx+ijk7WvIYW8L3vmcqmiktnoXip9KN/+FlglH8RN4CIUKEp/+hVdE8JRghjktFr1cfAKEUCsROmR5G+NXLItZnkc67NrVJWz/EXUsGtBpzSbwUxB0lpfjCcAUZXCerWe9hDftdgQ/Ya8hr/d++04SNuhW8gXjN1iUCeCMTcwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MiayWGjz; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/jbuPpB"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so53497725e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Dec 2025 11:48:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766692101; x=1767296901; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YTmUpeRnumGRyIio1C2Cc7iN7wUizzkQH52HxMcnxm0=;
-        b=e/jbuPpB9PptbdlnqAt6Kdkk9GXzpx9piLC/iX/OgsBb0pYkPz55rckUk87sczebi0
-         BSqY7K+KzU2xgJBhR4ldKqIPBtWX9xvt9uS7HSmi4DqBx8kLxt57LiJTdFYQX0JxsyiK
-         BVvhas2rP/CAFF2ZswVenNB/OjRPMrUVtATNkiOqfG1GEsN1hYkbBshnqS/o3UlZv5Ci
-         hGjVPkaHJ8X+pB48vwrGhqJfm+sEuurwPJ+ZWFteemP+oqDBYL5aJZp8y8KpF20r4GZl
-         58MBaqwUugK13lno3AL6TpSpo5+5FreN0stRBEqfAXGdBnhnhewrZMgJXgPUzs7RYPa/
-         0KvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766692101; x=1767296901;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YTmUpeRnumGRyIio1C2Cc7iN7wUizzkQH52HxMcnxm0=;
-        b=PCEoCGnB3flqp6brVCHTsEHZgiDr7ZrHM2FVCMpklO9G7Md+wGIxgQpChScWYsFyug
-         paMsDXPXM/IQZD3dLYEp8rJ34SRNrPuWVR9NwWAm7xX8ZIGZ1oJ3tSjbfheCwVt0BmK0
-         9Ec+r1P+qLHI7nPgi0GBeiC2pbK/94+Bl+DF2W5gPYO8AMhWMmBVDaX3XrENk5JRYjxu
-         c5U2gayj/Y6wMuY6aJOuJ4HeXnQDg4SpXocLXvTWUKvOb0iC/X35rcAO4Tuwd/VgNG9t
-         94cstLrepJCeV+np69eRVhaoJo1tV0xJOgBLsFuDpnBYrRiC4NYQIcI56rRnYq+UAWfl
-         YT0A==
-X-Gm-Message-State: AOJu0Yx8H/grxi/xCgEyjK8IgSgkAZZU8+7QFIirEHKefRbOOh/WvZ+r
-	+hl86inELW5KfT3FKkKEaOgvH/Mw9UgBU5+asqB6WEPbuK4w+4zgxcf0
-X-Gm-Gg: AY/fxX5++ERorEA+VQNVGyjp89lRfh3QivcLr49fcJSsRVemGhDtLA0/Zpv0OLB1Gc1
-	fFJeHbaaR/67nKqNw2VIiAJ0J0MghGDvCemooBd7xHFNqOcwz315CWWyjJtJU3TllKtJ9bqlKbx
-	9cDiy7nCTwT1YZ6LrVKHMrGeUvA/ltKanI3WLmBOdMsflnvkNP66VXmBz6jG/Yre4ZkFOidPBSb
-	o0du53mHgAG3iVU26+Uw9kk1QWlfDkUCY8dW67dca+e06HK4OQZfrZisBPaJTe8sgiiYjLUVAnM
-	Vqwf80Z4rvIuKdab+BGvPdtXeormke6z84e7GjquQHNsf4K0iT/S2/zVCQErGXf7jKaLTyu2Ec5
-	UB2Rtzv8FWsktOs2YsoD2HjOHsAMOTiTcUB7UD4Fxozz/rsUsHK8Oc2Rz/swP/AKv95sWBx800J
-	ErLTqOfr+7N2JB+qoDpubU7FxcHnh+JaLx
-X-Google-Smtp-Source: AGHT+IH9b73ZLWtPYqL6ZnbP4b7bL1wbOmhxIK11ZYopo62NK2b6CZY0UaTpvQEln/phkg00vVgqGA==
-X-Received: by 2002:a05:600c:3506:b0:477:63a4:88fe with SMTP id 5b1f17b1804b1-47d195499e5mr193785615e9.2.1766692101359;
-        Thu, 25 Dec 2025 11:48:21 -0800 (PST)
-Received: from localhost.localdomain ([188.51.201.184])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1af2bsm41644368f8f.1.2025.12.25.11.48.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Dec 2025 11:48:21 -0800 (PST)
-From: mustafaelrasheid@gmail.com
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	Mustafa Elrasheid <mustafaelrasheid@gmail.com>
-Subject: [PATCH] docs: Makefile: wrap SPHINXDIRS help text
-Date: Thu, 25 Dec 2025 22:46:51 +0300
-Message-Id: <20251225194651.190149-1-mustafaelrasheid@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MiayWGjz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=dCv1udCQdIVRTSnhYb635YCMCKCHohAU56S9+iwTx+w=; b=MiayWGjz60vSx2VDpmzm9Omu4+
+	MyvF1Tiq/vfWbdMiOkVTuSklB8udCNWHlErLggTtcbDLYZI2bPhMA0BmH8INgYN70OAHMVxAJ0plF
+	XlYT+JJCF3WqYu4qySwwPFuLdHmlZ60mycrwnB3I6No6PRLG8aaUaKKae7Zwx6YiYLzNFOYb4pKVv
+	y62MCVQJOFAk/079DkSN0S+LZ6JJQ1cunP4bP2GhlDVy4XIHF6Rg5uUf6NNnfkqm/QrzL8myof7oi
+	pycGqn2lni3RbjS1PrFwVGBtAm9O3z5O7NkMVlFjtf/tcLeJrr8DEAyk5xCiDopUvE/ntFkg0LdV3
+	FJxO/p6g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vYs9J-00000000gK4-2Nbs;
+	Thu, 25 Dec 2025 20:41:29 +0000
+Message-ID: <1aba733a-b29a-4931-b1c9-7df35774db38@infradead.org>
+Date: Thu, 25 Dec 2025 12:41:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: process: email-client: add Thunderbird "Toggle Line
+ Wrap" extension
+To: Vincent Mailhol <mailhol@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rob Landley <rlandley@parallels.com>,
+ Sotir Danailov <sndanailov@gmail.com>,
+ =?UTF-8?Q?Giedrius_Statkevi=C4=8Dius?= <giedrius.statkevicius@gmail.com>,
+ Paul McQuade <paulmcquad@gmail.com>
+References: <20251225-docs_thunderbird-toggle-line-wrap-v1-1-24794afa4abf@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251225-docs_thunderbird-toggle-line-wrap-v1-1-24794afa4abf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Mustafa Elrasheid <mustafaelrasheid@gmail.com>
+Hi,
 
-When using `make help`, SPHINXDIR doesn't wrap around 80 characters,
-causing text to overflow or wrap in incorrect ways,
-which then makes the text difficult to read
+On 12/25/25 4:32 AM, Vincent Mailhol wrote:
+> While reading the git-format-patch manpages [1], I discovered the existence
+> of the "Toggle Line Wrap" extension for Thunderbird which I found rather
+> convenient.
+> 
+> Looking at the history, the ancestor of this extension was added to the
+> documentation in commit e0e34e977a7c ("Documentation/email-clients.txt:
+> update Thunderbird docs with wordwrap plugin") but then removed in commit
+> f9a0974d3f70 ("Documentation: update thunderbird email client settings").
+> 
+> Extend the paragraph on Thunderbird's mailnews.wraplength register to
+> mention the existence of the "Toggle Line Wrap" extension. The goal is not
+> to create a war on what is the best option so make it clear that this is an
+> alternative.
+> 
+> [1] man git-format-patch -- §Thunderbird
+> Link: https://git-scm.com/docs/git-format-patch#_thunderbird
+> 
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+> ---
+> and Merry Christmas!
+> ---
+>  Documentation/process/email-clients.rst | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
+> index 84a2450bb6ec..27cd43b185dd 100644
+> --- a/Documentation/process/email-clients.rst
+> +++ b/Documentation/process/email-clients.rst
+> @@ -324,7 +324,14 @@ To beat some sense out of the internal editor, do this:
+>  
+>    - Set ``mailnews.send_plaintext_flowed`` to ``false``
+>  
+> -  - Set ``mailnews.wraplength`` from ``72`` to ``0``
+> +  - Set ``mailnews.wraplength`` from ``72`` to ``0`` **or** install the
+> +    "Toggle Line Wrap" extension
+> +
+> +    https://github.com/jan-kiszka/togglelinewrap
+> +
+> +    https://addons.thunderbird.net/fr/thunderbird/addon/toggle-line-wrap/
 
-Signed-off-by: Mustafa Elrasheid <mustafaelrasheid@gmail.com>
----
- Documentation/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please use the URL from the git-scm.com web page (i.e., without "fr/").
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index e96ac6dcac4f..5619e4e09361 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -98,7 +98,7 @@ dochelp:
- 	@echo  '  cleandocs       - clean all generated files'
- 	@echo
- 	@echo  '  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2'
--	@echo  '  top level values for SPHINXDIRS are: $(_SPHINXDIRS)'
-+	@echo  '  top level values for SPHINXDIRS are: $(_SPHINXDIRS)' | fmt -w 80 | sed '1!s/^/    /'
- 	@echo  '  you may also use a subdirectory like SPHINXDIRS=userspace-api/media,'
- 	@echo  '  provided that there is an index.rst file at the subdirectory.'
- 	@echo
+https://addons.thunderbird.net/thunderbird/addon/toggle-line-wrap
+
+> +
+> +    to control this registry on the fly.
+>  
+>  - Don't write HTML messages! Go to the main window
+>    :menuselection:`Main Menu-->Account Settings-->youracc@server.something-->Composition & Addressing`!
+> 
+> ---
+> base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
+> change-id: 20251225-docs_thunderbird-toggle-line-wrap-dbe39bcb650b
+> 
+> Best regards,
+
 -- 
-2.39.5
+~Randy
 
