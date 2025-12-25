@@ -1,74 +1,85 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A0F4C6D;
-	Thu, 25 Dec 2025 01:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33D53A1E65;
+	Thu, 25 Dec 2025 01:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766627490; cv=none; b=P4xXAiSPytqenLzZEqee6zzBEGkk0+vL1jpDb4XCDNX6rY4XKnAPvp8mWgoU4RixOFF4+zUX3sWElXrUf2RKM2lb3TzJiBc4TXpUYUpQL+kcf1CECyZX4aSHQm+mvOm0XZtSagXP1JFGoRFm+5ZitTOIaLC4hd1P+fNHxzKPYRg=
+	t=1766627697; cv=none; b=s31NPI4Mf08P1hLrrb7azokCat3zv2BAp3HtZaLrTgkQ5hbslHmFXeYioumAIosF6481dYJUhdHMAOHtjkOQ3gQwSbYpF5Zb5rQD5gRRl8ZpBt+NsPGwlvnslVGcroz6kGWDdjbVYiVNkrmcKHTCyigBez3oE90BjFv4LiGXc8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766627490; c=relaxed/simple;
-	bh=TnqNiplWwPur8Ti0jZCCoV7THZoKMpjV1jKGzE1rsbU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=h0PrPTX1W3ykUJC0EhQqKU3Ee5lLb80QgMiwY5pLGe4nm0PFNW/1yw2YMOcAixdCgvUmzeBgLviY7cTXcTzy+yJwx33VutRidgYcixTy2VNPNifMwQAAyMsdFfEMBzziX8SxSsj6ibK+NOa12KX3x7N0t7CRMMq91bEj+9/SCMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pysjlxPP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RZbVvenC; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1766627697; c=relaxed/simple;
+	bh=/+FzvKqCkQY6LY4hRpvV0WG4CYtWuVX43rT/pytBsGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P/R0TUia/MFPnSC7k8qlIMNT72zugGxRjAhLP1qXitinfNsPUw3RPqL+kx6r6FYYsZOaedJJtKpG3RY1mpyELTb8nHuTEGYJtdnEiH7OC15GzCHaWC1JsE/XNUgup/EbthTERsHgXcqTuiKYf1OZvnLYgQHY3Xt7LiNnXmztDT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TK3nXDdH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pysjlxPP";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RZbVvenC"
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1766627487;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UNf/RJ458kBSSMz1o/513Y+78aUqVfAFqahZeOAzkDk=;
-	b=pysjlxPPasfKxb1rTinb58WUZehnvyFUEM9GVdTsT/hLP9oryALFDBA7/u15BtapIdfSn2
-	75OuO/Bq4RU2Q3vrFvo589C+2hAqPhDMX3Eu2CUFXvhPmJRdOY60Blpg1R8tZSw91zKe6D
-	YZq4UaRkw+57wX9ofRffy5za1TdbQg07v6rd86N31UA79GzHKD30nvL0+OjXBAglcO1o/f
-	/dpF4nLnN/Ku2oHJzeYKq4u1v1tma9h1zTx2wlPzMDqH56Xu+9InQFituHK3VPs30FXvw2
-	vdCxjbNKOxHQtkvVl+/+auhxyD5B4vXjD2WdATZJO7FPEaOGcKOtR5AEin9mcw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1766627487;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UNf/RJ458kBSSMz1o/513Y+78aUqVfAFqahZeOAzkDk=;
-	b=RZbVvenCCZrWlS8dCmx4zBcq+jUKRRwVrBnKp/efME2DrrQazauyT9vyPSfwjsHw5Fq74i
-	ZF+iaXTH0p7SoAAA==
-To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
- Steven Rostedt <rostedt@goodmis.org>, Gabriele Monaco
- <gmonaco@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Masami Hiramatsu
- <mhiramat@kernel.org>, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>, Clark
- Williams <williams@redhat.com>, John Kacur <jkacur@redhat.com>
-Subject: Re: [PATCH v3 13/13] rv: Add dl_server specific monitors
-In-Reply-To: <20251205131621.135513-14-gmonaco@redhat.com>
-References: <20251205131621.135513-1-gmonaco@redhat.com>
- <20251205131621.135513-14-gmonaco@redhat.com>
-Date: Thu, 25 Dec 2025 08:51:22 +0700
-Message-ID: <871pkjba79.fsf@yellow.woof>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TK3nXDdH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343CCC4CEF7;
+	Thu, 25 Dec 2025 01:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766627697;
+	bh=/+FzvKqCkQY6LY4hRpvV0WG4CYtWuVX43rT/pytBsGA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TK3nXDdHqQo7ZM8iKTmqJc3V1BWWUCEYy8l12R02KpIOhPYZPHtOL8E3di5Yyvus2
+	 GuUsUBp3UoC8KHRh2rfrV9DQto7u4bgKwQoff2l3u3a0yyc5Wmf82mR98RQYxyrsxF
+	 0MUAHGMqkVGpMHwAYWU3yobrZ1sWvwOcficcJaSBJDgT/Icc/shuuKo7qvv2gZL5+w
+	 21kqst9YPhhqjqL69JyCd8u3CSKopYaeo2PSOppuwnj48M+7HkIwixCGavh5HnSgzt
+	 XDz6mZAHI4na08e8T54B1p9vLiil9FLiCwuPPq+FXNKkUnnodFKB1YM4aljUcbjHu2
+	 q0/zqb9zidilw==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH] docs: submitting-patches: suggest adding previous version links
+Date: Wed, 24 Dec 2025 17:54:45 -0800
+Message-ID: <20251225015447.16387-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Gabriele Monaco <gmonaco@redhat.com> writes:
-> Add monitors to validate the behaviour of the deadline server.
->
-> The currently implemented monitors are:
-> * boost
->     fair tasks run either independently or boosted
-> * laxity
->     deferrable servers wait for zero-laxity and run
->
-> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+For review of patches that revisioned multiple times, patch changelogs
+are very useful.  Adding actual links to the previous versions can
+further help the review.  Using such links, reviewers can double check
+the changelog by themselves, and find previous discussions.  Nowadays
+having such links (e.g., lore.kernel.org archive links) is easy and
+reliable.  Suggest adding such links if available.
 
-Same remarks in "[PATCH v3 12/13] rv: Add deadline monitors" apply.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/process/submitting-patches.rst | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Reviewed-by: Nam Cao <namcao@linutronix.de>
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 9a509f1a6873..e69d19ad658f 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -805,7 +805,8 @@ not part of the changelog which gets committed to the git tree. It is
+ additional information for the reviewers. If it's placed above the
+ commit tags, it needs manual interaction to remove it. If it is below
+ the separator line, it gets automatically stripped off when applying the
+-patch::
++patch.  If available, adding links to previous versions of the patch (e.g.,
++lore.kernel.org archive link) is recommended to help reviewers::
+ 
+   <commit message>
+   ...
+@@ -814,6 +815,9 @@ patch::
+   V2 -> V3: Removed redundant helper function
+   V1 -> V2: Cleaned up coding style and addressed review comments
+ 
++  v2: https://lore.kernel.org/bar
++  v1: https://lore.kernel.org/foo
++
+   path/to/file | 5+++--
+   ...
+ 
+
+base-commit: 7f3c3a0a9103dc92c823f27db3284ac2914e7558
+-- 
+2.47.3
