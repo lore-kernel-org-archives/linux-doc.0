@@ -1,24 +1,40 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DE330B50D;
-	Thu, 25 Dec 2025 10:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF781D5178;
+	Thu, 25 Dec 2025 12:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766657711; cv=none; b=EQQYyRlahDkNQr3Yc/+3EK1YV79NIsyqDW/b/l5XcGPZS5io16tduv07R5Tl3Uq9baMzh4rXWB5A8IHfnfnsyvfin4a9R/NdY/+F9IuBd4pbeUVNaRP5Yx5ktnu31D41sV1Z8qRjp7q1f8uJlUt3xgtCiu+HF/rCi089o1GORJI=
+	t=1766664423; cv=none; b=l207E90WG1c5n6n0/sVyigvTJhqz8ZVLFz1mtkAUqWczXng0T5PvwE1FY7+XrjmyAwKs6POyHXQ6JuH/SCn+bnmO0I2akvdbulx6Kf6RrUnUo6oFw465S+SnHH5CsqoYTl+Lb3ModJoZKhhm6xLe5n0CxE4+gnBCeZ7I77/hkaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766657711; c=relaxed/simple;
-	bh=quMzQLJ3gvgceF6EgP0zuFXasglHAAekjNTPMHmaPmQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gzmor7VYhB6M5EWfSX1wQhZVoOvklMtm6pUn6Uqp5Kaj+Bl127WwO94BuEQRMbCBdKsUSiWak0Gh2TeQF2HRB69wA4yikxNG3UL9jbKYpkJhwldsgkKld9IrG0BijQuZ5uhpGP2Ljs/DpnqN6wZlHyWCpNLhc0nJJ5j1D2zUdGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [192.168.0.105] (unknown [114.241.82.59])
-	by APP-01 (Coremail) with SMTP id qwCowACH826RDk1pT2zJAQ--.26576S2;
-	Thu, 25 Dec 2025 18:14:42 +0800 (CST)
-Message-ID: <38ce44c1-08cf-4e3f-8ade-20da224f529c@iscas.ac.cn>
-Date: Thu, 25 Dec 2025 18:14:41 +0800
+	s=arc-20240116; t=1766664423; c=relaxed/simple;
+	bh=CfZDfqheZKksAchbJ/m6MAoeuFVJP6vNYQsZPyvhIvs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XU2xeB4wIv1jTTgScYiHEHz4xdk/gpUdfTIOP7yVMVtUxE1m01Ng7jHMKKrajnOxjKGoUlKz0OAtar5xGre0Ikiy5j5GiUybUXB4oDIU9j9y0KvXl4cwdr5sMtzzCXTiYHWtOGcegI+0icfOLufh9tDlBaunuFMmXYsumutIMiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=xn4pCXMh; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="xn4pCXMh"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=r/gTW6pJKrRGdzClt7gk9Aa/WNSGGA2RNOf/R+QW7UI=;
+	b=xn4pCXMhxOLDLJHW4YZyDalorV15YVeCtfoV/7o399pxZROiSfqVVJHSuE81kihVJswODSA23
+	hNbA4D4p0tGrREyLfdgZqOHEIRBjTqPZ6xv44L0YitxSISGhYY3h+qBvHPODZQ6s2Fa9l+ycanF
+	elibtJKyCH7MQfwJrqUvXzE=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4dcS834jvWzcZxm;
+	Thu, 25 Dec 2025 20:03:47 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id E04884056A;
+	Thu, 25 Dec 2025 20:06:55 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 25 Dec
+ 2025 20:06:54 +0800
+Message-ID: <14851f8e-b6ac-42ff-9623-b7ac8d8893e2@huawei.com>
+Date: Thu, 25 Dec 2025 20:06:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -26,76 +42,225 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 06/14] riscv: misaligned: request misaligned exception
- from SBI
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org
-Cc: Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>,
- Charlie Jenkins <charlie@rivosinc.com>
-References: <20250523101932.1594077-1-cleger@rivosinc.com>
- <20250523101932.1594077-7-cleger@rivosinc.com>
-Content-Language: en-US
-From: Vivian Wang <wangruikang@iscas.ac.cn>
-In-Reply-To: <20250523101932.1594077-7-cleger@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACH826RDk1pT2zJAQ--.26576S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww4UuF4kAF45WFy8Kw13CFg_yoW8Xr48pF
-	s5Gr4akrW5CrnFq3W3uwnFqF4Yvw4rGr4xJrsrJ343urs8Zr4FvF4ktF1DXa47JrWkuw10
-	gFy3Kr1rua4DZrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvqb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
-	A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
-	w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
-	vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY
-	1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
-	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
-	wI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
-	v20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
-	jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
-	ZFpf9x07jDsqXUUUUU=
-X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
+Subject: Re: [PATCH v5 06/11] ACPI: CPPC: add APIs and sysfs interface for
+ perf_limited
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
+	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
+	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
+	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-7-sumitg@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <20251223121307.711773-7-sumitg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-Hi Clément and riscv maintainers:
+On 2025/12/23 20:13, Sumit Gupta wrote:
+> Add sysfs interface to read/write the Performance Limited register.
+> 
+> The Performance Limited register indicates to the OS that an
+> unpredictable event (like thermal throttling) has limited processor
+> performance. It contains two sticky bits set by the platform:
+>   - Bit 0 (Desired_Excursion): Set when delivered performance is
+>     constrained below desired performance. Not used when Autonomous
+>     Selection is enabled.
+>   - Bit 1 (Minimum_Excursion): Set when delivered performance is
+>     constrained below minimum performance.
+> 
+> These bits remain set until OSPM explicitly clears them. The write
+> operation accepts a bitmask of bits to clear:
+>   - Write 1 to clear bit 0
+>   - Write 2 to clear bit 1
+>   - Write 3 to clear both bits
 
-On 5/23/25 18:19, Clément Léger wrote:
-> Now that the kernel can handle misaligned accesses in S-mode, request
-> misaligned access exception delegation from SBI. This uses the FWFT SBI
-> extension defined in SBI version 3.0.
->
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+It's a bit odd that users write a 1 to and then read a 0 from the sysfs
+file. I think it is better to seperate these two bits, as two sysfs files.
+Then users can write '0' or 'clear' or others into them to clear each bit.
+
+> 
+> This enables users to detect if platform throttling impacted a workload.
+> Users clear the register before execution, run the workload, then check
+> afterward - if set, hardware throttling occurred during that time window.
+> 
+> The interface is exposed as:
+>   /sys/devices/system/cpu/cpuX/cpufreq/perf_limited
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
 > ---
->  arch/riscv/include/asm/cpufeature.h        |  3 +-
->  arch/riscv/kernel/traps_misaligned.c       | 71 +++++++++++++++++++++-
->  arch/riscv/kernel/unaligned_access_speed.c |  8 ++-
->  3 files changed, 77 insertions(+), 5 deletions(-)
-
-This causes a regression on platforms where vector misaligned access can
-be emulated with OpenSBI (since OpenSBI commit c2acc5e ("lib:
-sbi_misaligned_ldst: Add handling of vector load/store"), because this
-disables that with FWFT. This means that vector misaligned loads and
-stores that were emulated instead get a SIGBUS.
-
-This happens on Sophgo SG2044 and SpacemiT K1. Notably this causes these
-platforms to fail Zicclsm which stipulates that misaligned vector memory
-accesses succeed if vector instructions are available at all [1].
-
-I'm not very certain why vector emulation support was omitted in this
-series. Should we perhaps add the same emulation support to Linux as
-well for the sake of these kind of platforms?
-
-Thanks,
-Vivian "dramforever" Wang
-
-[1]: https://github.com/riscv/riscv-profiles/issues/58
+>  drivers/acpi/cppc_acpi.c       | 56 ++++++++++++++++++++++++++++++++++
+>  drivers/cpufreq/cppc_cpufreq.c | 31 +++++++++++++++++++
+>  include/acpi/cppc_acpi.h       | 15 +++++++++
+>  3 files changed, 102 insertions(+)
+> 
+> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+> index 9f28c20d902d..ffd866c1c00d 100644
+> --- a/drivers/acpi/cppc_acpi.c
+> +++ b/drivers/acpi/cppc_acpi.c
+> @@ -1786,6 +1786,62 @@ int cppc_set_max_perf(int cpu, u32 max_perf)
+>  }
+>  EXPORT_SYMBOL_GPL(cppc_set_max_perf);
+>  
+> +/**
+> + * cppc_get_perf_limited - Get the Performance Limited register value.
+> + * @cpu: CPU from which to get Performance Limited register.
+> + * @perf_limited: Pointer to store the Performance Limited value.
+> + *
+> + * The returned value contains sticky status bits indicating platform-imposed
+> + * performance limitations.
+> + *
+> + * Return: 0 for success, -EIO on failure, -EOPNOTSUPP if not supported.
+> + */
+> +int cppc_get_perf_limited(int cpu, u64 *perf_limited)
+> +{
+> +	return cppc_get_reg_val(cpu, PERF_LIMITED, perf_limited);
+> +}
+> +EXPORT_SYMBOL_GPL(cppc_get_perf_limited);
+> +
+> +/**
+> + * cppc_set_perf_limited() - Clear bits in the Performance Limited register.
+> + * @cpu: CPU on which to write register.
+> + * @bits_to_clear: Bitmask of bits to clear in the perf_limited register.
+> + *
+> + * The Performance Limited register contains two sticky bits set by platform:
+> + *   - Bit 0 (Desired_Excursion): Set when delivered performance is constrained
+> + *     below desired performance. Not used when Autonomous Selection is enabled.
+> + *   - Bit 1 (Minimum_Excursion): Set when delivered performance is constrained
+> + *     below minimum performance.
+> + *
+> + * These bits are sticky and remain set until OSPM explicitly clears them.
+> + * This function only allows clearing bits (the platform sets them).
+> + *
+> + * Return: 0 for success, -EINVAL for invalid bits, -EIO on register
+> + *         access failure, -EOPNOTSUPP if not supported.
+> + */
+> +int cppc_set_perf_limited(int cpu, u64 bits_to_clear)
+> +{
+> +	u64 current_val, new_val;
+> +	int ret;
+> +
+> +	/* Only bits 0 and 1 are valid */
+> +	if (bits_to_clear & ~CPPC_PERF_LIMITED_MASK)
+> +		return -EINVAL;
+> +
+> +	if (!bits_to_clear)
+> +		return 0;
+> +
+> +	ret = cppc_get_perf_limited(cpu, &current_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Clear the specified bits */
+> +	new_val = current_val & ~bits_to_clear;
+> +
+> +	return cppc_set_reg_val(cpu, PERF_LIMITED, new_val);
+> +}
+> +EXPORT_SYMBOL_GPL(cppc_set_perf_limited);
+> +
+>  /**
+>   * cppc_set_enable - Set to enable CPPC on the processor by writing the
+>   * Continuous Performance Control package EnableRegister field.
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index 1e282dfabc76..1f8825006940 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -1052,12 +1052,42 @@ static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+>  	return count;
+>  }
+>  
+> +/**
+> + * show_perf_limited - Show Performance Limited register status
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the value to
+> + *
+> + * Read the Performance Limited register to check if platform throttling
+> + * (thermal/power/current limits) occurred.
+> + */
+> +static ssize_t show_perf_limited(struct cpufreq_policy *policy, char *buf)
+> +{
+> +	return cppc_cpufreq_sysfs_show_u64(policy->cpu,
+> +					   cppc_get_perf_limited, buf);
+> +}
+> +
+> +/**
+> + * store_perf_limited - Clear Performance Limited register bits
+> + * @policy: cpufreq policy
+> + * @buf: buffer containing the bitmask of bits to clear
+> + * @count: number of bytes in buf
+> + *
+> + * Write 1 to clear bit 0, 2 to clear bit 1, or 3 to clear both.
+> + */
+> +static ssize_t store_perf_limited(struct cpufreq_policy *policy,
+> +				  const char *buf, size_t count)
+> +{
+> +	return cppc_cpufreq_sysfs_store_u64(policy->cpu,
+> +					    cppc_set_perf_limited, buf, count);
+> +}
+> +
+>  cpufreq_freq_attr_ro(freqdomain_cpus);
+>  cpufreq_freq_attr_rw(auto_select);
+>  cpufreq_freq_attr_rw(auto_act_window);
+>  cpufreq_freq_attr_rw(energy_performance_preference_val);
+>  cpufreq_freq_attr_rw(min_perf);
+>  cpufreq_freq_attr_rw(max_perf);
+> +cpufreq_freq_attr_rw(perf_limited);
+>  
+>  static struct freq_attr *cppc_cpufreq_attr[] = {
+>  	&freqdomain_cpus,
+> @@ -1066,6 +1096,7 @@ static struct freq_attr *cppc_cpufreq_attr[] = {
+>  	&energy_performance_preference_val,
+>  	&min_perf,
+>  	&max_perf,
+> +	&perf_limited,
+>  	NULL,
+>  };
+>  
+> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+> index a49b50bddaf9..57e04326a4b6 100644
+> --- a/include/acpi/cppc_acpi.h
+> +++ b/include/acpi/cppc_acpi.h
+> @@ -42,6 +42,11 @@
+>  #define CPPC_EPP_PERFORMANCE_PREF		0x00
+>  #define CPPC_EPP_ENERGY_EFFICIENCY_PREF		0xFF
+>  
+> +#define CPPC_PERF_LIMITED_DESIRED_EXCURSION	BIT(0)
+> +#define CPPC_PERF_LIMITED_MINIMUM_EXCURSION	BIT(1)
+> +#define CPPC_PERF_LIMITED_MASK		(CPPC_PERF_LIMITED_DESIRED_EXCURSION | \
+> +					 CPPC_PERF_LIMITED_MINIMUM_EXCURSION)
+> +
+>  /* Each register has the folowing format. */
+>  struct cpc_reg {
+>  	u8 descriptor;
+> @@ -177,6 +182,8 @@ extern int cppc_get_min_perf(int cpu, u64 *min_perf);
+>  extern int cppc_set_min_perf(int cpu, u32 min_perf);
+>  extern int cppc_get_max_perf(int cpu, u64 *max_perf);
+>  extern int cppc_set_max_perf(int cpu, u32 max_perf);
+> +extern int cppc_get_perf_limited(int cpu, u64 *perf_limited);
+> +extern int cppc_set_perf_limited(int cpu, u64 perf_limited);
+>  extern int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf);
+>  extern int amd_get_boost_ratio_numerator(unsigned int cpu, u64 *numerator);
+>  extern int amd_detect_prefcore(bool *detected);
+> @@ -285,6 +292,14 @@ static inline int cppc_set_max_perf(int cpu, u32 max_perf)
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> +static inline int cppc_get_perf_limited(int cpu, u64 *perf_limited)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +static inline int cppc_set_perf_limited(int cpu, u64 perf_limited)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+>  static inline int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf)
+>  {
+>  	return -ENODEV;
 
