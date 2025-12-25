@@ -1,86 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51CC27707;
-	Thu, 25 Dec 2025 09:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DE330B50D;
+	Thu, 25 Dec 2025 10:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766653948; cv=none; b=rz0dgnFs1i3vfqxfFR9WV36LufiN+z8hNuA9W6PGILDyHodIgFLdklcG6DygnildbVWgg01o0cnjEJa9blKALQn27lfzSRRX7XiK1FnGGBM9c9wjGz094pa0K6qMZoR3qH5j/uqG7GOsSWvmc7mNGXRxf3l6/41PpfyKA26x1hw=
+	t=1766657711; cv=none; b=EQQYyRlahDkNQr3Yc/+3EK1YV79NIsyqDW/b/l5XcGPZS5io16tduv07R5Tl3Uq9baMzh4rXWB5A8IHfnfnsyvfin4a9R/NdY/+F9IuBd4pbeUVNaRP5Yx5ktnu31D41sV1Z8qRjp7q1f8uJlUt3xgtCiu+HF/rCi089o1GORJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766653948; c=relaxed/simple;
-	bh=SEQCeeP0cpyhofiDVSZjIFDJcEgZ0uLCgntShMSc7h8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uAXCATk6tm9yNqaVT5gkT0LG+oIVGhfSy/mzB3UunMAWko16rVaAMf7MvLHI8/D4/1fJZk3KzlRNzjyXwcLtmxmNrVC1woqHhRb5cu747N+rw+qNA4D26vDah1hpMF6Hwmbd7olf3a5X3hkPaJMnutuLdrnoay9+uJQUfUHqc2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPONcwIA; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPONcwIA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA21C4CEF1;
-	Thu, 25 Dec 2025 09:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766653948;
-	bh=SEQCeeP0cpyhofiDVSZjIFDJcEgZ0uLCgntShMSc7h8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UPONcwIAAX5DIiKDnx2xaHE1tv86977WxFaZrBXShqnNlOTNclXbIxPRxv+IZEyj4
-	 jDHVFu0t9yYvro2bqqLFCGf472FTKqI16bjChFRVQ6hOdWoOMmkDuBvvc/jL8ek9NZ
-	 8GZNFha6WCaAg+F8KzoS1d1TaGjopUx8p0lSKF6Y+sdvHxv1xCJQOLGTBJF0r2rIY1
-	 RVWReCgrdVSrMTEO2lnKwEF9N89PKRnjtKkTvpXJvlWa3WYlNIOGn02KH8fjqHMVdh
-	 s1lbJKmo3+diV2yJq/iR94d96LFz5816/CNlXctpkJy30mxDNIoDxwrXpny8RgAACV
-	 JvTXQSB8K8a/A==
-Date: Thu, 25 Dec 2025 10:12:23 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: joaopeixoto@osyx.tech
-Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr, 
-	aou@eecs.berkeley.edu, bagasdotme@gmail.com, catalin.marinas@arm.com, 
-	conor+dt@kernel.org, corbet@lwn.net, dan.j.williams@intel.com, 
-	davidmcerdeira@osyx.tech, devicetree@vger.kernel.org, dev@kael-k.io, 
-	gregkh@linuxfoundation.org, haren@linux.ibm.com, heiko@sntech.de, jose@osyx.tech, 
-	kever.yang@rock-chips.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux@armlinux.org.uk, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	maddy@linux.ibm.com, mani@kernel.org, nathan@kernel.org, neil.armstrong@linaro.org, 
-	palmer@dabbelt.com, pjw@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	robh@kernel.org, will@kernel.org
-Subject: Re: [PATCH 4/5] virt: add Bao I/O dispatcher driver
-Message-ID: <20251225-friendly-raptor-of-lightning-fbafc4@quoll>
-References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
- <20251224135217.25350-5-joaopeixoto@osyx.tech>
+	s=arc-20240116; t=1766657711; c=relaxed/simple;
+	bh=quMzQLJ3gvgceF6EgP0zuFXasglHAAekjNTPMHmaPmQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gzmor7VYhB6M5EWfSX1wQhZVoOvklMtm6pUn6Uqp5Kaj+Bl127WwO94BuEQRMbCBdKsUSiWak0Gh2TeQF2HRB69wA4yikxNG3UL9jbKYpkJhwldsgkKld9IrG0BijQuZ5uhpGP2Ljs/DpnqN6wZlHyWCpNLhc0nJJ5j1D2zUdGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [192.168.0.105] (unknown [114.241.82.59])
+	by APP-01 (Coremail) with SMTP id qwCowACH826RDk1pT2zJAQ--.26576S2;
+	Thu, 25 Dec 2025 18:14:42 +0800 (CST)
+Message-ID: <38ce44c1-08cf-4e3f-8ade-20da224f529c@iscas.ac.cn>
+Date: Thu, 25 Dec 2025 18:14:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251224135217.25350-5-joaopeixoto@osyx.tech>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 06/14] riscv: misaligned: request misaligned exception
+ from SBI
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
+ Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+ linux-kselftest@vger.kernel.org
+Cc: Samuel Holland <samuel.holland@sifive.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>,
+ Charlie Jenkins <charlie@rivosinc.com>
+References: <20250523101932.1594077-1-cleger@rivosinc.com>
+ <20250523101932.1594077-7-cleger@rivosinc.com>
+Content-Language: en-US
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <20250523101932.1594077-7-cleger@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowACH826RDk1pT2zJAQ--.26576S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ww4UuF4kAF45WFy8Kw13CFg_yoW8Xr48pF
+	s5Gr4akrW5CrnFq3W3uwnFqF4Yvw4rGr4xJrsrJ343urs8Zr4FvF4ktF1DXa47JrWkuw10
+	gFy3Kr1rua4DZrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvqb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+	w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+	vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY
+	1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+	wI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+	v20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
+	jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
+	ZFpf9x07jDsqXUUUUU=
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 
-On Wed, Dec 24, 2025 at 01:52:16PM +0000, joaopeixoto@osyx.tech wrote:
-> +static const struct of_device_id bao_io_dispatcher_driver_dt_ids[] = {
-> +	{ .compatible = "bao,io-dispatcher" },
-> +	{ /* sentinel */ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, bao_io_dispatcher_driver_dt_ids);
-> +
-> +static struct platform_driver bao_io_dispatcher_driver = {
-> +	.probe = bao_io_dispatcher_driver_register,
-> +	.remove = bao_io_dispatcher_driver_unregister,
-> +	.driver = {
-> +		   .name = "bao-io-dispatcher",
-> +		   .of_match_table =
-> +		   of_match_ptr(bao_io_dispatcher_driver_dt_ids),
+Hi Clément and riscv maintainers:
 
-You have warnings here. Do extensive building of your code before
-sending.
+On 5/23/25 18:19, Clément Léger wrote:
+> Now that the kernel can handle misaligned accesses in S-mode, request
+> misaligned access exception delegation from SBI. This uses the FWFT SBI
+> extension defined in SBI version 3.0.
+>
+> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  arch/riscv/include/asm/cpufeature.h        |  3 +-
+>  arch/riscv/kernel/traps_misaligned.c       | 71 +++++++++++++++++++++-
+>  arch/riscv/kernel/unaligned_access_speed.c |  8 ++-
+>  3 files changed, 77 insertions(+), 5 deletions(-)
 
-> +		   .owner = THIS_MODULE,
+This causes a regression on platforms where vector misaligned access can
+be emulated with OpenSBI (since OpenSBI commit c2acc5e ("lib:
+sbi_misaligned_ldst: Add handling of vector load/store"), because this
+disables that with FWFT. This means that vector misaligned loads and
+stores that were emulated instead get a SIGBUS.
 
-NAK
+This happens on Sophgo SG2044 and SpacemiT K1. Notably this causes these
+platforms to fail Zicclsm which stipulates that misaligned vector memory
+accesses succeed if vector instructions are available at all [1].
 
-Don't send us 12-year-old vendor code. Tools already report this,
-so you just did not run them...
+I'm not very certain why vector emulation support was omitted in this
+series. Should we perhaps add the same emulation support to Linux as
+well for the sake of these kind of platforms?
 
-Nothing here is evn formatted correctly...
+Thanks,
+Vivian "dramforever" Wang
 
-Best regards,
-Krzysztof
+[1]: https://github.com/riscv/riscv-profiles/issues/58
 
