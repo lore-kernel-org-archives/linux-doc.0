@@ -1,525 +1,379 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EBD1E572F;
-	Thu, 25 Dec 2025 09:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7632F90C4;
+	Thu, 25 Dec 2025 09:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766653340; cv=none; b=dMhLwDe75ZtYTgNuvYi67JrHQLjJn8GoxlOmBdrCHs+QNWzNct8C1hevJZ7YvTKwlNQxO28j9pYTxW0sDjx6MsN47ot5q62Hgkc/rgzOVS2Fcb3HP1khMcj9BCTdLCG9mab02KnVyka4h+KCv7oVyd19G2yaMTuZFBMbD+U0Fp0=
+	t=1766653403; cv=none; b=XW63n8Ozug6Piysyj1EPyhtEdbUjIWF5FqvkSK8Mp2maGd/wOpt4g24wjF1vEzXcFz2fQ0Nm9PXw8RDOsltFJJ4TsVaRgT9aRDDcTwZEAR4vKXgs0VE07NX6SlfcPWn+bEBWY9gxFJxCi8+YoDDtD0yc48myNJxPx2Zeol81/us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766653340; c=relaxed/simple;
-	bh=ie7EaaBeEo6gHzNYGikN9tQMfrEcChNEiwfKvqsQdU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VEtPngPdJaTM//b4QCjbRUKi1ER4zOUfAWBfD2ETBrLoUIjAxPy3vWPqgErD7Xe/TmIImnvWfYLXQA5io4VPniUuZGZmPcAWVIZphAANoyMj3c4i2ZrAFvEf4hc5kZAJ9TTDaQ5PWGQsFmIVaLJRo0b5VI9gFsOJxju61/bSHQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xy5mwcxZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766653403; c=relaxed/simple;
+	bh=E5/2bpGpD/1HmgbHfpLFZ5OjjFTQqf61jSOeamFp3OQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=rrQ8cyg1dpqC7B/7WTGVjHZ+gK583LcAe6mSaJpuU+6P4s2OzPu/p+3e32O8IgTSAskPgAvVceP98Ig10g+OOy8BPo0oWV9TakkjkNbinmDKVxjGU0QMb/XXWpncRXr+WZLNk5zcg7kh4Zho7NphJaD1qqnI8vf/rgg5Bqz8BcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=fmaAjlER; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xy5mwcxZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2303C4CEF1;
-	Thu, 25 Dec 2025 09:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766653339;
-	bh=ie7EaaBeEo6gHzNYGikN9tQMfrEcChNEiwfKvqsQdU0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xy5mwcxZUR4UGgHnzMTecy/ESJza9JQUJkzQ/lgEHFZDijfuv1ePM91IpmtJvyRmC
-	 CfHscNawRqNJDgAi1a5Lpt3zRx9H1mxWZWniqZ1XxwxlIrbtrQNcCyeWTpFNjiXCGV
-	 ux5FK8OByykYzNp9u8HLAlVuJ4dWcuD+2+PsdCqQVQTpLpz2pt35NTtp0Z3+t8Sh6O
-	 GBx+zDs8d1G+/JOcblkZjM+KsMMluL1br0vV7/EzqHCHtorh6pheZiHVWXjF/Rm1OS
-	 taCESfjpoNXJlzHLKwaJeYVEIrR+5IrhvRAVVnKNyH3pr2Oz16zwwRytLuRc6DYMuT
-	 mGZqTd8/8IEsg==
-Date: Thu, 25 Dec 2025 10:02:15 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: joaopeixoto@osyx.tech
-Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr, 
-	aou@eecs.berkeley.edu, bagasdotme@gmail.com, catalin.marinas@arm.com, 
-	conor+dt@kernel.org, corbet@lwn.net, dan.j.williams@intel.com, 
-	davidmcerdeira@osyx.tech, devicetree@vger.kernel.org, dev@kael-k.io, 
-	gregkh@linuxfoundation.org, haren@linux.ibm.com, heiko@sntech.de, jose@osyx.tech, 
-	kever.yang@rock-chips.com, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux@armlinux.org.uk, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	maddy@linux.ibm.com, mani@kernel.org, nathan@kernel.org, neil.armstrong@linaro.org, 
-	palmer@dabbelt.com, pjw@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	robh@kernel.org, will@kernel.org
-Subject: Re: [PATCH 2/5] virt: add Bao IPC shared memory driver
-Message-ID: <20251225-nippy-umber-inchworm-ced095@quoll>
-References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
- <20251224135217.25350-3-joaopeixoto@osyx.tech>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="fmaAjlER"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=UkT6u8OmSEh7LRMbZlUcWoeNNvCMRTCifKXqrjivKMM=;
+	b=fmaAjlERHzTu27FycxeLlyKfYO7s8TArcf0z7oKXfHz9WB3B8yl9QpE0vAdnd0nXOUg+ePIxS
+	BsKg6nhjIQ9x51QYuZ/6J0vUXNn0oH3Ymi1zMRfDCIDmg4CJ8Kpg/TgqX5rY/zD4BetDIo2B4eq
+	XMswAA5AeyM4kDBcJa/dr8g=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4dcN49553lz1cyNt;
+	Thu, 25 Dec 2025 17:00:09 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id B53FB405AD;
+	Thu, 25 Dec 2025 17:03:16 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 25 Dec
+ 2025 17:03:15 +0800
+Message-ID: <faddc6ce-61ce-4016-9a69-563f85bd03b4@huawei.com>
+Date: Thu, 25 Dec 2025 17:03:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251224135217.25350-3-joaopeixoto@osyx.tech>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 05/11] ACPI: CPPC: add APIs and sysfs interface for
+ min/max_perf
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
+	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
+	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
+	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-6-sumitg@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <20251223121307.711773-6-sumitg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-On Wed, Dec 24, 2025 at 01:52:14PM +0000, joaopeixoto@osyx.tech wrote:
-> From: Jo=C3=A3o Peixoto <joaopeixoto@osyx.tech>
->=20
-> Add a new driver providing an interface for communication with guests
-> hosted by the Bao hypervisor using shared-memory channels. The driver
-> exposes read/write regions defined in device tree and notifies the
-> hypervisor via an architecture-specific hypercall (SMC/HVC on ARM and
-> SBI ecall on RISC-V).
->=20
-> The patch introduces:
->   - drivers/bao/ with the initial Bao IPC shared-memory implementation
->   - Kconfig entry enabling BAO_SHMEM
->   - Makefile integration for building the driver
->   - A character device interface supporting mmap(), read(), and write()
->   - Platform driver support using DT properties for channel layout
->=20
-> Each device instance maps its assigned shared-memory region, validates
-> read/write channel configuration, and exposes a /dev/baoipc<N> node
-> used by user space to exchange data with Bao guests.
->=20
-> Signed-off-by: Jo=C3=A3o Peixoto <joaopeixoto@osyx.tech>
+On 2025/12/23 20:13, Sumit Gupta wrote:
+> Add cppc_get/set_min_perf() and cppc_get/set_max_perf() APIs to read and
+> write the MIN_PERF and MAX_PERF registers.
+> 
+> Also add sysfs interfaces (min_perf, max_perf) in cppc_cpufreq driver
+> to expose these controls to userspace. The sysfs values are in frequency
+> (kHz) for consistency with other cpufreq sysfs files.
+> 
+> A mutex is used to serialize sysfs store operations to ensure hardware
+> register writes and perf_ctrls updates are atomic.
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
 > ---
->  drivers/virt/Kconfig                 |   2 +
->  drivers/virt/Makefile                |   1 +
->  drivers/virt/bao/Kconfig             |   3 +
->  drivers/virt/bao/Makefile            |   3 +
->  drivers/virt/bao/ipcshmem/Kconfig    |   9 +
->  drivers/virt/bao/ipcshmem/Makefile   |   3 +
->  drivers/virt/bao/ipcshmem/ipcshmem.c | 539 +++++++++++++++++++++++++++
->  7 files changed, 560 insertions(+)
->  create mode 100644 drivers/virt/bao/Kconfig
->  create mode 100644 drivers/virt/bao/Makefile
->  create mode 100644 drivers/virt/bao/ipcshmem/Kconfig
->  create mode 100644 drivers/virt/bao/ipcshmem/Makefile
->  create mode 100644 drivers/virt/bao/ipcshmem/ipcshmem.c
->=20
-> diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-> index 52eb7e4ba71f..cb98c4c52fd1 100644
-> --- a/drivers/virt/Kconfig
-> +++ b/drivers/virt/Kconfig
-> @@ -47,6 +47,8 @@ source "drivers/virt/nitro_enclaves/Kconfig"
-> =20
->  source "drivers/virt/acrn/Kconfig"
-> =20
-> +source "drivers/virt/bao/Kconfig"
-> +
->  endif
-> =20
->  source "drivers/virt/coco/Kconfig"
-> diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-> index f29901bd7820..623a671f8711 100644
-> --- a/drivers/virt/Makefile
-> +++ b/drivers/virt/Makefile
-> @@ -10,3 +10,4 @@ obj-y				+=3D vboxguest/
->  obj-$(CONFIG_NITRO_ENCLAVES)	+=3D nitro_enclaves/
->  obj-$(CONFIG_ACRN_HSM)		+=3D acrn/
->  obj-y				+=3D coco/
-> +obj-$(CONFIG_BAO_SHMEM)		+=3D bao/
-> diff --git a/drivers/virt/bao/Kconfig b/drivers/virt/bao/Kconfig
-> new file mode 100644
-> index 000000000000..4f7929d57475
-> --- /dev/null
-> +++ b/drivers/virt/bao/Kconfig
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +source "drivers/virt/bao/ipcshmem/Kconfig"
-> diff --git a/drivers/virt/bao/Makefile b/drivers/virt/bao/Makefile
-> new file mode 100644
-> index 000000000000..68f5d3f282c4
-> --- /dev/null
-> +++ b/drivers/virt/bao/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-$(CONFIG_BAO_SHMEM) +=3D ipcshmem/
-> diff --git a/drivers/virt/bao/ipcshmem/Kconfig b/drivers/virt/bao/ipcshme=
-m/Kconfig
-> new file mode 100644
-> index 000000000000..42690073e819
-> --- /dev/null
-> +++ b/drivers/virt/bao/ipcshmem/Kconfig
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +config BAO_SHMEM
-> +	tristate "Bao hypervisor shared memory support"
-> +
-> +	help
-> +	This enables support for Bao shared memory communication.
-> +	It allows the kernel to interface with guests running under
-> +	the Bao hypervisor, providing a character device interface
-> +	for exchanging data through dedicated shared-memory regions.
-> diff --git a/drivers/virt/bao/ipcshmem/Makefile b/drivers/virt/bao/ipcshm=
-em/Makefile
-> new file mode 100644
-> index 000000000000..e027dcdb06aa
-> --- /dev/null
-> +++ b/drivers/virt/bao/ipcshmem/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +obj-$(CONFIG_BAO_SHMEM) +=3D bao.o
-> +bao-objs +=3D ipcshmem.o
-> diff --git a/drivers/virt/bao/ipcshmem/ipcshmem.c b/drivers/virt/bao/ipcs=
-hmem/ipcshmem.c
-> new file mode 100644
-> index 000000000000..cadb79bfca6e
-> --- /dev/null
-> +++ b/drivers/virt/bao/ipcshmem/ipcshmem.c
-> @@ -0,0 +1,539 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Bao Hypervisor IPC Through Shared-memory Driver
-> + *
-> + * Copyright (c) Bao Project and Contributors. All rights reserved.
-> + *
-> + * Authors:
-> + *	David Cerdeira <davidmcerdeira@osyx.tech>
-> + *	Jos=C3=A9 Martins <jose@osyx.tech>
-> + *	Jo=C3=A3o Peixoto <joaopeixoto@osyx.tech>
-> + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/fs.h>
-> +#include <linux/io.h>
-> +#include <linux/ioport.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/of.h>
-> +#include <linux/io.h>
-> +#include <linux/mutex.h>
-> +#include <linux/poll.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/ioctl.h>
-> +#include <linux/cdev.h>
-> +#include <linux/device.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/mutex.h>
-> +#include <linux/wait.h>
-> +#include <linux/mm.h>
-> +
-> +#if defined(CONFIG_ARM64) || defined(CONFIG_ARM)
-> +#include <linux/arm-smccc.h>
-> +#include <asm/memory.h>
-> +#elif CONFIG_RISCV
-> +#include <asm/sbi.h>
-> +#endif
-> +
-> +#define DEV_NAME "baoipc"
-> +#define MAX_DEVICES 16
-> +#define NAME_LEN 32
-> +
-> +static dev_t bao_ipcshmem_devt;
-> +struct class *cl;
-> +
+>  drivers/acpi/cppc_acpi.c       |  44 +++++++++
+>  drivers/cpufreq/cppc_cpufreq.c | 160 +++++++++++++++++++++++++++++++++
+>  include/acpi/cppc_acpi.h       |  20 +++++
+>  3 files changed, 224 insertions(+)
+> 
+> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+> index 403ee988a8c6..9f28c20d902d 100644
+> --- a/drivers/acpi/cppc_acpi.c
+> +++ b/drivers/acpi/cppc_acpi.c
+> @@ -1742,6 +1742,50 @@ int cppc_set_auto_sel(int cpu, bool enable)
+>  }
+>  EXPORT_SYMBOL_GPL(cppc_set_auto_sel);
+>  
 > +/**
-> + * struct bao_ipcshmem - Bao IPC shared memory device
-> + * @cdev: Character device interface
-> + * @dev: Device structure
-> + * @id: Device instance ID
-> + * @label: Name/label of the device
-> + * @read_base: Base address of the read channel
-> + * @read_size: Size of the read channel
-> + * @write_base: Base address of the write channel
-> + * @write_size: Size of the write channel
-> + * @physical_base: Physical memory base address
-> + * @shmem_size: Total size of the shared memory region
+> + * cppc_get_min_perf - Read minimum performance register.
+> + * @cpu: CPU from which to read register.
+> + * @min_perf: Return address.
 > + */
-> +struct bao_ipcshmem {
-> +	struct cdev cdev;
-> +	struct device *dev;
-> +	int id;
-> +	char label[NAME_LEN];
-> +	void *read_base;
-> +	size_t read_size;
-> +	void *write_base;
-> +	size_t write_size;
-> +	phys_addr_t *physical_base;
-> +	size_t shmem_size;
-> +};
-> +
-> +#ifdef CONFIG_ARM64
-
-No ifdefs. Read Linux coding style first.
-
-> +/**
-> + * bao_ipcshmem_notify - Notify the Bao hypervisor of an IPC shared memo=
-ry event (ARM64)
-> + * @dev: IPC shared memory device
-> + *
-> + * Executes a fast SMC hypercall to notify the hypervisor of an event
-> + * associated with the given IPC shared memory device.
-> + *
-> + * Return: Hypercall return value.
-> + */
-> +static uint64_t bao_ipcshmem_notify(struct bao_ipcshmem *dev)
+> +int cppc_get_min_perf(int cpu, u64 *min_perf)
 > +{
-> +	register uint64_t x0 asm("x0") =3D
-> +		ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_64,
-> +				   ARM_SMCCC_OWNER_VENDOR_HYP, 1);
-> +	register uint64_t x1 asm("x1") =3D dev->id;
-> +	register uint64_t x2 asm("x2") =3D 0;
-> +
-> +	asm volatile("hvc 0\t\n" : "=3Dr"(x0) : "r"(x0), "r"(x1), "r"(x2));
-> +
-> +	return x0;
+> +	return cppc_get_reg_val(cpu, MIN_PERF, min_perf);
 > +}
-> +#elif CONFIG_ARM
+> +EXPORT_SYMBOL_GPL(cppc_get_min_perf);
+> +
 > +/**
-> + * bao_ipcshmem_notify - Notify the Bao hypervisor of an IPC shared memo=
-ry event (ARM)
-> + * @dev: IPC shared memory device
-> + *
-> + * Executes a fast SMC hypercall to notify the hypervisor of an event
-> + * associated with the given IPC shared memory device.
-> + *
-> + * Return: Hypercall return value.
+> + * cppc_set_min_perf - Write minimum performance register.
+> + * @cpu: CPU to which to write register.
+> + * @min_perf: the desired minimum performance value to be updated.
 > + */
-> +static uint32_t bao_ipcshmem_notify(struct bao_ipcshmem *dev)
+> +int cppc_set_min_perf(int cpu, u32 min_perf)
 > +{
-> +	register uint32_t r0 asm("r0") =3D
-> +		ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32,
-> +				   ARM_SMCCC_OWNER_VENDOR_HYP, 1);
-> +	register uint32_t r1 asm("r1") =3D dev->id;
-> +	register uint32_t r2 asm("r2") =3D 0;
-> +
-> +	asm volatile("hvc #0\t\n" : "=3Dr"(r0) : "r"(r0), "r"(r1), "r"(r2));
-> +
-> +	return r0;
+> +	return cppc_set_reg_val(cpu, MIN_PERF, min_perf);
 > +}
-> +#elif CONFIG_RISCV
-> +/**
-> + * bao_ipcshmem_notify - Notify the Bao hypervisor of an IPC shared memo=
-ry event (RISC-V)
-> + * @dev: IPC shared memory device
-> + *
-> + * Executes an SBI call to notify the Bao hypervisor of an IPC shared me=
-mory event.
-> + *
-> + * Return: SBI call error code.
-> + */
-> +static uint64_t bao_ipcshmem_notify(struct bao_ipcshmem *dev)
-> +{
-> +	struct sbiret ret =3D sbi_ecall(0x08000ba0, 1, dev->id, 0, 0, 0, 0, 0);
+> +EXPORT_SYMBOL_GPL(cppc_set_min_perf);
 > +
-> +	return ret.error;
+> +/**
+> + * cppc_get_max_perf - Read maximum performance register.
+> + * @cpu: CPU from which to read register.
+> + * @max_perf: Return address.
+> + */
+> +int cppc_get_max_perf(int cpu, u64 *max_perf)
+> +{
+> +	return cppc_get_reg_val(cpu, MAX_PERF, max_perf);
 > +}
-> +#endif
+> +EXPORT_SYMBOL_GPL(cppc_get_max_perf);
 > +
 > +/**
-> + * bao_ipcshmem_mmap_fops - mmap handler for IPC shared memory
-> + * @filp: File pointer
-> + * @vma: Virtual memory area
-> + *
-> + * Maps the physical shared memory of the Bao IPC device into
-> + * userspace using remap_pfn_range.
-> + *
-> + * Return: 0 on success, -EFAULT on failure.
+> + * cppc_set_max_perf - Write maximum performance register.
+> + * @cpu: CPU to which to write register.
+> + * @max_perf: the desired maximum performance value to be updated.
 > + */
-> +static int bao_ipcshmem_mmap_fops(struct file *filp, struct vm_area_stru=
-ct *vma)
+> +int cppc_set_max_perf(int cpu, u32 max_perf)
 > +{
-> +	struct bao_ipcshmem *bao =3D filp->private_data;
-> +	unsigned long vsize =3D vma->vm_end - vma->vm_start;
-> +	unsigned long offset =3D vma->vm_pgoff << PAGE_SHIFT;
-> +	phys_addr_t paddr;
+> +	return cppc_set_reg_val(cpu, MAX_PERF, max_perf);
+> +}
+> +EXPORT_SYMBOL_GPL(cppc_set_max_perf);
 > +
-> +	if (WARN_ON_ONCE(!bao))
-> +		return -ENODEV;
+>  /**
+>   * cppc_set_enable - Set to enable CPPC on the processor by writing the
+>   * Continuous Performance Control package EnableRegister field.
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index a87e7bb2e2f1..1e282dfabc76 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -28,6 +28,8 @@
+>  
+>  static struct cpufreq_driver cppc_cpufreq_driver;
+>  
+> +static DEFINE_MUTEX(cppc_cpufreq_update_autosel_config_lock);
 > +
-> +	if (!vsize)
-> +		return -EINVAL;
+>  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>  static enum {
+>  	FIE_UNSET = -1,
+> @@ -538,6 +540,46 @@ static void populate_efficiency_class(void)
+>  }
+>  #endif
+>  
+> +/**
+> + * cppc_cpufreq_set_mperf_limit - Set min/max performance limit
+> + * @policy: cpufreq policy
+> + * @val: performance value to set
+> + * @is_min: true for min_perf, false for max_perf
+> + */
+> +static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+> +					bool is_min)
+> +{
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+> +	unsigned int cpu = policy->cpu;
+> +	u32 perf;
+> +	int ret;
 > +
-> +	if (offset >=3D bao->shmem_size)
-> +		return -EINVAL;
+> +	perf = clamp(val, caps->lowest_perf, caps->highest_perf);
 > +
-> +	if (vsize > bao->shmem_size - offset)
-> +		return -EINVAL;
+> +	ret = is_min ? cppc_set_min_perf(cpu, perf) :
+> +		       cppc_set_max_perf(cpu, perf);
+> +	if (ret) {
+> +		if (ret != -EOPNOTSUPP)
+> +			pr_warn("Failed to set %s_perf (%llu) on CPU%d (%d)\n",
+> +				is_min ? "min" : "max", (u64)perf, cpu, ret);
+> +		return ret;
+> +	}
 > +
-> +	paddr =3D (phys_addr_t)bao->physical_base + offset;
-> +
-> +	if (!PAGE_ALIGNED(paddr))
-> +		return -EINVAL;
-> +
-> +	if (remap_pfn_range(vma, vma->vm_start,
-> +			    paddr >> PAGE_SHIFT,
-> +			    vsize, vma->vm_page_prot))
-> +		return -EFAULT;
+> +	if (is_min)
+> +		cpu_data->perf_ctrls.min_perf = perf;
+> +	else
+> +		cpu_data->perf_ctrls.max_perf = perf;
 > +
 > +	return 0;
 > +}
 > +
+> +#define cppc_cpufreq_set_min_perf(policy, val) \
+> +	cppc_cpufreq_set_mperf_limit(policy, val, true)
+> +
+> +#define cppc_cpufreq_set_max_perf(policy, val) \
+> +	cppc_cpufreq_set_mperf_limit(policy, val, false)
+> +
+>  static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>  {
+>  	struct cppc_cpudata *cpu_data;
+> @@ -896,16 +938,134 @@ store_energy_performance_preference_val(struct cpufreq_policy *policy,
+>  					    buf, count);
+>  }
+>  
 > +/**
-> + * bao_ipcshmem_read_fops - read handler for IPC shared memory
-> + * @filp: File pointer
-> + * @buf: Userspace buffer
-> + * @count: Number of bytes to read
-> + * @ppos: File offset
+> + * show_min_perf - Show minimum performance as frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the frequency value to
 > + *
-> + * Copies data from the Bao IPC read buffer to userspace.
-> + *
-> + * Return: Number of bytes read, or 0 if EOF.
+> + * Reads the MIN_PERF register and converts the performance value to
+> + * frequency (kHz).
 > + */
-> +static ssize_t bao_ipcshmem_read_fops(struct file *filp, char __user *bu=
-f,
-> +				      size_t count, loff_t *ppos)
+> +static ssize_t show_min_perf(struct cpufreq_policy *policy, char *buf)
 > +{
-> +	struct bao_ipcshmem *bao =3D filp->private_data;
-> +	size_t available;
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	u64 perf;
+> +	int ret;
 > +
-> +	if (WARN_ON_ONCE(!bao || !buf || !ppos))
-> +		return -EINVAL;
+> +	ret = cppc_get_min_perf(policy->cpu, &perf);
+> +	if (ret == -EOPNOTSUPP)
+> +		return sysfs_emit(buf, "<unsupported>\n");
+> +	if (ret)
+> +		return ret;
 > +
-> +	if (*ppos >=3D bao->read_size)
-> +		return 0;
-> +
-> +	available =3D bao->read_size - *ppos;
-> +	if (count > available)
-> +		count =3D available;
-> +
-> +	if (copy_to_user(buf, bao->read_base + *ppos, count))
-> +		return -EFAULT;
-> +
-> +	*ppos +=3D count;
-> +	return count;
+> +	/* Convert performance to frequency (kHz) for user */
+> +	return sysfs_emit(buf, "%u\n",
+> +			  cppc_perf_to_khz(&cpu_data->perf_caps, perf));
 > +}
 > +
 > +/**
-> + * bao_ipcshmem_write_fops - write handler for IPC shared memory
-> + * @filp: File pointer
-> + * @buf: Userspace buffer
-> + * @count: Number of bytes to write
-> + * @ppos: File offset
+> + * store_min_perf - Set minimum performance from frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer containing the frequency value
+> + * @count: size of @buf
 > + *
-> + * Copies data from userspace to the Bao IPC write buffer and
-> + * notifies the hypervisor of the update.
-> + *
-> + * Return: Number of bytes written.
+> + * Converts the user-provided frequency (kHz) to a performance value
+> + * and writes it to the MIN_PERF register.
 > + */
-> +static ssize_t bao_ipcshmem_write_fops(struct file *filp, const char __u=
-ser *buf,
-> +				       size_t count, loff_t *ppos)
+> +static ssize_t store_min_perf(struct cpufreq_policy *policy, const char *buf,
+> +			      size_t count)
 > +{
-> +	struct bao_ipcshmem *bao =3D filp->private_data;
-> +	size_t avail;
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	unsigned int freq_khz;
+> +	u64 perf;
+> +	int ret;
 > +
-> +	if (WARN_ON_ONCE(!bao || !buf || !ppos))
-> +		return -EINVAL;
+> +	ret = kstrtouint(buf, 0, &freq_khz);
+> +	if (ret)
+> +		return ret;
 > +
-> +	if (*ppos >=3D bao->write_size)
-> +		return 0;
+> +	/* Convert frequency (kHz) to performance value */
+> +	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
 > +
-> +	avail =3D bao->write_size - *ppos;
-> +	if (count > avail)
-> +		count =3D avail;
-> +
-> +	if (copy_from_user(bao->write_base + *ppos, buf, count))
-> +		return -EFAULT;
-> +
-> +	*ppos +=3D count;
-> +
-> +	/* Notify any listeners that new data is available */
-> +	bao_ipcshmem_notify(bao);
+> +	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> +	ret = cppc_cpufreq_set_min_perf(policy, perf);
+
+Clamping value, calling cppc_set_min_perf(), setting
+cpu_data->perf_ctrls.min_perf. These things can be accomplished with three
+or four more lines of code here. I don't think
+cppc_cpufreq_set_mperf_limit() is necessary. Same as in store_max_perf().
+
+> +	if (ret)
+> +		return ret;
 > +
 > +	return count;
 > +}
 > +
 > +/**
-> + * bao_ipcshmem_open_fops - open handler for IPC shared memory
-> + * @inode: Inode pointer
-> + * @filp: File pointer
+> + * show_max_perf - Show maximum performance as frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the frequency value to
 > + *
-> + * Associates the file with the Bao IPC device and increments
-> + * the kobject reference.
-> + *
-> + * Return: 0 on success.
+> + * Reads the MAX_PERF register and converts the performance value to
+> + * frequency (kHz).
 > + */
-> +static int bao_ipcshmem_open_fops(struct inode *inode, struct file *filp)
+> +static ssize_t show_max_perf(struct cpufreq_policy *policy, char *buf)
 > +{
-> +	struct bao_ipcshmem *bao;
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	u64 perf;
+> +	int ret;
 > +
-> +	if (WARN_ON_ONCE(!inode || !filp))
-> +		return -EINVAL;
+> +	ret = cppc_get_max_perf(policy->cpu, &perf);
+> +	if (ret == -EOPNOTSUPP)
+> +		return sysfs_emit(buf, "<unsupported>\n");
+> +	if (ret)
+> +		return ret;
 > +
-> +	bao =3D container_of(inode->i_cdev, struct bao_ipcshmem, cdev);
-> +	filp->private_data =3D bao;
-> +
-> +	kobject_get(&bao->dev->kobj);
-> +
-> +	return 0;
+> +	/* Convert performance to frequency (kHz) for user */
+> +	return sysfs_emit(buf, "%u\n",
+> +			  cppc_perf_to_khz(&cpu_data->perf_caps, perf));
 > +}
 > +
 > +/**
-> + * bao_ipcshmem_release_fops - release handler for IPC shared memory
-> + * @inode: Inode pointer
-> + * @filp: File pointer
+> + * store_max_perf - Set maximum performance from frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer containing the frequency value
+> + * @count: size of @buf
 > + *
-> + * Disassociates the file from the Bao IPC device and decrements
-> + * the kobject reference.
-> + *
-> + * Return: 0 on success.
+> + * Converts the user-provided frequency (kHz) to a performance value
+> + * and writes it to the MAX_PERF register.
 > + */
-> +static int bao_ipcshmem_release_fops(struct inode *inode, struct file *f=
-ilp)
+> +static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+> +			      size_t count)
 > +{
-> +	struct bao_ipcshmem *bao;
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	unsigned int freq_khz;
+> +	u64 perf;
+> +	int ret;
 > +
-> +	if (WARN_ON_ONCE(!inode || !filp))
-> +		return -EINVAL;
+> +	ret = kstrtouint(buf, 0, &freq_khz);
+> +	if (ret)
+> +		return ret;
 > +
-> +	bao =3D container_of(inode->i_cdev, struct bao_ipcshmem, cdev);
-> +	filp->private_data =3D NULL;
+> +	/* Convert frequency (kHz) to performance value */
+> +	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
 > +
-> +	kobject_put(&bao->dev->kobj);
+> +	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> +	ret = cppc_cpufreq_set_max_perf(policy, perf);
+> +	if (ret)
+> +		return ret;
 > +
-> +	return 0;
+> +	return count;
 > +}
 > +
-> +static const struct file_operations bao_ipcshmem_fops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	.read =3D bao_ipcshmem_read_fops,
-> +	.write =3D bao_ipcshmem_write_fops,
-> +	.mmap =3D bao_ipcshmem_mmap_fops,
-> +	.open =3D bao_ipcshmem_open_fops,
-> +	.release =3D bao_ipcshmem_release_fops
-> +};
-> +
-> +/**
-> + * bao_ipcshmem_register - Register a Bao IPC shared memory device
-> + * @pdev: Platform device
-> + *
-> + * Maps the shared memory region, validates channel layout, initializes
-> + * the read/write buffers, registers the character device, and creates
-> + * the sysfs device entry.
-> + *
-> + * Return: 0 on success, negative error code on failure.
-> + */
-> +static int bao_ipcshmem_register(struct platform_device *pdev)
-
-NAK, where did you get it from? Probe functions are ABSOLUTELY NEVER
-called register.
-
+>  cpufreq_freq_attr_ro(freqdomain_cpus);
+>  cpufreq_freq_attr_rw(auto_select);
+>  cpufreq_freq_attr_rw(auto_act_window);
+>  cpufreq_freq_attr_rw(energy_performance_preference_val);
+> +cpufreq_freq_attr_rw(min_perf);
+> +cpufreq_freq_attr_rw(max_perf);
+>  
+>  static struct freq_attr *cppc_cpufreq_attr[] = {
+>  	&freqdomain_cpus,
+>  	&auto_select,
+>  	&auto_act_window,
+>  	&energy_performance_preference_val,
+> +	&min_perf,
+> +	&max_perf,
+>  	NULL,
+>  };
+>  
+> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+> index 2860a0252313..a49b50bddaf9 100644
+> --- a/include/acpi/cppc_acpi.h
+> +++ b/include/acpi/cppc_acpi.h
+> @@ -173,6 +173,10 @@ extern int cppc_get_auto_act_window(int cpu, u64 *auto_act_window);
+>  extern int cppc_set_auto_act_window(int cpu, u64 auto_act_window);
+>  extern int cppc_get_auto_sel(int cpu, bool *enable);
+>  extern int cppc_set_auto_sel(int cpu, bool enable);
+> +extern int cppc_get_min_perf(int cpu, u64 *min_perf);
+> +extern int cppc_set_min_perf(int cpu, u32 min_perf);
+> +extern int cppc_get_max_perf(int cpu, u64 *max_perf);
+> +extern int cppc_set_max_perf(int cpu, u32 max_perf);
+>  extern int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf);
+>  extern int amd_get_boost_ratio_numerator(unsigned int cpu, u64 *numerator);
+>  extern int amd_detect_prefcore(bool *detected);
+> @@ -265,6 +269,22 @@ static inline int cppc_set_auto_sel(int cpu, bool enable)
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> +static inline int cppc_get_min_perf(int cpu, u64 *min_perf)
 > +{
-> +	int ret =3D 0, id =3D -1;
-> +	struct device *dev =3D &pdev->dev;
-> +	struct device_node *np =3D dev->of_node;
-> +	struct module *owner =3D THIS_MODULE;
-> +	struct resource *r;
-> +	dev_t devt;
-
-No, read Linux coding style.
-
-> +	resource_size_t shmem_size;
-> +	u32 write_offset, read_offset, write_size, read_size;
-> +	bool rd_in_range, wr_in_range, disjoint;
-> +	void *shmem_base_addr =3D NULL;
-> +	struct bao_ipcshmem *bao;
-
-This is really poor coding style, barely readable and maintainable. You
-need to rewtite this driver completely to match what we expect in Linux
-kernel, for example base your work on last, reviewed code.
-
-I am not even looking at rest of this - please prove that you value our
-time by sending something following Linux kernel style.
-
-Best regards,
-Krzysztof
+> +	return -EOPNOTSUPP;
+> +}
+> +static inline int cppc_set_min_perf(int cpu, u32 min_perf)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +static inline int cppc_get_max_perf(int cpu, u64 *max_perf)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +static inline int cppc_set_max_perf(int cpu, u32 max_perf)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+>  static inline int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf)
+>  {
+>  	return -ENODEV;
 
