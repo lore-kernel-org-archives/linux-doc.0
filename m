@@ -1,40 +1,33 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB503093C0;
-	Thu, 25 Dec 2025 08:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED801C701F;
+	Thu, 25 Dec 2025 08:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766650930; cv=none; b=lLjgPrDvlLbDGVRFCJLG+NFqS3oGocJZ6KTv/anvRNdSPUEnd9xkEAmbZwQSekstPVn6akGIr4yMMxezxtSkQqRS8AOe4RsvQAKaPFKAi/+JlJKr8ojBT0Pek7d5EqWkf05TArzZT9XbV8Glb734GWWBNLQplJnWu8sIKV1RkIc=
+	t=1766652592; cv=none; b=OuRs7XXLkGW6wZ5rAO27IQmH6a2ep4XzuATSGfYyoAdLGRN9emzEY1oGZEx5lgGbOOvV+GCBwSqzyIoITsibDucG8Mdvm/5KyUQfzu86xOC79+OZGXqpENxrrE1W/mzINx2SxXMwRPWQY2+25RqtO6IKSqTHG+YeRJAFcDoqbEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766650930; c=relaxed/simple;
-	bh=X2l5lOuNHuPWUfjU6YQXnnSXDCwcmxn6xUyYrfTh9+0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=eyzFQRlLeEFkLDyTqplcbv+pzi+65cBi4/89w8e9CbllQf6EvcrkPCwFqc0vGb/VIivx9b80k71ENLtg/k8jHtfeOJIecunVjZL2J4z1St92Stpp+wcVATgv8SMxGqMWnIxxNMuXoSby/XGzEwqJxt5T7HbyTeiCl1B6f2BXKUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=E/xVngxb; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1766652592; c=relaxed/simple;
+	bh=SPlhtQqt0ffpS5fGWDWsndH9zzKAZx+aJ6fsOmkyMfU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GghvhUjO/IQfnqdvQkrgRd6K4jEDWbMTVaHWDNA0/YJuoE6R2dCSKJSppaXXbttrcSiZLlC0PMV/IEbkl0AZrqFFF98HJnyTBJUd+xqqtPEFTQy0dkY8TpfN3VOcZWPvnDlfC/W0ryUGNCMmlkQ8hmM9bi6HgmuGKFKHtZ9tses=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gfhm2RVn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="E/xVngxb"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=qV9c0cAuQBFG5vHxyodBDru6tAcw75rGhJjJFCuTdLg=;
-	b=E/xVngxbpq+/240pqexo6OzMXmiriq+qx/kVoVgF+DFLT5AoOdPr1148j/tgZploHfqaRprSx
-	ZWW8DtiBq9nHpt0LUifGwiaDHJf8MG8asx7hyzVlCxPYDXX5Ko97Ev3E7TjiERPzJsL5C2iPCwW
-	/Pi6UoBcc6xUjxJbx+KL3II=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dcM8R25spz12LJG;
-	Thu, 25 Dec 2025 16:18:47 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1FC534056C;
-	Thu, 25 Dec 2025 16:21:59 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 25 Dec
- 2025 16:21:58 +0800
-Message-ID: <e484ce68-1fb1-4732-8577-19a2b7141c40@huawei.com>
-Date: Thu, 25 Dec 2025 16:21:57 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gfhm2RVn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09550C4CEF1;
+	Thu, 25 Dec 2025 08:49:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766652591;
+	bh=SPlhtQqt0ffpS5fGWDWsndH9zzKAZx+aJ6fsOmkyMfU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Gfhm2RVnFpmW2K2LkWdB6tL8KBy636bQiGQ02ukMd0yY7KpQtaubbOVwMQyzmd3Pc
+	 U6DoPCUzknYfZYEF93vSb6+lPWUEfpl+ybmfrDFdi7CNBzh6kvF2CaM5pKwbU05r1b
+	 wpL5oN8eiVGKr8J/dCQ1WUY7jtyn1e6POWZDkldH+O61e1ptTH5dUMB2R8T/ubum8a
+	 AZCBLLjLTakj0cVaMCbm8ah5O8aPF8+PItRqislOYRh3zG+v3+5Spr8oAVPepDq9qp
+	 f7u1UBOz+EPrWc7mcmpVZA6FpEx3ODRobbhFMUROilmQv9GV5ANDyX/i2GwuzdBhgk
+	 UZA86HBjFRLvQ==
+Message-ID: <ac6e9bcc-66bf-40e6-8de2-be1f6e823e0e@kernel.org>
+Date: Thu, 25 Dec 2025 09:49:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,185 +35,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/11] ACPI: CPPC: Add cppc_get_perf() API to read
- performance controls
-To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
-	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
-	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20251223121307.711773-1-sumitg@nvidia.com>
- <20251223121307.711773-4-sumitg@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <20251223121307.711773-4-sumitg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] docs: dt-bindings: remoteproc: fix Keystone DSP GPIO
+ binding link
+To: Kathara Sasikumar <katharasasikumar007@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+References: <20251223221019.28823-2-katharasasikumar007@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251223221019.28823-2-katharasasikumar007@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemf200001.china.huawei.com (7.202.181.227)
 
-On 2025/12/23 20:12, Sumit Gupta wrote:
-> Add cppc_get_perf() function to read values of performance control
-> registers including desired_perf, min_perf, max_perf, energy_perf,
-> and auto_sel.
+On 23/12/2025 23:10, Kathara Sasikumar wrote:
+> make refcheckdocs reports a broken link in the Keystone remoteproc
+> binding documentation.
 > 
-> This provides a read interface to complement the existing
-> cppc_set_perf() write interface for performance control registers.
+> Update the reference to point to the current YAML schema.
 > 
-> Note that auto_sel is read by cppc_get_perf() but not written by
-> cppc_set_perf() to avoid unintended mode changes during performance
-> updates. It can be updated with existing dedicated cppc_set_auto_sel()
-> API.
-> 
-> Also call cppc_get_perf() in cppc_cpufreq_get_cpu_data() to initialize
-> perf_ctrls with current hardware register values during cpufreq
-> initialization for each CPU policy.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/acpi/cppc_acpi.c       | 79 ++++++++++++++++++++++++++++++++++
->  drivers/cpufreq/cppc_cpufreq.c |  6 +++
->  include/acpi/cppc_acpi.h       |  5 +++
->  3 files changed, 90 insertions(+)
-> 
-> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
-> index e66e20d1f31b..a4e89fe6aab5 100644
-> --- a/drivers/acpi/cppc_acpi.c
-> +++ b/drivers/acpi/cppc_acpi.c
-> @@ -1732,6 +1732,85 @@ int cppc_set_enable(int cpu, bool enable)
->  	return cppc_set_reg_val(cpu, ENABLE, enable);
->  }
->  EXPORT_SYMBOL_GPL(cppc_set_enable);
-> +/**
-> + * cppc_get_perf - Get a CPU's performance controls.
-> + * @cpu: CPU for which to get performance controls.
-> + * @perf_ctrls: ptr to cppc_perf_ctrls. See cppc_acpi.h
-> + *
-> + * Return: 0 for success with perf_ctrls, -ERRNO otherwise.
-> + */
-> +int cppc_get_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
-> +{
-> +	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
-> +	struct cpc_register_resource *desired_perf_reg,
-> +				     *min_perf_reg, *max_perf_reg,
-> +				     *energy_perf_reg, *auto_sel_reg;
-> +	u64 desired_perf = 0, min = 0, max = 0, energy_perf = 0, auto_sel = 0;
-> +	int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpu);
-> +	struct cppc_pcc_data *pcc_ss_data = NULL;
-> +	int ret = 0, regs_in_pcc = 0;
-> +
-> +	if (!cpc_desc) {
-> +		pr_debug("No CPC descriptor for CPU:%d\n", cpu);
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (!perf_ctrls) {
-> +		pr_debug("Invalid perf_ctrls pointer\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	desired_perf_reg = &cpc_desc->cpc_regs[DESIRED_PERF];
-> +	min_perf_reg = &cpc_desc->cpc_regs[MIN_PERF];
-> +	max_perf_reg = &cpc_desc->cpc_regs[MAX_PERF];
-> +	energy_perf_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
-> +	auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
-> +
-> +	/* Are any of the regs PCC ?*/
-> +	if (CPC_IN_PCC(desired_perf_reg) || CPC_IN_PCC(min_perf_reg) ||
-> +	    CPC_IN_PCC(max_perf_reg) || CPC_IN_PCC(energy_perf_reg) ||
-> +	    CPC_IN_PCC(auto_sel_reg)) {
-> +		if (pcc_ss_id < 0) {
-> +			pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
-> +			return -ENODEV;
-> +		}
-> +		pcc_ss_data = pcc_data[pcc_ss_id];
-> +		regs_in_pcc = 1;
-> +		down_write(&pcc_ss_data->pcc_lock);
-> +		/* Ring doorbell once to update PCC subspace */
-> +		if (send_pcc_cmd(pcc_ss_id, CMD_READ) < 0) {
-> +			ret = -EIO;
-> +			goto out_err;
-> +		}
-> +	}
-> +
-> +	/* Read optional elements if present */
-> +	if (CPC_SUPPORTED(max_perf_reg))
-> +		cpc_read(cpu, max_perf_reg, &max);
-> +	perf_ctrls->max_perf = max;
-> +
-> +	if (CPC_SUPPORTED(min_perf_reg))
-> +		cpc_read(cpu, min_perf_reg, &min);
-> +	perf_ctrls->min_perf = min;
-> +
-> +	if (CPC_SUPPORTED(desired_perf_reg))
-> +		cpc_read(cpu, desired_perf_reg, &desired_perf);
-> +	perf_ctrls->desired_perf = desired_perf;
-> +
-> +	if (CPC_SUPPORTED(energy_perf_reg))
-> +		cpc_read(cpu, energy_perf_reg, &energy_perf);
-> +	perf_ctrls->energy_perf = energy_perf;
-> +
-> +	if (CPC_SUPPORTED(auto_sel_reg))
-> +		cpc_read(cpu, auto_sel_reg, &auto_sel);
-> +	perf_ctrls->auto_sel = (bool)auto_sel;
-> +
-> +out_err:
-> +	if (regs_in_pcc)
-> +		up_write(&pcc_ss_data->pcc_lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(cppc_get_perf);
->  
->  /**
->   * cppc_set_perf - Set a CPU's performance controls.
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 7c26ce554e29..a87e7bb2e2f1 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -562,6 +562,12 @@ static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->  		goto free_mask;
->  	}
->  
-> +	ret = cppc_get_perf(cpu, &cpu_data->perf_ctrls);
-> +	if (ret) {
-> +		pr_debug("Err reading CPU%d perf ctrls: ret:%d\n", cpu, ret);
-> +		goto free_mask;
-> +	}
-> +
+> Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
 
-If you really need energy_perf and auto_sel in cpu_data->perf_ctrls, they
-should be updated whenever they are set, i.e., in store_auto_select() and
-store_energy_performance_preference_val().
 
->  	return cpu_data;
->  
->  free_mask:
-> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
-> index a090b010f5f1..12a1dc31bf2a 100644
-> --- a/include/acpi/cppc_acpi.h
-> +++ b/include/acpi/cppc_acpi.h
-> @@ -150,6 +150,7 @@ extern int cppc_get_desired_perf(int cpunum, u64 *desired_perf);
->  extern int cppc_get_nominal_perf(int cpunum, u64 *nominal_perf);
->  extern int cppc_get_highest_perf(int cpunum, u64 *highest_perf);
->  extern int cppc_get_perf_ctrs(int cpu, struct cppc_perf_fb_ctrs *perf_fb_ctrs);
-> +extern int cppc_get_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls);
->  extern int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls);
->  extern int cppc_set_enable(int cpu, bool enable);
->  extern int cppc_get_perf_caps(int cpu, struct cppc_perf_caps *caps);
-> @@ -191,6 +192,10 @@ static inline int cppc_get_perf_ctrs(int cpu, struct cppc_perf_fb_ctrs *perf_fb_
->  {
->  	return -EOPNOTSUPP;
->  }
-> +static inline int cppc_get_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
->  static inline int cppc_set_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls)
->  {
->  	return -EOPNOTSUPP;
+This was already sent (and received comments).
 
+Best regards,
+Krzysztof
