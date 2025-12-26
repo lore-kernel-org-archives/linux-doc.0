@@ -1,62 +1,64 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C91B22D9F7
-	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 23:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E34263C8A
+	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 23:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766793236; cv=none; b=aKyVvtCg0IG3AiKl5HMDRc7donyK1ljQaFkLu19lU+nWv7B71y7gs5T8FUp2blhw0zVQAP63XkhVBt+EVsPWuEaN3hj8/mNU17I37Yq5YhtdvJ7KHsr75NN0ezKxCSauB3EJYNjzN1beUsKtN0MI7C7PIljbQ9jZqcxZs+XVKbw=
+	t=1766793244; cv=none; b=e1VaociaG8RBd0N/chotb6kcAAfW/vGmPI6DYyN4Aew/WAKwMpMGr3t88ZBQjTfss2lryVnpq68y+J2TDfvgOsK90vD0F4ndNGTTzGDM0dSUDgaDRdJcC7fogmZ9cvXWPqNlUhIC4ndhpP7P4Lc7aogMoTw2obr8tiVDHS8Rar8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766793236; c=relaxed/simple;
-	bh=Xn89Z7LlNJRh+TRBmYqTnWl1iqTuZgasa4aVYS0pnY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TDMk2r2l5lJGitCQJCd4F1YLgT4VsqeqkbLdsf1hTtacUltjJTb0YVWiRnPHjz6tJUt+qVgl8TuuDa6j4EWEcIPyQX+5NMVJxh6s9jgqQ1d6zT3isYOsdt+HKx6uUR2U2X0uOs89HzXayBYB0bK1RlO8t6ZS/khnJyk91HShxTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKXlynqT; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1766793244; c=relaxed/simple;
+	bh=Hrnazuahv2v9rpFCsMEJC0zgdKheqCVmhgytvsJwNK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZsS5Fh5g/K7YsaBuY7ibVcYK0OLnVAGsGxyAwAiNe6wKQ/4QoLSA45D1P+Bn9YQwZRJxKU4dVTqmv/Sb3u6zraAjkkUzWfu/jeJGAg33HEHRIE7f29jxRgX8YYfuTsf7WdTTaYZGKd6DlXstvd71Wks6XdaPeTmoA+eE6Rw+k1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GePis9lF; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKXlynqT"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso7596572b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 15:53:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GePis9lF"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7e1651ae0d5so5926811b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 15:54:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766793234; x=1767398034; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f0vyeocCV33HEg26/iuFmDPXpUFL78V+AfewKJRB7/s=;
-        b=GKXlynqT5B+YeAXWwxYel6zmA7CxjIy6K2w8fxPwhLlrU8/fT9G8CsrsgiSQJmRvkQ
-         N00CiWKzTMIPGt0XEDMpKK4A5zuqcCwPKiaRm0tdV5/nXdWLPMRW1dzPekVYH0ABlGao
-         gh7H5EYEjWUMMjKpps3pcIylZO0l73Qs2bKVV5eDoP9dDNHp1kRwbeiC/3csOkV3Zh9Q
-         Lq12RWMFR7G7Aiztd0qDa67du4psGEkCRm2qBmJDiHYPjbSEo4mjFc1+3IST4uAs53hM
-         LsBUd8M6ZjM5BmLUq/DtldeVPGDqyaZInGfvQePb2YGxLc0wyegNe4mP5ZJ0vNfhBwYh
-         Murw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766793234; x=1767398034;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766793242; x=1767398042; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f0vyeocCV33HEg26/iuFmDPXpUFL78V+AfewKJRB7/s=;
-        b=tELqN6qNsLzwfzTDeUrxR6zyLPtnSH7welFLHoLFjX5ozGPthAOY4WIUZ+gX22i4NV
-         tGuA83d3E3m9XpRU8oAoB0aiJ7uUR+Pw10ZfPS1PXKMqMWcnSdZk3lf9Jj5AlkiugxqN
-         EnKh/5Tp+HEvQgGilJG75+s3t36a/Ai/B+VfObUIISHborciYjmR06qLYJiL6gXSdtYK
-         H3gbZ3yl/9qayCJjbIks/MRZq3Qihl3A0A8TZ5gj2nbsp6XPsWegeaxctGw9j5EfTlsZ
-         ErS25rE09g+RIGxkuL2hNA3bR3BgzjFvmyfC5t4GJIIl5HBIOBDVmXd8gKPdVPw8U/mw
-         cGvA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/fsffXUVGXRQ9nWv+IaTwltw1vnCqYoa5ie9hgAfLs9+5g4OGYRFjiiZUnkqXU/s2oXQJDHSY8WM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYxLTtSjuJ0cEW9XtTgVDmt44biAgAmzlMKUiQVzciV0gz3Vo4
-	A7wr9PYl7Pl3YEm9v5TDOGD+J7cbE8XeVYv0gnIGd9jYBlpNHK1z3tY0
-X-Gm-Gg: AY/fxX7S0S3SEeuQ6QNbtm6GdxR1iS2jCYqqKne+jiQcpMZGfLA2RG/XK2k6PbE26KA
-	Yp8D3YyNm+UlviBeXJn5dhskUWj+FXet6XZMEl8x5zdMLP44wTq1GZZsMuI2bXkjU4TtjgZ7Gx5
-	USutfYziNC66rBwHhZ4ia69NUUFH1+OXkNjATMBpyfrziOQ9+UCXJP9E+c1kOQbaph8665w4PMj
-	fdd635VTLGrmqxj13fq2QsJOmh0IeORLYTrNKo5DdktMd1+J/zKT7JrDSZ1LxOGN3Zq2EV8v3cI
-	uEoJGkbrcMieA2YLlmq/ywUKdS3gcxh87ZbjPd7y24RNjiw2PYdfGW8vGXq8miZwpI7ZkhwGfVE
-	PeqkkGM/ocQ+5H3u6YspHfb1EOkA5iZAs7UOhG6fjvroXGfyIdhEXwrW1qbKU8F+norD8v6J8kS
-	FVKbpO+tGlbCKm7CmdPgvluf+p9FUyjTWYlBTybiowZz7uO9ICssLbnUXIsJKS8VmVmA==
-X-Google-Smtp-Source: AGHT+IEtpUCwGLlNLxKyNXIMX8+tzq7l0KJnLDuBLqpsPtLogCjtkzSZeYADQRlUzu4Ad7mZhlnfvA==
-X-Received: by 2002:a05:6a00:4512:b0:7e8:450c:61c8 with SMTP id d2e1a72fcca58-7ff6667c5a7mr22939512b3a.56.1766793234329;
-        Fri, 26 Dec 2025 15:53:54 -0800 (PST)
+        bh=KMAB5C1zkD/DVWLKDv3RV0IL8z1Pp7D3kuyKzpTCHnM=;
+        b=GePis9lF1yHS3bY/G6B2v56xmBrly5U9uR8aQpbIjN1lGqGIB3r+bA2em53PW3y+P2
+         hdzxsXz+R7/SlomPUwUcY4GBgNoHTGfX3rCkkjQJ0cev6icApLdw8sCM0Os5FQOnPCpO
+         tztGn0VFz8QzA+gfqTuosMOBENkAA3O1NU/8cE9XOqNPhUFkx7yH/Dk2tiDz50a52ijb
+         1CU9BfqQ+O0ygVk4FUYQFiVfutd0PkYK92BA2Jhv3pXDAGpC85XZtiXAT5DnrQv+fQSB
+         eW3371+7oNWmSapTff2t/3e5b9BJVivwdthE2P8BDmuKHczZlYj4YGGM/rRfh4wyAJhS
+         +O/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766793242; x=1767398042;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KMAB5C1zkD/DVWLKDv3RV0IL8z1Pp7D3kuyKzpTCHnM=;
+        b=P20DzUsZSxGJWaRLKGcmoJ8kZr133mKEA15zL675fu1FHOQWC+qWvFFbESXXif5D9d
+         yf8Ev1NrNNjA3VYryzhjfMCmyLLdVYrbXHnXndATYaVj5G4YqX0SqrJQOB2M6uRbJUOM
+         z9qqS+Ljx3UXnhALSiyLIcCFCADVQrO4ToUeIb5lU1LcZM6FgfV5xCmw7yLIyI7Hbkpj
+         C4Zenkrq8IWsCiR9LSFfOiwzyTwc71UrLJ8Q7OZnv9i5UMU7Oagpn8yaiXTGjelAlnzT
+         IpwWF4qkloeacimbBh6ufqtuktGsJrl8Sti1hNI/rl26rf5ohs5og5L/4eabtthw60SV
+         dOxw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCMZJQ7bI+iMoNxLUb8cFYhrBCDRL9u0B6McRFGj9vuYSyCij1j2zfE3IVSIQ4bwy+GiHEki2b8Ts=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFWIbXPjNiiVZqWhsi+HQyaPbHWUTo8u8r0ZcXl6gLm8BNcXpJ
+	F27kJ21fj/ZlfjtXISQjr2ynX/s5RcSCAEiSsi7dwJnVPf+x4DqoGA+1
+X-Gm-Gg: AY/fxX4Unf67lEMw8tl5EU0rI+0nvOdZ2bJjp7rks8bfWBVX8Ajp5JcKzXwTtJADwwe
+	cE8ZdANGz8iolU6S1b+gElSIeWQQRe+b69p4Smr7ixD7SIvVwrPlXoFWsG/2F6VP4FWIXg5lSfn
+	h9+HEMtlFXrzconT3/QsH1GAjTViQQRvAcER7qtzckL92XaOVLlgaKRYwQFLU5v52/s17C0cU40
+	mhM3HdaBZv4NNV/JdCKSUb1Yn59fVmiUqGWr3RQv3WnvAPqSXlfV2B74xeqIpXDl4gSqTjj5220
+	a0STGJJHjpTr2ZFXg7g3HR9Z+QoqIAZH/cHgmKnYjojwK+AWtw/0Y5/cCctqrmKslfQ8SfA/bF7
+	bwlgX0VybwhHzDl3i+mcesS68yXJhXpmMJMQXS657QgCZlIM+ZOLHU+DFqz79m7vxVU8fvAMada
+	EvFVllu801cJjE7mNvpjMTIwWgbK3GnoXpKjH1MjdN5S0mFnH+ftCWBLtSN1xckl7kNA==
+X-Google-Smtp-Source: AGHT+IE/jRVZWjbzqOMpIpqznB8AgsA/aJsvshwBSCcVXQGXPfun222sZyDCBMQFidKb3X3DLoILKg==
+X-Received: by 2002:a05:6a00:1ca2:b0:7f6:6011:b106 with SMTP id d2e1a72fcca58-7ff648e611emr22680938b3a.19.1766793241725;
+        Fri, 26 Dec 2025 15:54:01 -0800 (PST)
 Received: from c12-ThinkPad-X1-Carbon-Gen-12 (softbank221049092147.bbtec.net. [221.49.92.147])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e48cea1sm23395216b3a.45.2025.12.26.15.53.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e48cea1sm23395216b3a.45.2025.12.26.15.53.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Dec 2025 15:53:53 -0800 (PST)
+        Fri, 26 Dec 2025 15:54:01 -0800 (PST)
 From: Vishnu Sankar <vishnuocv@gmail.com>
 To: dmitry.torokhov@gmail.com,
 	hmh@hmh.eng.br,
@@ -72,10 +74,12 @@ Cc: mpearson-lenovo@squebb.ca,
 	platform-driver-x86@vger.kernel.org,
 	vsankar@lenovo.com,
 	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH v5 0/3] TrackPoint doubletap enablement and user control
-Date: Sat, 27 Dec 2025 08:50:58 +0900
-Message-ID: <20251226235101.106451-1-vishnuocv@gmail.com>
+Subject: [PATCH v5 1/3] input: trackpoint - Enable doubletap by default on capable devices
+Date: Sat, 27 Dec 2025 08:50:59 +0900
+Message-ID: <20251226235101.106451-2-vishnuocv@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251226235101.106451-1-vishnuocv@gmail.com>
+References: <20251226235101.106451-1-vishnuocv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,69 +88,139 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series adds support for TrackPoint doubletap with a clear and
-simple separation of responsibilities between drivers:
+Enable doubletap functionality by default on TrackPoint devices that
+support it. The feature is detected using firmware ID pattern matching
+(PNP: LEN03xxx) with a deny list of incompatible devices.
 
-1. Firmware enablement (trackpoint.c):
-   Automatically enables doubletap on capable hardware during device
-   detection.
+This provides immediate doubletap functionality without requiring
+userspace configuration. The hardware is enabled during device
+detection, while event filtering continues to be handled by the
+thinkpad_acpi driver as before.
 
-2. User control (thinkpad_acpi.c):
-   Provides a sysfs interface to enable or disable delivery of doubletap
-   events to userspace.
-
-The approach follows the KISS principle:
-- The TrackPoint driver enables hardware functionality by default.
-- The thinkpad_acpi driver controls whether ACPI doubletap events are
-  delivered, using existing hotkey filtering infrastructure.
-- No cross-driver APIs or dual filtering paths are introduced.
-
+Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
+Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+---
 Changes in v5:
-- Rename sysfs attribute from doubletap_filter to doubletap_enable to
-  reflect actual behavior.
-- Fix inverted logic so events are delivered only when doubletap is
-  enabled.
-- Suppress ACPI hotkey delivery instead of injecting or filtering input
-  events.
-- Register the sysfs attribute via hotkey_attributes[] instead of
-  device_create_file().
-- Drop unnecessary helper wrappers and debug logging.
-- Update Documentation to reflect the new naming and semantics.
+- Renamed function to trackpoint_is_dt_capable()
+- Simplified string comparison without sscanf()
+- Removed wrapper function as suggested
+- Fixed missing period in comment
 
 Changes in v4:
-- Complete redesign based on reviewer feedback.
-- trackpoint.c: Simplified to only enable doubletap by default.
-- trackpoint.c: Removed all sysfs attributes and global variables.
-- trackpoint.c: Uses firmware ID detection with deny list.
-- thinkpad_acpi.c: Added sysfs interface for kernel-level event control.
-- thinkpad_acpi.c: No cross-driver dependencies.
-- Documentation: Updated to reflect simplified sysfs approach.
+- Simplified approach: removed all sysfs attributes and user interface
+- Enable doubletap by default during device detection
+- Removed global variables and complex attribute infrastructure
+- Uses minimal firmware ID detection with deny list
+- Follows KISS principle as suggested by reviewers
 
 Changes in v3:
-- No changes.
+- No changes
 
 Changes in v2:
-- Improved commit messages.
-- Removed unnecessary comments and debug messages.
-- Switched to strstarts() usage.
-- Simplified firmware capability detection logic.
+- Improve commit messages
+- Sysfs attributes moved to trackpoint.c
+- Removed unnecessary comments
+- Removed unnecessary debug messages
+- Using strstarts() instead of strcmp()
+- is_trackpoint_dt_capable() modified
+- Removed _BIT suffix and used BIT() define
+- Reverse the trackpoint_doubletap_status() logic to return error first
+- Removed export functions as a result of the design change
+- Changed trackpoint_dev->psmouse to parent_psmouse
+- The path of trackpoint.h is not changed
+---
+ drivers/input/mouse/trackpoint.c | 47 ++++++++++++++++++++++++++++++++
+ drivers/input/mouse/trackpoint.h |  5 ++++
+ 2 files changed, 52 insertions(+)
 
-This version addresses the remaining review feedback by correcting the
-naming and logic inversion, aligning sysfs semantics with behavior, and
-fully integrating with existing thinkpad_acpi hotkey handling.
-
-Vishnu Sankar (3):
-  input: trackpoint - Enable doubletap by default on capable devices
-  platform/x86: thinkpad_acpi: Add sysfs control for TrackPoint
-    double-tap
-  Documentation: thinkpad-acpi - Document doubletap_enable attribute
-
- .../admin-guide/laptops/thinkpad-acpi.rst     | 20 ++++++++
- drivers/input/mouse/trackpoint.c              | 47 +++++++++++++++++++
- drivers/input/mouse/trackpoint.h              |  5 ++
- drivers/platform/x86/lenovo/thinkpad_acpi.c   | 42 ++++++++++++++---
- 4 files changed, 107 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
+index 5f6643b69a2c..8319b5bb6ce5 100644
+--- a/drivers/input/mouse/trackpoint.c
++++ b/drivers/input/mouse/trackpoint.c
+@@ -393,6 +393,45 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
+ 	return 0;
+ }
+ 
++/* List of known incapable device PNP IDs */
++static const char * const dt_incompatible_devices[] = {
++	"LEN0304",
++	"LEN0306",
++	"LEN0317",
++	"LEN031A",
++	"LEN031B",
++	"LEN031C",
++	"LEN031D",
++};
++
++/*
++ * Checks if it's a doubletap capable device.
++ * The PNP ID format is "PNP: LEN030d PNP0f13".
++ */
++static bool trackpoint_is_dt_capable(const char *pnp_id)
++{
++	size_t i;
++
++	if (!pnp_id)
++		return false;
++
++	/* Must start with "PNP: LEN03" */
++	if (!strstarts(pnp_id, "PNP: LEN03"))
++		return false;
++
++	/* Ensure enough length before comparing */
++	if (strlen(pnp_id) < 12)
++		return false;
++
++	/* Check deny-list */
++	for (i = 0; i < ARRAY_SIZE(dt_incompatible_devices); i++) {
++		if (!strncmp(pnp_id + 5,
++			     dt_incompatible_devices[i], 7))
++			return false;
++	}
++	return true;
++}
++
+ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+ {
+ 	struct ps2dev *ps2dev = &psmouse->ps2dev;
+@@ -470,6 +509,14 @@ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+ 		     psmouse->vendor, firmware_id,
+ 		     (button_info & 0xf0) >> 4, button_info & 0x0f);
+ 
++	/* Enable doubletap by default on capable devices */
++	if (trackpoint_is_dt_capable(ps2dev->serio->firmware_id)) {
++		if (trackpoint_write(ps2dev, TP_DOUBLETAP, TP_DOUBLETAP_ENABLE))
++			psmouse_warn(psmouse, "Failed to enable doubletap: %d\n", error);
++		else
++			psmouse_info(psmouse, "Doubletap enabled by default!\n");
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/input/mouse/trackpoint.h b/drivers/input/mouse/trackpoint.h
+index eb5412904fe0..3e03cdb39449 100644
+--- a/drivers/input/mouse/trackpoint.h
++++ b/drivers/input/mouse/trackpoint.h
+@@ -69,6 +69,8 @@
+ 					/* (how hard it is to drag */
+ 					/* with Z-axis pressed) */
+ 
++#define TP_DOUBLETAP		0x58	/* TrackPoint doubletap register */
++
+ #define TP_MINDRAG		0x59	/* Minimum amount of force needed */
+ 					/* to trigger dragging */
+ 
+@@ -110,6 +112,9 @@
+ 					   external device will be forced to 1 */
+ #define TP_MASK_EXT_TAG			0x04
+ 
++/* Doubletap register values */
++#define TP_DOUBLETAP_ENABLE	0xFF	/* Enable value */
++#define TP_DOUBLETAP_DISABLE	0xFE	/* Disable value */
+ 
+ /* Power on Self Test Results */
+ #define TP_POR_SUCCESS		0x3B
 -- 
 2.51.0
 
