@@ -1,33 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4D631A7E6;
-	Fri, 26 Dec 2025 11:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BC3292918
+	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 11:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766747442; cv=none; b=rv68C75jboEQtAMf0qt8GidxcPPF8gdIjmOVd2ZkZ3J+UQRPL5ua0XYmNFugVYMUZ0185QZR1qfEl9AT0E9zn3zC74g45uYenUWpqER6byvMAdzZKFqzSvmlbGckD3ak9S+y+n0J0JNLdZiP2iD3IX0H0j+0EFTkuR4KObtoHhY=
+	t=1766748353; cv=none; b=q+TXvl4vx+EX+eyx/LpyTMnR3FtKta4sgsFntlcHdqTP7G1QVzPEX/tno/oCGKc+kx4BJ7xNwJFzSATrKeveQ6m9QH8pbzBjKJxo/v/NLUXWhl0jJLAgNNA6tgxZzAD6GeCEO6jcMHGJTDxbVMpgW7Y3FPIrJ57lJfjY6axMFig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766747442; c=relaxed/simple;
-	bh=8aJDlM84Ngs7/hzhvrbbdMQBpfquQV9O+ZK0uJu9UnA=;
+	s=arc-20240116; t=1766748353; c=relaxed/simple;
+	bh=c5m8c3rhD4NrMnCzwcAnRxgDodn+tBiqCG0d0rcb7H0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bfM5WHNn6EjPVNf4HiQImmy5Oj3US93UExkDPzCA3XH9vBBYnzSGhwDzoJ4IZ3Jkp0iLwZy0HqEMAZnJuSRG+Xu/jrdcBrfca/mQnmynULzCn2FeSRwgIccx1XVnsR9Ipb8Ih7fLxcUYo/cscVLZhzKeCyL8sCavsUzV4uiN1Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejYfnbgR; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=PBGi7oV+GPFJE9WWSikdH+NPjzk+48o7WSid4Qj0+Jny0ux2c1ndes7xvQmC3FZoreqBkqV+6Qerd78mmT6vCZTa2BwS6AZqJmrY8wqkynquBOuwIrh8+6ZBsVfGpuUzbxwVSd0vlpyK/WU1fn7w0Zo90iMdwO2zpEKOfgB/BYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xdkyi0Ar; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejYfnbgR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC0AC116B1;
-	Fri, 26 Dec 2025 11:10:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766747441;
-	bh=8aJDlM84Ngs7/hzhvrbbdMQBpfquQV9O+ZK0uJu9UnA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ejYfnbgRPHRFkPg2TkIHKTfkbpDBYEtWViCsHwb3gghmZeAABAEHiX1XakbGULuPQ
-	 X9ld+VPr3eRPLFQ+YZHf0G5vZLdOqkRu6Nigf1bF9sSfPRE+tFGzp8JP9Dgb5XGvYp
-	 6nF8Y0sndOhwtj9FoyFMrGazcE1IkcITCKQAcJXCrf2h5LeePDvHD9K3IHxpSpaFCb
-	 IhPgKGRd62SGmeFEh8N2RUwm8NbWNssQdyZ4JMGbckbK4/Ner4UCDe1fl068m4VIOX
-	 80SyGuHsggpXNHo2ghjxHDvjLrvM/iIUjWdLzc13kD6nk2xyt+B6Gcp4JYqEl7WZy8
-	 68vM1FuFzKi+Q==
-Message-ID: <06f97147-5752-4a82-9958-89b138a7d4fe@kernel.org>
-Date: Fri, 26 Dec 2025 12:10:35 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xdkyi0Ar"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so6221104b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 03:25:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766748350; x=1767353150; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rG3yfzGOWClzunz0E65P5GWckin1wsduVWf5JfNQxXI=;
+        b=Xdkyi0ArSNrPlTd5KGLtoJPAQR9Y1+0fJEM98xk16CY/cQaUpLya33Tjdch//QXsZ4
+         GVSSG+Rm1wTBakiTNJKqGd9bIPjsR9J2DP1njhdNa91ElrRd/9rRfNW/6RzP14FZVcul
+         bpoJ4swMlRTK1SEJ/Km1KauRJCh645pJl+TbW6R94q2EkNpHpv8yMP7AP8x+ENRvHY8u
+         6SBWhedoOkPtl1Ps0X3R3PIoq9WPnYIuNjoF8Nremp/E+P5iwQa/P/JsqKQzoppRTGMC
+         yQZyDSpCnYbiLPsmp/P56GyPyIkerKj6PgU+tX3s7JeXz3Qz/O7e8Khpa3kIzN11jea0
+         sLag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766748350; x=1767353150;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rG3yfzGOWClzunz0E65P5GWckin1wsduVWf5JfNQxXI=;
+        b=xAUULjKirPX6HWrFNNVCOwthIkJwfEXF4m99SfoRn+5UXfvLrCopMXjx1UrMn6vgpT
+         hEycDcwKt185M/vqcNI8olfkVcQt2L3MvuNNB0uFuc8jA8sUrCgKdGq61QuW/zC3l3Nl
+         Rj28dOH8CET5l/1cBruPXiBUcVTd68FRKg0+jrgHT0bg801aaZf+YO/2APrwaZdb+rya
+         tS5enx2h2b7qoGqfP9r/W6cTjNw/qLeriad7Jfff8WCfUDNRnDl99mhKRXUnqNiC4Mhc
+         gb2rkVeshRJNP6Ohd3Az8daUuXSwuuc4FGheVpHIj7a/V2AiGgHnKZBtYb4DDfh4E3If
+         /y1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWvhtoXIyhpRKG6CCM1vIBUUmU6PTCHNVSC+CWNcQubpObIOguHWRu/JW82j4X6mhI4YpcSxPLrT8o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylCnXUSAcwX1MjbMN8EzLpF/ZoegXxJXRguYPHztO3mzawy5ad
+	YprV50VZ30vNanYZetb+OZbgpfqZbXioh1hjTrrMqlHfpyxQAkRFcQ50kF7MNw==
+X-Gm-Gg: AY/fxX7DlqRtrNss9grfvB5LTbNBuSxpGpEaWDLdCm/NDSmzK/Wo/XxU1cw96Axbb8j
+	voffXrlfPkWh3aYcomEOl+N4cLY1C8gCCGeOzDf2D98W2SNoYk+C0xgc0or/89Ev2fRBW5W5QLP
+	Q1kO/EEoX8wx3VHDYDgsJ3yXHeeGbl+0o4YaM8bAeRGp4CXWFynC3rID1BRAUJGk8X3FwTdL0ly
+	ncPA8m1kertreB5rqmDii0yVTyjbnaKOZkXiNsXHL9mq8HQ6RNmWbf9HTlUAc9fDqgGlGcPLpL0
+	wTk4QYJEdlcUrfaZOG0XuFah4z2S4Q8+c4MdRllKnqDEYyibPFtCumAzl0m8bly5L8Tn2L+Yq4g
+	Kt0fXjDhJdbYByeP+xVzaLmjKWgCtcQzREsXrEvkE2swMfu4NVz1z/gKFxscbJslRS3PwmEs/7T
+	xMObNfftSilljy7ZrV57A8I8SAYK+BaujknpkEUgS+rKigR3SD4iFyvoeCAzDPa00S7yk=
+X-Google-Smtp-Source: AGHT+IFvxUUIVtl/opokiIhs1V713buvrzbKH2dsA+g5PcBxYNWGDI8GIA9K4X3Uu0JLeU6wXx9bYQ==
+X-Received: by 2002:a05:6a00:e87:b0:7b2:2d85:ae59 with SMTP id d2e1a72fcca58-7ff64211602mr19775642b3a.11.1766748350236;
+        Fri, 26 Dec 2025 03:25:50 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7af29dcfsm21917626b3a.17.2025.12.26.03.25.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Dec 2025 03:25:49 -0800 (PST)
+Message-ID: <6c156080-04ac-48be-b0ae-5b784883188b@gmail.com>
+Date: Fri, 26 Dec 2025 20:25:47 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,84 +69,122 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: add STEF48H28
-To: Yungteng Hsu <hsu.yungteng@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251224084821.2092169-1-hsu.yungteng@gmail.com>
- <490569f8-a434-4297-b11e-ad34ddc4ae1e@kernel.org>
- <CAFT9tykPEt+zTREF9C4AXtGp0qDh_65LjHZCK9F=NFhE-K4dGQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] docs: ja_JP: Start translation of submitting-patches
+To: Akiyoshi Kurita <weibu@redadmin.org>
+Cc: shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, corbet@lwn.net
+References: <20251222093334.2402526-1-weibu@redadmin.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAFT9tykPEt+zTREF9C4AXtGp0qDh_65LjHZCK9F=NFhE-K4dGQ@mail.gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20251222093334.2402526-1-weibu@redadmin.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 26/12/2025 03:46, Yungteng Hsu wrote:
-> Krzysztof Kozlowski <krzk@kernel.org> 於 2025年12月24日週三 下午6:03寫道：
->>
->> On 24/12/2025 09:48, Charles Hsu wrote:
->>> Add device tree bindings for the hot-swap controller STEF48H28.
->>>
->>> Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
->>> ---
->>
->>
->> Where is any changelog? You keep sending versions but you never
->> responded, never said what happened with this.
->>
-> Thank you for your feedback.
-> I realize now that I misunderstood the process.
-> I previously thought that the changes needed to be included in the cover letter.
-> I will follow the proper procedure for discussing updates in the thread.
+Hi Kurita-san,
 
-There is no cover letter here at all. You sent only 1/2.
+On Mon, 22 Dec 2025 18:33:34 +0900, Akiyoshi Kurita wrote:
+> Start a new Japanese translation of Documentation/process/submitting-patches.rst.
+> 
+> As suggested by Akira Yokosawa, instead of moving the outdated 2011 translation
+> (SubmittingPatches), we are starting a fresh translation of the current
+> English document.
+> 
+> This patch adds the initial file structure, the warning about the document
+> being under construction, and the translation of the introduction section.
 
-Best regards,
-Krzysztof
+English version of submitting-patches.rst says:
+
+  - The body of the explanation, line wrapped at 75 columns, which will
+    be copied to the permanent changelog to describe this patch.
+
+, to which your changelog fails to comply ...
+
+You need to prove yourself as a promising translator of the doc by
+abiding the guidelines described in it as much as possible.
+Please do strict self-reviews before submitting a respin.
+
+Further comments follow.
+
+> 
+> The translation work will be done incrementally.
+> 
+
+Instead of calling out my full name above, you can use a Suggested-by tag:
+
+Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/298d3a9c-41c1-4cbd-b4ab-d3009df9388c@gmail.com/
+
+This is also mentioned in the English doc.
+
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+>  Documentation/translations/ja_JP/index.rst    |  1 +
+>  .../ja_JP/process/submitting-patches.rst      | 32 +++++++++++++++++++
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 Documentation/translations/ja_JP/process/submitting-patches.rst
+> 
+> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
+> index 4159b417bfdd..5d47d588e368 100644
+> --- a/Documentation/translations/ja_JP/index.rst
+> +++ b/Documentation/translations/ja_JP/index.rst
+> @@ -13,6 +13,7 @@
+>  
+>     disclaimer-ja_JP
+>     process/howto
+> +   process/submitting-patches
+>     process/submit-checklist
+>  
+>  .. raw:: latex
+> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> new file mode 100644
+> index 000000000000..1ef10ee7cbf6
+> --- /dev/null
+> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> @@ -0,0 +1,32 @@
+> +.. _jp_process_submitting_patches:
+> +
+> +パッチの投稿: カーネルにコードを入れるための必須ガイド
+> +======================================================
+> +
+> +.. note::
+> +
+> +   このドキュメントは :ref:`Documentation/process/submitting-patches.rst <submittingpatches>` の日本語訳です。
+> +
+> +   翻訳に関するご意見、誤植の指摘などは、Linuxカーネルドキュメント日本語翻訳プロジェクト
+> +   <https://linux-kernel-docs-jp.osdn.jp/> へ連絡してください。
+
+Hmm, I have no idea of "Linuxカーネルドキュメント日本語翻訳プロジェクト" and
+the site.  As a matter of fact, the site has a bogus certificate and I'm not
+able to see what it is.  Don't sneak in any dubious info.
+
+> +
+> +   免責事項: :ref:`translations_ja_JP_disclaimer`
+> +
+> +.. warning::
+> +
+> +   **UNDER CONSTRUCTION!!**
+> +
+> +   この文書は翻訳更新の作業中です。最新の内容は原文を参照してください。
+> +
+> +Linux カーネルに変更を加えたいと思っている個人や企業にとって、
+> +その「仕組み」に慣れていなければ、投稿のプロセスは時に気後れするものでしょう。
+> +この文書は、コードをカーネルに入れるための、主に技術的かつ手続き的な
+> +手順の概要を説明することを目的としています。
+> +
+> +もしこの文書を読んでいるあなたの目的が、単にバグ報告を送信することであれば、
+> +Documentation/admin-guide/reporting-issues.rst
+> +を参照してください。
+> +
+> +この文書自体も長大ですが、詳細な手順書というわけではありません。
+> +詳細については :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
+> +を参照してください。
+
+I expected to see a full translation of leader paragraphs up to Line 26 of
+the original.  Can you do it?
+
+As for "Linuxカーネルドキュメント日本語翻訳プロジェクト", (or "Linux kernel
+document Japanese docs project" [???]), do you have a plan to start
+such a project on your own?
+
+Thanks, Akira
+
