@@ -1,290 +1,267 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4460D27B347
-	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 07:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94663148C8;
+	Fri, 26 Dec 2025 08:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766734910; cv=none; b=usl+l+WTYYGfBJfrtQbsoZ666NU4+2NKTK5cBKGoHyn7aJsttQSaqmqS9Jms4Dkbw9uYdi6VJ9Pc2sAQ30d5hG6EtmI7IPER49vgQiQgTjSL1XFDJi5lc1hGqDUVd1/x70lowclpucBjvlaoYF/cMKcy5RO/pqTd4DBLLg5XTlI=
+	t=1766736231; cv=none; b=LLMsF8sD1FCO9wkfEhRdq7mt+7QKBgBdSg+eWUB+48HHL7v6mEp35rZSvBg+oiP0gw44wTaJLuH74awksh0Lyx087jAZLRGtN6/TYi231okmqS25PkZAmnLy4YiCnFjcMC3qaPcNUdQlPX+vPpgRkpjvqIPeqYhHFkDYNtoa4fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766734910; c=relaxed/simple;
-	bh=IZ0YyMqF7AcH4SIF+Ig/gnhB65izmk2b64FNwGGa3gY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=NUVr4w7MWL5A1jU/Ax9JQdSV9c/J4GCchE3teQo1Os9hzkPxwq12vUcB5mgBRpBXxWTjxgtLFzpP4BCl/PsYMWgNuYg5BjTCf3vjHRCiAsggfTXTvEwMqmQJvE0c40Q1yaN1s9IH7getk/44mIsCx7G8kdP1LL8+61s35zoQLzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lucaswei.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p1yaLKyq; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lucaswei.bounces.google.com
+	s=arc-20240116; t=1766736231; c=relaxed/simple;
+	bh=NNtcSaymVfb+eeXD+ID6HdTKYpdAZqMMojsf1gOSp5g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=PxMqhrUKf0g1dBdnrXt208AYMnNuShTPpwxkSdbNafkh920DvNFSscLUQucbGvRFLaWSsND2mNPUMTVMp39CvD29fhpkSL73CT4zsh88fnYqi9AwqxY6cZ49e4X375qJzxjY583zWm/0BwJ0NBPYrJK2dkIxWfJx528IWorkA80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=eX5igWEe; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p1yaLKyq"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2a0a0bad5dfso147606425ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Dec 2025 23:41:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1766734908; x=1767339708; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cMh1B9jeIE4aw279198M1b/hk/GMIA7jSM//p/wGIko=;
-        b=p1yaLKyqo7Nu+uZEmbRWfsgutWpUZkxqFzlaOD+XmVcyUAXIEZGVVpBzEi/Ea6B5at
-         YxxC0/ONWRw6wkUVye51GE7q+JJ18beDU2+5tDw5gDDW0EeWfbL+YIpYCk8prrawGAhP
-         SVxV3aa3V5MF6qtc8RQab5h7ASyTFma9Ys4tfegKYmAqpb1JjkgQyc3j+/Etf0AQ8CS1
-         TR1+rBLP70DvPqttVSfCHkGKzyw1cvzikUMAaat0HQza9pEULfhqLohh79TGfI0MleTT
-         GHBumPZxWaDXIG3TR5vw8k//F1EWIYEmkzn2bacPM5PgbqE6YLjhK+6WhBPrv8dycHSt
-         8L2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766734908; x=1767339708;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cMh1B9jeIE4aw279198M1b/hk/GMIA7jSM//p/wGIko=;
-        b=c1xe8QNezoHmlmvH8j+4HUX3AvcW2Zi8e1ak4QhHv3ZB5qOLzdR/7EvpnHWnuCcDDc
-         3sLdibDx5AI0GoRMcPjCAbSQA445qvzu7eVqJ8hvrZYiO01gD0KXByEaqL+55Rbh+BAL
-         akfgMqD0YSHL/EMWVLzW+4dm1pC00aZdEN18P18uRA5rmio5sEC9r61ZRMbaiOPLftUP
-         PHGdCAaBS2rVELmivLMaZev1lYg4yOMdrSYXUb5jk8f07zKjPnjLWrZb38cFNUgTFFLe
-         5Zn3FOS4kzOQbuwt+vQPTM2Z/8Qy3nIAH2ouuyBYddxdyZG3gDZXCOcd1V0JFtkjllfi
-         qUDw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8INcix1JJLHRTY1QR9IFcd+4OifvdEann8bRSQqujqsN1Vr4DefRmwOOUK8otAa9DbJdxs8fH3wY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+HrH1/xSOhsXYl75x//U5gr40guKfQeefs3md8yU8T6teqrhR
-	vzwkR8elxuhMNp1/O4ZzEiOHNVGBDaxMPrUtMGEklC1WwwkgDTGlXa7IUCrTFI/hdk0cna4oN1p
-	e7axZx3jcJGyZJg==
-X-Google-Smtp-Source: AGHT+IFtF1K9L6PYp/XzYAz9RZqRh29e1exGwQNKVor5fhVi5cRkwnbSQpCOKzH10Rx1XFEgf7xJTaY0uGlvqQ==
-X-Received: from plrf19.prod.google.com ([2002:a17:902:ab93:b0:29f:22e:147c])
- (user=lucaswei job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:ccc3:b0:2a0:97d2:a25d with SMTP id d9443c01a7336-2a2f2426c84mr257403495ad.15.1766734908420;
- Thu, 25 Dec 2025 23:41:48 -0800 (PST)
-Date: Fri, 26 Dec 2025 07:41:03 +0000
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="eX5igWEe"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=yr33QlKfyzpoEI3opWrGPCwz6K45y5MtWloabdDJsYs=;
+	b=eX5igWEe88qSEW5scW/+bRuLCxXMSVK2HTq+/1I05IQxh55LC56HxfXLLpOXS27G95zZHZkOS
+	r7Igd+y6GGS+H4PslOzrdL7qGsLTlPEjpSSRzTih0FKpnN7nq6gAIHCHKtRe/poeaIEcxCST6eL
+	8cERpNX+JvlyYhzZI1WB0JI=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dcyht0FrbzKm6H;
+	Fri, 26 Dec 2025 16:00:30 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id C983E40539;
+	Fri, 26 Dec 2025 16:03:38 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 26 Dec
+ 2025 16:03:37 +0800
+Message-ID: <3887747b-214e-45e5-9f85-d4e20a5e2e68@huawei.com>
+Date: Fri, 26 Dec 2025 16:03:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.52.0.358.g0dd7633a29-goog
-Message-ID: <20251226074106.3751725-1-lucaswei@google.com>
-Subject: [PATCH] arm64: errata: Workaround for SI L1 downstream coherency issue
-From: Lucas Wei <lucaswei@google.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Cc: sjadavani@google.com, Lucas Wei <lucaswei@google.com>, stable@vger.kernel.org, 
-	kernel-team@android.com, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/11] cpufreq: CPPC: add autonomous mode boot
+ parameter support
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
+	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
+	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
+	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-12-sumitg@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <20251223121307.711773-12-sumitg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-When software issues a Cache Maintenance Operation (CMO) targeting a
-dirty cache line, the CPU and DSU cluster may optimize the operation by
-combining the CopyBack Write and CMO into a single combined CopyBack
-Write plus CMO transaction presented to the interconnect (MCN).
-For these combined transactions, the MCN splits the operation into two
-separate transactions, one Write and one CMO, and then propagates the
-write and optionally the CMO to the downstream memory system or external
-Point of Serialization (PoS).
-However, the MCN may return an early CompCMO response to the DSU cluster
-before the corresponding Write and CMO transactions have completed at
-the external PoS or downstream memory. As a result, stale data may be
-observed by external observers that are directly connected to the
-external PoS or downstream memory.
+On 2025/12/23 20:13, Sumit Gupta wrote:
+> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable CPPC
+> autonomous performance selection on all CPUs at system startup without
+> requiring runtime sysfs manipulation. When autonomous mode is enabled,
+> the hardware automatically adjusts CPU performance based on workload
+> demands using Energy Performance Preference (EPP) hints.
+> 
+> When auto_sel_mode=1:
+> - All CPUs are configured for autonomous operation during init
+> - EPP is set to performance preference (0x0) by default
+> - Min/max performance bounds use defaults or already set values
+> - CPU frequency scaling is handled by hardware instead of OS governor
+> 
+> The boot parameter is applied only during first policy initialization.
+> User's runtime sysfs configuration is preserved across hotplug.
+> 
+> For Documentation/:
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 13 +++
+>  drivers/cpufreq/cppc_cpufreq.c                | 85 +++++++++++++++++--
+>  2 files changed, 90 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index aab72efa1acd..450f0b0225dc 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1035,6 +1035,19 @@ Kernel parameters
+>  			Format:
+>  			<first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
+>  
+> +	cppc_cpufreq.auto_sel_mode=
+> +			[CPU_FREQ] Enable ACPI CPPC autonomous performance
+> +			selection. When enabled, hardware automatically adjusts
+> +			CPU frequency on all CPUs based on workload demands.
+> +			In Autonomous mode, Energy Performance Preference (EPP)
+> +			hints guide hardware toward performance (0x0) or energy
+> +			efficiency (0xff).
+> +			Requires ACPI CPPC autonomous selection register support.
+> +			Format: <bool>
+> +			Default: 0 (disabled)
+> +			0: use cpufreq governors
+> +			1: enable if supported by hardware
+> +
+>  	cpuidle.off=1	[CPU_IDLE]
+>  			disable the cpuidle sub-system
+>  
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index b3da263c18b0..8c6869e68504 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -30,6 +30,9 @@ static struct cpufreq_driver cppc_cpufreq_driver;
+>  
+>  static DEFINE_MUTEX(cppc_cpufreq_update_autosel_config_lock);
+>  
+> +/* Autonomous Selection boot parameter */
+> +static bool auto_sel_mode;
+> +
+>  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>  static enum {
+>  	FIE_UNSET = -1,
+> @@ -643,11 +646,16 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>   * cppc_cpufreq_update_autosel_config - Update autonomous selection config
+>   * @policy: cpufreq policy
+>   * @is_auto_sel: enable/disable autonomous selection
+> + * @epp_val: EPP value (used only if update_epp true)
+> + * @update_epp: whether to update EPP register
+> + * @update_policy: whether to update policy constraints
+>   *
+>   * Return: 0 on success, negative error code on failure
+>   */
+>  static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
+> -					      bool is_auto_sel)
+> +					      bool is_auto_sel, u32 epp_val,
+> +					      bool update_epp,
+> +					      bool update_policy)
 
-This erratum affects any system topology in which the following
-conditions apply:
- - The Point of Serialization (PoS) is located downstream of the
-   interconnect.
- - A downstream observer accesses memory directly, bypassing the
-   interconnect.
+cppc_cpufreq_set_mperf_limit() and cppc_cpufreq_update_autosel_config()
+have too much bool input param. Just break them down into several separate
+functions and call them only when needed. These two functions are now too
+hard to read.
 
-Conditions:
-This erratum occurs only when all of the following conditions are met:
- 1. Software executes a data cache maintenance operation, specifically,
-    a clean or invalidate by virtual address (DC CVAC, DC CIVAC, or DC
-    IVAC), that hits on unique dirty data in the CPU or DSU cache. This
-    results in a combined CopyBack and CMO being issued to the
-    interconnect.
- 2. The interconnect splits the combined transaction into separate Write
-    and CMO transactions and returns an early completion response to the
-    CPU or DSU before the write has completed at the downstream memory
-    or PoS.
- 3. A downstream observer accesses the affected memory address after the
-    early completion response is issued but before the actual memory
-    write has completed. This allows the observer to read stale data
-    that has not yet been updated at the PoS or downstream memory.
-
-The implementation of workaround put a second loop of CMOs at the same
-virtual address whose operation meet erratum conditions to wait until
-cache data be cleaned to PoC.. This way of implementation mitigates
-performance panalty compared to purly duplicate orignial CMO.
-
-Cc: stable@vger.kernel.org # 6.12.x
-Signed-off-by: Lucas Wei <lucaswei@google.com>
----
- Documentation/arch/arm64/silicon-errata.rst |  3 ++
- arch/arm64/Kconfig                          | 19 +++++++++++++
- arch/arm64/include/asm/assembler.h          | 10 +++++++
- arch/arm64/kernel/cpu_errata.c              | 31 +++++++++++++++++++++
- arch/arm64/mm/cache.S                       | 13 ++++++++-
- arch/arm64/tools/cpucaps                    |  1 +
- 6 files changed, 76 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index a7ec57060f64..98efdf528719 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -213,6 +213,9 @@ stable kernels.
- | ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
- +----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
-++----------------+-----------------+-----------------+-----------------------------+
-++----------------+-----------------+-----------------+-----------------------------+
- | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
- +----------------+-----------------+-----------------+-----------------------------+
- | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_843419        |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 93173f0a09c7..89326bb26f48 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1155,6 +1155,25 @@ config ARM64_ERRATUM_3194386
- 
- 	  If unsure, say Y.
- 
-+config ARM64_ERRATUM_4311569
-+	bool "SI L1: 4311569: workaround for premature CMO completion erratum"
-+	default y
-+	help
-+	  This option adds the workaround for ARM SI L1 erratum 4311569.
-+
-+	  The erratum of SI L1 can cause an early response to a combined write
-+	  and cache maintenance operation (WR+CMO) before the operation is fully
-+	  completed to the Point of Serialization (POS).
-+	  This can result in a non-I/O coherent agent observing stale data,
-+	  potentially leading to system instability or incorrect behavior.
-+
-+	  Enabling this option implements a software workaround by inserting a
-+	  second loop of Cache Maintenance Operation (CMO) immediately following the
-+	  end of function to do CMOs. This ensures that the data is correctly serialized
-+	  before the buffer is handed off to a non-coherent agent.
-+
-+	  If unsure, say Y.
-+
- config CAVIUM_ERRATUM_22375
- 	bool "Cavium erratum 22375, 24313"
- 	default y
-diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
-index f0ca7196f6fa..d3d46e5f7188 100644
---- a/arch/arm64/include/asm/assembler.h
-+++ b/arch/arm64/include/asm/assembler.h
-@@ -381,6 +381,9 @@ alternative_endif
- 	.macro dcache_by_myline_op op, domain, start, end, linesz, tmp, fixup
- 	sub	\tmp, \linesz, #1
- 	bic	\start, \start, \tmp
-+alternative_if ARM64_WORKAROUND_4311569
-+	mov	\tmp, \start
-+alternative_else_nop_endif
- .Ldcache_op\@:
- 	.ifc	\op, cvau
- 	__dcache_op_workaround_clean_cache \op, \start
-@@ -402,6 +405,13 @@ alternative_endif
- 	add	\start, \start, \linesz
- 	cmp	\start, \end
- 	b.lo	.Ldcache_op\@
-+alternative_if ARM64_WORKAROUND_4311569
-+	.ifnc	\op, cvau
-+	mov	\start, \tmp
-+	mov	\tmp, xzr
-+	cbnz	\start, .Ldcache_op\@
-+	.endif
-+alternative_else_nop_endif
- 	dsb	\domain
- 
- 	_cond_uaccess_extable .Ldcache_op\@, \fixup
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 8cb3b575a031..c69678c512f1 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
- 	return (ctr_real != sys) && (ctr_raw != sys);
- }
- 
-+#ifdef CONFIG_ARM64_ERRATUM_4311569
-+DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
-+static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
-+{
-+	static_branch_enable(&arm_si_l1_workaround_4311569);
-+	pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
-+
-+	return 0;
-+}
-+early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
-+
-+/*
-+ * We have some earlier use cases to call cache maintenance operation functions, for example,
-+ * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
-+ * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
-+ * safe to have the workaround off by default.
-+ */
-+static bool
-+need_arm_si_l1_workaround_4311569(const struct arm64_cpu_capabilities *entry, int scope)
-+{
-+	return static_branch_unlikely(&arm_si_l1_workaround_4311569);
-+}
-+#endif
-+
- static void
- cpu_enable_trap_ctr_access(const struct arm64_cpu_capabilities *cap)
- {
-@@ -870,6 +894,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		ERRATA_MIDR_RANGE_LIST(erratum_spec_ssbs_list),
- 	},
- #endif
-+#ifdef CONFIG_ARM64_ERRATUM_4311569
-+	{
-+		.capability = ARM64_WORKAROUND_4311569,
-+		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
-+		.matches = need_arm_si_l1_workaround_4311569,
-+	},
-+#endif
- #ifdef CONFIG_ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD
- 	{
- 		.desc = "ARM errata 2966298, 3117295",
-diff --git a/arch/arm64/mm/cache.S b/arch/arm64/mm/cache.S
-index 503567c864fd..ddf0097624ed 100644
---- a/arch/arm64/mm/cache.S
-+++ b/arch/arm64/mm/cache.S
-@@ -143,9 +143,14 @@ SYM_FUNC_END(dcache_clean_pou)
-  *	- end     - kernel end address of region
-  */
- SYM_FUNC_START(__pi_dcache_inval_poc)
-+alternative_if ARM64_WORKAROUND_4311569
-+	mov	x4, x0
-+	mov	x5, x1
-+	mov	x6, #1
-+alternative_else_nop_endif
- 	dcache_line_size x2, x3
- 	sub	x3, x2, #1
--	tst	x1, x3				// end cache line aligned?
-+again:	tst	x1, x3				// end cache line aligned?
- 	bic	x1, x1, x3
- 	b.eq	1f
- 	dc	civac, x1			// clean & invalidate D / U line
-@@ -158,6 +163,12 @@ SYM_FUNC_START(__pi_dcache_inval_poc)
- 3:	add	x0, x0, x2
- 	cmp	x0, x1
- 	b.lo	2b
-+alternative_if ARM64_WORKAROUND_4311569
-+	mov	x0, x4
-+	mov	x1, x5
-+	sub	x6, x6, #1
-+	cbz	x6, again
-+alternative_else_nop_endif
- 	dsb	sy
- 	ret
- SYM_FUNC_END(__pi_dcache_inval_poc)
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 0fac75f01534..856b6cf6e71e 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -103,6 +103,7 @@ WORKAROUND_2077057
- WORKAROUND_2457168
- WORKAROUND_2645198
- WORKAROUND_2658417
-+WORKAROUND_4311569
- WORKAROUND_AMPERE_AC03_CPU_38
- WORKAROUND_AMPERE_AC04_CPU_23
- WORKAROUND_TRBE_OVERWRITE_FILL_MODE
--- 
-2.52.0.358.g0dd7633a29-goog
+>  {
+>  	struct cppc_cpudata *cpu_data = policy->driver_data;
+>  	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+> @@ -655,7 +663,6 @@ static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
+>  	u64 max_perf = caps->nominal_perf;
+>  	unsigned int cpu = policy->cpu;
+>  	bool update_reg = is_auto_sel;
+> -	bool update_policy = true;
+>  	int ret;
+>  
+>  	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> @@ -685,6 +692,17 @@ static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
+>  	if (ret && ret != -EOPNOTSUPP)
+>  		return ret;
+>  
+> +	/* Update EPP register */
+> +	if (update_epp) {
+> +		ret = cppc_set_epp(cpu, epp_val);
+> +		if (ret && ret != -EOPNOTSUPP) {
+> +			pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
+> +			return ret;
+> +		}
+> +		if (!ret)
+> +			cpu_data->perf_ctrls.energy_perf = epp_val;
+> +	}
+> +
+>  	/* Update auto_sel register */
+>  	ret = cppc_set_auto_sel(cpu, is_auto_sel);
+>  	if (ret && ret != -EOPNOTSUPP) {
+> @@ -816,11 +834,54 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
+>  	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
+>  
+> -	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+> -	if (ret) {
+> -		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
+> -			 caps->highest_perf, cpu, ret);
+> -		goto out;
+> +	/*
+> +	 * Enable autonomous mode on first init if boot param is set.
+> +	 * Check last_governor to detect first init and skip if auto_sel
+> +	 * is already enabled.
+> +	 */
+> +	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
+> +	    !cpu_data->perf_ctrls.auto_sel) {
+> +		/* Enable CPPC - optional register, some platforms need it */
+> +		ret = cppc_set_enable(cpu, true);
+> +		if (ret) {
+> +			if (ret == -EOPNOTSUPP)
+> +				pr_debug("CPPC enable not supported CPU%d\n",
+> +					 cpu);
+> +			else
+> +				pr_warn("Failed enable CPPC CPU%d (%d)\n",
+> +					cpu, ret);
+> +		}
+> +
+> +		/*
+> +		 * Enable autonomous mode; Pass false for update_policy to avoid
+> +		 * updating policy limits prematurely as they are not yet fully setup.
+> +		 */
+> +		ret = cppc_cpufreq_update_autosel_config(policy,
+> +							 true,  /* is_auto_sel */
+> +							 CPPC_EPP_PERFORMANCE_PREF,
+> +							 true,  /* update_epp */
+> +							 false); /* update_policy */
+> +		if (ret)
+> +			pr_warn("Failed autonomous config CPU%d (%d)\n",
+> +				cpu, ret);
+> +	}
+> +
+> +	/* If auto mode is enabled, sync policy limits with HW registers */
+> +	if (cpu_data->perf_ctrls.auto_sel) {
+> +		policy->min = cppc_perf_to_khz(caps,
+> +					       cpu_data->perf_ctrls.min_perf ?:
+> +					       caps->lowest_nonlinear_perf);
+> +		policy->max = cppc_perf_to_khz(caps,
+> +					       cpu_data->perf_ctrls.max_perf ?:
+> +					       caps->nominal_perf);
+> +	} else {
+> +		/* Standard mode: governors control frequency */
+> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+> +		if (ret) {
+> +			pr_debug("Err setting perf value:%d CPU:%d ret:%d\n",
+> +				 caps->highest_perf, cpu, ret);
+> +			goto out;
+> +		}
+>  	}
+>  
+>  	cppc_cpufreq_cpu_fie_init(policy);
+> @@ -991,7 +1052,7 @@ static ssize_t store_auto_select(struct cpufreq_policy *policy,
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = cppc_cpufreq_update_autosel_config(policy, val);
+> +	ret = cppc_cpufreq_update_autosel_config(policy, val, 0, false, true);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1253,10 +1314,18 @@ static int __init cppc_cpufreq_init(void)
+>  
+>  static void __exit cppc_cpufreq_exit(void)
+>  {
+> +	unsigned int cpu;
+> +
+> +	for_each_present_cpu(cpu)
+> +		cppc_set_auto_sel(cpu, false);
+> +
+>  	cpufreq_unregister_driver(&cppc_cpufreq_driver);
+>  	cppc_freq_invariance_exit();
+>  }
+>  
+> +module_param(auto_sel_mode, bool, 0000);
+> +MODULE_PARM_DESC(auto_sel_mode, "Enable Autonomous Performance Level Selection");
+> +
+>  module_exit(cppc_cpufreq_exit);
+>  MODULE_AUTHOR("Ashwin Chaugule");
+>  MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
 
