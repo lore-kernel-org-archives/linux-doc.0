@@ -1,106 +1,180 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B5F1643B;
-	Fri, 26 Dec 2025 16:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48123DDC5
+	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 20:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766766068; cv=none; b=oqB7bQPFFbDqk+dKgNAYHvyJQbk44z51qeJxchPbyYWSXn9xZcBzT/kIuvPE4ZkSIjGzOBbZ9RjrRajMgbyzdYrzXkO1VLn1HoYmz/faEob1fi/FJJI7wF6/UTJ3MAUAli1dNlb2sPKFbkvZp4ORYVfjZWUvy05cRCz4Bpf781g=
+	t=1766779317; cv=none; b=ooE9uGHZmrIzBwfq0I8wa8st+NilUiVm9IYSKNLkgV0pmpPdLNV1lYRZK9LQhDKMao7RulA9riR7cQx7WF23rR4skgxi2rlmRVx1BCODT+HSBlsLGT54gFBCVwlhlhANTYKY9TiaXLG0wAJNNQFY+0N4BLe93jiAKGKYTfB+JyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766766068; c=relaxed/simple;
-	bh=ojrA7RhQq9vA2j9DdcxvWP6UnQOQoYXjrN9y5yJuleE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Asx52AcpJdnROkrcnpgpMKEEVAvWS6FTqfuUYTrN6PvqzdaWFKEzvHa8kRjV6QJ4bBj/Fg436F2t4oXTRdDTypEVRgq13lVIvLrxO2OLJRXXj/KwXGw16IoIJScZ6steg7YGb2WJowRdrd9mx0fyNi7hZzhXMkIOXy2DYq2X+ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 27A315FBD7;
-	Fri, 26 Dec 2025 16:20:58 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 04A576000C;
-	Fri, 26 Dec 2025 16:20:55 +0000 (UTC)
-Date: Fri, 26 Dec 2025 11:20:54 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: mhiramat@kernel.org, mark.rutland@arm.com,
- mathieu.desnoyers@efficios.com, corbet@lwn.net, sean@ashe.io,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Valentin Schneider <vschneid@redhat.com>
-Subject: Re: [PATCH] tracing: Add bitmask-list option for human-readable
- bitmask display
-Message-ID: <20251226112054.44b2e440@gandalf.local.home>
-In-Reply-To: <qw6wgsrmuu4vhuam3ay3zdsqxlowbe7xqrh3wolei7bnbkkwyw@jshbmlr67goc>
-References: <20251223035622.2084081-1-atomlin@atomlin.com>
-	<20251223133452.416fd539@gandalf.local.home>
-	<wgkjg2bpsyonl5qkgxgdrpmzzaduuyiti7vtifxbtdnmlrhptl@jchrtoaltfv3>
-	<20251224085848.26387f5d@gandalf.local.home>
-	<qw6wgsrmuu4vhuam3ay3zdsqxlowbe7xqrh3wolei7bnbkkwyw@jshbmlr67goc>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1766779317; c=relaxed/simple;
+	bh=QQyG4KMrALCAk4qB42lsLkH4v13igT5T+7TUGqsvJ7M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nr3utyKiSImt/CGMeXrn/BVYzj4iAXE2A0mDP9rDzoWtlqmiO+WgFaLvAc2yw7yDAqRvwPbuw0gK+lvj712XuJ+4UGJPCJygV0FX6zI7P5lnlffJzP5a59Fx09Q62JWK8YhlNpCQECIFABaS2TFjNmsEnCcMXSHvcw5YGMOrTyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=di5Kb9pn; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Uh4GqLT7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="di5Kb9pn";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Uh4GqLT7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1766779315;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ojpffjf9WXO3wNJhOKSQJLHQbbSlgOUFtmMuKKKVw8E=;
+	b=di5Kb9pntoxLcQdaqJOLu0x7MR5v7TSCCV9GZ66KhO3bvgsTvpHQPK3/TNB5eUWsjesIG3
+	PfWrZXCqHOz342YVJr1MhlygDpyb097OUUJ7+vWMMb/HooVc7qqFBLYT7IOMgT6V6LC8Q3
+	2zFHeBHj6Q4+9x325Sk7IFwX84G7X+w=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-248-rreLEgL5MGGdrG9J3LGQHA-1; Fri, 26 Dec 2025 15:01:53 -0500
+X-MC-Unique: rreLEgL5MGGdrG9J3LGQHA-1
+X-Mimecast-MFC-AGG-ID: rreLEgL5MGGdrG9J3LGQHA_1766779313
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8bb6a7fea4dso1705579485a.0
+        for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 12:01:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1766779313; x=1767384113; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ojpffjf9WXO3wNJhOKSQJLHQbbSlgOUFtmMuKKKVw8E=;
+        b=Uh4GqLT7vNyTUbnzYFCwXxqrzrQSyCTuF6eFECe0JeQs5SxqWeOA3uOO9d7lK1ErVl
+         F6BoWHsclq/XDvRC+GZmWFGNa2HtoqowfhJaV6Q6Az8AXWjx5FQR9bXMvSDu9nm6GfSw
+         ry20l5XAcXL7IRUUNBBlyZQRYwxhlIzF9usHXYLCay+oQuqlHUreg0Tm3e/9lY10EUXJ
+         p995z8U/67t9dJWjKaYhtfKv4V+ZHha8HiRsj/ruTUfsPEgaerKklONvHLSnFaK3vgGQ
+         nGSFOzMjYMuqZvus/enbGxjcYYBujgsLG8rvMLPGz70eDS/9kgDkJ99FKpbX8TPoBoj3
+         4TTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766779313; x=1767384113;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ojpffjf9WXO3wNJhOKSQJLHQbbSlgOUFtmMuKKKVw8E=;
+        b=Chv2EJOgWtjax4W7Od6P0+Lx7bB//zhHfj+7Shas1QBjYnTqO/Vi3vUpWKQlF4cwev
+         PltdzyQDz1FHtOvrG6/DemVH5A2n5r4VtHzDnEatrCMCdKmyE/YmTzjfcr52vhTQEVR+
+         xe6dmS9ZGxtxtp9foNBtlQ/MZ8MGcT6Cipny121diE/1rss+wjwT6kKsbKRjoiVZh/Th
+         kWqvddJLkkjifqa8h+v+tNJaRtYry7ehzjq8DK51IBrtWb1aD57w0/FKU49cwzxhd8OK
+         EX9pbKjdYQBGxqx4CDCoUVLd8emPkYzXwKiwTAbc1UAgL2YENwRHI76y5HZ646AJHHpI
+         Cjwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhnzMyBNvyuZGk1JRcYcDep6CkmaASp05rmogC9pF1ABrRJ0Lfk2EOi34FXzQUq9LdJQjXAm5CD9s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFdJcVBUl3p+CN1oKxhmmrsaQITYlnJxuyqAGLTWnnXH4eZZw4
+	TJhS9GER9vEGdkStoGfy8AoCRT+h179ca26T7B0Ykghgvf3myx7bjaYqSk2UULmHZuguyGBSPJI
+	OfSeq/9IJyhl+HXQFppfVGgMt3ta9VNrpfmsfpUmWKESFrk1Zk/wHe/Juzs4Wfw==
+X-Gm-Gg: AY/fxX78OK7P6ksOiGLD9gk4WVMOGsBdAb74q8uveK+ug4tWoY1N4GFf207t26hgBlN
+	Bm7c32K6Pae6IikRGOrirx1DL3h+VEWqhNYGAG7ePBv/eJAmp/VF616egYfItU6HSJkUAda5ll1
+	a995rLTb1yLC3IBhjln+c7WazoUV/aXNvHuYgUg/axDc1d+weZX52yV+zM6lTqsmLxI4Dqbj5Ax
+	5pGMa2uLYjMDkbqyDZlmBAmPqzHu4RmGhNTONoaV2CeZRiKoCnvJ67qaQODdQYZ8qVSUEJU37HQ
+	oGguNIGLoZgI2WKEizDUBSPFIxaGJsAtfUaNC4P3vSfF8hSRQsqDxyFXfzFQ2qm10sFwHliah/+
+	5+jac9ojb8ndJRih3BgJTOkmBLLihyDDrQdMhvQkBzy1R1lkdTco=
+X-Received: by 2002:a05:622a:3cc:b0:4e8:baad:9875 with SMTP id d75a77b69052e-4f4abccf532mr368603461cf.4.1766779313168;
+        Fri, 26 Dec 2025 12:01:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFZnYKkCFK7rhcnq+xYC/+SDh2RlrIBRh7zni7hxgTjidevNQ22xkFYWKyG03JlVIxpiZ0mxg==
+X-Received: by 2002:a05:622a:3cc:b0:4e8:baad:9875 with SMTP id d75a77b69052e-4f4abccf532mr368602871cf.4.1766779312766;
+        Fri, 26 Dec 2025 12:01:52 -0800 (PST)
+Received: from [10.0.0.82] (97-127-77-149.mpls.qwest.net. [97.127.77.149])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac62f59csm161375721cf.20.2025.12.26.12.01.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Dec 2025 12:01:52 -0800 (PST)
+Message-ID: <fb920248-a0fc-432f-926f-c27b1760de58@redhat.com>
+Date: Fri, 26 Dec 2025 14:01:50 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master] [fs] 51a146e059:
+ BUG:kernel_hang_in_boot_stage
+To: kernel test robot <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com,
+ Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <202512230315.1717476b-lkp@intel.com>
+Content-Language: en-US
+From: Eric Sandeen <sandeen@redhat.com>
+In-Reply-To: <202512230315.1717476b-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 04A576000C
-X-Stat-Signature: p5ry1jcitpzoi16nhdxxsdwboy3qnzh8
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18CuRtiDyHgPV9BznWhBHXCQbD/Fhk1q0A=
-X-HE-Tag: 1766766055-174451
-X-HE-Meta: U2FsdGVkX18tlOylEYGorLobJyW1V6dZrLQx0TDSbmUG1uTjCh3iG9ier0QMOrveblmmgqYXPg5ysm+OtKli4vDvg131WBfQx1LDRsgVXeN1uHvHSKFLrSynfWdknCcZg4vAEySX7Q9UxJ+Tucq2s1Owa1IZpT9x0qjpXg1BQiZ258i3I0LKHZFAzSjl20p5lJqycfta2USwiTCxkdAzppa0s7OIjPoKt2WICGmATS0YO6G94hZIdOuDjF9KkeBsrWYWftSSagV8+tqvn2r6+JADIKYBlRBwA0pjt5HSIj/cQP5Wzeia1Gw9eUavtbxo8bY5F8BM3ShzT+eUvooyVfi4/KKS7TinLn+Y27oYTcUht/bf/mXXcy7spev0+0Zo
 
-On Thu, 25 Dec 2025 02:38:03 -0500
-Aaron Tomlin <atomlin@atomlin.com> wrote:
-
-> On Wed, Dec 24, 2025 at 08:58:48AM -0500, Steven Rostedt wrote:
-> > Should we just make all cpu bitmask range lists instead?  
+On 12/22/25 8:36 PM, kernel test robot wrote:
 > 
-> Hi Steve,
 > 
-> I am somewhat hesitant to adopt that suggestion as I would prefer to avoid
-> breaking any existing tooling that relies upon the default hexadecimal
-> bitmask format.
+> Hello,
+> 
+> 
+> we don't have enough knowledge to analyze the connection between the issue and
+> this change. just observed the issue is quite persistent on 51a146e059 and
+> clean on its parent.
 
-I am too. But the "do not break user space" rule is basically, "it's only
-broken if user space notices". If people complain about the change, we can
-always revert it ;-)
+Odd. Not much to go on, and I don't see any obvious connection either, but
+I'll see if i can reproduce.
+
+In the successful dmesg it looks like devtmpfs was next up, maybe that's a clue.
+
+This is probably a classic case of assuming that removing dead code
+"can't break anything!" without enough testing. :( I'll see what I can find.
+
+Thanks for the report,
+-Eric
 
 > 
-> Whilst range lists are undoubtedly superior for human interpretation, the
-> hexadecimal output is a well-established standard throughout the kernel.
-> For instance, the hexadecimal format is still strictly adhered to for
-> "Cpus_allowed:" within /proc/[pid]/status. Introducing a global change to
-> ftrace defaults could disrupt parsers and scripts that expect this
-> consistency across the system.
-
-Really, any scripts that parse the ASCII output is broken by design, as
-things change there all the time, and it can be really slow to read.
-There's a binary interface for such things. Heck, I bet this change would
-probably make the scripts simpler, as searching ranges is easier to parse
-than a hex number.
-
+> =========================================================================================
+> tbox_group/testcase/rootfs/kconfig/compiler/sleep:
+>   vm-snb-i386/boot/debian-11.1-i386-20220923.cgz/i386-randconfig-2006-20250804/gcc-14/1
 > 
-> By leveraging the existing bitmask-list trace option via
-> trace_print_bitmask_seq(), we offer users the requisite flexibility for
-> high-core-count systems whilst preserving backward compatibility for the
-> wider ecosystem.
-
-Perhaps it should only be cpumask-list, and only touch bitmasks that are
-CPU lists. Although, right now I only see one user of the bitmask code, and
-it's using it on a cpumask. Perhaps we should change it to use the cpumask.
-
-There's not many users of the bitmask in tracepoints, and it is mostly with
-the new IPI tracepoints (Cc'ing Valentin to get his throughts).
-
+> d5bc4e31f2a3f301 51a146e0595c638c58097a1660f
+> ---------------- ---------------------------
+>        fail:runs  %reproduction    fail:runs
+>            |             |             |
+>            :200        100%         200:200   last_state.booting
+>            :200        100%         200:200   last_state.is_incomplete_run
+>            :200        100%         200:200   dmesg.BUG:kernel_hang_in_boot_stage
 > 
-> I shall send a new version of the patch shortly. This version incorporates
-> the use of iter->tmp_seq to ensure the implementation is robust,
-> instance-aware, and free from buffer contention or duplication issues.
-
-Thanks,
-
--- Steve
+> 
+> we cannot spot out useful information from dmesg which is uploaded to [1]. also
+> attached one dmesg from parent commit (d5bc4e31f2) FYI.
+> 
+> 
+> kernel test robot noticed "BUG:kernel_hang_in_boot_stage" on:
+> 
+> commit: 51a146e0595c638c58097a1660ff6b6e7d3b72f3 ("fs: Remove internal old mount API code")
+> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+> 
+> [test failed on linux-next/master cc3aa43b44bdb43dfbac0fcb51c56594a11338a8]
+> 
+> in testcase: boot
+> 
+> config: i386-randconfig-2006-20250804
+> compiler: gcc-14
+> test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m 4G
+> 
+> (please refer to attached dmesg/kmsg for entire log/backtrace)
+> 
+> 
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <oliver.sang@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202512230315.1717476b-lkp@intel.com
+> 
+> 
+> [   15.178608][    T1] signal: max sigframe size: 1760
+> [   15.669386][    T1] rcu: Hierarchical SRCU implementation.
+> [   15.785114][    T1] rcu: 	Max phase no-delay instances is 1000.
+> [  104.130757][    C0] workqueue: round-robin CPU selection forced, expect performance impact
+> [  110.182304][    C0] random: crng init done
+> BUG: kernel hang in boot stage
+> 
+> 
+> 
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20251223/202512230315.1717476b-lkp@intel.com [1]
+> 
+> 
+> 
 
