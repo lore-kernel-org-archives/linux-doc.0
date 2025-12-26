@@ -1,190 +1,92 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BC3292918
-	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 11:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0831428850D
+	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 12:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766748353; cv=none; b=q+TXvl4vx+EX+eyx/LpyTMnR3FtKta4sgsFntlcHdqTP7G1QVzPEX/tno/oCGKc+kx4BJ7xNwJFzSATrKeveQ6m9QH8pbzBjKJxo/v/NLUXWhl0jJLAgNNA6tgxZzAD6GeCEO6jcMHGJTDxbVMpgW7Y3FPIrJ57lJfjY6axMFig=
+	t=1766750606; cv=none; b=EBnrumzMe5JPyPgpuP2wl2fKWhuhhxniWR/xz9jNR/2cm/HRB8wzyOPSUGvFNM4xvDDweKBvKSoaiYRdQqielDH+MFCVCqSXV/u7XL7bTc/M92mC5VkYZBpwbx+ACoBnQvK058v+y+zd5OF+we0uoC/psLBd4zW91HBRKKStrTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766748353; c=relaxed/simple;
-	bh=c5m8c3rhD4NrMnCzwcAnRxgDodn+tBiqCG0d0rcb7H0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PBGi7oV+GPFJE9WWSikdH+NPjzk+48o7WSid4Qj0+Jny0ux2c1ndes7xvQmC3FZoreqBkqV+6Qerd78mmT6vCZTa2BwS6AZqJmrY8wqkynquBOuwIrh8+6ZBsVfGpuUzbxwVSd0vlpyK/WU1fn7w0Zo90iMdwO2zpEKOfgB/BYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xdkyi0Ar; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766750606; c=relaxed/simple;
+	bh=vHunlvmukqxNcLg1AKttbuvmdR6WNAohauZhB/yPjEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hXS4EwGuqFFX83tjjcAJx1MG5nIB2IvDdvE5Y3e1jswObzvRc8j83dUsLJ1dht4sRYJLGdDxuHabralhUAiJctcSISTd/K3nm/cAwTdunJWihumjQdbS2+nPEeQbuZQlbDR542nUnysG+MuVmn9KJ6iLDWHmPAp/HYA1yLsokA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C9K1oaYh; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xdkyi0Ar"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so6221104b3a.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 03:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766748350; x=1767353150; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rG3yfzGOWClzunz0E65P5GWckin1wsduVWf5JfNQxXI=;
-        b=Xdkyi0ArSNrPlTd5KGLtoJPAQR9Y1+0fJEM98xk16CY/cQaUpLya33Tjdch//QXsZ4
-         GVSSG+Rm1wTBakiTNJKqGd9bIPjsR9J2DP1njhdNa91ElrRd/9rRfNW/6RzP14FZVcul
-         bpoJ4swMlRTK1SEJ/Km1KauRJCh645pJl+TbW6R94q2EkNpHpv8yMP7AP8x+ENRvHY8u
-         6SBWhedoOkPtl1Ps0X3R3PIoq9WPnYIuNjoF8Nremp/E+P5iwQa/P/JsqKQzoppRTGMC
-         yQZyDSpCnYbiLPsmp/P56GyPyIkerKj6PgU+tX3s7JeXz3Qz/O7e8Khpa3kIzN11jea0
-         sLag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766748350; x=1767353150;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rG3yfzGOWClzunz0E65P5GWckin1wsduVWf5JfNQxXI=;
-        b=xAUULjKirPX6HWrFNNVCOwthIkJwfEXF4m99SfoRn+5UXfvLrCopMXjx1UrMn6vgpT
-         hEycDcwKt185M/vqcNI8olfkVcQt2L3MvuNNB0uFuc8jA8sUrCgKdGq61QuW/zC3l3Nl
-         Rj28dOH8CET5l/1cBruPXiBUcVTd68FRKg0+jrgHT0bg801aaZf+YO/2APrwaZdb+rya
-         tS5enx2h2b7qoGqfP9r/W6cTjNw/qLeriad7Jfff8WCfUDNRnDl99mhKRXUnqNiC4Mhc
-         gb2rkVeshRJNP6Ohd3Az8daUuXSwuuc4FGheVpHIj7a/V2AiGgHnKZBtYb4DDfh4E3If
-         /y1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWvhtoXIyhpRKG6CCM1vIBUUmU6PTCHNVSC+CWNcQubpObIOguHWRu/JW82j4X6mhI4YpcSxPLrT8o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylCnXUSAcwX1MjbMN8EzLpF/ZoegXxJXRguYPHztO3mzawy5ad
-	YprV50VZ30vNanYZetb+OZbgpfqZbXioh1hjTrrMqlHfpyxQAkRFcQ50kF7MNw==
-X-Gm-Gg: AY/fxX7DlqRtrNss9grfvB5LTbNBuSxpGpEaWDLdCm/NDSmzK/Wo/XxU1cw96Axbb8j
-	voffXrlfPkWh3aYcomEOl+N4cLY1C8gCCGeOzDf2D98W2SNoYk+C0xgc0or/89Ev2fRBW5W5QLP
-	Q1kO/EEoX8wx3VHDYDgsJ3yXHeeGbl+0o4YaM8bAeRGp4CXWFynC3rID1BRAUJGk8X3FwTdL0ly
-	ncPA8m1kertreB5rqmDii0yVTyjbnaKOZkXiNsXHL9mq8HQ6RNmWbf9HTlUAc9fDqgGlGcPLpL0
-	wTk4QYJEdlcUrfaZOG0XuFah4z2S4Q8+c4MdRllKnqDEYyibPFtCumAzl0m8bly5L8Tn2L+Yq4g
-	Kt0fXjDhJdbYByeP+xVzaLmjKWgCtcQzREsXrEvkE2swMfu4NVz1z/gKFxscbJslRS3PwmEs/7T
-	xMObNfftSilljy7ZrV57A8I8SAYK+BaujknpkEUgS+rKigR3SD4iFyvoeCAzDPa00S7yk=
-X-Google-Smtp-Source: AGHT+IFvxUUIVtl/opokiIhs1V713buvrzbKH2dsA+g5PcBxYNWGDI8GIA9K4X3Uu0JLeU6wXx9bYQ==
-X-Received: by 2002:a05:6a00:e87:b0:7b2:2d85:ae59 with SMTP id d2e1a72fcca58-7ff64211602mr19775642b3a.11.1766748350236;
-        Fri, 26 Dec 2025 03:25:50 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7af29dcfsm21917626b3a.17.2025.12.26.03.25.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Dec 2025 03:25:49 -0800 (PST)
-Message-ID: <6c156080-04ac-48be-b0ae-5b784883188b@gmail.com>
-Date: Fri, 26 Dec 2025 20:25:47 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C9K1oaYh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766750605; x=1798286605;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vHunlvmukqxNcLg1AKttbuvmdR6WNAohauZhB/yPjEo=;
+  b=C9K1oaYh1Bps8eX5GWb0/APVGPUEzKvTHQ9fuwXH7xOoRHM8FYWoNCFZ
+   OkbWqszk8gfTyTCnMIs1RZKlLLXjbfOR4Z7tBc+83zlJojhShNcG9R5Sn
+   BNLPI1tzb9cQNPWfXLcAeSWdRm2EU6fI8ybuD50fLp3aOmN3hWqxlQZd7
+   wQc+tCXdC5vM1RJGi9dnCymxosksapqG1HeuqsPHVDzJtkTIJEqX4VrD7
+   Q2ftyQ5UqnLMcDaFc1LkNodyTWhnpWnajOpRQFoXDIKSCTl0U0FC5ryx6
+   xaQ3hv1185ajY2mKV0E6c0lqyQtM9NUGoj0/AgkkTYmdHFwYJg5npIdzW
+   g==;
+X-CSE-ConnectionGUID: 1vwizhsKQvCEnMYmjZmWmQ==
+X-CSE-MsgGUID: OYNnQ03qTEqqR9bw7KF4Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79956626"
+X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
+   d="scan'208";a="79956626"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 04:03:25 -0800
+X-CSE-ConnectionGUID: 4kzBdwJyQLCY/t/Xssi/kg==
+X-CSE-MsgGUID: TeVIqIAVQFypWu/8wA03jA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
+   d="scan'208";a="201304487"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Dec 2025 04:03:24 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vZ6XR-000000006sC-2eej;
+	Fri, 26 Dec 2025 12:03:21 +0000
+Date: Fri, 26 Dec 2025 13:03:09 +0100
+From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sashal:spec 111/131] htmldocs: Documentation/driver-api/basics:75:
+ ./kernel/signal.c:5448: WARNING: Definition list ends without a blank line;
+ unexpected unindent. [docutils]
+Message-ID: <202512261340.vl5w1fvo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: ja_JP: Start translation of submitting-patches
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <20251222093334.2402526-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20251222093334.2402526-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kurita-san,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: 56df6f6c1c97a778da82fad64b7e60be5cce2a9d [111/131] kernel/api: add API specification for sys_sigaltstack
+reproduce: (https://download.01.org/0day-ci/archive/20251226/202512261340.vl5w1fvo-lkp@intel.com/reproduce)
 
-On Mon, 22 Dec 2025 18:33:34 +0900, Akiyoshi Kurita wrote:
-> Start a new Japanese translation of Documentation/process/submitting-patches.rst.
-> 
-> As suggested by Akira Yokosawa, instead of moving the outdated 2011 translation
-> (SubmittingPatches), we are starting a fresh translation of the current
-> English document.
-> 
-> This patch adds the initial file structure, the warning about the document
-> being under construction, and the translation of the introduction section.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512261340.vl5w1fvo-lkp@intel.com/
 
-English version of submitting-patches.rst says:
+All warnings (new ones prefixed by >>):
 
-  - The body of the explanation, line wrapped at 75 columns, which will
-    be copied to the permanent changelog to describe this patch.
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5018: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5025: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5028: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5032: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5033: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/driver-api/basics:75: ./kernel/signal.c:5448: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5456: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5448: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5489: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5500: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5506: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 
-, to which your changelog fails to comply ...
-
-You need to prove yourself as a promising translator of the doc by
-abiding the guidelines described in it as much as possible.
-Please do strict self-reviews before submitting a respin.
-
-Further comments follow.
-
-> 
-> The translation work will be done incrementally.
-> 
-
-Instead of calling out my full name above, you can use a Suggested-by tag:
-
-Suggested-by: Akira Yokosawa <akiyks@gmail.com>
-Link: https://lore.kernel.org/298d3a9c-41c1-4cbd-b4ab-d3009df9388c@gmail.com/
-
-This is also mentioned in the English doc.
-
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  Documentation/translations/ja_JP/index.rst    |  1 +
->  .../ja_JP/process/submitting-patches.rst      | 32 +++++++++++++++++++
->  2 files changed, 33 insertions(+)
->  create mode 100644 Documentation/translations/ja_JP/process/submitting-patches.rst
-> 
-> diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
-> index 4159b417bfdd..5d47d588e368 100644
-> --- a/Documentation/translations/ja_JP/index.rst
-> +++ b/Documentation/translations/ja_JP/index.rst
-> @@ -13,6 +13,7 @@
->  
->     disclaimer-ja_JP
->     process/howto
-> +   process/submitting-patches
->     process/submit-checklist
->  
->  .. raw:: latex
-> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> new file mode 100644
-> index 000000000000..1ef10ee7cbf6
-> --- /dev/null
-> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> @@ -0,0 +1,32 @@
-> +.. _jp_process_submitting_patches:
-> +
-> +パッチの投稿: カーネルにコードを入れるための必須ガイド
-> +======================================================
-> +
-> +.. note::
-> +
-> +   このドキュメントは :ref:`Documentation/process/submitting-patches.rst <submittingpatches>` の日本語訳です。
-> +
-> +   翻訳に関するご意見、誤植の指摘などは、Linuxカーネルドキュメント日本語翻訳プロジェクト
-> +   <https://linux-kernel-docs-jp.osdn.jp/> へ連絡してください。
-
-Hmm, I have no idea of "Linuxカーネルドキュメント日本語翻訳プロジェクト" and
-the site.  As a matter of fact, the site has a bogus certificate and I'm not
-able to see what it is.  Don't sneak in any dubious info.
-
-> +
-> +   免責事項: :ref:`translations_ja_JP_disclaimer`
-> +
-> +.. warning::
-> +
-> +   **UNDER CONSTRUCTION!!**
-> +
-> +   この文書は翻訳更新の作業中です。最新の内容は原文を参照してください。
-> +
-> +Linux カーネルに変更を加えたいと思っている個人や企業にとって、
-> +その「仕組み」に慣れていなければ、投稿のプロセスは時に気後れするものでしょう。
-> +この文書は、コードをカーネルに入れるための、主に技術的かつ手続き的な
-> +手順の概要を説明することを目的としています。
-> +
-> +もしこの文書を読んでいるあなたの目的が、単にバグ報告を送信することであれば、
-> +Documentation/admin-guide/reporting-issues.rst
-> +を参照してください。
-> +
-> +この文書自体も長大ですが、詳細な手順書というわけではありません。
-> +詳細については :ref:`Documentation/process/submit-checklist.rst <submitchecklist>`
-> +を参照してください。
-
-I expected to see a full translation of leader paragraphs up to Line 26 of
-the original.  Can you do it?
-
-As for "Linuxカーネルドキュメント日本語翻訳プロジェクト", (or "Linux kernel
-document Japanese docs project" [???]), do you have a plan to start
-such a project on your own?
-
-Thanks, Akira
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
