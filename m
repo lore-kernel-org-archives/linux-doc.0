@@ -1,171 +1,129 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E63725771
-	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 02:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636941A7264;
+	Fri, 26 Dec 2025 02:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766717225; cv=none; b=fV1JWAxhI9Db7RC0SDWsoZGMYpP7pGJnirrcmwn1htOsFO5WH2mELGaA4oaQSTbpyCBeQKF2zrjJdiA9VckXRfulYyn6dFMFXaO+o62sg4yNJ2WUJEIKlxlVUJBLXFn1aLITUNIavBTt2unomHQrztAAwm/owK3gdgSUzzCgFdc=
+	t=1766717637; cv=none; b=eXNwCFxN7oJ/FT/C8tLicvTm2HLzyAWR9LAcRg31xC8QiZfXXeTVkXB6Ou+Ei/K0UajUh9xSE3iKHozovGEyQrvA2Lht4J9Coit9DXjuyxsAKzFu2rPHxi+bcqi7aKk9TQynsJ7y4XAfCRVAZ48z8y3a4D8pHTdECOlDeaOtDbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766717225; c=relaxed/simple;
-	bh=xJiiTZNZCL31DvVz90Wx0EslqHC3mu+ygpLgc6tnU0k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WROZxzhxBGSUbcE4x6n3xP2JDCgQ0HHiHehohR4PU3iY2aJTLp+ekp2BonDUbayzJiGMac30EGi3fuTI2p2vR8bJJkJglKJUS3jxUxUT0CyetORPDbi+7XMKldvT9MDHNoirrEwxupfNmcD1MrU5YH+N5CnmSoEni98MCvDpPsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IYxrDFvX; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766717637; c=relaxed/simple;
+	bh=OHjl3JQxL/6xfLqlXiRj90uFkadQP6C1PA3i60+bZ1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uC2wwVOb/eLoNKIqhXny26wbjimt5Yuss3TDY9i0ojRWRJGRUGUCIUcLmpyRHVr2QdCbjg3rrLIjuQZ1OCpIwdWi7E/UOLx8guaTHZfQoym14eF5i/tgO9XL5UhierPcxkaQGiAnFpjoJzXsz/Tq12CnXrFCDUW5asIgGtfzTPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RO1dmih0; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IYxrDFvX"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-64b92abe63aso10820392a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Dec 2025 18:47:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766717221; x=1767322021; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sc6VFXAWg98c93WjxpNUKPTmn+y7MpCFPtCQUe/fiGU=;
-        b=IYxrDFvXirNlaYZhCO4Ed5lMBHRKYrqSPdbo4a9almOQ3pVoMtVuG5z8iMyYV+0avf
-         smA+2iCugSw6cRA3nxnEYBF6qdDJ6KvdJ4j2c8imtZ4iv+OuIoqoAScgpemvfsIUL3s6
-         i+UPCELFVMrCjIg8RUiW4JPIKM2Q2N3oLqKLZybrV78GK/jfBjpjYmzfd0AABdpAj2zU
-         87RxrifbZ25QHGDI5cRpfpbqMBvX3mHxcvPwdGIrLjkG5+29ssJ2xQYF8agZVXuYcJSL
-         YvPh5d2mFWP8lcCvPBXZyC0Hwaokx5y/mVOEW9A32kh/1tzA8UdWZWPo5y7MC9E4M31O
-         OmUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766717221; x=1767322021;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Sc6VFXAWg98c93WjxpNUKPTmn+y7MpCFPtCQUe/fiGU=;
-        b=NCY3ePZ0UWY+xopxA//sCXmHIhId2P89Ig/f5ppqgoUP6FO3eultaMwT4eCruO0h33
-         Rjq+HlfGA1uP4Hal5r2lLwN6CfLhsCc0LoAyZzYCuWXup8pb821lPml65+H4KS761fC1
-         jz9c1urjPEjftlCyEBHwKKSWzrbgwcq18rqCv1VTC/A6Vbsn+y0OUcyKdObg0aiX6GsW
-         3p/7jI6hMHkyJttUFqvzdGv3wV1oWlC6yzutRnDVGpgznR8s8iXah1W5juGaFyVaPdpV
-         GV4JQMho+tZeQXz8Gos2AR30MtRUS7JrQQfLQURs3EMmIgm5J5FN9RAqOYoJOuPYA4v0
-         poYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVy02qYpPdCA6L1TJU9bdCBrIR1DyZ5R/ZSumYCy0W3lJi3xrZYIholwdKFUeh0pMlbE3KizRdd5ug=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmzBYy+OBQJ435Y0p7SpsK5t6cKRBAfb51lZZhhVZmWMe8i3Gf
-	Evd7rqvQeVu9t4Rt2zBJkH8zGcUBTGiV9pMxc70DqvAIM02cxQ9Re3HrfwRGcnHNLRpENKq0ulT
-	05AUBdlzlt98b0sIU21j3Nu8DsD7Z8L4=
-X-Gm-Gg: AY/fxX7VhFkWRL4T+to4QOVlnmhTB+WBSftcWRfXMip7kYss+n8Mru8Mnbad9fFu8dv
-	Ho8E/y1zv1XHPjl2twp7dLBFnivxCPDAPO5HPWuCWbMtszztJxTbb8hq6gu0MEhCGG5M3dWTMkd
-	yMLydQyPZlhtN591Tan+BO1LUbcEgnBg/jxk1kQ/hhbYJGijrN2/LiMq8qcn1o3SVPeQAcxOlFU
-	QHu0tGunyeImaICMEuip8sgiV3lkEZo64LtFu5sY2JXEi9V4JmMOvldsZIvKysRGfGnIF9f
-X-Google-Smtp-Source: AGHT+IEIYVIBnbesVoRgIXaKl0qIn6Gn7v9LA2ZlbmCmdpsuWPSHYk6K4E/+9S+Uq59Gj5Yu4Th1cjDN8S21bie23E8=
-X-Received: by 2002:a05:6402:1454:b0:649:b492:70b1 with SMTP id
- 4fb4d7f45d1cf-64b8e2a6fb8mr23973347a12.0.1766717221216; Thu, 25 Dec 2025
- 18:47:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RO1dmih0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766717636; x=1798253636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OHjl3JQxL/6xfLqlXiRj90uFkadQP6C1PA3i60+bZ1g=;
+  b=RO1dmih0ITDteP+3zO7EnUUFfn9rIJVYNeMsqoiX3RSPWa3ZIfQF52i3
+   nieTlNkogdTOdxSC+KELGp57AlmQExLNdhe0ZgFGrcfMFWg/fM34Jo9Lv
+   YuHz5Otf/ez95GqfQDa+7XqXM8+kOseFRSOuuNx48XSmrbcUwL/MM8tKW
+   kcEUcuz3NGlOyt5UpG58O3ZAegENBP+3MTmx2vdyMvEf9di3clPA+AbW7
+   L3oVzjiHPt08kui8kSsXvS2WX7gX7zi0qx18k28Dq9U7rO4XxjskC0etH
+   CO7MpuSb3ve8UDcosu36+ZdpkFQzQ9F3DuNIyhZ9i+93+5YDgZoHpL54w
+   g==;
+X-CSE-ConnectionGUID: 0rbkGTa/Qh2YhQEXYDxxdw==
+X-CSE-MsgGUID: x9L/4vj2RBWHqFMEov9i7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72114565"
+X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
+   d="scan'208";a="72114565"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 18:53:55 -0800
+X-CSE-ConnectionGUID: mhY8JzCbR66budecBOyQaQ==
+X-CSE-MsgGUID: 1bSeLnFiR/61fphAl5AtKQ==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 25 Dec 2025 18:53:52 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vYxxd-000000004dV-3Rmn;
+	Fri, 26 Dec 2025 02:53:49 +0000
+Date: Fri, 26 Dec 2025 10:53:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mark.rutland@arm.com,
+	mathieu.desnoyers@efficios.com, corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, sean@ashe.io,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [v2 PATCH 1/1] tracing: Add bitmask-list option for
+ human-readable bitmask display
+Message-ID: <202512261011.nLEYLg1y-lkp@intel.com>
+References: <20251225080216.2196411-2-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251224084821.2092169-1-hsu.yungteng@gmail.com> <490569f8-a434-4297-b11e-ad34ddc4ae1e@kernel.org>
-In-Reply-To: <490569f8-a434-4297-b11e-ad34ddc4ae1e@kernel.org>
-From: Yungteng Hsu <hsu.yungteng@gmail.com>
-Date: Fri, 26 Dec 2025 10:46:50 +0800
-X-Gm-Features: AQt7F2rVQjHxlmfBvtqyMd7ayXMOkDaSIbnZF65eOCKeZ-ZxhtBPf_e7OEAJUDo
-Message-ID: <CAFT9tykPEt+zTREF9C4AXtGp0qDh_65LjHZCK9F=NFhE-K4dGQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: add STEF48H28
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251225080216.2196411-2-atomlin@atomlin.com>
 
-Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2025=E5=B9=B412=E6=9C=8824=
-=E6=97=A5=E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:03=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> On 24/12/2025 09:48, Charles Hsu wrote:
-> > Add device tree bindings for the hot-swap controller STEF48H28.
-> >
-> > Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
-> > ---
->
->
-> Where is any changelog? You keep sending versions but you never
-> responded, never said what happened with this.
->
-Thank you for your feedback.
-I realize now that I misunderstood the process.
-I previously thought that the changes needed to be included in the cover le=
-tter.
-I will follow the proper procedure for discussing updates in the thread.
+Hi Aaron,
 
-> >  .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 43 +++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,st=
-ef48h28.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28=
-.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> > new file mode 100644
-> > index 000000000000..c6a4b02bcd84
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
-> > @@ -0,0 +1,43 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: STMicroelectronics hot-swap controller with PMBus interface
-> > +
-> > +maintainers:
-> > +  - Charles Hsu <hsu.yungteng@gmail.com>
-> > +
-> > +description: |
-> > +  The STEF48H28 is an advanced 30A integrated electronic fuse for
-> > +  the 9-80V DC power lines.
-> > +
-> > +  Datasheet:
-> > +    https://www.st.com/resource/en/data_brief/stef48h28.pdf
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - st,stef48h28
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        pmic@11 {
->
-> Your description says something else? Confusing.
-Sorry for the confusion in the previous version, the datasheet link
-was incorrect.
->
->
-> > +            compatible =3D "st,stef48h28";
-> > +            reg =3D <0x11>;
->
-> You keep ignoring comments. Can you start responding to them?
-I have updated the patch accordingly.
-This device is not a regulator.
-It is a power monitor, so regulator properties like supplies or
-adjustable voltage are not applicable.
->
-> NAK
->
-> > +        };
-> > +    };
->
->
-> Best regards,
-> Krzysztof
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tracing-Add-bitmask-list-option-for-human-readable-bitmask-display/20251225-160415
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251225080216.2196411-2-atomlin%40atomlin.com
+patch subject: [v2 PATCH 1/1] tracing: Add bitmask-list option for human-readable bitmask display
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251226/202512261011.nLEYLg1y-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261011.nLEYLg1y-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512261011.nLEYLg1y-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/trace_events.h:7,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:95,
+                    from include/linux/syscalls_api.h:1,
+                    from kernel/sched/sched.h:61,
+                    from kernel/sched/rq-offsets.c:5:
+>> include/linux/trace_seq.h:145:1: error: redefinition of 'trace_seq_bitmask'
+     145 | trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/trace_seq.h:139:1: note: previous definition of 'trace_seq_bitmask' with type 'void(struct trace_seq *, const long unsigned int *, int)'
+     139 | trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
+         | ^~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1299: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/trace_seq_bitmask +145 include/linux/trace_seq.h
+
+   143	
+   144	static inline void
+ > 145	trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
+   146			  int nmaskbits)
+   147	{
+   148	}
+   149	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
