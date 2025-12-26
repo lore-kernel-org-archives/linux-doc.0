@@ -1,136 +1,290 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from h3cspam02-ex.h3c.com (smtp.h3c.com [221.12.31.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3393822578A;
-	Fri, 26 Dec 2025 03:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D27A800;
+	Fri, 26 Dec 2025 04:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=221.12.31.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766719615; cv=none; b=ELTfsI+9QTTGD4eY50OsKgDc/1DI9FUev0JC2S6FGeJUWN3GsEkje1u7MDFsUEEng+RhY54Ia0MY3J8bSUTJaDdWw0FJP9kURsTqSKIGP1cUxgZbd3ClTK9nNEB8lUzt10iiX/9d9Lyu3MV/24uuwVhp/2qAICBXXHSa4SxuF4A=
+	t=1766723695; cv=none; b=tV1W4OrPLMASE5XwG9hxX91pkoKrv2HhBD/IIW76J4xw5wNipWj/puaEuzPJQGyw38ciCbw3UZFtFr7SQWAgL3iYxAw8ZoELqVTZn1el0uee3DyYbR01ciqE4HVCGevfqQhxXJFcFanN/LKzAx2P0IYMo9mIswmRoCdOVag3WqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766719615; c=relaxed/simple;
-	bh=bdESPG6kYwFVKxwuQPFl2ZPm+AZZfjNUnusgyG1k2/o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kmQVzEZMPWxBouMuboNWwqNOGpCaOm6/bC0DqnVrZuJ6gNhlR5Xt2P4ZwBIufluheuJw8ljVqq0AE1wFhRwEIG+vNJIGgyJgyEXfCNBvpJLfp6SMgq4cFaqB0UQu0Pwe6FelMvUbkfxlfVOUJRQiUgVkxyadOk7AgQK0eIjarcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ymcKDWEO; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ymcKDWEO"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=f+F/viYca39p1Scw4ETy7gaIKOd1WZNZftpY5CnhqVg=;
-	b=ymcKDWEOIMxcv87/Wz8mhawN6Kjdv6c882ip2Q/iw9Rnzewqxu9Wvx42ENaNaxurflXF8Ntwj
-	hb+83MxjCMkXgAn+rf0zIeuTcd9N05GIqsq8pZr8hkOabCqnvUO5yTzBSGmOUBvJZPpJ7ixcw18
-	lqamx2bSaEx9r9QhKW7ITbE=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4dcrYK6g7nzmV6d;
-	Fri, 26 Dec 2025 11:23:33 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8BBB740563;
-	Fri, 26 Dec 2025 11:26:42 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 26 Dec
- 2025 11:26:41 +0800
-Message-ID: <66e5ccea-9cc2-429e-856d-e3f420a8b2b2@huawei.com>
-Date: Fri, 26 Dec 2025 11:26:41 +0800
+	s=arc-20240116; t=1766723695; c=relaxed/simple;
+	bh=kAflsedmPoklNnX6M7a3gucLcd5yQcWe/35MCeVdjqw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aR1cOzK0Fl4NR6nXW/RwaaYJT+LHI5FoZCc7x+lV1E96qV3+1pAIN/Q4FXmFhou5d2LbBADL00GbXY0JZ+L1igMr7DHmx2xJRlEk6DHH/GKSwn2L4SESAXVcLy5X0VkLwy8eOkcy6W/q7ibtPP7OqKpKdeUuBsHBgnu1YgSDiWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com; spf=pass smtp.mailfrom=h3c.com; arc=none smtp.client-ip=221.12.31.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=h3c.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h3c.com
+Received: from mail.maildlp.com ([172.25.15.154])
+	by h3cspam02-ex.h3c.com with ESMTP id 5BQ4YYHG015666;
+	Fri, 26 Dec 2025 12:34:34 +0800 (+08)
+	(envelope-from ning.le@h3c.com)
+Received: from DAG6EX08-BJD.srv.huawei-3com.com (unknown [10.153.34.10])
+	by mail.maildlp.com (Postfix) with ESMTP id AB9A320051E3;
+	Fri, 26 Dec 2025 12:43:26 +0800 (CST)
+Received: from localhost.localdomain (10.114.186.44) by
+ DAG6EX08-BJD.srv.huawei-3com.com (10.153.34.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1258.27; Fri, 26 Dec 2025 12:34:33 +0800
+From: ningle <ning.le@h3c.com>
+To: <corbet@lwn.net>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <zhang.chunA@h3c.com>,
+        ningle <ning.le@h3c.com>
+Subject: [PATCH] Subject: [PATCH] proc/stat: document uptime-based CPU utilization calculation
+Date: Fri, 26 Dec 2025 12:34:09 +0800
+Message-ID: <20251226043409.1063711-1-ning.le@h3c.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/11] cpufreq: CPPC: make scaling_min/max_freq
- read-only when auto_sel enabled
-To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
-	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
-	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20251223121307.711773-1-sumitg@nvidia.com>
- <20251223121307.711773-11-sumitg@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <20251223121307.711773-11-sumitg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf200001.china.huawei.com (7.202.181.227)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BJSMTP02-EX.srv.huawei-3com.com (10.63.20.133) To
+ DAG6EX08-BJD.srv.huawei-3com.com (10.153.34.10)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:h3cspam02-ex.h3c.com 5BQ4YYHG015666
 
-On 2025/12/23 20:13, Sumit Gupta wrote:
-> When autonomous selection (auto_sel) is enabled, the hardware controls
-> performance within min_perf/max_perf register bounds making the
-> scaling_min/max_freq effectively read-only.
-> 
-> Enforce this by setting policy limits to min/max_perf bounds in
-> cppc_verify_policy(). Users must use min_perf/max_perf sysfs interfaces
-> to change performance limits in autonomous mode.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/cppc_cpufreq.c | 32 +++++++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index b1f570d6de34..b3da263c18b0 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -305,7 +305,37 @@ static unsigned int cppc_cpufreq_fast_switch(struct cpufreq_policy *policy,
->  
->  static int cppc_verify_policy(struct cpufreq_policy_data *policy)
->  {
-> -	cpufreq_verify_within_cpu_limits(policy);
-> +	unsigned int min_freq = policy->cpuinfo.min_freq;
-> +	unsigned int max_freq = policy->cpuinfo.max_freq;
-> +	struct cpufreq_policy *cpu_policy;
-> +	struct cppc_cpudata *cpu_data;
-> +	struct cppc_perf_caps *caps;
-> +
-> +	cpu_policy = cpufreq_cpu_get(policy->cpu);
+Many userspace tools derive CPU utilization from /proc/stat by taking
+deltas between successive samples of the per-CPU time fields and using
+the sum of all field deltas as the total time window.
 
-Better to use:
+On systems where CPU time accounting (including idle) is tick based and
+derived from jiffies (e.g. CONFIG_NO_HZ is disabled), this method is
+internally consistent: both the numerator and the denominator are based
+on the same tick granularity, and the sampling interval is implicitly
+defined by how many ticks were accounted.
 
-	struct cpufreq_policy *cpu_policy __free(put_cpufreq_policy) = cpufreq_cpu_get(policy->cpu);
+In practice, several issues show up:
 
-> +	if (!cpu_policy)
-> +		return -ENODEV;
-> +
-> +	cpu_data = cpu_policy->driver_data;
-> +	caps = &cpu_data->perf_caps;
+  - userspace sampling timers are often configured with periods that are
+    an integer multiple of the kernel tick; when the workload pattern
+    has a similar period and aligns with the tick, individual ticks can
+    be charged as fully busy if they hit short non-idle sections, even
+    if the CPU was idle for most of that tick;
 
-cpu_policy, cpu_data and cpas are only used in the if branch. Just put them
-in it.
+  - on CONFIG_HZ=1000 systems, a common 1 ms userspace sampling timer
+    effectively samples at tick granularity; for very short or bursty
+    workloads the reported utilization in a given window can differ
+    significantly from the average depending on alignment;
 
-> +
-> +	if (cpu_data->perf_ctrls.auto_sel) {
-> +		u32 min_perf, max_perf;
-> +
-> +		/*
-> +		 * Set policy limits to HW min/max_perf bounds. In autonomous
-> +		 * mode, scaling_min/max_freq is effectively read-only.
-> +		 */
-> +		min_perf = cpu_data->perf_ctrls.min_perf ?:
-> +			   caps->lowest_nonlinear_perf;
-> +		max_perf = cpu_data->perf_ctrls.max_perf ?: caps->nominal_perf;
-> +
-> +		policy->min = cppc_perf_to_khz(caps, min_perf);
-> +		policy->max = cppc_perf_to_khz(caps, max_perf);
-> +	} else {
-> +		cpufreq_verify_within_limits(policy, min_freq, max_freq);
+  - scheduler delays and timer jitter can cause the actual sampling
+    interval to deviate from the nominal one (e.g. 1 s), which leads to
+    unstable utilization readings between consecutive samples, even if
+    the underlying workload is relatively stable.
 
-Why not still using cpufreq_verify_within_cpu_limits()?
+The inaccuracy and instability of short-window measurements can result
+in misinterpretation of CPU load in production environments. In many
+deployments, advanced tracing tools (such as eBPF-based profilers) are
+not always available or desirable for continuous monitoring, so a simple
+but well-defined userspace method is useful.
 
-> +	}
-> +
-> +	cpufreq_cpu_put(cpu_policy);
->  	return 0;
->  }
->  
+Modern kernels also provide:
+
+  - wall-clock time since boot via CLOCK_BOOTTIME and /proc/uptime;
+  - high-resolution CPU time accounting (including idle/iowait) when
+    NOHZ and virtual CPU accounting are enabled.
+
+Userspace can use these facilities to obtain more accurate and more
+stable CPU utilization over arbitrary intervals, including short ones.
+
+This patch extends the /proc/stat documentation with:
+
+  - a description of the traditional jiffy-delta method and the
+    assumptions under which it is appropriate;
+
+  - a recommended pattern for using CLOCK_BOOTTIME (or /proc/uptime)
+    together with idle/iowait deltas from /proc/stat on systems with
+    high-resolution CPU accounting, to improve robustness of CPU
+    utilization reporting in production environments;
+
+  - a note about possible vendor-specific extensions that add an
+    in-kernel timestamp to /proc/stat to reduce the impact of userspace
+    scheduling latency, while documenting that upstream kernels do not
+    currently expose such a field.
+
+The patch only updates documentation and does not change any ABI.
+
+Signed-off-by: ningle <ning.le@h3c.com>
+---
+ Documentation/filesystems/proc.rst | 162 +++++++++++++++++++++++++++++
+ 1 file changed, 162 insertions(+)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 8256e857e..90a83c334 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1619,6 +1619,168 @@ of the possible system softirqs. The first column is the total of all
+ softirqs serviced; each subsequent column is the total for that particular
+ softirq.
+ 
++CPU utilization and sampling interval
++-------------------------------------
++
++Many userspace tools compute CPU utilization from the ``cpu`` lines in
++``/proc/stat`` by taking deltas between two samples and using the sum
++of all CPU time deltas as the total time window. A typical
++implementation looks like::
++
++  read /proc/stat -> user1, nice1, system1, idle1, iowait1, ...
++  sleep(1)
++  read /proc/stat -> user2, nice2, system2, idle2, iowait2, ...
++
++  delta_user   = user2   - user1
++  delta_idle   = idle2   - idle1
++  delta_iowait = iowait2 - iowait1
++  delta_total  = sum(all fields2) - sum(all fields1)
++
++  utilization  = (delta_total - delta_idle - delta_iowait) / delta_total
++
++On systems where CPU time accounting (including idle) is tick based and
++derived from jiffies (for example, when CONFIG_NO_HZ is disabled),
++``delta_total`` is effectively the number of timer ticks charged to
++this CPU over the sampling interval. In that case this method is
++internally consistent: both the numerator and denominator are based on
++the same tick granularity, and the sampling interval is implicitly
++defined by how many ticks were accounted. For purely tick-based
++accounting this is a reasonable way to report utilization.
++
++This scheme has some limitations:
++
++  - the resolution of the measurement is limited by the tick interval
++    (for example, HZ=1000 gives 1ms granularity), so very short or
++    bursty workloads can be significantly distorted by how they align
++    with the timer tick;
++
++  - userspace sampling periods are often configured as integer
++    multiples of the kernel tick; if short bursts of activity happen
++    to align with the tick, entire ticks can be accounted as busy even
++    if the CPU was idle for most of the tick, which can cause large
++    deviations between short-window utilization and the long-term
++    average;
++
++  - it does not make use of higher-resolution accounting that is
++    available when NOHZ and virtual CPU accounting are enabled.
++
++Modern kernels provide primitives that userspace can use to improve CPU
++utilization estimates:
++
++  - wall-clock time since boot can be obtained from ``clock_gettime()``
++    with CLOCK_BOOTTIME, or from ``/proc/uptime``;
++
++  - when NOHZ and virtual CPU accounting (CONFIG_VIRT_CPU_ACCOUNTING_*)
++    are enabled, CPU time (including idle and iowait) is typically
++    accounted using high-resolution time sources in the scheduler and
++    accounting code, rather than relying solely on periodic timer ticks.
++    This makes idle accounting much more precise than in purely
++    jiffies-based setups.
++
++Userspace can check which accounting mode is in use, for example by
++inspecting the kernel configuration (CONFIG_NO_HZ,
++CONFIG_VIRT_CPU_ACCOUNTING_*) or, at runtime, via
++``/sys/devices/system/cpu/nohz_full`` and related interfaces. On
++systems without virtual CPU accounting and without NOHZ, CPU time is
++typically accounted purely in jiffies, and the traditional jiffy-delta
++method described above remains appropriate. On systems with
++high-resolution CPU accounting, a different pattern can provide more
++accurate results.
++
++Recommended userspace pattern with precise idle accounting
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++When NOHZ and virtual CPU accounting are enabled and idle/iowait are
++accounted independently of the periodic tick, a more robust way to
++derive CPU utilization over an interval is:
++
++  - measure the elapsed wall-clock time using CLOCK_BOOTTIME (or
++    ``/proc/uptime``);
++
++  - obtain per-CPU (or global) idle and iowait counters from
++    ``/proc/stat`` at the beginning and end of the interval;
++
++  - compute the idle fraction from these counters, and treat the
++    remaining time as busy.
++
++In pseudocode::
++
++  t1 = clock_gettime(CLOCK_BOOTTIME)
++  read /proc/stat -> idle1, iowait1, user1, nice1, system1, ...
++  ...
++  t2 = clock_gettime(CLOCK_BOOTTIME)
++  read /proc/stat -> idle2, iowait2, user2, nice2, system2, ...
++
++  delta_t_ns    = t2 - t1
++  delta_idle    = (idle2 + iowait2) - (idle1 + iowait1)
++  delta_user    = user2  - user1
++  delta_nice    = nice2  - nice1
++  delta_system  = system2- system1
++
++  /* convert CPU time counters (in USER_HZ) to nanoseconds */
++  idle_ns       = delta_idle   * (NSEC_PER_SEC / USER_HZ)
++  user_ns       = delta_user   * (NSEC_PER_SEC / USER_HZ)
++  nice_ns       = delta_nice   * (NSEC_PER_SEC / USER_HZ)
++  system_ns     = delta_system * (NSEC_PER_SEC / USER_HZ)
++
++  total_window  = delta_t_ns
++  idle_window   = min_t(u64, idle_ns, total_window)
++  busy_window   = (total_window > idle_window) ?
++                  (total_window - idle_window) : 0;
++
++  /* overall CPU utilization over [t1, t2] */
++  utilization   = busy_window * 100 / total_window;
++
++  /*
++   * Optionally, distribute the busy time over user/nice/system/... in
++   * proportion to their deltas:
++   */
++  sum_nonidle_ns = user_ns + nice_ns + system_ns + ...;
++  if (sum_nonidle_ns) {
++          user_share   = busy_window * user_ns   / sum_nonidle_ns;
++          system_share = busy_window * system_ns / sum_nonidle_ns;
++          ...
++  }
++
++This approach:
++
++  - uses the actual elapsed wall-clock time (delta_t_ns) instead of a
++    nominal sleep interval, so it remains correct even if the sampling
++    task is delayed by the scheduler;
++
++  - leverages precise idle/iowait accounting when CONFIG_NO_HZ and
++    CONFIG_VIRT_CPU_ACCOUNTING_* are enabled;
++
++  - allows userspace to fall back to the traditional jiffy-based method
++    on systems where CPU time is still accounted purely in jiffies.
++
++Private extensions and in-kernel timestamps
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The scheme above relies on userspace pairing a timestamp obtained via
++CLOCK_BOOTTIME (or ``/proc/uptime``) with a read of ``/proc/stat``.
++On upstream kernels this is the recommended and portable approach.
++
++For environments that ship a custom kernel and control both kernel and
++userspace, it is also possible to reduce the impact of userspace
++scheduling latency even further by exposing an in-kernel timestamp
++directly in ``/proc/stat``. For example, a vendor-specific kernel could
++add a line such as::
++
++  timestamp_boottime <ticks_since_boot>
++
++where ``<ticks_since_boot>`` is derived from the boottime clock
++(CLOCK_BOOTTIME) and reported in the same USER_HZ units as the CPU time
++fields. The timestamp would be generated in ``show_stat()`` alongside
++the CPU counters, so that userspace can treat all values as a
++consistent snapshot taken at the same time.
++
++Such an extension can help tools compute the elapsed time window as the
++difference between two ``timestamp_boottime`` values without relying on
++separate syscalls, and can make CPU utilization accounting more robust
++on heavily loaded systems. However, any new field in ``/proc/stat`` is
++a kernel ABI change and must be introduced with care: the upstream
++kernel currently does not expose such a timestamp.
+ 
+ 1.8 Ext4 file system parameters
+ -------------------------------
+-- 
+2.33.0
 
