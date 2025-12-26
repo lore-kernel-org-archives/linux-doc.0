@@ -1,129 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636941A7264;
-	Fri, 26 Dec 2025 02:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97C61A7264;
+	Fri, 26 Dec 2025 02:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766717637; cv=none; b=eXNwCFxN7oJ/FT/C8tLicvTm2HLzyAWR9LAcRg31xC8QiZfXXeTVkXB6Ou+Ei/K0UajUh9xSE3iKHozovGEyQrvA2Lht4J9Coit9DXjuyxsAKzFu2rPHxi+bcqi7aKk9TQynsJ7y4XAfCRVAZ48z8y3a4D8pHTdECOlDeaOtDbE=
+	t=1766717759; cv=none; b=iMuGcWSNIUYWPIXNAfz2gGTwhvgCU7li0XCNcdc9lx1IcDjbBXTPH5TTzCDHq0tSbRENMYPQWrF9I/K0/ZTyjZNfIc0wLaK9z3ZDBZeqfaM5EKKoAKGxRpoa4gQt0kGNEp+rP8/gZLg5ys1hS0roAF0uu8BsCcBaRr7oFa1rXg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766717637; c=relaxed/simple;
-	bh=OHjl3JQxL/6xfLqlXiRj90uFkadQP6C1PA3i60+bZ1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uC2wwVOb/eLoNKIqhXny26wbjimt5Yuss3TDY9i0ojRWRJGRUGUCIUcLmpyRHVr2QdCbjg3rrLIjuQZ1OCpIwdWi7E/UOLx8guaTHZfQoym14eF5i/tgO9XL5UhierPcxkaQGiAnFpjoJzXsz/Tq12CnXrFCDUW5asIgGtfzTPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RO1dmih0; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766717759; c=relaxed/simple;
+	bh=NDVC20or6vbM5v7zfCOELIkvuAf/hPZSNFlMyHD9xSw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=q1Qdu0ZZjDP70dl4P8Igq33El5sKaZ6hbWlHJe4+hUtsASFNzGNxQDhFQYNEsDVnDqeDf9f/9Wq5gXZ7P7oZ2iHemuidmQv4iHCeTFnYABZRs1TInzxz2MrJS9MMq0yQfafDpjwVETSaopISwyfFJDvLcUIMuAhZrRCo3+arjVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=BaCFn/mu; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RO1dmih0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766717636; x=1798253636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OHjl3JQxL/6xfLqlXiRj90uFkadQP6C1PA3i60+bZ1g=;
-  b=RO1dmih0ITDteP+3zO7EnUUFfn9rIJVYNeMsqoiX3RSPWa3ZIfQF52i3
-   nieTlNkogdTOdxSC+KELGp57AlmQExLNdhe0ZgFGrcfMFWg/fM34Jo9Lv
-   YuHz5Otf/ez95GqfQDa+7XqXM8+kOseFRSOuuNx48XSmrbcUwL/MM8tKW
-   kcEUcuz3NGlOyt5UpG58O3ZAegENBP+3MTmx2vdyMvEf9di3clPA+AbW7
-   L3oVzjiHPt08kui8kSsXvS2WX7gX7zi0qx18k28Dq9U7rO4XxjskC0etH
-   CO7MpuSb3ve8UDcosu36+ZdpkFQzQ9F3DuNIyhZ9i+93+5YDgZoHpL54w
-   g==;
-X-CSE-ConnectionGUID: 0rbkGTa/Qh2YhQEXYDxxdw==
-X-CSE-MsgGUID: x9L/4vj2RBWHqFMEov9i7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72114565"
-X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="72114565"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 18:53:55 -0800
-X-CSE-ConnectionGUID: mhY8JzCbR66budecBOyQaQ==
-X-CSE-MsgGUID: 1bSeLnFiR/61fphAl5AtKQ==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Dec 2025 18:53:52 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vYxxd-000000004dV-3Rmn;
-	Fri, 26 Dec 2025 02:53:49 +0000
-Date: Fri, 26 Dec 2025 10:53:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mark.rutland@arm.com,
-	mathieu.desnoyers@efficios.com, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, sean@ashe.io,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [v2 PATCH 1/1] tracing: Add bitmask-list option for
- human-readable bitmask display
-Message-ID: <202512261011.nLEYLg1y-lkp@intel.com>
-References: <20251225080216.2196411-2-atomlin@atomlin.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="BaCFn/mu"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Cmh4XqQkEkjzKjqus+Vwf6F7A0kN8cGTEmwXX0cJbS0=;
+	b=BaCFn/muyiypuU6FUvWU6ynBF6seDr9F7uVDeYcZ4N5rYKedBtzr+wK7RNeXLBetpKrmZnOaH
+	nXwIlQR+qyWqTVtSyMlXoYrLbvgGxYnt4viRaxT5xjGYxK7G7MYPX8vo0ZHIhBON8SCzIPUGsxE
+	PEFf28cMlsPCdqn88P8Bmq4=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4dcqsp0Y4rzRhQm;
+	Fri, 26 Dec 2025 10:52:46 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 62D1740562;
+	Fri, 26 Dec 2025 10:55:54 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 26 Dec
+ 2025 10:55:53 +0800
+Message-ID: <ae4ff90a-d2c4-4c13-9d65-a0f266bb4b4b@huawei.com>
+Date: Fri, 26 Dec 2025 10:55:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251225080216.2196411-2-atomlin@atomlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 09/11] cpufreq: CPPC: sync policy limits when toggling
+ auto_select
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
+	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
+	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
+	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-10-sumitg@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <20251223121307.711773-10-sumitg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-Hi Aaron,
+On 2025/12/23 20:13, Sumit Gupta wrote:
+> When CPPC autonomous selection (auto_select) is enabled or disabled,
+> the policy min/max frequency limits should be updated appropriately to
+> reflect the new operating mode.
+> 
+> Currently, toggling auto_select only changes the hardware register but
+> doesn't update the cpufreq policy constraints, which can lead to
+> inconsistent behavior between the hardware state and the policy limits
+> visible to userspace.
+> 
+> Add cppc_cpufreq_update_autosel_config() function to handle the
+> auto_select toggle by syncing min/max_perf values with policy
+> constraints. When enabling auto_sel, restore preserved min/max_perf
+> values to policy limits. When disabling, reset policy to defaults
+> while preserving hardware register values for later use.
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  drivers/cpufreq/cppc_cpufreq.c | 112 +++++++++++++++++++++++++++------
+>  1 file changed, 92 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index 0202c7b823e6..b1f570d6de34 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -544,14 +544,20 @@ static void populate_efficiency_class(void)
+>   * cppc_cpufreq_set_mperf_limit - Set min/max performance limit
+>   * @policy: cpufreq policy
+>   * @val: performance value to set
+> + * @update_reg: whether to update hardware register
+>   * @update_policy: whether to update policy constraints
+>   * @is_min: true for min_perf, false for max_perf
+>   *
+> + * When @update_reg is true, writes to HW registers and preserves values.
+>   * When @update_policy is true, updates cpufreq policy frequency limits.
+> + *
+> + * @update_reg is false when disabling auto_sel to preserve HW values.
+> + * The preserved value is used on next enabling of the autonomous mode.
+>   * @update_policy is false during cpu_init when policy isn't fully set up.
+>   */
+>  static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+> -					bool update_policy, bool is_min)
+> +					bool update_reg, bool update_policy,
+> +					bool is_min)
+>  {
+>  	struct cppc_cpudata *cpu_data = policy->driver_data;
+>  	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+> @@ -563,19 +569,22 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>  
+>  	perf = clamp(val, caps->lowest_perf, caps->highest_perf);
+>  
+> -	ret = is_min ? cppc_set_min_perf(cpu, perf) :
+> -		       cppc_set_max_perf(cpu, perf);
+> -	if (ret) {
+> -		if (ret != -EOPNOTSUPP)
+> -			pr_warn("Failed to set %s_perf (%llu) on CPU%d (%d)\n",
+> -				is_min ? "min" : "max", (u64)perf, cpu, ret);
+> -		return ret;
+> -	}
+> +	if (update_reg) {
+> +		ret = is_min ? cppc_set_min_perf(cpu, perf) :
+> +			       cppc_set_max_perf(cpu, perf);
+> +		if (ret) {
+> +			if (ret != -EOPNOTSUPP)
+> +				pr_warn("CPU%d: set %s_perf=%llu failed (%d)\n",
+> +					cpu, is_min ? "min" : "max",
+> +					(u64)perf, ret);
+> +			return ret;
+> +		}
+>  
+> -	if (is_min)
+> -		cpu_data->perf_ctrls.min_perf = perf;
+> -	else
+> -		cpu_data->perf_ctrls.max_perf = perf;
+> +		if (is_min)
+> +			cpu_data->perf_ctrls.min_perf = perf;
+> +		else
+> +			cpu_data->perf_ctrls.max_perf = perf;
+> +	}
+>  
+>  	if (update_policy) {
+>  		freq = cppc_perf_to_khz(caps, perf);
+> @@ -592,11 +601,74 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>  	return 0;
+>  }
+>  
+> -#define cppc_cpufreq_set_min_perf(policy, val, update_policy) \
+> -	cppc_cpufreq_set_mperf_limit(policy, val, update_policy, true)
+> +#define cppc_cpufreq_set_min_perf(policy, val, update_reg, update_policy)     \
+> +	cppc_cpufreq_set_mperf_limit(policy, val, update_reg, update_policy,  \
+> +				     true)
+> +
+> +#define cppc_cpufreq_set_max_perf(policy, val, update_reg, update_policy)     \
+> +	cppc_cpufreq_set_mperf_limit(policy, val, update_reg, update_policy,  \
+> +				     false)
+> +
+> +/**
+> + * cppc_cpufreq_update_autosel_config - Update autonomous selection config
+> + * @policy: cpufreq policy
+> + * @is_auto_sel: enable/disable autonomous selection
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
+> +					      bool is_auto_sel)
+> +{
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+> +	u64 min_perf = caps->lowest_nonlinear_perf;
+> +	u64 max_perf = caps->nominal_perf;
+> +	unsigned int cpu = policy->cpu;
+> +	bool update_reg = is_auto_sel;
+> +	bool update_policy = true;
+> +	int ret;
+> +
+> +	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> +
+> +	if (is_auto_sel) {
+> +		/* Use preserved values if available, else use defaults */
+> +		if (cpu_data->perf_ctrls.min_perf)
+> +			min_perf = cpu_data->perf_ctrls.min_perf;
+> +		if (cpu_data->perf_ctrls.max_perf)
+> +			max_perf = cpu_data->perf_ctrls.max_perf;
+> +	}
 
-kernel test robot noticed the following build errors:
+So if !is_auto_sel, min_perf and max_perf reg will be set to
+lowest_nonlinear_perf and nominal_perf, but perf_ctrls.min_perf and
+perf_ctrls.max_perf remain the old value. A little bit strange I think. And
+when this happen, min_freq_req and max_freq_req will retain the value last
+set by the users through min_perf and max_perf. It's that alright?
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +
+> +	/*
+> +	 * Set min/max performance and update policy constraints.
+> +	 *   When enabling: update both HW registers and policy.
+> +	 *   When disabling: update policy only, preserve HW registers.
+> +	 * Continue even if min/max are not supported, as EPP and autosel
+> +	 * might still be supported.
+> +	 */
+> +	ret = cppc_cpufreq_set_min_perf(policy, min_perf, update_reg,
+> +					update_policy);
+> +	if (ret && ret != -EOPNOTSUPP)
+> +		return ret;
+> +
+> +	ret = cppc_cpufreq_set_max_perf(policy, max_perf, update_reg,
+> +					update_policy);
+> +	if (ret && ret != -EOPNOTSUPP)
+> +		return ret;
+> +
+> +	/* Update auto_sel register */
+> +	ret = cppc_set_auto_sel(cpu, is_auto_sel);
+> +	if (ret && ret != -EOPNOTSUPP) {
+> +		pr_warn("Failed to set auto_sel=%d for CPU%d (%d)\n",
+> +			is_auto_sel, cpu, ret);
+> +		return ret;
+> +	}
+> +	if (!ret)
+> +		cpu_data->perf_ctrls.auto_sel = is_auto_sel;
+> +
+> +	return 0;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tracing-Add-bitmask-list-option-for-human-readable-bitmask-display/20251225-160415
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20251225080216.2196411-2-atomlin%40atomlin.com
-patch subject: [v2 PATCH 1/1] tracing: Add bitmask-list option for human-readable bitmask display
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251226/202512261011.nLEYLg1y-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261011.nLEYLg1y-lkp@intel.com/reproduce)
+Better to return ret.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512261011.nLEYLg1y-lkp@intel.com/
+> +}
+> +
+>  
+> -#define cppc_cpufreq_set_max_perf(policy, val, update_policy) \
+> -	cppc_cpufreq_set_mperf_limit(policy, val, update_policy, false)
+>  static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>  {
+>  	struct cppc_cpudata *cpu_data;
+> @@ -889,7 +961,7 @@ static ssize_t store_auto_select(struct cpufreq_policy *policy,
+>  	if (ret)
+>  		return ret;
 
-All errors (new ones prefixed by >>):
+Since you already store auto_sel value in perf_ctrls, We can compare the
+new value with perf_ctrls.auto_sel here, and just return if they are the
+same.
 
-   In file included from include/linux/trace_events.h:7,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:95,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/rq-offsets.c:5:
->> include/linux/trace_seq.h:145:1: error: redefinition of 'trace_seq_bitmask'
-     145 | trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/trace_seq.h:139:1: note: previous definition of 'trace_seq_bitmask' with type 'void(struct trace_seq *, const long unsigned int *, int)'
-     139 | trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
-         | ^~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1299: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>  
+> -	ret = cppc_set_auto_sel(policy->cpu, val);
+> +	ret = cppc_cpufreq_update_autosel_config(policy, val);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1005,7 +1077,7 @@ static ssize_t store_min_perf(struct cpufreq_policy *policy, const char *buf,
+>  	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
+>  
+>  	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> -	ret = cppc_cpufreq_set_min_perf(policy, perf,
+> +	ret = cppc_cpufreq_set_min_perf(policy, perf, true,
+>  					cpu_data->perf_ctrls.auto_sel);
+>  	if (ret)
+>  		return ret;
+> @@ -1063,7 +1135,7 @@ static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+>  	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
+>  
+>  	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> -	ret = cppc_cpufreq_set_max_perf(policy, perf,
+> +	ret = cppc_cpufreq_set_max_perf(policy, perf, true,
+>  					cpu_data->perf_ctrls.auto_sel);
+>  	if (ret)
+>  		return ret;
 
-
-vim +/trace_seq_bitmask +145 include/linux/trace_seq.h
-
-   143	
-   144	static inline void
- > 145	trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
-   146			  int nmaskbits)
-   147	{
-   148	}
-   149	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
