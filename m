@@ -1,122 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6E817A2FC;
-	Sat, 27 Dec 2025 09:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB32E17993
+	for <linux-doc@vger.kernel.org>; Sat, 27 Dec 2025 12:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766829285; cv=none; b=huRsHnn1OMNXMG+zaZogB8CRwCbGmnHzI8hC9GbxmoAhb1nvi3fxxP378xtQEBGpW3XBRbhe6EF4LApDObQvnhxrSYGqFNkK9707oOmwkIxS7fOjsyo/5svwbF7EH5SDLSW8zbtibby8dMFaHKQxp8NDVP49Ubnxp/jbyz/2kl8=
+	t=1766840148; cv=none; b=Xnm0Pw62qZvxARkBkPMAKBN6BfAFx9Id1O8/3VxlSZCm3o9Y3JpNWr501zS+iVghxK88hQ1avlvsJpSvra1yiBHWU37aM+I6d9aHZuPeFxsbVgdo1Apycb5GOQ9hQFQrrqKzgtPH1z/pWrt7BnL+c+o+yAn8DjTN109F5N8ngm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766829285; c=relaxed/simple;
-	bh=Ky7LqFUiFeL0ivcTjN19Eav+OqAGEwFRZrjCsNjRqrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ITdPY9evZ82Y2/LcrxSh6lAuost24xfyN78zksV8pskHNF6vBds3C91Tm95ndEyBPi2/+94ZI3MNWhZHWInTiOSu2l5ItxG4IMEwkTaxU+7jkqjU/1QuhdKJIiDfG4lO89MSEmDrbtIxdt5E+YI71ZKGMdBgZli7ISkhBfFVcjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5Fng3ju; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766840148; c=relaxed/simple;
+	bh=a4t4aeiqwYHeKbZFJ8E2uM1R3FbuCHOHNu2himfx/x8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=q9ZWtJJfu9VvcpJZKBk6ZNNbrTaU51XlC8CcmWcqB5qh+ZjjEFCz6vcJXvjxK+tkS+aDfyOLTxP8k8zaRLjzJlmMzvJ0Aunb8opqLHKtUHoGQzxOElTr0eCn7Tx/bg1Qms021LxdtwmTI+ZuzpsFp+OcTYiIjoEmOm5cb3lQ1eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BytbE5zc; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5Fng3ju"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766829285; x=1798365285;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ky7LqFUiFeL0ivcTjN19Eav+OqAGEwFRZrjCsNjRqrw=;
-  b=G5Fng3jupZN5tQkrhwG3pnz5k1sgaDWITE0zBphZGpLX7vG6hxyNiv/6
-   skJvv92WTOLFEN6JiLDpd0ndjMltCnIo7n4PU8o7ArihK3g/96RsiuOKf
-   6n3+pTRkVfeDZNa0tHb0GKS1UiNxbmJCphYg/cfW6PlRCj2r6w1ygMALu
-   yhYHp3Vi1S32eC5JEdEEw6hELMRgts9OWamkdGuRXgp7Ck+18TRNKNFBp
-   FpLvkQ1YV365cDeXQbuLuSrUHZeubDrBDzBDDPIrgiNqwAIR0ytzvFPdZ
-   36eO2S4oNUJ4+2IQZi9gs4eI6wKG7j4suujQH61p51cMjtqzbz5367Qzu
-   g==;
-X-CSE-ConnectionGUID: Y5CF/zrQQtO8H0PlRGLfMw==
-X-CSE-MsgGUID: 8i8wtxcKQ06+r+c2MiQ+QQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68429899"
-X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="68429899"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 01:54:44 -0800
-X-CSE-ConnectionGUID: /EliFEKZQeKY1t3uvyxKiw==
-X-CSE-MsgGUID: EhErDzhLS2+n1gmfMnjIoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="199665797"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 27 Dec 2025 01:54:41 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vZR0Q-000000005iv-1Rpp;
-	Sat, 27 Dec 2025 09:54:38 +0000
-Date: Sat, 27 Dec 2025 17:53:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lucas Wei <lucaswei@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, sjadavani@google.com,
-	Lucas Wei <lucaswei@google.com>, stable@vger.kernel.org,
-	kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: errata: Workaround for SI L1 downstream coherency
- issue
-Message-ID: <202512271720.e5kDPkoP-lkp@intel.com>
-References: <20251226074106.3751725-1-lucaswei@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BytbE5zc"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-431048c4068so4265386f8f.1
+        for <linux-doc@vger.kernel.org>; Sat, 27 Dec 2025 04:55:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766840145; x=1767444945; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IueLC0I+lVb6Qbt0ks5icQeQ9Cq2EAoaOypYMEZKv38=;
+        b=BytbE5zcx7GlUJxEUUrRow+nwWkkQZcIP1f7Q4I49nNo+c2uqvB/HGqq9UXPF7mNqq
+         mgNERIjkdFqT0OJjpH+zK0aej+adN0c+onGAENwDFnt2gU+dKmjDSuvN43K0U6EjPBIY
+         YsvaPbgXwJAucRDCnlKYTNU6x84MekT4h+bJgA9D2+yhLQw9pf06X6EoPn1ot2CLQtln
+         /hZ4AW658w/6PWVHGj+/baE660ZDrp4+TOprxOhyXM+nF3saANxWt8N2YINiKxFBUq3W
+         ac3J/0CtHD4k1k30MpHIM3Ots/aK6FhhXPaaUdA1/idmiA2kTJPvxKyUWX3BTTBFEhnO
+         DOTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766840145; x=1767444945;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IueLC0I+lVb6Qbt0ks5icQeQ9Cq2EAoaOypYMEZKv38=;
+        b=Oec/hVwa4X87di+MZic6E0v0XFfxVSksyTpuASqbRoS7KFmTRO3kN5D4vceOlIYZxk
+         cAPZsmunV6JBqIIG9x1zIpQW2v+maO9GKOjsqjHJsaOd0Y01U7X5RvqPWYeAoEKGlHmC
+         dw1x56zYR+CZNQY7khrGWIZ+zo1vJK++cONXJeM6vLKMXyvwxbm80Pic4AdaLQlgO6ra
+         Odgx3aEkVyT5wJQX4YpCc2ptfMleKUMKuKoyDV3RCmwJg2WV3kGeL234kncfB6NgX7y9
+         7cYBflZ3FEOENNqcWmIrruhgtRxmB79x5JcVkDuGQFC/N/4ewYd1QrUndY8b1boEHeU5
+         zvug==
+X-Forwarded-Encrypted: i=1; AJvYcCXi5k5a0Zr9obFZjOriKplf6ebelWaoUglyeyLQZVoG1QUiWgiNtURdA3WfUJjmlTLOHTNv0G+Zttw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkLoXovbO5GIEG+Rdwl1xsvMNIwwghs3mXgfSZ9aZVw1MDMXl+
+	9XhaGsbg+U57eSUIca/OBVw7C3Ikm6iSwj6erA9KV6x8UwWg2/2ZYk0n
+X-Gm-Gg: AY/fxX5ZVrHLsfKl4YScOpvwuwRHKuG8HbbceJ64p9Ct5fq463Rnfb+IOlYu7Efy60Z
+	xeZZ8VztvZi/QW6kysClYbKcooqnCmrOhW009mu/ER/FbWIYV9Sg1uh+618OD+GLbtzJTEs62SH
+	5YihDlrX7bbfz1lY5wtU+lvN60TS68izfZzDngOqxPRHj+N2HfPV2hdw44Po714bdGyAvhpyas4
+	FXzJQe7zuMwBdmcdgRyn0LDUOmatNi3InxkZIVZ44Z1NRFtjfI3fqyZk5lqkahXFd6JgaoyMZ+G
+	QzWF2tsB/yyMs8Vaa2TC3QoSU6q3OStVsvHxAiPXqbIHMM994Y1IzJK6tZfNMFTyqybaId7YHsT
+	wXnY3wPNKJaW7XhXBI5DIKt9Xj6L4xI04cG09nKvqL3szkoqV7i6JOUPF3ZTsX/oVagYG5D5b1k
+	HKwUz6mZ2D/d4b0DIIB5OQ1k+XQTgn7pKT
+X-Google-Smtp-Source: AGHT+IHOEk0Ola8X6xsiCBhyLaJzjrT5S0J18Qc0O5jnYcRHADmYVvfpoRPXZ5oRkSUp1TvFis0x5A==
+X-Received: by 2002:a05:6000:2dc1:b0:430:f3bd:720a with SMTP id ffacd0b85a97d-432448ca08emr34327091f8f.27.1766840144987;
+        Sat, 27 Dec 2025 04:55:44 -0800 (PST)
+Received: from localhost.localdomain ([188.51.201.184])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea830f3sm49548534f8f.22.2025.12.27.04.55.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Dec 2025 04:55:44 -0800 (PST)
+From: mustafaelrasheid@gmail.com
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mustafa Elrasheid <mustafaelrasheid@gmail.com>
+Subject: [PATCH v3] docs: Makefile: wrap SPHINXDIRS help text
+Date: Sat, 27 Dec 2025 15:52:44 +0300
+Message-Id: <20251227125244.6407-1-mustafaelrasheid@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <88fe4b63-13cd-47ce-8408-1e9d6f947b3a@infradead.org>
+References: <88fe4b63-13cd-47ce-8408-1e9d6f947b3a@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251226074106.3751725-1-lucaswei@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Lucas,
+From: Mustafa Elrasheid <mustafaelrasheid@gmail.com>
 
-kernel test robot noticed the following build warnings:
+When using `make help`, SPHINXDIR doesn't wrap around 80 characters,
+causing text to overflow or wrap in incorrect ways,
+which then makes the text difficult to read
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on arm-perf/for-next/perf arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Mustafa Elrasheid <mustafaelrasheid@gmail.com>
+---
+v3:
+  - Moved SPHINXDIRS to a new line for better readability
+  - Added `-g 75` to increase the goal of fmt instead of 93% of `-w 75`
+v2:
+  - Added '-s' in fmt to prevent word segmenting at the end of lines.
+  - Reduced width in `fmt -w` to account for the added indentation of
+    `sed`
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Wei/arm64-errata-Workaround-for-SI-L1-downstream-coherency-issue/20251226-154541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20251226074106.3751725-1-lucaswei%40google.com
-patch subject: [PATCH] arm64: errata: Workaround for SI L1 downstream coherency issue
-config: arm64-randconfig-r123-20251227 (https://download.01.org/0day-ci/archive/20251227/202512271720.e5kDPkoP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271720.e5kDPkoP-lkp@intel.com/reproduce)
+ Documentation/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512271720.e5kDPkoP-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kernel/cpu_errata.c:145:1: sparse: sparse: symbol 'arm_si_l1_workaround_4311569' was not declared. Should it be static?
-   arch/arm64/kernel/cpu_errata.c:444:18: sparse: sparse: Initializer entry defined twice
-   arch/arm64/kernel/cpu_errata.c:445:17: sparse:   also defined here
-   arch/arm64/kernel/cpu_errata.c:450:18: sparse: sparse: Initializer entry defined twice
-   arch/arm64/kernel/cpu_errata.c:451:17: sparse:   also defined here
-   arch/arm64/kernel/cpu_errata.c:757:17: sparse: sparse: Initializer entry defined twice
-   arch/arm64/kernel/cpu_errata.c:758:18: sparse:   also defined here
-
-vim +/arm_si_l1_workaround_4311569 +145 arch/arm64/kernel/cpu_errata.c
-
-   143	
-   144	#ifdef CONFIG_ARM64_ERRATUM_4311569
- > 145	DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
-   146	static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
-   147	{
-   148		static_branch_enable(&arm_si_l1_workaround_4311569);
-   149		pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
-   150	
-   151		return 0;
-   152	}
-   153	early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
-   154	
-
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e96ac6dcac4f..377a449656c8 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -98,7 +98,8 @@ dochelp:
+ 	@echo  '  cleandocs       - clean all generated files'
+ 	@echo
+ 	@echo  '  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2'
+-	@echo  '  top level values for SPHINXDIRS are: $(_SPHINXDIRS)'
++	@echo  '  top level values for SPHINXDIRS are:'
++	@echo  '$(_SPHINXDIRS)' | fmt -s -w 75 -g 75 | sed 's/^/    /'
+ 	@echo  '  you may also use a subdirectory like SPHINXDIRS=userspace-api/media,'
+ 	@echo  '  provided that there is an index.rst file at the subdirectory.'
+ 	@echo
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+
