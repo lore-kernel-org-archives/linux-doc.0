@@ -1,132 +1,122 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564122D9F7
-	for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 23:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6E817A2FC;
+	Sat, 27 Dec 2025 09:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766793270; cv=none; b=nSC0YDS2S4QINte00M4UHPOQTPA0o/pa12a9HkjAFxwvWmlys4ioSzNE5zCyD8RwMkWP/BYb7IMQuWRKRA6VlgP1uZlsLZFdCKsFmikkQLwDYF07oBxQr2ZDriDKiuBPSFgCsZB1UtbLBtuYXFzHkUM7ik7IREkVNtpiEfbA5VQ=
+	t=1766829285; cv=none; b=huRsHnn1OMNXMG+zaZogB8CRwCbGmnHzI8hC9GbxmoAhb1nvi3fxxP378xtQEBGpW3XBRbhe6EF4LApDObQvnhxrSYGqFNkK9707oOmwkIxS7fOjsyo/5svwbF7EH5SDLSW8zbtibby8dMFaHKQxp8NDVP49Ubnxp/jbyz/2kl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766793270; c=relaxed/simple;
-	bh=1SdlCZOHH1KcWWYXNTcQtIYihCh8YljUkPPX7+T+Z3k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oc1YjN9HVDJYwCmXvbe2q5fmukd6pufI1yLP9eiN0E2sHs/CIk0r8z3Ulesy14Z70pIF+tFafDxk6NqJYi2NUGM4+GfrMta6fyEp14ktgEsoElqLad9ISykV1csB7FT48mvxLJYL4HRMH4rl4GfxEtawE03oTTk43W0K1QgmRtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=agvX5hlA; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766829285; c=relaxed/simple;
+	bh=Ky7LqFUiFeL0ivcTjN19Eav+OqAGEwFRZrjCsNjRqrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ITdPY9evZ82Y2/LcrxSh6lAuost24xfyN78zksV8pskHNF6vBds3C91Tm95ndEyBPi2/+94ZI3MNWhZHWInTiOSu2l5ItxG4IMEwkTaxU+7jkqjU/1QuhdKJIiDfG4lO89MSEmDrbtIxdt5E+YI71ZKGMdBgZli7ISkhBfFVcjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5Fng3ju; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="agvX5hlA"
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso10501845b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 26 Dec 2025 15:54:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766793267; x=1767398067; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7rRrf9jdBX343iQYo4lj0lM0On8e8PTdq9pmhf6wv5Y=;
-        b=agvX5hlAeWVZM/7fqir6cRmeDDiMVL0FX2QPCOXzpddMtpXUcQ76gIWOInWEoW681/
-         HBzIX9riWfjLnzhgJ93RPcKSP+J/KJik+y6rPtXHXqhgZl5tchJos0dSLr9giAdCtu/8
-         fT0pVRp4MrF1PTj3vEiJusCI4NPV6dwiPcHFJeOeqWHEB7f3slg7u+2NZN3AHM/892va
-         My5zq0Shdzr8rJvO7ligK8U911+3IHVYGG0nawzDcQ1dC+Tp9n+2vpbEjOEwHaboqPQc
-         TmJ9cv+w5WujcYl/cH8NpoZg+WD3G4vZbOHJdBcFGHDOlGBCA7aixlBitbBtp6MbOfQ1
-         uiCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766793267; x=1767398067;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7rRrf9jdBX343iQYo4lj0lM0On8e8PTdq9pmhf6wv5Y=;
-        b=HHD3q7198+alRwOZE6GX5OokTifi5KcjQjKuiQySa8xonGURjOsk/70m01e/4cT5h9
-         A6ZYZ3ySN+3LHrR1EWP9Gp+HcixZobbSC5vgB6NRXbjlLtUBwk3EsuPYHnEUdQaDaVBp
-         qrvzvC99AP6uRNl9MLYPzOEVAkrVVcdM9GiFVODoVC4ECAltcoK5iru2Ix5q7RKBebV6
-         9LM5jzvBfMNVPlpnZtS6DVMVI/Dr3dbtERvqFvFT5lPwR/4G01mPl69bjTnkF9iLx8GT
-         aN93ZI6tyi8QD4Owu7cGz4mCU5z1J+4mqyzJU8sMavBommwJZlIFQi77/w31W1Z+gdfv
-         m4EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKL60g6414yo3MCBB8rvJKFFKzgalARInPhgdpN1h6S+1UyktuNhmEbq/5XQ6Rlrs7cuTCfcCzApw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxe6Pk+ixdNa/BASk9H64GcwFOx53Vmxj++X0z8C3vGy2WmRnV5
-	VN4z68DCdM8GDsocULxoippr3/LS3oF4uK43rC+sqk1ll476X0rU/FmA
-X-Gm-Gg: AY/fxX4Gly/34od0mXAent/GcJxyNViiJXOrL0zZKb1OIedJzp1QStDZpexMBpdPv1P
-	b8cwG4YvBt0urEhEy2+HY+0Ch8j62aBUxPo19CMIY2K4VJMBowPwYHVaLtdqmgVfe09ZHJBcIly
-	JC+kWg93ex5ZHUVhUHItAaWM2dsih4Zws7g+EHSLL0dmmtOgfD8E/BaBYQgciKSnWpLUlmF/15g
-	Evnkd2NelpTMoSOT6f/Hqt20vF/ElL2Qr/PtdyGgYw2dkkG2h53TUlk5srUBVfIJOhn5+BNOyD5
-	WWqcD6g3WdqlTitTDfY2nYJ7Kc0um5b2xOMAISngZym9OxsiD854W4RKpGkmOvdn/Er1fsSQr7l
-	5LxWDyZzJZwSRF1SRLs838gpEEljSJ6q2UE9w5KAEebK3KDsZacLaSADdEG4Kyi0jqV7G1hDHgp
-	qE5hJ+KoFyt/O6ZqgFujdhIAgFkUDtytrwnH49gXt8QVZ9rhEG4YEzUNzjcL6YJG4meiqk9Nk8G
-	82z
-X-Google-Smtp-Source: AGHT+IGuFiGBjFMS9oYCwzOarwUo5Emq3cwg6KxdhIJ3EU9w1ec9sB8aCPtiMnCJKi13ZbL4mqZLuQ==
-X-Received: by 2002:a05:6a00:8014:b0:7aa:e5f2:617d with SMTP id d2e1a72fcca58-7ff651c3519mr23692817b3a.30.1766793267546;
-        Fri, 26 Dec 2025 15:54:27 -0800 (PST)
-Received: from c12-ThinkPad-X1-Carbon-Gen-12 (softbank221049092147.bbtec.net. [221.49.92.147])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e48cea1sm23395216b3a.45.2025.12.26.15.54.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Dec 2025 15:54:27 -0800 (PST)
-From: Vishnu Sankar <vishnuocv@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	hmh@hmh.eng.br,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	corbet@lwn.net,
-	derekjohn.clark@gmail.com
-Cc: mpearson-lenovo@squebb.ca,
-	linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org,
-	vsankar@lenovo.com,
-	Vishnu Sankar <vishnuocv@gmail.com>
-Subject: [PATCH v5 3/3] Documentation: thinkpad-acpi - Document doubletap_enable attribute
-Date: Sat, 27 Dec 2025 08:51:01 +0900
-Message-ID: <20251226235101.106451-4-vishnuocv@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251226235101.106451-1-vishnuocv@gmail.com>
-References: <20251226235101.106451-1-vishnuocv@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5Fng3ju"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766829285; x=1798365285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ky7LqFUiFeL0ivcTjN19Eav+OqAGEwFRZrjCsNjRqrw=;
+  b=G5Fng3jupZN5tQkrhwG3pnz5k1sgaDWITE0zBphZGpLX7vG6hxyNiv/6
+   skJvv92WTOLFEN6JiLDpd0ndjMltCnIo7n4PU8o7ArihK3g/96RsiuOKf
+   6n3+pTRkVfeDZNa0tHb0GKS1UiNxbmJCphYg/cfW6PlRCj2r6w1ygMALu
+   yhYHp3Vi1S32eC5JEdEEw6hELMRgts9OWamkdGuRXgp7Ck+18TRNKNFBp
+   FpLvkQ1YV365cDeXQbuLuSrUHZeubDrBDzBDDPIrgiNqwAIR0ytzvFPdZ
+   36eO2S4oNUJ4+2IQZi9gs4eI6wKG7j4suujQH61p51cMjtqzbz5367Qzu
+   g==;
+X-CSE-ConnectionGUID: Y5CF/zrQQtO8H0PlRGLfMw==
+X-CSE-MsgGUID: 8i8wtxcKQ06+r+c2MiQ+QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="68429899"
+X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
+   d="scan'208";a="68429899"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 01:54:44 -0800
+X-CSE-ConnectionGUID: /EliFEKZQeKY1t3uvyxKiw==
+X-CSE-MsgGUID: EhErDzhLS2+n1gmfMnjIoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
+   d="scan'208";a="199665797"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 27 Dec 2025 01:54:41 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vZR0Q-000000005iv-1Rpp;
+	Sat, 27 Dec 2025 09:54:38 +0000
+Date: Sat, 27 Dec 2025 17:53:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas Wei <lucaswei@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, sjadavani@google.com,
+	Lucas Wei <lucaswei@google.com>, stable@vger.kernel.org,
+	kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: errata: Workaround for SI L1 downstream coherency
+ issue
+Message-ID: <202512271720.e5kDPkoP-lkp@intel.com>
+References: <20251226074106.3751725-1-lucaswei@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251226074106.3751725-1-lucaswei@google.com>
 
-Document the doubletap_enable sysfs attribute for ThinkPad ACPI driver.
+Hi Lucas,
 
-Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
----
- .../admin-guide/laptops/thinkpad-acpi.rst     | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-index 4ab0fef7d440..23bc84b0475d 100644
---- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-+++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-@@ -1521,6 +1521,26 @@ Currently 2 antenna types are supported as mentioned below:
- The property is read-only. If the platform doesn't have support the sysfs
- class is not created.
- 
-+doubletap_enable
-+----------------
-+
-+sysfs: doubletap_enable
-+
-+Controls whether TrackPoint doubletap events are filtered out. Doubletap is a
-+feature where quickly tapping the TrackPoint twice triggers a special function key event.
-+
-+The available commands are::
-+
-+                cat /sys/devices/platform/thinkpad_acpi/doubletap_enable
-+                echo 1 | sudo tee /sys/devices/platform/thinkpad_acpi/doubletap_enable
-+                echo 0 | sudo tee /sys/devices/platform/thinkpad_acpi/doubletap_enable
-+
-+Values:
-+	* 1 - doubletap events are processed (default)
-+	* 0 - doubletap events are filtered out (ignored)
-+
-+	This setting can also be toggled via the Fn+doubletap hotkey.
-+
- Auxmac
- ------
- 
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on arm-perf/for-next/perf arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Wei/arm64-errata-Workaround-for-SI-L1-downstream-coherency-issue/20251226-154541
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20251226074106.3751725-1-lucaswei%40google.com
+patch subject: [PATCH] arm64: errata: Workaround for SI L1 downstream coherency issue
+config: arm64-randconfig-r123-20251227 (https://download.01.org/0day-ci/archive/20251227/202512271720.e5kDPkoP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271720.e5kDPkoP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512271720.e5kDPkoP-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kernel/cpu_errata.c:145:1: sparse: sparse: symbol 'arm_si_l1_workaround_4311569' was not declared. Should it be static?
+   arch/arm64/kernel/cpu_errata.c:444:18: sparse: sparse: Initializer entry defined twice
+   arch/arm64/kernel/cpu_errata.c:445:17: sparse:   also defined here
+   arch/arm64/kernel/cpu_errata.c:450:18: sparse: sparse: Initializer entry defined twice
+   arch/arm64/kernel/cpu_errata.c:451:17: sparse:   also defined here
+   arch/arm64/kernel/cpu_errata.c:757:17: sparse: sparse: Initializer entry defined twice
+   arch/arm64/kernel/cpu_errata.c:758:18: sparse:   also defined here
+
+vim +/arm_si_l1_workaround_4311569 +145 arch/arm64/kernel/cpu_errata.c
+
+   143	
+   144	#ifdef CONFIG_ARM64_ERRATUM_4311569
+ > 145	DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
+   146	static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
+   147	{
+   148		static_branch_enable(&arm_si_l1_workaround_4311569);
+   149		pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
+   150	
+   151		return 0;
+   152	}
+   153	early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
+   154	
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
