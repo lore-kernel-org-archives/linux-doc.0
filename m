@@ -1,145 +1,244 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BC621C9FD
-	for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 11:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B784121255A;
+	Sun, 28 Dec 2025 12:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766920118; cv=none; b=CkKEEysqFt+/ZtfsQXpVSMI3hnHpOu1DKyxvqd9qjNUEmdigPP1yKflOtxyGjdDHtur9wsqqaL6jFd4MaHy96eKReW0k5Q5AA0cfqAa8XcwhBztzpL0PPOJfby5aJUxn9jd7x5ztFx7WXj0sIaCVxXvTHYN2KU4GYs5hBsngE9E=
+	t=1766925624; cv=none; b=X2HZV9Iuko6s/BNZuTmVM66nt2NiPYES/2qmCj8aHDG7SRqOcXycCBb2ICNZ7m05yr8GDmEmKJ+l8woutCL1CxUCtvHGIahij3BsQ8A/Z26CAsoTyiLPLqTLcXb+3pYZV6eqSwCp18Msdf1X0nnCwQCUq3c7CFANq4zJCYvQm7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766920118; c=relaxed/simple;
-	bh=cCQoEbKZDZp33qWLvX+R0p2njry76uwFo/l/d3KlSYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5exBIFQQF7ycXsPSn6vgpSPjB2fcaz86LZ4JkU2dLNdABDF5ufGe3mgau8JfR5D5FqjYw+V97ZIO9i3+m7iPXvGxYK+/YthMCZ+iL98oavOrnAOjlSPA0D7jxKGoFJEQYdetKN7q4bTIwLRB8fO504XBkVkVwCMMVL9LJe1oMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICWJ71YC; arc=none smtp.client-ip=209.85.221.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766925624; c=relaxed/simple;
+	bh=sXg/eGtpStxuOg/YYnTnKHLFWH8EKXy5iyUYi++8khY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LCa3M84ks60a5JEOomiBQNej45J6/L6c73MsDDKjciijINA2eiXuxkS4NucSSmiU1V7uiEFpVCTHKkVN+4GqSudCYjNnhJYIMl6ogH+n98uoktSSCMl7mn7/FIGNGL3Nt9C9/0Qd0Q0x0UkK0pmIL2ZXMoXJ3/iYnSfKnLnvgH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXSMQI8l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICWJ71YC"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-42fbc544b09so6466831f8f.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 03:08:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766920115; x=1767524915; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iS67A7Cp6V5lbhV6Bn0t65WNn8jnTNgCmtEe8liMl8c=;
-        b=ICWJ71YCOAO1LYjS9TZzyusBwKJ2OYU9ZkcYD11Z66X00CdVvzc3I148eB0xZHB90P
-         neqDVoscRN6hkCMvKVgjsXaFuB/yenpTnYrWUbPV6EKAdCqR55SJxGRAe6QEaj1wA7f0
-         rsGnpM2ESVJZ2+OvypB1YHJP7oTJnKus+NG4Ql0AnM1avxaUPIUKoJW8wEtVyKGU6xk8
-         mhzXNHw+0B/A5k8ngBVnJRiNtKrwmzLdDKNlpaIDMz0GWp1HU/zBF05M69sFvU9v5cr8
-         hEWZe4cLxfvuyUwa57mrmTVV+wTeAOsyDZ8BCsAtBX45DjKPbHvAnIH2r6le/wtbJ0Ab
-         0PCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766920115; x=1767524915;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iS67A7Cp6V5lbhV6Bn0t65WNn8jnTNgCmtEe8liMl8c=;
-        b=efX22bGus5Fl4uxSkC9olh6XxkOuB13IdYJvOYDFEW50BA3ClE7ZVqbTdmb+mNfmC5
-         2a2AgB9HU+tutW72WslwvWcteDCPMX2iBGfuGSEtx3UTNgHU216nqThRypEIORHGWWb5
-         r1b8k6+Lkljq8BVcrxN/Xiy8GBQCtDXLSMlWCoP7b54YK+SbfZDRq3uQ5mgHQ8LXdz2A
-         S4vjcdYNZzqNHTj19yVN3yXUgRCtM0IuNGN3fPphM2HKBUuPDoseBIhxafQaSDWoQ5ny
-         AYXxzOuE1wRQZRSgHeYBgrDCr9f6TRlR6LJC6aRujDLSg9rCN03QeRKeSMCbPmFjzrDF
-         8aUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWXiD9fJhfY5SK6pqjfTemGAaXXUfFV+wa5M+tb8C15l1OlXdN3AJdqeuQt9iiNNhoAOX/+TDc0pws=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznoXxIN21zYyaL/1cn2FClHIiEtsS95vzb/2GOhg1B4JjaFInW
-	I7m8aV8SfvGQyQLZVWbtkMODV/R2nFYJ4Cu3boztYkAbDDfUnZoK4YTtYogFq5zNu58=
-X-Gm-Gg: AY/fxX7uwHnNbYV1avsjNFN28jCoIcHMgYTu50pWh8V4p+GGfwkFpR41iLKkwgF4pS9
-	6N8e/DsJY0VSADFhHiqc3qPPjOw8ae5KwDJBBe4Nv5N4r6LnzT2w5FNCNsSMRxaoMssZBrTAagj
-	OqHWk9dwq5Y1A1fqQRxPPba3AbRFM0pUYI6bhMHRT1WEBtcLug0riUqJxvjcPUDKB1tWwUbwFCR
-	0KWKpZIDcuPqu9Uk1wUM/l1jsRUXRR/2ANAns6h+3qmYBQhL18ZwgPDUob4T3vGK6zUnNe2GRnp
-	cKGPfTZ29VhTvFa2E0SqqNaHNEX+FMeLqJmFRreKVAXCiQd4Gt3J3WNiz38iuJ6AU/gKeFRHUBe
-	yKJ3zLsgqStI1+DWP90+ceAbfGLUKlGetPBKLsT6yR00ss25WDeWZ16WhK2i9RDbvawdqnediub
-	X4iuJ4N2+KI4M=
-X-Google-Smtp-Source: AGHT+IFAcWvnuk72nyqLYFm+8mmOQRraM80a0h3u8p+M7GNwhLiD0iYqbsghrz5iKsELi7rOPWbPOw==
-X-Received: by 2002:a05:6000:610:b0:431:3a5:d9b2 with SMTP id ffacd0b85a97d-4324e4fd961mr39179406f8f.39.1766920115131;
-        Sun, 28 Dec 2025 03:08:35 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm56594647f8f.42.2025.12.28.03.08.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 03:08:33 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 79020423BCD3; Sun, 28 Dec 2025 18:08:28 +0700 (WIB)
-Date: Sun, 28 Dec 2025 18:08:26 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: PCI: Fix typos in msi-howto.rst
-Message-ID: <aVEPqn7votUNbrXL@archie.me>
-References: <1766713528-173281-1-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXSMQI8l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6F68C4CEFB;
+	Sun, 28 Dec 2025 12:40:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766925623;
+	bh=sXg/eGtpStxuOg/YYnTnKHLFWH8EKXy5iyUYi++8khY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JXSMQI8l5FZolejTk5mJv6quraHJlKmuF8twD40ZAWMOQZK+U7pyVygxOROMFe1B0
+	 tr8vJLMrqIcrt++LIAENoYcVcJb437aztawcxW2Ryt48u9sfI48SxSG0pjE0ivfh5n
+	 65ZIVAkGJycQK0LAPdjNnYFxj6kv4hkgMf38zWq6L2c161HN/YenbghDeWTPGysWbw
+	 SFyckrxDWUHpRNZNS/PPTejvpAV5uJxzs8W19ji6hxViDYqKZqU23ZM1n/3rjhokjT
+	 6QAFreOcfXfdT+EBPFCtGE3JapCzoxuwD9DDmvJ5sANYode+bX0kc9S3wM1fu5EwB5
+	 pxYkAtiZ4jyJQ==
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alex Shi <alexs@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Brian Cain <bcain@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Helge Deller <deller@gmx.de>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Matt Turner <mattst88@gmail.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Hocko <mhocko@suse.com>,
+	Michal Simek <monstr@monstr.eu>,
+	Mike Rapoport <rppt@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>,
+	Stafford Horne <shorne@gmail.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Will Deacon <will@kernel.org>,
+	x86@kernel.org,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org
+Subject: [PATCH 00/28] arch, mm: consolidate hugetlb early reservation
+Date: Sun, 28 Dec 2025 14:39:30 +0200
+Message-ID: <20251228124001.3624742-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FjI6l/WwqEYPyDvt"
-Content-Disposition: inline
-In-Reply-To: <1766713528-173281-1-git-send-email-shawn.lin@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+
+Hi,
+
+Order in which early memory reservation for hugetlb happens depends on
+architecture, on configuration options and on command line parameters.
+
+Some architectures rely on the core MM to call hugetlb_bootmem_alloc()
+while others call it very early to allow pre-allocation of HVO-style
+vmemmap.
+
+When hugetlb_cma is supported by an architecture it is initialized during
+setup_arch() and then later hugetlb_init code needs to understand did it
+happen or not.
+
+To make everything consistent and unified, both reservation of hugetlb
+memory from bootmem and creation of CMA areas for hugetlb must be called
+from core MM initialization and it would have been a simple change.
+However, HVO-style pre-initialization ordering requirements slightly
+complicate things and for HVO pre-init to work sparse and memory map should
+be initialized after hugetlb reservations.
+
+This required pulling out the call to free_area_init() out of setup_arch()
+path and moving it MM initialization and this is what the first 23 patches
+do.
+
+These changes are deliberately split into per-arch patches that change how
+the zone limits are calculated for each architecture and the patches 22 and
+23 just remove the calls to free_area_init() and sprase_init() from arch/*.
+
+Patch 24 is a simple cleanup for MIPS.
+
+Patches 25 and 26 actually consolidate hugetlb reservations and patches 27
+and 28 perform some aftermath cleanups.
+
+I tried to trim the distribution list and although it's still quite long
+if you feel that someone was wrongly excluded please add them back.
+
+The changes also available in git:
+https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=hugetlb-init/v1
+
+Mike Rapoport (Microsoft) (28):
+  alpha: introduce arch_zone_limits_init()
+  arc: introduce arch_zone_limits_init()
+  arm: introduce arch_zone_limits_init()
+  arm64: introduce arch_zone_limits_init()
+  csky: introduce arch_zone_limits_init()
+  hexagon: introduce arch_zone_limits_init()
+  loongarch: introduce arch_zone_limits_init()
+  m68k: introduce arch_zone_limits_init()
+  microblaze: introduce arch_zone_limits_init()
+  mips: introduce arch_zone_limits_init()
+  nios2: introduce arch_zone_limits_init()
+  openrisc: introduce arch_zone_limits_init()
+  parisc: introduce arch_zone_limits_init()
+  powerpc: introduce arch_zone_limits_init()
+  riscv: introduce arch_zone_limits_init()
+  s390: introduce arch_zone_limits_init()
+  sh: introduce arch_zone_limits_init()
+  sparc: introduce arch_zone_limits_init()
+  um: introduce arch_zone_limits_init()
+  x86: introduce arch_zone_limits_init()
+  xtensa: introduce arch_zone_limits_init()
+  arch, mm: consolidate initialization of nodes, zones and memory map
+  arch, mm: consolidate initialization of SPARSE memory model
+  mips: drop paging_init()
+  x86: don't reserve hugetlb memory in setup_arch()
+  mm, arch: consolidate hugetlb CMA reservation
+  mm/hugetlb: drop hugetlb_cma_check()
+  Revert "mm/hugetlb: deal with multiple calls to hugetlb_bootmem_alloc"
+
+ .../driver-api/cxl/linux/early-boot.rst       |  2 +-
+ Documentation/mm/memory-model.rst             |  3 -
+ .../translations/zh_CN/mm/memory-model.rst    |  2 -
+ arch/alpha/kernel/setup.c                     |  1 -
+ arch/alpha/mm/init.c                          | 16 ++--
+ arch/arc/mm/init.c                            | 37 ++++----
+ arch/arm/mm/init.c                            | 25 +----
+ arch/arm64/include/asm/hugetlb.h              |  2 -
+ arch/arm64/mm/hugetlbpage.c                   | 10 +-
+ arch/arm64/mm/init.c                          | 39 ++++----
+ arch/csky/kernel/setup.c                      | 16 ++--
+ arch/hexagon/mm/init.c                        | 19 +---
+ arch/loongarch/include/asm/pgtable.h          |  2 -
+ arch/loongarch/kernel/setup.c                 | 10 --
+ arch/loongarch/mm/init.c                      |  6 +-
+ arch/m68k/mm/init.c                           |  8 +-
+ arch/m68k/mm/mcfmmu.c                         |  3 -
+ arch/m68k/mm/motorola.c                       |  6 +-
+ arch/m68k/mm/sun3mmu.c                        |  9 --
+ arch/microblaze/mm/init.c                     | 22 ++---
+ arch/mips/include/asm/pgalloc.h               |  2 -
+ arch/mips/include/asm/pgtable.h               |  2 +-
+ arch/mips/kernel/setup.c                      | 15 +--
+ arch/mips/loongson64/numa.c                   | 10 +-
+ arch/mips/mm/init.c                           |  8 +-
+ arch/mips/sgi-ip27/ip27-memory.c              |  8 +-
+ arch/nios2/mm/init.c                          | 12 +--
+ arch/openrisc/mm/init.c                       | 10 +-
+ arch/parisc/mm/init.c                         | 11 +--
+ arch/powerpc/include/asm/hugetlb.h            |  5 -
+ arch/powerpc/include/asm/setup.h              |  4 +
+ arch/powerpc/kernel/setup-common.c            |  1 -
+ arch/powerpc/mm/hugetlbpage.c                 | 11 +--
+ arch/powerpc/mm/mem.c                         | 27 ++----
+ arch/powerpc/mm/numa.c                        |  2 -
+ arch/riscv/mm/hugetlbpage.c                   |  8 ++
+ arch/riscv/mm/init.c                          | 10 +-
+ arch/s390/kernel/setup.c                      |  2 -
+ arch/s390/mm/hugetlbpage.c                    |  8 ++
+ arch/s390/mm/init.c                           | 13 ++-
+ arch/sh/mm/init.c                             | 12 +--
+ arch/sparc/mm/init_64.c                       | 17 +---
+ arch/sparc/mm/srmmu.c                         | 17 ++--
+ arch/um/kernel/mem.c                          | 10 +-
+ arch/x86/kernel/setup.c                       |  5 -
+ arch/x86/mm/hugetlbpage.c                     |  8 ++
+ arch/x86/mm/init.c                            |  8 +-
+ arch/x86/mm/init_32.c                         |  2 -
+ arch/x86/mm/init_64.c                         |  4 -
+ arch/x86/mm/mm_internal.h                     |  1 -
+ arch/xtensa/mm/init.c                         | 14 +--
+ include/linux/hugetlb.h                       | 12 +--
+ include/linux/mm.h                            |  5 +-
+ include/linux/mmzone.h                        |  2 -
+ init/main.c                                   |  1 +
+ mm/hugetlb.c                                  | 13 ---
+ mm/hugetlb_cma.c                              | 33 ++++---
+ mm/hugetlb_cma.h                              |  5 -
+ mm/hugetlb_vmemmap.c                          | 11 ---
+ mm/internal.h                                 |  6 ++
+ mm/mm_init.c                                  | 94 +++++++++++--------
+ 61 files changed, 263 insertions(+), 424 deletions(-)
 
 
---FjI6l/WwqEYPyDvt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+-- 
+2.51.0
 
-On Fri, Dec 26, 2025 at 09:45:28AM +0800, Shawn Lin wrote:
-> diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howt=
-o.rst
-> index 0692c9a..667ebe2 100644
-> --- a/Documentation/PCI/msi-howto.rst
-> +++ b/Documentation/PCI/msi-howto.rst
-> @@ -98,7 +98,7 @@ function::
-> =20
->  which allocates up to max_vecs interrupt vectors for a PCI device.  It
->  returns the number of vectors allocated or a negative error.  If the dev=
-ice
-> -has a requirements for a minimum number of vectors the driver can pass a
-> +has a requirement for a minimum number of vectors the driver can pass a
->  min_vecs argument set to this limit, and the PCI core will return -ENOSPC
->  if it can't meet the minimum number of vectors.
-> =20
-> @@ -127,7 +127,7 @@ not be able to allocate as many vectors for MSI as it=
- could for MSI-X.  On
->  some platforms, MSI interrupts must all be targeted at the same set of C=
-PUs
->  whereas MSI-X interrupts can all be targeted at different CPUs.
-> =20
-> -If a device supports neither MSI-X or MSI it will fall back to a single
-> +If a device supports neither MSI-X nor MSI it will fall back to a single
->  legacy IRQ vector.
-> =20
->  The typical usage of MSI or MSI-X interrupts is to allocate as many vect=
-ors
-> @@ -203,7 +203,7 @@ How to tell whether MSI/MSI-X is enabled on a device
->  ----------------------------------------------------
-> =20
->  Using 'lspci -v' (as root) may show some devices with "MSI", "Message
-> -Signalled Interrupts" or "MSI-X" capabilities.  Each of these capabiliti=
-es
-> +Signaled Interrupts" or "MSI-X" capabilities.  Each of these capabilities
->  has an 'Enable' flag which is followed with either "+" (enabled)
->  or "-" (disabled).
-> =20
-
-Looks good, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---FjI6l/WwqEYPyDvt
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaVEPpAAKCRD2uYlJVVFO
-o8lxAPwOS2gp+wMNFQsULo4GT2mhXQu2EEUIBZQ7xt1v6f2uhwEA32tjq4P8Umk9
-Bbnv9R0cS3jGwDpxhm+zF3mOlMPvcAU=
-=DW07
------END PGP SIGNATURE-----
-
---FjI6l/WwqEYPyDvt--
