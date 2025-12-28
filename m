@@ -1,131 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F238F9C0
-	for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 00:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197B013D539;
+	Sun, 28 Dec 2025 02:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766881121; cv=none; b=BBBqswc5o+n4JMpglgDzG2/CkoT66Yb01T42IspI0STffK/1uh8inWZT+oD9PboumAduU2ljnzFurFYkpQ2fhb04r5Hp0gvvmrPvviRfCTEdMykyPhk7kqg+GgbNWJP2VehuwaExG43RBcdV8XIz7DYKGMQz6IncVsB79+DZaXE=
+	t=1766887372; cv=none; b=dsmB3IYvK1H5zV37NbJYG3oCg8JDVrK23GJJhchN3gqisa7bscFS3uSbp9NstZPmi2d6tRcUATWyEDeyiSURVk+OEoRvl6LhlplMP9BzIVzUqPpU7DfLl+a9KziMX9crrFV3KdmULGdVMtDxEEyrl6KLTyrN4PGl/pIvDtPpDts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766881121; c=relaxed/simple;
-	bh=mA4xZkh+IOnROo9dYqtZQB8RfI56qce5+TX4AgzD1wM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PfzxpRhKYwCG73wg3++Rv5LiOcJ1KIpP+UMczE6yuT4rnWzuGgI9Wjlh7LMLRcSdJ0gJKgcINfCOEHyRJkYtXTZk8Tf9GDddnZLWpQHQPABE9ormd1l3j1H2Qp8Vpxdq7rZLvFOfIiX7f0ujooRKoAKfy39u68ehTEpHLXONpHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ngo8rijB; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PguR7RVL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1766887372; c=relaxed/simple;
+	bh=z2IaYp58Msew3QS/60tkLCoX0j0xeHozTFQSPz4iw2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ael9reSkr/btyYbahpGZT15iqH8cGvXPlxE78Xiq7iRJJtNVO/Qfid7BNfKmOGi8rmnIP0ZFNgDum3S1nzb00irm6aPiITPQYJU0ybldWH45kRKmkfAORrEOQBlrEGkA+xu5a/uT7XMkN9q08w/Y3cacWoGiz359ZTqWRcSkp/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MA0AW7J+; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ngo8rijB";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PguR7RVL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1766881118;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wqR5WHFE7nfIedlDLTwqJJFi0bNQgjEyNOznlTwzMF8=;
-	b=Ngo8rijBYCGsJgZgJaCz9qHSr60zJ7mQsZa/yxXzF/CYTvTK+RAzWjkuI4sPh7JhkQU90r
-	IUpvJF4WxLinxQrvPSEMYJ/YIEjnYd4vmAjrTjPQyp5EW5Rnzv4oAa5MOWGwmVC/aw/vV4
-	PXA7/7FQxuHb17H9ZhLzECg3qxn3dnY=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-pL09DumdOguLHuRbIDyr-Q-1; Sat, 27 Dec 2025 19:18:36 -0500
-X-MC-Unique: pL09DumdOguLHuRbIDyr-Q-1
-X-Mimecast-MFC-AGG-ID: pL09DumdOguLHuRbIDyr-Q_1766881116
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4edb6a94873so158402911cf.0
-        for <linux-doc@vger.kernel.org>; Sat, 27 Dec 2025 16:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1766881116; x=1767485916; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wqR5WHFE7nfIedlDLTwqJJFi0bNQgjEyNOznlTwzMF8=;
-        b=PguR7RVLE5JckiN+14NI9GPZQ5Pjjf04DE8514XGXgd1zcZZsVm7QZTUNz8oypV8zg
-         o9NHfcS8tHd+XKRZ9C7Ojxk1CiX6o42sPeGOYVSAAgRrFn+jkLDRCIuj/oAAFOL3IY57
-         I1xZEcowhLLHMmGhx7pw+IbtDOPgtFhok4/K0J4dLk51BlAtvpjz6bmPkxfeI6tMRYBg
-         3X8kW2ctg15yj9Cr5rDlIALHQpkmcHriMaCJQTlld3zkLTD+tGcAZUCaXssD5W5Sqt56
-         r/PR848zXW/1W4r1KtjFi200D1bptsKSGjvnMS1+YuG7WJuH3AWcDApT4nlC9r6WJUOF
-         IDfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766881116; x=1767485916;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wqR5WHFE7nfIedlDLTwqJJFi0bNQgjEyNOznlTwzMF8=;
-        b=Lb43SPeuSFVPi6r1mvN0i0unqs32MDZrJRuC/il6WvJGUeJmh5nWmo0cU47whxKoLs
-         5SNeFUgkVoi8fro19+pPyZzSX0OZIGchKH45O8N2jpV7CTjogb684FfZxwzHrG9KcUZe
-         Va/HFWWC8DsS1wAeCDJwro6D39k/D+O81XUjdSP8fqeh8D+jiLBiglJgkz1BxuPWmK7l
-         hsGFKmaJFBs26A6jEMrblN2ih1s//QNyqq06iRQSI8SsWv5tRtyiWfT0wBZbWHNMq2A5
-         zW1Yvvpi5Ie6hx5NhAGCfOyc5CfUXr/OgeMEmW4d8vvnILOggrFNx/MsBl6jtgvV8lMa
-         1Gxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWF5/I+KXyX2M4ysEtTvtxWFL4giM/9vqqr1/EcqYdTqEqS/wrQQdtlEH8ZFQX+oBwt7Cna5UEobbE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTW70vKfMuiqbg8wYtwvwVYrDAsgfiXV89w/5038hGC/vsrw9h
-	fshSTwSDOCpfENDoiwS0uN7M2ZIwj2CPpLzYphmBeKpIldn57pYb5s/dtuEnILhVW5sfmVXD/Kd
-	SDe4v5CT0XqDqG6Z8OgQJwgvu+zmDzM4P23M5wLqdE8N0tQKOviIHfCQ28pX9oa6AT10tQg==
-X-Gm-Gg: AY/fxX6ay1FdAvYufmW0yuVTPTnwgYxnEatu7r1kdaRJ7VVrxG8jmqK3hZbPNHtg8A2
-	EPql3aPs7Q4FMsF2MOwcDhTj8eu8pHafpsr3Si0286FMluiwD/Ru1K8T52aNsmNzXsPf0qJK/Tk
-	VYruMVYydBDxVT4on4EszUiw2uxm0CiLH4Blt5xtXMO9f1BKdBfUF4r3HGFdlQ39OqD6ZGg96ut
-	RakszscvBX5GLhVmTxQKXDQASUU/koadNIxeGJMTgMNp9Tf7omGccRP/Cx3RUvyprZXipn4meYl
-	nZMABlzed9I73DxVEz+UZrKYMfexyJmHDerVeNfRg5pD3ZjdjEt7cb93HQdAwk70YIYN20ArDpc
-	8mjwKUnQ5Ua4AMBF5J6ZhB1xq3ouWFZjhtLLht6AIWQ+HvtI27Uk=
-X-Received: by 2002:ac8:6681:0:b0:4f6:fe06:6cf5 with SMTP id d75a77b69052e-4f81a80489emr7949621cf.28.1766881116252;
-        Sat, 27 Dec 2025 16:18:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGdcNz3k8Zcw6evwj0qQEpbP+CQXVPF3z7KIXIQn98bZQezQtwjFGuO/GyEM7uNUQswQYVdPw==
-X-Received: by 2002:ac8:6681:0:b0:4f6:fe06:6cf5 with SMTP id d75a77b69052e-4f81a80489emr7949451cf.28.1766881115900;
-        Sat, 27 Dec 2025 16:18:35 -0800 (PST)
-Received: from [10.0.0.82] (97-127-77-149.mpls.qwest.net. [97.127.77.149])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac563f66sm186020801cf.15.2025.12.27.16.18.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Dec 2025 16:18:35 -0800 (PST)
-Message-ID: <1db851cc-f1a8-4de6-a01e-37ec091094ce@redhat.com>
-Date: Sat, 27 Dec 2025 18:18:34 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MA0AW7J+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766887371; x=1798423371;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z2IaYp58Msew3QS/60tkLCoX0j0xeHozTFQSPz4iw2E=;
+  b=MA0AW7J+b6y/BXMEqcxfoNatQk2VGoY4Twl6BYvnDJmfFL1lkmoLAgYr
+   QNQW0tpSoxfwIBrsuI4R6BEMyB2iO12WddX36Mw3iGsV3YEJ70hOewsph
+   QyvcDkqPbfjGKPi5iZ94Haxc8iKq/zvF0iCf049xC2mWkNHYSSTEDlFGU
+   Haa+s5Ro5SrZqHPNmEyTxlwgIcdkb9nxMSSOjq5caFOaFCKzkOxe74lh/
+   Fw9Wd80Y11CC6MmBQWDcqBuH0NuTy/SEJtezJQOe0o68HZjjgOGvEkMgu
+   NMEMjtes6UuUtBsIyk+OZzJutmmW8c1P0Zjv/WlOxQ40hPZbsy5GPvY0s
+   A==;
+X-CSE-ConnectionGUID: Qvz/T0tSRFmaGsdvWL0VkQ==
+X-CSE-MsgGUID: ZGTyvElcTTSF4Ce28+gnow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="80008890"
+X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
+   d="scan'208";a="80008890"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 18:02:50 -0800
+X-CSE-ConnectionGUID: fId7WcIxQQ6EbFuYnqCJNg==
+X-CSE-MsgGUID: 21J7Q3W4Q/6LKmiB1y74FQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
+   d="scan'208";a="200936737"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 18:02:45 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vZg7H-000000006Bx-07Jm;
+	Sun, 28 Dec 2025 02:02:43 +0000
+Date: Sun, 28 Dec 2025 10:02:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen Ridong <chenridong@huaweicloud.com>, akpm@linux-foundation.org,
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+	david@kernel.org, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	hannes@cmpxchg.org, roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev, muchun.song@linux.dev,
+	zhengqi.arch@bytedance.com, mkoutny@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, lujialin4@huawei.com,
+	chenridong@huaweicloud.com
+Subject: Re: [PATCH -next v2 7/7] mm/mglru: remove memcg disable handling
+ from lru_gen_shrink_node
+Message-ID: <202512280931.jlaLW51Y-lkp@intel.com>
+References: <20251224073032.161911-8-chenridong@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master] [fs] 51a146e059:
- BUG:kernel_hang_in_boot_stage
-From: Eric Sandeen <sandeen@redhat.com>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <202512230315.1717476b-lkp@intel.com>
- <fb920248-a0fc-432f-926f-c27b1760de58@redhat.com>
-Content-Language: en-US
-In-Reply-To: <fb920248-a0fc-432f-926f-c27b1760de58@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251224073032.161911-8-chenridong@huaweicloud.com>
 
-On 12/26/25 2:01 PM, Eric Sandeen wrote:
-> On 12/22/25 8:36 PM, kernel test robot wrote:
->>
->>
->> Hello,
->>
->>
->> we don't have enough knowledge to analyze the connection between the issue and
->> this change. just observed the issue is quite persistent on 51a146e059 and
->> clean on its parent.
-> 
-> Odd. Not much to go on, and I don't see any obvious connection either, but
-> I'll see if i can reproduce.
+Hi Chen,
 
-I can more or less reproduce, I think, though I am not getting the hung task
-warning.
+kernel test robot noticed the following build warnings:
 
-Oddly if I just put the 
+[auto build test WARNING on v6.19-rc2]
+[also build test WARNING on linus/master next-20251219]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next rppt-memblock/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-	struct dentry *(*mount) ...
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/mm-mglru-use-mem_cgroup_iter-for-global-reclaim/20251224-154725
+base:   v6.19-rc2
+patch link:    https://lore.kernel.org/r/20251224073032.161911-8-chenridong%40huaweicloud.com
+patch subject: [PATCH -next v2 7/7] mm/mglru: remove memcg disable handling from lru_gen_shrink_node
+config: x86_64-randconfig-001-20251228 (https://download.01.org/0day-ci/archive/20251228/202512280931.jlaLW51Y-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512280931.jlaLW51Y-lkp@intel.com/reproduce)
 
-member back in struct file_system_type it seems to resolve the problem.
-Even if I give it a different symbol name (like mount_foo).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512280931.jlaLW51Y-lkp@intel.com/
 
-I'm confused.
+All warnings (new ones prefixed by >>):
 
--Eric
+>> mm/vmscan.o: warning: objtool: shrink_node_memcgs+0xc16: sibling call from callable instruction with modified stack frame
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
