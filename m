@@ -1,155 +1,134 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6AB926056C
-	for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 13:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179E28460
+	for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 13:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766928601; cv=none; b=Be7V3diL9Hxjf3OwM8tCYF5RDkywgaqzAwA8C8IpRhiQfUse1Hs/AawfQGaHXsva8iktLNkG3LopOBDa9w81t46Qmn03hp6bOWRvBh9srfmadfNTt5Upzpz9lXBhxk2hfPe3CA2bFmGk8t0vmGSTTyWuxQLaKaOwgG8NmMxGfJ4=
+	t=1766929610; cv=none; b=rtG0KdA5daAJa4qqnXTQBVawPC+zB8sCRQ+OSPvIrD9w/PRjyiX8YtBUtH2ySxtvvqs3j1uN0elJjrCuQKYqsQ//cQzTZhi/nwmqrTXhooPrVKqV5AO+8JXvFs1qTqQfBzybj5x6c7v/7CpnsTGFdAkazk4UeLVmNAp/s45TcaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766928601; c=relaxed/simple;
-	bh=wzDS29pPv16SN5nJL5o+rnuk9lYuas+/v91h2NRmxn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P1FHYojJj8rkpg4txLQ8Xk/d/6AY11n4NQ3d7EmzScsZjGBHU6QksOGF/HUgTXSXY1eXWVJdyjG4xDpQNsDlge5zmoDo0CVBzsqV1ICJFXekZ8sscr+YtKoLIJbADQp46g9pqvTe8L/MggtW0eHXRnKbHJOPy4UMhH6PwojWBEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CBbJP4Wd; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766929610; c=relaxed/simple;
+	bh=qz2EpIgyf//vEb2FjkXoztZUuK4dLJ2baPo7y+61YYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q63xCwpdUt2P6PjfenOUYH9G/kbbmSz8GbqN6VfXJi5mc260qlJ7nIP7mw2YyD+LD+7p9uTuKuVwmaGL8qQKoVCe1N/948QxL3JopQOil0n+IDiV2K5MY7dY3dvdlWEAEMhA+5xG32MeBmMM0pA04/b3jzfAva65NXRak0A3Ljk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=fQuozb4s; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBbJP4Wd"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-598f8136a24so9403982e87.3
-        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 05:29:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="fQuozb4s"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b734fcbf1e3so1721184566b.3
+        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 05:46:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766928597; x=1767533397; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7lWyQqsYJqWc7lm9cTjRQLwXSVE/IuAz3ei2okz3340=;
-        b=CBbJP4Wdvc5B3CtNBGl5G6PisnIwIVLPNh8y4Kkq93W609O9ot7XWQibM0OLU65I/J
-         fZSkQapbMmJM9qylzG59pNAQQCoFbf7eLiNYx/sdrlqO75lpbsXWsTL8/8GFqamEzxFY
-         WA8ACeyUJYEi9eeF+y7nq3g+RuqCjgjKrJwuxJWVEXUajudGQCXirn0V8LI53fholcUn
-         f97854AWZmSeBdJGIM5wG+a+i2oIfMXPbNrMsFtJ8pvQFKK2eeahgADjCIlZM73yW9Bg
-         j4Mn2JayNUGtPg8x6F5e6VX+R08Q7VldGFH44K83MM0RuS7lm/zMLjNaijINZR5KbalO
-         uEYA==
+        d=rivosinc.com; s=google; t=1766929605; x=1767534405; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0QmyVj6XGPrQWTnO1cmBaHu2RF/dDjLmm14QhvwLLo4=;
+        b=fQuozb4sCSNgGu/oEoN0IqWVIHkN+aNOo2eVeSrhZvRzMo4es/foZd18ZEA1/MDxhV
+         VZO/35dwCsNtiZCYk/Aj3qF3WXiXuhWKGts9UOMYo/+VVvmT5CgAqDE4RVg/vDqsnij6
+         ZNRWh+QYWSxdryYfoBldV2vzPSqq1Jn0TnqyquEAoEzEtFGfXGdSKHdxI2rH+LOG+HH8
+         n6pNr/bZQDNerQbEsfB1onlqs2RSKe17vesemGslox7TxshWGAHw1AN47K85wAGAeehM
+         bCIBC23GpE6D0YEOf22H//Ua9OsebhGBU6bXDjMixO2WFlafHN4bHGnFdysxutIDioL/
+         4wZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766928597; x=1767533397;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7lWyQqsYJqWc7lm9cTjRQLwXSVE/IuAz3ei2okz3340=;
-        b=gfZ6tsOEACUVQUsAyhqbnUcZIrAXro2/DKGoyd6cOahDTqIvY3KIz9moUZ+28+wrNJ
-         fkYK0x4cQMZd1w2ZpYLdLCD4joGJ3b0o43AU0wcJS/04/ZyHKqcJGkBsSy8hnZ29OPhb
-         i5PNKFgfpZYWQNWD5mG2kf6nhMoSNiIBYDfClUlcdm3tt/8t1gv3LXfb/xe9aG1M7RTy
-         x7uK0lXBWQJwnKOsWV29oBCbCwkuoBKgppBNloo500qRA+poZAk5FOUNtumknmlPDffs
-         SYvRBrkmNFhf8tGAlhPsI/7qg8VFGDP3a+G4CD7FQWmtP+SFXrQHGWhD6cSzeoX770T6
-         Lfcw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1onLJNmnPFt6Klv9rsq3RIvcbv7cRdRvqwPqj5pDcda9/VnfbMRjjGRT6J5Z2rZX02OLchuTA8iQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2dsp4OBdhHVuZFaoqeFLIIQ26d4KGLhmoJfS6Y1J27RtXZ0Aj
-	Efks1hGQtU0LKsoxgdoOj2tt2kPwu254hLniCIjOyEA9rA4gIoRWEpUn
-X-Gm-Gg: AY/fxX7ZzYWy+/9WZSPrEUnQfBohGr2zzEmoqYExT+xlHJZ27muSiu66Sf/QjV/rzHi
-	8tX/h94pvyf7ri/+D88UPnNLkqbEsmOnq2StrM7Gnz6mBpP2jcHCkOXNRRQoAko9le39WTPh+lU
-	AUXpSXmN0B3DIAYXw2VCu2Rms9fy08fiPpcmmjdqG5ozwgG1SHvDh9RZIdCTIbHitPzGaEJqcSh
-	YhmKm5qGdO6SMAyTVkH2lJnyA6/NYUBY5U1pUx2i8vu0IQ5QqcgZdmYrai7sK7i4eRICtCL3Oy8
-	urKwpppxm3ByOl3qBkddwz7awKqNp8aEKnGZqMy/trk+4jDUny9Fmm/YCD3dCwJjW3OlDKuMF3K
-	UnFtqzYVVIWxO2AXIhumP9x5vkIhs1QE9+KNefl3bo8m0v8+qmzoMr067KVb/VCTn3uSZI6lyDw
-	9c6pBLBxJE6YiGuzZnpmNADis40ejd2oIfM5Jzum2HvvuQVQvozMR9DhcbgyX5gdIE7mXU27cZ2
-	Je204tj
-X-Google-Smtp-Source: AGHT+IGo/pr+AQ2VNaaG2TyhewLh2BG0nsRAoXdF/d33J1EZZvYOr8FxE2Re2WZCgj4kGCoIAYrr8g==
-X-Received: by 2002:a05:6512:3b0c:b0:59a:11b2:2c08 with SMTP id 2adb3069b0e04-59a17dd5fb7mr9312428e87.43.1766928596662;
-        Sun, 28 Dec 2025 05:29:56 -0800 (PST)
-Received: from ?IPV6:2a00:1fa0:425c:b771:d34f:d055:3147:bcd9? ([2a00:1fa0:425c:b771:d34f:d055:3147:bcd9])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185d602fsm8238417e87.11.2025.12.28.05.29.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Dec 2025 05:29:55 -0800 (PST)
-Message-ID: <d58d6cfa-d9d1-47fd-91e4-533756f3b3bd@gmail.com>
-Date: Sun, 28 Dec 2025 16:29:49 +0300
+        d=1e100.net; s=20230601; t=1766929605; x=1767534405;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0QmyVj6XGPrQWTnO1cmBaHu2RF/dDjLmm14QhvwLLo4=;
+        b=ZJ1qRUw4lyQjAa31dS9wZalBRe4dLjzsV10skypC7chr/yyQhzb6p6CkJ/19HmFZy0
+         q2RtMEN0xhstGA4CMSdz81XhKrywsxKLs9QuUt0f2lxHxz5zFCfVQKy9IEbFr8nIXz83
+         FpmQSeRLwAFLurm6Kz1feKfq28kNWwzJsDYGUjtuz50Fp2o1haIeHPP4eHn8INDHNPlK
+         QQlyG6RMQhNZ82FG4Q29xhzGhRrkySWOgwSntXzD8WP9dacTVGsPCRtklR5ioPuXXJJh
+         UlbdLN5SoPgZ6PZ29LlSdLq3hOMuK3C/Jgy21k3IeXTFb+NGYlYPgcbWjwtc7bteYdAy
+         temg==
+X-Forwarded-Encrypted: i=1; AJvYcCWUn+IVf26nA+ZJU1FFIpXeHVQGaVAJshNyEwMvmSSzSX6kuTs6m5ZgawW8rXbvGvxZ8vdzXygK4a0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxfv0zdrEq/1VUueBQobmJsmuS4L7Zyln9GnkjFxK4rRL8G39B8
+	K/gE7zMgdRxdHo44QgItW5t7FJJJ0haVsFCNuFK2s5xdHfXLMnOs2D2tu4cno1+zMZuBGdwMvMe
+	dsBJQcyHgUeQRcMu5MRVbAV+r8mHTkPVo3dwemeAIPw==
+X-Gm-Gg: AY/fxX7PlEqx6y/ecLlDp98ZLMPROQzdvYMNNFnau2Zh45tWNqhl/OfZ8riSZl8xoHR
+	2+TXQZOhgG4119haoo3ClseGzwf9foWaneBSsIXdaTd6duUAGywFXgJf1aOFyY90MboUy+qZLXo
+	tnMtYsbAFNEw8N+YEqXNL5ZjdCn/2MVg1nE12pnxCQeZTVRw8l4dk6tYprROU+MkVU09K/xKaMY
+	oRZgJ+Q3m5dtz3t6P0Gqdd6r6Owape9Q+qEsrD3LGy1Y7/tpHtyNgh2q2LWyHt9Mua/nV1YQPmH
+	F+x3bQlBVFjmWZsmjJGnhYFWOAc=
+X-Google-Smtp-Source: AGHT+IEdC99j0nCePFhLwmZTnJWkgU+x4D2zxqHSfh/qzCdOT5Mo/lWPNRvdETHSYcJYPuMj/crY4IJKLKDSNORCHKs=
+X-Received: by 2002:a17:907:6e9f:b0:b7c:e4e9:b13f with SMTP id
+ a640c23a62f3a-b803717d9b0mr3040706066b.39.1766929605212; Sun, 28 Dec 2025
+ 05:46:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 25/28] x86: don't reserve hugetlb memory in setup_arch()
-To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
- Brian Cain <bcain@kernel.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Stafford Horne <shorne@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org
-References: <20251228124001.3624742-1-rppt@kernel.org>
- <20251228124001.3624742-26-rppt@kernel.org>
-Content-Language: en-US
-From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
-In-Reply-To: <20251228124001.3624742-26-rppt@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250523101932.1594077-1-cleger@rivosinc.com> <20250523101932.1594077-7-cleger@rivosinc.com>
+ <38ce44c1-08cf-4e3f-8ade-20da224f529c@iscas.ac.cn>
+In-Reply-To: <38ce44c1-08cf-4e3f-8ade-20da224f529c@iscas.ac.cn>
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Date: Sun, 28 Dec 2025 14:46:34 +0100
+X-Gm-Features: AQt7F2p1_7ko8w_PwIifz2AmUk0sbTmFCv2I3iETmZt8Ofoon78QtnnXQgqC8zk
+Message-ID: <CADGDLFjttq5knxRpqktHVEbwTWEAwgJ-p50ajV=Q8b31cZvJxA@mail.gmail.com>
+Subject: Re: [PATCH v8 06/14] riscv: misaligned: request misaligned exception
+ from SBI
+To: Vivian Wang <wangruikang@iscas.ac.cn>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	Samuel Holland <samuel.holland@sifive.com>, Andrew Jones <ajones@ventanamicro.com>, 
+	Deepak Gupta <debug@rivosinc.com>, Charlie Jenkins <charlie@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/28/25 3:39 PM, Mike Rapoport wrote:
+Hi Vivian,
 
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> Commit 665eaf313314 ("x86/setup: call hugetlb_bootmem_alloc early")
-> added an early call to hugetlb_bootmem_alloc() to setup_arch() to allow
-> HVO style pre-initialization of vmemmap on x86.
-> 
-> With the ordering of hugetlb reservation vs memory map initiaization
-> sorted out in core MM this no longer needs to be an architecture specific
-> quirk.
-> 
-> Drop the call to hugetlb_bootmem_alloc() from x86::setup_arch().
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->  arch/x86/kernel/setup.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 1b2edd07a3e1..e2318fa9b1bb 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -1191,7 +1191,6 @@ void __init setup_arch(char **cmdline_p)
->  
->  	if (boot_cpu_has(X86_FEATURE_GBPAGES)) {
->  		hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
-> -		hugetlb_bootmem_alloc();
->  	}
+At the time vector emulation was added in OpenSBI, I asked Nylon if it
+was going to be backported:
+https://lore.kernel.org/opensbi/CAHCEehJ7JDhhF_C8jngHezfBJjWp+0m6Gzvsphk+BL=
+MvyYdEXA@mail.gmail.com/
 
-   You need to drop {} now, no? But seeing that this *if* gets dropped
-altogether in the next patch, you may as well ignore me... :-)
+Seems like it wasn't backported :) So yeah, it definitely needs to be
+added to the kernel misaligned handling code.
 
-[...]
+Thanks,
 
-MBR, Sergey
+Cl=C3=A9ment
 
+On Thu, Dec 25, 2025 at 11:14=E2=80=AFAM Vivian Wang <wangruikang@iscas.ac.=
+cn> wrote:
+>
+> Hi Cl=C3=A9ment and riscv maintainers:
+>
+> On 5/23/25 18:19, Cl=C3=A9ment L=C3=A9ger wrote:
+> > Now that the kernel can handle misaligned accesses in S-mode, request
+> > misaligned access exception delegation from SBI. This uses the FWFT SBI
+> > extension defined in SBI version 3.0.
+> >
+> > Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
+> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> > ---
+> >  arch/riscv/include/asm/cpufeature.h        |  3 +-
+> >  arch/riscv/kernel/traps_misaligned.c       | 71 +++++++++++++++++++++-
+> >  arch/riscv/kernel/unaligned_access_speed.c |  8 ++-
+> >  3 files changed, 77 insertions(+), 5 deletions(-)
+>
+> This causes a regression on platforms where vector misaligned access can
+> be emulated with OpenSBI (since OpenSBI commit c2acc5e ("lib:
+> sbi_misaligned_ldst: Add handling of vector load/store"), because this
+> disables that with FWFT. This means that vector misaligned loads and
+> stores that were emulated instead get a SIGBUS.
+>
+> This happens on Sophgo SG2044 and SpacemiT K1. Notably this causes these
+> platforms to fail Zicclsm which stipulates that misaligned vector memory
+> accesses succeed if vector instructions are available at all [1].
+>
+> I'm not very certain why vector emulation support was omitted in this
+> series. Should we perhaps add the same emulation support to Linux as
+> well for the sake of these kind of platforms?
+>
+> Thanks,
+> Vivian "dramforever" Wang
+>
+> [1]: https://github.com/riscv/riscv-profiles/issues/58
+>
