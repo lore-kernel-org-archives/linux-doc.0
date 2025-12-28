@@ -1,70 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197B013D539;
-	Sun, 28 Dec 2025 02:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C766A3A1E6B;
+	Sun, 28 Dec 2025 03:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766887372; cv=none; b=dsmB3IYvK1H5zV37NbJYG3oCg8JDVrK23GJJhchN3gqisa7bscFS3uSbp9NstZPmi2d6tRcUATWyEDeyiSURVk+OEoRvl6LhlplMP9BzIVzUqPpU7DfLl+a9KziMX9crrFV3KdmULGdVMtDxEEyrl6KLTyrN4PGl/pIvDtPpDts=
+	t=1766893393; cv=none; b=iSIHF2slipq4igVwuZrFg7XtPbN5yC3NJBGLfgAD91Rwait+NSozJFmmPXErqGpXfOsu2xGL+8T4C00ZdGwLOByiMlCrTDW/W0zBgzDzjyoGr1SdETil+BTBKJAPoa4T6wmABLHmECMWEpjnhwdDTw66tV/IxDbPoOmACTihcMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766887372; c=relaxed/simple;
-	bh=z2IaYp58Msew3QS/60tkLCoX0j0xeHozTFQSPz4iw2E=;
+	s=arc-20240116; t=1766893393; c=relaxed/simple;
+	bh=XHFgrE5Z1anzcIFXkdzMMmbCv+NsDEGlOOJbHAN/r3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ael9reSkr/btyYbahpGZT15iqH8cGvXPlxE78Xiq7iRJJtNVO/Qfid7BNfKmOGi8rmnIP0ZFNgDum3S1nzb00irm6aPiITPQYJU0ybldWH45kRKmkfAORrEOQBlrEGkA+xu5a/uT7XMkN9q08w/Y3cacWoGiz359ZTqWRcSkp/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MA0AW7J+; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/lugVERmL4Exmd1Zd4YpYlTOOzpYRU+Rj4gVRm5n4H/uVma85TBX9rZ2BCjlRHfWv2auoDIb6g4XnXTOgw5l+Vsje1/+rAJbwh8LSelnJ3ZQLvtlO2oKdRNf1paLrOeR+D6E87Zbyu+FCEjcaUSPRxEDRULX9txxOmQ9g9y2qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OVugtFUe; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MA0AW7J+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766887371; x=1798423371;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z2IaYp58Msew3QS/60tkLCoX0j0xeHozTFQSPz4iw2E=;
-  b=MA0AW7J+b6y/BXMEqcxfoNatQk2VGoY4Twl6BYvnDJmfFL1lkmoLAgYr
-   QNQW0tpSoxfwIBrsuI4R6BEMyB2iO12WddX36Mw3iGsV3YEJ70hOewsph
-   QyvcDkqPbfjGKPi5iZ94Haxc8iKq/zvF0iCf049xC2mWkNHYSSTEDlFGU
-   Haa+s5Ro5SrZqHPNmEyTxlwgIcdkb9nxMSSOjq5caFOaFCKzkOxe74lh/
-   Fw9Wd80Y11CC6MmBQWDcqBuH0NuTy/SEJtezJQOe0o68HZjjgOGvEkMgu
-   NMEMjtes6UuUtBsIyk+OZzJutmmW8c1P0Zjv/WlOxQ40hPZbsy5GPvY0s
-   A==;
-X-CSE-ConnectionGUID: Qvz/T0tSRFmaGsdvWL0VkQ==
-X-CSE-MsgGUID: ZGTyvElcTTSF4Ce28+gnow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="80008890"
-X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
-   d="scan'208";a="80008890"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 18:02:50 -0800
-X-CSE-ConnectionGUID: fId7WcIxQQ6EbFuYnqCJNg==
-X-CSE-MsgGUID: 21J7Q3W4Q/6LKmiB1y74FQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
-   d="scan'208";a="200936737"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 18:02:45 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vZg7H-000000006Bx-07Jm;
-	Sun, 28 Dec 2025 02:02:43 +0000
-Date: Sun, 28 Dec 2025 10:02:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>, akpm@linux-foundation.org,
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
-	david@kernel.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-	hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev, muchun.song@linux.dev,
-	zhengqi.arch@bytedance.com, mkoutny@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, lujialin4@huawei.com,
-	chenridong@huaweicloud.com
-Subject: Re: [PATCH -next v2 7/7] mm/mglru: remove memcg disable handling
- from lru_gen_shrink_node
-Message-ID: <202512280931.jlaLW51Y-lkp@intel.com>
-References: <20251224073032.161911-8-chenridong@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OVugtFUe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7E1czr0P4bYeP4gGirjw5YdD3fjfTZRnF0cs94CurKM=; b=OVugtFUeIzxtlINiiivlJQDWaD
+	6t5oR/Ij0oueQkr69KPvNFnUxDbCQm28tVHsjOSR9H4yuACaa4aV9h0nPWHFAnJRsKqZVZHrfw7sa
+	ZKBYd7w0g8nsjkI0aB5fKUsZ2m1DzOHwFrW5SODcxk6fj2gpflXD9Ir8O8cCGTcG4cyqRbmYnYDIS
+	2nIHDRY1meTRPWr1b7PCfTKtDcHxogm2sPKnJObx73FLpOROP/X+Fea3v+nUITNUXhMuFojP5N1Cq
+	d7rvH85M5S6OyK1njbZWHbN6H3XvuIq5Op8gv3+YYZWfVYcsoxWpkwMBP4KnHVV6mSJxBbcflKSnc
+	eaTxdlWA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vZhg0-00000000PJF-30dK;
+	Sun, 28 Dec 2025 03:42:40 +0000
+Date: Sun, 28 Dec 2025 03:42:40 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Zhang Qilong <zhangqilong3@huawei.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com,
+	corbet@lwn.net, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
+	dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
+	vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+	wangkefeng.wang@huawei.com, sunnanyong@huawei.com,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lianux.mm@gmail.com
+Subject: Re: [PATCH next v2 0/2] THP COW support for private executable file
+ mmap
+Message-ID: <aVCnMI5gFLTB9UCe@casper.infradead.org>
+References: <20251226100337.4171191-1-zhangqilong3@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,36 +52,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251224073032.161911-8-chenridong@huaweicloud.com>
+In-Reply-To: <20251226100337.4171191-1-zhangqilong3@huawei.com>
 
-Hi Chen,
+On Fri, Dec 26, 2025 at 06:03:35PM +0800, Zhang Qilong wrote:
+> The MySQL (Ver 8.0.25) test results on AMD are as follows:
+> 
+> -------------------------------------------------------------------
+>                  | Exec mmap Rss(kB)  | Measured tpmC (NewOrders) |
+> -----------------|--------------------|---------------------------|
+>  base(page COW)  |       32868        |        339686             |
+> -----------------|--------------------|---------------------------|
+>  exec THP COW    |       43516        |        371324             |
+> -------------------------------------------------------------------
+> 
+> The MySQL using exec THP COW consumes an additional 10648 kB of memory
+> but achieves 9.3% performance improvement in the scenario of hotpatch.
+> Additionally, another our internal program achieves approximately a 5%
+> performance improvement as well.
+> 
+> As result, using exec THP COW will consume additional memory. The
+> additional memory consumption may be negligible for the current system.
+> It's necessary to balance the memory consumption with the performance
+> impact.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.19-rc2]
-[also build test WARNING on linus/master next-20251219]
-[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next rppt-memblock/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/mm-mglru-use-mem_cgroup_iter-for-global-reclaim/20251224-154725
-base:   v6.19-rc2
-patch link:    https://lore.kernel.org/r/20251224073032.161911-8-chenridong%40huaweicloud.com
-patch subject: [PATCH -next v2 7/7] mm/mglru: remove memcg disable handling from lru_gen_shrink_node
-config: x86_64-randconfig-001-20251228 (https://download.01.org/0day-ci/archive/20251228/202512280931.jlaLW51Y-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512280931.jlaLW51Y-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512280931.jlaLW51Y-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/vmscan.o: warning: objtool: shrink_node_memcgs+0xc16: sibling call from callable instruction with modified stack frame
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I mean ... you say "negligible", I saay "32% extra".  9% performance
+gain is certainly nothing to sneer at (and is consistent with measured
+performance gains from using large folios for, eg, kernel compiles).
+But wow, that's a lot of extra memory.  My feeling is that we shouldn't
+add this functionality, but I'd welcome other opinions.
