@@ -1,65 +1,65 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD4923D2B2
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 16:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C39217704
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 17:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767027601; cv=none; b=eNkGJLDp2km3TPfuUVQpb6XFIhlWqf5pGL2mfnC1oTP3ImINfqrJGG+TSC7qT8HIX6P862fQlxMlHkIHckaGhQEXK4Qkkw1+0ykorHAFek7rH0sejqyLymeUaooYELLdd0kLDwJK5ayy7eLNygApw76zI87Sij9Bdts0iAWKBHc=
+	t=1767028181; cv=none; b=Pn5xuhjQWQoYbR20eQC+ejLUuIPFZA1+sJkK2bhJZSqDR26h882VQIBpy6OGsD6LFnp0Wat7j0zq1opDtlacam3rys5map9dyhAhCkan480JVkNsbyZDlw6QRkmoo3cxOddQdRzEHzIyXSi4L8ByuN9QLcXUY+sXpenSqhkXfgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767027601; c=relaxed/simple;
-	bh=Jrbp2Tyw5HoT6TCiS70SIqpALa+apP1juIu1L6IedoQ=;
+	s=arc-20240116; t=1767028181; c=relaxed/simple;
+	bh=BchYWUJMrG+zuaJJpFT32jhNlNVAAReMwcHd+XDyJG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cQD24cy2poronNPcnaNh8dai2S81QaPM2bBkUgF+xmVCUtNGb1LWEJF1hI/xY0zoD9RXExVPWWIRyL7L07knhZ6Y9INY4u8IUpSnnNvrBmU69NRgcLUviltiZMbb3eHA88SSvlfmv6BBLfOtJDTW8ERWftDvyOkgdLMeDSiXy7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4HHAJaq; arc=none smtp.client-ip=209.85.128.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/mqkIjMi87AmDlqHHQZtzRPg94QZe4HeG/3QqriavQJxuVeHSvLrwo8VQglDinguA1xbEUyqPx4Mpu7EAJglby/oxWKKNVuT+JzEE2P7QkEXEzHaFoBy9DrvDwh+v/f6LfJm91ekVi9O7xt9KHYixXlePsNL+nPJBzJwhVlbj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEBBc0CD; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4HHAJaq"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47aa03d3326so58982945e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 08:59:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEBBc0CD"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47d3ffa6720so34827245e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 09:09:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767027597; x=1767632397; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767028178; x=1767632978; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=SAHnLIOP3CeHiQHVSAqFE8504lFP+mdUtEiVf2D5dus=;
-        b=k4HHAJaqW/TKojcqFhMrJI3A2jDKZ9cN3cdjttgKCsNgTkYmK45MecSnNIsS0oIpw1
-         xCJ1bB/TL/IAg/4oBMwBZpgEE2RWYnBDA4KjE5Q05PVfR4GYvv/vnSwlGvYHSWLAKnK/
-         7F/HCmlfrcAHUcZpzzDTgz5ypaVzpHvq/DmCj8Q8K6oQeZ8rvIqLiHMtGZYtxAEDyGpp
-         zOG6kiaETgB9QZCJYQIwR/d67YF5/Zt2vOwppkoMR8FEXHpuBHx4nebDRFMX4ysk4zzp
-         DmG0lriG7M//GYbx+jWIjFYMVOxVQdZfW2B+Yu57ivj7Ch+/KdRT76rXwV+8LKrq+AP9
-         Hhlw==
+        bh=6O6+tk5h/BOteODO+69MaKipjConnQRO/Y3Z/JkS2Zw=;
+        b=kEBBc0CDeDduOkPrpyIKQpzIhC1MNaqIICWA98cprfy521bWEmZZIfVMCY0n7tw0aF
+         8+hy9Oz0DviE3c2loGw3FJ4/PpUzgHKBGPf3AQwo1423Trnof7d6H7/FR07W0AYRapBr
+         j2Ku5mEped6Cja1gOLN0PeMUQxkvp3dZRlxsCNo2z2TOm71JlMUZJhddOejtxkYPO0RF
+         ROEHAy2jWOA21/36q3l7jnTrr2FWI+hjRK46Ouk8WqH7WdkVyV53lVSgvbXYEaOJk88X
+         pY1kwQuUD/dsKIYEYaR8NeoLZ1iDS3HvFggWN66SpiMwc8eASBudps3lQIFIUbiA9PSF
+         tw5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767027597; x=1767632397;
+        d=1e100.net; s=20230601; t=1767028178; x=1767632978;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SAHnLIOP3CeHiQHVSAqFE8504lFP+mdUtEiVf2D5dus=;
-        b=fjpdFxqJmAr0Xy6vIRMOMK+4CH9j8UxMu8rZ/IxKSt8rX4GtDZ+B5Sly5gTCmHEhvx
-         6dAoUXnr6/U5TNg7sH74uLd+C+kZFTXF78nKVc6J3E7nYUvV3xHUFm6VaNAtKClDBE5j
-         YziJv3uAww/YtWY1UBKBXCQKsSPbyCiJgJRWsCXQ4gpRifrjvsrkhIFGJMzY/bpc98Fz
-         A+rib9KHpxAHPQoECBZX68jHnnBG9OVpobwVQDjBTPfchYLPwu137Xn4xR+yUTPIW0Ad
-         lN96hVrHlgYp7RnOvGFCUMfNtbTiTgt/2VTQxEw2RcpayixKd0vFi4qdb23iDIGTbKW0
-         IJVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVBQHbdnf8EJXgs7mWO1DNhT6+ZGa0w3cWGa33/Dx3o2e5klXkTYzcU5WoG1+BBmQp9EPr0kMfPA5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi2pgN4m2Q/Q93ovdmvivZGfbPU4ogWZQiO8+06cWD4m9JnnoP
-	YzpW2++frkgWpWL9LoL6b0nr1WLESioQw8Q2BbwiNGEiTknuCpGk/GO6
-X-Gm-Gg: AY/fxX5i1k1UD54Xav89xlFwyUQ0JO976xZqATphAYvpRsAB0+XyKFFA/VyH7uEtpnr
-	TKs2fgOA5KFuMRraJaU1S7ko/ZStFXFURgTeGz9YTkEl6U3ZM+8IWhjk0Mjlws2d2nlLLs9QA8d
-	/Awq9jUyAXvHRcblwBBQchpYzK4wCbH2zGVPdPTnVs8s6Y6wnKUJ+EE990wKgFHLqcqY/xkquD6
-	7oK6EN7+ta5cIx3ZSjtG0kTACDlCmCrD41msufP/PcEWDEbOfM9UdhpNLoPJM8BNnu7ocA13As3
-	HIa4sK8OxPUd3J1lQFqMOCnc3c4LoqW8yDWbm3MTpzvhyGkJyWkSxibaNNkf5TZOQ5Th9yWScD9
-	y+/XGOpoMstOnC1n1Mg5M0bcxzn33bsu3ygujc0PvBWD1u1AIOS1PJiA/s9sCMSws4038fAMFDO
-	pd9CP4BEIJBw==
-X-Google-Smtp-Source: AGHT+IGi38bNIRPESZJXDDTOIcycAM4JzqF8pQs2Jd8WsPsTkkEeNKyDjnWBOP5oInCHwpdMvIFDIg==
-X-Received: by 2002:a05:600c:4fc6:b0:477:8b77:155f with SMTP id 5b1f17b1804b1-47d1953865fmr294601805e9.8.1767027597041;
-        Mon, 29 Dec 2025 08:59:57 -0800 (PST)
+        bh=6O6+tk5h/BOteODO+69MaKipjConnQRO/Y3Z/JkS2Zw=;
+        b=Of235E3/Bbe4FEhcX5RXWv0GEI2N+BW6pcA1VUgXrMgKPLweslwFJs79wru5TKMfq2
+         JTys/uNRh51Zoi6ScR7J+4To42Xl0i8FJxjSTW/iGQ7dc1beuFJyW+e7GsifYt/itPp1
+         VXDsdSvLIta568P446qz5qUaYkT/RZFxV1BeeAYTh7GtcMNu3xlbFfhrR9dwUOm8rRHR
+         urTpHOMw6vpVxV0XJw2tMQL1/BisysBO3GlKrZ5SckVbFgD1LDepfz6qXsmT8BcgofR4
+         2v3rkDZIYdYz5hq9ZTVh735r+xvF3xxAz/xENCajBAYV/ohdNT4xEvn9htLFCfcDHGBe
+         gK9g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1ipYZ/EzUzA6630OnwCmW0OuiOazwEUyIM2vuluGrQL5h4PahU/CmiX6jKtFuJATzZPSUozntzdM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynwWHFC+RHuBpWBUrue5mKTG/zfrCVlfxxG/ueEAWjATfYvNWY
+	ZsumI5cVGCXFYHIdJP/hhJA7Kw80adxdvzndQu56GADlzxnT4bH2YGW6
+X-Gm-Gg: AY/fxX6HSX8iJogj0hlXGEtCj3d3wY35maNRj5aFjDlsdMJ6IRtAHfj6EZKqLM3/tu+
+	m+/i1U2xT9NiJrNerHer9FTEh0URi1waijiggYg/Dws0TdY7oUV2RiNc0w6gxsvGthIOM7kbpUx
+	4FVylZdO9T6hoT3XPK9DdI8udsLHl3rWKwfUz+6bAVV4HYpplZxMnwmGJuFANAArKZhJLe58JAT
+	DK41zXkuSVvWbBiGFyZ69/BnILpmwuIU9h5qtqOqcg7ci/mUWez8mCLlo/4AYfNDXP0BMHJOFQh
+	vRnve+8o0vwLxPuYelEQfRVWtbNxiNzlc8kQRAm7n5bEPlQlqzQ7FrT24pOJIPszbkPMYKIYjo8
+	aEL36GeRk8kmjm5J1UE3d7Ihf01It6j9553gDJzwpZZauNt7PxKL0p8XuIHA35mSpyhJjRcObbi
+	ItdyGksyBL0ifhNCoMWDfH
+X-Google-Smtp-Source: AGHT+IGBKFcaFsNGe1AsIBsQYOzgDRS5osMCiE0B5NHZqdGkmGV0E+4GLX8TxkrEWyGhl5Lz4KJpsQ==
+X-Received: by 2002:a05:6000:178e:b0:430:b100:f594 with SMTP id ffacd0b85a97d-4324e50d9bcmr37799197f8f.50.1767028177789;
+        Mon, 29 Dec 2025 09:09:37 -0800 (PST)
 Received: from fedora ([94.73.37.171])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d1936d220sm595736745e9.8.2025.12.29.08.59.56
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea227e0sm65088089f8f.17.2025.12.29.09.09.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 08:59:56 -0800 (PST)
-Date: Mon, 29 Dec 2025 17:59:54 +0100
+        Mon, 29 Dec 2025 09:09:37 -0800 (PST)
+Date: Mon, 29 Dec 2025 18:09:35 +0100
 From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
 Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -71,441 +71,202 @@ Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
 	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
 	victoria@system76.com, sebastian.wick@redhat.com,
 	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-Message-ID: <aVKzioiSzhNO8dzr@fedora>
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v3 32/33] drm/vkms: Allow to hot-add connectors
+Message-ID: <aVK1z_WUUQ-5frII@fedora>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-32-ba42dc3fb9ff@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+In-Reply-To: <20251222-vkms-all-config-v3-32-ba42dc3fb9ff@bootlin.com>
 
-On Mon, Dec 22, 2025 at 11:11:20AM +0100, Louis Chauvet wrote:
-> To allow the userspace to test many hardware configuration, introduce a
-> new interface to configure the available formats per planes. VKMS supports
-> multiple formats, so the userspace can choose any combination.
+On Mon, Dec 22, 2025 at 11:11:34AM +0100, Louis Chauvet wrote:
+> In order to allow creating dynamic connector, add the required
+> infrastructure in vkms_connector.
 > 
-> The supported formats are configured by writing the fourcc code in
-> supported_formats:
->  # enable AR24 format
->   echo '+AR24' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->  # disable AR24 format
->   echo '-AR24' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->  # enable all format supported by VKMS
->   echo '+*' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
->  # disable all formats
->   echo '-*' > /config/vkms/DEVICE_1/planes/PLANE_1/supported_formats
+> [Louis Chauvet: use drm_atomic_helper_connector_reset instead of
+> drm_mode_config_reset because connector is not yet registered]
 > 
+> Co-developed-by: José Expósito <jose.exposito89@gmail.com>
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
->  Documentation/ABI/testing/configfs-vkms         |   9 ++
->  Documentation/gpu/vkms.rst                      |   7 +-
->  drivers/gpu/drm/vkms/tests/Makefile             |   3 +-
->  drivers/gpu/drm/vkms/tests/vkms_configfs_test.c | 102 ++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_configfs.c            | 118 ++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_configfs.h            |   6 ++
->  6 files changed, 243 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_connector.c | 81 +++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_connector.h | 33 ++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_output.c    |  9 ++++
+>  3 files changed, 123 insertions(+)
 > 
-> diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
-> index 2ace79ce848a..48f92538c602 100644
-> --- a/Documentation/ABI/testing/configfs-vkms
-> +++ b/Documentation/ABI/testing/configfs-vkms
-> @@ -153,6 +153,15 @@ Description:
->          Default color range presented to userspace, same
->          values as supported_color_ranges.
->  
-> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
-> +Date:		Nov 2025
-> +Contact:	dri-devel@lists.freedesktop.org
-> +Description:
-> +        List of supported formats for this plane. To add a new
-> +        item, write its fourcc code prefixed with '+'. To remove,
-> +        use '-' prefix. Use '+*' to add all formats, '-*' to
-> +        remove all.
-> +
->  What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
->  Date:		Nov 2025
->  Contact:	dri-devel@lists.freedesktop.org
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index ab0eb2f97fc2..15d62ad963c9 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -87,7 +87,7 @@ Start by creating one or more planes::
->  
->    sudo mkdir /config/vkms/my-vkms/planes/plane0
->  
-> -Planes have 8 configurable attributes:
-> +Planes have 9 configurable attributes:
->  
->  - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
->    exposed by the "type" property of a plane)
-> @@ -109,6 +109,11 @@ Planes have 8 configurable attributes:
->    must be set too.
->  - default_color_range: Default color range presented to the userspace, same
->    values as supported_color_ranges
-> +- supported_formats: List of supported formats for this plane. To add a new item in the
-> +  list, write it using a plus and fourcc code: +XR24
-> +  To remove a format, use a minus and its fourcc: -XR24
-> +  To add all formats use +*
-> +  To remove all formats, use -*
->  
->  Continue by creating one or more CRTCs::
->  
-> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
-> index d4d9ba8d4c54..92cfa7262ba4 100644
-> --- a/drivers/gpu/drm/vkms/tests/Makefile
-> +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> @@ -3,6 +3,7 @@
->  vkms-kunit-tests-y := \
->  	vkms_config_test.o \
->  	vkms_format_test.o \
-> -	vkms_color_test.o
-> +	vkms_color_test.o \
-> +	vkms_configfs_test.o \
->  
->  obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms-kunit-tests.o
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_configfs_test.c b/drivers/gpu/drm/vkms/tests/vkms_configfs_test.c
-> new file mode 100644
-> index 000000000000..8d02c2c459d9
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_configfs_test.c
-> @@ -0,0 +1,102 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include "linux/printk.h"
-> +#include <kunit/test.h>
-> +
-> +#include "../vkms_configfs.h"
-> +
-> +MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
-> +
-> +/**
-> + * struct vkms_configfs_parse_format_case - Store test case for format parsing
-> + * @str: Contains the string to parse
-> + * @str_len: str len
-> + * @expected_len: expected len of the matched format
-> + * @expected_offset: expected offset in the string for the parsed format
-> + */
-> +struct vkms_configfs_parse_format_case {
-> +	const char *str;
-> +	int str_len;
-> +	int expected_len;
-> +	int expected_offset;
-> +};
-> +
-> +struct vkms_configfs_parse_format_case vkms_configfs_parse_format_test_cases[] = {
-> +	{
-> +		.str = "+RG24",
-> +		.str_len = 6,
-> +		.expected_len = 5,
-> +		.expected_offset = 0,
-> +	}, {
-> +		.str = "-RG24",
-> +		.str_len = 6,
-> +		.expected_len = 5,
-> +		.expected_offset = 0
-> +	}, {
-> +		.str = "  -RG24",
-> +		.str_len = 8,
-> +		.expected_len = 5,
-> +		.expected_offset = 2
-> +	}, {
-> +		.str = "+*",
-> +		.str_len = 3,
-> +		.expected_len = 2,
-> +		.expected_offset = 0
-> +	}, {
-> +		.str = "-RG24+RG24",
-> +		.str_len = 11,
-> +		.expected_len = 5,
-> +		.expected_offset = 0
-> +	}, {
-> +		.str = "-R1+RG24",
-> +		.str_len = 9,
-> +		.expected_len = 3,
-> +		.expected_offset = 0
-> +	}, {
-> +		.str = "\n-R1",
-> +		.str_len = 5,
-> +		.expected_len = 3,
-> +		.expected_offset = 1
-> +	}, {
-> +		.str = "-R1111",
-> +		.str_len = 3,
-> +		.expected_len = 3,
-> +		.expected_offset = 0
-> +	}
-> +};
-> +
-> +static void vkms_configfs_test_parse_format(struct kunit *test)
-> +{
-> +	const struct vkms_configfs_parse_format_case *param = test->param_value;
-> +	char *out;
-> +	int len = vkms_configfs_parse_next_format(param->str, param->str + param->str_len, &out);
-> +
-> +	KUNIT_EXPECT_EQ(test, len, param->expected_len);
-> +	KUNIT_EXPECT_PTR_EQ(test, out, param->str + param->expected_offset);
-> +}
-> +
-> +static void vkms_configfs_test_parse_format_get_desc(struct vkms_configfs_parse_format_case *t,
-> +						     char *desc)
-> +{
-> +	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s", t->str);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(vkms_configfs_test_parse_format, vkms_configfs_parse_format_test_cases,
-> +		  vkms_configfs_test_parse_format_get_desc
-> +);
-> +
-> +static struct kunit_case vkms_configfs_test_cases[] = {
-> +	KUNIT_CASE_PARAM(vkms_configfs_test_parse_format,
-> +			 vkms_configfs_test_parse_format_gen_params),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite vkms_configfs_test_suite = {
-> +	.name = "vkms-configfs",
-> +	.test_cases = vkms_configfs_test_cases,
-> +};
-> +
-> +kunit_test_suite(vkms_configfs_test_suite);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Kunit test for vkms configfs utility");
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> index 7be6d10b2b68..a451d1122acf 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -3,6 +3,8 @@
->  #include <linux/configfs.h>
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
-> +#include <linux/string.h>
-> +#include <kunit/visibility.h>
->  
->  #include "vkms_drv.h"
->  #include "vkms_config.h"
-> @@ -628,6 +630,120 @@ static ssize_t plane_default_color_encoding_store(struct config_item *item,
->  	return count;
+> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
+> index 3ad614642355..616036494937 100644
+> --- a/drivers/gpu/drm/vkms/vkms_connector.c
+> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
+> @@ -163,9 +163,90 @@ struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
+>  	return connector;
 >  }
 >  
-> +static ssize_t plane_supported_formats_show(struct config_item *item, char *page)
+> +static void vkms_connector_dynamic_destroy(struct drm_connector *connector)
 > +{
-> +	struct vkms_configfs_plane *plane;
+> +	struct drm_device *dev = connector->dev;
+> +	struct vkms_connector *vkms_connector;
 > +
-> +	plane = plane_item_to_vkms_configfs_plane(item);
+> +	drm_connector_cleanup(connector);
 > +
-> +	page[0] = '\0';
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		u32 *formats = vkms_config_plane_get_supported_formats(plane->config);
-> +
-> +		for (int i = 0;
-> +		     i < vkms_config_plane_get_supported_formats_count(plane->config);
-> +		     i++) {
-> +			char tmp[6] = { 0 };
-> +			const ssize_t ret = snprintf(tmp, ARRAY_SIZE(tmp), "%.*s\n",
-> +					       (int)sizeof(*formats),
-> +					       (char *)&formats[i]);
-> +			if (ret < 0)
-> +				return ret;
-> +			/*
-> +			 * Limitation of ConfigFS attributes, an attribute can't be bigger
-> +			 * than PAGE_SIZE. This will crop the result if this plane support
-> +			 * more than â‰ˆ1000 formats.
-> +			 */
-> +			if (ret + strlen(page) > PAGE_SIZE - 1)
-> +				return -ENOMEM;
-> +			strncat(page, tmp, ARRAY_SIZE(tmp));
-> +		}
-> +	}
-> +
-> +	return strlen(page);
+> +	vkms_connector = drm_connector_to_vkms_connector(connector);
+> +	drmm_kfree(dev, vkms_connector);
 > +}
 > +
-> +/**
-> + * parse_next_format() - Parse the next format in page, skipping all non fourcc-related characters
-> + * @page: page to search into
-> + * @page_end: last character of the page
-> + * @out: Output pointer, will point inside page
-> + *
-> + * Returns: size of the matched format, @out will point to the + or -
-> + */
-> +VISIBLE_IF_KUNIT
-> +int vkms_configfs_parse_next_format(const char *page, const char *page_end, char **out)
+> +static const struct drm_connector_funcs vkms_dynamic_connector_funcs = {
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +	.destroy = vkms_connector_dynamic_destroy,
+> +	.detect = vkms_connector_detect,
+> +};
+> +
+>  void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev)
+>  {
+>  	struct drm_device *dev = &vkmsdev->drm;
+>  
+>  	drm_kms_helper_hotplug_event(dev);
+>  }
+> +
+> +struct vkms_connector *vkms_connector_hot_add(struct vkms_device *vkmsdev,
+> +					      struct vkms_config_connector *connector_cfg)
 > +{
-> +	int count = page - page_end;
-> +	char *tmp_plus = strnchr(page, count, '+');
-> +	char *tmp_minus = strnchr(page, count, '-');
+> +	struct vkms_config_encoder *encoder_cfg;
+> +	struct vkms_connector *connector;
+> +	int ret;
+> +	unsigned long idx = 0;
 > +
-> +	if (!tmp_plus && !tmp_minus)
-> +		return 0;
-> +	if (!tmp_plus)
-> +		*out = tmp_minus;
-> +	else if (!tmp_minus)
-> +		*out = tmp_plus;
-> +	else
-> +		*out = min(tmp_plus, tmp_minus);
-> +
-> +	char *end = *out + 1;
-> +
-> +	while (end < page_end) {
-> +		if (!isalnum(*end) && *end != '*')
-> +			break;
-> +		end++;
-> +	}
-> +
-> +	return end - *out;
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(vkms_configfs_parse_next_format);
-> +
-> +static ssize_t plane_supported_formats_store(struct config_item *item,
-> +					     const char *page, size_t count)
-> +{
-> +	struct vkms_configfs_plane *plane;
-> +
-> +	plane = plane_item_to_vkms_configfs_plane(item);
-> +	int ret = 0;
-> +	const char *end_page = page + count;
-> +
-> +	scoped_guard(mutex, &plane->dev->lock) {
-> +		while (1) {
-> +			char *tmp;
-> +			char fmt[4] = {' ', ' ', ' ', ' '};
-> +			int len = vkms_configfs_parse_next_format(page, end_page, &tmp);
-> +
-> +			// No fourcc code found
-> +			if (len <= 1 || len > 5)
-> +				break;
-> +
-> +			page = tmp + len;
-> +			memcpy(fmt, &tmp[1], min(len - 1, 4));
-> +			if (tmp[0] == '+') {
-> +				if (fmt[0] == '*') {
-> +					ret = vkms_config_plane_add_all_formats(plane->config);
-> +					if (ret)
-> +						return ret;
-> +				} else {
-> +					ret = vkms_config_plane_add_format(plane->config,
-> +									   *(int *)fmt);
+> +	connector = drmm_kzalloc(&vkmsdev->drm, sizeof(*connector), GFP_KERNEL);
+> +	if (IS_ERR(connector))
 
-I have been thinking for a while about this *(int *) casting and I'm not sure if it
-would work in all cases.
-
-I had a minor concern about int vs u32 and, while I don't think int will cause
-issues, u32 looks like a better type.
-
-My main concern was about endianess. The fourcc_code() macro shifts bits around,
-which takes into account endianess. My brain hurt after trying to visualize this,
-so I wrote a simple tests that works on x86_64 but fails on Power PC:
-
-static void vkms_config_test_plane_add_format(struct kunit *test)
-{
-	struct vkms_config *config;
-	struct vkms_config_plane *plane_cfg;
-	int ret;
-	u32 *formats;
-
-	config = vkms_config_default_create(false, false, false, false);
-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-
-	plane_cfg = get_first_plane(config);
-
-	// DRM_FORMAT_XBGR16161616 = 942948952
-	char fmt[4] = {'X', 'B', '4', '8'};
-
-	vkms_config_plane_remove_all_formats(plane_cfg);
-	ret = vkms_config_plane_get_supported_formats_count(plane_cfg);
-	KUNIT_EXPECT_EQ(test, ret, 0);
-	
-	ret = vkms_config_plane_add_format(plane_cfg, *(int *)fmt);
-	KUNIT_EXPECT_EQ(test, ret, 0);
-
-	ret = vkms_config_plane_get_supported_formats_count(plane_cfg);
-	KUNIT_EXPECT_EQ(test, ret, 1);
-
-	formats = vkms_config_plane_get_supported_formats(plane_cfg);
-	KUNIT_EXPECT_EQ(test, formats[0], DRM_FORMAT_XBGR16161616);
-}
-
-On big endian it fails with the following error:
-
-[17:55:07] # vkms_config_test_plane_add_format: EXPECTATION FAILED at drivers/gpu/drm/vkms/tests/vkms_config_test.c:1256
-[17:55:07] Expected ret == 0, but
-[17:55:07]     ret == -22 (0xffffffffffffffea)
-[17:55:07] # vkms_config_test_plane_add_format: EXPECTATION FAILED at drivers/gpu/drm/vkms/tests/vkms_config_test.c:1259
-[17:55:07] Expected ret == 1, but
-[17:55:07]     ret == 0 (0x0)
-[17:55:07] # vkms_config_test_plane_add_format: EXPECTATION FAILED at drivers/gpu/drm/vkms/tests/vkms_config_test.c:1262
-[17:55:07] Expected formats[0] == ((__u32)('X') | ((__u32)('B') << 8) | ((__u32)('4') << 16) | ((__u32)('8') << 24)), but
-[17:55:07]     formats[0] == 875713089 (0x34325241)
-[17:55:07]     ((__u32)('X') | ((__u32)('B') << 8) | ((__u32)('4') << 16) | ((__u32)('8') << 24)) == 942948952 (0x38344258)
-[17:55:07] [FAILED] vkms_config_test_plane_add_format
-[17:55:07]     # module: vkms_kunit_tests
-
-So we need to find another way to convert the format. Maybe using the fourcc_code() macro?
+I need to test this patch carefully, but in a first review I noticed that this
+"if" should check for NULL, not for error.
 
 Jose
 
-> +					if (ret)
-> +						return ret;
-> +				}
-> +			} else if (tmp[0] == '-') {
-> +				if (fmt[0] == '*')
-> +					vkms_config_plane_remove_all_formats(plane->config);
-> +				else
-> +					vkms_config_plane_remove_format(plane->config, *(int *)fmt);
-> +			}
+> +		return connector;
+> +	ret = drm_connector_dynamic_init(&vkmsdev->drm,
+> +					 &connector->base,
+> +					 &vkms_dynamic_connector_funcs,
+> +					 connector_cfg->type,
+> +					 NULL);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +	drm_connector_helper_add(&connector->base, &vkms_conn_helper_funcs);
+> +
+> +	vkms_config_connector_for_each_possible_encoder(connector_cfg, idx, encoder_cfg) {
+> +		ret = drm_connector_attach_encoder(&connector->base,
+> +						   encoder_cfg->encoder);
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +	}
+> +
+> +	drm_atomic_helper_connector_reset(&connector->base);
+> +
+> +	vkms_connector_init(vkmsdev, connector, connector_cfg);
+> +
+> +	ret = drm_connector_dynamic_register(&connector->base);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return connector;
+> +}
+> +
+> +void vkms_connector_hot_remove(struct vkms_device *vkmsdev,
+> +			       struct vkms_connector *connector)
+> +{
+> +	drm_connector_unregister(&connector->base);
+> +	drm_mode_config_reset(&vkmsdev->drm);
+> +	drm_connector_put(&connector->base);
+> +}
+> +
+> +int vkms_connector_hot_attach_encoder(struct vkms_device *vkmsdev,
+> +				      struct vkms_connector *connector,
+> +				      struct drm_encoder *encoder)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_connector_attach_encoder(&connector->base, encoder);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_mode_config_reset(&vkmsdev->drm);
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
+> index 85f9082c710e..a235a518d5a0 100644
+> --- a/drivers/gpu/drm/vkms/vkms_connector.h
+> +++ b/drivers/gpu/drm/vkms/vkms_connector.h
+> @@ -34,4 +34,37 @@ struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
+>   */
+>  void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev);
+>  
+> +/**
+> + * vkms_connector_hot_add() - Create a connector after the device is created
+> + * @vkmsdev: Device to hot-add the connector to
+> + * @connector_cfg: Connector's configuration
+> + *
+> + * Returns:
+> + * A pointer to the newly created connector or a PTR_ERR on failure.
+> + */
+> +struct vkms_connector *vkms_connector_hot_add(struct vkms_device *vkmsdev,
+> +					      struct vkms_config_connector *connector_cfg);
+> +
+> +/**
+> + * vkms_connector_hot_remove() - Remove a connector after a device is created
+> + * @vkmsdev: Device to containing the connector to be removed
+> + * @connector: The connector to hot-remove
+> + */
+> +void vkms_connector_hot_remove(struct vkms_device *vkmsdev,
+> +			       struct vkms_connector *connector);
+> +
+> +/**
+> + * vkms_connector_hot_attach_encoder() - Attach a connector to a encoder after
+> + * the device is created.
+> + * @vkmsdev: Device containing the connector and the encoder
+> + * @connector: Connector to attach to @encoder
+> + * @encoder: Target encoder
+> + *
+> + * Returns:
+> + * 0 on success or an error on failure.
+> + */
+> +int vkms_connector_hot_attach_encoder(struct vkms_device *vkmsdev,
+> +				      struct vkms_connector *connector,
+> +				      struct drm_encoder *encoder);
+> +
+>  #endif /* _VKMS_CONNECTOR_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 13c4ca5fd39d..50f7d88dee8b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -117,5 +117,14 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>  
+>  	drm_mode_config_reset(dev);
+>  
+> +	vkms_config_for_each_connector_dynamic(vkmsdev->config, connector_cfg) {
+> +		if (connector_cfg->enabled) {
+> +			connector_cfg->connector = vkms_connector_hot_add(vkmsdev, connector_cfg);
+> +
+> +			if (IS_ERR(connector_cfg->connector))
+> +				return PTR_ERR(connector_cfg->connector);
 > +		}
 > +	}
 > +
-> +	return count;
-> +}
-> +
->  CONFIGFS_ATTR(plane_, type);
->  CONFIGFS_ATTR(plane_, name);
->  CONFIGFS_ATTR(plane_, supported_rotations);
-> @@ -636,6 +752,7 @@ CONFIGFS_ATTR(plane_, supported_color_ranges);
->  CONFIGFS_ATTR(plane_, default_color_range);
->  CONFIGFS_ATTR(plane_, supported_color_encodings);
->  CONFIGFS_ATTR(plane_, default_color_encoding);
-> +CONFIGFS_ATTR(plane_, supported_formats);
->  
->  static struct configfs_attribute *plane_item_attrs[] = {
->  	&plane_attr_type,
-> @@ -646,6 +763,7 @@ static struct configfs_attribute *plane_item_attrs[] = {
->  	&plane_attr_default_color_range,
->  	&plane_attr_supported_color_encodings,
->  	&plane_attr_default_color_encoding,
-> +	&plane_attr_supported_formats,
->  	NULL,
->  };
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.h b/drivers/gpu/drm/vkms/vkms_configfs.h
-> index e9020b0043db..2774655bfcc5 100644
-> --- a/drivers/gpu/drm/vkms/vkms_configfs.h
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.h
-> @@ -2,7 +2,13 @@
->  #ifndef _VKMS_CONFIGFS_H_
->  #define _VKMS_CONFIGFS_H_
->  
-> +#include <linux/types.h>
-> +
->  int vkms_configfs_register(void);
->  void vkms_configfs_unregister(void);
->  
-> +#if IS_ENABLED(CONFIG_KUNIT)
-> +int vkms_configfs_parse_next_format(const char *page, const char *end_page, char **out);
-> +#endif
-> +
->  #endif /* _VKMS_CONFIGFS_H_ */
+>  	return 0;
+>  }
 > 
 > -- 
 > 2.51.2
