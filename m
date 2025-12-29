@@ -1,273 +1,152 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C39217704
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 17:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FA21C3BFC
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 17:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767028181; cv=none; b=Pn5xuhjQWQoYbR20eQC+ejLUuIPFZA1+sJkK2bhJZSqDR26h882VQIBpy6OGsD6LFnp0Wat7j0zq1opDtlacam3rys5map9dyhAhCkan480JVkNsbyZDlw6QRkmoo3cxOddQdRzEHzIyXSi4L8ByuN9QLcXUY+sXpenSqhkXfgY=
+	t=1767028446; cv=none; b=YlzhqNGxMaQxPbca5RigCvJt9Mrk0EoxZdjXzhLmUlvNrhvY70WcCGa4W8F/f9Q+kkvsVifFbC70xl5YpFuireCmhDvDFo9cQQW+X4MeA+aixaYi3RmJFqiiNPTQixCDbob/SrlonrxO5IO7GhGK7IirNWKhP1C7gff4OiNLi5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767028181; c=relaxed/simple;
-	bh=BchYWUJMrG+zuaJJpFT32jhNlNVAAReMwcHd+XDyJG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f/mqkIjMi87AmDlqHHQZtzRPg94QZe4HeG/3QqriavQJxuVeHSvLrwo8VQglDinguA1xbEUyqPx4Mpu7EAJglby/oxWKKNVuT+JzEE2P7QkEXEzHaFoBy9DrvDwh+v/f6LfJm91ekVi9O7xt9KHYixXlePsNL+nPJBzJwhVlbj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEBBc0CD; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1767028446; c=relaxed/simple;
+	bh=rPHsj2oVdQZJmJLJWmWO3toMXK9yiLTRStaMVd6JXbQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o0odx+uqQNsgsHYNpmhKRHVM3fnzzahNh+zntT7g+NGPKhKhhbGcs4aRQLu493UUlZVLO0J/e2XmkwN+BUBH7jk6yKWrTmUJXEJN/5NOQHfl1IAXlndJhVJ/SIUnZJ1Rf98DsClXlIKyMMKqqgLqyQZ60MaoR3ttOaIXLZ1uW3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIqSjaYO; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEBBc0CD"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47d3ffa6720so34827245e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 09:09:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIqSjaYO"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-bfb84c2fe5eso3906381a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 09:14:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767028178; x=1767632978; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6O6+tk5h/BOteODO+69MaKipjConnQRO/Y3Z/JkS2Zw=;
-        b=kEBBc0CDeDduOkPrpyIKQpzIhC1MNaqIICWA98cprfy521bWEmZZIfVMCY0n7tw0aF
-         8+hy9Oz0DviE3c2loGw3FJ4/PpUzgHKBGPf3AQwo1423Trnof7d6H7/FR07W0AYRapBr
-         j2Ku5mEped6Cja1gOLN0PeMUQxkvp3dZRlxsCNo2z2TOm71JlMUZJhddOejtxkYPO0RF
-         ROEHAy2jWOA21/36q3l7jnTrr2FWI+hjRK46Ouk8WqH7WdkVyV53lVSgvbXYEaOJk88X
-         pY1kwQuUD/dsKIYEYaR8NeoLZ1iDS3HvFggWN66SpiMwc8eASBudps3lQIFIUbiA9PSF
-         tw5w==
+        d=gmail.com; s=20230601; t=1767028444; x=1767633244; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nq0hy4ZDbyOAkYMZ9R2bJ77qMoSVUcBr/BQKEBLGcD4=;
+        b=GIqSjaYO1LPsrpNx+MJUWdouSiwqq1TK0fcFqnIsRtvuZ12XgO8SfwBzriE3wgzLPo
+         e0ZYaemf16rLUaOC0HTYWCUD93l/g1Yga21wt6aElb8a0HEjxa3B5pdig/nopRdz4BeJ
+         pRZszj0yS9okHYU9ToggSWm8ewt+VW9d1ifHEWILEMtatcQCB+tR4VYF3uM52MJ4jgQb
+         i571ihJiXIx0VgN7OrSQpdRDe+4sUxTPo1AmT4Ls4ttzRXTBb712R2q/EEzQ5HGDqbpn
+         bUsoEPvxsbOczHl+Q9cfKuED+iW8LWMbNnSixSv+viCwXtPdiMEphoUSAjbtZtDYlIQe
+         uVVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767028178; x=1767632978;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6O6+tk5h/BOteODO+69MaKipjConnQRO/Y3Z/JkS2Zw=;
-        b=Of235E3/Bbe4FEhcX5RXWv0GEI2N+BW6pcA1VUgXrMgKPLweslwFJs79wru5TKMfq2
-         JTys/uNRh51Zoi6ScR7J+4To42Xl0i8FJxjSTW/iGQ7dc1beuFJyW+e7GsifYt/itPp1
-         VXDsdSvLIta568P446qz5qUaYkT/RZFxV1BeeAYTh7GtcMNu3xlbFfhrR9dwUOm8rRHR
-         urTpHOMw6vpVxV0XJw2tMQL1/BisysBO3GlKrZ5SckVbFgD1LDepfz6qXsmT8BcgofR4
-         2v3rkDZIYdYz5hq9ZTVh735r+xvF3xxAz/xENCajBAYV/ohdNT4xEvn9htLFCfcDHGBe
-         gK9g==
-X-Forwarded-Encrypted: i=1; AJvYcCV1ipYZ/EzUzA6630OnwCmW0OuiOazwEUyIM2vuluGrQL5h4PahU/CmiX6jKtFuJATzZPSUozntzdM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynwWHFC+RHuBpWBUrue5mKTG/zfrCVlfxxG/ueEAWjATfYvNWY
-	ZsumI5cVGCXFYHIdJP/hhJA7Kw80adxdvzndQu56GADlzxnT4bH2YGW6
-X-Gm-Gg: AY/fxX6HSX8iJogj0hlXGEtCj3d3wY35maNRj5aFjDlsdMJ6IRtAHfj6EZKqLM3/tu+
-	m+/i1U2xT9NiJrNerHer9FTEh0URi1waijiggYg/Dws0TdY7oUV2RiNc0w6gxsvGthIOM7kbpUx
-	4FVylZdO9T6hoT3XPK9DdI8udsLHl3rWKwfUz+6bAVV4HYpplZxMnwmGJuFANAArKZhJLe58JAT
-	DK41zXkuSVvWbBiGFyZ69/BnILpmwuIU9h5qtqOqcg7ci/mUWez8mCLlo/4AYfNDXP0BMHJOFQh
-	vRnve+8o0vwLxPuYelEQfRVWtbNxiNzlc8kQRAm7n5bEPlQlqzQ7FrT24pOJIPszbkPMYKIYjo8
-	aEL36GeRk8kmjm5J1UE3d7Ihf01It6j9553gDJzwpZZauNt7PxKL0p8XuIHA35mSpyhJjRcObbi
-	ItdyGksyBL0ifhNCoMWDfH
-X-Google-Smtp-Source: AGHT+IGBKFcaFsNGe1AsIBsQYOzgDRS5osMCiE0B5NHZqdGkmGV0E+4GLX8TxkrEWyGhl5Lz4KJpsQ==
-X-Received: by 2002:a05:6000:178e:b0:430:b100:f594 with SMTP id ffacd0b85a97d-4324e50d9bcmr37799197f8f.50.1767028177789;
-        Mon, 29 Dec 2025 09:09:37 -0800 (PST)
-Received: from fedora ([94.73.37.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea227e0sm65088089f8f.17.2025.12.29.09.09.36
+        d=1e100.net; s=20230601; t=1767028444; x=1767633244;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nq0hy4ZDbyOAkYMZ9R2bJ77qMoSVUcBr/BQKEBLGcD4=;
+        b=XbvshqZsRQ4Gtx4QGJvp9Es375o90dXK/ynfjXo/+fJnM8XOsSTltcMBuVyAWfC5o3
+         tjGIzd4iHaS7rkbFWmWZveZNMN5CJKxUk8r1JpAO/rKYhLRaxRkoH38JN5gOMrV8dPa4
+         6saDgsDHrNf0j/JxtZ4fArx9H2NzsoDvHKwJdKQlevbGecwfBFYiompUWtz9Cc/yd5Ww
+         twa1w1NvTHOprRa3NbBX2uVPUxrYhsN/sjcQKFC17tUOLDmuTLfbtSjYhXrAdVPNhH2V
+         K+Fyaj3j/5iLHFcFRJjf6gIGgNy4kZNWnGKraVKNw4ydPhc6TV1TWW6stnm6KLYe4sp0
+         vfOw==
+X-Forwarded-Encrypted: i=1; AJvYcCW8d5F23vo99NariS3lWmppZ/GOMvuWNRxNAUoUoeOeyO/3yaZuTQNa9PWZRynnJfI0I/ZYztPm5OQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2PNyijdwjzffjU80yms55Tygu4URKRcwaYy3budz7dryx4rzh
+	2NNtSRAjLdOT3/nXR1qEhU/5/7Fz4UgGEDa6CoTGOH9qbaYWszAfwQnb
+X-Gm-Gg: AY/fxX6stBUasvULoMpWlIdCYrMgM/D08aXMJ6SQOfZTEGNWqgVYwEZX2qKsXPXTNEf
+	JPBQrH8aZGCc/WuMJ2Gf2zYHAggJlnarqtTvULuJ5gOPbUML7jML0JyXPRIH5cGxspgjLjQw+tM
+	CBZdR1C5gzMprN5+T0kl//fAvA3cB0ZKwY9M/V+77VzsqFFRBWrt2LJB4bAhQi7pSvI/cOprQdL
+	Gnw8xkg+fQjhQi7Q/BAc2BfIADBmWd8tWGpCeYJ/idHVFsRdaoWFwPAcXZlv7HCUqq5Cjy4ySZ7
+	BRtkT6qABIV6xjA/Ai4vgGN248KKwZE/nz/h4BFdon2PjON4q3atnjARdm0zrJEAjxvgqOKqckQ
+	GDNJFqTCbcWwai2Z3+CEkA1cAGvA2LTaDy2HvmfweFaMOViDASn+cMERjW357lEI9ocFZYWx5y2
+	jiVlfmxhcNyh/ii2FMntpX1w0sFgt4gTEuljNuUI+WBSYFo7S9OR/wXrPbdRFfWA==
+X-Google-Smtp-Source: AGHT+IG4eXbFG3XgvqZI1V+B2x2P42ZmXTkV7Dp/LoGqVFuSVOvFy0fGaXCjk1bAi09n8KFPykhhkg==
+X-Received: by 2002:a17:90b:2e4a:b0:34c:9cec:3898 with SMTP id 98e67ed59e1d1-34e71e29544mr29378809a91.13.1767028444325;
+        Mon, 29 Dec 2025 09:14:04 -0800 (PST)
+Received: from kailas.hsd1.or.comcast.net ([2601:1c2:982:6040::e14d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e76ae7618sm16105280a91.1.2025.12.29.09.14.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 09:09:37 -0800 (PST)
-Date: Mon, 29 Dec 2025 18:09:35 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	victoria@system76.com, sebastian.wick@redhat.com,
-	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 32/33] drm/vkms: Allow to hot-add connectors
-Message-ID: <aVK1z_WUUQ-5frII@fedora>
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-32-ba42dc3fb9ff@bootlin.com>
+        Mon, 29 Dec 2025 09:14:03 -0800 (PST)
+From: Ryan Foster <foster.ryan.r@gmail.com>
+To: bboscaccy@linux.microsoft.com
+Cc: James.Bottomley@hansenpartnership.com,
+	akpm@linux-foundation.org,
+	bpf@vger.kernel.org,
+	corbet@lwn.net,
+	dhowells@redhat.com,
+	foster.ryan.r@gmail.com,
+	gnoack@google.com,
+	jmorris@namei.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux@treblig.org,
+	mic@digikod.net,
+	paul@paul-moore.com,
+	serge@hallyn.com
+Subject: Re: [RFC 00/11] Reintroduce Hornet LSM
+Date: Mon, 29 Dec 2025 09:12:48 -0800
+Message-ID: <20251229171402.1491979-1-foster.ryan.r@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <87v7i4hpi4.fsf@microsoft.com>
+References: <87v7i4hpi4.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251222-vkms-all-config-v3-32-ba42dc3fb9ff@bootlin.com>
 
-On Mon, Dec 22, 2025 at 11:11:34AM +0100, Louis Chauvet wrote:
-> In order to allow creating dynamic connector, add the required
-> infrastructure in vkms_connector.
-> 
-> [Louis Chauvet: use drm_atomic_helper_connector_reset instead of
-> drm_mode_config_reset because connector is not yet registered]
-> 
-> Co-developed-by: José Expósito <jose.exposito89@gmail.com>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_connector.c | 81 +++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_connector.h | 33 ++++++++++++++
->  drivers/gpu/drm/vkms/vkms_output.c    |  9 ++++
->  3 files changed, 123 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-> index 3ad614642355..616036494937 100644
-> --- a/drivers/gpu/drm/vkms/vkms_connector.c
-> +++ b/drivers/gpu/drm/vkms/vkms_connector.c
-> @@ -163,9 +163,90 @@ struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
->  	return connector;
->  }
->  
-> +static void vkms_connector_dynamic_destroy(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct vkms_connector *vkms_connector;
-> +
-> +	drm_connector_cleanup(connector);
-> +
-> +	vkms_connector = drm_connector_to_vkms_connector(connector);
-> +	drmm_kfree(dev, vkms_connector);
-> +}
-> +
-> +static const struct drm_connector_funcs vkms_dynamic_connector_funcs = {
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +	.destroy = vkms_connector_dynamic_destroy,
-> +	.detect = vkms_connector_detect,
-> +};
-> +
->  void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev)
->  {
->  	struct drm_device *dev = &vkmsdev->drm;
->  
->  	drm_kms_helper_hotplug_event(dev);
->  }
-> +
-> +struct vkms_connector *vkms_connector_hot_add(struct vkms_device *vkmsdev,
-> +					      struct vkms_config_connector *connector_cfg)
-> +{
-> +	struct vkms_config_encoder *encoder_cfg;
-> +	struct vkms_connector *connector;
-> +	int ret;
-> +	unsigned long idx = 0;
-> +
-> +	connector = drmm_kzalloc(&vkmsdev->drm, sizeof(*connector), GFP_KERNEL);
-> +	if (IS_ERR(connector))
+Hi all,
 
-I need to test this patch carefully, but in a first review I noticed that this
-"if" should check for NULL, not for error.
+I am considering how to reconcile the TOCTOU concern with the "don't touch BPF internals" feedback, I think a very small API might help:
 
-Jose
+Minimal API draft: BPF integrity measurement
 
-> +		return connector;
-> +	ret = drm_connector_dynamic_init(&vkmsdev->drm,
-> +					 &connector->base,
-> +					 &vkms_dynamic_connector_funcs,
-> +					 connector_cfg->type,
-> +					 NULL);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +	drm_connector_helper_add(&connector->base, &vkms_conn_helper_funcs);
-> +
-> +	vkms_config_connector_for_each_possible_encoder(connector_cfg, idx, encoder_cfg) {
-> +		ret = drm_connector_attach_encoder(&connector->base,
-> +						   encoder_cfg->encoder);
-> +		if (ret)
-> +			return ERR_PTR(ret);
-> +	}
-> +
-> +	drm_atomic_helper_connector_reset(&connector->base);
-> +
-> +	vkms_connector_init(vkmsdev, connector, connector_cfg);
-> +
-> +	ret = drm_connector_dynamic_register(&connector->base);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return connector;
-> +}
-> +
-> +void vkms_connector_hot_remove(struct vkms_device *vkmsdev,
-> +			       struct vkms_connector *connector)
-> +{
-> +	drm_connector_unregister(&connector->base);
-> +	drm_mode_config_reset(&vkmsdev->drm);
-> +	drm_connector_put(&connector->base);
-> +}
-> +
-> +int vkms_connector_hot_attach_encoder(struct vkms_device *vkmsdev,
-> +				      struct vkms_connector *connector,
-> +				      struct drm_encoder *encoder)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_connector_attach_encoder(&connector->base, encoder);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_mode_config_reset(&vkmsdev->drm);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
-> index 85f9082c710e..a235a518d5a0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_connector.h
-> +++ b/drivers/gpu/drm/vkms/vkms_connector.h
-> @@ -34,4 +34,37 @@ struct vkms_connector *vkms_connector_init_static(struct vkms_device *vkmsdev,
->   */
->  void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev);
->  
-> +/**
-> + * vkms_connector_hot_add() - Create a connector after the device is created
-> + * @vkmsdev: Device to hot-add the connector to
-> + * @connector_cfg: Connector's configuration
-> + *
-> + * Returns:
-> + * A pointer to the newly created connector or a PTR_ERR on failure.
-> + */
-> +struct vkms_connector *vkms_connector_hot_add(struct vkms_device *vkmsdev,
-> +					      struct vkms_config_connector *connector_cfg);
-> +
-> +/**
-> + * vkms_connector_hot_remove() - Remove a connector after a device is created
-> + * @vkmsdev: Device to containing the connector to be removed
-> + * @connector: The connector to hot-remove
-> + */
-> +void vkms_connector_hot_remove(struct vkms_device *vkmsdev,
-> +			       struct vkms_connector *connector);
-> +
-> +/**
-> + * vkms_connector_hot_attach_encoder() - Attach a connector to a encoder after
-> + * the device is created.
-> + * @vkmsdev: Device containing the connector and the encoder
-> + * @connector: Connector to attach to @encoder
-> + * @encoder: Target encoder
-> + *
-> + * Returns:
-> + * 0 on success or an error on failure.
-> + */
-> +int vkms_connector_hot_attach_encoder(struct vkms_device *vkmsdev,
-> +				      struct vkms_connector *connector,
-> +				      struct drm_encoder *encoder);
-> +
->  #endif /* _VKMS_CONNECTOR_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 13c4ca5fd39d..50f7d88dee8b 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -117,5 +117,14 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->  
->  	drm_mode_config_reset(dev);
->  
-> +	vkms_config_for_each_connector_dynamic(vkmsdev->config, connector_cfg) {
-> +		if (connector_cfg->enabled) {
-> +			connector_cfg->connector = vkms_connector_hot_add(vkmsdev, connector_cfg);
-> +
-> +			if (IS_ERR(connector_cfg->connector))
-> +				return PTR_ERR(connector_cfg->connector);
-> +		}
-> +	}
-> +
->  	return 0;
->  }
-> 
-> -- 
-> 2.51.2
-> 
+Goal: kernel-generated measurement of the final relocated program + declared inputs, so attach/link can be enforced without poking internals.
+
+1) New BPF cmd
+- BPF_MEASURE_PROG (or BPF_PROG_MEASURE)
+- Input: prog_fd
+- Output: opaque measurement blob + metadata
+
+struct bpf_prog_measure_opts {
+        __u32 size;
+        __u32 flags;
+        __u32 sig_len;
+        __u64 sig_ptr;
+        __u64 prog_id;
+        __u64 meas_id;
+};
+
+Semantics
+- Kernel computes measurement over final relocated insns + inputs explicitly in the integrity contract (e.g., sealed maps).
+- Measurement is kernel-owned and stable for a program state.
+
+2) Per-prog integrity state
+
+enum lsm_integrity_verdict {
+        LSM_INT_VERDICT_UNSIGNED,
+        LSM_INT_VERDICT_PARTIAL,
+        LSM_INT_VERDICT_OK,
+        LSM_INT_VERDICT_BADSIG,
+};
+
+struct bpf_prog_integrity {
+        __u64 meas_id;
+        enum lsm_integrity_verdict v;
+};
+
+- Attach/link allowed only if policy verdict passes.
+- Any input mutation invalidates meas_id and resets verdict.
+
+3) Input immutability
+- Only sealed/frozen maps can be measured.
+- Any write to a measured map invalidates the measurement.
+
+4) LSM integration
+- Hornet (or another integrity LSM) consumes the measurement blob, verifies signatures, stores verdict.
+- SELinux/IPE/BPF LSMs can gate attach/link based on verdict.
+
+Why this helps
+- TOCTOU: verification tied to final relocated program + frozen inputs; mutations invalidate.
+- No BPF internals: LSMs use a stable syscall API, not map internals.
+- Minimal blast radius: one syscall + small per-prog state.
+
+A thought for future iterations, happy to help refine if this seems useful.
+
+Thanks,
+Ryan
