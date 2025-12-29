@@ -1,102 +1,102 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F352C11CB;
-	Mon, 29 Dec 2025 11:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC1224AF0;
+	Mon, 29 Dec 2025 13:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767009290; cv=none; b=BuClhbgF0luEV5Ck7nxl9IcRVt7J6gzcpJj7fQfO2H3kDq3BKmG4harshPST8PsBpjSlELHt484R03cyD3/ZDSIyuirGpW7WqQ/NP9mAUsU/MpBvdXGXpxrytOyPzxSvT4dI8zUS77eU7OfkpeKucZVDnBcC1UVyshJ3fO5qqHo=
+	t=1767016527; cv=none; b=iAlBCpKfVTydfbLGw3rfVdAQ/y26jFyI/UXweRc6rdQgCDLotE8uTLR7TsAoV1pOqX/sXJh8DYEr+tC08/Odtw+/+d00VvRNUAubWIGv4KZAb+Y6SDHgzRLgdA9WlZYXZFnXiSBCLxu1ZqK8rXYYhCqelK1IPSbo5ygJlOdoKC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767009290; c=relaxed/simple;
-	bh=rg8882HN0q5dZbaB2j0JJtAmaocpdTyq8yU2ZyxrdTM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GX+5mUXjwCtkrArfWW5iiEas+XYzmqxoNSN7zadJiMg0EvPUzVwqM/rglXDPZFQmHpCYwkgDP+HCJuOIUnnl6Hal9lVv99OeiHT5o7vlB6kyDBJCEn+ZY9iEZ8WX2CieDUSqUmB5EBMcrNNnY3du6WBSHYQOxZhtrmRQfiWfjXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C9B3339;
-	Mon, 29 Dec 2025 03:54:38 -0800 (PST)
-Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B2A1B3F63F;
-	Mon, 29 Dec 2025 03:54:43 -0800 (PST)
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-acpi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	tony.luck@intel.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	rafael@kernel.org,
-	linux-doc@vger.kernel.org,
-	Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com,
-	Ahmed.Tiba@arm.com
-Subject: Re: [PATCH 00/12] ras: share firmware-first estatus handling
-Date: Mon, 29 Dec 2025 11:54:36 +0000
-Message-ID: <20251229115440.2734800-1-ahmed.tiba@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251221013534.GAaUdO5vWqMWAdbWbd@renoirsky.local>
-References: 
+	s=arc-20240116; t=1767016527; c=relaxed/simple;
+	bh=KUzcCQmQKdCc6BXDXkIzmgljIGG78Dm71TrJEBQ0UVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tWhrptlcLvaf+QdrS9gnBNvHdigWdFR7jUoAH+R0XjKieLsNgjOdXzq616Y0IAyVoVEVlCNAwaWoc8O4Q4Xsi/Yf+71e4LSQJKRHu1mrc4oJw23OGkQhXtYS27x7mN4yb3272GVspIhIKZzyU2cNOFyw266DDuvVAJ88cWv4mNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGxdnq2k; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGxdnq2k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B958C4CEF7;
+	Mon, 29 Dec 2025 13:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767016527;
+	bh=KUzcCQmQKdCc6BXDXkIzmgljIGG78Dm71TrJEBQ0UVk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YGxdnq2k/1YHQkO+jdKT72GRWIqp9MvmMpClq2GsOdPjlPP0FWxM04kupp5c2Q36H
+	 WhlDnqIsMmUc8EKUXxMVpxOS42QmCYKRBBIDWLcXcg4PUPqipaWdrKH1gKS1FwASa/
+	 hKp6pXPaUfKZpSt6S9+PDmd4sDLYk+k7PB2/GgxYMbTYOOhWXttLamMY9XPRpV3eOG
+	 +7yYHchowcnAlit4edYM+tpviihqUXpxV86rHDGshmddrsiLgHbLG6n6z8+q8V0Y39
+	 wHGA0q9QyXUGWHVXz4L51blEjBjtP/4YARdm22YWyWh7Tr/vFqZHJq9k7MphA7j8SR
+	 mM6Yjtx2b2iDw==
+Message-ID: <d17b3b7e-2d3e-4b0c-aa55-ce82fecc1710@kernel.org>
+Date: Mon, 29 Dec 2025 07:55:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/28] nios2: introduce arch_zone_limits_init()
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
+ Brian Cain <bcain@kernel.org>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Hildenbrand <david@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Stafford Horne <shorne@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org
+References: <20251228124001.3624742-1-rppt@kernel.org>
+ <20251228124001.3624742-12-rppt@kernel.org>
+Content-Language: en-US
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20251228124001.3624742-12-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On Sun, Dec 21, 2025 at 02:35:34 +0100, Borislav Petkov wrote:
-> On Wed, Dec 17, 2025 at 11:28:33AM +0000, Ahmed Tiba wrote:
->> Platforms that rely on firmware-first RAS today only get the full Linux
->> handling pipeline when the records arrive through ACPI/APEI GHES. This
->> series lifts the generic parts of GHES into a reusable estatus core, wires
->
-> Why is this thing called "error status"?
 
-By “error status” I’m referring to the UEFI CPER Generic Error Status block,
-which is the standard firmware-produced error payload that Linux already
-consumes via GHES on ACPI systems. I’m not introducing a new error model
-here; the intent is to reuse the existing CPER decoding and handling once
-that payload exists.
+On 12/28/25 06:39, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> Move calculations of zone limits to a dedicated arch_zone_limits_init()
+> function.
+> 
+> Later MM core will use this function as an architecture specific callback
+> during nodes and zones initialization and thus there won't be a need to
+> call free_area_init() from every architecture.
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>   arch/nios2/mm/init.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+> 
 
-> Why is error status so significant so that you need to call it a thing,
-> much less a "core"?
-
-The reason this shows up as a separate “core” is that CPER parsing,
-logging, and vendor dispatch are provider-agnostic once a Generic Error
-Status block exists, independent of how it was discovered or notified.
-
-> It looks like you basically want to dump error records from a system
-> which doesn't support GHES into the common path so they get decoded?
->
-> I mean, I'm only guessing because I don't get any wiser from this text.
->
-> So how about you give the high-level, practical use spiel first? What's
-> the use case?
-
-The practical use case is firmware-first RAS platforms that emit CPER
-records but do not use ACPI/APEI GHES for discovery or notification. Today,
-those platforms either have to duplicate CPER parsing logic or miss out on
-the common Linux RAS handling (standard logging, memory failure flow,
-vendor notification paths). As a result, the full firmware-first RAS
-pipeline effectively only works when CPER arrives through GHES.
-
-GHES remains one transport for delivering CPER records, but this
-series separates the transport from the decoding so that other firmware-
-first providers can reuse the same handling without duplicating code or
-depending on ACPI/APEI internals.
-
-As far as I can tell from the scope of https://uefi.org/specifications,
-the UEFI specifications don’t define a notification mechanism for
-DeviceTree systems—only the ACPI/APEI path is spelled out. Right now the DT
-transport is described solely by the binding in patch 9/12. If there’s a
-better place to document or name this, I’d appreciate guidance
-so it’s clear how firmware-first notification happens on DT outside ACPI.
-
-Thanks,
-Ahmed
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
