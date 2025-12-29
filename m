@@ -1,33 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC1224AF0;
-	Mon, 29 Dec 2025 13:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFCF32142E
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 14:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767016527; cv=none; b=iAlBCpKfVTydfbLGw3rfVdAQ/y26jFyI/UXweRc6rdQgCDLotE8uTLR7TsAoV1pOqX/sXJh8DYEr+tC08/Odtw+/+d00VvRNUAubWIGv4KZAb+Y6SDHgzRLgdA9WlZYXZFnXiSBCLxu1ZqK8rXYYhCqelK1IPSbo5ygJlOdoKC0=
+	t=1767019233; cv=none; b=nAynqAMCqWrHU4OJZvPgEl+9WBrAVXNtDCDXdMZXZD0ZnF9SK1XjqJaM4xVJJNKjyNNTYg3l5IVuq13EPF8fyaFEzWoKpNywCxz0fwPv7ZyzuWOJXGEZhDAnHxvpWoS6FD40BPtfVces58srx5sXesF9XJxfM0XP3cIjwgyiiIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767016527; c=relaxed/simple;
-	bh=KUzcCQmQKdCc6BXDXkIzmgljIGG78Dm71TrJEBQ0UVk=;
+	s=arc-20240116; t=1767019233; c=relaxed/simple;
+	bh=rOJwSwgN8Nyopi6nowMsKxMEN9cRq1r4JghdluU4gKk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tWhrptlcLvaf+QdrS9gnBNvHdigWdFR7jUoAH+R0XjKieLsNgjOdXzq616Y0IAyVoVEVlCNAwaWoc8O4Q4Xsi/Yf+71e4LSQJKRHu1mrc4oJw23OGkQhXtYS27x7mN4yb3272GVspIhIKZzyU2cNOFyw266DDuvVAJ88cWv4mNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGxdnq2k; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=V1qN4NRk3cV7yRIbMqOCCUxqY0HXIkTFQqfmcxBQ2SmI0ekyAbRnSCNvTU4HJ+C+xXqMJTg5c3ZbXn5ytWjRDMXKFG1a8umMzwMbdf+xBSISQeTXpLlWNp6PHFDyI0AqkiL8E7hAh+Fi6mCoP8Dd0jZY0TYl9FrE0AkJSnvPaUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hmJJffzS; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGxdnq2k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B958C4CEF7;
-	Mon, 29 Dec 2025 13:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767016527;
-	bh=KUzcCQmQKdCc6BXDXkIzmgljIGG78Dm71TrJEBQ0UVk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YGxdnq2k/1YHQkO+jdKT72GRWIqp9MvmMpClq2GsOdPjlPP0FWxM04kupp5c2Q36H
-	 WhlDnqIsMmUc8EKUXxMVpxOS42QmCYKRBBIDWLcXcg4PUPqipaWdrKH1gKS1FwASa/
-	 hKp6pXPaUfKZpSt6S9+PDmd4sDLYk+k7PB2/GgxYMbTYOOhWXttLamMY9XPRpV3eOG
-	 +7yYHchowcnAlit4edYM+tpviihqUXpxV86rHDGshmddrsiLgHbLG6n6z8+q8V0Y39
-	 wHGA0q9QyXUGWHVXz4L51blEjBjtP/4YARdm22YWyWh7Tr/vFqZHJq9k7MphA7j8SR
-	 mM6Yjtx2b2iDw==
-Message-ID: <d17b3b7e-2d3e-4b0c-aa55-ce82fecc1710@kernel.org>
-Date: Mon, 29 Dec 2025 07:55:22 -0600
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hmJJffzS"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4FB4D4E41E42;
+	Mon, 29 Dec 2025 14:40:28 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 09F0860725;
+	Mon, 29 Dec 2025 14:40:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6EE8A113B061F;
+	Mon, 29 Dec 2025 15:40:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767019212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=KHiNO49s1LI0Asee/eQKQNGC6G1Km0lH02lOMMvuT0Q=;
+	b=hmJJffzSghd8i6EFJlxW1J4CjGkBxhcfMj0/Gyj2yTxtNeMYsLSuGZ/Y93uBGEtY3xuLmw
+	zIW786/cVknjj6MsV3hz9hA4XI7cMbZx3TSJjRuR/lyejFIjK2HnJFKo9obUtaidLyQg4O
+	vtPoQR8KpOMcvtp/fE3GAKMfkPiss5LTPY2swc3kA1hMAgDnRIOAz618GSNnib3aJekA7W
+	8RHs11JJNOGZ/6coexRSwLVkwllX4DD8ox2ofIubWeGVN3mgrQeNzIsFMJo+imI1WVIj1f
+	XO5VVhhik65XyrRrzO8r4SJN8T6Iw262mFMRcPBDpAaMFMj2nTVaqEW9yHTm3Q==
+Message-ID: <da5db513-1b0c-4ba9-8513-a616895405de@bootlin.com>
+Date: Mon, 29 Dec 2025 15:40:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,68 +42,146 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/28] nios2: introduce arch_zone_limits_init()
-To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
- Brian Cain <bcain@kernel.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Stafford Horne <shorne@gmail.com>, Suren Baghdasaryan <surenb@google.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org
-References: <20251228124001.3624742-1-rppt@kernel.org>
- <20251228124001.3624742-12-rppt@kernel.org>
+Subject: Re: [PATCH v3 07/33] drm/vkms: Introduce configfs for plane name
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-7-ba42dc3fb9ff@bootlin.com>
+ <DF5JW5Z5K9YE.2PCYFIFFMT6G6@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
 Content-Language: en-US
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20251228124001.3624742-12-rppt@kernel.org>
+In-Reply-To: <DF5JW5Z5K9YE.2PCYFIFFMT6G6@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
 
 
-On 12/28/25 06:39, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On 12/23/25 12:14, Luca Ceresoli wrote:
+> On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
+>> Planes can have name, create a plane attribute to configure it. Currently
+>> plane name is mainly used in logs.
+>>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> ---
+>>   Documentation/ABI/testing/configfs-vkms |  6 +++++
+>>   Documentation/gpu/vkms.rst              |  3 ++-
+>>   drivers/gpu/drm/vkms/vkms_configfs.c    | 43 +++++++++++++++++++++++++++++++++
+>>   3 files changed, 51 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
+>> index 0beaa25f30ba..6fe375d1636f 100644
+>> --- a/Documentation/ABI/testing/configfs-vkms
+>> +++ b/Documentation/ABI/testing/configfs-vkms
+>> @@ -103,6 +103,12 @@ Description:
+>>           Plane type. Possible values: 0 - overlay, 1 - primary,
+>>           2 - cursor.
+>>
+>> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/name
+>> +Date:		Nov 2025
+>> +Contact:	dri-devel@lists.freedesktop.org
+>> +Description:
+>> +        Name of the plane.
+>> +
+>>   What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
+>>   Date:		Nov 2025
+>>   Contact:	dri-devel@lists.freedesktop.org
+>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>> index 1e79e62a6bc4..79f1185d8645 100644
+>> --- a/Documentation/gpu/vkms.rst
+>> +++ b/Documentation/gpu/vkms.rst
+>> @@ -87,10 +87,11 @@ Start by creating one or more planes::
+>>
+>>     sudo mkdir /config/vkms/my-vkms/planes/plane0
+>>
+>> -Planes have 1 configurable attribute:
+>> +Planes have 2 configurable attributes:
+>>
+>>   - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
+>>     exposed by the "type" property of a plane)
+>> +- name: Name of the plane. Allowed characters are [A-Za-z1-9_-]
+>>
+>>   Continue by creating one or more CRTCs::
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+>> index 506666e21c91..989788042191 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+>> @@ -324,10 +324,53 @@ static ssize_t plane_type_store(struct config_item *item, const char *page,
+>>   	return (ssize_t)count;
+>>   }
+>>
+>> +static ssize_t plane_name_show(struct config_item *item, char *page)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +	const char *name;
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock)
+>> +		name = vkms_config_plane_get_name(plane->config);
 > 
-> Move calculations of zone limits to a dedicated arch_zone_limits_init()
-> function.
+> vkms_config_plane_get_name() returns a pointer to the name string, not a
+> copy. Unless I'm missing something, that string might be freed before the
+> next lines, where it is used:
 > 
-> Later MM core will use this function as an architecture specific callback
-> during nodes and zones initialization and thus there won't be a need to
-> call free_area_init() from every architecture.
+>> +
+>> +	if (name)
+>> +		return sprintf(page, "%s\n", name);
+>> +	return sprintf(page, "\n");
 > 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->   arch/nios2/mm/init.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
+> So for safety the above 3 lines whould go inside the scoped_guard().
 
-Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+Good catch!
+
+This also raised some questions on the whole locking synchronization 
+between configfs / config / DRM core. I will work on this topic and 
+maybe move the mutex / add a refcount to vkms_config.
+
+>> +}
+>> +
+>> +static ssize_t plane_name_store(struct config_item *item, const char *page,
+>> +				size_t count)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +	size_t str_len;
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+>> +
+>> +	// strspn is not lenght-protected, ensure that page is a null-terminated string.
+>> +	str_len = strnlen(page, count);
+>> +	if (str_len >= count)
+>> +		return -EINVAL;
+>> +
+>> +	if (strspn(page, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") != count - 1)
+>> +		return -EINVAL;
+> 
+> I see you effor to make this as clean as possible, thanks. Still this is a
+> tad ugly, and should be moved to some common place at some point IMO. For
+> now it's fine, but if you need to add more user-passed strings, that could
+> be the moment to move this code.
+
+There are multiple "user strings" in this file (notably group names), 
+but currently without limitation.
+
+I can create a tiny helper and limit all user strings to a-zA-Z0-9_-
+It will technically break the ABI, but I don't think this is a big issue.
+
+Do you or José think this is a good idea? If so I can extract the helper 
+for v4 and send a separate series to do the limitation on other strings.
+
+> Luca
+> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
