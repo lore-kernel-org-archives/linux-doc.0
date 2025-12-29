@@ -1,93 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE043A1E9A
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 01:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E57B1DE2B4
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 01:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766970122; cv=none; b=DwE6ZZ59GGrvoy8k7WroIJlKDjzhfQ/tpg9c9UYI6sIBRHgQYzRmiag9v8L1pt68jcTqt7Kn9F4V5pIKxcicZOV/w3kK+vUHYvKK/vuWhqmv/D2144+pveRAEnkcXPbEvi4kI4lMIlZn7i47eP8P/19ELjDTkcV35d4nSx/DdDM=
+	t=1766970171; cv=none; b=cqhOgTDDST/JdolPZpdiqZHpcPhOEqrhIUuw9XLc36s5reoOikI9jKkp16H8ZXWH6zHOYeZkRKDvoeTLLsmBtVQuwmyBt9oOUSaEkdJEv9m8KF91pUaUiyZp3H2Jq8WoQcN2S0ovA/dpsewaBw4SAbhzP+dviYT8V1Z1AGnaXC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766970122; c=relaxed/simple;
-	bh=xlwNDZh9YPSbJhl/Po7oDqkzhYnIPkcnnLBIw8WPKMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gPd8kYKhFuF+RoI4pzG4ecJ19R/prn/gJwNSiti2C99IBfMNdqYZF/94bRQ3ddNjY2zdvm7ANqwJJreALbB+Cx8fdSn0MxkgsHV0ihtmlmzSH9GRdcsUfunSADpg9KZ3i/FCIvwGKCkQWHLJ6Cyvqp9ysUhDrdSz28a7qR+Bt2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvMmdynQ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766970171; c=relaxed/simple;
+	bh=8PsFqhWPWBs5ISCcmLVbxGD3gHbmqyMeDa365kBTSqI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pwG4Bv/psRN68MCbA980MWO2u6g2RobR4wWKf2YQ/SJp7yHsRzaBjXbQS86AeVDqvCf2jc74QOj1nJA3OsFE1xDifL5CICkLEWdK718pY1rwTDktpIv/TXo1+vpn5jREkWQeR7seg/U7XOb5fX/TSO5oz0eUheFYAMt7GncF/BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFyb9DJ0; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvMmdynQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766970121; x=1798506121;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xlwNDZh9YPSbJhl/Po7oDqkzhYnIPkcnnLBIw8WPKMY=;
-  b=JvMmdynQkwJDhoi3Kp/jfgP4bwwQn6mPs63eo+WzwjJPx72EqSVAzHUh
-   W7KmTFgpN7vvFv+ScTg4tq8gyJxKeHl0U1Iw8HHJ+tl8dVWm97BPAGVbU
-   GnoeBvNWuf7CTmpAilquax/Z7Xxoz4eWjHxd2CfIN6217Tx2q76ZafSNG
-   1fLmrCD1DiV9507FB8McGhdzBon0GDJQ+UWv8oJwFqtVOmj1O/nuPf/Sm
-   KCGChagKA5rxzl5BYAjCBGD6W9pgTajietTziGZJ6MK+y5ga9M6hKAbid
-   L7t5SEc2hsqqwHao7pgVdM/GM/Kz6PWzAyMWQYtWfkd6Lt8yZRaCTCDTX
-   Q==;
-X-CSE-ConnectionGUID: GPWd6kIwT6ubIwAcfyGUHQ==
-X-CSE-MsgGUID: vVkBNAVlSaS281E9bHwrEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="67590769"
-X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="67590769"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 17:02:01 -0800
-X-CSE-ConnectionGUID: +a8rtBL0S+WqtS/uRMtNFA==
-X-CSE-MsgGUID: 2kE5IXzbTz2W1y0wP4rZzg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="204932224"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 28 Dec 2025 17:02:00 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1va1e1-000000007dW-0bgA;
-	Mon, 29 Dec 2025 01:01:57 +0000
-Date: Mon, 29 Dec 2025 02:01:28 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal:spec 113/131] htmldocs: Documentation/driver-api/basics:75:
- ./kernel/signal.c:5950: WARNING: Inline emphasis start-string without
- end-string. [docutils]
-Message-ID: <202512290259.B1YOnFTb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFyb9DJ0"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64d0d41404cso9851108a12.0
+        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 17:02:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766970166; x=1767574966; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8PsFqhWPWBs5ISCcmLVbxGD3gHbmqyMeDa365kBTSqI=;
+        b=gFyb9DJ0mD7A5/shyLu/l7OAbuW0sjnpjq8EqIAXjZEKmr6FSZDqe0Q243EzFH+ESQ
+         /lg2YmdTU7utkdE87a0gCPr7RCqDCbSHtluUGfpJRXs0fR6X4KsOBUyCf8LANo1fA/8A
+         shQlBnUVgEx9hj0EXCvUAx0V6U1Z5nQalIDcb84mBo64gpfuVxnHhVwJCvkzUQwY+Lic
+         yQBycplhkQwdlSGmXcHL0Lv8KIuH2eo2PonWB+AKpHYtv+ztcZmicL2wWCQkPZ7E9+ld
+         lTRKsuswPdlmMa0/clXeiczCIt3Bfacl2eR/V5lJ1CabGzaliuZMTi8+g+9Ehw3Gexde
+         gq5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766970166; x=1767574966;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8PsFqhWPWBs5ISCcmLVbxGD3gHbmqyMeDa365kBTSqI=;
+        b=WJjO3n7K6zo0SNnzApjAdzC1PLMug7Nwt4vmwMzeFG256vwXdrGT6qywF2zozZhoVF
+         TFdFeVMtGqGqS4aa6A0rTioE3nu6phj61lF893MXRD1l8cNWlPwuuGJI3QRdrJ0441s/
+         UnnCLJEY37c5CCi8FdjRI9BnrxDtzok21sCYZ56/HMf8rsOaC/HQ8l0JEHGMH2L2hGp+
+         PyDzn0Aab09BS0HHVOmm67kj1gragvz5MWIs3ZSkmMce7nYN9W+N2VOnWFU/mxYBlVrw
+         v1wg6nVwnKDBQFDlaqI3VWx0pFDXAVODjfZ3Yrkyp5CluiJqdZcdAShcX7fKRh7bon5u
+         c/Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbFCTfAJTCAtuAjV4+2jub4mvMldMrxbcS48TYhbceEPWuU28YDTUMsT9xAGqlIdQR3rLN3auy3OE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzp+LcR79oI5EoCveIibWPT1ZMx6B/A1e7I2KNnr0ZZHma6W0xN
+	B5Xnx/rnSVesbjVZDZDINkiZyFAqSX/dBPZO8PwKetciRFn0tM63BpHuhYE3P/+jkhJQoblicNi
+	SDh1EwC98uHx0IUof7wBtcp+bFqteM/w=
+X-Gm-Gg: AY/fxX7LH1eT/eUdl+2WbSuS/P240IsMJE0f4q+BOgJaWlNbKl/GHWBWPeTNLThN4tC
+	mxPAYFsv06fB+dLVt2WkpwNQ/9LTeMaU3tVbINXnoJMvU71xS040rHoHYIw8aG6UXB8p+3NiAmL
+	VWoy172YXO9vH3OtdkbuabXLGWjaeKrfoDhLumXMh36S03/IACc/wXoGV5DA5sgyKQOMyI7VH7U
+	rm1IDV4w/5klXiqcw1MpWHPCtc/f52fz2t7/cQtXWGMOwRaztZW3rYsODhdjfT39/lFD1G/
+X-Google-Smtp-Source: AGHT+IF0IXPQk0C4HhJZXawFNHsaGTIn0geCX5EoGqjfqhQpg8FvQc7ds/jfiREC9pa+fJFmx/dK8aQJP4lzul2NfZQ=
+X-Received: by 2002:a17:907:dab:b0:b73:880a:fdb7 with SMTP id
+ a640c23a62f3a-b80371790d6mr2997016866b.35.1766970166082; Sun, 28 Dec 2025
+ 17:02:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20251224084821.2092169-1-hsu.yungteng@gmail.com>
+ <490569f8-a434-4297-b11e-ad34ddc4ae1e@kernel.org> <CAFT9tykPEt+zTREF9C4AXtGp0qDh_65LjHZCK9F=NFhE-K4dGQ@mail.gmail.com>
+ <06f97147-5752-4a82-9958-89b138a7d4fe@kernel.org>
+In-Reply-To: <06f97147-5752-4a82-9958-89b138a7d4fe@kernel.org>
+From: Yungteng Hsu <hsu.yungteng@gmail.com>
+Date: Mon, 29 Dec 2025 09:02:35 +0800
+X-Gm-Features: AQt7F2oMdsED5iRMhFHoG-r724fBp1Ay7eOq1wTC5-EPCy0ZZVDBKNYSzRNPoqo
+Message-ID: <CAFT9tynYM0u_cAqA9YPpoUp7EcVpvcwr_sxrk5K=VNMXDwBE=w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: add STEF48H28
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
-head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
-commit: dc79a5b89557449a3ad50f5a47f2f10564df7610 [113/131] kernel/api: add API specification for sys_rt_sigaction
-reproduce: (https://download.01.org/0day-ci/archive/20251229/202512290259.B1YOnFTb-lkp@intel.com/reproduce)
+Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2025=E5=B9=B412=E6=9C=8826=
+=E6=97=A5=E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=887:10=E5=AF=AB=E9=81=93=EF=BC=
+=9A
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512290259.B1YOnFTb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5888: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5892: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5899: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5902: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5908: ERROR: Unexpected indentation. [docutils]
->> Documentation/driver-api/basics:75: ./kernel/signal.c:5950: WARNING: Inline emphasis start-string without end-string. [docutils]
->> Documentation/driver-api/basics:75: ./kernel/signal.c:5950: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:6220: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:6221: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:6231: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:6233: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:6287: ERROR: Unexpected indentation. [docutils]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> On 26/12/2025 03:46, Yungteng Hsu wrote:
+> > Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2025=E5=B9=B412=E6=9C=
+=8824=E6=97=A5=E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=886:03=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+> >>
+> >> On 24/12/2025 09:48, Charles Hsu wrote:
+> >>> Add device tree bindings for the hot-swap controller STEF48H28.
+> >>>
+> >>> Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
+> >>> ---
+> >>
+> >>
+> >> Where is any changelog? You keep sending versions but you never
+> >> responded, never said what happened with this.
+> >>
+> > Thank you for your feedback.
+> > I realize now that I misunderstood the process.
+> > I previously thought that the changes needed to be included in the cove=
+r letter.
+> > I will follow the proper procedure for discussing updates in the thread=
+.
+>
+> There is no cover letter here at all. You sent only 1/2.
+>
+Thank you for the clarification.
+I would like to confirm the correct approach.
+Should the changes be documented in the cover letter, or should they
+be written directly in the commit message?
+I will resend the complete submission accordingly.
+> Best regards,
+> Krzysztof
