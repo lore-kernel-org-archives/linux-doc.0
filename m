@@ -1,64 +1,64 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE64A256C83
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 03:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44269273D84
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 03:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766978290; cv=none; b=WrmQ37UWaiL+1XjjnXvQiXiB1Ym0hYrvvj4LVchA2O6d1RvCSnRabsMYJ0kcqk/Bu41M3smRtXUA/xTksHaSFtwSxwrs6nxIrsd2O0XZRUR1l2mF+oHgK6Jn8T2GIhI0Mz9X/qTAA+u883a7IMwc4Vgb4aKV51Lj4+tC8hlDATk=
+	t=1766978292; cv=none; b=CnXFMH0hUrsMrUg2b+GdpChoeTETxgxTF2Lx9DexO2qJXj4Eo5QbGIFypUt6uQlnJeiM3RDkEYlytkxHpKd2mLTYjz0F38RRwj8A/mVuKbW4Clkb/Io+nVf/RuFTon8xwFL3joYOTKvz36Jee1KVXDsQVXyRocrAg/KauZG4jCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766978290; c=relaxed/simple;
-	bh=9+pJd3NBP++1JTk1sqOowLELYEPW5+pC2QloAQLjOjs=;
+	s=arc-20240116; t=1766978292; c=relaxed/simple;
+	bh=oqKm237OssMghJKlQPmco5wSMzp57040uiDrPySMFAA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SZQHX+3ICJQMkvefsJsbcCzcs1Ha2pzUQL/kHrVk9IpXUtRu/lNmjlrmV1D3+ovVVcpr3KYoxXDHAtbIRpGVPau1DRmAi41Y5k3fn/F7D66dbD4SCuKz56g1oKSgJx38jFr79uG4wLpr9MjiSGWghGZvmze8IdQPT/QetgaZ9I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iC0hM66p; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=lhquY71cFOCArxpmRc057BhnaUInhWGCmoPsCOq8c6sW1idfqc+UIISvLF/uVZEQU7tUlN9hP0OqXhMV1oyxWM27MedmyC1fvYmdvB8fgsAD1A6qhVxwEyqRWe18ISDR6g3FZG2XC1IW4fRmExhpI7l2IOentHeakoMR4AbrLF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHQ0GfPF; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iC0hM66p"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0f3f74587so124955245ad.2
-        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 19:18:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHQ0GfPF"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0d5c365ceso114520295ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 19:18:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766978285; x=1767583085; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766978288; x=1767583088; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b5fLauwF03o87S7cIGBwSfbxsvXnHNtEz/FCDWnd8ng=;
-        b=iC0hM66pQzv/0cNJ5dAl8AcF8iVP/J7Sf0QmZxmmg0mK4EiqEWkVpziuEBKWKxotmH
-         69wnxE6KX+bwc1vAJZ4gSboRmGQE7n7pq1XnB7ACy6ehOAd/rfdipBu1dp1JpmumQ52l
-         pteyhl6eUVBfC4XYFOrpc05p654ffF7EXj6tSf8WDs6unIsDi3TJN0czoVEnmY+naV04
-         YGnt66g9tzCaGISXoDvVMNGa3Wp/TLiEZosXhN2tcFntuXi/imHkK0X3rqFtWYYyXoyc
-         Xzv6dSp4NG091bVz9CoMc1jQWjO0ouHuaHKb5hNjgPEbbhGVv+BUPkikSkqaThXbko6E
-         uT5g==
+        bh=miGogj6YnndhpvXP0429HX4qoehDUgcQ4H71U57ueIM=;
+        b=RHQ0GfPFUX7gQgJ/0yz2r6szOKR9Vv9QZo3LxkDoi3Nh6UGNSfolffzF1mnuwLqc7e
+         UpDzCUydWbijSktaICAobi82oPH56MTJOdmWM7drMxb65y8JYWuE6e7zjhHOeuUfZL/p
+         4CphOaqh/NSGTG9cjuViFhEEMPJjZt7xurywhfTcfYG9/goVhPuejDjVAD1Dfh1FCQwP
+         as3tt050GRPIWX8m0VOpz2f7RBPoyRsATw9MA72eLWdUeJ96IbGSpWHNhPOkXU8IXrWZ
+         pQl3GDnfe74ANpvs2+3gZMti/nreVgo3qFcBsNSjJp0iSLCSCWkyixZ/Vc+cwUZ7/0Jj
+         K+PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766978285; x=1767583085;
+        d=1e100.net; s=20230601; t=1766978288; x=1767583088;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=b5fLauwF03o87S7cIGBwSfbxsvXnHNtEz/FCDWnd8ng=;
-        b=oKzVZZFHVtJzXhZZyu2BIeX+9aXP6cVW6408ypY9wm2YOQyLa2HIokgQ25Ka5uvYKq
-         AM6mdn89VXaPleGpPdc4djd/08BGecIwqJgDlzLAO3GxTg28RimEVF/ualC+3hwBa9Bt
-         rWXZ17ZiXBvwtQL8R6XGYw6eqeb9gySjWs8Cc8jDzLDC+TZwHSeLRLjSrExmd9t/AbjU
-         QQdt7CKzFzVSR4q0Y8XEmejR6HV9c6PdRuVDUKyTXNZcc21u3gcEpcev/MAc+IClHGT+
-         SNaSt0MEq/NZ9IfoQtnCpge/xi11XKsClbeqhTD7bR1L0ws8t+YF9zNkyML2BjeWzjMB
-         4zzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXwhSKlhjgwcdNTTPpN/DcHhPLE7VIA3V8uUv29jrVBySnjQ9080+Q/isG0oPxFiECvYvVbtTiMVLs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1+/K/d+JAehLKRb1tY12iVRFIBqdDRrXQ+4dqATW0lSudJrnq
-	rZe0u133GQKFcrRN+Z8fN1Q0qK2UO5hhJ+s0xeblN6HgqpAyMrmpPzqA
-X-Gm-Gg: AY/fxX6E9Gtll5AJKZUKFYnCQxNArjfJ88e3ILWus5HzF9B3MhuwdJlXinvBsJKgF/d
-	ZzhNiGOjn121fIj7jvJUvAI5+NY5nisgk6lPzf72M6siZQzmGy1971rhJVu5j2sfdCprb1SI+pk
-	KRc36Qbtg349P+MCfxORP4Qe7nHwbdt7nO1kAM6S7WQVV+UVZk7i859/7s1IKvac2rtgWuphUl8
-	66OAL9s5vYoL9tgSHqAmQu9YbfADG33DQlmIlqAbi1JhRK/nRSPu0gdtomOwPpne2cgQoD5AxaK
-	9frZinWJlOuOoSqeAPLpkCI4XYAIlVKyUYal416W+pv/qxGZ8NQNwLlV204GGnro/rCprIi6Azj
-	48iKny2UAVnKcLmmrEvZ2L7gX1n1jsNRARDspGlg36WoVK1s0DUq/DPXLTNTFh9yTgHsbuhKoZk
-	KCDjINaTmgFGfz8zgvkc0hoWydB7Gu1M5hl+8LPT9lMb9s4PujmUR44eG6LRgg6SI=
-X-Google-Smtp-Source: AGHT+IHxlvbsjIIiGCdaZR2kNkfJhhczYREzl56thhmxe0C7ocWaa7i+0Rinex+uCUd+z7fHP0XHDg==
-X-Received: by 2002:a05:7022:7e8e:b0:11b:bf3f:5208 with SMTP id a92af1059eb24-121722ac21bmr29615714c88.1.1766978285028;
-        Sun, 28 Dec 2025 19:18:05 -0800 (PST)
+        bh=miGogj6YnndhpvXP0429HX4qoehDUgcQ4H71U57ueIM=;
+        b=jpPcPVXVWpGeINwmujjMCp8wKJWGLXxsfkGS/gacsmhMrexyr7EpFXjNhilQa0MDYV
+         eLs8vt89kT+dyqTc60ETkys+UnwTa4XiJQlvd3TSyny1jrP2/2XgBrkStoOppV8jZ2oy
+         P7BuwIXwLYoSJ3+2q1xHzdcgRdbVRt4mB8rp+1C1AiAP0w2wM/lCKGCYMjtbaSk9z8Rl
+         2apHmIo8pZGXl5T811WIUKnEJg4ZOA3FPdYffooBVk2W8oNN7xNDUNgfz3YAVcZaLZVC
+         NmI5nITblwdRfVBfse50b+ItK3mW9oiyS0S6PlJk+gE3dwo4kbVFID1qBPolEXCQIBs3
+         6ctQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnZL2f9xfTEMp9tVe0pTKBpQ/YIih+EUbVEYii+R3ZNIsv76u2O5GQ63W/bUTtuOYwOKUJrA/vKXg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsjIckeaZfZsUWHKO3w8+y568LBkzUwyQkznzVTo4D6IjLnM2R
+	XfPiggvTwDMs9Rm0CA0J0oaWFuE+5xkGX/mthMbQxeWSPjqtj2gg6GIggzgkug==
+X-Gm-Gg: AY/fxX6DBm+XFSLj9zYw6ea+FEB2rUzKc+A+iUvYMr5mhanJTqrHzkEZqehu3cZbS3u
+	Me5KmtUX0W+gw0EsWv6CfYcUfLOKBfKLuQD3acqXGQwHGjS6CcinvIkLkSCz+7sNA+5bJj8Ffy6
+	OFRTZu1ybbzAPfqxa8tTi5wPff9J86lLYRrFP685JKrdKx5F0ze3Ni/rc4V4ELWVLvbDxx1+qvI
+	HOsS3Twzsn0muMF8CKY1GwoCnI01x2qXpU8EnaeJjDK0rkuxuL9ViEYduxmJgp7bunJAimkRnQP
+	jAJ6MlYee9AQfcJCzfyb68VYmD+Yo0P/AtVphAz0tK+B3Qv5KwzDwL0iYUpE7zI32NQjlbdrl4W
+	oTK6HgIKdA2jazmmFYg/BJJT9d/U14kYUomcVvsC8aImgGgDQbSGr1vk0A5eK2RxHF3HXLlfNow
+	YNHitSChBSaiaOUCh3xPCJiIUZeqYkZgs6Mnlwqy6d52p1S+3nmYDbmU3L64EHxl4=
+X-Google-Smtp-Source: AGHT+IHjwK9SUF/qOruDxO9wu7yjpn2zEeJHGppohIix6cKExalnAY9LGjRftJ0II/rrFdgWUa8T1w==
+X-Received: by 2002:a05:7022:2217:b0:11b:9386:a3c2 with SMTP id a92af1059eb24-121722ff9fbmr29439286c88.45.1766978287954;
+        Sun, 28 Dec 2025 19:18:07 -0800 (PST)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724dd7f5sm112992785c88.5.2025.12.28.19.18.04
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724dd7f5sm112992785c88.5.2025.12.28.19.18.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 19:18:04 -0800 (PST)
+        Sun, 28 Dec 2025 19:18:07 -0800 (PST)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -70,11 +70,10 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>,
 	"Derek J . Clark" <derekjohn.clark@gmail.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Richard Hughes <hughsient@gmail.com>
-Subject: [PATCH v2 09/16] HID: Include firmware version in the uevent
-Date: Mon, 29 Dec 2025 03:17:46 +0000
-Message-ID: <20251229031753.581664-10-derekjohn.clark@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 13/16] HID: hid-lenovo-go-s: Add Touchpad Mode Attributes
+Date: Mon, 29 Dec 2025 03:17:50 +0000
+Message-ID: <20251229031753.581664-14-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251229031753.581664-1-derekjohn.clark@gmail.com>
 References: <20251229031753.581664-1-derekjohn.clark@gmail.com>
@@ -86,60 +85,204 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+Adds attributes for managing the touchpad operating modes.
 
-Userspace software fwupd probes some HID devices when the daemon starts
-up to determine the current firmware version in order to be able to offer
-updated firmware if the manufacturer has made it available.
-
-In order to do this fwupd will detach the existing kernel driver if one
-is present, send a HID command and then reattach the kernel driver.
-
-This can be problematic if the user is using the HID device at the time
-that fwupd probes the hardware and can cause a few frames of input to be
-dropped.  In some cases HID drivers already have a command to look up the
-firmware version, and so if that is exported to userspace fwupd can discover
-it and avoid needing to detach the kernel driver until it's time to update
-the device.
-
-Introduce a new member in the struct hid_device for the version and export
-a new uevent variable HID_FIRMWARE_VERSION that will display the version
-that HID drivers obtained.
-
-Cc: Richard Hughes <hughsient@gmail.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
- drivers/hid/hid-core.c | 5 +++++
- include/linux/hid.h    | 1 +
- 2 files changed, 6 insertions(+)
+ drivers/hid/hid-lenovo-go-s.c | 142 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 142 insertions(+)
 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index a5b3a8ca2fcb..524f2b9ed512 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2887,6 +2887,11 @@ static int hid_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	if (add_uevent_var(env, "MODALIAS=hid:b%04Xg%04Xv%08Xp%08X",
- 			   hdev->bus, hdev->group, hdev->vendor, hdev->product))
- 		return -ENOMEM;
-+	if (hdev->firmware_version) {
-+		if (add_uevent_var(env, "HID_FIRMWARE_VERSION=0x%04llX",
-+				   hdev->firmware_version))
-+			return -ENOMEM;
-+	}
+diff --git a/drivers/hid/hid-lenovo-go-s.c b/drivers/hid/hid-lenovo-go-s.c
+index 076afdaa9628..38425e3d6cb2 100644
+--- a/drivers/hid/hid-lenovo-go-s.c
++++ b/drivers/hid/hid-lenovo-go-s.c
+@@ -47,6 +47,8 @@ struct hid_gos_cfg {
+ 	u8 os_mode;
+ 	u8 rgb_en;
+ 	u8 tp_en;
++	u8 tp_linux_mode;
++	u8 tp_windows_mode;
+ } drvdata;
  
- 	return 0;
+ struct gos_cfg_attr {
+@@ -145,6 +147,22 @@ static const char *const dpad_mode_text[] = {
+ 	[DIR4] = "4-way",
+ };
+ 
++enum touchpad_mode_index {
++	TP_REL,
++	TP_ABS,
++};
++
++static const char *const touchpad_mode_text[] = {
++	[TP_REL] = "relative",
++	[TP_ABS] = "absolute",
++};
++
++enum touchpad_config_index {
++	CFG_WINDOWS_MODE = 0x03,
++	CFG_LINUX_MODE,
++
++};
++
+ static int hid_gos_version_event(u8 *data)
+ {
+ 	struct version_report *ver_rep = (struct version_report *)data;
+@@ -204,6 +222,25 @@ static int hid_gos_gamepad_cfg_event(struct command_report *cmd_rep)
+ 	return ret;
  }
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index a4ddb94e3ee5..8249da55c9ba 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -698,6 +698,7 @@ struct hid_device {
- 	char name[128];							/* Device name */
- 	char phys[64];							/* Device physical location */
- 	char uniq[64];							/* Device unique identifier (serial #) */
-+	u64 firmware_version;						/* Firmware version */
  
- 	void *driver_data;
++static int hid_gos_touchpad_event(struct command_report *cmd_rep)
++{
++	int ret = 0;
++
++	switch (cmd_rep->sub_cmd) {
++	case CFG_LINUX_MODE:
++		drvdata.tp_linux_mode = cmd_rep->data[0];
++		break;
++	case CFG_WINDOWS_MODE:
++		drvdata.tp_windows_mode = cmd_rep->data[0];
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	return ret;
++}
++
+ static int hid_gos_set_event_return(struct command_report *cmd_rep)
+ {
+ 	if (cmd_rep->data[0] != 0)
+@@ -251,7 +288,11 @@ static int hid_gos_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 	case GET_GAMEPAD_CFG:
+ 		ret = hid_gos_gamepad_cfg_event(cmd_rep);
+ 		break;
++	case GET_TP_PARAM:
++		ret = hid_gos_touchpad_event(cmd_rep);
++		break;
+ 	case SET_GAMEPAD_CFG:
++	case SET_TP_PARAM:
+ 		ret = hid_gos_set_event_return(cmd_rep);
+ 		break;
+ 	default:
+@@ -537,6 +578,95 @@ static ssize_t gamepad_property_options(struct device *dev,
+ 	return count;
+ }
+ 
++static ssize_t touchpad_property_store(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t count,
++				       enum touchpad_config_index index)
++{
++	size_t size = 1;
++	u8 val = 0;
++	int ret;
++
++	switch (index) {
++	case CFG_WINDOWS_MODE:
++		ret = sysfs_match_string(touchpad_mode_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case CFG_LINUX_MODE:
++		ret = sysfs_match_string(touchpad_mode_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	default:
++		return -EINVAL;
++	}
++	if (!val)
++		size = 0;
++
++	ret = mcu_property_out(drvdata.hdev, SET_TP_PARAM, index, &val, size);
++	if (ret < 0)
++		return ret;
++
++	return count;
++}
++
++static ssize_t touchpad_property_show(struct device *dev,
++				      struct device_attribute *attr, char *buf,
++				      enum touchpad_config_index index)
++{
++	int ret = 0;
++	u8 i;
++
++	ret = mcu_property_out(drvdata.hdev, GET_TP_PARAM, index, 0, 0);
++	if (ret < 0)
++		return ret;
++
++	switch (index) {
++	case CFG_WINDOWS_MODE:
++		i = drvdata.tp_windows_mode;
++		break;
++	case CFG_LINUX_MODE:
++		i = drvdata.tp_linux_mode;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (i >= ARRAY_SIZE(touchpad_mode_text))
++		return -EINVAL;
++
++	return sysfs_emit(buf, "%s\n", touchpad_mode_text[i]);
++}
++
++static ssize_t touchpad_property_options(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf,
++					 enum touchpad_config_index index)
++{
++	size_t count = 0;
++	unsigned int i;
++
++	switch (index) {
++	case CFG_WINDOWS_MODE:
++	case CFG_LINUX_MODE:
++		for (i = 0; i < ARRAY_SIZE(touchpad_mode_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       touchpad_mode_text[i]);
++		}
++		break;
++	default:
++		return count;
++	}
++
++	if (count)
++		buf[count - 1] = '\n';
++
++	return count;
++}
++
+ static ssize_t mcu_id_show(struct device *dev, struct device_attribute *attr,
+ 			   char *buf)
+ {
+@@ -666,9 +796,21 @@ struct gos_cfg_attr touchpad_enabled = { FEATURE_TOUCHPAD_ENABLE };
+ LEGOS_DEVICE_ATTR_RW(touchpad_enabled, "enabled", index, gamepad);
+ static DEVICE_ATTR_RO_NAMED(touchpad_enabled_index, "enabled_index");
+ 
++struct gos_cfg_attr touchpad_linux_mode = { CFG_LINUX_MODE };
++LEGOS_DEVICE_ATTR_RW(touchpad_linux_mode, "linux_mode", index, touchpad);
++static DEVICE_ATTR_RO_NAMED(touchpad_linux_mode_index, "linux_mode_index");
++
++struct gos_cfg_attr touchpad_windows_mode = { CFG_WINDOWS_MODE };
++LEGOS_DEVICE_ATTR_RW(touchpad_windows_mode, "windows_mode", index, touchpad);
++static DEVICE_ATTR_RO_NAMED(touchpad_windows_mode_index, "windows_mode_index");
++
+ static struct attribute *legos_touchpad_attrs[] = {
+ 	&dev_attr_touchpad_enabled.attr,
+ 	&dev_attr_touchpad_enabled_index.attr,
++	&dev_attr_touchpad_linux_mode.attr,
++	&dev_attr_touchpad_linux_mode_index.attr,
++	&dev_attr_touchpad_windows_mode.attr,
++	&dev_attr_touchpad_windows_mode_index.attr,
+ 	NULL,
+ };
  
 -- 
 2.51.2
