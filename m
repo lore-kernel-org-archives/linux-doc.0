@@ -1,120 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AD123A994;
-	Mon, 29 Dec 2025 06:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10192494FE;
+	Mon, 29 Dec 2025 07:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766991556; cv=none; b=lvii82gKX/NLGxzYOKYigl9ky1xMwf9QgiFBfJLxleO9ZlGi2m/6YUnqVpGY+U2cEXcuh4Ax3JSQBFMPI73UDc79bMgCU9IIq3dBi2UvbcSnEtnc8bSoMSUXOLCp7eyv5sUPdnVKKT7+hnPZ/JNny9ckg5eXvGUX99N/G2SkxOw=
+	t=1766992926; cv=none; b=fsqNMQ/Gl2J0gGWmFhCKBhKaWRW2UWykxMXSkj7youuevCqA39yi/YJ1bk3ZqXSmbaYY4uXd5LnbMgP96NPShzL5kY/LQNCgdTfdgfi7Xnwl/X8xjw0z9D4nMbn5aKR2CAz6cOrz8kvZndBKMl3eGm/365RGhBTpwuUSD2zV6/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766991556; c=relaxed/simple;
-	bh=o0wgikOuKph/UYuKT9+K1YO24u8iftLUAb48sk35Re0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iMW5jdMKx2PtezjixlI96oWH1GVbLofC8c7/wdOVA+qmCrWxSHfulGEyN3aTz7MColFjEk88w267a4EVCrYh0yi0WvBeJLPSs5qxcSQQPXHlb6HNm6jMyocGcG7RsVUhmTisaMJQij77MBkAP6QwRc8/k+nZvfifFQPS9MyAtlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LX6iWUyw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766992926; c=relaxed/simple;
+	bh=SxdXLPAWz3KHwvb0HKuudiCfH3vDRUQB1x0W+Jkuy0s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BWE+k/jaEa3P+wweVJVJDGBzd9ZGBHVlwr4eYTlNxA9vEAftKD0/NM8vDUtF8P6NKGm6Qo0s+zHLhieMAeHPlmdByXV3KGFdVIm2N9kYsLUKcAQXctHp8ZydisYK+VndrOEGgPRs6E2j6DWEcn6kIbBR6C6J38HRRahEKw9p4vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obgoeUrq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LX6iWUyw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 013C0C4CEF7;
-	Mon, 29 Dec 2025 06:59:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obgoeUrq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1FC4C4CEF7;
+	Mon, 29 Dec 2025 07:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766991556;
-	bh=o0wgikOuKph/UYuKT9+K1YO24u8iftLUAb48sk35Re0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LX6iWUywtDOVwU3j9KaL9yXGKfNvvYoCb2qlBXzbFyPsnG2vGbJfpde+T2rxhLMi6
-	 2QkUnuWKjSpsWFFAsUzRcNl579W7HN0vsLwnx0uIdqDYc9pemeno7sciMWkg6kcTI/
-	 4/xSfoSw/2dLsoppKWxsEq5G+zDhlITLjIbe3xtQyDd3VX8EaYH8uBU7LN15p9UqQL
-	 FVs9iNnIt/1eTm9Frc5o3vv9Yv1CER2nZ+JljzygBIBdOv7xURTNYUtEzZKhlQ+g8z
-	 HHaOgTGPYzoj7al1VV0VjV+KDjSPLts8cDtlXEe/iJFkjLIODRbrq6dVEwqGplAjPU
-	 8vCr0gtMZU5XA==
-Date: Mon, 29 Dec 2025 08:59:05 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Eugen Hristev <eugen.hristev@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, tglx@linutronix.de, andersson@kernel.org,
-	pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net,
-	david@redhat.com, mhocko@suse.com, tudor.ambarus@linaro.org,
-	mukesh.ojha@oss.qualcomm.com, linux-arm-kernel@lists.infradead.org,
-	linux-hardening@vger.kernel.org, jonechou@google.com,
-	rostedt@goodmis.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org
-Subject: Re: [PATCH 20/26] mm/sparse: Register information into meminspect
-Message-ID: <aVImuURq0FXsfsrp@kernel.org>
-References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
- <20251119154427.1033475-21-eugen.hristev@linaro.org>
+	s=k20201202; t=1766992924;
+	bh=SxdXLPAWz3KHwvb0HKuudiCfH3vDRUQB1x0W+Jkuy0s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=obgoeUrqMXVrucgONq4BEX7wy1ZvGZKmz6idLcSfmcFu1vUoq/g1X7j+UkRTsfmDH
+	 6KSGwUAFndLB4/vRnJN9XkuSKbkrynM2qlUXYbFxPNg4zhPHwAbDbwJEKsQkb+Qow5
+	 FkGQ4iRZQHWia2GeCmNobV4dpktuigC5P8bq0ZbpEyLr9qo8ygjITALW7jRqG+ejyI
+	 ffcTMpDFHmH8wbm3dGSDxauJdKz7rTIsAjxKvaji8QhEBEk37zDkQcCzO9Q+zbYQFk
+	 +V9ZX93hodhPNBqxY1BU58k70WWEO+iaFZqWiT1QRulO1fyYxb/cqXsRW9js0MSuMf
+	 +Q+Zkqlx8fNNg==
+Message-ID: <8690ccf7-2033-4dc3-8a4f-404a93301d6a@kernel.org>
+Date: Mon, 29 Dec 2025 08:21:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119154427.1033475-21-eugen.hristev@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: add STEF48H28
+To: Yungteng Hsu <hsu.yungteng@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251224084821.2092169-1-hsu.yungteng@gmail.com>
+ <490569f8-a434-4297-b11e-ad34ddc4ae1e@kernel.org>
+ <CAFT9tykPEt+zTREF9C4AXtGp0qDh_65LjHZCK9F=NFhE-K4dGQ@mail.gmail.com>
+ <06f97147-5752-4a82-9958-89b138a7d4fe@kernel.org>
+ <CAFT9tynYM0u_cAqA9YPpoUp7EcVpvcwr_sxrk5K=VNMXDwBE=w@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAFT9tynYM0u_cAqA9YPpoUp7EcVpvcwr_sxrk5K=VNMXDwBE=w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Eugen,
+On 29/12/2025 02:02, Yungteng Hsu wrote:
+> Krzysztof Kozlowski <krzk@kernel.org> 於 2025年12月26日週五 下午7:10寫道：
+> 
+> 
+>>
+>> On 26/12/2025 03:46, Yungteng Hsu wrote:
+>>> Krzysztof Kozlowski <krzk@kernel.org> 於 2025年12月24日週三 下午6:03寫道：
+>>>>
+>>>> On 24/12/2025 09:48, Charles Hsu wrote:
+>>>>> Add device tree bindings for the hot-swap controller STEF48H28.
+>>>>>
+>>>>> Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
+>>>>> ---
+>>>>
+>>>>
+>>>> Where is any changelog? You keep sending versions but you never
+>>>> responded, never said what happened with this.
+>>>>
+>>> Thank you for your feedback.
+>>> I realize now that I misunderstood the process.
+>>> I previously thought that the changes needed to be included in the cover letter.
+>>> I will follow the proper procedure for discussing updates in the thread.
+>>
+>> There is no cover letter here at all. You sent only 1/2.
+>>
+> Thank you for the clarification.
+> I would like to confirm the correct approach.
+> Should the changes be documented in the cover letter, or should they
+> be written directly in the commit message?
+> I will resend the complete submission accordingly.
 
-On Wed, Nov 19, 2025 at 05:44:21PM +0200, Eugen Hristev wrote:
-> Annotate vital static information into meminspect:
->  - mem_section
-> 
-> Information on these variables is stored into inspection table.
-> 
-> Register dynamic information into meminspect:
->  - section
->  - mem_section_usage
-> 
-> This information is being allocated for each node, so call
-> memblock_mark_inspect to mark the block accordingly.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> ---
->  mm/sparse.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/mm/sparse.c b/mm/sparse.c
-> index 17c50a6415c2..80530e39c8b2 100644
-> --- a/mm/sparse.c
-> +++ b/mm/sparse.c
-> @@ -15,6 +15,7 @@
->  #include <linux/swapops.h>
->  #include <linux/bootmem_info.h>
->  #include <linux/vmstat.h>
-> +#include <linux/meminspect.h>
->  #include "internal.h"
->  #include <asm/dma.h>
->  
-> @@ -30,6 +31,7 @@ struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT]
->  	____cacheline_internodealigned_in_smp;
->  #endif
->  EXPORT_SYMBOL(mem_section);
-> +MEMINSPECT_SIMPLE_ENTRY(mem_section);
->  
->  #ifdef NODE_NOT_IN_PAGE_FLAGS
->  /*
-> @@ -253,6 +255,7 @@ static void __init memblocks_present(void)
->  		size = sizeof(struct mem_section *) * NR_SECTION_ROOTS;
->  		align = 1 << (INTERNODE_CACHE_SHIFT);
->  		mem_section = memblock_alloc_or_panic(size, align);
-> +		memblock_mark_inspect(virt_to_phys(mem_section), size);
+Does not matter, because the problem is  - there is no cover letter. You
+wrote that changelog is in the cover letter. There is no such!
 
-Why not meminspect_register_va()?
-
->  	}
->  #endif
->  
-> @@ -343,6 +346,7 @@ sparse_early_usemaps_alloc_pgdat_section(struct pglist_data *pgdat,
->  		limit = MEMBLOCK_ALLOC_ACCESSIBLE;
->  		goto again;
->  	}
-> +	memblock_mark_inspect(virt_to_phys(usage), size);
->  	return usage;
->  }
->  
-> -- 
-> 2.43.0
-> 
-
--- 
-Sincerely yours,
-Mike.
+Best regards,
+Krzysztof
