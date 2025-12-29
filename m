@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F3C2E7657;
-	Mon, 29 Dec 2025 21:15:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FD614A8E;
+	Mon, 29 Dec 2025 21:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767042902; cv=none; b=htROyRBHr7KchrRfKBKOsk5rYCMz5p0n0u+HOzvP2Ku1D49z+kA6HIWIc8W+a4LdG6GrVB1K0Lac4Hbyx4HOjLKJThe5b3tmZH37ja+Wp1sT+pK6Mc8NTJehuNleBHOYHbygTZAbtySpdH6EAjdEPPvBdE8/FgOWb+19+TvDS0o=
+	t=1767043299; cv=none; b=En5Yy5WMGWoELKmDdj3KTAy/q8lE/Rmx564ts0oNgW+aRdUupOXKWDB6xBRDMOvKEU8YYAXuEk+FJIYbsV7a5kuBXUJoWyl9QljntwMOmJwAa3xxbaxUK8DnM1LgTzEKGTn/okzNiwNFsfXtVQNq5+Yng5WxHSph/B9+Y5Fd5OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767042902; c=relaxed/simple;
-	bh=+0hKzidYvfWG+s9TtusbziTKi6XLXUnZ4Y1pxbN7Jvc=;
+	s=arc-20240116; t=1767043299; c=relaxed/simple;
+	bh=Fy6E0Djyl440LbC4IsN3A4KkNoyDnp/oyxzUqc5PaTs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uC3FHX9aD3lm+BNY+L8J2YGhEAkzXiE8TzniMY6tiSVVGsyAgzNQnu4k7DISVpghQQCQ2CtvYzS5fBfdH9+4ss5DffNd1FJMyjl0D8vFplTfPvYOUK1fRUWftNMGMoAnvGUQefZIMal9H2E3YHl6/PCX/U3ZibZkd6uOroxubzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKY9UZls; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BAse6A04W6kLnVzMOpoL5gNEO4bs8v5yd58TN1hYuM7BIVIvo5Z2OEeEoGzqPkh3+VqxoV5c3bHc7Os642C3UIfRyH+nEuQkMcswCrntfd8ddSJi69JRjoSCMQ8FcX+1ahorCLo/CFtDHTS7JciD+zsew3cLSgo4IqvxXCilb+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnicmMwn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKY9UZls"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E38C4CEF7;
-	Mon, 29 Dec 2025 21:14:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnicmMwn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B153C4CEF7;
+	Mon, 29 Dec 2025 21:21:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767042902;
-	bh=+0hKzidYvfWG+s9TtusbziTKi6XLXUnZ4Y1pxbN7Jvc=;
+	s=k20201202; t=1767043299;
+	bh=Fy6E0Djyl440LbC4IsN3A4KkNoyDnp/oyxzUqc5PaTs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jKY9UZlsTOJCp8mrSaW/YOoqI/r+yyNyFf2huGx4VFftVsJRCMpS4UchEWmSNJU2+
-	 mmW/SR65hRZs3p/IS7waf1NjQ9aTDSyuxztBD1pNzRqCoQF95mGqFK75bOE8qiOsTh
-	 r/34jl6+cJGesKLtTSrG0wiDLX0xjY3kxFF0yDM8QokptRaq8I7jRQ4niRqABeII49
-	 A8Rz7bg+1ZrAHDw6vrD56WZ/IhNI7SrXFPMEOUt9GgTg5RArbxf9AqMyAQ0D8X7rC8
-	 ZOtaBzMp1jsL14bwuklPgimM0VCDonLAQ3ZKPaY9/XbQn4TXWFX/cGXEO9V0n2jsnv
-	 Kjh2IexLkouyA==
+	b=bnicmMwnC8Hz+Av7KUh2lvvxIjCzkBDY/wzSKfrzAyvWuKx1NSG9v8jBEtVzSsX3w
+	 rwdxxewgywMsoi1ZrGqKx7F7AikHrXQOnfXgj7xngJrBzXoBO4L0Yiu8vkGfpHHjPR
+	 3aF0hR53w77goVJU+qbgq+wJL8JUqj4vs3mfxermslBt/VCOrYeFStvIc9Un7/Aa7L
+	 3dgAwFcsTgU7uKfxheS2cHtjtYbURNI/oaSs90kbX/FvpZa2wNQTL/0JTextbhpjZn
+	 JMvHCDLcQwJSdwx3dOqwIZ1A0xUryUeCx+BbhDS7BMH50ZX358EnPNpat75V81nPY3
+	 CZPwpD4Tn3v/w==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
@@ -43,15 +43,15 @@ Cc: Pratyush Yadav <pratyush@kernel.org>,  Mike Rapoport <rppt@kernel.org>,
   Vipin Sharma <vipinsh@google.com>,  Zhu Yanjun <yanjun.zhu@linux.dev>,
   linux-kernel@vger.kernel.org,  linux-mm@kvack.org,
   linux-doc@vger.kernel.org,  kexec@lists.infradead.org
-Subject: Re: [RFC PATCH 08/10] mm: hugetlb: disable CMA if liveupdate is
- enabled
-In-Reply-To: <CA+CK2bBeJwACBiKsuXLcbzC4m0zLhu0yNg2HDGR=AQGeEVCJjg@mail.gmail.com>
-	(Pasha Tatashin's message of "Tue, 23 Dec 2025 13:16:57 -0500")
+Subject: Re: [RFC PATCH 06/10] liveupdate: hugetlb subsystem FLB state
+ preservation
+In-Reply-To: <CA+CK2bAVuHG1cVPQz8Wafe8o2TtitrqJjqfHOT7Xun=zWMoo2Q@mail.gmail.com>
+	(Pasha Tatashin's message of "Tue, 23 Dec 2025 13:15:31 -0500")
 References: <20251206230222.853493-1-pratyush@kernel.org>
-	<20251206230222.853493-9-pratyush@kernel.org>
-	<CA+CK2bBeJwACBiKsuXLcbzC4m0zLhu0yNg2HDGR=AQGeEVCJjg@mail.gmail.com>
-Date: Mon, 29 Dec 2025 22:14:50 +0100
-Message-ID: <86v7hp7zxx.fsf@kernel.org>
+	<20251206230222.853493-7-pratyush@kernel.org>
+	<CA+CK2bAVuHG1cVPQz8Wafe8o2TtitrqJjqfHOT7Xun=zWMoo2Q@mail.gmail.com>
+Date: Mon, 29 Dec 2025 22:21:29 +0100
+Message-ID: <86qzsd7zmu.fsf@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -67,21 +67,100 @@ On Tue, Dec 23 2025, Pasha Tatashin wrote:
 > On Sat, Dec 6, 2025 at 6:03=E2=80=AFPM Pratyush Yadav <pratyush@kernel.or=
 g> wrote:
 >>
->> Hugetlb live update support does not yet work with CMA. Print a warning
->> and disable CMA if the config for live updating hugetlb is enabled, and
->> liveupdate is enabled at runtime.
+>> HugeTLB manages its own pages. It allocates them on boot and uses those
+>> to fulfill hugepage requests.
+>>
+>> To support live update for a hugetlb-backed memfd, it is necessary to
+>> track how many pages of each hstate are coming from live update. This is
+>> needed to ensure the boot time allocations don't over-allocate huge
+>> pages, causing the rest of the system unexpected memory pressure.
+>>
+>> For example, say the system has 100G memory and it uses 90 1G huge
+>> pages, with 10G put aside for other processes. Now say 5 of those pages
+>> are preserved via KHO for live updating a huge memfd.
+>>
+>> But during boot, the system will still see that it needs 90 huge pages,
+>> so it will attempt to allocate those. When the file is later retrieved,
+>> those 5 pages also get added to the huge page pool, resulting in 95
+>> total huge pages. This exceeds the original expectation of 90 pages, and
+>> ends up wasting memory.
+>>
+>> LUO has file-lifecycle-bound (FLB) data to keep track of global state of
+>> a subsystem. Use it to track how many huge pages are used up for each
+>> hstate. When a file is preserved, it will increment to the counter, and
+>> when it is unpreserved, it will decrement it. During boot time
+>> allocations, this data can be used to calculate how many hugepages
+>> actually need to be allocated.
+>>
+>> Design note: another way of doing this would be to preserve the entire
+>> set of hugepages using the FLB, skip boot time allocation, and restore
+>> them all on FLB retrieve. The pain problem with that approach is that it
+>> would need to freeze all hstates after serializing them. This will need
+>> a lot more invasive changes in hugetlb since there are many ways folios
+>> can be added to or removed from a hstate. Doing it this way is simpler
+>> and less invasive.
+>>
+>> Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
+>> ---
+>>  Documentation/mm/memfd_preservation.rst |   9 ++
+>>  MAINTAINERS                             |   1 +
+>>  include/linux/kho/abi/hugetlb.h         |  66 +++++++++
+>>  kernel/liveupdate/Kconfig               |  12 ++
+>>  mm/Makefile                             |   1 +
+>>  mm/hugetlb.c                            |   1 +
+>>  mm/hugetlb_internal.h                   |  15 ++
+>>  mm/hugetlb_luo.c                        | 179 ++++++++++++++++++++++++
+>>  8 files changed, 284 insertions(+)
+>>  create mode 100644 include/linux/kho/abi/hugetlb.h
+>>  create mode 100644 mm/hugetlb_luo.c
+>>
+[...]
+>> +static int hugetlb_flb_retrieve(struct liveupdate_flb_op_args *args)
+>> +{
+>> +       /*
+>> +        * The FLB is only needed for boot-time calculation of how many
+>> +        * hugepages are needed. This is done by early boot handlers alr=
+eady.
+>> +        * Free the serialized state now.
+>> +        */
 >
-> Could you please elaborate this commit to explain why it is not
-> supported, and what it would take to support CMA.
+> It should be done in this function.
 
-The main reason is that when HugeTLB CMA is enabled, the huge pages come
-from CMA. If we have preserved pages, we would need to "insert" those
-pages into the CMA when they are restored.
+The calculations can't be done in retrieve. Retrieve happens only once
+and for the whole FLB. They will need to come from
+hugetlb_hstate_alloc_pages().
 
-CMA does support multiple ranges, so I suppose it can be done, but it
-needs some plumbing to work properly.
+Maybe you mean getting rid of liveupdate_flb_incoming_early()? Yeah,
+that I can do. It will make this function a no-op once we move the
+kho_restore_free() to finish().
 
-Will add this in the next revision.
+>
+>> +       kho_restore_free(phys_to_virt(args->data));
+>
+> This should be moved to finish() after blackout.
+
+Sure.
+
+>
+>> +
+>> +       /*
+>> +        * HACK: But since LUO FLB still needs an obj, use ZERO_SIZE_PTR=
+ to
+>> +        * satisfy it.
+>> +        */
+>> +       args->obj =3D ZERO_SIZE_PTR;
+>
+> Hopefully this is not needed any more with the updated FLB, please check =
+:-)
+
+Yep. IIRC when I sent this series the older version of FLB was in
+mm-nonmm-unstable.
+
+>
+>> +       return 0;
+>> +}
+>> +
+[...]
 
 --=20
 Regards,
