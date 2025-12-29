@@ -1,89 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0215119F12A;
-	Mon, 29 Dec 2025 15:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991242DA750
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 15:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767021713; cv=none; b=iUMnPI2fPZSkxyv9G8B5pFUV+FZ03qHyKGSNEYrNSAzXO0iNtIaJ3b5ZaoDZ09BKxvCOExwVF61gJu980FykYHUcKKJ83NfnKxNCV2MG94mvhiImjvt4oCbaHB8wLI/lmzOSpCvWqN9m2rAOaWYFwLspZuuymh4yp42iCKC5Odg=
+	t=1767022158; cv=none; b=BzPB20Hvd3+trUU9r48uNtH15lkfnvAwz3iuXCab2NbmcnwFx2NChkYD0r0yQpJz5OeXQXg6wLf9m8XOf0iyFpYAjOswyz8b++MdT9dtAXaFwKMf+XaoDSlm9gEaT9VFedHvDB9YJh1dOVtmo95ECRfOO8I4edna/aNZM4jyzIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767021713; c=relaxed/simple;
-	bh=3ZtmIapkEIXDViMLF51sDtLL9EBbgtLV80qdIGkqajs=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VT22SIuRks9chMRb7BrdwtsHjpBomyR8NAlmKjxtzjJIUIUOAH83/ZXyx8I9IC393kLYQxZjzr+DtKQNhVwcTXMfqRR1UTCnKtARKZo9NjiwAeZEQTRwB2yH2zaIE6Yizk9hEFmKacoWuVXaW05oA0QHGN2sxubc0Y2XoKIV1q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZltFW3e; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1767022158; c=relaxed/simple;
+	bh=xqjArl75ddfkxAaUV/a/FjUKRz4VPjnu4NoV0TSS/GA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=llMEJjWSkf0qunPr4joOXnbF5IqLYWHXDomS30qDW4flh5lAwMh2Oae3gAx/4VgC0eDodJShWASCdc6Q/ffcgZkDAr6oyRGcFO0p+qLdYxI6YgKAJpAPqXMjKCtgBqwg7jA3MynFCav1aj2WfkjSrURgnrAWcWQkU6Xoxxk3x0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=wrxCxVUL; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZltFW3e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767021711; x=1798557711;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=3ZtmIapkEIXDViMLF51sDtLL9EBbgtLV80qdIGkqajs=;
-  b=IZltFW3e9eGXazLc0rvFPtESMIDUCJbz8HnjQdW+Oh0pfYxMI4tQsOP9
-   fzyy+qpuxXX1LtXI3DkYW7PgmT8s8C3RA4b8KrnjDC6QPlf7df/yQ0cUg
-   P4sG1XgmmOiPW88UKZwhggJYsy0JAODBT/4u/pb5xBL1JgrV4qabO339H
-   EeJ62GHALzvUazn76TPwyV+A70wvoFhJrVdXxPZSzkOuFyGhch06VDJ/z
-   6K3i8xffQ5l+3RVbWB/sufS56QWnqTEYU/BTcb+1KH9Z8/OmzA6NhzPDO
-   SE1InJp1H6rWOBXB+PZpUCtp3BkaWqQ+S9juXEv+62xpSmZYHu2M+vu8c
-   A==;
-X-CSE-ConnectionGUID: qOMDBDotQficxN2TonsVKQ==
-X-CSE-MsgGUID: 0YTY7fGdTP6vDVtP2c3/Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="79356897"
-X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
-   d="scan'208";a="79356897"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 07:21:50 -0800
-X-CSE-ConnectionGUID: 3O0fmuIBTTyYYqkoBI/WOw==
-X-CSE-MsgGUID: SbKC30oRRwC3WqQiz/oAqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
-   d="scan'208";a="200828911"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.30])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 07:21:48 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 29 Dec 2025 17:21:45 +0200 (EET)
-To: Akiyoshi Kurita <weibu@redadmin.org>
-cc: platform-driver-x86@vger.kernel.org, kuurtb@gmail.com, 
-    Dell.Client.Kernel@dell.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: alienware-wmi: fix typo
-In-Reply-To: <20251223111838.2579217-1-weibu@redadmin.org>
-Message-ID: <2c6bc38e-aa36-6c89-7464-55555c70a655@linux.intel.com>
-References: <20251223111838.2579217-1-weibu@redadmin.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="wrxCxVUL"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D90DBC1D721;
+	Mon, 29 Dec 2025 15:28:47 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5590860725;
+	Mon, 29 Dec 2025 15:29:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43905102F07F9;
+	Mon, 29 Dec 2025 16:29:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767022152; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=Ns87cvfZC7osxMy+j8c/24Nq9nnBVV+dSciH/hT+Kcs=;
+	b=wrxCxVUL4cgFs6aeHugOjrjcTljG/wmIgkjUmJ3ULnnQbobY/5F+047JCuQ3Eaa4TTlAWD
+	X3bBgRczBfQQcms03Rbkse67gbGt5IUDjl1dX3EokmESnwxERpufHmdYn1bullEZJfdFBF
+	WBHZ7fkIcizhHSdcQP2r/hbi7PwxpJUQWXJH9Do31+/LVqS7slr+umW7Ob2Ak3VeTev8wJ
+	3lEputd3DMlapF0c0E4OxpKR2IEvWIzlInQw9p5mn06mocapUGFafRknKXWGn0ntuMh+X9
+	rc9UBH4g3326QbyRZ8yqZ1BaX5JKpLbd5xSpqRHkqpMUwQMz2NpI1qNZV5ejNQ==
+Message-ID: <0886f178-1935-4f37-8d0b-48274245f57e@bootlin.com>
+Date: Mon, 29 Dec 2025 16:29:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 17/33] drm/vkms: Introduce config for plane format
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-17-ba42dc3fb9ff@bootlin.com>
+ <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 23 Dec 2025, Akiyoshi Kurita wrote:
 
-You need to add changelog, it's not enough to have just the shortlog in 
-the subject.
 
--- 
- i.
-
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  Documentation/admin-guide/laptops/alienware-wmi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 12/23/25 14:58, Luca Ceresoli wrote:
+> On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
+>> VKMS driver supports all the pixel formats for planes, but for testing it
+>> can be useful to only advertise few of them. This new configuration
+>> interface will allow configuring the pixel format per planes.
+>>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > 
-> diff --git a/Documentation/admin-guide/laptops/alienware-wmi.rst b/Documentation/admin-guide/laptops/alienware-wmi.rst
-> index 27a32a8057da..e532c60db8e2 100644
-> --- a/Documentation/admin-guide/laptops/alienware-wmi.rst
-> +++ b/Documentation/admin-guide/laptops/alienware-wmi.rst
-> @@ -105,7 +105,7 @@ information.
->  
->  Manual fan control on the other hand, is not exposed directly by the AWCC
->  interface. Instead it let's us control a fan `boost` value. This `boost` value
-> -has the following aproximate behavior over the fan pwm:
-> +has the following approximate behavior over the fan pwm:
->  
->  ::
->  
+>> --- a/drivers/gpu/drm/vkms/vkms_config.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_config.c
 > 
+>> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *plane_cfg)
+>> +{
+>> +	plane_cfg->supported_formats_count = 0;
+> 
+> Why not kfree(plane_cfg->supported_formats) too? You will be (re)allocating
+> anyway if adding one or all formats later on, so the buffer you're not
+> freeing won't be reused anyway.
+
+IIRC realloc reuse the existing allocated buffer if it is big enough to fit the new
+size. But I think this is probably an oversight here and I will add the free to clarify the situation :-)
+
+>> +}
+>> +
+>> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_cfg, u32 drm_format)
+>> +{
+>> +	for (unsigned int i = 0; i < plane_cfg->supported_formats_count; i++) {
+>> +		if (plane_cfg->supported_formats[i] == drm_format) {
+>> +			plane_cfg->supported_formats[i] = plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
+> 
+> I doubt these are less than 100 chars. ;-)
+
+yes, 127, but I don't know how to format it so it is readable.
+
+I tried
+
+plane_cfg->supported_formats[i] =
+	plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
+
+But the second line is 101 chars...
+
+Checkpatch don't complain if I do:
+
+plane_cfg->supported_formats[i] =
+	plane_cfg->supported_formats[
+		plane_cfg->supported_formats_count - 1];
+
+or
+
+plane_cfg->supported_formats[i] =
+	plane_cfg->supported_formats[plane_cfg->supported_formats_count-
+		1];
+
+But that very ugly and not readable...
+
+>> --- a/drivers/gpu/drm/vkms/vkms_config.h
+>> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+>> @@ -49,6 +49,8 @@ struct vkms_config {
+>>    * @supported_color_encodings: Color encodings that this plane will support
+>>    * @default_color_range: Default color range that should be used by this plane
+>>    * @supported_color_ranges: Color ranges that this plane will support
+>> + * @supported_formats: List of supported formats
+>> + * @supported_formats_count: Length of @supported_formats
+> 
+> Nitpick: this description is not adding much. "Number of elements in
+> @supported_formats" would be more useful, as it would clarify it's number
+> of (4-bytes) elements and not size in bytes.
+> 
+>> +int __must_check vkms_config_plane_add_format(struct vkms_config_plane *plane_cfg, u32 drm_format);
+>> +
+>> +/**
+>> + * vkms_config_plane_add_all_formats - Helper to quickly add all the supported formats
+>> + * @plane_cfg: Plane to add the formats to
+>> + *
+>> + * Returns: 0 on success, -ENOMEM if array allocation fails, -EINVAL if the format is not supported
+>> + * by VKMS
+> 
+> The "-EINVAL ... VKMS" part of the sentence does not apply here.
+
+True!
+
+>> +/**
+>> + * vkms_config_plane_remove_format - Remove a specific format from a plane
+>> + * @plane_cfg: Plane to remove the format to
+>                                               ^^ from
+> 
+> Luca
+> 
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
