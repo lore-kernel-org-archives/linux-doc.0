@@ -1,187 +1,198 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFCF32142E
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 14:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BE91327BFB;
+	Mon, 29 Dec 2025 15:02:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767019233; cv=none; b=nAynqAMCqWrHU4OJZvPgEl+9WBrAVXNtDCDXdMZXZD0ZnF9SK1XjqJaM4xVJJNKjyNNTYg3l5IVuq13EPF8fyaFEzWoKpNywCxz0fwPv7ZyzuWOJXGEZhDAnHxvpWoS6FD40BPtfVces58srx5sXesF9XJxfM0XP3cIjwgyiiIA=
+	t=1767020567; cv=none; b=gBqUPvD8/KPgiMS0uCZtuPyuYJDOUYVr5NeK24JkhkZZ8n5IeCX5mDWVnz1qzNK5EZ6gBhZeUVzd755lzYfrR0iTTdv6Pa/3mvHKnIxDVIC4RHstez8w8D0tRTHSpYyMsugtl991BCODT5ST3pmFwKIBWy5MCKzCqqgHaxj0rEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767019233; c=relaxed/simple;
-	bh=rOJwSwgN8Nyopi6nowMsKxMEN9cRq1r4JghdluU4gKk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V1qN4NRk3cV7yRIbMqOCCUxqY0HXIkTFQqfmcxBQ2SmI0ekyAbRnSCNvTU4HJ+C+xXqMJTg5c3ZbXn5ytWjRDMXKFG1a8umMzwMbdf+xBSISQeTXpLlWNp6PHFDyI0AqkiL8E7hAh+Fi6mCoP8Dd0jZY0TYl9FrE0AkJSnvPaUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hmJJffzS; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hmJJffzS"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4FB4D4E41E42;
-	Mon, 29 Dec 2025 14:40:28 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 09F0860725;
-	Mon, 29 Dec 2025 14:40:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6EE8A113B061F;
-	Mon, 29 Dec 2025 15:40:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767019212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=KHiNO49s1LI0Asee/eQKQNGC6G1Km0lH02lOMMvuT0Q=;
-	b=hmJJffzSghd8i6EFJlxW1J4CjGkBxhcfMj0/Gyj2yTxtNeMYsLSuGZ/Y93uBGEtY3xuLmw
-	zIW786/cVknjj6MsV3hz9hA4XI7cMbZx3TSJjRuR/lyejFIjK2HnJFKo9obUtaidLyQg4O
-	vtPoQR8KpOMcvtp/fE3GAKMfkPiss5LTPY2swc3kA1hMAgDnRIOAz618GSNnib3aJekA7W
-	8RHs11JJNOGZ/6coexRSwLVkwllX4DD8ox2ofIubWeGVN3mgrQeNzIsFMJo+imI1WVIj1f
-	XO5VVhhik65XyrRrzO8r4SJN8T6Iw262mFMRcPBDpAaMFMj2nTVaqEW9yHTm3Q==
-Message-ID: <da5db513-1b0c-4ba9-8513-a616895405de@bootlin.com>
-Date: Mon, 29 Dec 2025 15:40:23 +0100
+	s=arc-20240116; t=1767020567; c=relaxed/simple;
+	bh=nM3UYtJC/zDqePQctNctlN8Q1wBW9JkjKzUnNZ/KfXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RFyweUK/hfKycO2Zkt31Gyd9V1G4p4VPaGYVbbKPimjZ/CQ2btMncpvKUH+uO271V21bFg4oBkkifClqTKq30H3jFfwktjL7T6N7ybOiTkkzqLhVoWMMuLuolG/MYnktegidbfV+19ZJO5rbg9nBdJcJis6Rizp4UrP500NyQWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB8E4339;
+	Mon, 29 Dec 2025 07:02:34 -0800 (PST)
+Received: from e134710.manchester.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3A823F5A1;
+	Mon, 29 Dec 2025 07:02:39 -0800 (PST)
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	tony.luck@intel.com,
+	bp@alien8.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rafael@kernel.org,
+	linux-doc@vger.kernel.org,
+	Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com,
+	linux-efi@vger.kernel.org,
+	Ahmed.Tiba@arm.com
+Subject: Re: [PATCH 03/12] ras: add estatus vendor handling and processing
+Date: Mon, 29 Dec 2025 15:01:21 +0000
+Message-ID: <20251229150234.2789600-1-ahmed.tiba@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251222091334.5cb8465f@foz.lan>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/33] drm/vkms: Introduce configfs for plane name
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-7-ba42dc3fb9ff@bootlin.com>
- <DF5JW5Z5K9YE.2PCYFIFFMT6G6@bootlin.com>
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <DF5JW5Z5K9YE.2PCYFIFFMT6G6@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-
-
-On 12/23/25 12:14, Luca Ceresoli wrote:
-> On Mon Dec 22, 2025 at 11:11 AM CET, Louis Chauvet wrote:
->> Planes can have name, create a plane attribute to configure it. Currently
->> plane name is mainly used in logs.
+On Mon, Dec 22, 2025 at 09:13:34 +0100, Mauro Carvalho Chehab wrote:
+>Em Fri, 19 Dec 2025 18:11:54 +0000
+>Ahmed Tiba <ahmed.tiba@arm.com> escreveu:
+>
+>> On Fri, Dec 19, 2025 at 04:30:40PM +0100, Mauro Carvalho Chehab wrote:
+>> >On Fri, Dec 19, 2025 at 02:49:02PM +0000, Ahmed Tiba wrote: 
+>> >>
+>> >> On Wed, Dec 18, 2025 at 05:04:53PM +0100, Mauro Carvalho Chehab wrote:
+>> >> 
+>> >> >> Teach the estatus core how to walk CPER records and expose the vendor
+>> >> >> record notification path. This adds the section iteration helpers,
+>> >> >> the logging helpers that mirror the GHES behaviour, and the deferred
+>> >> >> work used to hand vendor GUIDs to interested drivers. No users switch
+>> >> >> over yet; this simply moves the common logic out of GHES so the next
+>> >> >> patches can wire it up.
+>> >> >>
+>> >> >> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com> 
+>> >> >
+>> >> >...
+>> >> > 
+>> >> >> +static bool estatus_handle_arm_hw_error(estatus_generic_data *gdata, int sev, bool sync) 
+>> >> >
+>> >> > Huh?
+>> >> >
+>> >> > This is a CPER record from GHES. Why are you moving CPER code out
+>> >> > of ghes.c, placing in a file named estatus.c? Doesn't make much
+>> >> > sense on my eyes...
+>> >> >
+>> >> > Same applies to to other GHES CPER record types. 
+>> >>
+>> >> GHES still fills in the CPER record, but the parsing and logging logic is
+>> >> shared with the new DeviceTree provider so I pulled those helpers into the
+>> >> estatus core. 
+>> >
+>> > I see, but this is not really estatus core. Instead, it is part of GHES CPER
+>> > handling logic, which is defined at ACPI and UEFI specs. moving it to estatus
+>> > sounds odd, at least on my eyes.
+>> >
+>> > Perhaps I'm failing to see where at ACPI/UEFI specs how CPER would be
+>> > integrated with an OpenFirmware approach to handle CPER without GHES.
+>> > Care to point to the relevant specs, if any? 
 >>
->> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->> ---
->>   Documentation/ABI/testing/configfs-vkms |  6 +++++
->>   Documentation/gpu/vkms.rst              |  3 ++-
->>   drivers/gpu/drm/vkms/vkms_configfs.c    | 43 +++++++++++++++++++++++++++++++++
->>   3 files changed, 51 insertions(+), 1 deletion(-)
+>> ACPI/APEI (via GHES) defines how CPER records are discovered and notified on ACPI systems,
+>> but there is no ACPI or UEFI-defined equivalent for OpenFirmware/DeviceTree platforms.
+>> UEFI standardises the CPER record format itself, not the transport or discovery mechanism.
 >>
->> diff --git a/Documentation/ABI/testing/configfs-vkms b/Documentation/ABI/testing/configfs-vkms
->> index 0beaa25f30ba..6fe375d1636f 100644
->> --- a/Documentation/ABI/testing/configfs-vkms
->> +++ b/Documentation/ABI/testing/configfs-vkms
->> @@ -103,6 +103,12 @@ Description:
->>           Plane type. Possible values: 0 - overlay, 1 - primary,
->>           2 - cursor.
+>> On non-ACPI systems we still receive the same UEFI-defined CPER payload
+>> from firmware, but Linux needs a different, platform-specific contract
+>> to locate and acknowledge it. The DT binding is a Linux-side description
+>> of that contract rather than something defined by ACPI/UEFI.
+>
+> That's where I'm failing to understand: CPER is part of UEFI spec, and
+> the only deliverable mechanism I'm aware of for CPER is via GHES or
+> GHESv2 - e.g. via ACPI.
+>
+> Within the scope of https://uefi.org/specifications, I'm failing
+> to see any other deliverable mechanism.
+
+Right, the UEFI specs only describe the GHES/ACPI path. There isn’t
+a spec-defined transport for firmware-first CPER delivery outside ACPI/GHES,
+which is why patch 9/12 describes a Linux-side DT contract
+for exposing the CPER status buffer and notification path.
+If there’s a better place to document or name that DT transport, I’d appreciate pointers.
+
+>> >> Both providers already call into the same notifier chain and
+>> >> memory-pool helpers; this patch just moves the generic CPER walking routines
+>> >> next to the rest of the common code so the DT path doesn’t have to grow its
+>> >> own copy. If you’d prefer a different file layout or naming to make that
+>> >> intent clearer, I’m happy to adjust. 
 >>
->> +What:		/sys/kernel/config/vkms/<device>/planes/<plane>/name
->> +Date:		Nov 2025
->> +Contact:	dri-devel@lists.freedesktop.org
->> +Description:
->> +        Name of the plane.
->> +
->>   What:		/sys/kernel/config/vkms/<device>/planes/<plane>/possible_crtcs
->>   Date:		Nov 2025
->>   Contact:	dri-devel@lists.freedesktop.org
->> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
->> index 1e79e62a6bc4..79f1185d8645 100644
->> --- a/Documentation/gpu/vkms.rst
->> +++ b/Documentation/gpu/vkms.rst
->> @@ -87,10 +87,11 @@ Start by creating one or more planes::
+>> > Moving the code from ghes.c to estatus.c or to elsewhere shouldn't make any
+>> > difference, as the DT handling logic could simply be calling the functions
+>> > from ghes.c (or estatus.c). I fail to see why they need to be moved. 
 >>
->>     sudo mkdir /config/vkms/my-vkms/planes/plane0
+>> The motivation is to provide a shared implementation for non-ACPI providers,
+>> so that the DT path does not depend on ACPI/APEI.
 >>
->> -Planes have 1 configurable attribute:
->> +Planes have 2 configurable attributes:
->>
->>   - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
->>     exposed by the "type" property of a plane)
->> +- name: Name of the plane. Allowed characters are [A-Za-z1-9_-]
->>
->>   Continue by creating one or more CRTCs::
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
->> index 506666e21c91..989788042191 100644
->> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
->> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
->> @@ -324,10 +324,53 @@ static ssize_t plane_type_store(struct config_item *item, const char *page,
->>   	return (ssize_t)count;
->>   }
->>
->> +static ssize_t plane_name_show(struct config_item *item, char *page)
->> +{
->> +	struct vkms_configfs_plane *plane;
->> +	const char *name;
->> +
->> +	plane = plane_item_to_vkms_configfs_plane(item);
->> +
->> +	scoped_guard(mutex, &plane->dev->lock)
->> +		name = vkms_config_plane_get_name(plane->config);
-> 
-> vkms_config_plane_get_name() returns a pointer to the name string, not a
-> copy. Unless I'm missing something, that string might be freed before the
-> next lines, where it is used:
-> 
->> +
->> +	if (name)
->> +		return sprintf(page, "%s\n", name);
->> +	return sprintf(page, "\n");
-> 
-> So for safety the above 3 lines whould go inside the scoped_guard().
+>> While the helpers currently live in ghes.c, they are CPER-specific and do not rely on ACPI tables,
+>> APEI infrastructure, or GHES notification semantics. Keeping them there effectively makes GHES
+>> the only place those helpers can live, even though the logic itself is provider-agnostic.
+>
+> The logic is related to GHES, as this seems to be the only standardized
+> mechanism to report CPER records. As it is part of APEI, get_maintainers
+> points to the people that have been maintaining it as:
+>
+>        $ ./scripts/get_maintainer.pl -f ./drivers/acpi/apei/ghes.c
+>        "Rafael J. Wysocki" <rafael@kernel.org> (maintainer:ACPI APEI,commit_signer:6/13=46%)
+>        Tony Luck <tony.luck@intel.com> (reviewer:ACPI APEI,commit_signer:3/13=23%)
+>        Borislav Petkov <bp@alien8.de> (reviewer:ACPI APEI,removed_lines:5/62=8%)
+>        Hanjun Guo <guohanjun@huawei.com> (reviewer:ACPI APEI,commit_signer:4/13=31%)
+>        Mauro Carvalho Chehab <mchehab@kernel.org> (reviewer:ACPI APEI,authored:1/13=8%,removed_lines:6/62=10%)
+>        Shuai Xue <xueshuai@linux.alibaba.com> (reviewer:ACPI APEI,commit_signer:5/13=38%,authored:2/13=15%,added_lines:56/218=26%,removed_lines:34/62=55%)
+>        Len Brown <lenb@kernel.org> (reviewer:ACPI)
+>        Jonathan Cameron <Jonathan.Cameron@huawei.com> (commit_signer:5/13=38%)
+>        Breno Leitao <leitao@debian.org> (authored:2/13=15%,added_lines:38/218=17%)
+>        Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com> (authored:2/13=15%,added_lines:103/218=47%)
+>        Ankit Agrawal <ankita@nvidia.com> (authored:1/13=8%,removed_lines:6/62=10%)
+>        Jason Tian <jason@os.amperecomputing.com> (removed_lines:7/62=11%)
+>        linux-acpi@vger.kernel.org (open list:ACPI APEI)
+>        linux-kernel@vger.kernel.org (open list)
+>
+> Moving it elsewhere would make it confusing, as the expected deliverable
+> mechanism for CPER is via GHES - as this is the only one defined at the
+> uefi.org specs.
+>
+> While it might be moved to EFI and placed under cper.c,
+> get_maintainers.pl would point to:
+>
+>        $ ./scripts/get_maintainer.pl -f ./drivers/firmware/efi/cper.c
+>        Ard Biesheuvel <ardb@kernel.org> (maintainer:EXTENSIBLE FIRMWARE INTERFACE (EFI))
+>        linux-efi@vger.kernel.org (open list:EXTENSIBLE FIRMWARE INTERFACE (EFI))
+>        linux-kernel@vger.kernel.org (open list)
+>
+> which is not the people that have been maintaining RAS.
+>
+> Placing it under a "estatus.c" file would make it completely
+> dissociated with UEFI/ACPI specs, as this name means nothing at
+> the specs.
+>
+> Also, adding a new maintainer's entry won't make any sense, as the
+> people that currently reviews and maintains GHES/CPER records
+> should be kept.
 
-Good catch!
+You’re right that per UEFI/ACPI, GHES is the only standardised delivery path.
+My goal isn’t to redefine that; it’s to avoid duplicating the CPER parsing/logging
+code for non-ACPI platforms. I’m happy to restructure the helpers however you
+think best so we keep the existing ACPI/APEI maintainer model intact.
 
-This also raised some questions on the whole locking synchronization 
-between configfs / config / DRM core. I will work on this topic and 
-maybe move the mutex / add a refcount to vkms_config.
+>> By moving the CPER parsing and logging pieces into a common location,
+>> both GHES and the DT provider can reuse the same implementation,
+>> while the ACPI-specific discovery and notification code remains under drivers/acpi/apei/.
+>> This avoids having the DT provider reach into GHES internals or duplicate CPER handling code.
+>
+> As Boris mentioned on patch 00/12, we need to better understand
+> the high level scenario, as it is still not clear to me how a
+> firmware-first notification would happen without ACPI.
 
->> +}
->> +
->> +static ssize_t plane_name_store(struct config_item *item, const char *page,
->> +				size_t count)
->> +{
->> +	struct vkms_configfs_plane *plane;
->> +	size_t str_len;
->> +
->> +	plane = plane_item_to_vkms_configfs_plane(item);
->> +
->> +	// strspn is not lenght-protected, ensure that page is a null-terminated string.
->> +	str_len = strnlen(page, count);
->> +	if (str_len >= count)
->> +		return -EINVAL;
->> +
->> +	if (strspn(page, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") != count - 1)
->> +		return -EINVAL;
-> 
-> I see you effor to make this as clean as possible, thanks. Still this is a
-> tad ugly, and should be moved to some common place at some point IMO. For
-> now it's fine, but if you need to add more user-passed strings, that could
-> be the moment to move this code.
+That scenario is a firmware-first platform where firmware still produces a UEFI
+CPER Generic Error Status block but signals Linux via the DT-described transport.
+Once the buffer is available, the provider feeds it into the same estatus decoding path as GHES.
 
-There are multiple "user strings" in this file (notably group names), 
-but currently without limitation.
+>> If the current naming or file layout makes that separation unclear, I’m happy to adjust it.
 
-I can create a tiny helper and limit all user strings to a-zA-Z0-9_-
-It will technically break the ABI, but I don't think this is a big issue.
-
-Do you or José think this is a good idea? If so I can extract the helper 
-for v4 and send a separate series to do the limitation on other strings.
-
-> Luca
-> 
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
+Thanks,
+Ahmed
