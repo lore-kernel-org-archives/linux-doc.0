@@ -1,65 +1,65 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43D332ED20
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 16:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD4923D2B2
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 16:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767024554; cv=none; b=OcaCnV4zjXJSx57lSKyHamYLAz/7O7Dok4MR3+jGWm0zvbF6fBdm6Iu0CFuvsTqv3QKLm5BmdFAlaMQJ/GWbtdmtqODmCk8mO2dGjPE43Z65ySf86tbHSeHOBcq2bjCOI/edUInPrLh4eRc7dNlMIoD3CN2wnT7FPfxQrKNkg2s=
+	t=1767027601; cv=none; b=eNkGJLDp2km3TPfuUVQpb6XFIhlWqf5pGL2mfnC1oTP3ImINfqrJGG+TSC7qT8HIX6P862fQlxMlHkIHckaGhQEXK4Qkkw1+0ykorHAFek7rH0sejqyLymeUaooYELLdd0kLDwJK5ayy7eLNygApw76zI87Sij9Bdts0iAWKBHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767024554; c=relaxed/simple;
-	bh=ML2DRdQ+p6tbvpx0MMFOVmUQZpx5cG5JuAyDT+nM9I4=;
+	s=arc-20240116; t=1767027601; c=relaxed/simple;
+	bh=Jrbp2Tyw5HoT6TCiS70SIqpALa+apP1juIu1L6IedoQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3p/3hYACOm2oKaHrv9tUsR4celuGG2KAKZ+SrpCmt9giwfhApHH3JPTLivtKKb/KG53x74HVZ9N6duRzXMM9xDMKI/L+SzouLR24hePtVVVsF3VE0D4oF5uqctVKboBfE1MCM9jb5Kd0NDJWa032qWXMZV7NnJz9CTfVgmQDes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9/293tB; arc=none smtp.client-ip=209.85.208.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQD24cy2poronNPcnaNh8dai2S81QaPM2bBkUgF+xmVCUtNGb1LWEJF1hI/xY0zoD9RXExVPWWIRyL7L07knhZ6Y9INY4u8IUpSnnNvrBmU69NRgcLUviltiZMbb3eHA88SSvlfmv6BBLfOtJDTW8ERWftDvyOkgdLMeDSiXy7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4HHAJaq; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9/293tB"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-37b983fbd45so70010901fa.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 08:09:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4HHAJaq"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47aa03d3326so58982945e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 08:59:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767024551; x=1767629351; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767027597; x=1767632397; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=viNL3mFHBnToRPhoCkRAwUSKqcs0NQzo4JsKb7OlQtg=;
-        b=i9/293tBH4syjQzEMAViySzQvemyKDg9i42dhOh5q4X61U1aTGhkecRWpxF8qhCmLy
-         TLKtl8UadB0voCI7Q+5eD4hi9mfrWZc2/QcqfB1DhtVrnV/ThAdbgth0Tb4sytDuiYYX
-         R6h2PG871KLO1VAfIKTUAC2vV1prGfvMdSZuZY019YsofLEy0wnQL/JGqhz6SLjnMKpH
-         MnNaAYRLI7K6sExzbvkusHL8BpTyKSyrcuIl5gA20blkCkioOwz6aRib+SVzINNFYvTf
-         qgx1KN8fRHORSILhJj2AbSlmPxyQabB9bmrT61b3fVpGDyTRhmVLfmR+HUoee6gOWK1U
-         wIyg==
+        bh=SAHnLIOP3CeHiQHVSAqFE8504lFP+mdUtEiVf2D5dus=;
+        b=k4HHAJaqW/TKojcqFhMrJI3A2jDKZ9cN3cdjttgKCsNgTkYmK45MecSnNIsS0oIpw1
+         xCJ1bB/TL/IAg/4oBMwBZpgEE2RWYnBDA4KjE5Q05PVfR4GYvv/vnSwlGvYHSWLAKnK/
+         7F/HCmlfrcAHUcZpzzDTgz5ypaVzpHvq/DmCj8Q8K6oQeZ8rvIqLiHMtGZYtxAEDyGpp
+         zOG6kiaETgB9QZCJYQIwR/d67YF5/Zt2vOwppkoMR8FEXHpuBHx4nebDRFMX4ysk4zzp
+         DmG0lriG7M//GYbx+jWIjFYMVOxVQdZfW2B+Yu57ivj7Ch+/KdRT76rXwV+8LKrq+AP9
+         Hhlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767024551; x=1767629351;
+        d=1e100.net; s=20230601; t=1767027597; x=1767632397;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=viNL3mFHBnToRPhoCkRAwUSKqcs0NQzo4JsKb7OlQtg=;
-        b=GNQqdgCcyD19ESNAb9s7MauOaVGoT1EWxoFBZQdhKGBOgpOeh6dYh0Cfd+c786aYLY
-         +DrRuK5SsCplqmgfkBP4/fPEpgovo2xW2n4MvRjqdYm9OpL91iq65EWaNJ1++LpeJ7fW
-         zKzjpCir98OWGjK3ZMrAfFCGiznc2RBqy/n9tBDyhvdXkNWV8cO/MfLPf6x9KlesbSLA
-         WGEfz2CjeZkjAfeknDCBzd0i05LSUegxknK/rfM3tnNO/0qqs4MvbIqICHwlIYVmbWE/
-         DadpsvNGJ+DZlkfIx3ptoZKb0ZDkEzeuxzvGSMZ/MOvC2ifdcTKWOGAerloaVYvow/Vd
-         gVCg==
-X-Forwarded-Encrypted: i=1; AJvYcCWhPgxonJIo2WczWH7ByCqwXAQzV1zaRNzsy44Bt3GP2m2V8bwb8bsWGPjcr3R3EZOlIwPeLuEYZ/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx22UfVIqo0bYC9i1IxFraiTMH+FSg9y5LNIAUbvylcxgzfhAVk
-	vPpGdDJhrDbzRND6Eu5rriYR3sssguY0a4NWS4MaGQ6t66eVQXsQCrEw
-X-Gm-Gg: AY/fxX52hC+NYA5dqv5vmCl4CMSLz0uadvgINivA0LaKyvR/MZMH8CbrXAXRJy0pQkb
-	R8CHKIVBdy839nTejDbsMGwZZmHl4HT0wo4f0QDcZiE6f/9R8ZFRaOxHZe/EzpWb8K1U1u6VQnG
-	/t/Zhu4lTekig8+M9a3H1jgBuyLWNXKjF/mrA1zOox2j5Gnga2/ODIsUhP0OjnI7QYuLd/MGCcK
-	1MLDrTMo/nwXjYmwFKrW+vMAImABAIe/Y/GbGaTMmaqytUvVIkRQOt0Vhd1uJvNFTjBQP7Nk9sh
-	Cnbu7BCxhH85DeytVsNRWgB8ysr+0J3xqRhF9DkTvlHnDMEJN8ZTPkotuLQ4XlshGfRo0/aiQGf
-	H1CssCNq4+oH5bJ6O+oukmJ7awvOEPz2JqGvSYrddmQaBmuhGNiMDkw08XgbhqIoNIW1zbwUxAv
-	ncXyyRAU0n0g==
-X-Google-Smtp-Source: AGHT+IEq24qoXUndheWJd7OMN/IrFeM+ep1ZOCBIoWsrm2y8qXSBgYQ79tZu/kTLfxg6AJukkWKC/g==
-X-Received: by 2002:a05:651c:549:b0:37b:9b58:dcfb with SMTP id 38308e7fff4ca-38121568e47mr109382561fa.7.1767024550384;
-        Mon, 29 Dec 2025 08:09:10 -0800 (PST)
+        bh=SAHnLIOP3CeHiQHVSAqFE8504lFP+mdUtEiVf2D5dus=;
+        b=fjpdFxqJmAr0Xy6vIRMOMK+4CH9j8UxMu8rZ/IxKSt8rX4GtDZ+B5Sly5gTCmHEhvx
+         6dAoUXnr6/U5TNg7sH74uLd+C+kZFTXF78nKVc6J3E7nYUvV3xHUFm6VaNAtKClDBE5j
+         YziJv3uAww/YtWY1UBKBXCQKsSPbyCiJgJRWsCXQ4gpRifrjvsrkhIFGJMzY/bpc98Fz
+         A+rib9KHpxAHPQoECBZX68jHnnBG9OVpobwVQDjBTPfchYLPwu137Xn4xR+yUTPIW0Ad
+         lN96hVrHlgYp7RnOvGFCUMfNtbTiTgt/2VTQxEw2RcpayixKd0vFi4qdb23iDIGTbKW0
+         IJVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVBQHbdnf8EJXgs7mWO1DNhT6+ZGa0w3cWGa33/Dx3o2e5klXkTYzcU5WoG1+BBmQp9EPr0kMfPA5E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi2pgN4m2Q/Q93ovdmvivZGfbPU4ogWZQiO8+06cWD4m9JnnoP
+	YzpW2++frkgWpWL9LoL6b0nr1WLESioQw8Q2BbwiNGEiTknuCpGk/GO6
+X-Gm-Gg: AY/fxX5i1k1UD54Xav89xlFwyUQ0JO976xZqATphAYvpRsAB0+XyKFFA/VyH7uEtpnr
+	TKs2fgOA5KFuMRraJaU1S7ko/ZStFXFURgTeGz9YTkEl6U3ZM+8IWhjk0Mjlws2d2nlLLs9QA8d
+	/Awq9jUyAXvHRcblwBBQchpYzK4wCbH2zGVPdPTnVs8s6Y6wnKUJ+EE990wKgFHLqcqY/xkquD6
+	7oK6EN7+ta5cIx3ZSjtG0kTACDlCmCrD41msufP/PcEWDEbOfM9UdhpNLoPJM8BNnu7ocA13As3
+	HIa4sK8OxPUd3J1lQFqMOCnc3c4LoqW8yDWbm3MTpzvhyGkJyWkSxibaNNkf5TZOQ5Th9yWScD9
+	y+/XGOpoMstOnC1n1Mg5M0bcxzn33bsu3ygujc0PvBWD1u1AIOS1PJiA/s9sCMSws4038fAMFDO
+	pd9CP4BEIJBw==
+X-Google-Smtp-Source: AGHT+IGi38bNIRPESZJXDDTOIcycAM4JzqF8pQs2Jd8WsPsTkkEeNKyDjnWBOP5oInCHwpdMvIFDIg==
+X-Received: by 2002:a05:600c:4fc6:b0:477:8b77:155f with SMTP id 5b1f17b1804b1-47d1953865fmr294601805e9.8.1767027597041;
+        Mon, 29 Dec 2025 08:59:57 -0800 (PST)
 Received: from fedora ([94.73.37.171])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38122539ae3sm79732271fa.21.2025.12.29.08.09.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d1936d220sm595736745e9.8.2025.12.29.08.59.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 08:09:09 -0800 (PST)
-Date: Mon, 29 Dec 2025 17:09:07 +0100
+        Mon, 29 Dec 2025 08:59:56 -0800 (PST)
+Date: Mon, 29 Dec 2025 17:59:54 +0100
 From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
 Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
@@ -73,7 +73,7 @@ Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
 	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-Message-ID: <aVKno9Oh1d1h06m2@fedora>
+Message-ID: <aVKzioiSzhNO8dzr@fedora>
 References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
  <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
 Precedence: bulk
@@ -342,21 +342,6 @@ On Mon, Dec 22, 2025 at 11:11:20AM +0100, Louis Chauvet wrote:
 > +int vkms_configfs_parse_next_format(const char *page, const char *page_end, char **out)
 > +{
 > +	int count = page - page_end;
-
-Shouldn't this be "page_end - page"? An example logging the variables shows
-that "count" takes negative numbers:
-
-$ echo "-XB48" | sudo tee /sys/kernel/config/vkms/gpu1/planes/plane0/supported_formats
-
-[22854.585268] page = 000000001ec38388
-[22854.585277] page_end = 000000000b71ccb5
-[22854.585279] count = -6
-[22854.585281] page = 00000000625917b4
-[22854.585282] page_end = 000000000b71ccb5
-[22854.585283] count = -1
-
-Jose
-
 > +	char *tmp_plus = strnchr(page, count, '+');
 > +	char *tmp_minus = strnchr(page, count, '-');
 > +
@@ -410,6 +395,65 @@ Jose
 > +				} else {
 > +					ret = vkms_config_plane_add_format(plane->config,
 > +									   *(int *)fmt);
+
+I have been thinking for a while about this *(int *) casting and I'm not sure if it
+would work in all cases.
+
+I had a minor concern about int vs u32 and, while I don't think int will cause
+issues, u32 looks like a better type.
+
+My main concern was about endianess. The fourcc_code() macro shifts bits around,
+which takes into account endianess. My brain hurt after trying to visualize this,
+so I wrote a simple tests that works on x86_64 but fails on Power PC:
+
+static void vkms_config_test_plane_add_format(struct kunit *test)
+{
+	struct vkms_config *config;
+	struct vkms_config_plane *plane_cfg;
+	int ret;
+	u32 *formats;
+
+	config = vkms_config_default_create(false, false, false, false);
+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+
+	plane_cfg = get_first_plane(config);
+
+	// DRM_FORMAT_XBGR16161616 = 942948952
+	char fmt[4] = {'X', 'B', '4', '8'};
+
+	vkms_config_plane_remove_all_formats(plane_cfg);
+	ret = vkms_config_plane_get_supported_formats_count(plane_cfg);
+	KUNIT_EXPECT_EQ(test, ret, 0);
+	
+	ret = vkms_config_plane_add_format(plane_cfg, *(int *)fmt);
+	KUNIT_EXPECT_EQ(test, ret, 0);
+
+	ret = vkms_config_plane_get_supported_formats_count(plane_cfg);
+	KUNIT_EXPECT_EQ(test, ret, 1);
+
+	formats = vkms_config_plane_get_supported_formats(plane_cfg);
+	KUNIT_EXPECT_EQ(test, formats[0], DRM_FORMAT_XBGR16161616);
+}
+
+On big endian it fails with the following error:
+
+[17:55:07] # vkms_config_test_plane_add_format: EXPECTATION FAILED at drivers/gpu/drm/vkms/tests/vkms_config_test.c:1256
+[17:55:07] Expected ret == 0, but
+[17:55:07]     ret == -22 (0xffffffffffffffea)
+[17:55:07] # vkms_config_test_plane_add_format: EXPECTATION FAILED at drivers/gpu/drm/vkms/tests/vkms_config_test.c:1259
+[17:55:07] Expected ret == 1, but
+[17:55:07]     ret == 0 (0x0)
+[17:55:07] # vkms_config_test_plane_add_format: EXPECTATION FAILED at drivers/gpu/drm/vkms/tests/vkms_config_test.c:1262
+[17:55:07] Expected formats[0] == ((__u32)('X') | ((__u32)('B') << 8) | ((__u32)('4') << 16) | ((__u32)('8') << 24)), but
+[17:55:07]     formats[0] == 875713089 (0x34325241)
+[17:55:07]     ((__u32)('X') | ((__u32)('B') << 8) | ((__u32)('4') << 16) | ((__u32)('8') << 24)) == 942948952 (0x38344258)
+[17:55:07] [FAILED] vkms_config_test_plane_add_format
+[17:55:07]     # module: vkms_kunit_tests
+
+So we need to find another way to convert the format. Maybe using the fourcc_code() macro?
+
+Jose
+
 > +					if (ret)
 > +						return ret;
 > +				}
