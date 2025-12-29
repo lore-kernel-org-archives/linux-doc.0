@@ -1,1155 +1,302 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E15285404
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 03:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5344E3AC39
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 03:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766978298; cv=none; b=hhFyjX4x7aiKTkPSRbJThpvnCJ4rhVxHvD/wWpFJKdymlv1cEHJj5bzGjEn7wVOcpzw7lIFcLDDHOUOOi9h8pS3dnM4V0LbcRe2U/B5WI9bNrnciftBWrM+LvfGdszEAmVxP0BotKvKofGaCBYP/P8FxKu3q2BSs9SMTh1pyPbE=
+	t=1766979402; cv=none; b=J7piFaPI7L3JaBcKREvNdaw4DKw4DXAXdK1QHjpbq3HJ7YWW365Pax1mDDqC6+VMeRiajrLtWmwU8tqlvq4ISn0HGkAFLBTGg/gb7FxG/XKa5tPFkR3eQ/NNDeGVIlq3+0g4zP7Docu0ELWkEgIiMOUTXoeq3kHl2oLupvSdGX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766978298; c=relaxed/simple;
-	bh=XYaXboJOIwWExtQVYjtJhShNUqA6WX7iezxCrD3Se64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qMRA67J/Zm/iUv8an/MGNGc8l9yX8dGPTSeKLpXFqLJ3qtMf3auFomsinNHzBrvFGeh4fIHxESWklmW1lBTge6cCUZeZo9waZcUV/QDQRDB/ccLmJnX2sWde3SDsXpzDYdNneQDJf8jYJaZdSfetupjRQf6XG6Q9MSssMCHhSFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QscQB+5K; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766979402; c=relaxed/simple;
+	bh=SwFi47220NhM2jT+6v2eoVvt8M1LxXGA37HBJu3RwRQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=May4roLpjDg3q4CCqMaiLacJ9CCNCz/4H9hc1EHhPY9gYXMLbtOXje/GqvtQTHxdrj+CspyLHfcEUhO7nl+QsZvYqNx+qBloucLBJo62UQ8+emX+AwHBNceBZyeSvvYy+jStU79ZkjdgaYIls8tE4J1E33bLNLRT5HzRNfK0SRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lucaswei.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P9pIOnCw; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lucaswei.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QscQB+5K"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-29f30233d8aso101462805ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 19:18:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P9pIOnCw"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-29f2b45ecffso144737475ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 19:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766978291; x=1767583091; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Je7xOayPe6lie145+99KZwI9NOHLAn6kdXP9FqSG1cs=;
-        b=QscQB+5K9+O9dUer3qLNZWlREZbAaZxVoyHuYENtX+Gyqp4lzDxlGaYLz1yoY1wRvL
-         XCDmtvhl4BX+DU1WdGaQNxXJxl0hxb4FpgQB0M5/6ay4X7yzfb6RouUh/CTogGto5M7C
-         HtCKor3cCR92R9I6Py8/TFQxj4zshknYgnW4yMW/oeW+2JD6T2WfSpQ5ilHa6tp1PvCy
-         mBV4kM8JQ3WZXuHlShXOxedOpU9SkM2UZIky9cPr98j+t3YqZNLj9Cd3A4SAAE84yeiS
-         F99GLTyZg9sg7ZdHhAyb65TlcoFUhBgBEdiIzhkdVrVgSpWQAsjkO6lYjJT5jbDmjC1e
-         KDAA==
+        d=google.com; s=20230601; t=1766979400; x=1767584200; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tlgzro7FncjNJuzBeVV+gMjPrzzsyNIqE/qYSbMjGMc=;
+        b=P9pIOnCwsi8AYWux9yb1sJN0pSE4YxSRO7kfLIxj/uESeDlLITPipyxchHaxEAyXSc
+         Pk3BwwPJd7BPIhQXGDgmLuJz/exwEuJHkf6bAC1fie6jMyGazD1+q4B5asDmSZPQM47R
+         S29NpYa7jPNsKPp5reziFQRI75RXpWw7hCq44wsCdnSHuV3qnPAFqcGpViRfpMe7bTF4
+         ECZK3PvD0gVROhjsMjgMwbYhHWzWUXmLaEdXEVS+hedyCdRJ/1Bzy58PMmNL4knRO4Lr
+         5SUFws5OPPHBK+HubnW6XnH2ehTnmjSAeTpaMTO4JnOgB5mljgA+bpSVOptYwervqTjC
+         Rr0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766978291; x=1767583091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Je7xOayPe6lie145+99KZwI9NOHLAn6kdXP9FqSG1cs=;
-        b=IyJzkG+ndxAA+MLQb9qcA9joCIR61CTCbFbJUQbBYpvWWFe1ynpJ81kSThZOsYGCrX
-         6f+hULiDjEG/OcQNeQidZ8OwIYFx2WN4I6Zy0Ff6lEU5bVpNLALR8Qe30jdOw+d9/Z9v
-         AKZ7EPG4TbKqN94GvgQn2KmPIJfG32XjQO3D3JenqYJ5n8iiAHywiZDv2d4UPazL1zCG
-         0oYO3L3wnyvaC4RRl5bJPABiqjvJ0BKcfSs0TEw9jPTA05LrDWDKbteuguwIks2DWTX4
-         Uxa1URv8YGY9Pbo+61n/lUEXttTe5yajrTo4AtFSULKc3sz2jxL8vn28pzenXk3f1NUP
-         j37g==
-X-Forwarded-Encrypted: i=1; AJvYcCVY9Aa0qXafQLQ1+g2jJfVlpykYhCGxnB2fPXM5RagKMn+xWdjnufVJzqN5TgkJMvl8rgxb+lp9Sik=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/V1vIPfcGchSDi9UQ771Xa5FGM6t6tR7WUjrZ2qMfIGHBfuCo
-	iVUNAV87phvdMbkYpXsKrmwTXqCfdCBYNfq25Gxl7ClmqhxHYpJ6ssFH
-X-Gm-Gg: AY/fxX6CEsUIOtztiRLF+qCpiOcBfJIP2W+SzaS8SarlCHeynabHPYyyQc1GML2mMON
-	2j+VBTccCP8Zt5r5KHmmihOFadOXz/czXdkd1NU3K7O9iZNuP0N7owLYcDR+yc6uhi0WD26SLJA
-	rhKeWTXY/Akz4DTND/6l59HWvKsDgzmU+f8fCxl1EAyMohjeqYHm0ydAkLQU7O5cEU+SoJNQEUX
-	gEIctZlEYG0B7rfrNr2U4WUMmZeGOxM7Ma0/lvd+3YdoJwikU6ODoQUphGj3OhVY0RxzDJWEixU
-	srbEVCnZpJB2PbD1R90xNnh0KsD6XmPW3X+1QRt9P0P/zg2LZavBQ6VQxQuCd28+iJPYdUJRjKb
-	eM2qvmtJ30TMWB/D5l2WxyTkU4IkDg+Chq8GZ7hy6urkx/CM3V0x/AZZ7vVlcji+VKQkRZW1IIu
-	o/2wBqEFCFu4fJLwM1O61IVN25eSYYLKsuzx6uO+P8oth/XLERoFtZBqMEqfgD64M=
-X-Google-Smtp-Source: AGHT+IESDqEdwWWq496LupX1iGYMiPcz/7pyGpkqX72E8H1V5Yam3WMu8UVCpG0PW4J/FIC8u+Nfqw==
-X-Received: by 2002:a05:701a:ca0e:b0:11b:9386:a3bf with SMTP id a92af1059eb24-121722eb7f6mr27977586c88.42.1766978290223;
-        Sun, 28 Dec 2025 19:18:10 -0800 (PST)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724dd7f5sm112992785c88.5.2025.12.28.19.18.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 19:18:09 -0800 (PST)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
-	Zhixin Zhang <zhangzx36@lenovo.com>,
-	Mia Shao <shaohz1@lenovo.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 16/16] HID: Add documentation for Lenovo Legion Go drivers
-Date: Mon, 29 Dec 2025 03:17:53 +0000
-Message-ID: <20251229031753.581664-17-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251229031753.581664-1-derekjohn.clark@gmail.com>
-References: <20251229031753.581664-1-derekjohn.clark@gmail.com>
+        d=1e100.net; s=20230601; t=1766979400; x=1767584200;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tlgzro7FncjNJuzBeVV+gMjPrzzsyNIqE/qYSbMjGMc=;
+        b=clj7+47DSU/YdjuW5UofVL8whyjguWsodY2ufn3Zbfwq8DZ3wSZ8nFWuypHTR4YSie
+         xzcR8g9Y0pteBQOwzFaZf5ec/KqCvEowivyJTxSKVFtC4vwCNUJoDWkfGvxoPp3VG2fr
+         P6JF7A7nX3r3b1NZKp7rl3XJlOZBS0I59v484ec8wpxqeHUMTvhSD3aOEgXvLhiYdpL8
+         IF4wZtSvSFeacVk8Ox+U4BSN05SUrt/ABGuluLEYKG52AIfe5Z48KFItdlKQfyISOPoO
+         frQ5wph/iSbZVmEA2I0sVCJx6jbVGCcKh/7U8EPZABqn+JFNGxhq2biyge408ueJtn1D
+         hinQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUe0MJHc2GytpOsi3hwgvNWEsIea+ADF63cr7exHguewOhiTpXMKXqT+x/7Bknljo2/vEJ1QptlZm4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN1CLIcqejAzjUI7VJuIY8SVWjhmRCpd3Rf7xWrIRRn1eqhgfZ
+	H+1QI2ytbpaRyMVaZHciyKN4gXW0ams9/oMg9InPir5AxHSV6T6aiBov2zk2JBgv6YZz8Eyr/MS
+	1jR0ARCt3VV8oeg==
+X-Google-Smtp-Source: AGHT+IEi02veFKPSaH8rSwZrrtPejgrT+aWN21tWglweLgCEKAGkZvcU4SKqoS1kr3Pi2TTzu5lhwViTWhZE1g==
+X-Received: from pltj6.prod.google.com ([2002:a17:902:76c6:b0:29f:1480:6153])
+ (user=lucaswei job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:32cd:b0:2a0:ad09:750b with SMTP id d9443c01a7336-2a2f222aef2mr216742645ad.9.1766979399578;
+ Sun, 28 Dec 2025 19:36:39 -0800 (PST)
+Date: Mon, 29 Dec 2025 03:36:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.358.g0dd7633a29-goog
+Message-ID: <20251229033621.996546-1-lucaswei@google.com>
+Subject: [PATCH v2] arm64: errata: Workaround for SI L1 downstream coherency issue
+From: Lucas Wei <lucaswei@google.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: sjadavani@google.com, Lucas Wei <lucaswei@google.com>, 
+	kernel test robot <lkp@intel.com>, stable@vger.kernel.org, kernel-team@android.com, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Adds ABI documentation for the hid-lenovo-go-s and hid-lenovo-go
-drivers.
+When software issues a Cache Maintenance Operation (CMO) targeting a
+dirty cache line, the CPU and DSU cluster may optimize the operation by
+combining the CopyBack Write and CMO into a single combined CopyBack
+Write plus CMO transaction presented to the interconnect (MCN).
+For these combined transactions, the MCN splits the operation into two
+separate transactions, one Write and one CMO, and then propagates the
+write and optionally the CMO to the downstream memory system or external
+Point of Serialization (PoS).
+However, the MCN may return an early CompCMO response to the DSU cluster
+before the corresponding Write and CMO transactions have completed at
+the external PoS or downstream memory. As a result, stale data may be
+observed by external observers that are directly connected to the
+external PoS or downstream memory.
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+This erratum affects any system topology in which the following
+conditions apply:
+ - The Point of Serialization (PoS) is located downstream of the
+   interconnect.
+ - A downstream observer accesses memory directly, bypassing the
+   interconnect.
+
+Conditions:
+This erratum occurs only when all of the following conditions are met:
+ 1. Software executes a data cache maintenance operation, specifically,
+    a clean or invalidate by virtual address (DC CVAC, DC CIVAC, or DC
+    IVAC), that hits on unique dirty data in the CPU or DSU cache. This
+    results in a combined CopyBack and CMO being issued to the
+    interconnect.
+ 2. The interconnect splits the combined transaction into separate Write
+    and CMO transactions and returns an early completion response to the
+    CPU or DSU before the write has completed at the downstream memory
+    or PoS.
+ 3. A downstream observer accesses the affected memory address after the
+    early completion response is issued but before the actual memory
+    write has completed. This allows the observer to read stale data
+    that has not yet been updated at the PoS or downstream memory.
+
+The implementation of workaround put a second loop of CMOs at the same
+virtual address whose operation meet erratum conditions to wait until
+cache data be cleaned to PoC.. This way of implementation mitigates
+performance panalty compared to purly duplicate orignial CMO.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: stable@vger.kernel.org # 6.12.x
+Signed-off-by: Lucas Wei <lucaswei@google.com>
 ---
- .../ABI/testing/sysfs-driver-hid-lenovo-go    | 724 ++++++++++++++++++
- .../ABI/testing/sysfs-driver-hid-lenovo-go-s  | 304 ++++++++
- MAINTAINERS                                   |   2 +
- 3 files changed, 1030 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-lenovo-go
- create mode 100644 Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go b/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go
-new file mode 100644
-index 000000000000..4e298567ac40
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go
-@@ -0,0 +1,724 @@
-++What:		/sys/class/leds/go:rgb:joystick_rings/effect
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the display effect of the RGB interface.
-++
-++		Values are monocolor, breathe, chroma, or rainbow.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/effect_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the effect attribute.
-++
-++		Values are monocolor, breathe, chroma, or rainbow.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the RGB interface.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the enabled attribute.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the operating mode of the RGB interface.
-++
-++		Values are dynamic or custom. Custom allows setting the RGB effect and color.
-++    Dynamic is a Windows mode for syncing Lenovo RGB interfaces not currently
-++    supported under Linux.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the mode attribute.
-++
-++		Values are dynamic or custom.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/profile
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls selecting the configured RGB profile.
-++
-++		Values are 1-3.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/profile_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the profile attribute.
-++
-++		Values are 1-3.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/speed
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the change rate for the breathe, chroma, and rainbow effects.
-++
-++		Values are 0-100.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/class/leds/go:rgb:joystick_rings/speed_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the speed attribute.
-++
-++		Values are 0-100.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/firmware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the firmware version of the internal MCU.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/fps_mode_dpi
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the DPI of the right handle when the FPS mode switch is on.
-++
-++		Values are 500, 800, 1200, and 1800.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/fps_mode_dpi_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the fps_mode_dpi attribute.
-++
-++		Values are 500, 800, 1200, and 1800.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/hardware_generation
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware generation of the internal MCU.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/hardware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware version of the internal MCU.
-++
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/auto_sleep_time
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the sleep timer due to inactivity for the left removable controller.
-++
-++		Values are 0-255.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/auto_sleep_time_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/auto_sleep_time attribute.
-++
-++		Values are 0-255.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_gyro
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This initiates or halts calibration of the left removable controller's IMU.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_gyro_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/calibrate_gyro attribute.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_gyro_status
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the result of the last attempted calibration of the left removable controller's IMU.
-++
-++		Values are unknown, success, failure.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_joystick
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This initiates or halts calibration of the left removable controller's joystick.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_joystick_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/calibrate_jotstick attribute.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_joystick_status
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the result of the last attempted calibration of the left removable controller's joystick.
-++
-++		Values are unknown, success, failure.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_tirgger
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This initiates or halts calibration of the left removable controller's trigger.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_gyro_trigger
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/calibrate_trigger attribute.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/calibrate_trigger_status
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the result of the last attempted calibration of the left removable controller's trigger.
-++
-++		Values are unknown, success, failure.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/firmware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the left removable controller's firmware version.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/hardware_generation
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware generation of the left removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/hardware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware version of the left removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/imu_bypass_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the IMU bypass function of the left removable controller.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/imu_bypass_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/imu_bypass_enabled attribute.
-++
-++		Values are true or false.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/imu_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the IMU of the left removable controller.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/imu_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/imu_enabled attribute.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/product_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the product version of the left removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/protocol_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the protocol version of the left removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/reset
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	Resets the left removable controller to factory defaults.
-++
-++		Writing 1 to this path initiates.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/rumble_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls setting the response behavior for rumble events for the left removable controller.
-++
-++		Values are fps, racing, standarg, spg, rpg.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/rumble_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/rumble_mode attribute.
-++
-++		Values are fps, racing, standarg, spg, rpg.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/rumble_notification
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling haptic rumble events for the left removable controller.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/rumble_notification_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the left_handle/rumble_notification attribute.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the operating mode of the built-in controller.
-++
-++		Values are xinput or dinput.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/left_handle/mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the mode attribute.
-++
-++		Values are xinput or dinput.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the behavior of built in chord combinations.
-++
-++		Values are windows or linux.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the os_mode attribute.
-++
-++		Values are windows or linux.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/product_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the product version of the internal MCU.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/protocol_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the protocol version of the internal MCU.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/reset_mcu
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	Resets the internal MCU to factory defaults.
-++
-++		Writing 1 to this path initiates.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/auto_sleep_time
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the sleep timer due to inactivity for the right removable controller.
-++
-++		Values are 0-255.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/auto_sleep_time_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/auto_sleep_time attribute.
-++
-++		Values are 0-255.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_gyro
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This initiates or halts calibration of the right removable controller's IMU.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_gyro_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/calibrate_gyro attribute.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_gyro_status
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the result of the last attempted calibration of the right removable controller's IMU.
-++
-++		Values are unknown, success, failure.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_joystick
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This initiates or halts calibration of the right removable controller's joystick.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_joystick_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/calibrate_jotstick attribute.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_joystick_status
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the result of the last attempted calibration of the right removable controller's joystick.
-++
-++		Values are unknown, success, failure.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_tirgger
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This initiates or halts calibration of the right removable controller's trigger.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_gyro_trigger
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/calibrate_trigger attribute.
-++
-++		Values are start, stop.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/calibrate_trigger_status
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the result of the last attempted calibration of the right removable controller's trigger.
-++
-++		Values are unknown, success, failure.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/firmware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the right removable controller's firmware version.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/hardware_generation
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware generation of the right removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/hardware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware version of the right removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/imu_bypass_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the IMU bypass function of the right removable controller.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/imu_bypass_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/imu_bypass_enabled attribute.
-++
-++		Values are true or false.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/imu_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the IMU of the right removable controller.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/imu_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/imu_enabled attribute.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/product_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the product version of the right removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/protocol_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the protocol version of the right removable controller.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/reset
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	Resets the right removable controller to factory defaults.
-++
-++		Writing 1 to this path initiates.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/rumble_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls setting the response behavior for rumble events for the right removable controller.
-++
-++		Values are fps, racing, standarg, spg, rpg.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/rumble_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/rumble_mode attribute.
-++
-++		Values are fps, racing, standarg, spg, rpg.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/rumble_notification
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling haptic rumble events for the right removable controller.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/right_handle/rumble_notification_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the right_handle/rumble_notification attribute.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/rumble_intensity
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls setting the rumble intensity for both removable controllers.
-++
-++		Values are off, low, medium, high.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/rumble_intensity_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the rumble_intensity attribute.
-++
-++		Values are off, low, medium, high.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the touchpad.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the touchpad/enabled attribute.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/vibration_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling haptic rumble events for the touchpad.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/vibration_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the touchpad/vibration_enabled attribute.
-++
-++		Values are true, false.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/vibration_intensity
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls setting the intensity of the touchpad haptics.
-++
-++		Values are off, low, medium, high.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/vibration_intensity_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the touchpad/vibration_intensity attribute.
-++
-++		Values are off, low, medium, high.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/tx_dongle/firmware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the firmware version of the internal wireless transmission dongle.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/tx_dongle/hardware_generation
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware generation of the internal wireless transmission dongle.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/tx_dongle/hardware_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the hardware version of the internal wireless transmission dongle.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/tx_dongle/product_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the product version of the internal wireless transmission dongle.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/tx_dongle/protocol_version
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the protocol version of the internal wireless transmission dongle.
-++
-++		Applies to Lenovo Legion Go and Go 2 line of handheld devices.
-++
-diff --git a/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s b/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
-new file mode 100644
-index 000000000000..c3c7b0918986
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
-@@ -0,0 +1,304 @@
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/effect
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the display effect of the RGB interface.
-++
-++		Values are monocolor, breathe, chroma, or rainbow.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/effect_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the effect attribute.
-++
-++		Values are monocolor, breathe, chroma, or rainbow.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the RGB interface.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the enabled attribute.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the operating mode of the RGB interface.
-++
-++		Values are dynamic or custom. Custom allows setting the RGB effect and color.
-++    Dynamic is a Windows mode for syncing Lenovo RGB interfaces not currently
-++    supported under Linux.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the mode attribute.
-++
-++		Values are dynamic or custom.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/profile
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls selecting the configured RGB profile.
-++
-++		Values are 1-3.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/profile_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the profile attribute.
-++
-++		Values are 1-3.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/speed
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the change rate for the breathe, chroma, and rainbow effects.
-++
-++		Values are 0-100.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/class/leds/go_s:rgb:joystick_rings/speed_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the speed attribute.
-++
-++		Values are 0-100.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/auto_sleep_time
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the sleep timer due to inactivity for the built-in controller.
-++
-++		Values are 0-255.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/auto_sleep_time_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the gamepad/auto_sleep_time attribute.
-++
-++		Values are 0-255.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/dpad_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the operating mode of the built-in controllers D-pad.
-++
-++		Values are 4-way or 8-way.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/dpad_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the gamepad/dpad_mode attribute.
-++
-++		Values are 4-way or 8-way.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the operating mode of the built-in controller.
-++
-++		Values are xinput or dinput.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the gamepad/mode attribute.
-++
-++		Values are xinput or dinput.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/poll_rate
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls the poll rate in Hz of the built-in controller.
-++
-++		Values are 125, 250, 500, or 1000.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/gamepad/poll_rate_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the gamepad/poll_rate attribute.
-++
-++		Values are 125, 250, 500, or 1000.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/bypass_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the IMU bypass function. When enabled the IMU data is directly reported to the OS through
-++an HIDRAW interface.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/bypass_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the imu/bypass_enabled attribute.
-++
-++		Values are true or false.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/manufacturer
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the manufacturer of the intertial measurment unit.
-++
-++		Values are Bosch or ST.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/sensor_enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the IMU.
-++
-++		Values are true, false, or wake-2s.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/sensor_enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the imu/sensor_enabled attribute.
-++
-++		Values are true, false, or wake-2s.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/mcu_id
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the MCU Identification Number
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/mouse/step
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls which value is used for the mouse sensitivity.
-++
-++		Values are 1-127.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/mouse/step_range
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the mouse/step attribute.
-++
-++		Values are 1-127.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls which value is used for the touchpads operating mode.
-++
-++		Values are windows or linux.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the os_mode attribute.
-++
-++		Values are windows or linux.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls enabling or disabling the built-in touchpad.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the touchpad/enabled attribute.
-++
-++		Values are true or false.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/linux_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls behavior of the touchpad events when os_mode is set to linux.
-++
-++		Values are absolute or relative.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/linux_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the touchpad/linux_mode attribute.
-++
-++		Values are absolute or relative.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/windows_mode
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This controls behavior of the touchpad events when os_mode is set to windows.
-++
-++		Values are absolute or relative.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-++
-++What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/windows_mode_index
-++Date:		April 2026
-++Contact:	linux-input@vger.kernel.org
-++Description:	This displays the available options for the touchpad/windows_mode attribute.
-++
-++		Values are absolute or relative.
-++
-++		Applies to Lenovo Legion Go S line of handheld devices.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index be4a0fcf23dd..9893d26d5434 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14139,6 +14139,8 @@ LENOVO HID drivers
- M:	Derek J. Clark <derekjohn.clark@gmail.com>
- L:	linux-input@vger.kernel.org
- S:	Maintained
-+F:	Documentation/ABI/testing/sysfs-driver-hid-lenovo-go
-+F:	Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
- F:	drivers/hid/hid-lenovo-go-s.c
- F:	drivers/hid/hid-lenovo-go.c
+Changes in v2:
+
+ 1. Fixed warning from kernel test robot by changing
+    arm_si_l1_workaround_4311569 to static 
+    [Reported-by: kernel test robot <lkp@intel.com>]
+
+---
+ Documentation/arch/arm64/silicon-errata.rst |  3 ++
+ arch/arm64/Kconfig                          | 19 +++++++++++++
+ arch/arm64/include/asm/assembler.h          | 10 +++++++
+ arch/arm64/kernel/cpu_errata.c              | 31 +++++++++++++++++++++
+ arch/arm64/mm/cache.S                       | 13 ++++++++-
+ arch/arm64/tools/cpucaps                    |  1 +
+ 6 files changed, 76 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index a7ec57060f64..98efdf528719 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -213,6 +213,9 @@ stable kernels.
+ | ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
+ +----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_843419        |
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 65db12f66b8f..a834d30859cc 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1153,6 +1153,25 @@ config ARM64_ERRATUM_3194386
  
+ 	  If unsure, say Y.
+ 
++config ARM64_ERRATUM_4311569
++	bool "SI L1: 4311569: workaround for premature CMO completion erratum"
++	default y
++	help
++	  This option adds the workaround for ARM SI L1 erratum 4311569.
++
++	  The erratum of SI L1 can cause an early response to a combined write
++	  and cache maintenance operation (WR+CMO) before the operation is fully
++	  completed to the Point of Serialization (POS).
++	  This can result in a non-I/O coherent agent observing stale data,
++	  potentially leading to system instability or incorrect behavior.
++
++	  Enabling this option implements a software workaround by inserting a
++	  second loop of Cache Maintenance Operation (CMO) immediately following the
++	  end of function to do CMOs. This ensures that the data is correctly serialized
++	  before the buffer is handed off to a non-coherent agent.
++
++	  If unsure, say Y.
++
+ config CAVIUM_ERRATUM_22375
+ 	bool "Cavium erratum 22375, 24313"
+ 	default y
+diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
+index f0ca7196f6fa..d3d46e5f7188 100644
+--- a/arch/arm64/include/asm/assembler.h
++++ b/arch/arm64/include/asm/assembler.h
+@@ -381,6 +381,9 @@ alternative_endif
+ 	.macro dcache_by_myline_op op, domain, start, end, linesz, tmp, fixup
+ 	sub	\tmp, \linesz, #1
+ 	bic	\start, \start, \tmp
++alternative_if ARM64_WORKAROUND_4311569
++	mov	\tmp, \start
++alternative_else_nop_endif
+ .Ldcache_op\@:
+ 	.ifc	\op, cvau
+ 	__dcache_op_workaround_clean_cache \op, \start
+@@ -402,6 +405,13 @@ alternative_endif
+ 	add	\start, \start, \linesz
+ 	cmp	\start, \end
+ 	b.lo	.Ldcache_op\@
++alternative_if ARM64_WORKAROUND_4311569
++	.ifnc	\op, cvau
++	mov	\start, \tmp
++	mov	\tmp, xzr
++	cbnz	\start, .Ldcache_op\@
++	.endif
++alternative_else_nop_endif
+ 	dsb	\domain
+ 
+ 	_cond_uaccess_extable .Ldcache_op\@, \fixup
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 8cb3b575a031..5c0ab6bfd44a 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
+ 	return (ctr_real != sys) && (ctr_raw != sys);
+ }
+ 
++#ifdef CONFIG_ARM64_ERRATUM_4311569
++static DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
++static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
++{
++	static_branch_enable(&arm_si_l1_workaround_4311569);
++	pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
++
++	return 0;
++}
++early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
++
++/*
++ * We have some earlier use cases to call cache maintenance operation functions, for example,
++ * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
++ * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
++ * safe to have the workaround off by default.
++ */
++static bool
++need_arm_si_l1_workaround_4311569(const struct arm64_cpu_capabilities *entry, int scope)
++{
++	return static_branch_unlikely(&arm_si_l1_workaround_4311569);
++}
++#endif
++
+ static void
+ cpu_enable_trap_ctr_access(const struct arm64_cpu_capabilities *cap)
+ {
+@@ -870,6 +894,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		ERRATA_MIDR_RANGE_LIST(erratum_spec_ssbs_list),
+ 	},
+ #endif
++#ifdef CONFIG_ARM64_ERRATUM_4311569
++	{
++		.capability = ARM64_WORKAROUND_4311569,
++		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
++		.matches = need_arm_si_l1_workaround_4311569,
++	},
++#endif
+ #ifdef CONFIG_ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD
+ 	{
+ 		.desc = "ARM errata 2966298, 3117295",
+diff --git a/arch/arm64/mm/cache.S b/arch/arm64/mm/cache.S
+index 503567c864fd..ddf0097624ed 100644
+--- a/arch/arm64/mm/cache.S
++++ b/arch/arm64/mm/cache.S
+@@ -143,9 +143,14 @@ SYM_FUNC_END(dcache_clean_pou)
+  *	- end     - kernel end address of region
+  */
+ SYM_FUNC_START(__pi_dcache_inval_poc)
++alternative_if ARM64_WORKAROUND_4311569
++	mov	x4, x0
++	mov	x5, x1
++	mov	x6, #1
++alternative_else_nop_endif
+ 	dcache_line_size x2, x3
+ 	sub	x3, x2, #1
+-	tst	x1, x3				// end cache line aligned?
++again:	tst	x1, x3				// end cache line aligned?
+ 	bic	x1, x1, x3
+ 	b.eq	1f
+ 	dc	civac, x1			// clean & invalidate D / U line
+@@ -158,6 +163,12 @@ SYM_FUNC_START(__pi_dcache_inval_poc)
+ 3:	add	x0, x0, x2
+ 	cmp	x0, x1
+ 	b.lo	2b
++alternative_if ARM64_WORKAROUND_4311569
++	mov	x0, x4
++	mov	x1, x5
++	sub	x6, x6, #1
++	cbz	x6, again
++alternative_else_nop_endif
+ 	dsb	sy
+ 	ret
+ SYM_FUNC_END(__pi_dcache_inval_poc)
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 1b32c1232d28..3b18734f9744 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -101,6 +101,7 @@ WORKAROUND_2077057
+ WORKAROUND_2457168
+ WORKAROUND_2645198
+ WORKAROUND_2658417
++WORKAROUND_4311569
+ WORKAROUND_AMPERE_AC03_CPU_38
+ WORKAROUND_AMPERE_AC04_CPU_23
+ WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+
+base-commit: edde060637b92607f3522252c03d64ad06369933
 -- 
-2.51.2
+2.52.0.358.g0dd7633a29-goog
 
