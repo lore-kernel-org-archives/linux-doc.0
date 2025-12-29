@@ -1,64 +1,64 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F1B23EAA3
-	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 03:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A301327700D
+	for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 03:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766978288; cv=none; b=sNDWPIA4CBaTfLFFkUIy9mZAeAeUWlLuV2sbmCoWEZlTQBH2uN8FnsLPT2gfFmqLatqDWPKCcssTchk9YKpX+BAGStvIVG3K4ZmhCntmiB0GaGWwiOFAG1quW5VmMkMN39z1x16XmRmaeBnQBu6yF+PI7tvsGjj0MY33nGJf6y0=
+	t=1766978290; cv=none; b=QzKcybViARaouJAH+PQ3pRlk8zXrVksAEdggR16csXDhK4K6HNYZq0v3FpDs5JZbmG14MYlxgdchoXn0+53eBBBbGFy9ZUZfd3Rjf83hqckvR89mOeqMDBPHQRlMo4VfUpzxBEYYwEYsEYQgqkRAW082FgyVkASjl6awwkNlVHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766978288; c=relaxed/simple;
-	bh=tNZs0S8Zijac4ZW6CpaZWlugpcI/4pA16X1La22rX5U=;
+	s=arc-20240116; t=1766978290; c=relaxed/simple;
+	bh=H1DevgY7ldlq+LgJ4KTfx5nobMC0edHeeHRaeArfCzA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dx8MNnRTBEgHQWZ0Wk/MI0kiukbbFKqlBWyvqGq1UGzAfh1z9drj3cLwGcoHxiXCRqpiYVfLGWowG7xmuom8LD44cKrRulUfl78hT/wZb8J/MrIoBAyZkPK2BNHQPpbJHQL6Iqq9oichJrLxYpNnS+KKZLZN7RS5x6C5Ki2qCW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eMGVAVsE; arc=none smtp.client-ip=209.85.216.43
+	 MIME-Version; b=LkoOiAuy7TEByINu6085dZNZe3MuJqEVFn/1PVycrJ48LTlMQ2vPMgafvwuBwZEt5kItQigp0luUAt2LBcggJ4mOTKK94Rxe6/hJqar7hk8kgPcmXhUwd8S2ZLDWVipg+fIcQXV9p4P4eCMErReai6mMPB6BiKNRgOG5MqEsCAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WRfOVsAh; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eMGVAVsE"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-34aa62f9e74so11092987a91.1
-        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 19:18:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WRfOVsAh"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-34c1d98ba11so9467053a91.3
+        for <linux-doc@vger.kernel.org>; Sun, 28 Dec 2025 19:18:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1766978284; x=1767583084; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9IQfKNQR1YN2qCXVPY7PVCVQVuK91xQgxlzV8ELl4us=;
-        b=eMGVAVsEGObGZ8UU0uw6QPSSMuWVY17g9H0eVAqWuZ8C5bGRe8oxJ/G/WCeHDHnR07
-         29xvyFt1IN7hDEKr64p6K3DpWCif8KiuJAl7esZs/Z/btYuNkxTmkPE7SahasU+T+rhE
-         PtYSBUx7nMqj198Szcne5aOW65psju62o8nvdNOPvUoaAvT6FmJqRQletK6IqQff7AQV
-         SeyJzD26Wx9vmjcij6wMWFbQT0WnXb95EyEN//zwmajcPZ67tQNWOpyflirRswjh/nmW
-         rAQEPhEBagJ3750qmHiJZFdncEccxRK5hegqs3MK/kvpT3Y0kkz/Reqt8mNrYPXdB3QO
-         EQdQ==
+        bh=8ApPxIyni3cWMMjHk1TPgt3W0M/pYt17LWc/dDcwFVI=;
+        b=WRfOVsAhOadQVKLgdJcbPMnt/KYajV14OEpypXF2KLPIdA/N+M4dmRdGNUww34OJLL
+         vTsDCpAEUMhowJLCREEfk55cNqdfktW9n3iE/efMxhymSdSzHRFv0hYXmwKpmr2aZuYV
+         s7HwhEVaHmT+9Npu8MApCvUs5Tm6pKfgfx9U0rwSEPiZaa6dN04pavEClOiXd2Izrd5l
+         XRE4Ut+Emm8I4mrNFbbAppFb8YpBnhhNtwo/z9ykRwxRbOpQhwSgw1EB6XQDHqG3m4ag
+         iTL9Dz5/RuxXw4z7KIm/1xvSYa+4Z2x/TTEK4QOIpwyCqRqZdZwVNx5taW1mHL73ibvU
+         06sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1766978284; x=1767583084;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9IQfKNQR1YN2qCXVPY7PVCVQVuK91xQgxlzV8ELl4us=;
-        b=Y7jdXoRrKxSN9alhgHH2HT/sA4dnTCOKkg9eljXDlMPWNGnygXexQaYd0FgAaCQMZT
-         4NWhCEvCa856C9qoCz5ntZUHLxYrLTusN4eLxSBCq2oIhKnF8RJwLCCi5TzQmH8HJXoZ
-         CIZQnBwM6jQD2dHVrzQU4X5l3nuy3a+fD01q3bkZJMbLZKbj3BtSfPiYVseFfqYPbGlV
-         XoQZdgNglp73nYfRxqkjUO1IKWDJC/DmSsZ14S7Xz/WtQX1Ua/a+m3eJyfRFptwWhFFe
-         Zz+BzyT4v6uw8UQv9ylc8fqwSyfaUZY0HCHvW1xvHF4/ZE/Oftfjzawiyvw5GAwfhVz9
-         1dWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXpeEyVbVX1dFmE+uXpFTv/4Jcjq7leDQ2ZPg+dl78SakB7lTeLvMIhBTPvP0ucmp1UofryUGKK8dc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7kQA3YUUYOivdpLPDT8YJOSul76zNHMT2dSmYQN0zVmLof99y
-	6G8duE6cQQwzudMNqa3Q/AmVDgQHSEV3ik7oz15kyBjJbj53W/nc8kR0
-X-Gm-Gg: AY/fxX4NaWZ6C5MInf/bguW8Th5wGo1rBBs/dCcDprcx5xpUHD40wjosRJeRP9cJuYG
-	i2hzXh9ALMIxlRlIdg3tQ6C6D90FsBshPJavNAXc6OHrrQmbPIWDcw/YMMTVEGgowcqyveAM9vv
-	Wa7/1FHnbrbF2fLvpsq6N/7y+7A5cLCaTXA1CjvBrdkL0lYIvK4zDhcWyc++YrpR5RpGi0rJYW5
-	gceo2uSHY5SXaF1+m7cVl825aXujjqgdTmBgB24lWAelNqj+4s0E8txA1iZHUx+3VcLUZxPBh3h
-	ZUqZ6VNfUmTOTSUuKapqEwXcutHFbBqr9c9Ewv50EsT89220aBwRpkcwOj3ADUZ9d9nUo24Q4bd
-	wzcWOMQo8LCp9JagPIMX/Vve25TVwyRA2eXQ9lPKJGVgnhseyClua1CpDCwgIkjSVWERcQcmMqh
-	55VPlvAdHrAPgWvoJ4pIXzSvOGDcvkk38gAx9CcMnnb3ayLNa7jI1B86yyzs9E2iI=
-X-Google-Smtp-Source: AGHT+IHQnnT7tExR1ci3zRSoO4izwrF2dBzRsUyZ1Y15a0DYrgefSPPfviRg9+LlIOHVKTE/hNjuHA==
-X-Received: by 2002:a05:7022:4583:b0:119:e56b:c762 with SMTP id a92af1059eb24-121722f837fmr26769856c88.39.1766978283505;
-        Sun, 28 Dec 2025 19:18:03 -0800 (PST)
+        bh=8ApPxIyni3cWMMjHk1TPgt3W0M/pYt17LWc/dDcwFVI=;
+        b=q8/oPd/hZ6TLHiIRJNYG0IKRL4OqVI2be+8aCJBI9r7tSG8kUm+RPH2kqKEB4PRjcX
+         8dH9VUgRt5vYJcj44dc5RgCPqjn7m+Rw+3DVeCIYM2m8S/akBwQQ6+8oHX/g5FswrqI1
+         oUdJH1KOScMEyBkO6/1QdRuTSNfRJHq8xpMPpO7E2ySpUQj0C41rQpIzF73cyNIxJEcz
+         RbVBDUQZ7/uj6MitWjdiFKkJfJZrg4+eASTIjM+IG2Vl/cLsjlkmXMIgO7TcU2bbSpYf
+         /ImFtzApnicU0dCvhZv1HTzAhUYoyQI2DnsfF6zmtWoxcAi8Om4brBweTNCJiiJUxE64
+         E0BA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFtPXGOV9EmUGge9+fBmuWNZcXCSlXdvTy7xwTKgPsifeBrbyTgVa71YINZAuRZa2c+iLZNPteZCE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZXeOTCP10ZMpBAsaObMoIdapr182BTBKuJEIYzVDtsPRaiMSS
+	Hf8gAE5A98v+h9VxICYe7gOhWM3d+L6GAnZMD/OvxsuTEJAizqTf+QmZ
+X-Gm-Gg: AY/fxX6Rin09X0dNLUdEIea394xE9XzKmGCDIxTSYcwht/5j2TEeM2w3YG4DWFHS3kZ
+	p5tKHdXodAgByjSfvGrixJDfkco7PxqMi6Ph53uZ1X8PIBxd5pGu3n3IIJarvSCPuo7OvgQQ50w
+	WLUls4x0qyESBl+ttDED6f7yLMCOLaLe3UQu8B/OMv+UfiNBxBO5rWmvIAQfHJAsgB0PRC3GaLj
+	hoc6mbvmxfuxkNbvZ5IFV6msPitKQ6jY+Fh7x+52cb9SvSHJfYkT70i8NJVqXTQBadyPkCQ0Zoa
+	/ibqJCQT7b2Bfcy8PvmMj6h3fmpzGk+txLCWXrF5RIv/f+oaATWtNpnFXoSBjFU9S5psKlLkyCP
+	Tg5GYiNi1u+iwJiQ5uojfHByqtW86Zs8GOABXQR8Los4EbFPu0hU1VK4YmO+NkBsNRHa0sAGx8o
+	n/1If8IHhN+AfEYVrxWTRJ9OXyGGqzWdsk85SoWs3I10p21VZxs5pfPDDvBi2J3fc=
+X-Google-Smtp-Source: AGHT+IGkT8wJ9FLo7iQAbw/26b3x0f0Nf3C0m7EhEbIkxwCRLJwYybdVJicektb4lrjeCjQzYVpxeQ==
+X-Received: by 2002:a05:7022:4287:b0:11b:9386:8268 with SMTP id a92af1059eb24-12172302173mr27788731c88.45.1766978284316;
+        Sun, 28 Dec 2025 19:18:04 -0800 (PST)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724dd7f5sm112992785c88.5.2025.12.28.19.18.02
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724dd7f5sm112992785c88.5.2025.12.28.19.18.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 19:18:03 -0800 (PST)
+        Sun, 28 Dec 2025 19:18:04 -0800 (PST)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -71,9 +71,9 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/16] HID: hid-lenovo-go: Add Calibration Settings
-Date: Mon, 29 Dec 2025 03:17:44 +0000
-Message-ID: <20251229031753.581664-8-derekjohn.clark@gmail.com>
+Subject: [PATCH v2 08/16] HID: hid-lenovo-go: Add OS Mode Toggle
+Date: Mon, 29 Dec 2025 03:17:45 +0000
+Message-ID: <20251229031753.581664-9-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251229031753.581664-1-derekjohn.clark@gmail.com>
 References: <20251229031753.581664-1-derekjohn.clark@gmail.com>
@@ -85,256 +85,151 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds calibration enable and last calibration status indicators for the
-triggers, joysticks, and handle gyros.
+Adds OS Mode toggle, who's primary function is to change the built-in
+functional chords to use the right handle legion button instead of the
+left handle legion button as the mode shift key. This setting needs to
+be restored after resume, so a reset-resume hook is added.
 
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
- drivers/hid/hid-lenovo-go.c | 284 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 283 insertions(+), 1 deletion(-)
+ drivers/hid/hid-lenovo-go.c | 137 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 137 insertions(+)
 
 diff --git a/drivers/hid/hid-lenovo-go.c b/drivers/hid/hid-lenovo-go.c
-index c8761297f57b..470878b51e97 100644
+index 470878b51e97..f3623871edbf 100644
 --- a/drivers/hid/hid-lenovo-go.c
 +++ b/drivers/hid/hid-lenovo-go.c
-@@ -43,8 +43,11 @@ struct hid_go_cfg {
- 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
- 	u8 fps_mode;
- 	u8 gp_left_auto_sleep_time;
-+	u8 gp_left_gyro_cal_status;
-+	u8 gp_left_joy_cal_status;
- 	u8 gp_left_notify_en;
- 	u8 gp_left_rumble_mode;
-+	u8 gp_left_trigg_cal_status;
- 	u32 gp_left_version_firmware;
- 	u8 gp_left_version_gen;
- 	u32 gp_left_version_hardware;
-@@ -52,8 +55,11 @@ struct hid_go_cfg {
- 	u32 gp_left_version_protocol;
- 	u8 gp_mode;
- 	u8 gp_right_auto_sleep_time;
-+	u8 gp_right_gyro_cal_status;
-+	u8 gp_right_joy_cal_status;
- 	u8 gp_right_notify_en;
- 	u8 gp_right_rumble_mode;
-+	u8 gp_right_trigg_cal_status;
- 	u32 gp_right_version_firmware;
- 	u8 gp_right_version_gen;
- 	u32 gp_right_version_hardware;
-@@ -227,7 +233,41 @@ static const char *const rumble_mode_text[] = {
- 	[RUMBLE_MODE_RPG] = "rpg",
+@@ -76,6 +76,7 @@ struct hid_go_cfg {
+ 	u32 mcu_version_product;
+ 	u32 mcu_version_protocol;
+ 	u32 mouse_dpi;
++	u8 os_mode;
+ 	u8 rgb_effect;
+ 	u8 rgb_en;
+ 	u8 rgb_mode;
+@@ -166,6 +167,8 @@ enum feature_status_index {
+ 	FEATURE_GAMEPAD_MODE = 0x0e,
  };
  
--#define FPS_MODE_DPI           0x02
-+#define FPS_MODE_DPI		0x02
-+#define TRIGGER_CALIBRATE	0x04
-+#define JOYSTICK_CALIBRATE	0x04
-+#define GYRO_CALIBRATE		0x06
++#define FEATURE_OS_MODE 0x69
 +
-+enum cal_device_type {
-+	CALDEV_GYROSCOPE = 0x01,
-+	CALDEV_JOYSTICK,
-+	CALDEV_TRIGGER,
-+	CALDEV_JOY_TRIGGER,
-+};
-+
-+enum cal_enable {
-+	CAL_UNKNOWN,
-+	CAL_START,
-+	CAL_STOP,
-+};
-+
-+static const char *const cal_enabled_text[] = {
-+	[CAL_UNKNOWN] = "unknown",
-+	[CAL_START] = "start",
-+	[CAL_STOP] = "stop",
-+};
-+
-+enum cal_status_index {
-+	CAL_STAT_UNKNOWN,
-+	CAL_STAT_SUCCESS,
-+	CAL_STAT_FAILURE,
-+};
-+
-+static const char *const cal_status_text[] = {
-+	[CAL_STAT_UNKNOWN] = "unknown",
-+	[CAL_STAT_SUCCESS] = "success",
-+	[CAL_STAT_FAILURE] = "failure",
-+};
- 
- enum rgb_config_index {
- 	LIGHT_CFG_ALL = 0x01,
-@@ -264,6 +304,13 @@ static const char *const rgb_effect_text[] = {
- 	[RGB_EFFECT_RAINBOW] = "rainbow",
+ enum fps_switch_status_index {
+ 	FPS_STATUS_UNKNOWN,
+ 	GAMEPAD,
+@@ -311,6 +314,23 @@ enum device_status_index {
+ 	GET_HOTKEY_TRIGG_STATUS,
  };
  
-+enum device_status_index {
-+	GET_CAL_STATUS = 0x02,
-+	GET_UPGRADE_STATUS,
-+	GET_MACRO_REC_STATUS,
-+	GET_HOTKEY_TRIGG_STATUS,
++enum os_mode_cfg_index {
++	SET_OS_MODE = 0x09,
++	GET_OS_MODE,
++};
++
++enum os_mode_index {
++	OS_UNKNOWN,
++	WINDOWS,
++	LINUX,
++};
++
++static const char *const os_mode_text[] = {
++	[OS_UNKNOWN] = "unknown",
++	[WINDOWS] = "windows",
++	[LINUX] = "linux",
 +};
 +
  static int hid_go_version_event(struct command_report *cmd_rep)
  {
  	switch (cmd_rep->sub_cmd) {
-@@ -508,6 +555,44 @@ static int hid_go_light_event(struct command_report *cmd_rep)
+@@ -593,6 +613,21 @@ static int hid_go_device_status_event(struct command_report *cmd_rep)
  	}
  }
  
-+static int hid_go_device_status_event(struct command_report *cmd_rep)
++static int hid_go_os_mode_cfg_event(struct command_report *cmd_rep)
 +{
-+	switch (cmd_rep->device_type) {
-+	case LEFT_CONTROLLER:
-+		switch (cmd_rep->data[0]) {
-+		case CALDEV_GYROSCOPE:
-+			drvdata.gp_left_gyro_cal_status = cmd_rep->data[1];
-+			return 0;
-+		case CALDEV_JOYSTICK:
-+			drvdata.gp_left_joy_cal_status = cmd_rep->data[1];
-+			return 0;
-+		case CALDEV_TRIGGER:
-+			drvdata.gp_left_trigg_cal_status = cmd_rep->data[1];
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	case RIGHT_CONTROLLER:
-+		switch (cmd_rep->data[0]) {
-+		case CALDEV_GYROSCOPE:
-+			drvdata.gp_right_gyro_cal_status = cmd_rep->data[1];
-+			return 0;
-+		case CALDEV_JOYSTICK:
-+			drvdata.gp_right_joy_cal_status = cmd_rep->data[1];
-+			return 0;
-+		case CALDEV_TRIGGER:
-+			drvdata.gp_right_trigg_cal_status = cmd_rep->data[1];
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
++	switch (cmd_rep->sub_cmd) {
++	case SET_OS_MODE:
++		if (cmd_rep->data[0] != 1)
++			return -EIO;
++		return 0;
++	case GET_OS_MODE:
++		drvdata.os_mode = cmd_rep->data[0];
++		return 0;
 +	default:
 +		return -EINVAL;
-+	}
++	};
 +}
 +
  static int hid_go_set_event_return(struct command_report *cmd_rep)
  {
  	if (cmd_rep->data[0] != 0)
-@@ -564,10 +649,16 @@ static int hid_go_raw_event(struct hid_device *hdev, struct hid_report *report,
- 		case GET_RGB_CFG:
- 			ret = hid_go_light_event(cmd_rep);
+@@ -666,6 +701,9 @@ static int hid_go_raw_event(struct hid_device *hdev, struct hid_report *report,
  			break;
-+		case GET_DEVICE_STATUS:
-+			ret = hid_go_device_status_event(cmd_rep);
-+			break;
- 		case SET_FEATURE_STATUS:
- 		case SET_MOTOR_CFG:
- 		case SET_DPI_CFG:
- 		case SET_RGB_CFG:
-+		case SET_TRIGGER_CFG:
-+		case SET_JOYSTICK_CFG:
-+		case SET_GYRO_CFG:
- 			ret = hid_go_set_event_return(cmd_rep);
- 			break;
- 		default:
-@@ -1152,6 +1243,101 @@ static ssize_t fps_mode_dpi_index_show(struct device *dev,
- 	return sysfs_emit(buf, "500 800 1200 1800\n");
+ 		};
+ 		break;
++	case OS_MODE_DATA:
++		ret = hid_go_os_mode_cfg_event(cmd_rep);
++		break;
+ 	default:
+ 		goto passthrough;
+ 	};
+@@ -1338,6 +1376,64 @@ static ssize_t calibrate_config_options(struct device *dev,
+ 	return count;
  }
  
-+static ssize_t device_status_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf,
-+				  enum device_status_index index,
-+				  enum dev_type device_type,
-+				  enum cal_device_type cal_type)
-+{
-+	u8 i;
-+
-+	switch (index) {
-+	case GET_CAL_STATUS:
-+		switch (device_type) {
-+		case LEFT_CONTROLLER:
-+			switch (cal_type) {
-+			case CALDEV_GYROSCOPE:
-+				i = drvdata.gp_left_gyro_cal_status;
-+				break;
-+			case CALDEV_JOYSTICK:
-+				i = drvdata.gp_left_joy_cal_status;
-+				break;
-+			case CALDEV_TRIGGER:
-+				i = drvdata.gp_left_trigg_cal_status;
-+				break;
-+			default:
-+				return -EINVAL;
-+			}
-+			break;
-+		case RIGHT_CONTROLLER:
-+			switch (cal_type) {
-+			case CALDEV_GYROSCOPE:
-+				i = drvdata.gp_right_gyro_cal_status;
-+				break;
-+			case CALDEV_JOYSTICK:
-+				i = drvdata.gp_right_joy_cal_status;
-+				break;
-+			case CALDEV_TRIGGER:
-+				i = drvdata.gp_right_trigg_cal_status;
-+				break;
-+			default:
-+				return -EINVAL;
-+			}
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	default:
-+		return -EINVAL;
-+	};
-+
-+	if (i >= ARRAY_SIZE(cal_status_text))
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%s\n", cal_status_text[i]);
-+}
-+
-+static ssize_t calibrate_config_store(struct device *dev,
-+				      struct device_attribute *attr,
-+				      const char *buf, u8 cmd, u8 sub_cmd,
-+				      size_t count, enum dev_type device_type)
++static ssize_t os_mode_store(struct device *dev, struct device_attribute *attr,
++			     const char *buf, size_t count)
 +{
 +	size_t size = 1;
-+	u8 val = 0;
 +	int ret;
++	u8 val;
 +
-+	ret = sysfs_match_string(cal_enabled_text, buf);
-+	if (ret < 0)
++	ret = sysfs_match_string(os_mode_text, buf);
++	if (ret <= 0)
 +		return ret;
 +
 +	val = ret;
-+	if (!val)
-+		size = 0;
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, cmd, sub_cmd,
-+			       device_type, &val, size);
++	ret = mcu_property_out(drvdata.hdev, OS_MODE_DATA, FEATURE_OS_MODE,
++			       SET_OS_MODE, USB_MCU, &val, size);
 +	if (ret < 0)
 +		return ret;
++
++	drvdata.os_mode = val;
 +
 +	return count;
 +}
 +
-+static ssize_t calibrate_config_options(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
++static ssize_t os_mode_show(struct device *dev, struct device_attribute *attr,
++			    char *buf)
++{
++	ssize_t count = 0;
++	int ret;
++	u8 i;
++
++	ret = mcu_property_out(drvdata.hdev, OS_MODE_DATA, FEATURE_OS_MODE,
++			       GET_OS_MODE, USB_MCU, 0, 0);
++	if (ret)
++		return ret;
++
++	i = drvdata.os_mode;
++	if (i >= ARRAY_SIZE(os_mode_text))
++		return -EINVAL;
++
++	count = sysfs_emit(buf, "%s\n", os_mode_text[i]);
++
++	return count;
++}
++
++static ssize_t os_mode_index_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
 +{
 +	ssize_t count = 0;
 +	unsigned int i;
 +
-+	for (i = 1; i < ARRAY_SIZE(cal_enabled_text); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", cal_enabled_text[i]);
++	for (i = 1; i < ARRAY_SIZE(os_mode_text); i++)
++		count += sysfs_emit_at(buf, count, "%s ", os_mode_text[i]);
 +
-+	buf[count - 1] = '\n';
++	if (count)
++		buf[count - 1] = '\n';
 +
 +	return count;
 +}
@@ -342,129 +237,82 @@ index c8761297f57b..470878b51e97 100644
  static int rgb_cfg_call(struct hid_device *hdev, enum mcu_command_index cmd,
  			enum rgb_config_index index, u8 *val, size_t size)
  {
-@@ -1458,6 +1644,30 @@ static void hid_go_brightness_set(struct led_classdev *led_cdev,
- 	}                                                                     \
- 	static DEVICE_ATTR_RO_NAMED(_name, _attrname)
+@@ -1704,6 +1800,9 @@ static DEVICE_ATTR_RO_NAMED(gamepad_rumble_intensity_index,
+ static DEVICE_ATTR_RW(fps_mode_dpi);
+ static DEVICE_ATTR_RO(fps_mode_dpi_index);
  
-+#define LEGO_CAL_DEVICE_ATTR(_name, _attrname, _scmd, _dtype, _rtype)         \
-+	static ssize_t _name##_store(struct device *dev,                      \
-+				     struct device_attribute *attr,           \
-+				     const char *buf, size_t count)           \
-+	{                                                                     \
-+		return calibrate_config_store(dev, attr, buf, _name.index,    \
-+					      _scmd, count, _dtype);          \
-+	}                                                                     \
-+	static ssize_t _name##_##_rtype##_show(                               \
-+		struct device *dev, struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return calibrate_config_options(dev, attr, buf);              \
-+	}                                                                     \
-+	static DEVICE_ATTR_WO_NAMED(_name, _attrname)
++static DEVICE_ATTR_RW(os_mode);
++static DEVICE_ATTR_RO(os_mode_index);
 +
-+#define LEGO_DEVICE_STATUS_ATTR(_name, _attrname, _scmd, _dtype)              \
-+	static ssize_t _name##_show(struct device *dev,                       \
-+				    struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return device_status_show(dev, attr, buf, _name.index, _scmd, \
-+					  _dtype);                            \
-+	}                                                                     \
-+	static DEVICE_ATTR_RO_NAMED(_name, _attrname)
-+
- /* Gamepad - MCU */
- struct go_cfg_attr version_product_mcu = { PRODUCT_VERSION };
- LEGO_DEVICE_ATTR_RO(version_product_mcu, "product_version", USB_MCU, version);
-@@ -1595,9 +1805,45 @@ LEGO_DEVICE_ATTR_RW(rumble_notification_left, "rumble_notification",
- static DEVICE_ATTR_RO_NAMED(rumble_notification_left_index,
- 			    "rumble_notification_index");
+ static struct attribute *mcu_attrs[] = {
+ 	&dev_attr_fps_mode_dpi.attr,
+ 	&dev_attr_fps_mode_dpi_index.attr,
+@@ -1712,6 +1811,8 @@ static struct attribute *mcu_attrs[] = {
+ 	&dev_attr_gamepad_mode_index.attr,
+ 	&dev_attr_gamepad_rumble_intensity.attr,
+ 	&dev_attr_gamepad_rumble_intensity_index.attr,
++	&dev_attr_os_mode.attr,
++	&dev_attr_os_mode_index.attr,
+ 	&dev_attr_reset_mcu.attr,
+ 	&dev_attr_version_firmware_mcu.attr,
+ 	&dev_attr_version_gen_mcu.attr,
+@@ -2177,6 +2278,27 @@ static void hid_go_cfg_remove(struct hid_device *hdev)
+ 	hid_set_drvdata(hdev, NULL);
+ }
  
-+struct go_cfg_attr cal_trigg_left = { TRIGGER_CALIBRATE };
-+LEGO_CAL_DEVICE_ATTR(cal_trigg_left, "calibrate_trigger", SET_TRIGGER_CFG,
-+		     LEFT_CONTROLLER, index);
-+static DEVICE_ATTR_RO_NAMED(cal_trigg_left_index, "calibrate_trigger_index");
++static int hid_go_cfg_reset_resume(struct hid_device *hdev)
++{
++	u8 os_mode = drvdata.os_mode;
++	int ret;
 +
-+struct go_cfg_attr cal_joy_left = { JOYSTICK_CALIBRATE };
-+LEGO_CAL_DEVICE_ATTR(cal_joy_left, "calibrate_joystick", SET_JOYSTICK_CFG,
-+		     LEFT_CONTROLLER, index);
-+static DEVICE_ATTR_RO_NAMED(cal_joy_left_index, "calibrate_joystick_index");
++	ret = mcu_property_out(drvdata.hdev, OS_MODE_DATA, FEATURE_OS_MODE,
++			       SET_OS_MODE, USB_MCU, &os_mode, 1);
++	if (ret < 0)
++		return ret;
 +
-+struct go_cfg_attr cal_gyro_left = { GYRO_CALIBRATE };
-+LEGO_CAL_DEVICE_ATTR(cal_gyro_left, "calibrate_gyro", SET_GYRO_CFG,
-+		     LEFT_CONTROLLER, index);
-+static DEVICE_ATTR_RO_NAMED(cal_gyro_left_index, "calibrate_gyro_index");
++	ret = mcu_property_out(drvdata.hdev, OS_MODE_DATA, FEATURE_OS_MODE,
++			       GET_OS_MODE, USB_MCU, 0, 0);
++	if (ret < 0)
++		return ret;
 +
-+struct go_cfg_attr cal_trigg_left_status = { GET_CAL_STATUS };
-+LEGO_DEVICE_STATUS_ATTR(cal_trigg_left_status, "calibrate_trigger_status",
-+			LEFT_CONTROLLER, CALDEV_TRIGGER);
++	if (drvdata.os_mode != os_mode)
++		return -ENODEV;
 +
-+struct go_cfg_attr cal_joy_left_status = { GET_CAL_STATUS };
-+LEGO_DEVICE_STATUS_ATTR(cal_joy_left_status, "calibrate_joystick_status",
-+			LEFT_CONTROLLER, CALDEV_JOYSTICK);
++	return 0;
++}
 +
-+struct go_cfg_attr cal_gyro_left_status = { GET_CAL_STATUS };
-+LEGO_DEVICE_STATUS_ATTR(cal_gyro_left_status, "calibrate_gyro_status",
-+			LEFT_CONTROLLER, CALDEV_GYROSCOPE);
-+
- static struct attribute *left_gamepad_attrs[] = {
- 	&dev_attr_auto_sleep_time_left.attr,
- 	&dev_attr_auto_sleep_time_left_range.attr,
-+	&dev_attr_cal_gyro_left.attr,
-+	&dev_attr_cal_gyro_left_index.attr,
-+	&dev_attr_cal_gyro_left_status.attr,
-+	&dev_attr_cal_joy_left.attr,
-+	&dev_attr_cal_joy_left_index.attr,
-+	&dev_attr_cal_joy_left_status.attr,
-+	&dev_attr_cal_trigg_left.attr,
-+	&dev_attr_cal_trigg_left_index.attr,
-+	&dev_attr_cal_trigg_left_status.attr,
- 	&dev_attr_imu_bypass_left.attr,
- 	&dev_attr_imu_bypass_left_index.attr,
- 	&dev_attr_imu_enable_left.attr,
-@@ -1666,9 +1912,45 @@ LEGO_DEVICE_ATTR_RW(rumble_notification_right, "rumble_notification",
- static DEVICE_ATTR_RO_NAMED(rumble_notification_right_index,
- 			    "rumble_notification_index");
+ static int hid_go_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ {
+ 	int ret, ep;
+@@ -2235,6 +2357,20 @@ static void hid_go_remove(struct hid_device *hdev)
+ 	}
+ }
  
-+struct go_cfg_attr cal_trigg_right = { TRIGGER_CALIBRATE };
-+LEGO_CAL_DEVICE_ATTR(cal_trigg_right, "calibrate_trigger", SET_TRIGGER_CFG,
-+		     RIGHT_CONTROLLER, index);
-+static DEVICE_ATTR_RO_NAMED(cal_trigg_right_index, "calibrate_trigger_index");
++static int hid_go_reset_resume(struct hid_device *hdev)
++{
++	int ep = get_endpoint_address(hdev);
 +
-+struct go_cfg_attr cal_joy_right = { JOYSTICK_CALIBRATE };
-+LEGO_CAL_DEVICE_ATTR(cal_joy_right, "calibrate_joystick", SET_JOYSTICK_CFG,
-+		     RIGHT_CONTROLLER, index);
-+static DEVICE_ATTR_RO_NAMED(cal_joy_right_index, "calibrate_joystick_index");
++	switch (ep) {
++	case GO_GP_INTF_IN:
++		return hid_go_cfg_reset_resume(hdev);
++	default:
++		break;
++	}
 +
-+struct go_cfg_attr cal_gyro_right = { GYRO_CALIBRATE };
-+LEGO_CAL_DEVICE_ATTR(cal_gyro_right, "calibrate_gyro", SET_GYRO_CFG,
-+		     RIGHT_CONTROLLER, index);
-+static DEVICE_ATTR_RO_NAMED(cal_gyro_right_index, "calibrate_gyro_index");
++	return 0;
++}
 +
-+struct go_cfg_attr cal_trigg_right_status = { GET_CAL_STATUS };
-+LEGO_DEVICE_STATUS_ATTR(cal_trigg_right_status, "calibrate_trigger_status",
-+			RIGHT_CONTROLLER, CALDEV_TRIGGER);
-+
-+struct go_cfg_attr cal_joy_right_status = { GET_CAL_STATUS };
-+LEGO_DEVICE_STATUS_ATTR(cal_joy_right_status, "calibrate_joystick_status",
-+			RIGHT_CONTROLLER, CALDEV_JOYSTICK);
-+
-+struct go_cfg_attr cal_gyro_right_status = { GET_CAL_STATUS };
-+LEGO_DEVICE_STATUS_ATTR(cal_gyro_right_status, "calibrate_gyro_status",
-+			RIGHT_CONTROLLER, CALDEV_GYROSCOPE);
-+
- static struct attribute *right_gamepad_attrs[] = {
- 	&dev_attr_auto_sleep_time_right.attr,
- 	&dev_attr_auto_sleep_time_right_range.attr,
-+	&dev_attr_cal_gyro_right.attr,
-+	&dev_attr_cal_gyro_right_index.attr,
-+	&dev_attr_cal_gyro_right_status.attr,
-+	&dev_attr_cal_joy_right.attr,
-+	&dev_attr_cal_joy_right_index.attr,
-+	&dev_attr_cal_joy_right_status.attr,
-+	&dev_attr_cal_trigg_right.attr,
-+	&dev_attr_cal_trigg_right_index.attr,
-+	&dev_attr_cal_trigg_right_status.attr,
- 	&dev_attr_imu_bypass_right.attr,
- 	&dev_attr_imu_bypass_right_index.attr,
- 	&dev_attr_imu_enable_right.attr,
+ static const struct hid_device_id hid_go_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO,
+ 			 USB_DEVICE_ID_LENOVO_LEGION_GO2_XINPUT) },
+@@ -2254,6 +2390,7 @@ static struct hid_driver hid_lenovo_go = {
+ 	.probe = hid_go_probe,
+ 	.remove = hid_go_remove,
+ 	.raw_event = hid_go_raw_event,
++	.reset_resume = hid_go_reset_resume,
+ };
+ module_hid_driver(hid_lenovo_go);
+ 
 -- 
 2.51.2
 
