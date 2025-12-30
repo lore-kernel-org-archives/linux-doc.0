@@ -1,136 +1,165 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9BB309EEC
-	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 09:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4C2212FB3
+	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 10:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767086247; cv=none; b=JiPlfwRfWr3Jwi/EaO0hDY5awq3CO8NmDibXtyj9sIlZT2vFnh8VgU5/w6KLCGrB6TUNiH718F+EUBV9aGICgXHT2bEPLWxEFf3wRb/t11L+gK/8C6vwayIYkIaWgnUBp6w6SxYE9GpHOEP12+V06bAuUartgVkofGoOwe0Sps4=
+	t=1767089752; cv=none; b=ONJg4ShGmG6loilroefQvn3KgBpSDg4tuLrobPZ1+YYIE7h9mMb9Ob3U0LQKzvP+fkF6NRinDKNufIsJLXGo/BR+t5vZC4ibzgYfmLb3Dq9bFAuz+A8OPsY33ErpUlNZ+1sX2hpQrDdGmIxyFR+AvbhqXtIlMTAN5kYzgkYgp1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767086247; c=relaxed/simple;
-	bh=hr2KmMI6J3iPt7xmKT+3N3lsH0SdnvroFutuv5njFL8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VfQiV1iCZP0XxiFT5kYWGPZiuFmTVTj9sNNRqQnUq6aKWg2MHWRhBcBN/D6hCUkQzkT+tCfTFgAlPEYoTMEzh/nig6hhS3YNMAr/cjQ2JvFscs0WSJyKEXQfyric3PtQf/j7Cg2FqhQseEbDN37ndEOi4MHLeiB3ikAdo7PhjxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CrPy81H0; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1767089752; c=relaxed/simple;
+	bh=LCt+6pV3SVXX+jVlhPofZ+B+PV2iA9I/7Ha5xrB3hCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=St36WZMtz/9pEpuo79Y2iDmEGsM7VnOB6T//K9X5fbLNq4xnCPdqXEbefTbMHin/jg2ssrNKcvdWHVvJZpC1wt+ITr19ip1t0PYFmBbUDaMqw1KzUbMvmICGZHalFeKvUWzyJ4Aqft78Sbd+fi+P/xo4Ws5Kg5J83PY1OCjg4V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P0yYMVW3; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mMNfRRLF; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CrPy81H0"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 8CEE4C1D72C;
-	Tue, 30 Dec 2025 09:16:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E54CE6072C;
-	Tue, 30 Dec 2025 09:17:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E979D113B05C1;
-	Tue, 30 Dec 2025 10:17:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767086241; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=rZGTwUQXXsaH9P/sj36gCU1NPe3EIdV70fYUKRoUz14=;
-	b=CrPy81H0ZL6UTXpsNBD6TmghQkFld1EUqrMmDF/sauZPPbByFEHCvAfe9XNGnQNeDKRfIc
-	AxZslYDC3B68czrpggoz9i3fH7+4HCM1zh/TlP2eHZPlds25F8mr+9yAt90ws1Hc7hKHG7
-	4Pfw/d9dX6lnm51ysE4yyTkKBXjs2fuFiVpkLnYyZTTZ2GGPD6ZBdJ97epu9jA/+hhlOPu
-	UYCSytTI99tgN4NL9+kP1yL4KVpDrA1TR0lypBQN8ajzCb2Np8JTV6VvOhctGM90PvTYmK
-	zF3QLxNsYiGFylS/TvdJvFhe8w+FpMshXSIkJ8lPEYBMyjiySddhKV+2cmLHig==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
- Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
-Subject: Re: [PATCH v3 00/22] drm/bridge: add of_drm_find_and_get_bridge()
- and a managed *next_bridge, deprecate of_drm_find_bridge()
-Message-Id: <176708623356.127863.8623917477288453126.b4-ty@bootlin.com>
-Date: Tue, 30 Dec 2025 10:17:13 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P0yYMVW3";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mMNfRRLF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767089749;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=QPeHJm+twCiufdOXqLeCn+SgUmZXimx3Kj8OMbSgWcg=;
+	b=P0yYMVW35jxYgBF3YWX+d5Ks1WvgEpHVbY7hSsHdHk78Zw0WyrCeBBSmS2yyK5oTbRjjF3
+	I2ThzC+UAqPDYagw+qh9Y0x6x56cCzUJauXeqWrqndmgRCxf/08HSGzrcABR2iQB8QGVxM
+	4lSXGaXGdADw9gUk4PbTfeYlI1of3DM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-599-XiTLeuoaOHy7ybRR44_6PQ-1; Tue, 30 Dec 2025 05:15:47 -0500
+X-MC-Unique: XiTLeuoaOHy7ybRR44_6PQ-1
+X-Mimecast-MFC-AGG-ID: XiTLeuoaOHy7ybRR44_6PQ_1767089747
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-42fb1c2c403so6233553f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 02:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1767089746; x=1767694546; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QPeHJm+twCiufdOXqLeCn+SgUmZXimx3Kj8OMbSgWcg=;
+        b=mMNfRRLFQ1b7RYO8zYL3/JZ9axIJjDVgyXqGeWBRCxq6iIp3bCHuVYco/WFjHSmwJ+
+         vUAI8YxWrd8ixNe4H/3BBb+Oxfue+Wwi402meo6Qbk07JWJXnC0jn0H2BZX0LVmCdf0r
+         7xPXTXPrUvjRDHSxBfUoitW6hg2E0W0zqQALn2mFduy9Rj9MDmTXRHVbqZoWCTCHY+9z
+         ot9Ei8kOeihODU4KDJ6T2GO6yGFp/NRFhsXxcuq6Qiy4h8Rh6PHERIeNWZK/b9+Z4Zj1
+         sYeyB4Pwbfb1wNgPnQSqKuRNyihtrkhnMd2J2LELXY3L/9AutKgn0UJccbKBNf7R0xRE
+         +Ovg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767089746; x=1767694546;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QPeHJm+twCiufdOXqLeCn+SgUmZXimx3Kj8OMbSgWcg=;
+        b=qX+q8LEKQj3WX1tx0R3U8q912k7tQs4yJi2RiD43WKCRaAwfu5EdqwXfyZC9bBSjSx
+         LorRv9bw8k/F/q5VyEOzrvRa/UwI9eML4yAl9CGht+YygmR2boUFo/0HQfOxJzArHE3P
+         KTntbcEUeGqXptzbrgsPK0nI98dV4j5+MRjq2mC74Bl5bSAHG/5n1gR2QU13lkizS15F
+         oVtGt4IuCtUgfNCZp8TQDlrxFwPBQADWg49JAr2Qu3Y12l4yid3sRnIaOGLkITk0CAJv
+         PL8yZHHoCP2zic8EOoMz/C8KUdnNjX6nAiduoY4q+1rDXQW6IFfHOCp18UHPtd9u3yfM
+         ssHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVm/lFfl5QcX07gOqGhR9qXCPeEle3XeVI6KywKc3+xGWbMSAfKWRV6UavHsuEQmm+UsGFzwT4qjqc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwzxP9lMO9BB1OrgBnH3sH8EKOEUOsFX+q/0v1GxqwZOSt49yk
+	VzS3q7w+11TfyIDsRbsP9UWk9JK8ywwi11Kp/iQdFkqbVoafv1BdO9FOFHazjeiqEX47T6cqaro
+	s1MXNXE0AtfQLvYiErtSUV+DCpQdtY+f2iu5hvWkRHr39UW5J89QHqHGfXfZXiw==
+X-Gm-Gg: AY/fxX48gJKHWK4JNn+idyHnFuzt8RottbmfCDmAzjTtH+fToL2IciVgTG2Q7t1iAug
+	UdxlygdWHaqZzp7ARQWwvjmUvqGbN3tNH+P6KidB1/AjyRtFd7TJfxyeQDDEhCCAqJO611F9tJk
+	Ca//BDkWPwamL9OKyJOtuJHTFf7bagqxmtvhE5wBF0dawPrvJ7GPSyE2Q9NlMeIVB+IUGt/4X8S
+	LfkCUO0AMesNVw0AAYQQ/9SzMbEDnJl6sNtocOpvrHknD83td4XxP+guReFN6GtA0Oxc2MKSY7/
+	aSl972zaXIHDkxvFA647zLQ13k2tBfBDOtlRlL1q9wENhrvPVLutTuH+1BgVpWlyfN+yDBDYi5a
+	eovJEpCYD8fek1bAAnzzNxnSLD7DZeUvb5Q==
+X-Received: by 2002:a05:6000:2503:b0:431:a33:d872 with SMTP id ffacd0b85a97d-4324e4c1219mr30005588f8f.8.1767089746585;
+        Tue, 30 Dec 2025 02:15:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEbvOFHJ91a0TKLxq+k7tMABBS8U1GQCYZPCELRU5Zsc1Gaj+GYCwYcD6RmChYOtX8+5x3fqQ==
+X-Received: by 2002:a05:6000:2503:b0:431:a33:d872 with SMTP id ffacd0b85a97d-4324e4c1219mr30005566f8f.8.1767089746108;
+        Tue, 30 Dec 2025 02:15:46 -0800 (PST)
+Received: from redhat.com (IGLD-80-230-31-118.inter.net.il. [80.230.31.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm67681523f8f.0.2025.12.30.02.15.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 02:15:45 -0800 (PST)
+Date: Tue, 30 Dec 2025 05:15:42 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Cong Wang <xiyou.wangcong@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jason Wang <jasowang@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Petr Tesarik <ptesarik@suse.com>,
+	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH RFC 00/13] fix DMA aligment issues around virtio
+Message-ID: <cover.1767089672.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 
 
-On Tue, 16 Dec 2025 18:58:33 +0100, Luca Ceresoli wrote:
-> This series deprecates of_drm_find_bridge(), adds a replacement which
-> handles bridge refcounting, and converts some of the direct users.
-> 
-> This is part of the work to support hotplug of DRM bridges. The grand plan
-> was discussed in [0].
-> 
-> Here's the work breakdown (➜ marks the current series):
-> 
-> [...]
+Cong Wang reported dma debug warnings with virtio-vsock
+and proposed a patch, see:
 
-Applied, thanks!
+https://lore.kernel.org/all/20251228015451.1253271-1-xiyou.wangcong@gmail.com/
 
-[01/22] drm/bridge: add of_drm_find_and_get_bridge()
-        commit: 293a8fd7721a90987d9bf149feab60e756dac269
-[02/22] drm/bridge: deprecate of_drm_find_bridge()
-        commit: 9da0e06abda87b1f97014113d5231fdeb4700749
-[03/22] drm/todo: add entry about converting to of_drm_find_and_get_bridge()
-        commit: c637217efb892ac5d0d5f9aea3df92147c2e24db
-[04/22] drm/bridge: make of_drm_find_bridge() a wrapper of of_drm_find_and_get_bridge()
-        commit: 5d7cb36254b5facd2a349331c1a47102d4e66e40
-[05/22] drm/arcpgu: convert to of_drm_find_and_get_bridge()
-        commit: 7282066e55347b26cb31784059ab62c2de8a3e01
-[06/22] drm/bridge: add next_bridge pointer to struct drm_bridge
-        commit: 3fdeae134ba956aacbd87d5532c025913c98fc49
-[07/22] drm/bridge: ite-it66121: get/put the next bridge
-        commit: 8f92a5fcbfe33f86b08f5f74dcc58a41425ea8c0
-[08/22] drm/bridge: imx8qxp-pixel-combiner: get/put the next bridge
-        commit: ae754f049ce1c01f09d175f80265970f0d5b4489
-[09/22] drm/bridge: simple-bridge: get/put the next bridge
-        commit: b9a7d5918bd436d64699b80af061f21c168df699
-[10/22] drm/meson: encoder_cvbs: get/put the next bridge
-        commit: 47fa48b3faa7cae925c9b14b18376cdc4622bae0
-[11/22] drm/meson: encoder_dsi: get/put the next bridge
-        commit: bfb8f5d0a9e756c57d4fc0f7966e4873bbfb34a5
-[12/22] drm/meson: encoder_hdmi: get/put the next bridge
-        commit: c87ad784aacb89cf88c00cde78970543010a6d67
-[13/22] drm/bridge: imx8qxp-pxl2dpi: simplify put of device_node pointers
-        commit: ceea3f7806a109baba4a23c9066eb9e86659408b
-[14/22] drm/bridge: imx8qxp-pxl2dpi: remove excess error message
-        commit: 54af17788629fbf343c5a9ebc55454d6a5486ff8
-[15/22] drm/bridge: imx8qxp-pxl2dpi: imx8qxp_pxl2dpi_find_next_bridge: return int, not ERR_PTR
-        commit: 0dc4a8d6d096f97a00b10919e8ffe2466666f03c
-[16/22] drm/bridge: imx8qxp-pxl2dpi: get/put the next bridge
-        commit: 6802c7ee360d98a018962adb8412d42dcca28272
-[17/22] drm/bridge: imx8qxp-pxl2dpi: get/put the companion bridge
-        commit: 900699ba830fd3558ba00f55fbf014022dc7ecdb
-[18/22] drm/bridge: imx8qxp-pixel-link: simplify logic to find next bridge
-        (no commit info)
-[19/22] drm/bridge: imx8qxp-pixel-link: simplify freeing of the remote device_node
-        (no commit info)
-[20/22] drm/bridge: imx8qxp-pixel-link: remove excess error message
-        commit: 40630210211a34f0714fe976530ccf1291e5ef78
-[21/22] drm/bridge: imx8qxp-pixel-link: imx8qxp_pixel_link_find_next_bridge: return int, not ERR_PTR
-        (no commit info)
-[22/22] drm/bridge: imx8qxp-pixel-link: get/put the next bridge
-        (no commit info)
+however, the issue is more widespread.
+This is an attempt to fix it systematically.
+Note: i2c and gio might also be affected, I am still looking
+into it. Help from maintainers welcome.
 
-Best regards,
+Early RFC, compile tested only. Sending for early feedback/flames.
+Cursor/claude used liberally mostly for refactoring, and english.
+
+DMA maintainers, could you please confirm the DMA core changes
+are ok with you?
+
+Thanks!
+
+
+Michael S. Tsirkin (13):
+  dma-mapping: add __dma_from_device_align_begin/end
+  docs: dma-api: document __dma_align_begin/end
+  dma-mapping: add DMA_ATTR_CPU_CACHE_CLEAN
+  docs: dma-api: document DMA_ATTR_CPU_CACHE_CLEAN
+  dma-debug: track cache clean flag in entries
+  virtio: add virtqueue_add_inbuf_cache_clean API
+  vsock/virtio: fix DMA alignment for event_list
+  vsock/virtio: use virtqueue_add_inbuf_cache_clean for events
+  virtio_input: fix DMA alignment for evts
+  virtio_scsi: fix DMA cacheline issues for events
+  virtio-rng: fix DMA alignment for data buffer
+  virtio_input: use virtqueue_add_inbuf_cache_clean for events
+  vsock/virtio: reorder fields to reduce struct padding
+
+ Documentation/core-api/dma-api-howto.rst  | 42 +++++++++++++
+ Documentation/core-api/dma-attributes.rst |  9 +++
+ drivers/char/hw_random/virtio-rng.c       |  2 +
+ drivers/scsi/virtio_scsi.c                | 18 ++++--
+ drivers/virtio/virtio_input.c             |  5 +-
+ drivers/virtio/virtio_ring.c              | 72 +++++++++++++++++------
+ include/linux/dma-mapping.h               | 17 ++++++
+ include/linux/virtio.h                    |  5 ++
+ kernel/dma/debug.c                        | 26 ++++++--
+ net/vmw_vsock/virtio_transport.c          |  8 ++-
+ 10 files changed, 172 insertions(+), 32 deletions(-)
+
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+MST
 
