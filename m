@@ -1,128 +1,135 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EAEB640
-	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 04:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7E524169D
+	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 09:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767069472; cv=none; b=oD+tEATGu2G+qTKxMEonHkRJZUatxRgRVSvkaNj+SDnt3uWRppHa2xnmRRbom893dDbibV30wumkkumLbj0qkIb0cJoKThBfcphjeN1+NBF+80cFORd2TOGr/lmh1HspUbKPGH8b0lAr5cagIXGt5TjwN8OPzpBduoL53tqUKJk=
+	t=1767085713; cv=none; b=WltwhaPPMriOxj2B3ojsjLeEmtyE/SnaXCMxA+U8oYMxhNPno+v1hwNRf7VMH5d92nJ+56B1r7tlHScJQ2PBaoEHNuD70T7TXfGOE0mOrfPWuznbZvWPMexJCWZqtuFzHH1etY+YEGPxZT7WDcngah0tEdQ9jZEYMFWjddZ7u0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767069472; c=relaxed/simple;
-	bh=9WiL6/NCK+gqFidZHQ72YVioxLtwStViQlGLlgdo/EQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CIFEaoylgickXaFPEOPRPjzHm32fDzQcsa/+rXkOAZAQo7G+U+0ImnSmsvMZvIhOgzB4gz2CoIsxDLob1N5cMdUEvhTcLt63QwIDUMUVRp7upgPIom5yX41qG6ARKNMmhCEsK09otIg4JQ4O0GK/k2W+pHXHdNbYN1MF5vPjFd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gVxlQXNG; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767085713; c=relaxed/simple;
+	bh=X9b1ST3B8V+DnlegnPhWw+FCJplEctStlizwvO5/F50=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=BQ0DIKCPKsqQkwW7nejzldoQrXmCmmnvNIDuCc5xqfza/x4g0adwlu3BuTWJdPnPtvcAsSW0gL/MUg9tFJfg7lI1RaSBX4dpNwfh8Zzfv+PpzvL8G5is1QLEPbe5x5nT4+Ia2J6z35bDom5ruZuWERlNBm26EdoADk0sQDzotb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N0EvK/9C; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVxlQXNG"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a12ed4d205so84684915ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 20:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767069471; x=1767674271; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
-        b=gVxlQXNGRBONeeeJbCUaUy+RIpEtYO9GFYOXarx2LYUpzKR9AC/ljXJNA+9tArCeSQ
-         9b8xKUgmvDLGfPvsldJZHTvz1l58+XeCteHMY90SoCOgKy0DgD02rNUpLbE4kz3QXN9p
-         gNksukb2LHlSgliMi1EgaLjqD+lxZsqAUFnSwgI96AvnP/gF+GYvBFwnrRPSlrjWIKVg
-         0kyiYn9NKIwRzjLlBzNWKFbFV1SOX3YaCHMw1f05/h6QLvqjg9UYRZXPNb8/W4/Mc50c
-         1uZOOe4NKvSdjAFNOYT3fgDotepmJmotypec6EDYVdNL2v6bhTmNc0i/2JDlfZ/tjoed
-         hMng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767069471; x=1767674271;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
-        b=wOtaoQA5mNGLKi2af0+uTMMaWo1VnVwzf9AhPRjcidDkYMTebOQb5ZWRGcU4U63p42
-         1V4VzLo78Fe4rdTWjlJzQMWrIh4dzMPdCE0tkvg3l8CKWkmOBASgke9FzB3b3MXdoz6V
-         w9UAqz55qL0ry2U5QAFfKiXWL7fawNtMNzOy52tfO3E20MIMNBzyA1LqPjgx3kM1EKze
-         wNdsfApajoDwT+Tgg5pcHmb6aBWYbnzQ0vOfHdp0VEFLLUAOeGZg7es9NoOc6mJBRUa/
-         S+4iSsScnIbcvoEf7UGyaYSKvqmTuZeZP2/XODUNLTTU9lN48kOHnYpXLAfho8pDlEEQ
-         kpcw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7qRoVn6GTPdYZj1RUVSjtNGIZU3z9319bnjA0VJ4yRvAuh08fSdwOasBjISLBxdxJ4u9MQMqGMNA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDsLYMP3b0XR0TdxfUOQDQONnDwxAqB90x1GnAeXTvvkU/wqDx
-	b2VrgSunO2KPaCtOmiNcI9k0c0Rx6UngAXQqTjKdb1qrn9Tvi9pzPNpM
-X-Gm-Gg: AY/fxX69mlV8lA5R0KwPQMZOlB2iknDUGfFia0+i4PrjHH2zm/zYNS8eEXxPEmn5mB1
-	2Wtlz7Ps0dTRQUlyQFnxokzck78n5h2WCUFXEoRUezj7Wcad9xXTOfNS7zijqaGqIB6A7xgNsPa
-	/EtaytTRCP7yKtxrDPXOk2s6BcRqvwG1SQHyUQETO6EnMgx/Gp7uOIV0zt5DC4R+elZS0mbJdCX
-	IblNtZk7AJObd/ZJ/fRLusnOlpH/127HUpwnwaqwdl+jeIywvRCylOok9kPZUgnU2UyQCttRzQh
-	bqXK07YtK1r3RYTjntkI5k49yoW+a1lEqeLHVtdOpM52aDpMhBWlEqnnKvjwFGBIE+93oHML7hq
-	HE0pXdEF342yW3ztTLsgQtCkLsq4mNm9FOt1J2/ySdMDpojUPrdsnj6QQysCGRZTnPdbE5g1orj
-	ck+BWO6inQS6w=
-X-Google-Smtp-Source: AGHT+IEKeUoWYu2GFVgDFphydhGZMiQ90h/N0eJheHWd5u/8DmEeLaYgUO7ghOlfSva0c6ncPwEjiQ==
-X-Received: by 2002:a17:902:cece:b0:295:6c26:933b with SMTP id d9443c01a7336-2a2f2205155mr305888615ad.1.1767069470488;
-        Mon, 29 Dec 2025 20:37:50 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d7754asm285954025ad.100.2025.12.29.20.37.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 20:37:49 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id EC9BF419B84C; Tue, 30 Dec 2025 11:37:46 +0700 (WIB)
-Date: Tue, 30 Dec 2025 11:37:46 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: victoria@system76.com, sebastian.wick@redhat.com,
-	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-Message-ID: <aVNXGrqgNJsnyMsw@archie.me>
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
- <aUyMiJvJX1KhffVb@archie.me>
- <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N0EvK/9C"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id AC3EA4E41E79;
+	Tue, 30 Dec 2025 09:08:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 628BD6072C;
+	Tue, 30 Dec 2025 09:08:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 17A20113B029B;
+	Tue, 30 Dec 2025 10:08:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767085701; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=/3qkW7WfKSvbi2RWkAYE/rfjPp7ZbZTAQh+qTIgAjRU=;
+	b=N0EvK/9CP8IwlzcZOJZQtkdZzn8ZuyqOc8z3OpDONVSP8Z8D7SZaQF3aCbN2vZpzHFcmZH
+	SgmMyfsQ+zjoWnwfRTJjIf9NV8OAtJIwUkvSAwhWpyb8cEPODJgNlakV0SX4tyIP7xnCtC
+	MDNcFjnqB2ZFLrhPVpwdBM7a+wwQPDMYb+xcM8k/hha+i3odGloiwmE+gT7zlIQqpoYOJg
+	JJp0Y+Fg4jycT0Zhm1qHnfVRauDzDwUw+FaLL+6C0FVq2R2oEAKK1XGWMK/u6Ylqa1JJR9
+	H3sK6+vYWNOoInUCsbX6CKquHNM9ekUFC8O8pOm6uN0B2AwHXAjL55FwJTvjKQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/cvQIoAKPEfuZFWr"
-Content-Disposition: inline
-In-Reply-To: <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
-
-
---/cvQIoAKPEfuZFWr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Dec 2025 10:08:15 +0100
+Message-Id: <DFBFLLKWYFB5.23TQQWRA5MD4A@bootlin.com>
+Subject: Re: [PATCH v3 17/33] drm/vkms: Introduce config for plane format
+Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
+ <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
+ <melissa.srw@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
+ <corbet@lwn.net>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-17-ba42dc3fb9ff@bootlin.com>
+ <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
+ <0886f178-1935-4f37-8d0b-48274245f57e@bootlin.com>
+In-Reply-To: <0886f178-1935-4f37-8d0b-48274245f57e@bootlin.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Dec 29, 2025 at 04:33:47PM +0100, Louis Chauvet wrote:
-> > @@ -202,7 +202,7 @@ Contact:	dri-devel@lists.freedesktop.org
-> >   Description:
-> >           List of supported formats for this plane. To add a new
-> >           item, write its fourcc code prefixed with '+'. To remove,
-> > -        use '-' prefix. Use '+*' to add all formats, '-*' to
-> > +        use '-' prefix. Use '+*' to add all formats, '-\*' to
->=20
-> Hi, thanks for the fix!
->=20
-> I only have to escape the second wildcard? Not the `+*`?
+Hi Louis,
 
-Yup. Try make htmldocs without the patch and see.
+On Mon Dec 29, 2025 at 4:29 PM CET, Louis Chauvet wrote:
+>>> --- a/drivers/gpu/drm/vkms/vkms_config.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+>>
+>>> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *pl=
+ane_cfg)
+>>> +{
+>>> +	plane_cfg->supported_formats_count =3D 0;
+>>
+>> Why not kfree(plane_cfg->supported_formats) too? You will be (re)allocat=
+ing
+>> anyway if adding one or all formats later on, so the buffer you're not
+>> freeing won't be reused anyway.
+>
+> IIRC realloc reuse the existing allocated buffer if it is big enough to f=
+it the new
+> size. But I think this is probably an oversight here and I will add the f=
+ree to clarify the situation :-)
 
---=20
-An old man doll... just what I always wanted! - Clara
+Thanks. My point is that keeping the buffer allocated for future use is not
+great because if it is not reused it will take memory for all the remaining
+uptime.
 
---/cvQIoAKPEfuZFWr
-Content-Type: application/pgp-signature; name=signature.asc
+>>> +}
+>>> +
+>>> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_c=
+fg, u32 drm_format)
+>>> +{
+>>> +	for (unsigned int i =3D 0; i < plane_cfg->supported_formats_count; i+=
++) {
+>>> +		if (plane_cfg->supported_formats[i] =3D=3D drm_format) {
+>>> +			plane_cfg->supported_formats[i] =3D plane_cfg->supported_formats[pl=
+ane_cfg->supported_formats_count - 1];
+>>
+>> I doubt these are less than 100 chars. ;-)
+>
+> yes, 127, but I don't know how to format it so it is readable.
+>
+> I tried
+>
+> plane_cfg->supported_formats[i] =3D
+> 	plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
+>
+> But the second line is 101 chars...
 
------BEGIN PGP SIGNATURE-----
+I vote for this one. 101 is close enough to 100, and I see no reaonable way
+to format better (and I agree the two below are ugly).
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaVNXFQAKCRD2uYlJVVFO
-o7xDAP4oC24X/814znpE6C9oS8vLeRm3x+JFWHtZczhWkK9uigD9GiLsaigPdyYr
-VIPUugXHtCVB3MOHE4qqkFF+7PCK6wc=
-=AfbL
------END PGP SIGNATURE-----
+> Checkpatch don't complain if I do:
+>
+> plane_cfg->supported_formats[i] =3D
+> 	plane_cfg->supported_formats[
+> 		plane_cfg->supported_formats_count - 1];
+>
+> or
+>
+> plane_cfg->supported_formats[i] =3D
+> 	plane_cfg->supported_formats[plane_cfg->supported_formats_count-
+> 		1];
+>
+> But that very ugly and not readable...
 
---/cvQIoAKPEfuZFWr--
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
