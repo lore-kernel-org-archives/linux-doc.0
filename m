@@ -1,135 +1,136 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7E524169D
-	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 09:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9BB309EEC
+	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 09:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767085713; cv=none; b=WltwhaPPMriOxj2B3ojsjLeEmtyE/SnaXCMxA+U8oYMxhNPno+v1hwNRf7VMH5d92nJ+56B1r7tlHScJQ2PBaoEHNuD70T7TXfGOE0mOrfPWuznbZvWPMexJCWZqtuFzHH1etY+YEGPxZT7WDcngah0tEdQ9jZEYMFWjddZ7u0g=
+	t=1767086247; cv=none; b=JiPlfwRfWr3Jwi/EaO0hDY5awq3CO8NmDibXtyj9sIlZT2vFnh8VgU5/w6KLCGrB6TUNiH718F+EUBV9aGICgXHT2bEPLWxEFf3wRb/t11L+gK/8C6vwayIYkIaWgnUBp6w6SxYE9GpHOEP12+V06bAuUartgVkofGoOwe0Sps4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767085713; c=relaxed/simple;
-	bh=X9b1ST3B8V+DnlegnPhWw+FCJplEctStlizwvO5/F50=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=BQ0DIKCPKsqQkwW7nejzldoQrXmCmmnvNIDuCc5xqfza/x4g0adwlu3BuTWJdPnPtvcAsSW0gL/MUg9tFJfg7lI1RaSBX4dpNwfh8Zzfv+PpzvL8G5is1QLEPbe5x5nT4+Ia2J6z35bDom5ruZuWERlNBm26EdoADk0sQDzotb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=N0EvK/9C; arc=none smtp.client-ip=185.246.85.4
+	s=arc-20240116; t=1767086247; c=relaxed/simple;
+	bh=hr2KmMI6J3iPt7xmKT+3N3lsH0SdnvroFutuv5njFL8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VfQiV1iCZP0XxiFT5kYWGPZiuFmTVTj9sNNRqQnUq6aKWg2MHWRhBcBN/D6hCUkQzkT+tCfTFgAlPEYoTMEzh/nig6hhS3YNMAr/cjQ2JvFscs0WSJyKEXQfyric3PtQf/j7Cg2FqhQseEbDN37ndEOi4MHLeiB3ikAdo7PhjxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CrPy81H0; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="N0EvK/9C"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CrPy81H0"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id AC3EA4E41E79;
-	Tue, 30 Dec 2025 09:08:22 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 8CEE4C1D72C;
+	Tue, 30 Dec 2025 09:16:57 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 628BD6072C;
-	Tue, 30 Dec 2025 09:08:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 17A20113B029B;
-	Tue, 30 Dec 2025 10:08:17 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E54CE6072C;
+	Tue, 30 Dec 2025 09:17:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E979D113B05C1;
+	Tue, 30 Dec 2025 10:17:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767085701; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1767086241; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=/3qkW7WfKSvbi2RWkAYE/rfjPp7ZbZTAQh+qTIgAjRU=;
-	b=N0EvK/9CP8IwlzcZOJZQtkdZzn8ZuyqOc8z3OpDONVSP8Z8D7SZaQF3aCbN2vZpzHFcmZH
-	SgmMyfsQ+zjoWnwfRTJjIf9NV8OAtJIwUkvSAwhWpyb8cEPODJgNlakV0SX4tyIP7xnCtC
-	MDNcFjnqB2ZFLrhPVpwdBM7a+wwQPDMYb+xcM8k/hha+i3odGloiwmE+gT7zlIQqpoYOJg
-	JJp0Y+Fg4jycT0Zhm1qHnfVRauDzDwUw+FaLL+6C0FVq2R2oEAKK1XGWMK/u6Ylqa1JJR9
-	H3sK6+vYWNOoInUCsbX6CKquHNM9ekUFC8O8pOm6uN0B2AwHXAjL55FwJTvjKQ==
+	bh=rZGTwUQXXsaH9P/sj36gCU1NPe3EIdV70fYUKRoUz14=;
+	b=CrPy81H0ZL6UTXpsNBD6TmghQkFld1EUqrMmDF/sauZPPbByFEHCvAfe9XNGnQNeDKRfIc
+	AxZslYDC3B68czrpggoz9i3fH7+4HCM1zh/TlP2eHZPlds25F8mr+9yAt90ws1Hc7hKHG7
+	4Pfw/d9dX6lnm51ysE4yyTkKBXjs2fuFiVpkLnYyZTTZ2GGPD6ZBdJ97epu9jA/+hhlOPu
+	UYCSytTI99tgN4NL9+kP1yL4KVpDrA1TR0lypBQN8ajzCb2Np8JTV6VvOhctGM90PvTYmK
+	zF3QLxNsYiGFylS/TvdJvFhe8w+FpMshXSIkJ8lPEYBMyjiySddhKV+2cmLHig==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
+References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
+Subject: Re: [PATCH v3 00/22] drm/bridge: add of_drm_find_and_get_bridge()
+ and a managed *next_bridge, deprecate of_drm_find_bridge()
+Message-Id: <176708623356.127863.8623917477288453126.b4-ty@bootlin.com>
+Date: Tue, 30 Dec 2025 10:17:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Dec 2025 10:08:15 +0100
-Message-Id: <DFBFLLKWYFB5.23TQQWRA5MD4A@bootlin.com>
-Subject: Re: [PATCH v3 17/33] drm/vkms: Introduce config for plane format
-Cc: <victoria@system76.com>, <sebastian.wick@redhat.com>,
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>, "Haneen Mohammed"
- <hamohammed.sa@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Melissa Wen"
- <melissa.srw@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, <jose.exposito89@gmail.com>, "Jonathan Corbet"
- <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
- <20251222-vkms-all-config-v3-17-ba42dc3fb9ff@bootlin.com>
- <DF5NE3Y8O21F.1KKJWMX9JVXUP@bootlin.com>
- <0886f178-1935-4f37-8d0b-48274245f57e@bootlin.com>
-In-Reply-To: <0886f178-1935-4f37-8d0b-48274245f57e@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Louis,
 
-On Mon Dec 29, 2025 at 4:29 PM CET, Louis Chauvet wrote:
->>> --- a/drivers/gpu/drm/vkms/vkms_config.c
->>> +++ b/drivers/gpu/drm/vkms/vkms_config.c
->>
->>> +void vkms_config_plane_remove_all_formats(struct vkms_config_plane *pl=
-ane_cfg)
->>> +{
->>> +	plane_cfg->supported_formats_count =3D 0;
->>
->> Why not kfree(plane_cfg->supported_formats) too? You will be (re)allocat=
-ing
->> anyway if adding one or all formats later on, so the buffer you're not
->> freeing won't be reused anyway.
->
-> IIRC realloc reuse the existing allocated buffer if it is big enough to f=
-it the new
-> size. But I think this is probably an oversight here and I will add the f=
-ree to clarify the situation :-)
+On Tue, 16 Dec 2025 18:58:33 +0100, Luca Ceresoli wrote:
+> This series deprecates of_drm_find_bridge(), adds a replacement which
+> handles bridge refcounting, and converts some of the direct users.
+> 
+> This is part of the work to support hotplug of DRM bridges. The grand plan
+> was discussed in [0].
+> 
+> Here's the work breakdown (➜ marks the current series):
+> 
+> [...]
 
-Thanks. My point is that keeping the buffer allocated for future use is not
-great because if it is not reused it will take memory for all the remaining
-uptime.
+Applied, thanks!
 
->>> +}
->>> +
->>> +void vkms_config_plane_remove_format(struct vkms_config_plane *plane_c=
-fg, u32 drm_format)
->>> +{
->>> +	for (unsigned int i =3D 0; i < plane_cfg->supported_formats_count; i+=
-+) {
->>> +		if (plane_cfg->supported_formats[i] =3D=3D drm_format) {
->>> +			plane_cfg->supported_formats[i] =3D plane_cfg->supported_formats[pl=
-ane_cfg->supported_formats_count - 1];
->>
->> I doubt these are less than 100 chars. ;-)
->
-> yes, 127, but I don't know how to format it so it is readable.
->
-> I tried
->
-> plane_cfg->supported_formats[i] =3D
-> 	plane_cfg->supported_formats[plane_cfg->supported_formats_count - 1];
->
-> But the second line is 101 chars...
+[01/22] drm/bridge: add of_drm_find_and_get_bridge()
+        commit: 293a8fd7721a90987d9bf149feab60e756dac269
+[02/22] drm/bridge: deprecate of_drm_find_bridge()
+        commit: 9da0e06abda87b1f97014113d5231fdeb4700749
+[03/22] drm/todo: add entry about converting to of_drm_find_and_get_bridge()
+        commit: c637217efb892ac5d0d5f9aea3df92147c2e24db
+[04/22] drm/bridge: make of_drm_find_bridge() a wrapper of of_drm_find_and_get_bridge()
+        commit: 5d7cb36254b5facd2a349331c1a47102d4e66e40
+[05/22] drm/arcpgu: convert to of_drm_find_and_get_bridge()
+        commit: 7282066e55347b26cb31784059ab62c2de8a3e01
+[06/22] drm/bridge: add next_bridge pointer to struct drm_bridge
+        commit: 3fdeae134ba956aacbd87d5532c025913c98fc49
+[07/22] drm/bridge: ite-it66121: get/put the next bridge
+        commit: 8f92a5fcbfe33f86b08f5f74dcc58a41425ea8c0
+[08/22] drm/bridge: imx8qxp-pixel-combiner: get/put the next bridge
+        commit: ae754f049ce1c01f09d175f80265970f0d5b4489
+[09/22] drm/bridge: simple-bridge: get/put the next bridge
+        commit: b9a7d5918bd436d64699b80af061f21c168df699
+[10/22] drm/meson: encoder_cvbs: get/put the next bridge
+        commit: 47fa48b3faa7cae925c9b14b18376cdc4622bae0
+[11/22] drm/meson: encoder_dsi: get/put the next bridge
+        commit: bfb8f5d0a9e756c57d4fc0f7966e4873bbfb34a5
+[12/22] drm/meson: encoder_hdmi: get/put the next bridge
+        commit: c87ad784aacb89cf88c00cde78970543010a6d67
+[13/22] drm/bridge: imx8qxp-pxl2dpi: simplify put of device_node pointers
+        commit: ceea3f7806a109baba4a23c9066eb9e86659408b
+[14/22] drm/bridge: imx8qxp-pxl2dpi: remove excess error message
+        commit: 54af17788629fbf343c5a9ebc55454d6a5486ff8
+[15/22] drm/bridge: imx8qxp-pxl2dpi: imx8qxp_pxl2dpi_find_next_bridge: return int, not ERR_PTR
+        commit: 0dc4a8d6d096f97a00b10919e8ffe2466666f03c
+[16/22] drm/bridge: imx8qxp-pxl2dpi: get/put the next bridge
+        commit: 6802c7ee360d98a018962adb8412d42dcca28272
+[17/22] drm/bridge: imx8qxp-pxl2dpi: get/put the companion bridge
+        commit: 900699ba830fd3558ba00f55fbf014022dc7ecdb
+[18/22] drm/bridge: imx8qxp-pixel-link: simplify logic to find next bridge
+        (no commit info)
+[19/22] drm/bridge: imx8qxp-pixel-link: simplify freeing of the remote device_node
+        (no commit info)
+[20/22] drm/bridge: imx8qxp-pixel-link: remove excess error message
+        commit: 40630210211a34f0714fe976530ccf1291e5ef78
+[21/22] drm/bridge: imx8qxp-pixel-link: imx8qxp_pixel_link_find_next_bridge: return int, not ERR_PTR
+        (no commit info)
+[22/22] drm/bridge: imx8qxp-pixel-link: get/put the next bridge
+        (no commit info)
 
-I vote for this one. 101 is close enough to 100, and I see no reaonable way
-to format better (and I agree the two below are ugly).
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-> Checkpatch don't complain if I do:
->
-> plane_cfg->supported_formats[i] =3D
-> 	plane_cfg->supported_formats[
-> 		plane_cfg->supported_formats_count - 1];
->
-> or
->
-> plane_cfg->supported_formats[i] =3D
-> 	plane_cfg->supported_formats[plane_cfg->supported_formats_count-
-> 		1];
->
-> But that very ugly and not readable...
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
