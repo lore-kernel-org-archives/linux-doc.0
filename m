@@ -1,99 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F7C2627EC;
-	Tue, 30 Dec 2025 21:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC8259CAF
+	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 22:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767130962; cv=none; b=ddbUS+T4LGzNd2BcUQOPHvSn7SY78yleb1PSBZ29wIHG6iN0JWenus/vetUHYJ1rgLlnbyI565j7YD9f5/TD4YItUX4gMSk8S93BM6573BlKRj77uH/sHP8hnM1GlbUrNPb1cCkizPyNnyMIZv3cV7BWSDSzfLjYqv5L5okP+ho=
+	t=1767135081; cv=none; b=qSt/ZiP+w3hj0gkaqFeOulCuGDRoovgYEyll3PpgMuyjoeXDuFPisGhGMa4a6eQ9gAmf9mtM5SCVj29dvZUQw+rWNxfH14aOPB24VN4mc83JLp16Sv7N+hc76X9/GcHbqvZhN6S5rOh8FlqjRakD1pydr/U2EbwukKA8Qn3DiLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767130962; c=relaxed/simple;
-	bh=vDD527Oy8Bm4F8rGqeZpgVak3XxpV3M7Dw51XP6Clpg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SMd6TWHITM2CI7h55JQa4lw83zYQwfMam2MX6R6kELSkjJoCL34OUkkML6oM3/Exd6CgwK26+65OgVkRUS/AZCQLwoDQUghWuA0IFa0Yz1+PA3Hzxnn3uHSB+joisaMUnk564L46RzTk9sQH4lTV9L7uKQXTkXhEn6s18BblbPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aKKAzT0A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767135081; c=relaxed/simple;
+	bh=iiIrdOFOFI+g5ldtCCr0SI9PsZxJwAVj2GLXKN3o2yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C1e3sgsKLibVs8W7LKM/PdyK/+bbxzknoJdKaPwmO9hFnVdl47dyVpkQPK43mhHPA1k2UA1SEEC1TO1o9GIigqjIp6U3c07AkL1MKC6nirQaLwVIhj4KKn5oLfYXQbG7YFDXqMEbD/5cJ1DQMzr4liG3Y+GMTvUKY0EWRnxLHOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiIfpYXP; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aKKAzT0A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC5EC4CEFB;
-	Tue, 30 Dec 2025 21:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767130962;
-	bh=vDD527Oy8Bm4F8rGqeZpgVak3XxpV3M7Dw51XP6Clpg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aKKAzT0AOHTF3wCukkrR5NQA3T+2n0I4882tBgClDuVnnveE8wT0QEV9WJgB3A8pf
-	 5RWyZQUB+eIi6dbF3pM0E9YACVo7rg8vbCn6U0Fcuaac7+PS6a1Aeajnyj5WjX44Zu
-	 zcxBuZ67DffcdsMdkOx4mobUwGke5XYjtZzavqdo8JrbNm02sOfICDifAz2G/E5Ln6
-	 yQkBBzc0RNYAjMLKTKOKURwINam7LNU4kO4V5Pkjxly/S6ndVgMPLMB4IWA6w3aa1z
-	 dUMzJqH0SVYoKNNt5RgV7BLxvYyNNsMUunkPyjqog5i9OywImEd9UvB2NfGiuKGvLt
-	 oGPN/9m8s4gsw==
-Message-ID: <a083a5ca-bac8-44b5-8604-638c5eb4102a@kernel.org>
-Date: Tue, 30 Dec 2025 22:42:34 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiIfpYXP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767135079; x=1798671079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iiIrdOFOFI+g5ldtCCr0SI9PsZxJwAVj2GLXKN3o2yc=;
+  b=BiIfpYXP9chOSdNo00DlgE3x5l6V7lZ0/2rfnwq0qkrznt6G+unF2If4
+   y3oSOGlHd+PSARkGPbCL+T/zRdiHT/QpGJiyI7uM6FNqzU+8ArQctDOUB
+   f+15q2kLuSbUmONarGrP86ywH7OHZ9GFGqnfH6Sd6SLVTjLNCkyyTayco
+   QL5q8CJve8X9v5qtY8vQ1I8p+qvC0aexurzjggkje1jpUnPUpm8R4tUit
+   4z/0r8fSikMLDATvrV7bpTCtGNScT7seKOR+758zuvsd55lSsS16efdDO
+   qbI9yAU+4y+knUmLX3F5quloeeQLT7Xx+W9yyo2A28bS5gUhQQF66vaAA
+   g==;
+X-CSE-ConnectionGUID: MI1Hux/VQ9eFN3YRjunRgA==
+X-CSE-MsgGUID: EltIYbBPTt2qiPLgqzu6mA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="68472781"
+X-IronPort-AV: E=Sophos;i="6.21,190,1763452800"; 
+   d="scan'208";a="68472781"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 14:51:19 -0800
+X-CSE-ConnectionGUID: qnO7xPkvQMuvVXxVszJGXw==
+X-CSE-MsgGUID: C1zcGa4bS1GI4uvX2ooaAA==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 30 Dec 2025 14:51:18 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vaiYd-00000000820-1EEq;
+	Tue, 30 Dec 2025 22:51:15 +0000
+Date: Tue, 30 Dec 2025 23:50:49 +0100
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org
+Subject: [drm-misc:for-linux-next 2/18] htmldocs:
+ Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+ [docutils]
+Message-ID: <202512302319.1PGGt3CN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH next v2 0/2] THP COW support for private executable file
- mmap
-To: Matthew Wilcox <willy@infradead.org>,
- Zhang Qilong <zhangqilong3@huawei.com>
-Cc: akpm@linux-foundation.org, lorenzo.stoakes@oracle.com, corbet@lwn.net,
- ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
- npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
- baohua@kernel.org, lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, wangkefeng.wang@huawei.com,
- sunnanyong@huawei.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, lianux.mm@gmail.com,
- Nadav Amit <namit@vmware.com>
-References: <20251226100337.4171191-1-zhangqilong3@huawei.com>
- <aVCnMI5gFLTB9UCe@casper.infradead.org>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <aVCnMI5gFLTB9UCe@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/28/25 04:42, Matthew Wilcox wrote:
-> On Fri, Dec 26, 2025 at 06:03:35PM +0800, Zhang Qilong wrote:
->> The MySQL (Ver 8.0.25) test results on AMD are as follows:
->>
->> -------------------------------------------------------------------
->>                   | Exec mmap Rss(kB)  | Measured tpmC (NewOrders) |
->> -----------------|--------------------|---------------------------|
->>   base(page COW)  |       32868        |        339686             |
->> -----------------|--------------------|---------------------------|
->>   exec THP COW    |       43516        |        371324             |
->> -------------------------------------------------------------------
->>
->> The MySQL using exec THP COW consumes an additional 10648 kB of memory
->> but achieves 9.3% performance improvement in the scenario of hotpatch.
->> Additionally, another our internal program achieves approximately a 5%
->> performance improvement as well.
->>
->> As result, using exec THP COW will consume additional memory. The
->> additional memory consumption may be negligible for the current system.
->> It's necessary to balance the memory consumption with the performance
->> impact.
-> 
-> I mean ... you say "negligible", I saay "32% extra".  9% performance
-> gain is certainly nothing to sneer at (and is consistent with measured
-> performance gains from using large folios for, eg, kernel compiles).
-> But wow, that's a lot of extra memory.  My feeling is that we shouldn't
-> add this functionality, but I'd welcome other opinions.
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git for-linux-next
+head:   40630210211a34f0714fe976530ccf1291e5ef78
+commit: 9da0e06abda87b1f97014113d5231fdeb4700749 [2/18] drm/bridge: deprecate of_drm_find_bridge()
+reproduce: (https://download.01.org/0day-ci/archive/20251230/202512302319.1PGGt3CN-lkp@intel.com/reproduce)
 
-Also, I wonder whether there aren't other approaches for such code 
-patching where user space is able to create THPs more effectively? 
-Handling creation of a patched file version etc in user space.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512302319.1PGGt3CN-lkp@intel.com/
 
-E.g., I'd assume that a single "patched" version (with a single THP) for 
-multiple program instances could be beneficial over one patched version 
-per program instance.
+All warnings (new ones prefixed by >>):
 
-Which type of code patching does hotpatch perform?
+   Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:397: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
+   Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms:491: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
+   Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1519: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   WARNING: No kernel-doc for file ./include/linux/hdmi.h
+   WARNING: ./drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
+   Documentation/gpu/drm-uapi:607: ./drivers/gpu/drm/drm_ioctl.c:923: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
 
 -- 
-Cheers
-
-David
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
