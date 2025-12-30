@@ -1,153 +1,128 @@
-Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EF7261B9B;
-	Mon, 29 Dec 2025 22:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EAEB640
+	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 04:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767045623; cv=none; b=I8PkFDQCuhJYvr9fu5ZSHyU8JS6HLoqDNn2Wh2UWc6bmt+k+UfYyyKbrPEHskMg+OhLigxNA6na8WSBlmxBtHm6UROb5PZIoDaxNPCgvROduUTNQMZzr7yPNSPzng7Lii/zIuw/3IwtnuWKZg5UW38NIQfXjUhq1kqUXMmA8/uE=
+	t=1767069472; cv=none; b=oD+tEATGu2G+qTKxMEonHkRJZUatxRgRVSvkaNj+SDnt3uWRppHa2xnmRRbom893dDbibV30wumkkumLbj0qkIb0cJoKThBfcphjeN1+NBF+80cFORd2TOGr/lmh1HspUbKPGH8b0lAr5cagIXGt5TjwN8OPzpBduoL53tqUKJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767045623; c=relaxed/simple;
-	bh=e1ZpqeYV96WGhzswy3N9lCtRQ0ojGzRE3LStGOklIn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XEXBpcf6k4CX2xUxE4/iyiRSiWwXsIwwqCqQV6xxLCIZMk+g/mb7FmQfjJoyjOQGOUF49bP7ceQbP2NXAYuAnknKJiNekH77f/ozI5kRQn/5eA4MVR97NQqyML5FadRu7gL7nAdIXiPk1a4ysZIexj3C7AqYHf820c5EL2n6xDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rostedt.org; spf=pass smtp.mailfrom=rostedt.org; dkim=pass (2048-bit key) header.d=rostedt.org header.i=@rostedt.org header.b=pgydrzZb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hUL/be+n; arc=none smtp.client-ip=103.168.172.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rostedt.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rostedt.org
+	s=arc-20240116; t=1767069472; c=relaxed/simple;
+	bh=9WiL6/NCK+gqFidZHQ72YVioxLtwStViQlGLlgdo/EQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIFEaoylgickXaFPEOPRPjzHm32fDzQcsa/+rXkOAZAQo7G+U+0ImnSmsvMZvIhOgzB4gz2CoIsxDLob1N5cMdUEvhTcLt63QwIDUMUVRp7upgPIom5yX41qG6ARKNMmhCEsK09otIg4JQ4O0GK/k2W+pHXHdNbYN1MF5vPjFd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gVxlQXNG; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rostedt.org header.i=@rostedt.org header.b="pgydrzZb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hUL/be+n"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id 08D781380260;
-	Mon, 29 Dec 2025 17:00:18 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 29 Dec 2025 17:00:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rostedt.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1767045618;
-	 x=1767052818; bh=O0ZJU8DaqzJoW8dJ+OnRjJXbin20aHsOsnu3lVtVS/E=; b=
-	pgydrzZbhfxZrfTds1ZaT3udPpLePseKQ0ti+HbUrz1daDYZX/FA+JWmVvDHi5Uy
-	KQuDmc982scU8ueDuzTaD4lT2FPTnUQJ4rYfCzWzziaGCj1rbVpZdEV48d7nlBUJ
-	INJBpxL3sdWCu2cfhnbMl/j7cxA/t2fZnzX7clVxprGJNymOcBrIQNfqgOe2qQkl
-	OuL5kEsHoL0D+xzuQeZZkAldMUg9Y596x3jNwgeHHS2Mzx/buqg2Ie+DqHRkeLK7
-	lAbbszayWaunTxWlDrX2RbnInUBS7FKDxq7DoukY4oik+nxWevSwvDzgvvnmsM4L
-	8QnJX2RwNzTbQ2IOJEFL7g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767045618; x=
-	1767052818; bh=O0ZJU8DaqzJoW8dJ+OnRjJXbin20aHsOsnu3lVtVS/E=; b=h
-	UL/be+nAK20snGbOKBc/uFgayhhPWAz60SZWy+BJcWMQBesMo/SNWb7uygeFVwD/
-	crOskNtHD4J7ukB4qmoHqbCnHEfrx5b3xgnAZqCGVY9A2WswBRnyPFowKeRKxANa
-	dk1iubDd2IDR+aokGCV5/w6BQ60kTCXdLF7p074zao1mdlP0Vv+6wHLp0A04GU1s
-	lCZkFY1Xek4stfCLrFJ3eVt7qXFo/iRaxNmAyDMkzizJk0DX3cE8kVTPrc8fWaCS
-	MkR56B5EYXwI/lfJ70yXatH+t+ngyWr9vRwbX9W8Deu5guACsdd4pOhyYUyxCiDw
-	sYMJuozqeC3WRRMNIDfYA==
-X-ME-Sender: <xms:8PlSaf40ZhDJ0bnKyPIf2R69fIwqDPctibIRrkrj7Z7pda6HKBLNYQ>
-    <xme:8PlSaQkSTIKEvLNCKfg7-iL09V52gch3CtS7XTc73nGeCYRsgC-9dI_Y7FrTvf-qm
-    enyLRBwG-7CVYJhb7i-xQ8gx3ltUyN1yIThzw3xKewuUyCHDMsb>
-X-ME-Received: <xmr:8PlSaaFhH_upQzRWw86M2C-liXartwbQ4RX18Z-jR6iYVRZG8V6uH-KD6CdBtaQVp0ZbLdHP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdejkedvkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepufhtvghvvghn
-    ucftohhsthgvughtuceoshhtvghvvghnsehrohhsthgvughtrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeelteehvdekvdfgfffgvefhgfdutdfgueeuvedujeelvdeluddugefhteeg
-    tdetgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsthgvvhgvnhesrhhoshhtvgguthdrohhrghdpnhgspghrtghpthhtohepgedupdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtoheptghhrhhishhtihgrnhdrlhhovghhlhgvsegrrhhmrdgtohhmpdhrtghp
-    thhtohepfihushgrmhhuvghlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehrrgihrd
-    hhuhgrnhhgsegrmhgurdgtohhmpdhrtghpthhtohepghgruhhthhgrmhdrshhhvghnohih
-    segrmhgurdgtohhmpdhrtghpthhtohepmhgrrhhiohdrlhhimhhonhgtihgvlhhlohesrg
-    hmugdrtghomhdprhgtphhtthhopehpvghrrhihrdihuhgrnhesrghmugdrtghomhdprhgt
-    phhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehvihhrvghshhdrkh
-    humhgrrheslhhinhgrrhhordhorhhg
-X-ME-Proxy: <xmx:8PlSaQYGgalNw5SjPdhrKAnCLLFUEoQGrOSVs3tkY2TExqc8clVHjA>
-    <xmx:8PlSaRI6B8RsVmiJPWVAQ_ziecOBFE6_QF8KSusnBWzUjhmyYLHHNw>
-    <xmx:8PlSaRyHBo-bvTd8HYnRPio7ljvW4x2WArRI8dzfGkLYWwNzAb4mjg>
-    <xmx:8PlSaR1Gi1SOcnlTZoZbSP9EfKmkyIm-eBsBp0j0sRwJPqg5aUIV2g>
-    <xmx:8vlSaSZc8DEhckn2AumEN10TY2bNWg389EoEctNBAVXwOp63LLBOD0Dk>
-Feedback-ID: id06e481b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Dec 2025 17:00:14 -0500 (EST)
-Date: Mon, 29 Dec 2025 17:00:21 -0500
-From: Steven Rostedt <steven@rostedt.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Christian Loehle <christian.loehle@arm.com>,
- Samuel Wu <wusamuel@google.com>, Huang Rui <ray.huang@amd.com>,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Len Brown <lenb@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
- James Clark <james.clark@linaro.org>, kernel-team@android.com,
- linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] cpufreq: Replace trace_cpu_frequency with
- trace_policy_frequency
-Message-ID: <20251229170021.71cc5425@gandalf.local.home>
-In-Reply-To: <20251229165212.5bd8508d@gandalf.local.home>
-References: <20251201202437.3750901-1-wusamuel@google.com>
-	<20251201202437.3750901-2-wusamuel@google.com>
-	<f28577c1-ca95-43ca-b179-32e2cd46d054@arm.com>
-	<CAJZ5v0hAmgjozeX0egBs_ii_zzKXGPsPBUWwmGD+23KD++Rzqw@mail.gmail.com>
-	<20251204114844.54953b01@gandalf.local.home>
-	<CAJZ5v0irO1zmh=un+8vDQ8h2k-sHFTpCPCwr=iVRPcozHMRKHA@mail.gmail.com>
-	<20251229165212.5bd8508d@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVxlQXNG"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a12ed4d205so84684915ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Dec 2025 20:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767069471; x=1767674271; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
+        b=gVxlQXNGRBONeeeJbCUaUy+RIpEtYO9GFYOXarx2LYUpzKR9AC/ljXJNA+9tArCeSQ
+         9b8xKUgmvDLGfPvsldJZHTvz1l58+XeCteHMY90SoCOgKy0DgD02rNUpLbE4kz3QXN9p
+         gNksukb2LHlSgliMi1EgaLjqD+lxZsqAUFnSwgI96AvnP/gF+GYvBFwnrRPSlrjWIKVg
+         0kyiYn9NKIwRzjLlBzNWKFbFV1SOX3YaCHMw1f05/h6QLvqjg9UYRZXPNb8/W4/Mc50c
+         1uZOOe4NKvSdjAFNOYT3fgDotepmJmotypec6EDYVdNL2v6bhTmNc0i/2JDlfZ/tjoed
+         hMng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767069471; x=1767674271;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f+WzwNYNhRdBeULGjK+If30c9dR6hyS9om5xAgt9QlM=;
+        b=wOtaoQA5mNGLKi2af0+uTMMaWo1VnVwzf9AhPRjcidDkYMTebOQb5ZWRGcU4U63p42
+         1V4VzLo78Fe4rdTWjlJzQMWrIh4dzMPdCE0tkvg3l8CKWkmOBASgke9FzB3b3MXdoz6V
+         w9UAqz55qL0ry2U5QAFfKiXWL7fawNtMNzOy52tfO3E20MIMNBzyA1LqPjgx3kM1EKze
+         wNdsfApajoDwT+Tgg5pcHmb6aBWYbnzQ0vOfHdp0VEFLLUAOeGZg7es9NoOc6mJBRUa/
+         S+4iSsScnIbcvoEf7UGyaYSKvqmTuZeZP2/XODUNLTTU9lN48kOHnYpXLAfho8pDlEEQ
+         kpcw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7qRoVn6GTPdYZj1RUVSjtNGIZU3z9319bnjA0VJ4yRvAuh08fSdwOasBjISLBxdxJ4u9MQMqGMNA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDsLYMP3b0XR0TdxfUOQDQONnDwxAqB90x1GnAeXTvvkU/wqDx
+	b2VrgSunO2KPaCtOmiNcI9k0c0Rx6UngAXQqTjKdb1qrn9Tvi9pzPNpM
+X-Gm-Gg: AY/fxX69mlV8lA5R0KwPQMZOlB2iknDUGfFia0+i4PrjHH2zm/zYNS8eEXxPEmn5mB1
+	2Wtlz7Ps0dTRQUlyQFnxokzck78n5h2WCUFXEoRUezj7Wcad9xXTOfNS7zijqaGqIB6A7xgNsPa
+	/EtaytTRCP7yKtxrDPXOk2s6BcRqvwG1SQHyUQETO6EnMgx/Gp7uOIV0zt5DC4R+elZS0mbJdCX
+	IblNtZk7AJObd/ZJ/fRLusnOlpH/127HUpwnwaqwdl+jeIywvRCylOok9kPZUgnU2UyQCttRzQh
+	bqXK07YtK1r3RYTjntkI5k49yoW+a1lEqeLHVtdOpM52aDpMhBWlEqnnKvjwFGBIE+93oHML7hq
+	HE0pXdEF342yW3ztTLsgQtCkLsq4mNm9FOt1J2/ySdMDpojUPrdsnj6QQysCGRZTnPdbE5g1orj
+	ck+BWO6inQS6w=
+X-Google-Smtp-Source: AGHT+IEKeUoWYu2GFVgDFphydhGZMiQ90h/N0eJheHWd5u/8DmEeLaYgUO7ghOlfSva0c6ncPwEjiQ==
+X-Received: by 2002:a17:902:cece:b0:295:6c26:933b with SMTP id d9443c01a7336-2a2f2205155mr305888615ad.1.1767069470488;
+        Mon, 29 Dec 2025 20:37:50 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d7754asm285954025ad.100.2025.12.29.20.37.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Dec 2025 20:37:49 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id EC9BF419B84C; Tue, 30 Dec 2025 11:37:46 +0700 (WIB)
+Date: Tue, 30 Dec 2025 11:37:46 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: victoria@system76.com, sebastian.wick@redhat.com,
+	thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
+Message-ID: <aVNXGrqgNJsnyMsw@archie.me>
+References: <20251222-vkms-all-config-v3-0-ba42dc3fb9ff@bootlin.com>
+ <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+ <aUyMiJvJX1KhffVb@archie.me>
+ <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/cvQIoAKPEfuZFWr"
+Content-Disposition: inline
+In-Reply-To: <8bed1d97-be75-4918-b033-698d3a49e61b@bootlin.com>
 
-On Mon, 29 Dec 2025 16:52:12 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> On Thu, 4 Dec 2025 18:24:57 +0100
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> 
-> > My concern is that the patch effectively removes one trace point
-> > (cpu_frequency) and adds another one with a different format
-> > (policy_frequency), updates one utility in the kernel tree and expects
-> > everyone else to somehow know that they should switch over.
-> > 
-> > I know about at least several people who have their own scripts using
-> > this tracepoint though.  
-> 
-> Hi Rafael,
-> 
-> Can you reach out to those that have scripts that use this trace event to
-> see if it can be changed?
-> 
-> Thanks,
+--/cvQIoAKPEfuZFWr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I got a bunch of "Undelivered Mail Returned to Sender". It seems that gmail
-thinks my goodmis.org account is now spam :-p
+On Mon, Dec 29, 2025 at 04:33:47PM +0100, Louis Chauvet wrote:
+> > @@ -202,7 +202,7 @@ Contact:	dri-devel@lists.freedesktop.org
+> >   Description:
+> >           List of supported formats for this plane. To add a new
+> >           item, write its fourcc code prefixed with '+'. To remove,
+> > -        use '-' prefix. Use '+*' to add all formats, '-*' to
+> > +        use '-' prefix. Use '+*' to add all formats, '-\*' to
+>=20
+> Hi, thanks for the fix!
+>=20
+> I only have to escape the second wildcard? Not the `+*`?
 
--- Steve
+Yup. Try make htmldocs without the patch and see.
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--/cvQIoAKPEfuZFWr
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaVNXFQAKCRD2uYlJVVFO
+o7xDAP4oC24X/814znpE6C9oS8vLeRm3x+JFWHtZczhWkK9uigD9GiLsaigPdyYr
+VIPUugXHtCVB3MOHE4qqkFF+7PCK6wc=
+=AfbL
+-----END PGP SIGNATURE-----
+
+--/cvQIoAKPEfuZFWr--
