@@ -1,212 +1,192 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F46280CC1
-	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 16:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4437F2288F7
+	for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 16:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767112680; cv=none; b=JynLBvPlSrds40WL8oYCmZNuFOnA9akdSa3WNFmR1oxmgabqgT8AxGFaOeQZiE0HbbH/Ie5MYGj5oA8z1ymAAbaYchBvg9SgnC5Oeki8J7UChnH8uvOrV8iEM42oM8cZuylanJT/6eTHS2xoZ0gyg5+bpfZ6s3Z1NLM6/64FH1U=
+	t=1767112839; cv=none; b=YD+8SUcTjedR7Ydj0yOft9cHjAaULb9SocMO2Tr66XkaljZ71cbkNhjegaRJOIVUUASDVkrBS/FvpmRMkg8D8sC6d4HsBxm7iNvHcdpOe6jd5/Xx0tpAQPX06knVQNDjqrBJJtaHZ7yfSjttbOLYdCfAONeEZLMaH9Vpm3tSxlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767112680; c=relaxed/simple;
-	bh=aXMnm/9Yve89kNtGunDJ4Fm6HCjw2ZptcQM6D0PJJaQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n1fix/D21atkhOuypB6msXpwnach3G2hvfKAV/YGgHvYFuA4mESEQUyEwOw7ebMra9hDaykBgDC1fw7yzPbPhMNz9y0IaJFuNRdakP3rSlUlWmadw/HY3RXrgyvdhbNmkbjHvB08ygrw0Jhnuea6BwwndQYedIK4jFaYyem9HwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=EMoq/ziu; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1767112839; c=relaxed/simple;
+	bh=R3ssxNR/IfKvvzigNkiBKuIwzZmdFCE30Vek2VE5a/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IMBE9Wexaz9DEiH9YdrB+vmLT1Ex+H0lVkfR8/V65Hp0Wk6HlBeGK2BNyRGlZdhYzuoCuw+igQFwa/e1ASQvxs6mzj5bfFMYf7+6SgU9nEP2cuACmTmvagUhXWT9xmZJzvnzc5+7uZeqqOjX1onF59UgazB4vCglVkJPrIZtb+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CDo8618x; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=tGsVd1OR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="EMoq/ziu"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64b9cb94ff5so12444707a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 08:37:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CDo8618x";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="tGsVd1OR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767112836;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7J8z1fD7DSMGZ6iKBx0OqXIx7XfW+ZYePKweShXuH2A=;
+	b=CDo8618xqajMYlrIganDweT8AiGYtCkoWL2waz6M6UJJ78xULg6Xf2r37MrUCzU18evdkK
+	YPMeCIqdnKCMkyIKoc9m3X1R86c2sn8+7/6qBkCYPvCl68I17EVe+Rpai7To6YzRaVdRAF
+	9xDz/cUdBFkP/auH7HPtWHP0TFdclfw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-501-fS4oRsBQMlmQ1AhOK2a80w-1; Tue, 30 Dec 2025 11:40:34 -0500
+X-MC-Unique: fS4oRsBQMlmQ1AhOK2a80w-1
+X-Mimecast-MFC-AGG-ID: fS4oRsBQMlmQ1AhOK2a80w_1767112833
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-43101a351c7so8064214f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Dec 2025 08:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1767112677; x=1767717477; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KRg6CrcJkBXZs3BQb5XRdbXuKq3vmzU1zmho9EhETiQ=;
-        b=EMoq/ziuMF3Pg1dLkcOQjP3xB+e2BZMjYjgBJTcpe+jKl8E2EQMhpAzqp9cevARCJM
-         9LUNFLjMVLGg7hx3JL1D9FhMMdjzov27dMsurfjyS8N8yoITYm34qdyP5GcwVtYlZPc7
-         cb7ae+xvv07BWpmg6aFOW3pprzV+yB+RSTkoMKhSmHLqqvc7AtKDXHROwmM+bV5WcM2v
-         RGl7s1MJUzm/Nd06KRiZ8d2jLa/j2eYA4AtpWS1P62F+lDcWS8OPwU2XNzBZmVC1kl4+
-         Bj6guPavCQm2n8/CfXUKIZsUTUrPnpY7AGIVhkZRqBFGoBajU3Gcqy8hRZ2i44EGWKzW
-         A4kA==
+        d=redhat.com; s=google; t=1767112833; x=1767717633; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7J8z1fD7DSMGZ6iKBx0OqXIx7XfW+ZYePKweShXuH2A=;
+        b=tGsVd1ORU0Eh9v8efXZT1lh+FgCYbl5O7LiFefA28EVmRKhFwjKIK+BkIFPA+HquNW
+         I/iCySQ/Hi/bFw5TujZNT95fbDuwnDGI5r2pHqghiLDrfJvQvWAK2OtX6kVUYKSdDHP5
+         MzILer/dNKCGfsj9rQs5AUI4Y6CUNV8J6pMAB2WE94zrFEkLHx9rWvO9YDwfm5VrO+VR
+         Kl3R35DSLBsN9u6Q9JLMx2Ew0qnQqn4QpfMGN6a9DbosJnFKLKUNTjaoDhXVO+Oh0812
+         dSSgXSlQks9mbZxqnSW/569qUnJLt2nbu1hdPQdOW8Hob/Bsg2dhVoSViq+DAHYiHGpJ
+         1LGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767112677; x=1767717477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KRg6CrcJkBXZs3BQb5XRdbXuKq3vmzU1zmho9EhETiQ=;
-        b=aayeDHh4jP2M3t7334chXM9oj0qAq2Jq5omqbLopccl8Rom61Q6jexX6HNIBQ3WtTs
-         ccpAVke36M8mgCNVBWKTFkco8R0vUSv/2Agx2wg7ZQIXjlYO/c14ite+ww1zwumXz6oe
-         PXi5w0onCqbSpcmmt2efReUbkj7EWfvmzF/RiR3B3I6L15Nj3kQxPV25U6vTbvZVVAil
-         f875zEa9IepPTecVhh1AKP0caFDD6OufJQUMRuCopQeZ3mpJ8pVuZRkuIgjwduaQ2jz7
-         aCltYA5bD34T4pa9Dc+gRydiaOo87JybVc04YOOJ60PIeWED024bGAIYKH2GEoWBacQ2
-         iugg==
-X-Forwarded-Encrypted: i=1; AJvYcCUopOTUy1L99+QYMqca88TefpWjCLyryTrweqlXn1RpWLS76clu0N3q8qiCm5iP3FjKvGv91LXS8vA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyka3xh/DqYcRM35lGxiMKp1rCl/l6Gun6uhrocIOI9pEailwWM
-	7pR+jUTfH1Ar8XBbbw2wA45aonSf2agcuUrdu5/4xdI/0R3P34WwfrWh6wTfke+g2aUpPq8473s
-	BPx/Tk+iqYJL7PqM2+N9pCKNCghF7hPT7mkf6cnxvBw==
-X-Gm-Gg: AY/fxX61fhn2Od8meJlpNlt0GMyTyS18g1CTY8cQY5rr11iWqrvAXhEKKTD2N2A9D5F
-	n6j3Xor6ClZDbKM6HW5knWVb27QhFBLZsEWwy4kXlykaNAKsrPbhI5sy7oybX3J5JWU37fnjC+6
-	b0/tRi1APPwiWx8UIHpzj5b5Hx6vzcsVzNFGiN9Jy4XULRRqkzbRZIBdS724F6cYyK/Nle/nDt8
-	NcqzXenFCVFa0HF3QUVOcQ5+QABRMxvsAHuat2/GHg3Dv3+1/jqV7vUlyhLLlgIhsL1C/wxKS6H
-	Nm0UR1NkPiYJkIbQWTXX27qYnw==
-X-Google-Smtp-Source: AGHT+IGt84JqyxLT4FVa1NK9x43gWi2TvpGddBi/ddcId92JOTd0e+vB9z2i06mYaiwFTk4rPI2jpbCaXF0BnPuhN5Q=
-X-Received: by 2002:a05:6402:2713:b0:637:dfb1:33a8 with SMTP id
- 4fb4d7f45d1cf-64b8e944eddmr31901439a12.3.1767112676868; Tue, 30 Dec 2025
- 08:37:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767112833; x=1767717633;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7J8z1fD7DSMGZ6iKBx0OqXIx7XfW+ZYePKweShXuH2A=;
+        b=O7e9RAbcwyn3HpEYSisIBMzx6VeajWrnaS9WGe//JxXNXmORvlyBSHY45frT4DYh0b
+         1vNwCmY3WIEX8tGJWqshaufQNIJhGQh+jQFjKoyovWhaYWkoM33wKW1qeqQlItZ/WHe9
+         V44l0F89YU3vygdk/jcGztFpXvSAmCWL34dGtyF7uvRqLPcdr9CXG0kl7q0XII0tI1Nq
+         /ER03VPRoRRorXy0iOPWuBW7ODJBHZE4JaS88emyIiUSce9C09E2X/ih6yoHTx/CZ5lW
+         I+8AIdvwCeKcKOZthUoci8EvZk6lTlKuF6SxKN9omTE0NUd296Gcz13gSdL428MX1Vvn
+         Nl5A==
+X-Forwarded-Encrypted: i=1; AJvYcCV+QbiHJ7gozlpYh6XgPXqF8vc/eBycUsTSd48Z9gmy6gHrtNd9LW2EpVYPF8N4FulvDiT7EXjIdbU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzy9xUxKiXWi59xrIt9/09vkpZHu6u/kq84MZKRrjYKUkaXj47T
+	lkGzoZGAsyfJM9tgy7r5x6kho1aNNYcMCoHJ42pY6uhJNpPIdEyadmSUkHbf798XvPjAo2h9vd+
+	3ucJ724covwGdAzZi+uHhpyNjOiPBns46dLJUUHgxcz6NvKUdRFvjCPtZbHMN6Q==
+X-Gm-Gg: AY/fxX5bIGUtR/Ix2nwcuJ+do8p5iTcSe8DukUsqYAfj+U0VXl0a7wTwM7oUmxiXl/p
+	w/tRKGpnSsDDPkTHDnRVh7gAe/JAk3ujkBF6/3MP3aSSZQoffm8Oupd9ShJGLbyNc2TEB7I2S0K
+	XeIGKtmu7qEURwgUAUFEhisjN7TXzkMH/nsxHvqT9SuPKY0g9V8tqrmlLktqDgrcLoG5eB0R86/
+	KMbd5KrvLTBLkbtkmhWq7UCd9dx6pOJOk5vu26qzUyGRpojCswjjlkxVKs0ULJ9kcmFTaNHuexO
+	qsnkQjFELktVFYxKAXbJgtII+sNBgVcz0Yt3iDtCBC9HthjN42TbMnEEATzKYl4epgAcpB6a+GP
+	UHNn/BNp8pm/6R72SXyCbORrBbQrbnst96g==
+X-Received: by 2002:adf:f144:0:b0:431:855:c791 with SMTP id ffacd0b85a97d-4324e4c1501mr32588434f8f.3.1767112833335;
+        Tue, 30 Dec 2025 08:40:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IECVSdNBMTG9k8N96cOa931b+MOajxv263SWbXaTmkKbkTS3ub+IC9yjT+L/YMFbjvC3biqWw==
+X-Received: by 2002:adf:f144:0:b0:431:855:c791 with SMTP id ffacd0b85a97d-4324e4c1501mr32588393f8f.3.1767112832791;
+        Tue, 30 Dec 2025 08:40:32 -0800 (PST)
+Received: from redhat.com (IGLD-80-230-31-118.inter.net.il. [80.230.31.118])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1aef7sm69573295f8f.7.2025.12.30.08.40.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 08:40:32 -0800 (PST)
+Date: Tue, 30 Dec 2025 11:40:28 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Cong Wang <xiyou.wangcong@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jason Wang <jasowang@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Petr Tesarik <ptesarik@suse.com>,
+	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org,
+	"Enrico Weigelt, metux IT consult" <info@metux.net>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org
+Subject: [PATCH RFC 14/13] gpio: virtio: fix DMA alignment
+Message-ID: <6f2f2a7a74141fa3ad92e001ee276c01ffe9ae49.1767112757.git.mst@redhat.com>
+References: <cover.1767089672.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251206230222.853493-1-pratyush@kernel.org> <20251206230222.853493-7-pratyush@kernel.org>
- <CA+CK2bAVuHG1cVPQz8Wafe8o2TtitrqJjqfHOT7Xun=zWMoo2Q@mail.gmail.com> <86qzsd7zmu.fsf@kernel.org>
-In-Reply-To: <86qzsd7zmu.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 30 Dec 2025 11:37:19 -0500
-X-Gm-Features: AQt7F2pvBnnd5fD8grNsYPQ7hitVBz_yujsMM_6ymMYxKOIzOHac-8gxUv2SYKE
-Message-ID: <CA+CK2bDQDsjBkYabH5DVzSr_kuut-XHKb+JFTA=PLa+8gcCVLw@mail.gmail.com>
-Subject: Re: [RFC PATCH 06/10] liveupdate: hugetlb subsystem FLB state preservation
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Alexander Graf <graf@amazon.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Vipin Sharma <vipinsh@google.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1767089672.git.mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 
-On Mon, Dec 29, 2025 at 4:21=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
->
-> On Tue, Dec 23 2025, Pasha Tatashin wrote:
->
-> > On Sat, Dec 6, 2025 at 6:03=E2=80=AFPM Pratyush Yadav <pratyush@kernel.=
-org> wrote:
-> >>
-> >> HugeTLB manages its own pages. It allocates them on boot and uses thos=
-e
-> >> to fulfill hugepage requests.
-> >>
-> >> To support live update for a hugetlb-backed memfd, it is necessary to
-> >> track how many pages of each hstate are coming from live update. This =
-is
-> >> needed to ensure the boot time allocations don't over-allocate huge
-> >> pages, causing the rest of the system unexpected memory pressure.
-> >>
-> >> For example, say the system has 100G memory and it uses 90 1G huge
-> >> pages, with 10G put aside for other processes. Now say 5 of those page=
-s
-> >> are preserved via KHO for live updating a huge memfd.
-> >>
-> >> But during boot, the system will still see that it needs 90 huge pages=
-,
-> >> so it will attempt to allocate those. When the file is later retrieved=
-,
-> >> those 5 pages also get added to the huge page pool, resulting in 95
-> >> total huge pages. This exceeds the original expectation of 90 pages, a=
-nd
-> >> ends up wasting memory.
-> >>
-> >> LUO has file-lifecycle-bound (FLB) data to keep track of global state =
-of
-> >> a subsystem. Use it to track how many huge pages are used up for each
-> >> hstate. When a file is preserved, it will increment to the counter, an=
-d
-> >> when it is unpreserved, it will decrement it. During boot time
-> >> allocations, this data can be used to calculate how many hugepages
-> >> actually need to be allocated.
-> >>
-> >> Design note: another way of doing this would be to preserve the entire
-> >> set of hugepages using the FLB, skip boot time allocation, and restore
-> >> them all on FLB retrieve. The pain problem with that approach is that =
-it
-> >> would need to freeze all hstates after serializing them. This will nee=
-d
-> >> a lot more invasive changes in hugetlb since there are many ways folio=
-s
-> >> can be added to or removed from a hstate. Doing it this way is simpler
-> >> and less invasive.
-> >>
-> >> Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
-> >> ---
-> >>  Documentation/mm/memfd_preservation.rst |   9 ++
-> >>  MAINTAINERS                             |   1 +
-> >>  include/linux/kho/abi/hugetlb.h         |  66 +++++++++
-> >>  kernel/liveupdate/Kconfig               |  12 ++
-> >>  mm/Makefile                             |   1 +
-> >>  mm/hugetlb.c                            |   1 +
-> >>  mm/hugetlb_internal.h                   |  15 ++
-> >>  mm/hugetlb_luo.c                        | 179 +++++++++++++++++++++++=
+The res and ires buffers in struct virtio_gpio_line and struct
+vgpio_irq_line respectively are used for DMA_FROM_DEVICE via virtqueue_add_sgs().
+However, within these structs, even though these elements are tagged
+as ____cacheline_aligned, adjacent struct elements
+can share DMA cachelines on platforms where ARCH_DMA_MINALIGN >
+L1_CACHE_BYTES (e.g., arm64 with 128-byte DMA alignment but 64-byte
+cache lines).
+
+The existing ____cacheline_aligned annotation aligns to L1_CACHE_BYTES
+which is now always sufficient for DMA alignment. For example,
+with L1_CACHE_BYTES = 32 and ARCH_DMA_MINALIGN = 128
+  - irq_lines[0].ires at offset 128
+  - irq_lines[1].type at offset 192
+both in same 128-byte DMA cacheline [128-256)
+
+When the device writes to irq_lines[0].ires and the CPU concurrently
+modifies one of irq_lines[1].type/disabled/masked/queued flags,
+corruption can occur on non-cache-coherent platform.
+
+Fix by using __dma_from_device_aligned_begin/end annotations on the
+DMA buffers. Drop ____cacheline_aligned - it's not required to isolate
+request and response, and keeping them would increase the memory cost.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ drivers/gpio/gpio-virtio.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
+index 17e040991e46..32b578b46df8 100644
+--- a/drivers/gpio/gpio-virtio.c
++++ b/drivers/gpio/gpio-virtio.c
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include <linux/completion.h>
++#include <linux/dma-mapping.h>
+ #include <linux/err.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/io.h>
+@@ -24,8 +25,12 @@
+ struct virtio_gpio_line {
+ 	struct mutex lock; /* Protects line operation */
+ 	struct completion completion;
+-	struct virtio_gpio_request req ____cacheline_aligned;
+-	struct virtio_gpio_response res ____cacheline_aligned;
 +
-> >>  8 files changed, 284 insertions(+)
-> >>  create mode 100644 include/linux/kho/abi/hugetlb.h
-> >>  create mode 100644 mm/hugetlb_luo.c
-> >>
-> [...]
-> >> +static int hugetlb_flb_retrieve(struct liveupdate_flb_op_args *args)
-> >> +{
-> >> +       /*
-> >> +        * The FLB is only needed for boot-time calculation of how man=
-y
-> >> +        * hugepages are needed. This is done by early boot handlers a=
-lready.
-> >> +        * Free the serialized state now.
-> >> +        */
-> >
-> > It should be done in this function.
->
-> The calculations can't be done in retrieve. Retrieve happens only once
-> and for the whole FLB. They will need to come from
-> hugetlb_hstate_alloc_pages().
->
-> Maybe you mean getting rid of liveupdate_flb_incoming_early()? Yeah,
-> that I can do. It will make this function a no-op once we move the
-> kho_restore_free() to finish().
++	__dma_from_device_aligned_begin
++	struct virtio_gpio_request req;
++	struct virtio_gpio_response res;
++
++	__dma_from_device_aligned_end
+ 	unsigned int rxlen;
+ };
+ 
+@@ -37,8 +42,9 @@ struct vgpio_irq_line {
+ 	bool update_pending;
+ 	bool queue_pending;
+ 
+-	struct virtio_gpio_irq_request ireq ____cacheline_aligned;
+-	struct virtio_gpio_irq_response ires ____cacheline_aligned;
++	__dma_from_device_aligned_begin
++	struct virtio_gpio_irq_request ireq;
++	struct virtio_gpio_irq_response ires;
+ };
+ 
+ struct virtio_gpio {
+-- 
+MST
 
-Yeah, this is what I meant.
-
-Thanks,
-Pasha
-
->
-> >
-> >> +       kho_restore_free(phys_to_virt(args->data));
-> >
-> > This should be moved to finish() after blackout.
->
-> Sure.
->
-> >
-> >> +
-> >> +       /*
-> >> +        * HACK: But since LUO FLB still needs an obj, use ZERO_SIZE_P=
-TR to
-> >> +        * satisfy it.
-> >> +        */
-> >> +       args->obj =3D ZERO_SIZE_PTR;
-> >
-> > Hopefully this is not needed any more with the updated FLB, please chec=
-k :-)
->
-> Yep. IIRC when I sent this series the older version of FLB was in
-> mm-nonmm-unstable.
->
-> >
-> >> +       return 0;
-> >> +}
-> >> +
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
