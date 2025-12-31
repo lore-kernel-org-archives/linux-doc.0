@@ -1,76 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DADF30EF7A;
-	Wed, 31 Dec 2025 21:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734E030F54B
+	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 22:28:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767218005; cv=none; b=f9mFC3t8/HAZaeF7XIWFbV/0JtN7qHLaE9esgGHOXL7ru5ijsRLR9opUpE9xJy77Md5Ayl6mpAwgu/LwNtTf6FWlAzYcGZ7L+fQ12GxlZ25ATJfBExL8WchoNOfKtNtJKtKLur1/g6Kj7qBT/81bpqyZK+ywZT7sTm8QQWb4Z/g=
+	t=1767220137; cv=none; b=SgrJgYDDxumufmGg5IFHQbKvp120tPLKUWOcJg5qqv7NxZhgh1THLf5AXAYZIpYBVdjzEo2Hz7Nn6hyQXoRTs92OtNxBPinhjMG3UpUuH6rscB6X8xzduTHtGiUVXHtPNNx1lOat/pRj+1I5t8StvfDcQE9Pkx5Nt4avwlvjZ0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767218005; c=relaxed/simple;
-	bh=+jzER5LlCxbCRlPdqn90xRorge9v//z2HFOy19EmGwg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=hI59/wQHoYl07t21dcDuhdguVv5NfME8ht/pkdP29+oS/YumlHEj5YbFMs00SVhr7FqbAnyyNWnoTFV5WX/qXUqDVW6DvAci8lv/34ye/O+uE1CzbOnN/q1BdY2vOF/l8fOE3MKAEMaDYejuGnblnzprolb92WQfz/9Z0fT16Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pCMo2JII; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767220137; c=relaxed/simple;
+	bh=26iiet+cdpcowdyYtX30PosXDJtjhJu4Gi4yzc1GQzs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D+KUMJ7sZEoZ5wQRKC+asn7msVmLIuh1sxdAA/5lK1LlFEsXQGClu8/vfHDTZ9kmeuJbuQXry9mWhJ7QXs+F6Cs+77GnQ6h+IMQeaL7K2HgnBsyvrDtoIGQISbmhqxFcuEDN1EF5IH5wkjuRV/wvjOY/oZ87/QTpMMOU5NV2xw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F34k3LsS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pCMo2JII"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 123E6C113D0;
-	Wed, 31 Dec 2025 21:53:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F34k3LsS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD6BC16AAE
+	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 22:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767218005;
-	bh=+jzER5LlCxbCRlPdqn90xRorge9v//z2HFOy19EmGwg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=pCMo2JII8OM9G/dkGklFaP+au6uunfpbyngeI5PsUoVyn3oWEGLMLRcb4XhI3fQzm
-	 99jkAWzvGNK2NgUSE480F/6bREHmWf/1UE/MP7Irmh36IHuXL9vWXJxKTteKDyHmCj
-	 +O7mis5h4lP2WGi+zDfr9dvHXT6LP7C+0wDQJSR1D9jqbbpqh6LMg+Ust18/JZKFTF
-	 1mefldEpFx+oWT37z5F2STSWDG4g6LOaaXT33euBPVDi0DVfBnHbqUKtaGM925fDwZ
-	 ThqmNeLf7/HduQdZb8ODPFi9Du4AmJ5LobGo5R60/3ev9Q+bnGWGgwvVpvKNxrQCbj
-	 srbyg5OMYc1vw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 787EB3809A83;
-	Wed, 31 Dec 2025 21:50:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1767220137;
+	bh=26iiet+cdpcowdyYtX30PosXDJtjhJu4Gi4yzc1GQzs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=F34k3LsSrr6e2s2xq4FKnie18feKwQtStYamKmbJf2HSm5CH1rERz8MXc7goFw1NM
+	 g7gcBPKpKJVbaz0+8w6WpcKizldlOzuXGHbS2bM0a7JmdcjHSZgOqQrfKuwmDqO2Rp
+	 oa0V7DmzNTtDAyPjpzuqZTeXGIzIUCAiR0vAYPvwbJrrXWybwC8DIrCYCS+zBbe0X5
+	 5OJuXmaLZOpDQcZsbXuoby2PyYnKGjr/h7Zv262slYOsbuUuzem6cFbLmOHivrhv8K
+	 P2JEMx2yGvVRRodw/BX85PHvGbNO+VSAGcSdhs+cgCQQDXWQW3JrtyMGStiAB2h6D0
+	 r02FxzV8qe1xg==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-78fc4425b6bso67379437b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 14:28:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW93RGo42o8I0bIr87ywzFag7P2kaGuJJOEZ5/ZJD5Mc/axAQaW3Qh/6yxqT/9HI7PjnqFw65qT+Es=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIQ2hs7zixUDLcALWCikzr2TO3503KZJhp4+ARwdOd9jeP04IX
+	Xf2dYeKjJFW941mBuROqVqNyKF5qnP0caD27p7lzhmJqCnrMaz4I6/0kvoF9oI9jAG56Qd4nXgF
+	2VLCUeH6LvI4vbC5DUOEw2/da+q2J+ms=
+X-Google-Smtp-Source: AGHT+IF4tBxaJDYxmgz18I5l1LhAGbdnGy/RKG7PeThu4226NLShduLSXw1Rv+CkXJ+drwnVCo1gNClzGqn8/Pzhvyc=
+X-Received: by 2002:a05:690c:600e:b0:78c:5dfe:1b57 with SMTP id
+ 00721157ae682-78fb4144855mr337082097b3.38.1767220135578; Wed, 31 Dec 2025
+ 14:28:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Documentation/bpf: Update PROG_TYPE for BPF_PROG_RUN
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176721780607.3608013.6877028760018942442.git-patchwork-notify@kernel.org>
-Date: Wed, 31 Dec 2025 21:50:06 +0000
-References: <20251221070041.26592-1-tjdfkr2421@gmail.com>
-In-Reply-To: <20251221070041.26592-1-tjdfkr2421@gmail.com>
-To: SungRock Jung <tjdfkr2421@gmail.com>
-Cc: corbet@lwn.net, ast@kernel.org, bpf@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251212-wip-jremmet-tcal6416rtw-v1-0-e5db1b66d4cc@phytec.de> <20251212-wip-jremmet-tcal6416rtw-v1-1-e5db1b66d4cc@phytec.de>
+In-Reply-To: <20251212-wip-jremmet-tcal6416rtw-v1-1-e5db1b66d4cc@phytec.de>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 31 Dec 2025 23:28:44 +0100
+X-Gmail-Original-Message-ID: <CAD++jLn9KvFsZA_rNCc9ZMCkG6-baeaMzczz2Gsu=36Gv7YOxg@mail.gmail.com>
+X-Gm-Features: AQt7F2rWVuROE9AOE_ZxlrbhoruVLnwjnaIrhDTmWKo0_w4RrwVr7H5Vae7IKIQ
+Message-ID: <CAD++jLn9KvFsZA_rNCc9ZMCkG6-baeaMzczz2Gsu=36Gv7YOxg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] gpio: pca953x: Add support for TCAL6408 TCAL6416
+To: Jan Remmet <j.remmet@phytec.de>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	=?UTF-8?B?TGV2ZW50ZSBSw6l2w6lzeg==?= <levente.revesz@eilabs.com>, 
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org, 
+	upstream@lists.phytec.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Fri, Dec 12, 2025 at 2:03=E2=80=AFPM Jan Remmet <j.remmet@phytec.de> wro=
+te:
 
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+> TCAL6408 and TCAL6416 supports latchable inputs and maskable interrupt.
+> Tested on a TCAL6416, checked datasheets for the TCAL6408.
+>
+> Datasheet: https://www.ti.com/lit/ds/symlink/tcal6408.pdf
+> Datasheet: https://www.ti.com/lit/ds/symlink/tcal6416.pdf
+>
+> Signed-off-by: Jan Remmet <j.remmet@phytec.de>
 
-On Sun, 21 Dec 2025 07:00:41 +0000 you wrote:
-> LWT_SEG6LOCAL no longer supports test_run starting from v6.11
-> so remove it from the list of program types supported by BPF_PROG_RUN.
-> 
-> Add TRACING and NETFILTER to reflect the
-> current set of program types that implement test_run support.
-> 
-> Signed-off-by: SungRock Jung <tjdfkr2421@gmail.com>
-> 
-> [...]
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Here is the summary with links:
-  - Documentation/bpf: Update PROG_TYPE for BPF_PROG_RUN
-    https://git.kernel.org/bpf/bpf-next/c/17c736a7b58a
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Yours,
+Linus Walleij
