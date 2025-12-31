@@ -1,62 +1,64 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F182FF164
-	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 18:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6E21E5B70
+	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 18:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767205042; cv=none; b=nB9g9yuvFaE0Q6WTLfTEvZL7ReuqNJORYCJ2/cVJidwgpAkuKO+rowJrWiwGW3i+YdOzrwgGkBD8OhdgJfQ+OUrLbH3i642QpzxEBGjk2huBV8C31YKYUXdo5kec/lWJ32bAKUMBGxb3WLGs4uxvyMdDZge6WCkw2ITGVAsnUqo=
+	t=1767205069; cv=none; b=ZzTpMx/E34RHeqfTKjT0AL/AkIJ01PY7Y3SJJMW2HUtncFdPLGKXyN+AneF0zE5IYHo0KHla19BMXpA5pab0M7JBGoafUBamX38PblOn/EDtYi3jHJ5LTJVXX0lClhrRnXbao9nd+kHNYaftg14yOF2jTlUXbVech45JWF+BQRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767205042; c=relaxed/simple;
-	bh=DtW9jydX6kRSz+VzrOTs9HRP1q8pSatXePBnRhDvGcc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pCPw73xwbpBeSJaZPJ0h/Mz8m2SbCfUthZJqziV0InlLXWywLPCzxHfpoyF/i1BXyqp/Ar52cOWmwlE1OXDwTL/Vp3psFYAaF0kCA7uDwEH+pBHXgOmh49beE6diyTXSQN/KRTFxY+zFcwhkrvprMFrKMKu01ZeKOlu9jjB9MW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cYs6QRd5; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1767205069; c=relaxed/simple;
+	bh=dB2DxS6/hQ4cWBT1mL/g2GXYJzNqtTvACLxfJuWsr64=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I7KrmVwsZB1LH0Qqf1IxdSSe/LoQg5IThwzeuNlAkaul5eawWncX6BZSTiy4VI6nVfBWvcFd0oftmVpXcWNvScucZTF8nPmBPRo0Qy0Va3qFDumRrI7tleLVg8zIqrt5TkFHyJHyv6PDj0Kwoqmi6uKS8ab0dhyUZ2lhn89LxeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKvHlqcY; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cYs6QRd5"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0eaf55d58so69013455ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 10:17:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKvHlqcY"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a0a33d0585so101561205ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 10:17:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767205040; x=1767809840; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SXoQb1Iho9s/aJU4/V83jmA8EbXo7twbK1X6eOXoFDE=;
-        b=cYs6QRd54KTn7COi8TcmhfReUlgtg00ULE4Q4t3IoGT/xUALXfkF/OKgh7lzTOtdkQ
-         qhYvgkXY6DD+znP7OO7SfBMBIyPj4T6LRbnMvC129+5NoPHUJpHzs93EVshJ7T6woIGg
-         4n9XFkg6WBuyDK4IPXKpVquOUUmm/YFCUnSkZNvNSr8Oh0aeYnouA5iH09kMiR+sX7CB
-         IjExd+zO3nwBgUR90wuEkSZOpvilM61HcP4+e3NsXBc9/IWLLTiL/hWakn/Nwn/bDbK1
-         2CWu1Yn8MsPud0bBQds7u0B81ICEf2OhnluR5vXovSV4rRxgjOVlvujiDPRMCKTgYYvx
-         09cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767205040; x=1767809840;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767205067; x=1767809867; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SXoQb1Iho9s/aJU4/V83jmA8EbXo7twbK1X6eOXoFDE=;
-        b=BWCsv99k8+AQwK8cNjRzlg+ptgumahSN+xNBvTB/ZVRzbxgpDb8WmJrpHQ3kj3A8bq
-         cj4Lz/lTeXZ6XT/Fd5TSwQyz4hwopaGQ2RpU/Wr2/wQAknqhii3vGDNFH/uwpiouJtJS
-         coy5Kqr3ya6HKDAGi08eNPu8RQXt6ShnhBaFKYbZIPNFBHYpPJX1eZLMfpOiTf51b74c
-         RUjSu7FzLJE3taCvv3iD/j5kB9s40gGzpS70cgiqwcl+Adsq5a6kwZbYetlY/EVOCN18
-         81tObbdlF8+Kz9e0F07lW22XtmmUpf1ZCtnMfOXr1/FJDAd/VlCugb8293FWEX9F+qgU
-         Rl+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVUpB7dc6cJtRFshPspYtxnMIWgMiXpXQKXw7FwL94Ar7o9CVtsRNsENDT/985biCIO+FuKQtej7JI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl/srJJSQVN3if7+53hh+q3UuiYC2H8OHJD83n7OhfdgviA42k
-	KAF6ani1ck+QQzgqQaWXuq9HSVgL909/n7UJAXnlHyjh4pQWGFY22cv5
-X-Gm-Gg: AY/fxX7Ktly6VUL1ghl13ZNIKJuhkPYK28GZkY+BensfEVPT6rtuvTlZtcjgAapyPBk
-	QvSFM1CEkgOLWplVb+ga41t/Sv5uCZg31SscBlTN8mXFhn8XEXTJ5pP733kaHihsjq6KGWYoDu0
-	BRi39KUL7M368U/4fvON6iYzMkCxtJyqHcjN5QYUj8dFKgBNX0DrbtmuyEV21IFbuMFhjiW+Zm1
-	Jn1wkoTMNR3OkAnbm1801h/XKCOj9iw89fdf3eFQXgkVgaTh+mHeEAqCMiMMky6P9cZVrnMPwty
-	ra/WSS9Ocq2CatIPFIhBGNOtHBNwv+K2wQt30xFrxGIxcUzjOB9QKl5Gc1toKa7JncOW78yNg09
-	G6GAbYU/UkfGYlsOyaMxXs7kZ2xc0YQ+nWPsvJ2t3FoTaFKuNiVz6kwzzP0SmxKqMGkaqr6pkuq
-	/1xijjLo1BcUrBEY3k
-X-Google-Smtp-Source: AGHT+IFt+YYUuQnJIjJqsNxOfFi0ONI4ZVIqnGrLeLLNJzP5CtQl3rVTd4nmjmgrcpUv1MsNBMmBaA==
-X-Received: by 2002:a17:903:41c7:b0:294:8c99:f318 with SMTP id d9443c01a7336-2a2f0caa8eemr448221945ad.3.1767205039865;
-        Wed, 31 Dec 2025 10:17:19 -0800 (PST)
+        bh=6XFZphiT5rD5wJiK3SZFCUG5+Jd7y/1KKNDXda+ZvC8=;
+        b=iKvHlqcYXdTOvI7/I4Mb3etqb1U1e6p6U6rBO4gMPVp1HZBjYmcoswmJ9b8KRlkuIP
+         4Q5RX7RIT7PtCQu8hybAIAoT4SrKoaRgbXTD2guo1teB8SwlYJ87GLxoOmlR5aKZEdIB
+         oxXhSIDkuXcd2tIuQ+yIvb/+SacrQp89PBEYkTDGTXD2FhA8JxsIGT+YHwfVc/mYSCb3
+         G7w5pV4xNcUIReSMgfsoH608axEsXbB8VNNI4y4DQBkFs1xupdb9NrmLRcHFdYwiwMiU
+         73juPxwnd0/ONQhRwo2knG9+g4H3Ou+909tklFoz0Z/U0vJoO81OXWT8h7gGEIUuE8V+
+         2sQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767205067; x=1767809867;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6XFZphiT5rD5wJiK3SZFCUG5+Jd7y/1KKNDXda+ZvC8=;
+        b=ok/iqE7ZrYP3erX6wTib/1uJI85dAqEh+AFQvX1PXEvp/nShnlDGu/PolrykmGBSOj
+         aLhtusXiOSF5TjK9g/pD/0LiduHS/pslxymH9ztQzTYODXr1qa3spH9P3D+dU3XVPPoQ
+         BjfhW+LUD+Bknis+ASRXkbA8Y/W0okwCNrkiV6nloESrjZDQIBaXLZXr8yIMx5ZYJ8TO
+         Is7h5rh81GREVohv70ZfKAxCYcMlBYtnwMLDbsfAMUxrrrYR6+aN/8Z0nt8/WtVFkY5U
+         TeIs4UxdB3ewzMUNVvhUvR5MOfMvzcG/GFm3821sAgM0K+Pqc7Ad8MH/NjGX5sFRAhge
+         rwCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXtID32CQshfoEsH//oguDmXYgE84BYsVoAU9K9Jqoo4jQJ2Tfm6A/VJmi60kz1I8Ip6L1jqKEZj58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYFkvHyMfTCdfmMGkwsz2zXrjFtCbrkIYFki75axSRkTFkEoF4
+	gH7Dp3jYSykH6YvmUr6LMbvwKKbnjogUq6Xf06oEqQ1O0fRHLjfjB5Qi
+X-Gm-Gg: AY/fxX5s1wMa3QjR6SmtczJBGgYdtCuEjnQWxCIU1HmxNq9d4asc1EiFuiTGw0BgYrp
+	w5uBmMidWZXz5tH/tpq93KDgiyBONHSYCO4saJwjGwMwWaYwaywM4Te1tXMxOZDsWXl52Ofphrq
+	aaJb66lLx3sQD5yxCMLe9xZFeSPeBdtIaUCNFZ1t3fLG9vhvEJ5b0OlgmNpzL30wmthx86y+SGk
+	QhY16ldY2P89r0hXbczqRQebCmd0IG6B3/JE2rQanzZvLnd3lSktAqEKdz37WVcdeSW52kx/aYn
+	hvce/4qHth23cqdWHYG9S24X3HIg+5W/3AqxwN/kt9kK1IwFrDuFsmQrFyd48EnHDLgfULk7IEu
+	UIZ/0uEM3AFORvRDEBlNM5VSV6iXLG3j5BCcijytjrXTXSekzPVfV1XzbpMreWODmt2DJUisMhR
+	zVBXRL2lOfPhk0pKPf
+X-Google-Smtp-Source: AGHT+IFLyU879sREsum14e+whPX7oYGacLa8gelBRymC+21ag2DKvCrTdgtlaY0XNOiocu/U2/AN4g==
+X-Received: by 2002:a17:902:ef52:b0:2a0:dabc:1383 with SMTP id d9443c01a7336-2a2f22234a1mr428210655ad.14.1767205067215;
+        Wed, 31 Dec 2025 10:17:47 -0800 (PST)
 Received: from rakuram-MSI ([2401:4900:93ef:93d6:a0f7:dedb:d261:86b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c66473sm310787225ad.13.2025.12.31.10.17.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c66473sm310787225ad.13.2025.12.31.10.17.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 10:17:19 -0800 (PST)
+        Wed, 31 Dec 2025 10:17:46 -0800 (PST)
 From: Rakuram Eswaran <rakuram.e96@gmail.com>
 To: rakuram.e96@gmail.com,
 	Marc Kleine-Budde <mkl@pengutronix.de>,
@@ -72,10 +74,12 @@ Cc: linux-can@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 0/2] can: add dummy_can termination and update SocketCAN docs
-Date: Wed, 31 Dec 2025 23:43:14 +0530
-Message-ID: <20251231-can_doc_update_v1-v1-0-97aac5c20a35@gmail.com>
+Subject: [PATCH 1/2] can: dummy_can: add CAN termination support
+Date: Wed, 31 Dec 2025 23:43:15 +0530
+Message-ID: <20251231-can_doc_update_v1-v1-1-97aac5c20a35@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251231-can_doc_update_v1-v1-0-97aac5c20a35@gmail.com>
+References: <20251231-can_doc_update_v1-v1-0-97aac5c20a35@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,49 +87,87 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20251228-can_doc_update_v1-33b15a48aff7
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767203695; l=1574; i=rakuram.e96@gmail.com; s=20251022; h=from:subject:message-id; bh=c2Ukyvmu3x+ZNm/g42TZwi6hwotnurZ3OlsKNTQ8zxQ=; b=4+zCI5bRXSp0OszcugSJ5zY1CIOEsIwO5aVMoNPNxZeR7cbFHZ23mqJw9rOT5QeZSyqBic/dV WUaTO54DYpPAnwr4U3ONOj7FQWwsNBr0fDhkzuBKah6Dfx9O5frez/I
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767203695; l=2548; i=rakuram.e96@gmail.com; s=20251022; h=from:subject:message-id; bh=/VHe7Ay06eDBrZBDf+ehbGiVOu/+rnbHmhOETk1LKwI=; b=sPrViP4uOkV7IW1k0c9KOtZspggUOvc61/3MFqzPJvuvo4iwL8SjEOEGfppeLYBMDtbtRG33N gsDpLOxiZriDgaoKrRfTbr65iwa2klYgamdPkXFZTBxlbALdBtdWPLu
 X-Developer-Key: i=rakuram.e96@gmail.com; a=ed25519; pk=swrXGNLB3jH+d6pqdVOCwq0slsYH5rn9IkMak1fIfgA=
 Content-Transfer-Encoding: 8bit
 
-This patch series introduces two changes related to CAN XL support:
+Add support for configuring bus termination in the dummy_can driver.
+This allows users to emulate a properly terminated CAN bus when
+setting up virtual test environments.
 
-  1. Add termination configuration support to the dummy_can driver,
-     enabling termination testing with iproute2.
-
-  2. Update the SocketCAN documentation to describe CAN XL operation,
-     including MTU changes, bittiming/XBTR settings, mixed-mode
-     behaviour, error signalling, and example iproute2 usage.
-
-The goal of this patch series is to improve dummy_can support for termination and
-update documentation to match the recent addition of CAN XL upstream support.
-Feedback from the maintainers is highly appreciated.
-
-Base commit: 
-commit d26143bb38e2 ("Merge tag 'spi-fix-v6.19-rc2' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi")
-
-Testing was performed using the iproute2 master tree, which contains the
-required CAN XL netlink support for validating these changes.
-
+Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
 ---
-Changes since RFC:
-1. Maintain dummy_can structures assignment as is
-2. Update the examples with latest iproute2 tool (v6.18.0) 
+Tested the termination setting using below iproute commands:
 
----
-Rakuram Eswaran (2):
-      can: dummy_can: add CAN termination support
-      docs: can: update SocketCAN documentation for CAN XL
+  ip link set can0 type can termination 120
+  ip link set can0 type can termination off
+  ip link set can0 type can termination potato
+  ip link set can0 type can termination 10000
+  
+ drivers/net/can/dummy_can.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
- Documentation/networking/can.rst | 615 +++++++++++++++++++++++++++++++++------
- drivers/net/can/dummy_can.c      |  25 +-
- 2 files changed, 541 insertions(+), 99 deletions(-)
----
-base-commit: d26143bb38e2546fe6f8c9860c13a88146ce5dd6
-change-id: 20251228-can_doc_update_v1-33b15a48aff7
+diff --git a/drivers/net/can/dummy_can.c b/drivers/net/can/dummy_can.c
+index 41953655e3d3c9187d6574710e6aa90fc01c92a7..418d9e25bfca1c7af924ad451c8dd8ae1bca78a3 100644
+--- a/drivers/net/can/dummy_can.c
++++ b/drivers/net/can/dummy_can.c
+@@ -86,6 +86,11 @@ static const struct can_pwm_const dummy_can_pwm_const = {
+ 	.pwmo_max = 16,
+ };
+ 
++static const u16 dummy_can_termination_const[] = {
++	CAN_TERMINATION_DISABLED,	/* 0 = off */
++	120,				/* 120 Ohms */
++};
++
+ static void dummy_can_print_bittiming(struct net_device *dev,
+ 				      struct can_bittiming *bt)
+ {
+@@ -179,6 +184,16 @@ static void dummy_can_print_bittiming_info(struct net_device *dev)
+ 	netdev_dbg(dev, "\n");
+ }
+ 
++static int dummy_can_set_termination(struct net_device *dev, u16 term)
++{
++	struct dummy_can *priv = netdev_priv(dev);
++
++	netdev_dbg(dev, "set termination to %u Ohms\n", term);
++	priv->can.termination = term;
++
++	return 0;
++}
++
+ static int dummy_can_netdev_open(struct net_device *dev)
+ {
+ 	int ret;
+@@ -243,17 +258,23 @@ static int __init dummy_can_init(void)
+ 	dev->ethtool_ops = &dummy_can_ethtool_ops;
+ 	priv = netdev_priv(dev);
+ 	priv->can.bittiming_const = &dummy_can_bittiming_const;
+-	priv->can.bitrate_max = 20 * MEGA /* BPS */;
+-	priv->can.clock.freq = 160 * MEGA /* Hz */;
+ 	priv->can.fd.data_bittiming_const = &dummy_can_fd_databittiming_const;
+ 	priv->can.fd.tdc_const = &dummy_can_fd_tdc_const;
+ 	priv->can.xl.data_bittiming_const = &dummy_can_xl_databittiming_const;
+ 	priv->can.xl.tdc_const = &dummy_can_xl_tdc_const;
+ 	priv->can.xl.pwm_const = &dummy_can_pwm_const;
++	priv->can.bitrate_max = 20 * MEGA /* BPS */;
++	priv->can.clock.freq = 160 * MEGA /* Hz */;
++	priv->can.termination_const_cnt = ARRAY_SIZE(dummy_can_termination_const);
++	priv->can.termination_const = dummy_can_termination_const;
++
+ 	priv->can.ctrlmode_supported = CAN_CTRLMODE_LISTENONLY |
+ 		CAN_CTRLMODE_FD | CAN_CTRLMODE_TDC_AUTO |
+ 		CAN_CTRLMODE_RESTRICTED | CAN_CTRLMODE_XL |
+ 		CAN_CTRLMODE_XL_TDC_AUTO | CAN_CTRLMODE_XL_TMS;
++
++	priv->can.do_set_termination = dummy_can_set_termination;
++
+ 	priv->dev = dev;
+ 
+ 	ret = register_candev(priv->dev);
 
-Best regards,
 -- 
-Rakuram Eswaran <rakuram.e96@gmail.com>
+2.51.0
 
