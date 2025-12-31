@@ -1,316 +1,177 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966203A1E63;
-	Wed, 31 Dec 2025 13:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875D822258C
+	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 14:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767186973; cv=none; b=rzlqBsL3ctj6PMfuxdsGFBSeP2vH0qrl4zJGoiVeIJSbSntb91xhibqlOHsxfdhBO5cok1RSL80/8cY2zDpSyv11Vkbq1Me579sYcU4huqtiC3kq4vS2+xINGyLARZwynGFvLOofIy18YzxXsGC5GJUEg8fkQFA1cKdOppIf0Iw=
+	t=1767189730; cv=none; b=NII2kkjcFdpdR7Gx7UfwUoEBI52s3wbCkXvL1XC8SHg3xhlJsD3Yk2u5xqmhlEm6psHW2C/QyJJAth+VMq55ffcfU0NhtOHEq+3x3gFsWH2Gh7Ft5+aWE+DO5mn2VXsk2wamnx2SXStIjaHOVgL/RkZYt6ZUaP3FuK7mC7vpLaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767186973; c=relaxed/simple;
-	bh=k1fRvVUAkh5UE0V1MpZkNCA/pRyeOKOo0AQ7lBU6Mlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8i5dV2epxIMOr46m254ml+LaxavaN/E5A1YulS6obqNYmyGws0PTEhICvgUx1NrbuZ1bplEtklBVsP/Lv80Hu5wScWJhfgVfPYLmBfwcUfDPLid8qbT8a6bVRJCJyiJIXA3lYqQLWSKKCfhJg/5jPg+sStCfbZ4MkmQqfFT9ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FdAEpBzq; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1767189730; c=relaxed/simple;
+	bh=4Hf8qGAfIDnMbElA9BV7uSYKEWjXXxN6zt+BgVtPhAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g2uJWV84ss35QGfqPWi15QqDztoFvJHD6ltnzP4vcFYItFzGD0CFJWrRrhxCYGRyC+G0xQ3dsV5iHAWgTtFTJLYIwY49G/nklOogAPgUoiVX4+E61hSxvPuJ+L3BaZZW4wqMau5afTYWw/1uzVhVnDFP2gpoQq5TxogrHGO814Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gA/l7T2M; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FdAEpBzq"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0B67940E0173;
-	Wed, 31 Dec 2025 13:16:06 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id LDoAWs3CqQvW; Wed, 31 Dec 2025 13:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1767186957; bh=ajz8Fd6mcoNmw+/d2cyXO5AEu5YjYnv2PPa+YT7Zvjo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FdAEpBzqldA0FeXm7sNHVBuhVYJiTvPHL8qp3YgFIMdyNKrUM7E3jDKeP66qBGdiQ
-	 jAauXPQde7d9O7MyizDlzj+ko9TLoc6hHle7MfG+0ycz/cPN9PtrOqpCnjalh8vdoC
-	 VFRkDyxO0vbMBllQseNvc1I3BnqipkkG6k2h4g4VHE6CkXW2Al5mgu5sXPX0LSUXEN
-	 +01IR9nbFwYgR+2LWiYOQW3CPtwu6YbyubvSPl2NU6qazF9Jc20+R2Ww4L+xflXVwO
-	 4d4H8eK5DHGFMmX+UJMBP3VvgbePoIC4Wuo3RLDyNT81j3SZE2DMnM26NFtJDUGwKF
-	 6/lgoRUDLfr7z/FZ/dBRtja5JedYEhKUCiC9zJDAZDKN8sBwrzhukKffzSvWuD7Df8
-	 wzgnpHTQ6DyloW7kqRDoowGjtsfhQrJnwlOUjm73dsYvi5fyLlGPGfU9JUMQ8xyzLP
-	 RFsVC1jiRTk3ygwQYZ56qnOaW658K7DaCaa2CGvtfONexV0i7bZO44yT7Oi1ZOjwx3
-	 hg51W1GBPtafHotFEqNZ0TN/Co8lYGQYYUwjpYKFkd6twLzs5PZ9P7D9x9/71t0jH3
-	 DNEMa35/AcIzGoIJsLcmx+QOrSecqmsXtCatFmNVaICo0ujuxcQ3xpmFB2/UgnFJQ9
-	 0fkXBj7biGgyxIfe5fnivkXU=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 2077240E01A9;
-	Wed, 31 Dec 2025 13:15:21 +0000 (UTC)
-Date: Wed, 31 Dec 2025 14:15:12 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shiju Jose <shiju.jose@huawei.com>
-Cc: "rafael@kernel.org" <rafael@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	"leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
-	"erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>,
-	"gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>,
-	"Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
-	wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v13 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local>
-References: <20251121182825.237-1-shiju.jose@huawei.com>
- <20251121182825.237-2-shiju.jose@huawei.com>
- <20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local>
- <fd4e4419b6d54c69bb4a1dde0273ee51@huawei.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gA/l7T2M"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4779d8286d8so7479015e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 06:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1767189727; x=1767794527; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kF3B5IdjLDGAw+kMK0g4LlwArvDLn5Kmbe4r9Q45hmQ=;
+        b=gA/l7T2MQmfHuJbBgTZPKTcooq6D7Sw8kcIAK8hGnp4Q463ay4taxSpggsDtS1VI+A
+         e5XwZoyFKZdeq/X2mQmhodBu8eRVZQOx90SnjwsWmeSn1jrAX0TlMnvJXeGCsnwH1mxu
+         Y60YMyOF/QqNhN4K5UTsctc7jQxc4hphluXy3JIFo7VeeSi+dZKupLqsZ9mefOSpu7PT
+         o7en5wDu7SpsF5TN2g48AgSQRuqW9eRHWUroB/RxV0bjBznIFYXtsac8Op45136WZC3P
+         NKy2LJmO0JmTeKaszcXwhdRkP6tE/NjbRIsEFqLL3nlmJIuvkJap0X+XyI2cUI4f3ujx
+         72mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767189727; x=1767794527;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kF3B5IdjLDGAw+kMK0g4LlwArvDLn5Kmbe4r9Q45hmQ=;
+        b=DfUl6R12l7dpN3N4h+oDtcprMflwLmxZYe6TqKmsfe/6Qp7vih0/XJ0YzflBnTkeqr
+         LJCXupHyeLiTVsJDR7/P9GGJnf686xra5tLLA2P5XQCtNZb0PfDbH6Pb4faIgTw0EDVr
+         C11nNwXxcseGKXMOpURY5QU2uzeExtlZPC2JDTHksxfoWbe1wrTcCvo914pnMvCw2xfb
+         /IO8zaykbn2fuQe3d+ho/S8dUW7dVicBfoOaME8SMou0xnhgJzsZHH8le81X/BNqBoal
+         FAMB7N+i5c3qzSxK3B9fJdijUhjaSAiruhRfCA0jteG0QHqFGLC3Lgi+XOpcDkUHVQdK
+         Am3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWYRfojZMiQ8LH7iFZoebMD0WpoMhsuYscD8Jfs7qmeJC0zjmwVv581PHESShm3N/tYrDWxgujRoww=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUI/2tNMwP9e59nAuWkm/PlytO7nc4mgfv34k39dFN22rwJD0V
+	at6feaziR18BueUH5qGHt80YV1svUeyDCOul/wFWbLFdV+HepeSaz1g1Peb5R/lbS9o=
+X-Gm-Gg: AY/fxX4JBQaZMBU2dF3o4lsGZFVsh8GhOJBMLgKoLcKEtVYi53bAj1TaAe3OkWmzyfC
+	ER2CDnY7SCiDJGeHdEBCRSX1NfVgEvOO03X0Rkf+dcZd11uP4qY6zLO2zzQGzKFCWwdZ92yWWFy
+	5WcymYNofxX/S8K6aSjJ/0woXRu4Z1fzgZ4BBzMqe8y42OkquuKRlQMsH4UQSuq0ZdnC3r0Z5ZX
+	rtue6uj7EyVbY45Q1sqjHsWZX20B7x7EjSu0WUfWcFvlK9ucLkAczMKowL+KLC5TRKSKexMjyHR
+	L5EaBl7Kcvgmg3e/QmBxkCTnlZyqJUgGuTiRZHQpxlXwULe1skhiCwNs02NYVwCv7rKPYq/XTDk
+	BMbqb+RruuTpYfQmJ83KJbZWe2q2sKuPqgAP8I72yABTy58yiVEXT5zJGgsoK0/jW261qHDXN0t
+	B60kdYzL+KB2Bmw6RqTMyqGED3jLBlHbbjUgkSLV3RtmpEZ5KrXhA5A3X/SKNz+NQCxMsom1Zaf
+	lse
+X-Google-Smtp-Source: AGHT+IE0s0lyU5FbbMJZMjZzb/JdJphgG95YZRZrXFcSa/kp+KRPaXRAnUQjMNNmxS+JnzgO7HwnTw==
+X-Received: by 2002:a05:600c:4fc6:b0:47a:94fc:d063 with SMTP id 5b1f17b1804b1-47d19538e2cmr221697055e9.1.1767189721959;
+        Wed, 31 Dec 2025 06:02:01 -0800 (PST)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2ebfsm73767887f8f.40.2025.12.31.06.02.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Dec 2025 06:02:01 -0800 (PST)
+Date: Wed, 31 Dec 2025 15:01:59 +0100
+From: Petr Tesarik <ptesarik@suse.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eugenio =?UTF-8?B?UMOpcmV6?= <eperezma@redhat.com>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Stefano Garzarella
+ <sgarzare@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Leon Romanovsky
+ <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH RFC 01/13] dma-mapping: add
+ __dma_from_device_align_begin/end
+Message-ID: <20251231150159.1779b585@mordecai>
+In-Reply-To: <ca12c790f6dee2ca0e24f16c0ebf3591867ddc4a.1767089672.git.mst@redhat.com>
+References: <cover.1767089672.git.mst@redhat.com>
+	<ca12c790f6dee2ca0e24f16c0ebf3591867ddc4a.1767089672.git.mst@redhat.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fd4e4419b6d54c69bb4a1dde0273ee51@huawei.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 25, 2025 at 01:28:19PM +0000, Shiju Jose wrote:
-> I will change to depends. I followed the existing CONFIG ACPI_CPPC_LIB. 
+On Tue, 30 Dec 2025 05:15:46 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Read the "Note:" under 
-
-"- reverse dependencies: "select" <symbol> ["if" <expr>]"
-
-here pls: Documentation/kbuild/kconfig-language.rst
-
-Now, some of the Kconfig symbols:
-
-diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-index 2322b0470d07..7f846c22fc30 100644
---- a/drivers/acpi/Kconfig
-+++ b/drivers/acpi/Kconfig
-@@ -295,7 +295,7 @@ config ACPI_CPPC_LIB
- 
- config ACPI_RAS2
-        bool "ACPI RAS2 driver"
--       depends on AUXILIARY_BUS
-+       select AUXILIARY_BUS
-        depends on MAILBOX
-        depends on PCC
-        help
-diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
-index dfc3a899280e..a1e6aed8bcc8 100644
---- a/drivers/ras/Kconfig
-+++ b/drivers/ras/Kconfig
-@@ -51,7 +51,7 @@ config MEM_ACPI_RAS2
-        depends on ACPI_RAS2
-        depends on EDAC
-        depends on EDAC_SCRUB
--       depends on NUMA_KEEP_MEMINFO
-+       select NUMA_KEEP_MEMINFO
-        help
-          The driver binds to the auxiliary device added by the ACPI RAS2
-          feature table parser. The driver uses a PCC channel subspace to
-
-are made to be selectable only and so you should select them because they're
-non-visible. Just remember that blindly selecting things is evil.
-
-
-> >> +			sspcc->last_cmd, sspcc->pcc_id);
-> >> +		status &= ~PCC_STATUS_ERROR;
-> >> +		writew_relaxed(status, &gen_comm_base->status);
-> >> +		return -EIO;
-> >> +	}
-> >> +
-> >> +	cap_status = readw_relaxed(&gen_comm_base->set_caps_status);
-> >
-> >Is that register read always successful or you need to handle errors here too?
+> When a structure contains a buffer that DMA writes to alongside fields
+> that the CPU writes to, cache line sharing between the DMA buffer and
+> CPU-written fields can cause data corruption on non-cache-coherent
+> platforms.
 > 
-> Return value of 'set capability status'  is decoded and return error code on error case
-> in the below function call  'return decode_cap_error(cap_status)'
-
-Yah, this is not a common coding pattern. What you do is something like this:
-
-diff --git a/drivers/acpi/ras2.c b/drivers/acpi/ras2.c
-index 627895fee143..4caef7f2c4ea 100644
---- a/drivers/acpi/ras2.c
-+++ b/drivers/acpi/ras2.c
-@@ -85,7 +85,6 @@ static int decode_cap_error(u32 cap_status)
- static int check_pcc_chan(struct ras2_sspcc *sspcc)
- {
-        struct acpi_ras2_shmem __iomem *gen_comm_base = sspcc->comm_addr;
--       u32 cap_status;
-        u16 status;
-        int rc;
- 
-@@ -114,9 +113,11 @@ static int check_pcc_chan(struct ras2_sspcc *sspcc)
-                return -EIO;
-        }
- 
--       cap_status = readw_relaxed(&gen_comm_base->set_caps_status);
-+       rc = decode_cap_error(readw_relaxed(&gen_comm_base->set_caps_status));
-+
-        writew_relaxed(0x0, &gen_comm_base->set_caps_status);
--       return decode_cap_error(cap_status);
-+
-+       return rc;
- }
-
-
-> >> +	 */
-> >> +	if (cmd == PCC_CMD_EXEC_RAS2 || sspcc->pcc_mrtt) {
-> >> +		rc = check_pcc_chan(sspcc);
-> >> +		if (sspcc->pcc_mrtt)
-> >> +			sspcc->last_cmd_cmpl_time = ktime_get();
-> >> +	}
-> >> +
-> >> +	if (pcc_channel->mbox->txdone_irq)
-> >> +		mbox_chan_txdone(pcc_channel, rc);
-> >> +	else
-> >> +		mbox_client_txdone(pcc_channel, rc);
-> >> +
-> >> +	return rc < 0 ? rc : 0;
-> >
-> >So you mean simply
-> >
-> >	return rc;
-> >
-> >no? rc can be 0 too so what's the point of the ternary expression?
+> Add __dma_from_device_aligned_begin/__dma_from_device_aligned_end
+> annotations to ensure proper alignment to prevent this:
 > 
-> This was added to handle the case rc = check_pcc_chan(sspcc); is not called
-> and last rc is returned from mbox_send_message() call because mbox_send_message()
-> return non-negative value for success and negative value for failure as per the documentation.
-> https://elixir.bootlin.com/linux/v6.18-rc7/source/drivers/mailbox/mailbox.c#L241
-
-Why do you keep pointing to some indexing service? What's wrong with simply
-pasting the code snippet you mean so that I can find it myself too?
-
-Anyway, what's wrong with:
-
-        /* Ring doorbell */
-        rc = mbox_send_message(pcc_channel, &cmd);
-        if (rc < 0) {
-                dev_warn(ras2_ctx->dev,
-                         "Error sending PCC mbox message cmd: 0x%x, rc:%d\n", cmd, rc);
-                return rc;
-        }
-
-Also, cmds in hex please.
-
-> >And what's the logic here? You'd capture rc above from check_pcc_chan() and
-> >even if it is != 0, you'd pass it into the mbox* functions? I guess that weirdness
-> >deserves a comment...
+> struct my_device {
+> 	spinlock_t lock1;
+> 	__dma_from_device_aligned_begin char dma_buffer1[16];
+> 	char dma_buffer2[16];
+> 	__dma_from_device_aligned_end spinlock_t lock2;
+> };
 > 
-> Both mbox_chan_txdone() and  mbox_client_txdone() required the status of the
-> last transmission as second argument.
-
-Yah, comment please!
-
-s> >
-> >> +{
-> >> +	struct acpi_ras2_pcc_desc *pcc_desc_list;
-> >> +	struct ras2_mem_ctx *ras2_ctx;
-> >> +	u16 i, count;
-> >> +
-> >> +	if (ras2_tab->header.length < sizeof(*ras2_tab)) {
-> >> +		pr_warn(FW_WARN "ACPI RAS2 table present but broken (too
-> >short, size=%u)\n",
-> >> +			ras2_tab->header.length);
-> >> +		return;
-> >> +	}
-> >> +
-> >> +	if (!ras2_tab->num_pcc_descs) {
-> >> +		pr_warn(FW_WARN "No PCC descs in ACPI RAS2 table\n");
-> >> +		return;
-> >> +	}
-> >
-> >You need to sanity-check the number of descs so that the below allocation
-> >doesn't go nuts.
-> Sorry, can you give more information?
-> I am wondering the above check  'if (!ras2_tab->num_pcc_descs)' { } is not enough? 
-
-You've done what I wanted:
-
-        if (!ras2_tab->num_pcc_descs || ras2_tab->num_pcc_descs > RAS2_MAX_NUM_PCC_DESCS) {
-                pr_warn(FW_WARN "No/Invalid number of PCC descs(%d) in ACPI RAS2 table\n",
-                        ras2_tab->num_pcc_descs);
-                return -EINVAL;
-        }
-
-The RAS2_MAX_NUM_PCC_DESCS thing.
-
-> >Also, what's the point of that pctx_list array at all? So that you can do uninit on
-> >the ->adev in case you encounter a failure?
-> Local variable ras2_ctx  is updated when calling add_aux_device() in each iteration as
-> add_aux_device()  allocates memory for struct ras2_mem_ctx  for the corresponding PCC
-> descriptor in the RAS2 table. 
-> Thus storing pointer to each ras2_ctx  in pctx_list[] to uninit all the previously added auxiliary devices
-> using auxiliary_device_uninit(->adev); when encounter a failure in a later iteration.   
-
-Looks weird. Lemme look at your new submission and see whether I can make it
-better.
-
-
-> >> +		return;
-> >> +	}
-> >> +
-> >> +	acpi_ras2_parse(ras2_tab);
-> >
-> >This function does some table sanity checking and warns. What it should do is fail
-> >the driver load if the table is broken.
+> When the DMA buffer is the last field in the structure, just
+> __dma_from_device_aligned_begin is enough - the compiler's struct
+> padding protects the tail:
 > 
-> Sure. 
-> If acpi_ras2_parse() and thus acpi_ras2_init() return error, can you guide
-> how to handle this error in acpi_init(void) where  acpi_ras2_init() is called?  
-> Something similar to this below,
-> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c index b02ceb2837c6..8b4fc572a05b 100644
-> --- a/drivers/acpi/bus.c
-> +++ b/drivers/acpi/bus.c
-> @@ -1475,7 +1475,12 @@ static int __init acpi_init(void)
->         acpi_debugger_init();
->         acpi_setup_sb_notify_handler();
->         acpi_viot_init();
-> -       acpi_ras2_init();
-> +       result = acpi_ras2_init();
-> +       if (result) {
-> +               kobject_put(acpi_kobj);
-> +               disable_acpi();
+> struct my_device {
+> 	spinlock_t lock;
+> 	struct mutex mlock;
+> 	__dma_from_device_aligned_begin char dma_buffer1[16];
+> 	char dma_buffer2[16];
+> };
 
-No, you certainly won't disable ACPI if that RAS2 thing parsing fails. What
-you should do is not allow the RAS2 memory driver to load.
+This works, but it's a bit hard to read. Can we reuse the
+__cacheline_group_{begin, end}() macros from <linux/cache.h>?
+Something like this:
 
-Lemme look at your new version.
+#define __dma_from_device_group_begin(GROUP)			\
+	__cacheline_group_begin(GROUP)				\
+	____dma_from_device_aligned
+#define __dma_from_device_group_end(GROUP)			\
+	__cacheline_group_end(GROUP)				\
+	____dma_from_device_aligned
 
-Thx.
+And used like this (the "rxbuf" group id was chosen arbitrarily):
 
--- 
-Regards/Gruss,
-    Boris.
+struct my_device {
+	spinlock_t lock1;
+	__dma_from_device_group_begin(rxbuf);
+	char dma_buffer1[16];
+	char dma_buffer2[16];
+	__dma_from_device_group_end(rxbuf);
+	spinlock_t lock2;
+};
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Petr T
+
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  include/linux/dma-mapping.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index aa36a0d1d9df..47b7de3786a1 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -703,6 +703,16 @@ static inline int dma_get_cache_alignment(void)
+>  }
+>  #endif
+>  
+> +#ifdef ARCH_HAS_DMA_MINALIGN
+> +#define ____dma_from_device_aligned __aligned(ARCH_DMA_MINALIGN)
+> +#else
+> +#define ____dma_from_device_aligned
+> +#endif
+> +/* Apply to the 1st field of the DMA buffer */
+> +#define __dma_from_device_aligned_begin ____dma_from_device_aligned
+> +/* Apply to the 1st field beyond the DMA buffer */
+> +#define __dma_from_device_aligned_end ____dma_from_device_aligned
+> +
+>  static inline void *dmam_alloc_coherent(struct device *dev, size_t size,
+>  		dma_addr_t *dma_handle, gfp_t gfp)
+>  {
+
