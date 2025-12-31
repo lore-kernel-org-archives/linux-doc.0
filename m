@@ -1,883 +1,269 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D392BDC27
-	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 18:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED38B22836C
+	for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 19:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767205085; cv=none; b=lReW82OH8NkKwM3akrL5qKVnSIKm7ow9bMcC15ZIsTHX81jgtLUlq/xWnhPkxbuHhB6qZHWlAg7BwoE4NxjVwD/egWSeiJG1G5CloRVMjoX5x6jMAgzAd8DQSIyXE7MdPfZhq5yS4aZ0L/Fdi4XmHh1pyKMjGEaL0Vwnr0KLBbw=
+	t=1767209469; cv=none; b=jDfl+kTazjCeTr6wJTHgLt9N04gjHP7OgmKeYOKKiCagxUsXSzrcwOXBDr8M1Q85FbMmmi1cMGOyCUbvSC6f4PXxAkHIIx0cP/9I6qqwWL1uV0PNYsu+mRmtyYpjoVSxSmDPCIFymVYj/zzIoF6f7x8GSW0Dy2fezWFIWWy+018=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767205085; c=relaxed/simple;
-	bh=BTzke5UMiMVL3wCJZvAqanY3V34uU419l/IqMBDWDqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OV2KiWr41qlKWbO7V2xS9qp1Xkzc0kWzOywX9S4TvITIUZGI1qwrPcXAXvoxLnxV3DjGvCZPsLgzBOrSjEGZtypQ85T+xLL3aYHKiJF9Iu8qBAGzhuVrTd9AxgIFlTJyjKIPFUrvH+rEsGEp01Qe/lwkQwt/MwSPcSS3FLFESa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BeugsZPD; arc=none smtp.client-ip=209.85.210.195
+	s=arc-20240116; t=1767209469; c=relaxed/simple;
+	bh=/uoPLHrESl37SXSNQLBsYMPgUCJq+J2kxerMzjWs9QQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YVQMdA+ulk182RfXmdVE4DP7vzgNKPmhJDsQkupMEQpI8FNrhKaaxSu0aVuejgzG3naSC0lxwVKj1gxYzcjtAGjOGqIOAorWiKstneZ69XdxUttdTLn/XUzfiHeqDSaL3fzaBgKjllVsHTQXlYOkeGIMEROpX6A/X16PRlQJdR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKtGaaxS; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BeugsZPD"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-7bc248dc16aso8751217b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 10:18:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKtGaaxS"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a099233e8dso92343705ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 31 Dec 2025 11:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767205081; x=1767809881; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767209467; x=1767814267; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hk5nNkPGMKxffcvL4HgXa7R0aYTHXmjldwY3CBQj3Pk=;
-        b=BeugsZPDNFVU2QHfykbfA46DEv3hFWdlylAKcKmNXb0FBOX/KQ2h7B5Rm5s2AbCwyf
-         7k3y+rcF/KMSuACndFNVeu3t8dp9nzhUtYZCzwbRHVFVaPLNxT/Xnkubm8VmHczqTqGJ
-         Wkc/zWmk00gBitYVPI/+sEP+MzcHPRdILlZJ5+Ws/JIAR2Mbj57IGZhXhn8T3WFCSGYQ
-         bjTuCQ7o/V5ZXp5aUIXoexQeD0sFbJrVyMd93zPMfn4FweFcfZ/Ek0y4rRbTIN4zp4aF
-         pS6M88ipS8673fDLiEfOgsOewyKqC/KrYdrN20ihAKPk8hgAtFlAxeluKm4qYFK/Tpvq
-         16vw==
+        bh=+JCQHaUxwp7cH4sGQgTJViRShYmuJtxjx93Fhwp0bIM=;
+        b=GKtGaaxSu7fUNndH2XTlesm8ZhmyPR3sSRGeznug1O/UJKjv4ffpAz2fU9x9+DTYBg
+         1Fu9O7fBLyfcGOKbPxXaWWUw4eXlXxgAbMYrMknitJgUiUBC0FQPgz9KTB5y3LZz0I51
+         sWgJQSzTCCCa64t8spAcyuooepvFhkgG21msR7KH6e37c+t5oqPaV/yfLc3AgU1orNKL
+         gBtWlshSdkFnKwXFe1LpG8BbocLE/smbKGSiGMCi3UNqm8ys6MF4DadofXK0D4C7PhR9
+         VycNTz/uF3T+HlpZzZ91j1TbYxmuSvcYu8g4l/g+8w/iYpbgL91SppEXrDAD+eQi3gGp
+         kZPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767205081; x=1767809881;
+        d=1e100.net; s=20230601; t=1767209467; x=1767814267;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hk5nNkPGMKxffcvL4HgXa7R0aYTHXmjldwY3CBQj3Pk=;
-        b=YdNzcrMNP4NzxAmV6ZzYBEK0nxDeFfUoKDyON0JAheKuYnhyC372hD1oYhrqUN+rK/
-         39zQHMNTeVY1YG4XtGFq5NpFZU8d5uEBmXWAj4ipVhMU3mBHzGVrXGxx2con0uJNwzOj
-         WpAt4DeCu2ungo+4egoy9yU/qbHuzWJ3wPf23nrviFIqSPN/eL/RwHFO1ksQHbKRMrjD
-         7TiXcmk064ekF9CL6Nt8llsl2AbKUW7RfuomIKgOq89gb0iWa/D1w5t/3fT+PhgTCSiS
-         CsZL51oHYhsekynXDPpfsE3+NAqXt0oOi3VXp8a0Gi8HdgAVTW8ShFMm8Y76YkjioPko
-         LCqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWIq6WuWWmLdFQEvggKP1qxA672QkR9n2et5vxXt/fdIiXmfVD4p21PKZKPUWVDkxEHQFdRlpUmYL4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE8+6NWOeiOgPApzwmAS1O7sLyoLX+E1/2JSoq+YvGDeXGyNlj
-	1LCVlyMPxR1lOWxsbTgpp2zPKul76tX40ZUHiTZ2ISaVVrFdTl6zNjei
-X-Gm-Gg: AY/fxX4DTY26VQKglBiNONOZguvaP2lP8+VdgWlukWDaYf0z4z6ybiuwp5hxE1XdXIH
-	kM04jSS7yYk/npfd94svXIVHAtPe4dPMR10BvgZBbiYi8t8X2ogpTCcoDJNc2ZYf5Q9e8iYRI+O
-	6nGLc627O6JaxX9HAEPggqV+XmdzV6mxNuxdrBvxpvhEXJZfuyegQWX5APYe9SE6IZ3VsxQJVKn
-	XlyZAvmSSWYrbHzX2cMnjW5ThFrwNBzXrtYbfL3qit1c/GY8yVXLf4VAoHH1EhzqTSWZNuYj0Qv
-	EoxT2RA5AXBFPSCEv0r9ckMnp903xsavyou2K8cECAOBGNXyiSsIJkuYy3NvuzgKpO+vzmCUfTT
-	FvEXd0tpmBVKN7fec8ZZZQ7BOGu5Y4b0FLGIkac1nR3FCYS7N+0RqGflSjIok5fvRfZRNrzMiL7
-	AXvbTjeeomVsY+MjWQ
-X-Google-Smtp-Source: AGHT+IFRSSw4XW/PgulVcYnRG/6VI3grT5bh9VQQGSr/6qqM3up0kA1bqJVJKI2bIpPtrDdrEt/p2g==
-X-Received: by 2002:a05:6a20:9392:b0:35b:4f5c:4adf with SMTP id adf61e73a8af0-376a96baae6mr30403198637.43.1767205080187;
-        Wed, 31 Dec 2025 10:18:00 -0800 (PST)
-Received: from rakuram-MSI ([2401:4900:93ef:93d6:a0f7:dedb:d261:86b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c66473sm310787225ad.13.2025.12.31.10.17.55
+        bh=+JCQHaUxwp7cH4sGQgTJViRShYmuJtxjx93Fhwp0bIM=;
+        b=s4A6LKaw06Rh1I4QdPsY56UHxTnVVjP7K2yzjzyw/Wbt73pMrOq4VdBzQ3K2aN17o7
+         sZGHlO2E4tsDUZCV3lGAAw8aUaDe1Jm3S6Z7BpX3GBx+XHgGsc9KVfr1R0P+6u0xKyxk
+         T8jkEZXD0fEkOgvP3ahMjMfeZzsSP+d+6FSHDJvO9+15D5q//sGS3q2BS5zG3Me3hbJe
+         y0RLZn3qcl7BJvocES6AOe2P62jT0czoDxs5J7q69RrhtTjgMixf5cQVjsp5Z4EEOaAn
+         KwumaovLqzBnXQdMQTlAXKC9Ppa5Q/XH6MqHbjlXKELod/65hzjRTV7slH/KgFTdNxhW
+         Tzww==
+X-Forwarded-Encrypted: i=1; AJvYcCVnePiepZOWfYvWl4XUFWlnW/5vcWdlSBi8n/s+I9wR5vyadL7jTaRZ2a76aNhY8Lp9/U942UDPuQ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytVdRMr4xiuCncQlljh2+Bu9FzQXHJS1PFEXD0iXDdLRCrSox1
+	D+xGYZV1Aa2aLU5Z1N4aQgdqKHXNWeSlgiD09rtzIXS/9bs3Q8yZhnsz
+X-Gm-Gg: AY/fxX7w06GeJuyDKjh4l7RhXmqDc4aCNajjnkAT10p9b1UMwl8xX+s2NQ8BP/ZbFhc
+	4Dwz1weXzG44GbSBe4EfwRdyeNVKqUzL43WjRH+nAkvSIh6665dWUIRtbXFouUbMEdA1qhvlRZo
+	SL1olNmwKypYWvOrktZYhjfZptq7ET3qXSPVeAzGkGUxtu/B0OwCwuC0kBslAG3vIv1esNuRPpl
+	y92M5TwX9MmfKOUmQBvgP3GTqN4fmbqFAfdixLwNJyWV6mfXXIlHJTJGdyjKeDoOIm/NllqnfGf
+	lFnjWa5EuBawDk4J8uj/Hnew/Cb/bkHhg/88gN4bvsWF/8Nh0gmc31D9aRmNRCveH74oxmJ0Dno
+	BjrTmqeS6NhSynZzOdtSofxdnpBaoUplWUQRCONKrpl4nq6R6Yce6As5mMo0xuT06xurzOmdMCm
+	sw7dNZeE/+mVZwggWtLEhuYJoGPXjifjFMLDOI
+X-Google-Smtp-Source: AGHT+IF2OFetuVVahWjgynq3qXCX+TGPkixTHfdI1ol3xhgMrMTrLB18ui/kQIAQApKA7Pplg+1s1w==
+X-Received: by 2002:a17:903:2ec4:b0:2a0:8e35:969d with SMTP id d9443c01a7336-2a2f27373bbmr336746175ad.39.1767209467034;
+        Wed, 31 Dec 2025 11:31:07 -0800 (PST)
+Received: from Lingbou.localdomain ([138.199.21.245])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d5dea1sm326641025ad.81.2025.12.31.11.31.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 10:17:59 -0800 (PST)
-From: Rakuram Eswaran <rakuram.e96@gmail.com>
-To: rakuram.e96@gmail.com,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Oliver Hartkopp <socketcan@hartkopp.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-can@vger.kernel.org,
+        Wed, 31 Dec 2025 11:31:06 -0800 (PST)
+From: Xingqiu Xu <hilbertanjou83@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] docs: can: update SocketCAN documentation for CAN XL
-Date: Wed, 31 Dec 2025 23:43:16 +0530
-Message-ID: <20251231-can_doc_update_v1-v1-2-97aac5c20a35@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251231-can_doc_update_v1-v1-0-97aac5c20a35@gmail.com>
-References: <20251231-can_doc_update_v1-v1-0-97aac5c20a35@gmail.com>
+	hilbertanjou83@gmail.com
+Subject: [PATCH v2] docs/zh_CN: Add crc32.rst translation
+Date: Thu,  1 Jan 2026 03:30:58 +0800
+Message-Id: <20251231193058.91749-1-hilbertanjou83@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251215210624.7814-1-hilbertanjou83@gmail.com>
+References: <20251215210624.7814-1-hilbertanjou83@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767203695; l=36142; i=rakuram.e96@gmail.com; s=20251022; h=from:subject:message-id; bh=EvJm5Z7ucjr9hus2ievx0N5MgT5+GQicaJWvpRCCuWI=; b=5CU4gGqjugB+rQOi3QRia35pw6cRbgVMkUlybdQ4sznbgnzbielCr/kXbP8DMtmlA0SGcwI1K oLywJsn08IEBw71RNBez4DTqGUxKzWQtONpRoPYmpYnt7r0mFcX3YwL
-X-Developer-Key: i=rakuram.e96@gmail.com; a=ed25519; pk=swrXGNLB3jH+d6pqdVOCwq0slsYH5rn9IkMak1fIfgA=
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Extend the SocketCAN documentation to cover CAN XL support, including
-the updated frame layout, MTU definitions, mixed-mode operation, and
-bitrate/XBTR configuration. The new text also explains how error
-signalling behaviour differs between CAN FD, CAN XL mixed-mode, and
-CAN-XL-only operation, as implemented in the current kernel stack.
+Translate Documentation/staging/crc32.rst into Chinese.
+Add crc32 into Documentation/translations/zh_CN/staging/index.rst.
 
-In addition, provide example iproute2 "ip" tool commands demonstrating
-how to configure CAN XL interfaces and corresponding bittiming
-attributes.
+Update the translation through commit 96e3cc270d61
+("Documentation: use capitalization for chapters and acronyms")
 
-These updates align the documentation with the behaviour of recent
-CAN XL implementations and help users and developers set up correct
-test environments.
-
-Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+Signed-off-by: 徐兴球 Xingqiu Xu <hilbertanjou83@gmail.com>
 ---
-Tested the documentation build with Sphinx; no errors or warnings.
+ .../translations/zh_CN/staging/crc32.rst      | 147 ++++++++++++++++++
+ .../translations/zh_CN/staging/index.rst      |   3 +-
+ 2 files changed, 148 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/staging/crc32.rst
 
-Used below command for testing:
-     make htmldocs SPHINX_WARNINGS_LOG=warnings.log
-
- Documentation/networking/can.rst | 615 +++++++++++++++++++++++++++++++++------
- 1 file changed, 518 insertions(+), 97 deletions(-)
-
-diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-index 536ff411da1d1016fb84b82ff3bfeef3813bf98f..67c94e44dddfcb7c503b2f0d644d1662b7d66576 100644
---- a/Documentation/networking/can.rst
-+++ b/Documentation/networking/can.rst
-@@ -5,7 +5,7 @@ SocketCAN - Controller Area Network
- Overview / What is SocketCAN
- ============================
- 
--The socketcan package is an implementation of CAN protocols
-+The SocketCAN package is an implementation of CAN protocols
- (Controller Area Network) for Linux.  CAN is a networking technology
- which has widespread use in automation, embedded devices, and
- automotive fields.  While there have been other CAN implementations
-@@ -16,6 +16,11 @@ as similar as possible to the TCP/IP protocols to allow programmers,
- familiar with network programming, to easily learn how to use CAN
- sockets.
- 
-+SocketCAN covers Classical CAN (CAN 2.0B), CAN FD (Flexible Data Rate)
-+and CAN XL (CAN with eXtended frame Length). All three generations
-+share the same protocol family PF_CAN and socket API concepts, but use
-+different frame structures and MTUs as described below.
+diff --git a/Documentation/translations/zh_CN/staging/crc32.rst b/Documentation/translations/zh_CN/staging/crc32.rst
+new file mode 100644
+index 000000000000..5ba227721074
+--- /dev/null
++++ b/Documentation/translations/zh_CN/staging/crc32.rst
+@@ -0,0 +1,147 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
 +
- 
- .. _socketcan-motivation:
- 
-@@ -109,11 +114,21 @@ As described in :ref:`socketcan-motivation` the main goal of SocketCAN is to
- provide a socket interface to user space applications which builds
- upon the Linux network layer. In contrast to the commonly known
- TCP/IP and ethernet networking, the CAN bus is a broadcast-only(!)
--medium that has no MAC-layer addressing like ethernet. The CAN-identifier
--(can_id) is used for arbitration on the CAN-bus. Therefore the CAN-IDs
--have to be chosen uniquely on the bus. When designing a CAN-ECU
--network the CAN-IDs are mapped to be sent by a specific ECU.
--For this reason a CAN-ID can be treated best as a kind of source address.
-+medium that has no MAC-layer addressing like ethernet.
++:Original: Documentation/staging/crc32.rst
 +
-+For Classical CAN and CAN FD the CAN identifier (can_id) is used for
-+arbitration on the CAN-bus. The CAN-IDs have to be chosen uniquely on
-+the bus. When designing a CAN-ECU network the CAN-IDs are mapped to be
-+sent by a specific ECU. For this reason a CAN-ID can be treated best
-+as a kind of source address.
++:翻译:
 +
-+For CAN XL the arbitration is performed on an 11 bit *priority* field
-+in the ``prio`` element of the CAN XL frame. The field shares the same
-+bit width as Classical CAN standard identifiers and is restricted by
-+``CANXL_PRIO_MASK`` / ``CANXL_PRIO_BITS``. The remaining bits of ``prio``
++ 徐兴球 Xingqiu Xu <hilbertanjou83@gmail.com>
 +
-+can optionally carry an 8-bit Virtual CAN Network Identifier (VCID) for
-+logical separation of traffic.
- 
- 
- .. _socketcan-receive-lists:
-@@ -228,8 +243,9 @@ send(2), sendto(2), sendmsg(2) and the recv* counterpart operations
- on the socket as usual. There are also CAN specific socket options
- described below.
- 
--The Classical CAN frame structure (aka CAN 2.0B), the CAN FD frame structure
--and the sockaddr structure are defined in include/linux/can.h:
-+The Classical CAN frame structure (aka CAN 2.0B), the CAN FD frame structure,
-+the CAN XL frame structure and the sockaddr structure are defined in
-+include/uapi/linux/can.h:
- 
- .. code-block:: C
- 
-@@ -242,11 +258,11 @@ and the sockaddr structure are defined in include/linux/can.h:
-                      */
-                     __u8 len;
-                     __u8 can_dlc; /* deprecated */
--            };
--            __u8    __pad;   /* padding */
--            __u8    __res0;  /* reserved / padding */
-+            } __attribute__((packed)); /* disable padding added in some ABIs */
-+            __u8    __pad;    /* padding */
-+            __u8    __res0;   /* reserved / padding */
-             __u8    len8_dlc; /* optional DLC for 8 byte payload length (9 .. 15) */
--            __u8    data[8] __attribute__((aligned(8)));
-+            __u8    data[CAN_MAX_DLEN] __attribute__((aligned(8)));
-     };
- 
- Remark: The len element contains the payload length in bytes and should be
-@@ -406,7 +422,7 @@ the CAN_RAW socket supports a new socket option CAN_RAW_FD_FRAMES that
- switches the socket into a mode that allows the handling of CAN FD frames
- and Classical CAN frames simultaneously (see :ref:`socketcan-rawfd`).
- 
--The struct canfd_frame is defined in include/linux/can.h:
-+The struct canfd_frame is defined in include/uapi/linux/can.h:
- 
- .. code-block:: C
- 
-@@ -416,9 +432,23 @@ The struct canfd_frame is defined in include/linux/can.h:
-             __u8    flags;   /* additional flags for CAN FD */
-             __u8    __res0;  /* reserved / padding */
-             __u8    __res1;  /* reserved / padding */
--            __u8    data[64] __attribute__((aligned(8)));
-+            __u8    data[CANFD_MAX_DLEN] __attribute__((aligned(8)));
-     };
- 
-+The following flag bits are defined for ``canfd_frame.flags``:
++===========================
++CRC计算简明教程
++===========================
 +
-+.. code-block:: C
++CRC是长除法的余数。你将CRC添加到消息中，整个内容（消息+CRC）是给定CRC多项式的倍数。
++要检查CRC，你可以检查CRC是否与重新计算的值匹配，*或者* 你可以检查在消息+CRC上计算的
++余数是否为0。后一种方法被大量硬件实现使用，这就是为什么很多协议在CRC后面放置帧结束
++标志。
 +
-+    #define CANFD_BRS 0x01 /* bit rate switch (second bitrate for payload data) */
-+    #define CANFD_ESI 0x02 /* error state indicator of the transmitting node */
-+    #define CANFD_FDF 0x04 /* mark CAN FD for dual use of struct canfd_frame */
++这实际上与你在学校学过的长除法相同，除了：
 +
-+The use of ``struct canfd_frame`` implies the FD Frame (FDF) bit to be set
-+on the wire. Since the introduction of CAN XL, the CANFD_FDF flag is set in
-+all CAN FD frame structures provided by the CAN subsystem of the Linux
-+kernel. Applications can use this flag to distinguish CAN FD content when
-+``struct canfd_frame`` is used for mixed Classical CAN / CAN FD payload.
++- 我们使用二进制，所以数字只有0和1，以及
++- 在除多项式时，没有进位。不是加法和减法，我们只是异或。因此，我们倾向于对加法和
++  减法之间的区别有点马虎。
 +
- The struct canfd_frame and the existing struct can_frame have the can_id,
- the payload length and the payload data at the same offset inside their
- structures. This allows to handle the different structures very similar.
-@@ -432,16 +462,81 @@ the easy handling of the length information the canfd_frame.len element
- contains a plain length value from 0 .. 64. So both canfd_frame.len and
- can_frame.len are equal and contain a length information and no DLC.
- For details about the distinction of CAN and CAN FD capable devices and
--the mapping to the bus-relevant data length code (DLC), see :ref:`socketcan-can-fd-driver`.
-+the mapping to the bus-relevant data length code (DLC), see
-+:ref:`socketcan-can-fd-driver`.
++像所有除法一样，余数总是小于除数。为了产生一个32位的CRC，除数实际上是一个33位的CRC
++多项式。由于它是33位长，第32位总是被设置，所以通常CRC以十六进制写入时省略最高有效位。
++（如果你熟悉IEEE 754浮点格式，这是相同的想法。）
++
++注意CRC是在 *比特* 字符串上计算的，所以你必须决定每个字节内比特的端序。为了获得最佳
++的错误检测属性，这应该与它们实际发送的顺序相对应。例如，标准RS-232串行是小端的；最高
++有效位（有时用于奇偶校验）最后发送。当向消息追加CRC字时，你应该以正确的顺序进行，
++匹配端序。
++
++就像普通的除法一样，你一次处理一位（比特）。在除法的每一步中，你取被除数的一个更多的
++位（比特）并将其附加到当前余数。然后你计算出适当的除数倍数来减去以使余数回到范围内。
++在二进制中，这很容易 - 它必须是0或1，为了使异或取消，它只是余数第32位的副本。
++
++在计算CRC时，我们不关心商，所以我们可以丢弃商位，但从余数中减去多项式的适当倍数，
++我们回到开始的地方，准备处理下一位。
++
++这样写的大端CRC将被编码为::
++
++	for (i = 0; i < input_bits; i++) {
++		multiple = remainder & 0x80000000 ? CRCPOLY : 0;
++		remainder = (remainder << 1 | next_input_bit()) ^ multiple;
++	}
++
++注意如何为了获得移位余数的第32位，我们在移位 *之前* 查看余数的第31位。
++
++但也注意我们移入余数的next_input_bit()位实际上直到32位之后才影响任何决策。因此，
++这的前32个循环非常无聊。另外，为了将CRC添加到消息中，我们需要在末尾为它留一个32位长
++的洞，所以我们必须在每条消息末尾添加32个额外的循环移入零。
++
++这些细节导致了一个标准技巧：重新安排合并next_input_bit()直到需要的那一刻。然后前32个
++循环可以被预先计算，并且可以完全跳过合并最后32个零位以为CRC腾出空间。这将代码更改为::
++
++	for (i = 0; i < input_bits; i++) {
++		remainder ^= next_input_bit() << 31;
++		multiple = (remainder & 0x80000000) ? CRCPOLY : 0;
++		remainder = (remainder << 1) ^ multiple;
++	}
++
++有了这个优化，小端代码特别简单::
++
++	for (i = 0; i < input_bits; i++) {
++		remainder ^= next_input_bit();
++		multiple = (remainder & 1) ? CRCPOLY : 0;
++		remainder = (remainder >> 1) ^ multiple;
++	}
++
++余数多项式的最高有效系数存储在二进制"余数"变量的最低有效位中。端序的其他细节已隐藏
++在CRCPOLY（必须进行位反转）和next_input_bit()中。
++
++只要next_input_bit以合理的顺序返回位，我们就不 *必须* 等到最后一刻才合并额外的位。
++我们可以一次做8位而不是一次1位::
++
++	for (i = 0; i < input_bytes; i++) {
++		remainder ^= next_input_byte() << 24;
++		for (j = 0; j < 8; j++) {
++			multiple = (remainder & 0x80000000) ? CRCPOLY : 0;
++			remainder = (remainder << 1) ^ multiple;
++		}
++	}
++
++或者小端::
++
++	for (i = 0; i < input_bytes; i++) {
++		remainder ^= next_input_byte();
++		for (j = 0; j < 8; j++) {
++			multiple = (remainder & 1) ? CRCPOLY : 0;
++			remainder = (remainder >> 1) ^ multiple;
++		}
++	}
++
++如果输入是32位的倍数，你甚至可以一次异或一个32位字并将内循环计数增加到32。
++
++你还可以混合匹配这两种循环样式，例如对消息的大部分按字节处理，并在末尾为任何分数字节
++添加逐位处理。
++
++为了减少条件分支的数量，软件通常使用字节查表法，由Dilip V. Sarwate推广，"通过查表
++计算循环冗余校验"，Comm. ACM v.31 no.8 (August 1988) p. 1008-1013。
++
++在这里，与其只是移动余数的一位来决定要减去的正确倍数，我们可以一次移动一个字节。这
++产生40位（而不是33位）中间余数，使用由高8位索引的256项查找表找到要减去的多项式的正确
++倍数。
++
++（表条目只是给定的单字节消息的CRC-32。）
++
++当空间更受限制时，可以使用更小的表，例如两个4位移位然后在16项表中查找。
++
++使用此技术一次处理超过8位是不实际的，因为大于256项的表使用太多内存，更重要的是，
++使用太多L1缓存。
++
++为了获得更高的软件性能，可以使用"切片"技术。
++参见"使用Intel Slicing-by-8算法的高性能CRC生成"，
++ftp://download.intel.com/technology/comms/perfnet/download/slicing-by-8.pdf
++
++这不会改变表查找的次数，但确实增加了并行性。使用经典的Sarwate算法，每次表查找必须在
++下一个的索引可以计算之前完成。
++
++"切片2"技术将一次移动余数16位，产生48位中间余数。而不是在65536项表中进行单次查找，
++在两个不同的256项表中查找高两个字节。每个包含取消相应字节所需的余数。表是不同的，因为
++要取消的多项式是不同的。一个从x^32到x^39有非零系数，而另一个从x^40到x^47。
++
++由于现代处理器可以处理许多并行内存操作，这几乎不比单次表查找花费更长时间，因此性能
++几乎是基本Sarwate算法的两倍。
++
++这可以扩展到使用4个256项表的"切片4"。每一步，获取32位数据，与CRC异或，结果分解为
++字节并在表中查找。因为32位移位使中间余数的低位为零，最终CRC只是4个表查找的异或。
++
++但这仍然强制执行顺序执行：第二组表查找不能开始，直到前一组的4个表查找都完成。因此，
++处理器的加载/存储单元有时是空闲的。
++
++为了最大限度地利用处理器，"切片8"并行执行8次查找。每一步，32位CRC移位64位并与64位
++输入数据异或。重要的是要注意的是，这8个字节中的4个只是输入数据的副本；它们根本不依赖
++于之前的CRC。因此，这4个表查找可以立即开始，无需等待前一个循环迭代。
++
++通过始终有4个加载在进行中，可以使现代超标量处理器保持繁忙并充分利用其L1缓存。
++
++关于现实世界中CRC实现的另外两个细节：
++
++通常，向已经是多项式倍数的消息追加零位会产生该多项式的更大倍数。因此，基本CRC不会检测
++到追加的零位（或字节）。为了使CRC能够检测到这种情况，在追加之前反转CRC是常见的。这
++使得消息+crc的余数不是零，而是某个固定的非零值。（反转模式的CRC，0xffffffff。）
++
++同样的问题适用于消息前面的零位，并使用类似的解决方案。不是从余数0开始CRC计算，而是
++使用全1的初始余数。只要你在解码时以相同的方式开始，这没有区别。
+diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
+index bb55c81c84a3..5d62017b0132 100644
+--- a/Documentation/translations/zh_CN/staging/index.rst
++++ b/Documentation/translations/zh_CN/staging/index.rst
+@@ -13,11 +13,10 @@
+ .. toctree::
+    :maxdepth: 2
  
- The length of the two CAN(FD) frame structures define the maximum transfer
- unit (MTU) of the CAN(FD) network interface and skbuff data length. Two
--definitions are specified for CAN specific MTUs in include/linux/can.h:
-+definitions are specified for CAN specific MTUs in include/uapi/linux/can.h:
-+
-+.. code-block:: C
-+
-+  #define CAN_MTU   (sizeof(struct can_frame))    /* Classical CAN frame */
-+  #define CANFD_MTU (sizeof(struct canfd_frame))  /* CAN FD frame */
-+
-+Remark about CAN XL (extended frame length) support:
-+
-+CAN XL extends the payload length beyond CAN FD. The UAPI defines the
-+following constants for CAN XL payload and DLC according to ISO 11898-1:
-+
-+.. code-block:: C
-+
-+    #define CANXL_MIN_DLC 0
-+    #define CANXL_MAX_DLC 2047
-+    #define CANXL_MAX_DLC_MASK 0x07FF
-+    #define CANXL_MIN_DLEN 1
-+    #define CANXL_MAX_DLEN 2048
-+
-+This means the CAN XL DLC ranges from 0 .. 2047 and maps to a data length
-+range from 1 .. 2048 bytes. The CAN XL frame structure is defined as:
++   crc32
+    xz
  
- .. code-block:: C
- 
--  #define CAN_MTU   (sizeof(struct can_frame))   == 16  => Classical CAN frame
--  #define CANFD_MTU (sizeof(struct canfd_frame)) == 72  => CAN FD frame
-+    struct canxl_frame {
-+            canid_t prio;  /* 11 bit priority for arbitration / 8 bit VCID */
-+            __u8    flags; /* additional flags for CAN XL */
-+            __u8    sdt;   /* SDU (service data unit) type */
-+            __u16   len;   /* frame payload length in byte */
-+            __u32   af;    /* acceptance field */
-+            __u8    data[CANXL_MAX_DLEN];
-+    };
-+
-+The following flag bits are defined for ``canxl_frame.flags``:
-+
-+.. code-block:: C
-+
-+    #define CANXL_XLF 0x80 /* mandatory CAN XL frame flag (must always be set!) */
-+    #define CANXL_SEC 0x01 /* Simple Extended Content (security/segmentation) */
-+    #define CANXL_RRS 0x02 /* Remote Request Substitution */
-+
-+The CANXL_XLF bit always needs to be set to indicate a valid CAN XL frame.
-+Undefined bits in ``canxl_frame.flags`` are reserved and shall be set to
-+zero. Setting CANXL_XLF intentionally breaks the length checks for Classical
-+CAN and CAN FD frames, which allows the stack to distinguish CAN XL frames
-+from CAN(FD) traffic.
-+
-+The 8-bit VCID (Virtual CAN Network Identifier) is optionally placed in the
-+prio element and is described by:
-+
-+.. code-block:: C
-+
-+    #define CANXL_VCID_OFFSET   16
-+    #define CANXL_VCID_VAL_MASK 0xFFUL
-+    #define CANXL_VCID_MASK     (CANXL_VCID_VAL_MASK << CANXL_VCID_OFFSET)
-+
-+The CAN XL MTU macros are:
-+
-+.. code-block:: C
-+
-+    #define CANXL_MTU      (sizeof(struct canxl_frame))
-+    #define CANXL_HDR_SIZE (offsetof(struct canxl_frame, data))
-+    #define CANXL_MIN_MTU  (CANXL_HDR_SIZE + 64)
-+    #define CANXL_MAX_MTU  CANXL_MTU
-+
-+Drivers for CAN XL-capable devices select an MTU in the inclusive range
-+[CANXL_MIN_MTU, CANXL_MAX_MTU] depending on the maximum payload supported
-+by the hardware. Applications should use CANXL_MTU and the related macros
-+instead of hardcoding numerical values.
- 
- 
- Returned Message Flags
-@@ -490,7 +585,7 @@ RAW socket option CAN_RAW_FILTER
- The reception of CAN frames using CAN_RAW sockets can be controlled
- by defining 0 .. n filters with the CAN_RAW_FILTER socket option.
- 
--The CAN filter structure is defined in include/linux/can.h:
-+The CAN filter structure is defined in include/uapi/linux/can.h:
- 
- .. code-block:: C
- 
-@@ -693,6 +788,10 @@ When sending to CAN devices make sure that the device is capable to handle
- CAN FD frames by checking if the device maximum transfer unit is CANFD_MTU.
- The CAN device MTU can be retrieved e.g. with a SIOCGIFMTU ioctl() syscall.
- 
-+For CAN XL-capable devices, applications should additionally consider the
-+MTU range [CANXL_MIN_MTU, CANXL_MAX_MTU] and use ``struct canxl_frame``
-+when the corresponding protocol and socket semantics are available.
-+
- 
- RAW socket option CAN_RAW_JOIN_FILTERS
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -746,8 +845,9 @@ The broadcast manager sends responses to user space in the same form:
-     };
- 
- The aligned payload 'frames' uses the same basic CAN frame structure defined
--at the beginning of :ref:`socketcan-rawfd` and in the include/linux/can.h include. All
--messages to the broadcast manager from user space have this structure.
-+at the beginning of :ref:`socketcan-rawfd` and in the include/uapi/linux/can.h
-+include. All messages to the broadcast manager from user space have this
-+structure.
- 
- Note a CAN_BCM socket must be connected instead of bound after socket
- creation (example without error checking):
-@@ -1072,7 +1172,7 @@ Writing Own CAN Protocol Modules
- --------------------------------
- 
- To implement a new protocol in the protocol family PF_CAN a new
--protocol has to be defined in include/linux/can.h .
-+protocol has to be defined in include/uapi/linux/can.h .
- The prototypes and definitions to use the SocketCAN core can be
- accessed by including include/linux/can/core.h .
- In addition to functions that register the CAN protocol and the
-@@ -1111,8 +1211,9 @@ alloc_netdev_mqs(), to automatically take care of CAN-specific setup:
- 
-     dev = alloc_candev_mqs(...);
- 
--The struct can_frame or struct canfd_frame is the payload of each socket
--buffer (skbuff) in the protocol family PF_CAN.
-+The struct can_frame, struct canfd_frame or struct canxl_frame is the payload
-+of each socket buffer (skbuff) in the protocol family PF_CAN, depending on
-+the device capabilities and the protocol in use.
- 
- 
- .. _socketcan-local-loopback2:
-@@ -1172,8 +1273,8 @@ Deactivate the terminating resistor::
- To enable termination resistor support to a can-controller, either
- implement in the controller's struct can-priv::
- 
--    termination_const
-     termination_const_cnt
-+    termination_const
-     do_set_termination
- 
- or add gpio control with the device tree entries from
-@@ -1194,7 +1295,7 @@ so in common use cases more than one virtual CAN interface is needed.
- The virtual CAN interfaces allow the transmission and reception of CAN
- frames without real CAN controller hardware. Virtual CAN network
- devices are usually named 'vcanX', like vcan0 vcan1 vcan2 ...
--When compiled as a module the virtual CAN driver module is called vcan.ko
-+When compiled as a module, the virtual CAN driver module is called vcan.ko
- 
- Since Linux Kernel version 2.6.24 the vcan driver supports the Kernel
- netlink interface to create vcan network devices. The creation and
-@@ -1237,52 +1338,164 @@ Setting CAN device properties::
- 
-     $ ip link set can0 type can help
-     Usage: ip link set DEVICE type can
--        [ bitrate BITRATE [ sample-point SAMPLE-POINT] ] |
--        [ tq TQ prop-seg PROP_SEG phase-seg1 PHASE-SEG1
--          phase-seg2 PHASE-SEG2 [ sjw SJW ] ]
+ TODOList:
 -
--        [ dbitrate BITRATE [ dsample-point SAMPLE-POINT] ] |
--        [ dtq TQ dprop-seg PROP_SEG dphase-seg1 PHASE-SEG1
--          dphase-seg2 PHASE-SEG2 [ dsjw SJW ] ]
--
--        [ loopback { on | off } ]
--        [ listen-only { on | off } ]
--        [ triple-sampling { on | off } ]
--        [ one-shot { on | off } ]
--        [ berr-reporting { on | off } ]
--        [ fd { on | off } ]
--        [ fd-non-iso { on | off } ]
--        [ presume-ack { on | off } ]
--        [ cc-len8-dlc { on | off } ]
--
--        [ restart-ms TIME-MS ]
--        [ restart ]
--
--        Where: BITRATE       := { 1..1000000 }
--               SAMPLE-POINT  := { 0.000..0.999 }
--               TQ            := { NUMBER }
--               PROP-SEG      := { 1..8 }
--               PHASE-SEG1    := { 1..8 }
--               PHASE-SEG2    := { 1..8 }
--               SJW           := { 1..4 }
--               RESTART-MS    := { 0 | NUMBER }
-+            [ bitrate BITRATE [ sample-point SAMPLE-POINT] ] |
-+            [ tq TQ prop-seg PROP_SEG phase-seg1 PHASE-SEG1
-+            phase-seg2 PHASE-SEG2 [ sjw SJW ] ]
-+
-+            [ dbitrate BITRATE [ dsample-point SAMPLE-POINT] ] |
-+            [ dtq TQ dprop-seg PROP_SEG dphase-seg1 PHASE-SEG1
-+            dphase-seg2 PHASE-SEG2 [ dsjw SJW ] ]
-+            [ tdcv TDCV tdco TDCO tdcf TDCF ]
-+
-+            [ loopback { on | off } ]
-+            [ listen-only { on | off } ]
-+            [ triple-sampling { on | off } ]
-+            [ one-shot { on | off } ]
-+            [ berr-reporting { on | off } ]
-+            [ fd { on | off } ]
-+            [ fd-non-iso { on | off } ]
-+            [ presume-ack { on | off } ]
-+            [ cc-len8-dlc { on | off } ]
-+            [ tdc-mode { auto | manual | off } ]
-+
-+            [ restart-ms TIME-MS ]
-+            [ restart ]
-+
-+            [ termination { 0..65535 } ]
-+
-+            Where: BITRATE	    := { NUMBER in bps }
-+                    SAMPLE-POINT    := { 0.000..0.999 }
-+                    TQ              := { NUMBER in ns }
-+                    PROP-SEG        := { NUMBER in tq }
-+                    PHASE-SEG1      := { NUMBER in tq }
-+                    PHASE-SEG2      := { NUMBER in tq }
-+                    SJW             := { NUMBER in tq }
-+                    TDCV            := { NUMBER in tc }
-+                    TDCO            := { NUMBER in tc }
-+                    TDCF            := { NUMBER in tc }
-+                    RESTART-MS      := { 0 | NUMBER in ms }
-+
-+Since IPROUTE2 version 6.18.0 the "ip" tool supports CAN XL devices
-+and the following additional parameters.
-+
-+Setting CAN XL device properties::
-+
-+    $ ip link set can0 type can help
-+    Usage: ip link set DEVICE type can
-+            ...
-+            [ xbitrate BITRATE [ xsample-point SAMPLE-POINT] ] |
-+            [ xtq TQ xprop-seg PROP_SEG xphase-seg1 PHASE-SEG1
-+            xphase-seg2 PHASE-SEG2 [ xsjw SJW ] ]
-+            [ xtdcv TDCV xtdco TDCO xtdcf TDCF pwms PWMS pwml PWML pwmo PWMO]
-+            ...
-+            [ restricted { on | off } ]
-+            [ xl { on | off } ]
-+            [ xtdc-mode { auto | manual | off } ]
-+            [ tms { on | off } ]
-+            ...
-+            Where:
-+                    ...
-+                    PWMS        := { NUMBER in mtq }
-+                    PWML        := { NUMBER in mtq }
-+                    PWMO        := { NUMBER in mtq }
-+                    RESTART-MS  := { 0 | NUMBER in ms }
-+
-+            Units:
-+                    bps	:= bit per second
-+                    ms	:= millisecond
-+                    mtq	:= minimum time quanta
-+                    ns	:= nanosecond
-+                    tq	:= time quanta
- 
- Display CAN device details and statistics::
- 
-+    $ ip link set can0 up type can bitrate 500000
-+
-+    $ ip -details -statistics link show can0
-+    2: can0: <NOARP,UP,LOWER_UP> mtu 16 qdisc pfifo_fast state UP mode DEFAULT group default qlen 10
-+        link/can  promiscuity 0 allmulti 0 minmtu 16 maxmtu 16
-+        can state STOPPED restart-ms 0
-+            bitrate 500000 sample-point 0.875
-+            tq 12 prop-seg 69 phase-seg1 70 phase-seg2 20 sjw 10 brp 2
-+            dummy_can CC: tseg1 2..256 tseg2 2..128 sjw 1..128 brp 1..512 brp_inc 1
-+            dummy_can FD: dtseg1 2..256 dtseg2 2..128 dsjw 1..128 dbrp 1..512 dbrp_inc 1
-+            tdco 0..127 tdcf 0..127
-+            dummy_can XL: xtseg1 2..256 xtseg2 2..128 xsjw 1..128 xbrp 1..512 xbrp_inc 1
-+            xtdco 0..127 xtdcf 0..127
-+            pwms 1..8 pwml 2..24 pwmo 0..16
-+            termination 0 [ 0, 120 ]
-+            clock 160000000
-+            re-started bus-errors arbit-lost error-warn error-pass bus-off
-+            0          0          0          0          0          0
-+            numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 \
-+                tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
-+        RX:  bytes packets errors dropped  missed   mcast
-+                 0       0      0       0       0       0
-+        TX:  bytes packets errors dropped carrier collsns
-+                 0       0      0       0       0       0
-+
-+Display CAN XL device details and statistics::
-+
-+    $ ip link set can0 type can bitrate 1000000 dbitrate 2000000 fd on xbitrate 4000000 xl on
-+
-     $ ip -details -statistics link show can0
--    2: can0: <NOARP,UP,LOWER_UP,ECHO> mtu 16 qdisc pfifo_fast state UP qlen 10
--      link/can
--      can <TRIPLE-SAMPLING> state ERROR-ACTIVE restart-ms 100
--      bitrate 125000 sample_point 0.875
--      tq 125 prop-seg 6 phase-seg1 7 phase-seg2 2 sjw 1
--      sja1000: tseg1 1..16 tseg2 1..8 sjw 1..4 brp 1..64 brp-inc 1
--      clock 8000000
--      re-started bus-errors arbit-lost error-warn error-pass bus-off
--      41         17457      0          41         42         41
--      RX: bytes  packets  errors  dropped overrun mcast
--      140859     17608    17457   0       0       0
--      TX: bytes  packets  errors  dropped carrier collsns
--      861        112      0       41      0       0
-+    3: can0: <NOARP,UP,LOWER_UP> mtu 2060 qdisc pfifo_fast state UP mode DEFAULT group default qlen 10
-+        link/can  promiscuity 0 allmulti 0 minmtu 76 maxmtu 2060
-+        can <FD,TDC-AUTO,XL,XL-TDC-AUTO> state STOPPED restart-ms 0
-+            bitrate 1000000 sample-point 0.750
-+            tq 6 prop-seg 59 phase-seg1 60 phase-seg2 40 sjw 20 brp 1
-+            dummy_can CC: tseg1 2..256 tseg2 2..128 sjw 1..128 brp 1..512 brp_inc 1
-+            dbitrate 2000000 dsample-point 0.750
-+            dtq 6 dprop-seg 29 dphase-seg1 30 dphase-seg2 20 dsjw 10 dbrp 1
-+            tdco 60 tdcf 0
-+            dummy_can FD: dtseg1 2..256 dtseg2 2..128 dsjw 1..128 dbrp 1..512 dbrp_inc 1
-+            tdco 0..127 tdcf 0..127
-+            xbitrate 4000000 xsample-point 0.750
-+            xtq 6 xprop-seg 14 xphase-seg1 15 xphase-seg2 10 xsjw 5 xbrp 1
-+            xtdco 30 xtdcf 0
-+            dummy_can XL: xtseg1 2..256 xtseg2 2..128 xsjw 1..128 xbrp 1..512 xbrp_inc 1
-+            xtdco 0..127 xtdcf 0..127
-+            pwms 1..8 pwml 2..24 pwmo 0..16
-+            termination 0 [ 0, 120 ]
-+            clock 160000000
-+            re-started bus-errors arbit-lost error-warn error-pass bus-off
-+            0          0          0          0          0          0
-+            addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 \
-+                tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
-+        RX:  bytes packets errors dropped  missed   mcast
-+                 0       0      0       0       0       0
-+        TX:  bytes packets errors dropped carrier collsns
-+                 0       0      0      49       0       0
-+
-+Display CAN XL with TMS device details and statistics::
-+
-+    $ ip link set can0 type can bitrate 1000000 xbitrate 12308000 xl on tms on fd off
-+
-+    $ ip -details -statistics link show can0
-+    3: can0: <NOARP,UP,LOWER_UP> mtu 2060 qdisc pfifo_fast state UP mode DEFAULT group default qlen 10
-+        link/can  promiscuity 0 allmulti 0 minmtu 76 maxmtu 2060
-+        can <XL,TMS> state STOPPED restart-ms 0
-+            bitrate 1000000 sample-point 0.750
-+            tq 6 prop-seg 59 phase-seg1 60 phase-seg2 40 sjw 20 brp 1
-+            dummy_can CC: tseg1 2..256 tseg2 2..128 sjw 1..128 brp 1..512 brp_inc 1
-+            dummy_can FD: dtseg1 2..256 dtseg2 2..128 dsjw 1..128 dbrp 1..512 dbrp_inc 1
-+            tdco 0..127 tdcf 0..127
-+            xbitrate 12307692 xsample-point 0.538
-+            xtq 6 xprop-seg 3 xphase-seg1 3 xphase-seg2 6 xsjw 3 xbrp 1
-+            pwms 4 pwml 9 pwmo 4
-+            dummy_can XL: xtseg1 2..256 xtseg2 2..128 xsjw 1..128 xbrp 1..512 xbrp_inc 1
-+            xtdco 0..127 xtdcf 0..127
-+            pwms 1..8 pwml 2..24 pwmo 0..16
-+            termination 0 [ 0, 120 ]
-+            clock 160000000
-+            re-started bus-errors arbit-lost error-warn error-pass bus-off
-+	        0          0          0          0          0          0
-+            addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 \
-+                tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
-+        RX:  bytes packets errors dropped  missed   mcast
-+                 0       0      0       0       0       0
-+        TX:  bytes packets errors dropped carrier collsns
-+                 0       0      0       0       0       0
- 
- More info to the above output:
- 
-@@ -1445,19 +1658,23 @@ Example configuring 500 kbit/s arbitration bitrate and 4 Mbit/s data bitrate::
-     $ ip link set can0 up type can bitrate 500000 sample-point 0.75 \
-                                    dbitrate 4000000 dsample-point 0.8 fd on
-     $ ip -details link show can0
--    5: can0: <NOARP,UP,LOWER_UP,ECHO> mtu 72 qdisc pfifo_fast state UNKNOWN \
--             mode DEFAULT group default qlen 10
--    link/can  promiscuity 0
--    can <FD> state ERROR-ACTIVE (berr-counter tx 0 rx 0) restart-ms 0
--          bitrate 500000 sample-point 0.750
--          tq 50 prop-seg 14 phase-seg1 15 phase-seg2 10 sjw 1
--          pcan_usb_pro_fd: tseg1 1..64 tseg2 1..16 sjw 1..16 brp 1..1024 \
--          brp-inc 1
--          dbitrate 4000000 dsample-point 0.800
--          dtq 12 dprop-seg 7 dphase-seg1 8 dphase-seg2 4 dsjw 1
--          pcan_usb_pro_fd: dtseg1 1..16 dtseg2 1..8 dsjw 1..4 dbrp 1..1024 \
--          dbrp-inc 1
--          clock 80000000
-+    3: can0: <NOARP,UP,LOWER_UP> mtu 72 qdisc pfifo_fast state UP mode DEFAULT group default qlen 10
-+        link/can  promiscuity 0 allmulti 0 minmtu 72 maxmtu 72
-+        can <FD,TDC-AUTO> state STOPPED restart-ms 0
-+            bitrate 500000 sample-point 0.750
-+            tq 6 prop-seg 119 phase-seg1 120 phase-seg2 80 sjw 40 brp 1
-+            dummy_can CC: tseg1 2..256 tseg2 2..128 sjw 1..128 brp 1..512 brp_inc 1
-+            dbitrate 4000000 dsample-point 0.800
-+            dtq 6 dprop-seg 15 dphase-seg1 16 dphase-seg2 8 dsjw 4 dbrp 1
-+            tdco 32 tdcf 0
-+            dummy_can FD: dtseg1 2..256 dtseg2 2..128 dsjw 1..128 dbrp 1..512 dbrp_inc 1
-+            tdco 0..127 tdcf 0..127
-+            dummy_can XL: xtseg1 2..256 xtseg2 2..128 xsjw 1..128 xbrp 1..512 xbrp_inc 1
-+            xtdco 0..127 xtdcf 0..127
-+            pwms 1..8 pwml 2..24 pwmo 0..16
-+            termination 0 [ 0, 120 ]
-+            clock 160000000 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 \
-+                tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
- 
- Example when 'fd-non-iso on' is added on this switchable CAN FD adapter::
- 
-@@ -1508,24 +1725,228 @@ bitrate, a TDCO of 15 minimum time quantum and a TDCV automatically measured
- by the device::
- 
-     $ ip link set can0 up type can bitrate 500000 \
--                                   fd on dbitrate 4000000 \
--				   tdc-mode auto tdco 15
-+                                    fd on dbitrate 4000000 \
-+				    tdc-mode auto tdco 15
-     $ ip -details link show can0
--    5: can0: <NOARP,UP,LOWER_UP,ECHO> mtu 72 qdisc pfifo_fast state UP \
--             mode DEFAULT group default qlen 10
-+    3: can0: <NOARP,UP,LOWER_UP> mtu 72 qdisc pfifo_fast state UP mode DEFAULT group default qlen 10
-         link/can  promiscuity 0 allmulti 0 minmtu 72 maxmtu 72
--        can <FD,TDC-AUTO> state ERROR-ACTIVE restart-ms 0
--          bitrate 500000 sample-point 0.875
--          tq 12 prop-seg 69 phase-seg1 70 phase-seg2 20 sjw 10 brp 1
--          ES582.1/ES584.1: tseg1 2..256 tseg2 2..128 sjw 1..128 brp 1..512 \
--          brp_inc 1
--          dbitrate 4000000 dsample-point 0.750
--          dtq 12 dprop-seg 7 dphase-seg1 7 dphase-seg2 5 dsjw 2 dbrp 1
--          tdco 15 tdcf 0
--          ES582.1/ES584.1: dtseg1 2..32 dtseg2 1..16 dsjw 1..8 dbrp 1..32 \
--          dbrp_inc 1
--          tdco 0..127 tdcf 0..127
--          clock 80000000
-+        can <FD,TDC-AUTO> state STOPPED restart-ms 0
-+            bitrate 500000 sample-point 0.875
-+            tq 12 prop-seg 69 phase-seg1 70 phase-seg2 20 sjw 10 brp 2
-+            dummy_can CC: tseg1 2..256 tseg2 2..128 sjw 1..128 brp 1..512 brp_inc 1
-+            dbitrate 4000000 dsample-point 0.750
-+            dtq 6 dprop-seg 14 dphase-seg1 15 dphase-seg2 10 dsjw 5 dbrp 1
-+            tdco 15 tdcf 0
-+            dummy_can FD: dtseg1 2..256 dtseg2 2..128 dsjw 1..128 dbrp 1..512 dbrp_inc 1
-+            tdco 0..127 tdcf 0..127
-+            dummy_can XL: xtseg1 2..256 xtseg2 2..128 xsjw 1..128 xbrp 1..512 xbrp_inc 1
-+            xtdco 0..127 xtdcf 0..127
-+            pwms 1..8 pwml 2..24 pwmo 0..16
-+            termination 0 [ 0, 120 ]
-+            clock 160000000 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 \
-+                tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 gso_ipv4_max_size 65536 gro_ipv4_max_size 65536
-+
-+
-+.. _socketcan-can-xl-driver:
-+
-+CAN XL (Extended Frame Length) Driver Support
-+---------------------------------------------
-+
-+CAN XL extends the CAN protocol family with support for payloads up to
-+2048 bytes and additional header fields for service data unit (SDU)
-+typing, security/segmentation and virtual channel identification (VCID).
-+These extensions enable more flexible and higher-bandwidth communication
-+compared to Classical CAN and CAN FD.
-+
-+The CAN XL netdevice driver capabilities can be distinguished by the network
-+devices maximum transfer unit (MTU)::
-+
-+  Minimum MTU: CANXL_MIN_MTU (supports at least 64 bytes of payload)
-+  Maximum MTU: CANXL_MAX_MTU (supports up to 2048 bytes of payload)
-+
-+The MTU can be queried using SIOCGIFMTU, just like with Classical CAN and CAN FD.
-+In a typical configuration you may see, for
-+
-+Example::
-+
-+    can0: MTU: 2060
-+
-+This corresponds to a CAN XL frame with 2048 bytes of payload (plus protocol overhead).
-+
-+Configuring CAN XL bitrates and modes
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Similar to the existing "bitrate" and "dbitrate" parameters used for
-+Classical CAN and CAN FD, CAN XL introduces a separate "xbitrate" used
-+for the CAN XL data phase. In addition, CAN XL capable controllers can
-+be configured in different operating modes:
-+
-+- Classical CAN / CAN FD / CAN XL mixed mode
-+- CAN XL-only mode
-+- Optional Transceiver Mode Switching (TMS) when supported
-+
-+Examples (assuming ``can0`` is a CAN XL capable interface, e.g. provided
-+by the dummy_can driver):
-+
-+Mixed Classical CAN / FD / XL mode with CAN XL enabled and TMS disabled::
-+
-+    # ip link set can0 type can bitrate 1000000 dbitrate 2000000 fd on \
-+                                                    xbitrate 4000000 xl on
-+
-+CAN XL-only mode with TMS enabled and CAN FD disabled::
-+
-+    # ip link set can0 type can bitrate 1000000 xbitrate 12308000 xl on \
-+                                                            tms on fd off
-+
-+Enable the debugging to see the output in dmesg::
-+
-+    # echo 'file drivers/net/can/dummy_can.c +p' > /sys/kernel/debug/dynamic_debug/control
-+
-+After setting the interface up with::
-+
-+    # ip link set can0 up
-+
-+the controller configuration can be inspected in the kernel log, for
-+example::
-+
-+    can0: Clock frequency: 160000000
-+    can0: Maximum bitrate: 20000000
-+    can0: MTU: 2060
-+    can0:
-+    can0: Control modes:
-+    can0: 	supported: 0x0000ba2
-+    can0: 	enabled: 0x00003220
-+    can0: 	list:
-+    can0: 		LISTEN-ONLY: off
-+    can0: 		FD: on
-+    can0: 		TDC-AUTO: on
-+    can0: 		RESTRICTED: off
-+    can0: 		XL: on
-+    can0: 		XL-TDC-AUTO: on
-+    can0: 		TMS: off
-+    can0:
-+    can0: Classical CAN nominal bittiming:
-+    can0: 	bitrate: 1000000
-+    ...
-+    can0: CAN FD databittiming:
-+    can0:   bitrate: 2000000
-+    ...
-+    can0:   CAN FD TDC:
-+    ...
-+    can0:
-+    can0: CAN XL databittiming:
-+    can0: 	bitrate: 4000000
-+    can0: 	sample_point: 750
-+    can0: 	tq: 6
-+    can0: 	prop_seg: 14
-+    can0: 	phase_seg1: 15
-+    can0: 	phase_seg2: 10
-+    can0: 	sjw: 5
-+    can0: 	brp: 1
-+    can0: 	CAN XL TDC:
-+    can0: 		tdcv: 0
-+    can0: 		tdco: 30
-+    can0: 		tdcf: 0
-+    can0:
-+    can0: error-signalling is enabled
-+    can0: dummy-can is up
-+
-+This shows:
-+
-+- the configured MTU (here 2060, i.e. CANXL_MTU),
-+- which control modes are enabled (FD, XL, XL-TDC-AUTO, TMS, etc.),
-+- separate bit-timing blocks for Classical CAN, CAN FD and CAN XL, and
-+- separate TDC information for CAN FD and CAN XL.
-+
-+Error Signalling Behaviour in CAN CC, CAN FD and CAN XL
-+-------------------------------------------------------
-+
-+Classical CAN (CC) and CAN FD controllers implement mandatory
-+error-signalling (ES) to report protocol and frame format violations
-+by transmitting an error frame on the bus.
-+
-+With the introduction of CAN XL two operational models exist:
-+
-+* **Mixed-mode**: A CAN segment contains XL-tolerant CAN FD nodes and
-+  CAN XL nodes. In this mode the FD controllers may transmit CC/FD
-+  frames, while XL controllers may transmit CC/FD/XL frames.  Error
-+  signalling remains enabled and is used consistently across all frame
-+  types.
-+
-+* **CANXL-only mode**: The CAN XL controller disables error-signalling.
-+  This mode allows transmission of CAN XL frames only and additionally
-+  supports the optional Transceiver Mode Switching (TMS).  CC and FD
-+  frames must not be sent in this mode.
-+
-+The operational mode is derived from the controller flags
-+``CAN_CTRLMODE_FD`` and ``CAN_CTRLMODE_XL``:
-+
-++---------+---------+---------------------------+-------+----------------------------+
-+|  FD     |   XL    | Mode                      |  ES   | Notes                      |
-++=========+=========+===========================+=======+============================+
-+|   0     |   0     | CC-only                   |   1   | Classical CAN              |
-++---------+---------+---------------------------+-------+----------------------------+
-+|   1     |   0     | FD/CC mixed-mode          |   1   | Standard CAN FD operation  |
-++---------+---------+---------------------------+-------+----------------------------+
-+|   1     |   1     | XL/FD/CC mixed-mode       |   1   | All frame types allowed    |
-++---------+---------+---------------------------+-------+----------------------------+
-+|   0     |   1     | CANXL-only                |   0   | XL-only; TMS optional      |
-++---------+---------+---------------------------+-------+----------------------------+
-+
-+Note about error-signalling
-+---------------------------
-+
-+The error-signalling behaviour is derived automatically from the selected
-+mixed-mode or CANXL-only configuration and is no longer controlled by an
-+explicit netlink attribute.
-+
-+The effective state can be observed in the kernel log, for example::
-+
-+    can0: error-signalling is enabled
-+
-+Applications should rely on the controller mode and driver output rather
-+than on an explicit ``err-signal`` configuration switch.
-+
-+CAN XL TDC (Transmitter Delay Compensation)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Similar to CAN FD, the high data phase bitrates in CAN XL may require
-+Transmitter Delay Compensation. CAN XL capable controllers can provide
-+an XL-specific TDC configuration and may support an automatic mode.
-+
-+If supported by the device, the XL TDC settings (TDCV/TDCO/TDCF) are
-+reported in the "CAN XL TDC" section in the kernel log, for example::
-+
-+    can0: 	CAN XL TDC:
-+    can0: 		tdcv: 0
-+    can0: 		tdco: 30
-+    can0: 		tdcf: 0
-+
-+The precise netlink attributes and the corresponding "ip" options for
-+XL TDC are controller specific and follow the same design as CAN FD TDC
-+where possible. Users should consult the device driver documentation
-+and the output of::
-+
-+    $ ip -details link show can0
-+
-+for details on XL TDC support.
-+
-+Application considerations for CAN XL
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+For user space applications the following rules are important when
-+handling CAN XL:
-+
-+- Use ``struct canxl_frame`` as basic data structure when CAN XL traffic
-+  is expected.
-+- Set CANXL_XLF in ``canxl_frame.flags`` for all valid CAN XL frames.
-+- Ensure that undefined bits in ``canxl_frame.flags`` are kept at zero.
-+- Respect the configured device MTU; do not send frames larger than
-+  the MTU announced by the kernel.
-+- For mixed-mode controllers, be prepared to handle Classical CAN,
-+  CAN FD and CAN XL frames on the same interface and choose the frame
-+  structure according to the socket/protocol semantics (e.g. dedicated
-+  CAN XL APIs when available).
- 
- 
- Supported CAN Hardware
-
+-* crc32
+ * lzo
+ * remoteproc
+ * rpmsg
 -- 
-2.51.0
+2.34.1
 
