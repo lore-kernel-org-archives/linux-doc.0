@@ -1,116 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8D11B87C0;
-	Thu,  1 Jan 2026 01:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB0821CC64
+	for <linux-doc@vger.kernel.org>; Thu,  1 Jan 2026 08:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767230837; cv=none; b=GFLCqmsEYmXYqv9xHZpDKdYP8MV5iM/vblxlyKirdJm+D5e+Mr6cVmuzYGk+JXZrwYVXr/+K6rITmHWjmqXJwZQAM8ccNa7PEbrrt9V5k4p+6sHiEea9Rp/iXyISKuvLrl6QA+yDShVXwyAEZnvzQSXYqamuW/9dQIWxe7Nb8cI=
+	t=1767256041; cv=none; b=uXFUCA/OJx3JJIwCdfl6xkWMi0ChSiXCWIqHtHIM5tZoeIGuEqJuU6lRkAHj2vrRCcX1Tbt4ZivMAIJsJRqB7XierqBdlpoEzrYk7HgHie7i7lMLhjLd5SIE8o9/DLJe1o4yU6vUVMHKNqsutj4oM5o1f7ltDJkWa0OyiZPPl4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767230837; c=relaxed/simple;
-	bh=kfzq7OmA115iWgJ760zWgcONuzBXEf0EdKCppmYMA+4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=tQkeDQ/atDB1qTTIpV00+zg/EQiYYi3U6y4Ol2wNCm5CTCcr60ZJCX6Ccc1soj38KACxQXQIkj+bksBo3leFRMkzOx1MpTYq70QEkCbIeoLvFv7oTeIDtreYMQ0SOVTVdne2uQ5KV3DLxg4ENWEPYfq9LVzACtgraVi15nbaiNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=go9XllSI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767256041; c=relaxed/simple;
+	bh=g1mMzgD2REYJsThm5iAh62mc8uScUvCP1p2CjKOd77g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sjJRbObvXdAJpW2j54snnVX93nyWUUKr450W6ScZRuRaIKo+Kt5hYpx9MRn0++hsBiZBvNyOxzjupmCh+Qw77mM1ZhMFC+VsRwFpH9bwicqtwA2xODj6Y17HBLk0CrAeDI1BpZz/EUO2POcizpXEFDz17qHmOBdETMuwRhFHd04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3llcKuI; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="go9XllSI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7ACC113D0;
-	Thu,  1 Jan 2026 01:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1767230836;
-	bh=kfzq7OmA115iWgJ760zWgcONuzBXEf0EdKCppmYMA+4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=go9XllSISBYzAOyojV4kRDLc0Hnz1rcUEPO57TcB9+qJSNx41b/AgCw3COmwnxqiT
-	 j7mZyPb6MMMoWfBvYMRKbnSkqA9aNlPjK8qN3O6fQrDlWlCfoS7A/tERDwbL0qwoSr
-	 LfQqAcLLX+Rrl87zP58OiVxJMBgmW31R6wiBayKc=
-Date: Wed, 31 Dec 2025 17:27:14 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
- Brian Cain <bcain@kernel.org>, "Christophe Leroy (CS GROUP)"
- <chleroy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- "David S. Miller" <davem@davemloft.net>, Dave Hansen
- <dave.hansen@linux.intel.com>, David Hildenbrand <david@kernel.org>, Dinh
- Nguyen <dinguyen@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Helge
- Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, John Paul
- Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Jonathan Corbet
- <corbet@lwn.net>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, Magnus Lindholm <linmag7@gmail.com>,
- Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>,
- Michal Simek <monstr@monstr.eu>, Muchun Song <muchun.song@linux.dev>, Oscar
- Salvador <osalvador@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>, Pratyush
- Yadav <pratyush@kernel.org>, Richard Weinberger <richard@nod.at>, Russell
- King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, Suren
- Baghdasaryan <surenb@google.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, Vasily
- Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>, Vlastimil
- Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, x86@kernel.org,
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- loongarch@lists.linux.dev, sparclinux@vger.kernel.org
-Subject: Re: [PATCH 00/28] arch, mm: consolidate hugetlb early reservation
-Message-Id: <20251231172714.a7fe44e856c14fdc8fe1cb43@linux-foundation.org>
-In-Reply-To: <20251228124001.3624742-1-rppt@kernel.org>
-References: <20251228124001.3624742-1-rppt@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3llcKuI"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7bc248dc16aso9028995b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Jan 2026 00:27:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767256040; x=1767860840; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=grqBbaE6YnOptD2H7gCSdhIM6A7QBPysLgSlWzZLLhY=;
+        b=O3llcKuIlO6pwBCQR7JhpoSws6bzbbdDwMeuhPDpT/WeHwZ+yUhI3zdpndQvaPgP6u
+         MAvFGThj7ftw8nZ9rSCAHP/zo8ZBpW0auIilbJNd2JRoBDqh0OEi0v496E+7Fn33nuHw
+         BUzDxHwcurxcIyVdCPx6/SO7A5XHMDS4Y/ipJcdGWy3lSyjV7h+Mz9LcXRU2+7TzPT2/
+         XNdwlMdxantQbaqAZZF8JGzJ2hzpOJGTmkm9GwJ9evKeOGNSba+gQqhQouNLiwRkUw0w
+         2V2o1K8kxlDAfOQDIqwbiHLXzLrfpJzlaUoqI0ybuCyJ4rxv8wQ7JdtN9TYG18eTn1QY
+         xQTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767256040; x=1767860840;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=grqBbaE6YnOptD2H7gCSdhIM6A7QBPysLgSlWzZLLhY=;
+        b=urWNzpdIWwtIZizU5/9aipBQMMT4W/oCyC2UJloA64EwYQ0ODwQjy1KnZlOzZ2LdDc
+         QtATAf59+g1JKPIP4193lfLGHWq4NVsiP+wVMrCIbBCd6+AFYCvxl9AASBw2h/EeVJJ2
+         z99s4LtKv+I4+ds6KHStWgc9lKN3OQ4vkJ7pDPDFHmkunzsP/u9UaD/qfvTZtie2QhrX
+         MUKtTyfJwybgknZpvIgI9MKAORkYtMHaKCRfzm0/GzPTxYQAfW1cGx3twbq/6onqyM9O
+         +n0RqrzvFfhYSBozEWFPEsT5rCLboRgOFanSXy1ih5X0zil3dqR646QVmX6HzhfMTqYV
+         51Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCWoQHbv1vZDN7BaMx22oyqGdID4eThASgegGC7/BOpdKSQj6U9quDQqVshgsX3eRPzl33+vxYaJb68=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSELDifbM55Wx8rM3bRi7OcMNJM1CMFlEGC/eCkPu4CcncSf5I
+	aLEjVf2gtDGkRa6Oky8JoC1+VrncDKAeu92UiNGTzn/SwvRDxwYDRZ94
+X-Gm-Gg: AY/fxX4FVtYrrnih49wT9pLF2ZFnO03/HLeLqM4F/+6IB2XLkQLtPGZcpBDaUn56Rkl
+	g3L51njpXbJppdcFha2hOdmbs/8BjJvRFNyq1HUHDptq5pRbI6kkeD/7wwolks6m5Z/zwq5YXVV
+	QJNS/FMs5BbBEO9pzVsM8QcvFlKsxA3FV03vxihF7eFbcfGrhygxzYI7wOJG7Z+qX5Byi3ptiHn
+	4DRkViLqKo0fwcdQ78mSSRZa6BBQ7OsE3OffbI+nvTLkf9PBrLTCt9yZUmfO2jgHptHZBrl3Geb
+	DYO54msY8HwsOu3TE8Odn/7QYSonBEib5qEKMyXCHZ4pL4xHm4ZxHkl+BKcQPuuHfG4wwtuk9HA
+	espzIxgxZMZctRHYd7IKxqZk18gjthinyGnMGKRiwzEA6VaLE3TrL1tFUgrKQ3RwvqXquqKQ/Hh
+	YFQCcZ49nSyiFvo2L8tf7lThA=
+X-Google-Smtp-Source: AGHT+IHhkA3a5smj1iEMSa2b7GI5Q9tU3FN8KidSwq7FxEo8bwOhmjGkB12B1a/5qh/4kK54JlHQYQ==
+X-Received: by 2002:a05:6a21:32a7:b0:35f:68d:4314 with SMTP id adf61e73a8af0-376a7afae04mr34883862637.24.1767256039592;
+        Thu, 01 Jan 2026 00:27:19 -0800 (PST)
+Received: from google.com ([2402:7500:499:de94:df89:9172:9a1d:16f])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7ca0baf3sm33118003a12.34.2026.01.01.00.27.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jan 2026 00:27:18 -0800 (PST)
+Date: Thu, 1 Jan 2026 16:27:13 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Lucas Wei <lucaswei@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	sjadavani@google.com, kernel test robot <lkp@intel.com>,
+	stable@vger.kernel.org, kernel-team@android.com,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, visitorckw@google.com,
+	marscheng@google.com
+Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
+ coherency issue
+Message-ID: <aVYv4bf8BVW8b-Sf@google.com>
+References: <20251229033621.996546-1-lucaswei@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251229033621.996546-1-lucaswei@google.com>
 
-On Sun, 28 Dec 2025 14:39:30 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+Hi Lucas,
 
-> Order in which early memory reservation for hugetlb happens depends on
-> architecture, on configuration options and on command line parameters.
+On Mon, Dec 29, 2025 at 03:36:19AM +0000, Lucas Wei wrote:
+> When software issues a Cache Maintenance Operation (CMO) targeting a
+> dirty cache line, the CPU and DSU cluster may optimize the operation by
+> combining the CopyBack Write and CMO into a single combined CopyBack
+> Write plus CMO transaction presented to the interconnect (MCN).
+> For these combined transactions, the MCN splits the operation into two
+> separate transactions, one Write and one CMO, and then propagates the
+> write and optionally the CMO to the downstream memory system or external
+> Point of Serialization (PoS).
+> However, the MCN may return an early CompCMO response to the DSU cluster
+> before the corresponding Write and CMO transactions have completed at
+> the external PoS or downstream memory. As a result, stale data may be
+> observed by external observers that are directly connected to the
+> external PoS or downstream memory.
 > 
-> Some architectures rely on the core MM to call hugetlb_bootmem_alloc()
-> while others call it very early to allow pre-allocation of HVO-style
-> vmemmap.
+> This erratum affects any system topology in which the following
+> conditions apply:
+>  - The Point of Serialization (PoS) is located downstream of the
+>    interconnect.
+>  - A downstream observer accesses memory directly, bypassing the
+>    interconnect.
 > 
-> When hugetlb_cma is supported by an architecture it is initialized during
-> setup_arch() and then later hugetlb_init code needs to understand did it
-> happen or not.
+> Conditions:
+> This erratum occurs only when all of the following conditions are met:
+>  1. Software executes a data cache maintenance operation, specifically,
+>     a clean or invalidate by virtual address (DC CVAC, DC CIVAC, or DC
+>     IVAC), that hits on unique dirty data in the CPU or DSU cache. This
+>     results in a combined CopyBack and CMO being issued to the
+>     interconnect.
+>  2. The interconnect splits the combined transaction into separate Write
+>     and CMO transactions and returns an early completion response to the
+>     CPU or DSU before the write has completed at the downstream memory
+>     or PoS.
+>  3. A downstream observer accesses the affected memory address after the
+>     early completion response is issued but before the actual memory
+>     write has completed. This allows the observer to read stale data
+>     that has not yet been updated at the PoS or downstream memory.
 > 
-> To make everything consistent and unified, both reservation of hugetlb
-> memory from bootmem and creation of CMA areas for hugetlb must be called
-> from core MM initialization and it would have been a simple change.
-> However, HVO-style pre-initialization ordering requirements slightly
-> complicate things and for HVO pre-init to work sparse and memory map should
-> be initialized after hugetlb reservations.
+> The implementation of workaround put a second loop of CMOs at the same
+> virtual address whose operation meet erratum conditions to wait until
+> cache data be cleaned to PoC.. This way of implementation mitigates
+> performance panalty compared to purly duplicate orignial CMO.
 > 
-> This required pulling out the call to free_area_init() out of setup_arch()
-> path and moving it MM initialization and this is what the first 23 patches
-> do.
-> 
-> These changes are deliberately split into per-arch patches that change how
-> the zone limits are calculated for each architecture and the patches 22 and
-> 23 just remove the calls to free_area_init() and sprase_init() from arch/*.
-> 
-> Patch 24 is a simple cleanup for MIPS.
-> 
-> Patches 25 and 26 actually consolidate hugetlb reservations and patches 27
-> and 28 perform some aftermath cleanups.
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Thanks for the diligence - this can't have been the most exciting thing
-to work on!
+I assume the Reported-by tag was added due to the sparse warning in v1?
+Since this patch fixes a hardware erratum rather than an issue reported
+by the robot, I don't think we need this tag here.
 
-> I tried to trim the distribution list and although it's still quite long
-> if you feel that someone was wrongly excluded please add them back.
+Generally, we don't add Reported-by for fixing robot warnings across
+patch versions.
 
-I'll add these to mm.git's mm-new branch for some testing.  I'll
-suppress the usual email storm because 41 * 28 is a lot of emails ;)
+Regards,
+Kuan-Wei
