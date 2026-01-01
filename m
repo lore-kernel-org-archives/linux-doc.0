@@ -1,262 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44617212554;
-	Thu,  1 Jan 2026 18:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906B6202963
+	for <linux-doc@vger.kernel.org>; Thu,  1 Jan 2026 19:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767293710; cv=none; b=LYq5FGBH9wfD+grctPrELmAIVi+TvsJoqKxHBoQWETjk9D0WyqehshnZLjubEOHS84BLGn96sifCDq+4sAjPM3JMMHhq/oxHZteup8beH5rZ45cwewQeyxeQot3qlJR2/AG7C8/mn6mK2la3ccCQkwVhXV4LT6u8cqD6jI6vZeY=
+	t=1767294976; cv=none; b=EliodASCotJfuzihBKrvsWigqXyqU8nzWKPSQOoVojZVMv6j3G1EdZzTSwrvXb58F9WebOMZZJO8v/K49umpAv2QXvv7L5EYo6Yq54zk5tGK6UcXeZVUj5MBBPFAml8X1TxrokMxH+H0zgWFOAjqeDijNPXgTAZr+NihH4v0zyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767293710; c=relaxed/simple;
-	bh=di9RKFHA3WeLyoVzrPsOzx/4yiXAPIxza2ATvMON+0Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WSWjMk/BkNHw8JoTqFPo5owSsV+UaQ9ByJ41mO8yA7TirpPSXjFmtlYteFFO9wAiTf9w7fD78ui7yQdf/R38YK2Wl1Yk6Y9AmNJiMunKo8+rKbVnUm1tfBw2lo+dCaDwqfnjfvSZINAm1XwunJ8H46PSn9r/qSP+hTByE4XzwVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UMAf3OkZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767294976; c=relaxed/simple;
+	bh=+Ur3OQ2uA7Dhu4O9kN3/n+FUyiLM8NlvL4vAtfDq2yc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hn8YQMwuP3OOSB17cPXu1bgOSUNC/RyF7phj89a1/17nrK1XPv+HJaIov4MVemBqv8tRI3yM7/2LSfxXbeR48IaCpSD+hBqNPBK4UdiWTDEqNWPGx8rx9SZxdaV1QHqQkHlgEROlFwPTkp0RKM8xs0vEFTpjwmW+qwF21O3j7Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H3mA7xaQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UMAf3OkZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE9FC4CEF7;
-	Thu,  1 Jan 2026 18:55:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767293709;
-	bh=di9RKFHA3WeLyoVzrPsOzx/4yiXAPIxza2ATvMON+0Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UMAf3OkZ/Gq08AKEI4W1OtZKf3FXlo2uhnIUxSvROTDc76swIKFNGDnvzWftZgiSf
-	 ZdlXM9DQAOfyehWVXyQA45wjtDqLytkx1Lj+N7XPjbhy+i3oyZrKYXXPLLtFz6pzOo
-	 fTBJuoNgVwON+l2pfUqDML6oCRQNwwdMnmziYECy/wkFIuKIKjE9THSmcDb9S4JnoY
-	 K6cEXN4EOTUx2cHQUjeS5Q3qNkPpRSc+T1xcVqScUR8tG7Hy28VcREsaqm67qRB3F4
-	 V3gZWNlk0kuAY5ISWRxkquElwEy6zgQMzJn63UjiDWbmmG5CcSZ345WH+4T2AYgoNK
-	 VAmK/A+2xZl6g==
-Received: from lfbn-nan-1-2237-32.w92-139.abo.wanadoo.fr ([92.139.188.32] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vbNpC-0000000GMmY-3UcR;
-	Thu, 01 Jan 2026 18:55:07 +0000
-Date: Thu, 01 Jan 2026 18:55:05 +0000
-Message-ID: <87o6ndduye.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Lucas Wei <lucaswei@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3mA7xaQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767294973;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ktCKJUhVDTP21nLbbUxKPm+3NBHsCoD//O6BO0QpLh4=;
+	b=H3mA7xaQwrDGKq9CgbpL7XnINLIrFc4meB5wQ0zSFtiCmZh9huD4hqRN5CJSOpus1UfM0V
+	wCwD7CGhc4GY1xq3anOn39G0n3+hTEDyAIm0VW5wUr0CTWhFGUqCVm/wTnp/iCArS2hlOM
+	xhNKq11jTbMtAqBGPFL8j5LoIAq/5W4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-92-nUOFuqiHPEiw337_vuufEQ-1; Thu,
+ 01 Jan 2026 14:16:10 -0500
+X-MC-Unique: nUOFuqiHPEiw337_vuufEQ-1
+X-Mimecast-MFC-AGG-ID: nUOFuqiHPEiw337_vuufEQ_1767294969
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 51BAF1800365;
+	Thu,  1 Jan 2026 19:16:08 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.88.71])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3426719560A7;
+	Thu,  1 Jan 2026 19:16:05 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	sjadavani@google.com,
-	kernel test robot <lkp@intel.com>,
-	stable@vger.kernel.org,
-	kernel-team@android.com,
-	linux-arm-kernel@lists.infradead.org,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream coherency issue
-In-Reply-To: <20251229033621.996546-1-lucaswei@google.com>
-References: <20251229033621.996546-1-lucaswei@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Sun Shaojie <sunshaojie@kylinos.cn>,
+	Chen Ridong <chenridong@huaweicloud.com>,
+	Waiman Long <longman@redhat.com>
+Subject: [cgroup/for-6.20 PATCH v2 0/4] cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus conflict
+Date: Thu,  1 Jan 2026 14:15:54 -0500
+Message-ID: <20260101191558.434446-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 92.139.188.32
-X-SA-Exim-Rcpt-To: lucaswei@google.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, sjadavani@google.com, lkp@intel.com, stable@vger.kernel.org, kernel-team@android.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, 29 Dec 2025 03:36:19 +0000,
-Lucas Wei <lucaswei@google.com> wrote:
-> 
-> When software issues a Cache Maintenance Operation (CMO) targeting a
-> dirty cache line, the CPU and DSU cluster may optimize the operation by
-> combining the CopyBack Write and CMO into a single combined CopyBack
-> Write plus CMO transaction presented to the interconnect (MCN).
-> For these combined transactions, the MCN splits the operation into two
-> separate transactions, one Write and one CMO, and then propagates the
-> write and optionally the CMO to the downstream memory system or external
-> Point of Serialization (PoS).
-> However, the MCN may return an early CompCMO response to the DSU cluster
-> before the corresponding Write and CMO transactions have completed at
-> the external PoS or downstream memory. As a result, stale data may be
-> observed by external observers that are directly connected to the
-> external PoS or downstream memory.
-> 
-> This erratum affects any system topology in which the following
-> conditions apply:
->  - The Point of Serialization (PoS) is located downstream of the
->    interconnect.
->  - A downstream observer accesses memory directly, bypassing the
->    interconnect.
-> 
-> Conditions:
-> This erratum occurs only when all of the following conditions are met:
->  1. Software executes a data cache maintenance operation, specifically,
->     a clean or invalidate by virtual address (DC CVAC, DC CIVAC, or DC
->     IVAC), that hits on unique dirty data in the CPU or DSU cache. This
->     results in a combined CopyBack and CMO being issued to the
->     interconnect.
->  2. The interconnect splits the combined transaction into separate Write
->     and CMO transactions and returns an early completion response to the
->     CPU or DSU before the write has completed at the downstream memory
->     or PoS.
->  3. A downstream observer accesses the affected memory address after the
->     early completion response is issued but before the actual memory
->     write has completed. This allows the observer to read stale data
->     that has not yet been updated at the PoS or downstream memory.
-> 
-> The implementation of workaround put a second loop of CMOs at the same
-> virtual address whose operation meet erratum conditions to wait until
-> cache data be cleaned to PoC.. This way of implementation mitigates
-> performance panalty compared to purly duplicate orignial CMO.
+ v2:
+  - Patch 1: additional comment
+  - Patch 2: simplify the conditions for triggering call to
+    compute_excpus().
+  - Patch 3: update description of cpuset.cpus.exclusive in cgroup-v2.rst
+    to reflect the new behavior and change the name of the new
+    cpus_excl_conflict() parameter to xcpus_changed.
+  - Patch 4: update description of cpuset.cpus.partition in cgroup-v2.rst
+    to clarify what exclusive CPUs will be used when a partition is
+    created.
 
-penalty, purely, original.
+This patch series is inspired by the cpuset patch sent by Sun Shaojie [1].
+The idea is to avoid invalidating sibling partitions when there is a
+cpuset.cpus conflict. However this patch series does it in a slightly
+different way to make its behavior more consistent with other cpuset
+properties.
 
-How does one identify the "erratum conditions"?
+The first 3 patches are just some cleanup and minor bug fixes on
+issues found during the investigation process. The last one is
+the major patch that changes the way cpuset.cpus is being handled
+during the partition creation process. Instead of invalidating sibling
+partitions when there is a conflict, it will strip out the conflicting
+exclusive CPUs and assign the remaining non-conflicting exclusive
+CPUs to the new partition unless there is no more CPU left which will
+fail the partition creation process. It is similar to the idea that
+cpuset.cpus.effective may only contain a subset of CPUs specified in
+cpuset.cpus. So cpuset.cpus.exclusive.effective may contain only a
+subset of cpuset.cpus when a partition is created without setting
+cpuset.cpus.exclusive.
 
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
+Even setting cpuset.cpus.exclusive instead of cpuset.cpus may not
+guarantee all the requested CPUs can be granted if parent doesn't have
+access to some of those exclusive CPUs. The difference is that conflicts
+from siblings is not possible with cpuset.cpus.exclusive as long as it
+can be set successfully without failure.
 
-Well, no.
+[1] https://lore.kernel.org/lkml/20251117015708.977585-1-sunshaojie@kylinos.cn/
 
-> Cc: stable@vger.kernel.org # 6.12.x
-> Signed-off-by: Lucas Wei <lucaswei@google.com>
-> ---
-> 
-> Changes in v2:
-> 
->  1. Fixed warning from kernel test robot by changing
->     arm_si_l1_workaround_4311569 to static 
->     [Reported-by: kernel test robot <lkp@intel.com>]
-> 
-> ---
->  Documentation/arch/arm64/silicon-errata.rst |  3 ++
->  arch/arm64/Kconfig                          | 19 +++++++++++++
->  arch/arm64/include/asm/assembler.h          | 10 +++++++
->  arch/arm64/kernel/cpu_errata.c              | 31 +++++++++++++++++++++
->  arch/arm64/mm/cache.S                       | 13 ++++++++-
->  arch/arm64/tools/cpucaps                    |  1 +
->  6 files changed, 76 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index a7ec57060f64..98efdf528719 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -213,6 +213,9 @@ stable kernels.
->  | ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
->  +----------------+-----------------+-----------------+-----------------------------+
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
-> ++----------------+-----------------+-----------------+-----------------------------+
+Waiman Long (4):
+  cgroup/cpuset: Streamline rm_siblings_excl_cpus()
+  cgroup/cpuset: Consistently compute effective_xcpus in
+    update_cpumasks_hier()
+  cgroup/cpuset: Don't fail cpuset.cpus change in v2
+  cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus
+    conflict
 
-Keep ARM within a single section (no double line -- there's already a
-pointless extra one before 2941627).
-
-> ++----------------+-----------------+-----------------+-----------------------------+
->  | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_843419        |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 65db12f66b8f..a834d30859cc 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1153,6 +1153,25 @@ config ARM64_ERRATUM_3194386
->  
->  	  If unsure, say Y.
->  
-> +config ARM64_ERRATUM_4311569
-> +	bool "SI L1: 4311569: workaround for premature CMO completion erratum"
-> +	default y
-> +	help
-> +	  This option adds the workaround for ARM SI L1 erratum 4311569.
-> +
-> +	  The erratum of SI L1 can cause an early response to a combined write
-> +	  and cache maintenance operation (WR+CMO) before the operation is fully
-> +	  completed to the Point of Serialization (POS).
-> +	  This can result in a non-I/O coherent agent observing stale data,
-> +	  potentially leading to system instability or incorrect behavior.
-> +
-> +	  Enabling this option implements a software workaround by inserting a
-> +	  second loop of Cache Maintenance Operation (CMO) immediately following the
-> +	  end of function to do CMOs. This ensures that the data is correctly serialized
-> +	  before the buffer is handed off to a non-coherent agent.
-> +
-> +	  If unsure, say Y.
-> +
->  config CAVIUM_ERRATUM_22375
->  	bool "Cavium erratum 22375, 24313"
->  	default y
-> diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
-> index f0ca7196f6fa..d3d46e5f7188 100644
-> --- a/arch/arm64/include/asm/assembler.h
-> +++ b/arch/arm64/include/asm/assembler.h
-> @@ -381,6 +381,9 @@ alternative_endif
->  	.macro dcache_by_myline_op op, domain, start, end, linesz, tmp, fixup
->  	sub	\tmp, \linesz, #1
->  	bic	\start, \start, \tmp
-> +alternative_if ARM64_WORKAROUND_4311569
-> +	mov	\tmp, \start
-> +alternative_else_nop_endif
->  .Ldcache_op\@:
->  	.ifc	\op, cvau
->  	__dcache_op_workaround_clean_cache \op, \start
-> @@ -402,6 +405,13 @@ alternative_endif
->  	add	\start, \start, \linesz
->  	cmp	\start, \end
->  	b.lo	.Ldcache_op\@
-> +alternative_if ARM64_WORKAROUND_4311569
-> +	.ifnc	\op, cvau
-> +	mov	\start, \tmp
-> +	mov	\tmp, xzr
-> +	cbnz	\start, .Ldcache_op\@
-> +	.endif
-> +alternative_else_nop_endif
->  	dsb	\domain
->  
->  	_cond_uaccess_extable .Ldcache_op\@, \fixup
-> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-> index 8cb3b575a031..5c0ab6bfd44a 100644
-> --- a/arch/arm64/kernel/cpu_errata.c
-> +++ b/arch/arm64/kernel/cpu_errata.c
-> @@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
->  	return (ctr_real != sys) && (ctr_raw != sys);
->  }
->  
-> +#ifdef CONFIG_ARM64_ERRATUM_4311569
-> +static DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
-> +static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
-> +{
-> +	static_branch_enable(&arm_si_l1_workaround_4311569);
-> +	pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
-> +
-> +	return 0;
-> +}
-> +early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
-> +
-> +/*
-> + * We have some earlier use cases to call cache maintenance operation functions, for example,
-> + * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
-> + * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
-> + * safe to have the workaround off by default.
-> + */
-> +static bool
-> +need_arm_si_l1_workaround_4311569(const struct arm64_cpu_capabilities *entry, int scope)
-> +{
-> +	return static_branch_unlikely(&arm_si_l1_workaround_4311569);
-> +}
-> +#endif
-
-But this isn't a detection mechanism. That's relying on the user
-knowing they are dealing with broken hardware. How do they find out?
-You don't even call out what platform is actually affected...
-
-The other elephant in the room is virtualisation: how does a guest
-performing CMOs deals with this? How does it discover the that the
-host is broken? I also don't see any attempt to make KVM handle the
-erratum on behalf of the guest...
-
-Thanks,
-
-	M.
+ Documentation/admin-guide/cgroup-v2.rst       |  40 +++--
+ kernel/cgroup/cpuset-internal.h               |   3 +
+ kernel/cgroup/cpuset-v1.c                     |  19 +++
+ kernel/cgroup/cpuset.c                        | 141 +++++++-----------
+ .../selftests/cgroup/test_cpuset_prs.sh       |  26 +++-
+ 5 files changed, 125 insertions(+), 104 deletions(-)
 
 -- 
-Jazz isn't dead. It just smells funny.
+2.52.0
+
