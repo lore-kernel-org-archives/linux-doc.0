@@ -1,106 +1,139 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F231885A5;
-	Fri,  2 Jan 2026 06:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDB6186E58;
+	Fri,  2 Jan 2026 06:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767335905; cv=none; b=XtugSGwBBlPbzb+KeEiST2ySlWXM2tDNdWC6VGqEIBi15zOFht4iIJ+dTGu4nVYXuNkWLsT5IQA/9EcYxaXvb3RIwAUZbJjX8PXohC5/s/eS0jaLYJqZ6rBGCiq4j/kBh2W1HsH9zxr0mXsUpNHcXZ4TT8ZTn3a4CHBTmRAr2QQ=
+	t=1767337176; cv=none; b=NyfnD/ybUBVsxCBV0lRVZ/AkY5fJ/uBL0wXiQ4utIXLmHQ3Ws1TAJz94MTSZAc0dEjRqFUp/86PU5U6NL84dGz+Ly8YB+xqriR6qHGP5Xar7ITi+lQkrej0oZaN05HLAK0G+Nd59YN+vcxaxDQLlForVNi0nDY4zPnTCvaKT2aU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767335905; c=relaxed/simple;
-	bh=R3AnrFHbh8TQQScS687kHcUSpJvGR+ET28h+IbwlH2M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JvDmko+CoQI9hN5aTfMPrEZeMHciCb1jwTqDAWt/9/zv9p8uY7cUnlSUosjlUMURLlWxW0tPBTS8VUYbI6yMU/f4APiKrTVSQcPdIZW5R/alt+8nkdBLhRwbgn6DhxPWP1Hw+IExu9mb36Q02VKf95FQKBICeYfrVmRl6LfKlJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jF7NDBKH; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1767337176; c=relaxed/simple;
+	bh=6UamW9ypeYvnLArvWXDR1zXy9G1XczNWSIs66XcI5UY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JILajEJeZ35MRLyMg7Iw0q+IpK4NlAevAUYR+NtsUQHsxl5tORiTn6hhbxSBkuBqg0qGKIcwyXY9u7IwTHEmL3BzB7mLspJyK+U8mnn4ZyRITrANbJ7LTsH5OKh2cP6mc5dr7G0DnBZkdbDVoTtC1iLJBXqrDAT8Ygd/3FZWYLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JURDexdX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jF7NDBKH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=O8PnxQIXbNX8jTjg3WSeZx0j/r/E3lYua+dp3OURtzk=; b=jF7NDBKHWbdwi0RclfAS2rjeMD
-	plmqkBPyQUJDZqACcbu7+Sh56+AZz7XJwTw1FE4bTYRaEZ33UuKx1IT/tO5+WFLh3WLepm22eJqk3
-	RTmxxSsuquDrYEsD+025t9EJus9C8Gi0Vu24dBmkBHIN6Y8tvi6mZCVDzo7vYO1Ri5UgTWT91i79z
-	7NWQ3iYZgJhsA/CKz7ZGbosh3bi3juGPk6O3AY8y/iRDp3FSqXiuYEbICyXtc+jJho2KX4pM30//b
-	k1PLq0PDXAvYApmjBWlKE2C5VzThMwnfXpLIXjmWdonu4xovuUTUiyzs0HjeNO6vQWCOvqCbT9Bay
-	RSG3jNGw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbYnj-00000007r3V-1m4L;
-	Fri, 02 Jan 2026 06:38:19 +0000
-Message-ID: <424be38c-e315-42e3-9783-51ce34310d38@infradead.org>
-Date: Thu, 1 Jan 2026 22:38:18 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JURDexdX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B4AC116B1;
+	Fri,  2 Jan 2026 06:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767337175;
+	bh=6UamW9ypeYvnLArvWXDR1zXy9G1XczNWSIs66XcI5UY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JURDexdXezRaYfVCWbUaXW3lzvXlm31RIqEgAxJWeFjD7mvppUL+nB5Q6DW/syoE7
+	 9KCN3XX0+IFrZ6lXHKvj23Zbubf1juMpQoyVR3R5K+W0wTXoTePytdymIvKf7/FuUt
+	 b7F7Op6aP4W0iuoMzjx2QqloKghcV05PUK7YhWlqmCDHRezSFJ5+E+XxOvd9U94KrO
+	 yMpXKhnr9xm6zugptlmyDIWLkIzbYaeb0b/lyAP5EPPZjPoSkHAZCyI/7qGe07Bh3c
+	 ZF/OMYqQXU+WaQeAzqytLFSZafleWXTxSNL1jQdGV6O5YweZiL0UFX3Jm+OycztA8g
+	 kFuOhUi2qJ56g==
+Date: Fri, 2 Jan 2026 08:59:12 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>,
+	Stafford Horne <shorne@gmail.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+	x86@kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org
+Subject: Re: [PATCH 00/28] arch, mm: consolidate hugetlb early reservation
+Message-ID: <aVdswNM9PUN6Kr8Q@kernel.org>
+References: <20251228124001.3624742-1-rppt@kernel.org>
+ <20251231172714.a7fe44e856c14fdc8fe1cb43@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1503/2671] htmldocs:
- Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-To: Matthew Wilcox <willy@infradead.org>
-Cc: kernel test robot <lkp@intel.com>,
- Benjamin Coddington <bcodding@hammerspace.com>,
- oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org
-References: <202601011410.4vVaIDB9-lkp@intel.com>
- <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
- <aVc_KwkNGsPxS5jT@casper.infradead.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aVc_KwkNGsPxS5jT@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251231172714.a7fe44e856c14fdc8fe1cb43@linux-foundation.org>
 
-
-
-On 1/1/26 7:44 PM, Matthew Wilcox wrote:
-> On Thu, Jan 01, 2026 at 07:36:48PM -0800, Randy Dunlap wrote:
->> fs/open.c is not used in Documentation/ (where the lines were moved _from_).
+On Wed, Dec 31, 2025 at 05:27:14PM -0800, Andrew Morton wrote:
+> On Sun, 28 Dec 2025 14:39:30 +0200 Mike Rapoport <rppt@kernel.org> wrote:
 > 
-> That seems like it might be worth a patch?
+> > Order in which early memory reservation for hugetlb happens depends on
+> > architecture, on configuration options and on command line parameters.
+> > 
+> > Some architectures rely on the core MM to call hugetlb_bootmem_alloc()
+> > while others call it very early to allow pre-allocation of HVO-style
+> > vmemmap.
+> > 
+> > When hugetlb_cma is supported by an architecture it is initialized during
+> > setup_arch() and then later hugetlb_init code needs to understand did it
+> > happen or not.
+> > 
+> > To make everything consistent and unified, both reservation of hugetlb
+> > memory from bootmem and creation of CMA areas for hugetlb must be called
+> > from core MM initialization and it would have been a simple change.
+> > However, HVO-style pre-initialization ordering requirements slightly
+> > complicate things and for HVO pre-init to work sparse and memory map should
+> > be initialized after hugetlb reservations.
+> > 
+> > This required pulling out the call to free_area_init() out of setup_arch()
+> > path and moving it MM initialization and this is what the first 23 patches
+> > do.
+> > 
+> > These changes are deliberately split into per-arch patches that change how
+> > the zone limits are calculated for each architecture and the patches 22 and
+> > 23 just remove the calls to free_area_init() and sprase_init() from arch/*.
+> > 
+> > Patch 24 is a simple cleanup for MIPS.
+> > 
+> > Patches 25 and 26 actually consolidate hugetlb reservations and patches 27
+> > and 28 perform some aftermath cleanups.
 > 
-> +++ b/Documentation/filesystems/api-summary.rst
-> @@ -56,6 +56,9 @@ Other Functions
->  .. kernel-doc:: fs/namei.c
->     :export:
+> Thanks for the diligence - this can't have been the most exciting thing
+> to work on!
 > 
-> +.. kernel-doc:: fs/open.c
-> +   :export:
-> +
->  .. kernel-doc:: block/bio.c
->     :export:
+> > I tried to trim the distribution list and although it's still quite long
+> > if you feel that someone was wrongly excluded please add them back.
 > 
-> 
-> ... of course, then someone would have to check it didn't introduce new
-> errors, so it's a bit more work than that.  Perhaps you'd like to take
-> care of it?
+> I'll add these to mm.git's mm-new branch for some testing.  I'll
+> suppress the usual email storm because 41 * 28 is a lot of emails ;)
 
-It seems safe enough unless -Wall or -Wreturn is used (these are not used
-by default AFAICT), yielding these warnings:
-Warning: fs/open.c:1046 No description found for return value of 'finish_open'
-Warning: fs/open.c:1069 No description found for return value of 'finish_no_open'
-Warning: fs/open.c:1089 No description found for return value of 'vfs_open'
-Warning: fs/open.c:1330 No description found for return value of 'file_open_name'
-Warning: fs/open.c:1351 No description found for return value of 'filp_open'
-Warning: fs/open.c:1046 No description found for return value of 'finish_open'
-Warning: fs/open.c:1069 No description found for return value of 'finish_no_open'
-Warning: fs/open.c:1089 No description found for return value of 'vfs_open'
-Warning: fs/open.c:1330 No description found for return value of 'file_open_name'
-Warning: fs/open.c:1351 No description found for return value of 'filp_open'
-
-
-Sure, I'll send that patch.
-
-> (and don't we have a script that flags files that have kernel-doc that's
-> not included in rst files?)
-
-tools/doc/find-unused-docs.sh
+kbuild reported failures on some configurations so I'm anyway going to send
+a lot of emails for v2 :)
 
 -- 
-~Randy
-
+Sincerely yours,
+Mike.
