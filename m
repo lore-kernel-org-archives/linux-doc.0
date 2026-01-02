@@ -1,78 +1,106 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A493155A5D;
-	Fri,  2 Jan 2026 03:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F231885A5;
+	Fri,  2 Jan 2026 06:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767325491; cv=none; b=cL+7r2ZX0dNFejQ+pbGxvsyZkQC2QQW5YmRclmMeem6Bmrnao602ZY2IXj0fNyVoxDAafS7vaiSOgSAVjjzEc6Lqy0H/HwGLpcfWldob4he306ICv+M3ilTf87/8yH+BROWapk95W5SlYs2RnmHeTRlGCGMLPjBRFexBq83DDIU=
+	t=1767335905; cv=none; b=XtugSGwBBlPbzb+KeEiST2ySlWXM2tDNdWC6VGqEIBi15zOFht4iIJ+dTGu4nVYXuNkWLsT5IQA/9EcYxaXvb3RIwAUZbJjX8PXohC5/s/eS0jaLYJqZ6rBGCiq4j/kBh2W1HsH9zxr0mXsUpNHcXZ4TT8ZTn3a4CHBTmRAr2QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767325491; c=relaxed/simple;
-	bh=0xrXZLtn3N4X1QSQnC5Enw0HBWGlo/dm7w3MBtL4jwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PcaCVv5HNzfMY4MvzuqVQPQZxFGXW3iNTqZMz6NtPU2Pb4dcSGkrb3CQkPzI7wLVRJ/YKBj6Q8dercRzhSVPKGuxo6BUJrr3LaaOF60rc/wJN7ysWK0aItQDmCyxJI15VU1h/kC1nUgF1mj7IFhXH4YQ9kkC6WwL6FBUM0zfgYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gOzZOtbp; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1767335905; c=relaxed/simple;
+	bh=R3AnrFHbh8TQQScS687kHcUSpJvGR+ET28h+IbwlH2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JvDmko+CoQI9hN5aTfMPrEZeMHciCb1jwTqDAWt/9/zv9p8uY7cUnlSUosjlUMURLlWxW0tPBTS8VUYbI6yMU/f4APiKrTVSQcPdIZW5R/alt+8nkdBLhRwbgn6DhxPWP1Hw+IExu9mb36Q02VKf95FQKBICeYfrVmRl6LfKlJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jF7NDBKH; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gOzZOtbp"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jF7NDBKH"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xAm726XJfsYmJYLMiHzmbG64ljYGLESddLjLiMTuhes=; b=gOzZOtbpD1GZKNx8skDDTFjB9T
-	8qXx/2wC0Pm0iIQecbk1WXt/TLdyI2fOykEeIQJivIe67YJUintqRT1I4Lon+Tjdbmj8Aas0ZdHw4
-	2B1EMfxp+bzT2y7gkD/QOOi0UsmmzZfQxRmlYQCbqncDU5AvaP6+yQRTPSCYqE1zH8HJiYaxdGeT3
-	sLC7Vwg5VlaS509yYvdN369FhuuBkU84LVWIHGx3TySsU//2v9cG5Q3S5s7KFrh8SbniorUdQ0TF9
-	lbFFEEkn80i53abAhSDj9f+pvZzmHW934ZqP6CQ3Jj4t4KqmJp7Qy50vupqmHHpu6ZYAG+bYf3e/l
-	iY4ZrM8w==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbW5j-0000000629F-41xs;
-	Fri, 02 Jan 2026 03:44:44 +0000
-Date: Fri, 2 Jan 2026 03:44:43 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Benjamin Coddington <bcodding@hammerspace.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [linux-next:master 1503/2671] htmldocs:
- Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-Message-ID: <aVc_KwkNGsPxS5jT@casper.infradead.org>
-References: <202601011410.4vVaIDB9-lkp@intel.com>
- <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=O8PnxQIXbNX8jTjg3WSeZx0j/r/E3lYua+dp3OURtzk=; b=jF7NDBKHWbdwi0RclfAS2rjeMD
+	plmqkBPyQUJDZqACcbu7+Sh56+AZz7XJwTw1FE4bTYRaEZ33UuKx1IT/tO5+WFLh3WLepm22eJqk3
+	RTmxxSsuquDrYEsD+025t9EJus9C8Gi0Vu24dBmkBHIN6Y8tvi6mZCVDzo7vYO1Ri5UgTWT91i79z
+	7NWQ3iYZgJhsA/CKz7ZGbosh3bi3juGPk6O3AY8y/iRDp3FSqXiuYEbICyXtc+jJho2KX4pM30//b
+	k1PLq0PDXAvYApmjBWlKE2C5VzThMwnfXpLIXjmWdonu4xovuUTUiyzs0HjeNO6vQWCOvqCbT9Bay
+	RSG3jNGw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vbYnj-00000007r3V-1m4L;
+	Fri, 02 Jan 2026 06:38:19 +0000
+Message-ID: <424be38c-e315-42e3-9783-51ce34310d38@infradead.org>
+Date: Thu, 1 Jan 2026 22:38:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
-
-On Thu, Jan 01, 2026 at 07:36:48PM -0800, Randy Dunlap wrote:
-> fs/open.c is not used in Documentation/ (where the lines were moved _from_).
-
-That seems like it might be worth a patch?
-
-+++ b/Documentation/filesystems/api-summary.rst
-@@ -56,6 +56,9 @@ Other Functions
- .. kernel-doc:: fs/namei.c
-    :export:
-
-+.. kernel-doc:: fs/open.c
-+   :export:
-+
- .. kernel-doc:: block/bio.c
-    :export:
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 1503/2671] htmldocs:
+ Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+To: Matthew Wilcox <willy@infradead.org>
+Cc: kernel test robot <lkp@intel.com>,
+ Benjamin Coddington <bcodding@hammerspace.com>,
+ oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org
+References: <202601011410.4vVaIDB9-lkp@intel.com>
+ <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
+ <aVc_KwkNGsPxS5jT@casper.infradead.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aVc_KwkNGsPxS5jT@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-... of course, then someone would have to check it didn't introduce new
-errors, so it's a bit more work than that.  Perhaps you'd like to take
-care of it?
 
-(and don't we have a script that flags files that have kernel-doc that's
-not included in rst files?)
+On 1/1/26 7:44 PM, Matthew Wilcox wrote:
+> On Thu, Jan 01, 2026 at 07:36:48PM -0800, Randy Dunlap wrote:
+>> fs/open.c is not used in Documentation/ (where the lines were moved _from_).
+> 
+> That seems like it might be worth a patch?
+> 
+> +++ b/Documentation/filesystems/api-summary.rst
+> @@ -56,6 +56,9 @@ Other Functions
+>  .. kernel-doc:: fs/namei.c
+>     :export:
+> 
+> +.. kernel-doc:: fs/open.c
+> +   :export:
+> +
+>  .. kernel-doc:: block/bio.c
+>     :export:
+> 
+> 
+> ... of course, then someone would have to check it didn't introduce new
+> errors, so it's a bit more work than that.  Perhaps you'd like to take
+> care of it?
+
+It seems safe enough unless -Wall or -Wreturn is used (these are not used
+by default AFAICT), yielding these warnings:
+Warning: fs/open.c:1046 No description found for return value of 'finish_open'
+Warning: fs/open.c:1069 No description found for return value of 'finish_no_open'
+Warning: fs/open.c:1089 No description found for return value of 'vfs_open'
+Warning: fs/open.c:1330 No description found for return value of 'file_open_name'
+Warning: fs/open.c:1351 No description found for return value of 'filp_open'
+Warning: fs/open.c:1046 No description found for return value of 'finish_open'
+Warning: fs/open.c:1069 No description found for return value of 'finish_no_open'
+Warning: fs/open.c:1089 No description found for return value of 'vfs_open'
+Warning: fs/open.c:1330 No description found for return value of 'file_open_name'
+Warning: fs/open.c:1351 No description found for return value of 'filp_open'
+
+
+Sure, I'll send that patch.
+
+> (and don't we have a script that flags files that have kernel-doc that's
+> not included in rst files?)
+
+tools/doc/find-unused-docs.sh
+
+-- 
+~Randy
+
