@@ -1,139 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B1D3112B2
-	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 13:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA90D2153D4;
+	Fri,  2 Jan 2026 14:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767360498; cv=none; b=anXoX36KgK8sR7q6zng0ZXTy8UFn8vIwHauUqB0UBDrWrPGl3kTe0iCHsH6qxN9Qjt9hlIkVzCSyzZHwevRhECsWu7P/Vn+jtZeOhmwQzUtSdYzdiSfS+7h0iJFZW0liI+WiUA/M72UDABS/mN0iigIdse7yX7zSwSGwsb7/rGg=
+	t=1767364414; cv=none; b=Ac4d6i4G1AdpWUmBa1mSC8RQ/qPdiUn09mJO45bE98U0hl7GXcjnZoBv12QZBDqnyW3ECg+t+Qa+902vLytS1e1AoRXkddAv/3pUDzVhjJmFOpUFZByA5eR7H3o3ATpefDn2gKjn6fyT5v2n84YxX2kPBiUx15sDJaLVelH9xig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767360498; c=relaxed/simple;
-	bh=caKMln/4An5074vy/0LbmODygrWbyLltEqRTVzyaZyo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kvkflUw/xz7EGspGaLJjWOMip8kiWUoHwL3omeZWpjSApfwR5aerdPb0yYaGODTEUwWaygNtimELVY5TTLm/1rrYeXwpME5M6RDxP/Yyar3n55m1skeXVexLb9c3vmUiDQLdd6US9zn2CUfJdY8qgJt+704dnjvckuPpwEQETi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j/LYyrVW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767364414; c=relaxed/simple;
+	bh=icFKavWTxpbqVwKSos9/jvpEhvpHdMYn+jSXfuIuwsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BWOIdKgWWp/s0p2mVwtUz5Exu4LS6FS43WZCcXf16tG8Nvk04UlUCdjFdugrgMlT+tCk+sep14ejGIFscPqZHz0/QpntnY7g9b0RyuY9AQCEySsDDEhAAeqCHgAQOhB8Td2/KPRR65kryqXR1iIiPJwnYc+7EPRa5fcuYpiIKKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=r4VlfkmB; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j/LYyrVW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC028C116C6
-	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 13:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767360497;
-	bh=caKMln/4An5074vy/0LbmODygrWbyLltEqRTVzyaZyo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=j/LYyrVWYBX6/xiFBJCYzPt2mAjHPCdML6RZHqYxHB3JLuG+XVa48k+IbFa1/ydYH
-	 yzLWkGX2d/nsNwNLBfGEKgQx/Y31IcJRJytcsUrwFYWxV4I4ndl8HDE1gsWW9D+fsW
-	 tkOdzT6QA4VM80ok+nOp6C16Iy1MKAT95Q/2l9114MivMXUzbox1yPNxO2sfnrqTwX
-	 pm8UKITq5tQDOE65/Qnd0pkfKV9M7ZB31pmItU0vWSV/qe8rZrpUm2qM/b1BHC1YYp
-	 F/QZg0d4SfPs97bZzrucZYLPyO4UX37A651XQnEg9dQ930Z2nK3qcF40HhLqhQRSeU
-	 h/5hZzEbjYRDQ==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5958931c9c7so13818015e87.2
-        for <linux-doc@vger.kernel.org>; Fri, 02 Jan 2026 05:28:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWepqnR3z9vuYHPUlEfT38XnDkDX4Y0Ve4ERQpZa1Yjj0Lq0vtN3TbiOfoVXUJgFxfbXQKro2dxnEQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybuLqCv94pVWrfhiavp8iSF4kT3EDDKXdnHXC99UGhx7cmC/XN
-	RUTr/vn3lJrQ/8PA30zR0H5TT28ObJgbXn9w+RXhcS/LNb2Ut7wfFjho4i9yWsDtWaTy/Rh9G9c
-	uk3TBQMh86PwX9A/YRePDc+3DOuhTRKNiMCTdokUB+g==
-X-Google-Smtp-Source: AGHT+IHHF6srkWGBj0h2W2m125Q8RRqweGoiS7tVO11k+MLcdE1dgvfbJ2DaGFg9ECUq+/XShJKxHMrRpS3Ip55rUHI=
-X-Received: by 2002:a05:6512:398c:b0:594:522d:68f4 with SMTP id
- 2adb3069b0e04-59a17de2c1amr14462802e87.28.1767360495900; Fri, 02 Jan 2026
- 05:28:15 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="r4VlfkmB"
+Received: from [192.168.1.91] (108-224-74-107.lightspeed.tukrga.sbcglobal.net [108.224.74.107])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6752E2124E3C;
+	Fri,  2 Jan 2026 06:33:29 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6752E2124E3C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1767364410;
+	bh=qbHG+Tw4XciLlS0G2pLKNnfrIdUptEZMMJOjYD90t04=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r4VlfkmB1uK7MTVEKERU/Obbujsp/t1CFN1mwLByJclFH5Q/CSGRjZlrnf7/ZdbNx
+	 9Iuu8KDJrrSCVc+SUyoxntkHlpbZW5zgIdoYe4sgLix+t0/sD+hLWgZKb8XBr1DlTT
+	 Aplb/AuddLnl9qhO8c2mnDUTDZNOvCejIAjOR5hE=
+Message-ID: <4aaac6b2-54a8-496c-b456-51a2bd9ddf51@linux.microsoft.com>
+Date: Fri, 2 Jan 2026 06:33:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1767089672.git.mst@redhat.com> <55e9351282f530e2302e11497c6339c4a2e74471.1767112757.git.mst@redhat.com>
- <CAMRc=MfWX5CZ6GL0ph1g-KupBS3gaztk=VxTnfC1QwUvQmuZrg@mail.gmail.com> <20260102080135-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20260102080135-mutt-send-email-mst@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 2 Jan 2026 14:27:50 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MdWWQihgt8haFYxSh7MgUoBuf3ZkBA6cbErSVNmAtb8Mw@mail.gmail.com>
-X-Gm-Features: AQt7F2qkcWsOmteak3UHSQG8tO-rpcwm3KC2_8dv0RlxH64IzhKa8xcVzXSnZm4
-Message-ID: <CAMRc=MdWWQihgt8haFYxSh7MgUoBuf3ZkBA6cbErSVNmAtb8Mw@mail.gmail.com>
-Subject: Re: [PATCH RFC 15/13] gpio: virtio: reorder fields to reduce struct padding
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Olivia Mackall <olivia@selenic.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Stefano Garzarella <sgarzare@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Petr Tesarik <ptesarik@suse.com>, Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org, 
-	"Enrico Weigelt, metux IT consult" <info@metux.net>, Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/1] IMA event log trimming
+To: Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org
+Cc: roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, corbet@lwn.net, serge@hallyn.com,
+ paul@paul-moore.com, jmorris@namei.org,
+ linux-security-module@vger.kernel.org, anirudhve@linux.microsoft.com,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ sushring@linux.microsoft.com, linux-doc@vger.kernel.org,
+ steven chen <chenste@linux.microsoft.com>
+References: <20251210235314.3341-1-chenste@linux.microsoft.com>
+ <20251210235314.3341-2-chenste@linux.microsoft.com>
+ <d80958ec-f139-41e9-afa0-a5aca94221de@linux.microsoft.com>
+ <c93907cb0f08f9baa320488989aa87e7867ee9da.camel@linux.ibm.com>
+ <b9d7bcea-3784-4ad6-b494-374db0c00cc6@linux.microsoft.com>
+ <9a26898f46406314be1308e5416c0d51cedf44a4.camel@linux.ibm.com>
+Content-Language: en-US
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <9a26898f46406314be1308e5416c0d51cedf44a4.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 2, 2026 at 2:02=E2=80=AFPM Michael S. Tsirkin <mst@redhat.com> =
-wrote:
+On 12/23/2025 2:32 PM, Mimi Zohar wrote:
+> On Tue, 2025-12-16 at 11:59 -0800, steven chen wrote:
+>>>>> +{
+>>>>> +	struct ima_queue_entry *qe, *qe_tmp;
+>>>>> +	LIST_HEAD(ima_measurements_staged);
+>>>>> +	unsigned int i;
+>>>>> +	long cur = number_logs;
+>>> The variable name "number_logs" is confusing.  As I mentioned in the patch
+>>> description, there is one measurement list with multiple records.  There aren't
+>>> multiple logs in the kernel (other than the staged list).
+>> Will update it to "req_value". Thanks!
+> Please refer to the section titled "Naming" in Documentation/process/coding-
+> style.rst.  Since this is the number of records being deleted, perhaps a better
+> variable name would be "num_records".
 >
-> On Fri, Jan 02, 2026 at 12:47:04PM +0000, Bartosz Golaszewski wrote:
-> > On Tue, 30 Dec 2025 17:40:33 +0100, "Michael S. Tsirkin" <mst@redhat.co=
-m> said:
-> > > Reorder struct virtio_gpio_line fields to place the DMA buffers (req/=
-res)
-> > > last. This eliminates the need for __dma_from_device_aligned_end padd=
-ing
-> > > after the DMA buffer, since struct tail padding naturally protects it=
-,
-> > > making the struct a bit smaller.
-> > >
-> > > Size reduction estimation when ARCH_DMA_MINALIGN=3D128:
-> > > - request is 8 bytes
-> > > - response is 2 bytes
-> > > - removing _end saves up to 128-6=3D122 bytes padding to align rxlen =
-field
-> > >
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  drivers/gpio/gpio-virtio.c | 5 ++---
-> > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
-> > > index 32b578b46df8..8b30a94e4625 100644
-> > > --- a/drivers/gpio/gpio-virtio.c
-> > > +++ b/drivers/gpio/gpio-virtio.c
-> > > @@ -26,12 +26,11 @@ struct virtio_gpio_line {
-> > >     struct mutex lock; /* Protects line operation */
-> > >     struct completion completion;
-> > >
-> > > +   unsigned int rxlen;
-> > > +
-> > >     __dma_from_device_aligned_begin
-> > >     struct virtio_gpio_request req;
-> > >     struct virtio_gpio_response res;
-> > > -
-> > > -   __dma_from_device_aligned_end
-> > > -   unsigned int rxlen;
-> > >  };
-> > >
-> > >  struct vgpio_irq_line {
-> > > --
-> > > MST
-> > >
-> > >
-> >
-> > Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
->
-> Thanks! There's a new API as suggested by Petr so these patches got chang=
-ed,
-> but the same idea. Do you want me to carry your ack or you prefer to
-> re-review?
->
-> --
-> MST
->
+Will update. Thanks
 
-I'll take a second look. Can you Cc me on all the key patches - like
-the ones introducing new APIs? I needed to grab it from lore this
-time.
+Steven
 
-Bart
