@@ -1,105 +1,106 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1773822157E
-	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 15:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17472D2382;
+	Fri,  2 Jan 2026 16:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767368053; cv=none; b=fBmq16PRXpdpuH32sY0uS2Djp0IGCGgQnQghGxfPkfKNciKpIWWx2CUpby1dHrwA+CtknYVHnAHFlFTWEmCRPaLetaY9Gbtd2QKUhlL9nSZSGvvuazuuVPbbRV0GB4tHqh/ECRvcyLl84TRvwyAVeo/YPpeQ4dGsU5YZH4W/Gts=
+	t=1767373150; cv=none; b=gOz2vxrYsIW3sevtL7am5uwWB0/hvm/tx46TptQX6b0KEJ5RoZ9CZt9OqybMPWqyDaG3irMKxrwz9lUePlw34yEm0e7GnkJid7/4xsjeeTGkf7MKsFgHjGz35vXRuEQDJnw45P2UBWNImQIyI4gVFUWFvl4/Hf1B4iUyACqbmSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767368053; c=relaxed/simple;
-	bh=Lc0Vaiwhg93Kftu6FwUF3q06s2V6DW0Q+a+GiQZrgTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hqok9aCYO6QyOhgV7FGsb1Zdi5IHb+rrW8GOxSpY/GoL9yXPGwE/8mL6d/0cCHZ+dHcUeWc2T+IQoXeiVM3+YMq6zJw26Bkz7sKgWVO5AR8+Ye06+yLuu2EcMGYguEeCqp+QQsg9UmS2bDq0fzG/HEEcYV+Tg4WmgFfrERw+IFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dE5fKgc0; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1767373150; c=relaxed/simple;
+	bh=93aTDd4xZDg4fITRXyUcXLnUNcewMkg/U29u/qTvrYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JDF3XKRg4RLsDb8ryX67BuqZ3tZ/4LbzBI6hY0rZWNzsThII5QKQTvTulxxIb2K0ZdOemxUl8Pb9Y9Ib7o2ChsfG7rxDGm8FYASWgHfRWKaU3xAwbNoF8Xx5ivtEeplWxCpTv05Hoe0n2nfFfS8piqfLfSo2ndz+L1uMLpYuXCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MuckP2vU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dE5fKgc0"
-Message-ID: <bcd23277-a18e-4bb5-ba76-3416c84511c2@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767368038;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zq7PL7Unph+1q4/lCVQBzEE0/yE1hCPnq6+DR6Z5GKU=;
-	b=dE5fKgc0cUMTP0cxONjiR/QximBbiXME50mdT2bwFrQOfC496bubQDvWMpnI5Jet8TMM1W
-	UxABwrcWqNALr/2G6Wv2F51CsQD+eQQ94yi026maOeAAG6HocWMFTGESnlLwDS+x40V5gC
-	qmkBlHRftFiIi+Apbkoy+vKzf4AL+44=
-Date: Fri, 2 Jan 2026 07:33:50 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MuckP2vU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95DBDC116B1;
+	Fri,  2 Jan 2026 16:59:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767373149;
+	bh=93aTDd4xZDg4fITRXyUcXLnUNcewMkg/U29u/qTvrYo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MuckP2vUP8cLx7Ib/Y4DR2nTgxjUeC60wDuQymfnPAuug2l71KreoB2UK8KpCxNJ4
+	 wBG0NYqQZO+d7WHQrCVMo/nfazHfDttpHdoLZv75qg9Ua/o3b3cRLMtPJEGVJhJGuI
+	 iLxEVe6cEqnyHxqiM+G15M9yEkrPbI0QRSkJp1bKA7O5Dm3YAvR+xTS/d2cyVcHQbl
+	 dTpW1Cq0XXJlDVkLw9VaZE/8jCWuT8+Vwp5NMxcZoGNxJrSFGxA+ShacAd/2PiCsKZ
+	 kjglGj/dDvs7hvOq2+KCtP90Dl6G86hlOyfJ7Mmh+MoYr91FJhcxWaoYRb3JNsyKze
+	 Rt3XghPTVjzWA==
+Date: Fri, 2 Jan 2026 22:29:05 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+Message-ID: <aVf5WUe9cAXZHxPJ@vaman>
+References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
+ <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
+ <aUFX14nz8cQj8EIb@vaman>
+ <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+ <aUF2gj_0svpygHmD@vaman>
+ <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+ <aUpyrIvu_kG7DtQm@vaman>
+ <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <aVZh3hb32r1oVcwG@vaman>
+ <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next] bpf, docs: Update pahole to 1.28 for selftests
-To: Hemanth Malla <vmalla@linux.microsoft.com>, bpf@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, vmalla@microsoft.com,
- corbet@lwn.net, Alan Maguire <alan.maguire@oracle.com>,
- dwarves <dwarves@vger.kernel.org>
-References: <1767352415-24862-1-git-send-email-vmalla@linux.microsoft.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <1767352415-24862-1-git-send-email-vmalla@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
 
-On 1/2/26 3:13 AM, Hemanth Malla wrote:
-> From: Hemanth Malla <vmalla@microsoft.com>
+On 02-01-26, 10:26, Bartosz Golaszewski wrote:
+> On Thu, Jan 1, 2026 at 1:00 PM Vinod Koul <vkoul@kernel.org> wrote:
+> >
+> > > >
+> > > > > It will perform register I/O with DMA using the BAM locking mechanism
+> > > > > for synchronization. Currently linux doesn't use BAM locking and is
+> > > > > using CPU for register I/O so trying to access locked registers will
+> > > > > result in external abort. I'm trying to make the QCE driver use DMA
+> > > > > for register I/O AND use BAM locking. To that end: we need to pass
+> > > > > information about wanting the command descriptor to contain the
+> > > > > LOCK/UNLOCK flag (this is what we set here in the hardware descriptor)
+> > > > > from the QCE driver to the BAM driver. I initially used a global flag.
+> > > > > Dmitry said it's too Qualcomm-specific and to use metadata instead.
+> > > > > This is what I did in this version.
+> > > >
+> > > > Okay, how will client figure out should it set the lock or not? What are
+> > > > the conditions where the lock is set or not set by client..?
+> > > >
+> > >
+> > > I'm not sure what you refer to as "client". The user of the BAM engine
+> > > - the crypto driver? If so - we convert it to always lock/unlock
+> > > assuming the TA *may* use it and it's better to be safe. Other users
+> > > are not affected.
+> >
+> > Client are users of dmaengine. So how does the crypto driver figure out
+> > when to lock/unlock. Why not do this always...?
+> >
 > 
-> pahole 1.16 doesn't seem to be to sufficient anymore for running bpf
-> selftests.
-> 
-> Signed-off-by: Hemanth Malla <vmalla@microsoft.com>
-> ---
->  Documentation/bpf/bpf_devel_QA.rst | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf_devel_QA.rst
-> index 0acb4c9b8d90..3a147b6c780e 100644
-> --- a/Documentation/bpf/bpf_devel_QA.rst
-> +++ b/Documentation/bpf/bpf_devel_QA.rst
-> @@ -482,7 +482,7 @@ under test should match the config file fragment in
->  tools/testing/selftests/bpf as closely as possible.
->  
->  Finally to ensure support for latest BPF Type Format features -
-> -discussed in Documentation/bpf/btf.rst - pahole version 1.16
-> +discussed in Documentation/bpf/btf.rst - pahole version 1.28
+> It *does* do it always. We assume the TA may be doing it so the crypto
+> driver is converted to *always* perform register I/O with DMA *and* to
+> always lock the BAM for each transaction later in the series. This is
+> why Dmitry inquired whether all the HW with upstream support actually
+> supports the lock semantics.
 
-Hi Hemanth, thanks for the patch.
+Okay then why do we need an API?
 
-Acked-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+Just lock it always and set the bits in the dma driver
 
-1.28 is needed for --distilled_base [1], which is only a requirement
-for tests using modules. Many other tests are likely to work with
-older versions, but the minimum for the kernel build is 1.22 now [2].
-
-Not sure if it's worth it to add this nuance to the QA doc, although
-in general we should recommend people running the selftests to use the
-latest pahole release. Maybe add a comment?
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/bpf/btf.rst?h=v6.18#n986
-[2] https://lore.kernel.org/bpf/20251219181825.1289460-1-ihor.solodrai@linux.dev/
-
->  is required for kernels built with CONFIG_DEBUG_INFO_BTF=y.
->  pahole is delivered in the dwarves package or can be built
->  from source at
-> @@ -502,9 +502,6 @@ codes from
->  
->  https://fedorapeople.org/~acme/dwarves
->  
-> -Some distros have pahole version 1.16 packaged already, e.g.
-> -Fedora, Gentoo.
-> -
->  Q: Which BPF kernel selftests version should I run my kernel against?
->  ---------------------------------------------------------------------
->  A: If you run a kernel ``xyz``, then always run the BPF kernel selftests
-
+-- 
+~Vinod
