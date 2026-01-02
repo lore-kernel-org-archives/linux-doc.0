@@ -1,76 +1,85 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA90D2153D4;
-	Fri,  2 Jan 2026 14:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7489623313E
+	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 15:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767364414; cv=none; b=Ac4d6i4G1AdpWUmBa1mSC8RQ/qPdiUn09mJO45bE98U0hl7GXcjnZoBv12QZBDqnyW3ECg+t+Qa+902vLytS1e1AoRXkddAv/3pUDzVhjJmFOpUFZByA5eR7H3o3ATpefDn2gKjn6fyT5v2n84YxX2kPBiUx15sDJaLVelH9xig=
+	t=1767366801; cv=none; b=q5FXGm8Il6AE5ePYXvIlrInuBc4AD6+xAzj6I4xjod2nR8geG4EC6EtQx4Wx6N5lT/DZwWaet3tOemwJXqVnP+SrcZteJ2byGqllGxvUUjIMeA2tIkyqNSDQNIpKbCumQNxuHOVDG/olbPCV5tx//TZN5Ocmvvsy538TSgF9cFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767364414; c=relaxed/simple;
-	bh=icFKavWTxpbqVwKSos9/jvpEhvpHdMYn+jSXfuIuwsQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BWOIdKgWWp/s0p2mVwtUz5Exu4LS6FS43WZCcXf16tG8Nvk04UlUCdjFdugrgMlT+tCk+sep14ejGIFscPqZHz0/QpntnY7g9b0RyuY9AQCEySsDDEhAAeqCHgAQOhB8Td2/KPRR65kryqXR1iIiPJwnYc+7EPRa5fcuYpiIKKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=r4VlfkmB; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1767366801; c=relaxed/simple;
+	bh=z7ie/EnZoeH7EjE8H6aevBXgR6F2p76ThYZWqAS+5ds=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OCUmuqZjUCe7S3IF4puMkmzljJLOH3l4U9x3gURZfSV3sKOD0hqMz2/8ucq4SYMeDHrN7JJugGZoxxB1nPUzPn60Bu6FbPs2S+/+rOM50QV84/w88ytCJ1uCEvuYeAB4y9oEPvz+lJ7M6G2lmTPVoaEpwcK/3bjnx9oiD329iHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jck8UJgY; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="r4VlfkmB"
-Received: from [192.168.1.91] (108-224-74-107.lightspeed.tukrga.sbcglobal.net [108.224.74.107])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6752E2124E3C;
-	Fri,  2 Jan 2026 06:33:29 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6752E2124E3C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1767364410;
-	bh=qbHG+Tw4XciLlS0G2pLKNnfrIdUptEZMMJOjYD90t04=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r4VlfkmB1uK7MTVEKERU/Obbujsp/t1CFN1mwLByJclFH5Q/CSGRjZlrnf7/ZdbNx
-	 9Iuu8KDJrrSCVc+SUyoxntkHlpbZW5zgIdoYe4sgLix+t0/sD+hLWgZKb8XBr1DlTT
-	 Aplb/AuddLnl9qhO8c2mnDUTDZNOvCejIAjOR5hE=
-Message-ID: <4aaac6b2-54a8-496c-b456-51a2bd9ddf51@linux.microsoft.com>
-Date: Fri, 2 Jan 2026 06:33:28 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jck8UJgY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767366800; x=1798902800;
+  h=date:from:to:cc:subject:message-id;
+  bh=z7ie/EnZoeH7EjE8H6aevBXgR6F2p76ThYZWqAS+5ds=;
+  b=jck8UJgYS+0tJf5yDXntZ//UCDTdjGyd8DANz8hkF8gtYjsE+Y3SK9+O
+   A2NxWYEUiIGdLLGIdmFHYsgfkeuq3RFbIvJOAAwMOKjoPs0h8Yy3Ot8rI
+   peZ870QILD/fcmWhre1f3IEht9963CZ0LbRW4p1R0gY1PO53YR+eaNExu
+   ektXxCQFinZGlqSAJwlq/3C6INBDMg6vJs1qMuO8omVoa6OjQk4Oixy1N
+   oJOyiSfYXzuWesL+ehFcCaOR7N5Ckz+vKKgs24GM2+9fQqpgzpPwa2fCV
+   3LmuXHNed26bWmyhjJwgakZrDkwyGmxgSi06NrfWO/z8uaTgRdzhSGrbM
+   Q==;
+X-CSE-ConnectionGUID: q5+ZFqWUQxq+AehryFxEow==
+X-CSE-MsgGUID: n1ORsMDpSXmlQsxekrS7MA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="72487467"
+X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
+   d="scan'208";a="72487467"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 07:13:15 -0800
+X-CSE-ConnectionGUID: KjgeUp0eQWeM5+fN697cCA==
+X-CSE-MsgGUID: iwLNjtX5Qa6zDnUdpLd2gg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
+   d="scan'208";a="201718119"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 02 Jan 2026 07:13:08 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vbgps-000000000Rd-3D6U;
+	Fri, 02 Jan 2026 15:13:04 +0000
+Date: Fri, 02 Jan 2026 16:13:02 +0100
+From: kernel test robot <lkp@intel.com>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org
+Subject: [asahilinux:bits/110-smc 6/16] htmldocs:
+ Documentation/hwmon/macsmc-hwmon.rst: WARNING: document isn't included in any
+ toctree [toc.not_included]
+Message-ID: <202601021633.yfBKd2ik-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/1] IMA event log trimming
-To: Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org
-Cc: roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, corbet@lwn.net, serge@hallyn.com,
- paul@paul-moore.com, jmorris@namei.org,
- linux-security-module@vger.kernel.org, anirudhve@linux.microsoft.com,
- gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
- sushring@linux.microsoft.com, linux-doc@vger.kernel.org,
- steven chen <chenste@linux.microsoft.com>
-References: <20251210235314.3341-1-chenste@linux.microsoft.com>
- <20251210235314.3341-2-chenste@linux.microsoft.com>
- <d80958ec-f139-41e9-afa0-a5aca94221de@linux.microsoft.com>
- <c93907cb0f08f9baa320488989aa87e7867ee9da.camel@linux.ibm.com>
- <b9d7bcea-3784-4ad6-b494-374db0c00cc6@linux.microsoft.com>
- <9a26898f46406314be1308e5416c0d51cedf44a4.camel@linux.ibm.com>
-Content-Language: en-US
-From: steven chen <chenste@linux.microsoft.com>
-In-Reply-To: <9a26898f46406314be1308e5416c0d51cedf44a4.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-On 12/23/2025 2:32 PM, Mimi Zohar wrote:
-> On Tue, 2025-12-16 at 11:59 -0800, steven chen wrote:
->>>>> +{
->>>>> +	struct ima_queue_entry *qe, *qe_tmp;
->>>>> +	LIST_HEAD(ima_measurements_staged);
->>>>> +	unsigned int i;
->>>>> +	long cur = number_logs;
->>> The variable name "number_logs" is confusing.  As I mentioned in the patch
->>> description, there is one measurement list with multiple records.  There aren't
->>> multiple logs in the kernel (other than the staged list).
->> Will update it to "req_value". Thanks!
-> Please refer to the section titled "Naming" in Documentation/process/coding-
-> style.rst.  Since this is the number of records being deleted, perhaps a better
-> variable name would be "num_records".
->
-Will update. Thanks
+tree:   https://github.com/AsahiLinux/linux bits/110-smc
+head:   fe39760be35ca7bbb9018ad840d97f6a2dd4179d
+commit: d33e6a701bd26fadd63f260c9b1dbdee36ce8e2b [6/16] hwmon: Add Apple Silicon SMC hwmon driver
+reproduce: (https://download.01.org/0day-ci/archive/20260102/202601021633.yfBKd2ik-lkp@intel.com/reproduce)
 
-Steven
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601021633.yfBKd2ik-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+>> Documentation/hwmon/macsmc-hwmon.rst: WARNING: document isn't included in any toctree [toc.not_included]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
