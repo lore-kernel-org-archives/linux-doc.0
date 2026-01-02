@@ -1,133 +1,291 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BD527FD76
-	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 17:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767374057; cv=none; b=idwqfnPSHHEImuTS+v35uuzcL+w1KrVBLphjZboJ0Gw1VNIseprR5daeMELujZItQxViiMc8dxQQRW76Vr3h1AUELIO7cyU/0y3Drf2N4MBSCnQr6mywa4FIKG5g+jsxX6vU2N78i0N40EtfMqvKgwpWuKu1Ejv3h67ZQLaHTJI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767374057; c=relaxed/simple;
-	bh=R6dmOb7p8xJel1QxDvWRfkmJfdH87GHXzodWhp+pqzQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB90309F04
+	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 18:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767377048; cv=pass; b=YHveqUsMkGzpLGBt+3awDlelK4YMLEUz98M/SGweSK3zZNvRxNEi30S0C5dRePQoKEsUb45ea0Lj2/u7Yy7qtwHfjQbqkseM1Vn9Qxxf3qBnxugAGXalejqufNzSv+3DaIxfHVaNCntvOH+QBZPU/gWCo8XCt+OeTcn7pKvwtq4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767377048; c=relaxed/simple;
+	bh=ksPuzDhEsNwwadpdao9ypfLnzBz9TXOr7Qq8wOanBfg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NWo2ug00bWjWYUwi460stnz+3dAavnzXCYsJv37jXxcrOKxGy79fiGDmPlk/gKfdz/sTv3lsH7POo6XnEagyB1Z7AUgPfhfsYSQq5pjZP8w9DuK3ZCl6ydRjcV0oNhqVTbVSG3Y61dBc5iwG2v6AKaYuX1Nvgqv8zQo6Z+xFpW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qutM4XzB; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=P7oa+o96dxBPVtNeCwlXhgrE0+j9WvLScPAlMabTVWKc+qftzSgXwz/NzU6BrGk69m0MekyGz2AQ+AdUEmfKl+h0bPHlJ4SfWimXvhOis3Jf0DWuS6drydJOJkitmh+lVRIBZcAKgx+A0u6dS//vubsabsbNICTxKaNNs4hjkmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HdS5VSkM; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qutM4XzB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0201CC2BC87
-	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 17:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767374057;
-	bh=R6dmOb7p8xJel1QxDvWRfkmJfdH87GHXzodWhp+pqzQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qutM4XzBI043D7B/jJARhLR2e5HfrWl/uOdrZ9Xi4USlB7OQU/Yt3yqy+8hrB4O6X
-	 z4i/sUoO1X+ypn2NJ74rppttl9J4VKOqujDw3QM4O5jBHuh7OjAAFlPDC8a0vaNc4K
-	 FLz1bXc393A8RxFUfpSg6FUfa9pQnfNfNceecwU2qPhzM1aO9dFeUVBmAN5rPMyCmb
-	 N9DIcoklGZsv0Zg9qpo+ZCei7TeoEjj/H15mx+49EoUTgTj10EGoQD9/G/rzS4ZG7w
-	 M8XBZr1L2TQNuWP9a8mAw2SGZl8mR/MnZnLqmKdcJ7+V0xdKvNZP3Dw2XF6BYjTeuh
-	 NvbSIJY9ZMyOA==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5945510fd7aso9972384e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Jan 2026 09:14:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXzHdQZT5DQUcrl6kAZAJUJoBoxGH522PoW9PC+8tH2cZlkS9KA1fxRWwYHpw49IWmyclSGYAQKDM8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3IaFXyJDBs7DjPTnzbCJ1Tee2bOofz8i5g1TgHQNbVFLAPkm7
-	s0zQKK6VqPmL9D7Pc9UuMxDMotpC8I/TyMHMLc5mEz+AM16FXXLh48sfKsJZ+JKplOtfjjqbtNJ
-	RLT5hEAf4r/Z+vMhlmFeqtWlCMsZJvp4V9VI/9UsNSQ==
-X-Google-Smtp-Source: AGHT+IHV2zByoLl6AUOgy1s7wJzSUumpVgbYasCQ8jZfLwQVGm88Ij0ul2K30P8OfX5b1FsgpDShkqlq2bAFvN8YTbU=
-X-Received: by 2002:a05:6512:3f09:b0:595:81c1:c55 with SMTP id
- 2adb3069b0e04-59a17d74426mr16156505e87.8.1767374055558; Fri, 02 Jan 2026
- 09:14:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HdS5VSkM"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4f34f257a1bso11081cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Jan 2026 10:04:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767377042; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DJCnF8lzMBQAwrWZJJyvu4z8+G1uGPRmHIC5fu9YPMVfFdXW+8qzkI4sI+p0iO6gve
+         XBUNpcAtyyd/kUgtXEf0tEuyT7h6qRkacM2edkW6n1oFK+2Iw0WeH64di6pYUTiyJn3/
+         wqtNyVsqFw41JI1VpUjE/VvLOM5AVpDIxEkeOGRr5Tc/kYch/a5wVxJ2b/xOviN8YYGM
+         TeZwMbJy1BVyOdcHplSToYaUpV/ZbOPJboUW0TBytIeJHxq+qUyDZ8ffBsgvf0715T05
+         LnZgR9K5nBuvm15vb2kEp6i3IsC0+PEeOLo3aA4wi94ExVb9EuPjIEu2WH74Ww4oyClt
+         PUMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VF7Ncw4qUW1QvZXNeYN2PHKmriSnoyG5jmMgiKLYwBI=;
+        fh=+WIg7ykia/K4DrcYxxR6Ndbfm0wgn7pvtyf1+zeGrwQ=;
+        b=U5w4+wNJALXOhVglqYy0h80S5RzFRemN1EKSPCQG7jIfO6mznxF4HuROyGkLvbY3ty
+         sdzuU7XsGkaWMazeMHuH6Q8Zg/SPRCrbtevwm4MuD2hufK5HA9qAXTjokrbbJiowMY5i
+         FpXRFDn9uH3XEsqPa0rqQGc/aveLwh1dGnFt6jh1FkmzZiDZBfCKrFzPNOU2BsTaLJ8J
+         9Rhkk6+eNsXV0gqufoxoq+nKe0Iao56djcu7RKMDc2duMur3OCRrjofWuxnFncW1ll9r
+         noWcZkFKTS1BmdigSm00ZwK/CRS6/f7P7B7862o23t++t7CmQD1OVSAZNd0qT8XyJzff
+         5+AQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767377042; x=1767981842; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VF7Ncw4qUW1QvZXNeYN2PHKmriSnoyG5jmMgiKLYwBI=;
+        b=HdS5VSkMl2fMvmYmBbhT/8bhZzDSgMLHBPooEAVzZaA2KhwWXpAsATKal+yDrYJFyW
+         TsgNIKvbRz0AapI/c5ccL4QdkAiPoYIlFpWcV+zR9Y5vNcohp9rtvEFrPHpjgngO0nZ7
+         V1bAPX0/7mnEwt0mNgAOEhpDMR3MSfUh+ZQ3QPXimeLalCGJ0uu7SODshg2WPqQy8Bdz
+         W26QyDDP6cezxmOEP9xMJ/W5L07cZkyPMGJ5K3VQFcQetq6fJHFzI876wnCaFlQWksIl
+         JMWqyRnvAI4xRryENHltmewZL8GO9iTvMwcz9TolLRPC3wqBcDe67kFnBVYL+bSw/Z1o
+         1Jmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767377042; x=1767981842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VF7Ncw4qUW1QvZXNeYN2PHKmriSnoyG5jmMgiKLYwBI=;
+        b=q3FWoQ10SRDDKKnznxRsZ1J2JWbJghnneBpGBopmamQmPdNpWoDGjQe6EAB8cGM048
+         uJq9fc8vYfili3ULWklJAw6YAN6dO+fW1F5dJd1+hTuQwIQDHlZu2N57zqbLztsCWv77
+         mPPWpLjLr82Y2MgdSR7VjRnJQO6IF4vn8BgG4WHit2/9BZ8BSUW+572d/NrW3EGaXHAX
+         bYfi3qd0awZ17LBA5SfRcctxh5K9V1faSA2cvHTVyeY8NPg+OQfg44U6B3URX3jO7Epd
+         uHd91b2Mq5NYTVdf2k80g0vrU66Du4+eM+9msos+Rj0d+XyFRSsEVbjOe+ZOupGOuGyf
+         CH/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWUcGw2XCUM00my1XK5q5W/LyfSMTRrNyZGswr9ce0Ams0m2MzjHCmJh6xZktP3TGC8dlB79Y0TLBg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJeltQmRpdrefnpwZ6q95hicIJMgy9s/8PYqcx9nvrmNdUwziu
+	uyq8bKPGar4TSRL+F5A7EDfzx08n7RS6dxlJTwSaPF+u809Kx1QB5mrw1HQN6Z+5qzcfZveTK6X
+	nYEvmaGDr/ADtIWl5Y7z7Ti5M3r6rwGDoCiDqkz8C
+X-Gm-Gg: AY/fxX6yURuapFy2y0oz0Ky/Tdizm/P+iXAb5pEOMJVjcgz20QIKUxgK43f8Q+aEHMI
+	IfxsL+toR3WExusLHkJAmeIUTz2khVFonUOIb1BJHwgJ0GeRRD7zDdD3jcHZ1k1asgwpystESFr
+	IrHKC2UoAX+JNFZC85lDK8Yihc+on2oeqvEsrpD4cNQRWvrT9D8P2YouBweUJPVAC6B+JGaTtH/
+	vnd3YgV2CukvSVGUCSgYL3YsHWwQ4gOAc4YzYb0KN2Mi61W06RbiwGhEqGi28MMljMBkM8=
+X-Google-Smtp-Source: AGHT+IE626c1niVbXfJuRnnEKb/XVpUT3xgOsgVHvUYmmAhOToE2K50Gpbsa48xtp+jOGlgqExM/NP3EnDee4koBR/0=
+X-Received: by 2002:a05:622a:8016:b0:4fb:e3b0:aae6 with SMTP id
+ d75a77b69052e-4fbe3b0ad54mr14392961cf.1.1767377041692; Fri, 02 Jan 2026
+ 10:04:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
- <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
- <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
- <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
- <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
- <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
- <aVf5WUe9cAXZHxPJ@vaman>
-In-Reply-To: <aVf5WUe9cAXZHxPJ@vaman>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 2 Jan 2026 18:14:02 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
-X-Gm-Features: AQt7F2o_SWu6QkybNXv1EzXBF2ZAUPo7cvQ3Ie-kbYTBiaz38B4U0n86nK8RvVg
-Message-ID: <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
- BAM locking
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20260102070005.65328-1-rppt@kernel.org>
+In-Reply-To: <20260102070005.65328-1-rppt@kernel.org>
+From: Frank van der Linden <fvdl@google.com>
+Date: Fri, 2 Jan 2026 10:03:49 -0800
+X-Gm-Features: AQt7F2qPng5Y0NvX0my5UG4cpefC6iiH19nIvMPHQLdOtt1JmQ_l0Tjv8FxQEzo
+Message-ID: <CAPTztWaZZt_ygCDNaDdW9A_TtT1FNZW6hFzyiq2b6_xxMw38gQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/28] arch, mm: consolidate hugetlb early reservation
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Andreas Larsson <andreas@gaisler.com>, 
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	"David S. Miller" <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, 
+	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Jonathan Corbet <corbet@lwn.net>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>, 
+	Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>, 
+	Michal Simek <monstr@monstr.eu>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Richard Weinberger <richard@nod.at>, 
+	Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, x86@kernel.org, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-csky@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-mm@kvack.org, 
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	loongarch@lists.linux.dev, sparclinux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 2, 2026 at 5:59=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrote:
+On Thu, Jan 1, 2026 at 11:00=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
+te:
 >
-> On 02-01-26, 10:26, Bartosz Golaszewski wrote:
-> > On Thu, Jan 1, 2026 at 1:00=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wr=
-ote:
-> > >
-> > > > >
-> > > > > > It will perform register I/O with DMA using the BAM locking mec=
-hanism
-> > > > > > for synchronization. Currently linux doesn't use BAM locking an=
-d is
-> > > > > > using CPU for register I/O so trying to access locked registers=
- will
-> > > > > > result in external abort. I'm trying to make the QCE driver use=
- DMA
-> > > > > > for register I/O AND use BAM locking. To that end: we need to p=
-ass
-> > > > > > information about wanting the command descriptor to contain the
-> > > > > > LOCK/UNLOCK flag (this is what we set here in the hardware desc=
-riptor)
-> > > > > > from the QCE driver to the BAM driver. I initially used a globa=
-l flag.
-> > > > > > Dmitry said it's too Qualcomm-specific and to use metadata inst=
-ead.
-> > > > > > This is what I did in this version.
-> > > > >
-> > > > > Okay, how will client figure out should it set the lock or not? W=
-hat are
-> > > > > the conditions where the lock is set or not set by client..?
-> > > > >
-> > > >
-> > > > I'm not sure what you refer to as "client". The user of the BAM eng=
-ine
-> > > > - the crypto driver? If so - we convert it to always lock/unlock
-> > > > assuming the TA *may* use it and it's better to be safe. Other user=
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>
+> Hi,
+>
+> Order in which early memory reservation for hugetlb happens depends on
+> architecture, on configuration options and on command line parameters.
+>
+> Some architectures rely on the core MM to call hugetlb_bootmem_alloc()
+> while others call it very early to allow pre-allocation of HVO-style
+> vmemmap.
+>
+> When hugetlb_cma is supported by an architecture it is initialized during
+> setup_arch() and then later hugetlb_init code needs to understand did it
+> happen or not.
+>
+> To make everything consistent and unified, both reservation of hugetlb
+> memory from bootmem and creation of CMA areas for hugetlb must be called
+> from core MM initialization and it would have been a simple change.
+> However, HVO-style pre-initialization ordering requirements slightly
+> complicate things and for HVO pre-init to work sparse and memory map shou=
+ld
+> be initialized after hugetlb reservations.
+>
+> This required pulling out the call to free_area_init() out of setup_arch(=
+)
+> path and moving it MM initialization and this is what the first 23 patche=
 s
-> > > > are not affected.
-> > >
-> > > Client are users of dmaengine. So how does the crypto driver figure o=
-ut
-> > > when to lock/unlock. Why not do this always...?
-> > >
-> >
-> > It *does* do it always. We assume the TA may be doing it so the crypto
-> > driver is converted to *always* perform register I/O with DMA *and* to
-> > always lock the BAM for each transaction later in the series. This is
-> > why Dmitry inquired whether all the HW with upstream support actually
-> > supports the lock semantics.
+> do.
 >
-> Okay then why do we need an API?
+> These changes are deliberately split into per-arch patches that change ho=
+w
+> the zone limits are calculated for each architecture and the patches 22 a=
+nd
+> 23 just remove the calls to free_area_init() and sprase_init() from arch/=
+*.
 >
-> Just lock it always and set the bits in the dma driver
+> Patch 24 is a simple cleanup for MIPS.
+>
+> Patches 25 and 26 actually consolidate hugetlb reservations and patches 2=
+7
+> and 28 perform some aftermath cleanups.
+>
+> I tried to trim the distribution list and although it's still quite long
+> if you feel that someone was wrongly excluded please add them back.
+>
+> The changes also available in git:
+> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/log/?h=3Dh=
+ugetlb-init/v2
+>
+> v2 changes:
+> * move the hugetlb and memory map initializaion to mm_core_init_early()
+> * add Acks
+>
+> v1: https://lore.kernel.org/all/20251228124001.3624742-1-rppt@kernel.org
+>
+> Mike Rapoport (Microsoft) (28):
+>   alpha: introduce arch_zone_limits_init()
+>   arc: introduce arch_zone_limits_init()
+>   arm: introduce arch_zone_limits_init()
+>   arm64: introduce arch_zone_limits_init()
+>   csky: introduce arch_zone_limits_init()
+>   hexagon: introduce arch_zone_limits_init()
+>   loongarch: introduce arch_zone_limits_init()
+>   m68k: introduce arch_zone_limits_init()
+>   microblaze: introduce arch_zone_limits_init()
+>   mips: introduce arch_zone_limits_init()
+>   nios2: introduce arch_zone_limits_init()
+>   openrisc: introduce arch_zone_limits_init()
+>   parisc: introduce arch_zone_limits_init()
+>   powerpc: introduce arch_zone_limits_init()
+>   riscv: introduce arch_zone_limits_init()
+>   s390: introduce arch_zone_limits_init()
+>   sh: introduce arch_zone_limits_init()
+>   sparc: introduce arch_zone_limits_init()
+>   um: introduce arch_zone_limits_init()
+>   x86: introduce arch_zone_limits_init()
+>   xtensa: introduce arch_zone_limits_init()
+>   arch, mm: consolidate initialization of nodes, zones and memory map
+>   arch, mm: consolidate initialization of SPARSE memory model
+>   mips: drop paging_init()
+>   x86: don't reserve hugetlb memory in setup_arch()
+>   mm, arch: consolidate hugetlb CMA reservation
+>   mm/hugetlb: drop hugetlb_cma_check()
+>   Revert "mm/hugetlb: deal with multiple calls to hugetlb_bootmem_alloc"
+>
+>  .../driver-api/cxl/linux/early-boot.rst       |  2 +-
+>  Documentation/mm/memory-model.rst             |  3 --
+>  .../translations/zh_CN/mm/memory-model.rst    |  2 -
+>  arch/alpha/kernel/setup.c                     |  1 -
+>  arch/alpha/mm/init.c                          | 16 ++++----
+>  arch/arc/mm/init.c                            | 37 +++++++++---------
+>  arch/arm/mm/init.c                            | 25 ++----------
+>  arch/arm64/include/asm/hugetlb.h              |  2 -
+>  arch/arm64/mm/hugetlbpage.c                   | 10 ++---
+>  arch/arm64/mm/init.c                          | 39 ++++++++-----------
+>  arch/csky/kernel/setup.c                      | 16 ++++----
+>  arch/hexagon/mm/init.c                        | 19 +++------
+>  arch/loongarch/include/asm/pgtable.h          |  2 -
+>  arch/loongarch/kernel/setup.c                 | 10 -----
+>  arch/loongarch/mm/init.c                      |  6 +--
+>  arch/m68k/mm/init.c                           |  8 ++--
+>  arch/m68k/mm/mcfmmu.c                         |  3 --
+>  arch/m68k/mm/motorola.c                       |  6 +--
+>  arch/m68k/mm/sun3mmu.c                        |  9 -----
+>  arch/microblaze/mm/init.c                     | 22 +++++------
+>  arch/mips/include/asm/pgalloc.h               |  2 -
+>  arch/mips/include/asm/pgtable.h               |  2 +-
+>  arch/mips/kernel/setup.c                      | 15 +------
+>  arch/mips/loongson64/numa.c                   | 10 ++---
+>  arch/mips/mm/init.c                           |  8 +---
+>  arch/mips/sgi-ip27/ip27-memory.c              |  8 +---
+>  arch/nios2/mm/init.c                          | 12 +++---
+>  arch/openrisc/mm/init.c                       | 10 +----
+>  arch/parisc/mm/init.c                         | 11 +-----
+>  arch/powerpc/include/asm/hugetlb.h            |  5 ---
+>  arch/powerpc/include/asm/setup.h              |  4 ++
+>  arch/powerpc/kernel/setup-common.c            |  1 -
+>  arch/powerpc/mm/hugetlbpage.c                 | 11 ++----
+>  arch/powerpc/mm/mem.c                         | 27 +++++--------
+>  arch/powerpc/mm/numa.c                        |  2 -
+>  arch/riscv/mm/hugetlbpage.c                   |  8 ++++
+>  arch/riscv/mm/init.c                          | 10 +----
+>  arch/s390/kernel/setup.c                      |  2 -
+>  arch/s390/mm/hugetlbpage.c                    |  8 ++++
+>  arch/s390/mm/init.c                           | 13 +++----
+>  arch/sh/mm/init.c                             | 12 +++---
+>  arch/sparc/mm/init_64.c                       | 17 +++-----
+>  arch/sparc/mm/srmmu.c                         | 17 ++++----
+>  arch/um/kernel/mem.c                          | 10 ++---
+>  arch/x86/kernel/setup.c                       |  5 ---
+>  arch/x86/mm/hugetlbpage.c                     |  8 ++++
+>  arch/x86/mm/init.c                            |  8 +---
+>  arch/x86/mm/init_32.c                         |  2 -
+>  arch/x86/mm/init_64.c                         |  4 --
+>  arch/x86/mm/mm_internal.h                     |  1 -
+>  arch/xtensa/mm/init.c                         | 14 +++----
+>  include/linux/hugetlb.h                       | 12 ++----
+>  include/linux/mm.h                            |  5 ++-
+>  include/linux/mmzone.h                        |  2 -
+>  init/main.c                                   |  1 +
+>  mm/hugetlb.c                                  | 13 -------
+>  mm/hugetlb_cma.c                              | 33 ++++++++--------
+>  mm/hugetlb_cma.h                              |  5 ---
+>  mm/hugetlb_vmemmap.c                          | 11 ------
+>  mm/internal.h                                 |  6 +++
+>  mm/mm_init.c                                  | 20 ++++++----
+>  61 files changed, 219 insertions(+), 394 deletions(-)
+>
+>
+> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> --
+> 2.51.0
 >
 
-We need an API because we send a locking descriptor, then a regular
-descriptor (or descriptors) for the actual transaction(s) and then an
-unlocking descriptor. It's a thing the user of the DMA engine needs to
-decide on, not the DMA engine itself.
+Thanks for this series. When I introduced HVO pre-init, I noticed the
+inconsistencies in init order, but shied away from attempting any
+general cleanup, as I had only tested pre-init on x86.
 
-Also: only the crypto engine needs it for now, not all the other users
-of the BAM engine.
+With this, it should be possible to enable
+ARCH_WANT_HUGETLB_VMEMMAP_PREINIT on architectures that support HVO. I
+think that's only riscv and loongarch right now. But that's out of
+scope here, though.
 
-Bartosz
+- Frank
