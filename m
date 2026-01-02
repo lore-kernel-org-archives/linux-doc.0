@@ -1,276 +1,346 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020097.outbound.protection.outlook.com [52.101.196.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500872B9A4;
-	Fri,  2 Jan 2026 20:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.97
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767385187; cv=fail; b=QSoLn2EzpUpz3j4f2GNEeLmBnDodenDRJP5m09chZDURjIMRV+BmpIdQw41jKPUMokePaeXjOUwXCfdfPPviWiKzpHhZeU12PKUILNqer+ie7Ad2REEFh4/op1ma6NaIWXSOaNbcLnrTy5MggLImNXntOAfSqp8X4LC9ejq1Goc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767385187; c=relaxed/simple;
-	bh=oUF0O2CZfvkT4w8xdkLAo3/Q+nNlI8nLISCggz+ZkiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=OmbdR1ivQjruUjEyFwu8Oe5HmMk5ie5rUgs7EoCPdOuXJzrpPLtcoG78hU1GYw1DfUYGuHSP1Y9FarpxV1ovyHrswNFtQyUZ3NCx08yHo5WoXhpt5NbbB1KE/Pc6fCGeILddHXEQCRdw1pkVeHPfak+rJ63+uMG+UcJgRoN4Qus=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.196.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gzN+uUhutnwSzCjIZt22mqmynI+wPcPox8112u1N386P6/kDPjJbxaKSvfpRomWeyjzIqq9s83JBbCesyHsW45KULS/SCTQ9GZIzOlZjs3/y82jdJ+aOAEfSF0tl7pDQ1e0KH2ATeYM1aMzE10+FpeP4vwJMNvoQhSCxCpFru4EGwFAd9rEX/DDrbJ8qb4T+nAwRk3YvjDI4wDE3VYfhLHiWAPh18ddkw3p+EA7oY+9DplcZ3hiVdjjJ0z8cMOpQ4xUTeg6bbIiRJWoIWxJ/4XoCbAyTMro3JoYjbDemGaijfRFW+wXOBtAaw/twETX3ffG0Q5BoITkrlmKj5cDyjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hTKYVj9oX+M7xLH7IAF/aOhCMP5VuD665k/9Sx7zu4g=;
- b=y6qSC9MoOi+3ySlNIMTXlB5ap4owY4ZLMNL3IWHowTPaxR/+MkTG3wjNx1ip3XAcXW+5ahGGjRzXs6Alec5vuK07/lccH8ppzsa7CLSX86WSd5qKK+4Pgh0h/X3i8IpBwtdNvyZclWuO7yqw+Knxjnh3tkYhzFAEGxWGnUg5onsYORLoLdJMu+Agw9YTud8R/lLdnrU3+tUV/6RuM3C3eS9/NUe08FIo80nc19JlZ5RRPQQrYEKbNA9sqJUbKL+IVDopknCAxeV+JKgX4GcCIa/QNm/26XsjbX4EgxkA+1cQ59+8zpNoeN5WPavjLkCj6iJrNXcBgUPDgk2zhLgj+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO0P123MB6249.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:262::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Fri, 2 Jan
- 2026 20:19:41 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%5]) with mapi id 15.20.9478.004; Fri, 2 Jan 2026
- 20:19:41 +0000
-Date: Fri, 2 Jan 2026 15:19:36 -0500
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: mhiramat@kernel.org, mark.rutland@arm.com, 
-	mathieu.desnoyers@efficios.com, corbet@lwn.net, neelx@suse.com, sean@ashe.io, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] tracing: Add show_event_filters to expose active event
- filters
-Message-ID: <emnt5hxjzacdbk76bwsbuzf3kf54poosxipo3auqi4dahvulxi@muwwmqcs6tbo>
-References: <20260101233414.2476973-1-atomlin@atomlin.com>
- <20260102133619.39d3e323@gandalf.local.home>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o7grfknwrlxh27kd"
-Content-Disposition: inline
-In-Reply-To: <20260102133619.39d3e323@gandalf.local.home>
-X-ClientProxiedBy: BN9PR03CA0281.namprd03.prod.outlook.com
- (2603:10b6:408:f5::16) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8ADA299AB5
+	for <linux-doc@vger.kernel.org>; Fri,  2 Jan 2026 23:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767396815; cv=none; b=UUy5R2KJ/KeF/y592TxPPf0Cq+ZdZsTRT2kMSqXJNxvjxhWCvw3qJzMCwpAGC50g8D6Td2EbA7zE8mWyD7xhtLK+pZNVBkgXIoKm7V2FJVBhOtSKu0Tm7lTDvmawiIvcqRPN/8/S/1BUptCjgghgLpuDZSnKELKM/tqg4DhPpg4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767396815; c=relaxed/simple;
+	bh=fPgjbu8KKW+OSKM0Ml+0HRcMf9aJuuECFk5FjJFgyaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7ACPTajlIEeXdJCi3uTgq2jKjGL9ryYc13arx804Sl3AL+MJh2JTO5IqwCp4kKcnyPhL7RhNDwBiqlVgScl8Sv4ndxZPsCViS0X4ACkCopIyb7BzAr2DYkL84nexwKoNsZVOyO1p+zUi70BowXEGmTETgc3ix/ji6PAb7ifhGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VoPhXJLH; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VoPhXJLH"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-598f8136a24so13878921e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Jan 2026 15:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767396811; x=1768001611; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7oJkD+3I1ySqG2dU6TJV84R7uGtBSIJL6aFjqNNbCRs=;
+        b=VoPhXJLHVhnkhe7w44O6EhEYeaOAvJornqISvaJnJKneuBoFraUN3ZhnQDLUho3LRT
+         T38Xh+XzhI6D7YxcmBiwUX2ZQtWI8XejkxwKWGQRX/OlzaDDfLrXi4jM+IomnMtjZI8X
+         9gTTATppouOOAMaZJIVJdyeATRRQ1N0c7+dyY3fhjrtudX/Gu+bdk0YbrTATVrNDaZBA
+         z7UWZDTnqpZSkphilxTVMzYbqlQVFHKe9CiNfB+4sjRcPiot9XB0JR4oI0jESiE8uoL1
+         qg7f9jcPeh/kNEFBgqHLRF/VxpXKqacz6k3UF6jNLqCJq6w3RvsL0c01Ep7gNs9x0w90
+         3OpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767396811; x=1768001611;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7oJkD+3I1ySqG2dU6TJV84R7uGtBSIJL6aFjqNNbCRs=;
+        b=roxa3yZCuCSxKyhk1RKxDuGLy3sN1cu/Ed/AjtcXZPWylJIGZ1RIFGlKlI/ExI7Pe6
+         KgUIxRpbaWiccnnGCQs3WPgYC5RKIwvtRLzVd9whv2EDWkhhOUgvfitA2R57tlsvK3tV
+         952rqoFAct5ejyhdsPj56RnpCKnQZrW7fiR+MXVcM/KYPXrEBZ3JEG8RVXYz++mX2V+7
+         RDf2lgUWf2wCEb2oVhteQZnklEWYhwzkxPbzeos/qFUnzBbnfiSattJOBI1vS+ev9Vrn
+         4GKx7i/3btEScnkv3haTjLAIKIMHhtb/YF4m6H0gqiyrzRiJQG2q07tGEAJlbYwVeZsm
+         DACw==
+X-Forwarded-Encrypted: i=1; AJvYcCU6+w3Kp3CL9gYSmxTh1EjP+Bn/EnMRp5w1ZuN5tDonHeOF3uJAMMU3xvSUY+b746Gv52Wv6eIAbow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIiG48Rkms11+DerVIrx/0cHMTU78WyTrTH51q6VUmd+1vq0br
+	yiKnNEzaCF0uNZfGnuXzCMQuvWQLu6ONlWQG69epfjVMsXvVRRYeeu1t
+X-Gm-Gg: AY/fxX5crlagLChUweELU2TApfmETMaz/BHSQOpyM2lza5/cqxCio8TR+6btwRWaEEY
+	VeVfZq4tHOwD+8Wdo4vsvCDd5F8C9QtLesRabpgXfGQadAXG3eo9r42mmyCw8sRaKfEZpoWd3FD
+	r/6Cl3yWW/AZfXLbq/4F1xVHNW62yXMhfsdSdpyHWaO8hgZFoPZTsjGpVAbPn96waTdbfBr8Z/y
+	5uoIoWlxXLwcvxhk+N/BLAYOI00PFEpLCbmqAyaUp7DlvA7ZbL9I2rd1+/0YrjMyvm33YQb0b+T
+	1puNxv4cufUFmNR4hRxAz0nNrToYtYtcMQg23tXT6ory6mTxdriE3sGsy9IgMnEpFEc7cFQKSJ0
+	UxQ/b8Sy8Y/36YZn/qhDvEDVl978qunQt1YOAjNf2sHVkgFZksXwIwG0imMHNaIZHbbEYNC0290
+	SEEA8seEp4xcfRTxSqO36LhI/H
+X-Google-Smtp-Source: AGHT+IH2H1z9QVIhTu3A3MPtZYT5DDmpE6MbcXNtDvemf/egyv4QEgcDqeHHJdIO1qKRKt95zoj43Q==
+X-Received: by 2002:ac2:4e08:0:b0:594:93b8:88b6 with SMTP id 2adb3069b0e04-59a17db705bmr11802619e87.38.1767396810454;
+        Fri, 02 Jan 2026 15:33:30 -0800 (PST)
+Received: from localhost (soda.int.kasm.eu. [2001:678:a5c:1202:4fb5:f16a:579c:6dcb])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185ea248sm12368060e87.43.2026.01.02.15.33.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jan 2026 15:33:29 -0800 (PST)
+Date: Sat, 3 Jan 2026 00:33:29 +0100
+From: Klara Modin <klarasmodin@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Andreas Larsson <andreas@gaisler.com>, 
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	"David S. Miller" <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Jonathan Corbet <corbet@lwn.net>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>, 
+	Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>, 
+	Stafford Horne <shorne@gmail.com>, Suren Baghdasaryan <surenb@google.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, x86@kernel.org, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linux-mm@kvack.org, linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	loongarch@lists.linux.dev, sparclinux@vger.kernel.org
+Subject: Re: [PATCH v2 22/28] arch, mm: consolidate initialization of nodes,
+ zones and memory map
+Message-ID: <aVhN2NgQEKe0yzva@soda.int.kasm.eu>
+References: <20260102070005.65328-1-rppt@kernel.org>
+ <20260102070005.65328-23-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO0P123MB6249:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82818053-c24f-4c14-781b-08de4a3c4277
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UjFkTSs4bjQzaE5DZ25heGNkMk0rWWxHK1lmUitJYnBKK2RpN2V6RVhxRGJu?=
- =?utf-8?B?SHBIK1VOVlFzYVRsQ0NhQjNqUWNYY0F1QmNMZ3BCR1E2VDVsRlU3b2FwYlVw?=
- =?utf-8?B?WEQyems5THJUeGsrTkZSeStYVVpIb2ZaQU5pRmh5aHV3YWpQMGdrSDJGRHFB?=
- =?utf-8?B?NTJqeHBHOStZb2toN3lXM2VqcEVIdngvSjVBaXlvSTkwSUU5RzNQclBCb3RZ?=
- =?utf-8?B?QnVvYm53SUcvSkJwTm9SbnFkR3BnMEo1TXIyblRrcnBxN1V1MU1OQVg3UVl5?=
- =?utf-8?B?dUhacllTczVTWEJWck9wdkl3aUM1V0M5bzhvc1N5bGMvNENMYnhta3RWWTFE?=
- =?utf-8?B?eXdVa091aHNEVXp1L0FBdE5DeS93MERvakthMVllaDlnNXlzVFhlRmxhTUh2?=
- =?utf-8?B?VFhvMXBnYm9vaUd2SlBWbDVYUlhtQ0dkcTRYOHBoYjd6emZGdTdabkw0eHRy?=
- =?utf-8?B?TnZQclFkMmpkL2dnN2tWaHY1VHlJeWMzNUt6dU1OVXhVNFpkeUhMcm9xYUJh?=
- =?utf-8?B?ZCtDQjJLT3hhaTYzNWdPWTRPU2lnazY0Yys2aUhJTU1qb0xwV0FFZXY5Lzdq?=
- =?utf-8?B?TVVjNGxvYStRWGhsa0R2c3FZWitjOVF4S2llSHlITkgzeUt6eTVFbWIzM0ky?=
- =?utf-8?B?cG05U3RidVBVNkwrSXNqcGc4ME0wWTVDRERpdEZDc3MrVFpxd0g2MW1Takhh?=
- =?utf-8?B?OWw4elFjblVHdzA0SEkyR281bU5ORFliMG5hQlZvWjdrcllvakhoLyttdjFx?=
- =?utf-8?B?Z2RDYzVhYnZaWGY5ZVozVXVJMStzVWI2b3EwTzk0Q2RFLzhiSEFYcGM5R3Vl?=
- =?utf-8?B?RlREcjlpY05Iekl0YlZMcmZYRHAvcHFjemRnOWlaNm5zNXBiVHdlTFZpTGlN?=
- =?utf-8?B?NC9DYU9vUjg3aWVpb1NYdHllRCtEZWhBY0tJSkxzNUx2WmR1cE5qMjA3YUo5?=
- =?utf-8?B?VmlicWJPSGtKR2xpRFJ1V2N3UnVRL3grTUp0ZUFaRytEb2lHOU9PQ0dkSGEw?=
- =?utf-8?B?azZrZ0pUL1lwSTFJK0VpK0hEb3RZUjZMcHJyT1MvbDR1UXBjSTc2QTllcWxy?=
- =?utf-8?B?Wm56VjRqVGVyUytYYU1QSnBabVZFL0x2UVRnMDdMdFVOaFk5UWYyTVowUE1o?=
- =?utf-8?B?allLbXVHTU1mb0Q2WnJtZENpcDFFUlBRQzRFTVZVTXFudnptMUVZaHZUd0JP?=
- =?utf-8?B?aUc1bkhWSDRiZlFydzIvMzhzc255WjVVR3lya0VWQTRYVHhLbmRGdWlVSGdx?=
- =?utf-8?B?TFU2YmFLVkR6U0hmTHlGcVZOWUtRQVRXOXNSM2c1c0JvYjMvOWxJRFJ2Qjlu?=
- =?utf-8?B?QU0vZnFJZ00zRmhTTnEzRkJ4djNNLzlRVDY0cnAyb01HTXBHdGhPVXFCNjBw?=
- =?utf-8?B?eTh1TTFGU040TTdvQ0djeklJOEhwQkwzMmN3TXRZRlNHNXc4ZkRpN0M0SVpL?=
- =?utf-8?B?OGJwVEJZQW03cHZlemtuWWZvL2J2WFhwSG5UejN3YWFuL1ZtV29yb3p0SEFx?=
- =?utf-8?B?VTZNNzRJRXdVaW9FYUVvYnIvUFZxbEJjMkZNWnBIVzJNVkhQd3FyRE5pWWU3?=
- =?utf-8?B?WDhjbHZrNjBocjQ0UVlTWkcvaER3SmloejgzWDNLaXFpaUY0RkpVTnR6bVoy?=
- =?utf-8?B?RnRPT2cxbTVncXVQSmVGTTVYOXVCOTBPRnA5R1VDUElrUVJkQ0tKSnZkaEI3?=
- =?utf-8?B?YUhHNVowd3labkFoMkFGOEhZRFVqb0J6QWRDL0tDRm11N2JteUhzejFVTGYw?=
- =?utf-8?B?R2J3T2QzQVZpTTdtTDN3L1dTdENLTG5lU29hVGVDTGJWRU5NcEpFQlEzWTRp?=
- =?utf-8?B?VHhUMVovdVJZM1pKeFh5TEdGL2F4R3hTV2lJaDgyMVVwV3ppYm5ycy8waVhP?=
- =?utf-8?B?RE9LbXNOU0t0T3lTang0VW5VS0dYangrVHRuS2dnYzBIb2ZYaXhpZDhHQVBV?=
- =?utf-8?Q?GJtXnFj+L8aWo9IQKWwubhPGW6/Ueaj5?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?emRmanB0dGhZT0FUTDRDY3NWUUVIeVFaOFlYdFB1OFIxb1hjem9mekZxQnE2?=
- =?utf-8?B?MlNzU3ZiMWIwYUE3aTNFamJCWDhYSVM3SHQ3aTdsWjk0ekN5eVZ1OE9vMUt0?=
- =?utf-8?B?MFEzbnNldXNsSHFLYVgvTjM1Nm56NVpCUDhnR2g4eTVTMTdaUXl6WXlwekdC?=
- =?utf-8?B?TjFsTmhBSVV5RTdPVHhyQW93Z0xaek8xZ3Vic29wM3lkZ0VQOEJEN2Y1K3pR?=
- =?utf-8?B?NzM5ZURucFZydXZkdG1WdFQvTEtHcjNlelZhSHp3NHczNnFhSk9qRUlNWEdJ?=
- =?utf-8?B?OW44S0N2RTRCbW1CQTM2NGRFSVZGYVFoSGxEeW9NQTNZbUhaRVgzbUg1dE10?=
- =?utf-8?B?YzU0Ry9wOVZxdlVyYWpsTjByM3lWN3BXaHpXVGxsTHNUV3Frc0FTTkxhL1hz?=
- =?utf-8?B?alBRVmgrSEZRZldkWnZrcDJNdkZRbk82d0xaMWx5QmlDUlVra3NPWDZFZDcv?=
- =?utf-8?B?QXlzd0xsaFhzTG9JTlBvSWhFUVlKdEc5aTUxVjV3MTQxZXJtbUtZYkJxMzVN?=
- =?utf-8?B?REJqL1ZuVUVHZmpOZXN2Z0lGSjF0L2l6Sk5EL0hMRUJ6QzdDb0RDUEF1MXFx?=
- =?utf-8?B?YVF5TG1JNlJLY25qWTVVS1NaUmMxaEQzcmFkd3ltblRqSGJ3Q2JzaG8wNVM3?=
- =?utf-8?B?UXNqZ3RsbC9DYlJob0c0V2cyUDZzd0pzdld3TERKTTdZaHVCbXViTzJxYjdW?=
- =?utf-8?B?SEI4Yi95djI5bXl0UnFFeUdoQnNuWEtqLzVKb3lFbWtHdkNFOXU5VjBTcWxw?=
- =?utf-8?B?NXlycEtqU3J0VzkvazhBWHNVWXNJdHowWFV0a3pMRVNVTHdvV2tpMnpyeEtI?=
- =?utf-8?B?dUpHTm05eGJ1VlNVdjF3OWtMbDlrUjRHbnYvQVNIVVNEaTRJQ1F5SlhyOERo?=
- =?utf-8?B?VzRxbmp2RHRySUovd1dvcXRoRlRTTnlva3lvK1Q4RjlJRk1ydjJ1MEtjMFNM?=
- =?utf-8?B?TmpFMWxSblZjcDB6UUFoc1JUUjI4SlhibnZ6Nk42enptQm8zTHJkeHN6S215?=
- =?utf-8?B?R016d2I0dTNwcnhETVROVDVRU0U1bko0ZFZvamsxVGVpUmZvUjhoN1ozNzJR?=
- =?utf-8?B?T3ZValN2K2tnbXBrOGJlVnNFcEVoUWdOSVUzZ00vWmUvNi9XemMrTmJCZnBj?=
- =?utf-8?B?QTlKV1NpQ1l5eEhKaVA5cEl4cVpkL1h4VER6WjRhZk9mL1M2Wm1YRitnYWxt?=
- =?utf-8?B?WE5IRFNFY09YYXJDa2h0TXp4QjZKTjJOUis5WEZrVjBDaElXd3VRemVkOGJT?=
- =?utf-8?B?M2tmcnNKTHozNWdGL21nSEh0TStGVE1PdFo1eTlGdkpBWXVSZ0sxMGFyOVBT?=
- =?utf-8?B?VEF6RmszbHFOcExNQnl2Qmx4b3hLUG5WdWtVdkFuTDFGR3A5NzZ0aXBOY010?=
- =?utf-8?B?eUw4OUpmWE1ldDFlUHhROXhCYmFWSlpBbWdVUzJpRFBBQTNhSllSNDNFTnFW?=
- =?utf-8?B?d2J5aE0wdWFSM3ZVZUpnMG5kNzN1RjRzQVNvRjlPenorZ2dRT2xmcEJ6R09Z?=
- =?utf-8?B?OFhNQ05OSWFoRm90Y2hEY0xhYjJyTXNvUm55cC94TXNRbkcrRkdpRnlYOHJt?=
- =?utf-8?B?S0pzeE44VTNkR0N6V01aZ1YvcUFlS3pGdEp4Q1JVUHUwVXpFUWpkeFp2LzRo?=
- =?utf-8?B?VmJLRWpmQk8yMy9VanVlTmJPV3B3OEw2SHRHalhhdTYrNnRGc01oR2FpZW5S?=
- =?utf-8?B?ZWtyMUdVZmoyTFJYdW1hZXZad1BCTVJmS3NOTjdzTUdtWHMxajVKMEZqaDFD?=
- =?utf-8?B?T1NUMGFpQnRqelp6NGk1TDhuUzFxdENSRFU1Mld3czZ5UkxPWVhyMzFCM0h0?=
- =?utf-8?B?bG5Yb3BvSmZBM3JUeU16eG83azNtU01YcnpsaE1SbDlBVkhkbEJpU1lVU250?=
- =?utf-8?B?UjI0cEtjb3c3dENxWXJ4aFpxYnM0NjlJUFdHeTJKQWY1K1I2b2JwWDRlYWs1?=
- =?utf-8?B?eDVNNmFHeVhxTTBoZDBjOTluOUFmZnZoRkZtdGtxMU14K0dtVk5mUW1tVEMx?=
- =?utf-8?B?VENrYlhPV3hEZHp6L3FlV1JQenptRDhTWnpZSTBXQmFCOXNNbFlnT25NNHc4?=
- =?utf-8?B?VnZlZmg1Q1R2OVFpYXRET3hQZy9CRTFtU3FGVWF3K2ljMUtnMUlaMGc2end1?=
- =?utf-8?B?VGF1VFE1WDNaVkp5TUV2bEtiZDNFdmRFSDNvY2VpbVFSbGpFVVc3OUdtTGNK?=
- =?utf-8?B?dmUycEJqc3c0NlJvcUZtOHhSWWl3Rk10M3Q1Q0c3T25mcTNFWVI2UXNsNW94?=
- =?utf-8?B?ZjFnb0RpUnllL0lRUGh4UlBOQlJmU0ZSaTVRTWgxSTlvQU4wb3BBTXhUQ1hY?=
- =?utf-8?B?RE9JNy9VVSttbUozQ1htR1VwdmJ2djg4eFJuTmlSdkkzTG8wSi9KZz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82818053-c24f-4c14-781b-08de4a3c4277
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2026 20:19:41.3490
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9WsidiQEzI+d89xEP6fPDlGQmNFdP96Pdco1SFMd1uEqeuseU0lmTJi29G1+XtXjhxoKSyqgB8K9Mg51s/8VWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB6249
-
---o7grfknwrlxh27kd
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] tracing: Add show_event_filters to expose active event
- filters
-MIME-Version: 1.0
+In-Reply-To: <20260102070005.65328-23-rppt@kernel.org>
 
-On Fri, Jan 02, 2026 at 01:36:19PM -0500, Steven Rostedt wrote:
-> Nice. Perhaps we should do something similar for event triggers.
+Hi,
 
-Hi Steve,
+On 2026-01-02 08:59:58 +0200, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> To initialize node, zone and memory map data structures every architecture
+> calls free_area_init() during setup_arch() and passes it an array of zone
+> limits.
+> 
+> Beside code duplication it creates "interesting" ordering cases between
+> allocation and initialization of hugetlb and the memory map. Some
+> architectures allocate hugetlb pages very early in setup_arch() in certain
+> cases, some only create hugetlb CMA areas in setup_arch() and sometimes
+> hugetlb allocations happen mm_core_init().
+> 
+> With arch_zone_limits_init() helper available now on all architectures it
+> is no longer necessary to call free_area_init() from architecture setup
+> code. Rather core MM initialization can call arch_zone_limits_init() in a
+> single place.
+> 
+> This allows to unify ordering of hugetlb vs memory map allocation and
+> initialization.
+> 
+> Remove the call to free_area_init() from architecture specific code and
+> place it in a new mm_core_init_early() function that is called immediately
+> after setup_arch().
+> 
+> After this refactoring it is possible to consolidate hugetlb allocations
+> and eliminate differences in ordering of hugetlb and memory map
+> initialization among different architectures.
+> 
+> As the first step of this consolidation move hugetlb_bootmem_alloc() to
+> mm_core_early_init().
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-Thanks for the review; I=E2=80=99m glad you find the addition useful.
+This breaks boot on my Raspberry Pi 1. The reason seems to be the use of
+page_folio() when initializing the dynamically allocated zero page in
+arm, which doesn't work when free_area_init() hasn't been called yet.
 
-That is an excellent suggestion. Consolidating the active triggers
-alongside the filters would certainly provide a more comprehensive
-overview.
+The following oopses are generated:
 
-I shall incorporate a similar mechanism for event triggers and submit the
-update as a formal patch series in the next revision.
+ Booting Linux on physical CPU 0x0
+ Linux version 6.19.0-rc3-03898-g7975b0084358 (klara@soda.int.kasm.eu) (armv6j-unknown-linux-gnueabihf-gcc (Gentoo 15.2.1_p20251122 p3) 15.2.1 20251122, GNU ld (Gentoo 2.45.1 p1) 2.45.1) #451 Fri Jan  2 20:26:00 CET 2026
+ CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
+ CPU: PIPT / VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
+ OF: fdt: Machine model: Raspberry Pi Model B Rev 2
+ earlycon: pl11 at MMIO32 0x20201000 (options '')
+ printk: legacy bootconsole [pl11] enabled
+ Memory policy: Data cache writeback
+ Reserved memory: created CMA memory pool at 0x19400000, size 64 MiB
+ OF: reserved mem: initialized node linux,cma, compatible id shared-dma-pool
+ OF: reserved mem: 0x19400000..0x1d3fffff (65536 KiB) map reusable linux,cma
+ 8<--- cut here ---
+ Unable to handle kernel paging request at virtual address 003dfb44 when read
+ [003dfb44] *pgd=00000000
+ Internal error: Oops: 5 [#1] ARM
+ CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.19.0-rc3-03898-g7975b0084358 #451 NONE
+ Hardware name: BCM2835
+ PC is at paging_init (include/linux/page-flags.h:284 (discriminator 2) arch/arm/mm/mmu.c:1790 (discriminator 2))
+ LR is at paging_init (arch/arm/mm/mmu.c:1789 (discriminator 1))
+ pc :    lr :    psr: 600000d3
+ sp : c0d01ef8  ip : defdb000  fp : 0000000b
+ r10: 00200000  r9 : d9400000  r8 : ffe00000
+ r7 : c0d09050  r6 : c0d0902c  r5 : c0d43d40  r4 : 0001efda
+ r3 : c0dab20c  r2 : 00000000  r1 : 003dfb40  r0 : 00000000
+ Flags: nZCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM  Segment none
+ Control: 00c5387d  Table: 00004008  DAC: 00000051
+ Register r0 information: NULL pointer
+ Register r1 information: non-paged memory
+ Register r2 information: NULL pointer
+ Register r3 information:
+ 8<--- cut here ---
+ Unable to handle kernel paging request at virtual address 0001b564 when read
+ [0001b564] *pgd=00000000
+ Internal error: Oops: 5 [#2] ARM
+ CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.19.0-rc3-03898-g7975b0084358 #451 NONE
+ Hardware name: BCM2835
+ PC is at kmem_dump_obj (mm/slab.h:142 (discriminator 2) mm/slab.h:178 (discriminator 2) mm/slab_common.c:609 (discriminator 2))
+ LR is at 0x1
+ pc :    lr :    psr: 200001d3
+ sp : c0d01cc8  ip : 00000000  fp : 0000000b
+ r10: 00200000  r9 : c0dab1dc  r8 : 00000000
+ r7 : 00000005  r6 : 00000dab  r5 : 0001b560  r4 : c0dab20c
+ r3 : c0dc2058  r2 : 1f000000  r1 : 00c00000  r0 : 00000001
+ Flags: nzCv  IRQs off  FIQs off  Mode SVC_32  ISA ARM  Segment none
+ Control: 00c5387d  Table: 00004008  DAC: 00000051
+ Register r0 information: non-paged memory
+ Register r1 information: non-paged memory
+ Register r2 information: non-paged memory
+ Register r3 information:
+ 8<--- cut here ---
 
-> Enabled? Or just events with filters. I think this should just say:
->=20
-> 	A list of events that have filters. This shows the system/event
-> 	pair along with the filter that is attached to the event.
+and the second one repeats for some time afterwards.
 
-Acknowledged.
+I experimented a little by allocating the zero page statically as many
+other arches do which fixes the issue as it does not need to be
+initialized at this point anymore, though I have no idea if that's
+appropriate.
 
-> This doesn't traverse the trace_array. The seq_file does the traversing.
-> Just state that this is part of the seq_file output and shows events with
-> filters.
+Regards,
+Klara Modin
 
-Acknowledged.
+...
 
-> > + * Uses RCU to safely dereference the volatile filter pointer.
->=20
-> This is internal to the function and should not be part of the kerneldoc.
+> diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+> index bdcc3639681f..a8f7b4084715 100644
+> --- a/arch/arm/mm/init.c
+> +++ b/arch/arm/mm/init.c
+> @@ -118,15 +118,6 @@ void __init arch_zone_limits_init(unsigned long *max_zone_pfn)
+>  #endif
+>  }
+>  
+> -static void __init zone_sizes_init(unsigned long min, unsigned long max_low,
+> -	unsigned long max_high)
+> -{
+> -	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
+> -
+> -	arch_zone_limits_init(max_zone_pfn);
+> -	free_area_init(max_zone_pfn);
+> -}
+> -
+>  #ifdef CONFIG_HAVE_ARCH_PFN_VALID
+>  int pfn_valid(unsigned long pfn)
+>  {
+> @@ -222,13 +213,6 @@ void __init bootmem_init(void)
+>  	 * done after the fixed reservations
+>  	 */
+>  	sparse_init();
+> -
+> -	/*
+> -	 * Now free the memory - free_area_init needs
+> -	 * the sparse mem_map arrays initialized by sparse_init()
+> -	 * for memmap_init_zone(), otherwise all PFNs are invalid.
+> -	 */
+> -	zone_sizes_init(min_low_pfn, max_low_pfn, max_pfn);
+>  }
+>  
+>  /*
 
-Acknowledged.
+...
 
-> > + */
-> > +static int t_show_filters(struct seq_file *m, void *v)
-> > +{
-> > +	struct trace_event_file *file =3D v;
-> > +	struct trace_event_call *call =3D file->event_call;
-> > +	struct event_filter *filter;
-> > +
-> > +	rcu_read_lock();
->=20
-> Use:
->=20
-> 	guard(rcu)();
->=20
-> instead.
->=20
-> > +	filter =3D rcu_dereference(file->filter);
-> > +	if (filter && filter->filter_string) {
-> > +		seq_printf(m, "%s:%s\t%s\n",
-> > +			   call->class->system,
-> > +			   trace_event_name(call),
-> > +			   filter->filter_string);
-> > +	}
-> > +	rcu_read_unlock();
->=20
-> And remove the rcu_read_unlock().
->=20
-> Actually, the function may be better by just doing:
->=20
-> 	guard(rcu)();
-> 	filter =3D rcu_dereference(file->filter);
-> 	if (!filter || !filter->filter_string)
-> 		return 0;
->=20
-> 	seq_printf(m, "%s:%s\t%s\n", call->class->system,
-> 		   trace_event_name(call), filter->filter_string);
->=20
-> 	return 0;
-
-Agreed. Using guard(rcu)() is indeed much cleaner and aligns well with the
-current preference for scoped-based resource management in the kernel.
-
-Your proposed refactoring also helpfully reduces the indentation level,
-which improves readability. I shall adopt this approach and incorporate it
-into the next version of the patch.
-
-> Why not just:
->=20
-> 	return ftrace_event_open(inode, file, &show_show_event_filters_seq_ops);
->=20
-> ?
-
-Acknowledged.
-
-
-Kind regards,
---=20
-Aaron Tomlin
-
---o7grfknwrlxh27kd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmlYKFQACgkQ4t6WWBnM
-d9Zrxg/5AYuak6lEyk5lBMGPMII/ZZlN+qDGTADOS+puj+to24lDvrE1vefwHdjy
-zAEoe3Y/Y2jG3S5eFLqhvE4gSBp81OKU5wlpT2xf/rv56kodL+fBaN/BhmH1eWnL
-Sw9CnAncs33XSnJoMdXJ4nnnxVnr2W+k5/YiVz4Z23ieQtGGUqc3t0W98iIN5GRE
-tI7qBYqdCuHUaH0A+Xk6YNEx5QZProxbl6KxtTu4h6SCDOJF6ahFdAbWI3cAo+CL
-SwzUtNnbm4XD8Z6sD9Fp8TMbGQydTpGj+Rh7VP79HVpQ4MhasGduuWNmWWzBMjel
-GlGyt1Aa5TZ9wQQ9WpBX+plseShuJkHY8GOS5xAHsJf1rurgoRym/GF8Bbd8CGYe
-/bw2+NwrDtjPh8ySFQkWo5hIRr9AaOmPOYoTA1T2zLOEyu6EcmXrwOByULqAKz/k
-arOuhS3eTrLlrZl5gf+NkUxyL7BaEYfpumU69ZJc+ktEbFl8QRpvT9jUwPb7C9bs
-H9sQrz3gCbPSqsUA5GHLTOJrKMqAEd8tMENGiHQWaX6Kk/XTOF9iY2GCSuY+qgnw
-fe1CKTuV8cMwjFWe0+mdH+BhhSafl/fOxr0m3nPkcMYhJc7Aeqy8lo1gquaK9Cn7
-uNffZe1vIpvNWyOEvIL4D/7SnhuNSPEjcMbkmFCdYPhpXJ9NbNY=
-=EfkA
------END PGP SIGNATURE-----
-
---o7grfknwrlxh27kd--
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 628c0e0ac313..64d6f9c15ef1 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -45,6 +45,7 @@ struct pt_regs;
+>  struct folio_batch;
+>  
+>  void arch_mm_preinit(void);
+> +void mm_core_init_early(void);
+>  void mm_core_init(void);
+>  void init_mm_internals(void);
+>  
+> @@ -3536,7 +3537,7 @@ static inline unsigned long get_num_physpages(void)
+>  }
+>  
+>  /*
+> - * Using memblock node mappings, an architecture may initialise its
+> + * FIXME: Using memblock node mappings, an architecture may initialise its
+>   * zones, allocate the backing mem_map and account for memory holes in an
+>   * architecture independent manner.
+>   *
+> @@ -3551,7 +3552,6 @@ static inline unsigned long get_num_physpages(void)
+>   *	memblock_add_node(base, size, nid, MEMBLOCK_NONE)
+>   * free_area_init(max_zone_pfns);
+>   */
+> -void free_area_init(unsigned long *max_zone_pfn);
+>  void arch_zone_limits_init(unsigned long *max_zone_pfn);
+>  unsigned long node_map_pfn_alignment(void);
+>  extern unsigned long absent_pages_in_range(unsigned long start_pfn,
+> diff --git a/init/main.c b/init/main.c
+> index b84818ad9685..445b5643ecec 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1025,6 +1025,7 @@ void start_kernel(void)
+>  	page_address_init();
+>  	pr_notice("%s", linux_banner);
+>  	setup_arch(&command_line);
+> +	mm_core_init_early();
+>  	/* Static keys and static calls are needed by LSMs */
+>  	jump_label_init();
+>  	static_call_init();
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index fc2a6f1e518f..ffc4a0f1fee9 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -1810,7 +1810,6 @@ static void __init set_high_memory(void)
+>  
+>  /**
+>   * free_area_init - Initialise all pg_data_t and zone data
+> - * @max_zone_pfn: an array of max PFNs for each zone
+>   *
+>   * This will call free_area_init_node() for each active node in the system.
+>   * Using the page ranges provided by memblock_set_node(), the size of each
+> @@ -1821,17 +1820,14 @@ static void __init set_high_memory(void)
+>   * starts where the previous one ended. For example, ZONE_DMA32 starts
+>   * at arch_max_dma_pfn.
+>   */
+> -void __init free_area_init(unsigned long *max_zone_pfn)
+> +static void __init free_area_init(void)
+>  {
+> +	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
+>  	unsigned long start_pfn, end_pfn;
+>  	int i, nid, zone;
+>  	bool descending;
+>  
+> -	/* Record where the zone boundaries are */
+> -	memset(arch_zone_lowest_possible_pfn, 0,
+> -				sizeof(arch_zone_lowest_possible_pfn));
+> -	memset(arch_zone_highest_possible_pfn, 0,
+> -				sizeof(arch_zone_highest_possible_pfn));
+> +	arch_zone_limits_init(max_zone_pfn);
+>  
+>  	start_pfn = PHYS_PFN(memblock_start_of_DRAM());
+>  	descending = arch_has_descending_max_zone_pfns();
+> @@ -2681,13 +2677,19 @@ void __init __weak mem_init(void)
+>  {
+>  }
+>  
+> +void __init mm_core_init_early(void)
+> +{
+> +	hugetlb_bootmem_alloc();
+> +
+> +	free_area_init();
+> +}
+> +
+>  /*
+>   * Set up kernel memory allocators
+>   */
+>  void __init mm_core_init(void)
+>  {
+>  	arch_mm_preinit();
+> -	hugetlb_bootmem_alloc();
+>  
+>  	/* Initializations relying on SMP setup */
+>  	BUILD_BUG_ON(MAX_ZONELISTS > 2);
+> -- 
+> 2.51.0
+> 
