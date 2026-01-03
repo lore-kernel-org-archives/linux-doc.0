@@ -1,122 +1,227 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40872512F5
-	for <linux-doc@vger.kernel.org>; Sat,  3 Jan 2026 05:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392461D5151
+	for <linux-doc@vger.kernel.org>; Sat,  3 Jan 2026 06:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767419006; cv=none; b=Pqg4Q86n6JStm17M/niGJZ2zy5sVJLDAxzboSr6aBcBfjr1J4sK291RK3an4j22RD2+Z8CCLDULOety9M7O/tfg/g5VDwdQbqpHXY0QRgxGg3eIyJd47hro+MUpN5G5pw2WYpii6SdyDaiZi0oDLJSsWzcNun/fiYljZymqSY/w=
+	t=1767422216; cv=none; b=JbaMNs4ykTQ6+vacKp1OWs5IuMTK2Ub91r8ZLcVNVPDHNlGPRkY414K5R6gvf++15SWb0WUeivTdm/1/S3d9tq5rSBXA5OxhLnBvMdxU+ZeSlex1JIf/0UcdVZSEW69sUe7zb+3zpIRtWJcag+5WczRvy6YQvfRaPROUShUVVfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767419006; c=relaxed/simple;
-	bh=X+IfmcXSuoZDRyg42fHqoCA1jXYW6OikmoE5xXE6U3o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=l2vGJzzhMWrIQiedOMLlunHYr6wcK4+Nnlqay6CUg3arQm1xlmEu0kJ+x7eAibP2JneyOuO3mIV1Pum0RMFjjKXypLAIeUwwx7gzIeZRgOTM+JCNxByXowvJYtk+JfeVvqtapntPukZadrymxMG41kbyoq5NRHxmMdITD2423jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j6bvduk4; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767422216; c=relaxed/simple;
+	bh=GcSJTsIdgVF1gHPqEGPZ9hEjZebFvNeOtsDBF78oZCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lcYIEVInYXomZFMR2aacHyhjrUs6J3nONz6NSoGc10v568dK5KkjY+MRxCuyf8p1/hax0reUYVrvOPVtLlBYzOJmp6kOKZ/s5LfM7lmeoo7WAeZvLVPb0wjS9k73mRpC4KNvKx/GSmPIrkuXt9DqNivyr+ils+bPlWRpKA5K4Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JrbvOruB; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j6bvduk4"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a097cc08d5so33013745ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Jan 2026 21:43:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JrbvOruB"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7d26a7e5639so14266933b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Jan 2026 22:36:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767419004; x=1768023804; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=irsQJYV0eG7rEEfQaub+MbEnNO9+IN5xCWrTMsKLC5o=;
-        b=j6bvduk4ZJ+R0NL3bQ7Quqp6ItMKdijCcczevRJ5MefujAEbgdcg50QRR5OHvmdaDN
-         ZPad6RhW3xoc0nE61ja039KjUfV+Q1BURUmpjTrGu9p6rDVnd9jVjNrqRwUQykQCn0uR
-         rTa3xiLDO4ISw+3ZR5EgFzW+jV42IjdYOsQv210Us89DbG//qNqUQkswIMJAd9Y5Y8Ak
-         FpUg1gDhyL7zR6PJhnGYdSvpea9qVqaIbwmgV1ycEGzyaxH5l28kyXgAlEhRPzHk34HB
-         sk0X8hiuMf78Xv29ntdpvzPefeHq3DuMv8EcZ47bmJhIM+ZOSpuiaKN5x/WvOSNN3mkd
-         QvHw==
+        d=linaro.org; s=google; t=1767422213; x=1768027013; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n009qAjQa1f/gx1JlFPWaK6vp1HVpsaalQe/6LgsF9o=;
+        b=JrbvOruBrh8lmpIc7RX7dnszwqV0ZJvn2pS9G1dhEGqecM0sSS3ZzGk6+hKHsts9eB
+         C+xP39BkTmzg9evARoi3qoeyq8kZMHZqd11kFj5vYzUOT0YJlcQikJy2h7RKXFZNKe3T
+         YA4iYlXRVO/irzy+dZLvgkPjRdXcBD3JIEuQylFoThLU8A12V6+ye6KnIIi1SNK9/Byp
+         J7VpDq0SiCBMqmX/Lf2+mbyUNhsDSVuZ6CZxv6A9v1EHFBfLjQ/ucuQHQAJP520mcf/3
+         PT2WniBjQ4BN4bXjevPkvTcKpkcc0kRPT/749qf5ZqeYp4MwFJGf0D6Uqv1P6oFi6lTM
+         41CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767419004; x=1768023804;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=irsQJYV0eG7rEEfQaub+MbEnNO9+IN5xCWrTMsKLC5o=;
-        b=AhnOl2tmojmn18tygy++Qq7I1Y7N+D3psp7rFLDcgU8Ef4A+5mKviTtL05FcX90crB
-         vJH6TpOexxElpaOLcYfrRorjzrENozN3Oc7SN20k9vR+kc9At91VE0k8x3c6hQoUKUrT
-         FgffxQ605CI8fG1x5ggLhmMRQRuHOBY8NMDXHS0OMdN2cLMUAfWV4W/nbd6rdyfhdW8l
-         kBuvg3mhVEB1qqNpPnj1XWje4+2Kn0nY8XJaEaqJ/6HOPP5rvXsyDKEUSU2l6hXHDrhM
-         ypwGv+NKghsrVvwwYp2eKM2G4kEKXHtQNCkAa8skAeqoNq6KkPhsR0uHW/ZnntZ4E/6q
-         eOLg==
-X-Gm-Message-State: AOJu0YyLa6/eUXg/yfiBWGmGK9TW7OFgB6/fe8ttPYCophhCu8zr3T21
-	8ObKG+j2Bl53MF6NQ6xt8EqLzb1KHRtu2+nBrATSijWDwhvGj8TgHB0iNU6rA/AV
-X-Gm-Gg: AY/fxX6j6Bslu/QqsilMF4cCO7EzaKkGfOPDpDDoevRq72ky+U0hrLSCsouKnOhdV7u
-	AAFLZd02vTXM8xlrWTch/iD0QhJwAkHz4Hp6w/Tu/dRLMmP1Odwc1Q0H6LH+pu0BbVix9tTwcCx
-	YlTSrxEkjeXbB/fKjZR5bEd/8F3MlyxKI2WhVKcObU/Ar+oxzI8/VWgLl1/qFYWZoo1dyWvmw43
-	Zqf4c3MI4RQOCO8olZs5TOeecydluTW+SxiGrf0A0/GwgmXTkOyNybmweMOFuGM+YlAavIdm3ld
-	G2UDfZBeLgjsoYwkEBN9QDahz+icDUGOrRAdp9yYpzSljIL9AhliSPmWG8VVszx7EaOCQr5qVHZ
-	M/Cdi0VdFJbuR1wQ/NjWP8NOJjMdW5zAPuuau+Xd8MpDMqjuaP7h/3qrK2lJ67al3Nr9uutHZuS
-	6vMyCovvdBUqsS0M/H6Ho=
-X-Google-Smtp-Source: AGHT+IFyvK8oZUDI2iN4F2hzCL9EFwLS4fRCLQTFp00CWjRKDSbp8hNeVq2/TfdhiVcPETWvlgQRFQ==
-X-Received: by 2002:a17:902:da8c:b0:298:2237:7b9b with SMTP id d9443c01a7336-2a2f283f828mr306955155ad.7.1767419003943;
-        Fri, 02 Jan 2026 21:43:23 -0800 (PST)
-Received: from [192.168.20.112] ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d5d428sm388513275ad.73.2026.01.02.21.43.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jan 2026 21:43:23 -0800 (PST)
-From: Masaharu Noguchi <nogunix@gmail.com>
-Date: Sat, 03 Jan 2026 14:42:39 +0900
-Subject: [PATCH] docs/ja_JP: fix typos in submit-checklist.rst
+        d=1e100.net; s=20230601; t=1767422213; x=1768027013;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n009qAjQa1f/gx1JlFPWaK6vp1HVpsaalQe/6LgsF9o=;
+        b=FpLcd0f1m96WgM8Psvj2PfVossvq1AJubgSEep76Wbg+L+3aCHpKZ0XXrsuFGFdzWV
+         LyXsfpGV1H10l8nr7u1v5NvhAmFxie4oYGCD3MWYmm0lmEJF0BiViICrr/nz+loSmCd3
+         1mbL6AOjzOk0SWaN2QdSBI+W7UQklubdikFfWQePTiAu/wK5lbPyRJcJ8tFdL9rhpvGK
+         FCNibtFv0COT8gHQxROCMmXgi+4aGPaWg5HqtZMgIfFUaa2VK9I4+pSXPDV3z6X9aMD3
+         q8F8X3aKOJQz5tU9HGDZgSv/SKPEHxKtSu6enI1IDKtPc9ZpfEa6mA4kGvdEgAn6cubT
+         CoSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWZnxkUd9aKxxkJFB9phaV8Ql9fjEU3hIqJ5CjilhvnvS9CFszTRo6sWKboaTUL/mIAVGiGZrreWIM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNIop9nMt/BPYUd5awB5IJTKLQWXEfvm3uBoACdzF9Bl5oiZDG
+	kgq0qWy2rB87rgMaLXz0KcCtMe/2LcQtxMKN1PQ5sF33ZDf6cfcDUdrL/Q+k2LsZDao=
+X-Gm-Gg: AY/fxX44Zn/uxgwTWBh6+jCNumnISe9F5P4qeM0GMQN6u+fz42X+eM3IRKE9ZRfxClX
+	1hqVPYUTsTx2gV/ORtMK9311AdUReilste+DxwKSeL094VJLA1Fmczgg730kL2nuAZjZlTZvjdm
+	MccopN7shDR20TYY7S7BUS9brw3Fn+9FrxObIfv3EHS1RJnpYELFx/kUfvup+WZ9gXys9QIpxM7
+	s8MPxom4xtW87oh9DsCUfqv6SIwhgQdFdYuiYAUjLROrAeJgsxH0SVmKnhGmNbifx+LM2rw7k4s
+	J+Ci+EhYxKOQtWj3ongOb0LSMDtHi1iRrMvTkEzPlXCDeWCsmvToMqoKAGlf3sG57S33NK2IGth
+	87T2op5DgG/OIIWlKiSz8dK7SHlKFbeIcyevXlOBnzKiDNV3rX3DPn88vz8CXewFipqGFJ12AZ5
+	Co9hbIdQDRMHnNoLGpDtT2b9Srj7+roOM6aNrAEvc8yXspIDeO9JMGwwS5fmOSWMf5
+X-Google-Smtp-Source: AGHT+IFjVDKmB/xNuLtQKRYfU/ITUXwxCDRtTDnOfIZDb5jRoUr7iNoQ0th445p4ZZcSbNCPgjHtMA==
+X-Received: by 2002:a05:6a00:140f:b0:807:c2b9:38ec with SMTP id d2e1a72fcca58-807c2b93f63mr22110230b3a.15.1767422213430;
+        Fri, 02 Jan 2026 22:36:53 -0800 (PST)
+Received: from ?IPV6:2405:6e00:642:d187:9f0f:f4ff:8fd1:e7bf? ([2405:6e00:642:d187:9f0f:f4ff:8fd1:e7bf])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e0a2e3esm41753812b3a.37.2026.01.02.22.36.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Jan 2026 22:36:52 -0800 (PST)
+Message-ID: <4b8953ac-567b-4d68-9c25-72a69afdf1b3@linaro.org>
+Date: Sat, 3 Jan 2026 08:36:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260103-b4-practice-docs-typo-v1-1-d68ad6a22ab5@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avErBswk6KuEi3UxpqNikYU0t2Tl
- m/xf4FMiSnD3BRIdHHm4Cu6tgF7aL8T8lYNUshBdKJHozAmbU+2hFuwGc8nBiRtJqekMuMkobY
- xkeP7/y7r+35x8GTjZwAAAA==
-X-Change-ID: 20260103-b4-practice-docs-typo-eab9f424b792
-To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Masaharu Noguchi <nogunix@gmail.com>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/26] mm/memblock: Add MEMBLOCK_INSPECT flag
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, tglx@linutronix.de, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+ mhocko@suse.com, tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org
+References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
+ <20251119154427.1033475-19-eugen.hristev@linaro.org>
+ <aVImIneFgOngYdSn@kernel.org>
+From: Eugen Hristev <eugen.hristev@linaro.org>
+Content-Language: en-US
+In-Reply-To: <aVImIneFgOngYdSn@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix spelling errors in the Japanese translation:
 
-- "Menu attibutes: default value" -> "Menu attributes: default value"
-- "Documentaion/ABI/" -> "Documentation/ABI/"
 
-No change in meaning intended.
+On 12/29/25 08:56, Mike Rapoport wrote:
+> Hi Eugen,
+> 
+> On Wed, Nov 19, 2025 at 05:44:19PM +0200, Eugen Hristev wrote:
+>> This memblock flag indicates that a specific block is registered
+>> into an inspection table.
+>> The block can be marked for inspection using memblock_mark_inspect()
+>> and cleared with memblock_clear_inspect()
+> 
+> Can you explain why memblock should treat memory registered for inspection
+> differently?
 
-Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
----
- Documentation/translations/ja_JP/process/submit-checklist.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+It should not, at a first glance.
 
-diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
-index fb3b9e3bd8eea318bdb9985238a9be66ebafac26..c118b853c44ad525a90b486e26a12347b398897c 100644
---- a/Documentation/translations/ja_JP/process/submit-checklist.rst
-+++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
-@@ -52,7 +52,7 @@ Kconfig 変更のレビュー
- 1) 新規の、もしくは変更された ``CONFIG`` オプションについて、それが関係する
-    コンフィグメニューへの悪影響がない。また、
-    Documentation/kbuild/kconfig-language.rst の
--   "Menu attibutes: default value" に記載の例外条件を満たす場合を除き、
-+   "Menu attributes: default value" に記載の例外条件を満たす場合を除き、
-    そのデフォルトが無効になっている。
- 
- 2) 新規の ``Kconfig`` オプションにヘルプテキストがある。
-@@ -75,7 +75,7 @@ Kconfig 変更のレビュー
- 4) 新規モジュール・パラメータが、すべて ``MODULE_PARM_DESC()`` によって記述
-    されている。
- 
--5) 新規ユーザースペース・インターフェースが、すべて ``Documentaion/ABI/``
-+5) 新規ユーザースペース・インターフェースが、すべて ``Documentation/ABI/``
-    以下に記載されている。詳しくは、 Documentation/admin-guide/abi.rst
-    (もしくは ``Documentation/ABI/README``) を参照。
-    ユーザースペース・インターフェースを変更するパッチは、
+The purpose of the flag is to let memblock be aware of it.
+The flag is there to have a "memblock way" of registering the memory,
+which inside memblock , it can translate to a meminspect way of
+registering the memory. It's just an extra layer on top of meminspect.
+With this, it would be avoided to call meminspect all over the places it
+would be required, but rather use the memblock API.
+And further, inside memblock, it would be a single point where
+meminspect can be disabled (while preserving a no-op memblock flag), or
+easily changed to another API if needed.
+Ofcourse, one can call here directly the meminspect API if this is desired.
+Do you think it would be better to have it this way ?
 
----
-base-commit: 805f9a061372164d43ddef771d7cd63e3ba6d845
-change-id: 20260103-b4-practice-docs-typo-eab9f424b792
+Thanks for looking into it,
+Eugen
 
-Best regards,
--- 
-Masaharu Noguchi <nogunix@gmail.com>
+
+> 
+>> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+>> ---
+>>  include/linux/memblock.h |  7 +++++++
+>>  mm/memblock.c            | 36 ++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 43 insertions(+)
+>>
+>> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+>> index 221118b5a16e..c3e55a4475cf 100644
+>> --- a/include/linux/memblock.h
+>> +++ b/include/linux/memblock.h
+>> @@ -51,6 +51,10 @@ extern unsigned long long max_possible_pfn;
+>>   * memory reservations yet, so we get scratch memory from the previous
+>>   * kernel that we know is good to use. It is the only memory that
+>>   * allocations may happen from in this phase.
+>> + * @MEMBLOCK_INSPECT: memory region is annotated in kernel memory inspection
+>> + * table. This means a dedicated entry will be created for this region which
+>> + * will contain the memory's address and size. This allows kernel inspectors
+>> + * to retrieve the memory.
+>>   */
+>>  enum memblock_flags {
+>>  	MEMBLOCK_NONE		= 0x0,	/* No special request */
+>> @@ -61,6 +65,7 @@ enum memblock_flags {
+>>  	MEMBLOCK_RSRV_NOINIT	= 0x10,	/* don't initialize struct pages */
+>>  	MEMBLOCK_RSRV_KERN	= 0x20,	/* memory reserved for kernel use */
+>>  	MEMBLOCK_KHO_SCRATCH	= 0x40,	/* scratch memory for kexec handover */
+>> +	MEMBLOCK_INSPECT	= 0x80,	/* memory selected for kernel inspection */
+>>  };
+>>  
+>>  /**
+>> @@ -149,6 +154,8 @@ unsigned long memblock_addrs_overlap(phys_addr_t base1, phys_addr_t size1,
+>>  bool memblock_overlaps_region(struct memblock_type *type,
+>>  			      phys_addr_t base, phys_addr_t size);
+>>  bool memblock_validate_numa_coverage(unsigned long threshold_bytes);
+>> +int memblock_mark_inspect(phys_addr_t base, phys_addr_t size);
+>> +int memblock_clear_inspect(phys_addr_t base, phys_addr_t size);
+>>  int memblock_mark_hotplug(phys_addr_t base, phys_addr_t size);
+>>  int memblock_clear_hotplug(phys_addr_t base, phys_addr_t size);
+>>  int memblock_mark_mirror(phys_addr_t base, phys_addr_t size);
+>> diff --git a/mm/memblock.c b/mm/memblock.c
+>> index e23e16618e9b..a5df5ab286e5 100644
+>> --- a/mm/memblock.c
+>> +++ b/mm/memblock.c
+>> @@ -17,6 +17,7 @@
+>>  #include <linux/seq_file.h>
+>>  #include <linux/memblock.h>
+>>  #include <linux/mutex.h>
+>> +#include <linux/meminspect.h>
+>>  
+>>  #ifdef CONFIG_KEXEC_HANDOVER
+>>  #include <linux/libfdt.h>
+>> @@ -1016,6 +1017,40 @@ static int __init_memblock memblock_setclr_flag(struct memblock_type *type,
+>>  	return 0;
+>>  }
+>>  
+>> +/**
+>> + * memblock_mark_inspect - Mark inspectable memory with flag MEMBLOCK_INSPECT.
+>> + * @base: the base phys addr of the region
+>> + * @size: the size of the region
+>> + *
+>> + * Return: 0 on success, -errno on failure.
+>> + */
+>> +int __init_memblock memblock_mark_inspect(phys_addr_t base, phys_addr_t size)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = memblock_setclr_flag(&memblock.memory, base, size, 1, MEMBLOCK_INSPECT);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	meminspect_lock_register_pa(base, size);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/**
+>> + * memblock_clear_inspect - Clear flag MEMBLOCK_INSPECT for a specified region.
+>> + * @base: the base phys addr of the region
+>> + * @size: the size of the region
+>> + *
+>> + * Return: 0 on success, -errno on failure.
+>> + */
+>> +int __init_memblock memblock_clear_inspect(phys_addr_t base, phys_addr_t size)
+>> +{
+>> +	meminspect_lock_unregister_pa(base, size);
+>> +
+>> +	return memblock_setclr_flag(&memblock.memory, base, size, 0, MEMBLOCK_INSPECT);
+>> +}
+>> +
+>>  /**
+>>   * memblock_mark_hotplug - Mark hotpluggable memory with flag MEMBLOCK_HOTPLUG.
+>>   * @base: the base phys addr of the region
+>> @@ -2704,6 +2739,7 @@ static const char * const flagname[] = {
+>>  	[ilog2(MEMBLOCK_RSRV_NOINIT)] = "RSV_NIT",
+>>  	[ilog2(MEMBLOCK_RSRV_KERN)] = "RSV_KERN",
+>>  	[ilog2(MEMBLOCK_KHO_SCRATCH)] = "KHO_SCRATCH",
+>> +	[ilog2(MEMBLOCK_INSPECT)] = "INSPECT",
+>>  };
+>>  
+>>  static int memblock_debug_show(struct seq_file *m, void *private)
+>> -- 
+>> 2.43.0
+>>
+> 
 
