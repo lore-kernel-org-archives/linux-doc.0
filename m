@@ -1,128 +1,141 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F2E2F3C12
-	for <linux-doc@vger.kernel.org>; Sat,  3 Jan 2026 08:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5631AC44D
+	for <linux-doc@vger.kernel.org>; Sat,  3 Jan 2026 09:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767429910; cv=none; b=bIa/kGPDLOxpJEzs7Mk88ucAGtRMkd9SNExFpNymI+Pmn+jF7sZ0YZhdcGoSwIzDAEzShNU0nvX7F7ZnWFHynIBScSFpuxaxadeRcEw8lMfi562rKVJmBG9W+swKbMNd/MfuZ2tdqcHwpev05xT8uyY5UKlu1QbmBT0NXxUukNI=
+	t=1767431512; cv=none; b=JgW2fc+dHqg5i/kJ2KT8yD1WnHgn3/IYc0vNOlyj08OceiFyiPMYlfi5X/6Xt5XjMIHNpNeYxAiB4bXYV5MDMJuMS5GvFcr9yptGrWyjCtj2GqKHbxSM1vWW9kTHeMw2H3uMl/di9WQpMBFk2KkKgoCFWbo9EZhpq20g1wVHNTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767429910; c=relaxed/simple;
-	bh=/CaF2iN8pMgurqn4wpbSboetmoIjsdl4fxR7dHGlIAk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kt9JpIdHPQ9cpg4b8L0zDGjDYPcKuKIMXCAwUA4h+sZhpKAr5Y1bSm3O7vp3i1a7TAsRihkaNzNHLbHVJfdqMdIRnzGpVhjfqQLaP6xkyP84mN5rvZc96STrEndGlXblvzgLhjDVjDP2/k0nmO/MFkmXpQLcS6/+ZyniQnjqwXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmImi084; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1767431512; c=relaxed/simple;
+	bh=HA43poXcwQpADE2V9nU830RzFH6YDFnRj5guQFKHWY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R1oZ+IMF6eAqZHZ1iSyGHFLSQV3JWTYlhPazyiWTG6CrQ5VnZcDHYbOk45QrACWs/JNbr+KG2b/cNMSWqlIXXut6f7bC5MDL2frzHOZFzeyeDWOHqQUaTLfXKkPQUt0PQlv4bafEV9vHaSYxF/k1D6evtxzVlirQhEzN+SgvR7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QBUVEBi8; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmImi084"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a0b4320665so196064105ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 03 Jan 2026 00:45:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBUVEBi8"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so13042715b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 03 Jan 2026 01:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767429906; x=1768034706; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wr4cUp9yuTMrNCmPZq3B1VWoJTYFXAF5+yz0p1y/2Pc=;
-        b=lmImi0844dWmq+z7UkRN0WhRKPqZrg2TUtLsB22tPvcnu7fkv3yQ31wFEdBStQpf9Z
-         MjtJadoUXo2552/5iFP9Ig69GhilGDlbHoONfIDZ2XF4DBkfxEimofhWNk3a0XgB8yCa
-         DU4MBamOssfZVK0OU1D2Xbe8GR01HzMqUb/nB99gpk301SbjKsC8bnImF2uWpkBl+GQW
-         G6x3+gMCW6CfDQ6SqeRpUjbkXxPGT7ubhDIYKp8X0ovNFveroPZDqBsvzXq+gwnpoOlg
-         DRJ2Hw7XCpITlEN36o8ZLiQEFXmQq3x+KYJvxzi/e0Z0ygIWKlkdYC8SBWDpWTIzo+La
-         8LIw==
+        d=gmail.com; s=20230601; t=1767431510; x=1768036310; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CbB/u4Boyz6wim8LLKDK6vrmsmGBVfzV79ZjNtpeGas=;
+        b=QBUVEBi82nqruvb4sfB04p3544/imFFRNhSir75cFMCYEf4h7wFYoiCRPAb2RDlCUI
+         JerEuwpOEZ0GOxQ8jFm34HljVvdV5bYZafRfcssETKyeqFGT39xc0+IHNUcmMeHbwoDU
+         FprCWxpzDtZY7DMFALG2r1vbuE8T7s6QlLk2RSj6hW+OSjM5W6mi3GBXRjauu0pptzFM
+         c3hH95Ec9RJvj4mBlgHlSQ0LUkY4aOK+PSr/O8tdqqxMbs7WpK6/LQ1EBXhbvcy+QoE0
+         FteuA3DvB8BRlyGkbU6KogeB1GAtL9ry9eLbltQrdGuLSVt3hPOqNDbi7sXQvHmDH21g
+         +JtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767429906; x=1768034706;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Wr4cUp9yuTMrNCmPZq3B1VWoJTYFXAF5+yz0p1y/2Pc=;
-        b=jLlsfeeNSkVUsaJ5/gzkvenY3fRPd4+BQiJa5lE1clpVcAwsXsJ+0vxgymISfIFqfE
-         RazAzxuPczJ3ELaLwoKOmQqys6ul04tLCCK6lixV0Ud44SSbXnm41rJ7NjW1ovvZwKIi
-         Sn1rw33gagWKSS2HDNezVXZ0RVcqbovm8gnsYkfrv71nIhFXuOO/2CbidJWoZYUNKqsS
-         wKy/u9ZUAyLliC5BpUQy+pazQIY1izIgNSQlKz+66HqIjB1KA3QI8NWL+NYO+6Xu05wb
-         88jDJZGB5fDt0OsPMgobRYDaw2Gcic0fcpzSVI3+VoJdoxLyMyN21Eu5RISCWWW9gl0G
-         oa+w==
-X-Gm-Message-State: AOJu0YyyRsOWx5O4d/U2qTDZv0jzoc+88BXD0DvIWcOc7zzA1f+PIzep
-	C/sowiLhk9A5iTXBeUx6sJrqP5N4hwRxTdl7JHff/RcJzMZI5k8wYHq8
-X-Gm-Gg: AY/fxX6u3ZKxi3AE2NKcgyz4GVBS1beR17RYDtvz6HAMDoC6SNe6kWbiEogmLlbHidi
-	vLoVRlXSEuKBV39ayhE2CHQgePYyLXstzq9KH0Oq5ku98tRiK4ET9O3POsG67p6NMAOPTY4GisO
-	Jqj0ivPGySjGmXUxSZveUuHixH5eVjlbZe/K8DTCaqugv8NYy9bHM9XewtERhW2HXHZec5L4qYL
-	I6nWWYwRm3iTXL6rBSrmoqfaw6bRPg16OU3UHq4S3ky93LUPTpNDJmxMIQB5ThCdvHAT//1IiE3
-	uVsETng4AbcGzSJMyAF2T4n+pjkWCshT8f5DlGNiUIWWcpUtR4/cIwM9ZT0QvhYK5lcU37nTOkG
-	Jqdw8rrumINo3+dzRv6YqCdEJUqjlDlm5zUzMIgy3Z3y9aYVrqx6RvFiCMnHlrtKRGFPmSu92x9
-	LvfdekH7BOChUv6xHO2r+Ph8A0M+7ecDcE9PqSHqSzobI9emH1pdLTlDNT
-X-Google-Smtp-Source: AGHT+IGYex9lV8Fx3n391YEmcQFYTjU50yabLrjuS2U01ILLSzGcIwwuL0zHKbOM9DAAYpsIWKBuqA==
-X-Received: by 2002:a17:903:2f50:b0:2a0:d636:71e7 with SMTP id d9443c01a7336-2a2f2425b08mr462056515ad.13.1767429906427;
-        Sat, 03 Jan 2026 00:45:06 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d5d407sm394290845ad.72.2026.01.03.00.45.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Jan 2026 00:45:06 -0800 (PST)
-Message-ID: <bb248145-096c-4e2e-b95a-0ab8b6c4370e@gmail.com>
-Date: Sat, 3 Jan 2026 17:45:03 +0900
+        d=1e100.net; s=20230601; t=1767431510; x=1768036310;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CbB/u4Boyz6wim8LLKDK6vrmsmGBVfzV79ZjNtpeGas=;
+        b=FV4HrbMA6ky+XoBYiCrlbEYmdcVOAnkciVqPLi2d7Y7zb+S0kAgweedcpfqv4hVo4p
+         j3dhiOaJTEo+p6yR/8yjpzV8W0dAUOMthrty7eF+2d14NcOr9FrU6vLaBWn4G3j7HuIW
+         egIJvxRWXWxyZ4GpyMIQCerHeENmriTW49iW8m/HMg65NJ1nDND7U673cu0fFIqAqK1O
+         GimaU2BhBWi3ioP1ZOGa+uJLn1y1TZmEikoPt+LMNnzMnvskTIcNrtNUePcKUghIDzjU
+         fsY4T3AHTowa46Vlugk3rMIxdS6pBjEj9wS0M9k52L3/RELhY/Ur5b5kOcmTihEMxzR9
+         bmPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXnrvs2Vuei/Nt9cYeYfZH8nKAPrrW/miWHjzqpHXnDxAVZ4Sa1YWm5AQ6Slw7jXcHkjClpFDZVjVw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxethVWvBbSsz4nO/5OWIQzPfxsWNnCOim1wxQHKSH2z9fzy4N8
+	NDN8YrOr9aRsniXG2qv0oSwGX2/DdMXfZrk3dM6KWtanGZMLDvi3MYqE
+X-Gm-Gg: AY/fxX67bgN/rba19LHqRbRkCzf1GjhI4s71xh02DRqH/xVP/Hq4RlwNrAJEaQYUYae
+	fRlxQ5gZsSamK3Ai5P1VVlRoZ8Y7fUxOfDQHPnYZ0Uda3OgkdLp4w1ShPpmluOPIuC9dBZBxec6
+	29aZPRlqq8EKk+Q3UZU4i3DQLohsP8sOORGQ7u6Tn1nEJUH8WEGqXKx6ytUjKBzmN336RQ39lpS
+	P7IblPVUQxNWosumRqG7VwtbRj+c7A7Mk6CRQGX3QEnoF8jRsNzfFtIJylNA+gz0/8FykIHCUFs
+	V7bAyrMo6hBgcN/0RfeYZMlxOLP/Qmoa2hFoETy8KlZsvCNmxq7Hgt48tnFkdFRBK7fvemO76+L
+	xK0SAdd06TELxhVyHng0M0at2rAW+rGoGcdTuwa1b+J1VDOwCeN9npynXaZlZ/xcw4G8ap0GKbr
+	5Ujh2zOwnFw7g=
+X-Google-Smtp-Source: AGHT+IHj+Yc5i5BlyxHw8XH6x0veUjij66PZD5scVA7u5fS2kWQiygSaCY5f39DOPJCDQFwr9SkNbQ==
+X-Received: by 2002:a05:6a00:e0f:b0:7e8:4398:b34f with SMTP id d2e1a72fcca58-7ff66079339mr38129658b3a.34.1767431510268;
+        Sat, 03 Jan 2026 01:11:50 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e797aadsm42981212b3a.61.2026.01.03.01.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jan 2026 01:11:48 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id ABA154092C2B; Sat, 03 Jan 2026 16:11:46 +0700 (WIB)
+Date: Sat, 3 Jan 2026 16:11:46 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Hemanth Malla <vmalla@linux.microsoft.com>, bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+	yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, vmalla@microsoft.com, corbet@lwn.net,
+	Alan Maguire <alan.maguire@oracle.com>,
+	dwarves <dwarves@vger.kernel.org>
+Subject: Re: [PATCH bpf-next] bpf, docs: Update pahole to 1.28 for selftests
+Message-ID: <aVjdUjai0lzpMeHv@archie.me>
+References: <1767352415-24862-1-git-send-email-vmalla@linux.microsoft.com>
+ <bcd23277-a18e-4bb5-ba76-3416c84511c2@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/ja_JP: fix typos in submit-checklist.rst
-To: Masaharu Noguchi <nogunix@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20260103-b4-practice-docs-typo-v1-1-d68ad6a22ab5@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260103-b4-practice-docs-typo-v1-1-d68ad6a22ab5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="x53cqXSfhecsAUML"
+Content-Disposition: inline
+In-Reply-To: <bcd23277-a18e-4bb5-ba76-3416c84511c2@linux.dev>
 
-On Sat, 03 Jan 2026 14:42:39 +0900, Masaharu Noguchi wrote:
-> Fix spelling errors in the Japanese translation:
-> 
-> - "Menu attibutes: default value" -> "Menu attributes: default value"
-> - "Documentaion/ABI/" -> "Documentation/ABI/"
-> 
-> No change in meaning intended.
-> 
-> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
-> ---
->  Documentation/translations/ja_JP/process/submit-checklist.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
-> index fb3b9e3bd8eea318bdb9985238a9be66ebafac26..c118b853c44ad525a90b486e26a12347b398897c 100644
-> --- a/Documentation/translations/ja_JP/process/submit-checklist.rst
-> +++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
-> @@ -52,7 +52,7 @@ Kconfig 変更のレビュー
->  1) 新規の、もしくは変更された ``CONFIG`` オプションについて、それが関係する
->     コンフィグメニューへの悪影響がない。また、
->     Documentation/kbuild/kconfig-language.rst の
-> -   "Menu attibutes: default value" に記載の例外条件を満たす場合を除き、
-> +   "Menu attributes: default value" に記載の例外条件を満たす場合を除き、
->     そのデフォルトが無効になっている。
->  
->  2) 新規の ``Kconfig`` オプションにヘルプテキストがある。
-> @@ -75,7 +75,7 @@ Kconfig 変更のレビュー
->  4) 新規モジュール・パラメータが、すべて ``MODULE_PARM_DESC()`` によって記述
->     されている。
->  
-> -5) 新規ユーザースペース・インターフェースが、すべて ``Documentaion/ABI/``
-> +5) 新規ユーザースペース・インターフェースが、すべて ``Documentation/ABI/``
->     以下に記載されている。詳しくは、 Documentation/admin-guide/abi.rst
->     (もしくは ``Documentation/ABI/README``) を参照。
->     ユーザースペース・インターフェースを変更するパッチは、
-> 
 
-Nice catches!  Thank you.
+--x53cqXSfhecsAUML
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+On Fri, Jan 02, 2026 at 07:33:50AM -0800, Ihor Solodrai wrote:
+> On 1/2/26 3:13 AM, Hemanth Malla wrote:
+> > diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/bpf=
+_devel_QA.rst
+> > index 0acb4c9b8d90..3a147b6c780e 100644
+> > --- a/Documentation/bpf/bpf_devel_QA.rst
+> > +++ b/Documentation/bpf/bpf_devel_QA.rst
+> > @@ -482,7 +482,7 @@ under test should match the config file fragment in
+> >  tools/testing/selftests/bpf as closely as possible.
+> > =20
+> >  Finally to ensure support for latest BPF Type Format features -
+> > -discussed in Documentation/bpf/btf.rst - pahole version 1.16
+> > +discussed in Documentation/bpf/btf.rst - pahole version 1.28
+>=20
+> Hi Hemanth, thanks for the patch.
+>=20
+> Acked-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+>=20
+> 1.28 is needed for --distilled_base [1], which is only a requirement
+> for tests using modules. Many other tests are likely to work with
+> older versions, but the minimum for the kernel build is 1.22 now [2].
+>=20
+> Not sure if it's worth it to add this nuance to the QA doc, although
+> in general we should recommend people running the selftests to use the
+> latest pahole release. Maybe add a comment?
 
-> ---
-> base-commit: 805f9a061372164d43ddef771d7cd63e3ba6d845
-> change-id: 20260103-b4-practice-docs-typo-eab9f424b792
-> 
-> Best regards,
+I guess minimum pahole version can be added to
+Documentation/process/changes.rst.
 
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--x53cqXSfhecsAUML
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaVjdSgAKCRD2uYlJVVFO
+o/ofAP9+4EXkvyXn4xtHYs/ZObOs1c59JDS0PbftimugULAbBQD/bWQidzmK3WT/
+kSgpPyJVYNhsw4M7WZ30T5LQm9z0QQk=
+=xORZ
+-----END PGP SIGNATURE-----
+
+--x53cqXSfhecsAUML--
