@@ -1,201 +1,103 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013008.outbound.protection.outlook.com [52.101.72.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA062DC34E;
-	Sat,  3 Jan 2026 13:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767445864; cv=fail; b=BotnCHjXdI09TQMtTlzmbER/7m4L1AN+EwEi4+7YDxpRlCKsIIS61Pt8j0oa1es1jlUEXxDboRnh6MP0jozMRPzAxF7hAo0wHQF6kCIFjYfMasKlUWrsE9+oAZuWRFz2rjiM0/ddq1+8b+K6QmsFFaOFHqxfIy0VLPTdG0nyZiY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767445864; c=relaxed/simple;
-	bh=K9sp/cKFhO2N1xPzkjJWGMSrD6M/VgnZ8iPjal4WcLM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BV0nSUw1h8paiv9NtNIK8Bq31ux7/uLuGy0hgqB1ltgk0XAzlV+wgKaDCauerlqaNybxMAbf/9UH4gNIyZD/wpWvrkOC2yBLC+7fertb6ZYNACYjyDXQTiBFNmBihuSaSjF0bkUSYDPSXHdp8CBpOq0alHR1RmD77g/Pi+anT8I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=ayIYDt8o; arc=fail smtp.client-ip=52.101.72.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B6713FEE
+	for <linux-doc@vger.kernel.org>; Sat,  3 Jan 2026 17:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767460812; cv=none; b=YGAYWDIPkhmYDrVV1QR0PA0PIU0Fc2M+WsMClmtA8CdQGFW+ue733LJfCAVBG6pUwqYeyJTw+gfbVrrUDdaOk0Xtyj6REPU1T2MTWPPsMIPtt9Xt2I0A4nQWqQFzH0eSSEfsEoJOX1Cu8oUo2xyFN+dHPI8raXpXG5OLiRfOTGI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767460812; c=relaxed/simple;
+	bh=OOoC5a2qWDukvD9Q9IgZaI0jHdlfR7ROhfQhC4czC1k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JfuZgpL9AIbqR4yULijhrkyR1wIx1atH0EpnVZuvu+ZghQU4eD6w0ZkLgsog/seqGwhDSpmnxvuDBGE1yekciaqlan4Miibojp+ca9jYpihe12Lr/cvDWSdf/HTzyHmTHds36qtbVOK2uWL2h8xhHVCoPtAa3UcsQCCPwafPbnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CejCUY+t; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="ayIYDt8o"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TL3Tz4hDtC7gezSnrOYSocIwd5LICidfnKvRCWawpVrTGcBVWiI7lFVLUyyh9uYNYKK2uAPUnwo142oqFgMtGczVfJ4X4AnhUWhqGtMdSAICKMhtoIvHN7ODIjwAaGX68s04z8j9HdsliCS9T65PukeUDJfWFN0rQCKrHQjLEsfgQZnljHnpdOF+mav5SP9qGPKqO82MFJPVwns4XltE7gsjGzooZ7gietHeza2wdUW7C79W1mfAC7OD5DBWXVMLu59aHJ+vUJ54lFgoBfS/FWrdsyV14lriT6L8siljXGdaqp00kZ3DmUlbEUJIHVd2PcNl2X3rlMxr2uyfhI6sSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=utpWZB31jtldMqB4ZA8NQqghWs8Hn3X9j6pkTLcicYI=;
- b=Im6iOVUUN4+Vh5vBfBnglOz4dVLSps7ucXfsj9zvn6c3JNSCU1qvZUmdFlySSxe9Q6mmzAR5sWTgIhfTFPjV2Rrw1GNTrZsVLn5txYQDCnc9FeHiDatW2LgDzGMydFi++KCU1LuYelVE6Yw+cwbHHeDssoxvD0I4860EwOwv3obKu9wAJa4Y3mGXohnFagr8vRv+LYsAJj3MN53L0O/atwacYZ4a57/8gDkm4SIyzku0oXrXCT6eXJMjP6172/l3tNH9UCNPaalNZWlLTJhf3i5IJLWeVpEGVrgf3VoA7o52JqlfuDTpnU+walKWhfqoC/cl4fJw/beTiL6O2DCQkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 131.228.6.101) smtp.rcpttodomain=apple.com smtp.mailfrom=nokia-bell-labs.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nokia-bell-labs.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=utpWZB31jtldMqB4ZA8NQqghWs8Hn3X9j6pkTLcicYI=;
- b=ayIYDt8oBLd+Wc/HJLK9H08+GcOgOgm+3T8nJPutwXG4IRgB9/5HE5RFaIJps7BcIecpNFZJJ4k5xWIIATOBUsaR2LqHHoobB9dUn7IGswaIzfogK8Vnwn/BqSXpIOzoXZffcHPh6c03OLGpgJhPBrLG5O/ZlATp7bzm4c/dIBjt3JLVwuY31pLTDSG7giRxEEGvZilb2rH9OP1dkAIdJE+aImmbgnFWswTHLyWwYv8vWD8JZ3Wde3ClnD3iZ8UyQbXXDwS1xS3vHYP7/ssCyJvnY6vPnLZg8YcEvYhxICb122rcRUWFJlKH6Q4e1LGQ76P3ZNisBP2jsXZq9/fgUg==
-Received: from DUZPR01CA0045.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:468::20) by DB5PR07MB11907.eurprd07.prod.outlook.com
- (2603:10a6:10:64b::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Sat, 3 Jan
- 2026 13:10:57 +0000
-Received: from DU2PEPF00028D0C.eurprd03.prod.outlook.com
- (2603:10a6:10:468:cafe::f5) by DUZPR01CA0045.outlook.office365.com
- (2603:10a6:10:468::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4 via Frontend Transport; Sat, 3
- Jan 2026 13:11:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.6.101)
- smtp.mailfrom=nokia-bell-labs.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nokia-bell-labs.com;
-Received-SPF: Pass (protection.outlook.com: domain of nokia-bell-labs.com
- designates 131.228.6.101 as permitted sender)
- receiver=protection.outlook.com; client-ip=131.228.6.101;
- helo=fr712usmtp1.zeu.alcatel-lucent.com; pr=C
-Received: from fr712usmtp1.zeu.alcatel-lucent.com (131.228.6.101) by
- DU2PEPF00028D0C.mail.protection.outlook.com (10.167.242.20) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.4
- via Frontend Transport; Sat, 3 Jan 2026 13:10:57 +0000
-Received: from sarah.nbl.nsn-rdnet.net (sarah.nbl.nsn-rdnet.net [10.0.73.150])
-	by fr712usmtp1.zeu.alcatel-lucent.com (Postfix) with ESMTP id 0F28F1C0031;
-	Sat,  3 Jan 2026 15:10:56 +0200 (EET)
-From: chia-yu.chang@nokia-bell-labs.com
-To: pabeni@redhat.com,
-	edumazet@google.com,
-	parav@nvidia.com,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	horms@kernel.org,
-	dsahern@kernel.org,
-	kuniyu@google.com,
-	bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	dave.taht@gmail.com,
-	jhs@mojatatu.com,
-	kuba@kernel.org,
-	stephen@networkplumber.org,
-	xiyou.wangcong@gmail.com,
-	jiri@resnulli.us,
-	davem@davemloft.net,
-	andrew+netdev@lunn.ch,
-	donald.hunter@gmail.com,
-	ast@fiberby.net,
-	liuhangbin@gmail.com,
-	shuah@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	ij@kernel.org,
-	ncardwell@google.com,
-	koen.de_schepper@nokia-bell-labs.com,
-	g.white@cablelabs.com,
-	ingemar.s.johansson@ericsson.com,
-	mirja.kuehlewind@ericsson.com,
-	cheshire@apple.com,
-	rs.ietf@gmx.at,
-	Jason_Livingood@comcast.com,
-	vidhi_goel@apple.com
-Cc: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-Subject: [PATCH v7 net-next 13/13] tcp: accecn: enable AccECN
-Date: Sat,  3 Jan 2026 14:10:28 +0100
-Message-Id: <20260103131028.10708-14-chia-yu.chang@nokia-bell-labs.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260103131028.10708-1-chia-yu.chang@nokia-bell-labs.com>
-References: <20260103131028.10708-1-chia-yu.chang@nokia-bell-labs.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CejCUY+t"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0a8c2e822so33779305ad.1
+        for <linux-doc@vger.kernel.org>; Sat, 03 Jan 2026 09:20:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767460810; x=1768065610; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mHj8EFboTfNxjqt2lCppeckAIkNTqozct8ViOApmGho=;
+        b=CejCUY+tBR0I3TKbiaze5Qjl9el1jd8WvTEI3gLOtbwpnYMfA0wBvf0InGk/JhZn7Z
+         5REWQnOp0pikCd5GJLFm3q7H3NTKq/MN3w8DBAMrMhypbfsn95abh2Hf+ao2swP+0PHJ
+         /zuT+ZEojT44n/o3pfkA50uHNKP3Hr8uTZOeWCslLR3xfRAmzgExXOnHiQPL5wsxYcWT
+         tsX89wK8sdR1lyWrlNsjyJVvRRuW3O9tncGD2hjkLgYZMYixmLvrpJUvRVRPa6p6iRCA
+         75RGfPNEuguowy/p9Oe9he5nuv9fFsV5EKU1r4GEFsMgQmZKdgoffD+2+97dYBDXhmhw
+         iPRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767460810; x=1768065610;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mHj8EFboTfNxjqt2lCppeckAIkNTqozct8ViOApmGho=;
+        b=mS5/0f/UhV15tPIxUrJ0vyqs6AKGRTFGCfr+pRqTKxcO9jeBgNqsZ7gF5zLtGkWlZp
+         kLTiQ6s1cJdoIX8LtHWmJVQZCtTlHLdabDllB7rXUtbrZoJYJzLc7SFD53DCMM8hupSW
+         5LSvMV9HidRCKe8jVZS4nEdsw64jAx36fgEhLUzMYXgELL7x5TytqnfwBz29/ak10tPq
+         DNA3BHMolXzNeqOiyufwihPBq45YbDKdy0p2VokPxUuNsCxZz09Ji8C9tgYtWkZMNGqq
+         J0OdcMSS2UfRMnQcJ+8j0FqsS0aVTmj9P3th4TKMAOGGvurrA5pQ5HTpzOe5MfcWYL9W
+         1Rfg==
+X-Gm-Message-State: AOJu0Yxej27pSFOoVNFFfWCRAdINFl4ioptdb4KmL4iXeYDDWyo8Pb6h
+	hY56bQsSKwPbFED69n4GIX3XEEnfy8LlvX+PPnvNWxqHQdhPVSX0zbpu
+X-Gm-Gg: AY/fxX4qL78/qsZprbxbhHWpt+1jL0JntYng6McAI2E7aBnwtPjAavHAyupUcKQUPca
+	J81Rw3sdcwOUycbofyALEdY8LQrK8S247fEB/aLrfxdMzIh0BiFGACvOdhbB/SU+GhRV4zl48Eu
+	v2AsOBdVEiwwyykembC8sCP91hpLHv6V107iTGvkDeG9/eulEKgFVyvGUD4DlRknN6C5b6wDmsv
+	bk4eTjr9hNFrDUzMiSjMPiRoABhK0HlvG15D0WdHIbC8EPTs2h54COts8JRzzUeOBSmvQvfGwPZ
+	mdBaEV+r38T3QA5MqXxTjORFlRgq/WYP4BbiSFGoJBEu/CwW5JndC0qL7Gzt8+fxFWewVUnjokr
+	rXruz3vdJILE3SmdGFNFC1whBobN8isxVhb2vj5BB07Rg5cdxbo5gVNhZKQ61Oou2FwwLHBA35B
+	j4cgVVl8Sx4BRPGn50oA0=
+X-Google-Smtp-Source: AGHT+IFOmJAP6pq1zhwL+3D/DZsfdHGGyJKcmTKpzzyzmhjbb+gnSpGjeJn0WEA9KJ6f4qNtMnW4eQ==
+X-Received: by 2002:a05:6a20:cfa6:b0:342:1aab:4c79 with SMTP id adf61e73a8af0-376ababa3c1mr28890913637.3.1767460810296;
+        Sat, 03 Jan 2026 09:20:10 -0800 (PST)
+Received: from [192.168.20.112] ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7c62637bsm38318087a12.30.2026.01.03.09.20.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jan 2026 09:20:09 -0800 (PST)
+From: Masaharu Noguchi <nogunix@gmail.com>
+Subject: [PATCH 0/2] docs/ja_JP: fixes in howto.rst translation
+Date: Sun, 04 Jan 2026 02:19:37 +0900
+Message-Id: <20260104-ja-howto-v1-0-53e5564a47d9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D0C:EE_|DB5PR07MB11907:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 2e05823d-a5fc-43a8-a3ab-08de4ac988d2
-X-LD-Processed: 5d471751-9675-428d-917b-70f44f9630b0,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?Ao0fWe32My/UDsxlHbN9kv3QsDC1CZ9TzIBCEofvSrceZ30wHiXxxK0TXhT6?=
- =?us-ascii?Q?H2aENBO4FhM617jYl/j0l/kQzGyhzfl/ot2YaAxazptW0iEkG4Ob5yqVOOf9?=
- =?us-ascii?Q?oZpPuZ3bCceI8gg7HqdrY1HRl1xsJg4edMg2co8lFfRqOfwP3CuHc91M35Zs?=
- =?us-ascii?Q?ugZkd169yjSWIMrYSlh2HyI9eKkC4QghOxj5XfbtJVJrhwZWDeG8oDAz9ARx?=
- =?us-ascii?Q?5WP0BCgsx0fNxLZAovefbRTguauvlOx5Rr4okP91FvPBPI+ptIA+0TNtqYgH?=
- =?us-ascii?Q?o5cDWWQ1gcoFfbHpOtQlgRSvM+FiTyVwjrEjzQQwiqZTagBW+0vd0dbEP7tQ?=
- =?us-ascii?Q?rH35b6ZnTGJ3VkuQtayGcva1bcvampOmwSzH43Qvp84AEWnDPUsgKRHda8Wp?=
- =?us-ascii?Q?LMFfuoooq9oNbJvfwOItocvMSnQ2LEcAWfb/zehrwPJD7KU4YLhFsrO4FG5x?=
- =?us-ascii?Q?QZLDsegVLkMXOev5Iv0K/20UIFEM7zzHDxAmebt3YElNypl+xdayggAHyNSZ?=
- =?us-ascii?Q?l7LQ8tN+5cVErcak1c6a3pr4fWbssomI7ioMECXkkLcHXA2l44aXTh35JAGA?=
- =?us-ascii?Q?y01J4qXM/XEz56OH/Q0HTCJmMdK5XK0JaZKAQOxYp5xF3bY6Mr4vTtzBixvL?=
- =?us-ascii?Q?ICvpnVV0IDGPoABxibnmnivK04fyW+SzGVQy0eXilW1iIH8S9LoSGSW4Tp1t?=
- =?us-ascii?Q?e3hEEBI1cTNEGseGAyCOTmj86A5iBhTqChrEK9m7PC/TgwUELYfEshHz+kWI?=
- =?us-ascii?Q?c5ANc8oc0kvjLXAy1DVOQB8X0BzcGjFxaMZ5zKNS+z9R4aRTMf1T5fGBFxhd?=
- =?us-ascii?Q?MFJOV8TeIfHIBhen4uE/nLL+7JtAXM6EBxs+mHwXD0Dv7RvJtOJRKlwqDvQf?=
- =?us-ascii?Q?1MJILLzwHrPAlFKBZqym2eM7hkWQa1rKJTVJHvgvnCY1JUAs8PaEXPWhGUcf?=
- =?us-ascii?Q?MRNtorZ5IyiOaWIzT0xBIHFz3TYKVuQ4G2uw/+fzLS4cRNrOtuDnnh1NAX4R?=
- =?us-ascii?Q?3aDTCPi+ErmvfSGIMGCZCoaHfgwxxCn+6BvOuwhyQWBvEMUXVG0uTMqZMYps?=
- =?us-ascii?Q?uERFhHeiWCbBalNzXNYVAtXMCOblnwlU8kFXiHkY9yN8PcYeCaDXDw5gvMaB?=
- =?us-ascii?Q?6IEd0/ctpIIMw8dgQRxrKNAw3eGN7axL1NsLldSRJhcEbplIfDapz9O/XAO3?=
- =?us-ascii?Q?fHuzS0egh07AzrjHGUB+IBPpqtvX7CnaBn3wV3mXvbowQIssP8IcSApQIpTI?=
- =?us-ascii?Q?1do7a9phwjofaPtXwuZBo9EoxaSSKLjMKLXPtqMUk3StdZVp8TSNJ4ZFvBp9?=
- =?us-ascii?Q?9J3DZJbKbsIf4jhPpL1L8Ga9uFa+ypay0wYbVqO+E7rdfnahyLyY4qMFr/2l?=
- =?us-ascii?Q?bwCdSIxZfwgRdK0et/NZ6yCB3G5SQ7gYWNrYKwBF66WD7wxlk0etq9ep7Zns?=
- =?us-ascii?Q?MlT81p2ye58Tr05RtJMcU2jxTJvdk8kyw+dsSaNEOqpQVxbMc5EzyY1D/nD3?=
- =?us-ascii?Q?GRuFPYIAo3pV6nSr2nB2cDw0NMij1gQ0PmQAqUlC4nfp5ehByUlALKMwKaLd?=
- =?us-ascii?Q?Tz9f84B6Su1qMwe/NFL5NTM6gPPSsshJDPiaxQ8T?=
-X-Forefront-Antispam-Report:
- CIP:131.228.6.101;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fr712usmtp1.zeu.alcatel-lucent.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2026 13:10:57.6761
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e05823d-a5fc-43a8-a3ab-08de4ac988d2
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.6.101];Helo=[fr712usmtp1.zeu.alcatel-lucent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DU2PEPF00028D0C.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR07MB11907
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQwMT3axE3Yz88pJ8XYO01CTTFHMLk8RkIyWg8oKi1LTMCrBR0bG1tQA
+ tg2L5WgAAAA==
+X-Change-ID: 20260104-ja-howto-0feb5d784ac2
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Masaharu Noguchi <nogunix@gmail.com>
+X-Mailer: b4 0.14.2
 
-From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+This series contains two small fixes to the Japanese translation of
+Documentation/translations/ja_JP/process/howto.rst ("HOWTO do Linux kernel
+development").
 
-Enable Accurate ECN negotiation and request for incoming and
-outgoing connection by setting sysctl_tcp_ecn:
+Patch 1/2 fixes obvious typos and duplicated phrases.
+Patch 2/2 fixes the translation of "freestanding C environment", which
+previously implied that the kernel is independent of the C language.
 
-+==============+===========================================+
-|              |  Highest ECN variant (Accurate ECN, ECN,  |
-|   tcp_ecn    |  or no ECN) to be negotiated & requested  |
-|              +---------------------+---------------------+
-|              | Incoming connection | Outgoing connection |
-+==============+=====================+=====================+
-|      0       |        No ECN       |        No ECN       |
-|      1       |         ECN         |         ECN         |
-|      2       |         ECN         |        No ECN       |
-+--------------+---------------------+---------------------+
-|      3       |     Accurate ECN    |     Accurate ECN    |
-|      4       |     Accurate ECN    |         ECN         |
-|      5       |     Accurate ECN    |        No ECN       |
-+==============+=====================+=====================+
-
-Refer Documentation/networking/ip-sysctl.rst for more details.
-
-Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
 ---
- net/ipv4/sysctl_net_ipv4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Masaharu Noguchi (2):
+      docs/ja_JP: fix typos and duplicated phrases in kernel development guide
+      docs/ja_JP: fix translation of freestanding C environment
 
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 385b5b986d23..643763bc2142 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -47,7 +47,7 @@ static unsigned int udp_child_hash_entries_max = UDP_HTABLE_SIZE_MAX;
- static int tcp_plb_max_rounds = 31;
- static int tcp_plb_max_cong_thresh = 256;
- static unsigned int tcp_tw_reuse_delay_max = TCP_PAWS_MSL * MSEC_PER_SEC;
--static int tcp_ecn_mode_max = 2;
-+static int tcp_ecn_mode_max = 5;
- static u32 icmp_errors_extension_mask_all =
- 	GENMASK_U8(ICMP_ERR_EXT_COUNT - 1, 0);
- 
+ Documentation/translations/ja_JP/process/howto.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+---
+base-commit: 805f9a061372164d43ddef771d7cd63e3ba6d845
+change-id: 20260104-ja-howto-0feb5d784ac2
+
+Best regards,
 -- 
-2.34.1
+Masaharu Noguchi <nogunix@gmail.com>
 
