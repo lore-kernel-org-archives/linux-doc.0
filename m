@@ -1,43 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55068126F0A;
-	Sun,  4 Jan 2026 17:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF33D2AD37;
+	Sun,  4 Jan 2026 20:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767549426; cv=none; b=IiC5yhEebwhNyn+JQ7lKOoKaXVMZNLYysLbIA9n+sIwBjWvbKwLjWL7/riYvCosx6r3fV3xZWR4rXAyM1nsWN1xtyl7NomlCm6iqr3kx+xaHH1vx4LESfz/0vH4kTF+JN96BiEZnl/XNDsncTmsmnJIYOvx6jBy30gXZofFed2I=
+	t=1767559545; cv=none; b=ohndZeRrbuWtn1bBHriGQN5sT6dHQIJssBVS6mBQCzWt7dSO66hT4CW9DOug2TqeQKm16VBwXLheOe+ZDmmnoCQNujRqMkDIu/UkawUH6pLKlKsameulYHVKtDisGt4WFoiLaVbJFkmCnXoeQS6EcuetYEeHcL10uxqze03cYOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767549426; c=relaxed/simple;
-	bh=x1nTKAnylCVX9MkM3owrH+0o0UMQ59gwlM/bk3ClXlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VWSYW9IS3vz1c9ibPVK8mDU6Qg1jmnyu7UN6qB/XuwcEj/rMBKOKhc9z6G+oiwPMTS52d6Zn4AR1OLx45LtaOKHEbxhTnJwDlsmxVKXGcrHpsOvUsEJHqQ2tzdtjPf0CrV2nZoFTlEE8dSnSSmRloych/wu08UNeB5MlwoiihwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cylcqxt9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767559545; c=relaxed/simple;
+	bh=0JpVwGP9E8UD74uPYp9inIyj1PG/NiRpjeVdlOWW6Z0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JB4pS7DW/Gqmk94JUjQ4b+xtDGAnTTDphQdNiO+X4fZI3/praC1LF8KEG1XdeSlZ350eyGFS/Cpj5wZwUWxi6R1sJMiynysLmyJI1uveNDQ6wjnpaTwFKenbgORcwmk0BPz0cVsWzwmNgY3rgQk5aszDtjLhFT93ub73cvbmWj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aezM+pYs; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cylcqxt9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E963C19421;
-	Sun,  4 Jan 2026 17:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767549426;
-	bh=x1nTKAnylCVX9MkM3owrH+0o0UMQ59gwlM/bk3ClXlo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Cylcqxt9bw72yxbJmPw4Pp37ZBxVaS4bC7kFNXF5302Hd7ABMuaSGzMtWY1lYoWhx
-	 h0YscHLNcth4jhLq5eSay1vL6oYDWPKB4NzVGhsurFZPAcZb93sHMM+nrNlXTeA0S3
-	 d8Y+Js0Vs7pSG8KTaWYzmLuW8CYt+1OGwVpab0HRWJclq/SRFyBjRzgvFtsMzzjAv/
-	 cThsC+CA7Zy70+nj6fiKor0y4nWN8Zh9zbZwQAj9oSV+nE3bIPkkjd34Je5EBXQTEC
-	 PDPgd5pBGr5DtPwBusWGbrgh3hdHkFEw04nIaj9lLUpVSSqSMdjDM580UUty+zAXAy
-	 sYRszjF2sA7VA==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 110/118] htmldocs: Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both interpreted text role prefix and reference suffix. [docutils]
-Date: Sun,  4 Jan 2026 09:57:02 -0800
-Message-ID: <20260104175704.57959-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202601040942.MWKEmMKA-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aezM+pYs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=5EshGpZgeCWZ7O0/UaafXNwMrHNFJXbHUEojeAhkMYc=; b=aezM+pYsRFovjUVihWYx4+anlD
+	OZUGcJhhNKcEfvqAgg495cWdGAzwa2R9GkwUnX7aXZnsMgQVS6nSMPFwShv331D4RkxbIoyCEE4oj
+	Hw4aO7P7Mld5DeF5UwcaQ2bKQTKRF/BFO6JZc1zlIya/cfxFqKVII5VMPXK99jNFMhmtq8yEEmqPz
+	dO4eS/jSmWT77ph3IPmjpGmbTLcsgebd+uE9pjqBHRx8icBdywNusbGAuHRrYxoSL9jwqEBczxsOI
+	KiS1J0soiLSLC34X99txOJyXdOpb03rf/HgpOIIWyUv3VOm4LfXEDwM9GnLLegmufzGgsxtdtBPXl
+	lgnOrMvA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vcUyj-0000000ARTp-1QdE;
+	Sun, 04 Jan 2026 20:45:33 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] docs: filesystems: add fs/open.c to api-summary
+Date: Sun,  4 Jan 2026 12:45:30 -0800
+Message-ID: <20260104204530.518206-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,47 +49,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sun, 04 Jan 2026 09:49:08 +0100 kernel test robot <lkp@intel.com> wrote:
+Include fs/open.c in filesystems/api-summary.rst to provide its
+exported APIs.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   28d3c5e02b31f08aa715cf01ead66c072a9c5d5a
-> commit: 5ff971ba3599d1e5d6a1721a85d50969a3c270ca [110/118] Docs/admin-guide/mm/damon/usage: suggest use of DAMON modules
-> reproduce: (https://download.01.org/0day-ci/archive/20260104/202601040942.MWKEmMKA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601040942.MWKEmMKA-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    WARNING: No kernel-doc for file ./include/linux/pci.h
->    ERROR: Cannot find file ./include/linux/mod_devicetable.h
->    WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
->    ERROR: Cannot find file ./include/linux/bootconfig.h
->    WARNING: No kernel-doc for file ./include/linux/bootconfig.h
-> >> Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both interpreted text role prefix and reference suffix. [docutils]
->    ERROR: Cannot find file ./include/linux/pstore_zone.h
->    ERROR: Cannot find file ./include/linux/pstore_zone.h
->    WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
->    ERROR: Cannot find file ./include/linux/pstore_blk.h
->    ERROR: Cannot find file ./include/linux/pstore_blk.h
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
 
-Thank you for this report!
+ Documentation/filesystems/api-summary.rst |    3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
-> 
-> vim +9 Documentation/admin-guide/mm/damon/usage.rst
-> 
->      8	
->    > 9	- *Special-purpose DAMON modules.*
->     10	  :ref:`This <damon_modules_special_purpose>`_ is for people who building,
-
-The '_' at the end of the reference was the problem.  I just pushed a fix to
-damon/next tree.
-
-
-Thanks,
-SJ
-
-[...]
+--- linux-next-20251219.orig/Documentation/filesystems/api-summary.rst
++++ linux-next-20251219/Documentation/filesystems/api-summary.rst
+@@ -56,6 +56,9 @@ Other Functions
+ .. kernel-doc:: fs/namei.c
+    :export:
+ 
++.. kernel-doc:: fs/open.c
++   :export:
++
+ .. kernel-doc:: block/bio.c
+    :export:
+ 
