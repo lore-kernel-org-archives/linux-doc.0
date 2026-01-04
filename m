@@ -1,64 +1,65 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834392EF662
-	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA992F0C7A
+	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767562300; cv=none; b=tx9WArYWgYRikIPjyPGkQNyFyWF3wEjSG5jpFWXDGNT2qODAVvELNUpzNWUw7d934+UQK+SsZIBxdsw20iJ4U+dmkDJJh59b4nTckZMr+xwnE0+2XDyh3Bjl+79ASHztnklRXkLkcsVpiF/J8kprk1EkMGJJ+uVTjygbI6wTydA=
+	t=1767562300; cv=none; b=EWUYmQQsuUzWbOlJhhuPtTuMwMR13HUsD2QPhLkav9nFGsrCf7BYkWVimeRrdQMfC+eCKrHNQEBg1iFmL466p9OJtCXSdzJE7OVeYPwvKmwD3mMIxhK6dNlDQqEn0+NOfhZyxW5LnqgZI7/23B4IaoJmgF2Xvx3OA/U2St6vtXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767562300; c=relaxed/simple;
-	bh=f/uwheFHSzT2MnHEE13G2RW3ofjy0vNjvK4QXFqbQkI=;
+	bh=K1Gr+aLk2G42C9RgkcZD+nIQ5P+OEJfi74ouHBrvAYI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OvOM3b5kNTVQZCzOSqRs1gasvk8XMX2++/+xoOqyltOYYS4cp2G5vYocNx0K7ajiZgPzcCJqnnGv4g47fv0VxMR0rlNZx8sWa6aDXfsPxQqcAKWzuyclE9Z7kDz+WJRdJT56BC/oAl60IEp30xkGdgOE8a0anVND5jKmVmwhBKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jzrYKwEe; arc=none smtp.client-ip=209.85.208.41
+	 MIME-Version:Content-Type; b=H/a6R88VpO8dL0BrbTIfzDDY/MwxQ5HbC/WuiFPuxGHIiZGWobao55nu3SNJDOkh6RufRrvxCBRoge5sKWuaHWwqf9ZbqbGM/PcldM1yd1lyV+AwR5OAr9RVgcXEcfRAmJsFtAbW17QA/LMmvykUYNuLy/CBFqnTovi0ezIoQp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XG5+I6QQ; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jzrYKwEe"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64b5b68a9bdso3179135a12.3
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:31:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XG5+I6QQ"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64b5eb14e88so3104179a12.2
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:31:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767562296; x=1768167096; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767562297; x=1768167097; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J1ju9uJ8HtmgaH2DMl24DFV+9KpxYvqpDWRQN/CQZFw=;
-        b=jzrYKwEefYi6T1sJ/ERtENot+z3voBmVCNU0Il+yUUsksJ1Fu/S4RYve24asGgIX+g
-         uQHxhFMcbJZvhwVrJxws8HBbPj9MJ3y81RDu0J2FPLLq+WxQrxhY2rvpSmEMDPrdZrze
-         yGrq6Hdok5bXzEryBaRalHr12FJuPeFtA5ZjvMEJAsknMrSfJgftGnIBgOuh6ce77Kty
-         U+YFoTRZU6wvGle9XzOdhgVBXzJrJYnSF+KlCbsOdmBIGUOZTWT+TvqBLGiwRjOTNUiN
-         BFvkumgk4hsZ8eVqkRZiT8z+IrYigLKYL+w5NRon9mRol3ezev1NXYpHXQ72Rd/mzqMw
-         nAPw==
+        bh=gFooUSrVXm9pvAYpHh/HKF6iHEd9ba7nkhN8dd9UQqs=;
+        b=XG5+I6QQbfGlSRsAV56UgWhVvqpmEwq0feduOm3pWXjrfjZAZ5uluqIZf9nq/KuukR
+         r9qvfww9LVScMqkVY0wcSin1dfc1Ffo52am95rqsUrbTDd/dNDHJ2FYSUevgglePXOX4
+         PVR+07DmiPh5R4uyclXzlvWtYP8MwNqBdmiUHbUPvUNsipVLWp2O+IQYMh4pW1nXmpj8
+         XKr4rMx3tgff00aU4DiMBflsNcqB5MNKJZDSTaYss4q9uCdmR6TJUqHql27+W1DX7Hdt
+         0c/MJ2e8nixc6a5zV91U6Lpb05lrbUOGV+mEnzQFpYH5vZ8PMWLuv8tKKkx6Ce1B3ZZt
+         SBTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767562296; x=1768167096;
+        d=1e100.net; s=20230601; t=1767562297; x=1768167097;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=J1ju9uJ8HtmgaH2DMl24DFV+9KpxYvqpDWRQN/CQZFw=;
-        b=EhStl5+EGx0KPX9BxKkl6n7Lhu5if8+QWsfK4Zoq8adHcEh3fjLZWh61C8/mpZtXxD
-         qylqYSjTqA1kR5CkLBL8Yy9yPfaYf+3qkSOrZxrGad3O59Yx7LN5SB3ye+LMC7uMRIJO
-         3vq2ZwU2C/mwT5BqhQqSV5WqfnP6GNXex6TvamWtGVUo2T+uCguWAL5e7VBC5aMQreNk
-         bnMNkDd25bUH6e2RgaZ2cveyxhoJ6dQi0Ni857kcd0b6O0xbJaH02gK6bHlrZLx0ja1m
-         3xU7QKvWJQViOSI5JivjsMMgSRForSezBGpm5n83LH08yyHK/rc6T9kOHUmQ1KLyYtmO
-         s64Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX2LiBnm8325ytlk8P1YcUVrkFeXpSUEqzMt92ekjR7njpBmYp6s7Z3rAfWNQ+Tw6lJmLj1tsJOrQg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEbHwTs/jlc/hg7/E9C1Y2dEZxJIY1LGDfrhxRAxPkIzFLLlu3
-	W9y6rnVPd1bb54J00lTZjUmIvGjUkFizkg5yG1LlzxZwykZ3j0wguGsz
-X-Gm-Gg: AY/fxX5UgAeDlj96xNaqP29ZcPr984WVG5sOR6qF+ZuYIcqIz9V96FwZv2YUFvCF9w/
-	5iseRxQw1k+gdipeE+ioAjmeuY/ULV79ynCeBm2Fyr+qrRfQ0bMLOiaZ7MkXiWRIKaQ8EjfwO+B
-	9jNUhnU3sR7BOxR4F07UJOklO3ts/830evvdY8n4o7JWrg2NBzSyeNeziQ/3deXlAgspbq/iy7N
-	lhlfyWkoDGqdWkAIH13PQmcbPAAqaDmqpGHD0D00JOvAgJWtLNZ36WPeV9ymaA4ezwIHDkZJ6O7
-	r6/KQINup9CeGH5EtSLBQ51lF/Svf5nBhes9P7qSDf9VC2GfPTVxbvfDYRWAWlJymm/VnqRQ1JF
-	xHMLLY55/j76GxUXaQtSHwv8/8HQ7SytdMToM54G+k8Lu9/qoggm3MvLJhE6EPFWsN64guCZXse
-	ok+qjoO/iVWRScctFdGei3Wz0+p7ghVPc08VyzGA3+Vkes9ArbQFnwO4jrU1LBydMN
-X-Google-Smtp-Source: AGHT+IH2FCylLobZ0wkmnV3e/fGGLODdTT8iSPZe82AXEhgV2cQNmF9xtamMrKBG4lju1W+Of3dwhg==
-X-Received: by 2002:a05:6402:268a:b0:64b:76cb:5521 with SMTP id 4fb4d7f45d1cf-64b8e94bf43mr26815872a12.2.1767562295814;
-        Sun, 04 Jan 2026 13:31:35 -0800 (PST)
+        bh=gFooUSrVXm9pvAYpHh/HKF6iHEd9ba7nkhN8dd9UQqs=;
+        b=j6OJ0DcrMFM/OIkK+L6eWB+oh0MX0EJDptnBYPYgXdT3bTpN2dcTE6ePJE3uIPqX1l
+         zPYU/N6hgTQwfCVPnz12oN5WJx9SzGslNrILSfA3VsffsbxyDcnavhnnp2kcWtW+K9VE
+         85QbTt722l57m7E6nLzHdcnc7v0XOfaoBsQ/9MMVWhF7zokpV0epnmhgptREIiTP4fPd
+         uSpRJzsPLASbiQBi1AcYrCQtFF3kJuFAVcPUiB++G7Vgj1PXvoVA4PIsK6+cV6xJuS1z
+         aluN76o7JI10EtlWHIR49TMFjF5gwX5Ts7fGwtYFXCLLijWp4Le84LOrF43SgcT5ELvX
+         ZqIg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+/IpCcg5PXRBlZ7dpdYRU/yaS2iM5a+g5hDLbgkoVSRAIx4he/k3fpuvyqNptV9RLFvDfLkeQlmc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyT3ZDmF8n80FSzgING1ba3Rh4taX90AJHK8CB4nWWVHVEmIloD
+	B6Y6s3zbHeqhNe0hbZ9gh5YxpcQauSSFSNfnoO2v0DLkdweqo1Km3EC8Vim6UQ==
+X-Gm-Gg: AY/fxX4XGwnFTyw+bYvagt5rpIYc2nqV6ENrQPj8HmihVHTTPnOnz1JEvi5G08sddI6
+	8oiLZCJDqaMrHeCzwxQJVwW+bmk1Ou455fw0Uql4Co+cnoX4e+dcBJcbRhR2E/qwmd6Q8tuTH+F
+	hgiuAMopfGh9Za+2Lq3JhXTS004h3vA4FaaRwAwAChglKt/yt5l/rWM4BupQvTjvBoBabJ9tfji
+	AaAHdrdkl7a/MPSsN35dowBN9BBKXthj2noKqnOQvdEsXOIMh0ElasVvopV2cLKQuv7f4PZbZbV
+	m1Vx2uPMQ1q9sHk2YMmZVWUURihHaK5pJPO1gV7u4bKt+yScxRpy3aRpaIiCjgB9jdxPYu8zPMA
+	9LAg0zrjsPO16yWFxEjZeorGOcnNhRAjLb4Eh0mYLzB0pELw9678vyxE8TdRsE1Q6xNuV9pS+Wb
+	9fyTG85rlEU0vPU9fyYlBuHuf2Ap5FVs282BOXPN4GtffcgLaQobbRconYf9YBRtiB6Chknz96w
+	z8=
+X-Google-Smtp-Source: AGHT+IGjUkLkKEMTWYzAwCdwlq8lHOYywpLwMuXneu5ARm5/T3CMRRTVuA7vHtt8tpniBq9fgW1EtA==
+X-Received: by 2002:a05:6402:5244:b0:64d:23ac:6ca6 with SMTP id 4fb4d7f45d1cf-64d23ac72fdmr25639337a12.4.1767562296850;
+        Sun, 04 Jan 2026 13:31:36 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105a9c4sm51947772a12.12.2026.01.04.13.31.35
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105a9c4sm51947772a12.12.2026.01.04.13.31.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 13:31:35 -0800 (PST)
+        Sun, 04 Jan 2026 13:31:36 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: dmitry.torokhov@gmail.com,
 	corbet@lwn.net,
@@ -70,9 +71,9 @@ Cc: linux-input@vger.kernel.org,
 	vi@endrift.com,
 	linux-kernel@altimeter.info,
 	peter.hutterer@who-t.net
-Subject: [RFC PATCH 2/6] Input: Add info about EV_BTN
-Date: Sun,  4 Jan 2026 22:31:28 +0100
-Message-ID: <20260104213132.163904-3-tomasz.pakula.oficjalny@gmail.com>
+Subject: [RFC PATCH 3/6] Input: Fire EV_BTN if found in ev_bit
+Date: Sun,  4 Jan 2026 22:31:29 +0100
+Message-ID: <20260104213132.163904-4-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
@@ -85,83 +86,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add necessary bits to modalias etc. Store the number of buttons.
+Passes EV_BTN through to handlers and allows reacting to this event by
+clients.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/input/input.c | 10 ++++++++++
- include/linux/input.h |  2 ++
- 2 files changed, 12 insertions(+)
+ drivers/hid/hid-input.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index a500e1e276c2..e926327443bb 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -258,6 +258,10 @@ static int input_get_disposition(struct input_dev *dev,
- 		}
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 2bbb645c2ff4..900a6fc9813e 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -1673,7 +1673,8 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 
+ 	switch (usage->type) {
+ 	case EV_KEY:
+-		if (usage->code == 0) /* Key 0 is "unassigned", not KEY_UNKNOWN */
++		/* Key 0 is "unassigned", not KEY_UNKNOWN */
++		if (usage->code == 0 && !test_bit(EV_BTN, input->evbit))
+ 			return;
  		break;
  
-+	case EV_BTN:
-+		disposition = INPUT_PASS_TO_HANDLERS;
-+		break;
+@@ -1723,10 +1724,19 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 	    value == field->value[usage->usage_index])
+ 		return;
+ 
+-	/* report the usage code as scancode if the key status has changed */
+-	if (usage->type == EV_KEY &&
+-	    (!test_bit(usage->code, input->key)) == value)
+-		input_event(input, EV_MSC, MSC_SCAN, usage->hid);
 +
- 	case EV_ABS:
- 		if (is_event_supported(code, dev->absbit, ABS_MAX))
- 			disposition = input_handle_abs_event(dev, code, &value);
-@@ -1124,6 +1128,8 @@ static int input_devices_seq_show(struct seq_file *seq, void *v)
- 		input_seq_print_bitmap(seq, "FF", dev->ffbit, FF_MAX);
- 	if (test_bit(EV_SW, dev->evbit))
- 		input_seq_print_bitmap(seq, "SW", dev->swbit, SW_MAX);
-+	if (test_bit(EV_BTN, dev->evbit))
-+		seq_printf(seq, "I: BTN=%u\n", dev->button_count);
++	if (usage->type == EV_KEY) {
++		/* Send out EV_BTN with button number (starts at 1) */
++		if (test_bit(EV_BTN, input->evbit))
++			input_event(input, EV_BTN, usage->hid & HID_USAGE, value);
++
++		if (usage->code == 0)
++			return;
++
++		/* report usage code as scancode if the status has changed */
++		if ((!test_bit(usage->code, input->key)) == value)
++			input_event(input, EV_MSC, MSC_SCAN, usage->hid);
++	}
  
- 	seq_putc(seq, '\n');
+ 	input_event(input, usage->type, usage->code, value);
  
-@@ -1347,6 +1353,7 @@ static int input_print_modalias_parts(char *buf, int size, int full_len,
- 				'f', id->ffbit, 0, FF_MAX);
- 	len += input_print_modalias_bits(buf + len, size - len,
- 				'w', id->swbit, 0, SW_MAX);
-+	len += snprintf(buf + len, size - len, "t%u", id->button_count);
- 
- 	return len;
- }
-@@ -1679,6 +1686,8 @@ static int input_dev_uevent(const struct device *device, struct kobj_uevent_env
- 		INPUT_ADD_HOTPLUG_BM_VAR("FF=", dev->ffbit, FF_MAX);
- 	if (test_bit(EV_SW, dev->evbit))
- 		INPUT_ADD_HOTPLUG_BM_VAR("SW=", dev->swbit, SW_MAX);
-+	if (test_bit(EV_BTN, dev->evbit))
-+		INPUT_ADD_HOTPLUG_VAR("BTN=%u", dev->button_count);
- 
- 	INPUT_ADD_HOTPLUG_MODALIAS_VAR(dev);
- 
-@@ -2113,6 +2122,7 @@ void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int
- 		break;
- 
- 	case EV_PWR:
-+	case EV_BTN:
- 		/* do nothing */
- 		break;
- 
-diff --git a/include/linux/input.h b/include/linux/input.h
-index 7d7cb0593a63..f6389de4a4d1 100644
---- a/include/linux/input.h
-+++ b/include/linux/input.h
-@@ -59,6 +59,7 @@ enum input_clock_type {
-  * @sndbit: bitmap of sound effects supported by the device
-  * @ffbit: bitmap of force feedback effects supported by the device
-  * @swbit: bitmap of switches present on the device
-+ * @button_count: number of generic buttons present on the device.
-  * @hint_events_per_packet: average number of events generated by the
-  *	device in a packet (between EV_SYN/SYN_REPORT events). Used by
-  *	event handlers to estimate size of the buffer needed to hold
-@@ -152,6 +153,7 @@ struct input_dev {
- 	unsigned long ffbit[BITS_TO_LONGS(FF_CNT)];
- 	unsigned long swbit[BITS_TO_LONGS(SW_CNT)];
- 
-+	unsigned int button_count;
- 	unsigned int hint_events_per_packet;
- 
- 	unsigned int keycodemax;
 -- 
 2.52.0
 
