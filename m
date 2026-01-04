@@ -1,88 +1,92 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE03620C461
-	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 14:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55068126F0A;
+	Sun,  4 Jan 2026 17:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767536967; cv=none; b=CkoYNrfERMuC4eVA9D82ZGM6s014b/1fJ1sw5HNswtQHd8BAQfrZAxvWEwvVGjoqBtplRmZ2+sOPBSkGXiD5EmcMG5GTLIYnPp5pc5PARfGgBk4Bscq8UzTpWz/EHI+PvOg6QDFbponf9Lgp+Qyr0P+6moEgEuyHMgYyDh54dbU=
+	t=1767549426; cv=none; b=IiC5yhEebwhNyn+JQ7lKOoKaXVMZNLYysLbIA9n+sIwBjWvbKwLjWL7/riYvCosx6r3fV3xZWR4rXAyM1nsWN1xtyl7NomlCm6iqr3kx+xaHH1vx4LESfz/0vH4kTF+JN96BiEZnl/XNDsncTmsmnJIYOvx6jBy30gXZofFed2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767536967; c=relaxed/simple;
-	bh=AjQSLSkhKZ+bvTLx1hSAwROc2sDMhOSmO656H2yHCHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AqfCwZ62HepKy566usM4gHH7ulCX3ze6v9Xm24wcbYaxRYi/gl0mt+/Qdpa832vdGpkJwOGIAcOdNiqjwtl31XMEn16W0LpoJo9RNF/acx2n6Ajz56Zr0cISjgUg5R7eTu18GZLnzCGaeGYI+K2rFMusa3FhsaWvDzY0uqNBkDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7iqIXej; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767549426; c=relaxed/simple;
+	bh=x1nTKAnylCVX9MkM3owrH+0o0UMQ59gwlM/bk3ClXlo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VWSYW9IS3vz1c9ibPVK8mDU6Qg1jmnyu7UN6qB/XuwcEj/rMBKOKhc9z6G+oiwPMTS52d6Zn4AR1OLx45LtaOKHEbxhTnJwDlsmxVKXGcrHpsOvUsEJHqQ2tzdtjPf0CrV2nZoFTlEE8dSnSSmRloych/wu08UNeB5MlwoiihwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cylcqxt9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7iqIXej"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29f08b909aeso33682925ad.2
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 06:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767536965; x=1768141765; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AjQSLSkhKZ+bvTLx1hSAwROc2sDMhOSmO656H2yHCHQ=;
-        b=A7iqIXejTbFc9VuEhiJ/wqNXz4td4jMCEUwoxevh/CTIRLkfbv2Rtya4Z6GhTxhjgj
-         vFSij3McJgCHp/21utK9dC9iY7rO0sAXzGl3yCuujctTv5Fguf9k979AAcWIsHWFT7Uz
-         +SF4KmTj7O1WjyAPFF2uCJXqGZic5Mn7w2516Xa3n1X391ruVu9R/Zg9eudi/wqwLvix
-         Xyy3hy6XYeS5uursOZ+u7iDL3cqqw/SK3NTG+PRkeKEhhzQBztCAIL+6yGqU/OKeq8bT
-         GaPuEZN15Qsqgdg8P1tSumfGt1PIKJPV65mpnJsJlvgaxihsFLhIEkHySlLqsJdqo2Pg
-         d+pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767536965; x=1768141765;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjQSLSkhKZ+bvTLx1hSAwROc2sDMhOSmO656H2yHCHQ=;
-        b=ugRGasRP4j8WCflAbtCsrIXWFpPZ9XX4CTuNe7ylWIiJcNZxpUnMXiRLGfj1IAxX7L
-         IPkELn/iUl+e1hTMVminyfNq8JO1JEySFnQ9cR72c+6gTAifo9wEAeTPZ9nLiaiA2tdO
-         9RJ0JR5Q4wXIlPEacE+C4fHLbNjSQZjl5OGMdQJsSBLgRp/x5NAO9PLsxOLOO39Tc7SI
-         M9WE1oiVv9UqYmKSsyFGycJoJs/lmYTPP9G/bTSU08ptnBZm67DmnaJw3ObyKLTs7buN
-         gJY2Sd1pdSPk+cdHRHIzGsD3A1W+03R+J+EqUkDV260Zxo6gt7zpn5IiRb6G0VxvdGpg
-         BUKg==
-X-Gm-Message-State: AOJu0YxtfKxDGehhOAKglxKipLzXagXSNiQO40OzRcQrmbygdM1yaPYS
-	OSd6TCBXzTl7DadQYZpDOdgIC4702EeQWEJXtj9hcR9fBtNoEx/hdYUv
-X-Gm-Gg: AY/fxX7eBNlVbaMZrELXI00smyn7596zrg2c3ugKd89NyBTVFy8N3DnkI7/WKAkq5Jz
-	mHz73AjzuelC0UA8EdpaDJVNtvn/eea92la6SbjPnyBqsMSqVZhd2rbuwUmkCeszLr0lD3XR4rL
-	1KWMWRBc0ZBpE9Bzs3N1u0VvRiNMf9pMRC8tvRJIX9yICOS/E5jPsJBLeygIxnJtV8iPwyoz/uj
-	ykm5s3pM5Itrw4ZieRYoJmw21R9N9uzYtInjTwoymxHgS2YY1A9hRRObS20GetCWHDvhffJqLHf
-	ouF1CrOmB6JqQ78BeA6oy2uL+tbPdRciWCLFxDhu6fUrgUthRS/6JUaJe4kGemr67Z3/pMKVWEo
-	XmUgU4JneOh/I5pVDUzWdNDo4TUbupi13g1qPkpAmX7WzYDZXdiif1ggHYMwcUVLzMidch/8CXf
-	C4gJ8MqzdRkg==
-X-Google-Smtp-Source: AGHT+IG84RJMOf0NHVxnZY9sQbUGSKA/hXCdMZG70OGVSthIktHH1ec+R+wut64RsYAe6EzqINNFHg==
-X-Received: by 2002:a17:90b:4d8e:b0:343:e480:49f1 with SMTP id 98e67ed59e1d1-34e921c4431mr31022176a91.5.1767536965242;
-        Sun, 04 Jan 2026 06:29:25 -0800 (PST)
-Received: from elitemini ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f4751d783sm3829673a91.0.2026.01.04.06.29.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 06:29:24 -0800 (PST)
-Date: Sun, 4 Jan 2026 23:29:20 +0900
-From: Masaharu Noguchi <nogunix@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/2] docs/ja_JP: fix translation of freestanding C
- environment
-Message-ID: <aVp5QKqo7jVYF27N@elitemini>
-References: <20260104-ja-howto-v1-0-53e5564a47d9@gmail.com>
- <20260104-ja-howto-v1-2-53e5564a47d9@gmail.com>
- <fcd7fc75-2f56-475e-880b-f8a9edfe9db0@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cylcqxt9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E963C19421;
+	Sun,  4 Jan 2026 17:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767549426;
+	bh=x1nTKAnylCVX9MkM3owrH+0o0UMQ59gwlM/bk3ClXlo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Cylcqxt9bw72yxbJmPw4Pp37ZBxVaS4bC7kFNXF5302Hd7ABMuaSGzMtWY1lYoWhx
+	 h0YscHLNcth4jhLq5eSay1vL6oYDWPKB4NzVGhsurFZPAcZb93sHMM+nrNlXTeA0S3
+	 d8Y+Js0Vs7pSG8KTaWYzmLuW8CYt+1OGwVpab0HRWJclq/SRFyBjRzgvFtsMzzjAv/
+	 cThsC+CA7Zy70+nj6fiKor0y4nWN8Zh9zbZwQAj9oSV+nE3bIPkkjd34Je5EBXQTEC
+	 PDPgd5pBGr5DtPwBusWGbrgh3hdHkFEw04nIaj9lLUpVSSqSMdjDM580UUty+zAXAy
+	 sYRszjF2sA7VA==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 110/118] htmldocs: Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both interpreted text role prefix and reference suffix. [docutils]
+Date: Sun,  4 Jan 2026 09:57:02 -0800
+Message-ID: <20260104175704.57959-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <202601040942.MWKEmMKA-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fcd7fc75-2f56-475e-880b-f8a9edfe9db0@gmail.com>
 
-Thanks for the suggestion. I agree, and I’ve adopted 「自立した C 環境」 in v2:
+On Sun, 04 Jan 2026 09:49:08 +0100 kernel test robot <lkp@intel.com> wrote:
 
-https://lore.kernel.org/lkml/20260104-ja-howto-v2-0-8cac525b3dfe@gmail.com
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   28d3c5e02b31f08aa715cf01ead66c072a9c5d5a
+> commit: 5ff971ba3599d1e5d6a1721a85d50969a3c270ca [110/118] Docs/admin-guide/mm/damon/usage: suggest use of DAMON modules
+> reproduce: (https://download.01.org/0day-ci/archive/20260104/202601040942.MWKEmMKA-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601040942.MWKEmMKA-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    WARNING: No kernel-doc for file ./include/linux/pci.h
+>    ERROR: Cannot find file ./include/linux/mod_devicetable.h
+>    WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
+>    ERROR: Cannot find file ./include/linux/bootconfig.h
+>    WARNING: No kernel-doc for file ./include/linux/bootconfig.h
+> >> Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both interpreted text role prefix and reference suffix. [docutils]
+>    ERROR: Cannot find file ./include/linux/pstore_zone.h
+>    ERROR: Cannot find file ./include/linux/pstore_zone.h
+>    WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
+>    ERROR: Cannot find file ./include/linux/pstore_blk.h
+>    ERROR: Cannot find file ./include/linux/pstore_blk.h
 
-Best regards,
-Masaharu Noguchi
+Thank you for this report!
+
+> 
+> 
+> vim +9 Documentation/admin-guide/mm/damon/usage.rst
+> 
+>      8	
+>    > 9	- *Special-purpose DAMON modules.*
+>     10	  :ref:`This <damon_modules_special_purpose>`_ is for people who building,
+
+The '_' at the end of the reference was the problem.  I just pushed a fix to
+damon/next tree.
+
+
+Thanks,
+SJ
+
+[...]
