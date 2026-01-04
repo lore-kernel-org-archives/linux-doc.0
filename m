@@ -1,212 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0AD219319;
-	Sun,  4 Jan 2026 12:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE03620C461
+	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 14:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767528124; cv=none; b=PpySiCteg4u2pA8dFbmeZM4TEbszEpxTSO2RwA5ryb1xjPbMZ5zDxl8BYPA4Ok4eyRJHcqJAaKf1xv4t8OUCA/CVMXkCpIHAqv6QRyracyZmmM/oMM1VW/v2C0ZvEzoWrqfmBwsbqpv7ay1skW/F6EO3GP9ASDDfp2w7joXLO6o=
+	t=1767536967; cv=none; b=CkoYNrfERMuC4eVA9D82ZGM6s014b/1fJ1sw5HNswtQHd8BAQfrZAxvWEwvVGjoqBtplRmZ2+sOPBSkGXiD5EmcMG5GTLIYnPp5pc5PARfGgBk4Bscq8UzTpWz/EHI+PvOg6QDFbponf9Lgp+Qyr0P+6moEgEuyHMgYyDh54dbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767528124; c=relaxed/simple;
-	bh=4sa1iSi4oDg5XKMoz/YTQfrnb1djTAsHN5WmWDd4u+I=;
+	s=arc-20240116; t=1767536967; c=relaxed/simple;
+	bh=AjQSLSkhKZ+bvTLx1hSAwROc2sDMhOSmO656H2yHCHQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FIiBnLViYrQ/NiG59GvzFyDY7zd/c4dmypOxsLwqOblGzw4c9tFdTahdy3kKmysD1xzC4BzirG2HHjoDqTYp79PBJHwWqFQEJbMvWhJ4vlf1EsoeWYDybuTKFZztPWpbodXal2um+C/iSnGd+W9X5IrMpYzQMaTCXlbNe29+r1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INT0kxBN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AqfCwZ62HepKy566usM4gHH7ulCX3ze6v9Xm24wcbYaxRYi/gl0mt+/Qdpa832vdGpkJwOGIAcOdNiqjwtl31XMEn16W0LpoJo9RNF/acx2n6Ajz56Zr0cISjgUg5R7eTu18GZLnzCGaeGYI+K2rFMusa3FhsaWvDzY0uqNBkDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7iqIXej; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INT0kxBN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBEE4C4CEF7;
-	Sun,  4 Jan 2026 12:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767528123;
-	bh=4sa1iSi4oDg5XKMoz/YTQfrnb1djTAsHN5WmWDd4u+I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=INT0kxBNHgbBEXAA8WBKHyCuHkaVMGgpladnOebfsTa2yzQEYV4mt1yJlN1PwnUNz
-	 G4VwNDd1qyIbSlxRqbG31MW/aCW0NgYeMa2AQOcXg9gdLQ2vLQ8cpLRs/OvRLxPgLM
-	 zrYw+rbOt3/ZgtPyhC+4awQoJA3/jIoNRc6jn+AQvMSMdpvmZk0yDmwOEIirlcn6Fk
-	 MRm98b/tsfvPN/LkKJNqg07jtHRl5wM8VTQcUWaDc+iUxs0zzTGNhqOtNPkcd9CZqU
-	 27IV33yAMIJYJGbt3gk6IFngZkbX6GD6/FqDbQgyLW1/3NDufvpgxz5xhJM1ESJUtq
-	 0kvgqRIhU453Q==
-Date: Sun, 4 Jan 2026 14:01:40 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Klara Modin <klarasmodin@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org
-Subject: [PATCH 3.5] arm: make initialization of zero page independent of the
- memory map (was Re: [PATCH v2 22/28] arch, mm: consolidate initialization of
- nodes, zones and memory map)
-Message-ID: <aVpWpLV4Dut5Muo2@kernel.org>
-References: <20260102070005.65328-1-rppt@kernel.org>
- <20260102070005.65328-23-rppt@kernel.org>
- <aVhN2NgQEKe0yzva@soda.int.kasm.eu>
- <aVll339wim7dCIaQ@kernel.org>
- <aVlwOyicOLPB9SOa@parmesan.int.kasm.eu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7iqIXej"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29f08b909aeso33682925ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 06:29:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767536965; x=1768141765; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=AjQSLSkhKZ+bvTLx1hSAwROc2sDMhOSmO656H2yHCHQ=;
+        b=A7iqIXejTbFc9VuEhiJ/wqNXz4td4jMCEUwoxevh/CTIRLkfbv2Rtya4Z6GhTxhjgj
+         vFSij3McJgCHp/21utK9dC9iY7rO0sAXzGl3yCuujctTv5Fguf9k979AAcWIsHWFT7Uz
+         +SF4KmTj7O1WjyAPFF2uCJXqGZic5Mn7w2516Xa3n1X391ruVu9R/Zg9eudi/wqwLvix
+         Xyy3hy6XYeS5uursOZ+u7iDL3cqqw/SK3NTG+PRkeKEhhzQBztCAIL+6yGqU/OKeq8bT
+         GaPuEZN15Qsqgdg8P1tSumfGt1PIKJPV65mpnJsJlvgaxihsFLhIEkHySlLqsJdqo2Pg
+         d+pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767536965; x=1768141765;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AjQSLSkhKZ+bvTLx1hSAwROc2sDMhOSmO656H2yHCHQ=;
+        b=ugRGasRP4j8WCflAbtCsrIXWFpPZ9XX4CTuNe7ylWIiJcNZxpUnMXiRLGfj1IAxX7L
+         IPkELn/iUl+e1hTMVminyfNq8JO1JEySFnQ9cR72c+6gTAifo9wEAeTPZ9nLiaiA2tdO
+         9RJ0JR5Q4wXIlPEacE+C4fHLbNjSQZjl5OGMdQJsSBLgRp/x5NAO9PLsxOLOO39Tc7SI
+         M9WE1oiVv9UqYmKSsyFGycJoJs/lmYTPP9G/bTSU08ptnBZm67DmnaJw3ObyKLTs7buN
+         gJY2Sd1pdSPk+cdHRHIzGsD3A1W+03R+J+EqUkDV260Zxo6gt7zpn5IiRb6G0VxvdGpg
+         BUKg==
+X-Gm-Message-State: AOJu0YxtfKxDGehhOAKglxKipLzXagXSNiQO40OzRcQrmbygdM1yaPYS
+	OSd6TCBXzTl7DadQYZpDOdgIC4702EeQWEJXtj9hcR9fBtNoEx/hdYUv
+X-Gm-Gg: AY/fxX7eBNlVbaMZrELXI00smyn7596zrg2c3ugKd89NyBTVFy8N3DnkI7/WKAkq5Jz
+	mHz73AjzuelC0UA8EdpaDJVNtvn/eea92la6SbjPnyBqsMSqVZhd2rbuwUmkCeszLr0lD3XR4rL
+	1KWMWRBc0ZBpE9Bzs3N1u0VvRiNMf9pMRC8tvRJIX9yICOS/E5jPsJBLeygIxnJtV8iPwyoz/uj
+	ykm5s3pM5Itrw4ZieRYoJmw21R9N9uzYtInjTwoymxHgS2YY1A9hRRObS20GetCWHDvhffJqLHf
+	ouF1CrOmB6JqQ78BeA6oy2uL+tbPdRciWCLFxDhu6fUrgUthRS/6JUaJe4kGemr67Z3/pMKVWEo
+	XmUgU4JneOh/I5pVDUzWdNDo4TUbupi13g1qPkpAmX7WzYDZXdiif1ggHYMwcUVLzMidch/8CXf
+	C4gJ8MqzdRkg==
+X-Google-Smtp-Source: AGHT+IG84RJMOf0NHVxnZY9sQbUGSKA/hXCdMZG70OGVSthIktHH1ec+R+wut64RsYAe6EzqINNFHg==
+X-Received: by 2002:a17:90b:4d8e:b0:343:e480:49f1 with SMTP id 98e67ed59e1d1-34e921c4431mr31022176a91.5.1767536965242;
+        Sun, 04 Jan 2026 06:29:25 -0800 (PST)
+Received: from elitemini ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f4751d783sm3829673a91.0.2026.01.04.06.29.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Jan 2026 06:29:24 -0800 (PST)
+Date: Sun, 4 Jan 2026 23:29:20 +0900
+From: Masaharu Noguchi <nogunix@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 2/2] docs/ja_JP: fix translation of freestanding C
+ environment
+Message-ID: <aVp5QKqo7jVYF27N@elitemini>
+References: <20260104-ja-howto-v1-0-53e5564a47d9@gmail.com>
+ <20260104-ja-howto-v1-2-53e5564a47d9@gmail.com>
+ <fcd7fc75-2f56-475e-880b-f8a9edfe9db0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aVlwOyicOLPB9SOa@parmesan.int.kasm.eu>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fcd7fc75-2f56-475e-880b-f8a9edfe9db0@gmail.com>
 
-Andrew,
+Thanks for the suggestion. I agree, and I’ve adopted 「自立した C 環境」 in v2:
 
-Can you please stick this between patch 3 (arm: introduce
-arch_zone_limits_init()) and patch 4 (arm64: introduce
-arch_zone_limits_init())?
+https://lore.kernel.org/lkml/20260104-ja-howto-v2-0-8cac525b3dfe@gmail.com
 
-From 35d016bbf5da7c08cc5c5547c85558fc50cb63aa Mon Sep 17 00:00:00 2001
-From: Klara Modin <klarasmodin@gmail.com>
-Date: Sat, 3 Jan 2026 20:40:09 +0200
-Subject: [PATCH] arm: make initialization of zero page independent of the
- memory map
-
-Unlike most architectures, arm keeps a struct page pointer to the
-empty_zero_page and to initialize it requires conversion of a virtual
-address to page which makes it necessary to have memory map initialized
-before creating the empty_zero_page.
-
-Make empty_zero_page a stataic array in BSS to decouple it's
-initialization from the initialization of the memory map.
-
-This also aligns arm with vast majorty of architectures.
-
-Signed-off-by: Klara Modin <klarasmodin@gmail.com>
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- arch/arm/include/asm/pgtable.h |  4 ++--
- arch/arm/mm/mmu.c              | 10 +---------
- arch/arm/mm/nommu.c            | 10 +---------
- 3 files changed, 4 insertions(+), 20 deletions(-)
-
-diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
-index 86378eec7757..6fa9acd6a7f5 100644
---- a/arch/arm/include/asm/pgtable.h
-+++ b/arch/arm/include/asm/pgtable.h
-@@ -15,8 +15,8 @@
-  * ZERO_PAGE is a global shared page that is always zero: used
-  * for zero-mapped memory areas etc..
-  */
--extern struct page *empty_zero_page;
--#define ZERO_PAGE(vaddr)	(empty_zero_page)
-+extern unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)];
-+#define ZERO_PAGE(vaddr)	(virt_to_page(empty_zero_page))
- #endif
- 
- #include <asm-generic/pgtable-nopud.h>
-diff --git a/arch/arm/mm/mmu.c b/arch/arm/mm/mmu.c
-index 8bac96e205ac..518def8314e7 100644
---- a/arch/arm/mm/mmu.c
-+++ b/arch/arm/mm/mmu.c
-@@ -45,7 +45,7 @@ extern unsigned long __atags_pointer;
-  * empty_zero_page is a special page that is used for
-  * zero-initialized data and COW.
-  */
--struct page *empty_zero_page;
-+unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)] __page_aligned_bss;
- EXPORT_SYMBOL(empty_zero_page);
- 
- /*
-@@ -1754,8 +1754,6 @@ static void __init early_fixmap_shutdown(void)
-  */
- void __init paging_init(const struct machine_desc *mdesc)
- {
--	void *zero_page;
--
- #ifdef CONFIG_XIP_KERNEL
- 	/* Store the kernel RW RAM region start/end in these variables */
- 	kernel_sec_start = CONFIG_PHYS_OFFSET & SECTION_MASK;
-@@ -1781,13 +1779,7 @@ void __init paging_init(const struct machine_desc *mdesc)
- 
- 	top_pmd = pmd_off_k(0xffff0000);
- 
--	/* allocate the zero page. */
--	zero_page = early_alloc(PAGE_SIZE);
--
- 	bootmem_init();
--
--	empty_zero_page = virt_to_page(zero_page);
--	__flush_dcache_folio(NULL, page_folio(empty_zero_page));
- }
- 
- void __init early_mm_init(const struct machine_desc *mdesc)
-diff --git a/arch/arm/mm/nommu.c b/arch/arm/mm/nommu.c
-index d638cc87807e..7e42d8accec6 100644
---- a/arch/arm/mm/nommu.c
-+++ b/arch/arm/mm/nommu.c
-@@ -31,7 +31,7 @@ unsigned long vectors_base;
-  * empty_zero_page is a special page that is used for
-  * zero-initialized data and COW.
-  */
--struct page *empty_zero_page;
-+unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)] __page_aligned_bss;
- EXPORT_SYMBOL(empty_zero_page);
- 
- #ifdef CONFIG_ARM_MPU
-@@ -156,18 +156,10 @@ void __init adjust_lowmem_bounds(void)
-  */
- void __init paging_init(const struct machine_desc *mdesc)
- {
--	void *zero_page;
--
- 	early_trap_init((void *)vectors_base);
- 	mpu_setup();
- 
--	/* allocate the zero page. */
--	zero_page = (void *)memblock_alloc_or_panic(PAGE_SIZE, PAGE_SIZE);
--
- 	bootmem_init();
--
--	empty_zero_page = virt_to_page(zero_page);
--	flush_dcache_page(empty_zero_page);
- }
- 
- /*
--- 
-2.51.0
-
+Best regards,
+Masaharu Noguchi
