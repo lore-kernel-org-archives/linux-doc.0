@@ -1,129 +1,147 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DE72F25FD
-	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC28D31A068
+	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767562303; cv=none; b=G50Zef3/cgVuyXA9Kdn82SrDcMpcHW82QUF8iThTn4mB+UrXWbBfOy3kCjlBg98n0JyG6VsfxrIh/ijki4IojaDfwWpSEexLFYnFCOO9220ygMVQyvRp/lgRVVD4XGZ/LlQFbCtlCNIHyIFn3OzId1o/ow5QQrQ5wiOGM6l0YpU=
+	t=1767563294; cv=none; b=eX1TxGntgVS+Ws9VNIA6Fr2RE+WMSdD6j2GsMGPMcjXADx6AxYPPjWmzWmmJ4i3bk3gpH9jS05/hjw2ulzQq/mydCGXBLVq7F3ymCRFmAgBM88edHIElZWLuRLpxWsVpWffq6cqcuL+FelySgwaduaQzcehV5+Y0VL7awAP9Pq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767562303; c=relaxed/simple;
-	bh=HhiXa9faNhgtAxR7thDLXdlpim1uuVVNkBce7yAbcqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PIJf5P4l0ZY9noXaqsltrKFLHNY+i8KVhRN9w0/Dop66s9CwtmyKnBkiFPOuM0OdHvo/yLcDpJFEZYqTSt1mcOCCumxDUKTE82We608tkndUDFRisxDsaJ/RryN42XIKxRXI1n1WUCB9nAscpMrv4irDjAVo0YqXmal9Cnmf35w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WaVQGtd2; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767563294; c=relaxed/simple;
+	bh=y0sc11w6iKkgJZhc5ra4q3irne+xMlYBsG9oiAF3S8E=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=RlK06vly6mPYCvqrQLj6iV64fArcQo+oEA3ZsbIXY65OOx1sGjL7uhnjq8nN2vLD8VpMGM2HuziigKY79N5cY/rJLGX2XBgGOhNENVdPWoZC+D/pxUIIKMnynXNuKzF2/W8/RSnqQa9W/OyU3ExNVVzenP65CFyflrWHn3OYmVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dCH+uKxP; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=tliSzznS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WaVQGtd2"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b830b385507so137824766b.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:31:41 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dCH+uKxP";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="tliSzznS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767563291;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y078SXfKEIKRd5VwmHPxExsqrlkRflvvVfuy30oz9Iw=;
+	b=dCH+uKxPchWAzqRc4Oiff1/fXmiGzOKMpqlftZHnur4Zqttb0iegmmDyGpDByRD2pK8wGy
+	fM+8Bpegdqupdd1wpp3m6/lhsQJMjVRblzWwQ4EPbrnqRF2U0+dgDud714o0FMcJ/dB64/
+	BoJtqJk8lev+JET8OOH0JV4juyyBaro=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-113-M7ls_mDxMAKOWQGVz9navg-1; Sun, 04 Jan 2026 16:48:10 -0500
+X-MC-Unique: M7ls_mDxMAKOWQGVz9navg-1
+X-Mimecast-MFC-AGG-ID: M7ls_mDxMAKOWQGVz9navg_1767563290
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b51db8ebd9so4554240485a.2
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:48:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767562300; x=1768167100; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CxrdR1+2a5RaFKpyNZz55u6IOBzBhsiBktK5vLyXD6I=;
-        b=WaVQGtd2BvqD7vVbyF25Y76CcgG6y7jslzI9x3WGFsFRLZYKh3nA1u9NbrkpqfXaII
-         qAkkR+fDkBpXoSXUk++eSLCnO02kLKsp9OnI30jhjCohPIlMEy44qqQFQcH/U+M1o6Yj
-         pQim2cRP1ybmAXfG1NdEczQVfql5FT8sTLazSuTji2GPWZvMKSZNprXfYOzC/9dWTuy1
-         8wyyTus5/IZInJMNLz16QJS6M3PyvQFVx9X6PCPFwo0sJ5k6FpheL3GWfm3mCx/6uzlH
-         f6Kc79KFZ6U00vDR0pENmyhFmX4AK92QJFAim5Plf5fqd8iYsYIYAQBD9ZebQP/T/loG
-         wuEg==
+        d=redhat.com; s=google; t=1767563289; x=1768168089; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=y078SXfKEIKRd5VwmHPxExsqrlkRflvvVfuy30oz9Iw=;
+        b=tliSzznSG3XM7WGPMZ6z7fcqN5CGzRFZQtKvBTiBSBLM3WJaAJYUYGkteqQzZRR1Wr
+         izKdkqdBAtt28aA3WvNjT+lbeeXNVjJWEDLu4yR/iIKHlZpGbQ2fJNGFzPH4FcC5uPmg
+         tTpHem1CzZ2hZxLRb+IkRmtedLkedDZ73etU7SAu2xwziJgcs2nM7edkGDYrwmVk8ayf
+         nibJqjVC3minQecGRLKxzgovwDGRYFLvK9JuZnD8PGEXoVh7FQQHqvoQKDGUirnSF+VV
+         bPoVqfjoQE5Zkt2HvKPJI2W01pPmn1e0ILFN1jMIoh4xjy4e86FYE+xJCXPaYnC0M8Fv
+         NIVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767562300; x=1768167100;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CxrdR1+2a5RaFKpyNZz55u6IOBzBhsiBktK5vLyXD6I=;
-        b=QkZZSIX0K5ryrEWd30eGXOq77EFQTGtu4SSO8CcQcDGWOnsJeDiIORAzpp8N7ewbp3
-         uNXP7xZKkkF2FRS6vW9RyQqCnUuGRux3YcAFepu5pAWe6K5kVrhUWWMYXEQH0IcK73CU
-         L/ataz35VdlqUe+tHrduzjCvlQxbWrJUwwaMzd2rPpL4/HiHoCGzNr6/AKTjcgQBxSqL
-         uFJ17DmlPJ/HG6DWDP3p4xXLy2ktugVkBtlWD6Pa5PQgSucwWimjcY5EYK3gShxHFYBi
-         vEEuaSPfWDFpdMXKCGZ5weZiG9ReL05lXCZXqlOsiCWoTxPF+vS8AUSBE6/LU629o+o+
-         89Ag==
-X-Forwarded-Encrypted: i=1; AJvYcCU2tUhCRuYvdDsFwP+/XsCxNrMEQc8oNY4ZDMOhHUrrOJspHZnVMgkqMLouD9av+MWR0Cp7HILTGdw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnXy80Hc7NyjwF5p6ZFGR3ACJVXc/sk2rSLYsR3uKPhNUA/4Dq
-	l1yGM0pt03P78MTrJUxM66eCYyttDf8BU6o8iyZ3dJBV9t1ot4F69p4Y
-X-Gm-Gg: AY/fxX785NWfoln0WVck+T9Vzvfw+VLt/Nj1UV/eVKKUkKT1xYCwPlRSQKuzbSTodvu
-	aOZKEO+LVWzu2aN2WvdxZSm5ZFlQ7XQ0EpT0AG123xnishjKo9BVfAxF6i/jxNGE5h1KdyE4u3j
-	saUumDr8yalnidAfnj/FgOqtIgCWEHgle8Z6Pkh/Df9valQryvR6Gr/w9K0Qtumnd37GeO0Lplv
-	Rri7etIb8RHPp9f++S9w+tNbhiiWvmv3Y/IluIVUHL1BsY/BRJN5CY8y0zwVXonb6w/X4eRcIJk
-	eBmcPyMlDcfnAKXimWHIZSIMLnR4UE+HRMFNQTpn2g4Ahy5QEBEhr3fhf6a3tOnJ6icO+SaslVc
-	ZZjwGARG9QTNB7eSJCSc6NJcIJO9o9EyNVV6JHwY17XCQVnBCSfRs6vWF++iXAZulQ7myX3yiFu
-	7YR9BRxQhn1/+cioHp759va83xVJpSMXafyjjxNzkyYf0RNt/ryIRf9XHQnKnomGHG
-X-Google-Smtp-Source: AGHT+IFbT/17drCJTiC1SUmz0pBoy23cOQaM3ejZxbDW7YxU7ng/yG/cBTgBBPjbLDpAH8oMLhdjsw==
-X-Received: by 2002:a05:6402:42c8:b0:64d:26a2:56af with SMTP id 4fb4d7f45d1cf-64d26a25be1mr25379531a12.0.1767562299676;
-        Sun, 04 Jan 2026 13:31:39 -0800 (PST)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105a9c4sm51947772a12.12.2026.01.04.13.31.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 13:31:39 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: dmitry.torokhov@gmail.com,
-	corbet@lwn.net,
-	jikos@kernel.org,
-	bentiss@kernel.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	vi@endrift.com,
-	linux-kernel@altimeter.info,
-	peter.hutterer@who-t.net
-Subject: [RFC PATCH 6/6] Input: Add EVIOCGBTNCNT
-Date: Sun,  4 Jan 2026 22:31:32 +0100
-Message-ID: <20260104213132.163904-7-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
+        d=1e100.net; s=20230601; t=1767563289; x=1768168089;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y078SXfKEIKRd5VwmHPxExsqrlkRflvvVfuy30oz9Iw=;
+        b=ft0bJdYyUv9ksvlXCgtBeOJsOwTZ/Ovp5zqicjFLQO0XL+cp2Wy3oFQdB+8VadGQ5E
+         Ltajo8/9tg4HnZkN6yRpfo4zL9V49kRYo8g2GXRSUflOo97HT88ry90NPka2Xl3qauah
+         eDRMTyofqk/Pd9UJHdCqJDZ0+0reCMvJ8V6PDVV9hVydpKLooLs9c06Upgl2NRHj75R5
+         pD3XWqU4l8v8sbCyb0Y6bQZoBk7J2CBjXs8gnLv9DJ9qe+l9P6pa3oiNk5gH5WEuRiuo
+         KYx/aVs3CYcrZuufTSeIatgrnydxWBC2groiaLrrtsxryVsUCCVRVcQ4WGmnq153Q9NH
+         gjpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7BH+UyoE1ZCtkr0Ecrcrb7KBseaUL3To3HKJPCa6QucRYEEcPVSHUJ7/qWa5BEwFOITAcfzaJ84U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywp7WLqlk+g48RaZHayIBO2U+QxQJ8JakLGsFu6RLGlz3dsQxwa
+	FNeqtM0foVg/ZMWLn5jguOkf91FSzTNHgpXQRc/s86LQS+O0ELS/lRzoxX8k1vZETW3x124YPo6
+	Sbb7ZHiQFddDgSgJG081u4SKtIzQ66Bk4jBuTsmFoAO0fWfh+IGsuu7FdKjQxzL6t2TWbmg==
+X-Gm-Gg: AY/fxX78U/qn59bSOOrgU6PrJ38Rl6xunxQD1Y1p/vyXo8nCHhoO49ffBe2I2B4AJbV
+	0qW+4FVyRyHslBTXUWgIFfalO1CWrIKgBdicp3IFJr+8xk9yn3x9EbibhxZRCHUJfBKNu1uDL7o
+	Eftv84crBAP9INPRsglB8AvxREOMB7RW57KzEhchK326cr7bzpt0yv0cyoLSCW3GLpskR6TKM0J
+	AouFagEOZu8I1V9gyKV9ottcPwNcQy7kLxqMt+1NPgmc1dTD56gG3EVDpY4UqRemdZhZLOHVtrL
+	Q0Z6Tqei4k8FmOlVj9IPO+b6dQP2QzBcgDo6dU/IBcaktVO2vU7E/iqoQmgYXyshwKZkzn8FP3W
+	IEznZn3nhNRvfezdyY7gEufyOl1tgphmkyIjC+ibtMAXSA9NTBSqz78ls
+X-Received: by 2002:a05:620a:472c:b0:8b2:edf1:7c4a with SMTP id af79cd13be357-8c08f682c7amr7291368985a.39.1767563289037;
+        Sun, 04 Jan 2026 13:48:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEgx/Ro8LIsSGzA6GrLW/huLR0mhax5aa71Iw9IGeyKEOdpg2Rc4aEZNIq7X9MHlTlbpRgEJg==
+X-Received: by 2002:a05:620a:472c:b0:8b2:edf1:7c4a with SMTP id af79cd13be357-8c08f682c7amr7291366685a.39.1767563288604;
+        Sun, 04 Jan 2026 13:48:08 -0800 (PST)
+Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c0973ee08dsm3652997385a.36.2026.01.04.13.48.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Jan 2026 13:48:07 -0800 (PST)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <6eedf67b-3538-4fd1-903b-b7d8db4ff43d@redhat.com>
+Date: Sun, 4 Jan 2026 16:48:06 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [cgroup/for-6.20 PATCH v2 3/4] cgroup/cpuset: Don't fail
+ cpuset.cpus change in v2
+To: Chen Ridong <chenridong@huaweicloud.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sun Shaojie <sunshaojie@kylinos.cn>
+References: <20260101191558.434446-1-longman@redhat.com>
+ <20260101191558.434446-4-longman@redhat.com>
+ <efdcd90c-95ed-4cfc-af9a-3dc0e8f0a488@huaweicloud.com>
+Content-Language: en-US
+In-Reply-To: <efdcd90c-95ed-4cfc-af9a-3dc0e8f0a488@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Allow userspace to get the button count of input
-devices. currently only used for Joysticks which
-includes Simracing and Simflight hardware. Such
-devices are always defined as generic joysticks.
+On 1/4/26 2:09 AM, Chen Ridong wrote:
+>
+> On 2026/1/2 3:15, Waiman Long wrote:
+>> Commit fe8cd2736e75 ("cgroup/cpuset: Delay setting of CS_CPU_EXCLUSIVE
+>> until valid partition") introduced a new check to disallow the setting
+>> of a new cpuset.cpus.exclusive value that is a superset of a sibling's
+>> cpuset.cpus value so that there will at least be one CPU left in the
+>> sibling in case the cpuset becomes a valid partition root. This new
+>> check does have the side effect of failing a cpuset.cpus change that
+>> make it a subset of a sibling's cpuset.cpus.exclusive value.
+>>
+>> With v2, users are supposed to be allowed to set whatever value they
+>> want in cpuset.cpus without failure. To maintain this rule, the check
+>> is now restricted to only when cpuset.cpus.exclusive is being changed
+>> not when cpuset.cpus is changed.
+>>
+> Hi, Longman,
+>
+> You've emphasized that modifying cpuset.cpus should never fail. While I haven't found this
+> explicitly documented. Should we add it?
+>
+> More importantly, does this mean the "never fail" rule has higher priority than the exclusive CPU
+> constraints? This seems to be the underlying assumption in this patch.
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/input/evdev.c      | 5 +++++
- include/uapi/linux/input.h | 1 +
- 2 files changed, 6 insertions(+)
+Before the introduction of cpuset partition, writing to cpuset.cpus will 
+only fail if the cpu list is invalid like containing CPUs outside of the 
+valid cpu range. What I mean by "never-fail" is that if the cpu list is 
+valid, the write action should not fail. The rule is not explicitly 
+stated in the documentation, but it is a pre-existing behavior which we 
+should try to keep to avoid breaking existing applications.
 
-diff --git a/drivers/input/evdev.c b/drivers/input/evdev.c
-index 90ff6be85cf4..b90dc035c0b3 100644
---- a/drivers/input/evdev.c
-+++ b/drivers/input/evdev.c
-@@ -1134,6 +1134,11 @@ static long evdev_do_ioctl(struct file *file, unsigned int cmd,
- 
- 	case EVIOCSKEYCODE_V2:
- 		return evdev_handle_set_keycode_v2(dev, p);
-+
-+	case EVIOCGBTNCNT:
-+		if (copy_to_user(p, &dev->button_count, sizeof(unsigned int)))
-+			return -EFAULT;
-+		return 0;
- 	}
- 
- 	size = _IOC_SIZE(cmd);
-diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
-index 6aa703fcfcfb..3d1b17ebcdfc 100644
---- a/include/uapi/linux/input.h
-+++ b/include/uapi/linux/input.h
-@@ -174,6 +174,7 @@ struct input_mask {
- #define EVIOCGLED(len)		_IOC(_IOC_READ, 'E', 0x19, len)		/* get all LEDs */
- #define EVIOCGSND(len)		_IOC(_IOC_READ, 'E', 0x1a, len)		/* get all sounds status */
- #define EVIOCGSW(len)		_IOC(_IOC_READ, 'E', 0x1b, len)		/* get all switch states */
-+#define EVIOCGBTNCNT		_IOR('E', 0x1c, unsigned int)		/* get button count */
- 
- #define EVIOCGBIT(ev,len)	_IOC(_IOC_READ, 'E', 0x20 + (ev), len)	/* get event bits */
- #define EVIOCGABS(abs)		_IOR('E', 0x40 + (abs), struct input_absinfo)	/* get abs value/limits */
--- 
-2.52.0
+The exclusive CPU constraint does not apply to cpuset.cpus. It only 
+applies when setting cpuset.cpus.exclusive wrt to other 
+cpuset.cpus.exclusive* in sibling cpusets. So I will not say one has 
+higher priority than the other.
+
+Cheers,
+Longman
 
