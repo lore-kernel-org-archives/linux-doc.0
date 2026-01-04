@@ -1,120 +1,147 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034B61C860B
-	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 08:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E1D1C860B
+	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 08:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767516447; cv=none; b=XpTVbr1uhdGmZ2mHOcbcV6di5hqbI0fvmvRZRg+O1k5vMGHQv72dhguXVUxwtSg7CyVLoEtVksnCVUzA1KoZZnwOjdUsS2oWQiI5mpXW09wLAswYXiGCk6JuxVXwBQZSA/e0E1THJvVu+l5aRgeHNsX97sR4fGJVmGPLlEqdOQc=
+	t=1767516570; cv=none; b=CHgq+Jkgj5EZG9qOg1OXUFUgCeigjrc0Zi1ph3U5ciQqcGDMaWBxtarfWaQIqR17Y73X1I4rM4Q4ncsVm6TKvJm2rrOhxVEXqe12DK5XmupZWUPK1lFUZ7Eq65XxSjsvod/rN83b45R33uDNopjcO/wiVL7vHOKTV1TkbE/sPws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767516447; c=relaxed/simple;
-	bh=NtL83AZ2I0DA3UuPrtv/VfK5xsvuv9t+TLu0RxWjJzY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=srfIaF1NvFeavXRaIftfZ0rINyMymG9Z7Fcp1wFnEgCcapsfzEUE0zK1tkjy9HbcIgW8ZhJf5VmBt7faYZ4fNMNIHtzKGa1kk8r0qd+orv9Kj1nThZC3pofmyRf5tJC42KPuYn6dJjE7a4yE7JAIoRUmblTcWMgQsO0ABv+KYc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fx/qPPT1; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767516570; c=relaxed/simple;
+	bh=2RSXCyI+8NeZjvCdOWBDVRoIZJ5ohKFOer5VtizNnWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Xk8sE94O1trXmTzKlxz+rKiOb8cqSXEMHUSWcUd68c4UWcJ3zKcrAoL1hxiroizB4SaaG+vodBiRDh00Kz315ueHyHICjJkuMYFpM3c4s5ps3+mN4+T+LNW/COa6SyJ2toHFBHrptp8anEY6JwxHDNBjYI7xyn8+gguAiv2LKqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7Ks4/2D; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fx/qPPT1"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a110548cdeso177744745ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 00:47:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767516445; x=1768121245; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7hSeTIvpTAnLYxpO7SsknGPdy6lTf7WuhDMQpVi4mSs=;
-        b=fx/qPPT14OL3rwPZJ/o80fq4HRiMeCNnQb/ef9ubESo8ehRtYVC8+ICL3xZ4SNJFwm
-         HCza0GlxZjWn7se2IdmA0kDEUlqTvhamGJ+aWe+H5yGjvkbKe6H35nOJ16PYQbQMZ9eG
-         wWlMeKggBY1bRWX/TmHFgoTHRAdHvkYjTLLiiqZl3Wfb1P5jP8mgvNgCzqnlCju1pHgZ
-         2WQkkFkJvljm3u19WUdim+WIf68sjaCgbr6SVQAzYaeTzg2a74qjm1JZlLcItx7pGqjA
-         3UfcEC/oB+VWD6gQalWfcjxoOHbkQFOGVsS5XAHuWN/0JxKfUNf1/AXtw9qe+17HlztL
-         9VFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767516445; x=1768121245;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7hSeTIvpTAnLYxpO7SsknGPdy6lTf7WuhDMQpVi4mSs=;
-        b=rdIr1mJzpuuQ9Z4mzmC8qq21q+TLL1xNKliCagxBKvsX6BjgyuV/4orFJkIXhj1Ft1
-         4XqiyRSzbhoJdEeS96aVWeOOrw2wcPY0y6/nNLEMqwmeWs17YOHDGiQrXr4t1Lc/3n3K
-         TiXeeIkT/P5hWmFt6v+sLHnb8qqzn1O0XlZYgf0d0F5M553JaP6ZwIAZCcwPmwAZh2Zt
-         w0bzN2nWQ4clBaPpXJ16o5V0Ou1eao37tCijGLB4mPcRbE41Dok251EsaSvwFit/3HeC
-         OayRUozpvBchVR3aTAc8Zi+HxRWpHa7SYa9rJZsuZV4bXaQDgoju7MWvCcvZjjOkj17r
-         eAkQ==
-X-Gm-Message-State: AOJu0YxlEwkFOOlTXwbhi1v3/fzU/qJ9cHoNlwU1rV9YpiXAwcJqMAyC
-	QcvA6FltrFYIulSRNXXfRqK+bsN9sc7RXvqiW8PtWmtXSyFN1p34OAaw
-X-Gm-Gg: AY/fxX7s6gBiUfmAIm+lTLOtz+9LZKlczPMLKrENVGUjycDbH4RbvG1Fg++cxX3sFiX
-	+vi7R7fyDs9NXZVL6ErTGk1EDiok55haLl5q8qwV6SPzFKXEnB9EDjuPCrDCiSsa7KEyQUvDI9p
-	7kNbcF2VfbFykrvy5D8BlOx6YPlcI5vYzrQnBJLf+Sq7do4IcQ+PBh94NFbOiT/ygsfOmeu1fHy
-	KOtzE8VtpDDawyO7FcKh8zBlFxLos8LVLKRmvrzc6g+N/m4SjSdBs8+Hti6Pk6dwXGrjmfEgn+/
-	UbomDnJm+Qj7tdNA3XUZ/1cNY1pH7KCsZUSbNjDr1lomoC5DP5aM01YwicoVKKOUrHnX+HwR+tT
-	0GtzNivkShOi3b5a1VA2Blk+eFHdC7xWUNrS0+pFv/pXmjkMmuFuVmny45L6xSwV2u0YffODf4b
-	pVvWETmI6V075kpZlgLwhEqjKu1SXBIT0Rb79g2mCLT8DR/4V3mrfJ5cgK
-X-Google-Smtp-Source: AGHT+IFsDFvr6iXtCNWiKmktKqKwrx0pWsIgItUTOb5/wKHPE+kCU5M4crNvV5P61+Ro/H0PWLcRgw==
-X-Received: by 2002:a17:902:e884:b0:29a:5ce:b467 with SMTP id d9443c01a7336-2a2f2a4a3a6mr454442845ad.54.1767516445291;
-        Sun, 04 Jan 2026 00:47:25 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d776ebsm426612275ad.99.2026.01.04.00.47.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jan 2026 00:47:24 -0800 (PST)
-Message-ID: <eec495b9-45ee-49ad-acee-4b21f06062f2@gmail.com>
-Date: Sun, 4 Jan 2026 17:47:22 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7Ks4/2D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767516569; x=1799052569;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2RSXCyI+8NeZjvCdOWBDVRoIZJ5ohKFOer5VtizNnWA=;
+  b=H7Ks4/2DVkQcqm3KYFLAH9stL/0fl1IhjNpSWqrH7pydUXwVskOy8kam
+   QQUYKMMmPjyajIxPGdPVBGagRp+a/HTry2SDphNbvgWSoG/CMTpPC7T1z
+   I4+//V5eLdggFkeDE9NUB7lw9lEapbGAC2gwEU0RQdcLdlXKKCT5XDBpm
+   M/hYqijqTjJ+dwNHGp7f4DZHYqqjC2l9XvDmhMjwDfZGEEBMr4rrSWL2Y
+   +vqG7AwYS0uMjNER5F0Tvysv/4mrJH4ZTfiTn/ZY0jHCT01sMLUgSzfzq
+   MkU9JxD6mhE3g5s41E1Wc/SZX3oGpt46ckA5/KwQgSoQo8XGrB0qAqpwh
+   Q==;
+X-CSE-ConnectionGUID: CTt/XXDQRh2K8JyRgBQiqA==
+X-CSE-MsgGUID: 5xfUK5FjTReZDaXgJ6YZtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68856338"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68856338"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2026 00:49:28 -0800
+X-CSE-ConnectionGUID: 6jkKcX2qTZaf+N0AQVrSoA==
+X-CSE-MsgGUID: 0UvSFRsGQ8SZAMcGBQe8ew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,200,1763452800"; 
+   d="scan'208";a="206275936"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 04 Jan 2026 00:49:26 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vcJng-000000000sj-0KHZ;
+	Sun, 04 Jan 2026 08:49:24 +0000
+Date: Sun, 04 Jan 2026 09:49:08 +0100
+From: kernel test robot <lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sj:damon/next 110/118] htmldocs:
+ Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both
+ interpreted text role prefix and reference suffix. [docutils]
+Message-ID: <202601040942.MWKEmMKA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs/ja_JP: fix typos and duplicated phrases in
- kernel development guide
-To: Masaharu Noguchi <nogunix@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20260104-ja-howto-v1-0-53e5564a47d9@gmail.com>
- <20260104-ja-howto-v1-1-53e5564a47d9@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260104-ja-howto-v1-1-53e5564a47d9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 04 Jan 2026 02:19:38 +0900, Masaharu Noguchi wrote:
-> Fix obvious typos and duplicated phrases in the Japanese translation.
-> 
-> No change in meaning intended.
-> 
-> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/=
+next
+head:   28d3c5e02b31f08aa715cf01ead66c072a9c5d5a
+commit: 5ff971ba3599d1e5d6a1721a85d50969a3c270ca [110/118] Docs/admin-guide=
+/mm/damon/usage: suggest use of DAMON modules
+reproduce: (https://download.01.org/0day-ci/archive/20260104/202601040942.M=
+WKEmMKA-lkp@intel.com/reproduce)
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601040942.MWKEmMKA-lkp@i=
+ntel.com/
 
-> ---
->  Documentation/translations/ja_JP/process/howto.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/translations/ja_JP/process/howto.rst b/Documentation/translations/ja_JP/process/howto.rst
-> index 5e307f90982ca39576c40b008a80697559e40b45..a47d7679364aa3da57b9802807a3571ca23b7122 100644
-> --- a/Documentation/translations/ja_JP/process/howto.rst
-> +++ b/Documentation/translations/ja_JP/process/howto.rst
-> @@ -61,7 +61,7 @@ info ページ( info gcc )を見てください。
->  発手順について高度な標準を持つ、多様な人の集まりです。地理的に分散した
->  大規模なチームに対してもっともうまくいくとわかったことをベースにしなが
->  ら、これらの標準は長い時間をかけて築かれてきました。これらはきちんと文
-> -書化されていますから、事前にこれらの標準について事前にできるだけたくさ
-> +書化されていますから、これらの標準について事前にできるだけたくさ
->  ん学んでください。また皆があなたやあなたの会社のやり方に合わせてくれる
->  と思わないでください。
->  
-> @@ -363,7 +363,7 @@ linux-next の実行テストを行う冒険好きなテスターは大いに歓
->  
->  あなたのハッキングのスキルを訓練する最高の方法のひとつに、他人がレポー
->  トしたバグを修正することがあります。あなたがカーネルをより安定化させる
-> -こに寄与するということだけでなく、あなたは 現実の問題を修正することを
-> +ことに寄与するということだけでなく、あなたは 現実の問題を修正することを
->  学び、自分のスキルも強化でき、また他の開発者があなたの存在に気がつきま
->  す。バグを修正することは、多くの開発者の中から自分が功績をあげる最善の
->  道です、なぜなら多くの人は他人のバグの修正に時間を浪費することを好まな
-> 
+All warnings (new ones prefixed by >>):
 
+   WARNING: No kernel-doc for file ./include/linux/pci.h
+   ERROR: Cannot find file ./include/linux/mod_devicetable.h
+   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
+   ERROR: Cannot find file ./include/linux/bootconfig.h
+   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
+>> Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both =
+interpreted text role prefix and reference suffix. [docutils]
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+   ERROR: Cannot find file ./include/linux/pstore_zone.h
+   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
+   ERROR: Cannot find file ./include/linux/pstore_blk.h
+   ERROR: Cannot find file ./include/linux/pstore_blk.h
+
+
+vim +9 Documentation/admin-guide/mm/damon/usage.rst
+
+     8=09
+   > 9	- *Special-purpose DAMON modules.*
+    10	  :ref:`This <damon_modules_special_purpose>`_ is for people who bui=
+lding,
+    11	  distributing, and/or administrating the kernel with special-purpos=
+e DAMON
+    12	  usages.  Using this, users can use DAMON's major features for the =
+given
+    13	  purposes in build, boot, or runtime in simple ways.
+    14	- *DAMON user space tool.*
+    15	  `This <https://github.com/damonitor/damo>`_ is for privileged peop=
+le such as
+    16	  system administrators who want a just-working human-friendly inter=
+face.
+    17	  Using this, users can use the DAMON=E2=80=99s major features in a =
+human-friendly way.
+    18	  It may not be highly tuned for special cases, though.  For more de=
+tail,
+    19	  please refer to its `usage document
+    20	  <https://github.com/damonitor/damo/blob/next/USAGE.md>`_.
+    21	- *sysfs interface.*
+    22	  :ref:`This <sysfs_interface>` is for privileged user space program=
+mers who
+    23	  want more optimized use of DAMON.  Using this, users can use DAMON=
+=E2=80=99s major
+    24	  features by reading from and writing to special sysfs files.  Ther=
+efore,
+    25	  you can write and use your personalized DAMON sysfs wrapper progra=
+ms that
+    26	  reads/writes the sysfs files instead of you.  The `DAMON user spac=
+e tool
+    27	  <https://github.com/damonitor/damo>`_ is one example of such progr=
+ams.
+    28	- *Kernel Space Programming Interface.*
+    29	  :doc:`This </mm/damon/api>` is for kernel space programmers.  Usin=
+g this,
+    30	  users can utilize every feature of DAMON most flexibly and efficie=
+ntly by
+    31	  writing kernel space DAMON application programs for you.  You can =
+even extend
+    32	  DAMON for various address spaces.  For detail, please refer to the=
+ interface
+    33	  :doc:`document </mm/damon/api>`.
+    34=09
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
