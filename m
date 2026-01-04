@@ -1,147 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mail-m49207.qiye.163.com (mail-m49207.qiye.163.com [45.254.49.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E1D1C860B
-	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 08:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454A14A3E;
+	Sun,  4 Jan 2026 11:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767516570; cv=none; b=CHgq+Jkgj5EZG9qOg1OXUFUgCeigjrc0Zi1ph3U5ciQqcGDMaWBxtarfWaQIqR17Y73X1I4rM4Q4ncsVm6TKvJm2rrOhxVEXqe12DK5XmupZWUPK1lFUZ7Eq65XxSjsvod/rN83b45R33uDNopjcO/wiVL7vHOKTV1TkbE/sPws=
+	t=1767527537; cv=none; b=qU0HcGiSKmGkDgzqFSbqv6WMC8nNub3HQtwlSkBB2f7k3E4oP1tgvHmrs50VVnRuBYEGO2hBAX54pEdEqWwM2RYNxhOf2EIAvRmzO8gnQmQJ5igFnmSISYoLh69wv2fu4g1kTsIViPkiKONHi2DW4HSbv93caUdf1JlDdvxx4Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767516570; c=relaxed/simple;
-	bh=2RSXCyI+8NeZjvCdOWBDVRoIZJ5ohKFOer5VtizNnWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Xk8sE94O1trXmTzKlxz+rKiOb8cqSXEMHUSWcUd68c4UWcJ3zKcrAoL1hxiroizB4SaaG+vodBiRDh00Kz315ueHyHICjJkuMYFpM3c4s5ps3+mN4+T+LNW/COa6SyJ2toHFBHrptp8anEY6JwxHDNBjYI7xyn8+gguAiv2LKqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7Ks4/2D; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767527537; c=relaxed/simple;
+	bh=edKL4RsK/Yy+74lxyD90zDBaZQlNayes3zHKhT/d/Z4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=anb/uf5Kdl8bWbWtSTXik4sFHbgnLROGHuW0fhed1fAjaK8ZTwFnIWQEfDBSC/iwsLVf51auAsJjbp9RrmYufp/SchPzM8mJw3iEmOzx9/kirFdGL/poxMvgW3L+VCWAdF1M9sCnT8zcAg3HZ5PQqUBkJj7PG/mykZGU8ZXKdU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=TcgHk8Qs; arc=none smtp.client-ip=45.254.49.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7Ks4/2D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767516569; x=1799052569;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2RSXCyI+8NeZjvCdOWBDVRoIZJ5ohKFOer5VtizNnWA=;
-  b=H7Ks4/2DVkQcqm3KYFLAH9stL/0fl1IhjNpSWqrH7pydUXwVskOy8kam
-   QQUYKMMmPjyajIxPGdPVBGagRp+a/HTry2SDphNbvgWSoG/CMTpPC7T1z
-   I4+//V5eLdggFkeDE9NUB7lw9lEapbGAC2gwEU0RQdcLdlXKKCT5XDBpm
-   M/hYqijqTjJ+dwNHGp7f4DZHYqqjC2l9XvDmhMjwDfZGEEBMr4rrSWL2Y
-   +vqG7AwYS0uMjNER5F0Tvysv/4mrJH4ZTfiTn/ZY0jHCT01sMLUgSzfzq
-   MkU9JxD6mhE3g5s41E1Wc/SZX3oGpt46ckA5/KwQgSoQo8XGrB0qAqpwh
-   Q==;
-X-CSE-ConnectionGUID: CTt/XXDQRh2K8JyRgBQiqA==
-X-CSE-MsgGUID: 5xfUK5FjTReZDaXgJ6YZtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68856338"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68856338"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2026 00:49:28 -0800
-X-CSE-ConnectionGUID: 6jkKcX2qTZaf+N0AQVrSoA==
-X-CSE-MsgGUID: 0UvSFRsGQ8SZAMcGBQe8ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,200,1763452800"; 
-   d="scan'208";a="206275936"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 04 Jan 2026 00:49:26 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vcJng-000000000sj-0KHZ;
-	Sun, 04 Jan 2026 08:49:24 +0000
-Date: Sun, 04 Jan 2026 09:49:08 +0100
-From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sj:damon/next 110/118] htmldocs:
- Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both
- interpreted text role prefix and reference suffix. [docutils]
-Message-ID: <202601040942.MWKEmMKA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="TcgHk8Qs"
+Received: from localhost (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2f6f5a8fb;
+	Sun, 4 Jan 2026 19:46:54 +0800 (GMT+08:00)
+Date: Sun, 4 Jan 2026 19:46:52 +0800
+From: BaiKefan <baikefan@leap-io-kernel.com>
+To: Alex Shi <seakeel@gmail.com>
+Cc: linux-usb@vger.kernel.org, si.yanteng@linux.dev, alexs@kernel.org,
+ dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+Subject: Re: [PATCH v5 0/8] Add Chinese translation for USB subsystem
+Message-ID: <20260104194652.000058a7@leap-io-kernel.com>
+In-Reply-To: <7adbcb46-1511-4840-9e12-811c7a664c56@gmail.com>
+References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
+	<7adbcb46-1511-4840-9e12-811c7a664c56@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9b88d4eef809d5kunm74b6fce15f92bf
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSkJOVh5JSkxPTBkaTUwfHlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktJQkNDTFVKS0
+	tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=TcgHk8QskSbS2C6uUbjGapDePoNfGzOnrH8EYk0MRLGxrFAtOuruJu+8Z7Mo1ZsvVF26rOHGqmM7RcaoPcrrZWd7ahFYYRdb3VKrT+iyu56NXD5xAQDLkJaSkjpCEQzukJrqCzXkXZWMLJzlYp1W26uaA0/s7BN7N4JYLPuZBVr2PrIatDanKzCulgNu/XcBS3nTeCK/Sz0GufS6R4/lsr4ZxR6ivhQQcGcYJQYczmIX/e6X+bfqCfUJEBnZzuWMh7Dug6Tx2FY7hNJHO3z430gzLahNEKoH56A6bUx44Zvi14HHe9bYpYSZ9oytzYu9FUo8Hkfg5da4gfp8pxQ66Q==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=RfKkTpoUXMtU9jEqE0TaczqUcpHlcDLem5rhdhYyUlA=;
+	h=date:mime-version:subject:message-id:from;
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/=
-next
-head:   28d3c5e02b31f08aa715cf01ead66c072a9c5d5a
-commit: 5ff971ba3599d1e5d6a1721a85d50969a3c270ca [110/118] Docs/admin-guide=
-/mm/damon/usage: suggest use of DAMON modules
-reproduce: (https://download.01.org/0day-ci/archive/20260104/202601040942.M=
-WKEmMKA-lkp@intel.com/reproduce)
+On Tue, 23 Dec 2025 21:39:41 +0800
+Alex Shi <seakeel@gmail.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601040942.MWKEmMKA-lkp@i=
-ntel.com/
+> Hi Kefan,
+> 
+> There are too much whitespace errors.
+> Please resolve the problem and send again.
+> 
+> Alex
+> 
+> $b4 shazam 
+> https://lore.kernel.org/linux-doc/cover.1765180570.git.baikefan@leap-io-kernel.com/
+> 
+> /home/alexshi/linux/.git/rebase-apply/patch:89: indent with spaces.
+>                                  # FIXME: 确保没有人能够挂载它
+> /home/alexshi/linux/.git/rebase-apply/patch:94: indent with spaces.
+>          echo "We are good, connected"
+> /home/alexshi/linux/.git/rebase-apply/patch:95: indent with spaces.
+>          umount /mntpoint
+> /home/alexshi/linux/.git/rebase-apply/patch:96: indent with spaces.
+>          # 添加一些额外的内容，以便其他人也可以使用它
+> /home/alexshi/linux/.git/rebase-apply/patch:98: indent with spaces.
+>          echo 0 > authorized
+> warning: 5 lines add whitespace errors.
+> /home/alexshi/linux/.git/rebase-apply/patch:395: indent with spaces.
+>           hdr = (struct ubsmon_packet *) &mmap_area[vec[i]];
+> /home/alexshi/linux/.git/rebase-apply/patch:396: indent with spaces.
+>           if (hdr->type == '@')     // 填充包
+> /home/alexshi/linux/.git/rebase-apply/patch:397: indent with spaces.
+>              continue;
+> /home/alexshi/linux/.git/rebase-apply/patch:398: indent with spaces.
+>           caddr_t data = &mmap_area[vec[i]] + 64;
+> /home/alexshi/linux/.git/rebase-apply/patch:399: indent with spaces.
+>           process_packet(hdr, data);
+> warning: 5 lines add whitespace errors.
+> /home/alexshi/linux/.git/rebase-apply/patch:67: indent with spaces.
+>          - 3Com GmbH捐赠了一台ISDN Pro 
+> TA，并在技术问题和测试设备上提供支持。
+> /home/alexshi/linux/.git/rebase-apply/patch:68: indent with spaces.
+>            我从未想到能获得如此慷慨的帮助。
+> /home/alexshi/linux/.git/rebase-apply/patch:70: indent with spaces.
+>          - USAR Systems提供了优秀的USB评估套件，使我们能够
+> /home/alexshi/linux/.git/rebase-apply/patch:71: indent with spaces.
+>            测试Linux USB驱动与最新USB规范的兼容性。USAR Systems
+> /home/alexshi/linux/.git/rebase-apply/patch:72: indent with spaces.
+>            认识到开源操作系统的重要性，并提供了硬件支持，感谢他们！
+> warning: squelched 57 whitespace errors
+> warning: 62 lines add whitespace errors.
+> 
 
-All warnings (new ones prefixed by >>):
 
-   WARNING: No kernel-doc for file ./include/linux/pci.h
-   ERROR: Cannot find file ./include/linux/mod_devicetable.h
-   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
-   ERROR: Cannot find file ./include/linux/bootconfig.h
-   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
->> Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both =
-interpreted text role prefix and reference suffix. [docutils]
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
-   ERROR: Cannot find file ./include/linux/pstore_blk.h
+Hi Alex,
+
+Sorry for the late reply — I’ve been tied up with other work recently.
+
+Thanks for pointing this out.
+
+I tried to reproduce the whitespace warnings you mentioned, 
+but unfortunately I’m not able to see them on my side.
+
+I tested the patch set with:
+
+1. linux-next with the latest mainline tree
+2. b4 shazam
+https://lore.kernel.org/linux-doc/cover.1765180570.git.baikefan@leap-io-kernel.com/
+3. scripts/checkpatch.pl --strict run on all the patch files
 
 
-vim +9 Documentation/admin-guide/mm/damon/usage.rst
+Given that no "indent with spaces" or other whitespace warnings
+were reported, I suspect this may be environment- or tooling-related.
 
-     8=09
-   > 9	- *Special-purpose DAMON modules.*
-    10	  :ref:`This <damon_modules_special_purpose>`_ is for people who bui=
-lding,
-    11	  distributing, and/or administrating the kernel with special-purpos=
-e DAMON
-    12	  usages.  Using this, users can use DAMON's major features for the =
-given
-    13	  purposes in build, boot, or runtime in simple ways.
-    14	- *DAMON user space tool.*
-    15	  `This <https://github.com/damonitor/damo>`_ is for privileged peop=
-le such as
-    16	  system administrators who want a just-working human-friendly inter=
-face.
-    17	  Using this, users can use the DAMON=E2=80=99s major features in a =
-human-friendly way.
-    18	  It may not be highly tuned for special cases, though.  For more de=
-tail,
-    19	  please refer to its `usage document
-    20	  <https://github.com/damonitor/damo/blob/next/USAGE.md>`_.
-    21	- *sysfs interface.*
-    22	  :ref:`This <sysfs_interface>` is for privileged user space program=
-mers who
-    23	  want more optimized use of DAMON.  Using this, users can use DAMON=
-=E2=80=99s major
-    24	  features by reading from and writing to special sysfs files.  Ther=
-efore,
-    25	  you can write and use your personalized DAMON sysfs wrapper progra=
-ms that
-    26	  reads/writes the sysfs files instead of you.  The `DAMON user spac=
-e tool
-    27	  <https://github.com/damonitor/damo>`_ is one example of such progr=
-ams.
-    28	- *Kernel Space Programming Interface.*
-    29	  :doc:`This </mm/damon/api>` is for kernel space programmers.  Usin=
-g this,
-    30	  users can utilize every feature of DAMON most flexibly and efficie=
-ntly by
-    31	  writing kernel space DAMON application programs for you.  You can =
-even extend
-    32	  DAMON for various address spaces.  For detail, please refer to the=
- interface
-    33	  :doc:`document </mm/damon/api>`.
-    34=09
+To help me narrow this down, could you please let me know:
 
---=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+1. the exact tree you are applying against (commit or branch)
+2. the exact command sequence you used before running b4 shazam
+3. whether any whitespace-related git config is set (e.g.
+core.whitespace, apply.whitespace)
+
+
+Thanks for taking the time to review this.
+
+Thanks again
+Kefan
+
+> 
+> On 2025/12/8 17:25, Kefan Bai wrote:
+> > This patch set adds Chinese translations for the USB documentation.
+> > 
+> > Changes in v5:
+> >   - Ensuring that the index.rst entries, including acm,
+> > authorization, chipidea, dwc3, ehci, and usbmon, are placed in the
+> > correct patches to prevent build errors when patches are applied
+> > individually.
+> >   - Remove extra spaces in chipidea.rst.
+> >   - Send these translation patches tolinux-usb@vger.kernel.org for
+> > review by Chinese-speaking developers, per Alex and Yanteng's
+> > recommendation.
+> > 
+> > Changes in v4:
+> >   - shorten those overlong title underline/overline symbols
+> >   - Remove CREDITS section from index.rst
+> >   - Link to
+> > v4:https://lore.kernel.org/all/cover.1764674650.git.baikefan@leap-io-
+> > kernel.com/
+> > 
+> > Changes in v3:
+> >   - Updated the signoff to my full legal name,
+> >     as requested by Jonathan Corbet.
+> >   - Reviewed and fixed the RST syntax to resolve the patch issues
+> >     noted by Alex Shi.
+> >   - Kept the number of translated files to eight
+> >     to make submission and review smoother.
+> >   - Link to
+> > v3:https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-
+> > kernel.com/
+> > 
+> > Changes in v2:
+> >   - Update [PATCH 01/25] docs/zh_CN: Add index.rst translation
+> >     to include corresponding updates in
+> >     Documentation/translations/zh_CN/subsystem-apis.rst.
+> >   - Link to
+> > v2:https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-
+> > kernel.com/
+> > 
+> > v1:
+> >   -
+> > Link:https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-
+> > kernel.com/
+> > 
+> > Kefan Bai (8):
+> >    docs/zh_CN: Add index.rst translation
+> >    docs/zh_CN: Add acm.rst translation
+> >    docs/zh_CN: Add authorization.rst translation
+> >    docs/zh_CN: Add chipidea.rst translation
+> >    docs/zh_CN: Add dwc3.rst translation
+> >    docs/zh_CN: Add ehci.rst translation
+> >    docs/zh_CN: Add usbmon.rst translation
+> >    docs/zh_CN: Add CREDITS translation
+> > 
+> >   .../translations/zh_CN/subsystem-apis.rst     |   2 +-
+> >   Documentation/translations/zh_CN/usb/CREDITS  | 153 +++++++
+> >   Documentation/translations/zh_CN/usb/acm.rst  | 137 +++++++
+> >   .../translations/zh_CN/usb/authorization.rst  | 125 ++++++
+> >   .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
+> >   Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
+> >   Documentation/translations/zh_CN/usb/ehci.rst | 216 ++++++++++
+> >   .../translations/zh_CN/usb/index.rst          |  54 +++
+> >   .../translations/zh_CN/usb/usbmon.rst         | 380
+> > ++++++++++++++++++ 9 files changed, 1268 insertions(+), 1
+> > deletion(-) create mode 100644
+> > Documentation/translations/zh_CN/usb/CREDITS create mode 100644
+> > Documentation/translations/zh_CN/usb/acm.rst create mode 100644
+> > Documentation/translations/zh_CN/usb/authorization.rst create mode
+> > 100644 Documentation/translations/zh_CN/usb/chipidea.rst create
+> > mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst create
+> > mode 100644 Documentation/translations/zh_CN/usb/ehci.rst create
+> > mode 100644 Documentation/translations/zh_CN/usb/index.rst create
+> > mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
+> > 
+> > --
+> > 2.52.0
+> > 
+> 
+> 
+> 
+
