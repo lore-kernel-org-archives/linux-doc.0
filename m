@@ -1,177 +1,193 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5824279DB7
-	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64062737F6
+	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767561927; cv=none; b=Q4mVzLUNNktWlO4xxObMxfSoquwPC1Nfl3FM7bC95ej5fBDCMMFTc/BZ0JM2M6eQitoFdT64OL88UgnS+L2dKgQ1rAOpWqHt1SuTQC2am6Yplc0hWnn/p/vCGs2wcng3LTzUj/33+9n8egubi0RyROdh8VTFJBeLxsIEaAnXUyA=
+	t=1767562297; cv=none; b=VkAmNDoDnKYQTk4n7Esk5eefaRlwcZ14M7cHPVEQOqgi6lZk4s2nJCA+FrLCzOY7P+bZAwRwdjepiFicFKjXixuhgpTtyHtIcJqs45n6GQ2cWVGNZVcACXYvrPC20hSpxpsOenx4Kx5TSiIgjnXMB70d8QhRJUsoGZnJFoDiakQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767561927; c=relaxed/simple;
-	bh=ZsoC2tMVlEa/V20wtG1BE1AXcEXGl7jC4ulSuj+rZGw=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=p/agXd5snFkM3H3qnd97QlWNEanrGve1rB50lHIFfeR74/3yJ6imONg4mvxLYHnXG2muOmJDtwLMuvA7OGMTc0EQpEB4aANGzcZQ7qu80N8SMitQqL55wMs9k5XUbntFRY286iCbtwAbujKdSRq3cTFEpMbLcx4u6P94hhJeyAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HkAjPYRs; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oof5REzp; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1767562297; c=relaxed/simple;
+	bh=TNOReyKeSxvnchWjGZNXLUxlPtmF/TJa8GbVtAOOrqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fVfk0pCX0KRyM4oUoFnOUiFIedhIiHjq/5o4YqbLEdAM/Wizo8nriwbFu9mShCF2QAeKrNB+1MRLDINagdGxLB13d5YPf98932JCQ+o4A2MjpKKcZWXEiqadFyp6WYnFZfVitoQwqpSNAy/HfyF6KzefS5bMNowz4NYM2paaamE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkn3Q34S; arc=none smtp.client-ip=209.85.208.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HkAjPYRs";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oof5REzp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767561924;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aOqQ/3LsDQyPGmsZ/qMD/HHwJen4ANQ7/h6zgU7Vmbg=;
-	b=HkAjPYRsH8KlQT8BWYwpQLWMpMkLRq0Gt0OVNGoIgQTG0gk02GZSA6iCgZ29rzXR5v3n+j
-	G7r6W4YKs771P/XfSiHN01FU0JXfZDQmAyd6dJYr8nAf6Dy8ZsCmf5uyIfNWZ01Cec30WA
-	Ft8RkmJZBzBpUGWHBR95elaNuJbjzdk=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-52-L75L3ahPNpmwlu6QSzSymg-1; Sun, 04 Jan 2026 16:25:23 -0500
-X-MC-Unique: L75L3ahPNpmwlu6QSzSymg-1
-X-Mimecast-MFC-AGG-ID: L75L3ahPNpmwlu6QSzSymg_1767561923
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-88a360b8096so372236966d6.0
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:25:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkn3Q34S"
+Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-64b5b68a9bdso3179128a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:31:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1767561923; x=1768166723; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aOqQ/3LsDQyPGmsZ/qMD/HHwJen4ANQ7/h6zgU7Vmbg=;
-        b=Oof5REzpqhZ1UbHUIYRBSShC5Ib+bM/NY7sb9TlDleNYvREuuiCXQPIWPmpGRi3sjL
-         2Yzsvm/jDpnP6ymlCmxsKRoCW86QiqWU7pn+asJ1hXT1VDLRpyWjqZ9jYQFDvK1jCIvc
-         ml7YYrjv/zlePFGGbukjMgkQLNYP0rSXroTgA8Dp+geqkDeJPE/QV1hEjzqPM3tDrpFC
-         S/oFYt7cDbpHGa+r6M2NbsZA2gr5GM5P3CpCXWz118tmOna9QTqvaP30IaUPZ2PXFijE
-         P6WmXIAl4YAweZQb35p8SlrqNRvhHhn0AZQWnQu5Rj/WuADKG/NscoDwsvwEAfpTqHui
-         U3oA==
+        d=gmail.com; s=20230601; t=1767562294; x=1768167094; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vX1nJ/KwU+ERB9DqMZcEiz8CUIvFleb2W4tNHZPrWVs=;
+        b=gkn3Q34SvpvxvPXw8kwwczMEXscFEGvmkf9Q06uuyNY7SfFd84s1iD40sxzKCoH4b+
+         GV7skoGH2uhHPvVqwbGHk/5c/WVsUBDQxG1JvpGjkLosRgZByEzTMbuOi9PpPCplb6xy
+         4V4AWaAd+KAoAvQfJ2ni/VIkN6Ty6FnxX4QtWnG4HNxCnsZyoYvz2mO6jmVhF9Up+Tz7
+         WzZhcQjxdoH5PZAKnIQO3vJOaLnElstZJuL7F63cwYe1PW/W2a6UOB63/56UXoF7a+3g
+         O7ck2N/KMuJJKABctIsjGPN7gvJW1d2rBjtEfxOK/KpZLUx5meiSq/vd+tKu2B5xbw3O
+         92JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767561923; x=1768166723;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aOqQ/3LsDQyPGmsZ/qMD/HHwJen4ANQ7/h6zgU7Vmbg=;
-        b=Mh0T1d1d8bqpxNR0wwn3dW0QqKjmIddU/wREoGqoUgeaQLOXAA04VmfJTz+4B9nZOL
-         iCusQcSqGjPpvMF72RpA/MHiZ0fg85gUebRLtFQ6fdP2I4mf+DELIDRiUji0IJmtNZc1
-         rbQe57SO4/VsBdof4mUOI9nqzY9CqFTgbP/Ab+P2jpHlWJmaDDSpJP69l+IoRpe1Cu78
-         Q1EsPb2Gn8D887VRAmhRo5Of6z0mx0nPG3x6OQROxq3+ws5t1WCctYMrMVblLxtVM1g3
-         +O9c3PD3f7+iMPaXv2jlDEPKNk4npcGPEkf7TLZ4KQ2morKoIjCdDepeiIvAzEMVQM91
-         XF6A==
-X-Forwarded-Encrypted: i=1; AJvYcCVaap5M5UlWYR8K2GHMkQSqk04mKnPkRxHQvPNW/JRXZRFqsdQdSo3Cb+USu3ZFr7jahjadXllSd8I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM/q5w3fbtNx5z26heAdvto+nfU9VKgpmtHPiUmPPKjY6TU4Xb
-	LiSfuposlNUcBX14AQcs70CcxVtHCC2o6fOmw1yy6DpizFTvGuCi0iyO7JsUdo8afg1wee33X03
-	5Bvz5LuMci0kBNZ3jg7oVERNsIxeJPlU0XFYmU0y3a7O13mnRmcX7U9jn36gptQ==
-X-Gm-Gg: AY/fxX4YEuYVH/WoLV7g1BhwkvLBrgBrLNYtYSSKnrZWttbN1pYJ1du6Mr2wCwbODdZ
-	+YYV/ohhvL0XP/4hjugzGCe2wVxtLBNdALPlB9/PTh6XpQSfAdG8p1cKe77cFCQJ7+Xsw775BVM
-	xdIno7Kf3UujLbIYnUaEGEQOiaZvm7a2X+Bln+V6UxW1NFcP5MG7sJ/lgeFTZU6WyjtscfNbTnW
-	sR4PoCRREC89QBMfSjxnRwsusTXVnJWMJ6hb11YCIz/Hw5KGdSRHtMqKAmjeTaCX0e8l67B4s/D
-	2lcGWVcsadXu/DdKSxxrGf63byL5TBBE//Hod3QWJUKerRbVnWXgeDICTYs4tZMqzmRauQ0gHMF
-	Z0S8eqCtTFaE2EGihdQV52DVTRRNozcMCqRc0tAVbH5fUz8C0WQGBG2th
-X-Received: by 2002:a05:6214:1256:b0:890:5096:5135 with SMTP id 6a1803df08f44-8905096517dmr136138636d6.68.1767561922716;
-        Sun, 04 Jan 2026 13:25:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGjEWzmCELS1IKWJk+NFIRBxSBEzNKCkY4OMkGpVYZP90YAaap30Vzj2VWFlb3eK91+sSj6ZQ==
-X-Received: by 2002:a05:6214:1256:b0:890:5096:5135 with SMTP id 6a1803df08f44-8905096517dmr136138446d6.68.1767561922268;
-        Sun, 04 Jan 2026 13:25:22 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm336419506d6.43.2026.01.04.13.25.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jan 2026 13:25:21 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <f8539426-92b0-42f3-99c4-70962c2db96d@redhat.com>
-Date: Sun, 4 Jan 2026 16:25:20 -0500
+        d=1e100.net; s=20230601; t=1767562294; x=1768167094;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vX1nJ/KwU+ERB9DqMZcEiz8CUIvFleb2W4tNHZPrWVs=;
+        b=CB1jeGfmcwxNMlmQAcZHqgQxk+oG6cPrmDkO4OF+NVwxXXZ1LCQsiYuku12r8PJaal
+         LOSXMr11dtIpfyrdITSvdq3bJOZBjBj4ZPU5SQDh4ZgKrsgZflpi6XqAlDvuH8fPVaz/
+         xi8A9QgyKXWEzl7iYYRG+58EHnDSUSFQyjox5Gz5Wc+3fy9SAVO7yHOZY52CJj1kdsc/
+         oVESGt74scoxnZq0fbpl2d7EK7CT/w4/I320gsn3P+ofaaNl/Um/VXrmAq9fMNUMN5wp
+         mCuCTRxuy05sA64v3wGKd9W2uS+2kQ8SF+GR0JCENaqDfca9CVQtlS1wacMlp1wzsmxF
+         uUgg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWqX2ehSBDGvmvjrQdzFUeUyAnrkssOFaG9N6ioCElrT0uosu3wSJYU1iyN0BpsTDjhHhV1FldqK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdHXtToAF4Qx5METCpIBiX9TsU+1jYE5iK/1JCW/i4sKMtHoYe
+	sQ+qv0vxkrhQK7QyI6YCRSoHM05XCdvTsnlb3nswXZUZPZWl3IkCkGe3
+X-Gm-Gg: AY/fxX4AHIA76E3X5kZ+cr9WuE398IBM3VYjkKerkqk2PVBX0QxtfrI7xL8RLXxOoTt
+	tyZGaz+1cJTq4OFo45SimJVAQEwiQjIGXUHLSrkbIF73GoxP97rdUSqaazPoscHwfS+K3uBMuEE
+	udpbDqrHjWB7nLvPsg8RR0S0Xe2ywsBcMhoDjA1UmrYdBDwnaeiHH+31M2K/N+J39WL1Qs3nivi
+	SmW6HmjI3YZ3UxYHEtNaaxx5I7BqjL24evSJM0tXvtkNSchgAs1dpp0/uZQsomfkSjpZY14IqdD
+	Gp4RIOJz0SFEeT1EemrdiqF4Y4bAi1Bj9qYeJORw6WoFFkAoi+TeZO7ZVxemCqWW2MFRIHZmZKg
+	Umb3jQteZWfAMEL8T3H4Axdyp+tbFhXktvV65gLYOeyn7VaPvdIrYlLFaXjPhX03hqAoIKrIH3D
+	B5SL4vrGqzaNdsNYmdm7ta6dEtl31CJH23MyGPSuJ2iAjMiIwbuU0PUhgx8slhGSUV
+X-Google-Smtp-Source: AGHT+IH9VObKoIZ26E6P6XUYtsRgGhF4IuzPxCVXmWX+XnEXOUDYTOW6tdmIebLvOtmgM4+nvN5b0Q==
+X-Received: by 2002:a05:6402:268a:b0:64b:76cb:5521 with SMTP id 4fb4d7f45d1cf-64b8e94bf43mr26815826a12.2.1767562293872;
+        Sun, 04 Jan 2026 13:31:33 -0800 (PST)
+Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b9105a9c4sm51947772a12.12.2026.01.04.13.31.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Jan 2026 13:31:33 -0800 (PST)
+From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: dmitry.torokhov@gmail.com,
+	corbet@lwn.net,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	vi@endrift.com,
+	linux-kernel@altimeter.info,
+	peter.hutterer@who-t.net
+Subject: [RFC PATCH 0/6] Input: New EV_BTN event for generic buttons
+Date: Sun,  4 Jan 2026 22:31:26 +0100
+Message-ID: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [cgroup/for-6.20 PATCH v2 2/4] cgroup/cpuset: Consistently
- compute effective_xcpus in update_cpumasks_hier()
-To: Chen Ridong <chenridong@huaweicloud.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>
-References: <20260101191558.434446-1-longman@redhat.com>
- <20260101191558.434446-3-longman@redhat.com>
- <758f42df-52c2-4660-8ef7-1cbacb9323d2@huaweicloud.com>
-Content-Language: en-US
-In-Reply-To: <758f42df-52c2-4660-8ef7-1cbacb9323d2@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 1/3/26 9:48 PM, Chen Ridong wrote:
->
-> On 2026/1/2 3:15, Waiman Long wrote:
->> Since commit f62a5d39368e ("cgroup/cpuset: Remove remote_partition_check()
->> & make update_cpumasks_hier() handle remote partition"), the
->> compute_effective_exclusive_cpumask() helper was extended to
->> strip exclusive CPUs from siblings when computing effective_xcpus
->> (cpuset.cpus.exclusive.effective). This helper was later renamed to
->> compute_excpus() in commit 86bbbd1f33ab ("cpuset: Refactor exclusive
->> CPU mask computation logic").
->>
->> This helper is supposed to be used consistently to compute
->> effective_xcpus. However, there is an exception within the callback
->> critical section in update_cpumasks_hier() when exclusive_cpus of a
->> valid partition root is empty. This can cause effective_xcpus value to
->> differ depending on where exactly it is last computed. Fix this by using
->> compute_excpus() in this case to give a consistent result.
->>
->> Signed-off-by: Waiman Long <longman@redhat.com>
->> ---
->>   kernel/cgroup/cpuset.c | 14 +++++---------
->>   1 file changed, 5 insertions(+), 9 deletions(-)
->>
->> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
->> index da2b3b51630e..37d118a9ad4d 100644
->> --- a/kernel/cgroup/cpuset.c
->> +++ b/kernel/cgroup/cpuset.c
->> @@ -2168,17 +2168,13 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
->>   		spin_lock_irq(&callback_lock);
->>   		cpumask_copy(cp->effective_cpus, tmp->new_cpus);
->>   		cp->partition_root_state = new_prs;
->> -		if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
->> -			compute_excpus(cp, cp->effective_xcpus);
->> -
->>   		/*
->> -		 * Make sure effective_xcpus is properly set for a valid
->> -		 * partition root.
->> +		 * Need to compute effective_xcpus if either exclusive_cpus
->> +		 * is non-empty or it is a valid partition root.
->>   		 */
->> -		if ((new_prs > 0) && cpumask_empty(cp->exclusive_cpus))
->> -			cpumask_and(cp->effective_xcpus,
->> -				    cp->cpus_allowed, parent->effective_xcpus);
->> -		else if (new_prs < 0)
->> +		if ((new_prs > 0) || !cpumask_empty(cp->exclusive_cpus))
->> +			compute_excpus(cp, cp->effective_xcpus);
->> +		if (new_prs < 0)
->>   			reset_partition_data(cp);
->>   		spin_unlock_irq(&callback_lock);
->>   
-> The code resets partition data only for new_prs < 0. My understanding is that a partition is invalid
-> when new_prs <= 0. Shouldn't reset_partition_data() also be called when new_prs = 0? Is there a
-> specific reason to skip the reset in that case?
+This patch series adds EV_BTN and it's handling to the input system. It's main
+focus is to add a simple event for generic buttons, not relying on defined
+usages and meanings.
 
-update_cpumasks_hier() is called when changes in a cpuset or hotplug 
-affects other cpusets in the hierarchy. With respect to changes in 
-partition state, it is either from valid to invalid or vice versa. It 
-will not change from a valid partition to member. The only way new_prs = 
-0 is when old_prs = 0. Even if the affected cpuset is processed again in 
-update_cpumask_hier(), any state change from valid partition to member 
-(update_prstate()), reset_partition_data() should have been called 
-there. That is why we only care about when new_prs != 0.
+Joysticks unlike keyboards, mice and even gamepads (though that's debatable)
+define arbitrary number of buttons that don't mean anything. They can be used
+in any kind of software, but mainly games, by assigning them manually to
+functions. Some games even carry default presets for devices based on their USB
+VID:PID pairs.
 
-The code isn't wrong here. However I can change the condition to 
-(new_prs <= 0) if it makes it easier to understand.
+The more important issue that this is trying to solve is the longstanding
+problem of limited button support in Linux. The use for arbitrary number of
+buttons wasn't considered some 20 years ago because Linux wasn't a good platform
+for gaming. First, Joystick and Gamepad ranges were limited to 16 buttons, later
+extended by 40 additional usages in the TRIGGER_HAPPY range. By allowing the
+usages to be incremented up to KEY_MAX, Joysticks were able to expose up to 80
+buttons for the past 15 years or so.
 
-Cheers,
-Longman
+Many simracing, simflight etc. devices actually expose way more then that. 128
+is a pretty common number with even more in the wild. Usually the numbers get so
+big to support things like positional rotary switches as one such rotary can
+have 12+ positions. My Moza GS V2P wheel has 5 such rotaries and that's not
+counting other buttons.
+
+Doing something about this limit was brought up maaany times in the past:
+https://forums.x-plane.org/forums/topic/299033-xp12-linux-winwing-orion-2-throttle-has-too-many-buttons/?page=1
+https://forum.falcon-bms.com/topic/26403/solved-winwing-orion-2-on-linux-only-80-buttons-detected
+https://lore.kernel.org/linux-input/CACa7zynMpa3BOJUW=s_Tj1TwH5txDQOuta5Fph45PYhDOtQQ3g@mail.gmail.com/
+https://lore.kernel.org/linux-input/20200710065112.18286-1-cpuwolf@gmail.com/#r
+https://lore.kernel.org/linux-input/20240802201001.406898-1-tomasz.pakula.oficjalny@gmail.com/
+https://lore.kernel.org/linux-input/20250201113906.769162-11-tomasz.pakula.oficjalny@gmail.com/
+https://lore.kernel.org/linux-input/20251119163844.1343-1-Hunter.Moore@garmin.com/
+https://lore.kernel.org/linux-input/20251220194100.GA12646@altimeter-info/
+https://lore.kernel.org/linux-input/665df7c9-0d32-4ecd-9f4d-fff67deb5878@endrift.com/
+
+But some considerations:
+
+1. Usages have their actual meanings and we shouldn't use them willy-nilly to add
+more buttons, even if that approach works with naive approaches use by SDL and
+Wine alike.
+
+2. Extending the KEY_MAX will cause additional issues when it comes to bitmask
+sizes, mapping usages and reading them afterward. Basically, we're moving the
+goalpost somewhere, but a device that would define 1024 buttons would break
+things again.
+
+I must give HUGE thanks to Dmitry for forcing this into my head to a point where
+I actually understood the whole issue.
+
+Thus, I thought up of a best, long-term solution to this problem. I do think
+EV_BTN should be a first-class event so it can be as easy to handle as possible.
+If there's a need, it could be hooked up for Gamepads as well as HID gamepads do
+the same thing and only expose raw buttons without specific usages. The usages
+are a best guess when handling generic ones and only custom drivers can actually
+assign proper buttons like BTN_A, THUMBL etc.
+
+In the future, the Joystick usages could be completely removed and joysticks
+could rely ONLY on the new event. For now, the old way is kept to not break
+compatibility.
+
+I'm eagerly waiting for comments, recommendations and critique. Currently, there
+isn't a way to poll states of all buttons like with EVIOCGKEY but I'm not sure
+if it's needed? I added INPUT_MAX_KEYS just for some sane limits BUT I don't see
+a real use for it. Instead of this define, we could just use U16_MAX. 65k of
+buttons ought to be enough for ANYBODY :D
+
+Companion changes to consumers that already show the working state of this patch series:
+Wine: https://gitlab.winehq.org/wine/wine/-/merge_requests/9853
+SDL: https://github.com/libsdl-org/SDL/pull/14758
+evtest: https://gitlab.freedesktop.org/libevdev/evtest/-/merge_requests/25
+
+Tested with my Moza Racing R9 and Moza Universal Hub (both expose 128 usable
+buttons). hid-universal-pidff driver was disabled for testing as it contains
+usage range hack.
+
+Sneak peek from updated evtest:
+
+Event: time 1767559522.509446, type 6 (EV_BTN), button 12, value 1
+Event: time 1767559522.509446, type 4 (EV_MSC), code 4 (MSC_SCAN), value 9000c
+Event: time 1767559522.509446, type 1 (EV_KEY), code 299 (BTN_BASE6), value 1
+Event: time 1767559522.509446, -------------- SYN_REPORT ------------
+Event: time 1767559522.656447, type 6 (EV_BTN), button 12, value 0
+Event: time 1767559522.656447, type 4 (EV_MSC), code 4 (MSC_SCAN), value 9000c
+Event: time 1767559522.656447, type 1 (EV_KEY), code 299 (BTN_BASE6), value 0
+Event: time 1767559522.656447, -------------- SYN_REPORT ------------
+Event: time 1767559523.737498, type 6 (EV_BTN), button 112, value 1
+Event: time 1767559523.737498, -------------- SYN_REPORT ------------
+Event: time 1767559523.807477, type 6 (EV_BTN), button 112, value 0
+Event: time 1767559523.807477, -------------- SYN_REPORT ------------
+
+Tomasz Pakuła (6):
+  Input: Introduce EV_BTN event for generic buttons
+  Input: Add info about EV_BTN
+  Input: Fire EV_BTN if found in ev_bit
+  Input: Assign EV_BTN event to HID Joysticks
+  Input: Realign rest of the HID_UP_BUTTON cases
+  Input: Add EVIOCGBTNCNT
+
+ Documentation/input/event-codes.rst    |  5 ++
+ drivers/hid/hid-input.c                | 77 +++++++++++++++++---------
+ drivers/input/evdev.c                  |  5 ++
+ drivers/input/input.c                  | 10 ++++
+ include/linux/input.h                  |  4 ++
+ include/uapi/linux/input-event-codes.h |  1 +
+ include/uapi/linux/input.h             |  1 +
+ 7 files changed, 77 insertions(+), 26 deletions(-)
+
+--
+2.52.0
 
