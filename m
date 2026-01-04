@@ -1,145 +1,177 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A792882C9;
-	Sun,  4 Jan 2026 20:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5824279DB7
+	for <linux-doc@vger.kernel.org>; Sun,  4 Jan 2026 21:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767560295; cv=none; b=qnMn9eamLCpFD6BxK3hZGkdop7vnrfrK6p2whspqtdYZaQjRvCi66Vf/BNbTIvSdtvzxGuV8ne07J355dfetbkZ/G2USdA4xfM9JlDGpf+aya8XLONx4BKnA4dER5oHTpDWVXlkhHHS7pxMoGWYZ0QShOo/TTXqz/HR8WH3gpWc=
+	t=1767561927; cv=none; b=Q4mVzLUNNktWlO4xxObMxfSoquwPC1Nfl3FM7bC95ej5fBDCMMFTc/BZ0JM2M6eQitoFdT64OL88UgnS+L2dKgQ1rAOpWqHt1SuTQC2am6Yplc0hWnn/p/vCGs2wcng3LTzUj/33+9n8egubi0RyROdh8VTFJBeLxsIEaAnXUyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767560295; c=relaxed/simple;
-	bh=zsNkllQtFPstvC0JmaISPDmi9Nm6BaIOMpzu48l2M4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JWpgyKogkSBdeXAxjUY+YGtxQRdLpCCH/rtDi/GSNse3nUsyw71gnUWlNrYHjvqScVYmfpu3n9KrjIJ9UIsPmDkukVUnkDtU6o1gW72hsfRroQ6zUfMgh0zFxbCk7ZAmJYnRR8ixqNcQzLwAEmZjL/7ZHwZY2PZQyOtPobL6uDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=PQx51yTY; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1767561927; c=relaxed/simple;
+	bh=ZsoC2tMVlEa/V20wtG1BE1AXcEXGl7jC4ulSuj+rZGw=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=p/agXd5snFkM3H3qnd97QlWNEanrGve1rB50lHIFfeR74/3yJ6imONg4mvxLYHnXG2muOmJDtwLMuvA7OGMTc0EQpEB4aANGzcZQ7qu80N8SMitQqL55wMs9k5XUbntFRY286iCbtwAbujKdSRq3cTFEpMbLcx4u6P94hhJeyAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HkAjPYRs; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oof5REzp; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="PQx51yTY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=I1gCbeyIrlCt5J2/Bjwg6Lr/ehCAIvx4DrMKPGr0mIk=; b=PQx51yTYkgAaIUXq0xW7qPDXV/
-	l2XTuAum3C4YTdjh59Zd9jjet7ae799URg+ZV8rmTkWl+kVHfkxUYw1s/dRjs9aTXD7D6Ho4syQaF
-	UUWur1xKtbiRo01UTGcAE17bVwa7Q1raKrI86aomWrm1nziVTW376kzGUJt7sSCvBg/iJuo8+kzDd
-	nyMzCE7bdEmvI/HMHy4otFSPHCGqcEajEQ2/jkcO2mu5bn1Ymv/9fmd0dXa7MO9wYyaIe2D76FfaF
-	n5lZTtrjJRF5D9eduOTkj4eWKLscCmoWno8MdEQ6ghyWUX2t1zONW89YiFsB5z/4C0opIIXPgMGiC
-	0kKrZFQA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60852)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vcV9l-000000007Jz-1ZeD;
-	Sun, 04 Jan 2026 20:56:57 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vcV9Z-000000007Df-1tyX;
-	Sun, 04 Jan 2026 20:56:45 +0000
-Date: Sun, 4 Jan 2026 20:56:45 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Klara Modin <klarasmodin@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alex Shi <alexs@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH 3.5] arm: make initialization of zero page independent of
- the memory map (was Re: [PATCH v2 22/28] arch, mm: consolidate
- initialization of nodes, zones and memory map)
-Message-ID: <aVrUDeSkqqY9ZCtS@shell.armlinux.org.uk>
-References: <20260102070005.65328-1-rppt@kernel.org>
- <20260102070005.65328-23-rppt@kernel.org>
- <aVhN2NgQEKe0yzva@soda.int.kasm.eu>
- <aVll339wim7dCIaQ@kernel.org>
- <aVlwOyicOLPB9SOa@parmesan.int.kasm.eu>
- <aVpWpLV4Dut5Muo2@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HkAjPYRs";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oof5REzp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767561924;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aOqQ/3LsDQyPGmsZ/qMD/HHwJen4ANQ7/h6zgU7Vmbg=;
+	b=HkAjPYRsH8KlQT8BWYwpQLWMpMkLRq0Gt0OVNGoIgQTG0gk02GZSA6iCgZ29rzXR5v3n+j
+	G7r6W4YKs771P/XfSiHN01FU0JXfZDQmAyd6dJYr8nAf6Dy8ZsCmf5uyIfNWZ01Cec30WA
+	Ft8RkmJZBzBpUGWHBR95elaNuJbjzdk=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-52-L75L3ahPNpmwlu6QSzSymg-1; Sun, 04 Jan 2026 16:25:23 -0500
+X-MC-Unique: L75L3ahPNpmwlu6QSzSymg-1
+X-Mimecast-MFC-AGG-ID: L75L3ahPNpmwlu6QSzSymg_1767561923
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-88a360b8096so372236966d6.0
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 13:25:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1767561923; x=1768166723; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aOqQ/3LsDQyPGmsZ/qMD/HHwJen4ANQ7/h6zgU7Vmbg=;
+        b=Oof5REzpqhZ1UbHUIYRBSShC5Ib+bM/NY7sb9TlDleNYvREuuiCXQPIWPmpGRi3sjL
+         2Yzsvm/jDpnP6ymlCmxsKRoCW86QiqWU7pn+asJ1hXT1VDLRpyWjqZ9jYQFDvK1jCIvc
+         ml7YYrjv/zlePFGGbukjMgkQLNYP0rSXroTgA8Dp+geqkDeJPE/QV1hEjzqPM3tDrpFC
+         S/oFYt7cDbpHGa+r6M2NbsZA2gr5GM5P3CpCXWz118tmOna9QTqvaP30IaUPZ2PXFijE
+         P6WmXIAl4YAweZQb35p8SlrqNRvhHhn0AZQWnQu5Rj/WuADKG/NscoDwsvwEAfpTqHui
+         U3oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767561923; x=1768166723;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aOqQ/3LsDQyPGmsZ/qMD/HHwJen4ANQ7/h6zgU7Vmbg=;
+        b=Mh0T1d1d8bqpxNR0wwn3dW0QqKjmIddU/wREoGqoUgeaQLOXAA04VmfJTz+4B9nZOL
+         iCusQcSqGjPpvMF72RpA/MHiZ0fg85gUebRLtFQ6fdP2I4mf+DELIDRiUji0IJmtNZc1
+         rbQe57SO4/VsBdof4mUOI9nqzY9CqFTgbP/Ab+P2jpHlWJmaDDSpJP69l+IoRpe1Cu78
+         Q1EsPb2Gn8D887VRAmhRo5Of6z0mx0nPG3x6OQROxq3+ws5t1WCctYMrMVblLxtVM1g3
+         +O9c3PD3f7+iMPaXv2jlDEPKNk4npcGPEkf7TLZ4KQ2morKoIjCdDepeiIvAzEMVQM91
+         XF6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVaap5M5UlWYR8K2GHMkQSqk04mKnPkRxHQvPNW/JRXZRFqsdQdSo3Cb+USu3ZFr7jahjadXllSd8I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM/q5w3fbtNx5z26heAdvto+nfU9VKgpmtHPiUmPPKjY6TU4Xb
+	LiSfuposlNUcBX14AQcs70CcxVtHCC2o6fOmw1yy6DpizFTvGuCi0iyO7JsUdo8afg1wee33X03
+	5Bvz5LuMci0kBNZ3jg7oVERNsIxeJPlU0XFYmU0y3a7O13mnRmcX7U9jn36gptQ==
+X-Gm-Gg: AY/fxX4YEuYVH/WoLV7g1BhwkvLBrgBrLNYtYSSKnrZWttbN1pYJ1du6Mr2wCwbODdZ
+	+YYV/ohhvL0XP/4hjugzGCe2wVxtLBNdALPlB9/PTh6XpQSfAdG8p1cKe77cFCQJ7+Xsw775BVM
+	xdIno7Kf3UujLbIYnUaEGEQOiaZvm7a2X+Bln+V6UxW1NFcP5MG7sJ/lgeFTZU6WyjtscfNbTnW
+	sR4PoCRREC89QBMfSjxnRwsusTXVnJWMJ6hb11YCIz/Hw5KGdSRHtMqKAmjeTaCX0e8l67B4s/D
+	2lcGWVcsadXu/DdKSxxrGf63byL5TBBE//Hod3QWJUKerRbVnWXgeDICTYs4tZMqzmRauQ0gHMF
+	Z0S8eqCtTFaE2EGihdQV52DVTRRNozcMCqRc0tAVbH5fUz8C0WQGBG2th
+X-Received: by 2002:a05:6214:1256:b0:890:5096:5135 with SMTP id 6a1803df08f44-8905096517dmr136138636d6.68.1767561922716;
+        Sun, 04 Jan 2026 13:25:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGjEWzmCELS1IKWJk+NFIRBxSBEzNKCkY4OMkGpVYZP90YAaap30Vzj2VWFlb3eK91+sSj6ZQ==
+X-Received: by 2002:a05:6214:1256:b0:890:5096:5135 with SMTP id 6a1803df08f44-8905096517dmr136138446d6.68.1767561922268;
+        Sun, 04 Jan 2026 13:25:22 -0800 (PST)
+Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm336419506d6.43.2026.01.04.13.25.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Jan 2026 13:25:21 -0800 (PST)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <f8539426-92b0-42f3-99c4-70962c2db96d@redhat.com>
+Date: Sun, 4 Jan 2026 16:25:20 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aVpWpLV4Dut5Muo2@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [cgroup/for-6.20 PATCH v2 2/4] cgroup/cpuset: Consistently
+ compute effective_xcpus in update_cpumasks_hier()
+To: Chen Ridong <chenridong@huaweicloud.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sun Shaojie <sunshaojie@kylinos.cn>
+References: <20260101191558.434446-1-longman@redhat.com>
+ <20260101191558.434446-3-longman@redhat.com>
+ <758f42df-52c2-4660-8ef7-1cbacb9323d2@huaweicloud.com>
+Content-Language: en-US
+In-Reply-To: <758f42df-52c2-4660-8ef7-1cbacb9323d2@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 04, 2026 at 02:01:40PM +0200, Mike Rapoport wrote:
-> From 35d016bbf5da7c08cc5c5547c85558fc50cb63aa Mon Sep 17 00:00:00 2001
-> From: Klara Modin <klarasmodin@gmail.com>
-> Date: Sat, 3 Jan 2026 20:40:09 +0200
-> Subject: [PATCH] arm: make initialization of zero page independent of the
->  memory map
-> 
-> Unlike most architectures, arm keeps a struct page pointer to the
-> empty_zero_page and to initialize it requires conversion of a virtual
-> address to page which makes it necessary to have memory map initialized
-> before creating the empty_zero_page.
-> 
-> Make empty_zero_page a stataic array in BSS to decouple it's
-> initialization from the initialization of the memory map.
+On 1/3/26 9:48 PM, Chen Ridong wrote:
+>
+> On 2026/1/2 3:15, Waiman Long wrote:
+>> Since commit f62a5d39368e ("cgroup/cpuset: Remove remote_partition_check()
+>> & make update_cpumasks_hier() handle remote partition"), the
+>> compute_effective_exclusive_cpumask() helper was extended to
+>> strip exclusive CPUs from siblings when computing effective_xcpus
+>> (cpuset.cpus.exclusive.effective). This helper was later renamed to
+>> compute_excpus() in commit 86bbbd1f33ab ("cpuset: Refactor exclusive
+>> CPU mask computation logic").
+>>
+>> This helper is supposed to be used consistently to compute
+>> effective_xcpus. However, there is an exception within the callback
+>> critical section in update_cpumasks_hier() when exclusive_cpus of a
+>> valid partition root is empty. This can cause effective_xcpus value to
+>> differ depending on where exactly it is last computed. Fix this by using
+>> compute_excpus() in this case to give a consistent result.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   kernel/cgroup/cpuset.c | 14 +++++---------
+>>   1 file changed, 5 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index da2b3b51630e..37d118a9ad4d 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -2168,17 +2168,13 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+>>   		spin_lock_irq(&callback_lock);
+>>   		cpumask_copy(cp->effective_cpus, tmp->new_cpus);
+>>   		cp->partition_root_state = new_prs;
+>> -		if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
+>> -			compute_excpus(cp, cp->effective_xcpus);
+>> -
+>>   		/*
+>> -		 * Make sure effective_xcpus is properly set for a valid
+>> -		 * partition root.
+>> +		 * Need to compute effective_xcpus if either exclusive_cpus
+>> +		 * is non-empty or it is a valid partition root.
+>>   		 */
+>> -		if ((new_prs > 0) && cpumask_empty(cp->exclusive_cpus))
+>> -			cpumask_and(cp->effective_xcpus,
+>> -				    cp->cpus_allowed, parent->effective_xcpus);
+>> -		else if (new_prs < 0)
+>> +		if ((new_prs > 0) || !cpumask_empty(cp->exclusive_cpus))
+>> +			compute_excpus(cp, cp->effective_xcpus);
+>> +		if (new_prs < 0)
+>>   			reset_partition_data(cp);
+>>   		spin_unlock_irq(&callback_lock);
+>>   
+> The code resets partition data only for new_prs < 0. My understanding is that a partition is invalid
+> when new_prs <= 0. Shouldn't reset_partition_data() also be called when new_prs = 0? Is there a
+> specific reason to skip the reset in that case?
 
-I see you haven't considered _why_ ARM does this.
+update_cpumasks_hier() is called when changes in a cpuset or hotplug 
+affects other cpusets in the hierarchy. With respect to changes in 
+partition state, it is either from valid to invalid or vice versa. It 
+will not change from a valid partition to member. The only way new_prs = 
+0 is when old_prs = 0. Even if the affected cpuset is processed again in 
+update_cpumask_hier(), any state change from valid partition to member 
+(update_prstate()), reset_partition_data() should have been called 
+there. That is why we only care about when new_prs != 0.
 
-You are getting rid of the flush_dcache_page() call, which ensures
-that the zeroed contents of the page are pushed out of the cache
-into memory. This is necessary.
+The code isn't wrong here. However I can change the condition to 
+(new_prs <= 0) if it makes it easier to understand.
 
-BSS is very similar. It's memset() during the kernel boot _after_
-the caches are enabled. Without an explicit flush, nothing
-guarantees that those writes will be visible to userspace.
+Cheers,
+Longman
 
-To me, this seems like a bad idea, which will cause userspace to
-break.
-
-We need to call flush_dcache_page(), and _that_ requires a struct
-page.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
