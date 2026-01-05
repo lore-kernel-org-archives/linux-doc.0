@@ -1,255 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCA5265CA2;
-	Mon,  5 Jan 2026 21:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF07280331
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 21:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767647451; cv=none; b=mY1Rt4yLgqxxoggRo0cYk+tX0TpXR1tB6q1tHw9ojqOooSJdqpXj1vLd8Xnscty26Q9MPQOJO1cRyZfJae7Cizt0wQ8s+npH6Awzxl7O85meRt6pIXqFhdHkzWp1StIzd+iSKGWRgwVzOUnR+kMKUFJyUm6alIv6ykSl9lfc7SE=
+	t=1767649627; cv=none; b=NLrjf9OGkFghkKQY45SEjQGXrwbCFlFB9HUQYn9VXAwD2a112Zh7APVmSIUOaKAsNLfH0H4nq2Dpk7VKAVVego+zb9+5pXFHkzlf8nha7bUWx3numplvdhx+x0yNCzl/MWdcKNglqujhA6LQCyvxA2ehyDGm4eh8iI16zrNAOJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767647451; c=relaxed/simple;
-	bh=K/MLEv800jeZGm8iAy2BhdCeur6VtWkHHjegTHjmSCI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nl6F6Js070EZFTPS1E7Pp2QpY6fYgDvxfjHxR7mws4XIbXdvb4B5M9CXhzMuwL0xdA0/lGMGUXoUKIqyBgJe+DR0s7pMfXbq2kWbkGcOfSON7TPjPkLkbVLGuwOX8jkpzZz2LSrXk3XxpRLIlSfIfdLKzRDgupUbql3RBZ5VEag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cu5tdoTL; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767649627; c=relaxed/simple;
+	bh=J+Gx8dgtaDaOCa6guNpPMY4R9ECDi2V64ShI87ufFus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XjlHqBJryFDzypsUJN5wk7+CiRKHf9kKkeWuO9pZUjSMtZ7VYYffP4IZSDBOQv/3MnRLyWvgfqGYK1fvHR7J5p31jIX0CwaKXLYgEZnHC048v3LaCTExSUL+U/PaSlUueYFraEbyMzpKef3AahOcjqQQdMiDkN82YLos2O7jvyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Difh1j+h; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cu5tdoTL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767647449; x=1799183449;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=K/MLEv800jeZGm8iAy2BhdCeur6VtWkHHjegTHjmSCI=;
-  b=Cu5tdoTLLLYGduvx1RETPt4GJYvM57MwuAfzC/DnK1AQ2AHii3PxIjxQ
-   dmyVw19XgFp0/inGRvvJ0zx4VSPuSAa2eskdUAcvXyewofjmJZ6Blzacc
-   45CsWVch+ympttKBItlkFw7bIfzB/GS/z3B+98t91SaHRMWZWjv1w8n5/
-   MdFBo42ekxnQkLkI+ds7VwkUyoU6rUyO9HG+jcbZqZytxEvvbFDLezLw9
-   YbtadBCLk1YZGKO3c9ALAoG004aKXw5uJ7FXYqucOI9u96L+RcTrYTFRk
-   DCcVEFeIN8VRH7d1owcMsrmeLW9jiwjDFic08+iM+ZNXdj7nNbMC72y1R
-   g==;
-X-CSE-ConnectionGUID: wrALv6OHSha4iHA3Z0lMdw==
-X-CSE-MsgGUID: ozk6m5NdQqyujMIcAmjAmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="79322483"
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="79322483"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 13:10:47 -0800
-X-CSE-ConnectionGUID: DSf3fdLiS7SQ2L74XHxOZw==
-X-CSE-MsgGUID: jNVFjKMgTXq83i+a0KaoOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="206955734"
-Received: from vverma7-desk1.amr.corp.intel.com (HELO [10.125.109.45]) ([10.125.109.45])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 13:10:46 -0800
-Message-ID: <29e5de15-6e4f-4d0d-ae76-a39db99f9f59@intel.com>
-Date: Mon, 5 Jan 2026 14:10:45 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Difh1j+h"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34e90f7b49cso366918a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 13:47:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767649625; x=1768254425; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WwkCXav2lczyWDa/90IeBviOn6NPSdWRMqM4EGa+avA=;
+        b=Difh1j+hNxXGKqQxJXElgvMuPqQv3qnkKjOS85lnvjXICqsaZ/R34aT8Bcl5UMe1o7
+         lHwyyMbs8dlWYpfBK1hWSF2IbUCUzGrudkWJxvWvyhOk6E+aIK9OpdWjxTErhlAXJLcZ
+         Euoy4yKlXwhEsQ0heQ43PXuocPgHq/oX9codLw2sdiAx02gzUzxLqM9equXCZuXI3Qhn
+         G0jujBzkBNF5FbSOitMrSWRtSvOIFHfYRHDOWdhQ00kXmgGmB92ZWhGze4pvxQRHMbrP
+         5ZS95qP2sCIMVecJquK0mtB/XXlegrCZ26cSOJt5KkNEYbQrpvrmxoksqIBJdw9WCE95
+         ap4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767649625; x=1768254425;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WwkCXav2lczyWDa/90IeBviOn6NPSdWRMqM4EGa+avA=;
+        b=RhmvoPYXcRXP3Bg6OnqbqJtRUWsx9yzXjbaLby28dErHpRLtqxXPUos26r3Dlhmqd8
+         B5T4oKHcKAQn5QG99+ABUBVyJqhClBjfE6Ze9XTI9UCp9ErJh5tiAA1Kn2HuHFdeDvVE
+         cJV7F+ZUAEB8cCbfdUZcQetwUDj3SBJrt7drEh/CYwyJ7wHJIDcIIUiWNhwvyLW4WB0E
+         n9zkgWF4TLUfyWSTWTpy73SmHJM6RYsotQG9eeiWTRtMcRPcnd2BYWASBsdv12V1Noco
+         TEFfrencFfV/ufg99jeIYmRXIGiQb4OHhJ5xbOEwhV+loR6D9rX6SOkRrxLX+FZ+UEQX
+         3X9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVIJYijRIEdS3Bly/wlo4iAU11y6PJGbu6iA4NY+8MxJli/xIFOXDRky4Sc5vtzoSLXMhIZVyLoSfM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFXUeI+rwq/BW2eMdncq78O+15IE1KFq68KlEcQdYoQW/Vhj50
+	2gYEM6hkUUYB3Vi701mkO5pMZkwDC6dEERgfv3fV1VLtjLLJhBH2ROP7Rjzi7jLPkWbyOWh/H5v
+	/XrvmmjikCWzvPiVAOIB8NX+27t+hKz8=
+X-Gm-Gg: AY/fxX6KvfJLVjV6DR5C4PTIGkQZREtx+gclNeN4R4IvhCHboUMEEiPdmGJ0bWC34/c
+	H+s4eOjkPmsTGw4uiFPhseszgydRlTp5YE3h9nRLC+bIT1AiBPZETvDe45Xzib25qn1tSjvSMVu
+	HW8UbbKHPbv6TWYWo29O9dEp0MPouLsiazX9z9cTnNifz5GuzQTRzMI70FUSngm3DeYou4huqXi
+	2O9gn35UqnfLJa1mL5toytwblFq3vqLO/86HRMOmZeYmmqYNGBFZzFb/Dn8hwUiyVPhi7UjQS1s
+	IXxIkMmeBDI=
+X-Google-Smtp-Source: AGHT+IHsskLu6HnKJdCCfXRJdE7dXLxBMAMj79azBauWYy3y6qQ3J7D6JlF5OiEerlW37K0ga4xf0s9bT32jAA+wvnI=
+X-Received: by 2002:a17:90b:544c:b0:341:8491:472a with SMTP id
+ 98e67ed59e1d1-34f5f26c758mr528365a91.4.1767649624619; Mon, 05 Jan 2026
+ 13:47:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] Documentation/driver-api/cxl: device hotplug
- section
-To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- dan.j.williams@intel.com, corbet@lwn.net, rakuram.e96@gmail.com,
- alucerop@amd.com
-References: <20251219170538.1675743-1-gourry@gourry.net>
- <20251219170538.1675743-3-gourry@gourry.net>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20251219170538.1675743-3-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <1767352415-24862-1-git-send-email-vmalla@linux.microsoft.com>
+ <bcd23277-a18e-4bb5-ba76-3416c84511c2@linux.dev> <aVjdUjai0lzpMeHv@archie.me>
+In-Reply-To: <aVjdUjai0lzpMeHv@archie.me>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 5 Jan 2026 13:46:52 -0800
+X-Gm-Features: AQt7F2p-hEWDJqeLM8oY0I9oCnUiBMu-ImRzQ0ri_zW4rBWOvpDbcXaAz_Mk23Q
+Message-ID: <CAEf4BzbAKGJsWov1udk+f5jS-qKSLMY+j76FP-JuWuxjhc0h-A@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] bpf, docs: Update pahole to 1.28 for selftests
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Ihor Solodrai <ihor.solodrai@linux.dev>, Hemanth Malla <vmalla@linux.microsoft.com>, 
+	bpf@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	haoluo@google.com, jolsa@kernel.org, vmalla@microsoft.com, corbet@lwn.net, 
+	Alan Maguire <alan.maguire@oracle.com>, dwarves <dwarves@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Jan 3, 2026 at 1:11=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com>=
+ wrote:
+>
+> On Fri, Jan 02, 2026 at 07:33:50AM -0800, Ihor Solodrai wrote:
+> > On 1/2/26 3:13 AM, Hemanth Malla wrote:
+> > > diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/b=
+pf_devel_QA.rst
+> > > index 0acb4c9b8d90..3a147b6c780e 100644
+> > > --- a/Documentation/bpf/bpf_devel_QA.rst
+> > > +++ b/Documentation/bpf/bpf_devel_QA.rst
+> > > @@ -482,7 +482,7 @@ under test should match the config file fragment =
+in
+> > >  tools/testing/selftests/bpf as closely as possible.
+> > >
+> > >  Finally to ensure support for latest BPF Type Format features -
+> > > -discussed in Documentation/bpf/btf.rst - pahole version 1.16
+> > > +discussed in Documentation/bpf/btf.rst - pahole version 1.28
+> >
+> > Hi Hemanth, thanks for the patch.
+> >
+> > Acked-by: Ihor Solodrai <ihor.solodrai@linux.dev>
+> >
+> > 1.28 is needed for --distilled_base [1], which is only a requirement
+> > for tests using modules. Many other tests are likely to work with
+> > older versions, but the minimum for the kernel build is 1.22 now [2].
+> >
+> > Not sure if it's worth it to add this nuance to the QA doc, although
+> > in general we should recommend people running the selftests to use the
+> > latest pahole release. Maybe add a comment?
+>
+> I guess minimum pahole version can be added to
+> Documentation/process/changes.rst.
 
+pahole 1.22 is already specified in Documentation/process/changes.rst
 
-On 12/19/25 10:05 AM, Gregory Price wrote:
-> Describe cxl memory device hotplug implications, in particular how the
-> platform CEDT CFMWS must be described to support successful hot-add of
-> memory devices.
-> 
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-> ---
-> v3: Jonathan updates, change some italics to bold, add some bits about
->     Linux's expectations for BIOS/EFI behavior at runtime.
-> 
->  Documentation/driver-api/cxl/index.rst        |   1 +
->  .../driver-api/cxl/platform/bios-and-efi.rst  |   3 +
->  .../cxl/platform/device-hotplug.rst           | 130 ++++++++++++++++++
->  3 files changed, 134 insertions(+)
->  create mode 100644 Documentation/driver-api/cxl/platform/device-hotplug.rst
-> 
-> diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-> index c1106a68b67c..5a734988a5af 100644
-> --- a/Documentation/driver-api/cxl/index.rst
-> +++ b/Documentation/driver-api/cxl/index.rst
-> @@ -30,6 +30,7 @@ that have impacts on each other.  The docs here break up configurations steps.
->     platform/acpi
->     platform/cdat
->     platform/example-configs
-> +   platform/device-hotplug
->  
->  .. toctree::
->     :maxdepth: 2
-> diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> index 9034c206cf8e..a4b44c018f09 100644
-> --- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> +++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-> @@ -49,6 +49,9 @@ up without requiring CXL driver support.  These platform vendors should
->  test their configurations with the existing CXL driver and provide driver
->  support for their auto-configurations if features like RAS are required.
->  
-> +Platforms requiring boot-time programming and/or locking of CXL fabric
-> +components may prevent features, such as device hot-plug, from working.
-> +
->  UEFI Settings
->  =============
->  If your platform supports it, the :code:`uefisettings` command can be used to
-> diff --git a/Documentation/driver-api/cxl/platform/device-hotplug.rst b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-> new file mode 100644
-> index 000000000000..e4a065fdd3ec
-> --- /dev/null
-> +++ b/Documentation/driver-api/cxl/platform/device-hotplug.rst
-> @@ -0,0 +1,130 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==================
-> +CXL Device Hotplug
-> +==================
-> +
-> +Device hotplug refers to *physical* hotplug of a device (addition or removal
-> +of a physical device from the machine).
-> +
-> +BIOS/EFI software is expected to configure sufficient resources **at boot
-> +time** to allow hotplugged devices to be configured by software (such as
-> +proximity domains, HPA regions, and host-bridge configurations).
-> +
-> +BIOS/EFI is not expected (**nor suggested**) to configure hotplugged
-> +devices at hotplug time (i.e. HDM decoders should be left unprogrammed).
-> +
-> +This document covers some examples of those resources, but should not
-> +be considered exhaustive.
-> +
-> +Hot-Remove
-> +==========
-> +Hot removal of a device typically requires careful removal of software
-> +constructs (memory regions, associated drivers) which manage these devices.
-> +
-> +Hard-removing a CXL.mem device without carefully tearing down driver stacks
-> +is likely to cause the system to machine-check (or at least SIGBUS if memory
-> +access is limited to user space).
-> +
-> +Memory Device Hot-Add
-> +=====================
-> +A device present at boot may be associated with a CXL Fixed Memory Window
-> +reported in :doc:`CEDT<acpi/cedt>`.  That CFMWS may match the size of the
-> +device, but the construction of the CEDT CFMWS is platform-defined.
-> +
-> +Hot-adding a memory device requires this pre-defined, **static** CFMWS to
-> +have sufficient HPA space to describe that device.
-> +
-> +There are a few common scenarios to consider.
-> +
-> +Single-Endpoint Memory Device Present at Boot
-> +---------------------------------------------
-> +A device present at boot likely had its capacity reported in the
-> +:doc:`CEDT<acpi/cedt>`.  If a device is removed and a new device hotplugged,
-> +the capacity of the new device will be limited to the original CFMWS capacity.
-> +
-> +Adding capacity larger than the original device will cause memory region
-> +creation to fail if the region size is greater than the CFMWS size.
-> +
-> +The CFMWS is **static** and cannot be adjusted.  Platforms which may expect
-> +different sized devices to be hotplugged must allocate sufficient CFMWS space
-> +**at boot time** to cover all future expected devices.
-> +
-> +Multi-Endpoint Memory Device Present at Boot
-> +--------------------------------------------
-> +Non-switch-based Multi-Endpoint devices are outside the scope of what the
-> +CXL specification describes, but they are technically possible. We describe
-> +them here for instructive reasons only - this does not imply Linux support.
-> +
-> +A hot-plug capable CXL memory device, such as one which presents multiple
-> +expanders as a single large-capacity device, should report the **maximum
-> +possible capacity** for the device at boot. ::
-> +
-> +                  HB0
-> +                  RP0
-> +                   |
-> +     [Multi-Endpoint Memory Device]
-> +              _____|_____
-> +             |          |
-> +        [Endpoint0]   [Empty]
-> +
-> +
-> +Limiting the size to the capacity preset at boot will limit hot-add support
-> +to replacing capacity that was present at boot.
-> +
-> +No CXL Device Present at Boot
-> +-----------------------------
-> +When no CXL memory device is present on boot, some platforms omit the CFMWS
-> +in the :doc:`CEDT<acpi/cedt>`.  When this occurs, hot-add is not possible.
-> +
-> +This describes the base case for any given device not being present at boot.
-> +If a future possible device is not described in the CEDT at boot, hot-add
-> +of that device is either limited or not possible.
-> +
-> +For a platform to support hot-add of a full memory device, it must allocate
-> +a CEDT CFMWS region with sufficient memory capacity to cover all future
-> +potentially added capacity (along with any relevant CEDT CHBS entry).
-> +
-> +To support memory hotplug directly on the host bridge/root port, or on a switch
-> +downstream of the host bridge, a platform must construct a CEDT CFMWS at boot
-> +with sufficient resources to support the max possible (or expected) hotplug
-> +memory capacity. ::
-> +
-> +         HB0                 HB1
-> +      RP0    RP1             RP2
-> +       |      |               |
-> +     Empty  Empty            USP
-> +                      ________|________
-> +                      |    |    |     |
-> +                     DSP  DSP  DSP   DSP
-> +                      |    |    |    |
-> +                         All  Empty
-> +
-> +For example, a BIOS/EFI may expose an option to configure a CEDT CFMWS with
-> +a pre-configured amount of memory capacity (per host bridge, or host bridge
-> +interleave set), even if no device is attached to Root Ports or Downstream
-> +Ports at boot (as depicted in the figure above).
-> +
-> +
-> +Interleave Sets
-> +===============
-> +
-> +Host Bridge Interleave
-> +----------------------
-> +Host-bridge interleaved memory regions are defined **statically** in the
-> +:doc:`CEDT<acpi/cedt>`.  To apply cross-host-bridge interleave, a CFMWS entry
-> +describing that interleave must have been provided **at boot**.  Hotplugged
-> +devices cannot add host-bridge interleave capabilities at hotplug time.
-> +
-> +See the :doc:`Flexible CEDT Configuration<example-configurations/flexible>`
-> +example to see how a platform can provide this kind of flexibility regarding
-> +hotplugged memory devices.  BIOS/EFI software should consider options to
-> +present flexible CEDT configurations with hotplug support.
-> +
-> +HDM Interleave
-> +--------------
-> +Decoder-applied interleave can flexibly handle hotplugged devices, as decoders
-> +can be re-programmed after hotplug.
-> +
-> +To add or remove a device to/from an existing HDM-applied interleaved region,
-> +that region must be torn down an re-created.
-
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
