@@ -1,222 +1,141 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD7034105B
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 13:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB128135D;
+	Mon,  5 Jan 2026 13:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767620439; cv=none; b=fXil3iCRSUXsAgQ27W+HDYo+aX68pNHof93sxnc0D58SRvwEcZEVakxSxliEKtlO+pb4ergne4sbW+kH9WGE/IJjZt1euMEM3q1klmB7ycxciaGZszx0QcYZdkT41UHbdFBNYx9/k6uSpqOmVbuLrgt16Dk9JgXMm1ncDDCQ7P4=
+	t=1767620854; cv=none; b=CNpW2fVKbfYRU1q1uExJRECGoRnQzTx1zkkGNW9PTSrt7X8ttzeOY2kB/5/h1zFU7E+J41Ip75CdBXLQ7CeKjFYsMq+CrPDdenHuU0u2wGJR85msB2LRMQDqAuncpYm7A4zOiDs/VhBeAl5CZgFsFb6iYaIz2th3LlB5FDxV5YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767620439; c=relaxed/simple;
-	bh=x4FbGO9rb3oDBd7srLGxGoyKvyyHdSRpv19OZNd+OHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XWBlQ0xYP3UJ5QY8dMxkUjrGzHsdbmWR0NnRlMkKhU6QMzV+r5a4Tyg1NUiFCMh2xHmGd1LsMOKD6UJYPWIYRaIc8BYtFeQNd2TE3dq1jcaJTlCUWyxKBWOxuZ3Tg2FhBS3y8rUnYwhLhO7DKDW5AuCGK2qDex3oVjix8/L6VuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=evTaGoQ9; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767620854; c=relaxed/simple;
+	bh=WSOCjjD2DBq0Cb2Rn+veRBCmNUrRwIQn/Krzmz9lGOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JfTM4/nmvH8XHwpIB46zPokBJxy5wmhq2pFqIJSCQq7xH++ulqF0W6Xi6LGAAnPgPFnULSjIR/KSJXUUQssi4khfxdipycaJ8mUQymlidoir7tZvQCysrAv+LY2aBcvgN18gGhRh5893cEERb5fAz9+sLdHHuUbjHTn+ZHGoaYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UHVCKfKJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="evTaGoQ9"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47d211aee52so11017705e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 05:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767620435; x=1768225235; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f1KqtsDg02Q4tg0OrM0LKqtAMxJWRmTEsyj+AQ7lEeQ=;
-        b=evTaGoQ9l965cOyOTnh5VeYas0tCw9526mqa7n8ccT6uk26o1WsIjbUtdKQbDGbx4d
-         G2GkqZOAzx3cG8kDJBRARj1WHAcZp8JBG6V2+xoKtykO4SQSvnFxlQdkrRGYiPmjojNe
-         IdwH0iXrrYMhGOenSzOtBl69bfNzL4tIb/SQ1uszrJUVD4UZBKvBq7VjOkxVT86eauBU
-         fu3Rs0ay8tUh2p57vfgbGKbnK/vsXvASvojK4Kd7UM7Z3+BcDXgn5VILNDkNGCnCHFYk
-         jsL3Dpvs/yOtHsxPsOy2suz8e6pLKLJm8DEMC/vfNW05+rfyc9ywYYRerKXn/pw9sK+K
-         8gjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767620435; x=1768225235;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f1KqtsDg02Q4tg0OrM0LKqtAMxJWRmTEsyj+AQ7lEeQ=;
-        b=nTj0w/7twVsfZm3zy4XrcWAmBZEK67pZbIFchfMRrs9SgxLM9s9Ypp8nifh7q3EGV6
-         A1dWQP/4n6QfdDuEvNGQMdxa6osBg5D9ulbkaEYqhWB29rxhaJRDtbLpnTySUsYn5gOY
-         InP9bkmjueXwZPShI9FgRyb7ZuarhtKZF3CfeBrfClibnN7GANbf6FJEIjUEJHsarLAx
-         ZKwu+LEQEuDZO2YyHLJgbqzeBiADnxwPRgubiyYHRKBUYnJHU0j0EO2TEu5+Z9CEuXH8
-         PRKTLLfOjTkYNJKvT0lpn0t224MihuFxk+R6FDTi2AuGhuy5Z/G5IgU4ypgl78MQYP3c
-         R/Kg==
-X-Forwarded-Encrypted: i=1; AJvYcCVc7CauX+3NV3Na5rKzS2x1yqZjtsp8MW8wDt86HZx8RJwd+PYugbgQAZ8c47IsBd92OpK+fVmoDus=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwykI7l4334jFJwCvOPjp8OyWW6PNX2z2QMqVaEkUPB+ut1hLi7
-	WxsVS6FqI2qA0e6yp/WVCQLqKAFG0xJxWqc9WbVLND/rbqmzU1TfB1BrPya62v3qEDo=
-X-Gm-Gg: AY/fxX54f73mw8Qjv0pWXjTZgXSDNPnjW35WUiL9pSSeOvvIpGPJrJLeiokL5EjqYJs
-	aZBDERAizd3BOkHQPfU1fB8XkGsgX56RaAMKEcyOh4yAOODnlAl2VZ1zqQGPjH1ya/cBT3Iqu6M
-	WRY/DmOW3CHeYeB83sFeRi1guIy4rAHUTqrAHworNMzszIlVZh6nBCJFhbqMysbsNoblx6pBqQN
-	kRwIy+mhkOAHl80owxAfbCOXUn+qj8BneZ2vq6vJA+hesHi6Pwg65QksIJY8ugHRjvUwUU7/XLY
-	ZGL+o9E8FW5pFbb1A7YmcR3ZbkWVPLvDkjwoiewWrmJGOL2EGLDeXNtywRe6DvoEB5AS/nPZ78o
-	OfhZX2RG4tZugyJ0tQ03DcNcx19GnPODeNTlXwyxXTVMIy/hovHSzWtIhNCh8/Bpec62NxvWjCP
-	/H/kR8Ox9ziPHgjcV8qiLJK9pmqCi0z0eDbpkEzgPmOKrh0VS3Xf8kSw1Em+wdS4oolcCQxXhK2
-	i8v
-X-Google-Smtp-Source: AGHT+IFwXSkFSnAzDpXmvBfpaag5Ig2x/hY7lR/fPaiKG8l/aTMnGjVbJNKYUdmZgkyBxJqwrNsd/A==
-X-Received: by 2002:a05:600c:4ed2:b0:477:9c9e:ec7e with SMTP id 5b1f17b1804b1-47d19597517mr371677315e9.6.1767620434763;
-        Mon, 05 Jan 2026 05:40:34 -0800 (PST)
-Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6be2ce32sm61878015e9.2.2026.01.05.05.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 05:40:34 -0800 (PST)
-Date: Mon, 5 Jan 2026 14:40:31 +0100
-From: Petr Tesarik <ptesarik@suse.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Olivia Mackall <olivia@selenic.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eugenio =?UTF-8?B?UMOpcmV6?= <eperezma@redhat.com>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, Stefano Garzarella
- <sgarzare@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Leon Romanovsky
- <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Bartosz Golaszewski
- <brgl@kernel.org>, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
- virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 05/15] dma-debug: track cache clean flag in entries
-Message-ID: <20260105144031.2520c81b@mordecai>
-In-Reply-To: <20260105073621-mutt-send-email-mst@kernel.org>
-References: <cover.1767601130.git.mst@redhat.com>
-	<0ffb3513d18614539c108b4548cdfbc64274a7d1.1767601130.git.mst@redhat.com>
-	<20260105105433.5b875ce3@mordecai>
-	<20260105073621-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UHVCKfKJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20030C116D0;
+	Mon,  5 Jan 2026 13:47:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1767620853;
+	bh=WSOCjjD2DBq0Cb2Rn+veRBCmNUrRwIQn/Krzmz9lGOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UHVCKfKJkqg7z/wkGDQGvzk8D1rC5DzLMDhGMrJiwYcARXd49ljj9Rd7Z7EC85sdh
+	 xKwH6ZPVBiJ/CX0qr1SZwvlHFNpsqIIU6Ak0h7HxKzjFLoiGTmcXGrQp4fQnl8S0KY
+	 hjxaC1T6FUzmlGytELuBxWE5mxHdV2V885pKMCkg=
+Date: Mon, 5 Jan 2026 14:47:30 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Zhang Rui <rui.zhang@intel.com>, Armin Wolf <w_armin@gmx.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Subject: Re: [PATCH v1] ACPI: Documentation: driver-api: Disapprove of using
+ ACPI drivers
+Message-ID: <2026010553-capable-chip-88d7@gregkh>
+References: <5977355.DvuYhMxLoT@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5977355.DvuYhMxLoT@rafael.j.wysocki>
 
-On Mon, 5 Jan 2026 07:37:31 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Mon, Jan 05, 2026 at 10:54:33AM +0100, Petr Tesarik wrote:
-> > On Mon, 5 Jan 2026 03:23:10 -0500
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > If a driver is buggy and has 2 overlapping mappings but only
-> > > sets cache clean flag on the 1st one of them, we warn.
-> > > But if it only does it for the 2nd one, we don't.
-> > > 
-> > > Fix by tracking cache clean flag in the entry.
-> > > 
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  kernel/dma/debug.c | 27 ++++++++++++++++++++++-----
-> > >  1 file changed, 22 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
-> > > index 7e66d863d573..43d6a996d7a7 100644
-> > > --- a/kernel/dma/debug.c
-> > > +++ b/kernel/dma/debug.c
-> > > @@ -63,6 +63,7 @@ enum map_err_types {
-> > >   * @sg_mapped_ents: 'mapped_ents' from dma_map_sg
-> > >   * @paddr: physical start address of the mapping
-> > >   * @map_err_type: track whether dma_mapping_error() was checked
-> > > + * @is_cache_clean: driver promises not to write to buffer while mapped
-> > >   * @stack_len: number of backtrace entries in @stack_entries
-> > >   * @stack_entries: stack of backtrace history
-> > >   */
-> > > @@ -76,7 +77,8 @@ struct dma_debug_entry {
-> > >  	int		 sg_call_ents;
-> > >  	int		 sg_mapped_ents;
-> > >  	phys_addr_t	 paddr;
-> > > -	enum map_err_types  map_err_type;
-> > > +	enum map_err_types map_err_type;  
-> > 
-> > *nitpick* unnecessary change in white space (breaks git-blame).
-> > 
-> > Other than that, LGTM. I'm not formally a reviewer, but FWIW:
-> > 
-> > Reviewed-by: Petr Tesarik <ptesarik@suse.com>
-> > 
-> > Petr T  
+On Mon, Jan 05, 2026 at 12:25:04PM +0100, Rafael J. Wysocki wrote:
+> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > 
+> Sadly, there is quite a bit of technical debt related to the
+> kernel's ACPI support subsystem and one of the most significant
+> pieces of it is the existence and use of ACPI drivers represented
+> by struct acpi_driver objects.
 > 
-> I mean, yes it's not really required here, but the padding we had before
-> was broken (two spaces not aligning to anything).
-
-Oh, you're right! Yes, then let's fix it now, because you touch the
-neighbouring line.
-
-Sorry for the noise.
-
-Petr T
-
-> > > +	bool		 is_cache_clean;
-> > >  #ifdef CONFIG_STACKTRACE
-> > >  	unsigned int	stack_len;
-> > >  	unsigned long	stack_entries[DMA_DEBUG_STACKTRACE_ENTRIES];
-> > > @@ -472,12 +474,15 @@ static int active_cacheline_dec_overlap(phys_addr_t cln)
-> > >  	return active_cacheline_set_overlap(cln, --overlap);
-> > >  }
-> > >  
-> > > -static int active_cacheline_insert(struct dma_debug_entry *entry)
-> > > +static int active_cacheline_insert(struct dma_debug_entry *entry,
-> > > +				   bool *overlap_cache_clean)
-> > >  {
-> > >  	phys_addr_t cln = to_cacheline_number(entry);
-> > >  	unsigned long flags;
-> > >  	int rc;
-> > >  
-> > > +	*overlap_cache_clean = false;
-> > > +
-> > >  	/* If the device is not writing memory then we don't have any
-> > >  	 * concerns about the cpu consuming stale data.  This mitigates
-> > >  	 * legitimate usages of overlapping mappings.
-> > > @@ -487,8 +492,16 @@ static int active_cacheline_insert(struct dma_debug_entry *entry)
-> > >  
-> > >  	spin_lock_irqsave(&radix_lock, flags);
-> > >  	rc = radix_tree_insert(&dma_active_cacheline, cln, entry);
-> > > -	if (rc == -EEXIST)
-> > > +	if (rc == -EEXIST) {
-> > > +		struct dma_debug_entry *existing;
-> > > +
-> > >  		active_cacheline_inc_overlap(cln);
-> > > +		existing = radix_tree_lookup(&dma_active_cacheline, cln);
-> > > +		/* A lookup failure here after we got -EEXIST is unexpected. */
-> > > +		WARN_ON(!existing);
-> > > +		if (existing)
-> > > +			*overlap_cache_clean = existing->is_cache_clean;
-> > > +	}
-> > >  	spin_unlock_irqrestore(&radix_lock, flags);
-> > >  
-> > >  	return rc;
-> > > @@ -583,20 +596,24 @@ DEFINE_SHOW_ATTRIBUTE(dump);
-> > >   */
-> > >  static void add_dma_entry(struct dma_debug_entry *entry, unsigned long attrs)
-> > >  {
-> > > +	bool overlap_cache_clean;
-> > >  	struct hash_bucket *bucket;
-> > >  	unsigned long flags;
-> > >  	int rc;
-> > >  
-> > > +	entry->is_cache_clean = !!(attrs & DMA_ATTR_CPU_CACHE_CLEAN);
-> > > +
-> > >  	bucket = get_hash_bucket(entry, &flags);
-> > >  	hash_bucket_add(bucket, entry);
-> > >  	put_hash_bucket(bucket, flags);
-> > >  
-> > > -	rc = active_cacheline_insert(entry);
-> > > +	rc = active_cacheline_insert(entry, &overlap_cache_clean);
-> > >  	if (rc == -ENOMEM) {
-> > >  		pr_err_once("cacheline tracking ENOMEM, dma-debug disabled\n");
-> > >  		global_disable = true;
-> > >  	} else if (rc == -EEXIST &&
-> > > -		   !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_CPU_CACHE_CLEAN)) &&
-> > > +		   !(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
-> > > +		   !(entry->is_cache_clean && overlap_cache_clean) &&
-> > >  		   !(IS_ENABLED(CONFIG_DMA_BOUNCE_UNALIGNED_KMALLOC) &&
-> > >  		     is_swiotlb_active(entry->dev))) {
-> > >  		err_printk(entry->dev, entry,  
+> Those drivers are bound directly to struct acpi_device objects, also
+> referred to as "ACPI device nodes", representing device objects in the
+> ACPI namespace defined as:
 > 
+>  A hierarchical tree structure in OS-controlled memory that contains
+>  named objects. These objects may be data objects, control method
+>  objects, bus/device package objects, and so on.
+> 
+> according to the ACPI specification [1].
+> 
+> The above definition implies, although rather indirectly, that the
+> objects in question don't really represent hardware.  They are just
+> "device package objects" containing some information on the devices
+> present in the given platform that is known to the platform firmware.
+> 
+> Although the platform firmware can be the only source of information on
+> some devices, the information provided by it alone may be insufficient
+> for device enumeration in general.  If that is the case, bindig a driver
+> directly to a given ACPI device node clearly doesn't make sense.  If
+> the device in question is enumerated through a hardware interface, it
+> will be represented by a device object matching that interface, like
+> a struct pci_dev, and the ACPI device node corresponding to it will be
+> treated as its "ACPI companions" whose role is to amend the "native"
+> enumeration mechanism.
+> 
+> For the sake of consistency and confusion avoidance, it is better to
+> treat ACPI device nodes in general as ACPI companions of other device
+> objects representing hardware.  In some cases though it appeared easier
+> to take a shortcut and use an ACPI driver binding directly to an ACPI
+> device node.  Moreover, there were corner cases in which that was the
+> only choice, but they all have been addressed now.
+> 
+> In all cases in which an ACPI driver might be used, the ACPI device
+> node it might bind to is an ACPI companion of another device object
+> representing a piece of hardware.  It is thus better to use a driver
+> binding to the latter than to use an ACPI driver and leave the other
+> device object alone, not just because doing so is more consistent and
+> less confusing, but also because using ACPI drivers may lead to
+> potential functional deficiencies, like possible ordering issues
+> related to power management.
+> 
+> Unfortunately, there are quite a few ACPI drivers in use and, as a rule,
+> they bind to ACPI device nodes that are ACPI companions of platform
+> devices, so in fact they play the role of platform drivers although in
+> a kind of convoluted way.  An effort has been under way to replace them
+> with platform drivers, which is relatively straightforward in the vast
+> majority of cases, but it has not been pursued very aggressively so far,
+> mostly due to the existence of the corner cases mentioned above.
+> However, since those corner cases are gone now, it makes sense to spend
+> more time on driver conversions with the ultimate goal to get rid of
+> struct acpi_driver and the related code from the kernel.
+> 
+> To that end, add a document explaining why using ACPI drivers is not
+> a good idea, so it need not be explained from scratch on every attempt
+> to convert an ACPI driver to a platform one.
+> 
+> Link: https://uefi.org/specs/ACPI/6.6/02_Definition_of_Terms.html#term-ACPI-Namespace [1]
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+> 
+> Although this patch can be applied independently, it actually depends on
+> some ACPI changes in linux-next and on
+> 
+> https://lore.kernel.org/linux-acpi/12824456.O9o76ZdvQC@rafael.j.wysocki/
+> 
+> so it is better to handle it along with that material.
+> 
+> ---
+>  Documentation/driver-api/acpi/acpi-drivers.rst |   80 +++++++++++++++++++++++++
+>  Documentation/driver-api/acpi/index.rst        |    1 
+>  2 files changed, 81 insertions(+)
 
+Documenting this is fine, but really, just moving all of the existing
+drivers to not use this and deleting the api entirely might be simplest.
+Looks like the only "new" acpi drivers that show up are in the
+platform/x86/ subsystem, so just tell the maintainers there not to take
+any new ones?
+
+thanks,
+
+greg k-h
