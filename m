@@ -1,136 +1,163 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8A82C237E;
-	Mon,  5 Jan 2026 01:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EDF229B18;
+	Mon,  5 Jan 2026 03:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767576918; cv=none; b=rKHPVNs8SGOtsUkE83CO6l0JJ77q1F0RM6mpnxWEHn4xMqRQ9KrBMgW62ug/PVf5GEU+PnJZhgOeg0K1b9LUvpWY6F9t9db1la0wbgkiKL4X72FfZBTR2c2qwc0se1AM+nB39n3sosTHwlos4dJOaps88y6pplkHTpcHO5RYWtg=
+	t=1767582813; cv=none; b=naQtvpKOWxcP2NGkuqCpfS7HYS8760bP4sGcZ8AwgcluJYeQpgCSF+3rFANJz8VPpZdfeTlXsZXF2f3wUr4wHjogFjJdGq5z6TO0G1KjJBHCxs+8R2aqvj5jqhRytEQqLLftcSYaN8bH4WiPvzRdXlXHh4p5mbxgQSMMd3yeuL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767576918; c=relaxed/simple;
-	bh=RLCWgAT7OoqppGQPFm3yCg9ZTTzgCn3HJ1W/8IuTx2w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qD+gTc7J9/yCyGX+nSArbHkxNe5kQJLR6hWDsqYYC3kODjZfwUP2PeflViqKrNgiVE/gjTYfrHs/KSHySiUJRrCwPHcOTGk8yxtijFLID6a6uwSt9o6E89vNHH7D7oSEMRFLteHi4MEVuTm8yTkrjvtiW+M+b7gUJm22ZticBb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dkxfx4zvBzKHMYH;
-	Mon,  5 Jan 2026 09:34:33 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 3254B40574;
-	Mon,  5 Jan 2026 09:35:11 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP4 (Coremail) with SMTP id gCh0CgAn1vZNFVtp7T+rCg--.60656S2;
-	Mon, 05 Jan 2026 09:35:11 +0800 (CST)
-Message-ID: <7a3ec392-2e86-4693-aa9f-1e668a668b9c@huaweicloud.com>
-Date: Mon, 5 Jan 2026 09:35:09 +0800
+	s=arc-20240116; t=1767582813; c=relaxed/simple;
+	bh=OhXaNpnM88uh60zV9MNuNq/p2Ngch3J4Uz1jYdED/Qo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sihUoz3fcH+mj1YjMOCkRiiGv2aY5dvN5VZwZA9oe/KcyByeCyfWOEa72j8vvFFym956vy/ZJ0RDtDqBkR6ocMy1Frjtzl0K8AIlZubXBXl3CSRYFB+g3sw/gNzy9h6LxheYII4gQN2n7bUgR5vo8aUZS9KOjJDiSCghT0SNC/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=1KGt/28C; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="1KGt/28C"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Avf6Loonv93Or49Wuy8lkOEDMIA95ehEwIKvt2FV9KE=;
+	b=1KGt/28CYPhnLS8QdHM7vqp52FcGx1qvWqibzkZcTJeMdvCJHwJAb/pm/ZY5Lxv9CJZtnoLGj
+	FsUrouhoKJm3u1bWFuGt8V798lqBC/LX5Zf2LZsW3YIWaFoKPriE/gW/rNtnWfLmMKB4jtesFqK
+	GBuJ6hrzOIAjPse2NCmSNlU=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4dkznF2J87zLm0y;
+	Mon,  5 Jan 2026 11:10:09 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id ABDE64057C;
+	Mon,  5 Jan 2026 11:13:22 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Mon, 5 Jan 2026 11:13:21 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan Chebbi
+	<pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Shen Chenyang
+	<shenchenyang1@hisilicon.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Luo Yang
+	<luoyang82@h-partners.com>
+Subject: [PATCH net-next v08 0/9] net: hinic3: PF initialization
+Date: Mon, 5 Jan 2026 11:13:03 +0800
+Message-ID: <cover.1767495881.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [cgroup/for-6.20 PATCH v2 3/4] cgroup/cpuset: Don't fail
- cpuset.cpus change in v2
-To: Waiman Long <llong@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>
-References: <20260101191558.434446-1-longman@redhat.com>
- <20260101191558.434446-4-longman@redhat.com>
- <efdcd90c-95ed-4cfc-af9a-3dc0e8f0a488@huaweicloud.com>
- <6eedf67b-3538-4fd1-903b-b7d8db4ff43d@redhat.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <6eedf67b-3538-4fd1-903b-b7d8db4ff43d@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAn1vZNFVtp7T+rCg--.60656S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuF4fCFW3ZrWUJr43tF15XFb_yoW5GrWxpF
-	WUKFy3tan0gFy2kws2q3Z7Xr1Fqa1Iy3WDArs8Jrn7C390gFnYyF4vyFn8u347Gw4rua1Y
-	yrW3ZrW5XF1DA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
-	7KsUUUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
+
+This is [1/3] part of hinic3 Ethernet driver second submission.
+With this patch hinic3 becomes a complete Ethernet driver with
+pf and vf.
+
+The driver parts contained in this patch:
+Add support for PF framework based on the VF code.
+Add PF management interfaces to communicate with HW.
+Add 8 netdev ops to configure NIC features.
+Support mac filter to unicast and multicast.
+Add HW event handler to manage port and link status.
+
+Changes:
+
+PATCH 01 V01: https://lore.kernel.org/netdev/cover.1760502478.git.zhuyikai1@h-partners.com/
+
+PATCH 01 V02: https://lore.kernel.org/netdev/cover.1760685059.git.zhuyikai1@h-partners.com/
+* Change the order of hinic3_netdev_event (Jakub Kicinski)
+* Use netdev_hold/put instead of dev_hold/put (Jakub Kicinski)
+* Remove the semicolon at the end of switch case (Jakub Kicinski)
+* Remove redundant PF judgement in hinic3_rx_tx_flush (Paven Chebbi)
+* change hinic3_send_mbox_to_mgmt errcode to EFAULT (Paven Chebbi)
+* Optimize hinic3_set_bdf_ctxt parameters (Paven Chebbi)
+* Modify main and CC recipients (Markus Elfring)
+
+PATCH 01 V03: https://lore.kernel.org/netdev/cover.1761362580.git.zhuyikai1@h-partners.com/
+* Use disable_delayed_work_sync instead of cancel_delayed_work_sync (Paolo Abeni)
+* Fill in the missing hinic3_sync_time & hinic3_free_ppf_work (Paolo Abeni)
+* Refactor hinic3_mac_filter_sync to implement linux coding style(err label)
+  and improve readability (Paolo Abeni & Markus Elfring)
+
+PATCH 01 V04: https://lore.kernel.org/netdev/cover.1761711549.git.zhuyikai1@h-partners.com/
+* Use linux error value(EADDRINUSE) instead of custom value in set_mac (Simon Horman)
+* Use "hinic3_check_pf_set_vf_already" function instead of macro (Simon Horman)
+
+PATCH 01 V05: https://lore.kernel.org/netdev/cover.1762414088.git.zhuyikai1@h-partners.com/
+* Code format fixes: wrap the code at 80 characters (Jakub Kicinski)
+* Use str_up_down instead of ternary expression (Simon Horman)
+* Remove needless override of error value (Simon Horman)
+
+PATCH 01 V06: https://lore.kernel.org/netdev/cover.1762581665.git.zhuyikai1@h-partners.com/
+* Update dev_err messages (ALOK TIWARI)
+* Remove redundant codes "message from vf" in get_mbox_msg_desc (ALOK TIWARI)
+* Code spell fix (ALOK TIWARI)
+* Modfiy hinic3_uc_sync/unsync to hinic3_filter_mac_sync/unsync (ALOK TIWARI)
+* Modify hinic3_mac_filter_sync_hw to return error code (ALOK TIWARI)
+
+PATCH 01 V07: https://lore.kernel.org/netdev/cover.1763555878.git.zhuyikai1@h-partners.com/
+* Change port_state_sem to mutex (Jakub Kicinski)
+* Use DIM infrastructure to change itr moderation configuration (Jakub Kicinski)
+* Remove redundant TX TIMEOUT counter (Jakub Kicinski)
+* Use txqueue in tx_timeout instead of searching for timeout queue (Jakub Kicinski)
+* Remove redundant initialization to ndev features with more than 1
+  vlan depth. (Jakub Kicinski)
+* Split patch for one single thing and optimize commit information (Jakub Kicinski)
+
+Patch 01 V08:
+* Remove netdev notifier interfaces and use ndo_features_check to solve packets
+  with multiple vlan tags instead of using vlan_features (Paolo Abeni)
+
+Fan Gong (9):
+  hinic3: Add PF framework
+  hinic3: Add PF management interfaces
+  hinic3: Add .ndo_tx_timeout and .ndo_get_stats64
+  hinic3: Add .ndo_set_features and .ndo_fix_features
+  hinic3: Add .ndo_features_check
+  hinic3: Add .ndo_vlan_rx_add/kill_vid and .ndo_validate_addr
+  hinic3: Add adaptive IRQ coalescing with DIM
+  hinic3: Add mac filter ops
+  hinic3: Add HW event handler
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   1 +
+ .../net/ethernet/huawei/hinic3/hinic3_csr.h   |   6 +
+ .../ethernet/huawei/hinic3/hinic3_filter.c    | 416 ++++++++++++++++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 115 +++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |   6 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  24 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.c |  97 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.h |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  |  90 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  23 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |  97 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   |  53 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  | 181 +++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.c  |  47 +-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.h  |   2 +
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.c  | 311 ++++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |  53 +++
+ .../huawei/hinic3/hinic3_mgmt_interface.h     |  69 +++
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 378 ++++++++++++++++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 284 +++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  47 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  60 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |  16 +
+ 24 files changed, 2382 insertions(+), 36 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_filter.c
 
 
-
-On 2026/1/5 5:48, Waiman Long wrote:
-> On 1/4/26 2:09 AM, Chen Ridong wrote:
->>
->> On 2026/1/2 3:15, Waiman Long wrote:
->>> Commit fe8cd2736e75 ("cgroup/cpuset: Delay setting of CS_CPU_EXCLUSIVE
->>> until valid partition") introduced a new check to disallow the setting
->>> of a new cpuset.cpus.exclusive value that is a superset of a sibling's
->>> cpuset.cpus value so that there will at least be one CPU left in the
->>> sibling in case the cpuset becomes a valid partition root. This new
->>> check does have the side effect of failing a cpuset.cpus change that
->>> make it a subset of a sibling's cpuset.cpus.exclusive value.
->>>
->>> With v2, users are supposed to be allowed to set whatever value they
->>> want in cpuset.cpus without failure. To maintain this rule, the check
->>> is now restricted to only when cpuset.cpus.exclusive is being changed
->>> not when cpuset.cpus is changed.
->>>
->> Hi, Longman,
->>
->> You've emphasized that modifying cpuset.cpus should never fail. While I haven't found this
->> explicitly documented. Should we add it?
->>
->> More importantly, does this mean the "never fail" rule has higher priority than the exclusive CPU
->> constraints? This seems to be the underlying assumption in this patch.
-> 
-> Before the introduction of cpuset partition, writing to cpuset.cpus will only fail if the cpu list
-> is invalid like containing CPUs outside of the valid cpu range. What I mean by "never-fail" is that
-> if the cpu list is valid, the write action should not fail. The rule is not explicitly stated in the
-> documentation, but it is a pre-existing behavior which we should try to keep to avoid breaking
-> existing applications.
-> 
-
-There are two conditions that can cause a cpuset.cpus write operation to fail: ENOSPC (No space left
-on device) and EBUSY.
-
-I just want to ensure the behavior aligns with our design intent.
-
-Consider this example:
-
-# cd /sys/fs/cgroup/
-# mkdir test
-# echo 1 > test/cpuset.cpus
-# echo $$ > test/cgroup.procs
-# echo 0 > /sys/devices/system/cpu/cpu1/online
-# echo > test/cpuset.cpus
--bash: echo: write error: No space left on device
-
-In cgroups v2, if the test cgroup becomes empty, it could inherit the parent's effective CPUs. My
-question is: Should we still fail to clear cpuset.cpus (returning an error) when the cgroup is
-populated?
-
-> The exclusive CPU constraint does not apply to cpuset.cpus. It only applies when setting
-> cpuset.cpus.exclusive wrt to other cpuset.cpus.exclusive* in sibling cpusets. So I will not say one
-> has higher priority than the other.
-> 
-> Cheers,
-> Longman
-> 
-
+base-commit: dbf8fe85a16a33d6b6bd01f2bc606fc017771465
 -- 
-Best regards,
-Ridong
+2.43.0
 
