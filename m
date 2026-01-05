@@ -1,282 +1,170 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B048320383;
-	Mon,  5 Jan 2026 16:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408C3309DA5
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 17:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767632348; cv=none; b=sGRHYEFjLYt6c/myVyGrpAfzLtwhhNz9IIGZejR3FLFZlo9QyuCSYSjmjiAbjuieVnKAvYwiLVA4nQxUxL06oRSqEi2w6LAXYApe2ygmmQRABk83avrA83Jl8jRRweW/edFsXH00XqArrLjq7lwOF5iphjmnjHvSYtmm5/GEowI=
+	t=1767635607; cv=none; b=uk+fM3PnTx0yNoq4tHDNVMbRRZa3zgcmVmluW25K9uqBNYj6LoHc8IiX6sTlyMywT2P4M8oqd9eaVBF2oo4w5y87HpDjpgzsJ6AJ3SMbMuDL4bmRslITbAwCPBDysyGmpFjpVslTGY9WwwpaW/PZj4GEcK3XiJ0paf9zH38ZnvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767632348; c=relaxed/simple;
-	bh=C6eql9p/ad94rcfI0wx8v7YVZgYVcqqRLJPOYgSXxaU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bgYAJfkFFIZ0x2hYpHNai9klbOxFzQebP2jVdlp9LCjioL/wnaA8u0gsk/wzatR4uuh8aJ85bg113y5LEln4bEeBnEaVqEMBCXiXyLL3YJIrhw36u5A9Ghuz3xl25lX8iYab1YGqlv4eiC4pdjL+/gAqnYBW0qJR7uR6PsDHErs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KTXXkEaS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767635607; c=relaxed/simple;
+	bh=Ux87hSa/68cLrLbR1ZzCFUiDvj3dhNvAwil2Gxc0MrA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s0ndZsKdaxBeWj3lF8M3Ue0LMBuKsk9Qraa5VPEncouhNmbQ7wUfGwOEk7hdHhpaMLnQSSm/r46l3vW9Vsu0EM991VzhrTaFzcYndJ2TXk+JsmReP6/1KYyZBRCBsH3gtDr6HEhH1mt1BNZjvDzhX/JbXwi4jp+8nBUvFrzr4vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOnxwGmN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KTXXkEaS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1201C116D0;
-	Mon,  5 Jan 2026 16:59:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOnxwGmN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C500FC2BC86
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 17:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767632345;
-	bh=C6eql9p/ad94rcfI0wx8v7YVZgYVcqqRLJPOYgSXxaU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KTXXkEaSn1qSxmg3X/H4hpPTj0ClyfZ0VysM8X/evDibdhBNIEqIpqRTQiHLfPSjQ
-	 O7cxUL8dwnJPNV259iK2NZZUMClYbezs/R9K+JVV2srthxxDylExf3BuBp+3F3/GgF
-	 OSIAlUaW5DCi2dZ4sAijlXSrA6oEVkWVQAq/MQZwjsMjjrtQ+hMCrFbqca/GnfLPpN
-	 MfJicZnI0UTrfyEtipvhHGOkYeOLG1rGZTYXneZMG8ubqf6oFNYu1ZSZmlMYraCajg
-	 44v/uE4G6GkGajG4xib9kC19CZgwZSBUyC41Y8ZY1WYAtWUZYmgfHtbHep7r9zOmDt
-	 L+LgHDoV0hiDg==
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Graf <graf@amazon.com>,
-	Jason Miu <jasonmiu@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 6/6] kho/abi: add memblock ABI header
-Date: Mon,  5 Jan 2026 18:58:39 +0200
-Message-ID: <20260105165839.285270-7-rppt@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260105165839.285270-1-rppt@kernel.org>
-References: <20260105165839.285270-1-rppt@kernel.org>
+	s=k20201202; t=1767635606;
+	bh=Ux87hSa/68cLrLbR1ZzCFUiDvj3dhNvAwil2Gxc0MrA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lOnxwGmNE/bn7/PZzPU//WPUz3UX3w5bnVpfoKqJxfVA2NzpL2i3eR5zTiOFB1CPe
+	 v9aTnFuoxT8JnT77MUcz7cbYw+b1OA9gFcgox32MEVM8zfcMSrA7CjLk7dD2BkJrsk
+	 Jo8hALRXVndzywcJn1nu4RYXl4tUy4H2zPe6aFI6FbvZLsSkiHCpy2N1B0MwwyULhu
+	 luQv3AEs14pQhAeNBqG21lioYtxsGVU5OAP/EOFgi4OifR8XxMx0e5mdblk4Xts8u1
+	 mbZZVopjPYd7FM7OlqRTNo+OTX6HZs2kZByhV6F1IVolFQtPbV5NeEy0ne3curhwua
+	 NTWYSHstqjrsQ==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-3ece54945d9so88765fac.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 09:53:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVAIsr4wjenbPjEYkNjNfS04QX/5DtLIZhrsUz8bNemvoLl0n89L3dOxyExlQHPdtkgWn2hDUOpuc8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzp2nm0Ew6344pTZKMOTPvmnX9g3RRc1ugbyaxlzRtksJP54Li5
+	NRJAUnNEjlIzDn17Ds5Xv7O0FhtskcplhK9J0cK1Ua5aaCHbzUNwFOHDFjzVde3Xsj7bBhJBJDx
+	MVvSSiaY1kUv32aKGE0I+X/OpaFSjld0=
+X-Google-Smtp-Source: AGHT+IFhF5egrl4ZCq8xWFr+RoYVu40Zi1s5l8ky0E1Xv2jtj/ZH7g9+rHUhIzI9ZvmtV4nxRcx3nQAMiifxAdK2cSw=
+X-Received: by 2002:a4a:c3c8:0:b0:65c:fdd9:6f54 with SMTP id
+ 006d021491bc7-65f47a682a6mr105538eaf.69.1767635605624; Mon, 05 Jan 2026
+ 09:53:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <5977355.DvuYhMxLoT@rafael.j.wysocki> <2026010553-capable-chip-88d7@gregkh>
+In-Reply-To: <2026010553-capable-chip-88d7@gregkh>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 5 Jan 2026 18:53:13 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jnnYyOnc5s4FijXS9sAyu5Mpgc4KLmR6DV-oTUwqttKA@mail.gmail.com>
+X-Gm-Features: AQt7F2r5D6vvyl6-k8-gOfwQtYVwQ1cHwnr-uoTCiiXrBJyk7eWn5JiDgK2rNSA
+Message-ID: <CAJZ5v0jnnYyOnc5s4FijXS9sAyu5Mpgc4KLmR6DV-oTUwqttKA@mail.gmail.com>
+Subject: Re: [PATCH v1] ACPI: Documentation: driver-api: Disapprove of using
+ ACPI drivers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <helgaas@kernel.org>, 
+	Hans de Goede <hansg@kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Zhang Rui <rui.zhang@intel.com>, 
+	Armin Wolf <w_armin@gmx.de>, Danilo Krummrich <dakr@kernel.org>, 
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On Mon, Jan 5, 2026 at 2:47=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Jan 05, 2026 at 12:25:04PM +0100, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > Sadly, there is quite a bit of technical debt related to the
+> > kernel's ACPI support subsystem and one of the most significant
+> > pieces of it is the existence and use of ACPI drivers represented
+> > by struct acpi_driver objects.
+> >
+> > Those drivers are bound directly to struct acpi_device objects, also
+> > referred to as "ACPI device nodes", representing device objects in the
+> > ACPI namespace defined as:
+> >
+> >  A hierarchical tree structure in OS-controlled memory that contains
+> >  named objects. These objects may be data objects, control method
+> >  objects, bus/device package objects, and so on.
+> >
+> > according to the ACPI specification [1].
+> >
+> > The above definition implies, although rather indirectly, that the
+> > objects in question don't really represent hardware.  They are just
+> > "device package objects" containing some information on the devices
+> > present in the given platform that is known to the platform firmware.
+> >
+> > Although the platform firmware can be the only source of information on
+> > some devices, the information provided by it alone may be insufficient
+> > for device enumeration in general.  If that is the case, bindig a drive=
+r
+> > directly to a given ACPI device node clearly doesn't make sense.  If
+> > the device in question is enumerated through a hardware interface, it
+> > will be represented by a device object matching that interface, like
+> > a struct pci_dev, and the ACPI device node corresponding to it will be
+> > treated as its "ACPI companions" whose role is to amend the "native"
+> > enumeration mechanism.
+> >
+> > For the sake of consistency and confusion avoidance, it is better to
+> > treat ACPI device nodes in general as ACPI companions of other device
+> > objects representing hardware.  In some cases though it appeared easier
+> > to take a shortcut and use an ACPI driver binding directly to an ACPI
+> > device node.  Moreover, there were corner cases in which that was the
+> > only choice, but they all have been addressed now.
+> >
+> > In all cases in which an ACPI driver might be used, the ACPI device
+> > node it might bind to is an ACPI companion of another device object
+> > representing a piece of hardware.  It is thus better to use a driver
+> > binding to the latter than to use an ACPI driver and leave the other
+> > device object alone, not just because doing so is more consistent and
+> > less confusing, but also because using ACPI drivers may lead to
+> > potential functional deficiencies, like possible ordering issues
+> > related to power management.
+> >
+> > Unfortunately, there are quite a few ACPI drivers in use and, as a rule=
+,
+> > they bind to ACPI device nodes that are ACPI companions of platform
+> > devices, so in fact they play the role of platform drivers although in
+> > a kind of convoluted way.  An effort has been under way to replace them
+> > with platform drivers, which is relatively straightforward in the vast
+> > majority of cases, but it has not been pursued very aggressively so far=
+,
+> > mostly due to the existence of the corner cases mentioned above.
+> > However, since those corner cases are gone now, it makes sense to spend
+> > more time on driver conversions with the ultimate goal to get rid of
+> > struct acpi_driver and the related code from the kernel.
+> >
+> > To that end, add a document explaining why using ACPI drivers is not
+> > a good idea, so it need not be explained from scratch on every attempt
+> > to convert an ACPI driver to a platform one.
+> >
+> > Link: https://uefi.org/specs/ACPI/6.6/02_Definition_of_Terms.html#term-=
+ACPI-Namespace [1]
+> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > ---
+> >
+> > Although this patch can be applied independently, it actually depends o=
+n
+> > some ACPI changes in linux-next and on
+> >
+> > https://lore.kernel.org/linux-acpi/12824456.O9o76ZdvQC@rafael.j.wysocki=
+/
+> >
+> > so it is better to handle it along with that material.
+> >
+> > ---
+> >  Documentation/driver-api/acpi/acpi-drivers.rst |   80 ++++++++++++++++=
++++++++++
+> >  Documentation/driver-api/acpi/index.rst        |    1
+> >  2 files changed, 81 insertions(+)
+>
+> Documenting this is fine, but really, just moving all of the existing
+> drivers to not use this and deleting the api entirely might be simplest.
 
-Introduce KHO ABI header describing preservation ABI for memblock's
-reserve_mem regions and link the relevant documentation to KHO docs.
+That's the final goal, but there are ~45 ACPI drivers in the tree (as
+of my current linux-next branch) in several different subsystems, so
+it may take a few cycles to convert all of them.
 
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- Documentation/core-api/kho/abi.rst            |  6 ++
- .../kho/bindings/memblock/memblock.yaml       | 39 ----------
- .../kho/bindings/memblock/reserve-mem.yaml    | 40 -----------
- include/linux/kho/abi/memblock.h              | 72 +++++++++++++++++++
- mm/memblock.c                                 |  4 +-
- 5 files changed, 79 insertions(+), 82 deletions(-)
- delete mode 100644 Documentation/core-api/kho/bindings/memblock/memblock.yaml
- delete mode 100644 Documentation/core-api/kho/bindings/memblock/reserve-mem.yaml
- create mode 100644 include/linux/kho/abi/memblock.h
+Also, I'm not expecting this doc to ever change, so reverting the
+commit adding it when all of the ACPI drivers have been converted
+should be trivial.
 
-diff --git a/Documentation/core-api/kho/abi.rst b/Documentation/core-api/kho/abi.rst
-index 1d9916adee23..2e63be3486cf 100644
---- a/Documentation/core-api/kho/abi.rst
-+++ b/Documentation/core-api/kho/abi.rst
-@@ -16,6 +16,12 @@ vmalloc preservation ABI
- .. kernel-doc:: include/linux/kho/abi/kexec_handover.h
-    :doc: Kexec Handover ABI for vmalloc Preservation
- 
-+memblock preservation ABI
-+=========================
-+
-+.. kernel-doc:: include/linux/kho/abi/memblock.h
-+   :doc: memblock kexec handover ABI
-+
- See Also
- ========
- 
-diff --git a/Documentation/core-api/kho/bindings/memblock/memblock.yaml b/Documentation/core-api/kho/bindings/memblock/memblock.yaml
-deleted file mode 100644
-index d388c28eb91d..000000000000
---- a/Documentation/core-api/kho/bindings/memblock/memblock.yaml
-+++ /dev/null
-@@ -1,39 +0,0 @@
--# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
--%YAML 1.2
-----
--title: Memblock reserved memory
--
--maintainers:
--  - Mike Rapoport <rppt@kernel.org>
--
--description: |
--  Memblock can serialize its current memory reservations created with
--  reserve_mem command line option across kexec through KHO.
--  The post-KHO kernel can then consume these reservations and they are
--  guaranteed to have the same physical address.
--
--properties:
--  compatible:
--    enum:
--      - reserve-mem-v1
--
--patternProperties:
--  "$[0-9a-f_]+^":
--    $ref: reserve-mem.yaml#
--    description: reserved memory regions
--
--required:
--  - compatible
--
--additionalProperties: false
--
--examples:
--  - |
--    memblock {
--      compatible = "memblock-v1";
--      n1 {
--        compatible = "reserve-mem-v1";
--        start = <0xc06b 0x4000000>;
--        size = <0x04 0x00>;
--      };
--    };
-diff --git a/Documentation/core-api/kho/bindings/memblock/reserve-mem.yaml b/Documentation/core-api/kho/bindings/memblock/reserve-mem.yaml
-deleted file mode 100644
-index 10282d3d1bcd..000000000000
---- a/Documentation/core-api/kho/bindings/memblock/reserve-mem.yaml
-+++ /dev/null
-@@ -1,40 +0,0 @@
--# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
--%YAML 1.2
-----
--title: Memblock reserved memory regions
--
--maintainers:
--  - Mike Rapoport <rppt@kernel.org>
--
--description: |
--  Memblock can serialize its current memory reservations created with
--  reserve_mem command line option across kexec through KHO.
--  This object describes each such region.
--
--properties:
--  compatible:
--    enum:
--      - reserve-mem-v1
--
--  start:
--    description: |
--      physical address (u64) of the reserved memory region.
--
--  size:
--    description: |
--      size (u64) of the reserved memory region.
--
--required:
--  - compatible
--  - start
--  - size
--
--additionalProperties: false
--
--examples:
--  - |
--    n1 {
--      compatible = "reserve-mem-v1";
--      start = <0xc06b 0x4000000>;
--      size = <0x04 0x00>;
--    };
-diff --git a/include/linux/kho/abi/memblock.h b/include/linux/kho/abi/memblock.h
-new file mode 100644
-index 000000000000..fbfb2eb1b1cf
---- /dev/null
-+++ b/include/linux/kho/abi/memblock.h
-@@ -0,0 +1,72 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _LINUX_KHO_ABI_MEMBLOCK_H
-+#define _LINUX_KHO_ABI_MEMBLOCK_H
-+
-+/**
-+ * DOC: memblock kexec handover ABI
-+ *
-+ * Memblock can serialize its current memory reservations created with
-+ * reserve_mem command line option across kexec through KHO.
-+ * The post-KHO kernel can then consume these reservations and they are
-+ * guaranteed to have the same physical address.
-+ *
-+ * The state is serialized using Flattened Device Tree (FDT) format. Any
-+ * modification to the FDT structure, node properties, or the compatible
-+ * strings constitutes a breaking change. Such changes require incrementing the
-+ * version number in the relevant `_COMPATIBLE` string to prevent a new kernel
-+ * from misinterpreting data from an old kernel.
-+ *
-+ * Changes are allowed provided the compatibility version is incremented.
-+ * However, backward/forward compatibility is only guaranteed for kernels
-+ * supporting the same ABI version.
-+ *
-+ * FDT Structure Overview:
-+ *   The entire memblock state is encapsulated within a single KHO entry named
-+ *   "memblock".
-+ *   This entry contains an FDT with the following layout:
-+ *
-+ *   .. code-block:: none
-+ *
-+ *	/ {
-+ *		compatible = "memblock-v1";
-+ *
-+ *		n1 {
-+ *			compatible = "reserve-mem-v1";
-+ *			start = <0xc06b 0x4000000>;
-+ *			size = <0x04 0x00>;
-+ *		};
-+ *	};
-+ *
-+ * Main memblock node (/):
-+ *
-+ *   - compatible: "memblock-v1"
-+
-+ *     Identifies the overall memblock ABI version.
-+ *
-+ * reserved_mem node:
-+ *   These nodes describe all reserve_mem regions.
-+ *
-+ *   - compatible: "reserve-mem-v1"
-+ *
-+ *     Identifies the ABI version of reserve_mem descriptions
-+ *
-+ *   - start: u64
-+ *
-+ *     Physical address of the reserved memory region.
-+ *
-+ *   - size: u64
-+ *
-+ *     size in bytes of the reserved memory region.
-+ */
-+
-+/* Top level memblock FDT node name. */
-+#define MEMBLOCK_KHO_FDT "memblock"
-+
-+/* The compatible string for the memblock FDT root node. */
-+#define MEMBLOCK_KHO_NODE_COMPATIBLE "memblock-v1"
-+
-+/* The compatible string for the reserve_mem FDT nodes. */
-+#define RESERVE_MEM_KHO_NODE_COMPATIBLE "reserve-mem-v1"
-+
-+#endif /* _LINUX_KHO_ABI_MEMBLOCK_H */
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 905d06b16348..6cff515d82f4 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -21,6 +21,7 @@
- #ifdef CONFIG_KEXEC_HANDOVER
- #include <linux/libfdt.h>
- #include <linux/kexec_handover.h>
-+#include <linux/kho/abi/memblock.h>
- #endif /* CONFIG_KEXEC_HANDOVER */
- 
- #include <asm/sections.h>
-@@ -2442,9 +2443,6 @@ int reserve_mem_release_by_name(const char *name)
- }
- 
- #ifdef CONFIG_KEXEC_HANDOVER
--#define MEMBLOCK_KHO_FDT "memblock"
--#define MEMBLOCK_KHO_NODE_COMPATIBLE "memblock-v1"
--#define RESERVE_MEM_KHO_NODE_COMPATIBLE "reserve-mem-v1"
- 
- static int __init reserved_mem_preserve(void)
- {
--- 
-2.51.0
+> Looks like the only "new" acpi drivers that show up are in the
+> platform/x86/ subsystem, so just tell the maintainers there not to take
+> any new ones?
 
+That's one of the goals of this posting. :-)
