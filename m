@@ -1,122 +1,155 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF07280331
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 21:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15636233D85
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 23:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767649627; cv=none; b=NLrjf9OGkFghkKQY45SEjQGXrwbCFlFB9HUQYn9VXAwD2a112Zh7APVmSIUOaKAsNLfH0H4nq2Dpk7VKAVVego+zb9+5pXFHkzlf8nha7bUWx3numplvdhx+x0yNCzl/MWdcKNglqujhA6LQCyvxA2ehyDGm4eh8iI16zrNAOJg=
+	t=1767657556; cv=none; b=M7Mw9ZtBWdqNRSUfWywve99Z9I6QLvkPb2q+s7j08eLpCiE5mTDS23pgHSvOH+qIiphFE+a90GTo7DWBBtILHNTrpn19hVdr+nEDvZst1I+2xImctS8VwV2G9fFnnu4XQNtslcFmQ8BHmTA8Bj984bggJ+cgdvwCISWVo1JyYgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767649627; c=relaxed/simple;
-	bh=J+Gx8dgtaDaOCa6guNpPMY4R9ECDi2V64ShI87ufFus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XjlHqBJryFDzypsUJN5wk7+CiRKHf9kKkeWuO9pZUjSMtZ7VYYffP4IZSDBOQv/3MnRLyWvgfqGYK1fvHR7J5p31jIX0CwaKXLYgEZnHC048v3LaCTExSUL+U/PaSlUueYFraEbyMzpKef3AahOcjqQQdMiDkN82YLos2O7jvyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Difh1j+h; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1767657556; c=relaxed/simple;
+	bh=vydIrr+Gml+SlvhYbGq0p6Gx/f1mOX2506u2ezdMwxc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OPSr/f/v9olbypYJTDKKJQ5xTcsRFMN9vYkgGEImLPtUCgBaCL5m8RbjuZx4xLxfxDQVo8zFJKGAB++GoA9A7Oyb6d/CEDXbvMTSb7hqroVpCV91XMxEC9b3NbsrlqLOA9F+QFOpgspuLVXVttX6MX6LnZzMP9aeS15mg2NaOT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cNTRF0LF; arc=none smtp.client-ip=209.85.214.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Difh1j+h"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34e90f7b49cso366918a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 13:47:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cNTRF0LF"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2a09d981507so3398425ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 15:59:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767649625; x=1768254425; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WwkCXav2lczyWDa/90IeBviOn6NPSdWRMqM4EGa+avA=;
-        b=Difh1j+hNxXGKqQxJXElgvMuPqQv3qnkKjOS85lnvjXICqsaZ/R34aT8Bcl5UMe1o7
-         lHwyyMbs8dlWYpfBK1hWSF2IbUCUzGrudkWJxvWvyhOk6E+aIK9OpdWjxTErhlAXJLcZ
-         Euoy4yKlXwhEsQ0heQ43PXuocPgHq/oX9codLw2sdiAx02gzUzxLqM9equXCZuXI3Qhn
-         G0jujBzkBNF5FbSOitMrSWRtSvOIFHfYRHDOWdhQ00kXmgGmB92ZWhGze4pvxQRHMbrP
-         5ZS95qP2sCIMVecJquK0mtB/XXlegrCZ26cSOJt5KkNEYbQrpvrmxoksqIBJdw9WCE95
-         ap4w==
+        d=gmail.com; s=20230601; t=1767657554; x=1768262354; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Td42PUfrOWAuQeqqyPhN9snX5r+zsGZdxP+4d36YAws=;
+        b=cNTRF0LFDf14zMY/D07mYc4H7AhMRuwnR+cz7bZx9tFlW3oSnQLMDyDGGrt6kNcAyY
+         +d9HGOgIXS4/oxDzAiAPYudaZPQ9Ov39G8t9tT9tM9iNu2BLPDDQACqRta4YOFuJ7ebC
+         UW8ltwL9MkIV3CxS/ntTml5vZSxWycmCD27pQ+757W3HWw6nulxyAVUAxCCa1hCdT22T
+         Bff8+D8nKllb/9gz0hN+R5w6bjJX0BhEX1cnFMU67hq2zRLZk+1ePacLv08LboSlGcpY
+         joaMZaxNJOmUVL3sjTtzuWSzJYhTUmsGwhRjI3+/lEY6lAD7qXCYANZfwqwF/iRTe/uR
+         BCaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767649625; x=1768254425;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WwkCXav2lczyWDa/90IeBviOn6NPSdWRMqM4EGa+avA=;
-        b=RhmvoPYXcRXP3Bg6OnqbqJtRUWsx9yzXjbaLby28dErHpRLtqxXPUos26r3Dlhmqd8
-         B5T4oKHcKAQn5QG99+ABUBVyJqhClBjfE6Ze9XTI9UCp9ErJh5tiAA1Kn2HuHFdeDvVE
-         cJV7F+ZUAEB8cCbfdUZcQetwUDj3SBJrt7drEh/CYwyJ7wHJIDcIIUiWNhwvyLW4WB0E
-         n9zkgWF4TLUfyWSTWTpy73SmHJM6RYsotQG9eeiWTRtMcRPcnd2BYWASBsdv12V1Noco
-         TEFfrencFfV/ufg99jeIYmRXIGiQb4OHhJ5xbOEwhV+loR6D9rX6SOkRrxLX+FZ+UEQX
-         3X9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVIJYijRIEdS3Bly/wlo4iAU11y6PJGbu6iA4NY+8MxJli/xIFOXDRky4Sc5vtzoSLXMhIZVyLoSfM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFXUeI+rwq/BW2eMdncq78O+15IE1KFq68KlEcQdYoQW/Vhj50
-	2gYEM6hkUUYB3Vi701mkO5pMZkwDC6dEERgfv3fV1VLtjLLJhBH2ROP7Rjzi7jLPkWbyOWh/H5v
-	/XrvmmjikCWzvPiVAOIB8NX+27t+hKz8=
-X-Gm-Gg: AY/fxX6KvfJLVjV6DR5C4PTIGkQZREtx+gclNeN4R4IvhCHboUMEEiPdmGJ0bWC34/c
-	H+s4eOjkPmsTGw4uiFPhseszgydRlTp5YE3h9nRLC+bIT1AiBPZETvDe45Xzib25qn1tSjvSMVu
-	HW8UbbKHPbv6TWYWo29O9dEp0MPouLsiazX9z9cTnNifz5GuzQTRzMI70FUSngm3DeYou4huqXi
-	2O9gn35UqnfLJa1mL5toytwblFq3vqLO/86HRMOmZeYmmqYNGBFZzFb/Dn8hwUiyVPhi7UjQS1s
-	IXxIkMmeBDI=
-X-Google-Smtp-Source: AGHT+IHsskLu6HnKJdCCfXRJdE7dXLxBMAMj79azBauWYy3y6qQ3J7D6JlF5OiEerlW37K0ga4xf0s9bT32jAA+wvnI=
-X-Received: by 2002:a17:90b:544c:b0:341:8491:472a with SMTP id
- 98e67ed59e1d1-34f5f26c758mr528365a91.4.1767649624619; Mon, 05 Jan 2026
- 13:47:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767657554; x=1768262354;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Td42PUfrOWAuQeqqyPhN9snX5r+zsGZdxP+4d36YAws=;
+        b=vMkLDJ7jU3k9BNHlRG6RYZLo45/g7FCY9jESahTVf5umJ3tSkRsxj4AVL609vzAf2M
+         QMn++5//LlJAhsAwOCN4bCaQTuzdKok99AE6dhv9r5yn6j02a2JHgnZKRxmNid+BKHjD
+         CtTEtNkvW4de/gH3qFahY/ejntEHSCvqcevwSvHHETvDe86fxrI1RyMMTu53duUiZMJU
+         MCNlCD8XZL+/+I8U13GoptdP5XdhwysdOjgJXlgkE9WpWF+TCa1jstUqRg04UCeAiU3q
+         vqOqD5GJ/a1FO38OQiWmZ/CqdFy7hovvaXqZTABe0DIPEd9yb790Dm4JuPPVIZgE4qIN
+         JsZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxNKaQ4n6fjjBX1Ba9TxeV6a8Cuw9EL1q8QgvllRlhKzJ2f9y0+EXdJa44ds3+uSlpzpb+kuJU/44=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoVbOPRiqBqWqgZmQZVqWWz1IkpgyKunPJMGEpphlFH6dT3YcO
+	Wl3v91/cn5sDb+PoOOOY349JhWrsQdUFSaQ9K9pN4ofPRLIWJb4RfoBM
+X-Gm-Gg: AY/fxX7meG/2Y8EskUVMy2wLHPP9QfCHORLeQyRw44j/IE8FfVeF5sIveNARqo9ggXH
+	M0yncz7lQe7ZtS3m+zPDAj6P2NBX28h1uDeCQpIMuTQEaajbC1VD33Nw+CFNkQd/xkwkxoYe4nm
+	QzMEuKiOucAhKjwQCPq4efnLtZXQI03I+Fu5vHnLL7kh5VjeQyrz/w/gVSQyLIPXfv/WRza4Hyh
+	KlEm7g2rYurExMIdHWFBhHKRz/+oaYS6NFcUDz0vj3xhFtxwv10i/RKDykjF9aegVFzjNPPP32C
+	xSGy2OiAW2OYMi5FSs8HQp2WbaYQaGL809VYOc9qMQSPL4ETeS1nedSs9CA5Ya7HjIJmOzMo6ld
+	hVGO0U5bHrpwOEXLUQTZvGiiIKp4esj0LlWnIYgwUuhVe/EIBNkMDrNOezjXpuBfdhLvyR0Ywcl
+	8Ap+ZbLlvuf8+yFxKRIWP0dDZF4Av2zc/KucdrpM1k5JbhPrNk8+LnZDbQvA==
+X-Google-Smtp-Source: AGHT+IF2yujLQdtPUNjYNIQaaHVruUByq90dGhW9WF1ysuwMpC9YYgi0f8b7TmopRm+oHlRb0Tf74A==
+X-Received: by 2002:a17:902:ecc5:b0:2a0:e80e:b11c with SMTP id d9443c01a7336-2a3e399ed7emr7963145ad.10.1767657554271;
+        Mon, 05 Jan 2026 15:59:14 -0800 (PST)
+Received: from localhost (static-103-70-166-143.unpl.net. [103.70.166.143])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc88e3sm3044455ad.75.2026.01.05.15.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 15:59:13 -0800 (PST)
+Date: Tue, 6 Jan 2026 05:29:10 +0530
+From: Gopi Krishna Menon <krishnagopi487@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, 
+	Benjamin Coddington <bcodding@hammerspace.com>, oe-kbuild-all@lists.linux.dev, 
+	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [linux-next:master 1503/2671] htmldocs:
+ Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+Message-ID: <aVxP9K7mNMw-yChE@kforge-fedora>
+References: <202601011410.4vVaIDB9-lkp@intel.com>
+ <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1767352415-24862-1-git-send-email-vmalla@linux.microsoft.com>
- <bcd23277-a18e-4bb5-ba76-3416c84511c2@linux.dev> <aVjdUjai0lzpMeHv@archie.me>
-In-Reply-To: <aVjdUjai0lzpMeHv@archie.me>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Mon, 5 Jan 2026 13:46:52 -0800
-X-Gm-Features: AQt7F2p-hEWDJqeLM8oY0I9oCnUiBMu-ImRzQ0ri_zW4rBWOvpDbcXaAz_Mk23Q
-Message-ID: <CAEf4BzbAKGJsWov1udk+f5jS-qKSLMY+j76FP-JuWuxjhc0h-A@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] bpf, docs: Update pahole to 1.28 for selftests
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Ihor Solodrai <ihor.solodrai@linux.dev>, Hemanth Malla <vmalla@linux.microsoft.com>, 
-	bpf@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	haoluo@google.com, jolsa@kernel.org, vmalla@microsoft.com, corbet@lwn.net, 
-	Alan Maguire <alan.maguire@oracle.com>, dwarves <dwarves@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
 
-On Sat, Jan 3, 2026 at 1:11=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com>=
- wrote:
->
-> On Fri, Jan 02, 2026 at 07:33:50AM -0800, Ihor Solodrai wrote:
-> > On 1/2/26 3:13 AM, Hemanth Malla wrote:
-> > > diff --git a/Documentation/bpf/bpf_devel_QA.rst b/Documentation/bpf/b=
-pf_devel_QA.rst
-> > > index 0acb4c9b8d90..3a147b6c780e 100644
-> > > --- a/Documentation/bpf/bpf_devel_QA.rst
-> > > +++ b/Documentation/bpf/bpf_devel_QA.rst
-> > > @@ -482,7 +482,7 @@ under test should match the config file fragment =
-in
-> > >  tools/testing/selftests/bpf as closely as possible.
-> > >
-> > >  Finally to ensure support for latest BPF Type Format features -
-> > > -discussed in Documentation/bpf/btf.rst - pahole version 1.16
-> > > +discussed in Documentation/bpf/btf.rst - pahole version 1.28
-> >
-> > Hi Hemanth, thanks for the patch.
-> >
-> > Acked-by: Ihor Solodrai <ihor.solodrai@linux.dev>
-> >
-> > 1.28 is needed for --distilled_base [1], which is only a requirement
-> > for tests using modules. Many other tests are likely to work with
-> > older versions, but the minimum for the kernel build is 1.22 now [2].
-> >
-> > Not sure if it's worth it to add this nuance to the QA doc, although
-> > in general we should recommend people running the selftests to use the
-> > latest pahole release. Maybe add a comment?
->
-> I guess minimum pahole version can be added to
-> Documentation/process/changes.rst.
+On Thu, Jan 01, 2026 at 07:36:48PM -0800, Randy Dunlap wrote:
 
-pahole 1.22 is already specified in Documentation/process/changes.rst
+> Benjamin,
+> 
+> On 1/1/26 5:27 AM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+> > commit: 977de00dfcf87e8d95f55dfc247955dc2f9da14d [1503/2671] VFS: move dentry_create() from fs/open.c to fs/namei.c
+> > reproduce: (https://download.01.org/0day-ci/archive/20260101/202601011410.4vVaIDB9-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601011410.4vVaIDB9-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    ERROR: Cannot find file ./include/linux/dcache.h
+> >    WARNING: No kernel-doc for file ./include/linux/dcache.h
+> >    WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
+> >    WARNING: ./fs/namei.c:2853 function parameter 'state' not described in '__start_dirop'
+> >    WARNING: ./fs/namei.c:2853 expecting prototype for start_dirop(). Prototype was for __start_dirop() instead
+> >>> Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline emphasis start-string without end-string. [docutils]
+> >    Documentation/filesystems/api-summary:56: ./fs/namei.c:4943: ERROR: Unknown target name: "o". [docutils]
+> >    ERROR: Cannot find file ./include/linux/buffer_head.h
+> >    WARNING: No kernel-doc for file ./include/linux/buffer_head.h
+> >    ERROR: Cannot find file ./include/linux/fscache-cache.h
+> >    WARNING: No kernel-doc for file ./include/linux/fscache-cache.h
+> 
+> fs/open.c is not used in Documentation/ (where the lines were moved _from_).
+> 
+> fs/namei.c needs changes like:
+> 
+> ---
+>  fs/namei.c |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> --- linux-next-20251219.orig/fs/namei.c
+> +++ linux-next-20251219/fs/namei.c
+> @@ -4938,7 +4938,7 @@ EXPORT_SYMBOL(start_creating_user_path);
+>  /**
+>   * dentry_create - Create and open a file
+>   * @path: path to create
+> - * @flags: O_ flags
+> + * @flags: O_* flags
+>   * @mode: mode bits for new file
+>   * @cred: credentials to use
+>   *
+> @@ -4949,7 +4949,7 @@ EXPORT_SYMBOL(start_creating_user_path);
+>   * the new file is to be created. The parent directory and the
+>   * negative dentry must reside on the same filesystem instance.
+>   *
+> - * On success, returns a "struct file *". Otherwise a ERR_PTR
+> + * On success, returns a "struct file \*". Otherwise a ERR_PTR
+>   * is returned.
+>   */
+>  struct file *dentry_create(struct path *path, int flags, umode_t mode,
+> 
+> 
+> Or                         &struct file \*.
+> without the quotation marks.
+> 
+> -- 
+> ~Randy
+> 
 
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+Hi Randy,
+
+I have already sent a patch for this here :
+
+https://lore.kernel.org/all/20251231153851.7523-1-krishnagopi487@gmail.com/
+
+Gopi Krishna Menon
