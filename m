@@ -1,170 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408C3309DA5
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 17:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8325F20A5E5;
+	Mon,  5 Jan 2026 18:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767635607; cv=none; b=uk+fM3PnTx0yNoq4tHDNVMbRRZa3zgcmVmluW25K9uqBNYj6LoHc8IiX6sTlyMywT2P4M8oqd9eaVBF2oo4w5y87HpDjpgzsJ6AJ3SMbMuDL4bmRslITbAwCPBDysyGmpFjpVslTGY9WwwpaW/PZj4GEcK3XiJ0paf9zH38ZnvI=
+	t=1767636798; cv=none; b=jHgyP12fiH19UC2uITdVAemlg4l188GgERF3r32xV+AVSzusF8cW16ZxgqWwWTlhRp9+o7IOSDmz+PQoyVdeo3Oy86/m95UHOeWBozCrVueKR5Mrtdabp0IpywN6H2jM8K8X9v7oppYEtHEPQexwJYYZb8umt+IFFWdDLxoMlpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767635607; c=relaxed/simple;
-	bh=Ux87hSa/68cLrLbR1ZzCFUiDvj3dhNvAwil2Gxc0MrA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s0ndZsKdaxBeWj3lF8M3Ue0LMBuKsk9Qraa5VPEncouhNmbQ7wUfGwOEk7hdHhpaMLnQSSm/r46l3vW9Vsu0EM991VzhrTaFzcYndJ2TXk+JsmReP6/1KYyZBRCBsH3gtDr6HEhH1mt1BNZjvDzhX/JbXwi4jp+8nBUvFrzr4vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOnxwGmN; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOnxwGmN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C500FC2BC86
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 17:53:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767635606;
-	bh=Ux87hSa/68cLrLbR1ZzCFUiDvj3dhNvAwil2Gxc0MrA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lOnxwGmNE/bn7/PZzPU//WPUz3UX3w5bnVpfoKqJxfVA2NzpL2i3eR5zTiOFB1CPe
-	 v9aTnFuoxT8JnT77MUcz7cbYw+b1OA9gFcgox32MEVM8zfcMSrA7CjLk7dD2BkJrsk
-	 Jo8hALRXVndzywcJn1nu4RYXl4tUy4H2zPe6aFI6FbvZLsSkiHCpy2N1B0MwwyULhu
-	 luQv3AEs14pQhAeNBqG21lioYtxsGVU5OAP/EOFgi4OifR8XxMx0e5mdblk4Xts8u1
-	 mbZZVopjPYd7FM7OlqRTNo+OTX6HZs2kZByhV6F1IVolFQtPbV5NeEy0ne3curhwua
-	 NTWYSHstqjrsQ==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-3ece54945d9so88765fac.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 09:53:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVAIsr4wjenbPjEYkNjNfS04QX/5DtLIZhrsUz8bNemvoLl0n89L3dOxyExlQHPdtkgWn2hDUOpuc8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzp2nm0Ew6344pTZKMOTPvmnX9g3RRc1ugbyaxlzRtksJP54Li5
-	NRJAUnNEjlIzDn17Ds5Xv7O0FhtskcplhK9J0cK1Ua5aaCHbzUNwFOHDFjzVde3Xsj7bBhJBJDx
-	MVvSSiaY1kUv32aKGE0I+X/OpaFSjld0=
-X-Google-Smtp-Source: AGHT+IFhF5egrl4ZCq8xWFr+RoYVu40Zi1s5l8ky0E1Xv2jtj/ZH7g9+rHUhIzI9ZvmtV4nxRcx3nQAMiifxAdK2cSw=
-X-Received: by 2002:a4a:c3c8:0:b0:65c:fdd9:6f54 with SMTP id
- 006d021491bc7-65f47a682a6mr105538eaf.69.1767635605624; Mon, 05 Jan 2026
- 09:53:25 -0800 (PST)
+	s=arc-20240116; t=1767636798; c=relaxed/simple;
+	bh=Oi/7Lkik7Z/VE/dAOSN3u0FLFN9+6NCpDRRpPQDpVfI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CRiPiF+rF2K85OZEXEy7P8oPIg0AQCTC57raibyCVRaco+a/GKSd/GkORuk6kCjZYbZxa9gG2nFk4ZR2ZxvyQehOIohyTicqKEI1JxtVNSYvwuVXlKDvjPDu04Q5+MeA1CUpZ549vqzcyFMmXu4tJNwuiI1XmkpmIBAMtRqX7Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dlMq97017zHnGfP;
+	Tue,  6 Jan 2026 02:13:09 +0800 (CST)
+Received: from dubpeml100006.china.huawei.com (unknown [7.214.145.132])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9BBCE4056A;
+	Tue,  6 Jan 2026 02:13:12 +0800 (CST)
+Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
+ dubpeml100006.china.huawei.com (7.214.145.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Mon, 5 Jan 2026 18:13:11 +0000
+Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
+ dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.036;
+ Mon, 5 Jan 2026 18:13:01 +0000
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Borislav Petkov <bp@alien8.de>
+CC: "rafael@kernel.org" <rafael@kernel.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "rppt@kernel.org" <rppt@kernel.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
+	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
+	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
+	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
+	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
+	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
+ Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v13 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Thread-Topic: [PATCH v13 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Thread-Index: AQHcWxSnEpDt2lc5YEO8lu0/cTa9krUDBkCAgAAe81CAONOhAIAIKpLA
+Date: Mon, 5 Jan 2026 18:13:01 +0000
+Message-ID: <95978df0ee6c4254b20cc773c8a4df29@huawei.com>
+References: <20251121182825.237-1-shiju.jose@huawei.com>
+	<20251121182825.237-2-shiju.jose@huawei.com>
+	<20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local>
+	<fd4e4419b6d54c69bb4a1dde0273ee51@huawei.com>
+ <20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local>
+In-Reply-To: <20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5977355.DvuYhMxLoT@rafael.j.wysocki> <2026010553-capable-chip-88d7@gregkh>
-In-Reply-To: <2026010553-capable-chip-88d7@gregkh>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 5 Jan 2026 18:53:13 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jnnYyOnc5s4FijXS9sAyu5Mpgc4KLmR6DV-oTUwqttKA@mail.gmail.com>
-X-Gm-Features: AQt7F2r5D6vvyl6-k8-gOfwQtYVwQ1cHwnr-uoTCiiXrBJyk7eWn5JiDgK2rNSA
-Message-ID: <CAJZ5v0jnnYyOnc5s4FijXS9sAyu5Mpgc4KLmR6DV-oTUwqttKA@mail.gmail.com>
-Subject: Re: [PATCH v1] ACPI: Documentation: driver-api: Disapprove of using
- ACPI drivers
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <helgaas@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Linux Documentation <linux-doc@vger.kernel.org>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Zhang Rui <rui.zhang@intel.com>, 
-	Armin Wolf <w_armin@gmx.de>, Danilo Krummrich <dakr@kernel.org>, 
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 5, 2026 at 2:47=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Jan 05, 2026 at 12:25:04PM +0100, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> >
-> > Sadly, there is quite a bit of technical debt related to the
-> > kernel's ACPI support subsystem and one of the most significant
-> > pieces of it is the existence and use of ACPI drivers represented
-> > by struct acpi_driver objects.
-> >
-> > Those drivers are bound directly to struct acpi_device objects, also
-> > referred to as "ACPI device nodes", representing device objects in the
-> > ACPI namespace defined as:
-> >
-> >  A hierarchical tree structure in OS-controlled memory that contains
-> >  named objects. These objects may be data objects, control method
-> >  objects, bus/device package objects, and so on.
-> >
-> > according to the ACPI specification [1].
-> >
-> > The above definition implies, although rather indirectly, that the
-> > objects in question don't really represent hardware.  They are just
-> > "device package objects" containing some information on the devices
-> > present in the given platform that is known to the platform firmware.
-> >
-> > Although the platform firmware can be the only source of information on
-> > some devices, the information provided by it alone may be insufficient
-> > for device enumeration in general.  If that is the case, bindig a drive=
-r
-> > directly to a given ACPI device node clearly doesn't make sense.  If
-> > the device in question is enumerated through a hardware interface, it
-> > will be represented by a device object matching that interface, like
-> > a struct pci_dev, and the ACPI device node corresponding to it will be
-> > treated as its "ACPI companions" whose role is to amend the "native"
-> > enumeration mechanism.
-> >
-> > For the sake of consistency and confusion avoidance, it is better to
-> > treat ACPI device nodes in general as ACPI companions of other device
-> > objects representing hardware.  In some cases though it appeared easier
-> > to take a shortcut and use an ACPI driver binding directly to an ACPI
-> > device node.  Moreover, there were corner cases in which that was the
-> > only choice, but they all have been addressed now.
-> >
-> > In all cases in which an ACPI driver might be used, the ACPI device
-> > node it might bind to is an ACPI companion of another device object
-> > representing a piece of hardware.  It is thus better to use a driver
-> > binding to the latter than to use an ACPI driver and leave the other
-> > device object alone, not just because doing so is more consistent and
-> > less confusing, but also because using ACPI drivers may lead to
-> > potential functional deficiencies, like possible ordering issues
-> > related to power management.
-> >
-> > Unfortunately, there are quite a few ACPI drivers in use and, as a rule=
-,
-> > they bind to ACPI device nodes that are ACPI companions of platform
-> > devices, so in fact they play the role of platform drivers although in
-> > a kind of convoluted way.  An effort has been under way to replace them
-> > with platform drivers, which is relatively straightforward in the vast
-> > majority of cases, but it has not been pursued very aggressively so far=
-,
-> > mostly due to the existence of the corner cases mentioned above.
-> > However, since those corner cases are gone now, it makes sense to spend
-> > more time on driver conversions with the ultimate goal to get rid of
-> > struct acpi_driver and the related code from the kernel.
-> >
-> > To that end, add a document explaining why using ACPI drivers is not
-> > a good idea, so it need not be explained from scratch on every attempt
-> > to convert an ACPI driver to a platform one.
-> >
-> > Link: https://uefi.org/specs/ACPI/6.6/02_Definition_of_Terms.html#term-=
-ACPI-Namespace [1]
-> > Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > ---
-> >
-> > Although this patch can be applied independently, it actually depends o=
-n
-> > some ACPI changes in linux-next and on
-> >
-> > https://lore.kernel.org/linux-acpi/12824456.O9o76ZdvQC@rafael.j.wysocki=
-/
-> >
-> > so it is better to handle it along with that material.
-> >
-> > ---
-> >  Documentation/driver-api/acpi/acpi-drivers.rst |   80 ++++++++++++++++=
-+++++++++
-> >  Documentation/driver-api/acpi/index.rst        |    1
-> >  2 files changed, 81 insertions(+)
->
-> Documenting this is fine, but really, just moving all of the existing
-> drivers to not use this and deleting the api entirely might be simplest.
-
-That's the final goal, but there are ~45 ACPI drivers in the tree (as
-of my current linux-next branch) in several different subsystems, so
-it may take a few cycles to convert all of them.
-
-Also, I'm not expecting this doc to ever change, so reverting the
-commit adding it when all of the ACPI drivers have been converted
-should be trivial.
-
-> Looks like the only "new" acpi drivers that show up are in the
-> platform/x86/ subsystem, so just tell the maintainers there not to take
-> any new ones?
-
-That's one of the goals of this posting. :-)
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
+bGllbjguZGU+DQo+U2VudDogMzEgRGVjZW1iZXIgMjAyNSAxMzoxNQ0KPlRvOiBTaGlqdSBKb3Nl
+IDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+DQo+Q2M6IHJhZmFlbEBrZXJuZWwub3JnOyBha3BtQGxp
+bnV4LWZvdW5kYXRpb24ub3JnOyBycHB0QGtlcm5lbC5vcmc7DQo+ZGZlcmd1c29uQGFtcGVyZWNv
+bXB1dGluZy5jb207IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC0NCj5hY3BpQHZn
+ZXIua2VybmVsLm9yZzsgbGludXgtbW1Aa3ZhY2sub3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwu
+b3JnOw0KPnRvbnkubHVja0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsgbGVvLmR1cmFuQGFt
+ZC5jb207DQo+WWF6ZW4uR2hhbm5hbUBhbWQuY29tOyBtY2hlaGFiQGtlcm5lbC5vcmc7IEpvbmF0
+aGFuIENhbWVyb24NCj48am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPjsgTGludXhhcm0gPGxp
+bnV4YXJtQGh1YXdlaS5jb20+Ow0KPnJpZW50amVzQGdvb2dsZS5jb207IGppYXFpeWFuQGdvb2ds
+ZS5jb207IEpvbi5HcmltbUBhbWQuY29tOw0KPmRhdmUuaGFuc2VuQGxpbnV4LmludGVsLmNvbTsg
+bmFveWEuaG9yaWd1Y2hpQG5lYy5jb207DQo+amFtZXMubW9yc2VAYXJtLmNvbTsganRob3VnaHRv
+bkBnb29nbGUuY29tOyBzb21hc3VuZGFyYW0uYUBocGUuY29tOw0KPmVyZGVtYWt0YXNAZ29vZ2xl
+LmNvbTsgcGdvbmRhQGdvb2dsZS5jb207IGR1ZW53ZW5AZ29vZ2xlLmNvbTsNCj5ndGhlbGVuQGdv
+b2dsZS5jb207IHdzY2h3YXJ0ekBhbXBlcmVjb21wdXRpbmcuY29tOw0KPndic0Bvcy5hbXBlcmVj
+b21wdXRpbmcuY29tOyBuaWZhbi5jeGxAZ21haWwuY29tOyB0YW54aWFvZmVpDQo+PHRhbnhpYW9m
+ZWlAaHVhd2VpLmNvbT47IFplbmd0YW8gKEIpIDxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBS
+b2JlcnRvDQo+U2Fzc3UgPHJvYmVydG8uc2Fzc3VAaHVhd2VpLmNvbT47IGthbmdrYW5nLnNoZW5A
+ZnV0dXJld2VpLmNvbTsNCj53YW5naHVpcWlhbmcgPHdhbmdodWlxaWFuZ0BodWF3ZWkuY29tPg0K
+PlN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEzIDEvMl0gQUNQSTpSQVMyOiBBZGQgZHJpdmVyIGZvciB0
+aGUgQUNQSSBSQVMyIGZlYXR1cmUNCj50YWJsZQ0KPg0KPk9uIFR1ZSwgTm92IDI1LCAyMDI1IGF0
+IDAxOjI4OjE5UE0gKzAwMDAsIFNoaWp1IEpvc2Ugd3JvdGU6DQo+PiBJIHdpbGwgY2hhbmdlIHRv
+IGRlcGVuZHMuIEkgZm9sbG93ZWQgdGhlIGV4aXN0aW5nIENPTkZJRyBBQ1BJX0NQUENfTElCLg0K
+Pg0KPlJlYWQgdGhlICJOb3RlOiIgdW5kZXINCj4NCj4iLSByZXZlcnNlIGRlcGVuZGVuY2llczog
+InNlbGVjdCIgPHN5bWJvbD4gWyJpZiIgPGV4cHI+XSINCj4NCj5oZXJlIHBsczogRG9jdW1lbnRh
+dGlvbi9rYnVpbGQva2NvbmZpZy1sYW5ndWFnZS5yc3QNCj4NCj5Ob3csIHNvbWUgb2YgdGhlIEtj
+b25maWcgc3ltYm9sczoNCj4NCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3BpL0tjb25maWcgYi9k
+cml2ZXJzL2FjcGkvS2NvbmZpZyBpbmRleA0KPjIzMjJiMDQ3MGQwNy4uN2Y4NDZjMjJmYzMwIDEw
+MDY0NA0KPi0tLSBhL2RyaXZlcnMvYWNwaS9LY29uZmlnDQo+KysrIGIvZHJpdmVycy9hY3BpL0tj
+b25maWcNCj5AQCAtMjk1LDcgKzI5NSw3IEBAIGNvbmZpZyBBQ1BJX0NQUENfTElCDQo+DQo+IGNv
+bmZpZyBBQ1BJX1JBUzINCj4gICAgICAgIGJvb2wgIkFDUEkgUkFTMiBkcml2ZXIiDQo+LSAgICAg
+ICBkZXBlbmRzIG9uIEFVWElMSUFSWV9CVVMNCj4rICAgICAgIHNlbGVjdCBBVVhJTElBUllfQlVT
+DQo+ICAgICAgICBkZXBlbmRzIG9uIE1BSUxCT1gNCj4gICAgICAgIGRlcGVuZHMgb24gUENDDQo+
+ICAgICAgICBoZWxwDQo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvcmFzL0tjb25maWcgYi9kcml2ZXJz
+L3Jhcy9LY29uZmlnIGluZGV4DQo+ZGZjM2E4OTkyODBlLi5hMWU2YWVkOGJjYzggMTAwNjQ0DQo+
+LS0tIGEvZHJpdmVycy9yYXMvS2NvbmZpZw0KPisrKyBiL2RyaXZlcnMvcmFzL0tjb25maWcNCj5A
+QCAtNTEsNyArNTEsNyBAQCBjb25maWcgTUVNX0FDUElfUkFTMg0KPiAgICAgICAgZGVwZW5kcyBv
+biBBQ1BJX1JBUzINCj4gICAgICAgIGRlcGVuZHMgb24gRURBQw0KPiAgICAgICAgZGVwZW5kcyBv
+biBFREFDX1NDUlVCDQo+LSAgICAgICBkZXBlbmRzIG9uIE5VTUFfS0VFUF9NRU1JTkZPDQo+KyAg
+ICAgICBzZWxlY3QgTlVNQV9LRUVQX01FTUlORk8NCj4gICAgICAgIGhlbHANCj4gICAgICAgICAg
+VGhlIGRyaXZlciBiaW5kcyB0byB0aGUgYXV4aWxpYXJ5IGRldmljZSBhZGRlZCBieSB0aGUgQUNQ
+SSBSQVMyDQo+ICAgICAgICAgIGZlYXR1cmUgdGFibGUgcGFyc2VyLiBUaGUgZHJpdmVyIHVzZXMg
+YSBQQ0MgY2hhbm5lbCBzdWJzcGFjZSB0bw0KPg0KPmFyZSBtYWRlIHRvIGJlIHNlbGVjdGFibGUg
+b25seSBhbmQgc28geW91IHNob3VsZCBzZWxlY3QgdGhlbSBiZWNhdXNlIHRoZXkncmUNCj5ub24t
+dmlzaWJsZS4gSnVzdCByZW1lbWJlciB0aGF0IGJsaW5kbHkgc2VsZWN0aW5nIHRoaW5ncyBpcyBl
+dmlsLg0KDQpIaSBCb3Jpc2xhdiwNCiANClRoYW5rcyBmb3IgY29ycmVjdGluZy4gTW9kaWZpZWQu
+IFdpbGwgcG9zdCB0aGVzZSBjaGFuZ2VzIGluIFYxNSBhZnRlciB5b3VyIGZlZWRiYWNrDQpmb3Ig
+djE0Lg0KPg0KPg0KPj4gPj4gKwkJCXNzcGNjLT5sYXN0X2NtZCwgc3NwY2MtPnBjY19pZCk7DQo+
+PiA+PiArCQlzdGF0dXMgJj0gflBDQ19TVEFUVVNfRVJST1I7DQo+PiA+PiArCQl3cml0ZXdfcmVs
+YXhlZChzdGF0dXMsICZnZW5fY29tbV9iYXNlLT5zdGF0dXMpOw0KPj4gPj4gKwkJcmV0dXJuIC1F
+SU87DQo+PiA+PiArCX0NCj4+ID4+ICsNCj4+ID4+ICsJY2FwX3N0YXR1cyA9IHJlYWR3X3JlbGF4
+ZWQoJmdlbl9jb21tX2Jhc2UtPnNldF9jYXBzX3N0YXR1cyk7DQo+PiA+DQo+PiA+SXMgdGhhdCBy
+ZWdpc3RlciByZWFkIGFsd2F5cyBzdWNjZXNzZnVsIG9yIHlvdSBuZWVkIHRvIGhhbmRsZSBlcnJv
+cnMgaGVyZSB0b28/DQo+Pg0KPj4gUmV0dXJuIHZhbHVlIG9mICdzZXQgY2FwYWJpbGl0eSBzdGF0
+dXMnICBpcyBkZWNvZGVkIGFuZCByZXR1cm4gZXJyb3INCj4+IGNvZGUgb24gZXJyb3IgY2FzZSBp
+biB0aGUgYmVsb3cgZnVuY3Rpb24gY2FsbCAgJ3JldHVybg0KPmRlY29kZV9jYXBfZXJyb3IoY2Fw
+X3N0YXR1cyknDQo+DQo+WWFoLCB0aGlzIGlzIG5vdCBhIGNvbW1vbiBjb2RpbmcgcGF0dGVybi4g
+V2hhdCB5b3UgZG8gaXMgc29tZXRoaW5nIGxpa2UgdGhpczoNCj4NCj5kaWZmIC0tZ2l0IGEvZHJp
+dmVycy9hY3BpL3JhczIuYyBiL2RyaXZlcnMvYWNwaS9yYXMyLmMgaW5kZXgNCj42Mjc4OTVmZWUx
+NDMuLjRjYWVmN2YyYzRlYSAxMDA2NDQNCj4tLS0gYS9kcml2ZXJzL2FjcGkvcmFzMi5jDQo+Kysr
+IGIvZHJpdmVycy9hY3BpL3JhczIuYw0KPkBAIC04NSw3ICs4NSw2IEBAIHN0YXRpYyBpbnQgZGVj
+b2RlX2NhcF9lcnJvcih1MzIgY2FwX3N0YXR1cykgIHN0YXRpYyBpbnQNCj5jaGVja19wY2NfY2hh
+bihzdHJ1Y3QgcmFzMl9zc3BjYyAqc3NwY2MpICB7DQo+ICAgICAgICBzdHJ1Y3QgYWNwaV9yYXMy
+X3NobWVtIF9faW9tZW0gKmdlbl9jb21tX2Jhc2UgPSBzc3BjYy0+Y29tbV9hZGRyOw0KPi0gICAg
+ICAgdTMyIGNhcF9zdGF0dXM7DQo+ICAgICAgICB1MTYgc3RhdHVzOw0KPiAgICAgICAgaW50IHJj
+Ow0KPg0KPkBAIC0xMTQsOSArMTEzLDExIEBAIHN0YXRpYyBpbnQgY2hlY2tfcGNjX2NoYW4oc3Ry
+dWN0IHJhczJfc3NwY2MgKnNzcGNjKQ0KPiAgICAgICAgICAgICAgICByZXR1cm4gLUVJTzsNCj4g
+ICAgICAgIH0NCj4NCj4tICAgICAgIGNhcF9zdGF0dXMgPSByZWFkd19yZWxheGVkKCZnZW5fY29t
+bV9iYXNlLT5zZXRfY2Fwc19zdGF0dXMpOw0KPisgICAgICAgcmMgPQ0KPisgZGVjb2RlX2NhcF9l
+cnJvcihyZWFkd19yZWxheGVkKCZnZW5fY29tbV9iYXNlLT5zZXRfY2Fwc19zdGF0dXMpKTsNCj4r
+DQo+ICAgICAgICB3cml0ZXdfcmVsYXhlZCgweDAsICZnZW5fY29tbV9iYXNlLT5zZXRfY2Fwc19z
+dGF0dXMpOw0KPi0gICAgICAgcmV0dXJuIGRlY29kZV9jYXBfZXJyb3IoY2FwX3N0YXR1cyk7DQo+
+Kw0KPisgICAgICAgcmV0dXJuIHJjOw0KPiB9DQoNCk1vZGlmaWVkLiANCj4NCj4NCj4+ID4+ICsJ
+ICovDQo+PiA+PiArCWlmIChjbWQgPT0gUENDX0NNRF9FWEVDX1JBUzIgfHwgc3NwY2MtPnBjY19t
+cnR0KSB7DQo+PiA+PiArCQlyYyA9IGNoZWNrX3BjY19jaGFuKHNzcGNjKTsNCj4+ID4+ICsJCWlm
+IChzc3BjYy0+cGNjX21ydHQpDQo+PiA+PiArCQkJc3NwY2MtPmxhc3RfY21kX2NtcGxfdGltZSA9
+IGt0aW1lX2dldCgpOw0KPj4gPj4gKwl9DQo+PiA+PiArDQo+PiA+PiArCWlmIChwY2NfY2hhbm5l
+bC0+bWJveC0+dHhkb25lX2lycSkNCj4+ID4+ICsJCW1ib3hfY2hhbl90eGRvbmUocGNjX2NoYW5u
+ZWwsIHJjKTsNCj4+ID4+ICsJZWxzZQ0KPj4gPj4gKwkJbWJveF9jbGllbnRfdHhkb25lKHBjY19j
+aGFubmVsLCByYyk7DQo+PiA+PiArDQo+PiA+PiArCXJldHVybiByYyA8IDAgPyByYyA6IDA7DQo+
+PiA+DQo+PiA+U28geW91IG1lYW4gc2ltcGx5DQo+PiA+DQo+PiA+CXJldHVybiByYzsNCj4+ID4N
+Cj4+ID5ubz8gcmMgY2FuIGJlIDAgdG9vIHNvIHdoYXQncyB0aGUgcG9pbnQgb2YgdGhlIHRlcm5h
+cnkgZXhwcmVzc2lvbj8NCj4+DQo+PiBUaGlzIHdhcyBhZGRlZCB0byBoYW5kbGUgdGhlIGNhc2Ug
+cmMgPSBjaGVja19wY2NfY2hhbihzc3BjYyk7IGlzIG5vdA0KPj4gY2FsbGVkIGFuZCBsYXN0IHJj
+IGlzIHJldHVybmVkIGZyb20gbWJveF9zZW5kX21lc3NhZ2UoKSBjYWxsIGJlY2F1c2UNCj4+IG1i
+b3hfc2VuZF9tZXNzYWdlKCkgcmV0dXJuIG5vbi1uZWdhdGl2ZSB2YWx1ZSBmb3Igc3VjY2VzcyBh
+bmQgbmVnYXRpdmUNCj52YWx1ZSBmb3IgZmFpbHVyZSBhcyBwZXIgdGhlIGRvY3VtZW50YXRpb24u
+DQo+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni4xOC1yYzcvc291cmNlL2Ry
+aXZlcnMvbWFpbGJveC9tYWlsDQo+PiBib3guYyNMMjQxDQo+DQo+V2h5IGRvIHlvdSBrZWVwIHBv
+aW50aW5nIHRvIHNvbWUgaW5kZXhpbmcgc2VydmljZT8gV2hhdCdzIHdyb25nIHdpdGggc2ltcGx5
+DQo+cGFzdGluZyB0aGUgY29kZSBzbmlwcGV0IHlvdSBtZWFuIHNvIHRoYXQgSSBjYW4gZmluZCBp
+dCBteXNlbGYgdG9vPw0KPg0KPkFueXdheSwgd2hhdCdzIHdyb25nIHdpdGg6DQo+DQo+ICAgICAg
+ICAvKiBSaW5nIGRvb3JiZWxsICovDQo+ICAgICAgICByYyA9IG1ib3hfc2VuZF9tZXNzYWdlKHBj
+Y19jaGFubmVsLCAmY21kKTsNCj4gICAgICAgIGlmIChyYyA8IDApIHsNCj4gICAgICAgICAgICAg
+ICAgZGV2X3dhcm4ocmFzMl9jdHgtPmRldiwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgIkVy
+cm9yIHNlbmRpbmcgUENDIG1ib3ggbWVzc2FnZSBjbWQ6IDB4JXgsIHJjOiVkXG4iLCBjbWQsIHJj
+KTsNCj4gICAgICAgICAgICAgICAgcmV0dXJuIHJjOw0KPiAgICAgICAgfQ0KPg0KPkFsc28sIGNt
+ZHMgaW4gaGV4IHBsZWFzZS4NCg0KTW9kaWZpZWQuDQo+DQo+PiA+QW5kIHdoYXQncyB0aGUgbG9n
+aWMgaGVyZT8gWW91J2QgY2FwdHVyZSByYyBhYm92ZSBmcm9tDQo+PiA+Y2hlY2tfcGNjX2NoYW4o
+KSBhbmQgZXZlbiBpZiBpdCBpcyAhPSAwLCB5b3UnZCBwYXNzIGl0IGludG8gdGhlIG1ib3gqDQo+
+PiA+ZnVuY3Rpb25zPyBJIGd1ZXNzIHRoYXQgd2VpcmRuZXNzIGRlc2VydmVzIGEgY29tbWVudC4u
+Lg0KPj4NCj4+IEJvdGggbWJveF9jaGFuX3R4ZG9uZSgpIGFuZCAgbWJveF9jbGllbnRfdHhkb25l
+KCkgcmVxdWlyZWQgdGhlIHN0YXR1cw0KPj4gb2YgdGhlIGxhc3QgdHJhbnNtaXNzaW9uIGFzIHNl
+Y29uZCBhcmd1bWVudC4NCj4NCj5ZYWgsIGNvbW1lbnQgcGxlYXNlIQ0KDQpBZGRlZCBjb21tZW50
+Lg0KPg0KPnM+ID4NCj4+ID4+ICt7DQo+PiA+PiArCXN0cnVjdCBhY3BpX3JhczJfcGNjX2Rlc2Mg
+KnBjY19kZXNjX2xpc3Q7DQo+PiA+PiArCXN0cnVjdCByYXMyX21lbV9jdHggKnJhczJfY3R4Ow0K
+Pj4gPj4gKwl1MTYgaSwgY291bnQ7DQo+PiA+PiArDQo+PiA+PiArCWlmIChyYXMyX3RhYi0+aGVh
+ZGVyLmxlbmd0aCA8IHNpemVvZigqcmFzMl90YWIpKSB7DQo+PiA+PiArCQlwcl93YXJuKEZXX1dB
+Uk4gIkFDUEkgUkFTMiB0YWJsZSBwcmVzZW50IGJ1dCBicm9rZW4gKHRvbw0KPj4gPnNob3J0LCBz
+aXplPSV1KVxuIiwNCj4+ID4+ICsJCQlyYXMyX3RhYi0+aGVhZGVyLmxlbmd0aCk7DQo+PiA+PiAr
+CQlyZXR1cm47DQo+PiA+PiArCX0NCj4+ID4+ICsNCj4+ID4+ICsJaWYgKCFyYXMyX3RhYi0+bnVt
+X3BjY19kZXNjcykgew0KPj4gPj4gKwkJcHJfd2FybihGV19XQVJOICJObyBQQ0MgZGVzY3MgaW4g
+QUNQSSBSQVMyIHRhYmxlXG4iKTsNCj4+ID4+ICsJCXJldHVybjsNCj4+ID4+ICsJfQ0KPj4gPg0K
+Pj4gPllvdSBuZWVkIHRvIHNhbml0eS1jaGVjayB0aGUgbnVtYmVyIG9mIGRlc2NzIHNvIHRoYXQg
+dGhlIGJlbG93DQo+PiA+YWxsb2NhdGlvbiBkb2Vzbid0IGdvIG51dHMuDQo+PiBTb3JyeSwgY2Fu
+IHlvdSBnaXZlIG1vcmUgaW5mb3JtYXRpb24/DQo+PiBJIGFtIHdvbmRlcmluZyB0aGUgYWJvdmUg
+Y2hlY2sgICdpZiAoIXJhczJfdGFiLT5udW1fcGNjX2Rlc2NzKScgeyB9IGlzIG5vdA0KPmVub3Vn
+aD8NCj4NCj5Zb3UndmUgZG9uZSB3aGF0IEkgd2FudGVkOg0KPg0KPiAgICAgICAgaWYgKCFyYXMy
+X3RhYi0+bnVtX3BjY19kZXNjcyB8fCByYXMyX3RhYi0+bnVtX3BjY19kZXNjcyA+DQo+UkFTMl9N
+QVhfTlVNX1BDQ19ERVNDUykgew0KPiAgICAgICAgICAgICAgICBwcl93YXJuKEZXX1dBUk4gIk5v
+L0ludmFsaWQgbnVtYmVyIG9mIFBDQyBkZXNjcyglZCkgaW4gQUNQSSBSQVMyDQo+dGFibGVcbiIs
+DQo+ICAgICAgICAgICAgICAgICAgICAgICAgcmFzMl90YWItPm51bV9wY2NfZGVzY3MpOw0KPiAg
+ICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCj4gICAgICAgIH0NCj4NCj5UaGUgUkFTMl9N
+QVhfTlVNX1BDQ19ERVNDUyB0aGluZy4NCg0KT2suDQo+DQo+PiA+QWxzbywgd2hhdCdzIHRoZSBw
+b2ludCBvZiB0aGF0IHBjdHhfbGlzdCBhcnJheSBhdCBhbGw/IFNvIHRoYXQgeW91DQo+PiA+Y2Fu
+IGRvIHVuaW5pdCBvbiB0aGUgLT5hZGV2IGluIGNhc2UgeW91IGVuY291bnRlciBhIGZhaWx1cmU/
+DQo+PiBMb2NhbCB2YXJpYWJsZSByYXMyX2N0eCAgaXMgdXBkYXRlZCB3aGVuIGNhbGxpbmcgYWRk
+X2F1eF9kZXZpY2UoKSBpbg0KPj4gZWFjaCBpdGVyYXRpb24gYXMNCj4+IGFkZF9hdXhfZGV2aWNl
+KCkgIGFsbG9jYXRlcyBtZW1vcnkgZm9yIHN0cnVjdCByYXMyX21lbV9jdHggIGZvciB0aGUNCj4+
+IGNvcnJlc3BvbmRpbmcgUENDIGRlc2NyaXB0b3IgaW4gdGhlIFJBUzIgdGFibGUuDQo+PiBUaHVz
+IHN0b3JpbmcgcG9pbnRlciB0byBlYWNoIHJhczJfY3R4ICBpbiBwY3R4X2xpc3RbXSB0byB1bmlu
+aXQgYWxsIHRoZSBwcmV2aW91c2x5DQo+YWRkZWQgYXV4aWxpYXJ5IGRldmljZXMNCj4+IHVzaW5n
+IGF1eGlsaWFyeV9kZXZpY2VfdW5pbml0KC0+YWRldik7IHdoZW4gZW5jb3VudGVyIGEgZmFpbHVy
+ZSBpbiBhIGxhdGVyDQo+aXRlcmF0aW9uLg0KPg0KPkxvb2tzIHdlaXJkLiBMZW1tZSBsb29rIGF0
+IHlvdXIgbmV3IHN1Ym1pc3Npb24gYW5kIHNlZSB3aGV0aGVyIEkgY2FuIG1ha2UgaXQNCj5iZXR0
+ZXIuDQpTdXJlLg0KPg0KPg0KPj4gPj4gKwkJcmV0dXJuOw0KPj4gPj4gKwl9DQo+PiA+PiArDQo+
+PiA+PiArCWFjcGlfcmFzMl9wYXJzZShyYXMyX3RhYik7DQo+PiA+DQo+PiA+VGhpcyBmdW5jdGlv
+biBkb2VzIHNvbWUgdGFibGUgc2FuaXR5IGNoZWNraW5nIGFuZCB3YXJucy4gV2hhdCBpdA0KPj4g
+PnNob3VsZCBkbyBpcyBmYWlsIHRoZSBkcml2ZXIgbG9hZCBpZiB0aGUgdGFibGUgaXMgYnJva2Vu
+Lg0KPj4NCj4+IFN1cmUuDQo+PiBJZiBhY3BpX3JhczJfcGFyc2UoKSBhbmQgdGh1cyBhY3BpX3Jh
+czJfaW5pdCgpIHJldHVybiBlcnJvciwgY2FuIHlvdQ0KPj4gZ3VpZGUgaG93IHRvIGhhbmRsZSB0
+aGlzIGVycm9yIGluIGFjcGlfaW5pdCh2b2lkKSB3aGVyZSAgYWNwaV9yYXMyX2luaXQoKSBpcw0K
+PmNhbGxlZD8NCj4+IFNvbWV0aGluZyBzaW1pbGFyIHRvIHRoaXMgYmVsb3csDQo+PiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9hY3BpL2J1cy5jIGIvZHJpdmVycy9hY3BpL2J1cy5jIGluZGV4DQo+PiBi
+MDJjZWIyODM3YzYuLjhiNGZjNTcyYTA1YiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvYWNwaS9i
+dXMuYw0KPj4gKysrIGIvZHJpdmVycy9hY3BpL2J1cy5jDQo+PiBAQCAtMTQ3NSw3ICsxNDc1LDEy
+IEBAIHN0YXRpYyBpbnQgX19pbml0IGFjcGlfaW5pdCh2b2lkKQ0KPj4gICAgICAgICBhY3BpX2Rl
+YnVnZ2VyX2luaXQoKTsNCj4+ICAgICAgICAgYWNwaV9zZXR1cF9zYl9ub3RpZnlfaGFuZGxlcigp
+Ow0KPj4gICAgICAgICBhY3BpX3Zpb3RfaW5pdCgpOw0KPj4gLSAgICAgICBhY3BpX3JhczJfaW5p
+dCgpOw0KPj4gKyAgICAgICByZXN1bHQgPSBhY3BpX3JhczJfaW5pdCgpOw0KPj4gKyAgICAgICBp
+ZiAocmVzdWx0KSB7DQo+PiArICAgICAgICAgICAgICAga29iamVjdF9wdXQoYWNwaV9rb2JqKTsN
+Cj4+ICsgICAgICAgICAgICAgICBkaXNhYmxlX2FjcGkoKTsNCj4NCj5ObywgeW91IGNlcnRhaW5s
+eSB3b24ndCBkaXNhYmxlIEFDUEkgaWYgdGhhdCBSQVMyIHRoaW5nIHBhcnNpbmcgZmFpbHMuIFdo
+YXQgeW91DQo+c2hvdWxkIGRvIGlzIG5vdCBhbGxvdyB0aGUgUkFTMiBtZW1vcnkgZHJpdmVyIHRv
+IGxvYWQuDQo+DQo+TGVtbWUgbG9vayBhdCB5b3VyIG5ldyB2ZXJzaW9uLg0KDQpTdXJlLiBUaGFu
+a3MuDQo+DQo+VGh4Lg0KPg0KPi0tDQo+UmVnYXJkcy9HcnVzcywNCj4gICAgQm9yaXMuDQo+DQo+
+aHR0cHM6Ly9wZW9wbGUua2VybmVsLm9yZy90Z2x4L25vdGVzLWFib3V0LW5ldGlxdWV0dGUNCj4N
+Cg0KVGhhbmtzLA0KU2hpanUNCg0K
