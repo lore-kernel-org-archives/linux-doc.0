@@ -1,239 +1,160 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBB02EBBA9
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 09:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16B231A579
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 09:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767604585; cv=none; b=awJ14A0aVa/A3gq4/678MVJyC9fEUpOzDNmSrjONCQ8LchSmVfEcG6HlHrhXi2usXlGqBntS/l3D3x0LJLMODRLjaOntevkMugjHKFAa7pixuh62vSr9Q81zKhvkvh6OUwilfaZFlDsKszxcGF7/CJK2d5mfEoXjqNUDfJYbhOw=
+	t=1767606050; cv=none; b=ABu/J9ysyp9nda73hKBH+tS2sHOvQF3k1wN8B4rZCodcpXWfF22Zu5vbq2oMuQIFQpceOIPCzKXd5bOr+JQ+6pLHhy93mKmSdj65kDIIXs4GRQMrPcggxDJLhuHdmCtsYZmyoFgR2ZB6+yEDD6IlPIoADSkYySmxqqOKZEHDYhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767604585; c=relaxed/simple;
-	bh=OWC+AHxZdxUuVZM/YaeSNjU/c5cKFkHpncudd9Oa0yE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uzE6a5FzaOJnobgz0P+lv3y4oHmhTE/NgUX78/IUBROqH5pHt520PmWtmWjqrBgPkaC4CFv/NFRzlVnnktMjcE/65beM+KBoeRuZmo7BlYXrS6iBUmnyOx/9WJabKilC1Dpz4tH3/1tam0XcWKyVR2MRWJQfu94KwRleUMCypXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aYsHIRYZ; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1767606050; c=relaxed/simple;
+	bh=kfKJrQ5a7Po2zi22PzxrbpGrQhRcJMv+xYYFiP1AGz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uizENka6VUeCM5k1WZg9acYZi0LjRyUC/p7eaqWAHA2zpIf0GEfwFxfU8wSowut7u6MU2kbMduYRqjHzhRfhfzyYsIPLPcEl5YotVJTFgOVym7HpZEDKarNd/Z/OfH6bkXk0w8AHlAOE3Ds+M3w3m3ELp7KIoVPD/wj/UJvoR+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bqTttIPN; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aYsHIRYZ"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-3e8819eda8bso5022022fac.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 01:16:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bqTttIPN"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-430f3273b92so651796f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 01:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767604581; x=1768209381; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=suse.com; s=google; t=1767606040; x=1768210840; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xS4Pieemzy4r1o+XZyR7jxfKf1/JCiqumXmtg6ZAf0Y=;
-        b=aYsHIRYZmEqubVaB/nFOB2ZSyZ5mdUAJQ2e8vK7U6xa1ASeFd6LWH955d9+nh53ktb
-         xr1P49S3syRT14RFGDCfbl+SIJj8H1shK6l/HJyqERcZfy8YT9XcW9ovCyPlV1JPbept
-         stVuPPdDv4O0rskrIVR6VeYaEnAM5RPbtavEumXMM3wqDI/5YZbPJj/fIsEwMgjbttlW
-         vq78fx3LM7I7y53tg3lpxh5jqIHVy7So3PmCqVqS6shGFcQdOC2kuMGEH3Kt5Owzm2Qm
-         rjvtr+TvOeiiwnoqs3PniCzuVCCjBVzPM3FD6VXVz+bPcHzpEmbFp1Ii0V1COQygdl4e
-         lteA==
+        bh=uoPF4qbo+ysXILWF9RMN1mDoAoivYGl4rzNQocqtbj4=;
+        b=bqTttIPNXYA02SvzTJN+Iq2teAV4gvhztpFmGuTDYNQmZSW73vvAB1E9iAMwQAdG95
+         +2dN6IzaMbz96nWQwBsJuSmXZEKRAZW6cGZNlG5prU3nO/SaQLFCAsLrDDY1ehMxp5h+
+         z/AMR8rEXiTZLYVksNz1E4ouEDHzfO9p17we+pJqDgK2Jn5N4hh0imjGEBnl2wqDQDOd
+         ORs5/0peeGMBqvb1bzqjT8PY/f+CUXiWQJUT/jALouTFuJNYCGLZ7rZL25+yY1KxBbAy
+         JlS6gdFy47ebCoiUqTo0jN3T9SpiOTqtc50xJix+6jvOH+Q0OFRVVePn2z61tJQF8SnP
+         2p/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767604581; x=1768209381;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1767606040; x=1768210840;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xS4Pieemzy4r1o+XZyR7jxfKf1/JCiqumXmtg6ZAf0Y=;
-        b=ZhOFCACQoSL06kofTE3avHB3Sq9863jiQ9wkMWUbiVBUWngmxlrf/y1277PnnxyEm5
-         /vKCdNV5FwoOli62ikbbJVBPttiWwcNHE/SFaHgPIrhCgCanZGNXBIpfYpbaA5nPGBI5
-         REys+Nfym7aje1WLl1K38xDz3U9WLurQqmmyVF0zaoswld7Elo8+bhkBG4EiCfh1jtqz
-         rAVENDQJNQSGsPzXvtaLFnNFkz93dq/NGDwgf6vXsFVQMY7G41Qbq8WpWvw8E6Kl1/91
-         AtaIQUgNAUwiqP2FSyiu+Qy6pbOxfy310kPzNjgRAvuuXcFY1QQDDZhKR8f/09Tvr2iL
-         uQ4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVDNJFfDC00TqyG7AX3wPgQti6rQS03n5W6pBloSc0feRWM60bWlQvAuNSBcruf270T7H0q4oE7HcI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6fjMXng0thMrL7kdEn2s5xgauSYYomRKlyRcwboS/tTo4Wco2
-	TEJbb7PlB7TSbVIVwD/76Zqe2oTL10wQDIeZqNlpU1FAtBaCMQNaDS2W4vEienQcpg75ICgnKjr
-	pW/tdIJmeaDX3eow2iwut50ZY9vZ6ovR9ov4QJK8EqA==
-X-Gm-Gg: AY/fxX4EPKJnpWp28zCKYoumodE4GwCc7wWVJVeCep1Ybi4sDyRtq50q9nr48JL1nmP
-	dVL+lT41niYMcJpOgTWB+FheoxizcpXrmPlmXl+UaargOyuRltK2R9e/MXW2OCnbXEq9KjuVH83
-	KqqOFvu38ouUDHWt3Kt4PrLKEAAB33n12RTF7TwsUC07EDoMtBDuY4MWcK8GlLD3vhFzkPX15Rc
-	sWYQYpisc9GsXxsOxWu1R9ZNDJbThViDL+Za4kuJmsGa2WUQRpIFJ+SbK3esY3wzdYhcsYwsrqU
-	DCCcThxpcXSKbd8XZFCE+lNKRw==
-X-Google-Smtp-Source: AGHT+IHdtu3uK1YvLPvRXmBmsYletnr+Fy6yEnWw7FcQJMBZUAFsUyE2L/0PG3GpU/2KGeBY95bkFD0S8glmAzrpFaU=
-X-Received: by 2002:a05:6820:2289:b0:65c:f9c1:cba0 with SMTP id
- 006d021491bc7-65d0ea16a88mr23376881eaf.37.1767604581140; Mon, 05 Jan 2026
- 01:16:21 -0800 (PST)
+        bh=uoPF4qbo+ysXILWF9RMN1mDoAoivYGl4rzNQocqtbj4=;
+        b=e2bSD/8BYe2D77Dfx0QxQaA+8xLv8Uj0KM5Sh0YS8sNkN8ia77PS5HhV1/yH8j633d
+         pC9MjFmlHozW4i2DrTFWomSv1f9Tu/L6FI/tmfcJJ3EKAn7JrIaTIpLu856K0KxnoFu5
+         l3VcliewOCt5jZs2BrtsDNMbQAbHZ5uNJzITWTzmAvJpGuwvcUAEloKZPpQ0dVCVVVH+
+         difcpg6B3DlbD7AYh4UAifOg2S5xQGqAV2SuTL/YMI/mnK/WgcTKSBQGy+6+QnRtw15B
+         RbCfwtuMz7H8Jc0S4uBgamvOe4S/O4RZizndxLSxKDcWFh+w2TfoXw+n98MtkQv2AF7z
+         wZLw==
+X-Forwarded-Encrypted: i=1; AJvYcCXYtIUvMHInbX3V2+uNE6v3HQFTiwOhaMKbkssdfXO4NLbJtsSYzDbN0d+cn+CWi6EVHUdnJnshwvs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoH8V8/b86Aim0f5yzr5NqgWi1mnS6vIsSveUFNE9Za0TD6BCp
+	KtjKsd4nH+QtC+OEzsPpNcKspqFjfKycalqw1JSYpnLHmAPzUvl3Z2FGS2tQlJOqxBu428CCk88
+	SuuLh
+X-Gm-Gg: AY/fxX77ivO6WdbAU6ioewIpMcsczL12kqSHpY6fsOrnAnzyVbVcgO1yxTThNS+R72d
+	VdNljwgX2D1MDMhdYX8HRpES6XAtMYPdk7X0YujEUtYUZR74QtfPQqWTTnoUpg7GjcA/ocjThfl
+	CB9/ncDmhCogB4MxU4PsKXnrQdNhenLqXVGraySN+A9/LS/knZbmTI+PEQIWhLRKtIHV003vKuX
+	z/PUa7JmDVIuGReqXKllA9wr4r6JxSNRDZK+YBx1O9ysaz7xZ3FbqAaHVZDeOvmZxJuSes3jmVJ
+	2SJMpGhqNDG6xxsdd+tejZr0DK5TTIWEjojm0PX9h/hDP4U6U2iQOmXa1b4pliUgzE4vK20BANU
+	OysjkP9A/RG/21u6s20+fX8ihYSghEBEBqU7iXfNjdKaZpQxNam3G1swGf12uheiZSPqd+QgEUu
+	H5L4Q9wmjudsHTr4fme/4zZt2KbKBdYUXUVO3kTNbuwlsaXSdLSzqUadA8nM8GHHlAxn/XseIT7
+	YO2o+u3ex2J+6Y=
+X-Google-Smtp-Source: AGHT+IH9uJ6jLlQ3sMbfjfqB2tBZwtUo3Z4YZNjyI98ICTrDJSXZI/68FFDolBTS/hTy3IR7RjNHZw==
+X-Received: by 2002:a05:6000:1841:b0:432:84fc:46bb with SMTP id ffacd0b85a97d-43284fc4782mr21485079f8f.6.1767606040029;
+        Mon, 05 Jan 2026 01:40:40 -0800 (PST)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm100563291f8f.0.2026.01.05.01.40.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 01:40:39 -0800 (PST)
+Date: Mon, 5 Jan 2026 10:40:36 +0100
+From: Petr Tesarik <ptesarik@suse.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eugenio =?UTF-8?B?UMOpcmV6?= <eperezma@redhat.com>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Stefano Garzarella
+ <sgarzare@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Leon Romanovsky
+ <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Bartosz Golaszewski
+ <brgl@kernel.org>, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 01/15] dma-mapping: add
+ __dma_from_device_group_begin()/end()
+Message-ID: <20260105104036.09a77f13@mordecai>
+In-Reply-To: <19163086d5e4704c316f18f6da06bc1c72968904.1767601130.git.mst@redhat.com>
+References: <cover.1767601130.git.mst@redhat.com>
+	<19163086d5e4704c316f18f6da06bc1c72968904.1767601130.git.mst@redhat.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
- <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com>
- <20251218135332f323fa91@mail.local> <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
-In-Reply-To: <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 5 Jan 2026 10:16:09 +0100
-X-Gm-Features: AQt7F2q8lTcIoa5xBnvz2Mkjx2axWX5OMGPJpQNfFM5WoFI2KGlEdVoT6sJvPQg
-Message-ID: <CAHUa44HqRbCJTXsrTCm0G5iwtkQtq+Si=yOspCjpAn-N2uVSVg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver callbacks
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Sumit Garg <sumit.garg@kernel.org>, 
-	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Garg <sumit.garg@oss.qualcomm.com>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Jan Kiszka <jan.kiszka@siemens.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, 
-	Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org, 
-	linux-mips@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 5 Jan 2026 03:22:54 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-On Thu, Dec 18, 2025 at 5:29=E2=80=AFPM Jens Wiklander
-<jens.wiklander@linaro.org> wrote:
->
-> On Thu, Dec 18, 2025 at 2:53=E2=80=AFPM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
-> >
-> > On 18/12/2025 08:21:27+0100, Jens Wiklander wrote:
-> > > Hi,
-> > >
-> > > On Mon, Dec 15, 2025 at 3:17=E2=80=AFPM Uwe Kleine-K=C3=B6nig
-> > > <u.kleine-koenig@baylibre.com> wrote:
-> > > >
-> > > > Hello,
-> > > >
-> > > > the objective of this series is to make tee driver stop using callb=
-acks
-> > > > in struct device_driver. These were superseded by bus methods in 20=
-06
-> > > > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
-> > > > methods.")) but nobody cared to convert all subsystems accordingly.
-> > > >
-> > > > Here the tee drivers are converted. The first commit is somewhat
-> > > > unrelated, but simplifies the conversion (and the drivers). It
-> > > > introduces driver registration helpers that care about setting the =
-bus
-> > > > and owner. (The latter is missing in all drivers, so by using these
-> > > > helpers the drivers become more correct.)
-> > > >
-> > > > v1 of this series is available at
-> > > > https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@ba=
-ylibre.com
-> > > >
-> > > > Changes since v1:
-> > > >
-> > > >  - rebase to v6.19-rc1 (no conflicts)
-> > > >  - add tags received so far
-> > > >  - fix whitespace issues pointed out by Sumit Garg
-> > > >  - fix shutdown callback to shutdown and not remove
-> > > >
-> > > > As already noted in v1's cover letter, this series should go in dur=
-ing a
-> > > > single merge window as there are runtime warnings when the series i=
-s
-> > > > only applied partially. Sumit Garg suggested to apply the whole ser=
-ies
-> > > > via Jens Wiklander's tree.
-> > > > If this is done the dependencies in this series are honored, in cas=
-e the
-> > > > plan changes: Patches #4 - #17 depend on the first two.
-> > > >
-> > > > Note this series is only build tested.
-> > > >
-> > > > Uwe Kleine-K=C3=B6nig (17):
-> > > >   tee: Add some helpers to reduce boilerplate for tee client driver=
-s
-> > > >   tee: Add probe, remove and shutdown bus callbacks to tee_client_d=
-river
-> > > >   tee: Adapt documentation to cover recent additions
-> > > >   hwrng: optee - Make use of module_tee_client_driver()
-> > > >   hwrng: optee - Make use of tee bus methods
-> > > >   rtc: optee: Migrate to use tee specific driver registration funct=
-ion
-> > > >   rtc: optee: Make use of tee bus methods
-> > > >   efi: stmm: Make use of module_tee_client_driver()
-> > > >   efi: stmm: Make use of tee bus methods
-> > > >   firmware: arm_scmi: optee: Make use of module_tee_client_driver()
-> > > >   firmware: arm_scmi: Make use of tee bus methods
-> > > >   firmware: tee_bnxt: Make use of module_tee_client_driver()
-> > > >   firmware: tee_bnxt: Make use of tee bus methods
-> > > >   KEYS: trusted: Migrate to use tee specific driver registration
-> > > >     function
-> > > >   KEYS: trusted: Make use of tee bus methods
-> > > >   tpm/tpm_ftpm_tee: Make use of tee specific driver registration
-> > > >   tpm/tpm_ftpm_tee: Make use of tee bus methods
-> > > >
-> > > >  Documentation/driver-api/tee.rst             | 18 +----
-> > > >  drivers/char/hw_random/optee-rng.c           | 26 ++----
-> > > >  drivers/char/tpm/tpm_ftpm_tee.c              | 31 +++++---
-> > > >  drivers/firmware/arm_scmi/transports/optee.c | 32 +++-----
-> > > >  drivers/firmware/broadcom/tee_bnxt_fw.c      | 30 ++-----
-> > > >  drivers/firmware/efi/stmm/tee_stmm_efi.c     | 25 ++----
-> > > >  drivers/rtc/rtc-optee.c                      | 27 ++-----
-> > > >  drivers/tee/tee_core.c                       | 84 ++++++++++++++++=
-++++
-> > > >  include/linux/tee_drv.h                      | 12 +++
-> > > >  security/keys/trusted-keys/trusted_tee.c     | 17 ++--
-> > > >  10 files changed, 164 insertions(+), 138 deletions(-)
-> > > >
-> > > > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> > > > --
-> > > > 2.47.3
-> > > >
-> > >
-> > > Thank you for the nice cleanup, Uwe.
-> > >
-> > > I've applied patch 1-3 to the branch tee_bus_callback_for_6.20 in my
-> > > tree at https://git.kernel.org/pub/scm/linux/kernel/git/jenswi/linux-=
-tee.git/
-> > >
-> > > The branch is based on v6.19-rc1, and I'll try to keep it stable for
-> > > others to depend on, if needed. Let's see if we can agree on taking
-> > > the remaining patches via that branch.
-> >
-> > 6 and 7 can go through your branch.
->
-> Good, I've added them to my branch now.
+> When a structure contains a buffer that DMA writes to alongside fields
+> that the CPU writes to, cache line sharing between the DMA buffer and
+> CPU-written fields can cause data corruption on non-cache-coherent
+> platforms.
+> 
+> Add __dma_from_device_group_begin()/end() annotations to ensure proper
+> alignment to prevent this:
+> 
+> struct my_device {
+> 	spinlock_t lock1;
+> 	__dma_from_device_group_begin();
+> 	char dma_buffer1[16];
+> 	char dma_buffer2[16];
+> 	__dma_from_device_group_end();
+> 	spinlock_t lock2;
+> };
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-This entire patch set should go in during a single merge window. I
-will not send any pull request until I'm sure all patches will be
-merged.
+LGTM. I'm not formally a reviewer, but FWIW:
 
-So far (if I'm not mistaken), only the patches I've already added to
-next have appeared next. I can take the rest of the patches, too, but
-I need OK for the following:
+Reviewed-by: Petr Tesarik <ptesarik@suse.com>
 
-Jarkko, you seem happy with the following patches
-- KEYS: trusted: Migrate to use tee specific driver registration function
-- KEYS: trusted: Make use of tee bus methods
-- tpm/tpm_ftpm_tee: Make use of tee specific driver registration
-- tpm/tpm_ftpm_tee: Make use of tee bus methods
-OK if I take them via my tree, or would you rather take them yourself?
+> ---
+>  include/linux/dma-mapping.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index aa36a0d1d9df..29ad2ce700f0 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -7,6 +7,7 @@
+>  #include <linux/dma-direction.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/bug.h>
+> +#include <linux/cache.h>
+>  
+>  /**
+>   * List of possible attributes associated with a DMA mapping. The semantics
+> @@ -703,6 +704,18 @@ static inline int dma_get_cache_alignment(void)
+>  }
+>  #endif
+>  
+> +#ifdef ARCH_HAS_DMA_MINALIGN
+> +#define ____dma_from_device_aligned __aligned(ARCH_DMA_MINALIGN)
+> +#else
+> +#define ____dma_from_device_aligned
+> +#endif
+> +/* Mark start of DMA buffer */
+> +#define __dma_from_device_group_begin(GROUP)			\
+> +	__cacheline_group_begin(GROUP) ____dma_from_device_aligned
+> +/* Mark end of DMA buffer */
+> +#define __dma_from_device_group_end(GROUP)			\
+> +	__cacheline_group_end(GROUP) ____dma_from_device_aligned
+> +
+>  static inline void *dmam_alloc_coherent(struct device *dev, size_t size,
+>  		dma_addr_t *dma_handle, gfp_t gfp)
+>  {
 
-Herbert, you seem happy with the following patches
-- hwrng: optee - Make use of module_tee_client_driver()
-- hwrng: optee - Make use of tee bus methods
-OK if I take them via my tree, or would you rather take them yourself?
-
-Sudeep, you seem happy with the following patches
-- firmware: arm_scmi: optee: Make use of module_tee_client_driver()
-- firmware: arm_scmi: Make use of tee bus methods
-OK if I take them via my tree, or would you rather take them yourself?
-
-Michael, Pavan, are you OK with the following patches
-- firmware: tee_bnxt: Make use of module_tee_client_driver()
-- firmware: tee_bnxt: Make use of tee bus methods
-OK if I take them via my tree, or would you rather take them yourself?
-
-Thanks,
-Jens
