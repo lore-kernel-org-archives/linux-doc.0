@@ -1,206 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D66023C516
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 04:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC6B31E10B
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 04:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767585987; cv=none; b=F5NUvRebHQY8xJdEVyoQq1bwPr2lRs6QeWCELcymp0jen0dJqpGViwmj8L1O6ygKBzXVAqllwRC0bwJqvsVaaxQ/tGZoRvXdF+EFJhSvFH7M24OTnLU1y94rRCBdJKAe0G4ZCeJp0UbfRPuZng3vMpLDdfbq8TwhnVla0LNdDWA=
+	t=1767589008; cv=none; b=C/4Hd8z/u1wpkSRZRLqOnP704j78jWLe4mM3Lt81RmaxxzfvRDqPjm64ORIsyGvvySEDME15PubKMhzbVE0vWeBHt77M/gufWDpjkytntGdyvc/utPigUNzHS0pqWQJNZFtZc6WcKCwg8vrQPaUYPt5n/J4mhBz8o+VtR3SMLPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767585987; c=relaxed/simple;
-	bh=2Ign9LzXnCZy9ShLfB1eXWY6kD08zIYXpywwJRNYm1w=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qTIJKm0VEKAhwk8qrvjb5cNvbP3m4X3YQPapfQMrsjDn40MDnvK37AltliqaYn4sH9txvfyV56l+RRkSxYcnIWXK32XZKGjtvGwWsNwl57BVXIke8xD4Z96L3uALv+H0X/+PVW3FpkyK7QN63REwjX1xZdNF1OP6m+WEcvWJDQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Evot1JJQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=VR/MY8PJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1767589008; c=relaxed/simple;
+	bh=jBwvhnDfidsek4dpH3nFNU7R+wPfEwm8oFGbdpxTVpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZRQlFe5hp+cpA6OzIGOf69cIT4esRK8Cf3npXDYFAeXmBhO6ohgniKy9E4AGU7N5Nyii9g5vse77UL9bPC6z7lTLu7x9XcreqDVbqCiqK6sz9zURUJil5OuojttVbWp1IvlqlrNFk6176ntaJUvuH0tWbhUqwIkO6bGMq7kG8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DjZdAnPS; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Evot1JJQ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="VR/MY8PJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767585984;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F2Ay0P6oqFz3kKz9b4RMbn0EQKm2M2v4BWX6Fzz7A2A=;
-	b=Evot1JJQLdQmDoP04HBGNU7OoVTN8ajzhxYRxhktIGzED50dxG5apRBfSkc1mbXonhhoxE
-	dejkAumH3KCRhlkBanRTIRdDTcbeRXyTW6o0h47m8KHhvKcwsMpGpD8qY6VbzhoFBymMds
-	BGjd+rRqV8QQLjEkzgAzyOs3E50EwX0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-Yf_rUWKtOsiKyR6dckXxTA-1; Sun, 04 Jan 2026 23:06:23 -0500
-X-MC-Unique: Yf_rUWKtOsiKyR6dckXxTA-1
-X-Mimecast-MFC-AGG-ID: Yf_rUWKtOsiKyR6dckXxTA_1767585982
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8bc4493d315so3389743385a.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 20:06:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DjZdAnPS"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34c868b197eso15258419a91.2
+        for <linux-doc@vger.kernel.org>; Sun, 04 Jan 2026 20:56:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1767585982; x=1768190782; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=F2Ay0P6oqFz3kKz9b4RMbn0EQKm2M2v4BWX6Fzz7A2A=;
-        b=VR/MY8PJNpFne0kYp9v+X1Pwom2sjaq8GZGQPQ5jzlTMUFqbnD1W+vCq1Vo5L2zyKU
-         J1/Bx8NbrS8Ste2tNN+vLr+5YCwE8lRmifcX+kO7g8EEVuxYkPQQ2aAP1tWz2QQDiZ23
-         eJjQrZJnLJuVqis2J7+0MQEIQ/YPWTHUNUBqW9HeI8vSXlmPCEz2OX8bwHF6J8uAqCp7
-         XK9un4LpcVkBOkJTpmx2Pc19/8uBx/kaB16XJtQ2wRiaoQk7+lTpMMWz9/fUdWRfNa1J
-         /9tDtG0qncxq3iK9U1upilg9nOPNWxcTe/5sO/Fui9fhycXLiFB5Yb43agQy0ihFd59m
-         bivQ==
+        d=linaro.org; s=google; t=1767589004; x=1768193804; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3hFH3lNfVrL079RvxBKm1qFjwG/jqKdNHXIh3f8h06U=;
+        b=DjZdAnPSKhJjowEybd/uJ3UxV4OTWKNcfMD3RPhr7GOQBhEU1ggmKlEbgpwq3nYYd7
+         vMjDrXkBziU78LtkXjQM6vRVvpdeUtbLuUtGpzs+mUFwiV8moSiDCztvjjZ6KfJmT78F
+         XE9GUMAsvxex901xRgK8DUbCEP0oBhxREssCW+UjXtCSTVKSvjdhTUTB3jBTfhKS82xU
+         ogWEp4HXMt8SBoqXAqIVM1cOVzYVjo59TK7XKFWzWMalXOsSLTCuLFLXe6uCkMvPfIJJ
+         w6gP28JLvMgVR8c3/qLtEHJ4NlgRdYX9QvVd05WhbZ57HD/OBYup3pPGDa3a0+z26Ujx
+         wckg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767585982; x=1768190782;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F2Ay0P6oqFz3kKz9b4RMbn0EQKm2M2v4BWX6Fzz7A2A=;
-        b=UAhNySFeiev2P4hrA0mmP/dsO/+ftcbr+ydY/KwLg+O8crKc9x6TcWJdEk9Lnafzgk
-         N+gOMX4njgwBQtikfAxWHJak9/y932KQArwOeLO8GmqrlF4IvDZMpzChNMSsp2AMMZcf
-         Qek3HME4XG+6hL30a6apTkjtCv0UDPkwwPAS44K8Eds9n480dEb4xJ9Bo62R41KWX8Ly
-         OsJZpVabmXmfK3trSjXPKm3j5jkyl6gLA42K+TsPMET8xbTHcWwqUZP2IS/yyA6R6Nko
-         BeBPODFNLGcMfSELijd6cW/CAZItFNPh7EuS28NEOxG2NRa+rHZnWPsjDWG+0aGm1Pwt
-         EmgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAJBvxWc2CDPeQ0r7RSsLexp13IXu7IU62YNSWqDE5M9Ikcob0Kq39vFuihVXVdvEA3RdGIlAswHA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgMLbGWEGQkC0k3vkjIY6OMhC7aSU+BOOF182y3Ija8whrSKLX
-	unAZDK2z5zQVGXvLmKMMTnmmbrWqhrFSdcNjYq/yX0nj3AWnxvMXT5ICJV5tox6tl4yFecO2yUY
-	u+6RGAKfPdhGgXUb3s1twNROYvFw0dzFHsIPE5Wh7uzErlOgjCKWV5A3bGPOLMA==
-X-Gm-Gg: AY/fxX5OoDAGJlkQBDtifTWWoGyqqNXSjGLNWoXUXkrr4GP/DjRKXMUIV5ASvOVfdFD
-	dgEeUnh7VH3MM/zYMhQe/GWEkgZUozHNr6l2OwshIMRVg/Cqq/LMLl0/ALuuZ5JNtJjsYHggunq
-	RszApfP/P8gGgs/gKIEfvskuw8yRgmhtnl6Ws992ugM+0ft7GotwhFHJcjTJVe9QS3xd3jLRrr8
-	U7AA5U/5ryGK6+vXJyiK60cqMwWkOe7GmjumFzXgzhU7KZ1p5WIZxMcMDOJtqgH490BtpfTtyMp
-	pAGYoaLLguA6/apRnWwK4IyvAt56dewGu60M44FQyPVYNHhllCg6FJ27cTJznrTBSt1X9vBiT1w
-	bbQ2xN9ZWCeD21NqbGvD7mpytETiA9LyDaxHzxZUQgQ9FQjVvpSF9IUHy
-X-Received: by 2002:a05:620a:4116:b0:8b5:5a03:36df with SMTP id af79cd13be357-8c08f657be8mr7018375385a.3.1767585982494;
-        Sun, 04 Jan 2026 20:06:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFZZcFdmlbUnig7+iVAJ2yL8eFlW7ffXYP0YAZ/rTdZzKW80JYYsX60b8bsdOJbWu6XqL3dCw==
-X-Received: by 2002:a05:620a:4116:b0:8b5:5a03:36df with SMTP id af79cd13be357-8c08f657be8mr7018373585a.3.1767585982067;
-        Sun, 04 Jan 2026 20:06:22 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9a44e314sm337005146d6.49.2026.01.04.20.06.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jan 2026 20:06:21 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <f541b93b-7bbf-4530-bca6-dc5b5b1f481c@redhat.com>
-Date: Sun, 4 Jan 2026 23:06:20 -0500
+        d=1e100.net; s=20230601; t=1767589004; x=1768193804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3hFH3lNfVrL079RvxBKm1qFjwG/jqKdNHXIh3f8h06U=;
+        b=fzxsavZ8RnPt+5f1FTSD79dyiCy7qTpgpMuyJDUECly1Fn8ZuDeenDY+ze0izs0HfE
+         fzVUZ9xZ9hOmHBwrLrf53VtOLozQF2lIpBniBPrCETqBVon8tw5H+Y25i5kyKSSUZkpz
+         3lSxiA9ZYaGY15tU6gYJDPxt3/2x2IzfPtYischQizRxIh3E4QHYEYtoR66ARo7/NfGu
+         InxJHNRCqIhOyg9obflpD16p27CQPN/h/4/tkBpxlV0cTQJ5aTdofr/UR8PQwDwk0Ff9
+         9EFAU4QuofM6jjU5bvgrqte67Plqjcb3zGjdzwgF3AeFqSbVjTBv9rkuoNyC4i7hfdW+
+         7j+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUvfi6kBauOpDwpYnYIuOhrZMOLPCfVMy9jUdALiT1NJJ1KOoGntZK+yKhf0Yjs57RqoB/jdbi7Gh8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNah5b6gCVBCyuCA79cjWB+eBenRnZDaEmEfBOTUJeAUJzHgIZ
+	hBI1ddUyKME4ixpTuzhky5Ji3slK2MZwcm25zM1kI0+9M4a4MwtrrTkplJjvBFVoY2k=
+X-Gm-Gg: AY/fxX5LaHUPSetDoXflA8X1XGhPDweGaJoqRB0wEPV2DFpgAkTSIEL+h6Q2FxniIea
+	ank1+Ti6tSIb8oZLtjEi1HWrasI60ZBK5qzCrfoioYNI5wgQ0Onhn4hV5B7Wb63PyWxcnIjLKSa
+	yRhzlVT2b8RLSe0sB2YPzlCVKGHfhmRdGzXFKTZgRsPqtN9tG79W+EG4xRkLFiveXTG16H0VNCg
+	PN4EkkbCj7uyod9BWYQ0rojP2v/37CaLdeeMRIad6MUyR4ZJPV5dwaNeTpRaSadxw23oOXWr6bE
+	74bmrk2dGJKAvB3mKR2ST0xFRfKQfXSOR8BnJw3Fa/YgXb/IBHLd+3z9tmZoQCAnU4dEqOGmA3a
+	YWR/FB10IfvjBwDn6k2bQtv+9SXq5s1J9t5GypGm9ziuMnL+njJcQ5FnxOYQq2KLvOSnMtuPlA/
+	cuH34j4jOYt9M=
+X-Google-Smtp-Source: AGHT+IFZ00gScIfn7Z/S2C4S8PPgyPbUGX5mTMlgh0Rzf0TnKH5YXmLt4fA7cx6w6t8/JqVkxOTy2w==
+X-Received: by 2002:a05:6a20:918e:b0:364:13aa:a526 with SMTP id adf61e73a8af0-376a9ce54bbmr44864432637.60.1767589003573;
+        Sun, 04 Jan 2026 20:56:43 -0800 (PST)
+Received: from localhost ([122.172.80.63])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7bd61b4csm40590900a12.18.2026.01.04.20.56.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Jan 2026 20:56:42 -0800 (PST)
+Date: Mon, 5 Jan 2026 10:26:40 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Olivia Mackall <olivia@selenic.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Petr Tesarik <ptesarik@suse.com>, Leon Romanovsky <leon@kernel.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, iommu@lists.linux.dev, 
+	kvm@vger.kernel.org, netdev@vger.kernel.org, 
+	"Enrico Weigelt, metux IT consult" <info@metux.net>, Viresh Kumar <vireshk@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH RFC 14/13] gpio: virtio: fix DMA alignment
+Message-ID: <nyz6mnesozpu5u6p2mxrg37fwuj3sy7hjo2xkyepd3aybm7m52@7weoocg2pbs5>
+References: <cover.1767089672.git.mst@redhat.com>
+ <6f2f2a7a74141fa3ad92e001ee276c01ffe9ae49.1767112757.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [cgroup/for-6.20 PATCH v2 2/4] cgroup/cpuset: Consistently
- compute effective_xcpus in update_cpumasks_hier()
-To: Chen Ridong <chenridong@huaweicloud.com>, Waiman Long <llong@redhat.com>,
- Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>
-References: <20260101191558.434446-1-longman@redhat.com>
- <20260101191558.434446-3-longman@redhat.com>
- <758f42df-52c2-4660-8ef7-1cbacb9323d2@huaweicloud.com>
- <f8539426-92b0-42f3-99c4-70962c2db96d@redhat.com>
- <c17051c3-82ac-4ca5-8823-33327cadd073@huaweicloud.com>
- <ec6e1ee4-b52e-417f-9413-3dfca0ec8eb3@redhat.com>
- <d49cc8af-509b-44b8-ada4-f8bbdbd37f89@huaweicloud.com>
-Content-Language: en-US
-In-Reply-To: <d49cc8af-509b-44b8-ada4-f8bbdbd37f89@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f2f2a7a74141fa3ad92e001ee276c01ffe9ae49.1767112757.git.mst@redhat.com>
 
-On 1/4/26 10:58 PM, Chen Ridong wrote:
->
-> On 2026/1/5 11:50, Waiman Long wrote:
->> On 1/4/26 8:15 PM, Chen Ridong wrote:
->>> On 2026/1/5 5:25, Waiman Long wrote:
->>>> On 1/3/26 9:48 PM, Chen Ridong wrote:
->>>>> On 2026/1/2 3:15, Waiman Long wrote:
->>>>>> Since commit f62a5d39368e ("cgroup/cpuset: Remove remote_partition_check()
->>>>>> & make update_cpumasks_hier() handle remote partition"), the
->>>>>> compute_effective_exclusive_cpumask() helper was extended to
->>>>>> strip exclusive CPUs from siblings when computing effective_xcpus
->>>>>> (cpuset.cpus.exclusive.effective). This helper was later renamed to
->>>>>> compute_excpus() in commit 86bbbd1f33ab ("cpuset: Refactor exclusive
->>>>>> CPU mask computation logic").
->>>>>>
->>>>>> This helper is supposed to be used consistently to compute
->>>>>> effective_xcpus. However, there is an exception within the callback
->>>>>> critical section in update_cpumasks_hier() when exclusive_cpus of a
->>>>>> valid partition root is empty. This can cause effective_xcpus value to
->>>>>> differ depending on where exactly it is last computed. Fix this by using
->>>>>> compute_excpus() in this case to give a consistent result.
->>>>>>
->>>>>> Signed-off-by: Waiman Long <longman@redhat.com>
->>>>>> ---
->>>>>>     kernel/cgroup/cpuset.c | 14 +++++---------
->>>>>>     1 file changed, 5 insertions(+), 9 deletions(-)
->>>>>>
->>>>>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
->>>>>> index da2b3b51630e..37d118a9ad4d 100644
->>>>>> --- a/kernel/cgroup/cpuset.c
->>>>>> +++ b/kernel/cgroup/cpuset.c
->>>>>> @@ -2168,17 +2168,13 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
->>>>>>             spin_lock_irq(&callback_lock);
->>>>>>             cpumask_copy(cp->effective_cpus, tmp->new_cpus);
->>>>>>             cp->partition_root_state = new_prs;
->>>>>> -        if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
->>>>>> -            compute_excpus(cp, cp->effective_xcpus);
->>>>>> -
->>>>>>             /*
->>>>>> -         * Make sure effective_xcpus is properly set for a valid
->>>>>> -         * partition root.
->>>>>> +         * Need to compute effective_xcpus if either exclusive_cpus
->>>>>> +         * is non-empty or it is a valid partition root.
->>>>>>              */
->>>>>> -        if ((new_prs > 0) && cpumask_empty(cp->exclusive_cpus))
->>>>>> -            cpumask_and(cp->effective_xcpus,
->>>>>> -                    cp->cpus_allowed, parent->effective_xcpus);
->>>>>> -        else if (new_prs < 0)
->>>>>> +        if ((new_prs > 0) || !cpumask_empty(cp->exclusive_cpus))
->>>>>> +            compute_excpus(cp, cp->effective_xcpus);
->>>>>> +        if (new_prs < 0)
->>>>>>                 reset_partition_data(cp);
->>>>>>             spin_unlock_irq(&callback_lock);
->>>>>>     
->>>>> The code resets partition data only for new_prs < 0. My understanding is that a partition is
->>>>> invalid
->>>>> when new_prs <= 0. Shouldn't reset_partition_data() also be called when new_prs = 0? Is there a
->>>>> specific reason to skip the reset in that case?
->>>> update_cpumasks_hier() is called when changes in a cpuset or hotplug affects other cpusets in the
->>>> hierarchy. With respect to changes in partition state, it is either from valid to invalid or vice
->>>> versa. It will not change from a valid partition to member. The only way new_prs = 0 is when old_prs
->>>> = 0. Even if the affected cpuset is processed again in update_cpumask_hier(), any state change from
->>>> valid partition to member (update_prstate()), reset_partition_data() should have been called there.
->>>> That is why we only care about when new_prs != 0.
->>>>
->>> Thank you for your patience.
->>>
->>>> The code isn't wrong here. However I can change the condition to (new_prs <= 0) if it makes it
->>>> easier to understand.
->>>>
->>> I agree there's nothing wrong with the current logic. However, for clarity, I suggest changing the
->>> condition to (new_prs <= 0). This allows the function's logic to be fully self-consistent and
->>> focused on a single responsibility. This approach would allow us to simplify the code to:
->>>
->>>      if (new_prs > 0)
->>>          compute_excpus(cp, cp->effective_xcpus);
->>>      else
->>>          reset_partition_data(cp);
->>>
->>> Since reset_partition_data() already handles cases whether cp->exclusive_cpus is empty or not, this
->>> implementation would be more concise while correctly covering all scenarios.
->> effective_xcpus should be set when exclusive_cpus is not empty or when the cpuset is a valid
->> partition root. So just checking new_prs for compute_excpus() is not enough.
->>
-> If we change the condition to (new_prs <= 0), it will reset the partition data even when we call
-> compute_excpus (for !cpumask_empty(cp->exclusive_cpus)), so we should still get the same result, right?
+On 30-12-25, 11:40, Michael S. Tsirkin wrote:
+> The res and ires buffers in struct virtio_gpio_line and struct
+> vgpio_irq_line respectively are used for DMA_FROM_DEVICE via virtqueue_add_sgs().
+> However, within these structs, even though these elements are tagged
+> as ____cacheline_aligned, adjacent struct elements
+> can share DMA cachelines on platforms where ARCH_DMA_MINALIGN >
+> L1_CACHE_BYTES (e.g., arm64 with 128-byte DMA alignment but 64-byte
+> cache lines).
+> 
+> The existing ____cacheline_aligned annotation aligns to L1_CACHE_BYTES
+> which is now always sufficient for DMA alignment. For example,
+> with L1_CACHE_BYTES = 32 and ARCH_DMA_MINALIGN = 128
+>   - irq_lines[0].ires at offset 128
+>   - irq_lines[1].type at offset 192
+> both in same 128-byte DMA cacheline [128-256)
+> 
+> When the device writes to irq_lines[0].ires and the CPU concurrently
+> modifies one of irq_lines[1].type/disabled/masked/queued flags,
+> corruption can occur on non-cache-coherent platform.
+> 
+> Fix by using __dma_from_device_aligned_begin/end annotations on the
+> DMA buffers. Drop ____cacheline_aligned - it's not required to isolate
+> request and response, and keeping them would increase the memory cost.
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  drivers/gpio/gpio-virtio.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 
-Changing the condition to (new_prs <= 0) won't affect the result except 
-for a bit of wasted cpu cycles. That is why I am planning to make the 
-change in the next version to make it easier to understand.
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-Cheers,
-Longman
-
+-- 
+viresh
