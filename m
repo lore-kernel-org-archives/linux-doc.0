@@ -1,112 +1,148 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB33D328627
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 08:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3297330335
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 09:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767603102; cv=none; b=CVhE9wQNnBDZWggK/+wFgiv4KNpechBDcJMkgsSSTBLy+fOM+OrGjd+OjUaUr+A113kA8H2KzlmKuA8kChHytCEhS3sHKYhcAFvLwTujl0vChOGTjIyYC2XXziJtSK5Sqe+exY8M3b0Ncsapd2DuN6xakhxh5/nhK8WbRIPayg0=
+	t=1767603743; cv=none; b=McLtvGxtNpkgVAxySQ5MhzLAbnwbFYO8dtFDotQw76NNsevHsSif6OQq2Jw+Xyw6vZ4IK6R2waUQfHElmYwQ28GUzFhwDQ90Rbul52CFAgSTj8A0UxpN2DE6GYWRqkDe2qNAgJxOZZVdhZYrz8+pDfNZ3mhHGF3Bz1JQOwJbbsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767603102; c=relaxed/simple;
-	bh=OAo5K/otowRMfSN0d0G/teKYtxIelTfpBkceavpB2MQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=owUMqxIRHMqGvMePBV/xl9sPhoK/r0f0erwOrF/AAyAOtFQCzb/LyFZWClEi3Fw8c+M1T/u63kalSJcQ2ILXu9gyJqwrVYQK9IRQvcA2h+tnoPbhIrl8O+zsoDkpD3diHwG0J+q1UuIa+9HUE1BH5/0Ku+s6TmjMDNVYEpz2Z0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exV/CKEL; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767603743; c=relaxed/simple;
+	bh=FTgD2tLboygPZIMnpvGYADMJjZOBhXUngyQl92DfTPw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dDHVeNFpVXBnLlHzXnA5sprL4Ou8VY6CWTSYPXuTkMNDmU7xqydiNPXcc4yup8pwWWkAw4kUms9hod6OyaPFfbK1ZY/nhnbZV2ei8Xm6dtFEzUSDCMAuL9d8HVEknDRo/9FzxMw6dswbx+ZrZ1GjBRs4RB/eykyvMWdCBS54AmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=q9FU/VLl; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exV/CKEL"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a09d981507so12807155ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 00:51:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="q9FU/VLl"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-459ac606f0bso4517496b6e.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 01:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767603097; x=1768207897; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bNyutVNOdn9lYyBQdC+62RBrW7qhdeP17iFCxftrMsA=;
-        b=exV/CKELEW7igI4zk9wrsBrWz3AxJDrIYd3mOieUjmxINyoKEW5bApRv4UPufKIoAC
-         Ak8783i4rIsyww8QeEKXcIPf1UkxT5OdcLqCVaHPNscrFgLhqKe9kkqnfn6PZ0kZe4fJ
-         0THye8Y2xxvneYUy/Qh/v/sSAkMUMti9WexNpteE479M2G6nc0CAE9eIV00A5M5/jpQI
-         fcXCyKhlOAOHhwa9WhI4oN6qetQCKytz7Rn1wKKXjRjd/yfriermSG1Hukeu8CaAY85J
-         VttoxfN51LUAh3oKWu79TKjJZxF4D8aUlO0LC4FE9Oqckow5NfXbD4KaNQukGolLhqqW
-         MCOg==
+        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1767603738; x=1768208538; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qLgzGv5fLc8fsHoh6HgxliKmTiWU9X2CeR3QczQ/WzU=;
+        b=q9FU/VLlM3Fs9Y0IvnL2TiyBVm40QnOS8EsXR61JY92ivxpJgHGgz+rTImfoXbOHv6
+         x86gsaBD8qIGfWVODjEfgdE7seEve7mAyJ1qEPB5bM6u2T0Gl/CxyCjqYM3Spi+UL1Sj
+         C/txL3nfckNMdLzrE5jHSUgCf+by11ebuTfW0Pl5TKANhcWhUXmo9Jl82RGWqwmf+/HV
+         zqwSAbSuTb7JaBMjIn/IV7Qmxt2IbrVcS3Bwmhlioz/N86gp1ogFGwFKCyvstZvRfKeT
+         AGoEde0oKvSToJcTPJSNdP1gWf+DSZedc6boWbeUQzs7n0+mFUZFjRvmr7JKZwmNUve0
+         u0iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767603097; x=1768207897;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bNyutVNOdn9lYyBQdC+62RBrW7qhdeP17iFCxftrMsA=;
-        b=t5K33o6trEZZHFBEk3JRXshMQeLpyPt/mmnwK+lu1SiIlscUqURR4EiaJQ2i8Z7zlW
-         DfiMnYBVXZpICDOtfb7MGQnB4VOb+yR4JUfzXLCTxC+rkd+v/YXLB6oyrFkAW6KgboPS
-         k/WUM41z5f9h25j3/NOOdW24WzokmCzqOJk8aeVlZ1JmBsOGGB605k8mT0TH0Q7yL4eW
-         IKP8fZ7HtvoY/E+5+Jy9LJRETnGMgeVH7tLoOTmKgUrYsbkkV4UBOb4VD9EerMaYdRCa
-         LShbpm+PZC7ML1TDtHJkcH6YbCe+/BbcLoCuHHP37Eq5tvmBoSMI+LwnMmex1XHfkjhP
-         YqRA==
-X-Gm-Message-State: AOJu0Yy4GIU7HNZFwruOjwjOiMv7LoaHk1meG5WlRQr//yKWgRjRQ/wK
-	sLoL13tNAbCwJGL64nBNCUx5Almk+zUkXT1QN6GT5Um1FP3FAgZaWFSV
-X-Gm-Gg: AY/fxX7U5KqPhZJqWA0IW6eE2uiLMxdKczxjnL4CtNrNR27mDNq6g6QLNu1FT8wgWsv
-	6C7D4iDoN/CuPXMdpd+q+SPD0f24XVD8491jnzJm6SOK+Scej11sOfaxqTdHmKLi7lxjQ4gfCyl
-	8yBp56E/luDl8ysRvo/Y8ARE6kB1EbTos6ZoWcjmtAx0f6RJXHpyCPVedy4TaW3DVYGMH1j0Mt9
-	FSrFFm1wPBKM5+2DJIbgZkxeU103ss5auhHAbJLDngHi4GhHXGSYsc2lssX4qxJQOuzqhmBQyTH
-	z3UbBUPKxlcpHqFPG4V/yZ3ZHNhFrjILfFBXO+9Z+GHBvIGOm8CsgDkJ8LtBTVjTcodVDD4qqBS
-	zFP6ntIHToI6/dzG33h2GLN5apcXYXydbJMrpThqbVwawGr/oMuUXwedoBtuPQcs+8P5CWygRoL
-	rvaKeJeCn1hrUFL4tjQ3DDMpCbE7UM/sM2wxcyrLpRewffHiS8+IWuPa0BEwKVHdpSL6Q=
-X-Google-Smtp-Source: AGHT+IHYi7ScUNl9v0xyyHGINVgQdOMBpkV5Y2gRHPqj1dPoFDyyYBwCrUfuzT59Q9HNslAaZta9JA==
-X-Received: by 2002:a17:902:e88e:b0:2a1:3ad6:fab3 with SMTP id d9443c01a7336-2a3c094092emr58285075ad.1.1767603096650;
-        Mon, 05 Jan 2026 00:51:36 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4d2bbsm448650865ad.55.2026.01.05.00.51.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Jan 2026 00:51:36 -0800 (PST)
-Message-ID: <f3246e93-aa94-4191-b09c-4d8c15d3fa8d@gmail.com>
-Date: Mon, 5 Jan 2026 17:51:34 +0900
+        d=1e100.net; s=20230601; t=1767603738; x=1768208538;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qLgzGv5fLc8fsHoh6HgxliKmTiWU9X2CeR3QczQ/WzU=;
+        b=QROGAaotjakCzJZLD+9bmypacsX3s720WyluQdbGyKBPy8+5J/uPVGza4bjuRO9kML
+         5tegOtrfgrsN+7HOgc2UtcCeqm5IAUdncrvNvMZxxLGLBRNEkrF1MMxnrtryhIXXnUFS
+         7ks8eQh0EKsTWl/nyfmqSlDJ9emYFvfAPQbeQUM3GMbp/82GDY1sBp0FeJ78f30yNaak
+         zXcChBszUOcvFuGGsv8B5VyomObwtsNWJzziDje+T+4hEPj3LRA2GDgEAp3I2otgn8i0
+         R1gM3sLx4Vt4dVfhIUalijid+7NivJo14q1i5aVaps+rVY+cyBQ0VPQWRmbaR7aK8gDb
+         Oe+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWC5Gax4e3ePO8HRWI5pg/jMzFW/0Iq5qddwF8VM3PeLPW3pFy/rNduUXjgOkT/qD0FCt3fJPs9YSY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsfAXnRjXSIGExPmSB2gdVtvGozmxtnAef7sz9RPcfQkVi9g/d
+	mBxgktNbsDJuJvIVdFXP8DCrqcomPq5s3aeSGdcyD5lj0o5xbgQkRMv0UXkF9uaUkuZMS9baAeH
+	r0IcNRwg+H9s//hpPUwSZxufxsyl2/xnvk5ZysAAMfA==
+X-Gm-Gg: AY/fxX6YirUsV3tmtw8Vw5IaTlnXGgGymzcg9ealQDb/pDRLWqfgrb2DBtb4CZG+lBi
+	Dl+TT7YUoKIem0jv9Qi3csfBLV3YbRq2sVLwZBLtkZzvEIN5Skz6HOEecOt8lMxEeTrVyB1206e
+	PDeVqZWCFOP43NXd960u9B3lD1w7Hf6M3lYf99LhZ/DRLm2zwWoCdqNnVORunauIV1/ueQecbtP
+	Rt2QyaK2Ndw/WYhrQZsiznYkGRfXuYUvULxsVpPXeqx4JTNheWzlJPQ25hYOaE3Qn4lfhIMCO+2
+	MQIJrKq5JApyvP/5v3GWYcx9Y6i9JaSQA3ScUwNYRXqo3qL6fAVuY0sz9g==
+X-Google-Smtp-Source: AGHT+IG/2dbYVAi+kE9jQKrV+b5ME2O9/wDR8akXLsA6MOvPGexAzyR6yiQetXOblpapVeFT7WzjD3+LEnqxI7rG0V0=
+X-Received: by 2002:a4a:b285:0:b0:659:9a49:9023 with SMTP id
+ 006d021491bc7-65d0eafe372mr16492285eaf.80.1767603737633; Mon, 05 Jan 2026
+ 01:02:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs/ja_JP: fix translation of freestanding C
- environment
-To: Masaharu Noguchi <nogunix@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20260104-ja-howto-v2-0-8cac525b3dfe@gmail.com>
- <20260104-ja-howto-v2-2-8cac525b3dfe@gmail.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260104-ja-howto-v2-2-8cac525b3dfe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250826162939.1494021-1-pincheng.plct@isrc.iscas.ac.cn> <20250826162939.1494021-5-pincheng.plct@isrc.iscas.ac.cn>
+In-Reply-To: <20250826162939.1494021-5-pincheng.plct@isrc.iscas.ac.cn>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 5 Jan 2026 14:32:06 +0530
+X-Gm-Features: AQt7F2r7JOD0nswZYt1d_1RpOAVlRLQ2tRHmfthI7w40klc16h1ihmE0AFTutIc
+Message-ID: <CAAhSdy1B155WWM8=FA=fvmpVHgVzXke5WjQRnv63RLyLbdpDFw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] riscv: KVM: allow Zilsd and Zclsd extensions for Guest/VM
+To: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
+Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
+	alex@ghiti.fr, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	pbonzini@redhat.com, shuah@kernel.org, cyan.yang@sifive.com, 
+	cleger@rivosinc.com, charlie@rivosinc.com, cuiyunhui@bytedance.com, 
+	samuel.holland@sifive.com, namcao@linutronix.de, jesse@rivosinc.com, 
+	inochiama@gmail.com, yongxuan.wang@sifive.com, ajones@ventanamicro.com, 
+	parri.andrea@gmail.com, mikisabate@gmail.com, yikming2222@gmail.com, 
+	thomas.weissschuh@linutronix.de, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	devicetree@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 04 Jan 2026 20:58:41 +0900, Masaharu Noguchi wrote:
-> The current Japanese translation incorrectly implies that the kernel is
-> independent of the C language.
-> 
-> Translate "freestanding C environment" accurately.
-> 
-> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
-
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
+On Tue, Aug 26, 2025 at 10:00=E2=80=AFPM Pincheng Wang
+<pincheng.plct@isrc.iscas.ac.cn> wrote:
+>
+> Extend the KVM ISA extension ONE_REG interface to allow KVM user space
+> to detect and enable Zilsd and Zclsd extensions for Guest/VM.
+>
+> Signed-off-by: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
 > ---
->  Documentation/translations/ja_JP/process/howto.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/ja_JP/process/howto.rst b/Documentation/translations/ja_JP/process/howto.rst
-> index a47d7679364aa3da57b9802807a3571ca23b7122..8ab47fc710fc14da30edf75e9e415f88cb110734 100644
-> --- a/Documentation/translations/ja_JP/process/howto.rst
-> +++ b/Documentation/translations/ja_JP/process/howto.rst
-> @@ -49,7 +49,7 @@ Linux カーネル開発のやり方
->  
->  カーネルは GNU C と GNU ツールチェインを使って書かれています。カーネル
->  は ISO C11 仕様に準拠して書く一方で、標準には無い言語拡張を多く使って
-> -います。カーネルは標準 C ライブラリに依存しない、C 言語非依存環境です。
-> +います。カーネルは標準 C ライブラリに依存しない、自立した C 環境です。
->  そのため、C の標準の中で使えないものもあります。特に任意の long long
->  の除算や浮動小数点は使えません。カーネルがツールチェインや C 言語拡張
->  に置いている前提がどうなっているのかわかりにくいことが時々あり、また、
-> 
+>  arch/riscv/include/uapi/asm/kvm.h | 2 ++
+>  arch/riscv/kvm/vcpu_onereg.c      | 2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/=
+asm/kvm.h
+> index 5f59fd226cc5..beb7ce06dce8 100644
+> --- a/arch/riscv/include/uapi/asm/kvm.h
+> +++ b/arch/riscv/include/uapi/asm/kvm.h
+> @@ -174,6 +174,8 @@ enum KVM_RISCV_ISA_EXT_ID {
+>         KVM_RISCV_ISA_EXT_ZCD,
+>         KVM_RISCV_ISA_EXT_ZCF,
+>         KVM_RISCV_ISA_EXT_ZCMOP,
+> +       KVM_RISCV_ISA_EXT_ZCLSD,
+> +       KVM_RISCV_ISA_EXT_ZILSD,
+>         KVM_RISCV_ISA_EXT_ZAWRS,
+>         KVM_RISCV_ISA_EXT_SMNPM,
+>         KVM_RISCV_ISA_EXT_SSNPM,
 
+The KVM_RISCV_ISA_EXT_ZCLSD and KVM_RISCV_ISA_EXT_ZILSD
+MUST BE inserted at the end of enum to maintain backward compatibility
+in the UAPI header.
+
+> diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_onereg.c
+> index 2e1b646f0d61..8219769fc4a1 100644
+> --- a/arch/riscv/kvm/vcpu_onereg.c
+> +++ b/arch/riscv/kvm/vcpu_onereg.c
+> @@ -64,6 +64,7 @@ static const unsigned long kvm_isa_ext_arr[] =3D {
+>         KVM_ISA_EXT_ARR(ZCD),
+>         KVM_ISA_EXT_ARR(ZCF),
+>         KVM_ISA_EXT_ARR(ZCMOP),
+> +       KVM_ISA_EXT_ARR(ZCLSD),
+>         KVM_ISA_EXT_ARR(ZFA),
+>         KVM_ISA_EXT_ARR(ZFH),
+>         KVM_ISA_EXT_ARR(ZFHMIN),
+> @@ -78,6 +79,7 @@ static const unsigned long kvm_isa_ext_arr[] =3D {
+>         KVM_ISA_EXT_ARR(ZIHINTPAUSE),
+>         KVM_ISA_EXT_ARR(ZIHPM),
+>         KVM_ISA_EXT_ARR(ZIMOP),
+> +       KVM_ISA_EXT_ARR(ZILSD),
+>         KVM_ISA_EXT_ARR(ZKND),
+>         KVM_ISA_EXT_ARR(ZKNE),
+>         KVM_ISA_EXT_ARR(ZKNH),
+
+Both ZCLSD and ZILSD must be inserted in alphabetical order
+in the kvm_isa_ext_arr[] array.
+
+I have taken care of the above comments at the time of merging.
+
+Reviewed-by: Anup Patel <anup@brainfault.org>
+
+Queued this patch for Linux-6.20
+
+Thanks,
+Anup
