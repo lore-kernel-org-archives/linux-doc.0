@@ -1,110 +1,111 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8330E303A1A
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 15:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E8F314B77;
+	Mon,  5 Jan 2026 15:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767625570; cv=none; b=Cnu/nXvraMzjUkrR7TxQ/R1BADu6A0S2L9A7rv1L/+/wG0tGD3+YnfcD6y34AHRkxUKcgB794JszlUjdN2bcfMikm88L4r6i/jhpCjvt30fWZ28LOvjexPxXNiqAAaMZyG3NFZgnmRpF4g/Gy1i4PgRAkJeEbqa2ZHWUin+jVHg=
+	t=1767626434; cv=none; b=Hx1CA5dC/7IX+ueE21AmdUyOEVEahtQTB4icQvwfHUFyCTRMGSwDmPLPlx93YgIkNGPVEHF1uULwhLWyKp23drXrfCNLJnmHhl92pps7VEAh71PCZSQh3MtIn5xgT3QM2h9xJSpeC0ea/AyMiH4YQ7NzFW49fxDFjJ5lfRPNhwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767625570; c=relaxed/simple;
-	bh=mBEy1OSTcyq7VKG86f9IZoK0MtyDVKheqzPYaoxq+m8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dBSvaWd6+zKu1+TdER7kB05X6oSxpPyJehU8Pw+WR0rP3x8HQY2SmbpUxonSq1o8tJ3Wa/1TAm0/hsSShWe4xVSPc01IgKz+0SWEB6g68p1BR5zGD9QSz5sBKT4zctoEMEj7FU73G6mEKaFJSZ/VfHjse648PA/e7MD57FqxpCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ell5bih7; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767626434; c=relaxed/simple;
+	bh=7xGOVEFsII92WjP75c9eBTMSmnLBKwCKO0VvAGBY7SY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gfb4lXw0kpaWeTzTGB17TPS6LuTmqD88V7yZesmI37rPcyTAPI3uX5GJBG4HPSXJykFg4umtTCwACcdwGCm0gNtvGtuREzfDg9VXNX6n6puytFt4fLjQIBVZDiD8ri7c1c1KN2PDdghkbqqv1UPYku5qcLhxqu/BNvrpriZkspo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PYuSvIS9; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ell5bih7"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4775895d69cso127415e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 07:06:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767625563; x=1768230363; darn=vger.kernel.org;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ts41TgvYnjmJxWsnOyTQ/BgspdhUU8k1HH+4HjNQvU=;
-        b=Ell5bih7RMfsUw2TrPo4Idt2TUmorIq0wiKjAr/BjKzQogbCcv4+IPuKm0nHXL0n8M
-         KVAbVGGdP0Md/rgARbVbmj/D54VJqyBhxy2L2cNZl/aNKIRWivSAcRKLVuLxJBBFxdYN
-         yyDSfM0YeoQWV5bXczSnZDOpXqeKn/JqRc41vQsNz3vrfTvKmHq2Nnwv//VeWPzin19N
-         y9aFJ08kiJ6VmUG8sHjNHmXbphIiTwubxD+86br1vuu2X4/mNFZ/0WwPX4zJ4mHaA0QW
-         jHzSlRu2yolQrLw0aHfzP0xKaN4arhnE9tAd+yENRnNPR7n6awQVePLM4BlcpW9xEeOH
-         0eiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767625563; x=1768230363;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0ts41TgvYnjmJxWsnOyTQ/BgspdhUU8k1HH+4HjNQvU=;
-        b=w74f2r4gkBp1cC+LC4c/zNhaQOueo0dSwm4JMOdNd7U7v4wH/nNNvhGFTWP63zh8MQ
-         bbvaDW1gX3ssVJO+7n5odHYNm++fobK5b6+RbBnlmNmg7m76xTcayhWEJ7K0/59zNDxe
-         qQB3EJBGWvk1nikcQMqIQEKEmdzKzy6zkkx9TzCKnzDOZqELX2YX97tZHVeA6BWDNrcp
-         /vuoPN74v2NI0O5jjH6MCq9N92BpRSrkbv6nwjQY4Lh5SFkz4N/az/YdhdOJmfRRjGqe
-         qFcMTI+Z6sIzqEn6H7kLm8/BFSne8mFPw7Z6XJwlf9vt5E4brclHoGtPbWaxES9P2QRu
-         AXWA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwynQCoTgKeWlTOM1hKOIZwB7VGIufmAkyVWl4TzLE+2dVGxw4MhdTFM5rY5or0izj0+mvlZPUQPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydSrOMBI7IkEo8TMCuw1p60jyaxD/uoI9nT8wPl0fZB5ZuMGtm
-	zzt+MT91Rf4g/rIgKkN2Bfhz7dlnX3S0UhajsOBEGJYIGSffb/MIlsJHrDeFjlOxx3E=
-X-Gm-Gg: AY/fxX54UU12Jokf1nFjtWLWVZzqW8+B8XSI2Rg3nfnVazaRrYyeSM59EgurRYJQEc7
-	mjOCcnwwhZERR66AYuUkAi6JNIcRgYJrUtrqpNh6i1XUwIQx6NAfK9fOo6w3BBWw/NeAmXj4I9m
-	I6W5WjcBMv4e+c89hJXOWLiSO7D54HxcK/OnfB9VBKw6WypGkiMdk6xFfb094igfjf7m2VQciPD
-	4JnRTlirQHGg/iBbp0UwyOiL4LUvPf/2WwhtfZpCBQRtSN+oTit+brMgBiFXJC+M42Hh+XmNImT
-	HMzg6Dp2XdqlQ99ZIip7y6hqhWqTEgYP2XNDUymvK4cjOsPfYBcECh2Ennx87NIqbQ6NXxqk+tM
-	fz6qPwI9CQr+liz7N5PS275k8fpsEruKVh9hR6FSvgEyr4CYUZmVZoTgHHk6eb3m9A6w7an3nHF
-	VK0JqhJbycR7BqOvs4394xxqd+0XUAVoNyCpTZxA==
-X-Google-Smtp-Source: AGHT+IEFUFyWxKIpuRzUghKZNpwVRLFqSb17M9uewYZj3vgeXf7YItVpz5KhLuiZ+Jqa39+DF6Jd9A==
-X-Received: by 2002:a05:600c:8116:b0:477:abea:9028 with SMTP id 5b1f17b1804b1-47d1953bc47mr540669925e9.6.1767625562700;
-        Mon, 05 Jan 2026 07:06:02 -0800 (PST)
-Received: from r1chard (1-164-79-94.dynamic-ip.hinet.net. [1.164.79.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d148ee4sm159871235e9.7.2026.01.05.07.05.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 07:06:02 -0800 (PST)
-Date: Mon, 5 Jan 2026 23:05:54 +0800
-From: Richard Lyu <richard.lyu@suse.com>
-To: Jonathan Corbet <corbet@lwn.net>, x86@kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PYuSvIS9"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B7E5340E0280;
+	Mon,  5 Jan 2026 15:20:19 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id t2UCJe3iVdSs; Mon,  5 Jan 2026 15:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1767626415; bh=X2JNmJFKher6HaTUFBDHcbdza4tNy3gI6bLZaEnB7+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PYuSvIS98n67uqKksX8hy7C07J5HJP/eXlijQsIPMOVRVZ+P/ifgu2qLHLT914AoP
+	 RxGfRyE5gnHjWnduyDiN+6/mGZtgYpTtQdsk3uHELz1uuiReIf38Yx4ZXtHNipSXt1
+	 93H5Mbz/k2rUTL8sNj3U+VYbei8N8znZWdB5cdfNCtjqXS0q3Cgp7rXMxgmbAP5kW8
+	 1tkqtWu/CJADRqZ+ei1umSv3Y5u+gzwZH5f9CrhSisy6ch8c0jkb3juP3FQFw3Rf5a
+	 7jKA6/q61Nzmqzs2kI419X8tgmhq3Dqyhl4fGtSsQL19NwyA8TZdbtJC0lCMN+FXwx
+	 gaRVqhPHlxfI9ZaxA2+JXg5xfIEEfJJ1wPhgTuElODFzC9Zyb9TZI/DjFmFUFRGPVD
+	 +/yHe56BO1uId4QqJ6ou5Tje1qV4pR0lgt0UrgxSF9VrxlSaxLu34Z2ZPTZnu+znU2
+	 1V+lptNXYTc1B3MRAUY2g2psXGmXosS4Qaa8pIQ5R1W0zMnRGYzoSBLTaMeeO5e0Vi
+	 9xD9pBOvb/Zki5gPyFYCBsldX33R1PcAb7E/7ApfhTdyoZDSgXT0ArGJ9JVgjZzfN6
+	 JVE9YAe5gpsjGnClElMOwzvr1JfbJRpa2hU66aA/iydlEvL0dQDAc/0U+ynStFAkpt
+	 d8WAETIVpHm4qMlrWOfVfGc8=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 1F9EE40E01B0;
+	Mon,  5 Jan 2026 15:20:06 +0000 (UTC)
+Date: Mon, 5 Jan 2026 16:19:59 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Richard Lyu <richard.lyu@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	"H . Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Richard Lyu <richard.lyu@suse.com>
-Subject: [PATCH] docs/x86: Update AMD IOMMU specification locationi
-Message-ID: <20260105150548.73422-1-richard.lyu@suse.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/x86: Update AMD IOMMU specification locationi
+Message-ID: <20260105151959.GAaVvWnyEonFSjilB_@fat_crate.local>
+References: <20260105150548.73422-1-richard.lyu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Mailer: git-send-email 2.51.0
-User-Agent: Mutt/2.2.13 (2024-03-09)
+In-Reply-To: <20260105150548.73422-1-richard.lyu@suse.com>
 
-The current link to the AMD I/O Virtualization Technology IOMMU
-specification (document 48882) in Documentation/arch/x86/iommu.rst
-is outdated and points to a defunct URL on the AMD website.
+On Mon, Jan 05, 2026 at 11:05:54PM +0800, Richard Lyu wrote:
+> The current link to the AMD I/O Virtualization Technology IOMMU
+> specification (document 48882) in Documentation/arch/x86/iommu.rst
+> is outdated and points to a defunct URL on the AMD website.
+> 
+> Update the link in Documentation/arch/x86/iommu.rst to the current stable
+> location for the specification. This ensures users can easily access the
+> required architectural details.
+> 
+> Signed-off-by: Richard Lyu <richard.lyu@suse.com>
+> ---
+>  Documentation/arch/x86/iommu.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/arch/x86/iommu.rst b/Documentation/arch/x86/iommu.rst
+> index 41fbadfe2221..cd1843812b4b 100644
+> --- a/Documentation/arch/x86/iommu.rst
+> +++ b/Documentation/arch/x86/iommu.rst
+> @@ -5,7 +5,7 @@ x86 IOMMU Support
+>  The architecture specs can be obtained from the below locations.
+>  
+>  - Intel: http://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/vt-directed-io-spec.pdf
+> -- AMD: https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_3_07_PUB.pdf
+> +- AMD: https://docs.amd.com/v/u/en-US/48882_IOMMU
+>  
+>  This guide gives a quick cheat sheet for some basic understanding.
 
-Update the link in Documentation/arch/x86/iommu.rst to the current stable
-location for the specification. This ensures users can easily access the
-required architectural details.
+What I'd do instead is leave enough breadcrumbs here in the text - doc ID, doc
+title etc, so that people can actually find the document by using a search
+engine which has managed to index it.
 
-Signed-off-by: Richard Lyu <richard.lyu@suse.com>
----
- Documentation/arch/x86/iommu.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Instead of updating links mindlessly because those do change constantly. No
+matter the vendor - as long as it is a corporate website, links get changed on
+a regular basis.
 
-diff --git a/Documentation/arch/x86/iommu.rst b/Documentation/arch/x86/iommu.rst
-index 41fbadfe2221..cd1843812b4b 100644
---- a/Documentation/arch/x86/iommu.rst
-+++ b/Documentation/arch/x86/iommu.rst
-@@ -5,7 +5,7 @@ x86 IOMMU Support
- The architecture specs can be obtained from the below locations.
- 
- - Intel: http://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/vt-directed-io-spec.pdf
--- AMD: https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_3_07_PUB.pdf
-+- AMD: https://docs.amd.com/v/u/en-US/48882_IOMMU
- 
- This guide gives a quick cheat sheet for some basic understanding.
- 
+I'd say.
+
 -- 
-2.51.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
