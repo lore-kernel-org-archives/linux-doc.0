@@ -1,67 +1,66 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16B231A579
-	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 09:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181C23370EB
+	for <linux-doc@vger.kernel.org>; Mon,  5 Jan 2026 09:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767606050; cv=none; b=ABu/J9ysyp9nda73hKBH+tS2sHOvQF3k1wN8B4rZCodcpXWfF22Zu5vbq2oMuQIFQpceOIPCzKXd5bOr+JQ+6pLHhy93mKmSdj65kDIIXs4GRQMrPcggxDJLhuHdmCtsYZmyoFgR2ZB6+yEDD6IlPIoADSkYySmxqqOKZEHDYhE=
+	t=1767606489; cv=none; b=CPO+q96hdAU4vVyzzwd92sgAS1K5PynRo7QY3wwT/wNA98CdbqLM3gjlxGU80Uig/+QKypxbf0U5ft6mxH4xIpTUCVerBB87OUEGf9Fn0LIPkJDbA5VLJ2stagEM0jPQZ3pLftR9lkmuPwpcFwoTSgFCXVzkGhGkOVcIiVhg6UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767606050; c=relaxed/simple;
-	bh=kfKJrQ5a7Po2zi22PzxrbpGrQhRcJMv+xYYFiP1AGz8=;
+	s=arc-20240116; t=1767606489; c=relaxed/simple;
+	bh=GqAwY0OHbZKQzzJb3VatReAfBA97RCbOF3bWO0/Z1Js=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uizENka6VUeCM5k1WZg9acYZi0LjRyUC/p7eaqWAHA2zpIf0GEfwFxfU8wSowut7u6MU2kbMduYRqjHzhRfhfzyYsIPLPcEl5YotVJTFgOVym7HpZEDKarNd/Z/OfH6bkXk0w8AHlAOE3Ds+M3w3m3ELp7KIoVPD/wj/UJvoR+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bqTttIPN; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version:Content-Type; b=iBvV56VZtQjrasHm4tBa/Gmw79JMdfUjRUZt+n/Z35g3z+HxfDqMVDwnf8pQCFqWTiM5ok9Pv5nriFNZQjYBjTBJSGNtRb+7lhTwer3htOaY2QWT2d9TUqGa/VBEPqr7TXk0kgfyMiOVU7dR7dsJAEoplZaummCKvczloQNGD4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AtICXBre; arc=none smtp.client-ip=209.85.221.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bqTttIPN"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-430f3273b92so651796f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 01:40:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AtICXBre"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-43106d67728so1008435f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 01:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767606040; x=1768210840; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1767606485; x=1768211285; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uoPF4qbo+ysXILWF9RMN1mDoAoivYGl4rzNQocqtbj4=;
-        b=bqTttIPNXYA02SvzTJN+Iq2teAV4gvhztpFmGuTDYNQmZSW73vvAB1E9iAMwQAdG95
-         +2dN6IzaMbz96nWQwBsJuSmXZEKRAZW6cGZNlG5prU3nO/SaQLFCAsLrDDY1ehMxp5h+
-         z/AMR8rEXiTZLYVksNz1E4ouEDHzfO9p17we+pJqDgK2Jn5N4hh0imjGEBnl2wqDQDOd
-         ORs5/0peeGMBqvb1bzqjT8PY/f+CUXiWQJUT/jALouTFuJNYCGLZ7rZL25+yY1KxBbAy
-         JlS6gdFy47ebCoiUqTo0jN3T9SpiOTqtc50xJix+6jvOH+Q0OFRVVePn2z61tJQF8SnP
-         2p/A==
+        bh=3YNJPmUNbnGNTCEfFfuOCZFqj9o9elJ+A8mEb2IK5hU=;
+        b=AtICXBreWgR5zWZkx70j07qlSmmhIC3ZqGCmXxKIMHXOTLOy6nxn/qnWTCcX39gjFk
+         3C08xn4HmXvUYMcS+jm212kQBf9YRafJTOsRdrtWvU36SA7FdNxr8XNcVBgfGBzTAkuK
+         Aoa1U3rC9OJpawzXJNlg1hERi0SRUuLISUXKnXuQmxC+z5zY5iCJ/NwZlwTh/huv1ech
+         c7swds+qtkU3pFgdt4NUYI4ZRIDQ2zF4e4Wk1Ltncgakxx9VL0Yr5ihmTvmeoyiX72lj
+         x25excA6kO47QS8slAvbH3zgN3UoSoQBCQx6iEM6UfvFUWWgb58FaR7EieXDWAS01dYW
+         sxmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767606040; x=1768210840;
+        d=1e100.net; s=20230601; t=1767606485; x=1768211285;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=uoPF4qbo+ysXILWF9RMN1mDoAoivYGl4rzNQocqtbj4=;
-        b=e2bSD/8BYe2D77Dfx0QxQaA+8xLv8Uj0KM5Sh0YS8sNkN8ia77PS5HhV1/yH8j633d
-         pC9MjFmlHozW4i2DrTFWomSv1f9Tu/L6FI/tmfcJJ3EKAn7JrIaTIpLu856K0KxnoFu5
-         l3VcliewOCt5jZs2BrtsDNMbQAbHZ5uNJzITWTzmAvJpGuwvcUAEloKZPpQ0dVCVVVH+
-         difcpg6B3DlbD7AYh4UAifOg2S5xQGqAV2SuTL/YMI/mnK/WgcTKSBQGy+6+QnRtw15B
-         RbCfwtuMz7H8Jc0S4uBgamvOe4S/O4RZizndxLSxKDcWFh+w2TfoXw+n98MtkQv2AF7z
-         wZLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYtIUvMHInbX3V2+uNE6v3HQFTiwOhaMKbkssdfXO4NLbJtsSYzDbN0d+cn+CWi6EVHUdnJnshwvs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoH8V8/b86Aim0f5yzr5NqgWi1mnS6vIsSveUFNE9Za0TD6BCp
-	KtjKsd4nH+QtC+OEzsPpNcKspqFjfKycalqw1JSYpnLHmAPzUvl3Z2FGS2tQlJOqxBu428CCk88
-	SuuLh
-X-Gm-Gg: AY/fxX77ivO6WdbAU6ioewIpMcsczL12kqSHpY6fsOrnAnzyVbVcgO1yxTThNS+R72d
-	VdNljwgX2D1MDMhdYX8HRpES6XAtMYPdk7X0YujEUtYUZR74QtfPQqWTTnoUpg7GjcA/ocjThfl
-	CB9/ncDmhCogB4MxU4PsKXnrQdNhenLqXVGraySN+A9/LS/knZbmTI+PEQIWhLRKtIHV003vKuX
-	z/PUa7JmDVIuGReqXKllA9wr4r6JxSNRDZK+YBx1O9ysaz7xZ3FbqAaHVZDeOvmZxJuSes3jmVJ
-	2SJMpGhqNDG6xxsdd+tejZr0DK5TTIWEjojm0PX9h/hDP4U6U2iQOmXa1b4pliUgzE4vK20BANU
-	OysjkP9A/RG/21u6s20+fX8ihYSghEBEBqU7iXfNjdKaZpQxNam3G1swGf12uheiZSPqd+QgEUu
-	H5L4Q9wmjudsHTr4fme/4zZt2KbKBdYUXUVO3kTNbuwlsaXSdLSzqUadA8nM8GHHlAxn/XseIT7
-	YO2o+u3ex2J+6Y=
-X-Google-Smtp-Source: AGHT+IH9uJ6jLlQ3sMbfjfqB2tBZwtUo3Z4YZNjyI98ICTrDJSXZI/68FFDolBTS/hTy3IR7RjNHZw==
-X-Received: by 2002:a05:6000:1841:b0:432:84fc:46bb with SMTP id ffacd0b85a97d-43284fc4782mr21485079f8f.6.1767606040029;
-        Mon, 05 Jan 2026 01:40:40 -0800 (PST)
+        bh=3YNJPmUNbnGNTCEfFfuOCZFqj9o9elJ+A8mEb2IK5hU=;
+        b=v3c7AxBhGbTsurqRGTLTzgOKnrZz+ueDHO+ko5ZfH7i05CPGTfogxjKK+kGjq68aYv
+         QPmmVoACxLOuS3ysKn1/DG6GAUClnypUKGnUgi8vQYXWT3eq1ZLw2SfMxq2XwyBb3xMx
+         NAJzchCCKAwLUpHlQVrOawtACy2w8SFgZzNmyH2KfSsTiRQ6029R3yLfpZkoON4RUIcT
+         735DEsVlXZPjSTw6nnG6HA+7qjXwMWyLbIVag6u9x8d9k5PtJ8igyCdFQHQOtyXVBNFE
+         3pSZZCk5o10Ue68JsbB/x8j8AvRgXGk7yZNa00v1ut7fUIW4KoBkmwu0VfS5YPaIlFDT
+         KYhA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhAUAX686h5cECXSJ4Ej90NjsYjuz2JKhBKT5k/dUHpOjcDMpERhSoqI3earENibskZqur2zeUGNg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzs22DBqTUOPBb90B52q27MVGdiPqSn3Kfj7ZJ3/fH4KLSsQdLP
+	EXKdlxScUdw6Tvff4SHoirdgyyP8vLvWsuMIXMPBuADlz8bNm2TSbv2hi0BjKQYW1vU=
+X-Gm-Gg: AY/fxX6Jy6bi1GxWb73TbHLYQbNlAufIOQociN6h7VoAHkHUkDgByH3n2l1fbYa72b9
+	x20hPC7F4SGnJhyusCtvvlWa3ah34lBhuB41Gh43RXeYE3MzI3/ydvkujflu9MREfF95iTTnMgB
+	KJTEjQKLIRFAF4XWEDDr4152RHUH+6vU9edwPctwopNlzHFtOHQ6yFJOnrJPukqkL1zwHfF0ZuT
+	zxEv8U79dmSPM/QJIc9GI4eTIO5YoJ8/yuP71SUAuXlKfPcHHCp+IJZl8A6mc+z4ai3bb6CQR8t
+	3M9VkA11he8ZTGvgRID157MuZzrx/z5vGJNlyt+nnaTFKzUEN9YgqwSjhn1RElTDCmQ8x3C68m4
+	qODUVIW/+j1PPtJVuLIkCi9MnOIKziur9mQmFZLL+6xg4biNti62UdzJY18DfFlvx0FfHhRMhzi
+	7ozkq/fO558u1nDWHcK+KvRFgksc6hqvfJ+K5OXTRNNQChNlfumcrTAo0uQOPtuZmUKrd6N0rGa
+	N6y
+X-Google-Smtp-Source: AGHT+IHPziOrpKV7Kr9yyjS7tcuC3KfVS3vu6/0u8YX5ecS7isO2cmN7o1CvFXRGO2JgzmojB4/s8Q==
+X-Received: by 2002:a5d:548c:0:b0:432:5b81:493 with SMTP id ffacd0b85a97d-4325b810aa7mr24854531f8f.5.1767606485367;
+        Mon, 05 Jan 2026 01:48:05 -0800 (PST)
 Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm100563291f8f.0.2026.01.05.01.40.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1af2bsm99699009f8f.1.2026.01.05.01.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 01:40:39 -0800 (PST)
-Date: Mon, 5 Jan 2026 10:40:36 +0100
+        Mon, 05 Jan 2026 01:48:04 -0800 (PST)
+Date: Mon, 5 Jan 2026 10:48:02 +0100
 From: Petr Tesarik <ptesarik@suse.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
@@ -80,12 +79,12 @@ Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
  <brgl@kernel.org>, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
  virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
  iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] dma-mapping: add
+Subject: Re: [PATCH v2 02/15] docs: dma-api: document
  __dma_from_device_group_begin()/end()
-Message-ID: <20260105104036.09a77f13@mordecai>
-In-Reply-To: <19163086d5e4704c316f18f6da06bc1c72968904.1767601130.git.mst@redhat.com>
+Message-ID: <20260105104802.42bd8fe5@mordecai>
+In-Reply-To: <01ea88055ded4d70cac70ba557680fd5fa7d9ff5.1767601130.git.mst@redhat.com>
 References: <cover.1767601130.git.mst@redhat.com>
-	<19163086d5e4704c316f18f6da06bc1c72968904.1767601130.git.mst@redhat.com>
+	<01ea88055ded4d70cac70ba557680fd5fa7d9ff5.1767601130.git.mst@redhat.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -96,65 +95,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 5 Jan 2026 03:22:54 -0500
+On Mon, 5 Jan 2026 03:22:57 -0500
 "Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> When a structure contains a buffer that DMA writes to alongside fields
-> that the CPU writes to, cache line sharing between the DMA buffer and
-> CPU-written fields can cause data corruption on non-cache-coherent
-> platforms.
-> 
-> Add __dma_from_device_group_begin()/end() annotations to ensure proper
-> alignment to prevent this:
-> 
-> struct my_device {
-> 	spinlock_t lock1;
-> 	__dma_from_device_group_begin();
-> 	char dma_buffer1[16];
-> 	char dma_buffer2[16];
-> 	__dma_from_device_group_end();
-> 	spinlock_t lock2;
-> };
+> Document the __dma_from_device_group_begin()/end() annotations.
 > 
 > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-LGTM. I'm not formally a reviewer, but FWIW:
+I really like your wording ("CPU does not write"), which rightly refers
+to what happens on the bus rather then what may or may not make a
+specific CPU architecture initiate a bus write.
+
+I'm not formally a reviewer, but FWIW:
 
 Reviewed-by: Petr Tesarik <ptesarik@suse.com>
 
 > ---
->  include/linux/dma-mapping.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  Documentation/core-api/dma-api-howto.rst | 52 ++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
 > 
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index aa36a0d1d9df..29ad2ce700f0 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -7,6 +7,7 @@
->  #include <linux/dma-direction.h>
->  #include <linux/scatterlist.h>
->  #include <linux/bug.h>
-> +#include <linux/cache.h>
+> diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
+> index 96fce2a9aa90..e97743ab0f26 100644
+> --- a/Documentation/core-api/dma-api-howto.rst
+> +++ b/Documentation/core-api/dma-api-howto.rst
+> @@ -146,6 +146,58 @@ What about block I/O and networking buffers?  The block I/O and
+>  networking subsystems make sure that the buffers they use are valid
+>  for you to DMA from/to.
 >  
->  /**
->   * List of possible attributes associated with a DMA mapping. The semantics
-> @@ -703,6 +704,18 @@ static inline int dma_get_cache_alignment(void)
->  }
->  #endif
->  
-> +#ifdef ARCH_HAS_DMA_MINALIGN
-> +#define ____dma_from_device_aligned __aligned(ARCH_DMA_MINALIGN)
-> +#else
-> +#define ____dma_from_device_aligned
-> +#endif
-> +/* Mark start of DMA buffer */
-> +#define __dma_from_device_group_begin(GROUP)			\
-> +	__cacheline_group_begin(GROUP) ____dma_from_device_aligned
-> +/* Mark end of DMA buffer */
-> +#define __dma_from_device_group_end(GROUP)			\
-> +	__cacheline_group_end(GROUP) ____dma_from_device_aligned
+> +__dma_from_device_group_begin/end annotations
+> +=============================================
 > +
->  static inline void *dmam_alloc_coherent(struct device *dev, size_t size,
->  		dma_addr_t *dma_handle, gfp_t gfp)
->  {
+> +As explained previously, when a structure contains a DMA_FROM_DEVICE /
+> +DMA_BIDIRECTIONAL buffer (device writes to memory) alongside fields that the
+> +CPU writes to, cache line sharing between the DMA buffer and CPU-written fields
+> +can cause data corruption on CPUs with DMA-incoherent caches.
+> +
+> +The ``__dma_from_device_group_begin(GROUP)/__dma_from_device_group_end(GROUP)``
+> +macros ensure proper alignment to prevent this::
+> +
+> +	struct my_device {
+> +		spinlock_t lock1;
+> +		__dma_from_device_group_begin();
+> +		char dma_buffer1[16];
+> +		char dma_buffer2[16];
+> +		__dma_from_device_group_end();
+> +		spinlock_t lock2;
+> +	};
+> +
+> +To isolate a DMA buffer from adjacent fields, use
+> +``__dma_from_device_group_begin(GROUP)`` before the first DMA buffer
+> +field and ``__dma_from_device_group_end(GROUP)`` after the last DMA
+> +buffer field (with the same GROUP name). This protects both the head
+> +and tail of the buffer from cache line sharing.
+> +
+> +The GROUP parameter is an optional identifier that names the DMA buffer group
+> +(in case you have several in the same structure)::
+> +
+> +	struct my_device {
+> +		spinlock_t lock1;
+> +		__dma_from_device_group_begin(buffer1);
+> +		char dma_buffer1[16];
+> +		__dma_from_device_group_end(buffer1);
+> +		spinlock_t lock2;
+> +		__dma_from_device_group_begin(buffer2);
+> +		char dma_buffer2[16];
+> +		__dma_from_device_group_end(buffer2);
+> +	};
+> +
+> +On cache-coherent platforms these macros expand to zero-length array markers.
+> +On non-coherent platforms, they also ensure the minimal DMA alignment, which
+> +can be as large as 128 bytes.
+> +
+> +.. note::
+> +
+> +        It is allowed (though somewhat fragile) to include extra fields, not
+> +        intended for DMA from the device, within the group (in order to pack the
+> +        structure tightly) - but only as long as the CPU does not write these
+> +        fields while any fields in the group are mapped for DMA_FROM_DEVICE or
+> +        DMA_BIDIRECTIONAL.
+> +
+>  DMA addressing capabilities
+>  ===========================
+>  
 
