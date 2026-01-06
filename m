@@ -1,237 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8C71624C5;
-	Tue,  6 Jan 2026 12:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A388032ED25;
+	Tue,  6 Jan 2026 13:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767702440; cv=none; b=gKVbV52hFxZdhMaKcGgnZ+ncJ+9bUGk3jEGHmDz82IzxFcH+iozThvIB/SrOmPmgMriTXl5BksL1DJWWYh5ZtTQRdtBrh0cl72hVPrW8w4O9UUSAg3G1AJ0FqnOm96H1Jmxvoj/mK8Dm0epD+rPl/vBoHYMgH3Ts+dL++dYA6nM=
+	t=1767705842; cv=none; b=c7dHEAlFuXfFIHKqW6ycZjtfJFLf19ifEDmrpPBCuSlxQ7/r8v2pchIJmZ4bNC+HmFOFYli3KcS+J404mmYMUC/xgRW/TURyxxoMDobJuYNigzuRtC0LlfumRoie4EcCHIIx9uxP+Ew31spInNNsce7CwnDksaJY5inbpUe7WdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767702440; c=relaxed/simple;
-	bh=0g0q3+yeUhWNl+UuUZgUuMzE5sKCflZGQ0dod3qEcuM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=emX5rO3aa/So9qBi2ZHo/QroufO1laaE8ijN8V3eikzduDmNxOacJMH9ZtOGCGbVqxV8+9nGwVNj6Zx0GBLzKmFkuWB9po6sPoGVZIqmAApqRctUvcPGyScmQhpEEnKSXiv9aGfvBH+MJ97pvHg/YYPm2Oh/pwymb8JVbDiLdC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FiohRHXn; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FiohRHXn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E345C116C6;
-	Tue,  6 Jan 2026 12:27:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767702439;
-	bh=0g0q3+yeUhWNl+UuUZgUuMzE5sKCflZGQ0dod3qEcuM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FiohRHXn3sEIjh0qmA8patOEkRjPK+inXS2P0IhbnxkA9nJcHEOmdpSHsSkhG9AUY
-	 wvyIZZjYXjJWjp5LsSXNUG+udXd92lxSbaW2lkXkpycQ6Sd77QaZBSzB6NMk+YbScP
-	 8REm3iea/Ug/7tTn4USDnE0ryqihmpquFMmssNlBg+wyi4tQXIDsNTQjSNxgl95ucE
-	 s9/9S3DM3dX3gaRstRb94UDl2eHLh42Q/3PdP5GizRivp2TZ0H/mz7Y0WZiqIR9NIk
-	 EvMMuvK1QHZW0LoOBz5O10PoBgu6vLDE9x40euDRwHimLz7T2XGmTtt8wTpd/9ygdK
-	 hheXKXjyAgUPw==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Linux ACPI <linux-acpi@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hansg@kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Zhang Rui <rui.zhang@intel.com>, Armin Wolf <w_armin@gmx.de>,
- Danilo Krummrich <dakr@kernel.org>,
- Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Randy Dunlap <rdunlap@infradead.org>
-Subject:
- [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using ACPI drivers
-Date: Tue, 06 Jan 2026 13:27:14 +0100
-Message-ID: <2396510.ElGaqSPkdT@rafael.j.wysocki>
-Organization: Linux Kernel Development
+	s=arc-20240116; t=1767705842; c=relaxed/simple;
+	bh=j0/XcQ4MyKbdRtIFVSuEfvR9IygVIY0KqI25WDHpKpc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WNraSHyVQ3FJ+/R1lU8N/+TB631A8g11/f6BVMuM9r5hQ2LA/Ai7Lu+iIo6LxmwKtgZn3qXTWZdaTPAcA8ykFV4MpRuI77AMMkBXZj8v2XSoQ+ZW/wyugc1RT6tOjLLksuyKsBwz37yP6Yxv5rJ7XMqAy40t16PL6YYbHPpL/jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 606DLekF006168;
+	Tue, 6 Jan 2026 22:21:40 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 606DLdft006165
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 6 Jan 2026 22:21:39 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <993d381a-c24e-41d2-a0be-c1b0b5d8cbe9@I-love.SAKURA.ne.jp>
+Date: Tue, 6 Jan 2026 22:21:38 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/36] cleanup: Basic compatibility with context
+ analysis
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+        Will Deacon <will@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
+        Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>,
+        Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+        Joel Fernandes <joelagnelf@nvidia.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Justin Stitt
+ <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mark Rutland
+ <mark.rutland@arm.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+        Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+        Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+        Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
+        kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
+        linux-wireless@vger.kernel.org, llvm@lists.linux.dev,
+        rcu@vger.kernel.org
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-7-elver@google.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <20251219154418.3592607-7-elver@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav101.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On 2025/12/20 0:39, Marco Elver wrote:
+> Introduce basic compatibility with cleanup.h infrastructure.
 
-Sadly, there is quite a bit of technical debt related to the
-kernel's ACPI support subsystem and one of the most significant
-pieces of it is the existence and use of ACPI drivers represented
-by struct acpi_driver objects.
+Can Compiler-Based Context- and Locking-Analysis work with conditional guards
+(unlock only if lock succeeded) ?
 
-Those drivers are bound directly to struct acpi_device objects, also
-referred to as "ACPI device nodes", representing device objects in the
-ACPI namespace defined as:
+I consider that replacing mutex_lock() with mutex_lock_killable() helps reducing
+frequency of hung tasks under heavy load where many processes are preempted waiting
+for the same mutex to become available (e.g.
+https://syzkaller.appspot.com/bug?extid=8f41dccfb6c03cc36fd6 ).
 
- A hierarchical tree structure in OS-controlled memory that contains
- named objects. These objects may be data objects, control method
- objects, bus/device package objects, and so on.
-
-according to the ACPI specification [1].
-
-The above definition implies, although rather indirectly, that the
-objects in question don't really represent hardware.  They are just
-"device package objects" containing some information on the devices
-present in the given platform that is known to the platform firmware.
-
-Although the platform firmware can be the only source of information on
-some devices, the information provided by it alone may be insufficient
-for device enumeration in general.  If that is the case, binding a
-driver directly to a given ACPI device node clearly doesn't make sense.
-If the device in question is enumerated through a hardware interface, it
-will be represented by a device object matching that interface, like
-a struct pci_dev, and the ACPI device node corresponding to it will be
-treated as its "ACPI companions" whose role is to amend the "native"
-enumeratiom mechanism.
-
-For the sake of consistency and confusion avoidance, it is better to
-treat ACPI device nodes in general as ACPI companions of other device
-objects representing hardware.  In some cases though it appeared easier
-to take a shortcut and use an ACPI driver binding directly to an ACPI
-device node.  Moreover, there were corner cases in which that was the
-only choice, but they all have been addressed now.
-
-In all cases in which an ACPI driver might be used, the ACPI device
-node it might bind to is an ACPI companion of another device object
-representing a piece of hardware.  It is thus better to use a driver
-binding to the latter than to use an ACPI driver and leave the other
-device object alone, not just because doing so is more consistent and
-less confusing, but also because using ACPI drivers may lead to
-potential functional deficiencies, like possible ordering issues
-related to power management.
-
-Unfortunately, there are quite a few ACPI drivers in use and, as a rule,
-they bind to ACPI device nodes that are ACPI companions of platform
-devices, so in fact they play the role of platform drivers although in
-a kind of convoluted way.  An effort has been under way to replace them
-with platform drivers, which is relatively straightforward in the vast
-majority of cases, but it has not been pursued very aggressively so far,
-mostly due to the existence of the corner cases mentioned above.
-However, since those corner cases are gone now, it makes sense to spend
-more time on driver conversions with the ultimate goal to get rid of
-struct acpi_driver and the related code from the kernel.
-
-To that end, add a document explaining why using ACPI drivers is not
-a good idea, so it need not be explained from scratch on every attempt
-to convert an ACPI driver to a platform one.
-
-Link: https://uefi.org/specs/ACPI/6.6/02_Definition_of_Terms.html#term-ACPI-Namespace [1]
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
----
-
-v1 -> v2:
-   * Fixed a typo in the changelog (Andy).
-   * Addressed two review comments from Randy ("is questionable either" ->
-     "is also questionable" and "eg." -> "e.g.").
-   * Added R-bys from Andy and Armin.
-
----
-
-Although this patch can be applied independently, it actually depends on
-some ACPI changes in linux-next and on
-
-https://lore.kernel.org/linux-acpi/12824456.O9o76ZdvQC@rafael.j.wysocki/
-
-so it is better to handle it along with that material.
-
----
- Documentation/driver-api/acpi/acpi-drivers.rst |   80 +++++++++++++++++++++++++
- Documentation/driver-api/acpi/index.rst        |    1 
- 2 files changed, 81 insertions(+)
-
---- /dev/null
-+++ b/Documentation/driver-api/acpi/acpi-drivers.rst
-@@ -0,0 +1,80 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+
-+=========================================
-+Why using ACPI drivers is not a good idea
-+=========================================
-+
-+:Copyright: |copy| 2026, Intel Corporation
-+
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+
-+Even though binding drivers directly to struct acpi_device objects, also
-+referred to as "ACPI device nodes", allows basic functionality to be provided
-+at least in some cases, there are problems with it, related to general
-+consistency, sysfs layout, power management operation ordering, and code
-+cleanliness.
-+
-+First of all, ACPI device nodes represent firmware entities rather than
-+hardware and in many cases they provide auxiliary information on devices
-+enumerated independently (like PCI devices or CPUs).  It is therefore generally
-+questionable to assign resources to them because the entities represented by
-+them do not decode addresses in the memory or I/O address spaces and do not
-+generate interrupts or similar (all of that is done by hardware).
-+
-+Second, as a general rule, a struct acpi_device can only be a parent of another
-+struct acpi_device.  If that is not the case, the location of the child device
-+in the device hierarchy is at least confusing and it may not be straightforward
-+to identify the piece of hardware providing functionality represented by it.
-+However, binding a driver directly to an ACPI device node may cause that to
-+happen if the given driver registers input devices or wakeup sources under it,
-+for example.
-+
-+Next, using system suspend and resume callbacks directly on ACPI device nodes
-+is also questionable because it may cause ordering problems to appear.  Namely,
-+ACPI device nodes are registered before enumerating hardware corresponding to
-+them and they land on the PM list in front of the majority of other device
-+objects.  Consequently, the execution ordering of their PM callbacks may be
-+different from what is generally expected.  Also, in general, dependencies
-+returned by _DEP objects do not affect ACPI device nodes themselves, but the
-+"physical" devices associated with them, which potentially is one more source
-+of inconsistency related to treating ACPI device nodes as "real" device
-+representation.
-+
-+All of the above means that binding drivers to ACPI device nodes should
-+generally be avoided and so struct acpi_driver objects should not be used.
-+
-+Moreover, a device ID is necessary to bind a driver directly to an ACPI device
-+node, but device IDs are not generally associated with all of them.  Some of
-+them contain alternative information allowing the corresponding pieces of
-+hardware to be identified, for example represeted by an _ADR object return
-+value, and device IDs are not used in those cases.  In consequence, confusingly
-+enough, binding an ACPI driver to an ACPI device node may even be impossible.
-+
-+When that happens, the piece of hardware corresponding to the given ACPI device
-+node is represented by another device object, like a struct pci_dev, and the
-+ACPI device node is the "ACPI companion" of that device, accessible through its
-+fwnode pointer used by the ACPI_COMPANION() macro.  The ACPI companion holds
-+additional information on the device configuration and possibly some "recipes"
-+on device manipulation in the form of AML (ACPI Machine Language) bytecode
-+provided by the platform firmware.  Thus the role of the ACPI device node is
-+similar to the role of a struct device_node on a system where Device Tree is
-+used for platform description.
-+
-+For consistency, this approach has been extended to the cases in which ACPI
-+device IDs are used.  Namely, in those cases, an additional device object is
-+created to represent the piece of hardware corresponding to a given ACPI device
-+node.  By default, it is a platform device, but it may also be a PNP device, a
-+CPU device, or another type of device, depending on what the given piece of
-+hardware actually is.  There are even cases in which multiple devices are
-+"backed" or "accompanied" by one ACPI device node (e.g. ACPI device nodes
-+corresponding to GPUs that may provide firmware interfaces for backlight
-+brightness control in addition to GPU configuration information).
-+
-+This means that it really should never be necessary to bind a driver directly to
-+an ACPI device node because there is a "proper" device object representing the
-+corresponding piece of hardware that can be bound to by a "proper" driver using
-+the given ACPI device node as the device's ACPI companion.  Thus, in principle,
-+there is no reason to use ACPI drivers and if they all were replaced with other
-+driver types (for example, platform drivers), some code could be dropped and
-+some complexity would go away.
---- a/Documentation/driver-api/acpi/index.rst
-+++ b/Documentation/driver-api/acpi/index.rst
-@@ -7,3 +7,4 @@ ACPI Support
- 
-    linuxized-acpica
-    scan_handlers
-+   acpi-drivers
-
-
+But e.g. commit f49573f2f53e ("tty: use lock guard()s in tty_io") already replaced
+plain mutex_lock()/mutex_unlock() with plain guard(mutex). If I propose a patch for
+replacing mutex_lock() with mutex_lock_killable(), can I use conditional guards?
+(Would be yes if Compiler-Based Context- and Locking-Analysis can work, would be no
+ if Compiler-Based Context- and Locking-Analysis cannot work) ?
 
