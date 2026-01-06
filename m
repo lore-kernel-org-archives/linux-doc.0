@@ -1,83 +1,56 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72585280CE5;
-	Tue,  6 Jan 2026 21:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE2228CF5F;
+	Tue,  6 Jan 2026 21:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767735772; cv=none; b=njUy5W3aLMuEf3N4oPEGYC6fzFWPRlvMj0bd+6Leb+b6CoZawWqNrwQluNdQNJk6xwrbEDtNutASaeqm4A9ZMBZLKb9N2O3lU1/Agt+2aTY0Lkyyto36YQOuZw4zTjcbAbp4hRdW508sEIvPm0yh8TKZosUQd7vm8jtjsA7jAtA=
+	t=1767736241; cv=none; b=ngSwbopXooc0s2VLHxMvU12xNxxN9mvcPGDJy2cu9pZ1dVQ57dS4FYAiRPZyIYLlnJnIkGgDfsioRLMFd36jHUyKhFiZo2xlKD1LULdS7ApSV4VKAQYv7+4+K4kureU5HxEQjJlvYYmK7YIp08XhhrwfB5NWR/ypmIiQJAe7Lmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767735772; c=relaxed/simple;
-	bh=K6qdGHJL9/Wy4KUvTKEJE6hDS2tapFjm13KwM/86K2A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=g3qTooTyi4MVYBsEA6RdezsPR+c4GOIdu9vOtDOdaHbkhKYVCgs/W0PunKBy3FKvQLYHf5EDOP0E8V3IkTNYs/j2JS0mxckZa7LXiAMldxKVZhkPrWu0mF6f2K6LKyEZrKhE+5L6qbYxbCI5KEuFQbfnu/GCzLooxU4+jkLQSqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=P8p5uppa; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1767736241; c=relaxed/simple;
+	bh=DRme/nOLuBlH3mUJW2KO+MveKRAX1UVEPievDqcvjX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aMLFK8tLzD7bBOw+QuMHbhyxg6Wr+Pd/15udRmEBZONR5WlWchpgQYTh1J3Y7urIkkyrD1iqPO/1J3MP3zPm2ZQjWbnreajfWqEwzL3sHC4X/vOpgMYhbbMTBbqFWEYxCf8Q/PPPGNLH2OAc/UGipNXQr2Q1Ohy1qSuEw59G21w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H6EzTg6J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="P8p5uppa"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9566F40C7D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767735770; bh=DrPCKoOrSqUmEB5oga8ks/N+cfiO1X40uhjIAnzSA5M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=P8p5uppaHImAg+gmHByFcDgrL4BhXNDFAVT8x1qHBb+BzwW78r35TQIheNyBKXHtb
-	 EhwMnL0Ba4sALtSREmHhGjJJ7r6cDynFSHdWFvFB1N3TwRVY4pzlAOSJAqhVrtHfa0
-	 /w/hyvxGSZEr4Jhiv73RWh7wyND6syB17/ZLZixaKTVnBRiNdOWdtl9czsZ6wJ2GUb
-	 tnSZgkNfBz41p9vn4ddf6ULLT9hWZG5OikxJcfCiljZNXT2BsAFSVd41t8+Hk8vfDJ
-	 I4QozLmHQtNVgY/3+ZTZdUQUTJ22Jf08oI07Ke1tq49ScuLqsrE3XYESXNCQpNL6/T
-	 MufB7il3bD4Kw==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9566F40C7D;
-	Tue,  6 Jan 2026 21:42:50 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Vincent Mailhol <mailhol@kernel.org>, Mike Rapoport
- <rppt@linux.vnet.ibm.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Vincent Mailhol
- <mailhol@kernel.org>
-Subject: Re: [PATCH] doc-guide: kernel-doc: specify that W=n does not check
- header files
-In-Reply-To: <20251225-doc-format-check-v1-1-dff637a4d275@kernel.org>
-References: <20251225-doc-format-check-v1-1-dff637a4d275@kernel.org>
-Date: Tue, 06 Jan 2026 14:42:49 -0700
-Message-ID: <874ioye7ty.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H6EzTg6J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5892C116C6;
+	Tue,  6 Jan 2026 21:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767736240;
+	bh=DRme/nOLuBlH3mUJW2KO+MveKRAX1UVEPievDqcvjX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H6EzTg6Jd8XzzxBffE8KgEobfztEyikz/fjzDrSiwFUl5hX9oRPkyRmLQWPMnKWts
+	 X1m0bfxPNYqq7FQ5HXewfQlKbGGodfAdwnFk4RRYhhsO1y22jgtkz8sbETykj+AOJX
+	 qASSNEXUlR4/iUxOYKq0eCvI6+RW5+oSlLgdAKFuNhm+FNX0NqWao/wd8gFeISJh4D
+	 ZuWZQ/LEMT/RQ3tUT1b66/AhBmu58EbI8Q90gQm1XbIMDQoD2QUaqNbJgx9qN2NtCM
+	 q5ysPTI/YJ+1v3iOhF9SH5NFg7NgtoE6Ew8392uPhr4LV7kCrwCmolu7UbIWaaZwAP
+	 UMETvP2ZEC5BA==
+Date: Tue, 6 Jan 2026 22:50:36 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] docs: filesystems: add fs/open.c to api-summary
+Message-ID: <20260106-hypnose-exakt-e30c53f1d6bc@brauner>
+References: <20260104204530.518206-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260104204530.518206-1-rdunlap@infradead.org>
 
-Vincent Mailhol <mailhol@kernel.org> writes:
-
-> The documentation states that:
->
->   make W=n
->
-> can be used to verify the documentation format. This is true for .c
-> files but not for headers [1].
->
-> Modify the documentation to specify that headers files are not covered
-> by make W=n and that these need to be checked separately with
-> scripts/kernel-doc.
->
-> [1] commit 3a025e1d1c2e ("Add optional check for bad kernel-doc comments")
-> Link: https://git.kernel.org/torvalds/c/3a025e1d1c2e
->
-> Fixes: 8fcce5803afd ("doc-guide: kernel-doc: add comment about formatting verification")
-> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+On Sun, Jan 04, 2026 at 12:45:30PM -0800, Randy Dunlap wrote:
+> Include fs/open.c in filesystems/api-summary.rst to provide its
+> exported APIs.
+> 
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
-> This is a resend of a patch which I sent more than two years ago, on
-> which I got no answers and which I then forgot about.
->
-> Link: https://lore.kernel.org/all/20230531093951.358769-1-mailhol.vincent@wanadoo.fr/
-> ---
->  Documentation/doc-guide/kernel-doc.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
 
-Applied, thanks.
-
-jon
+Reviewed-by: Christian Brauner <brauner@kernel.org>
