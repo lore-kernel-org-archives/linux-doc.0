@@ -1,45 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E3B2C029F;
-	Tue,  6 Jan 2026 21:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33EC2C029F;
+	Tue,  6 Jan 2026 21:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767735411; cv=none; b=OHWQ5GnTYWKKGAORIy70wrIXSpiFCgn+JOwdKf6fyQp5tC16Xcd4w2Da+7S7p+To/1GScTssS8a6M9gyeckRSnCebgH8SWoLvePQVZ42kXIuCbwSyF8m0ZVzR5ujTin8sLCN33D7JHXSIz+Y0df8DM4zxfuEVlpawAEm/PgZNAs=
+	t=1767735462; cv=none; b=Kc7edgisFjMh9AMFkYenLnvfYzolhcvq15swcqiGBtxxY/PizxuI4vcYtk/LDLhfHh/tst6Frb14BZKqYHjj+tDDjlZNSRfJh3jJOU8U/GVEZZZd2FbfWMsUBvU1ZxjmGWF+HWzvg7hEkwGNy80ulHGGZc4hwDQNhe7hT9hPLd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767735411; c=relaxed/simple;
-	bh=7HF2020FEL8Tm8Kpkkid1awRt6ygGUMSvsbqPDy8mac=;
+	s=arc-20240116; t=1767735462; c=relaxed/simple;
+	bh=Z7caaMNYYadkxq5J2ESBA4RjTew5v+PjDwXW0ujSbBY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=f1whmxGP5DgtTecLiQv6TCVsXqbCN2mTnezDphtr2McwkNmiH36IZpRHbR659ljwqNbIzpu2AU/w1Vi+5qG7i18bmAconTrFH7NikRsBxS1BPEekyJKZRuVYWUXDuJ4LvHPH5efqpPaePIXDznExQzbuzLoDRmCiHiRBFGPNOb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XUuDUX34; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=s3SaGYhNH57kl6sJNpI9Q6lzRdiUW0DZuQDOEbANkwyzUulnqS64PwLX0M/skSkaFEsFHIpJ4V3KwSLXfFUOit9HPePMoPiLRFBScqWq6ZZi3jl+e9GywgVwEEVB0kAKei08ZcGJTi0MYZSGKiS6PHSt+ofWJj2hDMxWKd80JYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eRN1qYED; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XUuDUX34"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B5CAC40C7D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eRN1qYED"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2BB4E40C7D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767735408; bh=OHtMw5AxQgO7NRTYv86s2jvfeWY2Qj6EN7hHfOzLvz4=;
+	t=1767735460; bh=yGlgri+7O4k2tjs3DElizsYHrH7ZhS5W7J/s2MsbJj8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XUuDUX34kVwEu9MqphB3CtKsNkevL0pH3BY8UqnP+b61cyFEcpC8+OydV4T3B1jeP
-	 jAAIAvI3py4l28yYwTwYAGmmBak1zN0kbyBdOVJ5kkyLugdGnDG70dSxDklIg6lD92
-	 zNK47mbNpRD8Xb8ZlBTBl1KbnQuJ/u+TlmCEsU4TKDmvMji3/M83mqGsg77dtfFxAU
-	 NV00KEEQxPgkV+BBNnvln2V6173Q7/KpwGu+hvlrAqXfaH+7UJZxpVHznEUzWfazji
-	 hmar0tSqtsGGsknFAt1NPh9fiFu5I7Qnzoz+5BC62LJrYc899C7+KFIth93Nz2aiI0
-	 2LTK1uLcoBKog==
+	b=eRN1qYEDPxdFDc7BTJ7nKvlFx0hnNqKXg4u81BSrX+sKswvM4R/j9uYI2u0HALyVd
+	 7rXgf0J9wa0v/G2FibhJ96oOHMrThOZi3HiQQAZrisFgKp2WcjGOU+jAhhkbSAMSFQ
+	 1jn7fzaxCQRndSwA0BGOkcT3d6Em7AAZET9I3rcIL98svj/faeLAzFXWEM10axBZZ5
+	 SI12NFoCgRK3y+0ASQHyrGSHD2mWNuzc/f5sIBa1xofwuStIUWMbvnVG9spa9NTT+G
+	 1FWCKD1DIK7W5fy/bCJ1POg1iOZ5trNSf8q/DFIFWOdBiIIJMr4OycaJsRKoZS8t3y
+	 T5SK2x0TlxbUw==
 Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B5CAC40C7D;
-	Tue,  6 Jan 2026 21:36:48 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2BB4E40C7D;
+	Tue,  6 Jan 2026 21:37:40 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: find-unused-docs.sh: fixup directory usage
-In-Reply-To: <20260102200657.1040234-1-rdunlap@infradead.org>
-References: <20260102200657.1040234-1-rdunlap@infradead.org>
-Date: Tue, 06 Jan 2026 14:36:48 -0700
-Message-ID: <87ldiae83z.fsf@trenco.lwn.net>
+To: mustafaelrasheid@gmail.com, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mustafa
+ Elrasheid <mustafaelrasheid@gmail.com>
+Subject: Re: [PATCH v3] docs: Makefile: wrap SPHINXDIRS help text
+In-Reply-To: <20251227125244.6407-1-mustafaelrasheid@gmail.com>
+References: <88fe4b63-13cd-47ce-8408-1e9d6f947b3a@infradead.org>
+ <20251227125244.6407-1-mustafaelrasheid@gmail.com>
+Date: Tue, 06 Jan 2026 14:37:39 -0700
+Message-ID: <87h5sye82k.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,36 +50,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+mustafaelrasheid@gmail.com writes:
 
-> The recent move of this script from scripts/ to tools/docs/
-> did not account for the 'cd' directory usage.
-> Update "cd .." to "cd ../.." to make the script self-correcting.
+> From: Mustafa Elrasheid <mustafaelrasheid@gmail.com>
 >
-> This also eliminates a shell warning:
-> ./tools/docs/find-unused-docs.sh: line 33: cd: Documentation/: No such file or directory
+> When using `make help`, SPHINXDIR doesn't wrap around 80 characters,
+> causing text to overflow or wrap in incorrect ways,
+> which then makes the text difficult to read
 >
-> Fixes: 184414c6a6ca ("docs: move find-unused-docs.sh to tools/docs")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Mustafa Elrasheid <mustafaelrasheid@gmail.com>
 > ---
-> v2: correct subject line typos (2) (arg, kbd error!)
+> v3:
+>   - Moved SPHINXDIRS to a new line for better readability
+>   - Added `-g 75` to increase the goal of fmt instead of 93% of `-w 75`
+> v2:
+>   - Added '-s' in fmt to prevent word segmenting at the end of lines.
+>   - Reduced width in `fmt -w` to account for the added indentation of
+>     `sed`
 >
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
->
->  tools/docs/find-unused-docs.sh |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> --- linux-next-20251219.orig/tools/docs/find-unused-docs.sh
-> +++ linux-next-20251219/tools/docs/find-unused-docs.sh
-> @@ -28,7 +28,7 @@ if ! [ -d "$1" ]; then
->  fi
->  
->  cd "$( dirname "${BASH_SOURCE[0]}" )"
-> -cd ..
-> +cd ../..
+>  Documentation/Makefile | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Weird, I'm sure I tested that ... evidently not very well.  Applied,
-thanks.
+Applied, thanks.
 
 jon
