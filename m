@@ -1,46 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BC2230BE9;
-	Tue,  6 Jan 2026 21:40:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72585280CE5;
+	Tue,  6 Jan 2026 21:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767735635; cv=none; b=ue8m7G6yytdLvKSThfDc6uz4+jSDKAQno0Mi+Laxybmo5gtIJwJdVWK/b2lWG/A/Sxm/f+DtNXToBFM24uEy6JU6LbizFeAFWm95TIFVxTqVZVir3yEV7WD7cVY3JL53XmjTkrbkuI4pUdsJvZV4efKjQuix0EQg5p63nSr/Yt4=
+	t=1767735772; cv=none; b=njUy5W3aLMuEf3N4oPEGYC6fzFWPRlvMj0bd+6Leb+b6CoZawWqNrwQluNdQNJk6xwrbEDtNutASaeqm4A9ZMBZLKb9N2O3lU1/Agt+2aTY0Lkyyto36YQOuZw4zTjcbAbp4hRdW508sEIvPm0yh8TKZosUQd7vm8jtjsA7jAtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767735635; c=relaxed/simple;
-	bh=UjrpbH0DFfDZT155hUiuW/+yvXIwrHmmhNlqV/73tHE=;
+	s=arc-20240116; t=1767735772; c=relaxed/simple;
+	bh=K6qdGHJL9/Wy4KUvTKEJE6hDS2tapFjm13KwM/86K2A=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Lq5+HtW99d/jc7WO2XGwtQKkozGsffUI/1ibPHoSFFOGey/ibJnsJ+35Dozc05sXlqwQ+GH+ruvuaIBKQV9Nf03zh3JrZcCni5H24kaSvQbrEWu0RTViJzX/QZdIfRvB1OguNFlTNhHG1P6bYcSMWHDYZWtjm1fkSJBqMs1e6y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mgD85ZAs; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=g3qTooTyi4MVYBsEA6RdezsPR+c4GOIdu9vOtDOdaHbkhKYVCgs/W0PunKBy3FKvQLYHf5EDOP0E8V3IkTNYs/j2JS0mxckZa7LXiAMldxKVZhkPrWu0mF6f2K6LKyEZrKhE+5L6qbYxbCI5KEuFQbfnu/GCzLooxU4+jkLQSqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=P8p5uppa; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mgD85ZAs"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B10CC40C7D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="P8p5uppa"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9566F40C7D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767735633; bh=Kf1sPY2GaWKjZFRJUksNjvtd6s25+Q5yplmqeqDG1jQ=;
+	t=1767735770; bh=DrPCKoOrSqUmEB5oga8ks/N+cfiO1X40uhjIAnzSA5M=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mgD85ZAsI77H9Nqb7wa3HEkHD20N738E59GJ/5LXNUcgZWUTBFp2WXCVFWc9q3eMJ
-	 7a2OPchqOkY6nxye02QHmfQXQuOV2aAxq4m9E9Gt6gwkmMtrfV409NbcLq8HcCIanF
-	 LoSue1hOpJK/YJ2TqIhcZJml9fBbArw6ZnLWehtGJWMQq04A1An2nKxVJspMqh1D3O
-	 AZfs+bhKA+WnsAh089FGcx4isB2BgS8WKYLwf4ma9BfjGlXlhRLvGFSV5RF/qVhSEi
-	 7QXg9w7NZSngsxe5aSbXP94b5kL2wv8XrxbNbmiB/PTqm97M/3v3wjYV6xZXARB2Qh
-	 IN7EDSHIRCADw==
+	b=P8p5uppaHImAg+gmHByFcDgrL4BhXNDFAVT8x1qHBb+BzwW78r35TQIheNyBKXHtb
+	 EhwMnL0Ba4sALtSREmHhGjJJ7r6cDynFSHdWFvFB1N3TwRVY4pzlAOSJAqhVrtHfa0
+	 /w/hyvxGSZEr4Jhiv73RWh7wyND6syB17/ZLZixaKTVnBRiNdOWdtl9czsZ6wJ2GUb
+	 tnSZgkNfBz41p9vn4ddf6ULLT9hWZG5OikxJcfCiljZNXT2BsAFSVd41t8+Hk8vfDJ
+	 I4QozLmHQtNVgY/3+ZTZdUQUTJ22Jf08oI07Ke1tq49ScuLqsrE3XYESXNCQpNL6/T
+	 MufB7il3bD4Kw==
 Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B10CC40C7D;
-	Tue,  6 Jan 2026 21:40:33 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9566F40C7D;
+	Tue,  6 Jan 2026 21:42:50 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Volodymyr Kot <volodymyr.kot.ua@gmail.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Volodymyr Kot <volodymyr.kot.ua@gmail.com>
-Subject: Re: [PATCH] Doc: correct spelling and wording mistakes
-In-Reply-To: <20251225133911.87512-1-volodymyr.kot.ua@gmail.com>
-References: <20251225133911.87512-1-volodymyr.kot.ua@gmail.com>
-Date: Tue, 06 Jan 2026 14:40:32 -0700
-Message-ID: <878qeae7xr.fsf@trenco.lwn.net>
+To: Vincent Mailhol <mailhol@kernel.org>, Mike Rapoport
+ <rppt@linux.vnet.ibm.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Vincent Mailhol
+ <mailhol@kernel.org>
+Subject: Re: [PATCH] doc-guide: kernel-doc: specify that W=n does not check
+ header files
+In-Reply-To: <20251225-doc-format-check-v1-1-dff637a4d275@kernel.org>
+References: <20251225-doc-format-check-v1-1-dff637a4d275@kernel.org>
+Date: Tue, 06 Jan 2026 14:42:49 -0700
+Message-ID: <874ioye7ty.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,17 +51,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Volodymyr Kot <volodymyr.kot.ua@gmail.com> writes:
+Vincent Mailhol <mailhol@kernel.org> writes:
 
-> Fixed capitalization and punctuation in process documentation.
+> The documentation states that:
 >
-> Signed-off-by: Volodymyr Kot <volodymyr.kot.ua@gmail.com>
+>   make W=n
+>
+> can be used to verify the documentation format. This is true for .c
+> files but not for headers [1].
+>
+> Modify the documentation to specify that headers files are not covered
+> by make W=n and that these need to be checked separately with
+> scripts/kernel-doc.
+>
+> [1] commit 3a025e1d1c2e ("Add optional check for bad kernel-doc comments")
+> Link: https://git.kernel.org/torvalds/c/3a025e1d1c2e
+>
+> Fixes: 8fcce5803afd ("doc-guide: kernel-doc: add comment about formatting verification")
+> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
 > ---
->  Documentation/process/1.Intro.rst          | 2 +-
->  Documentation/process/2.Process.rst        | 2 +-
->  Documentation/process/4.Coding.rst         | 6 +++---
->  Documentation/process/7.AdvancedTopics.rst | 2 +-
->  4 files changed, 6 insertions(+), 6 deletions(-)
+> This is a resend of a patch which I sent more than two years ago, on
+> which I got no answers and which I then forgot about.
+>
+> Link: https://lore.kernel.org/all/20230531093951.358769-1-mailhol.vincent@wanadoo.fr/
+> ---
+>  Documentation/doc-guide/kernel-doc.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
 Applied, thanks.
 
