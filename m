@@ -1,47 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C941328CF5F;
-	Tue,  6 Jan 2026 21:53:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B424C6C;
+	Tue,  6 Jan 2026 21:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767736402; cv=none; b=lu+edrmQl/tlnb+kPS2k457KW7Bd1gV/LVwdYomVl0ymJEL0bb+G2P6I4T68yt7P5N5ypNON7UxQyw8lhWRM9eh0ZQ/yVWlwRu9YY0sEAip3a322BpxukOmPP4y71Gv9Q53MkaKjN1T/Xj1flf3UBW4WXJ77DKE1vEdO+RRjwI0=
+	t=1767736484; cv=none; b=VupJN1TbR9w+ouWOgOHERUCHg7V0PMJUZrxpJsGN1OVt9dBirDTLxXkEelxiR4+tQPtiktSvikvROxaw8WkFNWD3yUz8qQK7oYyHg3axAQKasuLo4bTVtJnKMA9xSYufHfXvtYWvmu4hCdHc5oivsvy6BZpqu0/i2GYiJ7DrJe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767736402; c=relaxed/simple;
-	bh=0nlyAW2ZlhbqgrjHGM8aXS+XJiWawXUNAG6fCCZM90M=;
+	s=arc-20240116; t=1767736484; c=relaxed/simple;
+	bh=uyr7wUGYQb1kxqkh3uAj4Z9ODHNBtoj3wVbM94OJeGw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JXReuAJi7VfEYsnROjS/MjZw7feX7XChTNkzIvUltNv1lCBgO6Gp6rCns+I6U9047bsFrdzUL/AjtRwyi4LXhM7pXoz6tvE2nQtQgrra/BeBzC90GD4k1LlxOzSq3lGf5w2s+JpPqKYiiGdmSvXALSuKdRdtaUAzlhXZPok06Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eqtYFVFm; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=r+oSXOiN0+aX8F4LLm5WKMnrXXt08tTZiOZyKsZ21qzqYxhJX21y2Cn+DwAnoghN2anyFdwoPzV18bvzUcCGkXIbYsrFVFE0fbw2XdT0YW3iITDGsrWg7tW7GoaQy7GK52Pbg2BfYQsyRCxntpXm/Y5NGctgmMAgWdg6nUN3/Lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=l8rz5T1E; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eqtYFVFm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0785F40C7D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="l8rz5T1E"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06F3540C7D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767736400; bh=ZCO9egIThwvunYNMXpT89JSXjLteBlCFQ4JXOA94/pY=;
+	t=1767736482; bh=iDVnki288ij5RM+JoKQszdq82e9Yxm+u+guzL6/jbkk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=eqtYFVFmAyR2XvSzBkui1N91RFZ/55w/nWh2TyVIKHp50Za+HnxSpebpLNdqI7fh4
-	 tRsKCAzGJRmpYoBoqPgylfmPNZn06wTu6FtpXPp+VBymFWJ4xGOFNzjGZ+FG63PPND
-	 hnoFA/SvOOX0IwZTimaxIMJ6rR2xjWiPYAjGFikRdrPhnN/U8QQY0jx2/pw+WGT33y
-	 BpOEhKq3szIhmFwnKhYP5L7cd9p7NVvLAzHM4NY/BF4dc1jtxXQ+snZn1pwM2f3fNl
-	 V0Fp2p3Pok/t2OPJMx5lGa1Z1rxS0KqWX/nQfu9jtsoO8jGD+5WGm5D42rrs1aHihx
-	 nB3Issmty/NLQ==
+	b=l8rz5T1E+UPUMtlUOXsmkLg4SELzTlZiJ+QqzV5EBKP5d3Ozh/zI1fVlAaXiWyRhW
+	 OGeICPwkoDYTKUSUdWisX43OdFJIzX/hae0wJJi2R9QTgUzdWS9SRzC+/9Mnyn1Oul
+	 P2OuhJbnnI5OCzD7MEAdL4EY9nk2JBWX9Uvl5jZoaEETe0zwKhq9lnNcJxpISxMxbW
+	 hOu2RBAMmhxP4LjI85ogTnUyzntLlLOMMh4ooQc5BODceFufTTtkVEmjxgK5U8M7LW
+	 t1amTvy4nvT55/w//6XtKR5Xxn77KMs/xuTYzvqoyffWCIr0dnLngkmqhU4IVinAhN
+	 DWL4IMxNEqsfw==
 Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0785F40C7D;
-	Tue,  6 Jan 2026 21:53:19 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 06F3540C7D;
+	Tue,  6 Jan 2026 21:54:41 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: SeongJae Park <sj@kernel.org>
-Cc: SeongJae Park <sj@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: suggest adding previous
- version links
-In-Reply-To: <20251225015447.16387-1-sj@kernel.org>
-References: <20251225015447.16387-1-sj@kernel.org>
-Date: Tue, 06 Jan 2026 14:53:19 -0700
-Message-ID: <87v7hecss0.fsf@trenco.lwn.net>
+Cc: SeongJae Park <sj@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Docs/translations/ko_KR: remove memory-barriers
+In-Reply-To: <20251225014027.15948-1-sj@kernel.org>
+References: <20251225014027.15948-1-sj@kernel.org>
+Date: Tue, 06 Jan 2026 14:54:41 -0700
+Message-ID: <87qzs2cspq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,39 +51,33 @@ Content-Type: text/plain
 
 SeongJae Park <sj@kernel.org> writes:
 
-> For review of patches that revisioned multiple times, patch changelogs
-> are very useful.  Adding actual links to the previous versions can
-> further help the review.  Using such links, reviewers can double check
-> the changelog by themselves, and find previous discussions.  Nowadays
-> having such links (e.g., lore.kernel.org archive links) is easy and
-> reliable.  Suggest adding such links if available.
+> The memory-barriers.txt Korean translation is quite outdated.  The last
+> update on the translation was made on 2022-10-10, by commit ee5a86f451f7
+> ("docs/memory-barriers.txt/kokr: Fix confusing name of 'data dependency
+> barrier'").  After the date, the original memory-barriers.txt got seven
+> more changes so far.  The most recent one was made on 2025-11-05.  But
+> none of those are applied to the translation.
 >
+> Maybe I can work again on keeping it updated.  But, given the
+> advancement of translation tools, I think it might not be worth keeping
+> it at all.  Remove the outdated translation.
+>
+> If it turns out to be worthy to keep the translation and someone willing
+> to keep it updated steps up, this could be reverted.
+>
+> This change was inspired from the last kernel summit discussion [1].
+>
+> [1] https://lpc.events/event/19/contributions/2259/
+>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
 > Signed-off-by: SeongJae Park <sj@kernel.org>
 > ---
->  Documentation/process/submitting-patches.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 9a509f1a6873..e69d19ad658f 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -805,7 +805,8 @@ not part of the changelog which gets committed to the git tree. It is
->  additional information for the reviewers. If it's placed above the
->  commit tags, it needs manual interaction to remove it. If it is below
->  the separator line, it gets automatically stripped off when applying the
-> -patch::
-> +patch.  If available, adding links to previous versions of the patch (e.g.,
-> +lore.kernel.org archive link) is recommended to help reviewers::
->  
->    <commit message>
->    ...
-> @@ -814,6 +815,9 @@ patch::
->    V2 -> V3: Removed redundant helper function
->    V1 -> V2: Cleaned up coding style and addressed review comments
->  
-> +  v2: https://lore.kernel.org/bar
-> +  v1: https://lore.kernel.org/foo
-> +
+>  .../core-api/wrappers/memory-barriers.rst     |   18 -
+>  Documentation/translations/ko_KR/index.rst    |    1 -
+>  .../translations/ko_KR/memory-barriers.txt    | 2952 -----------------
+>  3 files changed, 2971 deletions(-)
+>  delete mode 100644 Documentation/translations/ko_KR/core-api/wrappers/memory-barriers.rst
+>  delete mode 100644 Documentation/translations/ko_KR/memory-barriers.txt
 
 Applied, thanks.
 
