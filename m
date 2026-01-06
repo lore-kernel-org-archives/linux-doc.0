@@ -1,78 +1,103 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54042DFA32;
-	Tue,  6 Jan 2026 22:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677E52E542C
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 23:13:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767738222; cv=none; b=tAXelMmSf0m0tTDj7F7U3gG94Tec9oAouwckXfQlWBaloIsS4XtnAMfmxJia03aNL+uknaoa/BP15GbpLUJssu6W5d9XPM8l0hT+WM4WBiOrIYaXcDQPZik5kPJBj858fGpx3MxPrJxxvkcbfkc60LQClBXCUNV9Xv7moxPGd2g=
+	t=1767741202; cv=none; b=J2di7WbjzI1nMgEqgoBwD7KflJt3/5W726Vqxn48Lo3UqAlsfVfrdN73KzKkIqYoFFrHbCSTyjf+V67PyOu70a4lLg67vkHDal+Zgnx3I2jOxtma47kN56xgpePUCcCUM2kRba7Gc+bSZwBKrzHrDSqiCsiEZLtuwE5cpIcSzfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767738222; c=relaxed/simple;
-	bh=kA/CZGazNjF0PyzgSuT0j71AaFqM3SvbSzr03t8BR1I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PbcwZR2gmDnKMtGpRL4COJPZU1L2J4DgvMimYhZoVvPETUEZJMEyFPBRYnTndQ3x2MIMFlEd+oEaf39OT/aWY4oCbgTHTS9Ix7OkGHKwTh+ExzvyJaEtlgcOr/uR03V9wK8tfy9ssZqdyx7qAwU4kLFFg713DACZaEiVZhT0OpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Jd9UJC2i; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1767741202; c=relaxed/simple;
+	bh=9CHyI2pRp45iV0W3VBniLDgkxCChiY5HX21/tIYCbgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=foaZuYrgzBXyX2Te5vQLw5v93XALqepSLnkUg7cPFoRkrcG0+dvfD3GjF+OWVmk2xf2qs2HfuFjF9pggo26VL0BKrSAzR3mlWJZTrgksecaWAFJZuRwM+/+QeQfcPY+vgI6R0uLcN7phmXXDElyLnVabUCt8zvEHQODNUpFay4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cNDe1Y+y; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Jd9UJC2i"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1FEBA40C7D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767738220; bh=yv+stMkiWEGechdbMig5qW95kgUZAMc9a/NgYZmJWXo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Jd9UJC2iudgbzDAeTxeyn8AMFUazQugUtnE1qQVxP7Q6YdO/ZhO3JMe2f99mRe1Mf
-	 vInI8xwM+p8+Auz+xENBpWVePrOp+elW020vQbK1ik7zWiyXlZbzjXLZdhfksrRcTd
-	 wNTwBpH/fNdaAh6Pa/ELPzZM/916M+0fgOjbomqbVR216h3s36ZWEL33S+tWgkzrUW
-	 cdPHpPFNqvz+jY5PhfFipsgBg5JU7mjbV9hEQa5ZCOsiJYGAz3i8lY1KEqjw8k4XCn
-	 HXJcnFuOo4CGyGbNecQW5vc6/qrKdvGZbQaNYhb/TUgM+UIJcFQXplz4uSkeHuSaf4
-	 /KgSQWLfux2mw==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1FEBA40C7D;
-	Tue,  6 Jan 2026 22:23:40 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yu Liao <liaoyu.ly@bytedance.com>, bp@alien8.de,
- linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, x86@kernel.org, wangsiqi.3@bytedance.com,
- liaoyu.ly@bytedance.com
-Subject: Re: [PATCH] Documentation/kernel-parameters: Add tsa under
- mitigations=off
-In-Reply-To: <20251225121438.38427-1-liaoyu.ly@bytedance.com>
-References: <20251225121438.38427-1-liaoyu.ly@bytedance.com>
-Date: Tue, 06 Jan 2026 15:23:39 -0700
-Message-ID: <87h5sybct0.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cNDe1Y+y"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-459993ff4fcso654602b6e.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 15:13:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1767741199; x=1768345999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mMjHThWHUMgczxTcrFQ6ZHafxGjW2B1HWPHNHaRjP/8=;
+        b=cNDe1Y+yxUqkxFtoY7peRzwC+Z4yfcgM49ceeBo8zqZXRtOjNMqAf1YONMuCu9HuHX
+         tsFwbQvkozO5H+qHgMnRNdAvgDxExnE3r378lOrQb4jsAdYgPAuhz5pUWVaNw3HaVovH
+         MkmruK+L7JA30SZBRgp2/TzkHt0YEbsYN1W0E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767741199; x=1768345999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mMjHThWHUMgczxTcrFQ6ZHafxGjW2B1HWPHNHaRjP/8=;
+        b=wcQTAG/Lb5DfvZeXdpXwhe1lOBkHv1DMeJwBPVrJkUrHt+Yn3nRZb2UB+a+WnEmixW
+         VWjFlFBKk3Vj6RNLVFb+pFrUAJwhqEusyyk4L994hZMZepWGPafAtdxozEe6DC5Xva1d
+         ppZW5ofQ3415WyPQTnEpiPj5I4UtQpgdqjBS8m4t88N8bTohMOURa4pXumR+oG0DIl68
+         TUEl3e7ULc45bLXoEnoArM6ZBiHq5Skv8iGDtsPYtuQUdtBMKBrO11BxIuwvqIhiQj87
+         cCvcF7/s0CSJ1Grx0imW3FWt1akSmAnXk6sT31gdLTwGjQ85jBB9WIQjPnjrqwzHlOyz
+         CAHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUb2JiQgVx0zo4/g9pdNpdxjo+9BN/+lqVasbLu2hC7yGarrhzRcwMmmtCyH682E2c1cMCrQfY6Awg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/11YQ1kZMoeOeNBRAi370N2XIwiSFXyOxaFup64x2CZ7Jv+Zv
+	w5O71shvv1vHM8nVrF8g+8ySnl45KsObPN0N1IX01XI7UsKlHF5tZbWJWW9Nufs8jN8=
+X-Gm-Gg: AY/fxX5P5/3XmpTnvWd6CF/y8eCfGnCspcN1EdTrcGJooF+3BOK5TPdjOc/7UEMPNiu
+	4sHZ5FdCPsQPnA3rjOMigF37kEKwycIHLPcA7XRRAg7InJN+saWCeYMuvQWudLZex+QnNs0CoA+
+	5eK8GSHe5KjlE9ZXAmEXtZb8pM3GcOR1qYqaY4Vb4MFIGXETotV3juvYnR5J+4tdzZADE7rMNhM
+	YspniKPWtIK37rGOH3hBq8jMh1D3MtycODHoYFKML7E2mbOs7+NV8MDS+O+Hc2oUBHuwI8NYThY
+	PKAM8cdxuuOf5Cru6UDfVXm+fMUK0aVFzz9l8QhwQtbDvvkqXSGWlqQbweDgS0K8pr++z0cqco9
+	0xlqFuvi2cJZ+hGZumQgWHnvxaxjS+zhv4dW2Xl241R6qh5dFwjw3U/I1JKZx4cB+Selh9XL3Yu
+	dla2e8ZRsE04NP/gF92RGajqtHM3ePJZHKq6QloEeGjkWr51A=
+X-Google-Smtp-Source: AGHT+IHKgiZWvhVAZMBp6bOvGi+khkzTXYcuDuYNjrB+zC8ZttZAHJFBtMRl7VMR4HQRCNUUVjd9qQ==
+X-Received: by 2002:a05:6808:6601:b0:44f:e5c8:2902 with SMTP id 5614622812f47-45a6bd54352mr266806b6e.9.1767741199272;
+        Tue, 06 Jan 2026 15:13:19 -0800 (PST)
+Received: from shuah-framework.internal ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2e8fb1sm1533104b6e.21.2026.01.06.15.13.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 15:13:18 -0800 (PST)
+From: Shuah Khan <skhan@linuxfoundation.org>
+To: corbet@lwn.net
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Update for the doc subsystem
+Date: Tue,  6 Jan 2026 16:13:14 -0700
+Message-ID: <20260106231316.24474-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Yu Liao <liaoyu.ly@bytedance.com> writes:
+Adding myself as a reviewer for doc subsystem.
 
-> On X86 AMD systems, mitigations=off also disables the Transient
-> Scheduler Attacks (TSA) mitigation. Add it to the list.
->
-> Signed-off-by: Yu Liao <liaoyu.ly@bytedance.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a8d0afde7f85..f4a2bf906bf3 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3998,6 +3998,7 @@ Kernel parameters
->  					       spectre_v2_user=off [X86]
->  					       srbds=off [X86,INTEL]
->  					       ssbd=force-off [ARM64]
-> +					       tsa=off [X86,AMD]
->  					       tsx_async_abort=off [X86]
->  					       vmscape=off [X86]
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Applied, thanks.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 765ad2daa218..960e254dc0a3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7517,6 +7517,7 @@ F:	include/linux/dmi.h
+ 
+ DOCUMENTATION
+ M:	Jonathan Corbet <corbet@lwn.net>
++R:	Shuah Khan <skhan@linuxfoundation.org>
+ L:	linux-doc@vger.kernel.org
+ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+@@ -7539,6 +7540,7 @@ X:	Documentation/userspace-api/media/
+ 
+ DOCUMENTATION PROCESS
+ M:	Jonathan Corbet <corbet@lwn.net>
++R:	Shuah Khan <skhan@linuxfoundation.org>
+ L:	workflows@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/dev-tools/
+-- 
+2.51.0
 
-jon
