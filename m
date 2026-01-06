@@ -1,252 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99D334D3A9;
-	Tue,  6 Jan 2026 15:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767714429; cv=none; b=SORRwk9ifrzW24rYvcFajzmLXsNjYlRxJwKdBFMuW1zxlk4eIBziBg8r8YFZXrCkSBs62lFineU9L/Z394cwfsI/bXYIGRBWrHR36V1HEmvZ7zdwmpBMq5//U8Ru9WAqVOjhuLylGYqgGU1uZA9w+A5O2yiOhkMWudNX6rc20/g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767714429; c=relaxed/simple;
-	bh=GtO+NuUpYKeE+WmjwXQmin9hFMsq6SXJs4VncfVQGoY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZHbKDYwE8JufXiniNYW/cjefbDhfoXLGv45aX1eteBpmctAnIscooz8C5MwRZwWGz8cnYkuayr6SpyTn/pIx2zj3RmL/CYPZE2i9PKJHPAJ/4mtNpMtaKqb8fFp6PmxrkL6Lzyv/x7Ck6mJCV/qv+7vWUE6tCVeBkiaWqCRuP3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqsILDT+; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5508234D91C
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 15:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767714603; cv=pass; b=C54KLD3nztSizUzqGWLXFB3O0+oay4eigL4In3LVz0DagoCRvR/447vyd+dlpaqlBB0vyAgyPimytx36QSXEdmGdcCmlcY/wYTyZHSYsR1kiGPaWFZeqm4oX6aILaH6W4WD/gCieKfHZvGywcd0K6hE6palmS6EaBCD2U0JEdZk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767714603; c=relaxed/simple;
+	bh=48fVzOvLrZOQEbkvM5UMLnlpv+imRIa8TVsOVuFn/vE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jy/tv5+m+To8n9p1IW5QJ89fsaDYtDjz8vZtdN7lj/lwdTWka7Nv1ARrplSGD4inyXrtuq0WaKKaUTpcCgJYtaiDeU2Y+JKX+7gczcExC6j9Zgn9NQavQyID8+OrJ4Nz+t5p+Yo5wJfZBXhs8LugN3Dgvp8+NkLk7f3HulNCOwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=makCLwID; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqsILDT+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C9EC116C6;
-	Tue,  6 Jan 2026 15:47:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767714428;
-	bh=GtO+NuUpYKeE+WmjwXQmin9hFMsq6SXJs4VncfVQGoY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RqsILDT+R0k6tNqUxCG1LsDj2gcGG3IjkcKYf/EqHDjP6pir7XLKLcZ55SIMoWO9W
-	 QYqk3FVd8kDUQNSuNbDKVh6qyjVgltwbFSUwGPwSZmRUCbl7lspWSnNToACvxzzEfI
-	 yrpwnRpS76+GQAqjI3r4I7fw2EnTlTWYZmexSB2mwTh5ETSyNnIw5IPgqZiYEQrmOX
-	 XpS3kdF4lXy0S5FMlDa/YDHbOK7Q4Hf35wT0pacg0xA/0xxGQvPGtBU5fxCevwYP2/
-	 L2TWqObauSOZ987OSvd+CNUesgTPGc7uf+t9njA9g20L3qKIH3ozVjBb235/LYpBHn
-	 8UkckbqPteKmw==
-Message-ID: <65c7a296-7dc7-4368-9b2d-6fadd0dbf9c6@kernel.org>
-Date: Tue, 6 Jan 2026 09:47:05 -0600
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="makCLwID"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ee243b98caso433631cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 07:50:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767714600; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XU81FuX5AynvWHA3lXkZZbRG19wqoR40R9Tk2nJvxvOvvSxCHBEfx+6SYn5pI2+e0P
+         DjmfsQUIL8JApPphe9Ha+s++TsTCEnoRUS3iJn0VORPf1RW/shGXGft1Ls1L1Oi8typG
+         KbPNts7SKAOZEkVnRqzPbILsE/sbu7FFFqhc+/Ia2ON+2dnyk4iuoDIoBKlqixWaabAx
+         jP6+HWfxYLEpHiH8EvEdKXVeyJf1x4xjJvrlGW0XUNd8e9XTYa63R4h/fxqdASea/JnZ
+         ozg3sjQpXbSA836Yw0OSu1dZ3QlT+9pmEOCbDFDsuc9u10wb+TvYbbB89jrkGf8l1XXE
+         HT+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4u/XP2Qb+qQvDlOXEIcff9WsDxL9SWsqniXEl78vuPY=;
+        fh=ingXBZcS2VYR6aCM0J3PgykK3VpS0PZZcbqFNgeS2rI=;
+        b=Cx535xJZh4ihli1wz9bqIPc7E+kmz5kjkNvi6woBwLmwVBTY7PpJhvkriL7fr5drLE
+         UsmFMqVSJcrA4doZ4bfOLK8uhQUp4bnajfeB6LEC1AgIUqsr75Jw4sxUmn/vAMBGCe/H
+         Fukd5bPMdN5Lkx7K4p518tydIYl22/uNmLCmsmZBIGBLwo/Sd7Y7RG9yIkDNKYP0Xcp5
+         ZoXRmwuzJLrW9BGGfrBzStIGtzJ66emsXUjFNDnDP6KtqO33X66KFBWhkwui1OBjxBFp
+         Xeqw4zZodDtQhn9MqY1ip527F44okk87giMrYuhnUdgUCYcua6yxS6l+P0gOL0BAVC7b
+         jUCw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767714600; x=1768319400; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4u/XP2Qb+qQvDlOXEIcff9WsDxL9SWsqniXEl78vuPY=;
+        b=makCLwID0tBZD6xYrDBLqXApkldcDR5ysHDPk0E4GDCATsYZ4KIFTe+s2jo5jHFmpf
+         bkWpPdFOrq568zhBTVAIpRsrKPUxseinQfRh4rHqZ2n035gIsIssFfy1z2590sVEPp4Q
+         3GfSv0rbSRB3fhip4lnAuSkX7EaPB45HDZfXDeKzWw3tCrmYPsN0MmAouXM0wkG6yPJw
+         WmiJDwu78T3MxMhdN/hGfmtvNNHMAGX2bh9JOD2PhL3JtO9OlY2fdPwXjUrOn4vEX/KD
+         JRkiE3w/2boeq+PnuMvFJ98WRPPIywbxBxeVJ6EqT/m3OgXhT6afUnSAhFOZG5h0WVbc
+         PhiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767714600; x=1768319400;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4u/XP2Qb+qQvDlOXEIcff9WsDxL9SWsqniXEl78vuPY=;
+        b=ByHFqm+I+DAbmh8IE0uCaLeoZbh1zZkWn+a7dtYgl6XdmOURdG0elr+lVgQZ3P+X0U
+         FoduQNjuYRGhrxPwvXzyVPgYfgVAdXjUoG5Ukbo4uQTTaGgOicVJo0keXozCxPC36cJx
+         Gb6XtwB4zFhZ11Dkk7X24O8kn9n/WSuM/BxWpS+gr8CPE4uRo8faMdepa9gwW9KI9uLr
+         LM1lCCCuzd6MsZ5MdaOKb5mqWixHINrbs0g2MEaRdeSHlTBPoGKMhDw7+m6+Y0KLvtKu
+         gFe2eck/e3JHhEV0xual8461Wrw34VKkxT/uu6xJ8Ej7hmkKY3kTsvTgUChHf3/tOoe8
+         AQaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUDZaF5eWDMfjwI9AS3ig8SPfepwm8JS8UVQtBf1zwMc6wx2aArhwvLNJxx+2Hpqjx62KVLt8fHWz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhHSm1H1ZEX4YS6kW3FGq1TRTAneQ77y/8yVkBMViBLcWPk6M5
+	1vZyRZRCHiMDi7r7kmD34SOFWlwX9IVUhL+q5zvrfX89lHVqKa3iSpvv8mGd1cTQeN702ijTbNp
+	YspXmK/D72k7mK76PmiGuoWs4MXArVxoED5DCpjed
+X-Gm-Gg: AY/fxX7Uprwm8reZ0Lv3h68BYfhkK/q4I0t7mwAo7vlDeIytuTfhTCZ0iKBdE8S+/uC
+	5fdk/ea24d+WNq/SEir8D1nw2sK62Q6Fbm+YMtcbIZ32zwlGx7l3RAuh7uDYgJ97SReVcWqqhaK
+	2mbbQhHe83IcPN73fZF5MKQaSiBizdwMldp+EdkMYV5HG4Tso5pnGTq6FFWebTPesK9yD740gHW
+	5FtFVyerBjmcJ3tdR5Ni1o8sJkWA9kt/8w5TPKXybp//AZS5g/ZBGCKKS4YCRUEIquBPjztt31d
+	oBjNUJqJqTnx8ilcuFauS5bYiA==
+X-Google-Smtp-Source: AGHT+IHbCEXPRNDYInsMRbyk944URhHinQrSqdn9SMJ0HiaUkC2VNjD/GTcHUOOXarpMrOxvUsEyl1eweg53sx9OpUM=
+X-Received: by 2002:a05:622a:90:b0:4b7:9a9e:833f with SMTP id
+ d75a77b69052e-4ffa961f4cdmr5690451cf.7.1767714600009; Tue, 06 Jan 2026
+ 07:50:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using
- ACPI drivers
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Linux ACPI <linux-acpi@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hansg@kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Zhang Rui <rui.zhang@intel.com>, Armin Wolf <w_armin@gmx.de>,
- Danilo Krummrich <dakr@kernel.org>,
- Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <2396510.ElGaqSPkdT@rafael.j.wysocki>
-Content-Language: en-US
-From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <2396510.ElGaqSPkdT@rafael.j.wysocki>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251211125928.3258905-1-smostafa@google.com> <20251211125928.3258905-2-smostafa@google.com>
+ <341bbfd9-e6bb-4d1e-b9c0-9077dc3eaba3@linux.intel.com>
+In-Reply-To: <341bbfd9-e6bb-4d1e-b9c0-9077dc3eaba3@linux.intel.com>
+From: Mostafa Saleh <smostafa@google.com>
+Date: Tue, 6 Jan 2026 15:49:48 +0000
+X-Gm-Features: AQt7F2oA1CBb4GrIbCitr-B-G-VTljeq1aZHCjWlK0-2EsS6hRvCfN68ucTwj3A
+Message-ID: <CAFgf54r76=RF0TAkJ42VDnRkwYf0=bjRk-pO1dq3zzvxGBThww@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org, 
+	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz, 
+	surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, 
+	ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com, 
+	rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Dec 12, 2025 at 2:22=E2=80=AFAM Baolu Lu <baolu.lu@linux.intel.com>=
+ wrote:
+>
+> On 12/11/25 20:59, Mostafa Saleh wrote:
+> > Add a new config IOMMU_DEBUG_PAGEALLOC, which registers new data to
+> > page_ext.
+> >
+> > This config will be used by the IOMMU API to track pages mapped in
+> > the IOMMU to catch drivers trying to free kernel memory that they
+> > still map in their domains, causing all types of memory corruption.
+> >
+> > This behaviour is disabled by default and can be enabled using
+> > kernel cmdline iommu.debug_pagealloc.
+> >
+> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> > ---
+> >   .../admin-guide/kernel-parameters.txt         |  9 ++++++
+> >   drivers/iommu/Kconfig                         | 19 +++++++++++
+> >   drivers/iommu/Makefile                        |  1 +
+> >   drivers/iommu/iommu-debug-pagealloc.c         | 32 ++++++++++++++++++=
++
+> >   include/linux/iommu-debug-pagealloc.h         | 17 ++++++++++
+> >   mm/page_ext.c                                 |  4 +++
+> >   6 files changed, 82 insertions(+)
+> >   create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+> >   create mode 100644 include/linux/iommu-debug-pagealloc.h
+>
+> Do you need to update the MAINTAINERS file, since a new file (iommu-
+> debug-pagealloc.h) is being added?
+>
 
+Sorry I missed this last time, that should be under the path of "IOMMU
+SUBSYSTEM",
+I am happy to maintain it, but it's up to Joerg and Will.
 
-On 1/6/2026 6:27 AM, Rafael J. Wysocki wrote:
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> 
-> Sadly, there is quite a bit of technical debt related to the
-> kernel's ACPI support subsystem and one of the most significant
-> pieces of it is the existence and use of ACPI drivers represented
-> by struct acpi_driver objects.
-> 
-> Those drivers are bound directly to struct acpi_device objects, also
-> referred to as "ACPI device nodes", representing device objects in the
-> ACPI namespace defined as:
-> 
->   A hierarchical tree structure in OS-controlled memory that contains
->   named objects. These objects may be data objects, control method
->   objects, bus/device package objects, and so on.
-> 
-> according to the ACPI specification [1].
-> 
-> The above definition implies, although rather indirectly, that the
-> objects in question don't really represent hardware.  They are just
-> "device package objects" containing some information on the devices
-> present in the given platform that is known to the platform firmware.
-> 
-> Although the platform firmware can be the only source of information on
-> some devices, the information provided by it alone may be insufficient
-> for device enumeration in general.  If that is the case, binding a
-> driver directly to a given ACPI device node clearly doesn't make sense.
-> If the device in question is enumerated through a hardware interface, it
-> will be represented by a device object matching that interface, like
-> a struct pci_dev, and the ACPI device node corresponding to it will be
-> treated as its "ACPI companions" whose role is to amend the "native"
-> enumeratiom mechanism.
-> 
-> For the sake of consistency and confusion avoidance, it is better to
-> treat ACPI device nodes in general as ACPI companions of other device
-> objects representing hardware.  In some cases though it appeared easier
-> to take a shortcut and use an ACPI driver binding directly to an ACPI
-> device node.  Moreover, there were corner cases in which that was the
-> only choice, but they all have been addressed now.
-> 
-> In all cases in which an ACPI driver might be used, the ACPI device
-> node it might bind to is an ACPI companion of another device object
-> representing a piece of hardware.  It is thus better to use a driver
-> binding to the latter than to use an ACPI driver and leave the other
-> device object alone, not just because doing so is more consistent and
-> less confusing, but also because using ACPI drivers may lead to
-> potential functional deficiencies, like possible ordering issues
-> related to power management.
-> 
-> Unfortunately, there are quite a few ACPI drivers in use and, as a rule,
-> they bind to ACPI device nodes that are ACPI companions of platform
-> devices, so in fact they play the role of platform drivers although in
-> a kind of convoluted way.  An effort has been under way to replace them
-> with platform drivers, which is relatively straightforward in the vast
-> majority of cases, but it has not been pursued very aggressively so far,
-> mostly due to the existence of the corner cases mentioned above.
+Thanks,
+Mostafa
 
-This is the same as Danilo's comment; but could you leave a few examples 
-of conversions that have been done successfully?  Commit hashes that can 
-demonstrate what it actually takes to convert an acpi driver to a 
-platform driver and might make it easier for people to reference when 
-this comes up.
-
-> However, since those corner cases are gone now, it makes sense to spend
-> more time on driver conversions with the ultimate goal to get rid of
-> struct acpi_driver and the related code from the kernel.
-> 
-> To that end, add a document explaining why using ACPI drivers is not
-> a good idea, so it need not be explained from scratch on every attempt
-> to convert an ACPI driver to a platform one.
-> 
-> Link: https://uefi.org/specs/ACPI/6.6/02_Definition_of_Terms.html#term-ACPI-Namespace [1]
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-> ---
-> 
-> v1 -> v2:
->     * Fixed a typo in the changelog (Andy).
->     * Addressed two review comments from Randy ("is questionable either" ->
->       "is also questionable" and "eg." -> "e.g.").
->     * Added R-bys from Andy and Armin.
-> 
-> ---
-> 
-> Although this patch can be applied independently, it actually depends on
-> some ACPI changes in linux-next and on
-> 
-> https://lore.kernel.org/linux-acpi/12824456.O9o76ZdvQC@rafael.j.wysocki/
-> 
-> so it is better to handle it along with that material.
-> 
-> ---
->   Documentation/driver-api/acpi/acpi-drivers.rst |   80 +++++++++++++++++++++++++
->   Documentation/driver-api/acpi/index.rst        |    1
->   2 files changed, 81 insertions(+)
-> 
-> --- /dev/null
-> +++ b/Documentation/driver-api/acpi/acpi-drivers.rst
-> @@ -0,0 +1,80 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +=========================================
-> +Why using ACPI drivers is not a good idea
-> +=========================================
-> +
-> +:Copyright: |copy| 2026, Intel Corporation
-> +
-> +:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> +
-> +Even though binding drivers directly to struct acpi_device objects, also
-> +referred to as "ACPI device nodes", allows basic functionality to be provided
-> +at least in some cases, there are problems with it, related to general
-> +consistency, sysfs layout, power management operation ordering, and code
-> +cleanliness.
-> +
-> +First of all, ACPI device nodes represent firmware entities rather than
-> +hardware and in many cases they provide auxiliary information on devices
-> +enumerated independently (like PCI devices or CPUs).  It is therefore generally
-> +questionable to assign resources to them because the entities represented by
-> +them do not decode addresses in the memory or I/O address spaces and do not
-> +generate interrupts or similar (all of that is done by hardware).
-> +
-> +Second, as a general rule, a struct acpi_device can only be a parent of another
-> +struct acpi_device.  If that is not the case, the location of the child device
-> +in the device hierarchy is at least confusing and it may not be straightforward
-> +to identify the piece of hardware providing functionality represented by it.
-> +However, binding a driver directly to an ACPI device node may cause that to
-> +happen if the given driver registers input devices or wakeup sources under it,
-> +for example.
-> +
-> +Next, using system suspend and resume callbacks directly on ACPI device nodes
-> +is also questionable because it may cause ordering problems to appear.  Namely,
-> +ACPI device nodes are registered before enumerating hardware corresponding to
-> +them and they land on the PM list in front of the majority of other device
-> +objects.  Consequently, the execution ordering of their PM callbacks may be
-> +different from what is generally expected.  Also, in general, dependencies
-> +returned by _DEP objects do not affect ACPI device nodes themselves, but the
-> +"physical" devices associated with them, which potentially is one more source
-> +of inconsistency related to treating ACPI device nodes as "real" device
-> +representation.
-> +
-> +All of the above means that binding drivers to ACPI device nodes should
-> +generally be avoided and so struct acpi_driver objects should not be used.
-> +
-> +Moreover, a device ID is necessary to bind a driver directly to an ACPI device
-> +node, but device IDs are not generally associated with all of them.  Some of
-> +them contain alternative information allowing the corresponding pieces of
-> +hardware to be identified, for example represeted by an _ADR object return
-> +value, and device IDs are not used in those cases.  In consequence, confusingly
-> +enough, binding an ACPI driver to an ACPI device node may even be impossible.
-> +
-> +When that happens, the piece of hardware corresponding to the given ACPI device
-> +node is represented by another device object, like a struct pci_dev, and the
-> +ACPI device node is the "ACPI companion" of that device, accessible through its
-> +fwnode pointer used by the ACPI_COMPANION() macro.  The ACPI companion holds
-> +additional information on the device configuration and possibly some "recipes"
-> +on device manipulation in the form of AML (ACPI Machine Language) bytecode
-> +provided by the platform firmware.  Thus the role of the ACPI device node is
-> +similar to the role of a struct device_node on a system where Device Tree is
-> +used for platform description.
-> +
-> +For consistency, this approach has been extended to the cases in which ACPI
-> +device IDs are used.  Namely, in those cases, an additional device object is
-> +created to represent the piece of hardware corresponding to a given ACPI device
-> +node.  By default, it is a platform device, but it may also be a PNP device, a
-> +CPU device, or another type of device, depending on what the given piece of
-> +hardware actually is.  There are even cases in which multiple devices are
-> +"backed" or "accompanied" by one ACPI device node (e.g. ACPI device nodes
-> +corresponding to GPUs that may provide firmware interfaces for backlight
-> +brightness control in addition to GPU configuration information).
-> +
-> +This means that it really should never be necessary to bind a driver directly to
-> +an ACPI device node because there is a "proper" device object representing the
-> +corresponding piece of hardware that can be bound to by a "proper" driver using
-> +the given ACPI device node as the device's ACPI companion.  Thus, in principle,
-> +there is no reason to use ACPI drivers and if they all were replaced with other
-> +driver types (for example, platform drivers), some code could be dropped and
-> +some complexity would go away.
-> --- a/Documentation/driver-api/acpi/index.rst
-> +++ b/Documentation/driver-api/acpi/index.rst
-> @@ -7,3 +7,4 @@ ACPI Support
->   
->      linuxized-acpica
->      scan_handlers
-> +   acpi-drivers
-> 
-> 
-> 
-
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index a8d0afde7f85..d484d9d8d0a4 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -2675,6 +2675,15 @@ Kernel parameters
+> >                       1 - Bypass the IOMMU for DMA.
+> >                       unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHR=
+OUGH.
+> >
+> > +     iommu.debug_pagealloc=3D
+> > +                     [KNL,EARLY] When CONFIG_IOMMU_DEBUG_PAGEALLOC is =
+set, this
+> > +                     parameter enables the feature at boot time. By de=
+fault, it
+> > +                     is disabled and the system behaves the same way a=
+s a kernel
+> > +                     built without CONFIG_IOMMU_DEBUG_PAGEALLOC.
+> > +                     Format: { "0" | "1" }
+> > +                     0 - Sanitizer disabled.
+> > +                     1 - Sanitizer enabled, expect runtime overhead.
+>
+> "iommu.debug_pagealloc=3D0" has the same meaning as "unset". Would
+> "iommu=3Ddebug_pagealloc" look more appropriate?
+>
+> > +
+> >       io7=3D            [HW] IO7 for Marvel-based Alpha systems
+> >                       See comment before marvel_specify_io7 in
+> >                       arch/alpha/kernel/core_marvel.c.
+>
+> [ ... ]
+>
+> Other changes look good to me.
+>
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
