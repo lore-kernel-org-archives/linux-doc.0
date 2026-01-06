@@ -1,157 +1,158 @@
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836DF29E101;
-	Tue,  6 Jan 2026 14:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.56.87.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767709989; cv=pass; b=gFeQypM6QTebVsu6M2LGWOlbfw//nroSJR6r03tanZluWmgt2s4ih8pnKMfIGCaA5rDtstXbfhL2paD+fF71oItapHcoQ2hu/BSEgO4CdTR4ds+2bqtbvK8GFfKTa6HVwK38rEhEGOAzo+1xgBibaFEltrcdmYlOaOjFmJVeNlo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767709989; c=relaxed/simple;
-	bh=IAwJRtP6e6Uok6TXGFtjo0psvVmWxfzfjk894Ekbkgk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qA7vNhjM1Yvi6UAxr9egu8sGJVWdOVSD+go9oB2xPlYMZmXEG2/dnr/LujGxkifU9LDquQFIRZ3/T1D73Sk6CQeU3g8kEt/7iQBXFuAoyNC08cYa6dxnTrdWcVxPXmCsZQBGuuCIIbzi5Dl4DCZiNsFTlHF1I4sFtNe75DjO4Hw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it; spf=pass smtp.mailfrom=valla.it; dkim=pass (1024-bit key) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b=jNJPbdZM; dkim=pass (1024-bit key) header.d=valla.it header.i=@valla.it header.b=X8DKm7NV; arc=pass smtp.client-ip=185.56.87.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="jNJPbdZM";
-	dkim=pass (1024-bit key) header.d=valla.it header.i=@valla.it header.b="X8DKm7NV"
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-rv86.prod.antispam.mailspamprotection.com; s=arckey; t=1767709987;
-	 b=CQ0BQyFOB/jEd2oKqcsdlw/KYyTCGP9LJgbfhpnA05dbmWlDOoMjvxf3gtjFxaTqlLEeapkCfw
-	  h8BgrWQSXHD202gEG5/U6S1RDObMm76QV9DqawaVW9KYEMqBKiq34/ORNOrkeF2i9gDtAI1UPq
-	  jTSs+9QqzLGpNHtT6gP5ECZgaPVKpwqUQFb2Y4OejoBNqcI9ujQWumC8XpiGjzmYA5e447ogZO
-	  Z95ZsVT6QChi//GfNzvabxpukh48NiDYfp3QaO5KckDUr+LMfSEB6DGPy9kOvc6C5aD2CnIcmD
-	  VGpwo0ozsiyezx+9zpyzQer5fkaRpYe2AdG13zxkCBZVHg==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-rv86.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-rv86.prod.antispam.mailspamprotection.com; s=arckey; t=1767709987;
-	bh=IAwJRtP6e6Uok6TXGFtjo0psvVmWxfzfjk894Ekbkgk=;
-	h=Cc:To:In-Reply-To:References:Message-ID:Content-Transfer-Encoding:
-	  Content-Type:MIME-Version:Subject:Date:From:DKIM-Signature:DKIM-Signature;
-	b=pqHBc2qdnV408IV+Bq7r1k6893wg9jVV+W8Jy/lrEmym3JLOS1Oco3tQHkJgTlDE653mCRSywA
-	  8TYwcbQ6Ng16cGotv0RL8wR4nbj6EtvoOfaSaOX2axUf+j1sp1OIcWWJr/8npHyuQHOa0JI3AI
-	  uI9HZwuTHuUmrxxpWE75Yl3E6zqUIoHpimihsrxuLkza67DyV6gYdFiJfXK4W6jM+io31j8PP6
-	  sSjZqJOngfw3WkyYrEcgXjMeW1InpCXYMGvGe1jGcBwzrnWxpeovYlVRYc+VAEvmyadWE741/O
-	  abER0b2/raHSrxxVerf22K/665UcssfXQfb83KYNGahmRQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
-	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
-	:Date:From:Reply-To:List-Unsubscribe;
-	bh=DfKGtrGKPa3faWLHh9s5lvGkj1UBCJYGSw0oOVidCkA=; b=jNJPbdZMSApGkNtA1id3RK8qHw
-	QN3VC6lR7CiuousgoxvISDydH2dSoCdBVfFJqwCyYfREazdvXm0doH1k74U+WBBmcc+nA0KIHfMvr
-	LoJt5e1WLdB9aOpl12eY5rzxAxq8VoqLu/vUcUH29ihGgM/1P0/MqsCnwcfkZWQFpO6w=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-rv86.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <francesco@valla.it>)
-	id 1vd80X-000000092dR-18Ge;
-	Tue, 06 Jan 2026 14:26:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
-	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
-	list-subscribe:list-post:list-owner:list-archive;
-	bh=DfKGtrGKPa3faWLHh9s5lvGkj1UBCJYGSw0oOVidCkA=; b=X8DKm7NV+9b2ecTeAkwSCIeOFM
-	bN+lnqT25kLjdj7zBjEJpPS6d7QsH/dKOrALH6IS0enDINpVBTi0JFeg3nHNk1NJqYZTRf64dpe7k
-	7i6K5OMneVpjVgxt6QcU3UXTkF45yd35TKxj664aGtlLWdopO2BcyT93Y5jbDG/WlVIs=;
-Received: from [95.248.141.113] (port=61315 helo=[192.168.178.65])
-	by esm19.siteground.biz with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <francesco@valla.it>)
-	id 1vd80Q-00000000MvX-3A1v;
-	Tue, 06 Jan 2026 14:25:54 +0000
-From: Francesco Valla <francesco@valla.it>
-Date: Tue, 06 Jan 2026 15:25:42 +0100
-Subject: [PATCH RFC v2 3/3] drm: docs: remove bootsplash from TODO
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323AC32D0C2
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 14:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767710886; cv=none; b=YFHePZE0wkgOsVRinJi4nHeNxA3zj9MaEs0s1f5TIjYKde+PAC7CF+JhrRHNLzwND6qIzBVtNbcfgNFoJTmiYa22jMCFFb42ajB2RGDfcyHb/NWf37JvJp9gCzeKzIDufmTtE1KcUwMrdZ+/efm8yfEoILBsUo1Gsl3PwAJfmtI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767710886; c=relaxed/simple;
+	bh=FCzIrtyhh7fPA/dw9YZK4XCoQvYOyJniQgX3yVqjUbs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IeRa6vDC806wzS9+HklcFSZ32ppqTQK4ehvXUhwbhBt/BR79E3h5dKKFTaFH21cHXEg/XvHpzWC0o1lXn9U4+BLXcoEtcbhhVz9+6a3EA2WlFs4zTlkk9s1Z8Klaue1U2EeTV5KhzsYHOzGZdtrsCku0b1OIqi29ybbxrqEfnag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-55b24eedd37so716990e0c.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 06:48:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767710884; x=1768315684;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nJJUInj/XbYBOmFssNzAphx4WQGD5E9g7yIXL8sfIgU=;
+        b=pNmmFbzRVGqfLdF79XawA2Q+o+8JSL63DG07hYnYG974QpC6AbWBn6iQX8OyAdJ2Pf
+         cIGh1ls5pT3XDP/CPJ/DT2Hzd8yBh3p9AxK31Y1EEtVesoUcRF0mSGDcRuzrWdR+PAHz
+         xQKvjsZyGVwkiVhjbfFjiEsFkEfSrB7WfQBo0o3Qywcrfg2mty8Ah3L/LTSkoJpGG6o8
+         vxPRa2iuk1iElPYA1lAvOCq2cBsQcIO4p0L1lujKbi+TVkII1+dR82tlItw/O6cbY+5B
+         wGGkzAAxbUCxmiQ3iqWEI8ne4YlNvRyUXeC2wNfRpnaAVh2WSnK+KTNj9Taf4EtXUQdk
+         oYZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWO3zK/zPZJ/yBjfudApsI2qQjSzlwNnfQDghai6Rz8BXNdy/WJ3xwTuF19omWB3f1Esf5c/sAYACc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/ThyM5UchjXgShC9XWg7WR9olfclcCFrkC1tbLQqCjLUPWipa
+	HnW8Uo3xsRnN3F+WeY+9GqaqnJapD8NitkjCX0jkaI87X4EZeoVWapikhLdkDIV8
+X-Gm-Gg: AY/fxX4SX/4CWXDno+JpMqXn+trAFtFGVZkz2PRcW8JOwbBoG8mGvHjBSu8QcJy7mGD
+	nLElyQzgsHIFNlZsRDW9w2xJ/9i2nspz8oVxl+FUft9bA1+l3mR5Js1rsWGRiJThbjsY5mmgSSD
+	Jw2XJHaLhek6rtgvZOF9O3R2lR13jvsUE3xohbDz6RU0+nvpJWBrycD+Ksgd2ZMwpcAlSpGHLeX
+	VCd8ceLxc2ex7rBvSsZX9PWDZeLsqvUZzvTHyp3iqEyoCfp8Dco4+LO6b+lHmQklC0tPjB6K6RZ
+	xIHq9MFeu7H2H4YKWqgvpWpyGSO2xJiv+oLTNTULlKl/1MeSksuvijMxNKjA8ozsmYiZoHghaP0
+	lD4nAqUCuQfhhasCmc595hCYrSe940CPC4Viehkaaf97bIE6jnsUwt3TaYdLZCC6rVcGh209HOL
+	qsJrVSvKVPJ2One+rN/fq1skIkre7FIzpK8Cv4hU5JGJEpCIvVzNAW+9QGjXA=
+X-Google-Smtp-Source: AGHT+IEVsK6yi9zj14n6J3PRLUsMWoWe7giq1jFQ4oXMiu+ZcaLPVwdH4zznadFe9nfZTcfaS3PoRA==
+X-Received: by 2002:a05:6122:8291:b0:559:6e78:a44c with SMTP id 71dfb90a1353d-5633947952dmr1004043e0c.1.1767710883514;
+        Tue, 06 Jan 2026 06:48:03 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633ad02b3bsm614426e0c.2.2026.01.06.06.48.02
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jan 2026 06:48:02 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-93f69720a7cso607303241.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 06:48:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVbs6qMS36aOd9C7gBYoMccK4c98KII3eFI5Te7VvZSdmrhNBVbxCmQ7miI8jNw987s5PN88vurpGI=@vger.kernel.org
+X-Received: by 2002:a05:6102:1623:b0:5df:bddd:b590 with SMTP id
+ ada2fe7eead31-5ec7451df5fmr1123054137.34.1767710880890; Tue, 06 Jan 2026
+ 06:48:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260106-drm_client_splash-v2-3-6e86a7434b59@valla.it>
-References: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it>
-In-Reply-To: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>, 
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>, 
- Mario Limonciello <mario.limonciello@amd.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-embedded@vger.kernel.org, Francesco Valla <francesco@valla.it>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1227; i=francesco@valla.it;
- h=from:subject:message-id; bh=IAwJRtP6e6Uok6TXGFtjo0psvVmWxfzfjk894Ekbkgk=;
- b=owGbwMvMwCX2aH1OUIzHTgbG02pJDJmx0gXmUTertpzR2dZ+eW365IkmL11kct489H+6uy/w0
- LPKwsmHO0pZGMS4GGTFFFlC1t24t2eu+be0DYyPYOawMoEMYeDiFICJrPJjZHjeevb4/au3buf3
- 7n65r44jj1+ucYK9ifiUbSf4nt/+/KeGkaFBZfl6/7eRrH+vn3r9dnvjpZbdz/aKC2p6ZtxnK4l
- W+sIGAA==
-X-Developer-Key: i=francesco@valla.it; a=openpgp;
- fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: e0e33038253e151e17425215167e02a2
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1vd80X-000000092dR-18Ge-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-rv86.prod.antispam.mailspamprotection.com;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
+References: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it> <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
+In-Reply-To: <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 6 Jan 2026 15:47:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUtsx1gQffk9c-U9UkeqG_Dopv5vXNrp72ewh0EQQgwjQ@mail.gmail.com>
+X-Gm-Features: AQt7F2qsB5hg2NX_ZI18pHFrsB3JeydqfV6kNAMxXv_CqeMBbwVEPLSuyAomQME
+Message-ID: <CAMuHMdUtsx1gQffk9c-U9UkeqG_Dopv5vXNrp72ewh0EQQgwjQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 1/3] drm: client: add splash client
+To: Francesco Valla <francesco@valla.it>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Mario Limonciello <mario.limonciello@amd.com>, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-embedded@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Now that a splash client exists, remove the bootsplash task from the
-TODO list for the DRM subsystem.
+Hi Franceso,
 
-Signed-off-by: Francesco Valla <francesco@valla.it>
----
- Documentation/gpu/todo.rst | 17 -----------------
- 1 file changed, 17 deletions(-)
+On Tue, 6 Jan 2026 at 15:26, Francesco Valla <francesco@valla.it> wrote:
+> Add a DRM client that draws a simple splash, with possibility to show:
+>
+>   - a colored background;
+>   - a static BMP image (loaded as firmware);
+>   - the logo provided by EFI BGRT.
+>
+> The client is not meant to replace a full-featured bootsplash, but
+> rather to remove some complexity (and hopefully boot time) on small
+> embedded platforms or on systems with a limited scope (e.g: recovery
+> or manufacturing images).
+>
+> The background color can be set either at build time from a dedicated
+> config option or at runtime through the drm_client_lib.splash_color
+> command line parameter. Any color in RGB888 format can be used.
+>
+> If enabled, the static BMP image is loaded using the kernel firmware
+> infrastructure; a valid BMP image with 24bpp color and no compression
+> is expected. The name of the image can be set through the
+> drm_client_lib.splash_bmp kernel command line parameter, with the
+> default being 'drm_splash.bmp'.
+>
+> Just like the existing DRM clients, the splash can be enabled from the
+> kernel command line using drm_client_lib.active=splash.
+>
+> Signed-off-by: Francesco Valla <francesco@valla.it>
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 9013ced318cb97d6895752d4cfe21c94d0000973..e32b303cca26fa284f795e30dab18cf9e9496a9e 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -754,23 +754,6 @@ See drivers/gpu/drm/amd/display/TODO for tasks.
- 
- Contact: Harry Wentland, Alex Deucher
- 
--Bootsplash
--==========
--
--There is support in place now for writing internal DRM clients making it
--possible to pick up the bootsplash work that was rejected because it was written
--for fbdev.
--
--- [v6,8/8] drm/client: Hack: Add bootsplash example
--  https://patchwork.freedesktop.org/patch/306579/
--
--- [RFC PATCH v2 00/13] Kernel based bootsplash
--  https://lore.kernel.org/r/20171213194755.3409-1-mstaudt@suse.de
--
--Contact: Sam Ravnborg
--
--Level: Advanced
--
- Brightness handling on devices with multiple internal panels
- ============================================================
- 
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/drivers/gpu/drm/clients/drm_splash.c
+
+> +#if IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_BMP_SUPPORT)
+
+There is no need to protect this block with #if, as it does not generate
+any code.
+
+> +#define BMP_FILE_MAGIC_ID 0x4d42
+> +
+> +/* BMP header structures copied from drivers/video/fbdev/efifb.c */
+> +struct bmp_file_header {
+> +       u16 id;
+> +       u32 file_size;
+> +       u32 reserved;
+> +       u32 bitmap_offset;
+> +} __packed;
+> +
+> +struct bmp_dib_header {
+> +       u32 dib_header_size;
+> +       s32 width;
+> +       s32 height;
+> +       u16 planes;
+> +       u16 bpp;
+> +       u32 compression;
+> +       u32 bitmap_size;
+> +       u32 horz_resolution;
+> +       u32 vert_resolution;
+> +       u32 colors_used;
+> +       u32 colors_important;
+> +} __packed;
+> +#endif // CONFIG_DRM_CLIENT_SPLASH_BMP_SUPPORT
+
+As per [1], all these values are little-endian.  Hence they should
+be declared as such using le16 or le32, and accessed using
+get_unalined_le{16,32}().
+
+[1] https://en.wikipedia.org/wiki/BMP_file_format#File_structure
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-2.52.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
