@@ -1,73 +1,315 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0B57E0FF;
-	Tue,  6 Jan 2026 21:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3D3219A81
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 21:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767736726; cv=none; b=NG8HqQ3KZ+Qq9J2PFOFAs3e5Zdyev5wY2IJOWkCH/6t7QDRR3rnqxGxfd9kaUr8HEYCGdYh/xx4DXq/30mcrbAQkjjduObFOevUhoIFi2OphOSb76hO60tq3AqZEqhEQT5UY5QGodfhMsP6PiNqMtzgq89Nuz4sEN/TAeKXKnzQ=
+	t=1767736763; cv=none; b=ryGVO4vy4sSlOcOhxth4q7q91gRTLnRv4BbRBE5blTiWtWrlo2TM8ZBNsZzK0/s6Eeltf0X5W3KfWmMPrvzd3lOvMXcYxOE+muyyx2RKWfM6Cnr8kfCEWfSIreIHWdPUxnx15/OClkjAIMvnRxEoP3igzDJaGviErDzHOXkddUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767736726; c=relaxed/simple;
-	bh=PA4T1FuOGJPe0gmg0jgpE0xszhW9EnikPFkQe+1akVk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pHcCzwb8SR3zt/IuMc6GS3psVPHXg6MfWpJHMBaf/G0/gtuu0dj2jmENrLyMzOEKAPpRT3+aQRubfnwYNFmw90qNAAOxykjGKLkVnP/7VzioAEaI1AyKBixfNWUuM+Gi7HGkSW1z1Bm0bYZ+P9qScEFgHTPkDdy3KOBsL6Sj/OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LYZknSwR; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1767736763; c=relaxed/simple;
+	bh=R750ce8l0b1/9c3Z50heUqbSocJzXDRY75RUpcUqZLA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A45We+5x8kP0WL7NN/8ov0ly94b3xko6GHo8UAp6gCPNIvqinAF2CfAwAgDG6d/Ca4pBNoasBNSxaNqNv9TOz8NXhAQOU6ff33wGQMaiZ8+fSgYJK9iT8ojCSxIUITLAIOqPHwHdkfT0wcFU+THDqtZnzuj/P5mTfhgoEtqBVo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vrull.eu; spf=pass smtp.mailfrom=vrull.eu; dkim=pass (2048-bit key) header.d=vrull.eu header.i=@vrull.eu header.b=TJX9aIbr; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vrull.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vrull.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LYZknSwR"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5D06A40C7D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1767736724; bh=PA4T1FuOGJPe0gmg0jgpE0xszhW9EnikPFkQe+1akVk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LYZknSwRNBX9oy9gedH0FK7TUDckr/WSMVHiowpHpA4pJ0UX8yLuLG/ZbWRdsccBD
-	 iDFHOvchjCIxB38TyEVGA4uJ8folFSFBj9wYzbJv+BxX50GIX80fnsQoOMxuYyEcbS
-	 54R3r2gCZyyFkEPmwMa7kuqaIqC1YCgGbnOrKwe/EGRSRn4U3dbK0UpoK37tEU1D/N
-	 DQ1BCGG/cVa+rqR2Zz6nl2m/x8sQF7j4SeWRnt7zvkQdobHpRjvXthJYETbD2xXG7L
-	 A/vig+49F1I0srmRuyrQPzZAEE4lhRBbtriouhj1J21UGBerzSB3HJIRYUBzAurN4Q
-	 N7bsTKiAJS/wQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5D06A40C7D;
-	Tue,  6 Jan 2026 21:58:44 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Regressions
- <regressions@lists.linux.dev>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [REGRESSION] Unexpected section title false positive warnings
- on DOC: directive
-In-Reply-To: <aUuLHzk5jdyBAxD7@archie.me>
-References: <aUuLHzk5jdyBAxD7@archie.me>
-Date: Tue, 06 Jan 2026 14:58:43 -0700
-Message-ID: <87ikdecsj0.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=vrull.eu header.i=@vrull.eu header.b="TJX9aIbr"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59b6eb4aca0so26500e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 13:59:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vrull.eu; s=google; t=1767736759; x=1768341559; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LL3o3bW6MpYlg3UB2wT1gIb9eTOIw0Vn+8gxrCV87M4=;
+        b=TJX9aIbreelHnRvNdXPJX3eYO/YTrQFbCanjxQUwiLuGb1VKbMCYAR7MBClPfOv1M7
+         Zox9ZtWfqWYtKPNARtrwk9oLE5ZHS8uLyYQ/X8Jp9zbF6nI75TpTIPbeC7MBxL3Qw0rc
+         0u+ONWOod1ZevK74CwvQfL0Ceb6UffW0ZMyBcTTYN8F9UoX11af9MNvL4B2gbPuiSGOK
+         fL4d6Kbws2q0fwLtvAAd1FTynes7eAHCRtbVYCAajZg1hnuMk925JzIQ3tvLCV8t+dBR
+         t6Eeahkxwc35jDfRLLlEPXfGLti/t9PdkApIUfFMgZhGz/kxlI03ErI3jCTgNZ2LsVnZ
+         hUhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767736759; x=1768341559;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LL3o3bW6MpYlg3UB2wT1gIb9eTOIw0Vn+8gxrCV87M4=;
+        b=KKlehHrprAraqG9gqns7wNM2YA0rBsR9OJUjM5+Q0+eqzOJfgDUJ8FpqUSqeJKBDrl
+         auVIonl2ty9JqTUNVGDXOgp8z1KlIv1mrIIA4YYcBTjcajv5AjAxBB9/4HxDCj02nNml
+         XFR3X8Qqf/ZMEo7a3I0n3Gbwt1yhOby0CE97R6dPCAByjeyImRUSpzSy4bnM5Yo/vSQY
+         8zlDPwuOkCpsin+CgmF7qTEJP5uEYy8kvDoXGQ/y6LS84zGRy+ke+A7GJOFQU0pciKUL
+         Y3FvHaQEJ1xLU0SLj69vaTpVeejYOUm/joW82TtNU3g7dT7smsNtprwT7Of2VGqJcWbh
+         WqWg==
+X-Forwarded-Encrypted: i=1; AJvYcCXHQkT8h+XFOImReLDhwMgPIu/H4I8PBD+1gUSgQ0Ls4ep0dIEODNAu/EGZfv2uEPZMrzL5cdNQzKA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCf1J4kUbaLfXCF+I0WGWuhwpgpBiC4t1dpzHTWl/lqaFofvFV
+	5PzCpG8idxzQdFFdmD7sI6jif7+8A7CUTnkWaZehq1YhjStjXmaKNxM8cuh+/i35XyMbvxaa5qn
+	NrECXlpCsR18T/6QiCfIZm7AzEECgaqhbHKXi2V5OsA==
+X-Gm-Gg: AY/fxX4ockdoRjdD3DZgugjcd1EdMSk2U1ofC9tFqNeWpZhmQmcL5qR+jYF8t+DTo+K
+	fachOZlwn/bF8B+/FHJcnjupD5TYFdKtpf5pVK3lh4DBC52WUA4CmiUepP7mSetQewDt20oni80
+	t1ByTqpD5rqalT3gDjQfi9lwr3AuuaSeMhTDIiDoT08hqbla8ihd7GXiuLsBbkyyeLfIlzoh5dG
+	6g9SpI3+P2FsoAtrKJNI39o7J1A9r8/Kna6duJc2V+taBXSdPa0Y9TcW/XxH7gKvtfkOp3bF9mf
+	CdrRZlsyowBOrnuFWMWzMQhJ4foQsD6ooSNFyg==
+X-Google-Smtp-Source: AGHT+IFERCo72QSYQ9BzZEPvaFJgZQRgyBmU4cYQWVcDInctiS26qpqxPn6hY068jsKe3lhdV1BwzBrHbSc2L3Zyss0=
+X-Received: by 2002:a05:6512:114a:b0:592:f383:3aad with SMTP id
+ 2adb3069b0e04-59b6f05b7demr61003e87.8.1767736758907; Tue, 06 Jan 2026
+ 13:59:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240209064050.2746540-1-christoph.muellner@vrull.eu>
+ <20240209064050.2746540-5-christoph.muellner@vrull.eu> <tencent_5F1B1F8D209B3699631D6E6C4C668848E306@qq.com>
+ <CAMOCf+juAnfmC=TfGCGdpeZQbnSLULPwPOyx2A2Jfi3vDs89xg@mail.gmail.com>
+In-Reply-To: <CAMOCf+juAnfmC=TfGCGdpeZQbnSLULPwPOyx2A2Jfi3vDs89xg@mail.gmail.com>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Tue, 6 Jan 2026 22:59:07 +0100
+X-Gm-Features: AQt7F2qlljFWWTVJtocRnU4jpH1jcXaCnpY9JFdlTfKbJD82kTjuaoWjPmtJsQ4
+Message-ID: <CAAeLtUBWT+K6mrHsoyBqjzYzjTtf1xUevsHYk3+xBWEqTsZ6Eg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/6] RISC-V: Implement prctl call to set/get the
+ memory consistency model
+To: Hans Boehm <hboehm@google.com>
+Cc: Yangyu Chen <cyy@cyyself.name>, =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>, 
+	linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andrew Morton <akpm@linux-foundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Anup Patel <apatel@ventanamicro.com>, 
+	Andrew Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>, 
+	Daniel Henrique Barboza <dbarboza@ventanamicro.com>, Conor Dooley <conor.dooley@microchip.com>, 
+	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Alan Stern <stern@rowland.harvard.edu>, Will Deacon <will@kernel.org>, 
+	Daniel Lustig <dlustig@nvidia.com>, Brendan Sweeney <turtwig@utexas.edu>, 
+	Andrew Waterman <andrew@sifive.com>, Brendan Sweeney <brs@berkeley.edu>, 
+	Andrea Parri <parri.andrea@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+The standardisation of Ssdtso is on-hold (probably permanently) in
+response to feedback received during the review process.
+Unless a strong consensus forms around the need to standardise for one
+vertical or the other, I don't see Ssdtso moving forward given the
+concerns regarding possible fragmentation for the ecosystem.
 
-> Hi,
+Best,
+Philipp.
+
+
+On Tue, 6 Jan 2026 at 22:54, Hans Boehm <hboehm@google.com> wrote:
 >
-> Building htmldocs on docs-next currenly produces about 50 new warnings; which
-> all of them are unexpected section title on DOC: kernel-doc directive, like:
+> I'm not sure what the Sstdso status is.
 >
-> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: CRITICAL: Unexpected section title.
+> I would also greatly prefer to not have such a dynamic switching facility=
+ generally available, for reasons very similar to those that Will Deacon ga=
+ve in the earlier ARM discussion. If this is generally available, I expect =
+people to use it to work around memory ordering bugs in one software compon=
+ent by switching the entire process to TSO mode, even on hardware with an u=
+noptimized TSO implementation. This will impose pressure to optimize TSO ev=
+erywhere. We will increase pressure to ship TSO libraries to take advantage=
+ of situations in which we're running in TSO mode. I think there is signifi=
+cant risk of splitting the ecosystem in this way, possibly with an eventual=
+ painful migration from RVWMO to TSO. IIRC, SPARC went through something va=
+guely similar in its early days.
 >
-> Userspace I/O
-> ------------- [docutils]
-> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Userspace I/O' ./drivers/target/target_core_user.c' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected section title.\n\nUserspace I/O\n-------------')
-> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
-
-So I did not, and do not, see any of these errors; are you doing
-something special to get them?
-
-jon
+> Dealing with one memory model per platform is complicated enough; we don'=
+t want two.
+>
+> If you do this somewhere under the covers to implement an x86 VM, OK. But=
+ please don't let apps switch memory models.
+>
+> Hans
+>
+> On Mon, Jan 5, 2026 at 11:46=E2=80=AFPM Yangyu Chen <cyy@cyyself.name> wr=
+ote:
+>>
+>> Hi Mullner,
+>>
+>> Thanks for this work, although it has already lasted for about 2 years.
+>>
+>> On 9/2/2024 14:40, Christoph M=C3=BCllner wrote:
+>> > We can use the PR_{S,G}ET_MEMORY_CONSISTENCY_MODEL prctl calls to chan=
+ge
+>> > the memory consistency model at run-time if we have Ssdtso.
+>> > This patch registers RISCV_WMO and RISCV_TSO as valid arguments
+>> > for these prctl calls and implements the glue code to switch
+>> > between these.
+>> >
+>> > Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
+>> > ---
+>> >   .../mm/dynamic-memory-consistency-model.rst   | 12 +++-
+>> >   arch/riscv/include/asm/processor.h            |  7 ++
+>> >   arch/riscv/kernel/Makefile                    |  1 +
+>> >   arch/riscv/kernel/dtso.c                      | 67 +++++++++++++++++=
+++
+>> >   include/uapi/linux/prctl.h                    |  2 +
+>> >   5 files changed, 88 insertions(+), 1 deletion(-)
+>> >   create mode 100644 arch/riscv/kernel/dtso.c
+>> >
+>> > diff --git a/Documentation/mm/dynamic-memory-consistency-model.rst b/D=
+ocumentation/mm/dynamic-memory-consistency-model.rst
+>> > index 1fce855a1fad..c8188c174e27 100644
+>> > --- a/Documentation/mm/dynamic-memory-consistency-model.rst
+>> > +++ b/Documentation/mm/dynamic-memory-consistency-model.rst
+>> > @@ -73,4 +73,14 @@ Supported memory consistency models
+>> >   This section defines the memory consistency models which are support=
+ed
+>> >   by the prctl interface.
+>> >
+>> > -<none>
+>> > +RISC-V
+>> > +------
+>> > +
+>> > +RISC-V uses RVWMO (RISC-V weak memory ordering) as default memory con=
+sistency
+>> > +model. TSO (total store ordering) is another specified model and prov=
+ides
+>> > +additional ordering guarantees. Switching user-mode processes from RV=
+WMO to TSO
+>> > +is possible when the Ssdtso extension is available.
+>> > +
+>> > +* :c:macro:`PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO`: RISC-V weak memor=
+y ordering (default).
+>> > +
+>> > +* :c:macro:`PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO`: RISC-V total stor=
+e ordering.
+>> > diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/a=
+sm/processor.h
+>> > index a8509cc31ab2..05e05fddc94d 100644
+>> > --- a/arch/riscv/include/asm/processor.h
+>> > +++ b/arch/riscv/include/asm/processor.h
+>> > @@ -184,6 +184,13 @@ extern int set_unalign_ctl(struct task_struct *ts=
+k, unsigned int val);
+>> >   #define GET_UNALIGN_CTL(tsk, addr)  get_unalign_ctl((tsk), (addr))
+>> >   #define SET_UNALIGN_CTL(tsk, val)   set_unalign_ctl((tsk), (val))
+>> >
+>> > +#ifdef CONFIG_RISCV_ISA_SSDTSO
+>> > +extern int dtso_set_memory_consistency_model(unsigned long arg);
+>> > +extern int dtso_get_memory_consistency_model(void);
+>> > +#define SET_MEMORY_CONSISTENCY_MODEL(arg)    dtso_set_memory_consiste=
+ncy_model(arg)
+>> > +#define GET_MEMORY_CONSISTENCY_MODEL()               dtso_get_memory_=
+consistency_model()
+>> > +#endif /* CONIG_RISCV_ISA_SSDTSO */
+>> > +
+>> >   #endif /* __ASSEMBLY__ */
+>> >
+>> >   #endif /* _ASM_RISCV_PROCESSOR_H */
+>> > diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+>> > index f71910718053..85f7291da498 100644
+>> > --- a/arch/riscv/kernel/Makefile
+>> > +++ b/arch/riscv/kernel/Makefile
+>> > @@ -65,6 +65,7 @@ obj-$(CONFIG_RISCV_MISALIGNED)      +=3D traps_misal=
+igned.o
+>> >   obj-$(CONFIG_FPU)           +=3D fpu.o
+>> >   obj-$(CONFIG_RISCV_ISA_V)   +=3D vector.o
+>> >   obj-$(CONFIG_RISCV_ISA_V)   +=3D kernel_mode_vector.o
+>> > +obj-$(CONFIG_RISCV_ISA_SSDTSO)       +=3D dtso.o
+>> >   obj-$(CONFIG_SMP)           +=3D smpboot.o
+>> >   obj-$(CONFIG_SMP)           +=3D smp.o
+>> >   obj-$(CONFIG_SMP)           +=3D cpu_ops.o
+>> > diff --git a/arch/riscv/kernel/dtso.c b/arch/riscv/kernel/dtso.c
+>> > new file mode 100644
+>> > index 000000000000..591d5f9de0f5
+>> > --- /dev/null
+>> > +++ b/arch/riscv/kernel/dtso.c
+>> > @@ -0,0 +1,67 @@
+>> > +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> > +/*
+>> > + * Copyright (c) 2024 Christoph Muellner <christoph.muellner@vrull.eu=
+>
+>> > + */
+>> > +
+>> > +#include <linux/cpu.h>
+>> > +#include <linux/smp.h>
+>> > +#include <linux/prctl.h>
+>> > +
+>> > +#include <asm/cpu.h>
+>> > +#include <asm/dtso.h>
+>> > +
+>> > +#include <trace/events/ipi.h>
+>> > +
+>> > +int dtso_set_memory_consistency_model(unsigned long arg)
+>> > +{
+>> > +     int cpu;
+>> > +     unsigned long cur_model =3D get_memory_consistency_model(current=
+);
+>> > +     unsigned long new_model;
+>> > +
+>> > +     switch (arg) {
+>> > +     case PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO:
+>> > +             new_model =3D RISCV_MEMORY_CONSISTENCY_MODEL_WMO;
+>> > +             break;
+>> > +     case PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO:
+>> > +             new_model =3D RISCV_MEMORY_CONSISTENCY_MODEL_TSO;
+>> > +             break;
+>> > +     default:
+>> > +             return -EINVAL;
+>> > +     }
+>> > +
+>> > +     /* No change requested. */
+>> > +     if (cur_model =3D=3D new_model)
+>> > +             return 0;
+>> > +
+>> > +     /* Enabling TSO only works if DTSO is available. */
+>> > +     if (new_model =3D=3D PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO && !h=
+as_dtso())
+>> > +             return -EINVAL;
+>> > +
+>> > +     /* Switching TSO->WMO is not allowed. */
+>> > +     if (new_model =3D=3D RISCV_MEMORY_CONSISTENCY_MODEL_WMO)
+>> > +             return -EINVAL;
+>> > +
+>> > +     /* Set the new model in the task struct. */
+>> > +     set_memory_consitency_model(current, new_model);
+>> > +
+>> > +     /*
+>> > +      * We need to reschedule all threads of the current process.
+>> > +      * Let's do this by rescheduling all CPUs.
+>> > +      * This is stricter than necessary, but since this call is
+>> > +      * not expected to happen frequently the impact is low.
+>> > +      */
+>> > +     for_each_cpu(cpu, cpu_online_mask)
+>> > +             smp_send_reschedule(cpu);
+>> > +
+>> > +     return 0;
+>> > +}
+>> > +
+>> > +int dtso_get_memory_consistency_model(void)
+>> > +{
+>> > +     unsigned long cur_model =3D get_memory_consistency_model(current=
+);
+>> > +
+>> > +     if (cur_model =3D=3D RISCV_MEMORY_CONSISTENCY_MODEL_TSO)
+>> > +             return PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO;
+>> > +
+>> > +     return PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO;
+>> > +}
+>> > diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+>> > index 579662731eaa..20264bdc3092 100644
+>> > --- a/include/uapi/linux/prctl.h
+>> > +++ b/include/uapi/linux/prctl.h
+>> > @@ -308,5 +308,7 @@ struct prctl_mm_map {
+>> >
+>> >   #define PR_SET_MEMORY_CONSISTENCY_MODEL             71
+>> >   #define PR_GET_MEMORY_CONSISTENCY_MODEL             72
+>> > +# define PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO       1
+>> > +# define PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO       2
+>>
+>> Should we replace "PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO" with
+>> "PR_MEMORY_CONSISTENCY_MODEL_TSO", so that it can share the same key as
+>> Apple's TSO implementation [1]? RISC-V Ssdtso would make such prctl more
+>> likely to be accepted.
+>>
+>> [1] https://lore.kernel.org/lkml/20240411-tso-v1-0-754f11abfbff@marcan.s=
+t/
+>>
+>> Thanks,
+>> Yangyu Chen
+>>
+>> >
+>> >   #endif /* _LINUX_PRCTL_H */
+>>
