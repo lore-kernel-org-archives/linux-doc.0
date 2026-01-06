@@ -1,166 +1,130 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C32A2FCC01
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 17:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20473570AB;
+	Tue,  6 Jan 2026 17:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767720893; cv=none; b=UTKC+Ir56iYN4wmCFs3wj3wbQPxroefwu4ciNyNYb7wer2woFoQtHsUl8Ez5AMtMn1oV/sdAyffIX7aE2H2yC7671oWu5Tr69wr/7cq36NjwtTsyRvOJmZupp5XRdHy4LztsJuqunjT9LvuWPFyp44YYUq+3FjBEmE065byaFW8=
+	t=1767721529; cv=none; b=teGrE4qGj9epfJoX5+KYI8OXW+oCMVHTwj+jFx1rrpgADn0HBzuw0pZQoNryY6kpBnj/8pOkNQ+Fo7M2Amz60mR1DKD/vQqNR/MIlLWFaZuFlW65RUSM53Lulz1qxik5OTfuOIxNN5VjdmzJU3K2upUJzWiPVz6fsHfqzGBsNec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767720893; c=relaxed/simple;
-	bh=vbg/4Kuy8+wEtCaTdI808rOQJV/eEI0U33FeZ9sxcno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BU9gt5+tORRZ4DqjZVukGxVy+0RCLg5ThKF4LUx1YU4R/RbuolD3gCUlLc0zPeNVM6yMjfWXuV5pt5EiJTJGEll2wFmFCYwzeG0u/3W8ZoxLIK1Oezn29ujzaqIJGxV8J0VX8BfPttppodRUOyy6+69Jo9KMSTrNSW8y7Ang8/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ljs0vtvS; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1767721529; c=relaxed/simple;
+	bh=widhpL04nxEoFVhuruKTjjeXOVXu1hBkcjX3zmPM4lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V3Y0ohjPyvvRlLsM33U5Wt1Uu0jFZNk4b69vL0njjantPdgmVdv4ylkNIOZIgRaV9V6WcKmoDJC7Vdvdlq0+ugNvPUqU0mM54wrtE1kJV8AiLh22C8gm51olOt69hkBJBnkWhEEn11MUkVfbS9PEsQ0ZIuMeO5hNtXrSPhw7nrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Gh9JtCs8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ljs0vtvS"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so12869195e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 09:34:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767720888; x=1768325688; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RXcHtzljW/LEwcnvhUw7B+CYy+kN5WC/pk6M+qEtNI0=;
-        b=Ljs0vtvSNgpYJhknDhx9bELQGkkGVBktvrRTynlExmpLIGaAKcKfy3q+Vzhc0CBdzt
-         hBu8YqcaTsruwaGPpR28ZieFzq6vpX9ppPbtMDq1YX7oLCc1WBHU2/khCZGPgcPiCJQo
-         /SdqgjVvcX4o8hT7DcaJnMaMrndMqG0BlSQCVNuO18iucidmTBu/KWco362PprZTfFO/
-         XbxStM5Ax6eKh7Rzmwb+jd7wTMCelndFhBbeJ2nvVNQfn/FL+xadO2yxh5ZLwyELgTkw
-         edYtcRWUeQEl3fZGMU433z7W5zEQdjxichBC/sKkiUvsD8eW0UgBMhLx19RKhPBoMKrS
-         pmaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767720888; x=1768325688;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RXcHtzljW/LEwcnvhUw7B+CYy+kN5WC/pk6M+qEtNI0=;
-        b=NgUWxm9+mdoKB1o/sOUYbJ8dPoA5xwPS9C7iq9wNpjUSQBtAn5znRcBCXvxBs8xHOY
-         d9wBn0PL31usWZMFeUUtm1j1v8szTiPNuxGLk8sAearGMoIzWBRfaY4Qg5ceCiVIUbs6
-         qhoY+FlmdmJ5Z1BVFthTWKJ04aaEPnkDKXfBB15DvMWB9dBJD7FggAjIZTcKcUFV6zuG
-         jR2mrkza/hPeRVTiJ0u6mfdWvbz4BAgEDkBM1n200iJvq3dAdOr6D5YiXKMH44AftqEP
-         CJ8fFsrspttnvs56i8rRyWWqhWiXfOl+KPJdMbaKyu5+2LWVK6q7CPl5UIHaqGoWLku8
-         1x7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXTddsxjKT4+91BDT0pxyvhT64ijt4i04pMFumFTH09jg+1krQ3Ulk142ksBesC/VH1ViJs+qTUCP4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzd3o89oGeppixYC3YnUPGMlf2g/H0trYMoUZ2fT/h5oiDHpRU5
-	lBOZHOoyU+MsMZbN7EucRN0SH1thwlNbzyZvrYSZRg73mkIBWNQ3JpPzkc9KDPDHCw==
-X-Gm-Gg: AY/fxX6u3Zln9Fogcp00/0So4R/aowaKbTFYniQCEM0E9T4wzef3Eb9+lkSP2rEU3oC
-	l4EsYCpKFn4zfFN690Oh2WNoymMAE8q097pZpfQOP0FVlNuS3U3IKB6JPbHrVv/ETnt8o4YiOvS
-	izUQQlnZUK8EmvT56g5fu5u1DTkRAnSKGqpqI7oLMoo3x8IC1MkYrtWxN1N2dZPIKrc/B+vjnpJ
-	2+n4tMjf6hoPXfhPJ9ooJptFjZvrSbW2F/0IT9rc9qtRyKUblPa6Y5t6BhTTSY+keir7V03BOr1
-	9mQg6V5jsrsp/GU6kRnxNlJsJMiqXuwGcpxXHzE4x5A8bj/mau9kXqu/q1uUSX4sqkkU3RZ7xmv
-	QwEIxdTXPCccEPM5/sFXRF1xtJ5Ktvt2wjn5vM8cImgk1muQLxk6JluhoI6ERkw2sGMun+bDFzo
-	bNxR8aAUZxU7NjIx2YVOQ3b6ewuIn4P8Gv0h2o2uJpQx4mBG4K
-X-Google-Smtp-Source: AGHT+IHmVK6EqE14VH+HPUL16Zk51harYxsBJJheKVL1BeqXTS/M31ba8unH1eaK7+ALdSr4nMxyjw==
-X-Received: by 2002:a05:600c:46ca:b0:477:7a53:f493 with SMTP id 5b1f17b1804b1-47d7f0980e2mr44046495e9.23.1767720888108;
-        Tue, 06 Jan 2026 09:34:48 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:2834:9:4477:8df2:f516:1bd3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7fb4b3c5sm21868415e9.15.2026.01.06.09.34.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 09:34:47 -0800 (PST)
-Date: Tue, 6 Jan 2026 18:34:39 +0100
-From: Marco Elver <elver@google.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Gh9JtCs8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C76C16AAE;
+	Tue,  6 Jan 2026 17:45:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1767721529;
+	bh=widhpL04nxEoFVhuruKTjjeXOVXu1hBkcjX3zmPM4lg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gh9JtCs8BEKVubhXqTBK4qqLDQe1vQT0zyaTPbLjUuJcFn9Ms1UQEVcjeIPnB6Piy
+	 +kYwOKKU7OwHhNgeimLKkFXV+ELOpps6uTnQqtDZYyinQxpbvoT0reBpwE7sxjGGgx
+	 HvSmydyZjX05/SE5kFP5TF5N0DE283AMMUkTsBE4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v5 06/36] cleanup: Basic compatibility with context
- analysis
-Message-ID: <aV1HrwZm6xg8PnRU@elver.google.com>
-References: <20251219154418.3592607-1-elver@google.com>
- <20251219154418.3592607-7-elver@google.com>
- <993d381a-c24e-41d2-a0be-c1b0b5d8cbe9@I-love.SAKURA.ne.jp>
+	linux-doc@vger.kernel.org
+Subject: [PATCH 6.12 531/567] tty: fix tty_port_tty_*hangup() kernel-doc
+Date: Tue,  6 Jan 2026 18:05:13 +0100
+Message-ID: <20260106170511.039661203@linuxfoundation.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260106170451.332875001@linuxfoundation.org>
+References: <20260106170451.332875001@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <993d381a-c24e-41d2-a0be-c1b0b5d8cbe9@I-love.SAKURA.ne.jp>
-User-Agent: Mutt/2.2.13 (2024-03-09)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 06, 2026 at 10:21PM +0900, Tetsuo Handa wrote:
-> On 2025/12/20 0:39, Marco Elver wrote:
-> > Introduce basic compatibility with cleanup.h infrastructure.
-> 
-> Can Compiler-Based Context- and Locking-Analysis work with conditional guards
-> (unlock only if lock succeeded) ?
-> 
-> I consider that replacing mutex_lock() with mutex_lock_killable() helps reducing
-> frequency of hung tasks under heavy load where many processes are preempted waiting
-> for the same mutex to become available (e.g.
-> https://syzkaller.appspot.com/bug?extid=8f41dccfb6c03cc36fd6 ).
-> 
-> But e.g. commit f49573f2f53e ("tty: use lock guard()s in tty_io") already replaced
-> plain mutex_lock()/mutex_unlock() with plain guard(mutex). If I propose a patch for
-> replacing mutex_lock() with mutex_lock_killable(), can I use conditional guards?
-> (Would be yes if Compiler-Based Context- and Locking-Analysis can work, would be no
->  if Compiler-Based Context- and Locking-Analysis cannot work) ?
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-It works for cond guards, so yes. But, only if support for
-mutex_lock_killable() is added. At the moment mutex.h only has:
+------------------
 
-	...
-	DEFINE_LOCK_GUARD_1(mutex, struct mutex, mutex_lock(_T->lock), mutex_unlock(_T->lock))
-	DEFINE_LOCK_GUARD_1_COND(mutex, _try, mutex_trylock(_T->lock))
-	DEFINE_LOCK_GUARD_1_COND(mutex, _intr, mutex_lock_interruptible(_T->lock), _RET == 0)
+From: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 
-	DECLARE_LOCK_GUARD_1_ATTRS(mutex,	__acquires(_T), __releases(*(struct mutex **)_T))
-	#define class_mutex_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex, _T)
-	DECLARE_LOCK_GUARD_1_ATTRS(mutex_try,	__acquires(_T), __releases(*(struct mutex **)_T))
-	#define class_mutex_try_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_try, _T)
-	DECLARE_LOCK_GUARD_1_ATTRS(mutex_intr,	__acquires(_T), __releases(*(struct mutex **)_T))
-	#define class_mutex_intr_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(mutex_intr, _T)
-	...
+commit 6241b49540a65a6d5274fa938fd3eb4cbfe2e076 upstream.
 
-And we also have a test in lib/test_context-analysis.c checking it
-actually works:
+The commit below added a new helper, but omitted to move (and add) the
+corressponding kernel-doc. Do it now.
 
-	...
-	scoped_cond_guard(mutex_try, return, &d->mtx) {
-		d->counter++;
-	}
-	scoped_cond_guard(mutex_intr, return, &d->mtx) {
-		d->counter++;
-	}
-	...
+Signed-off-by: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Fixes: 2b5eac0f8c6e ("tty: introduce and use tty_port_tty_vhangup() helper")
+Link: https://lore.kernel.org/all/b23d566c-09dc-7374-cc87-0ad4660e8b2e@linux.intel.com/
+Reported-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Link: https://lore.kernel.org/r/20250624080641.509959-6-jirislaby@kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/driver-api/tty/tty_port.rst |    5 +++--
+ drivers/tty/tty_port.c                    |    5 -----
+ include/linux/tty_port.h                  |    9 +++++++++
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
-What's missing is a variant for mutex_lock_killable(), but that should
-be similar to the mutex_lock_interruptible() variant.
+--- a/Documentation/driver-api/tty/tty_port.rst
++++ b/Documentation/driver-api/tty/tty_port.rst
+@@ -42,9 +42,10 @@ TTY Refcounting
+ TTY Helpers
+ -----------
+ 
++.. kernel-doc::  include/linux/tty_port.h
++   :identifiers: tty_port_tty_hangup tty_port_tty_vhangup
+ .. kernel-doc::  drivers/tty/tty_port.c
+-   :identifiers: tty_port_tty_hangup tty_port_tty_wakeup
+-
++   :identifiers: tty_port_tty_wakeup
+ 
+ Modem Signals
+ -------------
+--- a/drivers/tty/tty_port.c
++++ b/drivers/tty/tty_port.c
+@@ -411,11 +411,6 @@ void tty_port_hangup(struct tty_port *po
+ }
+ EXPORT_SYMBOL(tty_port_hangup);
+ 
+-/**
+- * tty_port_tty_hangup - helper to hang up a tty
+- * @port: tty port
+- * @check_clocal: hang only ttys with %CLOCAL unset?
+- */
+ void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, bool async)
+ {
+ 	struct tty_struct *tty = tty_port_tty_get(port);
+--- a/include/linux/tty_port.h
++++ b/include/linux/tty_port.h
+@@ -254,11 +254,20 @@ static inline int tty_port_users(struct
+ 	return port->count + port->blocked_open;
+ }
+ 
++/**
++ * tty_port_tty_hangup - helper to hang up a tty asynchronously
++ * @port: tty port
++ * @check_clocal: hang only ttys with %CLOCAL unset?
++ */
+ static inline void tty_port_tty_hangup(struct tty_port *port, bool check_clocal)
+ {
+ 	__tty_port_tty_hangup(port, check_clocal, true);
+ }
+ 
++/**
++ * tty_port_tty_vhangup - helper to hang up a tty synchronously
++ * @port: tty port
++ */
+ static inline void tty_port_tty_vhangup(struct tty_port *port)
+ {
+ 	__tty_port_tty_hangup(port, false, false);
+
+
