@@ -1,64 +1,64 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07F934404B
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 19:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DFB345733
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 19:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767728858; cv=none; b=qPVdPU7bT8Gzx/a60bT20bxbf9hvF34hu/i84OwiqPlM8B+S2wyf6PyXJ5GZ5XCqrTNF1Ofg9GYvnD5kpveOYS/Fsggto8nWBsAR16qeuBy9yJ2CC0x6Z0h9iYWseTeVWjouLJLLMZ9J0gVsP4i8e0FGd79idQBmXmKJBQAvsMU=
+	t=1767728863; cv=none; b=O/Kv8OXmjDy8KVRivQORsdabMB/UlcwOC9keuDr6BlgFvCuIqwjkLX0n6n07IST24YcMxBMUlzf74lhUMVUQv7ySPYpd02BF5OWkelVr0MxZFjly9YutyAkGgxURmknsG6YnZFB4h7jxQf61X4jYs1QLRbfvGPXG7cUvW6sGA0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767728858; c=relaxed/simple;
-	bh=qBQQu40azqHWfpS6VGvcjlZzUc0v6mkKHQVnOSpx//g=;
+	s=arc-20240116; t=1767728863; c=relaxed/simple;
+	bh=hPYEvxjDLEXmzaWymwpOac2XnMzYRJ4u2feoyI+wK7w=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F/vlNQa0VZqR6ins4g8QSfqC8AQBz457K37ngSFU3whaqK7yqc8tbqqshY10iHlW+JyklCoPOvEEdmAAlahqihzc8eTW5tg6OseXygfVhukV0CGDsRR/1tds8Mq/RUSqNhvnQmLmet38EHuj1RqDKNwBLv8MHjLLi/8eSrWpdzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e8EUFkzi; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version:Content-Type; b=ePviGgCOKVX9sNxWqQYiSBWTNjzsmQwN6f4tVtUAmugEx7KvDy5sKnRc43vFoJ7tFXE8uTaPfrO+XSXWbAUjXPbzNytimyHixzrtxg1CKAGKhqGCGo8gIBBtWiTY2EZv0zRUQQtYJoCoaXOhrOhN57L22oYilqGu6YVUYYNFv7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gmvwEXgr; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e8EUFkzi"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7f121c00dedso1481507b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 11:47:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmvwEXgr"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7ade456b6abso1043062b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 11:47:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767728856; x=1768333656; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767728861; x=1768333661; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gz3ahXUf6eqGsh5sD4UlN3eX8e+QLFsPZdONCxzjpLo=;
-        b=e8EUFkziIZ7bgVLolTKRmutjMnS+wYDPrJxlhf+O91WohcFYpBxYtqPiQoJDa9ezcE
-         ecvgOekZXC3uOj/CQIt8sg2rzCtVloWzf22lpjOk6TcAn8h+iDJ0vSrnUp26b4luOM0t
-         opHIPvc5Gjkz5aiLmHqgmPvlVMkPcOQvga4eAWiRdVyFBjj6JPKNs+jZ+O/R0FUrHyws
-         n5h5Y4nh5IyCpuENECoAKWTBjuK3FEFasnkLVqbLlXzy29vLHBxl4fWYAwJnWk51J+U5
-         rnqly1NNlpyQ3HLJJ26myEHDwwGa6DvUTmac2KGZkqtkX4IMvz2X8lqqYOZHjyJbYp6a
-         OmkQ==
+        bh=nKZgSkEVKzoUDYUJ5786gncVNyqCKdGBEvyac0clEwY=;
+        b=gmvwEXgrTx8Dqa9C+DLMMdnuCM8Lyqautj/Yt/PSCJvnRWVkQyOe3V+qDUnwMNOCLM
+         wlPfDCiOKSqLoUTiO/EWbGZ+RMnpD2df1jIn/iYv/tyep2QjeK9zjQw6H/Snw7x6WNi0
+         XJwY06vyl7CgaQ5dumc3cDERusqa2StveY34PGgRQM4XJM4Kzh3vdNEyLfuvCroJWewc
+         MFhcqsL13IuJelbrr/roK+/nhdsI3JNjMvgtoO68JvX/myPUsEZzlF/+IgvuS9Q8eYYT
+         pzJ6zVIM9VXZqcuTr8kRPb28ZMltGrh5zVLNUsgjaQ0Plltpj0REaIjLKIzN0FP1szw2
+         OKdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767728856; x=1768333656;
+        d=1e100.net; s=20230601; t=1767728861; x=1768333661;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Gz3ahXUf6eqGsh5sD4UlN3eX8e+QLFsPZdONCxzjpLo=;
-        b=mkpKelAE0LZfQ8F7ab2XUUGSGpTfDkyFqgFK8coocMADNkQa+Q47gWRHbIg3AMaHTk
-         uhMqjzzEmkQjT+nZwtxG636fXIfvlqRG7f5xa53CKD9qTmM8i9xTSqZ4IYzmb1DVP0s+
-         brMkU3zJHO44sSYfkDxDL5Mxt+uOeJIJjh1F2gz6nG598Rrxt1qJCj0G0dMPp6lECx4l
-         EgYFiraF93xmXVpikoy46hjwkEHcpHwa9Qo0lcZs0ulGjBZ7AUkO1UTD1DjQpD93/Q0e
-         6RqrOVlu3qfzH/ukOwSYGl5LEPfyMj/uQ49vQ657bX78zYD+mdiZ9jiooC3cWoFRFLgT
-         u6sQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVv9cQ82wz38ircvCaHp1t+ok7Yz/49I+tCGJd6Z85SpdnfqlYdvfv/Wk0r8yBWw719OvAq9V+1FaQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm9Z+j+36RtueSkUEbunaUjZ+LqOJC1q+H+/F3rsm/hJQvIfDH
-	IvToY5o8WY+McVscaxwQnJGNUYZXkBSRFLdVefX2owvsSJzca/wgRE6K
-X-Gm-Gg: AY/fxX5kGmN0RdX0u7UrSmqhM5mnOpHZPYrEwGFWvLvIkjlEM4B/XgkIgFgCU+Qd9kO
-	z4wQrrElwYEx3E0Qwd8yCJiyn0E1BMVC83bqDxQvxasz1TYTSZHbR3Sj7nZk5UdOnLvFszqJsGi
-	xpmgijJvF9ubRX1r4wPLoJ0qg1XgMWnIO79sC3xMAroq7HNXpLX0fE3IZkEP5Fl1GdhBmv7AHMD
-	8r31/flzKKCzwczeJy3zHKxiy99wtmaYQOmS+HXwwbR83zaoEt6Nwt7FkJC9Oh/dQvasW+oHe0Y
-	V/Js41vAH8KX6/srYHQLIDgH/BswaNpHt+imhYjaWhucHh82Cu5VPopOSsNr6wAAkSWZpJZ9F4+
-	qNr/Uz496dWSzqzRExfJbGK8zlmvYDI8TMcUiR3Eax4NUgH7aP5/ZjIoo9bJtJRsbmz6UWaR6He
-	Exrqnd5RtxUjQ21Yls1OTuFD/IYcvPG2uSeGMJcz3y
-X-Google-Smtp-Source: AGHT+IEaIleTNGMixpSGjFs9YtQaIxUGr3wlYU4Hz1OxLHlYgGSP2aLlKJfgFkLf4grJpebHtH+xaQ==
-X-Received: by 2002:a05:6a20:94c8:b0:34f:1623:2354 with SMTP id adf61e73a8af0-3898237bed1mr3954626637.42.1767728856126;
-        Tue, 06 Jan 2026 11:47:36 -0800 (PST)
+        bh=nKZgSkEVKzoUDYUJ5786gncVNyqCKdGBEvyac0clEwY=;
+        b=ruI2q1pFKoOAg9fDhH1oy2FrT2NUkrAqGjK2N2eyUkCYqre5Z30xK3eUkl/8WNwB5A
+         xek/3031Kh/JTQfEASEgcJXrHzcQ+ERORdKEi4eZaL/0crDqKnZdtXxKPBwGrM5Q8bS3
+         L3a7SNh2PP+lasC2Cyaf8nsdlbC4pnLugTuUlL/hY/92U+GOEnu807WivEzyCoL9EpCQ
+         oyN1B4/nb80o4prBh9bZACtRAAnRef+lcXm/J+TGQegffUUQN6ZItzImlj/W/pNzw3wq
+         g1hizKTaSdE3t1XsFiA8bSeZxwCr/YcHDO+HHRb7fq3PxTLcWcmw8xcNfUJS3cwrq9E8
+         7QvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdYvyvlxzRxxDBwYipxwFb6Yp6Fo2Fzirr5V+HE2th2SG3atx7IyZnjsG1IPlllwTAmA2RmiigBYE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5CzJC5vsgH9UBYL7r8rtWKuFPnSC4JW1c8VqSBCTbWOuOlUBa
+	XjCi4mbiEio6OuLZwFxaYzZ7mdeQQy5pk8ihhQnDI5PtGqLclCk0bTzs
+X-Gm-Gg: AY/fxX69+PQ/Ynj+qqpvHVCyWvX9QSquIcRwkiTnUYQJHLF+dEl1JvQimBBsRw+ufxq
+	4JWtgk1c99nm7PEzZID34Mp+b6v1o6uIXwSlmue6WP5Re2EhtWNpbErvDnUx6T88KKDG4oNeryU
+	PlHkB4Vmyy4z3eCOG1ONqjM/Aym8eC2fdM8Y6utJeFtvfucF1ZHlsTkUAS5C+RwJTaRcQ+1ZaAz
+	Q80R/gIyiM6Q2xqD4E57fuUXuttf/KQrx66QeDiKTako7SXlAGxRA4MajdAVJ/xP/0zMLVB2Soe
+	GU6YbIxeNZXkLvU24/tUZJeCFnvO+60v8vitCtw8tuIvRYQ3lS4yb3DhWdn8Ve+soHMoiar7gni
+	vUq4//f2sbjEv86N/r/BpDVszIkiiO2mrBxqddIUJy0rXj95uupr7NRCWqSlAfccIo7TBeE0ia9
+	cK90xp1o8rA35XRZe6OhzJVn36OmjReoJmuiRiaeBn
+X-Google-Smtp-Source: AGHT+IEgahMjBYLNoJM6OLlOG+zkIwx9YmKSPSX5u+ExHskRqTx2Hv/TCqNNkt5olg9GmR8Xus7EYw==
+X-Received: by 2002:a05:6a20:2450:b0:364:be7:6ffc with SMTP id adf61e73a8af0-389822db6c7mr3427681637.18.1767728860428;
+        Tue, 06 Jan 2026 11:47:40 -0800 (PST)
 Received: from Lingbou.localdomain ([113.225.51.69])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cc8d292fcsm3036722a12.20.2026.01.06.11.47.33
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c4cc8d292fcsm3036722a12.20.2026.01.06.11.47.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 11:47:35 -0800 (PST)
+        Tue, 06 Jan 2026 11:47:38 -0800 (PST)
 From: Xingqiu Xu <hilbertanjou83@gmail.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -67,9 +67,9 @@ Cc: dzm91@hust.edu.cn,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Xingqiu Xu <hilbertanjou83@gmail.com>
-Subject: [PATCH v3 3/7] docs/zh_CN: Translate timers/hpet.rst
-Date: Wed,  7 Jan 2026 03:47:16 +0800
-Message-Id: <c1504ef8f30bf0fa3195246e481d1f4cd009fd8c.1767725479.git.hilbertanjou83@gmail.com>
+Subject: [PATCH v3 4/7] docs/zh_CN: Translate timers/hrtimers.rst
+Date: Wed,  7 Jan 2026 03:47:17 +0800
+Message-Id: <13b522614af92e2f9f2dd94455890900d41572c7.1767725479.git.hilbertanjou83@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1767725479.git.hilbertanjou83@gmail.com>
 References: <cover.1767725479.git.hilbertanjou83@gmail.com>
@@ -82,86 +82,230 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate .../timers/hpet.rst into Chinese.
+Translate .../timers/hrtimers.rst into Chinese.
 Update timers/index.rst to include the translated file.
 
-Update translation through commit 458f69ef3665
-("docs: timers: convert docs to ReST and rename to *.rst")
+Update translation through commit 4c093cbb89f3
+("Documentation: timers: hrtimers: Make hybrid union historical")
 
 Signed-off-by: Xingqiu Xu <hilbertanjou83@gmail.com>
 ---
- .../translations/zh_CN/timers/hpet.rst        | 43 +++++++++++++++++++
- .../translations/zh_CN/timers/index.rst       |  2 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/timers/hpet.rst
+ .../translations/zh_CN/timers/hrtimers.rst    | 187 ++++++++++++++++++
+ .../translations/zh_CN/timers/index.rst       |   2 +-
+ 2 files changed, 188 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/timers/hrtimers.rst
 
-diff --git a/Documentation/translations/zh_CN/timers/hpet.rst b/Documentation/translations/zh_CN/timers/hpet.rst
+diff --git a/Documentation/translations/zh_CN/timers/hrtimers.rst b/Documentation/translations/zh_CN/timers/hrtimers.rst
 new file mode 100644
-index 000000000000..6ed46220e12e
+index 000000000000..3dd73808b4b6
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/timers/hpet.rst
-@@ -0,0 +1,43 @@
++++ b/Documentation/translations/zh_CN/timers/hrtimers.rst
+@@ -0,0 +1,187 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/timers/hpet.rst
++:Original: Documentation/timers/hrtimers.rst
 +
 +:翻译:
 +
 +  徐兴球 Xingqiu Xu <hilbertanjou83@gmail.com>
 +
-+================================
-+Linux 高精度事件定时器驱动程序
-+================================
++==========================================
++hrtimers - 高分辨率内核定时器子系统
++==========================================
 +
-+高精度事件定时器（HPET）硬件遵循 Intel 和
-+Microsoft 的规范，修订版 1。
++本补丁引入了一个新的高分辨率内核定时器子系统。
 +
-+每个 HPET 有一个固定速率计数器（以 10 MHz
-+以上运行，因此称为"高精度"）和最多 32 个比
-+较器。通常提供三个或更多比较器，每个比较器
-+都可以生成单次中断，并且至少其中一个具有支
-+持周期中断的额外硬件。比较器也称为"定时器"，
-+这可能引起混淆，因为通常定时器彼此独立……这
-+些共享一个计数器，使重置变得复杂。
++有人可能会问：我们已经有了一个定时器子系统
++（kernel/timers.c），为什么需要两个定时器
++子系统？在经过大量的反复尝试将高分辨率和高
++精度功能集成到现有定时器框架中，并在实践中
++测试了各种此类高分辨率定时器实现后，我们得
++出结论：定时器轮代码从根本上不适合这种方法。
++我们最初不相信这一点（"一定有办法解决这个
++问题"），并花费了相当大的努力尝试将东西集
++成到定时器轮中，但我们失败了。事后看来，这
++种集成困难/不可能有几个原因：
 +
-+HPET 设备可以支持两种中断路由模式。在一种
-+模式下，比较器是没有特定系统角色的附加中断
-+源。许多 x86 BIOS 编写者根本不路由 HPET
-+中断，这导致该模式无法使用。它们支持另一种
-+"传统替换"模式，其中前两个比较器替代 8254
-+定时器和 RTC 的中断。
++- 以相同方式强制处理低分辨率和高分辨率定时
++  器导致大量妥协、宏魔法和 #ifdef 混乱。
++  timers.c 代码围绕 jiffies 和 32 位假设
++  进行了非常"紧密的编码"，并且多年来针对相
++  对狭窄的用例（相对狭窄的 HZ 范围内的
++  jiffies）进行了磨练和微优化——因此即使对
++  它的小扩展也容易破坏轮概念，导致更糟糕的
++  妥协。定时器轮代码是非常好和紧凑的代码，
++  在其当前使用中没有任何问题——但它根本不适
++  合扩展为高分辨率定时器。
 +
-+该驱动程序支持在驱动程序 module_init 例程
-+被调用之前检测 HPET 驱动分配并初始化
-+HPET。这使得使用定时器 0 或 1 作为主定时器
-+的平台代码能够拦截 HPET 初始化。可以在
-+arch/x86/kernel/hpet.c 中找到此初始化的示
-+例。
++- 级联的不可预测的 [O(N)] 开销导致延迟，这
++  需要更复杂地处理高分辨率定时器，这反过来
++  又降低了鲁棒性。这种设计仍然导致相当大的
++  定时不准确性。级联是定时器轮概念的基本属
++  性，如果不以不可接受的方式不可避免地降低
++  timers.c 代码的其他部分，就无法"设计出"
++  它。
 +
-+该驱动程序提供了一个用户空间 API，类似于
-+RTC 驱动程序框架中的 API。示例用户空间程
-+序在 file:samples/timers/hpet_example.c
-+中提供。
++- 在定时器轮之上实现当前 posix-timer 子系
++  统已经引入了相当复杂的处理，用于在
++  settimeofday 或 NTP 时间调整绝对
++  CLOCK_REALTIME 定时器——通过示例进一步证
++  实了我们的经验：定时器轮数据结构对于高分
++  辨率定时器来说太僵化了。
++
++- 定时器轮代码最适合可以识别为"超时"的用例。
++  此类超时通常被设置为覆盖各种 I/O 路径中
++  的错误条件，例如网络和块 I/O。这些定时器
++  中的绝大多数从不过期，并且很少重新级联，
++  因为预期的正确事件及时到达，因此可以在对
++  它们进行任何进一步处理之前将它们从定时器
++  轮中移除。因此，这些超时的用户可以接受定
++  时器轮的粒度和精度权衡，并且很大程度上期
++  望定时器子系统具有接近零的开销。对他们来
++  说，准确的定时不是核心目的——事实上，使用
++  的大多数超时值都是临时的。对他们来说，这
++  充其量只是保证处理实际超时完成的必要之恶
++  （因为大多数超时在完成前被删除），因此应
++  该尽可能便宜和不显眼。
++
++精确定时器的主要用户是利用 nanosleep、
++posix-timers 和 itimer 接口的用户空间应用
++程序。此外，需要精确定时事件的内核用户（如
++驱动程序和子系统）（例如多媒体）也可以从单
++独的高分辨率定时器子系统的可用性中受益。
++
++虽然该子系统尚未提供高分辨率时钟源，但
++hrtimer 子系统可以很容易地扩展为具有高分
++辨率时钟能力，并且相关补丁已经存在并且正在
++快速成熟。对实时和多媒体应用程序以及精确定
++时器的其他潜在用户的日益增长的需求为分离
++"超时"和"精确定时器"子系统提供了另一个理由。
++
++另一个潜在的好处是，这样的分离允许对现有定
++时器轮进行更特殊目的的优化，以用于低分辨率
++和低精度用例——一旦精度敏感的 API 从定时器
++轮中分离出来并迁移到 hrtimers。例如，我们
++可以将超时子系统的频率从 250 Hz 降低到
++100 HZ（甚至更小）。
++
++hrtimer 子系统实现细节
++----------------------
++
++基本设计考虑是：
++
++- 简单性
++
++- 数据结构不绑定到 jiffies 或任何其他粒度。
++  所有内核逻辑都以 64 位纳秒分辨率工作——没
++  有妥协。
++
++- 简化现有的、与定时相关的内核代码
++
++另一个基本要求是在激活时立即排队和排序定时
++器。在查看了几种可能的解决方案（如基数树和
++散列）之后，我们选择红黑树作为基本数据结构。
++红黑树在内核中作为库可用，并用于各种性能关
++键领域，例如内存管理和文件系统。红黑树仅用
++于时间排序，而单独的列表用于为到期代码提供
++对排队定时器的快速访问，而无需遍历红黑树。
++
++（当我们稍后引入高分辨率时钟时，这个单独的
++列表也很有用，在那里我们需要单独的挂起和过
++期队列，同时保持时间顺序完整。）
++
++但是，时间排序的排队不仅仅是为了高分辨率时
++钟，它还简化了基于低分辨率 CLOCK_REALTIME
++的绝对定时器的处理。现有实现需要保留所有武
++装的绝对 CLOCK_REALTIME 定时器的额外列表以
++及复杂的锁定。在 settimeofday 和 NTP 的情
++况下，所有定时器（！）都必须出队，时间更改
++代码必须逐个修复它们，然后所有这些都必须重
++新排队。时间排序的排队和以绝对时间单位存储
++到期时间从 posix-timer 实现中删除了所有这
++些复杂且可扩展性差的代码——时钟可以简单地设
++置而无需触及红黑树。这也使得 posix-timers
++的处理总体上更简单。
++
++hrtimers 的锁定和每 CPU 行为主要取自现有
++定时器轮代码，因为它已经成熟且非常适合。共
++享代码并不是真正的胜利，因为数据结构不同。
++此外，hrtimer 函数现在具有更清晰的行为和更
++清晰的名称——例如 hrtimer_try_to_cancel()
++和 hrtimer_cancel() [大致相当于
++timer_delete() 和 timer_delete_sync()]
++——因此在算法级别上它们之间没有直接的 1:1
++映射，因此也没有真正的代码共享潜力。
++
++基本数据类型：每个时间值，无论是绝对的还是
++相对的，都采用特殊的纳秒分辨率 64 位类型：
++ktime_t。（最初，ktime_t 值和操作的内核内
++部表示是通过宏和内联函数实现的，可以在"混
++合联合"类型和普通"标量" 64 位纳秒表示之间
++切换（在编译时）。这在 Y2038 工作的背景下
++被放弃了。）
++
++hrtimers - 定时器值的舍入
++-------------------------
++
++hrtimer 代码会将定时器事件舍入到较低分辨
++率的时钟，因为它必须这样做。否则它不会进行
++任何人为舍入。
++
++一个问题是，clock_getres() 接口应该向用户
++返回什么分辨率值。这将返回给定时钟具有的任
++何实际分辨率——无论是低分辨率、高分辨率还是
++人为低分辨率。
++
++hrtimers - 测试和验证
++---------------------
++
++我们在 hrtimers 之上使用了高分辨率时钟子
++系统来在实践中验证 hrtimer 实现的细节，我
++们还运行了 posix 定时器测试以确保规范合规
++性。我们还在低分辨率时钟上运行了测试。
++
++hrtimer 补丁转换了以下内核功能以使用
++hrtimers：
++
++ - nanosleep
++ - itimers
++ - posix-timers
++
++nanosleep 和 posix-timers 的转换使得
++nanosleep 和 clock_nanosleep 的统一成为可能。
++
++该代码已成功为以下平台编译：
++
++ i386, x86_64, ARM, PPC, PPC64, IA64
++
++该代码在以下平台上进行了运行测试：
++
++ i386(UP/SMP), x86_64(UP/SMP), ARM, PPC
++
++hrtimers 也被集成到 -rt 树中，连同基于
++hrtimers 的高分辨率时钟实现，因此 hrtimers
++代码在实践中得到了大量的测试和使用。
++
++	Thomas Gleixner, Ingo Molnar
 diff --git a/Documentation/translations/zh_CN/timers/index.rst b/Documentation/translations/zh_CN/timers/index.rst
-index c1e178484f96..bf63a69ca71d 100644
+index bf63a69ca71d..cd0187d83719 100644
 --- a/Documentation/translations/zh_CN/timers/index.rst
 +++ b/Documentation/translations/zh_CN/timers/index.rst
-@@ -15,12 +15,12 @@
- .. toctree::
+@@ -16,12 +16,12 @@
      :maxdepth: 1
  
-+    hpet
+     hpet
++    hrtimers
      timekeeping
  
  TODOList:
  
  * highres
--* hpet
- * hrtimers
+-* hrtimers
  * no_hz
  * delay_sleep_functions
+ 
 -- 
 2.34.1
 
