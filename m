@@ -1,128 +1,144 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2867F30DEB9
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 10:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5446323EA8A
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 12:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767693644; cv=none; b=gCiP1ohWa5kFUePoheev9XoQgdQO7lHPWLjWoJZ+yyqCVvu2PT0ojGhOmgS8bOdmUHxi+VKTGg3Ts/9aQJ3KfQmXwLfQAJlLHCdaKa79CQ7Rm4QVVr1dwHaX3WcXUM9vmBBXwucENeImHHtngOmj091nTEZa3s8hrM85uqEzCrs=
+	t=1767702027; cv=none; b=kDoeSTOg9iOmVkNfU7FMrnluEHrAvQDCINLKI+r6GKBuxnyji+SyjLXzuKC9pvxXk1qm8ZsQU77pjmDx+tc42rTaOsMicgar0tllbq4qkiVlTW6O1PF/stBR9K61wWb8u4edjWNwWs5pnfQqmHpqChwL1qA86dBvA2LqbP8KsK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767693644; c=relaxed/simple;
-	bh=OV029VvtzwenK2Ly9pZj4XbmmuOkWSnirncC/J2DEPM=;
+	s=arc-20240116; t=1767702027; c=relaxed/simple;
+	bh=WeihQnzULL5ReZ1WSNOJlegujvsKvpc8qcS09s0GfCk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tjI8R5dgZe3R+8kCCRtJmlBXPwvk/2A5QJNhHigwacIyJKXAjweLRIr5F+VHee2X+LB8BV3FjfEUxy0ERCdIzDIjaPbwI4UopzNBYGIn1AjAO5z/ArJQAcRTbh1CFvVySTP+Z4xGf1H4QqbmL+iMU//e2DC6FKxby9X9IbAEVLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/GK7H7F; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ovmpf2voceCsIWD2TZcXFyuFi9Aj09MdYU+MLAzXekPsPTZK0UP0ikG5pYMiZ1vXVLlvQrW3jWq1mOISpx+fQE/91zuCNYc9mjX27N0S9dHIQRn1LAhrfa4BRimC2PPnfupCt0mmg3qXUj55SiwlqR46jtrSd5I2uI6RIVWk7xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=szG3dNaZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/GK7H7F"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so165657166b.2
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 02:00:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767693641; x=1768298441; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=95EIx7FPWdKOzYWlR4mc8qP1EVSqo+qRiR/GKIGkIO8=;
-        b=H/GK7H7FH/58vEZr8erh2iQjhvU4SxD5vIlwpvOxMgH7smsfFxfdGG+aM8SUN45UtA
-         EcYqtwOUBAl2i75lBdv7VfkMczphTtn2RlOvR0hjKooOMPMesONfNZ5UEGffMNZ8mMAL
-         dyKuNqnXi3Y0vqBoTygufZJ6k/R4AC3hc9DsBSe8RrFpJCyHvCawbROFqp3ukndMd3pb
-         VN7xtbhPjvK0B1usT90miT/DBt3tVmJHTnuyRQ4X85Ejw+uA6lPn9oo9KyC+x8B5v6mw
-         hL89IylRWoj66YtoFQGKXh4+d29jOwqUdHzNhopK0kP7S7Oob4lNGOdeD9w5vMvmWLGz
-         sPGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767693641; x=1768298441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=95EIx7FPWdKOzYWlR4mc8qP1EVSqo+qRiR/GKIGkIO8=;
-        b=eyXRNdsxfQzfPELmP8o7oW21MEjjBf7nzmkpTJdtdFHju/KTo2Lzokf3o97JckTszc
-         CQR7SzRDDmwPtStIaUo6dKXhhpdKgs/mJzOTtesQZ1DHHqhC08Aw1AFYEARcvWiNA0EM
-         MHJ4PXlW+fgCAJPHKieWnYxLBTm9j4RA8WBzryXqhfh97gkUPhRXdmQ7/Y7STZcRfuMw
-         dwO2M8gKbhOVw11d5pWe/0Sm0u8QvYHxcoguGxhbKHrM5rtm+xnBU8pR9NXbFeqJvM99
-         y06NIQ2MvD61RqWeHa6M9y7QXPWsEuysiqn+BYkN7f5ZgDQ2ZKWUtTzQv58rgunpKuzy
-         7H6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVLo82gYv4oR0IF23hVzR3LX4gnW4VgP8RLQBGfYc8yW6vKar6wpL9lTeFFOrh5bOK8D+fAUr+VwlE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybjTNDm/jpstgrVVoFSKH4RWeFLNOS144/KdRSs5ntir37xz1p
-	Mo5gIWatjSjXb6OYuMSP6JSDEjxU51fBqV82L9037L3YrS4XSYQ2U7WvlY6wlf/Oc+GEfSAUTtX
-	why/dh2PTxKve0kV/ze0dpjsY53su2vI=
-X-Gm-Gg: AY/fxX7YsKw/PaitU+5Ej7ZnRDQ/1Q1jVynhfb7B9Nk1eEfitRZy9bakw+7zApd4deS
-	V7LFIF+4Z1phV/IZhmjnSsWcl/iO39pfF6JcYKaJy1crIa1eIJtBNgjdBl7JmfCBYA+4Ycx3o5Q
-	enfBqYGsQloK41i0kPKlsDLqZxF5IBU7vUdwJKl3ev8hywFdgQ14+TKlEYgbFF86gxDEeNzIl6E
-	/0h6Xb4UpbCXcTIIdlyKBXZet7zlzSzP45cscQfR8f5ctWMpQ/Bzyc0CcsnR0hbIgnowac=
-X-Google-Smtp-Source: AGHT+IGnEhBwtL7o99LDF3BZRneSMXjC+uePbbR7SnLCe9X0mAWxOwEKON+G+k4g0dpynrWrgF45RQr9oNCpMP1opMc=
-X-Received: by 2002:a17:907:3c8b:b0:b79:f734:4d66 with SMTP id
- a640c23a62f3a-b8426a68039mr292054666b.18.1767693639272; Tue, 06 Jan 2026
- 02:00:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="szG3dNaZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBC2FC116C6
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 12:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767702027;
+	bh=WeihQnzULL5ReZ1WSNOJlegujvsKvpc8qcS09s0GfCk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=szG3dNaZBdsiJh86/Aalpg4FsmNcyaj3IYV4ok84hTDobawGrLqMNJJPsyZqNiqc0
+	 /qM7ucsfLCGKATgvxPXtuyOAJSxmN1hJdlk65Eeer6vqnZA2+3ezdrsyPYElLtdARD
+	 CUvNwN/ox6d7oQc5lzmnSYI1XZt5xna9Ofw0wiohruXl2yCZ8F/LS1c+wT/aw7P68l
+	 xjG0/Ygod491SiWVsn/Ms/oYXv9ra3GprcQh5PjrWAKM1kwbeeip2Kl0uxuv9AhTO5
+	 WDmHKBf2wHAaaEZa1Wq2TqgnLO20CEpmjbqDYOOztaLwvKZLZKTTZ33Tdzj6JAYrp1
+	 b+SAbafP5rwZg==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-598f81d090cso940914e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 04:20:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUO2Ehk5WJso5M5Gpg2P93B30+a5ZAsdVHri4OYOepZl8KZwAEsmTHKC4lce1KeOvtD+yUj8XjXWPM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5BZv8Mcm9VNNCwhbkszFRlGx99lDHJx9mlOrCDoq/Q/JDvyBk
+	ekd78rHu3qh/TJTcXqzhRprmV8WLrCPxXo7tWnheiSkeIoU4ZKhRvo5y2HzBH7C5bZOP0okg5CY
+	l4+GWsP5PApf0huTupWhtRHpVSmapDLcwOI/YUFTkUw==
+X-Google-Smtp-Source: AGHT+IFx8nmopRtdPvy2vs4YbNQIpmVdCKW26mAOQptIblPti0KoPLS0IvUN6CFUKIjuyb6dXhRAvaO9RxHVoFJhqjo=
+X-Received: by 2002:ac2:4215:0:b0:59b:6c3d:5373 with SMTP id
+ 2adb3069b0e04-59b6c3d53b3mr84520e87.7.1767702025661; Tue, 06 Jan 2026
+ 04:20:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251226-docs_thunderbird-toggle-line-wrap-v2-1-aebb8c60025d@kernel.org>
-In-Reply-To: <20251226-docs_thunderbird-toggle-line-wrap-v2-1-aebb8c60025d@kernel.org>
-From: Sotir Danailov <sndanailov@gmail.com>
-Date: Tue, 6 Jan 2026 11:00:27 +0100
-X-Gm-Features: AQt7F2rnSHtYO0W0XhlnJjqq7gkdw9dzDeIoQAzJuhrOv-qksWnMB-W4P_3Lv9E
-Message-ID: <CACYkWJ5btoFoP0vL-1QxuU45CfZEyK65vK6Wyo1QNXRmw79nqQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: process: email-client: add Thunderbird "Toggle
- Line Wrap" extension
-To: Vincent Mailhol <mailhol@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	=?UTF-8?Q?Giedrius_Statkevi=C4=8Dius?= <giedrius.statkevicius@gmail.com>, 
-	Paul McQuade <paulmcquad@gmail.com>, Jan Kiszka <jan.kiszka@web.de>, 
-	Randy Dunlap <rdunlap@infradead.org>
+References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
+ <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
+ <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+ <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+ <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
+ <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+In-Reply-To: <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 6 Jan 2026 13:20:12 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McyTAvshqgfwTYpN1Av3Z4K=udzrr5t12fwcsBc=vtrcA@mail.gmail.com>
+X-Gm-Features: AQt7F2q1ahQ11FMaw_VOtAKsOF6Acj2JjLhWv_yxQJgI5ojADI61utbgGQpaYTQ
+Message-ID: <CAMRc=McyTAvshqgfwTYpN1Av3Z4K=udzrr5t12fwcsBc=vtrcA@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 26, 2025 at 12:47=E2=80=AFAM Vincent Mailhol <mailhol@kernel.or=
-g> wrote:
+On Fri, Jan 2, 2026 at 6:14=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.org=
+> wrote:
 >
-> [1] man git-format-patch -- =C2=A7Thunderbird
-> Link: https://git-scm.com/docs/git-format-patch#_thunderbird
+> On Fri, Jan 2, 2026 at 5:59=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrot=
+e:
+> >
+> > On 02-01-26, 10:26, Bartosz Golaszewski wrote:
+> > > On Thu, Jan 1, 2026 at 1:00=E2=80=AFPM Vinod Koul <vkoul@kernel.org> =
+wrote:
+> > > >
+> > > > > >
+> > > > > > > It will perform register I/O with DMA using the BAM locking m=
+echanism
+> > > > > > > for synchronization. Currently linux doesn't use BAM locking =
+and is
+> > > > > > > using CPU for register I/O so trying to access locked registe=
+rs will
+> > > > > > > result in external abort. I'm trying to make the QCE driver u=
+se DMA
+> > > > > > > for register I/O AND use BAM locking. To that end: we need to=
+ pass
+> > > > > > > information about wanting the command descriptor to contain t=
+he
+> > > > > > > LOCK/UNLOCK flag (this is what we set here in the hardware de=
+scriptor)
+> > > > > > > from the QCE driver to the BAM driver. I initially used a glo=
+bal flag.
+> > > > > > > Dmitry said it's too Qualcomm-specific and to use metadata in=
+stead.
+> > > > > > > This is what I did in this version.
+> > > > > >
+> > > > > > Okay, how will client figure out should it set the lock or not?=
+ What are
+> > > > > > the conditions where the lock is set or not set by client..?
+> > > > > >
+> > > > >
+> > > > > I'm not sure what you refer to as "client". The user of the BAM e=
+ngine
+> > > > > - the crypto driver? If so - we convert it to always lock/unlock
+> > > > > assuming the TA *may* use it and it's better to be safe. Other us=
+ers
+> > > > > are not affected.
+> > > >
+> > > > Client are users of dmaengine. So how does the crypto driver figure=
+ out
+> > > > when to lock/unlock. Why not do this always...?
+> > > >
+> > >
+> > > It *does* do it always. We assume the TA may be doing it so the crypt=
+o
+> > > driver is converted to *always* perform register I/O with DMA *and* t=
+o
+> > > always lock the BAM for each transaction later in the series. This is
+> > > why Dmitry inquired whether all the HW with upstream support actually
+> > > supports the lock semantics.
+> >
+> > Okay then why do we need an API?
+> >
+> > Just lock it always and set the bits in the dma driver
+> >
 >
-> Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
-> ---
-> Changes in v2:
+> We need an API because we send a locking descriptor, then a regular
+> descriptor (or descriptors) for the actual transaction(s) and then an
+> unlocking descriptor. It's a thing the user of the DMA engine needs to
+> decide on, not the DMA engine itself.
 >
->   - Use the international URL (remove "fr/")
+> Also: only the crypto engine needs it for now, not all the other users
+> of the BAM engine.
 >
-> Link to v1: https://lore.kernel.org/r/20251225-docs_thunderbird-toggle-li=
-ne-wrap-v1-1-24794afa4abf@kernel.org
-> ---
->  Documentation/process/email-clients.rst | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/process/email-clients.rst b/Documentation/proc=
-ess/email-clients.rst
-> index 84a2450bb6ec..b5377630a648 100644
-> --- a/Documentation/process/email-clients.rst
-> +++ b/Documentation/process/email-clients.rst
-> @@ -324,7 +324,14 @@ To beat some sense out of the internal editor, do th=
-is:
->
->    - Set ``mailnews.send_plaintext_flowed`` to ``false``
->
-> -  - Set ``mailnews.wraplength`` from ``72`` to ``0``
-> +  - Set ``mailnews.wraplength`` from ``72`` to ``0`` **or** install the
-> +    "Toggle Line Wrap" extension
-> +
-> +    https://github.com/jan-kiszka/togglelinewrap
-> +
-> +    https://addons.thunderbird.net/thunderbird/addon/toggle-line-wrap
-> +
-> +    to control this registry on the fly.
->
->  - Don't write HTML messages! Go to the main window
->    :menuselection:`Main Menu-->Account Settings-->youracc@server.somethin=
-g-->Composition & Addressing`!
->
-> ---
-> base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
-> change-id: 20251225-docs_thunderbird-toggle-line-wrap-dbe39bcb650b
 
-It's a practical alternative, I see no issue.
+Hi Vinod, is there anything else I can do or more information I can
+provide in order to move this forward?
 
-Acked-by: Sotir Danailov <sndanailov@gmail.com>  # As past commit author
+Bartosz
