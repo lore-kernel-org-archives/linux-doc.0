@@ -1,158 +1,160 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323AC32D0C2
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 14:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132F233121F
+	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 14:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767710886; cv=none; b=YFHePZE0wkgOsVRinJi4nHeNxA3zj9MaEs0s1f5TIjYKde+PAC7CF+JhrRHNLzwND6qIzBVtNbcfgNFoJTmiYa22jMCFFb42ajB2RGDfcyHb/NWf37JvJp9gCzeKzIDufmTtE1KcUwMrdZ+/efm8yfEoILBsUo1Gsl3PwAJfmtI=
+	t=1767711011; cv=none; b=myMcvuBb14JJCRlwKRWNyftVyz5qA6kQLNBLZqsPx5qMyLyO21lxDXLNLFAlFzn41DE3+kqCbCWK0SGoCgy8My8MnqryyTHjM7XQWBp8HauY4p+Ox8xATPydN8p+udZkJeCww2kh1c1fhAbPnW9rvNWHCSFk6/WxXZ3LCqs7tl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767710886; c=relaxed/simple;
-	bh=FCzIrtyhh7fPA/dw9YZK4XCoQvYOyJniQgX3yVqjUbs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IeRa6vDC806wzS9+HklcFSZ32ppqTQK4ehvXUhwbhBt/BR79E3h5dKKFTaFH21cHXEg/XvHpzWC0o1lXn9U4+BLXcoEtcbhhVz9+6a3EA2WlFs4zTlkk9s1Z8Klaue1U2EeTV5KhzsYHOzGZdtrsCku0b1OIqi29ybbxrqEfnag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-55b24eedd37so716990e0c.0
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 06:48:04 -0800 (PST)
+	s=arc-20240116; t=1767711011; c=relaxed/simple;
+	bh=RqfJjI32FdZ7MpeaFMqvXp4bO7LyOB4RofYVb7BWxmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BEuA4N7Fgl/qJfZp1vNNGm98QZU05uJn8yv+J+YuiKHc9O1VZeMSJm/lU+opVKtTvIirLpmGIj4IDIoGZkmWGR9fXH+cATJntE440ikjC20Np3Ih2+5Iywur73lcbQEAZrHZawMTIIjLWMdmg9Pr1k/FxOkg8HlGAdcnyiDuUgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q6N9B7rq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=aoAHoHrm; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q6N9B7rq";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="aoAHoHrm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767711008;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0jRp3cPG5jRtvX04esVBCT8Xv2J8JEx5kZGeR0bhCr4=;
+	b=Q6N9B7rqBOy0edULfnPlNXw7pyLqnuaZ2kNeNi/0yvEpuUlPAM74/ALShcP0D8LK8pl7aE
+	RyAIL7DkJq/N2Ik4ubtpFZ3y3dt9u5EJyLMNZ0u8EGrDZmXZAP3Y4N4X5EElvXoGhAjASm
+	9e+El8SlpopjnrZbBE0ZpFD7PJKDNUA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-601-o_gtg9FON4KdaieLv4EW8A-1; Tue, 06 Jan 2026 09:50:06 -0500
+X-MC-Unique: o_gtg9FON4KdaieLv4EW8A-1
+X-Mimecast-MFC-AGG-ID: o_gtg9FON4KdaieLv4EW8A_1767711006
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4775d8428e8so8738135e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 06:50:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1767711005; x=1768315805; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0jRp3cPG5jRtvX04esVBCT8Xv2J8JEx5kZGeR0bhCr4=;
+        b=aoAHoHrmwMZxBs2Qp69OPcSFyaa1ig8teHOPJlTckRJ36lo6MAUEbtcC31JPG6FdXt
+         r8wn0YoUmXby44f4lHbgR1uSQGC250mufP2o8GPX7n8jjsh3a/4d0o7zyVeYiY7or4wP
+         5fNAD2ypUG6iOfyMx50WuECY+vE25qV7VYCmDh2JcvSmkuCmk0jV6tgIRzf+JgvRWkZV
+         /tyDnQ8+btDHVPo2V53lrmTUi6h1X5KXIFtPigLUhEhrf0OZfRoIPXQSNa8Sq6KPyslf
+         ekrDkyLn4FoULpuMDI1pdSm/qjS0v7F1JRtZwgfRIfIsynaHmQ0FNYWqHLh8MavZgcjF
+         OJNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767710884; x=1768315684;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJJUInj/XbYBOmFssNzAphx4WQGD5E9g7yIXL8sfIgU=;
-        b=pNmmFbzRVGqfLdF79XawA2Q+o+8JSL63DG07hYnYG974QpC6AbWBn6iQX8OyAdJ2Pf
-         cIGh1ls5pT3XDP/CPJ/DT2Hzd8yBh3p9AxK31Y1EEtVesoUcRF0mSGDcRuzrWdR+PAHz
-         xQKvjsZyGVwkiVhjbfFjiEsFkEfSrB7WfQBo0o3Qywcrfg2mty8Ah3L/LTSkoJpGG6o8
-         vxPRa2iuk1iElPYA1lAvOCq2cBsQcIO4p0L1lujKbi+TVkII1+dR82tlItw/O6cbY+5B
-         wGGkzAAxbUCxmiQ3iqWEI8ne4YlNvRyUXeC2wNfRpnaAVh2WSnK+KTNj9Taf4EtXUQdk
-         oYZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWO3zK/zPZJ/yBjfudApsI2qQjSzlwNnfQDghai6Rz8BXNdy/WJ3xwTuF19omWB3f1Esf5c/sAYACc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/ThyM5UchjXgShC9XWg7WR9olfclcCFrkC1tbLQqCjLUPWipa
-	HnW8Uo3xsRnN3F+WeY+9GqaqnJapD8NitkjCX0jkaI87X4EZeoVWapikhLdkDIV8
-X-Gm-Gg: AY/fxX4SX/4CWXDno+JpMqXn+trAFtFGVZkz2PRcW8JOwbBoG8mGvHjBSu8QcJy7mGD
-	nLElyQzgsHIFNlZsRDW9w2xJ/9i2nspz8oVxl+FUft9bA1+l3mR5Js1rsWGRiJThbjsY5mmgSSD
-	Jw2XJHaLhek6rtgvZOF9O3R2lR13jvsUE3xohbDz6RU0+nvpJWBrycD+Ksgd2ZMwpcAlSpGHLeX
-	VCd8ceLxc2ex7rBvSsZX9PWDZeLsqvUZzvTHyp3iqEyoCfp8Dco4+LO6b+lHmQklC0tPjB6K6RZ
-	xIHq9MFeu7H2H4YKWqgvpWpyGSO2xJiv+oLTNTULlKl/1MeSksuvijMxNKjA8ozsmYiZoHghaP0
-	lD4nAqUCuQfhhasCmc595hCYrSe940CPC4Viehkaaf97bIE6jnsUwt3TaYdLZCC6rVcGh209HOL
-	qsJrVSvKVPJ2One+rN/fq1skIkre7FIzpK8Cv4hU5JGJEpCIvVzNAW+9QGjXA=
-X-Google-Smtp-Source: AGHT+IEVsK6yi9zj14n6J3PRLUsMWoWe7giq1jFQ4oXMiu+ZcaLPVwdH4zznadFe9nfZTcfaS3PoRA==
-X-Received: by 2002:a05:6122:8291:b0:559:6e78:a44c with SMTP id 71dfb90a1353d-5633947952dmr1004043e0c.1.1767710883514;
-        Tue, 06 Jan 2026 06:48:03 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5633ad02b3bsm614426e0c.2.2026.01.06.06.48.02
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jan 2026 06:48:02 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-93f69720a7cso607303241.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 06:48:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVbs6qMS36aOd9C7gBYoMccK4c98KII3eFI5Te7VvZSdmrhNBVbxCmQ7miI8jNw987s5PN88vurpGI=@vger.kernel.org
-X-Received: by 2002:a05:6102:1623:b0:5df:bddd:b590 with SMTP id
- ada2fe7eead31-5ec7451df5fmr1123054137.34.1767710880890; Tue, 06 Jan 2026
- 06:48:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767711005; x=1768315805;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0jRp3cPG5jRtvX04esVBCT8Xv2J8JEx5kZGeR0bhCr4=;
+        b=IrPiVnb13JY7aRl884kD5j3+cZsneZBalPJP4vG0NbaZ0fuHTei5PrfCrraxYUuvCI
+         oM5m1FOAxT1bs2Qh4oF870gcvSATQTttntXDmZf3RMLnPrg8B8HkXa32hdIzGeVnWrhm
+         Kkbo4U024HS3XHHi31jPWe2OK4aVpN3FEVytdhiA/W61I7GceXKQuJF0y32yHHYMUe/M
+         XDixntGO25PT5K6eYz/M+qFVRedVP/Z8+bY7r84JWYPDG6f3TFnnYnfUGP5pxUGoMa10
+         jSCHeNyQ4mxTe+kFMxgPCfULFtlKVAMOV7ytdkB/3TlyQ58AmPo1THorssD8G+ISaW2w
+         yDpg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSPUAufE2CHlBnPXEjw89iy5wSa4KMwM5Z/QIX6FudVNyOJzF6gXIqQTXHH2kwsosrR392BktJTow=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk/rE5+TmUk8rT0O8ZSvNe6N5x6TBkhJu+vO+CckfyC+hEqqna
+	nk/Vw/Uhuja3WNDwBMiMgdLJ5IgtU4DW2hNA/hDrdgStcuJhsK9etERBm8dFkXPyQXXi8FX+FXy
+	N5x68FFZeiPzSzen4LaqdsKAChIaeZWKEVLQQTko1MKNGdB389Pz8JuZh2r1OEg==
+X-Gm-Gg: AY/fxX4Fw27Ti2mJQ54bNP39eLK3EUHd47v2JFkCR6xJTtJb2F/e7ftsM+mfwXjJW79
+	5gCND/sUZFkxka9BJmWuLKsl6wCS6meZaeEFiY//RTvEVtFIDcgmpMV1oRg0E+AMwdCdfWmDdYa
+	Oc6iNEbeuS039Uq8d9vaqJyrc57YtGGPYz+cgROOlPVREh1ey9jKtM6cRDPoSlL/A7ktgQcCUDm
+	v+WvwzVeFiPD2DU2iHkVp691VO5yDGbTjlFwx4qFxyRwLYRYAzukxtsX79+pkWz1iZArtAHGfnW
+	wRNnOWF9BH0RJse11P+tMPOj2+tfZJWIFHYztOxL7tluRm1PgQBt0WQsolP1OKyXcytjeNDU7ZB
+	Ue2AuZhePf8lrldsTtXiag465AQItJg3JhA==
+X-Received: by 2002:a05:600c:c0c5:b0:47d:6856:9bd9 with SMTP id 5b1f17b1804b1-47d8383d75cmr7820815e9.23.1767711005516;
+        Tue, 06 Jan 2026 06:50:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFXHeGoEH1PxicAu3pvp2IKmLzneQBM5bSFfOKMFfLat4mQRdOWLJ6nIuVR4bStC0oG3LJdHw==
+X-Received: by 2002:a05:600c:c0c5:b0:47d:6856:9bd9 with SMTP id 5b1f17b1804b1-47d8383d75cmr7820345e9.23.1767711004990;
+        Tue, 06 Jan 2026 06:50:04 -0800 (PST)
+Received: from redhat.com (IGLD-80-230-31-118.inter.net.il. [80.230.31.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f695956sm48129575e9.6.2026.01.06.06.50.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 06:50:04 -0800 (PST)
+Date: Tue, 6 Jan 2026 09:50:00 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jason Wang <jasowang@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Petr Tesarik <ptesarik@suse.com>,
+	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-scsi@vger.kernel.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 10/15] virtio_scsi: fix DMA cacheline issues for events
+Message-ID: <20260106094824-mutt-send-email-mst@kernel.org>
+References: <cover.1767601130.git.mst@redhat.com>
+ <8801aeef7576a155299f19b6887682dd3a272aba.1767601130.git.mst@redhat.com>
+ <20260105181939.GA59391@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it> <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
-In-Reply-To: <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 6 Jan 2026 15:47:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUtsx1gQffk9c-U9UkeqG_Dopv5vXNrp72ewh0EQQgwjQ@mail.gmail.com>
-X-Gm-Features: AQt7F2qsB5hg2NX_ZI18pHFrsB3JeydqfV6kNAMxXv_CqeMBbwVEPLSuyAomQME
-Message-ID: <CAMuHMdUtsx1gQffk9c-U9UkeqG_Dopv5vXNrp72ewh0EQQgwjQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 1/3] drm: client: add splash client
-To: Francesco Valla <francesco@valla.it>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	Mario Limonciello <mario.limonciello@amd.com>, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-embedded@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260105181939.GA59391@fedora>
 
-Hi Franceso,
+On Mon, Jan 05, 2026 at 01:19:39PM -0500, Stefan Hajnoczi wrote:
+> On Mon, Jan 05, 2026 at 03:23:29AM -0500, Michael S. Tsirkin wrote:
+> > @@ -61,7 +62,7 @@ struct virtio_scsi_cmd {
+> >  
+> >  struct virtio_scsi_event_node {
+> >  	struct virtio_scsi *vscsi;
+> > -	struct virtio_scsi_event event;
+> > +	struct virtio_scsi_event *event;
+> >  	struct work_struct work;
+> >  };
+> >  
+> > @@ -89,6 +90,11 @@ struct virtio_scsi {
+> >  
+> >  	struct virtio_scsi_vq ctrl_vq;
+> >  	struct virtio_scsi_vq event_vq;
+> > +
+> > +	__dma_from_device_group_begin();
+> > +	struct virtio_scsi_event events[VIRTIO_SCSI_EVENT_LEN];
+> > +	__dma_from_device_group_end();
+> 
+> If the device emits two events in rapid succession, could the CPU see
+> stale data for the second event because it already holds the cache line
+> for reading the first event?
 
-On Tue, 6 Jan 2026 at 15:26, Francesco Valla <francesco@valla.it> wrote:
-> Add a DRM client that draws a simple splash, with possibility to show:
->
->   - a colored background;
->   - a static BMP image (loaded as firmware);
->   - the logo provided by EFI BGRT.
->
-> The client is not meant to replace a full-featured bootsplash, but
-> rather to remove some complexity (and hopefully boot time) on small
-> embedded platforms or on systems with a limited scope (e.g: recovery
-> or manufacturing images).
->
-> The background color can be set either at build time from a dedicated
-> config option or at runtime through the drm_client_lib.splash_color
-> command line parameter. Any color in RGB888 format can be used.
->
-> If enabled, the static BMP image is loaded using the kernel firmware
-> infrastructure; a valid BMP image with 24bpp color and no compression
-> is expected. The name of the image can be set through the
-> drm_client_lib.splash_bmp kernel command line parameter, with the
-> default being 'drm_splash.bmp'.
->
-> Just like the existing DRM clients, the splash can be enabled from the
-> kernel command line using drm_client_lib.active=splash.
->
-> Signed-off-by: Francesco Valla <francesco@valla.it>
+No because virtio does unmap and syncs the cache line.
 
-Thanks for your patch!
+In other words, CPU reads cause no issues.
 
-> --- /dev/null
-> +++ b/drivers/gpu/drm/clients/drm_splash.c
+The issues are exclusively around CPU writes dirtying the
+cache and writeback overwriting DMA data.
 
-> +#if IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_BMP_SUPPORT)
+> In other words, it's not obvious to me that the DMA warnings are indeed
+> spurious and should be silenced here.
+> 
+> It seems safer and simpler to align and pad the struct virtio_scsi_event
+> field in struct virtio_scsi_event_node rather than packing these structs
+> into a single array here they might share cache lines.
+> 
+> Stefan
 
-There is no need to protect this block with #if, as it does not generate
-any code.
 
-> +#define BMP_FILE_MAGIC_ID 0x4d42
-> +
-> +/* BMP header structures copied from drivers/video/fbdev/efifb.c */
-> +struct bmp_file_header {
-> +       u16 id;
-> +       u32 file_size;
-> +       u32 reserved;
-> +       u32 bitmap_offset;
-> +} __packed;
-> +
-> +struct bmp_dib_header {
-> +       u32 dib_header_size;
-> +       s32 width;
-> +       s32 height;
-> +       u16 planes;
-> +       u16 bpp;
-> +       u32 compression;
-> +       u32 bitmap_size;
-> +       u32 horz_resolution;
-> +       u32 vert_resolution;
-> +       u32 colors_used;
-> +       u32 colors_important;
-> +} __packed;
-> +#endif // CONFIG_DRM_CLIENT_SPLASH_BMP_SUPPORT
-
-As per [1], all these values are little-endian.  Hence they should
-be declared as such using le16 or le32, and accessed using
-get_unalined_le{16,32}().
-
-[1] https://en.wikipedia.org/wiki/BMP_file_format#File_structure
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
