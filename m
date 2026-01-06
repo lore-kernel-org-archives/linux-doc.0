@@ -1,144 +1,237 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5446323EA8A
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 12:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8C71624C5;
+	Tue,  6 Jan 2026 12:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767702027; cv=none; b=kDoeSTOg9iOmVkNfU7FMrnluEHrAvQDCINLKI+r6GKBuxnyji+SyjLXzuKC9pvxXk1qm8ZsQU77pjmDx+tc42rTaOsMicgar0tllbq4qkiVlTW6O1PF/stBR9K61wWb8u4edjWNwWs5pnfQqmHpqChwL1qA86dBvA2LqbP8KsK8=
+	t=1767702440; cv=none; b=gKVbV52hFxZdhMaKcGgnZ+ncJ+9bUGk3jEGHmDz82IzxFcH+iozThvIB/SrOmPmgMriTXl5BksL1DJWWYh5ZtTQRdtBrh0cl72hVPrW8w4O9UUSAg3G1AJ0FqnOm96H1Jmxvoj/mK8Dm0epD+rPl/vBoHYMgH3Ts+dL++dYA6nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767702027; c=relaxed/simple;
-	bh=WeihQnzULL5ReZ1WSNOJlegujvsKvpc8qcS09s0GfCk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ovmpf2voceCsIWD2TZcXFyuFi9Aj09MdYU+MLAzXekPsPTZK0UP0ikG5pYMiZ1vXVLlvQrW3jWq1mOISpx+fQE/91zuCNYc9mjX27N0S9dHIQRn1LAhrfa4BRimC2PPnfupCt0mmg3qXUj55SiwlqR46jtrSd5I2uI6RIVWk7xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=szG3dNaZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767702440; c=relaxed/simple;
+	bh=0g0q3+yeUhWNl+UuUZgUuMzE5sKCflZGQ0dod3qEcuM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=emX5rO3aa/So9qBi2ZHo/QroufO1laaE8ijN8V3eikzduDmNxOacJMH9ZtOGCGbVqxV8+9nGwVNj6Zx0GBLzKmFkuWB9po6sPoGVZIqmAApqRctUvcPGyScmQhpEEnKSXiv9aGfvBH+MJ97pvHg/YYPm2Oh/pwymb8JVbDiLdC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FiohRHXn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="szG3dNaZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBC2FC116C6
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 12:20:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FiohRHXn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E345C116C6;
+	Tue,  6 Jan 2026 12:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767702027;
-	bh=WeihQnzULL5ReZ1WSNOJlegujvsKvpc8qcS09s0GfCk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=szG3dNaZBdsiJh86/Aalpg4FsmNcyaj3IYV4ok84hTDobawGrLqMNJJPsyZqNiqc0
-	 /qM7ucsfLCGKATgvxPXtuyOAJSxmN1hJdlk65Eeer6vqnZA2+3ezdrsyPYElLtdARD
-	 CUvNwN/ox6d7oQc5lzmnSYI1XZt5xna9Ofw0wiohruXl2yCZ8F/LS1c+wT/aw7P68l
-	 xjG0/Ygod491SiWVsn/Ms/oYXv9ra3GprcQh5PjrWAKM1kwbeeip2Kl0uxuv9AhTO5
-	 WDmHKBf2wHAaaEZa1Wq2TqgnLO20CEpmjbqDYOOztaLwvKZLZKTTZ33Tdzj6JAYrp1
-	 b+SAbafP5rwZg==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-598f81d090cso940914e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 04:20:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUO2Ehk5WJso5M5Gpg2P93B30+a5ZAsdVHri4OYOepZl8KZwAEsmTHKC4lce1KeOvtD+yUj8XjXWPM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5BZv8Mcm9VNNCwhbkszFRlGx99lDHJx9mlOrCDoq/Q/JDvyBk
-	ekd78rHu3qh/TJTcXqzhRprmV8WLrCPxXo7tWnheiSkeIoU4ZKhRvo5y2HzBH7C5bZOP0okg5CY
-	l4+GWsP5PApf0huTupWhtRHpVSmapDLcwOI/YUFTkUw==
-X-Google-Smtp-Source: AGHT+IFx8nmopRtdPvy2vs4YbNQIpmVdCKW26mAOQptIblPti0KoPLS0IvUN6CFUKIjuyb6dXhRAvaO9RxHVoFJhqjo=
-X-Received: by 2002:ac2:4215:0:b0:59b:6c3d:5373 with SMTP id
- 2adb3069b0e04-59b6c3d53b3mr84520e87.7.1767702025661; Tue, 06 Jan 2026
- 04:20:25 -0800 (PST)
+	s=k20201202; t=1767702439;
+	bh=0g0q3+yeUhWNl+UuUZgUuMzE5sKCflZGQ0dod3qEcuM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FiohRHXn3sEIjh0qmA8patOEkRjPK+inXS2P0IhbnxkA9nJcHEOmdpSHsSkhG9AUY
+	 wvyIZZjYXjJWjp5LsSXNUG+udXd92lxSbaW2lkXkpycQ6Sd77QaZBSzB6NMk+YbScP
+	 8REm3iea/Ug/7tTn4USDnE0ryqihmpquFMmssNlBg+wyi4tQXIDsNTQjSNxgl95ucE
+	 s9/9S3DM3dX3gaRstRb94UDl2eHLh42Q/3PdP5GizRivp2TZ0H/mz7Y0WZiqIR9NIk
+	 EvMMuvK1QHZW0LoOBz5O10PoBgu6vLDE9x40euDRwHimLz7T2XGmTtt8wTpd/9ygdK
+	 hheXKXjyAgUPw==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Linux ACPI <linux-acpi@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hansg@kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Zhang Rui <rui.zhang@intel.com>, Armin Wolf <w_armin@gmx.de>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Randy Dunlap <rdunlap@infradead.org>
+Subject:
+ [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using ACPI drivers
+Date: Tue, 06 Jan 2026 13:27:14 +0100
+Message-ID: <2396510.ElGaqSPkdT@rafael.j.wysocki>
+Organization: Linux Kernel Development
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
- <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
- <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
- <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
- <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
- <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
- <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
-In-Reply-To: <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 6 Jan 2026 13:20:12 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McyTAvshqgfwTYpN1Av3Z4K=udzrr5t12fwcsBc=vtrcA@mail.gmail.com>
-X-Gm-Features: AQt7F2q1ahQ11FMaw_VOtAKsOF6Acj2JjLhWv_yxQJgI5ojADI61utbgGQpaYTQ
-Message-ID: <CAMRc=McyTAvshqgfwTYpN1Av3Z4K=udzrr5t12fwcsBc=vtrcA@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
- BAM locking
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 2, 2026 at 6:14=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.org=
-> wrote:
->
-> On Fri, Jan 2, 2026 at 5:59=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrot=
-e:
-> >
-> > On 02-01-26, 10:26, Bartosz Golaszewski wrote:
-> > > On Thu, Jan 1, 2026 at 1:00=E2=80=AFPM Vinod Koul <vkoul@kernel.org> =
-wrote:
-> > > >
-> > > > > >
-> > > > > > > It will perform register I/O with DMA using the BAM locking m=
-echanism
-> > > > > > > for synchronization. Currently linux doesn't use BAM locking =
-and is
-> > > > > > > using CPU for register I/O so trying to access locked registe=
-rs will
-> > > > > > > result in external abort. I'm trying to make the QCE driver u=
-se DMA
-> > > > > > > for register I/O AND use BAM locking. To that end: we need to=
- pass
-> > > > > > > information about wanting the command descriptor to contain t=
-he
-> > > > > > > LOCK/UNLOCK flag (this is what we set here in the hardware de=
-scriptor)
-> > > > > > > from the QCE driver to the BAM driver. I initially used a glo=
-bal flag.
-> > > > > > > Dmitry said it's too Qualcomm-specific and to use metadata in=
-stead.
-> > > > > > > This is what I did in this version.
-> > > > > >
-> > > > > > Okay, how will client figure out should it set the lock or not?=
- What are
-> > > > > > the conditions where the lock is set or not set by client..?
-> > > > > >
-> > > > >
-> > > > > I'm not sure what you refer to as "client". The user of the BAM e=
-ngine
-> > > > > - the crypto driver? If so - we convert it to always lock/unlock
-> > > > > assuming the TA *may* use it and it's better to be safe. Other us=
-ers
-> > > > > are not affected.
-> > > >
-> > > > Client are users of dmaengine. So how does the crypto driver figure=
- out
-> > > > when to lock/unlock. Why not do this always...?
-> > > >
-> > >
-> > > It *does* do it always. We assume the TA may be doing it so the crypt=
-o
-> > > driver is converted to *always* perform register I/O with DMA *and* t=
-o
-> > > always lock the BAM for each transaction later in the series. This is
-> > > why Dmitry inquired whether all the HW with upstream support actually
-> > > supports the lock semantics.
-> >
-> > Okay then why do we need an API?
-> >
-> > Just lock it always and set the bits in the dma driver
-> >
->
-> We need an API because we send a locking descriptor, then a regular
-> descriptor (or descriptors) for the actual transaction(s) and then an
-> unlocking descriptor. It's a thing the user of the DMA engine needs to
-> decide on, not the DMA engine itself.
->
-> Also: only the crypto engine needs it for now, not all the other users
-> of the BAM engine.
->
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Hi Vinod, is there anything else I can do or more information I can
-provide in order to move this forward?
+Sadly, there is quite a bit of technical debt related to the
+kernel's ACPI support subsystem and one of the most significant
+pieces of it is the existence and use of ACPI drivers represented
+by struct acpi_driver objects.
 
-Bartosz
+Those drivers are bound directly to struct acpi_device objects, also
+referred to as "ACPI device nodes", representing device objects in the
+ACPI namespace defined as:
+
+ A hierarchical tree structure in OS-controlled memory that contains
+ named objects. These objects may be data objects, control method
+ objects, bus/device package objects, and so on.
+
+according to the ACPI specification [1].
+
+The above definition implies, although rather indirectly, that the
+objects in question don't really represent hardware.  They are just
+"device package objects" containing some information on the devices
+present in the given platform that is known to the platform firmware.
+
+Although the platform firmware can be the only source of information on
+some devices, the information provided by it alone may be insufficient
+for device enumeration in general.  If that is the case, binding a
+driver directly to a given ACPI device node clearly doesn't make sense.
+If the device in question is enumerated through a hardware interface, it
+will be represented by a device object matching that interface, like
+a struct pci_dev, and the ACPI device node corresponding to it will be
+treated as its "ACPI companions" whose role is to amend the "native"
+enumeratiom mechanism.
+
+For the sake of consistency and confusion avoidance, it is better to
+treat ACPI device nodes in general as ACPI companions of other device
+objects representing hardware.  In some cases though it appeared easier
+to take a shortcut and use an ACPI driver binding directly to an ACPI
+device node.  Moreover, there were corner cases in which that was the
+only choice, but they all have been addressed now.
+
+In all cases in which an ACPI driver might be used, the ACPI device
+node it might bind to is an ACPI companion of another device object
+representing a piece of hardware.  It is thus better to use a driver
+binding to the latter than to use an ACPI driver and leave the other
+device object alone, not just because doing so is more consistent and
+less confusing, but also because using ACPI drivers may lead to
+potential functional deficiencies, like possible ordering issues
+related to power management.
+
+Unfortunately, there are quite a few ACPI drivers in use and, as a rule,
+they bind to ACPI device nodes that are ACPI companions of platform
+devices, so in fact they play the role of platform drivers although in
+a kind of convoluted way.  An effort has been under way to replace them
+with platform drivers, which is relatively straightforward in the vast
+majority of cases, but it has not been pursued very aggressively so far,
+mostly due to the existence of the corner cases mentioned above.
+However, since those corner cases are gone now, it makes sense to spend
+more time on driver conversions with the ultimate goal to get rid of
+struct acpi_driver and the related code from the kernel.
+
+To that end, add a document explaining why using ACPI drivers is not
+a good idea, so it need not be explained from scratch on every attempt
+to convert an ACPI driver to a platform one.
+
+Link: https://uefi.org/specs/ACPI/6.6/02_Definition_of_Terms.html#term-ACPI-Namespace [1]
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+---
+
+v1 -> v2:
+   * Fixed a typo in the changelog (Andy).
+   * Addressed two review comments from Randy ("is questionable either" ->
+     "is also questionable" and "eg." -> "e.g.").
+   * Added R-bys from Andy and Armin.
+
+---
+
+Although this patch can be applied independently, it actually depends on
+some ACPI changes in linux-next and on
+
+https://lore.kernel.org/linux-acpi/12824456.O9o76ZdvQC@rafael.j.wysocki/
+
+so it is better to handle it along with that material.
+
+---
+ Documentation/driver-api/acpi/acpi-drivers.rst |   80 +++++++++++++++++++++++++
+ Documentation/driver-api/acpi/index.rst        |    1 
+ 2 files changed, 81 insertions(+)
+
+--- /dev/null
++++ b/Documentation/driver-api/acpi/acpi-drivers.rst
+@@ -0,0 +1,80 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++=========================================
++Why using ACPI drivers is not a good idea
++=========================================
++
++:Copyright: |copy| 2026, Intel Corporation
++
++:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
++
++Even though binding drivers directly to struct acpi_device objects, also
++referred to as "ACPI device nodes", allows basic functionality to be provided
++at least in some cases, there are problems with it, related to general
++consistency, sysfs layout, power management operation ordering, and code
++cleanliness.
++
++First of all, ACPI device nodes represent firmware entities rather than
++hardware and in many cases they provide auxiliary information on devices
++enumerated independently (like PCI devices or CPUs).  It is therefore generally
++questionable to assign resources to them because the entities represented by
++them do not decode addresses in the memory or I/O address spaces and do not
++generate interrupts or similar (all of that is done by hardware).
++
++Second, as a general rule, a struct acpi_device can only be a parent of another
++struct acpi_device.  If that is not the case, the location of the child device
++in the device hierarchy is at least confusing and it may not be straightforward
++to identify the piece of hardware providing functionality represented by it.
++However, binding a driver directly to an ACPI device node may cause that to
++happen if the given driver registers input devices or wakeup sources under it,
++for example.
++
++Next, using system suspend and resume callbacks directly on ACPI device nodes
++is also questionable because it may cause ordering problems to appear.  Namely,
++ACPI device nodes are registered before enumerating hardware corresponding to
++them and they land on the PM list in front of the majority of other device
++objects.  Consequently, the execution ordering of their PM callbacks may be
++different from what is generally expected.  Also, in general, dependencies
++returned by _DEP objects do not affect ACPI device nodes themselves, but the
++"physical" devices associated with them, which potentially is one more source
++of inconsistency related to treating ACPI device nodes as "real" device
++representation.
++
++All of the above means that binding drivers to ACPI device nodes should
++generally be avoided and so struct acpi_driver objects should not be used.
++
++Moreover, a device ID is necessary to bind a driver directly to an ACPI device
++node, but device IDs are not generally associated with all of them.  Some of
++them contain alternative information allowing the corresponding pieces of
++hardware to be identified, for example represeted by an _ADR object return
++value, and device IDs are not used in those cases.  In consequence, confusingly
++enough, binding an ACPI driver to an ACPI device node may even be impossible.
++
++When that happens, the piece of hardware corresponding to the given ACPI device
++node is represented by another device object, like a struct pci_dev, and the
++ACPI device node is the "ACPI companion" of that device, accessible through its
++fwnode pointer used by the ACPI_COMPANION() macro.  The ACPI companion holds
++additional information on the device configuration and possibly some "recipes"
++on device manipulation in the form of AML (ACPI Machine Language) bytecode
++provided by the platform firmware.  Thus the role of the ACPI device node is
++similar to the role of a struct device_node on a system where Device Tree is
++used for platform description.
++
++For consistency, this approach has been extended to the cases in which ACPI
++device IDs are used.  Namely, in those cases, an additional device object is
++created to represent the piece of hardware corresponding to a given ACPI device
++node.  By default, it is a platform device, but it may also be a PNP device, a
++CPU device, or another type of device, depending on what the given piece of
++hardware actually is.  There are even cases in which multiple devices are
++"backed" or "accompanied" by one ACPI device node (e.g. ACPI device nodes
++corresponding to GPUs that may provide firmware interfaces for backlight
++brightness control in addition to GPU configuration information).
++
++This means that it really should never be necessary to bind a driver directly to
++an ACPI device node because there is a "proper" device object representing the
++corresponding piece of hardware that can be bound to by a "proper" driver using
++the given ACPI device node as the device's ACPI companion.  Thus, in principle,
++there is no reason to use ACPI drivers and if they all were replaced with other
++driver types (for example, platform drivers), some code could be dropped and
++some complexity would go away.
+--- a/Documentation/driver-api/acpi/index.rst
++++ b/Documentation/driver-api/acpi/index.rst
+@@ -7,3 +7,4 @@ ACPI Support
+ 
+    linuxized-acpica
+    scan_handlers
++   acpi-drivers
+
+
+
