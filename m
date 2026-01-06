@@ -1,127 +1,158 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AD31684BE;
-	Tue,  6 Jan 2026 15:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767714922; cv=pass; b=ANYEXwg4cmLqtWAtQNeD+W8mlrMcPugPeSnHpmVNs2uQJ7pZ6xCy3wnkeP2YKTvMT9v6NiBYqf0s4bHsGZW0YPpT6UJO4QKBsof4r7ZxMzKgzr/F4h7pDPiJ1k8CD4TS9nNlYx3JMJz61n2tExDwRJqHkdG75JCXh+lXahpb29g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767714922; c=relaxed/simple;
-	bh=dosFqktUwke3weGqbtl7uAwg62QNyHgNc1TKoDv7T88=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aoVUQu600qFC5RpcYa40Q8pQKiS4tKj8Pt7PYCCk7K2l2qT4/hdwJeSRnjzBBqq0BQfsfOQrX6w1sanTqFrzHQWsPZmi5XdSDagWSfcsPHX8egBkrIIHvu3QQKFQz8DiMGBQ/lmWbMy9+Pw+vFGTojM3t1tARMqvbedWhnAs5o0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=laveeshbansal.com; spf=pass smtp.mailfrom=laveeshbansal.com; dkim=pass (1024-bit key) header.d=laveeshbansal.com header.i=laveeshb@laveeshbansal.com header.b=ZLD3zrx1; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=laveeshbansal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=laveeshbansal.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0783B28D;
+	Tue,  6 Jan 2026 15:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767715003; cv=none; b=Ps4uToqkCqzrS5vID+sDE8j06v/fGbdCSmReXY3jj42cXORLSAuB81mtRCooZI3rVZn9Kt8EFpeLlr5vXc3AIU/j2VHo24fmIfOexwR6nsdkQeL9hlR255UvvOo4buX07tneFqHjJitddIualukBMMDsnFA8Z7VAKOA6x9OjdKE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767715003; c=relaxed/simple;
+	bh=JQ0OfJ+y1DU1JWVlwnaEVumXGaUju7WY7uFuRHs+JTc=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=EWV04h48MrfxfpTFwAVO9V8U9olfi8Rm21iWnmP59xVMdVoa6uQM/mil/hTjI2qhelKh07bvIUjkPVmM/FrPYo2o6lRhL8sUSZBTQcZVPPO2pekWnJatuFEuH4pdVJHwqv3GoZAF62dEkHpz6mxCWrFFUhF9hwr5wOHVZsXp5jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UEWx8MiQ; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=laveeshbansal.com header.i=laveeshb@laveeshbansal.com header.b="ZLD3zrx1"
-ARC-Seal: i=1; a=rsa-sha256; t=1767714872; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=KQrze7jxRGDhvtCbNhbluOa0Hdv8VoX9lJ20wzsVw0WIRulN02L1oHTpRGPgNQz42LcQzvznG2nOYA3vZBZZjsjcrNnAZTD7aBUQrexZBlbRdAut8QjEJsjKd91KBde9wT4zRKOt+RTgapilQLfgziokHFIuUW1/MqT3bItOWnk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1767714872; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=1kgU0mLAdPYvBxuccEdm9OLAZpF9SQG8KIFEF16Nl70=; 
-	b=dT2b7AAWdJPoMpY+FzkRbdiVyQu9sgwJdui+YeFH/kclHM0t1CQhXxC21LSifpJf3EpQ2DMot0HX5jBe271goIJIMRRlLgw7JiCIvzgIBu6E0kwxVjums1uF2Gctxblnrl1+FFbu4PzYMYb/sOKImBaqMBNG5DJBlfB39SQZaIM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=laveeshbansal.com;
-	spf=pass  smtp.mailfrom=laveeshb@laveeshbansal.com;
-	dmarc=pass header.from=<laveeshb@laveeshbansal.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1767714872;
-	s=zoho; d=laveeshbansal.com; i=laveeshb@laveeshbansal.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=1kgU0mLAdPYvBxuccEdm9OLAZpF9SQG8KIFEF16Nl70=;
-	b=ZLD3zrx14BCDafvHgcjAhppfaedVCutMmvY9jcpuG69K2II4p11zlwrwFaeL79uc
-	v7yvBG4aXe1kLUqL0q7eHtlgIvXan+VNGo4Yd9y+dy0byXz2we30DEJ3qf/syE17Hb8
-	my3SrNcfTIBOwBSye9dDg2iwuJzAuN4m7A4Ei1bI=
-Received: by mx.zohomail.com with SMTPS id 1767714867515151.3205125188755;
-	Tue, 6 Jan 2026 07:54:27 -0800 (PST)
-From: Laveesh Bansal <laveeshb@laveeshbansal.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Laveesh Bansal <laveeshb@laveeshbansal.com>
-Subject: [PATCH 2/2] hwmon: (coretemp) Add TjMax for Silvermont through Tremont Atoms
-Date: Tue,  6 Jan 2026 15:54:26 +0000
-Message-ID: <20260106155426.547872-3-laveeshb@laveeshbansal.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260106155426.547872-1-laveeshb@laveeshbansal.com>
-References: <20260106155426.547872-1-laveeshb@laveeshbansal.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UEWx8MiQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767715002; x=1799251002;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=JQ0OfJ+y1DU1JWVlwnaEVumXGaUju7WY7uFuRHs+JTc=;
+  b=UEWx8MiQcYpmqfVnKlS3RB1XiLt/0pYDLAFKcb2wQT/qj6QyyufpDVeH
+   BWFQzbFpoRbGojHTbKlmFoliCdacMpSAABngDhAM5gmG6iKkapYBNcURJ
+   vHVfJAFn9WpZkl5OL01WycNK0qs9KC3qNa8Qslbx9d4Q+3cJ0LmnnBPkr
+   vY5ha0AojWa4f7JmPCl4K66DMV0hJSSBJSG9RWhFP1KIUFbCM1dbvHvZL
+   nllwKFJXMNnELl8F/mUW72ZW6ovW0mie50RIvLT8fgWIU4aYW2UrHOEWW
+   swgALSVqlgBcdsAz//p0KJo8RRzzaJwGqfXD3wPfpRLN2DbdOtUdo4n4+
+   A==;
+X-CSE-ConnectionGUID: zvMlTtdsQl27EvG0Ei1z8w==
+X-CSE-MsgGUID: J93bYwJDREu1D0meVW/oDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="68823813"
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
+   d="scan'208";a="68823813"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 07:56:41 -0800
+X-CSE-ConnectionGUID: wvV+OfPBQeup8t0cB44wDQ==
+X-CSE-MsgGUID: 5+To6kQ9SNybE9WSGej6bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
+   d="scan'208";a="202933240"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.6])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 07:56:38 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 6 Jan 2026 17:56:36 +0200 (EET)
+To: Armin Wolf <W_Armin@gmx.de>
+cc: Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, linux@weissschuh.net, 
+    Dell.Client.Kernel@dell.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] platform/wmi: Introduce marshalling support
+In-Reply-To: <20251220204622.3541-2-W_Armin@gmx.de>
+Message-ID: <bc985391-8b0e-aed8-5d0e-0e1ad07f593e@linux.intel.com>
+References: <20251220204622.3541-1-W_Armin@gmx.de> <20251220204622.3541-2-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: multipart/mixed; boundary="8323328-1660125898-1767714996=:1051"
 
-Add fallback TjMax values for Intel Atom processors based on Silvermont,
-Airmont, Goldmont, and Tremont microarchitectures. These processors
-support MSR_IA32_TEMPERATURE_TARGET for reading TjMax directly, so these
-table entries serve as fallback values only when the MSR read fails
-(e.g., in some virtualization scenarios).
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Added processors and TjMax values:
+--8323328-1660125898-1767714996=:1051
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-- INTEL_ATOM_SILVERMONT (0x37, Bay Trail):
-  - Stepping 9 (E38xx embedded): 110C
-  - Other steppings (Z37xx tablet): 90C
-  Stepping identified from Intel E3800 Specification Update.
+On Sat, 20 Dec 2025, Armin Wolf wrote:
 
-- INTEL_ATOM_SILVERMONT_MID (0x4a, Merrifield): 90C
+> The Windows WMI-ACPI driver likely uses wmilib [1] to interact with
+> the WMI service in userspace. Said library uses plain byte buffers
+> for exchanging data, so the WMI-ACPI driver has to convert between
+> those byte buffers and ACPI objects returned by the ACPI firmware.
+>=20
+> The format of the byte buffer is publicly documented [2], and after
+> some reverse eingineering of the WMI-ACPI driver using a set of custom
+> ACPI tables, the following conversion rules have been discovered:
+>=20
+> - ACPI integers are always converted into a uint32
+> - ACPI strings are converted into special WMI strings
+> - ACPI buffers are copied as-is
+> - ACPI packages are unpacked
+>=20
+> Extend the ACPI-WMI driver to also perform this kind of marshalling
+> for WMI data blocks, methods and events. During so gives us a number
+> of benefits:
+>=20
+> - WMI drivers are not restricted to a fixed set of supported ACPI data
+>   types anymore, see dell-wmi-aio (integer vs buffer) and
+>   hp-wmi-sensors (string vs buffer)
+>=20
+> - correct marshalling of WMI strings when data blocks are marked
+>   as requiring ACPI strings instead of ACPI buffers
+>=20
+> - development of WMI drivers without having to understand ACPI
+>=20
+> This eventually should result in better compatibility with some
+> ACPI firmware implementations and in simpler WMI drivers. There are
+> however some differences between the original Windows driver and
+> the ACPI-WMI driver when it comes to ACPI object conversions:
+>=20
+> - the Windows driver copies internal _ACPI_METHOD_ARGUMENT_V1 data
+>   structures into the output buffer when encountering nested ACPI
+>   packages. This is very likely an error inside the driver itself, so
+>   we do not support nested ACPI packages.
+>=20
+> - when converting WMI strings (UTF-16LE) into ACPI strings (ASCII),
+>   the Windows driver replaces non-ascii characters (=C3=A4 -> a, & -> ?)
+>   instead of returning an error. This behavior is not documented
+>   anywhere and might lead to severe errors in some cases (like
+>   setting BIOS passwords over WMI), so we simply return an error.
+>=20
+> As the current bus-based WMI API is based on ACPI buffers, a new
+> API is necessary. The legacy GUID-based WMI API is not extended to
+> support marshalling, as WMI drivers using said API are expected to
+> move to the bus-based WMI API in the future.
+>=20
+> [1] https://learn.microsoft.com/de-de/windows-hardware/drivers/ddi/wmilib=
+/
+> [2] https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/
+>     driver-defined-wmi-data-items
+>=20
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 
-- INTEL_ATOM_SILVERMONT_MID2 (0x5a, Moorefield): 90C
 
-- INTEL_ATOM_AIRMONT (0x4c, Cherry Trail): 90C
 
-- INTEL_ATOM_GOLDMONT (0x5c, Apollo Lake): 105C
+> diff --git a/drivers/platform/wmi/internal.h b/drivers/platform/wmi/inter=
+nal.h
+> new file mode 100644
+> index 000000000000..707d1a4711e0
+> --- /dev/null
+> +++ b/drivers/platform/wmi/internal.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Internal interfaces used by the WMI core.
+> + *
+> + * Copyright (C) 2025 Armin Wolf <W_Armin@gmx.de>
+> + */
+> +
+> +#ifndef _WMI_INTERNAL_H_
+> +#define _WMI_INTERNAL_H_
+> +
+> +int wmi_unmarshal_acpi_object(const union acpi_object *obj, struct wmi_b=
+uffer *buffer);
+> +int wmi_marshal_string(const struct wmi_buffer *buffer, struct acpi_buff=
+er *out);
 
-- INTEL_ATOM_GOLDMONT_PLUS (0x7a, Gemini Lake): 105C
+These currently depends on the includes in the C file including this as=20
+you do not introduce these types beforehand.
 
-- INTEL_ATOM_TREMONT (0x96, Elkhart Lake): 105C
+--=20
+ i.
 
-- INTEL_ATOM_TREMONT_L (0x9c, Jasper Lake): 105C
-
-Not included (MSR reads work reliably, server/specialized chips):
-- INTEL_ATOM_SILVERMONT_D (Avoton): Server, Tcase 97C
-- INTEL_ATOM_GOLDMONT_D (Denverton): Server, Tcase 82C
-- INTEL_ATOM_AIRMONT_NP (Lightning Mountain): Network processor
-- INTEL_ATOM_TREMONT_D (Jacobsville): Server
-- INTEL_ATOM_GRACEMONT (Alder Lake-N): Very new, MSR works
-
-Reference: Intel datasheets and ARK processor specifications
-- Z3600/Z3700 datasheet: https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/atom-z36xxx-z37xxx-datasheet-vol-1.pdf
-- E3845 ARK: https://www.intel.com/content/www/us/en/products/sku/78475/intel-atom-processor-e3845-2m-cache-1-91-ghz/specifications.html
-- E3800 Spec Update: https://community.intel.com/cipcp26785/attachments/cipcp26785/embedded-atom-processors/4708/1/600834-329901-intel-atom-processor-e3800-product-family-su-rev015.pdf
-
-Signed-off-by: Laveesh Bansal <laveeshb@laveeshbansal.com>
----
- drivers/hwmon/coretemp.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/hwmon/coretemp.c b/drivers/hwmon/coretemp.c
-index ad79db5a183e..d2dfa4e30407 100644
---- a/drivers/hwmon/coretemp.c
-+++ b/drivers/hwmon/coretemp.c
-@@ -145,6 +145,15 @@ static const struct tjmax_model tjmax_model_table[] = {
- 							 * Also matches S12x0 (stepping 9), covered by
- 							 * PCI table
- 							 */
-+	{ INTEL_ATOM_SILVERMONT,      9, 110000 },	/* Atom Bay Trail E38xx (embedded) */
-+	{ INTEL_ATOM_SILVERMONT,      ANY, 90000 },	/* Atom Bay Trail Z37xx (tablet) */
-+	{ INTEL_ATOM_SILVERMONT_MID,  ANY, 90000 },	/* Atom Merrifield (Z34xx) */
-+	{ INTEL_ATOM_SILVERMONT_MID2, ANY, 90000 },	/* Atom Moorefield (Z35xx) */
-+	{ INTEL_ATOM_AIRMONT,	      ANY, 90000 },	/* Atom Cherry Trail (Z8xxx) */
-+	{ INTEL_ATOM_GOLDMONT,	      ANY, 105000 },	/* Atom Apollo Lake (J3xxx, N3xxx, E39xx) */
-+	{ INTEL_ATOM_GOLDMONT_PLUS,   ANY, 105000 },	/* Atom Gemini Lake (J4xxx, N4xxx, N5xxx) */
-+	{ INTEL_ATOM_TREMONT,	      ANY, 105000 },	/* Atom Elkhart Lake */
-+	{ INTEL_ATOM_TREMONT_L,	      ANY, 105000 },	/* Atom Jasper Lake */
- };
- 
- static bool is_pkg_temp_data(struct temp_data *tdata)
--- 
-2.43.0
-
+--8323328-1660125898-1767714996=:1051--
