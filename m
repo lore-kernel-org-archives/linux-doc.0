@@ -1,249 +1,269 @@
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010055.outbound.protection.outlook.com [52.101.56.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143B52E65D;
-	Tue,  6 Jan 2026 07:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767685615; cv=none; b=ufyj97q25Gxv2y7HL8EffCaaPolfpf/oXOnCx0CHulpMV8g3lsjgPSDReVyPDhxLSu10ZG14Lbp9XiV8k+oVcpJ8JqeTPkJOeT8S3kloI5g/PRiNX93HcbF5ohY/Efngok4Y8cUSzIZzGo/wwhJlW6D1Jx12nC/TKUaTL8MGZo8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767685615; c=relaxed/simple;
-	bh=pbwmhpckE/Bva8ZcgWJAR+eGRXjqU22E0YzLrCG/xVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=KVK35a7YJuLOo+PsEJGS7YCCtkYKREU8RhoMBqoR9DAI4pMOrrlhjeCd177WCLjC0xbIpun/JmJpdDkSYvhthhH0vjCzoHzLfBeT9M1amPmjQMXQNujNRYNy4hycyBtiY0wq3C07WBHhP2u2il9RY50t7iJhbE1962Lf74lSAE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=pass smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Fr0m8n6P; arc=none smtp.client-ip=162.62.58.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyyself.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6775A314B94;
+	Tue,  6 Jan 2026 09:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767692413; cv=fail; b=coJBbDTtoWlAlYU5XOUjvC5f9aGmrjTM/7Otn9q4JIhSeX+JjxMP8KlL+aoZK1B6dzZxCPPuq+PnHrG+6pTkwn6vtbFsuS+Ji/Lh0s7Bw8Ryy1U14KfUTOyjyjRE5qAAFud6A/ehrTJcBb6NgweVk2B+7Tg30sl5cJPkUYsJoBs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767692413; c=relaxed/simple;
+	bh=/9HEllJOH+53RKN+nLIduXsebWkLETLexKKA50NNQkg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KrgFDIQNa/wg9WdT7KpSdWBjHsZ89MqAuADt3L3oXnXobx6gSPAZ8SAkqzlj6LK0PQhFwCcMOG3NtdXUBaqInsdDkX53Ax63EYG1O0leROegUBXbpTjKerBY8qGP+fhz7QgM4NcmKj3iQZ70uwjSeAxar19zaVVrJ4w1a7Mb71U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=tJIHJL6d; arc=fail smtp.client-ip=52.101.56.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Fr0m8n6P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1767685600; bh=zQXtyyI2PYr27yrlV0TQ/dcibbpe96U4emo5rjouWwE=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=Fr0m8n6PxFfgVesGwM8926jjAVuffLHLxTY4eUXQkGtAYtSd49S1alV1266SdZFgc
-	 6qcpQGyOL/4Fc9M06+Jewa63cYfKCs2V1KEhphVvAS3Zxz9ZfYj3GVQBVpV+IZQMCc
-	 fD080VCavA8XZtvxobI9jN+1KJpGREJbpiXVpnuc=
-Received: from [IPV6:2406:840:f992:3::a0c:323] ([240e:378:2201:1cd:d76:9bbc:bb82:5a0e])
-	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
-	id BA2A60FB; Tue, 06 Jan 2026 15:46:34 +0800
-X-QQ-mid: xmsmtpt1767685594t7zqkg8xe
-Message-ID: <tencent_5F1B1F8D209B3699631D6E6C4C668848E306@qq.com>
-X-QQ-XMAILINFO: MI0PymKx+wF7XlcnjzHNax13Eba/c2QZO2Rxz5Pk4OLqc6ja8DomkRGYkZpzyf
-	 7pSqJztSUXNuhy0NvFBjndXJfcyxQW2HpezLqSlCKF/NKYMhM0TjoKniet3O6gLq2mJmWFZANrRT
-	 euZkeHKaSMHjakNXM7NREXfkPT66sCaB+EezK4jCHPWE319m01XdxvMLtzPW8lYV2VoWC/vdyuap
-	 hjponQ+Odp4nteUJQALjjZafJrTJK8FO4tGkTBNHz5Ok8hw+M7QCmxAmur4qrVb6roTWX7OIfby8
-	 rh8WplPy7A2JUiTIB2ERJIiS7REcxaNLyuD7nYlFQGI3atwmIn08sJIAQTCtgtjSf7WWvfMAlWNb
-	 kqzvJFewiodoo3uZuTrKY7rssbOt+PaRa3dq2Mvy2hCChDCWyW9C99276g1x7a8C0m4rsciYURrD
-	 I6kZTVnFzuPnpg7cO8AOJOa8floxKSkYi/SxoagBdZqT2qHcQMlm/yqENKTPHs9AluGXtfzdz/tq
-	 jxqg2CG076cuPb6g3MPfRlwvI5UAMk2vWLeEJ+40wXZN7iC2Sze0+n5Fh7f0Myo2kH0sVZxN0ppp
-	 h9f8yWTC280m7B9GGEgK/itC00laHoy7bUXFrNFW1ie6iwDPw5sQTYa2AfP5kyHlXSOun5sKNoWR
-	 SwlP7bmcRDDJ+oXiKPlNNKvk/AZzJzmFlERsELS7P8F2y9ZHidNUibJtzLXeDpA1O0XeoKodSJf2
-	 do7bW82tlK/9yVoR6sv8vN1ZFfow8QlsbPnijQKyTId88Mof3Vbg9qe4kPQTS28V3jzuJuGZW2mv
-	 U3uGxlKNwKgKTSKsRdNqzJjjG/nyo9e+48zzMaJXwwbjIGby1EmcbqGKoOO9n60vG/U02q+3K1PD
-	 OvSlPjHXeZb2rInAvY+tKnn7N6A9rZtB3oYzSe3godlt4AzeVcl1ACNrLEtLaA1Z8A6EgTdxSDk9
-	 wVUqsJS1tpMHbMOhiZ0y3DLErQM6ChE4IzBIbADHOD9JPzPSkm5cmwfI2wQXfUjlA9EZsOx+hIX9
-	 lhRoRuxMvU7eAvz8ks
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-OQ-MSGID: <f80275c1-9093-4e6e-8d73-4bd6ca23e530@cyyself.name>
-Date: Tue, 6 Jan 2026 15:46:34 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="tJIHJL6d"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XI8/0e//fttAIb7OVwZpYDN1/emb17aNbHUxYQY7UKRwGQayLixOZ2ssszRzIsuHe3FH3A6IKwFnv1vW9BwZ/eJX9EL7cM5jyIDP/GhLim9teo2c15oC2PJz1XQLEtsU8fB3iTpyJPyqd83h30vepm785iZWlnjlQYDeYSRz+XnM8SZ2a2kl9THe3lmE1W1XV3wb/CVuzCX1saqe9ioyu5IqJ7ttRrrEk/Hz6kpbbYwlnfIaJqPSABPdoT+zyR+v6agO5ylK15TX431dcAb45pntbiencQMZBx/6AasYSCbGW/l9BBlct7cT7R6VcBqV7/N9gUFFFq9edPiGrP5D+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y3X0bQgJ+7urF66T5wmVRlKo19vZNPzZgEdPyCqVva4=;
+ b=HGeDtuKeI//CMLTX/KoXTjCpmV9IsnuV3cNyvmonmr5eTWNDN36gorU6objhQSkcKKZXDARkZujw2hLauvKv9hsVvGzGvhjRpLlXbH5LWBJQEoHn5YM9Dmp4v+RJ34irjWzzFYuNBYt/I8M9fdtV8bqdXP1K/t2es7Yuj1IUnGJ+XFy1TSJo6UKxWxKKY5e5g2DiFlKIQa/KIh5qoFjSfKwTxOJx8pY4nDWDPvVmqGVOGDd9R/wd5l4Igt0mRPYXOUtFdAFIxKsMrnKU+pUWagpnT0l+tybwXaWk9PmsuvV+H839kfPmRhm11S8tCQDLfE9xqhVk9aZ8r/XrS6g4ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y3X0bQgJ+7urF66T5wmVRlKo19vZNPzZgEdPyCqVva4=;
+ b=tJIHJL6dEkxPkSemsBWsfjGL7Cz/HyTQEI1ESy6neDd1BWzZmklUXLCwgFeWoUlEIGsobUJF0dM3sxSZrVeKoj2QeyVs4t+ob++dQsPGcqKpTC8uJ1MpGeLtIBU/BejB3EAVSzZWDqbLAomte1sq868gjXnmXrjRmNN3oLcXA8vSjGc4o1Z/J6pqb8wtnljrRIax72oBZcAJReuMMWjjriUNdwLMNWGg2zlXslK20lAmHy8gYQHTs9Cvl/e6vvUB3O33YTrrjFpw3Q/82KhE5O4NgNJEUvFZZSv1eY3blQiMmvHKeMsJn6DU97LHlM9URERBvKxTu0KgUn5TsRd4yw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB8784.namprd12.prod.outlook.com (2603:10b6:a03:4d0::11)
+ by DS0PR12MB7926.namprd12.prod.outlook.com (2603:10b6:8:14a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Tue, 6 Jan
+ 2026 09:39:59 +0000
+Received: from SJ2PR12MB8784.namprd12.prod.outlook.com
+ ([fe80::1660:3173:eef6:6cd9]) by SJ2PR12MB8784.namprd12.prod.outlook.com
+ ([fe80::1660:3173:eef6:6cd9%7]) with mapi id 15.20.9478.004; Tue, 6 Jan 2026
+ 09:39:59 +0000
+Message-ID: <d14a9c41-9df7-438f-bb58-097644d5d93f@nvidia.com>
+Date: Tue, 6 Jan 2026 09:39:48 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver
+ callbacks
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>, Jonathan Corbet
+ <corbet@lwn.net>, Sumit Garg <sumit.garg@kernel.org>,
+ Olivia Mackall <olivia@selenic.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?=
+ <clement.leger@bootlin.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Sumit Garg <sumit.garg@oss.qualcomm.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Peter Huewe <peterhuewe@gmx.de>
+Cc: op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,
+ Cristian Marussi <cristian.marussi@arm.com>, arm-scmi@vger.kernel.org,
+ linux-mips@vger.kernel.org, netdev@vger.kernel.org,
+ linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO6P123CA0036.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2fe::10) To SJ2PR12MB8784.namprd12.prod.outlook.com
+ (2603:10b6:a03:4d0::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 4/6] RISC-V: Implement prctl call to set/get the
- memory consistency model
-To: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>,
- linux-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>,
- Peter Zijlstra <peterz@infradead.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Anup Patel <apatel@ventanamicro.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Andrew Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@rivosinc.com>, Alan Stern <stern@rowland.harvard.edu>,
- Will Deacon <will@kernel.org>, Daniel Lustig <dlustig@nvidia.com>,
- Brendan Sweeney <turtwig@utexas.edu>, Andrew Waterman <andrew@sifive.com>,
- Brendan Sweeney <brs@berkeley.edu>, Andrea Parri <parri.andrea@gmail.com>,
- Hans Boehm <hboehm@google.com>
-References: <20240209064050.2746540-1-christoph.muellner@vrull.eu>
- <20240209064050.2746540-5-christoph.muellner@vrull.eu>
-Content-Language: en-US
-From: Yangyu Chen <cyy@cyyself.name>
-In-Reply-To: <20240209064050.2746540-5-christoph.muellner@vrull.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8784:EE_|DS0PR12MB7926:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e06cf2f-d2f5-4f35-d98b-08de4d078ec4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QWZjYUpXd2VBT3g3ajlmWVA3OVFPbUFzUSttTkhxTEx1ZGJqVWRaZ3Z2b1dZ?=
+ =?utf-8?B?dEhMTEtjSWE3UHBLV3lRVVl5QUJmbWN2ZmdidklpTmU3ZlJJMDk2WHZwbHQv?=
+ =?utf-8?B?eGRNK0w5cDNrejdiNkVmclMrTmlPTzRIRFhaMkRhRVR2a2RTYUJ6V2xQTUR5?=
+ =?utf-8?B?REd3ZWtaSytqemdPQi9OaVU5N1k5c3h6bXpNcGVySXhtZkR5TkI1RzRHWEU0?=
+ =?utf-8?B?OUZab0k3Z1VBd3kvaTZ6bzFsVEpidVo3UXBoR2pjTUFjZEdjTFlwVC9pMG9U?=
+ =?utf-8?B?MUdmdmMxaVhVMjV5cGZXWTk5WlhQSW12S2Zsbms2QTRLZ3picTBHNnh0RjR2?=
+ =?utf-8?B?ZytZVmhzaDVabDNFRU5WT09RTE1MN0NzMEEzQ3V6UHNNWVFNbzZjYXZ2a2Vj?=
+ =?utf-8?B?N1hxZE9aUnFWR1lKSHNZeEdXZXdyamdKUERzSzJEYncxMTlSektCdFV6VW85?=
+ =?utf-8?B?NG5WS0ZCclBnanhHM2ptdXJIRUxRUmxkc3R3L29sZ05RUWdDME1GbWRwKzlU?=
+ =?utf-8?B?aEQyclA2QVVLcURCaUxaZUp0QWZFazhoVXkycmJEZmtscHZ1NVl3MjI3RDZq?=
+ =?utf-8?B?TnR2YzZpMzV2bWNTektEY2ZEUmd5RkxRZTVhVzUxVmFINi8zV2w1TnhoQWU1?=
+ =?utf-8?B?U3VpL3U3d3drMkNJdmxZVk0vSmJia3lkZHpyTGFmemlXdmZDREZ6ejlKaVpu?=
+ =?utf-8?B?dDVsOWdtNkUwUUEzd285TjdIVVJENVpSRHhQRnYyQ0FLOUNwZmp1eE1Mangw?=
+ =?utf-8?B?d2tGbHIzeWthdEQwNHp1cXNsTEhoZ3dqMExOa2dQdUJmNmd1NUhuUUVSRDlH?=
+ =?utf-8?B?aGIxQ1FyQW5MazJ1VzVtOEN4dVVmWndlL0NUYXc2VUMxL0FoeXVMb3N2U0lS?=
+ =?utf-8?B?dUJWL0cyNXlHQ0VZT09ucFI5cVFLZXg0TXpMWVgxaHRBclJobW1uY2xWUnk1?=
+ =?utf-8?B?ZVY2dmhZdUwxZDB1ODBKNVRQUDN1NmdYY0NkZUk2QnZLSU5FcUV5SzlZUmdm?=
+ =?utf-8?B?TU5oVEdRSVNCWEdZSjRnb2xMemsrUkJLYnZWRWdLdVVQKytxVkEwMDhrcjZo?=
+ =?utf-8?B?eFJvc2ltWXVuN3FVVjBrQWx0UkVGNTNZNnJQbW5CamsxUExyMUJMaWY1NkZ1?=
+ =?utf-8?B?a2dFNVNVSTdxMlN5S3UrcXVsQmhTRUhybW5XWXBTVkgvek5YQm9YcHhrQ1Q5?=
+ =?utf-8?B?THV2WVhWRnQ3bUI0bG1GdDVsMDZRdk9ta3pZajQ1ZnJMdGdLQmRiQStpV2Vm?=
+ =?utf-8?B?WndWSlljYWRIYmJla1VELzVwZ0JrQUdMcG0xMUhobFArLzljYlh4aDI4SjBk?=
+ =?utf-8?B?OEQ3ZEVYYU5abHIrWTVzd1Y4MGRha2dtZVgzS1JDVzc3M1FwM3JlTXc2Ri9M?=
+ =?utf-8?B?L1RGbXNtVVNtUFgweG0xV3Bpa0VZeUpZdlo5VVpNOHhGaGh5dlRCMHBhengy?=
+ =?utf-8?B?QjcwNkVvUHNtbHQ2eTR3Um5FWThPamFZdGR3SnplZnlRS1h0anNublBxUEFZ?=
+ =?utf-8?B?R210UkFSei9sOHVFbTJybWJkVno1b2JZanZnTXFpN1VqS2xZZVVCWTNEZTNY?=
+ =?utf-8?B?bWc0NFltZkVuRGtoY2UzQjJaNThSK2x4NE9KVGprZ2JSam5pRjNMK1IraGhY?=
+ =?utf-8?B?dVgrVUcwa2x4cnNpcEF4RHl1QzNTVTlFMURPbGhHRDh4ajRGUmtuZnJSTUcr?=
+ =?utf-8?B?OFZJRkFNYkZuVmxlNzF6cXE0bzRlMnYrL3RmbUY0SE9mUVc3UkZZSUc1WExj?=
+ =?utf-8?B?TkV1R3BJYjBOQy9VczZuRlpGRStDbU5xaHY2ck51THp6Qkd0V0VJZXFyYWc4?=
+ =?utf-8?B?dFVwcGRHQjVURVE0QXFFdjJrMXVTZkhvNlVwQnFmYzNXZ0RXZEJxb01kZWhS?=
+ =?utf-8?B?UWYxQjZoTzlZNUhkZXU3ckdtUjNuMHRkRTFBdVpGSDJ4bEFNUC9uUkN2VC80?=
+ =?utf-8?B?cGlvbmdZVmFFOWtRMHNpc3pBRW4wQWk3blQvSkNwQkhDcXBjRllZTnh2Nm1R?=
+ =?utf-8?B?SkF0VDg0S2NSMFluTFA0NlA3Qmh2TEpkWk0rY1hoQnBIKzdPK1Fka0wzRXpC?=
+ =?utf-8?Q?fHgAug?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8784.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OEFZbEJaMzZ4UjJHbWxrdGd3WVBnSVI5SmJDWk9KdVh6VFgyVXcrQU5iUkZK?=
+ =?utf-8?B?V29xeTFyTUVBRGtWaUwrTUVZUFUrbFQ1VXFrUDRqZ0F4bmljSXgzVzl1TWhv?=
+ =?utf-8?B?SzBRMDloWDhCZE9zMS9sV1lwVDc3R1dYMHdNZGkvRFJCYjZLbVNobkNwcGJ0?=
+ =?utf-8?B?NEI1ZmJUUlBZeVprTVpKR0p2QWphRU1rbHFLTjdnZHh1Y0RkZzFOSFJBNlp5?=
+ =?utf-8?B?ZnV0Qk5MVjZ5aEFQbno5NlhVNjJnU0RyTVJCYXhFU3hEc1BkVXpkd3FSbktP?=
+ =?utf-8?B?OVpDblZrTS9pelR2ZVhiMXhKcmViVGZGNFdjL0VFelV5YmxXRGpUSEUxNWtS?=
+ =?utf-8?B?ZXgwVUtVc0NWbXI4S0FHUVBRRng1bWJRb1ZPcDJqZUcrbTl4d2loZlpXZlEv?=
+ =?utf-8?B?dUt6VDMwMXFPMWU2MGFUeHgydTY0Vk00dW5yK1QrekdaV09tbnFNWDZiMmNH?=
+ =?utf-8?B?cDFmVGVzS0RJSm9odVdXTzVRUGdDeHJCTk93cFhYSzg3M1NEclVUdTUydE9D?=
+ =?utf-8?B?MkFzQlJKa1ZZTTZHVHhMWnp6L0gwSGl6c2Z6bWRQaVhWRytXcXJoYVp3U0hO?=
+ =?utf-8?B?OHRUcHdJTUJsVStSSjBxWEVlNENOVXo3Rng0RlpJajNvMUIvVWVMVFlaRWZ6?=
+ =?utf-8?B?cE9BbGlQZTR4Q0NTbEthNDJSb0dGYkV2ZlY1THpyK21WMzRVNlVvdldqU2Ns?=
+ =?utf-8?B?YVBYU2pSeWZUOTRtcTZPVzFiM2lzRmQwM0xZdE5uTUNkb2N1S1lkVGluS2w0?=
+ =?utf-8?B?b25jYkFHRkhFTitCcGxoWUtwejkzQVNOS1FVMW9FZ091NWJMUHFNTHR2ZUJQ?=
+ =?utf-8?B?KzR1b2VWZUVUZVZQVmNKekVNTGJDTGRlWWpuL2hRK1U1NzROdG1nQlJYYlNY?=
+ =?utf-8?B?c3YxTGNaODQxNFNlck9yYjlXanJYWVNrcmFkb1d0aXZRYVBWYUJlMzZIZE5E?=
+ =?utf-8?B?N2FteVMrc2FLV3VxRXB5Zjc4VHhDUmEzanFSeE1JVzVxSXA5ZWgwL2UrSHF0?=
+ =?utf-8?B?bndoSUNnTitVSlhScm44aUtWMTlnS2o1WVNOQ3pya0lLb1BWS25ST0RISlhM?=
+ =?utf-8?B?N2luK2l4L013SklidjBaaWdaSktxOTVLem9zQ0hMTDJrNWJjU0h1akFMNHU4?=
+ =?utf-8?B?Mk5tS1c4TDdTTURPWjk2RlRvUlVrdXBNWk10NHFSalEveVVlNGtCeGhlYlBx?=
+ =?utf-8?B?aFFTcERsd1czSURmZHBDZWZaWHY2WmU0bUFPY3RZdWRtV1AzYkRIdVlZcjdR?=
+ =?utf-8?B?emk2OHFWWHdZUlJoNkpDYWswb1pRNldndm1MbGhNb0NOWWFkenhaWTJHRG1R?=
+ =?utf-8?B?QUpZYkxDblkwMFNrc3RuVnRGT0JhZ2c0ZFpQYWw3T3pVUU5DME9lczB4NkVG?=
+ =?utf-8?B?YmtPWDJtcG5RN0NsN0ZRNUxhcXY2eVZyOFBWdE1pRnFPT1VqMXc3cmY4L0Vr?=
+ =?utf-8?B?VTVRVDY4SUZMOVRDM1VkQzZ4RUljQWtOak5TaVJNWERsNTBFR3hJOTdCNzYv?=
+ =?utf-8?B?c2cwVmQ2L25LQWQ5em5GOSs0QVBJRlhUd3MzUndGT3F3WDliMlI3TkVzTy9R?=
+ =?utf-8?B?a2s5d0FPbFVlTnF0V0gxcFdBclhoZnYrRzNOMTNMWlJwdnVoSERXY3JIZHBu?=
+ =?utf-8?B?RkQreVM3ZWFKSHN2amFCWVBUL3dlQVFuU1c0ZG1FWEtrZ0pIbjJRNEF6djk4?=
+ =?utf-8?B?Q21nQVB6RlBvYm5PWkFoVFlFNzROT2U4N2t4UENtS0t5OE5sMUJCSHZXY0tH?=
+ =?utf-8?B?WlVJYkdyV3dGK3NEamVtSlpTZ09La2Z5eloyUG12M0Y3bXNtNVdjWmpBdlNL?=
+ =?utf-8?B?ODZ5aEhVR2NTbkU0QXBIQmxJMW03VU4xZUFMY3VPc3F2SXFyNkU5K0d2RVZN?=
+ =?utf-8?B?dmZoWWtqemZJSG9RMTIvOXg5c1pOUE54QlZpbkRVL0lKUW8rMm9RckczZEhX?=
+ =?utf-8?B?dTc0K0o3Y2tZMVdNWkZGK25oazJnZUR4dy9GL3RRYldNeUNzSy9jU2RHeThD?=
+ =?utf-8?B?M2k5R0duWkx6d1ZNLyt1Zjk1blVhbmR3SEJ5SXlCTjh5dFFjSytiZGdtQVFr?=
+ =?utf-8?B?UHdVTXRta3ZMUnQrZ2xrUzZXOVJLR05WbkZtTXNRL1VSYTdsb2ovK1phNE50?=
+ =?utf-8?B?R2V0WXBiY3pYbmFIMjUrTTRFL2xVOENjamU5V3ZPT1B4MkhCeUxjWi9QcXND?=
+ =?utf-8?B?ZjMzWkFaN2JBQXRMcG5SY1V0b2xkTTcxUDJNak1scGtPdWdaTkRkOHJHbENR?=
+ =?utf-8?B?OFpIKzgxNlpjSm1JUE9jOUc5bkRxZmMxMy9QbStHZ1hiNkxmN2dHZHhpRGVF?=
+ =?utf-8?B?QU9TZzZWWEUyazM1T3BGWnFmbXlyTUhLSWRqOFc0MW1abXAvUGE5QT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e06cf2f-d2f5-4f35-d98b-08de4d078ec4
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8784.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2026 09:39:59.1352
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lCVsIq+4Z0kCrVfTzjjylao1oxMesioQXs7tCHD0JOb1Ldw8+7VrDMP2PahLb4zM5mLw9gHXW9aXTEG9HM+htg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7926
 
-Hi Mullner,
+Hi Uwe,
 
-Thanks for this work, although it has already lasted for about 2 years.
-
-On 9/2/2024 14:40, Christoph Müllner wrote:
-> We can use the PR_{S,G}ET_MEMORY_CONSISTENCY_MODEL prctl calls to change
-> the memory consistency model at run-time if we have Ssdtso.
-> This patch registers RISCV_WMO and RISCV_TSO as valid arguments
-> for these prctl calls and implements the glue code to switch
-> between these.
+On 15/12/2025 14:16, Uwe Kleine-König wrote:
+> Hello,
 > 
-> Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
-> ---
->   .../mm/dynamic-memory-consistency-model.rst   | 12 +++-
->   arch/riscv/include/asm/processor.h            |  7 ++
->   arch/riscv/kernel/Makefile                    |  1 +
->   arch/riscv/kernel/dtso.c                      | 67 +++++++++++++++++++
->   include/uapi/linux/prctl.h                    |  2 +
->   5 files changed, 88 insertions(+), 1 deletion(-)
->   create mode 100644 arch/riscv/kernel/dtso.c
+> the objective of this series is to make tee driver stop using callbacks
+> in struct device_driver. These were superseded by bus methods in 2006
+> (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
+> methods.")) but nobody cared to convert all subsystems accordingly.
 > 
-> diff --git a/Documentation/mm/dynamic-memory-consistency-model.rst b/Documentation/mm/dynamic-memory-consistency-model.rst
-> index 1fce855a1fad..c8188c174e27 100644
-> --- a/Documentation/mm/dynamic-memory-consistency-model.rst
-> +++ b/Documentation/mm/dynamic-memory-consistency-model.rst
-> @@ -73,4 +73,14 @@ Supported memory consistency models
->   This section defines the memory consistency models which are supported
->   by the prctl interface.
->   
-> -<none>
-> +RISC-V
-> +------
-> +
-> +RISC-V uses RVWMO (RISC-V weak memory ordering) as default memory consistency
-> +model. TSO (total store ordering) is another specified model and provides
-> +additional ordering guarantees. Switching user-mode processes from RVWMO to TSO
-> +is possible when the Ssdtso extension is available.
-> +
-> +* :c:macro:`PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO`: RISC-V weak memory ordering (default).
-> +
-> +* :c:macro:`PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO`: RISC-V total store ordering.
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> index a8509cc31ab2..05e05fddc94d 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -184,6 +184,13 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
->   #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
->   #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
->   
-> +#ifdef CONFIG_RISCV_ISA_SSDTSO
-> +extern int dtso_set_memory_consistency_model(unsigned long arg);
-> +extern int dtso_get_memory_consistency_model(void);
-> +#define SET_MEMORY_CONSISTENCY_MODEL(arg)	dtso_set_memory_consistency_model(arg)
-> +#define GET_MEMORY_CONSISTENCY_MODEL()		dtso_get_memory_consistency_model()
-> +#endif /* CONIG_RISCV_ISA_SSDTSO */
-> +
->   #endif /* __ASSEMBLY__ */
->   
->   #endif /* _ASM_RISCV_PROCESSOR_H */
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index f71910718053..85f7291da498 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -65,6 +65,7 @@ obj-$(CONFIG_RISCV_MISALIGNED)	+= traps_misaligned.o
->   obj-$(CONFIG_FPU)		+= fpu.o
->   obj-$(CONFIG_RISCV_ISA_V)	+= vector.o
->   obj-$(CONFIG_RISCV_ISA_V)	+= kernel_mode_vector.o
-> +obj-$(CONFIG_RISCV_ISA_SSDTSO)	+= dtso.o
->   obj-$(CONFIG_SMP)		+= smpboot.o
->   obj-$(CONFIG_SMP)		+= smp.o
->   obj-$(CONFIG_SMP)		+= cpu_ops.o
-> diff --git a/arch/riscv/kernel/dtso.c b/arch/riscv/kernel/dtso.c
-> new file mode 100644
-> index 000000000000..591d5f9de0f5
-> --- /dev/null
-> +++ b/arch/riscv/kernel/dtso.c
-> @@ -0,0 +1,67 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (c) 2024 Christoph Muellner <christoph.muellner@vrull.eu>
-> + */
-> +
-> +#include <linux/cpu.h>
-> +#include <linux/smp.h>
-> +#include <linux/prctl.h>
-> +
-> +#include <asm/cpu.h>
-> +#include <asm/dtso.h>
-> +
-> +#include <trace/events/ipi.h>
-> +
-> +int dtso_set_memory_consistency_model(unsigned long arg)
-> +{
-> +	int cpu;
-> +	unsigned long cur_model = get_memory_consistency_model(current);
-> +	unsigned long new_model;
-> +
-> +	switch (arg) {
-> +	case PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO:
-> +		new_model = RISCV_MEMORY_CONSISTENCY_MODEL_WMO;
-> +		break;
-> +	case PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO:
-> +		new_model = RISCV_MEMORY_CONSISTENCY_MODEL_TSO;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* No change requested. */
-> +	if (cur_model == new_model)
-> +		return 0;
-> +
-> +	/* Enabling TSO only works if DTSO is available. */
-> +	if (new_model == PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO && !has_dtso())
-> +		return -EINVAL;
-> +
-> +	/* Switching TSO->WMO is not allowed. */
-> +	if (new_model == RISCV_MEMORY_CONSISTENCY_MODEL_WMO)
-> +		return -EINVAL;
-> +
-> +	/* Set the new model in the task struct. */
-> +	set_memory_consitency_model(current, new_model);
-> +
-> +	/*
-> +	 * We need to reschedule all threads of the current process.
-> +	 * Let's do this by rescheduling all CPUs.
-> +	 * This is stricter than necessary, but since this call is
-> +	 * not expected to happen frequently the impact is low.
-> +	 */
-> +	for_each_cpu(cpu, cpu_online_mask)
-> +		smp_send_reschedule(cpu);
-> +
-> +	return 0;
-> +}
-> +
-> +int dtso_get_memory_consistency_model(void)
-> +{
-> +	unsigned long cur_model = get_memory_consistency_model(current);
-> +
-> +	if (cur_model == RISCV_MEMORY_CONSISTENCY_MODEL_TSO)
-> +		return PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO;
-> +
-> +	return PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO;
-> +}
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 579662731eaa..20264bdc3092 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -308,5 +308,7 @@ struct prctl_mm_map {
->   
->   #define PR_SET_MEMORY_CONSISTENCY_MODEL		71
->   #define PR_GET_MEMORY_CONSISTENCY_MODEL		72
-> +# define PR_MEMORY_CONSISTENCY_MODEL_RISCV_WMO	1
-> +# define PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO	2
+> Here the tee drivers are converted. The first commit is somewhat
+> unrelated, but simplifies the conversion (and the drivers). It
+> introduces driver registration helpers that care about setting the bus
+> and owner. (The latter is missing in all drivers, so by using these
+> helpers the drivers become more correct.)
+> 
+> v1 of this series is available at
+> https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@baylibre.com
+> 
+> Changes since v1:
+> 
+>   - rebase to v6.19-rc1 (no conflicts)
+>   - add tags received so far
+>   - fix whitespace issues pointed out by Sumit Garg
+>   - fix shutdown callback to shutdown and not remove
+> 
+> As already noted in v1's cover letter, this series should go in during a
+> single merge window as there are runtime warnings when the series is
+> only applied partially. Sumit Garg suggested to apply the whole series
+> via Jens Wiklander's tree.
+> If this is done the dependencies in this series are honored, in case the
+> plan changes: Patches #4 - #17 depend on the first two.
+> 
+> Note this series is only build tested.
+> 
+> Uwe Kleine-König (17):
+>    tee: Add some helpers to reduce boilerplate for tee client drivers
+>    tee: Add probe, remove and shutdown bus callbacks to tee_client_driver
+>    tee: Adapt documentation to cover recent additions
+>    hwrng: optee - Make use of module_tee_client_driver()
+>    hwrng: optee - Make use of tee bus methods
+>    rtc: optee: Migrate to use tee specific driver registration function
+>    rtc: optee: Make use of tee bus methods
+>    efi: stmm: Make use of module_tee_client_driver()
+>    efi: stmm: Make use of tee bus methods
+>    firmware: arm_scmi: optee: Make use of module_tee_client_driver()
+>    firmware: arm_scmi: Make use of tee bus methods
+>    firmware: tee_bnxt: Make use of module_tee_client_driver()
+>    firmware: tee_bnxt: Make use of tee bus methods
+>    KEYS: trusted: Migrate to use tee specific driver registration
+>      function
+>    KEYS: trusted: Make use of tee bus methods
+>    tpm/tpm_ftpm_tee: Make use of tee specific driver registration
+>    tpm/tpm_ftpm_tee: Make use of tee bus methods
 
-Should we replace "PR_MEMORY_CONSISTENCY_MODEL_RISCV_TSO" with 
-"PR_MEMORY_CONSISTENCY_MODEL_TSO", so that it can share the same key as 
-Apple's TSO implementation [1]? RISC-V Ssdtso would make such prctl more 
-likely to be accepted.
 
-[1] https://lore.kernel.org/lkml/20240411-tso-v1-0-754f11abfbff@marcan.st/
+On the next-20260105 I am seeing the following warnings ...
 
-Thanks,
-Yangyu Chen
+  WARNING KERN Driver 'optee-rng' needs updating - please use bus_type methods
+  WARNING KERN Driver 'scmi-optee' needs updating - please use bus_type methods
+  WARNING KERN Driver 'tee_bnxt_fw' needs updating - please use bus_type methods
 
->   
->   #endif /* _LINUX_PRCTL_H */
+I bisected the first warning and this point to the following
+commit ...
+
+# first bad commit: [a707eda330b932bcf698be9460e54e2f389e24b7] tee: Add some helpers to reduce boilerplate for tee client drivers
+
+I have not bisected the others, but guess they are related
+to this series. Do you observe the same?
+
+Thanks
+Jon
+
+-- 
+nvpublic
 
