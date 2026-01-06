@@ -1,74 +1,79 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0960621770A
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 05:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF4D3A1E63;
+	Tue,  6 Jan 2026 05:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767677306; cv=none; b=iY2O9NDu0J1elgtP7UoC1U5fSJ7gDMXdFrNlajBPP+KSAQdY3i/VgFpL+W2CgG8MzSMSZ+EPnRRni8oSGzdMGCiNnpM6J7o4qIy/1r/oljotXQPct1mStxIw5/IWsO1O6P5NwxQb8v/srZrs3dXClvMloX2juL6J3tDfBuZe0Xw=
+	t=1767678258; cv=none; b=ZRIPWlxvXq5xt4kL6nknmcEsqAloMVkN7WYxC8rYjPxi9iLsS1Skt38vA9WoF9i2dpWZIslRAstOBHQnNVefPa/DSm7GJGQ0giGz3ONV5iW25ipaSI+92APzNrraTnBa178Esmxm4y4soX+BGqwuxVVDTMQfxsXg++aq//hNNeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767677306; c=relaxed/simple;
-	bh=K7A/W1ylrTsIpBtknKm+NSGACkl3Ze+EFt7X+DmIW0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l4OLBxcndECih36Kxi7LYa892MVKFr7wDu/Y4aYIYjAgeNG9BP+vbJfsB/v1JLy+srwB0NR9v9o7bV4PwMejnyYLX8//cGdOi2tZhshA7dgiyxwcOEeE2SsccQq38z308kBty2jV4bcEUQtrYDWtbDNolzdRJA+yv9Zwh3EmnuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NJ+MFkJy; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767678258; c=relaxed/simple;
+	bh=zC+Cn31eJ187+jpwQbmiX49FfleHqGHjrtUyuIePf/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nlsfoaARJu1c4IEiCe+LF3i3yAoDW7kUlcyEuDp3hLktfiaE5yTuyr0ufpmaqv9O1nC7MCg3pC7TVvyGYg7QD9aJTedFcrH6jJq3fkECLyEDA+yMnIXgOUAYDYS5dmKAjkRxvrgxs0Ov6MFPVS/CvxAnDAcv8T2RJJCWgGb+Lic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=YCBTmcle; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NJ+MFkJy"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47d3ffa5f33so2830245e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 05 Jan 2026 21:28:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767677302; x=1768282102; darn=vger.kernel.org;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oyCImFW2OxUKLK3JD4UOX+w55FuLQcy167IMf21WTEE=;
-        b=NJ+MFkJyydo3fAjFA7GK3+vthWLgp8KLyD9I77/I7Eg4GZNTqcxYaAyMruFOVELCw8
-         7uOlvNVbYcxPIltqOS9Ev18Wm3SwiDYo8l7WbCTbOvRJNtz9+8iMU9x/w3qtv/BzDKqw
-         BV077WgP9ANFMsdSgsxajLo2mBeRXs9i7b3jOITkQmRouXKen2QV+arHml6yD/7x6RSB
-         WQaemJlwt4cWgficf1Q/TnbosCYlJ2M97U1NP2fkI0RdevDaXhN6bT953+YH11fzMjiM
-         mKIwZ5tR9FczAnoAgv4G50z+nKDuhIOSr0z3JPnC5YdOWWHTqHf8b2zTKxpD8jauu33y
-         gnCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767677302; x=1768282102;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oyCImFW2OxUKLK3JD4UOX+w55FuLQcy167IMf21WTEE=;
-        b=Mktg0lNAW9nyrTjfnJAwEWqEgooAnACAv7LEuQxzUpD+IXo9qUCyQ6DVmghK4sWdUj
-         StFmhVzcrRdfM1jGD4UkUP3hmsMcmPMYVDy3okdwnCb02RaQ74brs2bN6cHYyjOpvTXW
-         FOtpeWv4/oEvjBCpnNXX/8yzMwSs/eXz8bfv5++P596ydV36x+cFshGcURNjRjlgTTW7
-         mPjLrzLHIc4e7p2LbPofGG/d4h/FWF2aZpOp7Nhh0K58tiKfGDT20bk2kYBmxwF4bdnd
-         sowtW/PBTOW5qSWai94Miml+VIM1DaGXtAUlgNh+9lTzJXlzxcgNtzhMx6CD5aTh/81F
-         4pIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUb5SSnpmY5xFYDSHfkuOnR3Tzpcr19v0cgL9qgZfAQ4iummlv1D17CCX/6yXN4MUkpppbDbVqMDKA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLgjYTTmEV+dt1i4VKYR92RDrJIB5ow5Mm+UbmAqD4pKm4y3cs
-	V6+h9jQhKe8+TOMiPyqWtLSO8x5jSaH8KuO5Fja9VhiLd+cteAlQvW+wT6bthDUIgWQ=
-X-Gm-Gg: AY/fxX45pOhym8qwmvYb3NEpDrNq72c22ntUX3NCzKH3fYOP+X9ZIVjAwRnkZECXsEY
-	6byIJlRg4K6wErqdzfJC4HnvGDUYA6Ne+OXtkeK//PoZzmI7dZalORmh+BEcMRPeySKPkVZLUVt
-	xhzvKzh5N2bKTqbsBhgcKjFbS+UZqYRrYNLTe/xvDLooPC2OmtFnG0Bf1+/oJqswvkYtbYR3bFC
-	KGxbDdC0RKzLCauDDmHhEc5mWKhw4db1404uUu+LcZyQWikltbjHWTy8JVAFLIAn3kx0f56p0r0
-	NZRPZojRqujNhLu2jp8cOdQIHCqMECTvJJmrlJ8lG5TGf+l4mNkyZC+4rDwusf5QlFplGYgm/LL
-	xOhGEM7W7We+J17C8fhdZN06cItYnAfLXReSbcTFb123leit2mCU/la1oU1DESAyTGt+KIQnPJZ
-	y8raQLmVGbUckp9WDu2BV92ipCGq0C0NWldlqmxA==
-X-Google-Smtp-Source: AGHT+IFYG+NiRZAxtQMP3WVtDu6r9Jmli3zfAlN8gHCFJGQloFxv3FObhkqWk1Hj6h0egUzznoJzrg==
-X-Received: by 2002:a05:600c:4e51:b0:477:7bd2:693f with SMTP id 5b1f17b1804b1-47d7f0650c6mr18640805e9.6.1767677302277;
-        Mon, 05 Jan 2026 21:28:22 -0800 (PST)
-Received: from r1chard (1-164-79-94.dynamic-ip.hinet.net. [1.164.79.94])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c4795fsm8906855ad.33.2026.01.05.21.28.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 21:28:21 -0800 (PST)
-Date: Tue, 6 Jan 2026 13:28:17 +0800
-From: Richard Lyu <richard.lyu@suse.com>
-To: Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Richard Lyu <richard.lyu@suse.com>
-Subject: [PATCH] Documentation/x86: Update IOMMU spec references to use
- stable identifiers
-Message-ID: <20260106052815.46114-1-richard.lyu@suse.com>
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="YCBTmcle"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=fFZdK8UUvenzvPm6N9koDU/fxnR0ekW5TI24xZDY6kc=; 
+	b=YCBTmcleUU2N0rXwpVT4Xw527tlZr0N7PHGhoRYbFxi0V1yz0MspEiuaUgluwOHJi7UgUWJeaCo
+	aI+V2pDwpQLlu76KzkCMgTJfa8l73o4xERcZiC67fI6SQ38NHKqBernGbeIoTm6iaacIGzGhOr5GY
+	a7chkrDVBcwvZvi4K0hkD8kW9kADwG6VB2ySGSO7s2ZMuzQq0jjPbzgahByLEVKD7zpOn7S8o+0U3
+	CubE9wpUlCoN7q0wO2G+XJMN/qiJZ8rSECQv2HK4BVh6Uiw6J4b5giymeUTqeEWc7scenPFiItIlz
+	iOppOn/L0OnchT/HUMcryCLJmTDYf6itFTjw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1vczEy-00EaCi-33;
+	Tue, 06 Jan 2026 13:04:22 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 06 Jan 2026 13:04:20 +0800
+Date: Tue, 6 Jan 2026 13:04:20 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Sumit Garg <sumit.garg@oss.qualcomm.com>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	David Howells <dhowells@redhat.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	arm-scmi@vger.kernel.org, linux-mips@vger.kernel.org,
+	netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+	Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver
+ callbacks
+Message-ID: <aVyX1GXxdJXv438W@gondor.apana.org.au>
+References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+ <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com>
+ <20251218135332f323fa91@mail.local>
+ <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
+ <CAHUa44HqRbCJTXsrTCm0G5iwtkQtq+Si=yOspCjpAn-N2uVSVg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,41 +82,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email 2.51.0
-User-Agent: Mutt/2.2.13 (2024-03-09)
+In-Reply-To: <CAHUa44HqRbCJTXsrTCm0G5iwtkQtq+Si=yOspCjpAn-N2uVSVg@mail.gmail.com>
 
-Direct URLs to vendor specifications for Intel VT-d and AMD IOMMU
-are frequently changed by vendors, leading to broken links in the
-documentation.
+On Mon, Jan 05, 2026 at 10:16:09AM +0100, Jens Wiklander wrote:
+>
+> Herbert, you seem happy with the following patches
+> - hwrng: optee - Make use of module_tee_client_driver()
+> - hwrng: optee - Make use of tee bus methods
+> OK if I take them via my tree, or would you rather take them yourself?
 
-Replace the fragile URLs with persistent identifiers, providing the
-official document titles and IDs. This ensures users can locate the
-relevant specifications regardless of vendor website restructuring.
+Feel free to take them through your tree.
 
-Signed-off-by: Richard Lyu <richard.lyu@suse.com>
----
- Documentation/arch/x86/iommu.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/arch/x86/iommu.rst b/Documentation/arch/x86/iommu.rst
-index 41fbadfe2221..79c33560299b 100644
---- a/Documentation/arch/x86/iommu.rst
-+++ b/Documentation/arch/x86/iommu.rst
-@@ -2,10 +2,11 @@
- x86 IOMMU Support
- =================
- 
--The architecture specs can be obtained from the below locations.
-+The architecture specs can be obtained from the vendor websites.
-+Search for the following documents to obtain the latest versions:
- 
--- Intel: http://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/vt-directed-io-spec.pdf
--- AMD: https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_3_07_PUB.pdf
-+- Intel: Intel Virtualization Technology for Directed I/O Architecture Specification (ID: D51397)
-+- AMD: AMD I/O Virtualization Technology (IOMMU) Specification (ID: 48882)
- 
- This guide gives a quick cheat sheet for some basic understanding.
- 
+Thanks,
 -- 
-2.51.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
