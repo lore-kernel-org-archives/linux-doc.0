@@ -1,100 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB3E3A1E67
-	for <linux-doc@vger.kernel.org>; Tue,  6 Jan 2026 15:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767714776; cv=none; b=PgYwUrVyl+G8qD+3RFADpMq+5gg1KjGk7pRfEfl9iqRwHRWx3IQTi5rGPiKTSJd9R+c33jHAtFph6HMuKXn/FWGISQzbtyOLnI34TcDn4sd8Ifl7y3NWT7XMPPddXxHQeCqfUAu2NfWdjS5QXfeJXIt/dn2DY8xpyx1vYrdbeqI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767714776; c=relaxed/simple;
-	bh=FsWDkextg+s4K/LAsZZx114K4unANqAGAbpmuNHBxKc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=D9jlu7RoBZW1yQlUD220guFF4Nwvq8ArUeCkCrutqzNZKHvvewlmMze+RAt32k6BNaS9uJVrQlG11/MIYb00gdl9KeIlb370Q+7I3GGpY8btMkUwilhZRmMIIpVfSqe8i9dfBu5Q3VVcCQiEb3d7/0CMRAfICRvPCSzcWvkunbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDtkVaKO; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABA94C92;
+	Tue,  6 Jan 2026 15:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767714891; cv=pass; b=tHAfvQGDc4bPcfPdkG1NyOIHiSQjLoHh1VfiVksxI+EcNUJLMvnA8c8y6hAS/aSVL46erMo+Kq+yLDQyVhlWI6vRAaI7RNzI791dl9zBjWQhDWJX0uappRbT1sSEJM8QAJSKbv0WYaK0SMbPaREmaE9xWfxJu1m1Hji295MsbA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767714891; c=relaxed/simple;
+	bh=pXjXXx8Kmd8MklVOzPzaeLs1HKVm5pQulrpWsS/gs98=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qFOpw1aguVd8pvAf7Xp4aTEUM1dMMKgC8nON1zWd3Ev2iRABO/V0TJh7sReV9sn+bOIX0yFbObgsHA6teJGEJX/8C3DihrjzDj5wranD9bJvA7jifgtW4Rq9b05TIM7dCHZBItt/wtnYy2nC/jXRsEQtF1VA1x1pbXFG1IAXW+0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=laveeshbansal.com; spf=pass smtp.mailfrom=laveeshbansal.com; dkim=pass (1024-bit key) header.d=laveeshbansal.com header.i=laveeshb@laveeshbansal.com header.b=fOg+O3SB; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=laveeshbansal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=laveeshbansal.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDtkVaKO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767714774; x=1799250774;
-  h=date:from:to:cc:subject:message-id;
-  bh=FsWDkextg+s4K/LAsZZx114K4unANqAGAbpmuNHBxKc=;
-  b=nDtkVaKOwWH1VCP9EgCSl7ig/f6iDDpCYlLEkrLYKlyFvbY2t45iJbsl
-   AkMVHeLiydL2ETsvcxhxZviLQv9zVuzMUuvcu6i4tcDxJ8A00XQ7rVgd8
-   Myd1/zs8KmiWYP0fc39naIci1DJUXvQLWfuy3ltg7ABNs41qWny+d4tCt
-   dAiDs/77kg2b+tgtUWg6Bu63hOzaZ3Ex+cEgW/4m1s6pGQ46O++g1jzVZ
-   YnzBtGakZs/fYZ8jrA4XuO56A4EX94JqDc+Cz1m0ikvSuYCDAShSvdh0A
-   ZxfTB4pd+0/t3udwIk8swav6kgOE0IwgMFbcFVgFa5S6K9GYa8sw3qWYw
-   w==;
-X-CSE-ConnectionGUID: tIIDaJudQVGi1sgHHwb7wQ==
-X-CSE-MsgGUID: zQ7FwDBNTpW1fyz6Dv8mPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="94548375"
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="94548375"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 07:52:53 -0800
-X-CSE-ConnectionGUID: 3t9/P79hRO6lIO1TRL8uMw==
-X-CSE-MsgGUID: U5So3CQLS2Cgmglt9T23Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="207555033"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Jan 2026 07:52:46 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vd9MR-000000001Jl-3jFN;
-	Tue, 06 Jan 2026 15:52:43 +0000
-Date: Tue, 06 Jan 2026 16:52:06 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-doc@vger.kernel.org
-Subject: [akpm-mm:mm-nonmm-unstable 102/107] htmldocs: Warning:
- kernel/liveupdate/luo_core.c references a file that doesn't exist:
- Documentation/core-api/kho/concepts.rst
-Message-ID: <202601061635.i4VQmlUw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=laveeshbansal.com header.i=laveeshb@laveeshbansal.com header.b="fOg+O3SB"
+ARC-Seal: i=1; a=rsa-sha256; t=1767714869; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=CPzlp1inx76qOOS++8TDqozZacX8yTU2DMsEYQayOFSegK9hfVhmczYkzwwEkz5Q2VlkrmNhyXzoHXVp9UyOPkt0iGswZ+XQIhpimuA++ft5hsUpipms0DhcNGZt9s9ywK7bx327C7OVkJEwem3QZoUMkMFNMlGzKth+gtR6+4c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1767714869; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=X5wAPEYnQbRCP2SlfvKn4TQ60T+KpdRGOiain+F3BcA=; 
+	b=CsnCNhOspZ5IO1x4KvJj0mQ2ImbbdAN0OhMGSw5buAnDLZIecZgCxS7E8e16y+d6BButBeEbecWqFRxZ1DvOOostpeRzcxdOZKkgQUukGZ2QdboujxfM7UEl6UvqpkfyG5aPSawHpWXTqoM0/gS4Tz6/2APq1490e5Qp/bVMITc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=laveeshbansal.com;
+	spf=pass  smtp.mailfrom=laveeshb@laveeshbansal.com;
+	dmarc=pass header.from=<laveeshb@laveeshbansal.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1767714869;
+	s=zoho; d=laveeshbansal.com; i=laveeshb@laveeshbansal.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=X5wAPEYnQbRCP2SlfvKn4TQ60T+KpdRGOiain+F3BcA=;
+	b=fOg+O3SBfHtQtWipyX4ZuaJG6PcndDkyL9o0wOLEYPS0Rk/LEIsvbV/bUZb1uxDJ
+	GQ0TrVuIRnvenYhI7E9/B7ZbZQB0YFY5Xp4vUEBdpR/Een3dnuKIiiCG6m0CJQKd9OZ
+	0dk9FGwcpsHDAbvE+SPvdtqyJThhqSZ2P1t5MZ04=
+Received: by mx.zohomail.com with SMTPS id 1767714866498738.8816595812685;
+	Tue, 6 Jan 2026 07:54:26 -0800 (PST)
+From: Laveesh Bansal <laveeshb@laveeshbansal.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Laveesh Bansal <laveeshb@laveeshbansal.com>
+Subject: [PATCH 0/2] hwmon: (coretemp) Documentation and TjMax table updates
+Date: Tue,  6 Jan 2026 15:54:24 +0000
+Message-ID: <20260106155426.547872-1-laveeshb@laveeshbansal.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   bf64790fd7f2a71c84dada79a573d37cb08adbe6
-commit: eee99407da66f5f657ba0599b4d6157b59be3721 [102/107] kho: docs: combine concepts and FDT documentation
-reproduce: (https://download.01.org/0day-ci/archive/20260106/202601061635.i4VQmlUw-lkp@intel.com/reproduce)
+This series updates the coretemp driver documentation and adds TjMax
+fallback values for Intel Atom processors from Silvermont through
+Tremont microarchitectures.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601061635.i4VQmlUw-lkp@intel.com/
+Note: These TjMax values are derived from Intel ARK and official
+datasheets. The table entries serve as fallbacks when
+MSR_IA32_TEMPERATURE_TARGET reads fail (e.g., in some virtualization
+scenarios or locked BIOS configurations). This follows the existing
+pattern for older Atoms (Bonnell, Saltwell) which also have fallback
+entries despite supporting the MSR. I don't have physical access to
+all processors listed — testing feedback welcome.
 
-All warnings (new ones prefixed by >>):
+Patch 1 - Documentation update:
+- Extend supported CPU model list with newer Atom processors
+- Clarify that X86_FEATURE_DTHERM is the actual detection mechanism
+- Update per-package temperature description for Sandy Bridge and newer
+- Document that TjMax is read from MSR_IA32_TEMPERATURE_TARGET
+- Add TjMax values for 22nm, 14nm, and 10nm Atoms to Appendix A
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
-   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
-   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
->> Warning: kernel/liveupdate/luo_core.c references a file that doesn't exist: Documentation/core-api/kho/concepts.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+Patch 2 - Code change:
+- Add TjMax fallback entries to tjmax_model_table[] for:
+  - INTEL_ATOM_SILVERMONT (0x37): stepping 9 = 110C, other = 90C
+  - INTEL_ATOM_SILVERMONT_MID (0x4a, Merrifield): 90C
+  - INTEL_ATOM_SILVERMONT_MID2 (0x5a, Moorefield): 90C
+  - INTEL_ATOM_AIRMONT (0x4c, Cherry Trail): 90C
+  - INTEL_ATOM_GOLDMONT (0x5c, Apollo Lake): 105C
+  - INTEL_ATOM_GOLDMONT_PLUS (0x7a, Gemini Lake): 105C
+  - INTEL_ATOM_TREMONT (0x96, Elkhart Lake): 105C
+  - INTEL_ATOM_TREMONT_L (0x9c, Jasper Lake): 105C
+
+TjMax sources (Intel ARK and datasheets):
+- Bay Trail E38xx (110C): https://ark.intel.com/content/www/us/en/ark/products/78475/intel-atom-processor-e3845.html
+- Bay Trail Z37xx (90C): https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/atom-z36xxx-z37xxx-datasheet-vol-1.pdf
+- Cherry Trail (90C): https://ark.intel.com/content/www/us/en/ark/products/93361/intel-atom-x5-z8550-processor.html
+- Apollo Lake (105C): https://ark.intel.com/content/www/us/en/ark/products/95598/intel-celeron-processor-j3455.html
+- Gemini Lake (105C): https://ark.intel.com/content/www/us/en/ark/products/128989/intel-celeron-processor-j4105.html
+- Elkhart Lake (105C): https://www.intel.com/content/www/us/en/products/sku/207907/intel-atom-x6425e-processor-1-5m-cache-up-to-3-00-ghz/specifications.html
+- Jasper Lake (105C): https://www.intel.com/content/www/us/en/products/sku/212330/intel-celeron-processor-n5100-4m-cache-up-to-2-80-ghz/specifications.html
+- Bay Trail stepping: https://community.intel.com/cipcp26785/attachments/cipcp26785/embedded-atom-processors/4708/1/600834-329901-intel-atom-processor-e3800-product-family-su-rev015.pdf
+
+Laveesh Bansal (2):
+  Documentation: hwmon: coretemp: Update supported CPUs and TjMax values
+  hwmon: (coretemp) Add TjMax for Silvermont through Tremont Atoms
+
+ Documentation/hwmon/coretemp.rst | 56 ++++++++++++++++++++++++++------
+ drivers/hwmon/coretemp.c         |  9 +++++
+ 2 files changed, 55 insertions(+), 10 deletions(-)
+
 --
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/admin-guide/mm/kho.rst:10: WARNING: undefined label: 'kho-concepts' [ref.ref]
->> Documentation/admin-guide/mm/kho.rst:31: WARNING: undefined label: 'kho-finalization-phase' [ref.ref]
+2.43.0
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
