@@ -1,64 +1,64 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7440C37D1B8
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 16:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7430337F105
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 16:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767803404; cv=none; b=Vx5n/ik42iKqW4rW5chchfGqICaqnUj3Qer5xLsgSDkdL63Cb2+5fmzYCgp4DawciqFKnJRdvUTiJ66GsdnxSb9GE//PBM/Prv9ZizDLAV6I4ctMw00Rm6nvGhQZ+YdMdexJBqtoC359VgIGW+F8BhF3IKZdfPBpUjZN3pSbKrc=
+	t=1767803404; cv=none; b=SjJ178zD9HKmj0OksvVS2sG2w6tcCVx3+M/jilWee36Ua524oOHg2nE8FY+FULM7WUUsRgFsRVd3uOQqsm00Jf6F9dTVOu8Oqs8wmIBjNedtXPp9b0e6smIgdZdgQ2oy22rA1KOgeajP9dw3EzNvUdpLni0FpGZ2Bvgf2mcZdbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767803404; c=relaxed/simple;
-	bh=8QHeTQ1XWPXrXIuaoG9PXPBKmQw6B9CxYPEzAKre7JY=;
+	bh=9BATtieLEYCpEcZj+GM/kP3Ja9/0f7Z989r6IWgQnPo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eGcqPh7HjQ3YRFJfcAeHG+hLI79KphZGxOsnKPcpOt1GqagZrAAjh4pug1A9d6gT67n3k6ePHcx2d7RCLyX55Zdu/G88nYlTO7xvib7A+rjRnYKn0kI1X3IhDVrhOJGPMRjxy+rsF8WFPCuf+QVeEdUCIeZreY75Pv46v+E2JWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=fail smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b=Y4gUTC3M; arc=none smtp.client-ip=209.85.221.53
+	 MIME-Version:Content-Type; b=gcyH7gfJ3HTD/cBCqzEe+mf9Jq5LfVbAlsLGGzFZ8xzZS7UdeiC0LSv0iYlv52YaSqzuE7HQ8y0XSFKTUlFG0Q/ctiuJnIfYljDLGJubsguHyknfxvZocoIadXQ5P8Qgpxu3khKhQqWpoheHGzWaCW7g1KAxJ+DGG0WetQWAtd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=fail smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b=G0AV5DUC; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b="Y4gUTC3M"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42fb2314eb0so1782199f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 08:29:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b="G0AV5DUC"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-430f9ffd4e8so475300f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 08:29:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osyx-tech.20230601.gappssmtp.com; s=20230601; t=1767803383; x=1768408183; darn=vger.kernel.org;
+        d=osyx-tech.20230601.gappssmtp.com; s=20230601; t=1767803386; x=1768408186; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TGfMB1SwaAERf8A9+EJZzOGOMSv16YGZ4dbapv2DrTs=;
-        b=Y4gUTC3MrooR8TXD8YTfru1jOcy5sBzZqUID9YizdinrPnvWdW2Y0efLIz9oqPq6Vp
-         1Q4j52k8fKwxnx0gOoHiyGhtxI4R9FGFfiB/kr0T60iqlCWfWw6JqIRAp75VM0PDFtq6
-         brCvvjqJuu7tTydsje8NLHxYlcU2A6P8JhYcT4KAAd9asEqTWtY7Bid9Bgrvw2Mbdzn9
-         NNYCui/Zg/cogop/y66l1QmIIxNJZIiwjAtX+JR/Ph5TvaI0c87ZiEj5Lw6Cli1wGbGS
-         3vXFefAMxI1k20ak/yt457w8DRBr1rlmtv5GnzoQYsbjAxISyl38OKmYDft4GOs54lsj
-         Z3Mw==
+        bh=WihJclLNTP76N6hz6eqMpZoD5cMEZ14VPXp1pd6gG3I=;
+        b=G0AV5DUCkIVoAqpgQWEX/9lUB5kktqCgXbewIHqswqeS6vW1szpPhKDO3upN7mluJJ
+         YXpPKekVDudKt9P8u1LKtkd5th+etFVxOu1jKq12ZzSdCOZ33eCnErhUnHdfUs5A1CM1
+         fvmu3UjQz06XXV6T5cWVO1TuJZunEg4p0Mv3KeMnNerMb2JyW95c17WLAD7ag9Fkflnu
+         vS4zM6fVM2D78ht+VFybuqzm6p19BuplW9EiQuu/TYK5rbOa8se1vV3KMSZrtBQFHVbk
+         q+AVdORefAHg6G1d2lFuWoy1X2BzsSE/SKyQxY3kv5aXtxqCPfrXhLJCaoD7WG5pfpuL
+         57UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767803383; x=1768408183;
+        d=1e100.net; s=20230601; t=1767803386; x=1768408186;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TGfMB1SwaAERf8A9+EJZzOGOMSv16YGZ4dbapv2DrTs=;
-        b=WIXQn56+VFUTKXaFmVH0m9aCMRWu20KflHRAbKYcnDXzy65h+fcb1UhmwX7fqe9lvK
-         IAC606wNdtRdzSKeIh2H/K2PkRTHnASt9cPeDAbDb6jwd9QyLMgNcyVvUGQV1WMPatzD
-         SsywZA2+NpTI+cRLgsj4WBq2qP4U9mc63b770szJUpRJRbsDefsudwLOklqNVviqyyd1
-         hESmyqakVvPzXH2W5F7cYx6JtpK8aei7V2L4S3mOKh8K70Tr53Aoiv3VsdTCsx2DjN82
-         vmtva81mkPqGQBWO/xbR1oUMXaJdfkdRMbmrIDpLBW9mUfe3+UgwPdS6pXsewfPf1fYp
-         NvXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvZBbCWA4klWwSWlEA7Xjyp0Cpjt/m4TOTJlUgE+77OoYMenhwIkI+oooat9YrGIqeHIyFtbLX9Rs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxhcZcMPTCXH0KR2asFR31oRDArAqDqZJrHw+abayMoIX7QTTt
-	K5VfL0eYSFb13T3rUw04M+rqhcBPAn/SyjQwZgHsJok2GmaKPRpfKBsuAmxcFe/PaDoo
-X-Gm-Gg: AY/fxX48NlDOyV22na/CbFp/cDayrPo2tCN06FFRzgC3J4sSlMG22TfZRWp1qdQHSzT
-	m1kbwDkI7+whwtjk/yAtNpF0dED0ETOBdFOn4iCIhCMb5nXpBfCo50PcrEt8V+uBq+pmX5KVAYm
-	eiJVEbJWuxAfcH92ratSyqytOLoQMgbBXarNhLTxvGaz3yMddTaVV0YQZ+PAhdP6tu9c/RLrktd
-	T0/1ibI02hQvWFAyzCBj8OZtvxjrFNxqgc6rFIta1wNuRREPSh46qE3wxTCcEVWbQa8Is3ypNTe
-	/6liMbSFNe97uwW9Fzh7Q19PlJMK9ou5Dqcf/2IduP5MLPboN+4o0UQckPomfIAy0GLeq/dV+N5
-	4Puit803GgN3BtzSLZei/8VoDS+1bOatgtLOKSr1K2qT6npcqhWN7MWYl+kGDxBTyKcKyq7doPs
-	fPBpoeAWCSBeHruM5rrw==
-X-Google-Smtp-Source: AGHT+IHYX8ERrMEjplERjC6ixgzkBNgkXhYStxw+rahyUBYDlRtMCSfk+AGXhNnNExJ8kz9EYuCSDQ==
-X-Received: by 2002:adf:f4c9:0:b0:431:907:f324 with SMTP id ffacd0b85a97d-432c38d2312mr3237384f8f.61.1767803383134;
-        Wed, 07 Jan 2026 08:29:43 -0800 (PST)
+        bh=WihJclLNTP76N6hz6eqMpZoD5cMEZ14VPXp1pd6gG3I=;
+        b=gV4rXSLvJJIPGjcCAi4mvRh9+h3Tq1XfZk3lTASklv9lNnMoNwu6OrPt1wLrKlUPac
+         1dolHm0isaEg2L7oHBIrf8GuS2SUq+lDzD70l0mL8NEGm3yHi4MXdwUamCICqE7tqol+
+         LF1h4hZlIM/Ei6SmBu2t2bDOZCzy85A0LnBIT1DQQ6Tb7AgLUo0RvyfqzAEydJr2cFkj
+         gbM5792Ymy5GI56KfkUnYkSnl2kMXlE1h5Eo8k7jfSxmGhSmz4C0GLtmSkGPHkkaffqc
+         XwmF+79HMWxGRucPB2bR7+xZULr51yRo1zJB6SoDvgxAO80zV2KiICLcENseRx1cZrym
+         ISYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXqEqomwukVozUBTD6HuQnKDjS3E995BfjxyNzUu8tBLfM3VMzsTMFALYY8tnFjd5qdDO5Z+Ur16s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybPX7yr1woAV2ANr7sTncVz4VOp/i14BFRUmR2RhitQ2NdEW5C
+	rN08jhLl51nfi3U5MQhc/X/vZ42EcRQmO2GLhOT0fUCRoTl3zS4/pm9gW6MoQuKp28dp
+X-Gm-Gg: AY/fxX55hkGMfZ0ylT6OWhWgjm7NlZXnnMGVxFMvdd6lcYQAWjqK2ENfFzRv4J9MHyB
+	3k12/FKIkEbDN29HGkgj26uH/2d51ZFoKDi/Dqb5e40vs1NIWf06stijLtOT7vtoD1AaAAsQaMJ
+	nz22UGd/dVXhHcvj0baZCCGHmtvD0K+bho1Fxa2AfFxJv8PmHBWkDt+AfwMTsISNYB/rPKptiK7
+	M03OlmR1Rm64eFGCtERmEPaYZvAZLoRpJnDvpBQ2bEJzO/3tFKnZjjUbT6dty0p2PNt5J2Gag4n
+	7IlTUaxMZnJ53pjacGrrFJrJ86nv9LRnFFGx2KCeDGFjrcn5cnzxMCubGM4HbrE2bCkP8KJ1u1m
+	Zusr9aeKCM9iVTjusanmDiuny60CiBVOFXD27gzRuR1WZ0F3pFDVsQpKdnv2Pc5nqekAIrz8Tix
+	RI/egjAdq9RJ34nGVjNQ==
+X-Google-Smtp-Source: AGHT+IFKD1+c7SUjD7a/gByTTs7FpF1prAJlqO9osr5dmkMQRiIqO+8yFt3RtGpmL0uKFm0/tPDRBQ==
+X-Received: by 2002:a05:6000:a88:b0:432:c0b8:ee42 with SMTP id ffacd0b85a97d-432c0b8ef25mr5297882f8f.11.1767803385887;
+        Wed, 07 Jan 2026 08:29:45 -0800 (PST)
 Received: from jp-linux.Home ([2001:8a0:f59c:a900:4a3c:13be:a1c0:7b9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff0b2sm11117030f8f.42.2026.01.07.08.29.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff0b2sm11117030f8f.42.2026.01.07.08.29.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 08:29:42 -0800 (PST)
+        Wed, 07 Jan 2026 08:29:45 -0800 (PST)
 From: joaopeixoto@osyx.tech
 To: linux-kernel@vger.kernel.org
 Cc: ajd@linux.ibm.com,
@@ -91,9 +91,9 @@ Cc: ajd@linux.ibm.com,
 	prabhakar.mahadev-lad.rj@bp.renesas.com,
 	robh@kernel.org,
 	will@kernel.org
-Subject: [PATCH 5/6] virt: bao: Move BAO_IPCSHMEM_HYPERCALL_ID to common header
-Date: Wed,  7 Jan 2026 16:28:28 +0000
-Message-ID: <20260107162829.416885-6-joaopeixoto@osyx.tech>
+Subject: [PATCH 6/6] MAINTAINERS: Add entries for Bao hypervisor drivers, headers, and DT bindings
+Date: Wed,  7 Jan 2026 16:28:29 +0000
+Message-ID: <20260107162829.416885-7-joaopeixoto@osyx.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260107162829.416885-1-joaopeixoto@osyx.tech>
 References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
@@ -109,118 +109,37 @@ Content-Transfer-Encoding: 8bit
 
 From: João Peixoto <joaopeixoto@osyx.tech>
 
-Move the IPC shared-memory hypercall ID from architecture-specific
-headers into include/linux/bao.h.
+Add MAINTAINERS entries for all the Bao hypervisor components.
 
 Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
 ---
- arch/arm/include/asm/bao.h           | 5 ++---
- arch/arm64/include/asm/bao.h         | 5 ++---
- arch/riscv/include/asm/bao.h         | 7 +++----
- drivers/virt/bao/ipcshmem/ipcshmem.c | 5 +----
- include/linux/bao.h                  | 3 +++
- 5 files changed, 11 insertions(+), 14 deletions(-)
+ MAINTAINERS | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/arch/arm/include/asm/bao.h b/arch/arm/include/asm/bao.h
-index 5ece9ecb1455..7d13591fe669 100644
---- a/arch/arm/include/asm/bao.h
-+++ b/arch/arm/include/asm/bao.h
-@@ -16,14 +16,13 @@
- #include <linux/arm-smccc.h>
- #include <linux/bao.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dc731d37c8fe..4286efb307b8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4321,6 +4321,19 @@ F:	drivers/video/backlight/
+ F:	include/linux/backlight.h
+ F:	include/linux/pwm_backlight.h
  
--static inline unsigned long bao_ipcshmem_hypercall(unsigned long hypercall_id,
--						   unsigned long ipcshmem_id)
-+static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
- {
- 	struct arm_smccc_res res;
- 
- 	arm_smccc_hvc(ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32,
- 					 ARM_SMCCC_OWNER_VENDOR_HYP,
--					 hypercall_id),
-+					 BAO_IPCSHMEM_HYPERCALL_ID),
- 		      ipcshmem_id, 0, 0, 0, 0, 0, 0, &res);
- 
- 	return res.a0;
-diff --git a/arch/arm64/include/asm/bao.h b/arch/arm64/include/asm/bao.h
-index c7b7ec60c042..409f4058d56e 100644
---- a/arch/arm64/include/asm/bao.h
-+++ b/arch/arm64/include/asm/bao.h
-@@ -16,14 +16,13 @@
- #include <linux/arm-smccc.h>
- #include <linux/bao.h>
- 
--static inline unsigned long bao_ipcshmem_hypercall(unsigned long hypercall_id,
--						   unsigned long ipcshmem_id)
-+static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
- {
- 	struct arm_smccc_res res;
- 
- 	arm_smccc_hvc(ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_64,
- 					 ARM_SMCCC_OWNER_VENDOR_HYP,
--					 hypercall_id),
-+					 BAO_IPCSHMEM_HYPERCALL_ID),
- 		      ipcshmem_id, 0, 0, 0, 0, 0, 0, &res);
- 
- 	return res.a0;
-diff --git a/arch/riscv/include/asm/bao.h b/arch/riscv/include/asm/bao.h
-index f04e6cd33fa9..d168aba7d8ec 100644
---- a/arch/riscv/include/asm/bao.h
-+++ b/arch/riscv/include/asm/bao.h
-@@ -18,13 +18,12 @@
- 
- #define BAO_SBI_EXT_ID 0x08000ba0
- 
--static inline unsigned long bao_ipcshmem_hypercall(unsigned long hypercall_id,
--						   unsigned long ipcshmem_id)
-+static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
- {
- 	struct sbiret ret;
- 
--	ret = sbi_ecall(BAO_SBI_EXT_ID, hypercall_id, ipcshmem_id, 0, 0, 0, 0,
--			0);
-+	ret = sbi_ecall(BAO_SBI_EXT_ID, BAO_IPCSHMEM_HYPERCALL_ID, ipcshmem_id,
-+			0, 0, 0, 0, 0);
- 
- 	return ret.error;
- }
-diff --git a/drivers/virt/bao/ipcshmem/ipcshmem.c b/drivers/virt/bao/ipcshmem/ipcshmem.c
-index f3892d41248c..593e89cb76bd 100644
---- a/drivers/virt/bao/ipcshmem/ipcshmem.c
-+++ b/drivers/virt/bao/ipcshmem/ipcshmem.c
-@@ -14,9 +14,6 @@
- 
- #define BAO_IPCSHMEM_NAME_LEN 16
- 
--/* IPC through shared-memory hypercall ID */
--#define BAO_IPCSHMEM_HYPERCALL_ID 0x1
--
- struct bao_ipcshmem {
- 	struct miscdevice miscdev;
- 	int id;
-@@ -90,7 +87,7 @@ static ssize_t bao_ipcshmem_write(struct file *filp, const char __user *buf,
- 	*ppos += count;
- 
- 	/* Notify Bao hypervisor */
--	bao_ipcshmem_hypercall(BAO_IPCSHMEM_HYPERCALL_ID, bao->id);
-+	bao_ipcshmem_hypercall(bao->id);
- 
- 	return count;
- }
-diff --git a/include/linux/bao.h b/include/linux/bao.h
-index 5b06d2a17d21..b29830374788 100644
---- a/include/linux/bao.h
-+++ b/include/linux/bao.h
-@@ -15,6 +15,9 @@
- 
- #include <linux/types.h>
- 
-+/* IPC through shared-memory hypercall ID */
-+#define BAO_IPCSHMEM_HYPERCALL_ID 0x1
++BAO HYPERVISOR
++M:	José Martins <jose@osyx.tech>
++M:	David Cerdeira <davidmcerdeira@osyx.tech>
++M:	João Peixoto <joaopeixoto@osyx.tech>
++S:	Maintained
++F:	Documentation/devicetree/bindings/bao/
++F:	arch/arm/include/asm/bao.h
++F:	arch/arm64/include/asm/bao.h
++F:	arch/riscv/include/asm/bao.h
++F:	drivers/virt/bao
++F:	include/linux/bao.h
++F:	include/uapi/linux/bao.h
 +
- /* Remote I/O Hypercall ID */
- #define BAO_REMIO_HYPERCALL_ID 0x2
- 
+ BARCO P50 GPIO DRIVER
+ M:	Santosh Kumar Yadav <santoshkumar.yadav@barco.com>
+ M:	Peter Korsgaard <peter.korsgaard@barco.com>
 -- 
 2.43.0
 
