@@ -1,64 +1,64 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2247D314B77
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493033161BB
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788541; cv=none; b=uD+mfii4jujOCfRvR7Yq3UB34kwA8p+o02fQgtP816g9kR9PQk9bHZ+wNmk9rglMrLz4Ez9V6wafBiN9oIcu1Hz4UePwDuUG7/2d4C5yZMF2waGcp+VBdeC7dnIRPT4ZT4qFtXxwwMzFdF9NZK7gqzWudg4FkAigx2RqfzRyQmQ=
+	t=1767788542; cv=none; b=BbkbbU/Pl7JnhlbBMM5/JcMX7VkZC1/4vk6kdxFGaDTM7HNKqTnNGXXot+drionY4Us1ySfklRjbF6/dvXSOLeFwsWXc2nynEr6p/pvycMVp98xDYOzGRvxod7TzE3pQZfush7aB+MtZlk9rmhFCmx5TkQVP426t8wg+b576mOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788541; c=relaxed/simple;
-	bh=gZtQXWYl86QcRVxJrWdGNxS17N7jTxg6qD9PlenxVkc=;
+	s=arc-20240116; t=1767788542; c=relaxed/simple;
+	bh=kdB+D8ooK5y+MGn4KMCXRzCE7BBpYAmF+6+mGhFmov0=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ty6J26wirlQdqbwYofc16+XFz055GA62ypztnGaQ06+1CoEeZa4SiqiiY5iu3wEmCo+4YO82x2ynB6s8CUkovk2vR06pUcLm5re/NQR1nj8KHnEaV9y4k1gqh8FGi627wQhGxURWpmbh29t+WxyU0VYfl57OYOg1UrqIUAEu0Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d9dyqXpn; arc=none smtp.client-ip=209.85.221.48
+	 MIME-Version; b=PVqRamgQa/52cG5ToEHrLQoSIdOwsWIBmdoXIW7IEx6QQbKlF6jJil9cyUrD3Kuo9XxBUi0g+ytDtHClp0QkVxaEnbnv2HRLe4aEQsPHchmKiETp/PcFQecv0CXLxtfGgdevZQFcxQAOKrRsRYObuw+C2SzcMKFr2u8fzWe7pjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R4ud838R; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d9dyqXpn"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43246af170aso432351f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:22:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R4ud838R"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42fbc305552so1400323f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:22:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767788537; x=1768393337; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767788538; x=1768393338; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dXJRDY1LT2kYrctjUr0o0V8a6dmySfNZXgbe2pBlHk4=;
-        b=d9dyqXpnrMDZ4iOjY2fUm8kLQK3tXuZ4WyHYyW5gt6xD1Q/9I2vCktiPHCuliEiwU4
-         1bTVtQ01wa8tN4Hkas5dICxHGFhKRsaujlKBgJnMN6bxlPNSsMp2wJx5YKASa0SXOW4E
-         E+ljnHjhz76TH+cPMhLkPNTgFmliStrPhelP6t4hTsGoiqHm/8TyKiG/GbBroxkG1W+y
-         zPlWRE9ZG7ZDWF7IvH+V2GKOUF3bPVEkQSj9SW9g5UuROczZrzV1s2UNECDgBQk0SgUx
-         MuKIWm1KzNI5I95Q2a8dEBLCYtrdKQWVc9VcayiwIouDwQ1YGSdMNoiRF2GwhjMFkJDD
-         YD3w==
+        bh=FKLGw9RhzY5YOkkhmRmhvQTx9xsA1wJogmSE46HH268=;
+        b=R4ud838ReTtdL3jRI3wcuL8XKgEZ0M93KZcWiGkimDRBqSLq5nPwK8u/gHv/9FEc9i
+         Tzxc5WdUYmlpofesl8hb6oMc4+Xnw3mq3F4YNAtOXLaJOgchazsrooMNX8JKYyCxL4U6
+         hnAq99ns9ffa9C3sOSo7GRosJxyFKR11ctjMlK4LrvlQzynvpheonnoId5jfNY584KbL
+         cmNzOPsmGqHH7BAcn0BEWFdPLir5EWHu6wSEr+H7thUSA1SNqMqvE2om/k+dEumpQdWm
+         cjxjp4bOE3Xylwixbj6B+BTM3n8yVXxplOWdCkKVA4U+m4UhSsad9xOEfTVKojd8Y2fZ
+         Zqpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767788537; x=1768393337;
+        d=1e100.net; s=20230601; t=1767788538; x=1768393338;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dXJRDY1LT2kYrctjUr0o0V8a6dmySfNZXgbe2pBlHk4=;
-        b=ui5iI4hS1+JndpP1bhJD4BfAxNpWXmD0p9NNJWq1YysbKsTgXiFJFQWM0mobrS20ZU
-         WO22+gSG2Gjmvb4zsR6Pa7YiDrzQrwfcYkjmNAjMqK8jdMEFjQvubhMSHRwJcoGvtRfg
-         OsJsY6yOqA1Na2soh2YF5vHfjywi/Jr9eEIlchbQ11l1kKoMhgbb1/JGVU0mhtSOQdAU
-         4IBvzWcjNNOhA+xBrTi9SkaMoOv9Q8h+7ulPaAwvV0Engrr6Vwid7JcF4HjCI+aWGppt
-         DpgpF6iEDjCmW9Rjax1HSGD1ufCrX9FXsIuKYJvIksZi6yL+1yYtCaJETQc/G/3IuK4h
-         CyWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFUfFX+fse33RenHwGASc49bEMFyjE3+9A3OQPXYOUS7MRY08snBdJWpAVmQKMGXicur9Bkl8wml8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaD7cRBB6FX3XthXLga2XFN5QbDGtEwQVFsmyf5j57hmjvK9oy
-	pOJUeTY5cyXprHEBP8bCjFwrpTzC/OdiU92hKkXiP/pH4EW5FN0lDuaO
-X-Gm-Gg: AY/fxX5CUruFIaBY+MLcxtejKF3ArdxBHDxCZA5vekHJb9GdAXK+9GHf8JM95JKTjLK
-	kGj6gD96Y31Ii7y2DtpEY0aCukQnkVAYHdDhewKcABen57QXOaFpCpAkpQYi7TSkD1OkcDc18ac
-	9djhcaoTmHt9rpW4Ng8z3TfyI73VyNkgy6rdKiz9lhlcZnw5iAy1aa+aPHWYeijXw+arn8a1ZAG
-	3m1l4IKBWY+aMF/S47SuEhHG/yqAkalisEUeBcJbs3j8j33huYs90+oVOHEPFvyw/70Iz6sUYqR
-	CaP1cbqyqC7jvmiEqiJIuZENIjhWAsInpf1K+pIqrw0tNNndGjSMsJWWT8URNMbmeCmVDpY6vz9
-	AtYHf9dMZlCrDeql2KBIbqYUbMbFbkrDKbwCDxMqj5S76Jo40j03nHneA6Eaj96vwkMt+CwUMyR
-	nqCFBnEAJlNBucG3sCzA28guR7CQkG
-X-Google-Smtp-Source: AGHT+IG2kMp1SA3ATP0mPWv13r0oC2vuFZ7XStVJ6P61VurlzVMqeNH/gAgJZbrmhg5L/Hd7l6saQw==
-X-Received: by 2002:a05:6000:3106:b0:3ea:6680:8fb9 with SMTP id ffacd0b85a97d-432c362bf54mr3192485f8f.3.1767788537099;
-        Wed, 07 Jan 2026 04:22:17 -0800 (PST)
+        bh=FKLGw9RhzY5YOkkhmRmhvQTx9xsA1wJogmSE46HH268=;
+        b=UF0JzwFPjy/zr4elMt367tqhxvBV+DwUY2ZXkms2CyiMgpUGwLjdOdU3+iraNTBbKP
+         ojjGj4H8Bpdcyc0bTCN+CKzmBPlc+QO93epTv7VrcdEsMFzR++sJthnuXu8YbDgjM7Wa
+         ExX3+niygFjDqH/G3ILaT6NjH+u0D707dgOcpx42fxdQmdNj858p4lgHJXzO5SsGyoA6
+         z53yhuf/YootUeaiRLi8pcQPX3qvbHw2lCwGHJAEq0TTmimWewUS+T1MHNUdgAmJh5xG
+         2l+bkK3tg+9HsNf/UMCXuVb+18gsALV3Oo0s3y7zrP/5Oqk7ko0THlx0+kMWu6rCPjfY
+         2TKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWA+puQ1bglVknNtbQbbflK2kCYCzUfSES33E2iszeuALZi3iAp3wPH8Lcp7jLbupM/zLtsNE4dARg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVjQ5iz/OnjHnVt8fx+vzxy8YydFCoTR3Z2iSA3wDEYYXA9iNX
+	ZlIV3DREJq07E84x5OQfI8cu/BetLyupHmc2YPA/ZbtKOFmS7rF0T6NJ
+X-Gm-Gg: AY/fxX6CpSNlJrhxUFLnD234PokBcpWZXd0Mv7oO7XFBbvLI7+aEGL/UvwHLRnIXFG/
+	x/WepgK7uIHt6pf5oGmnfDi8++yfA7YCD52kb4H9EQqYpOwuerlkACMJ+S+gdmOxEKOFJ9Z1E42
+	XX/O1NjuTMDb0tKHVkpdDOIWngDzqojN3MQr0Dux3uaAXV1XSoNhLyrXnvXfuy0bdH4LmaEX9hy
+	8swET0wF9U5J+vltq0dQT0PpLSpU0w3jo5d4672FdWj+Wk00mppI89Yrp3KIyoI2OfBUWuvOUDA
+	OQlh9zjMnMNHSM3hI1R3ocJWQZ8g6DqepacbBK+iASeLmIHb8Z13A1i4ay/LyCZx9vLN6uPcpus
+	epW39Ew80ijp+Asc2aRquPXZdWiB2u+GBRx+fK1B1P87xiCj9Au1wQyQ6TYDm8Wcn9MKE4qCCMo
+	WkrdvEdq9hfVf8zQvL8zlY/3L2ULQN
+X-Google-Smtp-Source: AGHT+IFDN//R8tPKMlA4XyPjKFG9gUgQwKQylfTdCf0jvQBBESf+sLesU0BxFAZFA45mSUh5AwD0QA==
+X-Received: by 2002:a05:6000:1449:b0:431:6ba:38ac with SMTP id ffacd0b85a97d-432c374f131mr3053927f8f.4.1767788538368;
+        Wed, 07 Jan 2026 04:22:18 -0800 (PST)
 Received: from imac.lan ([2a02:8010:60a0:0:bc70:fb0c:12b6:3a41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16f4sm10417107f8f.11.2026.01.07.04.22.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16f4sm10417107f8f.11.2026.01.07.04.22.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 04:22:16 -0800 (PST)
+        Wed, 07 Jan 2026 04:22:17 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: Donald Hunter <donald.hunter@gmail.com>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -78,9 +78,9 @@ To: Donald Hunter <donald.hunter@gmail.com>,
 	Jacob Keller <jacob.e.keller@intel.com>,
 	Ruben Wauters <rubenru09@aol.com>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v1 12/13] tools: ynl-gen-c: fix pylint None, type, dict, generators, init
-Date: Wed,  7 Jan 2026 12:21:42 +0000
-Message-ID: <20260107122143.93810-13-donald.hunter@gmail.com>
+Subject: [PATCH net-next v1 13/13] tools: ynl-gen-c: Fix remaining pylint warnings
+Date: Wed,  7 Jan 2026 12:21:43 +0000
+Message-ID: <20260107122143.93810-14-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260107122143.93810-1-donald.hunter@gmail.com>
 References: <20260107122143.93810-1-donald.hunter@gmail.com>
@@ -92,181 +92,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the following pylint warnings that are trivial one-liners:
+Fix the following pylint warning instances:
 
-- unsubscriptable-object
-- unidiomatic-typecheck
-- use-dict-literal
-- attribute-defined-outside-init
-- consider-using-in
-- consider-using-generator
+ynl_gen_c.py:575:15: E0606: Possibly using variable 'mem' before
+assignment (possibly-used-before-assignment)
+
+ynl_gen_c.py:888:0: R1707: Disallow trailing comma tuple
+(trailing-comma-tuple)
+
+ynl_gen_c.py:944:21: C0209: Formatting a regular string which could be an
+f-string (consider-using-f-string)
+
+ynl_gen_c.py:1450:14: C1802: Do not use `len(SEQUENCE)` without comparison
+to determine if a sequence is empty (use-implicit-booleaness-not-len)
+
+ynl_gen_c.py:1688:13: W1514: Using open without explicitly specifying an
+encoding (unspecified-encoding)
+
+ynl_gen_c.py:3446:0: C0325: Unnecessary parens after '=' keyword
+(superfluous-parens)
 
 Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 ---
- tools/net/ynl/pyynl/ynl_gen_c.py | 49 ++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 22 deletions(-)
+ tools/net/ynl/pyynl/ynl_gen_c.py | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/tools/net/ynl/pyynl/ynl_gen_c.py b/tools/net/ynl/pyynl/ynl_gen_c.py
-index 900896779e61..5f079a74c8d1 100755
+index 5f079a74c8d1..c823ccf2b75c 100755
 --- a/tools/net/ynl/pyynl/ynl_gen_c.py
 +++ b/tools/net/ynl/pyynl/ynl_gen_c.py
-@@ -200,7 +200,7 @@ class Type(SpecAttr):
-     # pylint: disable=assignment-from-none
-     def arg_member(self, ri):
-         member = self._complex_member_type(ri)
--        if member:
-+        if member is not None:
-             spc = ' ' if member[-1] != '*' else ''
-             arg = [member + spc + '*' + self.c_name]
-             if self.presence_type() == 'count':
-@@ -210,7 +210,7 @@ class Type(SpecAttr):
+@@ -571,6 +571,8 @@ class TypeBinary(Type):
+             mem = 'NLA_POLICY_MIN_LEN(' + self.get_limit_str('min-len') + ')'
+         elif 'max-len' in self.checks:
+             mem = 'NLA_POLICY_MAX_LEN(' + self.get_limit_str('max-len') + ')'
++        else:
++            raise Exception('Failed to process policy check for binary type')
  
-     def struct_member(self, ri):
-         member = self._complex_member_type(ri)
--        if member:
-+        if member is not None:
-             ptr = '*' if self.is_multi_val() else ''
-             if self.is_recursive_for_op(ri):
-                 ptr = '*'
-@@ -258,9 +258,9 @@ class Type(SpecAttr):
+         return mem
  
-     def attr_get(self, ri, var, first):
-         lines, init_lines, _ = self._attr_get(ri, var)
--        if type(lines) is str:
-+        if isinstance(lines, str):
-             lines = [lines]
--        if type(init_lines) is str:
-+        if isinstance(init_lines, str):
-             init_lines = [init_lines]
+@@ -885,7 +887,7 @@ class TypeIndexedArray(Type):
+                 f"for (i = 0; i < {var}->{ref}_count.{self.c_name}; i++)",
+                 f'{self.nested_render_name}_free(&{var}->{ref}{self.c_name}[i]);',
+             ]
+-        lines += f"free({var}->{ref}{self.c_name});",
++        lines += (f"free({var}->{ref}{self.c_name});",)
+         return lines
  
-         kw = 'if' if first else 'else if'
-@@ -1002,7 +1002,7 @@ class Struct:
-         self.in_multi_val = False  # used by a MultiAttr or and legacy arrays
+ class TypeNestTypeValue(Type):
+@@ -941,9 +943,8 @@ class TypeSubMessage(TypeNest):
+         else:
+             sel_var = f"{var}->{sel}"
+         get_lines = [f'if (!{sel_var})',
+-                     'return ynl_submsg_failed(yarg, "%s", "%s");' %
+-                        (self.name, self['selector']),
+-                    f"if ({self.nested_render_name}_parse(&parg, {sel_var}, attr))",
++                     f'return ynl_submsg_failed(yarg, "{self.name}", "{self['selector']}");',
++                     f"if ({self.nested_render_name}_parse(&parg, {sel_var}, attr))",
+                      "return YNL_PARSE_CB_ERROR;"]
+         init_lines = [f"parg.rsp_policy = &{self.nested_render_name}_nest;",
+                       f"parg.data = &{var}->{self.c_name};"]
+@@ -1447,7 +1448,7 @@ class Family(SpecFamily):
+         attr_set_queue = list(self.root_sets.keys())
+         attr_set_seen = set(self.root_sets.keys())
  
-         self.attr_list = []
--        self.attrs = dict()
-+        self.attrs = {}
-         if type_list is not None:
-             for t in type_list:
-                 self.attr_list.append((t, self.attr_set[t]),)
-@@ -1094,8 +1094,8 @@ class EnumSet(SpecEnumSet):
-         return EnumEntry(self, entry, prev_entry, value_start)
+-        while len(attr_set_queue):
++        while attr_set_queue:
+             a_set = attr_set_queue.pop(0)
+             for attr, spec in self.attr_sets[a_set].items():
+                 if 'nested-attributes' in spec:
+@@ -1685,7 +1686,7 @@ class CodeWriter:
+         if not self._overwrite and os.path.isfile(self._out_file):
+             if filecmp.cmp(self._out.name, self._out_file, shallow=False):
+                 return
+-        with open(self._out_file, 'w+') as out_file:
++        with open(self._out_file, 'w+', encoding='utf-8') as out_file:
+             self._out.seek(0)
+             shutil.copyfileobj(self._out, out_file)
+             self._out.close()
+@@ -3443,7 +3444,7 @@ def main():
+         print(exc)
+         os.sys.exit(1)
  
-     def value_range(self):
--        low = min([x.value for x in self.entries.values()])
--        high = max([x.value for x in self.entries.values()])
-+        low = min(x.value for x in self.entries.values())
-+        high = max(x.value for x in self.entries.values())
+-    cw = CodeWriter(BaseNlLib(), args.out_file, overwrite=(not args.cmp_out))
++    cw = CodeWriter(BaseNlLib(), args.out_file, overwrite=not args.cmp_out)
  
-         if high - low + 1 != len(self.entries):
-             return None, None
-@@ -1234,6 +1234,12 @@ class Family(SpecFamily):
-         self.hooks = None
-         delattr(self, "hooks")
- 
-+        self.root_sets = {}
-+        self.pure_nested_structs = {}
-+        self.kernel_policy = None
-+        self.global_policy = None
-+        self.global_policy_set = None
-+
-         super().__init__(file_name, exclude_ops=exclude_ops)
- 
-         self.fam_key = c_upper(self.yaml.get('c-family-name', self.yaml["name"] + '_FAMILY_NAME'))
-@@ -1268,18 +1274,18 @@ class Family(SpecFamily):
- 
-         self.mcgrps = self.yaml.get('mcast-groups', {'list': []})
- 
--        self.hooks = dict()
-+        self.hooks = {}
-         for when in ['pre', 'post']:
--            self.hooks[when] = dict()
-+            self.hooks[when] = {}
-             for op_mode in ['do', 'dump']:
--                self.hooks[when][op_mode] = dict()
-+                self.hooks[when][op_mode] = {}
-                 self.hooks[when][op_mode]['set'] = set()
-                 self.hooks[when][op_mode]['list'] = []
- 
-         # dict space-name -> 'request': set(attrs), 'reply': set(attrs)
--        self.root_sets = dict()
-+        self.root_sets = {}
-         # dict space-name -> Struct
--        self.pure_nested_structs = dict()
-+        self.pure_nested_structs = {}
- 
-         self._mark_notify()
-         self._mock_up_events()
-@@ -1627,7 +1633,7 @@ class RenderInfo:
- 
-         self.cw = cw
- 
--        self.struct = dict()
-+        self.struct = {}
-         if op_mode == 'notify':
-             op_mode = 'do' if 'do' in op else 'dump'
-         for op_dir in ['request', 'reply']:
-@@ -1794,7 +1800,7 @@ class CodeWriter:
-         if not local_vars:
-             return
- 
--        if type(local_vars) is str:
-+        if isinstance(local_vars, str):
-             local_vars = [local_vars]
- 
-         local_vars.sort(key=len, reverse=True)
-@@ -1814,20 +1820,19 @@ class CodeWriter:
-     def writes_defines(self, defines):
-         longest = 0
-         for define in defines:
--            if len(define[0]) > longest:
--                longest = len(define[0])
-+            longest = max(len(define[0]), longest)
-         longest = ((longest + 8) // 8) * 8
-         for define in defines:
-             line = '#define ' + define[0]
-             line += '\t' * ((longest - len(define[0]) + 7) // 8)
--            if type(define[1]) is int:
-+            if isinstance(define[1], int):
-                 line += str(define[1])
--            elif type(define[1]) is str:
-+            elif isinstance(define[1], str):
-                 line += '"' + define[1] + '"'
-             self.p(line)
- 
-     def write_struct_init(self, members):
--        longest = max([len(x[0]) for x in members])
-+        longest = max(len(x[0]) for x in members)
-         longest += 1  # because we prepend a .
-         longest = ((longest + 8) // 8) * 8
-         for one in members:
-@@ -2670,7 +2675,7 @@ def print_req_free(ri):
- 
- 
- def print_rsp_type(ri):
--    if (ri.op_mode == 'do' or ri.op_mode == 'dump') and 'reply' in ri.op[ri.op_mode]:
-+    if ri.op_mode in ('do', 'dump') and 'reply' in ri.op[ri.op_mode]:
-         direction = 'reply'
-     elif ri.op_mode == 'event':
-         direction = 'reply'
-@@ -2683,7 +2688,7 @@ def print_wrapped_type(ri):
-     ri.cw.block_start(line=f"{type_name(ri, 'reply')}")
-     if ri.op_mode == 'dump':
-         ri.cw.p(f"{type_name(ri, 'reply')} *next;")
--    elif ri.op_mode == 'notify' or ri.op_mode == 'event':
-+    elif ri.op_mode in ('notify', 'event'):
-         ri.cw.p('__u16 family;')
-         ri.cw.p('__u8 cmd;')
-         ri.cw.p('struct ynl_ntf_base_type *next;')
-@@ -2946,7 +2951,7 @@ def print_kernel_op_table_hdr(family, cw):
- 
- def print_kernel_op_table(family, cw):
-     print_kernel_op_table_fwd(family, cw, terminate=False)
--    if family.kernel_policy == 'global' or family.kernel_policy == 'per-op':
-+    if family.kernel_policy in ('global', 'per-op'):
-         for op_name, op in family.ops.items():
-             if op.is_async:
-                 continue
+     _, spec_kernel = find_kernel_root(args.spec)
+     if args.mode == 'uapi' or args.header:
 -- 
 2.52.0
 
