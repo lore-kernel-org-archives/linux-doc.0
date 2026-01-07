@@ -1,545 +1,145 @@
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197213A525A
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 17:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B1C33BBB8;
+	Wed,  7 Jan 2026 17:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767807379; cv=none; b=Z1Dqb6bFenMjSWypAerXYRwHLAxo7ld2KB8RldjbF7hrhpoLqlifln38KnoSM6TzMTIJpxFFOHm7eq2TqNbrHo7U9prwcV+lIUd04BALYv/OBJMdaApv4JhsePbwXeqZwj6h2sOSM7senQxO2Ra39/94hO6YCTMzxHenmX794Us=
+	t=1767808554; cv=none; b=ch8V0N178Rbgg6LMF8DhO6e9C3a+UZckxxBq+GO9MLuu6bHAqXACGszAzY9KWFjzBKbvFaRTEzRwXMkoZ43KokBUE+rxzvck3vd0u/XRRWWarlU4jxnPx7oDZnNaGWlLqCiWq/Z8GEoVbGw/eapgI6FC6HLk20jPu7QQIGmjxUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767807379; c=relaxed/simple;
-	bh=VILu4/aZEDEuDrhwIC96ZPrRjlL5TOp4r9I40ua7OBM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gccZILqQRixxGRtpFMzbLfz6hMiueCEzxMdc/GvuN2h16WQKbfQg64np7stRoI7yrFIlivHR9l1CZcCSyf1byMaBbPS3EuVpc+0eNJG5KiReiXTBm23mB2/5Qom1ZAvTU9OQ8UeRFmdjm6ULlkyFMST/tPJS/Tnr1o2fagYuRZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FqS2/QNT; arc=none smtp.client-ip=74.125.82.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FqS2/QNT"
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-11df4458a85so2548095c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 09:36:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767807377; x=1768412177; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z26pH3kxXMl+NsnFCMmTOxJmvl6Ayq/rxp+1YLnLzkg=;
-        b=FqS2/QNTDI8FgQ5flLe55PBulODhs0rQZKWDhh2lO+TOCFVLDJHJUe/gVJJLxqzOvr
-         0DEJjwMjUlriR9/lgXrs7dxiD2yjZxV8NQHRRGkUc6l6i45+22M56ctrRJqhOrJAKIJD
-         XDJ0+pax4IqQ3vg0cNzmHcsJs3yonluW/uinosAvpF3SdThdPClbugSC4JHcr6ffj++w
-         lETnuD5pInFxdqc4hRIOtUWNjRDbhtON9PXrpLM++glGrAGRXLQbyzKQh44AzzJzNpHO
-         h166Sz8zKQYeN5+6xCzH3TQyQbKuRwbBvJaTa33gmN8w6l/YT8iAwF3MvRVyzHPtAYMy
-         y82Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767807377; x=1768412177;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z26pH3kxXMl+NsnFCMmTOxJmvl6Ayq/rxp+1YLnLzkg=;
-        b=F5Rq2GouWxT+sY+FDZdj/EKpMc2qJMr2GRBhSx/qhhnBVkRiF7P8+eaI0diwKaeuTC
-         N3tNRMgaxelK+zGpuHnyk2W2M9AKIokkXRfjQD3zA3Mngkg+DRhHBg912yTsAhyd70/l
-         7mPP60mJChV0021OQiwJT5ADryfDbBaclUAIKSyoO2Ts3rGvAnAt9fNnAbCajgIcdlrD
-         b7opfUOXL7dWyojrWf2LTDHT4tSC249qDCaMPHBMzf7kFrE+SNq8ZFSD01IIKpxRRtCJ
-         6ZLyy1E30s0XGLoSq2MDn/wNhUl2JhV4JvPDrFw0BlE3u+kzU7KwaJ2ib4sW7uYnRRH5
-         uj6w==
-X-Forwarded-Encrypted: i=1; AJvYcCX0y4TfFEBdZ7ExczDRBH3ycujKwKircSgh6TbT6JA3Cufi2KPyVlRRqRwZtYD8EPdzjmp+wFvV6oA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlSougKbDL0PAFxGc/u6+BtWeovEdL3E1r50H61x5abK+4AX1S
-	x9oXJaCVFKDKH73OzGx5WIkGATT5ekog+b+qSSy6NJ3JQSThB9pdS0Lr9RZHaA==
-X-Gm-Gg: AY/fxX7Dfvr6geREnBBokgxrLmN7g5SOYz2Z3T2cmYp+kecYWg+wtltyddDNR87aG+G
-	HHwkHozc4OMM6fyxEGppKum1b4xi7oI6J0vuvZHUpdWgH5FmQZMXramnoDyqjy1vFBmHBtyhO+O
-	5frxsRW9COidRqQSzrfEtb15/aqfS886LWhQLeEct5P1GgPy9J750Iv2TMAW8SXiDfkxpEMWwFu
-	SGMNeOdjO+EXrYfpzgPTG2Hb+ms4N0bcTgmFeFcBMXTuZ/nhNGc3rfDkmC5lyNs46EAZFkR07lG
-	ErQJ2Cvh8LqCTCIglC+KSlOaB7AixV1gXTv12B5zEr1kfio2APdBgaN/j+o3H1B5xQY7Z/oE2cb
-	CgkoqSAyeUNBvTKxXN6oFYCrkKGw631m9nKOUv/XsNruNwi4HxFGHQwCKO/QUwjaKsR6mfIvDz/
-	l+RFSCrD0Qh43emD76mT2EUi3NxdAv7wiTzVbbcTeUXlq2V1TtauTLy3A=
-X-Google-Smtp-Source: AGHT+IG/GJazDtrV8Iv0UenI1pYkQFFjdMGheA22/FDANC++il82RbCdKOOAl/rkQAbrZ5tuK05Wfg==
-X-Received: by 2002:a05:6808:2224:b0:450:d8ef:d804 with SMTP id 5614622812f47-45a6be37898mr1407082b6e.39.1767800066998;
-        Wed, 07 Jan 2026 07:34:26 -0800 (PST)
-Received: from localhost.localdomain ([2603:8080:1500:3d89:a917:5124:7300:7cef])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.34.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 07 Jan 2026 07:34:26 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-From: John Groves <John@Groves.net>
-X-Google-Original-From: John Groves <john@groves.net>
-To: John Groves <John@Groves.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	venkataravis@micron.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	John Groves <john@groves.net>
-Subject: [PATCH V3 16/21] famfs_fuse: GET_DAXDEV message and daxdev_table
-Date: Wed,  7 Jan 2026 09:33:25 -0600
-Message-ID: <20260107153332.64727-17-john@groves.net>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260107153332.64727-1-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
+	s=arc-20240116; t=1767808554; c=relaxed/simple;
+	bh=1lRn2piInez3ev2oqRjOMUDIpyzbE0FPizQmQSR2JQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ElIVBdrhrcLaQuRNJLlrWCiTFQ45cfEZ70i0QesoW88PV4M+gCvpSphLc9iV2ilsOR8ZdkoN/oy1yyzcanGUjUW6GrdeOkT1CXakFSmjckM5WVqUdNg9/5eoOOlovCRPgQXws9XxllVmHwMtE5Dq8glyUVuD1IQEuo+YQi6mgws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F046497;
+	Wed,  7 Jan 2026 09:55:38 -0800 (PST)
+Received: from [10.57.48.49] (unknown [10.57.48.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A1A763F5A1;
+	Wed,  7 Jan 2026 09:55:42 -0800 (PST)
+Message-ID: <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
+Date: Wed, 7 Jan 2026 17:55:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
+ coherency issue
+To: Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Cc: Lucas Wei <lucaswei@google.com>, Catalin Marinas
+ <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ sjadavani@google.com, kernel test robot <lkp@intel.com>,
+ stable@vger.kernel.org, kernel-team@android.com,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, smostafa@google.com
+References: <20251229033621.996546-1-lucaswei@google.com>
+ <87o6ndduye.wl-maz@kernel.org> <aV6K7QnUa7jDpKw-@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <aV6K7QnUa7jDpKw-@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* The new GET_DAXDEV message/response is added
-* The famfs.c:famfs_teardown() function is added as a primary teardown
-  function for famfs.
-* The command it triggered by the update_daxdev_table() call, if there
-  are any daxdevs in the subject fmap that are not represented in the
-  daxdev_table yet.
-* fs/namei.c: export may_open_dev()
+On 2026-01-07 4:33 pm, Will Deacon wrote:
+> Hey Marc,
+> 
+> On Thu, Jan 01, 2026 at 06:55:05PM +0000, Marc Zyngier wrote:
+>> On Mon, 29 Dec 2025 03:36:19 +0000,
+>> Lucas Wei <lucaswei@google.com> wrote:
+>>> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+>>> index 8cb3b575a031..5c0ab6bfd44a 100644
+>>> --- a/arch/arm64/kernel/cpu_errata.c
+>>> +++ b/arch/arm64/kernel/cpu_errata.c
+>>> @@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
+>>>   	return (ctr_real != sys) && (ctr_raw != sys);
+>>>   }
+>>>   
+>>> +#ifdef CONFIG_ARM64_ERRATUM_4311569
+>>> +static DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
+>>> +static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
+>>> +{
+>>> +	static_branch_enable(&arm_si_l1_workaround_4311569);
+>>> +	pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
+>>> +
+>>> +/*
+>>> + * We have some earlier use cases to call cache maintenance operation functions, for example,
+>>> + * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
+>>> + * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
+>>> + * safe to have the workaround off by default.
+>>> + */
+>>> +static bool
+>>> +need_arm_si_l1_workaround_4311569(const struct arm64_cpu_capabilities *entry, int scope)
+>>> +{
+>>> +	return static_branch_unlikely(&arm_si_l1_workaround_4311569);
+>>> +}
+>>> +#endif
+>>
+>> But this isn't a detection mechanism. That's relying on the user
+>> knowing they are dealing with broken hardware. How do they find out?
+> 
+> Sadly, I'm not aware of a mechanism to detect this reliably at runtime
+> but adding Robin in case he knows of one. Linux generally doesn't need
+> to worry about the SLC, so we'd have to add something to DT to detect
+> it and even then I don't know whether it's something that is typically
+> exposed to non-secure...
+> 
+> We also need the workaround to be up early enough that drivers don't
+> run into issues, so that would probably involve invasive surgery in the
+> DT parsing code.
 
-Signed-off-by: John Groves <john@groves.net>
----
- fs/fuse/famfs.c           | 236 ++++++++++++++++++++++++++++++++++++++
- fs/fuse/famfs_kfmap.h     |  26 +++++
- fs/fuse/fuse_i.h          |  13 ++-
- fs/fuse/inode.c           |   4 +-
- fs/namei.c                |   1 +
- include/uapi/linux/fuse.h |  20 ++++
- 6 files changed, 298 insertions(+), 2 deletions(-)
+Indeed even if we did happen to know where the interconnect registers 
+are, I'm not sure there's any ID bit for the relevant configuration 
+option, plus that still wouldn't be accurate anyway - it's fine to have 
+a downstream cache/PoS *without* any back-door observers, so the actual 
+problematic condition we need to detect is outside the SI IP altogether. 
+It's a matter of SoC-level integration, so AFAICS the realistic options 
+are likely to be:
 
-diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-index 2aabd1d589fd..b5cd1b5c1d6c 100644
---- a/fs/fuse/famfs.c
-+++ b/fs/fuse/famfs.c
-@@ -20,6 +20,239 @@
- #include "famfs_kfmap.h"
- #include "fuse_i.h"
- 
-+/*
-+ * famfs_teardown()
-+ *
-+ * Deallocate famfs metadata for a fuse_conn
-+ */
-+void
-+famfs_teardown(struct fuse_conn *fc)
-+{
-+	struct famfs_dax_devlist *devlist = fc->dax_devlist;
-+	int i;
-+
-+	kfree(fc->shadow);
-+
-+	fc->dax_devlist = NULL;
-+
-+	if (!devlist)
-+		return;
-+
-+	if (!devlist->devlist)
-+		goto out;
-+
-+	/* Close & release all the daxdevs in our table */
-+	for (i = 0; i < devlist->nslots; i++) {
-+		struct famfs_daxdev *dd = &devlist->devlist[i];
-+
-+		if (!dd->valid)
-+			continue;
-+
-+		/* Release reference from dax_dev_get() */
-+		if (dd->devp)
-+			put_dax(dd->devp);
-+
-+		kfree(dd->name);
-+	}
-+	kfree(devlist->devlist);
-+
-+out:
-+	kfree(devlist);
-+}
-+
-+static int
-+famfs_verify_daxdev(const char *pathname, dev_t *devno)
-+{
-+	struct inode *inode;
-+	struct path path;
-+	int err;
-+
-+	if (!pathname || !*pathname)
-+		return -EINVAL;
-+
-+	err = kern_path(pathname, LOOKUP_FOLLOW, &path);
-+	if (err)
-+		return err;
-+
-+	inode = d_backing_inode(path.dentry);
-+	if (!S_ISCHR(inode->i_mode)) {
-+		err = -EINVAL;
-+		goto out_path_put;
-+	}
-+
-+	if (!may_open_dev(&path)) { /* had to export this */
-+		err = -EACCES;
-+		goto out_path_put;
-+	}
-+
-+	*devno = inode->i_rdev;
-+
-+out_path_put:
-+	path_put(&path);
-+	return err;
-+}
-+
-+/**
-+ * famfs_fuse_get_daxdev() - Retrieve info for a DAX device from fuse server
-+ *
-+ * Send a GET_DAXDEV message to the fuse server to retrieve info on a
-+ * dax device.
-+ *
-+ * @fm:     fuse_mount
-+ * @index:  the index of the dax device; daxdevs are referred to by index
-+ *          in fmaps, and the server resolves the index to a particular daxdev
-+ *
-+ * Returns: 0=success
-+ *          -errno=failure
-+ */
-+static int
-+famfs_fuse_get_daxdev(struct fuse_mount *fm, const u64 index)
-+{
-+	struct fuse_daxdev_out daxdev_out = { 0 };
-+	struct fuse_conn *fc = fm->fc;
-+	struct famfs_daxdev *daxdev;
-+	int err = 0;
-+
-+	FUSE_ARGS(args);
-+
-+	/* Store the daxdev in our table */
-+	if (index >= fc->dax_devlist->nslots) {
-+		pr_err("%s: index(%lld) > nslots(%d)\n",
-+		       __func__, index, fc->dax_devlist->nslots);
-+		err = -EINVAL;
-+		goto out;
-+	}
-+
-+	args.opcode = FUSE_GET_DAXDEV;
-+	args.nodeid = index;
-+
-+	args.in_numargs = 0;
-+
-+	args.out_numargs = 1;
-+	args.out_args[0].size = sizeof(daxdev_out);
-+	args.out_args[0].value = &daxdev_out;
-+
-+	/* Send GET_DAXDEV command */
-+	err = fuse_simple_request(fm, &args);
-+	if (err) {
-+		pr_err("%s: err=%d from fuse_simple_request()\n",
-+		       __func__, err);
-+		/*
-+		 * Error will be that the payload is smaller than FMAP_BUFSIZE,
-+		 * which is the max we can handle. Empty payload handled below.
-+		 */
-+		goto out;
-+	}
-+
-+	down_write(&fc->famfs_devlist_sem);
-+
-+	daxdev = &fc->dax_devlist->devlist[index];
-+
-+	/* Abort if daxdev is now valid (race - another thread got it first) */
-+	if (daxdev->valid) {
-+		up_write(&fc->famfs_devlist_sem);
-+		/* We already have a valid entry at this index */
-+		pr_debug("%s: daxdev already known\n", __func__);
-+		goto out;
-+	}
-+
-+	/* Verify that the dev is valid and can be opened and gets the devno */
-+	err = famfs_verify_daxdev(daxdev_out.name, &daxdev->devno);
-+	if (err) {
-+		up_write(&fc->famfs_devlist_sem);
-+		pr_err("%s: err=%d from famfs_verify_daxdev()\n", __func__, err);
-+		goto out;
-+	}
-+
-+	/* This will fail if it's not a dax device */
-+	daxdev->devp = dax_dev_get(daxdev->devno);
-+	if (!daxdev->devp) {
-+		up_write(&fc->famfs_devlist_sem);
-+		pr_warn("%s: device %s not found or not dax\n",
-+			__func__, daxdev_out.name);
-+		err = -ENODEV;
-+		goto out;
-+	}
-+
-+	daxdev->name = kstrdup(daxdev_out.name, GFP_KERNEL);
-+	wmb(); /* all daxdev fields must be visible before marking it valid */
-+	daxdev->valid = 1;
-+
-+	up_write(&fc->famfs_devlist_sem);
-+
-+out:
-+	return err;
-+}
-+
-+/**
-+ * famfs_update_daxdev_table() - Update the daxdev table
-+ * @fm   - fuse_mount
-+ * @meta - famfs_file_meta, in-memory format, built from a GET_FMAP response
-+ *
-+ * This function is called for each new file fmap, to verify whether all
-+ * referenced daxdevs are already known (i.e. in the table). Any daxdev
-+ * indices referenced in @meta but not in the table will be retrieved via
-+ * famfs_fuse_get_daxdev() and added to the table
-+ *
-+ * Return: 0=success
-+ *         -errno=failure
-+ */
-+static int
-+famfs_update_daxdev_table(
-+	struct fuse_mount *fm,
-+	const struct famfs_file_meta *meta)
-+{
-+	struct famfs_dax_devlist *local_devlist;
-+	struct fuse_conn *fc = fm->fc;
-+	int err;
-+	int i;
-+
-+	/* First time through we will need to allocate the dax_devlist */
-+	if (unlikely(!fc->dax_devlist)) {
-+		local_devlist = kcalloc(1, sizeof(*fc->dax_devlist), GFP_KERNEL);
-+		if (!local_devlist)
-+			return -ENOMEM;
-+
-+		local_devlist->nslots = MAX_DAXDEVS;
-+
-+		local_devlist->devlist = kcalloc(MAX_DAXDEVS,
-+						 sizeof(struct famfs_daxdev),
-+						 GFP_KERNEL);
-+		if (!local_devlist->devlist) {
-+			kfree(local_devlist);
-+			return -ENOMEM;
-+		}
-+
-+		/* We don't need famfs_devlist_sem here because we use cmpxchg */
-+		if (cmpxchg(&fc->dax_devlist, NULL, local_devlist) != NULL) {
-+			kfree(local_devlist->devlist);
-+			kfree(local_devlist); /* another thread beat us to it */
-+		}
-+	}
-+
-+	down_read(&fc->famfs_devlist_sem);
-+	for (i = 0; i < fc->dax_devlist->nslots; i++) {
-+		if (!(meta->dev_bitmap & (1ULL << i)))
-+			continue;
-+
-+		/* This file meta struct references devindex i
-+		 * if devindex i isn't in the table; get it...
-+		 */
-+		if (!(fc->dax_devlist->devlist[i].valid)) {
-+			up_read(&fc->famfs_devlist_sem);
-+
-+			err = famfs_fuse_get_daxdev(fm, i);
-+			if (err)
-+				pr_err("%s: failed to get daxdev=%d\n",
-+				       __func__, i);
-+
-+			down_read(&fc->famfs_devlist_sem);
-+		}
-+	}
-+	up_read(&fc->famfs_devlist_sem);
-+
-+	return 0;
-+}
- 
- /***************************************************************************/
- 
-@@ -342,6 +575,9 @@ famfs_file_init_dax(
- 	if (rc)
- 		goto errout;
- 
-+	/* Make sure this fmap doesn't reference any unknown daxdevs */
-+	famfs_update_daxdev_table(fm, meta);
-+
- 	/* Publish the famfs metadata on fi->famfs_meta */
- 	inode_lock(inode);
- 	if (fi->famfs_meta) {
-diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
-index 058645cb10a1..e76b9057a1e0 100644
---- a/fs/fuse/famfs_kfmap.h
-+++ b/fs/fuse/famfs_kfmap.h
-@@ -64,4 +64,30 @@ struct famfs_file_meta {
- 	};
- };
- 
-+/*
-+ * famfs_daxdev - tracking struct for a daxdev within a famfs file system
-+ *
-+ * This is the in-memory daxdev metadata that is populated by parsing
-+ * the responses to GET_FMAP messages
-+ */
-+struct famfs_daxdev {
-+	/* Include dev uuid? */
-+	bool valid;
-+	bool error;
-+	dev_t devno;
-+	struct dax_device *devp;
-+	char *name;
-+};
-+
-+#define MAX_DAXDEVS 24
-+
-+/*
-+ * famfs_dax_devlist - list of famfs_daxdev's
-+ */
-+struct famfs_dax_devlist {
-+	int nslots;
-+	int ndevs;
-+	struct famfs_daxdev *devlist;
-+};
-+
- #endif /* FAMFS_KFMAP_H */
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index f9e920e95baf..d308b74c83ec 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -1018,6 +1018,8 @@ struct fuse_conn {
- 	u8 blkbits;
- 
- #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-+	struct rw_semaphore famfs_devlist_sem;
-+	struct famfs_dax_devlist *dax_devlist;
- 	char *shadow;
- #endif
- };
-@@ -1663,13 +1665,15 @@ int famfs_file_init_dax(struct fuse_mount *fm,
- 			     struct inode *inode, void *fmap_buf,
- 			     size_t fmap_size);
- void __famfs_meta_free(void *map);
--#endif
-+void famfs_teardown(struct fuse_conn *fc);
-+#else
- static inline void famfs_teardown(struct fuse_conn *fc)
- {
- #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
- 	kfree(fc->shadow);
- #endif
- }
-+#endif
- 
- static inline void famfs_meta_init(struct fuse_inode *fi)
- {
-@@ -1688,6 +1692,13 @@ static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
- #endif
- }
- 
-+static inline void famfs_init_devlist_sem(struct fuse_conn *fc)
-+{
-+#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-+	init_rwsem(&fc->famfs_devlist_sem);
-+#endif
-+}
-+
- static inline void famfs_meta_free(struct fuse_inode *fi)
- {
- #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 391ead26bfa2..78787efcfd07 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1497,8 +1497,10 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
- 				u64 in_flags = ((u64)ia->in.flags2 << 32)
- 						| ia->in.flags;
- 
--				if (in_flags & FUSE_DAX_FMAP)
-+				if (in_flags & FUSE_DAX_FMAP) {
-+					famfs_init_devlist_sem(fc);
- 					fc->famfs_iomap = 1;
-+				}
- 			}
- 		} else {
- 			ra_pages = fc->max_read / PAGE_SIZE;
-diff --git a/fs/namei.c b/fs/namei.c
-index bf0f66f0e9b9..b47511ac7337 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4162,6 +4162,7 @@ bool may_open_dev(const struct path *path)
- 	return !(path->mnt->mnt_flags & MNT_NODEV) &&
- 		!(path->mnt->mnt_sb->s_iflags & SB_I_NODEV);
- }
-+EXPORT_SYMBOL(may_open_dev);
- 
- static int may_open(struct mnt_idmap *idmap, const struct path *path,
- 		    int acc_mode, int flag)
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index e6dd3c24bb11..2432ccc4f913 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -247,6 +247,9 @@
-  *      - struct fuse_famfs_simple_ext
-  *      - struct fuse_famfs_iext
-  *      - struct fuse_famfs_fmap_header
-+ *    - Add the following structs for the GET_DAXDEV message and reply
-+ *      - struct fuse_get_daxdev_in
-+ *      - struct fuse_get_daxdev_out
-  *    - Add the following enumerated types
-  *      - enum fuse_famfs_file_type
-  *      - enum famfs_ext_type
-@@ -678,6 +681,7 @@ enum fuse_opcode {
- 
- 	/* Famfs / devdax opcodes */
- 	FUSE_GET_FMAP           = 54,
-+	FUSE_GET_DAXDEV         = 55,
- 
- 	/* CUSE specific operations */
- 	CUSE_INIT		= 4096,
-@@ -1369,6 +1373,22 @@ struct fuse_famfs_fmap_header {
- 	uint64_t reserved1;
- };
- 
-+struct fuse_get_daxdev_in {
-+	uint32_t        daxdev_num;
-+};
-+
-+#define DAXDEV_NAME_MAX 256
-+
-+/* fuse_daxdev_out has enough space for a uuid if we need it */
-+struct fuse_daxdev_out {
-+	uint16_t index;
-+	uint16_t reserved;
-+	uint32_t reserved2;
-+	uint64_t reserved3;
-+	uint64_t reserved4;
-+	char name[DAXDEV_NAME_MAX];
-+};
-+
- static inline int32_t fmap_msg_min_size(void)
- {
- 	/* Smallest fmap message is a header plus one simple extent */
--- 
-2.49.0
+  - SMCCC SOC_ID (if available early enough)
+  - Match a top-level SoC/platform compatible out of the flat DT
+  - Just trust that affected platforms' bootloaders will know to add the 
+command-line option :/
 
+>> You don't even call out what platform is actually affected...
+> 
+> Well, it's an Android phone :)
+> 
+> More generally, it's going to be anything with an Arm "SI L1" configured
+> to work with non-coherent DMA agents below it. Christ knows whose bright
+> idea it was to put "L1" in the name of the thing containing the system
+> cache.
+
+I'm still thankful the Neoverse product line skipped "MMU S1" and "MMU 
+S2"...
+
+>> The other elephant in the room is virtualisation: how does a guest
+>> performing CMOs deals with this? How does it discover the that the
+>> host is broken? I also don't see any attempt to make KVM handle the
+>> erratum on behalf of the guest...
+> 
+> A guest shouldn't have to worry about the problem, as it only affects
+> clean to PoC for non-coherent DMA agents that reside downstream of the
+> SLC in the interconnect. Since VFIO doesn't permit assigning
+> non-coherent devices to a guest, guests shouldn't ever need to push
+> writes that far (and FWB would cause bigger problems if that was
+> something we wanted to support)
+> 
+> +Mostafa to keep me honest on the VFIO front.
+
+I don't think we actually prevent non-coherent devices being assigned, 
+we just rely on the IOMMU supporting IOMMU_CAP_CACHE_COHERENCY. Thus if 
+there's an I/O-coherent SMMU then it could end up being permitted, 
+however I would hope that either the affected devices are not behind 
+such an SMMU, or at least that if the SMMU imposes cacheable attributes 
+then that prevents traffic from taking the back-door path to RAM.
+
+Thanks,
+Robin.
