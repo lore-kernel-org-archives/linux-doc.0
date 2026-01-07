@@ -1,64 +1,64 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87F13775C9
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 16:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E023A1CED
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 16:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767803388; cv=none; b=FwRKxSDdbWaieqoteF8HYsvb/RuVoC8ghN6cTPITgrIaE38jhk+ex8p5GVTjs9Bvq+gdWcItX3Vm5XreyTId5bgNu6nS4Mfiu71F8NPzghhjo9+MYyK+5QeKkpjurhYa8i2ICd91mXsIuK6LKzK09XMQUl5EruhcF7AAUKma+mc=
+	t=1767803394; cv=none; b=UTkhNIcN7Y5x3FB5c9L2+5jPoCFjzWG72zF/30FERuWmffKuIBzfnr0UAyuWUZCBrU88BL2slKn/8AfhWQcyToN/eI+KRZSYACr3uImeD+dfgJOFGFhTbh9+yWtoKCxG0fSE0/dF2kaJID/oylrjOZkcHxMFVRbL293+1De9ro0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767803388; c=relaxed/simple;
-	bh=oAuMYqefV0Wi9VhdkCSojuqJJYP2+QlUbyj1AsBLPnM=;
+	s=arc-20240116; t=1767803394; c=relaxed/simple;
+	bh=rLPl1zE7Upmz6OuVCre9yIxlCuXxDlH9iwpLAwe5XqA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o+J120Bc3oYGKcr/pq/kZztCAwW3yBgA3OstZcq7qp4eIsBv5NWCbxpMqVs7MVUqZ4THaxRviowqubQMX37M3JTglbz/8pkNNB1/xl2bK8gr9aHyl6+BAxpoolUQ5NWV8JoyAKaqLzok0E3qWjYiRUQotObnpJJBzxRgwhZJI+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=fail smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b=P1O1Q76z; arc=none smtp.client-ip=209.85.221.65
+	 MIME-Version:Content-Type; b=jopPXNVEv/ivyCn5Ptn2UHCZN7+ukSJe1VQwemITA+8A1rhALzNq8SS1q2E49El7j7YTzS/iGzQCSRwCWkbOxUoTnA8uQm3Y5s0qYAFJB8Vwruf/F0jvNN69ssEFw2rqeDk2iBLKVHeyCdndg6AKtc2PX5J9+yVqaKKtjj2xe4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=fail smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b=iLvx/tSg; arc=none smtp.client-ip=209.85.221.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b="P1O1Q76z"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso1160521f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 08:29:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=osyx-tech.20230601.gappssmtp.com header.i=@osyx-tech.20230601.gappssmtp.com header.b="iLvx/tSg"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-43284ed32a0so1136236f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 08:29:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osyx-tech.20230601.gappssmtp.com; s=20230601; t=1767803370; x=1768408170; darn=vger.kernel.org;
+        d=osyx-tech.20230601.gappssmtp.com; s=20230601; t=1767803377; x=1768408177; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dvVGowKlmlOk8ufl2dgbwZUQhdQ7tHUGcyk69lSV+dw=;
-        b=P1O1Q76zsdGjugbH1YnjP/PT/dZI5VPWJ5brFYqBVo7N8H/wFpA4po+K3s+sF8QV2a
-         ImT7+3B7yTYQKFoq60wQJ4vfRMJk0S5nWsbBu2NrdK06h/GRYKOxZO1Q8iO/jqbEC7OS
-         Mo2maFrGqXEIP0FOCLovs13kX/rOL5osL9f60W5kJZE9gnomuL3NN3aQTTUEDz+CQqyP
-         oTPw8kF0aQ4AWIWVrQ1JWT/YtmpvzKQ67r0f6kVXE2L6RizZnCebiGYL1jAJqkQKWs2R
-         u7XuVBQcjO6hz4PfppjFbytmy2bnxxfMEMiV6jF/o39VwZydVAAKP3t/RHfqsOrP4W1z
-         dS3Q==
+        bh=NUMimnmdXF+2lmQCSaKYy80Xx8SLq3LRSYV8Quqc2EA=;
+        b=iLvx/tSgpPTvGL+P9DpQHrzJo6RPGDMNLhBbwyw+AMJwYO9hhcH5yyM+w1SY7/27fP
+         W9gNXX/WNbQvGhECwUai6NdO3bLN8RJl/dT9NWbcJdZ3zEDMvkRKwRfNCj2IkkHmx/Gj
+         /2ncCfJEpeUL4EaxYfLAwZ8Q9gH41bx6xYlCkltYg6ZXij3ShPGZaEtRxa9K4GHVayVi
+         JYnEjcdcD6Xpz1fw122nbrth0gMIkWTayG7rZpHhfO+l5+GrEfsJ3YHyUMo+FCEumUBy
+         4hnB2Zm7Xzs/yzVowYBVu5REU6zsPwjJFbmc0znU5eGUkJG0aJUnwuqGEsTqEToOGz20
+         zxKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767803370; x=1768408170;
+        d=1e100.net; s=20230601; t=1767803377; x=1768408177;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dvVGowKlmlOk8ufl2dgbwZUQhdQ7tHUGcyk69lSV+dw=;
-        b=Kb3OYvGtgc+QB9SEOSTrKN3saBWuIo8ForeA20J8zqVwrx7b6j616e2KMepG+wYqQV
-         RtsMltNum2o/ceuxw8DFLKIMB/je4u0R3k/eD9/sb5N/0KmV+bgbHUAGBWW/p9w3+Wyz
-         1/YDxvRgR863cZYqEzpSxx4Vkk6aF8g2iRe6oF+uo80qB4Ykn6ZtAN9kfgYBlMWKqbSR
-         z5trhJYrKwkI+Bap3HojwrEK2jUFZYwXVUoc9AdDcynS4n8jBngWn6bqkAoFSMqbPSHK
-         5QxZhyzoEdK0HzzNiUkPd5S1KTjSofQKITUuzzBejvc/SV8XzIgdyS+Gd/z/N5vFUEX6
-         Y12A==
-X-Forwarded-Encrypted: i=1; AJvYcCUgIAvQEOTkZvCDn8/tkJP9vPPJJuqo58OtwkuYcX6uSF/tpnq/DISZZ/id3bBbHwrPisG4Ujne3XQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5EVgKY4SOr1YLs4jVVvmKcB/D+dL7X/IQepLsHSyc8nI5Irps
-	on/YNTvFrHKwkfDv8ly7QkM+2T+WQPOrkawsiBa0NsNJSmAgIcP2pvn1fCCHkkkdGKlh
-X-Gm-Gg: AY/fxX6Q0Ihv1X8HFfeTcl3RupuX2WUiQIzb89GTxBwe6MaZwdIbRqwk8g7/MhIM8Vh
-	Gg36lOD6sJrJ7SQFB40GLSRsLifViIcBLKSFgOsK0shUfQjtsQi4OXkecNieEmyYslhFPyfEohN
-	UtarY+VJOMS7n3a5ZUXqFtvT3DmrOX7KYRnfFwC97gEomFsILQDNgaQuhYI/l92alM2bQTD0wBU
-	0LDxITvD6UmbvEbj2z4T5eWA5VSBWcPKLPnrKAGaIbP3JR9rwjNG0rEvnMuSVD6TxkHoI9XLfZZ
-	JqC2YUonY3RreNZox9gTkn+fDzOYP1p79SuguCEOOai4PszqGirXahK/nUJ/0qz2kwxR170+Q2b
-	2OO9/9WhpCFiAv9j5IPS076IKLwBdaVlz2DU7zc+xM9veav9kC9LdQS52ToL16Q/RIo3fBWhL6h
-	qWda03UIosSiKEX5qX3zMNVq4zO9Y5
-X-Google-Smtp-Source: AGHT+IGZvgVIRVCpFA27SlFxqTQCtBZyTJkVQlpD5nx0fxVjL9cGeTsV0wkJ5rzD4sY1Y62BW2/V+g==
-X-Received: by 2002:a05:6000:144f:b0:431:54c:6f8 with SMTP id ffacd0b85a97d-432c377239fmr3846262f8f.1.1767803370264;
-        Wed, 07 Jan 2026 08:29:30 -0800 (PST)
+        bh=NUMimnmdXF+2lmQCSaKYy80Xx8SLq3LRSYV8Quqc2EA=;
+        b=wFdepfQQJ1qN+ZTYoMokVeN3dsuMcmBgLYXIvyRJBdQOlIcJEkqWgitzRSSJkg56e9
+         xJMM+8Spkup3gXOd73wWorjpGZMK/Z08zYrxiEmAgnrsilf/igkfXHv3je27VrDIGjlb
+         4rkDu3JKbSt94T6DP7fd8MCuIymLl/vHhWQ7YHpiod/4CrL0asUnFQp7n1Y86qtHh88M
+         vBNvIUQrqt1PVxPhTTivhrsT4QfNxS43iA5babc4AfyR0xa0+jFhn+S1VnETMWJw2/Ii
+         0DU5VzjVlAFuRw2FUqOwWidujtC8b5rOD52KZpWY2s6K9yBh2l55sROTf8fTr2DhfeBX
+         nvxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUsrvDIIi2jIUtY2/9qjq6Orf+vyYMkn5qxjsCJAQF7TBeyrO99CEPTfRvyrLGL/+ba3+XsL68vH2A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpebD1QrjCg/Dy2fkvintWOmiG8iTVIoSnKtoclMg7k6lrLcI1
+	xKtrMvrxV4W4mHRX2/C5bpP+3H4TH6T4mhnAjP7VwP2LNGvm2Fcy1xKG42AJngDSyzUd
+X-Gm-Gg: AY/fxX6AGaOT+4ZjMvUz5Sr6mz1Ob9la4iFkVW7fbQ1Pog1gyefzRraJrEtcOZdxz5j
+	EtCIPYsRn2Ix3VDe/5Mw/07p93ActIMAY3tIvoOINdjt2oKwLlGquplxa0lkP7rGJHqiDIZ5RIg
+	KASR3/JDlxk0HXpAcjfhUpzYOFU8UlnsU/BbdK5d5QEZY9zsL6ZhlEjjZjqiC7FWD3FxOMj5dds
+	FwcvaIqrKOZCXnr6JvoQkSX481uV8/BnVocV71Be68+cP8q/rlnPwj8Za327oG4Zp/lhvWQeXTF
+	Tq7uNgcb/uV1/V9+yyXBgs/LhrtuTbIP9GwToSpIqyK1fl3fFAxfO7LDIvxibGtHoDv1x0PtMk9
+	FopBHQD9CfRrazHz7dqKhWGNxGE7IrPG2JRcD7Nfbjb0ERJ+IMPNd3ia+ziI56g/dAS0E/XqFMk
+	a9B7z+gZA21RNnGqadjA==
+X-Google-Smtp-Source: AGHT+IHbte2Z9gfsJb68imADTi55zsYUmZZE1DMqWC4ozVwMek+FiE+B/1QJjWhTUxGd71ZKE6jVRA==
+X-Received: by 2002:a05:6000:310b:b0:432:5bac:3914 with SMTP id ffacd0b85a97d-432c374f46cmr3857592f8f.40.1767803376686;
+        Wed, 07 Jan 2026 08:29:36 -0800 (PST)
 Received: from jp-linux.Home ([2001:8a0:f59c:a900:4a3c:13be:a1c0:7b9f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff0b2sm11117030f8f.42.2026.01.07.08.29.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff0b2sm11117030f8f.42.2026.01.07.08.29.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 08:29:29 -0800 (PST)
+        Wed, 07 Jan 2026 08:29:36 -0800 (PST)
 From: joaopeixoto@osyx.tech
 To: linux-kernel@vger.kernel.org
 Cc: ajd@linux.ibm.com,
@@ -91,9 +91,9 @@ Cc: ajd@linux.ibm.com,
 	prabhakar.mahadev-lad.rj@bp.renesas.com,
 	robh@kernel.org,
 	will@kernel.org
-Subject: [PATCH 1/6] dt-bindings: Add Bao IPC shared memory driver binding
-Date: Wed,  7 Jan 2026 16:28:24 +0000
-Message-ID: <20260107162829.416885-2-joaopeixoto@osyx.tech>
+Subject: [PATCH 3/6] dt-bindings: Add Bao I/O dispatcher driver binding
+Date: Wed,  7 Jan 2026 16:28:26 +0000
+Message-ID: <20260107162829.416885-4-joaopeixoto@osyx.tech>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260107162829.416885-1-joaopeixoto@osyx.tech>
 References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
@@ -109,118 +109,96 @@ Content-Transfer-Encoding: 8bit
 
 From: João Peixoto <joaopeixoto@osyx.tech>
 
-This patch introduces a device tree binding for the Bao IPC Shared Memory
-device, which enables communication between Bao hypervisor guests through
-dedicated shared-memory regions.
+This patch introduces a device tree binding for the Bao I/O Dispatcher,
+a device used in backend VMs running virtualized devices (e.g., VirtIO).
 
 Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
 ---
- .../devicetree/bindings/bao/bao,ipcshmem.yaml | 82 +++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- 2 files changed, 84 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
+ .../bindings/bao/bao,io-dispatcher.yaml       | 75 +++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
 
-diff --git a/Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml b/Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
+diff --git a/Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml b/Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
 new file mode 100644
-index 000000000000..fa91800db99a
+index 000000000000..8ca450e4b9d5
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
-@@ -0,0 +1,82 @@
++++ b/Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
+@@ -0,0 +1,75 @@
 +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/bao/bao,ipcshmem.yaml#
++$id: http://devicetree.org/schemas/bao/bao,io-dispatcher.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Bao IPC Shared Memory Device
++title: Bao I/O Dispatcher Device
 +
 +maintainers:
++  - João Peixoto <joaopeixoto@osyx.tech>
 +  - José Martins <jose@osyx.tech>
 +  - David Cerdeira <davidmcerdeira@osyx.tech>
-+  - João Peixoto <joaopeixoto@osyx.tech>
 +
 +description: |
-+  Shared memory based communication device for Bao hypervisor guests.
++  I/O Dispatcher device for Bao hypervisor guests that run virtualized
++  devices (e.g., VirtIO).
 +
-+  The device describes a set of shared-memory regions used for
-+  communication between Bao guests. Each guest instantiating this
-+  device uses one region for reading data produced by a peer guest
-+  and another region for writing data consumed by that peer.
++  This device is only required in backend VMs, which are responsible for
++  performing the actual I/O operations on physical hardware. Frontend
++  VMs, which only consume I/O services, do not require this device.
++
++  The I/O Dispatcher provides access to one or more backend devices.
++  Each backend device is associated with a contiguous shared-memory
++  region used to exchange I/O buffers with the respective frontend
++  driver, and an interrupt used by the Bao hypervisor to notify the
++  backend VM of pending I/O requests.
 +
 +properties:
 +  compatible:
-+    const: bao,ipcshmem
++    const: bao,io-dispatcher
 +
 +  reg:
-+    description:
-+      Shared memory region used for IPC.
-+    minItems: 2
-+    maxItems: 2
-+
-+  read-channel:
 +    description: |
-+      Shared-memory sub-region that this guest reads from.
++      Contiguous memory-mapped regions for each VirtIO backend device
++      managed by the I/O Dispatcher.
 +
-+      This region is written by the peer Bao guest and read by the
-+      guest instantiating this device.
++      Each region is used to exchange I/O buffers between the backend
++      and frontend devices. A single region corresponds to one
++      backend device.
++    minItems: 1
++    maxItems: 64
 +
-+      Consists of two cells:
-+        - offset into the shared-memory region defined by `reg`
-+        - size in bytes
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 2
-+    maxItems: 2
-+
-+  write-channel:
++  interrupts:
 +    description: |
-+      Shared-memory sub-region that this guest writes to.
++      Interrupts associated with the VirtIO backend devices.
 +
-+      This region is written by the guest instantiating this device and
-+      read by the peer Bao guest.
-+
-+      Consists of two cells:
-+        - offset into the shared-memory region defined by `reg`
-+        - size in bytes
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 2
-+    maxItems: 2
-+
-+  id:
-+    description:
-+      Driver instance ID.
-+    $ref: /schemas/types.yaml#/definitions/uint32
++      Each interrupt corresponds to a backend device and is used
++      by the Bao hypervisor to notify the backend VM of pending
++      I/O requests from the associated frontend driver.
++    minItems: 1
++    maxItems: 64
 +
 +required:
 +  - compatible
 +  - reg
-+  - read-channel
-+  - write-channel
-+  - id
++  - interrupts
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    bao-ipc@f0000000 {
-+        compatible = "bao,ipcshmem";
-+        reg = <0x0 0xf0000000 0x0 0x00010000>;
-+        read-channel = <0x0 0x2000>;
-+        write-channel = <0x2000 0x2000>;
-+        id = <0>;
++    bao-io-dispatcher@50000000 {
++        compatible = "bao,io-dispatcher";
++        reg = <0x0 0x50000000 0x0 0x01000000
++               0x0 0x51000000 0x0 0x01000000
++               0x0 0x52000000 0x0 0x01000000
++               0x0 0x53000000 0x0 0x01000000
++               0x0 0x54000000 0x0 0x01000000>;
++        interrupts = <0x0 0x08 0x1
++                      0x0 0x09 0x1
++                      0x0 0x0a 0x1
++                      0x0 0x0b 0x1
++                      0x0 0x0c 0x1>;
++        interrupt-parent = <&gic>;
 +    };
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index c7591b2aec2a..c047fbd6b91a 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -223,6 +223,8 @@ patternProperties:
-     description: Shenzhen AZW Technology Co., Ltd.
-   "^baikal,.*":
-     description: BAIKAL ELECTRONICS, JSC
-+  "^bao,.*":
-+    description: Bao Hypervisor
-   "^bananapi,.*":
-     description: BIPAI KEJI LIMITED
-   "^beacon,.*":
 -- 
 2.43.0
 
