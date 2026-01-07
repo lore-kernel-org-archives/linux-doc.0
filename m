@@ -1,126 +1,173 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A6C17BCA
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 08:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D7023EABB;
+	Wed,  7 Jan 2026 08:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767773075; cv=none; b=T3sWvUwl5xwFrVdwSbH/+4OV0Z3CLpdV+XGTqtnxeU+Az+oaxKmaiGZYXfrHjx7bjdRDolf09b/NqxBJOwGIs093waXNYT99aRLfUauF8ljls8SAfpwt2yvZw2xtEVcIngQt87caFYNDLalLk7qe59o0X5wKAAducfoxKnf75PY=
+	t=1767773496; cv=none; b=dFQTVvHKkulxI1YBy5IQ93A66AyNmdRXtQvzngKnAFMBGF2s/Xfcj5dxkVieRXSVwROs2NES+pn+ZWUp5GEWpVWvW2iN9ARbNgAMYR+V8f9NssutW19oUEm7lJOx3gW7R4YDA8EU/yGMlSyuHfElK0QPIyeGUvV66KRYIE+ly+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767773075; c=relaxed/simple;
-	bh=4rSZtHlDLJaB2uv/GrrTNg5hx74qMe6US/U7hmvGau4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vlj+0xW2HcDGXB5nKycp3YNqQmMHRamc/ZfQE524bG/Micg762gZnuvTlDpIganHpB2CohebTnIiwxn5An/B/17zXn/RCWbItBHt6vxAhzJZMz6RKGE+GdHOlNsQq84Cf8vxXKgp6hmLaBAaqRq0FTKgxy9uW05NY4pB5or70IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fMU64vX2; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767773496; c=relaxed/simple;
+	bh=ztgBUvHy1R8tc0YkTzqSxyNRyuWWu43hlqLGXi94S+4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=cObDDpxfmy0Vhj6PzdY5WTslDwwKJrxb8Qb3dd3jvQv3gW49kf6CCm6pU4sXHZHB7khppxN1hqH7SsW53wNM2dwSiJUd4KvNIXffmUm7aR+sNuMoPjmVdmrqbGtWavhQgZ6OCJwLhyDSCecbZ8+TeDRTZPxd+Jr9Wukz+iWarYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=YpVhqku0; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fMU64vX2"
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5dbd9c7e468so748453137.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 00:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767773072; x=1768377872; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zecwOUY6lT3esKdCrwKhUrQbaY02OdlNIqSrdr/R0Yc=;
-        b=fMU64vX2mWJ0AX8hBOgo66m3sV3tHTTYVSujrYkyI8g3WJAJ+kIboYW49GoEWrABmo
-         cbvGV3o1PE9g62GWVOseU0xtDJm1ZRzE9aMH5jW7m6LAYAvbO0Yxoy5kYkiPnhVLhnxh
-         mKuvTlMZ/d6FniUSK9Nxs6key+LpWC9J5QZ/7xYU+JOs9ah1cuPr6cQg0j7R5FH50hwP
-         tFI5oi+7nWsxgqm3pdmcLsFtoOHs57oJjsvUWeAlJKRSG+4tqxOvjsByb5IMhbxb6+dZ
-         gaArjGF4Ebsst98F5HAO29ElLI8qkNQDmjvGXr3O/nEjchC5ooKn4u8DDUMkPDLksWT3
-         w3pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767773072; x=1768377872;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zecwOUY6lT3esKdCrwKhUrQbaY02OdlNIqSrdr/R0Yc=;
-        b=DldiZEjX7JSnoJJoCqeQdAcLtrng1ToQ2LriteEheuDxERrf/5YA2y9J7N9caMFC2U
-         vgHCFfnlEFpWxuU7WtpQWQVVkjtfDTDHK48a8W4SUZe1wx5JWxHD2N+dQVhhMLhcfmnv
-         asdvvOU0RPJ/vGVbtX87Knl36OfQGV7K0dsQAEWRGFDX/jTPgqJMAFJQguOn1jfDSARS
-         9DJYS1h2Ivdg/Zm9yfwx8dayHrjDg3zrBDGsrlzVRfEPjb7e+uaJlvkqTB/gy6RnjYln
-         zjrBon5N8ufo8Dd70+ybFnLGwAEnCjPWoDg40aP53AcwKSsvz6zq1Fxg95geVanthz21
-         teXg==
-X-Gm-Message-State: AOJu0YyHag/3VC1VK/7Mv6Qlbjj4qU2ldfTg/iOEIsbeFH2ZL19DSdzn
-	mvQPi1vP9q0nO+LpdUeuBBGKUSDzaE+GaND6/QiNxyk0sbWXEk7p8g7Wta0yPLg8
-X-Gm-Gg: AY/fxX7auOiHTFY47MtWFDk4NdCFTymaqVgIT6aNObYCu6EddtsoGgh6FU7GewedLMI
-	1OR7zapO7Kl96mizyK+N16xHUKMBM5JPLdqOeLU2pPHeqK/ZcSzka9+/JnmsFCU9Qap0J5Q4OXc
-	VS6LiHA8GVP8Occ2XWl0rp/va7G+duALo8gvm28xbXTLlnYUE9sRZotG/Js57eyuh/UcXHurqOe
-	i0LituJDSP1TLBnaNI41zojk1lHuw/Uc3RxUVr4yJbuSG2YhE4I/LG6gnY556f0qwztPQgnZLBI
-	jnTqdUxwMWSZk2eP5aLZ1MTS9tFzUedI1Wx+bDcL0fnNJXCh3SCIiVD2uVTbn0s1isGbcnvdBgv
-	rhE+b9fYAROD/LJXBWlWv0/RlCG6VR/Pv3vdh66AZM25aJg8VXfWkYsliyBlSOwzAxZC9PhRdzU
-	b3eCNDlT9zWsfMoCHUx6DZe+X/oz8=
-X-Google-Smtp-Source: AGHT+IFTPij8GH53CC2CnagD+KvHgGV+pwbTJE04CrA7K4ExCsYKDmH3CTT+0WQGX7fjx9DulSRliw==
-X-Received: by 2002:a05:6102:9d9:b0:5dd:89ab:aa08 with SMTP id ada2fe7eead31-5ecb6882d87mr564156137.19.1767773071949;
-        Wed, 07 Jan 2026 00:04:31 -0800 (PST)
-Received: from localhost.localdomain ([179.235.13.139])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-944124a378csm2025700241.9.2026.01.07.00.04.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 00:04:31 -0800 (PST)
-From: Diego Viola <diego.viola@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	Diego Viola <diego.viola@gmail.com>
-Subject: [PATCH TRIVIAL] CREDITS: add whitespace before opening parentheses
-Date: Wed,  7 Jan 2026 05:04:09 -0300
-Message-ID: <20260107080411.59483-1-diego.viola@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="YpVhqku0"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=tg04fKuMpgF3sow9K9bUEXpB1EapCK4aQEG6BXZsYcE=;
+	b=YpVhqku07Q3u44v/Ne3lqz+RwL875+i2phhLTUhZv5nXOQ8J+vnAVu6iMRTmoEmzX4GrfwtPM
+	w/YpNXCzNpefXpGYpJYkXcd4grFeu7hDg5HnmirA0ZIeUB6gWJzbZwUxYID+GFfnVU74qiNzC1W
+	sVuIb7+ZV6GyiAa5LxLVmas=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4dmLJK1HYLz1K9Cs;
+	Wed,  7 Jan 2026 16:08:17 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7E84B40363;
+	Wed,  7 Jan 2026 16:11:30 +0800 (CST)
+Received: from kwepemq500002.china.huawei.com (7.202.195.240) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 7 Jan 2026 16:11:30 +0800
+Received: from kwepemq200002.china.huawei.com (7.202.195.90) by
+ kwepemq500002.china.huawei.com (7.202.195.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 7 Jan 2026 16:11:29 +0800
+Received: from kwepemq200002.china.huawei.com ([7.202.195.90]) by
+ kwepemq200002.china.huawei.com ([7.202.195.90]) with mapi id 15.02.1544.011;
+ Wed, 7 Jan 2026 16:11:29 +0800
+From: duchangbin <changbin.du@huawei.com>
+To: Jonathan Corbet <corbet@lwn.net>
+CC: duchangbin <changbin.du@huawei.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] tools: jobserver: Add validation for jobserver tokens to
+ ensure valid '+' characters
+Thread-Topic: [PATCH] tools: jobserver: Add validation for jobserver tokens to
+ ensure valid '+' characters
+Thread-Index: AQHcdWdrFHx32OniNEiud4ksj7qjorVFPHoAgAEzEIA=
+Date: Wed, 7 Jan 2026 08:11:29 +0000
+Message-ID: <bc19bb55bee34abb990c00c3006c6710@huawei.com>
+References: <20251225062622.1500046-1-changbin.du@huawei.com>
+ <87zf6qcsu1.fsf@trenco.lwn.net>
+In-Reply-To: <87zf6qcsu1.fsf@trenco.lwn.net>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-imapappendstamp: kwepemq200002.china.huawei.com (15.02.1544.011)
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <5DF65D9CC216CD4AB988E1CF8F9574E8@huawei.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-in order to maintain consistent formatting across the file.
+On Tue, Jan 06, 2026 at 02:52:06PM -0700, Jonathan Corbet wrote:
+> Changbin Du <changbin.du@huawei.com> writes:
+>=20
+> > Add validation for jobserver tokens to prevent infinite loops on invali=
+d fds
+> > When using GNU Make's jobserver feature in kernel builds, a bug in MAKE=
+FLAGS
+> > propagation caused "--jobserver-auth=3D3,4" to reference an unintended =
+file
+> > descriptor (Here, fd 3 was inherited from a shell command that opened
+> > "/etc/passwd" instead of a valid pipe). This led to infinite loops in
+> > jobserver-exec's os.read() calls due to empty or corrupted tokens. (The
+> > version of my make is 4.3)
+> >
+> > $ ls -l /proc/self/fd
+> > total 0
+> > lrwx------ 1 changbin changbin 64 Dec 25 13:03 0 -> /dev/pts/1
+> > lrwx------ 1 changbin changbin 64 Dec 25 13:03 1 -> /dev/pts/1
+> > lrwx------ 1 changbin changbin 64 Dec 25 13:03 2 -> /dev/pts/1
+> > lr-x------ 1 changbin changbin 64 Dec 25 13:03 3 -> /etc/passwd
+> > lr-x------ 1 changbin changbin 64 Dec 25 13:03 4 -> /proc/1421383/fd
+> >
+> > The modified code now explicitly validates tokens:
+> > 1. Rejects empty reads (prevents infinite loops on EOF)
+> > 2. Checks all bytes are '+' characters (catches fd reuse issues)
+> > 3. Raises ValueError with clear diagnostics for debugging
+> > This ensures robustness against invalid jobserver configurations, even =
+when
+> > external tools (like make) incorrectly pass non-pipe file descriptors.
+> >
+> > Signed-off-by: Changbin Du <changbin.du@huawei.com>
+> > ---
+> >  tools/lib/python/jobserver.py | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver=
+.py
+> > index a24f30ef4fa8..88d005f96bed 100755
+> > --- a/tools/lib/python/jobserver.py
+> > +++ b/tools/lib/python/jobserver.py
+> > @@ -91,6 +91,8 @@ class JobserverExec:
+> >              while True:
+> >                  try:
+> >                      slot =3D os.read(self.reader, 8)
+> > +                    if not slot or any(c !=3D b'+'[0] for c in slot):
+> > +                        raise ValueError("empty or unexpected token fr=
+om jobserver")
+>=20
+> So I had to stare at this for a while to figure out what it was doing; a
+> comment might help.
+>=20
+> But if it finds something that's not b'+', it simply crashes the whole
+> thing?  Is that really what we want to do?  It would seem better to
+> proceed if we got any slots at all, and to emit a message telling the
+> poor user what they might want to do about the situation?
+>
+I suspect that in Make versions prior to 4.3, when generating the "--jobser=
+ver-auth=3Dr,w"
+parameter, the implementation fails to properly handle situations where fil=
+e descriptor 3
+is already occupied by the parent process (as I encountered where fd 3 was =
+actually used to
+open /etc/passwd). This appears to force Make to always use fd3 regardless =
+of its
+availability (I'm not sure how Make was written). In contrast, Make 4.4+ ve=
+rsions
+default to using named pipes, which avoids this issue entirely.
 
-Signed-off-by: Diego Viola <diego.viola@gmail.com>
----
- CREDITS | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+When this problem occurs, the current implementation deadlocks because for =
+regular files,
+os.read() returns empty bytes after reaching EOF, creating an infinite loop=
+. My workaround
+is to ignore this error condition to prevent deadlock, although this means =
+the jobserver
+protocol will no longer be honored.
 
-diff --git a/CREDITS b/CREDITS
-index ca75f110edb6..33b2bc96ddbc 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -695,7 +695,7 @@ S: USA
- N: Chih-Jen Chang
- E: chihjenc@scf.usc.edu
- E: chihjen@iis.sinica.edu.tw
--D: IGMP(Internet Group Management Protocol) version 2
-+D: IGMP (Internet Group Management Protocol) version 2
- S: 3F, 65 Tajen street
- S: Tamsui town, Taipei county,
- S: Taiwan 251
-@@ -1997,7 +1997,7 @@ E: bkaindl@netway.at
- E: edv@bartelt.via.at
- D: Author of a menu based configuration tool, kmenu, which
- D: is the predecessor of 'make menuconfig' and 'make xconfig'.
--D: digiboard driver update(modularisation work and 2.1.x upd)
-+D: digiboard driver update (modularisation work and 2.1.x upd)
- S: Tallak 95
- S: 8103 Rein
- S: Austria
-@@ -3609,7 +3609,7 @@ S: Finland
- N: Deepak Saxena
- E: dsaxena@plexity.net
- D: I2O kernel layer (config, block, core, pci, net). I2O disk support for LILO
--D: XScale(IOP, IXP) porting and other random ARM bits
-+D: XScale (IOP, IXP) porting and other random ARM bits
- S: Portland, OR
- 
- N: Eric Schenk
-@@ -3986,7 +3986,7 @@ S: D-50968 Köln
- 
- N: Tsu-Sheng Tsao
- E: tsusheng@scf.usc.edu
--D: IGMP(Internet Group Management Protocol) version 2
-+D: IGMP (Internet Group Management Protocol) version 2
- S: 2F 14 ALY 31 LN 166 SEC 1 SHIH-PEI RD
- S: Taipei
- S: Taiwan 112
--- 
-2.52.0
+As you suggested above, We can output an error message to stderr to inform =
+users, but
+must not use stdout, as it would corrupt the tool's normal output stream. F=
+or
+example, in scripts/Makefile.vmlinux_o we have:
 
+quiet_cmd_gen_initcalls_lds =3D GEN     $@
+      cmd_gen_initcalls_lds =3D \
+        $(PYTHON3) $(srctree)/scripts/jobserver-exec \
+        $(PERL) $(real-prereqs) > $@
+
+
+> >                      self.jobs +=3D slot
+> >                  except (OSError, IOError) as e:
+> >                      if e.errno =3D=3D errno.EWOULDBLOCK:
+>=20
+> Thanks,
+>=20
+> jon
+
+--=20
+Cheers,
+Changbin Du
