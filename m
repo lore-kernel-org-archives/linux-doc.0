@@ -1,116 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADBB308F3A;
-	Wed,  7 Jan 2026 11:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579782C15B5
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767785645; cv=none; b=V5a2Qz0g7ULyu3PuPnSWAIa+di9aOpbw9l+Ge0oq0SD6ajaQJfDzh1pGzJk31FRtPqPOM6JaewjfISg5KSBWLCeSqv/Y28f/4vJv42NiAyl7mHdOjcWGj/qGpryep0e4dqKwZ+A/JeRJsMY6CFAfu1SUolLZFeixFOFac2gIMe4=
+	t=1767788089; cv=none; b=ITL+9vFeNooqzuBIUZaXqeBaeqbYw30T/RaQKTjMjZQV6oE3xuYNeCxargWrTfQjK1i6XXxAhAlcnX4ik0yqguFj9/BWfTWEbGFPDcx1Ku1uqN6+A5zz/RdoEjwPt/PLUeGqu6Jj5HbBlxQwm3L+lhYvPOrs4DK43dgV29PiteY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767785645; c=relaxed/simple;
-	bh=HF9bxW5ifEArR+IWBvYklBpsds/zxrsa+KeSijSZQAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kozd7olltYkd9BoVjuvl8I486PIRO9NufO2HDz4UxvgGto4/M2ZaNz3hFmoK1KLwu92WdL7UmVIMkYTMBJ1+ETyIdUSrfcam67MIVWNcCts4Jxs8OdL47liNONLnts7RFruDLqyTI6yQWwmg2YDTxhbxjFgu3uJkeU+HfpjBUxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPG7pbjz; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767788089; c=relaxed/simple;
+	bh=R6NG5lJEQ8lMDs99NZnoSraWFaMN3KKFPc3wKZJMmRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e/GBZ+uUYiHYoePEkrPS7cE9kKIbPrMPZSwQDZ0KXrbXJtfRJC64c1lT6zbqnqlpCDSMD1pUwCcC2vJ/1ags/cuGRhhlFW/qXIJYXGmfd6KrIwMXA5BeVjNmikNExWEevQYctdMayjnRtFhrovkqmLqU6hgMJrSMuKZZ5oYN2fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INQYmICi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPG7pbjz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767785643; x=1799321643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HF9bxW5ifEArR+IWBvYklBpsds/zxrsa+KeSijSZQAk=;
-  b=fPG7pbjzg011R7ec5EjeVxK+4fVMSKtieZF7x+T1DTevSxwJ9UhioNqc
-   24OkBIHUOVhpJ6OA3PXwQiNXvEMYycW3ltJsk63/9r5oulVTw4gxxDw9J
-   wRpWVBXCGPAU/prC9+5ExJe7eJA/NyMUlD7mrSAut50/TROerZAK8cbRb
-   POsDRnfTa2MqU2iT6NcMqTwNOCg0ssxmB2GyQKmJRPVGWYPuWW1QT/uVY
-   t28LpA1m8XY80mZZsN855NZTQSPZNN4A/ljgf0I4X9NsVoBAKI7KDDgZ0
-   52KdSAF2fg7KokwYAnh3xLZjsf3m0j/nAL+GFTfDXMiEUz9Uk8M6AfVAg
-   Q==;
-X-CSE-ConnectionGUID: G21BllmmT8OM6oNm5DRhQw==
-X-CSE-MsgGUID: oJfSUenOQe+w8/Q6Vv5kOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="79455976"
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="79455976"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:34:02 -0800
-X-CSE-ConnectionGUID: aMlEGbLhQaCn10YQms/Y6A==
-X-CSE-MsgGUID: UtuIl78URiC4ji1cbweZXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="207053741"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 07 Jan 2026 03:33:58 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdRnY-000000001Zw-1sIe;
-	Wed, 07 Jan 2026 11:33:56 +0000
-Date: Wed, 7 Jan 2026 12:33:26 +0100
-From: kernel test robot <lkp@intel.com>
-To: Andy Chiu <andybnac@gmail.com>, linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org, pjw@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Andy Chiu <andybnac@gmail.com>,
-	Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
-	linux-kernel@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>,
-	paul.walmsley@sifive.com, greentime.hu@sifive.com,
-	nick.hu@sifive.com, nylon.chen@sifive.com, eric.lin@sifive.com,
-	vincent.chen@sifive.com, zong.li@sifive.com,
-	yongxuan.wang@sifive.com, samuel.holland@sifive.com
-Subject: Re: [PATCH v1] Documentation: riscv: update Vector discovery for
- userspace
-Message-ID: <202601071253.83RmycAh-lkp@intel.com>
-References: <20260107000609.63892-1-andybnac@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INQYmICi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0696C19425
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767788089;
+	bh=R6NG5lJEQ8lMDs99NZnoSraWFaMN3KKFPc3wKZJMmRk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=INQYmICipylQxs+C59lMzeYYix0bMu2bcFIowP6dk8TBmQgvuoyAKd8ef7hBaCcu7
+	 3YcZ30M3dNdiELMd9v57M/IB08u05NzDV0kCERtFuK+gaEf9yfY9gV9xvUfDWjA0Nk
+	 WJ480QiqKE5QBnisGoeIZbI/l4BlGZeUiPsneWhQPGb6EH6cezTRHiaKpdCiKgIIGj
+	 RCxyct8hmDIrmjxiGrI4lazj1pMnUTZI7eTO+SlLqTMRexpe213Gnr+RSW4eoRnxaN
+	 bvRgRKwfZtB4eHCNcPhFmaAVjoOBwP7LjwHDjFhEIfiTJbVQzlftS0KGR3BULo9tpr
+	 ZzmI8R8leNtlw==
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-65cfddebfd0so1090090eaf.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:14:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVpUhtB3K9Mo2pseDDrGr6hMLvasIHV7ltj8L7M5SBE/qTaVciBIshDZGKeS5G8a5kbjiFRMhF5y4Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrfM7B/MuIqLxFssF46J267YOU2oJ4G5bOuZNiDFcc3TfTYaia
+	3mW6IFtXTmPc+beU4qPkVWqiT120raO0HkjkMGPKS1I5olhfxkW+69OsQum0fwjtM5E2+NUI62J
+	+Ui/0jmtwLCbzlq5FKI3wUKbdBY3bzFQ=
+X-Google-Smtp-Source: AGHT+IEYGr57xBFxtjTLHXynW++EPc/6gFKE5ArUM1UmGgpdl0Yul1DdwjxReJHut3xklLgkEUiJe3WOQk3U+AGIDlM=
+X-Received: by 2002:a05:6820:2298:b0:65b:3c3b:69a8 with SMTP id
+ 006d021491bc7-65f55082767mr908359eaf.44.1767788087976; Wed, 07 Jan 2026
+ 04:14:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107000609.63892-1-andybnac@gmail.com>
+References: <2396510.ElGaqSPkdT@rafael.j.wysocki> <DFHK7ZS7H7LJ.1POCUDPSLC3CP@kernel.org>
+In-Reply-To: <DFHK7ZS7H7LJ.1POCUDPSLC3CP@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 7 Jan 2026 13:14:35 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0gDXSdAy9wJYUc_yyHD-Y_tPk0eVzWTyMLe7uHm30_Ncw@mail.gmail.com>
+X-Gm-Features: AQt7F2rlgVvCwdODjdcRFyu1z_vpGd2ZB_ft-gACB2jfk1R38mumdCy3KxWprHQ
+Message-ID: <CAJZ5v0gDXSdAy9wJYUc_yyHD-Y_tPk0eVzWTyMLe7uHm30_Ncw@mail.gmail.com>
+Subject: Re: [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using
+ ACPI drivers
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <helgaas@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hansg@kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Zhang Rui <rui.zhang@intel.com>, 
+	Armin Wolf <w_armin@gmx.de>, Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
+On Tue, Jan 6, 2026 at 3:01=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+>
+> On Tue Jan 6, 2026 at 1:27 PM CET, Rafael J. Wysocki wrote:
+> > +This means that it really should never be necessary to bind a driver d=
+irectly to
+> > +an ACPI device node because there is a "proper" device object represen=
+ting the
+> > +corresponding piece of hardware that can be bound to by a "proper" dri=
+ver using
+> > +the given ACPI device node as the device's ACPI companion.  Thus, in p=
+rinciple,
+> > +there is no reason to use ACPI drivers and if they all were replaced w=
+ith other
+> > +driver types (for example, platform drivers), some code could be dropp=
+ed and
+> > +some complexity would go away.
+>
+> I think it would be good to explicitly encourage people to convert existi=
+ng
+> drivers (maybe even list some of those) and rephrase the last sentence to=
+ list
+> what exact infrastructure, complexity, etc. can go away once that happene=
+d.
 
-kernel test robot noticed the following build warnings:
+I can rephrase the last sentence, but the purpose of this document is
+to explain the motivation for the change rather than to make a call to
+action.
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.19-rc4 next-20260107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> I think this would make it more likely to receive some contributions towa=
+rds
+> this goal.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/Documentation-riscv-update-Vector-discovery-for-userspace/20260107-080917
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20260107000609.63892-1-andybnac%40gmail.com
-patch subject: [PATCH v1] Documentation: riscv: update Vector discovery for userspace
-reproduce: (https://download.01.org/0day-ci/archive/20260107/202601071253.83RmycAh-lkp@intel.com/reproduce)
+I have prototype driver conversion patches for almost 50% of the cases
+right now and I'm expecting to have them for all of the cases by the
+end of the current development cycle, so I'm not sure how much there
+is to gain.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601071253.83RmycAh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:153: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:176: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/arch/riscv/vector.rst:163: WARNING: Unparseable C cross-reference: 'prctl(PR_RISCV_V_GET_CONTROL)'
-   Invalid C declaration: Expected end of definition. [error at 5]
-   prctl(PR_RISCV_V_GET_CONTROL)
-   -----^
-
-
-vim +163 Documentation/arch/riscv/vector.rst
-
-   162	
- > 163	c:macro:`HWCAP` is designed to serve as a quick check to see if the standard
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I want people to not be surprised when they see those patches though.
