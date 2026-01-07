@@ -1,95 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5938C17993;
-	Wed,  7 Jan 2026 05:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A6C17BCA
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 08:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767764905; cv=none; b=UF9eEV67jIN77BoZ3Xz7VzlL1tuuhp3T+9y2NVmBoECsp7MYnBxa+IndQga/LsM55HPs5iKCdATiPWqknGy96KjFz1axOSY2wooj/FjQCwqOMgY0/TwLRSrhOClc90EfTufXIY6ogHxan+wIZ1gpo8AhSvcxUKWtOaZWufzudyo=
+	t=1767773075; cv=none; b=T3sWvUwl5xwFrVdwSbH/+4OV0Z3CLpdV+XGTqtnxeU+Az+oaxKmaiGZYXfrHjx7bjdRDolf09b/NqxBJOwGIs093waXNYT99aRLfUauF8ljls8SAfpwt2yvZw2xtEVcIngQt87caFYNDLalLk7qe59o0X5wKAAducfoxKnf75PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767764905; c=relaxed/simple;
-	bh=0+FZ1WtgSm/nAQySSzMyq7NKTbNcf9U1vfmunxR5udI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PVGd/rwQyrvABbUOD5xYJVqx1frpUbSB1Yl72i7RBNu7K5e15c0FbzrFMZgBGNo/MeLftgyS2ahutcwFt2ex/NpjfC6CvocRJ7kbnKy1ne8sPeR17csZbuzZ2bRRyOUFg/fh4HQm1nfhHfEvhylty45IceeObm8gklLowANIJYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPu7NGZp; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1767773075; c=relaxed/simple;
+	bh=4rSZtHlDLJaB2uv/GrrTNg5hx74qMe6US/U7hmvGau4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vlj+0xW2HcDGXB5nKycp3YNqQmMHRamc/ZfQE524bG/Micg762gZnuvTlDpIganHpB2CohebTnIiwxn5An/B/17zXn/RCWbItBHt6vxAhzJZMz6RKGE+GdHOlNsQq84Cf8vxXKgp6hmLaBAaqRq0FTKgxy9uW05NY4pB5or70IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fMU64vX2; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPu7NGZp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767764904; x=1799300904;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=0+FZ1WtgSm/nAQySSzMyq7NKTbNcf9U1vfmunxR5udI=;
-  b=ZPu7NGZpxRx4Qvvb8rPvWXGZyiGWVfAtXVXNHoHusIOjp4Si8/e8l1ba
-   GbSudx6pyFndubHojVlj39GBftN9G4X/K6DPR/nTANl/pwzm7B7LxtI2C
-   jY/qGeBgB0K6ncapfsUmvgAi3iWtrZbyZZfyFxBDxx7Oxx25VEK1LJGvw
-   o0yFk6JpiAVjTMVPu3xkOXO1e16LZcvxjRifLB3zJgUeYxr177bXLIhw2
-   tlfD/Ojv3my/xw6MIcGBCQZktbiltEsSQpshgYjpvXNCa4ubZX7R7AMMQ
-   +yrY+49MelCDimDhc1adREYIQTCZprN+oDRQuUmcmg5H5X8JN/Cph6oDF
-   Q==;
-X-CSE-ConnectionGUID: +NinzlVeQMCdiaEhsbglKA==
-X-CSE-MsgGUID: 7X4o174PRMypuDa03KpQGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="91787710"
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="91787710"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 21:48:23 -0800
-X-CSE-ConnectionGUID: FcRaYlxlSW+Fp91un03Hpw==
-X-CSE-MsgGUID: JDHktlI+Rq+auVfXD+19TQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="233978337"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 21:48:18 -0800
-Message-ID: <390a15a8-e530-46ee-a42c-cbb3170692df@linux.intel.com>
-Date: Wed, 7 Jan 2026 13:48:36 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fMU64vX2"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-5dbd9c7e468so748453137.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 00:04:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767773072; x=1768377872; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zecwOUY6lT3esKdCrwKhUrQbaY02OdlNIqSrdr/R0Yc=;
+        b=fMU64vX2mWJ0AX8hBOgo66m3sV3tHTTYVSujrYkyI8g3WJAJ+kIboYW49GoEWrABmo
+         cbvGV3o1PE9g62GWVOseU0xtDJm1ZRzE9aMH5jW7m6LAYAvbO0Yxoy5kYkiPnhVLhnxh
+         mKuvTlMZ/d6FniUSK9Nxs6key+LpWC9J5QZ/7xYU+JOs9ah1cuPr6cQg0j7R5FH50hwP
+         tFI5oi+7nWsxgqm3pdmcLsFtoOHs57oJjsvUWeAlJKRSG+4tqxOvjsByb5IMhbxb6+dZ
+         gaArjGF4Ebsst98F5HAO29ElLI8qkNQDmjvGXr3O/nEjchC5ooKn4u8DDUMkPDLksWT3
+         w3pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767773072; x=1768377872;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zecwOUY6lT3esKdCrwKhUrQbaY02OdlNIqSrdr/R0Yc=;
+        b=DldiZEjX7JSnoJJoCqeQdAcLtrng1ToQ2LriteEheuDxERrf/5YA2y9J7N9caMFC2U
+         vgHCFfnlEFpWxuU7WtpQWQVVkjtfDTDHK48a8W4SUZe1wx5JWxHD2N+dQVhhMLhcfmnv
+         asdvvOU0RPJ/vGVbtX87Knl36OfQGV7K0dsQAEWRGFDX/jTPgqJMAFJQguOn1jfDSARS
+         9DJYS1h2Ivdg/Zm9yfwx8dayHrjDg3zrBDGsrlzVRfEPjb7e+uaJlvkqTB/gy6RnjYln
+         zjrBon5N8ufo8Dd70+ybFnLGwAEnCjPWoDg40aP53AcwKSsvz6zq1Fxg95geVanthz21
+         teXg==
+X-Gm-Message-State: AOJu0YyHag/3VC1VK/7Mv6Qlbjj4qU2ldfTg/iOEIsbeFH2ZL19DSdzn
+	mvQPi1vP9q0nO+LpdUeuBBGKUSDzaE+GaND6/QiNxyk0sbWXEk7p8g7Wta0yPLg8
+X-Gm-Gg: AY/fxX7auOiHTFY47MtWFDk4NdCFTymaqVgIT6aNObYCu6EddtsoGgh6FU7GewedLMI
+	1OR7zapO7Kl96mizyK+N16xHUKMBM5JPLdqOeLU2pPHeqK/ZcSzka9+/JnmsFCU9Qap0J5Q4OXc
+	VS6LiHA8GVP8Occ2XWl0rp/va7G+duALo8gvm28xbXTLlnYUE9sRZotG/Js57eyuh/UcXHurqOe
+	i0LituJDSP1TLBnaNI41zojk1lHuw/Uc3RxUVr4yJbuSG2YhE4I/LG6gnY556f0qwztPQgnZLBI
+	jnTqdUxwMWSZk2eP5aLZ1MTS9tFzUedI1Wx+bDcL0fnNJXCh3SCIiVD2uVTbn0s1isGbcnvdBgv
+	rhE+b9fYAROD/LJXBWlWv0/RlCG6VR/Pv3vdh66AZM25aJg8VXfWkYsliyBlSOwzAxZC9PhRdzU
+	b3eCNDlT9zWsfMoCHUx6DZe+X/oz8=
+X-Google-Smtp-Source: AGHT+IFTPij8GH53CC2CnagD+KvHgGV+pwbTJE04CrA7K4ExCsYKDmH3CTT+0WQGX7fjx9DulSRliw==
+X-Received: by 2002:a05:6102:9d9:b0:5dd:89ab:aa08 with SMTP id ada2fe7eead31-5ecb6882d87mr564156137.19.1767773071949;
+        Wed, 07 Jan 2026 00:04:31 -0800 (PST)
+Received: from localhost.localdomain ([179.235.13.139])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-944124a378csm2025700241.9.2026.01.07.00.04.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 00:04:31 -0800 (PST)
+From: Diego Viola <diego.viola@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	Diego Viola <diego.viola@gmail.com>
+Subject: [PATCH TRIVIAL] CREDITS: add whitespace before opening parentheses
+Date: Wed,  7 Jan 2026 05:04:09 -0300
+Message-ID: <20260107080411.59483-1-diego.viola@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/4] iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
-To: Mostafa Saleh <smostafa@google.com>, linux-mm@kvack.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
- akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
- mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
- david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, xiaqinxin@huawei.com, rdunlap@infradead.org
-References: <20260106162200.2223655-1-smostafa@google.com>
- <20260106162200.2223655-3-smostafa@google.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20260106162200.2223655-3-smostafa@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 1/7/26 00:21, Mostafa Saleh wrote:
-> Add calls for the new iommu debug config IOMMU_DEBUG_PAGEALLOC:
-> - iommu_debug_init: Enable the debug mode if configured by the user.
-> - iommu_debug_map: Track iommu pages mapped, using physical address.
-> - iommu_debug_unmap_begin: Track start of iommu unmap operation, with
->    IOVA and size.
-> - iommu_debug_unmap_end: Track the end of unmap operation, passing the
->    actual unmapped size versus the tracked one at unmap_begin.
-> 
-> We have to do the unmap_begin/end as once pages are unmapped we lose
-> the information of the physical address.
-> This is racy, but the API is racy by construction as it uses refcounts
-> and doesn't attempt to lock/synchronize with the IOMMU API as that will
-> be costly, meaning that possibility of false negative exists.
-> 
-> Signed-off-by: Mostafa Saleh<smostafa@google.com>
-> ---
->   drivers/iommu/iommu-debug-pagealloc.c | 28 +++++++++++++
->   drivers/iommu/iommu-priv.h            | 58 +++++++++++++++++++++++++++
->   drivers/iommu/iommu.c                 | 11 ++++-
->   include/linux/iommu-debug-pagealloc.h |  1 +
->   4 files changed, 96 insertions(+), 2 deletions(-)
+in order to maintain consistent formatting across the file.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Diego Viola <diego.viola@gmail.com>
+---
+ CREDITS | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/CREDITS b/CREDITS
+index ca75f110edb6..33b2bc96ddbc 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -695,7 +695,7 @@ S: USA
+ N: Chih-Jen Chang
+ E: chihjenc@scf.usc.edu
+ E: chihjen@iis.sinica.edu.tw
+-D: IGMP(Internet Group Management Protocol) version 2
++D: IGMP (Internet Group Management Protocol) version 2
+ S: 3F, 65 Tajen street
+ S: Tamsui town, Taipei county,
+ S: Taiwan 251
+@@ -1997,7 +1997,7 @@ E: bkaindl@netway.at
+ E: edv@bartelt.via.at
+ D: Author of a menu based configuration tool, kmenu, which
+ D: is the predecessor of 'make menuconfig' and 'make xconfig'.
+-D: digiboard driver update(modularisation work and 2.1.x upd)
++D: digiboard driver update (modularisation work and 2.1.x upd)
+ S: Tallak 95
+ S: 8103 Rein
+ S: Austria
+@@ -3609,7 +3609,7 @@ S: Finland
+ N: Deepak Saxena
+ E: dsaxena@plexity.net
+ D: I2O kernel layer (config, block, core, pci, net). I2O disk support for LILO
+-D: XScale(IOP, IXP) porting and other random ARM bits
++D: XScale (IOP, IXP) porting and other random ARM bits
+ S: Portland, OR
+ 
+ N: Eric Schenk
+@@ -3986,7 +3986,7 @@ S: D-50968 Köln
+ 
+ N: Tsu-Sheng Tsao
+ E: tsusheng@scf.usc.edu
+-D: IGMP(Internet Group Management Protocol) version 2
++D: IGMP (Internet Group Management Protocol) version 2
+ S: 2F 14 ALY 31 LN 166 SEC 1 SHIH-PEI RD
+ S: Taipei
+ S: Taiwan 112
+-- 
+2.52.0
+
