@@ -1,206 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BB713B293;
-	Wed,  7 Jan 2026 23:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502C5221DB6
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 23:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767827323; cv=none; b=k/eza3/nD7qURfKYj1lM/Ybt0XPj2U6X+on0G67i7zfmxbe7aGqlXhD/+Fh8OgjFQBk3Vqy7OjK/yP5TL04EjRNUcGXScP/5dk7GdxIkD7Oe3xKhsY5MALNt4bChx6FADVHLAUBUVwlfW/9W346dX813bK/Xp/eLXfNJG1yUapc=
+	t=1767829586; cv=none; b=gaO4V/wJEgMyqTnNuo/4NZAzO14vh0RdpT/v/uYOmYQZtfwSQiYLSx1e62CU+6PMOebNVVNhLUznq/uJFf2S7vY931/UVDdbgkX2SCLnfvKqgXSSF/J8ZjWaE4e8Oh0V6+VAtaXdbQuAxRJ2ATrzEeLUd2Ec2vjwbHJUCeZXo30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767827323; c=relaxed/simple;
-	bh=YCncmwLpuFDd321NxUtaZfeqnlyxrNQELRI0R3y9CQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nUxEF/+sxysGjNvr6VH+EmY4Uczmb8UcWN1j+4FHf8/sBP8fu04ifcRjYDUv8s4MINM4jl362V8h5ZavbUCBR6PRnhjSTi1jjhG0eqq929SxJSoGez2ydSRVFarAVW44d16cp7gJ5YctUG/4T1hHv3rVO9LbA/bC1HU8jV1HFhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qijEDvAX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767829586; c=relaxed/simple;
+	bh=5lkCo2Bcdh2eobJrag13J+RX/0T+fcr6NPLzhfLUZeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQMgSvCZ8NGNy4b1z9spBNC4PVKISH2XKyT2AQ1QsnNJjYDeB46MMCWXwscC65yLLsAzO//BEKQkh2Z7DjXQw3U+MszUd3i3nY3ZP24ByVfOgsX9WgV6qWZq3iQY2OHgcFPxVNZAmyLANjTq6jSpgRrqDBe/FIBEVUtg4Yl/VMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ddaq+9HZ; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qijEDvAX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBAA8C19421;
-	Wed,  7 Jan 2026 23:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767827323;
-	bh=YCncmwLpuFDd321NxUtaZfeqnlyxrNQELRI0R3y9CQ0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qijEDvAXe8cjtvsNzyVD3d46f3BoJfAvJ3fM4RT5xX84aE9W+c+bqD1mRsmm1iOmn
-	 /t5LfuX8HaZpx5lvNCzT+zhOUJggsm5+tbQ2kkqWH6rtiuRaaACYB3+lM4Sav/UtDq
-	 DbKay1mpfP6GpuhNMS30I/XifPhU2SOOysMQNcpSgv/w+JUR34xbY3jtLD3kBqia2l
-	 ilOb7obGcT4WOegp4HqUjlYHyK63lFwihl1/KMGGiyFMNBj0CrCwgK2BpKLalkwKF7
-	 zjXTSRKLBOch5BPwJHjNF9aY0769FzHwqk9hxAm2Z5aukce3jgG/4wnqksuo3IHxcm
-	 TXAduN0mR9MRQ==
-Message-ID: <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
-Date: Thu, 8 Jan 2026 00:08:35 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ddaq+9HZ"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso2866925b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 15:46:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767829584; x=1768434384; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5lkCo2Bcdh2eobJrag13J+RX/0T+fcr6NPLzhfLUZeI=;
+        b=ddaq+9HZQZKOVb0M3Z6eQh3VW5cLxQHA3OmOfd9NRrYFdzr1xTDdUSq56+QFu6/Xc0
+         axbnoW6ThykfX54L/AhzViuv9NMecf9QfmUgGFzQ5303JTYPaNDHw1OLnbf0QJB3KmRA
+         33BqrfyCQKAxvh//0cjuOr/NC46xKdpeF3xfhs2agdpPNUUm4pNmAU2smIWFmXL+2YyU
+         CQq1oRRD4Z2BV0pYlzJ/dXC+H77ixGkEvtcVx564n0qaGxXhSkZkwXlAcvZlHmPlIz6K
+         UBAIAJWHOn0W1YooXtfG5RCSGMDFXLGZqvWL5hux2d6PB0bgh4jf56Usi2nwdWNXszWd
+         m6bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767829584; x=1768434384;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5lkCo2Bcdh2eobJrag13J+RX/0T+fcr6NPLzhfLUZeI=;
+        b=wJxfFmn1h0JxtyHG6Ye9o6tRZN9DGvW1/wD7ZRU/4C2B4yZKnvO+Q5W5yC997yg50s
+         hSuzjtPGdRAhHEQVazHoVTiaC92Bd8871BiSSWV/ur38cOKY7O3AsLdKI3HSp9vncurY
+         f6ag7wLlRWQcV1/a+o3qlpKNlvkfmEKHlMSbUll5dQYWhHV5qCKXa758KDHNCuVTvdOa
+         82m1SRRDYv7lDVqxmbEyqtvBHxFoiuK+/esblP7wYSmEImHkTJZqDXIUFFQKYxilYfai
+         yw6ttr3yJ0zEDIxybUQR3TPgOW3p8G6Q+4yPCFslbGcvwlAh2aEqbeK1MS2uLDvWJpr+
+         Cfkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLwOQYbfoWJ5uz/pbkiLZ+17TOhbpR8RV5l9t8jh5eBFxAIHsYXYUKCa1YLS29Hqbs9Ul/mhSZS24=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf8lmGgK2oYWyS6SRqA2GaB4RyY2Sl1AB3mbknGbv5AIYOFs/y
+	B3BpQr5v2EDNRsIp/DaTor4tHDEqR1IL3WHghMwU3+mX4VpbuZt87yYd
+X-Gm-Gg: AY/fxX5Lls34fZhz4B3YUbQXIUdUJONz5QCi+e81nA3unRfIwMuNe7MR0eV0LMPLItk
+	MjTCVyY0KVCOJyAN6H/HG4ppvChtNLP9SJbTcrGGmvto0gvlkxP4+xIcLygEsObSLsJLoW7/M3w
+	ssaVw7VeE5uQlOSK3gOSkxGAZ7+/4djFYzWOyoQNWmybDXOxSCzWDJQmpwfK5ggEUncSmwkG5nL
+	0CTBximKYowAnl0am6Ec40oGbm12rE3YaCqkoL/GB181jh1K3Bev1hr/H5x0Dnk/unS2rriRlQY
+	HxyOLyib2u68PCvo+g7JMoTYOHXKmy7AV6g2V4922Zak7E5hVsLVznqSpX6p08pRuWkzSHKGjc0
+	I8Gw2qB9KitfeqYXhoY/aHvNaiEznwEpO86lJAtWmmTgerodqbcToj9P+Rzp86obhWI+k/N8j8c
+	8IQOOyk2roAGQ=
+X-Google-Smtp-Source: AGHT+IEuDYmNMp5sGDX6zmUVtDt4gxTdUsbu3GSb//0p0hx6zc8cYvZZp5jNv1GBUYp1AmXY6DK5Bw==
+X-Received: by 2002:a05:6a00:12cd:b0:7f7:5d81:172b with SMTP id d2e1a72fcca58-81b7f6ec17emr4090626b3a.42.1767829584411;
+        Wed, 07 Jan 2026 15:46:24 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bab0da0bsm5782245b3a.13.2026.01.07.15.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 15:46:23 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 2948C42805C9; Thu, 08 Jan 2026 06:46:21 +0700 (WIB)
+Date: Thu, 8 Jan 2026 06:46:20 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Regressions <regressions@lists.linux.dev>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [REGRESSION] Unexpected section title false positive warnings on
+ DOC: directive
+Message-ID: <aV7wTFqQQkGf4efF@archie.me>
+References: <aUuLHzk5jdyBAxD7@archie.me>
+ <87ikdecsj0.fsf@trenco.lwn.net>
+ <aV5a6PCVrkRHwqt3@archie.me>
+ <966fffa3-a91b-425e-b915-891299832e36@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
-To: Kiryl Shutsemau <kas@kernel.org>, Matthew Wilcox <willy@infradead.org>
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
-References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
- <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
- <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
- <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
-In-Reply-To: <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
->> "Then we make page->compound_head point to the dynamically allocated memdesc
->> rather than the first page. Then we can transition to the above layout. "
-> 
-
-Sorry for the late reply, it's been a bit crazy over here.
-
-> I am not sure I understand how it is going to work.
-> 
-
-I don't recall all the details that Willy shared over the last years 
-while working on folios, but I will try to answer as best as I can from 
-the top of my head. (there are plenty of resources on the list, on the 
-web, in his presentations etc.).
-
-> 32-byte layout indicates that flags will stay in the statically
-> allocated part, but most (all?) flags are in the head page and we would
-> need a way to redirect from tail to head in the statically allocated
-> pages.
-
-When working with folios we will never go through the head page flags. 
-That's why Willy has incrementally converted most folio code that worked 
-on pages to work on folios.
-
-For example, PageUptodate() does a
-
-	folio_test_uptodate(page_folio(page));
-
-The flags in the 32-byte layout will be used by some non-folio things 
-for which we won't allocate memdescs (just yet) (e.g., free pages in the 
-buddy and other things that does not require a lot of metadata). Some of 
-these flags will be moved into the memdesc pointer in the future as the 
-conversion proceeeds.
-
-> 
->> The "memdesc" could be a pointer to a "struct folio" that is allocated from
->> the slab.
->>
->> So in the new memdesc world, all pages part of a folio will point at the
->> allocated "struct folio", not the head page where "struct folio" currently
->> overlays "struct page".
->>
->> That would mean that the proposal in this patch set will have to be reverted
->> again.
->>
->>
->> At LPC, Willy said that he wants to have something out there in the first
->> half of 2026.
-> 
-> Okay, seems ambitious to me.
-
-When the program was called "2025" I considered it very ambitious :) Now 
-I consider it ambitious. I think Willy already shared early versions of 
-the "struct slab" split and the "struct ptdesc" split recently on the list.
-
-> 
-> Last time I asked, we had no idea how much performance would additional
-> indirection cost us. Do we have a clue?
-
-I raised that in the past, and I think the answer I got was that
-
-(a) We always had these indirection cost when going from tail page to
-     head page / folio.
-(b) We must convert the code to do as little page_folio() as possible.
-     That's why we saw so much code conversion to stop working on pages
-     and only work on folios.
-
-There are certainly cases where we cannot currently avoid the 
-indirection, like when we traverse a page table and go
-
-	pfn -> page -> folio
-
-and cannot simply go
-
-	pfn -> folio
-
-On the bright side, we'll lose the head-page checks and can simply 
-dereference the pointer.
-
-I don't know whether Willy has more information yet, but I would assume 
-that in most cases this will be similar to the performance summary in 
-your cover letter: "... has shown either no change or only a slight 
-improvement within the noise.", just that it will be "only a slight 
-degradation within the noise". :)
-
-We'll learn I guess, in particular which other page -> folio conversions 
-cannot be optimized out by caching the folio.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Hv2YtufuJ29ReXgO"
+Content-Disposition: inline
+In-Reply-To: <966fffa3-a91b-425e-b915-891299832e36@infradead.org>
 
 
-For quite some time there will be a magical config option that will 
-switch between both layouts. I'd assume that things will get more 
-complicated if we suddenly have a "compound_head/folio" pointer and a 
-"compound_info" pointer at the same time.
+--Hv2YtufuJ29ReXgO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But it's really Willy who has the concept in mind as he is very likely 
-right now busy writing some of that code.
+On Wed, Jan 07, 2026 at 10:19:32AM -0800, Randy Dunlap wrote:
+>=20
+>=20
+> On 1/7/26 5:08 AM, Bagas Sanjaya wrote:
+> > On Tue, Jan 06, 2026 at 02:58:43PM -0700, Jonathan Corbet wrote:
+> >> Bagas Sanjaya <bagasdotme@gmail.com> writes:
+> >>
+> >>> Hi,
+> >>>
+> >>> Building htmldocs on docs-next currenly produces about 50 new warning=
+s; which
+> >>> all of them are unexpected section title on DOC: kernel-doc directive=
+, like:
+> >>>
+> >>> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./d=
+rivers/target/target_core_user.c:35: CRITICAL: Unexpected section title.
+> >>>
+> >>> Userspace I/O
+> >>> ------------- [docutils]
+> >>> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -funct=
+ion 'Userspace I/O' ./drivers/target/target_core_user.c' processing failed =
+with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api=
+/target:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected s=
+ection title.\n\nUserspace I/O\n-------------')
+> >>> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./i=
+nclude/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
+> >>
+> >> So I did not, and do not, see any of these errors; are you doing
+> >> something special to get them?
+> >=20
+> > Nope.
+> >=20
+> > I'm running my htmldocs builds on my Arch Linux system (with Sphinx 9.0=
+=2E4 and
+> > Python 3.13.11).
+> >=20
+> > Full log (tarred up) attached.
+> >=20
+> > Thanks.
+>=20
+> Hi,
+> What docutils version, please?
 
-I'm just the messenger.
+Mine have:
 
-:)
+docutils (Docutils 0.21.2, Python 3.13.11, on linux)
 
-[I would hope that Willy could share his thoughts]
+Thanks.
 
--- 
-Cheers
+--=20
+An old man doll... just what I always wanted! - Clara
 
-David
+--Hv2YtufuJ29ReXgO
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaV7wSAAKCRD2uYlJVVFO
+o9t8AQDhw/m4nIujYigOdA2aNi2jne6Vev8KUsOHYlY7yCWDJAEAviAWbCThgrYO
+VA0SnKeeFVAPM8V/w7O6kLO2o9OwygU=
+=rb4s
+-----END PGP SIGNATURE-----
+
+--Hv2YtufuJ29ReXgO--
