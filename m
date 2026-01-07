@@ -1,99 +1,233 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C427034C134;
-	Wed,  7 Jan 2026 14:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C60347FFE
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767797602; cv=none; b=GWe0TPnFrin5ztRtc73FftWVtDW3Ql/ESOd3xuDmC++e2X9A8TCUl41s2QphXtCK3Hc7UNtrr5tHXQa2a/PBEO76M2NsMiEYWVB7xPgh0oQKsUeVP1Yt/3nXoQV0Jvx8AboZogTOx/C5BYulKBYsFsoHxgGgkt3jRe3juXwctxs=
+	t=1767798831; cv=none; b=guIWWSssh0gFrfhPUACJKpb+UQCQUtjeUTU70n2/BTJYjI338bFXuBvWXiispMDxlWzUtMmhwDbFbd3Zzl4gsQ8cy/AiWeAz4FXf125pqrvH+rQn7PmTz1tG4FKH3AJmU/qWsT333P2tiwvsv/gfUaKPYasx4mk6lXCI+hFADjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767797602; c=relaxed/simple;
-	bh=oZKQXA4Uess6u7UzTu57aLvzxwOHcNWAgrEBGcjPMHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W46hJmi/PdZ3VOqGUAef4ueSO+HfKblZKDV/iOr1JTrgGlmLgmNoTZ+OFWLpthmrwLs9uN18TbNZgjT17HQGBCtmdolj056m2SXMhSlBO+91AcQHOHTPsD6AmTCckA3dAj0zq7kdtohcgoNBB105SvIgsVAeaF+KtRSqLUHloc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (0-bit key) header.d=alien8.de header.i=@alien8.de header.b=WJkwrhLy reason="key not found in DNS"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1767798831; c=relaxed/simple;
+	bh=8W3cviQ5GbInToBhBoY7C9vmqNIvn2QZQdxWo3XW2/A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X5kdiG++D19ZhK2jyZcO5TLX42JhwT+CjaAZR2XPZcPTT6bTSFlcGoUc8gFCUqL+mHpkgTf9lq4zlXFYBJcrG775d8ysL0NyzGnsM9pbSz8vVUHa0O0WCFHyDG2/A0HgBVltGaeWlstQCB86/WefjlWjfVS48fGwUKJfr7YyMEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2uAo2Vi; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=alien8.de header.i=@alien8.de header.b="WJkwrhLy"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2268340E00DE;
-	Wed,  7 Jan 2026 14:53:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 9k7A3SBZ2udD; Wed,  7 Jan 2026 14:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1767797591; bh=PK307vC3V+92EBFtSH3dXZ1lbQBbjr5tS/ML70eN/1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WJkwrhLyO2exwZwgXzN8J82TbJoOz6yr57pU4FBKYPCi4gPfRS3a1vMJJyjzqfBDE
-	 DrXGciYTjd9yIrFlkGftpcEfYSGuVOUKPXP4gp4ZwrFCwYgXtELWjY8CnPfpA7nVaS
-	 46Q48yNeNpzSTf59D3u6JNwoYvtBhAh4gRTMB/LWb3UPQezTc+S3MLGD5hej/DhkZR
-	 yHGacD09NOAqZIRKjH38a75pZucoJJCKE5ydv496CcHr2xY473ekkRyOW3B5d07YnX
-	 kxohLYUJ5iJ65BEoi4xxg19sbyRtyK/EfFmLryJ+M5UVai1F3hHAv23ug3NbQSZZa7
-	 CbTOVwVOHtq2a2owBxo4JKNzJyj/t2AeOFOwichyLGa1Dz+q2XRuba65Gj5IxDp8nH
-	 5XTyqDpShkfB6kzzy1Ni7Tk/WuothBmplfRUF1VzH0SFBDlmD//+QxDYO5DoEE1+dV
-	 WQDmLFflDQA3BpKX5GXJQr4N0/qpPYfQQsU7mC539ICkZjnuGJ8QqILKpa5R551Xbi
-	 7++0IzGDbsalagrWxJSsaPvossLd8JwbxqwS0Jp4e1VaX6eW/DFlmfA287Bs+P12P5
-	 lTVugy+J6HLc6G7FUwlO9BV4TMeyKyXyG9HSeHdhJz5NrQI2T51lsnfNN7DidSncrv
-	 dcPvo4uli8bWE30XsHWMLwx4=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 6438F40E00DA;
-	Wed,  7 Jan 2026 14:53:02 +0000 (UTC)
-Date: Wed, 7 Jan 2026 15:53:01 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Richard Lyu <richard.lyu@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/x86: Update AMD IOMMU specification locationi
-Message-ID: <20260107145301.GDaV5zTU0a6btE25Q_@fat_crate.local>
-References: <20260105150548.73422-1-richard.lyu@suse.com>
- <20260105151959.GAaVvWnyEonFSjilB_@fat_crate.local>
- <CANC36oUVpEF1r3JK8Po6a4RwxRQ4qGMLvmWzxn-Zf=W2tF9-eQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2uAo2Vi"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so19461265e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:13:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767798828; x=1768403628; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Ereg+lemriroCRpjwkDWgDnQDqYfpC800QB/08JPJM=;
+        b=H2uAo2Vi7HDA+JaG3BZ23dN6BQ4d6kE27XLtJqrbleeBukrWUS88/hYo+GnpOe+z/D
+         8WKHf70YpwOcri6FRMhvYE7ieyOsWvnxDNMoEdQ4t6GDjPJPqKfAgNRD/hcqE/l4J11g
+         cGwrHq1gsBXbfHVn6VaC7ZsHmbg6xCHQ/7vOu6fuq8eAadIDv86BEzvVYpSgqtXquX8M
+         vBq8g8mYMVHgeVasZz99HpgonsJU4dclU3FembZ1IRt5h1Mr/zD04FWv0TIa6i1FAmr7
+         1L5a8AZtj47KbU0uj6+Z0weRwAsK4C+71kh7+w/zYufpAiVd3DTxEvr13ogJ8C1dbUwo
+         XZiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767798828; x=1768403628;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8Ereg+lemriroCRpjwkDWgDnQDqYfpC800QB/08JPJM=;
+        b=XT8+9LXW2SSrikbNwbfrxBJ/vioyENENHbnkni8KG1RgP+gjbZS5VLZqk/xklMcvQG
+         Qc8/k1qBj+O3CvhM6Y7PQl28hgNqoa9NGzVV94cHkFLZRAdCUWOv2wd8y/X2j+uqa3uo
+         htgdeKKHvPCtcmkh/+I3VYkUilMy/6AKBrGaqbOiYhsjIj6hRMpVQxXrfeGjE/VgGewc
+         G3yK4CAneLFx6olwp0PYc4TfPnm+i/QM/2oa+Eay1wzN/cFfEsQef4iLJCpljOUj8MTr
+         wCb9x4SJoCMwHx1ippkP/+5rLQyKhkza+jdBojG3sT3AMuOgE5g95KBkaOQGx8lch3uJ
+         EwBg==
+X-Forwarded-Encrypted: i=1; AJvYcCVHC0yFnewm7XHkW67FTs/Ih1pB6Sv1SUtFIK2qh6DdGjjQspmcbZYPjT8DiV7Yh3N466yupJ9yZco=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yztq8t25ux1ApcvJwZlfBPeZn/pm6OyzEZ9NbULu3Mn4kLKjaMX
+	7+I9zEyRkeWyt+fza8HEqOfqJWUnVGR0jyLL7fvSj1MSvlJpyJxhm9xx
+X-Gm-Gg: AY/fxX6mc/dshQ1QnJp8LNCH5NsYEYGF9Vqzk1wMH4ozP+QZjGIrs492qd8vKqu+pry
+	+cPqr+p2WQA9aDwbomaWkJhTWff/3dcyEOnhX/ic/zKMcXbL1ilQoQfVgKiSjLRkBHQ0PZFQSvJ
+	/QPCSXdHUWj7tiyhYjAg5G/NXAht8G7XHXOD1Y8xq9yeCx5woR8wP+IcWObYwUv5P/GbJS09vvr
+	H2VcnyVncfOLcQxjtmWPFBuvXP9r2HGB5pF2vUeut48wJAY2eN8uNx49sXaJky/O4mgWEJJdu04
+	PeW1JyYIYizcxXWxpE62hyZKcMLNU2dBIbAvMOnRyBz8wP52tIuwV3dIIqFkLA2sfTNqaxkbeKs
+	XBnoVjGLxdnucAma+vqRVYVuDYWrIvLbl7wV4l9Ua3QEHcSVmE5yCeyUTG44ftX9AHv0ttM0N+c
+	Cw1zYvwH6pADcUQVYQq5QXhVxmoA==
+X-Google-Smtp-Source: AGHT+IHXEer8ATdFHJ3hctOBJ1LLmHpzbXID1qbtLy4x8gGW16EIKN6E9TqiON2GnaulMGyPUWYlDA==
+X-Received: by 2002:a05:600c:8485:b0:477:55ce:f3c2 with SMTP id 5b1f17b1804b1-47d84b182c3mr31029125e9.14.1767798828047;
+        Wed, 07 Jan 2026 07:13:48 -0800 (PST)
+Received: from [172.24.138.145] ([137.71.226.102])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d86c6ff40sm31996415e9.2.2026.01.07.07.13.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jan 2026 07:13:46 -0800 (PST)
+Message-ID: <f2537281-f2e0-4194-bc05-cea41ceeba7d@gmail.com>
+Date: Wed, 7 Jan 2026 16:13:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANC36oUVpEF1r3JK8Po6a4RwxRQ4qGMLvmWzxn-Zf=W2tF9-eQ@mail.gmail.com>
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: iio: dac: Add max22007
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Janani Sunil <janani.sunil@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Alexandru Ardelean <alexandru.ardelean@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ jan.sun97@gmail.com, gastmaier@gmail.com
+References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
+ <20251219-max22007-dev-v1-1-242da2c2b868@analog.com>
+ <7ea6cb11-b9a7-4944-bfa1-63c063eb421e@kernel.org>
+Content-Language: en-US
+From: Janani Sunil <jan.sun97@gmail.com>
+In-Reply-To: <7ea6cb11-b9a7-4944-bfa1-63c063eb421e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 06, 2026 at 12:10:41PM +0800, Richard Lyu wrote:
-> I completely agree. Corporate URLs are fragile and lead to constant lin=
-k rot.
-> Using persistent metadata like the Doc ID and formal title is a much mo=
-re
-> robust approach for long-term maintenance.=C2=A0
-> I'll update the documentation to use these stable identifiers instead o=
-f direct
-> links.
+Hi Krzysztof,
 
-Thanks.
+Thank you for reviewing the patch.
 
-Btw, I see you're new to this. Please read
+On 12/19/25 16:50, Krzysztof Kozlowski wrote:
+> On 19/12/2025 16:31, Janani Sunil wrote:
+>> Devicetree bindings for MAX22007 4-channel
+>> 12-bit DAC that drives a voltage or current
+>> output on each channel
+> Please wrap commit message according to Linux coding style / submission
+> process (neither too early nor over the limit):
+> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Noted on the coding guidelines. Shall update the commit message.
 
-about how to do public mailing lists and also:
+>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+>> ---
+>>   .../devicetree/bindings/iio/dac/adi,max22007.yaml  | 116 +++++++++++++++++++++
+>>   MAINTAINERS                                        |   7 ++
+>>   2 files changed, 123 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+>> new file mode 100644
+>> index 000000000000..c2f65d9e42d4
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+>> @@ -0,0 +1,116 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/iio/dac/adi,max22007.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Analog Devices MAX22007 DAC device driver
+> Bindings are for hardware, drop all device driver references.
 
-https://kernel.org/doc/html/latest/process/submitting-patches.html
+Right. Shall remove the references.
 
-Thx.
+>> +
+>> +maintainers:
+>> +  - Janani Sunil <janani.sunil@analog.com>
+>> +
+>> +description:
+>> +  The MAX22007 is a quad-channel, 12-bit digital-to-analog converter (DAC)
+>> +  with integrated precision output amplifiers and current output capability.
+>> +  Each channel can be independently configured for voltage or current output.
+>> +  Datasheet available at https://www.analog.com/en/products/max22007.html
+>> +
+>> +$ref: /schemas/spi/spi-peripheral-props.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: adi,max22007
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  spi-max-frequency:
+>> +    maximum: 500000
+>> +
+>> +  '#address-cells':
+>> +    const: 1
+>> +
+>> +  '#size-cells':
+>> +    const: 0
+>> +
+>> +  vdd-supply:
+>> +    description: Low-Voltage Power Supply from +2.7V to +5.5V.
+>> +
+>> +  hvdd-supply:
+>> +    description:
+>> +      Positive High-Voltage Power Supply from +8V to (HVSS +24V) for
+>> +      the Output Channels.
+>> +
+>> +  hvss-supply:
+>> +    description:
+>> +      Negative High-Voltage Power Supply from -2V to 0V for the Output Channels.
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +    description:
+>> +      GPIO used for hardware reset of the device.
+> Drop description, redundant, because not saying anything other than
+> schema already said. You could say whether it is active low for example
+> if you wanted to add something useful.
 
---=20
-Regards/Gruss,
-    Boris.
+Agreed. Will add some information about the GPIO.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+>> +
+>> +patternProperties:
+>> +  "^channel@[0-3]$":
+>> +    allOf:
+>> +      - $ref: /schemas/iio/dac/dac.yaml#
+>> +      - type: object
+> Drop allOf. I don't get where did you get this syntax, it's not needed.
+
+Shall remove it.
+
+>> +        description:
+>> +          Represents the external channels which are connected to the DAC.
+>> +          Channels not specified in the device tree will be powered off.
+>> +
+>> +        properties:
+>> +          reg:
+>> +            description: Channel number
+>> +            maxItems: 1
+>> +
+>> +          adi,type:
+>> +            description: Channel output type.
+>> +            $ref: /schemas/types.yaml#/definitions/string
+>> +            enum: [voltage, current]
+> Why would it matter if this is voltage or current? That's the first time
+> this property appears. Why none of existing fit?
+
+The DAC allows configuring the outputs to be a current/voltage type. The IIO channel names need to change depending on that.
+But as per Johnathan's suggestions, I shall reuse the adi,ch-func instead of introducing a new property here.
+
+>> +
+>> +        required:
+>> +          - reg
+>> +          - adi,type
+>> +
+>> +        unevaluatedProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +anyOf:
+>> +  - required: [channel@0]
+>> +  - required: [channel@1]
+>> +  - required: [channel@2]
+>> +  - required: [channel@3]
+>> +
+>> +unevaluatedProperties: false
+>
+> Best regards,
+> Krzysztof
+
+
+> Best regards,
+> Janani Sunil
