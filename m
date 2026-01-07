@@ -1,64 +1,64 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0927A397ABC
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CA43986E4
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767800082; cv=none; b=TLh9QyD3GzrL7sdoOQg1w5rGOhD5zD5OqV3aLl+QuUNCuSFISfZzOPsLp8x8amND1y6m9KwrQwr0GYE05SxOKUN/KZcUn8YQkmKMeoJRmI1IbWuBp2iHR8011H8W8OO36tk53CsSb8OGIroZ+7oOb/zdkcBm9hyP2AJxLxDOuus=
+	t=1767800095; cv=none; b=Kvm++gQheqhK6v98u/vvd8hAT3gWf4Etb8FLeeIDiYAFaN4X1l1aQ9d+fu3lMVIRod/ALor9VvQRM+TKLzzOhgX9CJ+n1kZhhV/WqWAgkBr9I4QRivUKGSF1c0XPOHmyuTmnMaMbQNVvwOsf2yEAlD8GkggOklFpMvwjEvNRfvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767800082; c=relaxed/simple;
-	bh=+muXBvOeYTMbD8nIPUObSxhKcu4jsEupVVL6nK1rpsA=;
+	s=arc-20240116; t=1767800095; c=relaxed/simple;
+	bh=rKi3IJhFbcB0WLwepeKv+pU0rou+ccXKzIoDaJEyXMs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i6fmZu80R438920xprdWs+A9uZJWQ118P/sto99kn5AAJEKjd+ClIZbXkYFHFdzejPN9aDN0pvF9TLk+0Dt5k8y/iDHlm9eaggHzxrdeMWvFRfd8hTbUKatopd/+fH+uI09P+7DgcBp/ZsFEjJhBzk5OZLHCIj1qvQ9OOh2PDLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TZb+7stT; arc=none smtp.client-ip=209.85.167.194
+	 MIME-Version; b=kDI4dFvHHX/V7ciI4wSzGjIRYOtzcuo8J0/b9m/ZX3FndmjoUFkm3MrQNLt7HfJaYy/gPawOj4CBjMaEbRoJ3n8gD44HiJpCbLFvpAYJF94Egw64NWlw4gUEg5sAijZt3PLnAa6iPyFVBqZYIz7UeIpboSRHX3RJJABv9i0J1ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ERMqzBXV; arc=none smtp.client-ip=209.85.167.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TZb+7stT"
-Received: by mail-oi1-f194.google.com with SMTP id 5614622812f47-450b5338459so1353892b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:34:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERMqzBXV"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-4510974a8cdso1184265b6e.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:34:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767800080; x=1768404880; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767800092; x=1768404892; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WDzXFW8FM/AL7CQLZ1rgjH5BjM6661IE1WdAgak/okg=;
-        b=TZb+7stT7egIVn8Q3MNVj8NKFsrujsEIJMHdzd6hvTgqHjAf5LUoGkWcVXp0Qoq4GG
-         GbSY1Xw+0kTxUCvB/aLPbMrp8COBJrZIOIACT1kNg8tqzbPGdouWHs3fWP3e578wM4nq
-         3sPwXMX9uxDIbixJmPfcEu6g+3NJ0/+/iXtDQUT9cHWUAA73m8v9QfSwegyfKPCff6Un
-         9bX/gX2kI41mrGklyKmpAvqp0yn4QRQRvNnBzFlMIt+SorvoUwl9nnPFWcxvmBRrujIM
-         GaChvhPq8sDb8UZBhxQZWotgFGAZI57iNrSnOxVD3f/G8ShPLB7k3ZG1u5f1yQs4OxGL
-         tMbg==
+        bh=kBCgapkD0tMSytl4lZx+vzryyZ4HeCqXI7xZ8qhc6V8=;
+        b=ERMqzBXVYH3qzX1YWyUuLaDxMqSFKhoNr2tnqLVy9emLvTrmWbxhrCrbIWf7+O76k1
+         6CZdI3y4kRa5LNnspnGiK7LvCNhsN2MpH96YZ/S8hdMYfeLvot5/Q4XoBm9YbnHO5Equ
+         2QeVHMYiXjosqkc40Ah2qYzhgUcu2pWs/dbq00RhlSGjPQOLtGcgbEQ3DSoFiZ6/eTlM
+         YUk79H7cdB5KtpzpCxXIyK6FbcDkA/iMYf87DOaSo9rXII24W/GWQH5zdjI63rvtewaQ
+         GcQwpcHHw9ZwLu0phgghDv3eQTcmUIOOSJ+eqrfoJe6BoOOjRR889OPmjHoap3BjcspQ
+         XrvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767800080; x=1768404880;
+        d=1e100.net; s=20230601; t=1767800092; x=1768404892;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDzXFW8FM/AL7CQLZ1rgjH5BjM6661IE1WdAgak/okg=;
-        b=HrB2wEjJiHDh2dxFMRVrPoNsYOhB4P8YtaOwVfP4IDuwWE6Lg15plK7iCi6Agk54B2
-         e2XoSCe0odDYxUWS702+F5ruFCnYfq29bMElkBBy2G0gVDv4bIGGUXtrGzL7Cdra8kdW
-         HA0ggTp7hHU2KQb1CmVOUoYczEGDnNsvg90+j0qekHpkTZCwqwRMFuxLoLqvakjouNdt
-         DHBDFfa9NjfjvLpmRnijI1R1HRx58wyXg9iq56SYY+KHqZnINmskYS8DQnagaQTpQea1
-         zL5cNxkQlnLijoaepAXe9cjB76tQmKYOFaqWX/4SinuX7TbbqzFfQLUPyRVPAbOwkJtd
-         Mz9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXaIAZ2eH0nIxsgWBIWY71fvwpj4gzGqmfTEylIFzqCqIAwWDsJgWKia4vy9o9nnpuTLFuAvUm9RK4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLN3Q1Z6ZwcJOKw1McvyIlzUwgQHUwmcxEcrtBLbXeRIywUyL7
-	aVYhTy9iDOoqb/C+hPQRG0TmOiBfgejdSr3iPQ6AWzrYuuRVuowPTZIn
-X-Gm-Gg: AY/fxX774XKHIBLGPVpvFLXO/Gl3+HoxeoDZj186EsAZOwQTyNDAN+BEbcHtR9Tbhf6
-	76pWOjaEWO0ESg0a7WjhtIGr+wqCFIWMAfJrdPm/urVJVGssj4qGoglAmiM34HxYsHiWH9+PHgP
-	v4Dzn/XZ6TGO3bXPgiL3HmfqTfr89z637wBV/GULq5pxbK5PgtF+w4eV70pbKIIp8nq+LX2YNY4
-	fr4dov9on4dZFgu0/xyMvvmfibpchv6tcMC/z7jJmf+9ADueTC8A8XyJ7AvUBf5atsBK0/3F/pX
-	gAm7fLhyakfNMkePdnFHNozdVeTugTDfYgJN/9yDjxZgYhc9GqaayJ7aasL52h49Bo+G8fJ+fqG
-	IlV5SFKCiZBJSv0sMbvXyAJGDgA93T6Z7PvzXdn8hocwmJ4oP7o1dW3ki9BKBUjGESGMtfBdIVf
-	m5Jot2ghycvlmkGXidqDMyRLaFRKKh3zZzqeK5adXmNfTV
-X-Google-Smtp-Source: AGHT+IH4P/04LMtWqv8sSwu50eq+akkq0AyxmvD1PnTkrLfjOQ9ju3pd7rvqUnQ/LnpHTBBsjZ04Pw==
-X-Received: by 2002:a05:6808:309a:b0:450:3122:f0a2 with SMTP id 5614622812f47-45a6bccfa88mr1317344b6e.11.1767800079970;
-        Wed, 07 Jan 2026 07:34:39 -0800 (PST)
+        bh=kBCgapkD0tMSytl4lZx+vzryyZ4HeCqXI7xZ8qhc6V8=;
+        b=OXXr1tg7UVIfPZCRjVmomsAwuqz/6t/gpfPzUWpUOlBwKxqHiZCPhYOCvVsut5lfZb
+         Bg9ub9dyQDf5Z5JHZuhG6jEN37jnJhh0d3OXAuTscjQzqqjKeywyizBkD7JuWgaXM62Q
+         a2qwc6QAHbOpSyMAnw8Mt0f/qM1tNCmhUZWmL+ljx9H7PIxSZ5nSC9aUGnORw9kNyf48
+         tIDbfhtOSMS/YWy9eqT3WFhmsv/fVG+BohXr92FhQFRtq+vh0winh6ttpSZaAA7P8/h2
+         sSEaICGqoYc5tH2zqSmZa6pg9J8BoD7zCVc9MH2QFLZMZtP/lMdcYvIe7zmcjH6hUQNB
+         m+lg==
+X-Forwarded-Encrypted: i=1; AJvYcCWmmmDBhSHL1RZRDx9BZRueb8KqNWksab243j6e4xr/+I1p2OyIdOrYeA0O3s8ZfkncXyY95LQX4Zg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMmPYRFbClfghxEJP7EBNmJRPzvumYwzrb4eC0p2mzE0POYJyb
+	y5P0OidqnzmFnfXN0CYka3VRdECaf0SewKO+iug30sfglKDEf7cyb+mr
+X-Gm-Gg: AY/fxX6M+CI+q3AIot+aADi8SmFsyhpSYAeKU+05U4HJwNZ+LIMkQ4uxYkwqa12EGH2
+	mCtQy642sBeGDBf/FuQ9Dae9J7+tYj2rh0Ho728LrtBQ7ukAHSxEMTnVv9EUWdtUqkEblkG86s/
+	5NSwYCLseuUXu+8xHt18eTDA4K43C6qonj7m85vJ99RDoBYUX42AQK5PYMdiakoubFwr1V8Tbjh
+	3jK18gyW/LDpaKAeC9nwX+ldT9iwvg2PJvlf0U00AAp9KWb8+7+yRI+luePs+OB54Nqw358HufU
+	2VoHcUcwEEJmCo6L7zlWaIcxFsq6KtC9MLjMk0gCnsiPOCwYWSvZazeGW/FeI5/CsZsc1M+kXhf
+	zUiUVvK7KkUQ79KwCsu3p9wsYusCWVEKenlorVD0Sxm4y90z8b2YxKu9zP+9/xV2Jt9WiMc/y9m
+	roUP4VlC3v9zIfgr4NwYfl9KLodjzgRxPfREXc4PACc/5/
+X-Google-Smtp-Source: AGHT+IHcdywbJhWbPofmdnwqwy3siWxMKS2ZL8FYrwKJtzA3ot5XniZZCZFcJRodTSEL4vBFeFPTwA==
+X-Received: by 2002:a05:6808:4a52:20b0:45a:76c9:303c with SMTP id 5614622812f47-45a76c9325cmr272281b6e.32.1767800091392;
+        Wed, 07 Jan 2026 07:34:51 -0800 (PST)
 Received: from localhost.localdomain ([2603:8080:1500:3d89:a917:5124:7300:7cef])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.34.38
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e183ac3sm2398424b6e.4.2026.01.07.07.34.49
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 07 Jan 2026 07:34:39 -0800 (PST)
+        Wed, 07 Jan 2026 07:34:50 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
 From: John Groves <John@Groves.net>
 X-Google-Original-From: John Groves <john@groves.net>
@@ -101,115 +101,70 @@ Cc: John Groves <jgroves@micron.com>,
 	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	John Groves <john@groves.net>
-Subject: [PATCH V3 20/21] famfs_fuse: Add famfs fmap metadata documentation
-Date: Wed,  7 Jan 2026 09:33:29 -0600
-Message-ID: <20260107153332.64727-21-john@groves.net>
+Subject: [PATCH V3 1/4] fuse_kernel.h: bring up to baseline 6.19
+Date: Wed,  7 Jan 2026 09:34:40 -0600
+Message-ID: <20260107153443.64794-2-john@groves.net>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260107153332.64727-1-john@groves.net>
+In-Reply-To: <20260107153443.64794-1-john@groves.net>
 References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
+ <20260107153443.64794-1-john@groves.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: John Groves <John@Groves.net>
-
-This describes the fmap metadata - both simple and interleaved
+This is copied from include/uapi/linux/fuse.h in 6.19 with no changes.
 
 Signed-off-by: John Groves <john@groves.net>
 ---
- fs/fuse/famfs_kfmap.h | 73 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+ include/fuse_kernel.h | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
-index 6a6420bdff48..ac5971d4c63a 100644
---- a/fs/fuse/famfs_kfmap.h
-+++ b/fs/fuse/famfs_kfmap.h
-@@ -7,6 +7,79 @@
- #ifndef FAMFS_KFMAP_H
- #define FAMFS_KFMAP_H
+diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
+index 94621f6..c13e1f9 100644
+--- a/include/fuse_kernel.h
++++ b/include/fuse_kernel.h
+@@ -239,6 +239,7 @@
+  *  7.45
+  *  - add FUSE_COPY_FILE_RANGE_64
+  *  - add struct fuse_copy_file_range_out
++ *  - add FUSE_NOTIFY_PRUNE
+  */
  
-+/* KABI version 43 (aka v2) fmap structures
-+ *
-+ * The location of the memory backing for a famfs file is described by
-+ * the response to the GET_FMAP fuse message (defined in
-+ * include/uapi/linux/fuse.h
-+ *
-+ * There are currently two extent formats: Simple and Interleaved.
-+ *
-+ * Simple extents are just (devindex, offset, length) tuples, where devindex
-+ * references a devdax device that must be retrievable via the GET_DAXDEV
-+ * message/response.
-+ *
-+ * The extent list size must be >= file_size.
-+ *
-+ * Interleaved extents merit some additional explanation. Interleaved
-+ * extents stripe data across a collection of strips. Each strip is a
-+ * contiguous allocation from a single devdax device - and is described by
-+ * a simple_extent structure.
-+ *
-+ * Interleaved_extent example:
-+ *   ie_nstrips = 4
-+ *   ie_chunk_size = 2MiB
-+ *   ie_nbytes = 24MiB
-+ *
-+ * ┌────────────┐────────────┐────────────┐────────────┐
-+ * │Chunk = 0   │Chunk = 1   │Chunk = 2   │Chunk = 3   │
-+ * │Strip = 0   │Strip = 1   │Strip = 2   │Strip = 3   │
-+ * │Stripe = 0  │Stripe = 0  │Stripe = 0  │Stripe = 0  │
-+ * │            │            │            │            │
-+ * └────────────┘────────────┘────────────┘────────────┘
-+ * │Chunk = 4   │Chunk = 5   │Chunk = 6   │Chunk = 7   │
-+ * │Strip = 0   │Strip = 1   │Strip = 2   │Strip = 3   │
-+ * │Stripe = 1  │Stripe = 1  │Stripe = 1  │Stripe = 1  │
-+ * │            │            │            │            │
-+ * └────────────┘────────────┘────────────┘────────────┘
-+ * │Chunk = 8   │Chunk = 9   │Chunk = 10  │Chunk = 11  │
-+ * │Strip = 0   │Strip = 1   │Strip = 2   │Strip = 3   │
-+ * │Stripe = 2  │Stripe = 2  │Stripe = 2  │Stripe = 2  │
-+ * │            │            │            │            │
-+ * └────────────┘────────────┘────────────┘────────────┘
-+ *
-+ * * Data is laid out across chunks in chunk # order
-+ * * Columns are strips
-+ * * Strips are contiguous devdax extents, normally each coming from a
-+ *   different memory device
-+ * * Rows are stripes
-+ * * The number of chunks is (int)((file_size + chunk_size - 1) / chunk_size)
-+ *   (and obviously the last chunk could be partial)
-+ * * The stripe_size = (nstrips * chunk_size)
-+ * * chunk_num(offset) = offset / chunk_size    //integer division
-+ * * strip_num(offset) = chunk_num(offset) % nchunks
-+ * * stripe_num(offset) = offset / stripe_size  //integer division
-+ * * ...You get the idea - see the code for more details...
-+ *
-+ * Some concrete examples from the layout above:
-+ * * Offset 0 in the file is offset 0 in chunk 0, which is offset 0 in
-+ *   strip 0
-+ * * Offset 4MiB in the file is offset 0 in chunk 2, which is offset 0 in
-+ *   strip 2
-+ * * Offset 15MiB in the file is offset 1MiB in chunk 7, which is offset
-+ *   3MiB in strip 3
-+ *
-+ * Notes about this metadata format:
-+ *
-+ * * For various reasons, chunk_size must be a multiple of the applicable
-+ *   PAGE_SIZE
-+ * * Since chunk_size and nstrips are constant within an interleaved_extent,
-+ *   resolving a file offset to a strip offset within a single
-+ *   interleaved_ext is order 1.
-+ * * If nstrips==1, a list of interleaved_ext structures degenerates to a
-+ *   regular extent list (albeit with some wasted struct space).
-+ */
+ #ifndef _LINUX_FUSE_H
+@@ -680,7 +681,7 @@ enum fuse_notify_code {
+ 	FUSE_NOTIFY_DELETE = 6,
+ 	FUSE_NOTIFY_RESEND = 7,
+ 	FUSE_NOTIFY_INC_EPOCH = 8,
+-	FUSE_NOTIFY_CODE_MAX,
++	FUSE_NOTIFY_PRUNE = 9,
+ };
+ 
+ /* The read buffer is required to be at least 8k, but may be much larger */
+@@ -1119,6 +1120,12 @@ struct fuse_notify_retrieve_in {
+ 	uint64_t	dummy4;
+ };
+ 
++struct fuse_notify_prune_out {
++	uint32_t	count;
++	uint32_t	padding;
++	uint64_t	spare;
++};
 +
- /*
-  * The structures below are the in-memory metadata format for famfs files.
-  * Metadata retrieved via the GET_FMAP response is converted to this format
+ struct fuse_backing_map {
+ 	int32_t		fd;
+ 	uint32_t	flags;
+@@ -1131,6 +1138,7 @@ struct fuse_backing_map {
+ #define FUSE_DEV_IOC_BACKING_OPEN	_IOW(FUSE_DEV_IOC_MAGIC, 1, \
+ 					     struct fuse_backing_map)
+ #define FUSE_DEV_IOC_BACKING_CLOSE	_IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_t)
++#define FUSE_DEV_IOC_SYNC_INIT		_IO(FUSE_DEV_IOC_MAGIC, 3)
+ 
+ struct fuse_lseek_in {
+ 	uint64_t	fh;
 -- 
 2.49.0
 
