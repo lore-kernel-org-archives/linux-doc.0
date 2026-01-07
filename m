@@ -1,61 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F4C37C119;
-	Wed,  7 Jan 2026 16:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE38038A295;
+	Wed,  7 Jan 2026 16:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767802966; cv=none; b=hDBmOmsVlcMc7ganAqHJeiH4nfoYqPyGVCOry7HpUbC2a7AhPGiZo16g/31dqZI6NoYvj7PkDzgqSU0tEXPSfY/gElkwU9SsTwdh+DwDC/QeBh46yU7hrAbzr9YalbzaU3qBNZmS5eymD3kIEYuHe3CbuJEk2T1N+uxA3B2CUB0=
+	t=1767802977; cv=none; b=Kx7XfhgAN+SKb10dDNYeFkNMtmmV5bty5trakbfaI6zlV1Ek/d1saxOyLiVP3r6RlDqh8ovaKSTO0NUeNquiekMyI+6/p2ywIzM/hdqZMuo1G9Mi2dLqv5Vm64HZOMXHiz/M+btsIrfmxUUs55rh+iPfNrlKecadlBL8jZyQExM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767802966; c=relaxed/simple;
-	bh=jq0QEywoTnzpVD2zdLE2JdG+q/baB33yw7lWGEVqPoI=;
+	s=arc-20240116; t=1767802977; c=relaxed/simple;
+	bh=h/t0IMw2r1KOgVik7fGfiSYqStx+dX2QtV1GaNuybx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qGZ6ajhhtxaCGYQ4dVVEVxLu4VNyL8NKLZTbvd7jGIcL7X8FIimvpgj7ilKRTLCQYah2msf7Bs6zAVqIEI1G1XQV0cObcAVZrp1igHQZuLIkWIOfKTsGis2riuZHYj7/+f6bX6TEZlZMEamfEaVuHUOuU1OG9vtmZPcy57o+GuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyZ3d3Nl; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vwzr1RG0fHVat3PjAzaT0UXuF57rj+rawOZG2cd0O3djCDuJKcsZRshJL5Idjk+PBlRMJYPlcl8KZToa5Xs9Qq3I2cO6gblOb/t56zeCImNykkBHE8fNfuog3/VqUaALKqpQEYvvN0IYPb4JnJS1qm2PkHr4CQk5fjzrouD2Yn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MrdJXSNs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyZ3d3Nl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767802955; x=1799338955;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jq0QEywoTnzpVD2zdLE2JdG+q/baB33yw7lWGEVqPoI=;
-  b=EyZ3d3NlkrU3NfB0PL/Ft+CzDGLk02sjqMl/Gdd45He3KxMohYrqkYzN
-   38fDUlMXwoIyGIJr3tzQfwqi4f+fJdjt35H7iTtN1jXwOLtiZb9x766Ij
-   kkb1+Q3g4Uftr1feqZmcb+THUUVPXeMEJ8ta82DSr/JIbUv4MmWOtOsRL
-   +KHxQxIiCt7ZUe840pWKxAH6H1XFXD4bIkdBKraOaXRaNBNLe1Ibk6E5N
-   ZUxQ7RvK+GkS9McYlQppB76g0fg0FapDS5qht01t26XsJWKg0pQi821cX
-   nppqoX/kQGmx33XdGY9t84SS6a+HXFGnrPyLghi7wHBorF8TBen86FCxw
-   Q==;
-X-CSE-ConnectionGUID: tXHAnheySWSQjb8cCT/NCw==
-X-CSE-MsgGUID: B6cSSCVzR/2NCjRp+NwmIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="86592549"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="86592549"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 08:22:29 -0800
-X-CSE-ConnectionGUID: RP5w7t7WSsGmOLpz6X5W8w==
-X-CSE-MsgGUID: OcEnbIIuQ9OMzuB4HNKMtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="202746645"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.168])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 08:22:27 -0800
-Date: Wed, 7 Jan 2026 18:22:23 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MrdJXSNs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E877C4CEF1;
+	Wed,  7 Jan 2026 16:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767802973;
+	bh=h/t0IMw2r1KOgVik7fGfiSYqStx+dX2QtV1GaNuybx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MrdJXSNsL5LUoWximIzD8J5mik0J7vkN/69IxB3kLi2JQbNzM0M/E7WmzHN2322L0
+	 pRMDF/eqoJIoeKMjxqqvTQXeaES6SGTonc+KJew1QcPNnAJtJ9HwMqY63Zq0NyMPsj
+	 lAQ7abZtSP2JXi7HwtrYj+GYAQlygFZBwgrqt3LJA748pA6bo/GE34QvQi/SuX/C0S
+	 RmFsOY/7yJSDH0+jwQK0oLHzmTs98488opQZfVTIoqEMQuOL/F+VqB1PVu37lGaruJ
+	 a+71pHzEWLylilQ3GIp4Q8SXkPANYZLge8Te+X9Wv/0qou7ZXCMQop2V6kj0DepxGe
+	 Nb3HTggQ9cFcQ==
+Date: Wed, 7 Jan 2026 16:22:48 +0000
+From: Will Deacon <will@kernel.org>
+To: Lucas Wei <lucaswei@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com,
+	kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
+	kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, tomas.melin@vaisala.com,
-	marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v4 2/2] iio: adc: Initial support for AD4134
-Message-ID: <aV6IP3T3Q3z3aTVa@smile.fi.intel.com>
-References: <cover.1767795849.git.marcelo.schmitt@analog.com>
- <6ae8e203f6fb6e9718271132bd35daef790ab574.1767795849.git.marcelo.schmitt@analog.com>
+	robin.murphy@arm.com
+Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
+ coherency issue
+Message-ID: <aV6IWBtqp1dnOZuX@willie-the-truck>
+References: <20251229033621.996546-1-lucaswei@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,58 +47,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6ae8e203f6fb6e9718271132bd35daef790ab574.1767795849.git.marcelo.schmitt@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251229033621.996546-1-lucaswei@google.com>
 
-On Wed, Jan 07, 2026 at 11:47:59AM -0300, Marcelo Schmitt wrote:
-> AD4134 is a 24-bit, 4-channel, simultaneous sampling, precision
-> analog-to-digital converter (ADC). The device can be managed through SPI or
-> direct control of pin logical levels (pin control mode). The AD4134 design
-> also features a dedicated bus for ADC sample data output. Though, this
-> initial driver for AD4134 only supports usual SPI connections.
+[+Robin as he's been involved with this]
+
+On Mon, Dec 29, 2025 at 03:36:19AM +0000, Lucas Wei wrote:
+> When software issues a Cache Maintenance Operation (CMO) targeting a
+> dirty cache line, the CPU and DSU cluster may optimize the operation by
+> combining the CopyBack Write and CMO into a single combined CopyBack
+> Write plus CMO transaction presented to the interconnect (MCN).
+> For these combined transactions, the MCN splits the operation into two
+> separate transactions, one Write and one CMO, and then propagates the
+> write and optionally the CMO to the downstream memory system or external
+> Point of Serialization (PoS).
+> However, the MCN may return an early CompCMO response to the DSU cluster
+> before the corresponding Write and CMO transactions have completed at
+> the external PoS or downstream memory. As a result, stale data may be
+> observed by external observers that are directly connected to the
+> external PoS or downstream memory.
 > 
-> Add basic support for AD4134 that enables single-shot ADC sample read.
+> This erratum affects any system topology in which the following
+> conditions apply:
+>  - The Point of Serialization (PoS) is located downstream of the
+>    interconnect.
+>  - A downstream observer accesses memory directly, bypassing the
+>    interconnect.
+> 
+> Conditions:
+> This erratum occurs only when all of the following conditions are met:
+>  1. Software executes a data cache maintenance operation, specifically,
+>     a clean or invalidate by virtual address (DC CVAC, DC CIVAC, or DC
+>     IVAC), that hits on unique dirty data in the CPU or DSU cache. This
+>     results in a combined CopyBack and CMO being issued to the
+>     interconnect.
 
-I have been on a few weeks leave and do not remember much, but it looks like
-this version has all my previous comments being addressed.
+Why do we need to worry about IVAC here? Even though that might be
+upgraded to CIVAC and result in the erratum conditions, the DMA API
+shouldn't use IVAC on dirty lines so I don't think we need to worry
+about it.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
+> index f0ca7196f6fa..d3d46e5f7188 100644
+> --- a/arch/arm64/include/asm/assembler.h
+> +++ b/arch/arm64/include/asm/assembler.h
+> @@ -381,6 +381,9 @@ alternative_endif
+>  	.macro dcache_by_myline_op op, domain, start, end, linesz, tmp, fixup
+>  	sub	\tmp, \linesz, #1
+>  	bic	\start, \start, \tmp
+> +alternative_if ARM64_WORKAROUND_4311569
+> +	mov	\tmp, \start
+> +alternative_else_nop_endif
+>  .Ldcache_op\@:
+>  	.ifc	\op, cvau
+>  	__dcache_op_workaround_clean_cache \op, \start
+> @@ -402,6 +405,13 @@ alternative_endif
+>  	add	\start, \start, \linesz
+>  	cmp	\start, \end
+>  	b.lo	.Ldcache_op\@
+> +alternative_if ARM64_WORKAROUND_4311569
+> +	.ifnc	\op, cvau
+> +	mov	\start, \tmp
+> +	mov	\tmp, xzr
+> +	cbnz	\start, .Ldcache_op\@
+> +	.endif
+> +alternative_else_nop_endif
 
-...
+So you could also avoid this for ivac, although it looks like this is
+only called for civac, cvau, cvac and cvap so perhaps not worth it.
 
-> +#include <linux/array_size.h>
-> +#include <linux/bitfield.h>
+> diff --git a/arch/arm64/mm/cache.S b/arch/arm64/mm/cache.S
+> index 503567c864fd..ddf0097624ed 100644
+> --- a/arch/arm64/mm/cache.S
+> +++ b/arch/arm64/mm/cache.S
+> @@ -143,9 +143,14 @@ SYM_FUNC_END(dcache_clean_pou)
+>   *	- end     - kernel end address of region
+>   */
+>  SYM_FUNC_START(__pi_dcache_inval_poc)
+> +alternative_if ARM64_WORKAROUND_4311569
+> +	mov	x4, x0
+> +	mov	x5, x1
+> +	mov	x6, #1
+> +alternative_else_nop_endif
+>  	dcache_line_size x2, x3
+>  	sub	x3, x2, #1
+> -	tst	x1, x3				// end cache line aligned?
+> +again:	tst	x1, x3				// end cache line aligned?
+>  	bic	x1, x1, x3
+>  	b.eq	1f
+>  	dc	civac, x1			// clean & invalidate D / U line
+> @@ -158,6 +163,12 @@ SYM_FUNC_START(__pi_dcache_inval_poc)
+>  3:	add	x0, x0, x2
+>  	cmp	x0, x1
+>  	b.lo	2b
+> +alternative_if ARM64_WORKAROUND_4311569
+> +	mov	x0, x4
+> +	mov	x1, x5
+> +	sub	x6, x6, #1
+> +	cbz	x6, again
+> +alternative_else_nop_endif
+>  	dsb	sy
+>  	ret
+>  SYM_FUNC_END(__pi_dcache_inval_poc)
 
-> +#include <linux/bitops.h>
+But this whole part could be dropped? The CIVACs are just for the
+unaligned parts at the ends of the buffer and we shouldn't need to worry
+about propagating them -- we just don't want to chuck them away with an
+invalidation!
 
-> +#include <linux/bits.h>
-
-No need, as bitops.h implies (and guarantees) that BIT()/GENMASK() are provided
-with it.
-
-> +#include <linux/clk.h>
-> +#include <linux/crc8.h>
-> +#include <linux/delay.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/err.h>
-> +#include <linux/export.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/iio/types.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/reset.h>
-> +#include <linux/spi/spi.h>
-> +#include <linux/time.h>
-> +#include <linux/types.h>
-> +#include <linux/unaligned.h>
-> +#include <linux/units.h>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Will
