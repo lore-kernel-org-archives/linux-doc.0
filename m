@@ -1,183 +1,144 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493033161BB
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720813101AB
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788542; cv=none; b=BbkbbU/Pl7JnhlbBMM5/JcMX7VkZC1/4vk6kdxFGaDTM7HNKqTnNGXXot+drionY4Us1ySfklRjbF6/dvXSOLeFwsWXc2nynEr6p/pvycMVp98xDYOzGRvxod7TzE3pQZfush7aB+MtZlk9rmhFCmx5TkQVP426t8wg+b576mOI=
+	t=1767788581; cv=none; b=otX8DTP/dhg82j6ty7uYJ1ZTwwAxYmjNKZ9xAfbg0dTQrfTOqXGOkI3vJFhHiS1V8DUjkHGUkzH31oy5PKS2CNLmwBOPPcyOVY3HprvvCsqLKGKNDP5k9+uivwPUF+q4W07rAYZySuhGCH4W+1sJzW78iIciihR1mdzzDy/6yCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788542; c=relaxed/simple;
-	bh=kdB+D8ooK5y+MGn4KMCXRzCE7BBpYAmF+6+mGhFmov0=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PVqRamgQa/52cG5ToEHrLQoSIdOwsWIBmdoXIW7IEx6QQbKlF6jJil9cyUrD3Kuo9XxBUi0g+ytDtHClp0QkVxaEnbnv2HRLe4aEQsPHchmKiETp/PcFQecv0CXLxtfGgdevZQFcxQAOKrRsRYObuw+C2SzcMKFr2u8fzWe7pjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R4ud838R; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767788581; c=relaxed/simple;
+	bh=YpQB8yKTPURU5YhIohBO9IAkqVY3GcDGFk7I5E/eYTM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uRGW/ODmshV3KLZ57c3pDTRiC80Q2RqhJdkDdZ0r1cfWtx80iAL8VqmQJm6zBl+Cj4V1647Kqq6ex1UQ26uxpUf23nzVeWMr+9oMz+surQAhUWygwBTHF0G7XRiZ8fgV5thi8Vrp1Rc7k5qOngFcgPKErApiq25zdB3xeG65PCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjKSOqKs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R4ud838R"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42fbc305552so1400323f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:22:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767788538; x=1768393338; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FKLGw9RhzY5YOkkhmRmhvQTx9xsA1wJogmSE46HH268=;
-        b=R4ud838ReTtdL3jRI3wcuL8XKgEZ0M93KZcWiGkimDRBqSLq5nPwK8u/gHv/9FEc9i
-         Tzxc5WdUYmlpofesl8hb6oMc4+Xnw3mq3F4YNAtOXLaJOgchazsrooMNX8JKYyCxL4U6
-         hnAq99ns9ffa9C3sOSo7GRosJxyFKR11ctjMlK4LrvlQzynvpheonnoId5jfNY584KbL
-         cmNzOPsmGqHH7BAcn0BEWFdPLir5EWHu6wSEr+H7thUSA1SNqMqvE2om/k+dEumpQdWm
-         cjxjp4bOE3Xylwixbj6B+BTM3n8yVXxplOWdCkKVA4U+m4UhSsad9xOEfTVKojd8Y2fZ
-         Zqpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767788538; x=1768393338;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FKLGw9RhzY5YOkkhmRmhvQTx9xsA1wJogmSE46HH268=;
-        b=UF0JzwFPjy/zr4elMt367tqhxvBV+DwUY2ZXkms2CyiMgpUGwLjdOdU3+iraNTBbKP
-         ojjGj4H8Bpdcyc0bTCN+CKzmBPlc+QO93epTv7VrcdEsMFzR++sJthnuXu8YbDgjM7Wa
-         ExX3+niygFjDqH/G3ILaT6NjH+u0D707dgOcpx42fxdQmdNj858p4lgHJXzO5SsGyoA6
-         z53yhuf/YootUeaiRLi8pcQPX3qvbHw2lCwGHJAEq0TTmimWewUS+T1MHNUdgAmJh5xG
-         2l+bkK3tg+9HsNf/UMCXuVb+18gsALV3Oo0s3y7zrP/5Oqk7ko0THlx0+kMWu6rCPjfY
-         2TKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWA+puQ1bglVknNtbQbbflK2kCYCzUfSES33E2iszeuALZi3iAp3wPH8Lcp7jLbupM/zLtsNE4dARg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVjQ5iz/OnjHnVt8fx+vzxy8YydFCoTR3Z2iSA3wDEYYXA9iNX
-	ZlIV3DREJq07E84x5OQfI8cu/BetLyupHmc2YPA/ZbtKOFmS7rF0T6NJ
-X-Gm-Gg: AY/fxX6CpSNlJrhxUFLnD234PokBcpWZXd0Mv7oO7XFBbvLI7+aEGL/UvwHLRnIXFG/
-	x/WepgK7uIHt6pf5oGmnfDi8++yfA7YCD52kb4H9EQqYpOwuerlkACMJ+S+gdmOxEKOFJ9Z1E42
-	XX/O1NjuTMDb0tKHVkpdDOIWngDzqojN3MQr0Dux3uaAXV1XSoNhLyrXnvXfuy0bdH4LmaEX9hy
-	8swET0wF9U5J+vltq0dQT0PpLSpU0w3jo5d4672FdWj+Wk00mppI89Yrp3KIyoI2OfBUWuvOUDA
-	OQlh9zjMnMNHSM3hI1R3ocJWQZ8g6DqepacbBK+iASeLmIHb8Z13A1i4ay/LyCZx9vLN6uPcpus
-	epW39Ew80ijp+Asc2aRquPXZdWiB2u+GBRx+fK1B1P87xiCj9Au1wQyQ6TYDm8Wcn9MKE4qCCMo
-	WkrdvEdq9hfVf8zQvL8zlY/3L2ULQN
-X-Google-Smtp-Source: AGHT+IFDN//R8tPKMlA4XyPjKFG9gUgQwKQylfTdCf0jvQBBESf+sLesU0BxFAZFA45mSUh5AwD0QA==
-X-Received: by 2002:a05:6000:1449:b0:431:6ba:38ac with SMTP id ffacd0b85a97d-432c374f131mr3053927f8f.4.1767788538368;
-        Wed, 07 Jan 2026 04:22:18 -0800 (PST)
-Received: from imac.lan ([2a02:8010:60a0:0:bc70:fb0c:12b6:3a41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16f4sm10417107f8f.11.2026.01.07.04.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 04:22:17 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	"Matthieu Baerts (NGI0)" <matttbe@kernel.org>,
-	Gal Pressman <gal@nvidia.com>,
-	Jan Stancek <jstancek@redhat.com>,
-	Hangbin Liu <liuhangbin@gmail.com>,
-	Nimrod Oren <noren@nvidia.com>,
-	netdev@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Ruben Wauters <rubenru09@aol.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v1 13/13] tools: ynl-gen-c: Fix remaining pylint warnings
-Date: Wed,  7 Jan 2026 12:21:43 +0000
-Message-ID: <20260107122143.93810-14-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260107122143.93810-1-donald.hunter@gmail.com>
-References: <20260107122143.93810-1-donald.hunter@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjKSOqKs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 151B8C19421
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767788581;
+	bh=YpQB8yKTPURU5YhIohBO9IAkqVY3GcDGFk7I5E/eYTM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kjKSOqKs0k5t9qF4rHx9j6PjbRdiSQThfAMiN/D7Fyjssipb0h57m8GkFlV0kv9q7
+	 3yF4VdYhqVMqsWntvt/UtI5+lfTtUAONZdigG2D241edN4iA81Es4e1A/Ex8zXlkUB
+	 pANL1OeOjXVogZpvCuRJPrxnLUDg/F4zrGfoeGWzpeo/pjEjBni1+thKFmLpkHMact
+	 zbFogIst1gb0oGngAFi2wjxSOxjEYCeigxqIaMCmCuWWpGAX4AJellV1zIT94JYcDd
+	 dbWMehFqkAmnoDtgrVxLc4lJQk7boCtimJqjWl2AemYN1ElO26JzDi9aXMqTkv7eDa
+	 YHqOIMG7vImSw==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-65d132240b5so1128235eaf.2
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:23:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWwy4bMnu0zsu4Kg872TbOu4v44MiZ8o11oTYHVlVENTe6q86b1c1Nkw75rm29HtkWJ7lSNZ0tfOKA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCQOP+TPVokb1xy/ghksw2l42rbQxeco8i8UmWLIbjYtVTlXWg
+	56yaIvGPayuRpHhSjM2Wpmhb6wc5ZG3tPPE6OoCslUxNalF6CjO+kRrcPJm1nDD7cMhBjzFHJ/z
+	o6Kyeae1Y4YpOe3qf4930Gk2wCeVfebs=
+X-Google-Smtp-Source: AGHT+IFUwEObKoTW/cIOE4voT00iKEZTi9m5mdH+tsbeREadEq4geRZZgSq5wfvRgo8eYWQjSHXfMmSqwC4JSHt62LM=
+X-Received: by 2002:a05:6820:2910:b0:659:9a49:8ec8 with SMTP id
+ 006d021491bc7-65f5508f8b2mr933270eaf.76.1767788580133; Wed, 07 Jan 2026
+ 04:23:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <2396510.ElGaqSPkdT@rafael.j.wysocki> <65c7a296-7dc7-4368-9b2d-6fadd0dbf9c6@kernel.org>
+In-Reply-To: <65c7a296-7dc7-4368-9b2d-6fadd0dbf9c6@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 7 Jan 2026 13:22:47 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0ihuu_9G7N5UkHAGwRq=BN1spkXmdOuUTxRFwn3acdfbw@mail.gmail.com>
+X-Gm-Features: AQt7F2rzfAea--kXwysJAUxQBxw2p5HJq4PYgiVyT8sW4xpYraMogD_OEeEV0as
+Message-ID: <CAJZ5v0ihuu_9G7N5UkHAGwRq=BN1spkXmdOuUTxRFwn3acdfbw@mail.gmail.com>
+Subject: Re: [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using
+ ACPI drivers
+To: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <helgaas@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hansg@kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Zhang Rui <rui.zhang@intel.com>, 
+	Armin Wolf <w_armin@gmx.de>, Danilo Krummrich <dakr@kernel.org>, 
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the following pylint warning instances:
+On Tue, Jan 6, 2026 at 4:47=E2=80=AFPM Mario Limonciello (AMD) (kernel.org)
+<superm1@kernel.org> wrote:
+>
+>
+>
+> On 1/6/2026 6:27 AM, Rafael J. Wysocki wrote:
+> > From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> >
+> > Sadly, there is quite a bit of technical debt related to the
+> > kernel's ACPI support subsystem and one of the most significant
+> > pieces of it is the existence and use of ACPI drivers represented
+> > by struct acpi_driver objects.
+> >
+> > Those drivers are bound directly to struct acpi_device objects, also
+> > referred to as "ACPI device nodes", representing device objects in the
+> > ACPI namespace defined as:
+> >
+> >   A hierarchical tree structure in OS-controlled memory that contains
+> >   named objects. These objects may be data objects, control method
+> >   objects, bus/device package objects, and so on.
+> >
+> > according to the ACPI specification [1].
+> >
+> > The above definition implies, although rather indirectly, that the
+> > objects in question don't really represent hardware.  They are just
+> > "device package objects" containing some information on the devices
+> > present in the given platform that is known to the platform firmware.
+> >
+> > Although the platform firmware can be the only source of information on
+> > some devices, the information provided by it alone may be insufficient
+> > for device enumeration in general.  If that is the case, binding a
+> > driver directly to a given ACPI device node clearly doesn't make sense.
+> > If the device in question is enumerated through a hardware interface, i=
+t
+> > will be represented by a device object matching that interface, like
+> > a struct pci_dev, and the ACPI device node corresponding to it will be
+> > treated as its "ACPI companions" whose role is to amend the "native"
+> > enumeratiom mechanism.
+> >
+> > For the sake of consistency and confusion avoidance, it is better to
+> > treat ACPI device nodes in general as ACPI companions of other device
+> > objects representing hardware.  In some cases though it appeared easier
+> > to take a shortcut and use an ACPI driver binding directly to an ACPI
+> > device node.  Moreover, there were corner cases in which that was the
+> > only choice, but they all have been addressed now.
+> >
+> > In all cases in which an ACPI driver might be used, the ACPI device
+> > node it might bind to is an ACPI companion of another device object
+> > representing a piece of hardware.  It is thus better to use a driver
+> > binding to the latter than to use an ACPI driver and leave the other
+> > device object alone, not just because doing so is more consistent and
+> > less confusing, but also because using ACPI drivers may lead to
+> > potential functional deficiencies, like possible ordering issues
+> > related to power management.
+> >
+> > Unfortunately, there are quite a few ACPI drivers in use and, as a rule=
+,
+> > they bind to ACPI device nodes that are ACPI companions of platform
+> > devices, so in fact they play the role of platform drivers although in
+> > a kind of convoluted way.  An effort has been under way to replace them
+> > with platform drivers, which is relatively straightforward in the vast
+> > majority of cases, but it has not been pursued very aggressively so far=
+,
+> > mostly due to the existence of the corner cases mentioned above.
+>
+> This is the same as Danilo's comment; but could you leave a few examples
+> of conversions that have been done successfully?  Commit hashes that can
+> demonstrate what it actually takes to convert an acpi driver to a
+> platform driver and might make it easier for people to reference when
+> this comes up.
 
-ynl_gen_c.py:575:15: E0606: Possibly using variable 'mem' before
-assignment (possibly-used-before-assignment)
+The purpose of this posting and the new document is to grow awareness
+rather than to tell people how to convert drivers.
 
-ynl_gen_c.py:888:0: R1707: Disallow trailing comma tuple
-(trailing-comma-tuple)
-
-ynl_gen_c.py:944:21: C0209: Formatting a regular string which could be an
-f-string (consider-using-f-string)
-
-ynl_gen_c.py:1450:14: C1802: Do not use `len(SEQUENCE)` without comparison
-to determine if a sequence is empty (use-implicit-booleaness-not-len)
-
-ynl_gen_c.py:1688:13: W1514: Using open without explicitly specifying an
-encoding (unspecified-encoding)
-
-ynl_gen_c.py:3446:0: C0325: Unnecessary parens after '=' keyword
-(superfluous-parens)
-
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- tools/net/ynl/pyynl/ynl_gen_c.py | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/tools/net/ynl/pyynl/ynl_gen_c.py b/tools/net/ynl/pyynl/ynl_gen_c.py
-index 5f079a74c8d1..c823ccf2b75c 100755
---- a/tools/net/ynl/pyynl/ynl_gen_c.py
-+++ b/tools/net/ynl/pyynl/ynl_gen_c.py
-@@ -571,6 +571,8 @@ class TypeBinary(Type):
-             mem = 'NLA_POLICY_MIN_LEN(' + self.get_limit_str('min-len') + ')'
-         elif 'max-len' in self.checks:
-             mem = 'NLA_POLICY_MAX_LEN(' + self.get_limit_str('max-len') + ')'
-+        else:
-+            raise Exception('Failed to process policy check for binary type')
- 
-         return mem
- 
-@@ -885,7 +887,7 @@ class TypeIndexedArray(Type):
-                 f"for (i = 0; i < {var}->{ref}_count.{self.c_name}; i++)",
-                 f'{self.nested_render_name}_free(&{var}->{ref}{self.c_name}[i]);',
-             ]
--        lines += f"free({var}->{ref}{self.c_name});",
-+        lines += (f"free({var}->{ref}{self.c_name});",)
-         return lines
- 
- class TypeNestTypeValue(Type):
-@@ -941,9 +943,8 @@ class TypeSubMessage(TypeNest):
-         else:
-             sel_var = f"{var}->{sel}"
-         get_lines = [f'if (!{sel_var})',
--                     'return ynl_submsg_failed(yarg, "%s", "%s");' %
--                        (self.name, self['selector']),
--                    f"if ({self.nested_render_name}_parse(&parg, {sel_var}, attr))",
-+                     f'return ynl_submsg_failed(yarg, "{self.name}", "{self['selector']}");',
-+                     f"if ({self.nested_render_name}_parse(&parg, {sel_var}, attr))",
-                      "return YNL_PARSE_CB_ERROR;"]
-         init_lines = [f"parg.rsp_policy = &{self.nested_render_name}_nest;",
-                       f"parg.data = &{var}->{self.c_name};"]
-@@ -1447,7 +1448,7 @@ class Family(SpecFamily):
-         attr_set_queue = list(self.root_sets.keys())
-         attr_set_seen = set(self.root_sets.keys())
- 
--        while len(attr_set_queue):
-+        while attr_set_queue:
-             a_set = attr_set_queue.pop(0)
-             for attr, spec in self.attr_sets[a_set].items():
-                 if 'nested-attributes' in spec:
-@@ -1685,7 +1686,7 @@ class CodeWriter:
-         if not self._overwrite and os.path.isfile(self._out_file):
-             if filecmp.cmp(self._out.name, self._out_file, shallow=False):
-                 return
--        with open(self._out_file, 'w+') as out_file:
-+        with open(self._out_file, 'w+', encoding='utf-8') as out_file:
-             self._out.seek(0)
-             shutil.copyfileobj(self._out, out_file)
-             self._out.close()
-@@ -3443,7 +3444,7 @@ def main():
-         print(exc)
-         os.sys.exit(1)
- 
--    cw = CodeWriter(BaseNlLib(), args.out_file, overwrite=(not args.cmp_out))
-+    cw = CodeWriter(BaseNlLib(), args.out_file, overwrite=not args.cmp_out)
- 
-     _, spec_kernel = find_kernel_root(args.spec)
-     if args.mode == 'uapi' or args.header:
--- 
-2.52.0
-
+I'll start posting driver conversion patches at one point and the
+motivation for all of them is basically the same, so I thought it
+would be better to document it in on place and then refer to it
+instead of repeating the same information every time a conversion
+patch is posted.
