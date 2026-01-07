@@ -1,90 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE295318EE2;
-	Wed,  7 Jan 2026 19:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BC1331A54;
+	Wed,  7 Jan 2026 19:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767814619; cv=none; b=ZKrI9Q+mkHSnXfqkfVSlsL6JdP5De5rnITvurAfCLKyam9a1BmU/LZ3pIMCDs5Xx5DF3VQ22ktEEMjZxAGp3jLE0CxmOe+4MYQUaVUP708HpcbdwYfXQRxgXxJ0yTQjMGV92eacuIvADkJd2Gt4sfhhHiULmSIBBO0wFP3essNI=
+	t=1767814666; cv=none; b=YnKeX+0BdeWORn1R8Q6bmsnU8MbBei2cG/jVs43qXGV1xeK2Ho92i4T9NXHb/BeAreF/yIvRoQ0H4Sn7ySq7YyjguVygqgxXt+rzhFFQ7WI/fibZARK3TTDOhgLd/dgESZNTPZUnh51NlAs9UmFl4OWfEzc6tdNUCCgnFJAEYeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767814619; c=relaxed/simple;
-	bh=wGXfb/h9dHEqo4OYJ7lobK5I8Wv+t9L3leil/n6O8Iw=;
+	s=arc-20240116; t=1767814666; c=relaxed/simple;
+	bh=F6+gBsOoaO+ThkcUmzMSvfYQY2zAoFNNxXwaCS6P4K8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=douE0pnH0foA65pcU+tP75Hj4R8FSTocxW4f8o5peN/qioostXWtp1ywfECVmTmPX8eCUBWgeDyaTlL4lCE+fI6OGQUUnIvOa1neW40Cw2AVIZ8rwqfHZixCJvZfRq56CbYzN1ZeafKmqmqvGwUpMAcABR8R4F5LaKLKg/tfwMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IgJxdSAe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aeauSLj2+tFtSjfsLuZMUWu2goz5GtYdg6te/hafDiQr8t5aHuRdcipi/jOeGfDy3nf4okubMjmXONZjNovF0+biLemU64Rfx8wvIgDjjTNRiEH6B6F0K7x64Tf/aFTew7+Equl8UkMRXDk0lXYD+5TB3X3MjtDCVTl5qEwXhr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tKftKXv+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IgJxdSAe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0753C19422;
-	Wed,  7 Jan 2026 19:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767814618;
-	bh=wGXfb/h9dHEqo4OYJ7lobK5I8Wv+t9L3leil/n6O8Iw=;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tKftKXv+"
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 408AA593;
+	Wed,  7 Jan 2026 20:29:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767814168;
+	bh=F6+gBsOoaO+ThkcUmzMSvfYQY2zAoFNNxXwaCS6P4K8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IgJxdSAeZ/7+lfhqGZ9rBlTXNIozisFIcAkxXqUcopcqhT47BBzZNAXGHXN2S1cuz
-	 sE3S/4D8e2LgW/CFYURXyeLn59O+LRgHFLBPpDv+3F5osve2zP01H3o5Q1WQsnXmQw
-	 djJgIz4O/wMvzdiDAuqVNLsW2SkI8XFnTtMPhuCo=
-Date: Wed, 7 Jan 2026 20:36:55 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: joaopeixoto@osyx.tech
-Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr,
-	aou@eecs.berkeley.edu, bagasdotme@gmail.com,
-	catalin.marinas@arm.com, conor+dt@kernel.org, corbet@lwn.net,
-	dan.j.williams@intel.com, davidmcerdeira@osyx.tech,
-	devicetree@vger.kernel.org, dev@kael-k.io, haren@linux.ibm.com,
-	heiko@sntech.de, jose@osyx.tech, kever.yang@rock-chips.com,
-	krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	maddy@linux.ibm.com, mani@kernel.org, nathan@kernel.org,
-	neil.armstrong@linaro.org, palmer@dabbelt.com, pjw@kernel.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, robh@kernel.org,
-	will@kernel.org
-Subject: Re: [PATCH 5/6] virt: bao: Move BAO_IPCSHMEM_HYPERCALL_ID to common
- header
-Message-ID: <2026010704-heaviness-quality-f543@gregkh>
-References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
- <20260107162829.416885-1-joaopeixoto@osyx.tech>
- <20260107162829.416885-6-joaopeixoto@osyx.tech>
+	b=tKftKXv+ZZQoVPkNrSLzPuM3sn9dlBfNJE7CXNxbCr7fKiwywiyqeHVIvw6dZ55DS
+	 e2jwN/kNydRq2YPtrKHeH2jhXmu5WSi79X87JK8cLH40ki6pekGpzz8qN0hifjm5Gj
+	 E4wdiKN5v+9MAfed5zuSf1o1d5pDdyubvMgsmPXY=
+Date: Wed, 7 Jan 2026 21:29:29 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
+Message-ID: <20260107192929.GE20168@pendragon.ideasonboard.com>
+References: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <2026010724-activate-saggy-9c08@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260107162829.416885-6-joaopeixoto@osyx.tech>
+In-Reply-To: <2026010724-activate-saggy-9c08@gregkh>
 
-On Wed, Jan 07, 2026 at 04:28:28PM +0000, joaopeixoto@osyx.tech wrote:
-> From: João Peixoto <joaopeixoto@osyx.tech>
+On Wed, Jan 07, 2026 at 07:52:31PM +0100, Greg KH wrote:
+> On Wed, Jan 07, 2026 at 06:12:47PM +0100, Krzysztof Kozlowski wrote:
+> > Sources already have SPDX-FileCopyrightText (~40 instances) and more
+> > appear on the mailing list, so document that it is allowed.  On the
+> > other hand SPDX defines several other tags like SPDX-FileType, so add
+> > checkpatch rule to narrow desired tags only to two of them - license and
+> > copyright.  That way no new tags would sneak in to the kernel unnoticed.
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> > 
+> > ---
+> > 
+> > Other way would be to remove SPDX-FileCopyrightText from existing files
+> > and disallow this, but one way or another we should be explicit about
+> > it.  Otherwise people will be sending more of these and each maintainer
+> > would need to make their own call.
+> > ---
+> >  Documentation/process/license-rules.rst | 2 ++
+> >  scripts/checkpatch.pl                   | 9 +++++++++
+> >  2 files changed, 11 insertions(+)
+> > 
+> > diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+> > index 59a7832df7d0..8d7c0214f283 100644
+> > --- a/Documentation/process/license-rules.rst
+> > +++ b/Documentation/process/license-rules.rst
+> > @@ -66,6 +66,8 @@ License identifier syntax
+> >     '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
+> >     identifier goes into the second line.
 > 
-> Move the IPC shared-memory hypercall ID from architecture-specific
-> headers into include/linux/bao.h.
-
-That says _what_ you did, but not why you did it :(
-
-I have no idea why this is needed at all, sorry.
-
-> Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
-> ---
->  arch/arm/include/asm/bao.h           | 5 ++---
->  arch/arm64/include/asm/bao.h         | 5 ++---
->  arch/riscv/include/asm/bao.h         | 7 +++----
->  drivers/virt/bao/ipcshmem/ipcshmem.c | 5 +----
->  include/linux/bao.h                  | 3 +++
->  5 files changed, 11 insertions(+), 14 deletions(-)
+> As you are adding a copyright identifier, this sentence should probably
+> be:
+> 	For those scripts, the SPDX license identifier goes into the
+> 	second line.
 > 
-> diff --git a/arch/arm/include/asm/bao.h b/arch/arm/include/asm/bao.h
-> index 5ece9ecb1455..7d13591fe669 100644
-> --- a/arch/arm/include/asm/bao.h
-> +++ b/arch/arm/include/asm/bao.h
-> @@ -16,14 +16,13 @@
->  #include <linux/arm-smccc.h>
->  #include <linux/bao.h>
->  
-> -static inline unsigned long bao_ipcshmem_hypercall(unsigned long hypercall_id,
-> -						   unsigned long ipcshmem_id)
-> +static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
+> > +   Identifier line can be followed by another one with SPDX-FileCopyrightText.
+> 
+> How about:
+> 
+> "The license identifier line can then be followed by a
+> SPDX-FileCopyrightText line if desired."
 
-This does not match what you said you were doing in the changelog :(
+I'd write "by one of multiple" instead of "by a" as multiple copyright
+owners for the same file is common in the kernel.
 
+> > +
+> >  |
+> >  
+> >  2. Style:
+> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > index 362a8d1cd327..98261ee97e2b 100755
+> > --- a/scripts/checkpatch.pl
+> > +++ b/scripts/checkpatch.pl
+> > @@ -3844,6 +3844,15 @@ sub process {
+> >  			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
+> >  		}
+> >  
+> > +# check for unused SPDX file tags
+> 
+> # check for unsupported SPDX file tags
+
+-- 
+Regards,
+
+Laurent Pinchart
