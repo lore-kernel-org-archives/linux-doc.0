@@ -1,64 +1,64 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799E73A1A41
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 17:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197213A525A
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 17:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767807328; cv=none; b=semCb2qj7FY+ldnkh+gHZKX+pDUmZQejVD8ErM2kt7rFvhBTsmbsP5nwjMMiUWSS3QcosuBK1R7PDBkHrhPzYVnfq6AeO8BuABtSByjm+Rt/K7kF5LD/c+qazwY01GcoAjimclq5VCzPrjzoAqU12RxLSNScpyT10ZtN08FkCbM=
+	t=1767807379; cv=none; b=Z1Dqb6bFenMjSWypAerXYRwHLAxo7ld2KB8RldjbF7hrhpoLqlifln38KnoSM6TzMTIJpxFFOHm7eq2TqNbrHo7U9prwcV+lIUd04BALYv/OBJMdaApv4JhsePbwXeqZwj6h2sOSM7senQxO2Ra39/94hO6YCTMzxHenmX794Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767807328; c=relaxed/simple;
-	bh=dEOXcM0qLcGyYDdpYrpwaPuAKh0TeDT6z74M9N7a6x8=;
+	s=arc-20240116; t=1767807379; c=relaxed/simple;
+	bh=VILu4/aZEDEuDrhwIC96ZPrRjlL5TOp4r9I40ua7OBM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HA++IVeSSIi85bqANjvWAHXkJkStzbjy8yh2VpvFD+qgHCv/ILR9/OLAfoTl3xGmnmy3c/7JLazIywtElQFCJ6xUYli3Itq01nAFBjWXOfLZ2/5wFU2c/PNe8gSlbCyFyjJ4yTfn7et6C33YG+0Vgybx9vFpxNYm6c8HlKuvgiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TfdYAndd; arc=none smtp.client-ip=209.85.160.181
+	 MIME-Version; b=gccZILqQRixxGRtpFMzbLfz6hMiueCEzxMdc/GvuN2h16WQKbfQg64np7stRoI7yrFIlivHR9l1CZcCSyf1byMaBbPS3EuVpc+0eNJG5KiReiXTBm23mB2/5Qom1ZAvTU9OQ8UeRFmdjm6ULlkyFMST/tPJS/Tnr1o2fagYuRZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FqS2/QNT; arc=none smtp.client-ip=74.125.82.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TfdYAndd"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4f822b2df7aso29464191cf.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 09:35:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FqS2/QNT"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-11df4458a85so2548095c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 09:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767807325; x=1768412125; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767807377; x=1768412177; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IsUBbcgm6GmRe1pvdN9mqC0Y9Ykr2Q9MySmIE+mClu8=;
-        b=TfdYAndd5FXyDRKCWxDfgCs7awSU/DZEObxc3s3yLt4T3ZukspK15r75INA7Jw8W2T
-         nWLD2XnJrrv/VIo2uWQCVe7RbVYVB+C3N8l+WzDQ5TB2flmETVAUIzdFLy/0cJRs3eRe
-         /4Rf76eJfDqcg4Iv053EPPVZw0p8INeJyn2rrzr++JBUgs14EFuU8UvfnlYw6q2GM2lW
-         WaUlZTRG9BSGQ8aOu+1XhD2WeItFGRS+PlHnna19NDtmkjqTjf5i7nM/tIktpfpExu7A
-         omr37BwjIsIv4gOAhs+CVSnSoxEuA2jhMynLzR64+w4XJJt6wy/0L4TXmskUKLUpApCw
-         LCzA==
+        bh=Z26pH3kxXMl+NsnFCMmTOxJmvl6Ayq/rxp+1YLnLzkg=;
+        b=FqS2/QNTDI8FgQ5flLe55PBulODhs0rQZKWDhh2lO+TOCFVLDJHJUe/gVJJLxqzOvr
+         0DEJjwMjUlriR9/lgXrs7dxiD2yjZxV8NQHRRGkUc6l6i45+22M56ctrRJqhOrJAKIJD
+         XDJ0+pax4IqQ3vg0cNzmHcsJs3yonluW/uinosAvpF3SdThdPClbugSC4JHcr6ffj++w
+         lETnuD5pInFxdqc4hRIOtUWNjRDbhtON9PXrpLM++glGrAGRXLQbyzKQh44AzzJzNpHO
+         h166Sz8zKQYeN5+6xCzH3TQyQbKuRwbBvJaTa33gmN8w6l/YT8iAwF3MvRVyzHPtAYMy
+         y82Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767807325; x=1768412125;
+        d=1e100.net; s=20230601; t=1767807377; x=1768412177;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IsUBbcgm6GmRe1pvdN9mqC0Y9Ykr2Q9MySmIE+mClu8=;
-        b=wEMBrAA4T1P0TQWWdwKzpEMEL+liuZSIFV8QVbqVRF02j0rKMTkC2emjY5c7gVYkMb
-         3gNl90jGdmJzUBJ4kTYrLlhZL/eoV7RALbZytQOYfP+ourr+HEERI/kHG61hokcj4kZm
-         LpwfjF0cae3Qd/yAl9IiJMXrLKAimPBVarqzIzRd15e5z36M1u0KOv6TnXEfQc3ndEi+
-         pAp6ZnEK7DaXJc7p39ejzkwXmyjnWWtMw/KVqI6vAVFQkgbRwBmTjjRkL/HiOJiAiZMp
-         HDvufgREwm0fPNzFT1Tkw5/Y33B8pIpBEZl95Solavyb1ZxCpig0Uk0WKly3Kp93H/wl
-         Oe7w==
-X-Forwarded-Encrypted: i=1; AJvYcCU546j44AjNJvO0R0fNqDRBYvlcruHVUDlwnLpV8dZfi+iLQgslPo/+zEO0zK0XgXkExTTTpFe/4KY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0AbG8n0Ahjw9LL9zlIW7IMj3swK4L2QFTfwhPMuQoF8WAD0Qn
-	cTn3I7lxxGGmsZMXnPEzqtYcUUPiR6eWLz0OqyYVnf/yR+KS5lZmfSqIeF66jg==
-X-Gm-Gg: AY/fxX7mAdNsVNWRXCzmK43nuFF8EqngZ5GpmxvKv23JRfNJuyXruZsPDj4nL3K7R8x
-	Opyl1HcnzF22/tBxyY3FEAVogZHR94zTCxu17NR64I75i/BXGeUApSehhxgN8m5V7GBM76KpopG
-	CMzqq52piFP9uTXYdOFCy3FJPd4x/q+c5D+coRTZVEmjBOX4iAFrnegdxqDFJd7ItBIVFWedMTk
-	+n/jOPNQiInatJqzBj44qQlgVAdAqNgz4Z734x4yHhkthrjIWeqmQG9HrYWX+W6wxC0UgeHtv/n
-	Co2a7Epu8lF/ARfROXRChZ3OhPPWUiQL3KUDUgc5bcWfc4+kVGhmpSoNN7XbjixJPAq7+tlVE76
-	7gGSDM6WwjYWgLy07sdiLfktCOjUcRkJgxA3lPF1aw0jtxU2TnPcNFg2Pjg1UCacoMGJoOrgYmT
-	BzmdiUEX5YVMad05+9N1nqv44ubA1Hz37zd00XsBQe5iXvJ64q5puS6bw=
-X-Google-Smtp-Source: AGHT+IEAvq5jIS7yNdaICnZjGGLTm+9F3WfQSWgCD5SfovqjmCa/xKQRtzE2sJgjYbpKAc4uVl4aqw==
-X-Received: by 2002:a05:6808:150f:b0:45a:5894:4979 with SMTP id 5614622812f47-45a6bdbcf78mr1522078b6e.20.1767800073716;
-        Wed, 07 Jan 2026 07:34:33 -0800 (PST)
+        bh=Z26pH3kxXMl+NsnFCMmTOxJmvl6Ayq/rxp+1YLnLzkg=;
+        b=F5Rq2GouWxT+sY+FDZdj/EKpMc2qJMr2GRBhSx/qhhnBVkRiF7P8+eaI0diwKaeuTC
+         N3tNRMgaxelK+zGpuHnyk2W2M9AKIokkXRfjQD3zA3Mngkg+DRhHBg912yTsAhyd70/l
+         7mPP60mJChV0021OQiwJT5ADryfDbBaclUAIKSyoO2Ts3rGvAnAt9fNnAbCajgIcdlrD
+         b7opfUOXL7dWyojrWf2LTDHT4tSC249qDCaMPHBMzf7kFrE+SNq8ZFSD01IIKpxRRtCJ
+         6ZLyy1E30s0XGLoSq2MDn/wNhUl2JhV4JvPDrFw0BlE3u+kzU7KwaJ2ib4sW7uYnRRH5
+         uj6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX0y4TfFEBdZ7ExczDRBH3ycujKwKircSgh6TbT6JA3Cufi2KPyVlRRqRwZtYD8EPdzjmp+wFvV6oA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlSougKbDL0PAFxGc/u6+BtWeovEdL3E1r50H61x5abK+4AX1S
+	x9oXJaCVFKDKH73OzGx5WIkGATT5ekog+b+qSSy6NJ3JQSThB9pdS0Lr9RZHaA==
+X-Gm-Gg: AY/fxX7Dfvr6geREnBBokgxrLmN7g5SOYz2Z3T2cmYp+kecYWg+wtltyddDNR87aG+G
+	HHwkHozc4OMM6fyxEGppKum1b4xi7oI6J0vuvZHUpdWgH5FmQZMXramnoDyqjy1vFBmHBtyhO+O
+	5frxsRW9COidRqQSzrfEtb15/aqfS886LWhQLeEct5P1GgPy9J750Iv2TMAW8SXiDfkxpEMWwFu
+	SGMNeOdjO+EXrYfpzgPTG2Hb+ms4N0bcTgmFeFcBMXTuZ/nhNGc3rfDkmC5lyNs46EAZFkR07lG
+	ErQJ2Cvh8LqCTCIglC+KSlOaB7AixV1gXTv12B5zEr1kfio2APdBgaN/j+o3H1B5xQY7Z/oE2cb
+	CgkoqSAyeUNBvTKxXN6oFYCrkKGw631m9nKOUv/XsNruNwi4HxFGHQwCKO/QUwjaKsR6mfIvDz/
+	l+RFSCrD0Qh43emD76mT2EUi3NxdAv7wiTzVbbcTeUXlq2V1TtauTLy3A=
+X-Google-Smtp-Source: AGHT+IG/GJazDtrV8Iv0UenI1pYkQFFjdMGheA22/FDANC++il82RbCdKOOAl/rkQAbrZ5tuK05Wfg==
+X-Received: by 2002:a05:6808:2224:b0:450:d8ef:d804 with SMTP id 5614622812f47-45a6be37898mr1407082b6e.39.1767800066998;
+        Wed, 07 Jan 2026 07:34:26 -0800 (PST)
 Received: from localhost.localdomain ([2603:8080:1500:3d89:a917:5124:7300:7cef])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.34.31
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.34.24
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 07 Jan 2026 07:34:33 -0800 (PST)
+        Wed, 07 Jan 2026 07:34:26 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
 From: John Groves <John@Groves.net>
 X-Google-Original-From: John Groves <john@groves.net>
@@ -101,9 +101,9 @@ Cc: John Groves <jgroves@micron.com>,
 	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	John Groves <john@groves.net>
-Subject: [PATCH V3 18/21] famfs_fuse: Add holder_operations for dax notify_failure()
-Date: Wed,  7 Jan 2026 09:33:27 -0600
-Message-ID: <20260107153332.64727-19-john@groves.net>
+Subject: [PATCH V3 16/21] famfs_fuse: GET_DAXDEV message and daxdev_table
+Date: Wed,  7 Jan 2026 09:33:25 -0600
+Message-ID: <20260107153332.64727-17-john@groves.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260107153332.64727-1-john@groves.net>
 References: <20260107153244.64703-1-john@groves.net>
@@ -116,243 +116,430 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Memory errors are at least somewhat more likely on disaggregated memory
-than on-board memory. This commit registers to be notified by fsdev_dax
-in the event that a memory failure is detected.
-
-When a file access resolves to a daxdev with memory errors, it will fail
-with an appropriate error.
-
-If a daxdev failed fs_dax_get(), we set dd->dax_err. If a daxdev called
-our notify_failure(), set dd->error. When any of the above happens, set
-(file)->error and stop allowing access.
-
-In general, the recovery from memory errors is to unmount the file
-system and re-initialize the memory, but there may be usable degraded
-modes of operation - particularly in the future when famfs supports
-file systems backed by more than one daxdev. In those cases,
-accessing data that is on a working daxdev can still work.
-
-For now, return errors for any file that has encountered a memory or dax
-error.
+* The new GET_DAXDEV message/response is added
+* The famfs.c:famfs_teardown() function is added as a primary teardown
+  function for famfs.
+* The command it triggered by the update_daxdev_table() call, if there
+  are any daxdevs in the subject fmap that are not represented in the
+  daxdev_table yet.
+* fs/namei.c: export may_open_dev()
 
 Signed-off-by: John Groves <john@groves.net>
 ---
- fs/fuse/famfs.c       | 115 +++++++++++++++++++++++++++++++++++++++---
- fs/fuse/famfs_kfmap.h |   3 +-
- 2 files changed, 109 insertions(+), 9 deletions(-)
+ fs/fuse/famfs.c           | 236 ++++++++++++++++++++++++++++++++++++++
+ fs/fuse/famfs_kfmap.h     |  26 +++++
+ fs/fuse/fuse_i.h          |  13 ++-
+ fs/fuse/inode.c           |   4 +-
+ fs/namei.c                |   1 +
+ include/uapi/linux/fuse.h |  20 ++++
+ 6 files changed, 298 insertions(+), 2 deletions(-)
 
 diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-index c02b14789c6e..4eb87c5c628e 100644
+index 2aabd1d589fd..b5cd1b5c1d6c 100644
 --- a/fs/fuse/famfs.c
 +++ b/fs/fuse/famfs.c
-@@ -20,6 +20,26 @@
+@@ -20,6 +20,239 @@
  #include "famfs_kfmap.h"
  #include "fuse_i.h"
  
-+static void famfs_set_daxdev_err(
-+	struct fuse_conn *fc, struct dax_device *dax_devp);
-+
-+static int
-+famfs_dax_notify_failure(struct dax_device *dax_devp, u64 offset,
-+			u64 len, int mf_flags)
++/*
++ * famfs_teardown()
++ *
++ * Deallocate famfs metadata for a fuse_conn
++ */
++void
++famfs_teardown(struct fuse_conn *fc)
 +{
-+	struct fuse_conn *fc = dax_holder(dax_devp);
-+
-+	famfs_set_daxdev_err(fc, dax_devp);
-+
-+	return 0;
-+}
-+
-+static const struct dax_holder_operations famfs_fuse_dax_holder_ops = {
-+	.notify_failure		= famfs_dax_notify_failure,
-+};
-+
-+/*****************************************************************************/
-+
- /*
-  * famfs_teardown()
-  *
-@@ -48,9 +68,12 @@ famfs_teardown(struct fuse_conn *fc)
- 		if (!dd->valid)
- 			continue;
- 
--		/* Release reference from dax_dev_get() */
--		if (dd->devp)
-+		/* Only call fs_put_dax if fs_dax_get succeeded */
-+		if (dd->devp) {
-+			if (!dd->dax_err)
-+				fs_put_dax(dd->devp, fc);
- 			put_dax(dd->devp);
-+		}
- 
- 		kfree(dd->name);
- 	}
-@@ -174,6 +197,17 @@ famfs_fuse_get_daxdev(struct fuse_mount *fm, const u64 index)
- 		goto out;
- 	}
- 
-+	err = fs_dax_get(daxdev->devp, fc, &famfs_fuse_dax_holder_ops);
-+	if (err) {
-+		/* If fs_dax_get() fails, we don't attempt recovery;
-+		 * We mark the daxdev valid with dax_err
-+		 */
-+		daxdev->dax_err = 1;
-+		pr_err("%s: fs_dax_get(%lld) failed\n",
-+		       __func__, (u64)daxdev->devno);
-+		err = -EBUSY;
-+	}
-+
- 	daxdev->name = kstrdup(daxdev_out.name, GFP_KERNEL);
- 	wmb(); /* all daxdev fields must be visible before marking it valid */
- 	daxdev->valid = 1;
-@@ -254,6 +288,38 @@ famfs_update_daxdev_table(
- 	return 0;
- }
- 
-+static void
-+famfs_set_daxdev_err(
-+	struct fuse_conn *fc,
-+	struct dax_device *dax_devp)
-+{
++	struct famfs_dax_devlist *devlist = fc->dax_devlist;
 +	int i;
 +
-+	/* Gotta search the list by dax_devp;
-+	 * read lock because we're not adding or removing daxdev entries
-+	 */
++	kfree(fc->shadow);
++
++	fc->dax_devlist = NULL;
++
++	if (!devlist)
++		return;
++
++	if (!devlist->devlist)
++		goto out;
++
++	/* Close & release all the daxdevs in our table */
++	for (i = 0; i < devlist->nslots; i++) {
++		struct famfs_daxdev *dd = &devlist->devlist[i];
++
++		if (!dd->valid)
++			continue;
++
++		/* Release reference from dax_dev_get() */
++		if (dd->devp)
++			put_dax(dd->devp);
++
++		kfree(dd->name);
++	}
++	kfree(devlist->devlist);
++
++out:
++	kfree(devlist);
++}
++
++static int
++famfs_verify_daxdev(const char *pathname, dev_t *devno)
++{
++	struct inode *inode;
++	struct path path;
++	int err;
++
++	if (!pathname || !*pathname)
++		return -EINVAL;
++
++	err = kern_path(pathname, LOOKUP_FOLLOW, &path);
++	if (err)
++		return err;
++
++	inode = d_backing_inode(path.dentry);
++	if (!S_ISCHR(inode->i_mode)) {
++		err = -EINVAL;
++		goto out_path_put;
++	}
++
++	if (!may_open_dev(&path)) { /* had to export this */
++		err = -EACCES;
++		goto out_path_put;
++	}
++
++	*devno = inode->i_rdev;
++
++out_path_put:
++	path_put(&path);
++	return err;
++}
++
++/**
++ * famfs_fuse_get_daxdev() - Retrieve info for a DAX device from fuse server
++ *
++ * Send a GET_DAXDEV message to the fuse server to retrieve info on a
++ * dax device.
++ *
++ * @fm:     fuse_mount
++ * @index:  the index of the dax device; daxdevs are referred to by index
++ *          in fmaps, and the server resolves the index to a particular daxdev
++ *
++ * Returns: 0=success
++ *          -errno=failure
++ */
++static int
++famfs_fuse_get_daxdev(struct fuse_mount *fm, const u64 index)
++{
++	struct fuse_daxdev_out daxdev_out = { 0 };
++	struct fuse_conn *fc = fm->fc;
++	struct famfs_daxdev *daxdev;
++	int err = 0;
++
++	FUSE_ARGS(args);
++
++	/* Store the daxdev in our table */
++	if (index >= fc->dax_devlist->nslots) {
++		pr_err("%s: index(%lld) > nslots(%d)\n",
++		       __func__, index, fc->dax_devlist->nslots);
++		err = -EINVAL;
++		goto out;
++	}
++
++	args.opcode = FUSE_GET_DAXDEV;
++	args.nodeid = index;
++
++	args.in_numargs = 0;
++
++	args.out_numargs = 1;
++	args.out_args[0].size = sizeof(daxdev_out);
++	args.out_args[0].value = &daxdev_out;
++
++	/* Send GET_DAXDEV command */
++	err = fuse_simple_request(fm, &args);
++	if (err) {
++		pr_err("%s: err=%d from fuse_simple_request()\n",
++		       __func__, err);
++		/*
++		 * Error will be that the payload is smaller than FMAP_BUFSIZE,
++		 * which is the max we can handle. Empty payload handled below.
++		 */
++		goto out;
++	}
++
++	down_write(&fc->famfs_devlist_sem);
++
++	daxdev = &fc->dax_devlist->devlist[index];
++
++	/* Abort if daxdev is now valid (race - another thread got it first) */
++	if (daxdev->valid) {
++		up_write(&fc->famfs_devlist_sem);
++		/* We already have a valid entry at this index */
++		pr_debug("%s: daxdev already known\n", __func__);
++		goto out;
++	}
++
++	/* Verify that the dev is valid and can be opened and gets the devno */
++	err = famfs_verify_daxdev(daxdev_out.name, &daxdev->devno);
++	if (err) {
++		up_write(&fc->famfs_devlist_sem);
++		pr_err("%s: err=%d from famfs_verify_daxdev()\n", __func__, err);
++		goto out;
++	}
++
++	/* This will fail if it's not a dax device */
++	daxdev->devp = dax_dev_get(daxdev->devno);
++	if (!daxdev->devp) {
++		up_write(&fc->famfs_devlist_sem);
++		pr_warn("%s: device %s not found or not dax\n",
++			__func__, daxdev_out.name);
++		err = -ENODEV;
++		goto out;
++	}
++
++	daxdev->name = kstrdup(daxdev_out.name, GFP_KERNEL);
++	wmb(); /* all daxdev fields must be visible before marking it valid */
++	daxdev->valid = 1;
++
++	up_write(&fc->famfs_devlist_sem);
++
++out:
++	return err;
++}
++
++/**
++ * famfs_update_daxdev_table() - Update the daxdev table
++ * @fm   - fuse_mount
++ * @meta - famfs_file_meta, in-memory format, built from a GET_FMAP response
++ *
++ * This function is called for each new file fmap, to verify whether all
++ * referenced daxdevs are already known (i.e. in the table). Any daxdev
++ * indices referenced in @meta but not in the table will be retrieved via
++ * famfs_fuse_get_daxdev() and added to the table
++ *
++ * Return: 0=success
++ *         -errno=failure
++ */
++static int
++famfs_update_daxdev_table(
++	struct fuse_mount *fm,
++	const struct famfs_file_meta *meta)
++{
++	struct famfs_dax_devlist *local_devlist;
++	struct fuse_conn *fc = fm->fc;
++	int err;
++	int i;
++
++	/* First time through we will need to allocate the dax_devlist */
++	if (unlikely(!fc->dax_devlist)) {
++		local_devlist = kcalloc(1, sizeof(*fc->dax_devlist), GFP_KERNEL);
++		if (!local_devlist)
++			return -ENOMEM;
++
++		local_devlist->nslots = MAX_DAXDEVS;
++
++		local_devlist->devlist = kcalloc(MAX_DAXDEVS,
++						 sizeof(struct famfs_daxdev),
++						 GFP_KERNEL);
++		if (!local_devlist->devlist) {
++			kfree(local_devlist);
++			return -ENOMEM;
++		}
++
++		/* We don't need famfs_devlist_sem here because we use cmpxchg */
++		if (cmpxchg(&fc->dax_devlist, NULL, local_devlist) != NULL) {
++			kfree(local_devlist->devlist);
++			kfree(local_devlist); /* another thread beat us to it */
++		}
++	}
++
 +	down_read(&fc->famfs_devlist_sem);
 +	for (i = 0; i < fc->dax_devlist->nslots; i++) {
-+		if (fc->dax_devlist->devlist[i].valid) {
-+			struct famfs_daxdev *dd = &fc->dax_devlist->devlist[i];
++		if (!(meta->dev_bitmap & (1ULL << i)))
++			continue;
 +
-+			if (dd->devp != dax_devp)
-+				continue;
-+
-+			dd->error = true;
++		/* This file meta struct references devindex i
++		 * if devindex i isn't in the table; get it...
++		 */
++		if (!(fc->dax_devlist->devlist[i].valid)) {
 +			up_read(&fc->famfs_devlist_sem);
 +
-+			pr_err("%s: memory error on daxdev %s (%d)\n",
-+			       __func__, dd->name, i);
-+			goto done;
++			err = famfs_fuse_get_daxdev(fm, i);
++			if (err)
++				pr_err("%s: failed to get daxdev=%d\n",
++				       __func__, i);
++
++			down_read(&fc->famfs_devlist_sem);
 +		}
 +	}
 +	up_read(&fc->famfs_devlist_sem);
-+	pr_err("%s: memory err on unrecognized daxdev\n", __func__);
 +
-+done:
-+}
-+
- /***************************************************************************/
- 
- void
-@@ -611,6 +677,26 @@ famfs_file_init_dax(
- 
- static ssize_t famfs_file_bad(struct inode *inode);
- 
-+static int famfs_dax_err(struct famfs_daxdev *dd)
-+{
-+	if (!dd->valid) {
-+		pr_err("%s: daxdev=%s invalid\n",
-+		       __func__, dd->name);
-+		return -EIO;
-+	}
-+	if (dd->dax_err) {
-+		pr_err("%s: daxdev=%s dax_err\n",
-+		       __func__, dd->name);
-+		return -EIO;
-+	}
-+	if (dd->error) {
-+		pr_err("%s: daxdev=%s memory error\n",
-+		       __func__, dd->name);
-+		return -EHWPOISON;
-+	}
 +	return 0;
 +}
+ 
+ /***************************************************************************/
+ 
+@@ -342,6 +575,9 @@ famfs_file_init_dax(
+ 	if (rc)
+ 		goto errout;
+ 
++	/* Make sure this fmap doesn't reference any unknown daxdevs */
++	famfs_update_daxdev_table(fm, meta);
 +
- static int
- famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 			 loff_t file_offset, off_t len, unsigned int flags)
-@@ -648,6 +734,7 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 
- 		/* Is the data is in this striped extent? */
- 		if (local_offset < ext_size) {
-+			struct famfs_daxdev *dd;
- 			u64 chunk_num       = local_offset / chunk_size;
- 			u64 chunk_offset    = local_offset % chunk_size;
- 			u64 stripe_num      = chunk_num / nstrips;
-@@ -656,6 +743,7 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 			u64 strip_offset    = chunk_offset + (stripe_num * chunk_size);
- 			u64 strip_dax_ofs = fei->ie_strips[strip_num].ext_offset;
- 			u64 strip_devidx = fei->ie_strips[strip_num].dev_index;
-+			int rc;
- 
- 			if (strip_devidx >= fc->dax_devlist->nslots) {
- 				pr_err("%s: strip_devidx %llu >= nslots %d\n",
-@@ -670,6 +758,15 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 				goto err_out;
- 			}
- 
-+			dd = &fc->dax_devlist->devlist[strip_devidx];
-+
-+			rc = famfs_dax_err(dd);
-+			if (rc) {
-+				/* Shut down access to this file */
-+				meta->error = true;
-+				return rc;
-+			}
-+
- 			iomap->addr    = strip_dax_ofs + strip_offset;
- 			iomap->offset  = file_offset;
- 			iomap->length  = min_t(loff_t, len, chunk_remainder);
-@@ -767,6 +864,7 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 		if (local_offset < dax_ext_len) {
- 			loff_t ext_len_remainder = dax_ext_len - local_offset;
- 			struct famfs_daxdev *dd;
-+			int rc;
- 
- 			if (daxdev_idx >= fc->dax_devlist->nslots) {
- 				pr_err("%s: daxdev_idx %llu >= nslots %d\n",
-@@ -777,11 +875,11 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 
- 			dd = &fc->dax_devlist->devlist[daxdev_idx];
- 
--			if (!dd->valid || dd->error) {
--				pr_err("%s: daxdev=%lld %s\n", __func__,
--				       daxdev_idx,
--				       dd->valid ? "error" : "invalid");
--				goto err_out;
-+			rc = famfs_dax_err(dd);
-+			if (rc) {
-+				/* Shut down access to this file */
-+				meta->error = true;
-+				return rc;
- 			}
- 
- 			/*
-@@ -966,7 +1064,8 @@ famfs_file_bad(struct inode *inode)
- 		return -EIO;
- 	}
- 	if (meta->error) {
--		pr_debug("%s: previously detected metadata errors\n", __func__);
-+		pr_debug("%s: previously detected metadata errors\n",
-+			 __func__);
- 		return -EIO;
- 	}
- 	if (i_size != meta->file_size) {
+ 	/* Publish the famfs metadata on fi->famfs_meta */
+ 	inode_lock(inode);
+ 	if (fi->famfs_meta) {
 diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
-index e76b9057a1e0..6a6420bdff48 100644
+index 058645cb10a1..e76b9057a1e0 100644
 --- a/fs/fuse/famfs_kfmap.h
 +++ b/fs/fuse/famfs_kfmap.h
-@@ -73,7 +73,8 @@ struct famfs_file_meta {
- struct famfs_daxdev {
- 	/* Include dev uuid? */
- 	bool valid;
--	bool error;
-+	bool error; /* Dax has reported a memory error (probably poison) */
-+	bool dax_err; /* fs_dax_get() failed */
- 	dev_t devno;
- 	struct dax_device *devp;
- 	char *name;
+@@ -64,4 +64,30 @@ struct famfs_file_meta {
+ 	};
+ };
+ 
++/*
++ * famfs_daxdev - tracking struct for a daxdev within a famfs file system
++ *
++ * This is the in-memory daxdev metadata that is populated by parsing
++ * the responses to GET_FMAP messages
++ */
++struct famfs_daxdev {
++	/* Include dev uuid? */
++	bool valid;
++	bool error;
++	dev_t devno;
++	struct dax_device *devp;
++	char *name;
++};
++
++#define MAX_DAXDEVS 24
++
++/*
++ * famfs_dax_devlist - list of famfs_daxdev's
++ */
++struct famfs_dax_devlist {
++	int nslots;
++	int ndevs;
++	struct famfs_daxdev *devlist;
++};
++
+ #endif /* FAMFS_KFMAP_H */
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index f9e920e95baf..d308b74c83ec 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1018,6 +1018,8 @@ struct fuse_conn {
+ 	u8 blkbits;
+ 
+ #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
++	struct rw_semaphore famfs_devlist_sem;
++	struct famfs_dax_devlist *dax_devlist;
+ 	char *shadow;
+ #endif
+ };
+@@ -1663,13 +1665,15 @@ int famfs_file_init_dax(struct fuse_mount *fm,
+ 			     struct inode *inode, void *fmap_buf,
+ 			     size_t fmap_size);
+ void __famfs_meta_free(void *map);
+-#endif
++void famfs_teardown(struct fuse_conn *fc);
++#else
+ static inline void famfs_teardown(struct fuse_conn *fc)
+ {
+ #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+ 	kfree(fc->shadow);
+ #endif
+ }
++#endif
+ 
+ static inline void famfs_meta_init(struct fuse_inode *fi)
+ {
+@@ -1688,6 +1692,13 @@ static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+ #endif
+ }
+ 
++static inline void famfs_init_devlist_sem(struct fuse_conn *fc)
++{
++#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
++	init_rwsem(&fc->famfs_devlist_sem);
++#endif
++}
++
+ static inline void famfs_meta_free(struct fuse_inode *fi)
+ {
+ #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 391ead26bfa2..78787efcfd07 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1497,8 +1497,10 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+ 				u64 in_flags = ((u64)ia->in.flags2 << 32)
+ 						| ia->in.flags;
+ 
+-				if (in_flags & FUSE_DAX_FMAP)
++				if (in_flags & FUSE_DAX_FMAP) {
++					famfs_init_devlist_sem(fc);
+ 					fc->famfs_iomap = 1;
++				}
+ 			}
+ 		} else {
+ 			ra_pages = fc->max_read / PAGE_SIZE;
+diff --git a/fs/namei.c b/fs/namei.c
+index bf0f66f0e9b9..b47511ac7337 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -4162,6 +4162,7 @@ bool may_open_dev(const struct path *path)
+ 	return !(path->mnt->mnt_flags & MNT_NODEV) &&
+ 		!(path->mnt->mnt_sb->s_iflags & SB_I_NODEV);
+ }
++EXPORT_SYMBOL(may_open_dev);
+ 
+ static int may_open(struct mnt_idmap *idmap, const struct path *path,
+ 		    int acc_mode, int flag)
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index e6dd3c24bb11..2432ccc4f913 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -247,6 +247,9 @@
+  *      - struct fuse_famfs_simple_ext
+  *      - struct fuse_famfs_iext
+  *      - struct fuse_famfs_fmap_header
++ *    - Add the following structs for the GET_DAXDEV message and reply
++ *      - struct fuse_get_daxdev_in
++ *      - struct fuse_get_daxdev_out
+  *    - Add the following enumerated types
+  *      - enum fuse_famfs_file_type
+  *      - enum famfs_ext_type
+@@ -678,6 +681,7 @@ enum fuse_opcode {
+ 
+ 	/* Famfs / devdax opcodes */
+ 	FUSE_GET_FMAP           = 54,
++	FUSE_GET_DAXDEV         = 55,
+ 
+ 	/* CUSE specific operations */
+ 	CUSE_INIT		= 4096,
+@@ -1369,6 +1373,22 @@ struct fuse_famfs_fmap_header {
+ 	uint64_t reserved1;
+ };
+ 
++struct fuse_get_daxdev_in {
++	uint32_t        daxdev_num;
++};
++
++#define DAXDEV_NAME_MAX 256
++
++/* fuse_daxdev_out has enough space for a uuid if we need it */
++struct fuse_daxdev_out {
++	uint16_t index;
++	uint16_t reserved;
++	uint32_t reserved2;
++	uint64_t reserved3;
++	uint64_t reserved4;
++	char name[DAXDEV_NAME_MAX];
++};
++
+ static inline int32_t fmap_msg_min_size(void)
+ {
+ 	/* Smallest fmap message is a header plus one simple extent */
 -- 
 2.49.0
 
