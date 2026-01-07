@@ -1,92 +1,93 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB9F329E56
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 19:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB3A31A555
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 19:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767813944; cv=pass; b=jOFiLDfncakLrALynfI05N2z7zJzDbyLDRwsIQZoAJxn9wnipUTq4WX205nIK3PKDueIlbZ5Vzkpy6rC9KlO3CglZKn2e+PvpGr8Iu9PIN5AYJXoZUaW4rhMgyhRRqdnXTBpT2kSr2+1MPCJ6Jf2pxXPaemBFT1Jz1NlUPwOY/s=
+	t=1767813951; cv=pass; b=GlIUY+SSLPtbcuHTY8bk2HlMqFZKaWEhMdu0OIvglGuycxbGKtHkqmonDIQljCDfudO/3gRq2nJREhjGM9GmuKclMdd5t0BmgDV0ERlX6HSPdRCSgN8mB0gy+LI26R1OS9OF3xZegPj7a0VGE4fin/35DaiFz3cJUIC7mqDHXJs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767813944; c=relaxed/simple;
-	bh=7pay+ra3qukgJdVWr8OMTC0IdtAVU2sAntJbg1GqfOY=;
+	s=arc-20240116; t=1767813951; c=relaxed/simple;
+	bh=XVk3XmBWD63lnU/aMftVkJSiVIzcUinFUGBwW7jj1II=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H+VPRlNsDxs9jrFvHtppq2qV8tHnRAZb5ihq4HpDf7iEn1uSu996Mlz/tyk4n3G61Zxsf3kO3pXwkKsPJRDz4/L9EbjvwiQUkES4uqNzeXDcOMGVi+sQe2ieZaMPZLBYg15jERFJD+IwH79n5K1/+RzbMOBwcU1nHaH1spfEELY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lE6dYd02; arc=pass smtp.client-ip=209.85.160.177
+	 To:Cc:Content-Type; b=QgkPk1mBH7+fkkmcpDjbOmaeo9noARBiS0Ob6CJ9W+stMILBPfSnX1K97O8TvS/PVL0xE26Bu8a/RYjZbRZZPVXm2yqVjxesxNvTHiE19x5ZjUfCCuDdmtu14DeeVfusIza53InibJx8l+2+s/Ig88DFwN7CyPVKmBLa94ogK2A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vb/zgt2G; arc=pass smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lE6dYd02"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4edb8d6e98aso719971cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 11:25:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767813941; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vb/zgt2G"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ffbaaafac4so345971cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 11:25:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767813947; cv=none;
         d=google.com; s=arc-20240605;
-        b=I9dX2vCS3jVrtXB9onug73xCgqIYtJFGXlCQ6ECwZohmwsM+jdm2JlKSDEBFx87csW
-         cOPE8ji3BlPnrzmlnkHadMpXMT7L6KlUzHBWQgbsnpkCApRN8x+iNwHYQUtbLY1T2DbN
-         Io3ZS88vgHUJbnS57UMmOz1jTOpt+I9HzfizdGL+jwJ/jcPv5sV0BeQt9IVlbHXdjeg2
-         oEHGT834upxWVs1nc5DaU47UdLADwvhle+/BCYFL9JY85rkYrp/yVkD8lbHt8MGHwcPE
-         /MMEoPnIingkccznEBCnW4BaVM9ivMrM7jI8vqTWY6I/Iiq1RpaYo6IReOHkXeXxWzqg
-         zvRA==
+        b=B7OxQ2kl4uSyRN13rp+BUiOrKkdmll/WA3piJo1Ltxf8xoZb4jSg2LT/jeUSleo1bZ
+         2qJYRtSH5FWD0MWrzfqTLfKZT5vbfc2LVzYh7TEqUZxM15VZry5cOIv3dRMekWacjya5
+         lG8Uanwo0SvLTyPRD4HNKg4Cwcu3glrb8cVsqOdtnHDU565QgdmYYR81aNVVlm69JTGJ
+         Lt7fhFWPFFMAFpw/NxlmEs1c59yXQPFgkmqI1laAssq27m5q83uibpAKBJToeeAA0GWd
+         3GlcgV8seeBdarwfDuMsycFKldaXShysXEBoXEpaKlTriIV2q9d8bSZNqeVKC0MnWYhj
+         S2fA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=gTH8jQvV1D0VfzMEkRl+QRl2D3Hkny/yjDSwKTi/xLY=;
-        fh=tHFLcezeF+fwzm75fl35/qGEnXcowNYp44Y7WHI6OvI=;
-        b=B7dnpN5/IRLOC0uQIMkgRlDG/vRRuBtZhD3OFqUZrN+OufOMzi9DBZtWPdFfrl6NTq
-         BH1mWmG0x9P/h3LIn20Fofox8x8OO1YH1T4vGW3jchgrnbgnVEmppgTroDgx8dzy5cch
-         XNq0QRPoN8/IF9TMws/V0nrt6Y9kjD4AeXd88azvQmHlzpupEO4TLYWVqgYK3pg5RQG1
-         ZW3z/QFAZ7m/PBEtb0rlkXdycEy8uHbXimweB9pzqKIB17xBI6ezhm7ia93SaQ4GBJDf
-         JutwXVSlhaXEgPNTDVNr3aSqX+8cqPwjiRifhMkeyEM51DHeToXms5fxQM8/chiIXctv
-         WA3w==;
+        bh=UL7Yi7Pvtp9vnv6DWf8Vlg3AdoCOpm+T6/ZVSqpBols=;
+        fh=h0iNMa/GCx2joWvopZPz+LRbopahbIVfCaLc9erlZVE=;
+        b=GTmw5CGiaR5MZBPBi4kGOM9erARwbO9dkVNyKZTrGhH5GlWPWgDErRNsN7Yf2+u8/9
+         Yrtwy1lu3+LgKcckAzDAZ1j95nd9jjLpXq+od1N/hLB1kVO1WnYhEnLY5lmX0Tmu0Z/V
+         1cDTSmekyndphHh5JhnD+JZQMwzCzxYNeXoo2pPFI+vZ3ML9bYpOfxS2sqrAvboRhOEE
+         EgDKLLv9+qK6jJHfSdDvKplzPX6gjk6Wxcoc8FvdzD+XZJPnMAcaj72AqqyhVO0q7yiW
+         iUin+NFEzqfF3XPH0D+91p44SwZwtYDBfuBjCyOO8IJ+INWr+fisVHqwkw0/IEJexK4Z
+         RJaw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767813941; x=1768418741; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1767813947; x=1768418747; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gTH8jQvV1D0VfzMEkRl+QRl2D3Hkny/yjDSwKTi/xLY=;
-        b=lE6dYd02WK/Tcr+blOPCkh+ocEi3B8dwOyCjvjYYInLBl7EEfnjSIuXHMXmJvFaZCk
-         sh3TNmHQiiSdNM+PslEXe9UESz+DUE1rCi6Q3kgPudVJInqxxgGfFGDBHz+L0qwOnPtQ
-         jbIC0HAlzDxEvJTqhKH1OQMHyVKP22xY/GQvqUTj4DUw2J4mOuRzuNNTPOJgspBzLkgY
-         KjVRVMTiUAUQGZT0NGwha3MbTVPs2ne6JDJI6sa3XE6BSJJbX/OYL54RsFm27gYV2dHE
-         dnnOEzefHwrqR+m+PU2FpXt9ssefF7uy8AFka2HlZ6hoGJNXSuPfwfHeiB+nPOk7zWtJ
-         VNVg==
+        bh=UL7Yi7Pvtp9vnv6DWf8Vlg3AdoCOpm+T6/ZVSqpBols=;
+        b=vb/zgt2GG47urxvxxevKpvOW+IAD7RIRDvojxsHb6lvtHrLhG6VtC7Gt6NefY05n5D
+         LgQ2NPPlTDlywlfrjZRE9+GsUlo76FPqlVaMKS6ApHyZz3Nwwlg2Nbk1qljgS2q2Jjt3
+         uoxwK9LFmWb96uBzza/SiOrtwy65hnIrl1X4hDGMz7QKEOhPIhOUUSU96mAbbt1gFjsw
+         pePkJRCDsj9FVplxz45v+CTQj7LUifAtrAY4zMTBwDgvl0pxtreeQlJclWvBf88A5Hdp
+         QKUBsXJcnhdNetgn1H5MT8Lm33LUFvmeKPGp1XDnnGSD2OHW3jRpqcscftt6S2NvHcdm
+         YBcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767813941; x=1768418741;
+        d=1e100.net; s=20230601; t=1767813947; x=1768418747;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gTH8jQvV1D0VfzMEkRl+QRl2D3Hkny/yjDSwKTi/xLY=;
-        b=crlM7jjAooMsC5ik2l06jGmOsDB5rdyl0nF7ITiwf1i9X7D3Pw/3ABbq1mUupn0EIN
-         ewWupVDKSIiL+dK2BPHQbB5oO9XU4z61wteuPK6fVryFNWbJ28bwnUY1MYde9/wFO2W7
-         RdXZMix4OXf3aDYTYPt3kqbVV0l01iRmIyNn+Hp1tCCS41Sofxvz9zcvTgs9Ha9BQGEN
-         dJKMm2v21MFPHIGJlL6W8nxcJr12l56jzE4WQv9TxKjOdkCwLvSXMlVgCkS85ipBwqDb
-         DZoQXPFlflG+zENDgmbopOZeJuVrS7XpUNKDksHbHCla/GcYjInlUYsnjS1rRb2ETzgB
-         BQNA==
-X-Forwarded-Encrypted: i=1; AJvYcCVk0NQv7wiOA2p33Q3JMw3iyfZTTsdBzmJUCXRyHo8gtTcBe7ZaER9R2LgcjYQ+7wramqmTi68A7fY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw84xkvOReqcKF1G68PYp7FqPPc8XhZFI2Q43xm2n/g4GZmJsZZ
-	81MgXbwpsBjWBndL/OCVO/JH6+L3WLqazUihVerfwe0anQ+p5+wfrKei5dPTKV6MBcvwVYqEKpe
-	ARKrcmE2FiAkBQHdFZ/hk0kjJR3oXsHTkiLWHfwOh
-X-Gm-Gg: AY/fxX6UJbQEOCGDMHWaeThskEFeyV76POzH5a1JuiMtpEyfkK1/acOSUxEWG+SFZpf
-	VqJi9hLJeJav5IVt0gfpCMJooFsPPbXPywXylHMaOKc2R7i3ILdoBg7SPZiYO1q+odBNB7ticZm
-	4V8zJhDxTgRyx03NlLXGTwxre9HobMmfq2JT3ydYq4sY+kVx2XFa21EKn7BXXi4pgKRDX3rLQ/I
-	HvviMeXNn6ZgSWq0SmJ1nIrm+yzLIUBBO6KH3hyRxOys4OQxOeY9c0GYOVgxXU4D5fI35ww
-X-Received: by 2002:ac8:5e06:0:b0:4f3:5474:3cb9 with SMTP id
- d75a77b69052e-4ffb3e48178mr14758401cf.14.1767813940920; Wed, 07 Jan 2026
- 11:25:40 -0800 (PST)
+        bh=UL7Yi7Pvtp9vnv6DWf8Vlg3AdoCOpm+T6/ZVSqpBols=;
+        b=q8mXn46riPMSMczK0kApFF68JskOTuPIHrSq9/kYp7epxOCnYRZAJ3BiOnkimPxNnz
+         cQXfnP3h3RZoMgNhsNgiquCm3kkVj6kyEu3sNwtx73eyjj5q4ymrJ6wy9qyA4XsKR89c
+         ka8GzNiZl43OfRKqJYgr7WS0iVJF31ZTgE9JI2GbvYf0z6NfqsmLtE6+EYLNKOiULIXt
+         WEHqVCPC/FtoBt0hBiS43OqadfaQx4fosVHtyLS2BeE6nmtNsC2LRdow9PBE01KCmxCG
+         dIVik43fOt8K2ctXDGMTqzb4xVcBfN5PdX+Mc3b9bH0SXp1BrSkEWdr3D5QQJqAYNxb7
+         0kkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWaVbiA1dB7oLBBfdYIBrdUxu5ZsHKQ1RNYrLRx/v7ovQILLX67ge6FNYBx7nTgqdEiY12siJY09M4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlM2QlOfYw8fq6IWx/Riqrl5OBl+2NtS834awnPGmE3vraxyLv
+	2q8K150LYi72Bg94caLr7h2mpbghh/7R1KdpClZrcWFsszYvm8+EGw+CfBCvS1LS8GgCSQVcawJ
+	CR2uLqXrucw5Q2LZEgbK/FAaKr5yBS8yaUTOnu3w2
+X-Gm-Gg: AY/fxX6ltRTDy9Orx03MFyltAeT083339uI3EB7ycdDG9mG2wWJm/K4zJeDRj9UC2rC
+	S51hnhh9YxfMkBDCkouFY34D8XiO6Ps+LerD1ewdyb4UUV2xgQILZ9Xu9hhYVIrPOkDLT3MxqEp
+	+kdqQPzABeeXSrQ9o2LAFczPnKm0/5ybfVUb4tFBdqMZhBcgkAWFOHymBi9Uyrz03T5Gr6OzmTQ
+	U4Gzoh6VGM1dnloKo6rKijGw4lwzb3eVavLgM98cqkrHZ4RiAMkCjTcHySZsjvlCGAwAqKUzcCE
+	NCAaMSA=
+X-Received: by 2002:ac8:5755:0:b0:4f1:a61a:1e8 with SMTP id
+ d75a77b69052e-4ffb3e21616mr16125611cf.10.1767813946629; Wed, 07 Jan 2026
+ 11:25:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-2-8be3867cb883@kernel.org>
-In-Reply-To: <20251223-kvm-arm64-sme-v9-2-8be3867cb883@kernel.org>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-3-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-3-8be3867cb883@kernel.org>
 From: Fuad Tabba <tabba@google.com>
-Date: Wed, 7 Jan 2026 19:25:04 +0000
-X-Gm-Features: AQt7F2qijfqrn1SiSoVThoOMWciACqxsLrgyDpsjmJY9k2NsoSwPIOlWKacYC-Y
-Message-ID: <CA+EHjTxdSnpFHkm6o85EtjQjAWemBfcv9Oq6omWyrrMdkOuuVA@mail.gmail.com>
-Subject: Re: [PATCH v9 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
- loading SME state
+Date: Wed, 7 Jan 2026 19:25:09 +0000
+X-Gm-Features: AQt7F2qG7tZNiD_FEqhIhHEVb7oMgUHIgaIXPRg8ASWrsWZrjE8qelJTJPBe6w8
+Message-ID: <CA+EHjTyZg=WH4GmAXzmNroAPVtRUM=LMvNWc38S4_Oh7UQi78w@mail.gmail.com>
+Subject: Re: [PATCH v9 03/30] arm64/fpsimd: Decide to save ZT0 and streaming
+ mode FFR at bind time
 To: Mark Brown <broonie@kernel.org>
 Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -99,186 +100,96 @@ Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
 	Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Mark,
-
 On Tue, 23 Dec 2025 at 01:21, Mark Brown <broonie@kernel.org> wrote:
 >
-> Currently we enable EL0 and EL1 access to FA64 and ZT0 at boot and leave
-> them enabled throughout the runtime of the system. When we add KVM support
-> we will need to make this configuration dynamic, these features may be
-> disabled for some KVM guests. Since the host kernel saves the floating
-> point state for non-protected guests and we wish to avoid KVM having to
-> reload the floating point state needlessly on guest reentry let's move the
-> configuration of these enables to the floating point state reload.
+> Some parts of the SME state are optional, enabled by additional features
+> on top of the base FEAT_SME and controlled with enable bits in SMCR_ELx. We
+> unconditionally enable these for the host but for KVM we will allow the
+> feature set exposed to guests to be restricted by the VMM. These are the
+> FFR register (FEAT_SME_FA64) and ZT0 (FEAT_SME2).
 >
-> We provide a helper which does the configuration as part of a
-> read/modify/write operation along with the configuration of the task VL,
-> then update the floating point state load and SME access trap to use it.
-> We also remove the setting of the enable bits from the CPU feature
-> identification and resume paths.  There will be a small overhead from
-> setting the enables one at a time but this should be negligable in the
-
-nit: negligible
-
-> context of the state load or access trap.  In order to avoid compiler
-> warnings due to unused variables in !CONFIG_ARM64_SME cases we avoid
-> storing the vector length in temporary variables.
+> We defer saving of guest floating point state for non-protected guests to
+> the host kernel. We also want to avoid having to reconfigure the guest
+> floating point state if nothing used the floating point state while running
+> the host. If the guest was running with the optional features disabled then
+> traps will be enabled for them so the host kernel will need to skip
+> accessing that state when saving state for the guest.
+>
+> Support this by moving the decision about saving this state to the point
+> where we bind floating point state to the CPU, adding a new variable to
+> the cpu_fp_state which uses the enable bits in SMCR_ELx to flag which
+> features are enabled.
 >
 > Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/fpsimd.h | 14 ++++++++++++
->  arch/arm64/kernel/cpufeature.c  |  2 --
->  arch/arm64/kernel/fpsimd.c      | 47 +++++++++++------------------------------
->  3 files changed, 26 insertions(+), 37 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/fpsimd.h b/arch/arm64/include/asm/fpsimd.h
-> index 1d2e33559bd5..ece65061dea0 100644
-> --- a/arch/arm64/include/asm/fpsimd.h
-> +++ b/arch/arm64/include/asm/fpsimd.h
-> @@ -428,6 +428,18 @@ static inline size_t sme_state_size(struct task_struct const *task)
->         return __sme_state_size(task_get_sme_vl(task));
->  }
->
-> +#define sme_cond_update_smcr(vl, fa64, zt0, reg)               \
-> +       do {                                                    \
-> +               u64 __old = read_sysreg_s((reg));               \
-> +               u64 __new = vl;                                 \
-> +               if (fa64)                       \
-> +                       __new |= SMCR_ELx_FA64;                 \
-> +               if (zt0)                                        \
-> +                       __new |= SMCR_ELx_EZT0;                 \
-> +               if (__old != __new)                             \
-> +                       write_sysreg_s(__new, (reg));           \
-> +       } while (0)
-> +
 
-Should we cap the VL based on SMCR_ELx_LEN_MASK (as we do in
-sve_cond_update_zcr_vq())?
-
-Should we also preserve the remaining old bits from SMCR_EL1, i.e.,
-copy over the bits that aren't
-SMCR_ELx_LEN_MASK|SMCR_ELx_FA64|SMCR_ELx_EZT0? For now they are RES0,
-but that could change.
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
 Cheers,
 /fuad
 
 
->  #else
+> ---
+>  arch/arm64/include/asm/fpsimd.h |  1 +
+>  arch/arm64/kernel/fpsimd.c      | 10 ++++++++--
+>  arch/arm64/kvm/fpsimd.c         |  1 +
+>  3 files changed, 10 insertions(+), 2 deletions(-)
 >
->  static inline void sme_user_disable(void) { BUILD_BUG(); }
-> @@ -456,6 +468,8 @@ static inline size_t sme_state_size(struct task_struct const *task)
->         return 0;
->  }
->
-> +#define sme_cond_update_smcr(val, fa64, zt0, reg) do { } while (0)
-> +
->  #endif /* ! CONFIG_ARM64_SME */
->
->  /* For use by EFI runtime services calls only */
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> index c840a93b9ef9..ca9e66cc62d8 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -2965,7 +2965,6 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->                 .type = ARM64_CPUCAP_SYSTEM_FEATURE,
->                 .capability = ARM64_SME_FA64,
->                 .matches = has_cpuid_feature,
-> -               .cpu_enable = cpu_enable_fa64,
->                 ARM64_CPUID_FIELDS(ID_AA64SMFR0_EL1, FA64, IMP)
->         },
->         {
-> @@ -2973,7 +2972,6 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->                 .type = ARM64_CPUCAP_SYSTEM_FEATURE,
->                 .capability = ARM64_SME2,
->                 .matches = has_cpuid_feature,
-> -               .cpu_enable = cpu_enable_sme2,
->                 ARM64_CPUID_FIELDS(ID_AA64PFR1_EL1, SME, SME2)
->         },
->  #endif /* CONFIG_ARM64_SME */
+> diff --git a/arch/arm64/include/asm/fpsimd.h b/arch/arm64/include/asm/fpsimd.h
+> index ece65061dea0..146c1af55e22 100644
+> --- a/arch/arm64/include/asm/fpsimd.h
+> +++ b/arch/arm64/include/asm/fpsimd.h
+> @@ -87,6 +87,7 @@ struct cpu_fp_state {
+>         void *sme_state;
+>         u64 *svcr;
+>         u64 *fpmr;
+> +       u64 sme_features;
+>         unsigned int sve_vl;
+>         unsigned int sme_vl;
+>         enum fp_type *fp_type;
 > diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
-> index c154f72634e0..be4499ff6498 100644
+> index be4499ff6498..887fce177c92 100644
 > --- a/arch/arm64/kernel/fpsimd.c
 > +++ b/arch/arm64/kernel/fpsimd.c
-> @@ -405,11 +405,15 @@ static void task_fpsimd_load(void)
+> @@ -490,12 +490,12 @@ static void fpsimd_save_user_state(void)
 >
->         /* Restore SME, override SVE register configuration if needed */
->         if (system_supports_sme()) {
-> -               unsigned long sme_vl = task_get_sme_vl(current);
-> -
-> -               /* Ensure VL is set up for restoring data */
-> +               /*
-> +                * Ensure VL is set up for restoring data.  KVM might
-> +                * disable subfeatures so we reset them each time.
-> +                */
->                 if (test_thread_flag(TIF_SME))
-> -                       sme_set_vq(sve_vq_from_vl(sme_vl) - 1);
-> +                       sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
-> +                                            system_supports_fa64(),
-> +                                            system_supports_sme2(),
-> +                                            SYS_SMCR_EL1);
+>                 if (*svcr & SVCR_ZA_MASK)
+>                         sme_save_state(last->sme_state,
+> -                                      system_supports_sme2());
+> +                                      last->sme_features & SMCR_ELx_EZT0);
 >
->                 write_sysreg_s(current->thread.svcr, SYS_SVCR);
+>                 /* If we are in streaming mode override regular SVE. */
+>                 if (*svcr & SVCR_SM_MASK) {
+>                         save_sve_regs = true;
+> -                       save_ffr = system_supports_fa64();
+> +                       save_ffr = last->sme_features & SMCR_ELx_FA64;
+>                         vl = last->sme_vl;
+>                 }
+>         }
+> @@ -1671,6 +1671,12 @@ static void fpsimd_bind_task_to_cpu(void)
+>         last->to_save = FP_STATE_CURRENT;
+>         current->thread.fpsimd_cpu = smp_processor_id();
 >
-> @@ -1250,26 +1254,6 @@ void cpu_enable_sme(const struct arm64_cpu_capabilities *__always_unused p)
->         isb();
->  }
+> +       last->sme_features = 0;
+> +       if (system_supports_fa64())
+> +               last->sme_features |= SMCR_ELx_FA64;
+> +       if (system_supports_sme2())
+> +               last->sme_features |= SMCR_ELx_EZT0;
+> +
+>         /*
+>          * Toggle SVE and SME trapping for userspace if needed, these
+>          * are serialsied by ret_to_user().
+> diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
+> index 15e17aca1dec..9158353d8be3 100644
+> --- a/arch/arm64/kvm/fpsimd.c
+> +++ b/arch/arm64/kvm/fpsimd.c
+> @@ -80,6 +80,7 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
+>                 fp_state.svcr = __ctxt_sys_reg(&vcpu->arch.ctxt, SVCR);
+>                 fp_state.fpmr = __ctxt_sys_reg(&vcpu->arch.ctxt, FPMR);
+>                 fp_state.fp_type = &vcpu->arch.fp_type;
+> +               fp_state.sme_features = 0;
 >
-> -void cpu_enable_sme2(const struct arm64_cpu_capabilities *__always_unused p)
-> -{
-> -       /* This must be enabled after SME */
-> -       BUILD_BUG_ON(ARM64_SME2 <= ARM64_SME);
-> -
-> -       /* Allow use of ZT0 */
-> -       write_sysreg_s(read_sysreg_s(SYS_SMCR_EL1) | SMCR_ELx_EZT0_MASK,
-> -                      SYS_SMCR_EL1);
-> -}
-> -
-> -void cpu_enable_fa64(const struct arm64_cpu_capabilities *__always_unused p)
-> -{
-> -       /* This must be enabled after SME */
-> -       BUILD_BUG_ON(ARM64_SME_FA64 <= ARM64_SME);
-> -
-> -       /* Allow use of FA64 */
-> -       write_sysreg_s(read_sysreg_s(SYS_SMCR_EL1) | SMCR_ELx_FA64_MASK,
-> -                      SYS_SMCR_EL1);
-> -}
-> -
->  void __init sme_setup(void)
->  {
->         struct vl_info *info = &vl_info[ARM64_VEC_SME];
-> @@ -1314,17 +1298,9 @@ void __init sme_setup(void)
->
->  void sme_suspend_exit(void)
->  {
-> -       u64 smcr = 0;
-> -
->         if (!system_supports_sme())
->                 return;
->
-> -       if (system_supports_fa64())
-> -               smcr |= SMCR_ELx_FA64;
-> -       if (system_supports_sme2())
-> -               smcr |= SMCR_ELx_EZT0;
-> -
-> -       write_sysreg_s(smcr, SYS_SMCR_EL1);
->         write_sysreg_s(0, SYS_SMPRI_EL1);
->  }
->
-> @@ -1439,9 +1415,10 @@ void do_sme_acc(unsigned long esr, struct pt_regs *regs)
->                 WARN_ON(1);
->
->         if (!test_thread_flag(TIF_FOREIGN_FPSTATE)) {
-> -               unsigned long vq_minus_one =
-> -                       sve_vq_from_vl(task_get_sme_vl(current)) - 1;
-> -               sme_set_vq(vq_minus_one);
-> +               sme_cond_update_smcr(sve_vq_from_vl(task_get_sme_vl(current)) - 1,
-> +                                    system_supports_fa64(),
-> +                                    system_supports_sme2(),
-> +                                    SYS_SMCR_EL1);
->
->                 fpsimd_bind_task_to_cpu();
->         } else {
+>                 if (vcpu_has_sve(vcpu))
+>                         fp_state.to_save = FP_STATE_SVE;
 >
 > --
 > 2.47.3
