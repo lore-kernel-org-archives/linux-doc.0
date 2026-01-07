@@ -1,328 +1,190 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102C02877CF
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 17:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AB0332912
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 17:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767805892; cv=none; b=spAjNTuc5cS6NlHR8smWvBSkXAymRAPSv2O13v7tFk9/MFRD2Y+J8nlPoXq/LCCaEKIp9lZWcCpoVXuB6/0HcBmOn+9VMRntozeqMSavwE+b6YGXtvkPp+Weu6gUJET9DABNpP70X2YP+3bOMv/+t/TXoUcn6UzrQUCtEcpakvk=
+	t=1767805978; cv=none; b=mLHu/icyVh8h2NRjC4VI4ZBwcegfZqK3/ZSJH4uAo2VWL/d9hcWgARM6XeA4q8LNjT6ZlkusybdqTCPU1dqY77B1eRBgfJTwkct4KQWsVv+46ccC1u+OI85KOEi0OehB4DzjwHWY1lshhATAR9e/m3yobsOy/UIbPWk5RR5jhKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767805892; c=relaxed/simple;
-	bh=yhcCIEmN2Tfyzu+dnQNfiM+iCJS7UZECUB107ub4/UI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qdVM+PkcipwMDXiZjLDKGrBhhzvGBJntZJpebgEJBaN90rCmjgIqyRsUonXQgXuhh365XlsoVg4jK/HOhC+N4SEElGluFj8t7NUKuIM2e4eBsTxEuUSgYhHGmlBVljT5MeBwv8Lt4byfrZ0cBHsHUwpvxKYq4qag/FFbUj9t5SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FM6JHFlc; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767805978; c=relaxed/simple;
+	bh=N0G2ffuDBbq7gpywhPKYxodelqUo83XYdwlcWpXg4Hk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pboNNZMf0DLTh6NGfR5mqzvAW109sYZdb1Z5XP0C4XUOageIJsM5LjZec04Q5aiWCiebhg7H66ICBtG2M7eeHzSS0eOEZJ8WK+AhBiWBQBeQPEtt9ych7LK4/PAbwx0yfRjXugmyrFBjsSqvt5DXOoTCLS7HRapu4SrPseazdFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N093k1cA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=a8K1Euzb; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FM6JHFlc"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c0d16bb24dso197654685a.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 09:11:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N093k1cA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="a8K1Euzb"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 607CsS8m2239468
+	for <linux-doc@vger.kernel.org>; Wed, 7 Jan 2026 17:12:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=BhnC1bjxr1aLOi+Ek+VPvbB77/IQtQmkLcU
+	O8GRpqt4=; b=N093k1cABGW2OOdeQRvGwlARqfhw4rQpyRh1/2yUxeFxcPGcj0j
+	4iBJMWJZxZHV5GqApW/70CN2AP+O1DH7tNgxdlJ2k+KXRmaE88J2rJiXV2k6rVhc
+	+YBZmDFkx1/zQdcDsX6rc6OXwvEUhozI+uhxHZXr4PIq/ZZCpxRF8W9d55/GSjw8
+	Tbxa8fNZfiWq45QxEVpublEitrIEyO8PIYW7nWoG6iFOFVOBAWovz0tu68vedHy1
+	0QFC+0ohks2uIN0Uvkx+KiCzuGCClMrAEozgADrR5OyMPYTZsw8n3nndeRfv0LR9
+	eP1V1RYr03ZF6jDTh1gTz0L8Pkg+GKUgZow==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bhqwg0utf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 17:12:53 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8ba026720eeso625961285a.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 09:12:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767805890; x=1768410690; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NYCO0eJoVbD3YH1FLiCAgqRrwn5PztgMRBzzUwt58w0=;
-        b=FM6JHFlcO/VBSzq1OX0fA/uMGURRZB85Tkb6gJexoCZYAJ94NXKc43nbAOHBMrk0kQ
-         heQpCdzBMPX5Odv9xoviNJ0hrm3B+PbyapQz8ptd/CvLGCqfsswNaCn1+h2k6Yfr1TJg
-         7XfoqzmMzU03ac+WFMzJihf5lmD6aB51tmtdKXPeY0vZyH10jPzAac7cZGhNfY50O2kU
-         s2YcNr58dE2TYlgCQAEnHwqAphMVgv0HHY19xe5ZgfAVofqb1gfIJxkh12hgEC7dHrqR
-         NravxbDlHi0NlA2O+aCnn6rBSWY9VDTDZwwM0lhyh1Ff2pW2xUu62orzFENz9nxlfUex
-         lh/g==
+        d=oss.qualcomm.com; s=google; t=1767805973; x=1768410773; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BhnC1bjxr1aLOi+Ek+VPvbB77/IQtQmkLcUO8GRpqt4=;
+        b=a8K1Euzb6KNH+LgPPk9Y4CJiqsHMeNgDiUErYxZgHxxWmiiia3HFY05ODl19ZWDrkf
+         1PGMDnWP+wFBsCxCGloLkaoI+ZOEoT7Y75b8oip5WqZgVxAYLzr14c30I23yPzGIhNcA
+         4wUAHk0wNlmfLYJvvzqjNgQSzQP0H2SPGRaP2Z689JmchlhM5tAd9BzxLo157JuXlk3A
+         uwG7zZq6lthf42bJAcBFO2IrpswmnU6pJ4rI3+N217mUwOEEO4y/pwB1e8m2okv+7Xty
+         hAlpljnsguQdTa1y5P4PORoJdFm+1ZBr8MVs4QH8u+aEbuT/9itfxN+s5ZFe/MqYjHkz
+         Vsyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767805890; x=1768410690;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NYCO0eJoVbD3YH1FLiCAgqRrwn5PztgMRBzzUwt58w0=;
-        b=v4Ed9DTe9T6N6dUSKGhP3X3i8lZw4DyJkbFbt9cnxbzBDSWKWr5HNqCLw8G6PV0x23
-         IFTFXRB7BZ26JSLQId+v6C4N3aJZvzl3cwdNH/fOTP6nWFABrjQyYmyhCiT18DByInlh
-         95PZT/Wdsedou00Gbq0nRqdMUSPKxIqbpluqHj01f6F80BbaxVkzuUbmNMzKQf3RqiUX
-         nfCbb3MaFMuokQVhjlOkifiqfIpLr+Sajm9IIARrG9/VGe5HY2UrVrOPci3Oa5CXpq/+
-         EGlPBUS7/FZHbkJPUPHWVtCQqjKbBVn7py5brUDwXHBxNJCtkxlMQpTtHAkDmCdYzWTB
-         pHPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUw/3rkwyPKw91wEnHiJHZq96iK7+AFe/i/n/a4DoSOr+FvtfctY3YRprHF4uNQdHbmhcGGoLBqrzQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfOev2OY456md6oAqb9M0OxCGldgvsipc8a2nqw79Om2XF9OD/
-	EWKtGzuk2ChuZjvueSLrHh5fwajcEQFYKSLKa1ExbmHcO89oqE3bR2OePvDfKA==
-X-Gm-Gg: AY/fxX5aETk37c4QHoBi4A6pcX/EjFcG4jpuxY9ilLsQI/DJtYbu2wBnyqtiIuG+tLs
-	IrqOiAhwyqDmse08ZRSzBJ3vZqk0l6oKJOxwoXK8lUWgjaQrjiR8oln7qz3y4TCzUeyLJVNqJO+
-	be1wu0tzfTQepSoZeQwRcrQ58vOdGqaH6+ia300kNA4qW73FB81CYhprHCYp22DrmJyXSPxqU3r
-	0UHDLoPd6pZCjfdjetVZ81OZw+uEF/Cr3x4Ua6jmdtAC6ChJ4c3CxgmCll6R2/qScmFtU6tsAWi
-	tre56XcmsHvrL+avPjHaW/xMzpKl/xv+ZN2Ji+XoMpVMoDtnpKZXAzHhuDrKpWazx6gHCaLSJYe
-	YuDNwwkGVPiruKmi4ZLo+afCFbbA/cphuzEgsNBjROmbN7SS3hwio54uqgq+BDbdwWHoDBQa6d9
-	j9RXrA8Re7CN+lFtuSsA3rOMHX4sR1MFmRMTFxc9P366DX
-X-Google-Smtp-Source: AGHT+IEPMMHpJFcXOVxAHzXczejwJhd7WQ4l4nnWAUOyK/R1wfgiMJ/DrHHz3pBb4aiMtOJFewrIOQ==
-X-Received: by 2002:a05:6808:8955:b0:450:7f09:69a9 with SMTP id 5614622812f47-45a6bf1a2demr1496887b6e.49.1767800022026;
-        Wed, 07 Jan 2026 07:33:42 -0800 (PST)
-Received: from localhost.localdomain ([2603:8080:1500:3d89:a917:5124:7300:7cef])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.33.39
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 07 Jan 2026 07:33:41 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-From: John Groves <John@Groves.net>
-X-Google-Original-From: John Groves <john@groves.net>
-To: John Groves <John@Groves.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	venkataravis@micron.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	John Groves <john@groves.net>
-Subject: [PATCH V3 00/21] famfs: port into fuse
-Date: Wed,  7 Jan 2026 09:33:09 -0600
-Message-ID: <20260107153332.64727-1-john@groves.net>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260107153244.64703-1-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
+        d=1e100.net; s=20230601; t=1767805973; x=1768410773;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BhnC1bjxr1aLOi+Ek+VPvbB77/IQtQmkLcUO8GRpqt4=;
+        b=VvZlv1nCaB+4fMEVfznKHEX9dfjX/GjbPEecjGJ3/BzK2mD9xhLxlrhnyUSWy2Ko2/
+         YHsZT/EzhmSTYushj4kXT/gXOAbsYDxlA3fkkQF3iOfw87Co91QzfPkef6B/aR0KOLyw
+         13ctjWaCbQoWOpzIwjGfqhjjE91k98LI1vB5qtsiwpVqhgpFUUgqaaoSbTg7R3GtLvmK
+         p2cxW2ieiDiNSYtEuzgj1BVAxslcAX4Nv/ltQQjjJTXhKKHqOd/QhQ8Iwx2ojv8G4YwC
+         /3jqFDnaQxqwHUK4U+kSdsMVTNI/L4H/8weUUAew1vlgxps+JGCZo+k7haScx+/S9Omt
+         ypmA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSg15Gz0XUdyPPlltNICxZDY/FHpiIL8+zbiZRKZ/DznGQTVCQNDav4mwP1qwdArQJF5+d7U68emc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSEYXZeVC4iyywRVQ5C3BneOrQ22nv81uyEWfWr5ft3iBqIuOq
+	ejUTfCZuw9iErzpE6URooxSozHXUln2oaB91BxYLMoxQHjEC7EEC/cbF6Ev7GJVMl35n9ibuUkM
+	WMca0zxmcW15/k2kyFzBXOD9e89X+R4ve6DwJNbSuTgh2Qffde4EX2RznJUSuOXA=
+X-Gm-Gg: AY/fxX420C4p2mEFaDZXi0Q21UeV9MC7YIUE9MwrmQxDGLozrcFw8KGXTJAbTIux2RQ
+	d9Ja4bQsY1MGrhz5Qg0t24oXfUBddZBN9qfNqCX+kkUh7XUTtSU8wYghGGncCR8Gb6Tbf15gge2
+	k1uwTpEOPYAWZRdlNgOEZYagx9y9bPEAdwNvNSSM6AOB3k1xMtR2HqNBJQ6RBEQtFF2cvzONjvt
+	cyxgpZEshAALkH1ZQPSgTtEIMy2/piiLjk9u4paIkVJLQNmbDA+wkDYYOHfzVZtHPD8Qyr6d6LZ
+	fq9mKdhWf70v8MZgFajpeOvIyY9U2vWWeSiIX7NQFvonSRUoFez8KjqhHsE4gMaIhK4ew0Dzgy7
+	hm3j/DqnmK7QApdjiVRGy7yY7Zw==
+X-Received: by 2002:a05:620a:298c:b0:89f:764b:a4aa with SMTP id af79cd13be357-8c389368df1mr410775685a.18.1767805973279;
+        Wed, 07 Jan 2026 09:12:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGLq08CZ8nR23ucExLb4CvsXiIo6kX5gKzzk5m3Bnc4mP9c5+jrDXuBenuswHmQfCHvBHgBhQ==
+X-Received: by 2002:a05:620a:298c:b0:89f:764b:a4aa with SMTP id af79cd13be357-8c389368df1mr410770885a.18.1767805972725;
+        Wed, 07 Jan 2026 09:12:52 -0800 (PST)
+Received: from quoll ([178.197.218.229])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507b9d4c89sm5013433a12.10.2026.01.07.09.12.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 09:12:52 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
+Date: Wed,  7 Jan 2026 18:12:47 +0100
+Message-ID: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2059; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=N0G2ffuDBbq7gpywhPKYxodelqUo83XYdwlcWpXg4Hk=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpXpQONpIx8JizfVZLFVjxx6DLOMsYGW8KsBkpa
+ qAMvsTQAxaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaV6UDgAKCRDBN2bmhouD
+ 1/LiD/92HMWwthUq97pAgrlmQK2KTUMQjI9xM8nj8LLUUNsUwbFN3r27YcK9rePVTFHJ/zN5sWB
+ cly/tUfSL+BxCpmm6bAfN3UYQESDPPl9mXRI7CxoBVxLax0+pyEtUThr3efoWCFDNKfoCMCTOIZ
+ M9Uk/bs2QH9zQEXqerzDItocxG3uQmWF97/NFmMWVf5ehWLVjsl7X9IuZ20QnW7gx5WdB7GPalN
+ hFNsBnCJTvGXxVBL18k0oAFbBo5w0fTdTt/j+naBjpbv1NA5DrGpyPoe5xfs/wRZZusyX7uOLjU
+ N8Q3ULMTn9zGOU3w2itOFTh5cXH1W/11epzr9pDrrF4tJ0TFC6uS+x6kMkClIdfS+ds5DhdPnG5
+ J6BrnYHLXWq/Jx/uSVQm4kP68pKhUCevjA5wC+n1DpApFGpgR9J0351hgzmA2Bjqe04OL/P17BL
+ bg7plkzZCQWcI07zR3d9Owmp8AGL7YJrE986nITr4A0ienJOxvodLSMQnVclW8UhtbiL4gcMrSx
+ hVsDwlB81FUhIbmMqSQzNaaSEFvOZCGYkK/mBr2yI0XljFoZDl+8a9WouxnXzgVTi/214PHmoqF
+ s7HzuOJ0C0BIdNlysX4O7GHLRO3oPXsHJt7uTTWgFbAIepIoyyDTuRKobcIHJCWpTHVcS0ROdb/ R4X+yxCv2lZz9Hw==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: zeFSlL0vwT4rRxCj99BtkbRV6RE1Lm01
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDEzNSBTYWx0ZWRfX5X+ab162omke
+ rT/4OaRrRYxLrRXYmqKWiVVXi6kn12b97bRQy+qpwd0pipGkhXsR5UI9vTRcd0MBVhePnU7SLJI
+ 4IVv1MH6mUMj1kiCe3C6kNI0zYUICcwq/5zkZI6Z2PzuQAj3rGiFPvtDNTjnjTI1gMLitdyYuyR
+ tWyqiTrltr/UrkO3CzlJtvqLiqf2Gcl1V8svvS7i/B/zu+ocuYGpmNopG3L4UYytNcKXeiOmSGd
+ +8DZR+H50kuTuhoA4VFBvna6jtcHWSOQ8tHRaToAYH9RgaF8hv+cAhZ9CvFC19VI/MXzcfWu+hz
+ ItPt/KKtGoQQliNZVZYN3L2g+7ZgQrSTl9CrHGTupysuUelmPWU2nhsscVgSojIfkl/BX0XrWX9
+ aySrGsTVebAGL7IdMnQjuDW5QFHQOIdfuESozVuBZ7tXuZeefX+ogGwUk9utpWNGEXLqxNlq54X
+ Ghw58pSoXg2s08g3daA==
+X-Authority-Analysis: v=2.4 cv=Pa7yRyhd c=1 sm=1 tr=0 ts=695e9415 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=Eb9f15NH/cHKzfGOmZSO4Q==:17
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=dRIqDbwSeJKetXV8Y-0A:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: zeFSlL0vwT4rRxCj99BtkbRV6RE1Lm01
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-07_03,2026-01-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601070135
 
-This patch series is available as a git tag at [0].
+Sources already have SPDX-FileCopyrightText (~40 instances) and more
+appear on the mailing list, so document that it is allowed.  On the
+other hand SPDX defines several other tags like SPDX-FileType, so add
+checkpatch rule to narrow desired tags only to two of them - license and
+copyright.  That way no new tags would sneak in to the kernel unnoticed.
 
-Description:
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-This patch series introduces famfs into the fuse file system framework.
-This is really two patch series concatenated.
+---
 
-- The patches with the 'dax:' prefix introduce necessary dax
-  functionality.
-- The patches with 'famfs_fuse:' introduce the famfs functionality into
-  fuse. The famfs_fuse patches depend on the dax patches.
+Other way would be to remove SPDX-FileCopyrightText from existing files
+and disallow this, but one way or another we should be explicit about
+it.  Otherwise people will be sending more of these and each maintainer
+would need to make their own call.
+---
+ Documentation/process/license-rules.rst | 2 ++
+ scripts/checkpatch.pl                   | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
-In addition, there are related patch sets for libfuse and ndctl(daxctl).
-
-Related patches and code
-
-- Related patch to libfuse - posted under the same cover
-- Related patch to ndctl/daxctl - posted under the same cover
-- The famfs user space code can be found at [1]
-
-Dax Overview:
-
-This series introduces a new "famfs mode" of devdax, whose driver is
-drivers/dax/fsdev.c. This driver supports dax_iomap_rw() and
-dax_iomap_fault() calls against a character dax instance. A dax device
-now can be converted among three modes: 'system-ram', 'devdax' and
-'famfs' via daxctl or sysfs (e.g. unbind devdax and bind famfs instead).
-
-In famfs mode, a dax device initializes its pages consistent with the
-fsdaxmode of pmem. Raw read/write/mmap are not supported in this mode,
-but famfs is happy in this mode - using dax_iomap_rw() for read/write and
-dax_iomap_fault() for mmap faults.
-
-Fuse Overview:
-
-Famfs started as a standalone file system, but this series is intended to
-permanently supersede that implementation. At a high level, famfs adds
-two new fuse server messages:
-
-GET_FMAP   - Retrieves a famfs fmap (the file-to-dax map for a famfs
-	     file)
-GET_DAXDEV - Retrieves the details of a particular daxdev that was
-	     referenced by an fmap
-
-Famfs Overview
-
-Famfs exposes shared memory as a file system. Famfs consumes shared
-memory from dax devices, and provides memory-mappable files that map
-directly to the memory - no page cache involvement. Famfs differs from
-conventional file systems in fs-dax mode, in that it handles in-memory
-metadata in a sharable way (which begins with never caching dirty shared
-metadata).
-
-Famfs started as a standalone file system [2,3], but the consensus at
-LSFMM was that it should be ported into fuse [4,5].
-
-The key performance requirement is that famfs must resolve mapping faults
-without upcalls. This is achieved by fully caching the file-to-devdax
-metadata for all active files. This is done via two fuse client/server
-message/response pairs: GET_FMAP and GET_DAXDEV.
-
-Famfs remains the first fs-dax file system that is backed by devdax
-rather than pmem in fs-dax mode (hence the need for the new dax mode).
-
-Notes
-
-- When a file is opened in a famfs mount, the OPEN is followed by a
-  GET_FMAP message and response. The "fmap" is the full file-to-dax
-  mapping, allowing the fuse/famfs kernel code to handle
-  read/write/fault without any upcalls.
-
-- After each GET_FMAP, the fmap is checked for extents that reference
-  previously-unknown daxdevs. Each such occurrence is handled with a
-  GET_DAXDEV message and response.
-
-- Daxdevs are stored in a table (which might become an xarray at some
-  point). When entries are added to the table, we acquire exclusive
-  access to the daxdev via the fs_dax_get() call (modeled after how
-  fs-dax handles this with pmem devices). Famfs provides
-  holder_operations to devdax, providing a notification path in the
-  event of memory errors or forced reconfiguration.
-
-- If devdax notifies famfs of memory errors on a dax device, famfs
-  currently blocks all subsequent accesses to data on that device. The
-  recovery is to re-initialize the memory and file system. Famfs is
-  memory, not storage...
-
-- Because famfs uses backing (devdax) devices, only privileged mounts are
-  supported (i.e. the fuse server requires CAP_SYS_RAWIO).
-
-- The famfs kernel code never accesses the memory directly - it only
-  facilitates read, write and mmap on behalf of user processes, using
-  fmap metadata provided by its privileged fuse server. As such, the
-  RAS of the shared memory affects applications, but not the kernel.
-
-- Famfs has backing device(s), but they are devdax (char) rather than
-  block. Right now there is no way to tell the vfs layer that famfs has a
-  char backing device (unless we say it's block, but it's not). Currently
-  we use the standard anonymous fuse fs_type - but I'm not sure that's
-  ultimately optimal (thoughts?)
-
-
-Changes v2 [7] -> v3
-- Dax: Completely new fsdev driver (drivers/dax/fsdev.c) replaces the
-  dev_dax_iomap modifications to bus.c/device.c. Devdax devices can now
-  be switched among 'devdax', 'famfs' and 'system-ram' modes via daxctl
-  or sysfs.
-- Dax: fsdev uses MEMORY_DEVICE_FS_DAX type and leaves folios at order-0
-  (no vmemmap_shift), allowing fs-dax to manage folio lifecycles
-  dynamically like pmem does.
-- Dax: The "poisoned page" problem is properly fixed via
-  fsdev_clear_folio_state(), which clears stale mapping/compound state
-  when fsdev binds. The temporary WARN_ON_ONCE workaround in fs/dax.c
-  has been removed.
-- Dax: Added dax_set_ops() so fsdev can set dax_operations at bind time
-  (and clear them on unbind), since the dax_device is created before we
-  know which driver will bind.
-- Dax: Added custom bind/unbind sysfs handlers; unbind return -EBUSY if a
-  filesystem holds the device, preventing unbind while famfs is mounted.
-- Fuse: Famfs mounts now require that the fuse server/daemon has
-  CAP_SYS_RAWIO because they expose raw memory devices.
-- Fuse: Added DAX address_space_operations with noop_dirty_folio since
-  famfs is memory-backed with no writeback required.
-- Rebased to latest kernels, fully compatible with Alistair Popple
-  et. al's recent dax refactoring.
-- Ran this series through Chris Mason's code review AI prompts to check
-  for issues - several subtle problems found and fixed.
-- Dropped RFC status - this version is intended to be mergeable.
-
-Changes v1 [8] -> v2:
-
-- The GET_FMAP message/response has been moved from LOOKUP to OPEN, as
-  was the pretty much unanimous consensus.
-- Made the response payload to GET_FMAP variable sized (patch 12)
-- Dodgy kerneldoc comments cleaned up or removed.
-- Fixed memory leak of fc->shadow in patch 11 (thanks Joanne)
-- Dropped many pr_debug and pr_notice calls
-
-
-References
-
-[0] - https://github.com/jagalactic/linux/tree/famfs-v3 (this patch set)
-[1] - https://famfs.org (famfs user space)
-[2] - https://lore.kernel.org/linux-cxl/cover.1708709155.git.john@groves.net/
-[3] - https://lore.kernel.org/linux-cxl/cover.1714409084.git.john@groves.net/
-[4] - https://lwn.net/Articles/983105/ (lsfmm 2024)
-[5] - https://lwn.net/Articles/1020170/ (lsfmm 2025)
-[6] - https://lore.kernel.org/linux-cxl/cover.8068ad144a7eea4a813670301f4d2a86a8e68ec4.1740713401.git-series.apopple@nvidia.com/
-[7] - https://lore.kernel.org/linux-fsdevel/20250703185032.46568-1-john@groves.net/ (famfs fuse v2)
-[8] - https://lore.kernel.org/linux-fsdevel/20250421013346.32530-1-john@groves.net/ (famfs fuse v1)
-
-
-
-John Groves (21):
-  dax: move dax_pgoff_to_phys from [drivers/dax/] device.c to bus.c
-  dax: add fsdev.c driver for fs-dax on character dax
-  dax: Save the kva from memremap
-  dax: Add dax_operations for use by fs-dax on fsdev dax
-  dax: Add dax_set_ops() for setting dax_operations at bind time
-  dax: Add fs_dax_get() func to prepare dax for fs-dax usage
-  dax: prevent driver unbind while filesystem holds device
-  dax: export dax_dev_get()
-  famfs_fuse: magic.h: Add famfs magic numbers
-  famfs_fuse: Kconfig
-  famfs_fuse: Update macro s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
-  famfs_fuse: Basic fuse kernel ABI enablement for famfs
-  famfs_fuse: Famfs mount opt: -o shadow=<shadowpath>
-  famfs_fuse: Plumb the GET_FMAP message/response
-  famfs_fuse: Create files with famfs fmaps
-  famfs_fuse: GET_DAXDEV message and daxdev_table
-  famfs_fuse: Plumb dax iomap and fuse read/write/mmap
-  famfs_fuse: Add holder_operations for dax notify_failure()
-  famfs_fuse: Add DAX address_space_operations with noop_dirty_folio
-  famfs_fuse: Add famfs fmap metadata documentation
-  famfs_fuse: Add documentation
-
- Documentation/filesystems/famfs.rst |  142 ++++
- Documentation/filesystems/index.rst |    1 +
- MAINTAINERS                         |   18 +
- drivers/dax/Kconfig                 |   17 +
- drivers/dax/Makefile                |    2 +
- drivers/dax/bus.c                   |   86 +-
- drivers/dax/bus.h                   |    3 +
- drivers/dax/dax-private.h           |    5 +
- drivers/dax/device.c                |   23 -
- drivers/dax/fsdev.c                 |  369 ++++++++
- drivers/dax/super.c                 |   95 ++-
- fs/fuse/Kconfig                     |   14 +
- fs/fuse/Makefile                    |    1 +
- fs/fuse/dir.c                       |    2 +-
- fs/fuse/famfs.c                     | 1221 +++++++++++++++++++++++++++
- fs/fuse/famfs_kfmap.h               |  167 ++++
- fs/fuse/file.c                      |   45 +-
- fs/fuse/fuse_i.h                    |  126 ++-
- fs/fuse/inode.c                     |   59 +-
- fs/fuse/iomode.c                    |    2 +-
- fs/namei.c                          |    1 +
- include/linux/dax.h                 |    7 +
- include/uapi/linux/fuse.h           |   88 ++
- include/uapi/linux/magic.h          |    2 +
- 24 files changed, 2454 insertions(+), 42 deletions(-)
- create mode 100644 Documentation/filesystems/famfs.rst
- create mode 100644 drivers/dax/fsdev.c
- create mode 100644 fs/fuse/famfs.c
- create mode 100644 fs/fuse/famfs_kfmap.h
-
-
-base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+index 59a7832df7d0..8d7c0214f283 100644
+--- a/Documentation/process/license-rules.rst
++++ b/Documentation/process/license-rules.rst
+@@ -66,6 +66,8 @@ License identifier syntax
+    '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
+    identifier goes into the second line.
+ 
++   Identifier line can be followed by another one with SPDX-FileCopyrightText.
++
+ |
+ 
+ 2. Style:
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 362a8d1cd327..98261ee97e2b 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3844,6 +3844,15 @@ sub process {
+ 			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
+ 		}
+ 
++# check for unused SPDX file tags
++		if ($rawline =~ /\bSPDX-.*:/ &&
++		    $rawline !~ /\bSPDX-License-Identifier:/ &&
++		    $rawline !~ /\bSPDX-FileCopyrightText:/) {
++			WARN("SPDX_LICENSE_TAG",
++			     "Unsupported SPDX tag\n" . $herecurr);
++		}
++
++
+ # line length limit (with some exclusions)
+ #
+ # There are a few types of lines that may extend beyond $max_line_length:
 -- 
-2.49.0
+2.51.0
 
