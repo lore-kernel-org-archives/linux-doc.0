@@ -1,77 +1,127 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7736A33B6F9;
-	Wed,  7 Jan 2026 19:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DE7318EC0;
+	Wed,  7 Jan 2026 20:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767814741; cv=none; b=tYUeCxBotB+3gMquNYLfpMHoWThHC4crhRmYEpVaJA8aNl2WYalrImQZHOFvnBso749itSm4eY27ppoGRH5jOCkzRWJoQL/SzhsZg4+yhT2wl8lk6wRiLKj8LdBBpcoFjW8CpF7UHJM+nzvOZ9dHlb7AbEZ3inc0cgJZCx9rnJU=
+	t=1767817318; cv=none; b=aoslHNunrUgfpuS5KMrpDNbfAuW25cvAm/mgXq1oQJ00RseqhSQP8oV7ssTksO1zGJXAIEQyDYAPFD7qjjSk4Y0A5YzW19Yy2ft7mms0R1XbM+THcd9h4IbbqYW6+f7bf3XPX6ojpw8hOb3AL6MM0ZmGmnitzQb8RzZ9bepdN7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767814741; c=relaxed/simple;
-	bh=OiHKxYtjxg32qIgexqg9vuqB56t7QY266JHqWTwOE0U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DBiCDoEW5xXPihECgJU2KBVbQVuZc7HbzSAETjAAOs+2VAHKHyXDslrZOkUVe1zUMkMGZM2aSBh/xuhkfH7IiBkpF9nx2wm9BJWb0boPeDJjGXjREIrFEDTj4c6EdNORph/BduZzJt3xmr79uwJaEBDZZjCuk9oNP8iUFvKUVDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id C6EBD1604ED;
-	Wed,  7 Jan 2026 19:38:45 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id ACF326000C;
-	Wed,  7 Jan 2026 19:38:42 +0000 (UTC)
-Message-ID: <dc44dd2c6efb16ace506085922707c70126117e7.camel@perches.com>
-Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
-From: Joe Perches <joe@perches.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Thomas
- Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, Andy
- Whitcroft <apw@canonical.com>,  Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 07 Jan 2026 11:38:41 -0800
-In-Reply-To: <2026010726-crusader-recoup-4825@gregkh>
-References: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
-	 <4702253d918c8edb899a91fbd79b40199a013264.camel@perches.com>
-	 <2026010726-crusader-recoup-4825@gregkh>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1767817318; c=relaxed/simple;
+	bh=7F5tN/ruRFASpTjk1UyCZ3kZftqiWiuAfphfJ9gXIC0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a+sgvQYkVXIhSLalCYG2L9zo6ZXKD5aD3fqPL7lDoDMLwTuw4dfXpT6ir0MoKUxAdjAs9AX81XRv8RViJcOshOUtsiXoOZuOaGsCwFEF3Tr6xgpvOHxJPaliBT/uHBtb7AxrLpiMQzD0If/WZ9qkyiKSNSME4p66x2cvVZuH5qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QntoL3rZ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QntoL3rZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767817316; x=1799353316;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:to:cc;
+  bh=7F5tN/ruRFASpTjk1UyCZ3kZftqiWiuAfphfJ9gXIC0=;
+  b=QntoL3rZzswQcNwnU1lplcmHsbsDAY4Ix9CiG64buyBW4nlb/72Rf0pa
+   DRsQFlWwJzk2EB7+0QSRS3ittPzUweqzeUzmo6shSfU8TmILKJxGjYr8j
+   AVrts7ANwbAFLuNzsNQ4utcjJ2fvkaLcKms86gFU60jPJ4eXyerk9dFHz
+   K+6pObpLTFuDNCiqJuCUJ6pfA1IuR57LeAR+M0aq8wqHBOcA0gl9rJebj
+   2NqdMK0T7rkqUxzvFW+5IKdfXBfXF4aKL77IR66tCr3PiuvPckoAZUfwV
+   q9CiqlU4YnUAkQeVl7lnCXX5SWIXQIAvQKJTeCcrJu1WYKlfOOGDLoeoN
+   g==;
+X-CSE-ConnectionGUID: ylblDhRHR5+ODcOYHCTcZA==
+X-CSE-MsgGUID: 14TLc/KWSI6fCLMinj/pyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="86783055"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
+   d="scan'208";a="86783055"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 12:21:56 -0800
+X-CSE-ConnectionGUID: xZLceSCjSqmjQS0Rd5roqg==
+X-CSE-MsgGUID: ma/BnG3iR/man7nWdORXYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
+   d="scan'208";a="240496400"
+Received: from unknown (HELO hyperion.local) ([10.243.61.29])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 12:21:56 -0800
+From: Marc Herbert <marc.herbert@linux.intel.com>
+Date: Wed, 07 Jan 2026 20:21:32 +0000
+Subject: [PATCH v2] docs: make kptr_restrict and hash_pointers reference
+ each other
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: o3hjh6u665w7q1ngwpwac6i3ej9cbx99
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: ACF326000C
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18xLqUBePl34TjQp3oJfOe+LD+Un8ATmTY=
-X-HE-Tag: 1767814722-932982
-X-HE-Meta: U2FsdGVkX18aCjojfg6QQg+nfGB6yvucaBoY0VG/q7KUNvDi5cXqYKd4zyfc5630hpLafsLCQU182krvPHPfdLx2AjVQ64DIkjUbRvRCGPXR1Wx8NN8pxN6b1XdlU2jsntzfgmJobSfYyECcW9J8uh8GZZFQDcdVPQoNPodDnFjdXkRREPRbEQhLhC+UuV2kA5TjrBIJEkbHnQ8FQQm7BpLRxEBHBfD7fLGSbGFh2DbFRuzbtDLuEudQNujteSaGsVNAkp3bx8TM4Rw1gM8SgeezIvdzFI+Muke/8haWyjl3IJAJS5tOflFIAvEgS0qq
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260107-doc-hash-ptr-v2-1-cb4c161218d7@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAEzAXmkC/1WNQQ6DIBQFr2JYFwMItrrqPRoXFL/lNxYMoLEx3
+ r1q00WXk8ybt5AIASGSOltIgAkjereBOGXEWO0eQLHdmAgmFBdM0tYbanW0dEiBMgayBK5VUV3
+ INhkCdDgfuVvz5Tjen2DS3tgNizH58D7+Jr57v7T6T0+ccqrORVWWptOSyWuPbpxzdAn63PgXa
+ dZ1/QA6MXvhwAAAAA==
+X-Change-ID: 20251204-doc-hash-ptr-00e46e1a5398
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+ Marc Herbert <marc.herbert@linux.intel.com>
+X-Mailer: b4 0.15-dev
 
-On Wed, 2026-01-07 at 20:35 +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 07, 2026 at 10:40:11AM -0800, Joe Perches wrote:
-> > On Wed, 2026-01-07 at 18:12 +0100, Krzysztof Kozlowski wrote:
-> > > Sources already have SPDX-FileCopyrightText (~40 instances) and more
-> > > appear on the mailing list, so document that it is allowed.  On the
-> > > other hand SPDX defines several other tags like SPDX-FileType, so add
-> > > checkpatch rule to narrow desired tags only to two of them - license =
-and
-> > > copyright.  That way no new tags would sneak in to the kernel unnotic=
-ed.
-> >=20
-> > I find no value in this tag.  I think it should be discouraged.
-> >=20
-> > How is it different or more useful than a typical Copyright or =A9 symb=
-ol ?
->=20
-> It's easier to parse automatically and put into other places (like a
-> software bill of materials).
->=20
-> I don't like it all that much either, as really, it doesn't mean much
-> (go talk to a lawyer for details), but it's already in our tree so we
-> might as well document it...
+vsprintf.c uses a mix of the `kernel.kptr_restrict` sysctl and the
+`hash_pointers` boot param to control pointer hashing. But that wasn't
+possible to tell without looking at the source code.
 
-Document it doesn't mean encourage it.
+They have a different focus and purpose. To avoid wasting the time of
+users trying to use one instead of the other, simply have them reference
+each other in the Documentation.
+
+Signed-off-by: Marc Herbert <marc.herbert@linux.intel.com>
+---
+Please just go ahead with any minor correction(s); I mean do not ask
+for my opinion.
+
+Changes in v2:
+- Rebased on today's docs-next/master to fix textual, unrelated conflict
+- Stop using backquotes in kernel-parameters.txt for consistency
+- Link to v1: https://patch.msgid.link/20251205-doc-hash-ptr-v1-1-573966cfa404@linux.intel.com
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ Documentation/admin-guide/sysctl/kernel.rst     | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a8d0afde7f85..b189dfd60059 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1969,6 +1969,9 @@ Kernel parameters
+ 				 param "no_hash_pointers" is an alias for
+ 				 this mode.
+ 
++			For controlling hashing dynamically at runtime,
++			use the "kernel.kptr_restrict" sysctl instead.
++
+ 	hashdist=	[KNL,NUMA] Large hashes allocated during boot
+ 			are distributed across NUMA nodes.  Defaults on
+ 			for 64-bit NUMA, off otherwise.
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 239da22c4e28..0315eb7ee6d4 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -591,6 +591,9 @@ if leaking kernel pointer values to unprivileged users is a concern.
+ When ``kptr_restrict`` is set to 2, kernel pointers printed using
+ %pK will be replaced with 0s regardless of privileges.
+ 
++For disabling these security restrictions early at boot time (and once
++for all), use the ``hash_pointers`` boot parameter instead.
++
+ softlockup_sys_info & hardlockup_sys_info
+ =========================================
+ A comma separated list of extra system information to be dumped when
+
+---
+base-commit: f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+change-id: 20251204-doc-hash-ptr-00e46e1a5398
+
+Best regards,
+--  
+Marc Herbert <marc.herbert@linux.intel.com>
+
