@@ -1,83 +1,55 @@
-Received: from mail-oo1-f67.google.com (mail-oo1-f67.google.com [209.85.161.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EFB800
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 00:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79246800;
+	Wed,  7 Jan 2026 01:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767744376; cv=none; b=Mfe+KJIpLqXHTD2xtN7tWWklTn/TivC1K6+z+b0Ulw707wtzUECJfE43JUIYqos/PhqKV+A3jVjH2MpapXKzEkEDQbChQju6PH6no/57w/xXwSAqqmX0PvBYGKOim5py+xrhYf+D/DcgH/MPM+qm8bPxSe4LFC23Rf8oczUr6h0=
+	t=1767747881; cv=none; b=STFyFTjfshYVp0IqvDI2NSiDajtv5OrsDtFYgxYRJ9nZj+pjut5oEb3nBnMO/pfsoBYhy2lLwQpIvL+dj9iKF432/yvjFHEeArXGwRBHHyTVsbujMm4890zRbDchaqFRSJ4mGoyI4+fpJNxbXglT2oTyk9q5H0V0dsxObdiVmkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767744376; c=relaxed/simple;
-	bh=L3zGK0vOWDwJ6EPx+wY8qWZHxhitG5NkRkBh/MFlPGA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hq9HKh3p5ATmqEF7phpC9mP7aU2xQw92QpOFSFUKhI/McaA8DIz0DYUVs8ZQIbeXT+bxOK44/HN74UcGLNwrH+RL8vfZO+aRNrXJYQOtbCsdsllyPUZyJOLUTIeVSjG+y+gBeUYBmVnFluKa6gY5LvvABSHUZ/ow/1LDpPPxdnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=geinxmEC; arc=none smtp.client-ip=209.85.161.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767747881; c=relaxed/simple;
+	bh=R2pXPKY4cVIMhHCQqNhjONnYLK8Qbr4E4W8RwlfGI1c=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bT1H8VS2OkjNV/udeceleM8/6RlXBrfzYZx41zHgYcPpf7VBy/QJLHr1v8pMXKzdIB9jto+pJeVlz4Z7yDefdsYs15No7TYPxLa9oCwGaDIh/OxoAo/sW8oYy6UBcFn3CCgEezm4rYBDWbHRvgSH9STDBi2dnDjXuosILZcR3Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=stS6u6D7; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="geinxmEC"
-Received: by mail-oo1-f67.google.com with SMTP id 006d021491bc7-6598413b604so905779eaf.0
-        for <linux-doc@vger.kernel.org>; Tue, 06 Jan 2026 16:06:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767744374; x=1768349174; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tgq7GZjchn1EcjfHQ/Ha9eC2PJUmykLGV5Ks1aM6jX8=;
-        b=geinxmECRXk6QF98OZxRxy8waoIQXAxCXFQJLaXL1iKOlYqyqA58LeJswEPKAerVBz
-         DZdy+mcm5qQjkvnx+u7rd4seoLt4TMUYuEc42NoVKl7NmVwZepn/lpjObVjtAQn9mgM4
-         CgVGmuSniPqOQrvomwWriVbyWVeV/28gejCIIQ2U9M3uhh1cFrvxJOrT7/4zDraGpCj8
-         iue8BniEuXaRkyJ2y1NZfbUdwj1t96TR0o/7Eu8Hs6hSCyuKEmO4PdLAACcPs0FQNn3q
-         K4Urv1kq4v/E2c2Kq/JUupFzYGXYHTGk38pi8VDNoKSFBCtS5Z335YeOx6Q51CPE1zwq
-         EDWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767744374; x=1768349174;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tgq7GZjchn1EcjfHQ/Ha9eC2PJUmykLGV5Ks1aM6jX8=;
-        b=PLBZtNCqh54PM/57GDQ8qtZH26jSPBtFgbRI3UjDK8ocN82e8mC/nYABkD03gyXJEy
-         YfFV+vj14lyupQSMaMf5Lo7DsCVtJQqiPXC8Wu0rCogw0P3B3M3Kn+2W5cSL+pEueCpW
-         9rTB9EQ+sv+yAJWMQQQ9p/Z6Rdoq4yykIvs/NVr3p2FQYtV/GJLrDmYyOg1bZzC3Uacw
-         NxzD3k95C6pe9S7UmE3Mtt6ladsvMtrxqWIInOlXf4ehHO57vzjuNyB6qvYqUzw3M+eT
-         R8pyN/u+A4x4odYKf9rQcjCc+luyUnmjhhr9iphKg9TqMz0DH8Cui8TyRLOjnf0spnCV
-         azpw==
-X-Forwarded-Encrypted: i=1; AJvYcCXQjWiQk0Qk+36ck3CCeBjDdBQHzqGG7zi5EIdASZ8ez8Zx3JSLuOYkLz1ULQH/0m5ErwNeDeT1eJs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywe6BGpgLf3hTWcXGimlQPAxk3lTFwCkQfzSGM250/DvwiNb6Up
-	sgYY2f2hzLG4lInQpF/2QEBNecwBoUzszIdhYeFLVG21X0dx4iWAtdco
-X-Gm-Gg: AY/fxX4auhBuxacqQkwAKPuG7lyMiKApUJKwXTQCCYqO0XZdHxRltPXGYXrGcVSIUBQ
-	x3u+pbcDtXza799EZykQ0CoPB2tgGVDbv1gPksfs8z+RjCQ3Cdyj4/VjDylBa8lsKLv1iexG88m
-	kyg40zCYhjs9XlHd7hhZQQsX3BeNGBO+KjISa3VG3K32PgjWg10VYhHuMLuOXMLfWdcOvMmRHAT
-	Wa7OFYl/1J4u2CXzF/2RVDEJO1IcyEnwS00lEl95ByjpbMAXTvkYXO+lYZukcfo8PV2vTU2n3Qw
-	bsfDl9E870IjECBNZV+0TdAKM60j9GVD8pWov+rkxh0L/yLH6Gtv01nYI+WzvnBdMUjNDemJWFb
-	vBTgz0ZRnO1pRL/EUfksCYu5IytbirK1xEmOPeGRQG1nrBMuuu+Qy+wDKF1Bp/Hxqww+VV/8e0y
-	bC886fW3qcUVbNCcvzp0h3mGqUz6E1
-X-Google-Smtp-Source: AGHT+IHZk6/5mjRHyYCN1+0jYjV5yZCr12a2Qvfp3DAWPnZ9X8yCdldjy8vhbzKeSmmfI2HWux74cA==
-X-Received: by 2002:a05:6820:7511:b0:659:9a49:904d with SMTP id 006d021491bc7-65f54eda43bmr210960eaf.24.1767744374064;
-        Tue, 06 Jan 2026 16:06:14 -0800 (PST)
-Received: from localhost.localdomain ([50.24.139.5])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3ffbe3a6d8esm609612fac.15.2026.01.06.16.06.11
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 06 Jan 2026 16:06:12 -0800 (PST)
-From: Andy Chiu <andybnac@gmail.com>
-To: linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	pjw@kernel.org
-Cc: Andy Chiu <andybnac@gmail.com>,
-	Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
-	linux-kernel@vger.kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	paul.walmsley@sifive.com,
-	greentime.hu@sifive.com,
-	nick.hu@sifive.com,
-	nylon.chen@sifive.com,
-	eric.lin@sifive.com,
-	vincent.chen@sifive.com,
-	zong.li@sifive.com,
-	yongxuan.wang@sifive.com,
-	samuel.holland@sifive.com
-Subject: [PATCH v1] Documentation: riscv: update Vector discovery for userspace
-Date: Tue,  6 Jan 2026 18:06:09 -0600
-Message-Id: <20260107000609.63892-1-andybnac@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-145)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="stS6u6D7"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Yvi8NbUGpRLR9cZk0EEc+ubvVoPmlKA9dI5uWwSUsaQ=;
+	b=stS6u6D7fipVZBi5a503Z4apghdeGS3bt5komlQY5UDSzsaglyYoOM8ULdh6AQQVSOpe+03Yl
+	G8OWxiHgYT/31JHynttSfGmIazF0pDH7EX1+h8ob3q0C/r/ULfw7DgBB5dPEfV2KZfuJi+kAoUj
+	re/pkoZevq07AxA9m9tdM5c=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4dm8qf5pCTz1prKJ;
+	Wed,  7 Jan 2026 09:01:18 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id EF80340569;
+	Wed,  7 Jan 2026 09:04:35 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 7 Jan 2026 09:04:34 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan Chebbi
+	<pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
+Subject: [PATCH net-next v09 3/9] hinic3: Add .ndo_tx_timeout and .ndo_get_stats64
+Date: Wed, 7 Jan 2026 09:04:18 +0800
+Message-ID: <55eddd2a679a4a99166d68fc6486fd19a69ecce5.1767707500.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <cover.1767707500.git.zhuyikai1@h-partners.com>
+References: <cover.1767707500.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,91 +57,338 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-Make it explicit that users may use both HWCAP and
-PR_RISCV_V_GET_CONTROL for checking the availability of Vector
-extensions. This addresses the ABI usage concern[1] arised from the user
-space community in supporting Vector sub-exts and multiversioning.
+Implement following callback function:
+.ndo_tx_timeout
+.ndo_get_stats64
 
-[1]: https://bugzilla.kernel.org/show_bug.cgi?id=220795
+Use a work queue to trace tx_timeout callback and dump necessary
+debug information.
 
-Suggested-by: Zihong Yao <zihong.plct@isrc.iscas.ac.cn>
-Signed-off-by: Andy Chiu <andybnac@gmail.com>
+Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
 ---
- Documentation/arch/riscv/vector.rst | 49 +++++++++++++++++++++++------
- 1 file changed, 39 insertions(+), 10 deletions(-)
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.h |  9 +++
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  | 40 +++++++++-
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 77 +++++++++++++++++++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  8 ++
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    | 15 ++++
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    | 16 ++++
+ 6 files changed, 163 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
-index 3987f5f76a9d..1fde56ffe85b 100644
---- a/Documentation/arch/riscv/vector.rst
-+++ b/Documentation/arch/riscv/vector.rst
-@@ -13,13 +13,14 @@ order to support the use of the RISC-V Vector Extension.
- Two new prctl() calls are added to allow programs to manage the enablement
- status for the use of Vector in userspace. The intended usage guideline for
- these interfaces is to give init systems a way to modify the availability of V
--for processes running under its domain. Calling these interfaces is not
--recommended in libraries routines because libraries should not override policies
--configured from the parent process. Also, users must note that these interfaces
--are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
--to use in a portable code. To get the availability of V in an ELF program,
--please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
--auxiliary vector.
-+for processes running under its domain. Changing Vector policy by calling
-+:c:macro:`PR_RISCV_V_SET_CONTROL` is not recommended in library routines
-+because libraries should not override policies configured by the parent process.
-+Also, users must note that these interfaces are not portable to non-Linux,
-+nor non-RISC-V environments, so their use is discouraged in portable code.
-+To get the availability of V in an ELF program, user code may read the result of
-+:c:macro:`PR_RISCV_V_GET_CONTROL`, or the :c:macro:`COMPAT_HWCAP_ISA_V` bit
-+of :c:macro:`ELF_HWCAP` in the auxiliary vector.
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
+index 3c15f22973fe..58bc561f95b3 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
+@@ -17,6 +17,15 @@ enum hinic3_event_service_type {
+ 	HINIC3_EVENT_SRV_NIC  = 1
+ };
  
- * prctl(PR_RISCV_V_SET_CONTROL, unsigned long arg)
++enum hinic3_fault_err_level {
++	HINIC3_FAULT_LEVEL_SERIOUS_FLR = 3,
++};
++
++enum hinic3_fault_source_type {
++	HINIC3_FAULT_SRC_HW_PHY_FAULT = 9,
++	HINIC3_FAULT_SRC_TX_TIMEOUT   = 22,
++};
++
+ #define HINIC3_SRV_EVENT_TYPE(svc, type)    (((svc) << 16) | (type))
  
-@@ -91,9 +92,9 @@ auxiliary vector.
-     Gets the same Vector enablement status for the calling thread. Setting for
-     next execve() call and the inheritance bit are all OR-ed together.
+ /* driver-specific data of pci_dev */
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+index ce10ae7c0d9e..2bd306f09cd5 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+@@ -108,6 +108,22 @@ static void hinic3_free_txrxqs(struct net_device *netdev)
+ 	hinic3_free_txqs(netdev);
+ }
  
--    Note that ELF programs are able to get the availability of V for itself by
--    reading :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
--    auxiliary vector.
-+    Note that ELF programs are able to get the availability of the standard V
-+    extension for itself by reading :c:macro:`COMPAT_HWCAP_ISA_V` bit of
-+    :c:macro:`ELF_HWCAP` in the auxiliary vector.
++static void hinic3_periodic_work_handler(struct work_struct *work)
++{
++	struct delayed_work *delay = to_delayed_work(work);
++	struct hinic3_nic_dev *nic_dev;
++
++	nic_dev = container_of(delay, struct hinic3_nic_dev, periodic_work);
++	if (test_and_clear_bit(HINIC3_EVENT_WORK_TX_TIMEOUT,
++			       &nic_dev->event_flag))
++		dev_info(nic_dev->hwdev->dev,
++			 "Fault event report, src: %u, level: %u\n",
++			 HINIC3_FAULT_SRC_TX_TIMEOUT,
++			 HINIC3_FAULT_LEVEL_SERIOUS_FLR);
++
++	queue_delayed_work(nic_dev->workq, &nic_dev->periodic_work, HZ);
++}
++
+ static int hinic3_init_nic_dev(struct net_device *netdev,
+ 			       struct hinic3_hwdev *hwdev)
+ {
+@@ -123,6 +139,15 @@ static int hinic3_init_nic_dev(struct net_device *netdev,
+ 	nic_dev->lro_replenish_thld = HINIC3_LRO_REPLENISH_THLD;
+ 	nic_dev->nic_svc_cap = hwdev->cfg_mgmt->cap.nic_svc_cap;
  
-     Return value:
-         * a nonnegative value on success;
-@@ -138,3 +139,31 @@ As indicated by version 1.0 of the V extension [1], vector registers are
- clobbered by system calls.
++	nic_dev->workq = create_singlethread_workqueue(HINIC3_NIC_DEV_WQ_NAME);
++	if (!nic_dev->workq) {
++		dev_err(hwdev->dev, "Failed to initialize nic workqueue\n");
++		return -ENOMEM;
++	}
++
++	INIT_DELAYED_WORK(&nic_dev->periodic_work,
++			  hinic3_periodic_work_handler);
++
+ 	return 0;
+ }
  
- 1: https://github.com/riscv/riscv-v-spec/blob/master/calling-convention.adoc
+@@ -276,6 +301,11 @@ static void hinic3_nic_event(struct auxiliary_device *adev,
+ 	}
+ }
+ 
++static void hinic3_free_nic_dev(struct hinic3_nic_dev *nic_dev)
++{
++	destroy_workqueue(nic_dev->workq);
++}
 +
-+4.  Vector Extensions Discovery
-+-------------------------------
+ static int hinic3_nic_probe(struct auxiliary_device *adev,
+ 			    const struct auxiliary_device_id *id)
+ {
+@@ -316,7 +346,7 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
+ 
+ 	err = hinic3_init_nic_io(nic_dev);
+ 	if (err)
+-		goto err_free_netdev;
++		goto err_free_nic_dev;
+ 
+ 	err = hinic3_sw_init(netdev);
+ 	if (err)
+@@ -329,6 +359,7 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
+ 	if (err)
+ 		goto err_uninit_sw;
+ 
++	queue_delayed_work(nic_dev->workq, &nic_dev->periodic_work, HZ);
+ 	netif_carrier_off(netdev);
+ 
+ 	err = register_netdev(netdev);
+@@ -338,6 +369,7 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
+ 	return 0;
+ 
+ err_uninit_nic_feature:
++	disable_delayed_work_sync(&nic_dev->periodic_work);
+ 	hinic3_update_nic_feature(nic_dev, 0);
+ 	hinic3_set_nic_feature_to_hw(nic_dev);
+ 
+@@ -346,7 +378,8 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
+ 
+ err_free_nic_io:
+ 	hinic3_free_nic_io(nic_dev);
+-
++err_free_nic_dev:
++	hinic3_free_nic_dev(nic_dev);
+ err_free_netdev:
+ 	free_netdev(netdev);
+ 
+@@ -368,6 +401,9 @@ static void hinic3_nic_remove(struct auxiliary_device *adev)
+ 	netdev = nic_dev->netdev;
+ 	unregister_netdev(netdev);
+ 
++	disable_delayed_work_sync(&nic_dev->periodic_work);
++	hinic3_free_nic_dev(nic_dev);
 +
-+Existing kernel supports running Vector code in the user space on hardware
-+that only implements zve32x subextension, or 0.7 version of the spec when
-+compiled with c:macro:`RISCV_ISA_V && RISCV_ISA_XTHEADVECTOR`. When the kernel
-+recognizes and supports an extension on a hardware implementation, the
-+kernel indicates its existence on /proc/cpuinfo, and the corresponding bits
-+obtained from riscv_hwprobe(2) is also set.
+ 	hinic3_update_nic_feature(nic_dev, 0);
+ 	hinic3_set_nic_feature_to_hw(nic_dev);
+ 	hinic3_sw_uninit(netdev);
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+index 6f62aae6cf30..7361a4821cb8 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+@@ -517,11 +517,88 @@ static int hinic3_set_mac_addr(struct net_device *netdev, void *addr)
+ 	return 0;
+ }
+ 
++static void hinic3_tx_timeout(struct net_device *netdev, unsigned int txqueue)
++{
++	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
++	struct hinic3_io_queue *sq;
++	u16 sw_pi, hw_ci;
 +
-+The existence of an extension does not necessary guarantee its availibility to
-+any given process. Traditionally, :c:macro:`ELF_HWCAP` is used for such
-+availibility check. This remains useful for checking the availabilty for standard
-+Vector extension, by referencing the :c:macro:`COMPAT_HWCAP_ISA_V` bit.
++	sq = nic_dev->txqs[txqueue].sq;
++	sw_pi = hinic3_get_sq_local_pi(sq);
++	hw_ci = hinic3_get_sq_hw_ci(sq);
++	netdev_dbg(netdev,
++		   "txq%u: sw_pi: %u, hw_ci: %u, sw_ci: %u, napi->state: 0x%lx.\n",
++		   txqueue, sw_pi, hw_ci, hinic3_get_sq_local_ci(sq),
++		   nic_dev->q_params.irq_cfg[txqueue].napi.state);
 +
-+However, though the kernel provides compatibility for flexible hardware
-+configurations, the kernel does not report the availability of subextension, nor
-+pre-standarized Vector in :c:macro:`ELF_HWCAP` to prevent exagerating the
-+limited bit space.
++	if (sw_pi != hw_ci)
++		set_bit(HINIC3_EVENT_WORK_TX_TIMEOUT, &nic_dev->event_flag);
++}
 +
-+c:macro:`HWCAP` is designed to serve as a quick check to see if the standard
-+Vector is both *pressence* and *available* to the process. For any non-standard
-+Vector extensions, the ABI guaranteed way to identify their existence is by
-+going through the hwprobe(2) interface. Then, the
-+:c:macro:`prctl(PR_RISCV_V_GET_CONTROL)` serves as the availibility
-+check to see if executing any Vector instructions is allowed by the runtime
-+environment.
++static void hinic3_get_stats64(struct net_device *netdev,
++			       struct rtnl_link_stats64 *stats)
++{
++	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
++	u64 bytes, packets, dropped, errors;
++	struct hinic3_txq_stats *txq_stats;
++	struct hinic3_rxq_stats *rxq_stats;
++	struct hinic3_txq *txq;
++	struct hinic3_rxq *rxq;
++	unsigned int start;
++	int i;
++
++	bytes = 0;
++	packets = 0;
++	dropped = 0;
++	for (i = 0; i < nic_dev->max_qps; i++) {
++		if (!nic_dev->txqs)
++			break;
++
++		txq = &nic_dev->txqs[i];
++		txq_stats = &txq->txq_stats;
++		do {
++			start = u64_stats_fetch_begin(&txq_stats->syncp);
++			bytes += txq_stats->bytes;
++			packets += txq_stats->packets;
++			dropped += txq_stats->dropped;
++		} while (u64_stats_fetch_retry(&txq_stats->syncp, start));
++	}
++	stats->tx_packets = packets;
++	stats->tx_bytes   = bytes;
++	stats->tx_dropped = dropped;
++
++	bytes = 0;
++	packets = 0;
++	errors = 0;
++	dropped = 0;
++	for (i = 0; i < nic_dev->max_qps; i++) {
++		if (!nic_dev->rxqs)
++			break;
++
++		rxq = &nic_dev->rxqs[i];
++		rxq_stats = &rxq->rxq_stats;
++		do {
++			start = u64_stats_fetch_begin(&rxq_stats->syncp);
++			bytes += rxq_stats->bytes;
++			packets += rxq_stats->packets;
++			errors += rxq_stats->csum_errors +
++				rxq_stats->other_errors;
++			dropped += rxq_stats->dropped;
++		} while (u64_stats_fetch_retry(&rxq_stats->syncp, start));
++	}
++	stats->rx_packets = packets;
++	stats->rx_bytes   = bytes;
++	stats->rx_errors  = errors;
++	stats->rx_dropped = dropped;
++}
++
+ static const struct net_device_ops hinic3_netdev_ops = {
+ 	.ndo_open             = hinic3_open,
+ 	.ndo_stop             = hinic3_close,
+ 	.ndo_change_mtu       = hinic3_change_mtu,
+ 	.ndo_set_mac_address  = hinic3_set_mac_addr,
++	.ndo_tx_timeout       = hinic3_tx_timeout,
++	.ndo_get_stats64      = hinic3_get_stats64,
+ 	.ndo_start_xmit       = hinic3_xmit_frame,
+ };
+ 
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
+index 52bcf6fb14f2..b8c9c325a45a 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
+@@ -13,6 +13,10 @@ enum hinic3_flags {
+ 	HINIC3_RSS_ENABLE,
+ };
+ 
++enum hinic3_event_work_flags {
++	HINIC3_EVENT_WORK_TX_TIMEOUT,
++};
++
+ enum hinic3_rss_hash_type {
+ 	HINIC3_RSS_HASH_ENGINE_TYPE_XOR  = 0,
+ 	HINIC3_RSS_HASH_ENGINE_TYPE_TOEP = 1,
+@@ -83,9 +87,13 @@ struct hinic3_nic_dev {
+ 
+ 	struct hinic3_intr_coal_info    *intr_coalesce;
+ 
++	struct workqueue_struct         *workq;
++	struct delayed_work             periodic_work;
+ 	/* lock for enable/disable port */
+ 	struct mutex                    port_state_mutex;
+ 
++	/* flag bits defined by hinic3_event_work_flags */
++	unsigned long                   event_flag;
+ 	bool                            link_status_up;
+ };
+ 
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
+index 44ae841a3648..68fc237d642b 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
+@@ -25,6 +25,20 @@
+ #define RQ_CQE_STATUS_GET(val, member) \
+ 	FIELD_GET(RQ_CQE_STATUS_##member##_MASK, val)
+ 
++struct hinic3_rxq_stats {
++	u64                   packets;
++	u64                   bytes;
++	u64                   errors;
++	u64                   csum_errors;
++	u64                   other_errors;
++	u64                   dropped;
++	u64                   rx_buf_empty;
++	u64                   alloc_skb_err;
++	u64                   alloc_rx_buf_err;
++	u64                   restore_drop_sge;
++	struct u64_stats_sync syncp;
++};
++
+ /* RX Completion information that is provided by HW for a specific RX WQE */
+ struct hinic3_rq_cqe {
+ 	__le32 status;
+@@ -59,6 +73,7 @@ struct hinic3_rxq {
+ 	u16                     buf_len;
+ 	u32                     buf_len_shift;
+ 
++	struct hinic3_rxq_stats rxq_stats;
+ 	u32                     cons_idx;
+ 	u32                     delta;
+ 
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
+index 7e1b872ba752..00194f2a1bcc 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
+@@ -100,6 +100,20 @@ struct hinic3_sq_wqe_combo {
+ 	u32                       task_type;
+ };
+ 
++struct hinic3_txq_stats {
++	u64                   packets;
++	u64                   bytes;
++	u64                   busy;
++	u64                   dropped;
++	u64                   skb_pad_err;
++	u64                   frag_len_overflow;
++	u64                   offload_cow_skb_err;
++	u64                   map_frag_err;
++	u64                   unknown_tunnel_pkt;
++	u64                   frag_size_err;
++	struct u64_stats_sync syncp;
++};
++
+ struct hinic3_dma_info {
+ 	dma_addr_t dma;
+ 	u32        len;
+@@ -123,6 +137,8 @@ struct hinic3_txq {
+ 
+ 	struct hinic3_tx_info   *tx_info;
+ 	struct hinic3_io_queue  *sq;
++
++	struct hinic3_txq_stats txq_stats;
+ } ____cacheline_aligned;
+ 
+ struct hinic3_dyna_txq_res {
 -- 
-2.39.3 (Apple Git-145)
+2.43.0
 
