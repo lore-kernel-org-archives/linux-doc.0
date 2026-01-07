@@ -1,93 +1,92 @@
 Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B3E3396E6
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 19:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734BF331A4B
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 19:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767813956; cv=pass; b=sDIhyV30eChOmIItFK5KV8MiybWKQs1ls6YY+lOtJ5BE8+bHLpGPvSbdxy342S7IRf6MgGCyKl9liXN5/DLVqfaeND6+VyIPox7uqQesUyHByjXdB2xqdRn0Y6DRrxzwN/7+r51ZN+XHMmi5hZ1TqKHBtjd7V/LceEssddrVUyc=
+	t=1767813987; cv=pass; b=uv9BUrTBke4K1WXLT1wiCg/watCjEGrUBngyEG8RmSbv4cd8yIeRwuYhkzasNV0uDbTJYEJW8xNXMhSYjzyeVQurvLChqhQ7VwVxFaPGnhCV3/L/dEwx5DuoZfXc94DFftbI03xtnuHFNSQ9/48uM2EXqIfBe9aY5Bz5lCJ3kIc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767813956; c=relaxed/simple;
-	bh=y8s3ifhfbIRmZEac0G5rIHRfhu/0TKZaV0wEbXVBJlI=;
+	s=arc-20240116; t=1767813987; c=relaxed/simple;
+	bh=2LhpsPeSyE8bX8HA6xDr9D/rfFVNInchGx8D0QTzubs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q72zNSmamyCszdam99j9bJajXwmpTPMRYP6TKAAgyUfOyIf57l31TX+ETIoDlduqoY+2zD9T3UxluuOLvrd/JNgD+N/61SXMWKmlWxoXUw1gQGh4dgEDKOsLQAA52pvGSWPQp7Vl0EgbAwKAwpL2vqXOMA2ET2jYPyLAsJHiN9w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vX1yjyBh; arc=pass smtp.client-ip=209.85.160.178
+	 To:Cc:Content-Type; b=NUpOYeM/xt2VVeuZRZ8rUxKlrZEpNKySMq7fGmkueiyw+aHQdZyOLEgrJr4XjLyACBvzut154nD0NOPaldyyI1W64n19cktKt2iiasJ72uH87ZrkRhClAmcajFdtsokE1+6xesvNrDCHOBEov7nj/+pm75kRZV+qKGXhrkdTZlI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BKqTNx/d; arc=pass smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vX1yjyBh"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4ee243b98caso481001cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 11:25:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767813953; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BKqTNx/d"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4edb8d6e98aso720431cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 11:26:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767813984; cv=none;
         d=google.com; s=arc-20240605;
-        b=RODSO8nqUHOPf/fEGEp7w/noM4m7+x9dIww8aCMxh8oGzrxHmIFk70/bvKrrO1Cm8v
-         i+uQKOkp5rIPzRa12YQWtot4YLdFdo0DUZ01kPr5g6U59aU94Lf0r15XfKVbb7Sgl6Bv
-         GBi3mfoRKOz9b0EkhFE+M63svYLMny684/sROfnIQE048KpytiTp0GGtbaTG6hzP/z0D
-         3nOFIgQkyUtiIPXAmUB6sa6NpeRAHkpuPNMZk69XV4jP0QU7Hwq9UGK6Pt7bhEhU9k17
-         EhkDPY30pKiOxy+m1+PSYKgnu/ZX3FML3Tnh4qrhYSnCZ7xQBChrKvnOsl6dr//T25J7
-         O+cw==
+        b=gVuwkUa7PeLhoD5fZcuYRjfU7wkXMtyO9eAhZrvNBtciV1qWQLFwnapwmfJAjrWOkb
+         lqXhrLXIEBonY+OuAQ/M8fcwl2SZ90VsronUh1rYxAoiQnNCtmEVaZfpQlOEdGkid+jS
+         49Gp59Gh03UbEbGlGnSn4andpR8qvZRKrldhUtdASaAKRdhyRxOtMQomYsem4b4wLjvA
+         WrGbazwOM2CJngu6cjl2mHA/+HYcDQiyUINRHLjs9ed+jjZI9phsJaJBv/5CyvmBZXRY
+         SOHzCfIjVyCAUaeePfSMu4eOLGtCv1xV0a0twlAAqgWEI/HMaT3TSoMEUUxfWWqm2mqA
+         MF2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=DwyOUMrzmFja205ZMg1MEdCnMMj8lyhbUqchQTaZ7Og=;
-        fh=4MxwlRgwhbMWoOlNff3Tops5HUVm7FDeCzACxrvxAg0=;
-        b=YOKstLTCtjfVzfCOgQcYVdA5j1R6/OeKkdtLVYvAPpWqnILXgWMP0RR8DHHRsfk1l1
-         NJ81hGaph0W8sykmlE1GbM74k41b4VbJmLeXv2HUWz+6iognpfSw++655csq7qCkTK3M
-         9ovYMpbfQWjE0952Rpk9rjweS/EQk2bPm+XsqJKX4cQCEtQ1sbctRBES9EWwyN8ESYTo
-         F8kXL2GmitZP4G5cqpRPVfhJcc/shvVkCLBiNjAQxcu0bUSuK+Gc031kOBY1E7xRviOu
-         6LQVHtyHItYVN5IhbAZaQjZ39AeCjbFcVTAEItabvr+n/BcZaCmhvvw4BLSE2HnJHoBP
-         LXaQ==;
+        bh=bWQBkRucMfj+8IZule2bckxNws/YyczMOLNESP4WNJk=;
+        fh=CKoa8BpgwSShNLCjVLmdDJpw4oFL/fJIxkPHqwYKCiE=;
+        b=PqaEgSpdPjAops+Dyhkqx/oboxCHAJ5+8hdPpEBaPaY2p5Qi6Gxp4tmxC4yw5VhixH
+         qkXKrK5NIeaQliizcMJfTBKv5A/U7zneoKNep25bI7/Ul171Tz+3GjDsJ5PARej3mjxz
+         0wn/Scc57DgKcaWYQMYH2xzPqEK5le/gm3gy9IsqB94BJUxvcGY8OIwEi6iu3HauyNvu
+         Kf336i0x3yyKAmDuf7yN9FSwXwmqSAwGnhqe8I2V7U+mk7sLphkTZQ497+T5CUMCskrW
+         KyYZIcoT0UX+ha010lIsptP2vxB9psoAUPtEHQkKqzTp3gX/xTmMv8lZu/LXidXB7YO5
+         3zSw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767813953; x=1768418753; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1767813984; x=1768418784; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DwyOUMrzmFja205ZMg1MEdCnMMj8lyhbUqchQTaZ7Og=;
-        b=vX1yjyBhmp4CWQ4DaMo8exjlJpva15g3y7A8NIWIfFtzZc0X1a9orno9wSfz+cw3OV
-         WNDPy7lGp3OYsX5b2+nd/yizBSFaHc7yHrGOSkQ3olLdVoJsvy7mAsFNCdfmE8P81BSX
-         32o3vWMMHtzFj1PYnniArCiMwjmvRFzstZrhXAS+pBtqLh832gytaaIwsMCZej6PUgnI
-         r3BxARqmyjA6lP1iFfz8pylBy4pq+YcCeU0DB45P4lHDqwBlFZCeBfpmdRUmYxYvaLc0
-         AlYrAzq7PG4R1U9xtApgeNttuusHLanB4wkOynd4RQCGV91+S8n0GJ5pATM/CNIyNSPZ
-         LUrQ==
+        bh=bWQBkRucMfj+8IZule2bckxNws/YyczMOLNESP4WNJk=;
+        b=BKqTNx/dRzg0zFWE+h3P30e/ZQqpYPrHRtHwoRfzxIAMhrBgKBcjzdydRIWKSg7SsE
+         gtx/suaYozcBSsVPh/jsxJ8K4yYllQM04FpNTciw4x9uqYOPxzU4DagpLhl+AuOCVb6V
+         n6vKWwcYnNdh/C/rtKnDVvRWHGhHqg4vk9NxYrAocwehf/0+1Jg7E05p1dt2alT3f5Se
+         xY0Dd9X/odEq6muhhXAtLUZDliohR0oXSgivre+tCIuLte29h6eVCTefIOxnLpL68/jj
+         hl1Elt21T+wHa26chyGvc5W/2or0/a+CTq8udA1rc+POmXxWfMzFQqmLa38dIxuob25S
+         uJBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767813953; x=1768418753;
+        d=1e100.net; s=20230601; t=1767813984; x=1768418784;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DwyOUMrzmFja205ZMg1MEdCnMMj8lyhbUqchQTaZ7Og=;
-        b=YGhc+gBjXgNE7Nwr3I+2b954XJmxfihmvTVC9cSiPSiToEzXK8i71dKuieR7/pod8B
-         SKXnAWfRKY8wccJGiPROUB35uWVgrw092ROvuDCBCvhcotR4nHf08kZJxR70vu4PnVJR
-         fHqC9rmGDLUu/8JXc+D4/SDbRxF2vyuSxBdAysmebfaShUNInoXniiC6oUBnaTFj6HoK
-         Qajsq6E6WB+GLzc/bnAW2F5gmKQ+w6BQGpSlRLdCpHAqosF3/GhUXa2G/nsz0CCf+0RM
-         Kt42cbQ7mDNf6g00jwdy1xMZXjX6VsjPTbksAtTnwZZ26KHTPsTPIn+uYszc/5EzZleX
-         z05Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWmX7KrDWlupnariKR9NSKE2drlYoFsxIyUmSfg53be8ZoVVw1IWC8o0eL2w53waHH+t5Fvy51ylOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5NiLk8ioI2gdN5gtlWCZmKFgCCST5a8YSC5/93X9YyxCl3EDw
-	ce953DC9Vw8qNVJToJ5RZR0B4ClTXv6QL+IDpaaWoSdB4GjeIRTtKkDLpi0ZnNCdHjX0dFtAHb6
-	K9ZIaOh24f1HfN2qaA9XbDiyOVzBG61t6bWikMGWV
-X-Gm-Gg: AY/fxX7T+tgU3l1kG2JCq4ObQLx4qce/e+oeJJLzGp5lTOVaC/DV0frCf1uihudlIr6
-	SWhqQM5s5wiEJTi/RRc0HT8GXIkzT3is+suzn4qb3sOHfdJaqdWCf9fhY1oEnfCXNo7FlOdq2E+
-	mA6KHXfOgCW/Xo9bL838hsB/n9v3EkwdgQtDRtDmibt9NWIovK4DiJcXayRRqUVXHgs8/tJ5ndo
-	mStyXn1sJeYnCsnoSFk+VXvbiL/i/p4w1Gm5nem2pEfz1NYdraSvAMY2kxuXNrEABe+VAjuJv9t
-	cMEbcTE=
-X-Received: by 2002:ac8:5e06:0:b0:4f3:5474:3cb9 with SMTP id
- d75a77b69052e-4ffb3e48178mr14762551cf.14.1767813952742; Wed, 07 Jan 2026
- 11:25:52 -0800 (PST)
+        bh=bWQBkRucMfj+8IZule2bckxNws/YyczMOLNESP4WNJk=;
+        b=eRpZmE3Wwhi8wKHANTurFgAAkFIDDdSAGjcT8L4Of83HotwkzbmBRC4XycX3Z9H8sm
+         5WcLOzPgyfL1sg/VEl+s2RKwId18nkzFENEn4cYifstWG8mrEMz0RZfAEQpw8bcjnm7M
+         ZkGYCLdMJWVhSaAxTv9zR8nWW7m15c55tu6rhP41zJ+nud5hoto7WzAWp9fbqOZLQfcx
+         Ct8my8yeKfYrVLucpkzVkj97HGX6yyBOenGdAyg+rncazMjJCb0rGMrBIGyJywVzf3Py
+         favsNOSRi8GZpRGWjPac3vsjoDyIJ9U8uGmbl8FEIDu9T066WyV+3dfWl8K0uyrA1YF9
+         f7Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCXX/QEFHc8OEuRHW/7ooaXx11bwmWSHzDEXyKTNgUvKi3xJU17IJIBSicBD/rVp7alyA5gQkOwZU2U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXWMOjwKPF59VZ2yyKzML/bmO9FHKNPLWDpIUm/hWl5TKbvGvM
+	zJEsVU5+Ami2p0Z0P10Mk9iGeFVY9Qv1Vkj60NVrN9Z+314xuj9P/Bhx5i1nr7rql3iy8MpA5GG
+	3ulg65yOA3WKEiD7cMiDrYPYWVj4HVfV2u1ntcoRI
+X-Gm-Gg: AY/fxX5ICBicyqcQP+gB+7oqNUR/G3a6HgWsKB3Zf0Qrec5tr4lisGEV1xljiZyZXSy
+	oOVTRtqyDzCXR5nUovClRAhOzZIo3fGIJgrAr5gRfFn28s/FE6GN9Kv0X4rKDL512FeRRXQD8XD
+	zfWE7xetn91j0/7E91TtDKJF7wvKATNwi2v29pKKhNrmNg9SFU/o3fxiyyGx5FBeRbVb5IbxAu8
+	o3DQ9Oj8TWlhyIjawM/XE44XysurWZahk9eNnB6FC05zJ5IVWWV9+TWNQrwbAG6A8pD6vf9
+X-Received: by 2002:ac8:7d0a:0:b0:4ed:ff77:1a87 with SMTP id
+ d75a77b69052e-4ffbf94a082mr1122261cf.19.1767813983752; Wed, 07 Jan 2026
+ 11:26:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-4-8be3867cb883@kernel.org>
-In-Reply-To: <20251223-kvm-arm64-sme-v9-4-8be3867cb883@kernel.org>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-5-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-5-8be3867cb883@kernel.org>
 From: Fuad Tabba <tabba@google.com>
-Date: Wed, 7 Jan 2026 19:25:15 +0000
-X-Gm-Features: AQt7F2r6YVCRnMI_bYmOfq7HyyiGhMeA9fZkYBf6xbcFUjdNaJYVtQzKKg3T4fA
-Message-ID: <CA+EHjTzDxJsLi315RF43g14psdv44YOuxk6dP6SLgFz4WaY4Hw@mail.gmail.com>
-Subject: Re: [PATCH v9 04/30] arm64/fpsimd: Check enable bit for FA64 when
- saving EFI state
+Date: Wed, 7 Jan 2026 19:25:47 +0000
+X-Gm-Features: AQt7F2qO0uzZBb7qE9TqF-7WKMNBoVsC6m-23DUQhmoLKw26Bq83cmx6SM9OSu4
+Message-ID: <CA+EHjTycP4Wz0V7S8hzWygpeXGzeehTL8RFfit7Eaq4rT+Eu+Q@mail.gmail.com>
+Subject: Re: [PATCH v9 05/30] arm64/fpsimd: Determine maximum virtualisable
+ SME vector length
 To: Mark Brown <broonie@kernel.org>
 Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -100,59 +99,79 @@ Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
 	Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 
+Hi Mark,
+
 On Tue, 23 Dec 2025 at 01:21, Mark Brown <broonie@kernel.org> wrote:
 >
-> Currently when deciding if we need to save FFR when in streaming mode prior
-> to EFI calls we check if FA64 is supported by the system. Since KVM guest
-> support will mean that FA64 might be enabled and disabled at runtime switch
-> to checking if traps for FA64 are enabled in SMCR_EL1 instead.
+> As with SVE we can only virtualise SME vector lengths that are supported by
+> all CPUs in the system, implement similar checks to those for SVE. Since
+> unlike SVE there are no specific vector lengths that are architecturally
+> required the handling is subtly different, we report a system where this
+> happens with a maximum vector length of -1.
 >
 > Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kernel/fpsimd.c | 23 ++++++++++++++++++++++-
+>  1 file changed, 22 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
+> index f4e8cee00198..22f8397c67f0 100644
+> --- a/arch/arm64/kernel/fpsimd.c
+> +++ b/arch/arm64/kernel/fpsimd.c
+> @@ -1257,7 +1257,8 @@ void cpu_enable_sme(const struct arm64_cpu_capabilities *__always_unused p)
+>  void __init sme_setup(void)
+>  {
+>         struct vl_info *info = &vl_info[ARM64_VEC_SME];
+> -       int min_bit, max_bit;
+> +       DECLARE_BITMAP(tmp_map, SVE_VQ_MAX);
+> +       int min_bit, max_bit, b;
+>
+>         if (!system_supports_sme())
+>                 return;
+> @@ -1288,12 +1289,32 @@ void __init sme_setup(void)
+>          */
+>         set_sme_default_vl(find_supported_vector_length(ARM64_VEC_SME, 32));
+>
+> +       bitmap_andnot(tmp_map, info->vq_partial_map, info->vq_map,
+> +                     SVE_VQ_MAX);
+> +
+> +       b = find_last_bit(tmp_map, SVE_VQ_MAX);
+> +       if (b >= SVE_VQ_MAX)
+> +               /* All VLs virtualisable */
+> +               info->max_virtualisable_vl = SVE_VQ_MAX;
+> +       else if (b == SVE_VQ_MAX - 1)
+> +               /* No virtualisable VLs */
+> +               info->max_virtualisable_vl = -1;
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
+I'm not sure about -1 as the "No virtualisable VLs" value. Unless I've
+missed something, this value gets used without being checked,
+potentially even assigned to an unsigned int:
+
+> kvm_max_vl[ARM64_VEC_SME] = sme_max_virtualisable_vl();
 
 Cheers,
 /fuad
 
 
-> ---
->  arch/arm64/kernel/fpsimd.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
-> index 887fce177c92..f4e8cee00198 100644
-> --- a/arch/arm64/kernel/fpsimd.c
-> +++ b/arch/arm64/kernel/fpsimd.c
-> @@ -1948,6 +1948,11 @@ static bool efi_sm_state;
->   * either doing something wrong or you need to propose some refactoring.
->   */
->
-> +static bool fa64_enabled(void)
-> +{
-> +       return read_sysreg_s(SYS_SMCR_EL1) & SMCR_ELx_FA64;
-> +}
+> +       else
+> +               info->max_virtualisable_vl = sve_vl_from_vq(__bit_to_vq(b +  1));
 > +
->  /*
->   * __efi_fpsimd_begin(): prepare FPSIMD for making an EFI runtime services call
->   */
-> @@ -1980,7 +1985,7 @@ void __efi_fpsimd_begin(void)
->                                  * Unless we have FA64 FFR does not
->                                  * exist in streaming mode.
->                                  */
-> -                               if (!system_supports_fa64())
-> +                               if (!fa64_enabled())
->                                         ffr = !(svcr & SVCR_SM_MASK);
->                         }
+> +       if (info->max_virtualisable_vl > info->max_vl)
+> +               info->max_virtualisable_vl = info->max_vl;
+> +
+>         pr_info("SME: minimum available vector length %u bytes per vector\n",
+>                 info->min_vl);
+>         pr_info("SME: maximum available vector length %u bytes per vector\n",
+>                 info->max_vl);
+>         pr_info("SME: default vector length %u bytes per vector\n",
+>                 get_sme_default_vl());
+> +
+> +       /* KVM decides whether to support mismatched systems. Just warn here: */
+> +       if (info->max_virtualisable_vl < info->max_vl)
+> +               pr_warn("SME: unvirtualisable vector lengths present\n");
+>  }
 >
-> @@ -2028,7 +2033,7 @@ void __efi_fpsimd_end(void)
->                                          * Unless we have FA64 FFR does not
->                                          * exist in streaming mode.
->                                          */
-> -                                       if (!system_supports_fa64())
-> +                                       if (!fa64_enabled())
->                                                 ffr = false;
->                                 }
->                         }
+>  void sme_suspend_exit(void)
 >
 > --
 > 2.47.3
