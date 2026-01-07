@@ -1,317 +1,269 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7100A331A44
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32A43321A7
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767799266; cv=none; b=iQg86SvQqQw4H1CVkQNN/Kt+M8FCMGTHwdCuSew5Ou87/ep5/lcMCCBxoMNugY5Ho1TzkX1v2B8HP/Y3hT2uWKe3/TntBQlHpPSlrfgaMOylaXmjb0XCG+egdO2bh2hx/qhIpqL1ZMivznokBb4ONZoDTqTwt+a3B/HNaW6hD7g=
+	t=1767799320; cv=none; b=LbugszN/vjvPWbGbV4ndR6hRlrNqC3KtozdMgpBYwsxFkILlYn/kTpDQijMUBaIj9lwl8CGqAKUeLH9Aix1KAhO3xBZY3gH3Yi5IY64VGpPyYc6waucoyLsNe2GzufjVCB2OsvudDN6ahB1A4cYKUf6IH12rBAkhVDW7nncp+Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767799266; c=relaxed/simple;
-	bh=eXuXM2LfKvUBPj7bC+kcYrRbVy9Q6GzWBRQJOVYcmlA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PvU0DdH2ShFkxPWZUHRRyx+RpgfVXVCMm5H+Qwpx+vglgWYhY4TOGd6hQt6VazpqxqTGi9lZC2/gyVjTt22x630Z8Ee0Ziq9j3++hcBuM28WYz3ihHMlqTJK0RhP5gEkdbx4NMUtriThfikS88Lc6v3FzGJp/Gvgf3UyqVChW3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNhStM+5; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767799320; c=relaxed/simple;
+	bh=P51quK2PEeR7N5qjWdExzjkcsRHUy5F8IFwj6ZoDy3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VrcXWMxJKg/RyzJhbePVEXmRAVQTIAY4rQUrLf2D9iET3Q8ax2SpuGkKsvvcaj3OXCA7c6ky3tj+rTT1w6xGZ8r0pqUUPZF/zAMbDize2gvu1Uqo1QLWxOMTCJMetzZcnXnVi5d6ujZNKdLvQQRmmXOg4hycyN9e+I75k1aP/T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y5d5EneQ; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNhStM+5"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-477632b0621so13616355e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:21:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y5d5EneQ"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a35ae38bdfso72205ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767799261; x=1768404061; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hpUPZ5RhmCpDT+jo0BaREdmS2zyMNKBTJDPDa+mSTNU=;
-        b=GNhStM+5OyFTPska6OfoPImQpoDNFLQu6JWlomHePHnnA3/G+uOvktvTYp7yaFuLe1
-         D1XvU6GXkwD9DOtpXWS0Qms2D9X03gLEUKcZz650EWGG8mm9ys18lL/pbJOoRGKroSQ5
-         mOI+Ln1LYELTbvXFaFtilqHI8gFVrUhDvp0zHNliG6RtwwYvIGzyxzoN0oJ24QtkJAjC
-         T8pRTFf00/W3enoAq7JYSzQtIjDEshT/UXd6wAn9dEY73BNzRl7ApumHPQ2RhSfXvLwk
-         6bLBdPM2IxmX+eGujhW8CXxbMH73+B3E1g773tcWxtH01g82gds1abakw0PhTwdiBFM8
-         nabQ==
+        d=google.com; s=20230601; t=1767799310; x=1768404110; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=av5/MRE4yF0I2OFo4G0L4h2O1Biqj9eGUDHDZYxFrTQ=;
+        b=Y5d5EneQ5vPUEmM0vpYsrr++asxGMIMuMboXIO7gtD6BZO+KI1ghxVsFSnyBOlS6+B
+         HXvrRMKy3u/WDR9TTUW4+DTs/jaxBP4Z5mDJvkXXlkHQNAlRY80nHXua+PdljqayVJLy
+         Nil4SvFEelrXL0obc5iqly1exb4hqbPuEiU+PH55Iz4ptaqZavogIL1i0wPnQd/f6WpN
+         qHORyH8k1ELZRDyam8GGteEg2gmC1R3FwT9z4/vd4GGFjJMgKbqPosTijeghHhIfQ/3B
+         T/59Krjcggt2MAc5xtBTqjIr6y8B8hMnh4DW8BtYKXy+CzbiLRD1B5b/XLjX6MyyYTzL
+         sewQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767799261; x=1768404061;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hpUPZ5RhmCpDT+jo0BaREdmS2zyMNKBTJDPDa+mSTNU=;
-        b=OuWG72PiyCWCw4gTkf1jNzIw07mHeeEtIXySIRcPEjOCScfYWkJR2stwyYT5Z6QkKV
-         ChlPPCgx0OP4nTdDNdjnjYJBtSE7fX6Dd2vq5nzof9ksgQFWeuHJjUOx393UIGxC0/SD
-         3lh/dn2hAbqAHPTD5G8lDFcRhnMEB+Ft9tq94MXtnRyaipY3WPSLJARABG85z18UEX1a
-         W+kDIMmL5qBdbECok+ug2uxMvEHB3ZrX7QWlZdyWWODp2c1tW56/g3DFpMQi2ypJF9hl
-         BbUZbOQwOeEWijRcKJtymft8b+rdd0ggiW4kMiE05HfQde2pnEWLjExYkRMEAF/LJe5v
-         UwYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBYrsnlrEL1GzwET/rH6ntYN5hGoDFET+UldO+Vz3jHUabVZ3E0ch5+hGk0l/twa8kEM2kIz/T9Ns=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGr0ORMsiPA8yUh2wTLUeOGnMkYrgfjJvioIilmIvNq8CiZR4M
-	MLcb3s4gZenVAY5s+cyxRltyqQcd4YsEI172vJqoa4MkF8+thFJWI0dU
-X-Gm-Gg: AY/fxX7Q1E5qGEY9mPZQ15XWDmmi0boJXww+VsWV9aFLR6NOpJ8qoCMY/9XZqGXG/XB
-	iqLdSLzyFqCowpty43zLciy0kBQNYOcJ28DcI+kY6HjQe5w6gvZQVWjVRgTA46lYpSYafv2t46b
-	eqUWU8hgCD/YD552D2gGBVjLP+sTsw1X4wxZv3qkCk6inwLZG3n7R7+nZmqsph37WdwrquDxivz
-	q3EJknIMgO3ShSH/nLJwHMmYb42BpkwdjkydQJOcvZEYdDgse8e3rLeYMevPM1kHhuDyMVG8DXR
-	grKIUAvbcnvIi5OXa+ytGHDAUh8PY3P3LHP+yfYpCtx2389SfTfSmXMr/DSoHJcIe8sxNrGdJNC
-	c62n6wsySN8z0d5mcK6SUEdAp9JvHyuBzf0Gci7KYyuRUsUFWxm/LRx/quD+EfJXQ5vdvdb5DnX
-	tD9IFwOvY4UQFxGT8=
-X-Google-Smtp-Source: AGHT+IFN3tHCepgfCw11GoExlGSkTzE8/w3l0cvAFbX3GwK84QP3RK+c6Ndkf0qCwv1hl4a7XEeZvA==
-X-Received: by 2002:a05:600c:46c4:b0:47d:403e:4eaf with SMTP id 5b1f17b1804b1-47d84b18ef7mr37281035e9.10.1767799260961;
-        Wed, 07 Jan 2026 07:21:00 -0800 (PST)
-Received: from [172.24.138.145] ([137.71.226.102])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8636e588sm17062955e9.0.2026.01.07.07.20.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jan 2026 07:21:00 -0800 (PST)
-Message-ID: <05379c1e-9114-494e-b7c7-c95243049197@gmail.com>
-Date: Wed, 7 Jan 2026 16:20:56 +0100
+        d=1e100.net; s=20230601; t=1767799310; x=1768404110;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=av5/MRE4yF0I2OFo4G0L4h2O1Biqj9eGUDHDZYxFrTQ=;
+        b=dENvUr/4sY2NdNtacMBZc2jambbAXt3XkCTPJtR/FTt6XptgheX7qZS7v6gDKYM+pU
+         uKE7GRcrhuaNBgrkpzgFwTpkxTZL2Td2hEE8Bz7YFAn940Kv2ajt9SS6U2/HGVlfLhML
+         8DQA+3fdr6FPQXeXLT4CuGdP/ztGA5z7340MTZ2vxqTVRINTKOjC6NpA+p8QakH3j5zR
+         erhqEqHXWFTdpaiPOi6MPUVQQ/NDc0huNkOFfmSm/nF+IZqvW+a5jmQdEHOF3lGW7bC7
+         1GAWEbYviA/fAru7CADqAEbvWfRIIvnL2THgGVanwedAGzFFb2ZUusuXS+b2HnjigshN
+         nMhA==
+X-Forwarded-Encrypted: i=1; AJvYcCWYIqZ8gLJ2sI0ApYHn3dvWujz3adfwxMA/Bqa4iolUNhq87aUKiL6VH7/n3utfU7mJJ1E/98LYBoY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC0mzkuq2ERD0It2g2SL5HQKr7gTk/+9A8WpxTdGqEpnXhDeBF
+	LgWLaZaK/WdJ3goXIkSovw0GA+ajTtiXwM4Vl+MKMOOIeoNdjH4d60grZfRFMtRZCw==
+X-Gm-Gg: AY/fxX4hIKIcGXlNnEMQA4Cri7jSB9u3tyrIltmqZqtlzOooVVCg1yNcAzoGwwRqDqr
+	5yi7XtOoGu9nzCSB7TdXrHe95b1XfMLGNwx5TyiIuG8657/LSyIEszpZ3NBDbp6u9edr+WSHwLj
+	L5++zgvYkysDOBCH8JP/9PYsevHdMvBk5NTiKr6KEdMjJkuAh1jjs6AO8Ovm2FTC0euLWyqIyss
+	HmFaBZ3YPcI2TyVZtIpqA6o/RUzHiessOo3lilBBoh/ocLZEhJ1tS9X/a+lF//+oPIA4gHgQGf8
+	EV4IpK6ntSVDXb9UqH3NjMbv9LeU8d5pw0jYCOpxh9czoO+3s3LB6MQi4+5uvjqEVU30lIasQI8
+	BEEmtht4v0B44a3nIZ1nrtWoDCNl6XJA0oGoCqUdDRXJNWKQFzIaJ8mvIZBIax1oyA/Vf7KpFvv
+	o53RhAvdTg6b9JQtiT45MB50QcxxQKMpu1x4aIguUa5/SF7Ywl
+X-Received: by 2002:a17:903:2c9:b0:298:45b1:6ef4 with SMTP id d9443c01a7336-2a3edbbee8fmr2891085ad.12.1767799309447;
+        Wed, 07 Jan 2026 07:21:49 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c47221sm53772985ad.23.2026.01.07.07.21.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 07:21:48 -0800 (PST)
+Date: Wed, 7 Jan 2026 15:21:41 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
+	baolu.lu@linux.intel.com, rdunlap@infradead.org
+Subject: Re: [PATCH v5 3/4] iommu: debug-pagealloc: Track IOMMU pages
+Message-ID: <aV56BWisUQTMK2Gk@google.com>
+References: <20260106162200.2223655-1-smostafa@google.com>
+ <20260106162200.2223655-4-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] docs: iio: Add documentation for MAX22007 driver
-To: Jonathan Cameron <jonathan.cameron@huawei.com>,
- Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Alexandru Ardelean <alexandru.ardelean@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- jan.sun97@gmail.com, gastmaier@gmail.com
-References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
- <20251219-max22007-dev-v1-2-242da2c2b868@analog.com>
- <20251219164751.000071a1@huawei.com>
-Content-Language: en-US
-From: Janani Sunil <jan.sun97@gmail.com>
-In-Reply-To: <20251219164751.000071a1@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260106162200.2223655-4-smostafa@google.com>
 
-Hi Johnathan,
+On Tue, Jan 06, 2026 at 04:21:59PM +0000, Mostafa Saleh wrote:
+> Using the new calls, use an atomic refcount to track how many times
+> a page is mapped in any of the IOMMUs.
+> 
+> For unmap we need to use iova_to_phys() to get the physical address
+> of the pages.
+> 
+> We use the smallest supported page size as the granularity of tracking
+> per domain.
+> This is important as it is possible to map pages and unmap them with
+> larger sizes (as in map_sg()) cases.
+> 
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> ---
+>  drivers/iommu/iommu-debug-pagealloc.c | 91 +++++++++++++++++++++++++++
+>  1 file changed, 91 insertions(+)
+> 
+> diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-debug-pagealloc.c
+> index 1d343421da98..86ccb310a4a8 100644
+> --- a/drivers/iommu/iommu-debug-pagealloc.c
+> +++ b/drivers/iommu/iommu-debug-pagealloc.c
+> @@ -29,19 +29,110 @@ struct page_ext_operations page_iommu_debug_ops = {
+>  	.need = need_iommu_debug,
+>  };
+>  
+> +static struct page_ext *get_iommu_page_ext(phys_addr_t phys)
+> +{
+> +	struct page *page = phys_to_page(phys);
+> +	struct page_ext *page_ext = page_ext_get(page);
+> +
+> +	return page_ext;
+> +}
+> +
+> +static struct iommu_debug_metadata *get_iommu_data(struct page_ext *page_ext)
+> +{
+> +	return page_ext_data(page_ext, &page_iommu_debug_ops);
+> +}
+> +
+> +static void iommu_debug_inc_page(phys_addr_t phys)
+> +{
+> +	struct page_ext *page_ext = get_iommu_page_ext(phys);
+> +	struct iommu_debug_metadata *d = get_iommu_data(page_ext);
+> +
+> +	WARN_ON(atomic_inc_return_relaxed(&d->ref) <= 0);
+> +	page_ext_put(page_ext);
+> +}
+> +
+> +static void iommu_debug_dec_page(phys_addr_t phys)
+> +{
+> +	struct page_ext *page_ext = get_iommu_page_ext(phys);
+> +	struct iommu_debug_metadata *d = get_iommu_data(page_ext);
+> +
+> +	WARN_ON(atomic_dec_return_relaxed(&d->ref) < 0);
+> +	page_ext_put(page_ext);
+> +}
+> +
+> +/*
+> + * IOMMU page size doesn't have to match the CPU page size. So, we use
+> + * the smallest IOMMU page size to refcount the pages in the vmemmap.
+> + * That is important as both map and unmap has to use the same page size
+> + * to update the refcount to avoid double counting the same page.
+> + * And as we can't know from iommu_unmap() what was the original page size
+> + * used for map, we just use the minimum supported one for both.
+> + */
+> +static size_t iommu_debug_page_size(struct iommu_domain *domain)
+> +{
+> +	return 1UL << __ffs(domain->pgsize_bitmap);
+> +}
+> +
+>  void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size_t size)
+>  {
+> +	size_t off, end;
+> +	size_t page_size = iommu_debug_page_size(domain);
+> +
+> +	if (WARN_ON(!phys || check_add_overflow(phys, size, &end)))
+> +		return;
+> +
+> +	for (off = 0 ; off < size ; off += page_size) {
+> +		if (!pfn_valid(__phys_to_pfn(phys + off)))
+> +			continue;
+> +		iommu_debug_inc_page(phys + off);
+> +	}
+> +}
+> +
+> +static void __iommu_debug_update_iova(struct iommu_domain *domain,
+> +				      unsigned long iova, size_t size, bool inc)
+> +{
+> +	size_t off, end;
+> +	size_t page_size = iommu_debug_page_size(domain);
+> +
+> +	if (WARN_ON(check_add_overflow(iova, size, &end)))
+> +		return;
+> +
+> +	for (off = 0 ; off < size ; off += page_size) {
+> +		phys_addr_t phys = iommu_iova_to_phys(domain, iova + off);
+> +
+> +		if (!phys || !pfn_valid(__phys_to_pfn(phys)))
+> +			continue;
+> +
+> +		if (inc)
+> +			iommu_debug_inc_page(phys);
+> +		else
+> +			iommu_debug_dec_page(phys);
+> +	}
 
-Thank you for getting back to me.
+This might loop for too long when we're unmapping a big buffer (say 1GB)
+which is backed by multiple 4K mappings (i.e. not mapped using large
+mappings) it may hold the CPU for too long, per the above example:
 
-On 12/19/25 17:47, Jonathan Cameron wrote:
-> On Fri, 19 Dec 2025 16:31:16 +0100
-> Janani Sunil <janani.sunil@analog.com> wrote:
->
->> Add documentation for MAX22007 driver which describes how the user
->> can access the driver using dtoverlays
->>
->> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
-> Hi Janani,
->
-> We've recently had a few comments on whether driver specific docs add value
-> (for particular drivers, sometimes they definitely do!).  From what I'm
-> seeing here, I'm not thinking this one needs a document.  Not most drivers
-> don't have such a file because they make use of standard ABI that is well
-> documented.  DT stuff always belongs in the dt-binding rather than these
-> files.  With both those elements gone there isn't much value to this file.
-> So I'd drop it.  We can easily add a file if something complex shows up
-> in later patches, that justifies this.
->
-> Thanks,
->
-> Jonathan
+1,073,741,824 / 4096 = 262,144 iterations each with an iova_to_phys walk
+in a tight loop, could hold the CPU for a little too long and could
+potentially result in soft lockups (painful to see in a debug kernel).
+Since, iommu_unmap can be called in atomic contexts (i.e. interrupts,
+spinlocks with pre-emption disabled) we cannot simply add cond_resched()
+here as well.
 
+Maybe we can cross that bridge once we get there, but if we can't solve
+the latency now, it'd be nice to explicitly document this risk
+(potential soft lockups on large unmaps) in the Kconfig or cmdline help text?
 
-I agree that this driver does not need a specific document. Will drop it.
+>  }
+>  
+>  void __iommu_debug_unmap_begin(struct iommu_domain *domain,
+>  			       unsigned long iova, size_t size)
+>  {
+> +	__iommu_debug_update_iova(domain, iova, size, false);
+>  }
+>  
+>  void __iommu_debug_unmap_end(struct iommu_domain *domain,
+>  			     unsigned long iova, size_t size,
+>  			     size_t unmapped)
+>  {
+> +	if (unmapped == size)
+> +		return;
+> +
+> +	/*
+> +	 * If unmap failed, re-increment the refcount, but if it unmapped
+> +	 * larger size, decrement the extra part.
+> +	 */
+> +	if (unmapped < size)
+> +		__iommu_debug_update_iova(domain, iova + unmapped,
+> +					  size - unmapped, true);
+> +	else
+> +		__iommu_debug_update_iova(domain, iova + size,
+> +					  unmapped - size, false);
+>  }
 
->
->> ---
->>   Documentation/iio/index.rst    |   1 +
->>   Documentation/iio/max22007.rst | 145 +++++++++++++++++++++++++++++++++++++++++
->>   MAINTAINERS                    |   1 +
->>   3 files changed, 147 insertions(+)
->>
->> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
->> index 315ae37d6fd4..7601bc2882e7 100644
->> --- a/Documentation/iio/index.rst
->> +++ b/Documentation/iio/index.rst
->> @@ -37,4 +37,5 @@ Industrial I/O Kernel Drivers
->>      adxl345
->>      bno055
->>      ep93xx_adc
->> +   max22007
->>      opt4060
->> diff --git a/Documentation/iio/max22007.rst b/Documentation/iio/max22007.rst
->> new file mode 100644
->> index 000000000000..e04c563f1fd0
->> --- /dev/null
->> +++ b/Documentation/iio/max22007.rst
->> @@ -0,0 +1,145 @@
->> +.. SPDX-License-Identifier: GPL-2.0-only
->> +
->> +===============
->> +MAX22007 driver
->> +===============
->> +
->> +Device driver for Analog Devices Inc. MAX22007 quad-channel industrial DAC.
->> +The module name is ``max22007``.
->> +
->> +Supported devices
->> +=================
->> +
->> +* `MAX22007 <https://www.analog.com/en/products/max22007.html>`_
->> +
->> +Wiring connections
->> +==================
->> +
->> +The MAX22007 uses a standard SPI interface.
-> I'd not bother with this section.  Most SPI devices after all use
-> the standard interface, so we can document this by not documenting anything
-> else :)
->
->> +
->> +Device Tree Configuration
->> +=========================
-> Anything here should be in the dt-binding. As such this section isn't useful.
->
->> +
->> +The device supports both global and per-channel configuration through device tree.
->> +
->> +Global Properties:
->> +
->> +* ``reset-gpios``: GPIO pin for hardware reset (optional, falls back to
->> +  software reset if not specified)
->> +* ``vdd-supply``: Low-Voltage Power Supply from +2.7V to +5.5V (optional)
->> +* ``hvdd-supply``: Positive High-Voltage Power Supply from +8V to (HVSS +24V)
->> +  for the Output Channels (optional)
->> +* ``hvss-supply``: Negative High-Voltage Power Supply from -2V to 0V for the
->> +  Output Channels (optional)
->> +
->> +Per-channel properties:
->> +
->> +* ``adi,type``: Specify the channel output type - must be either "voltage" or "current" (mandatory)
->> +
->> +Note: The driver operates in transparent mode (immediate register-to-output updates).
->> +Channel mode is determined by the ``adi,type`` property:
->> +
->> +* ``adi,type = "current"``: the channel operates in current mode
->> +* ``adi,type = "voltage"``: the channel operates in voltage mode
->> +
->> +Device attributes
->> +=================
->> +
->> +The MAX22007 driver provides IIO DAC interfaces that vary based on the
->> +configured channel mode. Each channel appears as a separate IIO device
->> +attribute:
->> +
->> +* ``out_voltage_raw`` (voltage mode channels)
->> +* ``out_current_raw`` (current mode channels)
->> +* ``out_voltage_scale`` / ``out_current_scale`` (channel scaling factors)
->> +* ``out_voltage_powerdown`` / ``out_current_powerdown`` (channel power control)
->> +
->> +The driver automatically configures the IIO channel type based on the configured
->> +channel mode from device tree.
-> This bit feels very standard and so not in need of extra documentation.
->
->> +
->> +Power Mode Control
->> +==================
->> +
->> +Each channel provides standard IIO ``powerdown`` attributes for runtime power
->> +control:
->> +
->> +* Write ``1`` to power down (disable) the channel output
->> +* Write ``0`` to power up (enable) the channel output
->> +* Read the attribute to get the current power state (1=powered down, 0=powered up)
->> +
->> +This allows individual channels to be powered on/off independently for power
->> +management and safety purposes.
-> Likewise, this is very standard.
->
->> +
->> +Usage Examples
->> +==============
->> +
->> +Setting DAC output values:
->> +
->> +.. code-block:: bash
->> +
->> +   # Set channel 0 (voltage mode) to raw value 655 (≈2V)
->> +   # Output is updated immediately in transparent mode
->> +   echo 655 > /sys/bus/iio/devices/iio:deviceX/out_voltage0_raw
->> +
->> +   # Set channel 1 (current mode)
->> +   # Output is updated immediately in transparent mode
->> +   echo 1024 > /sys/bus/iio/devices/iio:deviceX/out_current1_raw
->> +
->> +Controlling channel power modes:
->> +
->> +.. code-block:: bash
->> +
->> +   # Enable channel 0 (power up)
->> +   echo 0 > /sys/bus/iio/devices/iio:deviceX/out_voltage0_powerdown
->> +
->> +   # Disable channel 1 (power down)
->> +   echo 1 > /sys/bus/iio/devices/iio:deviceX/out_current1_powerdown
->> +
->> +   # Check current power state (0=powered up, 1=powered down)
->> +   cat /sys/bus/iio/devices/iio:deviceX/out_voltage0_powerdown
->> +
->> +Reading channel values and scale factors:
->> +
->> +.. code-block:: bash
->> +
->> +   # Read raw DAC value
->> +   cat /sys/bus/iio/devices/iio:deviceX/out_voltage0_raw
->> +
->> +   # Read scale factor (volts per LSB)
->> +   cat /sys/bus/iio/devices/iio:deviceX/out_voltage0_scale
->> +
->> +Check available channels:
->> +
->> +.. code-block:: bash
->> +
->> +   ls /sys/bus/iio/devices/iio:deviceX/out_*_raw
->> +
->> +Scale Calculations
->> +==================
->> +
->> +The driver provides accurate scale factors based on the hardware configuration:
-> This information doesn't need to be provided explicitly.  Anyone who
-> wonders in detail about it can check the driver. For most users the fact
-> it obeys the standard ABI rules is eough.
->
->> +
->> +**Voltage Mode:**
->> +
->> +- Scale = (5 × 2.5V) / 4096 = 0.003051757 V per LSB
->> +- Range: 0V to 12.5V over 12-bit (0-4095)
->> +- Formula: Output = Raw_Value × Scale
->> +
->> +**Current Mode:**
->> +
->> +- Scale = (2.5V / (2 × 50Ω)) / 4096 = 0.000006103515625 A per LSB
->> +- Range: 0A to 0.025A over 12-bit (0-4095)
->> +- Formula: Output = Raw_Value × Scale
->> +
->> +Driver Architecture
->> +===================
->> +
->> +The driver implements:
->> +
->> +* **CRC8 Error Checking**: Always-enabled CRC8 for SPI data integrity
->> +* **Channel Configuration**: Supports per-channel mode and power configuration
->> +
->> +Channel configuration (voltage/current mode) is set via the ``adi,type``
->> +device tree property and cannot be changed dynamically The driver requires
->> +proper device tree configuration with mandatory ``adi,type`` property for each
->> +channel.
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index e1addbd21562..6561455732c9 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1599,6 +1599,7 @@ L:	linux-iio@vger.kernel.org
->>   S:	Supported
->>   W:	https://ez.analog.com/linux-software-drivers
->>   F:	Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
->> +F:	Documentation/iio/max22007.rst
->>   
->>   ANALOG DEVICES INC ADA4250 DRIVER
->>   M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
->>
+I'm a little concerned about this part, when we unmap more than requested,
+the __iommu_debug_update_iova relies on 
+iommu_iova_to_phys(domain, iova + off) to find the physical page to
+decrement. However, since __iommu_debug_unmap_end is called *after* the
+IOMMU driver has removed the mapping (in __iommu_unmap). Thus, the
+iommu_iova_to_phys return 0 (fail) causing the loop in update_iova:
+`if (!phys ...)` to silently continue.
+
+Since the refcounts for the physical pages in the range:
+[iova + size, iova + unmapped] are never decremented. Won't this result
+in false positives (warnings about page leaks) when those pages are
+eventually freed?
+
+For example:
+
+- A driver maps a 2MB region (512 x 4KB). All 512 pgs have refcount = 1.
+
+- A driver / IOMMU-client calls iommu_unmap(iova, 4KB)
+
+- unmap_begin(4KB) calls iova_to_phys, succeeds, and decrements the
+  refcount for the 1st page to 0.
+
+- __iommu_unmap calls the IOMMU driver. The driver (unable to split the
+  block) zaps the entire 2MB range and returns unmapped = 2MB.
+
+- unmap_end(size=4KB, unmapped=2MB) sees that more was unmapped than
+  requested & attempts to decrement refcounts for the remaining 511 pgs
+
+- __iommu_debug_update_iova is called for the remaining range, which
+  ends up calling iommu_iova_to_phys. Since the mapping was destroyed,
+  iova_to_phys returns 0.
+
+- The loop skips the decrement causing the remaining 511 pages to leak
+  with refcount = 1.
+
+Thanks,
+Praan
