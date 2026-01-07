@@ -1,72 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729E018A921;
-	Wed,  7 Jan 2026 02:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F462459ED;
+	Wed,  7 Jan 2026 03:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767753649; cv=none; b=hRl4PIhpYJ+tPmX676bwV43ty89EUpsNam18WKl30npg+Wdw+USOvJVdv9kDnjiPtK2/WQ//u0GG/cIhxfdtum8ElU13kMQAQ98/NzJFvCAkXGAIP76Ki9Bld8rFKx2o5WKm/rUqXyWznJSCkvNiM5/Mkc9wO4Ni6aohM8LGf6I=
+	t=1767755666; cv=none; b=sNCqh7P3avp9p+iPRRJHMc4YkQlgKdnucsOoL7HYUhdX71ubslEpwsHUn5QuuNdf8Y7TjTBvq3egH5WRTsZyCfsQYiTdBJesYkYWKgI3rp4wG1D8rAQO0O5QrtQzjIAr10s8f0atyUdFzQ85bw3qtcUhrAJKrR2WGjifVwjZSAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767753649; c=relaxed/simple;
-	bh=qP0pTeKUriG2/L9LxZppVuDsYebvRXZq6TKw7CjpZF4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YXsJQGOTVIcVxI0aHLv26sQWh6DZJzvy9ktzQ4JjXKqI7kmV4U0iyh9spBlTm7DQRfeomo9qfSbBOGzhRw8ybbDtlDmFevLSMCaBAIyf1lCMfLXzX5SX6Kmf8jaiFmCiYsHiT9NQD3lkY33R6Mb5ESh7sAoUdM+8fQ11FyhWxTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDzPTVZU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767755666; c=relaxed/simple;
+	bh=utL2nfz5EoZTvedXTHBJDDuw4SD7O9GvJTYP69jjwmo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VQGxhF48yItS49l9doc6TxM1gMsg42bHMUEUnhc3lJyG12g3i2ULVkyNypNV0dZj0gvvw0+PoFeqQrImWcOxqOQjko96vJ4XbBWzUyAwosbs2X13fPtkX+1gAa5rGtxxAGWd0ZN4ThoF1zIeb6Z5t5B5bG09EOq+xkGtIdXpaBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=TETJILce; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDzPTVZU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893E7C116C6;
-	Wed,  7 Jan 2026 02:40:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767753649;
-	bh=qP0pTeKUriG2/L9LxZppVuDsYebvRXZq6TKw7CjpZF4=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=kDzPTVZUrtHErqpNoei13hdQ4Niojt0x4jHkZULcTw+Ft/TirZSnwhBx/kja6PyPt
-	 EfzXEbRforxo7D9wKh50PB+4iiMC1rLF22oUyzJ3kXT0w4sGH4a/Ppk1kwwd2RbzBs
-	 Zn9Mo2nq8xolQb0HUsCfqtaP4rkdowIuEudJ31ChG0mub9iIuWrJrdd+rZ4Deqs+Fl
-	 g2bF+xbqsfVLz2TBcP/AUfOdw57Jy+r8gDJTgcZSdnmjVcR/SeQ8MCtCZqv0VSOEVx
-	 oZhJCXdu/ammLyrpp/egOXpLY4l+Zd77V0v6bfSMWYz2yH5xVh1cq//ibuRgzagOEt
-	 gtJKTPAbr/9sg==
-Message-ID: <12c72476-a4e8-4b00-80ae-b8eed0b6f7a7@kernel.org>
-Date: Tue, 6 Jan 2026 20:40:46 -0600
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="TETJILce"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=OragN944WmsE+e9587xjrYCzr49jdWWwnPtXERoJoAs=;
+	b=TETJILceukpWNcQ4CceVU0yy56qe48a8v6SAHhIaTgk6U22pc07PGVXEydFRzqvYX5oX+WLAM
+	Dr/ZP3x20ugFg1krzZJR32xL88H06+8XDoPMqt2NBaCat+4Y67dH/tT8wj3Lmj90a304KjUzkzt
+	gHy8Rg9tj304HElq2PI8RM4=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4dmCj60V5BzcbPg;
+	Wed,  7 Jan 2026 11:10:50 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6A2402016A;
+	Wed,  7 Jan 2026 11:14:21 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 7 Jan 2026 11:14:20 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: <gongfan1@huawei.com>
+CC: <Markus.Elfring@web.de>, <alok.a.tiwari@oracle.com>,
+	<andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<guoxin09@huawei.com>, <horms@kernel.org>, <kuba@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<luosifu@huawei.com>, <luoyang82@h-partners.com>, <netdev@vger.kernel.org>,
+	<pabeni@redhat.com>, <pavan.chebbi@broadcom.com>, <shijing34@huawei.com>,
+	<wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v09 2/9] hinic3: Add PF management interfaces
+Date: Wed, 7 Jan 2026 11:14:13 +0800
+Message-ID: <20260107031413.941-1-gongfan1@huawei.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <155d1e55a0ad8f1cef1fd223da28bc39b4ed6abf.1767707500.git.zhuyikai1@h-partners.com>
+References: <155d1e55a0ad8f1cef1fd223da28bc39b4ed6abf.1767707500.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 1/3] drm: client: add splash client
-From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-To: Francesco Valla <francesco@valla.it>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-embedded@vger.kernel.org
-References: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it>
- <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
- <894581a9-2a30-428d-ab94-34697147d68e@kernel.org> <aV1xe09kYUwj4ocm@bywater>
- <dedc1825-26ca-4976-b174-8d7a740e25e3@kernel.org>
-Content-Language: en-US
-In-Reply-To: <dedc1825-26ca-4976-b174-8d7a740e25e3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
->> Yes, that's the idea. I am still searching a EFI-enabled platform I can
->> perform some proper tests on, as I'm not really familiar with EFI.
->> This version was tested with OVMF on QEMU, but without a real userspace.
+> > +static void hinic3_init_mgmt_msg_work(struct hinic3_msg_pf_to_mgmt *pf_to_mgmt,
+> > +				      struct hinic3_recv_msg *recv_msg)
+> > +{
+> > +	struct mgmt_msg_handle_work *mgmt_work;
+> > +
+> > +	mgmt_work = kmalloc(sizeof(*mgmt_work), GFP_KERNEL);
+> > +	if (!mgmt_work)
+> > +		return;
+> > +
+> > +	if (recv_msg->msg_len) {
+> > +		mgmt_work->msg = kmalloc(recv_msg->msg_len, GFP_KERNEL);
+> > +		if (!mgmt_work->msg) {
+> > +			kfree(mgmt_work);
+> > +			return;
+> > +		}
+> > +	}
 > 
-> Almost any modern x86 platform except for a chromebook uses EFI.
+> When recv_msg->msg_len is zero, the above conditional is not taken, leaving
+> mgmt_work->msg uninitialized. The work handler later calls kfree() on this
+> uninitialized pointer at the "out" label in hinic3_recv_mgmt_msg_work_handler().
 > 
-> I'll add them to my local dev tree and test too and see if I can get you 
-> some feedback if I run into any problems.
+> A zero-length message can arrive when seg_len is 0 in hinic3_recv_msg_add_seg(),
+> which only validates seg_len > MGMT_SEG_LEN_MAX but does not reject seg_len == 0.
 > 
- From my side when testing I hit this during kernel build:
+> Should mgmt_work->msg be initialized to NULL before the conditional, or should
+> an else clause set it to NULL?
 
-ERROR: modpost: "bgrt_tab" [drivers/gpu/drm/clients/drm_client_lib.ko] 
-undefined!
-ERROR: modpost: "bgrt_image_size" 
-[drivers/gpu/drm/clients/drm_client_lib.ko] undefined!
+We will address the AI review comments in patch 2/5/8 sooner.
