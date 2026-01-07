@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA95733F36E;
-	Wed,  7 Jan 2026 19:35:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE295318EE2;
+	Wed,  7 Jan 2026 19:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767814517; cv=none; b=ZbbAslXtkyJoxc5bCZlv83SVspvH899iFz2+vAfdr5ZUPyIWCMGHFdPZrgcJbIBsS4nkENBC9yOzIlw3nRWb87Wf0U7IsREVPtjul1siTEiyi2KmLm3iZBmb8Gl+X4lQLkC3VuuoHDH8cDmjYbDuoX4/Uo9yr2xM0StLDxo+sL4=
+	t=1767814619; cv=none; b=ZKrI9Q+mkHSnXfqkfVSlsL6JdP5De5rnITvurAfCLKyam9a1BmU/LZ3pIMCDs5Xx5DF3VQ22ktEEMjZxAGp3jLE0CxmOe+4MYQUaVUP708HpcbdwYfXQRxgXxJ0yTQjMGV92eacuIvADkJd2Gt4sfhhHiULmSIBBO0wFP3essNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767814517; c=relaxed/simple;
-	bh=IcktqVO7I/DieJQlKCk3uSX2cIXyZAqkwils7DG7tV8=;
+	s=arc-20240116; t=1767814619; c=relaxed/simple;
+	bh=wGXfb/h9dHEqo4OYJ7lobK5I8Wv+t9L3leil/n6O8Iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lPS9ASHBVyxyNno13VRBCuTZNHu69eACmFh4cpgIlPBqTTCEJIHxZBX+Z4nLF6xBVKXKF+tDXtDvG4gHFRP1SsuJ6ks7midpI+uMDQla+sAgTUGG4aUGjBfnvb9ofoAofDOilxETSFcjwF93UC7RNm5dYV67atVrGeO/ei813rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qkXg7kzO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=douE0pnH0foA65pcU+tP75Hj4R8FSTocxW4f8o5peN/qioostXWtp1ywfECVmTmPX8eCUBWgeDyaTlL4lCE+fI6OGQUUnIvOa1neW40Cw2AVIZ8rwqfHZixCJvZfRq56CbYzN1ZeafKmqmqvGwUpMAcABR8R4F5LaKLKg/tfwMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IgJxdSAe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qkXg7kzO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33CAC4CEF1;
-	Wed,  7 Jan 2026 19:35:16 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IgJxdSAe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0753C19422;
+	Wed,  7 Jan 2026 19:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767814517;
-	bh=IcktqVO7I/DieJQlKCk3uSX2cIXyZAqkwils7DG7tV8=;
+	s=korg; t=1767814618;
+	bh=wGXfb/h9dHEqo4OYJ7lobK5I8Wv+t9L3leil/n6O8Iw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qkXg7kzOQBPcXuszqE5Rp930req2QIJC2PLw08BewH7WA/arMmcLh7sY2f+/NVEwT
-	 7rSB/2i3+n0zMAh7sXI1bUCNntTc7svCOIJl0eblArvnJID57lu9cSYMG1ucdgMDI3
-	 eQ3n1b1RU0SZqb1rMSAbBivZLZV85HJaw2PzBSMA=
-Date: Wed, 7 Jan 2026 20:35:14 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joe Perches <joe@perches.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andy Whitcroft <apw@canonical.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] LICENSES: Explicitly allow SPDX-FileCopyrightText
-Message-ID: <2026010726-crusader-recoup-4825@gregkh>
-References: <20260107171246.242973-2-krzysztof.kozlowski@oss.qualcomm.com>
- <4702253d918c8edb899a91fbd79b40199a013264.camel@perches.com>
+	b=IgJxdSAeZ/7+lfhqGZ9rBlTXNIozisFIcAkxXqUcopcqhT47BBzZNAXGHXN2S1cuz
+	 sE3S/4D8e2LgW/CFYURXyeLn59O+LRgHFLBPpDv+3F5osve2zP01H3o5Q1WQsnXmQw
+	 djJgIz4O/wMvzdiDAuqVNLsW2SkI8XFnTtMPhuCo=
+Date: Wed, 7 Jan 2026 20:36:55 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: joaopeixoto@osyx.tech
+Cc: linux-kernel@vger.kernel.org, ajd@linux.ibm.com, alex@ghiti.fr,
+	aou@eecs.berkeley.edu, bagasdotme@gmail.com,
+	catalin.marinas@arm.com, conor+dt@kernel.org, corbet@lwn.net,
+	dan.j.williams@intel.com, davidmcerdeira@osyx.tech,
+	devicetree@vger.kernel.org, dev@kael-k.io, haren@linux.ibm.com,
+	heiko@sntech.de, jose@osyx.tech, kever.yang@rock-chips.com,
+	krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	maddy@linux.ibm.com, mani@kernel.org, nathan@kernel.org,
+	neil.armstrong@linaro.org, palmer@dabbelt.com, pjw@kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, robh@kernel.org,
+	will@kernel.org
+Subject: Re: [PATCH 5/6] virt: bao: Move BAO_IPCSHMEM_HYPERCALL_ID to common
+ header
+Message-ID: <2026010704-heaviness-quality-f543@gregkh>
+References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
+ <20260107162829.416885-1-joaopeixoto@osyx.tech>
+ <20260107162829.416885-6-joaopeixoto@osyx.tech>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,27 +53,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4702253d918c8edb899a91fbd79b40199a013264.camel@perches.com>
+In-Reply-To: <20260107162829.416885-6-joaopeixoto@osyx.tech>
 
-On Wed, Jan 07, 2026 at 10:40:11AM -0800, Joe Perches wrote:
-> On Wed, 2026-01-07 at 18:12 +0100, Krzysztof Kozlowski wrote:
-> > Sources already have SPDX-FileCopyrightText (~40 instances) and more
-> > appear on the mailing list, so document that it is allowed.  On the
-> > other hand SPDX defines several other tags like SPDX-FileType, so add
-> > checkpatch rule to narrow desired tags only to two of them - license and
-> > copyright.  That way no new tags would sneak in to the kernel unnoticed.
+On Wed, Jan 07, 2026 at 04:28:28PM +0000, joaopeixoto@osyx.tech wrote:
+> From: João Peixoto <joaopeixoto@osyx.tech>
 > 
-> I find no value in this tag.  I think it should be discouraged.
+> Move the IPC shared-memory hypercall ID from architecture-specific
+> headers into include/linux/bao.h.
+
+That says _what_ you did, but not why you did it :(
+
+I have no idea why this is needed at all, sorry.
+
+> Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
+> ---
+>  arch/arm/include/asm/bao.h           | 5 ++---
+>  arch/arm64/include/asm/bao.h         | 5 ++---
+>  arch/riscv/include/asm/bao.h         | 7 +++----
+>  drivers/virt/bao/ipcshmem/ipcshmem.c | 5 +----
+>  include/linux/bao.h                  | 3 +++
+>  5 files changed, 11 insertions(+), 14 deletions(-)
 > 
-> How is it different or more useful than a typical Copyright or © symbol ?
+> diff --git a/arch/arm/include/asm/bao.h b/arch/arm/include/asm/bao.h
+> index 5ece9ecb1455..7d13591fe669 100644
+> --- a/arch/arm/include/asm/bao.h
+> +++ b/arch/arm/include/asm/bao.h
+> @@ -16,14 +16,13 @@
+>  #include <linux/arm-smccc.h>
+>  #include <linux/bao.h>
+>  
+> -static inline unsigned long bao_ipcshmem_hypercall(unsigned long hypercall_id,
+> -						   unsigned long ipcshmem_id)
+> +static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
 
-It's easier to parse automatically and put into other places (like a
-software bill of materials).
+This does not match what you said you were doing in the changelog :(
 
-I don't like it all that much either, as really, it doesn't mean much
-(go talk to a lawyer for details), but it's already in our tree so we
-might as well document it...
-
-thanks,
-
-greg k-h
