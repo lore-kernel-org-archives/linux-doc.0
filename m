@@ -1,64 +1,64 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A61389465
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C557C318EE5
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767800047; cv=none; b=ZdLf5PunjZf4JL1AJKLQYwjKVpxoO9yZoCHpMQ+kaA+W3SJsvUEgfxw+NIJxRsTvi0TgER1pnU+dpBhUuli/3tqh7xHtghF3hcWC90jF+A6SmtfJnbIKO6/gMZZTTSxIIGcRLCfMKH+E3r0ON2IArj9/P54PXWAg68f0UGUS8TY=
+	t=1767800050; cv=none; b=vGKBl0FnDiYHpnt9yjrbPm9n/DVHhwbayW9bwZvrBdDKo5wnzmQ+zONT12u5eFpXD34b27iQYpiVW88nXMsVRj6v5yss+ehIL68/MYpVveR9CfVeyKzw8o0lFO3Fpv6va1v4KQSYfUHPjsTzGL66jAEFZQsSS9x5X27w9LOIXn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767800047; c=relaxed/simple;
-	bh=rXk3y4C8WJeOSfMI8cZ5ZlL/TCkv73ERx5NvQkCSpyA=;
+	s=arc-20240116; t=1767800050; c=relaxed/simple;
+	bh=G0p06p4Oj55Eoe9gPvplGLniqIrk/l49GkW6H+icHvs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BAepJR0+jxQ+MCFW4/AiHSWtfmUugMQcnVtSgbJi1Yz/6OVAGozFfL2+/rlbyiwpPJmR39Yuu2VnyN03GCFr1aXRjMqTskHOKSMCReYGF2tTWCjgypts9suoSnJIfplrMDa0MwYCgxFojfTKl9GWcqXBvLtxYJKgQBZpyIUqFik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4GZnOim; arc=none smtp.client-ip=209.85.167.181
+	 MIME-Version; b=KBZcRLYS8DQDUuoyIvNJ45kt6jJx/oD3BEZJ8rlHSAVLWXB3bmBFHIOJWFCkZhp9qvjDAeYv6XjzylzGv4mvhX593hhvWtZW2C46eF+Ek5NV8fXmsgwGmJGo1suN77ifVZEHsy/SLyvS18YLA9zCmeCU9rTl3x8XV92XOrNoi3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WFpr9umO; arc=none smtp.client-ip=209.85.167.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4GZnOim"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-4557f0e5e60so1412478b6e.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:34:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WFpr9umO"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-450b3f60c31so1049371b6e.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:34:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767800045; x=1768404845; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767800048; x=1768404848; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nEjVEszBS1bXBch+QTu9nax0OtrFw3AqtXa5XoSe9fA=;
-        b=G4GZnOimGKYLaHQGRjcwbXlnk11Hf9ZpstIvvG+0jiRuMet2ipinn4hboqAiV/4XKU
-         yZo4+HdbHWHL/gZz9FrZ95shPbqvj8ssUBjlKn3Ca3futo8WkJmJDXdA1vN9p3X2qt6A
-         qi4bBIojc8Pzmcyy06LC47Hk53pQHCRdibIi0tfU/kCsHXrVqe1DzFmXUhC50GkGRWb2
-         52lVIoswD4+b0GJM6x0ps+eK+B6WBo4vc7LGsU0EzzEqQkJpMoKbohZplLpxxCODZfq/
-         u7KxjGCjENGGHp0bxE8yTSNFTnTaGIgTMeiQvNfNKiGvzcXhMZCTbnSakdMEPoVCchdS
-         AASA==
+        bh=eO9EJ1SzMv+Xy0KnqPrEHfvHLOumowI49Qpx0L6iCR4=;
+        b=WFpr9umOXk3BBFeUe/mPboHm7D0pgGFB+1BB2X7hNWI2t+0tyMml5JDSL1v35KrOQK
+         9bSl416Mg7zGl+XaNaKe6fcqQDcSooHqQrP9M8+dG4qV3eMHeOl5QplIkjCYCdYTNyBW
+         c1kt6GwVqdQMiT4BFJknc1tS5BA4eEPmeaY6mYi3xq12EmvIjG1KqrVocqOmStrTmNZP
+         jK//xnxq4Gj1YVGIUhUC222VfIDWmQ37s4KglsjdH324e0Rue9802EMvRR6GVwc9NXyY
+         lJeWfaLK4ThnjYD00slpHxKppa56s3xA15rsp8XCWUhWmYvlyp/FOlUtqCA/oQbzAc42
+         syPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767800045; x=1768404845;
+        d=1e100.net; s=20230601; t=1767800048; x=1768404848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nEjVEszBS1bXBch+QTu9nax0OtrFw3AqtXa5XoSe9fA=;
-        b=qB1svziqGlxgdlUZrnD0+pspFlDJyc6nxXKO+zB6F2if/hD2adx+w9aTRjDSMmkeuS
-         A23FZlkLpiPkvQS+VWv5LnFOaWdlmRdH3/SFrS/ApuG92oDreQXvNhucWuk8UcJOAlJf
-         GVBRLSW0P3HuXf998TIP8ndy2ZdBPatVzYHjNlc/nedVId7H1GstZMm1cVUC1Yz0GysW
-         hdM63DsYXVucnxktGGXJlFTJvUQkumGJtrzdkiGzaGMi8aSPQgVOE6Zx26bzbnSDVBtS
-         QUIPeCTlAJJaDheGGRCxziHEGLDxf2H5U0nG7LvBaQHIeOfjHOJsWrAejf6l+36Vufqm
-         5BXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWbbr7M4KDTsrDGb0MUQTvSOhbPM7IAICPV9gUOEYjelY0oQxYv4U8bfRTudlR1L0GfkmGhFt4JcM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvkHYNkdbCyPV0n28EXihfe55NkypK/BcjJ2IqhQZQCWCLFdO5
-	FtzcaTXTCDwdP8uh+i1U8jmlUDrbz3Y4IlFYxLpjfAzV9U2Vp5PZf8SaOGJS+A==
-X-Gm-Gg: AY/fxX4p7twLjqL8WFOP8FUkx4sjyICG2eqPvMqaEH2mntemtoDidpU9cW1aW8Sz7J8
-	FikZpgyP5NsXtY/c4nDQVRbQV0fLlkGbNrkCWnMeZLgA1pNxoWuMyEp4jLAXN2cPheDswINNODE
-	asBWyKn78WmLpRksQcxItFJgz1Ji7N9NFkZm25/oBHFjMQa2JCTOdZ+dzUYiqBfG4Wj3Zw1zzEx
-	q6cnswlCKxC6h43ZuHqJhX/NHHHPMWxj1mD7puWGHbVYq+RIZxeMR2T6SDKldmxLOK68Cd58kd9
-	vfL5q5IiEZxvRrGZJ7KYrD4hLEXm1XoB+LA3xOXVG5d6HvWYx5hT+n7Yx28nrzdsx3jIzaXcoRs
-	6xtewZreittX60LxqSCLLEQ8xC6VM08k/54T/YlGrt1LAxqLopc2T0XWiWdLXeobUylUavU7BXw
-	G92PO4YfVGCKKA0lQswfpSoOLjX3fEd8SCNdpFGKX6OapeMfBP56XQMIg=
-X-Google-Smtp-Source: AGHT+IFX5hj+WsCZcQN0F9ui7U4tLr7OXye3gCol3kbUSaMg5lrVm0TVcSYSe8f2gPxdB0ZE4wEzIg==
-X-Received: by 2002:a05:6808:c28c:b0:43f:2a62:8b79 with SMTP id 5614622812f47-45a6bd4ad18mr1041781b6e.29.1767800044921;
-        Wed, 07 Jan 2026 07:34:04 -0800 (PST)
+        bh=eO9EJ1SzMv+Xy0KnqPrEHfvHLOumowI49Qpx0L6iCR4=;
+        b=JMi1kNIBZbDoWKMXmDqopeYGqpnaRrTgZxtsOcVIAqnDRNWoSZRR+g8sIbisCsBGbw
+         yCjDkCx2hhix6zOH2DY+U0SQ74fZUGd3zO7EIWzYgLzW8KQM0FU45nKsHxhGw0rZu/l0
+         w3RU41LuRmNx6v9mp978n5ZSiNyuXqfmyf2p4nP2fZ6iAgX84sUn1HCEqYAcCNfHijet
+         6oAAi73FzNN86FpRDBudQX+x0U3UWCkuOrhfTzX+IMn3ZmBvdHxuDTVBdd2XzTt3Aq5V
+         xXy5m+7zWlMGtwBHFbxw32EX+jW23t1FdGmwbODrbYK9Aw3Q91me5c55nsCvKdGhPFii
+         t1Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQYm7Oe0bLZ8WARpaq8/gJ7aBNw6FU5K/iMQI42RU6sKupXPk06kH8tkgCPkohL2qFvkBwqXjbjkg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBpePfnVZtN8g3k1y39vgIBTNar9YQ+Ki7Ao2qyN1LLYkL1qH4
+	pSoqowGQuUNWVzKwx/X0+Ql5/bKJo+PWKp85SvlqrrMwmbP+1pHiBsO3
+X-Gm-Gg: AY/fxX7zD5om5qaRWfKoT8pQY/9inBEhIqNdwbHyu3HoTwKsbATLsMJA5lgR6lnga+W
+	dghjRuAmsWWWgrDiwS3bkym2Qor3BwnZRHFGuwSUGWtnhmOwPwwUZEdXhrxY903jqGENnEzNEz9
+	5RpBQeHHQJbZDONtfhqFYOlZ4jLCHyYGPXAClq5MHBE/NtKNftxkVBo9lPm2t7AlVISz/KE6+7M
+	sEUUMNJ+KDSq/dF9WWQGg1pKYhSO3sWgjGFrYyMNzeUXT9NM+9nX5/RsotxWwTjXHx+3+9K6SRF
+	QRUuAo/UzmUtdO8lQ87cZ2/BzWwWlA3F//S9UFgRdmCOZJy6/ZSZrP625TU2MGv/V1S7HgF7Iop
+	P9BNhfJAGyBm3MOOZ+WECgVo0LKw3OLEzbBqLmjjzkXth214Ri5FegnFMOsdKj04/jYOuFYH8BY
+	bjnrYUCjXnyrNlaNKI3v2CbPlyNeDF3vvfciV9Nveswqdi
+X-Google-Smtp-Source: AGHT+IGtCDu0G6eYH3g3wT1M6IKy3YB9HAJ3+3EJ/cXXN1DdsBvhXWe62M+fG6NKVgTW6NRYPp6OFA==
+X-Received: by 2002:a05:6808:18aa:b0:450:32f0:4887 with SMTP id 5614622812f47-45a6bdfd28fmr1087090b6e.31.1767800047653;
+        Wed, 07 Jan 2026 07:34:07 -0800 (PST)
 Received: from localhost.localdomain ([2603:8080:1500:3d89:a917:5124:7300:7cef])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.34.03
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.34.05
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 07 Jan 2026 07:34:04 -0800 (PST)
+        Wed, 07 Jan 2026 07:34:07 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
 From: John Groves <John@Groves.net>
 X-Google-Original-From: John Groves <john@groves.net>
@@ -101,9 +101,9 @@ Cc: John Groves <jgroves@micron.com>,
 	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	John Groves <john@groves.net>
-Subject: [PATCH V3 08/21] dax: export dax_dev_get()
-Date: Wed,  7 Jan 2026 09:33:17 -0600
-Message-ID: <20260107153332.64727-9-john@groves.net>
+Subject: [PATCH V3 09/21] famfs_fuse: magic.h: Add famfs magic numbers
+Date: Wed,  7 Jan 2026 09:33:18 -0600
+Message-ID: <20260107153332.64727-10-john@groves.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260107153332.64727-1-john@groves.net>
 References: <20260107153244.64703-1-john@groves.net>
@@ -116,48 +116,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-famfs needs to look up a dax_device by dev_t when resolving fmap
-entries that reference character dax devices.
+Famfs distinguishes between its on-media and in-memory superblocks. This
+reserves the numbers, but they are only used by the user space
+components of famfs.
 
 Signed-off-by: John Groves <john@groves.net>
 ---
- drivers/dax/super.c | 3 ++-
- include/linux/dax.h | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ include/uapi/linux/magic.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-index 68c45b918cff..c14b07be6a4e 100644
---- a/drivers/dax/super.c
-+++ b/drivers/dax/super.c
-@@ -511,7 +511,7 @@ static int dax_set(struct inode *inode, void *data)
- 	return 0;
- }
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 638ca21b7a90..712b097bf2a5 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -38,6 +38,8 @@
+ #define OVERLAYFS_SUPER_MAGIC	0x794c7630
+ #define FUSE_SUPER_MAGIC	0x65735546
+ #define BCACHEFS_SUPER_MAGIC	0xca451a4e
++#define FAMFS_SUPER_MAGIC	0x87b282ff
++#define FAMFS_STATFS_MAGIC      0x87b282fd
  
--static struct dax_device *dax_dev_get(dev_t devt)
-+struct dax_device *dax_dev_get(dev_t devt)
- {
- 	struct dax_device *dax_dev;
- 	struct inode *inode;
-@@ -534,6 +534,7 @@ static struct dax_device *dax_dev_get(dev_t devt)
- 
- 	return dax_dev;
- }
-+EXPORT_SYMBOL_GPL(dax_dev_get);
- 
- struct dax_device *alloc_dax(void *private, const struct dax_operations *ops)
- {
-diff --git a/include/linux/dax.h b/include/linux/dax.h
-index 76f2a75f3144..2a04c3535806 100644
---- a/include/linux/dax.h
-+++ b/include/linux/dax.h
-@@ -56,6 +56,7 @@ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
- int fs_dax_get(struct dax_device *dax_dev, void *holder, const struct dax_holder_operations *hops);
- struct dax_device *inode_dax(struct inode *inode);
- #endif
-+struct dax_device *dax_dev_get(dev_t devt);
- void *dax_holder(struct dax_device *dax_dev);
- void put_dax(struct dax_device *dax_dev);
- void kill_dax(struct dax_device *dax_dev);
+ #define MINIX_SUPER_MAGIC	0x137F		/* minix v1 fs, 14 char names */
+ #define MINIX_SUPER_MAGIC2	0x138F		/* minix v1 fs, 30 char names */
 -- 
 2.49.0
 
