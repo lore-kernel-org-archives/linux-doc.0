@@ -1,64 +1,64 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55815318EC9
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D92D3AA1AF
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767800042; cv=none; b=LvntY6gUPuQ+0V2tN8hUPbWhSmfZNjzIn0ns/lcl1sk3SRF8QJZOJ4PbAlZTf0x9sulZkM/g+uMzhI8NE4sYya3zBYM/XwS0OvCE3pYrvg4efdjBMkj0+UlIJRKgUg2vqJ4AQ7AcpQ4ntehJv0uFMRAoU7RHw97TIcl7ZaRcMI8=
+	t=1767800045; cv=none; b=WwW+xwYjJvm4Q7ipRIVhhBheZxsWZwInaAuzehXtvI46Qi06Hts1NW8wpfvJhDNkN7f0bdwDFTp3sBvXz7aiTCyO/C5KCRFT3NCuXOJIHrUN615KAZ/dEESj6mA8kDi4bPrrwEyYyopRV9Ar6v8Bm4iMyTYpq9RD05VSjr1rjqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767800042; c=relaxed/simple;
-	bh=WRVZBT8kMG5wCLoPZZC5bOMvnEB+0NlJlCyntEWpc5Q=;
+	s=arc-20240116; t=1767800045; c=relaxed/simple;
+	bh=PyiR4akbn2AeaAQOQjDM80GGb6TmVA/W+ehpX5bfLv4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jboP9X5F9TKlBy7+AsXce8Hoaa37b7TUulXyq0iHff6sKKsEGRFhtbnhRqoJXQz6FCVSs3WopOhFrr5mkNnAVSFsV3wn9AwYVc52tFtggoKfaO7pPVo1EtO37171A5aVX+icaypyiclHF79Jo/zSUGJ+nS1hDiHKtj6dZXKCtsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aEhR4xQC; arc=none smtp.client-ip=209.85.167.171
+	 MIME-Version; b=t5bX1kUwsk1NCocQgLvDhDGctHkYRDdVOWmyi8tfc3asT3v++G6JHSxMXf3qSrlaMvM9tczzGHRydlwsGYJ+wuAeClx3ojEAcXj97VZ0bLGzowS3PhJqxeaIapo/kcV2ND2xOu4SFYvawpY4D7oLbRwVggI1RXrh2tEz0Y50R+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJhZzofs; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aEhR4xQC"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4507605e19aso1482832b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:34:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJhZzofs"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-45392215f74so1095484b6e.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:34:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767800039; x=1768404839; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767800042; x=1768404842; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MFpUE248sHWKO0jMsz45uNwCckbm+2ReGU0X8tOcxqc=;
-        b=aEhR4xQCYQN3NA9/prqTA48FLx6GDk1H72V6kODI+yl1ODxSilRXDuEwIyV76CEy/p
-         HEFbk6y3GqE7PwAVvx9pUIzpC8wqz4KOTqrU2pCOXpbfyEHfYb+gXkuG4TW0FWtPG8DG
-         c19y5MAHm1U4E7QzIxQhIpYLMrjWDSxPZUhdesQngGpEfo1Dar0Vz5+oAOKlgRLv6dGs
-         JNT/UEvWSDizb8H9D1IvU5b9i7ENu0tcpN59iOh6T348FGwyjPgCP0yZmvZYpdw+3EyK
-         s/tUeECj2HEWt0bvWE2k+6b3/qfHTBKeNSYJXC7m+DNDHEMdbKMYwgVbpK22xzE7tWdl
-         XAxQ==
+        bh=rU7mq0TXsreClp5X76nq6lsunavYv2TLFlf9O5dybH4=;
+        b=ZJhZzofsdnRTqpnyYlsDKwYBdEOS0/pCw8mia1ef9vH+uS06XmJlIPH9JpZQgCs3Kt
+         ihKbx8+lT3CenybuDOeJD6Az1nsGSSNadf0WQcFok1FPFTjl+nRXr+gWYtJzOPJ3s/KT
+         UmryE8hYvgNMo0q8LYR7SHGOcadrOPeWAo6JPJ5DKJlsvw5oXzP+GF/Zf+htc9TDn0sg
+         LFvzrDGg2mfzMm0TyQxJnfv9Wnw2/J0qVg/A9b4v9LH6w708jzN5EzZLxbEUTnkqg3bs
+         pncLMUaGjHDH9o8bqsMWs/mKZL0e+9hjzRn2l0UmWQbM7jbwSI8rtapRTsKqfSBrdb9L
+         h42w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767800039; x=1768404839;
+        d=1e100.net; s=20230601; t=1767800042; x=1768404842;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MFpUE248sHWKO0jMsz45uNwCckbm+2ReGU0X8tOcxqc=;
-        b=ciWDzVBtS5Fbi47/uhJYG8fBFO1m1KSIniDRThY8/ntzh8sGu7wyYWIgG61FLOCO1S
-         5ADfZ1ZmV+KXRMwkZI53ePITUD2tfXF52mOPc3v52pC9f/3MipTiGaFUpO2j+NNnYZL2
-         4+PFkOJec6AMhVwNFMxvRdBJCfzA+IFktuBirZ25LUUu7NHDTq50xY7Ka+mFbNTVvJPP
-         JnRm+BL8pUh9iqGIoA333LerglT13MKW0p2fnxrttFwDozqiNMNDPo5VONptYQwCdYXN
-         mrIuemQNIvhn8KYxn21xY6d/uN2J42T5ceGuZ1SIEf8Qyg8VRRuQNddKyr1qGEj/ACI6
-         c1Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCX+h34MlqOPtARw/A1xC5iDIW6973q5zCPxhO4gFX6/7TlWlAcoaUZjePS1QjSxhk/fT8F1ZV6gg3s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTLcpwtTfWs3GZsCozFlMXanCvzeMWrOOVvCQRr9h+CTsHViI/
-	Axwf9w1apqLVM4CGjrGbgAJs2yYwGJ131mzr+bqYyB4GFFEVMjQiqU3Q
-X-Gm-Gg: AY/fxX56jeeaaOplXfVa/B/DLpxz387IbPEVYJXdnKc3zhXCB11DAfsIlCZR7cOJYZR
-	4rShzNUtuhNWZskVdSobk5R6heIxxcf6NsCpa3AJri1oKlPkFCrFVOTPnog0QlgvCGRCY8IRsJk
-	Pj+dDxqSWzCGatraDaLbv31oLZZzG5KmA6huw7cbG6rBjFkLm9FmMSJIgoZEqRx0dY6ZlGHU8dk
-	NdLiDE2lFYEdNqt7Icti4Wk51P5yJsQjaVvaOrXOMKHu+CThP0Qhpg0VnXrlmRSwAi9jnK7wXy3
-	wzW+TXX6bA96ft9dKthjf8PlsXCAMoFAoI15QWxxhZdzP62k/k73OsMiuUj1C4qHA1455o7B2d5
-	Ks8+F+38WAoHUkDGOGNxcgQreGuZUsgEeeON/5Sz4aL1R/HtY2rfImzHhrN1l+vaxnJiSjPM6oI
-	2WnHbfC9gqqFCto+wuNnP/71Tp2mn8QaGN70r38udl2DyI
-X-Google-Smtp-Source: AGHT+IEszE+IwGAo4ineGymBiCez8ScClYQB6AM3nCGB9mlkfxe96RTOF5+tZUxQ9+aCXt3y02aEdQ==
-X-Received: by 2002:a05:6808:6412:b0:455:f4e7:d09a with SMTP id 5614622812f47-45a6bccc205mr1321889b6e.12.1767800039196;
-        Wed, 07 Jan 2026 07:33:59 -0800 (PST)
+        bh=rU7mq0TXsreClp5X76nq6lsunavYv2TLFlf9O5dybH4=;
+        b=oeHcaQ2d5qrlcMo9e+fraRL1oE9RhyQNlcey/TjYRg0fsfKwXpgTaa1uXOgQpBZmFZ
+         4Nq/7flE4vd8d6BjuF/F1/3ipbwouE1pqBauSnWh2VcFbWSjjstJaS4trkwBGO5MFIWm
+         I9/mhI/JsbdGK5h7gUBKB9mxC2NSInG7bIGhiCi6fWE6C4heL39typ9BiLPFu2+KtkKO
+         w9rXGjKA/j4OjVbt2D9L2KbTeFKaIW/DRENwYkn59hDGNGcU2cXtx82NnQNHT8Kvf2FZ
+         3mvOqu2h4vPssUv+Xz5QLFnmVaMv8fMJymBSjCPU3ym1CNB7UQyq2JxbY2fRUjLBmRdb
+         JSgw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVWsJt3Ew8rN0zIesowPUpEkUoUQzE2vAOkTLrSqJGuYJtMm0Nkzzx6VQEX5lFybv9lleppUAsZ+8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyJVivoVrBwSTOLmV5EHu0GUGLnuESELi4QSL6/KQgNlp0lV/7
+	kEO+0fgiUB16LhX+Lgd3DPN9YVf9uMPa13SRlMj6RIVCGqNs4R0xVbZr
+X-Gm-Gg: AY/fxX6Cfbc1YALAZdJJiBd0CR0DFabg0mWWpABADRcXwlVftuv7LSbw9bK8IbYRnps
+	H1jhk2xz7CbQ/GP6tfRxOf28xOr2grRmY0/9nrMRs4OOpxPV/5An3//a23jmAUIikSyCmcVNuOZ
+	al1Tc16AhL8sYJcwKxceaP7PIGQdIAxEa3B4w1mY0U6oFtDwH6u25vaNQhmRhNcsKus7DzLk/Aq
+	+zWfeXimbRSnK0556lZXb5VEr7M/SQPRjxlLVN3oQnZ3reYUT7BNyCJSLOZRjQcWnAhUTlESHK0
+	WWMJSSCnHb641GFWQp9uz1Ue/tAUhRgax/ySDjbJEY/ilwilWH8l9UVd79HB4Knnx7yRRcDUttB
+	4pkBy0CktSJyl2gNL1WKhlk0NcVPdoC+/Qy237MZYaWZ01ouMVxpgfCzfRjku9MMFwdZwaZQ9wZ
+	N3O1gfNvEW2Ff9RHu33ptFTifZVkhx6BCNMResScptxQgv+d4DMEGOo3Q=
+X-Google-Smtp-Source: AGHT+IGGuPhuNMGxMH3hMywT/xZMd9I63HO5XzGofyUeNCfHY8A9ec2ffaSkWkYNbPyHpjuffbFtfA==
+X-Received: by 2002:a05:6808:1188:b0:455:7da6:44d5 with SMTP id 5614622812f47-45a6bdaf691mr1055246b6e.27.1767800041948;
+        Wed, 07 Jan 2026 07:34:01 -0800 (PST)
 Received: from localhost.localdomain ([2603:8080:1500:3d89:a917:5124:7300:7cef])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.33.57
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2f1de5sm2398106b6e.22.2026.01.07.07.33.59
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 07 Jan 2026 07:33:58 -0800 (PST)
+        Wed, 07 Jan 2026 07:34:01 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
 From: John Groves <John@Groves.net>
 X-Google-Original-From: John Groves <john@groves.net>
@@ -101,9 +101,9 @@ Cc: John Groves <jgroves@micron.com>,
 	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	John Groves <john@groves.net>
-Subject: [PATCH V3 06/21] dax: Add fs_dax_get() func to prepare dax for fs-dax usage
-Date: Wed,  7 Jan 2026 09:33:15 -0600
-Message-ID: <20260107153332.64727-7-john@groves.net>
+Subject: [PATCH V3 07/21] dax: prevent driver unbind while filesystem holds device
+Date: Wed,  7 Jan 2026 09:33:16 -0600
+Message-ID: <20260107153332.64727-8-john@groves.net>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260107153332.64727-1-john@groves.net>
 References: <20260107153244.64703-1-john@groves.net>
@@ -116,141 +116,103 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fs_dax_get() function should be called by fs-dax file systems after
-opening a fsdev dax device. This adds holder_operations, which provides
-a memory failure callback path and effects exclusivity between callers
-of fs_dax_get().
+From: John Groves <John@Groves.net>
 
-fs_dax_get() is specific to fsdev_dax, so it checks the driver type
-(which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
-not bound to the memory.
+Add custom bind/unbind sysfs attributes for the dax bus that check
+whether a filesystem has registered as a holder (via fs_dax_get())
+before allowing driver unbind.
 
-This function serves the same role as fs_dax_get_by_bdev(), which dax
-file systems call after opening the pmem block device.
+When a filesystem like famfs mounts on a dax device, it registers
+itself as the holder via dax_holder_ops. Previously, there was no
+mechanism to prevent driver unbind while the filesystem was mounted,
+which could cause some havoc.
 
-This can't be located in fsdev.c because struct dax_device is opaque
-there.
+The new unbind_store() checks dax_holder() and returns -EBUSY if
+a holder is registered, giving userspace proper feedback that the
+device is in use.
 
-This will be called by fs/fuse/famfs.c in a subsequent commit.
+To use our custom bind/unbind handlers instead of the default ones,
+set suppress_bind_attrs=true on all dax drivers during registration.
 
 Signed-off-by: John Groves <john@groves.net>
 ---
- drivers/dax/bus.c   |  2 --
- drivers/dax/bus.h   |  2 ++
- drivers/dax/super.c | 54 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/dax.h |  1 +
- 4 files changed, 57 insertions(+), 2 deletions(-)
+ drivers/dax/bus.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
 diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 0d7228acb913..6e0e28116edc 100644
+index 6e0e28116edc..ed453442739d 100644
 --- a/drivers/dax/bus.c
 +++ b/drivers/dax/bus.c
-@@ -42,8 +42,6 @@ static int dax_bus_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	return add_uevent_var(env, "MODALIAS=" DAX_DEVICE_MODALIAS_FMT, 0);
+@@ -151,9 +151,61 @@ static ssize_t remove_id_store(struct device_driver *drv, const char *buf,
  }
+ static DRIVER_ATTR_WO(remove_id);
  
--#define to_dax_drv(__drv)	container_of_const(__drv, struct dax_device_driver, drv)
--
- static struct dax_id *__dax_match_id(const struct dax_device_driver *dax_drv,
- 		const char *dev_name)
- {
-diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-index 880bdf7e72d7..dc6f112ac4a4 100644
---- a/drivers/dax/bus.h
-+++ b/drivers/dax/bus.h
-@@ -42,6 +42,8 @@ struct dax_device_driver {
- 	void (*remove)(struct dev_dax *dev);
- };
- 
-+#define to_dax_drv(__drv) container_of_const(__drv, struct dax_device_driver, drv)
++static const struct bus_type dax_bus_type;
 +
- int __dax_driver_register(struct dax_device_driver *dax_drv,
- 		struct module *module, const char *mod_name);
- #define dax_driver_register(driver) \
-diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-index ba0b4cd18a77..68c45b918cff 100644
---- a/drivers/dax/super.c
-+++ b/drivers/dax/super.c
-@@ -14,6 +14,7 @@
- #include <linux/fs.h>
- #include <linux/cacheinfo.h>
- #include "dax-private.h"
-+#include "bus.h"
- 
- /**
-  * struct dax_device - anchor object for dax services
-@@ -121,6 +122,59 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
- EXPORT_SYMBOL_GPL(fs_put_dax);
- #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
- 
-+#if IS_ENABLED(CONFIG_DEV_DAX_FS)
-+/**
-+ * fs_dax_get() - get ownership of a devdax via holder/holder_ops
-+ *
-+ * fs-dax file systems call this function to prepare to use a devdax device for
-+ * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
-+ * dev_dax (and there is no bdev). The holder makes this exclusive.
-+ *
-+ * @dax_dev: dev to be prepared for fs-dax usage
-+ * @holder: filesystem or mapped device inside the dax_device
-+ * @hops: operations for the inner holder
-+ *
-+ * Returns: 0 on success, <0 on failure
++/*
++ * Custom bind/unbind handlers for dax bus.
++ * The unbind handler checks if a filesystem holds the dax device and
++ * returns -EBUSY if so, preventing driver unbind while in use.
 + */
-+int fs_dax_get(struct dax_device *dax_dev, void *holder,
-+	const struct dax_holder_operations *hops)
++static ssize_t unbind_store(struct device_driver *drv, const char *buf,
++		size_t count)
 +{
-+	struct dev_dax *dev_dax;
-+	struct dax_device_driver *dax_drv;
-+	int id;
++	struct device *dev;
++	int rc = -ENODEV;
 +
-+	id = dax_read_lock();
-+	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
-+		dax_read_unlock(id);
-+		return -ENODEV;
++	dev = bus_find_device_by_name(&dax_bus_type, NULL, buf);
++	if (dev && dev->driver == drv) {
++		struct dev_dax *dev_dax = to_dev_dax(dev);
++
++		if (dax_holder(dev_dax->dax_dev)) {
++			dev_dbg(dev,
++				"%s: blocking unbind due to active holder\n",
++				__func__);
++			rc = -EBUSY;
++			goto out;
++		}
++		device_release_driver(dev);
++		rc = count;
 +	}
-+	dax_read_unlock(id);
-+
-+	/* Verify the device is bound to fsdev_dax driver */
-+	dev_dax = dax_get_private(dax_dev);
-+	if (!dev_dax || !dev_dax->dev.driver) {
-+		iput(&dax_dev->inode);
-+		return -ENODEV;
-+	}
-+
-+	dax_drv = to_dax_drv(dev_dax->dev.driver);
-+	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
-+		iput(&dax_dev->inode);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
-+		iput(&dax_dev->inode);
-+		return -EBUSY;
-+	}
-+
-+	dax_dev->holder_ops = hops;
-+
-+	return 0;
++out:
++	put_device(dev);
++	return rc;
 +}
-+EXPORT_SYMBOL_GPL(fs_dax_get);
-+#endif /* DEV_DAX_FS */
++static DRIVER_ATTR_WO(unbind);
 +
- enum dax_device_flags {
- 	/* !alive + rcu grace period == no new operations / mappings */
- 	DAXDEV_ALIVE,
-diff --git a/include/linux/dax.h b/include/linux/dax.h
-index 3fcd8562b72b..76f2a75f3144 100644
---- a/include/linux/dax.h
-+++ b/include/linux/dax.h
-@@ -53,6 +53,7 @@ struct dax_holder_operations {
- struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
++static ssize_t bind_store(struct device_driver *drv, const char *buf,
++		size_t count)
++{
++	struct device *dev;
++	int rc = -ENODEV;
++
++	dev = bus_find_device_by_name(&dax_bus_type, NULL, buf);
++	if (dev) {
++		rc = device_driver_attach(drv, dev);
++		if (!rc)
++			rc = count;
++	}
++	put_device(dev);
++	return rc;
++}
++static DRIVER_ATTR_WO(bind);
++
+ static struct attribute *dax_drv_attrs[] = {
+ 	&driver_attr_new_id.attr,
+ 	&driver_attr_remove_id.attr,
++	&driver_attr_bind.attr,
++	&driver_attr_unbind.attr,
+ 	NULL,
+ };
+ ATTRIBUTE_GROUPS(dax_drv);
+@@ -1591,6 +1643,7 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
+ 	drv->name = mod_name;
+ 	drv->mod_name = mod_name;
+ 	drv->bus = &dax_bus_type;
++	drv->suppress_bind_attrs = true;
  
- #if IS_ENABLED(CONFIG_DEV_DAX_FS)
-+int fs_dax_get(struct dax_device *dax_dev, void *holder, const struct dax_holder_operations *hops);
- struct dax_device *inode_dax(struct inode *inode);
- #endif
- void *dax_holder(struct dax_device *dax_dev);
+ 	return driver_register(drv);
+ }
 -- 
 2.49.0
 
