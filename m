@@ -1,62 +1,64 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C372A2EAB64
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15008313E38
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 12:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767788525; cv=none; b=QF1SoU10r5OAUar28A2Q8IJiX/rta9y1dNPUhmNKRyuDZAzNXjVRZkcnrG6zN5q2pISssudaqWgl0Q28Bdjay1QjUzitceFlfkUCfxhi8q8jOgFKvKXBpPDbRFJD7z5lUrMWMKCkkpIxbC95j2p9JaTaLdmtPXAAEkGoYkuYN2c=
+	t=1767788526; cv=none; b=H0lu6oKEoP2n6oj0kXvXq9E3sbogoeAxgjIVhzELkfTETuJf8+PI/ErIQSdtA636q7++OJcNMt+SReWhQPD+eC57zgYiB91EcM9urC9shZ+V1mxYUz83Q3vWDz+BlS1j8NYjgCH/ubN2pD1zciLU8aaZql8olOjwnXnB4iV1/SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767788525; c=relaxed/simple;
-	bh=c+iz89dQ9u/g+Mi3Sy4KxY5gCEephLk7UN+j3FVY1pI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=fupL/amc/OxHyWs/WldHLqR76AlSAYK1x8pd13VjMEVYEnEBkgrgrMQl70wxAloxElD/5jbyF35PYYTOhir339Y6wMPHQNGhgcWKK7UJjB3l6VOYtX8yTi7xejw0CrsEEx3tHm3JF5lVZM7jvvARYZHnu1Udisu9hwQMSN5l8uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gu/hx+9S; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1767788526; c=relaxed/simple;
+	bh=lVWIfW3F1a20z8S3LjWOB0sV8YuzT8UoNgFPjrAmLTc=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=s6PMVeegpSgr/OYQUX+RwmR5JZxSKRrM88w3pni0avjuDegUpeeLa0MQL9/+nyUjZ6JaL8IG/L/m5CZ/1r32ajF5IiNZpvbDtSOGNo1DtzdAYvMaWnnA27EUORr+dIFPg/VK09CL0hWRt+J0uXXOzha1IFZBfJb0odEnugxhx+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OzwHUYIb; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gu/hx+9S"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43284ed32a0so972184f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:22:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OzwHUYIb"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-431048c4068so470521f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 04:22:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767788522; x=1768393322; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HYUkIIbKAWCx8zII6J6O7Hf6OJVquFHOvxvfWKIMyVg=;
-        b=gu/hx+9Sn24bPGyN65e3nHMdAh+oIt7KUa3Qg/En1DLfGQxDvbSbWEYXGZj3/l4/r/
-         3NNvqudj4rK6TSN9voLF0QgK2AsOITEG5pLOPdVP/PYp0xCCs4QrM+dKKFNYEmE/pCjS
-         IZeVT2X1Yvw0RhHPUf6ib25rEBzhFHqwlzans7D/acyW3tzgNDX4HQQ0Ho756OmVvIAP
-         xAFL5XvLIuoPSN3LPq9/0oIrVo7orF7A25lyhlEmxpDHgdHqu8JQQZ0Z3/9yKP1D+6el
-         S8r5Np6si4Q78Jo7xHq9Sov3BUMnP2yH2yDJpAmms9Y/a07E2UUVvCIxz4LoL54DID6H
-         mE6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767788522; x=1768393322;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1767788523; x=1768393323; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HYUkIIbKAWCx8zII6J6O7Hf6OJVquFHOvxvfWKIMyVg=;
-        b=Jw0bv7eO4S6p/Y18ljdQBCqBNHZUY4ToBC9Ld43nhvKRE4WEZY2/YUV8El6v6vIq0J
-         AVIXDDKVXzphbAWEdEBEk7kHWJmPwo/U8AEnI7ojjx6c/XB624eXc/WQY4VQ00N1+0XM
-         OjYX3xbebtuwtaLlY/qu3Z+ig2/ojK96I6M4K1pZT2kHdM/YuE4g0XjMyooBNq4bh4Kx
-         oHtJbXvkTe9AsCbdFxurAvO7vnbTLakwcuF30CIOKyA97et/qXvj8ks9f0yIb23ecLsW
-         8uXCv/s6aXknGAh8vLS7nhK3mnkG52OPrx+zJkONK/ec5Bfn5DfAVWTkz55NMFrXn7Vl
-         43UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBjfKdQ60n5gS8zgzjrzuh37I7SiwvxgszXKvX43OoNW2nJpJujdUX0gZy5lhIfDGT96jeNO7GfSI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwONV3coZc/fZqetGdO3yQsRM6eDPdG3W6d95takgFG5oAb6H43
-	fC+NW4sLthh4BAb14CIYEL2yX5iNp384iuTOg0FZ7mm1rcpu4bpeAq46
-X-Gm-Gg: AY/fxX51IfGX9oxoLWFZHs1k16jKzsDEfRZmDWXqJFMP2NrCs+Jqx9D17jPIwd+RquJ
-	yf6gdfAxGXfocNCswDvSJdgxr3ef8QbDHGJhc6sii+4H9JxauH1kbLf5h769gW8DwQtUq354tvV
-	edhrmkb3R+U8nRWEeTTkFCutP17HfBJYCtxKJM6SOmrt0DROsTXZpGdDrLRZYpUjVclUvJpU2AS
-	ehd6JeR4bHX7G09qP3V68mVnVugL4R35lWwV/h6rgwZWgjc5w1sbAGLMuXyy4SWddLsdcCn21i6
-	OtNZNXW2wdM15vL9MChAUf2FrmCR1xRGys4L+emDkDKJlWP8SvV435bn+2ZtQjcRfjJwZL9bD+A
-	u2h1+4ua5jIGPNI3sorcktjHg785l2CFRvsagF0D3PQ1vm0rSJXLx61lg7xs93hcZ3/1Ps0HcfT
-	sth3zCxSdgHSfbSi7/AO0z1X2IgK6YLgCPA6Faz+o=
-X-Google-Smtp-Source: AGHT+IGQNbTjHR0E7DNfPP8RF5ekeryRTwB6i2JVxTh+kt/lodaZ5gwD4qoONHfCKGH1Jj2gq/pP0A==
-X-Received: by 2002:a05:6000:18a5:b0:431:8f8:7f17 with SMTP id ffacd0b85a97d-432c362830dmr3049879f8f.10.1767788521787;
-        Wed, 07 Jan 2026 04:22:01 -0800 (PST)
+        bh=SMNJ4Kts5/HNCAR4F0oACjGDHyVhBwLAyv8CS9rPlaU=;
+        b=OzwHUYIbeAd0rTe1F+dDg7yLKscPc0PaumWuPsZu4jaQsFtOF9tw/IluIGTXsoEAqO
+         DyOtB88UU1yh++R8dYVnmwl7fYM2sMgOxjFNQDigR4XYSmWTsPIQax8ZT3Q/cOQofKRM
+         LcJH8f/eaoTtK3PhkYjd0pE4kheXY4dOFHhP7TVphe72RDDya/rg3eWApBBmHCHqP9iL
+         SmvekFOxmeQGaQA1D+XppMkAwBOyGyntrCDgC/buPnpKaMRwPb1viDCxkpiKUDvXrmOx
+         nV8HyFVqCliIzmiTjstjg/MzV8o65Qq68q4RUVqGDw1I+VPdhQSAqKbASWeB5baYSBVs
+         c58g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767788523; x=1768393323;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SMNJ4Kts5/HNCAR4F0oACjGDHyVhBwLAyv8CS9rPlaU=;
+        b=X1WECVUuR7AedwpjNeYl8MHBCXRdaI1oM+F4ERFToRNtPrwRGO38nUrzc7uayGPLOM
+         ru2I0zPYiU24E9Ck57GxVfNkbxEQbSZrlP+oJ+tsN4knvjSZgFNibvzJYktClo+b/+bC
+         5FIAiYgNJQL1rH0HUrRFZKfOZntZkv5gt2Ti/8XJjHz0BqzDkGOhYWnoN5P+3hIr+EFJ
+         PAAjHEWh7ZHZufHRK+ZXoc3cGTXFOLWcRUOk8ibIU7OANX08PAeuBCcPIrtVfP1RTgBu
+         Z4ImXCCRRcQY8dtyTuy29p5+tlZmaK67X+B8t9MyQEUX1ItXy548mzyPHtcSjwk82oOz
+         ywAA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTKX8nV1Z5WjdSF+vM4povYzTbfhJM5/qA6rx/bJIpb0Yh++E2r5BfZhbhfnkBtrCtB/NnjytfiBI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzKotmvNDFFWTyM7ezqtteojxQ+EjOLZSbAURxEueDErw72qWe
+	cx8/hC2ak5s/rb2MuLA9b8DiNB1WRC2biuIbPpWE4FkPE6IK/lXUVUXk
+X-Gm-Gg: AY/fxX7RY9jdSQEAwfWbdZ8VB2FcXCRabFagUuGvc724PnGtjxNg30SuxQXM4Uyh92b
+	5sPaDYPt+nTAi7C0RmXZodm84dfCotPjOaJqdPdtKZwgApkjP/mrhFvt2HTx3tbGzBdyYP3sxb8
+	n7qw6tAWJYxgBKxAy76hovysnAQVIc0eTzHPNmnqYgKIhup41pc4mpHmExfB8QT4TfhaTyWJ/f8
+	cMv9JLCv3x/2IGmZwLbjxch8W4pzJl/f1o/65yhiYCQ3CFzL3xxjcMbdpDnsdZK9tRdDlFsXv+o
+	bG9zIHhzUABiq2PyCyeZ39u/hwcVJdRO1zbf4stSUTWEygtJHVjtDnOTYoi8AmRa1+RLeth9ruv
+	jKtkcCWNoBJZiHn4SM4LjiawI/AECdf5jftEz0zvosIckKzKK1qxpE0fBIqhzjUWbxTdzGOsd5I
+	+dtnNFx1e8sMvUylHERog6JIwNyh38
+X-Google-Smtp-Source: AGHT+IEClxmk/vQCXvjMJIOWAtl/Cd8tfP/PJn3xuGZQyRDQG6DGD2FyzM/F0ozjr6n8QhHkFhSjIQ==
+X-Received: by 2002:a05:6000:18a5:b0:42f:b555:5275 with SMTP id ffacd0b85a97d-432c3634556mr3368042f8f.10.1767788523134;
+        Wed, 07 Jan 2026 04:22:03 -0800 (PST)
 Received: from imac.lan ([2a02:8010:60a0:0:bc70:fb0c:12b6:3a41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16f4sm10417107f8f.11.2026.01.07.04.22.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16f4sm10417107f8f.11.2026.01.07.04.22.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 04:22:01 -0800 (PST)
+        Wed, 07 Jan 2026 04:22:02 -0800 (PST)
 From: Donald Hunter <donald.hunter@gmail.com>
 To: Donald Hunter <donald.hunter@gmail.com>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -76,10 +78,12 @@ To: Donald Hunter <donald.hunter@gmail.com>,
 	Jacob Keller <jacob.e.keller@intel.com>,
 	Ruben Wauters <rubenru09@aol.com>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v1 00/13] tools: ynl: clean up pylint issues
-Date: Wed,  7 Jan 2026 12:21:30 +0000
-Message-ID: <20260107122143.93810-1-donald.hunter@gmail.com>
+Subject: [PATCH net-next v1 01/13] tools: ynl: pylint suppressions and docstrings
+Date: Wed,  7 Jan 2026 12:21:31 +0000
+Message-ID: <20260107122143.93810-2-donald.hunter@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260107122143.93810-1-donald.hunter@gmail.com>
+References: <20260107122143.93810-1-donald.hunter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,57 +92,217 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pylint tools/net/ynl/pyynl reports >850 issues, with a rating of
-8.59/10. It's hard to spot new issues or genuine code smells in all that
-noise.
+Add some docstrings and suppress all the pylint warnings that won't get
+fixed yet:
 
-Fix the easily fixable issues and suppress the noisy warnings.
+- no-name-in-module,wrong-import-position
+- too-many-locals
+- too-many-branches
+- too-many-statements
+- too-many-nested-blocks
+- too-many-instance-attributes
+- too-many-arguments
+- too-many-positional-arguments
+- too-few-public-methods
+- missing-class-docstring
+- missing-function-docstring
 
-  pylint tools/net/ynl/pyynl
-  ************* Module pyynl.ethtool
-  tools/net/ynl/pyynl/ethtool.py:159:5: W0511: TODO: --show-tunnels        tunnel-info-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:160:5: W0511: TODO: --show-module         module-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:161:5: W0511: TODO: --get-plca-cfg        plca-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:162:5: W0511: TODO: --get-plca-status     plca-get-status (fixme)
-  tools/net/ynl/pyynl/ethtool.py:163:5: W0511: TODO: --show-mm             mm-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:164:5: W0511: TODO: --show-fec            fec-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:165:5: W0511: TODO: --dump-module-eerpom  module-eeprom-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:166:5: W0511: TODO:                       pse-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:167:5: W0511: TODO:                       rss-get (fixme)
-  tools/net/ynl/pyynl/ethtool.py:179:9: W0511: TODO: parse the bitmask (fixme)
-  tools/net/ynl/pyynl/ethtool.py:196:9: W0511: TODO: parse the bitmask (fixme)
-  tools/net/ynl/pyynl/ethtool.py:321:9: W0511: TODO: pass id? (fixme)
-  tools/net/ynl/pyynl/ethtool.py:330:17: W0511: TODO: support passing the bitmask (fixme)
-  tools/net/ynl/pyynl/ethtool.py:459:5: W0511: TODO: wol-get (fixme)
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ tools/net/ynl/pyynl/cli.py          | 17 +++++++++++++++++
+ tools/net/ynl/pyynl/ethtool.py      |  1 +
+ tools/net/ynl/pyynl/lib/__init__.py |  2 ++
+ tools/net/ynl/pyynl/lib/nlspec.py   |  7 +++++++
+ tools/net/ynl/pyynl/lib/ynl.py      | 18 ++++++++++++++++++
+ 5 files changed, 45 insertions(+)
 
-  ------------------------------------------------------------------
-  Your code has been rated at 9.97/10 (previous run: 8.59/10, +1.38)
-
-Donald Hunter (13):
-  tools: ynl: pylint suppressions and docstrings
-  tools: ynl: fix pylint redefinition, encoding errors
-  tools: ynl: fix pylint exception warnings
-  tools: ynl: fix pylint dict, indentation, long lines, uninitialised
-  tools: ynl: fix pylint misc warnings
-  tools: ynl: fix pylint global variable related warnings
-  tools: ynl: fix logic errors reported by pylint
-  tools: ynl: ethtool: fix pylint issues
-  tools: ynl: fix pylint issues in ynl_gen_rst
-  tools: ynl-gen-c: suppress unhelpful pylint messages
-  tools: ynl-gen-c: fix pylint warnings for returns, unused, redefined
-  tools: ynl-gen-c: fix pylint None, type, dict, generators, init
-  tools: ynl-gen-c: Fix remaining pylint warnings
-
- tools/net/ynl/pyynl/cli.py               |  67 +++++---
- tools/net/ynl/pyynl/ethtool.py           |  47 +++--
- tools/net/ynl/pyynl/lib/__init__.py      |  10 +-
- tools/net/ynl/pyynl/lib/doc_generator.py |   3 +-
- tools/net/ynl/pyynl/lib/nlspec.py        |  77 +++++----
- tools/net/ynl/pyynl/lib/ynl.py           | 208 +++++++++++++----------
- tools/net/ynl/pyynl/ynl_gen_c.py         | 175 ++++++++++---------
- tools/net/ynl/pyynl/ynl_gen_rst.py       |   2 +
- 8 files changed, 341 insertions(+), 248 deletions(-)
-
+diff --git a/tools/net/ynl/pyynl/cli.py b/tools/net/ynl/pyynl/cli.py
+index af02a5b7e5a2..996c76be1403 100755
+--- a/tools/net/ynl/pyynl/cli.py
++++ b/tools/net/ynl/pyynl/cli.py
+@@ -1,6 +1,10 @@
+ #!/usr/bin/env python3
+ # SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+ 
++"""
++YNL cli tool
++"""
++
+ import argparse
+ import json
+ import os
+@@ -9,6 +13,7 @@ import pprint
+ import sys
+ import textwrap
+ 
++# pylint: disable=no-name-in-module,wrong-import-position
+ sys.path.append(pathlib.Path(__file__).resolve().parent.as_posix())
+ from lib import YnlFamily, Netlink, NlError, SpecFamily
+ 
+@@ -16,6 +21,10 @@ sys_schema_dir='/usr/share/ynl'
+ relative_schema_dir='../../../../Documentation/netlink'
+ 
+ def schema_dir():
++    """
++    Return the effective schema directory, preferring in-tree before
++    system schema directory.
++    """
+     script_dir = os.path.dirname(os.path.abspath(__file__))
+     schema_dir = os.path.abspath(f"{script_dir}/{relative_schema_dir}")
+     if not os.path.isdir(schema_dir):
+@@ -25,6 +34,10 @@ def schema_dir():
+     return schema_dir
+ 
+ def spec_dir():
++    """
++    Return the effective spec directory, relative to the effective
++    schema directory.
++    """
+     spec_dir = schema_dir() + '/specs'
+     if not os.path.isdir(spec_dir):
+         raise Exception(f"Spec directory {spec_dir} does not exist")
+@@ -32,6 +45,7 @@ def spec_dir():
+ 
+ 
+ class YnlEncoder(json.JSONEncoder):
++    """A custom encoder for emitting JSON with ynl-specific instance types"""
+     def default(self, obj):
+         if isinstance(obj, bytes):
+             return bytes.hex(obj)
+@@ -94,7 +108,10 @@ def print_mode_attrs(ynl, mode, mode_spec, attr_set, print_request=True):
+         print_attr_list(ynl, mode_spec['attributes'], attr_set)
+ 
+ 
++# pylint: disable=too-many-locals,too-many-branches,too-many-statements
+ def main():
++    """YNL cli tool"""
++
+     description = """
+     YNL CLI utility - a general purpose netlink utility that uses YAML
+     specs to drive protocol encoding and decoding.
+diff --git a/tools/net/ynl/pyynl/ethtool.py b/tools/net/ynl/pyynl/ethtool.py
+index fd0f6b8d54d1..40a8ba8d296f 100755
+--- a/tools/net/ynl/pyynl/ethtool.py
++++ b/tools/net/ynl/pyynl/ethtool.py
+@@ -8,6 +8,7 @@ import sys
+ import re
+ import os
+ 
++# pylint: disable=no-name-in-module,wrong-import-position
+ sys.path.append(pathlib.Path(__file__).resolve().parent.as_posix())
+ from lib import YnlFamily
+ from cli import schema_dir, spec_dir
+diff --git a/tools/net/ynl/pyynl/lib/__init__.py b/tools/net/ynl/pyynl/lib/__init__.py
+index ec9ea00071be..c40dd788fe8a 100644
+--- a/tools/net/ynl/pyynl/lib/__init__.py
++++ b/tools/net/ynl/pyynl/lib/__init__.py
+@@ -1,5 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
+ 
++""" YNL library """
++
+ from .nlspec import SpecAttr, SpecAttrSet, SpecEnumEntry, SpecEnumSet, \
+     SpecFamily, SpecOperation, SpecSubMessage, SpecSubMessageFormat
+ from .ynl import YnlFamily, Netlink, NlError
+diff --git a/tools/net/ynl/pyynl/lib/nlspec.py b/tools/net/ynl/pyynl/lib/nlspec.py
+index 85c17fe01e35..2ffeccf0b99b 100644
+--- a/tools/net/ynl/pyynl/lib/nlspec.py
++++ b/tools/net/ynl/pyynl/lib/nlspec.py
+@@ -1,4 +1,11 @@
+ # SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
++#
++# pylint: disable=missing-function-docstring, too-many-instance-attributes, too-many-branches
++
++"""
++The nlspec is a python library for parsing and using YNL netlink
++specifications.
++"""
+ 
+ import collections
+ import importlib
+diff --git a/tools/net/ynl/pyynl/lib/ynl.py b/tools/net/ynl/pyynl/lib/ynl.py
+index 36d36eb7e3b8..27169ff8dafc 100644
+--- a/tools/net/ynl/pyynl/lib/ynl.py
++++ b/tools/net/ynl/pyynl/lib/ynl.py
+@@ -1,4 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
++#
++# pylint: disable=missing-class-docstring, missing-function-docstring
++# pylint: disable=too-many-branches, too-many-locals, too-many-instance-attributes
++# pylint: disable=too-many-lines
++
++"""
++YAML Netlink Library
++
++An implementation of the genetlink and raw netlink protocols.
++"""
+ 
+ from collections import namedtuple
+ from enum import Enum
+@@ -22,6 +32,7 @@ from .nlspec import SpecFamily
+ #
+ 
+ 
++# pylint: disable=too-few-public-methods
+ class Netlink:
+     # Netlink socket
+     SOL_NETLINK = 270
+@@ -289,6 +300,7 @@ class NlMsg:
+         return msg
+ 
+ 
++# pylint: disable=too-few-public-methods
+ class NlMsgs:
+     def __init__(self, data):
+         self.msgs = []
+@@ -319,6 +331,7 @@ def _genl_msg_finalize(msg):
+     return struct.pack("I", len(msg) + 4) + msg
+ 
+ 
++# pylint: disable=too-many-nested-blocks
+ def _genl_load_families():
+     with socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, Netlink.NETLINK_GENERIC) as sock:
+         sock.setsockopt(Netlink.SOL_NETLINK, Netlink.NETLINK_CAP_ACK, 1)
+@@ -447,6 +460,7 @@ class GenlProtocol(NetlinkProtocol):
+         return super().msghdr_size() + 4
+ 
+ 
++# pylint: disable=too-few-public-methods
+ class SpaceAttrs:
+     SpecValuesPair = namedtuple('SpecValuesPair', ['spec', 'values'])
+ 
+@@ -555,6 +569,7 @@ class YnlFamily(SpecFamily):
+                 return self._from_string(value, attr_spec)
+             raise e
+ 
++    # pylint: disable=too-many-statements
+     def _add_attr(self, space, name, value, search_attrs):
+         try:
+             attr = self.attr_sets[space][name]
+@@ -778,6 +793,7 @@ class YnlFamily(SpecFamily):
+                 raise Exception(f"Unknown attribute-set '{msg_format.attr_set}' when decoding '{attr_spec.name}'")
+         return decoded
+ 
++    # pylint: disable=too-many-statements
+     def _decode(self, attrs, space, outer_attrs = None):
+         rsp = dict()
+         if space:
+@@ -838,6 +854,7 @@ class YnlFamily(SpecFamily):
+ 
+         return rsp
+ 
++    # pylint: disable=too-many-arguments, too-many-positional-arguments
+     def _decode_extack_path(self, attrs, attr_set, offset, target, search_attrs):
+         for attr in attrs:
+             try:
+@@ -1081,6 +1098,7 @@ class YnlFamily(SpecFamily):
+         msg = _genl_msg_finalize(msg)
+         return msg
+ 
++    # pylint: disable=too-many-statements
+     def _ops(self, ops):
+         reqs_by_seq = {}
+         req_seq = random.randint(1024, 65535)
 -- 
 2.52.0
 
