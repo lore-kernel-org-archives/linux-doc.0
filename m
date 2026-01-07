@@ -1,67 +1,67 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC484393DFD
-	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7100A331A44
+	for <linux-doc@vger.kernel.org>; Wed,  7 Jan 2026 15:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767799138; cv=none; b=Uk/293KlhHh5yK1+6odEESFxrYbc6qFmVf3oAIiErXsqauxpZc3OB2txUrxv41pKwFAEMN/tyn2A/ySP5wkHTuv28wyoyUbtjNVX7yoiRzlc6p67cyFSPADZVk3zivyAuSeOofMxPCufemR2QfPL4AFm1f5Luvk6ySPmOweqeQc=
+	t=1767799266; cv=none; b=iQg86SvQqQw4H1CVkQNN/Kt+M8FCMGTHwdCuSew5Ou87/ep5/lcMCCBxoMNugY5Ho1TzkX1v2B8HP/Y3hT2uWKe3/TntBQlHpPSlrfgaMOylaXmjb0XCG+egdO2bh2hx/qhIpqL1ZMivznokBb4ONZoDTqTwt+a3B/HNaW6hD7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767799138; c=relaxed/simple;
-	bh=tNf3XDsjmbqCnuHq9LIYRFhLNf4mHQKLUrqjBbo6sxc=;
+	s=arc-20240116; t=1767799266; c=relaxed/simple;
+	bh=eXuXM2LfKvUBPj7bC+kcYrRbVy9Q6GzWBRQJOVYcmlA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=toMf8OrDiutm9OOP03RiqSGF+5zJ8T+ShHvuuu+gP4uWZkE0awBwHH6oyXQY3QFfKCAOEit6a94TkCl4dCtrETziVhxmZ8Uz3mrdaR4zUx2HdJX0VNRVHRHmkFyyln1xgajUlkbM0XHqgWVjQ+gvFUpvXDbNVAVgXhx/1EHOKMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJRGttIf; arc=none smtp.client-ip=209.85.221.49
+	 In-Reply-To:Content-Type; b=PvU0DdH2ShFkxPWZUHRRyx+RpgfVXVCMm5H+Qwpx+vglgWYhY4TOGd6hQt6VazpqxqTGi9lZC2/gyVjTt22x630Z8Ee0Ziq9j3++hcBuM28WYz3ihHMlqTJK0RhP5gEkdbx4NMUtriThfikS88Lc6v3FzGJp/Gvgf3UyqVChW3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNhStM+5; arc=none smtp.client-ip=209.85.128.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJRGttIf"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b3b0d76fcso1363546f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:18:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNhStM+5"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-477632b0621so13616355e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 07:21:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767799133; x=1768403933; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767799261; x=1768404061; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=hs7UTF9OYygppRuc29mz8ACnbiOzTDxmVFUfRrLLvNQ=;
-        b=DJRGttIfUTjuNqYAbCrcYn1s29wMz3hmuNIACO+L6w8JqNLE5Cf41zckEmhoh6pGfT
-         PoWfGd7zN/RLVT4RIQ2AKaxgBwfnCebkCObY7RsI2EDWNfs1XjWAhgeyk1C0Q1heL0Xz
-         X0TfbCuaTNomiDIG5Qakb48vEcd5cVFJJsl+q8MB0N96NRvpdaSENbH8w4doBBvtxZFt
-         dkc1HO2oBf619ttAM7G0vWoVS98K5wh9Tf9Y8YPHvCebtZPIOMxDfm0EgjneM3B6fuli
-         jU24/uhoR1qeYmLj7v0fMY93hZ3NQDihsbtH9t6YBdu4wyh9TAPHY21v1r8XuV0jhu8I
-         Df9w==
+        bh=hpUPZ5RhmCpDT+jo0BaREdmS2zyMNKBTJDPDa+mSTNU=;
+        b=GNhStM+5OyFTPska6OfoPImQpoDNFLQu6JWlomHePHnnA3/G+uOvktvTYp7yaFuLe1
+         D1XvU6GXkwD9DOtpXWS0Qms2D9X03gLEUKcZz650EWGG8mm9ys18lL/pbJOoRGKroSQ5
+         mOI+Ln1LYELTbvXFaFtilqHI8gFVrUhDvp0zHNliG6RtwwYvIGzyxzoN0oJ24QtkJAjC
+         T8pRTFf00/W3enoAq7JYSzQtIjDEshT/UXd6wAn9dEY73BNzRl7ApumHPQ2RhSfXvLwk
+         6bLBdPM2IxmX+eGujhW8CXxbMH73+B3E1g773tcWxtH01g82gds1abakw0PhTwdiBFM8
+         nabQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767799133; x=1768403933;
+        d=1e100.net; s=20230601; t=1767799261; x=1768404061;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hs7UTF9OYygppRuc29mz8ACnbiOzTDxmVFUfRrLLvNQ=;
-        b=CCh6Ql/FwHwFuvY/6QoLXeY4/IAnkr3bcyQ+Fb99GtYgXn6YG9i4IcHrA4sX+6LX8Z
-         nx73VNuq5orkut9FLy8cMdbbDPfBombCjDLQhJFSQvJKidEZxnJ7mGkOBzYaMkj8/rtl
-         ytN/5BWIy0qpOJlVo11eI/BLaPp+BUefxJZK+qJG4pnhsM2B5hYcAopNjbGgVpjGG38u
-         jfdpL9PlsWcp1wEIstesMuQVim8rxc0FK1IHGufoBo9J8AjaPX+c916H/0clPCwtuJek
-         XqtF9OKsEr0zJE+ShhOY69i6WmyLVfm0b53lxXiUGoSZPXyC5KRzgIWkxHGP4PI4kX52
-         o0PA==
-X-Forwarded-Encrypted: i=1; AJvYcCWw5lV2SJLmE0X/1xBRPRGU8ycd1I9BLj4DB3ptEUlLvjIhqp8Z9xQWe0/W3HdzuKJca4Ab5yhemDw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfK0OWREBilc93UU8SQeaFdz9im9H8qEKIfbwzNPQb0eFjzx3r
-	7GtJQ0mYHSxFlGKXAVml412OsYJwK+d/j7kByoc18Emrr0E4d+th/RBX
-X-Gm-Gg: AY/fxX4rKZ/kOqK/mUtPcthJM4FIvVDR/1mPqvqcA/B19TBSZQ0Shx2yaCn8gUm5nj+
-	73UZ/bfvzsRfNhy1zCc/A/8m1/zK5k7VZwxt+MDiTTaIgUjpw1dEHOGP1+YhHpBzI/5ua9gwbjn
-	e8JrrRNEg+USNBPQ0uIdzVcntDXzuSq3w8FWbL7aOJe23djXkgbyuKNcEmEqDOcSal3DRP1TjsG
-	FL2SqOSkOT9JbiHc/Jr4zZuy9ARRMGmHngPOr3jd4pS7IPCO6H6ppadY1LlRdQj5f7YOx48anJE
-	erZueYzB82oOPRFk5GwryqeFwt4Qj5Ty1B3GyoDUthZS92f1qoi3y9hr0u9pWLpgR931Ag4S82B
-	+SpzqFWuSY7VzbrBfkKr8SoezcOi7QBPALDkRxDRIpKIHl+2gN+jK2z/IG3vpPfFyzUHtuMjaYp
-	RBHFKToKXO57QI83I=
-X-Google-Smtp-Source: AGHT+IHTvz1Je3JayvbprZONkEuGoye7ddyIvvyBYEi4WT32a73ymDQLhohQBmrkRjpi5o5aSJm9iw==
-X-Received: by 2002:a05:6000:2504:b0:432:aa5a:3916 with SMTP id ffacd0b85a97d-432c37950b7mr3983445f8f.40.1767799133334;
-        Wed, 07 Jan 2026 07:18:53 -0800 (PST)
+        bh=hpUPZ5RhmCpDT+jo0BaREdmS2zyMNKBTJDPDa+mSTNU=;
+        b=OuWG72PiyCWCw4gTkf1jNzIw07mHeeEtIXySIRcPEjOCScfYWkJR2stwyYT5Z6QkKV
+         ChlPPCgx0OP4nTdDNdjnjYJBtSE7fX6Dd2vq5nzof9ksgQFWeuHJjUOx393UIGxC0/SD
+         3lh/dn2hAbqAHPTD5G8lDFcRhnMEB+Ft9tq94MXtnRyaipY3WPSLJARABG85z18UEX1a
+         W+kDIMmL5qBdbECok+ug2uxMvEHB3ZrX7QWlZdyWWODp2c1tW56/g3DFpMQi2ypJF9hl
+         BbUZbOQwOeEWijRcKJtymft8b+rdd0ggiW4kMiE05HfQde2pnEWLjExYkRMEAF/LJe5v
+         UwYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBYrsnlrEL1GzwET/rH6ntYN5hGoDFET+UldO+Vz3jHUabVZ3E0ch5+hGk0l/twa8kEM2kIz/T9Ns=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGr0ORMsiPA8yUh2wTLUeOGnMkYrgfjJvioIilmIvNq8CiZR4M
+	MLcb3s4gZenVAY5s+cyxRltyqQcd4YsEI172vJqoa4MkF8+thFJWI0dU
+X-Gm-Gg: AY/fxX7Q1E5qGEY9mPZQ15XWDmmi0boJXww+VsWV9aFLR6NOpJ8qoCMY/9XZqGXG/XB
+	iqLdSLzyFqCowpty43zLciy0kBQNYOcJ28DcI+kY6HjQe5w6gvZQVWjVRgTA46lYpSYafv2t46b
+	eqUWU8hgCD/YD552D2gGBVjLP+sTsw1X4wxZv3qkCk6inwLZG3n7R7+nZmqsph37WdwrquDxivz
+	q3EJknIMgO3ShSH/nLJwHMmYb42BpkwdjkydQJOcvZEYdDgse8e3rLeYMevPM1kHhuDyMVG8DXR
+	grKIUAvbcnvIi5OXa+ytGHDAUh8PY3P3LHP+yfYpCtx2389SfTfSmXMr/DSoHJcIe8sxNrGdJNC
+	c62n6wsySN8z0d5mcK6SUEdAp9JvHyuBzf0Gci7KYyuRUsUFWxm/LRx/quD+EfJXQ5vdvdb5DnX
+	tD9IFwOvY4UQFxGT8=
+X-Google-Smtp-Source: AGHT+IFN3tHCepgfCw11GoExlGSkTzE8/w3l0cvAFbX3GwK84QP3RK+c6Ndkf0qCwv1hl4a7XEeZvA==
+X-Received: by 2002:a05:600c:46c4:b0:47d:403e:4eaf with SMTP id 5b1f17b1804b1-47d84b18ef7mr37281035e9.10.1767799260961;
+        Wed, 07 Jan 2026 07:21:00 -0800 (PST)
 Received: from [172.24.138.145] ([137.71.226.102])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e199bsm10937637f8f.16.2026.01.07.07.18.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8636e588sm17062955e9.0.2026.01.07.07.20.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jan 2026 07:18:52 -0800 (PST)
-Message-ID: <2b675aed-eef0-462c-b412-5cc8cd91e864@gmail.com>
-Date: Wed, 7 Jan 2026 16:18:49 +0100
+        Wed, 07 Jan 2026 07:21:00 -0800 (PST)
+Message-ID: <05379c1e-9114-494e-b7c7-c95243049197@gmail.com>
+Date: Wed, 7 Jan 2026 16:20:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: iio: dac: Add max22007
+Subject: Re: [PATCH 2/3] docs: iio: Add documentation for MAX22007 driver
 To: Jonathan Cameron <jonathan.cameron@huawei.com>,
  Janani Sunil <janani.sunil@analog.com>
 Cc: Lars-Peter Clausen <lars@metafoo.de>,
@@ -82,159 +82,236 @@ Cc: Lars-Peter Clausen <lars@metafoo.de>,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  jan.sun97@gmail.com, gastmaier@gmail.com
 References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
- <20251219-max22007-dev-v1-1-242da2c2b868@analog.com>
- <20251219164002.00004c74@huawei.com>
+ <20251219-max22007-dev-v1-2-242da2c2b868@analog.com>
+ <20251219164751.000071a1@huawei.com>
 Content-Language: en-US
 From: Janani Sunil <jan.sun97@gmail.com>
-In-Reply-To: <20251219164002.00004c74@huawei.com>
+In-Reply-To: <20251219164751.000071a1@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 Hi Johnathan,
 
-Thank you for your reviewing the patch.
+Thank you for getting back to me.
 
-On 12/19/25 17:40, Jonathan Cameron wrote:
-> On Fri, 19 Dec 2025 16:31:15 +0100
+On 12/19/25 17:47, Jonathan Cameron wrote:
+> On Fri, 19 Dec 2025 16:31:16 +0100
 > Janani Sunil <janani.sunil@analog.com> wrote:
 >
-> Hi Janani and welcome to IIO.
->
->
->> Devicetree bindings for MAX22007 4-channel
->> 12-bit DAC that drives a voltage or current
->> output on each channel
-> This is a very short wrap. Aim for 75 characters in patch description lines
-> (so slightly shorter than 80 chars standard for everything else).
-
-Noted your point. Will update the message.
-
->> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
->> ---
->>   .../devicetree/bindings/iio/dac/adi,max22007.yaml  | 116 +++++++++++++++++++++
->>   MAINTAINERS                                        |   7 ++
->>   2 files changed, 123 insertions(+)
+>> Add documentation for MAX22007 driver which describes how the user
+>> can access the driver using dtoverlays
 >>
->> diff --git a/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+>> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> Hi Janani,
+>
+> We've recently had a few comments on whether driver specific docs add value
+> (for particular drivers, sometimes they definitely do!).  From what I'm
+> seeing here, I'm not thinking this one needs a document.  Not most drivers
+> don't have such a file because they make use of standard ABI that is well
+> documented.  DT stuff always belongs in the dt-binding rather than these
+> files.  With both those elements gone there isn't much value to this file.
+> So I'd drop it.  We can easily add a file if something complex shows up
+> in later patches, that justifies this.
+>
+> Thanks,
+>
+> Jonathan
+
+
+I agree that this driver does not need a specific document. Will drop it.
+
+>
+>> ---
+>>   Documentation/iio/index.rst    |   1 +
+>>   Documentation/iio/max22007.rst | 145 +++++++++++++++++++++++++++++++++++++++++
+>>   MAINTAINERS                    |   1 +
+>>   3 files changed, 147 insertions(+)
+>>
+>> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+>> index 315ae37d6fd4..7601bc2882e7 100644
+>> --- a/Documentation/iio/index.rst
+>> +++ b/Documentation/iio/index.rst
+>> @@ -37,4 +37,5 @@ Industrial I/O Kernel Drivers
+>>      adxl345
+>>      bno055
+>>      ep93xx_adc
+>> +   max22007
+>>      opt4060
+>> diff --git a/Documentation/iio/max22007.rst b/Documentation/iio/max22007.rst
 >> new file mode 100644
->> index 000000000000..c2f65d9e42d4
+>> index 000000000000..e04c563f1fd0
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
-> ...
->
->> +  vdd-supply:
->> +    description: Low-Voltage Power Supply from +2.7V to +5.5V.
+>> +++ b/Documentation/iio/max22007.rst
+>> @@ -0,0 +1,145 @@
+>> +.. SPDX-License-Identifier: GPL-2.0-only
 >> +
->> +  hvdd-supply:
->> +    description:
->> +      Positive High-Voltage Power Supply from +8V to (HVSS +24V) for
->> +      the Output Channels.
+>> +===============
+>> +MAX22007 driver
+>> +===============
 >> +
->> +  hvss-supply:
->> +    description:
->> +      Negative High-Voltage Power Supply from -2V to 0V for the Output Channels.
+>> +Device driver for Analog Devices Inc. MAX22007 quad-channel industrial DAC.
+>> +The module name is ``max22007``.
 >> +
->> +  reset-gpios:
->> +    maxItems: 1
->> +    description:
->> +      GPIO used for hardware reset of the device.
+>> +Supported devices
+>> +=================
 >> +
->> +patternProperties:
->> +  "^channel@[0-3]$":
->> +    allOf:
->> +      - $ref: /schemas/iio/dac/dac.yaml#
->> +      - type: object
->> +        description:
->> +          Represents the external channels which are connected to the DAC.
->> +          Channels not specified in the device tree will be powered off.
+>> +* `MAX22007 <https://www.analog.com/en/products/max22007.html>`_
 >> +
->> +        properties:
->> +          reg:
->> +            description: Channel number
->> +            maxItems: 1
-> min / max?
-
-Shall add the values.
-
+>> +Wiring connections
+>> +==================
+>> +
+>> +The MAX22007 uses a standard SPI interface.
+> I'd not bother with this section.  Most SPI devices after all use
+> the standard interface, so we can document this by not documenting anything
+> else :)
 >
 >> +
->> +          adi,type:
->> +            description: Channel output type.
->> +            $ref: /schemas/types.yaml#/definitions/string
->> +            enum: [voltage, current]
-> This is much more constrained (as only two types of channel) but we do have
-> precedence for adi,ch-func in adi,ad74115.yaml and adi,ad74413r.yaml
->
-> That's not a particularly pretty binding but we should probably stick to
-> it anyway.
->
-> adi,type is too vague a name for this property anyway.
-
-Agreed. adi,ch-func seems to be a best fit here. Shall reuse it.
-
+>> +Device Tree Configuration
+>> +=========================
+> Anything here should be in the dt-binding. As such this section isn't useful.
 >
 >> +
->> +        required:
->> +          - reg
->> +          - adi,type
+>> +The device supports both global and per-channel configuration through device tree.
 >> +
->> +        unevaluatedProperties: false
+>> +Global Properties:
 >> +
->> +required:
->> +  - compatible
-> For supplies we document as required any that are needed for the device
-> to function, whether or not we happen to need to specify them on
-> a given board (given fallbacks that apply on assumption that fixes
-> always on supplies are in use).  So I'd expect to see at least some
-> of the supplies listed here.
-
-Noted. I shall update the required power supplies.
-
->> +  - reg
+>> +* ``reset-gpios``: GPIO pin for hardware reset (optional, falls back to
+>> +  software reset if not specified)
+>> +* ``vdd-supply``: Low-Voltage Power Supply from +2.7V to +5.5V (optional)
+>> +* ``hvdd-supply``: Positive High-Voltage Power Supply from +8V to (HVSS +24V)
+>> +  for the Output Channels (optional)
+>> +* ``hvss-supply``: Negative High-Voltage Power Supply from -2V to 0V for the
+>> +  Output Channels (optional)
 >> +
->> +anyOf:
->> +  - required: [channel@0]
->> +  - required: [channel@1]
->> +  - required: [channel@2]
->> +  - required: [channel@3]
-> Interesting. I'm not sure we have never bothered to document this before and there
-> are other devices for which some sort of channel config is pretty much needed.
-> What is the justification to have this explicitly listed here?
-
-There is no need for the channels to be explicitly mentioned here. I Shall drop them.
-
+>> +Per-channel properties:
+>> +
+>> +* ``adi,type``: Specify the channel output type - must be either "voltage" or "current" (mandatory)
+>> +
+>> +Note: The driver operates in transparent mode (immediate register-to-output updates).
+>> +Channel mode is determined by the ``adi,type`` property:
+>> +
+>> +* ``adi,type = "current"``: the channel operates in current mode
+>> +* ``adi,type = "voltage"``: the channel operates in voltage mode
+>> +
+>> +Device attributes
+>> +=================
+>> +
+>> +The MAX22007 driver provides IIO DAC interfaces that vary based on the
+>> +configured channel mode. Each channel appears as a separate IIO device
+>> +attribute:
+>> +
+>> +* ``out_voltage_raw`` (voltage mode channels)
+>> +* ``out_current_raw`` (current mode channels)
+>> +* ``out_voltage_scale`` / ``out_current_scale`` (channel scaling factors)
+>> +* ``out_voltage_powerdown`` / ``out_current_powerdown`` (channel power control)
+>> +
+>> +The driver automatically configures the IIO channel type based on the configured
+>> +channel mode from device tree.
+> This bit feels very standard and so not in need of extra documentation.
 >
 >> +
->> +unevaluatedProperties: false
+>> +Power Mode Control
+>> +==================
 >> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +    spi {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
+>> +Each channel provides standard IIO ``powerdown`` attributes for runtime power
+>> +control:
 >> +
->> +        dac@0 {
->> +            compatible = "adi,max22007";
->> +            reg = <0>;
->> +            spi-max-frequency = <500000>;
->> +            reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>;
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
+>> +* Write ``1`` to power down (disable) the channel output
+>> +* Write ``0`` to power up (enable) the channel output
+>> +* Read the attribute to get the current power state (1=powered down, 0=powered up)
 >> +
->> +            channel@0 {
->> +                reg = <0>;
->> +                adi,type = "voltage";
->> +            };
+>> +This allows individual channels to be powered on/off independently for power
+>> +management and safety purposes.
+> Likewise, this is very standard.
+>
 >> +
->> +            channel@1 {
->> +                reg = <1>;
->> +                adi,type = "current";
->> +            };
->> +        };
->> +    };
->> +...
-
-Thank you,
-Janani Sunil
-
+>> +Usage Examples
+>> +==============
+>> +
+>> +Setting DAC output values:
+>> +
+>> +.. code-block:: bash
+>> +
+>> +   # Set channel 0 (voltage mode) to raw value 655 (≈2V)
+>> +   # Output is updated immediately in transparent mode
+>> +   echo 655 > /sys/bus/iio/devices/iio:deviceX/out_voltage0_raw
+>> +
+>> +   # Set channel 1 (current mode)
+>> +   # Output is updated immediately in transparent mode
+>> +   echo 1024 > /sys/bus/iio/devices/iio:deviceX/out_current1_raw
+>> +
+>> +Controlling channel power modes:
+>> +
+>> +.. code-block:: bash
+>> +
+>> +   # Enable channel 0 (power up)
+>> +   echo 0 > /sys/bus/iio/devices/iio:deviceX/out_voltage0_powerdown
+>> +
+>> +   # Disable channel 1 (power down)
+>> +   echo 1 > /sys/bus/iio/devices/iio:deviceX/out_current1_powerdown
+>> +
+>> +   # Check current power state (0=powered up, 1=powered down)
+>> +   cat /sys/bus/iio/devices/iio:deviceX/out_voltage0_powerdown
+>> +
+>> +Reading channel values and scale factors:
+>> +
+>> +.. code-block:: bash
+>> +
+>> +   # Read raw DAC value
+>> +   cat /sys/bus/iio/devices/iio:deviceX/out_voltage0_raw
+>> +
+>> +   # Read scale factor (volts per LSB)
+>> +   cat /sys/bus/iio/devices/iio:deviceX/out_voltage0_scale
+>> +
+>> +Check available channels:
+>> +
+>> +.. code-block:: bash
+>> +
+>> +   ls /sys/bus/iio/devices/iio:deviceX/out_*_raw
+>> +
+>> +Scale Calculations
+>> +==================
+>> +
+>> +The driver provides accurate scale factors based on the hardware configuration:
+> This information doesn't need to be provided explicitly.  Anyone who
+> wonders in detail about it can check the driver. For most users the fact
+> it obeys the standard ABI rules is eough.
+>
+>> +
+>> +**Voltage Mode:**
+>> +
+>> +- Scale = (5 × 2.5V) / 4096 = 0.003051757 V per LSB
+>> +- Range: 0V to 12.5V over 12-bit (0-4095)
+>> +- Formula: Output = Raw_Value × Scale
+>> +
+>> +**Current Mode:**
+>> +
+>> +- Scale = (2.5V / (2 × 50Ω)) / 4096 = 0.000006103515625 A per LSB
+>> +- Range: 0A to 0.025A over 12-bit (0-4095)
+>> +- Formula: Output = Raw_Value × Scale
+>> +
+>> +Driver Architecture
+>> +===================
+>> +
+>> +The driver implements:
+>> +
+>> +* **CRC8 Error Checking**: Always-enabled CRC8 for SPI data integrity
+>> +* **Channel Configuration**: Supports per-channel mode and power configuration
+>> +
+>> +Channel configuration (voltage/current mode) is set via the ``adi,type``
+>> +device tree property and cannot be changed dynamically The driver requires
+>> +proper device tree configuration with mandatory ``adi,type`` property for each
+>> +channel.
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index e1addbd21562..6561455732c9 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1599,6 +1599,7 @@ L:	linux-iio@vger.kernel.org
+>>   S:	Supported
+>>   W:	https://ez.analog.com/linux-software-drivers
+>>   F:	Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
+>> +F:	Documentation/iio/max22007.rst
+>>   
+>>   ANALOG DEVICES INC ADA4250 DRIVER
+>>   M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+>>
