@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62531346A01;
-	Wed,  7 Jan 2026 16:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82722318BAC;
+	Wed,  7 Jan 2026 16:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767804397; cv=none; b=Dk6UBXVlUPT5zYcBu5jxHyZmvIXngwIIC9tUHbfEiMJtDIiTwHqU6Y2SfGbYtClunadLv1wctoUwPMbHMChZuNkp+iFFTedElpy3Yx8Z52mYpeSAU5AAyq9cW8z3PbEvO7Y4dO2E10vrHVQ+6QuidArHYU0QcsocuJiBHsBXbxg=
+	t=1767804486; cv=none; b=c1hRxmzF70ZH8Q/Givp74loomkRJBAo4PgOOfPkzFlKIe1N56TmaCYGsvcTm4nKqAwd+sP7lBfge8bj4EmKS3kmUQ6M4lBtm2wvmE4pHhMme9CXTLC2FBBuUe2KUVGkUq+8vkp4dBihqPfJ5ixwy03YdVUkydyON4Enyo9MdzlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767804397; c=relaxed/simple;
-	bh=/SBqPx/EU0Ra0r1lSHOAFbtaicp7N+NevaXS9/9ljWY=;
+	s=arc-20240116; t=1767804486; c=relaxed/simple;
+	bh=R+jObw9Ox70Dq8WHfiWCcksE/tLAA1Sp8EEL38R4IM4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E0t1NwsGMlxx3s+9MjmgEub6ykpsuF1yMY5YnFpPFkmdpyfMMQuf4CadTfdLIq1S/a1hbZzAPAfHx8+UsiCnGE8/ixpqlgrTWOYyNrIH2elAb1jVrMsPYkqEuQPb/RiDNwYwrx+6fLugjq4LrnqMhMXD9aPy+979eYplSv4/4Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU0dLCEP; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=gYyu8hALjnZZvfarqierwBwOMuSYpR5ygZSQrN6MstLDAe9vudnw6xyFzstUnp5VSh2ggIKgfOeESboyNC2wuvDMOaQs3xUSqK55jcU2iJ2cEvHf2uYXMKgmIZ5woj5pCBZDZYrHGwy3zK3TOl4jrKz77s++cyrOT+nqhez/BKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pon5pvz4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU0dLCEP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF57C4CEF1;
-	Wed,  7 Jan 2026 16:46:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pon5pvz4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68347C4CEF1;
+	Wed,  7 Jan 2026 16:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767804396;
-	bh=/SBqPx/EU0Ra0r1lSHOAFbtaicp7N+NevaXS9/9ljWY=;
+	s=k20201202; t=1767804483;
+	bh=R+jObw9Ox70Dq8WHfiWCcksE/tLAA1Sp8EEL38R4IM4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IU0dLCEPHd1+6jawwi7Fj3rHd7vW85ypZBAOnMqE/0POs39BCwIAbTYJTysYuvDue
-	 AdXgdGTptCWecugylfGlJQwzAYC+GAvWer09E0Fk6VksqsGQG3JFqfXVYtI/04qlW0
-	 kLdPZC1qKh2qJvmZ2rdyAF1H+cRdnFscmUnFtIe01e56EDHViefBupYBhnBrmmkM43
-	 MFd8ahXv0jA8cycTcmonUJ+3Tyo4Rs+/8FUJm/rg8dg3ehSXciHBA4bJmVfVbH4+qQ
-	 fLMjWoJ3iEje+GlPxhBd8Fh3J77XkpzM+MwgNd8T2Ak0yOmy6XSzJon3OHW9LmGFEe
-	 6KbkGVV0EfvjQ==
-Message-ID: <8a1a9ebf-a3ed-4077-aa07-48cc98e071f9@kernel.org>
-Date: Wed, 7 Jan 2026 17:46:28 +0100
+	b=Pon5pvz461EEgMjJksH+qX/xyaIvyW3mKIvRrcr7l1NUqnDzXfYyDjhqC9VGlQlqa
+	 +UIiwJYIaOb0aFlcyc9tfveMFhhGUuhqJGJwoKKs96Oc8OpFMnejCGm4C9kuX+xnuz
+	 vjb1XyzD0n5PCxNyjzDsnKUjcGH2XDX/aSK9HL8UG4O8SX2eSD6bKzBTdccYA9wWJi
+	 wfeiRwfVxULdJnywBfQX7ojN8KJa3P+t5/+KK7HVU4qOdt+jKp3YBSogeIzUI94jcj
+	 0NT8/zy8f1k5DZ3cD5W4bOxv9awyKRhhix3iMYy10CW96BL/NzOYHitsNymd8GmuQW
+	 +2KwdWq0UtwYw==
+Message-ID: <35100734-e2ea-459e-9b47-5cc62aa99b38@kernel.org>
+Date: Wed, 7 Jan 2026 17:47:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: Add Bao IPC shared memory driver binding
+Subject: Re: [PATCH 3/6] dt-bindings: Add Bao I/O dispatcher driver binding
 To: joaopeixoto@osyx.tech, linux-kernel@vger.kernel.org
 Cc: ajd@linux.ibm.com, alex@ghiti.fr, aou@eecs.berkeley.edu,
  bagasdotme@gmail.com, catalin.marinas@arm.com, conor+dt@kernel.org,
@@ -50,7 +50,7 @@ Cc: ajd@linux.ibm.com, alex@ghiti.fr, aou@eecs.berkeley.edu,
  will@kernel.org
 References: <20251224135217.25350-1-joaopeixoto@osyx.tech>
  <20260107162829.416885-1-joaopeixoto@osyx.tech>
- <20260107162829.416885-2-joaopeixoto@osyx.tech>
+ <20260107162829.416885-4-joaopeixoto@osyx.tech>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,179 +96,42 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260107162829.416885-2-joaopeixoto@osyx.tech>
+In-Reply-To: <20260107162829.416885-4-joaopeixoto@osyx.tech>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 07/01/2026 17:28, joaopeixoto@osyx.tech wrote:
 > From: João Peixoto <joaopeixoto@osyx.tech>
 > 
-> This patch introduces a device tree binding for the Bao IPC Shared Memory
-> device, which enables communication between Bao hypervisor guests through
-> dedicated shared-memory regions.
+> This patch introduces a device tree binding for the Bao I/O Dispatcher,
+> a device used in backend VMs running virtualized devices (e.g., VirtIO).
 > 
 > Signed-off-by: João Peixoto <joaopeixoto@osyx.tech>
-
-Respond to feedback instead of ignoring it. I don't see any changelog
-either.
-
-Last posting was LLM junk so I will not spend much time on this.
-
-A nit, subject: drop second/last, redundant "binding". The "dt-bindings"
-prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets. See also:
-https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
-
-
 > ---
->  .../devicetree/bindings/bao/bao,ipcshmem.yaml | 82 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  2 files changed, 84 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
+>  .../bindings/bao/bao,io-dispatcher.yaml       | 75 +++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml b/Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
+> diff --git a/Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml b/Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
 > new file mode 100644
-> index 000000000000..fa91800db99a
+> index 000000000000..8ca450e4b9d5
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/bao/bao,ipcshmem.yaml
-> @@ -0,0 +1,82 @@
+> +++ b/Documentation/devicetree/bindings/bao/bao,io-dispatcher.yaml
+> @@ -0,0 +1,75 @@
 > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/bao/bao,ipcshmem.yaml#
+> +$id: http://devicetree.org/schemas/bao/bao,io-dispatcher.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Bao IPC Shared Memory Device
+> +title: Bao I/O Dispatcher Device
 
-Nothing here is suitable for bindings, really. Simplified node for
-establishing channel of communication to hypervisor would be allowed.
-But multiple devices for that? No point. Develop proper interface with
-your hypervisor for all this.
+No, you don't get multiple devices per every driver.
 
-> +
-> +maintainers:
-> +  - José Martins <jose@osyx.tech>
-> +  - David Cerdeira <davidmcerdeira@osyx.tech>
-> +  - João Peixoto <joaopeixoto@osyx.tech>
-> +
-> +description: |
-> +  Shared memory based communication device for Bao hypervisor guests.
-> +
-> +  The device describes a set of shared-memory regions used for
-> +  communication between Bao guests. Each guest instantiating this
-> +  device uses one region for reading data produced by a peer guest
-> +  and another region for writing data consumed by that peer.
-> +
-> +properties:
-> +  compatible:
-> +    const: bao,ipcshmem
-> +
-> +  reg:
-> +    description:
-> +      Shared memory region used for IPC.
-> +    minItems: 2
-> +    maxItems: 2
-
-Look at other bindings.
-
-> +
-> +  read-channel:
-> +    description: |
-> +      Shared-memory sub-region that this guest reads from.
-> +
-> +      This region is written by the peer Bao guest and read by the
-> +      guest instantiating this device.
-> +
-> +      Consists of two cells:
-> +        - offset into the shared-memory region defined by `reg`
-> +        - size in bytes
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    maxItems: 2
-
-Drop property, reg defines it.
-
-> +
-> +  write-channel:
-
-Drop property, reg defines it.
-
-
-> +    description: |
-> +      Shared-memory sub-region that this guest writes to.
-> +
-> +      This region is written by the guest instantiating this device and
-> +      read by the peer Bao guest.
-> +
-> +      Consists of two cells:
-> +        - offset into the shared-memory region defined by `reg`
-> +        - size in bytes
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    maxItems: 2
-
-
-> +
-> +  id:
-> +    description:
-> +      Driver instance ID.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-
-NAK, not allowed. Read writing bindings.
-
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - read-channel
-> +  - write-channel
-> +  - id
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    bao-ipc@f0000000 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-If you cannot find a name matching your device, please check in kernel
-sources for similar cases or you can grow the spec (via pull request to
-DT spec repo).
-
-> +        compatible = "bao,ipcshmem";
-> +        reg = <0x0 0xf0000000 0x0 0x00010000>;
-> +        read-channel = <0x0 0x2000>;
-> +        write-channel = <0x2000 0x2000>;
-> +        id = <0>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index c7591b2aec2a..c047fbd6b91a 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -223,6 +223,8 @@ patternProperties:
->      description: Shenzhen AZW Technology Co., Ltd.
->    "^baikal,.*":
->      description: BAIKAL ELECTRONICS, JSC
-> +  "^bao,.*":
-> +    description: Bao Hypervisor
-
-Vendor prefixes are for companies. What is the company here? What is
-stock ticker or website?
-
-
->    "^bananapi,.*":
->      description: BIPAI KEJI LIMITED
->    "^beacon,.*":
-
+Look at gunyah or Mediatek Genio. Come back when you solve ENTIRE
+FEEDBACK given to them first. And then say how you solved that feedback
+because so far I see you only ignoring review of your LLM slop or other
+Microslop product.
 
 Best regards,
 Krzysztof
