@@ -1,25 +1,37 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B1C33BBB8;
-	Wed,  7 Jan 2026 17:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05785369970;
+	Wed,  7 Jan 2026 18:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767808554; cv=none; b=ch8V0N178Rbgg6LMF8DhO6e9C3a+UZckxxBq+GO9MLuu6bHAqXACGszAzY9KWFjzBKbvFaRTEzRwXMkoZ43KokBUE+rxzvck3vd0u/XRRWWarlU4jxnPx7oDZnNaGWlLqCiWq/Z8GEoVbGw/eapgI6FC6HLk20jPu7QQIGmjxUM=
+	t=1767809979; cv=none; b=KZVdzNy5duWQgMQho44wZwG0d1Tr6ID82MuqzFly04yFF9+jswL9gLcsRk2onr07Xe+atwZzz9eBRcxAVmXGRmsLSO/EYDs47VYyN+fAJunRaQUdhCBtk3oLUwnB4MZDUugURU8Bu5hphc2QvdqEAeLJMnFygMx/8Un5k55wiIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767808554; c=relaxed/simple;
-	bh=1lRn2piInez3ev2oqRjOMUDIpyzbE0FPizQmQSR2JQY=;
+	s=arc-20240116; t=1767809979; c=relaxed/simple;
+	bh=jsDx8MiquD+czz2s9Ms/jVpvTx9vge38UMcQ1jMaUpo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ElIVBdrhrcLaQuRNJLlrWCiTFQ45cfEZ70i0QesoW88PV4M+gCvpSphLc9iV2ilsOR8ZdkoN/oy1yyzcanGUjUW6GrdeOkT1CXakFSmjckM5WVqUdNg9/5eoOOlovCRPgQXws9XxllVmHwMtE5Dq8glyUVuD1IQEuo+YQi6mgws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F046497;
-	Wed,  7 Jan 2026 09:55:38 -0800 (PST)
-Received: from [10.57.48.49] (unknown [10.57.48.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A1A763F5A1;
-	Wed,  7 Jan 2026 09:55:42 -0800 (PST)
-Message-ID: <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
-Date: Wed, 7 Jan 2026 17:55:40 +0000
+	 In-Reply-To:Content-Type; b=Q/So1dtjWiAt0HnHxCqFCsAhEStoPxojdUhUFBfYYXqW5whUe39lnLFxMauks837y+EYumAC+vArV0Bc0H2IkvoTC++recZFdAdarM0raaOWo1aB3894lfv/08ByBpeQYcGHCBN180Zf4M9N2DNlE1POHvLklKEMO9sTPxY+IU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jg+H/rb9; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jg+H/rb9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5b3y/tAAigWUAZJfVkbOPKY0nxREoUvePJBzTo29VXE=; b=jg+H/rb9ud+QXrcToBlog3mXq5
+	zhP4xbwTPDEx2b3ePgMs08abmBL9A3mtdPmVwiQj/B8nax+mXiQ9p4V8/Jegv0RjXEOQtbiVPdtZi
+	cXgEjMK0fAh21NyzM/dhgktjvgHB61qLmHs0c8aTSJrb86RklcRZo/fMckk4A9V/UL+ZJ6IZlWsw8
+	NYyB4wZEtLiOHnPocJHQFa558ko0O3aIk0sCxzaP8ImIEKEZEtk+zUR+yPJ7Pn89QyWemJNV57QzQ
+	Iqjhbk59eSG48s8BIVsWSIwDf26r9FK1YmWbwF3cURmmkTh8sGf8s/nezSahl7PDQsu9ouQxvDq78
+	fcdoPj/g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vdY86-0000000FTMY-1NIT;
+	Wed, 07 Jan 2026 18:19:34 +0000
+Message-ID: <966fffa3-a91b-425e-b915-891299832e36@infradead.org>
+Date: Wed, 7 Jan 2026 10:19:32 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,119 +39,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
- coherency issue
-To: Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Cc: Lucas Wei <lucaswei@google.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- sjadavani@google.com, kernel test robot <lkp@intel.com>,
- stable@vger.kernel.org, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, smostafa@google.com
-References: <20251229033621.996546-1-lucaswei@google.com>
- <87o6ndduye.wl-maz@kernel.org> <aV6K7QnUa7jDpKw-@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <aV6K7QnUa7jDpKw-@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [REGRESSION] Unexpected section title false positive warnings on
+ DOC: directive
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <aUuLHzk5jdyBAxD7@archie.me> <87ikdecsj0.fsf@trenco.lwn.net>
+ <aV5a6PCVrkRHwqt3@archie.me>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <aV5a6PCVrkRHwqt3@archie.me>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2026-01-07 4:33 pm, Will Deacon wrote:
-> Hey Marc,
-> 
-> On Thu, Jan 01, 2026 at 06:55:05PM +0000, Marc Zyngier wrote:
->> On Mon, 29 Dec 2025 03:36:19 +0000,
->> Lucas Wei <lucaswei@google.com> wrote:
->>> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
->>> index 8cb3b575a031..5c0ab6bfd44a 100644
->>> --- a/arch/arm64/kernel/cpu_errata.c
->>> +++ b/arch/arm64/kernel/cpu_errata.c
->>> @@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
->>>   	return (ctr_real != sys) && (ctr_raw != sys);
->>>   }
->>>   
->>> +#ifdef CONFIG_ARM64_ERRATUM_4311569
->>> +static DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
->>> +static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
->>> +{
->>> +	static_branch_enable(&arm_si_l1_workaround_4311569);
->>> +	pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
->>> +
->>> +	return 0;
->>> +}
->>> +early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
->>> +
->>> +/*
->>> + * We have some earlier use cases to call cache maintenance operation functions, for example,
->>> + * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
->>> + * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
->>> + * safe to have the workaround off by default.
->>> + */
->>> +static bool
->>> +need_arm_si_l1_workaround_4311569(const struct arm64_cpu_capabilities *entry, int scope)
->>> +{
->>> +	return static_branch_unlikely(&arm_si_l1_workaround_4311569);
->>> +}
->>> +#endif
+
+
+On 1/7/26 5:08 AM, Bagas Sanjaya wrote:
+> On Tue, Jan 06, 2026 at 02:58:43PM -0700, Jonathan Corbet wrote:
+>> Bagas Sanjaya <bagasdotme@gmail.com> writes:
 >>
->> But this isn't a detection mechanism. That's relying on the user
->> knowing they are dealing with broken hardware. How do they find out?
+>>> Hi,
+>>>
+>>> Building htmldocs on docs-next currenly produces about 50 new warnings; which
+>>> all of them are unexpected section title on DOC: kernel-doc directive, like:
+>>>
+>>> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: CRITICAL: Unexpected section title.
+>>>
+>>> Userspace I/O
+>>> ------------- [docutils]
+>>> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Userspace I/O' ./drivers/target/target_core_user.c' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected section title.\n\nUserspace I/O\n-------------')
+>>> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
+>>
+>> So I did not, and do not, see any of these errors; are you doing
+>> something special to get them?
 > 
-> Sadly, I'm not aware of a mechanism to detect this reliably at runtime
-> but adding Robin in case he knows of one. Linux generally doesn't need
-> to worry about the SLC, so we'd have to add something to DT to detect
-> it and even then I don't know whether it's something that is typically
-> exposed to non-secure...
+> Nope.
 > 
-> We also need the workaround to be up early enough that drivers don't
-> run into issues, so that would probably involve invasive surgery in the
-> DT parsing code.
-
-Indeed even if we did happen to know where the interconnect registers 
-are, I'm not sure there's any ID bit for the relevant configuration 
-option, plus that still wouldn't be accurate anyway - it's fine to have 
-a downstream cache/PoS *without* any back-door observers, so the actual 
-problematic condition we need to detect is outside the SI IP altogether. 
-It's a matter of SoC-level integration, so AFAICS the realistic options 
-are likely to be:
-
-  - SMCCC SOC_ID (if available early enough)
-  - Match a top-level SoC/platform compatible out of the flat DT
-  - Just trust that affected platforms' bootloaders will know to add the 
-command-line option :/
-
->> You don't even call out what platform is actually affected...
+> I'm running my htmldocs builds on my Arch Linux system (with Sphinx 9.0.4 and
+> Python 3.13.11).
 > 
-> Well, it's an Android phone :)
+> Full log (tarred up) attached.
 > 
-> More generally, it's going to be anything with an Arm "SI L1" configured
-> to work with non-coherent DMA agents below it. Christ knows whose bright
-> idea it was to put "L1" in the name of the thing containing the system
-> cache.
+> Thanks.
 
-I'm still thankful the Neoverse product line skipped "MMU S1" and "MMU 
-S2"...
+Hi,
+What docutils version, please?
 
->> The other elephant in the room is virtualisation: how does a guest
->> performing CMOs deals with this? How does it discover the that the
->> host is broken? I also don't see any attempt to make KVM handle the
->> erratum on behalf of the guest...
-> 
-> A guest shouldn't have to worry about the problem, as it only affects
-> clean to PoC for non-coherent DMA agents that reside downstream of the
-> SLC in the interconnect. Since VFIO doesn't permit assigning
-> non-coherent devices to a guest, guests shouldn't ever need to push
-> writes that far (and FWB would cause bigger problems if that was
-> something we wanted to support)
-> 
-> +Mostafa to keep me honest on the VFIO front.
+-- 
+~Randy
 
-I don't think we actually prevent non-coherent devices being assigned, 
-we just rely on the IOMMU supporting IOMMU_CAP_CACHE_COHERENCY. Thus if 
-there's an I/O-coherent SMMU then it could end up being permitted, 
-however I would hope that either the affected devices are not behind 
-such an SMMU, or at least that if the SMMU imposes cacheable attributes 
-then that prevents traffic from taking the back-door path to RAM.
-
-Thanks,
-Robin.
