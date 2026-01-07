@@ -1,25 +1,25 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [4.193.249.245])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D32C1258CED;
-	Wed,  7 Jan 2026 03:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.193.249.245
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.168.213])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E4A921E0AF;
+	Wed,  7 Jan 2026 03:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.168.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767757171; cv=none; b=HzxGQc6+N3/OGYiB6ZOs9nhx+tPs+ZnlasbDqvevz670PZfDs3NEHKIJtXhCXBzRrwgzWemxXmWiTgxmX1Ge0dmnwummq3c/oA3fjuLMgTVQVbBSzE3/RLAHKqzNBskp25nAPsHjy5VsfVn6/loEPWM/9og1qJSPpGl+wZFoeGQ=
+	t=1767757762; cv=none; b=fU+A9KUmyty4k+hr68JvZudnKTZVKErVyYDzVgAICUSo6dwxFsstReqqVTQ9MCoxJy1QuIr171RRbC2YgxOzLuCFG0dSVWR92cnNXut33nDXAANL25MMUFazuwvn+/VDivxBrwNx6uuiNOrvmDHc5HBm63fcm99OTBzz/cT6Tvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767757171; c=relaxed/simple;
-	bh=T3DGHRP8tIK42w2uCXh/N4w9ycA+HrQcSqswev6uHIM=;
+	s=arc-20240116; t=1767757762; c=relaxed/simple;
+	bh=Of0JLBB6sAdzNSqz5ThoGF8soVR0895442s7vvwS69w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GKgxEN4oNJePG54s2j6WePFh/2RuiMhBQgi953f1UAttBMxKo3zX+en3zO83yb/jkH4aixmlaLkOXC/PLipZy0Ch+gOa5mW6+a6T8ehi6Z7FSdmG+iHHdeqFlX0lrp4wdeU0GT3RYd/xwcKMF9TPZDvqhkOTcvmd5Cdg/3oQFAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=4.193.249.245
+	 In-Reply-To:Content-Type; b=qgzivW4BjG5nvftLF/LJYssuQdoYDA5ZpKkN10Dbyv36WlkTEd8AaTuo8nFoq1Cjc8sOMkilk3osEicCAYvF6CcOPSXzGUKB5dUHYZufQxm44xNlaL3RaHDJKpbXFxC2QTZxhwIcWDRI3bVIuVVfXN7VFFoN9ql/wsa5n9z3IGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.229.168.213
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAAXyTlh1V1pmQ8tAA--.55191S2;
-	Wed, 07 Jan 2026 11:39:13 +0800 (CST)
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrABnGTqd111pmRMtAA--.41487S2;
+	Wed, 07 Jan 2026 11:48:45 +0800 (CST)
 Received: from [192.168.3.3] (unknown [115.156.217.161])
-	by gateway (Coremail) with SMTP id _____wB316pa1V1pTMElAA--.6762S2;
-	Wed, 07 Jan 2026 11:39:08 +0800 (CST)
-Message-ID: <61df6f55-3777-4d16-959f-5b813d7209dd@hust.edu.cn>
-Date: Wed, 7 Jan 2026 11:39:06 +0800
+	by gateway (Coremail) with SMTP id _____wC3jR2a111pPFdTAA--.42991S2;
+	Wed, 07 Jan 2026 11:48:42 +0800 (CST)
+Message-ID: <d58c6b3a-72fe-43d6-9725-0dab530c2ae8@hust.edu.cn>
+Date: Wed, 7 Jan 2026 11:48:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,374 +27,122 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/7] docs/zh_CN: Translate timers/highres.rst
+Subject: Re: [PATCH v3 0/7] docs/zh_CN: Add timers subsystem translation
 To: Xingqiu Xu <hilbertanjou83@gmail.com>, alexs@kernel.org,
  si.yanteng@linux.dev, corbet@lwn.net
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1767725479.git.hilbertanjou83@gmail.com>
- <cddbec3b666c0ba23cdc09d635b907ce04243ae9.1767725479.git.hilbertanjou83@gmail.com>
 From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <cddbec3b666c0ba23cdc09d635b907ce04243ae9.1767725479.git.hilbertanjou83@gmail.com>
+In-Reply-To: <cover.1767725479.git.hilbertanjou83@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAXyTlh1V1pmQ8tAA--.55191S2
+X-CM-TRANSID:HwEQrABnGTqd111pmRMtAA--.41487S2
 Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3CF1ftF1fZr4kWr4DJF4kCrg_yoW8Xw1UZo
-	Z0yFWrCw4kJa45Jwn3Xws3trWDJr47CF4xCwn7KrnIkryUur1rWwnayayfZrWfCrZ8ZF1a
-	y3WxWFW5Wa10yas3n29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUO27k0a2IF6w1UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xv
-	wVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxV
-	WUXVWUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY
-	07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI
-	0_Gr1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4U
-	JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42xK82
-	IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
-	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
-	Ja73UjIFyTuYvjxUV9N3UUUUU
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrWrWF1fGw4fGF15CryDJrb_yoW5uFy8pF
+	4jkryfK3ZrAF1akr4xKF4DJr13Ca1xG3yUJr12qwnYyrZ3tF4rtFn8tryYga9rJr1xA3W2
+	vrWrtrW5Wa1UA3DanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmYb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
+	Ja73UjIFyTuYvjxU3oqcUUUUU
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
 On 1/7/26 3:47 AM, Xingqiu Xu wrote:
-> Translate .../timers/highres.rst into Chinese.
-> Update timers/index.rst to include the translated file.
+> This patch series translates the complete timers subsystem
+> documentation into Chinese, including:
 >
-> Update translation through commit 458f69ef3665
-> ("docs: timers: convert docs to ReST and rename to *.rst")
+> - timers/index.rst: Main index with file structure
+> - timers/timekeeping.rst: Clock sources and events
+> - timers/hpet.rst: High Precision Event Timer driver
+> - timers/hrtimers.rst: High-resolution timer subsystem
+> - timers/highres.rst: High-resolution timers design notes
+> - timers/no_hz.rst: Reducing scheduling-clock ticks
+> - timers/delay_sleep_functions.rst: Delay and sleep mechanisms
 >
-> Signed-off-by: Xingqiu Xu <hilbertanjou83@gmail.com>
+> Also updates subsystem-apis.rst to include timers/index.
+
+After applying this patchset, timers/index.rst has different orders from 
+the one in English, like
+
+======
+定时器
+======
+
+.. toctree::
+     :maxdepth: 1
+
+     delay_sleep_functions
+     highres
+     hpet
+     hrtimers
+     no_hz
+     timekeeping
+
+I suggest the order in patchset can be exactly the same with the one 
+in timers/index.rst.
+
+
+Besides, after reviewing the first file - timers/highres.rst: 
+High-resolution timers design notes,
+
+I found some common issues, also found in other files.
+
 
 1) In the how-to.rst, it requires "每行长度最多不超过 40 个字符"。It means 
 40 Chinese characters.
 
-Each line in the following translation is too small. You can make it longer.
+Each line in the translation is too small. You can make it longer.
 
 2) If you use AI to translate kernel documentation, that's fine. But 
 please proofread and double check
 
 all the translation results.
 
-> ---
->   .../translations/zh_CN/timers/highres.rst     | 270 ++++++++++++++++++
->   .../translations/zh_CN/timers/index.rst       |   2 +-
->   2 files changed, 271 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/timers/highres.rst
+> All translations are based on the latest English documentation.
 >
-> diff --git a/Documentation/translations/zh_CN/timers/highres.rst b/Documentation/translations/zh_CN/timers/highres.rst
-> new file mode 100644
-> index 000000000000..64fd62e3da68
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/timers/highres.rst
-> @@ -0,0 +1,270 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/timers/highres.rst
-> +
-> +:翻译:
-> +
-> +  徐兴球 Xingqiu Xu <hilbertanjou83@gmail.com>
-> +
-> +==========================================
-> +高分辨率定时器和动态时钟刻度设计笔记
-> +==========================================
-> +
-> +可以在 OLS 2006 演讲"hrtimers 及其超越"的
-> +论文中找到更多信息。该论文是 OLS 2006 论文
-
-The first sentence is missing a subject, please change to the following 
-style:
-
-“更多相关信息可参阅 XXX”
-
-> +集第 1 卷的一部分，可以在 OLS 网站上找到：
-Change to "该论文收录于 OLS 2006 年 论文集第一卷，可在 OLS 官网网查阅："
-> +https://www.kernel.org/doc/ols/2006/ols2006v1-pages-333-346.pdf
-> +
-> +该演讲的幻灯片可从以下网址获得：
-> +http://www.cs.columbia.edu/~nahum/w6998/papers/ols2006-hrtimers-slides.pdf
-> +
-> +幻灯片包含五个图（第 2、15、18、20、22 页），
-> +说明了 Linux 时间(r)相关子系统的变化。图 #1
-
-Linux 时间(r)？If you use AI for translation, please proofread the translation results.
-
-"图 #1" change to Chinese style - "图一"
-> +（第 2 页）显示了在 hrtimers 和其他构建块合
-> +并到主线之前 Linux 时间(r)系统的设计。
-> +
-> +注意：论文和幻灯片讨论的是"时钟事件源"，而我
-> +们同时切换到了名称"时钟事件设备"。
-> +
-> +该设计包含以下基本构建块：
-> +
-> +- hrtimer 基础设施
-> +- 时间日期和时钟源管理
-> +- 时钟事件管理
-> +- 高分辨率定时器功能
-> +- 动态时钟刻度
-> +
-> +
-> +hrtimer 基础设施
-> +----------------
-> +
-> +hrtimer 基础设施已合并到 2.6.16 内核中。基
-> +本实现的详细信息包含在
-> +Documentation/timers/hrtimers.rst 中。另请
-> +参见图 #2（OLS 幻灯片第 15 页）
-
-图 #2 -> “图二”
-
-> +
-> +与保存已武装的 timer_list 类型定时器的定时
-> +器轮的主要区别是：
-> +
-> +       - 按时间顺序入队到红黑树中
-> +       - 独立于时钟节拍（处理基于纳秒）
-> +
-> +
-> +时间日期和时钟源管理
-> +--------------------
-> +
-> +John Stultz 的通用时间日期（GTOD）框架将
-> +大部分代码从特定于架构的区域移动到通用管理
-> +框架中，如图 #3（OLS 幻灯片第 18 页）所示。
-ditto
-> +特定于架构的部分被简化为时钟源的低级硬件细
-> +节，这些时钟源在框架中注册并根据基于质量的
-> +决策进行选择。低级代码提供硬件设置和读出例
-> +程，并初始化数据结构，通用时间保持代码使用
-> +这些数据结构将时钟刻度转换为基于纳秒的时间
-> +值。所有其他与时间保持相关的功能都移到了通
-> +用代码中。GTOD 基础补丁已合并到 2.6.18 内
-> +核中。
-> +
-> +有关通用时间日期框架的更多信息，请参见 OLS
-> +2005 论文集第 1 卷：
-> +
-> +	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
-> +
-> +论文"We Are Not Getting Any Younger: A New
-> +Approach to Time and Timers"由 J. Stultz、
-> +D.V. Hart 和 N. Aravamudan 撰写。
-> +
-> +图 #3（OLS 幻灯片第 18 页）说明了这一转变。
-ditto
-> +
-> +
-> +时钟事件管理
-> +------------
-> +
-> +虽然时钟源提供对单调递增时间值的读访问，但
-> +时钟事件设备用于调度下一个事件中断。下一个
-> +事件当前定义为周期性的，其周期在编译时定义。
-> +事件设备的设置和选择用于各种事件驱动功能被
-> +硬编码到依赖于架构的代码中。这导致所有架构
-> +都有重复代码，并且使得更改系统配置以使用除
-> +已内置到架构中的事件中断设备之外的其他设备
-> +变得极其困难。当前设计的另一个含义是，为了
-> +提供诸如高分辨率定时器或动态时钟刻度之类的
-> +新功能，必须触及所有特定于架构的实现。
-> +
-> +时钟事件子系统试图通过提供通用解决方案来管
-> +理时钟事件设备及其用于各种时钟事件驱动的内
-> +核功能来解决此问题。时钟事件子系统的目标是
-> +将时钟事件相关的依赖于架构的代码最小化为纯
-> +硬件相关的处理，并允许轻松添加和利用新的时
-> +钟事件设备。它还最小化了跨架构的重复代码，
-> +因为它提供了从中断服务处理程序向下的通用功
-> +能，这几乎本质上是硬件依赖的。
-> +
-> +时钟事件设备由依赖于架构的引导代码或在模块
-> +插入时注册。每个时钟事件设备填充一个数据结
-> +构，其中包含时钟特定的属性参数和回调函数。
-> +时钟事件管理通过使用指定的属性参数决定时钟
-> +事件设备将用于支持的系统功能集。这包括区分
-> +每 CPU 和每系统全局事件设备。
-> +
-> +系统级全局事件设备用于 Linux 周期时钟刻度。
-> +每 CPU 事件设备用于提供本地 CPU 功能，例如
-> +进程记账、分析和高分辨率定时器。
-> +
-> +管理层为时钟事件设备分配以下一个或多个功能：
-> +
-> +      - 系统全局周期时钟刻度（jiffies 更新）
-> +      - cpu 本地 update_process_times
-> +      - cpu 本地分析
-> +      - cpu 本地下一个事件中断（非周期模式）
-> +
-> +时钟事件设备将这些定时器中断相关功能的选择
-> +完全委托给管理层。时钟管理层在设备描述结构
-> +中存储一个函数指针，必须从硬件级处理程序调
-> +用该指针。这从特定于架构的定时器中断处理程
-> +序中删除了大量重复代码，并将对时钟事件设备
-> +的控制以及定时器中断相关功能的分配交给核心
-> +代码。
-> +
-> +时钟事件层 API 相当小。除了时钟事件设备注
-> +册接口外，它还提供用于调度下一个事件中断、
-> +时钟事件设备通知服务以及对挂起和恢复的支持
-> +的函数。
-> +
-> +该框架添加了大约 700 行代码，这导致内核二
-> +进制大小增加 2KB。i386 的转换删除了大约
-> +100 行代码。二进制大小减少约 400 字节。我
-> +们认为，灵活性的增加和跨架构的重复代码的避
-> +免证明了二进制大小的轻微增加是合理的。
-> +
-> +架构的转换没有功能影响，但允许在不更改时钟
-> +事件设备和定时器中断代码的情况下利用高分辨
-> +率和动态时钟刻度功能。转换后，只需将
-> +kernel/time/Kconfig 文件添加到特定于架构
-> +的 Kconfig 并将动态时钟刻度特定调用添加到
-> +空闲例程（总共向空闲函数和 Kconfig 文件添
-> +加 3 行）即可简单地提供高分辨率定时器和动
-> +态时钟刻度的启用。
-> +
-> +图 #4（OLS 幻灯片第 20 页）说明了这一转变。
-ditto
-> +
-> +
-> +高分辨率定时器功能
-> +------------------
-> +
-> +在系统引导期间无法使用高分辨率定时器功能，
-> +虽然实现这一功能会很困难且没有实际用途。必
-> +须完成时钟事件设备框架、时钟源框架（GTOD）
-> +和 hrtimers 本身的初始化，并且必须注册适当
-> +的时钟源和时钟事件设备，然后高分辨率功能才
-> +能工作。直到 hrtimers 初始化完成之前，系统
-> +以通常的低分辨率周期模式工作。
-> +时钟源和时钟事件设备层提供通知功能，通知
-> +hrtimers 有关新硬件的可用性。hrtimers 在
-> +切换到高分辨率模式之前验证已注册时钟源和时
-> +钟事件设备的可用性。这也确保了配置为高分辨
-> +率定时器的内核可以在缺乏必要硬件支持的系统
-> +上运行。
-> +
-> +高分辨率定时器代码不支持仅具有全局时钟事件
-> +设备的 SMP 机器。对此类硬件的支持将涉及中
-> +断发生时的 IPI 调用。开销将远大于收益。这
-> +就是为什么我们目前在 i386 SMP 系统上禁用
-> +高分辨率和动态时钟刻度，这些系统在 C3 电
-> +源状态下停止本地 APIC。解决方法作为想法可
-> +用，但尚未解决该问题。
-> +
-> +定时器的时间排序插入提供了所有基础设施，以
-> +在添加定时器时决定是否必须重新编程事件设备。
-> +该决定是按定时器基础做出的，并在支持函数中
-> +跨每 CPU 定时器基础同步。该设计允许系统为
-> +每 CPU 定时器基础使用单独的每 CPU 时钟事
-> +件设备，但当前每个 CPU 仅使用一个可重新编
-> +程的时钟事件设备。
-> +
-> +当定时器中断发生时，从时钟事件分发代码调用
-> +下一个事件中断处理函数，并将过期的定时器从
-> +红黑树移动到单独的双向链表，并调用软中断处
-> +理函数。hrtimer 结构中的额外模式字段允许
-> +系统直接从下一个事件中断处理函数执行回调函
-> +数。这仅限于可以在硬中断上下文中安全执行的
-> +代码。例如，这适用于 nanosleep 使用的唤醒
-> +函数的常见情况。在中断上下文中执行处理函数
-> +的优点是避免了多达两次上下文切换——从中断的
-> +上下文到软中断以及到被过期定时器唤醒的任务。
-> +
-> +一旦系统切换到高分辨率模式，周期时钟节拍就
-> +会关闭。这会禁用系统级全局周期时钟事件设备
-> +——例如 i386 SMP 系统上的 PIT。
-> +
-> +周期时钟节拍功能由每 CPU hrtimer 提供。回
-> +调函数在下一个事件中断上下文中执行，并更新
-> +jiffies 并调用 update_process_times 和分
-> +析。基于 hrtimer 的周期时钟节拍的实现旨在
-> +扩展动态时钟节拍功能。这允许使用单个时钟事
-> +件设备在 UP 系统上调度高分辨率定时器和周期
-> +事件（jiffies 时钟节拍、分析、进程记账）。
-> +这已被证明可以在 i386 上的 PIT 和 PPC 上
-> +的增量器上工作。
-> +
-> +用于运行 hrtimer 队列和执行回调的软中断已
-> +从时钟节拍绑定的定时器软中断中分离出来，以
-> +允许准确传递 itimer 和 POSIX 间隔定时器使
-> +用的高分辨率定时器信号。此软中断的执行仍可
-> +能被其他软中断延迟，但这种分离已显著改善了
-> +总体延迟。
-> +
-> +图 #5（OLS 幻灯片第 22 页）说明了这一转变。
-ditto
-> +
-> +
-> +动态时钟节拍
-> +------------
-> +
-> +动态时钟节拍是基于 hrtimer 的周期时钟节拍
-> +替换（sched_tick）的逻辑结果。sched_tick
-> +hrtimer 的功能由三个函数扩展：
-> +
-> +- hrtimer_stop_sched_tick
-> +- hrtimer_restart_sched_tick
-> +- hrtimer_update_jiffies
-> +
-> +当 CPU 进入空闲状态时调用
-> +hrtimer_stop_sched_tick()。该代码评估下一
-> +个预定的定时器事件（来自 hrtimers 和定时
-> +器轮），如果下一个事件比下一个时钟节拍更远，
-> +它会将 sched_tick 重新编程到这个未来事件，
-> +以允许更长的空闲睡眠，而不会受到周期时钟节
-> +拍的无用中断。当空闲期间发生中断但不会导致
-> +重新调度时，也会调用该函数。该调用是必要的，
-> +因为中断处理函数可能已经启动了一个新定时器，
-> +其到期时间早于在上一次调用
-> +hrtimer_stop_sched_tick 时识别的最近事件
-> +的时间。
-> +
-> +当 CPU 在调用 schedule() 之前离开空闲状态
-> +时，调用 hrtimer_restart_sched_tick()。
-> +hrtimer_restart_sched_tick() 恢复周期时
-> +钟节拍，该节拍保持活动状态直到下次调用
-> +hrtimer_stop_sched_tick()。
-> +
-> +从 irq_enter() 调用 hrtimer_update_jiffies()
-> +当空闲期间发生中断时，以确保 jiffies 是最
-> +新的，并且中断处理函数不必处理可能过时的
-> +jiffy 值。
-> +
-> +动态时钟节拍功能提供统计值，这些值通过
-> +/proc/stat 导出到用户空间，并可用于增强的
-> +电源管理控制。
-> +
-> +该实现为进一步开发留下了空间，例如完全无节
-> +拍系统，其中时间片由调度程序控制、可变频率
-> +分析以及将来完全删除 jiffies。
-> +
-> +
-> +除了当前 i386 支持的初始提交外，补丁集已经
-> +扩展到 x86_64 和 ARM。MIPS 和 PowerPC 的
-> +初始（正在进行的工作）支持也可用。
-> +
-> +	  Thomas, Ingo
-> diff --git a/Documentation/translations/zh_CN/timers/index.rst b/Documentation/translations/zh_CN/timers/index.rst
-> index cd0187d83719..485e6a95c600 100644
-> --- a/Documentation/translations/zh_CN/timers/index.rst
-> +++ b/Documentation/translations/zh_CN/timers/index.rst
-> @@ -15,13 +15,13 @@
->   .. toctree::
->       :maxdepth: 1
->   
-> +    highres
->       hpet
->       hrtimers
->       timekeeping
->   
->   TODOList:
->   
-> -* highres
->   * no_hz
->   * delay_sleep_functions
->   
+> Changes in v3:
+> - Replace kernel-doc directives with :c:func: and :c:macro: references
+>    to avoid duplicate C declaration warnings as pointed out by Dongliang Mu
+>
+> Changes in v2:
+> - Remove trailing blank lines at EOF in all translation files
+>    as pointed out by Dongliang Mu
+>
+> Xingqiu Xu (7):
+>    docs/zh_CN: Add timers directory Chinese translation
+>    docs/zh_CN: Translate timers/timekeeping.rst
+>    docs/zh_CN: Translate timers/hpet.rst
+>    docs/zh_CN: Translate timers/hrtimers.rst
+>    docs/zh_CN: Translate timers/highres.rst
+>    docs/zh_CN: Translate timers/no_hz.rst
+>    docs/zh_CN: Translate timers delay_sleep_functions
+>
+>   .../translations/zh_CN/subsystem-apis.rst     |   5 +-
+>   .../zh_CN/timers/delay_sleep_functions.rst    | 136 +++++++
+>   .../translations/zh_CN/timers/highres.rst     | 270 ++++++++++++++
+>   .../translations/zh_CN/timers/hpet.rst        |  43 +++
+>   .../translations/zh_CN/timers/hrtimers.rst    | 187 ++++++++++
+>   .../translations/zh_CN/timers/index.rst       |  30 ++
+>   .../translations/zh_CN/timers/no_hz.rst       | 337 ++++++++++++++++++
+>   .../translations/zh_CN/timers/timekeeping.rst | 202 +++++++++++
+>   8 files changed, 1206 insertions(+), 4 deletions(-)
+>   create mode 100644 Documentation/translations/zh_CN/timers/delay_sleep_functions.rst
+>   create mode 100644 Documentation/translations/zh_CN/timers/highres.rst
+>   create mode 100644 Documentation/translations/zh_CN/timers/hpet.rst
+>   create mode 100644 Documentation/translations/zh_CN/timers/hrtimers.rst
+>   create mode 100644 Documentation/translations/zh_CN/timers/index.rst
+>   create mode 100644 Documentation/translations/zh_CN/timers/no_hz.rst
+>   create mode 100644 Documentation/translations/zh_CN/timers/timekeeping.rst
+>
 
