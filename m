@@ -1,91 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1175032C306;
-	Thu,  8 Jan 2026 15:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67BE82EFD81;
+	Thu,  8 Jan 2026 15:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767885490; cv=none; b=eff/ezwLDexpXHf2oy1B1sJC7W3k5qUxt6284CVz0DDqnpbJ1ORlHuyvedNSspsK8PzrOKd8zTDeqKlUtLzMDWhj/ixaCEzj0DqLmQfO79sPUlRJMhoVY4yk7h6jVNFZIqlHVqDJulyBBzi5yr+tJmKsID9WG0Z5BH/82p2nDEo=
+	t=1767885621; cv=none; b=Os6S/PoBKyAqF8E4TPwesHGOffOiljfs9KufYG58hY21MgKF8lhFrfl2y0mY4GZQRE7woxRDUUGl9abpuADLLVkH9q8QtIFQlaLkWPH5Z6zXPWiPI55iHknM8N8VxVvQ6F0a2gJhswlWdk3e/3Mp/z2po0reJT4LJqj6bPp55yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767885490; c=relaxed/simple;
-	bh=wElAgqmhU2sH9+PAc4srlbsEZTYYJ/yrdkxVw3n95E4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bcQ0/QNEjZ8Ru8ods0ug4ahvMOHGvr672K+ZgKalWR1P9XmEaG+GUz/NYJqthsJOUJjXgCPB33egX+FHrAEvcd18jjbEDgvjH6uxs9NTEHyGUE9rElVdNPIEo0Rx6TXW4qcUSMf/rXORhVQ/JNR0fDkEB1bHliRf6bLUHSiGuvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tO1qsb8s; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tO1qsb8s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44600C116C6;
-	Thu,  8 Jan 2026 15:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767885489;
-	bh=wElAgqmhU2sH9+PAc4srlbsEZTYYJ/yrdkxVw3n95E4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tO1qsb8sbuPY7+2dsp6sLheV0BkRESLekNwWZbmqFgFXIIziFd5Floa7jzGp6hYUk
-	 CYNMtda0ceV8AyHG7sCetgbEk31JXOT/XLZ5tdKPWa5w3cnrpuRU8KDxsE46ydSVOn
-	 R1YRBaBh5u54nOteVa5lrG74sRUessVMtPlY+2qtjKTxkf9FS9DVl7KLAqwzXhhXB0
-	 yb9THS8iMBaP+j+OwNlk3uBFRbd+SqpQH5GCaMI0F6sbI4Z8tr2ynupQ8dzYqH6XfY
-	 /sqjX6gttRsZU/xm8pRFz899DYRmDn7yNDS44+5VVPf+s8nyEdwbQgexsyvqYMF3ji
-	 RRcWhQdF9TkUw==
-Date: Thu, 8 Jan 2026 15:18:02 +0000
-From: Will Deacon <will@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Marc Zyngier <maz@kernel.org>, Lucas Wei <lucaswei@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com,
-	kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
-	kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	smostafa@google.com, jgg@nvidia.com
-Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
- coherency issue
-Message-ID: <aV_KqiaDf9-2NcxH@willie-the-truck>
-References: <20251229033621.996546-1-lucaswei@google.com>
- <87o6ndduye.wl-maz@kernel.org>
- <aV6K7QnUa7jDpKw-@willie-the-truck>
- <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
+	s=arc-20240116; t=1767885621; c=relaxed/simple;
+	bh=NpUv25TlkIkzmuTKGn5h5KirEBQRahvysXG/JgpQMGY=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PbJ30AT+X63dZR+vmB4AWkxmFgFlx+5hC0febx6gZ0NRFdPU5gAQSpn1Q4fCZrx3QtKhDossNssYwZxKsXBlsvH7fcKBdi8awElGh0uv5ELOTMv3V1131neJ/bbHpfFv3LtW6EyIc0WM9kky/uGHOfkue8G5ZNbJbt+qMX7HEbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn7r84ZjSzJ467y;
+	Thu,  8 Jan 2026 23:20:08 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9C48540569;
+	Thu,  8 Jan 2026 23:20:13 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
+ 2026 15:20:12 +0000
+Date: Thu, 8 Jan 2026 15:20:10 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <John@groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V3 01/21] dax: move dax_pgoff_to_phys from
+ [drivers/dax/] device.c to bus.c
+Message-ID: <20260108152010.00003829@huawei.com>
+In-Reply-To: <3kylgjwvrdrfe5hcgqka2x2jsgicnnjssdpjrqe32p6cdbw33x@vpm5gpcb5utm>
+References: <20260107153244.64703-1-john@groves.net>
+	<20260107153332.64727-1-john@groves.net>
+	<20260107153332.64727-2-john@groves.net>
+	<20260108104352.000079c3@huawei.com>
+	<3kylgjwvrdrfe5hcgqka2x2jsgicnnjssdpjrqe32p6cdbw33x@vpm5gpcb5utm>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Wed, Jan 07, 2026 at 05:55:40PM +0000, Robin Murphy wrote:
-> On 2026-01-07 4:33 pm, Will Deacon wrote:
-> > On Thu, Jan 01, 2026 at 06:55:05PM +0000, Marc Zyngier wrote:
-> > > The other elephant in the room is virtualisation: how does a guest
-> > > performing CMOs deals with this? How does it discover the that the
-> > > host is broken? I also don't see any attempt to make KVM handle the
-> > > erratum on behalf of the guest...
+On Thu, 8 Jan 2026 07:25:47 -0600
+John Groves <John@groves.net> wrote:
+
+> On 26/01/08 10:43AM, Jonathan Cameron wrote:
+> > On Wed,  7 Jan 2026 09:33:10 -0600
+> > John Groves <John@Groves.net> wrote:
+> >   
+> > > This function will be used by both device.c and fsdev.c, but both are
+> > > loadable modules. Moving to bus.c puts it in core and makes it available
+> > > to both.
+> > > 
+> > > No code changes - just relocated.
+> > > 
+> > > Signed-off-by: John Groves <john@groves.net>  
+> > Hi John,
 > > 
-> > A guest shouldn't have to worry about the problem, as it only affects
-> > clean to PoC for non-coherent DMA agents that reside downstream of the
-> > SLC in the interconnect. Since VFIO doesn't permit assigning
-> > non-coherent devices to a guest, guests shouldn't ever need to push
-> > writes that far (and FWB would cause bigger problems if that was
-> > something we wanted to support)
+> > I don't know the code well enough to offer an opinion on whether this
+> > move causes any issues or if this is the best location, so review is superficial
+> > stuff only.
 > > 
-> > +Mostafa to keep me honest on the VFIO front.
+> > Jonathan
+> >   
+> > > ---
+> > >  drivers/dax/bus.c    | 27 +++++++++++++++++++++++++++
+> > >  drivers/dax/device.c | 23 -----------------------
+> > >  2 files changed, 27 insertions(+), 23 deletions(-)
+> > > 
+> > > diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> > > index fde29e0ad68b..a2f9a3cc30a5 100644
+> > > --- a/drivers/dax/bus.c
+> > > +++ b/drivers/dax/bus.c
+> > > @@ -7,6 +7,9 @@
+> > >  #include <linux/slab.h>
+> > >  #include <linux/dax.h>
+> > >  #include <linux/io.h>
+> > > +#include <linux/backing-dev.h>  
+> > 
+> > I'm not immediately spotting why this one.  Maybe should be in a different
+> > patch?
+> >   
+> > > +#include <linux/range.h>
+> > > +#include <linux/uio.h>  
+> > 
+> > Why this one?  
 > 
-> I don't think we actually prevent non-coherent devices being assigned, we
-> just rely on the IOMMU supporting IOMMU_CAP_CACHE_COHERENCY. Thus if there's
-> an I/O-coherent SMMU then it could end up being permitted, however I would
-> hope that either the affected devices are not behind such an SMMU, or at
-> least that if the SMMU imposes cacheable attributes then that prevents
-> traffic from taking the back-door path to RAM.
+> Good eye, thanks. These must have leaked from some of the many dead ends
+> that I tried before coming up with this approach.
+> 
+> I've dropped all new includes and it still builds :D
 
-I think IOMMU_CAP_CACHE_COHERENCY is supposed to indicate whether or not
-the endpoint devices are coherent (i.e. whether IOMMU_CACHE makes sense)
-but it's true that, for the SMMU, we tie this to the coherency of the
-SMMU itself so it is a bit sketchy. There's an interesting thread between
-Mostafa and Jason about it:
+Range one should be there... 
 
-https://lore.kernel.org/all/ZtHhdj6RAKACBCUG@google.com/
+> 
+> > 
+> > Style wise, dax seems to use reverse xmas tree for includes, so
+> > this should keep to that.
+> >   
+> > >  #include "dax-private.h"
+> > >  #include "bus.h"
+> > >  
+> > > @@ -1417,6 +1420,30 @@ static const struct device_type dev_dax_type = {
+> > >  	.groups = dax_attribute_groups,
+> > >  };
+> > >  
+> > > +/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c  */  
+> > Bonus space before that */
+> > Curiously that wasn't there in the original.  
+> 
+> Removed.
+> 
+> [ ... ]
+> 
+> Thanks,
+> John
 
-But, that aside, FWB throws a pretty big spanner in the works if we want
-to assign non-coherent devices.
-
-Will
