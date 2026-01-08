@@ -1,191 +1,137 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3D42DB78A
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 16:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523B126B95B
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 16:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767888861; cv=none; b=SoWowcyt1x4WK4Jbac/wTN167YgABfIR1IoTz62YQBs9WRtn67GJhyt2ticKFr/Q6Br/FXyBHQKctlC+B9XDBIUv+EUAikmxqX5jAACitWiKK/7fWckHRVqtjnlWI5dyCx0bjpOJhoz5FwfroHfhHuO1GO7LJ0bAY7AX0SkAHYk=
+	t=1767889209; cv=none; b=JvVoQ/8lC95OH6cggTGT+wOBEJh6j8kikiYRyBHe1U6meGShveTDUSUMXeh7s1adoNR78MMK+SX/XXhH5JnUkiO0qshdKNQIy/PpiNbhaP0/xw5Rv6rOUxxWVFO/8slbzW6h4DuQCfMBY9kFKM6tUxhrbFOtpFyGn8nV6kdeaOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767888861; c=relaxed/simple;
-	bh=6m42h8aJp+JbB0imSkz80jRnKXGJ06eWl8iUiYsGeGw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PabtyUtFGRhan73y3tk8LqXS7iRjELqEFVWEuPqf7uZ2sOpAHP2BTSL98FGUk7ru/u0YzpSX1Jz5hyT2oGqL3hSh9IsbGSA7aIgentzDALlvOChWN8ktbGSqhK2/XPJLUtu7ZrM13cv7c1JtQcqiPWKzoDGRkVg+C88rSpvbH0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uy/OSbnU; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1767889209; c=relaxed/simple;
+	bh=yvNU1AvVWUsd+D1YN7GGiy/e4EfmDjtr0T/TuSwjWKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MjjEZPqSwbexiXv7FYWlNk3BAvpiP6arW7go/NxOTXok5pXRqM7noK4OyF1kdFG7HoX4RDd98oFcDowmEkqwxSnSh/Q1grQaNXGFNnDew2hldagyURrHCxpyYGquHUjbIl0ubrvXwSQBW0cpslfAnZBqwCJhYahb3u+UtpTEs2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gNKHl54I; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uy/OSbnU"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so36761395e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 08:14:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gNKHl54I"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-3ec3cdcda4eso2477162fac.1
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 08:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767888858; x=1768493658; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1767889206; x=1768494006; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jCTWAGapejOw1iFJ5z5ReQnAsgu6SmxS0ql4MKvTAbc=;
-        b=Uy/OSbnUVxdR+RHfmDH+miKTHo/maPwml73YWlIq5+9tejpGcojwBs175ucdUF3cKt
-         zS4c07AQlWZREigKFQLJrjMaEv7oci0ofFIEVQkkg7YE/Wihf+SKLSUMB2gYdOBIBxHI
-         Yiri/CYwm997fuLK52E5f32UvNwOE33sdFHSJd13t4RAoNs5io0fdVC0QSTDTRVa62ug
-         tFSW5imppUWUjPgSJC1J5V6r03PQe8H/KRnWJ6ahLdSh9X/xsNF4bntfEseRJr02Xb3K
-         DJq8VmLixbib6/Mt55jqB8Bt+vCM6DJ2sYyDixYb6x73RDWsNL+r65AWoOl4WvmnXn3O
-         P3CA==
+        bh=HVhhJuuiBGoK/sFvk0bqtRfj9CRgQvxP/k+MrdnYe6s=;
+        b=gNKHl54IIO9I5g2NH+3g7xsv2nR/Ixg6cUgki8Aaw74Rt/gR0LM2AyWuWsD4mLIIry
+         duuGPRIKgz09CE0Bs6h6GSthtteXS0bqkvzqdYaYUJYtnCi4XpJv+h31rWvn9wyaLU+v
+         tflHiYFxeJVdLFrt6EGAOCTWIetZUyB2zbfcm85J27TiB34NplSLElsVEIbR8f4wu6vz
+         u0KhDPjs2WABFD3dI3cPWkBYb3tgZ/AHtjMhDUNft73hIPuqsuKmSeS/3GSg0UiYPfiS
+         NJuPe1UDBGKfxbVoUTpnQ7wCbx3+dCir9j/bmyXRbe5PppEkcs+KigQFcCM2vvuwNpxS
+         xaUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767888858; x=1768493658;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+        d=1e100.net; s=20230601; t=1767889206; x=1768494006;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jCTWAGapejOw1iFJ5z5ReQnAsgu6SmxS0ql4MKvTAbc=;
-        b=YRCQhXAbaX+t2au/Ia/Hjt5gbejvRrkBRJErXKNF/JjrKdzFRE4SmaidZkVIis5sci
-         dAkon2O10p+YkTx2rJZT6qTKqd4FFGjkXBrQkpJ0gA7Ea0vqLfhMb58J3JjdvJ9Jnkq+
-         41hUFgUWsAJIKXoKGYvbxOwMVnMQ/JGj27o+wauhoaBhNjU5w2uImNHcuzIx3O9Owy2C
-         6BsBWr7d7nExcxzjDK3eG6L99Mpuge/E1GhYip1V1uEYsw1jWvG9UurLAeyPcnEcH6ql
-         OOyMDiUZ2I8Ahztd2p7TrbiekTkRh4NxRGIsYeeUhSuYZxlg6kI/ThLcxHacTghsvG1+
-         OFeA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLnlRp247C4kU/BNFB637IafcETTF0uWpGtw3l5c59z7E+QADJKEHlsEFGjkJWcQRw8/nGXcUD3O4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBv5WbeYXHetXlLSOImIKBUZibk48Ywoh20rxwwWdMfgCzL4sD
-	jCS6Hdq4FmaitPoJANPfe07+c0GDURHVQuNZm9DdPKHgNQCL5RDSHmwH
-X-Gm-Gg: AY/fxX5R/oiXYjCufT9ZPNi4L0Vy9lzgfqZ97f9oSVWcbdNFLdpDrrWAgpWFnEJu8bM
-	NmHSezX4/fXnB3ED5mdBfVjCE75RurKe8/4L9zPTjgo4x8J486rhXxR+HUUxgeWS8KCP79DytF9
-	vdfBbF5FXEhnLIWpUd0MRvazv6Z3drjR/vRMJwnSMDh4DSM7yk5uJU9LzIG0mMZOLowQ5D3yEMq
-	T9lsM0CaGqD9yCMzZRVpxXvd6Qp/M2CTq8bFPiC/uG/uI4zvtpIDGw6uq8ttvzg5q0eDI2pvuuU
-	u3yMxRDsk5lcxODHvEGGGhjxX6hd9jCtQlaXlxO+QN8FOailkOjqJlzshPmojee0TMaCEVM+w2i
-	c+SXlYGNRIkQL6nVIdISQN8n71QrsgfSyMHR4rRZJgVldQz83TVYSDDGY2HhBoYj+iT5nAHBT/z
-	zLdSEdDlV3QC6YhDwLRY1srSXHYqgE
-X-Google-Smtp-Source: AGHT+IH4v0PxdvSCJ6r7iSvimYK54fONQz3mYfHtihrB2pcwm/9wYDjewO0SRgJptjNDioogK2WbNQ==
-X-Received: by 2002:a05:600c:4713:b0:477:1af2:f40a with SMTP id 5b1f17b1804b1-47d84b32748mr91254955e9.17.1767888857928;
-        Thu, 08 Jan 2026 08:14:17 -0800 (PST)
-Received: from imac.lan ([2a02:8010:60a0:0:8115:84ef:f979:bd53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5edd51sm17140039f8f.29.2026.01.08.08.14.16
+        bh=HVhhJuuiBGoK/sFvk0bqtRfj9CRgQvxP/k+MrdnYe6s=;
+        b=hJ8D7Oiq6g9Ds2sKeSuAShyntRfxKBctaeYtG+ok2/lDYRsECFmpFk+dr7OHeHeDkp
+         5Q7Vz2zBKK6+5ukt3I6YAdVxcuu7cfFEuzl8pS+mvdRENtKG3j4INi1HHENRLKhaUWFf
+         l4PEMPx5Ocvae9NRsKEf7V/4CucSARhyVaaSRJpBeQ8Wp01Imrc44Q8IB+Skpc93lMzA
+         wXY9llKfWlxFLud88vheXyJsyNducHmXmEvX1CS0ir1MrVIGr4BtwGG5pPjIPHxwzGG8
+         luXsgu8AfgEHiH5QulpYS+72NqWmS4NmU2VhNzeS8zwTP8L/pGJlyghWtwSOnUtQoikj
+         vhHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPZL+DdC1LflFfZFwqTVQDP3aMy0MVwcEjf/odYs/kqjpsVFESl+bvp8LTWImuW1ArtCMhblvki3I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLFj2YJbr+hVH2PVbErejIktUsP0RtBXzzqaoz54eRjy+FswH4
+	VaSvu9txqhV9VMFoF8ayAo8zwR+EtAXpDOiBH2d0ZQCTuA3tlv80/CUi
+X-Gm-Gg: AY/fxX44W4rr9Z9M+juJe8dBh8j354rmK3Ytl+bk/Kcv55p0ThsTeMi0uyW6BT3FxTo
+	IUVgF55X5IddxBxdeU1UfCvdURBEWz/OVcqZlYV5jzJ9Kq+sJcW62v8Nq6iIHXFX417OJAKycnX
+	DDns/hANaOWirMZ1NyiQ6NYT3W3smrqbhsMtmnWvRaFKNYjlVusaaOMdkMCWh9zVm7TIAAnZLtF
+	3xduIplWAhB+7gkIpfLaV3/YWPR6HjpsvGndbCyBJIaD8ZCbVczpSXTePkSsL5QZSYg2in39fTI
+	MAn0gDs5Oa4E7EyO1tSrBglSVSJgmjEUHOHnKhodbsaaxiqEpDzPY8vFt5ImzfmuJx2n5EOuWmD
+	5BD+k6mKvC3yNL80qM4LZU37rxrKCgwsfLFd0yWPtLv/GNZ6FsZFTjb7lw/VcHZNHoBChxVlPfe
+	g+jHZX7a5H10MoSu2bQvdeBxh+QQJHpw==
+X-Google-Smtp-Source: AGHT+IH6THnfmjfea6h0UnYX2fNH0dcgns7iJzl58Bvp4j/zTpmPcfdP7f0qEllI2ONh7EMKMC6yuQ==
+X-Received: by 2002:a05:6820:f002:b0:65d:1e7:9526 with SMTP id 006d021491bc7-65f54f06dfamr2864960eaf.10.1767889206030;
+        Thu, 08 Jan 2026 08:20:06 -0800 (PST)
+Received: from groves.net ([2603:8080:1500:3d89:902b:954a:a912:b0f5])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65f48bec1c4sm3344121eaf.8.2026.01.08.08.20.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 08:14:17 -0800 (PST)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	"Matthieu Baerts (NGI0)" <matttbe@kernel.org>,
-	Gal Pressman <gal@nvidia.com>,
-	Jan Stancek <jstancek@redhat.com>,
-	Hangbin Liu <liuhangbin@gmail.com>,
-	Nimrod Oren <noren@nvidia.com>,
-	netdev@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Ruben Wauters <rubenru09@aol.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2 13/13] tools: ynl-gen-c: Fix remaining pylint warnings
-Date: Thu,  8 Jan 2026 16:13:39 +0000
-Message-ID: <20260108161339.29166-14-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260108161339.29166-1-donald.hunter@gmail.com>
-References: <20260108161339.29166-1-donald.hunter@gmail.com>
+        Thu, 08 Jan 2026 08:20:05 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Thu, 8 Jan 2026 10:20:03 -0600
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH V3 05/21] dax: Add dax_set_ops() for setting
+ dax_operations at bind time
+Message-ID: <tndv7ezryq5m57r5iyoyr5suq5lliy37ciqluia7gh6znaecry@nfwbtzmsvcyn>
+References: <20260107153244.64703-1-john@groves.net>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-6-john@groves.net>
+ <20260108120619.00001bc5@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108120619.00001bc5@huawei.com>
 
-Fix the following pylint warning instances:
+On 26/01/08 12:06PM, Jonathan Cameron wrote:
+> On Wed,  7 Jan 2026 09:33:14 -0600
+> John Groves <John@Groves.net> wrote:
+> 
+> > From: John Groves <John@Groves.net>
+> > 
+> > The dax_device is created (in the non-pmem case) at hmem probe time via
+> > devm_create_dev_dax(), before we know which driver (device_dax,
+> > fsdev_dax, or kmem) will bind - by calling alloc_dax() with NULL ops,
+> > drivers (i.e. fsdev_dax) that need specific dax_operations must set
+> > them later.
+> > 
+> > Add dax_set_ops() exported function so fsdev_dax can set its ops at
+> > probe time and clear them on remove. device_dax doesn't need ops since
+> > it uses the mmap fault path directly.
+> > 
+> > Use cmpxchg() to atomically set ops only if currently NULL, returning
+> > -EBUSY if ops are already set. This prevents accidental double-binding.
+> > Clearing ops (NULL) always succeeds.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> Hi John
+> 
+> This one runs into the fun mess of mixing devm and other calls.
+> I'd advise you just don't do it because it makes code much harder
+> to review and hits the 'smells bad' button.
+> 
+> Jonathan
 
-ynl_gen_c.py:575:15: E0606: Possibly using variable 'mem' before
-assignment (possibly-used-before-assignment)
+If I don't stink up something, I'm not trying hard enough :D
 
-ynl_gen_c.py:888:0: R1707: Disallow trailing comma tuple
-(trailing-comma-tuple)
+Next iteration will be full-devm.
 
-ynl_gen_c.py:944:21: C0209: Formatting a regular string which could be an
-f-string (consider-using-f-string)
+[ ... ]
 
-ynl_gen_c.py:1450:14: C1802: Do not use `len(SEQUENCE)` without comparison
-to determine if a sequence is empty (use-implicit-booleaness-not-len)
-
-ynl_gen_c.py:1688:13: W1514: Using open without explicitly specifying an
-encoding (unspecified-encoding)
-
-ynl_gen_c.py:3446:0: C0325: Unnecessary parens after '=' keyword
-(superfluous-parens)
-
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- tools/net/ynl/pyynl/ynl_gen_c.py | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/tools/net/ynl/pyynl/ynl_gen_c.py b/tools/net/ynl/pyynl/ynl_gen_c.py
-index 5f079a74c8d1..0e1e486c1185 100755
---- a/tools/net/ynl/pyynl/ynl_gen_c.py
-+++ b/tools/net/ynl/pyynl/ynl_gen_c.py
-@@ -571,6 +571,8 @@ class TypeBinary(Type):
-             mem = 'NLA_POLICY_MIN_LEN(' + self.get_limit_str('min-len') + ')'
-         elif 'max-len' in self.checks:
-             mem = 'NLA_POLICY_MAX_LEN(' + self.get_limit_str('max-len') + ')'
-+        else:
-+            raise Exception('Failed to process policy check for binary type')
- 
-         return mem
- 
-@@ -885,7 +887,7 @@ class TypeIndexedArray(Type):
-                 f"for (i = 0; i < {var}->{ref}_count.{self.c_name}; i++)",
-                 f'{self.nested_render_name}_free(&{var}->{ref}{self.c_name}[i]);',
-             ]
--        lines += f"free({var}->{ref}{self.c_name});",
-+        lines += (f"free({var}->{ref}{self.c_name});",)
-         return lines
- 
- class TypeNestTypeValue(Type):
-@@ -935,15 +937,15 @@ class TypeSubMessage(TypeNest):
-         return typol
- 
-     def _attr_get(self, ri, var):
--        sel = c_lower(self['selector'])
-+        selector = self['selector']
-+        sel = c_lower(selector)
-         if self.selector.is_external():
-             sel_var = f"_sel_{sel}"
-         else:
-             sel_var = f"{var}->{sel}"
-         get_lines = [f'if (!{sel_var})',
--                     'return ynl_submsg_failed(yarg, "%s", "%s");' %
--                        (self.name, self['selector']),
--                    f"if ({self.nested_render_name}_parse(&parg, {sel_var}, attr))",
-+                     f'return ynl_submsg_failed(yarg, "{self.name}", "{selector}");',
-+                     f"if ({self.nested_render_name}_parse(&parg, {sel_var}, attr))",
-                      "return YNL_PARSE_CB_ERROR;"]
-         init_lines = [f"parg.rsp_policy = &{self.nested_render_name}_nest;",
-                       f"parg.data = &{var}->{self.c_name};"]
-@@ -1447,7 +1449,7 @@ class Family(SpecFamily):
-         attr_set_queue = list(self.root_sets.keys())
-         attr_set_seen = set(self.root_sets.keys())
- 
--        while len(attr_set_queue):
-+        while attr_set_queue:
-             a_set = attr_set_queue.pop(0)
-             for attr, spec in self.attr_sets[a_set].items():
-                 if 'nested-attributes' in spec:
-@@ -1685,7 +1687,7 @@ class CodeWriter:
-         if not self._overwrite and os.path.isfile(self._out_file):
-             if filecmp.cmp(self._out.name, self._out_file, shallow=False):
-                 return
--        with open(self._out_file, 'w+') as out_file:
-+        with open(self._out_file, 'w+', encoding='utf-8') as out_file:
-             self._out.seek(0)
-             shutil.copyfileobj(self._out, out_file)
-             self._out.close()
-@@ -3443,7 +3445,7 @@ def main():
-         print(exc)
-         os.sys.exit(1)
- 
--    cw = CodeWriter(BaseNlLib(), args.out_file, overwrite=(not args.cmp_out))
-+    cw = CodeWriter(BaseNlLib(), args.out_file, overwrite=not args.cmp_out)
- 
-     _, spec_kernel = find_kernel_root(args.spec)
-     if args.mode == 'uapi' or args.header:
--- 
-2.52.0
+Thanks,
+John
 
