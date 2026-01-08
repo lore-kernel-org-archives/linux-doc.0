@@ -1,144 +1,159 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6509532ED42
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 23:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767914460; cv=pass; b=LKvcfZ5hGD4DNyouWlo0Gx/VnzY832qROLuH6qrcv2atav9dHmIdKG7H/ns/4OY7YYPBm8F7o40d3P6qvTpLaE8cGsme6ft4UJzjuvWyGHKPbQv3PNabcdDdq9kwuc38V+aDgrZQI3Q2+kMQ4SlfsghQyRLngcVnw8YSmiw87M4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767914460; c=relaxed/simple;
-	bh=rhCQWH/yPA2hIsQ82SImjkWBzo10eMRYT8Mz8RFa9JE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n4uu0dwdVYwFwqxJp/PXQbR65zqU/mVtnEHakIb5qD1O/ySPi1XdKdsoxkX7unQj9MYzZrPlsTkXOTnJcF09xRc13Pb3zRBxVQSFjshpsj5A0+J/NJKWLlya2aq7xtrTH9n8pzWBJYbgHOWu7QVJdplBctiS49+IMsCNs5wKsbU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PoYU/nyR; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A6526E70E
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 23:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767914745; cv=none; b=h8hk2kvm4IvJujlbZjxDxF/NiJpOkmIkUYG3RnfFtdTyAvYcJPtjRSjOOzo9eTSpav5Qp9lEtgoYP7MlGnhcTB+rtwi9PcoaPjcbP5ACQwVDKnlmcAqE9FUkm27JT3VUG1Rkt4cuTI2WtyiYRajAH7uEu8TzN+mAOTgfAMBKcnA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767914745; c=relaxed/simple;
+	bh=obLYyhrFsoB9oBqm7xL6fDhdB8wxBGKxiOySCPXnFrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cXxETk1u1TFx465c1+tr1kr8G++a7gSZetrRnpcCqy90/B/vO85wRNyR5BiaWsVs644lk5DA90F8uOAIx2QA55B5JWfAnxObh866a1sS+m/MT5X3byQ03QQOcYhhYiNcNq2aRlCEQv/cwu0HN2R9EtyM+Lpqxaw0s3FRr7Ul4CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=jzSeMPKY; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PoYU/nyR"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4edb8d6e98aso194811cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 15:20:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767914458; cv=none;
-        d=google.com; s=arc-20240605;
-        b=E4+GU0fOgPkRNlrOjLos6YL3HA0TgJ3bGXhEBqTQNjeeBf+cYXRlkiV4ACzGANrxYD
-         3sap2r2SZc3Mai2r0bgOirzgPj7HBK0V5esfa2Zvl5ky9fSbXHuykcaO8aIc4GeIoDuM
-         KSzGAnZ0mXV6zfvTEheyQZciIFEIuydaTeO+bqYoh/sII8OCfivN5fjVua1iu7TkLYQZ
-         XaRwkfDB2tFr1Kk/H5QTUqXzBcHGRNLgnJRbmwAiePkto/IGvOc9A6MmC68ODaBnOMDn
-         54rACXWF7hIsXNZxV5zJD0ciQtrcNdw7M76tbIwE+JHvpZTazRvXT/EwZaChp/5JnvEd
-         MSYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wj+2ERqBcujhHCH9Aw3uOT+r18qxiQCPwhg6TrYRXaA=;
-        fh=rgIxvIxmRbXv8VxKnu21Xfg/kkFOK6s/3xOfcI8AcaE=;
-        b=YzS1EfQESKBcZDCZxxjWMVZcp7FZZYPUI9auWtUDC7qX1xWrZkY4YxCHz25HeSCCf+
-         /dNDbZNNNAeotbLIEUZspQVRVEXSbMZs0pza7KQOMB1ntd2SA58aS3WkPLOHBonXlJd6
-         FiAj+7S5ouL4g+c1nVIzgH4Nfs/9a5oVYAhKl1xturJroHQdW0Kgkl0GjS1ZErFmyGki
-         TY8vEFmLe8S0oiE8tGk8PDfQGitlxm7tLAa7ODhQnaBQFs0pp2nsSRfPCGXX8kJAEFyJ
-         Fd1wuiJ+uaS2ZLOKyueed2ewA7UIZBLjxUFRU7O9Jr9QBeiU1lwo+caoU5DM6sNnIAfs
-         SxkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="jzSeMPKY"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-88a26ce6619so36588186d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 15:25:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767914458; x=1768519258; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wj+2ERqBcujhHCH9Aw3uOT+r18qxiQCPwhg6TrYRXaA=;
-        b=PoYU/nyRL6U8AMm+w6+xHu6Rp4iz1e1Zjwndtf1P91rPFzimAMia/xk5fhd449Yzxq
-         wOals5bwl/YzYefe3/yTZAjAWkISnRAZn8K1QbpSXs2ccRYiBBAN7hFiMcvfG2xwNXC1
-         K57zh+rov+V7kAdpWShLKBCoQ9SSw7P9vZDUIf9q4Q8vTWZJ0QcuRBaPhvGnNIkmk64d
-         tEo937ako0z2KeIh2dBrKuWwBp5257PoYUZg7RYNYYdqCoTlndR5zq6h3fwcT3bizaPf
-         M86h+FD6RdajgFP379GAaSe+QJc4JG99+Zv5ieYjS26cJc7oZwDse17dx9FHSYA2SaM6
-         5gIw==
+        d=gourry.net; s=google; t=1767914741; x=1768519541; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=055cXnB91pz5e1+jow3wyxxEvRh6YPpDHe6f2UW3p44=;
+        b=jzSeMPKY3rCpFqvzX79jd1jMCr1j1i5WwNHfa7dCqNQLbt+yEWIOJLKUznHAsbWMLu
+         21oyoEs4p12FZMXFkKAI8Fsec+X2NQfiNdN7Cuvjj6cDwjrZnog5g80W0CJ/YZ0Oj5Bf
+         f7b+RtP/phsREFUXsrfbNnA6NB1VhnWHZFaFRoAiiRTBcyijNPFuXpjaRdLSJXL0YV/2
+         fjetK3dfjmvm79EpW9DYI64r3DbEE5BhN07L6SvsFwkinLLBv33SXz9D7Q3IaYBQtCrW
+         acgw9oqkis7F8T9K7uJGbe3Lv8ZW+Ek3QbulZu0VUP/pikT067JStRKEskChNs42/vvZ
+         F+vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767914458; x=1768519258;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wj+2ERqBcujhHCH9Aw3uOT+r18qxiQCPwhg6TrYRXaA=;
-        b=A3o+TWuOL/ZySJR5G44ayconzZrH1jv9CODUkVZ1281BKreXYoejVd00oFRQsBFIU6
-         9dk92Byq/Tiv6jnXk37ca52fr6oHHxhyrmJzv4ODUNU1wkyYZqe9XaTFH1UpD18cEQ27
-         IeVqjlmHda8md5SrvjM6uKJMFiRLLf14qqrZv7/udZTLKYJ2kIRtKDCwSSZ3ResCFVAZ
-         UyDrMfPpQmsji+s2R0PZyQePrThN2O15joHE99vV+gPcnid/2QNFtFRJK6SZTNJ1uVgA
-         67GdqCUfqZL6srjBZVhmFXVwQaKGenZcPiMF+CDfbezv4y2bwEpsIAjfsTz7glSns6In
-         6EBg==
-X-Forwarded-Encrypted: i=1; AJvYcCXKlR9qEyRmzcuzxloJx5dHAUKEIJ9fvtZzgS8uPO0/mwQgzsuj/Z7zjyXQ1pnbHMwASrwTRXRkNkk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZFWAwR9LCeE0iPyAVQymxeqkazyA42MAJQ2bQxBmenwxL9/wy
-	hPQQSQR1vhK1/Py9pVlQOOCF7IpVg8j2+bOSSIi1cJsK5/V7UIIi5wGZRl94wKaPLg2wXVzfqJU
-	0lvYiS9mmCZQmbXWFp6FkbwpNRhrzJ/vpG09TSuV8
-X-Gm-Gg: AY/fxX5+yjw/MS69csRaKtlsReFEBaZDUvd4hngEI/XAC22nleTybQvoDOfb4z44byV
-	0Rj9RuHKo9B6pHs1nta5ZItTtPso/Xa9vl4YKkrssM3qkZpweLsOI2vcHwgqyrooxD1MNxCCz6j
-	AjlXtcaqXOQHr3FmLL7BF8N5XuAfNJqbzxrtL9v+VJq89cRgwRZFEhtY2tZg4pB22+y9KJU7bvZ
-	Njx5DqtnBPKefK8RYjsrRE4SFQd2SmRck7sXNFKq6qArrJkVegGLZPeg/mtKtWGDIYn2Sp3cv+R
-	mz645/60ElB13EdNcIquuM+KdVxHqeNJhac69+I6aqbwzKFTgx6dg0v3H7Z2lPg4UKInzg==
-X-Received: by 2002:a05:622a:451:b0:4ff:bffa:d9e4 with SMTP id
- d75a77b69052e-4ffcb20efa3mr2340841cf.13.1767914457681; Thu, 08 Jan 2026
- 15:20:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767914741; x=1768519541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=055cXnB91pz5e1+jow3wyxxEvRh6YPpDHe6f2UW3p44=;
+        b=O3kQJ2TxhepU2qePMjzjt4a+h5X1ITxtlyVEXXQx7mro4/k0AjEt9jwlWGq4ccLbmc
+         p/mi/DTPrysLYQ0X3BfhPgSG71EekRrkuBbAesni/0CyIpMIcLpyEvMgLx5/q3Hm0T3D
+         tTA3GOGdRf1GraWOPsyzTSuA0VGaYSRuYy/K1c6Nv/k49JcS514TjCDl00Hlz/6jHVUu
+         r5GxC8ruNGRsv7n5a0slt9pgIFcnGnN/vZsSW6/ZN5oap1zaPXHQM7ZleqRT7AzZI8me
+         DQ318rKj6rQAhrpB26icqK2jaWlBkT1uFQ4BEiio1qQvO7uI2qF49HxUlquhovL2kHlg
+         vUYw==
+X-Forwarded-Encrypted: i=1; AJvYcCXE5fjg1UG0E5sifhly+zSgVlcmVyEnoajQmRfP4vNt9BAXrCN2fOUSc9ZMSE4QrR00QPU/VB6ZyTo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztvNBKioG1NNfwpTomQFOHpt4oVT6bZCZ7wPtgLWLhtiYsP+8a
+	0CiUejs1H1wsrm9L1ff7dhNc0r/hoBiz8/rs0y6pmqXyixLx7ageYG7W7ngGy2WINvU=
+X-Gm-Gg: AY/fxX5hhxVC84F/IWgUzmVRpAuebBFpDgKmKYdZJHw9jM0txsJsLrS582OtdExm56T
+	ZMdVxcombOkhMQej4uwEV5Y+b0gH9cO3EekuGLp4ESpTN7hrSiGH20dHqqArVwsjOhFI9TaqdSr
+	8z7BNwiF82MCTCkyRQYFOy3fwInIFLodXRmXrzb9WpQeqfRaqPiL34TkCwX+L3e8yUwiK3Xf5Nd
+	S/2WNWPgsM8vRr4Ak3+9yFBDTSmXddGFBwDj2uzObp4nowmlNM77ng7dOf/H6FFjbrd3pYl8OEt
+	Vb5677UOgVYgHC/pj3R9uJ+hdz4UcAwxERsEAS11zYeeHzUx7ydQDuoT3R44KOYs2CjCrJZOp9s
+	pIEk3z0/dgv+yyxEBvVXRL2mXjPTP62HZmQheIo52OmiZMwbcEzSBmtbKeGuH71ZeSEdQXRqadu
+	3ws7XWcgqV2OGR629vXK+JiU4W3wo7K3iGQOUOiWuRI9oNI62mgCM9rUtLRqp0gPWL8ZTj2A==
+X-Google-Smtp-Source: AGHT+IH58K2fkRuNeCFONQo5PN3X5lTd6kkVRVrUL8HrgTghUwX32Msen1mn/KH+JIVLSLRjRmPpIQ==
+X-Received: by 2002:a05:6214:d0f:b0:88a:342f:32a with SMTP id 6a1803df08f44-89084185ec7mr128066396d6.14.1767914741275;
+        Thu, 08 Jan 2026 15:25:41 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890772346e2sm66493856d6.33.2026.01.08.15.25.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 15:25:40 -0800 (PST)
+Date: Thu, 8 Jan 2026 18:25:05 -0500
+From: Gregory Price <gourry@gourry.net>
+To: John Groves <John@groves.net>
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH V3 02/21] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <aWA80edCywOLw0li@gourry-fedora-PF4VCD3F>
+References: <20260107153244.64703-1-john@groves.net>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-3-john@groves.net>
+ <20260108113134.000040fd@huawei.com>
+ <6ibgx5e2lnzjqln2yrdtdt3vordyoaktn4nhwe3ojxradhattg@eo2pdrlcdrt2>
+ <5hswaqyoz474uybw33arwtkojxrtyxrvlk57bdwnu2lnpao4aa@4vxygh226knw>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108155816.36001-1-chia-yu.chang@nokia-bell-labs.com>
- <20260108155816.36001-2-chia-yu.chang@nokia-bell-labs.com> <CADVnQykTJWJf7kjxWrdYMYaeamo20JDbd_SijTejLj1ES37j7Q@mail.gmail.com>
-In-Reply-To: <CADVnQykTJWJf7kjxWrdYMYaeamo20JDbd_SijTejLj1ES37j7Q@mail.gmail.com>
-From: Neal Cardwell <ncardwell@google.com>
-Date: Thu, 8 Jan 2026 18:20:40 -0500
-X-Gm-Features: AQt7F2pqVzz9M7qiJp7DfsnUleYfVSMGUfqYVX43z4keU7aZSTGIZ7pkvS8mv_0
-Message-ID: <CADVnQynohH4UyvyKm9rUNcCMbnepJKMwhOCPRFzM5wTvpDR1ZA@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/1] selftests/net: Add packetdrill packetdrill cases
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: pabeni@redhat.com, edumazet@google.com, parav@nvidia.com, 
-	linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org, 
-	dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org, 
-	netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com, 
-	kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com, 
-	jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch, 
-	donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com, 
-	shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org, 
-	koen.de_schepper@nokia-bell-labs.com, g.white@cablelabs.com, 
-	ingemar.s.johansson@ericsson.com, mirja.kuehlewind@ericsson.com, 
-	cheshire@apple.com, rs.ietf@gmx.at, Jason_Livingood@comcast.com, 
-	vidhi_goel@apple.com, Willem de Bruijn <willemb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5hswaqyoz474uybw33arwtkojxrtyxrvlk57bdwnu2lnpao4aa@4vxygh226knw>
 
-On Thu, Jan 8, 2026 at 5:46=E2=80=AFPM Neal Cardwell <ncardwell@google.com>=
- wrote:
+On Thu, Jan 08, 2026 at 03:15:10PM -0600, John Groves wrote:
+> On 26/01/08 09:12AM, John Groves wrote:
+> > On 26/01/08 11:31AM, Jonathan Cameron wrote:
+> > > On Wed,  7 Jan 2026 09:33:11 -0600
+> > > John Groves <John@Groves.net> wrote:
+> 
+> [ ... ]
+> 
+> > > > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
+> > > > index d656e4c0eb84..491325d914a8 100644
+> > > > --- a/drivers/dax/Kconfig
+> > > > +++ b/drivers/dax/Kconfig
+> > > > @@ -78,4 +78,21 @@ config DEV_DAX_KMEM
+> > > >  
+> > > >  	  Say N if unsure.
+> > > >  
+> > > > +config DEV_DAX_FS
+> > > > +	tristate "FSDEV DAX: fs-dax compatible device driver"
+> > > > +	depends on DEV_DAX
+> > > > +	default DEV_DAX
+> > > 
+> > > What's the logic for the default? Generally I'd not expect a
+> > > default for something new like this (so default of default == no)
+> > 
+> > My thinking is that this is harmless unless you use it, but if you
+> > need it you need it. So defaulting to include the module seems
+> > viable.
+> > 
+> > [ ... ]
+> 
+> On further deliberation, I think I'd like to get rid of 
+> CONFIG_DEV_DAX_FS, and just include the fsdev_dax driver if DEV_DAX
+> and FS_DAX are configured. Then CONFIG_FUSE_FAMFS_DAX (controlling the
+> famfs code in fuse) can just depend on DEV_DAX, FS_DAX and FUSE_FS. 
+> 
+> That's where I'm leaning for the next rev of the series...
+> 
+> John
 >
-> On Thu, Jan 8, 2026 at 10:58=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.co=
-m> wrote:
-> >
-> > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> >
-> > Linux Accurate ECN test sets using ACE counters and AccECN options to
-> > cover several scenarios: Connection teardown, different ACK conditions,
-> > counter wrapping, SACK space grabbing, fallback schemes, negotiation
-> > retransmission/reorder/loss, AccECN option drop/loss, different
-> > handshake reflectors, data with marking, and different sysctl values.
-> >
-> > Co-developed-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> > Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
-> > Co-developed-by: Neal Cardwell <ncardwell@google.com>
-> > Signed-off-by: Neal Cardwell <ncardwell@google.com>
-> > ---
->
-> Chia-Yu, thank you for posting the packetdrill tests.
->
-> A couple thoughts:
->
-> (1) These tests are using the experimental AccECN packetdrill support
-> that is not in mainline packetdrill yet. Can you please share the
-> github URL for the version of packetdrill you used? I will work on
-> merging the appropriate experimental AccECN packetdrill support into
-> the Google packetdrill mainline branch.
 
-Oh, for that part I see you mentioned this already in the cover letter:
+Please do that for CXL_DAX or whatever because it's really annoying to
+have CXL and DAX configured but not have your dax device show up because
+CXL_DAX wasn't configured.
 
-  The used packetdrill is commit 6f2116af6b7e1936a53e80ab31b77f74abda1aaa
-  of the branch: https://github.com/minuscat/packetdrill_accecn
+:P
 
-Thanks!
-neal
+~Gregory
