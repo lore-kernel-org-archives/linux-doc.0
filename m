@@ -1,190 +1,91 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E870C33A71E;
-	Thu,  8 Jan 2026 15:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1175032C306;
+	Thu,  8 Jan 2026 15:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767885461; cv=none; b=nwLI927D1RzRg3Tk6jjyjewN7WyJV6S/Dy6PNILntEl2+vYj4ChAVIFknQAlwia2oPxPQ772c0aKrAVYQO/TTURI6rgveAZMjFCRB2adbpfiFC5kMCfuyLK12wnOxh7ponoRFquk3hdeeZg4rjFKZNICYENPK8CPpHNUhymgKOU=
+	t=1767885490; cv=none; b=eff/ezwLDexpXHf2oy1B1sJC7W3k5qUxt6284CVz0DDqnpbJ1ORlHuyvedNSspsK8PzrOKd8zTDeqKlUtLzMDWhj/ixaCEzj0DqLmQfO79sPUlRJMhoVY4yk7h6jVNFZIqlHVqDJulyBBzi5yr+tJmKsID9WG0Z5BH/82p2nDEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767885461; c=relaxed/simple;
-	bh=JAMdqyvoBlEJDXg82/7KOufjpCqCeM/HByi3F8wEtLs=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F6rHwWFgn4ft7uA7xrbCy6q26zAedTjksraIJhA37yJwIKTPc/bjkc/DkVV7KfWDeCZJi9YMrAb4TGMf3LaK1fsncnEK79LZ8ZNnpG3iJzZK9ggxaWmQYHEgPSnku88wbCLkPXvaf8v3tfn/7bqiaW6pYkdBWEb7Eh2jsOBKqgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn7n90W89zJ46C2;
-	Thu,  8 Jan 2026 23:17:33 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1555040571;
-	Thu,  8 Jan 2026 23:17:38 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
- 2026 15:17:35 +0000
-Date: Thu, 8 Jan 2026 15:17:33 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 18/21] famfs_fuse: Add holder_operations for dax
- notify_failure()
-Message-ID: <20260108151733.00005f6e@huawei.com>
-In-Reply-To: <20260107153332.64727-19-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153332.64727-1-john@groves.net>
-	<20260107153332.64727-19-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767885490; c=relaxed/simple;
+	bh=wElAgqmhU2sH9+PAc4srlbsEZTYYJ/yrdkxVw3n95E4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bcQ0/QNEjZ8Ru8ods0ug4ahvMOHGvr672K+ZgKalWR1P9XmEaG+GUz/NYJqthsJOUJjXgCPB33egX+FHrAEvcd18jjbEDgvjH6uxs9NTEHyGUE9rElVdNPIEo0Rx6TXW4qcUSMf/rXORhVQ/JNR0fDkEB1bHliRf6bLUHSiGuvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tO1qsb8s; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tO1qsb8s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44600C116C6;
+	Thu,  8 Jan 2026 15:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767885489;
+	bh=wElAgqmhU2sH9+PAc4srlbsEZTYYJ/yrdkxVw3n95E4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tO1qsb8sbuPY7+2dsp6sLheV0BkRESLekNwWZbmqFgFXIIziFd5Floa7jzGp6hYUk
+	 CYNMtda0ceV8AyHG7sCetgbEk31JXOT/XLZ5tdKPWa5w3cnrpuRU8KDxsE46ydSVOn
+	 R1YRBaBh5u54nOteVa5lrG74sRUessVMtPlY+2qtjKTxkf9FS9DVl7KLAqwzXhhXB0
+	 yb9THS8iMBaP+j+OwNlk3uBFRbd+SqpQH5GCaMI0F6sbI4Z8tr2ynupQ8dzYqH6XfY
+	 /sqjX6gttRsZU/xm8pRFz899DYRmDn7yNDS44+5VVPf+s8nyEdwbQgexsyvqYMF3ji
+	 RRcWhQdF9TkUw==
+Date: Thu, 8 Jan 2026 15:18:02 +0000
+From: Will Deacon <will@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>, Lucas Wei <lucaswei@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com,
+	kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
+	kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	smostafa@google.com, jgg@nvidia.com
+Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
+ coherency issue
+Message-ID: <aV_KqiaDf9-2NcxH@willie-the-truck>
+References: <20251229033621.996546-1-lucaswei@google.com>
+ <87o6ndduye.wl-maz@kernel.org>
+ <aV6K7QnUa7jDpKw-@willie-the-truck>
+ <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
 
-On Wed,  7 Jan 2026 09:33:27 -0600
-John Groves <John@Groves.net> wrote:
-
-> Memory errors are at least somewhat more likely on disaggregated memory
-> than on-board memory. This commit registers to be notified by fsdev_dax
-> in the event that a memory failure is detected.
+On Wed, Jan 07, 2026 at 05:55:40PM +0000, Robin Murphy wrote:
+> On 2026-01-07 4:33 pm, Will Deacon wrote:
+> > On Thu, Jan 01, 2026 at 06:55:05PM +0000, Marc Zyngier wrote:
+> > > The other elephant in the room is virtualisation: how does a guest
+> > > performing CMOs deals with this? How does it discover the that the
+> > > host is broken? I also don't see any attempt to make KVM handle the
+> > > erratum on behalf of the guest...
+> > 
+> > A guest shouldn't have to worry about the problem, as it only affects
+> > clean to PoC for non-coherent DMA agents that reside downstream of the
+> > SLC in the interconnect. Since VFIO doesn't permit assigning
+> > non-coherent devices to a guest, guests shouldn't ever need to push
+> > writes that far (and FWB would cause bigger problems if that was
+> > something we wanted to support)
+> > 
+> > +Mostafa to keep me honest on the VFIO front.
 > 
-> When a file access resolves to a daxdev with memory errors, it will fail
-> with an appropriate error.
-> 
-> If a daxdev failed fs_dax_get(), we set dd->dax_err. If a daxdev called
-> our notify_failure(), set dd->error. When any of the above happens, set
-> (file)->error and stop allowing access.
-> 
-> In general, the recovery from memory errors is to unmount the file
-> system and re-initialize the memory, but there may be usable degraded
-> modes of operation - particularly in the future when famfs supports
-> file systems backed by more than one daxdev. In those cases,
-> accessing data that is on a working daxdev can still work.
-> 
-> For now, return errors for any file that has encountered a memory or dax
-> error.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/fuse/famfs.c       | 115 +++++++++++++++++++++++++++++++++++++++---
->  fs/fuse/famfs_kfmap.h |   3 +-
->  2 files changed, 109 insertions(+), 9 deletions(-)
-> 
-> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> index c02b14789c6e..4eb87c5c628e 100644
-> --- a/fs/fuse/famfs.c
-> +++ b/fs/fuse/famfs.c
+> I don't think we actually prevent non-coherent devices being assigned, we
+> just rely on the IOMMU supporting IOMMU_CAP_CACHE_COHERENCY. Thus if there's
+> an I/O-coherent SMMU then it could end up being permitted, however I would
+> hope that either the affected devices are not behind such an SMMU, or at
+> least that if the SMMU imposes cacheable attributes then that prevents
+> traffic from taking the back-door path to RAM.
 
-> @@ -254,6 +288,38 @@ famfs_update_daxdev_table(
->  	return 0;
->  }
->  
-> +static void
-> +famfs_set_daxdev_err(
-> +	struct fuse_conn *fc,
-> +	struct dax_device *dax_devp)
-> +{
-> +	int i;
-> +
-> +	/* Gotta search the list by dax_devp;
-> +	 * read lock because we're not adding or removing daxdev entries
-> +	 */
-> +	down_read(&fc->famfs_devlist_sem);
+I think IOMMU_CAP_CACHE_COHERENCY is supposed to indicate whether or not
+the endpoint devices are coherent (i.e. whether IOMMU_CACHE makes sense)
+but it's true that, for the SMMU, we tie this to the coherency of the
+SMMU itself so it is a bit sketchy. There's an interesting thread between
+Mostafa and Jason about it:
 
-Use a guard()
+https://lore.kernel.org/all/ZtHhdj6RAKACBCUG@google.com/
 
-> +	for (i = 0; i < fc->dax_devlist->nslots; i++) {
-> +		if (fc->dax_devlist->devlist[i].valid) {
-> +			struct famfs_daxdev *dd = &fc->dax_devlist->devlist[i];
-> +
-> +			if (dd->devp != dax_devp)
-> +				continue;
-> +
-> +			dd->error = true;
-> +			up_read(&fc->famfs_devlist_sem);
-> +
-> +			pr_err("%s: memory error on daxdev %s (%d)\n",
-> +			       __func__, dd->name, i);
-> +			goto done;
-> +		}
-> +	}
-> +	up_read(&fc->famfs_devlist_sem);
-> +	pr_err("%s: memory err on unrecognized daxdev\n", __func__);
-> +
-> +done:
+But, that aside, FWB throws a pretty big spanner in the works if we want
+to assign non-coherent devices.
 
-If this isn't getting more interesting, just return above.
-
-> +}
-> +
->  /***************************************************************************/
->  
->  void
-> @@ -611,6 +677,26 @@ famfs_file_init_dax(
->  
->  static ssize_t famfs_file_bad(struct inode *inode);
->  
-> +static int famfs_dax_err(struct famfs_daxdev *dd)
-
-I'd introduce this earlier in the series to reduce need
-to refactor below.
-
-> +{
-> +	if (!dd->valid) {
-> +		pr_err("%s: daxdev=%s invalid\n",
-> +		       __func__, dd->name);
-> +		return -EIO;
-> +	}
-> +	if (dd->dax_err) {
-> +		pr_err("%s: daxdev=%s dax_err\n",
-> +		       __func__, dd->name);
-> +		return -EIO;
-> +	}
-> +	if (dd->error) {
-> +		pr_err("%s: daxdev=%s memory error\n",
-> +		       __func__, dd->name);
-> +		return -EHWPOISON;
-> +	}
-> +	return 0;
-> +}
-
-...
-
-> @@ -966,7 +1064,8 @@ famfs_file_bad(struct inode *inode)
->  		return -EIO;
->  	}
->  	if (meta->error) {
-> -		pr_debug("%s: previously detected metadata errors\n", __func__);
-> +		pr_debug("%s: previously detected metadata errors\n",
-> +			 __func__);
-
-Spurious change.
-
->  		return -EIO;
->  	}
-
-
+Will
