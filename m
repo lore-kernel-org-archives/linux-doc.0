@@ -1,104 +1,96 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A6062DCBF2;
-	Thu,  8 Jan 2026 16:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A6B2D9ECD;
+	Thu,  8 Jan 2026 16:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767890514; cv=none; b=jrfO5U5EcxtZFu3ff1Fn9pRjhZsRdnypoAs2szWAC72nt36x7kwxlU9rQ+d91GBIpLE/0P/gXJG13aY1FP8zNon03oJXgI4OtKDJALn4+maTiX566b2tviir0EMf9BwOagHTEZoWfx0QBx1GcbFPEqNPDGld/qL2hmDxqAG7TOo=
+	t=1767890561; cv=none; b=f9rsR1CWXRLQA/krCYXsJHxhg1NB1ToUuvkpygpAd9BLhIU08ko4234bIUcQhphEeoA6CavKmLlh70QEmNk4mYPIFyT3CRh0Gi7D9rf7/Nalsar56dHTHYZwsEOdr2IypvYYVc+wx8fciHWg0tnFUk+2Sc/Q0qDDt3HSLC7x4+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767890514; c=relaxed/simple;
-	bh=Go6tZvfw0P1naOPXvuPKJwwSMuPcQyT/vASOvZVvRVg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gaeqxl4ywpNIxXfOzAwjGH/sdZexjV4sD59EYVvhbNtt+GnYfx5b0QeJbxe5LGb7/aWTNnk91dsLgOj4xTWeisGsE8QBm/y9nLKfC7tWvROu/gFRjJMPhlkVPELzT4uzzpUuPmk8VqLGuGxtYSRSVfK0DctukRQ1RYcg0DQUmPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63214497;
-	Thu,  8 Jan 2026 08:41:44 -0800 (PST)
-Received: from [10.1.29.34] (010265703453.cambridge.arm.com [10.1.29.34])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 744FC3F5A1;
-	Thu,  8 Jan 2026 08:41:49 -0800 (PST)
-Message-ID: <a0fd155b-67fc-45a4-8510-01f89681d6fa@arm.com>
-Date: Thu, 8 Jan 2026 16:41:47 +0000
+	s=arc-20240116; t=1767890561; c=relaxed/simple;
+	bh=2JTt6hDJvWzDTM0dUBCnhSTPgPA0XojNDbovadYlQYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HGDftm3fYX36d/61RQd3b7DOLChqtpdiMSjrvbTYbM3NbpTWeJhp0tyawqfbqz5/GWOCp8hblLZ7kNOm/9lh359QrvFz/D8klXv3dYSzw+F7ULrMBaOhm3qkvseOeltB0jt6sXzA3++ylYMUZgkjBwRgMWLsDF7EZSLFveY7NyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLvKHVYk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLvKHVYk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B89FC116C6;
+	Thu,  8 Jan 2026 16:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767890560;
+	bh=2JTt6hDJvWzDTM0dUBCnhSTPgPA0XojNDbovadYlQYg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eLvKHVYkzB2xrU3XqpRv+2aLl6pb+jRfwARYY9Gxguxdkn8r9y0YSpc9yAOQyawit
+	 jBgZ5eOGLampXS8fNTGMK703bEQytzlTq802pMzoQzghCWEe7OXDUYVjBozH3DCnIj
+	 vnxYhigbIOOxXNN+2OyB7mlFksiJ3lyfhYBbLCtW3jfHL+uBKYkAP7fVGURjrCVufF
+	 Ug3dQE83ZJW7ZZEyzwCBVcURUF8xgKEjqODKKR1ibueNYt2Ydo/9eVTcWi5MVw8wiq
+	 V2+DYtzMYtGiZtRJ5NLbsCmxMBVkXZ4A26Z7p9xzeU+H6hdXHZiecp/bHsFvpZElwX
+	 LfyfkMgOlasPA==
+Date: Thu, 8 Jan 2026 16:42:29 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Fuad Tabba <tabba@google.com>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v9 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
+ loading SME state
+Message-ID: <cb6372ea-b7f7-4e87-91b5-09378f2dd526@sirena.org.uk>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+ <20251223-kvm-arm64-sme-v9-2-8be3867cb883@kernel.org>
+ <CA+EHjTxdSnpFHkm6o85EtjQjAWemBfcv9Oq6omWyrrMdkOuuVA@mail.gmail.com>
+ <3c8b4a5e-89f4-47e0-9a5d-24399407db0c@sirena.org.uk>
+ <CA+EHjTxLkLjPj=1vwDqROXOUXi2LhOQb90WP6dFaTiYG1nWovA@mail.gmail.com>
+ <e50b4923-ee45-43de-9d4e-344546c635bb@sirena.org.uk>
+ <CA+EHjTybF+aq2b2vhcEqi6U_sJjtt7ngzMZ9UcJ15G-Kqj=A9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
- coherency issue
-To: Will Deacon <will@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Lucas Wei <lucaswei@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- sjadavani@google.com, kernel test robot <lkp@intel.com>,
- stable@vger.kernel.org, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, smostafa@google.com, jgg@nvidia.com
-References: <20251229033621.996546-1-lucaswei@google.com>
- <87o6ndduye.wl-maz@kernel.org> <aV6K7QnUa7jDpKw-@willie-the-truck>
- <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
- <aV_KqiaDf9-2NcxH@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <aV_KqiaDf9-2NcxH@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IBbOtxmVdG86xy2i"
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTybF+aq2b2vhcEqi6U_sJjtt7ngzMZ9UcJ15G-Kqj=A9A@mail.gmail.com>
+X-Cookie: If you suspect a man, don't employ him.
 
-On 2026-01-08 3:18 pm, Will Deacon wrote:
-> On Wed, Jan 07, 2026 at 05:55:40PM +0000, Robin Murphy wrote:
->> On 2026-01-07 4:33 pm, Will Deacon wrote:
->>> On Thu, Jan 01, 2026 at 06:55:05PM +0000, Marc Zyngier wrote:
->>>> The other elephant in the room is virtualisation: how does a guest
->>>> performing CMOs deals with this? How does it discover the that the
->>>> host is broken? I also don't see any attempt to make KVM handle the
->>>> erratum on behalf of the guest...
->>>
->>> A guest shouldn't have to worry about the problem, as it only affects
->>> clean to PoC for non-coherent DMA agents that reside downstream of the
->>> SLC in the interconnect. Since VFIO doesn't permit assigning
->>> non-coherent devices to a guest, guests shouldn't ever need to push
->>> writes that far (and FWB would cause bigger problems if that was
->>> something we wanted to support)
->>>
->>> +Mostafa to keep me honest on the VFIO front.
->>
->> I don't think we actually prevent non-coherent devices being assigned, we
->> just rely on the IOMMU supporting IOMMU_CAP_CACHE_COHERENCY. Thus if there's
->> an I/O-coherent SMMU then it could end up being permitted, however I would
->> hope that either the affected devices are not behind such an SMMU, or at
->> least that if the SMMU imposes cacheable attributes then that prevents
->> traffic from taking the back-door path to RAM.
-> 
-> I think IOMMU_CAP_CACHE_COHERENCY is supposed to indicate whether or not
-> the endpoint devices are coherent (i.e. whether IOMMU_CACHE makes sense)
-> but it's true that, for the SMMU, we tie this to the coherency of the
-> SMMU itself so it is a bit sketchy. There's an interesting thread between
-> Mostafa and Jason about it:
-> 
-> https://lore.kernel.org/all/ZtHhdj6RAKACBCUG@google.com/
 
-The point is that if there's a coherent interconnect downstream of the 
-SMMU - which we infer from the SMMU's own coherency - then we should be 
-able to make the *output* of SMMU translation coherent, regardless of 
-what the incoming attributes from the device are. In the IORT terms, CPM 
-is really what matters for IOMMU_CACHE, not DACS.
+--IBbOtxmVdG86xy2i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> But, that aside, FWB throws a pretty big spanner in the works if we want
-> to assign non-coherent devices.
+On Thu, Jan 08, 2026 at 04:19:34PM +0000, Fuad Tabba wrote:
 
-If you mean having FWB on the CPU *without* also having it on the SMMU, 
-then yes, there are various ways that could be problematic even with 
-nominally-coherent devices. S2FWB on the SMMU, however, is *almost* the 
-magic bullet that makes things fine for VFIO in general, except for the 
-annoying mis-step that it's not guaranteed to override PCIe No Snoop 
-(hopefully that might get fixed in future, but we'll still have today's 
-implementations that do have the not-particularly-useful behaviour.)
+> Would it be worth adding a comment above the macro noting this
+> difference from sve_cond_update_zcr_vq()? Something along the lines of
+> 'Intentionally overwrites to ensure strict control of enable bits', to
+> save future readers from getting confused...
 
-This may be straying a bit far off $SUBJECT though - do we know if the 
-affected devices in this case are behind a coherent SMMU, and how things 
-work for IWB-OWB-ISh output attributes if so?
+Sure, makes sense.  Possibly also rename it, I'll have a think.
 
-Thanks,
-Robin.
+--IBbOtxmVdG86xy2i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlf3nQACgkQJNaLcl1U
+h9B9Tgf+IN7Byiwu2Z/BASg5BnKyxCB2XaDCnpzYIDqiBTAHcDa4uurE8parsO5u
+9gSiFE/fGFAUTL0ApBcB3Q+eZ0CzXPzCri5Ao2rb19bWYj4OnhSmsrBiVvgjWc92
+pyUPxBVcXfScjS/eFtDSjiBIjLWbvOjFRRSbc2W/CJzcwBH0Ch6A35vBv5plM4QJ
+txTV72D3BnfnQFqt5cNi3UFVg+XpZQQ/i6+ickNqRBJKRy6Q9LKvoYegHabPvt8g
+oOo8YpwCAqUYl8dAEFrHLU6t0JMmMnLMzUCBDDKcTwZbZd/zMyd9L8jGbtMMuim6
+6FXHMUIcx+PFnhj4HinUO/IJYZX31A==
+=FXRp
+-----END PGP SIGNATURE-----
+
+--IBbOtxmVdG86xy2i--
