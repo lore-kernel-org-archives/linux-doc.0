@@ -1,74 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D2D281503;
-	Thu,  8 Jan 2026 03:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BD9F4F1;
+	Thu,  8 Jan 2026 04:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767843016; cv=none; b=EmlIoVY5nmt5d/idjV10J7QGsdyaAFqcAm7gmNsXGT6lWZwxKwVS5MEtZoMpZdPxFEPvFTJsqxoCXXVB3awdH9/enkxFuMiiJiAfzPmpf6O9rZ4VLesMoyWP7Z/VNHwE5KFRFWOzavR/uODizZtrUlXO4emfCfmH0qhFPb00apw=
+	t=1767846613; cv=none; b=k+Qes7SvHOxpru0oeT3JfO0V61wBFozIv5bKJv0FHd6eJ6dcVu1FaPUAeAUjvs2BsZfYHQ7ivA/cUDFR10aAcQn2ZYI311S4alozemPP1zEPznNZyO+FqgZG60VTeJ/eEmIUAMjoQmLho4U7nQ0Mbe5MZN8YXFijULvskcjtSaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767843016; c=relaxed/simple;
-	bh=DSALUKMrHcObpEc4DihJ+nhGxXcRhoYI8ee1KKX83Es=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sdTX5LdCzWppp9J8+XFQkP+rx4KWtniB2S8q7t0MxabEtipNWtMwdNxcX9Zu7biRaPuJ+SBBk2T3BO5ocmlbitwKUHhR2bAgA2xyJdOUddBCwZVpvfVG9a30pIXeCCyPvNpZzEOnG6dne5Z+qXGSYsV/Bj+CMtZRbxzAasqN3jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dqrt1PBx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767846613; c=relaxed/simple;
+	bh=1RTsX2DZnzwicpE+on8OTdyM2tDt1/XcLi4B6ncbVQE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DbaXmMMd7cfSNQEiet3K4Muf98bHLdMHeXkUrWBoJ6J+9HMI8M085kTQYMRu2okfGA4bRYE+YaaZUxx3G4eeJ4Rx26YLlYuu3+Oc+vd0Xe5MS3ljMYSw/w1NyakEz4qmchvR8nRxslLfcI3lPP3WyZYLtJ82Bj64L3O0Xt8B+DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ivkEgx++; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dqrt1PBx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ABC6C116C6;
-	Thu,  8 Jan 2026 03:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767843015;
-	bh=DSALUKMrHcObpEc4DihJ+nhGxXcRhoYI8ee1KKX83Es=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Dqrt1PBxIzl3uvgfegE/S6bgdgUvs+Eh8XSIZ9T8tXXi2g2lZSSasduqJSWsvnRKv
-	 kbblKK/vPEhq9Iu8ezZ3AQdenRqg0fwhJYKbqftem7XwTZ+sQ3oJxyJmxhQKW2kseD
-	 4EbdcGroVQBWaPBSfmAXQ0g8nJc7aPyfbZZIgqraRxblKK20SJCTrxp5Ndllzxu5cC
-	 jh/vvn7zZyvnYWcfzej38sHojL7Dd3LE+KYvaKQ6b0EEZvGh8K2vmwHPQY/v1E0gcB
-	 gp+YBgVA3CXw+7fOK9ZKn893/1uVSBVlb2IThNIPkTeGYQq9Sf7tBi5pobHY/7/+GA
-	 RxjEJRVDc4qDQ==
-Date: Wed, 7 Jan 2026 19:30:13 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn
- <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, David Ahern
- <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan
- <shuah@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, Mina Almasry
- <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Stanislav
- Fomichev <sdf@fomichev.me>, asml.silence@gmail.com, matttbe@kernel.org,
- skhawaja@google.com, Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v8 0/5] net: devmem: improve cpu cost of RX
- token management
-Message-ID: <20260107193013.0984ab97@kernel.org>
-In-Reply-To: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-0-92c968631496@meta.com>
-References: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-0-92c968631496@meta.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ivkEgx++"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=NBfMN0NI64KX4XiizZcqXAdGS97p7Dg6mUYEK0ai2gM=; b=ivkEgx++++Im/clDvjRig+C4Cb
+	heiGASazDVv97x6mA6pm1UZjALDcPBLgUkMwRFaimUxvwn64lCel/ifK7ibh+y87XZaEAktWSwU31
+	6ql5K1uEfNZysnm21tNyhtsWf668dj3CL5xeJYepJV3bbjaU5whMvmjGjAilq7OK9H4c7mSkShnE6
+	9PZWJFeVgJdFT1ZsY592gFn3ZXlt5WnAWmgcE8S5RIjZlUKjPdYrUZgOVmkBVRcMnVIU2uKzV77db
+	xuGmVwbcvrhjrFk648kk/hyQTz3QYnYJGROeGTNF8GN9aIRgJiotMfqmHstmmocUJpltlJfH5BaVE
+	i6X4bNUQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vdhex-0000000Fuc2-2FEe;
+	Thu, 08 Jan 2026 04:30:09 +0000
+Message-ID: <ce37d2b0-275a-4358-a0be-ffe3aa7ee12b@infradead.org>
+Date: Wed, 7 Jan 2026 20:30:06 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] Documentation: tracing: Wrap PCI tracepoint examples
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Tracing <linux-trace-kernel@vger.kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuai Xue <xueshuai@linux.alibaba.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20260108013956.14351-1-bagasdotme@gmail.com>
+ <20260108013956.14351-3-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260108013956.14351-3-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Wed, 07 Jan 2026 16:57:34 -0800 Bobby Eshleman wrote:
-> This series improves the CPU cost of RX token management by adding an
-> attribute to NETDEV_CMD_BIND_RX that configures sockets using the
-> binding to avoid the xarray allocator and instead use a per-binding niov
-> array and a uref field in niov.
 
-net/ipv4/tcp.c:2600:41: error: implicit declaration of function =E2=80=98ne=
-t_devmem_dmabuf_binding_get=E2=80=99; did you mean =E2=80=98net_devmem_dmab=
-uf_binding_put=E2=80=99? [-Wimplicit-function-declaration]
- 2600 |                                         net_devmem_dmabuf_binding_g=
-et(binding);
-      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-      |                                         net_devmem_dmabuf_binding_p=
-ut
---=20
-pw-bot: cr
+
+On 1/7/26 5:39 PM, Bagas Sanjaya wrote:
+> Sphinx reports htmldocs warnings:
+> 
+> Documentation/trace/events-pci.rst:43: ERROR: Unexpected indentation. [docutils]
+> Documentation/trace/events-pci.rst:74: ERROR: Unexpected indentation. [docutils]
+> 
+> Fix them by wrapping example shell snippets in PCI tracepoint
+> documentation in literal code blocks.
+> 
+> Fixes: d0eb853678a21b ("Documentation: tracing: Add PCI tracepoint documentation")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20260105160000.0368ec8d@canb.auug.org.au/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/trace/events-pci.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/trace/events-pci.rst b/Documentation/trace/events-pci.rst
+> index c1ad0fc54777e0..03ff4ad30ddfa1 100644
+> --- a/Documentation/trace/events-pci.rst
+> +++ b/Documentation/trace/events-pci.rst
+> @@ -33,7 +33,7 @@ state changes.
+>  * ``CARD_PRESENT`` - Card detected in slot
+>  * ``CARD_NOT_PRESENT`` - Card removed from slot
+>  
+> -**Example Usage**:
+> +**Example Usage**::
+>  
+>      # Enable the tracepoint
+>      echo 1 > /sys/kernel/debug/tracing/events/pci/pci_hp_event/enable
+> @@ -64,7 +64,7 @@ Monitors PCIe link speed changes and provides detailed link status information.
+>    - ``4`` - Hotplug event
+>  
+>  
+> -**Example Usage**:
+> +**Example Usage**::
+>  
+>      # Enable the tracepoint
+>      echo 1 > /sys/kernel/debug/tracing/events/pci/pcie_link_event/enable
+
+-- 
+~Randy
