@@ -1,183 +1,123 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DF44BDEB0;
-	Thu,  8 Jan 2026 10:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B8C286D7E;
+	Thu,  8 Jan 2026 10:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767869058; cv=none; b=tfkSBcQWzCAouzCKmXVQ8FHTboosmMoYruJJLROj0zOhVn/M0hiFBpmXszOdIP4FuoxLwCBkrMbCe7doKUFSfhRyrnM+Olj/zGmRGw/OTLoixbepF1AEmT2rE0ckQH78/qYUNfdLovOg33LRfxlz+xUKh2i6CyqoZeWtRd4s2Sw=
+	t=1767869309; cv=none; b=TgphNUl4vFSKP7DxwRqYAKekU8OLAVAIVr/Fkb58MESfCyIXe0s9T53AYkEixN7ST00si6e6mHja4FfZ41ViBxdioOWqggOJ6rVE+ryiCzqrfvY9cOZfXPccfqOxA0GnUuMIlnzJ1kJQT3uYTDlSnPWvoduefTqqxFsZSi8yh/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767869058; c=relaxed/simple;
-	bh=Ny4RaHcpG7jXWvMNB3ojt451TJHh0rJcIQA3Waucmps=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m3cxMdN3Zwa5hatKlzkMpZ5IRGGnwbsfNlEt1C8ck7POU4BGs68Ns1R4/mKkt4hgLlhQywMm++lP0/E6HR6OWzE5JOZ33a07OyUsSM9+6jDpctdBdVCPSljngrQaCs6ORzdr1V1r/AfsXBzS/sKrEmgzTfnEjHF8W63gZclboFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn1jL4yF8zJ4685;
-	Thu,  8 Jan 2026 18:43:50 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 63A5240086;
-	Thu,  8 Jan 2026 18:43:55 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
- 2026 10:43:53 +0000
-Date: Thu, 8 Jan 2026 10:43:52 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 01/21] dax: move dax_pgoff_to_phys from
- [drivers/dax/] device.c to bus.c
-Message-ID: <20260108104352.000079c3@huawei.com>
-In-Reply-To: <20260107153332.64727-2-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153332.64727-1-john@groves.net>
-	<20260107153332.64727-2-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767869309; c=relaxed/simple;
+	bh=mfTHFuBrtHvWBMtN29ExNoOubr3/AlrAj+kSoSl0MHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rs01FxDu1N57KoyMRk6K+9+IYtmkgL8YDZRqI6r6IFOe8NYvcEPiIxgtvp4gXmjeqhTxn5F/Nak0HKbEZSMA5QVsSiNJ33SM9QqWJ20KiGnt7IN42U5p5IfEbnOxG42S1k/l+EGiJ8XB9n68RVYCK2lMiRvTEQus6YyDRMYQYuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jcAbjdCn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jcAbjdCn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02340C116C6;
+	Thu,  8 Jan 2026 10:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767869307;
+	bh=mfTHFuBrtHvWBMtN29ExNoOubr3/AlrAj+kSoSl0MHg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jcAbjdCn+tBIea4rBDb9fXc2HymhaBd3qRbDHbDEMgA8+xy2luplPO2IzNox1RmaA
+	 eOVIVXLvIkr18nsipC0OiLqZ3gwiHfQUVT5RcZ+oXMrxr2dkrDGe2T7egFa9MuKPKF
+	 pWdH7m//0byfBhv9UEiqlQqg5WHq/tOureQ7FmnXgCW2pvEOQHMXdq42qSYUxgfQK8
+	 lyHj+I0VW6W6s/6EfxBV5eU5sHp4s2icNxllM9IKAUdNVNf7ThkrYIJm0gK5ijD2yP
+	 EU9TDo/O0RhrpMxS2g7o0e0shpEKp50NSTp1Mioq72IsURO/GX7BZs5R4B6WN70Dc2
+	 5ij3un2cwa7Kg==
+Date: Thu, 8 Jan 2026 11:48:18 +0100
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Cc: dmitry.torokhov@gmail.com, corbet@lwn.net, jikos@kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	vi@endrift.com, linux-kernel@altimeter.info, peter.hutterer@who-t.net
+Subject: Re: [RFC PATCH 3/6] Input: Fire EV_BTN if found in ev_bit
+Message-ID: <3hbaxvaacc4gopd3p4dbqvkemqsy7qrzo4el73ngg7szbu5zbk@xq5c7ah5ul7y>
+References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
+ <20260104213132.163904-4-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260104213132.163904-4-tomasz.pakula.oficjalny@gmail.com>
 
-On Wed,  7 Jan 2026 09:33:10 -0600
-John Groves <John@Groves.net> wrote:
-
-> This function will be used by both device.c and fsdev.c, but both are
-> loadable modules. Moving to bus.c puts it in core and makes it available
-> to both.
+On Jan 04 2026, Tomasz Pakuła wrote:
+> Passes EV_BTN through to handlers and allows reacting to this event by
+> clients.
 > 
-> No code changes - just relocated.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-Hi John,
-
-I don't know the code well enough to offer an opinion on whether this
-move causes any issues or if this is the best location, so review is superficial
-stuff only.
-
-Jonathan
-
+> Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 > ---
->  drivers/dax/bus.c    | 27 +++++++++++++++++++++++++++
->  drivers/dax/device.c | 23 -----------------------
->  2 files changed, 27 insertions(+), 23 deletions(-)
+>  drivers/hid/hid-input.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index fde29e0ad68b..a2f9a3cc30a5 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -7,6 +7,9 @@
->  #include <linux/slab.h>
->  #include <linux/dax.h>
->  #include <linux/io.h>
-> +#include <linux/backing-dev.h>
-
-I'm not immediately spotting why this one.  Maybe should be in a different
-patch?
-
-> +#include <linux/range.h>
-> +#include <linux/uio.h>
-
-Why this one?
-
-Style wise, dax seems to use reverse xmas tree for includes, so
-this should keep to that.
-
->  #include "dax-private.h"
->  #include "bus.h"
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 2bbb645c2ff4..900a6fc9813e 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -1673,7 +1673,8 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
 >  
-> @@ -1417,6 +1420,30 @@ static const struct device_type dev_dax_type = {
->  	.groups = dax_attribute_groups,
->  };
+>  	switch (usage->type) {
+>  	case EV_KEY:
+> -		if (usage->code == 0) /* Key 0 is "unassigned", not KEY_UNKNOWN */
+> +		/* Key 0 is "unassigned", not KEY_UNKNOWN */
+> +		if (usage->code == 0 && !test_bit(EV_BTN, input->evbit))
+>  			return;
+>  		break;
 >  
-> +/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c  */
-Bonus space before that */
-Curiously that wasn't there in the original.
+> @@ -1723,10 +1724,19 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+>  	    value == field->value[usage->usage_index])
+>  		return;
+>  
+> -	/* report the usage code as scancode if the key status has changed */
+> -	if (usage->type == EV_KEY &&
+> -	    (!test_bit(usage->code, input->key)) == value)
+> -		input_event(input, EV_MSC, MSC_SCAN, usage->hid);
+> +
+> +	if (usage->type == EV_KEY) {
+> +		/* Send out EV_BTN with button number (starts at 1) */
+> +		if (test_bit(EV_BTN, input->evbit))
+> +			input_event(input, EV_BTN, usage->hid & HID_USAGE, value);
 
-> +__weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
-> +			      unsigned long size)
-> +{
-> +	int i;
+In addition to what Peter said, this seems to be a lot more convoluted
+than what it needs to be.
+
+The one nice thing about the EV_BTN is that is transfers the intend of
+"this is a buttons with no particular meaning". And that's exactly what
+the HID usage page "button" is.
+
+So why not:
+- whenever there are buttons from the HID usage page button -> map them
+	to EV_BTN
+- only map EV_BTN to usage page Button (to prevent weird things
+	happening with keyboards)
+- keep doing the weird mapping in HID we do but do not upper bound the
+	EV_KEY like we do (first hunk in this patch), and store the mapping
+	EV_BTN/EV_KEY in the input/evdev subsystem, not in HID
+- on the HID side, we fire just the EV_BTN for button usage page, and
+	input does the backward compatibility.
+- the backward compatibility needs to be in the input side of things so
+	we can add the new ioctls Peter was mentioning.
+
+Cheers,
+Benjamin
+
 > +
-> +	for (i = 0; i < dev_dax->nr_range; i++) {
-> +		struct dev_dax_range *dax_range = &dev_dax->ranges[i];
-> +		struct range *range = &dax_range->range;
-> +		unsigned long long pgoff_end;
-> +		phys_addr_t phys;
+> +		if (usage->code == 0)
+> +			return;
 > +
-> +		pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
-> +		if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
-> +			continue;
-> +		phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
-> +		if (phys + size - 1 <= range->end)
-> +			return phys;
-> +		break;
+> +		/* report usage code as scancode if the status has changed */
+> +		if ((!test_bit(usage->code, input->key)) == value)
+> +			input_event(input, EV_MSC, MSC_SCAN, usage->hid);
 > +	}
-> +	return -1;
-> +}
-> +EXPORT_SYMBOL_GPL(dax_pgoff_to_phys);
-> +
->  static struct dev_dax *__devm_create_dev_dax(struct dev_dax_data *data)
->  {
->  	struct dax_region *dax_region = data->dax_region;
-> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-> index 22999a402e02..132c1d03fd07 100644
-> --- a/drivers/dax/device.c
-> +++ b/drivers/dax/device.c
-> @@ -57,29 +57,6 @@ static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
->  			   vma->vm_file, func);
->  }
 >  
-> -/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c */
-> -__weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
-> -		unsigned long size)
-> -{
-> -	int i;
-> -
-> -	for (i = 0; i < dev_dax->nr_range; i++) {
-> -		struct dev_dax_range *dax_range = &dev_dax->ranges[i];
-> -		struct range *range = &dax_range->range;
-> -		unsigned long long pgoff_end;
-> -		phys_addr_t phys;
-> -
-> -		pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
-> -		if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
-> -			continue;
-> -		phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
-> -		if (phys + size - 1 <= range->end)
-> -			return phys;
-> -		break;
-> -	}
-> -	return -1;
-> -}
-> -
->  static void dax_set_mapping(struct vm_fault *vmf, unsigned long pfn,
->  			      unsigned long fault_size)
->  {
-
+>  	input_event(input, usage->type, usage->code, value);
+>  
+> -- 
+> 2.52.0
+> 
