@@ -1,293 +1,333 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DD416EB42;
-	Thu,  8 Jan 2026 19:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767900019; cv=none; b=c1GzZQzxx0TKAw+8xUp2Lwwm9jn+R6f8qlWn7B5N+fO8FbLbhuxzpBmeRDBQMXnp4YfxqXhGB2m1qY6N1gdVDynDsmSe0fXWsmxxoAun+iFTnoHRIb6ZTpiJPtyKoJXBs3KrqeZYG4OwCCMr34QFrMINN+MDxAqli+rlFQjIpfk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767900019; c=relaxed/simple;
-	bh=FBaPQlSoTU5UHUYndbWv1nQt4mmWHgIdDAUljiKLbro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUyVtqyEYTXxOb/zmEecsVAU1i27FTwbayUdK1eLHig/84+e01tYyAljJy5Wxjmndtr2m2L+lDL48qnQ68AgSlRLhRQe1GpShQ2Mi7+4SJWolDrea8cMF0pwfL3hkhfBo9X0HmNhcOhSHqPJFZKWnru9IUET381NetMDTf58dBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2mY2EJM; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7071327206;
+	Thu,  8 Jan 2026 19:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767901686; cv=fail; b=qYCMlXvH6gyfBX0mO3naqBWxFs37ufHLgdUgBd2Q0VdvNFLg3P8RWZXXoTnfvQrCn5zMJTTaEm8dt9DAzyj6Esr6XNuvT4sivztvWwIp+tdau3GJkUN2pa/sqsWjwLbRXCP5c6wkn04XeS+MLx6R2bL/xK1eC/H9E65Lq/BE+ho=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767901686; c=relaxed/simple;
+	bh=8wmODxNOF6Gpbj1PncaySL+zAx67708kCK+8gAq62cA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EsdR8pG0Lio3TAapU9ws9zQbuFe5WNF75eTPPd60AQmyvVvgRXwp1rFA7BP3GUojB7geGv2MhEXyZtmCrBd+4THm6qYbSq2NQUW/N+5JqPQ/5CqoNfUJAezoU80FZBr9XGJvmktgON02ytB0Ma+o6Wiq+9xCeNTRdigJ9zXoClw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XjIahBvS; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=M45wtpnC; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2mY2EJM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767900018; x=1799436018;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FBaPQlSoTU5UHUYndbWv1nQt4mmWHgIdDAUljiKLbro=;
-  b=O2mY2EJM8BABzGWqpu/7Mx60a3H3X1UMcfjO2X2l6147HNJztNdibzQG
-   i38wt+g8hFRlwP80XKDYwd3+CylS9GtGfHZApYwPInzd01iKUWPE7MRfP
-   IhrdKktwcCdq2pgkzKdNZ4vYmKJdmQoXgRtNJdOY8/9ju1grkzRUTbCp/
-   IXaCd1eHp+q/Fn8vcEweJaLRrDh9vNgHR3pBlIwhwUdnTelAX7YEhL2aE
-   b91T0kCG+NkO1LXNbegstUYIFRe3AduYI7FNew93p1p0aNZ3KWXZydnDF
-   8pwljU9LYL9obZGhnceOMpCTMj8QgHqNp23wQBwOj7BDeIdk5EViYW7Jx
-   g==;
-X-CSE-ConnectionGUID: lNCDdACnTT2K4Ylh86U1tQ==
-X-CSE-MsgGUID: h+uJI4oBR4qM/MJgSaCuJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="86702597"
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="86702597"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 11:20:16 -0800
-X-CSE-ConnectionGUID: JN1S6bCYR3WKLjz2HSm2wg==
-X-CSE-MsgGUID: WywU1gmIRreo/ZIK9+auZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="203197976"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Jan 2026 11:20:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdvYC-00000000568-2Bfv;
-	Thu, 08 Jan 2026 19:20:04 +0000
-Date: Fri, 9 Jan 2026 03:19:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Mina Almasry <almasrymina@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>, asml.silence@gmail.com,
-	matttbe@kernel.org, skhawaja@google.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v8 3/5] net: devmem: implement autorelease token
- management
-Message-ID: <202601090223.Ygqrrc5p-lkp@intel.com>
-References: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-3-92c968631496@meta.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XjIahBvS";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="M45wtpnC"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 608HMGBN610876;
+	Thu, 8 Jan 2026 19:46:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=6kSzGqjjmpKoi9SJc3YbyyjK6se1+IkIbRsVWbwwR+Q=; b=
+	XjIahBvSQ+EDMbU40BZfIlvd3vX2tUzOSS6yJYke8zTxgB9bEh/A1a5iCTVF9RfM
+	n/ARdUY7Sr0Ciu8SKmT/Gm6xlphAMFlHhSNBZC97ZIQwn+H5Mq/DpEOIlNrKjEX/
+	NVaWYUKSghLSVl+suwnXiENTe6Xid7ONnlqAFNKL1cc+8uNZpMOuJVkneP7KcOQt
+	SbkjZNxAa7wXMZ++c0CcciZsdL4dyjiblEKH1zKoBvW7PsxE2BTqLCXhWq5b9vlQ
+	0SeVp8yipJ1BVE0vb+mQkSu+10/522KaNpejJcB+YwNfq5D4d2G6xhbCgxG/YZAp
+	X8Ao9MZfRG7Fe87wvWAS8A==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bjgwx07th-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 08 Jan 2026 19:46:39 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 608IFm7e020371;
+	Thu, 8 Jan 2026 19:46:39 GMT
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010010.outbound.protection.outlook.com [52.101.46.10])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4besjngrnp-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 08 Jan 2026 19:46:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ISDs3KpT/qnxkgko4tBsb827Yt6HnBMPsS/mD+JGRfNhsNy9dYyiSjZIYuJbM1Y0OUlyOw3LSshcka2KzX6/Y1tJAd3puAuAdbLlE+YxfT4mifv+jeifKG0TFTYhnZ6/02aqj1ph3tTLas9EUZGMQQs4iOkRva/KWAHd+oW/WidsSovhBU/AKPzXjeEAdapxrXrEjt/hrLXYbxLXqFRfO6LoelCzFp/B0jldyfFMAGWJYiLkFY5dO4QEh0VN2nfjft1bskEl5hqctctVNZRIUvf/jMM8mMBXp+1IyCH2U1CFM4+7GgBCPenoje1GgF1DHeFjtQSiq+5UsfYV4n2iwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6kSzGqjjmpKoi9SJc3YbyyjK6se1+IkIbRsVWbwwR+Q=;
+ b=zPwrVfK2oY7bEmLawBhxI2kSKpx47oThf4m12EhxUCJXIsKbxzy5eRLz7onP+grFUZyRxVJqXpwjUtJhTX4bnXp/MGP1PxeqXf1Ouh8y7bqOKl27BXu2YCCTwTw8qLB26+Y0gtlde0SLatEl+CId5UZ53Z0MVzNIgHrFLVlSHqvfJTHnb6avynz5vbjqClH8FjXxjqGDrQ/2KZ6wf+ieAET9l/Ks2vLpTHjUUzURsT4U9HaTsPZ2QSk+Hzx5j1RGn6cttw2zki+26imTsFX6UuxBRHLA0cD/W7E/uzCMGu2Vc+OLf5R4TgpPto1Yy2Lw26GEa8yepZCuRjWy7sE6Sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6kSzGqjjmpKoi9SJc3YbyyjK6se1+IkIbRsVWbwwR+Q=;
+ b=M45wtpnCi1yCAFnheC4hmTzyAXiucAy09TG1/GMnhUBgl3vvxBWJn7m7cK3iwYd738+m3QVysBUjrBQRXpLRKVDX3hYAnm+T1vxH80GzfpNM1hvcFjc/JJgNRto4Jbv9FvRxWzt1NQo7X4NS1OQ9XxjroZ5wlKxv2DU+EFnQDRo=
+Received: from IA1PR10MB8212.namprd10.prod.outlook.com (2603:10b6:208:463::20)
+ by DS7PR10MB7277.namprd10.prod.outlook.com (2603:10b6:8:d8::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.3; Thu, 8 Jan 2026 19:46:33 +0000
+Received: from IA1PR10MB8212.namprd10.prod.outlook.com
+ ([fe80::ee8a:bd21:f1cb:c79a]) by IA1PR10MB8212.namprd10.prod.outlook.com
+ ([fe80::ee8a:bd21:f1cb:c79a%3]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
+ 19:46:33 +0000
+Message-ID: <e16a8bff-9192-45fa-a349-79b16fdd3ba5@oracle.com>
+Date: Thu, 8 Jan 2026 13:46:27 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/24] jfs: add setlease file operation
+To: Jeff Layton <jlayton@kernel.org>, Luis de Bethencourt
+ <luisbg@kernel.org>,
+        Salah Triki <salah.triki@gmail.com>, Nicolas Pitre <nico@fluxnic.net>,
+        Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
+        Anders Larsen <al@alarsen.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>,
+        David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
+        Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+        Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+        Sandeep Dhavale
+ <dhavale@google.com>,
+        Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+        Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Viacheslav Dubeyko <slava@dubeyko.com>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Mike Marshall
+ <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Phillip Lougher <phillip@squashfs.org.uk>,
+        Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>,
+        Baolin Wang
+ <baolin.wang@linux.alibaba.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Yuezhang Mo <yuezhang.mo@sony.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Eric Van Hensbergen <ericvh@kernel.org>,
+        Latchesar Ionkov
+ <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        Xiubo Li
+ <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+        Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+        Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>,
+        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+        Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+        Bharath SM <bharathsm@microsoft.com>, Hans de Goede <hansg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+        linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
+        ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
+        linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-mm@kvack.org, gfs2@lists.linux.dev, linux-doc@vger.kernel.org,
+        v9fs@lists.linux.dev, ceph-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+ <20260108-setlease-6-20-v1-12-ea4dec9b67fa@kernel.org>
+From: Dave Kleikamp <dave.kleikamp@oracle.com>
+Content-Language: en-US
+In-Reply-To: <20260108-setlease-6-20-v1-12-ea4dec9b67fa@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR03CA0371.namprd03.prod.outlook.com
+ (2603:10b6:610:119::19) To IA1PR10MB8212.namprd10.prod.outlook.com
+ (2603:10b6:208:463::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-3-92c968631496@meta.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR10MB8212:EE_|DS7PR10MB7277:EE_
+X-MS-Office365-Filtering-Correlation-Id: b37609bc-adbd-47b4-bb70-08de4eeea04a
+X-LD-Processed: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007|921020;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?ekZ4cE9TZGdUVzNmVThIVzl3TldEOHQrN056S3BNbHFQZm9hODEyMzZobG56?=
+ =?utf-8?B?S09ZOEN6UTlBM2pWaVV5Vnh2SCtGVFhQTHlMdUpmRFdLWVpzamdFdVk0Ym5t?=
+ =?utf-8?B?MXlFKzNoL0RFQThkY3NZdTJ0RXdOQldFbUFzemtGRHphQWRmZTBpYUtrd25L?=
+ =?utf-8?B?YWxNdEY0UEhpRFRXRUlURW9tZFFRQ3Y4ZHRWeGQ5eDlMdGQwZllUUWRoTFBF?=
+ =?utf-8?B?T2pTelVpNFpualp1NGtXdjFOTDl3UnVwNHJjNmcvTlExenpza0dDZ1RUc1Qy?=
+ =?utf-8?B?SWlpVDROQ09hZjFHY1ZoekIzQ0I3MlVqRTBLcmRSeDdTOE93c0IrUmdZNjhq?=
+ =?utf-8?B?Q1RDeG5iaGMxQTRVSWEwenpQNkRlUDJ1YTRSSUJyVnRGQmxOOEJoN2IxaVJY?=
+ =?utf-8?B?VnJBM2pHZVFOWGJsUlIrWmtlQUIrSnVpU3FiL0VMN040aDFNejhKejBUYWF3?=
+ =?utf-8?B?UGUzWHppc2RkQ3BBNlhkSG4veFdEUXhxNDkvY1NUVnpFTFVCdi8rUFF6aEtl?=
+ =?utf-8?B?RHNOaS9JN0pxVWUzdFVVR1ZOSTBnY0dmdk9Nc1NqYjEvQWhoWmlNR3VScWUr?=
+ =?utf-8?B?Z2h3SS95VXdIV2tpQXRXWCtBNzZnN3pSSHRFdVVVQWxDOHllU1NBdTdxVXlm?=
+ =?utf-8?B?ZkNDZFFXaU9jODh6SnVFeDZGd2l4RGk2WjV6NHhnd1VmQmZiOURPVEw1RGlL?=
+ =?utf-8?B?YWhMdlpCUkZYeWViZys5L0lCaU5Sb09wNVZ5ZzhVamJWbCtWZzhiRXdyUEg2?=
+ =?utf-8?B?ellaaUZpWk5neHZSRFlXVXlJM1RwSmNuMXdtS3Y3UEpXaGNzeEc4N0N6TVE3?=
+ =?utf-8?B?bjZTZVlWcS9XUCtlTHFyQ29DZXRQM3pmY0dNVHNDaCtzQnpET2U4K2VxOFZh?=
+ =?utf-8?B?MTBpRDJ0aHVBWDFaaWxIRnNjNW92M0kwYW44WTByQzVldVVUUlRTdTVvYm45?=
+ =?utf-8?B?RnZZN3hpcUFNZnpJZ3ZadFl2dWI3cWQ3MHl4alpMbFNtanUvTUw4U2kxcVpY?=
+ =?utf-8?B?aVoxZzFFS05lcWtwM1pWOTJsNjhVT2hmU09Tc0Y0ODJpYUx3SFhxVXBMZ29W?=
+ =?utf-8?B?a1cxU2xTWk5oc1VHQ1VwemRFYVZMbGJVVzdRaFdOMjFUcGp6ODJKbnlOVk9P?=
+ =?utf-8?B?NXBkZkJaNTBOcytNWUE0M2Y3ZTRLdjZRSG5wbTB1TkZCMTN2b0RHMkVJeXV3?=
+ =?utf-8?B?WlUrcTQ1cmFrTkkxMHZ4VEdkV1dOMjVjUnRKVVJHZFlGTzJ5QmdETmhqSVBJ?=
+ =?utf-8?B?OFBkQWhiNFp0WitsTTFxT3NrL3hPTXNBbUY0Vnp1VlU4dVZ4SEJWS3FQbmVZ?=
+ =?utf-8?B?b2xUR2U1S0FvNzByK0pvNHkwMVJmQnN3NzZrUnV0R1VzaS9tTjNPNGF4S0d6?=
+ =?utf-8?B?cVUrNFVUVWM4ZTlLc3dqV1o2UmxGTUZmYVk1eWRFWDI1L1hjcE9KOGhMNEt4?=
+ =?utf-8?B?anFLY3c1ajdnRVdUalplYWp2VUZ1NytUTWRoV0p6YVNsRElDV044TS9rcVpY?=
+ =?utf-8?B?V1NOeHpxZndBQWFtZVJTa0hhR2taQzFLQTN6b2xWL3pGcHA4U0xCVU9iQnJL?=
+ =?utf-8?B?VHk5UFB5U0dVQlZ6dW91ems2RzZGUmQ5U1FvcG5SRkRaMVF6d3JTZ0NKVkx3?=
+ =?utf-8?B?bWxZRE1DOG1QZzBYOXJNazlDMVRmZTQwOVEvR1pLWGx6M3Zuemo5NUZLKzJT?=
+ =?utf-8?B?SDdZWnAyeXhYQkMzaE9pZEJRdHgyOWdDVzd1Um9hZStQZ1plYkR5YUdvdCtE?=
+ =?utf-8?B?dWFvM3liMnEyaWNZbnZ1VCtqS2grZGcvUTJ6TUVoWkRrZEFvdWNqbXZQZDh5?=
+ =?utf-8?B?ZGd4eVVLQ2NNTXBpVnptQWl2Vm8yUFd3WFhiS1dDN28vWmVNZHQxZlRPc0RH?=
+ =?utf-8?B?RHFKSU5EK2JmVWhBWThEajJqZ0hPSTQzQVhWMGtBUU53bjNLVmZONlpvWXN0?=
+ =?utf-8?B?MlFxbVN0YkJMTDQvM3pCYVFna01lSk12dlRJcm1YRWVjYzgrUWtidjd6ZEti?=
+ =?utf-8?Q?+HiAcK5KQqqQqfJEeCMbOXKGk0ZYO4=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR10MB8212.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Y3pBbzJFTVgxMUtUc2RTeWluMFdWa0tTUTk3M1RVQkJOU3FQcHBzNHdVaDhM?=
+ =?utf-8?B?MmVqT2xNNzdOdWE3SHRpbHd5aU5PNkZ0dXVDOUNDYlpQTEE1eFRxcUpqa3J3?=
+ =?utf-8?B?bDVTWTh3Tkd5UGVXU1JQcE00QmdXaEZGd0NFVFRoR2dlYVJmbFkwV0FETG9C?=
+ =?utf-8?B?WUpEdjFjcWw3S1BJWmhyWk9lUzJtc3hoV0Y0a2hlcnBGTzBoTEh4MWNibStY?=
+ =?utf-8?B?TjRkeTE4ckpvSkM0WXRnTm42S0VtQitSMDh1QTRTY21EbmYwZGNid2JaemJ4?=
+ =?utf-8?B?R0NqcUpCVm9uOU5vYlc0U3o4RHNtNUpQci9XZy82Y25HcFl4eTY5V0x5eWhL?=
+ =?utf-8?B?VUhoK3V2WlNiNjRrMndiRUhhSit1MGdZQVIxQnpNdDFpSk5PL3gzekZqSHlR?=
+ =?utf-8?B?ZDBWWnpSemxvd3RKK1dmYStiZjhBS2ZDeFNkL21IWjRTNzlIbnZNWWQvVmVx?=
+ =?utf-8?B?RW44alo5Q1dWODVNUGtJZkt6cWgxSUxWME5nWjBvWE1iVXNWT1E5NzV3MGph?=
+ =?utf-8?B?emkycWhtSE9IeGN0NFNuemU1aTdPZ2l6N0twQmdSbXhKWGdJRjNBOFhqMGdn?=
+ =?utf-8?B?b0I4T2hiVnFYQXIyMUpIRk9vWFJhUjU0WFNVMTJpTEJaeVU2Q0I2RlZqWmx3?=
+ =?utf-8?B?amNMWC9ZT3FKT3ZsaFVRSFZUb0l0TlgyZkFocnoyRXpidGtGK1VRbit1MDBM?=
+ =?utf-8?B?WjJZaUJvb1FZZWxuajRFS3F5dS9CYnRFOTI5K0hoRUkzMXRqdUt4MmFuUDBj?=
+ =?utf-8?B?VmFmQTd0aENCTWd0eUdvL0cxVGVIUGozT2VPVFpyRG5rakZqRmVHU3pnY2p5?=
+ =?utf-8?B?a0pXNUJZUGJPeHdFVXdZcm5BVktDV0tOemNNMDlVeFo0SStwZTd1eCsvblgr?=
+ =?utf-8?B?WUZoWFFnb3l0ek5KVDFXd0xhek1xR21TaklzcnFCRTRlVlpQK3lLNFVtbi9U?=
+ =?utf-8?B?dERZdGdWZCt2MlYxTTZqZFV4L0JLMkZSdmY3Tll0L1ZQRGwvamdyajJ2ZDBv?=
+ =?utf-8?B?aXhpMVU4YktKcVVaWW96ZmF3UE1lNGFHL3Z3L2JJWnVzbXJHeUo0dXk1dFVJ?=
+ =?utf-8?B?UnlGNUM0RzZjaTBwZUFoNzd3eTNoSUszelhUWENBSjRWV2NPS3pxK0ZEeHVH?=
+ =?utf-8?B?N2Y1TWNSVUNaWHRzNFRvM0gvNWVYVnlSc1NZQkpxY2U4T1JlQjIxNHlJdkFm?=
+ =?utf-8?B?RVhjQUU1T0Y2RitXYnRSVHVtaUtaazZNc3JNbDBOYU5GZVVqejQwUDAxUHRJ?=
+ =?utf-8?B?KzkxcVFpTzYya1dBTXJPVEJnV3Y4QnBzM292aGhZdXEzVnArNnh1cms0Y2Yr?=
+ =?utf-8?B?ZWVtcTZwYTNWU1RuWmdEVVl4bWZvM2dHblc4a0ltZDBTUHF2N2VFcEV0a01q?=
+ =?utf-8?B?YkxHOElVeE5oRWU4SE5LbUJuUXczc0FSeEdhclYyY0hVUFdCNGpUeDJla0Rx?=
+ =?utf-8?B?VE9ZM0JtYzFuNVdyRFZ4WXVjSUhteWJtL0FoRFhyY29vOHN4WjRNSEptNXBH?=
+ =?utf-8?B?STZuY2IwRmFqN3Z0NWltT3hFOUtpckJaK2FrQXF3RjByQStKbzdadENZblE4?=
+ =?utf-8?B?cWx4N0ZvTTUrZFE3NVJIMUNOZzlFZ25OczhpYlUzRk45T1RDQjJDWk9UcTY0?=
+ =?utf-8?B?SUZkNXk3eVo4bWp0QkpaS0dZZlViNHFtRmh5U2xldWJIUXB0bGZIdTdvamNy?=
+ =?utf-8?B?WG93L0NZK3dmNVpNRjN5cEE3ajNLcG5teWpUMFVBbGxyTUIzTFFGVFNkcjBy?=
+ =?utf-8?B?ZUNPMlhvaThNTmR1WDNhQk5aUTFaajErMVdJTkREamprbWMwQkJUaVNsL2pw?=
+ =?utf-8?B?MHFUcWdQY3ozMUhVdjNsZ2pLMDB4N2NCZ0M2YWdUVWhCeE54L2NDdHgvSW9m?=
+ =?utf-8?B?K3dyWm5FNXpKYnBGaGF0UklNd2FPV2xtZHhYOE5WRXNHYkplYzBUbkpPelJL?=
+ =?utf-8?B?SS9panJVSit5bFY2QVRwZzZQbnJpamxHRlNLWlA1S3lSRm1SWmdzS2JtVDRh?=
+ =?utf-8?B?NHlGWEpLRU9BQTQ2SUMzSjc3VXIrdDREdXNNTjNzUUUzWjFkelNpdW5ITEZV?=
+ =?utf-8?B?RTR2aEp4b2orZlVJdkRKZXN1ZlE4bHAyNHZxd1RHV2pyZjRSWlRUZmF5M3Vi?=
+ =?utf-8?B?d29CcGVmbEJqcjJwK0xwb0tGbXpiSzV0T2ZkM21sdW1kOSsvU2F4dDFJMUls?=
+ =?utf-8?B?OGZHamtFeVVjd0xkTmdKaTduZVRnbWVHRXh4d2VCR3ZodFBvM0ozS0hLT1lj?=
+ =?utf-8?B?N3BDanhZNFVYencxOGxTRXJ4SEhkblVEZ1R6ZjA2UDRwK0Zab3ViTTVYY2dn?=
+ =?utf-8?B?bFBFSWUwczJDMjBncFl5QXM4aXV0dE9KWjZ6QzNpT3NjYzZQUHVQeEFBcENQ?=
+ =?utf-8?Q?E8hHTZQbxBDaCz6w=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	NfuEG8YxZWhHy0COKGz9aqo6/UO+QsJ8CW8cIsp3Sa4uOHTXWVC3nFgP7CdTBMbJgOuCQ9+XG6XZRHOQdKF/Dtond6ysLgaqDjgr9a+doAXN++mau+i43StBRD6+FxJ46SksqK3/8E0Dxxvz84n/WQGbTu6ETvcliF84RbzqLxEjVgCqAmvLIMThryhI7MajIQLNZ1RFE0g7cJwjctK0iHy948wA93w2fbOatJWkM8C8/BAbbtqrLg80UlmtU2OMlhSdyo+Ln37EvN5XnivGDHhOaMhNxpgvnmhfPewFH0d9DRgE99hKGkmZcA5pmZPkh7zv5V8liIL9YsL9Oy4zBJGmQNoe/UAt5Yy/Znuu1LYiEbOzHBIoI5rT6W4LyIBG2xc1HJPNgVqm0UVREpzXZBbqHMvYYKyIn3W/rfgX3BRcEvoVeSiHdT31pQyo5xW39pQiXVLGbEnmYZbtwvn+T9K5hXv6lsS+9SdHPlz5oKc7TD2kYG1yj4vzCdb4jCm2yJVQU02Zz5PVWKLBelkWk6zccSCnZR4gPBXDB/naQwJ+F4R3c5Ir7Q2BrzXE+DA26gIbxfJ7+aFujSxXwKCgtPMA32YeOfO5Vtle+4FhpVY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b37609bc-adbd-47b4-bb70-08de4eeea04a
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR10MB8212.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 19:46:33.3024
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cTWEHrHUhSFIVZyxSAt7JiuZXHOcW+XAh2h9Zu9PqKxKzta+nZ0nbkngnrxNPgzXdA0TCi0F7Jy8CxKOvcqL2uiMm/5EbicGbHkv1ZyXIiI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7277
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-08_03,2026-01-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 mlxscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2512120000 definitions=main-2601080147
+X-Proofpoint-GUID: sf2jjOwZv1Ke0FSQAq0leWYEjSMDHTcy
+X-Authority-Analysis: v=2.4 cv=JYSxbEKV c=1 sm=1 tr=0 ts=6960099f b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=VwQbUJbxAAAA:8 a=5M8K4nvISJ18i9EF2vkA:9 a=QEXdDO2ut3YA:10
+ cc=ntf awl=host:12109
+X-Proofpoint-ORIG-GUID: sf2jjOwZv1Ke0FSQAq0leWYEjSMDHTcy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDE0NyBTYWx0ZWRfX45GzYFa2HhIF
+ rbm9MGga4dJF5QsGJeGD+In6BQ9ncOe52zHx4EycFSktIxLGIr48TnBoHe+sQZd8UWtCbmUiuc+
+ iIlOtyscHNt/PpSsqAx1q3+EbMCxfFGEo0Wx8w32bBrJn6nv2pmrepRzcrXor1IYJosVA22PchK
+ KM6BXXIj7fP/8GVSgOlg/AFCMJYU5YoBaPyU7oFvxSwkbC4Hsz0iWKTnWEbwro53BexWsZ03VrZ
+ y7+GPS8ZZUMg2/7IrqNn212Yhpn7IgTozq1VOf8BTapoDeWXtG9wuR0cBY6D1M4zKA7nVBlXlzr
+ YCe2mg0t0feM+HvgxUVuGayVGvyBiZRQ9yD0FDYjOvJgu5/qAauTzMZQXtEHXvaqCAUP6Q0kRDZ
+ AdgnkPS6yR2F31EKX43QZ3lO73FuUU4t6XJnjOvcYAzgujEoWkWXjxtNEauv1fDlmCrTMDCBOuy
+ YZ6f13xqhTb3qHn6Ez+mivCf8dAhaSyT1hX79lzo=
 
-Hi Bobby,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-refactor-sock_devmem_dontneed-for-autorelease-split/20260108-095740
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-3-92c968631496%40meta.com
-patch subject: [PATCH net-next v8 3/5] net: devmem: implement autorelease token management
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20260109/202601090223.Ygqrrc5p-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090223.Ygqrrc5p-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601090223.Ygqrrc5p-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
->> net/ipv4/tcp.c:2600:41: error: implicit declaration of function 'net_devmem_dmabuf_binding_get'; did you mean 'net_devmem_dmabuf_binding_put'? [-Wimplicit-function-declaration]
-    2600 |                                         net_devmem_dmabuf_binding_get(binding);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         net_devmem_dmabuf_binding_put
+Reviewed-by: Dave Kleikamp <dave.kleikamp@oracle.com>
 
 
-vim +2600 net/ipv4/tcp.c
+On 1/8/26 11:13AM, Jeff Layton wrote:
+> Add the setlease file_operation to jfs_file_operations and
+> jfs_dir_operations, pointing to generic_setlease.  A future patch will
+> change the default behavior to reject lease attempts with -EINVAL when
+> there is no setlease file operation defined. Add generic_setlease to
+> retain the ability to set leases on this filesystem.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>   fs/jfs/file.c  | 2 ++
+>   fs/jfs/namei.c | 2 ++
+>   2 files changed, 4 insertions(+)
+> 
+> diff --git a/fs/jfs/file.c b/fs/jfs/file.c
+> index 87ad042221e78959200cce12a59a3ffd6d06c0d7..246568cb9a6ec144831eb3592712cce323d8cf1d 100644
+> --- a/fs/jfs/file.c
+> +++ b/fs/jfs/file.c
+> @@ -6,6 +6,7 @@
+>   
+>   #include <linux/mm.h>
+>   #include <linux/fs.h>
+> +#include <linux/filelock.h>
+>   #include <linux/posix_acl.h>
+>   #include <linux/quotaops.h>
+>   #include "jfs_incore.h"
+> @@ -153,4 +154,5 @@ const struct file_operations jfs_file_operations = {
+>   	.release	= jfs_release,
+>   	.unlocked_ioctl = jfs_ioctl,
+>   	.compat_ioctl	= compat_ptr_ioctl,
+> +	.setlease	= generic_setlease,
+>   };
+> diff --git a/fs/jfs/namei.c b/fs/jfs/namei.c
+> index 65a218eba8faf9508f5727515b812f6de2661618..f7e2ae7a4c37ed87675f0ccb3276b37e6ce08cb4 100644
+> --- a/fs/jfs/namei.c
+> +++ b/fs/jfs/namei.c
+> @@ -5,6 +5,7 @@
+>    */
+>   
+>   #include <linux/fs.h>
+> +#include <linux/filelock.h>
+>   #include <linux/namei.h>
+>   #include <linux/ctype.h>
+>   #include <linux/quotaops.h>
+> @@ -1545,6 +1546,7 @@ const struct file_operations jfs_dir_operations = {
+>   	.unlocked_ioctl = jfs_ioctl,
+>   	.compat_ioctl	= compat_ptr_ioctl,
+>   	.llseek		= generic_file_llseek,
+> +	.setlease	= generic_setlease,
+>   };
+>   
+>   static int jfs_ci_hash(const struct dentry *dir, struct qstr *this)
+> 
 
-  2498	
-  2499	/* On error, returns the -errno. On success, returns number of bytes sent to the
-  2500	 * user. May not consume all of @remaining_len.
-  2501	 */
-  2502	static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-  2503				      unsigned int offset, struct msghdr *msg,
-  2504				      int remaining_len)
-  2505	{
-  2506		struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-  2507		struct tcp_xa_pool tcp_xa_pool;
-  2508		unsigned int start;
-  2509		int i, copy, n;
-  2510		int sent = 0;
-  2511		int err = 0;
-  2512	
-  2513		tcp_xa_pool.max = 0;
-  2514		tcp_xa_pool.idx = 0;
-  2515		do {
-  2516			start = skb_headlen(skb);
-  2517	
-  2518			if (skb_frags_readable(skb)) {
-  2519				err = -ENODEV;
-  2520				goto out;
-  2521			}
-  2522	
-  2523			/* Copy header. */
-  2524			copy = start - offset;
-  2525			if (copy > 0) {
-  2526				copy = min(copy, remaining_len);
-  2527	
-  2528				n = copy_to_iter(skb->data + offset, copy,
-  2529						 &msg->msg_iter);
-  2530				if (n != copy) {
-  2531					err = -EFAULT;
-  2532					goto out;
-  2533				}
-  2534	
-  2535				offset += copy;
-  2536				remaining_len -= copy;
-  2537	
-  2538				/* First a dmabuf_cmsg for # bytes copied to user
-  2539				 * buffer.
-  2540				 */
-  2541				memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-  2542				dmabuf_cmsg.frag_size = copy;
-  2543				err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2544						       SO_DEVMEM_LINEAR,
-  2545						       sizeof(dmabuf_cmsg),
-  2546						       &dmabuf_cmsg);
-  2547				if (err)
-  2548					goto out;
-  2549	
-  2550				sent += copy;
-  2551	
-  2552				if (remaining_len == 0)
-  2553					goto out;
-  2554			}
-  2555	
-  2556			/* after that, send information of dmabuf pages through a
-  2557			 * sequence of cmsg
-  2558			 */
-  2559			for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-  2560				struct net_devmem_dmabuf_binding *binding = NULL;
-  2561				skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-  2562				struct net_iov *niov;
-  2563				u64 frag_offset;
-  2564				int end;
-  2565	
-  2566				/* !skb_frags_readable() should indicate that ALL the
-  2567				 * frags in this skb are dmabuf net_iovs. We're checking
-  2568				 * for that flag above, but also check individual frags
-  2569				 * here. If the tcp stack is not setting
-  2570				 * skb_frags_readable() correctly, we still don't want
-  2571				 * to crash here.
-  2572				 */
-  2573				if (!skb_frag_net_iov(frag)) {
-  2574					net_err_ratelimited("Found non-dmabuf skb with net_iov");
-  2575					err = -ENODEV;
-  2576					goto out;
-  2577				}
-  2578	
-  2579				niov = skb_frag_net_iov(frag);
-  2580				if (!net_is_devmem_iov(niov)) {
-  2581					err = -ENODEV;
-  2582					goto out;
-  2583				}
-  2584	
-  2585				end = start + skb_frag_size(frag);
-  2586				copy = end - offset;
-  2587	
-  2588				if (copy > 0) {
-  2589					copy = min(copy, remaining_len);
-  2590	
-  2591					frag_offset = net_iov_virtual_addr(niov) +
-  2592						      skb_frag_off(frag) + offset -
-  2593						      start;
-  2594					dmabuf_cmsg.frag_offset = frag_offset;
-  2595					dmabuf_cmsg.frag_size = copy;
-  2596	
-  2597					binding = net_devmem_iov_binding(niov);
-  2598	
-  2599					if (!sk->sk_devmem_info.binding) {
-> 2600						net_devmem_dmabuf_binding_get(binding);
-  2601						sk->sk_devmem_info.binding = binding;
-  2602					}
-  2603	
-  2604					if (sk->sk_devmem_info.binding != binding) {
-  2605						err = -EFAULT;
-  2606						goto out;
-  2607					}
-  2608	
-  2609					if (static_branch_unlikely(&tcp_devmem_ar_key)) {
-  2610						err = tcp_xa_pool_refill(sk,
-  2611									 &tcp_xa_pool,
-  2612									 skb_shinfo(skb)->nr_frags - i);
-  2613						if (err)
-  2614							goto out;
-  2615	
-  2616						dmabuf_cmsg.frag_token =
-  2617							tcp_xa_pool.tokens[tcp_xa_pool.idx];
-  2618					} else {
-  2619						dmabuf_cmsg.frag_token =
-  2620							net_iov_virtual_addr(niov) >> PAGE_SHIFT;
-  2621					}
-  2622	
-  2623	
-  2624					/* Will perform the exchange later */
-  2625					dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
-  2626	
-  2627					offset += copy;
-  2628					remaining_len -= copy;
-  2629	
-  2630					err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2631							       SO_DEVMEM_DMABUF,
-  2632							       sizeof(dmabuf_cmsg),
-  2633							       &dmabuf_cmsg);
-  2634					if (err)
-  2635						goto out;
-  2636	
-  2637					tcp_xa_pool_inc_pp_ref_count(&tcp_xa_pool, frag);
-  2638	
-  2639					sent += copy;
-  2640	
-  2641					if (remaining_len == 0)
-  2642						goto out;
-  2643				}
-  2644				start = end;
-  2645			}
-  2646	
-  2647			tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2648			if (!remaining_len)
-  2649				goto out;
-  2650	
-  2651			/* if remaining_len is not satisfied yet, we need to go to the
-  2652			 * next frag in the frag_list to satisfy remaining_len.
-  2653			 */
-  2654			skb = skb_shinfo(skb)->frag_list ?: skb->next;
-  2655	
-  2656			offset = offset - start;
-  2657		} while (skb);
-  2658	
-  2659		if (remaining_len) {
-  2660			err = -EFAULT;
-  2661			goto out;
-  2662		}
-  2663	
-  2664	out:
-  2665		tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2666		if (!sent)
-  2667			sent = err;
-  2668	
-  2669		return sent;
-  2670	}
-  2671	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
