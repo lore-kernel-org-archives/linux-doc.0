@@ -1,689 +1,452 @@
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3CB433BD9;
-	Thu,  8 Jan 2026 12:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8BA4DD6F2;
+	Thu,  8 Jan 2026 13:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767877156; cv=none; b=LMCfXJwoHbUeWswXK8geDwa8CfCOPinRb/MpF7MmqMwks/oWNOE33UU8qNzmou7plXeF2/sFOu7tRcQ5PNTI+ecCfBwpnk+nxNVP2vnalJZMd740yLzMPZkqWGjlEQvuOlet+SpMty8Vo/OPuiErXT6c5nQ9hnOk0CNAMhcivmc=
+	t=1767878050; cv=none; b=Pxa40xFjAjydGS7Vbf6QE3aCFwVl3SeXACRYAA2Z5UI4D8dS+ZjmG3TZ+EIVHbAjg3pQdSLGuYheKzyWguQAtB4+r9Q/tOWyQpkjeKWPZSRlwnjL1qQdhJuPAB9Wck0L+UGK7O/JXLW6gBjdBxyNpKXMMVJGIeGTWpOGUfZrSq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767877156; c=relaxed/simple;
-	bh=5vg/bIxxGo4DXIgkdRi0mWjsiJOAlSShYBeYlFcqoac=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=rkUZjVBilF0GxaAVt06o1S9gLy5WCL7MwUICLPX4lgERZx7LqFKx2hwFVCGkrVlKJkG3w0/lsHvuHy4xAjwuiEEgZxJH8AMDvDn/hVOg5QXTwmGhiNEa2vig+lroofIDwtSTOWojqUFjezrel9TuzIepJenSyoNuiBINPRxZr34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=eGcSENXa; arc=none smtp.client-ip=148.163.139.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="eGcSENXa"
-Received: from pps.filterd (m0167090.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 608CThiF2385981;
-	Thu, 8 Jan 2026 07:58:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=Ke9ev
-	Ddf4z3J/jkocFqAM0uZKaR7K5fyNZD7fu2bYYA=; b=eGcSENXaNdh/U1eK1GvIr
-	BzBF4oynC1NlkNBuguBdAAUnFjwWhuDE4L9JpD1TglQ3VmmcocxOMvLXPOGoXNjZ
-	kDJPwtwL53NoLvR/o6WyqhI480f6RY6OtZ9MjDzPnRYqplEW6+ndiUJhU8C7og6c
-	Rm7CEaQDL0SBCb0+8lIe3d9c5c4zxLY/4pAwGybMH/NaqZ2NU8KcGFu59zB06wl2
-	n9FcUD0a/ca5BbbFKdjxQOggcEQA+rW/75eJwjBxE9zV979/ZjreDqhrV6+qu6fY
-	C2zx7n9X47jnJArxkA8bVoxDWsHXkQjIQ+Fko2yo45qak2OMfqU6z4B4l2WA0UW5
-	w==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4bjcmu86v2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 08 Jan 2026 07:58:46 -0500 (EST)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 608CwjKv033914
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 8 Jan 2026 07:58:45 -0500
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 8 Jan 2026 07:58:45 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Thu, 8 Jan 2026 07:58:45 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Thu, 8 Jan 2026 07:58:45 -0500
-Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.88])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 608CwSiF012447;
-	Thu, 8 Jan 2026 07:58:39 -0500
-From: Janani Sunil <janani.sunil@analog.com>
-Date: Thu, 8 Jan 2026 13:58:24 +0100
-Subject: [PATCH v2 2/2] iio: dac: Add MAX22007 DAC driver support
+	s=arc-20240116; t=1767878050; c=relaxed/simple;
+	bh=ls/jocNT+3Zn6eYSRzzEne7Znx9y250T/xjjbq/sfHg=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X4W2LSGL+zEUzEfcjZ+NCRxfmZhV1JxxpKn7uhXMF7a+jTgG33EenSTEw1usHee43UfacsPK5lSog3R/imNBmQA79yha4dt5xHI641U4uW1ikkFbp8Pq4zn+gPvlDXMc/xGq7PbDPHezI4HcDrdRCZTX4tBCDZKGo9mF2pGDkUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn52W2rNWzHnGjq;
+	Thu,  8 Jan 2026 21:13:55 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 897C840086;
+	Thu,  8 Jan 2026 21:14:03 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
+ 2026 13:14:01 +0000
+Date: Thu, 8 Jan 2026 13:14:00 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <John@Groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V3 15/21] famfs_fuse: Create files with famfs fmaps
+Message-ID: <20260108131400.000017f5@huawei.com>
+In-Reply-To: <20260107153332.64727-16-john@groves.net>
+References: <20260107153244.64703-1-john@groves.net>
+	<20260107153332.64727-1-john@groves.net>
+	<20260107153332.64727-16-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260108-max22007-dev-v2-2-2506c738784f@analog.com>
-References: <20260108-max22007-dev-v2-0-2506c738784f@analog.com>
-In-Reply-To: <20260108-max22007-dev-v2-0-2506c738784f@analog.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Alexandru Ardelean
-	<alexandru.ardelean@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>, "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <jan.sun97@gmail.com>, Janani Sunil <janani.sunil@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767877109; l=16742;
- i=janani.sunil@analog.com; h=from:subject:message-id;
- bh=5vg/bIxxGo4DXIgkdRi0mWjsiJOAlSShYBeYlFcqoac=;
- b=OuGgf0ZvAzRaquoOtlCEAnk8Ll7lLPPV05jpnCQPRuib/KKnZT6hqfomMzbixa82VVGp/cvMj
- /QUtunD8EpaBwKrwsLkYPAfSR1iRRANtWwITbbjdbi2fhSCYKKIQ65X
-X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
- pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA5MiBTYWx0ZWRfX2gw3etnz6IuF
- IgQU8VGCtrWy4+sz8oUuBovI2LJD3hTa5MtlT0FJhf6oy1qywy9IlrS6aBp9ayK3qe4KYJV1vAQ
- LIT+nP8DQTNNzp3neuk0CGU9A3MJ5ogssNtsHb2+b7s8sIlWu9U6JUcp1CYMZ5n/Tm9Ak3CfP1Y
- n8oDnH+H86695Y/JzIcDKTqLJYPxrTw1/9V3dfiYXI8zDkkJeymT5HTf5OhePc8swOobytAfC8X
- FvVJqypfuK6/AVuxUo9+OtZh4bYO3KYRjb582szTyaCttWVeMxZdxv3THv3As73nP87nqmOCjdk
- D0ch/Xq2GLIVVeR76RTS9MnW+IKvejEyOtXuyvjAWEhOAm6I0mAp4QYrLIuD+ZWiKgzzPagDtz9
- eN2GMEeX29SaExRCbHEVcOo4pIfrb/QCoY14J2w8AbDv48aFNg2PoQtoZlhVJjBXOKYEDEmB7uf
- bOAGUvBhS/kmoTbLM4A==
-X-Proofpoint-GUID: osEO2Rf80CxSGXxb0kEgutiFFPZLLJ5S
-X-Authority-Analysis: v=2.4 cv=PP8COPqC c=1 sm=1 tr=0 ts=695faa06 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gAnH3GRIAAAA:8 a=VwQbUJbxAAAA:8 a=4d4IicJVBBbzgJ8YkJcA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: osEO2Rf80CxSGXxb0kEgutiFFPZLLJ5S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-08_02,2026-01-07_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 clxscore=1011 spamscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601080092
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-Add support for the MAX22007, a 4-channel 12-bit DAC that drives
-voltage or current output on each channel.
+On Wed,  7 Jan 2026 09:33:24 -0600
+John Groves <John@Groves.net> wrote:
 
-Signed-off-by: Janani Sunil <janani.sunil@analog.com>
----
- MAINTAINERS                |   1 +
- drivers/iio/dac/Kconfig    |  13 ++
- drivers/iio/dac/Makefile   |   1 +
- drivers/iio/dac/max22007.c | 507 +++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 522 insertions(+)
+> On completion of GET_FMAP message/response, setup the full famfs
+> metadata such that it's possible to handle read/write/mmap directly to
+> dax. Note that the devdax_iomap plumbing is not in yet...
+> 
+> * Add famfs_kfmap.h: in-memory structures for resolving famfs file maps
+>   (fmaps) to dax.
+> * famfs.c: allocate, initialize and free fmaps
+> * inode.c: only allow famfs mode if the fuse server has CAP_SYS_RAWIO
+> * Update MAINTAINERS for the new files.
+> 
+> Signed-off-by: John Groves <john@groves.net>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e1addbd21562..99dd3c947629 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1599,6 +1599,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/dac/adi,max22007.yaml
-+F:	drivers/iio/dac/max22007.c
- 
- ANALOG DEVICES INC ADA4250 DRIVER
- M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
-diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
-index 7cd3caec1262..4a31993f5b14 100644
---- a/drivers/iio/dac/Kconfig
-+++ b/drivers/iio/dac/Kconfig
-@@ -482,6 +482,19 @@ config MAX517
- 	  This driver can also be built as a module.  If so, the module
- 	  will be called max517.
- 
-+config MAX22007
-+	tristate "Analog Devices MAX22007 DAC Driver"
-+	depends on SPI
-+	select REGMAP_SPI
-+	select CRC8
-+	help
-+	  Say Y here if you want to build a driver for Analog Devices MAX22007.
-+
-+	  MAX22007 is a quad-channel, 12-bit, voltage-output digital to
-+	  analog converter (DAC) with SPI interface.
-+
-+	  If compiled as a module, it will be called max22007.
-+
- config MAX5522
- 	tristate "Maxim MAX5522 DAC driver"
- 	depends on SPI_MASTER
-diff --git a/drivers/iio/dac/Makefile b/drivers/iio/dac/Makefile
-index e6ac4c67e337..0bbc6d09d22c 100644
---- a/drivers/iio/dac/Makefile
-+++ b/drivers/iio/dac/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_LTC2664) += ltc2664.o
- obj-$(CONFIG_LTC2688) += ltc2688.o
- obj-$(CONFIG_M62332) += m62332.o
- obj-$(CONFIG_MAX517) += max517.o
-+obj-$(CONFIG_MAX22007) += max22007.o
- obj-$(CONFIG_MAX5522) += max5522.o
- obj-$(CONFIG_MAX5821) += max5821.o
- obj-$(CONFIG_MCP4725) += mcp4725.o
-diff --git a/drivers/iio/dac/max22007.c b/drivers/iio/dac/max22007.c
-new file mode 100644
-index 000000000000..19557c008554
---- /dev/null
-+++ b/drivers/iio/dac/max22007.c
-@@ -0,0 +1,507 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * max22007.c - MAX22007 DAC driver
-+ *
-+ * Driver for Analog Devices MAX22007 Digital to Analog Converter.
-+ *
-+ * Copyright (c) 2026 Analog Devices Inc.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/crc8.h>
-+#include <linux/dev_printk.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/iio/iio.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/slab.h>
-+#include <linux/spi/spi.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
-+#include <linux/unaligned.h>
-+
-+#define MAX22007_NUM_CHANNELS				4
-+#define MAX22007_REV_ID_REG				0x00
-+#define MAX22007_STAT_INTR_REG				0x01
-+#define MAX22007_INTERRUPT_EN_REG			0x02
-+#define MAX22007_CONFIG_REG				0x03
-+#define MAX22007_CONTROL_REG				0x04
-+#define MAX22007_CHANNEL_MODE_REG			0x05
-+#define MAX22007_SOFT_RESET_REG				0x06
-+#define MAX22007_DAC_CHANNEL_REG(ch)			(0x07 + (ch))
-+#define MAX22007_GPIO_CTRL_REG				0x0B
-+#define MAX22007_GPIO_DATA_REG				0x0C
-+#define MAX22007_GPI_EDGE_INT_CTRL_REG			0x0D
-+#define MAX22007_GPI_INT_STATUS_REG			0x0E
-+
-+/* Channel mask definitions */
-+#define     MAX22007_CH_MODE_CH_MASK(ch)		BIT(12 + (ch))
-+#define     MAX22007_CH_PWRON_CH_MASK(ch)		BIT(8 + (ch))
-+#define     MAX22007_DAC_LATCH_MODE_MASK(ch)	BIT(12 + (ch))
-+#define     MAX22007_LDAC_UPDATE_MASK(ch)		BIT(12 + (ch))
-+#define     MAX22007_SW_RST_MASK			BIT(8)
-+#define     MAX22007_SW_CLR_MASK			BIT(12)
-+#define     MAX22007_SOFT_RESET_BITS_MASK		(MAX22007_SW_RST_MASK | \
-+							 MAX22007_SW_CLR_MASK)
-+#define     MAX22007_DAC_DATA_MASK			GENMASK(15, 4)
-+#define     MAX22007_DAC_MAX_RAW			GENMASK(11, 0)
-+#define     MAX22007_CRC8_POLYNOMIAL			0x8C
-+#define     MAX22007_CRC_EN_MASK			BIT(0)
-+#define     MAX22007_RW_MASK				BIT(0)
-+#define     MAX22007_CRC_OVERHEAD			1
-+#define     MAX22007_NUM_SUPPLIES			3
-+
-+/* Field value preparation macros with masking */
-+#define     MAX22007_CH_PWR_VAL(ch, val)	(((val) & 0x1) << (8 + (ch)))
-+#define     MAX22007_CH_MODE_VAL(ch, val)	(((val) & 0x1) << (12 + (ch)))
-+#define     MAX22007_DAC_LATCH_MODE_VAL(ch, val)	(((val) & 0x1) << (12 + (ch)))
-+
-+static u8 max22007_crc8_table[256];
-+
-+static const char * const max22007_supply_names[MAX22007_NUM_SUPPLIES] = {
-+	"vdd",
-+	"hvdd",
-+	"hvss",
-+};
-+
-+enum max22007_channel_mode {
-+	MAX22007_VOLTAGE_MODE = 0,
-+	MAX22007_CURRENT_MODE = 1,
-+};
-+
-+struct max22007_state {
-+	struct spi_device *spi;
-+	struct regmap *regmap;
-+	struct iio_chan_spec *iio_chans;
-+	struct regulator_bulk_data supplies[MAX22007_NUM_SUPPLIES];
-+	u8 tx_buf[4] __aligned(IIO_DMA_MINALIGN);
-+	u8 rx_buf[4];
-+};
-+
-+static int max22007_spi_read(void *context, const void *reg, size_t reg_size,
-+			     void *val, size_t val_size)
-+{
-+	struct max22007_state *st = context;
-+	u8 reg_byte = *(u8 *)reg;
-+	u8 calculated_crc, received_crc;
-+	u8 crc_data[3];
-+	u8 rx_buf[4];
-+	int ret;
-+
-+	if (reg_size != 1)
-+		return -EINVAL;
-+
-+	ret = spi_write_then_read(st->spi, &reg_byte, 1, rx_buf,
-+				  val_size + MAX22007_CRC_OVERHEAD);
-+	if (ret) {
-+		dev_err(&st->spi->dev, "SPI transfer failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	crc_data[0] = reg_byte;
-+	crc_data[1] = rx_buf[0];
-+	crc_data[2] = rx_buf[1];
-+
-+	calculated_crc = crc8(max22007_crc8_table, crc_data, 3, 0x00);
-+	received_crc = rx_buf[val_size];
-+
-+	if (calculated_crc != received_crc) {
-+		dev_err(&st->spi->dev, "CRC mismatch on read register %02x\n", reg_byte);
-+		return -EIO;
-+	}
-+
-+	memcpy(val, rx_buf, val_size);
-+
-+	return 0;
-+}
-+
-+static int max22007_spi_write(void *context, const void *data, size_t count)
-+{
-+	struct max22007_state *st = context;
-+	struct spi_transfer xfer = {
-+		.tx_buf = st->tx_buf,
-+		.rx_buf = st->rx_buf,
-+	};
-+
-+	memset(st->tx_buf, 0, sizeof(st->tx_buf));
-+
-+	xfer.len = count + MAX22007_CRC_OVERHEAD;
-+
-+	memcpy(st->tx_buf, data, count);
-+	st->tx_buf[count] = crc8(max22007_crc8_table, st->tx_buf,
-+				 sizeof(st->tx_buf) - 1, 0x00);
-+
-+	return spi_sync_transfer(st->spi, &xfer, 1);
-+}
-+
-+static bool max22007_reg_readable(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case MAX22007_REV_ID_REG:
-+	case MAX22007_STAT_INTR_REG:
-+	case MAX22007_CONFIG_REG:
-+	case MAX22007_CONTROL_REG:
-+	case MAX22007_CHANNEL_MODE_REG:
-+	case MAX22007_SOFT_RESET_REG:
-+	case MAX22007_GPIO_CTRL_REG:
-+	case MAX22007_GPIO_DATA_REG:
-+	case MAX22007_GPI_EDGE_INT_CTRL_REG:
-+	case MAX22007_GPI_INT_STATUS_REG:
-+		return true;
-+	case MAX22007_DAC_CHANNEL_REG(0) ... MAX22007_DAC_CHANNEL_REG(MAX22007_NUM_CHANNELS - 1):
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool max22007_reg_writable(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case MAX22007_CONFIG_REG:
-+	case MAX22007_CONTROL_REG:
-+	case MAX22007_CHANNEL_MODE_REG:
-+	case MAX22007_SOFT_RESET_REG:
-+	case MAX22007_GPIO_CTRL_REG:
-+	case MAX22007_GPIO_DATA_REG:
-+	case MAX22007_GPI_EDGE_INT_CTRL_REG:
-+		return true;
-+	case MAX22007_DAC_CHANNEL_REG(0) ... MAX22007_DAC_CHANNEL_REG(MAX22007_NUM_CHANNELS - 1):
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_bus max22007_regmap_bus = {
-+	.read = max22007_spi_read,
-+	.write = max22007_spi_write,
-+	.read_flag_mask = MAX22007_RW_MASK,
-+	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
-+	.val_format_endian_default = REGMAP_ENDIAN_BIG,
-+};
-+
-+static const struct regmap_config max22007_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 16,
-+	.reg_shift = -1,
-+	.readable_reg = max22007_reg_readable,
-+	.writeable_reg = max22007_reg_writable,
-+	.max_register = 0x0E,
-+};
-+
-+static int max22007_write_channel_data(struct max22007_state *state,
-+				       unsigned int channel, unsigned int data)
-+{
-+	unsigned int reg_val;
-+
-+	if (data > MAX22007_DAC_MAX_RAW)
-+		return -EINVAL;
-+
-+	reg_val = FIELD_PREP(MAX22007_DAC_DATA_MASK, data);
-+
-+	return regmap_write(state->regmap, MAX22007_DAC_CHANNEL_REG(channel), reg_val);
-+}
-+
-+static int max22007_read_channel_data(struct max22007_state *state,
-+				      unsigned int channel, int *data)
-+{
-+	int ret;
-+	unsigned int reg_val;
-+
-+	ret = regmap_read(state->regmap, MAX22007_DAC_CHANNEL_REG(channel), &reg_val);
-+	if (ret)
-+		return ret;
-+
-+	*data = FIELD_GET(MAX22007_DAC_DATA_MASK, reg_val);
-+
-+	return 0;
-+}
-+
-+static int max22007_read_raw(struct iio_dev *indio_dev,
-+			     struct iio_chan_spec const *chan,
-+			     int *val, int *val2, long mask)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+	int ret;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		ret = max22007_read_channel_data(st, chan->channel, val);
-+		if (ret)
-+			return ret;
-+		return IIO_VAL_INT;
-+	case IIO_CHAN_INFO_SCALE:
-+		if (chan->type == IIO_VOLTAGE)
-+			*val = 5 * 2500;  /* 5 * Vref(2.5V) in mV */
-+		else
-+			*val = 25;  /* Vref / (2 * Rsense) = 2500mV / 100 */
-+		*val2 = 12;  /* 12-bit DAC resolution */
-+		return IIO_VAL_FRACTIONAL_LOG2;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int max22007_write_raw(struct iio_dev *indio_dev,
-+			      struct iio_chan_spec const *chan,
-+			      int val, int val2, long mask)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		return max22007_write_channel_data(st, chan->channel, val);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct iio_info max22007_info = {
-+	.read_raw = max22007_read_raw,
-+	.write_raw = max22007_write_raw,
-+};
-+
-+static ssize_t max22007_read_dac_powerdown(struct iio_dev *indio_dev,
-+					   uintptr_t private,
-+					   const struct iio_chan_spec *chan,
-+					   char *buf)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+	unsigned int reg_val;
-+	bool powerdown;
-+	int ret;
-+
-+	ret = regmap_read(st->regmap, MAX22007_CHANNEL_MODE_REG, &reg_val);
-+	if (ret)
-+		return ret;
-+
-+	powerdown = !(reg_val & MAX22007_CH_PWRON_CH_MASK(chan->channel));
-+
-+	return sysfs_emit(buf, "%d\n", powerdown);
-+}
-+
-+static ssize_t max22007_write_dac_powerdown(struct iio_dev *indio_dev,
-+					    uintptr_t private,
-+					    const struct iio_chan_spec *chan,
-+					    const char *buf, size_t len)
-+{
-+	struct max22007_state *st = iio_priv(indio_dev);
-+	bool powerdown;
-+	int ret;
-+
-+	ret = kstrtobool(buf, &powerdown);
-+	if (ret)
-+		return ret;
-+
-+	if (powerdown)
-+		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-+					 MAX22007_CH_PWRON_CH_MASK(chan->channel),
-+					 MAX22007_CH_PWR_VAL(chan->channel, 0));
-+	else
-+		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-+					 MAX22007_CH_PWRON_CH_MASK(chan->channel),
-+					 MAX22007_CH_PWR_VAL(chan->channel, 1));
-+	if (ret)
-+		return ret;
-+
-+	return len;
-+}
-+
-+static const struct iio_chan_spec_ext_info max22007_ext_info[] = {
-+	{
-+		.name = "powerdown",
-+		.read = max22007_read_dac_powerdown,
-+		.write = max22007_write_dac_powerdown,
-+		.shared = IIO_SEPARATE,
-+	},
-+	{ }
-+};
-+
-+static int max22007_parse_channel_cfg(struct max22007_state *st, u8 *num_channels)
-+{
-+	struct device *dev = &st->spi->dev;
-+	int ret, num_chan;
-+	int i = 0;
-+	u32 reg;
-+
-+	num_chan = device_get_child_node_count(dev);
-+	if (!num_chan)
-+		return dev_err_probe(dev, -ENODEV, "no channels configured\n");
-+
-+	st->iio_chans = devm_kcalloc(dev, num_chan, sizeof(*st->iio_chans), GFP_KERNEL);
-+	if (!st->iio_chans)
-+		return -ENOMEM;
-+
-+	device_for_each_child_node_scoped(dev, child) {
-+		u32 ch_func;
-+		enum max22007_channel_mode mode;
-+		enum iio_chan_type chan_type;
-+
-+		ret = fwnode_property_read_u32(child, "reg", &reg);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to read reg property of %pfwP\n", child);
-+
-+		if (reg >= MAX22007_NUM_CHANNELS)
-+			return dev_err_probe(dev, -EINVAL,
-+					     "reg out of range in %pfwP\n", child);
-+
-+		ret = fwnode_property_read_u32(child, "adi,ch-func", &ch_func);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "missing adi,ch-func property for %pfwP\n", child);
-+
-+		if (ch_func == 1) {
-+			mode = MAX22007_VOLTAGE_MODE;
-+			chan_type = IIO_VOLTAGE;
-+		} else if (ch_func == 2) {
-+			mode = MAX22007_CURRENT_MODE;
-+			chan_type = IIO_CURRENT;
-+		} else {
-+			return dev_err_probe(dev, -EINVAL,
-+					     "invalid adi,ch-func %u for %pfwP\n",
-+					     ch_func, child);
-+		}
-+
-+		st->iio_chans[i++] = (struct iio_chan_spec) {
-+			.output = 1,
-+			.indexed = 1,
-+			.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
-+					      BIT(IIO_CHAN_INFO_SCALE),
-+			.ext_info = max22007_ext_info,
-+			.channel = reg,
-+			.type = chan_type,
-+		};
-+
-+		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-+					 MAX22007_CH_MODE_CH_MASK(reg),
-+					 MAX22007_CH_MODE_VAL(reg, mode));
-+		if (ret)
-+			return ret;
-+
-+		/* Set DAC to transparent mode (immediate update) */
-+		ret = regmap_update_bits(st->regmap, MAX22007_CONFIG_REG,
-+					 MAX22007_DAC_LATCH_MODE_MASK(reg),
-+					 MAX22007_DAC_LATCH_MODE_VAL(reg, 1));
-+		if (ret)
-+			return ret;
-+	}
-+
-+	*num_channels = num_chan;
-+
-+	return 0;
-+}
-+
-+static void max22007_regulator_disable(void *data)
-+{
-+	struct max22007_state *state = data;
-+
-+	regulator_bulk_disable(MAX22007_NUM_SUPPLIES, state->supplies);
-+}
-+
-+static int max22007_probe(struct spi_device *spi)
-+{
-+	struct device *dev = &spi->dev;
-+	struct iio_dev *indio_dev;
-+	struct max22007_state *state;
-+	struct gpio_desc *reset_gpio;
-+	u8 num_channels;
-+	int ret, i;
-+
-+	indio_dev = devm_iio_device_alloc(dev, sizeof(*state));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	state = iio_priv(indio_dev);
-+	state->spi = spi;
-+
-+	crc8_populate_lsb(max22007_crc8_table, MAX22007_CRC8_POLYNOMIAL);
-+
-+	state->regmap = devm_regmap_init(dev, &max22007_regmap_bus, state,
-+					 &max22007_regmap_config);
-+	if (IS_ERR(state->regmap))
-+		return dev_err_probe(dev, PTR_ERR(state->regmap),
-+				     "Failed to initialize regmap\n");
-+
-+	for (i = 0; i < MAX22007_NUM_SUPPLIES; i++)
-+		state->supplies[i].supply = max22007_supply_names[i];
-+
-+	ret = devm_regulator_bulk_get(dev, MAX22007_NUM_SUPPLIES, state->supplies);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-+
-+	ret = regulator_bulk_enable(MAX22007_NUM_SUPPLIES, state->supplies);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to enable regulators\n");
-+
-+	ret = devm_add_action_or_reset(dev, max22007_regulator_disable, state);
-+	if (ret)
-+		return ret;
-+
-+	reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(reset_gpio),
-+				     "Failed to get reset GPIO\n");
-+
-+	if (reset_gpio) {
-+		usleep_range(1000, 5000);
-+		gpiod_set_value_cansleep(reset_gpio, 1);
-+		usleep_range(1000, 5000);
-+	} else {
-+		ret = regmap_write(state->regmap, MAX22007_SOFT_RESET_REG,
-+				   MAX22007_SOFT_RESET_BITS_MASK);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = regmap_set_bits(state->regmap, MAX22007_CONFIG_REG,
-+			      MAX22007_CRC_EN_MASK);
-+	if (ret)
-+		return ret;
-+
-+	ret = max22007_parse_channel_cfg(state, &num_channels);
-+	if (ret)
-+		return ret;
-+
-+	indio_dev->info = &max22007_info;
-+	indio_dev->modes = INDIO_DIRECT_MODE;
-+	indio_dev->channels = state->iio_chans;
-+	indio_dev->num_channels = num_channels;
-+	indio_dev->name = "max22007";
-+
-+	return devm_iio_device_register(dev, indio_dev);
-+}
-+
-+static const struct spi_device_id max22007_id[] = {
-+	{ "max22007" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, max22007_id);
-+
-+static const struct of_device_id max22007_of_match[] = {
-+	{ .compatible = "adi,max22007" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, max22007_of_match);
-+
-+static struct spi_driver max22007_driver = {
-+	.driver = {
-+		.name = "max22007",
-+		.of_match_table = max22007_of_match,
-+	},
-+	.probe = max22007_probe,
-+	.id_table = max22007_id,
-+};
-+module_spi_driver(max22007_driver);
-+
-+MODULE_AUTHOR("Janani Sunil <janani.sunil@analog.com>");
-+MODULE_DESCRIPTION("Analog Devices MAX22007 DAC");
-+MODULE_LICENSE("GPL");
+> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
+> index 0f7e3f00e1e7..2aabd1d589fd 100644
+> --- a/fs/fuse/famfs.c
+> +++ b/fs/fuse/famfs.c
+> @@ -17,9 +17,355 @@
+>  #include <linux/namei.h>
+>  #include <linux/string.h>
+>  
+> +#include "famfs_kfmap.h"
+>  #include "fuse_i.h"
+>  
+>  
+> +/***************************************************************************/
+Who doesn't like stars?  Why have them here?
 
--- 
-2.43.0
+> +
+> +void
+> +__famfs_meta_free(void *famfs_meta)
 
+Maybe a local convention, but if not one line.
+Same for other cases.
+
+> +{
+> +	struct famfs_file_meta *fmap = famfs_meta;
+> +
+> +	if (!fmap)
+> +		return;
+> +
+> +	if (fmap) {
+
+Well that's never going to fail given 2 lines above.
+
+
+> +		switch (fmap->fm_extent_type) {
+> +		case SIMPLE_DAX_EXTENT:
+> +			kfree(fmap->se);
+> +			break;
+> +		case INTERLEAVED_EXTENT:
+> +			if (fmap->ie)
+> +				kfree(fmap->ie->ie_strips);
+> +
+> +			kfree(fmap->ie);
+> +			break;
+> +		default:
+> +			pr_err("%s: invalid fmap type\n", __func__);
+> +			break;
+> +		}
+> +	}
+> +	kfree(fmap);
+> +}
+
+> +/**
+> + * famfs_fuse_meta_alloc() - Allocate famfs file metadata
+> + * @metap:       Pointer to an mcache_map_meta pointer
+> + * @ext_count:  The number of extents needed
+
+run kernel-doc over the file as that's not the parameters...
+
+> + *
+> + * Returns: 0=success
+> + *          -errno=failure
+> + */
+> +static int
+> +famfs_fuse_meta_alloc(
+> +	void *fmap_buf,
+> +	size_t fmap_buf_size,
+> +	struct famfs_file_meta **metap)
+> +{
+> +	struct famfs_file_meta *meta = NULL;
+> +	struct fuse_famfs_fmap_header *fmh;
+> +	size_t extent_total = 0;
+> +	size_t next_offset = 0;
+> +	int errs = 0;
+> +	int i, j;
+> +	int rc;
+> +
+> +	fmh = (struct fuse_famfs_fmap_header *)fmap_buf;
+
+void * so cast not needed and hence just assign it at the
+declaration.
+
+> +
+> +	/* Move past fmh in fmap_buf */
+> +	next_offset += sizeof(*fmh);
+> +	if (next_offset > fmap_buf_size) {
+> +		pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +		       __func__, __LINE__, next_offset, fmap_buf_size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (fmh->nextents < 1) {
+> +		pr_err("%s: nextents %d < 1\n", __func__, fmh->nextents);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (fmh->nextents > FUSE_FAMFS_MAX_EXTENTS) {
+> +		pr_err("%s: nextents %d > max (%d) 1\n",
+> +		       __func__, fmh->nextents, FUSE_FAMFS_MAX_EXTENTS);
+> +		return -E2BIG;
+> +	}
+> +
+> +	meta = kzalloc(sizeof(*meta), GFP_KERNEL);
+
+Maybe sprinkle some __free magic on this then you can return in
+all the goto error_out places which to me makes this more readable.
+
+> +	if (!meta)
+> +		return -ENOMEM;
+> +
+> +	meta->error = false;
+> +	meta->file_type = fmh->file_type;
+> +	meta->file_size = fmh->file_size;
+> +	meta->fm_extent_type = fmh->ext_type;
+> +
+> +	switch (fmh->ext_type) {
+> +	case FUSE_FAMFS_EXT_SIMPLE: {
+> +		struct fuse_famfs_simple_ext *se_in;
+> +
+> +		se_in = (struct fuse_famfs_simple_ext *)(fmap_buf + next_offset);
+
+void * so no need for cast. Though you could keep the cast but apply it to
+fmh + 1 to take advantage of that type.
+
+
+> +
+> +		/* Move past simple extents */
+> +		next_offset += fmh->nextents * sizeof(*se_in);
+> +		if (next_offset > fmap_buf_size) {
+> +			pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +			       __func__, __LINE__, next_offset, fmap_buf_size);
+> +			rc = -EINVAL;
+> +			goto errout;
+> +		}
+> +
+> +		meta->fm_nextents = fmh->nextents;
+> +
+> +		meta->se = kcalloc(meta->fm_nextents, sizeof(*(meta->se)),
+> +				   GFP_KERNEL);
+> +		if (!meta->se) {
+> +			rc = -ENOMEM;
+> +			goto errout;
+> +		}
+> +
+> +		if ((meta->fm_nextents > FUSE_FAMFS_MAX_EXTENTS) ||
+> +		    (meta->fm_nextents < 1)) {
+> +			rc = -EINVAL;
+> +			goto errout;
+> +		}
+> +
+> +		for (i = 0; i < fmh->nextents; i++) {
+> +			meta->se[i].dev_index  = se_in[i].se_devindex;
+> +			meta->se[i].ext_offset = se_in[i].se_offset;
+> +			meta->se[i].ext_len    = se_in[i].se_len;
+> +
+> +			/* Record bitmap of referenced daxdev indices */
+> +			meta->dev_bitmap |= (1 << meta->se[i].dev_index);
+> +
+> +			errs += famfs_check_ext_alignment(&meta->se[i]);
+> +
+> +			extent_total += meta->se[i].ext_len;
+> +		}
+> +		break;
+> +	}
+> +
+> +	case FUSE_FAMFS_EXT_INTERLEAVE: {
+> +		s64 size_remainder = meta->file_size;
+> +		struct fuse_famfs_iext *ie_in;
+> +		int niext = fmh->nextents;
+> +
+> +		meta->fm_niext = niext;
+> +
+> +		/* Allocate interleaved extent */
+> +		meta->ie = kcalloc(niext, sizeof(*(meta->ie)), GFP_KERNEL);
+> +		if (!meta->ie) {
+> +			rc = -ENOMEM;
+> +			goto errout;
+> +		}
+> +
+> +		/*
+> +		 * Each interleaved extent has a simple extent list of strips.
+> +		 * Outer loop is over separate interleaved extents
+> +		 */
+> +		for (i = 0; i < niext; i++) {
+> +			u64 nstrips;
+> +			struct fuse_famfs_simple_ext *sie_in;
+> +
+> +			/* ie_in = one interleaved extent in fmap_buf */
+> +			ie_in = (struct fuse_famfs_iext *)
+> +				(fmap_buf + next_offset);
+
+void * so no cast needed.
+
+> +
+> +			/* Move past one interleaved extent header in fmap_buf */
+> +			next_offset += sizeof(*ie_in);
+> +			if (next_offset > fmap_buf_size) {
+> +				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +				       __func__, __LINE__, next_offset,
+> +				       fmap_buf_size);
+> +				rc = -EINVAL;
+> +				goto errout;
+> +			}
+> +
+> +			nstrips = ie_in->ie_nstrips;
+> +			meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
+> +			meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
+> +			meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
+> +
+> +			if (!meta->ie[i].fie_nbytes) {
+> +				pr_err("%s: zero-length interleave!\n",
+> +				       __func__);
+> +				rc = -EINVAL;
+> +				goto errout;
+> +			}
+> +
+> +			/* sie_in = the strip extents in fmap_buf */
+> +			sie_in = (struct fuse_famfs_simple_ext *)
+> +				(fmap_buf + next_offset);
+no cast needed.
+
+> +
+> +			/* Move past strip extents in fmap_buf */
+> +			next_offset += nstrips * sizeof(*sie_in);
+> +			if (next_offset > fmap_buf_size) {
+> +				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +				       __func__, __LINE__, next_offset,
+> +				       fmap_buf_size);
+> +				rc = -EINVAL;
+> +				goto errout;
+> +			}
+> +
+> +			if ((nstrips > FUSE_FAMFS_MAX_STRIPS) || (nstrips < 1)) {
+> +				pr_err("%s: invalid nstrips=%lld (max=%d)\n",
+> +				       __func__, nstrips,
+> +				       FUSE_FAMFS_MAX_STRIPS);
+> +				errs++;
+> +			}
+> +
+> +			/* Allocate strip extent array */
+> +			meta->ie[i].ie_strips = kcalloc(ie_in->ie_nstrips,
+> +					sizeof(meta->ie[i].ie_strips[0]),
+> +							GFP_KERNEL);
+
+Align all lines after 1st one to same point.
+
+...
+
+> +
+> +/**
+> + * famfs_file_init_dax() - init famfs dax file metadata
+> + *
+> + * @fm:        fuse_mount
+> + * @inode:     the inode
+> + * @fmap_buf:  fmap response message
+> + * @fmap_size: Size of the fmap message
+> + *
+> + * Initialize famfs metadata for a file, based on the contents of the GET_FMAP
+> + * response
+> + *
+> + * Return: 0=success
+> + *          -errno=failure
+> + */
+> +int
+> +famfs_file_init_dax(
+> +	struct fuse_mount *fm,
+> +	struct inode *inode,
+> +	void *fmap_buf,
+> +	size_t fmap_size)
+> +{
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	struct famfs_file_meta *meta = NULL;
+> +	int rc = 0;
+
+Always set before use.
+
+> +
+> +	if (fi->famfs_meta) {
+> +		pr_notice("%s: i_no=%ld fmap_size=%ld ALREADY INITIALIZED\n",
+> +			  __func__,
+> +			  inode->i_ino, fmap_size);
+> +		return 0;
+> +	}
+> +
+> +	rc = famfs_fuse_meta_alloc(fmap_buf, fmap_size, &meta);
+> +	if (rc)
+> +		goto errout;
+> +
+> +	/* Publish the famfs metadata on fi->famfs_meta */
+> +	inode_lock(inode);
+> +	if (fi->famfs_meta) {
+> +		rc = -EEXIST; /* file already has famfs metadata */
+> +	} else {
+> +		if (famfs_meta_set(fi, meta) != NULL) {
+> +			pr_debug("%s: file already had metadata\n", __func__);
+> +			__famfs_meta_free(meta);
+> +			/* rc is 0 - the file is valid */
+> +			goto unlock_out;
+> +		}
+> +		i_size_write(inode, meta->file_size);
+> +		inode->i_flags |= S_DAX;
+> +	}
+> + unlock_out:
+> +	inode_unlock(inode);
+> +
+> +errout:
+> +	if (rc)
+> +		__famfs_meta_free(meta);
+
+For readability I'd split he good and bad exit paths even it unlock
+needs to happen in two places.
+
+
+> +
+> +	return rc;
+> +}
+> +
+
+> diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
+> new file mode 100644
+> index 000000000000..058645cb10a1
+> --- /dev/null
+> +++ b/fs/fuse/famfs_kfmap.h
+> @@ -0,0 +1,67 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * famfs - dax file system for shared fabric-attached memory
+> + *
+> + * Copyright 2023-2025 Micron Technology, Inc.
+> + */
+> +#ifndef FAMFS_KFMAP_H
+> +#define FAMFS_KFMAP_H
+> +
+> +/*
+> + * The structures below are the in-memory metadata format for famfs files.
+> + * Metadata retrieved via the GET_FMAP response is converted to this format
+> + * for use in  resolving file mapping faults.
+
+bonus space after in
+
+> + *
+> + * The GET_FMAP response contains the same information, but in a more
+> + * message-and-versioning-friendly format. Those structs can be found in the
+> + * famfs section of include/uapi/linux/fuse.h (aka fuse_kernel.h in libfuse)
+> + */
+
+> +/*
+> + * Each famfs dax file has this hanging from its fuse_inode->famfs_meta
+> + */
+> +struct famfs_file_meta {
+> +	bool                   error;
+> +	enum famfs_file_type   file_type;
+> +	size_t                 file_size;
+> +	enum famfs_extent_type fm_extent_type;
+> +	u64 dev_bitmap; /* bitmap of referenced daxdevs by index */
+> +	union { /* This will make code a bit more readable */
+
+Not sure what the comment is for. I'd drop it.
+
+
+> +		struct {
+> +			size_t         fm_nextents;
+> +			struct famfs_meta_simple_ext  *se;
+> +		};
+> +		struct {
+> +			size_t         fm_niext;
+> +			struct famfs_meta_interleaved_ext *ie;
+> +		};
+> +	};
+> +};
+> +
+> +#endif /* FAMFS_KFMAP_H */
