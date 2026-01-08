@@ -1,176 +1,255 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC073D6F;
-	Thu,  8 Jan 2026 02:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5923A0B36;
+	Thu,  8 Jan 2026 03:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767841097; cv=none; b=TL/Pra0NEX4wQY45bmAkhlO+/YLpRo6RyAEz+n9g+pZ7J07FYrXm1ugIwhw+/rG9dtq9GDB9IRDvwlYnzm0f929EIyZ91DYgL1SllVzlSDoaLMtbjGNQCN3sLYufjqmKvyGP0VdoakDmE3TuZmR8R8kGRJ/sCvhg7YSZq0ZDvbc=
+	t=1767842675; cv=none; b=eQFT3M61ghUUayDiEFY2uXkSrp6ONkxDWr54pQFMe5QRx5gdoVr2gIA+4GdPnzILwffShIOeJEpDB098cnX8Tac86iK3YDvrvhBJPrWLJXRf4J422PPfCF4JDDZOQWdVo9t1MuZJqN0mnnotbZ7tdjoQGtxIaG22jSmxr+Cf0kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767841097; c=relaxed/simple;
-	bh=rjMuHQx5nBxpq0QuuANTdJ/MIcXGhXQzn0A8ozqdh2A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BmFuxW3i86syVtEmu5xImIN/29UQu59ewlVjToNpeDLQbq7svbiN3G3gY+Ua2vAHm5u0JbBJD5dbVnUEZGyIWg1KtMXXDJNOg+UUNJEbKwn7HZ8hzxkawUj8+5NkSATeDVXQfqtnbirngfycxcI0Ofw0ee82gYhwiOg6JLpr03k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=RtJm318Z; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1767842675; c=relaxed/simple;
+	bh=wKU4HYJn/yM0dSUC5OOu0cT+S2Uo45f7kKFmEGXgTqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HtyUHdLA7lyZNt5OyusbPyuARRi6KhxEmvZXphUtVWoDlzC6Oo7ZjS1Xzg/YhVtR4pgpQrATZl5+c8uS20su0xgKug4IHwJdzrCfVAo68P+hWkVwtWH3gt7oEpHUg39hsdjBNOva74cW3TlLJOe8AVbkdErJUPG2irX7+DYtpFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net; spf=pass smtp.mailfrom=who-t.net; dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b=ml0uQwt2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rLdHgt+I; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=who-t.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=who-t.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="RtJm318Z"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=rjMuHQx5nBxpq0QuuANTdJ/MIcXGhXQzn0A8ozqdh2A=;
-	b=RtJm318ZDg3TNM/6oMrSEcLjStWxqziVSOS51Yqq4b+SW+PH4V24LC+TyVPAhWdK6D2QCXDDm
-	EF5ONfFJGVjL6qwWmZH8Ds++Ut2asE/6/k2DpF/HTpV9Ufr8syUQfM4iIyJcRkHc0wYvmYA1Hjc
-	GstrmcPNPlsTRUNLnSEPVQQ=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4dmqJB3TM9zRhvK;
-	Thu,  8 Jan 2026 10:54:50 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 981594056B;
-	Thu,  8 Jan 2026 10:58:06 +0800 (CST)
-Received: from kwepemq100002.china.huawei.com (7.202.195.14) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 8 Jan 2026 10:58:06 +0800
-Received: from kwepemq200002.china.huawei.com (7.202.195.90) by
- kwepemq100002.china.huawei.com (7.202.195.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 8 Jan 2026 10:58:05 +0800
-Received: from kwepemq200002.china.huawei.com ([7.202.195.90]) by
- kwepemq200002.china.huawei.com ([7.202.195.90]) with mapi id 15.02.1544.011;
- Thu, 8 Jan 2026 10:58:05 +0800
-From: duchangbin <changbin.du@huawei.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC: duchangbin <changbin.du@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] tools: jobserver: Add validation for jobserver tokens to
- ensure valid '+' characters
-Thread-Topic: [PATCH] tools: jobserver: Add validation for jobserver tokens to
- ensure valid '+' characters
-Thread-Index: AQHcdWdrFHx32OniNEiud4ksj7qjorVFPHoAgAEzEID//4+yAIAAFIcAgAGWjwA=
-Date: Thu, 8 Jan 2026 02:58:05 +0000
-Message-ID: <9ec672bde2cc4b14905175ca22cbb737@huawei.com>
-References: <20251225062622.1500046-1-changbin.du@huawei.com>
- <87zf6qcsu1.fsf@trenco.lwn.net> <bc19bb55bee34abb990c00c3006c6710@huawei.com>
- <20260107102910.5cad9d7d@foz.lan> <aV4zoXfoKJE0Id4e@foz.lan>
-In-Reply-To: <aV4zoXfoKJE0Id4e@foz.lan>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-imapappendstamp: kwepemq200002.china.huawei.com (15.02.1544.011)
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D88D270004908F41A0E09D776EB08413@huawei.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=who-t.net header.i=@who-t.net header.b="ml0uQwt2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rLdHgt+I"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 5DA3D14001AC;
+	Wed,  7 Jan 2026 22:24:31 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 07 Jan 2026 22:24:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1767842671;
+	 x=1767929071; bh=sNKq70LCd3y5q5F5QW2+D0D/jpDMivUlFV8XZoA+bCA=; b=
+	ml0uQwt2DFNkXmZVCQSpolj0pUw1h6ESSFGWLFExUkHFGZIlqxDWQz/7tDdNoitt
+	W1jgzGZz1bp41pIPaJ8YJjlYvIG/WpcNeWMqxv5PlxabfeGcnHe+OJDqlRBjoTBJ
+	LjMxeJH/vkMqNXPoGrgQxZTWdvTKauw8SRj9iblgoSLmbHlensAig/QOazx7GU9p
+	BMhoi2YtstcMW/H2PpG1GL9GU3O2nPr2zwlsqJ3o9ARSf6uHcc6/E+GMTDjftMn3
+	c5xIC33tQ20nkGUjxBfR85HNsFf6ks/JayoKUW4vk5HY+WoEYxa+ult1pO5taUAC
+	IhYbo3ofyRrBHFdn/8IeEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767842671; x=
+	1767929071; bh=sNKq70LCd3y5q5F5QW2+D0D/jpDMivUlFV8XZoA+bCA=; b=r
+	LdHgt+I54KETjNwDKPz/81glOAGN6+Wtzk1n8QOCqFxTvv4JeXgG9NbZh46TVwkH
+	KwnuVVhWrAsoivD5TY2hLdR6M4voP/xWDEFwQsb9KuFelNp8kGkMD/FAbhWUyEsD
+	ss6HphGCQ6J7iYflJqowuFMwFD8qZPU5Ha652jdaSiOnXvrj1lGyI94jaFjvbni3
+	Jh1p6mI4S0X5fRVSfuGxwkpyhmx3vaSwWQjxSEFrRQnKsnc+VUg1x8pCYPntOmDG
+	lTjtz0/gz49mQYq4k7imXjhRWhVufREa3zm4/dq/7thNdJoH15Deaqn0UNSsTqtC
+	pDAu/lKFkEZb7+2bjrvRw==
+X-ME-Sender: <xms:byNfae-rwC3QyJF3Tv4A5IQ-o-t73bhjdefNYARl6j1zV-Y-PEo_tA>
+    <xme:byNfaUtm2DCs2tjZNCxqYp0Z3-wuwaN7DnH15bZEJHqIEB9rdwJroKJ7cYSfP57mJ
+    -nVzsVFsWXaj6WVBiLY4h_APopGzk8ITkC6473tICFBUXUcoqsYBNY>
+X-ME-Received: <xmr:byNfae1Y7yK5crdowRacOnwEV34_rxeq7GpjPh0vrlsXQwjP3-cyTChcOtS5TCc9KTHeLJFSoB6PyZrNVeNK7vK8SgJnxIYmKw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdegkeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesthekre
+    dttddtjeenucfhrhhomheprfgvthgvrhcujfhuthhtvghrvghruceophgvthgvrhdrhhhu
+    thhtvghrvghrseifhhhoqdhtrdhnvghtqeenucggtffrrghtthgvrhhnpedtkeefjeefie
+    ehhfefteelieevvdeufeekjeduleeutddutdeihffhledvleetvdenucffohhmrghinhep
+    gidqphhlrghnvgdrohhrghdpfhgrlhgtohhnqdgsmhhsrdgtohhmpdhkvghrnhgvlhdroh
+    hrghdpfihinhgvhhhqrdhorhhgpdhgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthho
+    phdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvthdpnhgspghrtghpthht
+    ohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehtohhmrghsiidrphgrkh
+    hulhgrrdhofhhitghjrghlnhihsehgmhgrihhlrdgtohhmpdhrtghpthhtohepughmihht
+    rhihrdhtohhrohhkhhhovhesghhmrghilhdrtghomhdprhgtphhtthhopegtohhrsggvth
+    eslhifnhdrnhgvthdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopegsvghnthhishhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
+    igqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+    gidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihesvghn
+    ughrihhfthdrtghomh
+X-ME-Proxy: <xmx:byNfaZTbuywystardQLdvEOQAiloSJRLEZjAW8nCPwhYKdWdoiwDlw>
+    <xmx:byNfaSc4LiHGCXao-14g9rLaK_i8fFuSZvDHFeGJSDV2GuCSL2pvLw>
+    <xmx:byNfaad4jZ-gTCpznX3Q2Lp0qwlpCLaWPCDCy45hHkz7fJdWkawm1g>
+    <xmx:byNfac2s5AzOFg4kIRrDbvE3AWUj9upZ-aUNIyi3g-iucr0fxv5qcQ>
+    <xmx:byNfaT5JGtTs9rlisLLVNUMyYpbk0ZeH-CQsFkJ-zKvnqIP_OXQIZ6He>
+Feedback-ID: i7ce144cd:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jan 2026 22:24:27 -0500 (EST)
+Date: Thu, 8 Jan 2026 13:24:22 +1000
+From: Peter Hutterer <peter.hutterer@who-t.net>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Cc: dmitry.torokhov@gmail.com, corbet@lwn.net, jikos@kernel.org, 
+	bentiss@kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, vi@endrift.com, linux-kernel@altimeter.info
+Subject: Re: [RFC PATCH 0/6] Input: New EV_BTN event for generic buttons
+Message-ID: <aV8eksQWbJcCehdy@quokka>
+References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
 
-T24gV2VkLCBKYW4gMDcsIDIwMjYgYXQgMTE6NDI6MzhBTSArMDEwMCwgTWF1cm8gQ2FydmFsaG8g
-Q2hlaGFiIHdyb3RlOg0KPiA+IA0KPiA+IEl0IHdvdWxkIGJlIG5pY2UgaWYgeW91IGNvdWxkIHBy
-b3ZpZGUgbW9yZSBkZXRhaWxzIGFib3V0IGhvdyB0byByZXByb2R1Y2UgaXQuIA0KPiA+IEFyZSB5
-b3UgZG9pbmcgYW55dGhpbmcgc3BlY2lhbD8gV2hhdCBkaXN0cm8gYXJlIHlvdSB1c2luZz8gd2hh
-dCBweXRob24gdmVyc2lvbj8NCj4gPiANCj4gPiA+IFdoZW4gdGhpcyBwcm9ibGVtIG9jY3Vycywg
-dGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gZGVhZGxvY2tzIGJlY2F1c2UgZm9yIHJlZ3VsYXIg
-ZmlsZXMsDQo+ID4gPiBvcy5yZWFkKCkgcmV0dXJucyBlbXB0eSBieXRlcyBhZnRlciByZWFjaGlu
-ZyBFT0YsIGNyZWF0aW5nIGFuIGluZmluaXRlIGxvb3AuIE15IHdvcmthcm91bmQNCj4gPiA+IGlz
-IHRvIGlnbm9yZSB0aGlzIGVycm9yIGNvbmRpdGlvbiB0byBwcmV2ZW50IGRlYWRsb2NrLCBhbHRo
-b3VnaCB0aGlzIG1lYW5zIHRoZSBqb2JzZXJ2ZXINCj4gPiA+IHByb3RvY29sIHdpbGwgbm8gbG9u
-Z2VyIGJlIGhvbm9yZWQuDQo+ID4gDQo+ID4gdGVzdGluZyBpZiBzbG90IGlzIGVtcHR5IG1ha2Vz
-IHNlbnNlLCBidXQgd2h5IHRlc3RpbmcgaWYgaXQgaXMgIisiPw0KPiA+IA0KPiA+ID4gDQo+ID4g
-PiBBcyB5b3Ugc3VnZ2VzdGVkIGFib3ZlLCBXZSBjYW4gb3V0cHV0IGFuIGVycm9yIG1lc3NhZ2Ug
-dG8gc3RkZXJyIHRvIGluZm9ybSB1c2VycywgYnV0DQo+ID4gPiBtdXN0IG5vdCB1c2Ugc3Rkb3V0
-LCBhcyBpdCB3b3VsZCBjb3JydXB0IHRoZSB0b29sJ3Mgbm9ybWFsIG91dHB1dCBzdHJlYW0uDQo+
-ID4gDQo+IA0KPiBBZnRlciB0aGlua2luZyBhIGxpdHRsZSBiaXQgbW9yZSBhYm91dCB0aGlzLCBJ
-TUhPIHRoZSBiZXN0IGlzIHRvIGhhdmUNCj4gdHdvIHNlcGFyYXRlIHBhdGNoZXMgKGFzc3VtaW5n
-IHRoYXQgdGhlcmUgaXMgYSBnb29kIHJlYXNvbiB3aHkgZW5zdXJpbmcgdGhhdCB0aGUNCj4gc2xv
-dCdzIGNoYXJhY3RlciBpcyAiKyIpOg0KPg0KPiA+IFlvdSBjb3VsZCBkbyBzb21ldGhpbmcgbGlr
-ZSAodW50ZXN0ZWQpOg0KPiA+IA0KPiA+ICAgICAgICAgICAgICB3aGlsZSBUcnVlOg0KPiA+ICAg
-ICAgICAgICAgICAgICAgdHJ5Og0KPiA+ICAgICAgICAgICAgICAgICAgICAgIHNsb3QgPSBvcy5y
-ZWFkKHNlbGYucmVhZGVyLCA4KQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgIGlmIG5vdCBzbG90
-Og0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAjIFN0b3AgYXQgdGhlIGVuZCBvZiB0aGUg
-am9ic2VydmVyIHF1ZXVlLg0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBicmVhaw0KPiAN
-Cj4gVGhpcyB3b3VsZCBiZSBwYXRjaCAxLCB0byBvdmVyY29tZSBzb21lIGlzc3VlIChwcm9iYWJs
-eSBkdWUgdG8gUHl0aG9uDQo+IHZlcnNpb24pIHRoYXQgcmVhZGluZyBwYXN0IEVPRiB3b24ndCBy
-aXNlIGFuIGV4Y2VwdGlvbi4gSSB3b3VsZCB2ZXJ5IG11Y2gNCj4gd2FudCB0byBzZWUgd2hhdCBw
-eXRob24gdmVyc2lvbiB5b3UncmUgdXNpbmcgYW5kIHNlZSBpZiBzb21lIG90aGVyDQo+IGV4Y2Vw
-dGlvbiBhcm9zZSAobGlrZSBFT0ZFcnJvciksIHByb3Blcmx5IGRlc2NyaWJlZCBhdCB0aGUgcGF0
-Y2ggZGVzY3JpcHRpb24uDQo+DQoNCk15IFB5dGhvbiBpcyAzLjEyLjMsIGFuZCBHTlUgTWFrZSBp
-cyA0LjMuIEJ1dCBJIGRvbid0IHRoaW5rIHRoZSBpc3N1ZSBpcyBjYXVzZWQNCmJ5IHRoZSBQeXRo
-b24gaW50ZXJwcmV0ZXIuIEluc3RlYWQsIG15IHNoZWxsIG9wZW5lZCAvZXRjL3Bhc3N3ZCBmb3Ig
-c29tZSByZWFzb24NCndpdGhvdXQgY2xvc2luZyBpdCwgYW5kIGFzIGEgcmVzdWx0LCBhbGwgY2hp
-bGQgcHJvY2Vzc2VzIGluaGVyaXRlZCB0aGlzIGZkMyBmaWxlDQpkZXNjcmlwdG9yLg0KDQokIGxz
-IC1sIC9wcm9jL3NlbGYvZmQNCnRvdGFsIDANCmxyd3gtLS0tLS0gMSBjaGFuZ2JpbiBjaGFuZ2Jp
-biA2NCBKYW4gIDggMTA6NDAgMCAtPiAvZGV2L3B0cy8wDQpscnd4LS0tLS0tIDEgY2hhbmdiaW4g
-Y2hhbmdiaW4gNjQgSmFuICA4IDEwOjQwIDEgLT4gL2Rldi9wdHMvMA0KbHJ3eC0tLS0tLSAxIGNo
-YW5nYmluIGNoYW5nYmluIDY0IEphbiAgOCAxMDo0MCAyIC0+IC9kZXYvcHRzLzANCmxyLXgtLS0t
-LS0gMSBjaGFuZ2JpbiBjaGFuZ2JpbiA2NCBKYW4gIDggMTA6NDAgMyAtPiAvZXRjL3Bhc3N3ZA0K
-bHIteC0tLS0tLSAxIGNoYW5nYmluIGNoYW5nYmluIDY0IEphbiAgOCAxMDo0MCA0IC0+IC9wcm9j
-LzI0NjgxNjIvZmQNCg0KSW4gdGhpcyBjYXNlLCBtYWtlIHNob3VsZCBvcGVuIGEgbmV3IGZpbGUg
-ZGVzY3JpcHRvciBmb3Igam9ic2VydmVyIGNvbnRyb2wsIGJ1dA0KY2xlYXJseSwgaXQgZGlkIG5v
-dCBkbyBzbyBhbmQgaW5zdGVhZCBzdGlsbCBwYXNzZWQgZmQgMy4gT25jZSBJIGdldCBhIGNoYW5j
-ZSwNCkknbGwgbG9vayBpbnRvIGhvdyBNYWtlIDQuMyBhY3R1YWxseSB3b3Jrcy4NCg0KDQo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgIyBXaHkgZG8gd2UgbmVlZCB0aGlzPw0KPiA+ICsgICAgICAg
-ICAgICAgICAgICAgIGlmIGFueShjICE9IGInKydbMF0gZm9yIGMgaW4gc2xvdCk6DQo+ID4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgIHByaW50KCJXYXJuaW5nOiBpbnZhbGlkIGpvYnNlcnZlciBz
-bG90cyIsIGZpbGU9c3lzLnN0ZGVycikNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgYnJl
-YWsNCj4gDQo+IFRoaXMgc2VlbXMgdG8gYmUgYSBzZXBhcmF0ZSBpc3N1ZS4gV2h5IGRvIHdlIG5l
-ZWQgdG8gZW5mb3JjZSB0aGF0IHRoZSBzbG90IGRhdGENCj4gaXMgIisiPyBJZiBpdCBkb2Vzbid0
-LCB3aHkgdGhpcyB3b3VsZCBiZSBhIHByb2JsZW0/DQo+IA0KPiBCdHcsIHJlYWRpbmc6DQo+IA0K
-PiAgICAgaHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9tYWtlL21hbnVhbC9odG1sX25vZGUv
-UE9TSVgtSm9ic2VydmVyLmh0bWwNCj4gDQo+IFdlIGhhdmU6DQo+IA0KPiAgICAgIkluIGJvdGgg
-aW1wbGVtZW50YXRpb25zIG9mIHRoZSBqb2JzZXJ2ZXIsIHRoZSBwaXBlIHdpbGwgYmUgcHJlLWxv
-YWRlZCB3aXRoIA0KPiAgICAgIG9uZSBzaW5nbGUtY2hhcmFjdGVyIHRva2VuIGZvciBlYWNoIGF2
-YWlsYWJsZSBqb2IuIFRvIG9idGFpbiBhbiBleHRyYSBzbG90DQo+ICAgICAgeW91IG11c3QgcmVh
-ZCBhIHNpbmdsZSBjaGFyYWN0ZXIgZnJvbSB0aGUgam9ic2VydmVyOyB0byByZWxlYXNlIGEgc2xv
-dCB5b3UNCj4gICAgICBtdXN0IHdyaXRlIGEgc2luZ2xlIGNoYXJhY3RlciBiYWNrIGludG8gdGhl
-IGpvYnNlcnZlci4NCj4gDQo+ICAgICAgSXTigJlzIGltcG9ydGFudCB0aGF0IHdoZW4geW91IHJl
-bGVhc2UgdGhlIGpvYiBzbG90LCB5b3Ugd3JpdGUgYmFjayB0aGUgc2FtZQ0KPiAgICAgIGNoYXJh
-Y3RlciB5b3UgcmVhZC4gRG9u4oCZdCBhc3N1bWUgdGhhdCBhbGwgdG9rZW5zIGFyZSB0aGUgc2Ft
-ZSBjaGFyYWN0ZXI7DQo+ICAgICAgZGlmZmVyZW50IGNoYXJhY3RlcnMgbWF5IGhhdmUgZGlmZmVy
-ZW50IG1lYW5pbmdzIHRvIEdOVSBtYWtlLiBUaGUgb3JkZXIgaXMNCj4gICAgICBub3QgaW1wb3J0
-YW50LCBzaW5jZSBtYWtlIGhhcyBubyBpZGVhIGluIHdoYXQgb3JkZXIgam9icyB3aWxsIGNvbXBs
-ZXRlIGFueXdheS4iDQo+IA0KPiBTbywgYSAxMDAlIGNvbXBsaWFudCBQT1NJWCBqb2JzZXJ2ZXIg
-Y29kZSBzaGFsbCBub3QgdGVzdCBmb3IgIisiLCBidXQsIGluc3RlYWQsDQo+IHByZXNlcnZlIHdo
-YXRldmVyIGNoYXJhY3RlciBpcyB0aGVyZS4NCj4gDQo+IFlldCwgY2hlY2tpbmcgZm9yICIrIiBp
-cyByZWFsbHkgbmVlZGVkLCBwbGVhc2UgYWRkIGEgcmF0aW9uYWxlIGF0IHRoZSBwYXRjaA0KPiBk
-ZXNjcmlwdGlvbiBqdXN0aWZ5aW5nIHdoeS4gT24gc3VjaCBjYXNlLCB3ZSBzaG91bGQgc3RpbGw6
-DQo+IA0KPiAgICAgLSByZWxlYXNlIHRoZSBzbG90KHMpIHdlIGRvbid0IHdhbnQgYnkgd3JpdGlu
-ZyB0aGUgY2hhcmFjdGVyIHZpYQ0KPiAgICAgICBvcy53cml0ZSgpOw0KPiAgICAgLSBwcmludCBh
-IHdhcm5pbmcgbWVzc2FnZSBhYm91dCB3aHkgd2UgcmVqZWN0ZWQgdGhlIHNsb3QocykuDQo+IA0K
-VGhhbmsgeW91IGZvciB0aGUgaW5mb3JtYXRpb24uIEkgcHJldmlvdXNseSBtaXN1bmRlcnN0b29k
-IHRoYXQgcmVhZGluZyBmcm9tIHRoZQ0Kam9ic2VydmVyIHdvdWxkIG9ubHkgcmV0dXJuIGEgJysn
-IHN5bWJvbCwgYnV0IG5vdyBpdCdzIG9idmlvdXNseSBub3QgdGhlIGNhc2UuDQpBdCB0aGlzIHBv
-aW50LCB3ZSBzZWVtIHVuYWJsZSB0byB2ZXJpZnkgd2hldGhlciBpdCdzIGEgdmFsaWQgam9ic2Vy
-dmVyIGZpbGUNCmRlc2NyaXB0b3IsIHNvIHdlIGhhdmUgdG8gcmVhZCB0aGUgZW50aXJlIGZpbGUg
-Y29udGVudHMgdXRpbCBFT0YuDQoNCj4gPiAgICAgICAgICAgICAgICAgICAgICBzZWxmLmpvYnMg
-Kz0gc2xvdA0KPiA+ICAgICAgICAgICAgICAgICAgZXhjZXB0IChPU0Vycm9yLCBJT0Vycm9yKSBh
-cyBlOg0KPiA+ICAgICAgICAgICAgICAgICAgICAgIGlmIGUuZXJybm8gPT0gZXJybm8uRVdPVUxE
-QkxPQ0s6DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICMgU3RvcCBhdCB0aGUgZW5kIG9m
-IHRoZSBqb2JzZXJ2ZXIgcXVldWUuDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFr
-DQo+ID4gICAgICAgICAgICAgICAgICAgICAgIyBJZiBzb21ldGhpbmcgd2VudCB3cm9uZywgZ2l2
-ZSBiYWNrIHRoZSBqb2JzLg0KPiA+ICAgICAgICAgICAgICAgICAgICAgIGlmIHNlbGYuam9iczoN
-Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgb3Mud3JpdGUoc2VsZi53cml0ZXIsIHNlbGYu
-am9icykNCj4gPiAgICAgICAgICAgICAgICAgICAgICByYWlzZSBlDQo+ID4gDQo+ID4gWWV0LCBp
-ZiBvcy5yZWFkKCkgZmFpbHMgb3IgcmVhY2hlcyBFT0YsIEkgd291bGQgZXhwZWN0IHRoYXQgdGhl
-ICJleGNlcHQiIGJsb2NrDQo+ID4gd291bGQgcGljayBpdC4gSXQgc291bmRzIHRvIG1lIHRoYXQg
-aXQgY291bGQgYmUgc29tZSBpc3N1ZSB3aXRoIHRoZSBweXRob24NCj4gPiB2ZXJzaW9uIHlvdSdy
-ZSB1c2luZy4NCj4gPiANCj4gPiA+IEZvcg0KPiA+ID4gZXhhbXBsZSwgaW4gc2NyaXB0cy9NYWtl
-ZmlsZS52bWxpbnV4X28gd2UgaGF2ZToNCj4gPiA+IA0KPiA+ID4gcXVpZXRfY21kX2dlbl9pbml0
-Y2FsbHNfbGRzID0gR0VOICAgICAkQA0KPiA+ID4gICAgICAgY21kX2dlbl9pbml0Y2FsbHNfbGRz
-ID0gXA0KPiA+ID4gICAgICAgICAkKFBZVEhPTjMpICQoc3JjdHJlZSkvc2NyaXB0cy9qb2JzZXJ2
-ZXItZXhlYyBcDQo+ID4gPiAgICAgICAgICQoUEVSTCkgJChyZWFsLXByZXJlcXMpID4gJEANCj4g
-PiA+IA0KPiA+ID4gDQo+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgc2VsZi5qb2JzICs9
-IHNsb3QNCj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgIGV4Y2VwdCAoT1NFcnJvciwgSU9FcnJv
-cikgYXMgZToNCj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICBpZiBlLmVycm5vID09IGVy
-cm5vLkVXT1VMREJMT0NLOiAgDQo+ID4gPiA+IA0KPiA+ID4gPiBUaGFua3MsDQo+ID4gPiA+IA0K
-PiA+ID4gPiBqb24gIA0KPiA+ID4gDQo+ID4gDQo+ID4gDQo+ID4gDQo+ID4gVGhhbmtzLA0KPiA+
-IE1hdXJvDQo+IA0KPiAtLSANCj4gVGhhbmtzLA0KPiBNYXVybw0KPiANCg0KLS0gDQpDaGVlcnMs
-DQpDaGFuZ2JpbiBEdQ0K
+On Sun, Jan 04, 2026 at 10:31:26PM +0100, Tomasz Pakuła wrote:
+> This patch series adds EV_BTN and it's handling to the input system. It's main
+> focus is to add a simple event for generic buttons, not relying on defined
+> usages and meanings.
+> 
+> Joysticks unlike keyboards, mice and even gamepads (though that's debatable)
+> define arbitrary number of buttons that don't mean anything. They can be used
+> in any kind of software, but mainly games, by assigning them manually to
+> functions. Some games even carry default presets for devices based on their USB
+> VID:PID pairs.
+> 
+> The more important issue that this is trying to solve is the longstanding
+> problem of limited button support in Linux. The use for arbitrary number of
+> buttons wasn't considered some 20 years ago because Linux wasn't a good platform
+> for gaming. First, Joystick and Gamepad ranges were limited to 16 buttons, later
+> extended by 40 additional usages in the TRIGGER_HAPPY range. By allowing the
+> usages to be incremented up to KEY_MAX, Joysticks were able to expose up to 80
+> buttons for the past 15 years or so.
+> 
+> Many simracing, simflight etc. devices actually expose way more then that. 128
+> is a pretty common number with even more in the wild. Usually the numbers get so
+> big to support things like positional rotary switches as one such rotary can
+> have 12+ positions. My Moza GS V2P wheel has 5 such rotaries and that's not
+> counting other buttons.
+> 
+> Doing something about this limit was brought up maaany times in the past:
+> https://forums.x-plane.org/forums/topic/299033-xp12-linux-winwing-orion-2-throttle-has-too-many-buttons/?page=1
+> https://forum.falcon-bms.com/topic/26403/solved-winwing-orion-2-on-linux-only-80-buttons-detected
+> https://lore.kernel.org/linux-input/CACa7zynMpa3BOJUW=s_Tj1TwH5txDQOuta5Fph45PYhDOtQQ3g@mail.gmail.com/
+> https://lore.kernel.org/linux-input/20200710065112.18286-1-cpuwolf@gmail.com/#r
+> https://lore.kernel.org/linux-input/20240802201001.406898-1-tomasz.pakula.oficjalny@gmail.com/
+> https://lore.kernel.org/linux-input/20250201113906.769162-11-tomasz.pakula.oficjalny@gmail.com/
+> https://lore.kernel.org/linux-input/20251119163844.1343-1-Hunter.Moore@garmin.com/
+> https://lore.kernel.org/linux-input/20251220194100.GA12646@altimeter-info/
+> https://lore.kernel.org/linux-input/665df7c9-0d32-4ecd-9f4d-fff67deb5878@endrift.com/
+> 
+> But some considerations:
+> 
+> 1. Usages have their actual meanings and we shouldn't use them willy-nilly to add
+> more buttons, even if that approach works with naive approaches use by SDL and
+> Wine alike.
+
+fwiw, we *already* add those usages willy-nilly for a rather large
+proportion of devices. any HID device with the Button usage page will
+convert from HID button 4 to BTN_SIDE and then the rest of the stack
+pretends this was a conscious choice. Which leads to hilarities that
+BTN_SIDE is actually the back button and BTN_BACK is just... button 7
+(or button 11 thanks to X11 history). Which then again leads to
+hilarities that sending BTN_BACK to indicate a back action may or may
+not have an effect, I recently had a bug like this in mutter/gtk's tablet
+handling. IOW, it's quite messy anyway.
+
+So what I (think I) would like is to use EV_BTN in addition with EV_KEY
+to signal purely numbered buttons but *also* which buttons have the
+exact semantic meaning. The logic becomes:
+
+If an EV_KEY $code is just a numbered button it *also* sends EV_BTN
+$number. 
+If an EV_KEY $code is a fixed semantic meaning (e.g. BTN_BACK) it does
+*not* send an EV_BTN $number.
+
+Then we can have a mapping in the device that maps from EV_BTN to EV_KEY
+code, obtained via some EVIOCBTNKEYCODE() ioctl. The hypothetical
+example of a device with 3 numbered buttons and a fixed BTN_BACK would
+be: EV_BTN count of 3, EV_KEY bits for left/middle/right and back.
+
+nbuttons = EVIOCBTNCNT()
+EVIOCBTNKEYCODE(0, nbuttons) returns [BTN_LEFT, BTN_RIGHT, BTN_MIDDLE]
+
+A sequence with right and back down would look like this:
+
+Event: time 1767559522.509446, type 6 (EV_BTN), button 2, value 1
+Event: time 1767559522.509446, type 6 (EV_KEY), code 0x110 (BTN_RIGHT), value 1
+Event: time 1767559522.509446, type 6 (EV_KEY), code 0x110 (BTN_BACK), value 1
+Event: time 1767559522.509446, type 4 (EV_MSC), code 4 (MSC_SCAN), value 9000c
+Event: time 1767559522.509446, -------------- SYN_REPORT ------------
+
+And userspace can ignore BTN_RIGHT thanks to that mapping but BTN_BACK
+retains its semantic meaning. This is flexible enough even though I'm
+not sure how many devices will mix the two.
+
+Does that make sense?
+
+Cheers,
+  Peter
+
+
+> 2. Extending the KEY_MAX will cause additional issues when it comes to bitmask
+> sizes, mapping usages and reading them afterward. Basically, we're moving the
+> goalpost somewhere, but a device that would define 1024 buttons would break
+> things again.
+> 
+> I must give HUGE thanks to Dmitry for forcing this into my head to a point where
+> I actually understood the whole issue.
+> 
+> Thus, I thought up of a best, long-term solution to this problem. I do think
+> EV_BTN should be a first-class event so it can be as easy to handle as possible.
+> If there's a need, it could be hooked up for Gamepads as well as HID gamepads do
+> the same thing and only expose raw buttons without specific usages. The usages
+> are a best guess when handling generic ones and only custom drivers can actually
+> assign proper buttons like BTN_A, THUMBL etc.
+> 
+> In the future, the Joystick usages could be completely removed and joysticks
+> could rely ONLY on the new event. For now, the old way is kept to not break
+> compatibility.
+> 
+> I'm eagerly waiting for comments, recommendations and critique. Currently, there
+> isn't a way to poll states of all buttons like with EVIOCGKEY but I'm not sure
+> if it's needed? I added INPUT_MAX_KEYS just for some sane limits BUT I don't see
+> a real use for it. Instead of this define, we could just use U16_MAX. 65k of
+> buttons ought to be enough for ANYBODY :D
+> 
+> Companion changes to consumers that already show the working state of this patch series:
+> Wine: https://gitlab.winehq.org/wine/wine/-/merge_requests/9853
+> SDL: https://github.com/libsdl-org/SDL/pull/14758
+> evtest: https://gitlab.freedesktop.org/libevdev/evtest/-/merge_requests/25
+> 
+> Tested with my Moza Racing R9 and Moza Universal Hub (both expose 128 usable
+> buttons). hid-universal-pidff driver was disabled for testing as it contains
+> usage range hack.
+> 
+> Sneak peek from updated evtest:
+> 
+> Event: time 1767559522.509446, type 6 (EV_BTN), button 12, value 1
+> Event: time 1767559522.509446, type 4 (EV_MSC), code 4 (MSC_SCAN), value 9000c
+> Event: time 1767559522.509446, type 1 (EV_KEY), code 299 (BTN_BASE6), value 1
+> Event: time 1767559522.509446, -------------- SYN_REPORT ------------
+> Event: time 1767559522.656447, type 6 (EV_BTN), button 12, value 0
+> Event: time 1767559522.656447, type 4 (EV_MSC), code 4 (MSC_SCAN), value 9000c
+> Event: time 1767559522.656447, type 1 (EV_KEY), code 299 (BTN_BASE6), value 0
+> Event: time 1767559522.656447, -------------- SYN_REPORT ------------
+> Event: time 1767559523.737498, type 6 (EV_BTN), button 112, value 1
+> Event: time 1767559523.737498, -------------- SYN_REPORT ------------
+> Event: time 1767559523.807477, type 6 (EV_BTN), button 112, value 0
+> Event: time 1767559523.807477, -------------- SYN_REPORT ------------
+> 
+> Tomasz Pakuła (6):
+>   Input: Introduce EV_BTN event for generic buttons
+>   Input: Add info about EV_BTN
+>   Input: Fire EV_BTN if found in ev_bit
+>   Input: Assign EV_BTN event to HID Joysticks
+>   Input: Realign rest of the HID_UP_BUTTON cases
+>   Input: Add EVIOCGBTNCNT
+> 
+>  Documentation/input/event-codes.rst    |  5 ++
+>  drivers/hid/hid-input.c                | 77 +++++++++++++++++---------
+>  drivers/input/evdev.c                  |  5 ++
+>  drivers/input/input.c                  | 10 ++++
+>  include/linux/input.h                  |  4 ++
+>  include/uapi/linux/input-event-codes.h |  1 +
+>  include/uapi/linux/input.h             |  1 +
+>  7 files changed, 77 insertions(+), 26 deletions(-)
+> 
+> --
+> 2.52.0
+> 
