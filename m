@@ -1,217 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F4C4F7988;
-	Thu,  8 Jan 2026 12:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6BA387577;
+	Thu,  8 Jan 2026 12:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767875932; cv=none; b=VvMYeM9ABgj949+HlkSkQZhrkaQhCBYgUVMIv1uAKOe7iTf8lOwfpdA2fph8XVKwzBYwQH0iZJgUFu3caC2aKlYotgr1NgqaTL+dqmTp388vxn4n2F5F58gc1GTW1yF0PyvZY/PdJOvaVGmHNqyNTIsA7daqpBjtiwpv1Ws8zAg=
+	t=1767876604; cv=none; b=JlVWGNb3K7QlN7ovOjWmQwT7YA6mR7Hmy4K8EY9lpVtGoJ/0J54ipB+nxlrf1xD84HqKei2tchpfVVyU0clTfKbYmXMeYbcJniXGv0LH/t/887sqKvKzsqamJvVVx+1dAz7VeNThHhyFf9TEq+BLUWsvMPR6UUnZgBhn6GwnO3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767875932; c=relaxed/simple;
-	bh=rRFi3QZQyDSaI7EXHpS+Y+kBFm4kORrlVSy4ytIs2fw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bDNag115vHsWlTOqDYnsdU68esDDb1FEKxqwn7kspNPKlo4Cymr/EzNgart3tLYJ1ZwbnQdWHcoNQa+OVK9iZSqq34mlgQ1vekoV/xqiwe4WKy6i5GlJv/Lq/V28LZiKmoOeGYwoByZRo/g9AZbnv8f3MA1QkyeAi+CO2uh5L+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fcQ03nkU; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcQ03nkU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D6B5C19421;
-	Thu,  8 Jan 2026 12:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767875932;
-	bh=rRFi3QZQyDSaI7EXHpS+Y+kBFm4kORrlVSy4ytIs2fw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fcQ03nkULZY4K2hMjKQzQb8YD9w6WhEP3klYpCG+pWcCHsTOBSZ90PqbgcJKXJovv
-	 u8OD+4y7+CncU5AcgUfx1htEWuUa0cIq7hb4dxyjOtdlPB1eulPhveHYa5j73fdcl6
-	 sH9lG5DXnX4gp9r69jltDWJkQje7FeNkCYdX9/GtKapJHSqB6kBBfoFa+BgmM24s52
-	 brKBSleGLrtxHlIUi8E1D76cIKGJvhYJLQ8eD0ELJt3SKAdBthw3NijmMKitI/gaQw
-	 vqbpoJIClRizqweRds5+lj/l1xCPIcjQG6a36w/jNXfn5OuZFhSuCGHvoDrFqM4VMH
-	 UC/ME8YN46EpQ==
-Date: Thu, 8 Jan 2026 14:38:47 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	David Howells <dhowells@redhat.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Peter Huewe <peterhuewe@gmx.de>, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	arm-scmi@vger.kernel.org, linux-mips@vger.kernel.org,
-	netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
-	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v2 00/17] tee: Use bus callbacks instead of driver
- callbacks
-Message-ID: <aV-lV5l-rwyceWqr@kernel.org>
-References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
- <CAHUa44FrDZbvRvfN8obf80_k=Eqxe9YxHpjaE5jU7nkxPUwfag@mail.gmail.com>
- <20251218135332f323fa91@mail.local>
- <CAHUa44GpW5aO26GDyL9RZub9vVYvVcJ7etwO0yXBN_mUi0W4AA@mail.gmail.com>
- <CAHUa44HqRbCJTXsrTCm0G5iwtkQtq+Si=yOspCjpAn-N2uVSVg@mail.gmail.com>
+	s=arc-20240116; t=1767876604; c=relaxed/simple;
+	bh=oRZ2lPl+gZkTUwx0MnubUkgPpy5MkPPj96/wtI4UW/Q=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jwypx3FNddimLD7g+CS3Hh3F0/p6kI50YUHMW0kSlfSaw00M/rY3YpekBVuNC2rD6MTeICRHHcwmzD5yZIM5kiysUYbTXG/CGdXC5MbMoqpq6pfLxY0/0bOD/472NCJyJsMbRiELGieGcsGXBneEISPc85NimJEj5kFY83NVuQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn4Vp3QDBzJ469G;
+	Thu,  8 Jan 2026 20:49:54 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4FF994056A;
+	Thu,  8 Jan 2026 20:49:59 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
+ 2026 12:49:57 +0000
+Date: Thu, 8 Jan 2026 12:49:56 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <John@Groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V3 14/21] famfs_fuse: Plumb the GET_FMAP
+ message/response
+Message-ID: <20260108124956.00000e0e@huawei.com>
+In-Reply-To: <20260107153332.64727-15-john@groves.net>
+References: <20260107153244.64703-1-john@groves.net>
+	<20260107153332.64727-1-john@groves.net>
+	<20260107153332.64727-15-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHUa44HqRbCJTXsrTCm0G5iwtkQtq+Si=yOspCjpAn-N2uVSVg@mail.gmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Mon, Jan 05, 2026 at 10:16:09AM +0100, Jens Wiklander wrote:
-> Hi,
-> 
-> On Thu, Dec 18, 2025 at 5:29 PM Jens Wiklander
-> <jens.wiklander@linaro.org> wrote:
-> >
-> > On Thu, Dec 18, 2025 at 2:53 PM Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >
-> > > On 18/12/2025 08:21:27+0100, Jens Wiklander wrote:
-> > > > Hi,
-> > > >
-> > > > On Mon, Dec 15, 2025 at 3:17 PM Uwe Kleine-König
-> > > > <u.kleine-koenig@baylibre.com> wrote:
-> > > > >
-> > > > > Hello,
-> > > > >
-> > > > > the objective of this series is to make tee driver stop using callbacks
-> > > > > in struct device_driver. These were superseded by bus methods in 2006
-> > > > > (commit 594c8281f905 ("[PATCH] Add bus_type probe, remove, shutdown
-> > > > > methods.")) but nobody cared to convert all subsystems accordingly.
-> > > > >
-> > > > > Here the tee drivers are converted. The first commit is somewhat
-> > > > > unrelated, but simplifies the conversion (and the drivers). It
-> > > > > introduces driver registration helpers that care about setting the bus
-> > > > > and owner. (The latter is missing in all drivers, so by using these
-> > > > > helpers the drivers become more correct.)
-> > > > >
-> > > > > v1 of this series is available at
-> > > > > https://lore.kernel.org/all/cover.1765472125.git.u.kleine-koenig@baylibre.com
-> > > > >
-> > > > > Changes since v1:
-> > > > >
-> > > > >  - rebase to v6.19-rc1 (no conflicts)
-> > > > >  - add tags received so far
-> > > > >  - fix whitespace issues pointed out by Sumit Garg
-> > > > >  - fix shutdown callback to shutdown and not remove
-> > > > >
-> > > > > As already noted in v1's cover letter, this series should go in during a
-> > > > > single merge window as there are runtime warnings when the series is
-> > > > > only applied partially. Sumit Garg suggested to apply the whole series
-> > > > > via Jens Wiklander's tree.
-> > > > > If this is done the dependencies in this series are honored, in case the
-> > > > > plan changes: Patches #4 - #17 depend on the first two.
-> > > > >
-> > > > > Note this series is only build tested.
-> > > > >
-> > > > > Uwe Kleine-König (17):
-> > > > >   tee: Add some helpers to reduce boilerplate for tee client drivers
-> > > > >   tee: Add probe, remove and shutdown bus callbacks to tee_client_driver
-> > > > >   tee: Adapt documentation to cover recent additions
-> > > > >   hwrng: optee - Make use of module_tee_client_driver()
-> > > > >   hwrng: optee - Make use of tee bus methods
-> > > > >   rtc: optee: Migrate to use tee specific driver registration function
-> > > > >   rtc: optee: Make use of tee bus methods
-> > > > >   efi: stmm: Make use of module_tee_client_driver()
-> > > > >   efi: stmm: Make use of tee bus methods
-> > > > >   firmware: arm_scmi: optee: Make use of module_tee_client_driver()
-> > > > >   firmware: arm_scmi: Make use of tee bus methods
-> > > > >   firmware: tee_bnxt: Make use of module_tee_client_driver()
-> > > > >   firmware: tee_bnxt: Make use of tee bus methods
-> > > > >   KEYS: trusted: Migrate to use tee specific driver registration
-> > > > >     function
-> > > > >   KEYS: trusted: Make use of tee bus methods
-> > > > >   tpm/tpm_ftpm_tee: Make use of tee specific driver registration
-> > > > >   tpm/tpm_ftpm_tee: Make use of tee bus methods
-> > > > >
-> > > > >  Documentation/driver-api/tee.rst             | 18 +----
-> > > > >  drivers/char/hw_random/optee-rng.c           | 26 ++----
-> > > > >  drivers/char/tpm/tpm_ftpm_tee.c              | 31 +++++---
-> > > > >  drivers/firmware/arm_scmi/transports/optee.c | 32 +++-----
-> > > > >  drivers/firmware/broadcom/tee_bnxt_fw.c      | 30 ++-----
-> > > > >  drivers/firmware/efi/stmm/tee_stmm_efi.c     | 25 ++----
-> > > > >  drivers/rtc/rtc-optee.c                      | 27 ++-----
-> > > > >  drivers/tee/tee_core.c                       | 84 ++++++++++++++++++++
-> > > > >  include/linux/tee_drv.h                      | 12 +++
-> > > > >  security/keys/trusted-keys/trusted_tee.c     | 17 ++--
-> > > > >  10 files changed, 164 insertions(+), 138 deletions(-)
-> > > > >
-> > > > > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> > > > > --
-> > > > > 2.47.3
-> > > > >
-> > > >
-> > > > Thank you for the nice cleanup, Uwe.
-> > > >
-> > > > I've applied patch 1-3 to the branch tee_bus_callback_for_6.20 in my
-> > > > tree at https://git.kernel.org/pub/scm/linux/kernel/git/jenswi/linux-tee.git/
-> > > >
-> > > > The branch is based on v6.19-rc1, and I'll try to keep it stable for
-> > > > others to depend on, if needed. Let's see if we can agree on taking
-> > > > the remaining patches via that branch.
-> > >
-> > > 6 and 7 can go through your branch.
-> >
-> > Good, I've added them to my branch now.
-> 
-> This entire patch set should go in during a single merge window. I
-> will not send any pull request until I'm sure all patches will be
-> merged.
-> 
-> So far (if I'm not mistaken), only the patches I've already added to
-> next have appeared next. I can take the rest of the patches, too, but
-> I need OK for the following:
-> 
-> Jarkko, you seem happy with the following patches
-> - KEYS: trusted: Migrate to use tee specific driver registration function
-> - KEYS: trusted: Make use of tee bus methods
-> - tpm/tpm_ftpm_tee: Make use of tee specific driver registration
-> - tpm/tpm_ftpm_tee: Make use of tee bus methods
-> OK if I take them via my tree, or would you rather take them yourself?
+On Wed,  7 Jan 2026 09:33:23 -0600
+John Groves <John@Groves.net> wrote:
 
-I don't mind.
+> Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP to
+> retrieve and cache up the file-to-dax map in the kernel. If this
+> succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+A few things inline.
 
-> 
-> Herbert, you seem happy with the following patches
-> - hwrng: optee - Make use of module_tee_client_driver()
-> - hwrng: optee - Make use of tee bus methods
-> OK if I take them via my tree, or would you rather take them yourself?
-> 
-> Sudeep, you seem happy with the following patches
-> - firmware: arm_scmi: optee: Make use of module_tee_client_driver()
-> - firmware: arm_scmi: Make use of tee bus methods
-> OK if I take them via my tree, or would you rather take them yourself?
-> 
-> Michael, Pavan, are you OK with the following patches
-> - firmware: tee_bnxt: Make use of module_tee_client_driver()
-> - firmware: tee_bnxt: Make use of tee bus methods
-> OK if I take them via my tree, or would you rather take them yourself?
-> 
-> Thanks,
-> Jens
+J
 
-BR, Jarkko
+> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
+> new file mode 100644
+> index 000000000000..0f7e3f00e1e7
+> --- /dev/null
+> +++ b/fs/fuse/famfs.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * famfs - dax file system for shared fabric-attached memory
+> + *
+> + * Copyright 2023-2025 Micron Technology, Inc.
+> + *
+> + * This file system, originally based on ramfs the dax support from xfs,
+> + * is intended to allow multiple host systems to mount a common file system
+> + * view of dax files that map to shared memory.
+> + */
+> +
+> +#include <linux/fs.h>
+> +#include <linux/mm.h>
+> +#include <linux/dax.h>
+> +#include <linux/iomap.h>
+> +#include <linux/path.h>
+> +#include <linux/namei.h>
+> +#include <linux/string.h>
+> +
+> +#include "fuse_i.h"
+> +
+> +
+> +#define FMAP_BUFSIZE PAGE_SIZE
+> +
+> +int
+> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
+> +{
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	size_t fmap_bufsize = FMAP_BUFSIZE;
+> +	u64 nodeid = get_node_id(inode);
+> +	ssize_t fmap_size;
+> +	void *fmap_buf;
+> +	int rc;
+> +
+> +	FUSE_ARGS(args);
+> +
+> +	/* Don't retrieve if we already have the famfs metadata */
+> +	if (fi->famfs_meta)
+> +		return 0;
+> +
+> +	fmap_buf = kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
+
+If there is only ever 1, does kcalloc() make sense over kzalloc()?
+
+> +	if (!fmap_buf)
+> +		return -EIO;
+> +
+> +	args.opcode = FUSE_GET_FMAP;
+> +	args.nodeid = nodeid;
+> +
+> +	/* Variable-sized output buffer
+> +	 * this causes fuse_simple_request() to return the size of the
+> +	 * output payload
+> +	 */
+> +	args.out_argvar = true;
+> +	args.out_numargs = 1;
+> +	args.out_args[0].size = fmap_bufsize;
+> +	args.out_args[0].value = fmap_buf;
+> +
+> +	/* Send GET_FMAP command */
+> +	rc = fuse_simple_request(fm, &args);
+> +	if (rc < 0) {
+> +		pr_err("%s: err=%d from fuse_simple_request()\n",
+> +		       __func__, rc);
+
+Leaks the fmap_buf?  Maybe use a __free() so no need to keep track of htat.
+
+
+> +		return rc;
+> +	}
+> +	fmap_size = rc;
+> +
+> +	/* We retrieved the "fmap" (the file's map to memory), but
+> +	 * we haven't used it yet. A call to famfs_file_init_dax() will be added
+> +	 * here in a subsequent patch, when we add the ability to attach
+> +	 * fmaps to files.
+> +	 */
+> +
+> +	kfree(fmap_buf);
+> +	return 0;
+> +}
+
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 84d0ee2a501d..691c7850cf4e 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -223,6 +223,14 @@ struct fuse_inode {
+
+>  
+> +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+> +						       void *meta)
+> +{
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +	return xchg(&fi->famfs_meta, meta);
+> +#else
+> +	return NULL;
+> +#endif
+> +}
+> +
+> +static inline void famfs_meta_free(struct fuse_inode *fi)
+> +{
+> +	/* Stub wil be connected in a subsequent commit */
+> +}
+> +
+> +static inline int fuse_file_famfs(struct fuse_inode *fi)
+> +{
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +	return (READ_ONCE(fi->famfs_meta) != NULL);
+> +#else
+> +	return 0;
+> +#endif
+> +}
+> +
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +int fuse_get_fmap(struct fuse_mount *fm, struct inode *inode);
+> +#else
+> +static inline int
+> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
+> +{
+> +	return 0;
+> +}
+> +#endif
+I'd do a single block under one if IS_ENABLED() and then use an else
+for the stubs.   Should end up more readable.
+
+Jonathan
