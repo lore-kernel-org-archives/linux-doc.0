@@ -1,92 +1,85 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742EB44CF4C
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 13:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C85221F20;
+	Thu,  8 Jan 2026 13:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767878754; cv=none; b=PFa/1xbI/Yb8PdAWp/S8nrj6z5IPPS53kE8BbTm1zz76RIlUyizKzcs6pt0t09t72Wt4WVlENve6j/Ege+dkfEtSNKteFj55m3m55WTr002uCgA1EDM8I9fUC1x9qYeLzk3kzIUA4zsBMdXwcMJRFFQT4Zm2ZBuZj5Enuc7QTOA=
+	t=1767879040; cv=none; b=Md4ddrUdLPsvIYEtgumqbzNjirjqhvgV3wK83nPNeHEBktsTXV12WlU8FbOOubsII97EHBsS2iBfomlLO+52CRgjxvpLv40GxGPe3I7tXP48E8/7JaFUMwTOCBmcig2hLr0aveQ6urOebTKXBqx/nrVwcOdd87alyRfdWYZvjzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767878754; c=relaxed/simple;
-	bh=jwFf19PSHKXwdf9bEk3kZxmxUld0e6v3BgfnWrHCUjA=;
+	s=arc-20240116; t=1767879040; c=relaxed/simple;
+	bh=vRUk+XqHdvozmufdhhIaefKBZmKIIV937W1GpquE0Gg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TF7syvtligVvJ3cwsLHkm3NJnpzmvUMEwqt6SmPiVvEPf3oBqiKreBg7L0zjHZ80vjR0AIHi4tAkSNHAEXYmpu1t1GWskbZVnKNeItYq18miutrelaD4QwYEg6qjftmmSidEMhmvhvKYslZ/Yc/P4hEddnHurR2XyOallI/7h40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+ubIeNp; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwuazZKpT4KRFwbHRppHJm2FWnXALQcOCOH7X4g01T/FThRihA7FmeqdZQXV1HeBVWpnyx5SOkUQHqrDttOIwfswsa85hd12VJWlCzmmKd8aYQyvesf1zYgTVsTCkDCpmrxIyNdo4xlwum1G9VrUrgXFqAVF8INZmgBMUKeJMP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3SNoI51; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+ubIeNp"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7caf5314847so2069291a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 05:25:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767878750; x=1768483550; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E49XAlEZRJNJzFNz0O0SAsxb11w6Gi0a4fcPebK/tXg=;
-        b=R+ubIeNp/lncYOXBpbXdxWxD4pwGcq7tkrjrm1VRvjztIpk4hRG7WV1/EeON0ROBdI
-         Aw4wvKH5g3ucA2mj6Vh8dqZRuuR/3h5QHNPC+LxkKDTECCrd11Mx3/pmm9zFu+wYCVM9
-         2R40p5+/1Hd4aXVSYDstYBJfQyoqqPGWsXywvSGcHRhC8Yx8AJHMIZb9WF3wT/kE2Zpu
-         A7xaKpemg5BFufEBSdCpwjdYQywy/oFM4y1wUDj3kScVn//AxI9ukSHVd/hAmMF6OHbS
-         tZNrVTzkF7U/66ARQOi7Brv0iQafnFZAWUvsZ3l3x9Idt9K7l/tJ//kXf9xlDwIRmPGY
-         xwgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767878750; x=1768483550;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=E49XAlEZRJNJzFNz0O0SAsxb11w6Gi0a4fcPebK/tXg=;
-        b=Soa57YCaetsVSIbNK0FXZ6xAgnK0PNV1fKF9H2AS7m93ByOR5CsvbA0jwY5s/Nd2V7
-         fMUoj3o0na+/hIzPG4mHeull6FAOV5o9BZYLIP80oZmdP8O/YL0ANYMeovuEOV/4faQr
-         dghaxXNL9i3ekSRpG0EojVogjPzbUrTxn4vf1dXLz7C030dwTtITRkNbBOPfIj8+oX1s
-         DdYFs+IZXEQEBfRmEjzllfXnor8P85rDeX8xtUCJCv7cehEFiT9oX0vXlRdQM1xe3iew
-         WByhDQiASIfH6SG/UN0G3zHzSeyVRpz9sR+m6FH4eInYCR2rdMz6S5iTUe6coB0lkGd5
-         1fIw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPIDrzNPcAwlGrdNT7ywFGmy54kSnY6U+XYs/QWZ6wx65b2UoF423YrTSGDMN/w8FLd3boEsIT1l0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0cSXcwbmcGNAx1oSP/YIJrIyP9TYdjejsRVIP+zp1NqromQk4
-	gedW3qsqD++tTINbhEHpL+5kNyLIBjXH/DYPNq5tEU+9alaS1n6NT1NF
-X-Gm-Gg: AY/fxX7H1bbvoWBo7/glGfvyquFk68ts0PLmM4lcjVGlu8hulCuwaqWuUf8H4iSPRpb
-	apwIk4qLzno48DnJcx+x9IDOjzJAoh+bkGpSCmptmQ9YoOwJuYUlhvDvBcF+9lJ+Z7c/hmcSGL/
-	Xhz6dgFnSlTrPHYfxA4NyAUrVWjRWjbuOdTDLy6/gACnRUXC6UPwi1QLBYKDDhkQW7O6no95CT6
-	IfFEsx5qoi39zPoSAG6K5ks6vVxi4L4+odk79ineq4Zez/pWwzQypFQkmYJHc8pdS5Y5K8qx/+h
-	ePGKYNdbh/v3rP7YJE/BSFzMEvJYlXInXzauKVve6sD+1pv5h6LZ8it91slAk1sOmwBiSngfFEQ
-	j+SuhDiSQF/IxL0pZqPYZ8Il8bfXMM2MslQp65puOaJjBlz/1avvSjPlfX5YGngvTyZ/QCH3pa0
-	EnE9aY/R0E7MRucBpQs2I0PcFRrraISg==
-X-Google-Smtp-Source: AGHT+IHiefcf7btCQSFUKrAxCiXJ1hW45Y0S4Hc66MlrtJ5LVsP42OyHRUDsrUHUXG45rEL7nC8tMw==
-X-Received: by 2002:a05:6830:411f:b0:7c7:6850:81a2 with SMTP id 46e09a7af769-7ce50b57c2cmr3718104a34.24.1767878750143;
-        Thu, 08 Jan 2026 05:25:50 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:902b:954a:a912:b0f5])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce47801d63sm5317503a34.6.2026.01.08.05.25.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 05:25:49 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Thu, 8 Jan 2026 07:25:47 -0600
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 01/21] dax: move dax_pgoff_to_phys from [drivers/dax/]
- device.c to bus.c
-Message-ID: <3kylgjwvrdrfe5hcgqka2x2jsgicnnjssdpjrqe32p6cdbw33x@vpm5gpcb5utm>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-2-john@groves.net>
- <20260108104352.000079c3@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3SNoI51"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FACC16AAE;
+	Thu,  8 Jan 2026 13:30:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767879040;
+	bh=vRUk+XqHdvozmufdhhIaefKBZmKIIV937W1GpquE0Gg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e3SNoI512Jq2WsK3jWXFvrCXqZxYATnr2MFOw1GS3OUDwHz7ovVSuG+UMwYc5IcqG
+	 DLLI3vCgWSuVmjxjp0cbw2az5WvJhmm2ohNbl7JlMZn+z1HzmLlm+T7adMHW/o5hzv
+	 +LD0z5p/WzDKYQAorf4pXEL+2VF8qsU1e7btkdIR6lerBPDe7W2svCU3UiPgsjj+p0
+	 GX+V/h61PxeeL5R0kAXkkVjESn0pcQeBPZvcPblTmn95EFWbj9FUdYxCdsJQmwfZkh
+	 ulFWviQ04Xh+VHSZKA7SZcreNeOCJYa3e1SgKLVP/GjT79AWrbLL8UgD2Jb8bt+bhH
+	 OBYmfetiUkOZQ==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 7E85FF40068;
+	Thu,  8 Jan 2026 08:30:38 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 08 Jan 2026 08:30:38 -0500
+X-ME-Sender: <xms:frFfaSRVif06nMdRiz4KFPZI_aQ3K3I-IefcKid0aVrKPMCQuI-NNw>
+    <xme:frFfaTK3ZimaT6zVwlCW2sgm4lY_qU17X6P2uBP9M3hrOlly8W2aGl9PJwFy0G5vb
+    i5trDp2p6qQATtIxRuJr7gsURlICa6sw6o69Agbejqe3Y4boFGgo7Y>
+X-ME-Received: <xmr:frFfaZPyG1RB9djcAbCbCeBhwN2SzNjS8IXYKBrjxxsLWJzrPOqjVqLNimSPdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdeitdejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepheeikeeuveduheevtddvffekhfeufefhvedtudehheektdfhtdehjeevleeuffeg
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeifihhllhihsehinh
+    hfrhgruggvrggurdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhngheslhhinhhu
+    gidruggvvhdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpdhrtghpth
+    htoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvsggrsghkrgesshhu
+    shgvrdgtiidprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvg
+    drtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomhdprhgtphhtthhopegs
+    hhgvsehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:frFfaVyixXgHd_9H9W4VAbjseEKGgabddGnqE47gOuP0zxIxTLM4AA>
+    <xmx:frFfaXG0fXZwzoOa8P9t2XHzZOEGDt6g8Qw89Yy2Q9vgZUVqOFRevg>
+    <xmx:frFfaRGENFgJrPnjS9W59vKz2_tB2_YDYBJsko9kRO8_XptEqycdjA>
+    <xmx:frFfaYtL0QLr5WGK5GuzkKcCBZ_x5-5pcaXDrn6vv5Dd6_zRFNM3Kw>
+    <xmx:frFfadtmhD6O7-VIj2avk77_ct4uJtnf7CyFVfN5Xr8QowIoRMDsLVQy>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Jan 2026 08:30:37 -0500 (EST)
+Date: Thu, 8 Jan 2026 13:30:36 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Usama Arif <usamaarif642@gmail.com>, 
+	Frank van der Linden <fvdl@google.com>
+Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
+Message-ID: <fwgrsslq74vk4dhkuh5hji3xnrql7nxuia6wdeexjltzb4feh3@nbshswn3egkb>
+References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
+ <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
+ <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
+ <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
+ <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
+ <yup3hvfsn4tvfnv32mdf4yoabt4igb2lkvllfac72g3abdkovm@auqdaijzby7d>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -95,73 +88,120 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108104352.000079c3@huawei.com>
+In-Reply-To: <yup3hvfsn4tvfnv32mdf4yoabt4igb2lkvllfac72g3abdkovm@auqdaijzby7d>
 
-On 26/01/08 10:43AM, Jonathan Cameron wrote:
-> On Wed,  7 Jan 2026 09:33:10 -0600
-> John Groves <John@Groves.net> wrote:
-> 
-> > This function will be used by both device.c and fsdev.c, but both are
-> > loadable modules. Moving to bus.c puts it in core and makes it available
-> > to both.
+On Thu, Jan 08, 2026 at 12:32:47PM +0000, Kiryl Shutsemau wrote:
+> On Thu, Jan 08, 2026 at 12:08:35AM +0100, David Hildenbrand (Red Hat) wrote:
+> > > > "Then we make page->compound_head point to the dynamically allocated memdesc
+> > > > rather than the first page. Then we can transition to the above layout. "
+> > > 
 > > 
-> > No code changes - just relocated.
+> > Sorry for the late reply, it's been a bit crazy over here.
 > > 
-> > Signed-off-by: John Groves <john@groves.net>
-> Hi John,
-> 
-> I don't know the code well enough to offer an opinion on whether this
-> move causes any issues or if this is the best location, so review is superficial
-> stuff only.
-> 
-> Jonathan
-> 
-> > ---
-> >  drivers/dax/bus.c    | 27 +++++++++++++++++++++++++++
-> >  drivers/dax/device.c | 23 -----------------------
-> >  2 files changed, 27 insertions(+), 23 deletions(-)
+> > > I am not sure I understand how it is going to work.
+> > > 
 > > 
-> > diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> > index fde29e0ad68b..a2f9a3cc30a5 100644
-> > --- a/drivers/dax/bus.c
-> > +++ b/drivers/dax/bus.c
-> > @@ -7,6 +7,9 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/dax.h>
-> >  #include <linux/io.h>
-> > +#include <linux/backing-dev.h>
+> > I don't recall all the details that Willy shared over the last years while
+> > working on folios, but I will try to answer as best as I can from the top of
+> > my head. (there are plenty of resources on the list, on the web, in his
+> > presentations etc.).
+> > 
+> > > 32-byte layout indicates that flags will stay in the statically
+> > > allocated part, but most (all?) flags are in the head page and we would
+> > > need a way to redirect from tail to head in the statically allocated
+> > > pages.
+> > 
+> > When working with folios we will never go through the head page flags.
+> > That's why Willy has incrementally converted most folio code that worked on
+> > pages to work on folios.
+> > 
+> > For example, PageUptodate() does a
+> > 
+> > 	folio_test_uptodate(page_folio(page));
+> > 
+> > The flags in the 32-byte layout will be used by some non-folio things for
+> > which we won't allocate memdescs (just yet) (e.g., free pages in the buddy
+> > and other things that does not require a lot of metadata). Some of these
+> > flags will be moved into the memdesc pointer in the future as the conversion
+> > proceeeds.
 > 
-> I'm not immediately spotting why this one.  Maybe should be in a different
-> patch?
+> Okay, makes sense.
 > 
-> > +#include <linux/range.h>
-> > +#include <linux/uio.h>
+> > > > The "memdesc" could be a pointer to a "struct folio" that is allocated from
+> > > > the slab.
+> > > > 
+> > > > So in the new memdesc world, all pages part of a folio will point at the
+> > > > allocated "struct folio", not the head page where "struct folio" currently
+> > > > overlays "struct page".
+> > > > 
+> > > > That would mean that the proposal in this patch set will have to be reverted
+> > > > again.
+> > > > 
+> > > > 
+> > > > At LPC, Willy said that he wants to have something out there in the first
+> > > > half of 2026.
+> > > 
+> > > Okay, seems ambitious to me.
+> > 
+> > When the program was called "2025" I considered it very ambitious :) Now I
+> > consider it ambitious. I think Willy already shared early versions of the
+> > "struct slab" split and the "struct ptdesc" split recently on the list.
+> > 
+> > > 
+> > > Last time I asked, we had no idea how much performance would additional
+> > > indirection cost us. Do we have a clue?
+> > 
+> > I raised that in the past, and I think the answer I got was that
+> > 
+> > (a) We always had these indirection cost when going from tail page to
+> >     head page / folio.
+> > (b) We must convert the code to do as little page_folio() as possible.
+> >     That's why we saw so much code conversion to stop working on pages
+> >     and only work on folios.
+> > 
+> > There are certainly cases where we cannot currently avoid the indirection,
+> > like when we traverse a page table and go
+> > 
+> > 	pfn -> page -> folio
+> > 
+> > and cannot simply go
+> > 
+> > 	pfn -> folio
+> > 
+> > On the bright side, we'll lose the head-page checks and can simply
+> > dereference the pointer.
+> > 
+> > I don't know whether Willy has more information yet, but I would assume that
+> > in most cases this will be similar to the performance summary in your cover
+> > letter: "... has shown either no change or only a slight improvement within
+> > the noise.", just that it will be "only a slight degradation within the
+> > noise". :)
+> > 
+> > We'll learn I guess, in particular which other page -> folio conversions
+> > cannot be optimized out by caching the folio.
+> > 
+> > 
+> > For quite some time there will be a magical config option that will switch
+> > between both layouts. I'd assume that things will get more complicated if we
+> > suddenly have a "compound_head/folio" pointer and a "compound_info" pointer
+> > at the same time.
+> > 
+> > But it's really Willy who has the concept in mind as he is very likely right
+> > now busy writing some of that code.
+> > 
+> > I'm just the messenger.
+> > 
+> > :)
+> > 
+> > [I would hope that Willy could share his thoughts]
 > 
-> Why this one?
+> If you or Willy think that this patch will impede memdesc progress, I am
+> okay not pushing this patchset upstream.
 
-Good eye, thanks. These must have leaked from some of the many dead ends
-that I tried before coming up with this approach.
+Or other option is to get this patchset upstream (I need to fix/test few
+things still) and revert it later when (if?) memdesc lands.
 
-I've dropped all new includes and it still builds :D
+What do you think?
 
-> 
-> Style wise, dax seems to use reverse xmas tree for includes, so
-> this should keep to that.
-> 
-> >  #include "dax-private.h"
-> >  #include "bus.h"
-> >  
-> > @@ -1417,6 +1420,30 @@ static const struct device_type dev_dax_type = {
-> >  	.groups = dax_attribute_groups,
-> >  };
-> >  
-> > +/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c  */
-> Bonus space before that */
-> Curiously that wasn't there in the original.
-
-Removed.
-
-[ ... ]
-
-Thanks,
-John
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
