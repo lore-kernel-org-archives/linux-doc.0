@@ -1,195 +1,209 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2B343636D;
-	Thu,  8 Jan 2026 12:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F94B44B677
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 12:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767875242; cv=none; b=RFt6uZpQo379ZcKAQB/GfDLVnmMkd0ZasK8qUqbtuDA2IqvNXVVQjBBklzSTFUrGFjU0TNk5iGsaJw2xnkohDG2nBGY5Hxfl9piS7Yq/ItSIxiuYJgs8YHUZCAoDACGEX6jNEIMxuFj8vdz9nOci+Plrao1AvH9tMUbPNT40qCY=
+	t=1767875568; cv=none; b=lWXCvTaI6d49OOwmulbJDas+7AOIcHaV7zU4FW8IyBQ+nFezhhkjrMbZF8WKAXCkGTtmFoU09vr/brBiDNlTlh8QmfrwYegB1jPJMzBOXO4FzCyFjCzGu0ePCBaYwXuFQ4CgyRmP6nmvzXLrK9k0KzLtmd2mmtXzZQVzZux7e2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767875242; c=relaxed/simple;
-	bh=41316vyJ8zu+32cFRFgmU0a/by8Q0n1PdBcpVfQlya8=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=orsg8AnDm9EW8anlmkAxs2OhFAUTxQIwvz+NsQyqteJEYnnH63PTBEhhGNhP/iZU8kl0TD1TXbP0O3Hat6auXjf8R5TUQGRtDpnCnSVjOlPZK6IpozPqBlRYkrw4w3O42t2oMcanD92WOg811xNrRav+3OLMgliLU+PdSkGkHgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn40c088NzJ46BR;
-	Thu,  8 Jan 2026 20:27:12 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id CDB3B40569;
-	Thu,  8 Jan 2026 20:27:16 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
- 2026 12:27:15 +0000
-Date: Thu, 8 Jan 2026 12:27:13 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 06/21] dax: Add fs_dax_get() func to prepare dax for
- fs-dax usage
-Message-ID: <20260108122713.00007e54@huawei.com>
-In-Reply-To: <20260107153332.64727-7-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153332.64727-1-john@groves.net>
-	<20260107153332.64727-7-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767875568; c=relaxed/simple;
+	bh=FQQ56dc+cW125BEbDqO1eWGFQ+p2e8tUVvYZ9ind02g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VKVC2O6Q974XO8SjXkHT3zT3nHYbUOjs+jaOA8GrMLv+KGbtnjysdJERT4bmsHDY5eTLE8+9uHJDzIcvMYhEtUX+Q7faaPPbHT7OTsvDCfi6dVLx5u3bY04wMACcs9AuyoXXJHRTiglRUPdD5MdpJSNwHm5S6YbUHm2Qviia+sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jv5MvU/u; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jv5MvU/u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130BBC116C6;
+	Thu,  8 Jan 2026 12:32:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767875568;
+	bh=FQQ56dc+cW125BEbDqO1eWGFQ+p2e8tUVvYZ9ind02g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jv5MvU/uUBOzAWlAc8X6rAhyKlFViFZZ7Y2vkIf2UkFAjawmcKxsB9om7T6J8FzrH
+	 2xThXGT9x5frJMDDM5CKdT+bPVx4Ubrh4Z0SYoRT0qS07mOSTo7NANL/yrZYPAn7FZ
+	 joIx7Kcv8VKF9gWzjHDLCl+nWKHNscfxYRoY35Q0c6Mf1JxhR8lckDwSzLM2o3bmR5
+	 FWEB7+tEDUQeiD0XYF4PgCJfh87oucYVkqyyH6yClr4W0xy3xpRgi2bAEBtTl0tg2b
+	 XS0+0zPB6KtnS2qU+PmDhDXKTu00XX/AhI7RbgTxNz8r7w40X8s3Ovs78JX5CQK10v
+	 K8zT0pfsN7/Kw==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 37F5DF4006C;
+	Thu,  8 Jan 2026 07:32:47 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 08 Jan 2026 07:32:47 -0500
+X-ME-Sender: <xms:76NfafYCrtt7u_vvwnsjzJra0wcKjhQeeXCFT3uIPdkHRQuVqEwB5g>
+    <xme:76NfaZxlxwz9vW1NAS7-6zSNmqpv2eD1sOhoP6XE6bZhhBgzq0vp9E2JTu6mMD4U0
+    msiOTv7DKK9227e5bhCJLwg3Bz_kOqDPkbfFHHVVJ5V4WBfUloxCw>
+X-ME-Received: <xmr:76NfabVxsbbwOE4B3HM0xkR9S-GoOqj0VwCcjuXKslOu-PxlKchA3X1QFPdUjw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdehleeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtsfdttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepheeikeeuveduheevtddvffekhfeufefhvedtudehheektdfhtdehjeevleeuffeg
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopeifihhllhihsehinh
+    hfrhgruggvrggurdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhngheslhhinhhu
+    gidruggvvhdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpdhrtghpth
+    htoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvsggrsghkrgesshhu
+    shgvrdgtiidprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvg
+    drtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomhdprhgtphhtthhopegs
+    hhgvsehrvgguhhgrthdrtghomh
+X-ME-Proxy: <xmx:76NfadZP_XEuzT_LKHTsotPFQev3DwdAw7hOtxpe1N8QhDim20U41g>
+    <xmx:76NfaWMthlHKty8RWBnWAVyAlA0aDCXw0p19TOtiosaI94PiSnAhKw>
+    <xmx:76NfaRtvkZIwzGpN1et9pbdgypp9iI4EjIROj6xFRLi7371MGiMGuQ>
+    <xmx:76Nfac1axLChg0ATyxXGvp34gUg2pz27KkQ-pI9NhiloPz1JJKwfQw>
+    <xmx:76NfafUxj_sqjDaRfg0Uk3JnW3ZO8xuXRnmNc9Zw6q3BwSkpqN1q7Ne8>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Jan 2026 07:32:46 -0500 (EST)
+Date: Thu, 8 Jan 2026 12:32:45 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, Usama Arif <usamaarif642@gmail.com>, 
+	Frank van der Linden <fvdl@google.com>
+Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
+Message-ID: <yup3hvfsn4tvfnv32mdf4yoabt4igb2lkvllfac72g3abdkovm@auqdaijzby7d>
+References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
+ <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
+ <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
+ <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
+ <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
 
-On Wed,  7 Jan 2026 09:33:15 -0600
-John Groves <John@Groves.net> wrote:
-
-> The fs_dax_get() function should be called by fs-dax file systems after
-> opening a fsdev dax device. This adds holder_operations, which provides
-> a memory failure callback path and effects exclusivity between callers
-> of fs_dax_get().
+On Thu, Jan 08, 2026 at 12:08:35AM +0100, David Hildenbrand (Red Hat) wrote:
+> > > "Then we make page->compound_head point to the dynamically allocated memdesc
+> > > rather than the first page. Then we can transition to the above layout. "
+> > 
 > 
-> fs_dax_get() is specific to fsdev_dax, so it checks the driver type
-> (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
-> not bound to the memory.
+> Sorry for the late reply, it's been a bit crazy over here.
 > 
-> This function serves the same role as fs_dax_get_by_bdev(), which dax
-> file systems call after opening the pmem block device.
+> > I am not sure I understand how it is going to work.
+> > 
 > 
-> This can't be located in fsdev.c because struct dax_device is opaque
-> there.
+> I don't recall all the details that Willy shared over the last years while
+> working on folios, but I will try to answer as best as I can from the top of
+> my head. (there are plenty of resources on the list, on the web, in his
+> presentations etc.).
 > 
-> This will be called by fs/fuse/famfs.c in a subsequent commit.
+> > 32-byte layout indicates that flags will stay in the statically
+> > allocated part, but most (all?) flags are in the head page and we would
+> > need a way to redirect from tail to head in the statically allocated
+> > pages.
 > 
-> Signed-off-by: John Groves <john@groves.net>
-Hi John,
+> When working with folios we will never go through the head page flags.
+> That's why Willy has incrementally converted most folio code that worked on
+> pages to work on folios.
+> 
+> For example, PageUptodate() does a
+> 
+> 	folio_test_uptodate(page_folio(page));
+> 
+> The flags in the 32-byte layout will be used by some non-folio things for
+> which we won't allocate memdescs (just yet) (e.g., free pages in the buddy
+> and other things that does not require a lot of metadata). Some of these
+> flags will be moved into the memdesc pointer in the future as the conversion
+> proceeeds.
 
-A few passing comments on this one.
+Okay, makes sense.
 
-Jonathan
+> > > The "memdesc" could be a pointer to a "struct folio" that is allocated from
+> > > the slab.
+> > > 
+> > > So in the new memdesc world, all pages part of a folio will point at the
+> > > allocated "struct folio", not the head page where "struct folio" currently
+> > > overlays "struct page".
+> > > 
+> > > That would mean that the proposal in this patch set will have to be reverted
+> > > again.
+> > > 
+> > > 
+> > > At LPC, Willy said that he wants to have something out there in the first
+> > > half of 2026.
+> > 
+> > Okay, seems ambitious to me.
+> 
+> When the program was called "2025" I considered it very ambitious :) Now I
+> consider it ambitious. I think Willy already shared early versions of the
+> "struct slab" split and the "struct ptdesc" split recently on the list.
+> 
+> > 
+> > Last time I asked, we had no idea how much performance would additional
+> > indirection cost us. Do we have a clue?
+> 
+> I raised that in the past, and I think the answer I got was that
+> 
+> (a) We always had these indirection cost when going from tail page to
+>     head page / folio.
+> (b) We must convert the code to do as little page_folio() as possible.
+>     That's why we saw so much code conversion to stop working on pages
+>     and only work on folios.
+> 
+> There are certainly cases where we cannot currently avoid the indirection,
+> like when we traverse a page table and go
+> 
+> 	pfn -> page -> folio
+> 
+> and cannot simply go
+> 
+> 	pfn -> folio
+> 
+> On the bright side, we'll lose the head-page checks and can simply
+> dereference the pointer.
+> 
+> I don't know whether Willy has more information yet, but I would assume that
+> in most cases this will be similar to the performance summary in your cover
+> letter: "... has shown either no change or only a slight improvement within
+> the noise.", just that it will be "only a slight degradation within the
+> noise". :)
+> 
+> We'll learn I guess, in particular which other page -> folio conversions
+> cannot be optimized out by caching the folio.
+> 
+> 
+> For quite some time there will be a magical config option that will switch
+> between both layouts. I'd assume that things will get more complicated if we
+> suddenly have a "compound_head/folio" pointer and a "compound_info" pointer
+> at the same time.
+> 
+> But it's really Willy who has the concept in mind as he is very likely right
+> now busy writing some of that code.
+> 
+> I'm just the messenger.
+> 
+> :)
+> 
+> [I would hope that Willy could share his thoughts]
 
-> ---
+If you or Willy think that this patch will impede memdesc progress, I am
+okay not pushing this patchset upstream.
 
->  #define dax_driver_register(driver) \
-> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-> index ba0b4cd18a77..68c45b918cff 100644
-> --- a/drivers/dax/super.c
-> +++ b/drivers/dax/super.c
-> @@ -14,6 +14,7 @@
->  #include <linux/fs.h>
->  #include <linux/cacheinfo.h>
->  #include "dax-private.h"
-> +#include "bus.h"
->  
->  /**
->   * struct dax_device - anchor object for dax services
-> @@ -121,6 +122,59 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
->  EXPORT_SYMBOL_GPL(fs_put_dax);
->  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
->  
-> +#if IS_ENABLED(CONFIG_DEV_DAX_FS)
-> +/**
-> + * fs_dax_get() - get ownership of a devdax via holder/holder_ops
-> + *
-> + * fs-dax file systems call this function to prepare to use a devdax device for
-> + * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
-> + * dev_dax (and there is no bdev). The holder makes this exclusive.
-> + *
-> + * @dax_dev: dev to be prepared for fs-dax usage
-> + * @holder: filesystem or mapped device inside the dax_device
-> + * @hops: operations for the inner holder
-> + *
-> + * Returns: 0 on success, <0 on failure
-> + */
-> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> +	const struct dax_holder_operations *hops)
-> +{
-> +	struct dev_dax *dev_dax;
-> +	struct dax_device_driver *dax_drv;
-> +	int id;
-> +
-> +	id = dax_read_lock();
+I was really excited when I found this trick to get rid of fake heads.
+But ultimately, it is a clean up. I failed to find a performance win I
+hoped for.
 
-Given this is an srcu_read_lock under the hood you could do similar
-to the DEFINE_LOCK_GUARD_1 for the srcu (srcu.h) (though here it's a
-DEFINE_LOCK_GUARD_0 given the lock itself isn't a parameter and then
-use scoped_guard() here.  Might not be worth the hassle and would need
-a wrapper macro to poke &dax_srcu in which means exposing that at least
-a little in a header.
+Also, I try to understand what 32-byte layout means for fake heads.
+_refcount in struct page is going to 0 and refcounting happens on folios.
+So I wounder if we can all pages identical (no tail pages per se) and
+avoid fake heads this way?
 
-DEFINE_LOCK_GUARD_0(_T->idx = dax_read_lock, dax_read_lock(_T->idx), idx);
-Based loosely on the irqflags.h irqsave one. 
-
-> +	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
-> +		dax_read_unlock(id);
-> +		return -ENODEV;
-> +	}
-> +	dax_read_unlock(id);
-> +
-> +	/* Verify the device is bound to fsdev_dax driver */
-> +	dev_dax = dax_get_private(dax_dev);
-> +	if (!dev_dax || !dev_dax->dev.driver) {
-> +		iput(&dax_dev->inode);
-> +		return -ENODEV;
-> +	}
-> +
-> +	dax_drv = to_dax_drv(dev_dax->dev.driver);
-> +	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
-> +		iput(&dax_dev->inode);
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
-> +		iput(&dax_dev->inode);
-> +		return -EBUSY;
-> +	}
-> +
-> +	dax_dev->holder_ops = hops;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(fs_dax_get);
-> +#endif /* DEV_DAX_FS */
-> +
->  enum dax_device_flags {
->  	/* !alive + rcu grace period == no new operations / mappings */
->  	DAXDEV_ALIVE,
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index 3fcd8562b72b..76f2a75f3144 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -53,6 +53,7 @@ struct dax_holder_operations {
->  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
->  
->  #if IS_ENABLED(CONFIG_DEV_DAX_FS)
-> +int fs_dax_get(struct dax_device *dax_dev, void *holder, const struct dax_holder_operations *hops);
-I'd wrap this.  It's rather long and there isn't a huge readability benefit in keeping
-it on one line.
->  struct dax_device *inode_dax(struct inode *inode);
->  #endif
->  void *dax_holder(struct dax_device *dax_dev);
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
