@@ -1,195 +1,122 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9D53D7D08;
-	Thu,  8 Jan 2026 10:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C323ACA5C;
+	Thu,  8 Jan 2026 10:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767866496; cv=none; b=FI19QIHm0bnz2RldKb4Nb6Tzd9m8E5mIszvoPUeeW+IRyH+l3i70qPbJxMBd90W5lMJSwJXPasG9IjLVxJZIymHqV0olv/z2raEDQBHRMn2M8+p6SjL629wJsq0jUfMhR6r2mmwm+k4DQgl+btzsw7+k9o+nI4pvhujsmSZmqWo=
+	t=1767866668; cv=none; b=NjbEHD27o9F8xjzgKXVDnzFr0ieHKZYPNPNG/Z/tm7TXAnf4BNaPqdgh+SImDqcLBe3LRilMH8qtr7sHWKJpqb+eAViEVZmvSGCWlHovZNOgTwXTiXnuXgApjH+BKVbM6VKj1R1EnSb+T3u1tnJA7oyp5oqH2ErhZduZk4mbgT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767866496; c=relaxed/simple;
-	bh=HwtmMVrPpd2VKKAfbu7tOudXEAqRgnZJa1eVXc3eSik=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ErfmxH2jory2WhlIwEIwevX56hjTS3ekSzdx0yKgdhWcqHGxDr4UihfA5dGgM7wISjF+DNXFNs6oEQL3X9qRjnkiNS9ElL+vTo9Py3sauLYxRMX5EtYqoEAdn7GV6CqF16NJ1jKiYGL7VdP5ijBMk6raKRdsXqJgF6LqH594xuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oKNfP2GR; arc=none smtp.client-ip=113.46.200.222
+	s=arc-20240116; t=1767866668; c=relaxed/simple;
+	bh=unOempmEb/n8B9I8THZwoU7+EwBVXCFGEDdHbIronZc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qjsxX+Drxzv8Lm+xRoOS841eg+JqGwE+5BKroPxlskuZmnepAzSRsAUemFmGNXX2Y2y0NO/p7hsqRXztHT7wsinBf1vHaj4DNWfBgQFm24djooBOyM7Nr9q6ss0Jnu2bw8an0w+5HLqmSxucwR+uR7TkfNw4eriKJohuMJufrtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=qh8AsLB3; arc=none smtp.client-ip=113.46.200.216
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oKNfP2GR"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="qh8AsLB3"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=HwtmMVrPpd2VKKAfbu7tOudXEAqRgnZJa1eVXc3eSik=;
-	b=oKNfP2GRRzNlws/Zbnoa5fwWBS9CiUhldIZmVNZDdOPmk/mAON2yahiVuuWMs9OR4ABOSl2/W
-	z6Qoj8+lQHvi/iJ8g/chnHb1FVFIN7WcTyWl9v+E9ENELLQfd4pzTAJUHZeBEM28d6YUOEVWMw0
-	vVP28Le/VnlQT6WNnUkx1Qc=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4dn0hg4tlrzLlTZ;
-	Thu,  8 Jan 2026 17:58:11 +0800 (CST)
+	bh=B/KiSPVfZlJLES0Cq5kpT9jZNq7/5hZc3ERAiQRnCYs=;
+	b=qh8AsLB3A3u3WJ8KjnYw7Sq/4qSsdbJ7ft27OrF+FB4KJbn1fBBlCnSyCePXW4TWLJQzkLVS+
+	9hwpYHuRqMrAmAqMyGb9J2oB0mEcWkAxQ8O+iYS8mX0KNLUo/NQgy+AX70UBRQ28i9mvCVmCXX6
+	Yhq0VaChKIXSdiIKDWIu/c4=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dn0lT4CPyz1T4GY;
+	Thu,  8 Jan 2026 18:00:37 +0800 (CST)
 Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0F25140565;
-	Thu,  8 Jan 2026 18:01:27 +0800 (CST)
-Received: from kwepemq500002.china.huawei.com (7.202.195.240) by
+	by mail.maildlp.com (Postfix) with ESMTPS id 140EA40567;
+	Thu,  8 Jan 2026 18:04:22 +0800 (CST)
+Received: from kwepemq200002.china.huawei.com (7.202.195.90) by
  dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 8 Jan 2026 18:01:26 +0800
-Received: from kwepemq200002.china.huawei.com (7.202.195.90) by
- kwepemq500002.china.huawei.com (7.202.195.240) with Microsoft SMTP Server
+ 15.2.1544.11; Thu, 8 Jan 2026 18:04:21 +0800
+Received: from M910t.huawei.com (10.110.54.157) by
+ kwepemq200002.china.huawei.com (7.202.195.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 8 Jan 2026 18:01:26 +0800
-Received: from kwepemq200002.china.huawei.com ([7.202.195.90]) by
- kwepemq200002.china.huawei.com ([7.202.195.90]) with mapi id 15.02.1544.011;
- Thu, 8 Jan 2026 18:01:26 +0800
-From: duchangbin <changbin.du@huawei.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC: duchangbin <changbin.du@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] tools: jobserver: Add validation for jobserver tokens to
- ensure valid '+' characters
-Thread-Topic: [PATCH] tools: jobserver: Add validation for jobserver tokens to
- ensure valid '+' characters
-Thread-Index: AQHcdWdrFHx32OniNEiud4ksj7qjorVFPHoAgAEzEID//4+yAIAAFIcAgAGWjwD//9UegIAAoSaA
-Date: Thu, 8 Jan 2026 10:01:26 +0000
-Message-ID: <107868000b0d4fe09ac8671b4057f012@huawei.com>
-References: <20251225062622.1500046-1-changbin.du@huawei.com>
- <87zf6qcsu1.fsf@trenco.lwn.net> <bc19bb55bee34abb990c00c3006c6710@huawei.com>
- <20260107102910.5cad9d7d@foz.lan> <aV4zoXfoKJE0Id4e@foz.lan>
- <9ec672bde2cc4b14905175ca22cbb737@huawei.com>
- <20260108092417.20e97f91@foz.lan>
-In-Reply-To: <20260108092417.20e97f91@foz.lan>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-imapappendstamp: kwepemq200002.china.huawei.com (15.02.1544.011)
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <760671BC5C433D41B69BBF0965CE4BAC@huawei.com>
-Content-Transfer-Encoding: base64
+ 15.2.1544.11; Thu, 8 Jan 2026 18:04:20 +0800
+From: Changbin Du <changbin.du@huawei.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Changbin Du
+	<changbin.du@huawei.com>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH v2] tools: jobserver: Prevent deadlock caused by incorrect jobserver configuration and enhance error reporting
+Date: Thu, 8 Jan 2026 18:04:03 +0800
+Message-ID: <20260108100403.2888782-1-changbin.du@huawei.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemq200002.china.huawei.com (7.202.195.90)
 
-T24gVGh1LCBKYW4gMDgsIDIwMjYgYXQgMDk6MjQ6MTdBTSArMDEwMCwgTWF1cm8gQ2FydmFsaG8g
-Q2hlaGFiIHdyb3RlOg0KPiBFbSBUaHUsIDggSmFuIDIwMjYgMDI6NTg6MDUgKzAwMDANCj4gZHVj
-aGFuZ2JpbiA8Y2hhbmdiaW4uZHVAaHVhd2VpLmNvbT4gZXNjcmV2ZXU6DQo+IA0KPiA+IE9uIFdl
-ZCwgSmFuIDA3LCAyMDI2IGF0IDExOjQyOjM4QU0gKzAxMDAsIE1hdXJvIENhcnZhbGhvIENoZWhh
-YiB3cm90ZToNCj4gPiA+ID4gDQo+ID4gPiA+IEl0IHdvdWxkIGJlIG5pY2UgaWYgeW91IGNvdWxk
-IHByb3ZpZGUgbW9yZSBkZXRhaWxzIGFib3V0IGhvdyB0byByZXByb2R1Y2UgaXQuIA0KPiA+ID4g
-PiBBcmUgeW91IGRvaW5nIGFueXRoaW5nIHNwZWNpYWw/IFdoYXQgZGlzdHJvIGFyZSB5b3UgdXNp
-bmc/IHdoYXQgcHl0aG9uIHZlcnNpb24/DQo+ID4gPiA+ICAgDQo+ID4gPiA+ID4gV2hlbiB0aGlz
-IHByb2JsZW0gb2NjdXJzLCB0aGUgY3VycmVudCBpbXBsZW1lbnRhdGlvbiBkZWFkbG9ja3MgYmVj
-YXVzZSBmb3IgcmVndWxhciBmaWxlcywNCj4gPiA+ID4gPiBvcy5yZWFkKCkgcmV0dXJucyBlbXB0
-eSBieXRlcyBhZnRlciByZWFjaGluZyBFT0YsIGNyZWF0aW5nIGFuIGluZmluaXRlIGxvb3AuIE15
-IHdvcmthcm91bmQNCj4gPiA+ID4gPiBpcyB0byBpZ25vcmUgdGhpcyBlcnJvciBjb25kaXRpb24g
-dG8gcHJldmVudCBkZWFkbG9jaywgYWx0aG91Z2ggdGhpcyBtZWFucyB0aGUgam9ic2VydmVyDQo+
-ID4gPiA+ID4gcHJvdG9jb2wgd2lsbCBubyBsb25nZXIgYmUgaG9ub3JlZC4gIA0KPiA+ID4gPiAN
-Cj4gPiA+ID4gdGVzdGluZyBpZiBzbG90IGlzIGVtcHR5IG1ha2VzIHNlbnNlLCBidXQgd2h5IHRl
-c3RpbmcgaWYgaXQgaXMgIisiPw0KPiA+ID4gPiAgIA0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IEFz
-IHlvdSBzdWdnZXN0ZWQgYWJvdmUsIFdlIGNhbiBvdXRwdXQgYW4gZXJyb3IgbWVzc2FnZSB0byBz
-dGRlcnIgdG8gaW5mb3JtIHVzZXJzLCBidXQNCj4gPiA+ID4gPiBtdXN0IG5vdCB1c2Ugc3Rkb3V0
-LCBhcyBpdCB3b3VsZCBjb3JydXB0IHRoZSB0b29sJ3Mgbm9ybWFsIG91dHB1dCBzdHJlYW0uICAN
-Cj4gPiA+ID4gICANCj4gPiA+IA0KPiA+ID4gQWZ0ZXIgdGhpbmtpbmcgYSBsaXR0bGUgYml0IG1v
-cmUgYWJvdXQgdGhpcywgSU1ITyB0aGUgYmVzdCBpcyB0byBoYXZlDQo+ID4gPiB0d28gc2VwYXJh
-dGUgcGF0Y2hlcyAoYXNzdW1pbmcgdGhhdCB0aGVyZSBpcyBhIGdvb2QgcmVhc29uIHdoeSBlbnN1
-cmluZyB0aGF0IHRoZQ0KPiA+ID4gc2xvdCdzIGNoYXJhY3RlciBpcyAiKyIpOg0KPiA+ID4gIA0K
-PiA+ID4gPiBZb3UgY291bGQgZG8gc29tZXRoaW5nIGxpa2UgKHVudGVzdGVkKToNCj4gPiA+ID4g
-DQo+ID4gPiA+ICAgICAgICAgICAgICB3aGlsZSBUcnVlOg0KPiA+ID4gPiAgICAgICAgICAgICAg
-ICAgIHRyeToNCj4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgc2xvdCA9IG9zLnJlYWQoc2Vs
-Zi5yZWFkZXIsIDgpDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgIGlmIG5vdCBzbG90Og0K
-PiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgIyBTdG9wIGF0IHRoZSBlbmQgb2YgdGhl
-IGpvYnNlcnZlciBxdWV1ZS4NCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFr
-ICANCj4gPiA+IA0KPiA+ID4gVGhpcyB3b3VsZCBiZSBwYXRjaCAxLCB0byBvdmVyY29tZSBzb21l
-IGlzc3VlIChwcm9iYWJseSBkdWUgdG8gUHl0aG9uDQo+ID4gPiB2ZXJzaW9uKSB0aGF0IHJlYWRp
-bmcgcGFzdCBFT0Ygd29uJ3QgcmlzZSBhbiBleGNlcHRpb24uIEkgd291bGQgdmVyeSBtdWNoDQo+
-ID4gPiB3YW50IHRvIHNlZSB3aGF0IHB5dGhvbiB2ZXJzaW9uIHlvdSdyZSB1c2luZyBhbmQgc2Vl
-IGlmIHNvbWUgb3RoZXINCj4gPiA+IGV4Y2VwdGlvbiBhcm9zZSAobGlrZSBFT0ZFcnJvciksIHBy
-b3Blcmx5IGRlc2NyaWJlZCBhdCB0aGUgcGF0Y2ggZGVzY3JpcHRpb24uDQo+ID4gPiAgDQo+ID4g
-DQo+ID4gTXkgUHl0aG9uIGlzIDMuMTIuMywgYW5kIEdOVSBNYWtlIGlzIDQuMy4gQnV0IEkgZG9u
-J3QgdGhpbmsgdGhlIGlzc3VlIGlzIGNhdXNlZA0KPiA+IGJ5IHRoZSBQeXRob24gaW50ZXJwcmV0
-ZXIuIEluc3RlYWQsIG15IHNoZWxsIG9wZW5lZCAvZXRjL3Bhc3N3ZCBmb3Igc29tZSByZWFzb24N
-Cj4gPiB3aXRob3V0IGNsb3NpbmcgaXQsIGFuZCBhcyBhIHJlc3VsdCwgYWxsIGNoaWxkIHByb2Nl
-c3NlcyBpbmhlcml0ZWQgdGhpcyBmZDMgZmlsZQ0KPiA+IGRlc2NyaXB0b3IuDQo+IA0KPiBNYXli
-ZSB0aGVyZSdzIHNvbWV0aGluZyB3ZWlyZCB3aXRoIHlvdXIgUEFNIHNldHRpbmdzIGFuZC9vciAv
-ZXRjL25zc3dpdGNoLmNvbmYuIEkNCj4gc2F3IHNvbWUgaXNzdWVzIGluIHRoZSBwYXN0IHJlbGF0
-ZWQgdG8ga2VyYmVyb3MvbGRhcC9yYWRpdXMvc3NvIHRpbWVvdXRzLg0KPiANCj4gPiANCj4gPiAk
-IGxzIC1sIC9wcm9jL3NlbGYvZmQNCj4gPiB0b3RhbCAwDQo+ID4gbHJ3eC0tLS0tLSAxIGNoYW5n
-YmluIGNoYW5nYmluIDY0IEphbiAgOCAxMDo0MCAwIC0+IC9kZXYvcHRzLzANCj4gPiBscnd4LS0t
-LS0tIDEgY2hhbmdiaW4gY2hhbmdiaW4gNjQgSmFuICA4IDEwOjQwIDEgLT4gL2Rldi9wdHMvMA0K
-PiA+IGxyd3gtLS0tLS0gMSBjaGFuZ2JpbiBjaGFuZ2JpbiA2NCBKYW4gIDggMTA6NDAgMiAtPiAv
-ZGV2L3B0cy8wDQo+ID4gbHIteC0tLS0tLSAxIGNoYW5nYmluIGNoYW5nYmluIDY0IEphbiAgOCAx
-MDo0MCAzIC0+IC9ldGMvcGFzc3dkDQo+ID4gbHIteC0tLS0tLSAxIGNoYW5nYmluIGNoYW5nYmlu
-IDY0IEphbiAgOCAxMDo0MCA0IC0+IC9wcm9jLzI0NjgxNjIvZmQNCj4gPiANCj4gPiBJbiB0aGlz
-IGNhc2UsIG1ha2Ugc2hvdWxkIG9wZW4gYSBuZXcgZmlsZSBkZXNjcmlwdG9yIGZvciBqb2JzZXJ2
-ZXIgY29udHJvbCwgYnV0DQo+ID4gY2xlYXJseSwgaXQgZGlkIG5vdCBkbyBzbyBhbmQgaW5zdGVh
-ZCBzdGlsbCBwYXNzZWQgZmQgMy4gT25jZSBJIGdldCBhIGNoYW5jZSwNCj4gPiBJJ2xsIGxvb2sg
-aW50byBob3cgTWFrZSA0LjMgYWN0dWFsbHkgd29ya3MuDQo+ID4gDQo+ID4gDQo+ID4gPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICMgV2h5IGRvIHdlIG5lZWQgdGhpcz8NCj4gPiA+ID4gKyAgICAg
-ICAgICAgICAgICAgICAgaWYgYW55KGMgIT0gYicrJ1swXSBmb3IgYyBpbiBzbG90KToNCj4gPiA+
-ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIHByaW50KCJXYXJuaW5nOiBpbnZhbGlkIGpvYnNl
-cnZlciBzbG90cyIsIGZpbGU9c3lzLnN0ZGVycikNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgIGJyZWFrICANCj4gPiA+IA0KPiA+ID4gVGhpcyBzZWVtcyB0byBiZSBhIHNlcGFyYXRl
-IGlzc3VlLiBXaHkgZG8gd2UgbmVlZCB0byBlbmZvcmNlIHRoYXQgdGhlIHNsb3QgZGF0YQ0KPiA+
-ID4gaXMgIisiPyBJZiBpdCBkb2Vzbid0LCB3aHkgdGhpcyB3b3VsZCBiZSBhIHByb2JsZW0/DQo+
-ID4gPiANCj4gPiA+IEJ0dywgcmVhZGluZzoNCj4gPiA+IA0KPiA+ID4gICAgIGh0dHBzOi8vd3d3
-LmdudS5vcmcvc29mdHdhcmUvbWFrZS9tYW51YWwvaHRtbF9ub2RlL1BPU0lYLUpvYnNlcnZlci5o
-dG1sDQo+ID4gPiANCj4gPiA+IFdlIGhhdmU6DQo+ID4gPiANCj4gPiA+ICAgICAiSW4gYm90aCBp
-bXBsZW1lbnRhdGlvbnMgb2YgdGhlIGpvYnNlcnZlciwgdGhlIHBpcGUgd2lsbCBiZSBwcmUtbG9h
-ZGVkIHdpdGggDQo+ID4gPiAgICAgIG9uZSBzaW5nbGUtY2hhcmFjdGVyIHRva2VuIGZvciBlYWNo
-IGF2YWlsYWJsZSBqb2IuIFRvIG9idGFpbiBhbiBleHRyYSBzbG90DQo+ID4gPiAgICAgIHlvdSBt
-dXN0IHJlYWQgYSBzaW5nbGUgY2hhcmFjdGVyIGZyb20gdGhlIGpvYnNlcnZlcjsgdG8gcmVsZWFz
-ZSBhIHNsb3QgeW91DQo+ID4gPiAgICAgIG11c3Qgd3JpdGUgYSBzaW5nbGUgY2hhcmFjdGVyIGJh
-Y2sgaW50byB0aGUgam9ic2VydmVyLg0KPiA+ID4gDQo+ID4gPiAgICAgIEl04oCZcyBpbXBvcnRh
-bnQgdGhhdCB3aGVuIHlvdSByZWxlYXNlIHRoZSBqb2Igc2xvdCwgeW91IHdyaXRlIGJhY2sgdGhl
-IHNhbWUNCj4gPiA+ICAgICAgY2hhcmFjdGVyIHlvdSByZWFkLiBEb27igJl0IGFzc3VtZSB0aGF0
-IGFsbCB0b2tlbnMgYXJlIHRoZSBzYW1lIGNoYXJhY3RlcjsNCj4gPiA+ICAgICAgZGlmZmVyZW50
-IGNoYXJhY3RlcnMgbWF5IGhhdmUgZGlmZmVyZW50IG1lYW5pbmdzIHRvIEdOVSBtYWtlLiBUaGUg
-b3JkZXIgaXMNCj4gPiA+ICAgICAgbm90IGltcG9ydGFudCwgc2luY2UgbWFrZSBoYXMgbm8gaWRl
-YSBpbiB3aGF0IG9yZGVyIGpvYnMgd2lsbCBjb21wbGV0ZSBhbnl3YXkuIg0KPiA+ID4gDQo+ID4g
-PiBTbywgYSAxMDAlIGNvbXBsaWFudCBQT1NJWCBqb2JzZXJ2ZXIgY29kZSBzaGFsbCBub3QgdGVz
-dCBmb3IgIisiLCBidXQsIGluc3RlYWQsDQo+ID4gPiBwcmVzZXJ2ZSB3aGF0ZXZlciBjaGFyYWN0
-ZXIgaXMgdGhlcmUuDQo+ID4gPiANCj4gPiA+IFlldCwgY2hlY2tpbmcgZm9yICIrIiBpcyByZWFs
-bHkgbmVlZGVkLCBwbGVhc2UgYWRkIGEgcmF0aW9uYWxlIGF0IHRoZSBwYXRjaA0KPiA+ID4gZGVz
-Y3JpcHRpb24ganVzdGlmeWluZyB3aHkuIE9uIHN1Y2ggY2FzZSwgd2Ugc2hvdWxkIHN0aWxsOg0K
-PiA+ID4gDQo+ID4gPiAgICAgLSByZWxlYXNlIHRoZSBzbG90KHMpIHdlIGRvbid0IHdhbnQgYnkg
-d3JpdGluZyB0aGUgY2hhcmFjdGVyIHZpYQ0KPiA+ID4gICAgICAgb3Mud3JpdGUoKTsNCj4gPiA+
-ICAgICAtIHByaW50IGEgd2FybmluZyBtZXNzYWdlIGFib3V0IHdoeSB3ZSByZWplY3RlZCB0aGUg
-c2xvdChzKS4NCj4gPiA+ICAgDQo+ID4gVGhhbmsgeW91IGZvciB0aGUgaW5mb3JtYXRpb24uIEkg
-cHJldmlvdXNseSBtaXN1bmRlcnN0b29kIHRoYXQgcmVhZGluZyBmcm9tIHRoZQ0KPiA+IGpvYnNl
-cnZlciB3b3VsZCBvbmx5IHJldHVybiBhICcrJyBzeW1ib2wsIGJ1dCBub3cgaXQncyBvYnZpb3Vz
-bHkgbm90IHRoZSBjYXNlLg0KPiA+IEF0IHRoaXMgcG9pbnQsIHdlIHNlZW0gdW5hYmxlIHRvIHZl
-cmlmeSB3aGV0aGVyIGl0J3MgYSB2YWxpZCBqb2JzZXJ2ZXIgZmlsZQ0KPiA+IGRlc2NyaXB0b3Is
-IHNvIHdlIGhhdmUgdG8gcmVhZCB0aGUgZW50aXJlIGZpbGUgY29udGVudHMgdXRpbCBFT0YuDQo+
-IA0KPiBBZ3JlZWQuIEkgZ3Vlc3MgdGhhdCBqdXN0IGNoZWNraW5nICJpZiBub3Qgc2xvdCIgc2hv
-dWxkIGJlIGVub3VnaCBmb3Igc3VjaA0KPiBwdXJwb3NlLg0KPiANCj4gSWYgeW91IGNhbiBzdGls
-bCByZXByb2R1Y2UgdGhlIG9yaWdpbmFsIGlzc3VlLCBJIHdvdWxkIHRyeSB0aGF0IGFuZA0KPiBz
-ZWUgaWYgaXQgd29ya3MsIGUuZy4gdGhpcyBzaG91bGQgbGlrZWx5IGJlIGVub3VnaDoNCj4gDQo+
-ICAgICAgICAgICAgICAgICAgICAgc2xvdCA9IG9zLnJlYWQoc2VsZi5yZWFkZXIsIDgpDQo+ICAg
-ICAgICAgICAgICAgICAgICAgaWYgbm90IHNsb3Q6DQo+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICMgU3RvcCBhdCB0aGUgZW5kIG9mIHRoZSBqb2JzZXJ2ZXIgcXVldWUuDQo+ICAgICAgICAgICAg
-ICAgICAgICAgICAgIGJyZWFrICANCj4gCQ0KPiANCg0KSSBoYXZlIHRlc3RlZCB3aXRoIGJlbG93
-IGNoYW5nZXMgYW5kIGl0IHdvcmtzLiBJdCBhbHNvIHByZXZlbnQgdXMgZnJvbSBwcm9iYWJseQ0K
-d3JpdGluZyBpbmNvcnJlY3QgZmlsZS4NCg0KQEAgLTkxLDYgKzkxLDEwIEBAIGNsYXNzIEpvYnNl
-cnZlckV4ZWM6DQogICAgICAgICAgICAgd2hpbGUgVHJ1ZToNCiAgICAgICAgICAgICAgICAgdHJ5
-Og0KICAgICAgICAgICAgICAgICAgICAgc2xvdCA9IG9zLnJlYWQoc2VsZi5yZWFkZXIsIDgpDQor
-ICAgICAgICAgICAgICAgICAgICBpZiBub3Qgc2xvdDoNCisgICAgICAgICAgICAgICAgICAgICAg
-ICAjIENsZWFyIHNlbGYuam9icyB0byBwcmV2ZW50IHVzIGZyb20gcHJvYmFibHkgd3JpdGluZyBp
-bmNvcnJlY3QgZmlsZS4NCisgICAgICAgICAgICAgICAgICAgICAgICBzZWxmLmpvYnMgPSBbXQ0K
-KyAgICAgICAgICAgICAgICAgICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoInVuZXhwZWN0ZWQgZW1w
-dHkgdG9rZW4gZnJvbSBqb2JzZXJ2ZXIgZmQsIGludmFsaWQgJy0tam9ic2VydmVyLWF1dGg9JyBz
-ZXR0aW5nPyIpDQogICAgICAgICAgICAgICAgICAgICBzZWxmLmpvYnMgKz0gc2xvdA0KICAgICAg
-ICAgICAgICAgICBleGNlcHQgKE9TRXJyb3IsIElPRXJyb3IpIGFzIGU6DQogICAgICAgICAgICAg
-ICAgICAgICBpZiBlLmVycm5vID09IGVycm5vLkVXT1VMREJMT0NLOg0KQEAgLTEwNSw3ICsxMDks
-OCBAQCBjbGFzcyBKb2JzZXJ2ZXJFeGVjOg0KICAgICAgICAgICAgICMgdG8gc2l0IGhlcmUgYmxv
-Y2tlZCBvbiBvdXIgY2hpbGQuDQogICAgICAgICAgICAgc2VsZi5jbGFpbSA9IGxlbihzZWxmLmpv
-YnMpICsgMQ0KDQotICAgICAgICBleGNlcHQgKEtleUVycm9yLCBJbmRleEVycm9yLCBWYWx1ZUVy
-cm9yLCBPU0Vycm9yLCBJT0Vycm9yKToNCisgICAgICAgIGV4Y2VwdCAoS2V5RXJyb3IsIEluZGV4
-RXJyb3IsIFZhbHVlRXJyb3IsIE9TRXJyb3IsIElPRXJyb3IpIGFzIGU6DQorICAgICAgICAgICAg
-cHJpbnQoZiJXYXJuaW5nOiB7ZX0iLCBmaWxlPXN5cy5zdGRlcnIpDQogICAgICAgICAgICAgIyBB
-bnkgbWlzc2luZyBlbnZpcm9ubWVudCBzdHJpbmdzIG9yIGJhZCBmZHMgc2hvdWxkIHJlc3VsdCBp
-biBqdXN0DQoNCi0tIA0KQ2hlZXJzLA0KQ2hhbmdiaW4gRHUNCg==
+When using GNU Make's jobserver feature in kernel builds, a bug in MAKEFLAGS
+propagation caused "--jobserver-auth=r,w" to reference an unintended file
+descriptor. This led to infinite loops in jobserver-exec's os.read() calls
+due to empty token.
+
+My shell opened /etc/passwd for some reason without closing it, and as a
+result, all child processes inherited this fd 3.
+
+$ ls -l /proc/self/fd
+total 0
+lrwx------ 1 changbin changbin 64 Dec 25 13:03 0 -> /dev/pts/1
+lrwx------ 1 changbin changbin 64 Dec 25 13:03 1 -> /dev/pts/1
+lrwx------ 1 changbin changbin 64 Dec 25 13:03 2 -> /dev/pts/1
+lr-x------ 1 changbin changbin 64 Dec 25 13:03 3 -> /etc/passwd
+lr-x------ 1 changbin changbin 64 Dec 25 13:03 4 -> /proc/1421383/fd
+
+In this case, the `make` should open a new file descriptor for jobserver
+control, but clearly, it did not do so and instead still passed fd 3 as
+"--jobserver-auth=3,4" in MAKEFLAGS. (The version of my gnu make is 4.3)
+
+This update ensures robustness against invalid jobserver configurations,
+even when `make` incorrectly pass non-pipe file descriptors.
+ * Rejecting empty reads to prevent infinite loops on EOF.
+ * Clearing `self.jobs` to avoid writing to incorrect files if invalid tokens
+   are detected.
+ * Printing detailed error messages to stderr to inform the user.
+
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Changbin Du <changbin.du@huawei.com>
+
+---
+  v2: remove validation for all bytes are '+' characters. (Mauro)
+---
+ tools/lib/python/jobserver.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver.py
+index a24f30ef4fa8..8206e4c1497b 100755
+--- a/tools/lib/python/jobserver.py
++++ b/tools/lib/python/jobserver.py
+@@ -91,6 +91,10 @@ class JobserverExec:
+             while True:
+                 try:
+                     slot = os.read(self.reader, 8)
++                    if not slot:
++                        # Clear self.jobs to prevent us from probably writing incorrect file.
++                        self.jobs = []
++                        raise ValueError("unexpected empty token from jobserver fd, invalid '--jobserver-auth=' setting?")
+                     self.jobs += slot
+                 except (OSError, IOError) as e:
+                     if e.errno == errno.EWOULDBLOCK:
+@@ -105,7 +109,8 @@ class JobserverExec:
+             # to sit here blocked on our child.
+             self.claim = len(self.jobs) + 1
+ 
+-        except (KeyError, IndexError, ValueError, OSError, IOError):
++        except (KeyError, IndexError, ValueError, OSError, IOError) as e:
++            print(f"Warning: {e}", file=sys.stderr)
+             # Any missing environment strings or bad fds should result in just
+             # not being parallel.
+             self.claim = None
+-- 
+2.43.0
+
