@@ -1,112 +1,195 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C521742A580
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 12:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2B343636D;
+	Thu,  8 Jan 2026 12:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767874751; cv=none; b=ectSMzHyZMQbjUCr5glgbyTqbTVDzxR7WWeOpA7jsQB2YJ9CS9G667ypuI53WzhbJ4HR62++mKlW2hF1lnem9ccR61pSm/Fi+kE7Hy0Pa3dxYAv3r637WkwJHsIe/huxojAR/Pbk1s/Ajl+ajosJoPqD5SIa+KQ/Zu5lMIFlORE=
+	t=1767875242; cv=none; b=RFt6uZpQo379ZcKAQB/GfDLVnmMkd0ZasK8qUqbtuDA2IqvNXVVQjBBklzSTFUrGFjU0TNk5iGsaJw2xnkohDG2nBGY5Hxfl9piS7Yq/ItSIxiuYJgs8YHUZCAoDACGEX6jNEIMxuFj8vdz9nOci+Plrao1AvH9tMUbPNT40qCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767874751; c=relaxed/simple;
-	bh=XslR5Skl/tw/Xim8K72eczklMzvlOxARWwVTFZz2hyo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fmn2/86Gke4HfyReZgdEyWLpAe4D4chobnWWzSw2Fhq0GN6wna5bK4q8hlDqBNYShnXCaZeJFLy8GA0C9dPAOxU1UMSD3D+rwGWvm1tby8OZ70Tk8K36hBJq/1ncJ/JEHZu2dYUBsuz2Dd1V0jFtnDmYxg4O9iS2zfeMCzTJD3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ja+7V8F1; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ja+7V8F1"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8c24f867b75so308613185a.2
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 04:19:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767874746; x=1768479546; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XslR5Skl/tw/Xim8K72eczklMzvlOxARWwVTFZz2hyo=;
-        b=ja+7V8F1ZwjWz5gIR9kXgeJQwqADgKnij+xGhHeSKOkbZ3j0fpqSXJgQwNFDUpSKHu
-         BLRlwmWb5dG1rM6Sz97lQd8qG1LLDpxMRxJYaMGnmPnlptG5NZpECNAIr9Tm3qHE5hyY
-         piUAzuG5yyotnME9cOrJQl6abmkEoDMJBDTvgWGMzgl/OE0W9gkeHApBotwro/H/ZKDs
-         yL/HIYAMRAuDuFSAmVl2ueileIkRxaFoPFTmU+Q9KvU6xmU7xtRbJRglFTI+LTVlwgjV
-         Jc3u+GQncx4lvYaL+FriQh4RoBG8qp0tuMoKbeqSCwslizSnn2sb1YoiVqWHZZy60zhk
-         JhwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767874746; x=1768479546;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XslR5Skl/tw/Xim8K72eczklMzvlOxARWwVTFZz2hyo=;
-        b=qlgsS8BiHf5Jb1y/vmBN0xoWuSbnc4dtVKcASrcclmczQsNdHDidOxB0xN5q8ktpWe
-         sBKsMS859bQumcMKW+OqDhwj5UAyiYFRhRus5kpZuofYbLjCwNmobttOEgSczx6hLZK+
-         Iy2rrFrXgO2pdFmdFhYce1A7TvP7/P1cjEGM482WAwH8ZCs3+gaIQ0dS0MVgkbAzmD2Z
-         5i+AwkqWZg/WcELq4nvOdpKCkMnDC3QQ8bCc21VA81+bvF09CdlJeQdGfRDMYJF3JNI7
-         BjGoD86qQ8F23L9c8OmpDMq0/ZRcdz+x0zWdG6NSi4kEQGWAd3sQOocEZHZaLXCkChTb
-         5Gew==
-X-Forwarded-Encrypted: i=1; AJvYcCXK/Mlu+n/zpWI7vO4zRGAAfXHb3vZmzyhBL3cB6paDpDPDHRLZtYuQaGIgUFtq5ba+Yk7P6LxPBiY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySwuuYW03P3jemRRuFzA8X+32adYVCr9DY4iXD+bfIp+L87qPu
-	k/bsD3+9xryvZRl1QosSfaQQ9HEH4YmGEhHtAZNB8mfrYDkmldIAi/oYHQPYo+5HVV72V5MUHUy
-	gzhqoWsf7gXtDSkRCW2M7TYqJQG00TgHaxfIiDZw5
-X-Gm-Gg: AY/fxX7abex1ReZTVlPYPYqeJa3/4ewvoO+Jbcztx0oC69nDfDRWmtp/YcqmixW4zx1
-	ucy0jjSPPZLTq7DpvBQynNKO0nX/AzZH2e2KNpt3wGAAeXegwsAuRg00UTKPfYmAYkw4qYHCy5C
-	5ivK5X+GHokBdy0pGCJjAJBgqsEYH1ZPVS7lUwL45f0AX6RuxaDJ/4Qcf4cyh4XmxbkgtcUWHwF
-	VvRQ+2bl/IvDAmPDNIcBW8LfDGUfPWMq5SIOoqZA0ZBSi3DG34T8d+TvU1PefRp7TunYJkhNW3M
-	WU6d
-X-Google-Smtp-Source: AGHT+IE6CBzyCrx4IFVvz/0AqM39PV6mvwh7lOn07b9ckEerO+EpyGAL7TIuu+rk4c57j55fgOdIw95rlnzvDdfaED8=
-X-Received: by 2002:ac8:7f8c:0:b0:4e8:b2df:fe1f with SMTP id
- d75a77b69052e-4ffb487f955mr83824451cf.28.1767874745665; Thu, 08 Jan 2026
- 04:19:05 -0800 (PST)
+	s=arc-20240116; t=1767875242; c=relaxed/simple;
+	bh=41316vyJ8zu+32cFRFgmU0a/by8Q0n1PdBcpVfQlya8=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=orsg8AnDm9EW8anlmkAxs2OhFAUTxQIwvz+NsQyqteJEYnnH63PTBEhhGNhP/iZU8kl0TD1TXbP0O3Hat6auXjf8R5TUQGRtDpnCnSVjOlPZK6IpozPqBlRYkrw4w3O42t2oMcanD92WOg811xNrRav+3OLMgliLU+PdSkGkHgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn40c088NzJ46BR;
+	Thu,  8 Jan 2026 20:27:12 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id CDB3B40569;
+	Thu,  8 Jan 2026 20:27:16 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
+ 2026 12:27:15 +0000
+Date: Thu, 8 Jan 2026 12:27:13 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <John@Groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V3 06/21] dax: Add fs_dax_get() func to prepare dax for
+ fs-dax usage
+Message-ID: <20260108122713.00007e54@huawei.com>
+In-Reply-To: <20260107153332.64727-7-john@groves.net>
+References: <20260107153244.64703-1-john@groves.net>
+	<20260107153332.64727-1-john@groves.net>
+	<20260107153332.64727-7-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260103131028.10708-1-chia-yu.chang@nokia-bell-labs.com>
- <56f6f3dd-14a8-44e9-a13d-eeb0a27d81d2@redhat.com> <PAXPR07MB798456B62DBAC92A9F5915DAA385A@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <9d64dd7e-273b-4627-ba0c-a3c8aab2dcb1@redhat.com>
-In-Reply-To: <9d64dd7e-273b-4627-ba0c-a3c8aab2dcb1@redhat.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 8 Jan 2026 13:18:54 +0100
-X-Gm-Features: AQt7F2pGmpHwQwLbaeD-dBc7rrFfr_O4l9u7b9jAwL-yY9Bn1sm999duNbFyyYY
-Message-ID: <CANn89iKRAs86PVNAGKMUgE49phgZ2zpZU99rRkJq=cc_kNYf=Q@mail.gmail.com>
-Subject: Re: [PATCH v7 net-next 00/13] AccECN protocol case handling series
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>, 
-	"parav@nvidia.com" <parav@nvidia.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>, 
-	"dsahern@kernel.org" <dsahern@kernel.org>, "kuniyu@google.com" <kuniyu@google.com>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
-	"dave.taht@gmail.com" <dave.taht@gmail.com>, "jhs@mojatatu.com" <jhs@mojatatu.com>, 
-	"kuba@kernel.org" <kuba@kernel.org>, "stephen@networkplumber.org" <stephen@networkplumber.org>, 
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>, 
-	"ncardwell@google.com" <ncardwell@google.com>, 
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
-	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
-	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
-	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>, 
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Thu, Jan 8, 2026 at 1:05=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wrot=
-e:
->
-> On 1/8/26 9:47 AM, Chia-Yu Chang (Nokia) wrote:
-> > Regarding the packetdrill cases for AccECN, shall I can include in this=
- patch series (v8) or is it suggested to submit them in a standalone series=
-?
->
-> IMHO can be in a separate series, mainly because this one is already
-> quite big.
->
-> /P
->
+On Wed,  7 Jan 2026 09:33:15 -0600
+John Groves <John@Groves.net> wrote:
 
-If possible, please send a packetdrill series _before_ adding more code.
+> The fs_dax_get() function should be called by fs-dax file systems after
+> opening a fsdev dax device. This adds holder_operations, which provides
+> a memory failure callback path and effects exclusivity between callers
+> of fs_dax_get().
+> 
+> fs_dax_get() is specific to fsdev_dax, so it checks the driver type
+> (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
+> not bound to the memory.
+> 
+> This function serves the same role as fs_dax_get_by_bdev(), which dax
+> file systems call after opening the pmem block device.
+> 
+> This can't be located in fsdev.c because struct dax_device is opaque
+> there.
+> 
+> This will be called by fs/fuse/famfs.c in a subsequent commit.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+Hi John,
 
-I have been reluctant to review your changes, because there is no test.
+A few passing comments on this one.
+
+Jonathan
+
+> ---
+
+>  #define dax_driver_register(driver) \
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index ba0b4cd18a77..68c45b918cff 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/cacheinfo.h>
+>  #include "dax-private.h"
+> +#include "bus.h"
+>  
+>  /**
+>   * struct dax_device - anchor object for dax services
+> @@ -121,6 +122,59 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
+>  EXPORT_SYMBOL_GPL(fs_put_dax);
+>  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+>  
+> +#if IS_ENABLED(CONFIG_DEV_DAX_FS)
+> +/**
+> + * fs_dax_get() - get ownership of a devdax via holder/holder_ops
+> + *
+> + * fs-dax file systems call this function to prepare to use a devdax device for
+> + * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
+> + * dev_dax (and there is no bdev). The holder makes this exclusive.
+> + *
+> + * @dax_dev: dev to be prepared for fs-dax usage
+> + * @holder: filesystem or mapped device inside the dax_device
+> + * @hops: operations for the inner holder
+> + *
+> + * Returns: 0 on success, <0 on failure
+> + */
+> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> +	const struct dax_holder_operations *hops)
+> +{
+> +	struct dev_dax *dev_dax;
+> +	struct dax_device_driver *dax_drv;
+> +	int id;
+> +
+> +	id = dax_read_lock();
+
+Given this is an srcu_read_lock under the hood you could do similar
+to the DEFINE_LOCK_GUARD_1 for the srcu (srcu.h) (though here it's a
+DEFINE_LOCK_GUARD_0 given the lock itself isn't a parameter and then
+use scoped_guard() here.  Might not be worth the hassle and would need
+a wrapper macro to poke &dax_srcu in which means exposing that at least
+a little in a header.
+
+DEFINE_LOCK_GUARD_0(_T->idx = dax_read_lock, dax_read_lock(_T->idx), idx);
+Based loosely on the irqflags.h irqsave one. 
+
+> +	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
+> +		dax_read_unlock(id);
+> +		return -ENODEV;
+> +	}
+> +	dax_read_unlock(id);
+> +
+> +	/* Verify the device is bound to fsdev_dax driver */
+> +	dev_dax = dax_get_private(dax_dev);
+> +	if (!dev_dax || !dev_dax->dev.driver) {
+> +		iput(&dax_dev->inode);
+> +		return -ENODEV;
+> +	}
+> +
+> +	dax_drv = to_dax_drv(dev_dax->dev.driver);
+> +	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
+> +		iput(&dax_dev->inode);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
+> +		iput(&dax_dev->inode);
+> +		return -EBUSY;
+> +	}
+> +
+> +	dax_dev->holder_ops = hops;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(fs_dax_get);
+> +#endif /* DEV_DAX_FS */
+> +
+>  enum dax_device_flags {
+>  	/* !alive + rcu grace period == no new operations / mappings */
+>  	DAXDEV_ALIVE,
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index 3fcd8562b72b..76f2a75f3144 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -53,6 +53,7 @@ struct dax_holder_operations {
+>  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+>  
+>  #if IS_ENABLED(CONFIG_DEV_DAX_FS)
+> +int fs_dax_get(struct dax_device *dax_dev, void *holder, const struct dax_holder_operations *hops);
+I'd wrap this.  It's rather long and there isn't a huge readability benefit in keeping
+it on one line.
+>  struct dax_device *inode_dax(struct inode *inode);
+>  #endif
+>  void *dax_holder(struct dax_device *dax_dev);
+
