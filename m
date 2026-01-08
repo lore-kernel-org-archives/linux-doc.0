@@ -1,214 +1,490 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011003.outbound.protection.outlook.com [52.101.62.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235644D4F7F;
-	Thu,  8 Jan 2026 14:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767882641; cv=fail; b=T3GGQrpDlk27gblbsGKg2Ffc3kJzGO0nd+z2BLNjB4FLE4kVTw7iEa06Me+l41QfRawun7EPzbbDeVmQpGsi0Ll1yYbvoGIFjhLYz0tqzVrXgV5HLn547MNH6OGMbJ4dU4n1ttYZecGZmXs88cN15Om/zdPWT1z/GDVMppsxi38=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767882641; c=relaxed/simple;
-	bh=EVYUkg9ND52h4INdS24EKD+GdZTFmd87XzhWduGvUqk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cJkW5M+3hwckY1bTUW5bkAn8fPd1mtwLXjPDkZABUsRBLbS7inN5T58IV8X3xSq/uOxG+9QqJ1/03HcAMjR8bRm/w2Y1JCR9ZrEV45EAVztggTc1jEbYKhxss4AqdhwCXODcUW/ltFyEgE6y1L73ZHaex7Q5t11v0IDuyQAlj7k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=r4OMaUnC; arc=fail smtp.client-ip=52.101.62.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507192D0C98
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 14:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767882736; cv=none; b=noxbhjdr5N/kBuUCfDyxcBNAe120zjUyBs3tL32qLxpx7jKM/12sa6ggWhGl+u3K1tKKSQiy1fLV1OBw16FHyxzoXeu2PGo1Aa1cMl59REd58VN8xTCyZtimXo8N1Os6WQK6ehTTXJ2YDhgUowI1h9jSAQ0UW00JsFKXPdPUEsw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767882736; c=relaxed/simple;
+	bh=pbqRtzJmnFz7qVgaziGfd6jJfZ3vd7LYJHqTLJj2IT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hLyAUyVIrhvLDk3ELy/WMUY8QMxA0bTPoHyLTSTajWBtMMgQr92CSOzANskyEpmyqfSpL3rvZe+H3GcDXTzIWaKeCjzvRMNhRLVzS7Nms6Rkh5vLqknVZZgZ8qboyJ5vWG0EbygliSi4vneCHWcy2wkJvsClM0IBEcpRex1vPuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQpYH1dj; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="r4OMaUnC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=coAGv1IanGlXSeEaT518wUjbqnsBQ0R7HQyZDuURry7mjFtgTaBhAJuUfj+zQeUM15SoZPfs1lru9QV78UwXqAlFhth5IJyh77vSbOkW1t8WzW50HGDipm8A4FUWRoeELsA0KbwozZYLWCEbjPFJbL8m6B0xghx7gMXVntZxGHrtexKIZTTB+7uNfSdFwGANmy2N7jrlT7LKuIpGAKQqj/CguW9fiUUgsWBv5q/i9utAgs7AhPi7ojaYXyg7gdOcS4wci2efzFOgr/77sRchtZAD/Zg+1Vb2qYZgn36LqUSyO6/t0aX2YaDL8o9KtRd1RlFa0bKjGYExrrG4TJaeNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7U8Xl0Ss698P50JkD8hL0r2xdhbD/vkyyLvC4S3VbRM=;
- b=iQ3feQecpBn8G3YMpvhYHI6yzWIK/n0+XAsgFU6+592/TAy34ML9C8FIHWRS5Z7ptLQqV05Tltit5wZKJC1dZH472i28+AtyR2t8i9DRDZEwXnRRJoj7gwwB8d53Aj65t0acxU8EmMCnMPDRYgSR5RQ2ufBPVl1Fe7oxjNdQOipqcOChsiF6GfjgbNEfcS/vKvn3IY/VVJDR946qRblxIhORkwsl4bFI3qUI2EXmhn4hqRATp+cE9kl4ypXS+0RYCPaVtTzL1FwYE2DUJruxaTIZGBbUTmfCLlyzbq/rgdyCR45Z2q5yNSA8nYDm0qfntDMER/15i6i/hfPryYUsOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7U8Xl0Ss698P50JkD8hL0r2xdhbD/vkyyLvC4S3VbRM=;
- b=r4OMaUnCu5DIcK6i+0MxtiK8VvFLNFW3QuPKD5SDuj/KvHW9mnZWGuKTGCWa8JEHKqgG6whKye9p8qeI8RiW7grQHpPDA5qqTMbeFjcKBlBorjp5bMAIUvd1zfRC/I+j/gljIez0CZUKU46qxynLPJK3wUUitE+9dgSNGp+1goRr4IQD11ZfmLIgphuAz6E6cgfjx0lFHefznC6C6bWLZxFZdnIsidt2wUbk9wyMNSFT1KF22iv4XVtD1HNiLV9ZsDOKRPRkbOCORqaSQywvjqdM7wlMz1zmepTAQHX43ijkzlXsWM3XU3EnJkmjfpr6eukSNQdhXO4iR1VIcieMhA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by BN7PPF7B4E3DFF8.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6d4) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
- 2026 14:30:36 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
- 14:30:35 +0000
-Message-ID: <d5f8e139-a31f-4913-a9e6-ed071c5c89b7@nvidia.com>
-Date: Thu, 8 Jan 2026 20:00:21 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 07/11] cpufreq: CPPC: Add sysfs for min/max_perf and
- perf_limited
-To: Bagas Sanjaya <bagasdotme@gmail.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
- corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
- rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
- mario.limonciello@amd.com, perry.yuan@amd.com, ionela.voinescu@arm.com,
- zhanjie9@hisilicon.com, linux-pm@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- nhartman@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
-References: <20251223121307.711773-1-sumitg@nvidia.com>
- <20251223121307.711773-8-sumitg@nvidia.com> <aU3Us1NzlpVQcyii@archie.me>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <aU3Us1NzlpVQcyii@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0128.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d0::18) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQpYH1dj"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-65cff0b394aso1996875eaf.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 06:32:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767882732; x=1768487532; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PcvhJVMJSLcgThl24zmnCju/8c8u6/w/mgJ2Q9NyyaM=;
+        b=YQpYH1djGTXIfWUC3rwfwUFGL+i6HHr81p7AjWRXKQjy1LsyDRutUnCOJT9kyzX7Bx
+         +IN/1yda815Lxkaj1PwX4L58I07FoHCjOrDkEi1TfCUFx1qCbxY5Dre61UzLeaOolaUz
+         S3RYw2o+yVt8XDs73fzsoE8dBVo19xhIUkU35+KA2kX7l/piVtmaGK6qlHjr1D2UndHj
+         H72BZZtTfQqNMJmBQWlSKGdkpqO0quA6//Jcl2Tjw6mEOijirgqu2/72MccFjzwuRXYH
+         0rGlp/6+S3A63TnTji5BJsu0U8s2WGIXyaVcz4HWbGeykUIrd8MUQgLYxQZq4TcnkICS
+         phGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767882732; x=1768487532;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PcvhJVMJSLcgThl24zmnCju/8c8u6/w/mgJ2Q9NyyaM=;
+        b=tRnYgkhxVtTgfpc0LGXATa+1jVkeXfjmXCRqO9qyg1vSFcbVrERkUQHEe1zRITnCug
+         n2SuC6CGpjuRLIPuCOViZ7qGI+JZjOSBBKwzCJ1hS85n4KRTgdBknYpQO71y1wk2f/sM
+         S9p4G7bLIPtOB5JdwwiyM5tlQCNsR5ZVi3hXJlnRTPoIQSS3h/XcUqty6d+8Z6cFS0C7
+         H005cCESBNodS1F4leeG5fJJwNk4WbVgZkOc/V59FB6ZuwiYSg/KNUpkUoZpFeK3bNFp
+         PAA9RT3vdED7sWby46FiLSDseIgaf9vTweh78O4MbHRUYVDGL2LFN+ud+Vg+foF/O0zb
+         HvEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKP97CrfFHBTHzl2gaskPTxEGV95g2/n4Arom0vN1UxZyAWpw745Kb0Gb1w0u+IlIMLZk3gNhOjU8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3O+ZMShsXQnHqSUmFXGCVnfYTK6lhW9bxhxH39wLcP3edPw/W
+	1cTD/v8Z7JiIdC1g1rqbDFEAc6CstMVuw2icP1I+T384FNYKBXDtvlMS
+X-Gm-Gg: AY/fxX4yH2/JyVd8trcslgoqtrFU0ji7oEPdMpUCHlnOTrvcRNiOyw0myCpuQH0ABqR
+	+15YnkL1dlcYCp30eu38Ma0l5DJmqrRwLy9crGo6rxqKx1wuCBsDKxldGMJxBDHybBlmCovU9BE
+	caLowj/RohTury33mg+hhr1Qx6rYR9nZI46QUNOnjFVIgnWvN4okszNH8QDbfI8d7T3MV6JZtl7
+	czKJKJAEHT3vJgQ8cc80bNIH633IPLgD7/2V3zfjqDwhFPxzLtoz8+Fotfcv9750edBdut4eIo3
+	uRNZY8IvKkpl7LUP8VEYfL8zDSDiY9lLem6dKhmxHw5lAvo3FHP64n1i4cxFiVlNB8ko7mJC76V
+	pB7U8hKZ6igIOQYFFu3TmRYZcpdwxUwmtObwstXZ+iDom2q1B/f9SEa9OukWjmbC9xJYPc/VIXy
+	W+rAD6dGH5BmjfJ0IWClV7JoRsUkokvi+SfJlEqFmb
+X-Google-Smtp-Source: AGHT+IEHvfV1Iw8iN3fDKTIAumG7RfgWLKSt/fkw13rZiQStoTVjQFDK3t+UOB8hh2x7AAzrKmk9bg==
+X-Received: by 2002:a4a:cb1a:0:b0:65f:5be8:285f with SMTP id 006d021491bc7-65f5be8290emr1186453eaf.37.1767882731888;
+        Thu, 08 Jan 2026 06:32:11 -0800 (PST)
+Received: from groves.net ([2603:8080:1500:3d89:902b:954a:a912:b0f5])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65f48bec1c4sm3254651eaf.8.2026.01.08.06.32.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 06:32:11 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Thu, 8 Jan 2026 08:32:09 -0600
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH V3 02/21] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <ypbz735oinozgm5bsxk7gyzgjpfpzzeb3k4f2fxq5ogm3hthb2@ict4rjvogy25>
+References: <20260107153244.64703-1-john@groves.net>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-3-john@groves.net>
+ <20260108113134.000040fd@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|BN7PPF7B4E3DFF8:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7698e94-58c7-4405-1d92-08de4ec27ca9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L0s3K0RLM0gzVG42d3VUMWRuRkwxRS9kT2xKc2ZqZkU3VFlLTitIZWlmSzN5?=
- =?utf-8?B?SDM1SW91QmNMeTlkME9HMm01VURFaUNiZGZxRWdMcDhrakZ2YS9wR3VibFkv?=
- =?utf-8?B?Z1lCY0gvQnhrMnlZMDc2VU85cHBIY0M1T24yWURPWTZJRU9ZS2hrMFF3eG5v?=
- =?utf-8?B?UitIMjJvVXRCRW1qdGR0WThRR09nZE1VbTZkUVc1Sm1vMFFuaWxHRU9xKzRN?=
- =?utf-8?B?ZDR2RGVmUmovaDBrbVRlcFFxUkZONE5MRTdEMnBUa3JnMnZZcHdVelkzWUZa?=
- =?utf-8?B?bURZNlZoS2psUFc3dkVSOWV2R0FRTmZPd2VoRUdhbHpMV05uekRFWEp3NG9K?=
- =?utf-8?B?bUhCYUQrMkZPNTBybkJqWk1KVHVFeUl0MjlEK1pRdVE2L2NNRENTSGg4eE9O?=
- =?utf-8?B?c1ppaVV2VGRzUE5nNDBtRGMxdVpWMjROWlkxb2tkbXNlNFovSGQ4Y3dKWmZl?=
- =?utf-8?B?SzlqbnphZFVObHRVOEdjL3BTR0s0K2JsdHZueGlPZi8zakZIZzVFdVNlWkNJ?=
- =?utf-8?B?TWErN3hRTDBaUkgyaVdqK3EvTG4vakk0YVZQQlRoSThUYVc4Q1lTbUJCMWF6?=
- =?utf-8?B?WGVwT2lCZjBlbitxaWxETmJzRjZaTVZGdFRVVGpWbEhlRWxaZ3RvZE91ZFBp?=
- =?utf-8?B?eTYyV3B2Nk9UZmsxOVBZL1hWQlBlYnBla3pEV0htRWdMM2o5OXBhRVJvVW8y?=
- =?utf-8?B?aVI2ZTlyVnRad2ErVGJKQlNIOS93amVraHFtSXl5Umsrb1FQdGZpSVJyaFdn?=
- =?utf-8?B?RzQ4Z3JqWElIRnlzd2RkYXFjNVduanFoemRhalJvdWpzQXNOcG11SEZPU1JM?=
- =?utf-8?B?QmdGUVFHTVVJK1FwRC85VFBoeWMxaS81KzVaWXhRajh6OXROMkZGZWxidG1S?=
- =?utf-8?B?bzMvdXFRbUdNSVFGeDcvRjBKSzVoK1pqclNnelV1aUpYaGJjZ1k0alBkVzBQ?=
- =?utf-8?B?Z0ZFdEFlU3FreVNJWVJUMnF6S3FSSnlQUjdsRTJ4cXFla2VoMTc0UTExTDda?=
- =?utf-8?B?YWxRZGJDRTJPbWp4RWNLVk95Rkc3c1FWQjE4WGQ4MmU2RWZXR0RHN1I0RHRo?=
- =?utf-8?B?V0pGbis5WkhKSEhoenpCSzN2aGxGaGJGVXNGTkRzaW5mM0I5d2xGL2xEUEJl?=
- =?utf-8?B?RnduamxTcElzT3JhdlVoZU1wbEg3cEtYWlJwQjVvejU1SEViQ1BQd09rOXdr?=
- =?utf-8?B?TTE0dkgrQ012b3hlaUIzSlVlR2tubENIRFNwWHhOVEErMVY5NEpBcXBUS1NN?=
- =?utf-8?B?dW41VWpxdmh0UlNHYUVnakQwWmhYamVjTW5lN1FEVXJsdkRpTzF0Nis2QVVZ?=
- =?utf-8?B?bEhsU1lSd1Q0cFRIQytUQTJ1VlNtZ254eWVCeEpoZGJCYjh5NVNIa3Mzd0V6?=
- =?utf-8?B?MHRHN1VwQ3huVkh6WFoxWExPNjI3OHArdk5WeVNzWi93U0JkV3B4SzBCYzJZ?=
- =?utf-8?B?OXhzT2lTV3M2K2FOYjZHNDdkYzFKRDVnLzk0anVPSEVsTUJ0amRFb01pMm8r?=
- =?utf-8?B?TjVzSHJ1bnMxdWI2K21PUDBqdlhpeXp3R3FIMW1XcU5kR2g4NFBEeS9qUGd0?=
- =?utf-8?B?OU93bkcySzVINWlQWDkvZzBLNzdzNFFLTzVaVEVPb1I2TXEvY3FHVDhaQXNt?=
- =?utf-8?B?OVNhRml3NFkrMi84elZkOVFzZExEK0FVc3pNY2E4eHpDKzN5QlJkUXkxRmw0?=
- =?utf-8?B?dTNOVXFQZEhjcTJqMWtEZkJmeTA1UjhVdldLUGF3UzdVcVlVVEk2enhNalBK?=
- =?utf-8?B?VGRzc1RQRnprOTBmUmxGcHY1N3lOTHhJZXRzU1NZTisyYW4rNC81ZkRuNlI2?=
- =?utf-8?B?czhIeEpMVytCT2VtVnNYeS9uSWRUdWV4STNKVFduZDQxQS9GRkFmd3VLNXc3?=
- =?utf-8?B?N1N5VU1PTmROK3dQdDJuZmtxSHVYU3VzazBmYmFMODlJNHpSeDFJNHlTMVZL?=
- =?utf-8?B?VDNkZTZmbGdXa25EYUxGMlJGZExicjNKNFBHeUMyOHUwWjk1c2hxeG1hQ3NZ?=
- =?utf-8?Q?P+swnUdfy/143CGt6mVqKKzDfzmerA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NzFXNUJaK0UrVUJ5UUdhWTNYSFlDWGtIUEc4dDROVUdxY21kUHkzU0lFREF4?=
- =?utf-8?B?bTY5OTlwQW9xN3grRWRKTktJQytDY3czMXQ0M29mR0Fkcy9BbmZuNWtXTUtl?=
- =?utf-8?B?MkxHUExWUkVQNWhLekxrdEpxMEtPT3lnSGFCWm0zWXRSVU1FWlplZE80bTdv?=
- =?utf-8?B?NURJRU42ektPTnRsQ2p2RkVOZTY2OE11ZjduLzFsSWNSYlU0eFN6SUp4Mzc1?=
- =?utf-8?B?ZWZUMFp6ZXdpMG5vcWF5YzlQNENsVmVjVDZFdFpUMlFTRXp0YmNNU2ZxUUd2?=
- =?utf-8?B?MFBxSjFwS3dWcDQxVm5lcDYwb093T2g3bklCVnJVb1RsdURCZ2Eza251d04w?=
- =?utf-8?B?UG9XQStUb3RPYnJWRzRnQXJzOXBPaUFMdVNGZzhPOFBDTkVWaE5FOUd0OHV6?=
- =?utf-8?B?TzB3K01POXJ5azh1c1ZGNXIwK0NQYUI3cjROZ01GcHBtUjlwOWp6cDhhRlQ5?=
- =?utf-8?B?aTBSOVB3K3VZcTVacDBaRjRkOXIvSHVwb0JFL1F6eXdyYXI3RUV3VlVtSFZ0?=
- =?utf-8?B?c0J3aURmRE5jMmRSeVYza1EzTUtrYUJtc3RNU0ZWaWMvMThHVDIwaDN2YzNl?=
- =?utf-8?B?M2p2Rk9LeFpZUWttOCtGZE1Wa0ZjWmVqU1IzRHZER1AzVWY2SDlFSzlnYkRL?=
- =?utf-8?B?OEozaTV0b0dyaHpOK05oZ0xBaUViS3VBWHB2Q2NWWmlTZFNZSzlQM203ejlW?=
- =?utf-8?B?a3hpTXc5Zzd4a1RBbGJ2RGRhY0krQWFTZGJPL0F6M0kybXB4UXJqeEpFcnA2?=
- =?utf-8?B?OVVLNTdGUGU2QUJnZ1k4emNuWm4wYkFldWdJRFI1YnEzRTZmSkI0TC9XMVZ5?=
- =?utf-8?B?cGJDUzVHSmJURFFpbklFTUxwWjhNTWV3OGY3SlhRRUhPdi9lOFM4UFZSUnRi?=
- =?utf-8?B?dnZNQlpPWWEvWEI0SW5TVTQ2ZS9tQ1cxRkpuYlh0bnpYSmllWWNrNVVZRjJn?=
- =?utf-8?B?S1NieVQ1R2ZWaDJGZGtoNEl2bEZuNEIzZWMybkh3STNWTzJXYzhQQ3NkOWVV?=
- =?utf-8?B?NGNUaWhBVkZuektvakVSV0ZSZXErU1U3UVRHdDdpQ24rYkl4dDlySmh2WGl5?=
- =?utf-8?B?VHIxTTRaam4zbWpMRjh4VjhyUWpxbmZ3aVFnL2Q4R1ZSSEJoY1Z6K2Y3M1Ix?=
- =?utf-8?B?SEVIRzlhZ1E0ancwTGJwZ0VEWkllT0V3ekY5MHlYRVRGTzIyeG1RRVFpaGV2?=
- =?utf-8?B?aGdRa1B0SlpEakFOVEU4aXZQSGM0RjR5cGZlNFBhT3M3WWNpeDRIak85aUtP?=
- =?utf-8?B?RktQV3FRdHFoZDBteENRRkR3S05ySzAybkxYYXYvMDhwSVUvN040R3dNZzIy?=
- =?utf-8?B?T1ExaVh6SC9MVi9jYkhpSk5ENFBRT1d5ZEJ2SGRKa1JQVjZ2VGdTYTdxdExR?=
- =?utf-8?B?UlMzUmppVGI5c1ZnRk14K0RpQ01JK1lHQWhMM3hJMDdHK0FwSTI3LzJKZXYz?=
- =?utf-8?B?TGkySUUyR0xzSTZIeksvUlMydVFuTnY1THUxa1RrUTJtQ09sNURKMjZEWlR6?=
- =?utf-8?B?WjdwMUk4SzZvZ3RpeDg4bEV1MTdTS3BwelRGOUNqOTFoSkFqTGpnaUZMUkJk?=
- =?utf-8?B?bHcycDhzdncxZFNFRWxhT1ZWMDNXZ0hGbmZQOWRxb25oZ1RoR2RzMUtXcmVR?=
- =?utf-8?B?ZU9NcVVUbHFXZllRcTd1WVpLZS9seTRaK2dMbXJUSkRGa1RIb3k0WGxEZzFQ?=
- =?utf-8?B?SFY2N2hKUE44VWoweE1CRXZGUjRYdTI3ZDl5TTdtN0RnbjNDUXRzejZTeWJP?=
- =?utf-8?B?cmtOTnpXYlNWR2l3aVZCQWJYWmpMNEhKSmlDQTVQalM4UExrMWcyUHZkMTdL?=
- =?utf-8?B?TWp5cmJ1TnZFUHhWaS9kUXlTYWxheTlPWk14dEJVM2ZoeUVDWmhtUGQzMVdR?=
- =?utf-8?B?bVNueFZiZGZ5ZDZwRk5ESWxxQ2RpZVBxTVlFVXM4QzNrTUVLZG1uZXZaVGdD?=
- =?utf-8?B?dG4zWENhZHpvbkg2K0pia1JMVWJ0VGloVStSZXhUSERDRnBLSGRpcE1mVFZN?=
- =?utf-8?B?UHJacC94VTF0VVV2MW45TlZUQkgrc3FBOWhRcU9IQzBqdXZ3VmNrZmFlTUl0?=
- =?utf-8?B?UGkzR3BJWTNwN1NhQkpaYTNZYW9HVTlKRDNPWWRLN3pST2ZyUmgxZ003L0Zk?=
- =?utf-8?B?WWJ2RU16QjI3cGlGbFlha2JMRmttUEF1cDdEQ3ZOalYxRzRWNVM3Mmtvb1lj?=
- =?utf-8?B?cHptaVhSRUhvSGdlNjJ2ejJlb2RtUm5haTZ4Qk5FZS9kVW9BSjdJc090bHVO?=
- =?utf-8?B?dzNYT2hwRDdJNnQxQk5LVGF3TGJWUVpnSjBVbVZZQjltUm9kYWVmWmhHd0dY?=
- =?utf-8?B?cjNBWlFsYXlIOEk1VVFrR21iSXY3V1NkaERMaWNPTkRZeU9ycFV5Zz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7698e94-58c7-4405-1d92-08de4ec27ca9
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 14:30:35.8517
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yUXZVF3SJkSegPGzs0BG8ASNJI6auAANNG8uidyfkfzca4ZdOIoOQ1m052rW9fIbSym85RiNa9xVHQKEG44VUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF7B4E3DFF8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108113134.000040fd@huawei.com>
 
+On 26/01/08 11:31AM, Jonathan Cameron wrote:
+> On Wed,  7 Jan 2026 09:33:11 -0600
+> John Groves <John@Groves.net> wrote:
+> 
+> > The new fsdev driver provides pages/folios initialized compatibly with
+> > fsdax - normal rather than devdax-style refcounting, and starting out
+> > with order-0 folios.
+> > 
+> > When fsdev binds to a daxdev, it is usually (always?) switching from the
+> > devdax mode (device.c), which pre-initializes compound folios according
+> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> > folios into a fsdax-compatible state.
+> > 
+> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> > mmap capability.
+> > 
+> > In this commit is just the framework, which remaps pages/folios compatibly
+> > with fsdax.
+> > 
+> > Enabling dax changes:
+> > 
+> > * bus.h: add DAXDRV_FSDEV_TYPE driver type
+> > * bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> > * dax.h: prototype inode_dax(), which fsdev needs
+> > 
+> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> > Suggested-by: Gregory Price <gourry@gourry.net>
+> > Signed-off-by: John Groves <john@groves.net>
+> 
+> > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
+> > index d656e4c0eb84..491325d914a8 100644
+> > --- a/drivers/dax/Kconfig
+> > +++ b/drivers/dax/Kconfig
+> > @@ -78,4 +78,21 @@ config DEV_DAX_KMEM
+> >  
+> >  	  Say N if unsure.
+> >  
+> > +config DEV_DAX_FS
+> > +	tristate "FSDEV DAX: fs-dax compatible device driver"
+> > +	depends on DEV_DAX
+> > +	default DEV_DAX
+> 
+> What's the logic for the default? Generally I'd not expect a
+> default for something new like this (so default of default == no)
+> 
+> > +	help
+> > +	  Support a device-dax driver mode that is compatible with fs-dax
+> 
+> ...
+> 
+> 
+> 
+> >  struct dax_device_driver {
+> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> > new file mode 100644
+> > index 000000000000..2a3249d1529c
+> > --- /dev/null
+> > +++ b/drivers/dax/fsdev.c
+> > @@ -0,0 +1,276 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Copyright(c) 2026 Micron Technology, Inc. */
+> > +#include <linux/memremap.h>
+> > +#include <linux/pagemap.h>
+> > +#include <linux/module.h>
+> > +#include <linux/device.h>
+> > +#include <linux/cdev.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/dax.h>
+> > +#include <linux/fs.h>
+> > +#include <linux/mm.h>
+> > +#include "dax-private.h"
+> > +#include "bus.h"
+> 
+> ...
+> 
+> > +static void fsdev_cdev_del(void *cdev)
+> > +{
+> > +	cdev_del(cdev);
+> > +}
+> > +
+> > +static void fsdev_kill(void *dev_dax)
+> > +{
+> > +	kill_dev_dax(dev_dax);
+> > +}
+> 
+> ...
+> 
+> > +/*
+> > + * Clear any stale folio state from pages in the given range.
+> > + * This is necessary because device_dax pre-initializes compound folios
+> > + * based on vmemmap_shift, and that state may persist after driver unbind.
+> 
+> What's the argument for not cleaning these out in the unbind path for device_dax?
+> I can see that it might be an optimization if some other code path blindly
+> overwrites all this state.
 
-On 26/12/25 05:50, Bagas Sanjaya wrote:
-> On Tue, Dec 23, 2025 at 05:43:03PM +0530, Sumit Gupta wrote:
->> +		Write the bitmask of bits to clear:
->> +		  1 = clear bit 0 (desired performance excursion)
->> +		  2 = clear bit 1 (minimum performance excursion)
->> +		  3 = clear both bits
->> +		The platform sets these bits; OSPM can only clear them.
-> Sphinx reports htmldocs warning:
->
-> Documentation/ABI/testing/sysfs-devices-system-cpu:356: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
->
-> I have to fix up the bitmask list:
->
-> ---- >8 ----
-> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> index b022cbf46adcfe..8cda698019922b 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-> @@ -363,9 +363,11 @@ Description:	Performance Limited
->   		requested level. A non-zero value indicates throttling occurred.
->   
->   		Write the bitmask of bits to clear:
-> -		  1 = clear bit 0 (desired performance excursion)
-> -		  2 = clear bit 1 (minimum performance excursion)
-> -		  3 = clear both bits
-> +
-> +		- 1 = clear bit 0 (desired performance excursion)
-> +		- 2 = clear bit 1 (minimum performance excursion)
-> +		- 3 = clear both bits
-> +
->   		The platform sets these bits; OSPM can only clear them.
->   
->   		This file is only present if the cppc-cpufreq driver is in use.
->
-> Thanks.
->
+I prefer this because it doesn't rely on some other module having done the
+right thing. Dax maintainers might have thoughts too though.
 
-Thanks for the change.
+> 
+> > + * Since fsdev_dax uses MEMORY_DEVICE_FS_DAX without vmemmap_shift, fs-dax
+> > + * expects to find clean order-0 folios that it can build into compound
+> > + * folios on demand.
+> > + *
+> > + * At probe time, no filesystem should be mounted yet, so all mappings
+> > + * are stale and must be cleared along with compound state.
+> > + */
+> > +static void fsdev_clear_folio_state(struct dev_dax *dev_dax)
+> > +{
+> > +	int i;
+> 
+> It's becoming increasingly common to declare loop variables as
+> for (int i = 0; i <...
+> 
+> and given that saves us a few lines here it seems worth doing.
 
+Done thanks
 
+> 
+> > +
+> > +	for (i = 0; i < dev_dax->nr_range; i++) {
+> > +		struct range *range = &dev_dax->ranges[i].range;
+> > +		unsigned long pfn, end_pfn;
+> > +
+> > +		pfn = PHYS_PFN(range->start);
+> > +		end_pfn = PHYS_PFN(range->end) + 1;
+> 
+> Might as well do
+> 		unsigned long pfn = PHY_PFN(range->start);
+> 		unsigned long end_pfn = PHYS_PFN(range->end) + 1;
+
+Sounds good, done
+
+> > +
+> > +		while (pfn < end_pfn) {
+> > +			struct page *page = pfn_to_page(pfn);
+> > +			struct folio *folio = (struct folio *)page;
+> > +			struct dev_pagemap *pgmap = page_pgmap(page);
+> > +			int order = folio_order(folio);
+> > +
+> > +			/*
+> > +			 * Clear any stale mapping pointer. At probe time,
+> > +			 * no filesystem is mounted, so any mapping is stale.
+> > +			 */
+> > +			folio->mapping = NULL;
+> > +			folio->share = 0;
+> > +
+> > +			if (order > 0) {
+> > +				int j;
+> > +
+> > +				folio_reset_order(folio);
+> > +				for (j = 0; j < (1UL << order); j++) {
+> > +					struct page *p = page + j;
+> > +
+> > +					ClearPageHead(p);
+> > +					clear_compound_head(p);
+> > +					((struct folio *)p)->mapping = NULL;
+> 
+> This code block is very similar to a chunk in dax_folio_put() in fs/dax.c
+> 
+> Can we create a helper for both to use?
+> 
+> I note that uses a local struct folio *new_folio to avoid multiple casts.
+> I'd do similar here even if it's a long line.
+>  
+> If not possible to use a common helper, it is probably still worth
+> having a helper here for the stuff in the while loop just to reduce indent
+> and improve readability a little.
+
+Good catch! You shall have a Suggested-by in the next version, which will
+inject a commit right before this that factors out dax_folio_reset_order()
+from dax_folio_put(). Then fsdev_clear_folio_state() will also call that.
+
+> 
+> > +					((struct folio *)p)->share = 0;
+> > +					((struct folio *)p)->pgmap = pgmap;
+> > +				}
+> > +				pfn += (1UL << order);
+> > +			} else {
+> > +				folio->pgmap = pgmap;
+> > +				pfn++;
+> > +			}
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +static int fsdev_open(struct inode *inode, struct file *filp)
+> > +{
+> > +	struct dax_device *dax_dev = inode_dax(inode);
+> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> > +
+> > +	dev_dbg(&dev_dax->dev, "trace\n");
+> 
+> Hmm. This is a somewhat odd, but I see dax/device.c does
+> the same thing and I guess that's because you are using
+> dynamic debug with function names turned on to provide the
+> 'real' information.
+
+Actually I just have it from the gut-and-repurpose of device.c.
+Dropping from fsdev.c as I'm not using it.
+
+> 
+> 
+> 
+> > +	filp->private_data = dev_dax;
+> > +
+> > +	return 0;
+> > +}
+> 
+> > +static int fsdev_dax_probe(struct dev_dax *dev_dax)
+> > +{
+> > +	struct dax_device *dax_dev = dev_dax->dax_dev;
+> > +	struct device *dev = &dev_dax->dev;
+> > +	struct dev_pagemap *pgmap;
+> > +	u64 data_offset = 0;
+> > +	struct inode *inode;
+> > +	struct cdev *cdev;
+> > +	void *addr;
+> > +	int rc, i;
+> > +
+> 
+> A bunch of this is cut and paste from dax/device.c
+> If it carries on looking like this, can we have a helper module that
+> both drivers use with the common code in it? That would make the
+> difference more obvious as well.
+
+Makes sense. I'll wait for thoughts from the dax people before
+flipping bits on this though.
+
+> 
+> > +	if (static_dev_dax(dev_dax))  {
+> > +		if (dev_dax->nr_range > 1) {
+> > +			dev_warn(dev,
+> > +				"static pgmap / multi-range device conflict\n");
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		pgmap = dev_dax->pgmap;
+> > +	} else {
+> > +		if (dev_dax->pgmap) {
+> > +			dev_warn(dev,
+> > +				 "dynamic-dax with pre-populated page map\n");
+> Unless dax maintainers are very fussy about 80 chars, I'd go long on these as it's
+> only just over 80 chars on one line.
+> 
+> Given you are failing probe, not sure why dev_warn() is considered sufficient.
+> To me dev_err() seems more sensible. What you have matches dax/device.c though
+> so maybe there is a sound reason.
+
+I'm personally a bit fussy about 80 column code, being kinda old and favoring
+80 column emacs windows :D - mulling it over.
+
+> 
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		pgmap = devm_kzalloc(dev,
+> > +			struct_size(pgmap, ranges, dev_dax->nr_range - 1),
+> > +				     GFP_KERNEL);
+> Pick an alignment style and stick to it.  Either.
+> 		pgmap = devm_kzalloc(dev,
+> 			struct_size(pgmap, ranges, dev_dax->nr_range - 1),
+> 			GFP_KERNEL);
+> 
+> or go long for readability and do
+> 		pgmap = devm_kzalloc(dev,
+> 				     struct_size(pgmap, ranges, dev_dax->nr_range - 1),
+> 				     GFP_KERNEL);
+
+Will do something cleaner. This is the aforementioned 80 column curmudgeonliness
+at work...
+
+> 
+> 
+> 
+> > +		if (!pgmap)
+> > +			return -ENOMEM;
+> > +
+> > +		pgmap->nr_range = dev_dax->nr_range;
+> > +		dev_dax->pgmap = pgmap;
+> > +
+> > +		for (i = 0; i < dev_dax->nr_range; i++) {
+> > +			struct range *range = &dev_dax->ranges[i].range;
+> > +
+> > +			pgmap->ranges[i] = *range;
+> > +		}
+> > +	}
+> > +
+> > +	for (i = 0; i < dev_dax->nr_range; i++) {
+> > +		struct range *range = &dev_dax->ranges[i].range;
+> > +
+> > +		if (!devm_request_mem_region(dev, range->start,
+> > +					range_len(range), dev_name(dev))) {
+> > +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
+> > +					i, range->start, range->end);
+> > +			return -EBUSY;
+> > +		}
+> > +	}
+> > +
+> > +	/*
+> > +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
+> > +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
+> > +	 * allowing fs-dax to dynamically create compound folios as needed
+> > +	 * (similar to pmem behavior).
+> > +	 */
+> > +	pgmap->type = MEMORY_DEVICE_FS_DAX;
+> > +	pgmap->ops = &fsdev_pagemap_ops;
+> > +	pgmap->owner = dev_dax;
+> > +
+> > +	/*
+> > +	 * CRITICAL DIFFERENCE from device.c:
+> > +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
+> > +	 * This ensures folios remain order-0 and are compatible with
+> > +	 * fs-dax's folio management.
+> > +	 */
+> > +
+> > +	addr = devm_memremap_pages(dev, pgmap);
+> > +	if (IS_ERR(addr))
+> > +		return PTR_ERR(addr);
+> > +
+> > +	/*
+> > +	 * Clear any stale compound folio state left over from a previous
+> > +	 * driver (e.g., device_dax with vmemmap_shift).
+> > +	 */
+> > +	fsdev_clear_folio_state(dev_dax);
+> > +
+> > +	/* Detect whether the data is at a non-zero offset into the memory */
+> > +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
+> > +		u64 phys = dev_dax->ranges[0].range.start;
+> > +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
+> > +
+> > +		if (!WARN_ON(pgmap_phys > phys))
+> > +			data_offset = phys - pgmap_phys;
+> > +
+> > +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
+> > +		       __func__, phys, pgmap_phys, data_offset);
+> > +	}
+> > +
+> > +	inode = dax_inode(dax_dev);
+> > +	cdev = inode->i_cdev;
+> > +	cdev_init(cdev, &fsdev_fops);
+> > +	cdev->owner = dev->driver->owner;
+> > +	cdev_set_parent(cdev, &dev->kobj);
+> > +	rc = cdev_add(cdev, dev->devt, 1);
+> > +	if (rc)
+> > +		return rc;
+> > +
+> > +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
+> > +	if (rc)
+> > +		return rc;
+> > +
+> > +	run_dax(dax_dev);
+> > +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
+> > +}
+> > +
+> > +static struct dax_device_driver fsdev_dax_driver = {
+> > +	.probe = fsdev_dax_probe,
+> > +	.type = DAXDRV_FSDEV_TYPE,
+> > +};
+> > +
+> > +static int __init dax_init(void)
+> > +{
+> > +	return dax_driver_register(&fsdev_dax_driver);
+> > +}
+> > +
+> > +static void __exit dax_exit(void)
+> > +{
+> > +	dax_driver_unregister(&fsdev_dax_driver);
+> > +}
+> If these don't get more complex, maybe it's time for a dax specific define
+> using module_driver()
+
+I'll defer to the dax folks here
+
+> 
+> > +
+> > +MODULE_AUTHOR("John Groves");
+> > +MODULE_DESCRIPTION("FS-DAX Device: fs-dax compatible devdax driver");
+> > +MODULE_LICENSE("GPL");
+> > +module_init(dax_init);
+> > +module_exit(dax_exit);
+> > +MODULE_ALIAS_DAX_DEVICE(0);
+> 
+> Curious macro. Always has same parameter...  Maybe ripe for just dropping the parameter?
+> 
+> 
+
+Thanks!
+John
