@@ -1,96 +1,236 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A6B2D9ECD;
-	Thu,  8 Jan 2026 16:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A502DB78E
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 16:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767890561; cv=none; b=f9rsR1CWXRLQA/krCYXsJHxhg1NB1ToUuvkpygpAd9BLhIU08ko4234bIUcQhphEeoA6CavKmLlh70QEmNk4mYPIFyT3CRh0Gi7D9rf7/Nalsar56dHTHYZwsEOdr2IypvYYVc+wx8fciHWg0tnFUk+2Sc/Q0qDDt3HSLC7x4+M=
+	t=1767890743; cv=none; b=WnUO31s8PKtDxupo/dvJ3rB7FiRfCV0jgTaDhEQ4nf6ENK7DXrxMJjnW4xB9YXc8+HHefWja1jzplaEtH8lVDdjz/GDMbI0C8MB9sGRtlY8QM6SpY7VIHFvFJrt1EKNak6I6JRHTW4fjzZGOMGOzjMA9/pKdrmZUR+cUO6IRLpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767890561; c=relaxed/simple;
-	bh=2JTt6hDJvWzDTM0dUBCnhSTPgPA0XojNDbovadYlQYg=;
+	s=arc-20240116; t=1767890743; c=relaxed/simple;
+	bh=2IJIu49nVqGBoQe42aNWJnOAR4vdbhAJ7Wrm1X/fPT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HGDftm3fYX36d/61RQd3b7DOLChqtpdiMSjrvbTYbM3NbpTWeJhp0tyawqfbqz5/GWOCp8hblLZ7kNOm/9lh359QrvFz/D8klXv3dYSzw+F7ULrMBaOhm3qkvseOeltB0jt6sXzA3++ylYMUZgkjBwRgMWLsDF7EZSLFveY7NyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLvKHVYk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GsfVKN1fcP4IPh/tYdZ+QaUCIxfGsAv3QZZANArP+e+BdaW2XyO/W/Rl1YQs2JGYe/zdiwz/H99eZqBkAfxOOmwMo1xwe6ZWPf9uEMesUhb9Avu93lCNWkZwpuTnCWJMiMXInHld8EIhGKOIHix6nSc+AdeGgwPZIEEjywNv2pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxNrlmXK; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLvKHVYk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B89FC116C6;
-	Thu,  8 Jan 2026 16:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767890560;
-	bh=2JTt6hDJvWzDTM0dUBCnhSTPgPA0XojNDbovadYlQYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eLvKHVYkzB2xrU3XqpRv+2aLl6pb+jRfwARYY9Gxguxdkn8r9y0YSpc9yAOQyawit
-	 jBgZ5eOGLampXS8fNTGMK703bEQytzlTq802pMzoQzghCWEe7OXDUYVjBozH3DCnIj
-	 vnxYhigbIOOxXNN+2OyB7mlFksiJ3lyfhYBbLCtW3jfHL+uBKYkAP7fVGURjrCVufF
-	 Ug3dQE83ZJW7ZZEyzwCBVcURUF8xgKEjqODKKR1ibueNYt2Ydo/9eVTcWi5MVw8wiq
-	 V2+DYtzMYtGiZtRJ5NLbsCmxMBVkXZ4A26Z7p9xzeU+H6hdXHZiecp/bHsFvpZElwX
-	 LfyfkMgOlasPA==
-Date: Thu, 8 Jan 2026 16:42:29 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Fuad Tabba <tabba@google.com>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v9 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
- loading SME state
-Message-ID: <cb6372ea-b7f7-4e87-91b5-09378f2dd526@sirena.org.uk>
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
- <20251223-kvm-arm64-sme-v9-2-8be3867cb883@kernel.org>
- <CA+EHjTxdSnpFHkm6o85EtjQjAWemBfcv9Oq6omWyrrMdkOuuVA@mail.gmail.com>
- <3c8b4a5e-89f4-47e0-9a5d-24399407db0c@sirena.org.uk>
- <CA+EHjTxLkLjPj=1vwDqROXOUXi2LhOQb90WP6dFaTiYG1nWovA@mail.gmail.com>
- <e50b4923-ee45-43de-9d4e-344546c635bb@sirena.org.uk>
- <CA+EHjTybF+aq2b2vhcEqi6U_sJjtt7ngzMZ9UcJ15G-Kqj=A9A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxNrlmXK"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7c701097a75so1946645a34.3
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 08:45:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767890740; x=1768495540; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YcX6Nsb5jsPLQqNF+fUqFlMwldCLm2ep3AodwpvYvao=;
+        b=DxNrlmXKwLWPpF8tBuqD08nwzxIC/rlHDCCsxglc3d9G9OcCXRiAEctQyxy5ewUgOG
+         eWdJbPaZqEmA+mYBsKA1CVdarJF7pmtcH8vqWAvhjnGw2ExrlTsBRzhXqzAn1ndkYK1L
+         r3pMZNFNgRGhJNAwEWqcTUY6RicHWFBaAn1mvTQYdMaQ9LMdDiAR3dfx+UmwqxCOHIqK
+         P3NUyrLyQBmBM6weSrLfRHk2JIggf1hc7lSdWiE1gC78HZSLgZ/z4pl/84gUKnJ9PqQL
+         itDq2Nf76pFjlThjcMUt3KLATHX1xPrCxzSOBpxhbwX43FI382QKGJNdDxkhWNWt1sNG
+         94xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767890740; x=1768495540;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YcX6Nsb5jsPLQqNF+fUqFlMwldCLm2ep3AodwpvYvao=;
+        b=r+CBFH5RMAF6tPOqbRColWJCOn1xUp0ovswQcrN2r7bG5IMlQI9237ipE2Vkpcfaz7
+         f8jAh6PogLcvNTxD3cgFpqmbzrVzi7Gl4m4wSCqvXIdy9t49r2C2zjxAxZkoVibiRppA
+         oQsRElc9EjbeHGMSMaaIQ0wVbawXcieDPd2hF6zvtixApAhno3yZIH6gTsfnIEdYGekV
+         z1ITiDreJg2CLWyf8rzdJa58NfA6Ffg10ccZlfHS/+mZ1a4we+RN3gAdEdUCra5W6YWG
+         x4icusjPK24O2ZXxO26lUSFBYE/srizZOf5Ijj8qapB0Jc52UE2V9/PM3PBi8h3XcTeL
+         diIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWH6YpLcN+5Brs0Kp97JwSJeLPL84arRMBeYjiqwSsORIUE5xoZFQpQ5feWm5uCDyTdK3yrc+tZlco=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWRCH0sdGekL8oafuaVdMFjHDTKise5jwN5zuOuzdNYbc9Vetx
+	kjRJ4VWrtlnUBuqHBsSUwvqkLhhJI45nE8HoXzyjLra4w6d68qRAk0jaz1gRXw==
+X-Gm-Gg: AY/fxX6j6PGCjWdw2fJeFcTG6CKpn4a5eKEGQ5tJOdTIa4nfceFhuOaZKLkfDDJKDqA
+	1VESXEEqAdWZ9tU6b7CB88/7tUU9jFM4YGW/24gxtw9D2sr2E9Xb2IBQEefmcjyn/s3/ahmVjNq
+	bZeLNhfhhm2y3grJ8S7uz1jRTxvT1TwtZlRFScP26u0Yy0CP8qPccJcEMptl+jMhvQh17rhCHWU
+	/9PV0eEUJouquFKp61HbNk5NRcBYKXUNyYjheZboVQkzXQxt1zJrR/J7ZP3TeYnjrGHm8qqb249
+	AoTytsvmw01m+vBz8gAmijNY8Um/JRQB9RLNd+SCeHBne6VKySXTtyBg+Vap9WBv4gKOxTJfZ6F
+	VKU96wSZgSGmP52MoBFeFoas33HtyEq+B29IXGrIBEv0fjLJR4UfoSVkTsHtXy+MoB67IRX0pOC
+	erni7Zs7YYpm9y4sFXslmr0CO7MZSG/A==
+X-Google-Smtp-Source: AGHT+IGTUMnCiBC6iUnPHjbRq87vRaF81pdxH2sKruM8zWd2J2yHLKrwGBkVk06TI+Ws/ufWC2Ll+A==
+X-Received: by 2002:a05:6830:230c:b0:7ca:ea23:f851 with SMTP id 46e09a7af769-7ce508ceb6cmr4713986a34.13.1767890739689;
+        Thu, 08 Jan 2026 08:45:39 -0800 (PST)
+Received: from groves.net ([2603:8080:1500:3d89:902b:954a:a912:b0f5])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478029a6sm5683506a34.3.2026.01.08.08.45.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 08:45:39 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Thu, 8 Jan 2026 10:45:37 -0600
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH V3 06/21] dax: Add fs_dax_get() func to prepare dax for
+ fs-dax usage
+Message-ID: <d7blicnyehixccalrrmw4wschyngqkjt5jdleesjqcjtwcav4a@wblo3f53shkh>
+References: <20260107153244.64703-1-john@groves.net>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-7-john@groves.net>
+ <20260108122713.00007e54@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IBbOtxmVdG86xy2i"
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTybF+aq2b2vhcEqi6U_sJjtt7ngzMZ9UcJ15G-Kqj=A9A@mail.gmail.com>
-X-Cookie: If you suspect a man, don't employ him.
-
-
---IBbOtxmVdG86xy2i
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260108122713.00007e54@huawei.com>
 
-On Thu, Jan 08, 2026 at 04:19:34PM +0000, Fuad Tabba wrote:
+On 26/01/08 12:27PM, Jonathan Cameron wrote:
+> On Wed,  7 Jan 2026 09:33:15 -0600
+> John Groves <John@Groves.net> wrote:
+> 
+> > The fs_dax_get() function should be called by fs-dax file systems after
+> > opening a fsdev dax device. This adds holder_operations, which provides
+> > a memory failure callback path and effects exclusivity between callers
+> > of fs_dax_get().
+> > 
+> > fs_dax_get() is specific to fsdev_dax, so it checks the driver type
+> > (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
+> > not bound to the memory.
+> > 
+> > This function serves the same role as fs_dax_get_by_bdev(), which dax
+> > file systems call after opening the pmem block device.
+> > 
+> > This can't be located in fsdev.c because struct dax_device is opaque
+> > there.
+> > 
+> > This will be called by fs/fuse/famfs.c in a subsequent commit.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> Hi John,
+> 
+> A few passing comments on this one.
+> 
+> Jonathan
+> 
+> > ---
+> 
+> >  #define dax_driver_register(driver) \
+> > diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> > index ba0b4cd18a77..68c45b918cff 100644
+> > --- a/drivers/dax/super.c
+> > +++ b/drivers/dax/super.c
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/fs.h>
+> >  #include <linux/cacheinfo.h>
+> >  #include "dax-private.h"
+> > +#include "bus.h"
+> >  
+> >  /**
+> >   * struct dax_device - anchor object for dax services
+> > @@ -121,6 +122,59 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
+> >  EXPORT_SYMBOL_GPL(fs_put_dax);
+> >  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+> >  
+> > +#if IS_ENABLED(CONFIG_DEV_DAX_FS)
+> > +/**
+> > + * fs_dax_get() - get ownership of a devdax via holder/holder_ops
+> > + *
+> > + * fs-dax file systems call this function to prepare to use a devdax device for
+> > + * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
+> > + * dev_dax (and there is no bdev). The holder makes this exclusive.
+> > + *
+> > + * @dax_dev: dev to be prepared for fs-dax usage
+> > + * @holder: filesystem or mapped device inside the dax_device
+> > + * @hops: operations for the inner holder
+> > + *
+> > + * Returns: 0 on success, <0 on failure
+> > + */
+> > +int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> > +	const struct dax_holder_operations *hops)
+> > +{
+> > +	struct dev_dax *dev_dax;
+> > +	struct dax_device_driver *dax_drv;
+> > +	int id;
+> > +
+> > +	id = dax_read_lock();
+> 
+> Given this is an srcu_read_lock under the hood you could do similar
+> to the DEFINE_LOCK_GUARD_1 for the srcu (srcu.h) (though here it's a
+> DEFINE_LOCK_GUARD_0 given the lock itself isn't a parameter and then
+> use scoped_guard() here.  Might not be worth the hassle and would need
+> a wrapper macro to poke &dax_srcu in which means exposing that at least
+> a little in a header.
+> 
+> DEFINE_LOCK_GUARD_0(_T->idx = dax_read_lock, dax_read_lock(_T->idx), idx);
+> Based loosely on the irqflags.h irqsave one. 
 
-> Would it be worth adding a comment above the macro noting this
-> difference from sve_cond_update_zcr_vq()? Something along the lines of
-> 'Intentionally overwrites to ensure strict control of enable bits', to
-> save future readers from getting confused...
+I'm getting more comfortable with scoped_guard(), but this feels like
+a good leanup patch addressing all call sites of dax_read_lock() - after
+the famfs dust settles.
 
-Sure, makes sense.  Possibly also rename it, I'll have a think.
+If feelings are strong about this I'm open...
 
---IBbOtxmVdG86xy2i
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> > +	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
+> > +		dax_read_unlock(id);
+> > +		return -ENODEV;
+> > +	}
+> > +	dax_read_unlock(id);
+> > +
+> > +	/* Verify the device is bound to fsdev_dax driver */
+> > +	dev_dax = dax_get_private(dax_dev);
+> > +	if (!dev_dax || !dev_dax->dev.driver) {
+> > +		iput(&dax_dev->inode);
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	dax_drv = to_dax_drv(dev_dax->dev.driver);
+> > +	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
+> > +		iput(&dax_dev->inode);
+> > +		return -EOPNOTSUPP;
+> > +	}
+> > +
+> > +	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
+> > +		iput(&dax_dev->inode);
+> > +		return -EBUSY;
+> > +	}
+> > +
+> > +	dax_dev->holder_ops = hops;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(fs_dax_get);
+> > +#endif /* DEV_DAX_FS */
+> > +
+> >  enum dax_device_flags {
+> >  	/* !alive + rcu grace period == no new operations / mappings */
+> >  	DAXDEV_ALIVE,
+> > diff --git a/include/linux/dax.h b/include/linux/dax.h
+> > index 3fcd8562b72b..76f2a75f3144 100644
+> > --- a/include/linux/dax.h
+> > +++ b/include/linux/dax.h
+> > @@ -53,6 +53,7 @@ struct dax_holder_operations {
+> >  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+> >  
+> >  #if IS_ENABLED(CONFIG_DEV_DAX_FS)
+> > +int fs_dax_get(struct dax_device *dax_dev, void *holder, const struct dax_holder_operations *hops);
+> I'd wrap this.  It's rather long and there isn't a huge readability benefit in keeping
+> it on one line.
 
------BEGIN PGP SIGNATURE-----
+Done, thanks!
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlf3nQACgkQJNaLcl1U
-h9B9Tgf+IN7Byiwu2Z/BASg5BnKyxCB2XaDCnpzYIDqiBTAHcDa4uurE8parsO5u
-9gSiFE/fGFAUTL0ApBcB3Q+eZ0CzXPzCri5Ao2rb19bWYj4OnhSmsrBiVvgjWc92
-pyUPxBVcXfScjS/eFtDSjiBIjLWbvOjFRRSbc2W/CJzcwBH0Ch6A35vBv5plM4QJ
-txTV72D3BnfnQFqt5cNi3UFVg+XpZQQ/i6+ickNqRBJKRy6Q9LKvoYegHabPvt8g
-oOo8YpwCAqUYl8dAEFrHLU6t0JMmMnLMzUCBDDKcTwZbZd/zMyd9L8jGbtMMuim6
-6FXHMUIcx+PFnhj4HinUO/IJYZX31A==
-=FXRp
------END PGP SIGNATURE-----
+John
 
---IBbOtxmVdG86xy2i--
