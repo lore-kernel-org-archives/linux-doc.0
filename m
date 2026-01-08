@@ -1,236 +1,118 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-of-o50.zoho.com (sender4-of-o50.zoho.com [136.143.188.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A502DB78E
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 16:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767890743; cv=none; b=WnUO31s8PKtDxupo/dvJ3rB7FiRfCV0jgTaDhEQ4nf6ENK7DXrxMJjnW4xB9YXc8+HHefWja1jzplaEtH8lVDdjz/GDMbI0C8MB9sGRtlY8QM6SpY7VIHFvFJrt1EKNak6I6JRHTW4fjzZGOMGOzjMA9/pKdrmZUR+cUO6IRLpI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767890743; c=relaxed/simple;
-	bh=2IJIu49nVqGBoQe42aNWJnOAR4vdbhAJ7Wrm1X/fPT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GsfVKN1fcP4IPh/tYdZ+QaUCIxfGsAv3QZZANArP+e+BdaW2XyO/W/Rl1YQs2JGYe/zdiwz/H99eZqBkAfxOOmwMo1xwe6ZWPf9uEMesUhb9Avu93lCNWkZwpuTnCWJMiMXInHld8EIhGKOIHix6nSc+AdeGgwPZIEEjywNv2pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxNrlmXK; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381702DA75C;
+	Thu,  8 Jan 2026 16:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767890854; cv=pass; b=ez5tOOnLx6JrAYomov2FNXabVV/bk6yEYBggtd21S47Nrkj7JYIMshCfXcQ9KK1MpqCINxZBYfWxtCQ8pm/+CHZVxPiopKYGFMnf42yZI5s0W06bsqYPfxhNv+yHFgdNuSQJiR5m1+vzZHRzm+et/nWrWyxhpbogseHcDBVPSRk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767890854; c=relaxed/simple;
+	bh=S3k2D/Q5Lqi++kUHj7B/31tkL0MgBzNU01O6nWdKSGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LBWEu68DuTSIj2UJL5bc8nVwC6P4a7U7Qq7czmBiAjI57rtvxS+orXpfPDx+0svP6eq7Tpuyky2/Jv0Uy6qv9evbphxfOaKfNGK1LIG2qQNJFehHnkoS8jcGLMnZlaNVuu16HeJ1BUCn4zMwNrEBIfFV4zLRW1jInXLf1dfyJw4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=VI0DVW3M; arc=pass smtp.client-ip=136.143.188.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxNrlmXK"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7c701097a75so1946645a34.3
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 08:45:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767890740; x=1768495540; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YcX6Nsb5jsPLQqNF+fUqFlMwldCLm2ep3AodwpvYvao=;
-        b=DxNrlmXKwLWPpF8tBuqD08nwzxIC/rlHDCCsxglc3d9G9OcCXRiAEctQyxy5ewUgOG
-         eWdJbPaZqEmA+mYBsKA1CVdarJF7pmtcH8vqWAvhjnGw2ExrlTsBRzhXqzAn1ndkYK1L
-         r3pMZNFNgRGhJNAwEWqcTUY6RicHWFBaAn1mvTQYdMaQ9LMdDiAR3dfx+UmwqxCOHIqK
-         P3NUyrLyQBmBM6weSrLfRHk2JIggf1hc7lSdWiE1gC78HZSLgZ/z4pl/84gUKnJ9PqQL
-         itDq2Nf76pFjlThjcMUt3KLATHX1xPrCxzSOBpxhbwX43FI382QKGJNdDxkhWNWt1sNG
-         94xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767890740; x=1768495540;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YcX6Nsb5jsPLQqNF+fUqFlMwldCLm2ep3AodwpvYvao=;
-        b=r+CBFH5RMAF6tPOqbRColWJCOn1xUp0ovswQcrN2r7bG5IMlQI9237ipE2Vkpcfaz7
-         f8jAh6PogLcvNTxD3cgFpqmbzrVzi7Gl4m4wSCqvXIdy9t49r2C2zjxAxZkoVibiRppA
-         oQsRElc9EjbeHGMSMaaIQ0wVbawXcieDPd2hF6zvtixApAhno3yZIH6gTsfnIEdYGekV
-         z1ITiDreJg2CLWyf8rzdJa58NfA6Ffg10ccZlfHS/+mZ1a4we+RN3gAdEdUCra5W6YWG
-         x4icusjPK24O2ZXxO26lUSFBYE/srizZOf5Ijj8qapB0Jc52UE2V9/PM3PBi8h3XcTeL
-         diIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWH6YpLcN+5Brs0Kp97JwSJeLPL84arRMBeYjiqwSsORIUE5xoZFQpQ5feWm5uCDyTdK3yrc+tZlco=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWRCH0sdGekL8oafuaVdMFjHDTKise5jwN5zuOuzdNYbc9Vetx
-	kjRJ4VWrtlnUBuqHBsSUwvqkLhhJI45nE8HoXzyjLra4w6d68qRAk0jaz1gRXw==
-X-Gm-Gg: AY/fxX6j6PGCjWdw2fJeFcTG6CKpn4a5eKEGQ5tJOdTIa4nfceFhuOaZKLkfDDJKDqA
-	1VESXEEqAdWZ9tU6b7CB88/7tUU9jFM4YGW/24gxtw9D2sr2E9Xb2IBQEefmcjyn/s3/ahmVjNq
-	bZeLNhfhhm2y3grJ8S7uz1jRTxvT1TwtZlRFScP26u0Yy0CP8qPccJcEMptl+jMhvQh17rhCHWU
-	/9PV0eEUJouquFKp61HbNk5NRcBYKXUNyYjheZboVQkzXQxt1zJrR/J7ZP3TeYnjrGHm8qqb249
-	AoTytsvmw01m+vBz8gAmijNY8Um/JRQB9RLNd+SCeHBne6VKySXTtyBg+Vap9WBv4gKOxTJfZ6F
-	VKU96wSZgSGmP52MoBFeFoas33HtyEq+B29IXGrIBEv0fjLJR4UfoSVkTsHtXy+MoB67IRX0pOC
-	erni7Zs7YYpm9y4sFXslmr0CO7MZSG/A==
-X-Google-Smtp-Source: AGHT+IGTUMnCiBC6iUnPHjbRq87vRaF81pdxH2sKruM8zWd2J2yHLKrwGBkVk06TI+Ws/ufWC2Ll+A==
-X-Received: by 2002:a05:6830:230c:b0:7ca:ea23:f851 with SMTP id 46e09a7af769-7ce508ceb6cmr4713986a34.13.1767890739689;
-        Thu, 08 Jan 2026 08:45:39 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:902b:954a:a912:b0f5])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478029a6sm5683506a34.3.2026.01.08.08.45.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 08:45:39 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Thu, 8 Jan 2026 10:45:37 -0600
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 06/21] dax: Add fs_dax_get() func to prepare dax for
- fs-dax usage
-Message-ID: <d7blicnyehixccalrrmw4wschyngqkjt5jdleesjqcjtwcav4a@wblo3f53shkh>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-7-john@groves.net>
- <20260108122713.00007e54@huawei.com>
+	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="VI0DVW3M"
+ARC-Seal: i=1; a=rsa-sha256; t=1767890794; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GL94SaYdSVdSzaaCtLiKHho6rAqEsiTDBCdTujMKnffvMXQmEMZddxpVG7tbDTto1C/c/aXWt6XqRat/6289MlEUFcKQVVwHWUjdnOK7x6G+z4vakULYkjyteVHrsCkHMu+CH/GMtXyrO1BFPZy0ZlmbsJIlD8Myn6dsldPX+ko=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1767890794; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=vYW75MrgiZPV+X+9iuY2Xb/OvMEyr70/MJdADot1GL4=; 
+	b=S3YnFmE6BwRnHHsZQKrlTvGG5mZqw5RoJ7BF+mQvab2ByDwehsWxJUGxDMQvCMBbv5XjOfXQEXFXbjqKAFz339wKyZbKdIGHxc1VfJcZqz4SOpZXNsnlLgsKWmad8n0HbrDx0w/XcRM52UMwA3WhoGvIYE0/axJd10iOS6ZYvrY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=apertussolutions.com;
+	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+	dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1767890794;
+	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=vYW75MrgiZPV+X+9iuY2Xb/OvMEyr70/MJdADot1GL4=;
+	b=VI0DVW3M+GHVPfRPPegYY5cJeRA/S5Va35BLYxMzAwQXO5rTOgrFicESHu8Is1Zc
+	cGXFKgoH5f+FqMsoBYs2xlij/OgB2xygVHPh+skIXDfE33oJxtQ4dkViZhMD/D80l2l
+	p1kRoToHUL+a+AN+B/Frnjxb3Pi0nZXChWmAD2Qk=
+Received: by mx.zohomail.com with SMTPS id 1767890790761241.33861597457576;
+	Thu, 8 Jan 2026 08:46:30 -0800 (PST)
+Message-ID: <9785eaec-fcc0-4b72-8f63-7f894e582f38@apertussolutions.com>
+Date: Thu, 8 Jan 2026 11:46:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108122713.00007e54@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
+Content-Language: en-US
+To: Dave Hansen <dave.hansen@intel.com>,
+ Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+ dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+ James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org,
+ jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
+ herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
+ ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com,
+ kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
+ trenchboot-devel@googlegroups.com
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <0cff620d-9be4-487d-8eb1-19375ca58a70@intel.com>
+ <91fd7e8e-6c64-458c-9d78-d97482d95705@apertussolutions.com>
+ <b22b52b3-804e-4c51-b49c-8705092ae544@intel.com>
+From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Autocrypt: addr=dpsmith@apertussolutions.com; keydata=
+ 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
+In-Reply-To: <b22b52b3-804e-4c51-b49c-8705092ae544@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On 26/01/08 12:27PM, Jonathan Cameron wrote:
-> On Wed,  7 Jan 2026 09:33:15 -0600
-> John Groves <John@Groves.net> wrote:
+On 1/8/26 11:41, Dave Hansen wrote:
+> On 1/8/26 08:36, Daniel P. Smith wrote:
+>> It was simply that it was the tip of torvalds/master at the time the
+>> patch series was prepared. As far as we could find, there is not a lot
+>> of guidance on commit selection in the patch guide. If there is a
+>> generally accepted convention we should follow, we would be glad to
+>> follow it.
 > 
-> > The fs_dax_get() function should be called by fs-dax file systems after
-> > opening a fsdev dax device. This adds holder_operations, which provides
-> > a memory failure callback path and effects exclusivity between callers
-> > of fs_dax_get().
-> > 
-> > fs_dax_get() is specific to fsdev_dax, so it checks the driver type
-> > (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
-> > not bound to the memory.
-> > 
-> > This function serves the same role as fs_dax_get_by_bdev(), which dax
-> > file systems call after opening the pmem block device.
-> > 
-> > This can't be located in fsdev.c because struct dax_device is opaque
-> > there.
-> > 
-> > This will be called by fs/fuse/famfs.c in a subsequent commit.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> Hi John,
+> Barring a specific dependency, pick something that is more likely to
+> have been tested. -rc's are fine. Linus's releases are fine.
 > 
-> A few passing comments on this one.
-> 
-> Jonathan
-> 
-> > ---
-> 
-> >  #define dax_driver_register(driver) \
-> > diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-> > index ba0b4cd18a77..68c45b918cff 100644
-> > --- a/drivers/dax/super.c
-> > +++ b/drivers/dax/super.c
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/fs.h>
-> >  #include <linux/cacheinfo.h>
-> >  #include "dax-private.h"
-> > +#include "bus.h"
-> >  
-> >  /**
-> >   * struct dax_device - anchor object for dax services
-> > @@ -121,6 +122,59 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
-> >  EXPORT_SYMBOL_GPL(fs_put_dax);
-> >  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
-> >  
-> > +#if IS_ENABLED(CONFIG_DEV_DAX_FS)
-> > +/**
-> > + * fs_dax_get() - get ownership of a devdax via holder/holder_ops
-> > + *
-> > + * fs-dax file systems call this function to prepare to use a devdax device for
-> > + * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
-> > + * dev_dax (and there is no bdev). The holder makes this exclusive.
-> > + *
-> > + * @dax_dev: dev to be prepared for fs-dax usage
-> > + * @holder: filesystem or mapped device inside the dax_device
-> > + * @hops: operations for the inner holder
-> > + *
-> > + * Returns: 0 on success, <0 on failure
-> > + */
-> > +int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> > +	const struct dax_holder_operations *hops)
-> > +{
-> > +	struct dev_dax *dev_dax;
-> > +	struct dax_device_driver *dax_drv;
-> > +	int id;
-> > +
-> > +	id = dax_read_lock();
-> 
-> Given this is an srcu_read_lock under the hood you could do similar
-> to the DEFINE_LOCK_GUARD_1 for the srcu (srcu.h) (though here it's a
-> DEFINE_LOCK_GUARD_0 given the lock itself isn't a parameter and then
-> use scoped_guard() here.  Might not be worth the hassle and would need
-> a wrapper macro to poke &dax_srcu in which means exposing that at least
-> a little in a header.
-> 
-> DEFINE_LOCK_GUARD_0(_T->idx = dax_read_lock, dax_read_lock(_T->idx), idx);
-> Based loosely on the irqflags.h irqsave one. 
+> Random snapshots in time are not likely to be widely tested and
+> shouldn't be used.
 
-I'm getting more comfortable with scoped_guard(), but this feels like
-a good leanup patch addressing all call sites of dax_read_lock() - after
-the famfs dust settles.
-
-If feelings are strong about this I'm open...
-
-> 
-> > +	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
-> > +		dax_read_unlock(id);
-> > +		return -ENODEV;
-> > +	}
-> > +	dax_read_unlock(id);
-> > +
-> > +	/* Verify the device is bound to fsdev_dax driver */
-> > +	dev_dax = dax_get_private(dax_dev);
-> > +	if (!dev_dax || !dev_dax->dev.driver) {
-> > +		iput(&dax_dev->inode);
-> > +		return -ENODEV;
-> > +	}
-> > +
-> > +	dax_drv = to_dax_drv(dev_dax->dev.driver);
-> > +	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
-> > +		iput(&dax_dev->inode);
-> > +		return -EOPNOTSUPP;
-> > +	}
-> > +
-> > +	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
-> > +		iput(&dax_dev->inode);
-> > +		return -EBUSY;
-> > +	}
-> > +
-> > +	dax_dev->holder_ops = hops;
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(fs_dax_get);
-> > +#endif /* DEV_DAX_FS */
-> > +
-> >  enum dax_device_flags {
-> >  	/* !alive + rcu grace period == no new operations / mappings */
-> >  	DAXDEV_ALIVE,
-> > diff --git a/include/linux/dax.h b/include/linux/dax.h
-> > index 3fcd8562b72b..76f2a75f3144 100644
-> > --- a/include/linux/dax.h
-> > +++ b/include/linux/dax.h
-> > @@ -53,6 +53,7 @@ struct dax_holder_operations {
-> >  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
-> >  
-> >  #if IS_ENABLED(CONFIG_DEV_DAX_FS)
-> > +int fs_dax_get(struct dax_device *dax_dev, void *holder, const struct dax_holder_operations *hops);
-> I'd wrap this.  It's rather long and there isn't a huge readability benefit in keeping
-> it on one line.
-
-Done, thanks!
-
-John
-
+Will do, thanks.
