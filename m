@@ -1,226 +1,125 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB59147202F
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 11:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47E5472D9C;
+	Thu,  8 Jan 2026 11:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767872269; cv=none; b=IA+xVYuYTC6oacKnycTvb1nYLFnCAw1fXyU7gW4fbCfDH9ZG0Xsj0HeDTR2kKWStblnAl96v0ZA3xIYdQANbvNVpXxrQ3nvFp+FSxRHg6/tr+duQC5Nl6s05esMR8HTMGoZwJZp9luhOa+CiZ6O+tqWmSzecfe8vZxOMAeVBK+Q=
+	t=1767872337; cv=none; b=Hps2l/WyyhlDsbQZbLmEZgBlw/BfFj/9LcbwMcgU002w9NIXNYu7y3sbxPyMm9FR+PbpRBZtt0Q/ZtAyq9rl4dNpjJ6avQnWzAWzRe3mDw9hvURq8lBvEX7+YGhbUI3W8YlB7JXg7SAAkM9ppceKES+vRlg5GmJoYzjbKWKVW/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767872269; c=relaxed/simple;
-	bh=hXMtQUgw4lOusUBMYTp6horW7LCwBe3omUVA+LVM/Xs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eVWT8XLqf0/3IDnxEpK6trFQ9KEzLNIrvsjMVPbvQlkqvAQWC7sE3bMpee8FzR41gZph+5PUwXNo4Bsgazoqqp4y0wxVdvDqazEFMWbEAP/lWKRKGF0SotgXhczb0X5oworMRP6RyvEZ7yppncMIZnUZ4UbeEWON3uq+je0LmXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0O2/jLuI; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1767872337; c=relaxed/simple;
+	bh=+eR7D2KfjGbkCbqsLHlFXsILmSKDTy5psf3XB+R6OII=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BoNw6QA67d/uutG1BtNBHbzF2CtOgJCimeJNkMrRrznWrzkNGUho+oVoLKpsh/HXSFVETferLuDWy2y/iRvv1oo6+i316ckQGsRCptnrdZRDWb2Ney9PcLxGKKPRswFEWCHzgffyA5gDPifX9IYldKLju6gGyIEXHcAxZR/YEKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=uq+YrUWW; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0O2/jLuI"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4779a4fb9bfso121155e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 03:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767872264; x=1768477064; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SeCkOM2Cu2fdrKkUm4jDLC5UzEO1Q6YJYSDtB9D9vrY=;
-        b=0O2/jLuIIfo+6iPRJBdv2C7IaJWjbgTg3PhDYRutHsExUFAm1LzYBza++EsOJc7SZ1
-         lhWRJ0HfuwcXib7vT74ZvhVA54k7x5be4WcUeDNBB+zzPUDIZ9NgFqEm1tABV/cWpmWF
-         w8sI0SuCAFlQTCsKyCwx1upFoXuaImfrsRNr+FSiyT1DWhAklYCML2as54cE7qtGALvO
-         1RyhQmYv1uU4HWk5sNFWdKxlu6AVnwxeTefGkkkFDxcvTnnWeFF+5yeFyTxkMePv4drZ
-         I7rMkCgIRNc7IPnOuGvfqf4STYiFD4tKnL18KeG193xD1BNx1gARZ3Gky/9UJRwT6Eqy
-         iNYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767872264; x=1768477064;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SeCkOM2Cu2fdrKkUm4jDLC5UzEO1Q6YJYSDtB9D9vrY=;
-        b=mcEGAv1NzNJ575RC6Aky1V5gHc8Ufg3145sB/jLc9hEkWWHfSwIwqqjcAEbeh4WpPh
-         uqWsS7ePmzTK83c1RkoDlZ66bpqTTdRsw0OhhwWCMibVSfrsDBK8+oHiwfugOR1y1MfG
-         qjSLyq/xzAw6lFnGOxWG8Fre5fdxqwMfJPFxWlEHmGeAfodaZt3jxu70hsexoTEt9EA0
-         Ir8KHrNL6SkGSmqXV52NeEGh3DC0KlZ9r2L5i1D28sZx/rk6XKHAtqR4UIxlV0A26vzQ
-         mYKTW3UlhuNsdKo5AcAioHHwTxf4Q4Ep7hgq0Q0X3sSwZoOd6Yh8AXwliqvcSb9qtLbO
-         QR6w==
-X-Forwarded-Encrypted: i=1; AJvYcCU1mcpTkPajAd797iXqCsV8gBdcrGv2JOTe/Hc/sAq9J9T+XuSP93nfX3pSbn6xmgo0ZMrlvNRfZsg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9KYJMYQwqzLHIkXM/oJZn0lWvoKSs1Gd8enbPycRXyk7EENMk
-	4FOcJPjQEVDmuO3NW7J9DJvj6M5hrSJN0JQpp+GasV/7KiWrOSfOfvBDKm8m95zN1w==
-X-Gm-Gg: AY/fxX4X9NTKtOXlo10s9VhXN+6MqBbGCWk3FAsCMRTruqcRR1WCiEmMhUKFfi2KCV9
-	e3w0s5RmAC1SwvNTm8OLgWQcQwVjfBzsWYdz/kKNFy0zF8DgE2+weXWFhPcdnWngIRMzrAekCTU
-	Xo4pE90bFJqYwAzc6UEwvJn44nppAvyKkIAkyjn45wDcz4uz7SV0SB+gp+tHc9J8aOXG67fY9qW
-	Y8TWMZMt6OMU39KT4Hye0WStumbHfgyq06OGlMlQo6KuD0amd683de/+O7NpJrxBdYOzWu1Tvu4
-	5AhRE2WtvYbD12MAWWTpnBeZ7QLPc1do0QGT+V+jrlG0Ihj3k1zOXW0KBqH78WVx0CgLHtWzAnN
-	LFTvGEX/Dj6VMa/3x644OhEUuLpR5r31EPhDc2X6854wyswecmV5+oQiToWUPOiwk7kADhXty0g
-	ik7O9DSL0lh/aU4mPg6FnzwswM90xrCESRRIWLERs7/JcZdEshEwTX
-X-Received: by 2002:a05:600c:4e0c:b0:47d:7428:d00c with SMTP id 5b1f17b1804b1-47d8ac49a26mr553445e9.17.1767872263247;
-        Thu, 08 Jan 2026 03:37:43 -0800 (PST)
-Received: from google.com (171.85.155.104.bc.googleusercontent.com. [104.155.85.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e16d2sm16560217f8f.13.2026.01.08.03.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 03:37:42 -0800 (PST)
-Date: Thu, 8 Jan 2026 11:37:39 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Pranjal Shrivastava <praan@google.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
-	baolu.lu@linux.intel.com, rdunlap@infradead.org
-Subject: Re: [PATCH v5 0/4] iommu: Add IOMMU_DEBUG_PAGEALLOC sanitizer
-Message-ID: <aV-XAxCca8qeNVGT@google.com>
-References: <20260106162200.2223655-1-smostafa@google.com>
- <aV56y9KcAS8mC7Uk@google.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="uq+YrUWW"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=HLCPfAXg6GTM4ywBo/4+C+lNGOv5NAwx0aGaiPbwG/Q=;
+	b=uq+YrUWWosb2STJC44y1jKd86CZCBHO7eZwoQnPAmlNwnTX4Np7OeAmZR10XStdlQayS6h21M
+	embsNOGS8ZVsHF65qunIq+syHS7P6uFvRBrOrorlxdTUy5cb9S1l/HhjqyJzG/7AsbGuhrvUGyY
+	pxQWSE2/koPLEDh927qsFeo=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4dn2s02t67z1prKY;
+	Thu,  8 Jan 2026 19:35:32 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6F7A24056A;
+	Thu,  8 Jan 2026 19:38:50 +0800 (CST)
+Received: from kwepemq200002.china.huawei.com (7.202.195.90) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 8 Jan 2026 19:38:50 +0800
+Received: from M910t.huawei.com (10.110.54.157) by
+ kwepemq200002.china.huawei.com (7.202.195.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 8 Jan 2026 19:38:49 +0800
+From: Changbin Du <changbin.du@huawei.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Changbin Du
+	<changbin.du@huawei.com>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH v4] tools: jobserver: Prevent deadlock caused by incorrect jobserver configuration and enhance error reporting
+Date: Thu, 8 Jan 2026 19:38:36 +0800
+Message-ID: <20260108113836.2976527-1-changbin.du@huawei.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aV56y9KcAS8mC7Uk@google.com>
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq200002.china.huawei.com (7.202.195.90)
 
-On Wed, Jan 07, 2026 at 03:24:59PM +0000, Pranjal Shrivastava wrote:
-> On Tue, Jan 06, 2026 at 04:21:56PM +0000, Mostafa Saleh wrote:
-> > Overview
-> > --------
-> > This patch series introduces a new debugging feature,
-> > IOMMU_DEBUG_PAGEALLOC, designed to catch DMA use-after-free bugs
-> > and IOMMU mapping leaks from buggy drivers.
-> > 
-> > The kernel has powerful sanitizers like KASAN and DEBUG_PAGEALLOC
-> > for catching CPU-side memory corruption. However, there is limited
-> > runtime sanitization for DMA mappings managed by the IOMMU. A buggy
-> > driver can free a page while it is still mapped for DMA, leading to
-> > memory corruption or use-after-free vulnerabilities when that page is
-> > reallocated and used for a different purpose.
-> > 
-> 
-> Thanks for this series! This is really helpful!
-> 
-> > Inspired by DEBUG_PAGEALLOC, this sanitizer tracks IOMMU mappings on a
-> > per-page basis, as it’s not possible to unmap the pages, because it
-> > requires to lock and walk all domains on every kernel free, instead we
-> > rely on page_ext to add an IOMMU-specific mapping reference count for
-> > each page.
-> > And on each page allocated/freed from the kernel we simply check the
-> > count and WARN if it is not zero, and dumping page owner information
-> > if enabled.
-> > 
-> > Concurrency
-> > -----------
-> > By design this check is racy where one caller can map pages just after
-> > the check, which can lead to false negatives.
-> > In my opinion this is acceptable for sanitizers (for ex KCSAN have
-> > that property).
-> > Otherwise we have to implement locks in iommu_map/unmap for all domains
-> > which is not favourable even for a debug feature.
-> > The sanitizer only guarantees that the refcount itself doesn’t get
-> > corrupted using atomics. And there are no false positives.
-> > 
-> > CPU vs IOMMU Page Size
-> > ----------------------
-> > IOMMUs can use different page sizes and which can be non-homogeneous;
-> > not even all of them have the same page size.
-> > 
-> > To solve this, the refcount is always incremented and decremented in
-> > units of the smallest page size supported by the IOMMU domain. This
-> > ensures the accounting remains consistent regardless of the size of
-> > the map or unmap operation, otherwise double counting can happen.
-> > 
-> > Testing & Performance
-> > ---------------------
-> > This was tested on Morello with Arm64 + SMMUv3
-> > Did some testing Lenovo IdeaCentre X Gen 10 Snapdragon
-> > Did some testing on Qemu including different SMMUv3/CPU page size (arm64).
-> > 
-> > I also ran dma_map_benchmark on Morello:
-> > 
-> > echo dma_map_benchmark > /sys/bus/pci/devices/0000\:06\:00.0/driver_override
-> > echo 0000:06:00.0 >  /sys/bus/pci/devices/0000\:06\:00.0/driver/unbind
-> > echo 0000:06:00.0 > /sys/bus/pci/drivers/dma_map_benchmark/bind
-> > ./dma_map_benchmark -t $threads -g $nr_pages
-> > 
-> > CONFIG refers to "CONFIG_IOMMU_DEBUG_PAGEALLOC"
-> > cmdline refers to "iommu.debug_pagealloc"
-> > Numbers are (map latency)/(unmap latency), lower is better.
-> > 
-> > 			CONFIG=n    CONFIG=y    CONFIG=y
-> > 			            cmdline=0   cmdline=1
-> > 4K - 1 thread		0.1/0.6     0.1/0.6     0.1/0.7
-> > 4K - 4 threads		0.1/1.1     0.1/1.0     0.2/1.1
-> > 1M - 1 thread		0.8/21.2    0.7/21.2    5.4/42.3
-> > 1M - 4 threads		1.1/45.9    1.1/46.0    5.9/45.1
-> > 
-> 
-> Just curious to know if we've also measured the latency for larger
-> mappings? e.g. 1G mapping backed by `n` 4K mappings?
+When using GNU Make's jobserver feature in kernel builds, a bug in MAKEFLAGS
+propagation caused "--jobserver-auth=r,w" to reference an unintended file
+descriptor. This led to infinite loops in jobserver-exec's os.read() calls
+due to empty token.
 
-No, the max granule supported by dma_map_benchmark is 1024, which
-is 4M for 4K kernels.
-I thought 1M would be better for my setup, as I am using SMMUv3,
-where 1MB includes many PTEs compared to 4M, and the 4K test will
-cover the single PTE case, so we get more coverage.
+My shell opened /etc/passwd for some reason without closing it, and as a
+result, all child processes inherited this fd 3.
 
-Thanks,
-Mostafa
+$ ls -l /proc/self/fd
+total 0
+lrwx------ 1 changbin changbin 64 Dec 25 13:03 0 -> /dev/pts/1
+lrwx------ 1 changbin changbin 64 Dec 25 13:03 1 -> /dev/pts/1
+lrwx------ 1 changbin changbin 64 Dec 25 13:03 2 -> /dev/pts/1
+lr-x------ 1 changbin changbin 64 Dec 25 13:03 3 -> /etc/passwd
+lr-x------ 1 changbin changbin 64 Dec 25 13:03 4 -> /proc/1421383/fd
 
-> 
-> > Changes in v5:
-> > v4: https://lore.kernel.org/all/20251211125928.3258905-1-smostafa@google.com/
-> > - Fix typo in comment
-> > - Collect Baolu R-bs
-> > 
-> > Main changes in v4:
-> > v3: https://lore.kernel.org/all/20251124200811.2942432-1-smostafa@google.com/
-> > - Update the kernel parameter format in docs based on Randy feedback
-> > - Update commit subjects
-> > - Add IOMMU only functions in iommu-priv.h based on Baolu feedback
-> > 
-> > Main changes in v3: (Most of them addressing Will comments)
-> > v2: https://lore.kernel.org/linux-iommu/20251106163953.1971067-1-smostafa@google.com/
-> > - Reword the Kconfig help
-> > - Use unmap_begin/end instead of unmap/remap
-> > - Use relaxed accessors when refcounting
-> > - Fix a bug with checking the returned address from iova_to_phys
-> > - Add more hardening checks (overflow)
-> > - Add more debug info on assertions (dump_page_owner())
-> > - Handle cases where unmap returns larger size as the core code seems
-> >   to tolerate that.
-> > - Drop Tested-by tags from Qinxin as the code logic changed
-> > 
-> > Main changes in v2:
-> > v1: https://lore.kernel.org/linux-iommu/20251003173229.1533640-1-smostafa@google.com/
-> > - Address Jörg comments about #ifdefs and static keys
-> > - Reword the Kconfig help
-> > - Drop RFC
-> > - Collect t-b from Qinxin
-> > - Minor cleanups
-> > 
-> > Mostafa Saleh (4):
-> >   iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
-> >   iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
-> >   iommu: debug-pagealloc: Track IOMMU pages
-> >   iommu: debug-pagealloc: Check mapped/unmapped kernel memory
-> > 
-> >  .../admin-guide/kernel-parameters.txt         |   9 +
-> >  drivers/iommu/Kconfig                         |  19 ++
-> >  drivers/iommu/Makefile                        |   1 +
-> >  drivers/iommu/iommu-debug-pagealloc.c         | 174 ++++++++++++++++++
-> >  drivers/iommu/iommu-priv.h                    |  58 ++++++
-> >  drivers/iommu/iommu.c                         |  11 +-
-> >  include/linux/iommu-debug-pagealloc.h         |  32 ++++
-> >  include/linux/mm.h                            |   5 +
-> >  mm/page_ext.c                                 |   4 +
-> >  9 files changed, 311 insertions(+), 2 deletions(-)
-> >  create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
-> >  create mode 100644 include/linux/iommu-debug-pagealloc.h
-> > 
-> > -- 
-> > 2.52.0.351.gbe84eed79e-goog
-> > 
-> > 
+In this case, the `make` should open a new file descriptor for jobserver
+control, but clearly, it did not do so and instead still passed fd 3 as
+"--jobserver-auth=3,4" in MAKEFLAGS. (The version of my gnu make is 4.3)
+
+This update ensures robustness against invalid jobserver configurations,
+even when `make` incorrectly pass non-pipe file descriptors.
+ * Rejecting empty reads to prevent infinite loops on EOF.
+ * Clearing `self.jobs` to avoid writing to incorrect files if invalid tokens
+   are detected.
+ * Printing detailed error messages to stderr to inform the user.
+
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Changbin Du <changbin.du@huawei.com>
+
+---
+  v4: set self.jobs to b"" instead of [] (so no type change).
+  v3: format exception with repr(e).
+  v2: remove validation for all bytes are '+' characters. (Mauro)
+---
+ tools/lib/python/jobserver.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver.py
+index a24f30ef4fa8..616411087725 100755
+--- a/tools/lib/python/jobserver.py
++++ b/tools/lib/python/jobserver.py
+@@ -91,6 +91,10 @@ class JobserverExec:
+             while True:
+                 try:
+                     slot = os.read(self.reader, 8)
++                    if not slot:
++                        # Clear self.jobs to prevent us from probably writing incorrect file.
++                        self.jobs = b""
++                        raise ValueError("unexpected empty token from jobserver fd, invalid '--jobserver-auth=' setting?")
+                     self.jobs += slot
+                 except (OSError, IOError) as e:
+                     if e.errno == errno.EWOULDBLOCK:
+@@ -105,7 +109,8 @@ class JobserverExec:
+             # to sit here blocked on our child.
+             self.claim = len(self.jobs) + 1
+ 
+-        except (KeyError, IndexError, ValueError, OSError, IOError):
++        except (KeyError, IndexError, ValueError, OSError, IOError) as e:
++            print(f"jobserver: warning: {repr(e)}", file=sys.stderr)
+             # Any missing environment strings or bad fds should result in just
+             # not being parallel.
+             self.claim = None
+-- 
+2.43.0
+
