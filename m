@@ -1,106 +1,199 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E389B39FD9;
-	Thu,  8 Jan 2026 00:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319D11F419F
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 00:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767831706; cv=none; b=R3o0wcZuTrClIWuTEzaXT5Rm9CPk+/Bx64WdQaOXahJPROPfjKCL/jNWBsc+3NzeHHMHvY6eSgjrh2BicjgUcmd3gECm+YtyDS6YbOlWDu1LxcrASZzfqr/golb48TEI7u3h5xji1V6iGkbbBBy/RZ2RsPN2ucPdpgGzS/UkE08=
+	t=1767833923; cv=none; b=e7UK5bW/R/CP7of5yda55FJckoxH/rCRKr0c13/CL4LeI+XI6UzCTfqLtdkLNmJjUOm/vRLALra7RbX/vY2z7tHUfhn3zwhoFWt5Y7Ixss2KN5eGd3b28NeynA2+HapkpavEgM2mRmfnJjqR3Vu7qTM+gyI8Hx0RhT2fYpsQAwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767831706; c=relaxed/simple;
-	bh=sCjaMtjAqSh7dHdG1AUNHQ2PyPynBnHCjXHB4bkvXIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DRuhHtcUbNrCSBaqvSiaoBtaPG9llfLUm/7A7wqcIAk8sDCXLPDdsf2DNi1osNDGIuPJhwcaiaFEtxIrrvwiwrwCLp7PcbQpcZcgtd5TxkigadzdLjeObWjO9tGnRDafqxorNx4itVSLvFHM4fyDKfz0f+5SwibTt2BKsv1zOq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qbX6eOpH; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1767833923; c=relaxed/simple;
+	bh=xiO09bVBGC8/K7L0bw2p16Wp9QD28tXsWfMmjzD/Ua4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ko7kvvMSwIMUfXHiTWBttddMrNJ28NKZBFPF3EFTZnRw19EK9O9u+SA5LWFhE2gPyUMyotLFYDq/4AyBgoFPIoxaL1KZYZqZVDnwM35pn01uJZqliZ0wvbwpHnhnVmBS9xDQCZa7T0OPfqCUWyhknxOHxDNYrSAWq2C/UBpKZs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nK0zWCxG; arc=none smtp.client-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qbX6eOpH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=PCVVTV8w/Ni3LkjH39EikR8LTZoksaNGfVOQ5bG+wng=; b=qbX6eOpHvLJ/HeVP0evVrn7mzW
-	WhXwEUbHotY+x4kxb+q6o3qS1w/wvBwBQU34rTmp+UD4r5HHic/3aOHnNXlnIeba1VEQv0Z+YFFFL
-	r+IAyvWnC8h2ElgyCVVC5nJKbGYOagbZf1G650EgfHintVmFpgVip8soa8MkQbZkrD4fQAKzuG8B3
-	UMi9WpxInGbTewC85Tr0cJSFYjEo4IvhaNqvtnL7/8RADER5GD38CVtWs2dcMz0fCrzc8Mmzw3N9X
-	j6vPe9LvQE5lcAgcHit3EKa+waTTqbGpgNCnOa9nIWEIXJA392CIomeiad1KnBIXqvggyIn7G9ozD
-	IXXsmDyQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vddmX-0000000FltD-19L1;
-	Thu, 08 Jan 2026 00:21:41 +0000
-Message-ID: <863b3969-71eb-4bf1-9e32-895e53d8bf8e@infradead.org>
-Date: Wed, 7 Jan 2026 16:21:40 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nK0zWCxG"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64661975669so2846065d50.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Jan 2026 16:58:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767833920; x=1768438720; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=07Oq7s3cDlA8pW6W82CkM0efPRUiBJHxCtezHHHyhNs=;
+        b=nK0zWCxG+7ICfWOQws3yIjm43ZkGhGo4uuZ4ZqbH8ilbkjQ9rREnikv5JtGbcMOun5
+         zwc6hf1kHfJkLoadUAoB9Lka0n1JXGBwSXEbRdJS582scMYHM5t3IYF3rNnPXxo0wcPd
+         qCo7m2Y7IbkLIemmbBBxPswVAiBk488Sco8JFSlcKgQljCdJ+2z0F2isc58DU9Q4ulIK
+         xtoWY9D4Yb8LrDQ0p4B9llc/5sX8n3Sh2GvBeVQ9Q4nivxk4DOGNxf628OK41qgnWDc3
+         NG+LIptZK6vuUmYofm5m7UPKO5tPhTrrNTMRm9bxCcaN4afmY2b4gBVo2hIeIK7SFUXh
+         5MKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767833920; x=1768438720;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=07Oq7s3cDlA8pW6W82CkM0efPRUiBJHxCtezHHHyhNs=;
+        b=pMuIYz3401fRzVX0gaM5CLjWi7UOIxvJpqEkvymkGQAU25LnTaMmY1F7Ce8pQZAdiH
+         /dK7oGbk0RCRAdz2AA1/XfRjYKZLoz/bNr1WJOLNH4pifUOF38WJQa7GucYNxKpButR9
+         phRzORAaNfx5KSFR9CpPgs4MtTBgdKSWctKd9k7SfShIpzHkt6YkpTZPRDKjfasPuthc
+         jRxGUhMij7aB8uvNgEa6TQaC9Vcx0VkivR8vxgUeH3Iu7pvjufc01fTdgnzQMxlhJa5Y
+         mtPjm8Trl4b+BbWLg/HZ33dIw9ZA4HEXTGW/eCZoLk1Le8oNc71ahff8PK2VIC3Vl80o
+         JtQA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgFoXV5ZEE1qVmYut+LYoS7sKq3SbzSxqdsgAYY7llh9w/Gmd0dHmAvq4qaVsAD2gbKlXd/4Nx1n8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxT9/QdZx4NDg8NwYC4Mlocz/VyR1BmZm+bZQIpcygilm0yYO7
+	5ueBucX3GKQrh9A2DBGx1cY+fC5cUpn3wynH4H5rT9nrQArKuGk8oBCj
+X-Gm-Gg: AY/fxX6XcbeBjH4sZBEjwJOqoWxjBUV1+/3Ub91tyWb84JSgG2gRzgHoXnQLUyIk5wJ
+	o61nKro5axHfHiAV8SfVhLGo+VNyGOly+85r6lb3b9UWKNQrk3KufQ/AooFSTGHFDe8L8W4IYTY
+	/qNcgtcRwm4izX7v+IRqnbeUaMUSxzxDbe4aX2sdtzqvAUDhdUU35/yQ3MlSyRQ4WbgBxVSo3ke
+	imKK+anpF0DOmkj9pIsLD7bakWz3+jWApw6jJScDsS9oAfo+P6DHgqMZYDuPcQrB7Vy3hOIYTfO
+	Bv+v1QGRLiDgB3LLEbWw2eCZirnnQbXVURpM/kE0aI0qF/Z4usMUvuQpbQHXyVbj2ezKFNp7zHY
+	w1tOdJZtWoWV/zEoOOoABQFdJKX5esjIl2kIxGOJfvqBPESOs+UylFh178TsKt9cZANQNArz5AX
+	Vn9O0mnP/9PN8CfW/3dZvK
+X-Google-Smtp-Source: AGHT+IGQTy89arTbFGwfJfLq1EIuhj9ChaqppYiVw6O7/CqtpiLLwNSu2qqwSquoJsQ/2MZMGVqI+A==
+X-Received: by 2002:a05:690e:13c4:b0:644:db91:eec4 with SMTP id 956f58d0204a3-64716b5f636mr4848198d50.20.1767833920101;
+        Wed, 07 Jan 2026 16:58:40 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:5d::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6470d8c500esm2695494d50.23.2026.01.07.16.58.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 16:58:39 -0800 (PST)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Date: Wed, 07 Jan 2026 16:57:35 -0800
+Subject: [PATCH net-next v8 1/5] net: devmem: rename tx_vec to vec in
+ dmabuf binding
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Unexpected section title false positive warnings on
- DOC: directive
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-References: <aUuLHzk5jdyBAxD7@archie.me> <87ikdecsj0.fsf@trenco.lwn.net>
- <aV5a6PCVrkRHwqt3@archie.me>
- <966fffa3-a91b-425e-b915-891299832e36@infradead.org>
- <aV7wTFqQQkGf4efF@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aV7wTFqQQkGf4efF@archie.me>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-1-92c968631496@meta.com>
+References: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-0-92c968631496@meta.com>
+In-Reply-To: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-0-92c968631496@meta.com>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, 
+ Willem de Bruijn <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, 
+ David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Shuah Khan <shuah@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+ Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Stanislav Fomichev <sdf@fomichev.me>, 
+ asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 
+From: Bobby Eshleman <bobbyeshleman@meta.com>
 
+Rename the 'tx_vec' field in struct net_devmem_dmabuf_binding to 'vec'.
+This field holds pointers to net_iov structures. The rename prepares for
+reusing 'vec' for both TX and RX directions.
 
-On 1/7/26 3:46 PM, Bagas Sanjaya wrote:
-> On Wed, Jan 07, 2026 at 10:19:32AM -0800, Randy Dunlap wrote:
->>
->>
->> On 1/7/26 5:08 AM, Bagas Sanjaya wrote:
->>> On Tue, Jan 06, 2026 at 02:58:43PM -0700, Jonathan Corbet wrote:
->>>> Bagas Sanjaya <bagasdotme@gmail.com> writes:
->>>>
->>>>> Hi,
->>>>>
->>>>> Building htmldocs on docs-next currenly produces about 50 new warnings; which
->>>>> all of them are unexpected section title on DOC: kernel-doc directive, like:
->>>>>
->>>>> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: CRITICAL: Unexpected section title.
->>>>>
->>>>> Userspace I/O
->>>>> ------------- [docutils]
->>>>> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Userspace I/O' ./drivers/target/target_core_user.c' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected section title.\n\nUserspace I/O\n-------------')
->>>>> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
->>>>
->>>> So I did not, and do not, see any of these errors; are you doing
->>>> something special to get them?
->>>
->>> Nope.
->>>
->>> I'm running my htmldocs builds on my Arch Linux system (with Sphinx 9.0.4 and
->>> Python 3.13.11).
->>>
->>> Full log (tarred up) attached.
->>>
->>> Thanks.
->>
->> Hi,
->> What docutils version, please?
-> 
-> Mine have:
-> 
-> docutils (Docutils 0.21.2, Python 3.13.11, on linux)
+No functional change intended.
 
-I'm using docutils-3.13 (Docutils 0.22.3, Python 3.13.11, on linux)
-and I don't see these warnings.
-Maybe it's something that has been fixed between 0.21.2 and 0.22.3... ?
+Reviewed-by: Mina Almasry <almasrymina@google.com>
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+---
+ net/core/devmem.c | 22 +++++++++++-----------
+ net/core/devmem.h |  2 +-
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/net/core/devmem.c b/net/core/devmem.c
+index ec4217d6c0b4..05a9a9e7abb9 100644
+--- a/net/core/devmem.c
++++ b/net/core/devmem.c
+@@ -75,7 +75,7 @@ void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
+ 	dma_buf_detach(binding->dmabuf, binding->attachment);
+ 	dma_buf_put(binding->dmabuf);
+ 	xa_destroy(&binding->bound_rxqs);
+-	kvfree(binding->tx_vec);
++	kvfree(binding->vec);
+ 	kfree(binding);
+ }
+ 
+@@ -232,10 +232,10 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+ 	}
+ 
+ 	if (direction == DMA_TO_DEVICE) {
+-		binding->tx_vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
+-						 sizeof(struct net_iov *),
+-						 GFP_KERNEL);
+-		if (!binding->tx_vec) {
++		binding->vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
++					      sizeof(struct net_iov *),
++					      GFP_KERNEL);
++		if (!binding->vec) {
+ 			err = -ENOMEM;
+ 			goto err_unmap;
+ 		}
+@@ -249,7 +249,7 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+ 					      dev_to_node(&dev->dev));
+ 	if (!binding->chunk_pool) {
+ 		err = -ENOMEM;
+-		goto err_tx_vec;
++		goto err_vec;
+ 	}
+ 
+ 	virtual = 0;
+@@ -295,7 +295,7 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+ 			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
+ 						      net_devmem_get_dma_addr(niov));
+ 			if (direction == DMA_TO_DEVICE)
+-				binding->tx_vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
++				binding->vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
+ 		}
+ 
+ 		virtual += len;
+@@ -315,8 +315,8 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+ 	gen_pool_for_each_chunk(binding->chunk_pool,
+ 				net_devmem_dmabuf_free_chunk_owner, NULL);
+ 	gen_pool_destroy(binding->chunk_pool);
+-err_tx_vec:
+-	kvfree(binding->tx_vec);
++err_vec:
++	kvfree(binding->vec);
+ err_unmap:
+ 	dma_buf_unmap_attachment_unlocked(binding->attachment, binding->sgt,
+ 					  direction);
+@@ -363,7 +363,7 @@ struct net_devmem_dmabuf_binding *net_devmem_get_binding(struct sock *sk,
+ 	int err = 0;
+ 
+ 	binding = net_devmem_lookup_dmabuf(dmabuf_id);
+-	if (!binding || !binding->tx_vec) {
++	if (!binding || !binding->vec) {
+ 		err = -EINVAL;
+ 		goto out_err;
+ 	}
+@@ -414,7 +414,7 @@ net_devmem_get_niov_at(struct net_devmem_dmabuf_binding *binding,
+ 	*off = virt_addr % PAGE_SIZE;
+ 	*size = PAGE_SIZE - *off;
+ 
+-	return binding->tx_vec[virt_addr / PAGE_SIZE];
++	return binding->vec[virt_addr / PAGE_SIZE];
+ }
+ 
+ /*** "Dmabuf devmem memory provider" ***/
+diff --git a/net/core/devmem.h b/net/core/devmem.h
+index 0b43a648cd2e..1ea6228e4f40 100644
+--- a/net/core/devmem.h
++++ b/net/core/devmem.h
+@@ -63,7 +63,7 @@ struct net_devmem_dmabuf_binding {
+ 	 * address. This array is convenient to map the virtual addresses to
+ 	 * net_iovs in the TX path.
+ 	 */
+-	struct net_iov **tx_vec;
++	struct net_iov **vec;
+ 
+ 	struct work_struct unbind_w;
+ };
 
 -- 
-~Randy
+2.47.3
 
