@@ -1,118 +1,122 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A725A50097B;
-	Thu,  8 Jan 2026 15:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B3C2E0418;
+	Thu,  8 Jan 2026 15:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767886316; cv=none; b=q0jGr9RvZvxt6RH95ZaZIAwVA9Xf4PZA0ehTTCIsyhckPNzzOxmnq2UbDISdjCRJRf6G4IJA7wKsoOr+ZioSpb+3EAPreH1jJI+dta/Q6pbwH8OrxifsrLYlje8ZrIBEOourzFSeEpTJzeMj6FX2urYsCL6sKKfZQFsiGkEWizQ=
+	t=1767887856; cv=none; b=FLius49z4IQZVMM4wx8Evoxn3KKiPK1W9mHtyBB7l9ih2OnseajgM0D/Nk4z3dHpTTaabZ98smzPZYi15YU5dTzM53xs1JqqcEgoJiiHXNsNsSCXUebtrZbkff5TjALU1En1FUgvdJQqjUpMiUyh8Hj7qVKX4gd2dWpqZxau8aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767886316; c=relaxed/simple;
-	bh=hAAxZIvlvT50VHBWiwEYz2hEYF8NCKsZqeikTIBdozo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JOd2UW242a1cmbiXwVsZscgwzab8+coSfWxvA1PZIiEYEPNLKnShWfBXHBtfHlWQJD3AcCHd3V7QVivMkQgvxllFi4hqoog7h1E+jEqvoS8o8ck0dPJD3lJYQCH7859HHLuQLcRPWm4l66GLneT7zNW9+/XYQ0J5kYUqI4ZAKTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn85Z5SX1zJ46D8;
-	Thu,  8 Jan 2026 23:31:46 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id C282540570;
-	Thu,  8 Jan 2026 23:31:51 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
- 2026 15:31:50 +0000
-Date: Thu, 8 Jan 2026 15:31:48 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 4/4] fuse: add famfs DAX fmap support
-Message-ID: <20260108153148.00001e63@huawei.com>
-In-Reply-To: <20260107153443.64794-5-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153443.64794-1-john@groves.net>
-	<20260107153443.64794-5-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767887856; c=relaxed/simple;
+	bh=iQ8rrKAjkcgXBG7XLBNg/l9mT/9ufxiMSqzt1QWzGdc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DgvFqN/0zzM2HlHlAT8zY4HyPzAo/0hr9JdLkvGHLNFWbNnox+OfJiKusXYkZVi5RaXzslvJ0NvRES/UuTtVH6G8uO1n7ZSfqwb7KHxR6raAd2Kd6QK6eMnnLegPIMSX1tVrXB3odZPJ59UpohmFOoXbQXl2hnX9VWWWpn+Kgu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVqoIYbJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVqoIYbJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E3F9C116C6;
+	Thu,  8 Jan 2026 15:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767887856;
+	bh=iQ8rrKAjkcgXBG7XLBNg/l9mT/9ufxiMSqzt1QWzGdc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KVqoIYbJP02PJTKnx446NUd3M2a4Ep19Dg9tIX7oreQpKKsd0WMGyTFUJ1sDhiXWY
+	 0KtS2dh6VfgyUiSD3OiTxpJZuxbKYxR/1hBRHWLrheX8ST7mB39HkyvpUsmPfrqN88
+	 zi6iOhwIStpoif0an8L2fuMSf78ynLUxFwnTboH07mvxdH5xzvVP2Pa/PObcK+/jFt
+	 5f0Go3ejIGh1XNrnasudUdmrt3GrXSY1SW6VzhXuIQObithqCt61PeKuSTMW7jw8O3
+	 U/OdvxARLkNQXqgRv4AUcd1QcZtEXws/csV64jdEvNo1pOhtcobf51yh7jVdB467pq
+	 wLj1opru/g8eg==
+Date: Thu, 8 Jan 2026 15:57:24 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Fuad Tabba <tabba@google.com>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v9 02/30] arm64/fpsimd: Update FA64 and ZT0 enables when
+ loading SME state
+Message-ID: <e50b4923-ee45-43de-9d4e-344546c635bb@sirena.org.uk>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+ <20251223-kvm-arm64-sme-v9-2-8be3867cb883@kernel.org>
+ <CA+EHjTxdSnpFHkm6o85EtjQjAWemBfcv9Oq6omWyrrMdkOuuVA@mail.gmail.com>
+ <3c8b4a5e-89f4-47e0-9a5d-24399407db0c@sirena.org.uk>
+ <CA+EHjTxLkLjPj=1vwDqROXOUXi2LhOQb90WP6dFaTiYG1nWovA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- dubpeml100005.china.huawei.com (7.214.146.113)
-
-On Wed,  7 Jan 2026 09:34:43 -0600
-John Groves <John@Groves.net> wrote:
-
-> Add new FUSE operations and capability for famfs DAX file mapping:
->=20
-> - FUSE_CAP_DAX_FMAP: New capability flag at bit 32 (using want_ext/capabl=
-e_ext
->   fields) to indicate kernel and userspace support for DAX fmaps
->=20
-> - GET_FMAP: New operation to retrieve a file map for DAX-mapped files.
->   Returns a fuse_famfs_fmap_header followed by simple or interleaved
->   extent descriptors. The kernel passes the file size as an argument.
->=20
-> - GET_DAXDEV: New operation to retrieve DAX device info by index.
->   Called when GET_FMAP returns an fmap referencing a previously
->   unknown DAX device.
->=20
-> These operations enable FUSE filesystems to provide direct access
-> mappings to persistent memory, allowing the kernel to map files
-> directly to DAX devices without page cache intermediation.
->=20
-> Signed-off-by: John Groves <john@groves.net>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KOrZZL+m63ovft+Q"
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTxLkLjPj=1vwDqROXOUXi2LhOQb90WP6dFaTiYG1nWovA@mail.gmail.com>
+X-Cookie: If you suspect a man, don't employ him.
 
 
-> ---
->  include/fuse_common.h   |  5 +++++
->  include/fuse_lowlevel.h | 37 +++++++++++++++++++++++++++++++++++++
->  lib/fuse_lowlevel.c     | 31 ++++++++++++++++++++++++++++++-
->  3 files changed, 72 insertions(+), 1 deletion(-)
->=20
-> diff --git a/include/fuse_common.h b/include/fuse_common.h
-> index 041188e..e428ddb 100644
-> --- a/include/fuse_common.h
-> +++ b/include/fuse_common.h
-> @@ -512,6 +512,11 @@ struct fuse_loop_config_v1 {
->   */
->  #define FUSE_CAP_OVER_IO_URING (1UL << 31)
-> =20
-> +/**
-> + * handle files that use famfs dax fmaps
-> + */
-> +#define FUSE_CAP_DAX_FMAP (1UL<<32)
+--KOrZZL+m63ovft+Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-=46rom the context above, looks like local style is spaces around <<
+On Thu, Jan 08, 2026 at 02:09:34PM +0000, Fuad Tabba wrote:
+> On Thu, 8 Jan 2026 at 11:54, Mark Brown <broonie@kernel.org> wrote:
+> > On Wed, Jan 07, 2026 at 07:25:04PM +0000, Fuad Tabba wrote:
+> > > On Tue, 23 Dec 2025 at 01:21, Mark Brown <broonie@kernel.org> wrote:
 
-That's about the level of my understanding of the fuse code ;)
+> > > Should we also preserve the remaining old bits from SMCR_EL1, i.e.,
+> > > copy over the bits that aren't
+> > > SMCR_ELx_LEN_MASK|SMCR_ELx_FA64|SMCR_ELx_EZT0? For now they are RES0,
+> > > but that could change.
 
-> +
->  /**
->   * Ioctl flags
->   *
+> > My thinking here is that any new bits are almost certainly going to need
+> > explicit support (like with the addition of ZT0) and that copying them
+> > forward without understanding is more likely to lead to a bug like
+> > exposing state we didn't mean to than clearing them will.
 
+> I understand the 'secure by default' intent for enable bits, but I'm
+> concerned that this implementation changes the current behavior of the
+> host kernel, which isn't mentioned in the commit message. Previously,
+> both the feature enablement code (cpu_enable_fa64) and the vector
+> length setting code (sme_set_vq/write_vl) performed a RMW, preserving
+> existing bits in SMCR_EL1. This new macro zeroes out any bits not
+> explicitly tracked here.
+
+The behaviour is unchanged since we're always choosing the same value in
+the end, it's just a question of rearranging when do it which is the
+explicit goal of the change.  There won't be a change in behaviour until
+later on in the series when we start potentially choosing other settings
+for KVM guests.
+
+> In terms of copying them over, if they were set from the beginning,
+> doesn't that mean that that explicit support was already added?
+
+That's a bit circular, with the new interface if someone updates the
+kernel to set some new bits they're going to have to update this code as
+part of that.  A part of the goal here is to make it harder to make a
+mistake with remembering what needs to be updatd when.
+
+--KOrZZL+m63ovft+Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlf0+QACgkQJNaLcl1U
+h9DQbgf/VzVntYNXV0km5HLDgB/SG9k64BqiNt0fbx3g83qjVtQuNw5OJfx/AI40
+3CRrW3Hr1lIspMdVhwa+8lv5cpSyGzWnLWbmRJBVb6v++Hsslg9O824KM1LtRJqZ
+herBG1MKR8P2+yGtEt2cxbABtHH3ONEEFdEIOiGDAH7jkRY36Gfwx6QwV8/QA+Ey
+81r9gsksZDexFnwMz51S8jMdplvo3wMaDOQnytnH3YzQ9vC0B3Gfre+cAjqF2b99
+xN9M8G1+jCOiBeLIDPIEXCC0RPPOJb+mEpy6yUcn7l3k4AaReGbGrqBPtboVRUFT
+dB+n4q24DpQwRk1kIs62RHkorXoV/A==
+=Ud9D
+-----END PGP SIGNATURE-----
+
+--KOrZZL+m63ovft+Q--
