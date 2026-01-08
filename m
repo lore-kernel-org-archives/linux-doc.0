@@ -1,222 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A2329B204
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 17:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4601C3BFC;
+	Thu,  8 Jan 2026 17:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767893519; cv=none; b=LEWnoUwOAmczOBbDx6G0DtjvAGIGDL6+tl6s+W9Wgk2QjK7/Hadnh4KHLFd6w3byTYPtkxGimd2Qo/RJyE8LFsSzKpGPCiX6J12c3bL9cMHydYvKI2hkA2Y7cLeKWM4kYvnLtVidqyJIc32nB0giWStVGXOhjF/7WSUV+SLZMwY=
+	t=1767893638; cv=none; b=P+PHQtuNlaTECtLYXBwLMCZ6Qlsuz2TAVQUAS5zj18BwdecmxTOIMeLUwgcAU6lhxB7C7kwrul/5magR1Qmav6EhDgXn2dt823jbt7nRkJi8CyCxVMDcXf/QrhQfWGNxFSRKirZSS2wl0zYPKOSTH63JTTDgtkuuZE3HJvuTjFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767893519; c=relaxed/simple;
-	bh=KXOKF2CuyUbzsB+FTiaRXQ8fhSj0kiQOhUAT87t16KE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cgw1In6KJEn++we8jae2yxPttUucYnnV3+S9qK1EASSCTnsxHEppPmx8KCPPJSZHzcX2gfgR/Bn8UT76sEJ6gnkwrS5rhXRH/D1pL92Ue8YmFTk44CBP7381fInUjGE3LVBkWAQ9atXyQYzAZPdG5QIPFDeMCv3V5cVfH7RPIps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SjGu8xWF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2Wn9HqxA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TrDPHqNz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vHn8wQXB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1767893638; c=relaxed/simple;
+	bh=YfdOM3X+dex2GwYPDQAVwZhy1TpxzRQTxxNf8pg3MnA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UFFbElTRk0ti3nF0EWohIiRj0YWserMiDto4Myig1Sx1oJQLvGuK5UfZvYOBbkIh6DH6dM82NdIpP3zyNlWYTxuq/JA5LwKfd1H3fh+w7FgCQLhG93p600YmMGLEI42t3QYTQEAxk/AVip5I9QN2Di+oKvNUdQmlzKUa55M4O3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OcO32ZHR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SjGu8xWF";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2Wn9HqxA";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TrDPHqNz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vHn8wQXB"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CACA55CBAA;
-	Thu,  8 Jan 2026 17:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767893515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rc9QMKouyjzH45LZUhjCbf9iU6kNH1nER3QE4i7JiDM=;
-	b=SjGu8xWFvqvPTajUdrve/tkEoODH6+r/GTBr8gpUYcGrmBEYga3xqYG8St2+RFHlLn30ka
-	0yohoC73wEYkhvbqwS6GnHxD2oBY4ZvgUnY3vkjJhl1qJIFpoH6YRxl7fWIBVymyiY2YLc
-	XrvV8+PtnHJg7Upq20EtygKwXodCegM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767893515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rc9QMKouyjzH45LZUhjCbf9iU6kNH1nER3QE4i7JiDM=;
-	b=2Wn9HqxA7CtfXS7UqvYpfju0o6PArRNvw1XQkBWAeQZIrv+GhiWrKHLx6Q09tcNVGlK0GJ
-	JBYqc/CmjqnU7jCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767893514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rc9QMKouyjzH45LZUhjCbf9iU6kNH1nER3QE4i7JiDM=;
-	b=TrDPHqNzriwslUs1c+7umCElSUglJP1N5Zj45yrhcb6NcnNa3QZ5Xc/mz4AwHdFJrQrZ5I
-	gnZXsNKVPzgxosuKgeRHqv2JCjP7sUHGP0yoiMJLfOjVfsqd7Szv1HtjxdoIlkHa8j+49C
-	+/raVpT9Bb7uw3+ieXjOxGIBzIO8HwU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767893514;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rc9QMKouyjzH45LZUhjCbf9iU6kNH1nER3QE4i7JiDM=;
-	b=vHn8wQXB1vszOd1f6QtOMrupIQRL10p/S9F5NFMaGecrQrGdhlfSJO4pGhGt3J4bJUSYNF
-	CzjlGQiF5MUsfcBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7C4D3EA63;
-	Thu,  8 Jan 2026 17:31:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5NrWLArqX2npegAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 08 Jan 2026 17:31:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3B7FAA0B23; Thu,  8 Jan 2026 18:31:54 +0100 (CET)
-Date: Thu, 8 Jan 2026 18:31:54 +0100
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Luis de Bethencourt <luisbg@kernel.org>, 
-	Salah Triki <salah.triki@gmail.com>, Nicolas Pitre <nico@fluxnic.net>, 
-	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>, Anders Larsen <al@alarsen.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, Gao Xiang <xiang@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>, 
-	Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
-	Dave Kleikamp <shaggy@kernel.org>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Amir Goldstein <amir73il@gmail.com>, Phillip Lougher <phillip@squashfs.org.uk>, 
-	Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
-	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, linux-unionfs@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-mm@kvack.org, gfs2@lists.linux.dev, 
-	linux-doc@vger.kernel.org, v9fs@lists.linux.dev, ceph-devel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, samba-technical@lists.samba.org
-Subject: Re: [PATCH 19/24] tmpfs: add setlease file operation
-Message-ID: <5dtyb6by4ujjnkjz6lu4rl2x3s5km6awilvrozuzmgq2wn7bl6@cxvq3jpviunf>
-References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
- <20260108-setlease-6-20-v1-19-ea4dec9b67fa@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OcO32ZHR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4428C116D0;
+	Thu,  8 Jan 2026 17:33:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767893638;
+	bh=YfdOM3X+dex2GwYPDQAVwZhy1TpxzRQTxxNf8pg3MnA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=OcO32ZHR/2IhxRSLh73aJSqfw4ev5w92PgmyVkS9acY6s1BNqiCddFZlIMKHwLVm7
+	 E5wvykFVKq4LNCipDJ5PzpOWxIFuFb9aH9TwYNK6Gehhdc7ofszL9H0HeGafNdcwuh
+	 2YpjVUdWrXMjZ9RBm7bS2mme7ftRAH6e1Tj5+fN/D5vTv89OaW5hd1FIel6lEbSshK
+	 BR/XETisXLw4KzHJaiDgufVQ74MgEUmYN/dfsSJ2kRrJE5hhy9r7fvCLrkK9W6VBge
+	 VhLjMdVDgJEA2IdvJDRdZUB8ipVF7E4HGiS/8a+pWpEOg6oQEOAfVpLT6y6mCczPG9
+	 xFk5Dw5fKnRvQ==
+From: Lee Jones <lee@kernel.org>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Hector Martin <marcan@marcan.st>
+In-Reply-To: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
+References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
+Subject: Re: (subset) [PATCH v6 0/7] mfd: macsmc: add rtc, hwmon and hid
+ subdevices
+Message-Id: <176789363340.1116194.12135010190762961915.b4-ty@kernel.org>
+Date: Thu, 08 Jan 2026 17:33:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108-setlease-6-20-v1-19-ea4dec9b67fa@kernel.org>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,fluxnic.net,infradead.org,suse.cz,alarsen.net,zeniv.linux.org.uk,suse.com,fb.com,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,mail.parknet.co.jp,nod.at,dubeyko.com,paragon-software.com,fasheh.com,evilplan.org,omnibond.com,szeredi.hu,squashfs.org.uk,linux-foundation.org,samsung.com,sony.com,oracle.com,redhat.com,lwn.net,ionkov.net,codewreck.org,crudebyte.com,samba.org,manguebit.org,microsoft.com,talpey.com,vger.kernel.org,lists.ozlabs.org,lists.sourceforge.net,lists.infradead.org,lists.linux.dev,lists.orangefs.org,kvack.org,lists.samba.org];
-	R_RATELIMIT(0.00)[to_ip_from(RLwapsqjcu3srfensh8n36bg4p)];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[86];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 
-On Thu 08-01-26 12:13:14, Jeff Layton wrote:
-> Add the setlease file_operation pointing to generic_setlease to the
-> tmpfs file_operations structures. A future patch will change the
-> default behavior to reject lease attempts with -EINVAL when there is no
-> setlease file operation defined. Add generic_setlease to retain the
-> ability to set leases on this filesystem.
+On Mon, 15 Dec 2025 19:37:44 +1000, James Calligeros wrote:
+> This series adds support for the remaining SMC subdevices. These are the
+> RTC, hwmon, and HID devices. They are being submitted together as the RTC
+> and hwmon drivers both require changes to the SMC DT schema.
 > 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/libfs.c | 2 ++
->  mm/shmem.c | 2 ++
->  2 files changed, 4 insertions(+)
+> The RTC driver is responsible for getting and setting the system clock,
+> and requires an NVMEM cell. This series replaces Sven's original RTC driver
+> submission [1].
 > 
-> diff --git a/fs/libfs.c b/fs/libfs.c
-> index 591eb649ebbacf202ff48cd3abd64a175daa291c..697c6d5fc12786c036f0086886297fb5cd52ae00 100644
-> --- a/fs/libfs.c
-> +++ b/fs/libfs.c
-> @@ -6,6 +6,7 @@
->  
->  #include <linux/blkdev.h>
->  #include <linux/export.h>
-> +#include <linux/filelock.h>
->  #include <linux/pagemap.h>
->  #include <linux/slab.h>
->  #include <linux/cred.h>
-> @@ -570,6 +571,7 @@ const struct file_operations simple_offset_dir_operations = {
->  	.iterate_shared	= offset_readdir,
->  	.read		= generic_read_dir,
->  	.fsync		= noop_fsync,
-> +	.setlease	= generic_setlease,
->  };
->  
->  struct dentry *find_next_child(struct dentry *parent, struct dentry *prev)
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index ec6c01378e9d2bd47db9d7506e4d6a565e092185..88ef1fd5cd38efedbb31353da2871ab1d47e68a5 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -29,6 +29,7 @@
->  #include <linux/pagemap.h>
->  #include <linux/file.h>
->  #include <linux/fileattr.h>
-> +#include <linux/filelock.h>
->  #include <linux/mm.h>
->  #include <linux/random.h>
->  #include <linux/sched/signal.h>
-> @@ -5219,6 +5220,7 @@ static const struct file_operations shmem_file_operations = {
->  	.splice_read	= shmem_file_splice_read,
->  	.splice_write	= iter_file_splice_write,
->  	.fallocate	= shmem_fallocate,
-> +	.setlease	= generic_setlease,
->  #endif
->  };
->  
-> 
-> -- 
-> 2.52.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> [...]
+
+Applied, thanks!
+
+[2/7] mfd: macsmc: Wire up Apple SMC RTC subdevice
+      commit: a13cc4981449b9108921981a5e7c8824eaaa7604
+[3/7] mfd: macsmc: Wire up Apple SMC hwmon subdevice
+      commit: fb90c90aec3a9b7212a243f383f73a01bc653672
+[5/7] mfd: macsmc: Wire up Apple SMC input subdevice
+      commit: 3e9271dcb2dfdc4a98e9f6dc35c9be13276c3cfd
+
+--
+Lee Jones [李琼斯]
+
