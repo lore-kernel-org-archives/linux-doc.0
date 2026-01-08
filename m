@@ -1,106 +1,145 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A12A48AE34
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 14:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767881421; cv=none; b=Uvnu3H/nzQqd2UavnJSA31KmXfnEwldbdiJk3JY8F6O+n0iGrjX/PngqRE1Grnv93O91O+DTw0oAcV/5OGYsyCgmhD05upXf7gi5pT6/0H4VywTrUA6Y/H1gw7lK4ZAobh9gJr7/hJuPae7eet15ZJHlvIUKFLzpPcaohKqzAIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767881421; c=relaxed/simple;
-	bh=j3o37ljvU8WW3JLmg4pFonRiNxJi7xTRwgos4PfkORA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796D648AE16
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 14:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767881422; cv=pass; b=kziwsQi7SaRQhGuTBcdZS/os81ZytaeEOKlgkmXAAv+1jXLxfv+ocFR9AaduEchVANxz4jfs7nggp0iiMF5c2MPcR4KDrFY7BH8QUkUzdpX5/9JZ6SUluQ+bY9wCDqt+u0Kl1BTDZzjvmrgg5TWOI6pSEQZluBCH49o1V23NDtg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767881422; c=relaxed/simple;
+	bh=nd9v6rOTsgtmeIcSOzUf+JTIDj5sX0xCl7dm1iZzN1U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FOSts2gdJy1BKyq4h4VRQfV0g7aGnM+vZu67dkT4L/XBAH2/C4ewwnLqBfJsE1jIYcynk1s2BTLzqVpDMQAUdDP0J2vjiqFpuZBVp7USJXxh5YY+0z9Y7QzZB2VSL5JU1qvzXHIVov3eTbRrLx4eOBwZx/i0RAGy1m4pM9+4zqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cpeA1Jns; arc=none smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=fZhLfstlqi9qodN9u5YYWex96eR5QRAHzsN1iKR20prW0c9H3ymtQb++rSdmboA5VeNqdM0uRDLk9IHwr5yA0dBCNuVc/XHCdy2Gz1odxzFKJNOC9ORgP1maelUY3tTHFnVnI3qrsuBQVfvFn+PBSiRi0BJAc3FABqhBmOAg8as=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NRz6DqXa; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cpeA1Jns"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-122008e73c7so54096c88.2
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 06:10:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NRz6DqXa"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ffbaaafac4so742901cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 06:10:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767881418; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GCRtLXygezDwkum8DpsEXKKDHk46u8DlsathgT2pmNLPuSQlVL0RlHKv7diXR/Xix2
+         QHbbY6au4PHlAaw5w078G0wTHJm+LIwOnWw62wyo8VQH6FAikHEXTdktSsjx1ACekvEH
+         gouduLYc5+u2tgyfVhQZDvpEhUs2729Z1BhJlKlgB7qIv5hoJXQdSjp7UVWynbQb2Lfz
+         Ozv73RR3hXoOAulwf77uYqkWkwSI9RhGq8wP4gm+8Q4Au+OUSOpUo+deOjcgsdudzc/b
+         1wm/9whidZz+mQX8af6bjnyidl9UcYSeXxCE0r5rParkhoxeKzDviLJ+RXtgzPaPEICk
+         BFGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=M6v8yJzivCkGRPQD2RD9WlokTdTcLOTAtGeFegCEmXw=;
+        fh=03sGled8jWg6t7Asg0pmr3UOfI0vcj9bE3V2oLrbh9c=;
+        b=b2yn2mKmZLZjsH/3loVQOAPk1FqKKoGGE859227KS2/dZtnwpEaSkveyetYa0UqUdj
+         +SMSELJBQVPltHBnBN4VEuo7vHo1uwwQfeeOZR+k42XjwBSVPBIyIUrmS1REAOD3uuXN
+         FQJxR6Y3ym7mjeagVHLJDzeaiPzrKBDXSmjQ1vXFRdZNzUIWCv5khBZaAQV/OgVA4evk
+         NVkbrAfs2sdpTQ0Mnx/q53eZPR9xUHuUXp0g1SEYgXDVK+k5B5jj8mqiv/5FtEGARLB+
+         xNYtjJYDwfho89GRb5D0bPgAh/93IuhDVfi+gqYEr3MW20UAwEKC6jsuKMrxmh1tSeZ0
+         wRIg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767881419; x=1768486219; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f7jDvUFCjfFtmadOVjljTYdbYZqDf8COd2PlPO/Cyo0=;
-        b=cpeA1JnsKQUknZFaVdON2sr7SjXjkEBc7nMnIArN5iF1m/flAOnokYI68BAfjrDe2Y
-         6ngLp1c92vrcFBrWycvdpYDEA2DYQqHuRg7CY2BUdrb0lcDkRt0Ac9CLJZgdkR0kjlN8
-         +Ww6zafbb9eVrvuMUmWN6Cd/liR0cGMoQlbE6ZlnG4SQLoDIgL1x/oF7XJINpZccoNfR
-         RJgWlBaUVTcHiGmjQWvfLtaNNZTx5pySrf6UB/XowLYxeVbmTr+Dpuf35piJ0Gikvgk8
-         EtUWd09e7jFlEp9UaMZJ5O+f1zjvfZrqZAjBf0ru85glge9ESAVOtsy3yAucgIxnFL/4
-         WTHA==
+        d=google.com; s=20230601; t=1767881418; x=1768486218; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M6v8yJzivCkGRPQD2RD9WlokTdTcLOTAtGeFegCEmXw=;
+        b=NRz6DqXa4ClVdKehiDwldRMqmgo3ZwyGOugTTSKJGN7TMEzEW730F1zQwwvuFOPK/t
+         K+Ug2iifvUaf+MWX0jmC6f42mdd8oXTHeeZIxbypxamL9QvATvZO0EnRW0VHEhAo37MT
+         pOD9fdVkJyXCsMQ8pFWzPv/8to/m9zXiHo9y5X/nkzObA1dOfrsjuCR2bmepspAWt60r
+         huLuUEqGosGpeB0yBFBt9BYswxRdbBasEHIUJKLstIMjR3uktGB7D5fSPEtZWFXt5I5W
+         1miepmmRdpppRQCPv2/KLURU7U8bt+T3sb6stn9yUzAQNyy89j0yJ30leftE/x6kj2cm
+         LqAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767881419; x=1768486219;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f7jDvUFCjfFtmadOVjljTYdbYZqDf8COd2PlPO/Cyo0=;
-        b=dlILL7XJ9TSoU+zwLQHYotj0OwIhR1kGollUNaG0hSp0L5T3EWSgPhfQ3GPVxdE5j/
-         WWMuMv24wuklnf1k7sZFV0FxlfgYlgVAXUHuUGyVXjEKz57RkBQdJRw+8unW2U3xK7k2
-         EvM0LVV22qRSaoSjVF3vQmYN/Ga+ZAXjP0Ih0sp6k3lScXWRR2ItJbYMneYdANRo8LG6
-         JlkBqnFcEwSl6XQmAmF5or7H9QV6bZQ4WCjTNUodZkgaOZZuepVPJZfiDPISxUQIkVnp
-         BLukaRnLbRzFoUc4lrESAHgt6Wa2Lwk0WI0dnz3K+26pQZbW2K6NrhhJAouUx7j80McM
-         ymcg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSj6PDHdpn9gDI1NL2jhti0WX+ETXDMnhbOyFaXOE3U9GYh8FOeQrL9i3S0LoMEwgAMeZEH3fuiDc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRRR3D/YIZ5BoR7peRW8K84HmvAtPzLs2SmEPShF+ocgVSfAZ0
-	r6WsokwdvhCw9XG9qVyNiLQwGMEvAejZ6GQrSq2yfFWbqy4TQVHqdRKw9VGclc8rdc7uPs1V/k8
-	MbFXK9FlxaJEm8Q2gYwMM810KdiuI3hM=
-X-Gm-Gg: AY/fxX5eqkGakqUIMTIMr9ScYq6wtf+KgdE+NnqpabHBFGtvD6lJnyC7xz5+3v/PDDg
-	8GgeiD6V8HEaDvbs+ydsHROoYAo2nro8RvAEECnYny7zs7lFjkO3n5LReUY/5YBHe9Wesf9oeRf
-	nXaS4T3cwDIP+wxnmSa0GJaBRGkCkyX/2Akqf4rLZicIum7wEVuBfw0KSSp2hg6GG0rvjd9cb8K
-	jPOXKNe1KdbRSHIPOXqFq3XgPFNVkicWTmpievQ2Nfb8d7qAJivTHmzL5VEKdPhBeiCwj1k+bWJ
-	hFCajRZSRQNLwdcVWOJhPZWGxOxapNm07HZqM7gpfT7PfCSAuprDQcD5axEX/kZ0J9/E54pnWRx
-	A1SVaL8eGAAfb
-X-Google-Smtp-Source: AGHT+IHNeMjlzueJHkJLbN74lNQFyQb0gOywPBPdlNCJT8fAFTRMjn3wgKYlbOnJAnxGIEInLPyC5bkUa1Vxsxwj5dc=
-X-Received: by 2002:a05:7300:dd0c:b0:2ae:598e:abea with SMTP id
- 5a478bee46e88-2b17d30fd2fmr1936203eec.5.1767881419200; Thu, 08 Jan 2026
- 06:10:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767881418; x=1768486218;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M6v8yJzivCkGRPQD2RD9WlokTdTcLOTAtGeFegCEmXw=;
+        b=bQQCbKt6Rcsnw1yxTVN0oauFpciDaxwewZkpnVyfUNtwJq3Z2zSFZEXI/91eLb+Y89
+         k2Mk+uuosNa32qVdoiekRZPDXLhA5r0tYcp98VNV6mv0ftfgwAHCKChT7beL80bjAQqJ
+         9lBlgNIXm6b6kBbujBIRtj59u4l4A4Q1sY1cEHKeFBwul2SHkG2KVOu+8Shxm03c9M3u
+         W4LhgHTdsbT/Ud2SF2FbSgMtfvuLjcRkE8nfe1iupxOOrwOqV2B8EK4TNzzT/S0ZeqJr
+         P3g0Bmyly6syJYr6xP11nJZ6WD8d/tp7C5P/fts8xFs9HXM5iJIUA+FR7axyy3yoiTGH
+         VSyw==
+X-Forwarded-Encrypted: i=1; AJvYcCW23FNPHrhStxlGuiNMivQxwuuZPT9Qj1ZgSlksL5rgQ0Odr4x1U8y/fle7dWhiwWoTu0rVkSTTruk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqNUvdgqg6I5WRrOYuj1vTqzOwYqpltz2QxEu6zd+z+IYRdg6Q
+	IXOY7XmN0NTSsMvEweIcwCRyELdxSnr92MTX+0jnP8YjyeStJaUgr4mS4QQndBxRf300chZQo+N
+	gcWQOjSciAayEyCISz69hzkOWMAgFmUnlcYtSMvqI
+X-Gm-Gg: AY/fxX7cm4jsd0xmJP+z2ixnL2vLk3S9h54dlraagDutv5LPrwnVVOXoIxqn1fxk1sv
+	lgoo1MTRQoBSkci9iFN8o42Lzf+SSLqGJhonz/6u6V5z0Zvdkylwc5lsZIEbbvcmAudvMbaR6AO
+	GaUkAYBcoAM+lJlyyg4r02BykW+kOOMLG9gchKZbeQAlc3hgNyjFQ0INa32HWft5P4RTOcjwecN
+	5VT8yuwbWrZskYt/k15ZqzNfzCAhVae4FzaKmWPWtDsS2r6RzV6Zl7jUhyev05K8f9hehyg
+X-Received: by 2002:a05:622a:1191:b0:4fb:e3b0:aae6 with SMTP id
+ d75a77b69052e-4ffc0897ee3mr8604171cf.1.1767881418089; Thu, 08 Jan 2026
+ 06:10:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
-In-Reply-To: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 8 Jan 2026 15:10:06 +0100
-X-Gm-Features: AQt7F2q2cgHdJNNgrL6_JC_APYg1zxqroIvS3FffCSeaIG9gIAOBm2Oruoyww_Y
-Message-ID: <CANiq72k7_Vys-UxF=34eouu=CquaTXcb=jMiTwVb8mhP=SGEYw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/kbuild: Document gendwarfksyms build dependencies
-To: linjh22s@gmail.com
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, linux-kbuild@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-6-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-6-8be3867cb883@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 8 Jan 2026 14:09:41 +0000
+X-Gm-Features: AQt7F2rcFTpAi-WrxH-BJGuce-rrvqsGKbxHYZVaorpjl6SSauHiDAfYA3cghe4
+Message-ID: <CA+EHjTznG=6+bYW+mmmBs_QqZ2rXkKTzNxA5KSh3S67H_BBaHg@mail.gmail.com>
+Subject: Re: [PATCH v9 06/30] KVM: arm64: Pay attention to FFR parameter in
+ SVE save and load
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
+	Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 8, 2026 at 9:45=E2=80=AFAM Jihan LIN via B4 Relay
-<devnull+linjh22s.gmail.com@kernel.org> wrote:
+On Tue, 23 Dec 2025 at 01:22, Mark Brown <broonie@kernel.org> wrote:
 >
-> Fixes: f28568841ae0 ("tools: Add gendwarfksyms")
+> The hypervisor copies of the SVE save and load functions are prototyped
+> with third arguments specifying FFR should be accessed but the assembly
+> functions overwrite whatever is supplied to unconditionally access FFR.
+> Remove this and use the supplied parameter.
+>
+> This has no effect currently since FFR is always present for SVE but will
+> be important for SME.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-Not sure if this is meant to be a fix or not; but if it is, then Cc:
-stable should be considered since that commit is in an LTS and a
-Stable kernel.
-
-> +Dependencies
-> +-----
-
-Shouldn't this be the full length?
-
-> +    sudo pacman --needed -S zlib libelf
-
-I think these are supposed to be a tab (at least this file uses that)..
-
-Also, Cc'ing linux-modules@vger.kernel.org as per the "GENDWARFKSYMS"
-entry in `MAINTAINERS`.
-
-I hope that helps!
+Reviewed-by: Fuad Tabba <tabba@google.com>
 
 Cheers,
-Miguel
+/fuad
+
+
+> ---
+>  arch/arm64/kvm/hyp/fpsimd.S | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/arch/arm64/kvm/hyp/fpsimd.S b/arch/arm64/kvm/hyp/fpsimd.S
+> index e950875e31ce..6e16cbfc5df2 100644
+> --- a/arch/arm64/kvm/hyp/fpsimd.S
+> +++ b/arch/arm64/kvm/hyp/fpsimd.S
+> @@ -21,13 +21,11 @@ SYM_FUNC_START(__fpsimd_restore_state)
+>  SYM_FUNC_END(__fpsimd_restore_state)
+>
+>  SYM_FUNC_START(__sve_restore_state)
+> -       mov     x2, #1
+>         sve_load 0, x1, x2, 3
+>         ret
+>  SYM_FUNC_END(__sve_restore_state)
+>
+>  SYM_FUNC_START(__sve_save_state)
+> -       mov     x2, #1
+>         sve_save 0, x1, x2, 3
+>         ret
+>  SYM_FUNC_END(__sve_save_state)
+>
+> --
+> 2.47.3
+>
