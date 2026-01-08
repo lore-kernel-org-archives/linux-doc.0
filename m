@@ -1,140 +1,134 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA00C4A4D6D;
-	Thu,  8 Jan 2026 12:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44ED480325;
+	Thu,  8 Jan 2026 12:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767873994; cv=none; b=rqRVjkry3txK1nf1k7SKkxCo6SoGBdGADwTPXAU0ZRUsptL9n0rad5jbTRnpavsJuQG1iZ9ZxVbz4rcNLdYMbstRuM3nYa0h11TPS5GT+9LiSULASHLFi219lDk8W2YUpM5RebUPyy6mY7w3kJaGIcAdiymC58MRmtiqCWJx0Tk=
+	t=1767874516; cv=none; b=QyXFhSTtbq4vP2tjzxntBEeIyv3A0Ql6OGD5IBSQgNMsKydYIa5r4E/eamqLnTInEpcgIys1PcTECPUHOvFzUyeE5A7ctWlWigRC4HTjqoZEW4aKPk3RYCw0oBiV8TZfYslQOetYUKx20ZwMOgSweIrlZ9pQkDXzIeMhOQGXjy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767873994; c=relaxed/simple;
-	bh=g/sYTBwp403O7eXxXi6S3ShzWIZlQJYz6EEeBkbibL4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Row3UplLZ6J0pl/zAfghC77lwVCwq2pX74KqrzjIKifGOznFJ+bi2qfFPhx+wLN+vblmljYQ3CdfxWU18vo3e422tRZl7Msaq9leotT86gR1LIT+eW1tpYDgB+O7OV7eUTxePbQkgY8FRzGMIQe/G7uC7In8b6/CF4yzaqZMFSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn3XQ2fQHzHnGd7;
-	Thu,  8 Jan 2026 20:06:14 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6C8B540086;
-	Thu,  8 Jan 2026 20:06:22 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
- 2026 12:06:20 +0000
-Date: Thu, 8 Jan 2026 12:06:19 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 05/21] dax: Add dax_set_ops() for setting
- dax_operations at bind time
-Message-ID: <20260108120619.00001bc5@huawei.com>
-In-Reply-To: <20260107153332.64727-6-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153332.64727-1-john@groves.net>
-	<20260107153332.64727-6-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767874516; c=relaxed/simple;
+	bh=oBDZinY9Nh5D84J1Ns4d7Wu4t/l25XNvaZ8UJ6362WI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L9AI0hDH+pw3cgOEiHvY0zf+ry9IyoekXnsAbBUaNV6nvQwg/pOLvZrZgo4LjBHcYh1hEI2KzvJKlEgHFTxGgibKNKIc5ymW0uURbfW1fe9rqOibbkfrxRDdMstnMXk3nTw3AKW3GjBh2iYnQBjoPUEx2BIA7ll/IZqo6jPIyPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yf7Ccz9z; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yf7Ccz9z"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C7AEC116C6;
+	Thu,  8 Jan 2026 12:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767874515;
+	bh=oBDZinY9Nh5D84J1Ns4d7Wu4t/l25XNvaZ8UJ6362WI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=Yf7Ccz9zhSKaJnsXZOc6qcXEwG1mOb+vBWFcfQOGl9DrepkBwqufe1TH1Hd9z3tcn
+	 TlcYPqyi7Lrdj6etZq0G4dC7nv84gjee3Np0XAJEdaCy6qjkzF71VssYCaQQ8VQvs8
+	 EaU+C7hgdSgb29gpR9E8NYLWLccWZBaqFBdVO73wrYs/STTxT0arHktD/opZJurXO2
+	 AtowHdgccloFDSomAczkY0T6PnyaBCH6F5Zw3dIL6hSZpI/3MmD6xD+49m6k/35Njm
+	 V/iPOk08g+jQNos7h4SCitWsYlkxikqr666FuKih94sDMarUhYPTWazC8ZUY1twTyp
+	 tA+c8/ngkv6pw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 117E1D185EB;
+	Thu,  8 Jan 2026 12:15:15 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Subject: [PATCH v3 0/6] ADF41513/ADF41510 PLL frequency synthesizers
+Date: Thu, 08 Jan 2026 12:14:49 +0000
+Message-Id: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+X-B4-Tracking: v=1; b=H4sIALmfX2kC/33NQQrCMBCF4atI1kYyibWpK+8hLqbNpB3QRhIJS
+ undTbsRQVz+D+abSSSKTEkcN5OIlDlxGEuY7UZ0A449SXalhVa6AgAl0fk9VGAkc5AucqYoETu
+ 0WHurLIlyeY/k+bmq50vpgdMjxNf6JMOy/vcySCW187Yl5V13oBOOeA39rgs3sYBZfxANzW9EF
+ 6Ql3aA1rqob84XM8/wGS2mnQ/wAAAA=
+X-Change-ID: 20251110-adf41513-iio-driver-aaca8a7f808e
+To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767874513; l=2780;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=oBDZinY9Nh5D84J1Ns4d7Wu4t/l25XNvaZ8UJ6362WI=;
+ b=Qd5KgcRRfQJFn4BzMgxYGSE4nES+ykF2gna/smPyX12Jj5WkQUVtNM8YXlBzFEXzfY9QpuV0y
+ /77qAjE0E94CEoFN8lJBYjbTmTYBhkxEZFm1pQXbI3MTlqHGoCdSi4X
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
-On Wed,  7 Jan 2026 09:33:14 -0600
-John Groves <John@Groves.net> wrote:
+This patch series adds support for the Analog Devices ADF41513 and ADF41510
+ultralow noise PLL frequency synthesizers. These devices are designed for
+implementing local oscillators (LOs) in high-frequency applications.
+The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
+operates from 1 GHz to 10 GHz.
 
-> From: John Groves <John@Groves.net>
-> 
-> The dax_device is created (in the non-pmem case) at hmem probe time via
-> devm_create_dev_dax(), before we know which driver (device_dax,
-> fsdev_dax, or kmem) will bind - by calling alloc_dax() with NULL ops,
-> drivers (i.e. fsdev_dax) that need specific dax_operations must set
-> them later.
-> 
-> Add dax_set_ops() exported function so fsdev_dax can set its ops at
-> probe time and clear them on remove. device_dax doesn't need ops since
-> it uses the mmap fault path directly.
-> 
-> Use cmpxchg() to atomically set ops only if currently NULL, returning
-> -EBUSY if ops are already set. This prevents accidental double-binding.
-> Clearing ops (NULL) always succeeds.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-Hi John
+Key features supported by this driver:
+- Integer-N and fractional-N operation modes
+- High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+- 25-bit fixed modulus or 49-bit variable modulus fractional modes
+- Digital lock detect functionality
+- Phase resync capability for consistent output phase
+- Load Enable vs Reference signal syncronization
 
-This one runs into the fun mess of mixing devm and other calls.
-I'd advise you just don't do it because it makes code much harder
-to review and hits the 'smells bad' button.
+The series includes:
+1. PLL driver implementation
+2. Device tree bindings documentation
+3. IIO ABI documentation
 
-Jonathan
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+Changes in v3:
+- Use FIELD_MODIFY macro in driver implementation
+- Drop refin_frequency iio attribute
+- Drop muxout-select property from dt-bindings (and rename logic-level property)
+- Use -mhz suffix in power-up frequency property
+- Address documentation issues
+- Link to v2: https://lore.kernel.org/r/20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com
 
-> ---
->  drivers/dax/fsdev.c | 12 ++++++++++++
->  drivers/dax/super.c | 38 +++++++++++++++++++++++++++++++++++++-
->  include/linux/dax.h |  1 +
->  3 files changed, 50 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index 9e2f83aa2584..3f4f593896e3 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -330,12 +330,24 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  	if (rc)
->  		return rc;
->  
-> +	/* Set the dax operations for fs-dax access path */
-> +	rc = dax_set_ops(dax_dev, &dev_dax_ops);
-> +	if (rc)
-> +		return rc;
-> +
->  	run_dax(dax_dev);
->  	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
->  }
->  
-> +static void fsdev_dax_remove(struct dev_dax *dev_dax)
-> +{
-> +	/* Clear ops on unbind so they aren't used with a different driver */
-> +	dax_set_ops(dev_dax->dax_dev, NULL);
+Changes in v2:
+- separate driver implementation from extra features and improve commit messages
+- use macros from units.h
+- explanation of custom parse function: adf41513_parse_uhz
+- reorganize driver data structures
+- drop clock framework support for now
+- reorganize documentation
+- Link to v1: https://lore.kernel.org/r/20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com
 
-Generally orderings of calls that mix devm and stuff done manually in remove are
-a bad idea.  They can be safe (and this one probably is) but it adds a review
-burden that is best avoided.
+---
+Rodrigo Alencar (6):
+      dt-bindings: iio: frequency: add adf41513
+      iio: frequency: adf41513: driver implementation
+      iio: frequency: adf41513: handle LE synchronization feature
+      iio: frequency: adf41513: features on frequency change
+      docs: iio: add documentation for adf41513 driver
+      Documentation: ABI: testing: add common ABI file for iio/frequency
 
-Once you stop using devm_ you need to stop it for everything.  So either
-use a devm_add_action_or_reset for this or drop the one for fsdev_kill and
-call that code here instead.
+ Documentation/ABI/testing/sysfs-bus-iio-frequency  |   11 +
+ .../bindings/iio/frequency/adi,adf41513.yaml       |  234 ++++
+ Documentation/iio/adf41513.rst                     |  199 +++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |   10 +
+ drivers/iio/frequency/Kconfig                      |   10 +
+ drivers/iio/frequency/Makefile                     |    1 +
+ drivers/iio/frequency/adf41513.c                   | 1295 ++++++++++++++++++++
+ 8 files changed, 1761 insertions(+)
+---
+base-commit: fb2f4eb29a258145b0336601f00509cab6e93e7c
+change-id: 20251110-adf41513-iio-driver-aaca8a7f808e
 
-> +}
-> +
->  static struct dax_device_driver fsdev_dax_driver = {
->  	.probe = fsdev_dax_probe,
-> +	.remove = fsdev_dax_remove,
->  	.type = DAXDRV_FSDEV_TYPE,
->  };
+Best regards,
+-- 
+Rodrigo Alencar <rodrigo.alencar@analog.com>
 
 
