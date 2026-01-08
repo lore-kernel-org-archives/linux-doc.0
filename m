@@ -1,269 +1,362 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012058.outbound.protection.outlook.com [52.101.43.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534AD4EEF5E;
-	Thu,  8 Jan 2026 14:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767881108; cv=fail; b=MufPydzmUCzHsNL/jpaSbYt85bBubHiO/iAe88rw+MHLk4m7hLcB2FxxZ16zw5DqBi0Hii/jvt1aG0RPtbCA5jG33e/N+ztK1aWg2ixZ4MEVSKB9LIt8ZE02Fai/AaepBHvb5xl43ls1jNAgeY5+yOwVez283z9VEdFACG0w8Yk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767881108; c=relaxed/simple;
-	bh=yjFosxzaEv3DxFsNBBiVZ4SQrN/QJyPmvPrfdLhLLBE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jHlimTtKM4FqoTM27XVsDYlJHUFQ0nyX8VWvB1YEjOg/2d+UpiCrjnddJDlTI+ulErNJH8IRJWTo1AwHZt9qcNI6fNfqlZPqBx4f3Xi2+TEBEAnrRxmDCcx8IiDWf9JUtdwbiGisXZVXbXUF/4xcGXI5a5SFT8uHhLTJ0u+o2oY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sUyTwtq8; arc=fail smtp.client-ip=52.101.43.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9B64D77A2
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 14:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767881198; cv=none; b=JKfMCz1tfz9uvprmpvlgYtKE4ZtXSV1QUZ+r90UDPdVANcCYCrC+Ew58Jdvqa/G3uxEPiwKXgZoRmIr0I5WEXmzpTjEVY4Z+L6GW3Pwt4qApv2n8u99Ghv0juqjRgUONZq2ql2Ka9c0q860lcTzlAz+SZxYhnG0K5kEVyFVhVNM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767881198; c=relaxed/simple;
+	bh=3FIkjO3NG+obkV87quC4g5/nDfuPMgijvg6hZGLxtLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C+mG1ZBsO+xw3W7paLI7lFwOuvWWT8lIrNSCGjtNeECFu8gCX3WMOI8Pg1soI1jrIjhblP8nfki8GWrQrzi9xVKjWW3nN/md+s83/0WOV/2MJCXojjaXjvsWyoaiJ9ohKHYXdLatJQFKs/YErt2YbxsJd7E2U3u8/uaaLQVkb+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=G0E35x40; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PPQOD48M; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=s55YAOHo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+uW1vKPV; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sUyTwtq8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TFMoyjYLrHQLvlk1zUCWhMa9jPZlhyGn4OksfAMiESE32kR2SRf6xrfBCCEnSlZuvZ7QnYZdoWWaqUHzmBF1aGfEbIX5yNvGemib2ZBymI4Nn03Ed9v9jEjIB5TkhCSHk9I+r2vYFVDx0x6WcBvC1PMSh+wZGcDLnRYgAAMguFulWTErs7/P9J8Nv9wf0DC/5jbuu31EBd+Q8wyG9088aC1wliOOV83FAeZj9USPrp8ywGPERqcv+9gIHxhG39OhK/GQ5rXrgFk5cKDSCOq6lgAW5Zqn0qyshqzaN8urIgO4C18wAxSmgKvYkqX3K5hEgCM9VW/+gccYcxvVNxYvWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VX5bZbjLcxyJgbN4YhDYL5RyiputAbCR7L0HFeOhw0M=;
- b=CPAOJTZZeyQENKcWt5ynNs0+oMTf8brfUs9+cj0jRtCw1eviFhDBgpbUbAk386WAzAAlsLI0mQm+pqNxihHkle1mrXnyG+InRpm+VBhDVhLpFwLWD2sbmJFIEHiAwzJmzKWAjY9KLGW2oPCPL1AvQ4ZVSYL5k77I57RrN/1vEvo0dSkGPc3hWIDC/5fTTiIS1WsyrsPz87j+c4nctbA06rjcyJwkdKpH8uObneE6cTFpXjUU3jZScXaAEPPspynA51xdf8pxoSuwdRuid52NepeKsmsXvJqEXbeoBw/KRiavZ9pUlnuluX29m3PwzAf5sYlUelK4jikSTEtKDj/PBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VX5bZbjLcxyJgbN4YhDYL5RyiputAbCR7L0HFeOhw0M=;
- b=sUyTwtq8C7LIF+tqJZHSBk3I03cET1Uhd+9G0g8BMEt0mBeYXba46bvalI2B2IlH4fH0WCnCxpUrqG7mUZwlES7j3AaeXfpfacK9kkT/JNA9XIK3wTJE8YGgsivMQOBdypOkz4k+9UWiBNFiTR1MLhMdf99h4O2cfqElGx42xE2NGpc/cnzxC7HYMT2UGxrzuETyVHbf08aomMNQnjh6kaNSeK9cahsONco6SFIbNWU1skq4csmRd3OQJhcjTe+R2samQUrmlCJaQcSB+0LUwWFpuLxXDCTBcyygE87Ed/lbXgxcu+u5VwYAOGhMpeYtrugSNPnY6OEB6B4KXqvv2w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by DM6PR12MB4172.namprd12.prod.outlook.com (2603:10b6:5:212::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Thu, 8 Jan
- 2026 14:05:03 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
- 14:05:03 +0000
-Message-ID: <2b059212-0fc7-4bb1-a759-11ea24b58906@nvidia.com>
-Date: Thu, 8 Jan 2026 19:34:51 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/11] cpufreq: CPPC: add autonomous mode boot
- parameter support
-To: "zhenglifeng (A)" <zhenglifeng1@huawei.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
- corbet@lwn.net, pierre.gondois@arm.com, rdunlap@infradead.org,
- ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com,
- perry.yuan@amd.com, ionela.voinescu@arm.com, zhanjie9@hisilicon.com,
- linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- nhartman@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
-References: <20251223121307.711773-1-sumitg@nvidia.com>
- <20251223121307.711773-12-sumitg@nvidia.com>
- <3887747b-214e-45e5-9f85-d4e20a5e2e68@huawei.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <3887747b-214e-45e5-9f85-d4e20a5e2e68@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0233.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1f4::14) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="G0E35x40";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PPQOD48M";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="s55YAOHo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+uW1vKPV"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C4DBB5C26E;
+	Thu,  8 Jan 2026 14:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767881193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
+	b=G0E35x40ABgPN7d1+hSLMpkhOXy+wYSw3ZDtIcDPS+FQwF23mhrRPgH/9PGGa1RXE2Xxm3
+	ULah/KYOrmmc0c+fopDjYWIAxgQTMquQx9ENYoCnH5ykA/L5RtvGO5M/6pOxHlUD0JzyPB
+	zYO54zK5XD2B/wKfFeuDRhmP0hzo73k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767881193;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
+	b=PPQOD48MICWsjSFTJkfF8VoEWSxtifm8GqhaJLS4wIvbOGwh5y2ObjbaPyRzV7lLabqDCA
+	2pK71hGmsaXZGWBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767881192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
+	b=s55YAOHo9ZYPli6YQzIU1mejK2dZaw2pbIbEeExXeMOHQU+KOTJlAJaAhQm/loYLWq7w5Z
+	JJSEYe7gMWiFrZZCJzaSsi1a8kGEpW9q8RTCKYvfofMhUGjh6z5fM8QLJ8WqErmV2/jE/A
+	iPyFXCNIqiifXZlvcfJf6qg5LpGFM9w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767881192;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=wMbTKpF62EVlMIvP9rtTlI1EHLuFDiABCZ/3ZLwBSXU=;
+	b=+uW1vKPVQAynozdn/ZUDUxZbcwDyfNzKQuHIXV7VEMzMa4hi8XlEAzdLnWwddCnWTC45MT
+	gSI5HgJUbbephDAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59BBB3EA63;
+	Thu,  8 Jan 2026 14:06:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fa07Fei5X2kpLgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 08 Jan 2026 14:06:32 +0000
+Message-ID: <f1f06db9-a12c-4999-9723-1fca5e8383a4@suse.cz>
+Date: Thu, 8 Jan 2026 15:06:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|DM6PR12MB4172:EE_
-X-MS-Office365-Filtering-Correlation-Id: bdcf4891-fd7c-4fea-67da-08de4ebeeaeb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?V2lQRmFFVUQ2NnByMmJmeFBWaTFkMkVhZWdOV3JkdWJNMUMxRnBSaWd5b1h1?=
- =?utf-8?B?WVNhMkRXeklxM0tYQmUvMk1YZlVhVGVqd1k3ZTlRaFdKRkpUVXplOXBWSDJ4?=
- =?utf-8?B?Z0NUV2tvQ0t3aFo3UUlBa1A2bUpxUDdmSXdidzBiZGREaTB4SmZPY2FMWEZE?=
- =?utf-8?B?VlMvOHpEY1Iwa3BNazlURmVDOTg5RUVkc3QycStsNzZMUC8ycm8xaFhmMDBS?=
- =?utf-8?B?SSs2UGRjSnd6SGwzSEZVUGlqbENVUzZDTitXZy9McDV0Y25JRHd6OTNudWNy?=
- =?utf-8?B?OXhTK042Rlp4dDRIR0huZzJnbGc4THpaVTNlWlAvR3QvVUp3V0JVK2FjQ1p5?=
- =?utf-8?B?L0dxODNMcURoVVMzalFGbzVxVGUxZ2RmRDh0NS9pb3FnVncrdnR6cXVZRnFo?=
- =?utf-8?B?MUluTGc1MDY2UUJ1d3cxeUN2N3JkVzRIUnA0UFNOb0RvSzBMK0RuRlRLSHp6?=
- =?utf-8?B?WXh5UlRiajg1VHBBV1Z4RkNUQ1hFUDZzMnFGMHBFWDRjZ0FwL1FLVW1mSnZ1?=
- =?utf-8?B?V2d4cmtPa1BvaXZCNS9rVmJpTGJCdWZDa1cyMzZ0NDlPTnVPZHVjSW8zRCs4?=
- =?utf-8?B?ZlNKTjZSRGZDTUgvbE1nNThWMVVEK2R4UnBFZ2R2cVJ1UVBUQnpxQ0hTdWJj?=
- =?utf-8?B?V0JObjQ4K2Z4VmMxZHRZd3FTZTBPRUV1eHUzaUFGTUVqZXllT2xrcjUxbCta?=
- =?utf-8?B?eUlZVG1UZDM4dVM5TWozZG5qWHByQU1wUCtJNVNRVXp6MlNucldIWlF3M1Nj?=
- =?utf-8?B?UnR1M2xFZnZSQzNQaWFRcnBoTjNQMzRPdDFSSzlnd3lTUjgrWlM2c1ZGOWc5?=
- =?utf-8?B?Zk5POFczUjNnSHVoQTdLQTQxL2NYc3lqVWIxOWlDQjVzTXNUbnJUdk5JNDNz?=
- =?utf-8?B?UGlzMHVGM3JEVGlzaGRMdHJMN3FpYkkyNzNDbzRUSGFMRjFTL0lZbTJ2S2dE?=
- =?utf-8?B?b05zbEsreml4VXlVMzU0NUpGOEZFRktNMlUyVVVkam5vUFBKemE5VU9XRUZh?=
- =?utf-8?B?MC9wQ0xNZzMzanNGSDFzR1lTS29QeFZvRElBdTY2R0ViZDFjcEdUd2w1WS83?=
- =?utf-8?B?YjFKb1Q2TU9ZbHNWMXlpenBRb1p0cXM1NU5nb1JQK0x4TjI2cHY0OHlKZ09s?=
- =?utf-8?B?Wk5TQmhTbFJxRGdGd3BHVmgvdGo1SElXZHBjRUpzaXZtQXJVWXlBMmQ5MlIx?=
- =?utf-8?B?bmZjWnlSNy9IZ2dNbzEwU05mVWVKWWx4UWNrbk9oM2J4Y1NxeXVVbEl6eWsw?=
- =?utf-8?B?UlZQdFpPNk4yWFhtcDUycGszd1MwUlo2NXJPUUd5QnJXSEFuTDRwSzZLMm50?=
- =?utf-8?B?djNjRUJCZXFQZURkczJYUkp1ek51NDJPSk5FRmtnM0w1MnpzZkRnclpoWmxI?=
- =?utf-8?B?aUZRNlJETGhqUEhCeWNwaTRBLy85Q2x4d0JpNVBBS2ZjZHhZR1QvUTVXeHhK?=
- =?utf-8?B?NndqNG93a3JvalpvdEE5TXJHYTBCUnNqNzRNUDhCOFBmZGtTaUI4bHRjRXFt?=
- =?utf-8?B?SEJyRmtOMkl0SDlKaCtIaXdFcXA4NWZSNHJhd1Rrb3pWSGlxTW50Q2x2N0VV?=
- =?utf-8?B?ZTVTS3hJZW5OTkVwRHZwd2ZDNTBENFU5VklhNEp6aDFVcjNYTFpSZWg1VERP?=
- =?utf-8?B?ZU1nb3NENWljZ3ZEY29oUWdTSkJDdTBLYlRIeCtGQ0R4TmZjc0JudWRpTjc1?=
- =?utf-8?B?dnRrTmhCZS82NVBSL0dLVWJTNEE0VHlyMThQckZ2aVhtSm51UEEyZnMwemRq?=
- =?utf-8?B?TFlTRHh3RVE2dERZaldrYnJTQzV6STdlYnF4REVCU1ZCTUxxOHh5cEZSNjVw?=
- =?utf-8?B?YUVCUW9jTVJvYW9veCtQMjIwaXEzT1NDbkJJWTc5OHBzbFp1Rk1za3NjdUsr?=
- =?utf-8?B?R0VWMC9LcmpTM0J0UE91WDNoMkpCYUxIUTZBaHJVYUNaTC9McHUrSkhpTUZv?=
- =?utf-8?B?VjBuY0pPYkR0dmhkUzZiRk12SkRCQW1HMG1SY2p3bVlQZ1V0ZGNkNVhsdEhD?=
- =?utf-8?Q?V+8UfT5BmkMAYrzdBeshaPbTw1rfx0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YTFxcm9wL1dIT0gxdnR5TTBXRGlZemhweHVVc0V3cTFpYjZOM2dJYWt6Z3NH?=
- =?utf-8?B?eVAydXdQaWRKeXdhMG9heUZQRGUyU0kxODZFNzROMnpqQzNMbW5nS1hyZFhX?=
- =?utf-8?B?Z3ZJUnJjS3JFM0VDdEs2dEdCWEt0dVVRejRqMzJIUHBmTHJudExYc1dwWmZa?=
- =?utf-8?B?ZFc5enB0R2ZRR3RtYWlQeDZ4Qnp4RnBnbGRwR1RXeGFBZm9oMmp2b1drbnd3?=
- =?utf-8?B?bVhBVEI5SlhCSTIrYnlGWkttcVpHNzFtVEVleGoxcDJzQzRHWTZic1JxbDNr?=
- =?utf-8?B?V1ljWFBkeWFxcWliOExlWkxoUmxwRUVYaCt2cXY2aXlIR1N5VVpRSUx1czQy?=
- =?utf-8?B?TzQrZkltbmp0QXhtSkJSSXRJVHc0SGRXOGpzU1ZlTUc2MFM2dERTYmFMQmth?=
- =?utf-8?B?RnJZMGZpVnlyMUMzTlpCa1FSMnRXbmRzZW05YkRJM1gzMjk1RjVWSVF5YVNT?=
- =?utf-8?B?UGNER2JKWGNBTk5LK25zZStFdGhac0lRelI1YTlTaDA1UlVDS3dGL20yWFV1?=
- =?utf-8?B?d09pZWVNb3pFQWtJV09rRmFzRlZVMU1Bc3hHZDdpWS9COE9TdDZHRW9GQ3Bj?=
- =?utf-8?B?Rm5Fd2VaNC9NbDZhTWEySG5YRGt2V1dUNE82dElESU5WV0huRFFHeTdncWVa?=
- =?utf-8?B?eHJ0Q1dsMEswMFp6VTBWQnluelVzR2hlS3FSTStjVkhjODBNeTQzdmFubDNr?=
- =?utf-8?B?QzB2MnZoeWI4UDd2TVdhNjNxV3pGcndBZW1GRTY1cEMrQ0hEQkRENGo0czBv?=
- =?utf-8?B?TVpFK3M5bldtRHU0SHBFZlgzTVNzZ1N2Rm5XeElBTkM4MXNWZy9UV1VRYXZD?=
- =?utf-8?B?WVV5ZTIrR1c3QWtNQkZnRzdPZFVMQmJOWkxIem5WOTFDZVFEdlNvQXl1NFlQ?=
- =?utf-8?B?ZVIzL3RJeE9BYzloYXFNMGQzSG1lSGZtTnpmZElETXZTWHF5ZnJyTW4rRWRh?=
- =?utf-8?B?UUlrMmhXdjBaMDVuZUtaczVTcjN3Kzc5TFAyVlkxMHlkcVBESVI2UlJMYkYx?=
- =?utf-8?B?TmJOVnQzSGFRWEVOK2JQczh4TzFJOVJGSU5mRmxCQUd0T1NGeWIwdjNSNk0x?=
- =?utf-8?B?NTI4cENzMEZBVklUSWh1RVpwWjdlUVhZc2Nrb2pnQ1VlVCtMVDN5T25JeE13?=
- =?utf-8?B?MVlWczhnSUI4cGJLcVFBYjJrYTFmbndMWkpmcHhIUzlPWFpvbTAzWHM1UjFJ?=
- =?utf-8?B?U3ZzdmhvWjBRSkVyY2xZcGFIalRlWUVSbkV3TnZZMTVlQ1lRaUdDYXV5dENM?=
- =?utf-8?B?TWwzVlhYQlFESUYwbmxZZGQrVEhTZ0NZZVMrT3lod0hiV1VzeXJ0djdEWnF0?=
- =?utf-8?B?RnV4SFROZjNpTFowcm1vNlRQTXdjVVJ1Z0pBZjBDRGZCQlNZRmYveUJ2TWJT?=
- =?utf-8?B?K1kyelZUY0hocXIveHBxOGhtanlCY1E1S0hudWw4OFUwZHdLUTUrMFA1ZmFa?=
- =?utf-8?B?QmNMdVkwY0tWdnlES0FYckx6MUtxeHBId3FxQW9ObGsvT0hxRi9qQVFTWjZY?=
- =?utf-8?B?ZWZiRFBVK1hlQUFrbEZrYkQrNGhkVWIzTDYzVFcyS3VTaXlyeFJiUFZ0ZGdL?=
- =?utf-8?B?dU9qbGtCVkRpZWhmRndsWG55aXp4Y3FFd1lxWG5LbFNabmk4NjNnek1PMDl0?=
- =?utf-8?B?UlBTTTlaOXdxM2RPd1BVTlNpOEg0ejR0ZExGSVZkaXBNWEo0RE5uQ0IyV2N5?=
- =?utf-8?B?NVd5b01KYjFwUlhZS1VheGtOMHNTcEVjSDhvY0NxUU11ck12Z3BJSTllL2t0?=
- =?utf-8?B?WllMTTltelJsa2ZGNXBGK1habm1yTDhkbEJVaTRGb21VWFhDbGdFdldTR3Zz?=
- =?utf-8?B?VWt3dEVhN2NmQ1E0ZE9uVGw5d1NzQ3R4eXEycFZZVHFtSXhqRFdXN3U4dWtP?=
- =?utf-8?B?Vk5iUWw5QkV4NEszL09DSVVXai9JMVhWVnNDeGFiWDJONjA3Z20yai9BbW1Y?=
- =?utf-8?B?ZEpLUTJ1eCtNb1BiWER2WUtHaGFEcjFqLzdoRnl6TVBtQzRrVC9rZ2RFQUVB?=
- =?utf-8?B?R1pVMXJiOE1sYWdkQnhRYWlibml2VnBTSzQzbExCbWtsVWl5MjdQYjdVSm9i?=
- =?utf-8?B?b0JFcVF6cDZVZ3gzK3VKSHhJSXpmT1dYTHpoUHNnN1VoSnRsWkVzNkZHQ2NS?=
- =?utf-8?B?dDgrckZ6SXRqcHVVeTB0RnhDRzhOS3RRV1lJbXBPNUZwM0ZseXlLdDJ4allI?=
- =?utf-8?B?T1RnZHhjcXNGa1YxNnRTN2M0KzlRWllOVmxBSElnSDQ0blpkZE9xdWxBY25B?=
- =?utf-8?B?TEw5VGluNlVtcnJ3ZFBUYzVtdG9NREllWmJZbnJoTkpnYmt2YnFhWXI0VHo5?=
- =?utf-8?B?WkNPUGs4c3l2M1VmNTBKeDlURldmVFMxZWNVVlJZNzZyT2RFekQ1dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bdcf4891-fd7c-4fea-67da-08de4ebeeaeb
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 14:05:02.9324
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IiinAWfj0eDJqUhjB+dWIKYFFbP91IXkLO+0TTONG3r6xuAdsxzqNkhIIu1cmmjZ2hZrhrsNQzoKW0lUOijyFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4172
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/5] slab: Introduce kmalloc_flex() and family
+Content-Language: en-US
+To: Kees Cook <kees@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
+ <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-hardening@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, John Hubbard <jhubbard@nvidia.com>,
+ Joe Perches <joe@perches.com>, Christoph Lameter <cl@linux.com>,
+ Marco Elver <elver@google.com>, Vegard Nossum <vegard.nossum@oracle.com>,
+ Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Jann Horn <jannh@google.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>,
+ Tony Ambardar <tony.ambardar@gmail.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20251203233029.it.641-kees@kernel.org>
+ <20251203233036.3212363-4-kees@kernel.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <20251203233036.3212363-4-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[40];
+	TAGGED_RCPT(0.00)[lkml];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLwn5r54y1cp81no5tmbbew5oc)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lwn.net,linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,kernel.org,vger.kernel.org,kvack.org,infradead.org,intel.com,nvidia.com,perches.com,linux.com,lge.com,linuxfoundation.org,gmail.com,jfarr.cc,lists.linux.dev];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,linux.dev:email,suse.cz:mid,suse.cz:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
+On 12/4/25 00:30, Kees Cook wrote:
+> As done for kmalloc_obj*(), introduce a type-aware allocator for flexible
+> arrays, which may also have "counted_by" annotations:
+> 
+> 	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+> 
+> becomes:
+> 
+> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+> 
+> The internal use of __flex_counter() allows for automatically setting
+> the counter member of a struct's flexible array member when it has
+> been annotated with __counted_by(), avoiding any missed early size
+> initializations while __counted_by() annotations are added to the
+> kernel. Additionally, this also checks for "too large" allocations based
+> on the type size of the counter variable. For example:
+> 
+> 	if (count > type_max(ptr->flex_counter))
+> 		fail...;
+> 	size = struct_size(ptr, flex_member, count);
+> 	ptr = kmalloc(size, gfp);
+> 	ptr->flex_counter = count;
+> 
+> becomes (n.b. unchanged from earlier example):
+> 
+> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+> 	ptr->flex_count = count;
 
-On 26/12/25 13:33, zhenglifeng (A) wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 2025/12/23 20:13, Sumit Gupta wrote:
->> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable CPPC
->> autonomous performance selection on all CPUs at system startup without
->> requiring runtime sysfs manipulation. When autonomous mode is enabled,
->> the hardware automatically adjusts CPU performance based on workload
->> demands using Energy Performance Preference (EPP) hints.
->>
->> When auto_sel_mode=1:
->> - All CPUs are configured for autonomous operation during init
->> - EPP is set to performance preference (0x0) by default
->> - Min/max performance bounds use defaults or already set values
->> - CPU frequency scaling is handled by hardware instead of OS governor
->>
->> The boot parameter is applied only during first policy initialization.
->> User's runtime sysfs configuration is preserved across hotplug.
->>
->> For Documentation/:
->> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->> ---
->>   .../admin-guide/kernel-parameters.txt         | 13 +++
->>   drivers/cpufreq/cppc_cpufreq.c                | 85 +++++++++++++++++--
->>   2 files changed, 90 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index aab72efa1acd..450f0b0225dc 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1035,6 +1035,19 @@ Kernel parameters
->>                        Format:
->>                        <first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
->>
->> +     cppc_cpufreq.auto_sel_mode=
->> +                     [CPU_FREQ] Enable ACPI CPPC autonomous performance
->> +                     selection. When enabled, hardware automatically adjusts
->> +                     CPU frequency on all CPUs based on workload demands.
->> +                     In Autonomous mode, Energy Performance Preference (EPP)
->> +                     hints guide hardware toward performance (0x0) or energy
->> +                     efficiency (0xff).
->> +                     Requires ACPI CPPC autonomous selection register support.
->> +                     Format: <bool>
->> +                     Default: 0 (disabled)
->> +                     0: use cpufreq governors
->> +                     1: enable if supported by hardware
->> +
->>        cpuidle.off=1   [CPU_IDLE]
->>                        disable the cpuidle sub-system
->>
->> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
->> index b3da263c18b0..8c6869e68504 100644
->> --- a/drivers/cpufreq/cppc_cpufreq.c
->> +++ b/drivers/cpufreq/cppc_cpufreq.c
->> @@ -30,6 +30,9 @@ static struct cpufreq_driver cppc_cpufreq_driver;
->>
->>   static DEFINE_MUTEX(cppc_cpufreq_update_autosel_config_lock);
->>
->> +/* Autonomous Selection boot parameter */
->> +static bool auto_sel_mode;
->> +
->>   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>   static enum {
->>        FIE_UNSET = -1,
->> @@ -643,11 +646,16 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
->>    * cppc_cpufreq_update_autosel_config - Update autonomous selection config
->>    * @policy: cpufreq policy
->>    * @is_auto_sel: enable/disable autonomous selection
->> + * @epp_val: EPP value (used only if update_epp true)
->> + * @update_epp: whether to update EPP register
->> + * @update_policy: whether to update policy constraints
->>    *
->>    * Return: 0 on success, negative error code on failure
->>    */
->>   static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
->> -                                           bool is_auto_sel)
->> +                                           bool is_auto_sel, u32 epp_val,
->> +                                           bool update_epp,
->> +                                           bool update_policy)
-> cppc_cpufreq_set_mperf_limit() and cppc_cpufreq_update_autosel_config()
-> have too much bool input param. Just break them down into several separate
-> functions and call them only when needed. These two functions are now too
-> hard to read.
+             ^ flex_counter ?
 
-Sure, will break them and open code in v6.
+But if it was "too large", ptr is NULL so this will oops?
 
-Thank you,
-Sumit Gupta
-
-....
-
+> Note that manual initialization of the flexible array counter is still
+> required (at some point) after allocation as not all compiler versions
+> support the __counted_by annotation yet. But doing it internally makes
+> sure they cannot be missed when __counted_by _is_ available, meaning
+> that the bounds checker will not trip due to the lack of "early enough"
+> initializations that used to work before enabling the stricter bounds
+> checking. For example:
+> 
+> 	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+> 	fill(ptr->flex, count);
+> 	ptr->flex_count = count;
+> 
+> This works correctly before adding a __counted_by annotation (since
+> nothing is checking ptr->flex accesses against ptr->flex_count). After
+> adding the annotation, the bounds sanitizer would trip during fill()
+> because ptr->flex_count wasn't set yet. But with kmalloc_flex() setting
+> ptr->flex_count internally at allocation time, the existing code works
+> without needing to move the ptr->flex_count assignment before the call
+> to fill(). (This has been a stumbling block for __counted_by adoption.)
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Christoph Lameter <cl@gentwo.org>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Roman Gushchin <roman.gushchin@linux.dev>
+> Cc: Harry Yoo <harry.yoo@oracle.com>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: <workflows@vger.kernel.org>
+> Cc: <linux-doc@vger.kernel.org>
+> Cc: <linux-mm@kvack.org>
+> Cc: <linux-hardening@vger.kernel.org>
+> ---
+>  Documentation/process/deprecated.rst |  7 ++++
+>  include/linux/slab.h                 | 48 ++++++++++++++++++++++++++++
+>  2 files changed, 55 insertions(+)
+> 
+> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+> index 91c628fa2d59..fed56864d036 100644
+> --- a/Documentation/process/deprecated.rst
+> +++ b/Documentation/process/deprecated.rst
+> @@ -387,6 +387,7 @@ allocations. For example, these open coded assignments::
+>  	ptr = kzalloc(sizeof(*ptr), gfp);
+>  	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+>  	ptr = kcalloc(count, sizeof(*ptr), gfp);
+> +	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
+>  	ptr = kmalloc(sizeof(struct foo, gfp);
+>  
+>  become, respectively::
+> @@ -395,4 +396,10 @@ become, respectively::
+>  	ptr = kzalloc_obj(*ptr, gfp);
+>  	ptr = kmalloc_objs(*ptr, count, gfp);
+>  	ptr = kzalloc_objs(*ptr, count, gfp);
+> +	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
+>  	__auto_type ptr = kmalloc_obj(struct foo, gfp);
+> +
+> +If `ptr->flex_member` is annotated with __counted_by(), the allocation
+> +will automatically fail if `count` is larger than the maximum
+> +representable value that can be stored in the counter member associated
+> +with `flex_member`.
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 726457daedbd..2656ea610b68 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -982,6 +982,33 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node);
+>  	(TYPE *)KMALLOC(__obj_size, GFP);				\
+>  })
+>  
+> +/**
+> + * __alloc_flex - Allocate an object that has a trailing flexible array
+> + * @KMALLOC: kmalloc wrapper function to use for allocation.
+> + * @GFP: GFP flags for the allocation.
+> + * @TYPE: type of structure to allocate space for.
+> + * @FAM: The name of the flexible array member of @TYPE structure.
+> + * @COUNT: how many @FAM elements to allocate space for.
+> + *
+> + * Returns: Newly allocated pointer to @TYPE with @COUNT-many trailing
+> + * @FAM elements, or NULL on failure or if @COUNT cannot be represented
+> + * by the member of @TYPE that counts the @FAM elements (annotated via
+> + * __counted_by()).
+> + */
+> +#define __alloc_flex(KMALLOC, GFP, TYPE, FAM, COUNT)			\
+> +({									\
+> +	const size_t __count = (COUNT);					\
+> +	const size_t __obj_size = struct_size_t(TYPE, FAM, __count);	\
+> +	TYPE *__obj_ptr;						\
+> +	if (WARN_ON_ONCE(overflows_flex_counter_type(TYPE, FAM,	__count))) \
+> +		__obj_ptr = NULL;					\
+> +	else								\
+> +		__obj_ptr = KMALLOC(__obj_size, GFP);			\
+> +	if (__obj_ptr)							\
+> +		__set_flex_counter(__obj_ptr->FAM, __count);		\
+> +	__obj_ptr;							\
+> +})
+> +
+>  /**
+>   * kmalloc_obj - Allocate a single instance of the given type
+>   * @VAR_OR_TYPE: Variable or type to allocate.
+> @@ -1005,23 +1032,44 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node);
+>  #define kmalloc_objs(VAR_OR_TYPE, COUNT, GFP)		\
+>  	__alloc_objs(kmalloc, GFP, typeof(VAR_OR_TYPE), COUNT)
+>  
+> +/**
+> + * kmalloc_flex - Allocate a single instance of the given flexible structure
+> + * @VAR_OR_TYPE: Variable or type to allocate (with its flex array).
+> + * @FAM: The name of the flexible array member of the structure.
+> + * @COUNT: How many flexible array member elements are desired.
+> + * @GFP: GFP flags for the allocation.
+> + *
+> + * Returns: newly allocated pointer to @VAR_OR_TYPE on success, NULL on
+> + * failure. If @FAM has been annotated with __counted_by(), the allocation
+> + * will immediately fail if @COUNT is larger than what the type of the
+> + * struct's counter variable can represent.
+> + */
+> +#define kmalloc_flex(VAR_OR_TYPE, FAM, COUNT, GFP)	\
+> +	__alloc_flex(kmalloc, GFP, typeof(VAR_OR_TYPE),	FAM, COUNT)
+> +
+>  /* All kzalloc aliases for kmalloc_(obj|objs|flex). */
+>  #define kzalloc_obj(P, GFP)				\
+>  	__alloc_objs(kzalloc, GFP, typeof(P), 1)
+>  #define kzalloc_objs(P, COUNT, GFP)			\
+>  	__alloc_objs(kzalloc, GFP, typeof(P), COUNT)
+> +#define kzalloc_flex(P, FAM, COUNT, GFP)		\
+> +	__alloc_flex(kzalloc, GFP, typeof(P), FAM, COUNT)
+>  
+>  /* All kvmalloc aliases for kmalloc_(obj|objs|flex). */
+>  #define kvmalloc_obj(P, GFP)				\
+>  	__alloc_objs(kvmalloc, GFP, typeof(P), 1)
+>  #define kvmalloc_objs(P, COUNT, GFP)			\
+>  	__alloc_objs(kvmalloc, GFP, typeof(P), COUNT)
+> +#define kvmalloc_flex(P, FAM, COUNT, GFP)		\
+> +	__alloc_flex(kvmalloc, GFP, typeof(P), FAM, COUNT)
+>  
+>  /* All kvzalloc aliases for kmalloc_(obj|objs|flex). */
+>  #define kvzalloc_obj(P, GFP)				\
+>  	__alloc_objs(kvzalloc, GFP, typeof(P), 1)
+>  #define kvzalloc_objs(P, COUNT, GFP)			\
+>  	__alloc_objs(kvzalloc, GFP, typeof(P), COUNT)
+> +#define kvzalloc_flex(P, FAM, COUNT, GFP)		\
+> +	__alloc_flex(kvzalloc, GFP, typeof(P), FAM, COUNT)
+>  
+>  #define kmem_buckets_alloc(_b, _size, _flags)	\
+>  	alloc_hooks(__kmalloc_node_noprof(PASS_BUCKET_PARAMS(_size, _b), _flags, NUMA_NO_NODE))
 
