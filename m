@@ -1,130 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4229315ADB4;
-	Fri,  9 Jan 2026 12:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D373E35B134;
+	Fri,  9 Jan 2026 12:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767961392; cv=none; b=KVzXuLTW7i0eonndVTIaZbdVOuy3um2llu5RvHdN+7tNOd0TY28hbUDAa5FecGWaZclaw4fYix3Jc4508ZTlDwzHc7krlS/dr7ruyRd1TcpRMwpqSwaktsPttz93LpCec2uz5xMnefdxzYx1enI/NONvIX2caeHrYuw4Jvjz+3I=
+	t=1767961838; cv=none; b=q1H4tjWALW4ILAvbvJ4z0845fp8FZKc5ZMx6ONmMwpzM/3yd6GX5hiZCdWWyW9pv9BxtDaR46oXRLkS0TO0colhD4o+l273YnkrovSXc80AB6v7CiDfvjYVC4mFABIlVVI6cR/fxBEsNUYArAHFyQsbBu/7GbTxcgYP5ONEHQaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767961392; c=relaxed/simple;
-	bh=sglgP4nrzMf9AieQM4DL+n/6UDGucMH6MJ8uQ8T0/fg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tMLMz2czkei56sody+rrN4vaWnwyFfNWoJuimlubbwptITBJD5sdwdiujE9lxwSjvf4YxNqPgV9ngwhFywzFTsWBfOtANgU2uDbYyqJqLLeSOunWdbdgYUUmPXq/+oj9M4wgBEFKD2lXbnzk06dAdTPGJy971daTyeZy0VWRaJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=q/Se26u3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="q/Se26u3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1ED4C4CEF1;
-	Fri,  9 Jan 2026 12:23:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767961392;
-	bh=sglgP4nrzMf9AieQM4DL+n/6UDGucMH6MJ8uQ8T0/fg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q/Se26u3A4laP0HIFVuZRl4034idAhiB/vnYByX/t9ZYD7iZ8LEqxwta3J05K/yDt
-	 B7VA2xabgnXU+ksx+ZdRyJMdN9QNek8Edd+oIpB0sWSCdmloZjVcCNemhKYO4ITnhr
-	 u/XW/n4rlrBoNGhFlpyFI3VppBqoKQXKuy5ADvwE=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 6.6 735/737] tty: fix tty_port_tty_*hangup() kernel-doc
-Date: Fri,  9 Jan 2026 12:44:34 +0100
-Message-ID: <20260109112201.755593272@linuxfoundation.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260109112133.973195406@linuxfoundation.org>
-References: <20260109112133.973195406@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	s=arc-20240116; t=1767961838; c=relaxed/simple;
+	bh=in5JvqRmDAdB6dX8FGI0EEgnQhCtsywKD5TDJBxjJjU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UWnRPWl/bxzc3etC+D/hDMXVL629tsfTQoVOMiMHr4DXgk7pPNAhdQZEUneOc/w+kape6VZVYxiHCW05KMIS/DXjn5TcPcQvRZnq3uYsadgoSz0KFqyDJd3ziYR/+Q/KsO8k3hcZNfEBbcMg9f9FA6lIFqBpWd7JloZTbe8Sngo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dnh1h1cXTzHnH7w;
+	Fri,  9 Jan 2026 20:30:16 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 48D4440572;
+	Fri,  9 Jan 2026 20:30:26 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 9 Jan
+ 2026 12:30:24 +0000
+Date: Thu, 8 Jan 2026 16:10:13 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <John@groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V3 04/21] dax: Add dax_operations for use by fs-dax on
+ fsdev dax
+Message-ID: <20260108161013.00001916@huawei.com>
+In-Reply-To: <gqwlb6ept22edcuiwwzxkboeioin6l4afemn3lenbduuwbb357@tnkceo5764vf>
+References: <20260107153244.64703-1-john@groves.net>
+	<20260107153332.64727-1-john@groves.net>
+	<20260107153332.64727-5-john@groves.net>
+	<20260108115037.00003295@huawei.com>
+	<gqwlb6ept22edcuiwwzxkboeioin6l4afemn3lenbduuwbb357@tnkceo5764vf>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+On Thu, 8 Jan 2026 09:59:08 -0600
+John Groves <John@groves.net> wrote:
 
-------------------
+> On 26/01/08 11:50AM, Jonathan Cameron wrote:
+> > On Wed,  7 Jan 2026 09:33:13 -0600
+> > John Groves <John@Groves.net> wrote:
+> >   
+> > > From: John Groves <John@Groves.net>
+> > >   
+> > Hi John
+> > 
+> > The description should generally make sense without the title.
+> > Sometimes that means more or less repeating the title.
+> > 
+> > A few other things inline.  
+> 
+> Will do
+> 
+> >   
+> > > * These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
+> > > * fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
+> > >   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> > > * The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+> > >   for read/write (dax_iomap_rw())
+> > > * fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+> > >   tested yet. I'm looking for suggestions as to how to test those.
+> > > * dax-private.h: add dev_dax->cached_size, which fsdev needs to
+> > >   remember. The dev_dax size cannot change while a driver is bound
+> > >   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
+> > >   at probe time allows fsdev's direct_access path can use it without
+> > >   acquiring dax_dev_rwsem (which isn't exported anyway).
+> > > 
+> > > Signed-off-by: John Groves <john@groves.net>  
+> >   
+> > > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> > > index c5c660b193e5..9e2f83aa2584 100644
+> > > --- a/drivers/dax/fsdev.c
+> > > +++ b/drivers/dax/fsdev.c
+> > > @@ -27,6 +27,81 @@
+> > >   * - No mmap support - all access is through fs-dax/iomap
+> > >   */
+> > >  
+> > > +static void fsdev_write_dax(void *pmem_addr, struct page *page,
+> > > +		unsigned int off, unsigned int len)
+> > > +{
+> > > +	while (len) {
+> > > +		void *mem = kmap_local_page(page);  
+> > 
+> > I guess it's pretty simple, but do we care about HIGHMEM for this
+> > new feature?  Maybe it's just easier to support it than argue about it however ;)  
+> 
+> I think this compiles to zero overhead, and is an established pattern -
+> but I'm ok following a consensus elsewhere...
 
-From: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+That's fair, probably just keep it.
 
-commit 6241b49540a65a6d5274fa938fd3eb4cbfe2e076 upstream.
+> > > +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+> > > +			long nr_pages, enum dax_access_mode mode, void **kaddr,
+> > > +			unsigned long *pfn)
+> > > +{
+> > > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> > > +	size_t size = nr_pages << PAGE_SHIFT;
+> > > +	size_t offset = pgoff << PAGE_SHIFT;
+> > > +	void *virt_addr = dev_dax->virt_addr + offset;
+> > > +	phys_addr_t phys;
+> > > +	unsigned long local_pfn;
+> > > +
+> > > +	WARN_ON(!dev_dax->virt_addr);
+> > > +
+> > > +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);  
+> > 
+> > Use size given you already computed it.  
+> 
+> Not sure I follow. nr_pages is the size of the access or fault, not the size
+> of the device. 
 
-The commit below added a new helper, but omitted to move (and add) the
-corressponding kernel-doc. Do it now.
+Just above:
 
-Signed-off-by: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Fixes: 2b5eac0f8c6e ("tty: introduce and use tty_port_tty_vhangup() helper")
-Link: https://lore.kernel.org/all/b23d566c-09dc-7374-cc87-0ad4660e8b2e@linux.intel.com/
-Reported-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Link: https://lore.kernel.org/r/20250624080641.509959-6-jirislaby@kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/driver-api/tty/tty_port.rst |    5 +++--
- drivers/tty/tty_port.c                    |    5 -----
- include/linux/tty_port.h                  |    9 +++++++++
- 3 files changed, 12 insertions(+), 7 deletions(-)
+size_t size = nr_pages << PAGE_SHIFT;
 
---- a/Documentation/driver-api/tty/tty_port.rst
-+++ b/Documentation/driver-api/tty/tty_port.rst
-@@ -42,9 +42,10 @@ TTY Refcounting
- TTY Helpers
- -----------
- 
-+.. kernel-doc::  include/linux/tty_port.h
-+   :identifiers: tty_port_tty_hangup tty_port_tty_vhangup
- .. kernel-doc::  drivers/tty/tty_port.c
--   :identifiers: tty_port_tty_hangup tty_port_tty_wakeup
--
-+   :identifiers: tty_port_tty_wakeup
- 
- Modem Signals
- -------------
---- a/drivers/tty/tty_port.c
-+++ b/drivers/tty/tty_port.c
-@@ -409,11 +409,6 @@ void tty_port_hangup(struct tty_port *po
- }
- EXPORT_SYMBOL(tty_port_hangup);
- 
--/**
-- * tty_port_tty_hangup - helper to hang up a tty
-- * @port: tty port
-- * @check_clocal: hang only ttys with %CLOCAL unset?
-- */
- void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, bool async)
- {
- 	struct tty_struct *tty = tty_port_tty_get(port);
---- a/include/linux/tty_port.h
-+++ b/include/linux/tty_port.h
-@@ -254,11 +254,20 @@ static inline int tty_port_users(struct
- 	return port->count + port->blocked_open;
- }
- 
-+/**
-+ * tty_port_tty_hangup - helper to hang up a tty asynchronously
-+ * @port: tty port
-+ * @check_clocal: hang only ttys with %CLOCAL unset?
-+ */
- static inline void tty_port_tty_hangup(struct tty_port *port, bool check_clocal)
- {
- 	__tty_port_tty_hangup(port, check_clocal, true);
- }
- 
-+/**
-+ * tty_port_tty_vhangup - helper to hang up a tty synchronously
-+ * @port: tty port
-+ */
- static inline void tty_port_tty_vhangup(struct tty_port *port)
- {
- 	__tty_port_tty_hangup(port, false, false);
-
+Jonathan
 
