@@ -1,232 +1,109 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C17302779
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 19:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9D72D12F5;
+	Thu,  8 Jan 2026 19:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767899049; cv=none; b=kKKo4DLEcVY1WJAcEUJjhUiBqZNyDo6ZacMPDO4t1NaIcRWx40E2IAXymGLE/OJNjZnfhPDmwFLj4OALNuqMdiQO6LSe6Uqw6oXdvC1Yy4vBcTk8+mJXY0fiBS/EfgA9h4UU4CZYR9IRX6UkSDXQ0QYnzbPybDOgB+DF4AWl8js=
+	t=1767899962; cv=none; b=mjs8T2vDHw0bFs87Ph022gMftAZ4mpsPNBhvUaHy1uvHp06gsXg1J8aqicnTy5104oMJGQmfRVTjFJCsulgLsnb8dnCQzLOAHGAmbVs1d5Kb8pIQrAn8FkfTV/cr6Y33p78/QVg4uXAjn6gUx8mMN2/BvsvKDtL3qttBF793ksM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767899049; c=relaxed/simple;
-	bh=S12pBgkM00sJgWSyCC4FkH4Wm/puv/dLWj/scQoC99g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RVmtt6IvS5Hfh3XtiO30x0CjUm82uK2QeqY//saev/5doZW/K3D1aqQvIZtaSTdms+kinMr3smXsSI2Z8+MbLWJnV9vufnBkljT5DjfynIoXAae15+ZpMQbtIualDsTjLluofypiqE6dqvhS+zOH/J10LHF9gp1t5vVk+fd2hX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EbK0dhYz; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767899962; c=relaxed/simple;
+	bh=fSg1rFUc7Lj8obCBDIiOBzwmsy2PDWnpS6aiVKuno6E=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=lZKq+/mNe0KkgH7LqfphQ7mITA5boXiSsOZb1fO6dG1msYF0oQY4rHX/q1PT8lXdRRxRYhC7ci9oTqGCRHw86ehlq03pKvT7/2IxDj9+uWjydrrSrrRrVc755AKVyrHS03EGAM5vQq3055who61jnZGEaFF7Pyu9fuP598OKG1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=CVumgl5u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EbK0dhYz"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa9so1643635f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 11:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767899046; x=1768503846; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uZk8shAToyPHM8UaZssBAOmYkCAywr9xb/VP5NyVsRI=;
-        b=EbK0dhYzVojwnPPj08VHnVT19WhzhbWlWPfkl99lgasOaAOE35Gr2ivnr4OPSK/k4v
-         Wp5m/ddBsD3+g5RvY2zfV9QkTNYNkKxcpHT/ayK7R4AIgi+7DaOj22vvEfaNEGqJbVn5
-         TD1b2yZmQRp5Uru9Kheb/NwtS4BYcW/Mjaib4/o5oD8VED4W89AicSezlMhi8leaVHh8
-         0w2UV8CIWzVJilXtnbXiweq0jGuXNTfAVYnDr8RkYbUhN5zoaVpcuvhIpa36emfGWUU+
-         UjTzR52WyS0OYe9MN+cTLvAEBxwgDr2qDkNBXy6LDO/gcGI75GEl2J53z+Fzj0whd7fS
-         zFyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767899046; x=1768503846;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uZk8shAToyPHM8UaZssBAOmYkCAywr9xb/VP5NyVsRI=;
-        b=es3rt0DSM8Kc4Ouc02xQPhEruBuTxWscH3aoROYBncK/FsLKsB5ZXLp78UEl0Tbj56
-         tFaaMiBL8Lh8971lVPw0khxODvla4umiSptr2oV0N3AsL0JJUOZ6FTB2znErAnO6MWPt
-         X5on63P5Qe60iCKyU2szUCPePTtfQ9lnLyURBFvQ8ppBxscdve6bJplMDXxbGWRZRWDj
-         VeLv/yUSkjUyCmOVftJoPhHW8SFqIKwS/G7pQIfd3cj6416pPojKyha9Z5LAsrEoXvPD
-         hXUDYd5dajeBn2G3QQhGY4dq+ORzr7VKm0A5pvG4Gifya+sbEng28dwrx0sLYNOxcTrB
-         FZaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVDplX00+pLUTv40NvmfGT3rRI/jGtO35YI40+l/Kk/VWgJb4ADn1Hc1nnXWQ+gXotMGmJdYZhtiBw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZdQlTE43XlwhvkKFabcY7JCN5nXVtWctLxeGGXrRxV4PI/Nwo
-	xt2Z8BmEiEubIlrg/BHx5Ysi6w9CgNQMzxY8Hm2KTAYHE/WVcItnX9nH//MDgFqnbsI=
-X-Gm-Gg: AY/fxX6pCM114r1f8eqSmV/lp34cuuvU36/lDlOx3AIHzZGrudGfaNo7zSpLq0KUTEr
-	zVy7yRgW2orNsoWVTsGEcyvu/WGpkgs52UvRvLMzaPz2cuaNhFOzfNe9uqRIUywvaQ86KIfwdGb
-	vCY92aSVWl8UVJqADkuW5AH5Z/ddlP4SmF3MgRiPBxdWrQjFBB6n2cvkPaMYPHTD7fo1iqGJ+1J
-	tvxAlyFPUPwDp+zS/xnVAOQmEFJpWxbRyhLz2gI8NFlaEX/AhwpixHVB8T58gcJWSMEGx+xMGGe
-	g5eVyhdi/kde1+NUDIbbaHBjBYo+NgBCocS9UsRVy5mAcrnbuMcBIJOoC8m+qAGWy8w5knvQlht
-	9JfKCYAgL6ZL1FozNe71DC/soxvNSHwatcRbCzYTK+h5GA6gWVtHu3J2xoTr01m6dJjW7KJGnjl
-	EzJ9jlBerdVfufHxjRegCCIuvrFabokj8=
-X-Google-Smtp-Source: AGHT+IE4b6xRdNURXAWWpyFhWm/3C4nzAZftETaWGTbobTlLIsQkJxHqXKOQjLz13Zvy5+0CZcW5yw==
-X-Received: by 2002:a05:6000:290b:b0:431:266:d150 with SMTP id ffacd0b85a97d-432c3761103mr10035954f8f.44.1767899045993;
-        Thu, 08 Jan 2026 11:04:05 -0800 (PST)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5dfa46sm17922112f8f.27.2026.01.08.11.04.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 11:04:05 -0800 (PST)
-Date: Thu, 8 Jan 2026 20:04:04 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org, 
-	cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Sun Shaojie <sunshaojie@kylinos.cn>, Chen Ridong <chenridong@huaweicloud.com>
-Subject: Re: [cgroup/for-6.20 PATCH v2 4/4] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-Message-ID: <chijw6gvtql74beputm3ue2zu2vmrwvtg5a2bn3wabgkqldq4d@obrdh4znejaw>
-References: <20260101191558.434446-1-longman@redhat.com>
- <20260101191558.434446-5-longman@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="CVumgl5u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE9CC116C6;
+	Thu,  8 Jan 2026 19:19:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1767899961;
+	bh=fSg1rFUc7Lj8obCBDIiOBzwmsy2PDWnpS6aiVKuno6E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CVumgl5uYfQfaLqYgweLov8FT7OgO1ch7qHlwuZbONKicqb+bmGFoLIsYAxoWfRsr
+	 6BxVTZH+QFJx2xSpWVk0NUrA2Ddxjwu2/Wcc1JG/gPIWft2fVjXp2CIt9nEHIpeVml
+	 fnOoO4sO6q/7KPmJQudmyHeHcLC9E7nvlzSuO+ys=
+Date: Thu, 8 Jan 2026 11:19:19 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Klara Modin <klarasmodin@gmail.com>, Alex Shi <alexs@kernel.org>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Andreas Larsson
+ <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>, Brian Cain
+ <bcain@kernel.org>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, "David S. Miller"
+ <davem@davemloft.net>, Dave Hansen <dave.hansen@linux.intel.com>, David
+ Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>, Heiko
+ Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>, Huacai Chen
+ <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>, Johannes Berg
+ <johannes@sipsolutions.net>, John Paul Adrian Glaubitz
+ <glaubitz@physik.fu-berlin.de>, Jonathan Corbet <corbet@lwn.net>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, Magnus Lindholm <linmag7@gmail.com>, Matt
+ Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>, Michal Simek
+ <monstr@monstr.eu>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav
+ <pratyush@kernel.org>, Richard Weinberger <richard@nod.at>, Russell King
+ <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, Suren
+ Baghdasaryan <surenb@google.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, Thomas Gleixner <tglx@linutronix.de>, Vasily
+ Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>, Vlastimil
+ Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>, x86@kernel.org,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-um@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org
+Subject: Re: [PATCH 3.5] arm: make initialization of zero page independent
+ of the memory map (was Re: [PATCH v2 22/28] arch, mm: consolidate
+ initialization of nodes, zones and memory map)
+Message-Id: <20260108111919.ac5f811132672e760f47fbab@linux-foundation.org>
+In-Reply-To: <aVpWpLV4Dut5Muo2@kernel.org>
+References: <20260102070005.65328-1-rppt@kernel.org>
+	<20260102070005.65328-23-rppt@kernel.org>
+	<aVhN2NgQEKe0yzva@soda.int.kasm.eu>
+	<aVll339wim7dCIaQ@kernel.org>
+	<aVlwOyicOLPB9SOa@parmesan.int.kasm.eu>
+	<aVpWpLV4Dut5Muo2@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2ixtbe63ri56p3pp"
-Content-Disposition: inline
-In-Reply-To: <20260101191558.434446-5-longman@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sun, 4 Jan 2026 14:01:40 +0200 Mike Rapoport <rppt@kernel.org> wrote:
 
---2ixtbe63ri56p3pp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [cgroup/for-6.20 PATCH v2 4/4] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-MIME-Version: 1.0
+> Can you please stick this between patch 3 (arm: introduce
+> arch_zone_limits_init()) and patch 4 (arm64: introduce
+> arch_zone_limits_init())?
 
-Hi.
+Did, thanks.  I made this a standalone patch rather than  a
+squashable -fix.
 
-On Thu, Jan 01, 2026 at 02:15:58PM -0500, Waiman Long <longman@redhat.com> =
-wrote:
-> Currently, when setting a cpuset's cpuset.cpus to a value that conflicts
-> with the cpuset.cpus/cpuset.cpus.exclusive of a sibling partition,
-> the sibling's partition state becomes invalid. This is overly harsh and
-> is probably not necessary.
->=20
-> The cpuset.cpus.exclusive control file, if set, will override the
-> cpuset.cpus of the same cpuset when creating a cpuset partition.
-> So cpuset.cpus has less priority than cpuset.cpus.exclusive in setting up
-> a partition.  However, it cannot override a conflicting cpuset.cpus file
-> in a sibling cpuset and the partition creation process will fail. This
-> is inconsistent.  That will also make using cpuset.cpus.exclusive less
-> valuable as a tool to set up cpuset partitions as the users have to
-> check if such a cpuset.cpus conflict exists or not.
->=20
-> Fix these problems by strictly adhering to the setting of the
-> following control files in descending order of priority when setting
-> up a partition.
->=20
->  1. cpuset.cpus.exclusive.effective of a valid partition
->  2. cpuset.cpus.exclusive
->  3. cpuset.cpus
+> >From 35d016bbf5da7c08cc5c5547c85558fc50cb63aa Mon Sep 17 00:00:00 2001
+> From: Klara Modin <klarasmodin@gmail.com>
+> Date: Sat, 3 Jan 2026 20:40:09 +0200
+> Subject: [PATCH] arm: make initialization of zero page independent of the
+>  memory map
+> 
+> Unlike most architectures, arm keeps a struct page pointer to the
+> empty_zero_page and to initialize it requires conversion of a virtual
+> address to page which makes it necessary to have memory map initialized
+> before creating the empty_zero_page.
+> 
+> Make empty_zero_page a stataic array in BSS to decouple it's
+> initialization from the initialization of the memory map.
+> 
+> This also aligns arm with vast majorty of architectures.
 
-
->=20
-> So once a cpuset.cpus.exclusive is set without failure, it will
-> always be allowed to form a valid partition as long as at least one
-> CPU can be granted from its parent irrespective of the state of the
-> siblings' cpuset.cpus values. Of course, setting cpuset.cpus.exclusive
-> will fail if it conflicts with the cpuset.cpus.exclusive or the
-> cpuset.cpus.exclusive.effective value of a sibling.
-
-Concept question:=20
-When a/b/cpuset.cpus.exclusive =E2=8A=82 a/b/cpuset.cpus (proper subset)
-and a/b/cpuset.cpus.partition =3D=3D root, a/cpuset.cpus.partition =3D=3D r=
-oot
-(b is valid partition)
-should a/b/cpuset.cpus.exclusive.effective be equal to cpuset.cpus (as
-all of them happen to be exclusive) or "only" cpuset.cpus.exclusive?
-
-> Partition can still be created by setting only cpuset.cpus without
-> setting cpuset.cpus.exclusive. However, any conflicting CPUs in sibling's
-> cpuset.cpus.exclusive.effective and cpuset.cpus.exclusive values will
-> be removed from its cpuset.cpus.exclusive.effective as long as there
-> is still one or more CPUs left and can be granted from its parent. This
-> CPU stripping is currently done in rm_siblings_excl_cpus().
->=20
-> The new code will now try its best to enable the creation of new
-> partitions with only cpuset.cpus set without invalidating existing ones.
-
-OK. (After I re-learnt benefits of remote partitions or more precisely
-cpuset.cpus.effective.)
-
-> However it is not guaranteed that all the CPUs requested in cpuset.cpus
-> will be used in the new partition even when all these CPUs can be
-> granted from the parent.
->=20
-> This is similar to the fact that cpuset.cpus.effective may not be
-> able to include all the CPUs requested in cpuset.cpus. In this case,
-> the parent may not able to grant all the exclusive CPUs requested in
-> cpuset.cpus to cpuset.cpus.exclusive.effective if some of them have
-> already been granted to other partitions earlier.
->=20
-> With the creation of multiple sibling partitions by setting
-> only cpuset.cpus, this does have the side effect that their exact
-> cpuset.cpus.exclusive.effective settings will depend on the order of
-> partition creation if there are conflicts. Due to the exclusive nature
-> of the CPUs in a partition, it is not easy to make it fair other than
-> the old behavior of invalidating all the conflicting partitions.
->=20
-> For example,
->   # echo "0-2" > A1/cpuset.cpus
->   # echo "root" > A1/cpuset.cpus.partition
->   # echo A1/cpuset.cpus.partition
->   root
->   # echo A1/cpuset.cpus.exclusive.effective
->   0-2
->   # echo "2-4" > B1/cpuset.cpus
->   # echo "root" > B1/cpuset.cpus.partition
->   # echo B1/cpuset.cpus.partition
->   root
->   # echo B1/cpuset.cpus.exclusive.effective
->   3-4
->   # echo B1/cpuset.cpus.effective
->   3-4
->=20
-> For users who want to be sure that they can get most of the CPUs they
-> want,
-
-Slightly OT but I'd say that users want:
-a) confinement (some cpuset.cpus in leaves)
-b) isolation (cpuset.cpus.exclusive in leaves)
-c) hierarchical organization
-  - confinment generalizes OK
-  - children can only claim what parent allowed
-
-Conflicting exclusivity configs should be no users intention or a want :-p
-
-
-> cpuset.cpus.exclusive should be used instead if they can set
-> it successfully without failure. Setting cpuset.cpus.exclusive will
-> guarantee that sibling conflicts from then onward is no longer possible.
-
-I think the background idea of the paragraph (shift away from local to
-remote partitions, also mentioned the other day) could be somehow fitted
-into the Documentation/ hunks.
-
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
-n-guide/cgroup-v2.rst
-> ...
-> @@ -2632,6 +2641,9 @@ Cpuset Interface Files
-> =20
->  	The root cgroup is always a partition root and its state cannot
->  	be changed.  All other non-root cgroups start out as "member".
-> +	Even though the "cpuset.cpus.exclusive*" control files are not
-> +	present in the root cgroup, they are implicitly the same as
-> +	"cpuset.cpus".
-
-Even "cpuset.cpus" have CFTYPE_NOT_ON_ROOT, so this formulation might be
-confusing. Maybe it's same as "cpuset.cpus.effective"?
-
-Thanks,
-Michal
-
---2ixtbe63ri56p3pp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaV//ohsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AjFcgD/befAIpWDsnrIRvSGMNh7
-2ZNzdia/UxMmNfbALez+7vQBAOiQ6u9XV7+K0KdPF27pphDL7Ro9/wghUgiQ+qBM
-f+kN
-=RCBX
------END PGP SIGNATURE-----
-
---2ixtbe63ri56p3pp--
+Russell, can you please update us on your concerns with this change?
