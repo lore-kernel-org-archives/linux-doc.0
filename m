@@ -1,41 +1,41 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1EB334C04;
-	Thu,  8 Jan 2026 16:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA64E335555
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 16:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767891591; cv=none; b=hDtts5cRDvOqf1hnfpLUuJmugA8PeEp028nV1aEjjdChycHdLCmy0YgW2hXnkWZvxO0B8OGG7iBBx74cDbPC+UIPfWYOOmAUU8Td2u1k5P1FvQyCUnVsBC/VP7wpxf47Y1nGcwYtcEgxvxvxeQtFHn8FqK4KjxzQOTIukPse5u4=
+	t=1767891593; cv=none; b=b3ORbcvukJUgiIG3GAdEHzEolSW7/c+l61uprZPVA32ez974vil8qdkDUQx9P4EfIgt/km33ey1e7hqZ2TSXN6dr3JGELLz9qVyaatD188NuhpkCW2blAAlP3U3z9monBtARZvaQAAkr3IaewkG+BInWzTi6BhDP5N/HQTcmImo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767891591; c=relaxed/simple;
-	bh=tlvQp1bZ7+klWZfcbfGIXVjcUoWUKKWDjg3IvR83O/A=;
+	s=arc-20240116; t=1767891593; c=relaxed/simple;
+	bh=OAsshR8taJxBMFFyddHaDNJSHSzI1SzbRqNeGRPBYZw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Y/9xWB58nbXyRBhihZm0BCw8hc4LQ3xSSZsNaQhk/s40nZ5dG3SaL6ePtq/SRZ+02kj/bEEqPUTlP6H0QhKg4VxyQDaD1ne+M8QQ28HvLdBWgQjexKmAcqtDXWorxfGYYXbzVjWcx32d7hcUI0cGhUrAKwy/jGG/NemJG43xm94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Th5tHuVk; arc=none smtp.client-ip=185.246.84.56
+	 In-Reply-To:To:Cc; b=Ogf1ELd1CyQK2js58lrxL/Bum9Muu6X8gWflgM58cMfN/2X7xzKjYq+tadwr71CN2DhQLLviAYIo+vFBdnzi0KaawbhLB5DRaSnC8EWT4JGfe1XWl2B73rYRumtlpqc/8psrPtZipPPpRGSsgBSLb/4awBI7kDKeBD0KJd/mbH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mEJDDeqb; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Th5tHuVk"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mEJDDeqb"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8379A1A2713;
-	Thu,  8 Jan 2026 16:59:48 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 4F362C1F6C7;
+	Thu,  8 Jan 2026 16:59:24 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 582176072B;
-	Thu,  8 Jan 2026 16:59:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 94D07103C8896;
-	Thu,  8 Jan 2026 17:59:45 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 85F2A6072B;
+	Thu,  8 Jan 2026 16:59:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F2F64103C86ED;
+	Thu,  8 Jan 2026 17:59:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767891587; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1767891589; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=aQ47DiGaPfkMamCb+o5HDFv/4Im96jTt1ueTmPftQyY=;
-	b=Th5tHuVkkQon4UDr24U/Nekf2iX7fIUIY7Ns1i2z26g/qD3sJKuHB7TTzYEJ1gGLW4HUz2
-	ZC4cA2zFYth/0f5eLqhEu9vmKaGfgOzQt9yKIWH48SO9l+qPOJwCFV7gT53xupaMaBhUl7
-	04GhdkfnZYNKrlIer71sk9KMfa6ng+91vVYz2asKpAJ+vqXrB0TkuwvkEGh0HG3ikpurYH
-	M2qXqoZ0Zgb0tF45efmfIN/pHedLpvkfyxi+2Z+JvDv9gM9NWSpdavs5WigstJwzSdjNhL
-	qiwBiF1hwR9mUHoc9RZuHCPs59eCwbT/SnN29lvSbMj2c/RXx+CUDuCGJhHEyQ==
+	bh=wXJyxTh9zUcQqoOPuD+RgDBVRNZuUe3FPkKCommQgVQ=;
+	b=mEJDDeqb/jbPrF6UXkoJQOsGfgqLRBTNBmBXDtoBoIgn+4TAKsAPVsqIIcrQs7wWG8sHEK
+	/W59zlpTdtbaJ0JdW+coJsi0k7J7Ec4zgS58AR1OqjguX+GDF8R6x8xzlaBmwwBq0uG0vS
+	RR17Jx8Ehxhlz+d28PJ//I3hZfdx2GR4HmXBCq836bJOyTcKDf8IQyKsw9DEDczS5YS27f
+	7uTqtRpr7qgDUDpHFj5YX6iWwoaidrNuh1IDzQUYe2bt31NXyog/4MKD8J2S4/KzevKa7X
+	qKINk4FELT5g38+56H3mgFYejZ5RipGLUsEob9prKdYKiEXktCej3i8GN/pljQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Thu, 08 Jan 2026 17:57:59 +0100
-Subject: [PATCH v2 26/27] mtd: spi-nor: winbond: Add W25Q01NWxxIM CMP
+Date: Thu, 08 Jan 2026 17:58:00 +0100
+Subject: [PATCH v2 27/27] mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP
  locking support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260108-winbond-v6-18-rc1-spi-nor-swp-v2-26-c462ef806130@bootlin.com>
+Message-Id: <20260108-winbond-v6-18-rc1-spi-nor-swp-v2-27-c462ef806130@bootlin.com>
 References: <20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com>
 In-Reply-To: <20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com>
 To: Tudor Ambarus <tudor.ambarus@linaro.org>, 
@@ -63,9 +63,19 @@ X-Last-TLS-Session-Version: TLSv1.3
 This chip has support for the locking complement (CMP) feature. Add
 the relevant bit to enable it.
 
+Unfortunately, this chip also comes with an incorrect BFPT table,
+indicating the Control Register cannot be read back. This is wrong,
+reading back the register works and has no (observed) side effect. The
+datasheet clearly indicates supporting the 35h command and all bits from
+the CR are marked readable. QE and CMP bits are inside, and can be
+properly read back.
+
+Add a fixup for this, otherwise it would defeat the use of the CMP
+feature.
+
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
-Test run with W25Q01NWxxIM:
+Test run with W25Q02NWxxIM:
 $ flash_lock -u /dev/mtd0
 $ flash_lock -l /dev/mtd0 $bs $all_but_one # all but the first
 $ show_sectors
@@ -97,23 +107,24 @@ locked sectors
  00000000-0ffdffff |   locked | 4094
  0ffe0000-0fffffff | unlocked | 2
 ---
- drivers/mtd/spi-nor/winbond.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/mtd/spi-nor/winbond.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index 373c0af9daa2..72053a4505f9 100644
+index 72053a4505f9..639d72f48769 100644
 --- a/drivers/mtd/spi-nor/winbond.c
 +++ b/drivers/mtd/spi-nor/winbond.c
-@@ -372,7 +372,8 @@ static const struct flash_info winbond_nor_parts[] = {
- 	}, {
- 		/* W25Q01NWxxIM */
- 		.id = SNOR_ID(0xef, 0x80, 0x21),
--		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP,
-+		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
-+			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+@@ -377,7 +377,9 @@ static const struct flash_info winbond_nor_parts[] = {
  	}, {
  		/* W25Q02NWxxIM */
  		.id = SNOR_ID(0xef, 0x80, 0x22),
+-		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP,
++		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
++			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
++		.fixups = &winbond_rdcr_fixup,
+ 	}, {
+ 		/* W25H512NWxxAM */
+ 		.id = SNOR_ID(0xef, 0xa0, 0x20),
 
 -- 
 2.51.1
