@@ -1,217 +1,387 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011039.outbound.protection.outlook.com [40.107.208.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7378C3ED114
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 14:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767882755; cv=none; b=owti16RKdYEsOIH2Lvw+a3Grg+fpCxaqZO1gprFTFu0EpjSQbAKREJLH3Fs1WMZTHYk+0pkwjK3+PyjsBi90uQWK+oTz/t8aYlrArAHAoOvIqxdr37NGLeDoF+sDbxtOMUfQoRg3xYqJkh7Qff2AV+FAHMg9R1lu0DZ5B/ulq9E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767882755; c=relaxed/simple;
-	bh=/ul1MI70WNuWUatNq9QXmWY0n1CnY3rQPVMj9RML37Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oGAzgflOyhu1VhnWRZYFKpzPmWvse7L8Bj5Fwtt5eeSPIGXeI6B0FpMYlyuzW0+eeWjlLilo/40OASM977rngKquH8VmhXkvilZvpXML7Ss65NA2rzavNZAPekyEDp/3aIXD1shYV886xANxJiAWHCrx8L3qXu7gLAGvKflVnMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WJyKWbEg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cNSjTGmp; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A68474BF6;
+	Thu,  8 Jan 2026 14:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767883127; cv=fail; b=Lo60ZktueS2MxETUHoCLc+mvb674HozS3FiiDbQjwz0llGrBFdt6gtsNtoZBD2BJGFUUcMZAKjI4qq3jzFxdCNyNJR31yGOcUuydlFV4rKif25xLI3/zrrkgTewV461Xsv+Dfm01tb6I+J0ynt6I+sEesVpOOEnQKWLbnkOEN4A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767883127; c=relaxed/simple;
+	bh=sB382uQFQ4C9iuzerHEQPiIhQh9IyOh9IpX3hVHoxUU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OFXd7Wth55IiGMKsl6HLbEBHlxi8voU7rgJSLZ/SP0iebGJWRouivyzWDOEG6aDoZ6L5e1oFZGzoc9Stqxg7JEgOoXKqc9axGxVX19iadzoVwYNZIgId4MsxwgyQE+N3WWb1d5vyG/zJyXfbn2L2b+4qkBg5Dq/ezPNxCcbOnAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=fail (0-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=mnxbBQ3c reason="key not found in DNS"; arc=fail smtp.client-ip=40.107.208.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WJyKWbEg";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cNSjTGmp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767882752;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZQ5KldlPLZnW3hZQd/TnLSW7zs03bZTdFv6fpQxf5uk=;
-	b=WJyKWbEg44CWEIG+OHygWEYC/2XqFLpMdZO4cLDF/NFqtKPDhXE/yJ6a21rnv5qR6C5eN4
-	hviUUFWJliX5bLDBjLeN3RPW+DdHqjeRomDee2OSn2kcpAsPCGRsQsVR/6rFEJsz8v6Dj6
-	g/bxRg7BofK8b/89bSIVM4axp8OvLQQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-567-4eX0kE8GMIu5WEiGjs-VwA-1; Thu, 08 Jan 2026 09:32:30 -0500
-X-MC-Unique: 4eX0kE8GMIu5WEiGjs-VwA-1
-X-Mimecast-MFC-AGG-ID: 4eX0kE8GMIu5WEiGjs-VwA_1767882749
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-477964c22e0so17235345e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 06:32:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1767882749; x=1768487549; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZQ5KldlPLZnW3hZQd/TnLSW7zs03bZTdFv6fpQxf5uk=;
-        b=cNSjTGmpx2OD2hbzzk3iGl0ks+3AWSN4ekaGROqtixhA1W5CXwAK9Q8hAEQ2IhDoOQ
-         GJPpxXjTL0yAhiyZx/3uubM8MJDpcXcY5dAroyeNsPAyFttbm7+2cFWnMB2izCT9nHLf
-         DBhwMOhjmco0/QadOCZFMYAt2THMFQRLd7+HRDptXW7IS1lu9vYP/o/b5NK1xkgz0asm
-         kqHa0RlaVQUuE4VRbcCulMsS2Y4vzDdhvjmeDZ6WlOeMPB6BCW7ti45d3vksKd+4n2/Y
-         Cc6yYYrMc0meN3CEnfOrHmAkhqaP7FUHwxMY8bv64L6b0ttsJ4mUqm+1f5iwYmKWCL7x
-         PzMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767882749; x=1768487549;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZQ5KldlPLZnW3hZQd/TnLSW7zs03bZTdFv6fpQxf5uk=;
-        b=X6bPzEmqCS1d54dIpA2FfEBQ+EZw70iZSfZ/d2fJUBRKt0xgSq9k/+EfwzaLusHYHc
-         iP1xFYiyqmcO9uegUAlH17aPoIoiNOfKUryLZvx9xoHSu4Tj0lSwM8zVLN3g7BdBTZZc
-         YwwxsWpYL6GJ1yKH9ihWBotdCHIHLNsNVdJaXUtgcsWmdgcG1yC7LRh/h4zlwfAXSGpQ
-         6zKFEigvbr2yZO0TweTgGbwAgWULPC4xnKWn8K1BBQUeIV4ClWB4Pz9jgsyRZ8KOvixe
-         YC78pn2SI6woa4UWpRr4MIbM7/JsHj3TIaGfEFCuvOl6aY1yTFqch8SIwmUwPkZFT5uv
-         3qeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8k1AOoMTUtE5X6bSy+XA6Gh+oe4fFheioMZzhvJCFsOtReRPYmOPaW0/HZ95/6+GdogE4mABFcHc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVOPB+5CVTKl86zMJcvi9opdrwmOIaPdHtryfpGmuyuBc0usQG
-	fvVYsYR/yTYhe8oU46by26WawV6QEQ36nhfuEkGOVmKhT/YwaNI0pESx9bu1NnMxeAx3xwIDIaz
-	vHuZsny1RfS/t0fqANqlRBcuw12bIQtkE/sa7ff/loYCDLKBs0Ert8EKKOQ13EQ==
-X-Gm-Gg: AY/fxX74A0QlrI/L5jqKXStgaNg3Pc4qhnZaW8bIeqhk5rRKfEYiE6Ls41P6QWLon/u
-	JaPdhSIDnhYqGbI7kehWXlRckAH5lGNQw1DHm/X0lO8F7Sf5qUs/HG/KqODFVfbENeKHuI8Hs4J
-	n9LG4XyHPJv8Jcc+PdUqGCI8b1RKXy1+SCpXYbIODuKeDF3IoYuqRiTm8cQ1+lCv5+u4gIRVoqW
-	Ys5Lseg2cqrS8kSHKMflgYVhhr7Tu/nDNnH1PGJUT9en543mUjaF93GIsUe0z+XKiPrWvN/+Pk8
-	W09DjNtNGc+2lLm2Ik1QfTY9lxVAeROX1YuzMfvDSUD0NbJJVY5Z6Kl4CeA4NlqqA1FIeZHnzau
-	hSl4xySJU5OeCoWPMcKYMnw7de4nnQ3bKhg==
-X-Received: by 2002:a05:600c:6c95:b0:47a:8383:f2b2 with SMTP id 5b1f17b1804b1-47d7f63722dmr100358045e9.17.1767882748605;
-        Thu, 08 Jan 2026 06:32:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG7Gl8OtqeQkvPJx1M3QhvEhlvzebP4MIt/f4g31duD4E6Ii6eayAMa8grqHGKZjLNtnJFSpw==
-X-Received: by 2002:a05:600c:6c95:b0:47a:8383:f2b2 with SMTP id 5b1f17b1804b1-47d7f63722dmr100357545e9.17.1767882748121;
-        Thu, 08 Jan 2026 06:32:28 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-31-118.inter.net.il. [80.230.31.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d8717d78fsm38131185e9.9.2026.01.08.06.32.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 06:32:27 -0800 (PST)
-Date: Thu, 8 Jan 2026 09:32:23 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jason Wang <jasowang@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Petr Tesarik <ptesarik@suse.com>,
-	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-scsi@vger.kernel.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 13/15] vsock/virtio: reorder fields to reduce padding
-Message-ID: <20260108092931-mutt-send-email-mst@kernel.org>
-References: <cover.1767601130.git.mst@redhat.com>
- <fdc1da263186274b37cdf7660c0d1e8793f8fe40.1767601130.git.mst@redhat.com>
- <aV-6gniRnZlNvkwc@sgarzare-redhat>
- <20260108091514-mutt-send-email-mst@kernel.org>
- <aV-9F42fMfKGP4Rg@sgarzare-redhat>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="mnxbBQ3c"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RrPY6S6vsHCZtSb5t6xYw0Za2j/IXr/rQPD20SEMFL8ffge4h0wuN5l1qpGL8YMtwz77v5kWnzig1BsmEyI+S9JnBp5QrP7iYxoJIujVaG68KbLekQZk0hI+Um69Z42/bCu+oHA/DlLgQYPJf2VBw342Br/FYYh+3b5iyCkODwMTGfAwxSlagulIuNJmCCP8Z6zB/sXaGfqrVHyFnsjZH1MshKtAkMcDf8EbgtPaj+qQvnr1rJuUANg7P/watm7oZnDpomScvd0R0vEl4v5W1pbUAXMYf2ejsZMfzf/cUttNbtYr8jClBKGnjdCdcLfuWFzmSfJPj0WWYUTJigTdIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0dHZ1WgT4ikYOHFH8NUwRepj+JduOV6sPoRsJpwtR1I=;
+ b=lyJpAJcdGEcqGB/3eFTVRvhauFGMGIK0s9oSjMgCtXFcp71z3JJ5zV17fR6/eRsIlOhru+lHcCL8Y0SuRZSgHSflCCYQ4iIYrfhYpTZ6t1qDBEj6hdVYwiIwoJ7eiQ8JNzppK1fBT8B2O9Ui+tBqPymmjrycoktjclUzmeymyJCMsGz8EQ4Qgjj849ExSlu6tG/XtGKg1/WeJ067NEiR0L34mJWLDV1S9DaAexWfIJJxoPtoR+ky9uUpopaWpTqqNjY2ccZ33l40hUIOX1w4oGCwb6DeHDWSyO8SLPDRWM0qevuiM2xJq6mOufXH1usumUFGXTHxKpFuq83t2UQA8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0dHZ1WgT4ikYOHFH8NUwRepj+JduOV6sPoRsJpwtR1I=;
+ b=mnxbBQ3cmHd5RyhB/awCW05EajsaJb8qNmsYpYoGjcavdKAPz/eSKqBZ32oEg6KwlXTgDLl1wEZKF89D41aEKuApPV5IJfV6YsR7R5jchON21U5c+M55tBbXB77mENapo03q89B2El3KOYDslclhZzfeJ+2pM/knKPfb0X9EyCYYSpo4U/wx5Q8pQIClnYjVjkmE0t0SEVmSqXZBJ8vE5aBSEuoPsvaSDvk1GfMHUeAhGViXQLLRF7RZoGnYvWO4JGMSJtNj5K8oHseu/1148aTPYbZzIEQ7YkmNQWXXQEx+KOxi7LfrjNL9RYSOecNecAn1Ke6YY09hN+MkF59fyg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by DS0PR12MB7704.namprd12.prod.outlook.com (2603:10b6:8:138::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
+ 2026 14:38:41 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
+ 14:38:41 +0000
+Message-ID: <0a2b7d49-bd1f-442e-9247-705cd2eb0d1c@nvidia.com>
+Date: Thu, 8 Jan 2026 20:08:30 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/11] ACPI: CPPC: add APIs and sysfs interface for
+ perf_limited
+To: "zhenglifeng (A)" <zhenglifeng1@huawei.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
+ corbet@lwn.net, pierre.gondois@arm.com, rdunlap@infradead.org,
+ ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com,
+ perry.yuan@amd.com, ionela.voinescu@arm.com, zhanjie9@hisilicon.com,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ nhartman@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-7-sumitg@nvidia.com>
+ <14851f8e-b6ac-42ff-9623-b7ac8d8893e2@huawei.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <14851f8e-b6ac-42ff-9623-b7ac8d8893e2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA0PR01CA0087.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ae::17) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aV-9F42fMfKGP4Rg@sgarzare-redhat>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|DS0PR12MB7704:EE_
+X-MS-Office365-Filtering-Correlation-Id: 069f0078-3869-43b1-5b78-08de4ec39e2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MjV3VDVRbG5oWUFrMyt1SkJoZnZVMk5qNnl1UWh5ZFRFZHlyQVAvaUdQRWRq?=
+ =?utf-8?B?MGQ2QlVWQm9URjBRYmgvNStkcC82d3B3R3lzZG95RWdUSEI1QkYwUDRpZTlF?=
+ =?utf-8?B?VU55TEZUSmNkbXpoR0VMdWZjWE9MVWtnWWJEQWI2Qnc2REpPUXJHTGhXYkNk?=
+ =?utf-8?B?RXZsZnVnb3E5d2VRTE43UjloaE9CeHl4TGhBNm81UnFPOEhMdTRhckFZeXVZ?=
+ =?utf-8?B?RFo1OEw4Z2hzZW5GUlQ0SzkrMm9kNC9WZHAxTC95emRLc0EvTVJEVTlxaUVw?=
+ =?utf-8?B?Mlk1RzUrZDlDb1V5cGZnWVBnUnlCZ1Z3RUlyZzRLUnhFRmhSdkw2RjVvWG9u?=
+ =?utf-8?B?SXhUUHpFbkcvK1lUUm5aSytKUk5YN1JWRGlsWDB4Y0Q1aXhvRVlZcC9WQmVL?=
+ =?utf-8?B?OW4vTStCVkJ5TXlWVXJCZ3JTZ1MrT2UyR2VTMloraEsxMHNzY3Z4dmNjdU1P?=
+ =?utf-8?B?MWJEb2UrRWNlNTZLOFRQVDE0RUw1bnQzdVAvM0FMRkZ3dU9tZjBzSjk1K2d5?=
+ =?utf-8?B?ZjZCTW9JSjVhQmw0WmxqTTdCVTQ1eTJtL0lOL3M4UXlGTVVtdDlMT0crRlZz?=
+ =?utf-8?B?YnMwOWlsaUdyVzVsTWNhMGdiSHJVbW5sT2ltNnNLeTArSk1SdFFXK0k3Y1JY?=
+ =?utf-8?B?ZHBqRld0cnJ4eng0M1BmbnRhWkdDRlRBTDdTbzQ1OXZ2M1RDckFFaFdBbnJW?=
+ =?utf-8?B?ZGFHVjlpemViQVcvMTlpMU83R1pPamRQNy9mOWxOTlhYK0hxVG9rQkZ4WUky?=
+ =?utf-8?B?RTNLQWdVdjdVYmpHR05MY2F6VVEyZ2svVkRKVkh1MEkyMEo4K2dvaWI3Vm4w?=
+ =?utf-8?B?RDBzODQ5YlZndjNkWlZIclYxMjNHNVhCM2U0bmQzaTlPV3dFdG84YjhqOHJR?=
+ =?utf-8?B?cFViaVJjdVdCeXRnaTVnY29oNXBhb0lJS1NLbkQzRmZ4RGRRMmNvMFMzeVd4?=
+ =?utf-8?B?djMwanE3QUNkSU5CUjMwcmtvRXdKOFRLaXZpNGJVeFdXZGtaMGtNa0YxZXgz?=
+ =?utf-8?B?RnBGSE1wRTFEUFBMMzM5Yi9oWitSRlQzUXF3VEtSa2RmWlBvTUMrNTZDbWJH?=
+ =?utf-8?B?anpqa3RWRUxOdFhucWVKOFdPbEhlNVg5aWNObUJRdHlDSXgzTzBNOXM0UzF2?=
+ =?utf-8?B?OVYxYTFXS1B5aExrZ2VtUm1tclQ4VUtPNDNtdXlBMGNNRlY3TnEybUZLYzhP?=
+ =?utf-8?B?RGdNcWlsaExYMHZwb2ZCcGE4eXJjOU9pc3ZWY1ljanN1alo5NnNmRGVEZ1J3?=
+ =?utf-8?B?QTlFS28xUTZPTlBUQXBOeC9iNmF3Sk56QUx2RWh3RmNoRGs1OGM1TjRGbmxF?=
+ =?utf-8?B?MkNPQzVNWVBMdTludWVPWVVPY2Q2a2JFUXVxSzZXWjhiNnpuTHpmYUNWcmg2?=
+ =?utf-8?B?WHpTdTk1aE9zTU5Qdm04QzhuQXRnNjVPZE5pdCtySEZTK0pISGlNVzJkSzJz?=
+ =?utf-8?B?cXBKenU4Qk9hdnlmamJRMXVuLzJrK3F1eTVvMHZxMkhjU1RHc3ZZdUFzN1Fp?=
+ =?utf-8?B?YUFTaDRzcmRNallaTFF0OUdFRDM3Zzl6WVBRR2lnMGNWSHMwOWhCL2diMW9v?=
+ =?utf-8?B?NG1VUmJaWEhHUTd2M2dDMklJcTB4cDdvVFZqQldWZ2Yxa2NMcExLek1mVERv?=
+ =?utf-8?B?WVd4eTA5Z1JkM2swOUdXejZSdURYY0RBWjNEdVBqRS9RRmN3MGdMUGxEUmZ3?=
+ =?utf-8?B?MjlMUWNseTNRTDNkK2I2TUZBS2ovb3pNSkJvWXd6cG9YNWIxL0lFS29IOHBs?=
+ =?utf-8?B?ZllPRzM2ekFvUkZyVmg0amJuOVd5akd1Ui9jRkRXOE5hNXFUU2dJR3JHZWRZ?=
+ =?utf-8?B?VVFOdTVZZmN1MitvVFNWeVQ1UURrSzc1TVh0YjhHL2h5K3ZrZ0tKSThiYUZX?=
+ =?utf-8?B?dTdnSUMrTWRJb1Y1TGFIYnRRWjRFY1RGeWxlZHcxdjd5WENYaUxMQ2lWNWtS?=
+ =?utf-8?B?eVM5a3hLSUg5azVCQUs4dSt4aXJmQzkrNzRVTnpYMU1WTzlTWmNmRjBJSUtp?=
+ =?utf-8?Q?De4eJW+MXwj+EXPMGQV/MGxRuVEqRA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UWRFTDBIRW9JaHNuL3l1MytJa2xEUysyeUd6NndNb3pqS2ZWUjVJVStwTnpS?=
+ =?utf-8?B?RHJ4NW0xMG5DUVBhL1BzNzNuekppREF1Undtekk3R3ZOMkFCUWNVV1NKSzh2?=
+ =?utf-8?B?c3pFM2ZWdUZzV3A3RnRSUkhjVm1kN3NaRXMrMmJIemkzRHJ0RWRzdUplMm9J?=
+ =?utf-8?B?SndSVGNwU0lQODZUT3ZpajVTMjVJL0Z6NjZlb2RsZDBBV2ZzUzlrbmhhUkxT?=
+ =?utf-8?B?eWFZZUVuL1U3UUlvQW5udnE2Q25OQVB1bmtLSlIwUVBYTHdmbW5WVHNWaGk5?=
+ =?utf-8?B?UXQ2bVJjZTJIQ2l1Q00xKy9vczVMbWFtaFVsMkVGcDdPdW4wbzVETDBCQTVv?=
+ =?utf-8?B?bC9CMG83WHRPSHNJWGVFaE52dEQ3VktFZURRSDIreDFVbU9FdElWYjFMdWlP?=
+ =?utf-8?B?TUZBWW9WSFAzUU1OZ3ZaK25yZHdLNDJpWDFjQ2J0L2hmMWhoSmlCY1BLeGdh?=
+ =?utf-8?B?dFZYbFhrcFZvc2dBcFYyaklGMmk3SjgxWW5KT3E1WnRjSVhPTFRkTXVVc1NP?=
+ =?utf-8?B?RTEwclp2YTN6cVRzZjVGcS84QmF2ckpyM3ErR2ZtUG1KWDlKM2dyUFJXa3d4?=
+ =?utf-8?B?N3k0Z3ZTb3cvMzNjZWJhS09KS0lOT3JTVWtIdHhxY3ZQeDJhdjUrbnlGeSts?=
+ =?utf-8?B?WUpZS1Q1amlqSXc2T0EwTmpUdFNuUHBKRXBtZFo3WDgyVUxDM1VqMkdnOGgw?=
+ =?utf-8?B?ajkrQnFrS0VJbTR1eXgvK2lSYkNBU1dxeng3bmp6Q1F3a00vc1ZROFM4TVVv?=
+ =?utf-8?B?WllCRlJVZ2ZTTGQ0eEI4c09nNnEwbkpqWG41Q2tIZHNTSVlnRTF4RHJrZ0VO?=
+ =?utf-8?B?NnZRUDdRMko5S0xNcXpSTXlkSTVnOE5CVWUwNEVaZkV1cFRDaUo2NkE4b05n?=
+ =?utf-8?B?SUFDSHRTTWE2bjF5c3hyRWV0c1Z4cE80YkNNRWNDZjBkMExBdmxqNVN2L2V5?=
+ =?utf-8?B?cnNmNmd3TTFTWnpTK3kwMWFHL2Rla291U3V3TmxLLzFaQ29Qdk9aSHhIYUQx?=
+ =?utf-8?B?RkptcEh0NHVSZlgwNzhCK1RNUk9RR3JERkhxNi9ib3h4Ym5MK3RXTDRQMEFB?=
+ =?utf-8?B?bGN4dU5XSm8yVU5QMDVvbGxmeVdSZ0poUklNbEYxbTVjdUxhSzFOQ1Ixd2Rs?=
+ =?utf-8?B?eEFGRU9oNFhQMU9hdUJjZXJKWitBWDVNN3BIMVdFSzJJeXJVc1N5K1hwRVpP?=
+ =?utf-8?B?SldURDZaM2llNXQ5bCtRQ2c1dHNJTXBTcCt6Wk8yN3NsNjNSdHBLUkhNU0dX?=
+ =?utf-8?B?VTdRQ1RYSm1hRE1VUExRUGt1TTRqTURWUWhncWxSZk1SSDVxZnB0eW9XeW4r?=
+ =?utf-8?B?bVY4Z1dnMkRXRFRtUnZyVXZvdjlDQzY4TUFHZVNSL1ZrczRFK3lSUjdBdThP?=
+ =?utf-8?B?Qmp1Kzc0dnJxdGZMSTVnYkdhRkZLN251V2c2Y1ZpZHYxUXlLalBaMHA2eXNt?=
+ =?utf-8?B?bFdYVkFlTnlzcVZqcWtxeFFDWkJpOGEzSm5NSEU1N1hPQXBzMklMcGZVWTZH?=
+ =?utf-8?B?eDdBYWh2OEpQaksvdEFKTC9sTCtrbTJ3blo4OENmR20zcm56QXJKa1ZBZS81?=
+ =?utf-8?B?TGJhSTdkUkxFa2VvVzZRVVpER3ZMdy9leWhhS3RLdEN1dEdxUTFKSzFnald4?=
+ =?utf-8?B?OFpBaXFqWEtIUThIN1M3dFZ4cHN1Vm56My85U3cyV2lTMDNKSlk4ZVZzb2x0?=
+ =?utf-8?B?OEZJNUpyYnRaSUZqcXh1dFhsQUlFOTlWR1h0MnV0YytmUUdoKzY1NkNtalBi?=
+ =?utf-8?B?Z3JxRG9mZVhQVHlJYlA0QnFZd0NpbDU3a3o2aXl0QnErbGJwWVorNkRXM3A3?=
+ =?utf-8?B?VGJWMzBSNXp3WGYvalhETnBaVXF0QXkrVkloRjBMamVrYXNnUnZaaGVDVDdL?=
+ =?utf-8?B?YjFPTFlvTTg0em9kUXJxYnRZbFJKOFpoNnRqSG1rQ3BDeWlQazZSYSt4bmZX?=
+ =?utf-8?B?TWVMNFJ3VDBlcjZqKzhhZndIOWYrQmovY3h5bTU2S1VPbTV1WWIxb3FKT0hS?=
+ =?utf-8?B?R1pQSllvMlljek5SMkNXOGlTdmtpU21DK05kMHUwZVBCVG55SFdkZzVsaEdo?=
+ =?utf-8?B?dVpIUSt4d21rdEZnV0YvbkptcTJkbDlncDB0UWhCT3c5OW1rWWp1ZjgyUHlE?=
+ =?utf-8?B?cUw3V0VheFdXQXZRZkxCcEZSOWZBdXhzQS9ZdXV4Umxadm9Za08rUGJnNTQv?=
+ =?utf-8?B?RDM3SWFtNFJHTEFjQUVsTThyTXI4ak1ia2JvL1pvRlgvQlo2cGdtT0JxdmY1?=
+ =?utf-8?B?c3pIcmpVL1Jvbk9FU3ZCNVEwQ0JLSkdkbWU0LzdJMVN1QjFyRjZwdlBPVFNK?=
+ =?utf-8?B?emZCNy8yNzhGSFY4MlRnSXN1UGF2Y1dWQUpFUWRya25mYkt2VnlRQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 069f0078-3869-43b1-5b78-08de4ec39e2e
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 14:38:41.5724
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L2g1yfZo9FbEQDQb3WXumMuGFfngKyfQKAXfppn1DkToFzhL+1o5MTzB4qIRVWD21dbKZ8graEg9qscgEoZ1yQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7704
 
-On Thu, Jan 08, 2026 at 03:27:04PM +0100, Stefano Garzarella wrote:
-> On Thu, Jan 08, 2026 at 09:17:49AM -0500, Michael S. Tsirkin wrote:
-> > On Thu, Jan 08, 2026 at 03:11:36PM +0100, Stefano Garzarella wrote:
-> > > On Mon, Jan 05, 2026 at 03:23:41AM -0500, Michael S. Tsirkin wrote:
-> > > > Reorder struct virtio_vsock fields to place the DMA buffer (event_list)
-> > > > last. This eliminates the padding from aligning the struct size on
-> > > > ARCH_DMA_MINALIGN.
-> > > >
-> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > ---
-> > > > net/vmw_vsock/virtio_transport.c | 8 +++++---
-> > > > 1 file changed, 5 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
-> > > > index ef983c36cb66..964d25e11858 100644
-> > > > --- a/net/vmw_vsock/virtio_transport.c
-> > > > +++ b/net/vmw_vsock/virtio_transport.c
-> > > > @@ -60,9 +60,7 @@ struct virtio_vsock {
-> > > > 	 */
-> > > > 	struct mutex event_lock;
-> > > > 	bool event_run;
-> > > > -	__dma_from_device_group_begin();
-> > > > -	struct virtio_vsock_event event_list[8];
-> > > > -	__dma_from_device_group_end();
-> > > > +
-> > > > 	u32 guest_cid;
-> > > > 	bool seqpacket_allow;
-> > > >
-> > > > @@ -76,6 +74,10 @@ struct virtio_vsock {
-> > > > 	 */
-> > > > 	struct scatterlist *out_sgs[MAX_SKB_FRAGS + 1];
-> > > > 	struct scatterlist out_bufs[MAX_SKB_FRAGS + 1];
-> > > > +
-> > > 
-> > > IIUC we would like to have these fields always on the bottom of this struct,
-> > > so would be better to add a comment here to make sure we will not add other
-> > > fields in the future after this?
-> > 
-> > not necessarily - you can add fields after, too - it's just that
-> > __dma_from_device_group_begin already adds a bunch of padding, so adding
-> > fields in this padding is cheaper.
-> > 
-> 
-> Okay, I see.
-> 
-> > 
-> > do we really need to add comments to teach people about the art of
-> > struct packing?
-> 
-> I can do it later if you prefer, I don't want to block this work, but yes,
-> I'd prefer to have a comment because otherwise I'll have to ask every time
-> to avoid, especially for new contributors xD
 
-On the one hand you are right on the other I don't want it
-duplicated each time __dma_from_device_group_begin is invoked.
-Pls come up with something you like, and we'll discuss.
+On 25/12/25 17:36, zhenglifeng (A) wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 2025/12/23 20:13, Sumit Gupta wrote:
+>> Add sysfs interface to read/write the Performance Limited register.
+>>
+>> The Performance Limited register indicates to the OS that an
+>> unpredictable event (like thermal throttling) has limited processor
+>> performance. It contains two sticky bits set by the platform:
+>>    - Bit 0 (Desired_Excursion): Set when delivered performance is
+>>      constrained below desired performance. Not used when Autonomous
+>>      Selection is enabled.
+>>    - Bit 1 (Minimum_Excursion): Set when delivered performance is
+>>      constrained below minimum performance.
+>>
+>> These bits remain set until OSPM explicitly clears them. The write
+>> operation accepts a bitmask of bits to clear:
+>>    - Write 1 to clear bit 0
+>>    - Write 2 to clear bit 1
+>>    - Write 3 to clear both bits
+> It's a bit odd that users write a 1 to and then read a 0 from the sysfs
+> file. I think it is better to seperate these two bits, as two sysfs files.
+> Then users can write '0' or 'clear' or others into them to clear each bit.
 
-> > 
-> > > Maybe we should also add a comment about the `ev`nt_lock`
-> > > requirement we
-> > > have in the section above.
-> > > 
-> > > Thanks,
-> > > Stefano
-> > 
-> > hmm which requirement do you mean?
-> 
-> That `event_list` must be accessed with `event_lock`.
-> 
-> So maybe we can move also `event_lock` and `event_run`, so we can just move
-> that comment. I mean something like this:
-> 
-> 
-> @@ -74,6 +67,15 @@ struct virtio_vsock {
->          */
->         struct scatterlist *out_sgs[MAX_SKB_FRAGS + 1];
->         struct scatterlist out_bufs[MAX_SKB_FRAGS + 1];
-> +
-> +       /* The following fields are protected by event_lock.
-> +        * vqs[VSOCK_VQ_EVENT] must be accessed with event_lock held.
-> +        */
-> +       struct mutex event_lock;
-> +       bool event_run;
-> +       __dma_from_device_group_begin();
-> +       struct virtio_vsock_event event_list[8];
-> +       __dma_from_device_group_end();
->  };
-> 
->  static u32 virtio_transport_get_local_cid(void)
+I think its better to keep one sysfs interface per HW register.
+Can change the perf_limited write interface to accept bit index
+instead of bitmask.
+  - Write 0 to clear bit 0 (desired performance excursion)
+  - Write 1 to clear bit 1 (minimum performance excursion)
 
-Yea this makes sense.
+Thank you,
+Sumit Gupta
 
-> 
-> Thanks,
-> Stefano
 
+>
+>> This enables users to detect if platform throttling impacted a workload.
+>> Users clear the register before execution, run the workload, then check
+>> afterward - if set, hardware throttling occurred during that time window.
+>>
+>> The interface is exposed as:
+>>    /sys/devices/system/cpu/cpuX/cpufreq/perf_limited
+>>
+>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>> ---
+>>   drivers/acpi/cppc_acpi.c       | 56 ++++++++++++++++++++++++++++++++++
+>>   drivers/cpufreq/cppc_cpufreq.c | 31 +++++++++++++++++++
+>>   include/acpi/cppc_acpi.h       | 15 +++++++++
+>>   3 files changed, 102 insertions(+)
+>>
+>> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+>> index 9f28c20d902d..ffd866c1c00d 100644
+>> --- a/drivers/acpi/cppc_acpi.c
+>> +++ b/drivers/acpi/cppc_acpi.c
+>> @@ -1786,6 +1786,62 @@ int cppc_set_max_perf(int cpu, u32 max_perf)
+>>   }
+>>   EXPORT_SYMBOL_GPL(cppc_set_max_perf);
+>>
+>> +/**
+>> + * cppc_get_perf_limited - Get the Performance Limited register value.
+>> + * @cpu: CPU from which to get Performance Limited register.
+>> + * @perf_limited: Pointer to store the Performance Limited value.
+>> + *
+>> + * The returned value contains sticky status bits indicating platform-imposed
+>> + * performance limitations.
+>> + *
+>> + * Return: 0 for success, -EIO on failure, -EOPNOTSUPP if not supported.
+>> + */
+>> +int cppc_get_perf_limited(int cpu, u64 *perf_limited)
+>> +{
+>> +     return cppc_get_reg_val(cpu, PERF_LIMITED, perf_limited);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cppc_get_perf_limited);
+>> +
+>> +/**
+>> + * cppc_set_perf_limited() - Clear bits in the Performance Limited register.
+>> + * @cpu: CPU on which to write register.
+>> + * @bits_to_clear: Bitmask of bits to clear in the perf_limited register.
+>> + *
+>> + * The Performance Limited register contains two sticky bits set by platform:
+>> + *   - Bit 0 (Desired_Excursion): Set when delivered performance is constrained
+>> + *     below desired performance. Not used when Autonomous Selection is enabled.
+>> + *   - Bit 1 (Minimum_Excursion): Set when delivered performance is constrained
+>> + *     below minimum performance.
+>> + *
+>> + * These bits are sticky and remain set until OSPM explicitly clears them.
+>> + * This function only allows clearing bits (the platform sets them).
+>> + *
+>> + * Return: 0 for success, -EINVAL for invalid bits, -EIO on register
+>> + *         access failure, -EOPNOTSUPP if not supported.
+>> + */
+>> +int cppc_set_perf_limited(int cpu, u64 bits_to_clear)
+>> +{
+>> +     u64 current_val, new_val;
+>> +     int ret;
+>> +
+>> +     /* Only bits 0 and 1 are valid */
+>> +     if (bits_to_clear & ~CPPC_PERF_LIMITED_MASK)
+>> +             return -EINVAL;
+>> +
+>> +     if (!bits_to_clear)
+>> +             return 0;
+>> +
+>> +     ret = cppc_get_perf_limited(cpu, &current_val);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     /* Clear the specified bits */
+>> +     new_val = current_val & ~bits_to_clear;
+>> +
+>> +     return cppc_set_reg_val(cpu, PERF_LIMITED, new_val);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cppc_set_perf_limited);
+>> +
+>>   /**
+>>    * cppc_set_enable - Set to enable CPPC on the processor by writing the
+>>    * Continuous Performance Control package EnableRegister field.
+>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+>> index 1e282dfabc76..1f8825006940 100644
+>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>> @@ -1052,12 +1052,42 @@ static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+>>        return count;
+>>   }
+>>
+>> +/**
+>> + * show_perf_limited - Show Performance Limited register status
+>> + * @policy: cpufreq policy
+>> + * @buf: buffer to write the value to
+>> + *
+>> + * Read the Performance Limited register to check if platform throttling
+>> + * (thermal/power/current limits) occurred.
+>> + */
+>> +static ssize_t show_perf_limited(struct cpufreq_policy *policy, char *buf)
+>> +{
+>> +     return cppc_cpufreq_sysfs_show_u64(policy->cpu,
+>> +                                        cppc_get_perf_limited, buf);
+>> +}
+>> +
+>> +/**
+>> + * store_perf_limited - Clear Performance Limited register bits
+>> + * @policy: cpufreq policy
+>> + * @buf: buffer containing the bitmask of bits to clear
+>> + * @count: number of bytes in buf
+>> + *
+>> + * Write 1 to clear bit 0, 2 to clear bit 1, or 3 to clear both.
+>> + */
+>> +static ssize_t store_perf_limited(struct cpufreq_policy *policy,
+>> +                               const char *buf, size_t count)
+>> +{
+>> +     return cppc_cpufreq_sysfs_store_u64(policy->cpu,
+>> +                                         cppc_set_perf_limited, buf, count);
+>> +}
+>> +
+>>   cpufreq_freq_attr_ro(freqdomain_cpus);
+>>   cpufreq_freq_attr_rw(auto_select);
+>>   cpufreq_freq_attr_rw(auto_act_window);
+>>   cpufreq_freq_attr_rw(energy_performance_preference_val);
+>>   cpufreq_freq_attr_rw(min_perf);
+>>   cpufreq_freq_attr_rw(max_perf);
+>> +cpufreq_freq_attr_rw(perf_limited);
+>>
+>>   static struct freq_attr *cppc_cpufreq_attr[] = {
+>>        &freqdomain_cpus,
+>> @@ -1066,6 +1096,7 @@ static struct freq_attr *cppc_cpufreq_attr[] = {
+>>        &energy_performance_preference_val,
+>>        &min_perf,
+>>        &max_perf,
+>> +     &perf_limited,
+>>        NULL,
+>>   };
+>>
+>> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+>> index a49b50bddaf9..57e04326a4b6 100644
+>> --- a/include/acpi/cppc_acpi.h
+>> +++ b/include/acpi/cppc_acpi.h
+>> @@ -42,6 +42,11 @@
+>>   #define CPPC_EPP_PERFORMANCE_PREF            0x00
+>>   #define CPPC_EPP_ENERGY_EFFICIENCY_PREF              0xFF
+>>
+>> +#define CPPC_PERF_LIMITED_DESIRED_EXCURSION  BIT(0)
+>> +#define CPPC_PERF_LIMITED_MINIMUM_EXCURSION  BIT(1)
+>> +#define CPPC_PERF_LIMITED_MASK               (CPPC_PERF_LIMITED_DESIRED_EXCURSION | \
+>> +                                      CPPC_PERF_LIMITED_MINIMUM_EXCURSION)
+>> +
+>>   /* Each register has the folowing format. */
+>>   struct cpc_reg {
+>>        u8 descriptor;
+>> @@ -177,6 +182,8 @@ extern int cppc_get_min_perf(int cpu, u64 *min_perf);
+>>   extern int cppc_set_min_perf(int cpu, u32 min_perf);
+>>   extern int cppc_get_max_perf(int cpu, u64 *max_perf);
+>>   extern int cppc_set_max_perf(int cpu, u32 max_perf);
+>> +extern int cppc_get_perf_limited(int cpu, u64 *perf_limited);
+>> +extern int cppc_set_perf_limited(int cpu, u64 perf_limited);
+>>   extern int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf);
+>>   extern int amd_get_boost_ratio_numerator(unsigned int cpu, u64 *numerator);
+>>   extern int amd_detect_prefcore(bool *detected);
+>> @@ -285,6 +292,14 @@ static inline int cppc_set_max_perf(int cpu, u32 max_perf)
+>>   {
+>>        return -EOPNOTSUPP;
+>>   }
+>> +static inline int cppc_get_perf_limited(int cpu, u64 *perf_limited)
+>> +{
+>> +     return -EOPNOTSUPP;
+>> +}
+>> +static inline int cppc_set_perf_limited(int cpu, u64 perf_limited)
+>> +{
+>> +     return -EOPNOTSUPP;
+>> +}
+>>   static inline int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf)
+>>   {
+>>        return -ENODEV;
