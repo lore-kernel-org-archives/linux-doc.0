@@ -1,137 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA74345CD0
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 08:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F90F1EB9E1;
+	Thu,  8 Jan 2026 08:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767861716; cv=none; b=PJ6lIarnJo7zC95o+r0AVBWDf2r9EXClW8ePv9I6pV3WUCPVB/K/W9lOHkRIotlwEFNrkfqF4Jk595w8PUgpBh59F4a0xnFy70XdNO/qPYlv6vg6seqYqThTB3BHAhI2tz3BGTaiXjdUzWcSSnaliqocCxjW7kvU3fglzRg+NOM=
+	t=1767861920; cv=none; b=mDEP2I8s9+uRK8IZM0wpchQeu6ZQy4aZfgJ/uaNisfb1O2CUKhhDzueftBCfpP2ZI8EJ2vkOrVwzAUFGCu71B2YaQ9X7Q0CzyByToSUGS1BrmuAvvzYGz6H7t8gcaJ37K0Ah1KIoZKEBxOL/cS5AfyxeHYxtDjmewhCQoG3h1Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767861716; c=relaxed/simple;
-	bh=T3g1hkv59Wof+KEXGfr6rRK1rS6rPS46Y5/WRoZTizA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=auwxx/aMgMcY+xJ1671SZCHfXkQlXL+NZx89GgWlvVemdNIah9Ht3uQgHpNQDGx4I/SYk80FectZiC2Mu8mCuK+aa0IYMDcHAiKvf1z+Glhk6Uomaos7irg/U1sbrxJfniu94qPwSr95BzLkJv30bQ2SVY7HfJVwjsAGvHhiauA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VBurWId2; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=H0ZaHClA; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1767861920; c=relaxed/simple;
+	bh=jGl0naiTX+/HDHhxWoxiOWiPxFcoAnQa4OUQREfNbl0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Jt8no+5qPmRNXMnAwfZN87tZR/MA3hkwEzy7JFcI0zWAcAERq3BaPrxWcpqTSw5KoFJjfEyAUWdCdJVnQSydiN1jV+t6foOQRj5HACt8BYty3iN1XbT2nIMhlcQ3jWzYFtKVEWWAsLD5mcWesgvqIYTm1DDy2ZcK2S4r3IJh7Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QM/zloNZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VBurWId2";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="H0ZaHClA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767861703;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5RGxvIn5fQFYR3/ngtCtv4UC6h+IZmTY0D3VzGMTF2k=;
-	b=VBurWId2HqDrerkVnZFpzr+u2oijSKw/y5AwinLgSSqHcGcgpuwRuA5rqmcZWF2crUSpTe
-	RgcDPzslfnlUj/2Hr/2KycWtH0/2yuS2lGUT6xY69D3DF84Za6K3U2G1Z4229diie6+XUQ
-	c2Y1jJGUlznxQPsD4sy68uJajZBycuA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-6k3bzMmAOgqGiY-GMnpjbA-1; Thu, 08 Jan 2026 03:41:42 -0500
-X-MC-Unique: 6k3bzMmAOgqGiY-GMnpjbA-1
-X-Mimecast-MFC-AGG-ID: 6k3bzMmAOgqGiY-GMnpjbA_1767861701
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-477964c22e0so14115245e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 00:41:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1767861701; x=1768466501; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5RGxvIn5fQFYR3/ngtCtv4UC6h+IZmTY0D3VzGMTF2k=;
-        b=H0ZaHClA6c3KoNXD+3tXrJmCoOMCR4qT4eAFmnf2dOeabJW5fsJqAWfno/Hnr6IrJF
-         PZsl7U0+3YU3OI4CFlEzjkH45/HO0+BSrGX9ycowVi6hz+rbrBz7lDIeSMLATjJQ8fpj
-         4bcunlq7X/5aKBSUWaT5w7dl3OVtHYcGXCexzwle5no4JMZ2LS/+MjdiFTy4ANdhEH/D
-         EyZTVPMJdL1rs56ukgozYGLyIfpVz8OLhjT6Pu9aHsf61+U5LHYQAbpy+Mb13jGJg28V
-         njkHf0BGhtJDYMe/xcmy1utfrDHkmj/67hrPfw1S16/xnMmMbWsfk3Xjx2at6abqluqP
-         Y8cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767861701; x=1768466501;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5RGxvIn5fQFYR3/ngtCtv4UC6h+IZmTY0D3VzGMTF2k=;
-        b=bSDlp6S4ZJh1HEPkCtFMPOk+T+b9R7QXRlb50jYMfFcI35UZ0fZBCxF6qXQen2uHBc
-         2+dWt13Phcy9zJvIlvORHjKnKFa36fcJghZFjXkbwbxqwIv2OFNMbcSKz5q76PYO6tx1
-         Ksz7WKvKzKJ+OArCNYklV7UYOq5NCgNJd+GvHkJHXsX4LPlgUOcEhLy/7HB9EMtUIwcu
-         dJf5bxhroRpTr+PUTmF3BVtBjbzb97UxOYSG9LD5nomq+NLKAPpidHmlWntzm9bajfi4
-         09NvGiUs+5X4Iol3ggYb5VissZgij1GqA8QdpNHNIY/ua7Or5LAChOI392KkiRSe78bA
-         lYgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVpaf5GwbQEUzpMZrleb4g6PRkcs3yVFBe07eGW/HPXjcSFEDVai8LK7X1Tyx1DGfykHJs+qkDZXSQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTqQ+BMDpUbViN0esFUn+1ejbHOVMkqOCsaUYQHQHfyJGs01V2
-	iuAOO43O/N2G2JJU98CJ3HRweerQ2JWdvh84FhxK9UX5542Ie51II+DntJxSDkSzf8kCMmOhQC9
-	oivcVLwbZV9AlulTXzhZZZpQMnUk7gy2hiel/Bxs/yi9LgCRMvvuwMmzOQlE6Og==
-X-Gm-Gg: AY/fxX52smJo2vYfH+5QtUQBO/Gx5VuNAkuhBTTQesGlGQfMDKw452rlIVba36/wNQ5
-	6bt35UidQcxnkZnpMJp2adgtfX2qss50BX4VsHG5rqpQBwFs28Vi0RvrsaeYPHepijAHd8dIP3P
-	wg3t+AIQ6pklIs/kf7oYusS6hMMnBVLCKHXzs6rQVQHfcyhekbQFbBolkkH6pPasfaTM94/hy0a
-	U1NyTRil6h7QY15PJ1/4z8h0JHp5ueLd5FN24lsa7imRUCUS28N1MOQFtWIKSbZBYVuAZj68Ncy
-	1DEwAd0wbBCMl/72ej+AFoShdGwm6i1m2yWXZ7KcJHKKWAymFqqId5zMqhg/qvy9AFkHRh9TM7Q
-	2r0a4R22mNjf24Q==
-X-Received: by 2002:a05:600c:6749:b0:471:5c0:94fc with SMTP id 5b1f17b1804b1-47d84849fb2mr69624145e9.6.1767861700983;
-        Thu, 08 Jan 2026 00:41:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHMRmXfUT8h/fx23p3HVnSIevvQ/xZpWdXJvjJswXBBTxuR8fZK2hfXFsrWgfe2gcekBcZ2PQ==
-X-Received: by 2002:a05:600c:6749:b0:471:5c0:94fc with SMTP id 5b1f17b1804b1-47d84849fb2mr69623615e9.6.1767861700621;
-        Thu, 08 Jan 2026 00:41:40 -0800 (PST)
-Received: from [192.168.88.32] ([212.105.149.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f703a8csm139970835e9.13.2026.01.08.00.41.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jan 2026 00:41:40 -0800 (PST)
-Message-ID: <56f6f3dd-14a8-44e9-a13d-eeb0a27d81d2@redhat.com>
-Date: Thu, 8 Jan 2026 09:41:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QM/zloNZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6AC04C116D0;
+	Thu,  8 Jan 2026 08:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767861918;
+	bh=jGl0naiTX+/HDHhxWoxiOWiPxFcoAnQa4OUQREfNbl0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=QM/zloNZJrMlXlFOvB50pGGtwBfG/qvcakDAaQi+UgD8iqcuNUPePMMnFjHeLBgV9
+	 +pveU9Uf7q1WgOO4PczxyP6ypah05aIXx8BObBsOlV820Myz5Wy0Z8pJ1ZYYuhLw5M
+	 d4UrmVPbyQxUikjv2oSk/FSGHFD+0lD4OzesXoaSdn8QG9fIHvYQgz5kyi2ieaXeea
+	 PF/aQdjdciekE5QCtjDySQylcGLB59BlYG3JeZxTLPyOBUUF4xlpDRsR4FfYrca9rH
+	 +vwMlqfEJaETzKGP8Y2wDHH0/F/47BtaxwP+SoCfPU72vlksI9SOBfhi9cO48t1qA8
+	 b1iCMiObVscXw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A06CF6A87;
+	Thu,  8 Jan 2026 08:45:18 +0000 (UTC)
+From: Jihan LIN via B4 Relay <devnull+linjh22s.gmail.com@kernel.org>
+Date: Thu, 08 Jan 2026 08:44:38 +0000
+Subject: [PATCH] Documentation/kbuild: Document gendwarfksyms build
+ dependencies
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 net-next 00/13] AccECN protocol case handling series
-To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-References: <20260103131028.10708-1-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260103131028.10708-1-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAHVuX2kC/x3MSQqAMAxA0atI1hZqcb6KiBSbahCrNI6Id7e4f
+ Iv/H2D0hAx19IDHg5gWF5DEEfSjdgMKMsGgpMplIjNhln6f0W3cDejMqb2d+J5ZVLYsMdWFNsp
+ CqFePlq7/3LTv+wEPGta9aQAAAA==
+X-Change-ID: 20260105-documents_gendwarfksyms-9f88e4a7ad2f
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jihan LIN <linjh22s@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767861915; l=2399;
+ i=linjh22s@gmail.com; s=linjh22s_machine; h=from:subject:message-id;
+ bh=Hr5ycYw2D6CoeYfL5AHxIhIwbrD9nhbsUBykKkGZxFo=;
+ b=Qf7URpG3jkcQR7ZRLUMeJndMh+UWQzdYp1YASq18oNDU3mjDFAp9LQQBmrRBn6B5qKFKolmIL
+ +SEjVVEX68NCLRcco4z613r1iPXqRGYH03iLsILewSqwGXTGncMdoZg
+X-Developer-Key: i=linjh22s@gmail.com; a=ed25519;
+ pk=MnRQAVFy1t4tiGb8ce7ohJwrN2YFXd+dA7XmzR6GmUc=
+X-Endpoint-Received: by B4 Relay for linjh22s@gmail.com/linjh22s_machine
+ with auth_id=592
+X-Original-From: Jihan LIN <linjh22s@gmail.com>
+Reply-To: linjh22s@gmail.com
 
-On 1/3/26 2:10 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> 
-> Hello,
-> 
-> Plesae find the v7 AccECN case handling patch series, which covers
-> several excpetional case handling of Accurate ECN spec (RFC9768),
-> adds new identifiers to be used by CC modules, adds ecn_delta into
-> rate_sample, and keeps the ACE counter for computation, etc.
-> 
-> This patch series is part of the full AccECN patch series, which is available at
-> https://github.com/L4STeam/linux-net-next/commits/upstream_l4steam/
-> 
-> Best regards,
-> Chia-Yu
+From: Jihan LIN <linjh22s@gmail.com>
 
-I had just a minor comment on patch 11/13. I think this deserves
-explicit ack from Eric, Neal or Kuniyuki; please wait a little longer
-for them before resend.
+Although dependencies for gendwarfksyms were recently added to the
+packaging rules [1-2], the corresponding documentation was missing.
 
-Side note: it would be great to pair the AccECN behaviours with some
-pktdrill tests, do you have plan for it?
+Document the required build dependencies for gendwarfksyms, and
+include a few examples for installing these dependencies on some
+distributions.
 
-Thanks,
+[1] commit 657f96cb7c06 ("kbuild: deb-pkg: Add libdw-dev:native to
+Build-Depends-Arch")
+[2] commit 5bd6bdd0f76e ("kbuild: rpm-pkg: Add (elfutils-devel or
+libdw-devel) to BuildRequires")
 
-Paolo
+Fixes: f28568841ae0 ("tools: Add gendwarfksyms")
+Signed-off-by: Jihan LIN <linjh22s@gmail.com>
+---
+Hi,
+
+I found there is no documentation for build dependencies in gendwarfksyms
+while digging into Rust drivers. Though Yuli added libdw-dev to the build
+dependencies for packaging [1], it seems that there is no documentation
+about it.
+
+This patch documents the build dependencies of gendwarfksyms and adds a few
+examples for installing these dependencies on some distributions.
+
+[1]: https://lore.kernel.org/all/79C925DCE2E963FF+20250422104927.144252-1-wangyuli@uniontech.com/
+---
+ Documentation/kbuild/gendwarfksyms.rst | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/Documentation/kbuild/gendwarfksyms.rst b/Documentation/kbuild/gendwarfksyms.rst
+index ed366250a54eac3a72c2f529da94a9e803704ae4..85fe9086beb760500250e7539058dce515681378 100644
+--- a/Documentation/kbuild/gendwarfksyms.rst
++++ b/Documentation/kbuild/gendwarfksyms.rst
+@@ -14,6 +14,29 @@ selected, **gendwarfksyms** is used instead to calculate symbol versions
+ from the DWARF debugging information, which contains the necessary
+ details about the final module ABI.
+ 
++Dependencies
++-----
++
++libelf, libdw and zlib are dependencies of gendwarfksyms.
++
++Here are a few examples for installing these dependencies:
++
++* Arch Linux and derivatives::
++
++    sudo pacman --needed -S zlib libelf
++
++* Debian, Ubuntu, and derivatives::
++
++    sudo apt install libelf-dev libdw-dev zlib1g-dev
++
++* Fedora and derivatives::
++
++    sudo dnf install elfutils-libelf-devel elfutils-devel zlib-devel
++
++* openSUSE and derivatives::
++
++    sudo zypper install libelf-devel libdw-devel zlib-devel
++
+ Usage
+ -----
+ 
+
+---
+base-commit: f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+change-id: 20260105-documents_gendwarfksyms-9f88e4a7ad2f
+
+Best regards,
+-- 
+Jihan LIN <linjh22s@gmail.com>
+
 
