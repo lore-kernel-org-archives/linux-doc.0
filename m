@@ -1,152 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46852225402;
-	Thu,  8 Jan 2026 10:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC114A94C9;
+	Thu,  8 Jan 2026 11:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767869408; cv=none; b=bI6Ma0deQoifljGM02Kdh9i83reNucAI2m4cqeSqO2OsAe28LwVf+hgeSFJm39QzTk8S9Sx7HWdnFkizStA62ql4vjJSkYcnDz1XGuXisLYIsIQyfDho+V2CTGz1HscIe/NVfNJbm8e04osGJ5s/022KZvHUqMRFJOLbicodlxc=
+	t=1767870306; cv=none; b=fBY23nSoZyqliU/6zlzlL59qYXmkx4p0Y24fjl2L4cMUc1NlGyG0My5vwA3iG6/+VDqKBhee079/dcKYDoc7NXCNVoC8LC4kYZeiGO36r9Zvz//cpxdtApdywtwr4LJIz8jzKcZAVZmxTGGuNMjFc2CzZvESf8qjVO1iIOpUego=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767869408; c=relaxed/simple;
-	bh=J3iFiBpJ4MgKicn470iJM8chZLbSii7yJkIc1bWG2e0=;
+	s=arc-20240116; t=1767870306; c=relaxed/simple;
+	bh=23JVHZ0/2OEkjIcgisBJ7Un4pP/D/Hxa/fPIdJ7wvf0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GK46VZa3kIPdBtmZ1V+F57PVlJy/zUmf7id305vb+hPBqONCwh3VcUO312vHu41QJWV2H3ViT2OK2QH16VujHYJ6if+9HPUi/qtvrIPi277rIw4Bm0yfMLbrWwKpL6TsbhZqsmQVaKdgnONELOeNj5YUB2PD6UB71W08zqBYN6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=usCgKFl5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=P4ZZTwdapGhU2J5ufR5SxrDPjFw2jJPp+91ABW5Ti/YEaXS4PtK7MP2j2/OmEVCH++A9/CAqQqK1/lOY/0c0eotpvC1FRnZbL7op1kwGTCT5nVLc+yaiHwC9g6N+dhJRp825j8Nd8blZFB+c4fDB7/uIUOVGcEZfJjNBzvSNjoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KS0hLR2w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="usCgKFl5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746B0C116C6;
-	Thu,  8 Jan 2026 10:50:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KS0hLR2w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E4FC116C6;
+	Thu,  8 Jan 2026 11:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767869407;
-	bh=J3iFiBpJ4MgKicn470iJM8chZLbSii7yJkIc1bWG2e0=;
+	s=k20201202; t=1767870305;
+	bh=23JVHZ0/2OEkjIcgisBJ7Un4pP/D/Hxa/fPIdJ7wvf0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=usCgKFl5kg8zlRJFt2DtLBv5AtWjrBNWxhCbANoXoV0dieV8IAVcmgO4ZSVct4KRu
-	 NNBwxgrBeAlXmeAAkUXlojV8lC6pPKuD1XCqkBlkmGxzDbJt8gFRxjBpE2zqZKpxnt
-	 CLbET5n7TY+SOpdplLNx+Qw06IMgYQI2zCI9kUlNN+Rei53g6QbK1s/ryJsHEeC8cM
-	 UUhuOjm1ZmvJPiaSVnR6DQStVjirvW/UEg+3WRFjcPUPmJ3xqLNu2kpAKubYZOno85
-	 U2LTqrlzuQlLJ4olT6oZPXmuH64M9v/Ria2Y+zuaZbWrrrQUKswB5J1D3RZCklQvIK
-	 Akv1QTsSxFVoQ==
-Date: Thu, 8 Jan 2026 11:50:02 +0100
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-Cc: dmitry.torokhov@gmail.com, corbet@lwn.net, jikos@kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	vi@endrift.com, linux-kernel@altimeter.info, peter.hutterer@who-t.net
-Subject: Re: [RFC PATCH 4/6] Input: Assign EV_BTN event to HID Joysticks
-Message-ID: <2vycv2ka2vnuemvkqh4wnrl6iwdbta5c6wkywpbg3p5oecdecr@n7fjhfjvjwuo>
-References: <20260104213132.163904-1-tomasz.pakula.oficjalny@gmail.com>
- <20260104213132.163904-5-tomasz.pakula.oficjalny@gmail.com>
+	b=KS0hLR2wWf5XDAL/q5h13/NVyPKY+F5BKNCq8VYqmgn9mw+Hzh/n/YfYT3j65x547
+	 IpFCFrHDp6ubyOZ0KO9R216UX282QLvH7e3UtvxK2APm6IApcPxASfk1nxK5YfV0ZD
+	 /3XiyY1rDIaE/5ILRjvFBwVg1L6mpyjV4XuftLBOGF70VwQ2tDieYm1Qb3rZ8iuTrO
+	 1IkJKD/kuArIZZLIVebbz/YLmejLcO5YDLwErGEa2rBuVEqBy53iW+f84neIyu9cQi
+	 na2qNC+a181hIYgD3wEq7S95TVV9Ahuv4JYbcRNkkMF384DzwMBTGCORltruyojduY
+	 EE605jvqCgrAw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vdnp9-000000032lG-1LGD;
+	Thu, 08 Jan 2026 12:05:03 +0100
+Date: Thu, 8 Jan 2026 12:05:03 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Changbin Du <changbin.du@huawei.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2] tools: jobserver: Prevent deadlock caused by
+ incorrect jobserver configuration and enhance error reporting
+Message-ID: <aV-ON47dz0aa-wzu@foz.lan>
+References: <20260108100403.2888782-1-changbin.du@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260104213132.163904-5-tomasz.pakula.oficjalny@gmail.com>
+In-Reply-To: <20260108100403.2888782-1-changbin.du@huawei.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Jan 04 2026, Tomasz Pakuła wrote:
-> Joysticks will now fire EV_BTN for every of their buttons, even buttons
-> that were previously ignored because they were cut off by KEY_MAX. This
-> in turns enables joysticks to finally report buttons above 80 which was
-> the previous limitation.
+On Thu, Jan 08, 2026 at 06:04:03PM +0800, Changbin Du wrote:
+> When using GNU Make's jobserver feature in kernel builds, a bug in MAKEFLAGS
+> propagation caused "--jobserver-auth=r,w" to reference an unintended file
+> descriptor. This led to infinite loops in jobserver-exec's os.read() calls
+> due to empty token.
 > 
-> Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+> My shell opened /etc/passwd for some reason without closing it, and as a
+> result, all child processes inherited this fd 3.
+> 
+> $ ls -l /proc/self/fd
+> total 0
+> lrwx------ 1 changbin changbin 64 Dec 25 13:03 0 -> /dev/pts/1
+> lrwx------ 1 changbin changbin 64 Dec 25 13:03 1 -> /dev/pts/1
+> lrwx------ 1 changbin changbin 64 Dec 25 13:03 2 -> /dev/pts/1
+> lr-x------ 1 changbin changbin 64 Dec 25 13:03 3 -> /etc/passwd
+> lr-x------ 1 changbin changbin 64 Dec 25 13:03 4 -> /proc/1421383/fd
+> 
+> In this case, the `make` should open a new file descriptor for jobserver
+> control, but clearly, it did not do so and instead still passed fd 3 as
+> "--jobserver-auth=3,4" in MAKEFLAGS. (The version of my gnu make is 4.3)
+> 
+> This update ensures robustness against invalid jobserver configurations,
+> even when `make` incorrectly pass non-pipe file descriptors.
+>  * Rejecting empty reads to prevent infinite loops on EOF.
+>  * Clearing `self.jobs` to avoid writing to incorrect files if invalid tokens
+>    are detected.
+>  * Printing detailed error messages to stderr to inform the user.
+> 
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Changbin Du <changbin.du@huawei.com>
+> 
 > ---
->  drivers/hid/hid-input.c | 27 +++++++++++++++++++++------
->  include/linux/input.h   |  2 ++
->  2 files changed, 23 insertions(+), 6 deletions(-)
+>   v2: remove validation for all bytes are '+' characters. (Mauro)
+> ---
+>  tools/lib/python/jobserver.py | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 900a6fc9813e..1c11077b1577 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -760,11 +760,15 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  		case HID_GD_MOUSE:
->  		case HID_GD_POINTER:  code += BTN_MOUSE; break;
->  		case HID_GD_JOYSTICK:
-> -				if (code <= 0xf)
-> -					code += BTN_JOYSTICK;
-> -				else
-> -					code += BTN_TRIGGER_HAPPY - 0x10;
-> -				break;
-> +			if (input->button_count >= INPUT_MAX_BUTTONS)
-> +				goto ignore;
-> +
-> +			code += BTN_JOYSTICK;
-> +			if (code > BTN_DEAD)
-> +				code += BTN_TRIGGER_HAPPY - BTN_DEAD - 1;
-> +			if (code > KEY_MAX)
-> +				code = KEY_RESERVED;
-> +			break;
->  		case HID_GD_GAMEPAD:
->  				if (code <= 0xf)
->  					code += BTN_GAMEPAD;
-> @@ -1379,7 +1383,6 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  	}
+> diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver.py
+> index a24f30ef4fa8..8206e4c1497b 100755
+> --- a/tools/lib/python/jobserver.py
+> +++ b/tools/lib/python/jobserver.py
+> @@ -91,6 +91,10 @@ class JobserverExec:
+>              while True:
+>                  try:
+>                      slot = os.read(self.reader, 8)
+> +                    if not slot:
+> +                        # Clear self.jobs to prevent us from probably writing incorrect file.
+> +                        self.jobs = []
+> +                        raise ValueError("unexpected empty token from jobserver fd, invalid '--jobserver-auth=' setting?")
+>                      self.jobs += slot
+>                  except (OSError, IOError) as e:
+>                      if e.errno == errno.EWOULDBLOCK:
+> @@ -105,7 +109,8 @@ class JobserverExec:
+>              # to sit here blocked on our child.
+>              self.claim = len(self.jobs) + 1
 >  
->  	set_bit(usage->type, input->evbit);
-> -
->  	/*
->  	 * This part is *really* controversial:
->  	 * - HID aims at being generic so we should do our best to export
-> @@ -1390,12 +1393,18 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  	 *   *_MISC+N to overwrite a legitimate even, which confuses userspace
->  	 *   (for instance ABS_MISC + 7 is ABS_MT_SLOT, which has a different
->  	 *   processing)
-> +	 * - Joysticks can have arbitrary number of buttons without defined
-> +	 *   usages. Buttons that extend beyond KEY_MAX are assigned to
-> +	 *   KEY_RESERVED thus deduplication must be disabled for them.
->  	 *
->  	 * If devices still want to use this (at their own risk), they will
->  	 * have to use the quirk HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE, but
->  	 * the default should be a reliable mapping.
->  	 */
->  	while (usage->code <= max && test_and_set_bit(usage->code, bit)) {
-> +		if (field->application == HID_GD_JOYSTICK && usage->code == KEY_RESERVED)
-> +			break;
-> +
->  		if (device->quirks & HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE) {
->  			usage->code = find_next_zero_bit(bit,
->  							 max + 1,
-> @@ -1455,6 +1464,12 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->  	if (usage->type == EV_KEY) {
->  		set_bit(EV_MSC, input->evbit);
->  		set_bit(MSC_SCAN, input->mscbit);
-> +
-> +		if (field->application == HID_GD_JOYSTICK &&
-> +		    (usage->hid & HID_USAGE_PAGE) == HID_UP_BUTTON) {
+> -        except (KeyError, IndexError, ValueError, OSError, IOError):
+> +        except (KeyError, IndexError, ValueError, OSError, IOError) as e:
+> +            print(f"Warning: {e}", file=sys.stderr)
 
-Too bad we only set up the button ranges for joysticks, when we could do
-this for all HID devices with a button usage page.
+I prefer to use, instead, "{repr(e)}", as it will tell the type of exception
+that happened.
 
-It also makes the code hard to follow because we now enable this at the
-different place than the other mappings.
-
-Cheers,
-Benjamin
-
-> +			set_bit(EV_BTN, input->evbit);
-> +			++input->button_count;
-> +		}
->  	}
->  
->  	return;
-> diff --git a/include/linux/input.h b/include/linux/input.h
-> index f6389de4a4d1..7f39c663fa85 100644
-> --- a/include/linux/input.h
-> +++ b/include/linux/input.h
-> @@ -214,6 +214,8 @@ struct input_dev {
->  };
->  #define to_input_dev(d) container_of(d, struct input_dev, dev)
->  
-> +#define INPUT_MAX_BUTTONS 2048 /* A sane limit of supported device buttons */
-> +
->  /*
->   * Verify that we are in sync with input_device_id mod_devicetable.h #defines
->   */
+>              # Any missing environment strings or bad fds should result in just
+>              # not being parallel.
+>              self.claim = None
 > -- 
-> 2.52.0
+> 2.43.0
 > 
+
+With that, feel free to add my:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+-- 
+Thanks,
+Mauro
