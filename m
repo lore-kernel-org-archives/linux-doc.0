@@ -1,211 +1,204 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6BA387577;
-	Thu,  8 Jan 2026 12:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0223FB23A;
+	Thu,  8 Jan 2026 12:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767876604; cv=none; b=JlVWGNb3K7QlN7ovOjWmQwT7YA6mR7Hmy4K8EY9lpVtGoJ/0J54ipB+nxlrf1xD84HqKei2tchpfVVyU0clTfKbYmXMeYbcJniXGv0LH/t/887sqKvKzsqamJvVVx+1dAz7VeNThHhyFf9TEq+BLUWsvMPR6UUnZgBhn6GwnO3Y=
+	t=1767877154; cv=none; b=tZBCL4qVOqfhbJZn7fCPnic7fwkYwrawwLWGTE4/1kZW6xIipJUCspvtQbd64TmPsj6PLrUvnELxFNi+zv/NOXZKzjb7qzAdGiAkDdg3tPL5XLmjqkVG0T0tHFe+Q+uH4hbn5QRde5FgTjT+XxX314t7ML+SM4/z0E8j/WdmnSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767876604; c=relaxed/simple;
-	bh=oRZ2lPl+gZkTUwx0MnubUkgPpy5MkPPj96/wtI4UW/Q=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jwypx3FNddimLD7g+CS3Hh3F0/p6kI50YUHMW0kSlfSaw00M/rY3YpekBVuNC2rD6MTeICRHHcwmzD5yZIM5kiysUYbTXG/CGdXC5MbMoqpq6pfLxY0/0bOD/472NCJyJsMbRiELGieGcsGXBneEISPc85NimJEj5kFY83NVuQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn4Vp3QDBzJ469G;
-	Thu,  8 Jan 2026 20:49:54 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4FF994056A;
-	Thu,  8 Jan 2026 20:49:59 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
- 2026 12:49:57 +0000
-Date: Thu, 8 Jan 2026 12:49:56 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 14/21] famfs_fuse: Plumb the GET_FMAP
- message/response
-Message-ID: <20260108124956.00000e0e@huawei.com>
-In-Reply-To: <20260107153332.64727-15-john@groves.net>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153332.64727-1-john@groves.net>
-	<20260107153332.64727-15-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767877154; c=relaxed/simple;
+	bh=GIGWmCOhSWxzlOF3iCBOFJmMnjV2NFQFhntQhDwwkQ4=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=I7zDGAMQmZbvh0eEKcR2+XJNuPV9bCTxPwsZJaBfQicJLPG2FfDDdY7LsiiE4xnF9XG8EOvSmX8VFQ/z8ex8ZAYJPhxOs2/rJ7u46Do7bF85AXsJl9HLWTWT7dVAk71wRUrGMFWf+6t3jg6HtPhISCAClHhn25WSrlI8P+XvKpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=ALiTIn9x; arc=none smtp.client-ip=148.163.139.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="ALiTIn9x"
+Received: from pps.filterd (m0375854.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 608CWaev951792;
+	Thu, 8 Jan 2026 07:58:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=szLcsqzGtQNj3+aedKG4zimv4jM
+	XzNwJbbDdLzPdjMc=; b=ALiTIn9xC1XinBPrt/RFYpC9KIcvrinZs3e35UxEX9n
+	5xjRFTM15xlxfDPaFXgR5QgqCPcjPbmwAtWbXI9n9+9Q8MmFRRhuJ2Nd3skE9+XR
+	Gy6Z4qf+GK1oIAaOPK/CyLffg0LYZw/ija38b6ycVw1P9NX4i57FFKrUiGOVnDgq
+	f4jZ23Jr1cqTvz5XmV0ps0oWTZuQz+GqGU3RkLNPfgwh+NWEvxkMC1bouFkQ8Yvn
+	tLAl6Lqe8Rw5qxoAgRp+Ih4YWDnSg21JNwbu7SdEGwSVN92yc9koDViEvTDpjKVx
+	5H+MGkvyzjeVL+wC6gMXb0pBFsbLFoLo6XW/7oA3h5Q==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4bj7pm9nkw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 08 Jan 2026 07:58:43 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 608CwgRG033905
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 8 Jan 2026 07:58:42 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Thu, 8 Jan
+ 2026 07:58:41 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Thu, 8 Jan 2026 07:58:41 -0500
+Received: from HYB-e1y2fvUQ3cx.ad.analog.com (HYB-e1y2fvUQ3cx.ad.analog.com [10.44.3.88])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 608CwSiD012447;
+	Thu, 8 Jan 2026 07:58:31 -0500
+From: Janani Sunil <janani.sunil@analog.com>
+Subject: [PATCH v2 0/2] Subject: [PATCH v1 0/3] iio: dac: Add support for
+ MAX22007 DAC
+Date: Thu, 8 Jan 2026 13:58:22 +0100
+Message-ID: <20260108-max22007-dev-v2-0-2506c738784f@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+X-B4-Tracking: v=1; b=H4sIAO6pX2kC/3XMQQ7CIBCF4as0sxYDE7XUlfcwXUxh2pJYaMCQm
+ oa7i927/F/yvh0SR8cJ7s0OkbNLLvgaeGrAzOQnFs7WBpR4Vag6sdCGKGUrLGehiEap7dDqTkK
+ 9rJFHtx3cs689u/QO8XPoWf3WP1BWQgq8oCU0OOibfpCnV5jOJizQl1K+xxq+h6kAAAA=
+X-Change-ID: 20251219-max22007-dev-1aaf08db7890
+To: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Alexandru Ardelean
+	<alexandru.ardelean@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>, Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <jan.sun97@gmail.com>, Janani Sunil <janani.sunil@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1767877109; l=3836;
+ i=janani.sunil@analog.com; h=from:subject:message-id;
+ bh=GIGWmCOhSWxzlOF3iCBOFJmMnjV2NFQFhntQhDwwkQ4=;
+ b=KA6P//WcbQOQydE7OdpFRNCx/oMt81yj7lArqQ+RkO6hGB/UdlgjzlwVNrohDLDQ5BdCZ0zbr
+ f46lhSDKT7YD4i72uuUtxVWrw2PM6QRy9m/B9YkKPP/HjRoeeqo7dyZ
+X-Developer-Key: i=janani.sunil@analog.com; a=ed25519;
+ pk=e25MyjRLPY3RWrYm/LrJ+/+t1MZJUbkgIW5CZg+g+hA=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=EtnfbCcA c=1 sm=1 tr=0 ts=695faa03 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8 a=07d9gI8wAAAA:8 a=pGLkceISAAAA:8
+ a=hT07yNKm7YZZmlAkMzEA:9 a=QEXdDO2ut3YA:10 a=e2CUPOnPG4QKp8I52DXD:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA5MiBTYWx0ZWRfXx+pC2a6i7XS3
+ qqLEGOr0HkDjO8GXvo85R9fBbveChP47c6oedAMg4ssoAR/uJPSErFtA5q0RFSw1Kpmob7BJrhA
+ lD7NBn8vvRUpxjvVOi1WZTUudBiPap7SQXAnZvJcLXuLnuvK9v5tVsP19j1BEVwh5QjYbT2hRAU
+ fiCl5lcrjTkffECW5ElK0PEvSo/fRFjOtUpS+gQCe4GzqUDelePofLZ+5u4fpXZynriGAK98eBY
+ Fzcv2TK4rp7FrqDF48u2KRGQH2+R3bRrOzptlwnPOcwj7uAWKaaQKvxAnb/ulargcyETHgx2Uyo
+ xjXHK3WwxPtQ2J8GvEoyb1P2ZmUMw+7zbke2Uw0/HU81E2Uo6oOSGmWkDJWCElWkCmj9aLSaFvw
+ upSyMf70gfVFOpZ7K2BLwHfmdgumffktCKlRLdYVB0k58SCjObvo0+bB2sa+D+ZJ4CAg6hJsLRh
+ wcjL/axBdqZETP9nMjw==
+X-Proofpoint-ORIG-GUID: CUId89ZVQB_0EcwhbbQQNlBPuNTM3w49
+X-Proofpoint-GUID: CUId89ZVQB_0EcwhbbQQNlBPuNTM3w49
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-08_02,2026-01-07_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 suspectscore=0 spamscore=0 clxscore=1011
+ phishscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601080092
 
-On Wed,  7 Jan 2026 09:33:23 -0600
-John Groves <John@Groves.net> wrote:
+This patch series introduces support for the Analog Devices MAX22007, a
+quad-channel, 12-bit digital-to-analog converter (DAC) with integrated
+precision output amplifiers and configurable voltage/current output capability.
 
-> Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP to
-> retrieve and cache up the file-to-dax map in the kernel. If this
-> succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-A few things inline.
+**Device Overview:**
+The MAX22007 features four independent DAC channels that can each be configured
+for either voltage output (0-12.5V) or current output (0-25mA) mode. The device
+communicates via SPI interface with built-in CRC8 error checking for data integrity.
 
-J
+**Features Implemented:**
+- Support for all 4 DAC channels with 12-bit resolution
+- Per-channel voltage/current mode configuration via device tree
+  property `adi,ch-func = [voltage, current]`
+- Independent power control for each channel (attribute)
+- Hardware reset support via GPIO (during probe)
+- CRC8 error checking for SPI communication
 
-> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> new file mode 100644
-> index 000000000000..0f7e3f00e1e7
-> --- /dev/null
-> +++ b/fs/fuse/famfs.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * famfs - dax file system for shared fabric-attached memory
-> + *
-> + * Copyright 2023-2025 Micron Technology, Inc.
-> + *
-> + * This file system, originally based on ramfs the dax support from xfs,
-> + * is intended to allow multiple host systems to mount a common file system
-> + * view of dax files that map to shared memory.
-> + */
-> +
-> +#include <linux/fs.h>
-> +#include <linux/mm.h>
-> +#include <linux/dax.h>
-> +#include <linux/iomap.h>
-> +#include <linux/path.h>
-> +#include <linux/namei.h>
-> +#include <linux/string.h>
-> +
-> +#include "fuse_i.h"
-> +
-> +
-> +#define FMAP_BUFSIZE PAGE_SIZE
-> +
-> +int
-> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	size_t fmap_bufsize = FMAP_BUFSIZE;
-> +	u64 nodeid = get_node_id(inode);
-> +	ssize_t fmap_size;
-> +	void *fmap_buf;
-> +	int rc;
-> +
-> +	FUSE_ARGS(args);
-> +
-> +	/* Don't retrieve if we already have the famfs metadata */
-> +	if (fi->famfs_meta)
-> +		return 0;
-> +
-> +	fmap_buf = kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
+**Patch Summary:**
+1. dt-bindings: Binding documentation with channel configuration
+2. driver: Implement IIO DAC driver
 
-If there is only ever 1, does kcalloc() make sense over kzalloc()?
+**Testing:**
+The driver was hardware tested on a Raspberry Pi4 on top of v6.12.y
+kernel using the MAX22007EVKIT evaluation board.
 
-> +	if (!fmap_buf)
-> +		return -EIO;
-> +
-> +	args.opcode = FUSE_GET_FMAP;
-> +	args.nodeid = nodeid;
-> +
-> +	/* Variable-sized output buffer
-> +	 * this causes fuse_simple_request() to return the size of the
-> +	 * output payload
-> +	 */
-> +	args.out_argvar = true;
-> +	args.out_numargs = 1;
-> +	args.out_args[0].size = fmap_bufsize;
-> +	args.out_args[0].value = fmap_buf;
-> +
-> +	/* Send GET_FMAP command */
-> +	rc = fuse_simple_request(fm, &args);
-> +	if (rc < 0) {
-> +		pr_err("%s: err=%d from fuse_simple_request()\n",
-> +		       __func__, rc);
+Janani Sunil (3):
 
-Leaks the fmap_buf?  Maybe use a __free() so no need to keep track of htat.
+dt-bindings: iio: dac: Add max22007
+iio: dac: Add MAX22007 DAC driver support
+---
+To: Lars-Peter Clausen <lars@metafoo.de>
+To: Michael Hennerich <Michael.Hennerich@analog.com>
+To: Alexandru Ardelean <alexandru.ardelean@analog.com>
+To: Jonathan Cameron <jic23@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: jan.sun97@gmail.com
+Signed-off-by: Janani Sunil <janani.sunil@analog.com>
 
+---
+Changes in v2:
+- Wrap commit messages as per coding guidelines
+- Removed all driver references from the hardware
+- Update property description for reset-gpio
+- Removed allOf
+- Added minimum/maximum limits for channel number in the devicetree
+  binding
+- Replaced adi,type with adi,ch-func.
+- Added reference to required supplies in the binding, configured them
+  in the driver
+- Channels are not a required property anymore.
+- Replaced instances of 'channel' in macros to just 'ch'
+- Added trailing commas wherever necessary, removed them as per comments
+- Add explicit values for enum- max22007_channel_power
+- Replace channel spec structure member 'iio_chan' with 'iio_chans'
+- Use spi_write_then_read() API in the max22007_spi_read() API
+- Check for reg_size ==1 and hardcode the size otherwise
+- Wrap lines in the driver to 80 characters
+- Update in-line comment on the resolution
+- Separate declarations with assignment, from the ones that don't
+- Update the usage of channel template
+- Add a local device descriptor to point to the SPI device
+- Add a transition of the Reset GPIO from low to high in the probe
+- Make use of regmap_set_bits() instead of regmap_update_bits during CRC
+  Enable function call.
+- Remove the documentation commit, as it is not needed anymore.
+- Link to v1: https://lore.kernel.org/r/20251219-max22007-dev-v1-0-242da2c2b868@analog.com
 
-> +		return rc;
-> +	}
-> +	fmap_size = rc;
-> +
-> +	/* We retrieved the "fmap" (the file's map to memory), but
-> +	 * we haven't used it yet. A call to famfs_file_init_dax() will be added
-> +	 * here in a subsequent patch, when we add the ability to attach
-> +	 * fmaps to files.
-> +	 */
-> +
-> +	kfree(fmap_buf);
-> +	return 0;
-> +}
+---
+Janani Sunil (2):
+      dt-bindings: iio: dac: Add max22007
+      iio: dac: Add MAX22007 DAC driver support
 
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 84d0ee2a501d..691c7850cf4e 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -223,6 +223,14 @@ struct fuse_inode {
+ .../devicetree/bindings/iio/dac/adi,max22007.yaml  | 136 ++++++
+ MAINTAINERS                                        |   8 +
+ drivers/iio/dac/Kconfig                            |  13 +
+ drivers/iio/dac/Makefile                           |   1 +
+ drivers/iio/dac/max22007.c                         | 507 +++++++++++++++++++++
+ 5 files changed, 665 insertions(+)
+---
+base-commit: a7b10f0963c651a6406d958a5f64b9c5594f84da
+change-id: 20251219-max22007-dev-1aaf08db7890
 
->  
-> +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
-> +						       void *meta)
-> +{
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	return xchg(&fi->famfs_meta, meta);
-> +#else
-> +	return NULL;
-> +#endif
-> +}
-> +
-> +static inline void famfs_meta_free(struct fuse_inode *fi)
-> +{
-> +	/* Stub wil be connected in a subsequent commit */
-> +}
-> +
-> +static inline int fuse_file_famfs(struct fuse_inode *fi)
-> +{
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +	return (READ_ONCE(fi->famfs_meta) != NULL);
-> +#else
-> +	return 0;
-> +#endif
-> +}
-> +
-> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> +int fuse_get_fmap(struct fuse_mount *fm, struct inode *inode);
-> +#else
-> +static inline int
-> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
-> +{
-> +	return 0;
-> +}
-> +#endif
-I'd do a single block under one if IS_ENABLED() and then use an else
-for the stubs.   Should end up more readable.
+Best regards,
+-- 
+Janani Sunil <janani.sunil@analog.com>
 
-Jonathan
