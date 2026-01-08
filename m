@@ -1,118 +1,183 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53C248C8D8
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 10:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DF44BDEB0;
+	Thu,  8 Jan 2026 10:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767868952; cv=none; b=qx6RiztfKBbBaIQAS1y4m4fSnWyW9QI8kallQ//dVB3+7klqGS9sQX8uhi1bskX8DgX6Sr+axnvdpO46eCtUri3vyl4ZiVlq7OlueNiL3WISM71mPuAJquXgxQmkpPlfuTgoyzikLgnSF1QhTfpqxNuDICuGEjAysig2aHHjXQE=
+	t=1767869058; cv=none; b=tfkSBcQWzCAouzCKmXVQ8FHTboosmMoYruJJLROj0zOhVn/M0hiFBpmXszOdIP4FuoxLwCBkrMbCe7doKUFSfhRyrnM+Olj/zGmRGw/OTLoixbepF1AEmT2rE0ckQH78/qYUNfdLovOg33LRfxlz+xUKh2i6CyqoZeWtRd4s2Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767868952; c=relaxed/simple;
-	bh=7jKXaItOB5HW6uJMPUGoE6Z1+rU0TW3Ya6J4u86JvQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nX9BlI6hc5rwt96JJsYStXHuf3MUWJfWzwrm/RZFBpfzepMulggiC36LKjGrPQhLQrcRD3xfzHjO7lTYxaQ8tAJ41wEHAmdkoMsCA9lxEnOQ9ol97ZrjSrWqmLPWpM62Byz7xtmD7XldMlKo1E+kVxXY6pyMB/i9hLEQwN8E7G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C/U4QNzp; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C/U4QNzp"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4779e2ac121so128145e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 02:42:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767868945; x=1768473745; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCksppsN2qljq533bVWKBzGPs8aXT6gZzyjV+hGv2Fs=;
-        b=C/U4QNzpRg9cP1pYp/d/r6DsdRrGuciDjV8jHfcHOk/qDm1nEJVi21VYML4cj6RyU+
-         jErS/5dC7I8pFiai/9CTqgpT3m1bGJHcz1RZwbVlX6sRZlrn4FLQk7dJCJJ4Yrd2DPXU
-         /Ha+sLJTTyp9YNVasVbH+In6YzJws773ghXXKmAjcbuYx6YwfjmKNeXguTdu5G2toi7A
-         NMNQryPj+J0BJi1KaHwnaELga7e+O+Ilu/uaCAf+MnGbVI76rPpp/C6TFWwBETTxQd3/
-         EpRk2bTX+PBy92wzRRxprXOfhH+u2s0U5wk7R0NZvhVw4n89bFbABYAEOzid+DjTPUHz
-         7U6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767868945; x=1768473745;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iCksppsN2qljq533bVWKBzGPs8aXT6gZzyjV+hGv2Fs=;
-        b=RJNzuITY7Y3QtONNPnjiELOJQYySSWQ9MBd6sV5MAorNa7U/N8TrnO0ywO+vjLvow8
-         jJ7Jqrz4sUN4MSOijkihCO/Za6ORHmjB9qEGc9v1JendkOp3SwPuHqoLDBlgoJxFkLh3
-         vfa2rgf2QLa8qz7c+CG+sT1PM2BwLRMxU4XFI2L/WZeedX2zWpanlMu/XbZOha32hQI5
-         9zjINlbNzUfv3lzOK7fMzQOCDQ5f2NAwGN9aOOrgYia644NGjJ9ViIO3uSfT0iLLjyw4
-         oLUIv2XGIuzl0fwBtcmr6u7ga+JhkO5ikClAzIus9eJPRY2JrxUgZVe+AfPlQrOSYIDg
-         QbeA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6HiuZ4h/RlTw4r+eRzmGkPUM1zPJ1iDmns97fcRao/25BreRMInrZ9/Kxuj+Rs5yp9cj99fg1zJ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWJ4tz01Qt1WF7760vF99t5hkQ12IOxqLztjczrvaVvRM8Vk2A
-	WOq6tNGtrnokO4qPikJBexqWSRKF84aYpUfVt7ErvoTXxvTVbeJJH63lmmXLYZsOfA==
-X-Gm-Gg: AY/fxX7s4Hn2hCJt5OzAPHOXwUPqTLypvvulnwZCHUtt6KaJA9QQPtcgCVGnv5cXMK6
-	l/jjagR8jIWW1pPC2LDAkR2dfuvuGiuxzbDJNqgOqsk2L9Nj6vnYSTXtvQzrS2xpcK8XFzLRdDO
-	imHiv4qZGyHPePiwub+6UdpP9wY3NNjMMQMnhaA8dHOADEZ98oNtxJwIapAAzDBb+StsTY/NYls
-	LMgBA3IyZpC1GB188u8iEYW7f+ZF1K9B8ZZNKKp90EjwaSxLtPdmTWXIosOSp2vAgEklT8v2VXz
-	Vl2S5qnx+QWmKZ575CK3w9ioJoegamD9uVUyMVmMJSYZezqI2RKmVWuJ0yAJySFBtHLcoiEDeGb
-	3xxW4OtIouUegYJnNyOsBnpRj01aAtUk9Wqyco0KQwlyi7bH6pn3/5ZdjkXGSgc7A+HkRE0XbU+
-	al0iqFU8nrxEvyFdFssHRphZ6MVCBib7dNzgGtYRA3FLlYBaBfJ6Lp
-X-Received: by 2002:a7b:ce90:0:b0:477:95a8:2565 with SMTP id 5b1f17b1804b1-47d8ac3eea6mr350785e9.16.1767868944788;
-        Thu, 08 Jan 2026 02:42:24 -0800 (PST)
-Received: from google.com (171.85.155.104.bc.googleusercontent.com. [104.155.85.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0daa84sm15517528f8f.2.2026.01.08.02.42.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 02:42:24 -0800 (PST)
-Date: Thu, 8 Jan 2026 10:42:20 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, xiaqinxin@huawei.com, baolu.lu@linux.intel.com,
-	rdunlap@infradead.org
-Subject: Re: [PATCH v5 1/4] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
-Message-ID: <aV-KDEGlplD5EkBx@google.com>
-References: <20260106162200.2223655-1-smostafa@google.com>
- <20260106162200.2223655-2-smostafa@google.com>
- <1a6aedcd-34c2-4e26-b07e-6eb8d423b759@kernel.org>
+	s=arc-20240116; t=1767869058; c=relaxed/simple;
+	bh=Ny4RaHcpG7jXWvMNB3ojt451TJHh0rJcIQA3Waucmps=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m3cxMdN3Zwa5hatKlzkMpZ5IRGGnwbsfNlEt1C8ck7POU4BGs68Ns1R4/mKkt4hgLlhQywMm++lP0/E6HR6OWzE5JOZ33a07OyUsSM9+6jDpctdBdVCPSljngrQaCs6ORzdr1V1r/AfsXBzS/sKrEmgzTfnEjHF8W63gZclboFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dn1jL4yF8zJ4685;
+	Thu,  8 Jan 2026 18:43:50 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 63A5240086;
+	Thu,  8 Jan 2026 18:43:55 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Thu, 8 Jan
+ 2026 10:43:53 +0000
+Date: Thu, 8 Jan 2026 10:43:52 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <John@Groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V3 01/21] dax: move dax_pgoff_to_phys from
+ [drivers/dax/] device.c to bus.c
+Message-ID: <20260108104352.000079c3@huawei.com>
+In-Reply-To: <20260107153332.64727-2-john@groves.net>
+References: <20260107153244.64703-1-john@groves.net>
+	<20260107153332.64727-1-john@groves.net>
+	<20260107153332.64727-2-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a6aedcd-34c2-4e26-b07e-6eb8d423b759@kernel.org>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-On Wed, Jan 07, 2026 at 05:53:50PM +0100, David Hildenbrand (Red Hat) wrote:
-> On 1/6/26 17:21, Mostafa Saleh wrote:
-> > Add a new config IOMMU_DEBUG_PAGEALLOC, which registers new data to
-> > page_ext.
-> > 
-> > This config will be used by the IOMMU API to track pages mapped in
-> > the IOMMU to catch drivers trying to free kernel memory that they
-> > still map in their domains, causing all types of memory corruption.
-> > 
-> > This behaviour is disabled by default and can be enabled using
-> > kernel cmdline iommu.debug_pagealloc.
-> > 
-> > Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > ---
-> 
-> I think I acked it, but maybe too late for you to spot it
-> 
-> for the MM bits
-> 
-> Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
+On Wed,  7 Jan 2026 09:33:10 -0600
+John Groves <John@Groves.net> wrote:
 
-Thanks! If my mail client is not acting, it seems that was the
-same version(v5) also.
-
-Thanks,
-Mostafa
-
+> This function will be used by both device.c and fsdev.c, but both are
+> loadable modules. Moving to bus.c puts it in core and makes it available
+> to both.
 > 
-> -- 
-> Cheers
+> No code changes - just relocated.
 > 
-> David
+> Signed-off-by: John Groves <john@groves.net>
+Hi John,
+
+I don't know the code well enough to offer an opinion on whether this
+move causes any issues or if this is the best location, so review is superficial
+stuff only.
+
+Jonathan
+
+> ---
+>  drivers/dax/bus.c    | 27 +++++++++++++++++++++++++++
+>  drivers/dax/device.c | 23 -----------------------
+>  2 files changed, 27 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index fde29e0ad68b..a2f9a3cc30a5 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -7,6 +7,9 @@
+>  #include <linux/slab.h>
+>  #include <linux/dax.h>
+>  #include <linux/io.h>
+> +#include <linux/backing-dev.h>
+
+I'm not immediately spotting why this one.  Maybe should be in a different
+patch?
+
+> +#include <linux/range.h>
+> +#include <linux/uio.h>
+
+Why this one?
+
+Style wise, dax seems to use reverse xmas tree for includes, so
+this should keep to that.
+
+>  #include "dax-private.h"
+>  #include "bus.h"
+>  
+> @@ -1417,6 +1420,30 @@ static const struct device_type dev_dax_type = {
+>  	.groups = dax_attribute_groups,
+>  };
+>  
+> +/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c  */
+Bonus space before that */
+Curiously that wasn't there in the original.
+
+> +__weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
+> +			      unsigned long size)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < dev_dax->nr_range; i++) {
+> +		struct dev_dax_range *dax_range = &dev_dax->ranges[i];
+> +		struct range *range = &dax_range->range;
+> +		unsigned long long pgoff_end;
+> +		phys_addr_t phys;
+> +
+> +		pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
+> +		if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
+> +			continue;
+> +		phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
+> +		if (phys + size - 1 <= range->end)
+> +			return phys;
+> +		break;
+> +	}
+> +	return -1;
+> +}
+> +EXPORT_SYMBOL_GPL(dax_pgoff_to_phys);
+> +
+>  static struct dev_dax *__devm_create_dev_dax(struct dev_dax_data *data)
+>  {
+>  	struct dax_region *dax_region = data->dax_region;
+> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+> index 22999a402e02..132c1d03fd07 100644
+> --- a/drivers/dax/device.c
+> +++ b/drivers/dax/device.c
+> @@ -57,29 +57,6 @@ static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
+>  			   vma->vm_file, func);
+>  }
+>  
+> -/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c */
+> -__weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
+> -		unsigned long size)
+> -{
+> -	int i;
+> -
+> -	for (i = 0; i < dev_dax->nr_range; i++) {
+> -		struct dev_dax_range *dax_range = &dev_dax->ranges[i];
+> -		struct range *range = &dax_range->range;
+> -		unsigned long long pgoff_end;
+> -		phys_addr_t phys;
+> -
+> -		pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
+> -		if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
+> -			continue;
+> -		phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
+> -		if (phys + size - 1 <= range->end)
+> -			return phys;
+> -		break;
+> -	}
+> -	return -1;
+> -}
+> -
+>  static void dax_set_mapping(struct vm_fault *vmf, unsigned long pfn,
+>  			      unsigned long fault_size)
+>  {
+
