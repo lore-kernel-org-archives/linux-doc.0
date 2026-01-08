@@ -1,169 +1,183 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013071.outbound.protection.outlook.com [40.93.201.71])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992AA284898;
-	Thu,  8 Jan 2026 16:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767891266; cv=fail; b=cH2eXFCH5uk1TTtMrN7gKWK65mzhmTg5qrNv67UxIr16sdmn7FuuafL8iGuq1vWabr7c4xHz5wuwf20AbvdC4xhbGBRS5KEM7TCSNdynXqLWgd1GPinesh4JOVGe6QReGHBbRB/smrkAimhTWmiZgMCagmk4O6uGHapoNCGueIM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767891266; c=relaxed/simple;
-	bh=wixT+/baTWbjLExgCk9rTXxJ/XLWSobHTQrSqF2uO74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cOlrsRV9d48UtIQ2LkgSvv6OBWEeiuRYACOkcZ9ASN3SZ/Lk3aWMRwhxS56HKXNdAm2YekzLZkW2SY0t3UC3Cpd1BAOFHdDHWtrtNG8mLNixAt3kKgkKjmKSUi4wSVJK2/gxr9pKk9r834YDzr4DJnsQDZu3GcCqgF8LxXwgaus=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=OsXQkZ+7; arc=fail smtp.client-ip=40.93.201.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00E02E03E3
+	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 16:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767891527; cv=none; b=KVyIav8mzhr0qgK7UzeWrJaRoVxM38NkcwizB2/o0JpHaq8A/mzdqsOhnWRni9tYTjBrn+NQYZ8j6u77J+CiIRPLJzYouHENLgqIOAKY/eGt8e6AOaJdC9qmNDVCX3PlNzejh/5KE+wq0WPzX7b65GaQompxGlOJroDs6FoOtoA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767891527; c=relaxed/simple;
+	bh=4sdiZuFRexWZI+54a8W+WnbOT1IbHWUkfPmCPFSkUZM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ttou1bFKPOawYl7kLZaWZQI5/+ihmetxkx/YQekLkcs9HvxpaUImBYgYyAMAMyKHZGXUwdaXC8JHpM8qbOMgVKh86qib3lRfRfAR8ZmpaIS9o8CNpdgGep6nVoU4tepf7B+LbFwhX5f+S/ka/nmSOBR4LSsBkviXWR/OfAc4Pso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MZ/dyuSy; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="OsXQkZ+7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c99ZwbCu9nugVpIBm5EtirOtXlH5UWlk5K73f4fTRf0HNfwfi2kUBIlzoiRC62+HTmYYS1hwRPk2JIwjRjJmfwoHpcir8jqcZwso2LXSCy5qC4J/D5SXOc2cAx82aU7hQy3TI0s7NJcJdOoDXuvLHL/pJn1hhxQmijvPlxi7Q6coH73ItbWH2niAUn1+70gPeNwsC+rNwod22onxPcCAjYot2+dt09apGm5v7Myko/IRtaVI63q8kLCtVRrN2FzmPudP4KGxUlQ3gVKzRTeBCrFfbNMnQHlrLf9U4vvPLizdXzkTwFzg/AvoJDkbce58DRw8pXC7n1gXqZj83+QaqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wixT+/baTWbjLExgCk9rTXxJ/XLWSobHTQrSqF2uO74=;
- b=qPUhiK9BAy375iuRL4isNJtcDWETluEoFquAt3XFb1R19CtWwHTJSDZIcOnj9NMZmb6PbsN8gSgwnRWj+24Jf8ZvNujDrWmW0igg/Prn5To5bf1PW0rzFg94IYmo2hXHpIibSvLLq0J9N/QiBVoI9eHxw5T8ZoG5rVSVczfJ1y+d6qpsVMSza1d8/1Gnv81OEf9jMUc7TN6aQXasg14pAzTx0YYeZbgKAUqv7OcHVFWbkoVbByo+NJAT8ti+gniu9/RrOxxIKxSOohC8JZv3b5oAbaT7wjZsbumqQ3uBTNKghwcCtIpL+lxhOaQ1FJxPvyb+feDTgc1zY40rNri/oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wixT+/baTWbjLExgCk9rTXxJ/XLWSobHTQrSqF2uO74=;
- b=OsXQkZ+7Yhw3MIYQwwg8JpFpCC/ltm06myCEFOCC5Jeb7ulT2zzS7Cb+4XCcG85MR0abK/t7zIAQLsQbkLSnfa8fR9Jiek/Id3AEuOb5n0GZ7xgo0+kXDu9q1lYgbgtt5fcsh5QeKTBI6Ldur3+yesDK5EGmytD9G59vxxOO9yfwX/fTMQsCOBSAfbvlrg6pYLB0SRwj1Z4+KkisGeX0fUiKDiKdvRbH4HwLowIBQQPZqy012GIzDfeoIDfrOOkrP494KgDEk3PDFyuMz9o/Iiz4dK+VXcH8QGIqfpXWwOnMAPsrnaYoOY/siE7sJ2mDOZbQjrozByTgWcL2HpBI0Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by CY8PR12MB7755.namprd12.prod.outlook.com (2603:10b6:930:87::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Thu, 8 Jan
- 2026 16:54:15 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::1b59:c8a2:4c00:8a2c]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::1b59:c8a2:4c00:8a2c%3]) with mapi id 15.20.9499.002; Thu, 8 Jan 2026
- 16:54:15 +0000
-Date: Thu, 8 Jan 2026 12:54:14 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Lucas Wei <lucaswei@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com,
-	kernel test robot <lkp@intel.com>, stable@vger.kernel.org,
-	kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	smostafa@google.com
-Subject: Re: [PATCH v2] arm64: errata: Workaround for SI L1 downstream
- coherency issue
-Message-ID: <20260108165414.GF23056@nvidia.com>
-References: <20251229033621.996546-1-lucaswei@google.com>
- <87o6ndduye.wl-maz@kernel.org>
- <aV6K7QnUa7jDpKw-@willie-the-truck>
- <7cd7b4f0-7aa5-4ca0-adc6-44d968c1ed48@arm.com>
- <aV_KqiaDf9-2NcxH@willie-the-truck>
- <a0fd155b-67fc-45a4-8510-01f89681d6fa@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0fd155b-67fc-45a4-8510-01f89681d6fa@arm.com>
-X-ClientProxiedBy: BL1PR13CA0165.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::20) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MZ/dyuSy"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id C52D84E42000;
+	Thu,  8 Jan 2026 16:58:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 96DB66072B;
+	Thu,  8 Jan 2026 16:58:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 666D9103C8891;
+	Thu,  8 Jan 2026 17:58:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767891520; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=E+E90BltAoO+qn8F30WKKOmABemNtGnZLPXKAjs4xnI=;
+	b=MZ/dyuSyCdfnO7r8Z3aYcq+P7lQSXYQT08myG7d7wTE6630zfJ2I15slCXCRz/7JhWTMcn
+	BbEUgkXvj6Q/z1Z5YOcn0BQjQp1JX3eAqh7WsEzjSDkP+JRuhgFKpIyp6CEU2qWFB4wH9I
+	XsdYXe32VMhMMqKjazEqufx3ylFqdrktKZyVd11jqdIVnYDzHrocAF/9JGzRKzgTSnFB5j
+	0sQs4EQPCZ8PBoJh8K0zoWpskcCTvtzkn97wLf05SeR7MeIp06NBAfduP1U0sjRcwXlqYB
+	GIwIXgXhI8KPeKzS8ZBM3+ApAzuPTVNyRSaFGw6skA/WgiD81qluApSFKxHx0g==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v2 00/27] mtd: spi-nor: Enhance software protection
+Date: Thu, 08 Jan 2026 17:57:33 +0100
+Message-Id: <20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|CY8PR12MB7755:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01db5f60-7a12-4ce3-98e8-08de4ed68e29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kCu95GD1i9bpFGFz4Oz2TMffwzevkp6h/uJ9EIfNc1oBlyhQFcpZtcEkHx8S?=
- =?us-ascii?Q?6JSLcNSaNhU1guFbaSBqA81WklLc+Xs/9q14tMPbbqOLFF8m6XbHoYuxG/K1?=
- =?us-ascii?Q?/8W/3FJIAW6cWKCuBBPD7lDP64eBFxTngqTxzKKPmdqI4jaDJSxrCdX7xZLW?=
- =?us-ascii?Q?leD+hPE5AZ1bOEbwn5qFQrk2iV/v5QGCeXEBFeY81UCLUQ3o8OumEbCIfmk9?=
- =?us-ascii?Q?KVhKyCX/P7UvDgHRmspE30qjr5tFjHPesiqPjYsf+Tcq4N04HUM8Epohawmq?=
- =?us-ascii?Q?ua3TTfJ8U41Lj0i39+/mehGymBv5F+5YfAv4CLidTM0Nh0r+5fHorZlyntFL?=
- =?us-ascii?Q?Iwkz3M0cZURL6J4N3vvB6pPPmV5XRaUl/vBdQakqDG+T0w8+RLjITQ+2oHil?=
- =?us-ascii?Q?ySQQZ7VTXNeDVD2nuN0Ry2dLu9s2y8bjFuwre2CJPb5mHtfb/H8nmrixUb1W?=
- =?us-ascii?Q?iQTFDXSxW6BOHk3l04zwDVvI8wYIRGUEsZuvdmdKj7XgQd/jMW2HZdM+N/hj?=
- =?us-ascii?Q?ZNi59vf0ZCV2pdwieYQJL4Odgbr+PXKBtQMSH1EtVJzSEyFkBWzTp8iwOpAn?=
- =?us-ascii?Q?HS7bFwZ1jUwQ22EOoChbSB85yZNdTY65QjpKrjo/maD/P/bOljesYb67R6TD?=
- =?us-ascii?Q?evbGscvF9lW/nGscc1GcA5W1v7IqF0JlzsUgLJGw20JQ4VW+m8he7ORBUiU4?=
- =?us-ascii?Q?yTsRLLl93OuiWUhkMbxaVU6hUxzawFnE48x0tLQezLPEFVoeter4nN3VsyF3?=
- =?us-ascii?Q?h05NNfNCvDGxtx9LdiitkiJibXM5ojcOcW8hWRW2OgPT+Y9n88yn6RwngxvO?=
- =?us-ascii?Q?aLerFeJp9ZRujSsogC2xXmmfJN92Ql+GmJPVSaFXNdaXu5clUPHAId0hXcQs?=
- =?us-ascii?Q?AXLVGJBBZohg6SQcv9Cjia9j4xmEQdB6eIRS3+yGHluRpTrVrF7XhI0N5ci2?=
- =?us-ascii?Q?T+QZdPDO229ICrV1Walch4awyeJh0OOsEBU1hJ9TRDS2myIWN1yUIVlNCqMV?=
- =?us-ascii?Q?FLyBLdKmVHkuAHyICm2o9QLuo+K+04swjqUpDVzp/ycwDZ3KxBSeDKjRMmef?=
- =?us-ascii?Q?xr7Yqh2yhhMBeQyIdAYzl/LBswf2YYU661UXoNAmxvBJANvZfWgN8eYVBEC7?=
- =?us-ascii?Q?1e5n9N9JPLe3RHhoAAfIYe4MyBJs+yEJpGy2ldYqBMtvEBrYmRwKxUA4+3GP?=
- =?us-ascii?Q?BKWWdpk/63jznShSdKchGMA9CC57VXA//IpK+NxTBqZOlSSdOToyocDc7UCV?=
- =?us-ascii?Q?yCiUFywRZqJ1y+ApV/AZKc0qO4CHcVbdv2IzD1uRadsJqBNSEE6aR8QyRtGb?=
- =?us-ascii?Q?SAywPyqzjanHtOfjChn37wPeTOhLeECQLol2OEyuIMl7Sgaf0jmvYDGMdYI+?=
- =?us-ascii?Q?NGU5drX2ZVJZq91iaRsxhK5kDPo3fe8Mfpqkq01wUsRHxID9dvcnMf4gj2YP?=
- =?us-ascii?Q?gv0BpxslI2aS1QuI7G+LFtZjQQP/CgBD?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Zgqkqp/aLoCIpp6HomL2OeyIwbqosOIoc5m2ADGFkSgnERwWbMkQJGwvHtM+?=
- =?us-ascii?Q?2HiVlvhot3qfhgcyy+0szYaAFLUpHIU45N4Sfp6yZ40YVETe0h3ZVYq6bUJg?=
- =?us-ascii?Q?pecA/W4wS9yROV7c1fQsyM50vr+24U6SAtJ70uebxdltqJ1dkK54u+15pI/c?=
- =?us-ascii?Q?f7D1uVEd2fIKG3YPQDxCWKTcXxS3p92RmdUFa7KWqJzELRVTCiUECpOppKeG?=
- =?us-ascii?Q?DpQ7Ofo6Vtg09yJf/oMGnG2JWT87zx3WIZM+Lr7qKRJDkBv2UeUEOLwkv/C3?=
- =?us-ascii?Q?aPdRbClja81Sy+G9glU3/jQHc/4vdt+24THpH+evTE0g9cThUgOMiYSijVM8?=
- =?us-ascii?Q?rh2L2hi2mpLQnd8JyVyhDZfDcaAPgzyRWVXcgQO48+aDxGnToNUw051VJVUx?=
- =?us-ascii?Q?dbImnMIJRrYy7NuzSPQkDvQJZiapOlOSZs78W0QSB04dn4jV6plxijahEnrC?=
- =?us-ascii?Q?iqKDlsngX91XJfIhiuM6tOtLIbFdD9tXXsEI6iXET6rOFY4IFzZ2+1waBVWw?=
- =?us-ascii?Q?eso5z6gxjBpYvoSo9rPkuGqKJgZjZlHubfIDSzenZQHjoXbvXNgtKDZaOsvG?=
- =?us-ascii?Q?sLTHplJUkqj76FAGi8zpGU5lBD8Z8tmOe40c/eyRxje9dWNAGXWz/w8veYca?=
- =?us-ascii?Q?s1GUQGSoyf1Vprf/6ZMX+e5VGQnuxjLhsoCRkXUwig6J1gn2iZEEDCuv4bad?=
- =?us-ascii?Q?mSEuQY+mCcD3YgOCwCPbtyZksYQtlnc+mEy657hcILcpGGtEA5EvOqhTQTUJ?=
- =?us-ascii?Q?z9qOyx9XZeLXTVQRC0IqyA+T8QqVIZbZH/x3EdJ2l9fo1T0WQJ4FVstvFTnq?=
- =?us-ascii?Q?6vPnRBYLwxLXicAZ0FPi44UJUvrkCVi5WIpEVe0RKbfKtX6YDME7qIEhQE70?=
- =?us-ascii?Q?mxxVmGKXvCdYD42U717WB5X97PvHfngAmTLsRgEXIfG8bEq40Qo5JHZmL6CE?=
- =?us-ascii?Q?fUPEwaifGWWUFXV1U4ktf6Vu+q9le1EJxVwt0Uidjw9O4jT+wwVCPB/vHhJZ?=
- =?us-ascii?Q?aanLW8npk4MhMTXd4oeu7t661SD4BaHV7L1GLGK+29H3BaHlArMR4LpXJZM8?=
- =?us-ascii?Q?qH9BfC49do44cwY3w30WB8L4PtvohmTa/ESUncONrOO1o/4A0npF1xoRwm63?=
- =?us-ascii?Q?Qdcat8y4Zv+QZEK/+nhYLxDZ3+CCVD+f2XLuChFduQgJCxvkxDVw54ETujKk?=
- =?us-ascii?Q?/HaKoGZonKdzAnNaZ7tR8i09JFeisHeCYYueakPdILLXxdb+f4glIyIhOFpW?=
- =?us-ascii?Q?RM+dmmgVAq0TuuwIXL3YzhwnD7oc8202DnrTELB3RMyLDr1IBsIv3rpzAUV6?=
- =?us-ascii?Q?cSkUjtEiV+QKG6qv5p7y0hgwZqfJcyu4drnqXf0+5vFtWPY7oQ7hPaNiJBu7?=
- =?us-ascii?Q?hP52dN5NuSd0SrD02YIlIoe+7c0Z+DBUaIN6WHXK5Qv8A9WMjDtmwL/RcPEW?=
- =?us-ascii?Q?2SoFr2uJQfXMbvgQA/sq9qnTqQWGUGoObTqHobqGzkR26XkFroRoAF7vUaV/?=
- =?us-ascii?Q?K7CpBEtgZIV8tjc3KVVquQNlUM470BDnJ9zZq/THqXATYXy+3JO1pb9EJ/zJ?=
- =?us-ascii?Q?7AiyR44p/x5W5L35A32fEPhErDDEy5gMRwfoZ0QWSMuKPeUhsbN6ya1232s1?=
- =?us-ascii?Q?pTYsYogP/kq00Fp3mxSEl7+S24Chiw4/WartXpwACKMLBbO4u17u/gtSOz/I?=
- =?us-ascii?Q?k4U9MEx2spioAw8EuqqFZb3z9r6eNJDVQCOWV7CykyRF/PpvDGv1UNIK1OZa?=
- =?us-ascii?Q?DhneMsEWOw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01db5f60-7a12-4ce3-98e8-08de4ed68e29
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 16:54:14.9175
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e+oZV2YmNi59mPDa3QG2uY0sDs0emKWZdKMk31DQ75pZS04+LiLVId+drCRG6fkU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7755
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NQQ6CMBCF4auQWTuGKVDAlfcwLKQUmUQ7pCVFQ
+ 7i7lRO4/N7ifxsE69kGuGQbeBs5sLgEdcrATHf3sMhDMqhcVURU4squFzdg1EgNekMYZkYnHsM
+ 6Y6OrodBjOeq2gtSYvR35ffRvXfLEYRH/Oe4i/dZ/y5Ewx7Kpe1OTatuCrr3I8mR3NvKCbt/3L
+ 3o/I3LMAAAA
+X-Change-ID: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+To: Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Sean Anderson <sean.anderson@linux.dev>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, stable@kernel.org
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, Jan 08, 2026 at 04:41:47PM +0000, Robin Murphy wrote:
+Hello,
 
-> The point is that if there's a coherent interconnect downstream of the SMMU
-> - which we infer from the SMMU's own coherency - then we should be able to
-> make the *output* of SMMU translation coherent,
+As recently raised on the mailing-list (link below), it seems that the
+"locking" support in SPI NOR could benefit from some enhancements. As I
+myself had to dig into it recently, here is a proposal.
 
-Sadly I'm aware of HW where that isn't true..
+First issue that I see, the MEMLOCK ioctl is not behaving correctly
+in some cases, as addressed in:
 
-The SMMU is flexible and there are more than one fabric connection
-from a SW visible SMMU instance. They can have different properties.
+    mtd: spi-nor: swp: Improve locking user experience
 
-Especially if the design is focused on something like isochronous real
-time guarentees.
+Then there is no clear explanation of the shortcuts taken by the kernel
+in terms of uAPI, so there is an attempt to list them in:
 
-Jason
+    mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+
+Plus, Tudor also asked if we could cover locking in the testing
+procedure, which is done in:
+
+    mtd: spi-nor: Add steps for testing locking support
+
+In order to simplify this procedure, and because it got very helpful
+during my testing/development, I want to propose additions to the
+debugfs output:
+
+    mtd: spi-nor: debugfs: Add locking support TODO: make the captures again
+
+Finally, I am providing an implementation for the complement (CMP)
+feature in order to allow finer control of the regions locked. This
+feature is for instance available on Winbond chips:
+
+    [core] mtd: spi-nor: swp: Add support for the complement feature
+    [doc]  mtd: spi-nor: Add steps for testing locking with CMP
+    [use]  mtd: spi-nor: winbond: Add CMP locking support
+
+Disclaimer: it was much less straightforward than I initially thought to
+get the CMP feature working correctly. I tested it with as much focus as
+I could, and I am improving the test coverage for the new cases, I am
+also providing extra test cases in the metadata of the commit (which do
+not make sense to test for chip additions, but may be sensible show when
+making core additions like this one), but honestly there are so many
+possibilities, I may still be missing corner cases. I hope this will
+anyway be helpful to others!
+
+All the other patches are misc improvements or style fixes which I faced
+and fixed during my development.
+
+Link: https://lore.kernel.org/linux-mtd/92e99a96-5582-48a5-a4f9-e9b33fcff171@linux.dev/
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+Changes in v2:
+- Collect tags.
+- Add missing Fixes/Cc: stable tags.
+- Add a comment explaining why can_be_top && can_be_bottom is a specific
+  condition.
+- Fix commit logs following Michael Walle's reviews.
+- Amend the documentation following our discussion with Michael Walle as
+  well.
+- Cache the SR register for debugfs use.
+- Create a locked sector map file instead of dumping it as part of the
+  `params` file output.
+- Improved greatly the output of the map as suggested by Michael.
+- Add a patch fixing a duplicate dependency in Kconfig.
+- Add an important comment in the doc about the small 4kiB erase size
+  choice.
+- Add test runs for each and every chip for which the CMP feature is
+  added. This prove me that testing of each and every chip was needed,
+  as some of them seem to feature a broken BFPT table which does not
+  advertise a working 35h (Read CR) command.
+- Added a condition on which the CMP feature is enabled: RDCR must be
+  possible.
+- Link to v1: https://lore.kernel.org/r/20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com
+
+---
+Miquel Raynal (27):
+      mtd: spi-nor: Drop duplicate Kconfig dependency
+      mtd: spi-nor: debugfs: Fix the flags list
+      mtd: spi-nor: swp: Improve locking user experience
+      mtd: spi-nor: Improve opcodes documentation
+      mtd: spi-nor: debugfs: Align variable access with the rest of the file
+      mtd: spi-nor: debugfs: Enhance output
+      mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+      mtd: spi-nor: swp: Clarify a comment
+      mtd: spi-nor: swp: Use a pointer for SR instead of a single byte
+      mtd: spi-nor: swp: Create a helper that writes SR, CR and checks
+      mtd: spi-nor: swp: Rename a mask
+      mtd: spi-nor: swp: Create a TB intermediate variable
+      mtd: spi-nor: swp: Create helpers for building the SR register
+      mtd: spi-nor: swp: Simplify checking the locked/unlocked range
+      mtd: spi-nor: swp: Cosmetic changes
+      mtd: spi-nor: Create a local SR cache
+      mtd: spi-nor: debugfs: Add locking support
+      mtd: spi-nor: debugfs: Add a locked sectors map
+      mtd: spi-nor: Add steps for testing locking support
+      mtd: spi-nor: swp: Add support for the complement feature
+      mtd: spi-nor: Add steps for testing locking with CMP
+      mtd: spi-nor: winbond: Add W25H512NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H02NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxIQ CMP locking support
+      mtd: spi-nor: winbond: Add W25Q01NWxxIM CMP locking support
+      mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP locking support
+
+ Documentation/driver-api/mtd/spi-nor.rst | 164 ++++++++++++++
+ drivers/mtd/spi-nor/Kconfig              |   1 -
+ drivers/mtd/spi-nor/core.c               |  74 ++++++-
+ drivers/mtd/spi-nor/core.h               |  10 +
+ drivers/mtd/spi-nor/debugfs.c            |  63 +++++-
+ drivers/mtd/spi-nor/swp.c                | 359 ++++++++++++++++++++++++-------
+ drivers/mtd/spi-nor/winbond.c            |  41 +++-
+ include/linux/mtd/spi-nor.h              |   7 +-
+ 8 files changed, 631 insertions(+), 88 deletions(-)
+---
+base-commit: 99bb09369a9eaed5de0e647cc1aab215668ddc6f
+change-id: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
+
