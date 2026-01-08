@@ -1,200 +1,214 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011003.outbound.protection.outlook.com [52.101.62.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77114B67FF
-	for <linux-doc@vger.kernel.org>; Thu,  8 Jan 2026 14:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767882447; cv=none; b=UL6HiLEKfOhDnI9hmvfEUdlmhPlodbFhADytPfozTYCozdjS6Y+LKVakhn+FxR3VjfkmNKFhixTVCD5Xb4x96oGeoLoOLMixecXUWGfdzEmJ1c+z1FbhCBLS1hMNVgTlDbesVMgTSlIF+tr9hUU4kQc3cdWTS4aR+X0dqwBOAKw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767882447; c=relaxed/simple;
-	bh=9NRW4Rdf/VUGYmBYvief2R2tb60IwahWPnIEBIYe7so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZnnzHKXbfi4D9omYCFRm2vEjtUHINly1UMI5N7btSPwJbN3yPxlhLrCJxY7NkgOuG+TIq7FJLZ98o7kqcUH9hk6grQqP3b4+b9lwk3A+IleyDwrEOrgoTHTsdPdrctdDGnr+4XR0gkaFUM6QTp/R3O5EXdOzfzoHTBaO+MokBdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IS1K2Jn3; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kLJttVFj; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235644D4F7F;
+	Thu,  8 Jan 2026 14:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767882641; cv=fail; b=T3GGQrpDlk27gblbsGKg2Ffc3kJzGO0nd+z2BLNjB4FLE4kVTw7iEa06Me+l41QfRawun7EPzbbDeVmQpGsi0Ll1yYbvoGIFjhLYz0tqzVrXgV5HLn547MNH6OGMbJ4dU4n1ttYZecGZmXs88cN15Om/zdPWT1z/GDVMppsxi38=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767882641; c=relaxed/simple;
+	bh=EVYUkg9ND52h4INdS24EKD+GdZTFmd87XzhWduGvUqk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cJkW5M+3hwckY1bTUW5bkAn8fPd1mtwLXjPDkZABUsRBLbS7inN5T58IV8X3xSq/uOxG+9QqJ1/03HcAMjR8bRm/w2Y1JCR9ZrEV45EAVztggTc1jEbYKhxss4AqdhwCXODcUW/ltFyEgE6y1L73ZHaex7Q5t11v0IDuyQAlj7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=r4OMaUnC; arc=fail smtp.client-ip=52.101.62.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IS1K2Jn3";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kLJttVFj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767882444;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MYUfQokxCybKNz25/1oiXAmTT63P9X7nVn3prJ03xRo=;
-	b=IS1K2Jn3TKMrz9zbN6S62Kef1nQn2nsxZGhdfqoQtIv8MYmdkvSJ7tKCoQdVf4238nY1+k
-	Mp0UFEGpxegiRWtLO9xDJkEu1wwKOaJVE4VkSJz9GVyV/zn58MQhZqXRwU+7w/j81nD6sp
-	M/dYbYao6JOV/sFxy44afCe0RPF98Kc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-215-dMWkZeGRPcueYkwKQcXROw-1; Thu, 08 Jan 2026 09:27:23 -0500
-X-MC-Unique: dMWkZeGRPcueYkwKQcXROw-1
-X-Mimecast-MFC-AGG-ID: dMWkZeGRPcueYkwKQcXROw_1767882442
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-64b950a73bdso5423680a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 06:27:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1767882442; x=1768487242; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MYUfQokxCybKNz25/1oiXAmTT63P9X7nVn3prJ03xRo=;
-        b=kLJttVFjBCRCqGB9ulYsC/FXY1K+0vqWMPqMeAps2axByIovBiVsupp+B3KlPsVRbp
-         jehbEE7TzZhznJTj3jvy7oimwNgV/vgaTruulZa9jeJfjWSnUlCI1nqg4aSRwpmW8p23
-         fGUy80BBWKb7q96iV1a7NrGJNe8gzCFE2W3+j0o7kWRZ47lqcfyAmvx1v+Bpogd0KjKc
-         EQLLQM+LHHvTUZAF9vlEytZebFi/6NEQ1itwV2/oIaTbqWoCM2iMIJ8aveEFzWjcb70G
-         igRjHQdX4Yr8/ejMIK8vCQ6vAuAcTulf/gN7lhUxk/7VgFvHRQV2DoeTKfct1nqDa27r
-         g1nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767882442; x=1768487242;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MYUfQokxCybKNz25/1oiXAmTT63P9X7nVn3prJ03xRo=;
-        b=viTPtF5noGg0j4tpbuN47/j6QxgrG3XRXYwrFgF+1q3lrcj35Xin3vxHMiyANek1mR
-         TzKDAf4VpV6yr+G9gKdNJGyOi4WEIBAiSfpBOBGEByT2fERlszajGTuPIQZR2Fe0yvpH
-         THI06fuNFeXPwDyzmCoVi9vxPh7A4qwutwHyEUgYGKIZCdE7q+AHCWYvSyeCZ6jOMiab
-         QKO+vDjvG7eA7KU1rcUfxh63CWbDo3KN92aEqjvqhtbKtbXEv51682rslCz3OleCeltx
-         CfIjuAilldatSNVYoROzFR1J/unHk9uwUY/prsoT/E2okOt2xOBzYT3xpHIdktOtidwp
-         URPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQUoNUGuHZsVrJRldEegNqwTJnJhQJaajnP0YVT7kBtg0pbxySZy0juNq9bSu+A9MXQoF82efqK3E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZA+FRjcRTDn4fm0qhLycHTvw7ysTsPX8eDvwRuuDDq/W1BObM
-	FWukyM7csO8cwV9gJxpXbNqS2/OsULbXi0nRs2524CbibAkWB2lqIuEL+q7cTkwxzUl1T+R2VvS
-	Tcuc0CYjr3TEhsNAHWgAsdUWNfrTgOyZXx1xJoYE3egI7M2252Pt6DEEMisYREQ==
-X-Gm-Gg: AY/fxX7Mi+ZoW2EmKBotG7EndPYyRowezX3M2FznHQ9uUdBFx27ByMOsqItqPo392QE
-	IZZ/m6aDH5uj7DGFJGqOnXSMF+G4Bz/bIGjAP62FpCkne3AhnpOulHZy9Pw/qVzpsFziA6MwgNF
-	1lxOx6e3bnWDvEtoLaF/0BEH91u2zQyTNo12/O9p0WEAYzvYw1KvMQkF2wTIdwsHSbt8ngNTGXu
-	HQT2xg5meCNJi72iPf3RivZhNqGNso6Xoi3pZkoG3PuBDDjCvavUCa4A7WWvmrOn5aI+b1P+uAJ
-	uIXdsduGJ4R05yZycZgIDIcLHtumMoafvK7YKIRcTbCmU3lAQJxrvtXAUFrzoP9v/Qef0/Wa/TE
-	qsb+6fzazDCqX8tVs
-X-Received: by 2002:a17:907:1c09:b0:b79:eaf6:8f44 with SMTP id a640c23a62f3a-b8444f4f056mr726210666b.40.1767882441990;
-        Thu, 08 Jan 2026 06:27:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEJ6L4DqIanAXgw2ktUhRyngdJSX+H/rkKSIqtNQ9+qAgBUByhlaCVegL7JEtxsi+D3mXwYrw==
-X-Received: by 2002:a17:907:1c09:b0:b79:eaf6:8f44 with SMTP id a640c23a62f3a-b8444f4f056mr726205266b.40.1767882441415;
-        Thu, 08 Jan 2026 06:27:21 -0800 (PST)
-Received: from sgarzare-redhat ([193.207.223.215])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b842a4cfd97sm787982066b.36.2026.01.08.06.27.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 06:27:20 -0800 (PST)
-Date: Thu, 8 Jan 2026 15:27:04 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Olivia Mackall <olivia@selenic.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jason Wang <jasowang@redhat.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Robin Murphy <robin.murphy@arm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Petr Tesarik <ptesarik@suse.com>, Leon Romanovsky <leon@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Bartosz Golaszewski <brgl@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, virtualization@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	iommu@lists.linux.dev, kvm@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 13/15] vsock/virtio: reorder fields to reduce padding
-Message-ID: <aV-9F42fMfKGP4Rg@sgarzare-redhat>
-References: <cover.1767601130.git.mst@redhat.com>
- <fdc1da263186274b37cdf7660c0d1e8793f8fe40.1767601130.git.mst@redhat.com>
- <aV-6gniRnZlNvkwc@sgarzare-redhat>
- <20260108091514-mutt-send-email-mst@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="r4OMaUnC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=coAGv1IanGlXSeEaT518wUjbqnsBQ0R7HQyZDuURry7mjFtgTaBhAJuUfj+zQeUM15SoZPfs1lru9QV78UwXqAlFhth5IJyh77vSbOkW1t8WzW50HGDipm8A4FUWRoeELsA0KbwozZYLWCEbjPFJbL8m6B0xghx7gMXVntZxGHrtexKIZTTB+7uNfSdFwGANmy2N7jrlT7LKuIpGAKQqj/CguW9fiUUgsWBv5q/i9utAgs7AhPi7ojaYXyg7gdOcS4wci2efzFOgr/77sRchtZAD/Zg+1Vb2qYZgn36LqUSyO6/t0aX2YaDL8o9KtRd1RlFa0bKjGYExrrG4TJaeNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7U8Xl0Ss698P50JkD8hL0r2xdhbD/vkyyLvC4S3VbRM=;
+ b=iQ3feQecpBn8G3YMpvhYHI6yzWIK/n0+XAsgFU6+592/TAy34ML9C8FIHWRS5Z7ptLQqV05Tltit5wZKJC1dZH472i28+AtyR2t8i9DRDZEwXnRRJoj7gwwB8d53Aj65t0acxU8EmMCnMPDRYgSR5RQ2ufBPVl1Fe7oxjNdQOipqcOChsiF6GfjgbNEfcS/vKvn3IY/VVJDR946qRblxIhORkwsl4bFI3qUI2EXmhn4hqRATp+cE9kl4ypXS+0RYCPaVtTzL1FwYE2DUJruxaTIZGBbUTmfCLlyzbq/rgdyCR45Z2q5yNSA8nYDm0qfntDMER/15i6i/hfPryYUsOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7U8Xl0Ss698P50JkD8hL0r2xdhbD/vkyyLvC4S3VbRM=;
+ b=r4OMaUnCu5DIcK6i+0MxtiK8VvFLNFW3QuPKD5SDuj/KvHW9mnZWGuKTGCWa8JEHKqgG6whKye9p8qeI8RiW7grQHpPDA5qqTMbeFjcKBlBorjp5bMAIUvd1zfRC/I+j/gljIez0CZUKU46qxynLPJK3wUUitE+9dgSNGp+1goRr4IQD11ZfmLIgphuAz6E6cgfjx0lFHefznC6C6bWLZxFZdnIsidt2wUbk9wyMNSFT1KF22iv4XVtD1HNiLV9ZsDOKRPRkbOCORqaSQywvjqdM7wlMz1zmepTAQHX43ijkzlXsWM3XU3EnJkmjfpr6eukSNQdhXO4iR1VIcieMhA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by BN7PPF7B4E3DFF8.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6d4) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Thu, 8 Jan
+ 2026 14:30:36 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9499.003; Thu, 8 Jan 2026
+ 14:30:35 +0000
+Message-ID: <d5f8e139-a31f-4913-a9e6-ed071c5c89b7@nvidia.com>
+Date: Thu, 8 Jan 2026 20:00:21 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 07/11] cpufreq: CPPC: Add sysfs for min/max_perf and
+ perf_limited
+To: Bagas Sanjaya <bagasdotme@gmail.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
+ corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
+ rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
+ mario.limonciello@amd.com, perry.yuan@amd.com, ionela.voinescu@arm.com,
+ zhanjie9@hisilicon.com, linux-pm@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+ acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ nhartman@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-8-sumitg@nvidia.com> <aU3Us1NzlpVQcyii@archie.me>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <aU3Us1NzlpVQcyii@archie.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0128.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d0::18) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260108091514-mutt-send-email-mst@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|BN7PPF7B4E3DFF8:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7698e94-58c7-4405-1d92-08de4ec27ca9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?L0s3K0RLM0gzVG42d3VUMWRuRkwxRS9kT2xKc2ZqZkU3VFlLTitIZWlmSzN5?=
+ =?utf-8?B?SDM1SW91QmNMeTlkME9HMm01VURFaUNiZGZxRWdMcDhrakZ2YS9wR3VibFkv?=
+ =?utf-8?B?Z1lCY0gvQnhrMnlZMDc2VU85cHBIY0M1T24yWURPWTZJRU9ZS2hrMFF3eG5v?=
+ =?utf-8?B?UitIMjJvVXRCRW1qdGR0WThRR09nZE1VbTZkUVc1Sm1vMFFuaWxHRU9xKzRN?=
+ =?utf-8?B?ZDR2RGVmUmovaDBrbVRlcFFxUkZONE5MRTdEMnBUa3JnMnZZcHdVelkzWUZa?=
+ =?utf-8?B?bURZNlZoS2psUFc3dkVSOWV2R0FRTmZPd2VoRUdhbHpMV05uekRFWEp3NG9K?=
+ =?utf-8?B?bUhCYUQrMkZPNTBybkJqWk1KVHVFeUl0MjlEK1pRdVE2L2NNRENTSGg4eE9O?=
+ =?utf-8?B?c1ppaVV2VGRzUE5nNDBtRGMxdVpWMjROWlkxb2tkbXNlNFovSGQ4Y3dKWmZl?=
+ =?utf-8?B?SzlqbnphZFVObHRVOEdjL3BTR0s0K2JsdHZueGlPZi8zakZIZzVFdVNlWkNJ?=
+ =?utf-8?B?TWErN3hRTDBaUkgyaVdqK3EvTG4vakk0YVZQQlRoSThUYVc4Q1lTbUJCMWF6?=
+ =?utf-8?B?WGVwT2lCZjBlbitxaWxETmJzRjZaTVZGdFRVVGpWbEhlRWxaZ3RvZE91ZFBp?=
+ =?utf-8?B?eTYyV3B2Nk9UZmsxOVBZL1hWQlBlYnBla3pEV0htRWdMM2o5OXBhRVJvVW8y?=
+ =?utf-8?B?aVI2ZTlyVnRad2ErVGJKQlNIOS93amVraHFtSXl5Umsrb1FQdGZpSVJyaFdn?=
+ =?utf-8?B?RzQ4Z3JqWElIRnlzd2RkYXFjNVduanFoemRhalJvdWpzQXNOcG11SEZPU1JM?=
+ =?utf-8?B?QmdGUVFHTVVJK1FwRC85VFBoeWMxaS81KzVaWXhRajh6OXROMkZGZWxidG1S?=
+ =?utf-8?B?bzMvdXFRbUdNSVFGeDcvRjBKSzVoK1pqclNnelV1aUpYaGJjZ1k0alBkVzBQ?=
+ =?utf-8?B?Z0ZFdEFlU3FreVNJWVJUMnF6S3FSSnlQUjdsRTJ4cXFla2VoMTc0UTExTDda?=
+ =?utf-8?B?YWxRZGJDRTJPbWp4RWNLVk95Rkc3c1FWQjE4WGQ4MmU2RWZXR0RHN1I0RHRo?=
+ =?utf-8?B?V0pGbis5WkhKSEhoenpCSzN2aGxGaGJGVXNGTkRzaW5mM0I5d2xGL2xEUEJl?=
+ =?utf-8?B?RnduamxTcElzT3JhdlVoZU1wbEg3cEtYWlJwQjVvejU1SEViQ1BQd09rOXdr?=
+ =?utf-8?B?TTE0dkgrQ012b3hlaUIzSlVlR2tubENIRFNwWHhOVEErMVY5NEpBcXBUS1NN?=
+ =?utf-8?B?dW41VWpxdmh0UlNHYUVnakQwWmhYamVjTW5lN1FEVXJsdkRpTzF0Nis2QVVZ?=
+ =?utf-8?B?bEhsU1lSd1Q0cFRIQytUQTJ1VlNtZ254eWVCeEpoZGJCYjh5NVNIa3Mzd0V6?=
+ =?utf-8?B?MHRHN1VwQ3huVkh6WFoxWExPNjI3OHArdk5WeVNzWi93U0JkV3B4SzBCYzJZ?=
+ =?utf-8?B?OXhzT2lTV3M2K2FOYjZHNDdkYzFKRDVnLzk0anVPSEVsTUJ0amRFb01pMm8r?=
+ =?utf-8?B?TjVzSHJ1bnMxdWI2K21PUDBqdlhpeXp3R3FIMW1XcU5kR2g4NFBEeS9qUGd0?=
+ =?utf-8?B?OU93bkcySzVINWlQWDkvZzBLNzdzNFFLTzVaVEVPb1I2TXEvY3FHVDhaQXNt?=
+ =?utf-8?B?OVNhRml3NFkrMi84elZkOVFzZExEK0FVc3pNY2E4eHpDKzN5QlJkUXkxRmw0?=
+ =?utf-8?B?dTNOVXFQZEhjcTJqMWtEZkJmeTA1UjhVdldLUGF3UzdVcVlVVEk2enhNalBK?=
+ =?utf-8?B?VGRzc1RQRnprOTBmUmxGcHY1N3lOTHhJZXRzU1NZTisyYW4rNC81ZkRuNlI2?=
+ =?utf-8?B?czhIeEpMVytCT2VtVnNYeS9uSWRUdWV4STNKVFduZDQxQS9GRkFmd3VLNXc3?=
+ =?utf-8?B?N1N5VU1PTmROK3dQdDJuZmtxSHVYU3VzazBmYmFMODlJNHpSeDFJNHlTMVZL?=
+ =?utf-8?B?VDNkZTZmbGdXa25EYUxGMlJGZExicjNKNFBHeUMyOHUwWjk1c2hxeG1hQ3NZ?=
+ =?utf-8?Q?P+swnUdfy/143CGt6mVqKKzDfzmerA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NzFXNUJaK0UrVUJ5UUdhWTNYSFlDWGtIUEc4dDROVUdxY21kUHkzU0lFREF4?=
+ =?utf-8?B?bTY5OTlwQW9xN3grRWRKTktJQytDY3czMXQ0M29mR0Fkcy9BbmZuNWtXTUtl?=
+ =?utf-8?B?MkxHUExWUkVQNWhLekxrdEpxMEtPT3lnSGFCWm0zWXRSVU1FWlplZE80bTdv?=
+ =?utf-8?B?NURJRU42ektPTnRsQ2p2RkVOZTY2OE11ZjduLzFsSWNSYlU0eFN6SUp4Mzc1?=
+ =?utf-8?B?ZWZUMFp6ZXdpMG5vcWF5YzlQNENsVmVjVDZFdFpUMlFTRXp0YmNNU2ZxUUd2?=
+ =?utf-8?B?MFBxSjFwS3dWcDQxVm5lcDYwb093T2g3bklCVnJVb1RsdURCZ2Eza251d04w?=
+ =?utf-8?B?UG9XQStUb3RPYnJWRzRnQXJzOXBPaUFMdVNGZzhPOFBDTkVWaE5FOUd0OHV6?=
+ =?utf-8?B?TzB3K01POXJ5azh1c1ZGNXIwK0NQYUI3cjROZ01GcHBtUjlwOWp6cDhhRlQ5?=
+ =?utf-8?B?aTBSOVB3K3VZcTVacDBaRjRkOXIvSHVwb0JFL1F6eXdyYXI3RUV3VlVtSFZ0?=
+ =?utf-8?B?c0J3aURmRE5jMmRSeVYza1EzTUtrYUJtc3RNU0ZWaWMvMThHVDIwaDN2YzNl?=
+ =?utf-8?B?M2p2Rk9LeFpZUWttOCtGZE1Wa0ZjWmVqU1IzRHZER1AzVWY2SDlFSzlnYkRL?=
+ =?utf-8?B?OEozaTV0b0dyaHpOK05oZ0xBaUViS3VBWHB2Q2NWWmlTZFNZSzlQM203ejlW?=
+ =?utf-8?B?a3hpTXc5Zzd4a1RBbGJ2RGRhY0krQWFTZGJPL0F6M0kybXB4UXJqeEpFcnA2?=
+ =?utf-8?B?OVVLNTdGUGU2QUJnZ1k4emNuWm4wYkFldWdJRFI1YnEzRTZmSkI0TC9XMVZ5?=
+ =?utf-8?B?cGJDUzVHSmJURFFpbklFTUxwWjhNTWV3OGY3SlhRRUhPdi9lOFM4UFZSUnRi?=
+ =?utf-8?B?dnZNQlpPWWEvWEI0SW5TVTQ2ZS9tQ1cxRkpuYlh0bnpYSmllWWNrNVVZRjJn?=
+ =?utf-8?B?S1NieVQ1R2ZWaDJGZGtoNEl2bEZuNEIzZWMybkh3STNWTzJXYzhQQ3NkOWVV?=
+ =?utf-8?B?NGNUaWhBVkZuektvakVSV0ZSZXErU1U3UVRHdDdpQ24rYkl4dDlySmh2WGl5?=
+ =?utf-8?B?VHIxTTRaam4zbWpMRjh4VjhyUWpxbmZ3aVFnL2Q4R1ZSSEJoY1Z6K2Y3M1Ix?=
+ =?utf-8?B?SEVIRzlhZ1E0ancwTGJwZ0VEWkllT0V3ekY5MHlYRVRGTzIyeG1RRVFpaGV2?=
+ =?utf-8?B?aGdRa1B0SlpEakFOVEU4aXZQSGM0RjR5cGZlNFBhT3M3WWNpeDRIak85aUtP?=
+ =?utf-8?B?RktQV3FRdHFoZDBteENRRkR3S05ySzAybkxYYXYvMDhwSVUvN040R3dNZzIy?=
+ =?utf-8?B?T1ExaVh6SC9MVi9jYkhpSk5ENFBRT1d5ZEJ2SGRKa1JQVjZ2VGdTYTdxdExR?=
+ =?utf-8?B?UlMzUmppVGI5c1ZnRk14K0RpQ01JK1lHQWhMM3hJMDdHK0FwSTI3LzJKZXYz?=
+ =?utf-8?B?TGkySUUyR0xzSTZIeksvUlMydVFuTnY1THUxa1RrUTJtQ09sNURKMjZEWlR6?=
+ =?utf-8?B?WjdwMUk4SzZvZ3RpeDg4bEV1MTdTS3BwelRGOUNqOTFoSkFqTGpnaUZMUkJk?=
+ =?utf-8?B?bHcycDhzdncxZFNFRWxhT1ZWMDNXZ0hGbmZQOWRxb25oZ1RoR2RzMUtXcmVR?=
+ =?utf-8?B?ZU9NcVVUbHFXZllRcTd1WVpLZS9seTRaK2dMbXJUSkRGa1RIb3k0WGxEZzFQ?=
+ =?utf-8?B?SFY2N2hKUE44VWoweE1CRXZGUjRYdTI3ZDl5TTdtN0RnbjNDUXRzejZTeWJP?=
+ =?utf-8?B?cmtOTnpXYlNWR2l3aVZCQWJYWmpMNEhKSmlDQTVQalM4UExrMWcyUHZkMTdL?=
+ =?utf-8?B?TWp5cmJ1TnZFUHhWaS9kUXlTYWxheTlPWk14dEJVM2ZoeUVDWmhtUGQzMVdR?=
+ =?utf-8?B?bVNueFZiZGZ5ZDZwRk5ESWxxQ2RpZVBxTVlFVXM4QzNrTUVLZG1uZXZaVGdD?=
+ =?utf-8?B?dG4zWENhZHpvbkg2K0pia1JMVWJ0VGloVStSZXhUSERDRnBLSGRpcE1mVFZN?=
+ =?utf-8?B?UHJacC94VTF0VVV2MW45TlZUQkgrc3FBOWhRcU9IQzBqdXZ3VmNrZmFlTUl0?=
+ =?utf-8?B?UGkzR3BJWTNwN1NhQkpaYTNZYW9HVTlKRDNPWWRLN3pST2ZyUmgxZ003L0Zk?=
+ =?utf-8?B?WWJ2RU16QjI3cGlGbFlha2JMRmttUEF1cDdEQ3ZOalYxRzRWNVM3Mmtvb1lj?=
+ =?utf-8?B?cHptaVhSRUhvSGdlNjJ2ejJlb2RtUm5haTZ4Qk5FZS9kVW9BSjdJc090bHVO?=
+ =?utf-8?B?dzNYT2hwRDdJNnQxQk5LVGF3TGJWUVpnSjBVbVZZQjltUm9kYWVmWmhHd0dY?=
+ =?utf-8?B?cjNBWlFsYXlIOEk1VVFrR21iSXY3V1NkaERMaWNPTkRZeU9ycFV5Zz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7698e94-58c7-4405-1d92-08de4ec27ca9
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 14:30:35.8517
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yUXZVF3SJkSegPGzs0BG8ASNJI6auAANNG8uidyfkfzca4ZdOIoOQ1m052rW9fIbSym85RiNa9xVHQKEG44VUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF7B4E3DFF8
 
-On Thu, Jan 08, 2026 at 09:17:49AM -0500, Michael S. Tsirkin wrote:
->On Thu, Jan 08, 2026 at 03:11:36PM +0100, Stefano Garzarella wrote:
->> On Mon, Jan 05, 2026 at 03:23:41AM -0500, Michael S. Tsirkin wrote:
->> > Reorder struct virtio_vsock fields to place the DMA buffer (event_list)
->> > last. This eliminates the padding from aligning the struct size on
->> > ARCH_DMA_MINALIGN.
->> >
->> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->> > ---
->> > net/vmw_vsock/virtio_transport.c | 8 +++++---
->> > 1 file changed, 5 insertions(+), 3 deletions(-)
->> >
->> > diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
->> > index ef983c36cb66..964d25e11858 100644
->> > --- a/net/vmw_vsock/virtio_transport.c
->> > +++ b/net/vmw_vsock/virtio_transport.c
->> > @@ -60,9 +60,7 @@ struct virtio_vsock {
->> > 	 */
->> > 	struct mutex event_lock;
->> > 	bool event_run;
->> > -	__dma_from_device_group_begin();
->> > -	struct virtio_vsock_event event_list[8];
->> > -	__dma_from_device_group_end();
->> > +
->> > 	u32 guest_cid;
->> > 	bool seqpacket_allow;
->> >
->> > @@ -76,6 +74,10 @@ struct virtio_vsock {
->> > 	 */
->> > 	struct scatterlist *out_sgs[MAX_SKB_FRAGS + 1];
->> > 	struct scatterlist out_bufs[MAX_SKB_FRAGS + 1];
->> > +
->>
->> IIUC we would like to have these fields always on the bottom of this struct,
->> so would be better to add a comment here to make sure we will not add other
->> fields in the future after this?
+
+On 26/12/25 05:50, Bagas Sanjaya wrote:
+> On Tue, Dec 23, 2025 at 05:43:03PM +0530, Sumit Gupta wrote:
+>> +		Write the bitmask of bits to clear:
+>> +		  1 = clear bit 0 (desired performance excursion)
+>> +		  2 = clear bit 1 (minimum performance excursion)
+>> +		  3 = clear both bits
+>> +		The platform sets these bits; OSPM can only clear them.
+> Sphinx reports htmldocs warning:
 >
->not necessarily - you can add fields after, too - it's just that
->__dma_from_device_group_begin already adds a bunch of padding, so adding
->fields in this padding is cheaper.
+> Documentation/ABI/testing/sysfs-devices-system-cpu:356: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+>
+> I have to fix up the bitmask list:
+>
+> ---- >8 ----
+> diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> index b022cbf46adcfe..8cda698019922b 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-system-cpu
+> +++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+> @@ -363,9 +363,11 @@ Description:	Performance Limited
+>   		requested level. A non-zero value indicates throttling occurred.
+>   
+>   		Write the bitmask of bits to clear:
+> -		  1 = clear bit 0 (desired performance excursion)
+> -		  2 = clear bit 1 (minimum performance excursion)
+> -		  3 = clear both bits
+> +
+> +		- 1 = clear bit 0 (desired performance excursion)
+> +		- 2 = clear bit 1 (minimum performance excursion)
+> +		- 3 = clear both bits
+> +
+>   		The platform sets these bits; OSPM can only clear them.
+>   
+>   		This file is only present if the cppc-cpufreq driver is in use.
+>
+> Thanks.
 >
 
-Okay, I see.
+Thanks for the change.
 
->
->do we really need to add comments to teach people about the art of
->struct packing?
-
-I can do it later if you prefer, I don't want to block this work, but 
-yes, I'd prefer to have a comment because otherwise I'll have to ask 
-every time to avoid, especially for new contributors xD
-
->
->> Maybe we should also add a comment about the `ev`nt_lock` requirement 
->> we
->> have in the section above.
->>
->> Thanks,
->> Stefano
->
->hmm which requirement do you mean?
-
-That `event_list` must be accessed with `event_lock`.
-
-So maybe we can move also `event_lock` and `event_run`, so we can just 
-move that comment. I mean something like this:
-
-
-@@ -74,6 +67,15 @@ struct virtio_vsock {
-          */
-         struct scatterlist *out_sgs[MAX_SKB_FRAGS + 1];
-         struct scatterlist out_bufs[MAX_SKB_FRAGS + 1];
-+
-+       /* The following fields are protected by event_lock.
-+        * vqs[VSOCK_VQ_EVENT] must be accessed with event_lock held.
-+        */
-+       struct mutex event_lock;
-+       bool event_run;
-+       __dma_from_device_group_begin();
-+       struct virtio_vsock_event event_list[8];
-+       __dma_from_device_group_end();
-  };
-
-  static u32 virtio_transport_get_local_cid(void)
-
-
-Thanks,
-Stefano
 
