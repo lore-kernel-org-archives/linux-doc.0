@@ -1,141 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA211F151C;
-	Fri,  9 Jan 2026 20:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6E0366DCB
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 20:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767989371; cv=none; b=ULZ+XVcRpt+/zq/yfzJY8Bn25GikYfZSZjLWVO/kVhvh0vovaYfcRbnpX75RVygoKrR6obrgQwUHOtOCxFVRF2JzeMwfSU7gU5ucYxOMTuaFWZymxzvq9yEu948V9exEFHYfY1b56U2Ruklm8l+pHWNsQJe6ir2i4us49rwHHOc=
+	t=1767989765; cv=none; b=gCZjaYLu82dRRqzbCVoL86b+zymTWHtH79hjV3Xxl4go6/QeNP3OYbrgncrS1WfwIkQep25g9NqUI9m4CNsB4660h5n01QxCtGTSMXa5suaJeoUHvjnFXR7KqpuMOCxzT0HuKRD1eEGulaVkPpF8OX4tQbFJvPQFXA26psWdm5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767989371; c=relaxed/simple;
-	bh=5axzby49Fa/0SEo5UFGiSuW7Dqdl7D33czvCIivdFOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFARaBa2CudKXOtW/NWUnJPeWOliYAlzFCNPB9azeIBORQMcevkiARaFJ10kOZ1NcBvxuHbQqWVS2DUEhOUegvs+7SPDSqqtQOm2OsJBPwWNOeQOTvc+Elg8GzxiJBadU2kAcZn4F/ZSELSqVW80UQC1Stkkm0P0Tk+AJnaB84M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doIiqsRD; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767989765; c=relaxed/simple;
+	bh=rvJ38UMzE8ZlTaHPsSbXdymEzp3uBM8+aX58pIa4PJU=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=GpZrLjA36SEVR/fh5Qdb/PTjk1uaUs5WK4816i6Br56bgGLPD7qCSDCCD9L4Mfvss2E85j83F5WMzmlw0QarKdooOQHz7TD+QL+F4mLW9lnQS4dxGNNDj0ekM2bqjcs2s1uw5GJtC/oefP3Pk3xePYQiECMnyP+41g6c8gq/MEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fTok0ULB; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ryoHTgMW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doIiqsRD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767989369; x=1799525369;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5axzby49Fa/0SEo5UFGiSuW7Dqdl7D33czvCIivdFOQ=;
-  b=doIiqsRDFzty6R6WiEK1huNTIj8jYhJGwsWTdZL+2Y5OhWwSgeTI/ZO0
-   OXDDrtiw224XizuI9k2/1dOOsRKVoj0GfFfUA2LWAICCgWQKMaqopZC84
-   losKRfIBsMaQOzhed3MzNY20LbDZ8r1jpjCzPEF3qi6M5nDJ0Ore9m3dL
-   EFBGan/HfJyXxYjQYCnF097/3KFKBZ+2ZFMaXptKA1fkpY3wHGCsbV6af
-   iAF5O/iFCYkzzSWf84TlOBqkTUczggNgiO86R42hx9B8SjvBZrGcrht0f
-   GmFIjMTHYuU8lgKMA5qR3+g1iyDbTupWlzaLbOPGsqqeULGBwL+sp3jz+
-   g==;
-X-CSE-ConnectionGUID: rkOWqxzpSFqOu9r0MHWJvw==
-X-CSE-MsgGUID: RmTxEXLKSTqz4tqf+LRg/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69445827"
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="69445827"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 12:09:29 -0800
-X-CSE-ConnectionGUID: 7xfIFGvxRrm0x7xEk1P3Tw==
-X-CSE-MsgGUID: 9+5xRz03SICboPHoeOcpzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="208083989"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jan 2026 12:09:27 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1veInU-0000000028K-011v;
-	Fri, 09 Jan 2026 20:09:24 +0000
-Date: Fri, 9 Jan 2026 21:08:56 +0100
-From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event
- documentation
-Message-ID: <202601092104.0IlUz26P-lkp@intel.com>
-References: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fTok0ULB";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ryoHTgMW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767989762;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wHNNo39ERes87rvUHSVM+mGvySKBMq9Lj/fLe+R3e2U=;
+	b=fTok0ULBdjBd0NQ/3q9ZcQ5dfg1oboj9D/pJ+kvgZ+RmFyrsaj1VziH2gNrrhanGAWxZUQ
+	XmSEdmnq0Yzfw/0XI2uycat1kY2vhfG5CvssinaeeLYH3R/Y6RVhvtVrTRPTI5WyTB5d+n
+	cQrXOQSD3qST8D/pium18DpC2AJkuPY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-75-UILJ-cm7P02XAE07AqyoKA-1; Fri, 09 Jan 2026 15:16:01 -0500
+X-MC-Unique: UILJ-cm7P02XAE07AqyoKA-1
+X-Mimecast-MFC-AGG-ID: UILJ-cm7P02XAE07AqyoKA_1767989761
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8b17194d321so704702185a.0
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 12:16:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1767989761; x=1768594561; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wHNNo39ERes87rvUHSVM+mGvySKBMq9Lj/fLe+R3e2U=;
+        b=ryoHTgMWwrhFEl5tea8S3z+Fx4DEAHDzdzFOrSrffmyP7H2P5Dcw2gePa02MIaiOUT
+         qCsuTxB1O9v0ieC1X+IUGJy1FwJSE7eRObGBEOSKvZXnM44rCiJEvCNYVHcjRlWwUp8o
+         pWXrkef5sjztQH/N74Pz9FyF453sSNaY16rD8L4D+6BfRwSmpXC+7IrbUsdk9TuE3L4w
+         gZMH87vL6AWHPnn9gM07cSjTD4++rf4xZWQ9xWjA0GI5o52UTAQrfSGRnj/lLqLgQ1kC
+         Jvtc4oDUg+flhCk0k4BgBC3RQQ5tBrPlvnxaktVT4yXQB5s0U1ZDK2dTqVvOtL6+QZ5h
+         jLyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767989761; x=1768594561;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wHNNo39ERes87rvUHSVM+mGvySKBMq9Lj/fLe+R3e2U=;
+        b=bBMVYGMUmRQIA2Fi137Y2wleFfoOUUF8lFjTTo48N7Bx3cETt/HkO2CRx9mwHzUcLI
+         ZFHDtdUOOqgu4moA/g4X2PTKGv03lxudZ3aOJqAetL2rP3nCuxknxBE5JvHJ4mzJf49K
+         IL6d4EgKStuAW0EPTN/ZC/shZ4WJipn9mLJwIumn5mJCNMXge3Npj3T/c5lw+SH7Ogii
+         AF52iXf/J8er4yZOTN915ucHMOd5Zfqyy/fhTKpEjVedN4uw0ymUvmiy612ssrgSAVGW
+         lEyQwCVni27Jwkln8PwD/agEaY694NihhVcZGOj5reOKJX1e1CRQBD75z0nUSzp8mkOZ
+         /C6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUnm1dkkwEyo0c7Y3hsSTj7WGrYRsWerBDH3E80OQDqWsXFtTQoSp0+h2uGAppJedoc7Cfv61DpVOY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkoyYSzQohUbfaAD5a0I1y4Rf1c5aDhoRm5dp36Kt2jK0G3f/O
+	vF/ncIjRr0T4dgnCtAxm00J8y2g/UF7mNcKmm27VDLSMQGFW4wTOw7lZ1oXos33Zlf8e0D34V57
+	ND1rSP07mNNH/of6UN0wZQ+IcxCbamQNNMTJJg4L579KJJnaD0fl++IjSdQRs0w==
+X-Gm-Gg: AY/fxX4FJCiZZkj93SQ1VOFS7Dd2Nl3T8U1i5HIrRQqAAuQFj1HVqByOpjmUm5d1Anp
+	wNbwgwiP6KJcgbCtRo+Ci+UgpHsp/HVwpN2QiVhCdhyiR9hIcQoivuGmKH26OFKxOyTNJvu8BRt
+	eUQMdigK85DLX5P4Fq9Wqb49WccUhiA4oNogZoe7B0qjmi5AZlKFBY6mtCvF3rVWNmnBm6Xz3yz
+	VCEAJfV9dTaXqpiAPtXsviW/S+wq8GAZrL1/lqrvW2dHtsLoAx39ClD7mswoCYNTZFO1CZnFs30
+	VeFtXD/CioEqYne1bBDBDqu7glU/cvJORVYFYfEglGKNpnyvAL8aZ6EJFXQD7B7MxYqFqrETtV3
+	CuIaxpFXYJwp72jNKGUcOd2ttKHYUia0S1Pn0Ziea6/m1JMk/6RpaM6p+
+X-Received: by 2002:a05:6214:2347:b0:7f5:eda2:a54b with SMTP id 6a1803df08f44-890842e1b55mr158596706d6.62.1767989760550;
+        Fri, 09 Jan 2026 12:16:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE7TVCdYN8leHhBwHPD8xom1NBdADFr0CHJ5abumSLsDJvK3oiOK+Hvt1acvPLkIJZlhitrww==
+X-Received: by 2002:a05:6214:2347:b0:7f5:eda2:a54b with SMTP id 6a1803df08f44-890842e1b55mr158596076d6.62.1767989759917;
+        Fri, 09 Jan 2026 12:15:59 -0800 (PST)
+Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8907725ffc7sm81022946d6.44.2026.01.09.12.15.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jan 2026 12:15:59 -0800 (PST)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <0384dc28-bfff-4a74-9153-66d287888ce7@redhat.com>
+Date: Fri, 9 Jan 2026 15:15:57 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [cgroup/for-6.20 PATCH v2 2/4] cgroup/cpuset: Consistently
+ compute effective_xcpus in update_cpumasks_hier()
+To: Chen Ridong <chenridong@huaweicloud.com>, Waiman Long <llong@redhat.com>,
+ Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sun Shaojie <sunshaojie@kylinos.cn>
+References: <20260101191558.434446-1-longman@redhat.com>
+ <20260101191558.434446-3-longman@redhat.com>
+ <758f42df-52c2-4660-8ef7-1cbacb9323d2@huaweicloud.com>
+ <f8539426-92b0-42f3-99c4-70962c2db96d@redhat.com>
+ <c17051c3-82ac-4ca5-8823-33327cadd073@huaweicloud.com>
+ <ec6e1ee4-b52e-417f-9413-3dfca0ec8eb3@redhat.com>
+ <d49cc8af-509b-44b8-ada4-f8bbdbd37f89@huaweicloud.com>
+ <f541b93b-7bbf-4530-bca6-dc5b5b1f481c@redhat.com>
+ <556672f7-b9b9-46a2-8a67-54ac615383d4@huaweicloud.com>
+Content-Language: en-US
+In-Reply-To: <556672f7-b9b9-46a2-8a67-54ac615383d4@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Shawn,
+On 1/5/26 1:29 AM, Chen Ridong wrote:
+>
+> On 2026/1/5 12:06, Waiman Long wrote:
+>> On 1/4/26 10:58 PM, Chen Ridong wrote:
+>>> On 2026/1/5 11:50, Waiman Long wrote:
+>>>> On 1/4/26 8:15 PM, Chen Ridong wrote:
+>>>>> On 2026/1/5 5:25, Waiman Long wrote:
+>>>>>> On 1/3/26 9:48 PM, Chen Ridong wrote:
+>>>>>>> On 2026/1/2 3:15, Waiman Long wrote:
+>>>>>>>> Since commit f62a5d39368e ("cgroup/cpuset: Remove remote_partition_check()
+>>>>>>>> & make update_cpumasks_hier() handle remote partition"), the
+>>>>>>>> compute_effective_exclusive_cpumask() helper was extended to
+>>>>>>>> strip exclusive CPUs from siblings when computing effective_xcpus
+>>>>>>>> (cpuset.cpus.exclusive.effective). This helper was later renamed to
+>>>>>>>> compute_excpus() in commit 86bbbd1f33ab ("cpuset: Refactor exclusive
+>>>>>>>> CPU mask computation logic").
+>>>>>>>>
+>>>>>>>> This helper is supposed to be used consistently to compute
+>>>>>>>> effective_xcpus. However, there is an exception within the callback
+>>>>>>>> critical section in update_cpumasks_hier() when exclusive_cpus of a
+>>>>>>>> valid partition root is empty. This can cause effective_xcpus value to
+>>>>>>>> differ depending on where exactly it is last computed. Fix this by using
+>>>>>>>> compute_excpus() in this case to give a consistent result.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Waiman Long <longman@redhat.com>
+>>>>>>>> ---
+>>>>>>>>      kernel/cgroup/cpuset.c | 14 +++++---------
+>>>>>>>>      1 file changed, 5 insertions(+), 9 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>>>>>>>> index da2b3b51630e..37d118a9ad4d 100644
+>>>>>>>> --- a/kernel/cgroup/cpuset.c
+>>>>>>>> +++ b/kernel/cgroup/cpuset.c
+>>>>>>>> @@ -2168,17 +2168,13 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks
+>>>>>>>> *tmp,
+>>>>>>>>              spin_lock_irq(&callback_lock);
+>>>>>>>>              cpumask_copy(cp->effective_cpus, tmp->new_cpus);
+>>>>>>>>              cp->partition_root_state = new_prs;
+>>>>>>>> -        if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
+>>>>>>>> -            compute_excpus(cp, cp->effective_xcpus);
+>>>>>>>> -
+>>>>>>>>              /*
+>>>>>>>> -         * Make sure effective_xcpus is properly set for a valid
+>>>>>>>> -         * partition root.
+>>>>>>>> +         * Need to compute effective_xcpus if either exclusive_cpus
+>>>>>>>> +         * is non-empty or it is a valid partition root.
+>>>>>>>>               */
+>>>>>>>> -        if ((new_prs > 0) && cpumask_empty(cp->exclusive_cpus))
+>>>>>>>> -            cpumask_and(cp->effective_xcpus,
+>>>>>>>> -                    cp->cpus_allowed, parent->effective_xcpus);
+>>>>>>>> -        else if (new_prs < 0)
+>>>>>>>> +        if ((new_prs > 0) || !cpumask_empty(cp->exclusive_cpus))
+>>>>>>>> +            compute_excpus(cp, cp->effective_xcpus);
+>>>>>>>> +        if (new_prs < 0)
+>>>>>>>>                  reset_partition_data(cp);
+>>>>>>>>              spin_unlock_irq(&callback_lock);
+>>>>>>>>      
+>>>>>>> The code resets partition data only for new_prs < 0. My understanding is that a partition is
+>>>>>>> invalid
+>>>>>>> when new_prs <= 0. Shouldn't reset_partition_data() also be called when new_prs = 0? Is there a
+>>>>>>> specific reason to skip the reset in that case?
+>>>>>> update_cpumasks_hier() is called when changes in a cpuset or hotplug affects other cpusets in the
+>>>>>> hierarchy. With respect to changes in partition state, it is either from valid to invalid or vice
+>>>>>> versa. It will not change from a valid partition to member. The only way new_prs = 0 is when
+>>>>>> old_prs
+>>>>>> = 0. Even if the affected cpuset is processed again in update_cpumask_hier(), any state change
+>>>>>> from
+>>>>>> valid partition to member (update_prstate()), reset_partition_data() should have been called
+>>>>>> there.
+>>>>>> That is why we only care about when new_prs != 0.
+>>>>>>
+>>>>> Thank you for your patience.
+>>>>>
+>>>>>> The code isn't wrong here. However I can change the condition to (new_prs <= 0) if it makes it
+>>>>>> easier to understand.
+>>>>>>
+>>>>> I agree there's nothing wrong with the current logic. However, for clarity, I suggest changing the
+>>>>> condition to (new_prs <= 0). This allows the function's logic to be fully self-consistent and
+>>>>> focused on a single responsibility. This approach would allow us to simplify the code to:
+>>>>>
+>>>>>       if (new_prs > 0)
+>>>>>           compute_excpus(cp, cp->effective_xcpus);
+>>>>>       else
+>>>>>           reset_partition_data(cp);
+>>>>>
+>>>>> Since reset_partition_data() already handles cases whether cp->exclusive_cpus is empty or not, this
+>>>>> implementation would be more concise while correctly covering all scenarios.
+>>>> effective_xcpus should be set when exclusive_cpus is not empty or when the cpuset is a valid
+>>>> partition root. So just checking new_prs for compute_excpus() is not enough.
+>>>>
+>>> If we change the condition to (new_prs <= 0), it will reset the partition data even when we call
+>>> compute_excpus (for !cpumask_empty(cp->exclusive_cpus)), so we should still get the same result,
+>>> right?
+>> Changing the condition to (new_prs <= 0) won't affect the result except for a bit of wasted cpu
+>> cycles. That is why I am planning to make the change in the next version to make it easier to
+>> understand.
+>>
+> Sorry, I should have been clearer. If we change the condition, the code would essentially be:
+>
+> 	if ((new_prs > 0) || !cpumask_empty(cp->exclusive_cpus))
+> 		compute_excpus(cp, cp->effective_xcpus);
+>          if (new_prs <= 0)
+> 		reset_partition_data(cp);
+>
+> For cases where new_prs <= 0 && !cpumask_empty(cp->exclusive_cpus), both compute_excpus() and
+> reset_partition_data() would be called.
+>
+> Is this functionally equivalent to:
+>
+> 	if (new_prs > 0)
+> 		compute_excpus(cp, cp->effective_xcpus);
+>          else (new_prs <= 0)
+> 		reset_partition_data(cp);
 
-kernel test robot noticed the following build warnings:
+They are not equivalent because reset_partition_data() won't do a 
+compute_excpus(). In fact, one of the tests in test_cpuset_prs.sh will 
+fail if we make this change.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on next-20260109]
-[cannot apply to pci/for-linus mani-mhi/mhi-next trace/for-next linus/master v6.19-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cheers,
+Longman
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260109-153843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1767929389-143957-3-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event documentation
-reproduce: (https://download.01.org/0day-ci/archive/20260109/202601092104.0IlUz26P-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601092104.0IlUz26P-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   WARNING: No kernel-doc for file ./include/linux/delay.h
-   ERROR: Cannot find file ./include/linux/delay.h
-   WARNING: No kernel-doc for file ./include/linux/delay.h
-   ERROR: Cannot find file ./include/linux/delay.h
-   WARNING: No kernel-doc for file ./include/linux/delay.h
->> Documentation/trace/events-pci-conotroller.rst:21: WARNING: Title underline too short.
---
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/trace/events-pci-conotroller.rst: WARNING: document isn't included in any toctree [toc.not_included]
-
-
-vim +21 Documentation/trace/events-pci-conotroller.rst
-
-    19	
-    20	pcie_ltssm_state_transition
-  > 21	-----------------------
-    22	
-    23	Monitors PCIe LTSSM state transition including state and rate information
-    24	::
-    25	
-    26	    pcie_ltssm_state_transition  "dev: %s state: %s rate: %s\n"
-    27	
-    28	**Parameters**:
-    29	
-    30	* ``dev`` - PCIe root port name
-    31	* ``state`` - PCIe LTSSM state
-    32	* ``rate`` - PCIe bus speed
-    33	
-    34	**Example Usage**:
-    35	
-    36	    # Enable the tracepoint
-    37	    echo 1 > /sys/kernel/debug/tracing/events/pci/pcie_ltssm_state_transition/enable
-    38	
-    39	    # Monitor events (the following output is generated when a device is linking)
-    40	    cat /sys/kernel/debug/tracing/trace_pipe
-  > 41	       kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
