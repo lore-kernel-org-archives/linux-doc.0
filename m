@@ -1,413 +1,391 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56AA3612E4
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 15:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767974192; cv=pass; b=o0Gb3nUrVyhZTBMOuQL/bckulLOfoxF9P1ZYClvQF8RCO5gKAWVQhB7cEolGhZRSQqDiaRaIwYRFdMZHWbRHaTHyWTINBh03LEEwXf1lPaGX5CPJWBit0SDLfTI0vTIzzCZzzq59ADHmThGowIFmBLwHYBvGfddIxV0Y7T4DpN0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767974192; c=relaxed/simple;
-	bh=drbfeLZIZyZs1P1OG1bi9mGh0XTSFJ6dEcumEQXA0xo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VOepYwc/waQkT6BJitWOdpaWDh7MWyRUvGDjRnlgz1kusNljxksN2psoN9NGGu7sRBkTrAOm3uEqLMifaYiUVsTnQ2DkG2wW7Z3aM03DL0WMObHSsVbV/lGrFl/0SUfYsmkoMrfC5gKEXfYIKFIgVPxmLGifz1BDIDLQDY+dI7o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ePac9VHr; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C262A15687D
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 16:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767974433; cv=none; b=fzfAlJGD0nhftbRlrzoyFy2G9qPjyWWBbMiKKhC1yOkZXrfWoC2FaBD+1J0araJ7P/jIiT1c3G4m4TdLgi5Fsz/4OEV7hBa2Jt0yQvZ6UusS8dC7FoOibSsZJExlNWwkQwowa8xWbhrqzAo+TDb575y7fvELwEQfyLZ/mfH89Zo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767974433; c=relaxed/simple;
+	bh=gomJotxWW8NkYaNCgEbIn1dGI/O/yCHmiC2zmSSFvTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=prtlTV/EaGSWT2ctl1h48RH66hz0v2zIpQzvBEEPQrR9LX+k8JMbJU+ao/l0osaWJ2vXS+zFmEbvvPyaaKIo7e6pMMoc7QZL1iJzxGlupQVEJRjcN+H0z2U4hHMPHzDOwezj5ClBMnyqvJeb38P/bY5p5WwgodCE/A8ivgRwQR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=duTcYuly; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ePac9VHr"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4ee147baf7bso439831cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 07:56:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1767974188; cv=none;
-        d=google.com; s=arc-20240605;
-        b=O95gK5GbJtcWz18RvE2xVutrGHzhNu+7Kioxd2L/VGtIlvtWfA83+TdM5bcWpRhx/A
-         2c/mLUS5cxRwnnW2GSVbi/j7urUN8fD+5+bjmveGW8HOe12oimfbBvgMrKKzxeMHtsCd
-         YJCO4RwhXyVhPxlTDn7wNSqGoJDE2fw4LnGGPPztJpSF36WoUuI5HpW5CqUPciPsj4Bg
-         tGEKH6DzyMlO2QLWVlo8lLcmr7KgL7yNetu9kyjFTnLWkWlKi8VAn6uewzDN81aNbGEp
-         SaGkdWp43ajJriZLJLU251MJCbmUrvdfZdgG0PVJjv088MdH+psxAm2UgLWkeD7xP+yn
-         9Dgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=lO4kv7J4FSmcCFF5cavwgM24+IZ64AUylx9G5mDhyIM=;
-        fh=4uUXbF594zqCJXXGkZo38jyhOKUXsreZ28P6zcC8tzc=;
-        b=D6iNJmVVmZDDqAnF9XttVxawC9eMCQYTUTEDoSvcvy0Lp08IPgtFv36vpmZ3smKhxa
-         /v791NFEkBmugMp1U5ypYODRcI2fdumAW6ZCagOVG9kLFJuUoZURwAMK6d6IdtqgL+Er
-         p/ZZK3h29jBqhubejONuiPCHITWHo0k0izwBadEg7np4e3PboqoN8O7IBXPiQZTWmCEX
-         HTDHyMOMs7KRO3dGOCHK5H4F+IP1xmcdFFWzx0Jw9Ei5mTmhpjGHo9TEL4+9okF1KI/h
-         e9Jz5nWGrfpsISxLAPoTOW13yG4jpIhqnW9WIzTHWx5Ms/TAqi0zUs6hWhLnr4kS0tOe
-         tklA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767974188; x=1768578988; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lO4kv7J4FSmcCFF5cavwgM24+IZ64AUylx9G5mDhyIM=;
-        b=ePac9VHropQ0HH8KRj+llAeKcZeZdc93Fem+P9Ko2wBd0DJC3dJQByMJDcFiWEPk3h
-         BYTiPFXNnAo+n8E3K0H5XuaTYYmDO6+pXDqTnngEbtN0UowtaoFw343E/gT1plIRuu4k
-         sKl9VVnP0rfgPgMNWnuatznM77glnbK3kXd6w8CAjDze7+M9qukRqIY1IsR6OYAgRWvF
-         jeb8k21i09ncmYGD2+MW1o3TGr2eedlzh3cu4p1Adx0R0oWePOoy/0kLv8EtJuFLjTeQ
-         d6V4/WyZxQvfVJqgi4vhyVH9uXmjanmsBw5a80ZNZqN/4L4AVkOGsuWeUlxn8cb9GE0R
-         VeEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767974188; x=1768578988;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lO4kv7J4FSmcCFF5cavwgM24+IZ64AUylx9G5mDhyIM=;
-        b=nUEx3MlyJS8QhZzJtZbCjrmxvjyuQqBGj8wb2DWRs4FIvbau9Vf5ErCUR/kIYT9ooo
-         YYRf92BcaOVoafUmydZFwB9GaFU0sMNt7ji0OKNUDzHEPY2+2LkkVLhR7HpBcQY/+iqn
-         yiSi0XDDNW+uQdVaUc/0s5RwwtrjTsjigdr3J+wbv+66EVceNL0Tm67qxzGyHU9iYap5
-         RsmO9LQUMGU1nL/wWGa0vwUocgohKUfK0I0kpVKQyqtkQ9qm5NFCJODOhO5QT2V3Ac+e
-         i6/v/PA4MT0f5lcB6/cA2GcaWMqZ5nbFFVKoSHd1g55jo35ysHOox0wXgm917OsBD3IU
-         KWDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWZJYz73ctHj5mfTBwN28CIZWODJtvS/sbkUR3rC9J2ECNQZcS6TK6VjjxEDGKy9ATMKwbb8CH7gHo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHB9N6GfgzcHb0ywJeXGiefO0oVFmrenkBdFWMpDxAjOSrQyg4
-	PUqNBEyZJX/urf3sgZjYzSkW/ri7n49mrkQesixTbNB/uLvyAkXTAr0XBHDdDOsf3PWYIL0759A
-	4walRd7sTog3vDXbRwUhpqyw/och4y76p5K+RfQDQ
-X-Gm-Gg: AY/fxX4e4cFyuwENHMetVUAUS0eYiYLCsBH3Su6x66SZWHuxWSnPSXg4jdxoNkToyhb
-	jW1RnXDf3uK6sdeGy9OIJSkgVdsEweklbyQRIpRfuiTiC/C55kVLBIgsjbSHhrUcDcU+YK4pamR
-	GcIOHy0PXEdruzpk3slCWzYHE2y8Xw3vUS+MO9Pqglvkb9iRcglW7LHev3Chx8aowmrEOvskBGb
-	zJ/Pe7F21wxS1q+Ikb7H3sbfoj8aKx2ca21kWhG/X7rByo/Xm60cOt9ZZC0zidbIi6ZsfY3
-X-Received: by 2002:ac8:5ac6:0:b0:4ff:bf96:db86 with SMTP id
- d75a77b69052e-4ffca3afdd2mr12092391cf.16.1767974187462; Fri, 09 Jan 2026
- 07:56:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="duTcYuly"
+Date: Fri, 9 Jan 2026 16:00:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767974418;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q5LAdhOCCc8N41wLK+KHHr42/lhH/TW4Y/qOP6oJbhM=;
+	b=duTcYulyLdWHtvP4Q8YAlW6mTv845miu1bdA/mIk/vToHI6CugjQw322Jf709n/7q2LkUI
+	iwmuedRmZe5i0/w1YslWme1xHC/2GmJcu7XkAYZ/3pLBQhCZ2036aJeXlSsk37SEdcMIDP
+	VHyJwH0lH61D2s6KyefTV3iQPtSt5wU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yosry Ahmed <yosry.ahmed@linux.dev>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-mm@kvack.org, cgroups@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	kernel-team@meta.com, longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
+	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, dave@stgolabs.net, jonathan.cameron@huawei.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com, 
+	ira.weiny@intel.com, dan.j.williams@intel.com, akpm@linux-foundation.org, 
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com, jackmanb@google.com, 
+	ziy@nvidia.com, david@kernel.org, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, yury.norov@gmail.com, linux@rasmusvillemoes.dk, 
+	rientjes@google.com, shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com, 
+	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com, baohua@kernel.org, 
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	osalvador@suse.de, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	apopple@nvidia.com, cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
+Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
+Message-ID: <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
+References: <20260108203755.1163107-1-gourry@gourry.net>
+ <20260108203755.1163107-8-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-13-8be3867cb883@kernel.org>
-In-Reply-To: <20251223-kvm-arm64-sme-v9-13-8be3867cb883@kernel.org>
-From: Fuad Tabba <tabba@google.com>
-Date: Fri, 9 Jan 2026 15:55:50 +0000
-X-Gm-Features: AZwV_QgHKSx9xrRlwCUXH9McoFdoQwQ7z-YH_ruv5puKBu-bPD_SzO17DT3QY2I
-Message-ID: <CA+EHjTw8twejbO+0Adje0pmNJi7EDnRkcLRW5ZgiCwJ7nAna1Q@mail.gmail.com>
-Subject: Re: [PATCH v9 13/30] KVM: arm64: Store vector lengths in an array
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
-	Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108203755.1163107-8-gourry@gourry.net>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 23 Dec 2025 at 01:22, Mark Brown <broonie@kernel.org> wrote:
->
-> SME adds a second vector length configured in a very similar way to the
-> SVE vector length, in order to facilitate future code sharing for SME
-> refactor our storage of vector lengths to use an array like the host does.
-> We do not yet take much advantage of this so the intermediate code is not
-> as clean as might be.
->
-> No functional change.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+On Thu, Jan 08, 2026 at 03:37:54PM -0500, Gregory Price wrote:
+> If a private zswap-node is available, skip the entire software
+> compression process and memcpy directly to a compressed memory
+> folio, and store the newly allocated compressed memory page as
+> the zswap entry->handle.
+> 
+> On decompress we do the opposite: copy directly from the stored
+> page to the destination, and free the compressed memory page.
+> 
+> The driver callback is responsible for preventing run-away
+> compression ratio failures by checking that the allocated page is
+> safe to use (i.e. a compression ratio limit hasn't been crossed).
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
+Hi Gregory,
 
-Cheers,
-/fuad
+Thanks for sending this, I have a lot of questions/comments below, but
+from a high-level I am trying to understand the benefit of using a
+compressed node for zswap rather than as a second tier.
+
+If the memory is byte-addressable, using it as a second tier makes it
+directly accessible without page faults, so the access latency is much
+better than a swapped out page in zswap.
+
+Are there some HW limitations that allow a node to be used as a backend
+for zswap but not a second tier?
+
+Or is the idea to make promotions from compressed memory to normal
+memory fault-driver instead of relying on page hotness?
+
+I also think there are some design decisions that need to be made before
+we commit to this, see the comments below for more.
 
 > ---
->  arch/arm64/include/asm/kvm_host.h       | 17 +++++++++++------
->  arch/arm64/include/asm/kvm_hyp.h        |  2 +-
->  arch/arm64/include/asm/kvm_pkvm.h       |  2 +-
->  arch/arm64/kvm/fpsimd.c                 |  2 +-
->  arch/arm64/kvm/guest.c                  |  6 +++---
->  arch/arm64/kvm/hyp/include/hyp/switch.h |  6 +++---
->  arch/arm64/kvm/hyp/nvhe/hyp-main.c      |  6 +++---
->  arch/arm64/kvm/hyp/nvhe/pkvm.c          |  7 ++++---
->  arch/arm64/kvm/reset.c                  | 22 +++++++++++-----------
->  9 files changed, 38 insertions(+), 32 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 0816180dc551..3a3330b2a6a9 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -77,8 +77,10 @@ enum kvm_mode kvm_get_mode(void);
->  static inline enum kvm_mode kvm_get_mode(void) { return KVM_MODE_NONE; };
+>  include/linux/zswap.h |   5 ++
+>  mm/zswap.c            | 106 +++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 109 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/zswap.h b/include/linux/zswap.h
+> index 30c193a1207e..4b52fe447e7e 100644
+> --- a/include/linux/zswap.h
+> +++ b/include/linux/zswap.h
+> @@ -35,6 +35,8 @@ void zswap_lruvec_state_init(struct lruvec *lruvec);
+>  void zswap_folio_swapin(struct folio *folio);
+>  bool zswap_is_enabled(void);
+>  bool zswap_never_enabled(void);
+> +void zswap_add_direct_node(int nid);
+> +void zswap_remove_direct_node(int nid);
+>  #else
+>  
+>  struct zswap_lruvec_state {};
+> @@ -69,6 +71,9 @@ static inline bool zswap_never_enabled(void)
+>  	return true;
+>  }
+>  
+> +static inline void zswap_add_direct_node(int nid) {}
+> +static inline void zswap_remove_direct_node(int nid) {}
+> +
 >  #endif
->
-> -extern unsigned int __ro_after_init kvm_sve_max_vl;
-> -extern unsigned int __ro_after_init kvm_host_sve_max_vl;
-> +extern unsigned int __ro_after_init kvm_max_vl[ARM64_VEC_MAX];
-> +extern unsigned int __ro_after_init kvm_host_max_vl[ARM64_VEC_MAX];
-> +DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
-
-I think this slipped in here by mistake, i.e., userspace_irqchip_in_use.
-
-With that removed:
-Reviewed-by: Fuad Tabba <tabba@google.com>
-
-Cheers,
-/fuad
-
-
+>  
+>  #endif /* _LINUX_ZSWAP_H */
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index de8858ff1521..aada588c957e 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/workqueue.h>
+>  #include <linux/list_lru.h>
+>  #include <linux/zsmalloc.h>
+> +#include <linux/node.h>
+>  
+>  #include "swap.h"
+>  #include "internal.h"
+> @@ -190,6 +191,7 @@ struct zswap_entry {
+>  	swp_entry_t swpentry;
+>  	unsigned int length;
+>  	bool referenced;
+> +	bool direct;
+>  	struct zswap_pool *pool;
+>  	unsigned long handle;
+>  	struct obj_cgroup *objcg;
+> @@ -199,6 +201,20 @@ struct zswap_entry {
+>  static struct xarray *zswap_trees[MAX_SWAPFILES];
+>  static unsigned int nr_zswap_trees[MAX_SWAPFILES];
+>  
+> +/* Nodemask for compressed RAM nodes used by zswap_compress_direct */
+> +static nodemask_t zswap_direct_nodes = NODE_MASK_NONE;
 > +
->  int __init kvm_arm_init_sve(void);
->
->  u32 __attribute_const__ kvm_target_cpu(void);
-> @@ -811,7 +813,7 @@ struct kvm_vcpu_arch {
->          */
->         void *sve_state;
->         enum fp_type fp_type;
-> -       unsigned int sve_max_vl;
-> +       unsigned int max_vl[ARM64_VEC_MAX];
->
->         /* Stage 2 paging state used by the hardware on next switch */
->         struct kvm_s2_mmu *hw_mmu;
-> @@ -1098,9 +1100,12 @@ struct kvm_vcpu_arch {
->
->  /* Pointer to the vcpu's SVE FFR for sve_{save,load}_state() */
->  #define vcpu_sve_pffr(vcpu) (kern_hyp_va((vcpu)->arch.sve_state) +     \
-> -                            sve_ffr_offset((vcpu)->arch.sve_max_vl))
-> +                            sve_ffr_offset((vcpu)->arch.max_vl[ARM64_VEC_SVE]))
+> +void zswap_add_direct_node(int nid)
+> +{
+> +	node_set(nid, zswap_direct_nodes);
+> +}
 > +
-> +#define vcpu_vec_max_vq(vcpu, type) sve_vq_from_vl((vcpu)->arch.max_vl[type])
+> +void zswap_remove_direct_node(int nid)
+> +{
+> +	if (!node_online(nid))
+> +		node_clear(nid, zswap_direct_nodes);
+> +}
 > +
-> +#define vcpu_sve_max_vq(vcpu)  vcpu_vec_max_vq(vcpu, ARM64_VEC_SVE)
->
-> -#define vcpu_sve_max_vq(vcpu)  sve_vq_from_vl((vcpu)->arch.sve_max_vl)
->
->  #define vcpu_sve_zcr_elx(vcpu)                                         \
->         (unlikely(is_hyp_ctxt(vcpu)) ? ZCR_EL2 : ZCR_EL1)
-> @@ -1119,7 +1124,7 @@ struct kvm_vcpu_arch {
->         __size_ret;                                                     \
->  })
->
-> -#define vcpu_sve_state_size(vcpu) sve_state_size_from_vl((vcpu)->arch.sve_max_vl)
-> +#define vcpu_sve_state_size(vcpu) sve_state_size_from_vl((vcpu)->arch.max_vl[ARM64_VEC_SVE])
->
->  /*
->   * Only use __vcpu_sys_reg/ctxt_sys_reg if you know you want the
-> diff --git a/arch/arm64/include/asm/kvm_hyp.h b/arch/arm64/include/asm/kvm_hyp.h
-> index 76ce2b94bd97..0317790dd3b7 100644
-> --- a/arch/arm64/include/asm/kvm_hyp.h
-> +++ b/arch/arm64/include/asm/kvm_hyp.h
-> @@ -146,6 +146,6 @@ extern u64 kvm_nvhe_sym(id_aa64smfr0_el1_sys_val);
->
->  extern unsigned long kvm_nvhe_sym(__icache_flags);
->  extern unsigned int kvm_nvhe_sym(kvm_arm_vmid_bits);
-> -extern unsigned int kvm_nvhe_sym(kvm_host_sve_max_vl);
-> +extern unsigned int kvm_nvhe_sym(kvm_host_max_vl[ARM64_VEC_MAX]);
->
->  #endif /* __ARM64_KVM_HYP_H__ */
-> diff --git a/arch/arm64/include/asm/kvm_pkvm.h b/arch/arm64/include/asm/kvm_pkvm.h
-> index 0aecd4ac5f45..0697c88f2210 100644
-> --- a/arch/arm64/include/asm/kvm_pkvm.h
-> +++ b/arch/arm64/include/asm/kvm_pkvm.h
-> @@ -167,7 +167,7 @@ static inline size_t pkvm_host_sve_state_size(void)
->                 return 0;
->
->         return size_add(sizeof(struct cpu_sve_state),
-> -                       SVE_SIG_REGS_SIZE(sve_vq_from_vl(kvm_host_sve_max_vl)));
-> +                       SVE_SIG_REGS_SIZE(sve_vq_from_vl(kvm_host_max_vl[ARM64_VEC_SVE])));
->  }
->
->  struct pkvm_mapping {
-> diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
-> index 9158353d8be3..1f4fcc8b5554 100644
-> --- a/arch/arm64/kvm/fpsimd.c
-> +++ b/arch/arm64/kvm/fpsimd.c
-> @@ -75,7 +75,7 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
->                  */
->                 fp_state.st = &vcpu->arch.ctxt.fp_regs;
->                 fp_state.sve_state = vcpu->arch.sve_state;
-> -               fp_state.sve_vl = vcpu->arch.sve_max_vl;
-> +               fp_state.sve_vl = vcpu->arch.max_vl[ARM64_VEC_SVE];
->                 fp_state.sme_state = NULL;
->                 fp_state.svcr = __ctxt_sys_reg(&vcpu->arch.ctxt, SVCR);
->                 fp_state.fpmr = __ctxt_sys_reg(&vcpu->arch.ctxt, FPMR);
-> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
-> index 8c3405b5d7b1..456ef61b6ed5 100644
-> --- a/arch/arm64/kvm/guest.c
-> +++ b/arch/arm64/kvm/guest.c
-> @@ -318,7 +318,7 @@ static int get_sve_vls(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
->         if (!vcpu_has_sve(vcpu))
->                 return -ENOENT;
->
-> -       if (WARN_ON(!sve_vl_valid(vcpu->arch.sve_max_vl)))
-> +       if (WARN_ON(!sve_vl_valid(vcpu->arch.max_vl[ARM64_VEC_SVE])))
->                 return -EINVAL;
->
->         memset(vqs, 0, sizeof(vqs));
-> @@ -356,7 +356,7 @@ static int set_sve_vls(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
->                 if (vq_present(vqs, vq))
->                         max_vq = vq;
->
-> -       if (max_vq > sve_vq_from_vl(kvm_sve_max_vl))
-> +       if (max_vq > sve_vq_from_vl(kvm_max_vl[ARM64_VEC_SVE]))
->                 return -EINVAL;
->
->         /*
-> @@ -375,7 +375,7 @@ static int set_sve_vls(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
->                 return -EINVAL;
->
->         /* vcpu->arch.sve_state will be alloc'd by kvm_vcpu_finalize_sve() */
-> -       vcpu->arch.sve_max_vl = sve_vl_from_vq(max_vq);
-> +       vcpu->arch.max_vl[ARM64_VEC_SVE] = sve_vl_from_vq(max_vq);
->
->         return 0;
->  }
-> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> index c5d5e5b86eaf..9ce53524d664 100644
-> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> @@ -458,8 +458,8 @@ static inline void __hyp_sve_save_host(void)
->         struct cpu_sve_state *sve_state = *host_data_ptr(sve_state);
->
->         sve_state->zcr_el1 = read_sysreg_el1(SYS_ZCR);
-> -       write_sysreg_s(sve_vq_from_vl(kvm_host_sve_max_vl) - 1, SYS_ZCR_EL2);
-> -       __sve_save_state(sve_state->sve_regs + sve_ffr_offset(kvm_host_sve_max_vl),
-> +       write_sysreg_s(sve_vq_from_vl(kvm_host_max_vl[ARM64_VEC_SVE]) - 1, SYS_ZCR_EL2);
-> +       __sve_save_state(sve_state->sve_regs + sve_ffr_offset(kvm_host_max_vl[ARM64_VEC_SVE]),
->                          &sve_state->fpsr,
->                          true);
->  }
-> @@ -514,7 +514,7 @@ static inline void fpsimd_lazy_switch_to_host(struct kvm_vcpu *vcpu)
->                         zcr_el2 = vcpu_sve_max_vq(vcpu) - 1;
->                         write_sysreg_el2(zcr_el2, SYS_ZCR);
->                 } else {
-> -                       zcr_el2 = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
-> +                       zcr_el2 = sve_vq_from_vl(kvm_host_max_vl[ARM64_VEC_SVE]) - 1;
->                         write_sysreg_el2(zcr_el2, SYS_ZCR);
->
->                         zcr_el1 = vcpu_sve_max_vq(vcpu) - 1;
-> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-> index a7c689152f68..208e9042aca4 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-> @@ -34,7 +34,7 @@ static void __hyp_sve_save_guest(struct kvm_vcpu *vcpu)
->          */
->         sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
->         __sve_save_state(vcpu_sve_pffr(vcpu), &vcpu->arch.ctxt.fp_regs.fpsr, true);
-> -       write_sysreg_s(sve_vq_from_vl(kvm_host_sve_max_vl) - 1, SYS_ZCR_EL2);
-> +       write_sysreg_s(sve_vq_from_vl(kvm_host_max_vl[ARM64_VEC_SVE]) - 1, SYS_ZCR_EL2);
->  }
->
->  static void __hyp_sve_restore_host(void)
-> @@ -50,8 +50,8 @@ static void __hyp_sve_restore_host(void)
->          * that was discovered, if we wish to use larger VLs this will
->          * need to be revisited.
->          */
-> -       write_sysreg_s(sve_vq_from_vl(kvm_host_sve_max_vl) - 1, SYS_ZCR_EL2);
-> -       __sve_restore_state(sve_state->sve_regs + sve_ffr_offset(kvm_host_sve_max_vl),
-> +       write_sysreg_s(sve_vq_from_vl(kvm_host_max_vl[ARM64_VEC_SVE]) - 1, SYS_ZCR_EL2);
-> +       __sve_restore_state(sve_state->sve_regs + sve_ffr_offset(kvm_host_max_vl[ARM64_VEC_SVE]),
->                             &sve_state->fpsr,
->                             true);
->         write_sysreg_el1(sve_state->zcr_el1, SYS_ZCR);
-> diff --git a/arch/arm64/kvm/hyp/nvhe/pkvm.c b/arch/arm64/kvm/hyp/nvhe/pkvm.c
-> index b402dcb7691e..f4ec6695a6a5 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/pkvm.c
-> +++ b/arch/arm64/kvm/hyp/nvhe/pkvm.c
-> @@ -20,7 +20,7 @@ unsigned long __icache_flags;
->  /* Used by kvm_get_vttbr(). */
->  unsigned int kvm_arm_vmid_bits;
->
-> -unsigned int kvm_host_sve_max_vl;
-> +unsigned int kvm_host_max_vl[ARM64_VEC_MAX];
->
->  /*
->   * The currently loaded hyp vCPU for each physical CPU. Used in protected mode
-> @@ -450,7 +450,8 @@ static int pkvm_vcpu_init_sve(struct pkvm_hyp_vcpu *hyp_vcpu, struct kvm_vcpu *h
->         }
->
->         /* Limit guest vector length to the maximum supported by the host. */
-> -       sve_max_vl = min(READ_ONCE(host_vcpu->arch.sve_max_vl), kvm_host_sve_max_vl);
-> +       sve_max_vl = min(READ_ONCE(host_vcpu->arch.max_vl[ARM64_VEC_SVE]),
-> +                        kvm_host_max_vl[ARM64_VEC_SVE]);
->         sve_state_size = sve_state_size_from_vl(sve_max_vl);
->         sve_state = kern_hyp_va(READ_ONCE(host_vcpu->arch.sve_state));
->
-> @@ -464,7 +465,7 @@ static int pkvm_vcpu_init_sve(struct pkvm_hyp_vcpu *hyp_vcpu, struct kvm_vcpu *h
->                 goto err;
->
->         vcpu->arch.sve_state = sve_state;
-> -       vcpu->arch.sve_max_vl = sve_max_vl;
-> +       vcpu->arch.max_vl[ARM64_VEC_SVE] = sve_max_vl;
->
->         return 0;
->  err:
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index f7c63e145d54..a8684a1346ec 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -32,7 +32,7 @@
->
->  /* Maximum phys_shift supported for any VM on this host */
->  static u32 __ro_after_init kvm_ipa_limit;
-> -unsigned int __ro_after_init kvm_host_sve_max_vl;
-> +unsigned int __ro_after_init kvm_host_max_vl[ARM64_VEC_MAX];
->
->  /*
->   * ARMv8 Reset Values
-> @@ -46,14 +46,14 @@ unsigned int __ro_after_init kvm_host_sve_max_vl;
->  #define VCPU_RESET_PSTATE_SVC  (PSR_AA32_MODE_SVC | PSR_AA32_A_BIT | \
->                                  PSR_AA32_I_BIT | PSR_AA32_F_BIT)
->
-> -unsigned int __ro_after_init kvm_sve_max_vl;
-> +unsigned int __ro_after_init kvm_max_vl[ARM64_VEC_MAX];
->
->  int __init kvm_arm_init_sve(void)
+>  /* RCU-protected iteration */
+>  static LIST_HEAD(zswap_pools);
+>  /* protects zswap_pools list modification */
+> @@ -716,7 +732,13 @@ static void zswap_entry_cache_free(struct zswap_entry *entry)
+>  static void zswap_entry_free(struct zswap_entry *entry)
 >  {
->         if (system_supports_sve()) {
-> -               kvm_sve_max_vl = sve_max_virtualisable_vl();
-> -               kvm_host_sve_max_vl = sve_max_vl();
-> -               kvm_nvhe_sym(kvm_host_sve_max_vl) = kvm_host_sve_max_vl;
-> +               kvm_max_vl[ARM64_VEC_SVE] = sve_max_virtualisable_vl();
-> +               kvm_host_max_vl[ARM64_VEC_SVE] = sve_max_vl();
-> +               kvm_nvhe_sym(kvm_host_max_vl[ARM64_VEC_SVE]) = kvm_host_max_vl[ARM64_VEC_SVE];
->
->                 /*
->                  * The get_sve_reg()/set_sve_reg() ioctl interface will need
-> @@ -61,16 +61,16 @@ int __init kvm_arm_init_sve(void)
->                  * order to support vector lengths greater than
->                  * VL_ARCH_MAX:
->                  */
-> -               if (WARN_ON(kvm_sve_max_vl > VL_ARCH_MAX))
-> -                       kvm_sve_max_vl = VL_ARCH_MAX;
-> +               if (WARN_ON(kvm_max_vl[ARM64_VEC_SVE] > VL_ARCH_MAX))
-> +                       kvm_max_vl[ARM64_VEC_SVE] = VL_ARCH_MAX;
->
->                 /*
->                  * Don't even try to make use of vector lengths that
->                  * aren't available on all CPUs, for now:
->                  */
-> -               if (kvm_sve_max_vl < sve_max_vl())
-> +               if (kvm_max_vl[ARM64_VEC_SVE] < sve_max_vl())
->                         pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
-> -                               kvm_sve_max_vl);
-> +                               kvm_max_vl[ARM64_VEC_SVE]);
->         }
->
->         return 0;
-> @@ -78,7 +78,7 @@ int __init kvm_arm_init_sve(void)
->
->  static void kvm_vcpu_enable_sve(struct kvm_vcpu *vcpu)
+>  	zswap_lru_del(&zswap_list_lru, entry);
+> -	zs_free(entry->pool->zs_pool, entry->handle);
+> +	if (entry->direct) {
+> +		struct page *page = (struct page *)entry->handle;
+
+Would it be cleaner to add a union in zswap_entry that has entry->handle
+and entry->page?
+
+> +
+> +		node_private_freed(page);
+> +		__free_page(page);
+> +	} else
+> +		zs_free(entry->pool->zs_pool, entry->handle);
+>  	zswap_pool_put(entry->pool);
+>  	if (entry->objcg) {
+>  		obj_cgroup_uncharge_zswap(entry->objcg, entry->length);
+> @@ -849,6 +871,58 @@ static void acomp_ctx_put_unlock(struct crypto_acomp_ctx *acomp_ctx)
+>  	mutex_unlock(&acomp_ctx->mutex);
+>  }
+>  
+> +static struct page *zswap_compress_direct(struct page *src,
+> +					  struct zswap_entry *entry)
+> +{
+> +	int nid;
+> +	struct page *dst;
+> +	gfp_t gfp;
+> +	nodemask_t tried_nodes = NODE_MASK_NONE;
+> +
+> +	if (nodes_empty(zswap_direct_nodes))
+> +		return NULL;
+> +
+> +	gfp = GFP_NOWAIT | __GFP_NORETRY | __GFP_HIGHMEM | __GFP_MOVABLE |
+> +	      __GFP_THISNODE;
+> +
+> +	for_each_node_mask(nid, zswap_direct_nodes) {
+> +		int ret;
+> +
+> +		/* Skip nodes we've already tried and failed */
+> +		if (node_isset(nid, tried_nodes))
+> +			continue;
+
+Why do we need this? Does for_each_node_mask() iterate each node more
+than once?
+
+> +
+> +		dst = __alloc_pages(gfp, 0, nid, &zswap_direct_nodes);
+> +		if (!dst)
+> +			continue;
+> +
+> +		/*
+> +		 * Check with the device driver that this page is safe to use.
+> +		 * If the device reports an error (e.g., compression ratio is
+> +		 * too low and the page can't safely store data), free the page
+> +		 * and try another node.
+> +		 */
+> +		ret = node_private_allocated(dst);
+> +		if (ret) {
+> +			__free_page(dst);
+> +			node_set(nid, tried_nodes);
+> +			continue;
+> +		}
+
+I think we can drop the 'found' label by moving things around, would
+this be simpler?
+
+	for_each_node_mask(..) {
+		...
+		ret = node_private_allocated(dst);
+		if (!ret)
+			break;
+
+		__free_page(dst);
+		dst = NULL;
+	}
+
+	if (!dst)
+		return NULL;
+
+	if (copy_mc_highpage(..) {
+		..
+	}
+	return dst;
+		
+
+> +
+> +		goto found;
+> +	}
+> +
+> +	return NULL;
+> +
+> +found:
+> +	/* If we fail to copy at this point just fallback */
+> +	if (copy_mc_highpage(dst, src)) {
+> +		__free_page(dst);
+> +		dst = NULL;
+> +	}
+> +	return dst;
+> +}
+> +
+
+So the CXL code tells zswap what nodes are usable, then zswap tries
+getting a page from these nodes and checking them using APIs provided by
+the CXL code.
+
+Wouldn't it be a better abstraction if the nodemask lived in the CXL
+code and an API was exposed to zswap just to allocate a page to copy to?
+Or we can abstract the copy as well and provide an API that directly
+tries to copy the page to the compressible node.
+
+IOW move zswap_compress_direct() (probably under a different name?) and
+zswap_direct_nodes into CXL code since it's not really zswap logic.
+
+Also, I am not sure if the zswap_compress_direct() call and check would
+introduce any latency, since almost all existing callers will pay for it
+without benefiting.
+
+If we move the function into CXL code, we could probably have an inline
+wrapper in a header with a static key guarding it to make there is no
+overhead for existing users.
+
+>  static bool zswap_compress(struct page *page, struct zswap_entry *entry,
+>  			   struct zswap_pool *pool)
 >  {
-> -       vcpu->arch.sve_max_vl = kvm_sve_max_vl;
-> +       vcpu->arch.max_vl[ARM64_VEC_SVE] = kvm_max_vl[ARM64_VEC_SVE];
->
->         /*
->          * Userspace can still customize the vector lengths by writing
-> @@ -99,7 +99,7 @@ static int kvm_vcpu_finalize_vec(struct kvm_vcpu *vcpu)
->         size_t reg_sz;
->         int ret;
->
-> -       vl = vcpu->arch.sve_max_vl;
-> +       vl = vcpu->arch.max_vl[ARM64_VEC_SVE];
->
->         /*
->          * Responsibility for these properties is shared between
->
-> --
-> 2.47.3
->
+> @@ -860,6 +934,17 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
+>  	gfp_t gfp;
+>  	u8 *dst;
+>  	bool mapped = false;
+> +	struct page *zpage;
+> +
+> +	/* Try to shunt directly to compressed ram */
+> +	zpage = zswap_compress_direct(page, entry);
+> +	if (zpage) {
+> +		entry->handle = (unsigned long)zpage;
+> +		entry->length = PAGE_SIZE;
+> +		entry->direct = true;
+> +		return true;
+> +	}
+
+I don't think this works. Setting entry->length = PAGE_SIZE will cause a
+few problems, off the top of my head:
+
+1. An entire page of memory will be charged to the memcg, so swapping
+out the page won't reduce the memcg usage, which will cause thrashing
+(reclaim with no progress when hitting the limit).
+
+Ideally we'd get the compressed length from HW and record it here to
+charge it appropriately, but I am not sure how we actually want to
+charge memory on a compressed node. Do we charge the compressed size as
+normal memory? Does it need separate charging and a separate limit?
+
+There are design discussions to be had before we commit to something.
+
+2. The page will be incorrectly counted in
+zswap_stored_incompressible_pages.
+
+Aside from that, zswap_total_pages() will be wrong now, as it gets the
+pool size from zsmalloc and these pages are not allocated from zsmalloc.
+This is used when checking the pool limits and is exposed in stats.
+
+> +	/* otherwise fallback to normal zswap */
+>  
+>  	acomp_ctx = acomp_ctx_get_cpu_lock(pool);
+>  	dst = acomp_ctx->buffer;
+> @@ -913,6 +998,7 @@ static bool zswap_compress(struct page *page, struct zswap_entry *entry,
+>  	zs_obj_write(pool->zs_pool, handle, dst, dlen);
+>  	entry->handle = handle;
+>  	entry->length = dlen;
+> +	entry->direct = false;
+>  
+>  unlock:
+>  	if (mapped)
+> @@ -936,6 +1022,15 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
+>  	int decomp_ret = 0, dlen = PAGE_SIZE;
+>  	u8 *src, *obj;
+>  
+> +	/* compressed ram page */
+> +	if (entry->direct) {
+> +		struct page *src = (struct page *)entry->handle;
+> +		struct folio *zfolio = page_folio(src);
+> +
+> +		memcpy_folio(folio, 0, zfolio, 0, PAGE_SIZE);
+
+Why are we using memcpy_folio() here but copy_mc_highpage() on the
+compression path? Are they equivalent?
+
+> +		goto direct_done;
+> +	}
+> +
+>  	acomp_ctx = acomp_ctx_get_cpu_lock(pool);
+>  	obj = zs_obj_read_begin(pool->zs_pool, entry->handle, acomp_ctx->buffer);
+>  
+> @@ -969,6 +1064,7 @@ static bool zswap_decompress(struct zswap_entry *entry, struct folio *folio)
+>  	zs_obj_read_end(pool->zs_pool, entry->handle, obj);
+>  	acomp_ctx_put_unlock(acomp_ctx);
+>  
+> +direct_done:
+>  	if (!decomp_ret && dlen == PAGE_SIZE)
+>  		return true;
+>  
+> @@ -1483,7 +1579,13 @@ static bool zswap_store_page(struct page *page,
+>  	return true;
+>  
+>  store_failed:
+> -	zs_free(pool->zs_pool, entry->handle);
+> +	if (entry->direct) {
+> +		struct page *freepage = (struct page *)entry->handle;
+> +
+> +		node_private_freed(freepage);
+> +		__free_page(freepage);
+> +	} else
+> +		zs_free(pool->zs_pool, entry->handle);
+
+This code is repeated in zswap_entry_free(), we should probably wrap it
+in a helper that frees the private page or the zsmalloc entry based on
+entry->direct.
+
+>  compress_failed:
+>  	zswap_entry_cache_free(entry);
+>  	return false;
+> -- 
+> 2.52.0
+> 
