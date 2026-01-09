@@ -1,179 +1,171 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50B62206AC
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 05:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF7F22423A;
+	Fri,  9 Jan 2026 05:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767936384; cv=none; b=sSPdnO8HOcUdY7b/G58mhMFBe62OYdeYzmRK+8OjJryhguqyLVBN8FfJFu4rvD8gXHbCQb2CbWwOq4oQRAd2fbwQWC1KdfLBNEn6LVpjs6nVcNyrVmLbDF72o+akQ8RFaPUlZXJiF+BNV6zTg9q6lNw8VoYLMRnjX3zRG9Kz8hk=
+	t=1767938136; cv=none; b=dOYOg6cz1qHN2psTxb966MtYJWGKnr4viPccpSn0446YmeIhkBVdUtJCgfxxoKYO050GcM8LqX7dVmBXwpK4i6dsM55SEUD61Uw3Wz8jq+8GXCFFT39vgNjP2/iIBUEa4DqxdzGAdn00XTi+EhWOryML27CfVvzLvPqLsmz6bWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767936384; c=relaxed/simple;
-	bh=SMlm1Zj+VPtmhO+U2BlswVGk3VmIYNq8C/pi+eNGgFU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ThgeWYBJTJzpqqEOA6khXIn2cbZDQng6vP6RFvP2MoCWM2cWAIeaR+7T6XinhJt5/Y/EffaD0gHHM3PtMgQxf790Wqpw56fTFqKtl/60Sk67LB561QDH9XcdvRdBLptQrtG2W6Bv8/n146m3qbt5W+Yu/WN86JlCw2WbAanrgZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FCNW4zBK; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767938136; c=relaxed/simple;
+	bh=Xmah2fsBv6aaemUTf9tH7mTXFAvunSW/EeH/0G/8mBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aqchvK8ZNPwTTacYSTsFp/EY2s9b19pTaZoLf7jo+dOvvHiF/qk8MMZPPa+pvCGrVCFnx8QHi0w+9yShsqC3kNveI7vb2h8ntkjrC3xL4OUQdmCByWCFF4DgES1+dtqA4zSkN5G5oKhcb80egDNGMU7MAie8T8oCWcq6Vr7tab4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkPVPG6/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FCNW4zBK"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38305f05717so16612721fa.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 21:26:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767936380; x=1768541180; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EEF8CAf2dAOD+neWtLdI+w7NxCIZ2WohswMXxqPrdck=;
-        b=FCNW4zBKvwe06rYcMueAfiJkXaVx77askqwvwX7CaEFH+6L3KlGJSk+bEnT7twnFlu
-         P/yPNDuhFF9KldguIgfQJUEYrjzXBpzGr9ymhPd8+54KoK8cbP5kMcMedYnuV8Kj4agV
-         DY0xjwrqP/6J413PUFdioqjbYLqYGCmxXPgnNCdMLjil7XqO5qmH5efBobLJT6gh3OGz
-         VE+LNRMzj1W0betHwvCbJtPCcXjicJ4dWKL9ELgIHdLGNeHo8bGeEw3mOVIMRWPnhzPQ
-         gBNuDOAwxH6WtvQg2uVaK+Xg7hl16AIP+FUkv3+pddWPJlc9FSeriHsKVG5oPAPuqF32
-         hcAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767936380; x=1768541180;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EEF8CAf2dAOD+neWtLdI+w7NxCIZ2WohswMXxqPrdck=;
-        b=WtX38i/zXf3KctybzzHy84ClPTpkX15VZ1n4Xh1s3ACarVO9kXL4BYhfk/JKX8joHL
-         Z5ZXmj4mFb6Pdc5Cok3IO81ZAMKZuNqamrfka3wJQEQgMCzN+VoSjPCeGfvfJIhPu1CH
-         XADlo/p17iYkNFuDb7zrqKCYgJsB08c7Lfq0tbxqW8qjoJA0HbqMCX7A6ComPes/N7Zf
-         jJ2eUetKAZo0GEczCypCBLYdA17GDFND1Pr69e+SexwKw5l0wScPEFwQnZOYaMmn5ffj
-         tscm0oY82wIeq1ZyDem87KYyoE0VrL5YAAoGRn1y08+AcohBYbdKB2MS+aZ6+gB2ryxl
-         mm2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUxYV+3+wGVIG7kM1XotkJA5vrLzCn22zzpJU26Nt1Bos+fInRXbzvcv0g+QZk3Ie9gBgIKdwddqlU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5QOUE6voDzBYrjOnIi6dPY6iXVHp0Eln6im9q6TdxFFX5xT4A
-	zLnvPea8WzBZE/oNAKpW5Gg+6GXV3tIaP0j/s6hUwGdkinHy63bTVZ45ZQK2NVWoO64d1cIWHP/
-	7glQjU9Wfh0J25KGieXZGVSWYAOe/7XA=
-X-Gm-Gg: AY/fxX5OsVYUqYLckSPZjme/rEaXaVOYfuqkWjgqhVPe7PhHHUNJuXqZljFYy0nQNrc
-	P7cFLDYjB69ryxm0uGc26AM/RaByRvptISuRDs+fITVd7C8aDEzpCt3K5hxHcSYIY9eSjbDVY6J
-	fgIXLceU2vRYWo8m7zYMLw8c9qBJM3/R73zPS1ooLHWEqfGikB9blPFgz4PcwVKFXnadXXb1iki
-	oEso/UV3ChdFy7/nlqcW1eQkthWZW2M1RacHEFwtEB15et1tXlQWirp69nb8mjwtGbhMxWT
-X-Google-Smtp-Source: AGHT+IFacKbx/HloTRDyL3KNE+dISSFeSIeO5gnLVmi9ry+Gc3uB4ma+c7Q9oZoxnNZINjg1j054MzA1urN4ujLkRdE=
-X-Received: by 2002:a05:651c:419b:b0:378:e3f9:2d26 with SMTP id
- 38308e7fff4ca-382ff823bdamr21702801fa.39.1767936379607; Thu, 08 Jan 2026
- 21:26:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkPVPG6/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E32DC4CEF1;
+	Fri,  9 Jan 2026 05:55:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767938135;
+	bh=Xmah2fsBv6aaemUTf9tH7mTXFAvunSW/EeH/0G/8mBM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mkPVPG6/6Loqb8VtpL4nPEI9uLfUygfu6zGe66kKr3RRxraMlyyFYEuwhX15q/3vF
+	 ONNH5+5dpD5E5R5NqvHrEbm+dNWVI05QS3V3wl88h+pyQMDnpwHuMGqFT6MP5NDB6H
+	 TUgRl+Sy+hsdQyyr95jmjfzJqxTZiCMh5/frAijKg9+rITEs9uFW5Fulfk+EmEZfma
+	 x2XT3rP83fpI1WTziuMAPFBLxOhf8avvr5Mi2YIalTheo0JAGTdBySimG/KDWIaOYh
+	 NPW50NJwOPSv9EdZ+BWcODIDtILIh9MMowZ8MHgwru5oUck6OAl7GjTK9a0GCqEORx
+	 DERmT6he0DPFQ==
+Date: Fri, 9 Jan 2026 11:25:29 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v2 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
+ trace support
+Message-ID: <uev63wla4msmmhww4j3t2jim7lhvxjikvujwpxiblg5mz7jwwa@2jucxkbtcsfm>
+References: <1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com>
+ <1767929389-143957-4-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org> <20260108-setlease-6-20-v1-13-ea4dec9b67fa@kernel.org>
-In-Reply-To: <20260108-setlease-6-20-v1-13-ea4dec9b67fa@kernel.org>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Fri, 9 Jan 2026 14:26:03 +0900
-X-Gm-Features: AQt7F2pmUKGJKWpVwxhIrI-U32G4ALuqYGKPCGsBpfUc51GGTfk1sxJMQ_5a6zs
-Message-ID: <CAKFNMok9FG=hhzr8YrHYws5z3jTWOf2TXtFWvSfYbNy6+XLHxw@mail.gmail.com>
-Subject: Re: [PATCH 13/24] nilfs2: add setlease file operation
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Anders Larsen <al@alarsen.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, 
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
-	Phillip Lougher <phillip@squashfs.org.uk>, Carlos Maiolino <cem@kernel.org>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, Xiubo Li <xiubli@redhat.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
-	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org, 
-	gfs2@lists.linux.dev, linux-doc@vger.kernel.org, v9fs@lists.linux.dev, 
-	ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1767929389-143957-4-git-send-email-shawn.lin@rock-chips.com>
 
-On Fri, Jan 9, 2026 at 2:15=E2=80=AFAM Jeff Layton wrote:
->
-> Add the setlease file_operation to nilfs_file_operations and
-> nilfs_dir_operations, pointing to generic_setlease.  A future patch
-> will change the default behavior to reject lease attempts with -EINVAL
-> when there is no setlease file operation defined. Add generic_setlease
-> to retain the ability to set leases on this filesystem.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-
-Looks good, Thanks!
-
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-
-Ryusuke Konishi
-
+On Fri, Jan 09, 2026 at 11:29:49AM +0800, Shawn Lin wrote:
+> Rockchip platforms provide a 64x4 bytes debug FIFO to trace the
+> LTSSM history. Any LTSSM change will be recorded. It's userful
+> for debug purpose, for example link failure, etc.
+> 
+> Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
 > ---
->  fs/nilfs2/dir.c  | 3 ++-
->  fs/nilfs2/file.c | 2 ++
->  2 files changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/nilfs2/dir.c b/fs/nilfs2/dir.c
-> index 6ca3d74be1e16d5bc577e2520f1e841287a2511f..b243199036dfa1ab2299efaaa=
-5bdf5da2d159ff2 100644
-> --- a/fs/nilfs2/dir.c
-> +++ b/fs/nilfs2/dir.c
-> @@ -30,6 +30,7 @@
->   */
->
->  #include <linux/pagemap.h>
-> +#include <linux/filelock.h>
->  #include "nilfs.h"
->  #include "page.h"
->
-> @@ -661,5 +662,5 @@ const struct file_operations nilfs_dir_operations =3D=
- {
->         .compat_ioctl   =3D nilfs_compat_ioctl,
->  #endif /* CONFIG_COMPAT */
->         .fsync          =3D nilfs_sync_file,
-> -
-> +       .setlease       =3D generic_setlease,
+> 
+> Changes in v2:
+> - use tracepoint
+> 
+>  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 92 +++++++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> index 352f513..be9639aa 100644
+> --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> +++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> @@ -22,6 +22,8 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+> +#include <linux/workqueue.h>
+> +#include <trace/events/pci_controller.h>
+>  
+>  #include "../../pci.h"
+>  #include "pcie-designware.h"
+> @@ -73,6 +75,18 @@
+>  #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_1	BIT(4)
+>  #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_2	BIT(5)
+>  
+> +/* Debug FIFO information */
+> +#define PCIE_CLIENT_DBG_FIFO_MODE_CON	0x310
+> +#define  PCIE_CLIENT_DBG_EN		0xffff0007
+> +#define  PCIE_CLIENT_DBG_DIS		0xffff0000
+> +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0	0x320
+> +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1	0x324
+> +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0	0x328
+> +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1	0x32c
+> +#define  PCIE_CLIENT_DBG_TRANSITION_DATA 0xffff0000
+> +#define PCIE_CLIENT_DBG_FIFO_STATUS	0x350
+> +#define PCIE_DBG_LTSSM_HISTORY_CNT	64
+> +
+>  /* Hot Reset Control Register */
+>  #define PCIE_CLIENT_HOT_RESET_CTRL	0x180
+>  #define  PCIE_LTSSM_APP_DLY2_EN		BIT(1)
+> @@ -96,6 +110,7 @@ struct rockchip_pcie {
+>  	struct irq_domain *irq_domain;
+>  	const struct rockchip_pcie_of_data *data;
+>  	bool supports_clkreq;
+> +	struct delayed_work trace_work;
 >  };
-> diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
-> index 1b8d754db44d44d25dcd13f008d266ec83c74d3f..f93b68c4877c5ed369e90b723=
-517e117142335de 100644
-> --- a/fs/nilfs2/file.c
-> +++ b/fs/nilfs2/file.c
-> @@ -8,6 +8,7 @@
->   */
->
->  #include <linux/fs.h>
-> +#include <linux/filelock.h>
->  #include <linux/mm.h>
->  #include <linux/writeback.h>
->  #include "nilfs.h"
-> @@ -150,6 +151,7 @@ const struct file_operations nilfs_file_operations =
-=3D {
->         .fsync          =3D nilfs_sync_file,
->         .splice_read    =3D filemap_splice_read,
->         .splice_write   =3D iter_file_splice_write,
-> +       .setlease       =3D generic_setlease,
->  };
->
->  const struct inode_operations nilfs_file_inode_operations =3D {
->
-> --
-> 2.52.0
->
+>  
+>  struct rockchip_pcie_of_data {
+> @@ -206,6 +221,79 @@ static enum dw_pcie_ltssm rockchip_pcie_get_ltssm(struct dw_pcie *pci)
+>  	return rockchip_pcie_get_ltssm_reg(rockchip) & PCIE_LTSSM_STATUS_MASK;
+>  }
+>  
+> +#ifdef CONFIG_TRACING
+> +static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
+> +{
+> +	struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
+> +						trace_work.work);
+> +	struct dw_pcie *pci = &rockchip->pci;
+> +	enum dw_pcie_ltssm state;
+> +	u32 val, rate, l1ss, loop, prev_val = DW_PCIE_LTSSM_UNKNOWN;
+
+Reverse Xmas order please.
+
+> +
+> +	for (loop = 0; loop < PCIE_DBG_LTSSM_HISTORY_CNT; loop++) {
+
+s/loop/i?
+
+> +		val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
+> +		rate = (val & GENMASK(22, 20)) >> 20;
+> +		l1ss = (val & GENMASK(10, 8)) >> 8;
+> +		val &= PCIE_LTSSM_STATUS_MASK;
+
+Can you use FIELD_ macros here?
+
+> +
+> +		/* Two consecutive identical LTSSM means invalid subsequent data */
+
+Interesting. Does the hardware maintain a counter to track the reads? So once
+you break out of the loop and read it after 5s, you'll start from where you left
+i.e., the duplicate entry or from the start of the counter again?
+
+> +		if ((loop > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
+> +			break;
+> +
+> +		state = prev_val = val;
+> +		if (val == DW_PCIE_LTSSM_L1_IDLE) {
+> +			if (l1ss == 2)
+> +				state = DW_PCIE_LTSSM_L1_2;
+> +			else if (l1ss == 1)
+> +				state = DW_PCIE_LTSSM_L1_1;
+
+I believe L1.0 is not supported.
+
+> +		}
+> +
+> +		trace_pcie_ltssm_state_transition(dev_name(pci->dev),
+> +					dw_pcie_ltssm_status_string(state),
+> +					((rate + 1) > pci->max_link_speed) ?
+> +					PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
+> +	}
+> +
+> +	schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
+> +}
+> +
+> +static void rockchip_pcie_ltssm_trace(struct rockchip_pcie *rockchip,
+> +				      bool en)
+
+s/en/enable
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
