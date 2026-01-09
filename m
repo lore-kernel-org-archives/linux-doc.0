@@ -1,138 +1,175 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705BD78F3E
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 03:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB3A1F03D2;
+	Fri,  9 Jan 2026 04:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767930804; cv=none; b=dUTQGH6Y3sYBA8nSVY34qXm6GlCLZHGMz0n6sfQ7c1iijAlRTOf9RenjdUgS/cRCaLHuYQA1SlCOY2Ewjpc/szKgDvV1vJlO7hqD3xRXV+aXMENRLkeR9hCdyzArchKgvVWvsRaXaPN/bdufiFX9NWOumZBdyI4Ej11uP/Y67tg=
+	t=1767931811; cv=none; b=GiFsfy8B5xaOOXmT797pLVuzuyH9Ad+EScJd79+B+VwiKsHk322kqL7BOZsgZYOeS0T0gkWbsUivGkCJsDd9r1RIzBjmekzcThn6K2Q7Y6VwajOXcQcLqwcfizaIjZsTPIprOo1U5AwtatPJ6mWrZg1gyiofIJ2Jr7Ys5R9TVBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767930804; c=relaxed/simple;
-	bh=cjzf1hezxDWR12VFZVi9i8a61PH/8bIfFWYxzgThCic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JezdFfIFI7mV5fE2uxpZiRocLj0i5F6AJS1iwChw4S95vhIXaOCMmjBLvU4immli+gUj/587xuOeThiiT+0qMMD7RuxVydq4bD+Wp5l4B+xcrxkopXVW7q5XJgJHUCJ5g/N+KCrx+Tp55DtIrjGlrH+DLjMwmlpQ0YsbCWtPH7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5oxOSI6; arc=none smtp.client-ip=209.85.215.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767931811; c=relaxed/simple;
+	bh=EDMLfCujPT4iDVBnQHTXLGsVkgqI7pDAp09MVENxBkA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fCYwNuZq6ME3RsNVhazFJ2qkE4lO4Re45wSH27Z28xeNXbBRlTCUapwLWGKtqMRaFYspGP9W0Wni2x4GfLq6F7FuSPD1JH3DIdbPgxV+/rx8eElRbwJr/6XWWpeOigksJFBXddwhw7+TP4xNXd1oJya/GvvYh0GaWfJDlS+/o60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=lW/ojqZu; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5oxOSI6"
-Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-c026e074373so1987774a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 19:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767930803; x=1768535603; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h+Aa2YGg7UhZCDl66L6h+JyJSb8ah/8nQF29Auvd56Q=;
-        b=T5oxOSI6i2ZQqvTjeqE3fRjMGUz6yJgOosZfFTd79hRy1+BVyKctGUcnYLGAB1TUED
-         G9hiqGCRxgXY4oK1MN3eVq833nEBBzJLRreIsO8yH2nXMatJXFwG49RCwB7mSZbUGL8H
-         MZm8AyFQ1dG2r1/TyW87UJa0W53gYtOP82XvrPVPxMdrkZioQHo1b/3Fo6T5zH6KnVOX
-         wp/TeQMNg/mDW4eTkE1gcsYzlCkrlj+1XGXyo+yLyau+7jKUwgmAmvAdW6pHyZNIfTG0
-         gUhm7Z+NVLKoxZUGF/3eBLEAgCQ13oTXAeri4rDa9Y2Dtv2pFOL9ztS/DlgaIrp/wXhd
-         BFfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767930803; x=1768535603;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h+Aa2YGg7UhZCDl66L6h+JyJSb8ah/8nQF29Auvd56Q=;
-        b=RscGAh0RjW8ypqkHAj2GAc9cjemy4aVC+gl52xAFk8KoI8YEWQY5V3KlMnOrrs5u0S
-         nmRr/9yEEFR4kpS7wxYaO1y9hK5uSJgOC9Xhl8MqKO/qOrvWmWPqdYcISM2wCLLZqsSf
-         u5SJQVXxQ3f0w85nEqDXWP0MaIRFpacO6iq8Xp3fmpVMFn+Coz6SZS5K4kfvtWuvitY8
-         XUBOUWXQQ87ER7UMMCzBKAiRWy5slb+dD8oWxHinTNVsapM9+0ZMR9muLgzL0++1Oj3H
-         7f56WjYKioR19OQToAyKXXHvF1yFDinBJsqZpq/Z7GpM7JvwrTGfagB3DHGQ+R8/FhDU
-         XMpw==
-X-Forwarded-Encrypted: i=1; AJvYcCXH7ii70tPOakxbBqWSq7V87SG+uiAV0o18dAdzfpZpdmjttSKtDZOzw2yxsLUvLkPk+XAJFREMFAo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHIrJaljR90kcAqG1dGf1XFOxRQd35urlHlmix4zGqmCTJhpCy
-	PiXGqMYmiQ8I/ryTFACJSpxJ2ow823hQj9HgSFDfdScOQksm0gfdOl9G
-X-Gm-Gg: AY/fxX7HWr/ZCXbhOomWFsVJa68Ot7d+wNqvYs3HusoUYLVZFH1CXRuhphXUUQ3R5IZ
-	gg9Lpksq6SfW8oyF9HIv9mBPB70ynJ7jzlSyF6WQBBBTKxiYdk53g/pmdm0LT9lYSdGrwldCulH
-	YDhsHsQ0ohGa9POTy8aiVcCCIAJ29r92x+xnyJnl9vwgrAbXi5xHe+PRtU5LbcuYcDi7ifxYSTu
-	nsU1994dY2X9l8TlSNY+qSe8MkgaK/2dogN9KZpNm8j+2c2DyWj7uzgNebn21jXC4Y2FhvNOBgJ
-	j8wcKWErOl1wn+t6KM2rntF07R1lJTDU69S4tjOpMxAT/s7t0XHUiDsfncOAJ6TtvJOwYaMFKjB
-	bLCsnKjt8H9dYgtPbJ+U/asXDtLrMzuNGHhhynFbq4x/tXgYUN/NOKplX+a/6P801aLryaRQPwY
-	BSIK2KbOM=
-X-Google-Smtp-Source: AGHT+IG3DbwcRlj4uCjp94O1bayt9ny/rytFl1TUbZvGzdohtEHLlfp1Gg9vbixfjueHNe9CAYoQWQ==
-X-Received: by 2002:a05:6a21:32a5:b0:366:14ac:8c6a with SMTP id adf61e73a8af0-3898f9b549cmr8446525637.64.1767930802586;
-        Thu, 08 Jan 2026 19:53:22 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd2acdsm90501745ad.89.2026.01.08.19.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 19:53:21 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 18C0643A9037; Fri, 09 Jan 2026 10:53:14 +0700 (WIB)
-Date: Fri, 9 Jan 2026 10:53:14 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event
- documentation
-Message-ID: <aWB7qtKhzbEoY8pJ@archie.me>
-References: <1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com>
- <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="lW/ojqZu"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=OHrFOAQqAZdqIuOKjNWPL7Eo5rAAPaEuo5tRJZoyNWE=;
+	b=lW/ojqZurZhOyxxn0liw5inwttGZlhd3LNcNrpDmzwaiGKiQFJnm7YfeSExgBHn7r7NsqL6on
+	ZalJbvgn6RvX01PaOqlyVmch99/JrI4VHEBtpjC0/61jjyYORmvfRsNb2qZpAOUSOgEnye482Su
+	rWIIxAhxdfWJIz8KooyxUgw=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4dnSrg5NNTz1cyR6;
+	Fri,  9 Jan 2026 12:06:43 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id B3B41402AB;
+	Fri,  9 Jan 2026 12:09:59 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 9 Jan 2026 12:09:48 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan Chebbi
+	<pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
+Subject: [PATCH net-next v10 0/9] net: hinic3: PF initialization
+Date: Fri, 9 Jan 2026 10:35:50 +0800
+Message-ID: <cover.1767861236.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tfncDExG7J/FagGI"
-Content-Disposition: inline
-In-Reply-To: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
+
+This is [1/3] part of hinic3 Ethernet driver second submission.
+With this patch hinic3 becomes a complete Ethernet driver with
+pf and vf.
+
+The driver parts contained in this patch:
+Add support for PF framework based on the VF code.
+Add PF management interfaces to communicate with HW.
+Add 8 netdev ops to configure NIC features.
+Support mac filter to unicast and multicast.
+Add HW event handler to manage port and link status.
+
+Changes:
+
+PATCH 01 V01: https://lore.kernel.org/netdev/cover.1760502478.git.zhuyikai1@h-partners.com/
+
+PATCH 01 V02: https://lore.kernel.org/netdev/cover.1760685059.git.zhuyikai1@h-partners.com/
+* Change the order of hinic3_netdev_event (Jakub Kicinski)
+* Use netdev_hold/put instead of dev_hold/put (Jakub Kicinski)
+* Remove the semicolon at the end of switch case (Jakub Kicinski)
+* Remove redundant PF judgement in hinic3_rx_tx_flush (Paven Chebbi)
+* change hinic3_send_mbox_to_mgmt errcode to EFAULT (Paven Chebbi)
+* Optimize hinic3_set_bdf_ctxt parameters (Paven Chebbi)
+* Modify main and CC recipients (Markus Elfring)
+
+PATCH 01 V03: https://lore.kernel.org/netdev/cover.1761362580.git.zhuyikai1@h-partners.com/
+* Use disable_delayed_work_sync instead of cancel_delayed_work_sync (Paolo Abeni)
+* Fill in the missing hinic3_sync_time & hinic3_free_ppf_work (Paolo Abeni)
+* Refactor hinic3_mac_filter_sync to implement linux coding style(err label)
+  and improve readability (Paolo Abeni & Markus Elfring)
+
+PATCH 01 V04: https://lore.kernel.org/netdev/cover.1761711549.git.zhuyikai1@h-partners.com/
+* Use linux error value(EADDRINUSE) instead of custom value in set_mac (Simon Horman)
+* Use "hinic3_check_pf_set_vf_already" function instead of macro (Simon Horman)
+
+PATCH 01 V05: https://lore.kernel.org/netdev/cover.1762414088.git.zhuyikai1@h-partners.com/
+* Code format fixes: wrap the code at 80 characters (Jakub Kicinski)
+* Use str_up_down instead of ternary expression (Simon Horman)
+* Remove needless override of error value (Simon Horman)
+
+PATCH 01 V06: https://lore.kernel.org/netdev/cover.1762581665.git.zhuyikai1@h-partners.com/
+* Update dev_err messages (ALOK TIWARI)
+* Remove redundant codes "message from vf" in get_mbox_msg_desc (ALOK TIWARI)
+* Code spell fix (ALOK TIWARI)
+* Modfiy hinic3_uc_sync/unsync to hinic3_filter_mac_sync/unsync (ALOK TIWARI)
+* Modify hinic3_mac_filter_sync_hw to return error code (ALOK TIWARI)
+
+PATCH 01 V07: https://lore.kernel.org/netdev/cover.1763555878.git.zhuyikai1@h-partners.com/
+* Change port_state_sem to mutex (Jakub Kicinski)
+* Use DIM infrastructure to change itr moderation configuration (Jakub Kicinski)
+* Remove redundant TX TIMEOUT counter (Jakub Kicinski)
+* Use txqueue in tx_timeout instead of searching for timeout queue (Jakub Kicinski)
+* Remove redundant initialization to ndev features with more than 1
+  vlan depth. (Jakub Kicinski)
+* Split patch for one single thing and optimize commit information (Jakub Kicinski)
+
+PATCH 01 V08: https://lore.kernel.org/netdev/cover.1767495881.git.zhuyikai1@h-partners.com/
+* Remove netdev notifier interfaces and use ndo_features_check to solve packets
+  with multiple vlan tags instead of using vlan_features (Paolo Abeni)
+
+PATCH 01 V09: https://lore.kernel.org/netdev/cover.1767707500.git.zhuyikai1@h-partners.com/
+* Add null check in hinic3_mbox_func_aeqe_handler (AI review)
+* Add disable_delayed_work_sync in err_uninit_nic_feature (AI review)
+* Add vlan_filter's zero initialization (AI review)
+* Add disable_work_sync in hinic3_qps_irq_uninit (AI review)
+* Adjust hinic3_mac_filter_sync_hw params for readability (AI review)
+
+PATCH 01 V10:
+* Fix wrong filter state in hinic3_mac_filter_sync error path (AI review)
+* Fix the case that mgmt_work->msg is not initialized (AI review)
+* Use vlan_features_check & vxlan_features_check intead of custom funcion (AI review)
+* Fix wrong error path of netif_set_real_num_queues (AI review)
+
+Fan Gong (9):
+  hinic3: Add PF framework
+  hinic3: Add PF management interfaces
+  hinic3: Add .ndo_tx_timeout and .ndo_get_stats64
+  hinic3: Add .ndo_set_features and .ndo_fix_features
+  hinic3: Add .ndo_features_check
+  hinic3: Add .ndo_vlan_rx_add/kill_vid and .ndo_validate_addr
+  hinic3: Add adaptive IRQ coalescing with DIM
+  hinic3: Add mac filter ops
+  hinic3: Add HW event handler
+
+ drivers/net/ethernet/huawei/hinic3/Makefile   |   1 +
+ .../net/ethernet/huawei/hinic3/hinic3_csr.h   |   6 +
+ .../ethernet/huawei/hinic3/hinic3_filter.c    | 417 ++++++++++++++++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 115 +++++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |   6 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  24 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.c |  97 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.h |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  |  90 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  23 +
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |  97 +++-
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   |  53 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  | 182 +++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.c  |  53 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.h  |   2 +
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.c  | 313 ++++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |  53 +++
+ .../huawei/hinic3/hinic3_mgmt_interface.h     |  69 +++
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 377 +++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 284 +++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  47 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  60 ++-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  21 +
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |  16 +
+ 24 files changed, 2390 insertions(+), 37 deletions(-)
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_filter.c
 
 
---tfncDExG7J/FagGI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: dbf8fe85a16a33d6b6bd01f2bc606fc017771465
+-- 
+2.43.0
 
-On Fri, Jan 09, 2026 at 11:29:48AM +0800, Shawn Lin wrote:
->  Documentation/trace/events-pci-conotroller.rst | 41 ++++++++++++++++++++=
-++++++
-
-Missing toctree entry in Documentation/trace/index.rst.
-
-> +Available Tracepoints
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +pcie_ltssm_state_transition
-> +-----------------------
-
-Please match section underline length.
-
-> +**Example Usage**:
-> +
-> +    # Enable the tracepoint
-> +    echo 1 > /sys/kernel/debug/tracing/events/pci/pcie_ltssm_state_trans=
-ition/enable
-> +
-> +    # Monitor events (the following output is generated when a device is=
- linking)
-> +    cat /sys/kernel/debug/tracing/trace_pipe
-> +       kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_tr=
-ansition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
-
-Wrap above example snippets in literal code block (use double colon).
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---tfncDExG7J/FagGI
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaWB7pQAKCRD2uYlJVVFO
-o5mFAP9FeIBElbvGhzGEGTxXvKkxEhBsgv2Q43GHm7uX5DykmwD+J0p7viA36u/v
-No484hOhG6lBW2aezEIzjzxuZ2BVBg0=
-=UMJa
------END PGP SIGNATURE-----
-
---tfncDExG7J/FagGI--
