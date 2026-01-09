@@ -1,198 +1,113 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DE735CB7C
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 17:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FDA366DAA;
+	Fri,  9 Jan 2026 17:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767979522; cv=none; b=tfsmFtOKETcpcr112DCrhyIGrNlvWWR37YWaiiwEAztdX3WNntdgmVWpbCC6P0sk/BF6aGwhoBL3BZleh8t7+BLeOOwhRuSU74Y4cid4fKN3zxzoGCwcLZ19sqCwTl5nkK7wJ2EuGDxGxTk+EMr1iqHoaYf+D04sIXnW2ADMe+s=
+	t=1767979864; cv=none; b=r26Y1u5xwEkO9s20fR+cDg5kSRepIqagLOwEO2mxsKPhUZkxTWIaPwFfb7VRZZYHt1onVBX74wm4uyhkHAJcv1nW/8pGikKZsiJ5rlXbu096nNq+tLgrdOjIrf8OgC3UBe+zcZntK1aL0bxMaD0vab1QEYJwABc1/UCqDr8JaOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767979522; c=relaxed/simple;
-	bh=/O8AGckikQsGEk2VgZjiLCCH2+lzSgF3oJChkruIEXM=;
+	s=arc-20240116; t=1767979864; c=relaxed/simple;
+	bh=YnLjCzKnQER3FuCe6ES9oXxik4owd0B4EMad2UIfiEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kJYKEI0Vx6Ew8aRiIkC83dVFXaNzpgIxdXVfxUmEHIotZbb1yaiBvTIRlnxfkKCbDWCYkbozSllNjFIhJ3MPoEZAprEy6aMo612Bh+VN0Xob9rhsuBUvGvsh4bCbhlUSmJiljflnQo/XPLk/wtUtCKnKCqiuXLtkO9ImD9Zlh+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bvOoIDs7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7ZwOm6iL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bvOoIDs7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7ZwOm6iL; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQwfmhx9TCB7nuYQM9TO2RBC2BxOdYAJzKA5vZFHRgPkP54hXvv2svqXyTUOXYELsF22otyTrVf1l5K5cao7hvJsuAkDN/gVE5FbKUKWawjd18bFKypPQk3yUyefjLOLZIJir0UsMaL+NhSoPlSSSWTI8f3ezjsKFlB4wq9pCbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zb3uH6ZB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bvOoIDs7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7ZwOm6iL";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bvOoIDs7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7ZwOm6iL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B921333B2A;
-	Fri,  9 Jan 2026 17:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767979519;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
-	b=bvOoIDs7/FD4+TJqaNRPfdqDk9XOeCUK4Qnj7czNyqMMga1j2oxDg//84KKioY1MklpLwz
-	GSOEFKlNQ7dkKstAXr8m1apj/gakeS7HZ8W9D02CtCQ8hUWdDJdOoJZSaboKRMAzUpg7Fp
-	ZtxchutrGdCDfypEnkJFi/Q6Z+0qgzg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767979519;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
-	b=7ZwOm6iLW0FI0UWzh5XVXuKWebgN6dUcWAm9YZsgVrq9aZxrH0TtpW7TfrFUK4aLQpb7OQ
-	xxcA8a0xRIdYUOCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bvOoIDs7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7ZwOm6iL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767979519;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
-	b=bvOoIDs7/FD4+TJqaNRPfdqDk9XOeCUK4Qnj7czNyqMMga1j2oxDg//84KKioY1MklpLwz
-	GSOEFKlNQ7dkKstAXr8m1apj/gakeS7HZ8W9D02CtCQ8hUWdDJdOoJZSaboKRMAzUpg7Fp
-	ZtxchutrGdCDfypEnkJFi/Q6Z+0qgzg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767979519;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
-	b=7ZwOm6iLW0FI0UWzh5XVXuKWebgN6dUcWAm9YZsgVrq9aZxrH0TtpW7TfrFUK4aLQpb7OQ
-	xxcA8a0xRIdYUOCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57AC33EA63;
-	Fri,  9 Jan 2026 17:25:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Js76EP85YWlAWwAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Fri, 09 Jan 2026 17:25:19 +0000
-Date: Fri, 9 Jan 2026 18:25:17 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation: bug-hunting.rst: Remove wrong 'file:'
- syntax
-Message-ID: <20260109172517.GA102040@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20260109152336.84674-1-pvorel@suse.cz>
- <874iou4wde.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zb3uH6ZB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A50C4CEF1;
+	Fri,  9 Jan 2026 17:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767979863;
+	bh=YnLjCzKnQER3FuCe6ES9oXxik4owd0B4EMad2UIfiEw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zb3uH6ZBwZfeObknlMhLXz6y0O7Yd+lcbqIxtpbkgUGG6UavcGoHaRkBQvHZSNF2n
+	 pQStdXJI1VohLDeR1qpGF74WFMxDsP/uXeJR+ObR3RrmnJaCqkS95C+Hw0RpNuFcf5
+	 GoPAEEt/X36hy1dO8AoxU3CZSoGH+q/jL1yiONf0HXzyNofTsQ2jvKOxGds4kh8Yhz
+	 XVSGdZy9JI1VUWHgjUrbt0jIjhucw841A0LBiPb8vTymFKMiKsqN6rHciHgyobsQQ3
+	 nf6x6z0AGWB9ZAu1Tb/cMu8zbewvjfXfN+ipM7+VPadMwl1+2i0KkND8uJpI3Sk4hA
+	 Gw6D4gc9Kd9pQ==
+Date: Fri, 9 Jan 2026 09:31:03 -0800
+From: Kees Cook <kees@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Marco Elver <elver@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	John Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6 1/5] slab: Introduce kmalloc_obj() and family
+Message-ID: <202601090928.5CFF95F@keescook>
+References: <20251203233029.it.641-kees@kernel.org>
+ <20251203233036.3212363-1-kees@kernel.org>
+ <960729bb-0746-4709-a40c-2e254f963deb@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <874iou4wde.fsf@trenco.lwn.net>
-X-Spam-Score: -3.71
-X-Spamd-Result: default: False [-3.71 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:replyto,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: B921333B2A
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+In-Reply-To: <960729bb-0746-4709-a40c-2e254f963deb@suse.cz>
 
-Hi Jonathan, all,
+On Thu, Jan 08, 2026 at 03:01:00PM +0100, Vlastimil Babka wrote:
+> On 12/4/25 00:30, Kees Cook wrote:
+> > [...]
+> > +/**
+> > + * __alloc_objs - Allocate objects of a given type using
+> > + * @KMALLOC: which size-based kmalloc wrapper to allocate with.
+> > + * @GFP: GFP flags for the allocation.
+> > + * @TYPE: type to allocate space for.
+> > + * @COUNT: how many @TYPE objects to allocate.
+> > + *
+> > + * Returns: Newly allocated pointer to (first) @TYPE of @COUNT-many
+> > + * allocated @TYPE objects, or NULL on failure.
+> > + */
+> > +#define __alloc_objs(KMALLOC, GFP, TYPE, COUNT)				\
+> > +({									\
+> > +	const size_t __obj_size = size_mul(sizeof(TYPE), COUNT);	\
+> 
+> I assume with the hardcoded 1 for COUNT, this size_mul() will be eliminated
+> by the compiler and not add unnecessary runtime overhead? Otherwise we
+> should have two core #define variants.
 
-> Thanks for working to improve our docs
+You're correct: the compiler completely collapses it with 0 runtime
+overhead; a variant is not needed.
 
-> Petr Vorel <pvorel@suse.cz> writes:
+> I also noted that the existing kmalloc_array() and kvmalloc_array() do
+> check_mul_overflow() and return NULL silently on overflow. This AFAIU will
+> make SIZE_MAX passed to the underlying kmalloc/kvmalloc and thus will cause
+> a warning. That's IMHO a good thing.
 
-> > Link to another document does not require 'file:', therefore it was
-> > shown in generated html.
+Right -- I prefer seeing the SIZE_MAX yelling from the allocator. Should
+we change how k*malloc_array() behaves?
 
-> > Preformatted text requires just ``...``.
+-Kees
 
-> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> > ---
-> >  Documentation/admin-guide/bug-hunting.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-
-> > diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
-> > index 7da0504388ece..32b1b0c3d7ee4 100644
-> > --- a/Documentation/admin-guide/bug-hunting.rst
-> > +++ b/Documentation/admin-guide/bug-hunting.rst
-> > @@ -52,14 +52,14 @@ line is usually required to identify and handle the bug. Along this chapter,
-> >  we'll refer to "Oops" for all kinds of stack traces that need to be analyzed.
-
-> >  If the kernel is compiled with ``CONFIG_DEBUG_INFO``, you can enhance the
-> > -quality of the stack trace by using file:`scripts/decode_stacktrace.sh`.
-> > +quality of the stack trace by using ``scripts/decode_stacktrace.sh``.
-
-> >  Modules linked in
-> >  -----------------
-
-> >  Modules that are tainted or are being loaded or unloaded are marked with
-> >  "(...)", where the taint flags are described in
-> > -file:`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
-> > +`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
-
-> Can I ask you to remove the `quotes` too?  They aren't needed and can
-> prevent the automarkup code from doing its thing.
-
-Do you mean to really show the name of the file (no html link)?
-
-Documentation/admin-guide/tainted-kernels.rst, "being loaded" is
-
-This shows Documentation/admin-guide/tainted-kernels.rst in generated html.
-
-But `Documentation/admin-guide/tainted-kernels.rst` will have link:
-
-Text:
-Tainted kernels, “being loaded”
-
-Real XHTML:
-<a class="reference internal" href="tainted-kernels.html"><span class="doc">Tainted kernels</span></a>
-, “being loaded” is
-
-I think in generated HTML is better to have clickable links than show filename.
-And if one clicks to the link (https://docs.kernel.org/admin-guide/tainted-kernels.html)
-it will see "Page source" link
-(https://docs.kernel.org/_sources/admin-guide/tainted-kernels.rst.txt, just one
-needs to remove ".txt" from URL).
-
-Kind regards,
-Petr
-
-> Thanks,
-
-> jon
+-- 
+Kees Cook
