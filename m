@@ -1,210 +1,279 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1865026B760
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 19:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CF229BD88
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 19:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767986180; cv=none; b=lBrcGHWbPpNQUal6jJjC+3uHVTqiuXK2LCLsfPSOdiHCDbCcDz72sLVjtM3CgvLLsBcFxoMGN5fxCxklUfHK0ltVcCcfqIZRtCNOzLC43f48J+c9ufHrk4kseZA8nr2AikCDTQ3+VHOdU4zt2li3Tw+28Fut1xWnQCARiOBBSMc=
+	t=1767986588; cv=none; b=eIJrad1D8HxkZ/KgtiXKeJKTBIuszTei8Zk+nZ8o1GoaZHOPS4F1IGW+j29VvXpzc8mbN1Muz8Z99pyX7xsf03BbCjeWhNy7v/xAj26rWgewJJRAM+e/6odCYu+B/Y9O8A1AiqVyl5UXV2zV5Q//OsOJ8TRxsmwQtzCXPgA+t4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767986180; c=relaxed/simple;
-	bh=1nPt0jMenK9foxrM3p/sw5FChCH1n394SDkI1BEWCNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BZ03lev9+lrei0rBovu6lMm1zsBsX6AhNJDaTM+sEvmkQGMitrOqaLjmzmcpBG9+ruhG5+37VG9a+NjE+TkVXs3MVGqB/0XBRR0HwthPN9JrsFos36JXhKDWx3MhaJiZvAyt5MjLTy0xTFkZI0NCUan9tiaeYEph4SAug4qKhZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yPTbktrq; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1767986588; c=relaxed/simple;
+	bh=hyhcrfWORTgCNDP6xiuZJwFfuxrQ4yrVaSNorHGwlzw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H8fm/PHFI0b0e8sM1FS4IWy6YX6/E2QTWlgvVKRnY1XnPI/QqBPRac3E5rjkd+jNIQFBW5GFhM1wmDsCYwTfADzN8MTtDbhR47VcRp75XCKLMytiWsxeYVMJFaUHGtT9CEZZpVp3He2ykyA1AneRRwkqdwcgbLGgZkGVsIMJ77o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBWlQ1S8; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yPTbktrq"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a35ae38bdfso12765ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 11:16:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBWlQ1S8"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4ee1939e70bso47344281cf.3
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 11:23:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767986177; x=1768590977; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OY298V/mlr0e0R/jNCYCk/cEMiQwxaFCVZQ5rO28hR8=;
-        b=yPTbktrqMBipzxWSUIYwgIgnnI4u8uDQo4MKz8bw46b/nLo38heV9zh3JXP5golVDC
-         64IMtgh7Vi6bRuPuA52/XnozSyWOOgq1pLxbt5SplJlZFEk+X0EZDOIVEFSSMyURgoYN
-         KU7b+IgnbSz3UPPmtL0lx0Cn4W5RAp+wVcb4bbaCbkgiBvmXO0VXoA7e1tYaBOY4/srP
-         n2yGxX7qWw9MaIXk0U1mH73JgUnhFxr9zD8CsG5rDaD/qJi3pU7yrVw2Ngf5gjBdWu3s
-         ZMIWB2o5CkxtrJ8YEiXwS/CfGB27eaVLRK5gva7X3TGqYVxN+qgnUVUU/tUfN5rODcAu
-         DEKA==
+        d=gmail.com; s=20230601; t=1767986585; x=1768591385; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XCCI6AH9kmfmVGOh8hpebLIabzKroctTdTDjM1D004k=;
+        b=jBWlQ1S8cBG1UzByrB0YQoo7EAKE9ep69HgE26MIBQ6lWVcHeF5yUlnqiIexZlO+PW
+         4PD4v1v3X03HNJdWVo5ptPERHRW+mLfDBlWlS1JdQW2IjrfHt7DIs7J5EOqmZEpwAUi6
+         jSoFceN+dBaR1Yt0D6XcJbs+rlCASKLBqVuPjQ7NsSduglckml1FhDbqLJ0VSnF8tVeC
+         arR4jP0g4mJrrT+qqIqrJ/2RLhiaLCJJ6LrieTizYoKLeUHSoZo3zL1mzlPC8e0jmtsx
+         s/umIOJlJeyNgHxh+1KsWWCZ8ARmdhruWngtSFzcup3JTu5rZYBA+ZFQJ9gDuLcQIV/T
+         31bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767986177; x=1768590977;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OY298V/mlr0e0R/jNCYCk/cEMiQwxaFCVZQ5rO28hR8=;
-        b=EyKiY9enKbfximBnteUIt+Mi7ECiowrHVnu4mmu0Br67PccazN6fp+QY0kh420puFP
-         nkGXzN96PK1TlJ8MD1Xo2MzwhemAUVzoB0cqYLL5+G/PjQP1vxZDPNI3Fq60J0itdw0z
-         AsJNyge1ZUR2G0cOOCyEsteGVg9ql4nNUfnBNME67hDcjTvt9GCTu5HPYYXgmHAgNv5z
-         tLme1lKL+GBtAeXDnhoaPRecRkggoJINAGv1t2DKz2wg4c+K7sQ8EgG5DFUcXTwNVOeO
-         r7AIuPzStxjIA5jPYaT0Ob+F8iT9TCdi2SCcdLzDQ4ee1jwVHyO9Uyhat2CmMquuPDzP
-         NQOg==
-X-Forwarded-Encrypted: i=1; AJvYcCWKS5xQ+J9Ns601/VGCU0MIymfnYiY+Wm5xdHa5SAjg4nO5PpFRvNTsJOA6fvL5VaHCJ4CjRaapDk8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTirl6z7n0g2tIyjNDVSEsKsO3ZegcT9MlJR0KM7uCoahl5PK7
-	gRu4oregwpVFCSbUKd7hULPt0W+gu7W+gPqSddrxkWgcD3IgK1KLrACy1CYNfpBNLg==
-X-Gm-Gg: AY/fxX5mqbcoPA65UcUwLyc0C8+8OtPWRTmUkLFKF9PvetWm4p9pvUxJSypeo9Z100U
-	VaXGp9KNNLbUdf3z28tgpE1Oy/C539UUYUtumWG9hNs/7+3bKquQ6TZeFmiSf+Z4RUMU4IHEX06
-	YULQE4flSL3Cf4a3zkbpih/y1kgMfoY5mtCKAF85GGhMHkCZgnwNVpMkGe2wxd7WCBoMNu6SmFd
-	IzvVIA37uOeZuupYmXtu4NdQ51F2DfIS25ddv7wqEDqpkOSZqOGlWj1xbbfD0x77WFOq8EShpzt
-	ZExL6VE3YvAUd+XcOy3qNmF9gmt/7SuzYcFRVlJGmxy5Yh26cwhXa1OciKe/5QXqtw2tV7RKKNS
-	TnQlQqH7G35PcRXTfoHIxoLSAg0MzOQpNh5zauzUzxwoUhhKpCPpCAHXO6Nb2pdCJQc4H1rQeQb
-	0uc9HNAvSn8ZWuqgSDrywHkK13AHf8ccq6f+Xn0V3HDGj0gu5K
-X-Received: by 2002:a17:902:f690:b0:2a1:3cda:8e99 with SMTP id d9443c01a7336-2a4149da4e3mr360525ad.21.1767986176660;
-        Fri, 09 Jan 2026 11:16:16 -0800 (PST)
-Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81d87955bb6sm4087620b3a.50.2026.01.09.11.16.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 11:16:16 -0800 (PST)
-Date: Fri, 9 Jan 2026 19:16:08 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
-	baolu.lu@linux.intel.com, rdunlap@infradead.org,
-	Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH v6 4/4] iommu: debug-pagealloc: Check mapped/unmapped
- kernel memory
-Message-ID: <aWFT-Oh9bQsbqrXj@google.com>
-References: <20260109171805.901995-1-smostafa@google.com>
- <20260109171805.901995-5-smostafa@google.com>
+        d=1e100.net; s=20230601; t=1767986585; x=1768591385;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XCCI6AH9kmfmVGOh8hpebLIabzKroctTdTDjM1D004k=;
+        b=RMmTqSuo0JWvYMTlyGl4wjN0pAZKVQnu2d3qdmsx531YKnJH5iVxzEy2HhDEXxQOEb
+         7IIpRRxMRrxty4xQXbo/EQMAfJwCSXzHE57OTCywkyZErlwCorDvNk29qfLgcqWz/yQW
+         xv79FhvFqa4xXY4rrx1x4h/SLdscrodedc13Ofzp9hdHxB6ZIJS1SfsdvNTZUSEilRFA
+         35sIcUl/Kh2VNx2n8H/ML3w6xTCv4kj55GZWzwHq6XIwOL6WTyCux+5/79pP6jUpdEyF
+         bqb5oi1aMjM1XZMd1KqJncPFv2C9G9ClpwkPbhp8eV9fd8f++IxQZkNAEqYKGbhbfJ8g
+         hnXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRZ+CWWi+odlPPJ+R5PgGWLtWOi30iiyVORgy4C4okxtqlMOnGqnj0Xlp+w/MCBtRNxe199oNCHlk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMqFg7i6xZL4OtglH9JPPqWxSjFfJEWRgvjipgPrXeDSNUF6xm
+	6oKF6TZ4MMqN/UwWDmCpD3UP9+R8yb6BBa9TQD6GTXTwEmiVf1Ixeu2/k5yAjhep31ahQvlWVvu
+	ziEMadPNDwnX6ANmR/L1uIg5Rlo4Wy2w=
+X-Gm-Gg: AY/fxX6cg4nx0gwohTs/OiNEfsc0+4bHCHfqCPN/I7K0kaT/+Z0y1Aj0/ZDsx5VzgGN
+	Xu+Jzxh6x65CHnolVtngQsmgIj6lG/Shr0IByzrN2EePfcVJq1nHZhm/aGHQudsjZToI8qmk0cw
+	cQI6ptHv7brP4e1EVjZ3LJcOQD7SMP0BBjykVfbMfwzTNNO6CP4r/OgLn9hGXMVzqPZcS4vwLoW
+	IBPW62kJ0SgZGL9gJcUpBopWvqjdlz9MO/SCzpfY5WUSYArX/G7dEgFfmVJJuD8PCDFPg==
+X-Google-Smtp-Source: AGHT+IHXBBtwZwuNKfERTrjisYp/XnmieRQ5My9C+JrAHATrgCrXm7TflEfTXXV29gcs7jnr0aRwPcIqZnBnn30OGtI=
+X-Received: by 2002:ac8:584b:0:b0:4ed:af7b:69cf with SMTP id
+ d75a77b69052e-4ffb4891d94mr151346051cf.37.1767986584758; Fri, 09 Jan 2026
+ 11:23:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260109171805.901995-5-smostafa@google.com>
+References: <20260107153244.64703-1-john@groves.net> <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-14-john@groves.net>
+In-Reply-To: <20260107153332.64727-14-john@groves.net>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 9 Jan 2026 11:22:54 -0800
+X-Gm-Features: AQt7F2oIq_lbeLb-ti51MNdkm6hgKAY7P2Khn6XIMSk8J8fS6psInx9PeK2DpaQ
+Message-ID: <CAJnrk1bJ3VbZCYJet1eDPy0V=_3cPxz6kDbgcxwtirk2yA9P0w@mail.gmail.com>
+Subject: Re: [PATCH V3 13/21] famfs_fuse: Famfs mount opt: -o shadow=<shadowpath>
+To: John Groves <John@groves.net>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 09, 2026 at 05:18:05PM +0000, Mostafa Saleh wrote:
-> Now, as the page_ext holds count of IOMMU mappings, we can use it to
-> assert that any page allocated/freed is indeed not in the IOMMU.
-> 
-> The sanitizer doesn’t protect against mapping/unmapping during this
-> period. However, that’s less harmful as the page is not used by the
-> kernel.
-> 
-> Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
-> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+On Wed, Jan 7, 2026 at 7:34=E2=80=AFAM John Groves <John@groves.net> wrote:
+>
+> The shadow path is a (usually in tmpfs) file system area used by the
+> famfs user space to communicate with the famfs fuse server. There is a
+> minor dilemma that the user space tools must be able to resolve from a
+> mount point path to a shadow path. Passing in the 'shadow=3D<path>'
+> argument at mount time causes the shadow path to be exposed via
+> /proc/mounts, Solving this dilemma. The shadow path is not otherwise
+> used in the kernel.
+
+Instead of using mount options to pass the userspace metadata, could
+/sys/fs be used instead? The client is able to get the connection id
+by stat-ing the famfs mount path. There could be a
+/sys/fs/fuse/connections/{id}/metadata file that the server fills out
+with whatever metadata needs to be read by the client. Having
+something like this would be useful to non-famfs servers as well.
+
+>
+> Signed-off-by: John Groves <john@groves.net>
 > ---
->  drivers/iommu/iommu-debug-pagealloc.c | 23 +++++++++++++++++++++++
->  include/linux/iommu-debug-pagealloc.h | 14 ++++++++++++++
->  include/linux/mm.h                    |  5 +++++
->  3 files changed, 42 insertions(+)
-> 
+>  fs/fuse/fuse_i.h | 25 ++++++++++++++++++++++++-
+>  fs/fuse/inode.c  | 28 +++++++++++++++++++++++++++-
+>  2 files changed, 51 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index ec2446099010..84d0ee2a501d 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -620,9 +620,11 @@ struct fuse_fs_context {
+>         unsigned int blksize;
+>         const char *subtype;
+>
+> -       /* DAX device, may be NULL */
+> +       /* DAX device for virtiofs, may be NULL */
+>         struct dax_device *dax_dev;
+>
+> +       const char *shadow; /* famfs - null if not famfs */
+> +
+>         /* fuse_dev pointer to fill in, should contain NULL on entry */
+>         void **fudptr;
+>  };
+> @@ -998,6 +1000,18 @@ struct fuse_conn {
+>                 /* Request timeout (in jiffies). 0 =3D no timeout */
+>                 unsigned int req_timeout;
+>         } timeout;
+> +
+> +       /*
+> +        * This is a workaround until fuse uses iomap for reads.
+> +        * For fuseblk servers, this represents the blocksize passed in a=
+t
+> +        * mount time and for regular fuse servers, this is equivalent to
+> +        * inode->i_blkbits.
+> +        */
+> +       u8 blkbits;
+> +
 
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
+I think you meant to remove these lines?
+
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       char *shadow;
+
+Should this be const char * too?
+> +#endif
+>  };
+>
+>  /*
+> @@ -1631,4 +1645,13 @@ extern void fuse_sysctl_unregister(void);
+>  #define fuse_sysctl_unregister()       do { } while (0)
+>  #endif /* CONFIG_SYSCTL */
+>
+> +/* famfs.c */
+> +
+> +static inline void famfs_teardown(struct fuse_conn *fc)
+> +{
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       kfree(fc->shadow);
+> +#endif
+> +}
+> +
+>  #endif /* _FS_FUSE_I_H */
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index acabf92a11f8..2e0844aabbae 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -783,6 +783,9 @@ enum {
+>         OPT_ALLOW_OTHER,
+>         OPT_MAX_READ,
+>         OPT_BLKSIZE,
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       OPT_SHADOW,
+> +#endif
+>         OPT_ERR
+>  };
+>
+> @@ -797,6 +800,9 @@ static const struct fs_parameter_spec fuse_fs_paramet=
+ers[] =3D {
+>         fsparam_u32     ("max_read",            OPT_MAX_READ),
+>         fsparam_u32     ("blksize",             OPT_BLKSIZE),
+>         fsparam_string  ("subtype",             OPT_SUBTYPE),
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       fsparam_string("shadow",                OPT_SHADOW),
+
+nit: having the spacing for ("shadow", align with the lines above
+would be aesthetically nice
+
+> +#endif
+>         {}
+>  };
+>
+> @@ -892,6 +898,15 @@ static int fuse_parse_param(struct fs_context *fsc, =
+struct fs_parameter *param)
+>                 ctx->blksize =3D result.uint_32;
+>                 break;
+>
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       case OPT_SHADOW:
+> +               if (ctx->shadow)
+> +                       return invalfc(fsc, "Multiple shadows specified")=
+;
+> +               ctx->shadow =3D param->string;
+> +               param->string =3D NULL;
+> +               break;
+> +#endif
+> +
+>         default:
+>                 return -EINVAL;
+>         }
+> @@ -905,6 +920,7 @@ static void fuse_free_fsc(struct fs_context *fsc)
+>
+>         if (ctx) {
+>                 kfree(ctx->subtype);
+> +               kfree(ctx->shadow);
+>                 kfree(ctx);
+>         }
+>  }
+> @@ -936,7 +952,10 @@ static int fuse_show_options(struct seq_file *m, str=
+uct dentry *root)
+>         else if (fc->dax_mode =3D=3D FUSE_DAX_INODE_USER)
+>                 seq_puts(m, ",dax=3Dinode");
+>  #endif
+> -
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       if (fc->shadow)
+> +               seq_printf(m, ",shadow=3D%s", fc->shadow);
+> +#endif
+>         return 0;
+>  }
+>
+> @@ -1041,6 +1060,8 @@ void fuse_conn_put(struct fuse_conn *fc)
+>                 WARN_ON(atomic_read(&bucket->count) !=3D 1);
+>                 kfree(bucket);
+>         }
+> +       famfs_teardown(fc);
+
+imo it looks a bit cleaner with
+
+if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+     famfs_teardown(fc);
+
+which also matches the pattern the passthrough config below uses
+
+> +
+>         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+>                 fuse_backing_files_free(fc);
+>         call_rcu(&fc->rcu, delayed_release);
+> @@ -1916,6 +1937,11 @@ int fuse_fill_super_common(struct super_block *sb,=
+ struct fuse_fs_context *ctx)
+>                 *ctx->fudptr =3D fud;
+>                 wake_up_all(&fuse_dev_waitq);
+>         }
+> +
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +       fc->shadow =3D kstrdup(ctx->shadow, GFP_KERNEL);
+
+Is a shadow path a must-have for a famfs mount? if so, then should the
+mount fail if the allocation here fails?
 
 Thanks,
-Praan
-
-> diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-debug-pagealloc.c
-> index 9eb49e1230ee..c080a38f45a4 100644
-> --- a/drivers/iommu/iommu-debug-pagealloc.c
-> +++ b/drivers/iommu/iommu-debug-pagealloc.c
-> @@ -9,6 +9,7 @@
->  #include <linux/iommu-debug-pagealloc.h>
->  #include <linux/kernel.h>
->  #include <linux/page_ext.h>
-> +#include <linux/page_owner.h>
->  
->  #include "iommu-priv.h"
->  
-> @@ -73,6 +74,28 @@ static size_t iommu_debug_page_size(struct iommu_domain *domain)
->  	return 1UL << __ffs(domain->pgsize_bitmap);
->  }
->  
-> +static bool iommu_debug_page_count(const struct page *page)
-> +{
-> +	unsigned int ref;
-> +	struct page_ext *page_ext = page_ext_get(page);
-> +	struct iommu_debug_metadata *d = get_iommu_data(page_ext);
+Joanne
+> +#endif
 > +
-> +	ref = atomic_read(&d->ref);
-> +	page_ext_put(page_ext);
-> +	return ref != 0;
-> +}
-> +
-> +void __iommu_debug_check_unmapped(const struct page *page, int numpages)
-> +{
-> +	while (numpages--) {
-> +		if (WARN_ON(iommu_debug_page_count(page))) {
-> +			pr_warn("iommu: Detected page leak!\n");
-> +			dump_page_owner(page);
-> +		}
-> +		page++;
-> +	}
-> +}
-> +
->  void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size_t size)
->  {
->  	size_t off, end;
-> diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-debug-pagealloc.h
-> index a439d6815ca1..46c3c1f70150 100644
-> --- a/include/linux/iommu-debug-pagealloc.h
-> +++ b/include/linux/iommu-debug-pagealloc.h
-> @@ -13,6 +13,20 @@ DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
->  
->  extern struct page_ext_operations page_iommu_debug_ops;
->  
-> +void __iommu_debug_check_unmapped(const struct page *page, int numpages);
-> +
-> +static inline void iommu_debug_check_unmapped(const struct page *page, int numpages)
-> +{
-> +	if (static_branch_unlikely(&iommu_debug_initialized))
-> +		__iommu_debug_check_unmapped(page, numpages);
-> +}
-> +
-> +#else
-> +static inline void iommu_debug_check_unmapped(const struct page *page,
-> +					      int numpages)
-> +{
-> +}
-> +
->  #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
->  
->  #endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6f959d8ca4b4..32205d2a24b2 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -36,6 +36,7 @@
->  #include <linux/rcuwait.h>
->  #include <linux/bitmap.h>
->  #include <linux/bitops.h>
-> +#include <linux/iommu-debug-pagealloc.h>
->  
->  struct mempolicy;
->  struct anon_vma;
-> @@ -4133,12 +4134,16 @@ extern void __kernel_map_pages(struct page *page, int numpages, int enable);
->  #ifdef CONFIG_DEBUG_PAGEALLOC
->  static inline void debug_pagealloc_map_pages(struct page *page, int numpages)
->  {
-> +	iommu_debug_check_unmapped(page, numpages);
-> +
->  	if (debug_pagealloc_enabled_static())
->  		__kernel_map_pages(page, numpages, 1);
->  }
->  
->  static inline void debug_pagealloc_unmap_pages(struct page *page, int numpages)
->  {
-> +	iommu_debug_check_unmapped(page, numpages);
-> +
->  	if (debug_pagealloc_enabled_static())
->  		__kernel_map_pages(page, numpages, 0);
->  }
-> -- 
-> 2.52.0.457.g6b5491de43-goog
-> 
-> 
+>         mutex_unlock(&fuse_mutex);
+>         return 0;
+>
+> --
+> 2.49.0
+>
