@@ -1,116 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mail-m3294.qiye.163.com (mail-m3294.qiye.163.com [220.197.32.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0E0257825;
-	Fri,  9 Jan 2026 03:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D861925BC;
+	Fri,  9 Jan 2026 03:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767929305; cv=none; b=OELkRcL54go3m4v1tAvlBaIn/bKMNpVBd1/glNeqDLGVt2JAajFs9WBht97m/pWZaUjEPWO+iw+/w67L/wzIP0hlbkT6eSAvivzkzTkG6OzFIh5KAqZg/sFaLEAJ8n/8X6bEK9+qz8YAgbGTX8lFfmqigtvMmOdYyhPltRnYuhw=
+	t=1767929429; cv=none; b=YGOauPanHur365QfRJErYfmCkXyE234Lf0tXGwm4UdmU3SajoVZV5NutDrwv58rY+6eTYTXzPhnEA0zYuMa1mJutupx0c2ylMyPWu5NyFtCEDU858/aeHw5f8WTwqas6GuAVVqXI1wj9sPApBAPbece+XX+LVZH5nPqWvd44FOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767929305; c=relaxed/simple;
-	bh=y4tYwPF3ZC63Ir+4yC1KcSfjvehP4llbqhsh9Bjl7/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ezuI3ijMF3g2S9dgHXTqTjmPHl13oVPGnqSu6+o0wvr0ez3wbA/yWexVtQS24d14HxEq9t36dLWoEfOCeYUr2RJSAfduQS1XTWa6du0QEiGvNH3OLdGJK//Xru7/ZiFCvW8MgA0GPcOOqY+SKWozaE8i+8U1dVvOaTKhwHEPyQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afRkp4W6; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1767929429; c=relaxed/simple;
+	bh=Z2AOheaRyTKoa4eKdWLKbN6ZlONk4KlQ1HzH3j78jD0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=JhM6h5XpAZpc8sKx50y1DMsX507Dy5grLBs3T1pf1VKLlV9zdSPQDnalBI9ylOgBULT+hfiBy21xcr1DhlRW5TDWG2MPlwQvohFCW6jW/P97oV7RhVNOXCi3E1V9y0YrrcignkItMSyYs9D0CRPW3RN2QoZ94o2wKge7Z78rDU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=GRA+VPa7; arc=none smtp.client-ip=220.197.32.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afRkp4W6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767929303; x=1799465303;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=y4tYwPF3ZC63Ir+4yC1KcSfjvehP4llbqhsh9Bjl7/k=;
-  b=afRkp4W6KLwUtO4TNBtROPnQx2Jbq0ixXXDnZWte4+wa5tfYGrX5uVh2
-   NrvUiEEFgCB0dJt3mbACdEA9Qm04zx7zdsb1SyozuheSGL2hv6HoICpg9
-   wl0oehYHHB2RbsOgblqyK/OEb5td3a5l0xyzso87epsTskbdwynMp5jCO
-   hx2l74DvKO4DcpMS/j+xYE6eHcFglu995vpCazax1oE8hncwmP/BX9hd2
-   0tcu8Cf3RP8bW2tWbIFAPsI3V1nQXvb4y7JxNNLstaRX7oFUqvB2OXAu1
-   XOQxJjxTSBf7NYNlLqUpXG8sTkhT2v4Qz2Rsmlwm0SeeOBCAOSWyvNYOc
-   A==;
-X-CSE-ConnectionGUID: GHrceak3Ryab9MJKMqBaHQ==
-X-CSE-MsgGUID: Nuk94SToRr6upbBsSGTYbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69296281"
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="69296281"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 19:28:23 -0800
-X-CSE-ConnectionGUID: 2d2ZBL/rTb2r1726moL31A==
-X-CSE-MsgGUID: A7Och2SKQ2eaTHkkLOcU4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="234075920"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 19:28:18 -0800
-Message-ID: <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com>
-Date: Fri, 9 Jan 2026 11:28:32 +0800
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="GRA+VPa7"
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 30079383f;
+	Fri, 9 Jan 2026 11:30:20 +0800 (GMT+08:00)
+From: Shawn Lin <shawn.lin@rock-chips.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-rockchip@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event documentation
+Date: Fri,  9 Jan 2026 11:29:48 +0800
+Message-Id: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com>
+References: <1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com>
+X-HM-Tid: 0a9ba0ce18f709cckunm22b4d6c66ba24
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkpPTFZPQ0seSk1PGk5DGUJWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUJDQ0
+	xVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=GRA+VPa7x561UGIY01XJaPAMGI6fxMn6JuSCwA9i6CC2NZ+320nr5ZKJBGUr7WyZ93xKVoGm3JRWgyMmIpyLIQVCCWWwQpi0mnCfhy6LaIzyzWk1TeQbq+q2Sh2TSekmdZ6M5HtAn6Z/1G9JfirhEcBMriFqbDl9WmQdJ3osbS4=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=KJlKjShPuR5n49PnlmzBndjHgapvw97Q1f3mXNv5yPQ=;
+	h=date:mime-version:subject:message-id:from;
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] iommu: debug-pagealloc: Track IOMMU pages
-To: Mostafa Saleh <smostafa@google.com>,
- Pranjal Shrivastava <praan@google.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
- surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
- rdunlap@infradead.org
-References: <20260106162200.2223655-1-smostafa@google.com>
- <20260106162200.2223655-4-smostafa@google.com> <aV56BWisUQTMK2Gk@google.com>
- <aV-PvBqQ0Ktiha8e@google.com>
- <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 1/8/26 19:33, Mostafa Saleh wrote:
-> I have this, it should have the same effect + a WARN, I will include
-> it in the new version
-> 
-> diff --git a/drivers/iommu/iommu-debug-pagealloc.c
-> b/drivers/iommu/iommu-debug-pagealloc.c
-> index 5353417e64f9..64ec0795fe4c 100644
-> --- a/drivers/iommu/iommu-debug-pagealloc.c
-> +++ b/drivers/iommu/iommu-debug-pagealloc.c
-> @@ -146,16 +146,12 @@ void __iommu_debug_unmap_end(struct iommu_domain *domain,
->          if (unmapped == size)
->                  return;
-> 
-> -       /*
-> -        * If unmap failed, re-increment the refcount, but if it unmapped
-> -        * larger size, decrement the extra part.
-> -        */
-> +       /* If unmap failed, re-increment the refcount. */
->          if (unmapped < size)
->                  __iommu_debug_update_iova(domain, iova + unmapped,
->                                            size - unmapped, true);
->          else
-> -               __iommu_debug_update_iova(domain, iova + size,
-> -                                         unmapped - size, false);
-> +               WARN_ONCE(1, "iommu: unmap larger than requested is
-> not supported in debug_pagealloc\n");
->   }
-> 
->   void iommu_debug_init(void)
+The available tracepoint, pcie_ltssm_state_transition, monitors the LTSSM state
+transistion for debugging purpose. Add description about it.
 
-How aobut
+Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
+---
 
-	if ((unmapped == size) || WARN_ON_ONCE(unmapped > size))
-		return;
+Changes in v2: None
 
-	/* If unmap failed, re-increment the refcount. */
-	__iommu_debug_update_iova(domain, iova + unmapped, size - unmapped, true);
+ Documentation/trace/events-pci-conotroller.rst | 41 ++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 Documentation/trace/events-pci-conotroller.rst
 
-?
+diff --git a/Documentation/trace/events-pci-conotroller.rst b/Documentation/trace/events-pci-conotroller.rst
+new file mode 100644
+index 0000000..8253d00
+--- /dev/null
++++ b/Documentation/trace/events-pci-conotroller.rst
+@@ -0,0 +1,41 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++======================================
++Subsystem Trace Points: PCI Controller
++======================================
++
++Overview
++========
++The PCI controller tracing system provides tracepoints to monitor controller level
++information for debugging purpose. The events normally show up here:
++up here:
++
++	/sys/kernel/tracing/events/pci_controller
++
++Cf. include/trace/events/pci_controller.h for the events definitions.
++
++Available Tracepoints
++=====================
++
++pcie_ltssm_state_transition
++-----------------------
++
++Monitors PCIe LTSSM state transition including state and rate information
++::
++
++    pcie_ltssm_state_transition  "dev: %s state: %s rate: %s\n"
++
++**Parameters**:
++
++* ``dev`` - PCIe root port name
++* ``state`` - PCIe LTSSM state
++* ``rate`` - PCIe bus speed
++
++**Example Usage**:
++
++    # Enable the tracepoint
++    echo 1 > /sys/kernel/debug/tracing/events/pci/pcie_ltssm_state_transition/enable
++
++    # Monitor events (the following output is generated when a device is linking)
++    cat /sys/kernel/debug/tracing/trace_pipe
++       kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
+-- 
+2.7.4
 
-Thanks,
-baolu
