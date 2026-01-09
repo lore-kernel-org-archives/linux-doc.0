@@ -1,151 +1,132 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D373E35B134;
-	Fri,  9 Jan 2026 12:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6246D33D511
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 12:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767961838; cv=none; b=q1H4tjWALW4ILAvbvJ4z0845fp8FZKc5ZMx6ONmMwpzM/3yd6GX5hiZCdWWyW9pv9BxtDaR46oXRLkS0TO0colhD4o+l273YnkrovSXc80AB6v7CiDfvjYVC4mFABIlVVI6cR/fxBEsNUYArAHFyQsbBu/7GbTxcgYP5ONEHQaQ=
+	t=1767962566; cv=none; b=QnFtXBGLokORDwr7GUz/42gEPyPwJzd7QgahrxI43nxVi3fX20VqWf0ftq6i3KaBzH7WGEwi8pzr/QV1G4r1IFP1Nm4UaQEtUXR7Nx1XVlPzxJvIiw1/1CNkVz9moPj3GaH9SrL3HUW/P+1Odv5y5xJNes12Dnh9goKq0hRJBa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767961838; c=relaxed/simple;
-	bh=in5JvqRmDAdB6dX8FGI0EEgnQhCtsywKD5TDJBxjJjU=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UWnRPWl/bxzc3etC+D/hDMXVL629tsfTQoVOMiMHr4DXgk7pPNAhdQZEUneOc/w+kape6VZVYxiHCW05KMIS/DXjn5TcPcQvRZnq3uYsadgoSz0KFqyDJd3ziYR/+Q/KsO8k3hcZNfEBbcMg9f9FA6lIFqBpWd7JloZTbe8Sngo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dnh1h1cXTzHnH7w;
-	Fri,  9 Jan 2026 20:30:16 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 48D4440572;
-	Fri,  9 Jan 2026 20:30:26 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Fri, 9 Jan
- 2026 12:30:24 +0000
-Date: Thu, 8 Jan 2026 16:10:13 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V3 04/21] dax: Add dax_operations for use by fs-dax on
- fsdev dax
-Message-ID: <20260108161013.00001916@huawei.com>
-In-Reply-To: <gqwlb6ept22edcuiwwzxkboeioin6l4afemn3lenbduuwbb357@tnkceo5764vf>
-References: <20260107153244.64703-1-john@groves.net>
-	<20260107153332.64727-1-john@groves.net>
-	<20260107153332.64727-5-john@groves.net>
-	<20260108115037.00003295@huawei.com>
-	<gqwlb6ept22edcuiwwzxkboeioin6l4afemn3lenbduuwbb357@tnkceo5764vf>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767962566; c=relaxed/simple;
+	bh=hZSgLFwm7iWTSCEMlGpJ5EydF3r4Fok2bDOlepHZ5R0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DUnwskXkvbcMBtL1CtbDKwMX0xzxuDw/aQefyV32ZovnLOMUQlobh97RtfKIfFdT5F2ul/y1k8NCzwit4JOTCleukhbogsJBd8FVP0VMXb1O5mIs2oxnU/gVkwZD++iK8C+puObsT9GjG7zojxiVUg9ZNZZ10lp13qJRolHfqsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a76hO02m; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a76hO02m"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5635f6cb32fso489441e0c.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 04:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767962564; x=1768567364; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K3BFu0vu0/p35NSB3GE3KTVvm2WkoyhJD5SPOf/SaeU=;
+        b=a76hO02m2zyU0nn+/0WvJf0A//MgSy24ecK2vgzKwg/rNsXQzflpXEZMsk+Le0Xts+
+         4ei0oXO/MFJG2OzzezPNGz/6+omGmJQ2YYhtRhDOPHpL2csC31xZWDHWf9ClJv117tSE
+         XZ/n9btjige4iDkfmSLcQWYNOR2pBEarYILOOyzRAZhFNRpteCOF52Ti4mpPP4c4z3RF
+         uCTqru6EWkTuyr5qLp6vxVk7ucxz/qhwujUp2g+xIm5AnIBSDsTArBZmn3XcW5kuSEZE
+         /kzYpREkr+bCZ5OKKIkmaMfWTmhv2xI7lzeHl7+1FWmyR3NokEaw8NlnNzM0Ritt4hu0
+         SviQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767962564; x=1768567364;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K3BFu0vu0/p35NSB3GE3KTVvm2WkoyhJD5SPOf/SaeU=;
+        b=FxElfUsl1szzGq0RwFTbdvb3nW24ldmFWUuB8/1BPBxy3hrSp1oQrZj09WFwZeWx5e
+         wep1/L9VB9waa4Oqqxbg8wyk3rBG2nGBcKHZtK8uXl3tStuo+mFjiDecGvUBBcGqJtiv
+         LyGPsTbs5f9zwK3NLBSMkc/amf8ajHLf4agBe5YIaHUWx24WPwQF2FH6PkKjF5PGCZla
+         ZEY8ZsgCq8zcuWZUXQOxoaGHjz7AsAKsterUbu5UXOvcG2vTtox41HSb1u4xp88V/rdC
+         ZnT252b5B/zhT5DiYWgIbVb1lgRzLa8Urc7OnHzn8394suwzTXdV1YucYk0Z/6939UNs
+         aqRw==
+X-Forwarded-Encrypted: i=1; AJvYcCW1nYWErTuq0WTFJDY6WHaH73UBfbQEOpEct4CEu049wXPpRKbUWEAJqcDSI1nN6iCRtZpUjWc/3YE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuP7CXMr1HbTnWFYrdoJVy2e6CwTM5Pd0l+Ds0EBaDi6NR767U
+	RfIMRzTTRgnSyaxc6hytKtk4W2EVKGPwp1LcY1QytmUletzmKj80SEKW
+X-Gm-Gg: AY/fxX53kZ+pzIszQIVP6Olnmh9gXh38HbYmV9bha92A5+UfuKTnfmWvYAT0xUm/ig7
+	axhQQlFNqljqPHaSCy56cDNDIqRJ9MQxVVJRERRokHVc8QjhnR2/T8Y7iizYh590Z4MPAqwuOx8
+	kgp5f0anrjrw6cbDXLXdnQsWYb7nzIWESOw77vSl7MstycKLQzibnrwjWLkXESQqM7KzhBKtn/X
+	jl21XtfQpW0OgsOV6dNF6F/+9tuzrlpiQ1s2zo9pSUSW9YuyHlg0NtoRQ8+0h9O3Tz4wVAMXllX
+	d5d63fWtFCQ1oHVIGj3tVb8kXSP3mvLLtA3ZfQDFaHz6MlqEqJvZnc62MeMmmutKyk6fxRnmvD9
+	qVtJXKnED9uy5+x+IZ2dx3LHwzmn+7fD6cbbEAXSUHR2RbEo3+BshUCfWEiJn+NIIenuVN+uMRc
+	if5WpluREPJAcuUfsOW/o=
+X-Google-Smtp-Source: AGHT+IEFwkm7ZUOXNxPhCYhh26Dl1VpJaAPxMviOBBIXzleuSNVqOAzV6ATr3WWYBcee7gd8DzSzGw==
+X-Received: by 2002:a05:6102:50ac:b0:5ee:a184:35c8 with SMTP id ada2fe7eead31-5eea1843ad8mr1950120137.30.1767962562741;
+        Fri, 09 Jan 2026 04:42:42 -0800 (PST)
+Received: from localhost ([2804:30c:2766:a500:b70:8c42:f792:bef6])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-944124c452asm8625479241.13.2026.01.09.04.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 04:42:41 -0800 (PST)
+Date: Fri, 9 Jan 2026 09:44:28 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Janani Sunil <janani.sunil@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Alexandru Ardelean <alexandru.ardelean@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, jan.sun97@gmail.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: dac: Add max22007
+Message-ID: <aWD4LA7Y1fl3yvh-@debian-BULLSEYE-live-builder-AMD64>
+References: <20260108-max22007-dev-v2-0-2506c738784f@analog.com>
+ <20260108-max22007-dev-v2-1-2506c738784f@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108-max22007-dev-v2-1-2506c738784f@analog.com>
 
-On Thu, 8 Jan 2026 09:59:08 -0600
-John Groves <John@groves.net> wrote:
+Hi Janani,
 
-> On 26/01/08 11:50AM, Jonathan Cameron wrote:
-> > On Wed,  7 Jan 2026 09:33:13 -0600
-> > John Groves <John@Groves.net> wrote:
-> >   
-> > > From: John Groves <John@Groves.net>
-> > >   
-> > Hi John
-> > 
-> > The description should generally make sense without the title.
-> > Sometimes that means more or less repeating the title.
-> > 
-> > A few other things inline.  
+One extra comment in addition to Krzysztof's.
+
+On 01/08, Janani Sunil wrote:
+> Devicetree bindings for MAX22007 4-channel 12-bit DAC that drives a
+> voltage or current output on each channel
 > 
-> Will do
-> 
-> >   
-> > > * These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
-> > > * fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
-> > >   newly stored as dev_dax->virt_addr by dev_dax_probe().
-> > > * The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
-> > >   for read/write (dax_iomap_rw())
-> > > * fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
-> > >   tested yet. I'm looking for suggestions as to how to test those.
-> > > * dax-private.h: add dev_dax->cached_size, which fsdev needs to
-> > >   remember. The dev_dax size cannot change while a driver is bound
-> > >   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
-> > >   at probe time allows fsdev's direct_access path can use it without
-> > >   acquiring dax_dev_rwsem (which isn't exported anyway).
-> > > 
-> > > Signed-off-by: John Groves <john@groves.net>  
-> >   
-> > > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> > > index c5c660b193e5..9e2f83aa2584 100644
-> > > --- a/drivers/dax/fsdev.c
-> > > +++ b/drivers/dax/fsdev.c
-> > > @@ -27,6 +27,81 @@
-> > >   * - No mmap support - all access is through fs-dax/iomap
-> > >   */
-> > >  
-> > > +static void fsdev_write_dax(void *pmem_addr, struct page *page,
-> > > +		unsigned int off, unsigned int len)
-> > > +{
-> > > +	while (len) {
-> > > +		void *mem = kmap_local_page(page);  
-> > 
-> > I guess it's pretty simple, but do we care about HIGHMEM for this
-> > new feature?  Maybe it's just easier to support it than argue about it however ;)  
-> 
-> I think this compiles to zero overhead, and is an established pattern -
-> but I'm ok following a consensus elsewhere...
+> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> ---
+...
+> +
+> +patternProperties:
+> +  "^channel@[0-3]$":
+> +    $ref: /schemas/iio/dac/dac.yaml#
+> +    type: object
+> +    description:
+> +      Represents the external channels which are connected to the DAC.
+> +
+> +    properties:
+> +      reg:
+> +        description: Channel number
+> +        items:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +      adi,ch-func:
+> +        description:
+> +          Channel output type. Use CH_FUNC_VOLTAGE_OUTPUT for voltage
+> +          output or CH_FUNC_CURRENT_OUTPUT for current output.
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [1, 2]
+adi,ad74413r.yaml has many possibilities for the channel output type.
+max22007 is only either voltage or current.
+Can't we do this with output-range-microamp and output-range-microvolt from dac.yaml?
+Figure out the channel type from the output-range- property?
 
-That's fair, probably just keep it.
+> +
+> +    required:
+> +      - reg
+> +      - adi,ch-func
+> +
+> +    unevaluatedProperties: false
 
-> > > +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
-> > > +			long nr_pages, enum dax_access_mode mode, void **kaddr,
-> > > +			unsigned long *pfn)
-> > > +{
-> > > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
-> > > +	size_t size = nr_pages << PAGE_SHIFT;
-> > > +	size_t offset = pgoff << PAGE_SHIFT;
-> > > +	void *virt_addr = dev_dax->virt_addr + offset;
-> > > +	phys_addr_t phys;
-> > > +	unsigned long local_pfn;
-> > > +
-> > > +	WARN_ON(!dev_dax->virt_addr);
-> > > +
-> > > +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);  
-> > 
-> > Use size given you already computed it.  
-> 
-> Not sure I follow. nr_pages is the size of the access or fault, not the size
-> of the device. 
-
-Just above:
-
-size_t size = nr_pages << PAGE_SHIFT;
-
-Jonathan
-
+With best regards,
+Marcelo
