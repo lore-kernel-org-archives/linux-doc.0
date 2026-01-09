@@ -1,125 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9A727465C;
-	Fri,  9 Jan 2026 02:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0E0257825;
+	Fri,  9 Jan 2026 03:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767925623; cv=none; b=K3tK6R1k2WZGmf+VbxO43/wjV7i1hQbfly44r6wxYUYiaJqumeIh1TL84hcwqKUMQOaMzjol2kyl2c2CXJA0qBXJN+a31t6D1OYufjib/os7DeUy1iFz9+7tFTuMaif28Us70wF388OXmRxD0rUyB/Q7kthT9iY1U2Otu0lzWj4=
+	t=1767929305; cv=none; b=OELkRcL54go3m4v1tAvlBaIn/bKMNpVBd1/glNeqDLGVt2JAajFs9WBht97m/pWZaUjEPWO+iw+/w67L/wzIP0hlbkT6eSAvivzkzTkG6OzFIh5KAqZg/sFaLEAJ8n/8X6bEK9+qz8YAgbGTX8lFfmqigtvMmOdYyhPltRnYuhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767925623; c=relaxed/simple;
-	bh=/KCBLBLcf8r3a6KZVBsohReOTxRXrhQzCRY4NGlW7B4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZddQZL/q043WgXdDa8YqqzD05EwPpigogflcm0pel09ehKGIPb15fpAieatXyA/VOIiZIE7kgjQktFC6Seu+/Zv7fntexMufCd5p2xcAeHwBiKSRoK4sOSH087nthfRyay7jZLJxi4103BN4ibANOksgdnjekjBjY+HW46UNbRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWo19iZR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767929305; c=relaxed/simple;
+	bh=y4tYwPF3ZC63Ir+4yC1KcSfjvehP4llbqhsh9Bjl7/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ezuI3ijMF3g2S9dgHXTqTjmPHl13oVPGnqSu6+o0wvr0ez3wbA/yWexVtQS24d14HxEq9t36dLWoEfOCeYUr2RJSAfduQS1XTWa6du0QEiGvNH3OLdGJK//Xru7/ZiFCvW8MgA0GPcOOqY+SKWozaE8i+8U1dVvOaTKhwHEPyQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afRkp4W6; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWo19iZR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CFA3C116C6;
-	Fri,  9 Jan 2026 02:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767925623;
-	bh=/KCBLBLcf8r3a6KZVBsohReOTxRXrhQzCRY4NGlW7B4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IWo19iZR88K61uonWjHoiG/CqWm+XACaOk5i/YW6xUWS3iDgl+Wfj/NbhlcZBOs1p
-	 RO2bOuVi3/L8/HueszuU/KPHcEH6BqVRZh9oj+Fn0uLKkl5akavXkDOy/EBhOHVt1G
-	 sqbsxwk/aTJUayCQC8eHwUPT4RkFvn1ldmgOZxC8VH2WBRlqqspcXNEU3lBvyUNbL2
-	 gI2xOkbrGGwrUyBi/TR0fknoE7yYezRGOEXbOsBskSwcR43ZvuDZXbUMjy3nZK3gpU
-	 gnYbiFjA5al3cMVS4MXRC8gCepG5zFT7GxjX47aLYewVVdrLyEWYiOIv38+EZR6NDi
-	 3EExJHzxcmKbw==
-Date: Fri, 9 Jan 2026 07:57:00 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Udit Tiwari <quic_utiwari@quicinc.com>,
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
-	Md Sadre Alam <mdalam@qti.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
- BAM locking
-Message-ID: <aWBndOfbtweRr0uS@vaman>
-References: <aUFX14nz8cQj8EIb@vaman>
- <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
- <aUF2gj_0svpygHmD@vaman>
- <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
- <aUpyrIvu_kG7DtQm@vaman>
- <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
- <aVZh3hb32r1oVcwG@vaman>
- <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
- <aVf5WUe9cAXZHxPJ@vaman>
- <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afRkp4W6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767929303; x=1799465303;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=y4tYwPF3ZC63Ir+4yC1KcSfjvehP4llbqhsh9Bjl7/k=;
+  b=afRkp4W6KLwUtO4TNBtROPnQx2Jbq0ixXXDnZWte4+wa5tfYGrX5uVh2
+   NrvUiEEFgCB0dJt3mbACdEA9Qm04zx7zdsb1SyozuheSGL2hv6HoICpg9
+   wl0oehYHHB2RbsOgblqyK/OEb5td3a5l0xyzso87epsTskbdwynMp5jCO
+   hx2l74DvKO4DcpMS/j+xYE6eHcFglu995vpCazax1oE8hncwmP/BX9hd2
+   0tcu8Cf3RP8bW2tWbIFAPsI3V1nQXvb4y7JxNNLstaRX7oFUqvB2OXAu1
+   XOQxJjxTSBf7NYNlLqUpXG8sTkhT2v4Qz2Rsmlwm0SeeOBCAOSWyvNYOc
+   A==;
+X-CSE-ConnectionGUID: GHrceak3Ryab9MJKMqBaHQ==
+X-CSE-MsgGUID: Nuk94SToRr6upbBsSGTYbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69296281"
+X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
+   d="scan'208";a="69296281"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 19:28:23 -0800
+X-CSE-ConnectionGUID: 2d2ZBL/rTb2r1726moL31A==
+X-CSE-MsgGUID: A7Och2SKQ2eaTHkkLOcU4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
+   d="scan'208";a="234075920"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 19:28:18 -0800
+Message-ID: <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com>
+Date: Fri, 9 Jan 2026 11:28:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] iommu: debug-pagealloc: Track IOMMU pages
+To: Mostafa Saleh <smostafa@google.com>,
+ Pranjal Shrivastava <praan@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org,
+ robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
+ surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
+ ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
+ rdunlap@infradead.org
+References: <20260106162200.2223655-1-smostafa@google.com>
+ <20260106162200.2223655-4-smostafa@google.com> <aV56BWisUQTMK2Gk@google.com>
+ <aV-PvBqQ0Ktiha8e@google.com>
+ <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 02-01-26, 18:14, Bartosz Golaszewski wrote:
-> On Fri, Jan 2, 2026 at 5:59 PM Vinod Koul <vkoul@kernel.org> wrote:
-> >
-> > On 02-01-26, 10:26, Bartosz Golaszewski wrote:
-> > > On Thu, Jan 1, 2026 at 1:00 PM Vinod Koul <vkoul@kernel.org> wrote:
-> > > >
-> > > > > >
-> > > > > > > It will perform register I/O with DMA using the BAM locking mechanism
-> > > > > > > for synchronization. Currently linux doesn't use BAM locking and is
-> > > > > > > using CPU for register I/O so trying to access locked registers will
-> > > > > > > result in external abort. I'm trying to make the QCE driver use DMA
-> > > > > > > for register I/O AND use BAM locking. To that end: we need to pass
-> > > > > > > information about wanting the command descriptor to contain the
-> > > > > > > LOCK/UNLOCK flag (this is what we set here in the hardware descriptor)
-> > > > > > > from the QCE driver to the BAM driver. I initially used a global flag.
-> > > > > > > Dmitry said it's too Qualcomm-specific and to use metadata instead.
-> > > > > > > This is what I did in this version.
-> > > > > >
-> > > > > > Okay, how will client figure out should it set the lock or not? What are
-> > > > > > the conditions where the lock is set or not set by client..?
-> > > > > >
-> > > > >
-> > > > > I'm not sure what you refer to as "client". The user of the BAM engine
-> > > > > - the crypto driver? If so - we convert it to always lock/unlock
-> > > > > assuming the TA *may* use it and it's better to be safe. Other users
-> > > > > are not affected.
-> > > >
-> > > > Client are users of dmaengine. So how does the crypto driver figure out
-> > > > when to lock/unlock. Why not do this always...?
-> > > >
-> > >
-> > > It *does* do it always. We assume the TA may be doing it so the crypto
-> > > driver is converted to *always* perform register I/O with DMA *and* to
-> > > always lock the BAM for each transaction later in the series. This is
-> > > why Dmitry inquired whether all the HW with upstream support actually
-> > > supports the lock semantics.
-> >
-> > Okay then why do we need an API?
-> >
-> > Just lock it always and set the bits in the dma driver
-> >
+On 1/8/26 19:33, Mostafa Saleh wrote:
+> I have this, it should have the same effect + a WARN, I will include
+> it in the new version
 > 
-> We need an API because we send a locking descriptor, then a regular
-> descriptor (or descriptors) for the actual transaction(s) and then an
-> unlocking descriptor. It's a thing the user of the DMA engine needs to
-> decide on, not the DMA engine itself.
+> diff --git a/drivers/iommu/iommu-debug-pagealloc.c
+> b/drivers/iommu/iommu-debug-pagealloc.c
+> index 5353417e64f9..64ec0795fe4c 100644
+> --- a/drivers/iommu/iommu-debug-pagealloc.c
+> +++ b/drivers/iommu/iommu-debug-pagealloc.c
+> @@ -146,16 +146,12 @@ void __iommu_debug_unmap_end(struct iommu_domain *domain,
+>          if (unmapped == size)
+>                  return;
+> 
+> -       /*
+> -        * If unmap failed, re-increment the refcount, but if it unmapped
+> -        * larger size, decrement the extra part.
+> -        */
+> +       /* If unmap failed, re-increment the refcount. */
+>          if (unmapped < size)
+>                  __iommu_debug_update_iova(domain, iova + unmapped,
+>                                            size - unmapped, true);
+>          else
+> -               __iommu_debug_update_iova(domain, iova + size,
+> -                                         unmapped - size, false);
+> +               WARN_ONCE(1, "iommu: unmap larger than requested is
+> not supported in debug_pagealloc\n");
+>   }
+> 
+>   void iommu_debug_init(void)
 
-I think downstream sends lock descriptor always. What is the harm in
-doing that every time if we go down that path?
-Reg Dmitry question above, this is dma hw capability, how will client
-know if it has to lock on older rev of hardware or not...?
+How aobut
 
-> Also: only the crypto engine needs it for now, not all the other users
-> of the BAM engine.
+	if ((unmapped == size) || WARN_ON_ONCE(unmapped > size))
+		return;
 
-But they might eventually right?
+	/* If unmap failed, re-increment the refcount. */
+	__iommu_debug_update_iova(domain, iova + unmapped, size - unmapped, true);
 
--- 
-~Vinod
+?
+
+Thanks,
+baolu
