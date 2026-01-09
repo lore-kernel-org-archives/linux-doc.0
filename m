@@ -1,121 +1,93 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A4D1925BC;
-	Fri,  9 Jan 2026 08:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABE31C3C08;
+	Fri,  9 Jan 2026 08:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767945792; cv=none; b=NPFuhy7trER1m13xTajMQ721luRbtDhCkGAsqD4+7zdW/DgJpanYJSdfCQjHW68fKpzhNIticsD6NBlh4inqA9Oj3yBbXgBeh0dUzuKOEhXrJUpvVylqmOksOlvcpun12NFv+PoN5gKUP5HzaRcG6A+1tHRgnfAQIzrEeO2RB0I=
+	t=1767946421; cv=none; b=A4maF9G5EhGa90DIojS31MjNV/NUNS1YrJ+2JZpAzMMLPvGPPbo0WzUdNe/Z/3xNv/1LPrT+h8BDhBPJEt3EpvJef+IXkiD1os049EEOftlgGbmpTYFt0l58Jv6OitJmcoshwUW5LsOz5CfnA4fbS/a32xORV9dKuMPm0yVGXW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767945792; c=relaxed/simple;
-	bh=qpKkiEmSndwjicxjhbSkEm+OqKkOEZYFr+38yoapT18=;
+	s=arc-20240116; t=1767946421; c=relaxed/simple;
+	bh=r/erEuy3pBZbULEjILIvyFOlJleDD18wjFOmATsVr04=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXpKSllX8aiJvAicU/q+DdrvPlphcBnED/1HDhRWomNotq/D3prUIdgqthJNnHQZbcecKgW7Ji8y5uPFJoOp7Yk6q7QP79bh+NJnyX4uHt1fnnuzTYyoyESjvxNegiUicGphXcC85fmnJ1cWsDw8N/85v79rS1TyIyIAkB1F2G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=u/G6UHBR; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=JdufMOQPTppVcv4467PPK/Agp9XfCMh9KYGjQAg5qmk0Zz9/xvVnzhvNYVwwH6QXaE4XE0fIboCXYAURV772dhZm279Het0szPVMCCoL1UufoSEZBetUU67E2f6zgZxdVQ0yWXFVzOqGorvbq09YEZx9yeIZ9sK/nI8aFNF9/6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+mStinH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="u/G6UHBR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qpKkiEmSndwjicxjhbSkEm+OqKkOEZYFr+38yoapT18=; b=u/G6UHBR+5ow337c1JghYNJWDu
-	469UvSVDGO6+YNoToIhvNpY/ayIALEDFf83grTS2D6y7ywOIZRCy3/iCq0ZM8cD9AQ7+fvI6fMS/l
-	VjLYtprYxFtgUJOLkBpfkNoCRVxT2oFQ6XhbJajtpb60QimL+reK7hwOJ+F5oKdDQQZtNH32mdj0Y
-	NYtK4gqyLHxfqzyBhdXj9XmvkLhDu8ED96O2oCUUKK/NOkC2O3HxcO7BSos4TaDLom8xvGFiEVG6n
-	uXxgBBpevz0vRplri8JSg/0oY1M5QY6lVD/kkliK7tKRqWXLpEXX/jLge7VyyPvx2QBNIuYZ8+750
-	dpDI5izw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99 #2 (Red Hat Linux))
-	id 1ve7TD-0000000F7AZ-0jA4;
-	Fri, 09 Jan 2026 08:03:43 +0000
-Date: Fri, 9 Jan 2026 08:03:43 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	Nicolas Pitre <nico@fluxnic.net>,
-	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
-	Anders Larsen <al@alarsen.net>,
-	Christian Brauner <brauner@kernel.org>,
-	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Phillip Lougher <phillip@squashfs.org.uk>,
-	Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
-	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
-	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-mm@kvack.org, gfs2@lists.linux.dev, linux-doc@vger.kernel.org,
-	v9fs@lists.linux.dev, ceph-devel@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org
-Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to
- lease support
-Message-ID: <20260109080343.GA3634291@ZenIV>
-References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+mStinH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D87FAC4CEF1;
+	Fri,  9 Jan 2026 08:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767946421;
+	bh=r/erEuy3pBZbULEjILIvyFOlJleDD18wjFOmATsVr04=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X+mStinHrLcWf09DUi/jOjLRJonG6eypOwi1snmQfvX6n0HGijXT6oI2ZXNwRMAiP
+	 VS0pLHMr6jc/DbjEnfgO9qjvcFX4bYt15uxkVg4gIAfRgZTSwj063c95/OWQWKrDEo
+	 ijRvrCfKG0KhKyUAX0K5WDFTtlLC/a5H9IJZgku36GZ9ukgsd8x2kZM1RY/dY8hslN
+	 rER1l44AYlCPUR05KcIf5sishUxmHhByXjpEk01jsVlJ/ei9EpQNhe0PV3BmZ26qdx
+	 j6HNF3GsVAfoH14fyKHbSoovGFaRu27xR2c8ESI9qCLDE/qIIOuBTH1kbLjscsxiDV
+	 goZdKWNY92F/w==
+Date: Fri, 9 Jan 2026 09:13:38 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 1/6] dt-bindings: iio: frequency: add adf41513
+Message-ID: <20260109-translucent-violet-smilodon-ed1917@quoll>
+References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
+ <20260108-adf41513-iio-driver-v3-1-23d1371aef48@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20260108-adf41513-iio-driver-v3-1-23d1371aef48@analog.com>
 
-On Thu, Jan 08, 2026 at 12:12:55PM -0500, Jeff Layton wrote:
+On Thu, Jan 08, 2026 at 12:14:50PM +0000, Rodrigo Alencar wrote:
+> +examples:
+> +  - |
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pll@0 {
+> +            compatible = "adi,adf41513";
+> +            reg = <0>;
+> +            spi-max-frequency = <10000000>;
+> +            clocks = <&ref_clk>;
+> +            avdd1-supply = <&vdd_3v3>;
+> +            avdd2-supply = <&vdd_3v3>;
+> +            avdd3-supply = <&vdd_3v3>;
+> +            avdd4-supply = <&vdd_3v3>;
+> +            avdd5-supply = <&vdd_3v3>;
+> +            vp-supply = <&vdd_3v3>;
+> +
+> +            adi,power-up-frequency-mhz = <12000>;
+> +            adi,charge-pump-current-microamp = <2400>;
+> +            adi,phase-detector-polarity-positive-enable;
+> +        };
+> +    };
 
-> I mainly focused on filesystems that are NFS exportable, since NFS and
-> SMB are the main users of file leases, and they tend to end up exporting
-> the same filesystem types. Let me know if I've missed any.
+One example - more complete, so the next one - is enough. They do not
+differ.
 
-Series looks sane and I don't see any obvious gaps.
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pll@0 {
+> +            compatible = "adi,adf41513";
 
-Acked-by: Al Viro <viro@zeniv.linux.org.uk>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+Best regards,
+Krzysztof
+
