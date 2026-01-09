@@ -1,199 +1,198 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6F9365A0F
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 17:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DE735CB7C
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 17:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767979102; cv=none; b=hNH5C9/VHC+PN15bF8iw7PAYHvtUZmrhMaWdwYrM7RC11GF1XQ1R8zBCKQz9Qqm83RggH5/sWovNu3RgMK8ntBNbGoH2/xHaY7T1/kRidqupCTFMXodiciktPf2b/4ZpjklRtqrK94h+ssdhQtRSQq1+L6BBZxj+XHqAQ1kt/04=
+	t=1767979522; cv=none; b=tfsmFtOKETcpcr112DCrhyIGrNlvWWR37YWaiiwEAztdX3WNntdgmVWpbCC6P0sk/BF6aGwhoBL3BZleh8t7+BLeOOwhRuSU74Y4cid4fKN3zxzoGCwcLZ19sqCwTl5nkK7wJ2EuGDxGxTk+EMr1iqHoaYf+D04sIXnW2ADMe+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767979102; c=relaxed/simple;
-	bh=0zzYxycXQ+kI4IOQMPNP1Taa4EJAWWJz6xTPzxIuMvU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tga5BNdu1BhHGaFpF3dVb4pGQfCTkAeqjwQx60XLhW2thjffSvanfFYup5WKENuLitGAAsoIpp4E2lLhObPDwsDjCUB8U6Q/67vzyfahDA4Car2st4nnCwA06Q3hJtbRkfItQSaDjsafIOy+izjF4v7eImXNDPjai6nTevvW/Zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UBfgO45E; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+	s=arc-20240116; t=1767979522; c=relaxed/simple;
+	bh=/O8AGckikQsGEk2VgZjiLCCH2+lzSgF3oJChkruIEXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kJYKEI0Vx6Ew8aRiIkC83dVFXaNzpgIxdXVfxUmEHIotZbb1yaiBvTIRlnxfkKCbDWCYkbozSllNjFIhJ3MPoEZAprEy6aMo612Bh+VN0Xob9rhsuBUvGvsh4bCbhlUSmJiljflnQo/XPLk/wtUtCKnKCqiuXLtkO9ImD9Zlh+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bvOoIDs7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7ZwOm6iL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bvOoIDs7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7ZwOm6iL; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UBfgO45E"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-47775585257so30933995e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 09:18:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767979096; x=1768583896; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z5ROaQbDPNg/Pz9koleFUeugi8CxogCP+iCj0oWGRhs=;
-        b=UBfgO45E24Mj9EGXvzI6Zb3I9acULzhAuukxorGCmY5GWBIa4+I2QCHM8iZhjpIiRv
-         ETFjH2bxpMfI6oki9pFG6XgyJZffdUIz9iWj7OxCo9XXh4PkOGBvBMhHpYC3DBIMIP+o
-         H3Vgo/tCnkQYHrfPIyU34kWBjTfcX2d7ZgRr0/DPZ2ruGoS8Aa/XcIX8ln6+DESZrkmS
-         IruN39YUiViEx8YM0J96JCiebyGj62edtjmyYum1tP9D38kt8x5M2TwA+ij7sCOX0l0u
-         TdYvPfIfmJq+3o9/kp5vGPg8cBzyYP7xjPCIWc+6a9JwZhSlVUEeiIe/kBg2s5Wq0zVD
-         KhKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767979096; x=1768583896;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Z5ROaQbDPNg/Pz9koleFUeugi8CxogCP+iCj0oWGRhs=;
-        b=he26YghgR6Rz+eDzhB/2GnfektCliVK68RGQ51mhpMGFkTRVEI0HJcIYY0J6t7tGma
-         6M4Q/58ygXzaOnmaAGUdqSTe22rvL9+Z1RJXXKN2PO8s06h9zG+Z49Kht6eqjrgYLIIK
-         ETcXF6E+7XCtRdiKMHdoGeSB4VhSH0wlsB4R9V2/ShpTMDK9reDHQWGIJ0c6lxqVy5lK
-         Nssld8iDinQ+wQzVdGGjTB0ZT0dZlx3tMdShhfoa98tgCpLVbPTQ6LZu2hYo1J8Obmgc
-         HEPjjfXbfNXW2UcyhLofhf48Ox61nxY+Dy6g3h8mO5vZqyoJm5zLumG3bYMyyO5mup7w
-         RTEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQg0axWWaFd3k5quftvFqfr7oyQFWFhsr/0pF+zCkJ+fJEQJtV4NnX8vngBaoOAQH1K9ttn+oAxHA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHVreK9BfimH5pZwliJUMBFz4nEpqYoBcwYJTImhaXrUT+XsNx
-	LjU3NCCboZ4TXHPSKy0g2mMoOp7+5fd9DAetg1pHzFF9MWfYbCniaLTfw+UMReUa5unMcWSlMbW
-	VeXsC3c3FGUu3DQ==
-X-Google-Smtp-Source: AGHT+IGOoyMNz9SX5heA0+Ad8u3Mb3ue4F3q3Dm7Zb68ZiR2w+PZXKYiFFyi252YwvzslTXfx08Zaf+yul64YA==
-X-Received: from wmcq2.prod.google.com ([2002:a05:600c:c102:b0:47b:daaa:51cf])
- (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:458e:b0:47b:e29f:e067 with SMTP id 5b1f17b1804b1-47d84b0b21dmr111247725e9.6.1767979096375;
- Fri, 09 Jan 2026 09:18:16 -0800 (PST)
-Date: Fri,  9 Jan 2026 17:18:05 +0000
-In-Reply-To: <20260109171805.901995-1-smostafa@google.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bvOoIDs7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7ZwOm6iL";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bvOoIDs7";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7ZwOm6iL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B921333B2A;
+	Fri,  9 Jan 2026 17:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767979519;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
+	b=bvOoIDs7/FD4+TJqaNRPfdqDk9XOeCUK4Qnj7czNyqMMga1j2oxDg//84KKioY1MklpLwz
+	GSOEFKlNQ7dkKstAXr8m1apj/gakeS7HZ8W9D02CtCQ8hUWdDJdOoJZSaboKRMAzUpg7Fp
+	ZtxchutrGdCDfypEnkJFi/Q6Z+0qgzg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767979519;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
+	b=7ZwOm6iLW0FI0UWzh5XVXuKWebgN6dUcWAm9YZsgVrq9aZxrH0TtpW7TfrFUK4aLQpb7OQ
+	xxcA8a0xRIdYUOCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bvOoIDs7;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7ZwOm6iL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767979519;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
+	b=bvOoIDs7/FD4+TJqaNRPfdqDk9XOeCUK4Qnj7czNyqMMga1j2oxDg//84KKioY1MklpLwz
+	GSOEFKlNQ7dkKstAXr8m1apj/gakeS7HZ8W9D02CtCQ8hUWdDJdOoJZSaboKRMAzUpg7Fp
+	ZtxchutrGdCDfypEnkJFi/Q6Z+0qgzg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767979519;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yUEYvhKBMjQ9cDhL3UrBgPdkiWe/BzLX+02LYLgRBTg=;
+	b=7ZwOm6iLW0FI0UWzh5XVXuKWebgN6dUcWAm9YZsgVrq9aZxrH0TtpW7TfrFUK4aLQpb7OQ
+	xxcA8a0xRIdYUOCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57AC33EA63;
+	Fri,  9 Jan 2026 17:25:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Js76EP85YWlAWwAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Fri, 09 Jan 2026 17:25:19 +0000
+Date: Fri, 9 Jan 2026 18:25:17 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation: bug-hunting.rst: Remove wrong 'file:'
+ syntax
+Message-ID: <20260109172517.GA102040@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20260109152336.84674-1-pvorel@suse.cz>
+ <874iou4wde.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260109171805.901995-1-smostafa@google.com>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-Message-ID: <20260109171805.901995-5-smostafa@google.com>
-Subject: [PATCH v6 4/4] iommu: debug-pagealloc: Check mapped/unmapped kernel memory
-From: Mostafa Saleh <smostafa@google.com>
-To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
-	Mostafa Saleh <smostafa@google.com>, Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <874iou4wde.fsf@trenco.lwn.net>
+X-Spam-Score: -3.71
+X-Spamd-Result: default: False [-3.71 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:replyto,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: B921333B2A
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Now, as the page_ext holds count of IOMMU mappings, we can use it to
-assert that any page allocated/freed is indeed not in the IOMMU.
+Hi Jonathan, all,
 
-The sanitizer doesn=E2=80=99t protect against mapping/unmapping during this
-period. However, that=E2=80=99s less harmful as the page is not used by the
-kernel.
+> Thanks for working to improve our docs
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
- drivers/iommu/iommu-debug-pagealloc.c | 23 +++++++++++++++++++++++
- include/linux/iommu-debug-pagealloc.h | 14 ++++++++++++++
- include/linux/mm.h                    |  5 +++++
- 3 files changed, 42 insertions(+)
+> Petr Vorel <pvorel@suse.cz> writes:
 
-diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-de=
-bug-pagealloc.c
-index 9eb49e1230ee..c080a38f45a4 100644
---- a/drivers/iommu/iommu-debug-pagealloc.c
-+++ b/drivers/iommu/iommu-debug-pagealloc.c
-@@ -9,6 +9,7 @@
- #include <linux/iommu-debug-pagealloc.h>
- #include <linux/kernel.h>
- #include <linux/page_ext.h>
-+#include <linux/page_owner.h>
-=20
- #include "iommu-priv.h"
-=20
-@@ -73,6 +74,28 @@ static size_t iommu_debug_page_size(struct iommu_domain =
-*domain)
- 	return 1UL << __ffs(domain->pgsize_bitmap);
- }
-=20
-+static bool iommu_debug_page_count(const struct page *page)
-+{
-+	unsigned int ref;
-+	struct page_ext *page_ext =3D page_ext_get(page);
-+	struct iommu_debug_metadata *d =3D get_iommu_data(page_ext);
-+
-+	ref =3D atomic_read(&d->ref);
-+	page_ext_put(page_ext);
-+	return ref !=3D 0;
-+}
-+
-+void __iommu_debug_check_unmapped(const struct page *page, int numpages)
-+{
-+	while (numpages--) {
-+		if (WARN_ON(iommu_debug_page_count(page))) {
-+			pr_warn("iommu: Detected page leak!\n");
-+			dump_page_owner(page);
-+		}
-+		page++;
-+	}
-+}
-+
- void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size=
-_t size)
- {
- 	size_t off, end;
-diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-de=
-bug-pagealloc.h
-index a439d6815ca1..46c3c1f70150 100644
---- a/include/linux/iommu-debug-pagealloc.h
-+++ b/include/linux/iommu-debug-pagealloc.h
-@@ -13,6 +13,20 @@ DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
-=20
- extern struct page_ext_operations page_iommu_debug_ops;
-=20
-+void __iommu_debug_check_unmapped(const struct page *page, int numpages);
-+
-+static inline void iommu_debug_check_unmapped(const struct page *page, int=
- numpages)
-+{
-+	if (static_branch_unlikely(&iommu_debug_initialized))
-+		__iommu_debug_check_unmapped(page, numpages);
-+}
-+
-+#else
-+static inline void iommu_debug_check_unmapped(const struct page *page,
-+					      int numpages)
-+{
-+}
-+
- #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
-=20
- #endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 6f959d8ca4b4..32205d2a24b2 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -36,6 +36,7 @@
- #include <linux/rcuwait.h>
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
-+#include <linux/iommu-debug-pagealloc.h>
-=20
- struct mempolicy;
- struct anon_vma;
-@@ -4133,12 +4134,16 @@ extern void __kernel_map_pages(struct page *page, i=
-nt numpages, int enable);
- #ifdef CONFIG_DEBUG_PAGEALLOC
- static inline void debug_pagealloc_map_pages(struct page *page, int numpag=
-es)
- {
-+	iommu_debug_check_unmapped(page, numpages);
-+
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 1);
- }
-=20
- static inline void debug_pagealloc_unmap_pages(struct page *page, int nump=
-ages)
- {
-+	iommu_debug_check_unmapped(page, numpages);
-+
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 0);
- }
---=20
-2.52.0.457.g6b5491de43-goog
+> > Link to another document does not require 'file:', therefore it was
+> > shown in generated html.
 
+> > Preformatted text requires just ``...``.
+
+> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > ---
+> >  Documentation/admin-guide/bug-hunting.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+
+> > diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
+> > index 7da0504388ece..32b1b0c3d7ee4 100644
+> > --- a/Documentation/admin-guide/bug-hunting.rst
+> > +++ b/Documentation/admin-guide/bug-hunting.rst
+> > @@ -52,14 +52,14 @@ line is usually required to identify and handle the bug. Along this chapter,
+> >  we'll refer to "Oops" for all kinds of stack traces that need to be analyzed.
+
+> >  If the kernel is compiled with ``CONFIG_DEBUG_INFO``, you can enhance the
+> > -quality of the stack trace by using file:`scripts/decode_stacktrace.sh`.
+> > +quality of the stack trace by using ``scripts/decode_stacktrace.sh``.
+
+> >  Modules linked in
+> >  -----------------
+
+> >  Modules that are tainted or are being loaded or unloaded are marked with
+> >  "(...)", where the taint flags are described in
+> > -file:`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
+> > +`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
+
+> Can I ask you to remove the `quotes` too?  They aren't needed and can
+> prevent the automarkup code from doing its thing.
+
+Do you mean to really show the name of the file (no html link)?
+
+Documentation/admin-guide/tainted-kernels.rst, "being loaded" is
+
+This shows Documentation/admin-guide/tainted-kernels.rst in generated html.
+
+But `Documentation/admin-guide/tainted-kernels.rst` will have link:
+
+Text:
+Tainted kernels, “being loaded”
+
+Real XHTML:
+<a class="reference internal" href="tainted-kernels.html"><span class="doc">Tainted kernels</span></a>
+, “being loaded” is
+
+I think in generated HTML is better to have clickable links than show filename.
+And if one clicks to the link (https://docs.kernel.org/admin-guide/tainted-kernels.html)
+it will see "Page source" link
+(https://docs.kernel.org/_sources/admin-guide/tainted-kernels.rst.txt, just one
+needs to remove ".txt" from URL).
+
+Kind regards,
+Petr
+
+> Thanks,
+
+> jon
