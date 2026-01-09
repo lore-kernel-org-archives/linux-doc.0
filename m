@@ -1,238 +1,602 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out28-194.mail.aliyun.com (out28-194.mail.aliyun.com [115.124.28.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5453587CA
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 09:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B03023EAAF;
+	Fri,  9 Jan 2026 10:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767951715; cv=none; b=bhfPNEpl+co7l9Cgh0TYnmzuD4sM3K9hG63/8XM9qGd9LtOxmw2hkSUneA1109HPW02LkIrQLtg/K5tTuILi0StKqcjKmmwXWctERZ14rExcnvTbf30zBDb0YVcUSViB3xyWktlbLetHBxrozQx9cXmrWqtU4uZmWxOtvRLhhVA=
+	t=1767952963; cv=none; b=pWehKh+ec952Z7XwNoj8xqJT3kyYEOUeoLm57q2jopd5/cLKcT9Pi5ysiFf3b/mVTKPOXxb0a1l2RNYgpgIuM9JGnaSC/tfop+L9cA7dV54AY/CU6DkLR9atW2RMis47yP2aj3jrnUNY3j/ZryCux5luPb1AdW6IjcU5Rtv+WRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767951715; c=relaxed/simple;
-	bh=bKwgOMskqdA4tPkhNa8kIBmSirTsMELfV9ZLK6lKs+4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=dqaUrHcSgZpqr9b1ka6qwWumTf2yABRBmx6z9/vOcXGzNaqltBlgYGKevlLaPk/Dvi1gmtdcmkdNOkbcF4K9ECedaRa+TA6nu1toFTsbZ/pgidDeLluIyhXC0yNHLAGp3N20+GDkGa/NSiOkHHiwch55gULvNH7oiV4+k9Za2vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sI+e2yT7; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sI+e2yT7"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1767951701;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H+5FiipzRYj/oIjJJysJmQ8HBc7MSXAZ4RNJB55yPyY=;
-	b=sI+e2yT7/nZDArPgy8eiHaymz5EezHYFHyu0NJ6rmCLH8yjTShwgyHzFSj1UwbIjydzr7c
-	1kJIzCPOLTs+EUR5zLUH9s+RDftQPHWmHhzz0jjuhvbPXyNNu1e7mC54TFgYpszg6VIJH2
-	beFzsfBmxCn4xiofn0KDApdwZ0CwMPs=
+	s=arc-20240116; t=1767952963; c=relaxed/simple;
+	bh=diA792uACsIMLt1rAqvSVGQS+7rx9BDOYL6xlC+Wvxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BgXU24F8gysD+VXnNOnu/707+Ph6sFGs3xZ90F17OnYe+JtE6aHWqXO39wHsVGCiaYH5RE+9spF8r4+c5bmH6f6o749VQWHYEIVD9GFA9fX0JNUdOlJ4vWIe82kt9AW8pVH5GWyDanK+4OskGV0DVYYGE8IPcl6+DWo/kT44dGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.g2QQAZd_1767952948 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 09 Jan 2026 18:02:29 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	lorenzo@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 net-next 03/15] net/nebula-matrix: add HW layer definitions and implementation
+Date: Fri,  9 Jan 2026 18:01:21 +0800
+Message-ID: <20260109100146.63569-4-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260109100146.63569-1-illusion.wang@nebula-matrix.com>
+References: <20260109100146.63569-1-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <fwgrsslq74vk4dhkuh5hji3xnrql7nxuia6wdeexjltzb4feh3@nbshswn3egkb>
-Date: Fri, 9 Jan 2026 17:40:47 +0800
-Cc: Matthew Wilcox <willy@infradead.org>,
- Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>,
- Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BFCB39D2-20F9-4059-8F54-9029208C37BE@linux.dev>
-References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
- <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
- <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
- <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
- <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
- <yup3hvfsn4tvfnv32mdf4yoabt4igb2lkvllfac72g3abdkovm@auqdaijzby7d>
- <fwgrsslq74vk4dhkuh5hji3xnrql7nxuia6wdeexjltzb4feh3@nbshswn3egkb>
-To: Kiryl Shutsemau <kas@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+add HW layer related definitions and product ops
 
+Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
+---
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |   4 +-
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |  11 ++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  | 179 ++++++++++++++++++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  13 ++
+ .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     | 156 +++++++++++++++
+ .../nbl/nbl_include/nbl_def_hw.h              |  23 +++
+ .../nbl/nbl_include/nbl_include.h             |  14 ++
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  19 +-
+ 8 files changed, 416 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
 
-> On Jan 8, 2026, at 21:30, Kiryl Shutsemau <kas@kernel.org> wrote:
->=20
-> On Thu, Jan 08, 2026 at 12:32:47PM +0000, Kiryl Shutsemau wrote:
->> On Thu, Jan 08, 2026 at 12:08:35AM +0100, David Hildenbrand (Red Hat) =
-wrote:
->>>>> "Then we make page->compound_head point to the dynamically =
-allocated memdesc
->>>>> rather than the first page. Then we can transition to the above =
-layout. "
->>>>=20
->>>=20
->>> Sorry for the late reply, it's been a bit crazy over here.
->>>=20
->>>> I am not sure I understand how it is going to work.
->>>>=20
->>>=20
->>> I don't recall all the details that Willy shared over the last years =
-while
->>> working on folios, but I will try to answer as best as I can from =
-the top of
->>> my head. (there are plenty of resources on the list, on the web, in =
-his
->>> presentations etc.).
->>>=20
->>>> 32-byte layout indicates that flags will stay in the statically
->>>> allocated part, but most (all?) flags are in the head page and we =
-would
->>>> need a way to redirect from tail to head in the statically =
-allocated
->>>> pages.
->>>=20
->>> When working with folios we will never go through the head page =
-flags.
->>> That's why Willy has incrementally converted most folio code that =
-worked on
->>> pages to work on folios.
->>>=20
->>> For example, PageUptodate() does a
->>>=20
->>> folio_test_uptodate(page_folio(page));
->>>=20
->>> The flags in the 32-byte layout will be used by some non-folio =
-things for
->>> which we won't allocate memdescs (just yet) (e.g., free pages in the =
-buddy
->>> and other things that does not require a lot of metadata). Some of =
-these
->>> flags will be moved into the memdesc pointer in the future as the =
-conversion
->>> proceeeds.
->>=20
->> Okay, makes sense.
->>=20
->>>>> The "memdesc" could be a pointer to a "struct folio" that is =
-allocated from
->>>>> the slab.
->>>>>=20
->>>>> So in the new memdesc world, all pages part of a folio will point =
-at the
->>>>> allocated "struct folio", not the head page where "struct folio" =
-currently
->>>>> overlays "struct page".
->>>>>=20
->>>>> That would mean that the proposal in this patch set will have to =
-be reverted
->>>>> again.
->>>>>=20
->>>>>=20
->>>>> At LPC, Willy said that he wants to have something out there in =
-the first
->>>>> half of 2026.
->>>>=20
->>>> Okay, seems ambitious to me.
->>>=20
->>> When the program was called "2025" I considered it very ambitious :) =
-Now I
->>> consider it ambitious. I think Willy already shared early versions =
-of the
->>> "struct slab" split and the "struct ptdesc" split recently on the =
-list.
->>>=20
->>>>=20
->>>> Last time I asked, we had no idea how much performance would =
-additional
->>>> indirection cost us. Do we have a clue?
->>>=20
->>> I raised that in the past, and I think the answer I got was that
->>>=20
->>> (a) We always had these indirection cost when going from tail page =
-to
->>>    head page / folio.
->>> (b) We must convert the code to do as little page_folio() as =
-possible.
->>>    That's why we saw so much code conversion to stop working on =
-pages
->>>    and only work on folios.
->>>=20
->>> There are certainly cases where we cannot currently avoid the =
-indirection,
->>> like when we traverse a page table and go
->>>=20
->>> pfn -> page -> folio
->>>=20
->>> and cannot simply go
->>>=20
->>> pfn -> folio
->>>=20
->>> On the bright side, we'll lose the head-page checks and can simply
->>> dereference the pointer.
->>>=20
->>> I don't know whether Willy has more information yet, but I would =
-assume that
->>> in most cases this will be similar to the performance summary in =
-your cover
->>> letter: "... has shown either no change or only a slight improvement =
-within
->>> the noise.", just that it will be "only a slight degradation within =
-the
->>> noise". :)
->>>=20
->>> We'll learn I guess, in particular which other page -> folio =
-conversions
->>> cannot be optimized out by caching the folio.
->>>=20
->>>=20
->>> For quite some time there will be a magical config option that will =
-switch
->>> between both layouts. I'd assume that things will get more =
-complicated if we
->>> suddenly have a "compound_head/folio" pointer and a "compound_info" =
-pointer
->>> at the same time.
->>>=20
->>> But it's really Willy who has the concept in mind as he is very =
-likely right
->>> now busy writing some of that code.
->>>=20
->>> I'm just the messenger.
->>>=20
->>> :)
->>>=20
->>> [I would hope that Willy could share his thoughts]
->>=20
->> If you or Willy think that this patch will impede memdesc progress, I =
-am
->> okay not pushing this patchset upstream.
->=20
-> Or other option is to get this patchset upstream (I need to fix/test =
-few
-> things still) and revert it later when (if?) memdesc lands.
->=20
-> What do you think?
-
-It seems the merge of memdesc is still some time away? If it=E2=80=99s =
-going to
-take a while, my personal preference is to merge it first and then =
-decide
-whether to revert the changes based on actual needs.
-
-Thanks.
-
->=20
-> --=20
->  Kiryl Shutsemau / Kirill A. Shutemov
-
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+index df16a3436a5c..d5cadc289366 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/Makefile
++++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+@@ -4,8 +4,10 @@
+ 
+ obj-$(CONFIG_NBL_CORE) := nbl_core.o
+ 
+-nbl_core-objs +=      nbl_main.o
++nbl_core-objs +=      nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
++				nbl_main.o
+ 
+ # Provide include files
+ ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/
++ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw
+ ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+index 4e2618bef23a..33ed810ec7d0 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+@@ -9,12 +9,16 @@
+ 
+ #include <linux/pci.h>
+ #include "nbl_product_base.h"
++#include "nbl_def_hw.h"
+ #include "nbl_def_common.h"
+ 
+ #define NBL_ADAP_TO_PDEV(adapter)		((adapter)->pdev)
+ #define NBL_ADAP_TO_DEV(adapter)		(&((adapter)->pdev->dev))
+ #define NBL_ADAP_TO_COMMON(adapter)		(&((adapter)->common))
+ #define NBL_ADAP_TO_RPDUCT_BASE_OPS(adapter)	((adapter)->product_base_ops)
++
++#define NBL_ADAP_TO_HW_MGT(adapter) ((adapter)->core.hw_mgt)
++#define NBL_ADAP_TO_HW_OPS_TBL(adapter) ((adapter)->intf.hw_ops_tbl)
+ #define NBL_CAP_TEST_BIT(val, loc) (((val) >> (loc)) & 0x1)
+ 
+ #define NBL_CAP_IS_CTRL(val) NBL_CAP_TEST_BIT(val, NBL_CAP_HAS_CTRL_BIT)
+@@ -34,9 +38,16 @@ enum {
+ };
+ 
+ struct nbl_interface {
++	struct nbl_hw_ops_tbl *hw_ops_tbl;
+ };
+ 
+ struct nbl_core {
++	void *hw_mgt;
++	void *res_mgt;
++	void *disp_mgt;
++	void *serv_mgt;
++	void *dev_mgt;
++	void *chan_mgt;
+ };
+ 
+ struct nbl_adapter {
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+new file mode 100644
+index 000000000000..40701ff147e2
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+@@ -0,0 +1,179 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2025 Nebula Matrix Limited.
++ * Author:
++ */
++
++#include "nbl_hw_leonis.h"
++
++static struct nbl_hw_ops hw_ops = {
++};
++
++/* Structure starts here, adding an op should not modify anything below */
++static int nbl_hw_setup_hw_mgt(struct nbl_common_info *common,
++			       struct nbl_hw_mgt_leonis **hw_mgt_leonis)
++{
++	struct device *dev;
++
++	dev = NBL_COMMON_TO_DEV(common);
++	*hw_mgt_leonis =
++		devm_kzalloc(dev, sizeof(struct nbl_hw_mgt_leonis), GFP_KERNEL);
++	if (!*hw_mgt_leonis)
++		return -ENOMEM;
++
++	(&(*hw_mgt_leonis)->hw_mgt)->common = common;
++
++	return 0;
++}
++
++static void nbl_hw_remove_hw_mgt(struct nbl_common_info *common,
++				 struct nbl_hw_mgt_leonis **hw_mgt_leonis)
++{
++	struct device *dev;
++
++	dev = NBL_COMMON_TO_DEV(common);
++	devm_kfree(dev, *hw_mgt_leonis);
++	*hw_mgt_leonis = NULL;
++}
++
++static int nbl_hw_setup_ops(struct nbl_common_info *common,
++			    struct nbl_hw_ops_tbl **hw_ops_tbl,
++			    struct nbl_hw_mgt_leonis *hw_mgt_leonis)
++{
++	struct device *dev;
++
++	dev = NBL_COMMON_TO_DEV(common);
++	*hw_ops_tbl =
++		devm_kzalloc(dev, sizeof(struct nbl_hw_ops_tbl), GFP_KERNEL);
++	if (!*hw_ops_tbl)
++		return -ENOMEM;
++
++	(*hw_ops_tbl)->ops = &hw_ops;
++	(*hw_ops_tbl)->priv = hw_mgt_leonis;
++
++	return 0;
++}
++
++static void nbl_hw_remove_ops(struct nbl_common_info *common,
++			      struct nbl_hw_ops_tbl **hw_ops_tbl)
++{
++	struct device *dev;
++
++	dev = NBL_COMMON_TO_DEV(common);
++	devm_kfree(dev, *hw_ops_tbl);
++	*hw_ops_tbl = NULL;
++}
++
++int nbl_hw_init_leonis(void *p, struct nbl_init_param *param)
++{
++	struct nbl_adapter *adapter = (struct nbl_adapter *)p;
++	struct nbl_common_info *common;
++	struct pci_dev *pdev;
++	struct nbl_hw_mgt_leonis **hw_mgt_leonis;
++	struct nbl_hw_mgt *hw_mgt;
++	struct nbl_hw_ops_tbl **hw_ops_tbl;
++	int bar_mask;
++	int ret = 0;
++
++	common = NBL_ADAP_TO_COMMON(adapter);
++	hw_mgt_leonis =
++		(struct nbl_hw_mgt_leonis **)&NBL_ADAP_TO_HW_MGT(adapter);
++	hw_ops_tbl = &NBL_ADAP_TO_HW_OPS_TBL(adapter);
++	pdev = NBL_COMMON_TO_PDEV(common);
++
++	ret = nbl_hw_setup_hw_mgt(common, hw_mgt_leonis);
++	if (ret)
++		goto setup_mgt_fail;
++
++	hw_mgt = &(*hw_mgt_leonis)->hw_mgt;
++	bar_mask = BIT(NBL_MEMORY_BAR) | BIT(NBL_MAILBOX_BAR);
++	ret = pci_request_selected_regions(pdev, bar_mask, NBL_DRIVER_NAME);
++	if (ret) {
++		dev_err(&pdev->dev,
++			"Request memory bar and mailbox bar failed, err = %d\n",
++			ret);
++		goto request_bar_region_fail;
++	}
++
++	if (param->caps.has_ctrl) {
++		hw_mgt->hw_addr =
++			ioremap(pci_resource_start(pdev, NBL_MEMORY_BAR),
++				pci_resource_len(pdev, NBL_MEMORY_BAR) -
++					NBL_RDMA_NOTIFY_OFF);
++		if (!hw_mgt->hw_addr) {
++			dev_err(&pdev->dev, "Memory bar ioremap failed\n");
++			ret = -EIO;
++			goto ioremap_err;
++		}
++		hw_mgt->hw_size = pci_resource_len(pdev, NBL_MEMORY_BAR) -
++				  NBL_RDMA_NOTIFY_OFF;
++	} else {
++		hw_mgt->hw_addr =
++			ioremap(pci_resource_start(pdev, NBL_MEMORY_BAR),
++				NBL_RDMA_NOTIFY_OFF);
++		if (!hw_mgt->hw_addr) {
++			dev_err(&pdev->dev, "Memory bar ioremap failed\n");
++			ret = -EIO;
++			goto ioremap_err;
++		}
++		hw_mgt->hw_size = NBL_RDMA_NOTIFY_OFF;
++	}
++
++	hw_mgt->notify_offset = 0;
++	hw_mgt->mailbox_bar_hw_addr = pci_ioremap_bar(pdev, NBL_MAILBOX_BAR);
++	if (!hw_mgt->mailbox_bar_hw_addr) {
++		dev_err(&pdev->dev, "Mailbox bar ioremap failed\n");
++		ret = -EIO;
++		goto mailbox_ioremap_err;
++	}
++
++	spin_lock_init(&hw_mgt->reg_lock);
++	hw_mgt->should_lock = true;
++
++	ret = nbl_hw_setup_ops(common, hw_ops_tbl, *hw_mgt_leonis);
++	if (ret)
++		goto setup_ops_fail;
++
++	(*hw_mgt_leonis)->ro_enable = pcie_relaxed_ordering_enabled(pdev);
++
++	return 0;
++
++setup_ops_fail:
++	iounmap(hw_mgt->mailbox_bar_hw_addr);
++mailbox_ioremap_err:
++	iounmap(hw_mgt->hw_addr);
++ioremap_err:
++	pci_release_selected_regions(pdev, bar_mask);
++request_bar_region_fail:
++	nbl_hw_remove_hw_mgt(common, hw_mgt_leonis);
++setup_mgt_fail:
++	return ret;
++}
++
++void nbl_hw_remove_leonis(void *p)
++{
++	struct nbl_adapter *adapter = (struct nbl_adapter *)p;
++	struct nbl_common_info *common;
++	struct nbl_hw_mgt_leonis **hw_mgt_leonis;
++	struct nbl_hw_ops_tbl **hw_ops_tbl;
++	struct pci_dev *pdev;
++	u8 __iomem *hw_addr;
++	u8 __iomem *mailbox_bar_hw_addr;
++	int bar_mask = BIT(NBL_MEMORY_BAR) | BIT(NBL_MAILBOX_BAR);
++
++	common = NBL_ADAP_TO_COMMON(adapter);
++	hw_mgt_leonis =
++		(struct nbl_hw_mgt_leonis **)&NBL_ADAP_TO_HW_MGT(adapter);
++	hw_ops_tbl = &NBL_ADAP_TO_HW_OPS_TBL(adapter);
++	pdev = NBL_COMMON_TO_PDEV(common);
++
++	hw_addr = (*hw_mgt_leonis)->hw_mgt.hw_addr;
++	mailbox_bar_hw_addr = (*hw_mgt_leonis)->hw_mgt.mailbox_bar_hw_addr;
++
++	iounmap(mailbox_bar_hw_addr);
++	iounmap(hw_addr);
++	pci_release_selected_regions(pdev, bar_mask);
++	nbl_hw_remove_hw_mgt(common, hw_mgt_leonis);
++
++	nbl_hw_remove_ops(common, hw_ops_tbl);
++}
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+new file mode 100644
+index 000000000000..b078b765f772
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: GPL-2.0*/
++/*
++ * Copyright (c) 2025 Nebula Matrix Limited.
++ * Author:
++ */
++
++#ifndef _NBL_HW_LEONIS_H_
++#define _NBL_HW_LEONIS_H_
++
++#include "nbl_core.h"
++#include "nbl_hw_reg.h"
++
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+new file mode 100644
+index 000000000000..51518bb78b4f
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+@@ -0,0 +1,156 @@
++/* SPDX-License-Identifier: GPL-2.0*/
++/*
++ * Copyright (c) 2025 Nebula Matrix Limited.
++ * Author:
++ */
++
++#ifndef _NBL_HW_REG_H_
++#define _NBL_HW_REG_H_
++
++#include "nbl_core.h"
++
++#define NBL_HW_MGT_TO_COMMON(hw_mgt)		((hw_mgt)->common)
++#define NBL_HW_MGT_TO_DEV(hw_mgt) \
++	NBL_COMMON_TO_DEV(NBL_HW_MGT_TO_COMMON(hw_mgt))
++#define NBL_MEMORY_BAR				(0)
++#define NBL_MAILBOX_BAR				(2)
++#define NBL_RDMA_NOTIFY_OFF			(8192)
++
++struct nbl_hw_mgt {
++	struct nbl_common_info *common;
++	u8 __iomem *hw_addr;
++	u8 __iomem *mailbox_bar_hw_addr;
++	u64 notify_offset;
++	u32 version;
++	u32 hw_size;
++	spinlock_t reg_lock;  /* Protect reg access */
++	bool should_lock;
++	u8 resv[3];
++	enum nbl_hw_status hw_status;
++};
++
++static inline u32 rd32(u8 __iomem *addr, u64 reg)
++{
++	return readl(addr + (reg));
++}
++
++static inline void wr32_barrier(u8 __iomem *addr, u64 reg, u32 value)
++{
++	writel((value), (addr + (reg)));
++}
++
++static inline void nbl_hw_rd_regs(struct nbl_hw_mgt *hw_mgt, u64 reg,
++				  u8 *data, u32 len)
++{
++	u32 size = len / 4;
++	u32 i = 0;
++
++	if (len % 4)
++		return;
++
++	if (hw_mgt->hw_status) {
++		for (i = 0; i < size; i++)
++			*(u32 *)(data + i * sizeof(u32)) = U32_MAX;
++		return;
++	}
++
++	spin_lock(&hw_mgt->reg_lock);
++
++	for (i = 0; i < size; i++)
++		*(u32 *)(data + i * sizeof(u32)) =
++			rd32(hw_mgt->hw_addr, reg + i * sizeof(u32));
++	spin_unlock(&hw_mgt->reg_lock);
++}
++
++static inline void nbl_hw_wr_regs(struct nbl_hw_mgt *hw_mgt,
++				  u64 reg, const u8 *data, u32 len)
++{
++	u32 size = len / 4;
++	u32 i = 0;
++
++	if (len % 4)
++		return;
++
++	if (hw_mgt->hw_status)
++		return;
++	spin_lock(&hw_mgt->reg_lock);
++	for (i = 0; i < size; i++)
++		/* Used for emu, make sure that we won't write too frequently */
++		wr32_barrier(hw_mgt->hw_addr, reg + i * sizeof(u32),
++			     *(u32 *)(data + i * sizeof(u32)));
++	spin_unlock(&hw_mgt->reg_lock);
++}
++
++static inline void nbl_hw_wr32(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 value)
++{
++	if (hw_mgt->hw_status)
++		return;
++
++	/* Used for emu, make sure that we won't write too frequently */
++	wr32_barrier(hw_mgt->hw_addr, reg, value);
++}
++
++static inline u32 nbl_hw_rd32(struct nbl_hw_mgt *hw_mgt, u64 reg)
++{
++	if (hw_mgt->hw_status)
++		return U32_MAX;
++
++	return rd32(hw_mgt->hw_addr, reg);
++}
++
++static inline void nbl_mbx_wr32(void *priv, u64 reg, u32 value)
++{
++	struct nbl_hw_mgt *hw_mgt = (struct nbl_hw_mgt *)priv;
++
++	if (hw_mgt->hw_status)
++		return;
++
++	writel((value), ((hw_mgt)->mailbox_bar_hw_addr + (reg)));
++}
++
++static inline u32 nbl_mbx_rd32(void *priv, u64 reg)
++{
++	struct nbl_hw_mgt *hw_mgt = (struct nbl_hw_mgt *)priv;
++
++	if (hw_mgt->hw_status)
++		return U32_MAX;
++
++	return readl((hw_mgt)->mailbox_bar_hw_addr + (reg));
++}
++
++static inline void nbl_hw_read_mbx_regs(struct nbl_hw_mgt *hw_mgt,
++					u64 reg, u8 *data, u32 len)
++{
++	u32 i = 0;
++
++	if (len % 4)
++		return;
++
++	for (i = 0; i < len / 4; i++)
++		*(u32 *)(data + i * sizeof(u32)) =
++			nbl_mbx_rd32(hw_mgt, reg + i * sizeof(u32));
++}
++
++static inline void nbl_hw_write_mbx_regs(struct nbl_hw_mgt *hw_mgt,
++					 u64 reg, const u8 *data, u32 len)
++{
++	u32 i = 0;
++
++	if (len % 4)
++		return;
++
++	for (i = 0; i < len / 4; i++)
++		/* Used for emu, make sure that we won't write too frequently */
++		nbl_mbx_wr32(hw_mgt, reg + i * sizeof(u32),
++			     *(u32 *)(data + i * sizeof(u32)));
++}
++
++/* Mgt structure for each product.
++ * Every indivisual mgt must have the common mgt as its first member,
++ * and contains its unique data structure in the reset of it.
++ */
++struct nbl_hw_mgt_leonis {
++	struct nbl_hw_mgt hw_mgt;
++	bool ro_enable;
++};
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+new file mode 100644
+index 000000000000..6ac72e26ccd6
+--- /dev/null
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0*/
++/*
++ * Copyright (c) 2025 Nebula Matrix Limited.
++ * Author:
++ */
++
++#ifndef _NBL_DEF_HW_H_
++#define _NBL_DEF_HW_H_
++
++#include "nbl_include.h"
++
++struct nbl_hw_ops {
++};
++
++struct nbl_hw_ops_tbl {
++	struct nbl_hw_ops *ops;
++	void *priv;
++};
++
++int nbl_hw_init_leonis(void *p, struct nbl_init_param *param);
++void nbl_hw_remove_leonis(void *p);
++
++#endif
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+index 6f655d95d654..e620feb382c1 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+@@ -12,11 +12,25 @@
+ /*  ------  Basic definitions  -------  */
+ #define NBL_DRIVER_NAME					"nbl_core"
+ 
++#define NBL_MAX_PF					8
++#define NBL_NEXT_ID(id, max)				\
++	({						\
++		typeof(id) _id = (id);			\
++		((_id) == (max) ? 0 : (_id) + 1);	\
++	})
++
+ enum nbl_product_type {
+ 	NBL_LEONIS_TYPE,
+ 	NBL_PRODUCT_MAX,
+ };
+ 
++enum nbl_hw_status {
++	NBL_HW_NOMAL,
++	/* Most hw module is not work nomal exclude pcie/emp */
++	NBL_HW_FATAL_ERR,
++	NBL_HW_STATUS_MAX,
++};
++
+ struct nbl_func_caps {
+ 	u32 has_ctrl:1;
+ 	u32 has_net:1;
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+index d9d79803bef5..a93aa98f2316 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+@@ -9,8 +9,8 @@
+ 
+ static struct nbl_product_base_ops nbl_product_base_ops[NBL_PRODUCT_MAX] = {
+ 	{
+-		.hw_init	= NULL,
+-		.hw_remove	= NULL,
++		.hw_init	= nbl_hw_init_leonis,
++		.hw_remove	= nbl_hw_remove_leonis,
+ 		.res_init	= NULL,
+ 		.res_remove	= NULL,
+ 		.chan_init	= NULL,
+@@ -33,6 +33,7 @@ struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
+ 	struct nbl_adapter *adapter;
+ 	struct nbl_common_info *common;
+ 	struct nbl_product_base_ops *product_base_ops;
++	int ret = 0;
+ 
+ 	if (!pdev)
+ 		return NULL;
+@@ -60,14 +61,28 @@ struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
+ 
+ 	nbl_core_setup_product_ops(adapter, param, &product_base_ops);
+ 
++	/*
++	 *every product's hw/chan/res layer has a great difference,
++	 *so call their own init ops
++	 */
++	ret = product_base_ops->hw_init(adapter, param);
++	if (ret)
++		goto hw_init_fail;
++
+ 	return adapter;
++hw_init_fail:
++	devm_kfree(&pdev->dev, adapter);
++	return NULL;
+ }
+ 
+ void nbl_core_remove(struct nbl_adapter *adapter)
+ {
++	struct nbl_product_base_ops *product_base_ops;
+ 	struct device *dev;
+ 
+ 	dev = NBL_ADAP_TO_DEV(adapter);
++	product_base_ops = NBL_ADAP_TO_RPDUCT_BASE_OPS(adapter);
++	product_base_ops->hw_remove(adapter);
+ 	devm_kfree(dev, adapter);
+ }
+ 
+-- 
+2.47.3
 
