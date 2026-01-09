@@ -1,91 +1,68 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B120274643
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 02:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF5730DD2F;
+	Fri,  9 Jan 2026 02:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767924751; cv=none; b=XpDB56eqqagAIqSYDAjKrVaANijY1BaJK/cMr5MEbXPTNfzOObhMIzfvIYLcZ4dyoRn5M9uh86D+yQC9EvDX4SRWFWdmpcMrzpOf7pmnJFcbTisVDPNS1V70QEggWPguqHCT6DoKdNABfocRQooKWYD13rq8BfI0MJHcABJc8mo=
+	t=1767925312; cv=none; b=pbN7Qg3rrAfhtIi4lmtCDzN1Z7CeW8TGxMCLIl7IMLlxvaX/+q9j40NbJ3DH09CJwy25OyhiE3jhrz1JD+4xfYkAzykyg4f5A5PPkixBnyJnAuQbKWHCWx+8IY5NjFJSSUsLtDqgqTwWTxQCcWfrVZlRYJJ2Ib7PZwI2izYnZ8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767924751; c=relaxed/simple;
-	bh=Kv5afgrFaswkFB/JofSHfXQJjDup7xyugon/nrswLug=;
+	s=arc-20240116; t=1767925312; c=relaxed/simple;
+	bh=zcH313QWQ24pL1QlL9W4cZPOigVmIDErCdOJ5bFttJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfvPstjHNWbceMTV9+9+tR5CnQPKpo+7Gpp/2XWAnqd3kINVYskDFdQ4lx8qCsAYYbvvgjgFTljA3EyIsj0Ebj3vOpQ92oSnRI8XPIaK7LzyQcRphe+/leBZrb5TicXgyihjFn37UX8UFioVgQrJZNcKO7NT6GFN7fnDP6dwBKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVhBvMtw; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fVGY6khhfKgg91VKCNKWP7xT0uIAFWdxaYYX7gJw1sBSt/zvV1Y3Nf8nYy2ATp9cJQeXYNR5DFjtULxUwLkNTm+vYnn6Sv9ZBBvEwZaTdP1TKD62tOlDtm2Dm39qN0teAn/2sIb5gw1EbS8mjjHKLmeOXDP5/vjSUNR+ZjcK3NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqgIqHzW; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVhBvMtw"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-45a815c1cfdso382844b6e.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 18:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767924742; x=1768529542; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=joznU88cqz27crMC+lX8vIj+1sa0vrTXaQ0+XLYGNXc=;
-        b=SVhBvMtw5qF56KpJ3sig35yXNYVUDTys8LHmjgJReRO2DLQq0+VwW8Vsn3/9ItybHY
-         s4ce+ZDKu8rIPac1GxreRYbVEfqx3WQViBDSFTLwbIaryD45/lZs7biaqtaDqPHV/rlo
-         vLjipskiK3gNRPXUVNXfOul52RdjvZ24vKibE6Blcy+BRPQwNTu7aLETiRr9cOzX8zIx
-         4NSoI4wZjISAfUpvA/v1lLAAfG61b/87c/mzOa5EotLRxS6+zHCICspxMmCGjtjMkrc7
-         +D0f0FIAFQrqFJWb8bqbMJPmLvlMONBvFvNQ7cB2u0WH0NZ+UBtEsDB9v8OACs03rDVS
-         Vaag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767924742; x=1768529542;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=joznU88cqz27crMC+lX8vIj+1sa0vrTXaQ0+XLYGNXc=;
-        b=Gmh1CUhJr1XDoYskRVaKYoGdrWc3YQqDHm8AWyC8DXbu2it4+zPlvJRagyv3TcWq/M
-         yJYggwgSjPbEEHQCaR6zX33J3WM/pNNXD2FNESXupNLsA2WrnD/X1de8RauOyPX6eLJM
-         iN6S19P1QvNOQaw9LsAKm+TnF+qKXRhZKN1Kwdf8/El03fp/I6nsyGhHXL2efVqaJeKP
-         a0FIVimDu1G1Ov0z9SmVX35m6RcyLfKUyi2b8IBiONKnorIvoZ0Qme8MvDlfzSiP3IJm
-         gAqA/40+K/9AyfuxJDnIwtPm6PqIfcC9siwTzp5NydrfSFNwPu2zXKL/5TWyogHqHQLP
-         txQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUsqEWNcEJhsE2Tm+Y9cAEuvc7MYRVB1QMrXrSFQv9o9/0SKTrJOv6CsSJA0fxDKiKO24EA9+jyeZ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTpRH92H91GuIKJdWS70TzmX4Ay5/5rEYgDstSIyf9za9U0uCC
-	B6OOcwXMnCJEeE2XT2g/27py1ObjlvMR8CL4A2o7d4+GaClTk2s4vFZ8
-X-Gm-Gg: AY/fxX7HCNhi5cnBzaJ9TmYK6sROz0T1ASrS/1s7gO2XOtM3dneKXXNrXQSJdgwp4sD
-	4ucCQTHBCytEGa8/H++7fiCUnX/K69M/lweYptDHMI7ydhxYeKjX0evo4xYeZiLS68egZAv4/WR
-	s/FBhci9NAc+RX5szFE+JYTpIavYyPOQ6q0PVvT4KAvnzz1t7XttSlM3KGZtaMNdLfajH7dTLhc
-	FckFA40THGTDPuW5l4lw6G34ZdLizVrWcpPjQ2BIwiZ7BouS40i/4ADK52wlzKwkucewKXpiLDL
-	HUdLPgJynKNrW8zX8wZG4iCoqXDWktGUC+tNEUPY4pkZavFNQbgRym+MTKFGRhVMXx15X+zrQQN
-	vfV/pIHXBfDjL4pEVm9SifsiJDknb8cBel9bpQAUmLQUQIdxVWj/MVWxie29yeUgW8Dr+ocOJoL
-	g3Y+x5n0hW3+UOwGj9N4tFCPOGsRd60+OiLsTwBCz+
-X-Google-Smtp-Source: AGHT+IGYBJk8OIQjEdZM7RE78nO78sf0DfqkbSdJIlNgjxP4hXdS9RBTVkAdVP+l8SF00cVZqqeJEw==
-X-Received: by 2002:a05:6808:23d6:b0:45a:78b:65e1 with SMTP id 5614622812f47-45a6bf113f2mr3395882b6e.48.1767924742171;
-        Thu, 08 Jan 2026 18:12:22 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:184d:823f:1f40:e229])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45a5e2e8fb1sm4057261b6e.21.2026.01.08.18.12.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 18:12:21 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Thu, 8 Jan 2026 20:12:19 -0600
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 14/21] famfs_fuse: Plumb the GET_FMAP message/response
-Message-ID: <rlxxq64rtt6zxywgorii7oj5dhtzbzl2j7xdrlcjn4h32glo75@2r2f2tihd7l6>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-15-john@groves.net>
- <20260108124956.00000e0e@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqgIqHzW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767925301; x=1799461301;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zcH313QWQ24pL1QlL9W4cZPOigVmIDErCdOJ5bFttJs=;
+  b=iqgIqHzWRP+RjGXrw3gaZiYQcmzZcJnam5gG5Y3r3m7gTwuJzJEAIQNY
+   AoYpoRDlH/oW9JYwAWsDGbXzA6Wo20yBUh33PIZI1LEONPUek+TEBEArY
+   i2wiR4acSFl09xvOrlLbkkYY/3EF/WGNTQuQH/D06R4n+DY4JrrkuMrE3
+   vmIgsJ0f0tca3jyndSllL3Xq+BvJ4tfFejNULWogKEbUXFucDP23ROmht
+   C3dvfaycdB7U2i9Lz84C6bVrJy7EqsGrbLLlfblM5xqFbd/gBcIYcYVW4
+   Pj2WwSMwfgLs+VZ+gGCinfJaxJBbpNdXEMC+N+9mAehHnMscTfGaKilNY
+   w==;
+X-CSE-ConnectionGUID: a9ijKPXCRkShv3ts9Q1KqA==
+X-CSE-MsgGUID: jdXhonyKSgun+4JkMlZmwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="68312855"
+X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
+   d="scan'208";a="68312855"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:21:40 -0800
+X-CSE-ConnectionGUID: 5a/Mw41bT3y1AsMb6koWyw==
+X-CSE-MsgGUID: ZIpaxJy2S3WJSknVd69/rQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
+   d="scan'208";a="207834175"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jan 2026 18:21:21 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1ve27l-000000001vc-3wPH;
+	Fri, 09 Jan 2026 02:21:13 +0000
+Date: Fri, 9 Jan 2026 03:20:44 +0100
+From: kernel test robot <lkp@intel.com>
+To: Jihan LIN via B4 Relay <devnull+linjh22s.gmail.com@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jihan LIN <linjh22s@gmail.com>
+Subject: Re: [PATCH] Documentation/kbuild: Document gendwarfksyms build
+ dependencies
+Message-ID: <202601090349.xxTPrbB1-lkp@intel.com>
+References: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,165 +71,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108124956.00000e0e@huawei.com>
+In-Reply-To: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
 
-On 26/01/08 12:49PM, Jonathan Cameron wrote:
-> On Wed,  7 Jan 2026 09:33:23 -0600
-> John Groves <John@Groves.net> wrote:
-> 
-> > Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP to
-> > retrieve and cache up the file-to-dax map in the kernel. If this
-> > succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> A few things inline.
-> 
-> J
-> 
-> > diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> > new file mode 100644
-> > index 000000000000..0f7e3f00e1e7
-> > --- /dev/null
-> > +++ b/fs/fuse/famfs.c
-> > @@ -0,0 +1,74 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * famfs - dax file system for shared fabric-attached memory
-> > + *
-> > + * Copyright 2023-2025 Micron Technology, Inc.
-> > + *
-> > + * This file system, originally based on ramfs the dax support from xfs,
-> > + * is intended to allow multiple host systems to mount a common file system
-> > + * view of dax files that map to shared memory.
-> > + */
-> > +
-> > +#include <linux/fs.h>
-> > +#include <linux/mm.h>
-> > +#include <linux/dax.h>
-> > +#include <linux/iomap.h>
-> > +#include <linux/path.h>
-> > +#include <linux/namei.h>
-> > +#include <linux/string.h>
-> > +
-> > +#include "fuse_i.h"
-> > +
-> > +
-> > +#define FMAP_BUFSIZE PAGE_SIZE
-> > +
-> > +int
-> > +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
-> > +{
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> > +	size_t fmap_bufsize = FMAP_BUFSIZE;
-> > +	u64 nodeid = get_node_id(inode);
-> > +	ssize_t fmap_size;
-> > +	void *fmap_buf;
-> > +	int rc;
-> > +
-> > +	FUSE_ARGS(args);
-> > +
-> > +	/* Don't retrieve if we already have the famfs metadata */
-> > +	if (fi->famfs_meta)
-> > +		return 0;
-> > +
-> > +	fmap_buf = kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
-> 
-> If there is only ever 1, does kcalloc() make sense over kzalloc()?
+Hi Jihan,
 
-Muscle memory? Good call, done.
+kernel test robot noticed the following build warnings:
 
-> 
-> > +	if (!fmap_buf)
-> > +		return -EIO;
-> > +
-> > +	args.opcode = FUSE_GET_FMAP;
-> > +	args.nodeid = nodeid;
-> > +
-> > +	/* Variable-sized output buffer
-> > +	 * this causes fuse_simple_request() to return the size of the
-> > +	 * output payload
-> > +	 */
-> > +	args.out_argvar = true;
-> > +	args.out_numargs = 1;
-> > +	args.out_args[0].size = fmap_bufsize;
-> > +	args.out_args[0].value = fmap_buf;
-> > +
-> > +	/* Send GET_FMAP command */
-> > +	rc = fuse_simple_request(fm, &args);
-> > +	if (rc < 0) {
-> > +		pr_err("%s: err=%d from fuse_simple_request()\n",
-> > +		       __func__, rc);
-> 
-> Leaks the fmap_buf?  Maybe use a __free() so no need to keep track of htat.
+[auto build test WARNING on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
 
-Another good one - done.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jihan-LIN-via-B4-Relay/Documentation-kbuild-Document-gendwarfksyms-build-dependencies/20260108-194655
+base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+patch link:    https://lore.kernel.org/r/20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70%40gmail.com
+patch subject: [PATCH] Documentation/kbuild: Document gendwarfksyms build dependencies
+reproduce: (https://download.01.org/0day-ci/archive/20260109/202601090349.xxTPrbB1-lkp@intel.com/reproduce)
 
-> 
-> 
-> > +		return rc;
-> > +	}
-> > +	fmap_size = rc;
-> > +
-> > +	/* We retrieved the "fmap" (the file's map to memory), but
-> > +	 * we haven't used it yet. A call to famfs_file_init_dax() will be added
-> > +	 * here in a subsequent patch, when we add the ability to attach
-> > +	 * fmaps to files.
-> > +	 */
-> > +
-> > +	kfree(fmap_buf);
-> > +	return 0;
-> > +}
-> 
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 84d0ee2a501d..691c7850cf4e 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -223,6 +223,14 @@ struct fuse_inode {
-> 
-> >  
-> > +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
-> > +						       void *meta)
-> > +{
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +	return xchg(&fi->famfs_meta, meta);
-> > +#else
-> > +	return NULL;
-> > +#endif
-> > +}
-> > +
-> > +static inline void famfs_meta_free(struct fuse_inode *fi)
-> > +{
-> > +	/* Stub wil be connected in a subsequent commit */
-> > +}
-> > +
-> > +static inline int fuse_file_famfs(struct fuse_inode *fi)
-> > +{
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +	return (READ_ONCE(fi->famfs_meta) != NULL);
-> > +#else
-> > +	return 0;
-> > +#endif
-> > +}
-> > +
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +int fuse_get_fmap(struct fuse_mount *fm, struct inode *inode);
-> > +#else
-> > +static inline int
-> > +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
-> > +{
-> > +	return 0;
-> > +}
-> > +#endif
-> I'd do a single block under one if IS_ENABLED() and then use an else
-> for the stubs.   Should end up more readable.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601090349.xxTPrbB1-lkp@intel.com/
 
-OK, this sounds good, but it's rebase hell (oh, the humanity! :D). Multiple 
-additional commits flesh out this stuff, and for now I'm giving up on that
-rebase. I tried the flip, but I don't have all night (tonight), so I'm 
-leaving it alone. 
+All warnings (new ones prefixed by >>):
 
-I'll happily clean this up after the series is complete.
+   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
+   ERROR: Cannot find file ./include/linux/hid.h
+   WARNING: No kernel-doc for file ./include/linux/hid.h
+   ERROR: Cannot find file ./include/linux/i2c-atr.h
+   WARNING: No kernel-doc for file ./include/linux/i2c-atr.h
+>> Documentation/kbuild/gendwarfksyms.rst:18: WARNING: Title underline too short.
 
-Thanks!
-John
 
+vim +18 Documentation/kbuild/gendwarfksyms.rst
+
+    16	
+    17	Dependencies
+  > 18	-----
+    19	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
