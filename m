@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72816248F7C;
-	Fri,  9 Jan 2026 18:39:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFE32C08D0;
+	Fri,  9 Jan 2026 18:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767983949; cv=none; b=RFPoSgKNTAkhRDgqw5GVrhUMSC4FOtgKEoITmJBMIrmX1Gh+SnpygAcEI3j0hLf+0fnMLooe4WS2Lz8ccEx5LU0BE2+L3D5JdQYB4fp5W8rAC7tK8y+LAu1Nco19b2bPMZWIusPvW4RK/L/aeBRE4neqaA3Hfr2KV3yqFfojQnU=
+	t=1767984049; cv=none; b=ogSDcTj/YaBUIMKIzomDo86U/+pxmrL/V98CQjKZQTS4Znw4TO4YfbHEf763sJI4hXWFW+FvXiX1sLdc+PMgr7WVf6QkzQTe6lGezijjWFH8OIdkUeAPWC9Eq6EbGpbmoY1HTWKdqJ4Jw7o6awMVYD8TSf9WFFvfqtFDBuHZwxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767983949; c=relaxed/simple;
-	bh=cPO4diAb2ylZvj4Fxe6lPcoHU6Vbn1IqPnvOrmGZyvc=;
+	s=arc-20240116; t=1767984049; c=relaxed/simple;
+	bh=z6qFFozwLTauN55COL8D7QiC32jJ7aY8HOl4VKIbb/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szm9EMzUlWaZL16VB4+XhIday+oy2lW7OLJ2M7b5I036RKAwzkmocfRdfLePwwUywS+gk9Nc126RQqFieAIuyDbsHyTWIrIXbDGxqVD9R4+Cq8BCc9s9NDaMfeYUKNiZc1jz+NKoCl5vYKMLp6Gj0Zk3LoNid2If6Vc0J2u9ILU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=rJqsQBbC; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=tgw+rrQbtuzpf2nt1LgOHA4YIhpwxLj1XDALgQkxjAZxUnvH+1Vb96D4ZiTFFXYh0PnrbQqIDYptzwupn40a8n/BbKYAHRSEYhzOMlZJiVqTlaKPb8CKhmTq5eTsPN6iSfeJLeFYSd4I72C1YuRk1MnRAKaj1URNKH31oVSZulg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=WBc4xdB8; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="rJqsQBbC"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="WBc4xdB8"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ZCXDAuDOCp378JhVD35WgH8svl9GMtW1ja10qhCRbFI=; b=rJqsQBbCtykf4ltqZkqeCNHnOQ
-	EbNT1y1pf0xNu215sHZl9qJrlpLP07ldUncfDShAShU4bjQH7j5PquFcjeru/hcBQmDBfs5z+YCOf
-	K3cFpVoG6eZNOv5SvwQw2JFjM1/WoR0vYkGlIvSWIz46VKCcwX/MTNSt0qs8pmXsSQkE=;
+	bh=tMjh5cg1wU0gE9aNbQhIuk1lHgKP2s/YmyVrE6dIiwY=; b=WBc4xdB8vyXakV+ouDUvLiDx8G
+	eWB9LG41WRzQfELkxGem1E9diQIT5zTcGr9tOg288Mjy7BAo9ooBKwmMTneuo3PH3ux/rfkUkMP5a
+	ZdS+5z4AQbtJMRLPofGMvs510JrLsD3ZLOgznMkRiAXM8syiU7L84UJCwy7z5Ul+gskE=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1veHNi-0029dN-HQ; Fri, 09 Jan 2026 19:38:42 +0100
-Date: Fri, 9 Jan 2026 19:38:42 +0100
+	id 1veHPT-0029eH-OG; Fri, 09 Jan 2026 19:40:31 +0100
+Date: Fri, 9 Jan 2026 19:40:31 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: "illusion.wang" <illusion.wang@nebula-matrix.com>
 Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
@@ -37,11 +37,11 @@ Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
 	horms@kernel.org, vadim.fedorenko@linux.dev,
 	lukas.bulwahn@redhat.com, edumazet@google.com,
 	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 08/15] net/nebula-matrix: add vsi, queue,
- adminq resource definitions and implementation
-Message-ID: <2fc40495-2b72-43a9-ad98-7d58961877fe@lunn.ch>
+Subject: Re: [PATCH v2 net-next 15/15] net/nebula-matrix: add st_sysfs and vf
+ name sysfs
+Message-ID: <fad2bb37-d764-4c5a-a589-2b071aceb8cb@lunn.ch>
 References: <20260109100146.63569-1-illusion.wang@nebula-matrix.com>
- <20260109100146.63569-9-illusion.wang@nebula-matrix.com>
+ <20260109100146.63569-16-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,99 +50,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260109100146.63569-9-illusion.wang@nebula-matrix.com>
+In-Reply-To: <20260109100146.63569-16-illusion.wang@nebula-matrix.com>
 
-> +static s32 nbl_res_aq_get_module_bitrate(struct nbl_resource_mgt *res_mgt,
-> +					 u8 eth_id)
-> +{
-> +	struct device *dev = NBL_COMMON_TO_DEV(res_mgt->common);
-> +	struct nbl_eth_info *eth_info = NBL_RES_MGT_TO_ETH_INFO(res_mgt);
-> +	u8 data[SFF_8472_SIGNALING_RATE_MAX + 1];
-> +	u32 result;
-> +	u8 br_nom;
-> +	u8 br_max;
-> +	u8 identifier;
-> +	u8 encoding = 0;
-> +	int port_max_rate;
-> +	int ret;
-> +
-> +	if (res_mgt->resource_info->board_info.eth_speed ==
-> +	    NBL_FW_PORT_SPEED_100G) {
-> +		ret = nbl_res_aq_turn_module_eeprom_page(res_mgt, eth_id, 0);
-> +		if (ret) {
-> +			dev_err(dev,
-> +				"eth %d get_module_eeprom_info failed %d\n",
-> +				eth_info->logic_eth_id[eth_id], ret);
-> +			return NBL_PORT_MAX_RATE_UNKNOWN;
-> +		}
-> +	}
-> +
-> +	ret = nbl_res_aq_get_module_eeprom(res_mgt, eth_id, I2C_DEV_ADDR_A0, 0,
-> +					   0, 0,
-> +					   SFF_8472_SIGNALING_RATE_MAX + 1,
-> +					   data);
-> +	if (ret) {
-> +		dev_err(dev, "eth %d get_module_eeprom_info failed %d\n",
-> +			eth_info->logic_eth_id[eth_id], ret);
-> +		return NBL_PORT_MAX_RATE_UNKNOWN;
-> +	}
-> +
-> +	if (res_mgt->resource_info->board_info.eth_speed ==
-> +	    NBL_FW_PORT_SPEED_100G) {
-> +		ret = nbl_res_aq_get_module_eeprom(res_mgt, eth_id,
-> +						   I2C_DEV_ADDR_A0, 0, 0,
-> +						   SFF_8636_VENDOR_ENCODING, 1,
-> +						   &encoding);
-> +		if (ret) {
-> +			dev_err(dev,
-> +				"eth %d get_module_eeprom_info failed %d\n",
-> +				eth_info->logic_eth_id[eth_id], ret);
-> +			return NBL_PORT_MAX_RATE_UNKNOWN;
-> +		}
-> +	}
-> +
-> +	br_nom = data[SFF_8472_SIGNALING_RATE];
-> +	br_max = data[SFF_8472_SIGNALING_RATE_MAX];
-> +	identifier = data[SFF_8472_IDENTIFIER];
-> +
-> +	/* sff-8472 section 5.6 */
-> +	if (br_nom == 255)
-> +		result = (u32)br_max * 250;
-> +	else if (br_nom == 0)
-> +		result = 0;
-> +	else
-> +		result = (u32)br_nom * 100;
-> +
-> +	switch (result / 1000) {
-> +	case 25:
-> +		port_max_rate = NBL_PORT_MAX_RATE_25G;
-> +		break;
-> +	case 10:
-> +		port_max_rate = NBL_PORT_MAX_RATE_10G;
-> +		break;
-> +	case 1:
-> +		port_max_rate = NBL_PORT_MAX_RATE_1G;
-> +		break;
-> +	default:
-> +		port_max_rate = NBL_PORT_MAX_RATE_UNKNOWN;
-> +		break;
-> +	}
-> +
-> +	if (identifier == SFF_IDENTIFIER_QSFP28)
-> +		port_max_rate = NBL_PORT_MAX_RATE_100G;
-> +
-> +	if (identifier == SFF_IDENTIFIER_PAM4 ||
-> +	    encoding == SFF_8636_ENCODING_PAM4)
-> +		port_max_rate = NBL_PORT_MAX_RATE_100G_PAM4;
-> +
-> +	return port_max_rate;
-> +}
+On Fri, Jan 09, 2026 at 06:01:33PM +0800, illusion.wang wrote:
+> Add st_sysfs to support our private nblconfig tool.
 
-Please could you pull everything dealing with the SFP into a patch of
-its own. We will want to review this code and think about if you
-should be using phylink.
+Private tools are unlikely to be accepted. I suggest you drop this
+patch for the moment. Once you get the rest of the driver merged, we
+can discuss how to do something acceptable.
 
-Do you also have a PCS which the driver is configuring? If so, please
-make that a separate patch as well.
-
-       Andrew
+    Andrew
