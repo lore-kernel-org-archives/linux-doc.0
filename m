@@ -1,72 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A28E33BBDD;
-	Fri,  9 Jan 2026 15:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD6535A94B
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 15:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767973050; cv=none; b=OM11JPw3Sq8WMJ4Nf3ilLXpsjh2IcmKHn9cGFE6WHlCg1RSKQCXlX3W8ZowUg8IQztVQgu3zbLTKRaZfnPKHDQWDYg2Isjjip8ATNNnmiM/BESnoUINhxoVUq86nmGUH/6KAyn8/zNkWl9iDgJDy7d1Zabmod7xvm+3ipH0rALQ=
+	t=1767973926; cv=none; b=q4XZgL7AK4QrXs9kxF2dWa5eestjmTH2XXsW/N/iU9Bgh7OqgeNqnNQMRXpG75yxW7YLpXH/eMTXnnbLbU+N293V7z7q+YVkHa2rT8+x3JbU4pisoEkrXtYC7wJ3g30PnoVvs/snOjEBOUwxcdX/vuGW41u+Rds5dbQlrdqkobw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767973050; c=relaxed/simple;
-	bh=ACUNN6uf/Mzk7nW4hB0vFtjfZE9QKznUScf7zaQyMnA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qIXoRnP9wrgOFovrbDWKOg6lxab5HRwqdLUEC2Kl10FfGInJM3sFzPR+ohLxZzns0JHFZ6VJqMLcMZJFGs/B9c3Hc8EmVlEKQ4MZXJZX+Ch9LW1i64EtvugTJWkywy2db6+tBb7chM9ZpCLWxUlmmc5mlW98L5llrMg0zI5eVNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZasKm+1N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767973926; c=relaxed/simple;
+	bh=DpG0IFb76/682eNNegafQfNJNvexPHTP0tv2qHqRz8Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dI7td/39ughSsoqCESiVvTFH+BG026VRLBI+b2UeIIU/sVRu9AqHfKOZ3iUaOhcRb6xUy5H1kXsh1iNtFodLxg6Sns2WpufbGVTLLqj1gdgL78YBmso91Hm+sMiT83qSJvS3OSsmTtMPISZyxv1PvaMoYfpaP5YXabJt7e6oiyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UdXT97PC; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZasKm+1N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A8FC4CEF1;
-	Fri,  9 Jan 2026 15:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767973049;
-	bh=ACUNN6uf/Mzk7nW4hB0vFtjfZE9QKznUScf7zaQyMnA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZasKm+1NhYuvZ1vRvxpurvjDbFRGSYfnxEdG54ByjI4hzCmxPPJmA7Ls8O1FimI2F
-	 OadDfsDpwEtVRjg/ZB42ZEr0ze90erqFYVzvgp8JRN7PWIhM+mn54ka+Rj7npSUkVK
-	 Fy6WBKMWUJ6WwgwN4FyIZYojE/q99fnMQr9dKiE/+TK3jVBX4TqrlMeGO5UNgyDwt9
-	 EetfVPIdgOmmBujWk4+0c4OspT4+7ithuTJG/PmhfJUn18lXGAFGdyBvTEG53zkRCM
-	 47aKm3LK4OmmBGTOc7R58VhZQc6T+Bdv7SkAT1HijLDrFQgABd5Gk3BMq+2+ceN14+
-	 gF6NtxYPbw3Vw==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, Nam Tran <trannamatk@gmail.com>
-Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org, 
- christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org, 
- conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20251221041950.4631-1-trannamatk@gmail.com>
-References: <20251221041950.4631-1-trannamatk@gmail.com>
-Subject: Re: [PATCH v20 0/3] leds: add new LED driver for TI LP5812
-Message-Id: <176797304674.1816796.15103209205297232421.b4-ty@kernel.org>
-Date: Fri, 09 Jan 2026 15:37:26 +0000
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UdXT97PC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE81E406FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1767973918; bh=5YM1nmGwZj91f5+z8r8zotU3UZI8gzzi79asUSycYHw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=UdXT97PCmZeP8obOy/5TOlUjNE1yAJzjZf1zkjMQkc5J21UQkxMEUHaEg5XKtqaWT
+	 /u0aj2BxEDf9r+sTRQQ+QyuNWlelWwUfVjcFAtMRNeQ7kdIvpw8QwaAo7vnnsMAgUs
+	 QXZ41OdoQOUJHeaBop9nOxeinArRY1pXH2w+nRHDa85AEWv2FZsd9+z5c6Gc4vUWUH
+	 YnBpVvHVaeyht5Pw4hwYSnfvHCOOXn5NBJscpqy/GdQJfkDD5kprkKxrGxBDbeLRIR
+	 8Vl6+FhPSJPl3v954EdRdebo2hsw0rB0XJguzdZVFJ7AOzmYkllgjXYTt65ppOveAt
+	 gLqm5/qQi7m9A==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CE81E406FB;
+	Fri,  9 Jan 2026 15:51:57 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Petr Vorel <pvorel@suse.cz>, linux-doc@vger.kernel.org
+Cc: Petr Vorel <pvorel@suse.cz>
+Subject: Re: [PATCH 1/2] Documentation: bug-hunting.rst: Remove wrong
+ 'file:' syntax
+In-Reply-To: <20260109152336.84674-1-pvorel@suse.cz>
+References: <20260109152336.84674-1-pvorel@suse.cz>
+Date: Fri, 09 Jan 2026 08:51:57 -0700
+Message-ID: <874iou4wde.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
+Content-Type: text/plain
 
-On Sun, 21 Dec 2025 11:19:47 +0700, Nam Tran wrote:
-> This patch series adds initial support for the TI LP5812,
-> a 4x3 matrix RGB LED driver with autonomous engine control.
-> This version provides a minimal, clean implementation focused
-> on core functionality only. The goal is to upstream a solid
-> foundation, with the expectation that additional features can
-> be added incrementally in future patches.
-> 
-> [...]
+Thanks for working to improve our docs
 
-Applied, thanks!
+Petr Vorel <pvorel@suse.cz> writes:
 
-[1/3] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-      commit: 4f93556778d84c0bf25102bac1daf232368aa4eb
-[2/3] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-      (no commit info)
-[3/3] docs: leds: Document TI LP5812 LED driver
-      (no commit info)
+> Link to another document does not require 'file:', therefore it was
+> shown in generated html.
+>
+> Preformatted text requires just ``...``.
+>
+> Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> ---
+>  Documentation/admin-guide/bug-hunting.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
+> index 7da0504388ece..32b1b0c3d7ee4 100644
+> --- a/Documentation/admin-guide/bug-hunting.rst
+> +++ b/Documentation/admin-guide/bug-hunting.rst
+> @@ -52,14 +52,14 @@ line is usually required to identify and handle the bug. Along this chapter,
+>  we'll refer to "Oops" for all kinds of stack traces that need to be analyzed.
+>  
+>  If the kernel is compiled with ``CONFIG_DEBUG_INFO``, you can enhance the
+> -quality of the stack trace by using file:`scripts/decode_stacktrace.sh`.
+> +quality of the stack trace by using ``scripts/decode_stacktrace.sh``.
+>  
+>  Modules linked in
+>  -----------------
+>  
+>  Modules that are tainted or are being loaded or unloaded are marked with
+>  "(...)", where the taint flags are described in
+> -file:`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
+> +`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
 
---
-Lee Jones [李琼斯]
+Can I ask you to remove the `quotes` too?  They aren't needed and can
+prevent the automarkup code from doing its thing.
 
+Thanks,
+
+jon
