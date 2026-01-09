@@ -1,130 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C66328B5F;
-	Fri,  9 Jan 2026 12:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F612EAD10;
+	Fri,  9 Jan 2026 13:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767963179; cv=none; b=d54i6vwrRFdf6toXI6cXDwfYCwTA5RW1Kr4mkY/J5uZqQL5BrvQQ0ZGMQ6ogowB42XnYrr8bNUOeKkkKjsKyo1BawznzYjj2FIjrBXecvI9QigVD+ZTiEIiPkCvX/q39pmUhFv+wcKKJXFsH3zrP/040oUcDpoVIPRcxie+TuKM=
+	t=1767964025; cv=none; b=a2ztNGYwBKt0cU34PdFh5YMkA70C4T6/XVaJQjnL5x5PNgS0BSs3CyxTUcRN80hZSrFQXYazzJmgamfv7w8WcwgmB6yv1UYDSESBT1aT6qQvkpg43NOD9TOF8tR8xWhCgylCG/GDXXYTIOLT5wuIwOxOjc8jVryh0/TYR+kqrLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767963179; c=relaxed/simple;
-	bh=KKclspLng+Z2dDkG3Ootcmlp3FhVUZMQeSnnQ3JtdXU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ssBXYdTMN8LBVlIOmQDmSdLFDSNGDy1wBQzzy4Yhyz+2YQH7sJQbJX+5kwy0Dezzj9xITb4+qoso/4wLbf/qhyCP0BFpe+KEhI+vh+Yo4OQVJhuGc+Q6pQf7CP9oN2i5kOzF9AATQxFkfABrCfL76yKRTsqtXSZYYIPAlBIpciQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oiL/aD7r; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oiL/aD7r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F342C4CEF1;
-	Fri,  9 Jan 2026 12:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1767963178;
-	bh=KKclspLng+Z2dDkG3Ootcmlp3FhVUZMQeSnnQ3JtdXU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oiL/aD7r1kIquDBU2oGMxB6BRIaqrPYt+M6hE9/RTQJcKYOVhDkuibmSdiz3211Ia
-	 GgBZ716DdvG5bivPlMF/l+dU4zcxHxXw9d55EMS/XhCH0UAYOyMBmaOxR4OxiJDTcB
-	 cE442LmC4iqsElPmLhryUYJCy+6B+1B9HSb2FCqE=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 6.1 623/634] tty: fix tty_port_tty_*hangup() kernel-doc
-Date: Fri,  9 Jan 2026 12:45:01 +0100
-Message-ID: <20260109112141.081024612@linuxfoundation.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260109112117.407257400@linuxfoundation.org>
-References: <20260109112117.407257400@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	s=arc-20240116; t=1767964025; c=relaxed/simple;
+	bh=I5Q9VQte+4cFW14Gz8D4egaODJhcInTga4GejSY4LNE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uUs5nxC8Ontljgziu66/phRF7ShB9N3os14dCcZthpN0A95gCX8a4Eq6+YaC7yVHAf6P4lpiCxwMY07Y28DjaSP+m7/s+LFng+LezdZn0/APNv+W/nsIaW02O1eRY992Kl2DtOlCNvd0neusKlLbg9wnqgV6k5N9n0FZAz+yfnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 32BC75ACA9;
+	Fri,  9 Jan 2026 13:06:58 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id A03A520010;
+	Fri,  9 Jan 2026 13:06:44 +0000 (UTC)
+Date: Fri, 9 Jan 2026 08:07:15 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Marco Elver <elver@google.com>, Bart Van Assche <bvanassche@acm.org>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Luc Van Oostenryck
+ <luc.vanoostenryck@gmail.com>, Chris Li <sparse@chrisli.org>, "Paul E.
+ McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>,
+ Arnd Bergmann <arnd@arndb.de>, Dmitry Vyukov <dvyukov@google.com>, Eric
+ Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, Jann Horn
+ <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg
+ <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, Josh Triplett
+ <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, Kees Cook
+ <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn
+ <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda
+ <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay
+ <neeraj.upadhyay@kernel.org>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Tetsuo Handa
+ <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>,
+ Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman
+ Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+ linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+ linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+ llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v5 10/36] locking/mutex: Support Clang's context
+ analysis
+Message-ID: <20260109080715.0a390f6b@gandalf.local.home>
+In-Reply-To: <20260109060249.GA5259@lst.de>
+References: <20251219154418.3592607-1-elver@google.com>
+	<20251219154418.3592607-11-elver@google.com>
+	<57062131-e79e-42c2-aa0b-8f931cb8cac2@acm.org>
+	<aWA9P3_oI7JFTdkC@elver.google.com>
+	<20260109060249.GA5259@lst.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: xo5wgurkrpym6obtb6d77z4eqezppqwq
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: A03A520010
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/Yuy/xlEJ4FchBK8FGPRyEzpxFlfJw7cM=
+X-HE-Tag: 1767964004-230449
+X-HE-Meta: U2FsdGVkX1/mK5KxM694kU63Rdn/iZMuRkOJbrkqpBY9gVZfABZTPJnGV+GXEC41f1CraOV8yVb8JwE6ex2vbV4aoxOT3VLKLF5Thmk+n9vBrpyyHnFtGdrkM3exSJJfO3l1oVR97XyrKK8Hkfj/5sdmmAH04zSgJDoYobVhPLcJaqT68Q0XdWN9PbI1sOsFrspcL2fHNGmrmo/p6rwpjlSypMilSM5I5ewwgNFo1hyODxJhs+YqTtFErumcaYRIY1tmmRLhIj0JwjIBTskcyNNIQY/Qv4I7CCtQ3inbL2pdKc5Mrj40SiW4O33CrPwJHtQvEPJd1GEXqrywF3gfPLCE0T+XQaZa
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+On Fri, 9 Jan 2026 07:02:49 +0100
+Christoph Hellwig <hch@lst.de> wrote:
 
-------------------
+> On Fri, Jan 09, 2026 at 12:26:55AM +0100, Marco Elver wrote:
+> > Probably the most idiomatic option is to just factor out construction.
+> > Clearly separating complex object construction from use also helps
+> > readability regardless, esp. where concurrency is involved. We could
+> > document such advice somewhere.  
+> 
+> Initializing and locking a mutex (or spinlock, or other primitive) is a
+> not too unusual pattern, often used when inserting an object into a
+> hash table or other lookup data structure.  So supporting it without
+> creating pointless wrapper functions would be really useful.  One thing
+> that would be nice to have and probably help here is to have lock
+> initializers that create the lock in a held state.
 
-From: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Right. If tooling can't handle a simple pattern of initializing a lock than
+taking it, that's a hard show stopper of adding that tooling.
 
-commit 6241b49540a65a6d5274fa938fd3eb4cbfe2e076 upstream.
-
-The commit below added a new helper, but omitted to move (and add) the
-corressponding kernel-doc. Do it now.
-
-Signed-off-by: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Fixes: 2b5eac0f8c6e ("tty: introduce and use tty_port_tty_vhangup() helper")
-Link: https://lore.kernel.org/all/b23d566c-09dc-7374-cc87-0ad4660e8b2e@linux.intel.com/
-Reported-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Link: https://lore.kernel.org/r/20250624080641.509959-6-jirislaby@kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/driver-api/tty/tty_port.rst |    5 +++--
- drivers/tty/tty_port.c                    |    5 -----
- include/linux/tty_port.h                  |    9 +++++++++
- 3 files changed, 12 insertions(+), 7 deletions(-)
-
---- a/Documentation/driver-api/tty/tty_port.rst
-+++ b/Documentation/driver-api/tty/tty_port.rst
-@@ -42,9 +42,10 @@ TTY Refcounting
- TTY Helpers
- -----------
- 
-+.. kernel-doc::  include/linux/tty_port.h
-+   :identifiers: tty_port_tty_hangup tty_port_tty_vhangup
- .. kernel-doc::  drivers/tty/tty_port.c
--   :identifiers: tty_port_tty_hangup tty_port_tty_wakeup
--
-+   :identifiers: tty_port_tty_wakeup
- 
- Modem Signals
- -------------
---- a/drivers/tty/tty_port.c
-+++ b/drivers/tty/tty_port.c
-@@ -411,11 +411,6 @@ void tty_port_hangup(struct tty_port *po
- }
- EXPORT_SYMBOL(tty_port_hangup);
- 
--/**
-- * tty_port_tty_hangup - helper to hang up a tty
-- * @port: tty port
-- * @check_clocal: hang only ttys with %CLOCAL unset?
-- */
- void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, bool async)
- {
- 	struct tty_struct *tty = tty_port_tty_get(port);
---- a/include/linux/tty_port.h
-+++ b/include/linux/tty_port.h
-@@ -253,11 +253,20 @@ static inline int tty_port_users(struct
- 	return port->count + port->blocked_open;
- }
- 
-+/**
-+ * tty_port_tty_hangup - helper to hang up a tty asynchronously
-+ * @port: tty port
-+ * @check_clocal: hang only ttys with %CLOCAL unset?
-+ */
- static inline void tty_port_tty_hangup(struct tty_port *port, bool check_clocal)
- {
- 	__tty_port_tty_hangup(port, check_clocal, true);
- }
- 
-+/**
-+ * tty_port_tty_vhangup - helper to hang up a tty synchronously
-+ * @port: tty port
-+ */
- static inline void tty_port_tty_vhangup(struct tty_port *port)
- {
- 	__tty_port_tty_hangup(port, false, false);
-
-
+-- Steve
