@@ -1,112 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF5730DD2F;
-	Fri,  9 Jan 2026 02:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9A727465C;
+	Fri,  9 Jan 2026 02:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767925312; cv=none; b=pbN7Qg3rrAfhtIi4lmtCDzN1Z7CeW8TGxMCLIl7IMLlxvaX/+q9j40NbJ3DH09CJwy25OyhiE3jhrz1JD+4xfYkAzykyg4f5A5PPkixBnyJnAuQbKWHCWx+8IY5NjFJSSUsLtDqgqTwWTxQCcWfrVZlRYJJ2Ib7PZwI2izYnZ8Y=
+	t=1767925623; cv=none; b=K3tK6R1k2WZGmf+VbxO43/wjV7i1hQbfly44r6wxYUYiaJqumeIh1TL84hcwqKUMQOaMzjol2kyl2c2CXJA0qBXJN+a31t6D1OYufjib/os7DeUy1iFz9+7tFTuMaif28Us70wF388OXmRxD0rUyB/Q7kthT9iY1U2Otu0lzWj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767925312; c=relaxed/simple;
-	bh=zcH313QWQ24pL1QlL9W4cZPOigVmIDErCdOJ5bFttJs=;
+	s=arc-20240116; t=1767925623; c=relaxed/simple;
+	bh=/KCBLBLcf8r3a6KZVBsohReOTxRXrhQzCRY4NGlW7B4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fVGY6khhfKgg91VKCNKWP7xT0uIAFWdxaYYX7gJw1sBSt/zvV1Y3Nf8nYy2ATp9cJQeXYNR5DFjtULxUwLkNTm+vYnn6Sv9ZBBvEwZaTdP1TKD62tOlDtm2Dm39qN0teAn/2sIb5gw1EbS8mjjHKLmeOXDP5/vjSUNR+ZjcK3NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iqgIqHzW; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZddQZL/q043WgXdDa8YqqzD05EwPpigogflcm0pel09ehKGIPb15fpAieatXyA/VOIiZIE7kgjQktFC6Seu+/Zv7fntexMufCd5p2xcAeHwBiKSRoK4sOSH087nthfRyay7jZLJxi4103BN4ibANOksgdnjekjBjY+HW46UNbRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWo19iZR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqgIqHzW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767925301; x=1799461301;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zcH313QWQ24pL1QlL9W4cZPOigVmIDErCdOJ5bFttJs=;
-  b=iqgIqHzWRP+RjGXrw3gaZiYQcmzZcJnam5gG5Y3r3m7gTwuJzJEAIQNY
-   AoYpoRDlH/oW9JYwAWsDGbXzA6Wo20yBUh33PIZI1LEONPUek+TEBEArY
-   i2wiR4acSFl09xvOrlLbkkYY/3EF/WGNTQuQH/D06R4n+DY4JrrkuMrE3
-   vmIgsJ0f0tca3jyndSllL3Xq+BvJ4tfFejNULWogKEbUXFucDP23ROmht
-   C3dvfaycdB7U2i9Lz84C6bVrJy7EqsGrbLLlfblM5xqFbd/gBcIYcYVW4
-   Pj2WwSMwfgLs+VZ+gGCinfJaxJBbpNdXEMC+N+9mAehHnMscTfGaKilNY
-   w==;
-X-CSE-ConnectionGUID: a9ijKPXCRkShv3ts9Q1KqA==
-X-CSE-MsgGUID: jdXhonyKSgun+4JkMlZmwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="68312855"
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="68312855"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:21:40 -0800
-X-CSE-ConnectionGUID: 5a/Mw41bT3y1AsMb6koWyw==
-X-CSE-MsgGUID: ZIpaxJy2S3WJSknVd69/rQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="207834175"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Jan 2026 18:21:21 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1ve27l-000000001vc-3wPH;
-	Fri, 09 Jan 2026 02:21:13 +0000
-Date: Fri, 9 Jan 2026 03:20:44 +0100
-From: kernel test robot <lkp@intel.com>
-To: Jihan LIN via B4 Relay <devnull+linjh22s.gmail.com@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWo19iZR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CFA3C116C6;
+	Fri,  9 Jan 2026 02:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767925623;
+	bh=/KCBLBLcf8r3a6KZVBsohReOTxRXrhQzCRY4NGlW7B4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IWo19iZR88K61uonWjHoiG/CqWm+XACaOk5i/YW6xUWS3iDgl+Wfj/NbhlcZBOs1p
+	 RO2bOuVi3/L8/HueszuU/KPHcEH6BqVRZh9oj+Fn0uLKkl5akavXkDOy/EBhOHVt1G
+	 sqbsxwk/aTJUayCQC8eHwUPT4RkFvn1ldmgOZxC8VH2WBRlqqspcXNEU3lBvyUNbL2
+	 gI2xOkbrGGwrUyBi/TR0fknoE7yYezRGOEXbOsBskSwcR43ZvuDZXbUMjy3nZK3gpU
+	 gnYbiFjA5al3cMVS4MXRC8gCepG5zFT7GxjX47aLYewVVdrLyEWYiOIv38+EZR6NDi
+	 3EExJHzxcmKbw==
+Date: Fri, 9 Jan 2026 07:57:00 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jihan LIN <linjh22s@gmail.com>
-Subject: Re: [PATCH] Documentation/kbuild: Document gendwarfksyms build
- dependencies
-Message-ID: <202601090349.xxTPrbB1-lkp@intel.com>
-References: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+Message-ID: <aWBndOfbtweRr0uS@vaman>
+References: <aUFX14nz8cQj8EIb@vaman>
+ <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+ <aUF2gj_0svpygHmD@vaman>
+ <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+ <aUpyrIvu_kG7DtQm@vaman>
+ <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <aVZh3hb32r1oVcwG@vaman>
+ <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
+ <aVf5WUe9cAXZHxPJ@vaman>
+ <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
 
-Hi Jihan,
+On 02-01-26, 18:14, Bartosz Golaszewski wrote:
+> On Fri, Jan 2, 2026 at 5:59 PM Vinod Koul <vkoul@kernel.org> wrote:
+> >
+> > On 02-01-26, 10:26, Bartosz Golaszewski wrote:
+> > > On Thu, Jan 1, 2026 at 1:00 PM Vinod Koul <vkoul@kernel.org> wrote:
+> > > >
+> > > > > >
+> > > > > > > It will perform register I/O with DMA using the BAM locking mechanism
+> > > > > > > for synchronization. Currently linux doesn't use BAM locking and is
+> > > > > > > using CPU for register I/O so trying to access locked registers will
+> > > > > > > result in external abort. I'm trying to make the QCE driver use DMA
+> > > > > > > for register I/O AND use BAM locking. To that end: we need to pass
+> > > > > > > information about wanting the command descriptor to contain the
+> > > > > > > LOCK/UNLOCK flag (this is what we set here in the hardware descriptor)
+> > > > > > > from the QCE driver to the BAM driver. I initially used a global flag.
+> > > > > > > Dmitry said it's too Qualcomm-specific and to use metadata instead.
+> > > > > > > This is what I did in this version.
+> > > > > >
+> > > > > > Okay, how will client figure out should it set the lock or not? What are
+> > > > > > the conditions where the lock is set or not set by client..?
+> > > > > >
+> > > > >
+> > > > > I'm not sure what you refer to as "client". The user of the BAM engine
+> > > > > - the crypto driver? If so - we convert it to always lock/unlock
+> > > > > assuming the TA *may* use it and it's better to be safe. Other users
+> > > > > are not affected.
+> > > >
+> > > > Client are users of dmaengine. So how does the crypto driver figure out
+> > > > when to lock/unlock. Why not do this always...?
+> > > >
+> > >
+> > > It *does* do it always. We assume the TA may be doing it so the crypto
+> > > driver is converted to *always* perform register I/O with DMA *and* to
+> > > always lock the BAM for each transaction later in the series. This is
+> > > why Dmitry inquired whether all the HW with upstream support actually
+> > > supports the lock semantics.
+> >
+> > Okay then why do we need an API?
+> >
+> > Just lock it always and set the bits in the dma driver
+> >
+> 
+> We need an API because we send a locking descriptor, then a regular
+> descriptor (or descriptors) for the actual transaction(s) and then an
+> unlocking descriptor. It's a thing the user of the DMA engine needs to
+> decide on, not the DMA engine itself.
 
-kernel test robot noticed the following build warnings:
+I think downstream sends lock descriptor always. What is the harm in
+doing that every time if we go down that path?
+Reg Dmitry question above, this is dma hw capability, how will client
+know if it has to lock on older rev of hardware or not...?
 
-[auto build test WARNING on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
+> Also: only the crypto engine needs it for now, not all the other users
+> of the BAM engine.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jihan-LIN-via-B4-Relay/Documentation-kbuild-Document-gendwarfksyms-build-dependencies/20260108-194655
-base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
-patch link:    https://lore.kernel.org/r/20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70%40gmail.com
-patch subject: [PATCH] Documentation/kbuild: Document gendwarfksyms build dependencies
-reproduce: (https://download.01.org/0day-ci/archive/20260109/202601090349.xxTPrbB1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601090349.xxTPrbB1-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
-   ERROR: Cannot find file ./include/linux/hid.h
-   WARNING: No kernel-doc for file ./include/linux/hid.h
-   ERROR: Cannot find file ./include/linux/i2c-atr.h
-   WARNING: No kernel-doc for file ./include/linux/i2c-atr.h
->> Documentation/kbuild/gendwarfksyms.rst:18: WARNING: Title underline too short.
-
-
-vim +18 Documentation/kbuild/gendwarfksyms.rst
-
-    16	
-    17	Dependencies
-  > 18	-----
-    19	
+But they might eventually right?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Vinod
