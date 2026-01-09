@@ -1,155 +1,164 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24487350A1D
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 15:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E4135CB7A;
+	Fri,  9 Jan 2026 15:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767972228; cv=none; b=CsMyxKsPp9nih5cIaImrumAeBiRG6fLETLp+B9fnBgrqyvAUlP+c4HeV/9qaAw3z7vXJUyvtCBEoGLzux16ZTg8ao3WuFxaWAarS2fp20R/pUGRFQgwCcXx6SE9FiEzM75kzOLHNuQfyUwJxd2XKtbwnMUx+j0KCp4ujkoaP/Yw=
+	t=1767972288; cv=none; b=ghUHQmRFOtAHX6d/3sLSVUVdWYRzwLJr/2mjoBC5eMBQ2pkzJT9a/lhr6XtrnoC/h2Qh4Ee8eaxSe4omZSCbYIh+HgDRsWLA26A8yez4S8/aotWDV2VukWDlJ6P2Tn7vqlHC7TT7T3TDRtqYrPhxrXixoAuWKF1wiyN8wKa4X/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767972228; c=relaxed/simple;
-	bh=QIvd1MKc6lq0zu107pFg6fKNOlzrcPbUphpZfU5JEuo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k4Se4B7fJ0HGf46cW4Jap8M09nF6sS2pMusp6tApdfDhDYQq7xneiMF05PXCDYDYpKFZQF9KmtJpfRunDM2cnOWxNMP+RHbS3FzaadovQFoxB6RUMg/8clZ/tNn5w8iF6x6/HS+JTQ05Uu7ejBDRQChnYKpfPEWiB9u5otoxf24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KcXCt+3W; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LPYObc20; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KcXCt+3W; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LPYObc20; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1767972288; c=relaxed/simple;
+	bh=axvy6DYVP2agzRnl6Zhjb8bX4J+s/WNM34OMhZ6lfpA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dpp9XQMIOdBZ7IlF1LEHGO6mpknJGqQ+Am8Q00y0o4gL3JqrgBxufe6CdaYgWpeSiLh+fJVDyaSCsb9QFvC9Scyig8aSeEncddTJy4qtpsBpTJLaKbaJwoB2ER0yRuO+xjyz7d7k6DhbCTFyVmDIUbyHBvj7+R+8fxgVDpUGDnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pU/2H1dF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KcXCt+3W";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LPYObc20";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KcXCt+3W";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LPYObc20"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 696875BE80;
-	Fri,  9 Jan 2026 15:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767972225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LzMIAqRka9gmKfGVSHN68HS6crHUULtTryPwU9xf3k8=;
-	b=KcXCt+3WVY8tl+GrrCpMWrGh0wZmEvfGEkdnU3SGBRK8sADyZ/nbEHYRUb19poodhlf3hR
-	3H1hIQF0edoOx4Bo7oUJJMkqky+Zrrn86yHJXhPz33r0rJo3V+T54mWPA3eXRNVPCBYLc9
-	PVyMssCdsbM8+cMOveqG3G9TVrzEQ54=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767972225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LzMIAqRka9gmKfGVSHN68HS6crHUULtTryPwU9xf3k8=;
-	b=LPYObc20L3ZEu9T2fJUfE2/LVhypb0sjRm9pBqmpakw/wqjHQaelrztx6Kq5pYlYL/ddzS
-	bp9AItuMQCFfNfCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767972225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LzMIAqRka9gmKfGVSHN68HS6crHUULtTryPwU9xf3k8=;
-	b=KcXCt+3WVY8tl+GrrCpMWrGh0wZmEvfGEkdnU3SGBRK8sADyZ/nbEHYRUb19poodhlf3hR
-	3H1hIQF0edoOx4Bo7oUJJMkqky+Zrrn86yHJXhPz33r0rJo3V+T54mWPA3eXRNVPCBYLc9
-	PVyMssCdsbM8+cMOveqG3G9TVrzEQ54=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767972225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LzMIAqRka9gmKfGVSHN68HS6crHUULtTryPwU9xf3k8=;
-	b=LPYObc20L3ZEu9T2fJUfE2/LVhypb0sjRm9pBqmpakw/wqjHQaelrztx6Kq5pYlYL/ddzS
-	bp9AItuMQCFfNfCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05C233EA65;
-	Fri,  9 Jan 2026 15:23:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KAwEO4AdYWkVZAAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Fri, 09 Jan 2026 15:23:44 +0000
-From: Petr Vorel <pvorel@suse.cz>
-To: linux-doc@vger.kernel.org
-Cc: Petr Vorel <pvorel@suse.cz>,
-	linux-trace-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/2] Documentation/trace: Fix links to other documents
-Date: Fri,  9 Jan 2026 16:23:36 +0100
-Message-ID: <20260109152336.84674-2-pvorel@suse.cz>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260109152336.84674-1-pvorel@suse.cz>
-References: <20260109152336.84674-1-pvorel@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pU/2H1dF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D52C4CEF1;
+	Fri,  9 Jan 2026 15:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767972285;
+	bh=axvy6DYVP2agzRnl6Zhjb8bX4J+s/WNM34OMhZ6lfpA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pU/2H1dFfG93kpEUPYu7w7/VXmb/gCiR8gQewSBXnKe7C5c4PF13ehhOoFbpYoyja
+	 WDQ5yuTteGs4Ne/v+LHD95mctIe9ZXiABGUWlCzbI96OatJTh7TUC2kQfsTcrOCQ5A
+	 MnnrqwAX2OCoFXiTaArGYxiyC+ZVHKSfJpXYF+s6ARfOY1q/4/Ol1fMvuk3t08IIsM
+	 WUIczW4dq6yEy6fGrE7HUFUa8zIbX/aucAWzmld+iwpa5dguBZr9Ec5tQvYJoMQgS1
+	 VzubOeshaPJ9CVip+imoA2w5haEZAr9lrvKJ3KXAjL3LjmYBB/16YrhPKpjxL5W8ie
+	 Kz6tThsSMaS1A==
+Message-ID: <bed4daf8-9a35-4a88-bb35-2f178d8afa73@kernel.org>
+Date: Fri, 9 Jan 2026 16:24:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Muchun Song
+ <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
+ <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
+ <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
+ <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
+ <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
+ <yup3hvfsn4tvfnv32mdf4yoabt4igb2lkvllfac72g3abdkovm@auqdaijzby7d>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+In-Reply-To: <yup3hvfsn4tvfnv32mdf4yoabt4igb2lkvllfac72g3abdkovm@auqdaijzby7d>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Link to another document does not require 'file:'. Removing it fixes
-links in generated html docs.
+>> For quite some time there will be a magical config option that will switch
+>> between both layouts. I'd assume that things will get more complicated if we
+>> suddenly have a "compound_head/folio" pointer and a "compound_info" pointer
+>> at the same time.
+>>
+>> But it's really Willy who has the concept in mind as he is very likely right
+>> now busy writing some of that code.
+>>
+>> I'm just the messenger.
+>>
+>> :)
+>>
+>> [I would hope that Willy could share his thoughts]
+> 
+> If you or Willy think that this patch will impede memdesc progress, I am
+> okay not pushing this patchset upstream.
 
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
----
- Documentation/trace/fprobe.rst      | 2 +-
- Documentation/trace/ftrace-uses.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+I pinged Willy.
 
-diff --git a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
-index 06b0edad01796..1d9e0b1693494 100644
---- a/Documentation/trace/fprobe.rst
-+++ b/Documentation/trace/fprobe.rst
-@@ -79,7 +79,7 @@ The above is defined by including the header::
- 
- Same as ftrace, the registered callbacks will start being called some time
- after the register_fprobe() is called and before it returns. See
--:file:`Documentation/trace/ftrace.rst`.
-+`Documentation/trace/ftrace.rst`.
- 
- Also, the unregister_fprobe() will guarantee that both enter and exit
- handlers are no longer being called by functions after unregister_fprobe()
-diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
-index e225cc46b71eb..e7cea7b1a74d9 100644
---- a/Documentation/trace/ftrace-uses.rst
-+++ b/Documentation/trace/ftrace-uses.rst
-@@ -253,7 +253,7 @@ If @buf is NULL and reset is set, all functions will be enabled for tracing.
- The @buf can also be a glob expression to enable all functions that
- match a specific pattern.
- 
--See Filter Commands in :file:`Documentation/trace/ftrace.rst`.
-+See Filter Commands in `Documentation/trace/ftrace.rst`.
- 
- To just trace the schedule function:
- 
+> 
+> I was really excited when I found this trick to get rid of fake heads.
+> But ultimately, it is a clean up. I failed to find a performance win I
+> hoped for.
+
+I think it's quite nice as a cleanup, and if we wouldn't have memdescs 
+on the horizon that essentially change the code completely in another 
+direction (having all pages point to a struct folio, not just the tail 
+pages), I wouldn't be bringing this up :)
+
+> 
+> Also, I try to understand what 32-byte layout means for fake heads.
+> _refcount in struct page is going to 0 and refcounting happens on folios.
+
+Yes, for folios.
+
+> So I wounder if we can all pages identical (no tail pages per se) and
+> avoid fake heads this way?
+
+That's the ultimate goal, yes. Essentially, all pages will point to the
+memdesc, and there will not be a reason to check for head/fake-head etc.
+
+I think initially, the compound-page concept might
+still co-exist for some memdescs that we won't initially allocate 
+separately.
+But I don't know the details of that.
+
+I know that the transition phase is tricky :)
+
+Regarding reference and folios: yes exactly. When trying to get a 
+reference, we'll spot in the memdesc field that this is a folio and try 
+on the folio instead.
+
+In the future, most pages will either be permanently frozen and not have 
+a refcount (e.g., struct ptdesc), or have a refcount in their memdesc. 
+In the transition, the location of the refcount depends on memdesc type 
+(in memdesc vs. in page).
+
 -- 
-2.51.0
+Cheers
 
+David
