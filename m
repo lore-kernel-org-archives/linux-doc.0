@@ -1,113 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BA435E539
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 14:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590F81A58D;
+	Fri,  9 Jan 2026 14:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767968152; cv=none; b=MSxB1g+RM3blRZ12G9W+0WUibMcmj69vW554Mq/T+kWyg9CsR98k6CcPLHfl+dAlQUmOroHZLqhObh06sS+GEW4WJ0b2ftPSof3M9F92PL6eNUzyPyf6bOl4eRLnJxX/27m2tFCqWW5dpbvrYFnz7I8L1FqyHm42pEd8EG3ALgw=
+	t=1767968624; cv=none; b=VbPFw8ULIVHC2mKazODf2BiK5N2uhH59HFzF43O8jxUrwASTu6yE3GxGNRDdfqhLCkea957xpfqusWGijorIc3yA3M5SJu9wjU+mRaEtdBwfSmru6kH3u+lf3pnfSe3J9wEqRegOlcROcIH39GExykxtduu4v2U1Tn5mJp3usuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767968152; c=relaxed/simple;
-	bh=LEkB5xtHjXVuFngpe1PCgKH2zts37TIIn2uF2x0GoHA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=erV7298nC3BT/AxL4J2/HDnE2WLR1G1obX1ITPECrkQhIXYl3kH2j49KZ6XPcMhUIwHuzkag7kbt78vYh/QheuK2J11o3CuPbMzN2+yWDAs7D86zq/bjnIsxZSPbU8CqOUrV3jZlMWwEYvLB9NEhDJHoRTJMx6E99qGhZmaHK+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cOo7l5zc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767968624; c=relaxed/simple;
+	bh=I38D9XYTfnNU7l+dVHx5TGMwNWjmaU+4YHbJgRJuk/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R3914f2rHp7BCceyq2wi+3vhjpeL6t/AITPa85G0UflF+t4cLjQTr1/icrG+16o08B5uYkugSoJEXwSsrBXVE58nRDvCSr9pMDarkt8q6OGI5LKHbdvaTKMF6QcEQxPa6ZAT2Wnblx1vND5AqWT0xLhqgeOuzX8NP0EKlV8gafs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZvTtwn8m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cOo7l5zc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D82C19421
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 14:15:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvTtwn8m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45EC6C4CEF1;
+	Fri,  9 Jan 2026 14:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767968151;
-	bh=LEkB5xtHjXVuFngpe1PCgKH2zts37TIIn2uF2x0GoHA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cOo7l5zcVTtSK8d8ZoTvhHMZ+7r8uJ5wqzr4r0b762f/oSwo5sTMbf3PEl1eTQZdB
-	 IvWvKGMgeq3/30kAiV/uEgD4pn8dx//EsSEigWkZsN4Fmut4XXWA2hOEJqN375YqTS
-	 SOGIZLBmj+Sjb4ECAWRxEu/pZW8kcdt53t01cCBSJwDyzryPI5px0vXYIzBvA9GEqP
-	 0Tv5X4AWL0Sxb09I6GvH1Vuvb2gWzh5DsK8pXApt1MJuXj9v9rxmFSGr4P1YFg5ML8
-	 pfai91JtK3wie4Vuz5MrUEnrzxNfyq1Q8Lh6zPWFc7Iljdw0qAadgaBxgTltPCrfKL
-	 3AmWZgO0PQgXA==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-383153e06d6so12869371fa.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 06:15:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWA3m8IQJB8UxlJec/at9rR0YdcgksDhXAnUTQl/gtRRvcMKodv4U3rlpbVEbWf0kDphFmWcI6sp/I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTzJs8s1aQj25bVJsg3Xol14nPsV0ytgypBPyWqUGNounQNTZo
-	keFSiqeroH1zgNXblR/TA+Z1gtU0OG/wZW3uZfcJMwYHOxEATd8z2nQFN+QYRboIPCrwbnjGj4t
-	qL6CE+NXq/Kruy8xJlJhT8YpxCYWklcMIpVB5xpPjpg==
-X-Google-Smtp-Source: AGHT+IEjHf4XcU+bJuvypnOrwB1YOTeQllVX+zgkrui63UfDLj395Ntw/Lg3Gd2DnCc1/V002jcYulQEX3HszG3lhfY=
-X-Received: by 2002:a05:651c:507:b0:383:24fe:4eaf with SMTP id
- 38308e7fff4ca-38324fe5240mr4126731fa.30.1767968150320; Fri, 09 Jan 2026
- 06:15:50 -0800 (PST)
+	s=k20201202; t=1767968624;
+	bh=I38D9XYTfnNU7l+dVHx5TGMwNWjmaU+4YHbJgRJuk/Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZvTtwn8mgcT4Bql+/TV8P6J3B+SYtD8lfuvGbbewiKjxtIHYB/XjKqYOd4gm+uX4y
+	 vPJOdTuUa14vnKLg/LvDFineYJFfy5O03f4n7OHKdOArmDaGKxavNelTLY9HX2m5w4
+	 rP7RTwnSpaRRV2Ji3NHzD0oMQd2OeGXyMI+BisTZ3fcwbUyNkSLpkQlLojEnFtHxnE
+	 pVEdnhDuerU9IkwRmFhgi/qbvZGkjDvPbaCSxb22cQqONKpGJ3ufFAkm9KDTT9RyFy
+	 RzlyWEhZmfA0/W2hWQniiNt4kEuB2dhGOrfluVpyuzchCf+oX7E02mtwuj5YRqtbNl
+	 E5xKZMakqOzmg==
+Date: Fri, 9 Jan 2026 06:23:42 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan
+ Chebbi <pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+ <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+ <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+ <shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
+Subject: Re: [PATCH net-next v10 2/9] hinic3: Add PF management interfaces
+Message-ID: <20260109062342.2a6b1c89@kernel.org>
+In-Reply-To: <add09d6f61ba86bd9c3c37fe3845b25291a26bdf.1767861236.git.zhuyikai1@h-partners.com>
+References: <cover.1767861236.git.zhuyikai1@h-partners.com>
+	<add09d6f61ba86bd9c3c37fe3845b25291a26bdf.1767861236.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
- <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
- <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
- <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
- <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
- <aWBndOfbtweRr0uS@vaman>
-In-Reply-To: <aWBndOfbtweRr0uS@vaman>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 9 Jan 2026 15:15:38 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
-X-Gm-Features: AQt7F2rb9IR691hbgnp1FtGr7o2dONlDtlFsUGEVpYxhopq1kqU8-3RQfgdAT9Y
-Message-ID: <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
- BAM locking
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 9, 2026 at 3:27=E2=80=AFAM Vinod Koul <vkoul@kernel.org> wrote:
->
-> >
-> > We need an API because we send a locking descriptor, then a regular
-> > descriptor (or descriptors) for the actual transaction(s) and then an
-> > unlocking descriptor. It's a thing the user of the DMA engine needs to
-> > decide on, not the DMA engine itself.
->
-> I think downstream sends lock descriptor always. What is the harm in
-> doing that every time if we go down that path?
+On Fri, 9 Jan 2026 10:35:52 +0800 Fan Gong wrote:
+> +static void hinic3_init_mgmt_msg_work(struct hinic3_msg_pf_to_mgmt *pf_to_mgmt,
+> +				      struct hinic3_recv_msg *recv_msg)
+> +{
+> +	struct mgmt_msg_handle_work *mgmt_work;
+> +
+> +	mgmt_work = kmalloc(sizeof(*mgmt_work), GFP_KERNEL);
+> +	if (!mgmt_work)
+> +		return;
+> +
+> +	if (recv_msg->msg_len) {
+> +		mgmt_work->msg = kmalloc(recv_msg->msg_len, GFP_KERNEL);
+> +		if (!mgmt_work->msg) {
+> +			kfree(mgmt_work);
+> +			return;
+> +		}
+> +		memcpy(mgmt_work->msg, recv_msg->msg, recv_msg->msg_len);
 
-No, in downstream it too depends on the user setting the right bits.
-Currently the only user of the BAM locking downstream is the NAND
-driver. I don't think the code where the crypto driver uses it is
-public yet.
+coccicheck says:
 
-And yes, there is harm - it slightly impacts performance. For QCE it
-doesn't really matter as any users wanting to offload skcipher or SHA
-are better off using the Arm Crypto Extensions anyway as they are
-faster by an order of magnitude (!). It's also the default upstream,
-where the priorities are set such that the ARM CEs are preferred over
-the QCE. QCE however, is able to coordinate with the TrustZone and
-will be used to support the DRM use-cases.
-
-I prefer to avoid impacting any other users of BAM DMA.
-
-> Reg Dmitry question above, this is dma hw capability, how will client
-> know if it has to lock on older rev of hardware or not...?
->
-> > Also: only the crypto engine needs it for now, not all the other users
-> > of the BAM engine.
->
-
-Trying to set the lock/unlock bits will make
-dmaengine_desc_attach_metadata() fail if HW does not support it.
-
-> But they might eventually right?
->
-
-Yes, and they will already have the interface to do it - in the form
-of descriptor metadata.
-
-Thanks,
-Bartosz
+drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.c:128:19-26: WARNING opportunity for kmemdup
+-- 
+pw-bot: cr
