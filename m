@@ -1,171 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C573B20311;
-	Fri,  9 Jan 2026 07:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EB92ED164
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 07:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767944013; cv=none; b=tJ8Q5/Kkol7mXSalE94aLOL0TJXKc4ePjg/LcbtyyBRjl9OEht98KrwLTvX3oNVvixIshtQd450bBoai/JjASTU7A8l/gXGKdf1O8ZvEBEcFnqTs3nMYH8aR4jQSb3Z6sSb570u3DUwXRIe8n3HflNxMjnOtIPibyW20F2B0SP8=
+	t=1767944084; cv=none; b=psYqWvz58vbId67vQaaWno/VZZWds9Lqr4g3IojD/31iPn+U5NvOKdcHbHEQMdaDwVn+g+zwb0a1iutrBqheipTP2xCKfAkiEWTR/Y49nZEcdyWzlhA9tk5eGdx9giXniDt2DOC5yAEeH2C++PqXwoU0B5n2zFL5S98utHLDjkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767944013; c=relaxed/simple;
-	bh=YD8BBxsP8yyonhYcxXOQeNujcleXzXA99h7hR1PrpUY=;
+	s=arc-20240116; t=1767944084; c=relaxed/simple;
+	bh=mQNQDvbKwm8YPQMvUQmrODeUWbj93d6ac4BYkM5iRJo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+c3G0G4fvIZ8n3H7ZsliJNs9CoEELFBbY6+CqaivuyP4wiA0YMWto5kq8/rnNI1q1EkCMheidfXNoyS0gIo0G4q0M23faRCNQejNlGId7yMEsCOV3dv1qEaFdt1X8fJfvLHdTaApEMV/90RPT3q1fa1WmQ+eZLk2f4CNKutByY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gF84Q7a1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lOlFL7dnoaY3ZHYuSeH7wXlhZ7/gd+ngFxf9NjPYSpput5LeLkT0EOToerESh6MFsw01ShPy62wa+VsNZc0TAmSge1VEZsm1YweuP67NOTT316yt9lniADvpiPfZarmfIj1s9PcRzZP7h3PHovBap0EwHzHhTfArcuMGlkk/wPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lJ22hgpI; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gF84Q7a1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7540C19421;
-	Fri,  9 Jan 2026 07:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767944013;
-	bh=YD8BBxsP8yyonhYcxXOQeNujcleXzXA99h7hR1PrpUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gF84Q7a10ypZYFbesF8ARMjjzzwG7BWKjIDSNTQYc3jFHIcoe9xn0f/qifNDkrkwu
-	 shObJouqqNUPrTlziji0M0c4vGhxsswMPs/rAj0qgyLg/Qs5VzeEU40b2iBUtn3boA
-	 Podpos9lf3tFJB0nss0jq2LTU1AGILfx1oEmWL5n/vqHjSBZy2s74LM/OGF2tvGWzF
-	 kWE+1M79MvXGs8/uvHp4A87SGQUAzWZI53RyD+7PsZ1s6EnliHn+6/CvL8dw8+l6WA
-	 y740RPIuMcgyiXVSNc/3wC6nHQkHlwfAlKhKEBl1LCJa/udsFriUAhMI8rdxqZQEQD
-	 Rbo/6XVJjsQ2g==
-Date: Fri, 9 Jan 2026 13:03:26 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v2 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-Message-ID: <z22h6xnioqcbnwszpxaip4rjqxkx45fg6wd4btliztr2bcvpiq@2pf625gvadmv>
-References: <1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com>
- <1767929389-143957-4-git-send-email-shawn.lin@rock-chips.com>
- <uev63wla4msmmhww4j3t2jim7lhvxjikvujwpxiblg5mz7jwwa@2jucxkbtcsfm>
- <dddbcb37-68d4-4ccb-9897-b1e5a4b41be7@rock-chips.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lJ22hgpI"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29f02651fccso50005ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 23:34:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767944082; x=1768548882; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nXFThduoh/FW3X3hmcDPgZVUcXZLVLfg8hOMDEL1+OI=;
+        b=lJ22hgpIL7NdHgLtTdZqYos1vlk1LC3oxTYeHA+ZrRHYxS7OZ6hNZM67Kag7vKFU9E
+         psF5Tu9HiaLLeIat7smu+0q3PvwfHO4xkttnEeqkvErCKzkg9Z6/HMAj5Dt8p0I+at+D
+         NJzo50KAJTLHxzfv+/VC4P+vFS9T1coK0DdRq/bZ3xCjpvEfK8Rgx2STluQ0Wz8kxb1j
+         rjzfCMx72oy+gViRp8nxZICuUlqtciRr6icFsZ5kjwHd63UYIwDyMQEE90XhXJ243NAR
+         nB+FvIYnb4FXHzeYzfuxA9KQvd2fUsghJEGwhpIpkVFbwX9yY8CvWjmp6Rgbj0gB/7PR
+         BTVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767944082; x=1768548882;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nXFThduoh/FW3X3hmcDPgZVUcXZLVLfg8hOMDEL1+OI=;
+        b=JcTkvO+ST8ch04fclfqlNE3bMeRLPWf4s5WmacZqu0WfuGAUDt+MWgyVJwW6roY9FB
+         tBHjqr+/8uBXCiR4WhN+nxyVCkRkp9i4IBziuNh6gq7AwKXslU7SDKI3hCZ3gRI7bv8W
+         x4771rwguQHifuC0+zcNgCxZGHK5w1dyDDHYcEOujgqSmfHCQZXEJUim3z8P3Xa9oZ+7
+         PRHRVDq2qZf2kD0G8/4WDvDN99rsJ7fXjRnuRcqJ+9I2YDJcEXcMIcojKlKouIJ3xxAm
+         FXCLZ4EYtJpBWUolIIdbGFqijnfwJX/Rb5iTbKSOOE6QRk61cUsKrN9iqlKjVtKaie/A
+         mk2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWyZItTcydjKjBAi+5eRYquEZnpHauNYE0xAiekHCtE+cDnJX+EEhY5w6kysIx4g+iw5n1T2RwAYtk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJestpe8NpJqWmpiI2em+69fbntG2tk4rCS11XEmQ65L7m0o9/
+	rckc0OOqijBbH9hpJxDGjs9l0KpPniObUfWBL7pJ0RBim7DlgGSAiyRH5md2SawAMQ==
+X-Gm-Gg: AY/fxX4K4MwPVbqhSI37DIgl28FucrLDOvJjam9WCttZ8CiVEXZYBCj71tUrSWvKybV
+	t3bHccEwC1FLpPZ9n/blPOzduEwlzwZ5Lg28BoImUXeW1zNM1yX+MSc0S1xVVRglpRfjD3l0YE4
+	DibEdXLFbTSh5Og00nwmYFa3ZA5FkPkHoyE+iSHUhBlI/uNNkz4FJEkfSpGeqRstDLIjQzDz8Zb
+	0uqJeDxyehkpq0OfSdBLW8gPhHuNi7kMyr5wm7Zny7zGDU5/S8jA05XwBEXeVDZ1xRk84KDsNTv
+	JiQn6P6u51bAVnMTRjSc5FiY77t0t2Ht/MZ3j+7+r2Mf682gNR4sONSZ7X2JNr3+NFRro9J2lip
+	EMfxtUsfwxf9noSmbxUIz1MEtkdIwJZpyK69Rv1qS8fKJww35PT0kmVm0h7+DwLDgnspxU/h/6O
+	Z/RPd2ZXdo/x8m7jKDoFh3JQBuC4oRn5V4icpwc4ZEwiwY/1tz
+X-Received: by 2002:a17:903:228b:b0:2a1:3cda:8e98 with SMTP id d9443c01a7336-2a409adbb36mr2245665ad.20.1767944081624;
+        Thu, 08 Jan 2026 23:34:41 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c3a560sm96327345ad.21.2026.01.08.23.34.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 23:34:40 -0800 (PST)
+Date: Fri, 9 Jan 2026 07:34:33 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: Mostafa Saleh <smostafa@google.com>, linux-mm@kvack.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v5 3/4] iommu: debug-pagealloc: Track IOMMU pages
+Message-ID: <aWCviSCK7IBddLTn@google.com>
+References: <20260106162200.2223655-1-smostafa@google.com>
+ <20260106162200.2223655-4-smostafa@google.com>
+ <aV56BWisUQTMK2Gk@google.com>
+ <aV-PvBqQ0Ktiha8e@google.com>
+ <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
+ <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dddbcb37-68d4-4ccb-9897-b1e5a4b41be7@rock-chips.com>
+In-Reply-To: <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com>
 
-On Fri, Jan 09, 2026 at 02:22:10PM +0800, Shawn Lin wrote:
-> 在 2026/01/09 星期五 13:55, Manivannan Sadhasivam 写道:
-> > On Fri, Jan 09, 2026 at 11:29:49AM +0800, Shawn Lin wrote:
-> > > Rockchip platforms provide a 64x4 bytes debug FIFO to trace the
-> > > LTSSM history. Any LTSSM change will be recorded. It's userful
-> > > for debug purpose, for example link failure, etc.
-> > > 
-> > > Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
-> > > ---
-> > > 
-> > > Changes in v2:
-> > > - use tracepoint
-> > > 
-> > >   drivers/pci/controller/dwc/pcie-dw-rockchip.c | 92 +++++++++++++++++++++++++++
-> > >   1 file changed, 92 insertions(+)
-> > > 
-> > > diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> > > index 352f513..be9639aa 100644
-> > > --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> > > +++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> > > @@ -22,6 +22,8 @@
-> > >   #include <linux/platform_device.h>
-> > >   #include <linux/regmap.h>
-> > >   #include <linux/reset.h>
-> > > +#include <linux/workqueue.h>
-> > > +#include <trace/events/pci_controller.h>
-> > >   #include "../../pci.h"
-> > >   #include "pcie-designware.h"
-> > > @@ -73,6 +75,18 @@
-> > >   #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_1	BIT(4)
-> > >   #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_2	BIT(5)
-> > > +/* Debug FIFO information */
-> > > +#define PCIE_CLIENT_DBG_FIFO_MODE_CON	0x310
-> > > +#define  PCIE_CLIENT_DBG_EN		0xffff0007
-> > > +#define  PCIE_CLIENT_DBG_DIS		0xffff0000
-> > > +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0	0x320
-> > > +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1	0x324
-> > > +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0	0x328
-> > > +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1	0x32c
-> > > +#define  PCIE_CLIENT_DBG_TRANSITION_DATA 0xffff0000
-> > > +#define PCIE_CLIENT_DBG_FIFO_STATUS	0x350
-> > > +#define PCIE_DBG_LTSSM_HISTORY_CNT	64
-> > > +
-> > >   /* Hot Reset Control Register */
-> > >   #define PCIE_CLIENT_HOT_RESET_CTRL	0x180
-> > >   #define  PCIE_LTSSM_APP_DLY2_EN		BIT(1)
-> > > @@ -96,6 +110,7 @@ struct rockchip_pcie {
-> > >   	struct irq_domain *irq_domain;
-> > >   	const struct rockchip_pcie_of_data *data;
-> > >   	bool supports_clkreq;
-> > > +	struct delayed_work trace_work;
-> > >   };
-> > >   struct rockchip_pcie_of_data {
-> > > @@ -206,6 +221,79 @@ static enum dw_pcie_ltssm rockchip_pcie_get_ltssm(struct dw_pcie *pci)
-> > >   	return rockchip_pcie_get_ltssm_reg(rockchip) & PCIE_LTSSM_STATUS_MASK;
-> > >   }
-> > > +#ifdef CONFIG_TRACING
-> > > +static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-> > > +{
-> > > +	struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-> > > +						trace_work.work);
-> > > +	struct dw_pcie *pci = &rockchip->pci;
-> > > +	enum dw_pcie_ltssm state;
-> > > +	u32 val, rate, l1ss, loop, prev_val = DW_PCIE_LTSSM_UNKNOWN;
+On Fri, Jan 09, 2026 at 11:28:32AM +0800, Baolu Lu wrote:
+> On 1/8/26 19:33, Mostafa Saleh wrote:
+> > I have this, it should have the same effect + a WARN, I will include
+> > it in the new version
 > > 
-> > Reverse Xmas order please.
+> > diff --git a/drivers/iommu/iommu-debug-pagealloc.c
+> > b/drivers/iommu/iommu-debug-pagealloc.c
+> > index 5353417e64f9..64ec0795fe4c 100644
+> > --- a/drivers/iommu/iommu-debug-pagealloc.c
+> > +++ b/drivers/iommu/iommu-debug-pagealloc.c
+> > @@ -146,16 +146,12 @@ void __iommu_debug_unmap_end(struct iommu_domain *domain,
+> >          if (unmapped == size)
+> >                  return;
 > > 
-> > > +
-> > > +	for (loop = 0; loop < PCIE_DBG_LTSSM_HISTORY_CNT; loop++) {
+> > -       /*
+> > -        * If unmap failed, re-increment the refcount, but if it unmapped
+> > -        * larger size, decrement the extra part.
+> > -        */
+> > +       /* If unmap failed, re-increment the refcount. */
+> >          if (unmapped < size)
+> >                  __iommu_debug_update_iova(domain, iova + unmapped,
+> >                                            size - unmapped, true);
+> >          else
+> > -               __iommu_debug_update_iova(domain, iova + size,
+> > -                                         unmapped - size, false);
+> > +               WARN_ONCE(1, "iommu: unmap larger than requested is
+> > not supported in debug_pagealloc\n");
+> >   }
 > > 
-> > s/loop/i?
-> > 
-> > > +		val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-> > > +		rate = (val & GENMASK(22, 20)) >> 20;
-> > > +		l1ss = (val & GENMASK(10, 8)) >> 8;
-> > > +		val &= PCIE_LTSSM_STATUS_MASK;
-> > 
-> > Can you use FIELD_ macros here?
-> > 
-> > > +
-> > > +		/* Two consecutive identical LTSSM means invalid subsequent data */
-> > 
-> > Interesting. Does the hardware maintain a counter to track the reads? So once
-> > you break out of the loop and read it after 5s, you'll start from where you left
-> > i.e., the duplicate entry or from the start of the counter again?
-> > 
+> >   void iommu_debug_init(void)
 > 
-> Yes, the ring FIFO maintains counters for recording both of last-read-point
-> for user to continue to read, and last-valid-point for HW to
-> continue to update transition state. So we could start from where we
-> left.
+> How aobut
+> 
+> 	if ((unmapped == size) || WARN_ON_ONCE(unmapped > size))
+> 		return;
+> 
+> 	/* If unmap failed, re-increment the refcount. */
+> 	__iommu_debug_update_iova(domain, iova + unmapped, size - unmapped, true);
+> 
+> ?
 > 
 
-Ok. Thanks for clarification. It'd be worth to add it to the existing comment.
+That's nice, We could also print the message as Mostafa mentioned, like:
 
-> > > +		if ((loop > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-> > > +			break;
-> > > +
-> > > +		state = prev_val = val;
-> > > +		if (val == DW_PCIE_LTSSM_L1_IDLE) {
-> > > +			if (l1ss == 2)
-> > > +				state = DW_PCIE_LTSSM_L1_2;
-> > > +			else if (l1ss == 1)
-> > > +				state = DW_PCIE_LTSSM_L1_1;
-> > 
-> > I believe L1.0 is not supported.
-> > 
-> 
-> I'm not sure I follow this comment. state is DW_PCIE_LTSSM_L1_IDLE
-> （L1.0） if l1ss is neither 1 nor 2.
-> 
+	if ((unmapped == size) || WARN_ON_ONCE(unmapped > size, 
+	"iommu:	unmap larger than requested is not supported in
+	debug_pagealloc\n"))
 
-Ah ok. It was not clear that L1_IDLE is L1.0
+An explicit "This is unsupported" warning makes it clear IMHO.
+If a driver triggers this, at least we know the sanitizer state isn't
+supported.
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+Thanks,
+Praan
