@@ -1,134 +1,127 @@
-Received: from mailgw03.horizon.ai (mailgw03.horizon.ai [42.62.85.33])
+Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97ED39FD9
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 07:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.62.85.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EF93FC9;
+	Fri,  9 Jan 2026 07:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767942158; cv=none; b=k6cs09c9I9vlbIeBNZlGINbi5I01x+lVrG3G3WXWdVtaAggKdr9+Eo9/7RpzlyDM9XSpl1pQo9D39/Xhpy2frNI9sdAR/bx7DGQBqkmgrqUunwk54pZUtnbWQTe3Y2/haYkNvW9V+dFovfopZxHan/San/ctAJamWII7AVxkzxs=
+	t=1767942418; cv=none; b=moyyr9YSboI2lu3ssIcUB+CSSdbvb7g0WWiGDO4KuzDcnmb5XGW8rf0c1vvDoamJfA9hZrhHMazLj7USoeTG3bXCp1CQy9/SvfqV5KFQBkT0Q+aWPp/eFUFZ+rLQXEgfcvItltbnVMhDZHyfM1Sii4dkAvLTAhg6Wfvkh+3+0/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767942158; c=relaxed/simple;
-	bh=Y64n2Qv//UyAC/rV14nyXSTMyZ+t04xMntNuy1XuNfk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cGyXokFWcHY/UcQ3m4dO3afIsT/62lilnN/pTSeY+QhKK489oNO4pRFUmjdOBMVurHlFBR1A7giTf6ywQdG+1Nl7wivHUaoNUBbAGN7roTE1WY1Sx1lprfOMkMhE+5hQHtLys5VvxCif7P2BoVPeOFzv99NzFw5lA/KUKB4pBlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto; spf=pass smtp.mailfrom=horizon.auto; dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b=tMGgv0oR; arc=none smtp.client-ip=42.62.85.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horizon.auto
+	s=arc-20240116; t=1767942418; c=relaxed/simple;
+	bh=thLane9WGF2DpAp0kweUs4aLbMDzqC4LoqUQN4zJ3uA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=CHAiBdCH1XEYirxAGgYf5e7VzUSTMKZ4yjl7rgtw31ndkQMMxtU3LMUMcSnYyBOCF+AZQ8XgVx7UlFQO8s/4zWUNvNNQrcrcCfiARLlY7BayD6pnAwGNKo8SwmjcZXarEvrjLCo/kD5G4U85Lv/ow8cMCcGjUQdg6n3YpTfk23Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SBvaRiiO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zj2R0+Kq; arc=none smtp.client-ip=202.12.124.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b="tMGgv0oR"
-DKIM-Signature: v=1; a=rsa-sha256; d=horizon.auto; s=horizonauto; c=relaxed/simple;
-	q=dns/txt; i=@horizon.auto; t=1767942145; x=2631855745;
-	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Y64n2Qv//UyAC/rV14nyXSTMyZ+t04xMntNuy1XuNfk=;
-	b=tMGgv0oRIFe+lRHjoOsdO5TBGTRhAuzGlRkQpWxSkr//Rgo9tDxucEbqo9Ct6EUs
-	3Lw5QiMyaWmHk0MsAxebLmCMVAAZEHZ3IQWOdgu4voHqnJqHLfD7uEApmxob9MVD
-	qIPmV31orHDJwoU3gf76mZaWsy9feX7kVqbQx3XJNBg=;
-X-AuditID: 0a0901b2-df5da70000001406-04-6960a8010822
-Received: from mailgw03.horizon.ai ( [10.9.15.111])
-	by mailgw03.horizon.ai (Anti-spam for msg) with SMTP id C0.2C.05126.108A0696; Fri,  9 Jan 2026 15:02:25 +0800 (HKT)
-Received: from wangtao-VirtualBox.hobot.cc (10.9.0.252) by
- exchange002.hobot.cc (10.9.15.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.27;
- Fri, 9 Jan 2026 15:02:24 +0800
-From: Tao Wang <tao03.wang@horizon.auto>
-To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>,
-	<andrew+netdev@lunn.ch>, <mcoquelin.stm32@gmail.com>,
-	<alexandre.torgue@foss.st.com>, <rmk+kernel@armlinux.org.uk>,
-	<maxime.chevallier@bootlin.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Tao Wang
-	<tao03.wang@horizon.auto>
-Subject: [PATCH net Resend] net: stmmac: fix transmit queue timed out after resume
-Date: Fri, 9 Jan 2026 15:02:11 +0800
-Message-ID: <20260109070211.101076-1-tao03.wang@horizon.auto>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SBvaRiiO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zj2R0+Kq"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.stl.internal (Postfix) with ESMTP id A0E0313007C5;
+	Fri,  9 Jan 2026 02:06:55 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Fri, 09 Jan 2026 02:06:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1767942415;
+	 x=1767949615; bh=0xenDXx7lDvw8yXMh2jnUM4RAGmn8OTIbAIaZ3lsI3s=; b=
+	SBvaRiiOweZGVYYoIssAxkA+VovknFQRgKJBgHY6c7Pl/td7N9Gwfi2Ogl3zfN5E
+	SaxwtzJPvM4WSVtbedbOTW7+p8IwhUz0KJTLP16dDB7srgZRKMCyIqVBQXA6WDKR
+	kD4YP9xPrQQK3Kqovvcatndaovu8VDLEZi3lz6Y2mFh0CdN3b+UwQw2pLLFJstll
+	EKBzFK2Idhs+FhR8X5XzN6Zzn9JgWNwY2sMKY5mGtyPBlc0Emxc2WgII62CLOQ6P
+	NmsRj1FduexkTnTBAGpNNr0rr7tsNW89cWHNwExlJB8fRCG6rJjxoQQjt5I26fOU
+	I7BmGMFhBwj1HAw/5wco4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1767942415; x=
+	1767949615; bh=0xenDXx7lDvw8yXMh2jnUM4RAGmn8OTIbAIaZ3lsI3s=; b=z
+	j2R0+Kq152uZfslXfadj6zOkYSTXM53/Gvjm4NOkbfUAmlgk9Jn7erNAPYPhwLQ3
+	i7cXnPqLzJgaosxar+WHZ0SQJFLSGrg8uVCdwnlWb2wDS4irWquZWVRwLPhBj2qU
+	A+sAstF+L7QmTfuu3nccZFbGJ0Tr7CTVHSCMAbZkxoemSLCtCfyAjvZulw3OB4dc
+	SanxYS81s2WyUR8ZVQCy65BVJUQdXq7EX0xSSXbQpYkJ5uZU8vzetH5lhIMH/kgS
+	TErJrb8yXtWDehOEh+S+BABiZlByqetBd4I0fLOxTHdD9dr9woiQVK85lX2tXIqM
+	rplLb4uyOoHq0xvUiBflA==
+X-ME-Sender: <xms:DqlgaRu_fJGBnNG2oN8aRqVVqNc_VLaWsbEI4YZ4X-qiD9_AUsOZbg>
+    <xme:DqlgaVR0Qni5z9xusGlm7Eop5HeW3Chs0KZYx0pfZjJbyBzywaCfiF77AKQpGV3g7
+    DU5yd_ZSd0EenaAI1WcE1nNY4fMeQaG6tAk6Ihp05l-5VCoT01MMo-N>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddutdekudejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepgfeiteeffffgieegudekudekfefhfeefhfegjeeiuddtvdeludfhjeehvdegveeu
+    necuffhomhgrihhnpeguthhsrdhsohenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthho
+    pedvfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepuggrnhhivghlsedtgidtfh
+    drtghomhdprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskhhisegtrghn
+    ohhnihgtrghlrdgtohhmpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlih
+    guvghrrdgsvgdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    ohepshhhrgifnhhguhhosehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlvggvrdhjoh
+    hnvghssehlihhnrghrohdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgv
+    thdprhgtphhtthhopehsrghmsehrrghvnhgsohhrghdrohhrghdprhgtphhtthhopehlih
+    hnuhigsehrvghmphgvlhdqphhrihhvrghtrdguvg
+X-ME-Proxy: <xmx:DqlgafUtq5PUnKACPYLpae3zgBJmVU5D7JSWQ8mD0IS1a-OvYHuhLA>
+    <xmx:DqlgaTR_q4s2sYu3QkkHi4iILGCAdz5E6mZiFdm8nnql9N3NdvqztQ>
+    <xmx:DqlgaWE6hoT4ybEwHjODalszGkC4kmHoSpjviS6fNRPNmA00g_TWyw>
+    <xmx:DqlgabRIMMNHGICrY4naZYXcQ0D_afiEPZ4snybHEIulNP-jbLyoXQ>
+    <xmx:D6lgaQyok1gp3lYljhgCQQ9Jb1jcj9C7lhBmacxDzoopRWT5MUOKz7LN>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 224E8700065; Fri,  9 Jan 2026 02:06:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Ai76N3Tj7qwR
+Date: Fri, 09 Jan 2026 08:06:33 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Rob Herring" <robh@kernel.org>, "Luka Kovacic" <luka.kovacic@sartura.hr>
+Cc: linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ Max.Merchel@tq-group.com, "Oleksij Rempel" <linux@rempel-privat.de>,
+ "Daniel Palmer" <daniel@0x0f.com>, "Shawn Guo" <shawnguo@kernel.org>,
+ "Sam Ravnborg" <sam@ravnborg.org>, krzysztof.kozlowski@canonical.com,
+ pavo.banicevic@sartura.hr, "Jonathan Corbet" <corbet@lwn.net>,
+ "Lee Jones" <lee.jones@linaro.org>, "Pavel Machek" <pavel@ucw.cz>,
+ "Guenter Roeck" <linux@roeck-us.net>, "Jean Delvare" <jdelvare@suse.com>,
+ goran.medic@sartura.hr, luka.perkov@sartura.hr,
+ "Robert Marko" <robert.marko@sartura.hr>
+Message-Id: <dc1826b3-3af6-42f6-9281-52917da2c9ef@app.fastmail.com>
+In-Reply-To: <20260108202907.GA998297-robh@kernel.org>
+References: <20210824124438.14519-1-luka.kovacic@sartura.hr>
+ <20210824124438.14519-2-luka.kovacic@sartura.hr>
+ <20260108202907.GA998297-robh@kernel.org>
+Subject: Re: [PATCH v9 1/7] dt-bindings: Add IEI vendor prefix and IEI WT61P803 PUZZLE
+ driver bindings
 Content-Type: text/plain
-X-ClientProxiedBy: exchange004.hobot.cc (10.9.15.112) To exchange002.hobot.cc
- (10.9.15.111)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLLMWRmVeSWpSXmKPExsXCxcmfr8u4IiHTYP5UU4ufL6cxWix/sIPV
-	Ys75FhaLR/0n2CwubOtjtVjYtoTF4vKuOWwWL19vY7Y4tkDM4tvpN4wWl/onMjlwe1y+dpHZ
-	Y96aao8tK28yeTzt38rusWlVJ5vHzh2fmTze77vK5vF5k1wARxSXTUpqTmZZapG+XQJXxqmn
-	+9kLDglVbNnxhqWB8Rh/FyMnh4SAicSJpknsILaQwEpGifON7l2MXED2c0aJS7ceMYIk2AQ0
-	JO5OvcYCkhARWMwk0Xl6KhNIglkgVWLv7p/MILawQJDE1oeHWEFsFgEViaMzNgA1cHDwCthK
-	fOhhgVgmL7H/4Fmwcl4BQYmTM5+wQIyRl2jeOpsZwpaQOPjiBTPEQSoSzSfns0P0ykm83rCf
-	DcKOlfj2YgbLBEaBWUhGzUIyahaSUQsYmVcxCucmZuaklxsY62XkF2VW5efpJWZuYgTHCOOm
-	HYxLFnzUO8TIxMF4iFGCg1lJhLdZMD5TiDclsbIqtSg/vqg0J7X4EKM0B4uSOK+2YlymkEB6
-	YklqdmpqQWoRTJaJg1OqgSmB/aZb6obw65sXzW3n01K5v9xD6OxBzp17l+iynn01dWpBGo+q
-	hNUFlq/Ci/ce/HlP+liB5cmf3PcteYRWb5tR/m/DAnXD5muODW4xMxhFXOvarnflZUyLvtPX
-	+/rUaYdtG4/6pmU63LtXa3Rg1Zfd926pFHL1H/hpq/ciedmTA99z2AuWp/bam2Rzhh7lKmHv
-	Wn5aQ0bcmL28Z9slj92bjUwz7yQ+/lPDlXn2p9sTli1z3q7fEmY60fHW/Crefy9NkxQZUp2E
-	t/Fu4VvoZt1t+f3U6SWME5lrDYsXOub//hJ//4SWXPMCW+HIvKPin9dcYV/by7VeZdbLLJUN
-	E3P2WvTtXbd2WoiM4En5lcuUWIozEg21mIuKEwG9m0ZvAAMAAA==
+Content-Transfer-Encoding: 7bit
 
-after resume dev_watchdog() message:
-"NETDEV WATCHDOG: CPU: x: transmit queue x timed out xx ms"
+On Thu, Jan 8, 2026, at 21:29, Rob Herring wrote:
+> On Tue, Aug 24, 2021 at 02:44:32PM +0200, Luka Kovacic wrote:
+>> Add the IEI WT61P803 PUZZLE Device Tree bindings for MFD, HWMON and LED
+>> drivers. A new vendor prefix is also added accordingly for
+>> IEI Integration Corp.
+...
+> I guess working on the driver is abandoned, but we already have this 
+> binding in use in armada-8040-puzzle-m801.dts. So it's either add the 
+> schema or remove the nodes to fix the warnings.
+>
+> Or maybe the whole platform is not used and the entire .dts file can be 
+> removed?
 
-The trigging scenario is as follows:
+According to the manufacturer's website, the puzzle-m801 product was
+phased out a year ago, along with all other rackmount appliances, so
+it's unlikely that they would still work on it, but it's also recent
+enough that I think it makes sense to keep the dts file around if it
+can be fixed up easily.
 
-When the TSO function sets tx_skbuff_dma[tx_q->cur_tx].last_segment = true
-
-, and the last_segment value is not cleared in stmmac_free_tx_buffer after
-
- resume, restarting TSO transmission may incorrectly use
-
-tx_q->tx_skbuff_dma[first_entry].last_segment = true for a new TSO packet.
-
-When the tx queue has timed out, and the emac TX descriptor is as follows:
-eth0: 221 [0x0000000876d10dd0]: 0x73660cbe 0x8 0x42 0xb04416a0
-eth0: 222 [0x0000000876d10de0]: 0x77731d40 0x8 0x16a0 0x90000000
-
-Descriptor 221 is the TSO header, and descriptor 222 is the TSO payload.
-
-In the tdes3 (0xb04416a0), bit 29 (first descriptor) and bit 28
-
-(last descriptor) of the TSO packet 221 DMA descriptor cannot both be
-
-set to 1 simultaneously. Since descriptor 222 is the actual last
-
-descriptor, failing to set it properly will cause the EMAC DMA to stop
-
-and hang.
-
-To solve the issue, set last_segment to false in stmmac_free_tx_buffer:
-tx_q->tx_skbuff_dma[i].last_segment = false;
-Set last_segment to false in stmmac_tso_xmit, and do not use the default
- value: tx_q->tx_skbuff_dma[first_entry].last_segment = false;
-This will prevent similar issues from occurring in the future.
-
-Signed-off-by: Tao Wang <tao03.wang@horizon.auto>
----
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index b3730312aeed..d786ac3c78f7 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1653,6 +1653,7 @@ static void stmmac_free_tx_buffer(struct stmmac_priv *priv,
- 
- 	tx_q->tx_skbuff_dma[i].buf = 0;
- 	tx_q->tx_skbuff_dma[i].map_as_page = false;
-+	tx_q->tx_skbuff_dma[i].last_segment = false;
- }
- 
- /**
-@@ -4448,6 +4449,7 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 	if (dma_mapping_error(priv->device, des))
- 		goto dma_map_err;
- 
-+	tx_q->tx_skbuff_dma[first_entry].last_segment = false;
- 	stmmac_set_desc_addr(priv, first, des);
- 	stmmac_tso_allocator(priv, des + proto_hdr_len, pay_len,
- 			     (nfrags == 0), queue);
--- 
-2.34.1
-
+     Arnd
