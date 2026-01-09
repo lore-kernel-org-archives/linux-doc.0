@@ -1,66 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8888F366DCC;
-	Fri,  9 Jan 2026 20:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7801A285
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 20:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767989929; cv=none; b=sDFuaeZLUrXQZzI4put+sf7Tvs+WjxfPATUZwyhGTJaGJEFvAI1irvwVaglz+nQEcNDWH5AHt3hUzLyaW9mUEveDHYjek5n31kAXZEfCl3PBfw5Aqw0JABkZffGj2MNVhE4bilo7Ct7fM1s4FCowZaL/z/S1NXwAaNdLTlHlKns=
+	t=1767991262; cv=none; b=lQxhT6ftvHm4QdZKZ1nWldMQypV09AHnCHeB2zSWEAan9hRt60tkeMN+06kKu7bbpsUvbc5q85UFpCQWKjx/BdT+WWvREhEmWRRGF3iEl1Qzjb2YKmEBOc7Feaa4SvF1Q6lOva4Mj2WqG+C/pAXi2zQWb4M5ilU3czH2zFz0ugo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767989929; c=relaxed/simple;
-	bh=IJvX1ytDf67uxIGz3eh6b9Td+Lu9NTcFLmsU6lIzymQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LoILA64y76f0o1ABChxDfT7Ohg0+OszjNRL67u2YfxB6rTbcjXi6A7EDUQuhsCBFdsuFbU8z5evB2koz6eMqNWFoPj8YL8ZJtTAgVmeCo7BxbT3BAkm+C6y9cdF1poV48LAjqYzVw2YjJUk+P3vtsLj6njmf9Tn4kjCz1hppvfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DoVLLnHE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767991262; c=relaxed/simple;
+	bh=BimJQe/UCWIXTzKwD+5l6kb8eepQM/saACSMjJtwX5g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Y1XDlYqwNuvMcw39FHd+DY/7i7sG32zdMJiKpbTXmEG2l/4wQvt8MU3RO986WjHK+RjXBLJsqeLVe3eU6GN+Vua0eeDjZfzVga4i9Z3DUZ0wWyRUGh3GYZY4sUW694H6i0g5fzbmllQ5dw+bivIId0nrztOeumufcVI0kWXqrt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Gmfwxvzv; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DoVLLnHE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE10EC4CEF1;
-	Fri,  9 Jan 2026 20:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767989928;
-	bh=IJvX1ytDf67uxIGz3eh6b9Td+Lu9NTcFLmsU6lIzymQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=DoVLLnHE+aJaKH0wUrFjsPtZUvY8uUnk6PzISQmstIJsaIclhuwlFqBXRyVLJVA3b
-	 kqfPodxl+Cw3JnripYq8xKTQQBIM1Ats13wMcWW3vczIMRcfLRyjBkAA7rWxRp2QPT
-	 JS4l9Hkgytg6jN9DZM6UfyxergTgu8rSStB6NdWuuGxJJtZ7qJuEo3QrntFMsWs/+Z
-	 7fYCwib+N22UmQ3xmR6HeMPPBerZzM6V6xpyKouWJdMzi5NYd1jHQ21MRBNRbknvAQ
-	 oXl3cjRvpkoJayUejC/RU3uo/96ZPcEu4Qx63J07dPMMxfxucSBb7M4JwI/gfZwTNi
-	 jfocW8mmRtUXQ==
-Date: Fri, 9 Jan 2026 14:18:47 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event
- documentation
-Message-ID: <20260109201847.GA561061@bhelgaas>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Gmfwxvzv"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 930B840B1A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1767991260; bh=8b7ol6r/CtLV8jrJskrGaOt+P9NLQgqqpDcXhmvIFpQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Gmfwxvzv3cXmogZsYxz1/iDm/vdpGfRgZ8eaQeyf8UwRwcbsyCzNQuCDabw8wxjMX
+	 hhLWZZHEVhbBh3saYYwYWjW3htJAuHSZwqePz0buOEcvn7499I4Jx5Cl5rhtaNcRUP
+	 uFGZe1nplNJD1/h55LS2xhqyJU3BXnLckTrJpe+cZkhaklf1XOmVJMy+1cdvsz6kHS
+	 LWJtQilX5TOchi9yqj9KrtrOtgxdmOD+Xx9Jh65NJg1HfH26WxvbgMMcFPEzNfbNSc
+	 CY3E49JG8oUDyEnBQRV51UmJOXwXF2jIcrOzK9vW+Y/gCz1JiD6isqX45JRlc1zFvv
+	 9wHOGKkBBORDA==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 930B840B1A;
+	Fri,  9 Jan 2026 20:41:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation: bug-hunting.rst: Remove wrong
+ 'file:' syntax
+In-Reply-To: <20260109172517.GA102040@pevik>
+References: <20260109152336.84674-1-pvorel@suse.cz>
+ <874iou4wde.fsf@trenco.lwn.net> <20260109172517.GA102040@pevik>
+Date: Fri, 09 Jan 2026 13:40:59 -0700
+Message-ID: <87sece34f8.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 09, 2026 at 11:29:48AM +0800, Shawn Lin wrote:
-> The available tracepoint, pcie_ltssm_state_transition, monitors the LTSSM state
-> transistion for debugging purpose. Add description about it.
+Petr Vorel <pvorel@suse.cz> writes:
 
-s/transistion/transition/
+> Hi Jonathan, all,
+>
+>> Thanks for working to improve our docs
+>
+>> Petr Vorel <pvorel@suse.cz> writes:
+>
+>> > Link to another document does not require 'file:', therefore it was
+>> > shown in generated html.
+>
+>> > Preformatted text requires just ``...``.
+>
+>> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+>> > ---
+>> >  Documentation/admin-guide/bug-hunting.rst | 6 +++---
+>> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+>> > diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation=
+/admin-guide/bug-hunting.rst
+>> > index 7da0504388ece..32b1b0c3d7ee4 100644
+>> > --- a/Documentation/admin-guide/bug-hunting.rst
+>> > +++ b/Documentation/admin-guide/bug-hunting.rst
+>> > @@ -52,14 +52,14 @@ line is usually required to identify and handle th=
+e bug. Along this chapter,
+>> >  we'll refer to "Oops" for all kinds of stack traces that need to be a=
+nalyzed.
+>
+>> >  If the kernel is compiled with ``CONFIG_DEBUG_INFO``, you can enhance=
+ the
+>> > -quality of the stack trace by using file:`scripts/decode_stacktrace.s=
+h`.
+>> > +quality of the stack trace by using ``scripts/decode_stacktrace.sh``.
+>
+>> >  Modules linked in
+>> >  -----------------
+>
+>> >  Modules that are tainted or are being loaded or unloaded are marked w=
+ith
+>> >  "(...)", where the taint flags are described in
+>> > -file:`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" =
+is
+>> > +`Documentation/admin-guide/tainted-kernels.rst`, "being loaded" is
+>
+>> Can I ask you to remove the `quotes` too?  They aren't needed and can
+>> prevent the automarkup code from doing its thing.
+>
+> Do you mean to really show the name of the file (no html link)?
+>
+> Documentation/admin-guide/tainted-kernels.rst, "being loaded" is
+>
+> This shows Documentation/admin-guide/tainted-kernels.rst in generated htm=
+l.
+>
+> But `Documentation/admin-guide/tainted-kernels.rst` will have link:
+>
+> Text:
+> Tainted kernels, =E2=80=9Cbeing loaded=E2=80=9D
 
->  Documentation/trace/events-pci-conotroller.rst | 41 ++++++++++++++++++++++++++
+Not true - the quotes are not needed for the automarkup code to do its
+thing.  The backticks will just have the effect of setting the title in
+italics, and may interfere with the automarkup.  Better to leave them
+out.
 
-s/events-pci-conotroller.rst/events-pci-controller.rst/
+Thanks,
 
-> +The PCI controller tracing system provides tracepoints to monitor controller level
-> +information for debugging purpose. The events normally show up here:
-> +up here:
-
-Wrap text to fit in 80 columns (unless it's a command line or similar
-that shouldn't be split).
+jon
