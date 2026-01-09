@@ -1,83 +1,66 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832CB2DEA70
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 19:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA211F151C;
+	Fri,  9 Jan 2026 20:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767988274; cv=none; b=sAHc/cwENWTQGrn8KnOZulAnbIk4VCkNNi5WFJ2/GzuEJD6jaBMvBNt+yOpiBPUP3MbjLeuNNhYqTm8Jwgvw7AH0b8Av8mf6JbuZHAp8Wbx5WAisNo099ghKcwCi/naozHR7NI132+HY6+QL6Ip47QqrysO1ZWUBx6rKMt2rDYA=
+	t=1767989371; cv=none; b=ULZ+XVcRpt+/zq/yfzJY8Bn25GikYfZSZjLWVO/kVhvh0vovaYfcRbnpX75RVygoKrR6obrgQwUHOtOCxFVRF2JzeMwfSU7gU5ucYxOMTuaFWZymxzvq9yEu948V9exEFHYfY1b56U2Ruklm8l+pHWNsQJe6ir2i4us49rwHHOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767988274; c=relaxed/simple;
-	bh=4j8mSXXSQlh/FE4IkZdDwk7n5+vtZGmT0Vq4KXerTeY=;
+	s=arc-20240116; t=1767989371; c=relaxed/simple;
+	bh=5axzby49Fa/0SEo5UFGiSuW7Dqdl7D33czvCIivdFOQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cCUv4Qlypzn8RcC5B/JWrFIoGOR7KTXDioGLd4SNZwdk2jihG19zclvgtOIVWqI44hnLXgzcNpKkHiqI+YtCqJ1juwdmvcJ+fF7Q3wrllWj0VkvCRvrBiTHp9pCkB2QylyMNas71kV6HRMmYAzVtE8/KdjRTcW5BT+HYbjWTVTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=ImgIFG75; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFARaBa2CudKXOtW/NWUnJPeWOliYAlzFCNPB9azeIBORQMcevkiARaFJ10kOZ1NcBvxuHbQqWVS2DUEhOUegvs+7SPDSqqtQOm2OsJBPwWNOeQOTvc+Elg8GzxiJBadU2kAcZn4F/ZSELSqVW80UQC1Stkkm0P0Tk+AJnaB84M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doIiqsRD; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="ImgIFG75"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8b25ed53fcbso621958885a.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 11:51:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1767988272; x=1768593072; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1HhQrwHPYHs7tKqcm2gO84BH3BiFPGmtv9DkIKXa95Q=;
-        b=ImgIFG75OoxdecNRLoSmBvaKd8dGnF4Mu9BGLF6A1HX2bgDmB292viDtxT3P1OAIGO
-         3MYZDAfyFLGsZgMdQAIxj2m84PCrCwEFkYkTw1GPL5GTZgMmk9/UqPELxW6juj+tN0fo
-         APiVzpETnCeCqqopCZRIVo3b+Yrg6eGqQ6CYwLpGrJetVQ/tBR7lWO43wum2W04XIGyU
-         r6ZxS+kw5uB4zEqlnWCK4I/91O9I2FL0khLSFJve6Ut8h8kMbUEPHhMbYsX459+l2RXD
-         rRTm/m3mOuk8koC7BZ7JluSxlSc5KKSAhINHRHr6tGav0rliP3ea7mB5lA55frzm3klS
-         PwwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767988272; x=1768593072;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1HhQrwHPYHs7tKqcm2gO84BH3BiFPGmtv9DkIKXa95Q=;
-        b=Kt1+aj+EYJihaa8NdwboxmUFU7biikRfQYpYMr+8TywH6opcv37dQJmyIPiDY6HpaW
-         Tri56SO/blRCrj7nbnQX5ZEiHuArerX9mhz1RB4h2hJ3JLpVtm1XxJ6v8OkMizFuUP4Z
-         QYAL5JcCB1M4sv/nF7ssBodpTIZVIFL2/eA/5haOX0GbogiZDW8amYDD4r/Hdn/eY0tM
-         Z/uGS0gN3NnhKOUj0wFNiO3qhKEZqDH1mWaKDPflXyeL8JXuRtr8aX2gJ5hxAX5e+ub4
-         EkpgJ3QbVEVt8KFnnPR4Uve2rwnVHxAs2a6PjpyFo0RS7f4YbLFQbiX8EYj9CQiV44Xx
-         vjnw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmv/EFsNHvqd3kllRPtrAkWbRjD9vVSw1DhfBX7GtKSJFl/P3NMUSc4hdGoF+JIRrCPnTW0S0/+lo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz12pIUxR3+dtZd3j+qhrH12xU4uiMNAOP8WHwx6gXxSexFLKl1
-	L3FVvPhEjA2OmsITlqOo4zRkLsnzS04B+Qvi7R+Rst5aj3H/2SMtcm5RlMLaA+D57Uw=
-X-Gm-Gg: AY/fxX43MDRbcyio8BNfunHHlb20fHiWLueH1851NsSlx6JFmwotFRSEJzSHTIPXRIG
-	ID0aXDya2c3K7QLxdNKvDwOmKk7vwlsLevdU2RKqyAIr6ATx4pQ59LdCignGxX77RWFJyonNp2b
-	sd0fR5e7aIYvnZVqy4r3bpwPnk3a1poDtcuLcVVD0i/V6Xri3mjej5Dn8rkXlJBRfD8sxxXyFeF
-	R+IlFqg1gPjJaGHKGqDhUhOZq3DxjOsD+ZnvGby4kuHXYiWUIkKg30cKQcUBv6ssIliZdC+lRNn
-	VAfrRyAjuW74El+1NuEnENkrRZs0pkxHoyPTHEkXb7sZsDRHQOJ/rCqoKKRm0D1WD4VNH1xu8fU
-	OPukdunzd13pLKrLfTPJtqJ9qjsss/kxvHOO/wYJj98N+elH5lyMAOytV9xcSvJIYYhV0K5Fn8O
-	DGOtP6riNmiLl/vhJhLW8LSmOBJdu8Lf6dLnz/Ksvcq9qzzLDEOwqWYv4CxJTCyF5iOhY=
-X-Google-Smtp-Source: AGHT+IEZlrPxi+avVlluweNPtX7JEzZwtpBy5iyUb1htiohwK8TIi/Gv4SrQxJebEESGgl3Hi3a9jA==
-X-Received: by 2002:a05:620a:414a:b0:8c0:995b:e729 with SMTP id af79cd13be357-8c3893aa18cmr1552234485a.38.1767988272405;
-        Fri, 09 Jan 2026 11:51:12 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f400b59sm888623785a.0.2026.01.09.11.51.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 11:51:11 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1veIVr-0000000381J-1kSA;
-	Fri, 09 Jan 2026 15:51:11 -0400
-Date: Fri, 9 Jan 2026 15:51:11 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
-	baolu.lu@linux.intel.com, rdunlap@infradead.org,
-	Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH v6 3/4] iommu: debug-pagealloc: Track IOMMU pages
-Message-ID: <20260109195111.GQ545276@ziepe.ca>
-References: <20260109171805.901995-1-smostafa@google.com>
- <20260109171805.901995-4-smostafa@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doIiqsRD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767989369; x=1799525369;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5axzby49Fa/0SEo5UFGiSuW7Dqdl7D33czvCIivdFOQ=;
+  b=doIiqsRDFzty6R6WiEK1huNTIj8jYhJGwsWTdZL+2Y5OhWwSgeTI/ZO0
+   OXDDrtiw224XizuI9k2/1dOOsRKVoj0GfFfUA2LWAICCgWQKMaqopZC84
+   losKRfIBsMaQOzhed3MzNY20LbDZ8r1jpjCzPEF3qi6M5nDJ0Ore9m3dL
+   EFBGan/HfJyXxYjQYCnF097/3KFKBZ+2ZFMaXptKA1fkpY3wHGCsbV6af
+   iAF5O/iFCYkzzSWf84TlOBqkTUczggNgiO86R42hx9B8SjvBZrGcrht0f
+   GmFIjMTHYuU8lgKMA5qR3+g1iyDbTupWlzaLbOPGsqqeULGBwL+sp3jz+
+   g==;
+X-CSE-ConnectionGUID: rkOWqxzpSFqOu9r0MHWJvw==
+X-CSE-MsgGUID: RmTxEXLKSTqz4tqf+LRg/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69445827"
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
+   d="scan'208";a="69445827"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 12:09:29 -0800
+X-CSE-ConnectionGUID: 7xfIFGvxRrm0x7xEk1P3Tw==
+X-CSE-MsgGUID: 9+5xRz03SICboPHoeOcpzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
+   d="scan'208";a="208083989"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 09 Jan 2026 12:09:27 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1veInU-0000000028K-011v;
+	Fri, 09 Jan 2026 20:09:24 +0000
+Date: Fri, 9 Jan 2026 21:08:56 +0100
+From: kernel test robot <lkp@intel.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
+	linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: Re: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event
+ documentation
+Message-ID: <202601092104.0IlUz26P-lkp@intel.com>
+References: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,35 +69,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260109171805.901995-4-smostafa@google.com>
+In-Reply-To: <1767929389-143957-3-git-send-email-shawn.lin@rock-chips.com>
 
-On Fri, Jan 09, 2026 at 05:18:04PM +0000, Mostafa Saleh wrote:
-> +static struct page_ext *get_iommu_page_ext(phys_addr_t phys)
-> +{
-> +	struct page *page = phys_to_page(phys);
-> +	struct page_ext *page_ext = page_ext_get(page);
-> +
-> +	return page_ext;
-> +}
-> +
-> +static struct iommu_debug_metadata *get_iommu_data(struct page_ext *page_ext)
-> +{
-> +	return page_ext_data(page_ext, &page_iommu_debug_ops);
-> +}
-> +
-> +static void iommu_debug_inc_page(phys_addr_t phys)
-> +{
-> +	struct page_ext *page_ext = get_iommu_page_ext(phys);
-> +	struct iommu_debug_metadata *d = get_iommu_data(page_ext);
+Hi Shawn,
 
-You cannot do this - phys_to_page() can only be called if we already
-know that phys is a struct page backed item and by the time you get
-here that information is lost.
+kernel test robot noticed the following build warnings:
 
-Probably the only way to resolve this is to somehow pass in an iommu
-prot flag that can tell the difference between struct page and
-non-struct page addresses.
+[auto build test WARNING on pci/next]
+[also build test WARNING on next-20260109]
+[cannot apply to pci/for-linus mani-mhi/mhi-next trace/for-next linus/master v6.19-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-But I have to NAK this approach of blindly calling phys_to_page().
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260109-153843
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/1767929389-143957-3-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH v2 2/3] Documentation: tracing: Add PCI controller event documentation
+reproduce: (https://download.01.org/0day-ci/archive/20260109/202601092104.0IlUz26P-lkp@intel.com/reproduce)
 
-Jason
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601092104.0IlUz26P-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   WARNING: No kernel-doc for file ./include/linux/delay.h
+   ERROR: Cannot find file ./include/linux/delay.h
+   WARNING: No kernel-doc for file ./include/linux/delay.h
+   ERROR: Cannot find file ./include/linux/delay.h
+   WARNING: No kernel-doc for file ./include/linux/delay.h
+>> Documentation/trace/events-pci-conotroller.rst:21: WARNING: Title underline too short.
+--
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+>> Documentation/trace/events-pci-conotroller.rst: WARNING: document isn't included in any toctree [toc.not_included]
+
+
+vim +21 Documentation/trace/events-pci-conotroller.rst
+
+    19	
+    20	pcie_ltssm_state_transition
+  > 21	-----------------------
+    22	
+    23	Monitors PCIe LTSSM state transition including state and rate information
+    24	::
+    25	
+    26	    pcie_ltssm_state_transition  "dev: %s state: %s rate: %s\n"
+    27	
+    28	**Parameters**:
+    29	
+    30	* ``dev`` - PCIe root port name
+    31	* ``state`` - PCIe LTSSM state
+    32	* ``rate`` - PCIe bus speed
+    33	
+    34	**Example Usage**:
+    35	
+    36	    # Enable the tracepoint
+    37	    echo 1 > /sys/kernel/debug/tracing/events/pci/pcie_ltssm_state_transition/enable
+    38	
+    39	    # Monitor events (the following output is generated when a device is linking)
+    40	    cat /sys/kernel/debug/tracing/trace_pipe
+  > 41	       kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
