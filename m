@@ -1,145 +1,242 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30C7363C64
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 16:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767975165; cv=none; b=djypJf4KNbXpHof4IiHAg9wM1d5GysYMy67Dr8GSJJzzdFyC+bk4NIJawWgvTJ/tFPAF3Y8kH7Twkj09uuI8599SL9VyWrkm/JN8GwxLU9y/SdrDd3JHvT9Bon8rtg/PLfbpkQ3wdRUBy0mKF5MFOCjoNy7vmaRJ45dkreT0lHc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767975165; c=relaxed/simple;
-	bh=7nYTkLWPl1UM8TZDYNKBL/hfXO/2Wa7x8HBtreZOD0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nyQ7f9D1EG9kq34pV+r23lAHPkrc/h/DlQnWviOxlwUzPSrMjbszMCV9NZbgUGWiTuN+qcr3o0bDz7o4+NVY7x16UQl75lfo3anplSdgbcvLimMCtsvoDZva2vOi3GNuxJjXfz6rItLiwtF1DrX55DMrOvdbqhwg+ZQ1lI1AsMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GFIsCHdg; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14A83148C6
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 16:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767976287; cv=pass; b=ltLh70rLvv9qm+BBEsXScSX7Uluag5FmLt+wXjUfKcz8pii8qFwdPuMTij56pj2aNo86BFAhKaAKSeoJuDx+QoWpBH/pYGuRtaXyDwLzV8HruZ5E7gT7Tv6/1r9Guw0VRN04ICQ6MlBRyFWdL22OBfavnaeoeVTS7DHIHsWgJQQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767976287; c=relaxed/simple;
+	bh=TvYZA4dBSlsSpGSZUaKtQ+jUGYaXayrnDE16b2gj2N0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kl98FPMM7bbhNrpxCKJGAp9H4kF6JP0E6AlXCGq1clap5gNLzZxGyLfnPDxYGBOB5yBa85a1nkreAhHEdZAejIw/fQt5iGsJohF0R/DFSQQ6XZqmtqTW1B5c1GmiZEX7TRICKjPauhKiwzxf38IPLWmUTmrmrdtgKgU46BcPgt8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SUmEcPMt; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GFIsCHdg"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso2261139f8f.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 08:12:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SUmEcPMt"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4edb8d6e98aso599951cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 08:31:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767976284; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hQLRgDZx6DoOnoCNKtwOSDOTiIDZ/xCPxgPBTGgFvzM14K43KV/2JlwCNaqHbX/K38
+         +BjLDORBF/F9WyhkMBkii+j6vI5hbitiaGpK8dldyWr1CsGcdSUQBJjHsRw9NyKdovkp
+         4Y0auhOS3qBLjgJ3Z1uifXllzT7KKYiHJQpGVzFqI/jrkhAMEHrQjh9Kr7mqiDEGrIdH
+         k82YZ7ok5GtvjqSha2f1eJRVqnHoXmobDuh9uc5die5y1KVNxzWbRNdqes+9hr/TA2H4
+         yL4UKF23BK1bmFC8T/kqY68JCm/s9y53pJMj/3+W5/G4ZxktVDYhDgxqt9mHF7FAPs6/
+         rhiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=bOqelCfA+niHr585Q7gjhs1CWJtFJzsgDt10/9RfHhM=;
+        fh=v5EUc0lGkjkGooh3KSdrTDKs+f9FSqS/sy7fiYKmzAc=;
+        b=PUjPhqWRE1HH6cJmRzm70xkthtuedGMhgAaJ3A94mxhFG6XHDczODHIHCE5bqlbdD1
+         EHlCCGe38T6gR3mq+TYEFgtGDJeD6f0GrlZxb8Hq5pLywfktodH1VVT0KRIVtNrJlEA7
+         PiazUz/byaB6rw+rqtzwlo1HgmqVO1rKuzfNs7ZnbycSKlvjlStg2/QuGJAzV99QLiUT
+         nT4uvLY4vbdCDgbMUi118nzZ6TUf6Fw/wErUlLu6U4E40n8AESaVz1Mh6y7zQKMs73fK
+         2xnTTjXZzzsct6aBoqaJD++klEW7ETpWUZyZTvrRKBEwdRO5qLLc6PMTHH33tud/ALQd
+         vxnw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767975152; x=1768579952; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7nYTkLWPl1UM8TZDYNKBL/hfXO/2Wa7x8HBtreZOD0U=;
-        b=GFIsCHdgo5Ew5jPavjDOBmjvuUgGrcZgeEHM2cksiftSXsFTCs3j/BsRwC8pbJhvl0
-         czCoa0b3YuiV3xIUk/NrXx0FiL4ffHPe6ZEjeFNR3sI/K3jWw4rFR69RL8sQfOq9tzuZ
-         8KxrYa4DqKDh5CU4Vmax+EFJMfp3ZCUCfEMIJza9rXFSbtY4kg7PtABE28AFwuQx7nYv
-         4tyG1bWdQFsilaDRL5E9DL9Y+mR1dS8Qqr7fX84dNjFKkpteucnOPOE5hOZGBYEWhU0V
-         k2Wpue9SDW1oAQ6jxO9VkKZanKFqqMACOs71h3dG8Cm92yDb2nSqDe9MlvuxUL6LUk2j
-         1rRg==
+        d=google.com; s=20230601; t=1767976284; x=1768581084; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bOqelCfA+niHr585Q7gjhs1CWJtFJzsgDt10/9RfHhM=;
+        b=SUmEcPMtZxpzkG7Bxjg/Em0Y4U4kQ4BXBdxvHw88nWLlZMLlpnYJhGMRvUYt14OuAr
+         XvU8EGNgnCG4EmyCZq9crSxUQvfbljbQQlBriYJqhvTaHOved4CPzrhOgh2VK7owO+G7
+         EsTEmaMk7C2ctWZ7Qdf8qvEwmh+gs1zF/LK2F4JfPBu4SED8gGVrQi1B0hZS3fTqsLaT
+         HdTsCbGc+dFII0ZaEMeBMXSZ4pqDqyGT7sPUCa6FyqQZ68/r8EziJQEhUvjiE5jfeett
+         xHup5hSV99h75/7VoiuhOp8RxmhBXGnAsaIzSx2nJO7tS53TZuGc2KdLfR2Iboequ6Ov
+         bLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767975152; x=1768579952;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7nYTkLWPl1UM8TZDYNKBL/hfXO/2Wa7x8HBtreZOD0U=;
-        b=mBs+cInKy8ApBOsICEpjmDCInljBR38MXw+IHuXH+Jc9fcCGPclhTVDJ+qr1T87cL4
-         uuQJRs97Q0gTVbWHOPDkSDavLt9Qps0vVf2bS2vB86N7T+2gXOHMepmON70zEkDKIQJv
-         oUS6Eoi5xwmL+M2tr2Q/OtJo/5rwAQbO/UinVbNccwipTOB4vieSXCPimomFnhspygYE
-         i1FQRidGVT1su0BrY4M3Eepu5Y0MHGa614xr1YD1lPaAEf0gud9eStx88EfsZ5cmk1w3
-         xLb5YKk3hEbNJ14LZaQnmL0Ns8OJ8fGJFMmFMQK/vA7G34lKCnTAjP6Dr4xlyWF1JQ5p
-         D7dw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxjWSYjQRJAj6qTUKu+s51p13OVajVj+Bs2LzxdnuxgwdmqhMHxnfSDTJa9D5WOCpQ8p/5XWWhEMI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJjFUQR0sYOzpOrg05u/1U13IW4MRCY24L22MC7Zz9Hu8gAAT3
-	IUtt5mpKsWocdPRa1RLEzVm3JoTVJsePSXk4AH/jTtfYORsD54rUe7IVouz7wtxLeag=
-X-Gm-Gg: AY/fxX5iXiX7TYcb/mdGAtf87/R0K7WxJwB9rHahbELuloWQiJwcPj2fxXvQLZTOmis
-	nHYJZn34pC8DKAUYrQ1pliVxVsAdB2nlzm/YJvg47IxO3+kWxHyGE8NFsdHJxYw7gpl6ediR74/
-	1oV196P4acNgqs8OZVd2nS9FGdY/4JVce/FhVID6nN8yAvamjeRM/aLAn/NZYHDTfXpqSRplaKF
-	snnvKNZisTiSuCql/DxNnl9OQqk4LQkVJG+R62xtQZ+gVOGr5cjN1fw61Hmh0my68vgU2UWER5b
-	pKhWbtglmwpDZRz5VBPumR8C7w4VXfEwilbhwW0gAM4GsBDjDzF5edk8YbZMs7ZNsDnzG4oJWTs
-	UG6AzyRUQWdzzDw9pFHT0z3RqIAgRTdLY5S6BvrPu9vtA+JRS+2NfGYy00Uy5/t4C99QEjiPsIP
-	0nMtXvOoZh6zXZIYGRhvSQHRVLZ9RqjUg=
-X-Google-Smtp-Source: AGHT+IGqi0WGxFAcDFwR5qEinbKBaTRMIfIyWMKP/Zy/UAYWvqJ9DVeTS3bRLdcV05itFpZa0N5HLQ==
-X-Received: by 2002:a05:6000:40e1:b0:431:16d:63d1 with SMTP id ffacd0b85a97d-432c37a50aemr13205705f8f.44.1767975152120;
-        Fri, 09 Jan 2026 08:12:32 -0800 (PST)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ee24esm23190979f8f.33.2026.01.09.08.12.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 08:12:31 -0800 (PST)
-Date: Fri, 9 Jan 2026 17:12:29 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Chen Ridong <chenridong@huaweicloud.com>
-Cc: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Sun Shaojie <sunshaojie@kylinos.cn>
-Subject: Re: [cgroup/for-6.20 PATCH v2 4/4] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-Message-ID: <oaewv3tyxpufdn3d3tnb43d2qyhqxlorl7fbbp3vwbw3j4jxn6@lonmplwkfumn>
-References: <20260101191558.434446-1-longman@redhat.com>
- <20260101191558.434446-5-longman@redhat.com>
- <chijw6gvtql74beputm3ue2zu2vmrwvtg5a2bn3wabgkqldq4d@obrdh4znejaw>
- <990be63e-3884-4933-9ad7-bfd9f2be05df@huaweicloud.com>
+        d=1e100.net; s=20230601; t=1767976284; x=1768581084;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bOqelCfA+niHr585Q7gjhs1CWJtFJzsgDt10/9RfHhM=;
+        b=WacO6nX7kXfEzgmYaaWAZxXajnGoLCkpjyuQiGw5bb2VEVFCecK9avfp/6zG/uNEXi
+         SZH9gGr/ljQAZ9GxQudP5iwrTo9E+h4OovQPp+C6wwhiqj1XDPu7A9HS2eZH/3SeU8NL
+         xwlBbsIhhDtUi9L8cIecZoW3vm4ihozo5D56mHeXo7qSvp21mqfNi1RaRVQhn7IdALcE
+         JvDbm3z5i3hMhLfaQA6HqlrGyosnIRydZQ7d6YpU3g+qLeb/kJjjKpG7x8mhv2Wrlaye
+         N6/y/F16Dd4K4svDprB4SzmOQKgprc/4RlCTfXVa8j0dok9N72GOO1PvDtIK5+yUykpO
+         7CaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhVNTTZAW5ls2qYab7tFEJf6GPA5e1d+YeU/SxmfcHdkW7Wo8AlwuSe6lOfdulYiNzxQ60MX8vcFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5PeQBPkjAiFMYgIbk9ZrRGbTUHghohWqJK/75KkjYGCT5h+5k
+	15+GF00FT1n6C7Zx7zcn4KufGgj3R9U/ep3pdKW3SR6veCSRSozQVq9IFXm0KREonGGh2dxta73
+	W8a2ihOZ+gmBiXUktT9u6hTau+nTwTMFiG6KQnvqb
+X-Gm-Gg: AY/fxX4N9Av8TltIsNnrxv+8kTDLSsuZnMeKn1J4GntSAMP7OcLSacT/R5RxupMaHnl
+	MO0VNjyBtrNDYp2iLilZtgdJRLF2co6MV8XLG2Z0kRGZRtzZaukBtzG2+/IPAvgDuC6NDUtyRZc
+	ajxTXZRy/MEfv8JZTucN0li4F6IYvv3VnGqI1lEsnINEhRKK/bSgBg/JqEhkEnPBHF1gISvGzZN
+	kqZaE6CJn2m8ZUUgQaYKI4K3W+CiUIxi7T1jMF6dkTkc0E2Koz5UoTS+5gJyy/nFz5Mp/zH
+X-Received: by 2002:ac8:5d8d:0:b0:4ed:70d6:6618 with SMTP id
+ d75a77b69052e-4ffca3899e0mr12373901cf.10.1767976283510; Fri, 09 Jan 2026
+ 08:31:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="c2bzswrle4z6exsi"
-Content-Disposition: inline
-In-Reply-To: <990be63e-3884-4933-9ad7-bfd9f2be05df@huaweicloud.com>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-15-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-15-8be3867cb883@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 9 Jan 2026 16:31:00 +0000
+X-Gm-Features: AZwV_Qg_Mx3Uve2Ajz9vtAn4ZY1Okl_E_qqP5nAl07n9Fwy2xIITsZXnkaSndwU
+Message-ID: <CA+EHjTzP9roJNcHhVrcGm9RMAn0E+RGPkJ57w44OL4fy3EW-wA@mail.gmail.com>
+Subject: Re: [PATCH v9 15/30] KVM: arm64: Support SME control registers
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
+	Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 23 Dec 2025 at 01:22, Mark Brown <broonie@kernel.org> wrote:
+>
+> SME is configured by the system registers SMCR_EL1 and SMCR_EL2, add
+> definitions and userspace access for them.  These control the SME vector
+> length in a manner similar to that for SVE and also have feature enable
+> bits for SME2 and FA64.  A subsequent patch will add management of them
+> for guests as part of the general floating point context switch, as is
+> done for the equivalent SVE registers.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h     |  2 ++
+>  arch/arm64/include/asm/vncr_mapping.h |  1 +
+>  arch/arm64/kvm/sys_regs.c             | 36 ++++++++++++++++++++++++++++++++++-
+>  3 files changed, 38 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index b41700df3ce9..f24441244a68 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -504,6 +504,7 @@ enum vcpu_sysreg {
+>         CPTR_EL2,       /* Architectural Feature Trap Register (EL2) */
+>         HACR_EL2,       /* Hypervisor Auxiliary Control Register */
+>         ZCR_EL2,        /* SVE Control Register (EL2) */
+> +       SMCR_EL2,       /* SME Control Register (EL2) */
+>         TTBR0_EL2,      /* Translation Table Base Register 0 (EL2) */
+>         TTBR1_EL2,      /* Translation Table Base Register 1 (EL2) */
+>         TCR_EL2,        /* Translation Control Register (EL2) */
+> @@ -542,6 +543,7 @@ enum vcpu_sysreg {
+>         VNCR(ACTLR_EL1),/* Auxiliary Control Register */
+>         VNCR(CPACR_EL1),/* Coprocessor Access Control */
+>         VNCR(ZCR_EL1),  /* SVE Control */
+> +       VNCR(SMCR_EL1), /* SME Control */
+>         VNCR(TTBR0_EL1),/* Translation Table Base Register 0 */
+>         VNCR(TTBR1_EL1),/* Translation Table Base Register 1 */
+>         VNCR(TCR_EL1),  /* Translation Control Register */
+> diff --git a/arch/arm64/include/asm/vncr_mapping.h b/arch/arm64/include/asm/vncr_mapping.h
+> index c2485a862e69..44b12565321b 100644
+> --- a/arch/arm64/include/asm/vncr_mapping.h
+> +++ b/arch/arm64/include/asm/vncr_mapping.h
+> @@ -44,6 +44,7 @@
+>  #define VNCR_HDFGWTR_EL2       0x1D8
+>  #define VNCR_ZCR_EL1            0x1E0
+>  #define VNCR_HAFGRTR_EL2       0x1E8
+> +#define VNCR_SMCR_EL1          0x1F0
+>  #define VNCR_TTBR0_EL1          0x200
+>  #define VNCR_TTBR1_EL1          0x210
+>  #define VNCR_FAR_EL1            0x220
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 3576e69468db..5c912139d264 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -2827,6 +2827,37 @@ static bool access_gic_elrsr(struct kvm_vcpu *vcpu,
+>         return true;
+>  }
+>
+> +static unsigned int sme_el2_visibility(const struct kvm_vcpu *vcpu,
+> +                                      const struct sys_reg_desc *rd)
+> +{
+> +       return __el2_visibility(vcpu, rd, sme_visibility);
+> +}
+> +
+> +static bool access_smcr_el2(struct kvm_vcpu *vcpu,
+> +                           struct sys_reg_params *p,
+> +                           const struct sys_reg_desc *r)
+> +{
+> +       unsigned int vq;
+> +       u64 smcr;
+> +
+> +       if (guest_hyp_sve_traps_enabled(vcpu)) {
 
---c2bzswrle4z6exsi
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [cgroup/for-6.20 PATCH v2 4/4] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-MIME-Version: 1.0
+Should this be guest_hyp_sme_traps_enabled() ?
 
-On Fri, Jan 09, 2026 at 09:30:08AM +0800, Chen Ridong <chenridong@huaweiclo=
-ud.com> wrote:
-> > Concept question:=20
-> > When a/b/cpuset.cpus.exclusive =E2=8A=82 a/b/cpuset.cpus (proper subset)
-> > and a/b/cpuset.cpus.partition =3D=3D root, a/cpuset.cpus.partition =3D=
-=3D root
-> > (b is valid partition)
-> > should a/b/cpuset.cpus.exclusive.effective be equal to cpuset.cpus (as
-> > all of them happen to be exclusive) or "only" cpuset.cpus.exclusive?
-> >=20
->=20
-> The value of cpuset.cpus will not affect cpuset.cpus.exclusive.effective =
-when cpuset.cpus.exclusive
-> is set.
->=20
-> Therefore, the answer: only cpuset.cpus.exclusive.
+> +               kvm_inject_nested_sve_trap(vcpu);
 
-Thanks. (I later arrived at that conclusion by studying
-Documentation/admin-guide/cgroup-v2.rst.)
+And by the same token, should this be kvm_inject_nested_sme_trap()?
+That function doesn't exist, but would inject ESR_ELx_EC_SME instead
+of ESR_ELx_EC_SVE.
 
-> If cpuset.cpus could not be used for exclusive CPU allocation in a partit=
-ion, it would be easier to
-> understand the settings of cpuset.cpus.exclusive and cpuset.cpus.partitio=
-n. This means that only
-> when cpuset.cpus.exclusive is set can the cpuset be a partition (it has n=
-othing to do with
-> cpuset.cpus). However, for historical and compatibility reasons, cpuset.c=
-pus is considered as the
-> exclusive CPUs if cpuset.cpus.exclusive is not set.
+> +               return false;
+> +       }
+> +
+> +       if (!p->is_write) {
+> +               p->regval = __vcpu_sys_reg(vcpu, SMCR_EL2);
+> +               return true;
+> +       }
+> +
+> +       smcr = p->regval;
+> +       vq = SYS_FIELD_GET(SMCR_ELx, LEN, smcr) + 1;
+> +       vq = min(vq, vcpu_sme_max_vq(vcpu));
+> +       __vcpu_assign_sys_reg(vcpu, SMCR_EL2, SYS_FIELD_PREP(SMCR_ELx, LEN,
+> +                                                            vq - 1));
 
-I reckon this is the difference between local and remote partitions.
-I.e. non-empty cpuset.cpus.exclusive is what makes a remote partition
-together with non-member cpuset.cpus.partition. Where the latter may get
-into the way as an uninteded local partiton.
+I think this might be wrong. This code only writes the LEN, discarding
+other fields in SMCR_EL2. The analogous SVE code in access_zcr_el2()
+is only concerned with the length, and doesn't need to worry about
+other bits to preserve.
+
+Should this be something along the lines of the below instead?
+
++       smcr = p->regval;
++       vq = SYS_FIELD_GET(SMCR_ELx, LEN, smcr) + 1;
++       vq = min(vq, vcpu_sme_max_vq(vcpu));
++       smcr &= ~SMCR_ELx_LEN_MASK;
++       smcr |= SYS_FIELD_PREP(SMCR_ELx, LEN, vq - 1);
++       __vcpu_assign_sys_reg(vcpu, SMCR_EL2, smcr);
 
 Cheers,
-Michal
+/fuad
 
---c2bzswrle4z6exsi
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaWEo6RsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AjISAD+PtIh8Hw7ChSTbbpB9n/I
-EZmtcsvJGLy+zKIi8ieqW3YA/AgypfRIytJKhva0dZqwrLB0OhLD25ULmEUPQMSf
-S2QA
-=tOrM
------END PGP SIGNATURE-----
 
---c2bzswrle4z6exsi--
+> +       return true;
+> +}
+> +
+>  static unsigned int s1poe_visibility(const struct kvm_vcpu *vcpu,
+>                                      const struct sys_reg_desc *rd)
+>  {
+> @@ -3291,7 +3322,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>         { SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
+>         { SYS_DESC(SYS_TRFCR_EL1), undef_access },
+>         { SYS_DESC(SYS_SMPRI_EL1), undef_access },
+> -       { SYS_DESC(SYS_SMCR_EL1), undef_access },
+> +       { SYS_DESC(SYS_SMCR_EL1), NULL, reset_val, SMCR_EL1, 0, .visibility = sme_visibility },
+>         { SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, TTBR0_EL1 },
+>         { SYS_DESC(SYS_TTBR1_EL1), access_vm_reg, reset_unknown, TTBR1_EL1 },
+>         { SYS_DESC(SYS_TCR_EL1), access_vm_reg, reset_val, TCR_EL1, 0 },
+> @@ -3655,6 +3686,9 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>
+>         EL2_REG_VNCR(HCRX_EL2, reset_val, 0),
+>
+> +       EL2_REG_FILTERED(SMCR_EL2, access_smcr_el2, reset_val, 0,
+> +                        sme_el2_visibility),
+> +
+>         EL2_REG(TTBR0_EL2, access_rw, reset_val, 0),
+>         EL2_REG(TTBR1_EL2, access_rw, reset_val, 0),
+>         EL2_REG(TCR_EL2, access_rw, reset_val, TCR_EL2_RES1),
+>
+> --
+> 2.47.3
+>
