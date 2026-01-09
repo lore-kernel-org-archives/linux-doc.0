@@ -1,723 +1,378 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E02A35966
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 17:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767980665; cv=none; b=F6YRmNwQVZWzi5wy+9j4wv2+bi2sEDndN1IFampeU/svkCSvX1nzMyvtgpUz6IeYRvOn1IJi9XVplN/EC4P9nzBznHi3BwXM+YmkW9nbjPjJmOf1DgPxjXwdIhKR4SWYnPdYERfYugPcWZCArc/K03Jz5NitK7lQzAAs326RebY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767980665; c=relaxed/simple;
-	bh=DR6Zo8V54Hk7PfR2DzYJufSDtn3y7Wj5L8XyOrL78oM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g1xaoBOzJDCaAteGKYe/0IpfDx6SppGVVmrS2aj+ODW60TaBAm1ueeU46Ep5G1SZveuXYws2y48KnxMFMnvxqxLiCydG1VspS1UK2lv3QAPHSbIA2DXu/RxhrF35bpfNLTg4XDow+dTwVY35mVJsBMSbmNxnXk6dqailHx5QIQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbDP+3kN; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D985364EAF
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 18:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767981764; cv=pass; b=hFHSTG2btElBTJYuinCSJXiMhJTZ8N09/RQ0cFSs8WcFtxO1LFmKVTNqi4dEGi1GjpMn0cqOrZTt7M0oURHts6i2JTT01FDCyjcVFk7qI7virN7UAwVR2q/wgWjwQtgnAMH8iH5qdWGyeqasn3KM2hdmBjSP0hIO52WTPGzbjzI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767981764; c=relaxed/simple;
+	bh=waz35Dit5obwJm4+6Pqr6z8GYP9jwuqNcLuFmQkHyWA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VNzBuW69jfGsdKq446H1TAlwtdvJHSqp5BQ400GO4f2lBv4cwWMMydC5J0VlPno9bsSvVCq8VVBVv87+vSJcYczCMResC6TmzoLLNNI8XwX8hYUA2peDPrBOyw2Z2/befTDCPZrxvXC/pX9KYuYMpjIAVkFkbNhL+LDo8NzdmdE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IORnjLMh; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbDP+3kN"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-65cf597a717so1905633eaf.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 09:44:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IORnjLMh"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4ee147baf7bso38161cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 10:02:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767981760; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KS3/InWe6NG3pJR0ngHkzilGX44RZ60m0aLFekbYCCgHRU/UMuKNsSq1kdgidzIGHj
+         8J0ZLcSxfyXn4NDYKTVMNf4QdyETu2RAwuaehUUj+rBgP8JDALs6KqEShV0iaLdZX/+n
+         QlpCmGjvQKa3s5xmRqtCZEku79BLcj7WjtCzRADuOGEZ7230cOSS9A8lTgg5yHKDC1Ln
+         wncoZvC+yCPhXW/Quaq4IZyp28kfFKNES2NdHNFnYs0HF1FKcUyQ/cRVNnBg1flUrLX7
+         DQmkl+cUxx7c8Yj/qjEvyw0IhbAjF7biseGHTxX3apcHF3GAQ0lLroORyhcngyjazBIp
+         tBLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fus9hklj3G1seHxQuK5bfg4xK6ZEq5azhzXVMqskmqY=;
+        fh=1KkFdzuyjWFn+EcR/JOuvfBO5JsbBl7//EvbQJKlGS4=;
+        b=eOKay+9/7Bb9zD0t5D9CBpDjDZEamWWVCnF2CyxiA03jVc1Bh3YbIk9g7dxb8HnSPb
+         voJuwtmj77upQ9Q1CTxIg3B1zcEJZ7WjrvfhlcTUnQkaJ/Uw0sO9trlQA2FY/fD2FSyp
+         X6rZDb7XnKa92EI3Q6jlpJxs7TxeshRmoKsBKURZ+CcZ3+hVgEAiwzq3q6Gyv4aq1CXf
+         Ui5fSISA9ROdgRXPX4m9h2bXAFnb4KgezL/VC19oRvcZJVu+wZbwGKI5ZuRCz1wpLCKJ
+         NS1uZESTnuOkJKPxj/x7Fs57+fpfyfXIoj4qqqur9qHU3BwGj2pQ9F2HSCukyGcuL4mN
+         LdfA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767980661; x=1768585461; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TpXnMe8HMaASFxpW3V5CuudmDl9eXL6/QlmxmibxZbI=;
-        b=BbDP+3kNUdyKaMXBzv5baYrNFLnmhek3ZVZroju59BpE2f/lfESZ0nCYf0sZqKZ1VO
-         Pqh5mxkQ72lHz50Np21x0sGG4h3qjQBmsXvc0Wl/iKKDR7DL2AvdxqtHFj1sjZPxWFgg
-         r7ZE1TH6mY4SxQGqv7/+OBzYDrQSxDcdo862WZUFHbzZylHNnkqt1VBKmtEe8BeRSavb
-         6bcdCGPZLtVp9/R5UJz03RwJSQ6g4oWJHVHmLZvL/nzQNYMX7vOkAdcqXpTXVGgFRf2a
-         9qT0xDNxSmdh7wJojpCpEU710purSKYS1+zSS3ugjkqMOTFXRB/+oZeV8ZfGZzIsrkvd
-         rJLg==
+        d=google.com; s=20230601; t=1767981760; x=1768586560; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fus9hklj3G1seHxQuK5bfg4xK6ZEq5azhzXVMqskmqY=;
+        b=IORnjLMhtaJmiOBDS1amkQXaiXt4Q6CXxOe9U72f8Vwy4ue1GRAX8CbfOqkFgzi3kT
+         JDuVxuVwR3jgM2DtjE8XPxNDMVZMGoGvpV/e2sAeZFRO31AMwZz12ntHrn3XbZtLfjEP
+         /ng0hIrK1G4iVyRJR02oCmYvkRfR2Ypkkg2Nf9Uy1lsHS+9ANqgiUPlngkbkpas36YBw
+         bW+zNd4lJbBQ5LHWUGnbBpf7oZaj4xtIQBx6pkL2qxJjBf9NKzFn9tuyD1Kq2GS5/C0D
+         XlBUT5kSVTzSlb852cEbeOu2C6JtKy+U/1tBa//MiJteOcV4Vppu842fh+FrvM6TeaNM
+         hMpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767980662; x=1768585462;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TpXnMe8HMaASFxpW3V5CuudmDl9eXL6/QlmxmibxZbI=;
-        b=Y+sQYiW5LtGdoo6KK0+H82KfpWJZRd9dEyAnJ1Z5rAGe88g7rUz2mhV4aexyqQ/nST
-         u6yjyDdF9+IEOw6Ih8FZLGV58TivZ+aGobHt5AL6iUMoL5qHatSCsNF87H6vV8YiyMRY
-         XThDaWTZb+y6xz5wNuyb4vgOs/CuUbwWvmvfSlkTh19I3p6TUX3ZtqRZTHgCXPOZim6r
-         KF0L5Vuth5uDAdSQfpUOGNc1F73YN97lggS3rxbkSKhA9vmTzoz3sZnpPifdW+np7AJL
-         vXaqegZNucHOMfO8CH9ycIBf0DRVyFumjh4yTkQUygOYwfAXJAb8Nq5CSL8ph89WSVwV
-         eAaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXF79rr980KsrrEtfYjqncZHUEbJlYEBmcXWqC7zp4KXlTz3kS9rlstSNitoYCTOp2656hxaVMGb+Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMieUwTNdkoZnUPwHSc+wtiFfjoLOc46KPiOjKkMtqI9PXvnPS
-	94oZVHYQWVKIK4mVczPF3LGZM5Vh3PeCpOeunbldmywMuzYGHuAz7EUn
-X-Gm-Gg: AY/fxX6Jbi+LcwBsYv2/xhwo1CSphR6FCYJmkdxbzILIc5UyhHOgQN89ongYMKebKu+
-	+eQx461RDk/aCe1tNSQQy4IiUNRHOH9ErWT2OYahm62NiP4fXAED2mvQGCM7agE/hIpzoQUwzGa
-	Sj8nKMsMzcWW6ueCHHLlhIcrWIAAVaY2nEM5FX5gPGoFQwlf/w1bDlq3oToKgWfhs/q+w8qlmO3
-	WY02mB3ZwtewLxUXmiRlP1Q7uQh9Q7p9GA++sgJ+htLG8Gp06YPYycOLmR1CgT+yN1nWTXeLYsb
-	kFZt/ijQNGl4yYypj8v5bp+jvBwuO8W3R9oDbjXvUOpFmPTZNNm/sp6K+i393xVz13EeznaM5zA
-	YYlqak8PZnkSU4BLsvPYblv+mBAMDQaLlSSQK5OLwbFSzsuQB1wtYlOKLyaGc4HQHqkvAWY+lhe
-	bS7a58MPunWJuMXj9xz/9S/pEZHlsLhQ==
-X-Google-Smtp-Source: AGHT+IGrDxaPMV4XsUSe67se4I5goLOK8KJfizgVsfiAHgeOtenqMhtLzmrnp6sZKWBl+hHwsgM7vw==
-X-Received: by 2002:a05:6820:80e3:b0:65e:9097:3ee0 with SMTP id 006d021491bc7-65f54f74a47mr4338509eaf.44.1767980661405;
-        Fri, 09 Jan 2026 09:44:21 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:184d:823f:1f40:e229])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65f48beb796sm4162975eaf.7.2026.01.09.09.44.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 09:44:20 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Fri, 9 Jan 2026 11:44:18 -0600
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 17/21] famfs_fuse: Plumb dax iomap and fuse
- read/write/mmap
-Message-ID: <zzt22jptpg5csmu6wa3ex5vvajp7gegimkcsbvfjznlo3s372s@c4joz37ewp4x>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-18-john@groves.net>
- <20260108151335.000079d7@huawei.com>
+        d=1e100.net; s=20230601; t=1767981760; x=1768586560;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fus9hklj3G1seHxQuK5bfg4xK6ZEq5azhzXVMqskmqY=;
+        b=cjctS2AOMsSS0fh3zmnUKVhMYHhm2qatCqahueRGNn/v+m6jGW/RdMt7Kx7n7hkt5X
+         n+jfxnbyPDFw3iTTUAQ38FNwgqUJVYbdfyhwbCTwYVYFKoRrsYSB3l7XP9uS42ovsIvA
+         bqPbnzPZYu+1w/OOM69Jb8uOTiCd0wQjrT/jODG+FE6eEDC+j4Qo8FDVktro4p0LemlS
+         V3thvCmANqp14CHTbzhmaFKa/hv3EADFsVH5K2E6vytBz7peLjqgqWPDWNxO4GVnxq8M
+         4tzrz/9PUZ36u+Zl7WsRb/lHKgoeYrvAwf4l3PNVeuA+fqCth0uqjtZd8GGprXozy0Gf
+         jzWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5L8RFtfQf46oz3KFNHbQ25SSG198yxnSkkNfV4fFQfg2WwYAst9lsJ4PMezMWqo4fWyqHetT1nUQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw90ioFM0KTk0aOhMvN4VPhmTLZVCGyoIsqkjXdyDcX5ZVSMKgc
+	U4uKuAtcjJNsQtutMxxeZiCbpgQ47VABGb8EObmgvdQWkNzmeEZtNRa6v1KcIFreH+6t2SiM/EJ
+	X4TeWh3p7OyOl6CEwfwGBmNGDOVtZ+gwaru7IwtjP
+X-Gm-Gg: AY/fxX6rvr0KCi1yx88rGG/oha72Qz5QI1Zd94vS+kwK9N1jPMggooPZryKIYUl8N9X
+	2QZ79uL3jwAi7SMGapJysvkjTPcpXG6ajv1xOBViGXBFMkcS3ZpAqYXnCYHIkXsIXskeVg+TgeH
+	aS4tIkqZC3QfML13UGvnCQUbwFnG6GnzzTny+9GmP24aP5Xdre9Qkynq6rKug3wpR0fny/ED62h
+	OPwhFFP8iS76verj8/UWz7UwqC0kvJ2SRcyi1woHjdTMMZQ9PzTKFmthHFJkSsJethWWynU
+X-Received: by 2002:a05:622a:1187:b0:4e5:8707:d31 with SMTP id
+ d75a77b69052e-5011856b0f5mr522651cf.7.1767981759778; Fri, 09 Jan 2026
+ 10:02:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108151335.000079d7@huawei.com>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-17-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-17-8be3867cb883@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 9 Jan 2026 18:01:00 +0000
+X-Gm-Features: AZwV_QiYol_KQciMdPiGzXkA1B5EfVQnDlekgBd_EKl4LUMtbj0GKBGclxvm6Ig
+Message-ID: <CA+EHjTxaL7YwztugxyhS--948WUQ5BkME-P1cmrHvvJqEGEEBA@mail.gmail.com>
+Subject: Re: [PATCH v9 17/30] KVM: arm64: Support SME identification registers
+ for guests
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
+	Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/01/08 03:13PM, Jonathan Cameron wrote:
-> On Wed,  7 Jan 2026 09:33:26 -0600
-> John Groves <John@Groves.net> wrote:
-> 
-> > This commit fills in read/write/mmap handling for famfs files. The
-> > dev_dax_iomap interface is used - just like xfs in fs-dax mode.
-> > 
-> > * Read/write are handled by famfs_fuse_[read|write]_iter() via
-> >   dax_iomap_rw() to fsdev_dax.
-> > * Mmap is handled by famfs_fuse_mmap()
-> > * Faults are handled by famfs_filemap*fault(), using dax_iomap_fault()
-> >   to fsdev_dax.
-> > * File offset to dax offset resolution is handled via
-> >   famfs_fuse_iomap_begin(), which uses famfs "fmaps" to resolve the
-> >   the requested (file, offset) to an offset on a dax device (by way of
-> >   famfs_fileofs_to_daxofs() and famfs_interleave_fileofs_to_daxofs())
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> A few minor comments and suggestions inline.
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-> > ---
-> >  fs/fuse/famfs.c  | 458 +++++++++++++++++++++++++++++++++++++++++++++++
-> >  fs/fuse/file.c   |  18 +-
-> >  fs/fuse/fuse_i.h |  18 ++
-> >  3 files changed, 492 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> > index b5cd1b5c1d6c..c02b14789c6e 100644
-> > --- a/fs/fuse/famfs.c
-> > +++ b/fs/fuse/famfs.c
-> > @@ -602,6 +602,464 @@ famfs_file_init_dax(
-> >  	return rc;
-> >  }
-> >  
-> > +/*********************************************************************
-> > + * iomap_operations
-> > + *
-> > + * This stuff uses the iomap (dax-related) helpers to resolve file offsets to
-> > + * offsets within a dax device.
-> > + */
-> > +
-> > +static ssize_t famfs_file_bad(struct inode *inode);
-> > +
-> > +static int
-> > +famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
-> > +			 loff_t file_offset, off_t len, unsigned int flags)
-> > +{
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> > +	struct famfs_file_meta *meta = fi->famfs_meta;
-> > +	struct fuse_conn *fc = get_fuse_conn(inode);
-> > +	loff_t local_offset = file_offset;
-> > +	int i;
-> > +
-> > +	/* This function is only for extent_type INTERLEAVED_EXTENT */
-> > +	if (meta->fm_extent_type != INTERLEAVED_EXTENT) {
-> > +		pr_err("%s: bad extent type\n", __func__);
-> > +		goto err_out;
-> > +	}
-> > +
-> > +	if (famfs_file_bad(inode))
-> > +		goto err_out;
-> > +
-> > +	iomap->offset = file_offset;
-> > +
-> > +	for (i = 0; i < meta->fm_niext; i++) {
-> > +		struct famfs_meta_interleaved_ext *fei = &meta->ie[i];
-> > +		u64 chunk_size = fei->fie_chunk_size;
-> > +		u64 nstrips = fei->fie_nstrips;
-> > +		u64 ext_size = fei->fie_nbytes;
-> > +
-> > +		ext_size = min_t(u64, ext_size, meta->file_size);
-> min() probably fine. Also, how about avoiding the assignment that
-> is immediately overwritten.
-> 
-> 		u64 ext_size = min(fei->fie_nbytes, meta->file_size);
+.
 
-Done and done, thanks
 
-> 
-> > +
-> > +		if (ext_size == 0) {
-> > +			pr_err("%s: ext_size=%lld file_size=%ld\n",
-> > +			       __func__, fei->fie_nbytes, meta->file_size);
-> > +			goto err_out;
-> > +		}
-> > +
-> > +		/* Is the data is in this striped extent? */
-> > +		if (local_offset < ext_size) {
-> Similar comments to below, though here that would mean not being able
-> to scope these local variables as tightly so maybe not worth it to reduce
-> indent.
 
-I'll look at refactoring the fault handlers after the rebase-hell dust
-settles on review stuff. They're quite stable as is, so I don't want to risk
-a mistake while I'm branch-wrangling
+On Tue, 23 Dec 2025 at 01:22, Mark Brown <broonie@kernel.org> wrote:
+>
+> The primary register for identifying SME is ID_AA64PFR1_EL1.SME.  This
+> is hidden from guests unless SME is enabled by the VMM.
+> When it is visible it is writable and can be used to control the
+> availability of SME2.
+>
+> There is also a new register ID_AA64SMFR0_EL1 which we make writable,
+> forcing it to all bits 0 if SME is disabled.  This includes the field
+> SMEver giving the SME version, userspace is responsible for ensuring
+> the value is consistent with ID_AA64PFR1_EL1.SME.  It also includes
+> FA64, a separately enableable extension which provides the full FPSIMD
+> and SVE instruction set including FFR in streaming mode.  Userspace can
+> control the availability of FA64 by writing to this field.  The other
+> features enumerated there only add new instructions, there are no
+> architectural controls for these.
+>
+> There is a further identification register SMIDR_EL1 which provides a
+> basic description of the SME microarchitecture, in a manner similar to
+> MIDR_EL1 for the PE.  It also describes support for priority management
+> and a basic affinity description for shared SME units, plus some RES0
+> space.  We do not support priority management for guests so this is
+> hidden from guests, along with any new fields.
+>
+> As for MIDR_EL1 and REVIDR_EL1 we expose the implementer and revision
+> information to guests with the raw value from the CPU we are running on,
+> this may present issues for asymmetric systems or for migration as it
+> does for the existing registers.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h          |  3 +++
+>  arch/arm64/kvm/config.c                    |  8 +-----
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 11 ++++++++
+>  arch/arm64/kvm/hyp/nvhe/pkvm.c             |  4 ++-
+>  arch/arm64/kvm/sys_regs.c                  | 40 +++++++++++++++++++++++++++---
+>  5 files changed, 54 insertions(+), 12 deletions(-)
+>
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 825b74f752d6..fead6988f47c 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -400,6 +400,7 @@ struct kvm_arch {
+>         u64 revidr_el1;
+>         u64 aidr_el1;
+>         u64 ctr_el0;
+> +       u64 smidr_el1;
+>
+>         /* Masks for VNCR-backed and general EL2 sysregs */
+>         struct kvm_sysreg_masks *sysreg_masks;
+> @@ -1543,6 +1544,8 @@ static inline u64 *__vm_id_reg(struct kvm_arch *ka, u32 reg)
+>                 return &ka->revidr_el1;
+>         case SYS_AIDR_EL1:
+>                 return &ka->aidr_el1;
+> +       case SYS_SMIDR_EL1:
+> +               return &ka->smidr_el1;
+>         default:
+>                 WARN_ON_ONCE(1);
+>                 return NULL;
+> diff --git a/arch/arm64/kvm/config.c b/arch/arm64/kvm/config.c
+> index 24bb3f36e9d5..7e26991b2df1 100644
+> --- a/arch/arm64/kvm/config.c
+> +++ b/arch/arm64/kvm/config.c
+> @@ -274,14 +274,8 @@ static bool feat_anerr(struct kvm *kvm)
+>
+>  static bool feat_sme_smps(struct kvm *kvm)
+>  {
+> -       /*
+> -        * Revists this if KVM ever supports SME -- this really should
+> -        * look at the guest's view of SMIDR_EL1. Funnily enough, this
+> -        * is not captured in the JSON file, but only as a note in the
+> -        * ARM ARM.
+> -        */
+>         return (kvm_has_feat(kvm, FEAT_SME) &&
+> -               (read_sysreg_s(SYS_SMIDR_EL1) & SMIDR_EL1_SMPS));
+> +               (kvm_read_vm_id_reg(kvm, SYS_SMIDR_EL1) & SMIDR_EL1_SMPS));
+>  }
+>
+>  static bool feat_spe_fds(struct kvm *kvm)
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> index 8c3b3d6df99f..d921db152119 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
+> @@ -125,6 +125,17 @@ static inline u64 ctxt_midr_el1(struct kvm_cpu_context *ctxt)
+>         return kvm_read_vm_id_reg(kvm, SYS_MIDR_EL1);
+>  }
+>
+> +static inline u64 ctxt_smidr_el1(struct kvm_cpu_context *ctxt)
+> +{
+> +       struct kvm *kvm = kern_hyp_va(ctxt_to_vcpu(ctxt)->kvm);
+> +
+> +       if (!(ctxt_is_guest(ctxt) &&
+> +             test_bit(KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS, &kvm->arch.flags)))
+> +               return read_sysreg_s(SYS_SMIDR_EL1);
+> +
+> +       return kvm_read_vm_id_reg(kvm, SYS_SMIDR_EL1);
+> +}
 
-> 
-> > +			u64 chunk_num       = local_offset / chunk_size;
-> > +			u64 chunk_offset    = local_offset % chunk_size;
-> > +			u64 stripe_num      = chunk_num / nstrips;
-> > +			u64 strip_num       = chunk_num % nstrips;
-> > +			u64 chunk_remainder = chunk_size - chunk_offset;
-> 
-> I'd group chunk stuff, then strip stuff.
+AFAIKT, this isn't used anywhere in this series. Dead code from a
+previous iteration?
 
-chunk, stripe, strip. Done 
+> +
+>  static inline void __sysreg_save_common_state(struct kvm_cpu_context *ctxt)
+>  {
+>         *ctxt_mdscr_el1(ctxt)   = read_sysreg(mdscr_el1);
+> diff --git a/arch/arm64/kvm/hyp/nvhe/pkvm.c b/arch/arm64/kvm/hyp/nvhe/pkvm.c
+> index f4ec6695a6a5..b656449dff69 100644
+> --- a/arch/arm64/kvm/hyp/nvhe/pkvm.c
+> +++ b/arch/arm64/kvm/hyp/nvhe/pkvm.c
+> @@ -351,8 +351,10 @@ static void pkvm_init_features_from_host(struct pkvm_hyp_vm *hyp_vm, const struc
+>                             host_kvm->arch.vcpu_features,
+>                             KVM_VCPU_MAX_FEATURES);
+>
+> -               if (test_bit(KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS, &host_arch_flags))
+> +               if (test_bit(KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS, &host_arch_flags)) {
+>                         hyp_vm->kvm.arch.midr_el1 = host_kvm->arch.midr_el1;
+> +                       hyp_vm->kvm.arch.smidr_el1 = host_kvm->arch.smidr_el1;
+> +               }
+>
+>                 return;
+>         }
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 7e550f045f4d..a7ab02822023 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1893,6 +1893,10 @@ static unsigned int id_visibility(const struct kvm_vcpu *vcpu,
+>                 if (!vcpu_has_sve(vcpu))
+>                         return REG_RAZ;
+>                 break;
+> +       case SYS_ID_AA64SMFR0_EL1:
+> +               if (!vcpu_has_sme(vcpu))
+> +                       return REG_RAZ;
+> +               break;
+>         }
+>
+>         return 0;
+> @@ -1920,10 +1924,25 @@ static unsigned int raz_visibility(const struct kvm_vcpu *vcpu,
+>
+>  /* cpufeature ID register access trap handlers */
+>
+> +static bool hidden_id_reg(struct kvm_vcpu *vcpu,
+> +                         struct sys_reg_params *p,
+> +                         const struct sys_reg_desc *r)
+> +{
+> +       switch (reg_to_encoding(r)) {
+> +       case SYS_SMIDR_EL1:
+> +               return !vcpu_has_sme(vcpu);
+> +       default:
+> +               return false;
+> +       }
+> +}
+> +
+>  static bool access_id_reg(struct kvm_vcpu *vcpu,
+>                           struct sys_reg_params *p,
+>                           const struct sys_reg_desc *r)
+>  {
+> +       if (hidden_id_reg(vcpu, p, r))
+> +               return bad_trap(vcpu, p, r, "write to hidden ID register");
+> +
 
-(Had to stare at it to make sure inputs were set first...)
+The code in this file confuses me at times, that said, the
+hidden_id_reg() check is added to access_id_reg(). However, SMIDR_EL1
+is defined using IMPLEMENTATION_ID, which routes to
+access_imp_id_reg(). This means the visibility check is bypassed for
+SMIDR_EL1, and a guest without SME can still read the register.
 
-> 
-> > +			u64 strip_offset    = chunk_offset + (stripe_num * chunk_size);
-> > +			u64 strip_dax_ofs = fei->ie_strips[strip_num].ext_offset;
-> > +			u64 strip_devidx = fei->ie_strips[strip_num].dev_index;
-> > +
-> > +			if (strip_devidx >= fc->dax_devlist->nslots) {
-> > +				pr_err("%s: strip_devidx %llu >= nslots %d\n",
-> > +				       __func__, strip_devidx,
-> > +				       fc->dax_devlist->nslots);
-> > +				goto err_out;
-> > +			}
-> > +
-> > +			if (!fc->dax_devlist->devlist[strip_devidx].valid) {
-> > +				pr_err("%s: daxdev=%lld invalid\n", __func__,
-> > +					strip_devidx);
-> > +				goto err_out;
-> > +			}
-> > +
-> > +			iomap->addr    = strip_dax_ofs + strip_offset;
-> > +			iomap->offset  = file_offset;
-> > +			iomap->length  = min_t(loff_t, len, chunk_remainder);
-> > +
-> > +			iomap->dax_dev = fc->dax_devlist->devlist[strip_devidx].devp;
-> > +
-> > +			iomap->type    = IOMAP_MAPPED;
-> > +			iomap->flags   = flags;
-> > +
-> > +			return 0;
-> > +		}
-> > +		local_offset -= ext_size; /* offset is beyond this striped extent */
-> > +	}
-> > +
-> > + err_out:
-> > +	pr_err("%s: err_out\n", __func__);
-> > +
-> > +	/* We fell out the end of the extent list.
-> > +	 * Set iomap to zero length in this case, and return 0
-> > +	 * This just means that the r/w is past EOF
-> > +	 */
-> > +	iomap->addr    = 0; /* there is no valid dax device offset */
-> > +	iomap->offset  = file_offset; /* file offset */
-> > +	iomap->length  = 0; /* this had better result in no access to dax mem */
-> > +	iomap->dax_dev = NULL;
-> > +	iomap->type    = IOMAP_MAPPED;
-> > +	iomap->flags   = flags;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * famfs_fileofs_to_daxofs() - Resolve (file, offset, len) to (daxdev, offset, len)
-> > + *
-> > + * This function is called by famfs_fuse_iomap_begin() to resolve an offset in a
-> > + * file to an offset in a dax device. This is upcalled from dax from calls to
-> > + * both  * dax_iomap_fault() and dax_iomap_rw(). Dax finishes the job resolving
-> > + * a fault to a specific physical page (the fault case) or doing a memcpy
-> > + * variant (the rw case)
-> > + *
-> > + * Pages can be PTE (4k), PMD (2MiB) or (theoretically) PuD (1GiB)
-> > + * (these sizes are for X86; may vary on other cpu architectures
-> > + *
-> > + * @inode:  The file where the fault occurred
-> > + * @iomap:       To be filled in to indicate where to find the right memory,
-> > + *               relative  to a dax device.
-> > + * @file_offset: Within the file where the fault occurred (will be page boundary)
-> > + * @len:         The length of the faulted mapping (will be a page multiple)
-> > + *               (will be trimmed in *iomap if it's disjoint in the extent list)
-> > + * @flags:
-> 
-> As below. All should have docs, even if trivial.
+>         if (p->is_write)
+>                 return write_to_read_only(vcpu, p, r);
+>
+> @@ -2012,7 +2031,9 @@ static u64 sanitise_id_aa64pfr1_el1(const struct kvm_vcpu *vcpu, u64 val)
+>               SYS_FIELD_GET(ID_AA64PFR0_EL1, RAS, pfr0) == ID_AA64PFR0_EL1_RAS_IMP))
+>                 val &= ~ID_AA64PFR1_EL1_RAS_frac;
+>
+> -       val &= ~ID_AA64PFR1_EL1_SME;
+> +       if (!kvm_has_sme(vcpu->kvm))
+> +               val &= ~ID_AA64PFR1_EL1_SME;
+> +
+>         val &= ~ID_AA64PFR1_EL1_RNDR_trap;
+>         val &= ~ID_AA64PFR1_EL1_NMI;
+>         val &= ~ID_AA64PFR1_EL1_GCS;
+> @@ -3038,6 +3059,9 @@ static bool access_imp_id_reg(struct kvm_vcpu *vcpu,
+>         case SYS_AIDR_EL1:
+>                 p->regval = read_sysreg(aidr_el1);
+>                 break;
+> +       case SYS_SMIDR_EL1:
+> +               p->regval = read_sysreg_s(SYS_SMIDR_EL1);
+> +               break;
 
-Done, thanks
+In access_imp_id_reg(), we are returning the raw hardware value for
+SYS_SMIDR_EL1. Since this register is not automatically sanitized by
+the ID register infra, shouldn't we apply r->val here? Without this,
+the bits we intended to hide leak to the guest.
 
-> 
-> > + *
-> > + * Return values: 0. (info is returned in a modified @iomap struct)
-> > + */
-> > +static int
-> > +famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
-> > +			 loff_t file_offset, off_t len, unsigned int flags)
-> > +{
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> > +	struct famfs_file_meta *meta = fi->famfs_meta;
-> > +	struct fuse_conn *fc = get_fuse_conn(inode);
-> > +	loff_t local_offset = file_offset;
-> > +	int i;
-> > +
-> > +	if (!fc->dax_devlist) {
-> > +		pr_err("%s: null dax_devlist\n", __func__);
-> > +		goto err_out;
-> > +	}
-> > +
-> > +	if (famfs_file_bad(inode))
-> > +		goto err_out;
-> > +
-> > +	if (meta->fm_extent_type == INTERLEAVED_EXTENT)
-> > +		return famfs_interleave_fileofs_to_daxofs(inode, iomap,
-> > +							  file_offset,
-> > +							  len, flags);
-> > +
-> > +	iomap->offset = file_offset;
-> > +
-> > +	for (i = 0; i < meta->fm_nextents; i++) {
-> 
-> I'd drag declaration of i into the loop init.
+I think this should apply to this function as a whole. For now, the
+other two REVIDR_EL1 and AIDR_EL1 have a mask that covers the whole
+register (so doing that preserves that behavior), but if we add more
+registers similar to SMIDR_EL1, they also need to be sanitised.
 
-Done, thanks
 
-> 
-> > +		/* TODO: check devindex too */
-> > +		loff_t dax_ext_offset = meta->se[i].ext_offset;
-> > +		loff_t dax_ext_len    = meta->se[i].ext_len;
-> > +		u64 daxdev_idx = meta->se[i].dev_index;
-> > +
-> > +
-> > +		/* TODO: test that superblock and log offsets only happen
-> > +		 * with superblock and log files. Requires instrumentaiton
-> > +		 * from user space...
-> > +		 */
-> > +
-> > +		/* local_offset is the offset minus the size of extents skipped
-> > +		 * so far; If local_offset < dax_ext_len, the data of interest
-> > +		 * starts in this extent
-> > +		 */
-> > +		if (local_offset < dax_ext_len) {
-> 
-> Maybe flip logic and use a continue.  Mostly to reduce indent of the rest of
-> this.   Or maybe a helper function for this bit.
+>         default:
+>                 WARN_ON_ONCE(1);
+>         }
+> @@ -3048,12 +3072,15 @@ static bool access_imp_id_reg(struct kvm_vcpu *vcpu,
+>  static u64 __ro_after_init boot_cpu_midr_val;
+>  static u64 __ro_after_init boot_cpu_revidr_val;
+>  static u64 __ro_after_init boot_cpu_aidr_val;
+> +static u64 __ro_after_init boot_cpu_smidr_val;
+>
+>  static void init_imp_id_regs(void)
+>  {
+>         boot_cpu_midr_val = read_sysreg(midr_el1);
+>         boot_cpu_revidr_val = read_sysreg(revidr_el1);
+>         boot_cpu_aidr_val = read_sysreg(aidr_el1);
+> +       if (system_supports_sme())
+> +               boot_cpu_smidr_val = read_sysreg_s(SYS_SMIDR_EL1);
+>  }
+>
+>  static u64 reset_imp_id_reg(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r)
+> @@ -3065,6 +3092,8 @@ static u64 reset_imp_id_reg(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r)
+>                 return boot_cpu_revidr_val;
+>         case SYS_AIDR_EL1:
+>                 return boot_cpu_aidr_val;
+> +       case SYS_SMIDR_EL1:
+> +               return boot_cpu_smidr_val;
 
-May do. I don't want to rush changes to the primary fault handlers because
-they're quite stable and are absolute core functionality.
+Similarly, this should probably return boot_cpu_smidr_val & r->val.
+Otherwise, the internal feat_sme_smps() check will report the feature
+as present for the guest if the host supports it, creating an
+inconsistency between KVM's internal view and the guest-visible ID
+register.
 
-> 
-> 
-> > +			loff_t ext_len_remainder = dax_ext_len - local_offset;
-> > +			struct famfs_daxdev *dd;
-> > +
-> > +			if (daxdev_idx >= fc->dax_devlist->nslots) {
-> > +				pr_err("%s: daxdev_idx %llu >= nslots %d\n",
-> > +				       __func__, daxdev_idx,
-> > +				       fc->dax_devlist->nslots);
-> > +				goto err_out;
-> > +			}
-> > +
-> > +			dd = &fc->dax_devlist->devlist[daxdev_idx];
-> > +
-> > +			if (!dd->valid || dd->error) {
-> > +				pr_err("%s: daxdev=%lld %s\n", __func__,
-> > +				       daxdev_idx,
-> > +				       dd->valid ? "error" : "invalid");
-> > +				goto err_out;
-> > +			}
-> > +
-> > +			/*
-> > +			 * OK, we found the file metadata extent where this
-> > +			 * data begins
-> > +			 * @local_offset      - The offset within the current
-> > +			 *                      extent
-> > +			 * @ext_len_remainder - Remaining length of ext after
-> > +			 *                      skipping local_offset
-> > +			 * Outputs:
-> > +			 * iomap->addr:   the offset within the dax device where
-> > +			 *                the  data starts
-> > +			 * iomap->offset: the file offset
-> > +			 * iomap->length: the valid length resolved here
-> > +			 */
-> > +			iomap->addr    = dax_ext_offset + local_offset;
-> > +			iomap->offset  = file_offset;
-> > +			iomap->length  = min_t(loff_t, len, ext_len_remainder);
-> > +
-> > +			iomap->dax_dev = fc->dax_devlist->devlist[daxdev_idx].devp;
-> > +
-> > +			iomap->type    = IOMAP_MAPPED;
-> > +			iomap->flags   = flags;
-> > +			return 0;
-> > +		}
-> > +		local_offset -= dax_ext_len; /* Get ready for the next extent */
-> > +	}
-> > +
-> > + err_out:
-> > +	pr_err("%s: err_out\n", __func__);
-> > +
-> > +	/* We fell out the end of the extent list.
-> > +	 * Set iomap to zero length in this case, and return 0
-> > +	 * This just means that the r/w is past EOF
-> > +	 */
-> > +	iomap->addr    = 0; /* there is no valid dax device offset */
-> > +	iomap->offset  = file_offset; /* file offset */
-> > +	iomap->length  = 0; /* this had better result in no access to dax mem */
-> > +	iomap->dax_dev = NULL;
-> > +	iomap->type    = IOMAP_MAPPED;
-> > +	iomap->flags   = flags;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/**
-> > + * famfs_fuse_iomap_begin() - Handler for iomap_begin upcall from dax
-> > + *
-> > + * This function is pretty simple because files are
-> > + * * never partially allocated
-> > + * * never have holes (never sparse)
-> > + * * never "allocate on write"
-> > + *
-> > + * @inode:  inode for the file being accessed
-> > + * @offset: offset within the file
-> > + * @length: Length being accessed at offset
-> > + * @flags:
-> > + * @iomap:  iomap struct to be filled in, resolving (offset, length) to
-> > + *          (daxdev, offset, len)
-> > + * @srcmap:
-> 
-> All parameters should have description. 
+Cheers,
+/fuad
 
-Done
 
-> 
-> > + */
-> > +static int
-> > +famfs_fuse_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-> > +		  unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
-> > +{
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> > +	struct famfs_file_meta *meta = fi->famfs_meta;
-> > +	size_t size;
-> > +
-> > +	size = i_size_read(inode);
-> > +
-> > +	WARN_ON(size != meta->file_size);
-> > +
-> > +	return famfs_fileofs_to_daxofs(inode, iomap, offset, length, flags);
-> > +}
-> 
-> > +
-> > +static inline bool
-> > +famfs_is_write_fault(struct vm_fault *vmf)
-> > +{
-> > +	return (vmf->flags & FAULT_FLAG_WRITE) &&
-> > +	       (vmf->vma->vm_flags & VM_SHARED);
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_fault(struct vm_fault *vmf)
-> > +{
-> > +	return __famfs_fuse_filemap_fault(vmf, 0, famfs_is_write_fault(vmf));
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_huge_fault(struct vm_fault *vmf, unsigned int pe_size)
-> > +{
-> > +	return __famfs_fuse_filemap_fault(vmf, pe_size, famfs_is_write_fault(vmf));
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_page_mkwrite(struct vm_fault *vmf)
-> > +{
-> > +	return __famfs_fuse_filemap_fault(vmf, 0, true);
-> I'm not an fs person but I note ext4 etc are able to use the
-> same callback for all of these and can figure out the write fault
-> question inside that callback. Is there a reason that doesn't work here?
-> Looks like an appropriate vmf flag is set for each type of callback.
 
-Thanks for digging in!
-
-I've merged the mkwrites (below), which is a no-brainer. I'm gonna
-take further re-factoring of the rw/fault path under advisement. Possibly
-for later cleanup. This code is quite stable and I want to be cautious
-during the review process.
-
-> > +}
-> > +
-> > +static vm_fault_t
-> Similar to earlier comments. I'd put these on one line unless you
-> have to split them due to length.
-
-This is a common file system pattern - see fs/xfs/xfs_file.c
-
-I kinda like to I think I'll stick with this one unless Miklos prefers
-not to have it in fuse.
-
-> 
-> > +famfs_filemap_pfn_mkwrite(struct vm_fault *vmf)
-> Given this and the previous page_mkwrite one are identical, just
-> use one more generically named callback.  Lots of FS seem to do this
-> when these match. E.g. ext4_dax_fault()
-
-Right, done.
-
-> 
-> > +{
-> > +	return __famfs_fuse_filemap_fault(vmf, 0, true);
-> > +}
-> > +
-> > +static vm_fault_t
-> > +famfs_filemap_map_pages(struct vm_fault	*vmf, pgoff_t start_pgoff,
-> > +			pgoff_t	end_pgoff)
-> > +{
-> > +	return filemap_map_pages(vmf, start_pgoff, end_pgoff);
-> 
-> Why not just use this directly as the vm_operation?  shmem does
-> this for instance.
-
-Good idea :D
-Done
-
-> 
-> 
-> > +}
-> > +
-> > +const struct vm_operations_struct famfs_file_vm_ops = {
-> > +	.fault		= famfs_filemap_fault,
-> > +	.huge_fault	= famfs_filemap_huge_fault,
-> > +	.map_pages	= famfs_filemap_map_pages,
-> > +	.page_mkwrite	= famfs_filemap_page_mkwrite,
-> > +	.pfn_mkwrite	= famfs_filemap_pfn_mkwrite,
-> > +};
-> > +
-> > +/*********************************************************************
-> > + * file_operations
-> > + */
-> > +
-> > +/**
-> > + * famfs_file_bad() - Check for files that aren't in a valid state
-> > + *
-> > + * @inode - inode
-> > + *
-> > + * Returns: 0=success
-> > + *          -errno=failure
-> > + */
-> > +static ssize_t
-> Odd return type.  Why not int?
-
-Because reasons (not necessarily good ones).  One of the callers wanted ssize_t,
-but it looks better to me to switch to int and adapt the one caller that wanted
-ssize_t.
-
-Done, thanks
-
-> > +famfs_file_bad(struct inode *inode)
-> > +{
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> > +	struct famfs_file_meta *meta = fi->famfs_meta;
-> > +	size_t i_size = i_size_read(inode);
-> > +
-> > +	if (!meta) {
-> > +		pr_err("%s: un-initialized famfs file\n", __func__);
-> > +		return -EIO;
-> > +	}
-> > +	if (meta->error) {
-> > +		pr_debug("%s: previously detected metadata errors\n", __func__);
-> > +		return -EIO;
-> > +	}
-> > +	if (i_size != meta->file_size) {
-> > +		pr_warn("%s: i_size overwritten from %ld to %ld\n",
-> > +		       __func__, meta->file_size, i_size);
-> > +		meta->error = true;
-> > +		return -ENXIO;
-> > +	}
-> > +	if (!IS_DAX(inode)) {
-> > +		pr_debug("%s: inode %llx IS_DAX is false\n",
-> > +			 __func__, (u64)inode);
-> > +		return -ENXIO;
-> > +	}
-> > +	return 0;
-> > +}
-> > +
-> > +static ssize_t
-> 
-> This can probably just return an int given type seems to be driven
-> by famfs_file_bad() which doesn't make much sense as returning a ssize_t
-> Storing an int into a ssize_t without cast should be fine.
-
-Done
-
-> 
-> > +famfs_fuse_rw_prep(struct kiocb *iocb, struct iov_iter *ubuf)
-> > +{
-> > +	struct inode *inode = iocb->ki_filp->f_mapping->host;
-> > +	size_t i_size = i_size_read(inode);
-> > +	size_t count = iov_iter_count(ubuf);
-> > +	size_t max_count;
-> > +	ssize_t rc;
-> > +
-> > +	rc = famfs_file_bad(inode);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	/* Avoid unsigned underflow if position is past EOF */
-> > +	if (iocb->ki_pos >= i_size)
-> > +		max_count = 0;
-> > +	else
-> > +		max_count = i_size - iocb->ki_pos;
-> > +
-> > +	if (count > max_count)
-> > +		iov_iter_truncate(ubuf, max_count);
-> > +
-> > +	if (!iov_iter_count(ubuf))
-> > +		return 0;
-> > +
-> > +	return rc;
-> > +}
-> > +
-> > +ssize_t
-> > +famfs_fuse_read_iter(struct kiocb *iocb, struct iov_iter	*to)
-> > +{
-> > +	ssize_t rc;
-> > +
-> > +	rc = famfs_fuse_rw_prep(iocb, to);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	if (!iov_iter_count(to))
-> > +		return 0;
-> > +
-> > +	rc = dax_iomap_rw(iocb, to, &famfs_iomap_ops);
-> > +
-> > +	file_accessed(iocb->ki_filp);
-> > +	return rc;
-> > +}
-> 
-> > +
-> > +int
-> > +famfs_fuse_mmap(struct file *file, struct vm_area_struct *vma)
-> > +{
-> > +	struct inode *inode = file_inode(file);
-> > +	ssize_t rc;
-> > +
-> > +	rc = famfs_file_bad(inode);
-> > +	if (rc)
-> > +		return (int)rc;
-> This was odd so I went and looked. famfs_file_bad() should probably just return an int.
-
-Fixed
-
-> > +
-> > +	file_accessed(file);
-> > +	vma->vm_ops = &famfs_file_vm_ops;
-> > +	vm_flags_set(vma, VM_HUGEPAGE);
-> > +	return 0;
-> > +}
-> > +
-> >  #define FMAP_BUFSIZE PAGE_SIZE
-> >  
-> >  int
-> > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> > index 1f64bf68b5ee..45a09a7f0012 100644
-> > --- a/fs/fuse/file.c
-> > +++ b/fs/fuse/file.c
-> > @@ -1831,6 +1831,8 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
-> >  
-> >  	if (FUSE_IS_VIRTIO_DAX(fi))
-> >  		return fuse_dax_read_iter(iocb, to);
-> > +	if (fuse_file_famfs(fi))
-> > +		return famfs_fuse_read_iter(iocb, to);
-> >  
-> >  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> >  	if (ff->open_flags & FOPEN_DIRECT_IO)
-> > @@ -1853,6 +1855,8 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
-> >  
-> >  	if (FUSE_IS_VIRTIO_DAX(fi))
-> >  		return fuse_dax_write_iter(iocb, from);
-> > +	if (fuse_file_famfs(fi))
-> > +		return famfs_fuse_write_iter(iocb, from);
-> >  
-> >  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> >  	if (ff->open_flags & FOPEN_DIRECT_IO)
-> > @@ -1868,9 +1872,13 @@ static ssize_t fuse_splice_read(struct file *in, loff_t *ppos,
-> >  				unsigned int flags)
-> >  {
-> >  	struct fuse_file *ff = in->private_data;
-> > +	struct inode *inode = file_inode(in);
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> >  
-> >  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> > -	if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
-> > +	if (fuse_file_famfs(fi))
-> > +		return -EIO; /* famfs does not use the page cache... */
-> 
-> As below.
-
-Hmm. Fuse has multiple instances of these - maybe it's considered more readable,
-since only one branch is hit. 
-
-Comments Miklos?
-
-> 
-> > +	else if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
-> >  		return fuse_passthrough_splice_read(in, ppos, pipe, len, flags);
-> >  	else
-> >  		return filemap_splice_read(in, ppos, pipe, len, flags);
-> > @@ -1880,9 +1888,13 @@ static ssize_t fuse_splice_write(struct pipe_inode_info *pipe, struct file *out,
-> >  				 loff_t *ppos, size_t len, unsigned int flags)
-> >  {
-> >  	struct fuse_file *ff = out->private_data;
-> > +	struct inode *inode = file_inode(out);
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> >  
-> >  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> > -	if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
-> > +	if (fuse_file_famfs(fi))
-> > +		return -EIO; /* famfs does not use the page cache... */
-> 
-> Not sure why original code had else, but not needed given returned.
-> Maybe stick to local style.
-
-Same as previous. Leaving them alone for now.
-
-Thanks Jonathan - you did some work here.
-
-John
-
+>         default:
+>                 KVM_BUG_ON(1, vcpu->kvm);
+>                 return 0;
+> @@ -3229,7 +3258,6 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>                                        ID_AA64PFR1_EL1_MTE_frac |
+>                                        ID_AA64PFR1_EL1_NMI |
+>                                        ID_AA64PFR1_EL1_RNDR_trap |
+> -                                      ID_AA64PFR1_EL1_SME |
+>                                        ID_AA64PFR1_EL1_RES0 |
+>                                        ID_AA64PFR1_EL1_MPAM_frac |
+>                                        ID_AA64PFR1_EL1_MTE)),
+> @@ -3239,7 +3267,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>                     ID_AA64PFR2_EL1_MTESTOREONLY),
+>         ID_UNALLOCATED(4,3),
+>         ID_WRITABLE(ID_AA64ZFR0_EL1, ~ID_AA64ZFR0_EL1_RES0),
+> -       ID_HIDDEN(ID_AA64SMFR0_EL1),
+> +       ID_WRITABLE(ID_AA64SMFR0_EL1, ~ID_AA64SMFR0_EL1_RES0),
+>         ID_UNALLOCATED(4,6),
+>         ID_WRITABLE(ID_AA64FPFR0_EL1, ~ID_AA64FPFR0_EL1_RES0),
+>
+> @@ -3446,7 +3474,11 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>         { SYS_DESC(SYS_CLIDR_EL1), access_clidr, reset_clidr, CLIDR_EL1,
+>           .set_user = set_clidr, .val = ~CLIDR_EL1_RES0 },
+>         { SYS_DESC(SYS_CCSIDR2_EL1), undef_access },
+> -       { SYS_DESC(SYS_SMIDR_EL1), undef_access },
+> +       IMPLEMENTATION_ID(SMIDR_EL1, (SMIDR_EL1_NSMC | SMIDR_EL1_HIP |
+> +                                     SMIDR_EL1_AFFINITY2 |
+> +                                     SMIDR_EL1_IMPLEMENTER |
+> +                                     SMIDR_EL1_REVISION | SMIDR_EL1_SH |
+> +                                     SMIDR_EL1_AFFINITY)),
+>         IMPLEMENTATION_ID(AIDR_EL1, GENMASK_ULL(63, 0)),
+>         { SYS_DESC(SYS_CSSELR_EL1), access_csselr, reset_unknown, CSSELR_EL1 },
+>         ID_FILTERED(CTR_EL0, ctr_el0,
+>
+> --
+> 2.47.3
+>
