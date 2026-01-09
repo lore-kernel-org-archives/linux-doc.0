@@ -1,134 +1,260 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C084B2EDD50;
-	Fri,  9 Jan 2026 07:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3710F76026;
+	Fri,  9 Jan 2026 07:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767944452; cv=none; b=pFCspUlS6OGEZO3VTCawcDolYmhv1W7fmBzZCToS8cZ+/DWp9V/yVZWKwIfx3sXSmyi4b5VBDX8EU9+ylqTzw3zQBc6OYGIIoYlxumAHgIu79M71Tjl+45HNACYWfIZ+ooopupfYf84Xh8C5pOudjEljPGnyKxyrUVrw6kyzXjU=
+	t=1767945179; cv=none; b=foe/9pGRdgzghJWeABr3KNmAAXJT0XgPy0G7rjQ7Z73YMQR8vhooqTvx/ciy//3jVpXx0e6aSDjYgsUOMmghXGaPoEgBLXqDPjmuqMLAEg2YPDessfve3dOzBMkjivIvY16flxEd+XqAJVoHF9ncDARa6/qSxVpdiUMan9fgfiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767944452; c=relaxed/simple;
-	bh=dc5BH2TskJ3aHIjmh6Zj4aa7NDU5169UYCubB7E624U=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=DjkXNKmLgoK/aI1qddnRPHP/5Sw254hi2CYHwXXc3iFYmt3S/HprmP6KWBoq3Szk6emVJOvTfDQVHqI0F32WqmIY2U1ZB8ejDtM74+AlmrJG0eq62xFx0lpHQjvR6zzWGGXYw7LfDdNXMFSuTKpDjeQH8MyG1kqKJrTMdTP/o8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 8192429ABCA;
-	Fri,  9 Jan 2026 08:40:40 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id q3l_0VHtv03K; Fri,  9 Jan 2026 08:40:39 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 9051829ABD6;
-	Fri,  9 Jan 2026 08:40:39 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id A7OFxZHY2vnY; Fri,  9 Jan 2026 08:40:39 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id C28E529ABCA;
-	Fri,  9 Jan 2026 08:40:38 +0100 (CET)
-Date: Fri, 9 Jan 2026 08:40:38 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, 
-	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Anders Larsen <al@alarsen.net>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, 
-	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, 
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
-	Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
-	Jan Kara <jack@suse.com>, tytso <tytso@mit.edu>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	David Woodhouse <dwmw2@infradead.org>, 
-	Dave Kleikamp <shaggy@kernel.org>, 
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, 
-	Amir Goldstein <amir73il@gmail.com>, 
-	Phillip Lougher <phillip@squashfs.org.uk>, 
-	Carlos Maiolino <cem@kernel.org>, hughd <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, 
-	chuck lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, 
-	Matthew Wilcox <willy@infradead.org>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, 
-	Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, 
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Trond Myklebust <trondmy@kernel.org>, anna <anna@kernel.org>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
-	Bharath SM <bharathsm@microsoft.com>, 
-	Hans de Goede <hansg@kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-btrfs <linux-btrfs@vger.kernel.org>, 
-	linux-erofs <linux-erofs@lists.ozlabs.org>, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, 
-	linux-f2fs-devel <linux-f2fs-devel@lists.sourceforge.net>, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	jfs-discussion@lists.sourceforge.net, 
-	linux-nilfs <linux-nilfs@vger.kernel.org>, ntfs3@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
-	linux-unionfs <linux-unionfs@vger.kernel.org>, 
-	linux-xfs <linux-xfs@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
-	gfs2@lists.linux.dev, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	v9fs@lists.linux.dev, ceph-devel <ceph-devel@vger.kernel.org>, 
-	linux-nfs <linux-nfs@vger.kernel.org>, 
-	linux-cifs <linux-cifs@vger.kernel.org>, 
-	samba-technical@lists.samba.org
-Message-ID: <218403128.88322.1767944438487.JavaMail.zimbra@nod.at>
-In-Reply-To: <20260108-setlease-6-20-v1-12-ea4dec9b67fa@kernel.org>
-References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org> <20260108-setlease-6-20-v1-12-ea4dec9b67fa@kernel.org>
-Subject: Re: [PATCH 12/24] jfs: add setlease file operation
+	s=arc-20240116; t=1767945179; c=relaxed/simple;
+	bh=8bi4os2vIQBeDSrR3DIIeWSQ4/rDPcmqYhe2SkYTrmk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pFZhv3Mgq10JXOLB/c6tb0Hkbb0DG+smVViI3N1ddjvldm3DxHRkJ7avVcQEV9BRdPmHXi9oAMDy81Z1OasTWVLLy62XRfPiolvf6cGlfIv9J7VLBvXiO6yI/lP3GgDBFiHZZHPlxQhCFpGjEvxf2YCHiE03j4sDAbKotcXdSfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=dLEEdksa; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="dLEEdksa"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=cAR5LxUosn5MR+Z/5Moz9cTm0bb98yOxJOET8rzyKpQ=;
+	b=dLEEdksaplpS8/45BsNH/BlSmJya5HWO6a3QfmnzOgvITtGrcS4tQqOlz5Stt/MisPFZViHE/
+	WVF9s/WF84xFLu/zuaPkqf+n3pKgW1aAEhkIbKtAQoi0MAiecbB4nh+i3PEjuBou0htiMVD6AY+
+	8YHqy1c3T8XqlD1qRKeDwVE=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dnYn92STTz1T4GT;
+	Fri,  9 Jan 2026 15:49:01 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 13CD74036C;
+	Fri,  9 Jan 2026 15:52:47 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 9 Jan 2026 15:52:46 +0800
+Message-ID: <36e0a4d0-b440-4aba-8dfd-0c0fcb5f4318@huawei.com>
+Date: Fri, 9 Jan 2026 15:52:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF146 (Linux)/8.8.12_GA_3809)
-Thread-Topic: add setlease file operation
-Thread-Index: Ijb4veyM6wDb0tIeqxd8skdz5qkIYA==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF
+ events
+To: Robert Hoo <robert.hoo.linux@gmail.com>, <maz@kernel.org>,
+	<oliver.upton@linux.dev>, <catalin.marinas@arm.com>, <corbet@lwn.net>,
+	<pbonzini@redhat.com>, <will@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <yuzenghui@huawei.com>,
+	<wangzhou1@hisilicon.com>, <yezhenyu2@huawei.com>, <xiexiangyou@huawei.com>,
+	<zhengchuan@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
+	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <suzuki.poulose@arm.com>
+References: <20251121092342.3393318-1-zhengtian10@huawei.com>
+ <20251121092342.3393318-5-zhengtian10@huawei.com>
+ <87df4cba-b191-49cf-9486-fc379470a6eb@gmail.com>
+ <f8e59e80-33b2-47cd-a042-11f28cc61645@huawei.com>
+ <77111894-1b9f-4970-b41f-48e3a4c4b754@gmail.com>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <77111894-1b9f-4970-b41f-48e3a4c4b754@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Jeff Layton" <jlayton@kernel.org>
-> Add the setlease file_operation to jfs_file_operations and
-> jfs_dir_operations, pointing to generic_setlease.  A future patch will
-> change the default behavior to reject lease attempts with -EINVAL when
-> there is no setlease file operation defined. Add generic_setlease to
-> retain the ability to set leases on this filesystem.
->=20
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
-> fs/jfs/file.c  | 2 ++
-> fs/jfs/namei.c | 2 ++
-> 2 files changed, 4 insertions(+)
 
-Acked-by: Richard Weinberger <richard@nod.at>
+On 12/28/2025 9:21 PM, Robert Hoo wrote:
+> On 12/24/2025 2:15 PM, Tian Zheng wrote:
+>>
+>>
+>> On 12/17/2025 9:39 PM, Robert Hoo wrote:
+>>> On 11/21/2025 5:23 PM, Tian Zheng wrote:
+>>>> From: eillon <yezhenyu2@huawei.com>
+>>>>
+>>>> Implement the HDBSS enable/disable functionality using the
+>>>> KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl.
+>>>>
+>>>> Userspace (e.g., QEMU) can enable HDBSS by invoking the ioctl
+>>>> at the start of live migration, configuring the buffer size.
+>>>> The feature is disabled by invoking the ioctl again with size
+>>>> set to 0 once migration completes.
+>>>>
+>>>> Add support for updating the dirty bitmap based on the HDBSS
+>>>> buffer. Similar to the x86 PML implementation, KVM flushes the
+>>>> buffer on all VM-Exits, so running vCPUs only need to be kicked
+>>>> to force a VM-Exit.
+>>>>
+>>>> Signed-off-by: eillon <yezhenyu2@huawei.com>
+>>>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+>>>> ---
+>>>>   arch/arm64/include/asm/kvm_host.h |  10 +++
+>>>>   arch/arm64/include/asm/kvm_mmu.h  |  17 +++++
+>>>>   arch/arm64/kvm/arm.c              | 107 
+>>>> ++++++++++++++++++++++++++++++
+>>>>   arch/arm64/kvm/handle_exit.c      |  45 +++++++++++++
+>>>>   arch/arm64/kvm/hyp/vhe/switch.c   |   1 +
+>>>>   arch/arm64/kvm/mmu.c              |  10 +++
+>>>>   arch/arm64/kvm/reset.c            |   3 +
+>>>>   include/linux/kvm_host.h          |   1 +
+>>>>   8 files changed, 194 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/include/asm/kvm_host.h 
+>>>> b/arch/arm64/include/ asm/kvm_host.h
+>>>> index d962932f0e5f..408e4c2b3d1a 100644
+>>>> --- a/arch/arm64/include/asm/kvm_host.h
+>>>> +++ b/arch/arm64/include/asm/kvm_host.h
+>>>> @@ -87,6 +87,7 @@ int __init kvm_arm_init_sve(void);
+>>>>   u32 __attribute_const__ kvm_target_cpu(void);
+>>>>   void kvm_reset_vcpu(struct kvm_vcpu *vcpu);
+>>>>   void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu);
+>>>> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
+>>>>
+>>>>   struct kvm_hyp_memcache {
+>>>>       phys_addr_t head;
+>>>> @@ -793,6 +794,12 @@ struct vcpu_reset_state {
+>>>>       bool        reset;
+>>>>   };
+>>>>
+>>>> +struct vcpu_hdbss_state {
+>>>> +    phys_addr_t base_phys;
+>>>> +    u32 size;
+>>>> +    u32 next_index;
+>>>> +};
+>>>> +
+>>>>   struct vncr_tlb;
+>>>>
+>>>>   struct kvm_vcpu_arch {
+>>>> @@ -897,6 +904,9 @@ struct kvm_vcpu_arch {
+>>>>
+>>>>       /* Per-vcpu TLB for VNCR_EL2 -- NULL when !NV */
+>>>>       struct vncr_tlb    *vncr_tlb;
+>>>> +
+>>>> +    /* HDBSS registers info */
+>>>> +    struct vcpu_hdbss_state hdbss;
+>>>>   };
+>>>>
+>>>>   /*
+>>>> diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/ 
+>>>> asm/kvm_mmu.h
+>>>> index e4069f2ce642..6ace1080aed5 100644
+>>>> --- a/arch/arm64/include/asm/kvm_mmu.h
+>>>> +++ b/arch/arm64/include/asm/kvm_mmu.h
+>>>> @@ -331,6 +331,23 @@ static __always_inline void 
+>>>> __load_stage2(struct kvm_s2_mmu *mmu,
+>>>>       asm(ALTERNATIVE("nop", "isb", ARM64_WORKAROUND_SPECULATIVE_AT));
+>>>>   }
+>>>>
+>>>> +static __always_inline void __load_hdbss(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +    struct kvm *kvm = vcpu->kvm;
+>>>> +    u64 br_el2, prod_el2;
+>>>> +
+>>>> +    if (!kvm->enable_hdbss)
+>>>> +        return;
+>>>> +
+>>>> +    br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu- 
+>>>> >arch.hdbss.size);
+>>>> +    prod_el2 = vcpu->arch.hdbss.next_index;
+>>>> +
+>>>> +    write_sysreg_s(br_el2, SYS_HDBSSBR_EL2);
+>>>> +    write_sysreg_s(prod_el2, SYS_HDBSSPROD_EL2);
+>>>> +
+>>>> +    isb();
+>>>> +}
+>>>> +
+>>>>   static inline struct kvm *kvm_s2_mmu_to_kvm(struct kvm_s2_mmu *mmu)
+>>>>   {
+>>>>       return container_of(mmu->arch, struct kvm, arch);
+>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>>>> index 870953b4a8a7..64f65e3c2a89 100644
+>>>> --- a/arch/arm64/kvm/arm.c
+>>>> +++ b/arch/arm64/kvm/arm.c
+>>>> @@ -79,6 +79,92 @@ int kvm_arch_vcpu_should_kick(struct kvm_vcpu 
+>>>> *vcpu)
+>>>>       return kvm_vcpu_exiting_guest_mode(vcpu) == IN_GUEST_MODE;
+>>>>   }
+>>>>
+>>>> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +    struct page *hdbss_pg = NULL;
+>>>> +
+>>>> +    hdbss_pg = phys_to_page(vcpu->arch.hdbss.base_phys);
+>>>> +    if (hdbss_pg)
+>>>> +        __free_pages(hdbss_pg, vcpu->arch.hdbss.size);
+>>>> +
+>>>> +    vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
+>>>> +        .base_phys = 0,
+>>>> +        .size = 0,
+>>>> +        .next_index = 0,
+>>>> +    };
+>>>> +}
+>>>> +
+>>>> +static int kvm_cap_arm_enable_hdbss(struct kvm *kvm,
+>>>> +                    struct kvm_enable_cap *cap)
+>>>> +{
+>>>> +    unsigned long i;
+>>>> +    struct kvm_vcpu *vcpu;
+>>>> +    struct page *hdbss_pg = NULL;
+>>>> +    int size = cap->args[0];
+>>>> +    int ret = 0;
+>>>> +
+>>>> +    if (!system_supports_hdbss()) {
+>>>> +        kvm_err("This system does not support HDBSS!\n");
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +
+>>>> +    if (size < 0 || size > HDBSS_MAX_SIZE) {
+>>>> +        kvm_err("Invalid HDBSS buffer size: %d!\n", size);
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +
+>>>
+>>> I think you should check if it's already enabled here. What if user 
+>>> space calls this twice?
+>>
+>> Ok, I review the implement of qemu, when disable the hdbss feature in
+>> ram_save_cleanup, size=0 will be set, so here can add a check, if (size
+>> && kvm->arch.enable_hdbss), we will do nothing.
+>>
+>
+> I mean you should check if ' kvm->enable_hdbss' is already set, if so, 
+> return rather than alloc_pages() in below (you have allocated in 
+> previous call with valid 'size').
+>
+> qemu is just one of the user space applications that would possibly 
+> call this API, you cannot rely on your qemu patch's flow/sequence as 
+> assumption to design a KVM API's implementation.
 
-Thanks,
-//richard
+
+Yes, The latest v3 patch fixes this bug by checking if (size > 0 && 
+kvm->arch.enable_hdbss).
+When this condition is met, the function returns immediately rather than 
+alloc_pages().
+
+
+>
+>>>
+>>>> +    /* Enable the HDBSS feature if size > 0, otherwise disable it. */
+>>>> +    if (size) {
+>>>> +        kvm_for_each_vcpu(i, vcpu, kvm) {
+>>>> +            hdbss_pg = alloc_pages(GFP_KERNEL_ACCOUNT, size);
+>>>> +            if (!hdbss_pg) {
+>>>> +                kvm_err("Alloc HDBSS buffer failed!\n");
+>>>> +                ret = -ENOMEM;
+>>>> +                goto error_alloc;
+>>>> +            }
+>>>> +
+>>>> +            vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
+>>>> +                .base_phys = page_to_phys(hdbss_pg),
+>>>> +                .size = size,
+>>>> +                .next_index = 0,
+>>>> +            };
+>>>> +        }
+>>>> +
+>>>> +        kvm->enable_hdbss = true;
+>>>> +        kvm->arch.mmu.vtcr |= VTCR_EL2_HD | VTCR_EL2_HDBSS;
+>>>
+>
+>
