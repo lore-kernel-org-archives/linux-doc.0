@@ -1,49 +1,49 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from mailgw03.horizon.ai (mailgw03.horizon.ai [42.62.85.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29CC29B8E0;
-	Fri,  9 Jan 2026 06:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97ED39FD9
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 07:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.62.85.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767939946; cv=none; b=rP5kcNrluCT1bLSVe6csrbFh6nWeVdqJuaSG5daf/WefOoGz1LQsvSJ6d1SQSfp/yAh5YIFIWTqe3a2E0I1h15QsqdLxjNGxtMxf1/B1WeEc+cUEOCtV6b6tHUS58uReTHXyDKSY7mCgHuaOEOflgQQa1I2Sio6Wz0K9SGi0tXA=
+	t=1767942158; cv=none; b=k6cs09c9I9vlbIeBNZlGINbi5I01x+lVrG3G3WXWdVtaAggKdr9+Eo9/7RpzlyDM9XSpl1pQo9D39/Xhpy2frNI9sdAR/bx7DGQBqkmgrqUunwk54pZUtnbWQTe3Y2/haYkNvW9V+dFovfopZxHan/San/ctAJamWII7AVxkzxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767939946; c=relaxed/simple;
-	bh=Xl+QaIttFkGp/1s3dd6W8hQ7lh9WDmSDLC0JFD9JCq4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dSYMDtgLMIYz/tb1/M3CXluLWo8sLoqmVArj9EW3hC9til5+vtqHPH7fOc1+i7U26zmHv2O02CoJlq5DXBZwrLr/9irG622yzG/4ch/s5fxL8sJU9hAAFU/8KlQeMwVmnb5yqvuzHXuHqc60lpA5LkLEOwUcXCoZAtsvvJrFsIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=IrR/yjsw; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1767942158; c=relaxed/simple;
+	bh=Y64n2Qv//UyAC/rV14nyXSTMyZ+t04xMntNuy1XuNfk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cGyXokFWcHY/UcQ3m4dO3afIsT/62lilnN/pTSeY+QhKK489oNO4pRFUmjdOBMVurHlFBR1A7giTf6ywQdG+1Nl7wivHUaoNUBbAGN7roTE1WY1Sx1lprfOMkMhE+5hQHtLys5VvxCif7P2BoVPeOFzv99NzFw5lA/KUKB4pBlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto; spf=pass smtp.mailfrom=horizon.auto; dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b=tMGgv0oR; arc=none smtp.client-ip=42.62.85.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horizon.auto
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="IrR/yjsw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=4q
-	7Sn9RU1aXiM9ptwL6dHdYjXW3fLAagaxXYGEC0XB0=; b=IrR/yjswoO1f26247S
-	QIpzVz6oir83E7/K9vpIpEO8OAdJzn5NOQJJi0RBG9O0uR9XHg8lllIxoXPXPe+5
-	yTpTssHp/ooXp6lOY98r1FfnkZVETUtXDAH6IT6VcfcNJ2Ligeb3dLI3S+hTWjUK
-	ArxLltzDMSAqwUyCipdxAVcOo=
-Received: from ubuntu24-z.. (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD3P0wVn2Bpw14kFQ--.6242S2;
-	Fri, 09 Jan 2026 14:24:22 +0800 (CST)
-From: ranxiaokai627@163.com
-To: surenb@google.com,
-	vbabka@suse.cz,
-	kent.overstreet@linux.dev,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	rppt@kernel.org,
-	mhocko@suse.com,
-	corbet@lwn.net
-Cc: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ran.xiaokai@zte.com.cn,
-	ranxiaokai627@163.com
-Subject: [PATCH] alloc_tag: remove sysctl prefix from mem_profiling boot parameter
-Date: Fri,  9 Jan 2026 06:24:19 +0000
-Message-ID: <20260109062419.157284-1-ranxiaokai627@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b="tMGgv0oR"
+DKIM-Signature: v=1; a=rsa-sha256; d=horizon.auto; s=horizonauto; c=relaxed/simple;
+	q=dns/txt; i=@horizon.auto; t=1767942145; x=2631855745;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Y64n2Qv//UyAC/rV14nyXSTMyZ+t04xMntNuy1XuNfk=;
+	b=tMGgv0oRIFe+lRHjoOsdO5TBGTRhAuzGlRkQpWxSkr//Rgo9tDxucEbqo9Ct6EUs
+	3Lw5QiMyaWmHk0MsAxebLmCMVAAZEHZ3IQWOdgu4voHqnJqHLfD7uEApmxob9MVD
+	qIPmV31orHDJwoU3gf76mZaWsy9feX7kVqbQx3XJNBg=;
+X-AuditID: 0a0901b2-df5da70000001406-04-6960a8010822
+Received: from mailgw03.horizon.ai ( [10.9.15.111])
+	by mailgw03.horizon.ai (Anti-spam for msg) with SMTP id C0.2C.05126.108A0696; Fri,  9 Jan 2026 15:02:25 +0800 (HKT)
+Received: from wangtao-VirtualBox.hobot.cc (10.9.0.252) by
+ exchange002.hobot.cc (10.9.15.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.27;
+ Fri, 9 Jan 2026 15:02:24 +0800
+From: Tao Wang <tao03.wang@horizon.auto>
+To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>,
+	<andrew+netdev@lunn.ch>, <mcoquelin.stm32@gmail.com>,
+	<alexandre.torgue@foss.st.com>, <rmk+kernel@armlinux.org.uk>,
+	<maxime.chevallier@bootlin.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Tao Wang
+	<tao03.wang@horizon.auto>
+Subject: [PATCH net Resend] net: stmmac: fix transmit queue timed out after resume
+Date: Fri, 9 Jan 2026 15:02:11 +0800
+Message-ID: <20260109070211.101076-1-tao03.wang@horizon.auto>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,58 +51,84 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3P0wVn2Bpw14kFQ--.6242S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF45Cw1kKrWrurWkXryrJFb_yoW8Cr1DpF
-	4UWr1rGa95AryUCrn5J34IgryxWan7Ka17JanF9FW09wn0yF4ktrW8trWSvF1xXrZ7CF45
-	Xr4IvFWxXr10ywUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pin2-UUUUUU=
-X-CM-SenderInfo: xudq5x5drntxqwsxqiywtou0bp/xtbCxhZfq2lgnxbCJwAA3B
+Content-Type: text/plain
+X-ClientProxiedBy: exchange004.hobot.cc (10.9.15.112) To exchange002.hobot.cc
+ (10.9.15.111)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLLMWRmVeSWpSXmKPExsXCxcmfr8u4IiHTYP5UU4ufL6cxWix/sIPV
+	Ys75FhaLR/0n2CwubOtjtVjYtoTF4vKuOWwWL19vY7Y4tkDM4tvpN4wWl/onMjlwe1y+dpHZ
+	Y96aao8tK28yeTzt38rusWlVJ5vHzh2fmTze77vK5vF5k1wARxSXTUpqTmZZapG+XQJXxqmn
+	+9kLDglVbNnxhqWB8Rh/FyMnh4SAicSJpknsILaQwEpGifON7l2MXED2c0aJS7ceMYIk2AQ0
+	JO5OvcYCkhARWMwk0Xl6KhNIglkgVWLv7p/MILawQJDE1oeHWEFsFgEViaMzNgA1cHDwCthK
+	fOhhgVgmL7H/4Fmwcl4BQYmTM5+wQIyRl2jeOpsZwpaQOPjiBTPEQSoSzSfns0P0ykm83rCf
+	DcKOlfj2YgbLBEaBWUhGzUIyahaSUQsYmVcxCucmZuaklxsY62XkF2VW5efpJWZuYgTHCOOm
+	HYxLFnzUO8TIxMF4iFGCg1lJhLdZMD5TiDclsbIqtSg/vqg0J7X4EKM0B4uSOK+2YlymkEB6
+	YklqdmpqQWoRTJaJg1OqgSmB/aZb6obw65sXzW3n01K5v9xD6OxBzp17l+iynn01dWpBGo+q
+	hNUFlq/Ci/ce/HlP+liB5cmf3PcteYRWb5tR/m/DAnXD5muODW4xMxhFXOvarnflZUyLvtPX
+	+/rUaYdtG4/6pmU63LtXa3Rg1Zfd926pFHL1H/hpq/ciedmTA99z2AuWp/bam2Rzhh7lKmHv
+	Wn5aQ0bcmL28Z9slj92bjUwz7yQ+/lPDlXn2p9sTli1z3q7fEmY60fHW/Crefy9NkxQZUp2E
+	t/Fu4VvoZt1t+f3U6SWME5lrDYsXOub//hJ//4SWXPMCW+HIvKPin9dcYV/by7VeZdbLLJUN
+	E3P2WvTtXbd2WoiM4En5lcuUWIozEg21mIuKEwG9m0ZvAAMAAA==
 
-From: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+after resume dev_watchdog() message:
+"NETDEV WATCHDOG: CPU: x: transmit queue x timed out xx ms"
 
-Boot parameters prefixed with "sysctl." are processed separately
-during the final stage of system initialization via kernel_init()->
-do_sysctl_args(). Since mem_profiling support should be parsed
-in early boot stage, it is unsuitable for centralized handling
-in do_sysctl_args().
-Also, when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled,
-the sysctl.vm.mem_profiling entry is not writable and will cause
-a warning. To prevent duplicate processing of sysctl.vm.mem_profiling,
-rename the boot parameter to "mem_profiling".
+The trigging scenario is as follows:
 
-Signed-off-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+When the TSO function sets tx_skbuff_dma[tx_q->cur_tx].last_segment = true
+
+, and the last_segment value is not cleared in stmmac_free_tx_buffer after
+
+ resume, restarting TSO transmission may incorrectly use
+
+tx_q->tx_skbuff_dma[first_entry].last_segment = true for a new TSO packet.
+
+When the tx queue has timed out, and the emac TX descriptor is as follows:
+eth0: 221 [0x0000000876d10dd0]: 0x73660cbe 0x8 0x42 0xb04416a0
+eth0: 222 [0x0000000876d10de0]: 0x77731d40 0x8 0x16a0 0x90000000
+
+Descriptor 221 is the TSO header, and descriptor 222 is the TSO payload.
+
+In the tdes3 (0xb04416a0), bit 29 (first descriptor) and bit 28
+
+(last descriptor) of the TSO packet 221 DMA descriptor cannot both be
+
+set to 1 simultaneously. Since descriptor 222 is the actual last
+
+descriptor, failing to set it properly will cause the EMAC DMA to stop
+
+and hang.
+
+To solve the issue, set last_segment to false in stmmac_free_tx_buffer:
+tx_q->tx_skbuff_dma[i].last_segment = false;
+Set last_segment to false in stmmac_tso_xmit, and do not use the default
+ value: tx_q->tx_skbuff_dma[first_entry].last_segment = false;
+This will prevent similar issues from occurring in the future.
+
+Signed-off-by: Tao Wang <tao03.wang@horizon.auto>
 ---
- Documentation/mm/allocation-profiling.rst | 2 +-
- lib/alloc_tag.c                           | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm/allocation-profiling.rst
-index 316311240e6a..fe341d6da7b9 100644
---- a/Documentation/mm/allocation-profiling.rst
-+++ b/Documentation/mm/allocation-profiling.rst
-@@ -18,7 +18,7 @@ kconfig options:
-   missing annotation
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index b3730312aeed..d786ac3c78f7 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1653,6 +1653,7 @@ static void stmmac_free_tx_buffer(struct stmmac_priv *priv,
  
- Boot parameter:
--  sysctl.vm.mem_profiling={0|1|never}[,compressed]
-+  mem_profiling={0|1|never}[,compressed]
- 
-   When set to "never", memory allocation profiling overhead is minimized and it
-   cannot be enabled at runtime (sysctl becomes read-only).
-diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-index 846a5b5b44a4..81b248196629 100644
---- a/lib/alloc_tag.c
-+++ b/lib/alloc_tag.c
-@@ -747,7 +747,7 @@ static int __init setup_early_mem_profiling(char *str)
- 
- 	return 0;
+ 	tx_q->tx_skbuff_dma[i].buf = 0;
+ 	tx_q->tx_skbuff_dma[i].map_as_page = false;
++	tx_q->tx_skbuff_dma[i].last_segment = false;
  }
--early_param("sysctl.vm.mem_profiling", setup_early_mem_profiling);
-+early_param("mem_profiling", setup_early_mem_profiling);
  
- static __init bool need_page_alloc_tagging(void)
- {
+ /**
+@@ -4448,6 +4449,7 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	if (dma_mapping_error(priv->device, des))
+ 		goto dma_map_err;
+ 
++	tx_q->tx_skbuff_dma[first_entry].last_segment = false;
+ 	stmmac_set_desc_addr(priv, first, des);
+ 	stmmac_tso_allocator(priv, des + proto_hdr_len, pay_len,
+ 			     (nfrags == 0), queue);
 -- 
-2.25.1
-
+2.34.1
 
