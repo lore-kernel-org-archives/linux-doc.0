@@ -1,70 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FDA366DAA;
-	Fri,  9 Jan 2026 17:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1328D366DA9
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 17:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767979864; cv=none; b=r26Y1u5xwEkO9s20fR+cDg5kSRepIqagLOwEO2mxsKPhUZkxTWIaPwFfb7VRZZYHt1onVBX74wm4uyhkHAJcv1nW/8pGikKZsiJ5rlXbu096nNq+tLgrdOjIrf8OgC3UBe+zcZntK1aL0bxMaD0vab1QEYJwABc1/UCqDr8JaOU=
+	t=1767979878; cv=none; b=N/Nbm66a8pAgK4QjrbeYzPNT6lh7yGNI5AY/WOGeC0CrFcD91nTiy6qpkrNfJwo8GaQp2FXPw2ksxvZpQWSAC6vTkzI6O9pCrFiWm3e9A84BEWIxj3LLqQRerubes8Qib2OawhJEHueQJ7zFKuJs/jkuZYUr43luMBWZyplC2wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767979864; c=relaxed/simple;
-	bh=YnLjCzKnQER3FuCe6ES9oXxik4owd0B4EMad2UIfiEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VQwfmhx9TCB7nuYQM9TO2RBC2BxOdYAJzKA5vZFHRgPkP54hXvv2svqXyTUOXYELsF22otyTrVf1l5K5cao7hvJsuAkDN/gVE5FbKUKWawjd18bFKypPQk3yUyefjLOLZIJir0UsMaL+NhSoPlSSSWTI8f3ezjsKFlB4wq9pCbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zb3uH6ZB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767979878; c=relaxed/simple;
+	bh=w1PlVmDzho5bi1ZyIpU1+ZlHTEvy82Krich1jk+ncMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OXoAN5HHPQre5O9d9mTjaZ7cRO6EwJWJfg+XCAEIYA1qsMAtl7E0iuXcrju7++xiADE1jbxXV3vzvCiXjs9GgOoX4Mj4LDvfnutyG9amyukCORQARrTmUd/2VEtmOOEr/8zmZ5AFFNl4H0b7Uwu5c0eArmg0Su2Fn7/eVdUjbL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qwB48pfM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gxHkZ6LA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qwB48pfM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gxHkZ6LA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zb3uH6ZB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A50C4CEF1;
-	Fri,  9 Jan 2026 17:31:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767979863;
-	bh=YnLjCzKnQER3FuCe6ES9oXxik4owd0B4EMad2UIfiEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zb3uH6ZBwZfeObknlMhLXz6y0O7Yd+lcbqIxtpbkgUGG6UavcGoHaRkBQvHZSNF2n
-	 pQStdXJI1VohLDeR1qpGF74WFMxDsP/uXeJR+ObR3RrmnJaCqkS95C+Hw0RpNuFcf5
-	 GoPAEEt/X36hy1dO8AoxU3CZSoGH+q/jL1yiONf0HXzyNofTsQ2jvKOxGds4kh8Yhz
-	 XVSGdZy9JI1VUWHgjUrbt0jIjhucw841A0LBiPb8vTymFKMiKsqN6rHciHgyobsQQ3
-	 nf6x6z0AGWB9ZAu1Tb/cMu8zbewvjfXfN+ipM7+VPadMwl1+2i0KkND8uJpI3Sk4hA
-	 Gw6D4gc9Kd9pQ==
-Date: Fri, 9 Jan 2026 09:31:03 -0800
-From: Kees Cook <kees@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Marco Elver <elver@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	John Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
-	Yafang Shao <laoar.shao@gmail.com>,
-	Tony Ambardar <tony.ambardar@gmail.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>,
-	Alexander Potapenko <glider@google.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v6 1/5] slab: Introduce kmalloc_obj() and family
-Message-ID: <202601090928.5CFF95F@keescook>
-References: <20251203233029.it.641-kees@kernel.org>
- <20251203233036.3212363-1-kees@kernel.org>
- <960729bb-0746-4709-a40c-2e254f963deb@suse.cz>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qwB48pfM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gxHkZ6LA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qwB48pfM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gxHkZ6LA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5292333B3A;
+	Fri,  9 Jan 2026 17:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767979875;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=w1PlVmDzho5bi1ZyIpU1+ZlHTEvy82Krich1jk+ncMY=;
+	b=qwB48pfMDsx01IKpHfvpI9LtUf6koeOOendBh4WQCY1Xd/sNOdhjVFbnoOQsCHK5g7BCSS
+	UnaeIZ+E6qz2qn5rIRBwcmVyPhKzCwZD/2xaiDjquxocVk8lkn3QhzY0QTAcXZ7CV/z16x
+	be/FMotiJxUKixPyhLnR2MVH9kKvMnE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767979875;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=w1PlVmDzho5bi1ZyIpU1+ZlHTEvy82Krich1jk+ncMY=;
+	b=gxHkZ6LA0V1VJXCjSG7DzCos8uRy31AfLVgyKiwXbshYsk6T7V1gnQiHlv7Goa0PeIBWTc
+	9MIna1xOQtafigCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767979875;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=w1PlVmDzho5bi1ZyIpU1+ZlHTEvy82Krich1jk+ncMY=;
+	b=qwB48pfMDsx01IKpHfvpI9LtUf6koeOOendBh4WQCY1Xd/sNOdhjVFbnoOQsCHK5g7BCSS
+	UnaeIZ+E6qz2qn5rIRBwcmVyPhKzCwZD/2xaiDjquxocVk8lkn3QhzY0QTAcXZ7CV/z16x
+	be/FMotiJxUKixPyhLnR2MVH9kKvMnE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767979875;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=w1PlVmDzho5bi1ZyIpU1+ZlHTEvy82Krich1jk+ncMY=;
+	b=gxHkZ6LA0V1VJXCjSG7DzCos8uRy31AfLVgyKiwXbshYsk6T7V1gnQiHlv7Goa0PeIBWTc
+	9MIna1xOQtafigCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5E223EA63;
+	Fri,  9 Jan 2026 17:31:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pvb3IGI7YWnkYAAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Fri, 09 Jan 2026 17:31:14 +0000
+Date: Fri, 9 Jan 2026 18:31:12 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Subject: Links to sources in docs
+Message-ID: <20260109173112.GA105682@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,41 +82,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <960729bb-0746-4709-a40c-2e254f963deb@suse.cz>
+X-Spamd-Result: default: False [-3.50 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:replyto,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -3.50
+X-Spam-Level: 
 
-On Thu, Jan 08, 2026 at 03:01:00PM +0100, Vlastimil Babka wrote:
-> On 12/4/25 00:30, Kees Cook wrote:
-> > [...]
-> > +/**
-> > + * __alloc_objs - Allocate objects of a given type using
-> > + * @KMALLOC: which size-based kmalloc wrapper to allocate with.
-> > + * @GFP: GFP flags for the allocation.
-> > + * @TYPE: type to allocate space for.
-> > + * @COUNT: how many @TYPE objects to allocate.
-> > + *
-> > + * Returns: Newly allocated pointer to (first) @TYPE of @COUNT-many
-> > + * allocated @TYPE objects, or NULL on failure.
-> > + */
-> > +#define __alloc_objs(KMALLOC, GFP, TYPE, COUNT)				\
-> > +({									\
-> > +	const size_t __obj_size = size_mul(sizeof(TYPE), COUNT);	\
-> 
-> I assume with the hardcoded 1 for COUNT, this size_mul() will be eliminated
-> by the compiler and not add unnecessary runtime overhead? Otherwise we
-> should have two core #define variants.
+Hi Jonathan, all,
 
-You're correct: the compiler completely collapses it with 0 runtime
-overhead; a variant is not needed.
+I wonder how links in sources work.
 
-> I also noted that the existing kmalloc_array() and kvmalloc_array() do
-> check_mul_overflow() and return NULL silently on overflow. This AFAIU will
-> make SIZE_MAX passed to the underlying kmalloc/kvmalloc and thus will cause
-> a warning. That's IMHO a good thing.
+Documentation/userspace-api/check_exec.rst has:
 
-Right -- I prefer seeing the SIZE_MAX yelling from the allocator. Should
-we change how k*malloc_array() behaves?
+`samples/check-exec/inc.c`_ example.
 
--Kees
+which leads to link to the source [1]. But if i try to use the same pattern in
+Documentation/trace/fprobe.rst:
 
--- 
-Kees Cook
+-See Filter Commands in `Documentation/trace/ftrace.rst`.
++See Filter Commands in Documentation/trace/ftrace.rst.
+
+it does not work:
+
+Documentation/admin-guide/bug-hunting.rst:54: ERROR: Unknown target name: "scripts/decode_stacktrace.sh". [docutils]
+
+Kind regards,
+Petr
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/check-exec/inc.c
