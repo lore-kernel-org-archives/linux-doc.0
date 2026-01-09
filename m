@@ -1,143 +1,134 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EB92ED164
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 07:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C084B2EDD50;
+	Fri,  9 Jan 2026 07:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767944084; cv=none; b=psYqWvz58vbId67vQaaWno/VZZWds9Lqr4g3IojD/31iPn+U5NvOKdcHbHEQMdaDwVn+g+zwb0a1iutrBqheipTP2xCKfAkiEWTR/Y49nZEcdyWzlhA9tk5eGdx9giXniDt2DOC5yAEeH2C++PqXwoU0B5n2zFL5S98utHLDjkU=
+	t=1767944452; cv=none; b=pFCspUlS6OGEZO3VTCawcDolYmhv1W7fmBzZCToS8cZ+/DWp9V/yVZWKwIfx3sXSmyi4b5VBDX8EU9+ylqTzw3zQBc6OYGIIoYlxumAHgIu79M71Tjl+45HNACYWfIZ+ooopupfYf84Xh8C5pOudjEljPGnyKxyrUVrw6kyzXjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767944084; c=relaxed/simple;
-	bh=mQNQDvbKwm8YPQMvUQmrODeUWbj93d6ac4BYkM5iRJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOlFL7dnoaY3ZHYuSeH7wXlhZ7/gd+ngFxf9NjPYSpput5LeLkT0EOToerESh6MFsw01ShPy62wa+VsNZc0TAmSge1VEZsm1YweuP67NOTT316yt9lniADvpiPfZarmfIj1s9PcRzZP7h3PHovBap0EwHzHhTfArcuMGlkk/wPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lJ22hgpI; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lJ22hgpI"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29f02651fccso50005ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Jan 2026 23:34:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767944082; x=1768548882; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nXFThduoh/FW3X3hmcDPgZVUcXZLVLfg8hOMDEL1+OI=;
-        b=lJ22hgpIL7NdHgLtTdZqYos1vlk1LC3oxTYeHA+ZrRHYxS7OZ6hNZM67Kag7vKFU9E
-         psF5Tu9HiaLLeIat7smu+0q3PvwfHO4xkttnEeqkvErCKzkg9Z6/HMAj5Dt8p0I+at+D
-         NJzo50KAJTLHxzfv+/VC4P+vFS9T1coK0DdRq/bZ3xCjpvEfK8Rgx2STluQ0Wz8kxb1j
-         rjzfCMx72oy+gViRp8nxZICuUlqtciRr6icFsZ5kjwHd63UYIwDyMQEE90XhXJ243NAR
-         nB+FvIYnb4FXHzeYzfuxA9KQvd2fUsghJEGwhpIpkVFbwX9yY8CvWjmp6Rgbj0gB/7PR
-         BTVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767944082; x=1768548882;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nXFThduoh/FW3X3hmcDPgZVUcXZLVLfg8hOMDEL1+OI=;
-        b=JcTkvO+ST8ch04fclfqlNE3bMeRLPWf4s5WmacZqu0WfuGAUDt+MWgyVJwW6roY9FB
-         tBHjqr+/8uBXCiR4WhN+nxyVCkRkp9i4IBziuNh6gq7AwKXslU7SDKI3hCZ3gRI7bv8W
-         x4771rwguQHifuC0+zcNgCxZGHK5w1dyDDHYcEOujgqSmfHCQZXEJUim3z8P3Xa9oZ+7
-         PRHRVDq2qZf2kD0G8/4WDvDN99rsJ7fXjRnuRcqJ+9I2YDJcEXcMIcojKlKouIJ3xxAm
-         FXCLZ4EYtJpBWUolIIdbGFqijnfwJX/Rb5iTbKSOOE6QRk61cUsKrN9iqlKjVtKaie/A
-         mk2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWyZItTcydjKjBAi+5eRYquEZnpHauNYE0xAiekHCtE+cDnJX+EEhY5w6kysIx4g+iw5n1T2RwAYtk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJestpe8NpJqWmpiI2em+69fbntG2tk4rCS11XEmQ65L7m0o9/
-	rckc0OOqijBbH9hpJxDGjs9l0KpPniObUfWBL7pJ0RBim7DlgGSAiyRH5md2SawAMQ==
-X-Gm-Gg: AY/fxX4K4MwPVbqhSI37DIgl28FucrLDOvJjam9WCttZ8CiVEXZYBCj71tUrSWvKybV
-	t3bHccEwC1FLpPZ9n/blPOzduEwlzwZ5Lg28BoImUXeW1zNM1yX+MSc0S1xVVRglpRfjD3l0YE4
-	DibEdXLFbTSh5Og00nwmYFa3ZA5FkPkHoyE+iSHUhBlI/uNNkz4FJEkfSpGeqRstDLIjQzDz8Zb
-	0uqJeDxyehkpq0OfSdBLW8gPhHuNi7kMyr5wm7Zny7zGDU5/S8jA05XwBEXeVDZ1xRk84KDsNTv
-	JiQn6P6u51bAVnMTRjSc5FiY77t0t2Ht/MZ3j+7+r2Mf682gNR4sONSZ7X2JNr3+NFRro9J2lip
-	EMfxtUsfwxf9noSmbxUIz1MEtkdIwJZpyK69Rv1qS8fKJww35PT0kmVm0h7+DwLDgnspxU/h/6O
-	Z/RPd2ZXdo/x8m7jKDoFh3JQBuC4oRn5V4icpwc4ZEwiwY/1tz
-X-Received: by 2002:a17:903:228b:b0:2a1:3cda:8e98 with SMTP id d9443c01a7336-2a409adbb36mr2245665ad.20.1767944081624;
-        Thu, 08 Jan 2026 23:34:41 -0800 (PST)
-Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c3a560sm96327345ad.21.2026.01.08.23.34.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 23:34:40 -0800 (PST)
-Date: Fri, 9 Jan 2026 07:34:33 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Mostafa Saleh <smostafa@google.com>, linux-mm@kvack.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
-	rdunlap@infradead.org
-Subject: Re: [PATCH v5 3/4] iommu: debug-pagealloc: Track IOMMU pages
-Message-ID: <aWCviSCK7IBddLTn@google.com>
-References: <20260106162200.2223655-1-smostafa@google.com>
- <20260106162200.2223655-4-smostafa@google.com>
- <aV56BWisUQTMK2Gk@google.com>
- <aV-PvBqQ0Ktiha8e@google.com>
- <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
- <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com>
+	s=arc-20240116; t=1767944452; c=relaxed/simple;
+	bh=dc5BH2TskJ3aHIjmh6Zj4aa7NDU5169UYCubB7E624U=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=DjkXNKmLgoK/aI1qddnRPHP/5Sw254hi2CYHwXXc3iFYmt3S/HprmP6KWBoq3Szk6emVJOvTfDQVHqI0F32WqmIY2U1ZB8ejDtM74+AlmrJG0eq62xFx0lpHQjvR6zzWGGXYw7LfDdNXMFSuTKpDjeQH8MyG1kqKJrTMdTP/o8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 8192429ABCA;
+	Fri,  9 Jan 2026 08:40:40 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id q3l_0VHtv03K; Fri,  9 Jan 2026 08:40:39 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 9051829ABD6;
+	Fri,  9 Jan 2026 08:40:39 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id A7OFxZHY2vnY; Fri,  9 Jan 2026 08:40:39 +0100 (CET)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id C28E529ABCA;
+	Fri,  9 Jan 2026 08:40:38 +0100 (CET)
+Date: Fri, 9 Jan 2026 08:40:38 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, 
+	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Anders Larsen <al@alarsen.net>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, 
+	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, 
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
+	Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
+	Jan Kara <jack@suse.com>, tytso <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	David Woodhouse <dwmw2@infradead.org>, 
+	Dave Kleikamp <shaggy@kernel.org>, 
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, 
+	Amir Goldstein <amir73il@gmail.com>, 
+	Phillip Lougher <phillip@squashfs.org.uk>, 
+	Carlos Maiolino <cem@kernel.org>, hughd <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, 
+	chuck lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, 
+	Matthew Wilcox <willy@infradead.org>, 
+	Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, 
+	Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, 
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Trond Myklebust <trondmy@kernel.org>, anna <anna@kernel.org>, 
+	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+	Bharath SM <bharathsm@microsoft.com>, 
+	Hans de Goede <hansg@kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-btrfs <linux-btrfs@vger.kernel.org>, 
+	linux-erofs <linux-erofs@lists.ozlabs.org>, 
+	linux-ext4 <linux-ext4@vger.kernel.org>, 
+	linux-f2fs-devel <linux-f2fs-devel@lists.sourceforge.net>, 
+	linux-mtd <linux-mtd@lists.infradead.org>, 
+	jfs-discussion@lists.sourceforge.net, 
+	linux-nilfs <linux-nilfs@vger.kernel.org>, ntfs3@lists.linux.dev, 
+	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+	linux-unionfs <linux-unionfs@vger.kernel.org>, 
+	linux-xfs <linux-xfs@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
+	gfs2@lists.linux.dev, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
+	v9fs@lists.linux.dev, ceph-devel <ceph-devel@vger.kernel.org>, 
+	linux-nfs <linux-nfs@vger.kernel.org>, 
+	linux-cifs <linux-cifs@vger.kernel.org>, 
+	samba-technical@lists.samba.org
+Message-ID: <218403128.88322.1767944438487.JavaMail.zimbra@nod.at>
+In-Reply-To: <20260108-setlease-6-20-v1-12-ea4dec9b67fa@kernel.org>
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org> <20260108-setlease-6-20-v1-12-ea4dec9b67fa@kernel.org>
+Subject: Re: [PATCH 12/24] jfs: add setlease file operation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF146 (Linux)/8.8.12_GA_3809)
+Thread-Topic: add setlease file operation
+Thread-Index: Ijb4veyM6wDb0tIeqxd8skdz5qkIYA==
 
-On Fri, Jan 09, 2026 at 11:28:32AM +0800, Baolu Lu wrote:
-> On 1/8/26 19:33, Mostafa Saleh wrote:
-> > I have this, it should have the same effect + a WARN, I will include
-> > it in the new version
-> > 
-> > diff --git a/drivers/iommu/iommu-debug-pagealloc.c
-> > b/drivers/iommu/iommu-debug-pagealloc.c
-> > index 5353417e64f9..64ec0795fe4c 100644
-> > --- a/drivers/iommu/iommu-debug-pagealloc.c
-> > +++ b/drivers/iommu/iommu-debug-pagealloc.c
-> > @@ -146,16 +146,12 @@ void __iommu_debug_unmap_end(struct iommu_domain *domain,
-> >          if (unmapped == size)
-> >                  return;
-> > 
-> > -       /*
-> > -        * If unmap failed, re-increment the refcount, but if it unmapped
-> > -        * larger size, decrement the extra part.
-> > -        */
-> > +       /* If unmap failed, re-increment the refcount. */
-> >          if (unmapped < size)
-> >                  __iommu_debug_update_iova(domain, iova + unmapped,
-> >                                            size - unmapped, true);
-> >          else
-> > -               __iommu_debug_update_iova(domain, iova + size,
-> > -                                         unmapped - size, false);
-> > +               WARN_ONCE(1, "iommu: unmap larger than requested is
-> > not supported in debug_pagealloc\n");
-> >   }
-> > 
-> >   void iommu_debug_init(void)
-> 
-> How aobut
-> 
-> 	if ((unmapped == size) || WARN_ON_ONCE(unmapped > size))
-> 		return;
-> 
-> 	/* If unmap failed, re-increment the refcount. */
-> 	__iommu_debug_update_iova(domain, iova + unmapped, size - unmapped, true);
-> 
-> ?
-> 
+----- Urspr=C3=BCngliche Mail -----
+> Von: "Jeff Layton" <jlayton@kernel.org>
+> Add the setlease file_operation to jfs_file_operations and
+> jfs_dir_operations, pointing to generic_setlease.  A future patch will
+> change the default behavior to reject lease attempts with -EINVAL when
+> there is no setlease file operation defined. Add generic_setlease to
+> retain the ability to set leases on this filesystem.
+>=20
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> fs/jfs/file.c  | 2 ++
+> fs/jfs/namei.c | 2 ++
+> 2 files changed, 4 insertions(+)
 
-That's nice, We could also print the message as Mostafa mentioned, like:
-
-	if ((unmapped == size) || WARN_ON_ONCE(unmapped > size, 
-	"iommu:	unmap larger than requested is not supported in
-	debug_pagealloc\n"))
-
-An explicit "This is unsupported" warning makes it clear IMHO.
-If a driver triggers this, at least we know the sanitizer state isn't
-supported.
+Acked-by: Richard Weinberger <richard@nod.at>
 
 Thanks,
-Praan
+//richard
