@@ -1,531 +1,327 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010039.outbound.protection.outlook.com [52.101.56.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11221A76DE
-	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 14:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767969048; cv=none; b=UeD6D9L8LStdOw0U5yvRGV5fEdssjhV693+AkyB/DM9TaeV6daH11JHSkvzIdgMg8MDywCqhC3PMAsBCIA+ZTc4FoNrBmgERZBln6tMO9NDvaZWUCCJYanxm8LuxYQAkvh7H3RgdxFhZAcLPg9Skeak7Np+TeraeyEmZc/7YEFA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767969048; c=relaxed/simple;
-	bh=vSmoqaySVsgpjPHJZa4uQCQy1ps6mpAk+kz/vE/rfQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZSsMvRvzbB6lYDDGnydPSX8i0AdD6sPBqHwSITUij+wnUmrH7RJgWTZR7PnW9EdlKvEe9XXo5fTYgA+kt+u4kJUodYQ3BquW3+QicSkROfJY+2WZmzmD8rHpNYybvEMSGbPbFoTNC+UMFa2/oCXjsUnG5LXz7mv4VNSbK8k3bMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QLG5BDJX; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7333612E7;
+	Fri,  9 Jan 2026 14:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767969468; cv=fail; b=aqw9sDzsaiQjQdfPLdiedQA74L9wTLQRzdTiH4NMTHdfbmW3W5yCWl84SsC75uLZHK/fmZEa7z9ZqmYRCUXK8jy295JQ6+qN9LI3ceBHcskqHQ4dMlnn/kac6NeHO9mZPQLVobnyc1MXE/KnRT71Rt9s9FcS7XuJ/hANzb9UVPU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767969468; c=relaxed/simple;
+	bh=3MrgclKY4qbqO4gbR3DC0f2C89ovyedknSbhAlAysfM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kSlUGe6lzOuYQQ/o8eZQfeCY2XSpkOEq5uIZ0raBOwjTswJGRH+o3MIkuhBmMdwFAF5K92GIaPJY1BkD6D97+8WXj1DOM2zUQdcgIIDofWHbfkPQF5zJ78Z5Nd7FHYlaJaUrDh0rqrKVDAzYgKX9Y6f4/vRY5LAYwTYwBfBMsWY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qGhGvpsy; arc=fail smtp.client-ip=52.101.56.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLG5BDJX"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-3f0c93ecf42so2023827fac.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 06:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767969044; x=1768573844; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/+b/pbin5O15LPdeXGYj8QlsRQG4OrGA/20XlRHryOQ=;
-        b=QLG5BDJXwek8flAOsEw8Pou1BLmol09y60E1Fttt3oIG2TF+DXego4qjZZBtbgBPGa
-         txh/zKLSHQ8LyovudmIcMNTHBt3QHlQHzojsDRLli/qtV4UGzir2SeGJc8LbR4ddxDh2
-         rZRVXRo3eO+E9PbmpZBBILL7QQOg05YTyeaIkq6IK5mRNMz5bAuzd3jowgAr1qr+vckD
-         OWipEvlt9HIJIK4YAdEX+2KCEqBlsuYHdUvctOsRybgtFvcQ3yzE02ZcbYDHWzljNJJQ
-         xiRgYJ4wfueLXdGac1HOzih5A9Tf8AU1hgsALRGT4oop0j6qjeBl/vPgZhjEn3yJfqR8
-         P1VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767969044; x=1768573844;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/+b/pbin5O15LPdeXGYj8QlsRQG4OrGA/20XlRHryOQ=;
-        b=nFYK1coH+Kvvi9mcxXtIrRwwfQqZy8SwItIWbBRnfIXmcrzzY9RPKNV/iNODDiY2C7
-         uqILrRCiScEHT5SLDwWgpls3Dk907N8jvnQDClYsaJmmk7jD+aVOByURzgN0+RPYo8JL
-         kLkn1p9YDzv2p67GrPEm87CRoWENZs6ONA2oH7orfk+dlS3IJTrjFZnbZeK+vnG6T68Q
-         oByNqLOppF2L/yHQIFzzjhaDlGRmIo3TYWFAsPRrYDJ4pXYzlXaFCfpxzyLwyzujt5lN
-         m3buUTlr2S1ggpqgRey3wl9XD28YC5w1/pcJXfGimr0KgTMDu60IC/5uVExPEKuqymhB
-         QWNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWilt1WVS2Zvfgu7zZbJusu5WF4q8RFasse/CVxe5vjmu/+BN6C6GArmJRNpH0BZYPl+bppn86fQLo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlejBaiZiKPdreY732XMydJBQf8zJYwo0AVrHveUcprUdz8azw
-	ML6+7smBrtAlwrfixZML8U3wdaywiPJhDqbi2m+MHCf3+hCnS6aZOQ8b
-X-Gm-Gg: AY/fxX6s4G06f65hOovV8mu4MU1vDrvX3i5tzNJGZsdORkQHRXf7l6jdNxHx3c/lZRx
-	04k3EyP3CZLo2xm8Z66qJ23jDPebhLWZ+srwS6No/cQIN/+v+ODjysIkrMiIXD3b8dPQBJA+G1Y
-	4wWvX90aKlaGwR8auKoGfHcw74VE11MirqIoz9ubmidr1RVeZFh0/WbfgOkibpbUFKfPcf3KI/2
-	YQOZXO/hDDwPZCAmO4aHsgKoFk5qz3LAzTiEUc93kdvlSrbC+yzWTKcM/1aXyUQKxqGG9LjygkT
-	C8/3pYwpCYahr4vLpa3QecWVT6dwXmmlk8bX6Z9OXBopUSxORMr0mx/QDJBdKUWnIEJutO7JpNp
-	43iwdBNSTM1msqcQmj5NLdPcZntx+KyD1SlqGE+RGGl02mj06WdqeGkeW9TJfPIGdtPY3Qb9UT5
-	PoS7G9fiMMcRNpZgx8kLgD+jgtkFSf8g==
-X-Google-Smtp-Source: AGHT+IElG0AH+R/nz4iIoI5x/T09BXi9JWxi51uu3GRk0Q9RVWgdDkzftBBm8jsoFHiLP76eqmw9mw==
-X-Received: by 2002:a05:6870:1753:b0:3e0:c368:e1cb with SMTP id 586e51a60fabf-3ffbf035077mr6307624fac.14.1767969043388;
-        Fri, 09 Jan 2026 06:30:43 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:184d:823f:1f40:e229])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3ffa4e3e844sm7223039fac.9.2026.01.09.06.30.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 06:30:42 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Fri, 9 Jan 2026 08:30:39 -0600
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 15/21] famfs_fuse: Create files with famfs fmaps
-Message-ID: <7jcdlgo7nddrm7phuhj37q2cwgmdal2es6qgswu4fu5sgpgc7v@dt7ltedbjhkq>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-16-john@groves.net>
- <20260108131400.000017f5@huawei.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qGhGvpsy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=B2Q9ihHas67bJxJOPt3cL6GofBnKWE+AdZoNuWGxQAe1Bw9IqiFB42u6OmXMWfMquCqhFYT+9hqokmZBEE9qaWpDuczEn4AItjm0mMLx4VmIfHEBswM3wIS7wGLxzRPMR9K7YsdnlW2XW22IvWCpWbddXbif62kWOWJuU9d2UimLXjY3wjCEqcmCNjTceyjX68Z9h3tYqbrqvgErXsHZ/NZCIGkA0lk7PFRPxPiRQgCsq4SuZB1bZkX6kipImLmM7nS0LTLN77IbtGmDStjFqvMfKaxp6M40z8kgreY/Ci3WJj3Z55zlXiEpJYLt766192ZRFL5aVFgzTDBJuC00Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ekdtmdfr9PpWUBy9KmerfuspbAKREFJOSmXPMHpc+/s=;
+ b=jA45a7sR9dovjtIfGuDjnBFZlu7ztn3H03oxyrBUmdePfY/S0beFaJnk1M5FNMuVWv+pgn0ZKEaLZ05XMq437NaTKEm7yQey46IF583Rnrq2EyC/Ly8ZRHExbHgeiiZPCiv2sBXcSQpxiPDbupLzUyNb25UE0fo/rojjg6i6YtszylW0E0xvNcMk/uQG+oHgQriDCizcYMsHXj7383a7mfILNMpXGsC9gCtuQI26XxX13uLdYaAoBQt7xVwTA1gf/Kxzew3t1sX8MI2GvfA1sDEPL7Pb59mciK2F5emliPaKF+zmCSt7qOJEjqG1hCVvd7EytjS4fVZmHtzcLFCaWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ekdtmdfr9PpWUBy9KmerfuspbAKREFJOSmXPMHpc+/s=;
+ b=qGhGvpsyyuM7pBQzECz9s0K5kGlx+gQxxufg6euQxYNT822IbFDc8B2VOA5oMHiCjh8bzEdm2nFjJgouy1byIfX5mwBDVMLoo2CzbbgX9oESVrezq6+yxmGez2IeIHqCRsczbhUPGOo3UBdV09lCwn6TKguKr8IGe5l2/0KtmEbkHXZMjx5m7oK9Jr3WZNhbYKc4x/V5Kiq7poXgO2xDjOXVG/PJgdGfUKZ//VtADPdNeAPfcho7bwo01AVZ+PrUp3sU3OLPGJJpWbwY1ku/DMZFn9croSvBEZnNw18rHC1K7MIPMHrpZOjQRVg93iRjULm9K773mRizDCrM16Oagg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by DM4PR12MB5866.namprd12.prod.outlook.com (2603:10b6:8:65::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.4; Fri, 9 Jan 2026 14:37:38 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9499.004; Fri, 9 Jan 2026
+ 14:37:37 +0000
+Message-ID: <0fe78528-db0c-494d-8d5e-b89abdc993b2@nvidia.com>
+Date: Fri, 9 Jan 2026 20:07:25 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 10/11] cpufreq: CPPC: make scaling_min/max_freq
+ read-only when auto_sel enabled
+To: Pierre Gondois <pierre.gondois@arm.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, zhenglifeng1@huawei.com
+Cc: linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, ray.huang@amd.com,
+ corbet@lwn.net, robert.moore@intel.com, lenb@kernel.org,
+ acpica-devel@lists.linux.dev, mario.limonciello@amd.com,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org, gautham.shenoy@amd.com,
+ zhanjie9@hisilicon.com, ionela.voinescu@arm.com, perry.yuan@amd.com,
+ linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org, treding@nvidia.com,
+ jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
+ sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-11-sumitg@nvidia.com>
+ <ed9015a3-42b5-4c0e-af6f-2b4d65c34cd5@arm.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <ed9015a3-42b5-4c0e-af6f-2b4d65c34cd5@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN4P287CA0039.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:271::13) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108131400.000017f5@huawei.com>
-
-On 26/01/08 01:14PM, Jonathan Cameron wrote:
-> On Wed,  7 Jan 2026 09:33:24 -0600
-> John Groves <John@Groves.net> wrote:
-> 
-> > On completion of GET_FMAP message/response, setup the full famfs
-> > metadata such that it's possible to handle read/write/mmap directly to
-> > dax. Note that the devdax_iomap plumbing is not in yet...
-> > 
-> > * Add famfs_kfmap.h: in-memory structures for resolving famfs file maps
-> >   (fmaps) to dax.
-> > * famfs.c: allocate, initialize and free fmaps
-> > * inode.c: only allow famfs mode if the fuse server has CAP_SYS_RAWIO
-> > * Update MAINTAINERS for the new files.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> 
-> > diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> > index 0f7e3f00e1e7..2aabd1d589fd 100644
-> > --- a/fs/fuse/famfs.c
-> > +++ b/fs/fuse/famfs.c
-> > @@ -17,9 +17,355 @@
-> >  #include <linux/namei.h>
-> >  #include <linux/string.h>
-> >  
-> > +#include "famfs_kfmap.h"
-> >  #include "fuse_i.h"
-> >  
-> >  
-> > +/***************************************************************************/
-> Who doesn't like stars?  Why have them here?
-> 
-> > +
-> > +void
-> > +__famfs_meta_free(void *famfs_meta)
-> 
-> Maybe a local convention, but if not one line.
-> Same for other cases.
-
-Done
-
-> 
-> > +{
-> > +	struct famfs_file_meta *fmap = famfs_meta;
-> > +
-> > +	if (!fmap)
-> > +		return;
-> > +
-> > +	if (fmap) {
-> 
-> Well that's never going to fail given 2 lines above.
-
-Good eye. Thanks.
-
-> 
-> 
-> > +		switch (fmap->fm_extent_type) {
-> > +		case SIMPLE_DAX_EXTENT:
-> > +			kfree(fmap->se);
-> > +			break;
-> > +		case INTERLEAVED_EXTENT:
-> > +			if (fmap->ie)
-> > +				kfree(fmap->ie->ie_strips);
-> > +
-> > +			kfree(fmap->ie);
-> > +			break;
-> > +		default:
-> > +			pr_err("%s: invalid fmap type\n", __func__);
-> > +			break;
-> > +		}
-> > +	}
-> > +	kfree(fmap);
-> > +}
-> 
-> > +/**
-> > + * famfs_fuse_meta_alloc() - Allocate famfs file metadata
-> > + * @metap:       Pointer to an mcache_map_meta pointer
-> > + * @ext_count:  The number of extents needed
-> 
-> run kernel-doc over the file as that's not the parameters...
-
-Not sure how I managed that; Fixed, thanks!
-
-> 
-> > + *
-> > + * Returns: 0=success
-> > + *          -errno=failure
-> > + */
-> > +static int
-> > +famfs_fuse_meta_alloc(
-> > +	void *fmap_buf,
-> > +	size_t fmap_buf_size,
-> > +	struct famfs_file_meta **metap)
-> > +{
-> > +	struct famfs_file_meta *meta = NULL;
-> > +	struct fuse_famfs_fmap_header *fmh;
-> > +	size_t extent_total = 0;
-> > +	size_t next_offset = 0;
-> > +	int errs = 0;
-> > +	int i, j;
-> > +	int rc;
-> > +
-> > +	fmh = (struct fuse_famfs_fmap_header *)fmap_buf;
-> 
-> void * so cast not needed and hence just assign it at the
-> declaration.
-
-Indeed, thanks.
-
-> 
-> > +
-> > +	/* Move past fmh in fmap_buf */
-> > +	next_offset += sizeof(*fmh);
-> > +	if (next_offset > fmap_buf_size) {
-> > +		pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
-> > +		       __func__, __LINE__, next_offset, fmap_buf_size);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (fmh->nextents < 1) {
-> > +		pr_err("%s: nextents %d < 1\n", __func__, fmh->nextents);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (fmh->nextents > FUSE_FAMFS_MAX_EXTENTS) {
-> > +		pr_err("%s: nextents %d > max (%d) 1\n",
-> > +		       __func__, fmh->nextents, FUSE_FAMFS_MAX_EXTENTS);
-> > +		return -E2BIG;
-> > +	}
-> > +
-> > +	meta = kzalloc(sizeof(*meta), GFP_KERNEL);
-> 
-> Maybe sprinkle some __free magic on this then you can return in
-> all the goto error_out places which to me makes this more readable.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|DM4PR12MB5866:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5673e00b-c3a1-46da-50cb-08de4f8ca208
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K0lGL3dvb2dBTHE4YTFPT2IwMlRUU3hiR0M3dldGQVZWR3FKQmxzLzJ6OWZr?=
+ =?utf-8?B?V0I5N0wydWNaeVcrd1RxUkJ0ZEVwaEFBYi9UbTNpeDYyK284ZWpCaGhGeWk0?=
+ =?utf-8?B?S3FKYktqZjJreTNjdzR5QUN0VHBGQXY2dkYrUldKTDFLeXBFRDFPeFFoSVpt?=
+ =?utf-8?B?cWxaZWxKZXFISGVFU2hNSzNmZ3RRWExDcXBabk9hQTZlNVIzR2VNYlJvWDBX?=
+ =?utf-8?B?OEhVNGc1WjJBT01WdG1tM1E5OVJlYzBhMGN4YlI0ZnRVbVFjRlpvS2d2cXhR?=
+ =?utf-8?B?b0J4MjNxM01LNk1tdmx3UTJCWFNKNjFjMUxTRk11VnVqU1o0cnFHSHFadHNy?=
+ =?utf-8?B?b3BZeXZ1UDFtY0E4U0hxMno3MXo0SmFXZDVYRUh0ZFdQOW1Xb2xLb1VrUmRo?=
+ =?utf-8?B?NE9hSFV0NG1odFgvK29tSk1PSDNhVFBLenJwYldNNDIyRlVVSDh5aHFiUU5r?=
+ =?utf-8?B?OWpkdElHZTYveld2aDZJVmFvUnNrcndZeUErNXB5SmRTeHRtTVVDalQvbUc2?=
+ =?utf-8?B?N0l1cTkzc0J6SE5TUlErbkVXN2pmTEtkY1FJRWRRQnd6UUJmU2ZqcW5PRzh4?=
+ =?utf-8?B?Y3NGVi9ZYnVBL0t6WVErZHlCV0gxZDJ1R25oYVk0UTFYMk42Z2FydWxGZUsr?=
+ =?utf-8?B?eGpUbStDMWNiYWIrRDVHZ1F2cElHUm9tTW02UFI3aFJqZDR1cHNHZEhuMFZD?=
+ =?utf-8?B?Mm1iUXFTZWZYcDhtT3hYRG1jV3hUaU1QQ0FYdEtGVkFQTnk1MkxwY0x1SzRa?=
+ =?utf-8?B?MWN2aWxyb1RtdmZrU2FPZjQ2U1ZTZXhxcTB1ajB5STFmaW1tem9UL0RrZEVR?=
+ =?utf-8?B?ZFFnUGNkdTZidlArNG02QWJZTzFtdkM2UlhzcmtWcGx6TWJCYU1vd2VkNUZz?=
+ =?utf-8?B?eHVwRzFoamkxUUd0WUc4SzZkR0NIWTl2NmFmbHdLNW9yMWdLc0hIOTNoQzJY?=
+ =?utf-8?B?QVExWGxqWUxwMmR0UkxFRHVYYWNxdzltd0hmRWY1eTNHTmx4dEdQb1BXZlVh?=
+ =?utf-8?B?bG1FYjBSdkZiTVZqMWNQU0hITzVwSC92dDFEOHhDaWI5d015Ujk1S0ZhYngx?=
+ =?utf-8?B?d0JOa016dUd6STFyV2wveXNsdmxpRFJJbERyc0N5Qnc5djV3REdFekJWTGNv?=
+ =?utf-8?B?YWJVMFNaY3pkN1dEd2hFRFh6K0VBT0phTGhUL1dnZElLTndNMkV6NDlnOWpj?=
+ =?utf-8?B?cTEzQ2RwZi9wRUxuRTZ2MGJ3Q0NFNkN4M0pnTWEyWmtqT3lCdXNUdVh2RmI1?=
+ =?utf-8?B?ZEh4eENMZEtKTkluWE5DZjBOTE9aZ1JYd29YQ2tobVlWQUR1UndTYTVTTmVD?=
+ =?utf-8?B?OXJGaDNkQjQyQmZJbVNOWENYMXVVa0Q4L1RwUmtMZVhjdFhPOU5ERmhhOVNJ?=
+ =?utf-8?B?OW9TNTFDdUY0M3h5aUdlRWtHd1VRbUE4TDEyVWZsSEhtVFk2bzBYcjZjVlRk?=
+ =?utf-8?B?WUJVRGgrb1NDSUsrUU5jb1E0WWFud1M2Y0drTVJ2a3NSSllWZUQzTVJtR0I4?=
+ =?utf-8?B?bW11TU5VOXhWSjBvOWFabys5Wk56OWE3ZGFESmZVaHJWcjhxUE1KYzM3U2Vn?=
+ =?utf-8?B?a0pPdHF5MjlBaERvSWFoSWgwMGRteHpEclhMc3FCS05Bbjk0dWR2TVBTdG9p?=
+ =?utf-8?B?Y3V5c2dycXpGVjJLLzlYTCsySTVNT3BzTUprazVsL01XWFdpK0xQOVBUVW1j?=
+ =?utf-8?B?Wmpvem8wajhwUVhVc2hhMDIwYXJ0cVNiZkgvSEYyV01oTURFR2F5a1J4WE5D?=
+ =?utf-8?B?cVcrd2o0RXR2SmhsemZFZUhzbTZmMEo1Ry8vK1pDVmNtYm9TT3NpbEFvSXla?=
+ =?utf-8?B?dHE3RGhBMStGOEJrYXZrYlZCczV6MEdVbUpLK0k5ekg2aG5XSmRKODByM2cx?=
+ =?utf-8?B?a1JVL3A3NDJhcmRmVERubUpvZ2htNnJLVU13MmxOaDZNK3I1eGFGTzJPLzRq?=
+ =?utf-8?B?Sk9mWmhzTFpxakJDYktJU20raHVxV0pZUGlGWUxHZnJmZ0xnV2tkNThuQzYw?=
+ =?utf-8?B?RzR2SVRaUmFRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YlpFUjU3dTFqaTZGdW45NDIva1MrS1g3c0ROMldxTHlqVGM2SFNvbTMwU1FC?=
+ =?utf-8?B?QUlXcldpb0ZoTU5pZVBWRG0rTmR1NjV0cktiVG90Rm9jMHU0ZEF3cGZBOFgy?=
+ =?utf-8?B?YkpLaU9vdWNJcFpHeWNhNUJvTHA4YUExNzlZTUNab2o5S05rL3o3RDAzQThM?=
+ =?utf-8?B?WkFBcGFSSmdQcjdQL3RkL0VUeTY1MEhPSXJhbVFUUy9MUXBLZjlrWWRsbFVN?=
+ =?utf-8?B?MnZHSHNQN2tFSHdwNXFiMkhvazVJUkZhZ2ZKTU5UT1pkb0M0L2x4ZDlGV0NY?=
+ =?utf-8?B?K011SUZ3ai96c2VWQXBweitSQk14Zk9DanFGY2l6TS9RTGZLVVd4TjNiUEwv?=
+ =?utf-8?B?ampYVUtMeFpJMEhyZGU1MXAwMTB3YWQwRVQxd25idWx1aXR6UFpVemFLNkJw?=
+ =?utf-8?B?QW4rc01ZSE5QWWw3OFZObXdhSFJRcm1COUZzMWl4NUE0L0RhMTZIWnlDTUNG?=
+ =?utf-8?B?cFQ1WE9xMmJVOEtpK0dKaVFMcjc0aGtMQXdlTGRieUNqSnBUQWxqV0xIWG5Y?=
+ =?utf-8?B?aTU3L09GNloyd0lpOUlnalQwZzhQVGNVN3dpNm9maEI4OUFRVys2SDk2V2wr?=
+ =?utf-8?B?T25wMzNiaEgwQmNCUmVyRVdaWEVNSzdoMjZJbGN2SFB0eDc5NDNQTUQ5RVZq?=
+ =?utf-8?B?d0JwZTNaejlFZVRmZWxmcFh2MGE2ZXlaNUxhU21JZFFsMWMyMWFZZDBHdmZv?=
+ =?utf-8?B?UmltRXVCdzlRTWQySC9EU1IvMFdGMU5NUEpFOHBxWXNzUUgxaWZBRk5ScjJh?=
+ =?utf-8?B?UEtWUzVONng2Q1dMWGo0M043anJZNk4wQXl2U3dnaVZmMVR0ejEvZ2ZWdnly?=
+ =?utf-8?B?R3NsN3B6VWt1cm1pckRIVEZCbkJnQ1ZyZ05Rb25uMnVCdkFCRGNncW1XWHJo?=
+ =?utf-8?B?NmRmTWVOUE0zNWtNaDdNOEErTDlDLzl6czEvWGVHVU1yalh5QnF6aWN4dWp6?=
+ =?utf-8?B?YU5KVkVqNWN6UHBhV0djaXFxc0tFL0ZvV1ZHZGpwWFdlOWFldzdQbnM1ckk4?=
+ =?utf-8?B?KzM2cEpkbDltM1FGNXRYR0Y2VXRQeWs4akxwQVgxSERteW4wSVVjVzh4TW9o?=
+ =?utf-8?B?SzhmRWRPVWRpU3hHdFB6V0lHbkZQVzFJbjBzVmxKZ1ZQOFhJWnFQSGNjSElK?=
+ =?utf-8?B?VUw5OVk0OG1LM2xsbWlwMHlEYWowMzlzMGloaU5HbGhpZjgxRHNaUWhXSTFk?=
+ =?utf-8?B?a1JoeituajV0clMxZzRyZi9YMVlzZ25yenpndmx3d0UwWHZyQkdERGEyL2VJ?=
+ =?utf-8?B?TnNHdlZGK0xSVjlNNnlhZEh4ZkIxZU1tWlMyalBMNE5HdWRHUmlZSmhZTytO?=
+ =?utf-8?B?eng1WURiYysyS1A0M2JmLzlYbXRSUFgwVkRXZGVWVE5GMUxkR1p3QlhKeWtt?=
+ =?utf-8?B?OGhoclhrREtsVFNhLzVwSEcrbTFFNThEZG1EU0ZMVnluL2hKZWtycFRLUWNi?=
+ =?utf-8?B?S1QxLzJEMTVvdFhZL3dnREdQN2dTenU4cnVzMTdTOUNiM3VWWXFOMElUdk5y?=
+ =?utf-8?B?bVVkaXcwZmJCQUd2bzBHTE1LWEdIclNFaVJWWE9XMUtYR1h1dEVGZXA1YmpQ?=
+ =?utf-8?B?SU1ZVmJMSUtvWVlDODZYTzdEdytuRGFGL3A3dkIvSE9JbkRCbzZqemI4d1VQ?=
+ =?utf-8?B?Z0NGMzRZL0EzNWZIVWNzWDhKQllMZ0JWVE9rTjRlTWhhbVQyTnl3RXNVZXUv?=
+ =?utf-8?B?MjljWXJvODVsZzk2amhyMldOSjEya013ejNNd2dMQVJqdUc5SzBEOUwzV24z?=
+ =?utf-8?B?R0k5a2t1L2JrZUlUMHhCQ2dzcE9xejYwZEVFN2hiZHAwQU1zS1Y1c05kcE5a?=
+ =?utf-8?B?bWZoY0tZVDZtRDNHcFBZTm9zaUpYUWhBcnQzNXp0M0lzYXRTZGRPbHUwMmor?=
+ =?utf-8?B?SHVqUklMdGw0ZEJxS3NnK29iQ0x3RjRRODlaaUtFOUdtTlFYWGVTek5VUkVu?=
+ =?utf-8?B?YkJqa1RMNnpoZUhEd3FCc3JPL1hYM1ZnajkycWpBeGxpOVdReXc3MFdTbEpp?=
+ =?utf-8?B?ZnVESTNWWExGRksxSGI0NXJ3dmFOd1NSeERSZ2d2NVNtZUhuVXRxbCtUMkRV?=
+ =?utf-8?B?akt1SWYyNllNR253TVNRL3UzM0hHanNocHZEYnFJc0JCYnBCWDJVOWRnZUtF?=
+ =?utf-8?B?RnNPd0dMZ2xNc3g3b0hnMkRtMDVUODV5bWp4eGN6OUFZaVBMOGhyanp4c2pj?=
+ =?utf-8?B?VHp0L1Ruc2gvY0o4dEF6SzRVRHNtMzh1YmwrZ21Nb3Rpb2crRlI2eGNkcS8r?=
+ =?utf-8?B?OE8xL05zcUFoQXVTc2FVYm5zUGtjZFNxblFoYkR0QTZ0VVBkRTZHT0kyY2RF?=
+ =?utf-8?B?dk53WVlmVmJOQWpiRkFMRFFJVmdQd24xK3N3WmdmcjdMU0EvWjBJQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5673e00b-c3a1-46da-50cb-08de4f8ca208
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 14:37:37.6970
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NYXqqrnZo/RrS8vIZ0cGjWJSp8Oj0S5zoYh20szPYI0ALV7TpoA2s5P5J2j7L4MAjo0hbwRtRx6xtErQ+UTgTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5866
 
 
-I like it, and I learned how to make __famfs_meta_free() into a
-__free() handler.
+On 08/01/26 22:16, Pierre Gondois wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> Hello Sumit, Lifeng,
+>
+> On 12/23/25 13:13, Sumit Gupta wrote:
+>> When autonomous selection (auto_sel) is enabled, the hardware controls
+>> performance within min_perf/max_perf register bounds making the
+>> scaling_min/max_freq effectively read-only.
+>
+> If auto_sel is set, the governor associated to the policy will have no
+> actual control.
+>
+> E.g.:
+> If the schedutil governor is used, attempts to set the
+> frequency based on CPU utilization will be periodically
+> sent, but they will have no effect.
+>
+> The same thing will happen for the ondemand, performance,
+> powersave, userspace, etc. governors. They can only work if
+> frequency requests are taken into account.
+>
+> ------------
+>
+> This looks like the intel_pstate governor handling where it is possible
+> not to have .target() or .target_index() callback and the hardware is in
+> charge (IIUC).
+> For this case, only 2 governor seem available: performance and powersave.
+>
 
-Done
+In v1 [1], I added a separate cppc_cpufreq_epp_driver instance without
+target*() hooks, using setpolicy() instead (similar to AMD pstate).
+However, this approach doesn't allow per-CPU control: if we boot with the
+EPP driver, we can't dynamically disable auto_sel for individual CPUs and
+return to OS governor control (no target hook available). AMD and Intel
+pstate drivers seem to set HW autonomous mode for all CPUs globally,
+not per-CPU. So, changed it in v2.
+[1] https://lore.kernel.org/lkml/20250211103737.447704-6-sumitg@nvidia.com/
 
-> 
-> > +	if (!meta)
-> > +		return -ENOMEM;
-> > +
-> > +	meta->error = false;
-> > +	meta->file_type = fmh->file_type;
-> > +	meta->file_size = fmh->file_size;
-> > +	meta->fm_extent_type = fmh->ext_type;
-> > +
-> > +	switch (fmh->ext_type) {
-> > +	case FUSE_FAMFS_EXT_SIMPLE: {
-> > +		struct fuse_famfs_simple_ext *se_in;
-> > +
-> > +		se_in = (struct fuse_famfs_simple_ext *)(fmap_buf + next_offset);
-> 
-> void * so no need for cast. Though you could keep the cast but apply it to
-> fmh + 1 to take advantage of that type.
 
-done, thanks
+> ------------
+>
+> In our case, I think it is desired to unload the scaling governor
+> currently in
+> use if auto_sel is selected. Letting the rest of the system think it has
+> control
+> over the freq. selection seems incorrect.
+> I am not sure what to replace it with:
+> -
+> There are no specific performance/powersave modes for CPPC.
+> There is a range of values between 0-255
+> -
+> A firmware auto-selection governor could be created just for this case.
+> Being able to switch between OS-driven and firmware driven freq. 
+> selection
+> is not specific to CPPC (for the future).
+> However I am not really able to say the implications of doing that.
+>
+> ------------
+>
+> I think it would be better to split your patchset in 2:
+> 1. adding APIs for the CPPC spec.
+> 2. using the APIs, especially for auto_sel
+>
+> 1. is likely to be straightforward as the APIs will still be used
+> by the driver at some point.
+> 2. is likely to bring more discussion.
+>
 
-> 
-> 
-> > +
-> > +		/* Move past simple extents */
-> > +		next_offset += fmh->nextents * sizeof(*se_in);
-> > +		if (next_offset > fmap_buf_size) {
-> > +			pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
-> > +			       __func__, __LINE__, next_offset, fmap_buf_size);
-> > +			rc = -EINVAL;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		meta->fm_nextents = fmh->nextents;
-> > +
-> > +		meta->se = kcalloc(meta->fm_nextents, sizeof(*(meta->se)),
-> > +				   GFP_KERNEL);
-> > +		if (!meta->se) {
-> > +			rc = -ENOMEM;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		if ((meta->fm_nextents > FUSE_FAMFS_MAX_EXTENTS) ||
-> > +		    (meta->fm_nextents < 1)) {
-> > +			rc = -EINVAL;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		for (i = 0; i < fmh->nextents; i++) {
-> > +			meta->se[i].dev_index  = se_in[i].se_devindex;
-> > +			meta->se[i].ext_offset = se_in[i].se_offset;
-> > +			meta->se[i].ext_len    = se_in[i].se_len;
-> > +
-> > +			/* Record bitmap of referenced daxdev indices */
-> > +			meta->dev_bitmap |= (1 << meta->se[i].dev_index);
-> > +
-> > +			errs += famfs_check_ext_alignment(&meta->se[i]);
-> > +
-> > +			extent_total += meta->se[i].ext_len;
-> > +		}
-> > +		break;
-> > +	}
-> > +
-> > +	case FUSE_FAMFS_EXT_INTERLEAVE: {
-> > +		s64 size_remainder = meta->file_size;
-> > +		struct fuse_famfs_iext *ie_in;
-> > +		int niext = fmh->nextents;
-> > +
-> > +		meta->fm_niext = niext;
-> > +
-> > +		/* Allocate interleaved extent */
-> > +		meta->ie = kcalloc(niext, sizeof(*(meta->ie)), GFP_KERNEL);
-> > +		if (!meta->ie) {
-> > +			rc = -ENOMEM;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		/*
-> > +		 * Each interleaved extent has a simple extent list of strips.
-> > +		 * Outer loop is over separate interleaved extents
-> > +		 */
-> > +		for (i = 0; i < niext; i++) {
-> > +			u64 nstrips;
-> > +			struct fuse_famfs_simple_ext *sie_in;
-> > +
-> > +			/* ie_in = one interleaved extent in fmap_buf */
-> > +			ie_in = (struct fuse_famfs_iext *)
-> > +				(fmap_buf + next_offset);
-> 
-> void * so no cast needed.
+We discussed adding a hw_auto_sel governor as a second step, though the
+approach may need refinement during implementation.
 
-Right, thanks
+Deferred it (to second step) because adding a new governor requires
+broader discussion.
 
-> 
-> > +
-> > +			/* Move past one interleaved extent header in fmap_buf */
-> > +			next_offset += sizeof(*ie_in);
-> > +			if (next_offset > fmap_buf_size) {
-> > +				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
-> > +				       __func__, __LINE__, next_offset,
-> > +				       fmap_buf_size);
-> > +				rc = -EINVAL;
-> > +				goto errout;
-> > +			}
-> > +
-> > +			nstrips = ie_in->ie_nstrips;
-> > +			meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
-> > +			meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
-> > +			meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
-> > +
-> > +			if (!meta->ie[i].fie_nbytes) {
-> > +				pr_err("%s: zero-length interleave!\n",
-> > +				       __func__);
-> > +				rc = -EINVAL;
-> > +				goto errout;
-> > +			}
-> > +
-> > +			/* sie_in = the strip extents in fmap_buf */
-> > +			sie_in = (struct fuse_famfs_simple_ext *)
-> > +				(fmap_buf + next_offset);
-> no cast needed.
+This issue already exists in current code - store_auto_select() enables
+auto_sel without any governor awareness. These patches improve the
+situation by:
+- Updating scaling_min/max_freq when toggling auto_sel mode
+- Syncing policy limits with actual HW min/max_perf bounds
+- Making scaling_min/max_freq read-only in auto_sel mode
 
-Done, thanks
+Would it be acceptable to merge this as a first step, with the governor
+handling as a follow-up?
+If not and you prefer splitting, which grouping works better:
+   A) Patches 1-8 then 9-11.
+   B) "ACPI: CPPC *" patches then "cpufreq: CPPC *" patches.
 
-> 
-> > +
-> > +			/* Move past strip extents in fmap_buf */
-> > +			next_offset += nstrips * sizeof(*sie_in);
-> > +			if (next_offset > fmap_buf_size) {
-> > +				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
-> > +				       __func__, __LINE__, next_offset,
-> > +				       fmap_buf_size);
-> > +				rc = -EINVAL;
-> > +				goto errout;
-> > +			}
-> > +
-> > +			if ((nstrips > FUSE_FAMFS_MAX_STRIPS) || (nstrips < 1)) {
-> > +				pr_err("%s: invalid nstrips=%lld (max=%d)\n",
-> > +				       __func__, nstrips,
-> > +				       FUSE_FAMFS_MAX_STRIPS);
-> > +				errs++;
-> > +			}
-> > +
-> > +			/* Allocate strip extent array */
-> > +			meta->ie[i].ie_strips = kcalloc(ie_in->ie_nstrips,
-> > +					sizeof(meta->ie[i].ie_strips[0]),
-> > +							GFP_KERNEL);
-> 
-> Align all lines after 1st one to same point.
 
-Yeah
+>
+>> Enforce this by setting policy limits to min/max_perf bounds in
+>> cppc_verify_policy(). Users must use min_perf/max_perf sysfs interfaces
+>> to change performance limits in autonomous mode.
+>>
+>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>> ---
+>>   drivers/cpufreq/cppc_cpufreq.c | 32 +++++++++++++++++++++++++++++++-
+>>   1 file changed, 31 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/cpufreq/cppc_cpufreq.c 
+>> b/drivers/cpufreq/cppc_cpufreq.c
+>> index b1f570d6de34..b3da263c18b0 100644
+>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>> @@ -305,7 +305,37 @@ static unsigned int 
+>> cppc_cpufreq_fast_switch(struct cpufreq_policy *policy,
+>>
+>>   static int cppc_verify_policy(struct cpufreq_policy_data *policy)
+>>   {
+>> -     cpufreq_verify_within_cpu_limits(policy);
+>> +     unsigned int min_freq = policy->cpuinfo.min_freq;
+>> +     unsigned int max_freq = policy->cpuinfo.max_freq;
+>> +     struct cpufreq_policy *cpu_policy;
+>> +     struct cppc_cpudata *cpu_data;
+>> +     struct cppc_perf_caps *caps;
+>> +
+>> +     cpu_policy = cpufreq_cpu_get(policy->cpu);
+>> +     if (!cpu_policy)
+>> +             return -ENODEV;
+>> +
+>> +     cpu_data = cpu_policy->driver_data;
+>> +     caps = &cpu_data->perf_caps;
+>> +
+>> +     if (cpu_data->perf_ctrls.auto_sel) {
+>> +             u32 min_perf, max_perf;
+>> +
+>> +             /*
+>> +              * Set policy limits to HW min/max_perf bounds. In 
+>> autonomous
+>> +              * mode, scaling_min/max_freq is effectively read-only.
+>> +              */
+>> +             min_perf = cpu_data->perf_ctrls.min_perf ?:
+>> +                        caps->lowest_nonlinear_perf;
+>> +             max_perf = cpu_data->perf_ctrls.max_perf ?: 
+>> caps->nominal_perf;
+>> +
+>> +             policy->min = cppc_perf_to_khz(caps, min_perf);
+>> +             policy->max = cppc_perf_to_khz(caps, max_perf);
+>
+> policy->min/max values are overwritten, but the governor which is
+> supposed to use them to select the most fitting frequency will be
+> ignored by the firmware I think.
+>
 
-> 
-> ...
-> 
-> > +
-> > +/**
-> > + * famfs_file_init_dax() - init famfs dax file metadata
-> > + *
-> > + * @fm:        fuse_mount
-> > + * @inode:     the inode
-> > + * @fmap_buf:  fmap response message
-> > + * @fmap_size: Size of the fmap message
-> > + *
-> > + * Initialize famfs metadata for a file, based on the contents of the GET_FMAP
-> > + * response
-> > + *
-> > + * Return: 0=success
-> > + *          -errno=failure
-> > + */
-> > +int
-> > +famfs_file_init_dax(
-> > +	struct fuse_mount *fm,
-> > +	struct inode *inode,
-> > +	void *fmap_buf,
-> > +	size_t fmap_size)
-> > +{
-> > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> > +	struct famfs_file_meta *meta = NULL;
-> > +	int rc = 0;
-> 
-> Always set before use.
+Yes.
 
-Roger that - and it went away with the __free thingy anyway
-
-> 
-> > +
-> > +	if (fi->famfs_meta) {
-> > +		pr_notice("%s: i_no=%ld fmap_size=%ld ALREADY INITIALIZED\n",
-> > +			  __func__,
-> > +			  inode->i_ino, fmap_size);
-> > +		return 0;
-> > +	}
-> > +
-> > +	rc = famfs_fuse_meta_alloc(fmap_buf, fmap_size, &meta);
-> > +	if (rc)
-> > +		goto errout;
-> > +
-> > +	/* Publish the famfs metadata on fi->famfs_meta */
-> > +	inode_lock(inode);
-> > +	if (fi->famfs_meta) {
-> > +		rc = -EEXIST; /* file already has famfs metadata */
-> > +	} else {
-> > +		if (famfs_meta_set(fi, meta) != NULL) {
-> > +			pr_debug("%s: file already had metadata\n", __func__);
-> > +			__famfs_meta_free(meta);
-> > +			/* rc is 0 - the file is valid */
-> > +			goto unlock_out;
-> > +		}
-> > +		i_size_write(inode, meta->file_size);
-> > +		inode->i_flags |= S_DAX;
-> > +	}
-> > + unlock_out:
-> > +	inode_unlock(inode);
-> > +
-> > +errout:
-> > +	if (rc)
-> > +		__famfs_meta_free(meta);
-> 
-> For readability I'd split he good and bad exit paths even it unlock
-> needs to happen in two places.
-
-Done
-
-> 
-> 
-> > +
-> > +	return rc;
-> > +}
-> > +
-> 
-> > diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
-> > new file mode 100644
-> > index 000000000000..058645cb10a1
-> > --- /dev/null
-> > +++ b/fs/fuse/famfs_kfmap.h
-> > @@ -0,0 +1,67 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * famfs - dax file system for shared fabric-attached memory
-> > + *
-> > + * Copyright 2023-2025 Micron Technology, Inc.
-> > + */
-> > +#ifndef FAMFS_KFMAP_H
-> > +#define FAMFS_KFMAP_H
-> > +
-> > +/*
-> > + * The structures below are the in-memory metadata format for famfs files.
-> > + * Metadata retrieved via the GET_FMAP response is converted to this format
-> > + * for use in  resolving file mapping faults.
-> 
-> bonus space after in
-
-Removed
-
-> 
-> > + *
-> > + * The GET_FMAP response contains the same information, but in a more
-> > + * message-and-versioning-friendly format. Those structs can be found in the
-> > + * famfs section of include/uapi/linux/fuse.h (aka fuse_kernel.h in libfuse)
-> > + */
-> 
-> > +/*
-> > + * Each famfs dax file has this hanging from its fuse_inode->famfs_meta
-> > + */
-> > +struct famfs_file_meta {
-> > +	bool                   error;
-> > +	enum famfs_file_type   file_type;
-> > +	size_t                 file_size;
-> > +	enum famfs_extent_type fm_extent_type;
-> > +	u64 dev_bitmap; /* bitmap of referenced daxdevs by index */
-> > +	union { /* This will make code a bit more readable */
-> 
-> Not sure what the comment is for. I'd drop it.
-
-I'm sure it made sense to me at some point but not now. Gone.
-
-> 
-> 
-> > +		struct {
-> > +			size_t         fm_nextents;
-> > +			struct famfs_meta_simple_ext  *se;
-> > +		};
-> > +		struct {
-> > +			size_t         fm_niext;
-> > +			struct famfs_meta_interleaved_ext *ie;
-> > +		};
-> > +	};
-> > +};
-> > +
-> > +#endif /* FAMFS_KFMAP_H */
-
-Thanks!
-John
+>> +     } else {
+>> +             cpufreq_verify_within_limits(policy, min_freq, max_freq);
+>> +     }
+>> +
+>> +     cpufreq_cpu_put(cpu_policy);
+>>       return 0;
+>>   }
+>>
