@@ -1,171 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF7F22423A;
-	Fri,  9 Jan 2026 05:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ECA50096F;
+	Fri,  9 Jan 2026 06:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767938136; cv=none; b=dOYOg6cz1qHN2psTxb966MtYJWGKnr4viPccpSn0446YmeIhkBVdUtJCgfxxoKYO050GcM8LqX7dVmBXwpK4i6dsM55SEUD61Uw3Wz8jq+8GXCFFT39vgNjP2/iIBUEa4DqxdzGAdn00XTi+EhWOryML27CfVvzLvPqLsmz6bWU=
+	t=1767938480; cv=none; b=pctfDP5/Jf5KMo2OPuLgn5bPFw5NuqFhDdX1ohudpY5M5de/l6k/quGYpgJeCg57hUMde6eOe5pQMcolmSoGJ7oaZ5aUr6OQPwc6LPhwx9T61F75nMzNc6+nPXkAViXR+3xVPpuow0xjTLiOyos8na9ji/pBzG37tsHDITT1nHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767938136; c=relaxed/simple;
-	bh=Xmah2fsBv6aaemUTf9tH7mTXFAvunSW/EeH/0G/8mBM=;
+	s=arc-20240116; t=1767938480; c=relaxed/simple;
+	bh=wQJ8HMZrI0Wp5Ww12U2o6NrzJZ659709lYsHJqUYVrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aqchvK8ZNPwTTacYSTsFp/EY2s9b19pTaZoLf7jo+dOvvHiF/qk8MMZPPa+pvCGrVCFnx8QHi0w+9yShsqC3kNveI7vb2h8ntkjrC3xL4OUQdmCByWCFF4DgES1+dtqA4zSkN5G5oKhcb80egDNGMU7MAie8T8oCWcq6Vr7tab4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkPVPG6/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4yswJRdl6FSpbY1T4kAZfipeynwcHosCRDnjtS5Pge+2mf9G3YizmS7z1N3rbsF4iBCeZoh/QrLT4UkXVoeiSaAqygscm/3isJLW+oZzg85gQA1qTJqOneb6d9RqWud2kOhT/5S8+a9YuqLVDji5Z8o7937uhGj4LUTI7dXWuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nNw+ohOk; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkPVPG6/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E32DC4CEF1;
-	Fri,  9 Jan 2026 05:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767938135;
-	bh=Xmah2fsBv6aaemUTf9tH7mTXFAvunSW/EeH/0G/8mBM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mkPVPG6/6Loqb8VtpL4nPEI9uLfUygfu6zGe66kKr3RRxraMlyyFYEuwhX15q/3vF
-	 ONNH5+5dpD5E5R5NqvHrEbm+dNWVI05QS3V3wl88h+pyQMDnpwHuMGqFT6MP5NDB6H
-	 TUgRl+Sy+hsdQyyr95jmjfzJqxTZiCMh5/frAijKg9+rITEs9uFW5Fulfk+EmEZfma
-	 x2XT3rP83fpI1WTziuMAPFBLxOhf8avvr5Mi2YIalTheo0JAGTdBySimG/KDWIaOYh
-	 NPW50NJwOPSv9EdZ+BWcODIDtILIh9MMowZ8MHgwru5oUck6OAl7GjTK9a0GCqEORx
-	 DERmT6he0DPFQ==
-Date: Fri, 9 Jan 2026 11:25:29 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v2 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-Message-ID: <uev63wla4msmmhww4j3t2jim7lhvxjikvujwpxiblg5mz7jwwa@2jucxkbtcsfm>
-References: <1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com>
- <1767929389-143957-4-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nNw+ohOk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=TVlnT2WiXW5nYG95M0tj3/pwuA98uZmz0fLtRU3VLPA=; b=nNw+ohOkHNWpQswvh+NdF9LHsu
+	PJ6XIUFJtAy/341ZJ9J92w/DrPqKhkxz3zTjI/OkCD5uCId/D9WwQgvpVYCFTlMBlisRY+uVtvIRe
+	REPMinKM/zRtj+mAGb6mG8h33I8v4EUxHd7wpMoL0MVUe5QELfPQU02i+BkEkkPD+IWuWUtmR9vj7
+	5PESqXWBa9hJrSIyYBcnAULtN9bqZwa9ct6avHgzAt8PQ8DJwQPVi9fHlBg9V+TF/Bau3F5xfjNlp
+	4gxLTxemKZWrMAqjEIaxZ8E5uEYuSvRgEMvz0VvHRFcwTeD7kP/g3KTcD027gjhOnTRYhsN0CtrV+
+	PA5MAVYw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ve5Y8-00000001VCt-1XPG;
+	Fri, 09 Jan 2026 06:00:40 +0000
+Date: Thu, 8 Jan 2026 22:00:40 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
+	Anders Larsen <al@alarsen.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
+	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
+	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-mm@kvack.org, gfs2@lists.linux.dev, linux-doc@vger.kernel.org,
+	v9fs@lists.linux.dev, ceph-devel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org
+Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to
+ lease support
+Message-ID: <aWCZiFOmnY3D4oUl@infradead.org>
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1767929389-143957-4-git-send-email-shawn.lin@rock-chips.com>
+In-Reply-To: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Fri, Jan 09, 2026 at 11:29:49AM +0800, Shawn Lin wrote:
-> Rockchip platforms provide a 64x4 bytes debug FIFO to trace the
-> LTSSM history. Any LTSSM change will be recorded. It's userful
-> for debug purpose, for example link failure, etc.
+On Thu, Jan 08, 2026 at 12:12:55PM -0500, Jeff Layton wrote:
+> I mainly focused on filesystems that are NFS exportable, since NFS and
+> SMB are the main users of file leases, and they tend to end up exporting
+> the same filesystem types. Let me know if I've missed any.
 > 
-> Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
-> ---
-> 
-> Changes in v2:
-> - use tracepoint
-> 
->  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 92 +++++++++++++++++++++++++++
->  1 file changed, 92 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> index 352f513..be9639aa 100644
-> --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> +++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> @@ -22,6 +22,8 @@
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  #include <linux/reset.h>
-> +#include <linux/workqueue.h>
-> +#include <trace/events/pci_controller.h>
->  
->  #include "../../pci.h"
->  #include "pcie-designware.h"
-> @@ -73,6 +75,18 @@
->  #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_1	BIT(4)
->  #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_2	BIT(5)
->  
-> +/* Debug FIFO information */
-> +#define PCIE_CLIENT_DBG_FIFO_MODE_CON	0x310
-> +#define  PCIE_CLIENT_DBG_EN		0xffff0007
-> +#define  PCIE_CLIENT_DBG_DIS		0xffff0000
-> +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0	0x320
-> +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1	0x324
-> +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0	0x328
-> +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1	0x32c
-> +#define  PCIE_CLIENT_DBG_TRANSITION_DATA 0xffff0000
-> +#define PCIE_CLIENT_DBG_FIFO_STATUS	0x350
-> +#define PCIE_DBG_LTSSM_HISTORY_CNT	64
-> +
->  /* Hot Reset Control Register */
->  #define PCIE_CLIENT_HOT_RESET_CTRL	0x180
->  #define  PCIE_LTSSM_APP_DLY2_EN		BIT(1)
-> @@ -96,6 +110,7 @@ struct rockchip_pcie {
->  	struct irq_domain *irq_domain;
->  	const struct rockchip_pcie_of_data *data;
->  	bool supports_clkreq;
-> +	struct delayed_work trace_work;
->  };
->  
->  struct rockchip_pcie_of_data {
-> @@ -206,6 +221,79 @@ static enum dw_pcie_ltssm rockchip_pcie_get_ltssm(struct dw_pcie *pci)
->  	return rockchip_pcie_get_ltssm_reg(rockchip) & PCIE_LTSSM_STATUS_MASK;
->  }
->  
-> +#ifdef CONFIG_TRACING
-> +static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-> +{
-> +	struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-> +						trace_work.work);
-> +	struct dw_pcie *pci = &rockchip->pci;
-> +	enum dw_pcie_ltssm state;
-> +	u32 val, rate, l1ss, loop, prev_val = DW_PCIE_LTSSM_UNKNOWN;
+> [1]: https://lore.kernel.org/linux-fsdevel/20260107-setlease-6-19-v1-0-85f034abcc57@kernel.org/
 
-Reverse Xmas order please.
+That seems reasonable, and I like the approach here (without having the
+time to review every change right now):
 
-> +
-> +	for (loop = 0; loop < PCIE_DBG_LTSSM_HISTORY_CNT; loop++) {
+Acked-by: Christoph Hellwig <hch@lst.de>
 
-s/loop/i?
+If it turns out we have people use leases on other file systems we'll
+have to wire up a few more instance as needed, but I think your initial
+set makes sense.
 
-> +		val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-> +		rate = (val & GENMASK(22, 20)) >> 20;
-> +		l1ss = (val & GENMASK(10, 8)) >> 8;
-> +		val &= PCIE_LTSSM_STATUS_MASK;
-
-Can you use FIELD_ macros here?
-
-> +
-> +		/* Two consecutive identical LTSSM means invalid subsequent data */
-
-Interesting. Does the hardware maintain a counter to track the reads? So once
-you break out of the loop and read it after 5s, you'll start from where you left
-i.e., the duplicate entry or from the start of the counter again?
-
-> +		if ((loop > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-> +			break;
-> +
-> +		state = prev_val = val;
-> +		if (val == DW_PCIE_LTSSM_L1_IDLE) {
-> +			if (l1ss == 2)
-> +				state = DW_PCIE_LTSSM_L1_2;
-> +			else if (l1ss == 1)
-> +				state = DW_PCIE_LTSSM_L1_1;
-
-I believe L1.0 is not supported.
-
-> +		}
-> +
-> +		trace_pcie_ltssm_state_transition(dev_name(pci->dev),
-> +					dw_pcie_ltssm_status_string(state),
-> +					((rate + 1) > pci->max_link_speed) ?
-> +					PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
-> +	}
-> +
-> +	schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
-> +}
-> +
-> +static void rockchip_pcie_ltssm_trace(struct rockchip_pcie *rockchip,
-> +				      bool en)
-
-s/en/enable
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
