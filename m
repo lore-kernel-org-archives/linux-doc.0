@@ -1,62 +1,196 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CFE32C08D0;
-	Fri,  9 Jan 2026 18:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55C82DC77A
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 18:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767984049; cv=none; b=ogSDcTj/YaBUIMKIzomDo86U/+pxmrL/V98CQjKZQTS4Znw4TO4YfbHEf763sJI4hXWFW+FvXiX1sLdc+PMgr7WVf6QkzQTe6lGezijjWFH8OIdkUeAPWC9Eq6EbGpbmoY1HTWKdqJ4Jw7o6awMVYD8TSf9WFFvfqtFDBuHZwxY=
+	t=1767984795; cv=none; b=aepkfKbzqHFjLOGQswGEjmyvNNKUDxDZpY23a7s1lfsCYbBFgTcnMPp9OWBHiBoSCZCJGb0189oDtBp2GOLu3qbwqN6QmMbOVYeKCcMylz8LWycfRkxI2fztMsSvZqpq2ITFf2pT0QsfEt3IoYKThbJREtVuadXTlLOb68IoBWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767984049; c=relaxed/simple;
-	bh=z6qFFozwLTauN55COL8D7QiC32jJ7aY8HOl4VKIbb/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tgw+rrQbtuzpf2nt1LgOHA4YIhpwxLj1XDALgQkxjAZxUnvH+1Vb96D4ZiTFFXYh0PnrbQqIDYptzwupn40a8n/BbKYAHRSEYhzOMlZJiVqTlaKPb8CKhmTq5eTsPN6iSfeJLeFYSd4I72C1YuRk1MnRAKaj1URNKH31oVSZulg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=WBc4xdB8; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1767984795; c=relaxed/simple;
+	bh=PEO8wbSaGOwwRv5UKfYcgXejOCV3Kmi4mBiob/Mhc5w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dJ6kGUQ8nDniqnvQcWisnh+KV2hTRppgvVAYSKGMG/teg5xwBN0n3g2s6QkQo7qPRCYiutM7OJ5L5zGKoenge0Is440DsTofTXU2UE0a+43vCeUfb1skpgMOoifPmGzRlNvyxIguxo+tc+wxswOjG6x8/z6wmAys66u9CdnMqt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TevMVnTO; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="WBc4xdB8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=tMjh5cg1wU0gE9aNbQhIuk1lHgKP2s/YmyVrE6dIiwY=; b=WBc4xdB8vyXakV+ouDUvLiDx8G
-	eWB9LG41WRzQfELkxGem1E9diQIT5zTcGr9tOg288Mjy7BAo9ooBKwmMTneuo3PH3ux/rfkUkMP5a
-	ZdS+5z4AQbtJMRLPofGMvs510JrLsD3ZLOgznMkRiAXM8syiU7L84UJCwy7z5Ul+gskE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1veHPT-0029eH-OG; Fri, 09 Jan 2026 19:40:31 +0100
-Date: Fri, 9 Jan 2026 19:40:31 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>
-Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
-	sam.chen@nebula-matrix.com, netdev@vger.kernel.org,
-	andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
-	linux-doc@vger.kernel.org, lorenzo@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, vadim.fedorenko@linux.dev,
-	lukas.bulwahn@redhat.com, edumazet@google.com,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 net-next 15/15] net/nebula-matrix: add st_sysfs and vf
- name sysfs
-Message-ID: <fad2bb37-d764-4c5a-a589-2b071aceb8cb@lunn.ch>
-References: <20260109100146.63569-1-illusion.wang@nebula-matrix.com>
- <20260109100146.63569-16-illusion.wang@nebula-matrix.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TevMVnTO"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6505cac9879so7764325a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 10:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767984790; x=1768589590; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PEO8wbSaGOwwRv5UKfYcgXejOCV3Kmi4mBiob/Mhc5w=;
+        b=TevMVnTO4L/IsXa/A6Yb8C9ZKd7r8e5kfFD1o3TWcjasOa7MuaL5VvuAy4N9Ln9LPA
+         FLwXD7HoXI8YIlKcLYrC4/tOH+MHENDjCv0O/gZ7Y0v8ZB6IIO1Ug+BNU0uzuFI7GdHq
+         7ITmxR9O4u7734h5en21yhxH3bCCBLGCj+DHGUKn7eeak5W9VNbd+qZf/mA1d3slRfIt
+         y/TYWhbCrheCQgmL3EdAvoSSfdZmQCyjzBO83of4dLof/djhazL/OOPeoFp6EcYLrUTX
+         x5iKxv035Tzy8cECnp0l8kNjHQgAJsk0Q0CeyGUY1hJnEDug4AQDx0lWyAf35ifXUBaF
+         qL3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767984790; x=1768589590;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PEO8wbSaGOwwRv5UKfYcgXejOCV3Kmi4mBiob/Mhc5w=;
+        b=VES48iYSCFOIG/L1uS8CngsOW52quu8OgHnI8Tf9UztSKbkTXulwLLy/BTMoGtBiHX
+         LYijwQrhyikznKxz3PCMMP2sxXKHwnKmEDfGTHAV6hjy71xf7iKRXSVyLs9mpmzllDm6
+         9ylfsC7hOfc2EAG+l+wTPBJcI55AhIoY4gsa3kKFAVHFPD8iMw0LVIa59jhKQ0wpN+A7
+         VHmCzpf+M9Ha/vofw8SXFI7IKvzzMXoaM0v/mE86/Y5i6a68ezsnx/FuABmNuswycVja
+         1qGIw+CRVKfAN/aJi8eqkiJiG72SHxtNz7mviiHgE5fMyPR4ymA9/zXCIzpv7Xkpuz0z
+         ELUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEuk3++/WVpz/FIUAsKE8teWZTR1LyW0jvKGZxgu3MTbKBG9i9elxD0/ElRlkeI/thd+xcI6WrfwU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1BdCohbS30z49YVKFQbdlsJiN40GOzjCqXg4GRMTdxf+RGTCn
+	l9U3b5jkGOTx6EW4CFwbtWLubS/Ex+COGVRgwzl5Tm8vsZop/eJi89eOhJQX502yESCH7plga88
+	2GpT8c5RnED+IUtWYCAZl3XrCMUBaAcM=
+X-Gm-Gg: AY/fxX74pQdIY60MWPRJMOPvQZjPk0YlEairNbMj+LIvoaVIDwN4Wa01QR1NoV6F52j
+	NUtuG3u7tz3SyYyKQM878S30absO5bmd6hstBZW60xvcdIz7wweNovAbmxE+KuPsxH/OVNfxpVS
+	2IwE2zHFNrEdaSiA4LSP9Wp1TbzREW5u7g01YSrm8ijbeDT2d9gz3ku5e82gfNQTi7ScfhQI0hd
+	fegMo42eXyzM1G6wmQHQkTHr8PLsUS0Dif9W/kD81KsGp9rf20/ZDyrDEAELAClweAiilRx9F/d
+	duByK9Ypujyt9AbakjVbJ2zpCmx0EYCPyh0HM2j8
+X-Google-Smtp-Source: AGHT+IFY7MBbUL67We039/hTqFQidfYCDXoLMKl5hH4eJeY3RDGzxdromP5L0kMZXOGuaChoBhGE8PO55vilYs9+TsQ=
+X-Received: by 2002:a05:6402:278f:b0:64b:4333:1ece with SMTP id
+ 4fb4d7f45d1cf-65097e88af5mr10672063a12.34.1767984790069; Fri, 09 Jan 2026
+ 10:53:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260109100146.63569-16-illusion.wang@nebula-matrix.com>
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+ <m3mywef74xhcakianlrovrnaadnhzhfqjfusulkcnyioforfml@j2xnk7dzkmv4> <8af369636c32b868f83669c49aea708ca3b894ac.camel@kernel.org>
+In-Reply-To: <8af369636c32b868f83669c49aea708ca3b894ac.camel@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 9 Jan 2026 19:52:57 +0100
+X-Gm-Features: AQt7F2pw3gC6snSxmHIFjd46zJk7oZ4nEXaveS8flAw1hsLI4KglAqmZVf1WWIg
+Message-ID: <CAOQ4uxgD+Sgbbg9K2U0SF9TyUOBb==Z6auShUWc4FfPaDCQ=rg@mail.gmail.com>
+Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to
+ lease support
+To: Jeff Layton <jlayton@kernel.org>, Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Christoph Hellwig <hch@infradead.org>, Anders Larsen <al@alarsen.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, 
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Phillip Lougher <phillip@squashfs.org.uk>, 
+	Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
+	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, 
+	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
+	Bharath SM <bharathsm@microsoft.com>, Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
+	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
+	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org, 
+	gfs2@lists.linux.dev, linux-doc@vger.kernel.org, v9fs@lists.linux.dev, 
+	ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 09, 2026 at 06:01:33PM +0800, illusion.wang wrote:
-> Add st_sysfs to support our private nblconfig tool.
+On Thu, Jan 8, 2026 at 7:57=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wro=
+te:
+>
+> On Thu, 2026-01-08 at 18:40 +0100, Jan Kara wrote:
+> > On Thu 08-01-26 12:12:55, Jeff Layton wrote:
+> > > Yesterday, I sent patches to fix how directory delegation support is
+> > > handled on filesystems where the should be disabled [1]. That set is
+> > > appropriate for v6.19. For v7.0, I want to make lease support be more
+> > > opt-in, rather than opt-out:
+> > >
+> > > For historical reasons, when ->setlease() file_operation is set to NU=
+LL,
+> > > the default is to use the kernel-internal lease implementation. This
+> > > means that if you want to disable them, you need to explicitly set th=
+e
+> > > ->setlease() file_operation to simple_nosetlease() or the equivalent.
+> > >
+> > > This has caused a number of problems over the years as some filesyste=
+ms
+> > > have inadvertantly allowed leases to be acquired simply by having lef=
+t
+> > > it set to NULL. It would be better if filesystems had to opt-in to le=
+ase
+> > > support, particularly with the advent of directory delegations.
+> > >
+> > > This series has sets the ->setlease() operation in a pile of existing
+> > > local filesystems to generic_setlease() and then changes
+> > > kernel_setlease() to return -EINVAL when the setlease() operation is =
+not
+> > > set.
+> > >
+> > > With this change, new filesystems will need to explicitly set the
+> > > ->setlease() operations in order to provide lease and delegation
+> > > support.
+> > >
+> > > I mainly focused on filesystems that are NFS exportable, since NFS an=
+d
+> > > SMB are the main users of file leases, and they tend to end up export=
+ing
+> > > the same filesystem types. Let me know if I've missed any.
+> >
+> > So, what about kernfs and fuse? They seem to be exportable and don't ha=
+ve
+> > .setlease set...
+> >
+>
+> Yes, FUSE needs this too. I'll add a patch for that.
+>
+> As far as kernfs goes: AIUI, that's basically what sysfs and resctrl
+> are built on. Do we really expect people to set leases there?
+>
+> I guess it's technically a regression since you could set them on those
+> sorts of files earlier, but people don't usually export kernfs based
+> filesystems via NFS or SMB, and that seems like something that could be
+> used to make mischief.
+>
+> AFAICT, kernfs_export_ops is mostly to support open_by_handle_at(). See
+> commit aa8188253474 ("kernfs: add exportfs operations").
+>
+> One idea: we could add a wrapper around generic_setlease() for
+> filesystems like this that will do a WARN_ONCE() and then call
+> generic_setlease(). That would keep leases working on them but we might
+> get some reports that would tell us who's setting leases on these files
+> and why.
 
-Private tools are unlikely to be accepted. I suggest you drop this
-patch for the moment. Once you get the rest of the driver merged, we
-can discuss how to do something acceptable.
+IMO, you are being too cautious, but whatever.
 
-    Andrew
+It is not accurate that kernfs filesystems are NFS exportable in general.
+Only cgroupfs has KERNFS_ROOT_SUPPORT_EXPORTOP.
+
+If any application is using leases on cgroup files, it must be some
+very advanced runtime (i.e. systemd), so we should know about the
+regression sooner rather than later.
+
+There are also the recently added nsfs and pidfs export_operations.
+
+I have a recollection about wanting to be explicit about not allowing
+those to be exportable to NFS (nsfs specifically), but I can't see where
+and if that restriction was done.
+
+Christian? Do you remember?
+
+Thanks,
+Amir.
