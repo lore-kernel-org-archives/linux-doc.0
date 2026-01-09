@@ -1,492 +1,171 @@
-Received: from out28-220.mail.aliyun.com (out28-220.mail.aliyun.com [115.124.28.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F37623C8A0;
-	Fri,  9 Jan 2026 10:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767953910; cv=none; b=KYuz0jR6pjl5WfhuO66oSA2NdfPDBJre0s7qJIewRsx0aPUqN/vuvgvZNGyv38UrGYtd4XBs/aATIKVpbnkhHAVGd0Eyz4rbxCn8mMkTmvyXhnBGw+QwY0AQ7QSJk2qtDAxCgWMgsyrNM9wV5MFpPxSxgjZ/j1i9WhjL5r9jjDY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767953910; c=relaxed/simple;
-	bh=h7JpGGUFehzMskDupWb1xv275sqNodjj4/Pm7wjG6cQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jLh0mjg6BEEpHM6wKZ26IE3hIbGDsKp9puhiTuie9Kr/5eyolFKv6usqNZ9JQQp9i+dvSyxjpNlhkQpcEEGrGahG82TQqWlSX7wng0Yvhg99YHrvX8TuRggSMLFEo3kQb2yjqSLJkrkwD/mOL2Sq5lwJgvKs9BYbrR0v1vT9WbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.g2QQAXW_1767952946 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Fri, 09 Jan 2026 18:02:27 +0800
-From: "illusion.wang" <illusion.wang@nebula-matrix.com>
-To: dimon.zhao@nebula-matrix.com,
-	illusion.wang@nebula-matrix.com,
-	alvin.wang@nebula-matrix.com,
-	sam.chen@nebula-matrix.com,
-	netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	corbet@lwn.net,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	lorenzo@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	vadim.fedorenko@linux.dev,
-	lukas.bulwahn@redhat.com,
-	edumazet@google.com,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 net-next 02/15] net/nebula-matrix: add simple probe/remove
-Date: Fri,  9 Jan 2026 18:01:20 +0800
-Message-ID: <20260109100146.63569-3-illusion.wang@nebula-matrix.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260109100146.63569-1-illusion.wang@nebula-matrix.com>
-References: <20260109100146.63569-1-illusion.wang@nebula-matrix.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AEB33BBC0
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 11:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767956569; cv=pass; b=WTfJgrqZee3Ri/Uk6GsTKvkd/qd00Hv3foB4DYrNewDrdphED7yIR9x4vDcr8Y/PJEddxyq/e5wfsrnkhP/Y8lO3VacoxIHBXriiAue3elFL62IN+EeqSSxg7YLZlaw2bIpUV5/ijawSLRBzTcIHM1UzjiB1pZWIEFCqmpl605U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767956569; c=relaxed/simple;
+	bh=rFk7TLciArdXVmOhSyBT7/Ns+M/k6PPCPRzU7n5m4kM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PkNkinneHqASk+0zZ+4tFpPh4gHdvbDtC4zbHcyhyPxSua1iScsrK6wtyO6nTiT34gNV6D7h4C0wse8GZg4rRg+WIhj4rSeAzfNChv1if850LkA9AbpSfu/+uwH5EYXAyyBm4p9Zpv3rl7NIYWaWpL7ALVybviClG7XzKRP99iQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2YQ6riMQ; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2YQ6riMQ"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4ee243b98caso269171cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 03:02:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767956566; cv=none;
+        d=google.com; s=arc-20240605;
+        b=le2NQRGzK0xFUyEpNU5u63hdhgK9vf8iiot+Gg+0iGx3CYa7N70htdFI0djzcPWAGF
+         hPhC5C+FLdhb36gDlSxaLalrFeHISrkhmHqL+hoaG40/i1SOw8v/3GxNIrB2hCxKTwa4
+         NU0ZM8Op1EU6eL6Ww2R/gm+A9kW2K+ZnFk6N4tA83nwDK+HDoc4cudqPuVblHK1DX9nU
+         +vNvMLwGak5qMhRg6srRMVC76+VnKTUZpGqgtWvczwlDiCycM3HTawFNe0Rr9BFcrcQ9
+         RC2Ac4adJEqRMRJ6Tpxrd8IwdtkmgasjBa5CaJAZwCwNhMWO+amwfJjYcQt/FULLthrL
+         FIxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jzCiSHIGOYpa7t9zzF/wcFfKhZV6nLFk0KAKRqVw7HA=;
+        fh=g+2GVoTnPJUsQO4rm57E1hVTbO5R6BNoI/F3VoDE3B0=;
+        b=MgV7WPntwQ9V+OQ6OlK+QwJMHsAAG28AtvLpDa1JNZgn39TV6zV7RRASWTwW1HSEsA
+         6DMj76kuchgr/sKfCyJm/D/mnMIL8dtwqa5N8+wh2XdumV5O1rfRcwSKVFvgotUkrbBl
+         NoVzmmDOjU+aNxz+Z+v61PJ/aQ9Bt+TjfxRDxEtJwUhuJKNziutB3HAq9DwSTAwg9jS3
+         5ciNBgSF51zFhanmSH8upyjfVFInblXdelHEqV47rEi+xQDvKekJyHEeV3n/f7hoN3ho
+         /f1AeWM/XPS9Fg6abGjdabrihcITc+E5WVpMa4i1qJs/TtRrf23rPgsdrfpMiAKAo8kn
+         ZodA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767956566; x=1768561366; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jzCiSHIGOYpa7t9zzF/wcFfKhZV6nLFk0KAKRqVw7HA=;
+        b=2YQ6riMQwSurlT6Ik8ArklxCNMoArKWel5qSfrfXltMvkcetL3fggwJEGQNCL/+Ror
+         LReNi0+gDAvsiKl/GUxoR7GAQwRaabE4t1hn85ABABBWpksL6D+susKDyqsGT7JMIyKI
+         nYHPuV+QP6Ya/BvukGs3Z/KGU8hZSkt4EMZXCGQCTLsT39cNLYMjIumn5qaI1zA123MM
+         w9L4IEaHFUmQhszGWz1nLRJeUsvryH27zgs0X0PDCWb2nTIGLPTXLchP++fQO7uVzsU8
+         SFqEr1IBMkY5V8RQ409eoVBvTsZt0gBYNxcTTZeTg7/H//l3mGxK0m14lqultmjOocun
+         W4Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767956566; x=1768561366;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jzCiSHIGOYpa7t9zzF/wcFfKhZV6nLFk0KAKRqVw7HA=;
+        b=bOEbbnjLeVaT2MwM5sFSyGwrrhFzl9tIhiUJDXcDApguKRmqpb65QG8cVbuQaPKQb6
+         r6BfCJo0jG8OL+LQhHC28ZfyrPXieTf0Mr8i1jnoHleW6WxMb4mpTE1UqV4NWjiuDlA2
+         ziViPYikJ+rWgvuVOsXyFIxiLlFCAS7DV6f37GGe16y3VgLGjVpFdWe0lzmD2qiCEklJ
+         gM/Llu87oWpmjSEbMYcnzb3rMXnmIrwTUjDeyJZWwMlhTd+2790GsEweBMisGScYvzZu
+         VbwddaygNFcKXWf0yZi+Sv9gSXmVXUCkaguJgAkoTF9wklZ1GIOkOi34lS6vpdHsnREa
+         VNpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDHpkknBXezI+/E/cvjIDTEjRJEGHXvzD+d4LT5T6pGM/dXlyCxyXqYFni1Bje2TkYRoAyh5eDcvk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+BYpK/DCW1gdczfR9Zy6GgF96eWjpogQUtayEAJlAbbH6OPoy
+	7bCo+No9np/SLsIpCya9ySjRro7wgfXgop9eWV7pHI6/ChK8eu3WUBpR7y6ghp0v9TRR/MbQ6b5
+	z0z+iPQoHY4WZ9IkPNGKDzrCB2sijRZNc1dAQvHMU
+X-Gm-Gg: AY/fxX6OPq6I7zJVWuHYDX1ESoyUA1JgeNtRq38/OnnhHmXbV/Z753md1bRB2k0OJtZ
+	trK1fnjYGePa9WAU9KElV6ouXsxTYWzd9Gqm07Gd4lZORdSSLt7hUNhjulRSo0jLKiD54FEMXsB
+	0Xk2jaoiSVqKqyEYY0KDy1mGgioXnC9H/sQ8v15Zs0EUAAcZ9ix9e7r2Qx6YNhrJup5iN1P3DkE
+	ozcHciK8DZ3P4nO2x0gH5a1niq0Y73GqH/Rx9r1YDzNxDbSwfn3IQ++MiA6No71zYEaglasNKXI
+	Wrgp462980yBectFxOmk3e8SIUXBgxxyyl9atsOn
+X-Received: by 2002:ac8:5d8d:0:b0:4ed:70d6:6618 with SMTP id
+ d75a77b69052e-4ffca3899e0mr9525541cf.10.1767956565345; Fri, 09 Jan 2026
+ 03:02:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260106162200.2223655-1-smostafa@google.com> <20260106162200.2223655-4-smostafa@google.com>
+ <aV56BWisUQTMK2Gk@google.com> <aV-PvBqQ0Ktiha8e@google.com>
+ <CAFgf54o4Ja7jQwxo6XyW+JaT+aUuj3O2dvLqOTb+YSVCKTdvyQ@mail.gmail.com>
+ <d6236413-7385-45c5-94ad-8b0f2007f1ac@linux.intel.com> <aWCviSCK7IBddLTn@google.com>
+In-Reply-To: <aWCviSCK7IBddLTn@google.com>
+From: Mostafa Saleh <smostafa@google.com>
+Date: Fri, 9 Jan 2026 11:02:33 +0000
+X-Gm-Features: AQt7F2oqTpF_L8hxvj3t4iE4ZAXrurkscrS9S6zaVPP7N-l_qQbRFrZajZBoJoU
+Message-ID: <CAFgf54quzFPtfXN0Tw5qO2HU0YExN3FBHK3uG2yiLxkNybfHfA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/4] iommu: debug-pagealloc: Track IOMMU pages
+To: Pranjal Shrivastava <praan@google.com>
+Cc: Baolu Lu <baolu.lu@linux.intel.com>, linux-mm@kvack.org, iommu@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, 
+	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	xiaqinxin@huawei.com, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Our driver architecture is relatively complex because the code is highly
-reusable and designed to support multiple features. Additionally, the
-codebase supports multiple chip variants, each with distinct
-hardware-software interactions. 
-To ensure compatibility, our architecture is divided into the following
-layers:
+On Fri, Jan 9, 2026 at 7:34=E2=80=AFAM Pranjal Shrivastava <praan@google.co=
+m> wrote:
+>
+> On Fri, Jan 09, 2026 at 11:28:32AM +0800, Baolu Lu wrote:
+> > On 1/8/26 19:33, Mostafa Saleh wrote:
+> > > I have this, it should have the same effect + a WARN, I will include
+> > > it in the new version
+> > >
+> > > diff --git a/drivers/iommu/iommu-debug-pagealloc.c
+> > > b/drivers/iommu/iommu-debug-pagealloc.c
+> > > index 5353417e64f9..64ec0795fe4c 100644
+> > > --- a/drivers/iommu/iommu-debug-pagealloc.c
+> > > +++ b/drivers/iommu/iommu-debug-pagealloc.c
+> > > @@ -146,16 +146,12 @@ void __iommu_debug_unmap_end(struct iommu_domai=
+n *domain,
+> > >          if (unmapped =3D=3D size)
+> > >                  return;
+> > >
+> > > -       /*
+> > > -        * If unmap failed, re-increment the refcount, but if it unma=
+pped
+> > > -        * larger size, decrement the extra part.
+> > > -        */
+> > > +       /* If unmap failed, re-increment the refcount. */
+> > >          if (unmapped < size)
+> > >                  __iommu_debug_update_iova(domain, iova + unmapped,
+> > >                                            size - unmapped, true);
+> > >          else
+> > > -               __iommu_debug_update_iova(domain, iova + size,
+> > > -                                         unmapped - size, false);
+> > > +               WARN_ONCE(1, "iommu: unmap larger than requested is
+> > > not supported in debug_pagealloc\n");
+> > >   }
+> > >
+> > >   void iommu_debug_init(void)
+> >
+> > How aobut
+> >
+> >       if ((unmapped =3D=3D size) || WARN_ON_ONCE(unmapped > size))
+> >               return;
+> >
+> >       /* If unmap failed, re-increment the refcount. */
+> >       __iommu_debug_update_iova(domain, iova + unmapped, size - unmappe=
+d, true);
+> >
+> > ?
+> >
+>
+> That's nice, We could also print the message as Mostafa mentioned, like:
+>
+>         if ((unmapped =3D=3D size) || WARN_ON_ONCE(unmapped > size,
+>         "iommu: unmap larger than requested is not supported in
+>         debug_pagealloc\n"))
+>
+> An explicit "This is unsupported" warning makes it clear IMHO.
+> If a driver triggers this, at least we know the sanitizer state isn't
+> supported.
+>
 
-1. Dev Layer (Device Layer)
-The top-level business logic layer where all operations are
-device-centric. Every operation is performed relative to the device
-context. The intergration of base functions encompasses:
-management(ctrl_dev), network(net_dev), common.
+I guess both are fine, the WARN points to the line which should be
+simple to deduce the cause anyway.
 
-2. Service  Layer
-The Service layer includes various netops services such as packet
-receiving/sending, ethtool services, management services, etc. These are
-provided to the upper layer for use or registered as the operations(ops)
-of related devices.
-It describes all the service capabilities possessed by the device.
+Thanks,
+Mostafa
 
-3. Dispatch Layer
-The distribution from services to specific data operations is mainly
-divided into two types: direct pass-through and handling by the
-management PF. It shields the upper layer from the differences in
-specific underlying locations.
-It describes the processing locations and paths of the services.
-
-4. Resource Layer
-Handles tasks dispatched from Dispatch Layer. These tasks fall into two
-categories:
-4.1 Hardware control  
-The Resource Layer further invokes the HW Layer when hardware access is
-needed, as only the HW Layer has OS-level privileges.
-4.2 Software resource management
-Operations like packet statistics collection that don't require hardware
-access.
-
-5. HW Layer (Hardware Layer)
-Serves the Resource Layer by interacting with different hardware
-chipsets.Writes to hardware registers to drive the hardware based on
-Resource Layer directives.
-
-6. Channel Layer
-
-Handle communication between PF0 and other PF(Our PF0 has ctrl func)
-/PF and VF , as well as communication with the EMP (Embedded
-Management Processor),and provide basic interaction channels.
-
-7. Common Layer
-Provides fundamental services, including Workqueue management,
-debug logging, and so on
-
-Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
----
- .../net/ethernet/nebula-matrix/nbl/nbl_core.h |  27 +++-
- .../nbl/nbl_include/nbl_def_common.h          | 108 ++++++++++++++
- .../nbl/nbl_include/nbl_include.h             |  13 +-
- .../nbl/nbl_include/nbl_product_base.h        |  20 +++
- .../net/ethernet/nebula-matrix/nbl/nbl_main.c | 138 ++++++++++++++++++
- 5 files changed, 304 insertions(+), 2 deletions(-)
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
-
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-index e91de717bfe8..4e2618bef23a 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-@@ -8,7 +8,13 @@
- #define _NBL_CORE_H_
- 
- #include <linux/pci.h>
--#include "nbl_include.h"
-+#include "nbl_product_base.h"
-+#include "nbl_def_common.h"
-+
-+#define NBL_ADAP_TO_PDEV(adapter)		((adapter)->pdev)
-+#define NBL_ADAP_TO_DEV(adapter)		(&((adapter)->pdev->dev))
-+#define NBL_ADAP_TO_COMMON(adapter)		(&((adapter)->common))
-+#define NBL_ADAP_TO_RPDUCT_BASE_OPS(adapter)	((adapter)->product_base_ops)
- #define NBL_CAP_TEST_BIT(val, loc) (((val) >> (loc)) & 0x1)
- 
- #define NBL_CAP_IS_CTRL(val) NBL_CAP_TEST_BIT(val, NBL_CAP_HAS_CTRL_BIT)
-@@ -26,4 +32,23 @@ enum {
- 	NBL_CAP_IS_LEONIS_BIT,
- 	NBL_CAP_IS_OCP_BIT,
- };
-+
-+struct nbl_interface {
-+};
-+
-+struct nbl_core {
-+};
-+
-+struct nbl_adapter {
-+	struct pci_dev *pdev;
-+	struct nbl_core core;
-+	struct nbl_interface intf;
-+	struct nbl_common_info common;
-+	struct nbl_product_base_ops *product_base_ops;
-+	struct nbl_init_param init_param;
-+};
-+
-+struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
-+				  struct nbl_init_param *param);
-+void nbl_core_remove(struct nbl_adapter *adapter);
- #endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
-new file mode 100644
-index 000000000000..3533b853abc4
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
-@@ -0,0 +1,108 @@
-+/* SPDX-License-Identifier: GPL-2.0*/
-+/*
-+ * Copyright (c) 2025 Nebula Matrix Limited.
-+ * Author:
-+ */
-+
-+#ifndef _NBL_DEF_COMMON_H_
-+#define _NBL_DEF_COMMON_H_
-+
-+#include <linux/netdev_features.h>
-+#include "nbl_include.h"
-+
-+#define nbl_err(common, fmt, ...)					\
-+do {									\
-+	typeof(common) _common = (common);				\
-+		dev_err(NBL_COMMON_TO_DEV(_common), fmt, ##__VA_ARGS__);\
-+} while (0)
-+
-+#define nbl_warn(common, fmt, ...)					\
-+do {									\
-+	typeof(common) _common = (common);				\
-+		dev_warn(NBL_COMMON_TO_DEV(_common), fmt, ##__VA_ARGS__);\
-+} while (0)
-+
-+#define nbl_info(common, fmt, ...)					\
-+do {									\
-+	typeof(common) _common = (common);				\
-+		dev_info(NBL_COMMON_TO_DEV(_common), fmt, ##__VA_ARGS__);\
-+} while (0)
-+
-+#define nbl_debug(common, fmt, ...)					\
-+do {									\
-+	typeof(common) _common = (common);				\
-+		dev_dbg(NBL_COMMON_TO_DEV(_common), fmt, ##__VA_ARGS__);\
-+} while (0)
-+
-+static inline void __maybe_unused nbl_printk(struct device *dev, int level,
-+					     const char *format, ...)
-+{
-+	struct va_format vaf;
-+	va_list args;
-+
-+	if (WARN_ONCE(level < LOGLEVEL_EMERG || level > LOGLEVEL_DEBUG,
-+		      "Level %d is out of range, set to default level\n",
-+		      level))
-+		level = LOGLEVEL_DEFAULT;
-+
-+	va_start(args, format);
-+	vaf.fmt = format;
-+	vaf.va = &args;
-+
-+	dev_printk_emit(level, dev, "%s %s: %pV", dev_driver_string(dev),
-+			dev_name(dev), &vaf);
-+	va_end(args);
-+}
-+
-+/* support  LOGLEVEL_EMERG/LOGLEVEL_CRIT logvel */
-+#define nbl_log(common, level, format, ...)				\
-+do {									\
-+	typeof(common) _common = (common);				\
-+	nbl_printk(NBL_COMMON_TO_DEV(_common), level, format,		\
-+		   ##__VA_ARGS__);					\
-+} while (0)
-+
-+#define NBL_COMMON_TO_PDEV(common)		((common)->pdev)
-+#define NBL_COMMON_TO_DEV(common)		((common)->dev)
-+#define NBL_COMMON_TO_DMA_DEV(common)		((common)->dma_dev)
-+#define NBL_COMMON_TO_VSI_ID(common)		((common)->vsi_id)
-+#define NBL_COMMON_TO_ETH_ID(common)		((common)->eth_id)
-+#define NBL_COMMON_TO_ETH_MODE(common)		((common)->eth_mode)
-+#define NBL_COMMON_TO_DEBUG_LVL(common)		((common)->debug_lvl)
-+#define NBL_COMMON_TO_VF_CAP(common)		((common)->is_vf)
-+#define NBL_COMMON_TO_OCP_CAP(common)		((common)->is_ocp)
-+#define NBL_COMMON_TO_PCI_USING_DAC(common)	((common)->pci_using_dac)
-+#define NBL_COMMON_TO_MGT_PF(common)		((common)->mgt_pf)
-+#define NBL_COMMON_TO_PCI_FUNC_ID(common)	((common)->function)
-+#define NBL_COMMON_TO_BOARD_ID(common)		((common)->board_id)
-+#define NBL_COMMON_TO_LOGIC_ETH_ID(common)	((common)->logic_eth_id)
-+
-+struct nbl_common_info {
-+	struct pci_dev *pdev;
-+	struct device *dev;
-+	struct device *dma_dev;
-+	u32 msg_enable;
-+	u16 vsi_id;
-+	u8 eth_id;
-+	u8 logic_eth_id;
-+	u8 eth_mode;
-+	u8 is_vf;
-+
-+	u8 function;
-+	u8 devid;
-+	u8 bus;
-+	/* only valid for ctrldev */
-+	u8 hw_bus;
-+
-+	u16 mgt_pf;
-+	u8 board_id;
-+
-+	bool pci_using_dac;
-+	u8 is_ocp;
-+
-+	enum nbl_product_type product_type;
-+
-+	bool wol_ena;
-+};
-+
-+#endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-index 963e13927a79..6f655d95d654 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-@@ -8,10 +8,15 @@
- #define _NBL_INCLUDE_H_
- 
- #include <linux/types.h>
--
-+#include <linux/netdevice.h>
- /*  ------  Basic definitions  -------  */
- #define NBL_DRIVER_NAME					"nbl_core"
- 
-+enum nbl_product_type {
-+	NBL_LEONIS_TYPE,
-+	NBL_PRODUCT_MAX,
-+};
-+
- struct nbl_func_caps {
- 	u32 has_ctrl:1;
- 	u32 has_net:1;
-@@ -21,4 +26,10 @@ struct nbl_func_caps {
- 	u32 rsv:27;
- };
- 
-+struct nbl_init_param {
-+	struct nbl_func_caps caps;
-+	enum nbl_product_type product_type;
-+	bool pci_using_dac;
-+};
-+
- #endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
-new file mode 100644
-index 000000000000..2f530c6b112c
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0*/
-+/*
-+ * Copyright (c) 2025 Nebula Matrix Limited.
-+ * Author:
-+ */
-+
-+#ifndef _NBL_DEF_PRODUCT_BASE_H_
-+#define _NBL_DEF_PRODUCT_BASE_H_
-+
-+#include "nbl_include.h"
-+struct nbl_product_base_ops {
-+	int (*hw_init)(void *p, struct nbl_init_param *param);
-+	void (*hw_remove)(void *p);
-+	int (*res_init)(void *p, struct nbl_init_param *param);
-+	void (*res_remove)(void *p);
-+	int (*chan_init)(void *p, struct nbl_init_param *param);
-+	void (*chan_remove)(void *p);
-+};
-+
-+#endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-index ddb45144ff1c..d9d79803bef5 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-@@ -7,17 +7,155 @@
- #include <linux/aer.h>
- #include "nbl_core.h"
- 
-+static struct nbl_product_base_ops nbl_product_base_ops[NBL_PRODUCT_MAX] = {
-+	{
-+		.hw_init	= NULL,
-+		.hw_remove	= NULL,
-+		.res_init	= NULL,
-+		.res_remove	= NULL,
-+		.chan_init	= NULL,
-+		.chan_remove	= NULL,
-+	},
-+};
-+
-+static void
-+nbl_core_setup_product_ops(struct nbl_adapter *adapter,
-+			   struct nbl_init_param *param,
-+			   struct nbl_product_base_ops **product_base_ops)
-+{
-+	adapter->product_base_ops = &nbl_product_base_ops[param->product_type];
-+	*product_base_ops = adapter->product_base_ops;
-+}
-+
-+struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
-+				  struct nbl_init_param *param)
-+{
-+	struct nbl_adapter *adapter;
-+	struct nbl_common_info *common;
-+	struct nbl_product_base_ops *product_base_ops;
-+
-+	if (!pdev)
-+		return NULL;
-+
-+	adapter = devm_kzalloc(&pdev->dev, sizeof(struct nbl_adapter),
-+			       GFP_KERNEL);
-+	if (!adapter)
-+		return NULL;
-+
-+	adapter->pdev = pdev;
-+	common = NBL_ADAP_TO_COMMON(adapter);
-+
-+	common->pdev = pdev;
-+	common->dev = &pdev->dev;
-+	common->dma_dev = &pdev->dev;
-+	common->is_vf = param->caps.is_vf;
-+	common->is_ocp = param->caps.is_ocp;
-+	common->pci_using_dac = param->pci_using_dac;
-+	common->function = PCI_FUNC(pdev->devfn);
-+	common->devid = PCI_SLOT(pdev->devfn);
-+	common->bus = pdev->bus->number;
-+	common->product_type = param->product_type;
-+
-+	memcpy(&adapter->init_param, param, sizeof(adapter->init_param));
-+
-+	nbl_core_setup_product_ops(adapter, param, &product_base_ops);
-+
-+	return adapter;
-+}
-+
-+void nbl_core_remove(struct nbl_adapter *adapter)
-+{
-+	struct device *dev;
-+
-+	dev = NBL_ADAP_TO_DEV(adapter);
-+	devm_kfree(dev, adapter);
-+}
-+
-+static void nbl_get_func_param(struct pci_dev *pdev, kernel_ulong_t driver_data,
-+			       struct nbl_init_param *param)
-+{
-+	param->caps.has_ctrl = NBL_CAP_IS_CTRL(driver_data);
-+	param->caps.has_net = NBL_CAP_IS_NET(driver_data);
-+	param->caps.is_vf = NBL_CAP_IS_VF(driver_data);
-+	param->caps.is_nic = NBL_CAP_IS_NIC(driver_data);
-+	param->caps.is_ocp = NBL_CAP_IS_OCP(driver_data);
-+
-+	if (NBL_CAP_IS_LEONIS(driver_data))
-+		param->product_type = NBL_LEONIS_TYPE;
-+
-+	/*
-+	 * Leonis only PF0 has ctrl capability, but PF0's pcie device_id
-+	 * is same with other PF.So hanle it special.
-+	 */
-+	if (param->product_type == NBL_LEONIS_TYPE && !param->caps.is_vf &&
-+	    (PCI_FUNC(pdev->devfn) == 0))
-+		param->caps.has_ctrl = 1;
-+}
-+
- static int nbl_probe(struct pci_dev *pdev,
- 		     const struct pci_device_id __always_unused *id)
- {
- 	struct device *dev = &pdev->dev;
-+	struct nbl_adapter *adapter = NULL;
-+	struct nbl_init_param param = {{0}};
-+	int err;
-+
-+	if (pci_enable_device(pdev)) {
-+		dev_err(&pdev->dev, "Failed to enable PCI device\n");
-+		return -ENODEV;
-+	}
-+
-+	param.pci_using_dac = true;
-+	nbl_get_func_param(pdev, id->driver_data, &param);
- 
-+	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
-+	if (err) {
-+		dev_err(dev, "Configure DMA 64 bit mask failed, err = %d\n",
-+			err);
-+		param.pci_using_dac = false;
-+		err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-+		if (err) {
-+			dev_err(dev,
-+				"Configure DMA 32 bit mask failed, err = %d\n",
-+				err);
-+			goto configure_dma_err;
-+		}
-+	}
-+
-+	pci_set_master(pdev);
-+
-+	pci_save_state(pdev);
-+
-+	adapter = nbl_core_init(pdev, &param);
-+	if (!adapter) {
-+		dev_err(dev, "Nbl adapter init fail\n");
-+		err = -ENOMEM;
-+		goto adapter_init_err;
-+	}
-+
-+	pci_set_drvdata(pdev, adapter);
- 	dev_dbg(dev, "nbl probe ok!\n");
- 	return 0;
-+adapter_init_err:
-+	pci_clear_master(pdev);
-+configure_dma_err:
-+	pci_disable_device(pdev);
-+	return err;
- }
- 
- static void nbl_remove(struct pci_dev *pdev)
- {
-+	struct nbl_adapter *adapter = pci_get_drvdata(pdev);
-+
-+	dev_dbg(&pdev->dev, "nbl remove\n");
-+	if (!adapter)
-+		return;
-+	pci_disable_sriov(pdev);
-+	nbl_core_remove(adapter);
-+
-+	pci_clear_master(pdev);
-+	pci_disable_device(pdev);
-+
- 	dev_dbg(&pdev->dev, "nbl remove OK!\n");
- }
- 
--- 
-2.47.3
-
+> Thanks,
+> Praan
