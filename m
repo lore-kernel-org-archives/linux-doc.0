@@ -1,126 +1,235 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B949C2DC346;
-	Fri,  9 Jan 2026 21:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DE5268690
+	for <linux-doc@vger.kernel.org>; Fri,  9 Jan 2026 22:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767995353; cv=none; b=IwkIj8APr0RMPyT9kcfNkb3xiA8ZH8mZJDb000m+EMS/f/SuuMSCF8sBV8tZ3uq/q1fEmVv9t0kTX7JkWtq0JK9oJcfdj6qGKnvMijmVwSgMfQZeeB4wioaU/Kg0DDLgRBv10ZDcie0AxjdkVubelwUdSzu22p+XCfplQclDbLE=
+	t=1767996947; cv=none; b=SWEmhCQjD2Kj7+0hXv4IRETQ76zVJJUsNEBWHci04K9oBEK9ojFlLYm5H2vamcHQ9A41M1FC8uGeFkkSQwgFx79b/bTNQo8qirXuybzyPxS9HHYEo1Tm5L3n8x5ntxkhszSnl2uoX91OXX8iuLLOX80obQ9eZTXwRrusXG/1SB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767995353; c=relaxed/simple;
-	bh=EgwIRxCE7NBEwrjs6mW++brS6hx4N8GlMYb1C9Tr9J0=;
+	s=arc-20240116; t=1767996947; c=relaxed/simple;
+	bh=ItWZAUGEh6tnK87R9qTzUtVy5c9G5IfgZOB7PdDx76w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PpPbqe8iVLIzFzIkQFIjIeYWfTkO2o6kNNjSJ35W5w1y+da0UdNqWHm+l5xzFLaDrCw3AI8Aa82aMDGirGW9uNHInx5mH6D+g51cvjWA1OtjQ6tID2W9OE/RLCtfOY/CJJ24NkZYoBNk+Eu0M9YL25z2uwG+JCel+gLKGGwSDnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CIblYblt; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=JxDyXWXe26Jdh2EdYueAmyx+Rt6fuVMc+bEaECF4gGpl4n86mB0s7wgE1Hss8XxU6p4vCNXn58Ti+kGUjWLYq2Dt1RBNaNclDt4eu965HhGhpmXtlDp9ex3seKikGuo5NOeDyeObXuClTzs+Esicvq/tjl8uObh1CJGVFgLDnJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dMXpLroF; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CIblYblt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=orAWW0c9GM9UfFj1bpBTGics8DndOWhf3L60HJQWvmU=; b=CIblYblt2QgPrKx3QV6je9i5NO
-	b5D9A+fy3pKImVmulgWOInglXBy/bZ+pIiHIz2jHFd5YFQ+fikGiN+Ebi4kSv1olSUOb49gcwx63T
-	ddfzoRqj/5wVX7Hxniu1P+CkJa+3A60OThU0xO0Bkubl32FVEl9jrdMebeUKAwVZBcxEhPzJ3E2nP
-	OW5vKQx1mkaWU0c+13X3ju4UD8T4pRoV7EdhMolpqFfB6CzLvz1OswWlprXwekbvUKsy8aFavslul
-	yMf/csPpYE8oxci/ITWIWs5gEhVzDS0rwDv6uz9mwcIMP8VvjEQI2t36t8ON+8vUOrlR5kQHJfp05
-	mmY9OKQw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1veKLm-0000000HO7U-26lC;
-	Fri, 09 Jan 2026 21:48:54 +0000
-Date: Fri, 9 Jan 2026 21:48:54 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Frank van der Linden <fvdl@google.com>
-Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
-Message-ID: <aWF3xg-72SV4tmLk@casper.infradead.org>
-References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
- <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
- <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
- <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
- <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMXpLroF"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-3f9e592af58so2879285fac.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 14:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767996943; x=1768601743; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gsInap0TYjUJhuIYgyTfNATp9iw0wN/wAynfp2rVoTg=;
+        b=dMXpLroF8PiS/q6OaGYYMm7s19cCP8DG9l4Id36oG9nNOpwnLJQ+9lagttQ1lj4MvL
+         VPVgixf9RhQ9onGvpsOvkjJCNlfk1ZLAGJlQwJyOFDi2q0WwSyZnft88s4yDqfO9a8tp
+         J1ya9WTkabqYIuYZ9Hz2SYkrVINDaG96oA4NLDxFadB09TJ/WARmYlrZhKFehE7yua67
+         8XP1CnsoBk5v+3lT0OJ3CbZdkC3KULHDyTe8DjYFz0p5YP+WcQFtUYlxCe+PC9DM9B3q
+         yPXCtKcZwl8EWsk7Z4PHXjFk6MpfURcvGlbj2Ubz3RWH69TptJBVG4uhl7F2P4i8/HtZ
+         UGYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767996943; x=1768601743;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gsInap0TYjUJhuIYgyTfNATp9iw0wN/wAynfp2rVoTg=;
+        b=O6su0iaS5fG6IDp7Te5H5Zizj76zPU72uPBbqg6e30+3JEiVjioZTdcJuDwy/Q7+mC
+         KXiX40AM7sqSk6MsHJKCJarPKKc78qo9MnpbQOcxr6lIOmmuttClC97FHgRjvCtnqlzx
+         +MjwWiC6XsA7x2ETsPc/Os/+0k9hhnMZEuIaKpOVIILvOld6SeRxE+glUclN8R2QFA8H
+         unoX9+0+Kw9bA+F/eDMMbfZ4F+4v5UqXs2ZS6SO4N4xelxX/mKy2Rk4xvhjwrl2Mtk6Y
+         FLg7PGoA4VarrHDT9r7hHiYcxssUoJJmmHp41eZTsz86HuUy2PcPZf++ImIRt/cnyLl3
+         k6UQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNkUxt6yJqzdiccMy+Bmql65/uQFz/8V0VKFggLVEDOOxOlIRTIPiWXBQmjvP5wrLawMDxXUZG1i0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVOjWkPTGOhLi96bRyAAxTOIrRzWKFQ0I92WQmcYX8JDnlS3bG
+	ILs0l0OBcMqCxgp9mUOmMZ2HrlqYlfFurvFyjmdQl4lTexCaWME5VRO6
+X-Gm-Gg: AY/fxX6dDI1kmwXfRmpSmqTszvkIIFVN3xFWENQ1MVr9bmsmvyqVChjRdn3nTcCeNiA
+	rdrdAdbxHXB3/JWpnnxNJw1xbWHrL4RmRXhQpf+7xLBrQst6sljd9Mt8b9FeFN22k5qM9In99O6
+	XcRfRQhHNgJQ1Ac3ANgXYmsKIElQKJfWXOspGR+ydKx9u3bNZiWOE0+lGdsHRZtkVq4AlQRckM4
+	HkBwxnAIuy73UCoI32Lqm4eVHxkoj9d04RIcaXG8BSwS57IXz4priJtMixFpmNu1tliu28oSeWE
+	dnbxny3QV6MNvuRB5B0mykT33L2pgTeSayp9eeqvo8izHi+oYToGRy01ygXh7eTPZNBKEDtQK1E
+	mU2HjCPOSqT/mnYt1SKsTU6op+mn4TCfHo3iF6cn8wfiLbuSx5yVT5IRXL5onE8a3yJXCW+3ULs
+	MAjacdYSU/TI5ecIuAEF8abXS4Wu4uXQ==
+X-Google-Smtp-Source: AGHT+IGeIXb/5HKhuPRt53VlHxR5e7TkKbTUESMzGZMkoiJYjOXEnJCEIvTH/DLOMpN4vbxz+vu/YA==
+X-Received: by 2002:a05:6870:708c:b0:3ec:41eb:6e38 with SMTP id 586e51a60fabf-3ffc0b18aeemr5749038fac.38.1767996943253;
+        Fri, 09 Jan 2026 14:15:43 -0800 (PST)
+Received: from groves.net ([2603:8080:1500:3d89:184d:823f:1f40:e229])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3ffa4e3af4csm7798614fac.7.2026.01.09.14.15.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 14:15:42 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Fri, 9 Jan 2026 16:15:40 -0600
+From: John Groves <John@groves.net>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH V3 11/21] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX
+Message-ID: <mqfmngk6qjxhmxrbbpluzfbhhf2pkvzaintdiyy2kjy2ezgtnv@pascmnqloczj>
+References: <20260107153244.64703-1-john@groves.net>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-12-john@groves.net>
+ <CAJnrk1ZxmryZQJhvesJET12xK8Hemir0uk6wojTty0NDvu1Xng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1ZxmryZQJhvesJET12xK8Hemir0uk6wojTty0NDvu1Xng@mail.gmail.com>
 
-On Thu, Jan 08, 2026 at 12:08:35AM +0100, David Hildenbrand (Red Hat) wrote:
-> > > "Then we make page->compound_head point to the dynamically allocated memdesc
-> > > rather than the first page. Then we can transition to the above layout. "
-> > 
+On 26/01/09 10:16AM, Joanne Koong wrote:
+> On Wed, Jan 7, 2026 at 7:34 AM John Groves <John@groves.net> wrote:
+> >
+> > Virtio_fs now needs to determine if an inode is DAX && not famfs.
 > 
-> Sorry for the late reply, it's been a bit crazy over here.
+> nit: it was unclear to me why this patch changed the macro to take in
+> a struct fuse_inode until I looked at patch 14. it might be useful
+> here to add a line about that
+
+Thanks Joanne; I beefed up the comment, and also added a dummy
+fuse_file_famfs() macro so the new FUSE_IS_VIRTIO_DAX() macro shows
+what it's gonna do. I should have done a better commit message...
+Next rev will have a better one.
+
 > 
-> > I am not sure I understand how it is going to work.
-> > 
+> >
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/fuse/dir.c    |  2 +-
+> >  fs/fuse/file.c   | 13 ++++++++-----
+> >  fs/fuse/fuse_i.h |  6 +++++-
+> >  fs/fuse/inode.c  |  4 ++--
+> >  fs/fuse/iomode.c |  2 +-
+> >  5 files changed, 17 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > index 4b6b3d2758ff..1400c9d733ba 100644
+> > --- a/fs/fuse/dir.c
+> > +++ b/fs/fuse/dir.c
+> > @@ -2153,7 +2153,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+> >                 is_truncate = true;
+> >         }
+> >
+> > -       if (FUSE_IS_DAX(inode) && is_truncate) {
+> > +       if (FUSE_IS_VIRTIO_DAX(fi) && is_truncate) {
+> >                 filemap_invalidate_lock(mapping);
+> >                 fault_blocked = true;
+> >                 err = fuse_dax_break_layouts(inode, 0, -1);
+> > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> > index 01bc894e9c2b..093569033ed1 100644
+> > --- a/fs/fuse/file.c
+> > +++ b/fs/fuse/file.c
+> > @@ -252,7 +252,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+> >         int err;
+> >         bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+> >         bool is_wb_truncate = is_truncate && fc->writeback_cache;
+> > -       bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+> > +       bool dax_truncate = is_truncate && FUSE_IS_VIRTIO_DAX(fi);
+> >
+> >         if (fuse_is_bad(inode))
+> >                 return -EIO;
+> > @@ -1812,11 +1812,12 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+> >         struct file *file = iocb->ki_filp;
+> >         struct fuse_file *ff = file->private_data;
+> >         struct inode *inode = file_inode(file);
+> > +       struct fuse_inode *fi = get_fuse_inode(inode);
+> >
+> >         if (fuse_is_bad(inode))
+> >                 return -EIO;
+> >
+> > -       if (FUSE_IS_DAX(inode))
+> > +       if (FUSE_IS_VIRTIO_DAX(fi))
+> >                 return fuse_dax_read_iter(iocb, to);
+> >
+> >         /* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> > @@ -1833,11 +1834,12 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+> >         struct file *file = iocb->ki_filp;
+> >         struct fuse_file *ff = file->private_data;
+> >         struct inode *inode = file_inode(file);
+> > +       struct fuse_inode *fi = get_fuse_inode(inode);
+> >
+> >         if (fuse_is_bad(inode))
+> >                 return -EIO;
+> >
+> > -       if (FUSE_IS_DAX(inode))
+> > +       if (FUSE_IS_VIRTIO_DAX(fi))
+> >                 return fuse_dax_write_iter(iocb, from);
+> >
+> >         /* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> > @@ -2370,10 +2372,11 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+> >         struct fuse_file *ff = file->private_data;
+> >         struct fuse_conn *fc = ff->fm->fc;
+> >         struct inode *inode = file_inode(file);
+> > +       struct fuse_inode *fi = get_fuse_inode(inode);
+> >         int rc;
+> >
+> >         /* DAX mmap is superior to direct_io mmap */
+> > -       if (FUSE_IS_DAX(inode))
+> > +       if (FUSE_IS_VIRTIO_DAX(fi))
+> >                 return fuse_dax_mmap(file, vma);
+> >
+> >         /*
+> > @@ -2934,7 +2937,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+> >                 .mode = mode
+> >         };
+> >         int err;
+> > -       bool block_faults = FUSE_IS_DAX(inode) &&
+> > +       bool block_faults = FUSE_IS_VIRTIO_DAX(fi) &&
+> >                 (!(mode & FALLOC_FL_KEEP_SIZE) ||
+> >                  (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
+> >
+> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > index 7f16049387d1..17736c0a6d2f 100644
+> > --- a/fs/fuse/fuse_i.h
+> > +++ b/fs/fuse/fuse_i.h
+> > @@ -1508,7 +1508,11 @@ void fuse_free_conn(struct fuse_conn *fc);
+> >
+> >  /* dax.c */
+> >
+> > -#define FUSE_IS_DAX(inode) (IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))
+> > +/* This macro is used by virtio_fs, but now it also needs to filter for
+> > + * "not famfs"
+> > + */
 > 
-> I don't recall all the details that Willy shared over the last years while
-> working on folios, but I will try to answer as best as I can from the top of
-> my head. (there are plenty of resources on the list, on the web, in his
-> presentations etc.).
+> Did you mean to add this comment to "patch 14/21: famfs_fuse: Plumb
+> the GET_FMAP message/response" instead? it seems like that's the patch
+> that adds the "&& !fuse_file_famfs(fuse_inode))" part to this.
+
+The idea I was going for is for this commit to substitute the new macro name
+(FUSE_IS_VIRTIO_DAX()) without otherwise changing functionality - and then
+to plumb the famfs test later. 
+
+The revised version of this commit adds a dummy test (fuse_file_famfs(inode)), so
+it's more apparent what this commit is trying to do. So I hope it will make
+more sense ;)
 > 
-> > 32-byte layout indicates that flags will stay in the statically
-> > allocated part, but most (all?) flags are in the head page and we would
-> > need a way to redirect from tail to head in the statically allocated
-> > pages.
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 > 
-> When working with folios we will never go through the head page flags.
-> That's why Willy has incrementally converted most folio code that worked on
-> pages to work on folios.
+> Thanks,
+> Joanne
 
-A little more detail here:
+Thanks Joanne!
 
- - Zone/Node/Section stay in page->flags and are replicated to
-   folio->flags
- - HWPoison stays in page->flags
- - Reserved stays in page->flags
- - AnonExclusive stays in page->flags
- - Writeback/Referenced/Uptodate/Dirty/LRU/Active/Workingset/Owner1/
-   Owner2/Reclaim/Swapbacked/Unevictable/Dropbehind/MLocked/Young/Idle
-   all exist only in folio->flags
- - Head/Private/Private2 all go away
- - Locked & Waiters are ... complicated.  I'll elaborate if there's
-   demand.
- - I haven't put any effort into analyzing the Xen flags.
- - HasHWPoisoned/LargeRmappable/PartiallyMapped all move to folio->flags
-
-> When the program was called "2025" I considered it very ambitious :) Now I
-> consider it ambitious. I think Willy already shared early versions of the
-> "struct slab" split and the "struct ptdesc" split recently on the list.
-
-ptdesc, yes.  Slab is still in progress.
-
-> For quite some time there will be a magical config option that will switch
-> between both layouts. I'd assume that things will get more complicated if we
-> suddenly have a "compound_head/folio" pointer and a "compound_info" pointer
-> at the same time.
-
-What I'm hoping to get to is a point where calling compound_head() on
-a page which is part of a folio is a BUG.  You should only be calling
-page_folio() on a page which is part of a folio -- because there's nothing
-useful to find in the head page.  So compound_head (or compound_info) can
-share space with page->memdesc.  For now I've actually put page->memdesc
-adjacent to page->compound_head, for no reason that I can recall.
-
-I had thought that calling page_folio() on a page that's not part of
-a folio would also be a BUG(), but now I think it's better to quietly
-return NULL.  That's based on my experience working with slab and ptdesc.
-
+John
