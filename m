@@ -1,350 +1,132 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FC41427A
-	for <linux-doc@vger.kernel.org>; Sat, 10 Jan 2026 00:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748871531E8
+	for <linux-doc@vger.kernel.org>; Sat, 10 Jan 2026 01:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768005540; cv=none; b=lzt8JvblE1hRdBYpgB0D8q38BuT9aTHjk15J8utvwixNCV7RxEqnx9jxtVHaIuGDCelkmpd6ArJvPjMLvZouBLVjQOiNEu4uCqCTqvIQ48ZPL+r7nRxQZWDm2MTE7U+vzL9rcM3c7+KEJn4dZ5HGc4N4pbmjWrCHpssgwfaR25E=
+	t=1768008808; cv=none; b=PJbppAUUKlVdIedK4GfBeNO1AtzbLGM+u2FFdq3XdvOQjj2jk/nI9C3WFLyWbTsl6q+TG2j4Im4UTyaTc2wOEUSC43P+JuGGYMzYXOj6cTf3Stoe290wCTuOd6REtwDUZxwaYECoMvWAyeqao/5bIZ+R2IC7OWrXdSddFVzd9rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768005540; c=relaxed/simple;
-	bh=Vv/okaYOjZEmxjGKs7gtx68hBZkelsDA4dFyZlvvtVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JLHAPDA/TRS3uOlPPOmq+AsGDwjRK3GsdYAlBy8uwRTIZXHI1/Hollv+JZ4LTkC69KUionOA9ywFbxsGM/UlTeAN45J+fO/rxuBg3JbnzzHsHG1+rZHtwC4rE5CcEH6+9cREr56T8BaN47AFTsxzKzw25bkr2okWcK+znn4j41E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WISd95N9; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768008808; c=relaxed/simple;
+	bh=aRYgeMLmqCOzjdMEsSBXlNSDI2suL/DZvOFjRxLIMZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qxtab5+Q2EmO2pDJ9I0Pn62jP/3ftp8KAP9UkjkOZAunqVUzKZms/f8s/0Bz8FXODfSvsXfJcaQ/Cgt5U3ysEhYegDDpTHNK4eWtOx+e0WzD8ivPy2DhIWM8/vhrSyI7tXMa+RlcHYQNQ8DkqBAWfRgddpBNfEgcNJL+plE/+W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X+vSSPEf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WISd95N9"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7c6d13986f8so2881159a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Jan 2026 16:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768005537; x=1768610337; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HPlS20FXbsN0oW/wvcsl1HExuppxrfezek4Ep7apiYw=;
-        b=WISd95N9Z32lApmc5ed8Yh6POp26vqOJhL2lc2r78wlS0+P4obSJxQ50yVQbTp9TvP
-         XKP9aEgmFiKFSNieSXyYWbBoaMXaIMNBCdPB8RIt0n9BnqsXNwahkx3s4pO9WOi+baQc
-         yu6qUXCspTX51rC2iRGEOm/Pk8jKVnPaQP5E0+wfDmjbKQjYdg39b+Zwx56weO/mLpVH
-         dTlCEgwGq2S1DmR8rYCQhG7WvqbhQpf//jZDjUJeUwkUoUDSEC7nmjERiXkEq5p5KRb+
-         AmFlGm0cRoVCRcxrnYI53Qdkok4iNBTiqwPdxE0AcdgnJ90xW52fBee3sugPneDwpE2a
-         GGMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768005537; x=1768610337;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HPlS20FXbsN0oW/wvcsl1HExuppxrfezek4Ep7apiYw=;
-        b=eD5Ajm5PFmj4W2eZGJVavtnQn5F4XVkwozCQA7q8LcP/D2VZiZ5sKErUH1ejFKHeJf
-         wJk+vFyrxqq0kyOJotGTgo6WY2etepnedW1Rw3vnwSBjZz57rTt2RM+lPTHhzzQbJREm
-         OFHKAVbl/9jVkwB32KOroePFNv6JrR9dy/rMcesrRPIunnSaFmyU/XwBjUuGQpPYqKUf
-         aXAl9OqL9Jns/upqhyyzo/gLa9ZOiSWedLzTGn9BkBBmteUZiB7xxZJhZwiMiw+GeFLD
-         sj10x5e0bOUYIcn0Fp5V6hz91EYzjP/BCyWy/Uvmd3K8B6iFgNvxuZfkSCGLOrZaQkl6
-         Q9Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCXaBpVBkx6lmLDcXMQOcT2qlZnajavwX0rs6jCsi4CzgJ/PXTanlsmiisoSru4YpWQdMB5sDkUdYvs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNbH4GSzTYB5vsDPz3oB6jECbLug4lKkxkhP/qxwzE4nBk1eIe
-	b6L3S3q7wjWljqFPXajVZk7zNb/5g5qeIj1jjGCpY/ol4TWjoyKw8B00
-X-Gm-Gg: AY/fxX702urfN0EDSt43uU71xVUUzjF//zgrP5vrAp3P9EQkRKM3AuPomgFbIk/KMqE
-	Dh/vumg5nJ1NwisUgGIaNHoHuUDQc//oZhVgF+APSrZCvcXvt6WrVYxztDkGE6/IfWlgfIGmKHK
-	1a395GMHCiiTcr5Hew9ZDgGjyWgl1/CqBiZEZetuz/E7XcFFGQ5vIYtSSGewM/DPJ45baM98QGZ
-	JC8bsILBa+2mho/pJcY7AQawC/7Npm7ZPfz2qTbyK0b0RFdJ2+Sb7dNuMDGGUDN8MkktjF2FYuZ
-	ZZHNf5a41/jYv0K72aBRW401+IEzJPHc4UOA8FT5wkRHEkmkiQoRN2cNOxXo5aed4f0JjvxBSB4
-	SDd72GEfxt9ePeF039aIK++vSo5xxV6PzCH8oWjM5jx9krRyENMXJ6BrpsVbZn0HAX2ygYgVo3J
-	/sxnHbtqsLSk9EVHwjI1fmWwm9tz3HjQ==
-X-Google-Smtp-Source: AGHT+IHP37WFtDa8qLxpH8qc5k2MbMXacjwPxyY2shHTurwLUFdvZ/x8AnFGmtcQkcpVepnV+JBm/w==
-X-Received: by 2002:a05:6830:82a7:b0:7c7:5f86:196b with SMTP id 46e09a7af769-7ce46c31764mr9508545a34.3.1768005536612;
-        Fri, 09 Jan 2026 16:38:56 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:7d36:1b0c:6e77:5735])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce47801d4dsm8323483a34.5.2026.01.09.16.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 16:38:56 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Fri, 9 Jan 2026 18:38:53 -0600
-From: John Groves <John@groves.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 13/21] famfs_fuse: Famfs mount opt: -o
- shadow=<shadowpath>
-Message-ID: <zcnuiwujbnme46nwhvlwk7bosvd4r7wzkxcf6zsxoyo6edolf7@ufqfutxq4fcp>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-14-john@groves.net>
- <CAJnrk1bJ3VbZCYJet1eDPy0V=_3cPxz6kDbgcxwtirk2yA9P0w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X+vSSPEf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768008806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lVRLRCt4qvzFFpIg4QTORQdDltXyCsG/nJm0JxVlJbw=;
+	b=X+vSSPEfhFnZAiRu+MwpyeJ8vC0Fpnbkfs9zbUnkBwKSDm+t5DKa57tbvsjKda8xDqw2Yb
+	bj2Hx5eY92gdfUeFDD7KENq6Xs0ht8BxYY0mqGLzVBEniwijKce3tSGEI19PGmLXrB206i
+	FEJ2yVhZBQukn29UcREt5/gUhAD3ud8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-685-qamzutzHMBiKNT9Q30y9Qw-1; Fri,
+ 09 Jan 2026 20:33:24 -0500
+X-MC-Unique: qamzutzHMBiKNT9Q30y9Qw-1
+X-Mimecast-MFC-AGG-ID: qamzutzHMBiKNT9Q30y9Qw_1768008802
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5161118005AD;
+	Sat, 10 Jan 2026 01:33:22 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.90.10])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B4D791800285;
+	Sat, 10 Jan 2026 01:33:19 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sun Shaojie <sunshaojie@kylinos.cn>,
+	Chen Ridong <chenridong@huaweicloud.com>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH cgroup/for-6.20 v3 0/5] cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus conflict
+Date: Fri,  9 Jan 2026 20:32:41 -0500
+Message-ID: <20260110013246.293889-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1bJ3VbZCYJet1eDPy0V=_3cPxz6kDbgcxwtirk2yA9P0w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 26/01/09 11:22AM, Joanne Koong wrote:
-> On Wed, Jan 7, 2026 at 7:34 AM John Groves <John@groves.net> wrote:
-> >
-> > The shadow path is a (usually in tmpfs) file system area used by the
-> > famfs user space to communicate with the famfs fuse server. There is a
-> > minor dilemma that the user space tools must be able to resolve from a
-> > mount point path to a shadow path. Passing in the 'shadow=<path>'
-> > argument at mount time causes the shadow path to be exposed via
-> > /proc/mounts, Solving this dilemma. The shadow path is not otherwise
-> > used in the kernel.
-> 
-> Instead of using mount options to pass the userspace metadata, could
-> /sys/fs be used instead? The client is able to get the connection id
-> by stat-ing the famfs mount path. There could be a
-> /sys/fs/fuse/connections/{id}/metadata file that the server fills out
-> with whatever metadata needs to be read by the client. Having
-> something like this would be useful to non-famfs servers as well.
+ v3:
+  - Patch 2: Change the condition for calling reset_partition_data() to
+    (new_prs <= 0).
+  - Patch 4: Update commit log and code comment to clarify the change.
+  - Add a new patch 5 to move the empty cpus/mems check to
+    cpuset1_validate_change().
 
-The shadow option isn't the only possible way to get what famfs needs,
-but I do like it - I find it to be an elegant solution to the problem.
+ v2:
+  - Patch 1: additional comment
+  - Patch 2: simplify the conditions for triggering call to
+    compute_excpus().
+  - Patch 3: update description of cpuset.cpus.exclusive in cgroup-v2.rst
+    to reflect the new behavior and change the name of the new
+    cpus_excl_conflict() parameter to xcpus_changed.
+  - Patch 4: update description of cpuset.cpus.partition in cgroup-v2.rst
+    to clarify what exclusive CPUs will be used when a partition is
+    created.
 
-What's the problem? Well, for that you need to know some implementation 
-details of the famfs userspace. For the *structure* of a mounted file 
-system, famfs is very passthrough-like. The structure that is being 
-passed through is the shadow file system, which is an actual file system 
-(usually tmpfs).  Directories are just directories, but shadow files 
-contain yaml that describes the file-to-dax map of the *actual* file. 
-On lookup, the famfs fuse server (famfs_fused), rather than stat the 
-file like passthrough, reads the yaml and decodes the stat and fmap info 
-from that.
+This patch series is inspired by the cpuset patch sent by Sun Shaojie [1].
+The idea is to avoid invalidating sibling partitions when there is a
+cpuset.cpus conflict. However this patch series does it in a slightly
+different way to make its behavior more consistent with other cpuset
+properties.
 
-One other detail. The shadow path must be known or created (usually
-as a tmpdir, to guarantee it starts empty) at mount time. The kernel
-knows about it through "-o shadow=<path>", but otherwise doesn't use
-it. The famfs fuse server receives the path as an input from 
-'famfs mount'. The problem is that pretty much every famfs-related
-user space command needs the shadow path.
+The first 3 patches are just some cleanup and minor bug fixes on
+issues found during the investigation process. The last one is
+the major patch that changes the way cpuset.cpus is being handled
+during the partition creation process. Instead of invalidating sibling
+partitions when there is a conflict, it will strip out the conflicting
+exclusive CPUs and assign the remaining non-conflicting exclusive
+CPUs to the new partition unless there is no more CPU left which will
+fail the partition creation process. It is similar to the idea that
+cpuset.cpus.effective may only contain a subset of CPUs specified in
+cpuset.cpus. So cpuset.cpus.exclusive.effective may contain only a
+subset of cpuset.cpus when a partition is created without setting
+cpuset.cpus.exclusive.
 
-In fact the the structure of the mounted file system is at 
-<shadow_path>/root.  Also located in <shadow path> (above ./root) is a 
-unix domain socket for REST communication with famfs_fused. We have 
-plans for other files at <shadow path> and above ./root (mount-specific 
-config options, for example).
+Even setting cpuset.cpus.exclusive instead of cpuset.cpus may not
+guarantee all the requested CPUs can be granted if parent doesn't have
+access to some of those exclusive CPUs. The difference is that conflicts
+from siblings is not possible with cpuset.cpus.exclusive as long as it
+can be set successfully without failure.
 
-Playing the famfs metadata log requires finding the shadow path,
-parsing the log, and creating (or potentially modifying) shadow files
-in the shadow path for the mount.
+[1] https://lore.kernel.org/lkml/20251117015708.977585-1-sunshaojie@kylinos.cn/
 
-So to communicate with the fuse server we parse the shadow path from
-/proc/mounts and that finds the <shadow_path>/socket that can be used
-to communicate with famfs_fused. And we can play the metadata log
-(accessed via MPT/.meta/.log) to <shadow_path>/root/...
+Waiman Long (5):
+  cgroup/cpuset: Streamline rm_siblings_excl_cpus()
+  cgroup/cpuset: Consistently compute effective_xcpus in
+    update_cpumasks_hier()
+  cgroup/cpuset: Don't fail cpuset.cpus change in v2
+  cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus
+    conflict
+  cgroup/cpuset: Move the v1 empty cpus/mems check to
+    cpuset1_validate_change()
 
-Having something in sysfs would be fine, but unless we pass it into
-the kernel somehow (hey, like -o shadow=<shadow path>), the kernel
-won't know it and can't reveal it.
+ Documentation/admin-guide/cgroup-v2.rst       |  40 +++--
+ kernel/cgroup/cpuset-internal.h               |  12 ++
+ kernel/cgroup/cpuset-v1.c                     |  33 ++++
+ kernel/cgroup/cpuset.c                        | 163 ++++++------------
+ .../selftests/cgroup/test_cpuset_prs.sh       |  29 +++-
+ 5 files changed, 150 insertions(+), 127 deletions(-)
 
-A big no-go, I think, is trying to parse the shadow path from the
-famfs fuse server via 'ps -ef' or 'ps -ax'. The famfs cli etc. might
-be running in a container that doesn't have access to that.
-
-Happy to discuss further...
-
-> 
-> >
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/fuse/fuse_i.h | 25 ++++++++++++++++++++++++-
-> >  fs/fuse/inode.c  | 28 +++++++++++++++++++++++++++-
-> >  2 files changed, 51 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index ec2446099010..84d0ee2a501d 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -620,9 +620,11 @@ struct fuse_fs_context {
-> >         unsigned int blksize;
-> >         const char *subtype;
-> >
-> > -       /* DAX device, may be NULL */
-> > +       /* DAX device for virtiofs, may be NULL */
-> >         struct dax_device *dax_dev;
-> >
-> > +       const char *shadow; /* famfs - null if not famfs */
-> > +
-> >         /* fuse_dev pointer to fill in, should contain NULL on entry */
-> >         void **fudptr;
-> >  };
-> > @@ -998,6 +1000,18 @@ struct fuse_conn {
-> >                 /* Request timeout (in jiffies). 0 = no timeout */
-> >                 unsigned int req_timeout;
-> >         } timeout;
-> > +
-> > +       /*
-> > +        * This is a workaround until fuse uses iomap for reads.
-> > +        * For fuseblk servers, this represents the blocksize passed in at
-> > +        * mount time and for regular fuse servers, this is equivalent to
-> > +        * inode->i_blkbits.
-> > +        */
-> > +       u8 blkbits;
-> > +
-> 
-> I think you meant to remove these lines?
-
-I was gonna say those are Darrick's lines...but they came in through my patch.
-So yes, I will drop them. Oops :D
-
-I'm not sure how this leaked into my patch, but that's one of the reasons why
-reviews are good - thanks!
-
-> 
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       char *shadow;
-> 
-> Should this be const char * too?
-> > +#endif
-> >  };
-> >
-> >  /*
-> > @@ -1631,4 +1645,13 @@ extern void fuse_sysctl_unregister(void);
-> >  #define fuse_sysctl_unregister()       do { } while (0)
-> >  #endif /* CONFIG_SYSCTL */
-> >
-> > +/* famfs.c */
-> > +
-> > +static inline void famfs_teardown(struct fuse_conn *fc)
-> > +{
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       kfree(fc->shadow);
-> > +#endif
-> > +}
-> > +
-> >  #endif /* _FS_FUSE_I_H */
-> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> > index acabf92a11f8..2e0844aabbae 100644
-> > --- a/fs/fuse/inode.c
-> > +++ b/fs/fuse/inode.c
-> > @@ -783,6 +783,9 @@ enum {
-> >         OPT_ALLOW_OTHER,
-> >         OPT_MAX_READ,
-> >         OPT_BLKSIZE,
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       OPT_SHADOW,
-> > +#endif
-> >         OPT_ERR
-> >  };
-> >
-> > @@ -797,6 +800,9 @@ static const struct fs_parameter_spec fuse_fs_parameters[] = {
-> >         fsparam_u32     ("max_read",            OPT_MAX_READ),
-> >         fsparam_u32     ("blksize",             OPT_BLKSIZE),
-> >         fsparam_string  ("subtype",             OPT_SUBTYPE),
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       fsparam_string("shadow",                OPT_SHADOW),
-> 
-> nit: having the spacing for ("shadow", align with the lines above
-> would be aesthetically nice
-
-Done, thanks
-
-> 
-> > +#endif
-> >         {}
-> >  };
-> >
-> > @@ -892,6 +898,15 @@ static int fuse_parse_param(struct fs_context *fsc, struct fs_parameter *param)
-> >                 ctx->blksize = result.uint_32;
-> >                 break;
-> >
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       case OPT_SHADOW:
-> > +               if (ctx->shadow)
-> > +                       return invalfc(fsc, "Multiple shadows specified");
-> > +               ctx->shadow = param->string;
-> > +               param->string = NULL;
-> > +               break;
-> > +#endif
-> > +
-> >         default:
-> >                 return -EINVAL;
-> >         }
-> > @@ -905,6 +920,7 @@ static void fuse_free_fsc(struct fs_context *fsc)
-> >
-> >         if (ctx) {
-> >                 kfree(ctx->subtype);
-> > +               kfree(ctx->shadow);
-> >                 kfree(ctx);
-> >         }
-> >  }
-> > @@ -936,7 +952,10 @@ static int fuse_show_options(struct seq_file *m, struct dentry *root)
-> >         else if (fc->dax_mode == FUSE_DAX_INODE_USER)
-> >                 seq_puts(m, ",dax=inode");
-> >  #endif
-> > -
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       if (fc->shadow)
-> > +               seq_printf(m, ",shadow=%s", fc->shadow);
-> > +#endif
-> >         return 0;
-> >  }
-> >
-> > @@ -1041,6 +1060,8 @@ void fuse_conn_put(struct fuse_conn *fc)
-> >                 WARN_ON(atomic_read(&bucket->count) != 1);
-> >                 kfree(bucket);
-> >         }
-> > +       famfs_teardown(fc);
-> 
-> imo it looks a bit cleaner with
-> 
-> if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
->      famfs_teardown(fc);
-> 
-> which also matches the pattern the passthrough config below uses
-
-Done
-
-> 
-> > +
-> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
-> >                 fuse_backing_files_free(fc);
-> >         call_rcu(&fc->rcu, delayed_release);
-> > @@ -1916,6 +1937,11 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
-> >                 *ctx->fudptr = fud;
-> >                 wake_up_all(&fuse_dev_waitq);
-> >         }
-> > +
-> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
-> > +       fc->shadow = kstrdup(ctx->shadow, GFP_KERNEL);
-> 
-> Is a shadow path a must-have for a famfs mount? if so, then should the
-> mount fail if the allocation here fails?
-
-Summarized above...
-
-> 
-> Thanks,
-> Joanne
-> > +#endif
-> > +
-> >         mutex_unlock(&fuse_mutex);
-> >         return 0;
-> >
-> > --
-> > 2.49.0
-> >
-
-Thanks Joanne!
-
-John
+-- 
+2.52.0
 
