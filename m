@@ -1,241 +1,65 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8123B29B8E5
-	for <linux-doc@vger.kernel.org>; Sat, 10 Jan 2026 21:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F8D883F;
+	Sun, 11 Jan 2026 02:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768080572; cv=none; b=b7fTPRK2q2jYPI9LY9hZakbtyWcYye+xYXuZzuNvhE0OmU3H+JSgCAPrjUPXWi29FW+RN0aq65viGsIV2iOhCUU9TuhTQwngoFqmymu3EmMevJd9VV+hOBEjHArU9Cb6NncdBfw1TRNHGUmVpqte5VbqhlB8PqbDNm5AE+Rcp5M=
+	t=1768097572; cv=none; b=jRFR4rO7ijWkFr2L+3LFd0GySKPHxm2YpBgECmPZgLFvEcCjLayax9OcwxnbUhnA/K4MLrbz3M6kGd+i++bxg7d/YdtVPkbret1pHPA5/0m7x/UD2qMN0WF/C/Dhf96ffa0TH9JqaWuEiNTPyqvPLPCR9LClNl/7GgONoWRZXms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768080572; c=relaxed/simple;
-	bh=J7dbUPHbaST+GPjSqooeXuPPmnp9TEtru6bY2L/1Vh0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fr8coYFJ66DvJBxm4SUZ1wPDjfp+9Yq1qejPvF8FGujkW5AGXjTj0sDlMb+3X6gVtq+3c4dBIpm4gR2TaW3W30FyOfjMlG+K7J+7wegPBHeNmWuf9wBAR3l9g0yv5jMfWV33pu46Dhy4RgM9TqJ5+GRlk9NPpEDF4NHz1Vm88xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hI0epgdr; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=em68i5sH; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1768097572; c=relaxed/simple;
+	bh=lKv7dTKmsmPzbUbXlyvG4jikBT3XnIDEBzDSFJ5GSOw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=sM873mK7yWfc+LEjQ7V3gqLiL0/igrq05Nlx8xdjn/xyLvpLDorSWiWiAixGht9ki/bI7gC9KjHz4NqWoq9U0qo3xR+DKzaZdCYqKDLojFDfv5SFeZnm0PO8cAN/WKWhBTYxGZbWSMR8Ez8c9DmyfCj18tFcHxsRqw3oTHSAkmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=0KUqpSQx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hI0epgdr";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="em68i5sH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768080569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BkE+iVeStS9ap0ZdCuIewxyxpQ7WymUQDmHJWd1A0aI=;
-	b=hI0epgdrDszfCDjlLs1qGluWl+V4JhfpabNWwONDPullRMeDz1IUBMWqYNkCcTnKjbBAlJ
-	43yEW+1rfAvEXM3UQiOMi5p5FXIO0OGdGdyr/CFJpdzCNnC+LixEuCMOBC8xWwXVTb81r+
-	dVGMUSSU8Cyo/wzcs2mYi4YOjfioynE=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-70-RKbdy5tCPtm85_hXEVN-zA-1; Sat, 10 Jan 2026 16:29:28 -0500
-X-MC-Unique: RKbdy5tCPtm85_hXEVN-zA-1
-X-Mimecast-MFC-AGG-ID: RKbdy5tCPtm85_hXEVN-zA_1768080567
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-656b7cf5c66so10445526eaf.2
-        for <linux-doc@vger.kernel.org>; Sat, 10 Jan 2026 13:29:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768080567; x=1768685367; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BkE+iVeStS9ap0ZdCuIewxyxpQ7WymUQDmHJWd1A0aI=;
-        b=em68i5sHgxyHfucAHkS1qh4/4I3VVKBxbauW3R1hyav+yTWsJS/bsO7p/n1vkpPtew
-         kdXG99647wwFZveAWGb1Z6X+6EGtKnAA7El607JKyRwKyuqkJTXEZph6pbjweLIYtPwb
-         FrOvq5RvgL198PFxYhf8XWWVPL6Mm3r1Str+/TxoBJiTIUx3uX/oT2P8+08CaYSBMfF6
-         Y1GlfCLKLDp2JRW/7/HNT8xkX8o0bKoAfqM4BSG93+r2FNO22uj2qUgXJPP47rPusYff
-         GXCAFaD3LlIFMqMhimXQBYd/JqJAJZiGx91ohsJ9ZdPm2hRjiFrLdMyAnMrlNDzRTjHk
-         1GGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768080567; x=1768685367;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BkE+iVeStS9ap0ZdCuIewxyxpQ7WymUQDmHJWd1A0aI=;
-        b=GtBOr0JFpItmJbitBJr+/+twxjHq+sEhKGZWc/cV4gzUWdIHnpYNCx3ciobxltVsz4
-         a0dEZE6z4QZo0ROh4JlRn5Q7R0Lu7utLYNBy+LPqN5WE/LbInw7P0nPnhmxRR2RCeAnu
-         0bxBXspJhfda8YW1//4ajEZpu4WSTIJVsBUovC262O03sQhtSdpdmvE33B5WzCNQgQUA
-         bohXXZoDNKPSa94WJEuJdac10FE3RLDkdFJ8marMDDDMIWZ4z3XkobTyoBSSvJd72rjU
-         pQfHoSEIrqUOloKGDkYGh8S2pSa0Si1hLhZGTr5bOfu3UkRw5HYcC1INpAy2PYwClMzz
-         ossg==
-X-Forwarded-Encrypted: i=1; AJvYcCUVt6YLZQuqekl1QspsBPgGFAqepcjEPhJyEJ9v1Q9CGgyyEY42brw0JE+4JrAOqFBdNspw3gjlHq0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+R6qK5FgxjpnQ2YHH7yNAO5p7t5Okg+jO3/Q9ROCsYrO2MtL8
-	Bx7EGz1xKZtPYi45XRInPwYpilBD8hZtcgjnOD04VQ7lOgRqmKdmCYt54lPkQvU1pgvv5Xibwvv
-	nneST8iOT7wUXdXbyiWOVx6U++2SMrgArxzkbksZqzEpc9vACSUdP8VngO5Qg20MyfBjbeIaGlW
-	vh21nRxMtckY7iYcmWS25ogdLmMYWUeFS5TmRw
-X-Gm-Gg: AY/fxX7McBhjhYydpwqPON7zMoNYRyt72uQyPV+EzfvcTj6oPzxgMVawYNRGhRIEG+Y
-	wW0hngXM9dRRzpPiexJnjFXOHoQhZQYdA0PMSGHeEhXNmaFdzJW8EPIHnKyzmyBgDK3uCDyq+GU
-	9sbEOuaCYBxZyOL7oJ0bTpaMYAfL5IWj/0GykWpKgwP4dpS2XSEr3aNrSNm3z9OctSWjo=
-X-Received: by 2002:a05:6820:22a7:b0:65b:3bd8:a75b with SMTP id 006d021491bc7-65f550bc142mr6987821eaf.72.1768080567485;
-        Sat, 10 Jan 2026 13:29:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHpyjnhS5jcpniHuaklJ+T3KGnZiN96XIuwq9ire6t4KN0lmKgSW0u9SpewvA8rcsxnswYJlGQzjtE9HD0XJYM=
-X-Received: by 2002:a05:6820:22a7:b0:65b:3bd8:a75b with SMTP id
- 006d021491bc7-65f550bc142mr6987818eaf.72.1768080567120; Sat, 10 Jan 2026
- 13:29:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="0KUqpSQx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99609C116C6;
+	Sun, 11 Jan 2026 02:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1768097572;
+	bh=lKv7dTKmsmPzbUbXlyvG4jikBT3XnIDEBzDSFJ5GSOw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=0KUqpSQxHtzpnLJPWAGB+So7Bw/iZVr7fy5J0ZRU0Cyo1jdy+nEC3toM6g64FvHk4
+	 VDgF3d7447QzWOBU3g5WmLRsZmGXB8TvEYlEjYuekV/uq8TpCdnEzQ7GOqNhLStwCN
+	 wEnUb52wC8HgIZgDz0V/JA5SkIkptBkWXfOMTHns=
+Date: Sat, 10 Jan 2026 18:12:50 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: ranxiaokai627@163.com
+Cc: surenb@google.com, vbabka@suse.cz, kent.overstreet@linux.dev,
+ david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ ran.xiaokai@zte.com.cn
+Subject: Re: [PATCH] alloc_tag: remove sysctl prefix from mem_profiling boot
+ parameter
+Message-Id: <20260110181250.429195a2afa08ed61b5bbb4f@linux-foundation.org>
+In-Reply-To: <20260109062419.157284-1-ranxiaokai627@163.com>
+References: <20260109062419.157284-1-ranxiaokai627@163.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
- <20251216144154.15172-1-vgrinber@redhat.com> <IA1PR11MB621913F389165EE4D7CCFF2D9284A@IA1PR11MB6219.namprd11.prod.outlook.com>
-In-Reply-To: <IA1PR11MB621913F389165EE4D7CCFF2D9284A@IA1PR11MB6219.namprd11.prod.outlook.com>
-From: Vitaly Grinberg <vgrinber@redhat.com>
-Date: Sat, 10 Jan 2026 23:29:16 +0200
-X-Gm-Features: AZwV_QiG9tsTWyQKEuQ2eM2JGegyP9OgXPzgej6rvWd8OC-c8f-x0zTbTbP3QMk
-Message-ID: <CACLnSDikAToGRvfZAhTcT0NCtMj+N9z-GGzRQ5qmpHsvCr2QSA@mail.gmail.com>
-Subject: Re: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for
- unmanaged DPLL on E830 NIC
-To: "Nitka, Grzegorz" <grzegorz.nitka@intel.com>
-Cc: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>, 
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, 
-	"Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>, "horms@kernel.org" <horms@kernel.org>, 
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>, 
-	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Grzegors,
-Thanks very much for your reply! Added some clarifications inline.
+On Fri,  9 Jan 2026 06:24:19 +0000 ranxiaokai627@163.com wrote:
 
-On Wed, Jan 7, 2026 at 11:33=E2=80=AFPM Nitka, Grzegorz
-<grzegorz.nitka@intel.com> wrote:
->
-> > -----Original Message-----
-> > From: Vitaly Grinberg <vgrinber@redhat.com>
-> > Sent: Tuesday, December 16, 2025 3:42 PM
-> > To: Nitka, Grzegorz <grzegorz.nitka@intel.com>
-> > Cc: Loktionov, Aleksandr <aleksandr.loktionov@intel.com>; Nguyen,
-> > Anthony L <anthony.l.nguyen@intel.com>; Kubalewski, Arkadiusz
-> > <arkadiusz.kubalewski@intel.com>; horms@kernel.org; intel-wired-
-> > lan@lists.osuosl.org; linux-doc@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; netdev@vger.kernel.org;
-> > pmenzel@molgen.mpg.de; Kitszel, Przemyslaw
-> > <przemyslaw.kitszel@intel.com>
-> > Subject: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for
-> > unmanaged DPLL on E830 NIC
-> >
-> > Will a notification be provided when the lock is re-acquired?
-> >
->
-> Hi Vitaly, thanks for your comments.
-> We discussed it offline already, but I think I need more clarifications.
->
-> Regarding above question ... yes, 'lock' recovery shall be reported in th=
-e same way.
-> Maybe the name of health status is a little bit misleading (ICE_AQC_HEALT=
-H_STATUS_INFO_LOSS_OF_LOCK),
-> However health_info struct contains the current lock status (either 'lock=
-ed' or 'unlocked').
+> From: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+> 
+> Boot parameters prefixed with "sysctl." are processed separately
+> during the final stage of system initialization via kernel_init()->
+> do_sysctl_args(). Since mem_profiling support should be parsed
+> in early boot stage, it is unsuitable for centralized handling
+> in do_sysctl_args().
+> Also, when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled,
+> the sysctl.vm.mem_profiling entry is not writable and will cause
+> a warning. To prevent duplicate processing of sysctl.vm.mem_profiling,
+> rename the boot parameter to "mem_profiling".
 
-Great, thanks for clarifying this!
-
-> > Another concern is the absence of periodical pin notifications. With th=
-e E810,
-> > users received the active pin notifications every 1 second. However, th=
-e
-> > unmanaged DPLL appears to lack this functionality. User implementations
-> > currently rely on these periodical notifications to derive the overall =
-clock
-> > state, metrics and events from the phase offset. It seems that unmanage=
-d
-> > DPLL users will be forced to support two distinct types of DPLLs: one t=
-hat
-> > sends periodical pin notifications and one that does not. Crucially, th=
-is
-> > difference does not appear to be reflected in the device capabilities,
-> > meaning users cannot know in advance whether to expect these
-> > notifications.
->
-> After reading it one more time, I'm not sure if I get it right in the fir=
-st place.
-> With this patch implementation, there is dpll change notification applied=
-.
-> By dpll notification I mean calling dpll_device_change_ntf function.
-> Isn't it what you're looking for?
-> Notification is triggered only in case when lock status has changed.
-> It's unmanaged DPLL so the implementation is a little bit simplified, bas=
-ed on FW notification.
-> There is no need for polling thread like it's done for E810.
-> But even in case of E810, where polling is applied (2 samples per second)=
-, notification is triggered only in case of
-> dpll/pin status change, not every 1 second.
-> So please clarify, so either I don't understand the question (please note=
-, I'm only covering the main author)
-> or notification mechanism, at least about dpll lock state, is already imp=
-lemented.
->
-
-Yes, device lock status change notification is definitely what we are
-looking for, but there is more. Let me clarify the user perspective.
-The e810-based telco system relies on both device and pin
-notifications. Phase offset included in pin notifications is critical
-because the e810 DPLL "Locked" state is too coarse for Telco
-requirements.
-It is true that pin notifications are only sent on change; however,
-since the phase offset varies slightly with every measurement, the
-driver detects a change every second. This effectively turns the
-event-driven notification into a periodic one. The e810-based
-application strongly relies on the fact that phase offset
-notifications are unsolicited and the driver sends them from time to
-time.
-Now, with the unmanaged DPLL, no pin notification will be sent. Last
-time I checked, the device and pin information looked like this:
-Device:
- {'clock-id': 1165870453030569040,
-  'id': 4,
-  'lock-status': 'locked',
-  'mode': 'automatic',
-  'mode-supported': ['automatic'],
-  'module-name': 'ice',
-  'type': 'eec'},
-
-Input pin:
-{
-  "id": 17,
-  "module-name": "ice",
-  "clock-id": 1165870453030569040,
-  "board-label": "1588-TIME_SYNC",
-  "type": "ext",
-  "capabilities": [],
-  "frequency": 10000000,
-  "phase-adjust-min": 0,
-  "phase-adjust-max": 0,
-  "parent-device": [
-    {
-      "parent-id": 4,
-      "state": "connected",
-      "direction": "input"
-    }
-  ]
-}
-
-I see a few challenges for the user here. The biggest one is that the
-application can't tell the difference between a device that will
-report phase offsets and this unmanaged device that never will.
-A possible way forward would be adding a capability flag to the DPLL
-API so users don't have to guess.
-However, the preferred solution would be to simply mirror the E810
-behavior (sending phase offset). This preserves the existing API
-contract and prevents users, who have already built applications for
-this interface, from needing to implement special handling for a new
-hardware variant that behaves differently.
-There are additional inconsistencies in the existing structure I
-wanted to bring to your attention.
-1. I'm not entirely sure how a 1588-TIME_SYNC pin can have a parent
-device of type "eec". EEC is all about frequency synchronization, and
-yet the pin named 1588-TIME_SYNC is clearly a phase pin. This also
-doesn't play well with existing implementations, where EEC circuits
-deal with frequency, PPS circuits deal with phase, and there is clear
-distinction between the two with regard to the meaning of "being
-locked".
-2. Since it is also an external embedded sync input pin, could it be
-possible to expose this information and include `esync-frequency` and
-`esync-pulse`? That could be useful for configuring the leading DPLL
-that drives the unmanaged one.
+Isn't this a backwardly-incompatible change?  What happens to existing
+steups which are using sysctl.vm.mem_profiling=?
 
