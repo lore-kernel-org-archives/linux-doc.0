@@ -1,242 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150EB500940;
-	Sun, 11 Jan 2026 13:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC871E1024
+	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 13:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768139644; cv=none; b=qBKYRU4Z0Ovlt/GSkpNAt5teioTkxLjwcqD+Cq6LDFiJ7Jqmp8Q/DaCvgWS5G+aIu14pM9FyvNX5APB+wEmj9qT8yk00An/9iS08xpiJXT0zltsr0UuTkIr4s0hkhX21m7kDU6VwVeN7JXXYM+KWYQlAQr02BmiFftlwB7mYKCs=
+	t=1768139751; cv=none; b=OF8BZNNsgHIPEiNzyJmiWvvzREybGvB4BN3zr27qE/AhQkHBCcXRxglEXqpX6L7FiEPGMHd6AXzNzYrTgxyTAVIBgYK6PTrxooXrWAT39pb7REnBV7AYdfWhjQnztuTAeMMxK34/j2Qrx3kzHjSgOsPG2HPoFIXPNUMDmu3av7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768139644; c=relaxed/simple;
-	bh=oMa5cMqCzCtN84qkf4MMO1xXRt1FwvzJFvBHfEVhMTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c/D/BZgQ9cnwzSFNNxeDfQk/R2OtCkicfuZ2s90XTkzYXgj0yCanQo+W751TPBOTCZ1YcpUjC8yeG4abB+y3gIJ3bJmIXI46ya9mI1h9NHLA6jB3SbSFmeDdRxk/aG+YJIkbFTcjeXAqnTLLPNTRFwGVbDIKB6wMcANXlwfyIEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfNpudni; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768139751; c=relaxed/simple;
+	bh=+AKIQEO5dyvqn5KjRP9Jxh30Gb6KBj2JRPEssHMpZoI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UW6Zlg5vyAAL0IMU/75xw/V/YLt3mtrUn1TgzXa4pHpQUnvgebRUiMpgD/+kyBiH+H2h7StD+bOgykVC652zfH/WF/2Q66FrBt2bgc3NoZWjzvt6A6fbp32YXYQ2qjSlvgfqFNFnV5DjkDeeN+mgvTZylj1XmrRx8UM1oiGyRO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JdmL6Rc7; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfNpudni"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47AF4C4CEF7;
-	Sun, 11 Jan 2026 13:53:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768139643;
-	bh=oMa5cMqCzCtN84qkf4MMO1xXRt1FwvzJFvBHfEVhMTM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hfNpudniHUZ/Y7JqeA5bUDSFnQRtPmM4K62dAdpbgXFzRlFHILdwBzXCAkeyRKWuq
-	 YO6eWRXxW9Xm0LwjyCEZ7AFSEXh84JlgZFyjzbzsTZ8iGMSrIZwCQZ1phoXrz8E/if
-	 K7Dxz7dOqU79BYbtfAmsH31pg+fQCCYdAmBFEXkMJaOy+AnBLDhOMC/OFhX67VDt8j
-	 B1QDFJTOeJrn3HUeg/HBZY/1CRHKe1B3tsntV4maOmTWdkh9i7i/tQWxzWJwQBFRF8
-	 rRH+M9gdcSwLDOY0/fe97gyHWypmY1pxlv+6+pK06xWWg9JJZe1UcaH6C36oG9fot1
-	 ngTb5bX3a0PBw==
-Date: Sun, 11 Jan 2026 13:53:52 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 2/6] iio: frequency: adf41513: driver implementation
-Message-ID: <20260111135352.5f37bb51@jic23-huawei>
-In-Reply-To: <20260108-adf41513-iio-driver-v3-2-23d1371aef48@analog.com>
-References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
-	<20260108-adf41513-iio-driver-v3-2-23d1371aef48@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JdmL6Rc7"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-81f4a1a3181so218014b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 05:55:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768139749; x=1768744549; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vP5elSGqt6TeZcpkFEgYpafr6UqzCjp3j6oPYRYzstk=;
+        b=JdmL6Rc7IB417V7qExEpEX0dSnjAGdPIEAodUoDs2bRM71V/xLrg43+u5Fx6S7laAw
+         QqW/bPKGIOSlf7ab5vZ4PLx2BZ7hi+RUg83vXCyrlerSLdEtWnLZFBO5oPV23fcHqbk6
+         4MSN3ElhqYskrgHOT4DqLysvu50pQAHae0+KbrdvD4tcClrSK0VBB6lBKcKS52jvFdfb
+         wpPm7fHpoSJBbJMDJdzlI8V3+ce99GpxaVH33Qokm6dAeTttBFm+Uj3pqMbU+m45XUjc
+         0zIojXULzOP+5q/y1HnmyM7BNUmMMc6ByifMdW46nIRdUUSqzSeRsQvVDIRoTUW3q5kr
+         3GDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768139749; x=1768744549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vP5elSGqt6TeZcpkFEgYpafr6UqzCjp3j6oPYRYzstk=;
+        b=DLlWubmet2Kb6hByE187aeig3ZfIC+QVh6dmhVq6Rvr35opCV7N/csy6z2BP2vsi5E
+         jdCUl4TKxqM4YiDyzuWNbGra37PHXXwwxQFN+IG91V724GSkqnAYWzXmKmzvqyFui1On
+         e1sc48tV0k9b2UvrpFn+HvjxJcmZmgyxaiv2VjaZBbWacUmtUEDqFnUL4rjRzTmK8yUn
+         ThA90qa2sXPraT7rYNjqCu0Ga68gjwG5jE9jQp5a5vW+j0LqZhYtvhXsyLq9yQ8GSLx5
+         viVTACxKgn6DQHOgs56i9bcQLIMO18YhhNY1TFOAUfGt/wNvsFFqLO1juWYFrfhjbqNu
+         clHA==
+X-Forwarded-Encrypted: i=1; AJvYcCWekj9ub3oiikbdygnFVXMgxoBkL9Ry8QI0IyzaNC1DPQHhmzFIDMb4yPfd3TZ9vJBBgo/cjFZguOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkUogtpPrr9dUxIlzKcEyB1RZhNpOEQHXQzoY9Mga49RZIniCr
+	0NYBIrpSl/6hhrHF40wyfBJQMkg3Im3Yk4vg6bXu+8Cqco2PMkZbom5+
+X-Gm-Gg: AY/fxX7hBOADxEvkNvfV9VNObZ88bbV74uU4dN2CRj7NfKk3JH66YqqyFLbrkeQSd4Z
+	Uvh6Zqrej/BRF7oPmedWbqwwC2Xv/I4x3q+M53jiQZyyu0mXVBoHHc+5FIvCetghx+VjF6NXHne
+	CUUWEHPsnTLOjHz8lwj2CbTLpi9WWPQYtyuR0ArVYjhrHS/SDoeeX7jwhn2X/imi5YPoalzJi6H
+	ar5u8vwC7/SJYMdbby+E43zljNhaXGWmpsr7fObq4ldzPa5V9VpIRQ/MI6jnz+Jj1s5fGfhQ7Z6
+	nha4UMUxwqM/EMl+az9TqTZAMjlfA7PV75T5fmQCHO+0Qk510pzjuvhfgxThBsUk6KSrl6eVyqi
+	sR75vunWTtsM9CkVkkS39vTbQFckVp1n1m/qQ0Pq7jA4BpPEWI2iMRsdaxFUP8DdobZ0fzgU2e7
+	RUzjdRmctPG+OMrcOd023Eua2b
+X-Google-Smtp-Source: AGHT+IG7l1AtroJ4vtHhwuouBkO/kZ7CsAcG4nQomIHeGtpM3HDKv03O8zL3Ot3znp9Xs4XUP6+DyQ==
+X-Received: by 2002:a05:6300:218a:b0:37b:992f:8764 with SMTP id adf61e73a8af0-3898f96bfe3mr13543517637.34.1768139749196;
+        Sun, 11 Jan 2026 05:55:49 -0800 (PST)
+Received: from localhost.localdomain ([113.164.155.57])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f6b88d984sm5742345a91.3.2026.01.11.05.55.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jan 2026 05:55:48 -0800 (PST)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	gregkh@linuxfoundation.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v21 0/3] leds: add new LED driver for TI LP5812
+Date: Sun, 11 Jan 2026 20:55:16 +0700
+Message-Id: <20260111135519.28112-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 08 Jan 2026 12:14:51 +0000
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org=
-> wrote:
+This patch series adds initial support for the TI LP5812,
+a 4x3 matrix RGB LED driver with autonomous engine control.
+This version provides a minimal, clean implementation focused
+on core functionality only. The goal is to upstream a solid
+foundation, with the expectation that additional features can
+be added incrementally in future patches.
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->=20
-> The driver is based on existing PLL drivers in the IIO subsystem and
-> implements the following key features:
->=20
-> - Integer-N and fractional-N (fixed/variable modulus) synthesis modes
-> - High-resolution frequency calculations using microhertz (=C2=B5Hz) prec=
-ision
->   to handle sub-Hz resolution across multi-GHz frequency ranges
-> - IIO debugfs interface for direct register access
-> - FW property parsing from devicetree including charge pump settings,
->   reference path configuration and muxout options
-> - Power management support with suspend/resume callbacks
-> - Lock detect GPIO monitoring
->=20
-> The driver uses 64-bit microhertz values throughout PLL calculations to
-> maintain precision when working with frequencies that exceed 32-bit Hz
-> representation while requiring fractional Hz resolution.
->=20
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Hi Rodrigo,
+The driver integrates with the LED multicolor framework and
+supports a set of basic sysfs interfaces for LED control and
+chip management.
 
-Just one significant point (though it's repeated a few times!).
-I think you can simplify the firmware parsing code by changing how you
-set the defaults.  That should both make it more readable and make
-it more obvious that the necessary checks have parsed when you have
-a mixture of default and values from DT.
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v21:
+- Rebased onto Linux Next. No functional changes.
+- Link to v20: https://lore.kernel.org/linux-leds/20251221041950.4631-1-trannamatk@gmail.com/
 
-thanks,
+Changes in v20:
+- Rebase on v6.19-rc1
+- Link to v19: https://lore.kernel.org/linux-leds/20251130153956.241375-1-trannamatk@gmail.com/
 
-Jonathan
+Changes in v19:
+- DT bindings: Reverted to v17, as making `label` required in v18 was incorrect.
+- Driver: Drop validation code enforcing parsing of the optional `label` property.
+- Driver: Renamed unions for clarity: replaced u_scan_order { s_scan_order, scan_order_val} with
+  lp5812_scan_order { bits, val }. Applied the same pattern to the drive-mode union.
+- Driver: Updated all code to use the new `bits` and `val` fields.
+- Documentation: Fix links (remove backticks, add `.rst`) and make attribute formatting consistent.
+- Link to v18: https://lore.kernel.org/linux-leds/20251123191042.116917-1-trannamatk@gmail.com/
 
-> diff --git a/drivers/iio/frequency/adf41513.c b/drivers/iio/frequency/adf=
-41513.c
-> new file mode 100644
-> index 000000000000..69dcbbc1f393
-> --- /dev/null
-> +++ b/drivers/iio/frequency/adf41513.c
-...
+Changes in v18:
+- Mark `label` as required for all LED nodes for proper sysfs naming, including single-color
+  (led@[0-3]) and multi-color parent nodes (multi-led@[4-7]); remove previous Reviewed-by tag.
+- Simplified parse_drive_mode() logic: replaced nested if checks with continue to reduce indentation.
+- Use leds[i] instead of each in lp5812_register_leds() for clarity.
+- Remove wrapper function lp5812_auto_dc()
+- Define all magic numbers.
+- Handle parsing properties safely and removed unnecessary pre-initialization.
+- Rename lp5812_of_populate_pdata() to lp5812_of_probe().
+- Save chip in i2c_set_clientdata(), not led; use leds instead of led for the array in lp5812_probe().
+- Remove chip register map structure; use register addresses directly.
+- Minor formatting, blank line, comment clean-ups, and add email to MODULE_AUTHOR().
+- Link to v17: https://lore.kernel.org/linux-leds/20251021155927.140929-1-trannamatk@gmail.com/
 
-> +
-> +static ssize_t adf41513_read_uhz(struct iio_dev *indio_dev,
-> +				 uintptr_t private,
-> +				 const struct iio_chan_spec *chan,
-> +				 char *buf)
-> +{
-> +	struct adf41513_state *st =3D iio_priv(indio_dev);
-> +	u64 freq_uhz;
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	switch ((u32)private) {
-> +	case ADF41513_FREQ:
-> +		freq_uhz =3D adf41513_pll_get_rate(st);
-> +		if (st->lock_detect)
-> +			if (!gpiod_get_value_cansleep(st->lock_detect)) {
-Trivial, ignore if you like:
+Changes in v17:
+- Dropped direct_mode from ti,scan-mode property.
+- Updated logic so that omitting ti,scan-mode now implies direct-drive mode by default.
+- Refactor lp5812_parse_led_channel() to simplify function arguments.
+- Mark lp5812_cfg as const since it contains only static configuration data.
+- Link to v16: https://lore.kernel.org/linux-leds/20251013173551.108205-1-trannamatk@gmail.com/
 
-Might as well combine the conditions
-		if (st->lock_detect &&
-		    !gpio_get_value_can_sleep(st->lock_detect)) {
-		}
-given the first is just a check on whether the second makes sense or not.
+Changes in v16:
+- Renamed property 'ti,operation-mode' to 'ti,scan-mode'.
+- Simplified allowed values using regex pattern instead of long enum list.
+- Updated description accordingly and noted 'direct_mode' as default.
+- Updated core driver to match the binding change.
+- Link to v15: https://lore.kernel.org/linux-leds/20251005153337.94025-1-trannamatk@gmail.com/
 
-> +				dev_dbg(&st->spi->dev, "PLL un-locked\n");
-> +				return -EBUSY;
-> +			}
-> +		break;
+Changes in v15:
+- Removed all custom sysfs attributes; driver now fully relies on standard LED multicolor class interfaces.
+- Added new device tree property `ti,operation-mode` to configure direct, TCM, and mix scan modes.
+- Dropped previous Reviewed-by tag from the binding patch due to property addition.
+- Removed ABI documentation since no new sysfs entries are created.
+- Updated lp5812.rst documentation accordingly.
+- Link to v14: https://lore.kernel.org/linux-leds/20250907160944.149104-1-trannamatk@gmail.com/
 
-> +
-> +static int adf41513_reg_access(struct iio_dev *indio_dev,
-> +			       unsigned int reg,
-> +			       unsigned int writeval,
-> +			       unsigned int *readval)
+Changes in v14:
+- Replaced inline constants with proper macros for readability and maintainability.
+- Refactored lp5812_read() and lp5812_write() to simplify logic and improve clarity.
+- Updated lp5812_fault_clear() to use switch() instead of if/else chain.
+- Refactored parse_drive_mode() for cleaner logic, removed string parsing of concatenated data.
+- Updated activate_store() and led_current_store() to replace strsep()/kstrtoint() parsing with sscanf().
+- Removed redundant comments and renamed variables for better clarity.
+- Link to v13: https://lore.kernel.org/lkml/20250818012654.143058-1-trannamatk@gmail.com/
 
-static int adf41513_reg_access(struct iio_dev *indio_dev, unsigned int reg,
-			       unsigned int writeval, unsigned int *readval)
+Changes in v13:
+- Fixes build warnings reported by kernel test robot:
+  - Inconsistent indent in lp5812_probe()
+  - Uninitialized variable 'ret' in lp5812_multicolor_brightness()
+- Drop of_match_ptr() and directly assign of_match_table, as the driver is DT-only.
+- Link to v12: https://lore.kernel.org/lkml/20250728065814.120769-1-trannamatk@gmail.com/
 
-would be fine for wrap here and save us a few lines of scrolling.
+Changes in v12:
+- Reordered helper functions above lp5812_probe() for better structure.
+- Clarified DT-only support by removing fallback paths and i2c_device_id table.
+- Directly assign platform_data to the correct pointer instead of relying on
+  string comparisons (LP5812_SC_LED, LP5812_MC_LED) and container_of() casting.
+  This simplifies the logic and avoids unnecessary type checks.
+- Removed redundant messages.
+- Update ABI documentation to reflect reduced feature set.
+- Link to v11: https://lore.kernel.org/lkml/20250714172355.84609-1-trannamatk@gmail.com/
 
-> +
-> +static int adf41513_parse_fw(struct adf41513_state *st)
-> +{
-> +	struct device *dev =3D &st->spi->dev;
-> +	int ret;
-> +	u32 tmp, cp_resistance, cp_current;
-> +
-> +	/* power-up frequency */
-> +	st->data.power_up_frequency_hz =3D ADF41510_MAX_RF_FREQ;
-> +	ret =3D device_property_read_u32(dev, "adi,power-up-frequency-mhz", &tm=
-p);
-> +	if (!ret) {
-> +		st->data.power_up_frequency_hz =3D (u64)tmp * HZ_PER_MHZ;
-> +		if (st->data.power_up_frequency_hz < ADF41513_MIN_RF_FREQ ||
-> +		    st->data.power_up_frequency_hz > ADF41513_MAX_RF_FREQ)
-> +			return dev_err_probe(dev, -ERANGE,
-> +					     "power-up frequency %llu Hz out of range\n",
-> +					     st->data.power_up_frequency_hz);
-> +	}
-> +
-> +	st->data.ref_div_factor =3D ADF41513_MIN_R_CNT;
-Small thing, but for all of these, if you instead set the temporary variable
-to whatever is the DT default (not the register value it maps to) then the =
-handling
-ends up simpler.  We don't care if we have to do a small amount of unnecess=
-ary maths
-if the default is used.
+Changes in v11:
+- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
+- Simplify LED parsing to use a unified path.
+- Clean up and streamline code
+  - Use alphabetically ordered includes
+  - Remove redundant comments
+  - Fix style issues (e.g., comment capitalization, code placement)
+- Update ABI documentation to reflect reduced feature set.
+- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
 
-	tmp =3D ADF41513_MIN_R_CNT;
-	device_property_read_u32(dev, "adi,....", &tmp);
-	if (tmp < ......)
-		return dev_err_probe();
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
 
-	st->data.ref_div_factor =3D tmp;
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
 
-etc.  If you want to check ret for the explicit return value that means no =
-property
-then that's fine too but I've always been a bit relaxed on these.
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
+
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
+
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
+
+Nam Tran (3):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add basic support for TI/National Semiconductor LP5812 LED
+    Driver
+  docs: leds: Document TI LP5812 LED driver
+
+ .../devicetree/bindings/leds/ti,lp5812.yaml   | 246 +++++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-lp5812.rst            |  50 ++
+ MAINTAINERS                                   |  11 +
+ drivers/leds/rgb/Kconfig                      |  13 +
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-lp5812.c                | 642 ++++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h                | 172 +++++
+ 8 files changed, 1136 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
 
 
-> +	ret =3D device_property_read_u32(dev, "adi,reference-div-factor", &tmp);
-> +	if (!ret) {
-> +		if (tmp < ADF41513_MIN_R_CNT || tmp > ADF41513_MAX_R_CNT)
-> +			return dev_err_probe(dev, -ERANGE,
-> +					     "invalid reference div factor %u\n", tmp);
-> +		st->data.ref_div_factor =3D tmp;
-> +	}
-> +
-> +	st->data.ref_doubler_en =3D device_property_read_bool(dev, "adi,referen=
-ce-doubler-enable");
-> +	st->data.ref_div2_en =3D device_property_read_bool(dev, "adi,reference-=
-div2-enable");
-> +
-> +	cp_resistance =3D ADF41513_DEFAULT_R_SET;
-> +	ret =3D device_property_read_u32(dev, "adi,charge-pump-resistor-ohms", =
-&cp_resistance);
-> +	if (!ret && (cp_resistance < ADF41513_MIN_R_SET || cp_resistance > ADF4=
-1513_MAX_R_SET))
+base-commit: f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
+-- 
+2.25.1
 
-Don't need the if (!ret) bit, as the default will pass the other tests.
-
-> +		return dev_err_probe(dev, -ERANGE, "R_SET %u Ohms out of range\n", cp_=
-resistance);
-> +
-> +	st->data.charge_pump_voltage_mv =3D ADF41513_DEFAULT_CP_VOLTAGE_mV;
-> +	ret =3D device_property_read_u32(dev, "adi,charge-pump-current-microamp=
-", &cp_current);
-> +	if (!ret) {
-> +		tmp =3D DIV_ROUND_CLOSEST(cp_current * cp_resistance, MILLI); /* conve=
-rt to mV */
-> +		if (tmp < ADF41513_MIN_CP_VOLTAGE_mV || tmp > ADF41513_MAX_CP_VOLTAGE_=
-mV)
-One advantage of the suggested approach above is that we don't have to think
-carefully on whether the default here * a custom value for cp_resistance wo=
-uld fail this
-test because we check that explicitly.
-
-> +			return dev_err_probe(dev, -ERANGE, "I_CP %u uA (%u Ohms) out of range=
-\n",
-> +					     cp_current, cp_resistance);
-> +		st->data.charge_pump_voltage_mv =3D tmp;
-> +	}
-> +
-> +	st->data.phase_detector_polarity =3D
-> +		device_property_read_bool(dev, "adi,phase-detector-polarity-positive-e=
-nable");
-> +
-> +	st->data.logic_lvl_1v8_en =3D device_property_read_bool(dev, "adi,logic=
--level-1v8-enable");
-> +
-> +	st->data.lock_detect_count =3D ADF41513_LD_COUNT_MIN;
-> +	ret =3D device_property_read_u32(dev, "adi,lock-detector-count", &tmp);
-> +	if (!ret) {
-> +		if (tmp < ADF41513_LD_COUNT_FAST_MIN || tmp > ADF41513_LD_COUNT_MAX ||
-> +		    !is_power_of_2(tmp))
-> +			return dev_err_probe(dev, -ERANGE,
-> +					     "invalid lock detect count: %u\n", tmp);
-> +		st->data.lock_detect_count =3D tmp;
-> +	}
-> +
-> +	st->data.freq_resolution_uhz =3D MICROHZ_PER_HZ;
-> +
-> +	return 0;
-> +}
