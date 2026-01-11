@@ -1,152 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A83C34BA24;
-	Sun, 11 Jan 2026 16:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BAB500952;
+	Sun, 11 Jan 2026 16:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768147764; cv=none; b=bGI9bfMyAbfCBouU3/96XnAvTC6YgWzmUQqEX4Y4qnkE7P7JMsEQcPToxwj8gJBrAKk6usrDPYMmyTExla7kYHWUr+S3qMgk0E8Ry2i2ydIb+zSbZhr89cY5O8cajIztYfM91GTA4Nr+U2ycK2AmmKGLXl8IsMU5WpxRLPIDmcg=
+	t=1768148152; cv=none; b=L9dJM4dt0Gdz6EeA8faFRsfElFYMuhpGhiTJ/5fwN79EkTNZ46njK1PU+R7c6t17LUO6OrLFGPfNmfQnmJKK7IiXY7fXU0AeZL1/OvBn2kw9+B94AwbkXgPbOkUb/fRfAORoGMHMGfDHq6+L7lP8MR/U5kCpi4Gccj8BYXpi36o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768147764; c=relaxed/simple;
-	bh=dbcZL645pHFqgTcsH096QV8zHH1uB+yrUffujrOPkiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rxK7J7g+A6xoiT31voP68qvlhfO9b9diao3nlpVAKX2xxAW1vhbSsuEeAheyTm8g7qgzXNLA0OsS0vxok/gq+UfZqhRbUEdJsXoKRmD5BWtg5XsUrt9HAuJe/WTVWQ8GoVSNJBIraWT/GT1esM/sBA3kNHKcTJHY7hU/OxYa2FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lJPPS1EJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768148152; c=relaxed/simple;
+	bh=kLhMisAa/rBUQQBL287Z1+puYPJeMaVUYKgaDJ1OfqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDEQ0SiU7HG+M3X8EjfRmgxUpECbTHKSF1UiuoBZBbk3ofWxX/6JyTDtDPPmvKDzYglLiyvVR14+ZxkMDyU/R9EwVRps/ixaWz2QbCDyu2j9jX7+mhYJAw2SFNP4Vf5XT5jPi1YdbZUFpEa3ZkEVACrWdHKUJfTpIUsxtHybS2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SHsEEalJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lJPPS1EJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DBC5C4CEF7;
-	Sun, 11 Jan 2026 16:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768147764;
-	bh=dbcZL645pHFqgTcsH096QV8zHH1uB+yrUffujrOPkiA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lJPPS1EJmitu8+bpVhq91HQHA6tYdlDOY/WgU2CFfsuFrr0nBLsDo59JRhxX2dAGs
-	 yZMyq/Pv8mKfrC/R1McrFKIgzu8beNDt7YO57E5RlrE7Vni/y8G1jo0iE41dvm1XrN
-	 lTNqIyxli7QdDv/J/i9abf2mJ9ZZsi01qqbVldkh/fK77A/w0et1ujnPK8vozmH+lN
-	 We9R85tFqRIfUpFvKNSdXhjmRN+66hgQqZYNUxge9QUIA0RMEGBSRYeRMsRcbTXfM7
-	 4G3nE+2pQ0AfF15eNjvMA1S8FNgZOET9EFdUuR7b6fWcbmhdDj55yjNje1sMO7kj2D
-	 K+ybgH0G299eA==
-Date: Sun, 11 Jan 2026 16:09:14 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <janani.sunil@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Alexandru Ardelean
- <alexandru.ardelean@analog.com>, "Rob Herring" <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <jan.sun97@gmail.com>
-Subject: Re: [PATCH v2 2/2] iio: dac: Add MAX22007 DAC driver support
-Message-ID: <20260111160914.72f177e6@jic23-huawei>
-In-Reply-To: <20260108-max22007-dev-v2-2-2506c738784f@analog.com>
-References: <20260108-max22007-dev-v2-0-2506c738784f@analog.com>
-	<20260108-max22007-dev-v2-2-2506c738784f@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SHsEEalJ"
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 414AD447;
+	Sun, 11 Jan 2026 17:15:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768148123;
+	bh=kLhMisAa/rBUQQBL287Z1+puYPJeMaVUYKgaDJ1OfqU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SHsEEalJP2kuxnEMaspwjZ1Vm2KYFs8IpEwbjO4m2uOsrgf9FzQ6o+uIpi6wWgKzy
+	 ZOmdoiZ/1vRC/6t8QI13/G4Kw29mXiRy+wNRzDaQPZTWMUPt4pyMRr6rDP17wTZeH1
+	 InITH6hAfWySuJoRTiC5AvtgWrSYNyo3tlzk6nTM=
+Date: Sun, 11 Jan 2026 18:15:27 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] LICENSES: Explicitly allow SPDX-FileCopyrightText
+Message-ID: <20260111161527.GA25101@pendragon.ideasonboard.com>
+References: <20260111160750.17569-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260111160750.17569-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-On Thu, 8 Jan 2026 13:58:24 +0100
-Janani Sunil <janani.sunil@analog.com> wrote:
-
-> Add support for the MAX22007, a 4-channel 12-bit DAC that drives
-> voltage or current output on each channel.
+On Sun, Jan 11, 2026 at 05:07:51PM +0100, Krzysztof Kozlowski wrote:
+> Sources already have SPDX-FileCopyrightText (~40 instances) and more
+> appear on the mailing list, so document that it is allowed.  On the
+> other hand SPDX defines several other tags like SPDX-FileType, so add
+> checkpatch rule to narrow desired tags only to two of them - license and
+> copyright.  That way no new tags would sneak in to the kernel unnoticed.
 > 
-> Signed-off-by: Janani Sunil <janani.sunil@analog.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Joe Perches <joe@perches.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> ---
+> 
+> Other way would be to remove SPDX-FileCopyrightText from existing files
+> and disallow this, but one way or another we should be explicit about
+> it.  Otherwise people will be sending more of these and each maintainer
+> would need to make their own call.
 
-A few minor things to add to Marcelo's detailed review.
+My only concern is that we're endorsing two different ways to express
+copyright information. That usually leads to different subsystem setting
+different rules, and worse, to people sending conversion patches.
 
-Thanks,
+I don't mind how copyright information is expressed. The
+SPDX-FileCopyrightText tag has the advantage of being machine-parseable,
+even if the value of the extracted information is somehow dubious from a
+legal point of view. Other than than, both ways seem fine. I have a
+slight personal preference for standardizing things, but the SPDX
+specification doesn't mandate a particular formatting of the
+SPDX-FileCopyrightText value, so there will always be different styles
+anyway.
 
-Jonathan
-
-> diff --git a/drivers/iio/dac/max22007.c b/drivers/iio/dac/max22007.c
-> new file mode 100644
-> index 000000000000..19557c008554
-> --- /dev/null
-> +++ b/drivers/iio/dac/max22007.c
-
-
-> +static int max22007_spi_read(void *context, const void *reg, size_t reg_size,
-> +			     void *val, size_t val_size)
-> +{
-> +	struct max22007_state *st = context;
-> +	u8 reg_byte = *(u8 *)reg;
-> +	u8 calculated_crc, received_crc;
-> +	u8 crc_data[3];
-> +	u8 rx_buf[4];
-> +	int ret;
+> Changes in v2:
+> 1. Doc adjustments based on feedback from Greg and Laurent.
+> 2. "unused" -> "unsupported"
+> 3. Drop redundant blank line
+> ---
+>  Documentation/process/license-rules.rst | 7 +++++--
+>  scripts/checkpatch.pl                   | 8 ++++++++
+>  2 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+> index 59a7832df7d0..5cc58168e3d9 100644
+> --- a/Documentation/process/license-rules.rst
+> +++ b/Documentation/process/license-rules.rst
+> @@ -63,8 +63,11 @@ License identifier syntax
+>     The SPDX license identifier in kernel files shall be added at the first
+>     possible line in a file which can contain a comment.  For the majority
+>     of files this is the first line, except for scripts which require the
+> -   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
+> -   identifier goes into the second line.
+> +   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts, the SPDX
+> +   license identifier goes into the second line.
 > +
-> +	if (reg_size != 1)
-> +		return -EINVAL;
-> +
-> +	ret = spi_write_then_read(st->spi, &reg_byte, 1, rx_buf,
-> +				  val_size + MAX22007_CRC_OVERHEAD);
-> +	if (ret) {
-> +		dev_err(&st->spi->dev, "SPI transfer failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	crc_data[0] = reg_byte;
-> +	crc_data[1] = rx_buf[0];
-> +	crc_data[2] = rx_buf[1];
-> +
-> +	calculated_crc = crc8(max22007_crc8_table, crc_data, 3, 0x00);
+> +   The license identifier line can then be followed by one of multiple
 
-I think you can chain CRCs as follows and avoid the need for a local array
-just to marshal the data.
+s/of multiple/or multiple/
 
-	calculated_crc = crc8(max22007_crc8_table, &reg_byte, 1, 0x00);
-	calculated_crc = crc8(max22007_crc8_table, rx_buf, 2, caculated_crc);
-
-> +	received_crc = rx_buf[val_size];
+> +   SPDX-FileCopyrightText lines if desired.
+>  
+>  |
+>  
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 362a8d1cd327..cc2a5882fef8 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3844,6 +3844,14 @@ sub process {
+>  			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
+>  		}
+>  
+> +# check for unsupported SPDX file tags
+> +		if ($rawline =~ /\bSPDX-.*:/ &&
+> +		    $rawline !~ /\bSPDX-License-Identifier:/ &&
+> +		    $rawline !~ /\bSPDX-FileCopyrightText:/) {
+> +			WARN("SPDX_LICENSE_TAG",
+> +			     "Unsupported SPDX tag\n" . $herecurr);
+> +		}
 > +
-> +	if (calculated_crc != received_crc) {
-> +		dev_err(&st->spi->dev, "CRC mismatch on read register %02x\n", reg_byte);
-> +		return -EIO;
-> +	}
-> +
-> +	memcpy(val, rx_buf, val_size);
-> +
-> +	return 0;
-> +}
+>  # line length limit (with some exclusions)
+>  #
+>  # There are a few types of lines that may extend beyond $max_line_length:
 
-> +static ssize_t max22007_write_dac_powerdown(struct iio_dev *indio_dev,
-> +					    uintptr_t private,
-> +					    const struct iio_chan_spec *chan,
-> +					    const char *buf, size_t len)
-> +{
-> +	struct max22007_state *st = iio_priv(indio_dev);
-> +	bool powerdown;
-> +	int ret;
-> +
-> +	ret = kstrtobool(buf, &powerdown);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (powerdown)
-> +		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-> +					 MAX22007_CH_PWRON_CH_MASK(chan->channel),
-> +					 MAX22007_CH_PWR_VAL(chan->channel, 0));
-> +	else
-> +		ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-> +					 MAX22007_CH_PWRON_CH_MASK(chan->channel),
-> +					 MAX22007_CH_PWR_VAL(chan->channel, 1));
-> +	if (ret)
-> +		return ret;
-> +
-Something like the following reduces duplication:
+-- 
+Regards,
 
-	ret = regmap_update_bits(st->regmap, MAX22007_CHANNEL_MODE_REG,
-				 MAX2207_CH_PWRON_CH_MASK(chan->channel),
-				 MAX2207_CH_PWR_VAL(chan->channel, powerdown ? 1 : 0);
-
-
-> +	return len;
-> +}
-
+Laurent Pinchart
