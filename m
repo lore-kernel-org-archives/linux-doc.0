@@ -1,49 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D2CB640;
-	Sun, 11 Jan 2026 11:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44A95733E;
+	Sun, 11 Jan 2026 13:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768132228; cv=none; b=M8Dwg4yAlnuofz8eGrupdLSgSiuxl/LhXHIbcoJpvyqaOUPd9s0ovbIkDatVOrwrhpb3G69c9q8KXOft5PLE7m8EF/jBlI7Yot8c1bD7QPnPau+36kKIERM157vfZtspbCDwksddxfhk4Bn79p5SyyB62fXUBtCTqPYTawls06k=
+	t=1768138271; cv=none; b=kKHqqdXC96Jbg9QSN05bQI0qTdFYC6Pw/eAXgfJ8dwkRVJuYFg5fAVfbi8pbxYO2zFPEsE35HJY+Z/JUc/kxHVSAp9M5iCcg8M5habVrBcoRNC+rK1K5yfyKl5wNS4yXvapEm985Sk9hrInpJpX893+dEMdGBgAhE3z4LS2d9HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768132228; c=relaxed/simple;
-	bh=Wg3jSS2kMxPrmU0o08gArXQ2MGtq9XGcdEdlPy7k3F4=;
+	s=arc-20240116; t=1768138271; c=relaxed/simple;
+	bh=uJTd7kFm97ysrHbAQxlYp70ciFdNweAT92HwAYaSzBM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LY6cF7H5Y23phsv+lzsE98wZzzvomUb6Uw7P5qrL9D5EpZpbn+Yj1Mch8o4JzWJdZQP/0h+o8bYJ8IxaPFZPshDFCuF0betTf1K3RzMb1+704UIGLGmrEhklF8rQblz+aU2K3ev+ookAYhv/Hc73Zb3MSF6DgYTemnydWSm7LcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MxOO2JSH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Rr0Hag2kbe88PYaILQLssNv1HP09XbQUFenh49LrMDx2knnQN5l7RZIn24WQyut8gIR7hKi25HrBP425muwOIj7xjagUfR/vzxG5QrCHJuGeCDFnehMXtDG4FDZDRFqFKNvq0C4C3suCmdksvqbiZJ/94/rEw8tXlt+lML8ii/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ayyp50it; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MxOO2JSH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8910C19423;
-	Sun, 11 Jan 2026 11:50:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ayyp50it"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F9EC4CEF7;
+	Sun, 11 Jan 2026 13:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768132228;
-	bh=Wg3jSS2kMxPrmU0o08gArXQ2MGtq9XGcdEdlPy7k3F4=;
+	s=k20201202; t=1768138271;
+	bh=uJTd7kFm97ysrHbAQxlYp70ciFdNweAT92HwAYaSzBM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MxOO2JSH9LLnkZMhyKpOvg5txIy3KJ5GyZiyZEflZIsp9pMNPvWsuTdVsJ35+DF7P
-	 cioTtQxDtkH97JkBQ+/14bXEvc17PZk8kj4pqmCr33VGrCWx0l8hVMzMsoV3dobbnH
-	 Ruu+/ygSfIr1DMUQd/Y8Y/MycLpbRJExcSAA5Qeceob7hA8lmhovzZa3ejJG/kd7pA
-	 aEgsfJS0RvnvRrzaMkbekb39HhhQpHxef//lvrUFJPGaZIV3svcNuUflY2kNv8bDCK
-	 a6Q0qeHgfFq5BJdJD5DX+f/ucK1utyr7Xo3ZgO57UV2vHtYTs7eWvcu5r+CfbJ8+ca
-	 0wmyJFJjUorKg==
-Date: Sun, 11 Jan 2026 11:50:17 +0000
+	b=ayyp50itSwYXQw8Sd/9sGJuZ+v2Z5H00ftnmiwRFRXBD03QAUZWsGsLVWGt3ygh52
+	 2K/CcWPTxkRHse2XLDvLq5HubAm5eweuk06VmgvhJ23GD+owi+b2XdX32O7IvUPEk8
+	 X/HZdJMmznGL7WUvpzvRmV+lSFLTnqVYYqfgucQSZaLgu8vyH4Xvtq9FMwMlKSPWSG
+	 oP71FgVXghtnOyAHj0gINcT9lB0aMb1Jls9dEIHoNRBtpCTmeSnoJxVveCUWtea1el
+	 u31UAEp/lmeq4tu/Qok4yAjLjD/KYhW+2T73i04sD0dpbVem7SNgN480wSaelBXfiu
+	 gpwhAiCv4tG0w==
+Date: Sun, 11 Jan 2026 13:31:00 +0000
 From: Jonathan Cameron <jic23@kernel.org>
-To: Janani Sunil <jan.sun97@gmail.com>
-Cc: Jonathan Cameron <jonathan.cameron@huawei.com>, Janani Sunil
- <janani.sunil@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Alexandru Ardelean
- <alexandru.ardelean@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, gastmaier@gmail.com
-Subject: Re: [PATCH 3/3] iio: dac: Add MAX22007 DAC driver support
-Message-ID: <20260111115017.62802a56@jic23-huawei>
-In-Reply-To: <013a144f-101e-49dd-9865-79dd6181f43a@gmail.com>
-References: <20251219-max22007-dev-v1-0-242da2c2b868@analog.com>
-	<20251219-max22007-dev-v1-3-242da2c2b868@analog.com>
-	<20251219172510.00007208@huawei.com>
-	<013a144f-101e-49dd-9865-79dd6181f43a@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+ andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, tomas.melin@vaisala.com,
+ marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH v4 2/2] iio: adc: Initial support for AD4134
+Message-ID: <20260111133100.373d9b92@jic23-huawei>
+In-Reply-To: <aV6IP3T3Q3z3aTVa@smile.fi.intel.com>
+References: <cover.1767795849.git.marcelo.schmitt@analog.com>
+	<6ae8e203f6fb6e9718271132bd35daef790ab574.1767795849.git.marcelo.schmitt@analog.com>
+	<aV6IP3T3Q3z3aTVa@smile.fi.intel.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,53 +51,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 7 Jan 2026 16:28:31 +0100
-Janani Sunil <jan.sun97@gmail.com> wrote:
+On Wed, 7 Jan 2026 18:22:23 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-> Hi Jonathan,
+> On Wed, Jan 07, 2026 at 11:47:59AM -0300, Marcelo Schmitt wrote:
+> > AD4134 is a 24-bit, 4-channel, simultaneous sampling, precision
+> > analog-to-digital converter (ADC). The device can be managed through SPI or
+> > direct control of pin logical levels (pin control mode). The AD4134 design
+> > also features a dedicated bus for ADC sample data output. Though, this
+> > initial driver for AD4134 only supports usual SPI connections.
+> > 
+> > Add basic support for AD4134 that enables single-shot ADC sample read.  
 > 
-> Thank you for your review.
+> I have been on a few weeks leave and do not remember much, but it looks like
+> this version has all my previous comments being addressed.
 > 
-> On 12/19/25 18:25, Jonathan Cameron wrote:
-> > On Fri, 19 Dec 2025 16:31:17 +0100
-> > Janani Sunil <janani.sunil@analog.com> wrote:
-> >  
-> >> Add support for the MAX22007 4 channel DAC
-> >> that drives a voltage or current output on each channel.  
-> > wrap to 75 chars rather than 50-60ish  
-> 
-> Noted. Will correct this.
-> 
-> >> Signed-off-by: Janani Sunil <janani.sunil@analog.com>  
-> > Hi Janani
-> >
-> > A few minor things inline.  Also add turning on any required
-> > power supplies.  See how other drivers do it with a single call
-> > in in probe. If your board is using always on supplies it will just
-> > work as a stub regulator will be provided by the regulator core.
-> >
-> >
-> > Thanks,
-> >
-> > Jonathan  
-> 
-> Will take a reference from the other drivers and add the power supply configurations.
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+I tweaked to drop the explicit bits.h include and applied to the togreg
+branch of iio.git, initially pushed out as testing.
 
-Hi Janani,
-
-A small process thing you should take into account for future replies.
-Generally kernel mailing lists are very high volume with a lot of review
-feedback. As such we tend to go for a balance of efficiency over politeness.
-
-So when you agree to a particular bit of feedback, just crop out that
-bit of the message in any reply (if you agree to all of it no need to reply at
-all!).  That lets us focus in quickly on the bits that need more discussion.
-
-The politeness bit is resolve by adding a thank alongside the change log
-in the next version.  I end up sending this message to someone most weeks,
-so don't worry about it!  It feels unnatural to all of us initially.
-
-Thanks
+thanks,
 
 Jonathan
+
+> 
+> ...
+> 
+> > +#include <linux/array_size.h>
+> > +#include <linux/bitfield.h>  
+> 
+> > +#include <linux/bitops.h>  
+> 
+> > +#include <linux/bits.h>  
+> 
+> No need, as bitops.h implies (and guarantees) that BIT()/GENMASK() are provided
+> with it.
+> 
+> > +#include <linux/clk.h>
+> > +#include <linux/crc8.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/dev_printk.h>
+> > +#include <linux/err.h>
+> > +#include <linux/export.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/iio/iio.h>
+> > +#include <linux/iio/types.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/regulator/consumer.h>
+> > +#include <linux/reset.h>
+> > +#include <linux/spi/spi.h>
+> > +#include <linux/time.h>
+> > +#include <linux/types.h>
+> > +#include <linux/unaligned.h>
+> > +#include <linux/units.h>  
+> 
 
