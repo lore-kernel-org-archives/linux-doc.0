@@ -1,66 +1,66 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F3134D900
-	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 18:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3071534EF14
+	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 18:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768155877; cv=none; b=nHmFuOq1wlF5BQSibjYA2OY8Ixrw3m0O5scSTXiythNJj8uEmjunMTM9oVLjdIiDhKyszBOBIaX3svWYmoNquHeO00DALJ4Jx+qQRxYcWrWgMj5wkMfuix8RjC2kxNscwLIVkaE67WNA4DdFWxnb0Snbh4+CUxcPEly75+XBULE=
+	t=1768157606; cv=none; b=IVhTCGeSl1pzrQiwuIrN1Wv8ws8nsImOuwIbaKkwX1zndrJ3wWa8gG1f+ZOlOxGJZnRrWhCPpCITDseadJ4FbyQ4YjuFp6DznqMpTGbWATM1lmVnf2JnoNLEfJJrH4gwJQJ5yS48k0FXVKY04dIeb8gm/p8nOE3MZ2Naq9phMjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768155877; c=relaxed/simple;
-	bh=wuZGY6SRlUzNFhhRYK2DoKN94QfIw6eNulOP0xDDvY0=;
+	s=arc-20240116; t=1768157606; c=relaxed/simple;
+	bh=bjkXAEN8Y+D7IMRxZaq/hvH2dXf/omJq+KCOtFcy/ws=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IPrGRM/XL0Muw7FqNiYhUm5IMv/3jtFFVi6vPLbKBhVgKZITcDIxdGmtcqEHlgzmp03As1Dvnic+VqO8JuK3Ot4kkFGTsHS8jvbFsmwRf8Ur8rjvnL4BKI1zvT7pwJjRoOzMZLTmiJTe8DnlL+JIQ4XjrT09jF226DJCUZqSSJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fD6DZ4g7; arc=none smtp.client-ip=209.85.160.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=GpUDQ17rQqEMjrN+QbzZduIg39yiGZP7nXVhNB9q8U2RcAaa+4M9KtTYNrL2qiar8urhrcNPBMI2scYKBvUloDJfZRMyGPIaDnR1kMYrj/U2RYkUD1iK0TwosWIle6xcfFPDk7dDH/IrDjAHzr2ZOfsY7N8Dv8HZaRfBhzqgy24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F63BRgnI; arc=none smtp.client-ip=209.85.160.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fD6DZ4g7"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-3ece54945d9so2098903fac.0
-        for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 10:24:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F63BRgnI"
+Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-3e12fd71984so4123923fac.2
+        for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 10:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768155872; x=1768760672; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768157604; x=1768762404; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R+GSc2GBWlyyKLR953NpzcUC6v/+T5KZ51y3NFrwZfA=;
-        b=fD6DZ4g7gNAjBngOltJ00A8QVXfV02G58R55KJB/NEcXZw738j6DJIKDDzlr1wVvdi
-         0S2wcMcX1vEiRATRpyEVPjF2tn277Zqrw8+342E8rm+WlXB1mQ45dwujuTfdHcGonnc1
-         L1L8LGOQDBH5rnrEzH5WfPv1NM+RtPKoTOmf1n3zIOFzv7NDjstCDKveuMSHaYkIGf+G
-         JJmDwh/qXfqHwtHr/v+/r1zfKJIYNfwJ2XgmBD+QndIxpQe8ioSAtz3ezVwDkrRNHRDW
-         wOEY1V73tcV+gpWguNsaSMGS9nVNOB00tcki+vp7YnYvYv53kIglsl0FMsmdHVIOeuZV
-         jFKg==
+        bh=vTBNax6FoYZ8tcOGsMgyI0isYvrnMxJ74iIpUsR2X1Q=;
+        b=F63BRgnI+OUmaOB+0+k1IxNZ3TWWLFmBQlF7fxrgy6Znr2JbqRJG3Kblt1RQxBBzql
+         PCYWGSFEtrqc+luf+2yh1ZrIlGwgkK+aeMUL0iWTEHZy0iQq82WqHCdBMuqOLctTZRbw
+         8hfPztQY3xwKs0a3QyBmF9wtKfW6k+IYhltm2JMhk/Mm9UeT6BLOQ0VRy0pgPyAHV6TM
+         GuCt4hDnLTewylGhWscOFSylfWBkMTgTC69xcSYsEF94qOdK3E4Jm0R/Vb4XQIXwqdTj
+         pyOay13vf52fwuAX5UT/iavS70M8CEWbgqu2EBm2piRf8NX6Ek5ibiSC5vV/curN9Is/
+         jBng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768155872; x=1768760672;
+        d=1e100.net; s=20230601; t=1768157604; x=1768762404;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=R+GSc2GBWlyyKLR953NpzcUC6v/+T5KZ51y3NFrwZfA=;
-        b=ppQQYQaX8kEyMjrgQAXlllEFTxGEmy3f9J45QRbLwJQkuRF3qRJ7hC73KvnV0akJ3R
-         m7aTrfZ4LkdGE8sRbDhyB+EjlM0OwTTA+KjIGpnQNEnLW0/DmenfzqrvoLPN1zJFUaAU
-         oGUkYI06AfGRMRvfBApGWRTW033iPKKvqIkIMRq886jXwmtj8o9IKTgyya+24Xn8dbPK
-         6+KMe/cIrd0fXuyqAOn0vzG41sd7APZKz/7liIFtF5ioUmHnFQ0mVjX/bqSsJscVbCjm
-         ZRpIDiNyKvaNlSNBMbITbCa3BKye4vrDO6bMlpDb5aL3mm/azicsF38sd19QIsbKcGdU
-         tZRg==
-X-Forwarded-Encrypted: i=1; AJvYcCUroi9tZajrofFhcTkwBpzEdi3GuuEeZ/9SloBe++KWLDwC9UM4EqtcQoE9fRAudlTNxAcfsxZ2Beo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlwMGOcahhplYvB6PybnXiEiuhAiCcuatsSroM/V+daTSbGm/b
-	L53llve9ujfWBM+rZfyqd2LiH+ivPp4tuzgIzuQIOrsvXbU5/CF3K+cl
-X-Gm-Gg: AY/fxX41QG4Iu+O7HfspumeanFufDHHYxzrJo1e7HH7VvvC0gYwzzOK8e8OzhFoqa+8
-	O8K7bKPzzx7ijwZc3ci13LzBHCa719pcgIwdYfeeKl81ceWERMNkSbsAYa2Tw3jFtzXlp/GvfI/
-	EDmE1T0aFKhr18pcLtRgQn2SrlFbj6ARQsL8SEkEynPNynFxH2H7WLWxZKn0VyLTETmAGDbww6f
-	sRiMpEzBcTcztwkFJQHZZL6XdfbV0ORJ+0EzvDe67wERMPA2sPckP7yd9r4WixVhkztdvcMRbjB
-	KcCYh5/n7WvTgiIFi7QbkPn/OGTGERspA6K931bQgpN5m2SW3z4Xf1aNJzVafUxHcDsIeIlGCJp
-	hhf4CcnDBhLcWpQYtBPt4jn5ttiWzcDC8Q8T3BRkgbBwULYwX2kKFDev/nh8T20ZuQb81JPhNoy
-	VAS5cy595Y528QD3wBuNXB/TpJGCaU8w==
-X-Google-Smtp-Source: AGHT+IEvvggI2mJmOtqFQTAS39y6eV7fvRie7hl/ldDRYe8R5GovPjr7x7SyKxaIKesqgZD+L7TFNA==
-X-Received: by 2002:a05:6820:1694:b0:65f:6601:b342 with SMTP id 006d021491bc7-65f6601cbd8mr5456330eaf.7.1768155872287;
-        Sun, 11 Jan 2026 10:24:32 -0800 (PST)
+        bh=vTBNax6FoYZ8tcOGsMgyI0isYvrnMxJ74iIpUsR2X1Q=;
+        b=rcd1kxD62Typ+pWzMY2KsDbXlx2rkwqJZkAou6lJ7VJizgBZvXAf/y92xF7/x3Xtsj
+         7Opxn32s9W/3qD6FlEofctIAGfCUXqyZbPtCV2RN1LGUD8PNuOZ8Wxp/2emqysHNmpXD
+         tgt9YZ0Uxe+NKYkhZEyTLdUJA6WRNPE0gJJpM/UMiNM5XnuFEOnlQneL4D0FaM62WsVi
+         JJgqHNUOUgPpcrhn9/VRlCETdTTMOfe41I1Rm8vDfkJ8DrskvurxOLjH0Gm6FgeP7bdA
+         +qr7p8L1esg4W1iT4eQToHxtTbzJ/L6JmIfR+DjH15OmusxoLPYswspi/z1w27UmiaCC
+         jWsg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQOXD/RpQ5/tZ2qQsMY65tUYbTg4HrHuprG8HdV8l4t2KkXe3mj0vdiksga19jK3AEtfMHpiG5/IU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkdJak5BOLoLgVyJ8gc9fCX+ZnOO/0CT/2nE/wt5F5rfuZFVfQ
+	iU19IJG360empFXYtpKkdZ4C+kSBO5aQxSLI3stBEc0UuULFhnudMC1a
+X-Gm-Gg: AY/fxX6zxSb5hZq2uTkVA1JFwiFoDHFc+zKGn0tuM0bdfgfwFNAYiVgWxcWXvZCtOIe
+	d1Vqa5cef39jnueuz06bDW1mu6NpA2MDcQ3H+T9iHwu8T8rgB5WRmZSdMYSERJ2ciRzcIl5M2g4
+	TYpbEva1tCZWFQoe22Lim2PlwXLkMc65vfldF7mbi7aINL6NO/FA22fSVMFWMHA+hvoyY7YirAC
+	IactWZYHqbCCSO433mPWLDo40R30JT5NPRPlw9ulu7PSZdr/Me9Czv8PalPh8xB80OxdRcaCmwM
+	nSsbjQ+7AmeRqjfu75xXykwEvjwZpxQeoVkvp+ypyLKM5qJBW2XS95ToGmjyhWCIM//pPXsgT/U
+	eODfTqqhG2n7yF0rzoxzAUOwdGdDfsbXJuTARLw+QRqesVb/0MokOUcKYTw3twT7kNzDbSZ9r/b
+	mAzNekS627Gx4ZyipdOgu0E+1aD3AnZRvXo6EwbXEH
+X-Google-Smtp-Source: AGHT+IFCDAYjOU7Tv/QzCofEX4QjQQf7VTkE0/1bWiSzEnwsQJCLaG0COOECS73BVhT6La3jE2HlAQ==
+X-Received: by 2002:a05:6870:b525:b0:3d3:5ea0:5dd3 with SMTP id 586e51a60fabf-3ffc08f67c1mr8587303fac.10.1768157603977;
+        Sun, 11 Jan 2026 10:53:23 -0800 (PST)
 Received: from groves.net ([2603:8080:1500:3d89:cc0c:a1b0:fd82:1d57])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-65f48bbc0desm6567999eaf.2.2026.01.11.10.24.29
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3ffa516150fsm10835406fac.20.2026.01.11.10.53.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jan 2026 10:24:31 -0800 (PST)
+        Sun, 11 Jan 2026 10:53:23 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
-Date: Sun, 11 Jan 2026 12:24:29 -0600
+Date: Sun, 11 Jan 2026 12:53:20 -0600
 From: John Groves <John@groves.net>
 To: Jonathan Cameron <jonathan.cameron@huawei.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, 
@@ -80,12 +80,12 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
 	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 4/4] fuse: add famfs DAX fmap support
-Message-ID: <2mr7vou7zeauqypqq3xay6wdmc6g2havk2e33cfphwylu7dnit@qk32hbe7zgy3>
+Subject: Re: [PATCH V3 21/21] famfs_fuse: Add documentation
+Message-ID: <2v2f3kfrbjolx3gaeo3273beah4msor6vpojusrf5ekd4rg7rf@tgnvcuxh3sgo>
 References: <20260107153244.64703-1-john@groves.net>
- <20260107153443.64794-1-john@groves.net>
- <20260107153443.64794-5-john@groves.net>
- <20260108153148.00001e63@huawei.com>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-22-john@groves.net>
+ <20260108152713.00001b42@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,56 +94,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108153148.00001e63@huawei.com>
+In-Reply-To: <20260108152713.00001b42@huawei.com>
 
-On 26/01/08 03:31PM, Jonathan Cameron wrote:
-> On Wed,  7 Jan 2026 09:34:43 -0600
+On 26/01/08 03:27PM, Jonathan Cameron wrote:
+> On Wed,  7 Jan 2026 09:33:30 -0600
 > John Groves <John@Groves.net> wrote:
 > 
-> > Add new FUSE operations and capability for famfs DAX file mapping:
+> > Add Documentation/filesystems/famfs.rst and update MAINTAINERS
 > > 
-> > - FUSE_CAP_DAX_FMAP: New capability flag at bit 32 (using want_ext/capable_ext
-> >   fields) to indicate kernel and userspace support for DAX fmaps
-> > 
-> > - GET_FMAP: New operation to retrieve a file map for DAX-mapped files.
-> >   Returns a fuse_famfs_fmap_header followed by simple or interleaved
-> >   extent descriptors. The kernel passes the file size as an argument.
-> > 
-> > - GET_DAXDEV: New operation to retrieve DAX device info by index.
-> >   Called when GET_FMAP returns an fmap referencing a previously
-> >   unknown DAX device.
-> > 
-> > These operations enable FUSE filesystems to provide direct access
-> > mappings to persistent memory, allowing the kernel to map files
-> > directly to DAX devices without page cache intermediation.
-> > 
+> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
 > > Signed-off-by: John Groves <john@groves.net>
-> 
-> 
 > > ---
-> >  include/fuse_common.h   |  5 +++++
-> >  include/fuse_lowlevel.h | 37 +++++++++++++++++++++++++++++++++++++
-> >  lib/fuse_lowlevel.c     | 31 ++++++++++++++++++++++++++++++-
-> >  3 files changed, 72 insertions(+), 1 deletion(-)
+> >  Documentation/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++
+> >  Documentation/filesystems/index.rst |   1 +
+> >  MAINTAINERS                         |   1 +
+> >  3 files changed, 144 insertions(+)
+> >  create mode 100644 Documentation/filesystems/famfs.rst
 > > 
-> > diff --git a/include/fuse_common.h b/include/fuse_common.h
-> > index 041188e..e428ddb 100644
-> > --- a/include/fuse_common.h
-> > +++ b/include/fuse_common.h
-> > @@ -512,6 +512,11 @@ struct fuse_loop_config_v1 {
-> >   */
-> >  #define FUSE_CAP_OVER_IO_URING (1UL << 31)
-> >  
-> > +/**
-> > + * handle files that use famfs dax fmaps
-> > + */
-> > +#define FUSE_CAP_DAX_FMAP (1UL<<32)
+> > diff --git a/Documentation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst
+> > new file mode 100644
+> > index 000000000000..0d3c9ba9b7a8
+> > --- /dev/null
+> > +++ b/Documentation/filesystems/famfs.rst
 > 
-> From the context above, looks like local style is spaces around <<
+> > +Principles of Operation
+> > +=======================
+> ....
+> > +When an app accesses a data object in a famfs file, there is no page cache
+> > +involvement. The CPU cache is loaded directly from the shared memory. In
+> > +some use cases, this is an enormous reduction read amplification compared
+> > +to loading an entire page into the page cache.
+> > +
+> Trivial but this double blank line seems inconsistent.
+> I don't mind if it's one or two, but do the same everywhere.
 
-Fixed, thanks!
+This doc is identical to the the previous series, becuase I kept the Reviewed-by
+and Tested-by tags from Randy. I'm happy to remove the extra blank line if he
+or somebody from the doc team thinks I should.
 
-[ ... ]
+> 
+> > +
+> > +Famfs is Not a Conventional File System
+> > +---------------------------------------
+> 
+> Nice doc.
+> 
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+Thanks Jonathan!
 
 John
 
