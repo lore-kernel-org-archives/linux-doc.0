@@ -1,53 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F8D883F;
-	Sun, 11 Jan 2026 02:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A396750097C
+	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 02:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768097572; cv=none; b=jRFR4rO7ijWkFr2L+3LFd0GySKPHxm2YpBgECmPZgLFvEcCjLayax9OcwxnbUhnA/K4MLrbz3M6kGd+i++bxg7d/YdtVPkbret1pHPA5/0m7x/UD2qMN0WF/C/Dhf96ffa0TH9JqaWuEiNTPyqvPLPCR9LClNl/7GgONoWRZXms=
+	t=1768098851; cv=none; b=HJXBaAtRZU9/xK/NZPan+8Rz/dQC5TTOqptzlCTDU0nHps1gyHbwzMoJMNg6qLTo4dwekSwLS16NilXUJGYf/yh+v1GTkVTCn6efndbin+A0AxHrw5nLRC6IHuqkAjfWPREM0TLY9fW9BBn6hvdSQaVzbcIPVgTKECHp4A/5FiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768097572; c=relaxed/simple;
-	bh=lKv7dTKmsmPzbUbXlyvG4jikBT3XnIDEBzDSFJ5GSOw=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=sM873mK7yWfc+LEjQ7V3gqLiL0/igrq05Nlx8xdjn/xyLvpLDorSWiWiAixGht9ki/bI7gC9KjHz4NqWoq9U0qo3xR+DKzaZdCYqKDLojFDfv5SFeZnm0PO8cAN/WKWhBTYxGZbWSMR8Ez8c9DmyfCj18tFcHxsRqw3oTHSAkmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=0KUqpSQx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768098851; c=relaxed/simple;
+	bh=1tAaQXrIYqNpj2r3re8ZeoXJAV6vsTbX638Bdh1ZBZs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TEdUw/6rf93QfBNkEL5GLT+IZB9QoAsWlqHubfVRv7F0iY2Vb0E3zz2aJRsPzIm3ttSsrV5f4zFBYgL2QtQRQx/pyAN6lmwW6SisJ1iXWK2EcV8v1yj2/1wXb7XEZyGqNNyoOvf6yXcv2Z5O/8Pvy9BeIcxOJ2kr4tgl+4Z4690=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LeS/cM1u; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="0KUqpSQx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99609C116C6;
-	Sun, 11 Jan 2026 02:12:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1768097572;
-	bh=lKv7dTKmsmPzbUbXlyvG4jikBT3XnIDEBzDSFJ5GSOw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=0KUqpSQxHtzpnLJPWAGB+So7Bw/iZVr7fy5J0ZRU0Cyo1jdy+nEC3toM6g64FvHk4
-	 VDgF3d7447QzWOBU3g5WmLRsZmGXB8TvEYlEjYuekV/uq8TpCdnEzQ7GOqNhLStwCN
-	 wEnUb52wC8HgIZgDz0V/JA5SkIkptBkWXfOMTHns=
-Date: Sat, 10 Jan 2026 18:12:50 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LeS/cM1u"
+Date: Sat, 10 Jan 2026 21:33:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768098847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/cq7IxD3DIIiFhsSmoe0bARTECHzyaMLAvMPQNM/M/A=;
+	b=LeS/cM1ugGnb/f5grZFTfWuOJNPjVbdRFcUPGaJoXQLwKCq5DRHYdbj0rVXizu1q+oMOny
+	T4P1LJHup7Des3tQiG7UQORjN/zkmkZCra2ZWzG6O8jTRw7zPonueYqFLKVwhRPmYS3F+f
+	UceqMSYahPgoeXUNsiyl1ZmcsWGviMs=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
 To: ranxiaokai627@163.com
-Cc: surenb@google.com, vbabka@suse.cz, kent.overstreet@linux.dev,
- david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- ran.xiaokai@zte.com.cn
+Cc: surenb@google.com, vbabka@suse.cz, akpm@linux-foundation.org, 
+	david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
+	rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, ran.xiaokai@zte.com.cn
 Subject: Re: [PATCH] alloc_tag: remove sysctl prefix from mem_profiling boot
  parameter
-Message-Id: <20260110181250.429195a2afa08ed61b5bbb4f@linux-foundation.org>
-In-Reply-To: <20260109062419.157284-1-ranxiaokai627@163.com>
+Message-ID: <aWMLQkvushKidjQQ@moria.home.lan>
 References: <20260109062419.157284-1-ranxiaokai627@163.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109062419.157284-1-ranxiaokai627@163.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri,  9 Jan 2026 06:24:19 +0000 ranxiaokai627@163.com wrote:
-
+On Fri, Jan 09, 2026 at 06:24:19AM +0000, ranxiaokai627@163.com wrote:
 > From: Ran Xiaokai <ran.xiaokai@zte.com.cn>
 > 
 > Boot parameters prefixed with "sysctl." are processed separately
@@ -59,7 +60,15 @@ On Fri,  9 Jan 2026 06:24:19 +0000 ranxiaokai627@163.com wrote:
 > the sysctl.vm.mem_profiling entry is not writable and will cause
 > a warning. To prevent duplicate processing of sysctl.vm.mem_profiling,
 > rename the boot parameter to "mem_profiling".
+> 
+> Signed-off-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
 
-Isn't this a backwardly-incompatible change?  What happens to existing
-steups which are using sysctl.vm.mem_profiling=?
+How was this observed/detected?
 
+My reading of early_param() would seem to indicate that
+setup_early_mem_profiling() is getting called at the appropriate time -
+and then additionally a second time by do_sysctl_args(), which then
+becomes a noop.
+
+So the only bug would seem to be that the sysctl is not writeable in
+debug mode? There's an easier fix for that one...
