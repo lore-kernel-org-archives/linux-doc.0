@@ -1,260 +1,190 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBB122301;
-	Sun, 11 Jan 2026 18:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA9134AAE8
+	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 18:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768154857; cv=none; b=lRId+aHGeoqaQEE8FoJorTHSwWMBBxFB5fO18ihVHik0U1GpBJEp/ZihytT70afpEhGccTj3jN1pT3mlzqDGf0EZTP3r/9LUEUDifwQOtdm2MevlGq5bNwfTj5tsZkwiPLiU7zd5z45QYfaADXrrcLwNcV44xFiiObZG6QZCWmo=
+	t=1768155658; cv=none; b=o2jwyKllMBQ67lcpgfpeEYVulHKu32sxRAxojjyACvF8BvQmLilV41D6vyU1VC3GDe7Gcjs9SmpYsKPwwtkUk8HJ2EWGticQzE0KhtMyrZXb+S7IGbvFdzd/CIWvH1SWMcPd+HscYAQXjlHOxoRFUOW9MR3UXm7Np/qK/np2GJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768154857; c=relaxed/simple;
-	bh=NsknNqSHr8d8pO18ghs4s54CCI6B/BLsIrzwFSbOocw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PFmS+zs3az6NAdAjF/ohNP3j/OxRoilXcnVGmnue7qkVYL6yakqKSBWsk4et3cknYsdVZ3yHDYXGGpyXEyX4pxvBlCOlQEvNhZ/P7iqIF6JyEN8PwKgM8ujj/5UOO3mwwjNmJe53siNZEtY+JAtGamqDsHcwgZn1qilSHWUnS2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0yNB6k7f; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768155658; c=relaxed/simple;
+	bh=SfJrpqITJBqj4x70TkdEEHD+PTaX3wfXpnudD6F/P+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2mVKZNd5IUBgzPi26aoKtmMOdySxoVaOMQBDivhjFI2kilXO3kBnRijon8kMAfJV2yfzdvZ3Iu5s9bljdTeXpeU0hnUrLdEDOsP6S/ELIyKUElcEVMqD/EIOd3hbcH7Fd1HIWjvJyTzJuEVqG6gGmQUOEApvDXMpJKu+Se8jzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vk8BDJyt; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0yNB6k7f"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Q5Lsdw/XHfuO9M4cQCgnF1jhX8i1vIfHYOW7MAtJJKQ=; b=0yNB6k7f3OhvI0EV7B9p7lZb/4
-	7DgJ42UFTs00CK0u4vjer4f7MLbWbf/XIWfnIIKPpGlYNs1gkq3IWylYfTXJfkLo6IEBkqo1RBvcX
-	MqRxD5TVKJ90Oyx1RLJAOVUqL+xiTl14vZvMspfPzlnWad41tS8f/bi3VZ0lJ7Vozgcfj1MAxDvwE
-	l5SZy4q0DQJaRGubqP9//hjikrDNghsfhttyxXjCxUOg/LBxrhZ0qWKqC7BD0aQbLYgF2FW+g+NR2
-	dalEEbwIb4TCCOde9/0FKZMLleH2mg2R4LwkuPRMACGy0GI1NcEq76AAC+Ip8wq7bPAAHAnDOhIb8
-	jTUEppHg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vezqd-00000004PLT-1mUS;
-	Sun, 11 Jan 2026 18:07:31 +0000
-Message-ID: <72af806c-af36-473a-b4ea-f9ce0b647d7c@infradead.org>
-Date: Sun, 11 Jan 2026 10:07:29 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vk8BDJyt"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7cdd651c884so3445486a34.1
+        for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 10:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768155656; x=1768760456; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aG932MlLjzhGpofJfS2a1eVc1D6C7IY/5zvR3Bf/EEg=;
+        b=Vk8BDJytITL52k/twKBejCOnAi85Zm5p3Idlxo/DARGlst9sPFjlIxkl8x21IsSIaM
+         jjeuOSjfR6lF8ZsTQ0V6fNNTRKKe2zaD7G3295QOESemB1pnX44uWGqhFJwnObws339h
+         yzzPDXcNrEGM5bP9a38gy4YBT0PNDVADPGc4f0VZp3xXKNbbJKb54PsX9Kj5cSSlyzdS
+         YtEDbDNLJBwFKR25yV25IKMN9IDGFG+H9wqN23AOgWOpf+dqzmR3WWTGWBNVcpPeboov
+         kDvnatondonea20LxKE5CI+I595kyYBwlWF83tIxkoifUZ29XmdEbjDckhYJ2EH8ANVn
+         Vzyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768155656; x=1768760456;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aG932MlLjzhGpofJfS2a1eVc1D6C7IY/5zvR3Bf/EEg=;
+        b=DDbkjqLsb2hahx8BXk+Ur+k4PwDVlgZ8aW3Xuf8vakt3zp066CcxDK6pd4Kyttj5+O
+         RrIyC7a4SaLxSKQCf8tGPcgxXakjBCZzs7W2A97TpRG6BxnpfU27ELHUpK1DQs9RGX/+
+         Z1Qgkg/zKpxQL1ydd4kQNjRmC2XAwvMU7utLE7zrPBzu0zp9yKPMY/3CKS8fnvi6g235
+         s0t1OtQg9hjCN0/J4G0z1MYloLjM7ta3p4lXneFuCnQNvR89Ql3iIrtWFzslZmWwM5XN
+         9OVvxRXaR8ye4kQPgYVOlxSQjl1jRzsKBjyeczkVrkTWs+wga9UrwPg/1W5VuTQjUeZY
+         3F5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWbO9lmWcVYgutIY8knQtKaPZn3OcGvKEvlzGVUYhi4Ma5MznWawaLZmQ3yLQ5dySXpHe4kHxKY9d0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOzUFKYRQI6heiHjLpnFiTvYj2ABZ/bSEtA5AKTJqMdd1GnTwm
+	V549xBZ8fpKGXvXu0GHmXWF+4F9qrgn2zF845q0RmYqC7m2v5VDZ1JoQ
+X-Gm-Gg: AY/fxX4Uw09t3nimM04Pf78wwyE162Y2+Y8+o4cooiUbfZbbN2YB6zcW8Ty27vXNw0b
+	cjUdpEUwNg3EXI1SqBp4neLIXYBXelPbBeWrQ1NTWeul/k/yfmYGfbfFXA5nEszDO5aAQ/TJY63
+	DQtrtP6vsb8kOsmwgWgotONWZMZkvgzNduPZKkRWYtrnYCYStQoXzRGDRuJq84luT+YZh0fJZXk
+	JpRtbDUgj4d4THCahncFQflsWDDKQGxIH3GMfVPHnfq6EyQeq3Trj3gUL2bawRRxJkMRGH9E445
+	CmOXT9z+K5JYjVCH8xk8sByj/w1+RBK312F3FjLnbWksKVdRasRGRfj+WxRLn4/Qnq+RiBeoyXu
+	AsqMIKPHKGX7zi1eI2qA5idR/wjb2PEzGnxvSjZvYF2vX/wc1srGfmB1r62XM3k1/Nb5tI5oCv/
+	Xgg43X1m2j14q3yh6xqe1g1TirQyrM9Q==
+X-Google-Smtp-Source: AGHT+IHYPDXG5/NvykQQZIk8AUunBR9mK2nY0iKcaE8B6ptLkOnehZCDGmGQeG3pX/n8s5ukcPG3LA==
+X-Received: by 2002:a9d:538d:0:b0:7c7:e3b:4860 with SMTP id 46e09a7af769-7ce50b7a52cmr6541341a34.10.1768155655722;
+        Sun, 11 Jan 2026 10:20:55 -0800 (PST)
+Received: from groves.net ([2603:8080:1500:3d89:cc0c:a1b0:fd82:1d57])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfb21a150asm911499a34.31.2026.01.11.10.20.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jan 2026 10:20:55 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Sun, 11 Jan 2026 12:20:52 -0600
+From: John Groves <John@groves.net>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH V3 13/21] famfs_fuse: Famfs mount opt: -o
+ shadow=<shadowpath>
+Message-ID: <fcwsytw5kd44veyzfel3uxwk2xsi4ywcy354s7rwaj7v4okwf7@ou4nmbo6eixo>
+References: <20260107153244.64703-1-john@groves.net>
+ <20260107153332.64727-1-john@groves.net>
+ <20260107153332.64727-14-john@groves.net>
+ <CAJnrk1bJ3VbZCYJet1eDPy0V=_3cPxz6kDbgcxwtirk2yA9P0w@mail.gmail.com>
+ <zcnuiwujbnme46nwhvlwk7bosvd4r7wzkxcf6zsxoyo6edolf7@ufqfutxq4fcp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Fix typos and grammatical errors
-To: Nauman Sabir <officialnaumansabir@gmail.com>, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260111165901.8508-1-officialnaumansabir@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260111165901.8508-1-officialnaumansabir@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <zcnuiwujbnme46nwhvlwk7bosvd4r7wzkxcf6zsxoyo6edolf7@ufqfutxq4fcp>
 
-Hi--
-
-On 1/11/26 8:59 AM, Nauman Sabir wrote:
-> Fix various typos and grammatical errors across multiple documentation
-> files to improve clarity and consistency.
+On 26/01/09 06:38PM, John Groves wrote:
+> On 26/01/09 11:22AM, Joanne Koong wrote:
+> > On Wed, Jan 7, 2026 at 7:34 AM John Groves <John@groves.net> wrote:
+> > >
+> > > The shadow path is a (usually in tmpfs) file system area used by the
+> > > famfs user space to communicate with the famfs fuse server. There is a
+> > > minor dilemma that the user space tools must be able to resolve from a
+> > > mount point path to a shadow path. Passing in the 'shadow=<path>'
+> > > argument at mount time causes the shadow path to be exposed via
+> > > /proc/mounts, Solving this dilemma. The shadow path is not otherwise
+> > > used in the kernel.
+> > 
+> > Instead of using mount options to pass the userspace metadata, could
+> > /sys/fs be used instead? The client is able to get the connection id
+> > by stat-ing the famfs mount path. There could be a
+> > /sys/fs/fuse/connections/{id}/metadata file that the server fills out
+> > with whatever metadata needs to be read by the client. Having
+> > something like this would be useful to non-famfs servers as well.
 > 
-> Changes include:
-> - Fix missing preposition 'in' in process/changes.rst
-> - Correct 'result by' to 'result from' in admin-guide/README.rst
-> - Standardize spelling to 'recognized' in admin-guide/README.rst
-> - Fix 'before hand' to 'beforehand' (3 instances) in cgroup-v1/hugetlb.rst
-> - Correct 'allows to limit' to 'allows limiting' in cgroup-v1/hugetlb.rst,
->   cgroup-v2.rst, and kconfig-language.rst
-> - Fix 'needs precisely know' to 'needs to precisely know' in
->   cgroup-v1/hugetlb.rst
-> - Correct 'overcommited' to 'overcommitted' in cgroup-v1/hugetlb.rst
-> - Remove incorrect plural from uncountable nouns: 'metadatas' to 'metadata'
->   in filesystems/erofs.rst, and 'hardwares' to 'hardware' in
->   devicetree/bindings/.../mediatek,dp.yaml, userspace-api/.../legacy_dvb_audio.rst,
->   and scsi/ChangeLog.sym53c8xx
+> The shadow option isn't the only possible way to get what famfs needs,
+> but I do like it - I find it to be an elegant solution to the problem.
 > 
-> These corrections improve the overall quality and readability of the
-> kernel documentation.
+> What's the problem? Well, for that you need to know some implementation 
+> details of the famfs userspace. For the *structure* of a mounted file 
+> system, famfs is very passthrough-like. The structure that is being 
+> passed through is the shadow file system, which is an actual file system 
+> (usually tmpfs).  Directories are just directories, but shadow files 
+> contain yaml that describes the file-to-dax map of the *actual* file. 
+> On lookup, the famfs fuse server (famfs_fused), rather than stat the 
+> file like passthrough, reads the yaml and decodes the stat and fmap info 
+> from that.
 > 
-> Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
-> ---
->  Documentation/admin-guide/README.rst                 |  4 ++--
->  Documentation/admin-guide/cgroup-v1/hugetlb.rst      | 12 ++++++------
->  Documentation/admin-guide/cgroup-v2.rst              |  2 +-
->  .../bindings/display/mediatek/mediatek,dp.yaml       |  2 +-
->  Documentation/filesystems/erofs.rst                  |  2 +-
->  Documentation/kbuild/kconfig-language.rst            |  2 +-
->  Documentation/process/changes.rst                    |  2 +-
->  Documentation/scsi/ChangeLog.sym53c8xx               |  2 +-
->  .../userspace-api/media/dvb/legacy_dvb_audio.rst     |  2 +-
->  9 files changed, 15 insertions(+), 15 deletions(-)
+> One other detail. The shadow path must be known or created (usually
+> as a tmpdir, to guarantee it starts empty) at mount time. The kernel
+> knows about it through "-o shadow=<path>", but otherwise doesn't use
+> it. The famfs fuse server receives the path as an input from 
+> 'famfs mount'. The problem is that pretty much every famfs-related
+> user space command needs the shadow path.
 > 
-> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> index 05301f03b..65a06f946 100644
-> --- a/Documentation/admin-guide/README.rst
-> +++ b/Documentation/admin-guide/README.rst
-> @@ -53,7 +53,7 @@ Documentation
->     these typically contain kernel-specific installation notes for some
->     drivers for example. Please read the
->     :ref:`Documentation/process/changes.rst <changes>` file, as it
-> -   contains information about the problems, which may result by upgrading
-> +   contains information about the problems which may result from upgrading
->     your kernel.
->  
->  Installing the kernel source
-> @@ -264,7 +264,7 @@ Compiling the kernel
->  
->   - Do a ``make`` to create a compressed kernel image. It is also possible to do
->     ``make install`` if you have lilo installed or if your distribution has an
-> -   install script recognised by the kernel's installer. Most popular
-> +   install script recognized by the kernel's installer. Most popular
+> In fact the the structure of the mounted file system is at 
+> <shadow_path>/root.  Also located in <shadow path> (above ./root) is a 
+> unix domain socket for REST communication with famfs_fused. We have 
+> plans for other files at <shadow path> and above ./root (mount-specific 
+> config options, for example).
+> 
+> Playing the famfs metadata log requires finding the shadow path,
+> parsing the log, and creating (or potentially modifying) shadow files
+> in the shadow path for the mount.
+> 
+> So to communicate with the fuse server we parse the shadow path from
+> /proc/mounts and that finds the <shadow_path>/socket that can be used
+> to communicate with famfs_fused. And we can play the metadata log
+> (accessed via MPT/.meta/.log) to <shadow_path>/root/...
+> 
+> Having something in sysfs would be fine, but unless we pass it into
+> the kernel somehow (hey, like -o shadow=<shadow path>), the kernel
+> won't know it and can't reveal it.
+> 
+> A big no-go, I think, is trying to parse the shadow path from the
+> famfs fuse server via 'ps -ef' or 'ps -ax'. The famfs cli etc. might
+> be running in a container that doesn't have access to that.
+> 
+> Happy to discuss further...
 
-That's just the British spelling. We accept British spellings in docs.
+After all that blather (from me), I've been thinking about resolving
+mount points to shadow paths, and I came to the realization that it's
+actually easy to enable retrieving the shadow path from the fuse
+server as an extended attribute.
 
->     distributions will have a recognized install script. You may want to
->     check your distribution's setup first.
->  
-> diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-> index 493a8e386..02f8cd0f1 100644
-> --- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-> @@ -77,7 +77,7 @@ control group and enforces the limit during page fault. Since HugeTLB
->  doesn't support page reclaim, enforcing the limit at page fault time implies
->  that, the application will get SIGBUS signal if it tries to fault in HugeTLB
->  pages beyond its limit. Therefore the application needs to know exactly how many
-> -HugeTLB pages it uses before hand, and the sysadmin needs to make sure that
-> +HugeTLB pages it uses beforehand, and the sysadmin needs to make sure that
->  there are enough available on the machine for all the users to avoid processes
->  getting SIGBUS.
->  
-> @@ -91,11 +91,11 @@ getting SIGBUS.
->    hugetlb.<hugepagesize>.rsvd.usage_in_bytes
->    hugetlb.<hugepagesize>.rsvd.failcnt
->  
-> -The HugeTLB controller allows to limit the HugeTLB reservations per control
-> +The HugeTLB controller allows limiting the HugeTLB reservations per control
-ack
+I implemented that this morning, and it appears to be passing all tests.
+So I anticipate that I'll be able to drop this patch from the series
+when I send V4 - which should be in the next few days unless discussion
+heats up in the mean time.
 
->  group and enforces the controller limit at reservation time and at the fault of
->  HugeTLB memory for which no reservation exists. Since reservation limits are
->  enforced at reservation time (on mmap or shget), reservation limits never causes
+Thinking back... when I implemented the '-o shadow=<path>' thingy
+more than a year ago, I still had a *lot* of unsolved problems to 
+tackle. Once I had "a solution" I moved on - but the xattr idea looks
+solid to me (though if anybody can point out flaws, I'd appreciate it).
 
-                                                                       never cause
+(there's an Alice's Restaurant joke in there somewhere if you squint,
+about not having to take out the garbage for a long time, but probably 
+only for old people like me...)
 
-> -the application to get SIGBUS signal if the memory was reserved before hand. For
-> +the application to get SIGBUS signal if the memory was reserved beforehand. For
->  MAP_NORESERVE allocations, the reservation limit behaves the same as the fault
->  limit, enforcing memory usage at fault time and causing the application to
->  receive a SIGBUS if it's crossing its limit.
-> @@ -103,11 +103,11 @@ receive a SIGBUS if it's crossing its limit.
->  Reservation limits are superior to page fault limits described above, since
->  reservation limits are enforced at reservation time (on mmap or shget), and
->  never causes the application to get SIGBUS signal if the memory was reserved
-> -before hand. This allows for easier fallback to alternatives such as
-> +beforehand. This allows for easier fallback to alternatives such as
->  non-HugeTLB memory for example. In the case of page fault accounting, it's very
-> -hard to avoid processes getting SIGBUS since the sysadmin needs precisely know
-> +hard to avoid processes getting SIGBUS since the sysadmin needs to precisely know
->  the HugeTLB usage of all the tasks in the system and make sure there is enough
+Regards,
+John
 
-                                                                  there are enough
-
-> -pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommited
-> +pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommitted
->  systems is practically impossible with page fault accounting.
->  
->  
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 7f5b59d95..098d6831b 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2816,7 +2816,7 @@ DMEM Interface Files
->  HugeTLB
->  -------
->  
-> -The HugeTLB controller allows to limit the HugeTLB usage per control group and
-> +The HugeTLB controller allows limiting the HugeTLB usage per control group and
-ack
-
->  enforces the controller limit during page fault.
->  
->  HugeTLB Interface Files
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> index 274f59080..8f4bd9fb5 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> @@ -11,7 +11,7 @@ maintainers:
->    - Jitao shi <jitao.shi@mediatek.com>
->  
->  description: |
-> -  MediaTek DP and eDP are different hardwares and there are some features
-> +  MediaTek DP and eDP are different hardware and there are some features
->    which are not supported for eDP. For example, audio is not supported for
->    eDP. Therefore, we need to use two different compatibles to describe them.
->    In addition, We just need to enable the power domain of DP, so the clock
-> diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-> index 08194f194..e61db115e 100644
-> --- a/Documentation/filesystems/erofs.rst
-> +++ b/Documentation/filesystems/erofs.rst
-> @@ -154,7 +154,7 @@ to be as simple as possible::
->    0 +1K
->  
->  All data areas should be aligned with the block size, but metadata areas
-> -may not. All metadatas can be now observed in two different spaces (views):
-> +may not. All metadata can be now observed in two different spaces (views):
->  
->   1. Inode metadata space
->  
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index abce88f15..7067ec3f0 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -216,7 +216,7 @@ applicable everywhere (see syntax).
->  
->  - numerical ranges: "range" <symbol> <symbol> ["if" <expr>]
->  
-> -  This allows to limit the range of possible input values for int
-> +  This allows limiting the range of possible input values for int
->    and hex symbols. The user can only input a value which is larger than
->    or equal to the first symbol and smaller than or equal to the second
->    symbol.
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 62951cdb1..0cf97dbab 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -218,7 +218,7 @@ DevFS has been obsoleted in favour of udev
->  Linux documentation for functions is transitioning to inline
->  documentation via specially-formatted comments near their
->  definitions in the source.  These comments can be combined with ReST
-> -files the Documentation/ directory to make enriched documentation, which can
-> +files in the Documentation/ directory to make enriched documentation, which can
->  then be converted to PostScript, HTML, LaTex, ePUB and PDF files.
->  In order to convert from ReST format to a format of your choice, you'll need
->  Sphinx.
-> diff --git a/Documentation/scsi/ChangeLog.sym53c8xx b/Documentation/scsi/ChangeLog.sym53c8xx
-> index 3435227a2..6bca91e03 100644
-> --- a/Documentation/scsi/ChangeLog.sym53c8xx
-> +++ b/Documentation/scsi/ChangeLog.sym53c8xx
-> @@ -3,7 +3,7 @@ Sat May 12 12:00 2001 Gerard Roudier (groudier@club-internet.fr)
->  	- Ensure LEDC bit in GPCNTL is cleared when reading the NVRAM.
->  	  Fix sent by Stig Telfer <stig@api-networks.com>.
->  	- Backport from SYM-2 the work-around that allows to support 
-> -	  hardwares that fail PCI parity checking.
-> +	  hardware that fails PCI parity checking.
->  	- Check that we received at least 8 bytes of INQUIRY response 
->  	  for byte 7, that contains device capabilities, to be valid.
->  	- Define scsi_set_pci_device() as nil for kernel < 2.4.4.
-> diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-> index 81b762ef1..99ffda355 100644
-> --- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-> +++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-> @@ -444,7 +444,7 @@ Description
->  ~~~~~~~~~~~
->  
->  A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
-> -following bits set according to the hardwares capabilities.
-> +following bits set according to the hardware's capabilities.
->  
->  
->  -----
-
--- 
-~Randy
+[ ... ]
 
