@@ -1,36 +1,68 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B76F150997
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C761E4AB
 	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 23:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768174544; cv=none; b=JsPYxPSMxuVDivsuTujtKIsndI3MSrgUhLLOsNk6fgPYG2iV99b75r6fNGQn8VsezSRt2BopZLom2F4Wrr/j4NtTsEvKp22aZvj69uQLofviHtCYgLBOyavmF7tQqcTFf6jMX35I1M1kp8UHpY3p5lb4UXKhDyTkVVREmw+WUEw=
+	t=1768174544; cv=none; b=NgQMRtds5HL7zRP5YEAPw+x2yGwNpop6l6Kf5n2x4dsbsWTeO9fA6XfnZC/mkMwsYbgQELAd0IzZwNl6SpcdJCIModqJ16ImjnBm6Z5XQ9+ph9fRvn7vqTyWW48TLXSBjGr6BhL4ry3s1jwZN9bDcm44WyR+icpT/LBTC+PxrnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768174544; c=relaxed/simple;
-	bh=lxamfO5wYFZta2wOXXAT7AIfC82zuC/cT8kW6bQ97Io=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SQ9pjqJEsV1QYgRZvD2UuhQylS5zVw2pfKRqc+Pt3RjNoUS26N6jHd9alUtR8sOeXAl/G/zqxyLDLHj3ZVvicyoCvp5A/q6+0lysBtUOTOJWgWwUWvHjhTSfOnkZ9eJYbN8yWXdU/qckYh/Qk461CQEa1UGKqXWUQSCmZxk+QSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
+	bh=rVERajV+Y56+uLFDdffjnlxp3Cxv7TfHVDntSyofl/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I4p0VQTPCM7isuJeiKHe+kRCSfRp5jM5Vr81bw2DnlItjLVSRjJB8HyGrM6+p6OeBG+5YKxTkGXs15IRMESNYp7BQ4FHSxZqzUUlnhavNeZjLk5X4E/M/V3956q8P3DepSnmnyuIWTZkrIfJOlPk27mBDm6/UppZ/yyNhY6pP50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bWikBc1D; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NbiYZTbg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bWikBc1D; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=NbiYZTbg; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bWikBc1D";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NbiYZTbg";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bWikBc1D";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="NbiYZTbg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 910BB336B3;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6039E5BCFB;
 	Sun, 11 Jan 2026 23:35:41 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768174541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=0//8sOgfSLnAlvmX31x2U0W5iw6skv7Kl/lt3E/SmDY=;
+	b=bWikBc1DbTmQzjCRVVBTqNctcjQ6mVzFYVSTj5i/ZPn+GWCs61dbKgxAknj5ADYQ/bcC1N
+	z9Rw7GRmy9JtGA3kzJy6B9QUyDeUq9IVgaKGku+78FpbbDmhcULleKyjcKFV7xMJUzDhkI
+	fy1QO4kuaulNZa+8hNFYzZnYA8byd/o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768174541;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=0//8sOgfSLnAlvmX31x2U0W5iw6skv7Kl/lt3E/SmDY=;
+	b=NbiYZTbg92V16VMDfJqC2Y09m3cK464s1MCyAV1tqIms8j98AecxdlHUOWjxKGAZS9XMsj
+	ztbwNvkR6z4Z3uDA==
+Authentication-Results: smtp-out2.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768174541; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=0//8sOgfSLnAlvmX31x2U0W5iw6skv7Kl/lt3E/SmDY=;
+	b=bWikBc1DbTmQzjCRVVBTqNctcjQ6mVzFYVSTj5i/ZPn+GWCs61dbKgxAknj5ADYQ/bcC1N
+	z9Rw7GRmy9JtGA3kzJy6B9QUyDeUq9IVgaKGku+78FpbbDmhcULleKyjcKFV7xMJUzDhkI
+	fy1QO4kuaulNZa+8hNFYzZnYA8byd/o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768174541;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=0//8sOgfSLnAlvmX31x2U0W5iw6skv7Kl/lt3E/SmDY=;
+	b=NbiYZTbg92V16VMDfJqC2Y09m3cK464s1MCyAV1tqIms8j98AecxdlHUOWjxKGAZS9XMsj
+	ztbwNvkR6z4Z3uDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65CA23EA65;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A2833EA63;
 	Sun, 11 Jan 2026 23:35:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IPXmF80zZGkCFwAAD6G6ig
+	id VRMdDc0zZGkCFwAAD6G6ig
 	(envelope-from <pvorel@suse.cz>); Sun, 11 Jan 2026 23:35:41 +0000
 From: Petr Vorel <pvorel@suse.cz>
 To: linux-doc@vger.kernel.org
@@ -39,12 +71,10 @@ Cc: Petr Vorel <pvorel@suse.cz>,
 	Michael Kerrisk  <mtk@man7.org>,
 	Alejandro Colomar <alx@kernel.org>,
 	man-pages@man7.org
-Subject: [PATCH v2 1/3] Documentation: sp_SP: Add missing man page section
-Date: Mon, 12 Jan 2026 00:35:30 +0100
-Message-ID: <20260111233534.183272-2-pvorel@suse.cz>
+Subject: [PATCH v2 0/3] Documentation: Link man pages to https://man7.org/
+Date: Mon, 12 Jan 2026 00:35:29 +0100
+Message-ID: <20260111233534.183272-1-pvorel@suse.cz>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260111233534.183272-1-pvorel@suse.cz>
-References: <20260111233534.183272-1-pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,41 +82,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Score: -4.00
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 910BB336B3
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[man7.org:url,imap1.dmz-prg2.suse.org:helo,suse.cz:mid,sphinx-doc.org:url];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
----
-New in v2.
+Changes v1->v2:
+* Use :manpages_url: (a proper sphinx syntax)
+https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-manpages_url
+* 2 new cleanup commits
+  -  Documentation: sp_SP: Add missing man page section
+  - Documentation: Remove :manpage: from non-existing man pages
 
- Documentation/translations/sp_SP/process/adding-syscalls.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Link to v1:
+https://lore.kernel.org/linux-doc/20260109183012.114372-1-pvorel@suse.cz/
 
-diff --git a/Documentation/translations/sp_SP/process/adding-syscalls.rst b/Documentation/translations/sp_SP/process/adding-syscalls.rst
-index f21504c612b25..28f680652383d 100644
---- a/Documentation/translations/sp_SP/process/adding-syscalls.rst
-+++ b/Documentation/translations/sp_SP/process/adding-syscalls.rst
-@@ -172,7 +172,7 @@ describiendo un describiendo un movimiento dentro de un archivo, ponga de
- tipo ``loff_t`` para que movimientos de 64-bit puedan ser soportados
- incluso en arquitecturas de 32-bit.
- 
--Si su nueva llamada de sistema  :manpage:`xyzzy` involucra una
-+Si su nueva llamada de sistema :manpage:`xyzzy(2)` involucra una
- funcionalidad privilegiada, esta necesita ser gobernada por la capability
- bit linux apropiada (revisado con una llamada a ``capable()``), como se
- describe en el man page :manpage:`capabilities(7)`. Elija una parte de
+Petr Vorel (3):
+  Documentation: sp_SP: Add missing man page section
+  Documentation: Remove :manpage: from non-existing man pages
+  Documentation: Link man pages to https://man7.org/
+
+ Documentation/conf.py                              |  3 +++
+ Documentation/process/adding-syscalls.rst          | 14 +++++++-------
+ .../translations/it_IT/process/adding-syscalls.rst | 14 +++++++-------
+ .../translations/sp_SP/process/adding-syscalls.rst | 14 +++++++-------
+ 4 files changed, 24 insertions(+), 21 deletions(-)
+
 -- 
 2.51.0
 
