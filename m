@@ -1,247 +1,204 @@
-Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F5237C115
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5B8376BE3
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768238922; cv=none; b=MUp5XiVHt00m6ne1sfoTgvW3r/4uRF/lxuTfzhGpPaR3xmmLcfNTxxWgk+ApA5w/UpHdosO+f+jg+5YI//DnNvMvVF4Wrvbvsp2T6diV6z8eitqwaovDdW3J6Z1eTzVGLFfWjJXFp556zr69PGfb81Ip2NXS9uM4cevKsYCu+wY=
+	t=1768239412; cv=none; b=AM0DLq3LF9wDmhTF+YpHrsfwNr/ThXG1J6DPPxVju6o76phdD58vfgbJPI8WZcQDVhSX/s0a35UsNu5j4NqvQEMZ/jQct/7BH+M3StMbo/6TlAfDOZM49WGq1y997Wya+rScMqzOaJ7MIlAQyvOLX/eB8UZCHzPgY4U7hYERsbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768238922; c=relaxed/simple;
-	bh=TqoqDWh1Xv/snyqJ7tgj5VnvpvnAsaidNe08mTewDDw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sIovBihmPe4B7mLwP1qW14sWXY3PEl4l0UhBni4o+MR4eQV389qjMR2DfK5+ueryu+6GPz2C31xOjEOeBXonWLciAcQ96RqZ1zF9nUBTiS0zHSAqaVRHrk24ILDlZ9uJyyvWGRlsYlRixxLnk/cH8tcsiOruVvlYHJvu7feNpao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=YVS1R785; arc=none smtp.client-ip=109.224.244.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1768239412; c=relaxed/simple;
+	bh=QzyYc3RXX8zVo3g9H6ehLJVIhE0FG7hrH0ndqq+y8qg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJ7rXItJWz3vWJ0fK7BVS5OUAKNplsA3Sua0WWaFgqZ4gUUy0WO9FtzDhdIiIaT3qFY+92OboaAME2I26pz2q/hsBRV9hs6D7YGCGfl/abJKQgrOZ2CdmQkzOxMBDg0msmITowcKIiKYwzRf9NGI/oqjTALD1ZnwPY1MkbgBbzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=hSSKPtJp; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="YVS1R785"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1768238917; x=1768498117;
-	bh=smEYUjE4TiZwGsUIUGvN4uRam6KETrr7zjszlbfCqLA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=YVS1R785rxnN/IS8mi4l8XQCGj6g5l5DzG6ohgtyWfpjIByzqp4gVMXLp0t3y884x
-	 fLX9bO3h4Z9aAdZVDTOotoEjPvv2bnUuDCM8Vng9Gpr83EDl7i4SCfu3FnrAxKnu34
-	 bSNDah2R3Bwgr2X6UJnPMh5XjzKAsiFYc+vpqdPSanYb8M/TqT29zf1ui1vfP6OSRZ
-	 FcCZjR8Scb0pDe98nB9zBpHCG0434xvMaXrYM4sF7l6NdOylMLL5GQwjtECg4YOSqV
-	 ClwudsMgMcArBIRODBbIxtKKtENjQp3cnkpM1q/g2O9kJ45I0zZA9VqK/3YGY/m9zH
-	 y3JKlIr4h8e6Q==
-Date: Mon, 12 Jan 2026 17:28:35 +0000
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: m.wieczorretman@pm.me, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: [PATCH v8 14/14] x86/kasan: Make software tag-based kasan available
-Message-ID: <5b46822936bf9bf7e5cf5d1b57f936345c45a140.1768233085.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1768233085.git.m.wieczorretman@pm.me>
-References: <cover.1768233085.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 7114c3fdb473fc3c6e894749edc0df69710932f4
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="hSSKPtJp"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4f1b4bb40aaso35825911cf.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 09:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1768239410; x=1768844210; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iIrzuD3V8mK4XZdD49Fp4+4pZSOoDd5AA8lqEVpgoJQ=;
+        b=hSSKPtJpm9XKpKmlVkiF9I0Ekq5ZXgr3bjDAtmrluR0I3ebjJAnobvxmSHzbqhiGvU
+         qYWTXJnsUHCT+s44nF6TPX4gCMPtgGLF2ZlwUKnIOnQHdpYFkhEAmCdSjeaqTswY3n3a
+         RkVuDw0e/47RJTRSsNdkURc17KTDpzO9XL5SWbPGsjb0HiDv2pJs32VIes/uCq4M2awm
+         SbqLYEJ/ns/jzCoXpjcgev9zUZIDfqM9+eICIyCPDJj0RF7TiIk1cLHpZLJr/RKg7Wjq
+         Q1P5HJyLDXi6n8stxt/1HBWzdgKUNIrxAk5tBZZs2mcvhw7jnMJYzPoX7DqqKMpgrJ+j
+         ttXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768239410; x=1768844210;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iIrzuD3V8mK4XZdD49Fp4+4pZSOoDd5AA8lqEVpgoJQ=;
+        b=FLk5f2WtvqEknGyTXiAmSXyDereRd/T0ULJM2Jw5MLQbnOtKDmlPZSV1MvBtBU9p3J
+         OLz7w+xkHBoSmN8tK7wNbaLcD/VLmA4v9dQ0i8pRSLLu4CjpXG2leu4KDKUE2zTQFWyM
+         wzukhL2PAulJrbIJPHnHFS97qZTfWoUDX1IQnn94/dyYGG3RPDSZ9r+r1y/plUKDHceP
+         cSz+PzUQ93o7E2HOdW2lEOx/JWGUABbA3CRR0dgbxMLDtTy8HDfa3JtOeD7EJAONeSPk
+         iAPnzPW10r8+IP2zIYVWp7m2ZrryPo1U+adJ18hPxTo4Sx5+ziJeh4/XLU/oYDQt6Swz
+         Y6Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaxP9Q6ysnxDfVp9Gw4w0bBHXdVQCwMcwG/9sNSqC/9xvH/hzW5kl/JERgjb9XWgNfO1K11iBtXIg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIk3iSUrC5yP1+TaxHh7mmellNr3o1oeclcB53JeGOAiDjHCu1
+	pfQkvBzl1HRxR3K6upwEJI/JYYpeeNR8blNHwSnQvqat+BV4gigbB097p3Mze0OrqHM=
+X-Gm-Gg: AY/fxX6epwdgXXj+rv0cjGjctXmCz/qOMDFX6IMNiD8cFZ2TA/lQqlL619DVi15qgr7
+	hC2ufWz2CWlKs5lw4v0RsBqtQn28wnkbB2jR7h41P37LpQEOUNm0/SNyBu5uhBW5y0CKkkuJqE/
+	v8O7GCBABk0nw8Q5uhhkpc4wAiffNQ7j9SoAEy/8XR/E5IhFPkHIzieBxLqhqqB5rdaLhV8jcJd
+	MITJ57Jwuu5yTXcnlX+CPguQ1b38+QkYVcGetNNsqJq+PffvJ+IoHXrLDmUFPuHv5gMIzzf3opG
+	oH15WlCXaMsE92oQhFVG3cgMXAN3VZPYCjVLtpUikgfFvGFxn8oMkeeDN6Xf2lkhn9eSOXa4RaE
+	jVicL8ldDAEKco08b9wYxIrHbnJGjERV03E8wQGKysCHPKTPsAsMDc3DXO4B7Gc6MjGgFncYhRs
+	ryQKc/8iO6RBxb7P2RL25Q66zIhXdAImCcGPl0O0a/D73V+tOB4goi5fRqtQzIi8fXKRSSGA==
+X-Google-Smtp-Source: AGHT+IFIkZj0kkQefVdB6/+qxt7dAorkKD4y+wc4fxceCP23QaEoHwxiHll6IFZYaJtBeI5hcZkdtA==
+X-Received: by 2002:a05:622a:1b8c:b0:4ec:f6d5:ee46 with SMTP id d75a77b69052e-4ffb4af497fmr238029601cf.78.1768239410022;
+        Mon, 12 Jan 2026 09:36:50 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8d39230sm131000681cf.6.2026.01.12.09.36.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 09:36:49 -0800 (PST)
+Date: Mon, 12 Jan 2026 12:36:15 -0500
+From: Gregory Price <gourry@gourry.net>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
+	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, dan.j.williams@intel.com,
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
+	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com,
+	david@kernel.org, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk, rientjes@google.com,
+	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com,
+	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com,
+	baohua@kernel.org, yosry.ahmed@linux.dev, chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev, muchun.song@linux.dev, osalvador@suse.de,
+	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
+	byungchul@sk.com, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+	cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
+Subject: Re: [RFC PATCH v3 0/8] mm,numa: N_PRIVATE node isolation for
+ device-managed memory
+Message-ID: <aWUxD6yPyCbUVjlw@gourry-fedora-PF4VCD3F>
+References: <20260108203755.1163107-1-gourry@gourry.net>
+ <6604d787-1744-4acf-80c0-e428fee1677e@nvidia.com>
+ <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
+ <aWUs8Fx2CG07F81e@yury>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWUs8Fx2CG07F81e@yury>
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+On Mon, Jan 12, 2026 at 12:18:40PM -0500, Yury Norov wrote:
+> On Mon, Jan 12, 2026 at 09:36:49AM -0500, Gregory Price wrote:
+> > 
+> > Dan Williams convinced me to go with N_PRIVATE, but this is really a
+> > bikeshed topic
+> 
+> No it's not. To me (OK, an almost random reader in this discussion),
+> N_PRIVATE is a pretty confusing name. It doesn't answer the question:
+> private what? N_PRIVATE_MEMORY is better in that department, isn't?
+> 
+> But taking into account isolcpus, maybe N_ISOLMEM?
+>
+> > - we could call it N_BOBERT until we find consensus.
+> 
+> Please give it the right name well describing the scope and purpose of
+> the new restriction policy before moving forward.
+>  
 
-Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
-ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignore
-(TBI) that allows the software tag-based mode on arm64 platform.
+"The right name" is a matter of opinion, of which there will be many.
 
-The value for sw_tags KASAN_SHADOW_OFFSET was calculated by rearranging
-the formulas for KASAN_SHADOW_START and KASAN_SHADOW_END from
-arch/x86/include/asm/kasan.h - the only prerequisites being
-KASAN_SHADOW_SCALE_SHIFT of 4, and KASAN_SHADOW_END equal to the
-one from KASAN generic mode.
+It's been through 3 naming cycles already:
 
-Set scale macro based on KASAN mode: in software tag-based mode 16 bytes
-of memory map to one shadow byte and 8 in generic mode.
+Protected -> SPM -> Private
 
-Disable CONFIG_KASAN_INLINE and CONFIG_KASAN_STACK when
-CONFIG_KASAN_SW_TAGS is enabled on x86 until the appropriate compiler
-support is available.
+It'll probably go through 3 more.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-Changelog v7:
-- Add a paragraph to the patch message explaining how the various
-  addresses and the KASAN_SHADOW_OFFSET were calculated.
+I originally named v3 N_PRIVATE_MEMORY, but Dan convinced me to drop to
+N_PRIVATE.  We can always %s/N_PRIVATE/N_PRIVATE_MEMORY.
 
-Changelog v6:
-- Don't enable KASAN if LAM is not supported.
-- Move kasan_init_tags() to kasan_init_64.c to not clutter the setup.c
-  file.
-- Move the #ifdef for the KASAN scale shift here.
-- Move the gdb code to patch "Use arithmetic shift for shadow
-  computation".
-- Return "depends on KASAN" line to Kconfig.
-- Add the defer kasan config option so KASAN can be disabled on hardware
-  that doesn't have LAM.
+> > > >   enum private_memtype {
+> > > >       NODE_MEM_NOTYPE,      /* No type assigned (invalid state) */
+> > > >       NODE_MEM_ZSWAP,       /* Swap compression target */
+> > > >       NODE_MEM_COMPRESSED,  /* General compressed RAM */
+> > > >       NODE_MEM_ACCELERATOR, /* Accelerator-attached memory */
+> > > >       NODE_MEM_DEMOTE_ONLY, /* Memory-tier demotion target only */
+> > > >       NODE_MAX_MEMTYPE,
+> > > >   };
+> > > > 
+> > > > These types serve as policy hints for subsystems:
+> > > > 
+> > > 
+> > > Do these nodes have fallback(s)? Are these nodes prone to OOM when memory is exhausted
+> > > in one class of N_PRIVATE node(s)?
+> > > 
+> > 
+> > Right now, these nodes do not have fallbacks, and even if they did the
+> > use of __GFP_THISNODE would prevent this.  That's intended.
+> > 
+> > In theory you could have nodes of similar types fall back to each other,
+> > but that feels like increased complexity for questionable value.  The
+> > service requested __GFP_THISNODE should be aware that it needs to manage
+> > fallback.
+> 
+> Yeah, and most GFP_THISNODE users also pass GFP_NOWARN, which makes it
+> looking more like an emergency feature. Maybe add a symmetric GFP_PRIVATE
+> flag that would allow for more flexibility, and highlight the intention
+> better?
+> 
 
-Changelog v4:
-- Add x86 specific kasan_mem_to_shadow().
-- Revert x86 to the older unsigned KASAN_SHADOW_OFFSET. Do the same to
-  KASAN_SHADOW_START/END.
-- Modify scripts/gdb/linux/kasan.py to keep x86 using unsigned offset.
-- Disable inline and stack support when software tags are enabled on
-  x86.
+I originally added __GFP_SPM_NODE (v2 - equivalient to your suggestion)
+and it was requested I try to use __GFP_THISNODE at LPC 2025 in December.
 
-Changelog v3:
-- Remove runtime_const from previous patch and merge the rest here.
-- Move scale shift definition back to header file.
-- Add new kasan offset for software tag based mode.
-- Fix patch message typo 32 -> 16, and 16 -> 8.
-- Update lib/Kconfig.kasan with x86 now having software tag-based
-  support.
+v3 makes this attempt.
 
-Changelog v2:
-- Remove KASAN dense code.
+This is good feedback to suggest maybe that's not the best and maybe we
+should keep __GFP_SPM_NODE -> __GFP_PRIVATE
 
- Documentation/arch/x86/x86_64/mm.rst | 6 ++++--
- arch/x86/Kconfig                     | 4 ++++
- arch/x86/boot/compressed/misc.h      | 1 +
- arch/x86/include/asm/kasan.h         | 5 +++++
- arch/x86/mm/kasan_init_64.c          | 6 ++++++
- lib/Kconfig.kasan                    | 3 ++-
- 6 files changed, 22 insertions(+), 3 deletions(-)
+> > > What about page cache allocation form these nodes? Since default allocations
+> > > never use them, a file system would need to do additional work to allocate
+> > > on them, if there was ever a desire to use them. 
+> > 
+> > Yes, in-fact that is the intent.  Anything requesting memory from these
+> > nodes would need to be aware of how to manage them.
+> > 
+> > Similar to ZONE_DEVICE memory - which is wholly unmanaged by the page
+> 
+> This is quite opposite to what you are saying in the motivation
+> section:
+> 
+>   Several emerging memory technologies require kernel memory management
+>   services but should not be used for general allocations
+> 
+> So, is it completely unmanaged node, or only general allocation isolated?
+> 
 
-diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/=
-x86_64/mm.rst
-index a6cf05d51bd8..ccbdbb4cda36 100644
---- a/Documentation/arch/x86/x86_64/mm.rst
-+++ b/Documentation/arch/x86/x86_64/mm.rst
-@@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
-    ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused=
- hole
-    ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual me=
-mory map (vmemmap_base)
-    ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused=
- hole
--   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory (generic mode)
-+   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN shad=
-ow memory (software tag-based mode)
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 56-bit one from here on:
-@@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
-    ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused=
- hole
-    ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual me=
-mory map (vmemmap_base)
-    ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused=
- hole
--   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory (generic mode)
-+   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shad=
-ow memory (software tag-based mode)
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 47-bit one from here on:
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 80527299f859..21c71d9e0698 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -67,6 +67,7 @@ config X86
- =09select ARCH_CLOCKSOURCE_INIT
- =09select ARCH_CONFIGURES_CPU_MITIGATIONS
- =09select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-+=09select ARCH_DISABLE_KASAN_INLINE=09if X86_64 && KASAN_SW_TAGS
- =09select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && MIGR=
-ATION
- =09select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
- =09select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
-@@ -196,6 +197,8 @@ config X86
- =09select HAVE_ARCH_JUMP_LABEL_RELATIVE
- =09select HAVE_ARCH_KASAN=09=09=09if X86_64
- =09select HAVE_ARCH_KASAN_VMALLOC=09=09if X86_64
-+=09select HAVE_ARCH_KASAN_SW_TAGS=09=09if ADDRESS_MASKING
-+=09select ARCH_NEEDS_DEFER_KASAN=09=09if ADDRESS_MASKING
- =09select HAVE_ARCH_KFENCE
- =09select HAVE_ARCH_KMSAN=09=09=09if X86_64
- =09select HAVE_ARCH_KGDB
-@@ -410,6 +413,7 @@ config AUDIT_ARCH
- config KASAN_SHADOW_OFFSET
- =09hex
- =09depends on KASAN
-+=09default 0xeffffc0000000000 if KASAN_SW_TAGS
- =09default 0xdffffc0000000000
-=20
- config HAVE_INTEL_TXT
-diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/mis=
-c.h
-index fd855e32c9b9..ba70036c2abd 100644
---- a/arch/x86/boot/compressed/misc.h
-+++ b/arch/x86/boot/compressed/misc.h
-@@ -13,6 +13,7 @@
- #undef CONFIG_PARAVIRT_SPINLOCKS
- #undef CONFIG_KASAN
- #undef CONFIG_KASAN_GENERIC
-+#undef CONFIG_KASAN_SW_TAGS
-=20
- #define __NO_FORTIFY
-=20
-diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-index 9b7951a79753..b38a1a83af96 100644
---- a/arch/x86/include/asm/kasan.h
-+++ b/arch/x86/include/asm/kasan.h
-@@ -6,7 +6,12 @@
- #include <linux/kasan-tags.h>
- #include <linux/types.h>
- #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
-+
-+#ifdef CONFIG_KASAN_SW_TAGS
-+#define KASAN_SHADOW_SCALE_SHIFT 4
-+#else
- #define KASAN_SHADOW_SCALE_SHIFT 3
-+#endif
-=20
- /*
-  * Compiler uses shadow offset assuming that addresses start
-diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-index 7f5c11328ec1..3a5577341805 100644
---- a/arch/x86/mm/kasan_init_64.c
-+++ b/arch/x86/mm/kasan_init_64.c
-@@ -465,4 +465,10 @@ void __init kasan_init(void)
-=20
- =09init_task.kasan_depth =3D 0;
- =09kasan_init_generic();
-+=09pr_info("KernelAddressSanitizer initialized\n");
-+
-+=09if (boot_cpu_has(X86_FEATURE_LAM))
-+=09=09kasan_init_sw_tags();
-+=09else
-+=09=09pr_info("KernelAddressSanitizer not initialized (sw-tags): hardware =
-doesn't support LAM\n");
- }
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index a4bb610a7a6f..d13ea8da7bfd 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -112,7 +112,8 @@ config KASAN_SW_TAGS
-=20
- =09  Requires GCC 11+ or Clang.
-=20
--=09  Supported only on arm64 CPUs and relies on Top Byte Ignore.
-+=09  Supported on arm64 CPUs that support Top Byte Ignore and on x86 CPUs
-+=09  that support Linear Address Masking.
-=20
- =09  Consumes about 1/16th of available memory at kernel start and
- =09  add an overhead of ~20% for dynamic allocations.
---=20
-2.52.0
+Sorry, that wording is definitely confusing. I should have said "can
+make use of kernel memory management services".
 
+It's an unmanaged node from the perspecting of any existing user (no
+existing core service user is exposed to this memory).  But this really
+means that it's general-allocation-isolated.
 
+ZONE_DEVICE is an unmanaged zone on a node, while this memory would be
+onlined in ZONE_MOVABLE or below (i.e. it otherwise looks like normal
+memory, just it can't be allocated).  In theory, we could re-use
+ZONE_DEVICE for this, but that's probably a few more RFCs away.
+
+I'm still trying to refine the language around this, thanks for pointing
+this out.
+
+~Gregory
