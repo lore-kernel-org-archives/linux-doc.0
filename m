@@ -1,208 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DB027AC4D;
-	Mon, 12 Jan 2026 09:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C2828469E
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 10:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768211802; cv=none; b=FQsqS6EEPO5kuTVmeEiz7iujqupc94xWHTofISjPTBaIS1St+JOLzXbS/gnk/1WSZHik00kA3ZHemkDORFlWM7uHa3BHE1KLTVDqdYYuZ/7BNj/8S49+GgiBO7PHFxkhDDjixDsEq7SRc1+woO6H4wIIdGxzmRefzh0Cryd13+c=
+	t=1768212251; cv=none; b=iYuAQEq7q+AQUTHDwRzKoahZ5eiZSm670Xz/sdaAF/Nx8NpvDuo1hakvCRuzOqknKipDAiLLd4fpFPtXua3gekL5g0/iTn6/De4T2AXbqqahrwsOKKDhbPDFlBCW6cDjmTzbPvTlmllYs45oE67EfQMhj2k43xiJUyNulbZmnQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768211802; c=relaxed/simple;
-	bh=7FithyIBKaoedpqmHqroS7296muzq9qFftbtMNAIURw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SEuNPDliH34Z+TXkLmonoXQHJ8k1LLZWdPuDVkhnnm+7S/Y0Klz1UyZVT6wG01t0C+QFc4G0FbwJfJMukhTcnew/HmGJ2eCn++EEZZcqiGOsLHblqRcONWHEhcS8l2sRfelO+8Q2I8aBJgajEmo/8hteGITKtpSquS5MAEIAJnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gEU9mwaI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768212251; c=relaxed/simple;
+	bh=oqOGXbeDIQlNePE/yiwJ+NT0kXzbdHkFX5Jkw1SZilw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDxswzCQhmcoQWD7rZBGU82cww21n/ml21aS//tYpriNoWSIxnkn8Nyo9GZ+jrpkqoXZxrWbGbqeapnnzq1xjneIGYoybr2Y+4qfrnByQVjKDaUmjXG7ejXnR2PSUhxKlBwqxGEgoszcMaxIuT2pH8itLquLcHKbXtfCwoOZ1lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N1MAv9wr; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gEU9mwaI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E7DC116D0;
-	Mon, 12 Jan 2026 09:56:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768211800;
-	bh=7FithyIBKaoedpqmHqroS7296muzq9qFftbtMNAIURw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gEU9mwaIMduY/7UbDRfY3dCfNhfrteaHYYuLXyRnnRx/QJgC20lljrEWUMS7U6O0R
-	 FC4KxbfeMIzSr1rRikavC/N+gC8ZfUxStYxTRJJhtfOpS2cGLgj7zxDin23MW6Wb7P
-	 1GOMC1no3G/npgBBoc6dk10UcMEW7fSBM4p03vkd1kqbUw8Lw6VvU4ZPPkKi6WPwPs
-	 cFsx7BjBlanMei3Mx7O56x77krT1lDMI8Q5IBx6rppzFEkL7VX/wsOGT2lTjE9XE60
-	 DtV+U34LS4bSOB3RmY3uhoDoP3WLijr7CMYxfWHp68KquGlaW4jVxNHX1fQyEK5DDo
-	 mEN7+/Mr4XdZg==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	Nicolas Pitre <nico@fluxnic.net>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Anders Larsen <al@alarsen.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Sterba <dsterba@suse.com>,
-	Chris Mason <clm@fb.com>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Yue Hu <zbestahu@gmail.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Chunhai Guo <guochunhai@vivo.com>,
-	Jan Kara <jack@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Phillip Lougher <phillip@squashfs.org.uk>,
-	Carlos Maiolino <cem@kernel.org>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Hans de Goede <hansg@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-mtd@lists.infradead.org,
-	jfs-discussion@lists.sourceforge.net,
-	linux-nilfs@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev,
-	devel@lists.orangefs.org,
-	linux-unionfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-mm@kvack.org,
-	gfs2@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	ceph-devel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org
-Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to lease support
-Date: Mon, 12 Jan 2026 10:56:12 +0100
-Message-ID: <20260112-wolldecke-fernhalten-1ed186b0d6d4@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
-References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N1MAv9wr"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4eda6c385c0so48416211cf.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 02:04:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768212248; x=1768817048; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U5hiBX/EJmbP0rFvOH8HeLIh3uhucig2oXB0fSc8NSg=;
+        b=N1MAv9wr2GKPAbiYalM/ultWNNHRnItPp5uXKvCM9nkvAzQFdm99JkOJgc33VhPz1V
+         ibfz65ZZuDO5Q64juKemL+byXnTxxmBaqh6NpWTEYeutm99LwhE4t0L1IjKPo5I6DNZK
+         yDsg1alLvf+bcgzaDP/IQuQr7ZCKORbG5WY4yyRoeleYUijEUSRze7dROPJ5+GCepI+/
+         WR7ZTH+369iyj2ABChPQoETsUQKDQ19Pl26Vn9SG+8ekLchPlJgNlZg/96+zI1T36I6z
+         xwlh2MOOSc1e5gQ3sdFPCNY2S+Jse9CZh246KE0DfIHACdcwtxABH6KKStG+hBW8Ssdq
+         uLkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768212248; x=1768817048;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U5hiBX/EJmbP0rFvOH8HeLIh3uhucig2oXB0fSc8NSg=;
+        b=jxjxyRGscm4D7QcCCl2ymppLlek1E8ROf5wMw8Ev5tcEyK1AJDXFJSVZfNrUmYsu//
+         F/Pedy+sXf4+VfMHe7EdWgSxoq7O+H2DSM0igZIVLX1JmOdJ5OY/73GxS//14G5ZzNap
+         9QVBxBjyxXH9HmUCfFLYv0Y+91JSE6JO1aXR0y1ve8U5eAFf+pipbcnX8ndrG7z8Kg4V
+         lphNpH17yogUL9XOMmURCED28U6Ncv0KvQyDOdTzWZeSDHDqV3KAamDiparKpQLJaRAv
+         0IbSgcLVjOl1GXcXAD7hg9WR32ScqF9gYrxBMnHZuCRH7aqn6bXZ1KNHgavsUSfiS/CK
+         hpQw==
+X-Forwarded-Encrypted: i=1; AJvYcCX96PSkVBocGUQENwh/igAJYZcNc1I9UK+CJRhFm5Fh2f+tv41ViBFiLLcIXF080vgugRY+71VGQww=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWObM6SLewYM1W5/oNvu63oaV0OEgqy7o8iE0ruoukiQqPWax/
+	D7GdkwYicd/Ruer8X1tFEraMIsAH8lejlY9hzjBf/uk8QuBeRnWNIyju
+X-Gm-Gg: AY/fxX6PNA/DB1YuJ0m6G46Kpx5d395XpapnizEcOnzd3fBCXKXxkXzvgoCBe0r6IgF
+	MHQYMDRJfQpsodrQg+NfMX6HQeGleHooHsR+oBr67ynbi1LwVgj/h45Gk1aXUGBsV5jbN6KTiww
+	0jfXvhHi+wiRmrTTSmBoUF6Upr2PZ9X0sXUEBogtgTNeTUYrclzG5Zj1r07c+AlJrHyIVLG+OHv
+	lXhXvYnDkos7D0oXgcl4gDpV+7dbgeDBYN2QhhWoj2H0G1Z9hCwBPAjU6Ss2ELlvxDMVw1yRRLL
+	25XEaFIpjWJPutlOuiXyKLTGQqzM00LFTplgDRRNNxYpqTsr3HqMIkq7kvVzdH/U3eFL0tXHjwS
+	TgTSlsvdnvCvNz05pCbHNfRgXxxm56x2vV6/NTl7jCmGp27R/QRC8z3ze37PdTa2snv+DsCSFxK
+	Se2hCQwebMIsAYQ1jVJhCCLXJn4a/PeALPXkFhxpbF9NerxU2A1TPjQKfa+eeoETiQivNEdQQws
+	jfp
+X-Google-Smtp-Source: AGHT+IGB5QJeG8ku54AAK1oYhHpchOQzwcbI7Eq/Mwh+iHar9n885imDNGmU7We54FoKXl1Rmirvqg==
+X-Received: by 2002:a05:622a:114f:b0:4f1:cab1:9d3c with SMTP id d75a77b69052e-4ffb4a264c8mr245124531cf.57.1768212248319;
+        Mon, 12 Jan 2026 02:04:08 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8e627absm119541151cf.30.2026.01.12.02.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 02:04:07 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 12 Jan 2026 10:04:02 +0000
+To: Krzysztof Kozlowski <krzk@kernel.org>, 
+	Rodrigo Alencar <rodrigo.alencar@analog.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 1/6] dt-bindings: iio: frequency: add adf41513
+Message-ID: <7ck6vexpeak47kob7niupkdg3nbyvp4nab7rqmz6niq4frf64y@tjnph6hno32z>
+References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
+ <20260108-adf41513-iio-driver-v3-1-23d1371aef48@analog.com>
+ <20260109-translucent-violet-smilodon-ed1917@quoll>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3741; i=brauner@kernel.org; h=from:subject:message-id; bh=7FithyIBKaoedpqmHqroS7296muzq9qFftbtMNAIURw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSmHHURP88sMJN9ukDhRhXbqQequdlWvjZyfBfLe1DV5 5jhhU9qHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABcxZfifcM15deTeLVM3FDGZ slyxOp2V1fLaePb0rF9Nh78+em/0gOF/0ZzNd4vlgpU/arScCRCctkFYad0Mv4pHyyuf8rps+VT FBQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109-translucent-violet-smilodon-ed1917@quoll>
 
-On Thu, 08 Jan 2026 12:12:55 -0500, Jeff Layton wrote:
-> Yesterday, I sent patches to fix how directory delegation support is
-> handled on filesystems where the should be disabled [1]. That set is
-> appropriate for v6.19. For v7.0, I want to make lease support be more
-> opt-in, rather than opt-out:
+On 26/01/09 09:13AM, Krzysztof Kozlowski wrote:
+> On Thu, Jan 08, 2026 at 12:14:50PM +0000, Rodrigo Alencar wrote:
+> > +examples:
+> > +  - |
+> > +    spi {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        pll@0 {
+> > +            compatible = "adi,adf41513";
+> > +            reg = <0>;
+> > +            spi-max-frequency = <10000000>;
+> > +            clocks = <&ref_clk>;
+> > +            avdd1-supply = <&vdd_3v3>;
+> > +            avdd2-supply = <&vdd_3v3>;
+> > +            avdd3-supply = <&vdd_3v3>;
+> > +            avdd4-supply = <&vdd_3v3>;
+> > +            avdd5-supply = <&vdd_3v3>;
+> > +            vp-supply = <&vdd_3v3>;
+> > +
+> > +            adi,power-up-frequency-mhz = <12000>;
+> > +            adi,charge-pump-current-microamp = <2400>;
+> > +            adi,phase-detector-polarity-positive-enable;
+> > +        };
+> > +    };
 > 
-> For historical reasons, when ->setlease() file_operation is set to NULL,
-> the default is to use the kernel-internal lease implementation. This
-> means that if you want to disable them, you need to explicitly set the
-> ->setlease() file_operation to simple_nosetlease() or the equivalent.
+> One example - more complete, so the next one - is enough. They do not
+> differ.
+>
+
+Not sure I undestood this message:
+- are those examples 'enough' as the second one is 'more complete'?
+- do I need to change the second example to be 'more complete',
+  because 'they do not differ'?
+- do I need to create 'one example' 'more complete', apart from the existing ones?
+ 
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    spi {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        pll@0 {
+> > +            compatible = "adi,adf41513";
 > 
-> [...]
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Best regards,
+> Krzysztof
+> 
 
-Applied to the vfs-7.0.leases branch of the vfs/vfs.git tree.
-Patches in the vfs-7.0.leases branch should appear in linux-next soon.
+kind regards,
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.0.leases
-
-[01/24] fs: add setlease to generic_ro_fops and read-only filesystem directory operations
-        https://git.kernel.org/vfs/vfs/c/ca4388bf1d9e
-[02/24] affs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/663cdef61a27
-[03/24] btrfs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/f9688474e413
-[04/24] erofs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/f8902d3df893
-[05/24] ext2: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/ccdc2e0569f5
-[06/24] ext4: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/20747a2a29c6
-[07/24] exfat: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/b8ca02667552
-[08/24] f2fs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/9e2ac6ddb397
-[09/24] fat: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/a9acc8422ffb
-[10/24] gfs2: add a setlease file operation
-        https://git.kernel.org/vfs/vfs/c/3b514c333390
-[11/24] jffs2: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/c275e6e7c085
-[12/24] jfs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/7dd596bb35e5
-[13/24] nilfs2: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/f46bb13dc5d9
-[14/24] ntfs3: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/6aaa1d6337b5
-[15/24] ocfs2: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/f15d3150279d
-[16/24] orangefs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/136b43aa4b16
-[17/24] overlayfs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/94a3f60af5dc
-[18/24] squashfs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/dfd8676efe43
-[19/24] tmpfs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/f5a3446be277
-[20/24] udf: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/dbe8d57d1483
-[21/24] ufs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/545b4144d804
-[22/24] xfs: add setlease file operation
-        https://git.kernel.org/vfs/vfs/c/6163b5da2f5e
-[23/24] filelock: default to returning -EINVAL when ->setlease operation is NULL
-        https://git.kernel.org/vfs/vfs/c/2b10994be716
-[24/24] fs: remove simple_nosetlease()
-        https://git.kernel.org/vfs/vfs/c/51e49111c00b
+Rodrigo Alencar
