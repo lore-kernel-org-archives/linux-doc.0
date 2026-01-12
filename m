@@ -1,159 +1,228 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB46336403D
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 16:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CA52EAB83
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 16:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768233757; cv=none; b=soeOJu6ya5XiRvSJYMmDDl38xfeKPX4QosGBQTOKY7ccJxgD6Ubfs5SWyLzogJ2dqGuJsefuISd7iX722ie+VPlYkg8Wiux/R90AOZmIox7AArIf7a/DIXjlzouORK+EKvbfcc83rJJfbSFovedlY780kOwU4KW2soXhIYGIWSM=
+	t=1768234105; cv=none; b=tVF1oB5o8Ft8yEpD+AmIfuW1H87BTTc+CB+fVjO0DgOrfB4tMdSRvMp+ohw2+cNacv7Ud4INvVeLRkVTL68GpD5x1vGGySRNM8ceO3fg4cx/JqaS/O7NhVpa1r1ObKN33Rn5A6ANYBiflXYNuSYfBdoksOdMr86Hd0+YR0VRKVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768233757; c=relaxed/simple;
-	bh=bC/Qjyk/R/HVGN+FQeWmTeEoWIOx8ZavQXScE/JM/Vc=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=G+TRzc+OeC4p90bQF+fr3m9xZfUCbAcy8atgmRdUFalTvpYqP0QsKf3oJVDLS3JfE1IbMUl8zP1AnCECmFuw7qEkqrGaBPYensqGP3fYZu3s879e0csRfrl3yv2n2BCdjSILlZ3m+6HQN802ZxifHbMFsp5I2cunYNqKVvOd1ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PI/roims; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=H3/oZgH7; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1768234105; c=relaxed/simple;
+	bh=0XtRZk5NkOQKKYgmfKhfMF8RiEokBH47z05TiDmKqEg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qxT9kM6no+J3uc0gnR6FYxt+Ww+8GVzoPHPyYRm8oTMwZ8c5Ja40BC0OLfOXVE5GyU7Q4bXqh4qFlfkRTXS9nz86Xc/TgfLThDOdIgaT5MB4T3PA3Ck7m/FRlRA8GUsQKc2hdD6KT3iM1ZfevF/qb2IiocZOxqDUYaygzVsy4HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IwKH/gTl; arc=none smtp.client-ip=209.85.208.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PI/roims";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3/oZgH7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768233754;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VMhXnlPrek/WOR7SOlvqEVsXnE8wyUlU5u32qXId6qk=;
-	b=PI/roimsEjk8QmGUqVeyENhxVYKU//c5AJQ6Bfwus9Et+pEwdmlHS9J+ZDaaMrUwWGB3Vf
-	lNbLRSABKaBM1d/33Kcj/u9m9y31yU3ORicCcsXZy9CAYqWXw4IGIkdr2bkJa4eGvEeWkx
-	SJ+SVotz1WPdoNElSqM/4wjr4dvWONc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-25-dmH092CJNQ22oW4pMPkDtQ-1; Mon, 12 Jan 2026 11:02:33 -0500
-X-MC-Unique: dmH092CJNQ22oW4pMPkDtQ-1
-X-Mimecast-MFC-AGG-ID: dmH092CJNQ22oW4pMPkDtQ_1768233753
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8bb6a7fea4dso1603900085a.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 08:02:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IwKH/gTl"
+Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-65063a95558so9831836a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 08:08:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768233753; x=1768838553; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VMhXnlPrek/WOR7SOlvqEVsXnE8wyUlU5u32qXId6qk=;
-        b=H3/oZgH750O3fehzP/iwP36T8l1Hqmye0ljh2E/I2gc4QudNmpH2t0dQ18GGY4y1pU
-         97/bFnoht+cSoGqCo88E+hEalGtAW0XZnGdfs695tm+UpeXkgQ/lwWiZEEGlw3qvkdNK
-         qCbDITAK+TSVNTZPSNgSZjjud//kkH+ZD1aLa51pQfKT2JtPYzTtBweI5njCv9TWXCXs
-         cqxvGmOEteLFiuIxa05XqKY5bdZlRnZZRb0C3M6h9h8Z6tIqoJsaLwomRhwsDMp4gfPk
-         W/ud4cZJYEEQ19D7fYfdbjeqWwHkSGy9gSQTf8vIFzomsIaSe182t0WsxX8Qm75T6HKy
-         2s3A==
+        d=gmail.com; s=20230601; t=1768234102; x=1768838902; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rhL4JNvGH/Ad37oTzLQ5PqwjNlackbvAhbcxlZaqeQI=;
+        b=IwKH/gTl43L2JhEXOm3E3D0uM9AtX5qcoyMjdMfmorF2gJB0/Bw7bAoPYEaFYmMYap
+         ++dEgHgT6jrvolHEnVrVChb1W4c8t/bf3108VxJMCzO6FeOTVymaX+5PSft+YAlaD+iX
+         VtwTU9tlBLYBkjHakbvyAE6Gf/sD3ixzsCbtZoOkZ17nDQWu6tWqzp4WudOmWdGGUUB/
+         oJVUX9uvnOUchWvv4cHnCEG+v5z8GoprFzeKWKATDaPfSZgqZA0yD57ePezm/VK25P92
+         qWPEhlmmPkmLYherCLetDYVFqtx7ooGylmzxxiXO1ykjWbABhKUMgdfiU4YVCEDUcA84
+         XRdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768233753; x=1768838553;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VMhXnlPrek/WOR7SOlvqEVsXnE8wyUlU5u32qXId6qk=;
-        b=gDJrXdpvSwJD0YiqwwWEhfl9sOU51KhBOE3QOxA/hNFK4VJf4FMTd1UTnQsOqcGh3S
-         IdlZkMOZMIMbBoas3pMJP9cC3wrvbj5h0CVh07oIHWIEmG3tC3Wim9JkyMUn3ZqyWPlE
-         ITX/B2hx0MW877oFoksM/OBDpjZkiPFRvykJXsaPdblByTHSYuHNlatdZwbSyll6HVlU
-         x2P0yoVsUn+P6fzQ+UfC6OLLp+esLr8XjNvTpvJjRn4aPUWu6akmC13a4KE1XfWehhDf
-         ZxRkkiF6C85SHdVKrgF0DwxNEPYqeVfIFW+pp21fv19XdRMh8GvzQ8HT3AQS02lVE4+y
-         e0sQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIvtHMyHCXD4qG8stCZU24sLq30LZw1ZCeiHYmcXrADBZ9ccGcUVqeQhBIAoOUQtO06cqp0HEeXSE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQFnkhvr2807QO2V9lj8Ew3QR/R6fvpg0MKD7GG05lfRuwmp5K
-	y5HMv6XWF2t0YOtY7B1Xs3Q6kgFfk/WMIB49UKzJ5AkmPC41dCM9SCnzfbRUnSfgbhXhsb4dZ65
-	iKqSkP5C9NXvYs8RivCLAWQTtC5uvreapWL3I+pmVlXspaD7L+WKudrT4/szP0A==
-X-Gm-Gg: AY/fxX4FGFDAXue6GDcKDz2BRi1ICikB0PYHrwtha48BsjiSGoRRAzv+ZwkZ9ljWUrt
-	+8v58xA5Xti6QxNgf3aYvpXu1gGixcaQUT1wYSrBkSU2IUu+V1aPSJDhjsaeSK3cAPiItZWc1zY
-	/sXzW3DtV3ri230KyYWcH1t64Ont1AV4b0wpRVmsRFJggi15Y/D6Fn0u9XUS1uRlpRlTtF3kCBv
-	qM+uEser5wW93DHzn/AYDe4lqB/uyh1nwEAi5gOuT4n6jbsqQbMqzZnkft/zliZniS4CdkhGccG
-	62cdbx4YTSbnpfW+yao14Hz+KAQ/3v0qIu9d7OczpUryo6EbCjX0NUP4aLQwUjfn7NEQJcFRk4E
-	ahiB7iK6sGXTCBBZOJoSvLC6Cqhfmnota7i+FmtdaU/NTLR8i13Ixr4n0
-X-Received: by 2002:a05:620a:4444:b0:8b2:e177:fb17 with SMTP id af79cd13be357-8c3893dca80mr2449095085a.45.1768233751934;
-        Mon, 12 Jan 2026 08:02:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEJi2/0HC1+IC4PuaBeIdB3G5w2rUk7KP+T2Nhpx9j47KDX3VY5aFRtmJJXjg0pMKFLyFlL1g==
-X-Received: by 2002:a05:620a:4444:b0:8b2:e177:fb17 with SMTP id af79cd13be357-8c3893dca80mr2449083785a.45.1768233751123;
-        Mon, 12 Jan 2026 08:02:31 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f4a6441sm1556650385a.7.2026.01.12.08.02.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 08:02:30 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <86b578f3-70f5-4a72-9371-e35478ec1c01@redhat.com>
-Date: Mon, 12 Jan 2026 11:02:28 -0500
+        d=1e100.net; s=20230601; t=1768234102; x=1768838902;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rhL4JNvGH/Ad37oTzLQ5PqwjNlackbvAhbcxlZaqeQI=;
+        b=Q9F/RzcRatJO5f3yAMNURbIaqEynVAzFsGo6/+TqWfE9GDH9tJM27ZlehMZdoGjuP9
+         R7AjAtCxr13Qrm5h+tFtCHSyAnXxC+GHqILl8ZQsxfUy8NMSFtyglr8iVXJlByn/3slU
+         Irr/t+ReMIBxLLvU1svsBAbw1AOlW+QR3pDETVTv6kF+eI7xorQuMRsx1ZgJoW+JccIs
+         7HNWIzNizJfNPJXi9YKsNwZOC0q0MAktavUnQ9/nELAMtEPVXDgOQydAc2xzx+qqMq9a
+         W2pDCBzOnX+zJMPgewMuPinyHu19z5+GWf0C2Y4cwt9eLattzckKvAxEvl3rA0NEqcGV
+         MqOA==
+X-Gm-Message-State: AOJu0Yz03erH1d/D86OgqB3Kq66yJdY/ScEDaVPDKEVsIVgpLmnkHnwC
+	vbz0HqptvsBcCMbr51Qumamiv3eQS8MLLgF0Ncxpk6zX0OQIspd7kW8G
+X-Gm-Gg: AY/fxX71GaOcs+i6vBEQcTzuL1qvRckEhAjpjF+IFZ6Suxmgh0SQv/q2nr/CbkEMTRw
+	F2Jn75frS/M5tmc792Lx3FvTVQ2NoLoCmJDfNIP0YqNgbPSAnfVbknKVBXhGN5sgFevw71KVcuX
+	6yeus8XrUwau8niY0FMfr2KVQ4sJtREZjKStvdcVYuhKKF0fqnIIoBsuGmq7Vs4BC5r8e+ZS0wy
+	HZ3P7SMCHAYATTX7CyIdt7IoSinuSbjYDFPhcR/KzRIHrcQAUfTfbGSy/LAugWv5/D20w4FSNsq
+	2wGyZ1bTMnL8y+M6Qjbk4wURYe3Rl6NZ9uYb1CGqORROVC8yWPZ1pusiPHRvIRVQfuHZDm2Up2e
+	y9ht5ZAD4qXiIcSSywgq4PkNRQGGzWmWOLxUpxtR9OZneAQ9gn7mw668WpE1U57j67GWEJdk9LN
+	NWuk75CZB5Eq6w0G4vaa2rjUug3C5A2kUMSNxuceTu+Q4=
+X-Google-Smtp-Source: AGHT+IFazFrD0ua/D+OyOxZV/TILTiOYzJ/3DUB89wm9e5Xuy/h95OK98M827+C0BmLeSL4ZrMLPsQ==
+X-Received: by 2002:a17:907:1b1d:b0:b73:6c97:af4b with SMTP id a640c23a62f3a-b84453eb56amr1811673766b.45.1768234101567;
+        Mon, 12 Jan 2026 08:08:21 -0800 (PST)
+Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507b8c4c15sm17955883a12.4.2026.01.12.08.08.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 08:08:21 -0800 (PST)
+From: Nauman Sabir <officialnaumansabir@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	linux-kbuild@vger.kernel.org,
+	Nauman Sabir <officialnaumansabir@gmail.com>
+Subject: [PATCH v3 3/3] Documentation: Fix typos and grammatical errors
+Date: Mon, 12 Jan 2026 17:08:20 +0100
+Message-ID: <20260112160820.19075-1-officialnaumansabir@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH cgroup/for-6.20 v4 4/5] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-To: Waiman Long <llong@redhat.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>, Chen Ridong
- <chenridong@huaweicloud.com>, Chen Ridong <chenridong@huawei.com>
-References: <20260112040856.460904-1-longman@redhat.com>
- <20260112040856.460904-5-longman@redhat.com>
- <2naek52bbrod4wf5dbyq2s3odqswy2urrwzsqxv3ozrtugioaw@sjw5m6gizl33>
- <f33eb2b3-c2f4-48ae-b2cd-67c0fc0b4877@redhat.com>
- <uogjuuvcu7vsazm53xztqg2tiqeeestcfxwjyopeapoi3nji3d@7dsxwvynzcah>
- <9a1b7583-7695-484f-a290-807b6db06799@redhat.com>
-Content-Language: en-US
-In-Reply-To: <9a1b7583-7695-484f-a290-807b6db06799@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 1/12/26 10:15 AM, Waiman Long wrote:
-> On 1/12/26 10:08 AM, Michal Koutný wrote:
->> On Mon, Jan 12, 2026 at 09:51:28AM -0500, Waiman Long 
->> <llong@redhat.com> wrote:
->>> Sorry, I might have missed this comment of yours. The
->>> "cpuset.cpus.exclusive" file lists all the CPUs that can be granted 
->>> to its
->>> children as exclusive CPUs. The cgroup root is an implicit partition 
->>> root
->>> where all its CPUs can be granted to its children whether they are 
->>> online or
->>> offline. "cpuset.cpus.effective" OTOH ignores the offline CPUs as 
->>> well as
->>> exclusive CPUs that have been passed down to existing descendant 
->>> partition
->>> roots so it may differ from the implicit "cpuset.cpus.exclusive".
->> Howewer, there's no "cpuset.cpus" configurable nor visible on the root
->> cgroup. So possibly drop this hunk altogether for simplicity?
->
-> Ah, you are right. I thought there was a read-only copy in cgroup 
-> root. Will correct that.
->
-Below is the doc diff between v4 and v5:
+Fix various typos and grammatical errors across documentation files:
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst 
-b/Documentation/admin-guide/cgroup-v2.rst
-index a3446db96cea..28613c0e1c90 100644
+- Fix missing preposition 'in' in process/changes.rst
+- Correct 'result by' to 'result from' in admin-guide/README.rst
+- Fix 'before hand' to 'beforehand' in cgroup-v1/hugetlb.rst
+- Correct 'allows to limit' to 'allows limiting' in hugetlb.rst,
+  cgroup-v2.rst, and kconfig-language.rst
+- Fix 'needs precisely know' to 'needs to precisely know'
+- Correct 'overcommited' to 'overcommitted' in hugetlb.rst
+- Fix subject-verb agreement: 'never causes' to 'never cause'
+- Fix 'there is enough' to 'there are enough' in hugetlb.rst
+- Fix 'metadatas' to 'metadata' in filesystems/erofs.rst
+- Fix 'hardwares' to 'hardware' in scsi/ChangeLog.sym53c8xx
+
+Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
+---
+ Documentation/admin-guide/README.rst           |  2 +-
+ .../admin-guide/cgroup-v1/hugetlb.rst          | 18 +++++++++---------
+ Documentation/admin-guide/cgroup-v2.rst        |  2 +-
+ Documentation/filesystems/erofs.rst            |  2 +-
+ Documentation/kbuild/kconfig-language.rst      |  2 +-
+ Documentation/process/changes.rst              |  2 +-
+ Documentation/scsi/ChangeLog.sym53c8xx         |  2 +-
+ 7 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index 05301f03b717..77fec1de6dc8 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -53,7 +53,7 @@ Documentation
+    these typically contain kernel-specific installation notes for some
+    drivers for example. Please read the
+    :ref:`Documentation/process/changes.rst <changes>` file, as it
+-   contains information about the problems, which may result by upgrading
++   contains information about the problems which may result from upgrading
+    your kernel.
+ 
+ Installing the kernel source
+diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
+index 493a8e386700..b5f3873b7d3a 100644
+--- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
++++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
+@@ -77,7 +77,7 @@ control group and enforces the limit during page fault. Since HugeTLB
+ doesn't support page reclaim, enforcing the limit at page fault time implies
+ that, the application will get SIGBUS signal if it tries to fault in HugeTLB
+ pages beyond its limit. Therefore the application needs to know exactly how many
+-HugeTLB pages it uses before hand, and the sysadmin needs to make sure that
++HugeTLB pages it uses beforehand, and the sysadmin needs to make sure that
+ there are enough available on the machine for all the users to avoid processes
+ getting SIGBUS.
+ 
+@@ -91,23 +91,23 @@ getting SIGBUS.
+   hugetlb.<hugepagesize>.rsvd.usage_in_bytes
+   hugetlb.<hugepagesize>.rsvd.failcnt
+ 
+-The HugeTLB controller allows to limit the HugeTLB reservations per control
++The HugeTLB controller allows limiting the HugeTLB reservations per control
+ group and enforces the controller limit at reservation time and at the fault of
+ HugeTLB memory for which no reservation exists. Since reservation limits are
+-enforced at reservation time (on mmap or shget), reservation limits never causes
+-the application to get SIGBUS signal if the memory was reserved before hand. For
++enforced at reservation time (on mmap or shget), reservation limits never cause
++the application to get SIGBUS signal if the memory was reserved beforehand. For
+ MAP_NORESERVE allocations, the reservation limit behaves the same as the fault
+ limit, enforcing memory usage at fault time and causing the application to
+ receive a SIGBUS if it's crossing its limit.
+ 
+ Reservation limits are superior to page fault limits described above, since
+ reservation limits are enforced at reservation time (on mmap or shget), and
+-never causes the application to get SIGBUS signal if the memory was reserved
+-before hand. This allows for easier fallback to alternatives such as
++never cause the application to get SIGBUS signal if the memory was reserved
++beforehand. This allows for easier fallback to alternatives such as
+ non-HugeTLB memory for example. In the case of page fault accounting, it's very
+-hard to avoid processes getting SIGBUS since the sysadmin needs precisely know
+-the HugeTLB usage of all the tasks in the system and make sure there is enough
+-pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommited
++hard to avoid processes getting SIGBUS since the sysadmin needs to precisely know
++the HugeTLB usage of all the tasks in the system and make sure there are enough
++pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommitted
+ systems is practically impossible with page fault accounting.
+ 
+ 
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 7f5b59d95fce..098d6831b3c0 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2641,9 +2641,10 @@ Cpuset Interface Files
-
-      The root cgroup is always a partition root and its state cannot
-      be changed.  All other non-root cgroups start out as "member".
--    Even though the "cpuset.cpus.exclusive*" control files are not
--    present in the root cgroup, they are implicitly the same as
--    "cpuset.cpus".
-+    Even though the "cpuset.cpus.exclusive*" and "cpuset.cpus"
-+    control files are not present in the root cgroup, they are
-+    implicitly the same as the "/sys/devices/system/cpu/possible"
-+    sysfs file.
-
-      When set to "root", the current cgroup is the root of a new
-      partition or scheduling domain.  The set of exclusive CPUs is
-
-Cheers,
-Longman
+@@ -2816,7 +2816,7 @@ DMEM Interface Files
+ HugeTLB
+ -------
+ 
+-The HugeTLB controller allows to limit the HugeTLB usage per control group and
++The HugeTLB controller allows limiting the HugeTLB usage per control group and
+ enforces the controller limit during page fault.
+ 
+ HugeTLB Interface Files
+diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
+index 08194f194b94..e61db115e762 100644
+--- a/Documentation/filesystems/erofs.rst
++++ b/Documentation/filesystems/erofs.rst
+@@ -154,7 +154,7 @@ to be as simple as possible::
+   0 +1K
+ 
+ All data areas should be aligned with the block size, but metadata areas
+-may not. All metadatas can be now observed in two different spaces (views):
++may not. All metadata can be now observed in two different spaces (views):
+ 
+  1. Inode metadata space
+ 
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index abce88f15d7c..7067ec3f0011 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -216,7 +216,7 @@ applicable everywhere (see syntax).
+ 
+ - numerical ranges: "range" <symbol> <symbol> ["if" <expr>]
+ 
+-  This allows to limit the range of possible input values for int
++  This allows limiting the range of possible input values for int
+   and hex symbols. The user can only input a value which is larger than
+   or equal to the first symbol and smaller than or equal to the second
+   symbol.
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 62951cdb13ad..0cf97dbab29d 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -218,7 +218,7 @@ DevFS has been obsoleted in favour of udev
+ Linux documentation for functions is transitioning to inline
+ documentation via specially-formatted comments near their
+ definitions in the source.  These comments can be combined with ReST
+-files the Documentation/ directory to make enriched documentation, which can
++files in the Documentation/ directory to make enriched documentation, which can
+ then be converted to PostScript, HTML, LaTex, ePUB and PDF files.
+ In order to convert from ReST format to a format of your choice, you'll need
+ Sphinx.
+diff --git a/Documentation/scsi/ChangeLog.sym53c8xx b/Documentation/scsi/ChangeLog.sym53c8xx
+index 3435227a2bed..6bca91e03945 100644
+--- a/Documentation/scsi/ChangeLog.sym53c8xx
++++ b/Documentation/scsi/ChangeLog.sym53c8xx
+@@ -3,7 +3,7 @@ Sat May 12 12:00 2001 Gerard Roudier (groudier@club-internet.fr)
+ 	- Ensure LEDC bit in GPCNTL is cleared when reading the NVRAM.
+ 	  Fix sent by Stig Telfer <stig@api-networks.com>.
+ 	- Backport from SYM-2 the work-around that allows to support 
+-	  hardwares that fail PCI parity checking.
++	  hardware that fails PCI parity checking.
+ 	- Check that we received at least 8 bytes of INQUIRY response 
+ 	  for byte 7, that contains device capabilities, to be valid.
+ 	- Define scsi_set_pci_device() as nil for kernel < 2.4.4.
+-- 
+2.52.0
 
