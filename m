@@ -1,107 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CB835FF4B;
-	Mon, 12 Jan 2026 15:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B0035FF70
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 15:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768232040; cv=none; b=CUG+aeWU9UtrGs+j0FWgkrr96mwkNtzRjVZF4llf/zzMIm4rWFedloGH2qyiQgkTYaob8uONA588jhl90TGN/GMHB37JAZ4laFsxALA+TWx6gVj2c0U/xxo1sYu7IK5VamETSWPp7NO/7EviDQfP5SUXHKmYjeYFIthBIMsfr64=
+	t=1768232121; cv=none; b=tccmSvdjEfC360XtIN3lUtOCd3EKhmo1WRlnC0GLC56vcfFRHKTHHu/gI6wY7hF4Qhu7YBeXm/UNilsmm2o93skkO5OskuSNtoVWHApWI4UaLgqGTGV7gWupomN9WWjl06MhUahthe5t+qH0COIsZ6Uh7xdSrXGzfAs/l5/n6H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768232040; c=relaxed/simple;
-	bh=f3xO0slKAVaBiRTlD2qHC9T3jGFow6wm/0m9cbCdPm0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=avxOU9QZYSTvhBMtciMclPNdksbZexyQNNWJcMLn1KHpEYv75xt0yVIQn0s4rWZZQtkbfymsy8DP9RQpNkgmBXh0eIxNeAHqu8nPp6SapVJzASfWboWcd3UiFHSg1vV0yenIQafAYDDxiK9eRa38a/X9F1Ch2dxXEr0wNI0sufM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UX6r9aQa; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1768232121; c=relaxed/simple;
+	bh=CqkrBbQJARC77HViTJ7Fw835RSSe59j00Y/6Yal3gVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fVSOBW3WM0ktYow+pqP+XGWg02V535NBhy8gVqwmJYrgslvHsogDqfze9Q9TJ/k+q1uAP5+HYa8yVFG0Nohg4AYLEpt9eodmASNyOEZLmHDfzON8m8LAUMJsgFGJDS+KK4W9bEdMMMm10HEoUPTCsOo/dwe/EyaV7umyxURICdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D9n0X+7Q; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UX6r9aQa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768232038; x=1799768038;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=f3xO0slKAVaBiRTlD2qHC9T3jGFow6wm/0m9cbCdPm0=;
-  b=UX6r9aQaaY1Zcs2Yazs3n9Bd1fZRNziTuTA6izYga1IS6xfwz60kJMvW
-   Dj+GlPtOjKCkq9HZTrLVuRvxJY8yrHQ9mcp93JjW4prjo7QHEGEeBtZig
-   0fyWec9d+lV8+KOx+Lh141mJePqJwP4VMaP12qgCssh+gHahbudkLbcj9
-   tR39D9PHw5SUjPanaqUFjMdhsSaZjWG4Ltls9l2j3NR/nK4Qy6HKHIPRT
-   5bxrTgp2O457W9etAGtMaNoknbCPyswCfsrXV0haMyb7rfQigqX2iaHKV
-   MWz9yG0BFWVKddiYSZuSJA5Nv0XGQ68m+t2dfOIgjGg9bX/zbBsAtnCpL
-   Q==;
-X-CSE-ConnectionGUID: 0hDdSG8tQ3229Mf+KSrpSw==
-X-CSE-MsgGUID: USyV3ZRARnSTHZc5e8f1xQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80147096"
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="80147096"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:33:57 -0800
-X-CSE-ConnectionGUID: MYrPfBHlS7Ow16ZvgHyi7w==
-X-CSE-MsgGUID: //hswbcMTOiUuXeU/cqkuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208636240"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.111])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:33:54 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: hansg@kernel.org, Armin Wolf <W_Armin@gmx.de>
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux@weissschuh.net, Dell.Client.Kernel@dell.com, corbet@lwn.net, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20260109214619.7289-1-W_Armin@gmx.de>
-References: <20260109214619.7289-1-W_Armin@gmx.de>
-Subject: Re: [PATCH v3 0/9] platform/wmi: Introduce marshalling support
-Message-Id: <176823202983.9723.14857677950268577030.b4-ty@linux.intel.com>
-Date: Mon, 12 Jan 2026 17:33:49 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9n0X+7Q"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-432d28870ddso2313516f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 07:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768232118; x=1768836918; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bisDuv4nPIuBAuwZ3nv0ukh31CRRL1f/LFbl87ZPJiM=;
+        b=D9n0X+7QWT8DaUBECRPZFql2/dw1VTf8WiXIdYwrvAqtKEL/DOi2N6oXE7P/u5K6MM
+         Kml8FbKjx05yrg8GbLcH6gH5mMKEeZQH+ww/hUgeeueG0kyhyjHcXFCW51B3lZ223PX5
+         iYGBF6lWvo197Uw8CRni2C9jMPerPEn8ebrrbdtlehZKIoCpd6qDNvKyiKh/gN5ccIeg
+         pPOoJC+1qr3Ld6TsSSfLBHS0FoGTnG3w7nQv9MWabMicebP6XgojgbB70Zqsws08TYdp
+         EKqZb0pvCcWuJjJSvp6XGTcdZ8V27izgbvxETc0mlRMzHBXxhAMc7ABkgnQcZbk3q8dy
+         IEOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768232118; x=1768836918;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bisDuv4nPIuBAuwZ3nv0ukh31CRRL1f/LFbl87ZPJiM=;
+        b=A7jHlSkMzkjg9P/nkVPkzqWyKCYEo/Cfg8Gs8XT2RgeBida9OCWHBq+Vf6i25VeMlO
+         ozd8IjU9YrvG8+KJ/X4aR2zWP/L1zQ6DkxXYs9hmRmxsbIhpXtqRvA+0Z09aoxpf5Mle
+         pKOm4EOgsLhvuQm2Epin3gj/quUl85RFK4zfDFArIx05hgcYooosTcdHkC9JufPGL1GJ
+         7l1Kqdi4as0txi5PaXIt/R7WWfiVIH/3HxB2aHDfm9WEd0ZDIz0LlmV+pQ3+JFjQEBEf
+         jotDuAEEG/WOzQdKKd32T10gV7HLWr/o527RZsEwTSk5uQO/JfvqYpceqVI3N5cmb6f/
+         NHkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZLlakTD2YREfPVKG6L5N+A1lXj/o5cRhVTbWWtdzkKGxU69prbJf1fEdv8nqypBPlG9kVW/Q4G8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyHvpZQPZ6lsXbzIu5q7Wkmmaif1SyOFXIP0tHpVlTENGydKSY
+	loDcvY8JJXeJ5eebw1guuxEnubt7SOCiic1Eff2LoQe4LhW2GIMtL/0Q
+X-Gm-Gg: AY/fxX4GFimUUl6B2e3kANC4G4/ctUtOS68OgRwfDcfVnKby/gnXlpjnnZpC95kGSev
+	t59tHGaX6K/4hQL6sR7hdHUHxfR4tawzjOj+VDgKEHl9O4g6o4BSfh1Xkzvgp64Dyun2vr71Q3a
+	meQfhmTaOwCAxqj+NYcspez+nu1zx00wRZitqz9bWokQ7d7/HB/eJ+aOMnvEJ3TURHHewjC3mXQ
+	3f4y0xfbjrWY5XbDNAJ2Zk7WaFQxG0/9NsLQcAqvwsH9Y8e72dmZI8UOWHMWZYuH9UtsWN0sHHW
+	JjbJ2+FNNJ3rxhRKQcrPX09LU1WWuNZ8bg9WkruqJ88IAwCsBFUZdJzEwIrbgEtyJ2W03yFmlqh
+	VKUnEhsSP/0DMZnPK9A/bavGKF3k+bNa67GU9vZksQufTOCT/3A+O4yxo6q8TN6G8rxd7ukXx35
+	BD4m5+LMf1EdNbRH4vPe+gbMDZC/Di0I7LAg==
+X-Google-Smtp-Source: AGHT+IFkionbBPxAVMu1Bo9fnGCSD/FhMiTLzbgpT1ra0OiOGliqUo8UWo/OByWQL36OmxlkAVQrNQ==
+X-Received: by 2002:a5d:64e7:0:b0:430:f7ae:af3c with SMTP id ffacd0b85a97d-432c374fc2dmr21802974f8f.31.1768232118128;
+        Mon, 12 Jan 2026 07:35:18 -0800 (PST)
+Received: from imac.lan ([2a02:8010:60a0:0:c1a8:6cc9:af79:502a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5df9afsm41592789f8f.24.2026.01.12.07.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 07:35:17 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Donald Hunter <donhunte@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH net v1] tools: ynl: render event op docs correctly
+Date: Mon, 12 Jan 2026 15:34:36 +0000
+Message-ID: <20260112153436.75495-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 09 Jan 2026 22:46:10 +0100, Armin Wolf wrote:
+The docs for YNL event ops currently render raw python structs. For
+example in:
 
-> The Windows WMI-ACPI driver likely uses wmilib [1] to interact with
-> the WMI service in userspace. Said library uses plain byte buffers
-> for exchanging data, so the WMI-ACPI driver has to convert between
-> those byte buffers and ACPI objects returned by the ACPI firmware.
-> 
-> The format of the byte buffer is publicly documented [2], and after
-> some reverse eingineering of the WMI-ACPI driver using a set of custom
-> ACPI tables, the following conversion rules have been discovered:
-> 
-> [...]
+https://docs.kernel.org/netlink/specs/ethtool.html#cable-test-ntf
 
+  event: {‘attributes’: [‘header’, ‘status’, ‘nest’], ‘__lineno__’: 2385}
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
+Handle event ops correctly and render their op attributes:
 
-The list of commits applied:
-[1/9] platform/wmi: Introduce marshalling support
-      commit: bfa284e9f5e77c9e7389116a403b1dc478f2d58e
-[2/9] platform/wmi: Add kunit test for the marshalling code
-      commit: 1e4746e93871168f50f237e9e316dc6c9a883719
-[3/9] platform/wmi: Add helper functions for WMI string conversions
-      commit: 3ae53ee45d5c958aae883173d1e4cafe15564cce
-[4/9] platform/wmi: Add kunit test for the string conversion code
-      commit: 3579df4cf0b5a3c1d50146c72b13bb4215d509b5
-[5/9] platform/x86: intel-wmi-sbl-fw-update: Use new buffer-based WMI API
-      commit: ca7861de6a37a52bf75fe41be51fd39162a9281d
-[6/9] platform/x86/intel/wmi: thunderbolt: Use new buffer-based WMI API
-      commit: 7f331e5f10ebb72d3bbc83470e4b409337024093
-[7/9] platform/x86: xiaomi-wmi: Use new buffer-based WMI API
-      commit: e9997669653bc0622f9ed8a3fe778cc989d1e254
-[8/9] platform/x86: wmi-bmof: Use new buffer-based WMI API
-      commit: 70d37a7fd341e5c0090385034feb8f6f93a56ae7
-[9/9] platform/wmi: Update driver development guide
-      commit: 0835f9737d4705a9f72de05fde09ba806dcbc862
+  event: attributes: [header, status]
 
---
- i.
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ tools/net/ynl/pyynl/lib/doc_generator.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/tools/net/ynl/pyynl/lib/doc_generator.py b/tools/net/ynl/pyynl/lib/doc_generator.py
+index 3a16b8eb01ca..8b922d8f89e8 100644
+--- a/tools/net/ynl/pyynl/lib/doc_generator.py
++++ b/tools/net/ynl/pyynl/lib/doc_generator.py
+@@ -166,13 +166,13 @@ class YnlDocGenerator:
+                 continue
+             lines.append(self.fmt.rst_paragraph(self.fmt.bold(key), level + 1))
+             if key in ['request', 'reply']:
+-                lines.append(self.parse_do_attributes(do_dict[key], level + 1) + "\n")
++                lines.append(self.parse_op_attributes(do_dict[key], level + 1) + "\n")
+             else:
+                 lines.append(self.fmt.headroom(level + 2) + do_dict[key] + "\n")
+ 
+         return "\n".join(lines)
+ 
+-    def parse_do_attributes(self, attrs: Dict[str, Any], level: int = 0) -> str:
++    def parse_op_attributes(self, attrs: Dict[str, Any], level: int = 0) -> str:
+         """Parse 'attributes' section"""
+         if "attributes" not in attrs:
+             return ""
+@@ -184,7 +184,7 @@ class YnlDocGenerator:
+ 
+     def parse_operations(self, operations: List[Dict[str, Any]], namespace: str) -> str:
+         """Parse operations block"""
+-        preprocessed = ["name", "doc", "title", "do", "dump", "flags"]
++        preprocessed = ["name", "doc", "title", "do", "dump", "flags", "event"]
+         linkable = ["fixed-header", "attribute-set"]
+         lines = []
+ 
+@@ -217,6 +217,9 @@ class YnlDocGenerator:
+             if "dump" in operation:
+                 lines.append(self.fmt.rst_paragraph(":dump:", 0))
+                 lines.append(self.parse_do(operation["dump"], 0))
++            if "event" in operation:
++                lines.append(self.fmt.rst_paragraph(":event:", 0))
++                lines.append(self.parse_op_attributes(operation["event"], 0))
+ 
+             # New line after fields
+             lines.append("\n")
+-- 
+2.52.0
 
