@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9F320010C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76EE24A07C;
 	Mon, 12 Jan 2026 15:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768230487; cv=none; b=YToR5LAD4gG5qYLCi9dBUXjhMUtmeDzwP9qEVI8eFW0gbOqEc6khcZyZ3+gcCgQpiGI/KZVqPiYGFb3hTBtNzdRhfL33VP+3iNLgEvBw0wCEhUe8KzGBo0zCcAmdLN9zhD7KGlsDD1QYL7c+TTsOgjrIRVX9JUa1NS/57j6eVCg=
+	t=1768230487; cv=none; b=aoggwnwuyLiahO5jCFUl31ogKsjdL5xUuw/nhjPi0MC5WAGsWoyjqKfUviClobOTvYYwQSt8Xlrbz0iYWTmcTEKufZve02k3mv5FlqklBEvDMM9HREDuzhmfp1ISkzW9M+qVjj1si1tJ/RJ3PBB04e/7mrrtK0lVEBbrW0WvjTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768230487; c=relaxed/simple;
-	bh=hQU7ILU8FGfaXvaPKyg+910Nis+bE1Jn3QGzXcDLK6c=;
+	bh=efaAoQJ46q/MA7bC6BpXipDb0T3zDwPIKRwh3uhkakE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ryihij1y9TT5kxrkbU9MG4B0li81wgP4nyI4eSqGUPgolMcdlATYqe2BXXTTTGogrG4RWj5K3bE1Uqs7XR5StoT2TT5yUQg0Ud1UL2D5BUkbuZkmT8eUpYKaObfP8N6sVJafBSZOLZfNEKq8dl4o2ewvgv8mtvSkXfoktqJM75Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jRrIoLMC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=TXuKSiAcFS/botL/1ioXdQ91r5IR4GzyjNNnsc89/BwimGhO4h5dpyfUwncTBtK7H2N17jdQ68uvVHpe/QeqcoJqHV3myokrT2SufmgaTxOLSNATIaHk2iMA8OMnqYqK4wHtNl9uSu/6EyEuidbxnpPuoSL2mhD/T2sG6Kypa3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LkjbItZ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jRrIoLMC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B899C2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LkjbItZ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72A70C19424;
 	Mon, 12 Jan 2026 15:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768230487;
-	bh=hQU7ILU8FGfaXvaPKyg+910Nis+bE1Jn3QGzXcDLK6c=;
+	bh=efaAoQJ46q/MA7bC6BpXipDb0T3zDwPIKRwh3uhkakE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jRrIoLMCKVWEGF9ZRLav5Ao9MtRvcKlYYwVveu0mddM32Fx/HVZqU6n5jq9X51qIU
-	 GJUBXOAIDaUj718bGbXEBT2rPwGmJQTZAJWb7NNq7Hmrn5/ttGvTg3lZcPKYpZ4Inh
-	 b1KtlH7Kt15I5Av2Pq09Aum3hv0G9cJTQNZC4uuZyKAVB/giA+a6gIR+2a/GckPJS1
-	 W3eZOXZpfc8OONHx9YouLECadzlHciS21hfz35CBf+fYi2h4ce46hdWrakjgqx639+
-	 j5l8GloXnqTUtb1n0DLdlDWDgVAwprp/0NTZw4+ezVsY4Uxq1o2uvOQOACOPMExZ/A
-	 ZgL0YDlHIwisw==
+	b=LkjbItZ+1RIo9EN+ZfuO1cglb8iIEPZJysYmwGsp9M+abK6EyLkTOUYHGtmIaKYXi
+	 RK4946RKw5GlUcYO31ELvxXVPRT6Gwb3VTzF2VVgVPO2j4W7pcAmGPBNvcl2EMhwaO
+	 DN/7Qxg2jX66CXDnJgBj9gt4pw+evTg/tSgG0RDPsQ50R4raUgiUnuJc97kehnbdH5
+	 mckCS9Eo6FRsuMbUGupOr+6zyeWOk9nrqKABrsxb6YjQotxFwPVelnLagSTd58IYVq
+	 +vbksYNjQD2cxXuMBZV2OszPSCvMhK6jk4sW5umpW/NG9ebhAvRUs7PQ7qKRyNFNYE
+	 MHP72fR2FWB8Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vfJWX-00000000JWy-39ts;
+	id 1vfJWX-00000000JWq-2w5B;
 	Mon, 12 Jan 2026 16:08:05 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Jani Nikula <jani.nikula@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v2 4/4] scripts/kernel-doc: some fixes to kernel-doc comments
-Date: Mon, 12 Jan 2026 16:06:53 +0100
-Message-ID: <1ea812db44c941dcbdead57cd34ccd807261c436.1768229902.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 2/4] scripts/kernel-doc: avoid error_count overflows
+Date: Mon, 12 Jan 2026 16:06:51 +0100
+Message-ID: <32749671865f095a5e981f36bf380771a83f3b09.1768229902.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768229902.git.mchehab+huawei@kernel.org>
 References: <cover.1768229902.git.mchehab+huawei@kernel.org>
@@ -53,109 +53,69 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are some typos and English errors at the kernel-doc.py comments.
-
-Locate them with the help of LLM (gpt-oss 14B), locally excecuted
-with this prompt:
-
-    review English grammar andsyntax at the comments on the code
-    below:
-    <cat scripts/kernel-doc.py>
-
-Not all results are flowers, although it caught several minor
-issues there. Add the pertinent fixes, discarding the bad ones.
+The glibc library limits the return code to 8 bits. We need to
+stick to this limit when using sys.exit(error_count).
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ scripts/kernel-doc.py | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 7ccee4626478..28ec5500f664 100755
+index 7a1eaf986bcd..5d2f29e90ebe 100755
 --- a/scripts/kernel-doc.py
 +++ b/scripts/kernel-doc.py
-@@ -9,10 +9,10 @@
- #       The rationale is that it shall fail gracefully during Kernel
- #       compilation with older Kernel versions. Due to that:
- #       - encoding line is needed here;
--#       - no f-strings can be used on this file.
--#       - the libraries that require newer versions can only be included
--#         after Python version is checked.
+@@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
+ 
+ sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+ 
++WERROR_RETURN_CODE = 3
++
+ DESC = """
+ Read C language source or header FILEs, extract embedded documentation comments,
+ and print formatted documentation to standard output.
+@@ -176,7 +178,21 @@ class MsgFormatter(logging.Formatter):
+         return logging.Formatter.format(self, record)
+ 
+ def main():
+-    """Main program"""
++    """
++    Main program
++    By default, the return value is:
++
++    - 0: parsing warnings or Python version is not compatible with
++      kernel-doc. The rationale for the latter is to not break Linux
++      compilation on such cases;
++
++    - 1: an abnormal condition happened;
++
++    - 2: arparse issued an error;
++
++    - 3: -Werror is used, and one or more unfiltered parse warnings
++         happened.
++    """
+ 
+     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
+                                      description=DESC)
+@@ -323,16 +339,12 @@ def main():
+ 
+     if args.werror:
+         print("%s warnings as errors" % error_count)    # pylint: disable=C0209
+-        sys.exit(error_count)
++        sys.exit(WERROR_RETURN_CODE)
+ 
+     if args.verbose:
+         print("%s errors" % error_count)                # pylint: disable=C0209
+ 
+-    if args.none:
+-        sys.exit(0)
 -
-+#       - f-strings cannot be used in this file.
-+#       - libraries that require newer versions can only be included
-+#         after the Python version has been checked.
-+#
- # Converted from the kernel-doc script originally written in Perl
- # under GPLv2, copyrighted since 1998 by the following authors:
- #
-@@ -134,13 +134,13 @@ May be used multiple times.
- """
+-    sys.exit(error_count)
+-
++    sys.exit(0)
  
- EXPORT_DESC = """
--Only output documentation for the symbols that have been
-+Only output documentation for symbols that have been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
- 
- INTERNAL_DESC = """
--Only output documentation for the symbols that have NOT been
-+Only output documentation for symbols that have NOT been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
-@@ -163,7 +163,7 @@ Header and C source files to be parsed.
- """
- 
- WARN_CONTENTS_BEFORE_SECTIONS_DESC = """
--Warns if there are contents before sections (deprecated).
-+Warn if there are contents before sections (deprecated).
- 
- This option is kept just for backward-compatibility, but it does nothing,
- neither here nor at the original Perl script.
-@@ -171,7 +171,7 @@ neither here nor at the original Perl script.
- 
- 
- class MsgFormatter(logging.Formatter):
--    """Helper class to format warnings on a similar way to kernel-doc.pl"""
-+    """Helper class to format warnings in a similar way to kernel-doc.pl."""
- 
-     def format(self, record):
-         record.levelname = record.levelname.capitalize()
-@@ -277,7 +277,7 @@ def main():
-                         help=NOSYMBOL_DESC)
- 
-     parser.add_argument("-D", "-no-doc-sections", "--no-doc-sections",
--                        action='store_true', help="Don't outputt DOC sections")
-+                        action='store_true', help="Don't output DOC sections")
- 
-     parser.add_argument("files", metavar="FILE",
-                         nargs="+", help=FILES_DESC)
-@@ -306,12 +306,12 @@ def main():
-     python_ver = sys.version_info[:2]
-     if python_ver < (3,6):
-         #
--        # Depending on Kernel configuration, kernel-doc --none is called at
-+        # Depending on the Kernel configuration, kernel-doc --none is called at
-         # build time. As we don't want to break compilation due to the
-         # usage of an old Python version, return 0 here.
-         #
-         if args.none:
--            logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
-+            logger.error("Python 3.6 or later is required by kernel-doc. Skipping checks")
-             sys.exit(0)
- 
-         sys.exit("Python 3.6 or later is required by kernel-doc. Aborting.")
-@@ -320,7 +320,7 @@ def main():
-         logger.warning("Python 3.7 or later is required for correct results")
- 
-     #
--    # Import kernel-doc libraries only after checking Python version
-+    # Import kernel-doc libraries only after checking the Python version
-     #
-     from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-     from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
+ # Call main method
+ if __name__ == "__main__":
 -- 
 2.52.0
 
