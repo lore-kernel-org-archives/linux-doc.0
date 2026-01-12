@@ -1,128 +1,151 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mail-m15591.qiye.163.com (mail-m15591.qiye.163.com [101.71.155.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1AF158538;
-	Mon, 12 Jan 2026 01:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC2A47A6B;
+	Mon, 12 Jan 2026 01:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768180404; cv=none; b=BpWSE9MGBlcBOok1rtdRqZqwYaWFfKUi03AYe4cuG4IF1ch8+UkNs7KcmCOpXQ6xn8IHLECat2/5BhWVyvsWH/WouVw1hDPsiBp8YICcKLZK1zG6FrpHBUblkGi1yLp0YA84YJMpkcdcGzb6ol2K1FY2xGpQf0wMLyvAuF441v0=
+	t=1768180840; cv=none; b=OZttf9YYIxDL1OY5XgPJxt3G6PgyK5GnRtJpCxkftwXEUEsTfm6aUG21t5e5jfCt5CmGMqEqHVOUxFStay6ht+BlqYEH1CHAVJDvnhvQLM00FTuoq4+6Xr0Ikj+XHrg5Emes70vlvNZwUWkI6WRLsslOB00J5sV+OrIPL8/M6rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768180404; c=relaxed/simple;
-	bh=HUfy8qYTgSm8Gnc9CbQXQlB0Tsvh+pVatzIRC9A0oEM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YHGsIKSCBQHmgs3ssO/PPJ+PDuB2I6bSr4pd7lbTaf8lMBM9e03pMdAy5YU7TGKF7pxiktCV5Kcq0zBlaS5jU+zOjiBzV7VWwoqbvxcx75lsv847D8HwvD+WidwAYzjPAYayJjr51hodcRTIHDPLtTuvYjExHDkcWgC/wYlmmsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dqDrG0Gh0zKHMMJ;
-	Mon, 12 Jan 2026 09:12:30 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 438DA40539;
-	Mon, 12 Jan 2026 09:13:18 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP4 (Coremail) with SMTP id gCh0CgAniPitSmRpGkvxDQ--.48898S2;
-	Mon, 12 Jan 2026 09:13:18 +0800 (CST)
-Message-ID: <d26ede5b-3e2a-4faf-a29f-45620fc1088e@huaweicloud.com>
-Date: Mon, 12 Jan 2026 09:13:16 +0800
+	s=arc-20240116; t=1768180840; c=relaxed/simple;
+	bh=Tz+YRASi/oZHsQuBt2O11YHy80lXZodv1Y5Hnn5NdTs=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=en+cBu5djRvKYTmbRFwoABgpEhEsh0MoQBLZ+msbfFashwegs6egg5J3gQhpeMbIwrQgAvmvx3uGzwvbynGDA6ivXEHS2d34/EF9sbNB/5qD0IyDMavpGFpjRNjY3q2OYEFxtzE6TWXgkzM73jBu/Y1BYYtpIKh54Q/P/qCbFRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=kRE00F16; arc=none smtp.client-ip=101.71.155.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="kRE00F16"
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 303e9190b;
+	Mon, 12 Jan 2026 09:20:24 +0800 (GMT+08:00)
+From: Shawn Lin <shawn.lin@rock-chips.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-rockchip@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: [PATCH v3 0/3] PCI Controller event and LTSSM tracepoint support
+Date: Mon, 12 Jan 2026 09:19:57 +0800
+Message-Id: <1768180800-63364-1-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Tid: 0a9bafca36c309cckunme7c7221b25b1b7
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGhofH1YdTh8eSE0eHU5LHUpWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+	hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=kRE00F16qzlyjH3K3HMPRz1iGKsClCrSy8nVo+igKhs4etc08DZjlc7gmb4SuOF//MY7XcY5yNAYH05AbiiO7dsmKthxTJ1CGapDP0VwVQb/a/4QVgOb7PAqa/fKweVnuRd22bjORw134o2rruNrZ41tEdFVhkVEOMDS6d+60Sw=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=kkhEQlnOEXnjorPS87Efdu+3pm3OaHqhpE4I48ps7Qw=;
+	h=date:mime-version:subject:message-id:from;
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH cgroup/for-6.20 v3 2/5] cgroup/cpuset: Consistently
- compute effective_xcpus in update_cpumasks_hier()
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>
-References: <20260110013246.293889-1-longman@redhat.com>
- <20260110013246.293889-3-longman@redhat.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20260110013246.293889-3-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAniPitSmRpGkvxDQ--.48898S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KryxXrWrXryxuryrCFyUKFg_yoW8Kr1UpF
-	18Cw4avayYqr1rC39rK3ZF9r1Fga1vqF4qyw1Dtr4fXFy3C3Wv9r1DZanxXr1UGa1kGr15
-	AF98Zr4Sqas0y37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUb
-	mii3UUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
 
+This patch-set adds new pci controller event and LTSSM tracepoint used by host drivers
+which provide LTSSM trace functionality. The first user is pcie-dw-rockchip with a 256
+Bytes FIFO for recording LTSSM transition.
 
-On 2026/1/10 9:32, Waiman Long wrote:
-> Since commit f62a5d39368e ("cgroup/cpuset: Remove remote_partition_check()
-> & make update_cpumasks_hier() handle remote partition"), the
-> compute_effective_exclusive_cpumask() helper was extended to
-> strip exclusive CPUs from siblings when computing effective_xcpus
-> (cpuset.cpus.exclusive.effective). This helper was later renamed to
-> compute_excpus() in commit 86bbbd1f33ab ("cpuset: Refactor exclusive
-> CPU mask computation logic").
-> 
-> This helper is supposed to be used consistently to compute
-> effective_xcpus. However, there is an exception within the callback
-> critical section in update_cpumasks_hier() when exclusive_cpus of a
-> valid partition root is empty. This can cause effective_xcpus value to
-> differ depending on where exactly it is last computed. Fix this by using
-> compute_excpus() in this case to give a consistent result.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  kernel/cgroup/cpuset.c | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index da2b3b51630e..894131f47f78 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -2168,17 +2168,13 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
->  		spin_lock_irq(&callback_lock);
->  		cpumask_copy(cp->effective_cpus, tmp->new_cpus);
->  		cp->partition_root_state = new_prs;
-> -		if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
-> -			compute_excpus(cp, cp->effective_xcpus);
-> -
->  		/*
-> -		 * Make sure effective_xcpus is properly set for a valid
-> -		 * partition root.
-> +		 * Need to compute effective_xcpus if either exclusive_cpus
-> +		 * is non-empty or it is a valid partition root.
->  		 */
-> -		if ((new_prs > 0) && cpumask_empty(cp->exclusive_cpus))
-> -			cpumask_and(cp->effective_xcpus,
-> -				    cp->cpus_allowed, parent->effective_xcpus);
-> -		else if (new_prs < 0)
-> +		if ((new_prs > 0) || !cpumask_empty(cp->exclusive_cpus))
-> +			compute_excpus(cp, cp->effective_xcpus);
-> +		if (new_prs <= 0)
->  			reset_partition_data(cp);
->  		spin_unlock_irq(&callback_lock);
->  
+Dependency
+======
+Need to apply on top of Mani's rework of error handling of dw_pcie_wait_for_link()
+API in order to show the proper LTSSM name for dwc-based controller[1].
 
-Looks good to me.
+[1] https://lore.kernel.org/linux-pci/20260107-pci-dwc-suspend-rework-v4-0-9b5f3c72df0a@oss.qualcomm.com/T/#mfc5885b2afdeef4db1322597eaee61967558821e
 
-Reviewed-by: chenridong<huawei@.com>
+Testing
+=======
+
+This series was tested on RK3588/RK3588s EVB1 with NVMe SSD connected to PCIe3 and PCIe2
+root ports.
+
+echo 1 > /sys/kernel/debug/tracing/events/pci_controller/pcie_ltssm_state_transition/enable
+cat /sys/kernel/debug/tracing/trace_pipe
+
+ # tracer: nop
+ #
+ # entries-in-buffer/entries-written: 64/64   #P:8
+ #
+ #                                _-----=> irqs-off/BH-disabled
+ #                               / _----=> need-resched
+ #                              | / _---=> hardirq/softirq
+ #                              || / _--=> preempt-depth
+ #                              ||| / _-=> migrate-disable
+ #                              |||| /     delay
+ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+ #              | |         |   |||||     |         |
+      kworker/0:0-9       [000] .....     5.600194: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600198: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_WAIT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600199: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600201: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_ACTIVE rate: Unknown
+      kworker/0:0-9       [000] .....     5.600202: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_CONFIG rate: Unknown
+      kworker/0:0-9       [000] .....     5.600204: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_START rate: Unknown
+      kworker/0:0-9       [000] .....     5.600206: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_ACEPT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600207: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_WAI rate: Unknown
+      kworker/0:0-9       [000] .....     5.600208: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_ACEPT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600210: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_COMPLETE rate: Unknown
+      kworker/0:0-9       [000] .....     5.600212: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_IDLE rate: Unknown
+      kworker/0:0-9       [000] .....     5.600213: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 2.5 GT/s
+      kworker/0:0-9       [000] .....     5.600214: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
+      kworker/0:0-9       [000] .....     5.600216: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: Unknown
+      kworker/0:0-9       [000] .....     5.600217: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_SPEED rate: Unknown
+      kworker/0:0-9       [000] .....     5.600218: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
+      kworker/0:0-9       [000] .....     5.600220: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ1 rate: Unknown
+      kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600222: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ3 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600224: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600225: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600226: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600227: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600228: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600229: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600231: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600232: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600233: pcie_ltssm_state_transition: dev: a40000000.pcie state: L123_SEND_EIDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600234: pcie_ltssm_state_transition: dev: a40000000.pcie state: L1_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600236: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600237: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600238: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600239: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+
+
+Changes in v3:
+- add TRACE_DEFINE_ENUM for all enums(Steven Rostedt)
+- Add toctree entry in Documentation/trace/index.rst(Bagas Sanjaya)
+- fix mismatch section underline length(Bagas Sanjaya)
+- Make example snippets in code block(Bagas Sanjaya)
+- warp context into 80 columns and fix the file name(Bjorn)
+- reorder variables(Mani)
+- rename loop to i; rename en to enable(Mani)
+- use FIELD_GET(Mani)
+- add comment about how the FIFO works(Mani)
+- Link to v2: https://lore.kernel.org/linux-pci/1767929389-143957-1-git-send-email-shawn.lin@rock-chips.com/T/#t
+
+Changes in v2:
+- use tracepoint
+- Link to v1: https://lore.kernel.org/linux-pci/ym435w3ltwc7vln7g6j3ijswsarubwjazux65ttcqtrbr3i5fu@gig3qlzdkopf/T/#t
+
+Shawn Lin (3):
+  PCI: trace: Add PCI controller LTSSM transition tracepoint
+  Documentation: tracing: Add PCI controller event documentation
+  PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+
+ Documentation/trace/events-pci-controller.rst |  42 +++++++++++
+ Documentation/trace/index.rst                 |   1 +
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c | 104 ++++++++++++++++++++++++++
+ drivers/pci/trace.c                           |   1 +
+ include/trace/events/pci_controller.h         |  52 +++++++++++++
+ 5 files changed, 200 insertions(+)
+ create mode 100644 Documentation/trace/events-pci-controller.rst
+ create mode 100644 include/trace/events/pci_controller.h
 
 -- 
-Best regards,
-Ridong
+2.7.4
 
