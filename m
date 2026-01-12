@@ -1,48 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CFB356A1F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D79356A20;
 	Mon, 12 Jan 2026 11:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768217036; cv=none; b=sWrd977JUaaGXjJauyz/aQkaQRwFg/AbaWPfy9Uj2zjU6xNSv3GYh0/i8jBUpvyiEWBNXEn9N18tf/WKC7gV/4ma4tWlFJBQoVhZxHnX7v5+cd21qnniySn7JsI71LMljUvKv1u8DEPsSHqa2N2kVplmfQwgLpaEisJKxlZ2IU4=
+	t=1768217036; cv=none; b=W/+1y7XkQg1D6cpCB9Oy2/S6iOb7BR1Z3Oa6Iq2YafG686bK3DUcOqFBoJVgTSkAb3f/UlefEy18tGoPD+31YcdYzSd6piwYsdbf9ST1zs1Mcjc/sq6wpViMSnQ8nxOPtxWf7lnh3OVzJlCK/O8di+S26EcGHROw5z6NeEdbQTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768217036; c=relaxed/simple;
-	bh=+lKeuLhTf7AU/sOR7BZ3YNtBXxJWLuRjIlJ5L7U7ggc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f6NmwvxsqFunitup+PwgcvHc3IE+M/rUhIJ+XwsEeF32qEbHRVvbjSjBvpFZKOPnqJL7oQsrkLBuYPIaghYgxUpCbWwJv9HhPwEZnoc4CahuNxGWgAscU+jStmBkEP213RpMNsYeibPNQ6TJyVqRUzBwO+1cjhZ7jBwxqe7HPGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M7XbkGCE; arc=none smtp.client-ip=10.30.226.201
+	bh=HXCHkQZxUYOmiD4v7uVNwes9ofdaHBpPdZuAyIVbNnY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s7q28KRkkA4JURLPKnfSaJoMWvqgLD6mfMyI2WulPhGiQktaPuF6MCVZMerTc7FNAQV/ULaR+HKYMOwMNlwxlWQ9fwUgXXYuyFha04rJk8aLXa70gL//Sv6af2LJdw0uHwlEhhX8Q3It9Yau/PR85n/h1jUcoSGQuVkGFmRiTlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P//jpypA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M7XbkGCE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04944C19422;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P//jpypA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130E6C2BC86;
 	Mon, 12 Jan 2026 11:23:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768217036;
-	bh=+lKeuLhTf7AU/sOR7BZ3YNtBXxJWLuRjIlJ5L7U7ggc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M7XbkGCEWSXWUsXDuonazQSbzqRGmb1S75byvKBLVhq+byuOdBs3LxpvRVO7OKchb
-	 cHCejjzGwB0c5PYDQtkoDNvkuXuPTL191EJJpC6LFW257rDKQrnNAV80zg5mvWRFLn
-	 T8caJaYDeSJQMfZuwW/RDsZUrzYyDhn9yLC+H53VFDGB8u7hH/QFUbNcCmESooyrCt
-	 WAqvaqXN5XLCn28U8Xje2Rcrgiy4BkocXq6/1nWJXcr1zG8+j0XYorY52nQ85ZL6AU
-	 mgMa6Lx4WAeVLOvfrojoP2ZVH2CV1lbomXXgf+5Bh5969IqaiLcOaB5CW8g4nRO64m
-	 XZjcfc+E1Yy1g==
+	bh=HXCHkQZxUYOmiD4v7uVNwes9ofdaHBpPdZuAyIVbNnY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=P//jpypAf4Hz+LozKeBw0+k1P54xvl8xlob3fvXvS7brxQk+kGlCOmzNVKP6CE/Pl
+	 XX3qfep03SSDsaaQiKGUj6LKFJ0wwH6ZFnlLiIcm1rC48i+Vp5ap+vaYQxM2Mptvzg
+	 I7zYJPuGc/roSXZFP9eEJbtouvZ/L3mLl34IENljT15Da/FuhhTPbkRNvYe5ji7ssA
+	 LJ3QGI2ptVvmeRs/mhYdJprmZ9YrwXRQQMZeFWLwHD52WAO6zMxoAkfRTcGtxPLomL
+	 BQ/k+Q905PlLq+TrXoYnKYWcXfTZKHpb4/LEeQhuhEG0ZYUKHQ7MoEPkxkM2itt0S9
+	 XQYE2g9Vw5a/w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vfG1a-00000000DTm-0sz9;
+	id 1vfG1a-00000000DTf-0e63;
 	Mon, 12 Jan 2026 12:23:54 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To: Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jani Nikula <jani.nikula@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/4] scripts/kernel-doc: avoid error_count overflows
-Date: Mon, 12 Jan 2026 12:23:24 +0100
-Message-ID: <bb0bd9ecbf38f8d28749ea15f8d04fb640e0c76d.1768216455.git.mchehab+huawei@kernel.org>
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 0/4] kernel-doc: fix -Werror issues
+Date: Mon, 12 Jan 2026 12:23:22 +0100
+Message-ID: <cover.1768216455.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1768216455.git.mchehab+huawei@kernel.org>
-References: <cover.1768216455.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,67 +51,47 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The glibc library limits the return code to 8 bits. We need to
-stick to this limit when using sys.exit(error_count).
+Hi Jon,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/kernel-doc.py | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+As pointed by Jani, and previously by Randy, several warnings
+are currently not considered as errors. The issue is related
+to changeset 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently
+discarded"), which was using directly a low-level interface.
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 7a1eaf986bcd..600bdfea6a96 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -176,7 +176,14 @@ class MsgFormatter(logging.Formatter):
-         return logging.Formatter.format(self, record)
- 
- def main():
--    """Main program"""
-+    """
-+    Main program
-+    By default, the return value is zero on parsing errors or when the
-+    Python version is not compatible with kernel-doc. The rationale is
-+    to not break Linux compilation on such cases.
-+    If -Werror is used, it will return the number of parse errors, up to
-+    255 errors, as this is the maximum value allowed by glibc.
-+    """
- 
-     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-                                      description=DESC)
-@@ -321,18 +328,23 @@ def main():
-     if not error_count:
-         sys.exit(0)
- 
-+    if args.verbose:
-+        print("%s errors" % error_count)                # pylint: disable=C0209
-+
-+
-     if args.werror:
-         print("%s warnings as errors" % error_count)    # pylint: disable=C0209
-+
-+        #
-+        # Return code is 8-bits, as seen at:
-+        #   https://www.gnu.org/software/libc/manual/html_node/Exit-Status.html
-+        # Truncate to avoid overflow
-+        #
-+        if error_count > 255:
-+            error_count = 255
-+
-         sys.exit(error_count)
--
--    if args.verbose:
--        print("%s errors" % error_count)                # pylint: disable=C0209
--
--    if args.none:
--        sys.exit(0)
--
--    sys.exit(error_count)
--
-+    sys.exit(0)
- 
- # Call main method
- if __name__ == "__main__":
+Patch 1 fix that.
+Patch 2 fixes a related issue: when there are more than 255
+errors, the return code with -Werror can be 0 even on errors,
+because of glibc behavior: programs can only use 8 bits for
+error codes.
+
+Patches 3 and 4 are not directly related, and touches only
+on comments inside python-doc.py script itself:
+
+- patch 3 is just a coding style change to match the comment
+  style we agreed;
+
+- patch 4 fixes some English issues on comments. The issues
+  were pointed by LLM, which was used as any other spelling
+  tool: I picked just the relevant changes, ignoring the ones
+  that were false positives. I also didn't agree with one of
+  the changes, replacing it by something else.
+
+  I wrote it more as an experiment about how to properly use
+  LLM. IMO, it could be useful to use LLM to review spelling
+  on docs, provided that the one using the tool will filter
+  out LLM-generated trash - just like one does when using any
+  other spelling tool.
+
+Mauro Carvalho Chehab (4):
+  scripts/kernel-doc: fix logic to handle unissued warnings
+  scripts/kernel-doc: avoid error_count overflows
+  scripts/kernel-doc: ensure that comments are using our coding style
+  scripts/kernel-doc: some fixes to kernel-doc comments
+
+ scripts/kernel-doc.py                | 72 +++++++++++++++++++---------
+ tools/lib/python/kdoc/kdoc_parser.py |  6 ++-
+ 2 files changed, 55 insertions(+), 23 deletions(-)
+
 -- 
 2.52.0
 
