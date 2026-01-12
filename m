@@ -1,195 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B691336EC7;
-	Mon, 12 Jan 2026 18:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030F12D9496;
+	Mon, 12 Jan 2026 18:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768241482; cv=none; b=sYqF7peOhPxnKppth/M+L1ygFWLOtsvyDUhEyyEywKtHpixbVpUD+JS6OtKjIZBg/uqmjyriWOtFzmTc2Zz8zHrM6TjVK/Cq4SrjVqesnIdP86Ulhf2rnpz5j5R7715QJZOjSCeNoT1DWnXYL1QV7nw+SdvELv+sH8WcSNnocug=
+	t=1768242053; cv=none; b=iZV69wuOIIxO4JiAAhOzrbpe1jjmhKzqqlAsxJX2gu+JWBYV5Te8IPuq3CN78m1xMRBbYivWERyr/XqujqZO/2lhqqhs3eEmRAzBJe4dssLBCiLc4RT6PRyl4/wVm0EuM6SALsxteI6mfqKRvo2KPnVUHeTQwhsXydFGkajINPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768241482; c=relaxed/simple;
-	bh=/KLQXz2NNIZ2+NznPVGmdBCIfGtlqCpRNDu4767I9Mk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=F3Lmb6A3fCP+KLZSI8h9pXLW5/DlgIDnt9B8XRHIfstu9eHahXU8CShRD/Fq9uKbJUPEwcL7vGyd64p1T5OodaMQiXtn7CF5qjnmIDNWWNqwSilGQHuqbRSPBRIsfrzEWmOG+Uj9eKDkQ55O4TVzplEKvuObGmvKnNRoF56sijQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AP6j+q6D; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1768242053; c=relaxed/simple;
+	bh=0MIsQPEMKnW1e4juI0TNrUwQskLGzb2wCSPvKVdOWds=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=aoCbhiq2Y/Oe1KfKUTb3aW+V9+S8+5NP31rzz4Ia3GJr6wL4E5cd4kM1UoZT/Pc8BipQ/5dogixTEbVPzJxMn466Igs4JcxkLVntmUqd87dXeQA3okw9w5h5zp0Quv0SSTrTf50sn/w3exvaRNE06vNzVS04hQfOu1ceWzy6TQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=kpxyIHNm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ew9pTgVh; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AP6j+q6D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768241481; x=1799777481;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=/KLQXz2NNIZ2+NznPVGmdBCIfGtlqCpRNDu4767I9Mk=;
-  b=AP6j+q6DFo290m1VE6f5IiNx3p4YqsyWf0koeFJcpvDFMsDRjg4D9qSP
-   crYO4JaL/Mvto82lcNyFxFtmwOJ+iKifQt/me9HDI/yeeXG28E/3YWHzy
-   GMWaGiyV3JrH+jJgQcxThpNeOwsoV4pqb90q4uz68wPU0gUsPUfyWH/0z
-   /bXTGtv1y26d7/hBzIUkHRTvOM2APyP9KYbjsLRvB6l2JPOa17OoETiR2
-   43TYolcgDVCYsYcnlEiAbH+X3EUQtfcnp2xnpSMjZnUSAPYi3IlbumvCA
-   ms7rERbgsYAJ1KkZhQiajsvmL3BFcKtMTy0TrYNe8z+JrZUmL0wZCFsnt
-   Q==;
-X-CSE-ConnectionGUID: QVbO0Hl3R46AosiWnHMOYQ==
-X-CSE-MsgGUID: xZRpXouAT4qhR3e0a9oJ+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80162869"
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="80162869"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 10:11:21 -0800
-X-CSE-ConnectionGUID: CIzlXUJNStiPtt/oaJlvsw==
-X-CSE-MsgGUID: p+cpguJiTgCdao7GAGgEZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208992204"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.111])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 10:11:17 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 12 Jan 2026 20:11:15 +0200 (EET)
-To: Armin Wolf <W_Armin@gmx.de>
-cc: Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, linux@weissschuh.net, 
-    Dell.Client.Kernel@dell.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 4/9] platform/wmi: Add kunit test for the string
- conversion code
-In-Reply-To: <e1b3bc91-bc89-4a6e-8f80-f9ac25b2bedb@gmx.de>
-Message-ID: <0edb4c4a-5177-c535-dd7f-f7062797d86d@linux.intel.com>
-References: <20260109214619.7289-1-W_Armin@gmx.de> <20260109214619.7289-5-W_Armin@gmx.de> <c8c399b0-7eda-a12a-61b4-9777e07c98ae@linux.intel.com> <e1b3bc91-bc89-4a6e-8f80-f9ac25b2bedb@gmx.de>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="kpxyIHNm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ew9pTgVh"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 12D4C1D000E9;
+	Mon, 12 Jan 2026 13:20:50 -0500 (EST)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-02.internal (MEProxy); Mon, 12 Jan 2026 13:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1768242049;
+	 x=1768328449; bh=O4EudzFjIiugLvsbHDKdmXPJwZkcSMwAsTeW+doPJx4=; b=
+	kpxyIHNmkFMWTjMBPtbDkfo35ayO/4cyxXv9b006NHlzn5J65YShQZuR++rS1mje
+	lzsLUe0duV1LTCNgo4TD1Qq9m6zXd9L/sPXSx60GPxwM2ROkGYGxl0FBEAUAgR9X
+	YCVCls4ffQ0xgaxN6kmJVsNXp0cow2CpWSWEIxoiHmeKn084HeDlupQ1GbUwz54M
+	p7GVec8gkRrNbohgPN0pP341VqUZRqx9xiEk9nBVxWi+bHmV6Tf8qGs1aX1XTFx5
+	0fQ/bmrnGgc2aZ5LtuOufRh+PWqVFEqsKmOD3Nn6Y6oL16O/rglI5mdZjjWckDh5
+	EiVkR8F1tvCEhgFZh64afg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768242049; x=
+	1768328449; bh=O4EudzFjIiugLvsbHDKdmXPJwZkcSMwAsTeW+doPJx4=; b=e
+	w9pTgVhoDdsutmTfttKM+/Tv1J8cEleoUDgzLKTrojD/C5+vkt6TH6Palbz+tW+J
+	2gHdEMNwifs0TBRXM73SD9PSt+/3bxEbZTCUtmQB9JmRXF5yw3mXuQ2QT8+pErQX
+	cKCMKFiL+HhUT65VqrC1va6XKspm+Am5o7iLfzIhzUMS2Wq1h2ZuR0lMGnBCO7MO
+	uTEqJ5PosvAX5wkPOjvLzKAfGMvJjJrE82sff2R8Tt2O9PeOraUsUHstIU4oKVTY
+	dKrbGYs5/2W+CNvg8E+nqCahj42Di+PG5RJhwm/fQHiQCp9qv0qoAPTv6CdqL3/8
+	7zvaQ6Nr4YCbdBDvEZUTw==
+X-ME-Sender: <xms:gTtlaSb0D1IgUQS5-oXLuJ3aKH7m1EuTKPbZv4TjNbt8G6s0RB6m6Q>
+    <xme:gTtlaQPsuygVPQ5jt0gwbcuubazaEpaxjr7HIMhUqPLqr5zvOTvLKGjU0NB_4sN-A
+    R5O6BHtKFg-VVoMBjk_cpJdPEm4GcsTl1AV_KvDKV-_1XvFW-DuvXo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudekudeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
+    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
+    grqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdehtdevheduvdejjefggfeijedv
+    geekhfefleehkeehvdffheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhn
+    sggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrh
+    hiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomhdprhgtphhtthhopeguvghrvghk
+    jhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepsggvnhhtihhssh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepshhhrghohhiiudeslhgvnhhovhhordgtohhmpdhrtghpthhtohepii
+    hhrghnghiigiefieeslhgvnhhovhhordgtohhmpdhrtghpthhtohepphhgrhhifhhfrghi
+    shesvhgrlhhvvghsohhfthifrghrvgdrtghomhdprhgtphhtthhopehlihhnuhigqdguoh
+    gtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhu
+    thesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:gTtlaf6JVa5xTzTUlVqtF68XmLmqda2T1uAKaY190o1Q-fgWk05bfw>
+    <xmx:gTtlaUm3CBgdoAFRugojI1BZEoiXHypioKWw4RxutaGKepUArOuPLQ>
+    <xmx:gTtlaSEmJrhIQCWr46Dme0huYAy6ijLgeeIb_JQh9SnUj20ApnzgQw>
+    <xmx:gTtlab8lOmof8GO16JKaTsTnYvv8HT4VjzxEQf9W-TracZ1vycfFVg>
+    <xmx:gTtlaYmvTeSnr3LmG2KOw2pvC0pAaFgXirYbxLuLcfBjW0y_Q2x5BLNN>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B22B62CE0072; Mon, 12 Jan 2026 13:20:49 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-613519053-1768241475=:1026"
+X-ThreadId: AC9rIZzNZkww
+Date: Mon, 12 Jan 2026 13:20:26 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Jiri Kosina" <jikos@kernel.org>
+Cc: "Benjamin Tissoires" <bentiss@kernel.org>,
+ "Limonciello, Mario" <mario.limonciello@amd.com>,
+ "Zhixin Zhang" <zhangzx36@lenovo.com>, "Mia Shao" <shaohz1@lenovo.com>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <2910bb2e-6b31-42f3-a3de-463327b16ff1@app.fastmail.com>
+In-Reply-To: <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
+References: <20251229031753.581664-1-derekjohn.clark@gmail.com>
+ <20251229031753.581664-3-derekjohn.clark@gmail.com>
+ <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
+ <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
+Subject: Re: [PATCH v2 02/16] HID: hid-lenovo-go: Add Lenovo Legion Go Series HID
+ Driver
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Mon, Jan 12, 2026, at 12:40 PM, Derek J. Clark wrote:
+> On January 12, 2026 4:12:43 AM PST, Jiri Kosina <jikos@kernel.org> wrote:
+>>On Mon, 29 Dec 2025, Derek J. Clark wrote:
+>>
+>>> Adds initial framework for a new HID driver, hid-lenovo-go, along with
+>>> attributes that report the firmware and hardware version for each
+>>> component of the HID device, of which there are 4 parts: The MCU, the
+>>> transmission dongle, the left "handle" controller half, and the right
+>>> "handle" controller half. Each of these devices are provided an attribute
+>>> group to contain its device specific attributes. Additionally, the touchpad
+>>> device attributes are logically separated from the other components in
+>>> another attribute group.
+>>> 
+>>> This driver primarily provides access to the configurable settings of the
+>>> Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
+>>> firmware. As previously noted, the Legion Go controllers recently had a
+>>> firmware update[1] which switched from the original "SepentiaUSB" protocol
+>>> to a brand new protocol for the Go 2, primarily to ensure backwards and
+>>> forwards compatibility between the Go and Go 2 devices. As part of that
+>>> update the PIDs for the controllers were changed, so there is no risk of
+>>> this driver attaching to controller firmware that it doesn't support.
+>>> 
+>>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+>>> ---
+>>>  MAINTAINERS                 |   6 +
+>>>  drivers/hid/Kconfig         |  12 +
+>>>  drivers/hid/Makefile        |   1 +
+>>>  drivers/hid/hid-ids.h       |   3 +
+>>>  drivers/hid/hid-lenovo-go.c | 734 ++++++++++++++++++++++++++++++++++++
+>>>  5 files changed, 756 insertions(+)
+>>>  create mode 100644 drivers/hid/hid-lenovo-go.c
+>>> 
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 9ed6d11a7746..b5ad29d24e3e 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -14135,6 +14135,12 @@ L:	platform-driver-x86@vger.kernel.org
+>>>  S:	Maintained
+>>>  F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities.c
+>>>  
+>>> +LENOVO HID drivers
+>>> +M:	Derek J. Clark <derekjohn.clark@gmail.com>
+>>> +L:	linux-input@vger.kernel.org
+>>> +S:	Maintained
+>>> +F:	drivers/hid/hid-lenovo-go.c
+>>
+>>Hi Derek,
+>>
+>>thanks for working on this.
+>>
+>>I am now almost finished with reviewing this pile and am planning to queue 
+>>it in hid.git shortly, but I have a question regarding the MAINTAINERS 
+>>entry above.
+>>
+>>The title claims support for all of Lenovo HID, but there is much more to 
+>>it than drivers/hid/hid-lenovo-go.c, specifically in hid-lenovo.c.
+>>
+>>So either please make the title more specific (or claim the ownership of 
+>>the whole Lenovo HID landscape indeed, fine by me, but the please reflect 
+>>that in F: :) ).
+>>
+>>Thanks,
+>>
+>
+> Hi Jiri
+>
+> Sure, I've debated using LENOVO LEGION GO HID drivers and LENOVO GO HID 
+> drivers. Do you have a preference? The other drivers are pretty old and 
+> I don't have any hardware that would use them so I'd prefer to keep 
+> them separate (though I'll acknowledge that they don't seem to have a 
+> MAINTAINERS entry)
+>
+I should probably take a better look at the lenovo-hid driver.
 
---8323328-613519053-1768241475=:1026
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+The platforms that it's supporting weren't in the Linux program, so it never crossed my path before - but looking ahead I think we may need to contribute some changes there (guessing a little, but I'll know in a few months time).
 
-On Mon, 12 Jan 2026, Armin Wolf wrote:
+Jiri - as that driver is targeted for Thinkpads, I'm OK to take some responsibility for it if that is useful/helpful.
 
-> Am 12.01.26 um 17:34 schrieb Ilpo J=C3=A4rvinen:
->=20
-> > On Fri, 9 Jan 2026, Armin Wolf wrote:
-> >=20
-> > > The string conversion frunctions provided by the WMI driver core
-> > > have no dependencies on the remaining WMI API, making them suitable
-> > > for unit tests.
-> > >=20
-> > > Implement such a unit test using kunit. Those unit tests verify that
-> > > converting between WMI strings and UTF8 strings works as expected.
-> > > They also verify that edge cases are handled correctly.
-> > >=20
-> > > Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> > > ---
-> > >   drivers/platform/wmi/tests/Kconfig        |  11 +
-> > >   drivers/platform/wmi/tests/Makefile       |   3 +
-> > >   drivers/platform/wmi/tests/string_kunit.c | 278 +++++++++++++++++++=
-+++
-> > >   3 files changed, 292 insertions(+)
-> > >   create mode 100644 drivers/platform/wmi/tests/string_kunit.c
-> > >=20
-> > > diff --git a/drivers/platform/wmi/tests/Kconfig
-> > > b/drivers/platform/wmi/tests/Kconfig
-> > > index efcbcb51c251..f7f0f3c540f5 100644
-> > > --- a/drivers/platform/wmi/tests/Kconfig
-> > > +++ b/drivers/platform/wmi/tests/Kconfig
-> > > @@ -14,3 +14,14 @@ config ACPI_WMI_MARSHALLING_KUNIT_TEST
-> > >   =09  to the KUnit documentation in Documentation/dev-tools/kunit/.
-> > >     =09  If unsure, say N.
-> > > +
-> > > +config ACPI_WMI_STRING_KUNIT_TEST
-> > > +=09tristate "KUnit Test for ACPI-WMI string conversion" if
-> > > !KUNIT_ALL_TESTS
-> > > +=09depends on KUNIT
-> > > +=09default KUNIT_ALL_TESTS
-> > > +=09help
-> > > +=09  This builds unit tests for the ACPI-WMI string conversion code.
-> > > +=09  For more information on KUnit and unit tests in general, please
-> > > refer
-> > > +=09  to the KUnit documentation in Documentation/dev-tools/kunit/.
-> > > +
-> > > +=09  If unsure, say N.
-> > > diff --git a/drivers/platform/wmi/tests/Makefile
-> > > b/drivers/platform/wmi/tests/Makefile
-> > > index 252c3125353a..62c438e26259 100644
-> > > --- a/drivers/platform/wmi/tests/Makefile
-> > > +++ b/drivers/platform/wmi/tests/Makefile
-> > > @@ -6,3 +6,6 @@
-> > >     wmi_marshalling_kunit-y=09=09=09=09:=3D marshalling_kunit.o
-> > >   obj-$(CONFIG_ACPI_WMI_MARSHALLING_KUNIT_TEST)=09+=3D
-> > > wmi_marshalling_kunit.o
-> > > +
-> > > +wmi_string_kunit-y=09=09=09=09:=3D string_kunit.o
-> > > +obj-$(CONFIG_ACPI_WMI_STRING_KUNIT_TEST)=09+=3D wmi_string_kunit.o
-> > > diff --git a/drivers/platform/wmi/tests/string_kunit.c
-> > > b/drivers/platform/wmi/tests/string_kunit.c
-> > > new file mode 100644
-> > > index 000000000000..9aa3ffa85090
-> > > --- /dev/null
-> > > +++ b/drivers/platform/wmi/tests/string_kunit.c
-> > > @@ -0,0 +1,278 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > +/*
-> > > + * KUnit test for the ACPI-WMI string conversion code.
-> > > + *
-> > > + * Copyright (C) 2025 Armin Wolf <W_Armin@gmx.de>
-> > > + */
-> > > +
-> > > +#include <linux/module.h>
-> > > +#include <linux/slab.h>
-> > > +#include <linux/string.h>
-> > > +#include <linux/wmi.h>
-> > > +
-> > > +#include <kunit/resource.h>
-> > > +#include <kunit/test.h>
-> > > +
-> > > +#include <asm/byteorder.h>
-> > > +
-> > > +struct wmi_string_param {
-> > > +=09const char *name;
-> > > +=09const struct wmi_string *wmi_string;
-> > > +=09/*
-> > > +=09 * Remember that using sizeof() on a struct wmi_string will
-> > > +=09 * always return a size of two bytes due to the flexible
-> > > +=09 * array member!
-> > > +=09 */
-> > > +=09size_t wmi_string_length;
-> > > +=09const u8 *utf8_string;
-> > > +=09size_t utf8_string_length;
-> > > +};
-> > > +
-> > > +#define TEST_WMI_STRING_LENGTH 12
-> > > +
-> > > +static const struct wmi_string test_wmi_string =3D {
-> > > +=09.length =3D cpu_to_le16(10),
-> > > +=09.chars =3D {
-> > > +=09=09cpu_to_le16(u'T'),
-> > I've applied this to for-next and intend to keep these there but FYI th=
-ese
-> > trigger sparse errors. I don't know if they're fixable or not with
-> > reasonable effort on kernel side.
->=20
-> To me it seems that sparse ignores the u-prefix signaling that the charac=
-ter
-> constant
-> has a length of 16-bits, but good catch.
->=20
-> If this really is a problem then gcc would issue a warning anyway (happen=
-ed
-> when i was
-> using the =F0=9F=90=A7 character which does not fit into a 16-bit charact=
-er constant).
-
-I guess I'll have to add another filter to my build-test.sh for this file.=
-=20
-I already -v -e 'error: bad constant expression' filter in use. Sadly=20
-sparse seems to be rotting.
-
---=20
- i.
-
---8323328-613519053-1768241475=:1026--
+Mark
