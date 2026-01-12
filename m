@@ -1,105 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEE43644A6;
-	Mon, 12 Jan 2026 18:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768242601; cv=none; b=kBDEUeCWC0KFS6B4dbajhAr12xSZjQxopi+WyeOic6nHai/gfMfQSk2/X6sVr+NBVtdsVSjXZQFJk+3zroi4Cp+ZgmvczO0Em2VgJOO/idWenkfKfI+9Ou9s1E9DDimeIfWxx/QwMY7e7QaDezSQdprl/3SQNTNh1o9UZWKrcdE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768242601; c=relaxed/simple;
-	bh=pb/tVCd1nrZorzc3OQJ5GZ/GnwX25D91HAoQwYjWh9A=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=kSzj5ESjVnZ9AvbyZcK5JP4HkpEe4T9h6jt4NGulSeH+HiXEFP+MP9JvF1p4ZV2/1tVfSFGRUiIQJUVgQ5KhKBC9ORARRwZhwxraFvgEgvQODlOw2ol2fpqFxAH0ClB4N8kDNK7bR62cq35TImJqpSaAi/b0ld5+u21vC/6a3cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=zzVnZrOK; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B40364036
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 18:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768243000; cv=pass; b=eHns+MZjyFWft5/YQ1jnLBh+4vyktxBgPkYIBVsZb9U50S2sjxM7BJ+w6frCgHSBD2hl1lnQULxkmia3NXeCC/aRBhI/85C1/qne4Bgy13EXlVoLT5yE3dnoXmBdKUQ4hkBsTqTundN+YDqL3hl3Ff4cBcmwCsMhA9eCHUcXDxg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768243000; c=relaxed/simple;
+	bh=EIrMm4XF6YXDK5QFU6GazWT7Q5wK9ZblkKgC5n9hRM0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hkhp8vWOphQOAdnq6F/XkpPsxjgNr5QSFpz3teOphVGy5714qthq8vnqZxVLSuoCJJuXrAXJgYE0ey1jUKWdK/+t5/QuUtZeGK0s6E98G0NrzcZQKhq/p+rHmJ1nHXF9cPpMEB2HFwyl2+O7izs09gWepZwQnCV/dSk/oFBgahM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TTXmfXNR; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="zzVnZrOK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F1E7C116D0;
-	Mon, 12 Jan 2026 18:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1768242600;
-	bh=pb/tVCd1nrZorzc3OQJ5GZ/GnwX25D91HAoQwYjWh9A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=zzVnZrOKkI5LQ7+XAL7zuJbCgfgnfqQ6c//ayo6FMiYjPMM5GN0thTTLoC0v3HytI
-	 0hd6ThWdQnfX/79qVJ7TSOIicNp0Obgssj6CPfZw/oqr+6R06NeTUnIJO72B3djMq8
-	 W03ZnqF6oZOrCYz2QoGo82heKOjO3ypVyeIonYME=
-Date: Mon, 12 Jan 2026 10:29:57 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: corbet@lwn.net, morbo@google.com, rppt@kernel.org,
- lorenzo.stoakes@oracle.com, ubizjak@gmail.com, mingo@redhat.com,
- vincenzo.frascino@arm.com, maciej.wieczor-retman@intel.com, maz@kernel.org,
- catalin.marinas@arm.com, yeoreum.yun@arm.com, will@kernel.org,
- jackmanb@google.com, samuel.holland@sifive.com, glider@google.com,
- osandov@fb.com, nsc@kernel.org, luto@kernel.org, jpoimboe@kernel.org,
- Liam.Howlett@oracle.com, kees@kernel.org, jan.kiszka@siemens.com,
- thomas.lendacky@amd.com, jeremy.linton@arm.com, dvyukov@google.com,
- axelrasmussen@google.com, leitao@debian.org, ryabinin.a.a@gmail.com,
- bigeasy@linutronix.de, peterz@infradead.org, mark.rutland@arm.com,
- urezki@gmail.com, brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com,
- andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org,
- vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com,
- samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com,
- surenb@google.com, anshuman.khandual@arm.com, smostafa@google.com,
- yuanchu@google.com, ada.coupriediaz@arm.com, dave.hansen@linux.intel.com,
- kas@kernel.org, nick.desaulniers+lkml@gmail.com, david@kernel.org,
- bp@alien8.de, ardb@kernel.org, justinstitt@google.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- kasan-dev@googlegroups.com, llvm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for
- x86
-Message-Id: <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
-In-Reply-To: <cover.1768233085.git.m.wieczorretman@pm.me>
-References: <cover.1768233085.git.m.wieczorretman@pm.me>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TTXmfXNR"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ee243b98caso29501cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 10:36:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768242997; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FpOzZS+CMtX3Bm8M9Lj819wpPrT62n1bxXfuWPg9INzcCTpEuh4Hgaw8AW2AKQzIGu
+         R/oFrWZmYqjxI5FKY/S8WOa3eCmDxX6kLzxCOqYam0GoBDZn7u9S0fpmtteRxgIKME+O
+         Z7p5Bz4xxxGt/Rt7fi4QCumqxefJqhR1NfIMlJ68K12gWd4qpy2e5+Y9W7CDftY3dNsk
+         mHfRvOPpQjPpylfE/Z/hyM7IpbMzekPphzrwx+3jAqfUfJURgtHUmL1e0alS7362qTmk
+         CGvhlDojC9N8F6g6bV2b3HDrqNF4DIXAcTJk1Krst34Dgv/0B0yeBKqmeNkZ32F5FMOc
+         1hxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YeVorztV8L2661ciMsTJRNHNSwWuFDTDQ9Xn6dJSHXo=;
+        fh=A8Meu7VG0lKYCdPj9u7GoSxJIyLdJwcBj9EqDFqmrEY=;
+        b=kTjPlFlRnWpqf7G9KuyUlTDJwhMirJKuY+xo4CouZuvSaaqDdTnraU1mt18SEyoMl/
+         +xolJPGhYHd89zQWy70wEBD65viH9ywMYJo1tnHBpbph1SxygD8ELxIyCSFumZcJxWXH
+         fXUE9/lwTM3tyOBdVUZBPfubAGIEie73f7qpo71S0zEl0PdmiTkx69v9M9prU3RKz6GE
+         wXofpWziBFlwGh+8nQRv70FZ1KEnDWXGlzwmjJbkMeprxYVbnhZiq3L7zODFQU/VoPhX
+         zk+zjTLgQpgtAZIohnXvLxycrMwJZGRVUekcBd3z17Bw9ne3mpa0ZIR4JltNr1y6j14e
+         egEw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768242997; x=1768847797; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YeVorztV8L2661ciMsTJRNHNSwWuFDTDQ9Xn6dJSHXo=;
+        b=TTXmfXNRpK5BjEGnPo2Ny+2wKrAZFDF21FlLYOqEzhrIJfy5ixbDTtNTuvDhtuEYMY
+         guUoTMMoH4MW735ULy5rRLyPDGRAQuN6JPByzEHhem6nUYMi4q40uPpdotyNaLgDzHUS
+         yTlPjkOicu0IWw8sL40+NIqZn0H9+7EMKBjqJu1wDsNq6cY87+TaBtSZuWuLyGlaUBgQ
+         acCEqYH7yNLbq+04MHW7+2hNqUILzv4SGoY8sXqdfPNmgEA005011Z0g6rWMIrjwHVhj
+         BvhmCjFNJWAKoVYlLurmZYVxfXmpXLowAp0h+Iatc+LoZA42mbNobb3+oXmTPF2symw2
+         dZHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768242997; x=1768847797;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YeVorztV8L2661ciMsTJRNHNSwWuFDTDQ9Xn6dJSHXo=;
+        b=jOtBwk3nY2wjpKjm8gLenvqdcYBxKo0hF8u4XUWA9JDYUE5kPzhrzH1jGQgxhkWiZq
+         4x3EolUJtkRgac9hpfZYG3nY24YvyDjQg1snyyJZIJ4rwp3iMXV4JyJOHW0t6TX/DInG
+         Y4NEXi7tyTLQ4T2OFMY0lFmG8FDXNVn10G/nliH58blze2AwvbcHySfJcAZIdIq6hFYI
+         xBRrMdfj03xes7CJS4ZtfwKthMNLAm7Q97E5zDiSE4sNMvsBVAe7800wJRcKxJFPclyd
+         +9ZYRgEeMPY4S+JrckKjKNph562OMrFd1lxOD7KLt6b0lsUQ86KdI52vjkG2OqQF0aQm
+         wItA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlOHQHgUZOBtjaoaGrQ11Kni/cJAG5KC1ESABRjcLVIEI0MVBGSa010P1iVNRvoGHisAXoqu88Md8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWzARjEpgAWLmlu39cJL6JqPfSP5HfpjkzKMouhIX2C7L0bgDE
+	8nYoFWjhMClFppf8JAogIRfu7f2GaMGDiL9BIE9ikzA37XLnD+eB79uLkiJFD/lZDGNVasmdyNk
+	+w99evg/31HuevSTNthgC+jNHxWXuC2m62pTDDGEp
+X-Gm-Gg: AY/fxX7KH0CjuWoml6wKQYhcWhCNz7HDWvlAUGTVAoMaWqSF0bCMXPTg0HfBhr1Xj8w
+	zOJlNl3iC8yQfjiPRMFwcDdRjJ72aMSEU32eoqDQsPpyU1bAaE8iO7Bp76M78bfzMCnR2m0K7eI
+	KoMW23vASsVup649LJSNiK+F461PEj7YS10NFJk8F16XlVjQLMtKSafnwZqepOgEVION5o9nNbX
+	o370SN3qv66gqfM8lvlV1Rio8tZc2zcHfcnS4UTtYLv36WhqqhEKlCcFrLCiqi/vNZFtuwA
+X-Received: by 2002:ac8:505a:0:b0:4f3:54eb:f26e with SMTP id
+ d75a77b69052e-5013a3c78b1mr163381cf.1.1768242996667; Mon, 12 Jan 2026
+ 10:36:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-20-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-20-8be3867cb883@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Mon, 12 Jan 2026 18:35:00 +0000
+X-Gm-Features: AZwV_Qio1zjivzMeQYMIWVOvizuY7XatkfCAEo9m4hnoTRYK322NCwDdKHaZ9i8
+Message-ID: <CA+EHjTyovGEkb6svw-=wR=DF52j-wWTawJ5a19EuvSt4i9Re2Q@mail.gmail.com>
+Subject: Re: [PATCH v9 20/30] KVM: arm64: Support userspace access to
+ streaming mode Z and P registers
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
+	Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 12 Jan 2026 17:26:29 +0000 Maciej Wieczor-Retman <m.wieczorretman@pm.me> wrote:
+On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
+>
+> SME introduces a mode called streaming mode where the Z, P and optionally
+> FFR registers can be accessed using the SVE instructions but with the SME
+> vector length. Reflect this in the ABI for accessing the guest registers by
+> making the vector length for the vcpu reflect the vector length that would
+> be seen by the guest were it running, using the SME vector length when the
+> guest is configured for streaming mode.
+>
+> Since SME may be present without SVE we also update the existing checks for
+> access to the Z, P and V registers to check for either SVE or streaming
+> mode. When not in streaming mode the guest floating point state may be
+> accessed via the V registers.
+>
+> Any VMM that supports SME must be aware of the need to configure streaming
+> mode prior to writing the floating point registers that this creates.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kvm/guest.c | 38 ++++++++++++++++++++++++++++++++++----
+>  1 file changed, 34 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+> index 2a1fdcb0ec49..90dcacb35f01 100644
+> --- a/arch/arm64/kvm/guest.c
+> +++ b/arch/arm64/kvm/guest.c
+> @@ -73,6 +73,11 @@ static u64 core_reg_offset_from_id(u64 id)
+>         return id & ~(KVM_REG_ARCH_MASK | KVM_REG_SIZE_MASK | KVM_REG_ARM_CORE);
+>  }
+>
+> +static bool vcpu_has_sve_regs(const struct kvm_vcpu *vcpu)
+> +{
+> +       return vcpu_has_sve(vcpu) || vcpu_in_streaming_mode(vcpu);
+> +}
+> +
+>  static int core_reg_size_from_offset(const struct kvm_vcpu *vcpu, u64 off)
+>  {
+>         int size;
+> @@ -110,9 +115,10 @@ static int core_reg_size_from_offset(const struct kvm_vcpu *vcpu, u64 off)
+>         /*
+>          * The KVM_REG_ARM64_SVE regs must be used instead of
+>          * KVM_REG_ARM_CORE for accessing the FPSIMD V-registers on
+> -        * SVE-enabled vcpus:
+> +        * SVE-enabled vcpus or when a SME enabled vcpu is in
+> +        * streaming mode:
+>          */
+> -       if (vcpu_has_sve(vcpu) && core_reg_offset_is_vreg(off))
+> +       if (vcpu_has_sve_regs(vcpu) && core_reg_offset_is_vreg(off))
+>                 return -EINVAL;
+>
+>         return size;
+> @@ -426,6 +432,24 @@ struct vec_state_reg_region {
+>         unsigned int upad;      /* extra trailing padding in user memory */
+>  };
+>
+> +/*
+> + * We represent the Z and P registers to userspace using either the
+> + * SVE or SME vector length, depending on which features the guest has
+> + * and if the guest is in streaming mode.
+> + */
+> +static unsigned int vcpu_sve_cur_vq(struct kvm_vcpu *vcpu)
+> +{
+> +       unsigned int vq = 0;
+> +
+> +       if (vcpu_has_sve(vcpu))
+> +               vq = vcpu_sve_max_vq(vcpu);
+> +
+> +       if (vcpu_in_streaming_mode(vcpu))
+> +               vq = vcpu_sme_max_vq(vcpu);
+> +
+> +       return vq;
+> +}
+> +
+>  /*
+>   * Validate SVE register ID and get sanitised bounds for user/kernel SVE
+>   * register copy
+> @@ -466,7 +490,7 @@ static int sve_reg_to_region(struct vec_state_reg_region *region,
+>                 if (!vcpu_has_sve(vcpu) || (reg->id & SVE_REG_SLICE_MASK) > 0)
 
-> The patchset aims to add a KASAN tag-based mode for the x86 architecture
-> with the help of the new CPU feature called Linear Address Masking
-> (LAM). Main improvement introduced by the series is 2x lower memory
-> usage compared to KASAN's generic mode, the only currently available
-> mode on x86. The tag based mode may also find errors that the generic
-> mode couldn't because of differences in how these modes operate.
+Should this be vcpu_has_sve_regs()? (zreg range)
 
-Well this is a hearty mixture of arm, x86 and MM.  I guess that means
-mm.git.
+>                         return -ENOENT;
+>
+> -               vq = vcpu_sve_max_vq(vcpu);
+> +               vq = vcpu_sve_cur_vq(vcpu);
+>
+>                 reqoffset = SVE_SIG_ZREG_OFFSET(vq, reg_num) -
+>                                 SVE_SIG_REGS_OFFSET;
+> @@ -476,7 +500,7 @@ static int sve_reg_to_region(struct vec_state_reg_region *region,
+>                 if (!vcpu_has_sve(vcpu) || (reg->id & SVE_REG_SLICE_MASK) > 0)
 
-The review process seems to be proceeding OK so I'll add this to
-mm.git's mm-new branch, which is not included in linux-next.  I'll aim
-to hold it there for a week while people check the patches over and
-send out their acks (please).  Then I hope I can move it into mm.git's
-mm-unstable branch where it will receive linux-next exposure.
+And should this also be vcpu_has_sve_regs()? (preg range)
 
-> [1] Currently inline mode doesn't work on x86 due to things missing in
-> the compiler. I have written a patch for clang that seems to fix the
-> inline mode and I was able to boot and check that all patches regarding
-> the inline mode work as expected. My hope is to post the patch to LLVM
-> once this series is completed, and then make inline mode available in
-> the kernel config.
-> 
-> [2] While I was able to boot the inline tag-based kernel with my
-> compiler changes in a simulated environment, due to toolchain
-> difficulties I couldn't get it to boot on the machine I had access to.
-> Also boot time results from the simulation seem too good to be true, and
-> they're much too worse for the generic case to be believable. Therefore
-> I'm posting only results from the physical server platform.
-> 
-> ======= Compilation
-> Clang was used to compile the series (make LLVM=1) since gcc doesn't
-> seem to have support for KASAN tag-based compiler instrumentation on
-> x86.
+Should you also handle FFR here, considering that in streaming mode
+it's optional?
 
-OK, known issues and they are understandable.  With this patchset is
-there any way in which our testers can encounter these things?  If so
-can we make changes to protect them from hitting known issues?
+Cheers,
+/fuad
+
+
+
+>                         return -ENOENT;
+>
+> -               vq = vcpu_sve_max_vq(vcpu);
+> +               vq = vcpu_sve_cur_vq(vcpu);
+>
+>                 reqoffset = SVE_SIG_PREG_OFFSET(vq, reg_num) -
+>                                 SVE_SIG_REGS_OFFSET;
+> @@ -515,6 +539,9 @@ static int get_sve_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
+>         if (!kvm_arm_vcpu_vec_finalized(vcpu))
+>                 return -EPERM;
+>
+> +       if (!vcpu_has_sve_regs(vcpu))
+> +               return -EBUSY;
+> +
+>         if (copy_to_user(uptr, vcpu->arch.sve_state + region.koffset,
+>                          region.klen) ||
+>             clear_user(uptr + region.klen, region.upad))
+> @@ -541,6 +568,9 @@ static int set_sve_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
+>         if (!kvm_arm_vcpu_vec_finalized(vcpu))
+>                 return -EPERM;
+>
+> +       if (!vcpu_has_sve_regs(vcpu))
+> +               return -EBUSY;
+> +
+>         if (copy_from_user(vcpu->arch.sve_state + region.koffset, uptr,
+>                            region.klen))
+>                 return -EFAULT;
+>
+> --
+> 2.47.3
+>
