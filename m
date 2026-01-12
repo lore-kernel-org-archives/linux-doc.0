@@ -1,139 +1,138 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18B02D063E
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 13:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768224570; cv=pass; b=K71eVpR93b4eokf2ks/Wdmqyi0/o/diRykxwI1yEKxqL9co+w8oidDX3uRWtna7eb58VcUaAPEEcBlgtkcui3rgh8WyK2mtJ6ALN9NmaJcxkeppRrwKf0KXILxqrO4/H62ptvur8LbDdD5eYcCf28UCfkAaXmf4EQ9Xci1De8+Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768224570; c=relaxed/simple;
-	bh=nNsvMblRGGki6ohemJFCJRABNbnFZNgKUtyaxPDO2cs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KdxouPsoCy5JFsQoQ3lKlRfYOM5ZB4Yg9wMCNcxl7UmW9zHjKBAzFrmDbkZLCHqduYXduxmHjgdjO8wUoTdaLTy6Rxti7lNKymQ96exRHJtbmIPyGR0Z2SS/tLvYOEa65bjS15uNWVshavSKpwcVeOpMPmD3l7s9OEX3AMWX9hU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XhnzU/Oa; arc=pass smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD842749D6
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 13:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768224782; cv=none; b=YaMOry4OmG9FLCvlbK2VbYUrmf6vyeBp4ch3H9JDIixLEwlx6GwtfPq5X8wNRJ5gLlqRYQl8DT1ibCYOL3qQJ1ku/axID07KVxBXvvZRLx3aGcFe6FUrPleVmmWVaT23Gm8HllHOEs3OT1Y91/KyldxWTYWer429Cvh/LttuFrE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768224782; c=relaxed/simple;
+	bh=spIsHBCK0TroQP2RO6KacsvLhnr36XzfF5LeCNxh2qs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQpi15uBmqc91obqdnMysrzE3Ajl7J+l9vsRNO7nesfoL94wCDqkNmGlessQFbbQkBTHvE+uMohbDCWznb5mof6WiWLFs/BpIKDBUNx4npULjGLtGNNgoM3W2eRp5EGMlAssx0KjduR9dno/5XprjL7Uja8xX/4UZooEBSRwyBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=RXugb3Ch; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XhnzU/Oa"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ee147baf7bso825091cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 05:29:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768224568; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WLTbp4sKK2qFpcrltBujsY2F/44uYLex1irvWPumWlrEGdJVZxX+uRaGc9UhL2Hx2S
-         v7/CRI7M8LPAUBUgGGOg1E/iGf7yPFkdcxEVfUGkd1+SyLu6NPDJ/sOnZB/cvD5qa1H4
-         voLCDWbdETc9Ixsptj5f6wpwUJ0Bo6I8lbkY+FqAUqyKEJHudqyoP5np9ZYOG0eUJUgq
-         J3saMGhbdHd+fEDrc6yyP7z/lWwiEaxkFyspQDZa0k4m51VKuTLp/3vIVned+uR3pMTp
-         Jm9yEmsgDXvPhbfrd1BfUdtPshc1T2JnVBWqdf1rqBJ3EsCOX4J1PcSTJjG8RpG6yd25
-         P/hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jaGuPXqFXeyZwxS5wActQiEFDVDRQPMhfrfAWEZUdIY=;
-        fh=LkCwsIkY0A9/W/bJ8XwjBhzTchMhZawVggho0hVqlkc=;
-        b=RwGjnMP7DFTWK5+oipTOnl5cxK7tFq+MscaMEjdroNn3mRJ4DeT1fapnCKnBKSwydB
-         8BAMhULyG7IWxBacn6Q2N7x6eBrU11VY+wSVfqjQOlaQezvrebx1moPUCmqzXCUwaejS
-         XOkLHEmtIx8W3RfHx/l78sk6pzTTPjwHTLuJe2LZ71XRVevP37zzF1L9bHMECzQj8r45
-         xpkDrAQsfNO0vDtOQin3FI+Iw2h1egLYtWo4/6M60nFPSKQkI77xE7WAaN06UqtLPPYB
-         Wuxb/7kLyXtqi2yu9pZ55fr8UNEaYhUljGUy04ZchnqCIwu7Cn9V0DNIqfO4J/DPEaRg
-         1kMA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="RXugb3Ch"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ee257e56aaso58456051cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 05:32:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768224568; x=1768829368; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jaGuPXqFXeyZwxS5wActQiEFDVDRQPMhfrfAWEZUdIY=;
-        b=XhnzU/OazUV0/DISFr0GHJ+waTpgosZSjtk093b+5BKr+7lBd+gd2X1kwkAI7+2uEK
-         4ZOI8KqpXTaomRaQ0nXCk8d1EnNL1rKWEl7n9jC733FniDOhDprgoxq7AFs+08/x96Tl
-         WlfFcRGgnrZN6z2Q1t5hyYHbMT40TuYrK8i2M0CSSHcWyVrjPUa6adfG19fPvesxNojy
-         y9MiuOMv4mIqdmgn1cUgn2eiOhRZTDyNXXU2Ao/qwOSVh2suz3vCb22qoiIEaGfVMtp6
-         61CQ2PfyQNXvFtXjsSDzWVQNPLnn1TiQDzzm4CdYPZL1pk2S+UtxjxRWZa/MwcGc6E3D
-         QyKQ==
+        d=ziepe.ca; s=google; t=1768224778; x=1768829578; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/3OlMjXUkwUyc3rlyrTigWpD2j2oxQCnKlM2MHwQt6I=;
+        b=RXugb3ChylJ9sI82jOFxpobpQu1anLRM/wpxgVGYxWU/q2qTHKav/UJanEBIwQE4RN
+         otJ88YLNQibj2WuAa1LYs1USGIwHsPIvZKdtkfU4u5rHy0uzY0FwVUOzxTK9GY+Ctf0k
+         RDQB+ZJS9I0AnFTBLhGDYnV/Fp0qe+r1F/0jAidJgoqSSke75c1zUMnA6tUcsVovi5RS
+         O8mtgqZwpTCABRx+vtO51c+iQ3n+mnT4h3ttF/XNXtFAp6TT2DLX6FUTTMjLDsPsVkCR
+         p5lZfcXbY17yygSNi2MXmVyAcrZuljIQA9ag65MCI5xv+WSpWQT+J2nuaT+sugejgSTJ
+         ScAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768224568; x=1768829368;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jaGuPXqFXeyZwxS5wActQiEFDVDRQPMhfrfAWEZUdIY=;
-        b=JQh6/QiAW32+gkChhVXWZksamCUlfg1Q+NLRDtCKFAuhRGs8GrSxKxmADXJHMOQ5Sh
-         Sx7/fCT4BVxVC2w3SDOrntOACbjvFwkuQS7n5gAZKTS2IfHJXlpYxV2mdDqerMmAa6Cm
-         53FSuxdhcbQplf1N2/BptK0zGoWJxP11lqNmAVudpafLx+Tzd3tHH6OpQwqRytKC1xjX
-         I+GWaX0HOvX65dp0JAHEIrxhmBjfyfm6oETkblQl1Ommqz6vaVwB65b3oTrHX3IvBATf
-         txNmclpaMXw7O5eOu3aXVXnfEWJmVFNX+c/qp4O4h0kmtC9mzKq19gaGOHCosyguNq/w
-         tzfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbS+6zqP3b6/qYGCIOh/e5rLy+D1/8Ftd1aV0aPmBGA0aYyHOIYbdeTYw+PWjrYM5Ia5SeMqgqdYs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRXrPrhiyyVRYswQI40Xxp+0i5/Tye3u2DqXnqaXTfxN0bsJwU
-	X81H5t2KqYs8BmA6smzu4ST98g2ifUmll3we1E8PwYZMpEFdWTGsgznyyD/6YA1i+D5iueYbMoC
-	w0RAZeHNjEYcbQZbJbTFEc16EGxHv12v4IdQpoe+9
-X-Gm-Gg: AY/fxX6+41sIWVTA2mbAwpdCjVRpBwjhMDygAOqdQ/Hn4OfA9VTv0zkVA6mj4AFTgyh
-	boJ8KWS0rJnDcLdz973AHL6JoP8fyFGmGHvYQ96zi41g8SxIwWg4P+W/k0beppjbxfB9bRZPGbN
-	LKLCQ1u7YDtTw3A7EVaZW3G5OZGvxCCtUIp3DIFOJzPuDZPHiHfeqNl/4ttl2GmZt0Qe5Zi2OU5
-	9NT3seFPVbqNz6NuOxlMl73HUzDRRxrCNhIzx64kMxsULZk31ksEWfgJT0JRN+Vua7ls7EO
-X-Received: by 2002:ac8:5891:0:b0:4ff:bfdd:3f46 with SMTP id
- d75a77b69052e-5011979b086mr18062621cf.15.1768224567393; Mon, 12 Jan 2026
- 05:29:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768224778; x=1768829578;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/3OlMjXUkwUyc3rlyrTigWpD2j2oxQCnKlM2MHwQt6I=;
+        b=nrpde0WIyhuVAJYB1g3gD7GRMO9pnSbjzd1B/8e4HjIfrne3w0szXTSrWXQ/hvMJ1Z
+         zfKIn+Wv89N7HYqAkAFI/czp+6i8/9ECLiBf2y+dkCUAZyt+IrT+WVSTv9GWhN+PKjRU
+         q4FfSeBtUwbABr/Fs4Tc4r6Xpx0PmQMDvSHaPSsLBI/WmkrecVWZCCHvoCwz3Sp0KVMW
+         lgNfH163B51nUEEg+lLMxPPKsQp4pTDKCfcM6R5gN/OYlmlv9qDeXmUyIrBy7DMJlTQb
+         IZSwPrpfGuXBdqkVpNJ3Wf239OcIhYBQEMdP+yMy7DyJG/XmPqDwS6fdRsIYohY2uYj2
+         GvyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVm6q/9+UpGi53jBciy8K6ur8bm5+gzkoRUeg0XyL7kin4uOWPYT4xjnbMKwrSzhuzBLAtw7WIILIY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUKTcxXt1d/geEnT93bv5nq+m+5EQwsYkI+ZVVPW1zl0XIi6gX
+	GxNMZ9RkKsvwjn4On+epLBFtJCeg2hN5Yui9HQtf9DK7ekT1nCvJypOO/eDmRtmlPII=
+X-Gm-Gg: AY/fxX4Sd8igVUGKDMobdZi4rx/0UCcfs2hIA9Kar1C6IMYn9biP7b/yMNgF1/pPRPU
+	+I22WIlEVRUScwgHwu6RVaexEY/teK6fab2B/JzzIPI+5rhStNkstGpMfQAc/eyOSzb/e2oKBrb
+	+QpgGhSonON8KbsWA3N3DgoZ3U2DSy361Dza/7Oa/zcm5xxTrJTlWcm16to12OD2ypviiV2bNa3
+	3ytCte7qWoSlPAkdUnanheCjkkAwnK5LalXCWnBXMvHmcCatic4Xce2W9awlPxilT6ik+HY5FsK
+	W9u6UK4F5B6HkWlZ4HeA6UtzLQnVscSiHV9w8BLZy8Pqby9Dkt8SATl58t9SSX+wmAVqmuncv5h
+	trtLJO+kc4Gk9nE8F46qp5YaHJecmoo1M3oLj6tFpzoNJ+Iy0whKYWD0548b4j8J9a1Fk8/XwVw
+	+wEer1r2O0CxX7wUulqS7VWntQvs50xUMrqRn1enK0nLkkg39OH1Rf4OicR7+bhOhh+GvPLcgEu
+	87+hg==
+X-Google-Smtp-Source: AGHT+IH4Dcu7h+OOktsvfMPjqqK1/8N0YWz6dlKvurnb+htQMqLWJDpjuBE6cizrKIHyOmLaaemzrw==
+X-Received: by 2002:ac8:7592:0:b0:4ff:beb1:cb9f with SMTP id d75a77b69052e-4ffbeb1cbd3mr144089361cf.40.1768224778294;
+        Mon, 12 Jan 2026 05:32:58 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffaac486efsm127185781cf.27.2026.01.12.05.32.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 05:32:57 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vfI2S-00000003Pwo-2w95;
+	Mon, 12 Jan 2026 09:32:56 -0400
+Date: Mon, 12 Jan 2026 09:32:56 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
+	baolu.lu@linux.intel.com, rdunlap@infradead.org,
+	Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH v6 3/4] iommu: debug-pagealloc: Track IOMMU pages
+Message-ID: <20260112133256.GB745888@ziepe.ca>
+References: <20260109171805.901995-1-smostafa@google.com>
+ <20260109171805.901995-4-smostafa@google.com>
+ <20260109195111.GQ545276@ziepe.ca>
+ <CAFgf54r_au6isA10Nrve=MHL455X=tKhNsSwH1ej-TX08J3xLA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
- <20251223-kvm-arm64-sme-v9-14-8be3867cb883@kernel.org> <CA+EHjTw-6-BFcr60+tgDzOE-OfcetD7yQtbNMkqr7BgiMXfeJA@mail.gmail.com>
- <96efc90e-bf1f-4b87-ab7b-0e24970eb967@sirena.org.uk>
-In-Reply-To: <96efc90e-bf1f-4b87-ab7b-0e24970eb967@sirena.org.uk>
-From: Fuad Tabba <tabba@google.com>
-Date: Mon, 12 Jan 2026 13:28:51 +0000
-X-Gm-Features: AZwV_Qhr0cnxEyY0NvApe2jyI_fTASUjPe1TmX1ATOL61XV_IRaHe4gUVPwKxys
-Message-ID: <CA+EHjTxQUADWmCbSgUiFcXz_BxDPLE+THHnF6Mwx73hnhc7OJw@mail.gmail.com>
-Subject: Re: [PATCH v9 14/30] KVM: arm64: Implement SME vector length configuration
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
-	Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFgf54r_au6isA10Nrve=MHL455X=tKhNsSwH1ej-TX08J3xLA@mail.gmail.com>
 
-On Mon, 12 Jan 2026 at 13:27, Mark Brown <broonie@kernel.org> wrote:
->
-> On Fri, Jan 09, 2026 at 03:59:00PM +0000, Fuad Tabba wrote:
-> > On Tue, 23 Dec 2025 at 01:22, Mark Brown <broonie@kernel.org> wrote:
->
+On Mon, Jan 12, 2026 at 10:20:14AM +0000, Mostafa Saleh wrote:
+> On Fri, Jan 9, 2026 at 7:51 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Fri, Jan 09, 2026 at 05:18:04PM +0000, Mostafa Saleh wrote:
+> > > +static struct page_ext *get_iommu_page_ext(phys_addr_t phys)
+> > > +{
+> > > +     struct page *page = phys_to_page(phys);
+> > > +     struct page_ext *page_ext = page_ext_get(page);
 > > > +
-> > > +#define vcpu_cur_sve_vl(vcpu) (vcpu_in_streaming_mode(vcpu) ? \
-> > > +                              vcpu_sme_max_vl(vcpu) : vcpu_sve_max_vl(vcpu))
->
-> > nit: This isn't really the current VL, but the current max VL. That
-> > said, I don't think 'cur_max` is a better name. Maybe a comment or
-> > something?
->
-> It is the current VL for the hypervisor and what we present to
-> userspace, EL1 can reduce the VL that it sees to something lower if the
-> hardware supports that but as far as the hypervisor is concerned the VL
-> is always whatever is configured at EL2.  We can obviously infer what
-> the guest is doing internally but we never really interact with it.  The
-> existing code doesn't really have a concept of current VL since with SVE
-> only the hypervisor set VL is always the SVE VL, it often refers to the
-> maximum VL when it means the VL the hypervisor works with.
->
-> > > +       if (WARN_ON(vcpu->arch.sve_state || vcpu->arch.sme_state))
-> > > +               return -EINVAL;
+> > > +     return page_ext;
+> > > +}
 > > > +
+> > > +static struct iommu_debug_metadata *get_iommu_data(struct page_ext *page_ext)
+> > > +{
+> > > +     return page_ext_data(page_ext, &page_iommu_debug_ops);
+> > > +}
+> > > +
+> > > +static void iommu_debug_inc_page(phys_addr_t phys)
+> > > +{
+> > > +     struct page_ext *page_ext = get_iommu_page_ext(phys);
+> > > +     struct iommu_debug_metadata *d = get_iommu_data(page_ext);
+> >
+> > You cannot do this - phys_to_page() can only be called if we already
+> > know that phys is a struct page backed item and by the time you get
+> > here that information is lost.
+> >
+> > Probably the only way to resolve this is to somehow pass in an iommu
+> > prot flag that can tell the difference between struct page and
+> > non-struct page addresses.
+> >
+> > But I have to NAK this approach of blindly calling phys_to_page().
 >
-> > Can this ever happen? kvm_arm_vcpu_vec_finalized() is checked above,
-> > and vcpu->arch.{sve,sme}_state are only assigned in
-> > kvm_vcpu_finalize_vec() immediately before setting the finalized flag.
->
-> I don't expect it to, hence why it's a WARN_ON.
+> The callers to this, first will check "pfn_valid", which is the right
+> check AFAICT (looking at similar patterns in page_owner for example).
 
-I understand. My point is, by code inspection we can demonstrate that
-this isn't needed.
+I'm not sure pfn_valid really works in all cases, it has a number of
+exclusions that can be relevant when phys_addr_t can be a MMIO
+address..
 
-Cheers,
-/fuad
+So far we haven't been using it in the DMA paths at all, I'm not so
+keen to see that start..
+
+Jason
