@@ -1,134 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC325350A2D;
-	Mon, 12 Jan 2026 10:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9710B2C032E
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 11:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215487; cv=none; b=YGVQnjLHryq2cJ++su+4Ns6KM+HjEDgwbJ2Rhzienm1n7/jZKa1ywT5VUluqKicvHlvv6LzbtudA+Xl3cGr8nT5JOaydPXYwMmLf8Olpq0Df3q23ZwhjUjPHj97Md94ob/p0tpPVnizS+13t1f56Wvq/EcSmt0ox2mRsYGoJcPc=
+	t=1768216019; cv=none; b=QqH02aDCVrX1pxhc2Oj0CQjHjz7dcsgPZiagJke6/VNtwbgPaPnaaxR2pFAM8iTNJjlTBv376WA5C7XEJsL/JOqmQLpq6TlYupWqXq/tgTVhqSJoalA7wq5Q/l7Frk8sQcGvPAyX2OLBHI+WALG63BUCPtV73dTlI0RxWR45PkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215487; c=relaxed/simple;
-	bh=2CxAOQdm9pfGqDTstJ8atlI08gE5e3UXHrQse7CP0Zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CW43uYLUg7O8+uvxLWOYiKHL5YL7i/PUld0DgjyL/B6O1R+O9fU6ghfzn6noGETWCMKEJsi1DW4gS/6LHXef/v5No19E2+ETtKQwdlefgFIypnxbdsC1dbPGNBmW+wGvsbXePcUaT+p7UdYsQJ5U6VxlV2AAjXXJEglx6xSNI1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndGEgoYK; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+	s=arc-20240116; t=1768216019; c=relaxed/simple;
+	bh=1YGJ2Dol4LPMEiEAJx+rwrRm65eUFiU/5IjlCEApVG0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NhwCrpjE3x7YJs4QBfxJA30HPr6PHM6RV2JWQKT9GNS1KXccAHgKnviuAtRnZUZQcSLzM/8rFcg9lmLU+xFI/yeRp/VBcFVHSgpJt+DljAMIRomV08vForB+YsmykOW++tZH1NOhn+h2agnY4Ab7fj0yieP/Y22ccPG+2o0Wrnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wius/7SP; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndGEgoYK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wius/7SP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768215484; x=1799751484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=2CxAOQdm9pfGqDTstJ8atlI08gE5e3UXHrQse7CP0Zw=;
-  b=ndGEgoYKWyNSqTWYgUyVrEA0ObTO/XyBYAYqZw92K8E45tSgibAWw2Dv
-   h+b9PFnEtGUl1Cw9HgOA5ZvcQZi5AT1xRR2J/x65Qr+wcRvZ5nh+VxJBz
-   0vtGWt6lVgU5R2yZ3xNPsV3fGgjtf62ORktgB/vF/5z5I5Zn10oSbNVXP
-   2mFRJDgy8nQ6mCMGwFjxbJz00eVqZ23Kja98sNwkcl56YyrgVHc1IWdyO
-   4pwstHeMRGEufwLgmGGVIEB+IZNrCP66hR5s2eh48DkbZ5+/lJsdMQiVj
-   kgIyQls5W/5G0YhN3zFL0azfDPyvvXCThiMS6/GLqQNH4+089YSFklO6u
-   w==;
-X-CSE-ConnectionGUID: +sKY7mYSSJ63GcAo/z8ugQ==
-X-CSE-MsgGUID: jXpcU17eS9uKZ7ZfuOc/9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69539637"
+  t=1768216018; x=1799752018;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=1YGJ2Dol4LPMEiEAJx+rwrRm65eUFiU/5IjlCEApVG0=;
+  b=Wius/7SPZw3ghaZOKfEieWfPOR3dvsxVkMGr6KY+dh58MNEf3pGcfnGJ
+   dYPPcF2XXCavbLO2gw+K7axIrzInvKmau3bCPkQqzzMhKtxkUqUCfCMNF
+   cC9776PR+5N1z1egVJOx25dzOoQO+E5ANP4G6aML1VbkT/LyRZLiueVQ1
+   bwknTW8lWvIVeYfelVsJqIP9QxcKV9sMMDb72gAtLZPGm58gInH4Txiul
+   dy8u9Zal6REIyOferrIXRs0d14L8Hi02yVU0nlTjCebsYsqw3HGckdZB3
+   f1KLvRkqfp7y62swTvdXPzQJdVngC0pitnSmoqqOOJwpyGSBDn71a8CC5
+   Q==;
+X-CSE-ConnectionGUID: fgzRlr5PQy+3g+/8SbNQ2Q==
+X-CSE-MsgGUID: v+NiQXXvQRGSOAcDuV+gtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69644483"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69539637"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:58:01 -0800
-X-CSE-ConnectionGUID: 4mhKBSP3SFSJa1yd0GqT+A==
-X-CSE-MsgGUID: v4/FUKHxT9ab2jMUfkyIJQ==
+   d="scan'208";a="69644483"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:06:58 -0800
+X-CSE-ConnectionGUID: EBkq/xuHSuu0a3r3DTSJOQ==
+X-CSE-MsgGUID: qL5JSUZyQki2bTU1VGXYjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="203219426"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:57:57 -0800
-Date: Mon, 12 Jan 2026 12:57:55 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 2/6] iio: frequency: adf41513: driver implementation
-Message-ID: <aWTTs1n_N0dVjpbV@smile.fi.intel.com>
-References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
- <20260108-adf41513-iio-driver-v3-2-23d1371aef48@analog.com>
- <aWFPEa9HI4wmYLpn@smile.fi.intel.com>
- <6hcqrcy3meskddrklb3jtlpca2snrs4upwms56lhq7mkes7krm@vdiaqkfc6lgg>
+   d="scan'208";a="241596247"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.222])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 03:06:56 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Petr Vorel <pvorel@suse.cz>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: Links to sources in docs
+In-Reply-To: <20260109173112.GA105682@pevik>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260109173112.GA105682@pevik>
+Date: Mon, 12 Jan 2026 13:06:53 +0200
+Message-ID: <7b0539f874af71c899c21acfd71288fe7a2d8246@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6hcqrcy3meskddrklb3jtlpca2snrs4upwms56lhq7mkes7krm@vdiaqkfc6lgg>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
 
-On Mon, Jan 12, 2026 at 09:56:25AM +0000, Rodrigo Alencar wrote:
-> On 26/01/09 08:55PM, Andy Shevchenko wrote:
-> > On Thu, Jan 08, 2026 at 12:14:51PM +0000, Rodrigo Alencar via B4 Relay wrote:
+On Fri, 09 Jan 2026, Petr Vorel <pvorel@suse.cz> wrote:
+> Hi Jonathan, all,
+>
+> I wonder how links in sources work.
+>
+> Documentation/userspace-api/check_exec.rst has:
+>
+> `samples/check-exec/inc.c`_ example.
 
-...
+There's this bit at the end of check_exec.rst that defines the link:
 
-> > > +/* Specifications */
-> > > +#define ADF41510_MAX_RF_FREQ			(10000ULL * HZ_PER_MHZ)
-> > > +#define ADF41513_MIN_RF_FREQ			(1000ULL * HZ_PER_MHZ)
-> > > +#define ADF41513_MAX_RF_FREQ			(26500ULL * HZ_PER_MHZ)
-> > 
-> > We need HZ_PER_GHZ. I think it's easy to have one be present in units.h.
-> 
-> 26.5 GHz is not going to use HZ_PER_GHZ, so for consistency I think it makes
-> sense to keep HZ_PER_MHZ for the others.
+.. _samples/check-exec/inc.c:
+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/check-exec/inc.c
 
-It's about readability and less error prone numbers (anything with 3+ 0:s is
-already prone to mistakes).
+The content within the backticks is just the link text, and has no
+filename semantics. See [1] for details.
 
-...
 
-> > > +#define ADF41513_MIN_INT_4_5			20
-> > > +#define ADF41513_MAX_INT_4_5			511
-> > > +#define ADF41513_MIN_INT_8_9			64
-> > > +#define ADF41513_MAX_INT_8_9			1023
-> > 
-> > Not sure if we want (BIT(x) - 1) for the limits as we have non-0 minimums.
+HTH,
+Jani.
 
-Any comment on this?
 
-...
+[1] https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#hyperlinks
 
-> > > +#define ADF41513_MAX_CLK_DIVIDER		4095
-> > 
-> > Sounds like a candidate for (BIT(12) - 1).
-> 
-> limits for INT are taken from the datasheet as is, so I think it makes to leave them
-> like this, as for CLK1/CLK2 max divider, indeed I can make it (BIT(12) - 1) as it
-> refers to a 12-bit register field.
 
-...
-
-> > > +#define ADF41513_MAX_PHASE_MICRORAD		6283185UL
-> > 
-> > Basically I'm replying to this just for this line. 180° is PI radians, which is
-> > something like 31415926... Can we use here (2 * 314...) where PI is provided in
-> > one of the used form? This will help to grep and replace in case we will have a
-> > common PI constant defined in the kernel (units.h).
-
-Any comment on this?
+>
+> which leads to link to the source [1]. But if i try to use the same pattern in
+> Documentation/trace/fprobe.rst:
+>
+> -See Filter Commands in `Documentation/trace/ftrace.rst`.
+> +See Filter Commands in Documentation/trace/ftrace.rst.
+>
+> it does not work:
+>
+> Documentation/admin-guide/bug-hunting.rst:54: ERROR: Unknown target name: "scripts/decode_stacktrace.sh". [docutils]
+>
+> Kind regards,
+> Petr
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/check-exec/inc.c
+>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
