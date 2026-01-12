@@ -1,66 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E9530F812;
-	Mon, 12 Jan 2026 06:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796A432A3D8;
+	Mon, 12 Jan 2026 07:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768200186; cv=none; b=SZLct2VQaeeijekNGayAwJedytkZp927UGcEzhKGBnNchfYHQDhAqDb0SOKlVuaN3xLimJZF+rSRZeJVzSQspN84ivDexnXKUP5cEA+/k9kgZLpU/4FQ9kJPRb8UXSnvXnWlBsYDpj/dMZasXlHM7A10vn+5nXENwr7aakhYarQ=
+	t=1768201443; cv=none; b=YKcM79JEGkbErG/+XJmyccIpwdf76hglNRCrZqvtCvb/e+plG+Ow4sV5S5I2AhGVgxbc4p7JYCd43+hagdPUVhiZIVOyXezebiMKl5nLhD/yubXOW3oPnX2ScD3q5NwIWNizW/bMhkgU4g3wzYvKiwb4XmZ1P2vgNB0icH8q31M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768200186; c=relaxed/simple;
-	bh=KRUlzmZT+Po3605XqLGK09mDfYi+PQG5J8+1DirPpHE=;
+	s=arc-20240116; t=1768201443; c=relaxed/simple;
+	bh=qbLAjFzWHVn/j1snb9tqD/d3W6ufTt+pmY8fFRlEJXs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idB9PA3KeOWPsQ4USATPwzSHoIsonUFdJqqC+oQ/f12lgpoiYWZql6PTrUFMROlXc3d/r1nQsyaW63j1Hc46ZnS4zVePiH58e0XLl9VqjK/c69iAdts/tub7K3cxLpDlx3lg13Kbxq3raohNpJk3O2NJ3ETflgj56igimOp+Zts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j566+UPn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EuZAGd9zvruqCry1DXxngIQcCJwUpIBMp3wLrkGTNzoIP48c9wgtuqjqt/HbOhUz+qHLQcpSDgxD3rC2XozjQ3ZBOo8GqLuE4/g3VEW0SfXnFjuMeKxjSlCgX5V4fdktwYyngVFRxkaSom28b1dOwN6w2NyKiVnfB746OxL/P/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=FnlWHg7y; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j566+UPn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768200184; x=1799736184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KRUlzmZT+Po3605XqLGK09mDfYi+PQG5J8+1DirPpHE=;
-  b=j566+UPn17nW0VlMd8in9zN7Ap4XKJ/YrXRazq8niO13l+3jrizhmceK
-   MhMC6x61HIm+ftuWjX/LrThQZcXd3w7JjP35qPfXF0fsBhTMoZAcSAUr/
-   sWXpnCQmJHgeVao14nDbMmWU+M7iSvrg2OPo+bOLw6lv/1QzmENU+a7V3
-   0+W0nJ4pIt25Wutj64aZ2DA1A3z49VNnsQydnSNhYIhGINZ1NMelji2U8
-   wl5B7lKnLHKzQbD7OsPaDE+mulAMcydje2C35lUMisOxMF5vYNalQDQsd
-   VA5oGoFGNrbwAOgZL0tykS50mNpQQ/dEjPl8xfugC0A2JJm7zpYSRqOq9
-   A==;
-X-CSE-ConnectionGUID: R+8dLbE5Q82mWNvBDq2a3g==
-X-CSE-MsgGUID: ShetzyQsSlejVmGHu7zcsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="87057181"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="87057181"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 22:43:04 -0800
-X-CSE-ConnectionGUID: +5Qtarv8RWW4G95y5DgeJg==
-X-CSE-MsgGUID: fJOLnsbZQiCSQQ+NuTJRFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="204082216"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Jan 2026 22:43:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfBdi-00000000D4G-3xjw;
-	Mon, 12 Jan 2026 06:42:58 +0000
-Date: Mon, 12 Jan 2026 14:42:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-Message-ID: <202601121428.WVvakywZ-lkp@intel.com>
-References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="FnlWHg7y"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60B8SDe5007270;
+	Mon, 12 Jan 2026 07:03:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=DaR8QIrJoPyGAUdK2XoR50gjX3a8Jt
+	Q3y3ZpcU0sC3M=; b=FnlWHg7yF0EhltIiIn9ZnFKG/nvLKG/pF1swSGpJYPCijY
+	W3Rmt5GG9EndclJOkAjsYj7aziAqVbObyNXQkmpQybP1JTD40KYizrnejvBH5N0R
+	uxWhc470C1N521DLBDW/4DIyhAp6m6ddM4POUpDrVis1Hlh6nnlYKZ+MBCseQRuL
+	2/T+gL9VYGZJLh0qjYX71ULRHWwG39FOsJ/hdlnDgOBY/V7LzQa8RoX1JtXisNa8
+	CSva6dlpDA66CEU6Mn19ZO4lOZMC2xpo5csLamqkyzMu14mWfv6OS/UZ3RdAJtGZ
+	P+oSF809jDQ8YtKfRtAb1iHfsp5syvvLc4So3efA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bkd6dwpng-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Jan 2026 07:03:00 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60C72xtd026579;
+	Mon, 12 Jan 2026 07:02:59 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bkd6dwpne-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Jan 2026 07:02:59 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60C5F3XY014244;
+	Mon, 12 Jan 2026 07:02:58 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4bm1fxvq99-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Jan 2026 07:02:58 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60C72r9n41288168
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 12 Jan 2026 07:02:53 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C7F1020040;
+	Mon, 12 Jan 2026 07:02:53 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4E39620043;
+	Mon, 12 Jan 2026 07:02:50 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.87.151.31])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 12 Jan 2026 07:02:50 +0000 (GMT)
+Date: Mon, 12 Jan 2026 08:02:48 +0100
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
+        Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
+        Brian Cain <bcain@kernel.org>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@kernel.org>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+        Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Jonathan Corbet <corbet@lwn.net>, Klara Modin <klarasmodin@gmail.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+        Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>, Michal Hocko <mhocko@suse.com>,
+        Michal Simek <monstr@monstr.eu>, Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Pratyush Yadav <pratyush@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        Ritesh Harjani <ritesh.list@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Stafford Horne <shorne@gmail.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+        sparclinux@vger.kernel.org
+Subject: Re: [PATCH v3 17/29] s390: introduce arch_zone_limits_init()
+Message-ID: <b211f877-f9bb-4892-b67c-d2610048575a-agordeev@linux.ibm.com>
+References: <20260111082105.290734-1-rppt@kernel.org>
+ <20260111082105.290734-18-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,118 +118,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+In-Reply-To: <20260111082105.290734-18-rppt@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: bCS-OSZblyIq8lvlPyjEILoO8GzzpHGN
+X-Authority-Analysis: v=2.4 cv=LLxrgZW9 c=1 sm=1 tr=0 ts=69649ca4 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7WlQhDu6A2usLaOTEWYA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDA1MSBTYWx0ZWRfX59mP2KNE13j0
+ a6aegnon1oN4dcuG8YaVOaJhcRG6s3uUJFEsmdkW+MZ5sZ09v9vfZ00cHaM+sNVIGfNSGFA6TA/
+ amYWC8VtNTQv0JRk3gc5rBBltZHgc72KTXGu3prlXckbdY0t0zp5Lo5Yhjr8IF/vYaYhc4GEfSU
+ Qn3vnNEGmBOVemoTnAoVuUgIbpnnLrr8prY2Jcsedc9458fa4aIErXN9hSBcQEeZAjafXeGIs3U
+ PkSTvWywRsb27htzKZSu/lI9i25vaLSZKrrQYY6kqWC0MKkmjKSiCkMGVZp7eE7xKVafOgrDfKv
+ /IgXdjJYtIVn8udUlyOpA1x4MgwEQYsjb20V4FINx3F9Zvbn5I4upMwVWMuGSRYRH4uAOicy3EX
+ 58rNjYtR0Ljy4P0wI73tlEk2VHClT7wveMeVEf9wv8ox2a4bReXLiwz96iuRvRG4P5usk/SQFvy
+ YK5patORVNK5OiJVC/A==
+X-Proofpoint-ORIG-GUID: Mt_xEhUTi_ZaKY8BdbSWDFf-6SwyebPB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-12_02,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 clxscore=1011 spamscore=0 impostorscore=0
+ malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601120051
 
-Hi Shawn,
+On Sun, Jan 11, 2026 at 10:20:51AM +0200, Mike Rapoport wrote:
 
-kernel test robot noticed the following build errors:
+Hi Mike,
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on next-20260109]
-[cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+...
+> +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
+> +{
+> +	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
+> +	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
+> +}
+> +
+>  /*
+>   * paging_init() sets up the page tables
+>   */
+> @@ -97,8 +103,7 @@ void __init paging_init(void)
+>  	sparse_init();
+>  	zone_dma_limit = DMA_BIT_MASK(31);
+>  	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
+> -	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
+> -	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
+> +	arch_zone_limits_init(max_zone_pfns);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
-config: loongarch-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121428.WVvakywZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121428.WVvakywZ-lkp@intel.com/reproduce)
+You move initialization of max_zone_pfns[] to a function, name the
+function arch_zone_limits_init(), but leave the initializatio of
+max_zone_pfns[] to zeroes outside. Should not it be brought along?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601121428.WVvakywZ-lkp@intel.com/
+>  	free_area_init(max_zone_pfns);
+>  }
 
-All errors (new ones prefixed by >>):
-
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c: In function 'rockchip_pcie_ltssm_trace_work':
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:41: error: implicit declaration of function 'dw_pcie_ltssm_status_string' [-Wimplicit-function-declaration]
-     264 |                                         dw_pcie_ltssm_status_string(state),
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:41: error: passing argument 2 of 'trace_pcie_ltssm_state_transition' makes pointer from integer without a cast [-Wint-conversion]
-     264 |                                         dw_pcie_ltssm_status_string(state),
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   In file included from include/trace/events/pci_controller.h:9,
-                    from drivers/pci/controller/dwc/pcie-dw-rockchip.c:26:
-   include/trace/events/pci_controller.h:20:52: note: expected 'const char *' but argument is of type 'int'
-      20 |         TP_PROTO(const char *dev_name, const char *state, u32 rate),
-         |                                        ~~~~~~~~~~~~^~~~~
-   include/linux/tracepoint.h:288:41: note: in definition of macro '__DECLARE_TRACE'
-     288 |         static inline void trace_##name(proto)                          \
-         |                                         ^~~~~
-   include/linux/tracepoint.h:494:31: note: in expansion of macro 'PARAMS'
-     494 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-         |                               ^~~~~~
-   include/linux/tracepoint.h:632:9: note: in expansion of macro 'DECLARE_TRACE_EVENT'
-     632 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:632:35: note: in expansion of macro 'PARAMS'
-     632 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-         |                                   ^~~~~~
-   include/trace/events/pci_controller.h:19:1: note: in expansion of macro 'TRACE_EVENT'
-      19 | TRACE_EVENT(pcie_ltssm_state_transition,
-         | ^~~~~~~~~~~
-   include/trace/events/pci_controller.h:20:9: note: in expansion of macro 'TP_PROTO'
-      20 |         TP_PROTO(const char *dev_name, const char *state, u32 rate),
-         |         ^~~~~~~~
-
-
-vim +/dw_pcie_ltssm_status_string +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
-
-   225	
-   226	#ifdef CONFIG_TRACING
-   227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-   228	{
-   229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-   230							trace_work.work);
-   231		struct dw_pcie *pci = &rockchip->pci;
-   232		enum dw_pcie_ltssm state;
-   233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
-   234	
-   235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
-   236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-   237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
-   238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
-   239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
-   240	
-   241			/*
-   242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
-   243			 * - 'last-read-point': maintains the user's last read position
-   244			 * - 'last-valid-point': tracks the hardware's last state update
-   245			 *
-   246			 * Software Handling: When two consecutive LTSSM states are identical,
-   247			 * it indicates invalid subsequent data in the FIFO. In this case, we
-   248			 * skip the remaining entries. The dual-counter design ensures that on
-   249			 * the next state transition, reading can resume from the last user
-   250			 * position.
-   251			 */
-   252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-   253				break;
-   254	
-   255			state = prev_val = val;
-   256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
-   257				if (l1ss == 2)
-   258					state = DW_PCIE_LTSSM_L1_2;
-   259				else if (l1ss == 1)
-   260					state = DW_PCIE_LTSSM_L1_1;
-   261			}
-   262	
-   263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
- > 264						dw_pcie_ltssm_status_string(state),
-   265						((rate + 1) > pci->max_link_speed) ?
-   266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
-   267		}
-   268	
-   269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
-   270	}
-   271	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
