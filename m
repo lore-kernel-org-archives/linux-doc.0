@@ -1,67 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89EF320CD6;
-	Mon, 12 Jan 2026 19:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AA4324B2A
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 19:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768246314; cv=none; b=izIoAI27Irvydf7ioBL/tpDOAnRmqtyTfg0MNtDQWEtBMzJCXDie43Tmb98akmMmrZD0NhKuKH9aDvFQ4bg8ENzyqc3A9iUHNCpk81AsfwnzMVUopqqklfU1dUwOgYmhBwrGJMjXtf7914T4gDQytFPsoDvwZ4virAbsBFPG+jE=
+	t=1768247798; cv=none; b=B67KvSnI09NOLo7JSvvsW0pGuKr1fKwp6f5/PXegdNrONb6hlqg8N4erivknvDA3e5A3OnhsuO0qt+HiST16nYNoOGxqnMxq8jQkcIOGJVCx5fbyy76h5AmvaSQWiV6RsnjJ1H5LVXc8mFDYeGAieg71RJzRuZaNZSsqm+K/7hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768246314; c=relaxed/simple;
-	bh=3w3xFY/eST79iIZcVPfsOoZTYgJHV2ZKR0p8iXN/9iM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=iSBvCn00oeAC9dczm5r6MxzMRV0ZV+dgp6yDXI/hXDossV72f/+A4f04P8bmfs6XZRtzsores0CDbdzBEemNngmgh+ide+KnBM3pnfb918Kx4G8quw6Yrt0ZyMn1/7gGLzYhT2TQTKo9Pd8iqWZh/36Gnzn6OPHUgTHZkggqhAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0jfj09o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768247798; c=relaxed/simple;
+	bh=M31+Y79zuoXr1vFVcVS4+r+feGloqOn2T9Swnz4nHtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J5w32gbM6XRp4zllgoj8STG+BJc2sSR1jTiFmjSvEF+3Xlj+z1p/5hUHQKFXovFMb62dOhryW6bw9gTFk1E6wa1kWjW8mLRQcoBJ46K508VbhnJJGkpZQLsusC9kZpupUfYvrf2RtZ/AWgoWHxNAAfMglqac9MVIToIsCX2lGqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JfXGBlJr; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0jfj09o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48400C16AAE;
-	Mon, 12 Jan 2026 19:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768246313;
-	bh=3w3xFY/eST79iIZcVPfsOoZTYgJHV2ZKR0p8iXN/9iM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=L0jfj09o0YxZ1CIKdrXiC8QqZrFkuUi61rdXvAhWZF5VPdKfPtCONH36gPGYAJKEm
-	 mYOogEeDtvlkbW8wTpd2ny3edxhRtCictiPamE2x+0MYGM0uVCYGgp8iIRjf9vuqo+
-	 T81sIK/XCmVWSEszBcGjnK5Mwhnevjf3AhJd1kx4Kkcy4OUNfyv2SKWjqxJOPlAH1J
-	 DYM9b3ExyQr1eXdEUevet/rF+dCKiNdg2a1SV6iIfyMmqn3i6U9AOGHywu1d6QaoZi
-	 yIN8I+w6KPqCmJtenloDSbLZgRW03WPShWijKacPU1/CAM0DB5i1iaNK7e+fnB9cR/
-	 fqpbDpIUigzag==
-Date: Mon, 12 Jan 2026 09:31:52 -1000
-Message-ID: <47f7e8ef86973528cfc6a03174127a2e@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
- Michal Koutný <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>,
- Chen Ridong <chenridong@huaweicloud.com>
-Subject: Re: [PATCH cgroup/for-6.20 v5 0/5] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-In-Reply-To: <20260112160021.483561-1-longman@redhat.com>
-References: <20260112160021.483561-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JfXGBlJr"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-792768a0cd3so19043357b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 11:56:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768247796; x=1768852596; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KH869nzXNgoUvJaMyA9BtLsL3ZEwdxgmckhbEXHR+og=;
+        b=JfXGBlJr2osxbGCfOatR5NPxF/H8VMPOSfZ9C13U+SqbZ8hRSf7IpFZ5vVZZZDvYy+
+         2VSYW+xuO9Bi0KdQQnnXccSV51JR2vcgKPJFjSAlJ0mpQSEBEmC2x87Vomfoyg1OUrb0
+         eUpgCWAHD10emPytH3FHapE0liSihz2Qj34/ht62jJUcnctbeBSiitrQwmQTvbhTXwr3
+         uazflyT+HRwx5fjoj3Xrb+nPgejigD+oJwC8xPgaflNl5yKfA0QQD92+xlRKPuwcKfOD
+         1Bvtzq6S9S2SfotgpV6P+ZOSzP61PwYVK8gkBBYcA6/AJSGj140dh34N/VQVWs7JOYyN
+         uhIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768247796; x=1768852596;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KH869nzXNgoUvJaMyA9BtLsL3ZEwdxgmckhbEXHR+og=;
+        b=M2SAcYiDJ9Kkcq8elCG4d27oUxGlyT7HycbcZkowssc961JElJyWnoIM8oGMjVcLdv
+         9fLaGp/Mjv1+ZvNr93eLpKdmTSvtE5tLp4eftWZgR7onCSm5gELkSMg1oUd/BkYr8He6
+         GC8zEKaJqhPMwNl/CryswbcrwvyXlGX5D1GLOsgwzp+UgvCftT5X7WlYQbaIHDQQxe0T
+         mvarpaXtZa23CIo+ZGVpiF2ZEOQsOr7kPmMfAqSoXbugiACwHMDNOVz3CAQdBYOcnP9H
+         E9Dl9GZIjG20tuCz181fhDuAGevBRWd4ilqu+DWhOly3keMWYLRQEyiNa+kKF7i/mY1z
+         Tbag==
+X-Forwarded-Encrypted: i=1; AJvYcCVHjIpJkjCVyKRsJs7jUkofMjP/RNwFTXt4GxtE3uISNr9qX/B3XyKFH+1A1oo3s8PpQ4wZe2QyaJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFnHEZCWN5H1UNcdSjk7b3IRP5shqgPxSWovgZLXdLeE4jScEI
+	6wQEJZsoy5j6gARgXYy3+QWETKdygOp69/OogHp5iUyeNy1tgNON+a12
+X-Gm-Gg: AY/fxX4a8b1h1XDadiXCOGvH/N4UVwV7SeDvmslDxezZRO6HAeBgSS/BEU4O6oWenoK
+	Z263ej4ZGJl4qFjNZuRrrkr6FWnazeyeTnLJ0JAmoYWEDNlVBVoEesEFib5ds18Pipq0zoVDm6B
+	AD5nE0BcxDMF7R1EJeF3sIfofxv7HNBG5ov1/qWh2m6S1lsu0xzDfeKn1eswE/mf8HJWOgRenFB
+	VYF+vUA6mIBc7ugXMkVfzGy/xaIyaJdE6CQL64L5P03RI7ged3VrYH6XBfnc30tdPgVI32KsFlE
+	Nw8YAQINc8wwCmBbrQOl98/8jY2d7ySYRCs26NK4MAUeTxF+kZuZzEMDQBvifooXu0achthHZcX
+	eJ4DeUPo9KjJ/fRebUlrjZfCdsnlgbYPchFsVVAM9k4/QlP6twNnONKeNsUpEpCEKQwzApiSEuI
+	N5hrwr7VeiUKIwSiiegiNwOBwfjHVmPRLEpFY=
+X-Google-Smtp-Source: AGHT+IHgu2lOJznxq2Oiaq3vnKy3dA5EnBV3x7HgHsvKXwndIU+C6LqpkznWacQVy1guDmkfDk9/Ng==
+X-Received: by 2002:a05:690e:1348:b0:63f:baef:c4f with SMTP id 956f58d0204a3-64716c5a848mr15226065d50.63.1768247795824;
+        Mon, 12 Jan 2026 11:56:35 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:4d::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6470d7f76desm8366862d50.3.2026.01.12.11.56.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 11:56:35 -0800 (PST)
+Date: Mon, 12 Jan 2026 11:56:33 -0800
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v9 5/5] selftests: drv-net: devmem: add
+ autorelease test
+Message-ID: <aWVR8U54fLB+mA/4@devvm11784.nha0.facebook.com>
+References: <20260109-scratch-bobbyeshleman-devmem-tcp-token-upstream-v9-0-8042930d00d7@meta.com>
+ <20260109-scratch-bobbyeshleman-devmem-tcp-token-upstream-v9-5-8042930d00d7@meta.com>
+ <CAHS8izMy_CPHRhzwGMV57hgNnp70Niwvru2WMENPmEJaRfRq5Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izMy_CPHRhzwGMV57hgNnp70Niwvru2WMENPmEJaRfRq5Q@mail.gmail.com>
 
-> Waiman Long (5):
->   cgroup/cpuset: Streamline rm_siblings_excl_cpus()
->   cgroup/cpuset: Consistently compute effective_xcpus in
->     update_cpumasks_hier()
->   cgroup/cpuset: Don't fail cpuset.cpus change in v2
->   cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus
->     conflict
->   cgroup/cpuset: Move the v1 empty cpus/mems check to
->     cpuset1_validate_change()
+On Sun, Jan 11, 2026 at 11:16:37AM -0800, Mina Almasry wrote:
+> On Fri, Jan 9, 2026 at 6:19 PM Bobby Eshleman <bobbyeshleman@gmail.com> wrote:
+> >
+> > From: Bobby Eshleman <bobbyeshleman@meta.com>
+> >
+> > Add test case for autorelease.
+> >
+> > The test case is the same as the RX test, but enables autorelease.  The
+> > original RX test is changed to use the -a 0 flag to disable autorelease.
+> >
+> > TAP version 13
+> > 1..4
+> > ok 1 devmem.check_rx
+> > ok 2 devmem.check_rx_autorelease
+> > ok 3 devmem.check_tx
+> > ok 4 devmem.check_tx_chunks
+> >
+> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> 
+> Can you add a test for the problematic/weird scenario I comment on patch 3?
+> 
+> 1. User does bind (autorelease on or off)
+> 2. Data is received.
+> 3. User does unbind.
+> 4. User calls recevmsg()
+> 5. User calls dontneed on the frags obtained in 4.
+> 
+> This should work with autorelease=on or off, or at least emit a clean
+> error message (kernel must not splat).
 
-Applied 1-5 to cgroup/for-6.20.
+IIUC, this looks something like (psuedo-code):
 
-Thanks.
+ncdevmem.c:
 
---
-tejun
+do_server(...) {
+
+	client_fd = accept(...);
+
+	if (check_premature_unbind) {
+		/* wait for data but don't recvmsg yet */
+		epoll(client_fd, ...);
+
+		/* unbind */
+		ynl_sock_destroy(ys);
+		
+		while (1) {
+			ret = recvmsg(client_fd, &msg, MSG_SOCK_DEVMEM);
+			/* check ret */
+
+			ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, ...)
+			/* check ret */
+		}
+	} else { ... }
+}
+
+... then devmem.py checks dmesg?
+
+> 
+> I realize a made a suggestion in patch 3 that may make this hard to
+> test (i.e. put the kernel in autorelease on/off mode for the boot
+> session on the first unbind). If we can add a test while making that
+> simplification great, if not, lets not make the simplification I
+> guess.
+
+I think we can do both the simplification and this test, but in general
+we would have to skip any test when rx bind fails due to the test's new
+mode not matching. Not sure if that is desired.
+
+I tend to like the simplification because I really dislike having to
+track the RX binding count, but I'm not sure if there is a good way to
+do that with making our tests locked into a single mode.
+
+Maybe a debugfs reset option that rejects when rx_bindings_count is
+non-zero? That way we can remove all the program logic around
+rx_bindings_count and make it's inc/dec wrapper functions no-ops in
+production (CONFIG_DEBUG_NET_DEVMEM=n), but still test both modes?
+
+
+The handler would look something like (approx.):
+
+#ifdef CONFIG_DEBUG_NET_DEVMEM
+static ssize_t devmem_reset_write(struct file *file, const char __user *buf,
+				  size_t count, loff_t *ppos)
+{
+	int ret = count;
+
+	mutex_lock(&devmem_ar_lock);
+
+	if (net_devmem_rx_bindings_count_read() != 0) {
+		ret = -EBUSY;
+		goto unlock;
+	}
+
+	/* enable setting the key again via bind_rx) */
+	tcp_devmem_ar_locked = false;
+
+	static_branch_disable(&tcp_devmem_ar_key);
+
+unlock:
+	mutex_unlock(&devmem_ar_lock);
+	return ret;
+}
+[...]
+#endif
+
+
+... but I couldn't find a good precedent for this in the current
+selftests. 
+
+Best,
+Bobby
