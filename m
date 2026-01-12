@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EDB356A23;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C00356A1E;
 	Mon, 12 Jan 2026 11:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768217036; cv=none; b=XB+ltxQqqsj7pVjv8JGa+yJXL4yjXbpW81rYg5kjYTK2whcLtRTfGCgRisF9E2e4YClzrgOBwSFRLPjThz0YLwLMx+HQGoj3rynsOzvD8k3NgMLPx4LF5eWajRU0LvZLCvt/NzYVAUWNgBe50Su/R+qsvUBd3keb5HssGLFJidI=
+	t=1768217036; cv=none; b=CiKO5UCmatu7dZol0C9rMnzOgWDvCWZ/H/aGBMvlyk++w0hZLo56h9yNpFDjZIWNyp9+ewxBB6DnLQ17XVOfV4TgEHZ4rtSiCF6L1i+85wySRKr5gNAH6zVXSntVt6cWSKtNuAV/7sg7nCsV8X9WEmAK2vBI5/D/vhTMYzOxu70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768217036; c=relaxed/simple;
-	bh=lGP3YEIb7htsUIa6dUl9swOOUdUMERQ+4bISrWtBkd0=;
+	bh=M8CQBtXD5x5BId0iNs+suDaY/SBqip9p2vko/lQ8Y1M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=snKAEhDujQ8CSwuXQBcj2Wbg0iuANf0OTUKnA/fSYn8/rUBc7vthpiFs6fimBSzfMX1UauhXtth6KS61odBPUHWYjnVMr7WirJHVIsUn69PLRp+bXbBrehIVw5m7WWsptJwHt8ZAIdnTRGMl05KZgFNLODBQBXmIDJKzcJeKEpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NoLEE09u; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KHQ3e/IKVZtGxRyQ6KNALRVyZlcDL4sNlSFeHIHwphdye25aqxcEHZmovrUJI0wr8soJHCoinKW8G3seIzfWIQY7CrBInWpOg2r40r8iuURAAiQF7jcd0UbkjqGZN7r3Cq9A+FHPGPTTHth1yPd+p5zJ/QayU81D1WItN5nbssw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJ2PCPpZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NoLEE09u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08851C16AAE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJ2PCPpZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04916C19421;
 	Mon, 12 Jan 2026 11:23:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768217036;
-	bh=lGP3YEIb7htsUIa6dUl9swOOUdUMERQ+4bISrWtBkd0=;
+	bh=M8CQBtXD5x5BId0iNs+suDaY/SBqip9p2vko/lQ8Y1M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NoLEE09uLOySikVTg45OD9Um6kIeH++3YOMbBoFLiq71ctPhuDWBEFfjHBp6bKQLC
-	 GrSMSCQvHv3q5vQuYWnnWQVO1RUx1iSW3+gg1flOa3LEszlgtHYOMwJPEvICE4YbXo
-	 KSlTacvfzR1164ynSCT9NV/7D6XLeuDVwh6OjW5yC+NaBEyFTPDsIzYuUkr3g67Aue
-	 nT+TjxomTSxndDzuIMylAXalyEUUy3UGd+tcc3Z41VTkVrBZ7igjHc/DEqX47pyGkO
-	 tjNMKYZSdz29lUE0i/86z6rhGQNAaOR6IqjuGx7li8jNrQpZhSsCYjlM4DIyPZUaW8
-	 exGXwDa8M+f0g==
+	b=VJ2PCPpZKwRx9Og7IO00VWIwe1CvaMFO8ve5wY1lHDK67zVQs4WAU/jcGqVLUW+2T
+	 Ibd7bk7LepDx3o/gYDnxpSfe/vexxZy5qdUl00v2QETyZ+4qBg2FJdHZRK9sylYDPQ
+	 wsVEGBRDnUQ6CrnghxwLoNo2vUOWC9ru3mN0K3xjeZDFhNfR+5pU/fxnTcfO2JEI/K
+	 7i/w4eOTxFYP2/QpXd0eqwEcfxTKokJlYPbqSDgY0Pzm5k/sWau9pUdQDThigkvYsX
+	 uSxWLFCrDR8sr1mrI/PO7Pe3FU7Xt3TATYJ23OhI2BiWaReG5Y3Vj/63KNyMbNPO/v
+	 ql0x5FnxyAqdw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vfG1a-00000000DTq-0zhi;
+	id 1vfG1a-00000000DTi-0mD3;
 	Mon, 12 Jan 2026 12:23:54 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Jani Nikula <jani.nikula@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 3/4] scripts/kernel-doc: ensure that comments are using our coding style
-Date: Mon, 12 Jan 2026 12:23:25 +0100
-Message-ID: <8dab4a0fff5b7054f45965e6289a7541a2a72c10.1768216455.git.mchehab+huawei@kernel.org>
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 1/4] scripts/kernel-doc: fix logic to handle unissued warnings
+Date: Mon, 12 Jan 2026 12:23:23 +0100
+Message-ID: <914b07e496fd204d7082c6e1b138d99d8488da9b.1768216455.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768216455.git.mchehab+huawei@kernel.org>
 References: <cover.1768216455.git.mchehab+huawei@kernel.org>
@@ -53,99 +55,59 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Along kernel-doc libs, we opted to have all comments starting/ending
-with a blank comment line. Use the same style here.
+Changeset 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently discarded")
+didn't properly addressed the missing messages behavior, as
+it was calling directly python logger low-level function,
+instead of using the expected method to emit warnings.
 
+Basically, there are two methods to log messages:
+
+- self.config.log.warning() - This is the raw level to emit a
+  warning. It just writes the a message at stderr, via python
+  logging, as it is initialized as:
+
+    self.config.log = logging.getLogger("kernel-doc")
+
+- self.config.warning() - This is where we actually consider a
+  message as a warning, properly incrementing error count.
+
+Due to that, several parsing error messages are internally considered
+as success, causing -Werror to not work on such messages.
+
+While here, ensure that the last ignored entry will also be handled
+by adding an extra check at the end of the parse handler.
+
+Fixes: 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently discarded")
+Closes: https://lore.kernel.org/linux-doc/20260112091053.00cee29a@foz.lan/
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ tools/lib/python/kdoc/kdoc_parser.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 600bdfea6a96..bcb60136fc9c 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -188,7 +188,9 @@ def main():
-     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-                                      description=DESC)
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index a9a37519145d..aed07fdaa561 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -459,7 +459,7 @@ class KernelDoc:
+         #
+         if self.entry and self.entry not in self.entries:
+             for log_msg in self.entry.warnings:
+-                self.config.log.warning(log_msg)
++                self.config.warning(log_msg)
  
-+    #
-     # Normal arguments
-+    #
+         self.entry = KernelEntry(self.config, self.fname, ln)
  
-     parser.add_argument("-v", "-verbose", "--verbose", action="store_true",
-                         help="Verbose output, more warnings and other information.")
-@@ -204,7 +206,9 @@ def main():
-                         action="store_true",
-                         help="Enable line number output (only in ReST mode)")
+@@ -1741,6 +1741,10 @@ class KernelDoc:
+                         # Hand this line to the appropriate state handler
+                         self.state_actions[self.state](self, ln, line)
  
-+    #
-     # Arguments to control the warning behavior
-+    #
++            if self.entry and self.entry not in self.entries:
++                for log_msg in self.entry.warnings:
++                    self.config.warning(log_msg)
++
+         except OSError:
+             self.config.log.error(f"Error: Cannot open file {self.fname}")
  
-     parser.add_argument("-Wreturn", "--wreturn", action="store_true",
-                         help="Warns about the lack of a return markup on functions.")
-@@ -226,7 +230,9 @@ def main():
-     parser.add_argument("-export-file", "--export-file", action='append',
-                         help=EXPORT_FILE_DESC)
- 
-+    #
-     # Output format mutually-exclusive group
-+    #
- 
-     out_group = parser.add_argument_group("Output format selection (mutually exclusive)")
- 
-@@ -239,7 +245,9 @@ def main():
-     out_fmt.add_argument("-N", "-none", "--none", action="store_true",
-                          help="Do not output documentation, only warnings.")
- 
-+    #
-     # Output selection mutually-exclusive group
-+    #
- 
-     sel_group = parser.add_argument_group("Output selection (mutually exclusive)")
-     sel_mut = sel_group.add_mutually_exclusive_group()
-@@ -253,7 +261,9 @@ def main():
-     sel_mut.add_argument("-s", "-function", "--symbol", action='append',
-                          help=FUNCTION_DESC)
- 
-+    #
-     # Those are valid for all 3 types of filter
-+    #
-     parser.add_argument("-n", "-nosymbol", "--nosymbol", action='append',
-                         help=NOSYMBOL_DESC)
- 
-@@ -286,9 +296,11 @@ def main():
- 
-     python_ver = sys.version_info[:2]
-     if python_ver < (3,6):
-+        #
-         # Depending on Kernel configuration, kernel-doc --none is called at
-         # build time. As we don't want to break compilation due to the
-         # usage of an old Python version, return 0 here.
-+        #
-         if args.none:
-             logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
-             sys.exit(0)
-@@ -298,7 +310,9 @@ def main():
-     if python_ver < (3,7):
-         logger.warning("Python 3.7 or later is required for correct results")
- 
-+    #
-     # Import kernel-doc libraries only after checking Python version
-+    #
-     from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-     from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
- 
-@@ -346,6 +360,8 @@ def main():
-         sys.exit(error_count)
-     sys.exit(0)
- 
-+#
- # Call main method
-+#
- if __name__ == "__main__":
-     main()
 -- 
 2.52.0
 
