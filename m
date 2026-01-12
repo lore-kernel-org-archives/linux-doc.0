@@ -1,129 +1,195 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DBC2E62A2
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 15:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09842BD5BB;
+	Mon, 12 Jan 2026 15:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768230926; cv=none; b=igHfnrcZEfDewFLl6wvtod9t6bn/DaQViAlGyih1AJ6fsjfqi8p+GXCGqgEROfjk/RSJgZs5ZUoTXt99ekE3cEUUE+rhUhhjGz85Yh77f4GA0Gf3YVMt4x6t4dMIn2EZJFzDiwmIjAZl16tOp/CtZ+dBQP0g4W+Tyo8dPtrQgVc=
+	t=1768231007; cv=none; b=jdbEJlqP99xOmwg+rNbe0aKOTkW7v3FbFDrpTkjSNyhQwWXjhnJEzcsV1eWsQrFMKXz7fpQ4Wv0Di3uy8ExiXsZXNENgIHjXO3A5EFNWEz1P2vgvMTG/AdAl8mN422ATWaQaGOf7TPclsN+gfAAZb7Pb0+gDPRc5fe/DTD6xyno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768230926; c=relaxed/simple;
-	bh=UWmSshBEHQ7KxE8MnHPkIfsFEU9/Q6SjGSI/Gge/kD8=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=VCN6m2aF3zMO/YIMhb1pRg4FeyZWDorXyI/tEvs5Sy+lYmT5Fj5xg5D+rCp9qMFaR4J2LRUbBgPzPtsRYct/nM4qsu5QoGlrkM1BnEDZw/AsIKRwmS3W1TfhbkeHoszvQ6B/LpWcUWDr8ydU7ryzmYodhP8VxrqVw1qNE/cNZKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OquIy3yk; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ioGvxbv3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OquIy3yk";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ioGvxbv3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768230923;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yBnEhkF7Qdzoo2GNW/2wAAQ4zQejO2Ma9rGc252Ro1o=;
-	b=OquIy3ykPivdZ4P3JfPsaDY8hP4Rxp3Wbq8INII1kreH92PLKkSqo9vg/PcyOphmZtNKNQ
-	Jixtypw/kDeJdBj4bzNL02vB4hukIC/LfpYO+LDlmD9TujviMcUM6jXS3MSb1F0gwzUZeP
-	4mLNWwmEGuz6XuXEluoh1LVXXsQ7yjs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-ZH1LIiWNNWWd_APvMo1Yiw-1; Mon, 12 Jan 2026 10:15:21 -0500
-X-MC-Unique: ZH1LIiWNNWWd_APvMo1Yiw-1
-X-Mimecast-MFC-AGG-ID: ZH1LIiWNNWWd_APvMo1Yiw_1768230921
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-88a2e9e09e6so183756686d6.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 07:15:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768230921; x=1768835721; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yBnEhkF7Qdzoo2GNW/2wAAQ4zQejO2Ma9rGc252Ro1o=;
-        b=ioGvxbv3KePlaaSTy5wqTAqfaMPBb7jFEBOvmyp1gXHqCeS6U7WOtjPN+HGMDrEI4V
-         p6FfEQy1kafw0OI9oqueCm7CMl4tFj6NByWvaFm07qVReKjisc/pDAl9pFvmtL7qK3BT
-         Ck8zDj8dk4i6RUTc17Uc2lU5hB3hMb+035RVg3LnvSX6xHyQwdvg6MFpKA2/luEQ0pFg
-         h5Luum8SQ40G05TbtnelPwm+XVQ6K/mCG1jBdlnt3yroW3Hquyj7MqpF9wBshxuygRWL
-         MnWrGsHolYYrJfZj5ZAYMneMzUqob4EHAE00kRblHCg9XKvS/vaG1EkrcJtS1vx+Qdyp
-         1lHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768230921; x=1768835721;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yBnEhkF7Qdzoo2GNW/2wAAQ4zQejO2Ma9rGc252Ro1o=;
-        b=QumBMg9K3m5toljza8bVYlObijZy0errG5MfdjMHjRphFdTBWgrNcySVSk7OJmMp+z
-         x2cmJPeG1Iu0TDVuS8qGq+oVdg9F8lxM8P9+xnFZcG/V5dCuPbgNr1IckjDwg12kXSHO
-         nUD/fkAkDdMmE5N3aqH6hyzLgueqcC6W853QBK3wR9O2TozBFAS+rPGpVT7qRscPOOlT
-         MbOXhA45uW21ZIujC/RhMoGi4INP9a5/LYrhlB7VJht2eDEFBodlwRmqAUDsuGUkOnWa
-         mE8SI+vqp3fhFVGwdSvw0j51WZxB8fxeaQQyEgtOmbkx8RnTRTijUku8DQQnZIyhAd0X
-         vZyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUk50avPjoUn6wiA2LMohgGNBqukk8fLqzl2yBB5KDKALuG5l74iufgCIjFA9uVCtxrxFIDzaKcZbU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpbP95hEeKtkiU3tsgXcm/ppl/1tVWptRPb2KWoEa3X1SkBPhs
-	vrwfr7LvXBJY22wfgW/n8/8WglBWXMdf+CcYoiHwaN1P7dRFgjiQlTPrwlJMTvCy7gJPsN2qMqF
-	Evpe7rAkR3TYmoc5rWcObCxgNxfaiDrJDPt5Ctrr0Xqu3BXLLHz904wTK2EUC3g==
-X-Gm-Gg: AY/fxX6H4GsYnpo9baGvNSnwzJovngYwohzfws/M0OtZWrVYjMBieqipuME9OHT689B
-	zZ7d4zqlH4xOqZcJvWoeSA/iYAegu7X0axOf+C3ReULbHfq5eBP21L9X/X3uxt+F1XQZKjSvB7+
-	ZfR2+kYWYRI4rOqfJ04DD5BY3v5tlQImSVSGG10P5lf5Vp9Nj+wm4PZzglxUhy7ddUADAluYDBW
-	NzKaaS59NRjVex7o1o7V2/uLIG1jVq35dsH0DHE3S3/JbapzJ/z1iL6Kr3dkh4813IziGcj9mjg
-	zd9FaM8MgAivE7RGu1qUlTdLVWteLmJmnSFDh84IJwQ9OEPoXUD3ajI4/aNslfK+omw06TlI79J
-	MwbVyjJwNHWY3O+o2XcNwCs5IdEqxrs97aUBohfus2FggGcQUEDSl0+Gg
-X-Received: by 2002:ad4:5b87:0:b0:87f:e1b3:2014 with SMTP id 6a1803df08f44-890842d60cdmr242991916d6.66.1768230920859;
-        Mon, 12 Jan 2026 07:15:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEEEvjOnKFKxOB5sHeF3FHbEdls66ozWBRKEY9iiOUfJDVYVV2wAJMexcKiVyLElIE1U7IUUw==
-X-Received: by 2002:ad4:5b87:0:b0:87f:e1b3:2014 with SMTP id 6a1803df08f44-890842d60cdmr242991006d6.66.1768230920201;
-        Mon, 12 Jan 2026 07:15:20 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077253218sm137736816d6.43.2026.01.12.07.15.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 07:15:19 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <9a1b7583-7695-484f-a290-807b6db06799@redhat.com>
-Date: Mon, 12 Jan 2026 10:15:17 -0500
+	s=arc-20240116; t=1768231007; c=relaxed/simple;
+	bh=wPgiadCiymx4SgYtzEsDOyDQF6+5TWtuEQapElgaS7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CmqROHSJiov6wjuiw9BuhtUayWMCPV/Y4PIO7nxSKIqpu2pKgqH1nNUXpn9rCfRDMJUiRBfZ1ApZMkt3sFks36X6YrglZOp0GEjI3qsjdVtqSrBw7SosH77vQ0Q91/A2lkv/Jirvwk5xHlA6I1l3ebYQeerUJGYFWkV5+deZjL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id F167F59162;
+	Mon, 12 Jan 2026 15:16:43 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id EF4E42002B;
+	Mon, 12 Jan 2026 15:16:41 +0000 (UTC)
+Date: Mon, 12 Jan 2026 10:16:44 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, linux-rockchip@lists.infradead.org,
+ linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add
+ pcie_ltssm_state_transition trace support
+Message-ID: <20260112101644.5c1b772a@gandalf.local.home>
+In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+References: <1768180800-63364-1-git-send-email-shawn.lin@rock-chips.com>
+	<1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH cgroup/for-6.20 v4 4/5] cgroup/cpuset: Don't invalidate
- sibling partitions on cpuset.cpus conflict
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Waiman Long <llong@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- Sun Shaojie <sunshaojie@kylinos.cn>, Chen Ridong
- <chenridong@huaweicloud.com>, Chen Ridong <chenridong@huawei.com>
-References: <20260112040856.460904-1-longman@redhat.com>
- <20260112040856.460904-5-longman@redhat.com>
- <2naek52bbrod4wf5dbyq2s3odqswy2urrwzsqxv3ozrtugioaw@sjw5m6gizl33>
- <f33eb2b3-c2f4-48ae-b2cd-67c0fc0b4877@redhat.com>
- <uogjuuvcu7vsazm53xztqg2tiqeeestcfxwjyopeapoi3nji3d@7dsxwvynzcah>
-Content-Language: en-US
-In-Reply-To: <uogjuuvcu7vsazm53xztqg2tiqeeestcfxwjyopeapoi3nji3d@7dsxwvynzcah>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: EF4E42002B
+X-Stat-Signature: pkqtmyjz99xk34i7gczso7nyxz4r8ksh
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18oHLU8bzt/wclyIb/7L7zxrvbI6h4Fzu4=
+X-HE-Tag: 1768231001-775116
+X-HE-Meta: U2FsdGVkX1+0ozTFidj5QYjHCytY6PnsZObGBoyUvQcbsME2aCgsV8Bqd+z+IQn22TVG6Z9v8kx5BcmsxhLQ03JfJ31/nTKUJdXObmPF2Px22LW4PizSVFOX2/RuPs+msd4DYCf0nlSKYNELv2zSL09/SIKtkfsV8dsMOq1e0qNaGjg/Mpdw2MX8D7eV0mI0nbxycs4HQgBOtWCpt02W9D/1M24aOTFqQT5cxO/zJnqgRfltvPmQ7qaXxU5BFuQZM2jLNV4ct33BvnmecUYgDZt6f+s9JMFu5bF/Bz7WT0mVxRdn8j622pKY1JKQPmYRwYI++4n3gkCiPcmgm/m+Nu07fmtKft/NgqqxYlC4Yp9ysE5mvNSK5Bvamus1PKygTFIILVUMsta+5MJvHzx2aWRwwYMiEd2F
 
-On 1/12/26 10:08 AM, Michal Koutný wrote:
-> On Mon, Jan 12, 2026 at 09:51:28AM -0500, Waiman Long <llong@redhat.com> wrote:
->> Sorry, I might have missed this comment of yours. The
->> "cpuset.cpus.exclusive" file lists all the CPUs that can be granted to its
->> children as exclusive CPUs. The cgroup root is an implicit partition root
->> where all its CPUs can be granted to its children whether they are online or
->> offline. "cpuset.cpus.effective" OTOH ignores the offline CPUs as well as
->> exclusive CPUs that have been passed down to existing descendant partition
->> roots so it may differ from the implicit "cpuset.cpus.exclusive".
-> Howewer, there's no "cpuset.cpus" configurable nor visible on the root
-> cgroup. So possibly drop this hunk altogether for simplicity?
+On Mon, 12 Jan 2026 09:20:00 +0800
+Shawn Lin <shawn.lin@rock-chips.com> wrote:
 
-Ah, you are right. I thought there was a read-only copy in cgroup root. 
-Will correct that.
+> Rockchip platforms provide a 64x4 bytes debug FIFO to trace the
+> LTSSM history. Any LTSSM change will be recorded. It's userful
+> for debug purpose, for example link failure, etc.
+> 
+> Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
+> ---
+> 
+> Changes in v3:
+> - reorder variables(Mani)
+> - rename loop to i; rename en to enable(Mani)
+> - use FIELD_GET(Mani)
+> - add comment about how the FIFO works(Mani)
+> 
+> Changes in v2:
+> - use tracepoint
+> 
+>  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 104 ++++++++++++++++++++++++++
+>  1 file changed, 104 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> index 352f513..344e0b9 100644
+> --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> +++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> @@ -22,6 +22,8 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+> +#include <linux/workqueue.h>
+> +#include <trace/events/pci_controller.h>
+>  
+>  #include "../../pci.h"
+>  #include "pcie-designware.h"
+> @@ -73,6 +75,20 @@
+>  #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_1	BIT(4)
+>  #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_2	BIT(5)
+>  
+> +/* Debug FIFO information */
+> +#define PCIE_CLIENT_DBG_FIFO_MODE_CON	0x310
+> +#define  PCIE_CLIENT_DBG_EN		0xffff0007
+> +#define  PCIE_CLIENT_DBG_DIS		0xffff0000
+> +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0	0x320
+> +#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1	0x324
+> +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0	0x328
+> +#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1	0x32c
+> +#define  PCIE_CLIENT_DBG_TRANSITION_DATA 0xffff0000
+> +#define PCIE_CLIENT_DBG_FIFO_STATUS	0x350
+> +#define  PCIE_DBG_FIFO_RATE_MASK	GENMASK(22, 20)
+> +#define  PCIE_DBG_FIFO_L1SUB_MASK	GENMASK(10, 8)
+> +#define PCIE_DBG_LTSSM_HISTORY_CNT	64
+> +
+>  /* Hot Reset Control Register */
+>  #define PCIE_CLIENT_HOT_RESET_CTRL	0x180
+>  #define  PCIE_LTSSM_APP_DLY2_EN		BIT(1)
+> @@ -96,6 +112,7 @@ struct rockchip_pcie {
+>  	struct irq_domain *irq_domain;
+>  	const struct rockchip_pcie_of_data *data;
+>  	bool supports_clkreq;
+> +	struct delayed_work trace_work;
+>  };
+>  
+>  struct rockchip_pcie_of_data {
+> @@ -206,6 +223,89 @@ static enum dw_pcie_ltssm rockchip_pcie_get_ltssm(struct dw_pcie *pci)
+>  	return rockchip_pcie_get_ltssm_reg(rockchip) & PCIE_LTSSM_STATUS_MASK;
+>  }
+>  
+> +#ifdef CONFIG_TRACING
+> +static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
+> +{
+> +	struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
+> +						trace_work.work);
+> +	struct dw_pcie *pci = &rockchip->pci;
+> +	enum dw_pcie_ltssm state;
+> +	u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
+> +
+> +	for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
+> +		val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
+> +		rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
+> +		l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
+> +		val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
+> +
+> +		/*
+> +		 * Hardware Mechanism: The ring FIFO employs two tracking counters:
+> +		 * - 'last-read-point': maintains the user's last read position
+> +		 * - 'last-valid-point': tracks the hardware's last state update
+> +		 *
+> +		 * Software Handling: When two consecutive LTSSM states are identical,
+> +		 * it indicates invalid subsequent data in the FIFO. In this case, we
+> +		 * skip the remaining entries. The dual-counter design ensures that on
+> +		 * the next state transition, reading can resume from the last user
+> +		 * position.
+> +		 */
+> +		if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
+> +			break;
+> +
+> +		state = prev_val = val;
+> +		if (val == DW_PCIE_LTSSM_L1_IDLE) {
+> +			if (l1ss == 2)
+> +				state = DW_PCIE_LTSSM_L1_2;
+> +			else if (l1ss == 1)
+> +				state = DW_PCIE_LTSSM_L1_1;
+> +		}
+> +
+> +		trace_pcie_ltssm_state_transition(dev_name(pci->dev),
+> +					dw_pcie_ltssm_status_string(state),
+> +					((rate + 1) > pci->max_link_speed) ?
+> +					PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
+> +	}
 
-Thanks,
-Longman
+Does it make sense to call this work function every 5 seconds when the
+tracepoint isn't enabled?
 
+You can add a function callback to when the tracepoint is enabled by defining:
+
+TRACE_EVENT_FN(<name>
+ TP_PROTO(..)
+ TP_ARGS(..)
+ TP_STRUCT__entry(..)
+ TP_fast_assign(..)
+ TP_printk(..)
+
+ reg,
+ unreg)
+
+reg() gets called when the tracepoint is first enabled. This could be where
+you can start the work function. And unreg() would stop it.
+
+You would likely need to also include state variables as I guess you don't
+want to start it if the link is down. Also, if the tracepoint is enabled
+when the link goes up you want to start the work queue.
+
+I would recommend this so that you don't call this work function when it's
+not doing anything useful.
+
+-- Steve
+
+ 
+
+> +
+> +	schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
+> +}
+> +
