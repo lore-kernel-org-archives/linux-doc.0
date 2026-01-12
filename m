@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F374D25A2CF
-	for <linux-doc@vger.kernel.org>; Sun, 11 Jan 2026 23:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3047190462
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 00:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768175934; cv=none; b=mACJcd84FTY2mtZt80ThsAik7aCelkud2lcNvZRwfqXghoCKhU/y31BGzDacnvRq7rwM0IKuD5AsrEDrnWjrigqdcblw7tUSaqAHlGaU+s8z22PwQkSn2DWVIooG1MSbRCwzA5SmFzrboPNm9WJvQrfTy7d8liVy5FGRI5/ObWM=
+	t=1768176008; cv=none; b=NrYg68pB3TUTIvB+mh3veMNsy6EnF9nfU+vh5KiZpFwsOuo0ltq0L3iGlxaegnXmDBJha0eVK/IvM0ow0Ew0k1OUnKOtDM/EVHlD95/oHjnz0v4gqspA5C4SYkXCfQjU0rfzD+XK4PGAv9/a10uFbr0a+vqilC7da3bv2St/QHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768175934; c=relaxed/simple;
-	bh=guzZRGS03gDm1FIP4x/SwMCFhKek4PdXMSa0fn/iZSQ=;
+	s=arc-20240116; t=1768176008; c=relaxed/simple;
+	bh=Q4bFSbY0ZqjkdSUln+RX5j0192tqvGGOLLrS8Omc+HQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKOY5wR/bdgxAcQBCphxqK9/fkMHQSfXKtdqxGbgLUnYndUaLOpGlrnNCor0jfTvcJ0T3Bmlkc7zaNv/L6U2mJLN5GJvRny5T+i34ZiqbDFCvoSutBEzD37aPwyynfI4iDpl0tjggHlwqpL9rWp34BGX+DvbukKhzDlMaTZyFOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F/II44Qk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UoHiAOxiNKXjSpwHVvqGfg4LquXXohzPUTlyxdo1Q3RnDD5FUywYccU/co0RCekODDk29wvT0VXoaoTsZgUulgqEz9Hic87CEh2GfvMCKikE9VVd6EG8YTZlHejkZybkQ5YuRoNhA6VBVrWzk9jHPX9EeG+7ZlXnq7OWT0gKBsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=swx3tk+P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F/II44Qk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACCDC4CEF7;
-	Sun, 11 Jan 2026 23:58:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="swx3tk+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B34DC4CEF7;
+	Mon, 12 Jan 2026 00:00:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768175933;
-	bh=guzZRGS03gDm1FIP4x/SwMCFhKek4PdXMSa0fn/iZSQ=;
+	s=k20201202; t=1768176008;
+	bh=Q4bFSbY0ZqjkdSUln+RX5j0192tqvGGOLLrS8Omc+HQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F/II44QkYYwH7es0EE6DW6QgWnbwLkmd0TAWzDrob7Ah8DKIL5bJQrl+NO9HmLcOW
-	 C78/8alsW7Wq8FKJsew5Y+r8i/Gj5ZggfTORUnN0JL//1fp76SqRp3F2V128EtSVNZ
-	 tYvc2Pe6eQoGO/TRLtqPW1B/ud1+tRdS58toRf8hZ4NLkaD5bw52WTNqtMMhoDa6CN
-	 ye/9rNi44mrZ1+gE8KVVCB90bBoGDCs8Dsu+mASDpRct+dNdUvngPHgiW9vU15O0qI
-	 E1v7Po9uw366Yp4P85SBEtHWjxuKL45oChKaCUMMgOg6nxj4GkfCG87X7x0pu9leKk
-	 87cehbeQY1h/A==
-Date: Mon, 12 Jan 2026 00:58:35 +0100
+	b=swx3tk+PE6XE9zLxSLuy1rdCSp3/QLR/CZUg6ylkPl5X/8jiDJqs+GngjZYiXaALh
+	 RVp/8pytUh6QtUH8ABo9k/mc8MfqAgr3HMoa/ZPV5VxDTHaKLIMwAvqExSIhbDhTSK
+	 MI/AfS3Sbgiu6CMdroWWLRq4kPAFIydoqGXqg8OHwceqXEIMnzTI/n0l7lL6gTi11w
+	 WXdbx/RMJlP0PeBpHFzJPnb2vRK5AOWCMFxdOT/DfiPRYm8LlS96kh0yAu15ASvAul
+	 5E2EWAHMue8nOT5W2nz30Y4nwG9j0ec4IubGbZVaGZlF1zThgJljxysHsvUkDvZxI5
+	 Gk1aoKPNh6VYA==
+Date: Mon, 12 Jan 2026 01:00:04 +0100
 From: Alejandro Colomar <alx@kernel.org>
 To: Petr Vorel <pvorel@suse.cz>
 Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
 	Michael Kerrisk <mtk@man7.org>, man-pages@man7.org
-Subject: Re: [PATCH v2 3/3] Documentation: Link man pages to https://man7.org/
-Message-ID: <aWQ4tqMVz-1WUc74@devuan>
+Subject: Re: [PATCH v2 1/3] Documentation: sp_SP: Add missing man page section
+Message-ID: <aWQ5ZvzGiD08UeRj@devuan>
 References: <20260111233534.183272-1-pvorel@suse.cz>
- <20260111233534.183272-4-pvorel@suse.cz>
+ <20260111233534.183272-2-pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,12 +42,12 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nciy6rnymfo2kgf2"
+	protocol="application/pgp-signature"; boundary="zq6npku4pzv4a4n4"
 Content-Disposition: inline
-In-Reply-To: <20260111233534.183272-4-pvorel@suse.cz>
+In-Reply-To: <20260111233534.183272-2-pvorel@suse.cz>
 
 
---nciy6rnymfo2kgf2
+--zq6npku4pzv4a4n4
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -55,51 +55,39 @@ From: Alejandro Colomar <alx@kernel.org>
 To: Petr Vorel <pvorel@suse.cz>
 Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
 	Michael Kerrisk <mtk@man7.org>, man-pages@man7.org
-Subject: Re: [PATCH v2 3/3] Documentation: Link man pages to https://man7.org/
-Message-ID: <aWQ4tqMVz-1WUc74@devuan>
+Subject: Re: [PATCH v2 1/3] Documentation: sp_SP: Add missing man page section
+Message-ID: <aWQ5ZvzGiD08UeRj@devuan>
 References: <20260111233534.183272-1-pvorel@suse.cz>
- <20260111233534.183272-4-pvorel@suse.cz>
+ <20260111233534.183272-2-pvorel@suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <20260111233534.183272-4-pvorel@suse.cz>
+In-Reply-To: <20260111233534.183272-2-pvorel@suse.cz>
 
-Hi Petr,
-
-On Mon, Jan 12, 2026 at 12:35:32AM +0100, Petr Vorel wrote:
-> Configure manpages_url to link man pages to https://man7.org/.
-> https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-man=
-pages_url
->=20
+On Mon, Jan 12, 2026 at 12:35:30AM +0100, Petr Vorel wrote:
 > Signed-off-by: Petr Vorel <pvorel@suse.cz>
 > ---
-> Completely rewritten in v2.
+> New in v2.
 >=20
->  Documentation/conf.py | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/translations/sp_SP/process/adding-syscalls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 1ea2ae5c6276c..16d025af1f304 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -51,6 +51,9 @@ else:
->      dyn_exclude_patterns.append("devicetree/bindings/**.yaml")
->      dyn_exclude_patterns.append("core-api/kho/bindings/**.yaml")
+> diff --git a/Documentation/translations/sp_SP/process/adding-syscalls.rst=
+ b/Documentation/translations/sp_SP/process/adding-syscalls.rst
+> index f21504c612b25..28f680652383d 100644
+> --- a/Documentation/translations/sp_SP/process/adding-syscalls.rst
+> +++ b/Documentation/translations/sp_SP/process/adding-syscalls.rst
+> @@ -172,7 +172,7 @@ describiendo un describiendo un movimiento dentro de =
+un archivo, ponga de
+>  tipo ``loff_t`` para que movimientos de 64-bit puedan ser soportados
+>  incluso en arquitecturas de 32-bit.
 > =20
-> +# Link to man pages
-> +manpages_url =3D 'https://man7.org/linux/man-pages/man{section}/{page}.{=
-section}.html'
+> -Si su nueva llamada de sistema  :manpage:`xyzzy` involucra una
+> +Si su nueva llamada de sistema :manpage:`xyzzy(2)` involucra una
 
-Nice!
+Reviewed-by: Alejandro Colomar <alx@kernel.org>
 
-Acked-by: Alejandro Colomar <alx@kernel.org>
-
-
-Cheers,
-Alex
-
-> +
->  # Properly handle directory patterns and LaTeX docs
->  # -------------------------------------------------
-> =20
+>  funcionalidad privilegiada, esta necesita ser gobernada por la capability
+>  bit linux apropiada (revisado con una llamada a ``capable()``), como se
+>  describe en el man page :manpage:`capabilities(7)`. Elija una parte de
 > --=20
 > 2.51.0
 >=20
@@ -107,24 +95,24 @@ Alex
 --=20
 <https://www.alejandro-colomar.es>
 
---nciy6rnymfo2kgf2
+--zq6npku4pzv4a4n4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlkOSoACgkQ64mZXMKQ
-wqngmQ/+Izq1xfgmmhcigvvabKHce1ynQI9iStFMjU9WNvYjQ75kcamOX5FoMgLg
-M8ybY2EEHhcowe4sY3APFNXC8k5cW7Mq3m9aVhx+RDRQE4qR49tsdvQTjMCLuTOR
-e0oHDVW2PpUyRi4kD2gaATnui2PiX+q4zVJs/wwnI281PSpBOk9SjmkR9Jx0QV5/
-mrwrFqw2oNbaRKZ6gfCJ8+gzcySirEBmxeN6O81WPJc5V7kjh8rChsnKHAbr2zlU
-zusznr3FR8Ue0GZBI8TOXnNQpUT7bs2T8AEqKrN14Mq7uWdulggyx4OkmaKV7KVw
-5J06kERQPgM9K/htIrzZzOnruueN9Np1HX4vrjEVH36v9CtKyKdWoJhicLKJwSaC
-4/A56Mz/hz0F5AFL4lMJUYXukEXTBNYJWvO/XmoFs43ND+uAQDnn+SiAUbOUam4Q
-hDaABSPOqVhtMJ3m1rKgl2jWHDLy6xALFQ/BzrmyT0kSV4SbNV/cCi4BApx682/D
-y9GzeagRiGwm7Sx3GCJ/J+hIxB3YXWh1tXdjmsUJb4UFFiJRWkpWVra4ICy0Kg8J
-QPflLmpfPAhVcVx5lfFW3F8t0MJvQzGKb5S8P/WItrLXtbEuqoUH9vCr4ZsdDTbh
-S6CyCJ0Gj8GxUsPr63g6RyGmtvM+ChPdFIwxY9NaNhA4nAUfMIE=
-=H6i7
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlkOYQACgkQ64mZXMKQ
+wqnt2BAAtOFqLUif54ska/PTAPamTmaB94bT1sFKAof2RG1ZH69s7v1dPjaHwvJ3
+pLlLng6K7+HqaD64s+l+FlswZtgQSIfOIvPzxQg9q5ScrkWoEt7nDk9AKARABvWg
+OqOAA5PbW8Xn2TtPxDaJN1YIQ9VI9fdh6xOPF48nw2VfZDRr9tKUXPRhrYM2+cLD
+HSoLnl7pGe+GggAd+d2vGjJpEXri31tqAeWKAheRHXOybexDEWqqRJps23dhw+Ki
+X61z3SxxniDZPecPCsHNKI5Q0VR24QVSEv/WzSrhliJRCTL5FYciYauDr9SqjZnA
+0QMcy3uPmhIwbvWecQ6QhPc+SUmGhpFQLiA7My/qiu36cKfAdoRCDpAt0KbwxlYA
+fRZPbDq1L8sD3N4u0OM01Km9QznEO7HOCegRtwkdCvuzzsQbJ8CbMLd8of7i01tI
+ByzPupYN/efwz7JHKs3D5DBAt2qpV4EfP4KaNFSqYLtO8u8WWslPPtjeTC/D2HMO
+jRi8aj+RVXJiCcxo01BNmO2humcppVojHhcFw9GI5tWUmXRe+QT+R9TjHOMxnLVj
+h/o34h2vB2hkeYAVbfCf77EHCi+ssa3fiv/aF19YqJkSIg8RXH5SOPWat5hhqGnk
+Ttlw6bL4Y9jUfZ0upHWWBECroBYiK9NcU9LE6eju44zbAt2RCok=
+=h2O2
 -----END PGP SIGNATURE-----
 
---nciy6rnymfo2kgf2--
+--zq6npku4pzv4a4n4--
