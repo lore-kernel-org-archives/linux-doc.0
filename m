@@ -1,105 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11293624C4;
-	Mon, 12 Jan 2026 15:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EAF2ECE93
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 16:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768233433; cv=none; b=cNHNihvn+rVMkkRu5O5XndE/KeaR6OJWJ5lwN62wmc7yAqkCXlVnEBv3X/wwjuRHHY5Vpu2S/c4PljcmQP1foFVfslVXxqBPTPA5KPYNPahRicTn1t22zNz94+E9zC8VVsqN2HAzgtmrxLE/xwM/CsJbM+Qc4foWqTMM2resUoY=
+	t=1768233674; cv=none; b=nFnpSYMo7DaaNkKT9csbU7Yx8GwHWaK6xQT+CDFG2X+4Am2n3G0I+MyQj8ZANYlmd5q9c32fCiW0kRizfxFFrVAtaiUXisoodOSyAIViAD3Z8lU2kKkEJYA6azvebyzyD5qadvl0e121OI3AaCqi/vrzfeD7nLxNmn8dp6sjMuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768233433; c=relaxed/simple;
-	bh=xJkc9pMy5KlxcsaizX+CFnLRpiuY1uFbrRu83mdatPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IKRl4payedItIHmY3A1k7d0XIf1ohdA31ihLIcLEMieReULfhy8MSl70XIQsa9wMAx8MeqorN12Dq5pfC8lwCOKgBhD7lI+QItPDgK7fkUQ0LZHZzaEUXAoAkA6SPQ1aImNG4rF98l1WwCR5n2imY8W7wk2BMo9334h/60M4GEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PaP5MVym; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768233674; c=relaxed/simple;
+	bh=a/Otma/k3rk/POPzrEXplgK+Myg1gmapEpsNWNRAKZU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ha5aYrKBXoU2LgF0rAi3EXgXM/OSu8DKr3da72DyZH8n1LihTh3R697uLPFMniLZ+FnCjRILgKyLZ7C5jOIw3nMxz6AsuPOQ3+lSIAb89O5ygCIIpJhUTyotZN0yNy6TLHwgI13EWeYzebuMXs9iz/n+3pTAiL/lvUvU0FyMgKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NurqdDPa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PaP5MVym"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86F6AC19423;
-	Mon, 12 Jan 2026 15:57:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768233432;
-	bh=xJkc9pMy5KlxcsaizX+CFnLRpiuY1uFbrRu83mdatPQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PaP5MVym/FieSUrb6oqiL3a4Y7ms7d+uoB3WuvwBU4vP2GdTrg49jxaxXmkHPPZE+
-	 8adeRObR2SAFKhFJbj0VuHz/iHaLPh8BciOJTx5xy7nwDgp+UkWFT9z47G1Cd637nD
-	 uSzXEytvZPJsKHCCp6ItHIa4w0KPcX8U9T95Frn529rCsNmLqWCszKMCINGBhEGNDo
-	 BRkaSJEuVouatnlctGA8/Jju3PYOmYCFvieT1FtMygIETvywIfuos/4FIQFS2Zzm9m
-	 +0TPBkcMWNpQBOs1g0nIXAbfKTh5jK14TLz/B/BnpLVqxsGLq6zaxlJKH/KDbwR4qH
-	 MO5evlce7573w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vfKI2-00000000Kk7-2bfE;
-	Mon, 12 Jan 2026 16:57:10 +0100
-Date: Mon, 12 Jan 2026 16:57:10 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2 3/4] scripts/kernel-doc: ensure that comments are
- using our coding style
-Message-ID: <aWUXVv1nt4Npjznw@foz.lan>
-References: <cover.1768229902.git.mchehab+huawei@kernel.org>
- <7604a45e8ade06994afeb68616cf1838dd1101ec.1768229902.git.mchehab+huawei@kernel.org>
- <878qe23kgv.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NurqdDPa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768233667;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RP4+J6ckf9X51SSy8jYjrRuPRHh8KpVDDAxYWcZzkB0=;
+	b=NurqdDPatEBfN/qIYngAhdA1Z0kg7YIbo9VqFML80+9p+0xLhZSnT+owLsJsuE9hYgg8Qe
+	XkX9VKoUX4De55JvaMgEWvQz4dp9pgiG9VyqcUwRoe0FU+S8/pkXSM/9SqFVCxjsdRfcsw
+	4PYOz9xfXaSXjfOFzA4UBwXtxL1exYQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-104-x5dZ9m2cMSW4KETmqb51GQ-1; Mon,
+ 12 Jan 2026 11:01:02 -0500
+X-MC-Unique: x5dZ9m2cMSW4KETmqb51GQ-1
+X-Mimecast-MFC-AGG-ID: x5dZ9m2cMSW4KETmqb51GQ_1768233659
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 008E6195398D;
+	Mon, 12 Jan 2026 16:00:58 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.89.95])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6518A1955F66;
+	Mon, 12 Jan 2026 16:00:54 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sun Shaojie <sunshaojie@kylinos.cn>,
+	Chen Ridong <chenridong@huaweicloud.com>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH cgroup/for-6.20 v5 0/5] cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus conflict
+Date: Mon, 12 Jan 2026 11:00:16 -0500
+Message-ID: <20260112160021.483561-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878qe23kgv.fsf@trenco.lwn.net>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, Jan 12, 2026 at 08:43:28AM -0700, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Along kernel-doc libs, we opted to have all comments starting/ending
-> > with a blank comment line. Use the same style here.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  scripts/kernel-doc.py | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> > diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-> > index 5d2f29e90ebe..7ccee4626478 100755
-> > --- a/scripts/kernel-doc.py
-> > +++ b/scripts/kernel-doc.py
-> > @@ -197,7 +197,9 @@ def main():
-> >      parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-> >                                       description=DESC)
-> >  
-> > +    #
-> >      # Normal arguments
-> > +    #
-> >  
-> >      parser.add_argument("-v", "-verbose", "--verbose", action="store_true",
-> >                          help="Verbose output, more warnings and other information.")
-> 
-> [nit] I approve of this kind of change, but I would get rid of the extra
-> blank lines, just like we do with C code.
+ v5:
+  - Fix patch 4 doc change as reported by Michael.
 
-Ok. FYI, this is mostly to preserve the same coding style everywhere,
-and we did a similar change at kdoc libs. At the initial versions of patch 2,
-I wrote a new comment about why we needed to avoid error code > 255.
+ v4:
+  - Add tags and fix patch 4 commit log
 
-At v2, we're using a different approach, so no new comments are needed.
+ v3:
+  - Patch 2: Change the condition for calling reset_partition_data() to
+    (new_prs <= 0).
+  - Patch 4: Update commit log and code comment to clarify the change.
+  - Add a new patch 5 to move the empty cpus/mems check to
+    cpuset1_validate_change().
 
-> (I wouldn't redo the series just for this).
+ v2:
+  - Patch 1: additional comment
+  - Patch 2: simplify the conditions for triggering call to
+    compute_excpus().
+  - Patch 3: update description of cpuset.cpus.exclusive in cgroup-v2.rst
+    to reflect the new behavior and change the name of the new
+    cpus_excl_conflict() parameter to xcpus_changed.
+  - Patch 4: update description of cpuset.cpus.partition in cgroup-v2.rst
+    to clarify what exclusive CPUs will be used when a partition is
+    created.
 
-Patch 4 depends on it, so what I can do - assuming that v2 doesn't need
-rebase - is to send you a new patch to drop it extra blank lines.
-Or, if this series needs another rebase, I'll fold such changes on it
-for the next version.
+This patch series is inspired by the cpuset patch sent by Sun Shaojie [1].
+The idea is to avoid invalidating sibling partitions when there is a
+cpuset.cpus conflict. However this patch series does it in a slightly
+different way to make its behavior more consistent with other cpuset
+properties.
 
-> 
-> Thanks,
-> 
-> jon
+The first 3 patches are just some cleanup and minor bug fixes on
+issues found during the investigation process. The last one is
+the major patch that changes the way cpuset.cpus is being handled
+during the partition creation process. Instead of invalidating sibling
+partitions when there is a conflict, it will strip out the conflicting
+exclusive CPUs and assign the remaining non-conflicting exclusive
+CPUs to the new partition unless there is no more CPU left which will
+fail the partition creation process. It is similar to the idea that
+cpuset.cpus.effective may only contain a subset of CPUs specified in
+cpuset.cpus. So cpuset.cpus.exclusive.effective may contain only a
+subset of cpuset.cpus when a partition is created without setting
+cpuset.cpus.exclusive.
+
+Even setting cpuset.cpus.exclusive instead of cpuset.cpus may not
+guarantee all the requested CPUs can be granted if parent doesn't have
+access to some of those exclusive CPUs. The difference is that conflicts
+from siblings is not possible with cpuset.cpus.exclusive as long as it
+can be set successfully without failure.
+
+[1] https://lore.kernel.org/lkml/20251117015708.977585-1-sunshaojie@kylinos.cn/
+
+Waiman Long (5):
+  cgroup/cpuset: Streamline rm_siblings_excl_cpus()
+  cgroup/cpuset: Consistently compute effective_xcpus in
+    update_cpumasks_hier()
+  cgroup/cpuset: Don't fail cpuset.cpus change in v2
+  cgroup/cpuset: Don't invalidate sibling partitions on cpuset.cpus
+    conflict
+  cgroup/cpuset: Move the v1 empty cpus/mems check to
+    cpuset1_validate_change()
+
+ Documentation/admin-guide/cgroup-v2.rst       |  41 +++--
+ kernel/cgroup/cpuset-internal.h               |  12 ++
+ kernel/cgroup/cpuset-v1.c                     |  33 ++++
+ kernel/cgroup/cpuset.c                        | 163 ++++++------------
+ .../selftests/cgroup/test_cpuset_prs.sh       |  29 +++-
+ 5 files changed, 151 insertions(+), 127 deletions(-)
 
 -- 
-Thanks,
-Mauro
+2.52.0
+
