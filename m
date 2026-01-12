@@ -1,80 +1,67 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C2828469E
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 10:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEE12C0260;
+	Mon, 12 Jan 2026 10:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768212251; cv=none; b=iYuAQEq7q+AQUTHDwRzKoahZ5eiZSm670Xz/sdaAF/Nx8NpvDuo1hakvCRuzOqknKipDAiLLd4fpFPtXua3gekL5g0/iTn6/De4T2AXbqqahrwsOKKDhbPDFlBCW6cDjmTzbPvTlmllYs45oE67EfQMhj2k43xiJUyNulbZmnQY=
+	t=1768212978; cv=none; b=FHSLqkjxj4rLYzncHLScPtxU2GLDLJFIorhp8r+JuPU0kN83QmnhPf/BQm8b9kzg/9cFzPgKOZgoOlEgPrxBwzlxh3TNQ1muvKd0VenlL3S+aXQmk4hBOT2cwycG1swxoo3iQZ1xr+iLHvdCZsAItHkQDqBCOyQy4l3rKXfhbBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768212251; c=relaxed/simple;
-	bh=oqOGXbeDIQlNePE/yiwJ+NT0kXzbdHkFX5Jkw1SZilw=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aDxswzCQhmcoQWD7rZBGU82cww21n/ml21aS//tYpriNoWSIxnkn8Nyo9GZ+jrpkqoXZxrWbGbqeapnnzq1xjneIGYoybr2Y+4qfrnByQVjKDaUmjXG7ejXnR2PSUhxKlBwqxGEgoszcMaxIuT2pH8itLquLcHKbXtfCwoOZ1lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N1MAv9wr; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768212978; c=relaxed/simple;
+	bh=H8gp41/PvMnd7tQ04BGrl2ztpsHRk7DIXiv5/QpR4qY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CcYIyFPz4tJGpY2Wp9jaUFOhkSzTcLHNTY4K6cu4N4F/J4/SC/cSRRX1w7/UilMzst9sZQzILsSNpSrvmGvuXUR8QB+lsP7+a9YgXSUkcGh4+965eyMS2CuvunLNK4AHK9EqabLkxIK27xAjR31uro4czEZH0mogP+hz6p+unQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYyWpeZR; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N1MAv9wr"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4eda6c385c0so48416211cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 02:04:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768212248; x=1768817048; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U5hiBX/EJmbP0rFvOH8HeLIh3uhucig2oXB0fSc8NSg=;
-        b=N1MAv9wr2GKPAbiYalM/ultWNNHRnItPp5uXKvCM9nkvAzQFdm99JkOJgc33VhPz1V
-         ibfz65ZZuDO5Q64juKemL+byXnTxxmBaqh6NpWTEYeutm99LwhE4t0L1IjKPo5I6DNZK
-         yDsg1alLvf+bcgzaDP/IQuQr7ZCKORbG5WY4yyRoeleYUijEUSRze7dROPJ5+GCepI+/
-         WR7ZTH+369iyj2ABChPQoETsUQKDQ19Pl26Vn9SG+8ekLchPlJgNlZg/96+zI1T36I6z
-         xwlh2MOOSc1e5gQ3sdFPCNY2S+Jse9CZh246KE0DfIHACdcwtxABH6KKStG+hBW8Ssdq
-         uLkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768212248; x=1768817048;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U5hiBX/EJmbP0rFvOH8HeLIh3uhucig2oXB0fSc8NSg=;
-        b=jxjxyRGscm4D7QcCCl2ymppLlek1E8ROf5wMw8Ev5tcEyK1AJDXFJSVZfNrUmYsu//
-         F/Pedy+sXf4+VfMHe7EdWgSxoq7O+H2DSM0igZIVLX1JmOdJ5OY/73GxS//14G5ZzNap
-         9QVBxBjyxXH9HmUCfFLYv0Y+91JSE6JO1aXR0y1ve8U5eAFf+pipbcnX8ndrG7z8Kg4V
-         lphNpH17yogUL9XOMmURCED28U6Ncv0KvQyDOdTzWZeSDHDqV3KAamDiparKpQLJaRAv
-         0IbSgcLVjOl1GXcXAD7hg9WR32ScqF9gYrxBMnHZuCRH7aqn6bXZ1KNHgavsUSfiS/CK
-         hpQw==
-X-Forwarded-Encrypted: i=1; AJvYcCX96PSkVBocGUQENwh/igAJYZcNc1I9UK+CJRhFm5Fh2f+tv41ViBFiLLcIXF080vgugRY+71VGQww=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWObM6SLewYM1W5/oNvu63oaV0OEgqy7o8iE0ruoukiQqPWax/
-	D7GdkwYicd/Ruer8X1tFEraMIsAH8lejlY9hzjBf/uk8QuBeRnWNIyju
-X-Gm-Gg: AY/fxX6PNA/DB1YuJ0m6G46Kpx5d395XpapnizEcOnzd3fBCXKXxkXzvgoCBe0r6IgF
-	MHQYMDRJfQpsodrQg+NfMX6HQeGleHooHsR+oBr67ynbi1LwVgj/h45Gk1aXUGBsV5jbN6KTiww
-	0jfXvhHi+wiRmrTTSmBoUF6Upr2PZ9X0sXUEBogtgTNeTUYrclzG5Zj1r07c+AlJrHyIVLG+OHv
-	lXhXvYnDkos7D0oXgcl4gDpV+7dbgeDBYN2QhhWoj2H0G1Z9hCwBPAjU6Ss2ELlvxDMVw1yRRLL
-	25XEaFIpjWJPutlOuiXyKLTGQqzM00LFTplgDRRNNxYpqTsr3HqMIkq7kvVzdH/U3eFL0tXHjwS
-	TgTSlsvdnvCvNz05pCbHNfRgXxxm56x2vV6/NTl7jCmGp27R/QRC8z3ze37PdTa2snv+DsCSFxK
-	Se2hCQwebMIsAYQ1jVJhCCLXJn4a/PeALPXkFhxpbF9NerxU2A1TPjQKfa+eeoETiQivNEdQQws
-	jfp
-X-Google-Smtp-Source: AGHT+IGB5QJeG8ku54AAK1oYhHpchOQzwcbI7Eq/Mwh+iHar9n885imDNGmU7We54FoKXl1Rmirvqg==
-X-Received: by 2002:a05:622a:114f:b0:4f1:cab1:9d3c with SMTP id d75a77b69052e-4ffb4a264c8mr245124531cf.57.1768212248319;
-        Mon, 12 Jan 2026 02:04:08 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8e627absm119541151cf.30.2026.01.12.02.04.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 02:04:07 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 12 Jan 2026 10:04:02 +0000
-To: Krzysztof Kozlowski <krzk@kernel.org>, 
-	Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 1/6] dt-bindings: iio: frequency: add adf41513
-Message-ID: <7ck6vexpeak47kob7niupkdg3nbyvp4nab7rqmz6niq4frf64y@tjnph6hno32z>
-References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
- <20260108-adf41513-iio-driver-v3-1-23d1371aef48@analog.com>
- <20260109-translucent-violet-smilodon-ed1917@quoll>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYyWpeZR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768212977; x=1799748977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H8gp41/PvMnd7tQ04BGrl2ztpsHRk7DIXiv5/QpR4qY=;
+  b=FYyWpeZR5divjtCr/eUbljTV4kHRXG9q/HmSS3YebjF2aKQ5np9ddMRs
+   3ztZe1DFny65DOzZNsJtTN8h/jxkj3PRS6WPHY2rd55E482xVz5zSZPWV
+   MEt1a7OpFSxFUVFZ/x+3ZhFuTuQb5k5tRfkmwofybuWp3+PdAcWQ9WjOG
+   IEKpMtxTExV/k3K3h6NJwRMtC3DyV3aRDZiIT/BkOb4IyElUKeVpve3V1
+   goFkM+3akTtHtr7WfJ/ZEFq3LITm2op3gyDBCkFRCTei1mmrwiwDDvpLJ
+   +HK9X3yJ5EnDDCaosOF6BPgJAgKh/sPCbEXWbSJ3mSVEtLueeDl1fu9Bb
+   A==;
+X-CSE-ConnectionGUID: Eivch2DxTX6ObUWTkOPEoQ==
+X-CSE-MsgGUID: MFoBeiDnRsWtM9rF9HDWnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="92151273"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="92151273"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:16:16 -0800
+X-CSE-ConnectionGUID: kio9i+jfSvSXaI/JTm4KcQ==
+X-CSE-MsgGUID: lWCYiL/hQqyBbhD2t3nNQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="204337417"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 12 Jan 2026 02:16:12 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfEy2-00000000DFc-1HOY;
+	Mon, 12 Jan 2026 10:16:10 +0000
+Date: Mon, 12 Jan 2026 18:15:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
+ trace support
+Message-ID: <202601121712.JbsMAjDZ-lkp@intel.com>
+References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,59 +70,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260109-translucent-violet-smilodon-ed1917@quoll>
+In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
 
-On 26/01/09 09:13AM, Krzysztof Kozlowski wrote:
-> On Thu, Jan 08, 2026 at 12:14:50PM +0000, Rodrigo Alencar wrote:
-> > +examples:
-> > +  - |
-> > +    spi {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        pll@0 {
-> > +            compatible = "adi,adf41513";
-> > +            reg = <0>;
-> > +            spi-max-frequency = <10000000>;
-> > +            clocks = <&ref_clk>;
-> > +            avdd1-supply = <&vdd_3v3>;
-> > +            avdd2-supply = <&vdd_3v3>;
-> > +            avdd3-supply = <&vdd_3v3>;
-> > +            avdd4-supply = <&vdd_3v3>;
-> > +            avdd5-supply = <&vdd_3v3>;
-> > +            vp-supply = <&vdd_3v3>;
-> > +
-> > +            adi,power-up-frequency-mhz = <12000>;
-> > +            adi,charge-pump-current-microamp = <2400>;
-> > +            adi,phase-detector-polarity-positive-enable;
-> > +        };
-> > +    };
-> 
-> One example - more complete, so the next one - is enough. They do not
-> differ.
->
+Hi Shawn,
 
-Not sure I undestood this message:
-- are those examples 'enough' as the second one is 'more complete'?
-- do I need to change the second example to be 'more complete',
-  because 'they do not differ'?
-- do I need to create 'one example' 'more complete', apart from the existing ones?
- 
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    spi {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        pll@0 {
-> > +            compatible = "adi,adf41513";
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> Best regards,
-> Krzysztof
-> 
+kernel test robot noticed the following build errors:
 
-kind regards,
+[auto build test ERROR on pci/next]
+[also build test ERROR on next-20260109]
+[cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rodrigo Alencar
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+config: arm64-randconfig-004-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121712.JbsMAjDZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121712.JbsMAjDZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601121712.JbsMAjDZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: call to undeclared function 'dw_pcie_ltssm_status_string'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     264 |                                         dw_pcie_ltssm_status_string(state),
+         |                                         ^
+>> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
+     264 |                                         dw_pcie_ltssm_status_string(state),
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/events/pci_controller.h:20:45: note: passing argument to parameter 'state' here
+      20 |         TP_PROTO(const char *dev_name, const char *state, u32 rate),
+         |                                                    ^
+   2 errors generated.
+
+
+vim +/dw_pcie_ltssm_status_string +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+
+   225	
+   226	#ifdef CONFIG_TRACING
+   227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
+   228	{
+   229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
+   230							trace_work.work);
+   231		struct dw_pcie *pci = &rockchip->pci;
+   232		enum dw_pcie_ltssm state;
+   233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
+   234	
+   235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
+   236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
+   237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
+   238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
+   239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
+   240	
+   241			/*
+   242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
+   243			 * - 'last-read-point': maintains the user's last read position
+   244			 * - 'last-valid-point': tracks the hardware's last state update
+   245			 *
+   246			 * Software Handling: When two consecutive LTSSM states are identical,
+   247			 * it indicates invalid subsequent data in the FIFO. In this case, we
+   248			 * skip the remaining entries. The dual-counter design ensures that on
+   249			 * the next state transition, reading can resume from the last user
+   250			 * position.
+   251			 */
+   252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
+   253				break;
+   254	
+   255			state = prev_val = val;
+   256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
+   257				if (l1ss == 2)
+   258					state = DW_PCIE_LTSSM_L1_2;
+   259				else if (l1ss == 1)
+   260					state = DW_PCIE_LTSSM_L1_1;
+   261			}
+   262	
+   263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
+ > 264						dw_pcie_ltssm_status_string(state),
+   265						((rate + 1) > pci->max_link_speed) ?
+   266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
+   267		}
+   268	
+   269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
+   270	}
+   271	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
