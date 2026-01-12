@@ -1,140 +1,190 @@
-Received: from mail-m822136221.xmail.ntesmail.com (mail-m822136221.xmail.ntesmail.com [8.221.36.221])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FCF217F33;
-	Mon, 12 Jan 2026 01:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=8.221.36.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD5047A6B;
+	Mon, 12 Jan 2026 01:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768180843; cv=none; b=MCqdpyqJ7UoCUcEU2Q5u3CTwHtmClg9v5QK44ifN8+AZZgLUUMTYsfyuKK4WrsvA5WsMW/N8RvtvInogL1lOyhQPa1S6DNsrudXmzfRFZsIVifnY5TQl562mKFowLS2/HWNUgsFYDfWUqYPsuxQ3nhgXaD/NPcV+n88j1PPMcr4=
+	t=1768181114; cv=none; b=EZV6N/m40S8WumkNcg6a+0GIROuImrsZQf29uQ5MDCyZBnXTrvRn0U6+p2/cDG2wOpaZMibetT0BZc0NyldRmdF1cZUJAvC47hUuyO+n50QEmcANl4lXgUqrRNvzyEoO42sL2Ux1EZ4xW4z7I5SEsqOsrrryY7fwugBzoGvwuC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768180843; c=relaxed/simple;
-	bh=e21MoubmoqmD+PI+iPYoPux/N5nXa+TpIYPyt0GmOL8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=QgWQIqrIiRqade7CfHAk3z03qnLNT7TVKGGa5M/6E6quHfjplHkTUoP68k0TfK8fG3/1rTKWuxquNGuOFltyNp4oG1FRAvp6Sis1JmQiUuIyScR7BAklgtCOBqymvpFmZWAHN8Izcz72P42vWhOSqfOlPsFspvIOENtRPEpVkNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=fxmbcvl9; arc=none smtp.client-ip=8.221.36.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="fxmbcvl9"
-Received: from localhost.localdomain (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 303e9191b;
-	Mon, 12 Jan 2026 09:20:27 +0800 (GMT+08:00)
-From: Shawn Lin <shawn.lin@rock-chips.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-rockchip@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: [PATCH v3 1/3] PCI: trace: Add PCI controller LTSSM transition tracepoint
-Date: Mon, 12 Jan 2026 09:19:58 +0800
-Message-Id: <1768180800-63364-2-git-send-email-shawn.lin@rock-chips.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1768180800-63364-1-git-send-email-shawn.lin@rock-chips.com>
-References: <1768180800-63364-1-git-send-email-shawn.lin@rock-chips.com>
-X-HM-Tid: 0a9bafca448409cckunme7c7221b25b1e3
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh4ZS1YZGhpJSx0aGUgeTUtWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
-	pVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=fxmbcvl9QU7SQ960M8nAwr/VIUbe5NvESmiUx+PmKotOuoeblAq0CiYirx4jKgTjCn5TNq8jStqyT3zbhKGQWqxe6N1/YSpdTbSNkQfCQu1qH9/UrupucJTM8UpJBdOA293C1pux521fxpMhugcaTy5SU9el55au+OgrUE5d3aE=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=NJvs7o/RNR1z93AUHCN9w99dXiQC+cJHE/GqfadvgSk=;
-	h=date:mime-version:subject:message-id:from;
+	s=arc-20240116; t=1768181114; c=relaxed/simple;
+	bh=FGLXoDTdmFGJ1JvVvQqVhxwUBH4Eeu33O2Oi0KYjms0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AbPKrargYIuIEI7j+op39V0XxC0f5/FYkrPeiPnbQjJmBBoLhjOu/Dh3T8BCQcBZKEQazhP46LXmvkLc8DbdYn8U43Jj11HugjgGtCAcFIwIazy9lANvdX9db8adS9RRHFo/s8eE69jzxuuXWMLTS/xhP3WkDrEKpfuXIy10KHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dqF6f6sTDzYQtgh;
+	Mon, 12 Jan 2026 09:24:58 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 7C70F40539;
+	Mon, 12 Jan 2026 09:25:08 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgD3pPVyTWRpYUfyDQ--.57454S2;
+	Mon, 12 Jan 2026 09:25:08 +0800 (CST)
+Message-ID: <d8f7d319-3b72-4531-ab25-a2505cdce828@huaweicloud.com>
+Date: Mon, 12 Jan 2026 09:25:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH cgroup/for-6.20 v3 3/5] cgroup/cpuset: Don't fail
+ cpuset.cpus change in v2
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sun Shaojie <sunshaojie@kylinos.cn>
+References: <20260110013246.293889-1-longman@redhat.com>
+ <20260110013246.293889-4-longman@redhat.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20260110013246.293889-4-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgD3pPVyTWRpYUfyDQ--.57454S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Wr13WrWDXF48tr4rCrykZrb_yoW7Ar4fpF
+	WDC3W3KayYgF1UC3y5Kwn7WrsYgw40v3ZFyw15Jw1rZr9xGF12yrs5JwnxAFy3G3yfGa15
+	tFZay3yfW3Z0yrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUb
+	mii3UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-Some platforms may provide LTSSM trace functionality, recording historical
-LTSSM state transition information. This is very useful for debugging, such
-as when certain devices cannot be recognized or link broken during test.
-Implement the pci controller tracepoint for recording LTSSM and rate.
 
-Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
----
 
-Changes in v3:
-- add TRACE_DEFINE_ENUM for all enums(Steven Rostedt)
+On 2026/1/10 9:32, Waiman Long wrote:
+> Commit fe8cd2736e75 ("cgroup/cpuset: Delay setting of CS_CPU_EXCLUSIVE
+> until valid partition") introduced a new check to disallow the setting
+> of a new cpuset.cpus.exclusive value that is a superset of a sibling's
+> cpuset.cpus value so that there will at least be one CPU left in the
+> sibling in case the cpuset becomes a valid partition root. This new
+> check does have the side effect of failing a cpuset.cpus change that
+> make it a subset of a sibling's cpuset.cpus.exclusive value.
+> 
+> With v2, users are supposed to be allowed to set whatever value they
+> want in cpuset.cpus without failure. To maintain this rule, the check
+> is now restricted to only when cpuset.cpus.exclusive is being changed
+> not when cpuset.cpus is changed.
+> 
+> The cgroup-v2.rst doc file is also updated to reflect this change.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst |  8 +++----
+>  kernel/cgroup/cpuset.c                  | 30 ++++++++++++-------------
+>  2 files changed, 19 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 7f5b59d95fce..510df2461aff 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2561,10 +2561,10 @@ Cpuset Interface Files
+>  	Users can manually set it to a value that is different from
+>  	"cpuset.cpus".	One constraint in setting it is that the list of
+>  	CPUs must be exclusive with respect to "cpuset.cpus.exclusive"
+> -	of its sibling.  If "cpuset.cpus.exclusive" of a sibling cgroup
+> -	isn't set, its "cpuset.cpus" value, if set, cannot be a subset
+> -	of it to leave at least one CPU available when the exclusive
+> -	CPUs are taken away.
+> +	and "cpuset.cpus.exclusive.effective" of its siblings.	Another
+> +	constraint is that it cannot be a superset of "cpuset.cpus"
+> +	of its sibling in order to leave at least one CPU available to
+> +	that sibling when the exclusive CPUs are taken away.
+>  
+>  	For a parent cgroup, any one of its exclusive CPUs can only
+>  	be distributed to at most one of its child cgroups.  Having an
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 894131f47f78..4819ab429771 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -609,33 +609,31 @@ static inline bool cpusets_are_exclusive(struct cpuset *cs1, struct cpuset *cs2)
+>  
+>  /**
+>   * cpus_excl_conflict - Check if two cpusets have exclusive CPU conflicts
+> - * @cs1: first cpuset to check
+> - * @cs2: second cpuset to check
+> + * @trial:	the trial cpuset to be checked
+> + * @sibling:	a sibling cpuset to be checked against
+> + * @xcpus_changed: set if exclusive_cpus has been set
+>   *
+>   * Returns: true if CPU exclusivity conflict exists, false otherwise
+>   *
+>   * Conflict detection rules:
+>   * 1. If either cpuset is CPU exclusive, they must be mutually exclusive
+>   * 2. exclusive_cpus masks cannot intersect between cpusets
+> - * 3. The allowed CPUs of one cpuset cannot be a subset of another's exclusive CPUs
+> + * 3. The allowed CPUs of a sibling cpuset cannot be a subset of the new exclusive CPUs
+>   */
+> -static inline bool cpus_excl_conflict(struct cpuset *cs1, struct cpuset *cs2)
+> +static inline bool cpus_excl_conflict(struct cpuset *trial, struct cpuset *sibling,
+> +				      bool xcpus_changed)
+>  {
+>  	/* If either cpuset is exclusive, check if they are mutually exclusive */
+> -	if (is_cpu_exclusive(cs1) || is_cpu_exclusive(cs2))
+> -		return !cpusets_are_exclusive(cs1, cs2);
+> +	if (is_cpu_exclusive(trial) || is_cpu_exclusive(sibling))
+> +		return !cpusets_are_exclusive(trial, sibling);
+>  
+>  	/* Exclusive_cpus cannot intersect */
+> -	if (cpumask_intersects(cs1->exclusive_cpus, cs2->exclusive_cpus))
+> +	if (cpumask_intersects(trial->exclusive_cpus, sibling->exclusive_cpus))
+>  		return true;
+>  
+> -	/* The cpus_allowed of one cpuset cannot be a subset of another cpuset's exclusive_cpus */
+> -	if (!cpumask_empty(cs1->cpus_allowed) &&
+> -	    cpumask_subset(cs1->cpus_allowed, cs2->exclusive_cpus))
+> -		return true;
+> -
+> -	if (!cpumask_empty(cs2->cpus_allowed) &&
+> -	    cpumask_subset(cs2->cpus_allowed, cs1->exclusive_cpus))
+> +	/* The cpus_allowed of a sibling cpuset cannot be a subset of the new exclusive_cpus */
+> +	if (xcpus_changed && !cpumask_empty(sibling->cpus_allowed) &&
+> +	    cpumask_subset(sibling->cpus_allowed, trial->exclusive_cpus))
+>  		return true;
+>  
+>  	return false;
+> @@ -672,6 +670,7 @@ static int validate_change(struct cpuset *cur, struct cpuset *trial)
+>  {
+>  	struct cgroup_subsys_state *css;
+>  	struct cpuset *c, *par;
+> +	bool xcpus_changed;
+>  	int ret = 0;
+>  
+>  	rcu_read_lock();
+> @@ -728,10 +727,11 @@ static int validate_change(struct cpuset *cur, struct cpuset *trial)
+>  	 * overlap. exclusive_cpus cannot overlap with each other if set.
+>  	 */
+>  	ret = -EINVAL;
+> +	xcpus_changed = !cpumask_equal(cur->exclusive_cpus, trial->exclusive_cpus);
+>  	cpuset_for_each_child(c, css, par) {
+>  		if (c == cur)
+>  			continue;
+> -		if (cpus_excl_conflict(trial, c))
+> +		if (cpus_excl_conflict(trial, c, xcpus_changed))
+>  			goto out;
+>  		if (mems_excl_conflict(trial, c))
+>  			goto out;
 
-Changes in v2: None
+Reviewed-by: Chen Ridong <chenridong@huawei.com>
 
- drivers/pci/trace.c                   |  1 +
- include/trace/events/pci_controller.h | 52 +++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 include/trace/events/pci_controller.h
-
-diff --git a/drivers/pci/trace.c b/drivers/pci/trace.c
-index cf11abc..c1da9d3 100644
---- a/drivers/pci/trace.c
-+++ b/drivers/pci/trace.c
-@@ -9,3 +9,4 @@
- 
- #define CREATE_TRACE_POINTS
- #include <trace/events/pci.h>
-+#include <trace/events/pci_controller.h>
-diff --git a/include/trace/events/pci_controller.h b/include/trace/events/pci_controller.h
-new file mode 100644
-index 0000000..f38eedf
---- /dev/null
-+++ b/include/trace/events/pci_controller.h
-@@ -0,0 +1,52 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM pci_controller
-+
-+#if !defined(_TRACE_HW_EVENT_PCI_CONTROLLER_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_HW_EVENT_PCI_CONTROLLER_H
-+
-+#include <uapi/linux/pci_regs.h>
-+#include <linux/tracepoint.h>
-+
-+TRACE_DEFINE_ENUM(PCIE_SPEED_2_5GT);
-+TRACE_DEFINE_ENUM(PCIE_SPEED_5_0GT);
-+TRACE_DEFINE_ENUM(PCIE_SPEED_8_0GT);
-+TRACE_DEFINE_ENUM(PCIE_SPEED_16_0GT);
-+TRACE_DEFINE_ENUM(PCIE_SPEED_32_0GT);
-+TRACE_DEFINE_ENUM(PCIE_SPEED_64_0GT);
-+TRACE_DEFINE_ENUM(PCI_SPEED_UNKNOWN);
-+
-+TRACE_EVENT(pcie_ltssm_state_transition,
-+	TP_PROTO(const char *dev_name, const char *state, u32 rate),
-+	TP_ARGS(dev_name, state, rate),
-+
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name)
-+		__string(state, state)
-+		__field(u32, rate)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(state);
-+		__entry->rate = rate;
-+	),
-+
-+	TP_printk("dev: %s state: %s rate: %s",
-+		__get_str(dev_name), __get_str(state),
-+		__print_symbolic(__entry->rate,
-+			{ PCIE_SPEED_2_5GT,  "2.5 GT/s" },
-+			{ PCIE_SPEED_5_0GT,  "5.0 GT/s" },
-+			{ PCIE_SPEED_8_0GT,  "8.0 GT/s" },
-+			{ PCIE_SPEED_16_0GT, "16.0 GT/s" },
-+			{ PCIE_SPEED_32_0GT, "32.0 GT/s" },
-+			{ PCIE_SPEED_64_0GT, "64.0 GT/s" },
-+			{ PCI_SPEED_UNKNOWN, "Unknown" }
-+		)
-+	)
-+);
-+
-+#endif /* _TRACE_HW_EVENT_PCI_CONTROLLER_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
 -- 
-2.7.4
+Best regards,
+Ridong
 
