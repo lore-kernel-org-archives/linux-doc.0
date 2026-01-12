@@ -1,293 +1,336 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011071.outbound.protection.outlook.com [40.107.208.71])
+Received: from mail-07.mail-europe.com (mail-0701.mail-europe.com [51.83.17.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793AA3793A7;
-	Mon, 12 Jan 2026 17:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768238329; cv=fail; b=q+bjWgP1m6IcaSlo3x+HuTP+KLNWahfZ5Klq/lHDrtGFBluK6pRrRDlhOAeaKm2jUz/rf7JHL+SQYsANlwoguZyHD9db12OCGzTDx75Amd5GcBw8b9+s8T9CczS29umzjnHV4emVc50kt8WrLMHF26pmc1YtNuX/vTTYsTkf7ZA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768238329; c=relaxed/simple;
-	bh=sKEMF09cEIotIm23stxK4CQRPe7OL/GS/gge+/POFVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=N7fWsy2sF54yF+gF9Fnaux61RKU+xZyEObMw9XV6Gm1Fq638mhaw8EyrBclAC8a9iy1g1hPJQlcQEHYldOZJEdh4Yt+rZiad8fRWt43lTzJbFsYQ7w283XwZWiWUznIDpEcW4fNam7neGpJryAFga4Grn0bkIhsLzQRHFeQGNSE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Lop1p3ye; arc=fail smtp.client-ip=40.107.208.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B163337C0E1
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.83.17.38
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768238811; cv=none; b=GwAM/iuwCXQRnvbnIrqlHC3+dbwVhTVC8YDbkn2kf72hXimAkMRKY0DTcB4hYJAE2X+u3KvVvTKmYtF9+hvS/CNegwlt6toq/2bCNtDN7JxgT2xqmC1b8sv0LdIXnJ0InJQxdllvwOtWUqOHKO+RcWnCoJvVq8pwU2y//fFqXPM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768238811; c=relaxed/simple;
+	bh=mucDfnc9F4/kveS8T27kMll36Ex1LSvb3Yl5mb1nJGI=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hAdXZQaTmXcjQdetTGdPzfTbUY2GdPYXIqdDS+QUMSO2UET4zG51eK6yQrZ3VOfO1peW6VrjfI1OShlQF0TsfDWdABxaZvEYIOU8mXvwrG7VTL8WxsGt9M3EaSaXVK4U7KbZUpe47kH8HXkTR2ztOXhHJz4DUvCLjAr8v9vWzXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=fail smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=kply4xUI; arc=none smtp.client-ip=51.83.17.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Lop1p3ye"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mHNRVjOPAApMdBhlIHd+/eH3RPsrpzjFzBnmTOEyu7WdVB1T7fUOI7dlaNiQ09UHgProqSewew3ZI5XO2nIz0+Fn9ur2Tf6SLCclLQ4/M8P483DM40BPW31VrOTBRf0mVYxG6wNNqE8Csbbb1s3n7mnscyLD5hSYG0OtPaeAWz9N1DEdtp1YxDYClx+YnBYgPy23/FWkflTg4AcCBUnOhs5n7ZXYJksiRIsQR/Nkh/Uxpa79WUMRsIxnStmf3OpFb/phK61R1bfbvwKY6w55LTaG7KeU0IXLZxIjA+JqM+RFGvXjUf8huWN9xwb9LCYaBkmsDBtX3fxRy7faiNDydw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v1NonMAyuqhtz5oohgpHzgxpuBooO8UOVfEGv/F1F/M=;
- b=SJ9YQZe38tGkEDRP0CrBDLHZ6A8fW4fsg00QXdO+kaF8yNJ4z+em1TOTOU+DkgkY70mG6Aq3NR+Wy52dLnNrG0ShslzwE24Fqiwy/WQbHaehwZ8bt6WT2Nm8kbh135v0323jSwPgZMa0lRQ1sgIA70/0SvFT5Hyt7tRZ5K7tKi7A3bwGDwNAH11fDqnpjAEFZIjlFqBe5Fe6VY/f2jJDi4OAvUvvNFeTX1ohmTraKXWmIhPKWdh2vurk4KQeWO8PAq5wRiZrMge48e8m/v8+MWhwljH/sD/gaxT0uzV8s/kRIkNutnNyOVN9N6g1i5UYplSFkVdCWNioG4aHPycvpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v1NonMAyuqhtz5oohgpHzgxpuBooO8UOVfEGv/F1F/M=;
- b=Lop1p3yesGZ8w3FWfQbfypp7bf2G19LpduwTnjb054HEBjeNxj4VWqxzXqnPzgMcH0GZIC1ILbemu7QspPuD7IRTzdssds4em6NEZAn5a5HoDNdyKuQmos9HiBCFep7ZYCPqgHoC5KVl3mlZlAU4aBs9Tx4h3HuGuco5tklEJxSBVH8aHpW5lqNDBO378VU6gyYdeMcJ4QaOBssBHXxNcDm6y+XeCU97+M0eK8CpPce+AGBq+nc8FQVRWDYjEz21T4hh5zjX8xzJURXRsBz3rox4mj5EwvdWfEPs2pVlrFvn+q/2OWfP2mM+teft4WQVig9lZ8DVm193r0GSCJdDow==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com (2603:10b6:510:26f::12)
- by SJ2PR12MB9242.namprd12.prod.outlook.com (2603:10b6:a03:56f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Mon, 12 Jan
- 2026 17:18:42 +0000
-Received: from PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::bdb6:e12f:18b6:2b77]) by PH0PR12MB8800.namprd12.prod.outlook.com
- ([fe80::bdb6:e12f:18b6:2b77%5]) with mapi id 15.20.9499.005; Mon, 12 Jan 2026
- 17:18:42 +0000
-Date: Mon, 12 Jan 2026 12:18:40 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, dan.j.williams@intel.com,
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
-	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com,
-	david@kernel.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk, rientjes@google.com,
-	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com,
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com,
-	baohua@kernel.org, yosry.ahmed@linux.dev, chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, osalvador@suse.de,
-	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
-	byungchul@sk.com, ying.huang@linux.alibaba.com, apopple@nvidia.com,
-	cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
-Subject: Re: [RFC PATCH v3 0/8] mm,numa: N_PRIVATE node isolation for
- device-managed memory
-Message-ID: <aWUs8Fx2CG07F81e@yury>
-References: <20260108203755.1163107-1-gourry@gourry.net>
- <6604d787-1744-4acf-80c0-e428fee1677e@nvidia.com>
- <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
-X-ClientProxiedBy: BN9PR03CA0466.namprd03.prod.outlook.com
- (2603:10b6:408:139::21) To PH0PR12MB8800.namprd12.prod.outlook.com
- (2603:10b6:510:26f::12)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="kply4xUI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1768238796; x=1768497996;
+	bh=MZLHOnEOyMbQ1BnCPqw/Rl/jRpv2IPlwroWlod1BlMw=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=kply4xUIWIJKE9qKLZzPiVBWr6K5CwxcMYvGpYmG6ThhF8F1rSlzHpj6tRIbdsWY3
+	 JAxCgzWDC+YtpHsZ40KxgqHb8dzrfNLMVSMA7xcR2uq2see9+MhLel0NiOn/OYWOwf
+	 3y1Inb3vddque1SSXqiO/Shu+CgQ9/uv/1hYsqhAsPWxpBfgYFDZ3hZ7vcXvyaOyhF
+	 P98qIYLYZdBt0+TX+gftyVoAsfnZaaO6Dhks4I7e6MsxOy7KcLlPADfvqOU/qmeS59
+	 4+9c3jYB0blRAH6qRi7guvNH7ykkLpGbQZhS9+V/jLMljmeD9jLYOBDLi9jCaAo4/4
+	 0emtNXymLoimw==
+Date: Mon, 12 Jan 2026 17:26:29 +0000
+To: corbet@lwn.net, morbo@google.com, rppt@kernel.org, lorenzo.stoakes@oracle.com, ubizjak@gmail.com, mingo@redhat.com, vincenzo.frascino@arm.com, maciej.wieczor-retman@intel.com, maz@kernel.org, catalin.marinas@arm.com, yeoreum.yun@arm.com, will@kernel.org, jackmanb@google.com, samuel.holland@sifive.com, glider@google.com, osandov@fb.com, nsc@kernel.org, luto@kernel.org, jpoimboe@kernel.org, akpm@linux-foundation.org, Liam.Howlett@oracle.com, kees@kernel.org, jan.kiszka@siemens.com, thomas.lendacky@amd.com, jeremy.linton@arm.com, dvyukov@google.com, axelrasmussen@google.com, leitao@debian.org, ryabinin.a.a@gmail.com, bigeasy@linutronix.de, peterz@infradead.org, mark.rutland@arm.com, urezki@gmail.com, brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com, andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org, vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com, samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com, surenb@google.com, anshuman.khandual@arm.com,
+	smostafa@google.com, yuanchu@google.com, ada.coupriediaz@arm.com, dave.hansen@linux.intel.com, kas@kernel.org, nick.desaulniers+lkml@gmail.com, david@kernel.org, bp@alien8.de, ardb@kernel.org, justinstitt@google.com
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, x86@kernel.org, m.wieczorretman@pm.me
+Subject: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <cover.1768233085.git.m.wieczorretman@pm.me>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 30fd795ba3d87d5fa5bf659d16f56b67634e08f5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB8800:EE_|SJ2PR12MB9242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6524cf84-b2bc-443d-05e0-08de51fea24e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iPi4RVJoJVvms0TKizFAJRN97ukhjYCGHKnQpNa9EcgR36ZpaNHCQTD4eepa?=
- =?us-ascii?Q?uorWYhkZBnZinRo3bJvkSj6EM6xqsTGe4BHnWaI+7JWDc/WDA6Z/lWBWUn4L?=
- =?us-ascii?Q?+rfe84HMDpx0ReRPjoQOv5MrS/FJdCxfLB1X2pDgYI/LlqzjyTausup5ITr/?=
- =?us-ascii?Q?JEzHknYYMaOlYiDSVkM0kkHmigv3upSb72ilGPMnKtxFWR92btHSvp37elh+?=
- =?us-ascii?Q?5P9WW47HWAhlrai25OJ2cACDetwYbaJG1+4ZUgWqpWUsWaJTzxMp3Oq+HuQQ?=
- =?us-ascii?Q?HJKzZCFzXLWX9SPHHW8CAfzLDdoDhmmulr9UkhH/Ypq2XLs5KqpxsSOW72lo?=
- =?us-ascii?Q?32hQkcCguDjXpHl8yW0NupZ3aquQcWNJPFygt1dI0fOe1oUQoUp8oQUx1e/m?=
- =?us-ascii?Q?Fk6fqN958UB9ecK3+Jrvq5sjFtVVr90wgMvhmVHsKuU9/9VstT8UCrRG+qoP?=
- =?us-ascii?Q?hU7JLnt+vh/tNy7xlnk7ATeI5l6jaO3TyHgPMrGGLPRGafDFzUyRgUDSHHUx?=
- =?us-ascii?Q?8BDnEWaVhVCBkkRK7UyQwzz3I75aIh4dMOmMJK2yzK7e5CYPR6GquOgXess4?=
- =?us-ascii?Q?h01YsPW4/9JMXIDClNIf6EnVbG5rxiX1o9aNO0OZPfHpd1tMr2xUItro3v5r?=
- =?us-ascii?Q?atRPtprO/tBKzeLj3W2jHLUWO2hoDKyuRM4/fEI4PqStgH89WiD0zsaejp2D?=
- =?us-ascii?Q?PvEHF3/R/pP9T4a81SiwZ/eSlcE9YMWtHCzN6RmyqdvjRflLP398A35Hnjme?=
- =?us-ascii?Q?d/eUMZzUClK8MIIRwAVvE1528H6KZxjGLY/xhCs3VxSmfPIpH3N3x7oaDeaD?=
- =?us-ascii?Q?I/lTGcKZvjCAKsJmFP5BbqCj0Tp0lil/4meARVS4A2oIwIS2s9TEBn87p7o7?=
- =?us-ascii?Q?EHkD8qRXvWCc2Qfx21+nM6rUCum6/QiAgEYsgzrm+U33T++adosiQWzoc6MG?=
- =?us-ascii?Q?XxnQGIKoyQ4562bgIY9BuvpLpaFtRp54td2Jmf1AA8899mphEOD++dcxHul9?=
- =?us-ascii?Q?4v/T2kG7rqPfsqxxwXdlcyKW7t2P9UWRpdD9GET9cl0Tt9APxrtexujKFjIQ?=
- =?us-ascii?Q?jg8z3aiiwCuvI0WXowRtB7lCMslw7Ms9LTrzEUR3fPXSgpkEOssi9f87xLPb?=
- =?us-ascii?Q?zw9OhmrYTTGYeKVgg3PL4hmRw2pEE/6XbztsLllQql9Kt8U9QSg3k/VN0Y4H?=
- =?us-ascii?Q?uBpvSVzyQqgVyFmPIKdHQcdUrBI0VE7KwN/MK4N+Cui0V9FM6htiJvLEGn5u?=
- =?us-ascii?Q?Hup7pSUrwfEUQ3Ot9mJmQMMmhuo3c6VEaJ8hx8wKg7zZoX1vC5wqdSPWVdyZ?=
- =?us-ascii?Q?YO7vpGL6SqqbdHb1YMuAZ2U99wvWrm/3hOP+i/4q1askiuYviAo7cMj1EmKb?=
- =?us-ascii?Q?edRyRAxIj/s/k6WFMMAe0JWa0wa5FUDZ3Ka3vvDTE0rsNQYkTOxjWey/MmRj?=
- =?us-ascii?Q?ukze9sFpIs/BIzECLQJ8g+KiEOFuLu6L?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB8800.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?H+v7DFt+mDAobz4bH+HiXu4ad/LfQsfwLahFWvC5UAVIVXPQpX9jF5LryHVm?=
- =?us-ascii?Q?+b/yzit0A7O8qiwL3gl/YS9ajATOR1X0bkru1LVaYrMcHm12OQNBALOCapDf?=
- =?us-ascii?Q?KkiKFJd1IdJTgZeeENYPJhi8L04HrpMKmlY8GIPrmD5j5lbXUMrQELlat8a+?=
- =?us-ascii?Q?WBE2DAHVWm1676Ixn9rqLtMAVuNv0XW+7YcZt7IxZ85pOgRv0ttzftnZjqh0?=
- =?us-ascii?Q?4fbzwV3X0ZaEPsCewcUVuThz3Oxi1xkXkZrJ2LAnvF4JJvqAMaDi4dpCfJ8R?=
- =?us-ascii?Q?+ARP6DH+mLOX1zoRBsJs0kGadGJKB3lX7q/8u3odRQBQUhAOfDbNxhyrBku1?=
- =?us-ascii?Q?loV7qYSlxqlffEU4PfeoQYS9rlukAdXPG4IYi7Q+kHfqT2iMo+SuQqbS72ug?=
- =?us-ascii?Q?W6poLgXHQX7hXM+9f8ldBYwP0Fov76e+qJErCLTgQrALR4vQdcNf/YIlBwpt?=
- =?us-ascii?Q?288oR+AWopjocHzRXQweCUCdzDk61zweQDYaSaYTls6Oq0Fd2C1QDgfzeQVT?=
- =?us-ascii?Q?1a9ZHP0z5VmfXdDsK2fIEeYu9DNiAsOQYgZHRpRGouSiHfJ4V7LhNDeKk6v2?=
- =?us-ascii?Q?/mfw3pTQH3Qi9dtLkIdWi6ApcVJq/inWGG+hpRGiO2RBrlR++mtwb7metYK8?=
- =?us-ascii?Q?ze6X7gzMmPsBhqJuFbQaUqAHSUxDIOOT8Uwx/7dTBaMJBrHg3as6zeUtaY7v?=
- =?us-ascii?Q?asKEEvg5EzmI3P5DcHm0qLq08BWexyxweLZjde8l2KYbfFliecsL+4OLuOQR?=
- =?us-ascii?Q?F+LpBQ9RgrP6vT7hDvCLAt+tlS8Y5SJOZAOo4brUVCsJlaCuHQjDuY2QJM7k?=
- =?us-ascii?Q?jlxRmy9LOR4OHVysMHnYHBJtuTSWg8Gjrbke0qv8zO0bTL6usqfZF7h4P9Th?=
- =?us-ascii?Q?Lsnw+ZFChJZ1ohb861zHsIWcjoxn9MyTtK4Fs8oRcHdKCqAfwZdEwAelTc+t?=
- =?us-ascii?Q?DcI2zyDhnn1J7+6UvAn0pOTfxD2VNtRZu6dfs6Q3uzgcAaXc2aOeD2N3XCUW?=
- =?us-ascii?Q?AdMJEbXQMOjjy9maRK+nY5uQuHo6vMQTCyuEnOaiQGBuqqe5P6A8L1DzpUJ0?=
- =?us-ascii?Q?bj/YiC7V4pn604lm0Nafcb3RxvyVfDCV5gUtsE2B9MzWjly8iaekdq6hMMDu?=
- =?us-ascii?Q?E43D9g6HC4vcjIILHOx9De7wHN6mSXvopjh+QIK/uMmGiovGbDtTpmoR9BTX?=
- =?us-ascii?Q?upKbzY48+3j67nDFLr9CitbBm3M5YzlPlND/RTkwkDAaMesQ14Onc2wgn6DM?=
- =?us-ascii?Q?ONUJAQ/u9mRLLxo87UY9gro54v3E+K81s1mDKeQ9Yk3fbXsXbsUgx9yMmjwK?=
- =?us-ascii?Q?H1gA4+tEC4Ch+2e3L8oYFBkAGC0VnlGSG3oQSIbnqZM2zujKJPiY3uL8Lg5/?=
- =?us-ascii?Q?lA5OM6LUj9ee6SSvk2Nu+9x2PjPSAYotX44u/VA7/pLUoNNjg8zLWdPkDbDg?=
- =?us-ascii?Q?u2YUsLA78E1nTKNHwMhTyvEymjOSZ36laGOTlO0AryDUqCHG1r6xxcMqp37z?=
- =?us-ascii?Q?GEim1vUGgj0wrRYmsSuwsvC/HYRLWinfNv2gUykgJYxIpK2QkhZt69G6YKyE?=
- =?us-ascii?Q?FVvSvCPU5OJZ/BKevJyXLcWDnkOC+glTdCwxeGCTrz9etKl9NT7qVg/ETi/H?=
- =?us-ascii?Q?5HZCYmUU4ECTrBBup3YqV8axETG66X2sDIlYe32h5hVpRncaTp70GDiexVe7?=
- =?us-ascii?Q?+6e3JXLCatDqhbo7sykBzf1cpuRiD5o3KUJwf8I5dw3dvMVimqkKnqq+Hynu?=
- =?us-ascii?Q?mU+8Bb45yRcRaLbGvBU4w9MNPAbvcZdvY1STnVZN0jfQ8nSSNMJB?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6524cf84-b2bc-443d-05e0-08de51fea24e
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB8800.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2026 17:18:42.2572
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: reSFBT+GFXGQbFJYkJDNzN0G5uIKvpw3qHJTTCivLpsfvGws4tBiX8bbLkMKyvHif/Nej4LVtj/VRFgzAePdLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9242
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 09:36:49AM -0500, Gregory Price wrote:
-> On Mon, Jan 12, 2026 at 10:12:23PM +1100, Balbir Singh wrote:
-> > On 1/9/26 06:37, Gregory Price wrote:
-> > > This series introduces N_PRIVATE, a new node state for memory nodes 
-> > > whose memory is not intended for general system consumption.  Today,
-> > > device drivers (CXL, accelerators, etc.) hotplug their memory to access
-> > > mm/ services like page allocation and reclaim, but this exposes general
-> > > workloads to memory with different characteristics and reliability
-> > > guarantees than system RAM.
-> > > 
-> > > N_PRIVATE provides isolation by default while enabling explicit access
-> > > via __GFP_THISNODE for subsystems that understand how to manage these
-> > > specialized memory regions.
-> > > 
-> > 
-> > I assume each class of N_PRIVATE is a separate set of NUMA nodes, these
-> > could be real or virtual memory nodes?
-> >
-> 
-> This has the the topic of a long, long discussion on the CXL discord -
-> how do we get extra nodes if we intend to make HPA space flexibly
-> configurable by "intended use".
-> 
-> tl;dr:  open to discussion.  As of right now, there's no way (that I
-> know of) to allocate additional NUMA nodes at boot without having some
-> indication that one is needed in the ACPI table (srat touches a PXM, or
-> CEDT defines a region not present in SRAT).
-> 
-> Best idea we have right now is to have a build config that reserves some
-> extra nodes which can be used later (they're in N_POSSIBLE but otherwise
-> not used by anything).
-> 
-> > > Design
-> > > ======
-> > > 
-> > > The series introduces:
-> > > 
-> > >   1. N_PRIVATE node state (mutually exclusive with N_MEMORY)
-> > 
-> > We should call it N_PRIVATE_MEMORY
-> >
-> 
-> Dan Williams convinced me to go with N_PRIVATE, but this is really a
-> bikeshed topic
+=3D=3D=3D=3D=3D=3D=3D Introduction
+The patchset aims to add a KASAN tag-based mode for the x86 architecture
+with the help of the new CPU feature called Linear Address Masking
+(LAM). Main improvement introduced by the series is 2x lower memory
+usage compared to KASAN's generic mode, the only currently available
+mode on x86. The tag based mode may also find errors that the generic
+mode couldn't because of differences in how these modes operate.
 
-No it's not. To me (OK, an almost random reader in this discussion),
-N_PRIVATE is a pretty confusing name. It doesn't answer the question:
-private what? N_PRIVATE_MEMORY is better in that department, isn't?
+=3D=3D=3D=3D=3D=3D=3D How does KASAN' tag-based mode work?
+When enabled, memory accesses and allocations are augmented by the
+compiler during kernel compilation. Instrumentation functions are added
+to each memory allocation and each pointer dereference.
 
-But taking into account isolcpus, maybe N_ISOLMEM?
+The allocation related functions generate a random tag and save it in
+two places: in shadow memory that maps to the allocated memory, and in
+the top bits of the pointer that points to the allocated memory. Storing
+the tag in the top of the pointer is possible because of Top-Byte Ignore
+(TBI) on arm64 architecture and LAM on x86.
 
-> - we could call it N_BOBERT until we find consensus.
+The access related functions are performing a comparison between the tag
+stored in the pointer and the one stored in shadow memory. If the tags
+don't match an out of bounds error must have occurred and so an error
+report is generated.
 
-Please give it the right name well describing the scope and purpose of
-the new restriction policy before moving forward.
- 
-> > >   enum private_memtype {
-> > >       NODE_MEM_NOTYPE,      /* No type assigned (invalid state) */
-> > >       NODE_MEM_ZSWAP,       /* Swap compression target */
-> > >       NODE_MEM_COMPRESSED,  /* General compressed RAM */
-> > >       NODE_MEM_ACCELERATOR, /* Accelerator-attached memory */
-> > >       NODE_MEM_DEMOTE_ONLY, /* Memory-tier demotion target only */
-> > >       NODE_MAX_MEMTYPE,
-> > >   };
-> > > 
-> > > These types serve as policy hints for subsystems:
-> > > 
-> > 
-> > Do these nodes have fallback(s)? Are these nodes prone to OOM when memory is exhausted
-> > in one class of N_PRIVATE node(s)?
-> > 
-> 
-> Right now, these nodes do not have fallbacks, and even if they did the
-> use of __GFP_THISNODE would prevent this.  That's intended.
-> 
-> In theory you could have nodes of similar types fall back to each other,
-> but that feels like increased complexity for questionable value.  The
-> service requested __GFP_THISNODE should be aware that it needs to manage
-> fallback.
+The general idea for the tag-based mode is very well explained in the
+series with the original implementation [1].
 
-Yeah, and most GFP_THISNODE users also pass GFP_NOWARN, which makes it
-looking more like an emergency feature. Maybe add a symmetric GFP_PRIVATE
-flag that would allow for more flexibility, and highlight the intention
-better?
+[1] https://lore.kernel.org/all/cover.1544099024.git.andreyknvl@google.com/
 
-> > What about page cache allocation form these nodes? Since default allocations
-> > never use them, a file system would need to do additional work to allocate
-> > on them, if there was ever a desire to use them. 
-> 
-> Yes, in-fact that is the intent.  Anything requesting memory from these
-> nodes would need to be aware of how to manage them.
-> 
-> Similar to ZONE_DEVICE memory - which is wholly unmanaged by the page
+=3D=3D=3D=3D=3D=3D=3D Differences summary compared to the arm64 tag-based m=
+ode
+- Tag width:
+=09- Tag width influences the chance of a tag mismatch due to two
+=09  tags from different allocations having the same value. The
+=09  bigger the possible range of tag values the lower the chance
+=09  of that happening.
+=09- Shortening the tag width from 8 bits to 4, while it can help
+=09  with memory usage, it also increases the chance of not
+=09  reporting an error. 4 bit tags have a ~7% chance of a tag
+=09  mismatch.
 
-This is quite opposite to what you are saying in the motivation
-section:
+- Address masking mechanism
+=09- TBI in arm64 allows for storing metadata in the top 8 bits of
+=09  the virtual address.
+=09- LAM in x86 allows storing tags in bits [62:57] of the pointer.
+=09  To maximize memory savings the tag width is reduced to bits
+=09  [60:57].
 
-  Several emerging memory technologies require kernel memory management
-  services but should not be used for general allocations
+- Inline mode mismatch reporting
+=09- Arm64 inserts a BRK instruction to pass metadata about a tag
+=09  mismatch to the KASAN report.
+=09- Right now on x86 the INT3 instruction is used for the same
+=09  purpose. The attempt to move it over to use UD1 is already
+=09  implemented and tested but relies on another series that needs
+=09  merging first. Therefore this patch will be posted separately
+=09  once the dependency is satisfied by being merged upstream.
 
-So, is it completely unmanaged node, or only general allocation isolated?
+=3D=3D=3D=3D=3D=3D=3D Testing
+Checked all the kunits for both software tags and generic KASAN after
+making changes.
 
-Thanks,
-Yury
+In generic mode (both with these patches and without) the results were:
 
-> allocator.  There's potential for re-using some of the ZONE_DEVICE or
-> HMM callback infrastructure to implement the callbacks for N_PRIVATE
-> instead of re-inventing it.
-> 
-> > Would memory
-> > migration would work between N_PRIVATE and N_MEMORY using move_pages()?
-> > 
-> 
-> N_PRIVATE -> N_MEMORY would probably be easy and trivial, but could also
-> be a controllable bit.
-> 
-> A side-discussion not present in these notes has been whether memtype
-> should be an enum or a bitfield.
-> 
-> N_MEMORY -> N_PRIVATE via migrate.c would probably require some changes
-> to migration_target_control and the alloc callback (in vmscan.c, see
-> alloc_migrate_folio) would need to be N_PRIVATE aware.
-> 
-> 
-> Thanks for taking a look,
-> ~Gregory
+kasan: pass:61 fail:1 skip:14 total:76
+Totals: pass:61 fail:1 skip:14 total:76
+not ok 1 kasan
+
+and for software tags:
+
+kasan: pass:65 fail:1 skip:10 total:76
+Totals: pass:65 fail:1 skip:10 total:76
+not ok 1 kasan
+
+At the time of testing the one failing case is also present on generic
+mode without this patchset applied. This seems to point to something
+else being at fault for the one case not passing. The test case in
+question concerns strscpy() out of bounds error not getting caught.
+
+=3D=3D=3D=3D=3D=3D=3D Benchmarks [1]
+All tests were ran on a Sierra Forest server platform. The only
+differences between the tests were kernel options:
+=09- CONFIG_KASAN
+=09- CONFIG_KASAN_GENERIC
+=09- CONFIG_KASAN_SW_TAGS
+=09- CONFIG_KASAN_INLINE [1]
+=09- CONFIG_KASAN_OUTLINE
+
+Boot time (until login prompt):
+* 02:55 for clean kernel
+* 05:42 / 06:32 for generic KASAN (inline/outline)
+* 05:58 for tag-based KASAN (outline) [2]
+
+Total memory usage (512GB present on the system - MemAvailable just
+after boot):
+* 12.56 GB for clean kernel
+* 81.74 GB for generic KASAN
+* 44.39 GB for tag-based KASAN
+
+Kernel size:
+* 14 MB for clean kernel
+* 24.7 MB / 19.5 MB for generic KASAN (inline/outline)
+* 27.1 MB / 18.1 MB for tag-based KASAN (inline/outline)
+
+Work under load time comparison (compiling the mainline kernel) (200 cores)=
+:
+*  62s for clean kernel
+* 171s / 125s for generic KASAN (outline/inline)
+* 145s for tag-based KASAN (outline) [2]
+
+[1] Currently inline mode doesn't work on x86 due to things missing in
+the compiler. I have written a patch for clang that seems to fix the
+inline mode and I was able to boot and check that all patches regarding
+the inline mode work as expected. My hope is to post the patch to LLVM
+once this series is completed, and then make inline mode available in
+the kernel config.
+
+[2] While I was able to boot the inline tag-based kernel with my
+compiler changes in a simulated environment, due to toolchain
+difficulties I couldn't get it to boot on the machine I had access to.
+Also boot time results from the simulation seem too good to be true, and
+they're much too worse for the generic case to be believable. Therefore
+I'm posting only results from the physical server platform.
+
+=3D=3D=3D=3D=3D=3D=3D Compilation
+Clang was used to compile the series (make LLVM=3D1) since gcc doesn't
+seem to have support for KASAN tag-based compiler instrumentation on
+x86.
+
+=3D=3D=3D=3D=3D=3D=3D Dependencies
+The series is based on 6.19-rc5.
+
+=3D=3D=3D=3D=3D=3D=3D Previous versions
+v7: https://lore.kernel.org/all/cover.1765386422.git.m.wieczorretman@pm.me/
+v6: https://lore.kernel.org/all/cover.1761763681.git.m.wieczorretman@pm.me/
+v5: https://lore.kernel.org/all/cover.1756151769.git.maciej.wieczor-retman@=
+intel.com/
+v4: https://lore.kernel.org/all/cover.1755004923.git.maciej.wieczor-retman@=
+intel.com/
+v3: https://lore.kernel.org/all/cover.1743772053.git.maciej.wieczor-retman@=
+intel.com/
+v2: https://lore.kernel.org/all/cover.1739866028.git.maciej.wieczor-retman@=
+intel.com/
+v1: https://lore.kernel.org/all/cover.1738686764.git.maciej.wieczor-retman@=
+intel.com/
+
+=3D=3D=3D (two fixes patches were split off after v6) (merged into mm-unsta=
+ble)
+v1: https://lore.kernel.org/all/cover.1762267022.git.m.wieczorretman@pm.me/
+v2: https://lore.kernel.org/all/cover.1764685296.git.m.wieczorretman@pm.me/
+v3: https://lore.kernel.org/all/cover.1764874575.git.m.wieczorretman@pm.me/
+v4: https://lore.kernel.org/all/cover.1764945396.git.m.wieczorretman@pm.me/
+
+Changes v8:
+- Detached the UD1/INT3 inline patch from the series so the whole
+  patchset can be merged without waiting on other dependency series. For
+  now with lack of compiler support for the inline mode that patch
+  didn't work anyway so this delay is not an issue.
+- Rebased patches onto 6.19-rc5.
+- Added acked-by tag to "kasan: arm64: x86: Make special tags arch
+  specific".
+
+Changes v7:
+- Rebased the series onto Peter Zijlstra's "WARN() hackery" v2 patchset.
+- Fix flipped memset arguments in "x86/kasan: KASAN raw shadow memory
+  PTE init".
+- Reorder tag width defines on arm64 to avoid redefinition warnings.
+- Split off the pcpu unpoison patches into a separate fix oriented
+  series.
+- Redid the canonicality checks so it works for KVM too (didn't change
+  the __canonical_address() function previously).
+- A lot of fixes pointed out by Alexander in his great review:
+=09- Fixed "x86/mm: Physical address comparisons in fill_p*d/pte"
+=09- Merged "Support tag widths less than 8 bits" and "Make special
+=09  tags arch specific".
+=09- Added comments and extended patch messages for patches
+=09  "x86/kasan: Make software tag-based kasan available" and
+=09  "mm/execmem: Untag addresses in EXECMEM_ROX related pointer arithmetic=
+",
+=09- Fixed KASAN_TAG_MASK definition order so all patches compile
+=09  individually.
+=09- Renamed kasan_inline.c to kasan_sw_tags.c.
+
+Changes v6:
+- Initialize sw-tags only when LAM is available.
+- Move inline mode to use UD1 instead of INT3
+- Remove inline multishot patch.
+- Fix the canonical check to work for user addresses too.
+- Revise patch names and messages to align to tip tree rules.
+- Fix vdso compilation issue.
+
+Changes v5:
+- Fix a bunch of arm64 compilation errors I didn't catch earlier.
+  Thank You Ada for testing the series!
+- Simplify the usage of the tag handling x86 functions (virt_to_page,
+  phys_addr etc.).
+- Remove within() and within_range() from the EXECMEM_ROX patch.
+
+Changes v4:
+- Revert x86 kasan_mem_to_shadow() scheme to the same on used in generic
+  KASAN. Keep the arithmetic shift idea for the KASAN in general since
+  it makes more sense for arm64 and in risc-v.
+- Fix inline mode but leave it unavailable until a complementary
+  compiler patch can be merged.
+- Apply Dave Hansen's comments on series formatting, patch style and
+  code simplifications.
+
+Changes v3:
+- Remove the runtime_const patch and setup a unified offset for both 5
+  and 4 paging levels.
+- Add a fix for inline mode on x86 tag-based KASAN. Add a handler for
+  int3 that is generated on inline tag mismatches.
+- Fix scripts/gdb/linux/kasan.py so the new signed mem_to_shadow() is
+  reflected there.
+- Fix Documentation/arch/arm64/kasan-offsets.sh to take new offsets into
+  account.
+- Made changes to the kasan_non_canonical_hook() according to upstream
+  discussion.
+- Remove patches 2 and 3 since they related to risc-v and this series
+  adds only x86 related things.
+- Reorder __tag_*() functions so they're before arch_kasan_*(). Remove
+  CONFIG_KASAN condition from __tag_set().
+
+Changes v2:
+- Split the series into one adding KASAN tag-based mode (this one) and
+  another one that adds the dense mode to KASAN (will post later).
+- Removed exporting kasan_poison() and used a wrapper instead in
+  kasan_init_64.c
+- Prepended series with 4 patches from the risc-v series and applied
+  review comments to the first patch as the rest already are reviewed.
+
+Maciej Wieczor-Retman (12):
+  kasan: Fix inline mode for x86 tag-based mode
+  x86/kasan: Add arch specific kasan functions
+  x86/mm: Reset tag for virtual to physical address conversions
+  mm/execmem: Untag addresses in EXECMEM_ROX related pointer arithmetic
+  x86/mm: Physical address comparisons in fill_p*d/pte
+  x86/kasan: KASAN raw shadow memory PTE init
+  x86/mm: LAM compatible non-canonical definition
+  x86/mm: LAM initialization
+  x86: Minimal SLAB alignment
+  arm64: Unify software tag-based KASAN inline recovery path
+  x86/kasan: Logical bit shift for kasan_mem_to_shadow
+  x86/kasan: Make software tag-based kasan available
+
+Samuel Holland (2):
+  kasan: sw_tags: Use arithmetic shift for shadow computation
+  kasan: arm64: x86: Make special tags arch specific
+
+ Documentation/arch/arm64/kasan-offsets.sh |  8 ++-
+ Documentation/arch/x86/x86_64/mm.rst      |  6 ++-
+ MAINTAINERS                               |  2 +-
+ arch/arm64/Kconfig                        | 10 ++--
+ arch/arm64/include/asm/kasan-tags.h       | 14 +++++
+ arch/arm64/include/asm/kasan.h            |  2 -
+ arch/arm64/include/asm/memory.h           | 14 ++++-
+ arch/arm64/include/asm/uaccess.h          |  1 +
+ arch/arm64/kernel/traps.c                 | 17 +------
+ arch/arm64/mm/kasan_init.c                |  7 ++-
+ arch/x86/Kconfig                          |  4 ++
+ arch/x86/boot/compressed/misc.h           |  1 +
+ arch/x86/include/asm/cache.h              |  4 ++
+ arch/x86/include/asm/kasan-tags.h         |  9 ++++
+ arch/x86/include/asm/kasan.h              | 62 ++++++++++++++++++++++-
+ arch/x86/include/asm/page.h               | 23 ++++++++-
+ arch/x86/include/asm/page_64.h            |  1 +
+ arch/x86/kernel/head_64.S                 |  3 ++
+ arch/x86/mm/init.c                        |  3 ++
+ arch/x86/mm/init_64.c                     | 11 ++--
+ arch/x86/mm/kasan_init_64.c               | 25 +++++++--
+ arch/x86/mm/physaddr.c                    |  2 +
+ include/linux/kasan-tags.h                | 21 ++++++--
+ include/linux/kasan.h                     | 13 +++--
+ include/linux/mm.h                        |  6 +--
+ include/linux/mmzone.h                    |  2 +-
+ include/linux/page-flags-layout.h         |  9 +---
+ lib/Kconfig.kasan                         |  3 +-
+ mm/execmem.c                              |  9 +++-
+ mm/kasan/report.c                         | 37 ++++++++++++--
+ mm/vmalloc.c                              |  7 ++-
+ scripts/Makefile.kasan                    |  3 ++
+ scripts/gdb/linux/kasan.py                |  5 +-
+ scripts/gdb/linux/mm.py                   |  5 +-
+ 34 files changed, 277 insertions(+), 72 deletions(-)
+ create mode 100644 arch/arm64/include/asm/kasan-tags.h
+ create mode 100644 arch/x86/include/asm/kasan-tags.h
+
+--=20
+2.52.0
+
+
