@@ -1,192 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE23215665C;
-	Mon, 12 Jan 2026 12:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA4D357714;
+	Mon, 12 Jan 2026 12:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768219915; cv=none; b=iedEnOwfDunE+Bs1PgqsClHLNEJglXB8Pqg/HqrGvVJdInc7YW6lVhLl3mR2OOCBkCMGlZJii/V8VM8AQE3HP6XrrE0H+/KNn+0ZRMZPD5PSy/uTGnBZpvdUjAtasqjFbKwob1uQHaZJg1wvDGyKl9nrDILVVGtrcYDg9p/PLGU=
+	t=1768219967; cv=none; b=fl/vfOe8Ou5WMbcXLC3IEjoQONCWqbtqW2hcn6j4nnr/pA2ZhMYftSYBEqV4xstJmJmbYqJRDFZGSrLz6mdNdlp78Lsc+22CsUnudjiuz94eYd0sRnd79b0vAgC6O6tmvdVFpyJk1/byVbQVbhEmujSDu8V+M53z7/h1R6nuhqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768219915; c=relaxed/simple;
-	bh=3jSDuOuCs+pKN3T4V5nGObjCACbwWxdw9Q9Ap0uFk5U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TNlT6HSvTFOnZEoq5AR+dU9NbegMK2626PWmWk7tqYCNsETfV24Fy5oXt3hk40mau5vKlmS2p9Kzwj7mMCN+OU3u4sQlcI4Pm7+Ez5R3btQnKPwcwU4zWNquIWAxW8lM3SRHelqFP31D8l4Nz9/Xw3NgwVkwQUg2HoPq5pNsQnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GBkkxOou; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768219967; c=relaxed/simple;
+	bh=pMYZI0CgzcClVF9Y2wlUPH6tDeeT1bqttwxiUBJ9puA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=PqaCg20YhRt+eKLPweAgnyH6wvdnoE4pWmEA3J58SXHDaSTMGN91oNKtw5ACopOKcYFzBGJL3Xn5gMxc8p+pM0y4oY8Q9pft3L0UGEHut6EwM3iXe22fygXARrjvQ68VBsS/uLv3fUpkEMzPaa21zNmup6J46T65YNQrV6dOib0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pXzO9CFi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GBkkxOou"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768219914; x=1799755914;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=3jSDuOuCs+pKN3T4V5nGObjCACbwWxdw9Q9Ap0uFk5U=;
-  b=GBkkxOouC4t9RccgDA3R3adhV3c9kGGfofdaXZSvpkBTRnwMduZLZNck
-   qaJsYdfq4ynkrbbtma/+3dhZmfuaWS2ftkGXZWEmcuRuGOCY76k974xhA
-   wsSRvxW1zbeZvgUaFa9VYEXqcJkGW/+WZN4kRnMf5IZNRnaK5qa7VrA0p
-   ZdLPgK4YqOEhDsUPMm8/P3SEfKiiRLe4ExT2zItUFRZe4Qvsu1umXR7mb
-   +c8KV6agfCETUvsq3re485/323b+J7DMS7xCYKMmUndDUlWJcXf3HTP2z
-   IpaPgPAv8fMCB9K08EUL3HbkVlIyENoTlac9MA8VBRuOijYr36lFdGPkl
-   Q==;
-X-CSE-ConnectionGUID: DZNE/bfFTIyiBA3ZcEIpaw==
-X-CSE-MsgGUID: 8cjH7rt5TV6wrIeASfXPgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69648207"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69648207"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:11:53 -0800
-X-CSE-ConnectionGUID: TXg4cE/TRzaJfdkRxFLsQQ==
-X-CSE-MsgGUID: 8/ERjaF0TmmrjH0vqgbqcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="203230361"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.222])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:11:50 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 4/4] scripts/kernel-doc: some fixes to kernel-doc comments
-In-Reply-To: <de2a70da3c1e3df8ca74196bcc7e44c041ff205b.1768216455.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <cover.1768216455.git.mchehab+huawei@kernel.org>
- <de2a70da3c1e3df8ca74196bcc7e44c041ff205b.1768216455.git.mchehab+huawei@kernel.org>
-Importance: high
-Date: Mon, 12 Jan 2026 14:11:47 +0200
-Message-ID: <228d7af7534816416b574e17624e58285d57ef6f@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pXzO9CFi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69682C16AAE;
+	Mon, 12 Jan 2026 12:12:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768219966;
+	bh=pMYZI0CgzcClVF9Y2wlUPH6tDeeT1bqttwxiUBJ9puA=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=pXzO9CFipLA5HqDI1isf0mUo6gkpCenVIFEJSxBWFM2iCWLwnn0fOxqO2H9C0e++2
+	 h2YRJxresSBGsBtRmiDFTHZqYLY4WN06EfMoxlJIJsWBIB2pSz47RcDFq7jouiSoAc
+	 b+3KMKQVrpHgjB+IfYS3w6ajEUXWoUmGBpCzwYOWxpP90rHBrL0jKi0YVcg8k686kU
+	 8WC+JsnESL0GWJ89iTpMiGSVXG5+clfu4ARpzbr4zgGnbz2rq2vR7BS71/Jb/BBc1c
+	 hz6/HcletGBu2MvTOUOh7kdxRXtP52AbjzTPyVhXZRMO/6EN/vg/zMXASZRG3sA054
+	 crCw47+qHJ9bA==
+Date: Mon, 12 Jan 2026 13:12:43 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    Mario Limonciello <mario.limonciello@amd.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/16] HID: hid-lenovo-go: Add Lenovo Legion Go Series
+ HID Driver
+In-Reply-To: <20251229031753.581664-3-derekjohn.clark@gmail.com>
+Message-ID: <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
+References: <20251229031753.581664-1-derekjohn.clark@gmail.com> <20251229031753.581664-3-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, 12 Jan 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrot=
-e:
-> There are some typos and English errors at the kernel-doc.py comments.
->
-> Locate them with the help of LLM (gpt-oss 14B), locally excecuted
-> with this prompt:
->
->     review English grammar andsyntax at the comments on the code
->     below:
->     <cat scripts/kernel-doc.py>
->
-> Not all results are flowers, although it caught several minor
-> issues there. Add the pertinent fixes, discarding the bad ones.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Mon, 29 Dec 2025, Derek J. Clark wrote:
+
+> Adds initial framework for a new HID driver, hid-lenovo-go, along with
+> attributes that report the firmware and hardware version for each
+> component of the HID device, of which there are 4 parts: The MCU, the
+> transmission dongle, the left "handle" controller half, and the right
+> "handle" controller half. Each of these devices are provided an attribute
+> group to contain its device specific attributes. Additionally, the touchpad
+> device attributes are logically separated from the other components in
+> another attribute group.
+> 
+> This driver primarily provides access to the configurable settings of the
+> Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
+> firmware. As previously noted, the Legion Go controllers recently had a
+> firmware update[1] which switched from the original "SepentiaUSB" protocol
+> to a brand new protocol for the Go 2, primarily to ensure backwards and
+> forwards compatibility between the Go and Go 2 devices. As part of that
+> update the PIDs for the controllers were changed, so there is no risk of
+> this driver attaching to controller firmware that it doesn't support.
+> 
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 > ---
->  scripts/kernel-doc.py | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-> index bcb60136fc9c..5086248ee532 100755
-> --- a/scripts/kernel-doc.py
-> +++ b/scripts/kernel-doc.py
-> @@ -9,10 +9,10 @@
->  #       The rationale is that it shall fail gracefully during Kernel
->  #       compilation with older Kernel versions. Due to that:
->  #       - encoding line is needed here;
-> -#       - no f-strings can be used on this file.
-> -#       - the libraries that require newer versions can only be included
-> -#         after Python version is checked.
-> -
-> +#       - f=E2=80=91strings cannot be used in this file.
-> +#       - libraries that require newer versions can only be included
-> +#         after the Python version has been checked.
-> +#
->  # Converted from the kernel-doc script originally written in Perl
->  # under GPLv2, copyrighted since 1998 by the following authors:
->  #
-> @@ -132,13 +132,13 @@ May be used multiple times.
->  """
->=20=20
->  EXPORT_DESC =3D """
-> -Only output documentation for the symbols that have been
-> +Only output documentation for symbols that have been
->  exported using EXPORT_SYMBOL() and related macros in any input
->  FILE or -export-file FILE.
->  """
->=20=20
->  INTERNAL_DESC =3D """
-> -Only output documentation for the symbols that have NOT been
-> +Only output documentation for symbols that have NOT been
->  exported using EXPORT_SYMBOL() and related macros in any input
->  FILE or -export-file FILE.
->  """
-> @@ -161,7 +161,7 @@ Header and C source files to be parsed.
->  """
->=20=20
->  WARN_CONTENTS_BEFORE_SECTIONS_DESC =3D """
-> -Warns if there are contents before sections (deprecated).
-> +Warn if there are contents before sections (deprecated).
->=20=20
->  This option is kept just for backward-compatibility, but it does nothing,
->  neither here nor at the original Perl script.
-> @@ -169,7 +169,7 @@ neither here nor at the original Perl script.
->=20=20
->=20=20
->  class MsgFormatter(logging.Formatter):
-> -    """Helper class to format warnings on a similar way to kernel-doc.pl=
-"""
-> +    """Helper class to format warnings in a similar way to kernel-doc.pl=
-."""
->=20=20
->      def format(self, record):
->          record.levelname =3D record.levelname.capitalize()
-> @@ -268,7 +268,7 @@ def main():
->                          help=3DNOSYMBOL_DESC)
->=20=20
->      parser.add_argument("-D", "-no-doc-sections", "--no-doc-sections",
-> -                        action=3D'store_true', help=3D"Don't outputt DOC=
- sections")
-> +                        action=3D'store_true', help=3D"Don't output DOC =
-sections")
->=20=20
->      parser.add_argument("files", metavar=3D"FILE",
->                          nargs=3D"+", help=3DFILES_DESC)
-> @@ -297,12 +297,12 @@ def main():
->      python_ver =3D sys.version_info[:2]
->      if python_ver < (3,6):
->          #
-> -        # Depending on Kernel configuration, kernel-doc --none is called=
- at
-> +        # Depending on the Kernel configuration, kernel-doc --none is ca=
-lled at
->          # build time. As we don't want to break compilation due to the
->          # usage of an old Python version, return 0 here.
->          #
->          if args.none:
-> -            logger.error("Python 3.6 or later is required by kernel-doc.=
- skipping checks")
-> +            logger.error("Python=C2=A03.6 or later is required by kernel=
-=E2=80=91doc. Skipping checks")
+>  MAINTAINERS                 |   6 +
+>  drivers/hid/Kconfig         |  12 +
+>  drivers/hid/Makefile        |   1 +
+>  drivers/hid/hid-ids.h       |   3 +
+>  drivers/hid/hid-lenovo-go.c | 734 ++++++++++++++++++++++++++++++++++++
+>  5 files changed, 756 insertions(+)
+>  create mode 100644 drivers/hid/hid-lenovo-go.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9ed6d11a7746..b5ad29d24e3e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14135,6 +14135,12 @@ L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities.c
+>  
+> +LENOVO HID drivers
+> +M:	Derek J. Clark <derekjohn.clark@gmail.com>
+> +L:	linux-input@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hid/hid-lenovo-go.c
 
-Please don't add silly non-breaking space in there.
+Hi Derek,
 
->              sys.exit(0)
->=20=20
->          sys.exit("Python 3.6 or later is required by kernel-doc. Abortin=
-g.")
-> @@ -311,7 +311,7 @@ def main():
->          logger.warning("Python 3.7 or later is required for correct resu=
-lts")
->=20=20
->      #
-> -    # Import kernel-doc libraries only after checking Python version
-> +    # Import kernel-doc libraries only after checking the Python version
->      #
->      from kdoc.kdoc_files import KernelFiles             # pylint: disabl=
-e=3DC0415
->      from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disabl=
-e=3DC0415
+thanks for working on this.
 
---=20
-Jani Nikula, Intel
+I am now almost finished with reviewing this pile and am planning to queue 
+it in hid.git shortly, but I have a question regarding the MAINTAINERS 
+entry above.
+
+The title claims support for all of Lenovo HID, but there is much more to 
+it than drivers/hid/hid-lenovo-go.c, specifically in hid-lenovo.c.
+
+So either please make the title more specific (or claim the ownership of 
+the whole Lenovo HID landscape indeed, fine by me, but the please reflect 
+that in F: :) ).
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
