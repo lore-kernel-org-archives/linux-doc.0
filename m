@@ -1,127 +1,222 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72093876C0
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 18:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768244156; cv=none; b=b69tOOhTiAHzUPaCnyHEv+VtPbBsoX+TejU2uKOE7mIgF8HfoFO2chEzPHRCSBIFK0R5LuK45547zJkIDfOSmzY6nImGKHeOqCNHaf7KrvZooJo2tFYdWoNrfGsA0Onha6R+Q0Zzut/UYBuKF/E5Hquz6cZs1TmpubGsTghJrSc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768244156; c=relaxed/simple;
-	bh=UclWX63fGn+76lJOJEAYUq4t4ohSd9HEsKoA1eHOk2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c0lpEJXUo3KWLjWWgMP3dFZqTTHqi0uCsusCTZQtjQxgt3087GfhPZ6amlh1CM6wDWx9bM/eRd7hh0c0gNqmGhokXwkqvqi2Tk3P174+jlMrblvjkZOt6OxSp9UNlfVRTOWha99O6OtTfjE0YfTOFdXLz21yzuMl+YsRgX+Ooyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcB8eMKM; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36491311C33
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 19:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768244964; cv=pass; b=BVvUZnoVONQRNYI4M2v1e+6a6+a9VJnZQVOWInPXo1PXa02SDj8pVUM+DGzTGS1hvm+JR22Sivr7CZSGVqaKoWH/LvJsB/BxFB95wUegnWdZZThQvoBy4KGdlf4boAfrW8G0Rtc6swDe7K2mJP7u10LUSuAkCEvf2jRFs+Bg1jU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768244964; c=relaxed/simple;
+	bh=xheA9QOjQXvJoAbTTZVMmFI6y8wl+wMqp+t7iExkGCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hDj+IK8n6aQmG61lbkYBEpmTQELfYnOVbnnpp8wfwNDs9MWVyb4E+6CU+4UBQdXWrK0odauddwP/AfgaUaiOTzb9oKrX4rjPy8q4ojvowjj0mqs3AWgo0NgxWNZ7ngqfl2nyTFVEAZVdciboQ1VW5w/cKipaKX61qV3hFuFcS0s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U1TkGW3R; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcB8eMKM"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7ce2b14202fso2920749a34.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 10:55:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U1TkGW3R"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ee147baf7bso30171cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 11:09:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768244962; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GtBWFpqC+TpRBg+USx6fP92amzaBR9ApcXLXZIqdzfbc450gF1q+36CbX76bIZ2K1s
+         JFQYCUZC87MFSt9LWCpfD3m/Jo43bZv7VoiNfMvmhw8iIVj0Ls1zPuVeAF9+F8UBo2jF
+         yFV5Lr5vLwIkBws800bXIJGxZ1vu/C1Rw1cVrbrXCZsz4ppMOgyC/W0mcs+/+QJdOTdR
+         n9cXQAJm74qEsEzs3bscMrGsR1Kt2Ufkl8rcNe9E19/iIu7+jX30cQ0X6Y1ArvuC2Xtp
+         52cBVxmsnoCy3GX1Q0/EYe04/AcDcQZchPqDegc3FmoJYLJfZ7wjISSKavNn8H9HTpMD
+         H/8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CI3Qkkbb89cv5bbaE9HcvbYXyBW2GfCAOd3nwRVqS/M=;
+        fh=eCUdMhaicW3Gi/UGtNkuoEMFk/EfSClYU33KhpRtx+s=;
+        b=NZmH1ByF7W19fTXDJnzdoq60NNQTcBbYMtnTUcc79fb6VBm4nI+WPpHvdSKjm51gsE
+         I/5j386yZIfwNVvQaDShpKTW71bGlEHUfgDjxA8l4XNFEagyG3ueq6xbt/9ZBlNI2Ubs
+         3HOK1kXBy8pHAjkmBxsOFpxw/y3B7NXkeYACpgoWcO6UTN+MDxjRHMqVzCC/gGzrCaAk
+         ufk00gukjuEMtXtLUqIAoGcNXJCaO3SHVrF6etvDO7aTLBwd3UFRMJo8w0Zrw+jsfvvT
+         RmvYvoBjyVhtWwxmlSB+M0VaVZMVP24ee+ZAkVFQqdwAjBCXRIrWak6VE0leGmprxgpM
+         soNQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768244154; x=1768848954; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FYsHNBbYooeyWKTpHrg47SbkaPnJvaXLI4Q2tRF9T8s=;
-        b=kcB8eMKMLLOZI2zQ8gHDRVfCVvW4r+4CqoO6cJm+j0EASaBXx9QER/19PQj9dqNGNO
-         aYyNz5VwfuZhuASU9Mz4oDouYCLRd+ObBROxHUMFeU6kOQvkSviBLmS5Unu0E5qAYds1
-         v67yot+BhBsJe9TxkPf2UvwAAC8vaOkFCBn/F93tyBiMEHDu8d5aKqgGhuRzTNpXN0d8
-         43m1gOKOknQxNyqNa/Qm5foYOQLmePImEqGownc8d4MLCRAgMrwPT1dxwjX2f87UrqwB
-         P64kc01+GARQe1yUJHkD8AsaLpoiNuleglUQI5v+gIOPe/YUEv4ENk4z3CY9Z0zyTYlq
-         6gjg==
+        d=google.com; s=20230601; t=1768244962; x=1768849762; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CI3Qkkbb89cv5bbaE9HcvbYXyBW2GfCAOd3nwRVqS/M=;
+        b=U1TkGW3R2x+Jm1Pqun+QQoL77XNSM9nOE+Fz+CrfJ93zk0CE7+AJwyG98eqiZmyiej
+         L9KNXhyjWHI5cayiwuTkfCGdFUg7mDGoQcKiKKbskcsjbhY+r10zKCoFmkWjT8DMWPlS
+         rPlU+ORQYeoGommPU8tNnoL6uPjteH3Uz3B3Mj/57WWR6/CNrBfp6hHXQ9P+EFdlAAV6
+         WcsBWaiDdpwin02CD4Zq50j4qZU7/M+QfcguzRufpcImsoCsqAyOSnl9z9OY825EtGaO
+         bb1MwRlr5G2xLxwYbJgx5t61IdQwipA+NrmEfZvfyvIM66HgJRffSjO3mkPBAu0M8zgh
+         vmNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768244154; x=1768848954;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FYsHNBbYooeyWKTpHrg47SbkaPnJvaXLI4Q2tRF9T8s=;
-        b=K1SKOO5ZZKMyIoU4tKNaCC/9rySsu7kuhw5S6wXqmzu1wGSi5u9iCz+QCvGjPzGhQO
-         daKHrW4k7gEaCYlVsp/Gq7OXoP4sk9Y2lsTojt9sPYjLucf16M1ST4sqmOSSBenqrchg
-         EnBbqYraeEL/rN5KY/JH0wZFFtaXb22hU4qpw/mFVuOIzv84dlv9U3kiyXKWVZkX9jmV
-         3JBNXNKiPIlpgEn34EH90N6Ebn3qoFQJkseSEFXr1itkKyuTXG8arrWeGGy0nVdzl67I
-         h5pLach+1Ih8SO9zKXmfNp3PH2tgBtF2KOZ+wJZpFlkWSEGcgYSvF+W7+Cf5XB7tm0UU
-         HStw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKi60Nhu+d1TrAqdzfuB0ryM61xIB2/4Ilqna81Ogih7vyG1MSCPAMJHaoC924oNaEPUWfmCl165w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLNY4ni58kmrjkunPmqHdSDjd3OAaYf7y3xK7mCE/QeYMAez5e
-	BB4DT7Gg+Cef9Gy/2Jg3Ea6akWOCT/av5W0Zmof/lLBxM/Po5Xh3Dops
-X-Gm-Gg: AY/fxX5sBfkm1qBrc/73LxjPBoO9TZTjCiwT+fFX+IQlTM0v9YIrQXihAUtUoxGif7M
-	Qk8xnjbLPUgC3GUM8RSbKGv+W2VsIKl1dxRGIH23y2h40/FLzsaiV3n0mSCTgT94Q4ozwB7AK0H
-	6g3lRrCv38zYHOWINk1h6sErdXzwa9pV8e3BpwTLgrxcJxvOnnMfBWIYIR7LzOrMz5xPNKVGbEV
-	3/NLHk8aI/s4F5wXjq8gT27nMnypK3+Y673APaD3hutAlc2ZCGcH53FpK1reSyQQ11zyskK74Z5
-	3OeiWAjocxRjyS+udMZMBEkbcGJwya4ICm9GBCONSRY7a2WbxCcVX0OStnlvUp7OTDccpVMVZpx
-	Jhn1ozxiNAB3k2sW89A3vaB88BIheb/nxdLDxvqYa/VHnMAwtdarFEmyxV1nrXW1AfxKcoj85Oq
-	YIxjbmOIET5pgDn7g+457cIFwAXBceSt4iujFY7/cF
-X-Google-Smtp-Source: AGHT+IE1iJyYHUxrRRJzQnvZoITdjEtERZksRqGBumj+1tozUwX2FshEuhzALaYG8xEGOVq48wdoFw==
-X-Received: by 2002:a05:6830:448d:b0:7c9:57ff:4cdf with SMTP id 46e09a7af769-7ce50bef39emr8458614a34.25.1768244153635;
-        Mon, 12 Jan 2026 10:55:53 -0800 (PST)
-Received: from groves.net ([2603:8080:1500:3d89:b02d:f13b:7588:7191])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478af6efsm13473549a34.18.2026.01.12.10.55.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 10:55:53 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 12 Jan 2026 12:55:49 -0600
-From: John Groves <John@groves.net>
-To: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V3 07/21] dax: prevent driver unbind while filesystem
- holds device
-Message-ID: <fcik72d66pfzk4xvubywt2mzdqr4lqtqjgexrqr3l3acpxc5hv@vp6oueyvzrll>
-References: <20260107153244.64703-1-john@groves.net>
- <20260107153332.64727-1-john@groves.net>
- <20260107153332.64727-8-john@groves.net>
+        d=1e100.net; s=20230601; t=1768244962; x=1768849762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CI3Qkkbb89cv5bbaE9HcvbYXyBW2GfCAOd3nwRVqS/M=;
+        b=GGHpv9UexbfHQLEvGSiUVrXX61W/qpSLyF4YyTlXmxHlBVNyI3lz/WV6eojp05OJjH
+         nDgiBjhW8ci9MoCKrLFt8F8wuc9vPEnfBCq7DEHTPllkYbroYK/FrZJiSViLFzlISmi8
+         cmZduoF5GcrgVBcwJRHxQ3k1PtOBAvgJSnyVqLJnzm00hn23KXA5TC5jo57oHDXV5M0+
+         VgzONVk1tJcAoQQ5YASRGCO5prX8JAUhTD//L8wRw2jiOa1E4NfWNk+n4X9wo+vixwKG
+         pi78/5+85JPYdw2bgJfx55foGQJpOPCd81Gax6EBsbbmqr/tw0k216zjexUbhrabYc0w
+         +pNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaTf+R0OLeoDWG54RoYt4hvRQ5vggQl83pZoCUuiWQ503eVvWkUV7fJWFjh2wkDSYNZgCQui/KqVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwC6+g6djs2nP87QIxGO31ZXXRZxaTDzjc2Nldie7zugIM37iPH
+	LQkUEScv/QiK+nEr0aPqfdroUYIAgxaCnTzvZPpu9pBUXVbxLhhj6sKzfgojqapJLN13u7Ae502
+	vRptP7rm4bJUKijShCb3xPqWcm0xZ/ZPBIACxUHSK
+X-Gm-Gg: AY/fxX7L8+2GwK7m2e15JAJwnEjbw5TZehYWu5TqsxJNIlBazq7QE9iXX5DeNYsIE4w
+	UJeI3ueS9StLVH5RHCuEHfBBTdwWztNESG8QvSF1Y+PqrYdG4Oggc3I2BCElG3N+eJw51/9oXm9
+	aMTAjU3wot04NW6IFBqAwn/qcrJ+e+SytEuDUPhnYl0AV+QuyodMp2fffCpfG/HDrk1sSZdRWWA
+	Kqd99uyfUHApDDo514MtBmBQwb4dSe9a9bWEn9wbaRoYKhFmuwRVNKxR0+MxJF5Tp5QUYq8
+X-Received: by 2002:ac8:5d42:0:b0:4f1:9c6e:cf1c with SMTP id
+ d75a77b69052e-5013a41792cmr752671cf.17.1768244961509; Mon, 12 Jan 2026
+ 11:09:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107153332.64727-8-john@groves.net>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-21-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-21-8be3867cb883@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Mon, 12 Jan 2026 19:08:00 +0000
+X-Gm-Features: AZwV_Qjgu-sXQZIHm3TAlOW62aUWk-t7wcra038ZJt2_3BJ_d28PSVA3xv4zVCM
+Message-ID: <CA+EHjTz4vDFdhbZMz6mNacdzSJLFfVbQKMGmSo=Vt9bSB4ho0Q@mail.gmail.com>
+Subject: Re: [PATCH v9 21/30] KVM: arm64: Flush register state on writes to
+ SVCR.SM and SVCR.ZA
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
+	Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/01/07 09:33AM, John Groves wrote:
-> From: John Groves <John@Groves.net>
-> 
-> Add custom bind/unbind sysfs attributes for the dax bus that check
-> whether a filesystem has registered as a holder (via fs_dax_get())
-> before allowing driver unbind.
-> 
-> When a filesystem like famfs mounts on a dax device, it registers
-> itself as the holder via dax_holder_ops. Previously, there was no
-> mechanism to prevent driver unbind while the filesystem was mounted,
-> which could cause some havoc.
-> 
-> The new unbind_store() checks dax_holder() and returns -EBUSY if
-> a holder is registered, giving userspace proper feedback that the
-> device is in use.
-> 
-> To use our custom bind/unbind handlers instead of the default ones,
-> set suppress_bind_attrs=true on all dax drivers during registration.
-> 
-> Signed-off-by: John Groves <john@groves.net>
+On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
+>
+> Writes to the physical SVCR.SM and SVCR.ZA change the state of PSTATE.SM
+> and PSTATE.ZA, causing other floating point state to reset. Emulate this
+> behaviour for writes done via the KVM userspace ABI.
+>
+> Setting PSTATE.ZA to 1 causes ZA and ZT0 to be reset to 0, these are stored
+> in sme_state. Setting PSTATE.ZA to 0 causes ZA and ZT0 to become inaccesible
+> so no reset is needed.
 
-After a discussion with Dan Williams, I will be dropping this patch
-from the series. If the fsdev-mode driver gets unbound under famfs,
-famfs will just stop working.
+nit: inaccesible -> inaccessible
 
-Based on feedback so far, V4 should be coming in the next few days.
+>
+> Any change in PSTATE.SM causes the V, Z, P, FFR and FPMR registers to be
+> reset to 0 and FPSR to be reset to 0x800009f.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h | 24 ++++++++++++++++++++++++
+>  arch/arm64/kvm/sys_regs.c         | 29 ++++++++++++++++++++++++++++-
+>  2 files changed, 52 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 44595a789a97..bd7a9a4efbc3 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -1147,6 +1147,30 @@ struct kvm_vcpu_arch {
+>
+>  #define vcpu_sve_state_size(vcpu) sve_state_size_from_vl((vcpu)->arch.max_vl[ARM64_VEC_SVE])
+>
+> +#define vcpu_sme_state(vcpu) (kern_hyp_va((vcpu)->arch.sme_state))
+> +
+> +#define sme_state_size_from_vl(vl, sme2) ({                            \
+> +       size_t __size_ret;                                              \
+> +       unsigned int __vq;                                              \
+> +                                                                       \
+> +       if (WARN_ON(!sve_vl_valid(vl))) {                               \
+> +               __size_ret = 0;                                         \
+> +       } else {                                                        \
+> +               __vq = sve_vq_from_vl(vl);                              \
+> +               __size_ret = ZA_SIG_REGS_SIZE(__vq);                    \
+> +               if (sme2)                                               \
+> +                       __size_ret += ZT_SIG_REG_SIZE;                  \
+> +       }                                                               \
+> +                                                                       \
+> +       __size_ret;                                                     \
+> +})
+> +
+> +#define vcpu_sme_state_size(vcpu) ({                                   \
+> +       unsigned long __vl;                                             \
+> +       __vl = (vcpu)->arch.max_vl[ARM64_VEC_SME];                      \
+> +       sme_state_size_from_vl(__vl, vcpu_has_sme2(vcpu));              \
+> +})
+> +
+>  /*
+>   * Only use __vcpu_sys_reg/ctxt_sys_reg if you know you want the
+>   * memory backed version of a register, and not the one most recently
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 51f175bbe8d1..4ecfcb0af24c 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -927,6 +927,33 @@ static unsigned int hidden_visibility(const struct kvm_vcpu *vcpu,
+>         return REG_HIDDEN;
+>  }
+>
+> +static int set_svcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
+> +                   u64 val)
+> +{
+> +       u64 old = __vcpu_sys_reg(vcpu, rd->reg);
+> +
+> +       if (val & SVCR_RES0)
+> +               return -EINVAL;
+> +
+> +       if ((val & SVCR_ZA) && !(old & SVCR_ZA) && vcpu->arch.sme_state)
+> +               memset(vcpu->arch.sme_state, 0, vcpu_sme_state_size(vcpu));
+> +
+> +       if ((val & SVCR_SM) != (old & SVCR_SM)) {
+> +               memset(vcpu->arch.ctxt.fp_regs.vregs, 0,
+> +                      sizeof(vcpu->arch.ctxt.fp_regs.vregs));
+> +
+> +               if (vcpu->arch.sve_state)
+> +                       memset(vcpu->arch.sve_state, 0,
+> +                              vcpu_sve_state_size(vcpu));
 
-Regards,
-John
+If sve_state isn't allocated, this means that we've gotten here before
+finalization. Is it better to return an error rather than silently
+skipping this?
+
+> +
+> +               __vcpu_assign_sys_reg(vcpu, FPMR, 0);
+> +               vcpu->arch.ctxt.fp_regs.fpsr = 0x800009f;
+
+This matches the Arm Arm, but can we use a define or construct it,
+rather than using a magic number?
+
+Cheers,
+/fuad
+
+
+> +       }
+> +
+> +       __vcpu_assign_sys_reg(vcpu, rd->reg, val);
+> +       return 0;
+> +}
+> +
+>  static unsigned int pmu_visibility(const struct kvm_vcpu *vcpu,
+>                                    const struct sys_reg_desc *r)
+>  {
+> @@ -3512,7 +3539,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>                     CTR_EL0_DminLine_MASK |
+>                     CTR_EL0_L1Ip_MASK |
+>                     CTR_EL0_IminLine_MASK),
+> -       { SYS_DESC(SYS_SVCR), undef_access, reset_val, SVCR, 0, .visibility = sme_visibility  },
+> +       { SYS_DESC(SYS_SVCR), undef_access, reset_val, SVCR, 0, .visibility = sme_visibility, .set_user = set_svcr },
+>         { SYS_DESC(SYS_FPMR), undef_access, reset_val, FPMR, 0, .visibility = fp8_visibility },
+>
+>         { PMU_SYS_REG(PMCR_EL0), .access = access_pmcr, .reset = reset_pmcr,
+>
+> --
+> 2.47.3
+>
