@@ -1,82 +1,78 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6351D26A0DB
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 09:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B05F274B59;
+	Mon, 12 Jan 2026 09:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768211163; cv=none; b=YFMktoY4wyqQm9xrYS9rf1e0AL2RfkYZydWOe9YAlZcGaAd2ol+aQN806Q5s57i5Zby90Qwnm7l4FjGPO3uyp5ZKeGUqevdCjU3CRSyJr83V/PAcd97VgGFLJ/Gh7J2YbBxRsD0vyrxNLrs14LtGRNLfSM1Ahgcmr1HPZbtlouM=
+	t=1768211376; cv=none; b=MOTvxBI1YuyjQ6gvfX+4HVhe72CbP4yt4MYLF43g1zK/WDZng64na/lIgWu0mFuymgPzvUt7S67Ml5M7UpkgZB5lKBpxX8yif40N176YBrF9ZzFdqzZhsq/1awhIvyuD++KttDb8aT+8fYob3fMHrHrEsVAmU/hqyub/+BI6xtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768211163; c=relaxed/simple;
-	bh=CCRKKHX6fsXE0x6g+VyqVs+0IFdE1KbK+GmMPLuM6vk=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KfVLJQg7aM3BHNH11qqPXih026dh803CNAMRHBS6IXf7s7+wltHCnH8FBChPFs9IlTUKsPHMnwcTz72iJ22ZlqPj0kdHhxKpjj1YH8PvaCfRXxwzaszLo1AZOFc/POM5iruUCjGrto7eAEK9Y4GJ5mOkTHfOY34CirSJMndNblY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCugTVaP; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768211376; c=relaxed/simple;
+	bh=m8zAICgnxs6xkW3AmfrwI3a0ispTdY6AQGss0vAXdME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3NGPeSk7a6CvIe4nVvFvvSnbK5NVJaYkh+JHB1QwFtdQCPgilSDFlMkOl6W2KzB/eGVQH7f3OmakECiQ7Q618apQJurEN+dJAbZkhpCEvsrOZoErmuj5UE8GOKObjGF+OnoSvzUZOexu3kkKoaEBN3gxKdvi8+UtRLI9qsGb6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kovjAz4K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCugTVaP"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ee257e56aaso56762661cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 01:46:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768211159; x=1768815959; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MKqC+AyUc0d9MCEacBJfaGV9CcaZbPZQfgPW8VCBYCc=;
-        b=bCugTVaPZh926P6/mhJ4hac/2fan/s38lKfp+c5+K874Ql2PBJlTSTPOtYmDNWFqNp
-         1nT2bqCnKyZwiIgyiGOcTJ1BQFzeXHfK9htQ3gI3jMgLXqz9gqH9U9UxygH1swcnDUTb
-         8Wy/oL0SNvhbAqRx/+/QZqUrhBIzfBVti+tBPMPhrdluWk8eSGPqcQExyuEVHttZ3pGs
-         a274WWNc44OnzMfSv5S6e7Uty05x/vqx9Nhkz7FUsgEtxbJPsyw12OK4JLPR7yLs6ud2
-         tswG35WZjhtIYUlkUEgMoJoDHTfDNKC+YNLYC2K3DZ2ih05TTibpqla9zo9QC/J5MG6s
-         1+7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768211159; x=1768815959;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MKqC+AyUc0d9MCEacBJfaGV9CcaZbPZQfgPW8VCBYCc=;
-        b=qOaUd67gLVPzHcR54KfVN4nj3mCoXUZLKjBDKL7bDlA1djqI308WSQjwlaLuUAUOR8
-         OUnyLnmVafCIhA6Vu98wOIiyTsuHyxfAqLhUGjXWp+e6R+Mexi10tTA711qZdLbp18FS
-         QRAgt65k+Z3f0+NhUhInlZ8M37/C4rk6xc42t8lxBZ+fuF9RDjPZrPtgrt7b9i72U3tW
-         MS52vcjomcb7pv3F36giPTbF/fgFlntU81ntrH9S7r4Hzn/kKxXcGomnLEYCAU6725/L
-         wF372vMG9quu3sJ5LCaYGsbtXtiaT6T8RgYNIIluCS5mspEIk31ub6mhUtUuzHHWRbwQ
-         K2hg==
-X-Forwarded-Encrypted: i=1; AJvYcCUaqPoqV90whINUGQmCx5M8o/Er0rMpz1FrT0/gjc3UHgdcouQ43HkRpF2XTt5IsnaX20KRcgL4A4g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxltQJVluKiHJHqoWGvzbIWu4rKGHhJrqi6nI0Bxz0kiJKBp9Jz
-	FA2wAHYRDTiP4xccQQFqlhgLf3auFyFAsdwdlmBtuZ7yVtZhRqZIKjV6
-X-Gm-Gg: AY/fxX54i13QIsMN0uOxzDrms11G1ttEaUn+1jUwmP/glhPIUBCfg2eSgAWL/rt1HkM
-	PeVY7TD5wm33nZaqwwAX3C+6Y0OchdAwhF2WAbu//xkZY/zenNkMuG5X5G9onKTW6fL99f7/o17
-	N+sxp/HF8NBMp0Duz0MfUcB0XI4ULJPIQWXzAVAYCHzdMmoV04OIzyu1mFhMCURzqnHMluR+YR1
-	EhqNFhw8l1VrkP6QOp/Hgn7bsEfBArhAKH9eBbIrNDfqt5OhYe9lmVzYvbMfEHzFVy2gI1x2CE9
-	c0Ze3h34XkmBqTx5iuq9gdSwY5RHdme1sWD9uPOiMT40Kay91Y97vM01NjS8KKJf+oxDSZPqe3L
-	bZV7C6NyQ742ct1FMwRGu7k2gH8WrtYplfX7pSZgXE7jqEqqM86wH98tKic5hXMNQdfavsjPt6A
-	Zr4QdQAg9zw3fUn1p2YSSUPCY48bUu4w4YiCc9w7+Hs49+OZfQE8++L1txI211/vMq5PMM/3/tR
-	UnA
-X-Google-Smtp-Source: AGHT+IFxhD2csvu5pEHMUPkMAAKCFQIujgL+58SJxATcRUeihIBI/j8MLbwNBR37wdZwTyoJBcgSWA==
-X-Received: by 2002:a05:622a:1189:b0:4ed:2574:815c with SMTP id d75a77b69052e-4ffb3f7c9c2mr242431061cf.23.1768211159158;
-        Mon, 12 Jan 2026 01:45:59 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8c00acesm123609471cf.0.2026.01.12.01.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 01:45:58 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 12 Jan 2026 09:45:49 +0000
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v3 4/6] iio: frequency: adf41513: features on frequency
- change
-Message-ID: <ptyn5x7qkmbakkompmijo6xeego2xrhjoeyomkgrytwgwcsaid@heiq3ilnx5ky>
-References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
- <20260108-adf41513-iio-driver-v3-4-23d1371aef48@analog.com>
- <aWFR2wTSWLydGN5O@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kovjAz4K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECD38C116D0;
+	Mon, 12 Jan 2026 09:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768211375;
+	bh=m8zAICgnxs6xkW3AmfrwI3a0ispTdY6AQGss0vAXdME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kovjAz4KC5mAD7YrC6t2czYMjBWRcZIetUzNRdlwl4Z1rGgyp9glYOLbnOZypWAbx
+	 YcmUJCp6E8w+KmTy2i5WzHpX9fHwe2RpJgFtTNA95cnxyqlkjOQ7JUeU62APvVqkZH
+	 Y3/3WTlqh+tsw7Ls6NjRbDo/fUnqsYd/eTTthVLhPJ/V7Q9k3YIeMunOn+RktLYgES
+	 ul3EQIBMmxhQ+r6sMjogrCPwB0I4vKTgz3PxtAbmBEyff/p4uJORPrLFe5LDSB0Hni
+	 RZIrOX4UDngsOGqfziwhf24VBmArYe5xbo5TLnA7nB4zBdXfiNr6kFAgXt4Ej7biQ5
+	 RxoAJIZnapRSw==
+Date: Mon, 12 Jan 2026 10:49:16 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Christoph Hellwig <hch@infradead.org>, 
+	Anders Larsen <al@alarsen.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, Gao Xiang <xiang@kernel.org>, 
+	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>, 
+	Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
+	Dave Kleikamp <shaggy@kernel.org>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Phillip Lougher <phillip@squashfs.org.uk>, Carlos Maiolino <cem@kernel.org>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
+	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev, 
+	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, linux-unionfs@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-mm@kvack.org, gfs2@lists.linux.dev, 
+	linux-doc@vger.kernel.org, v9fs@lists.linux.dev, ceph-devel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, samba-technical@lists.samba.org
+Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to
+ lease support
+Message-ID: <20260112-gemeldet-gelitten-7d48bae7ef3f@brauner>
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+ <m3mywef74xhcakianlrovrnaadnhzhfqjfusulkcnyioforfml@j2xnk7dzkmv4>
+ <8af369636c32b868f83669c49aea708ca3b894ac.camel@kernel.org>
+ <CAOQ4uxgD+Sgbbg9K2U0SF9TyUOBb==Z6auShUWc4FfPaDCQ=rg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,102 +82,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aWFR2wTSWLydGN5O@smile.fi.intel.com>
+In-Reply-To: <CAOQ4uxgD+Sgbbg9K2U0SF9TyUOBb==Z6auShUWc4FfPaDCQ=rg@mail.gmail.com>
 
-On 26/01/09 09:07PM, Andy Shevchenko wrote:
-> On Thu, Jan 08, 2026 at 12:14:53PM +0000, Rodrigo Alencar via B4 Relay wrote:
+On Fri, Jan 09, 2026 at 07:52:57PM +0100, Amir Goldstein wrote:
+> On Thu, Jan 8, 2026 at 7:57 PM Jeff Layton <jlayton@kernel.org> wrote:
+> >
+> > On Thu, 2026-01-08 at 18:40 +0100, Jan Kara wrote:
+> > > On Thu 08-01-26 12:12:55, Jeff Layton wrote:
+> > > > Yesterday, I sent patches to fix how directory delegation support is
+> > > > handled on filesystems where the should be disabled [1]. That set is
+> > > > appropriate for v6.19. For v7.0, I want to make lease support be more
+> > > > opt-in, rather than opt-out:
+> > > >
+> > > > For historical reasons, when ->setlease() file_operation is set to NULL,
+> > > > the default is to use the kernel-internal lease implementation. This
+> > > > means that if you want to disable them, you need to explicitly set the
+> > > > ->setlease() file_operation to simple_nosetlease() or the equivalent.
+> > > >
+> > > > This has caused a number of problems over the years as some filesystems
+> > > > have inadvertantly allowed leases to be acquired simply by having left
+> > > > it set to NULL. It would be better if filesystems had to opt-in to lease
+> > > > support, particularly with the advent of directory delegations.
+> > > >
+> > > > This series has sets the ->setlease() operation in a pile of existing
+> > > > local filesystems to generic_setlease() and then changes
+> > > > kernel_setlease() to return -EINVAL when the setlease() operation is not
+> > > > set.
+> > > >
+> > > > With this change, new filesystems will need to explicitly set the
+> > > > ->setlease() operations in order to provide lease and delegation
+> > > > support.
+> > > >
+> > > > I mainly focused on filesystems that are NFS exportable, since NFS and
+> > > > SMB are the main users of file leases, and they tend to end up exporting
+> > > > the same filesystem types. Let me know if I've missed any.
+> > >
+> > > So, what about kernfs and fuse? They seem to be exportable and don't have
+> > > .setlease set...
+> > >
+> >
+> > Yes, FUSE needs this too. I'll add a patch for that.
+> >
+> > As far as kernfs goes: AIUI, that's basically what sysfs and resctrl
+> > are built on. Do we really expect people to set leases there?
+> >
+> > I guess it's technically a regression since you could set them on those
+> > sorts of files earlier, but people don't usually export kernfs based
+> > filesystems via NFS or SMB, and that seems like something that could be
+> > used to make mischief.
+> >
+> > AFAICT, kernfs_export_ops is mostly to support open_by_handle_at(). See
+> > commit aa8188253474 ("kernfs: add exportfs operations").
+> >
+> > One idea: we could add a wrapper around generic_setlease() for
+> > filesystems like this that will do a WARN_ONCE() and then call
+> > generic_setlease(). That would keep leases working on them but we might
+> > get some reports that would tell us who's setting leases on these files
+> > and why.
 > 
-> > Set Bleed current when PFD frequency changes (bleed enabled when in
-> > fractional mode). Set lock detector window size, handling bias and
-> > precision. Add phase resync support, setting clock dividers when
-> > PFD frequency changes.
+> IMO, you are being too cautious, but whatever.
 > 
-> ...
+> It is not accurate that kernfs filesystems are NFS exportable in general.
+> Only cgroupfs has KERNFS_ROOT_SUPPORT_EXPORTOP.
 > 
-> > +static const u16 adf41513_ld_window_p1ns[] = {
-> > +	9, 12, 16, 17, 21, 28, 29, 35,			/* 0 - 7 */
-> > +	43, 47, 49, 52, 70, 79, 115			/* 8 - 14 */
+> If any application is using leases on cgroup files, it must be some
+> very advanced runtime (i.e. systemd), so we should know about the
+> regression sooner rather than later.
 > 
-> Leave trailing comma.
+> There are also the recently added nsfs and pidfs export_operations.
 > 
-> > +};
-> > +
-> > +static const u8 adf41513_ldp_bias[] = {
-> > +	0xC, 0xD, 0xE, 0x8, 0x9, 0x4, 0xA, 0x5,		/* 0 - 7 */
-> > +	0x0, 0x6, 0xB, 0x1, 0x2, 0x7, 0x3		/* 8 - 14 */
+> I have a recollection about wanting to be explicit about not allowing
+> those to be exportable to NFS (nsfs specifically), but I can't see where
+> and if that restriction was done.
 > 
-> Ditto.
-> 
-> > +};
-> > +
-> >  static const char * const adf41513_power_supplies[] = {
-> >  	"avdd1", "avdd2", "avdd3", "avdd4", "avdd5", "vp"
-> 
-> Ditto.
-> 
-> >  };
-> 
-> ...
-> 
-> > +	bleed_value = div64_u64(st->settings.pfd_frequency_uhz * bleed_value,
-> > +				1600ULL * HZ_PER_MHZ * MICROHZ_PER_HZ);
-> 
-> > +	u16 ld_window_p1ns = div64_u64(10ULL * NANO * MICROHZ_PER_HZ,
-> > +				       st->settings.pfd_frequency_uhz << 1);
-> 
-> These multiplications (here and elsewhere) are (very) confusing.
-> 
-> I believe you want to have a frequency in Hz in µHz resolution. The second one
-> can be close to this if used GIGA instead of NANO. But I think the better way
-> to have something like the first one but with MICRO instead of MICROHZ_PER_HZ.
-> 
-> Please, put an order in these.
+> Christian? Do you remember?
 
-The first one: the numerator is in µHz, so the denominator is also in µHz so to
-cancel the units.
-
-The second one: window size is nanoseconds with 0.1 precision in the datasheet.
-The numerator contains  MICROHZ_PER_HZ to convert µHz -> Hz = 1/s, and then
-10ULL * NANO to convert 1/s into 0.1 ns.
-
-How is that confusing? I am not sure GIGA is the right choice, as NANO shows
-that I am targeting nanoseconds, no? 
-
-> ...
-> 
-> > +	/* assuming both clock dividers hold similar values */
-> > +	total_div = mul_u64_u64_div_u64(st->settings.pfd_frequency_uhz,
-> > +					st->data.phase_resync_period_ns,
-> > +					1ULL * MICRO * NANO);
-> 
-> This sounds good as we multiply Hz by ns.
-> 
-
-the numerator has a time in nanoseconds, so NANO 'cancels' that, as MICRO 'cancels'
-the micro under µHz.
-
-> ...
-> 
-> > +	st->data.phase_resync_period_ns = 0;
-> 
-> Do we even need this?
->
-
-true, will adjust.
-
-> > +	ret = device_property_read_u32(dev, "adi,phase-resync-period-ns", &tmp);
-> > +	if (!ret)
-> > +		st->data.phase_resync_period_ns = tmp;
-> 
-> Is the _period_ns of type u32? Then simply
-> 
-> 	device_property_read_u32(dev, "adi,phase-resync-period-ns", &st->data.phase_resync_period_ns);
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-
-kind regards,
-
-Rodrigo Alencar
+I don't think it does.
