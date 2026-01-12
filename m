@@ -1,186 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585B9271A7C;
-	Mon, 12 Jan 2026 09:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6351D26A0DB
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 09:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768210334; cv=none; b=qC7gtbOkQ+Moxst7UBxIDZE1UIa/ldsmdSkCY2fwTyPs4t79h+xSDekzUfdLj1oCIn06q7DCyFBLDcxK728p8Leel2skv3840Imt4L4R5AQmFCk0UIn6cgyis+pQ41TEWolUI/25Fz+XpLTEqhJ8K0/JwpBz1IFwTn0eAlnUyaU=
+	t=1768211163; cv=none; b=YFMktoY4wyqQm9xrYS9rf1e0AL2RfkYZydWOe9YAlZcGaAd2ol+aQN806Q5s57i5Zby90Qwnm7l4FjGPO3uyp5ZKeGUqevdCjU3CRSyJr83V/PAcd97VgGFLJ/Gh7J2YbBxRsD0vyrxNLrs14LtGRNLfSM1Ahgcmr1HPZbtlouM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768210334; c=relaxed/simple;
-	bh=MgXZAjy85l00z9kaenrBTZjVx8p9vhxJkgEZ/Kz95N8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kltlk9iqDbf7uIezZLu7ZrLmDgKUlGlFRTPodoSOTlmewxZHkbUSrxDHgk8Ia9SYu+DY1cLfvk6DPDstf021OUNadf2RJP3JLL+jM2YQH23uA6x57abp1F0ZiCwmHH5rFMkQE5niA2OL9rsARumr1N/7nEC6AcBMhbbe56n40ZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lzd5eHxa; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768211163; c=relaxed/simple;
+	bh=CCRKKHX6fsXE0x6g+VyqVs+0IFdE1KbK+GmMPLuM6vk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KfVLJQg7aM3BHNH11qqPXih026dh803CNAMRHBS6IXf7s7+wltHCnH8FBChPFs9IlTUKsPHMnwcTz72iJ22ZlqPj0kdHhxKpjj1YH8PvaCfRXxwzaszLo1AZOFc/POM5iruUCjGrto7eAEK9Y4GJ5mOkTHfOY34CirSJMndNblY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCugTVaP; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lzd5eHxa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768210333; x=1799746333;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MgXZAjy85l00z9kaenrBTZjVx8p9vhxJkgEZ/Kz95N8=;
-  b=Lzd5eHxaiXukmUsGe2oYRrCrXTXP3SlUtO4E9UzGLpG8jTOOpqrV7lG/
-   eFKjOCD29Snevs5U8Lcjz/HIjua+4PLH0A3BnkkBSrpSG+RQKrioQsbb8
-   TLM3xRCshZDhqJ2iNFLJM53RizSNS9HdVTaAJrnK7lTGtQXg/HSD4QIxg
-   fFJAexCFRAwuHzmfBzb2snB97xiRSAcaEcYyrOQIsHce242BGMi+m0Vu3
-   xC7l1lmqzN2cF/59DjLjGegJgv9mEzo4moeNt6/Sc82o5ljIYoY84bdTP
-   JR2WH/ShLPPb1JiUyulJEhKZNMXAepuI3BGjkehLetkS4spbgPO3fSsU7
-   Q==;
-X-CSE-ConnectionGUID: f2eGo0yFQ3mE+Y2KsduKXw==
-X-CSE-MsgGUID: KTOAnaXkTzGWJYtHwTyeQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="94958893"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="94958893"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:32:11 -0800
-X-CSE-ConnectionGUID: jMOZdLVvSzGQ58D4KJ2F3w==
-X-CSE-MsgGUID: oaB/2rsJR962V+4WXXAhsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208880671"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 01:32:09 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfEHO-00000000DCa-3j4D;
-	Mon, 12 Jan 2026 09:32:06 +0000
-Date: Mon, 12 Jan 2026 17:31:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-Message-ID: <202601121734.epct0ieX-lkp@intel.com>
-References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCugTVaP"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4ee257e56aaso56762661cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 01:46:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768211159; x=1768815959; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MKqC+AyUc0d9MCEacBJfaGV9CcaZbPZQfgPW8VCBYCc=;
+        b=bCugTVaPZh926P6/mhJ4hac/2fan/s38lKfp+c5+K874Ql2PBJlTSTPOtYmDNWFqNp
+         1nT2bqCnKyZwiIgyiGOcTJ1BQFzeXHfK9htQ3gI3jMgLXqz9gqH9U9UxygH1swcnDUTb
+         8Wy/oL0SNvhbAqRx/+/QZqUrhBIzfBVti+tBPMPhrdluWk8eSGPqcQExyuEVHttZ3pGs
+         a274WWNc44OnzMfSv5S6e7Uty05x/vqx9Nhkz7FUsgEtxbJPsyw12OK4JLPR7yLs6ud2
+         tswG35WZjhtIYUlkUEgMoJoDHTfDNKC+YNLYC2K3DZ2ih05TTibpqla9zo9QC/J5MG6s
+         1+7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768211159; x=1768815959;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MKqC+AyUc0d9MCEacBJfaGV9CcaZbPZQfgPW8VCBYCc=;
+        b=qOaUd67gLVPzHcR54KfVN4nj3mCoXUZLKjBDKL7bDlA1djqI308WSQjwlaLuUAUOR8
+         OUnyLnmVafCIhA6Vu98wOIiyTsuHyxfAqLhUGjXWp+e6R+Mexi10tTA711qZdLbp18FS
+         QRAgt65k+Z3f0+NhUhInlZ8M37/C4rk6xc42t8lxBZ+fuF9RDjPZrPtgrt7b9i72U3tW
+         MS52vcjomcb7pv3F36giPTbF/fgFlntU81ntrH9S7r4Hzn/kKxXcGomnLEYCAU6725/L
+         wF372vMG9quu3sJ5LCaYGsbtXtiaT6T8RgYNIIluCS5mspEIk31ub6mhUtUuzHHWRbwQ
+         K2hg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaqPoqV90whINUGQmCx5M8o/Er0rMpz1FrT0/gjc3UHgdcouQ43HkRpF2XTt5IsnaX20KRcgL4A4g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxltQJVluKiHJHqoWGvzbIWu4rKGHhJrqi6nI0Bxz0kiJKBp9Jz
+	FA2wAHYRDTiP4xccQQFqlhgLf3auFyFAsdwdlmBtuZ7yVtZhRqZIKjV6
+X-Gm-Gg: AY/fxX54i13QIsMN0uOxzDrms11G1ttEaUn+1jUwmP/glhPIUBCfg2eSgAWL/rt1HkM
+	PeVY7TD5wm33nZaqwwAX3C+6Y0OchdAwhF2WAbu//xkZY/zenNkMuG5X5G9onKTW6fL99f7/o17
+	N+sxp/HF8NBMp0Duz0MfUcB0XI4ULJPIQWXzAVAYCHzdMmoV04OIzyu1mFhMCURzqnHMluR+YR1
+	EhqNFhw8l1VrkP6QOp/Hgn7bsEfBArhAKH9eBbIrNDfqt5OhYe9lmVzYvbMfEHzFVy2gI1x2CE9
+	c0Ze3h34XkmBqTx5iuq9gdSwY5RHdme1sWD9uPOiMT40Kay91Y97vM01NjS8KKJf+oxDSZPqe3L
+	bZV7C6NyQ742ct1FMwRGu7k2gH8WrtYplfX7pSZgXE7jqEqqM86wH98tKic5hXMNQdfavsjPt6A
+	Zr4QdQAg9zw3fUn1p2YSSUPCY48bUu4w4YiCc9w7+Hs49+OZfQE8++L1txI211/vMq5PMM/3/tR
+	UnA
+X-Google-Smtp-Source: AGHT+IFxhD2csvu5pEHMUPkMAAKCFQIujgL+58SJxATcRUeihIBI/j8MLbwNBR37wdZwTyoJBcgSWA==
+X-Received: by 2002:a05:622a:1189:b0:4ed:2574:815c with SMTP id d75a77b69052e-4ffb3f7c9c2mr242431061cf.23.1768211159158;
+        Mon, 12 Jan 2026 01:45:59 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8c00acesm123609471cf.0.2026.01.12.01.45.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 01:45:58 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 12 Jan 2026 09:45:49 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 4/6] iio: frequency: adf41513: features on frequency
+ change
+Message-ID: <ptyn5x7qkmbakkompmijo6xeego2xrhjoeyomkgrytwgwcsaid@heiq3ilnx5ky>
+References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
+ <20260108-adf41513-iio-driver-v3-4-23d1371aef48@analog.com>
+ <aWFR2wTSWLydGN5O@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aWFR2wTSWLydGN5O@smile.fi.intel.com>
 
-Hi Shawn,
+On 26/01/09 09:07PM, Andy Shevchenko wrote:
+> On Thu, Jan 08, 2026 at 12:14:53PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> 
+> > Set Bleed current when PFD frequency changes (bleed enabled when in
+> > fractional mode). Set lock detector window size, handling bias and
+> > precision. Add phase resync support, setting clock dividers when
+> > PFD frequency changes.
+> 
+> ...
+> 
+> > +static const u16 adf41513_ld_window_p1ns[] = {
+> > +	9, 12, 16, 17, 21, 28, 29, 35,			/* 0 - 7 */
+> > +	43, 47, 49, 52, 70, 79, 115			/* 8 - 14 */
+> 
+> Leave trailing comma.
+> 
+> > +};
+> > +
+> > +static const u8 adf41513_ldp_bias[] = {
+> > +	0xC, 0xD, 0xE, 0x8, 0x9, 0x4, 0xA, 0x5,		/* 0 - 7 */
+> > +	0x0, 0x6, 0xB, 0x1, 0x2, 0x7, 0x3		/* 8 - 14 */
+> 
+> Ditto.
+> 
+> > +};
+> > +
+> >  static const char * const adf41513_power_supplies[] = {
+> >  	"avdd1", "avdd2", "avdd3", "avdd4", "avdd5", "vp"
+> 
+> Ditto.
+> 
+> >  };
+> 
+> ...
+> 
+> > +	bleed_value = div64_u64(st->settings.pfd_frequency_uhz * bleed_value,
+> > +				1600ULL * HZ_PER_MHZ * MICROHZ_PER_HZ);
+> 
+> > +	u16 ld_window_p1ns = div64_u64(10ULL * NANO * MICROHZ_PER_HZ,
+> > +				       st->settings.pfd_frequency_uhz << 1);
+> 
+> These multiplications (here and elsewhere) are (very) confusing.
+> 
+> I believe you want to have a frequency in Hz in µHz resolution. The second one
+> can be close to this if used GIGA instead of NANO. But I think the better way
+> to have something like the first one but with MICRO instead of MICROHZ_PER_HZ.
+> 
+> Please, put an order in these.
 
-kernel test robot noticed the following build warnings:
+The first one: the numerator is in µHz, so the denominator is also in µHz so to
+cancel the units.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on next-20260109]
-[cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The second one: window size is nanoseconds with 0.1 precision in the datasheet.
+The numerator contains  MICROHZ_PER_HZ to convert µHz -> Hz = 1/s, and then
+10ULL * NANO to convert 1/s into 0.1 ns.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
-config: arm64-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121734.epct0ieX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121734.epct0ieX-lkp@intel.com/reproduce)
+How is that confusing? I am not sure GIGA is the right choice, as NANO shows
+that I am targeting nanoseconds, no? 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601121734.epct0ieX-lkp@intel.com/
+> ...
+> 
+> > +	/* assuming both clock dividers hold similar values */
+> > +	total_div = mul_u64_u64_div_u64(st->settings.pfd_frequency_uhz,
+> > +					st->data.phase_resync_period_ns,
+> > +					1ULL * MICRO * NANO);
+> 
+> This sounds good as we multiply Hz by ns.
+> 
 
-All warnings (new ones prefixed by >>):
+the numerator has a time in nanoseconds, so NANO 'cancels' that, as MICRO 'cancels'
+the micro under µHz.
 
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c: In function 'rockchip_pcie_ltssm_trace_work':
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: implicit declaration of function 'dw_pcie_ltssm_status_string'; did you mean 'dw_pcie_start_link'? [-Werror=implicit-function-declaration]
-         dw_pcie_ltssm_status_string(state),
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         dw_pcie_start_link
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: warning: passing argument 2 of 'trace_pcie_ltssm_state_transition' makes pointer from integer without a cast [-Wint-conversion]
-         dw_pcie_ltssm_status_string(state),
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/events/pci_controller.h:9,
-                    from drivers/pci/controller/dwc/pcie-dw-rockchip.c:26:
-   include/trace/events/pci_controller.h:20:45: note: expected 'const char *' but argument is of type 'int'
-     TP_PROTO(const char *dev_name, const char *state, u32 rate),
-                                    ~~~~~~~~~~~~^~~~~
-   include/linux/tracepoint.h:288:34: note: in definition of macro '__DECLARE_TRACE'
-     static inline void trace_##name(proto)    \
-                                     ^~~~~
-   include/linux/tracepoint.h:494:24: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-                           ^~~~~~
-   include/linux/tracepoint.h:632:2: note: in expansion of macro 'DECLARE_TRACE_EVENT'
-     DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:632:28: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-                               ^~~~~~
-   include/trace/events/pci_controller.h:19:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(pcie_ltssm_state_transition,
-    ^~~~~~~~~~~
-   include/trace/events/pci_controller.h:20:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(const char *dev_name, const char *state, u32 rate),
-     ^~~~~~~~
-   cc1: some warnings being treated as errors
+> ...
+> 
+> > +	st->data.phase_resync_period_ns = 0;
+> 
+> Do we even need this?
+>
 
+true, will adjust.
 
-vim +/trace_pcie_ltssm_state_transition +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> > +	ret = device_property_read_u32(dev, "adi,phase-resync-period-ns", &tmp);
+> > +	if (!ret)
+> > +		st->data.phase_resync_period_ns = tmp;
+> 
+> Is the _period_ns of type u32? Then simply
+> 
+> 	device_property_read_u32(dev, "adi,phase-resync-period-ns", &st->data.phase_resync_period_ns);
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
 
-   225	
-   226	#ifdef CONFIG_TRACING
-   227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-   228	{
-   229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-   230							trace_work.work);
-   231		struct dw_pcie *pci = &rockchip->pci;
-   232		enum dw_pcie_ltssm state;
-   233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
-   234	
-   235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
-   236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-   237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
-   238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
-   239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
-   240	
-   241			/*
-   242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
-   243			 * - 'last-read-point': maintains the user's last read position
-   244			 * - 'last-valid-point': tracks the hardware's last state update
-   245			 *
-   246			 * Software Handling: When two consecutive LTSSM states are identical,
-   247			 * it indicates invalid subsequent data in the FIFO. In this case, we
-   248			 * skip the remaining entries. The dual-counter design ensures that on
-   249			 * the next state transition, reading can resume from the last user
-   250			 * position.
-   251			 */
-   252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-   253				break;
-   254	
-   255			state = prev_val = val;
-   256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
-   257				if (l1ss == 2)
-   258					state = DW_PCIE_LTSSM_L1_2;
-   259				else if (l1ss == 1)
-   260					state = DW_PCIE_LTSSM_L1_1;
-   261			}
-   262	
-   263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
- > 264						dw_pcie_ltssm_status_string(state),
-   265						((rate + 1) > pci->max_link_speed) ?
-   266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
-   267		}
-   268	
-   269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
-   270	}
-   271	
+kind regards,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rodrigo Alencar
