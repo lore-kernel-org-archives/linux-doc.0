@@ -1,136 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E96314B72;
-	Mon, 12 Jan 2026 07:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DAA3148C3
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 08:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768203303; cv=none; b=Sb9birxABwnbRoSE4Y34sq5no3Ua4z6CUoDl5mliV5nXlbSwxtGCw0aljqBnqFGYqvFP/ih3dnNOzXKN+HcDzqtUsl3q3wgMz5McTVWVrN620PfevRPowdOKqMY+l3nBxkyGjTj99VeJcm5Nk0kml36ttEjeqhGmnkg+R/4qHhU=
+	t=1768205457; cv=none; b=JMHVGBKqnCRsh1IOOjW/j3Tj+xGIKLhMV8r6qDlN1EH6P/RLGhb3qwLx+7JGsguNfJHCmIEFxYAuhtKmgo5FB0crxcCVbuoy+XaGi5MBALEKpHJ05Hht1WCGMOJeMmQ8h0EadOmdjY/4j386lI6cECAHDJw2trw7Udq5/KTnuyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768203303; c=relaxed/simple;
-	bh=H0wpDyU4+hGvGadEaJXaoKwU4fABU87rkRhUJIykrtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dBhrdeRTh92xdo/ID8VjGaJCDnL79nrEGYmjfQokOWH22fRZGusq10tUTd3PCap2g7mk31OxDYB/1cnX4+3EqO4XNIt8ildaVlo1lHkMpFC8/dnIf7MJaP1nU6b4ESSm6gLT4cYmgLDlA2SlGt9IxE70ceY3onZoz4059iqw3Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cB9JlNOs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768205457; c=relaxed/simple;
+	bh=Un65FlpWGdAY9DurEtm1D42oY9ZhFDtpzqXs957GO0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cW1Uq+k3l4y7QfyI4Ww7rocUN98lXCtnN7zDq2Snht5XiXfb1IAgfDifVqozetB7JZa5/gC9vaTYNVsRLWaulVT2tq+l87wojNBcz0Aey5sj7ehjOAkP3AtNaT6+IOpUhTEm+s37clBGLA2KYAHL4J68w/IeEvrGtX/Da5SPWp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=loy0+mOp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cB9JlNOs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61041C19422;
-	Mon, 12 Jan 2026 07:34:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="loy0+mOp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12692C116D0;
+	Mon, 12 Jan 2026 08:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768203303;
-	bh=H0wpDyU4+hGvGadEaJXaoKwU4fABU87rkRhUJIykrtE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cB9JlNOsE5ASTDSwfciaJvBRecBB1lB0Uwj+GaWwyCjgypyJQWPdkiELZQ8iVJPfz
-	 nMocJbirHN/1lk3J7Si3fdDg+XjkNRlIqWpD36vowiVH0S+GvTZEHLt/X4w6L2bjbX
-	 MW70tMpH6LtqJ9xirliNmH6ey3Jn3uobFlK0X2Mc7rV2i4ddTSmSf1HxKEBm5toCRi
-	 d46Yvu6ZlmDb9ZF7jcWZyute2z21cTSvo7YbjPFCodLjqoxUiSIWkDnwdalYjHh76y
-	 ow7pMfD3F6CiXLdHJYJqrOQj4clSEc/bsWScF8TIIT22yhLrTWzvu1RJLquyFnQ26r
-	 U5L75tv4dABXw==
-Date: Mon, 12 Jan 2026 09:34:40 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Klara Modin <klarasmodin@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Stafford Horne <shorne@gmail.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
-	x86@kernel.org, linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
-	sparclinux@vger.kernel.org
-Subject: Re: [PATCH v3 17/29] s390: introduce arch_zone_limits_init()
-Message-ID: <aWSkELL7xJ04QAct@kernel.org>
-References: <20260111082105.290734-1-rppt@kernel.org>
- <20260111082105.290734-18-rppt@kernel.org>
- <b211f877-f9bb-4892-b67c-d2610048575a-agordeev@linux.ibm.com>
+	s=k20201202; t=1768205457;
+	bh=Un65FlpWGdAY9DurEtm1D42oY9ZhFDtpzqXs957GO0o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=loy0+mOp4ZhjFlTXIsWj81eIb5PUFI6hDW8KNF5Pq83TK5gix1y/OD3RgRxIFJh3/
+	 s+Y0J47lfgbG313tZzBDRk/go5fr7Leh/94ypS4usgORlKhRcLzBCspsXDNVKya3B5
+	 SCDQu7PDww4slPUG/+y61NQPibqPCdTgFWR39OVZgSF0D02ZLG0D/tVqeCR/hHauXV
+	 7/gAaiJUDSNKT1UnoPHGyTk/CgpMlj0NQtPzuV48JPQznDF+5ELUUC+UiTWEMLaadO
+	 ksqP0SMaJ3uNT+tp+cbbd4H63trMTQ39pIQw3sW/B4m71vEjFbQ+7LMYjnDMGJSaaR
+	 HT/jnVPGn+iLA==
+Date: Mon, 12 Jan 2026 09:10:53 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: kernel-doc -Werror regression
+Message-ID: <20260112091053.00cee29a@foz.lan>
+In-Reply-To: <98717d6e2d2505c253f511ea78968b5adb079a7e@intel.com>
+References: <98717d6e2d2505c253f511ea78968b5adb079a7e@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b211f877-f9bb-4892-b67c-d2610048575a-agordeev@linux.ibm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Jani,
 
-On Mon, Jan 12, 2026 at 08:02:48AM +0100, Alexander Gordeev wrote:
-> On Sun, Jan 11, 2026 at 10:20:51AM +0200, Mike Rapoport wrote:
-> 
-> Hi Mike,
-> 
-> ...
-> > +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-> > +{
-> > +	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
-> > +	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-> > +}
-> > +
-> >  /*
-> >   * paging_init() sets up the page tables
-> >   */
-> > @@ -97,8 +103,7 @@ void __init paging_init(void)
-> >  	sparse_init();
-> >  	zone_dma_limit = DMA_BIT_MASK(31);
-> >  	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
-> > -	max_zone_pfns[ZONE_DMA] = virt_to_pfn(MAX_DMA_ADDRESS);
-> > -	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-> > +	arch_zone_limits_init(max_zone_pfns);
-> 
-> You move initialization of max_zone_pfns[] to a function, name the
-> function arch_zone_limits_init(), but leave the initializatio of
-> max_zone_pfns[] to zeroes outside. Should not it be brought along?
+Em Fri, 09 Jan 2026 13:07:02 +0200
+Jani Nikula <jani.nikula@intel.com> escreveu:
 
-The idea is that is the caller responsibility to initialize max_zone_pfns
-to zero. After patch 24: "arch, mm: consolidate initialization of
-SPARSE memory model" there is a single caller of arch_zone_limits_init()
-and having initialization of max_zone_pfns() there is more optimal than
-having 20-something of those.
- 
-> >  	free_area_init(max_zone_pfns);
-> >  }
+> Mauro, Jon -
 > 
-> Thanks!
+> It seems to me with the kernel-doc conversion from perl to python we've
+> lost a huge amount of -Werror handling. AFAICS none of the warnings from
+> kdoc_parser.py using emit_msg() lead to a non-zero exit status from
+> kernel-doc.
 
--- 
-Sincerely yours,
-Mike.
+The culprit was not the conversion, but this change:
+ 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently discarded")
+
+which effectively broke most of -W<foo> command line arguments.
+
+I mentioned it back then:
+	https://lore.kernel.org/linux-doc/3fnulqi7hfplggfqevab525clikq7fnsnt72lauddzy32sepyq@maux2bgqa3np/
+
+-
+
+After the conversion, the errors detected during the parsing
+phase were moved to be displayed/handled at the output phase.
+There, when an error occurs, self.errors is incremented at:
+
+	tools/lib/python/kdoc/kdoc_files.py
+
+Then, at kernel-doc.py, we have:
+
+    error_count = kfiles.errors
+    if not error_count:
+        sys.exit(0)
+
+    if args.werror:
+        print("%s warnings as errors" % error_count)    # pylint: disable=C0209
+        sys.exit(error_count)
+
+Patch 469c1c9eb6c9 broke it, among other things, as it now emits
+errors at parsing time, breaking the logic that inhibits errors
+with -W<foo>, and breaking -Werror as well, as the error is not
+counted anymore.
+
+That's said, there is another issue there as well, which I hadn't
+time yet to fix: we can't do sys.exit(error_count), as the return
+code is an 8-bit value.
+
+I'll work on a patch series to address such issues along the week.
+
+Thanks,
+Mauro
