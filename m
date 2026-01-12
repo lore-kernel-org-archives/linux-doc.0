@@ -1,204 +1,178 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5B8376BE3
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D4637E318
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239412; cv=none; b=AM0DLq3LF9wDmhTF+YpHrsfwNr/ThXG1J6DPPxVju6o76phdD58vfgbJPI8WZcQDVhSX/s0a35UsNu5j4NqvQEMZ/jQct/7BH+M3StMbo/6TlAfDOZM49WGq1y997Wya+rScMqzOaJ7MIlAQyvOLX/eB8UZCHzPgY4U7hYERsbk=
+	t=1768239616; cv=none; b=rCJZ6whoWKaoPI3tB2xJvptnzsJmt7cUAWN8pcP97NaagHkRP0BHGFLhRKForeq7zekRzishEvj9DvlRLcvQ5k4cikkFDl4HozRGPDVrbxiuklEKFrWUDdG6lboE6a8UvWfBQY1tzmReRh1OqJh0tKbaqspL6KIeTbY+QW++kjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239412; c=relaxed/simple;
-	bh=QzyYc3RXX8zVo3g9H6ehLJVIhE0FG7hrH0ndqq+y8qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jJ7rXItJWz3vWJ0fK7BVS5OUAKNplsA3Sua0WWaFgqZ4gUUy0WO9FtzDhdIiIaT3qFY+92OboaAME2I26pz2q/hsBRV9hs6D7YGCGfl/abJKQgrOZ2CdmQkzOxMBDg0msmITowcKIiKYwzRf9NGI/oqjTALD1ZnwPY1MkbgBbzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=hSSKPtJp; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1768239616; c=relaxed/simple;
+	bh=bWNt8XX+a1EExBXkcnhLkWphW1cwAsUON30o0t1HtEo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=hrXqhIMt/4fDWiObvljamBHCTAt3GcxOMn5HMR5Bh0tlj7v7s9NmuhZNqMHl0FynS20QmVhsqkzzP/+2KEBPB3VB4j1WioQkfYODbnEel5xG52YyG7HqH2KAZj9ks58sMD8y4aGlFkK8V8wBLpCMP5bo+kil5+obHb1idshcRfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDkYj3+G; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="hSSKPtJp"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4f1b4bb40aaso35825911cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 09:36:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDkYj3+G"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2af41f558f5so6981943eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 09:40:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1768239410; x=1768844210; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iIrzuD3V8mK4XZdD49Fp4+4pZSOoDd5AA8lqEVpgoJQ=;
-        b=hSSKPtJpm9XKpKmlVkiF9I0Ekq5ZXgr3bjDAtmrluR0I3ebjJAnobvxmSHzbqhiGvU
-         qYWTXJnsUHCT+s44nF6TPX4gCMPtgGLF2ZlwUKnIOnQHdpYFkhEAmCdSjeaqTswY3n3a
-         RkVuDw0e/47RJTRSsNdkURc17KTDpzO9XL5SWbPGsjb0HiDv2pJs32VIes/uCq4M2awm
-         SbqLYEJ/ns/jzCoXpjcgev9zUZIDfqM9+eICIyCPDJj0RF7TiIk1cLHpZLJr/RKg7Wjq
-         Q1P5HJyLDXi6n8stxt/1HBWzdgKUNIrxAk5tBZZs2mcvhw7jnMJYzPoX7DqqKMpgrJ+j
-         ttXA==
+        d=gmail.com; s=20230601; t=1768239610; x=1768844410; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xEfzR2IMaUJ79aVMeAHSeF5WLoBzAAzr7Ul2pdFLEjU=;
+        b=GDkYj3+GMSorx/eaULUQBhQYY35+EdAlXkW4K7NdIBEWd8uxXS9+lHRXoDGzBIW3E/
+         RsYfFj11lydtT+zGsTXKejdd7/3uLTsnY6xvRn6jwm+QrsJsIUBXivOHBBNK84rnE2jy
+         fra2RhJU8iveo8zKEkVq3cOKH/dLapI3W76KTQbnRSzguXcyrYOXg0wJwcRmeICvCB/7
+         vA+CHzSGreeb5PwQKiRkbpDZVKkLs9l8I05v7VXW9CU3ZbRVKCFPNT7jzkcWJPWYmJpl
+         F0xPf13PlURowuXVKZYgCYBJv48dlxnzy/ugqUQRgbBHK0/MWRfRNsb5JW2DRYHRIgyp
+         EiQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768239410; x=1768844210;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iIrzuD3V8mK4XZdD49Fp4+4pZSOoDd5AA8lqEVpgoJQ=;
-        b=FLk5f2WtvqEknGyTXiAmSXyDereRd/T0ULJM2Jw5MLQbnOtKDmlPZSV1MvBtBU9p3J
-         OLz7w+xkHBoSmN8tK7wNbaLcD/VLmA4v9dQ0i8pRSLLu4CjpXG2leu4KDKUE2zTQFWyM
-         wzukhL2PAulJrbIJPHnHFS97qZTfWoUDX1IQnn94/dyYGG3RPDSZ9r+r1y/plUKDHceP
-         cSz+PzUQ93o7E2HOdW2lEOx/JWGUABbA3CRR0dgbxMLDtTy8HDfa3JtOeD7EJAONeSPk
-         iAPnzPW10r8+IP2zIYVWp7m2ZrryPo1U+adJ18hPxTo4Sx5+ziJeh4/XLU/oYDQt6Swz
-         Y6Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCUaxP9Q6ysnxDfVp9Gw4w0bBHXdVQCwMcwG/9sNSqC/9xvH/hzW5kl/JERgjb9XWgNfO1K11iBtXIg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIk3iSUrC5yP1+TaxHh7mmellNr3o1oeclcB53JeGOAiDjHCu1
-	pfQkvBzl1HRxR3K6upwEJI/JYYpeeNR8blNHwSnQvqat+BV4gigbB097p3Mze0OrqHM=
-X-Gm-Gg: AY/fxX6epwdgXXj+rv0cjGjctXmCz/qOMDFX6IMNiD8cFZ2TA/lQqlL619DVi15qgr7
-	hC2ufWz2CWlKs5lw4v0RsBqtQn28wnkbB2jR7h41P37LpQEOUNm0/SNyBu5uhBW5y0CKkkuJqE/
-	v8O7GCBABk0nw8Q5uhhkpc4wAiffNQ7j9SoAEy/8XR/E5IhFPkHIzieBxLqhqqB5rdaLhV8jcJd
-	MITJ57Jwuu5yTXcnlX+CPguQ1b38+QkYVcGetNNsqJq+PffvJ+IoHXrLDmUFPuHv5gMIzzf3opG
-	oH15WlCXaMsE92oQhFVG3cgMXAN3VZPYCjVLtpUikgfFvGFxn8oMkeeDN6Xf2lkhn9eSOXa4RaE
-	jVicL8ldDAEKco08b9wYxIrHbnJGjERV03E8wQGKysCHPKTPsAsMDc3DXO4B7Gc6MjGgFncYhRs
-	ryQKc/8iO6RBxb7P2RL25Q66zIhXdAImCcGPl0O0a/D73V+tOB4goi5fRqtQzIi8fXKRSSGA==
-X-Google-Smtp-Source: AGHT+IFIkZj0kkQefVdB6/+qxt7dAorkKD4y+wc4fxceCP23QaEoHwxiHll6IFZYaJtBeI5hcZkdtA==
-X-Received: by 2002:a05:622a:1b8c:b0:4ec:f6d5:ee46 with SMTP id d75a77b69052e-4ffb4af497fmr238029601cf.78.1768239410022;
-        Mon, 12 Jan 2026 09:36:50 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8d39230sm131000681cf.6.2026.01.12.09.36.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 09:36:49 -0800 (PST)
-Date: Mon, 12 Jan 2026 12:36:15 -0500
-From: Gregory Price <gourry@gourry.net>
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org,
-	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, dan.j.williams@intel.com,
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
-	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com,
-	david@kernel.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk, rientjes@google.com,
-	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com,
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com,
-	baohua@kernel.org, yosry.ahmed@linux.dev, chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, osalvador@suse.de,
-	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
-	byungchul@sk.com, ying.huang@linux.alibaba.com, apopple@nvidia.com,
-	cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
-Subject: Re: [RFC PATCH v3 0/8] mm,numa: N_PRIVATE node isolation for
- device-managed memory
-Message-ID: <aWUxD6yPyCbUVjlw@gourry-fedora-PF4VCD3F>
-References: <20260108203755.1163107-1-gourry@gourry.net>
- <6604d787-1744-4acf-80c0-e428fee1677e@nvidia.com>
- <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
- <aWUs8Fx2CG07F81e@yury>
+        d=1e100.net; s=20230601; t=1768239610; x=1768844410;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xEfzR2IMaUJ79aVMeAHSeF5WLoBzAAzr7Ul2pdFLEjU=;
+        b=HS3gqOw7YnqUG4fuc3Z1ZAG4KSNDaBVPv86ERSh60KvfNTPoqH7yRGyhSvI8q1x0yQ
+         y2n7M/dlapTy/E/lZa3ZOfrKVaWdK7/WmUT0k9v28SsM3h+nlu4uQivccOxMS6/Nt0vy
+         2efE8vTbz+kVbTW6h7+6tpyNLP0q5Xm4lfRAS0nLnDpXkdohMir3/RZro0Px775PTgus
+         9vid2dJJNFQ78elVN0ldfmZz/HXm2jAb7one1lgoykrOtjBpd9DPXotHRhzjmST//ZpG
+         Aj9uk8+67etctBlYM0KXuwaXXxD6/CEVwJTTEn1NkCs1HxHXejMEwno2sN1OAzPL5A57
+         tk+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWfzbVx2UON0qkLCAXIq5KpXvcz6f0CVAgCfgggFwRU+owLlPy5ldrw02Au0maPWeFDc+Fx7IIFvgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQf2WbxZvWD59efOYizR9SMrcJczNeHZ/FfeYH1nWSGNqhogiY
+	9Wa4flCDh3TAALmM1OjwKyHgN6ggoCRXoNEfQxvWwkoaDyrwb0qBiqe2
+X-Gm-Gg: AY/fxX4Y+ZXE9xID24TZVZIy8uTkQrqvwAEp7Dj/anJWGDUYWPWReu++OR9zzbwoZO/
+	FSk3XiS/PSYgAUKSdZE1cGIPnReU0cITq9gzSH9Sw1f64cQwWGVL6JaSEuprKbTInLWCl8GvaK3
+	UhxDVeHC/nH9GqGsz92OLcu0qKZFIy2TOzUlquoRmNyTEej1DFn6NvVKj5J1EYZlVOVB2GslueM
+	c6K2a3q0NGkfbe5ynvyJtLvLBFQQZ1sJDfOE4tGZp9SF5ed0adugk4DFMkJA+m+TKMjtE7UXD8g
+	elBFTBEsaKvYZlNpQyb3Xbz3zJBZ+FrNhAHGUbGIVE0uFFWq5IQa064douVm3BC4eSn7v9sdhva
+	J5bNIrpSeQA0o9q+KKVdfq23ckeKYyFBeLQwM66MeZoPMU02jckx1LcXkqd0aER1crvJxU1t+G4
+	TdIr5YBSiOP+G/fq+ICsU3otH+m7ktYM8jsXR3nB0IJhu6p6a1Gp99B9Un39Hnot8Nm4EJiLGk9
+	+2xs2iHSQ==
+X-Google-Smtp-Source: AGHT+IHCTZtjyWlWk0cwrNDVQ+H3iM6fgz0CcfURU1LVPBZ+hluW6yquQuzFvxEgwtxB4odmjN+y5w==
+X-Received: by 2002:a05:7301:8613:b0:2b0:4b5b:6820 with SMTP id 5a478bee46e88-2b17d2e3663mr11342670eec.26.1768239610022;
+        Mon, 12 Jan 2026 09:40:10 -0800 (PST)
+Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b170675076sm16683675eec.2.2026.01.12.09.40.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jan 2026 09:40:09 -0800 (PST)
+Date: Mon, 12 Jan 2026 09:40:09 -0800
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>
+CC: Benjamin Tissoires <bentiss@kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_02/16=5D_HID=3A_hid-lenovo-go?=
+ =?US-ASCII?Q?=3A_Add_Lenovo_Legion_Go_Series_HID_Driver?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
+References: <20251229031753.581664-1-derekjohn.clark@gmail.com> <20251229031753.581664-3-derekjohn.clark@gmail.com> <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
+Message-ID: <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWUs8Fx2CG07F81e@yury>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 12, 2026 at 12:18:40PM -0500, Yury Norov wrote:
-> On Mon, Jan 12, 2026 at 09:36:49AM -0500, Gregory Price wrote:
-> > 
-> > Dan Williams convinced me to go with N_PRIVATE, but this is really a
-> > bikeshed topic
-> 
-> No it's not. To me (OK, an almost random reader in this discussion),
-> N_PRIVATE is a pretty confusing name. It doesn't answer the question:
-> private what? N_PRIVATE_MEMORY is better in that department, isn't?
-> 
-> But taking into account isolcpus, maybe N_ISOLMEM?
+On January 12, 2026 4:12:43 AM PST, Jiri Kosina <jikos@kernel=2Eorg> wrote:
+>On Mon, 29 Dec 2025, Derek J=2E Clark wrote:
 >
-> > - we could call it N_BOBERT until we find consensus.
-> 
-> Please give it the right name well describing the scope and purpose of
-> the new restriction policy before moving forward.
->  
+>> Adds initial framework for a new HID driver, hid-lenovo-go, along with
+>> attributes that report the firmware and hardware version for each
+>> component of the HID device, of which there are 4 parts: The MCU, the
+>> transmission dongle, the left "handle" controller half, and the right
+>> "handle" controller half=2E Each of these devices are provided an attri=
+bute
+>> group to contain its device specific attributes=2E Additionally, the to=
+uchpad
+>> device attributes are logically separated from the other components in
+>> another attribute group=2E
+>>=20
+>> This driver primarily provides access to the configurable settings of t=
+he
+>> Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
+>> firmware=2E As previously noted, the Legion Go controllers recently had=
+ a
+>> firmware update[1] which switched from the original "SepentiaUSB" proto=
+col
+>> to a brand new protocol for the Go 2, primarily to ensure backwards and
+>> forwards compatibility between the Go and Go 2 devices=2E As part of th=
+at
+>> update the PIDs for the controllers were changed, so there is no risk o=
+f
+>> this driver attaching to controller firmware that it doesn't support=2E
+>>=20
+>> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> ---
+>>  MAINTAINERS                 |   6 +
+>>  drivers/hid/Kconfig         |  12 +
+>>  drivers/hid/Makefile        |   1 +
+>>  drivers/hid/hid-ids=2Eh       |   3 +
+>>  drivers/hid/hid-lenovo-go=2Ec | 734 ++++++++++++++++++++++++++++++++++=
+++
+>>  5 files changed, 756 insertions(+)
+>>  create mode 100644 drivers/hid/hid-lenovo-go=2Ec
+>>=20
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 9ed6d11a7746=2E=2Eb5ad29d24e3e 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -14135,6 +14135,12 @@ L:	platform-driver-x86@vger=2Ekernel=2Eorg
+>>  S:	Maintained
+>>  F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities=2Ec
+>> =20
+>> +LENOVO HID drivers
+>> +M:	Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> +L:	linux-input@vger=2Ekernel=2Eorg
+>> +S:	Maintained
+>> +F:	drivers/hid/hid-lenovo-go=2Ec
+>
+>Hi Derek,
+>
+>thanks for working on this=2E
+>
+>I am now almost finished with reviewing this pile and am planning to queu=
+e=20
+>it in hid=2Egit shortly, but I have a question regarding the MAINTAINERS=
+=20
+>entry above=2E
+>
+>The title claims support for all of Lenovo HID, but there is much more to=
+=20
+>it than drivers/hid/hid-lenovo-go=2Ec, specifically in hid-lenovo=2Ec=2E
+>
+>So either please make the title more specific (or claim the ownership of=
+=20
+>the whole Lenovo HID landscape indeed, fine by me, but the please reflect=
+=20
+>that in F: :) )=2E
+>
+>Thanks,
+>
 
-"The right name" is a matter of opinion, of which there will be many.
+Hi Jiri
 
-It's been through 3 naming cycles already:
+Sure, I've debated using LENOVO LEGION GO HID drivers and LENOVO GO HID dr=
+ivers=2E Do you have a preference? The other drivers are pretty old and I d=
+on't have any hardware that would use them so I'd prefer to keep them separ=
+ate (though I'll acknowledge that they don't seem to have a MAINTAINERS ent=
+ry)
 
-Protected -> SPM -> Private
+I also need to fix the ABI docs, I accidentally added an extra + character=
+ to every line in the patch for both=2E I'll update that too when I fix thi=
+s=2E
 
-It'll probably go through 3 more.
-
-I originally named v3 N_PRIVATE_MEMORY, but Dan convinced me to drop to
-N_PRIVATE.  We can always %s/N_PRIVATE/N_PRIVATE_MEMORY.
-
-> > > >   enum private_memtype {
-> > > >       NODE_MEM_NOTYPE,      /* No type assigned (invalid state) */
-> > > >       NODE_MEM_ZSWAP,       /* Swap compression target */
-> > > >       NODE_MEM_COMPRESSED,  /* General compressed RAM */
-> > > >       NODE_MEM_ACCELERATOR, /* Accelerator-attached memory */
-> > > >       NODE_MEM_DEMOTE_ONLY, /* Memory-tier demotion target only */
-> > > >       NODE_MAX_MEMTYPE,
-> > > >   };
-> > > > 
-> > > > These types serve as policy hints for subsystems:
-> > > > 
-> > > 
-> > > Do these nodes have fallback(s)? Are these nodes prone to OOM when memory is exhausted
-> > > in one class of N_PRIVATE node(s)?
-> > > 
-> > 
-> > Right now, these nodes do not have fallbacks, and even if they did the
-> > use of __GFP_THISNODE would prevent this.  That's intended.
-> > 
-> > In theory you could have nodes of similar types fall back to each other,
-> > but that feels like increased complexity for questionable value.  The
-> > service requested __GFP_THISNODE should be aware that it needs to manage
-> > fallback.
-> 
-> Yeah, and most GFP_THISNODE users also pass GFP_NOWARN, which makes it
-> looking more like an emergency feature. Maybe add a symmetric GFP_PRIVATE
-> flag that would allow for more flexibility, and highlight the intention
-> better?
-> 
-
-I originally added __GFP_SPM_NODE (v2 - equivalient to your suggestion)
-and it was requested I try to use __GFP_THISNODE at LPC 2025 in December.
-
-v3 makes this attempt.
-
-This is good feedback to suggest maybe that's not the best and maybe we
-should keep __GFP_SPM_NODE -> __GFP_PRIVATE
-
-> > > What about page cache allocation form these nodes? Since default allocations
-> > > never use them, a file system would need to do additional work to allocate
-> > > on them, if there was ever a desire to use them. 
-> > 
-> > Yes, in-fact that is the intent.  Anything requesting memory from these
-> > nodes would need to be aware of how to manage them.
-> > 
-> > Similar to ZONE_DEVICE memory - which is wholly unmanaged by the page
-> 
-> This is quite opposite to what you are saying in the motivation
-> section:
-> 
->   Several emerging memory technologies require kernel memory management
->   services but should not be used for general allocations
-> 
-> So, is it completely unmanaged node, or only general allocation isolated?
-> 
-
-Sorry, that wording is definitely confusing. I should have said "can
-make use of kernel memory management services".
-
-It's an unmanaged node from the perspecting of any existing user (no
-existing core service user is exposed to this memory).  But this really
-means that it's general-allocation-isolated.
-
-ZONE_DEVICE is an unmanaged zone on a node, while this memory would be
-onlined in ZONE_MOVABLE or below (i.e. it otherwise looks like normal
-memory, just it can't be allocated).  In theory, we could re-use
-ZONE_DEVICE for this, but that's probably a few more RFCs away.
-
-I'm still trying to refine the language around this, thanks for pointing
-this out.
-
-~Gregory
+Thanks,
+Derek
