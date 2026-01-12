@@ -1,46 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC0924A07C
-	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 16:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7AF362156
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 16:39:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768235733; cv=none; b=QLFaLkFds6rgpdMT7CufKzSWiQGu7ZtBl64JE1zccsGFFrRTrIhOWlgqNLWEO8Ooocus0wHyDG9YwSwbmQoERjIf4kroywvSPRxwecFYgP1Juv7a1j0kXxiXp4DQ9THB1CvttKn87r6MgKufKVKy2Dd0YRSoJCBpdDdcL96Lv/w=
+	t=1768235947; cv=none; b=XBMgdQwVSk5CpccwZBB6UqnYYzfMgm25z+h7vB6i/d2zXXJeHfPaqPL+CV92G0XbaT7tNVsKC8XN6Isfs5hjhLgMJrAPXYseX77Pkljrtynfr4+mo8yj3vN9bKzI3/6/7S4W+9jbnmV8mi0PZsgRGYqGiloMmRI9Nx0TmQhPeMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768235733; c=relaxed/simple;
-	bh=12qkblN5d+CktOgDC03FN7fleSYDgpupxB5ZwYoXDx0=;
+	s=arc-20240116; t=1768235947; c=relaxed/simple;
+	bh=1U7nwB7NB3cgEbxAyz7PCm4JBmU9EAkuaaDsRLIuTw0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i1lbTkiADLwY3loP+VduumZY71IGmsgdKerk0jmo7wTw97EnxhLDPtWC2wKjJf6cGP6Zv/WmlUpboR3RiWm3+iEyDV4IL2v+cBTMVMbyo12SlWPDRHlHH01RHidDTFzDzxEEvWaw1I6q/lvt+m4Fb6BdUOO1G9irCnflO+y+ZVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DWjAM93u; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=OeoZmo5CcBh54BscJl5XBoAR3CpEsIDMFsE9uqvJoqoDCkzNF3C/SFOtHi1BO+XLNq/TiKb/lGi/gLdjKXjBBt8GCbhBA1eODGMbZzJguVlxRGtvxAUnkDyL2j8OaH452v+ErdW2GQNCONbAijLOCfViLroYv5mZ567DJIy2NC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IrPCAygc; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DWjAM93u"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9296E40C42
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IrPCAygc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 948B740C42
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768235731; bh=P2aiE2nA5jQN3YZw1hLMLxPPBXg1B+AYjlklENJe+lk=;
+	t=1768235945; bh=NJ+LC/IGba2jtiExqnG8n0XxirHLnw52tr08OzBCnmE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DWjAM93ubf/79JGif1jW+EuKAI0ypT80gC9eMYJ5R/X3yvIvj9n95tgbnxw0jjwGN
-	 O+sjFUI9eeqiv2r8NKf8D0mbDw9DdPs1J/SwAoMImKuWVA4DhPYJzF6r9nC2ZTSagV
-	 G/isrqLkGcDimG39403Zi4+dQQtJkEAHFAvint+zaP6JCSnseHKQYKAnaJwcjKIQaS
-	 ZS46bV2cRC/So4r2U314oZPKRiHEptyiZrb4xQAEbr3YRyWsDJ1LEScz9Y1nsBqyIw
-	 NAin/cPLk+PbonvZfCgjJuQz8eZJlPolSfGgtD4KlheMPvncAF5rsgeR2aCwjj79pQ
-	 aBAIpTk4AaCFw==
+	b=IrPCAygc6iUyF/dYtrIKe75PwYfW/4X41YwX1nxFV4JMS7VmY0/pmuBFPiXiUHw+M
+	 DPX7FPlzRZyyUFC97SbUDWgoONDC4Xm37pS8Zj+vctMkZjWDXP2B65Nwkee64NqYH1
+	 0izk73NVWcyDCoTMF3iFHYv9ILm31Cpn3RpDl3dTQH4pIo2Tmc3KhWGz/hth/PWb48
+	 vglPlBscg3u92kqd2rbCxLmw3mr7/PPjnYJ5AUUOjDLXcbkxjFg5yNoYay9KKuWO4G
+	 vrxkCjNxkXWJJ8+pRvtpu6tf9p7xzPXYKpsmEZC4PW1XkKQGnMshwJWEwdTRR/QHm+
+	 2OiiPJ19rbtNw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9296E40C42;
-	Mon, 12 Jan 2026 16:35:31 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 948B740C42;
+	Mon, 12 Jan 2026 16:39:05 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Petr Vorel <pvorel@suse.cz>, linux-doc@vger.kernel.org
-Cc: Petr Vorel <pvorel@suse.cz>
-Subject: Re: [PATCH v2 1/2] Documentation: bug-hunting.rst: Remove wrong
- 'file:' syntax
-In-Reply-To: <20260111223643.174812-1-pvorel@suse.cz>
-References: <20260111223643.174812-1-pvorel@suse.cz>
-Date: Mon, 12 Jan 2026 09:35:30 -0700
-Message-ID: <87ikd623hp.fsf@trenco.lwn.net>
+Cc: Petr Vorel <pvorel@suse.cz>, Michael Kerrisk <mtk@man7.org>, Alejandro
+ Colomar <alx@kernel.org>, man-pages@man7.org
+Subject: Re: [PATCH v2 1/3] Documentation: sp_SP: Add missing man page section
+In-Reply-To: <20260111233534.183272-2-pvorel@suse.cz>
+References: <20260111233534.183272-1-pvorel@suse.cz>
+ <20260111233534.183272-2-pvorel@suse.cz>
+Date: Mon, 12 Jan 2026 09:39:04 -0700
+Message-ID: <87bjiy23br.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,22 +52,26 @@ Content-Type: text/plain
 
 Petr Vorel <pvorel@suse.cz> writes:
 
-> Link to another document does not require 'file:', therefore it was
-> shown in generated html.
->
-> Preformatted text requires just ``...``.
->
 > Signed-off-by: Petr Vorel <pvorel@suse.cz>
 > ---
-> Changes v1->v2:
-> * Remove backticks (Jonathan Corbet)
+> New in v2.
 >
-> Link to v1:
-> https://lore.kernel.org/linux-doc/20260109152336.84674-1-pvorel@suse.cz/
+>  Documentation/translations/sp_SP/process/adding-syscalls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  Documentation/admin-guide/bug-hunting.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> diff --git a/Documentation/translations/sp_SP/process/adding-syscalls.rst b/Documentation/translations/sp_SP/process/adding-syscalls.rst
+> index f21504c612b25..28f680652383d 100644
+> --- a/Documentation/translations/sp_SP/process/adding-syscalls.rst
+> +++ b/Documentation/translations/sp_SP/process/adding-syscalls.rst
+> @@ -172,7 +172,7 @@ describiendo un describiendo un movimiento dentro de un archivo, ponga de
+>  tipo ``loff_t`` para que movimientos de 64-bit puedan ser soportados
+>  incluso en arquitecturas de 32-bit.
+>  
+> -Si su nueva llamada de sistema  :manpage:`xyzzy` involucra una
+> +Si su nueva llamada de sistema :manpage:`xyzzy(2)` involucra una
+>  funcionalidad privilegiada, esta necesita ser gobernada por la capability
 
-Both patches applied, thanks.
+I would just fix that while changing the line in the next patch anyway,
+but whatever...
 
 jon
