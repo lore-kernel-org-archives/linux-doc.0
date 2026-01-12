@@ -1,63 +1,116 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C9A3644D4;
-	Mon, 12 Jan 2026 16:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2433644C3;
+	Mon, 12 Jan 2026 16:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768235371; cv=none; b=f8yPkhaMBgX3FGvSKW+ELR/4aDPqtN8YuJC4kk4zMdcuL0bkIFD+ge7CDhnMqDolWX2gwvgRz2XOlp0WhgzY4YMwL9jPDaX84sNVWlB/etRSrztyZx/DGSEFxUZphqcPcoEoFAAynjqYwsCG5YsL3/aOQQnqZMzAvPZzwXOuSL4=
+	t=1768235567; cv=none; b=MXccEdKcemFZn79g/bezyXEbyUlvp3y64HRle8j3MO5u/XoOUniIflBja4cnsNMwh/NK5Kla50ZqIgsK6lnMxgKcT0FbvB6sIKtAAXKEUVCz7ozPILA1SAH0McT5MLZUwequgPZvWkrGRNzYQAqZfmoqwvsY13QjwNTwnXYJyJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768235371; c=relaxed/simple;
-	bh=0BtMYjORsNKWy1FhGZKfTtXsaOJ9O0KgpBTkpfizfug=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lk6vysh/LVXQD/o0lvrQ7SbNUDDiklB/8zvFKa2wUlcfhVuiOHi8Ug6+Rj/cmyZ6y3UqX4jblCCnYmMvP2SRSHBPzr9Nxx99p4ryr6mwlJMW9G7klZybg+6esomTT5SUVxpfzFqCA5GIWX9iJ81mWEdU/rk1rYOoSjMZbiupjk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=di38XCaK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1768235567; c=relaxed/simple;
+	bh=vUpZrBUvVK6pKmzGvycTY1IBhwsVQMRQeewon3mbxcw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CfjQ8vFe3S7NfsCY7BFXMupP8OOmsq/FQbezX7abyR9DGkEVckDvbfvDJS+7/Ox+Vo7V1JuvkR8SNe0tSujkfhmBH7/RX7zyZo3zlJKpdY77SvgD2q/ZdXeiXKMvldmsepQOiP+fSv65Ao559a0Yo68JKl0kNymZ2ZP4Q+qyoJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGe/Zfdp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="di38XCaK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CE78D40C42
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768235370; bh=2woNFljVM7jc1M4GtfXHnwTyD16m3bNYNKWQ3++HV0c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=di38XCaKHOaVnM5dF420M/Znt4UPnVZGwesQlQ1Ke/s3ds86nD91/kG8o7LQdUFkj
-	 uYFCSRiRSDxBOqPv1tGOSWju4jxsO9olBR9wULgy/RU5n7gNVrVmBsRZYib9CY/ata
-	 axQYjuTEQ+bRVkpkThaBfqWjY5NfjuraC6QRvkILKu6XLklYuMEx6SGVYxH6EEviiT
-	 waw26SMxTgX7KZma9Ciq4gNqAexfqdxmIt4OipnrhLjBr/UUWMNI2AJKu9fWXkI3oj
-	 N7yyhooFN49z3HzKSeY11eqk2XvY6fFegHkHl3Gt3u6MLa53ovtzq/KT7oFMzcRoGB
-	 0l8jRzueRCUiQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CE78D40C42;
-	Mon, 12 Jan 2026 16:29:29 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Update for the doc subsystem
-In-Reply-To: <20260106231316.24474-1-skhan@linuxfoundation.org>
-References: <20260106231316.24474-1-skhan@linuxfoundation.org>
-Date: Mon, 12 Jan 2026 09:29:29 -0700
-Message-ID: <87ms2i23rq.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGe/Zfdp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08670C116D0;
+	Mon, 12 Jan 2026 16:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768235567;
+	bh=vUpZrBUvVK6pKmzGvycTY1IBhwsVQMRQeewon3mbxcw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GGe/ZfdphsXO5nU7lfvE0ifsKNZLVM2RlwmLejdvcMXtVoE9N/LRcyUfFa+p63//m
+	 b0hzeKHISRfIqeUmKq/jujxhSkJ50TMUAuRh0yB7yayT5iwC/xsTNNIaXWrvmolduF
+	 fNoI5lO0vrWo7iCR8CCbJU53VZc8XYDWe03hpc76uxvv+sPGfjzNMGCAswoNV3PTTE
+	 E9i30ZMpBfgzYhxUKeDnSUyfUsSkIYgh4dCBjss8F0LP9InsGRA84WQ9sUMlkrt6yK
+	 jgNcL11xSwUP+sWLYLXSuIstvKlMV8oiO4UEv9V43q3IJScYAZAAQiKU0ILzRChlXa
+	 rYC7xYNVm1osg==
+Message-ID: <48f00a0b-667b-4aa0-93a2-e1045e20e309@kernel.org>
+Date: Mon, 12 Jan 2026 17:32:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] dt-bindings: iio: frequency: add adf41513
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
+ <20260108-adf41513-iio-driver-v3-1-23d1371aef48@analog.com>
+ <20260109-translucent-violet-smilodon-ed1917@quoll>
+ <7ck6vexpeak47kob7niupkdg3nbyvp4nab7rqmz6niq4frf64y@tjnph6hno32z>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <7ck6vexpeak47kob7niupkdg3nbyvp4nab7rqmz6niq4frf64y@tjnph6hno32z>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Shuah Khan <skhan@linuxfoundation.org> writes:
+On 12/01/2026 11:04, Rodrigo Alencar wrote:
+>>
+>> One example - more complete, so the next one - is enough. They do not
+>> differ.
+>>
+> 
+> Not sure I undestood this message:
+> - are those examples 'enough' as the second one is 'more complete'?
+> - do I need to change the second example to be 'more complete',
+>   because 'they do not differ'?
+> - do I need to create 'one example' 'more complete', apart from the existing ones?
 
-> Adding myself as a reviewer for doc subsystem.
->
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
->  MAINTAINERS | 2 ++
->  1 file changed, 2 insertions(+)
+Just have one example, e.g. the second one.
 
-Applied - thanks!
-
-jon
+Best regards,
+Krzysztof
