@@ -1,224 +1,487 @@
-Received: from mail-m49238.qiye.163.com (mail-m49238.qiye.163.com [45.254.49.238])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2DA24BBEB;
-	Mon, 12 Jan 2026 01:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56322F49EC;
+	Mon, 12 Jan 2026 02:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768182987; cv=none; b=qiGZD0+yeF8kLLYd7j5BCOfNgZIBiIelj2LqZb4V8418unNsJCAbBTEaUhHJ+hJtdK/qB5E81R6cjLYJVa1DfJd6HJ9iXOnyRF5tKcdnHvJdwcmq5BlaNWmFQbZ0B07U5uy0uoLN39J87t9/NK5dwWQ/WO/TmM9o7Y2lcgSQAz4=
+	t=1768183850; cv=none; b=dntuMI1YFHzKLx68P7MS+5a9AJyJ00vTgWRaMi8YAAmFigP7o6f1O4eFjAf24Bl/+UD6XAp82WEMrGmwqwqWDTZ51SlOyjHhmlyASIU7sv0EiaMH2r+FY8eF8eJzP8wRWQTd2ujR4/Ez/v998Tckbz7jqtkTtoHOU/21j3PDCLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768182987; c=relaxed/simple;
-	bh=85V/kSD5DV50NM9PuhTGBYZFnOYu1dLPby/MWS87gM8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=UvvDYNSRDrSRgFZcCcBK2ZShxNYFk9KSSnHnT5nxYrilnPRpXKBh2OEMV3e8EPEkgeD3hX8dLdLjwXqY8ASRHdK8GvbEyFqgxLit8x1AiF+u/SFzwifuMUVuixtlzwdUZEFn/DSzrFp2CVqfdxxsydWm+POESbELfTl/UGUfa98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=Oxd0oj2q; arc=none smtp.client-ip=45.254.49.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="Oxd0oj2q"
-Received: from localhost.localdomain (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 303e91937;
-	Mon, 12 Jan 2026 09:20:33 +0800 (GMT+08:00)
-From: Shawn Lin <shawn.lin@rock-chips.com>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-rockchip@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
-Date: Mon, 12 Jan 2026 09:20:00 +0800
-Message-Id: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1768180800-63364-1-git-send-email-shawn.lin@rock-chips.com>
-References: <1768180800-63364-1-git-send-email-shawn.lin@rock-chips.com>
-X-HM-Tid: 0a9bafca5b9109cckunme7c7221b25b240
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGksaTFZITBgfQ0hKSB9KTxpWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
-	hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=Oxd0oj2qIKPgVMH/gYNeLYzPhsF9UrEMkF0ZkPa2uQG/p5D0nhzXQPAdYuKasOkyj87H6dR8vc2E+xAPSGr0RMxCQfHp4nXgIeTOKtjhAmbZsYpSJsQ3bo9ochxnDXSfMnv9bBEdqA7wfDGHxM3QdczLRKI0g6CAMRV7rpl0KtQ=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=ZgxJOYtEUZZ9lDjUn8KCpSUAe2bzrN8TYgmqnZ6nm/I=;
-	h=date:mime-version:subject:message-id:from;
+	s=arc-20240116; t=1768183850; c=relaxed/simple;
+	bh=duPQ/8Y+7+BHxPlU2q3gq+Wm/PxBkjESaMEEQ5XSnMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p11oGKbgfbhNdMxwJEc69VTLI2pRMAr5dAjMEnjfSZ/BhmfSEQrTjU8k6OOCdV2YLIatvdXvpW4WoYUc3xHsUpHx5UNjGES3mkkxew8izhgqR8yAZIl3wFevHLr7yHp4u8DNVC7bUsjCEsqRPKdw9yrc6UsQYhEnnslTJb+4XC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dqG7D28kpzYQtpt;
+	Mon, 12 Jan 2026 10:10:32 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id DEB164058F;
+	Mon, 12 Jan 2026 10:10:41 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgCnB_geWGRplxL2DQ--.24143S2;
+	Mon, 12 Jan 2026 10:10:39 +0800 (CST)
+Message-ID: <783b4780-72d5-43cf-9193-d26efb61ce0c@huaweicloud.com>
+Date: Mon, 12 Jan 2026 10:10:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH cgroup/for-6.20 v3 4/5] cgroup/cpuset: Don't invalidate
+ sibling partitions on cpuset.cpus conflict
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Sun Shaojie <sunshaojie@kylinos.cn>
+References: <20260110013246.293889-1-longman@redhat.com>
+ <20260110013246.293889-5-longman@redhat.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20260110013246.293889-5-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgCnB_geWGRplxL2DQ--.24143S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3uFWUGr4DAw1fGFyDXrWUArb_yoW8CrWkZo
+	WfJw4xAw1kX3y7XF4kA3sFkrWvg397ta47tw1jqr1DGFy5ArnFk3WUKw4vvry3XFsYqr4D
+	XFySv3Z5uryIv3WDn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUY27kC6x804xWl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK
+	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
+	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
+	7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7
+	CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
+	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
+	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+	GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	UAwIDUUUUU=
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-Rockchip platforms provide a 64x4 bytes debug FIFO to trace the
-LTSSM history. Any LTSSM change will be recorded. It's userful
-for debug purpose, for example link failure, etc.
 
-Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
----
 
-Changes in v3:
-- reorder variables(Mani)
-- rename loop to i; rename en to enable(Mani)
-- use FIELD_GET(Mani)
-- add comment about how the FIFO works(Mani)
+On 2026/1/10 9:32, Waiman Long wrote:
+> Currently, when setting a cpuset's cpuset.cpus to a value that conflicts
+> with the cpuset.cpus/cpuset.cpus.exclusive of a sibling partition,
+> the sibling's partition state becomes invalid. This is overly harsh and
+> is probably not necessary.
+> 
+> The cpuset.cpus.exclusive control file, if set, will override the
+> cpuset.cpus of the same cpuset when creating a cpuset partition.
+> So cpuset.cpus has less priority than cpuset.cpus.exclusive in setting up
+> a partition.  However, it cannot override a conflicting cpuset.cpus file
+> in a sibling cpuset and the partition creation process will fail. This
+> is inconsistent.  That will also make using cpuset.cpus.exclusive less
+> valuable as a tool to set up cpuset partitions as the users have to
+> check if such a cpuset.cpus conflict exists or not.
+> 
+> Fix these problems by making sure that once a cpuset.cpus.exclusive
+> is set without failure, it will always be allowed to form a valid
+> partition as long as at least one CPU can be granted from its parent
+> irrespective of the state of the siblings' cpuset.cpus values. Of
+> course, setting cpuset.cpus.exclusive will fail if it conflicts with
+> the cpuset.cpus.exclusive or the cpuset.cpus.exclusive.effective value
+> of a sibling.
+> 
+> Partition can still be created by setting only cpuset.cpus without
+> setting cpuset.cpus.exclusive. However, any conflicting CPUs in sibling's
+> cpuset.cpus.exclusive.effective and cpuset.cpus.exclusive values will
+> be removed from its cpuset.cpus.exclusive.effective as long as there
+> is still one or more CPUs left and can be granted from its parent. This
+> CPU stripping is currently done in rm_siblings_excl_cpus().
+> 
+> The new code will now try its best to enable the creation of new
+> partitions with only cpuset.cpus set without invalidating existing ones.
+> However it is not guaranteed that all the CPUs requested in cpuset.cpus
+> will be used in the new partition even when all these CPUs can be
+> granted from the parent.
+> 
+> This is similar to the fact that cpuset.cpus.effective may not be
+> able to include all the CPUs requested in cpuset.cpus. In this case,
+> the parent may not able to grant all the exclusive CPUs requested in
+> cpuset.cpus to cpuset.cpus.exclusive.effective if some of them have
+> already been granted to other partitions earlier.
+> 
+> With the creation of multiple sibling partitions by setting
+> only cpuset.cpus, this does have the side effect that their exact
+> cpuset.cpus.exclusive.effective settings will depend on the order of
+> partition creation if there are conflicts. Due to the exclusive nature
+> of the CPUs in a partition, it is not easy to make it fair other than
+> the old behavior of invalidating all the conflicting partitions.
+> 
+> For example,
+>   # echo "0-2" > A1/cpuset.cpus
+>   # echo "root" > A1/cpuset.cpus.partition
+>   # echo A1/cpuset.cpus.partition
+>   root
+>   # echo A1/cpuset.cpus.exclusive.effective
+>   0-2
+>   # echo "2-4" > B1/cpuset.cpus
+>   # echo "root" > B1/cpuset.cpus.partition
+>   # echo B1/cpuset.cpus.partition
+>   root
+>   # echo B1/cpuset.cpus.exclusive.effective
+>   3-4
+>   # echo B1/cpuset.cpus.effective
+>   3-4
+> 
 
-Changes in v2:
-- use tracepoint
+Shouldn't the interface use cat rather than echo for reading?
 
- drivers/pci/controller/dwc/pcie-dw-rockchip.c | 104 ++++++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
+Other than that, it looks good to me.
 
-diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-index 352f513..344e0b9 100644
---- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-+++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-@@ -22,6 +22,8 @@
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-+#include <linux/workqueue.h>
-+#include <trace/events/pci_controller.h>
- 
- #include "../../pci.h"
- #include "pcie-designware.h"
-@@ -73,6 +75,20 @@
- #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_1	BIT(4)
- #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_2	BIT(5)
- 
-+/* Debug FIFO information */
-+#define PCIE_CLIENT_DBG_FIFO_MODE_CON	0x310
-+#define  PCIE_CLIENT_DBG_EN		0xffff0007
-+#define  PCIE_CLIENT_DBG_DIS		0xffff0000
-+#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0	0x320
-+#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1	0x324
-+#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0	0x328
-+#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1	0x32c
-+#define  PCIE_CLIENT_DBG_TRANSITION_DATA 0xffff0000
-+#define PCIE_CLIENT_DBG_FIFO_STATUS	0x350
-+#define  PCIE_DBG_FIFO_RATE_MASK	GENMASK(22, 20)
-+#define  PCIE_DBG_FIFO_L1SUB_MASK	GENMASK(10, 8)
-+#define PCIE_DBG_LTSSM_HISTORY_CNT	64
-+
- /* Hot Reset Control Register */
- #define PCIE_CLIENT_HOT_RESET_CTRL	0x180
- #define  PCIE_LTSSM_APP_DLY2_EN		BIT(1)
-@@ -96,6 +112,7 @@ struct rockchip_pcie {
- 	struct irq_domain *irq_domain;
- 	const struct rockchip_pcie_of_data *data;
- 	bool supports_clkreq;
-+	struct delayed_work trace_work;
- };
- 
- struct rockchip_pcie_of_data {
-@@ -206,6 +223,89 @@ static enum dw_pcie_ltssm rockchip_pcie_get_ltssm(struct dw_pcie *pci)
- 	return rockchip_pcie_get_ltssm_reg(rockchip) & PCIE_LTSSM_STATUS_MASK;
- }
- 
-+#ifdef CONFIG_TRACING
-+static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-+{
-+	struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-+						trace_work.work);
-+	struct dw_pcie *pci = &rockchip->pci;
-+	enum dw_pcie_ltssm state;
-+	u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
-+
-+	for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
-+		val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-+		rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
-+		l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
-+		val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
-+
-+		/*
-+		 * Hardware Mechanism: The ring FIFO employs two tracking counters:
-+		 * - 'last-read-point': maintains the user's last read position
-+		 * - 'last-valid-point': tracks the hardware's last state update
-+		 *
-+		 * Software Handling: When two consecutive LTSSM states are identical,
-+		 * it indicates invalid subsequent data in the FIFO. In this case, we
-+		 * skip the remaining entries. The dual-counter design ensures that on
-+		 * the next state transition, reading can resume from the last user
-+		 * position.
-+		 */
-+		if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-+			break;
-+
-+		state = prev_val = val;
-+		if (val == DW_PCIE_LTSSM_L1_IDLE) {
-+			if (l1ss == 2)
-+				state = DW_PCIE_LTSSM_L1_2;
-+			else if (l1ss == 1)
-+				state = DW_PCIE_LTSSM_L1_1;
-+		}
-+
-+		trace_pcie_ltssm_state_transition(dev_name(pci->dev),
-+					dw_pcie_ltssm_status_string(state),
-+					((rate + 1) > pci->max_link_speed) ?
-+					PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
-+	}
-+
-+	schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
-+}
-+
-+static void rockchip_pcie_ltssm_trace(struct rockchip_pcie *rockchip,
-+				      bool enable)
-+{
-+	if (enable) {
-+		rockchip_pcie_writel_apb(rockchip,
-+					 PCIE_CLIENT_DBG_TRANSITION_DATA,
-+					 PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0);
-+		rockchip_pcie_writel_apb(rockchip,
-+					 PCIE_CLIENT_DBG_TRANSITION_DATA,
-+					 PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1);
-+		rockchip_pcie_writel_apb(rockchip,
-+					 PCIE_CLIENT_DBG_TRANSITION_DATA,
-+					 PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0);
-+		rockchip_pcie_writel_apb(rockchip,
-+					 PCIE_CLIENT_DBG_TRANSITION_DATA,
-+					 PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1);
-+		rockchip_pcie_writel_apb(rockchip,
-+					 PCIE_CLIENT_DBG_EN,
-+					 PCIE_CLIENT_DBG_FIFO_MODE_CON);
-+
-+		INIT_DELAYED_WORK(&rockchip->trace_work,
-+				  rockchip_pcie_ltssm_trace_work);
-+		schedule_delayed_work(&rockchip->trace_work, 0);
-+	} else {
-+		rockchip_pcie_writel_apb(rockchip,
-+					 PCIE_CLIENT_DBG_DIS,
-+					 PCIE_CLIENT_DBG_FIFO_MODE_CON);
-+		cancel_delayed_work_sync(&rockchip->trace_work);
-+	}
-+}
-+#else
-+static void rockchip_pcie_ltssm_trace(struct rockchip_pcie *rockchip,
-+				      bool enable)
-+{
-+}
-+#endif
-+
- static void rockchip_pcie_enable_ltssm(struct rockchip_pcie *rockchip)
- {
- 	rockchip_pcie_writel_apb(rockchip, PCIE_CLIENT_ENABLE_LTSSM,
-@@ -289,6 +389,9 @@ static int rockchip_pcie_start_link(struct dw_pcie *pci)
- 	 * 100us as we don't know how long should the device need to reset.
- 	 */
- 	msleep(PCIE_T_PVPERL_MS);
-+
-+	rockchip_pcie_ltssm_trace(rockchip, true);
-+
- 	gpiod_set_value_cansleep(rockchip->rst_gpio, 1);
- 
- 	return 0;
-@@ -299,6 +402,7 @@ static void rockchip_pcie_stop_link(struct dw_pcie *pci)
- 	struct rockchip_pcie *rockchip = to_rockchip_pcie(pci);
- 
- 	rockchip_pcie_disable_ltssm(rockchip);
-+	rockchip_pcie_ltssm_trace(rockchip, false);
- }
- 
- static int rockchip_pcie_host_init(struct dw_pcie_rp *pp)
+Reviewed-by: Chen Ridong <chenridong@huawei.com>
+
+> For users who want to be sure that they can get most of the CPUs they
+> want, cpuset.cpus.exclusive should be used instead if they can set
+> it successfully without failure. Setting cpuset.cpus.exclusive will
+> guarantee that sibling conflicts from then onward is no longer possible.
+> 
+> To make this change, we have to separate out the is_cpu_exclusive()
+> check in cpus_excl_conflict() into a cgroup v1 only
+> cpuset1_cpus_excl_conflict() helper. The cpus_allowed_validate_change()
+> helper is now no longer needed and can be removed.
+> 
+> Some existing tests in test_cpuset_prs.sh are updated and new ones are
+> added to reflect the new behavior. The cgroup-v2.rst doc file is also
+> updated the clarify what exclusive CPUs will be used when a partition
+> is created.
+> 
+> Reported-by: Sun Shaojie <sunshaojie@kylinos.cn>
+> Closes: https://lore.kernel.org/lkml/20251117015708.977585-1-sunshaojie@kylinos.cn/
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst       | 32 +++++---
+>  kernel/cgroup/cpuset-internal.h               |  3 +
+>  kernel/cgroup/cpuset-v1.c                     | 19 +++++
+>  kernel/cgroup/cpuset.c                        | 80 ++++++-------------
+>  .../selftests/cgroup/test_cpuset_prs.sh       | 26 ++++--
+>  5 files changed, 89 insertions(+), 71 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 510df2461aff..a3446db96cea 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2584,9 +2584,9 @@ Cpuset Interface Files
+>  	of this file will always be a subset of its parent's
+>  	"cpuset.cpus.exclusive.effective" if its parent is not the root
+>  	cgroup.  It will also be a subset of "cpuset.cpus.exclusive"
+> -	if it is set.  If "cpuset.cpus.exclusive" is not set, it is
+> -	treated to have an implicit value of "cpuset.cpus" in the
+> -	formation of local partition.
+> +	if it is set.  This file should only be non-empty if either
+> +	"cpuset.cpus.exclusive" is set or when the current cpuset is
+> +	a valid partition root.
+>  
+>    cpuset.cpus.isolated
+>  	A read-only and root cgroup only multiple values file.
+> @@ -2618,13 +2618,22 @@ Cpuset Interface Files
+>  	There are two types of partitions - local and remote.  A local
+>  	partition is one whose parent cgroup is also a valid partition
+>  	root.  A remote partition is one whose parent cgroup is not a
+> -	valid partition root itself.  Writing to "cpuset.cpus.exclusive"
+> -	is optional for the creation of a local partition as its
+> -	"cpuset.cpus.exclusive" file will assume an implicit value that
+> -	is the same as "cpuset.cpus" if it is not set.	Writing the
+> -	proper "cpuset.cpus.exclusive" values down the cgroup hierarchy
+> -	before the target partition root is mandatory for the creation
+> -	of a remote partition.
+> +	valid partition root itself.
+> +
+> +	Writing to "cpuset.cpus.exclusive" is optional for the creation
+> +	of a local partition as its "cpuset.cpus.exclusive" file will
+> +	assume an implicit value that is the same as "cpuset.cpus" if it
+> +	is not set.  Writing the proper "cpuset.cpus.exclusive" values
+> +	down the cgroup hierarchy before the target partition root is
+> +	mandatory for the creation of a remote partition.
+> +
+> +	Not all the CPUs requested in "cpuset.cpus.exclusive" can be
+> +	used to form a new partition.  Only those that were present
+> +	in its parent's "cpuset.cpus.exclusive.effective" control
+> +	file can be used.  For partitions created without setting
+> +	"cpuset.cpus.exclusive", exclusive CPUs specified in sibling's
+> +	"cpuset.cpus.exclusive" or "cpuset.cpus.exclusive.effective"
+> +	also cannot be used.
+>  
+>  	Currently, a remote partition cannot be created under a local
+>  	partition.  All the ancestors of a remote partition root except
+> @@ -2632,6 +2641,9 @@ Cpuset Interface Files
+>  
+>  	The root cgroup is always a partition root and its state cannot
+>  	be changed.  All other non-root cgroups start out as "member".
+> +	Even though the "cpuset.cpus.exclusive*" control files are not
+> +	present in the root cgroup, they are implicitly the same as
+> +	"cpuset.cpus".
+>  
+>  	When set to "root", the current cgroup is the root of a new
+>  	partition or scheduling domain.  The set of exclusive CPUs is
+> diff --git a/kernel/cgroup/cpuset-internal.h b/kernel/cgroup/cpuset-internal.h
+> index e718a4f54360..e8e2683cb067 100644
+> --- a/kernel/cgroup/cpuset-internal.h
+> +++ b/kernel/cgroup/cpuset-internal.h
+> @@ -312,6 +312,7 @@ void cpuset1_hotplug_update_tasks(struct cpuset *cs,
+>  			    struct cpumask *new_cpus, nodemask_t *new_mems,
+>  			    bool cpus_updated, bool mems_updated);
+>  int cpuset1_validate_change(struct cpuset *cur, struct cpuset *trial);
+> +bool cpuset1_cpus_excl_conflict(struct cpuset *cs1, struct cpuset *cs2);
+>  void cpuset1_init(struct cpuset *cs);
+>  void cpuset1_online_css(struct cgroup_subsys_state *css);
+>  int cpuset1_generate_sched_domains(cpumask_var_t **domains,
+> @@ -326,6 +327,8 @@ static inline void cpuset1_hotplug_update_tasks(struct cpuset *cs,
+>  			    bool cpus_updated, bool mems_updated) {}
+>  static inline int cpuset1_validate_change(struct cpuset *cur,
+>  				struct cpuset *trial) { return 0; }
+> +static inline bool cpuset1_cpus_excl_conflict(struct cpuset *cs1,
+> +					struct cpuset *cs2) { return false; }
+>  static inline void cpuset1_init(struct cpuset *cs) {}
+>  static inline void cpuset1_online_css(struct cgroup_subsys_state *css) {}
+>  static inline int cpuset1_generate_sched_domains(cpumask_var_t **domains,
+> diff --git a/kernel/cgroup/cpuset-v1.c b/kernel/cgroup/cpuset-v1.c
+> index ecfea7800f0d..04124c38a774 100644
+> --- a/kernel/cgroup/cpuset-v1.c
+> +++ b/kernel/cgroup/cpuset-v1.c
+> @@ -373,6 +373,25 @@ int cpuset1_validate_change(struct cpuset *cur, struct cpuset *trial)
+>  	return ret;
+>  }
+>  
+> +/*
+> + * cpuset1_cpus_excl_conflict() - Check if two cpusets have exclusive CPU conflicts
+> + *                                to legacy (v1)
+> + * @cs1: first cpuset to check
+> + * @cs2: second cpuset to check
+> + *
+> + * Returns: true if CPU exclusivity conflict exists, false otherwise
+> + *
+> + * If either cpuset is CPU exclusive, their allowed CPUs cannot intersect.
+> + */
+> +bool cpuset1_cpus_excl_conflict(struct cpuset *cs1, struct cpuset *cs2)
+> +{
+> +	if (is_cpu_exclusive(cs1) || is_cpu_exclusive(cs2))
+> +		return cpumask_intersects(cs1->cpus_allowed,
+> +					  cs2->cpus_allowed);
+> +
+> +	return false;
+> +}
+> +
+>  #ifdef CONFIG_PROC_PID_CPUSET
+>  /*
+>   * proc_cpuset_show()
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 4819ab429771..83fb83a86b4b 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -129,6 +129,17 @@ static bool force_sd_rebuild;
+>   *  For simplicity, a local partition can be created under a local or remote
+>   *  partition but a remote partition cannot have any partition root in its
+>   *  ancestor chain except the cgroup root.
+> + *
+> + *  A valid partition can be formed by setting exclusive_cpus or cpus_allowed
+> + *  if exclusive_cpus is not set. In the case of partition with empty
+> + *  exclusive_cpus, all the conflicting exclusive CPUs specified in the
+> + *  following cpumasks of sibling cpusets will be removed from its
+> + *  cpus_allowed in determining its effective_xcpus.
+> + *  - effective_xcpus
+> + *  - exclusive_cpus
+> + *
+> + *  The "cpuset.cpus.exclusive" control file should be used for setting up
+> + *  partition if the users want to get as many CPUs as possible.
+>   */
+>  #define PRS_MEMBER		0
+>  #define PRS_ROOT		1
+> @@ -616,27 +627,25 @@ static inline bool cpusets_are_exclusive(struct cpuset *cs1, struct cpuset *cs2)
+>   * Returns: true if CPU exclusivity conflict exists, false otherwise
+>   *
+>   * Conflict detection rules:
+> - * 1. If either cpuset is CPU exclusive, they must be mutually exclusive
+> - * 2. exclusive_cpus masks cannot intersect between cpusets
+> - * 3. The allowed CPUs of a sibling cpuset cannot be a subset of the new exclusive CPUs
+> + *  o cgroup v1
+> + *    See cpuset1_cpus_excl_conflict()
+> + *  o cgroup v2
+> + *    - The exclusive_cpus values cannot overlap.
+> + *    - New exclusive_cpus cannot be a superset of a sibling's cpus_allowed.
+>   */
+>  static inline bool cpus_excl_conflict(struct cpuset *trial, struct cpuset *sibling,
+>  				      bool xcpus_changed)
+>  {
+> -	/* If either cpuset is exclusive, check if they are mutually exclusive */
+> -	if (is_cpu_exclusive(trial) || is_cpu_exclusive(sibling))
+> -		return !cpusets_are_exclusive(trial, sibling);
+> -
+> -	/* Exclusive_cpus cannot intersect */
+> -	if (cpumask_intersects(trial->exclusive_cpus, sibling->exclusive_cpus))
+> -		return true;
+> +	if (!cpuset_v2())
+> +		return cpuset1_cpus_excl_conflict(trial, sibling);
+>  
+>  	/* The cpus_allowed of a sibling cpuset cannot be a subset of the new exclusive_cpus */
+>  	if (xcpus_changed && !cpumask_empty(sibling->cpus_allowed) &&
+>  	    cpumask_subset(sibling->cpus_allowed, trial->exclusive_cpus))
+>  		return true;
+>  
+> -	return false;
+> +	/* Exclusive_cpus cannot intersect */
+> +	return cpumask_intersects(trial->exclusive_cpus, sibling->exclusive_cpus);
+>  }
+>  
+>  static inline bool mems_excl_conflict(struct cpuset *cs1, struct cpuset *cs2)
+> @@ -2312,43 +2321,6 @@ static enum prs_errcode validate_partition(struct cpuset *cs, struct cpuset *tri
+>  	return PERR_NONE;
+>  }
+>  
+> -static int cpus_allowed_validate_change(struct cpuset *cs, struct cpuset *trialcs,
+> -					struct tmpmasks *tmp)
+> -{
+> -	int retval;
+> -	struct cpuset *parent = parent_cs(cs);
+> -
+> -	retval = validate_change(cs, trialcs);
+> -
+> -	if ((retval == -EINVAL) && cpuset_v2()) {
+> -		struct cgroup_subsys_state *css;
+> -		struct cpuset *cp;
+> -
+> -		/*
+> -		 * The -EINVAL error code indicates that partition sibling
+> -		 * CPU exclusivity rule has been violated. We still allow
+> -		 * the cpumask change to proceed while invalidating the
+> -		 * partition. However, any conflicting sibling partitions
+> -		 * have to be marked as invalid too.
+> -		 */
+> -		trialcs->prs_err = PERR_NOTEXCL;
+> -		rcu_read_lock();
+> -		cpuset_for_each_child(cp, css, parent) {
+> -			struct cpumask *xcpus = user_xcpus(trialcs);
+> -
+> -			if (is_partition_valid(cp) &&
+> -			    cpumask_intersects(xcpus, cp->effective_xcpus)) {
+> -				rcu_read_unlock();
+> -				update_parent_effective_cpumask(cp, partcmd_invalidate, NULL, tmp);
+> -				rcu_read_lock();
+> -			}
+> -		}
+> -		rcu_read_unlock();
+> -		retval = 0;
+> -	}
+> -	return retval;
+> -}
+> -
+>  /**
+>   * partition_cpus_change - Handle partition state changes due to CPU mask updates
+>   * @cs: The target cpuset being modified
+> @@ -2408,15 +2380,15 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+>  	if (cpumask_equal(cs->cpus_allowed, trialcs->cpus_allowed))
+>  		return 0;
+>  
+> -	if (alloc_tmpmasks(&tmp))
+> -		return -ENOMEM;
+> -
+>  	compute_trialcs_excpus(trialcs, cs);
+>  	trialcs->prs_err = PERR_NONE;
+>  
+> -	retval = cpus_allowed_validate_change(cs, trialcs, &tmp);
+> +	retval = validate_change(cs, trialcs);
+>  	if (retval < 0)
+> -		goto out_free;
+> +		return retval;
+> +
+> +	if (alloc_tmpmasks(&tmp))
+> +		return -ENOMEM;
+>  
+>  	/*
+>  	 * Check all the descendants in update_cpumasks_hier() if
+> @@ -2439,7 +2411,7 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+>  	/* Update CS_SCHED_LOAD_BALANCE and/or sched_domains, if necessary */
+>  	if (cs->partition_root_state)
+>  		update_partition_sd_lb(cs, old_prs);
+> -out_free:
+> +
+>  	free_tmpmasks(&tmp);
+>  	return retval;
+>  }
+> diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> index a17256d9f88a..ff4540b0490e 100755
+> --- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> +++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
+> @@ -269,7 +269,7 @@ TEST_MATRIX=(
+>  	" C0-3:S+ C1-3:S+ C2-3     .    X2-3   X3:P2    .      .     0 A1:0-2|A2:3|A3:3 A1:P0|A2:P2 3"
+>  	" C0-3:S+ C1-3:S+ C2-3     .    X2-3   X2-3  X2-3:P2   .     0 A1:0-1|A2:1|A3:2-3 A1:P0|A3:P2 2-3"
+>  	" C0-3:S+ C1-3:S+ C2-3     .    X2-3   X2-3 X2-3:P2:C3 .     0 A1:0-1|A2:1|A3:2-3 A1:P0|A3:P2 2-3"
+> -	" C0-3:S+ C1-3:S+ C2-3   C2-3     .      .      .      P2    0 A1:0-3|A2:1-3|A3:2-3|B1:2-3 A1:P0|A3:P0|B1:P-2"
+> +	" C0-3:S+ C1-3:S+ C2-3   C2-3     .      .      .      P2    0 A1:0-1|A2:1|A3:1|B1:2-3 A1:P0|A3:P0|B1:P2"
+>  	" C0-3:S+ C1-3:S+ C2-3   C4-5     .      .      .      P2    0 B1:4-5 B1:P2 4-5"
+>  	" C0-3:S+ C1-3:S+ C2-3    C4    X2-3   X2-3  X2-3:P2   P2    0 A3:2-3|B1:4 A3:P2|B1:P2 2-4"
+>  	" C0-3:S+ C1-3:S+ C2-3    C4    X2-3   X2-3 X2-3:P2:C1-3 P2  0 A3:2-3|B1:4 A3:P2|B1:P2 2-4"
+> @@ -318,7 +318,7 @@ TEST_MATRIX=(
+>  	# Invalid to valid local partition direct transition tests
+>  	" C1-3:S+:P2 X4:P2  .      .      .      .      .      .     0 A1:1-3|XA1:1-3|A2:1-3:XA2: A1:P2|A2:P-2 1-3"
+>  	" C1-3:S+:P2 X4:P2  .      .      .    X3:P2    .      .     0 A1:1-2|XA1:1-3|A2:3:XA2:3 A1:P2|A2:P2 1-3"
+> -	"  C0-3:P2   .      .    C4-6   C0-4     .      .      .     0 A1:0-4|B1:4-6 A1:P-2|B1:P0"
+> +	"  C0-3:P2   .      .    C4-6   C0-4     .      .      .     0 A1:0-4|B1:5-6 A1:P2|B1:P0"
+>  	"  C0-3:P2   .      .    C4-6 C0-4:C0-3  .      .      .     0 A1:0-3|B1:4-6 A1:P2|B1:P0 0-3"
+>  
+>  	# Local partition invalidation tests
+> @@ -388,10 +388,10 @@ TEST_MATRIX=(
+>  	"  C0-1:S+  C1      .    C2-3     .      P2     .      .     0 A1:0-1|A2:1 A1:P0|A2:P-2"
+>  	"  C0-1:S+ C1:P2    .    C2-3     P1     .      .      .     0 A1:0|A2:1 A1:P1|A2:P2 0-1|1"
+>  
+> -	# A non-exclusive cpuset.cpus change will invalidate partition and its siblings
+> -	"  C0-1:P1   .      .    C2-3   C0-2     .      .      .     0 A1:0-2|B1:2-3 A1:P-1|B1:P0"
+> -	"  C0-1:P1   .      .  P1:C2-3  C0-2     .      .      .     0 A1:0-2|B1:2-3 A1:P-1|B1:P-1"
+> -	"   C0-1     .      .  P1:C2-3  C0-2     .      .      .     0 A1:0-2|B1:2-3 A1:P0|B1:P-1"
+> +	# A non-exclusive cpuset.cpus change will not invalidate its siblings partition.
+> +	"  C0-1:P1   .      .    C2-3   C0-2     .      .      .     0 A1:0-2|B1:3 A1:P1|B1:P0"
+> +	"  C0-1:P1   .      .  P1:C2-3  C0-2     .      .      .     0 A1:0-1|XA1:0-1|B1:2-3 A1:P1|B1:P1"
+> +	"   C0-1     .      .  P1:C2-3  C0-2     .      .      .     0 A1:0-1|B1:2-3 A1:P0|B1:P1"
+>  
+>  	# cpuset.cpus can overlap with sibling cpuset.cpus.exclusive but not subsumed by it
+>  	"   C0-3     .      .    C4-5     X5     .      .      .     0 A1:0-3|B1:4-5"
+> @@ -417,6 +417,14 @@ TEST_MATRIX=(
+>  	" CX1-4:S+ CX2-4:P2 .    C5-6      .     .      .   P1:C3-6  0 A1:1|A2:2-4|B1:5-6 \
+>  								       A1:P0|A2:P2:B1:P-1 2-4"
+>  
+> +	# When multiple partitions with conflicting cpuset.cpus are created, the
+> +	# latter created ones will only get what are left of the available exclusive
+> +	# CPUs.
+> +	"  C1-3:P1   .      .      .       .     .      .   C3-5:P1  0 A1:1-3|B1:4-5:XB1:4-5 A1:P1|B1:P1"
+> +
+> +	# cpuset.cpus can be set to a subset of sibling's cpuset.cpus.exclusive
+> +	" C1-3:X1-3  .      .    C4-5      .     .      .     C1-2   0 A1:1-3|B1:1-2"
+> +
+>  	#  old-A1 old-A2 old-A3 old-B1 new-A1 new-A2 new-A3 new-B1 fail ECPUs Pstate ISOLCPUS
+>  	#  ------ ------ ------ ------ ------ ------ ------ ------ ---- ----- ------ --------
+>  	# Failure cases:
+> @@ -427,7 +435,7 @@ TEST_MATRIX=(
+>  	# Changes to cpuset.cpus.exclusive that violate exclusivity rule is rejected
+>  	"   C0-3     .      .    C4-5   X0-3     .      .     X3-5   1 A1:0-3|B1:4-5"
+>  
+> -	# cpuset.cpus cannot be a subset of sibling cpuset.cpus.exclusive
+> +	# cpuset.cpus.exclusive cannot be set to a superset of sibling's cpuset.cpus
+>  	"   C0-3     .      .    C4-5   X3-5     .      .      .     1 A1:0-3|B1:4-5"
+>  )
+>  
+> @@ -477,6 +485,10 @@ REMOTE_TEST_MATRIX=(
+>  	      .      .   X1-2:P2  X4-5:P1  .     X1-7:P2 p1:3|c11:1-2|c12:4:c22:5-6 \
+>  							 p1:P0|p2:P1|c11:P2|c12:P1|c22:P2 \
+>  							 1-2,4-6|1-2,5-6"
+> +	# c12 whose cpuset.cpus CPUs are all granted to c11 will become invalid partition
+> +	" C1-5:P1:S+ .  C1-4:P1   C2-3     .       .  \
+> +	      .      .     .       P1      .       .     p1:5|c11:1-4|c12:5 \
+> +							 p1:P1|c11:P1|c12:P-1"
+>  )
+>  
+>  #
+
 -- 
-2.7.4
+Best regards,
+Ridong
 
