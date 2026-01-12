@@ -1,184 +1,154 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030F12D9496;
-	Mon, 12 Jan 2026 18:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C46F38737C
+	for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 18:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768242053; cv=none; b=iZV69wuOIIxO4JiAAhOzrbpe1jjmhKzqqlAsxJX2gu+JWBYV5Te8IPuq3CN78m1xMRBbYivWERyr/XqujqZO/2lhqqhs3eEmRAzBJe4dssLBCiLc4RT6PRyl4/wVm0EuM6SALsxteI6mfqKRvo2KPnVUHeTQwhsXydFGkajINPg=
+	t=1768242445; cv=none; b=cigWsiZfRtUxeTcz15sYdPUKtjZT/9Av7IVPrHIl5NTtGvwqYtEuyxa5yms2cTUdkxQMU7ZJS0dJrBO7PzyxclN4m5b0kXvebITX4nA1FLBSTika9ZS3DoFYrfnBQlds6irzmI+YyDsq3g4EFTrf1V3KOFtDlY6cMOh7RsLssEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768242053; c=relaxed/simple;
-	bh=0MIsQPEMKnW1e4juI0TNrUwQskLGzb2wCSPvKVdOWds=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=aoCbhiq2Y/Oe1KfKUTb3aW+V9+S8+5NP31rzz4Ia3GJr6wL4E5cd4kM1UoZT/Pc8BipQ/5dogixTEbVPzJxMn466Igs4JcxkLVntmUqd87dXeQA3okw9w5h5zp0Quv0SSTrTf50sn/w3exvaRNE06vNzVS04hQfOu1ceWzy6TQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=kpxyIHNm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ew9pTgVh; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1768242445; c=relaxed/simple;
+	bh=shf+2pFJKpTQXDUXGMMTyC3s2OFfrjtsyGwPASB1HGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/wTLW0VArqmm+lv1iXoOvOq8CE9H32Ug/GZ+QkuRChi7tBC/x4b60zcav4SbRVFo9Q2ixIVG3YT0mmejfT8kzPoDBVabkWDWFfzfV6rH2rphGW7/ohNFK+PlwfHpFFu/90duEztjwB/b/dIqfH8i9LqSLAqEXdWyGFnif/O2YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=UR4BHGHo; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="kpxyIHNm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ew9pTgVh"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 12D4C1D000E9;
-	Mon, 12 Jan 2026 13:20:50 -0500 (EST)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Mon, 12 Jan 2026 13:20:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1768242049;
-	 x=1768328449; bh=O4EudzFjIiugLvsbHDKdmXPJwZkcSMwAsTeW+doPJx4=; b=
-	kpxyIHNmkFMWTjMBPtbDkfo35ayO/4cyxXv9b006NHlzn5J65YShQZuR++rS1mje
-	lzsLUe0duV1LTCNgo4TD1Qq9m6zXd9L/sPXSx60GPxwM2ROkGYGxl0FBEAUAgR9X
-	YCVCls4ffQ0xgaxN6kmJVsNXp0cow2CpWSWEIxoiHmeKn084HeDlupQ1GbUwz54M
-	p7GVec8gkRrNbohgPN0pP341VqUZRqx9xiEk9nBVxWi+bHmV6Tf8qGs1aX1XTFx5
-	0fQ/bmrnGgc2aZ5LtuOufRh+PWqVFEqsKmOD3Nn6Y6oL16O/rglI5mdZjjWckDh5
-	EiVkR8F1tvCEhgFZh64afg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768242049; x=
-	1768328449; bh=O4EudzFjIiugLvsbHDKdmXPJwZkcSMwAsTeW+doPJx4=; b=e
-	w9pTgVhoDdsutmTfttKM+/Tv1J8cEleoUDgzLKTrojD/C5+vkt6TH6Palbz+tW+J
-	2gHdEMNwifs0TBRXM73SD9PSt+/3bxEbZTCUtmQB9JmRXF5yw3mXuQ2QT8+pErQX
-	cKCMKFiL+HhUT65VqrC1va6XKspm+Am5o7iLfzIhzUMS2Wq1h2ZuR0lMGnBCO7MO
-	uTEqJ5PosvAX5wkPOjvLzKAfGMvJjJrE82sff2R8Tt2O9PeOraUsUHstIU4oKVTY
-	dKrbGYs5/2W+CNvg8E+nqCahj42Di+PG5RJhwm/fQHiQCp9qv0qoAPTv6CdqL3/8
-	7zvaQ6Nr4YCbdBDvEZUTw==
-X-ME-Sender: <xms:gTtlaSb0D1IgUQS5-oXLuJ3aKH7m1EuTKPbZv4TjNbt8G6s0RB6m6Q>
-    <xme:gTtlaQPsuygVPQ5jt0gwbcuubazaEpaxjr7HIMhUqPLqr5zvOTvLKGjU0NB_4sN-A
-    R5O6BHtKFg-VVoMBjk_cpJdPEm4GcsTl1AV_KvDKV-_1XvFW-DuvXo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudekudeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfofgrrhhk
-    ucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtg
-    grqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdehtdevheduvdejjefggfeijedv
-    geekhfefleehkeehvdffheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhn
-    sggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrrh
-    hiohdrlhhimhhonhgtihgvlhhlohesrghmugdrtghomhdprhgtphhtthhopeguvghrvghk
-    jhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgtohhmpdhrtghpthhtohepsggvnhhtihhssh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepshhhrghohhiiudeslhgvnhhovhhordgtohhmpdhrtghpthhtohepii
-    hhrghnghiigiefieeslhgvnhhovhhordgtohhmpdhrtghpthhtohepphhgrhhifhhfrghi
-    shesvhgrlhhvvghsohhfthifrghrvgdrtghomhdprhgtphhtthhopehlihhnuhigqdguoh
-    gtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhu
-    thesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:gTtlaf6JVa5xTzTUlVqtF68XmLmqda2T1uAKaY190o1Q-fgWk05bfw>
-    <xmx:gTtlaUm3CBgdoAFRugojI1BZEoiXHypioKWw4RxutaGKepUArOuPLQ>
-    <xmx:gTtlaSEmJrhIQCWr46Dme0huYAy6ijLgeeIb_JQh9SnUj20ApnzgQw>
-    <xmx:gTtlab8lOmof8GO16JKaTsTnYvv8HT4VjzxEQf9W-TracZ1vycfFVg>
-    <xmx:gTtlaYmvTeSnr3LmG2KOw2pvC0pAaFgXirYbxLuLcfBjW0y_Q2x5BLNN>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B22B62CE0072; Mon, 12 Jan 2026 13:20:49 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="UR4BHGHo"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4eda26a04bfso81648621cf.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 10:27:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1768242443; x=1768847243; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5cR4YX7Hi9OUrcU/fLtOMjymyJE7wlwEn/EL+XWyumw=;
+        b=UR4BHGHobLLbEf1L5CwXd3u9Ac9NF7LzZmzRN07pOBF/oQXaoClGkoVxs51ApijxcV
+         5jTkh700IsMFMBnF82WujaUPliQF/Q3vPWd0v2HX49eTirmEiXndwc4kdpvGOVeXxJYY
+         fmWSpbK+RDTOzP6dvIWNiP3VlmXhDtZBmcrlZSU9+BstgwKiBzZs64Fe2wSUiG0+zDK5
+         jlsV8Ly6qxS59jNKVmVm/pF8/25s3ktDJ+PqXImGzVfj5VvefEx92OK9A3APV0JoZv8E
+         n1yA6u+0pEgveV3rGM5ryj2K/vQUwySlwQyj5gAjpFyJsHzuKoggsdS4/Fc4n8NVOrIQ
+         IWWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768242443; x=1768847243;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5cR4YX7Hi9OUrcU/fLtOMjymyJE7wlwEn/EL+XWyumw=;
+        b=BUOalOc+5VYoRgJAuJzzzvi19M2M2cs5tq0KftvNp6qQGXZfJZ+79R32qgJzVxzyCU
+         CNdDvzSErhxppnOrXUQeIC231vFD/susqLMni60bkbOI3GUv+nQzis1SLORDD1VCBv9l
+         f6o5J/G0CZGWodVTINlINJeR6SuVOpgIXpvIZgHjz+m4k3Ip1LC2j0HjaI7ZGcTgl4rj
+         P8NoylCvei+/+WRtsvhv35IpyOMM+b1t3AKec1EAPmDHEpC8C0USGNIE1rrGQYEYSAwv
+         FdCdxZKFmeUgjhnDFzghsVEyX9MwYucy6KEA/ZcTSUk2XVHnxAmD7kCBOE9Z4xUipYoj
+         zAWw==
+X-Forwarded-Encrypted: i=1; AJvYcCXez4E0wnIQ7HeqgwYnmtg5YwQG+lhQN3EfGJEioyIRfyhkLhb1i/VApNQRu/VSvmNHDhCQPFR4wlo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJC1yM0r+zumjwXHdRPLaFArc1XJwQNtb4M26t0Q1vNJkvGtD4
+	uUpicmiaHr+veEu+MHzrIZnjq4/xEqH4dVEBRJ+sEqN5FLg+/6lQj0wZ7xEfcxmzLY4=
+X-Gm-Gg: AY/fxX4ok7wl5RSJ/m89faJf4lNkWtN+HFRExUVR8ftzjQyxqbMkioVfqHIS/kIuSAr
+	Erj4PPxTxcDvDAqymjl7LBAdk0BgU/7wuFk0+XHGa2W2aCEVTLLRSElszoiPFCfscouTjO9uLEI
+	pskzhUisVIiNY9vIVXex4r88sCbhu48vbmwfOBBsGunqX6HI3RzRJUrV++dk0uhL3+s5Yg2pyXe
+	F/iPVVOqom+WexYDxhkFzkQEYvwNLb7dyqoGv49jwv5HhewE9cnrdNG24BatgxLpdwj7muh0l8X
+	IesfZBWyKoBTD/UuuO1DuC81E7gs8niV3cZkHjuUUJgIFWPbpsjgB629qJN9LQ16/TcADbxYc3v
+	2W6tNJWdfDx2gPm80m1vcUFP6CuupAQ1VJsn/s01SIvbg/7VY9dNV2FETFmOJgQIAu0SNxU6nCe
+	7BXGAdoak7MRw+FDlwxBaBwpake/E4sJ6TvlidnvBTpd3spKF++avv3r4dfi8b2/Mpc8Y=
+X-Google-Smtp-Source: AGHT+IGVmZqeY1PHuUlU2eCkElvqVfhg5QPHXOe+taJKVCxnMmnVYd9cOiuxymw5goLJl6+Yj9TZrw==
+X-Received: by 2002:ac8:5f8d:0:b0:4ff:c680:1076 with SMTP id d75a77b69052e-4ffc6801d70mr196421351cf.7.1768242443368;
+        Mon, 12 Jan 2026 10:27:23 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8e6ce5asm130263131cf.33.2026.01.12.10.27.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 10:27:22 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vfMdO-00000003Sgx-1Vjy;
+	Mon, 12 Jan 2026 14:27:22 -0400
+Date: Mon, 12 Jan 2026 14:27:22 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
+	baolu.lu@linux.intel.com, rdunlap@infradead.org,
+	Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH v6 3/4] iommu: debug-pagealloc: Track IOMMU pages
+Message-ID: <20260112182722.GJ745888@ziepe.ca>
+References: <20260109171805.901995-1-smostafa@google.com>
+ <20260109171805.901995-4-smostafa@google.com>
+ <20260109195111.GQ545276@ziepe.ca>
+ <CAFgf54r_au6isA10Nrve=MHL455X=tKhNsSwH1ej-TX08J3xLA@mail.gmail.com>
+ <20260112133256.GB745888@ziepe.ca>
+ <CAFgf54psxPrsvujStPNtrzxiKOsJF+aVrN7BcNxxmAF4wDmRXA@mail.gmail.com>
+ <20260112135208.GD745888@ziepe.ca>
+ <CAFgf54q+9Y5TtGJDB=8q_BW-0F=TM7zBbCcMzvtvr_N2WMnd-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AC9rIZzNZkww
-Date: Mon, 12 Jan 2026 13:20:26 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Jiri Kosina" <jikos@kernel.org>
-Cc: "Benjamin Tissoires" <bentiss@kernel.org>,
- "Limonciello, Mario" <mario.limonciello@amd.com>,
- "Zhixin Zhang" <zhangzx36@lenovo.com>, "Mia Shao" <shaohz1@lenovo.com>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <2910bb2e-6b31-42f3-a3de-463327b16ff1@app.fastmail.com>
-In-Reply-To: <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
-References: <20251229031753.581664-1-derekjohn.clark@gmail.com>
- <20251229031753.581664-3-derekjohn.clark@gmail.com>
- <0on4p9s6-7512-9408-49no-3292o86113r3@xreary.bet>
- <6BB4F74A-F440-4F21-B094-62CFD18C599A@gmail.com>
-Subject: Re: [PATCH v2 02/16] HID: hid-lenovo-go: Add Lenovo Legion Go Series HID
- Driver
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFgf54q+9Y5TtGJDB=8q_BW-0F=TM7zBbCcMzvtvr_N2WMnd-w@mail.gmail.com>
 
-On Mon, Jan 12, 2026, at 12:40 PM, Derek J. Clark wrote:
-> On January 12, 2026 4:12:43 AM PST, Jiri Kosina <jikos@kernel.org> wrote:
->>On Mon, 29 Dec 2025, Derek J. Clark wrote:
->>
->>> Adds initial framework for a new HID driver, hid-lenovo-go, along with
->>> attributes that report the firmware and hardware version for each
->>> component of the HID device, of which there are 4 parts: The MCU, the
->>> transmission dongle, the left "handle" controller half, and the right
->>> "handle" controller half. Each of these devices are provided an attribute
->>> group to contain its device specific attributes. Additionally, the touchpad
->>> device attributes are logically separated from the other components in
->>> another attribute group.
->>> 
->>> This driver primarily provides access to the configurable settings of the
->>> Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
->>> firmware. As previously noted, the Legion Go controllers recently had a
->>> firmware update[1] which switched from the original "SepentiaUSB" protocol
->>> to a brand new protocol for the Go 2, primarily to ensure backwards and
->>> forwards compatibility between the Go and Go 2 devices. As part of that
->>> update the PIDs for the controllers were changed, so there is no risk of
->>> this driver attaching to controller firmware that it doesn't support.
->>> 
->>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>> ---
->>>  MAINTAINERS                 |   6 +
->>>  drivers/hid/Kconfig         |  12 +
->>>  drivers/hid/Makefile        |   1 +
->>>  drivers/hid/hid-ids.h       |   3 +
->>>  drivers/hid/hid-lenovo-go.c | 734 ++++++++++++++++++++++++++++++++++++
->>>  5 files changed, 756 insertions(+)
->>>  create mode 100644 drivers/hid/hid-lenovo-go.c
->>> 
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 9ed6d11a7746..b5ad29d24e3e 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -14135,6 +14135,12 @@ L:	platform-driver-x86@vger.kernel.org
->>>  S:	Maintained
->>>  F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities.c
->>>  
->>> +LENOVO HID drivers
->>> +M:	Derek J. Clark <derekjohn.clark@gmail.com>
->>> +L:	linux-input@vger.kernel.org
->>> +S:	Maintained
->>> +F:	drivers/hid/hid-lenovo-go.c
->>
->>Hi Derek,
->>
->>thanks for working on this.
->>
->>I am now almost finished with reviewing this pile and am planning to queue 
->>it in hid.git shortly, but I have a question regarding the MAINTAINERS 
->>entry above.
->>
->>The title claims support for all of Lenovo HID, but there is much more to 
->>it than drivers/hid/hid-lenovo-go.c, specifically in hid-lenovo.c.
->>
->>So either please make the title more specific (or claim the ownership of 
->>the whole Lenovo HID landscape indeed, fine by me, but the please reflect 
->>that in F: :) ).
->>
->>Thanks,
->>
->
-> Hi Jiri
->
-> Sure, I've debated using LENOVO LEGION GO HID drivers and LENOVO GO HID 
-> drivers. Do you have a preference? The other drivers are pretty old and 
-> I don't have any hardware that would use them so I'd prefer to keep 
-> them separate (though I'll acknowledge that they don't seem to have a 
-> MAINTAINERS entry)
->
-I should probably take a better look at the lenovo-hid driver.
+On Mon, Jan 12, 2026 at 02:58:47PM +0000, Mostafa Saleh wrote:
+> On Mon, Jan 12, 2026 at 1:52 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Mon, Jan 12, 2026 at 01:43:41PM +0000, Mostafa Saleh wrote:
+> > > But I don’t see why not. from the documentation:
+> > > /**
+> > >  * pfn_valid - check if there is a valid memory map entry for a PFN
+> > >  * @pfn: the page frame number to check
+> > >  *
+> > >  * Check if there is a valid memory map entry aka struct page for the @pfn.
+> > >  * Note, that availability of the memory map entry does not imply that
+> > >  * there is actual usable memory at that @pfn. The struct page may
+> > >  * represent a hole or an unusable page frame.
+> > > …
+> > >
+> > > That means that struct page exists, which is all what we need here.
+> >
+> > A struct page that has never been initialize shouldn't ever be read. I
+> > don't know how that relates to page_ext, but are you really sure that
+> > is all you need?
+> >
+> 
+> AFAIU, if pfn_valid() returns true, it means the struct page is valid,
+> and lookup_page_ext() will check that a valid page_ext exists for this
+> entry.
+> So, what is missing is the NULL check for the page_ext returned, as it
+> can be NULL even if pfn_valid() was true.
+> 
+> But I can't see why we shouldn't use pfn_valid() at all in that path.
+> I don't like the approach of using the prot to check that, as the
+> driver can be buggy which is what the santizer is defending against.
+> If we find some CONFIGs conflicting with it, we can just express that
+> in Kconfig and disable the santaizer in that case.
 
-The platforms that it's supporting weren't in the Linux program, so it never crossed my path before - but looking ahead I think we may need to contribute some changes there (guessing a little, but I'll know in a few months time).
+That's a fair point.
 
-Jiri - as that driver is targeted for Thinkpads, I'm OK to take some responsibility for it if that is useful/helpful.
+How about adding a page_ext_from_phys() kind of function that could
+use pfn_valid internally and has documented semantics for what it even
+does for "holes" in the page map?
 
-Mark
+I'd be happier to see such a well defined API than randomly adding
+pfn_valid() and phys_to_page() when we are trying hard to not have
+those things in these paths.
+
+> > That's sure looks sketchy to me.. Eg if CONFIG_WANT_PAGE_VIRTUAL is
+> > set and you try to feed a MMIO through through that kmap() it will
+> > explode.
+> >
+> > KVM can argue that it doesn't work with CONFIG_WANT_PAGE_VIRTUAL but
+> > iommu cannot.
+> 
+> WANT_PAGE_VIRTUAL seems possible in loongarch which supports KVM.
+
+Yikes, maybe that configuration doesn't run KVM?
+
+Jason
