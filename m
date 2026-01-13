@@ -1,196 +1,212 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4AA389DF0
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 10:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301383; cv=pass; b=ZmRyflnZKaYAi7zWkhEYziwm2RE4vTLtf4cWvH45h7rfDim/w85uv/t66hHZMzDQ0fA4pJHVPIc9llgyimI4iKiXgR2BdB2ckZUpW8iJyGlkTsL7gnuWxlTDroSilNQlbVY39E4/GgzeFxRhaEFF47Xg66km/ChjIyd4vBVz7eI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768301383; c=relaxed/simple;
-	bh=L74NiKuMjMcF4/Y790Hz4fzcal8g/bkjcL2hkOksks4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SGnZTFParMVIS6X+yi9JxyTjK5Lp6C5RChA9vlKUbzfcMjPl2i3lmAANGxdk0TZhB4p/1p1Tq540SLP7XdKKVhsu2Vk/cQnYe+mB+lxrmAZEAtbTv+bFjgYmX0Qx3wFti3kOqKvYLlc4DWV2gBXBMLbzHUFGSH+t+OUQIGDDycw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mYzmZrRG; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mYzmZrRG"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4edb8d6e98aso339021cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 02:49:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768301380; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PSrgskQelrWBaLlBsqz/E0MfdusJPCwDCIc4Po5VMQqtJRT8jrmD/rrxNZVtO8JD0s
-         /A5bl6EQvKyVnjopI9e8FeV6tdzO2Yrkv1H9CFXldIV+ObG7xKA9GOXUsktWhUJUM5Z8
-         BiSJI2hCRBoGc2Z/my8HtCGGvL7/WOk3IRpdZCAIBlCOwZmLZcVOa9ZugwoI3TBKo6aq
-         yPlglkcGU5XizCfnGbmHqkrFUFA32MERD37OuIPm1j3VAPqT91dlBC0TE9+RdZ+c0SrL
-         RyeGp3wrpOtctVCWkM2SZMWdA7Em2265/+08jEnjwCKKSGX8mx0Ya70ez6LG9TFYBphS
-         otjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NXG4CU5YmzAtAnNGeTeZPJtWkZL9OvdDelesvzB7oWk=;
-        fh=R8FtmqTPXhNFH7q9SvGciLUahtdxh3eLyq8zgeTC/Hc=;
-        b=L3mLl3r1LE7nogIXZRbvVQINlym49tUS29f12bmip8TrIfBHAzrm31U6E1Rqg7lXvD
-         i71g9vix13fVcW+F9vYXPAOajJXsEP9PvJK+KOsUyZIPJBTz0OZJSzNhvV3omBaISFb6
-         DkTNjfXVielor0AD8rT/I4SCYxQH8UsygiK03/AWETqz5oOZDZpa6GJEj7sSYa7tVs0I
-         yMIrkyB4lV/WZLNTiVhNa4J0Yegk59Lmzw4to/3mAFB/LpHkE5T7NAjwODD54zG12TkJ
-         ZtpyeKG6ovZu7HDn/TvMzSInvFphKV6Y8o4f4xu3S5qjhMEyS/4Jurh4DqLuc5PgCo3E
-         1OPw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768301380; x=1768906180; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NXG4CU5YmzAtAnNGeTeZPJtWkZL9OvdDelesvzB7oWk=;
-        b=mYzmZrRGfKP/itI2upqneCp4hZ8xHfkIzh4Atwbm0vxEfx2F9nCpHqoCCA+r86Kyjn
-         aVQUMId2XNlGk0qX6lBUSrw6NhY151TkWHVB9Z3zuQMP+Iznd5bmfAwAqigR/evGDzY8
-         Gm8VkrK+pvGTG0KlMm1cCuz3FpXibmMz5goT2eyQUibmlg53k5JvIvpbEDad9RlERyba
-         BhqY1c9KeDAFYe0MKns+gOH0305NwSVyReEBKs+JXJB9mQrVriG1v3Gzr9i3lHwQM9ak
-         bIZ24bFrt9jTXzvtDzFKdbviuOOHaaipdNi4kST4QBQRfTbgSPCjQjTH2d19r3ldM7Jp
-         Y96w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768301380; x=1768906180;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NXG4CU5YmzAtAnNGeTeZPJtWkZL9OvdDelesvzB7oWk=;
-        b=G1NLPscnT5aa1HJ8/DX/DrkndcTT4VaKJ5eO4VJIYEd01SsvbrcXwcBp0eCjigx0Q6
-         TqLu6zvG9fBATHT6ni6J9+yzu9stKwp5ZpWUlme+ZX0ro/SNzgQhnt4MCq0uj0EX/5dj
-         EfWnkFeyzo1vXmMJGEIZBCZBCkkhjIjsEAD7ZKNxudj0WlH2vGUk7t2pUy8FiYl/jm6D
-         mJf62jjXEeBfzPnEur5rbTSuvoIq4lUpaKVTax9B7mfW9p8vOrOKCRPJdCd/4cMdvSjj
-         e8Zv7w+UkdDoMukNdqFlppV+a8epaT6nxcB7HZb9UiJlg7CD2X6DHoGPSdmKTPZxCK22
-         Y0yA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQxMYXpAU+XlwLMXF+BM4s2gXneR64ocjSCwSPRipjKo8RsWVrOWO1pZyevUghgopTSn3E5TGIdb0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPkV75I7frS4TXRxvaRAUMuGPEjk0aEZal5HS7SHVOM+YGkMRU
-	nZDpRQHFQc1xWq4RJzAWDNbi8C3SOlFiqLRsG6lfR3eA28a+RMFKE6CIN8SC5+2YVdFr5Tp8nKt
-	WneveMbJ3x2ZeFfPxnxx7S9oePCJ+MCwgz1zqMSkl
-X-Gm-Gg: AY/fxX7xiiqygwHXl5P4PKSEH7XQMhrHPUwk7O0C74b07vRzZuPfuuwHI0VG92eY9KB
-	3RvcnFaeCuz3WwgE6aGsuSi0qvCbo+hFnpXDyDBrr6ZgIoPpaj+q47RMMx9UN2qzLwprA8HW+cK
-	euAnctO3rCtuXwzPNvPHxK7WGGYlurw5mWsiewlL9VDk6uNU8ffJURJbSYpNMqMF73Hn74yvYEk
-	EnAEnrG7fd9M1siVjh34OVOFU+XCWL8RBI9QgOv03KE+pHwQjWHwTyJzBJBi5m3ktBYJe1C+vUx
-	ptnwD1fA1d5G8hQQTAO//Wzrqw==
-X-Received: by 2002:a05:622a:3cd:b0:4ff:cb75:2a22 with SMTP id
- d75a77b69052e-5013af6d173mr7683061cf.3.1768301379920; Tue, 13 Jan 2026
- 02:49:39 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC51E3806DD;
+	Tue, 13 Jan 2026 10:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768301584; cv=none; b=Aac6RN4vgrPMwqsjSdbGYPUiiNkqVJAmL1/L+uaO0tS6mU5pXVUO6IKhk9Q5PPZOC5OGpytiUpf+3+BdSF08QWeKGNkZRrVWZ0Jhrb/7+zmCYqezOQ41Gw0PvMmZtJzXi8bw9PAUcK2cfn0r8IZLcgK/NLFKGZDnCp9TapWz7/M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768301584; c=relaxed/simple;
+	bh=4ud7s/x//wWO9M9VSXwDrnbrgUVZaWyUIXKR42pioi8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jnr4s0bzFAg/ZUOHTNrQaokF/0maCukABjfC9ENCBYa6Avq6rCXCBtVLk1Twj+Xu3H7tj6iLVtwXL1IZm5srCxp9ZPDRCU7rgskWEbfRvhJyjbB7153bBRY/XpJMDj8siaTzRlWPLyGAnIDs3Wwlx4DvoGZovTkoMrhMLwYJMWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D8BD497;
+	Tue, 13 Jan 2026 02:52:55 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E56233F5A1;
+	Tue, 13 Jan 2026 02:52:58 -0800 (PST)
+Message-ID: <75ea1f3d-7589-4946-bffe-406459ee77d2@arm.com>
+Date: Tue, 13 Jan 2026 10:52:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260109171805.901995-1-smostafa@google.com> <20260109171805.901995-4-smostafa@google.com>
- <20260109195111.GQ545276@ziepe.ca> <CAFgf54r_au6isA10Nrve=MHL455X=tKhNsSwH1ej-TX08J3xLA@mail.gmail.com>
- <20260112133256.GB745888@ziepe.ca> <CAFgf54psxPrsvujStPNtrzxiKOsJF+aVrN7BcNxxmAF4wDmRXA@mail.gmail.com>
- <20260112135208.GD745888@ziepe.ca> <CAFgf54q+9Y5TtGJDB=8q_BW-0F=TM7zBbCcMzvtvr_N2WMnd-w@mail.gmail.com>
- <746f5adb-1d91-4ca2-8ae0-a2d171203b66@kernel.org> <CAFgf54pbkfdFr6biE8BiNKBnTBFWxXGmvxsZ0E+C1C44c9AW_g@mail.gmail.com>
- <482f2f36-e906-492a-a80c-987bf7359d83@kernel.org>
-In-Reply-To: <482f2f36-e906-492a-a80c-987bf7359d83@kernel.org>
-From: Mostafa Saleh <smostafa@google.com>
-Date: Tue, 13 Jan 2026 10:49:28 +0000
-X-Gm-Features: AZwV_QgAlplyLPfi6S3PJ1zgKNxfE-mAUtCQBPaWTfjdB1wsPcBjVXKJ3tx22Ws
-Message-ID: <CAFgf54ovfnTHmMuZGk73SEEKsP3k-_exR1wqUE4W9tLYKv_iDw@mail.gmail.com>
-Subject: Re: [PATCH v6 3/4] iommu: debug-pagealloc: Track IOMMU pages
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, 
-	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
-	Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 28/30] KVM: arm64: selftests: Skip impossible invalid
+ value tests
+To: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+ Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Peter Maydell <peter.maydell@linaro.org>, Eric Auger <eric.auger@redhat.com>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+ <20251223-kvm-arm64-sme-v9-28-8be3867cb883@kernel.org>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <20251223-kvm-arm64-sme-v9-28-8be3867cb883@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 13, 2026 at 10:31=E2=80=AFAM David Hildenbrand (Red Hat)
-<david@kernel.org> wrote:
->
-> On 1/13/26 11:22, Mostafa Saleh wrote:
-> > On Mon, Jan 12, 2026 at 7:12=E2=80=AFPM David Hildenbrand (Red Hat)
-> > <david@kernel.org> wrote:
-> >>
-> >> On 1/12/26 15:58, Mostafa Saleh wrote:
-> >>> On Mon, Jan 12, 2026 at 1:52=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca=
-> wrote:
-> >>>>
-> >>>> On Mon, Jan 12, 2026 at 01:43:41PM +0000, Mostafa Saleh wrote:
-> >>>>> But I don=E2=80=99t see why not. from the documentation:
-> >>>>> /**
-> >>>>>    * pfn_valid - check if there is a valid memory map entry for a P=
-FN
-> >>>>>    * @pfn: the page frame number to check
-> >>>>>    *
-> >>>>>    * Check if there is a valid memory map entry aka struct page for=
- the @pfn.
-> >>>>>    * Note, that availability of the memory map entry does not imply=
- that
-> >>>>>    * there is actual usable memory at that @pfn. The struct page ma=
-y
-> >>>>>    * represent a hole or an unusable page frame.
-> >>>>> =E2=80=A6
-> >>>>>
-> >>>>> That means that struct page exists, which is all what we need here.
-> >>>>
-> >>>> A struct page that has never been initialize shouldn't ever be read.=
- I
-> >>>> don't know how that relates to page_ext, but are you really sure tha=
-t
-> >>>> is all you need?
-> >>>>
-> >>>
-> >>> AFAIU, if pfn_valid() returns true, it means the struct page is valid=
-,
-> >>> and lookup_page_ext() will check that a valid page_ext exists for thi=
-s
-> >>> entry.
-> >>
-> >> Not always. Offline memory blocks have a memory map but no page ext. W=
-e
-> >> allocate the page ext at memory onlining time.
-> >>
-> >> Also, I'm not sure about ZONE_DEVICE memory, very likely we never
-> >> allocate a page_ext for them?
-> >>
-> >> I'd assume both cases are not relevant for your use case, though.
-> >>
-> >
-> >  From my understanding, in that case, page_ext_get() will return NULL.
-> >
-> > So, as long as struct page exists, page_ext_get won't misbehave.
-> >
-> > I am not sure about offline memory, but MMIO can be used. We use
-> > pfn_valid() before getting the struct page that we pass to page_ext.
-> > Would that be OK?
-> It's tricky. If you look at lookup_page_ext(), it relies on extracting
-> the pfn+nid from the "struct page".
->
-> If the "struct page" is uninitialized (e.g., offline memory) that cannot
-> possibly work, as it could just give you random garbage.
->
-> (note that there are two implementations of lookup_page_ext(), both
-> extracting the PFN but only one extracting the NID).
->
+Hi Mark,
 
-I see, thanks for the clarification.
+On 12/23/25 01:21, Mark Brown wrote:
+> The set_id_regs test currently assumes that there will always be invalid
+> values available in bitfields for it to generate but this may not be the
+> case if the architecture has defined meanings for every possible value for
+> the bitfield. An assert added in commit bf09ee918053e ("KVM: arm64:
+> selftests: Remove ARM64_FEATURE_FIELD_BITS and its last user") refuses to
+> run for single bit fields which will show the issue most readily but there
+> is no reason wider ones can't show the same issue.
+> 
+> Rework the tests for invalid value to check if an invalid value can be
+> generated and skip the test if not, removing the assert.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  tools/testing/selftests/kvm/arm64/set_id_regs.c | 58 ++++++++++++++++++++-----
+>  1 file changed, 46 insertions(+), 12 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/kvm/arm64/set_id_regs.c b/tools/testing/selftests/kvm/arm64/set_id_regs.c
+> index 322cd13b9352..641194c5005a 100644
+> --- a/tools/testing/selftests/kvm/arm64/set_id_regs.c
+> +++ b/tools/testing/selftests/kvm/arm64/set_id_regs.c
+> @@ -318,11 +318,12 @@ uint64_t get_safe_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
+>  }
+>  
+>  /* Return an invalid value to a given ftr_bits an ftr value */
+> -uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
+> +uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr,
+> +			   bool *skip)
+>  {
+>  	uint64_t ftr_max = ftr_bits->mask >> ftr_bits->shift;
+>  
+> -	TEST_ASSERT(ftr_max > 1, "This test doesn't support single bit features");
+> +	*skip = false;
+>  
+>  	if (ftr_bits->sign == FTR_UNSIGNED) {
+>  		switch (ftr_bits->type) {
+> @@ -330,42 +331,72 @@ uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
+>  			ftr = max((uint64_t)ftr_bits->safe_val + 1, ftr + 1);
 
-I see that pfn_to_online_page() exits, which seems to handle online
-memory and ZONE_DEVICE. Would that be a suitable alternative?
+Don't you want the check you've got in the signed case here to deal with
+safe_val or ftr being equal to ftr_max. In the 1 bit case we there won't
+be any invalid values if the safe_val and ftr are different.
 
-Would you have a problem if we added a new function in page_ext
-"page_ext_from_phys()" as Jason suggested?
+>  			break;
+>  		case FTR_LOWER_SAFE:
+> +			if (ftr == ftr_max)
+> +				*skip = true;
+>  			ftr++;
+>  			break;
+>  		case FTR_HIGHER_SAFE:
+> +			if (ftr == 0)
+> +				*skip = true;
+>  			ftr--;
+>  			break;
+>  		case FTR_HIGHER_OR_ZERO_SAFE:
+> -			if (ftr == 0)
+> +			switch (ftr) {
+> +			case 0:
+>  				ftr = ftr_max;
+> -			else
+> +				break;
+> +			case 1:
+> +				*skip = true;
+> +				break;
+> +			default:
+>  				ftr--;
+> -			break;
+> +				break;
+> +			}
+
+Missing break for the outer switch statement.
+
+>  		default:
+> +			*skip = true;
+>  			break;
+>  		}
+>  	} else if (ftr != ftr_max) {
+>  		switch (ftr_bits->type) {
+>  		case FTR_EXACT:
+>  			ftr = max((uint64_t)ftr_bits->safe_val + 1, ftr + 1);
+> +			if (ftr > ftr_max)
+> +				*skip = true;
+>  			break;
+>  		case FTR_LOWER_SAFE:
+> -			ftr++;
+> +			if (ftr == ftr_max)
+> +				*skip = true;
+
+This is the opposite condition of the enclosing else if.
+
+> +			else
+> +				ftr++;
+>  			break;
+>  		case FTR_HIGHER_SAFE:
+> -			ftr--;
+> -			break;
+> -		case FTR_HIGHER_OR_ZERO_SAFE:
+>  			if (ftr == 0)
+> -				ftr = ftr_max - 1;
+> +				*skip = true;
+
+Isn't ftr_max, -1, invalid in FTR_HIGHER_SAFE case when ftr is 0. Also,
+need to check for the actual highest.
+
+>  			else
+>  				ftr--;
+>  			break;
+> +		case FTR_HIGHER_OR_ZERO_SAFE:
+> +			switch (ftr) {
+> +			case 0:
+> +				if (ftr_max > 1)
+> +					ftr = ftr_max - 1;
+> +				else
+> +					*skip = true;
+> +				break;
+> +			case 1:
+> +				*skip = true;
+> +				break;
+> +			default:
+> +				ftr--;
+> +				break;
+> +			break;
+> +			}
+>  		default:
+> +			*skip = true;
+>  			break;
+>  		}
+>  	} else {
+> -		ftr = 0;
+> +		*skip = true;
+
+Why do we always skip when signed and ftr is -1? Wouldn't 0 be an
+invalid in the FTR_LOWER_SAFE case.
+
+>  	}
+>  
+>  	return ftr;
+> @@ -400,12 +431,15 @@ static void test_reg_set_fail(struct kvm_vcpu *vcpu, uint64_t reg,
+>  	uint8_t shift = ftr_bits->shift;
+>  	uint64_t mask = ftr_bits->mask;
+>  	uint64_t val, old_val, ftr;
+> +	bool skip;
+>  	int r;
+>  
+>  	val = vcpu_get_reg(vcpu, reg);
+>  	ftr = (val & mask) >> shift;
+>  
+> -	ftr = get_invalid_value(ftr_bits, ftr);
+> +	ftr = get_invalid_value(ftr_bits, ftr, &skip);
+> +	if (skip)
+> +		return;
+>  
+>  	old_val = val;
+>  	ftr <<= shift;
+> 
+
 
 Thanks,
-Mostafa
 
+Ben
 
-Thanks,
-Mostafa
-
-> --
-> Cheers
->
-> David
->
