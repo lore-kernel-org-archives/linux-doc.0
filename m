@@ -1,145 +1,81 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2516F217722
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3752E091B;
+	Tue, 13 Jan 2026 07:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768290575; cv=none; b=R+VD7A4Jjo49+VLaVxl6QakS83Whv73Ma0kJpVDALE6C2XWM4VRxDdhqsP2kZGeMiHM39KOR3B6Ikpwd6eMFlhlFNrS1IRrrvJ8dKKmTVtpTtWyYT/hcgE+c9CEouhCsxLMl964k6wJ/+BKBiKuV2L9fi2ylzKXPxSr3jrhfG1w=
+	t=1768290827; cv=none; b=Pef1wI+2pvz3lnxBD/Gh6//PgZzH3xaUhX+zOqibpraahTON9bJM9G0buMJHwI8hsRaK/wZq0jIixEtHw18PuPsM2FrDY6OjY+cwiG8VZzpXMRCDOb2SGcY/kZ7UVCBCRkUNtJGWNe8LSzKA3AUQiN7vGMZ2lRauh7Bskr9CP8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768290575; c=relaxed/simple;
-	bh=D72r7QS3AZghCN5eZae/D45TgwvMIo1bhMsAnpABw0A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=htb8NdYz8lhCYZPB4PjvU5bgSZLTC5K0J84pYsoXYHt09b2Xpo5c/ibz+t+TAwwz1r0CHfgotasJ2VMSeael6SpGzF8vLjV4NkHsTa8S+zB0IInGk+mFxfE8nmaIQ/bzWXDvbHCZeBLOmoIUUDRfrmQY+v/DvhB7evaqtJGowg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXqQDkS0; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXqQDkS0"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47d59da3d81so27059325e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 23:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768290572; x=1768895372; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D72r7QS3AZghCN5eZae/D45TgwvMIo1bhMsAnpABw0A=;
-        b=TXqQDkS0p3yUSbgZZlJZi69w+PsFe/x+lD38HlEuH39i91wMa35KrYDXfs4yzt4tEu
-         EzuIWicg9Q2UeSLapgBFS9g8sDnnzSLNWtjDVMu+wzKx9V2837bQ278xjOBg6Qxf9xxf
-         IECzpFedn9YJyMSbnR7NPMwVTVr5Yx+3E8qy/LtEHv1b/BUDABX3JYaK8+AL1zHMYS6C
-         kXZ+mlCLardLZ5qQK9o5Lr3QXF7naA/PoavhVOaY/NR5E9OwO1VjsKQkSKv8bMpOlSiu
-         ef3T3rI8RzEG0CStiGGT9Rk2tc7CbYcVRO0qJTJbEFk3aUMY5SZk3Vbj5ufNVUPbqIO4
-         oBuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768290572; x=1768895372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D72r7QS3AZghCN5eZae/D45TgwvMIo1bhMsAnpABw0A=;
-        b=Z78otbDfafxr3rpe545dorfs7bjh2sKodJLsh/SenIoSiwaXRwSh8Q/Luguw+jbUi6
-         K+rVrdJ8SRsCGiQuy24N9RuHwgdviSFKtzT+kIzYv9qzSIkdwzVDmbRPuNMndqiIkWDo
-         Q0jrXpDKOUlgBQQp22OxNBYwe3LwWCSxFW4PrLc8ipC5+DycPVP6ASmpRtqauPwgWSgk
-         ABphEJtyqxOhWhHYDBVuUIahwFWsVVRnxjuJEmMauZQEhlCVLQg/4PO+fGKQy2rqPzx5
-         t1NTJtkbyX9iwaLF+U/CFPdHAdvjVbar/Bgjq1iHTFry05EnXXtDOmU2Mp5w73d/ksvu
-         ctoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXphBdsq8oJWYZGpN+ggUMADf1FRkNgSoax6V5iJOTseYiehV1trZZGhojnIQNOKUDtIk9rdoh+eM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2z4aGT7OrFLWXwOkogtiiekcsdagHg0HRUmpYs2InW2NsHQ3X
-	3LysLKbHPUc1UjTT6Bqx6yyUhsaRG0F/tCx9zclcieNbrDoiI5tsZATChCy9XBpHHCB9h4w05W7
-	MxeqtlrVIVJ99ploi1SiV2/+rwKt2KkE=
-X-Gm-Gg: AY/fxX76pwMrOpI7AVsZ8wZVyMa3vn6SX6kocYUuJvABhC0jcoOxKDUNfHvVk3P1wgy
-	uhP6LRUEKYS9czV8Jcp81eZg8mYhC2w89n9ot1vAYaKmAStS1IxwM29WgnyExrWCeqKrTSRVD7g
-	xkx3xXjF/keY/Q/SpdeFKWBvznDSexn+QBmPllhzLKlPTcmhutgv64icUhSPIFdt93DMBcrKpRj
-	nbby3N7RPJkkZC0qudfp8pWv+jW/YzLsEIR/m7vNeNU10Lm67Su3osrZjsxM1Hul0TooQpZQe0c
-	wUNSkA==
-X-Google-Smtp-Source: AGHT+IEUFzHNS5l/qkxJS4NHDFzj85t9p9hXmvLuRRVn51UAN1F31Ec5D+lka3oYPvt3/QRvR+bD0XtQlx2VDHa+1AY=
-X-Received: by 2002:a05:6000:2084:b0:432:86e3:84ec with SMTP id
- ffacd0b85a97d-43423e8dc7amr2509543f8f.23.1768290572295; Mon, 12 Jan 2026
- 23:49:32 -0800 (PST)
+	s=arc-20240116; t=1768290827; c=relaxed/simple;
+	bh=h5+vouM/Jp0/qproZWkjY885M2rm4+ktQAA3Wl8iWbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=td+pt8aWHSRIi6rwOQRECEYsW5687DC6BrB/q2E2kGsreY+O4xqgvNoG8rY5zmTyEHF2HjNIbRj3xYj0I5HiIQ6gahvCHHeQlBgC7mLOONKCEJH6Zv3dSLGjBPHeHCUDZoLlgGXLMger3nU0tR58seqreR24/7l8joE6PIyR0QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from localhost (unknown [116.232.18.222])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dlan)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 3969B340E6C;
+	Tue, 13 Jan 2026 07:53:43 +0000 (UTC)
+Date: Tue, 13 Jan 2026 15:53:39 +0800
+From: Yixun Lan <dlan@gentoo.org>
+To: Guodong Xu <guodong@riscstar.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, sophgo@lists.linux.dev,
+	spacemit@lists.linux.dev
+Subject: Re: [PATCH 2/2] riscv: dts: Add "b" ISA extension to existing
+ devicetrees
+Message-ID: <20260113075339-GYA25466@gentoo.org>
+References: <20260113-adding-b-dtsi-v1-0-22d6e55d19df@riscstar.com>
+ <20260113-adding-b-dtsi-v1-2-22d6e55d19df@riscstar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108203755.1163107-1-gourry@gourry.net> <20260108203755.1163107-8-gourry@gourry.net>
- <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
- <aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F> <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
- <CAKEwX=MftJXOE8H=m1C=_RVL8cu516efixTwcaQMBB9pdj=K+g@mail.gmail.com>
-In-Reply-To: <CAKEwX=MftJXOE8H=m1C=_RVL8cu516efixTwcaQMBB9pdj=K+g@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 13 Jan 2026 16:49:20 +0900
-X-Gm-Features: AZwV_QjRztJYV3eeZ1od2Jwrm9JddNIFu6M0SVCsJAY8kxCGR_nVVkUgLa9Xz14
-Message-ID: <CAKEwX=M8=vDO_pg5EJWiaNnJQpob8=NWvbZzssKKPpzs24wj+A@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
-To: Yosry Ahmed <yosry.ahmed@linux.dev>
-Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, cgroups@vger.kernel.org, 
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	kernel-team@meta.com, longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
-	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net, 
-	jonathan.cameron@huawei.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	vishal.l.verma@intel.com, ira.weiny@intel.com, dan.j.williams@intel.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, ziy@nvidia.com, david@kernel.org, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	yury.norov@gmail.com, linux@rasmusvillemoes.dk, rientjes@google.com, 
-	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com, 
-	shikemeng@huaweicloud.com, bhe@redhat.com, baohua@kernel.org, 
-	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	osalvador@suse.de, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	apopple@nvidia.com, cl@gentwo.org, harry.yoo@oracle.com, 
-	zhengqi.arch@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113-adding-b-dtsi-v1-2-22d6e55d19df@riscstar.com>
 
-On Tue, Jan 13, 2026 at 4:35=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> > This part needs more thought. Zswap cannot charge a full page because
-> > then from the memcg perspective reclaim is not making any progress.
-> > OTOH, as you mention, from the system perspective we just consumed a
-> > full page, so not charging that would be inconsistent.
-> >
-> > This is not a zswap-specific thing though, even with cram.c we have to
-> > figure out how to charge memory on the compressed node to the memcg.
-> > It's perhaps not as much of a problem as with zswap because we are not
-> > dealing with reclaim not making progress.
-> >
-> > Maybe the memcg limits need to be "enlightened" about different tiers?
-> > We did have such discussions in the past outside the context of
-> > compressed memory, for memory tiering in general.
->
-> What if we add a reclaim flag that says "hey, we are hitting actual
-> memory limit and need to make memory reclaim forward progress".
->
-> Then, we can have zswap skip compressed cxl backend and fall back to
-> real compression.
->
-> (Maybe also demotion, which only move memory from one node to another,
-> as well as the new cram.c stuff? This will technically also save some
-> wasted work, as in the status quo we will need to do a demotion pass
-> first, before having to reclaiom memory from the bottom tier anyway?
-> But not sure if we want this).
+Hi Guodong,
 
-Some more thoughts - right now demotion is kinda similar, right? We
-move pages from one node (fast tier) to another (slow tier). This
-frees up space in the fast tier, but it actually doesn't change the
-memcg memory usage. So we are not making "forward progress" with this
-either.
 
-I suppose this is fine-ish, because reclaim subsystem can then proceed
-by reclaiming from the bottom tier, which will now go to disk swap,
-zswap, etc.
+On 15:45 Tue 13 Jan     , Guodong Xu wrote:
+> "b" is ratified (Apr/2024) much later than its components zba/zbb/zbs
+> (Jun/2021). With "b" added into riscv/extensions.yaml, a dependency
+> checking rule is now enforced, which requires that when zba, zbb, and zbs
+> are all specified, "b" must be added as well. Failing to do this will
+> cause dtbs_check schema check warnings.
+> 
+> According to uabi.rst, as a single-letter extension, "b" should be added
+> after "c" in canonical order.
+> 
+> Update existing devicetree files to conform to this rule. Line balancing
+> is performed where needed to improve readability.
+> 
+> Signed-off-by: Guodong Xu <guodong@riscstar.com>
+> ---
+>  arch/riscv/boot/dts/anlogic/dr1v90.dtsi     |   5 +-
+>  arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi | 256 ++++++++++++++--------------
+>  arch/riscv/boot/dts/spacemit/k1.dtsi        |  32 ++--
+>  3 files changed, 147 insertions(+), 146 deletions(-)
+please have separated patch for different SoCs, so they can go via
+their own SoC tree.. thanks
 
-Can we achieve the same effect by making pages in
-zswap-backed-by-compressed-cxl reclaimable:
-
-1. Recompression - take them off compressed cxl and store them in
-zswap proper (i.e in-memory compression).
-
-2. Just enable zswap shrinker and have memory reclaim move these pages
-into disk swap. This will have a much more drastic performance
-implications though :)
+-- 
+Yixun Lan (dlan)
