@@ -1,148 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E2C2FC876
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 11:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B203314DE;
+	Tue, 13 Jan 2026 12:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.231.106.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768305000; cv=none; b=IKS2ZqO3TZr6uce49QRm2ZUfAQM3HvlOmrzu+c3Ym9tQtO/6atfAhhWCrFro92ETwlOTwcmb01bp3AK83B4YMjjkTEBwYqVx53ABYjnT4wWNmYihLBDnDsQ+G+GmGaZf1TYZq+QB5OVk24VOa1WOUxnzGh/lptapspEwux5XHys=
+	t=1768307303; cv=none; b=JNA+RLjS5Y8SZOBzhmSgH3Fy+wZwbHWQt//YzfZjR9tsQkbD5XHOh0zOCEFNQPJVSfNg9lMFCAo+YGzTSlO6AjLB73t2Xs1kZ7JFC1Hz+qVWGBTTt2Mn4lINIfATerFs2gUgUceF9ZlujHYK2jLHQA8ec1i2p7GcKqhiHuGu35U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768305000; c=relaxed/simple;
-	bh=jN+EvhJ6frs5MaJE5v0ZEl++swYn5X7F3CStPd7aJag=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Np1uiV54skpK/GVAyiSreRx73xTCsEgNVJozk0ep0EZonCkgdttC3A6BPCbF2BfjBZrWK5Xjp2+wYAIcoLnVFpbduiHPcUT4OstlBYlURu9GTGtm1jc23LITyXbfFmU/FxCQbE6ATdVUUpq9Bdhz+4DJ2AjSuvspWerQ/arlHcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ASwmePYv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768307303; c=relaxed/simple;
+	bh=21w0GG0eda5bCVdiXvdOHRzVIFvjNUj4U9+O+neqMZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UY5Y1Gh9c1lzUpnzfUi9x4+9c7CsQBhRGyZmGT44Yg0Dr4G2+xqYlVA6Mjsnm5yOokth1FtvRnuyBu4bFV8uVFXv0DOwM6y/dTgWSvMlJce3Vh/nNOyuEIqLqaiPZ5zzSajU4yioFounomIUtC7WM3ZRecQDpkEIBdHeyH1oZ0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com; spf=pass smtp.mailfrom=gaisler.com; dkim=fail (0-bit key) header.d=gaisler.com header.i=@gaisler.com header.b=NC76RtxI reason="key not found in DNS"; arc=none smtp.client-ip=94.231.106.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ASwmePYv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1EF7C116C6;
-	Tue, 13 Jan 2026 11:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768305000;
-	bh=jN+EvhJ6frs5MaJE5v0ZEl++swYn5X7F3CStPd7aJag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ASwmePYvs4p74Akr1yxtI3WXNMn1oVYtWRokhNday8BBp5sFRXSzvqKCjnLGb4IZW
-	 APPk2LyzxXs8p/mHM+TXKlYzZ4+A8zhOscOv/NOP9lBUDYuj0PkZ/RgVMYpjL23hCj
-	 AO7pIrxgzz7+GrzNIa0rriitpsntx2h3ojEUrBjktbzMuhaVvskj/T0Q0g3f5AZVQM
-	 mHqisprMkyNRQlLgAqUtwoKraXdKEw8V1nPVKSqmG4k/8e0HeZUrjXgXOzwn0xVT7v
-	 1SNhzJyH83/MnDHH/x61xF6Qi2zgX71Bkxgqtz9KafK64wa6aECxmak4NU+cjKZJH6
-	 rEZ+bhdM8zjeg==
-Date: Tue, 13 Jan 2026 12:49:56 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Petr Vorel <pvorel@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Michael Kerrisk <mtk@man7.org>, man-pages@man7.org
-Subject: Re: [PATCH v2 2/3] Documentation: Remove :manpage: from non-existing
- man pages
-Message-ID: <aWYwzD82rhg6CZHV@devuan>
-References: <20260111233534.183272-1-pvorel@suse.cz>
- <20260111233534.183272-3-pvorel@suse.cz>
- <877btm2388.fsf@trenco.lwn.net>
- <20260113110053.GA306468@pevik>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=gaisler.com header.i=@gaisler.com header.b="NC76RtxI"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.simply.com (Simply.com) with ESMTP id 4dr7nT4CQCz1DR2r;
+	Tue, 13 Jan 2026 13:28:13 +0100 (CET)
+Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.simply.com (Simply.com) with ESMTPSA id 4dr7nQ25vMz1DDgf;
+	Tue, 13 Jan 2026 13:28:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
+	s=simplycom2; t=1768307293;
+	bh=guD8ZDnRvesT5KvXlXi5P5IpxaFCA5kIle2X5/2VdEk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=NC76RtxIq9CvKMBZ8e8fqDdeh4TXwyvNkvf30sHXNOLOnEVZmRBj+bHCDi8FufU/c
+	 kWfZWHOIxSWOKL03enthax76m8YsczdRizVAQDjKjHPFRaRl/L5Y0iqK2UA8boHs2h
+	 YUuM9qT6Ba/QEyyAn4GTFzIGpGi10RKIEp9TlTeLGd8zC+Hr/coq6gBL6LosZXZTF1
+	 gt8Mie1XHzB/bpnFnld9TZavLmhYmlgBWFsXaCVZw4vobFyvtSEkURaEmNJU94ewFm
+	 w3pY4SkxqHFB/QXGBXfUllqNu8tQIWuZ/XTNBQs4TvEhLsgrM+Wzf2b59+1+UOXxo8
+	 bJQ987lvmGGqA==
+Message-ID: <7566eef3-bce4-4100-8a11-d88ef1e887a9@gaisler.com>
+Date: Tue, 13 Jan 2026 13:28:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tuw22n637jbv5obc"
-Content-Disposition: inline
-In-Reply-To: <20260113110053.GA306468@pevik>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/29] sparc: introduce arch_zone_limits_init()
+To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Jonathan Corbet <corbet@lwn.net>, Klara Modin <klarasmodin@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Richard Weinberger <richard@nod.at>, Ritesh Harjani <ritesh.list@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org
+References: <20260111082105.290734-1-rppt@kernel.org>
+ <20260111082105.290734-20-rppt@kernel.org>
+Content-Language: en-US
+From: Andreas Larsson <andreas@gaisler.com>
+In-Reply-To: <20260111082105.290734-20-rppt@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 2026-01-11 09:20, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> Move calculations of zone limits to a dedicated arch_zone_limits_init()
+> function.
+> 
+> Later MM core will use this function as an architecture specific callback
+> during nodes and zones initialization and thus there won't be a need to
+> call free_area_init() from every architecture.
+> 
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  arch/sparc/mm/init_64.c |  6 ++++++
+>  arch/sparc/mm/srmmu.c   | 12 ++++++++----
+>  2 files changed, 14 insertions(+), 4 deletions(-)
+
+Hi Mike,
+
+Thanks for this nice cleanup series.
 
 
---tuw22n637jbv5obc
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Petr Vorel <pvorel@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Michael Kerrisk <mtk@man7.org>, man-pages@man7.org
-Subject: Re: [PATCH v2 2/3] Documentation: Remove :manpage: from non-existing
- man pages
-Message-ID: <aWYwzD82rhg6CZHV@devuan>
-References: <20260111233534.183272-1-pvorel@suse.cz>
- <20260111233534.183272-3-pvorel@suse.cz>
- <877btm2388.fsf@trenco.lwn.net>
- <20260113110053.GA306468@pevik>
-MIME-Version: 1.0
-In-Reply-To: <20260113110053.GA306468@pevik>
+> diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
+> index df9f7c444c39..fbaad449dfc9 100644
+> --- a/arch/sparc/mm/init_64.c
+> +++ b/arch/sparc/mm/init_64.c
+> @@ -2279,6 +2279,11 @@ static void __init reduce_memory(phys_addr_t limit_ram)
+>  	memblock_enforce_memory_limit(limit_ram);
+>  }
+>  
+> +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
+> +{
+> +	max_zone_pfns[ZONE_NORMAL] = last_valid_pfn;
+> +}
+> +
+>  void __init paging_init(void)
+>  {
+>  	unsigned long end_pfn, shift, phys_base;
+> @@ -2461,6 +2466,7 @@ void __init paging_init(void)
+>  
+>  		max_zone_pfns[ZONE_NORMAL] = end_pfn;
 
-Hi Petr,
+This old initialization of max_zone_pfns[ZONE_NORMAL] should also be
+removed, right? With that removed it makes the local end_pfn variable
+set but unused, so could you please also remove that one?
 
-On Tue, Jan 13, 2026 at 12:00:53PM +0100, Petr Vorel wrote:
-[...]
-> > > -If your new :manpage:`xyzzy(2)` system call does return a new file d=
-escriptor,
-> > > +If your new `xyzzy(2)` system call does return a new file descriptor,
->=20
-> > Here, once again, you're retaining the backticks.  If we need to mark up
-> > those references at all, they should be ``literal``.
->=20
-> I'm sorry to keep the same mistake. BTW I did not notice because both rea=
-l man
-> pages a) without manpages_url:
->=20
-> <em class=3D"manpage">read(2)</em>
->=20
-> b) with manpages_url:
->=20
-> <em class=3D"manpage">
-> <a class=3D"manpage reference external" href=3D"https://man7.org/linux/ma=
-n-pages/man8/auditctl.8.html">auditctl(8)</a>
-> </em>
->=20
-> don't have specified CSS. And because my browser default has font-style: =
-italic
-> for <em>, I don't see any difference for :manpage:`read(2)` and `read(2)`.
->=20
-> BTW I'll add in v3 CSS font-family: ..., monospace for manpages.
+I know that this whole code block gets removed later, but the cleanup
+max_zone_pfns[ZONE_NORMAL] and the removal of end_pfn (that is not done
+later in this version of the series) fits logically in this patch.
 
-FWIW, in the Linux man-pages project, we currently use bold with
-proportional font for manual page references, and will soon change to
-italics with proportional font.  We don't use monospace (when formatting
-in PDF, of course).
+>  
+> +		arch_zone_limits_init(max_zone_pfns);
+>  		free_area_init(max_zone_pfns);
+>  	}
+>  
+> diff --git a/arch/sparc/mm/srmmu.c b/arch/sparc/mm/srmmu.c
+> index f8fb4911d360..81e90151db90 100644
+> --- a/arch/sparc/mm/srmmu.c
+> +++ b/arch/sparc/mm/srmmu.c
+> @@ -884,6 +884,13 @@ static void __init map_kernel(void)
+>  
+>  void (*poke_srmmu)(void) = NULL;
+>  
+> +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
+> +{
+> +	max_zone_pfns[ZONE_DMA] = max_low_pfn;
+> +	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
+> +	max_zone_pfns[ZONE_HIGHMEM] = highend_pfn;
+> +}
+> +
+>  void __init srmmu_paging_init(void)
+>  {
+>  	int i;
+> @@ -967,10 +974,7 @@ void __init srmmu_paging_init(void)
+>  	{
+>  		unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
+>  
+> -		max_zone_pfn[ZONE_DMA] = max_low_pfn;
+> -		max_zone_pfn[ZONE_NORMAL] = max_low_pfn;
+> -		max_zone_pfn[ZONE_HIGHMEM] = highend_pfn;
+> -
+> +		arch_zone_limits_init(max_zone_pfn);
+>  		free_area_init(max_zone_pfn);
+>  	}
+>  }
 
+With the feedback for arch/sparc/mm/init_64.c addressed:
 
-Have a lovely day!
-Alex
+Acked-by: Andreas Larsson <andreas@gaisler.com>
 
-> > (If you simply remove the backticks, you might run into conflict with
-> > automarkup, though I *think* that the section number will evade its
-> > regexp).
->=20
-> In my local build plain fxyzzy(3) without backticks works. I slightly pre=
-fer to
-> not use double ``.
->=20
-> Kind regards,
-> Petr
->=20
-> > Thanks,
->=20
-> > jon
+Cheers,
+Andreas
 
---=20
-<https://www.alejandro-colomar.es>
-
---tuw22n637jbv5obc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlmMV4ACgkQ64mZXMKQ
-wqmy/A/9ECYFc9XBfc5bBGNinMvoM5W9tZ0ifXLmg0E7lWCDD6jXwp710QnFU24W
-lmQm8B6Wca1Gb8H1Cdu4JtlCqGItXZMhPV6mY3imSKn45YISyfI+nqFhzK+pYAQg
-2lHjPwM+B0AO/HJ0cAPE1HtPJm1sn+sO+OywqGzjHpV+cU2nOl3lTmjCPm+A0U99
-fWErC6XwkIerUnjtPnfCxG3TxEu5Kn6DfyGfGyW/N4ZhSDsJNldVNzCRvU6U8Koh
-bpldz1iTfwNv8cEyE0nv6RlRszqWO3P5FB9rM0RrTS4qbTMMZCoOjl3Kz8G7yus0
-jLoWZsCtqZPwwqpFq59XN2ZwuYLnFwbl1Zb7off44jEDqxcNmygq2k+JCZvosVe2
-0J91kTdt6OQG78kWobdHP5+RQZNGXjQQvVXLq4mBMXg0AFFlxub+HAXjR+Bsx1hd
-ieRn6StisOa0UUmMORLIoSusWDlZtPjJZ/40Uhw9JfC1XaJfHDZn5Vy76V0uCq7G
-0szgNAUFkprZpLX495iSPNEUOynRS/F9oxVNE1Ao3djSk5E78WP77gS2P5FBDjVZ
-XbMTsM6Z33rnc5FApSGfJ2ObPvjElHQ2FNaZT8RO4B4V6l1FkTm8+7nHh3fcB2Jx
-jg6aLxQ92LA79heqRpg7HfDblDMA8fC/1pkJmQuO5mt0HqPT5Gg=
-=uwhV
------END PGP SIGNATURE-----
-
---tuw22n637jbv5obc--
