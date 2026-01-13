@@ -1,170 +1,131 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FFE27E045
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 14:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59AE728CF49;
+	Tue, 13 Jan 2026 14:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768313789; cv=none; b=D9FlwjQ1xCQ9M8VlAi2eRazTsQUvxzBdIbt4fv+uYdG9rR6aMPNdj9b1LBaMQ6QQJ96J+YC3RTBL0TWtjO+/iwZO3MBHaHh8YVazXu/r+sbqT009SWyM6cNXOOcOKrfcTFk4e7uIeMsHxI6H/+FiIQ7QHfH/arRlsv5QlR5Le+I=
+	t=1768313929; cv=none; b=XRUmsHOUDmVCYPIVFS7zouP6JWzlvEKxfCVUcZixR+bjKz/07bn7WXGuLE2r7FUpK8ZLktqyFA3misuGt8iPbRqQPQmZcM2nT5ye8SRU01oJFMBcGiVj+dQKaCbXvzgGxQINSZK3COwJXE4anUEtFF9aD5+8Nehv3iE6C5zZs9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768313789; c=relaxed/simple;
-	bh=L8RKTSgZzn96TggX+YEpwMvvmrSwzzrKlYFGRXKLwfE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NbyzXcNMl2YcVI4Xsvcimey6H2G8XhcjfEhKT1tZlFnXLf1DhWrUWgYadiED78R8QgcDTmemyYXxUXNMpDMANfhP1CWTiUcGjlogPWMu9fO6maRkWoDXFKZHR6SalZgQhbJJbXnxCyK0idb6LaaAHhbt+Nd1Mu7VfFrgwpL26FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=SPc2JJKa; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1768313929; c=relaxed/simple;
+	bh=mobEhUGH2r6mkJstpg7ygzBzGIXwjaBmuTXhdl2LIsU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gCEOcYyFCe7yx69VD6yrA4RxwkcIWYSdKKHtK6Es7LEHXXxaExgh8o6VjZwL00go+KZ6AZuRK04lablPUZBPpeLiQHuIPSKipQlMi1pyKNAPGlHigyrAxtujGTMfax9bFPpYW8qpQjRpKuXAOuMS+UgQqe9bk0Inm1i2o190MAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=ibNUyaKE; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="SPc2JJKa"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4ee14ba3d9cso84125441cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 06:16:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1768313787; x=1768918587; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EA4FEA3d8sqza+07mct2btPiz1RY5DfLWXNlCi+Rawg=;
-        b=SPc2JJKaFMa5z9jtGsClwMIJjee1JQTyEBNqKdkrc3uH9J+E/PabY7k7e4RsFS+nNe
-         ygwe9iDzAihYKkBJvwP51qg3ZweUgRj4gW4bHr9bwmQ3xyiId1T0jj94vqPhnFu7fzYo
-         E/FNpnJ2/4VUfRoAmUNf0huLGzScIFipAcrl7sT0TvRn4ISpK6/5heQn89bZ3dEYVpT4
-         0m9JuZdvZf6ofqNhendiguV8rzdZSVy5RCIRDGP8+GaqRrinzSPIXT1QuKQcoxkPSBFV
-         apbkp+Si0LNTWKy5r8+rtrdqWDvwTESHlC2wXBzYDSfNQm00tP9VlQMIy+5+uWW2F8oe
-         5mbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768313787; x=1768918587;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EA4FEA3d8sqza+07mct2btPiz1RY5DfLWXNlCi+Rawg=;
-        b=uPmON7CdnsxjNnSL3bElbVT/JTvfS8Aqk+oUOSStKJefMlwByGVsnmK1Yz+pvitVeW
-         p1Kr/Uzadljx7Oe9ZLRt2qJjkj8edDIvt37p6zPtAhB7nQ0DcgD4YLFlKx+2N3ly9A7q
-         bso2SG1IF1pSF+uB+beL4iIpe21AUGk8gn+buaMGHzWndSOCEe1VV/ynSr83MKNpKCRS
-         dqRgTRSknyDQLuD0KKgbsN3tVdt32+W7UsIfW533t+ivYYBFaAwz/zC/9dkd4DNBKNYi
-         q/KBjx1c8KCUjG965mlpPzgzCyOpg0M++ngdRR37kDri7nr2kKiz9A1I2VVLJ9cdWCku
-         5zzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmlgdhN1jO5S6I0Xtp7S4ze0xYQCygp2bbJF9VZcpqG+RmuKGovo6HZPCu8U5RDQgrvZFQnVVT0aE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjmmNDYB5hT+fnX4TGoyf/XJIZ1mRQ+V5858arlZN9Jzh8OAkg
-	Mfs0aiOlRpFKTv+/RfLeDQxdKk1QR0Cxp/rMKfsGlRdc/l4pgNZiocIALJ6xVSCUo6Q=
-X-Gm-Gg: AY/fxX4CpiR1i8AtUE4GWcHvYwxJfcU5k3X+/4VfpJ11+yBFzGYNVkYaMpI+MZA+9js
-	dINE9EZgwF192yS2g9hNqEpJzcVD2Y5WSxBP0NnTfsR52DgU0nMtZTZDpOujIjTjXGC+0YeYGMB
-	WeEWnR/NcNeydCV52D7CJLNx50+tcC1QcEt0GWWunr5+dAtzA+wA25b8rnOvEwvG4JWOgPNvsjV
-	EG9d5dU73/fwfQKJAHnCPgojgwWCscReGvBesfUaJut3uN5aFfUmyGO7pN1SM1TZcMrIiFMWlhb
-	Ekx6eNwVlCx5Vi1MJTuuLKLD+elf+drF6eY2cRGOHt9k0qrt63KDmcEwvRmjGgw8LwmBhleWjKt
-	5fdSIPPzF+TPJHbl07WBYJfrFTU214ld2+KO1i7mAAC2o50XXzAO5c75Ymu3ch9XhFo0HSJOzx5
-	3rHOPJXdVKFpSqmjgh3Lev2aUQcA85sIzxHxwhnABvoWy/3N/xKjhvFl7QBsNAioh//whECA==
-X-Google-Smtp-Source: AGHT+IENvQu0lA+w8r7eNtBm9WUJ3/lNNLy7qp1W9GClRyOkBrOA+5+QqmRhEmTzN0zeeABQ2fhjWQ==
-X-Received: by 2002:a05:622a:1823:b0:4e8:9704:7c83 with SMTP id d75a77b69052e-4ffb47d759bmr323881271cf.14.1768313786490;
-        Tue, 13 Jan 2026 06:16:26 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8d39230sm147458241cf.6.2026.01.13.06.16.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 06:16:21 -0800 (PST)
-Date: Tue, 13 Jan 2026 09:15:43 -0500
-From: Gregory Price <gourry@gourry.net>
-To: dan.j.williams@intel.com
-Cc: Balbir Singh <balbirs@nvidia.com>, Yury Norov <ynorov@nvidia.com>,
-	linux-mm@kvack.org, cgroups@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kernel-team@meta.com, longman@redhat.com, tj@kernel.org,
-	hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
-	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com,
-	david@kernel.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
-	linux@rasmusvillemoes.dk, rientjes@google.com,
-	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com,
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com,
-	baohua@kernel.org, yosry.ahmed@linux.dev, chengming.zhou@linux.dev,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, osalvador@suse.de,
-	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
-	byungchul@sk.com, ying.huang@linux.alibaba.com, apopple@nvidia.com,
-	cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
-Subject: Re: [RFC PATCH v3 0/8] mm,numa: N_PRIVATE node isolation for
- device-managed memory
-Message-ID: <aWZTjzW54LMedKMH@gourry-fedora-PF4VCD3F>
-References: <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
- <aWUs8Fx2CG07F81e@yury>
- <696566a1e228d_2071810076@dwillia2-mobl4.notmuch>
- <e635e534-5aa6-485a-bd5c-7a0bc69f14f2@nvidia.com>
- <696571507b075_20718100d4@dwillia2-mobl4.notmuch>
- <966ce77a-c055-4ab8-9c40-d02de7b67895@nvidia.com>
- <aWWGZVsY84D7YNu1@gourry-fedora-PF4VCD3F>
- <69659d418650a_207181009a@dwillia2-mobl4.notmuch>
- <aWWuU8xphCP_g6KI@gourry-fedora-PF4VCD3F>
- <6965b80a887d5_875d100b5@dwillia2-mobl4.notmuch>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="ibNUyaKE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=syuVbPUnk2UpXWNXQp7bp8vUkZXcNA+HgfbYjPbu/UE=; t=1768313928;
+	x=1768745928; b=ibNUyaKEi1iQyxcqrWtMp0NCsndleE9PZjmApZicoNdzEt9pQ5Hl92OUaE/qS
+	H6tWmA2UkAyK8LISD0pGLIPyWUDLoDPkVJ8HokJkgmPLnzUuEwvVROLIJ2SmJq3TTJUJwmkrscwrp
+	hD+9G9VCPnDkMNVkG7RW3KkjgTGlk6v82HbHEpyAQ2jRv+IcCJdjoCKgb/KEj/QuE41EWTZey86Ez
+	AVSBT0UpZWbxN7Y88V+UYrXq8zB8nPoTx4BljoRTfzZov7NE7Okhc8NHSPD+hfWplAYzENNIMQkES
+	R/SBK4IrHxu/P6ZNoGyM05IuwTlXOoOsEUKi1AyJyCx4/1KcnA==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1vffEK-008t11-2I;
+	Tue, 13 Jan 2026 15:18:44 +0100
+Message-ID: <347e0757-3adb-4f81-a5ad-cd034de08912@leemhuis.info>
+Date: Tue, 13 Jan 2026 15:18:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6965b80a887d5_875d100b5@dwillia2-mobl4.notmuch>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 01/30] docs: reporting-issues: mention text is best
+ viewed rendered
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <cover.1761481839.git.linux@leemhuis.info>
+ <4f7e2de2a2336c52e55cc49dcda627a4e86b8793.1761481839.git.linux@leemhuis.info>
+ <87v7k0ntzj.fsf@trenco.lwn.net>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: <87v7k0ntzj.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1768313928;50223e8b;
+X-HE-SMSGID: 1vffEK-008t11-2I
 
-On Mon, Jan 12, 2026 at 07:12:10PM -0800, dan.j.williams@intel.com wrote:
-> Gregory Price wrote:
-> > On Mon, Jan 12, 2026 at 05:17:53PM -0800, dan.j.williams@intel.com wrote:
-> > > 
-> > > I think what Balbir is saying is that the _PUBLIC is implied and can be
-> > > omitted. It is true that N_MEMORY[_PUBLIC] already indicates multi-zone
-> > > support. So N_MEMORY_PRIVATE makes sense to me as something that it is
-> > > distinct from N_{HIGH,NORMAL}_MEMORY which are subsets of N_MEMORY.
-> > > Distinct to prompt "go read the documentation to figure out why this
-> > > thing looks not like the others".
-> > 
-> > Ah, ack.  Will update for v4 once i give some thought to the compression
-> > stuff and the cgroups notes.
-> > 
-> > I would love if the ZONE_DEVICE folks could also chime in on whether the
-> > callback structures for pgmap and hmm might be re-usable here, but might
-> > take a few more versions to get the attention of everyone.
+
+
+On 10/27/25 18:18, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
-> page->pgmap clobbers page->lru, i.e. they share the same union, so you
-> could not directly use the current ZONE_DEVICE scheme. That is because
-> current ZONE_DEVICE scheme needs to support ZONE_DEVICE mixed with
-> ZONE_NORMAL + ZONE_MOVABLE in the same node.
+>> Add a comment before the step-by-step guide explaining that the document
+>> is best viewed in the rendered form, as there the internal links will
+>> work that later patches will add.
+>>
+>> While at it change the double quotes in the license hint at the end of
+>> the document into single quotes, which is the preferred style.
 > 
-> However, with N_MEMORY_PRIVATE effectively enabling a "node per device"
-> construct, you could move 'struct dev_pagemap' to node scope. I.e.
-> rather than annotate each page with which device it belongs teach
-> pgmap->ops callers to consider that the dev_pagemap instance may come
-> from the node instead.
+> That is the classic marker of an independent change, of course.
 
-Hmmmmmmm... this is interesting.
+Yeah, I tried to not split things up too much. But that doesn't matter
+now anyway:
 
-should be able to do that cleanly with page_pgmap() and/or folio_pgmap()
-and update direct accessors.
+>  But
+> more significantly ... "preferred" by who?  Double quotes are the normal
+> English style that folks like me learned many years ago...
 
-probably we'd want mildly different patterns for N_PRIVATE that does
-something like
+I removed those changes after that comment and Randy's NAK; I think I
+miss-interpreted or miss-remembered a comment in a review a while ago.
 
-if (is_private_page(page)) {
-	... send to private router ...
-}
+> Otherwise seems OK.
 
-bool is_private_page(page) {
-	pgdat = NODE_DATA(page_to_nid(page));
-	return pgdat && pgdat->pgmap;
+Thx!
 
-	/* or this, but seems less efficient */
-	return node_state(page_to_nid, N_PRIVATE);
-}
-
-Then we can add all the callbacks to pgmap instead of dumping them in
-node.c.  Shouldn't affect any existing users, since this doesn't
-intersect with ZONE_DEVICE.
-
-Technically you COULD have ZONE_DEVICE in N_PRIVATE, but that would be
-per-page pgmap, and probably you'd have to have the private router
-handle the is_device_page() pattern like everyone else does.
-
-(Seems pointless though, feels like N_PRIVATE replaces ZONE_DEVICE for
- some use cases)
-
-~Gregory
+Ciao, Thorsten
