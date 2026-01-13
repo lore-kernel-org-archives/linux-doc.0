@@ -1,94 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF0F34F261;
-	Tue, 13 Jan 2026 04:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66671369226
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 06:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768277152; cv=none; b=EZSsWlw7a+omHom0nwh55iZdXhhY7AFdOtB30Ix9w2OdAHhwzupq5NmCrYbXk6l9A0TjBbNc4aLC82qw93Icc3xjpuUrTBkKnrSKb7s+RUTee+K9orXeUqnlQcME+oMz7H/WbbwzeHvxZpm/WYsrCcfTPXLJQy/K+OD/Sv/VuZo=
+	t=1768287054; cv=none; b=DlXORxGpn5DZenZ0LS4snWH5dbgusHQ6Q90o2ipDg2cwi60cio6j3rJx0cECXf+2hBC9Z6yUzFFbfexsiJdf7ePX4XPHB++yFDCMYXHtc8+rWs8EQm4vzjy/ZitYaQBloiEhkQDJ5BlPNCcdOKpRedF7Uwxfq2eLvJyeL9wchTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768277152; c=relaxed/simple;
-	bh=N+V/6jE0o/Rh1n8Myluhlkyg6Nia1OUChko2tFtsP1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SM71IFlX55XwBcSuSoZU7H4slbpyWm3V+49pOI6+pImPOfbIc/Hr5Sqfv6LO2brfV0+mZHjKw4FfdrLcgIk9MDYFUcCabOnwA4X9IrxobBAF0KJlrgdKVMSuLF52nD7gblIHY6O0BwQPjx4APmTa9yQDAR4Mdv/NZrjBErOw4fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKoF02//; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768287054; c=relaxed/simple;
+	bh=aDB3sdHl8yEvBSscr99tVhZre5iBP2s4Ktcd0fugEGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BWIye15Z8VMFAsJ557EQqfdANiJhMGp3WkZcxM7TTnHoHlxEkgJ87D97a/HOpTSDetf4OAppPqEVjkpr3j4Arjm/HyAiI8xvGFp7X3g/QcJjQ3lfxH4JVt/aO2G3b2X4HEk5KiYXijm5VUUDRWsQaMJj3QcRJGUYRl048lH7ZBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDminwzO; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKoF02//"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4564BC116C6;
-	Tue, 13 Jan 2026 04:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768277152;
-	bh=N+V/6jE0o/Rh1n8Myluhlkyg6Nia1OUChko2tFtsP1g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DKoF02//OxV/UtfTqrNw2sH36fPt2tA47uyju1x1Ie1tHi7MAkfemX0hnnVCSIlOy
-	 nPA0D3iUbjGRDyosc2zsEZpQIWsMHjc6nltYtehMl559fy5+glN88L+MhIeHFNGvlt
-	 h/46VkgqL7oO2E/oZjwO1eMhwxVB+DPdHmJuyady666g6t5uiNtTEBf7G5NWIi0yqq
-	 Vnop5SoTW3VR4BNCB91VTkMPWd/7PtzesfzWrmLA/gaklOIVftWDmOARmQqCagoEGV
-	 M8btLTxHQUweN+Eg9N7L3O2e2Ey/S/OopF0iCmjrT6YBafapvlfveRUUx3t1HjBs6u
-	 N6FZ21CxVXTEw==
-Date: Mon, 12 Jan 2026 20:05:50 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tao Wang <tao03.wang@horizon.auto>
-Cc: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
- <pabeni@redhat.com>, <horms@kernel.org>, <andrew+netdev@lunn.ch>,
- <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
- <rmk+kernel@armlinux.org.uk>, <maxime.chevallier@bootlin.com>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net Resend] net: stmmac: fix transmit queue timed out
- after resume
-Message-ID: <20260112200550.2cd3c212@kernel.org>
-In-Reply-To: <20260109070211.101076-1-tao03.wang@horizon.auto>
-References: <20260109070211.101076-1-tao03.wang@horizon.auto>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDminwzO"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-88fcc71dbf4so45770806d6.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 22:50:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768287051; x=1768891851; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vX59/flKMUDb8zjb/CqTAfKlTuGyJwgf2lJ9POWv81Y=;
+        b=aDminwzOmtGELvrpXwoJuF8Vised+qClS8KGMqtYTJiKEfsIaa5dWb3jmtAob22nDv
+         twjz1EHrcgyDKfjRZ3Twgh4sHntR+paZs4j/WrWXcezBL5h9pZB+Y35Rpaoqj94bzJLH
+         LzUJJDummWcO7+Fu9vmEXHAqMtN/RgAVNL3HVVVJ/KA9KgjbQbJw9SJjv2T+owOdJrSI
+         gKtqBri2R3YLCNaWnzW1ZZwYkw5Kz5JavRwotg7jJ9otywgfhsKptyFtV2uULx+3+Hx6
+         ffuyj5L+UjDyfUNovCLPg1y4mFHEIYGqp2qIrLLjXqPRk7VyPT1s4YT3HU1to52g4vnP
+         AqDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768287051; x=1768891851;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vX59/flKMUDb8zjb/CqTAfKlTuGyJwgf2lJ9POWv81Y=;
+        b=ctoLrzL8LRKBRvxohaF7knXxY1NOadu1DuCimqEQKA9iWP92dhctpYBuuL4JL9KpWW
+         lsZOqbHpYfS9qGve6y6/63w5GMSRUR5JviBc8oW/UzbXfqL/n3pHRTENi+oG7EuiSa/f
+         yPSPaLjQ7mKuUK+v/AAvRsNHNN1JeT21Uj/S3XewykBahO10XPjVUYTrVVo4qHb7dNy8
+         NkNse5gAusHCCD9+vB94VWTo6y69+CleBWc35INdoNkqiZBFj+EJa10Ee1SC9YeGRud2
+         /EyHrsEHm3QFFpA0SJPkVbehFH7oHsiG/ZAkVHCo7NYWCxy4Rn3eJ7FDz/DRdXvU2UFy
+         EPMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPK/vhMdPUhSEvUQgr1FeuC6x+EMszxNFcOdVsvDFi+TYah2VvJRc6+4OvWY5fw2pjUTfq5PzlHl4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2enciqzaimNnvTPvq2IFjFAkjDa26Q7kxRgAXTZZSWXl5Jt+3
+	+9Y8lCRU8GGrI8Hr+KULOTfnIZ6d8T3LehXpO4N14L4usZaLPqvb+1y9
+X-Gm-Gg: AY/fxX7ipNInZwYuph6ehLVL3iJv7SGh9FROTRWtRHyBaoJ5SdX4Y5qQ6kPabQjB/7F
+	NxQl1pWbHX7Eq0AmISGnCVOGEltzlQ0nVexJEgZ/yR/rk5xZ4v8Xny4G+C3M73tm8+Rz1dBbDQL
+	I212xsttE+a3BOQr07TIjXlIrEBtc7pVbDu9HekWP8+uSdA89gm+qS+zl2XBAyUDfdyN0j8bTuY
+	vhxwlXntLZXRMLCKvwUf18twwVqi6um0yFXD70SpBVzp+QtkxMcQ8blkzQ1Cn7nWgEXggDeQKIA
+	avdrr0/tzpA9upWrr9UM3p19aRrIWuuMNWYl/R3vGuzbEB76sB3ct9kHZ6iuwRVDXwwwatIK55f
+	mN9ymy2IDimdsbIALnQhRvyreuAblL8Kh1K8uygDPpscge/Py2es/Ug79hVmy/1SYQEg4coAgN5
+	tJe54KHQCiduIEhgpKA8MyuQ6U9M2xDEr6sZ6v/kLhdIybmtUAygbwI+L2TQ==
+X-Google-Smtp-Source: AGHT+IFA85MjM1cnTGL5nks8UTBaUTRvSeGOw/MqVWENdA/8we2okwkLgNeF33lCoaLlOIlw7RP7mg==
+X-Received: by 2002:a05:6214:4291:b0:888:81f1:a05e with SMTP id 6a1803df08f44-890842d1be9mr273660036d6.60.1768287051243;
+        Mon, 12 Jan 2026 22:50:51 -0800 (PST)
+Received: from [172.20.10.9] (mobile-access-c1d2ca-216.dhcp.inet.fi. [193.210.202.216])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890770cdfb0sm152433806d6.6.2026.01.12.22.50.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jan 2026 22:50:50 -0800 (PST)
+Message-ID: <86b974d7-cabd-4913-b5f2-5b62b520e023@gmail.com>
+Date: Tue, 13 Jan 2026 08:50:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/29] arch, mm: consolidate hugetlb early reservation
+To: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
+Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
+ Brian Cain <bcain@kernel.org>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Jonathan Corbet <corbet@lwn.net>, Klara Modin <klarasmodin@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
+ Richard Weinberger <richard@nod.at>, Ritesh Harjani <ritesh.list@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+ sparclinux@vger.kernel.org
+References: <20260111082105.290734-1-rppt@kernel.org>
+ <20260112142323.495fc43e662e7d276b0fa371@linux-foundation.org>
+Content-Language: en-US
+From: Kalle Niemi <kaleposti@gmail.com>
+In-Reply-To: <20260112142323.495fc43e662e7d276b0fa371@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 9 Jan 2026 15:02:11 +0800 Tao Wang wrote:
-> after resume dev_watchdog() message:
-> "NETDEV WATCHDOG: CPU: x: transmit queue x timed out xx ms"
+On 1/13/26 00:23, Andrew Morton wrote:
+> On Sun, 11 Jan 2026 10:20:34 +0200 Mike Rapoport <rppt@kernel.org> wrote:
 > 
-> The trigging scenario is as follows:
+>> v3 changes:
+>> * fix empty_zero_page initialization on arm
+>> * fix ZONE_DMA limit calculation on powerpc
+>> * add Acks
 > 
-> When the TSO function sets tx_skbuff_dma[tx_q->cur_tx].last_segment = true
+> updated, thanks.  I'll suppress the ensuing email flood.
 > 
-> , and the last_segment value is not cleared in stmmac_free_tx_buffer after
+> Kalle, can you please retest sometime, see if the BeagleBone Black boot
+> failure was fixed?
 > 
->  resume, restarting TSO transmission may incorrectly use
-> 
-> tx_q->tx_skbuff_dma[first_entry].last_segment = true for a new TSO packet.
-> 
-> When the tx queue has timed out, and the emac TX descriptor is as follows:
-> eth0: 221 [0x0000000876d10dd0]: 0x73660cbe 0x8 0x42 0xb04416a0
-> eth0: 222 [0x0000000876d10de0]: 0x77731d40 0x8 0x16a0 0x90000000
-> 
-> Descriptor 221 is the TSO header, and descriptor 222 is the TSO payload.
-> 
-> In the tdes3 (0xb04416a0), bit 29 (first descriptor) and bit 28
-> 
-> (last descriptor) of the TSO packet 221 DMA descriptor cannot both be
-> 
-> set to 1 simultaneously. Since descriptor 222 is the actual last
-> 
-> descriptor, failing to set it properly will cause the EMAC DMA to stop
-> 
-> and hang.
+> Seems we haven't heard back from rmk regarding
+> https://lkml.kernel.org/r/aVrUDeSkqqY9ZCtS@shell.armlinux.org.uk.
 
-For some reason the reposted version of the patch has unnecessary empty
-lines separating each line of this paragraph.
+Hello!
 
-> To solve the issue, set last_segment to false in stmmac_free_tx_buffer:
-> tx_q->tx_skbuff_dma[i].last_segment = false;
-> Set last_segment to false in stmmac_tso_xmit, and do not use the default
->  value: tx_q->tx_skbuff_dma[first_entry].last_segment = false;
-> This will prevent similar issues from occurring in the future.
+I will test this v3 patch ASAP and reply results here.
+Collective sorry for the delay; I have been busy!
 
-Please add a suitable Fixes tag, pointing at the commit which
-introduced this incorrect behavior (either the commit which broke it or
-the commit which added this code if it was always broken).
--- 
-pw-bot: cr
+BR
+Kalle
