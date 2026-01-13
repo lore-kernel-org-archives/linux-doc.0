@@ -1,185 +1,154 @@
-Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B203314DE;
-	Tue, 13 Jan 2026 12:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.231.106.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB739443
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 12:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768307303; cv=none; b=JNA+RLjS5Y8SZOBzhmSgH3Fy+wZwbHWQt//YzfZjR9tsQkbD5XHOh0zOCEFNQPJVSfNg9lMFCAo+YGzTSlO6AjLB73t2Xs1kZ7JFC1Hz+qVWGBTTt2Mn4lINIfATerFs2gUgUceF9ZlujHYK2jLHQA8ec1i2p7GcKqhiHuGu35U=
+	t=1768307528; cv=none; b=Q6TOG20SXXcg/Y86Bughp9/hqu5QSAsAIhJHtX+8iqvdko4j9kpepdBdnTppxAI6hVJL2gHnza5ZemRuRP/st+d49Lzm+LzS+k0oykPUHWJWsz5hTEzPD/yuKo5mZV8yDi0uHZAhX46jQ8rs4DqA3vyUuFGtTi3pxisM5OHJYO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768307303; c=relaxed/simple;
-	bh=21w0GG0eda5bCVdiXvdOHRzVIFvjNUj4U9+O+neqMZg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UY5Y1Gh9c1lzUpnzfUi9x4+9c7CsQBhRGyZmGT44Yg0Dr4G2+xqYlVA6Mjsnm5yOokth1FtvRnuyBu4bFV8uVFXv0DOwM6y/dTgWSvMlJce3Vh/nNOyuEIqLqaiPZ5zzSajU4yioFounomIUtC7WM3ZRecQDpkEIBdHeyH1oZ0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com; spf=pass smtp.mailfrom=gaisler.com; dkim=fail (0-bit key) header.d=gaisler.com header.i=@gaisler.com header.b=NC76RtxI reason="key not found in DNS"; arc=none smtp.client-ip=94.231.106.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
+	s=arc-20240116; t=1768307528; c=relaxed/simple;
+	bh=vISdXRpqXbqifFN2WeL95FCCNgScAqAax4cpp7Ht9ow=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lH6DNfe/S6vidTv7jl0p+PEshRcCtrtY74qsVnmssE/8QQamooFASLS+3AoB8aR3DdDnhFCQaJ7PtUMyDy4Je9Z8JbPcy+QJMvHDSz12VDM+b/90wtq9SghBmmSnVHSFgFz/YIF3JC1Nx9xPstcljAz3VnW0ndc6qkNNdde9p5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WbPkjO6Q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8HYxmtkv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xONkrTri; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=h1aLZ5Hw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=gaisler.com header.i=@gaisler.com header.b="NC76RtxI"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.simply.com (Simply.com) with ESMTP id 4dr7nT4CQCz1DR2r;
-	Tue, 13 Jan 2026 13:28:13 +0100 (CET)
-Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by smtp.simply.com (Simply.com) with ESMTPSA id 4dr7nQ25vMz1DDgf;
-	Tue, 13 Jan 2026 13:28:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
-	s=simplycom2; t=1768307293;
-	bh=guD8ZDnRvesT5KvXlXi5P5IpxaFCA5kIle2X5/2VdEk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NC76RtxIq9CvKMBZ8e8fqDdeh4TXwyvNkvf30sHXNOLOnEVZmRBj+bHCDi8FufU/c
-	 kWfZWHOIxSWOKL03enthax76m8YsczdRizVAQDjKjHPFRaRl/L5Y0iqK2UA8boHs2h
-	 YUuM9qT6Ba/QEyyAn4GTFzIGpGi10RKIEp9TlTeLGd8zC+Hr/coq6gBL6LosZXZTF1
-	 gt8Mie1XHzB/bpnFnld9TZavLmhYmlgBWFsXaCVZw4vobFyvtSEkURaEmNJU94ewFm
-	 w3pY4SkxqHFB/QXGBXfUllqNu8tQIWuZ/XTNBQs4TvEhLsgrM+Wzf2b59+1+UOXxo8
-	 bJQ987lvmGGqA==
-Message-ID: <7566eef3-bce4-4100-8a11-d88ef1e887a9@gaisler.com>
-Date: Tue, 13 Jan 2026 13:28:09 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WbPkjO6Q";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8HYxmtkv";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xONkrTri";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="h1aLZ5Hw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D76675BCE8;
+	Tue, 13 Jan 2026 12:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768307525;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPCxYOCoUD7LQ6s/efUZC/2KbmJcD7VEtuXkdYYieLI=;
+	b=WbPkjO6QAX9LA5uTP07SnMMKdzDZ92G3j3fd7eGZePC8DGKN4k689Svt60h5y5nwy6PGR2
+	Fkq/QcRDVSICeAN2b8nlCHaoKvscdG1nki0TEg2WBo63X62H2Wnl6H8GTQMCk6whHqxCLZ
+	T1i4h7kqz9O49ihBdeq5JbJJiePGev8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768307525;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPCxYOCoUD7LQ6s/efUZC/2KbmJcD7VEtuXkdYYieLI=;
+	b=8HYxmtkvoMotCAUyPSNqNcF4rWL5bTPOZ/0EJ5iT//9TdXEix1Cfyu4bsFANW6l0He8nl0
+	0WBLlCj9hK6bNtAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768307524;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPCxYOCoUD7LQ6s/efUZC/2KbmJcD7VEtuXkdYYieLI=;
+	b=xONkrTriLfWQ1zkBREq/ylD1FlGMsOzI05dTwnnJkxETQY4g8tqvLKgHBZaWZqxioRqDlp
+	QxLBwFWYwPUQj0N9oa5R/etJA6c2f4/0xcfLLyR66HqRCRiRVsXmvTXzgt/wGu/bQIh6Ai
+	8mDKUzmF7AUNvBvd8J3NQblKjtesQFY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768307524;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aPCxYOCoUD7LQ6s/efUZC/2KbmJcD7VEtuXkdYYieLI=;
+	b=h1aLZ5HwqDxKA5O6YWu+rh2lVao5fEjat25+6RyQWymiU6bRrCTc7/D6ynnyluZcumPZpT
+	VUBML9X1psyMArCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B76FA3EA63;
+	Tue, 13 Jan 2026 12:32:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xUmHK0Q7Zml0WAAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Tue, 13 Jan 2026 12:32:04 +0000
+Date: Tue, 13 Jan 2026 13:32:03 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: Links to sources in docs
+Message-ID: <20260113123203.GA320708@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20260109173112.GA105682@pevik>
+ <7b0539f874af71c899c21acfd71288fe7a2d8246@intel.com>
+ <20260112132613.GA266368@pevik>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/29] sparc: introduce arch_zone_limits_init()
-To: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Corbet <corbet@lwn.net>, Klara Modin <klarasmodin@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
- Richard Weinberger <richard@nod.at>, Ritesh Harjani <ritesh.list@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org
-References: <20260111082105.290734-1-rppt@kernel.org>
- <20260111082105.290734-20-rppt@kernel.org>
-Content-Language: en-US
-From: Andreas Larsson <andreas@gaisler.com>
-In-Reply-To: <20260111082105.290734-20-rppt@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112132613.GA266368@pevik>
+X-Spamd-Result: default: False [-3.50 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,suse.cz:email];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -3.50
+X-Spam-Level: 
 
-On 2026-01-11 09:20, Mike Rapoport wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-> 
-> Move calculations of zone limits to a dedicated arch_zone_limits_init()
-> function.
-> 
-> Later MM core will use this function as an architecture specific callback
-> during nodes and zones initialization and thus there won't be a need to
-> call free_area_init() from every architecture.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->  arch/sparc/mm/init_64.c |  6 ++++++
->  arch/sparc/mm/srmmu.c   | 12 ++++++++----
->  2 files changed, 14 insertions(+), 4 deletions(-)
+> > On Fri, 09 Jan 2026, Petr Vorel <pvorel@suse.cz> wrote:
+> > > Hi Jonathan, all,
 
-Hi Mike,
+> > > I wonder how links in sources work.
 
-Thanks for this nice cleanup series.
+> > > Documentation/userspace-api/check_exec.rst has:
 
+> > > `samples/check-exec/inc.c`_ example.
 
-> diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-> index df9f7c444c39..fbaad449dfc9 100644
-> --- a/arch/sparc/mm/init_64.c
-> +++ b/arch/sparc/mm/init_64.c
-> @@ -2279,6 +2279,11 @@ static void __init reduce_memory(phys_addr_t limit_ram)
->  	memblock_enforce_memory_limit(limit_ram);
->  }
->  
-> +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-> +{
-> +	max_zone_pfns[ZONE_NORMAL] = last_valid_pfn;
-> +}
-> +
->  void __init paging_init(void)
->  {
->  	unsigned long end_pfn, shift, phys_base;
-> @@ -2461,6 +2466,7 @@ void __init paging_init(void)
->  
->  		max_zone_pfns[ZONE_NORMAL] = end_pfn;
+> > There's this bit at the end of check_exec.rst that defines the link:
 
-This old initialization of max_zone_pfns[ZONE_NORMAL] should also be
-removed, right? With that removed it makes the local end_pfn variable
-set but unused, so could you please also remove that one?
+> > .. _samples/check-exec/inc.c:
+> >    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/check-exec/inc.c
 
-I know that this whole code block gets removed later, but the cleanup
-max_zone_pfns[ZONE_NORMAL] and the removal of end_pfn (that is not done
-later in this version of the series) fits logically in this patch.
+> > The content within the backticks is just the link text, and has no
+> > filename semantics. See [1] for details.
 
->  
-> +		arch_zone_limits_init(max_zone_pfns);
->  		free_area_init(max_zone_pfns);
->  	}
->  
-> diff --git a/arch/sparc/mm/srmmu.c b/arch/sparc/mm/srmmu.c
-> index f8fb4911d360..81e90151db90 100644
-> --- a/arch/sparc/mm/srmmu.c
-> +++ b/arch/sparc/mm/srmmu.c
-> @@ -884,6 +884,13 @@ static void __init map_kernel(void)
->  
->  void (*poke_srmmu)(void) = NULL;
->  
-> +void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
-> +{
-> +	max_zone_pfns[ZONE_DMA] = max_low_pfn;
-> +	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-> +	max_zone_pfns[ZONE_HIGHMEM] = highend_pfn;
-> +}
-> +
->  void __init srmmu_paging_init(void)
->  {
->  	int i;
-> @@ -967,10 +974,7 @@ void __init srmmu_paging_init(void)
->  	{
->  		unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
->  
-> -		max_zone_pfn[ZONE_DMA] = max_low_pfn;
-> -		max_zone_pfn[ZONE_NORMAL] = max_low_pfn;
-> -		max_zone_pfn[ZONE_HIGHMEM] = highend_pfn;
-> -
-> +		arch_zone_limits_init(max_zone_pfn);
->  		free_area_init(max_zone_pfn);
->  	}
->  }
+> Thanks for a hint, I overlooked it.
 
-With the feedback for arch/sparc/mm/init_64.c addressed:
+And I also wonder what does clickable links (e.g. [1]) in
+Documentation/process/adding-syscalls.rst [2]
 
-Acked-by: Andreas Larsson <andreas@gaisler.com>
+    - commit 75069f2b5bfb ("vfs: renumber FMODE_NONOTIFY and add to uniqueness
+      check")
+    - commit 12ed2e36c98a ("fanotify: FMODE_NONOTIFY and __O_SYNC in sparc
+      conflict")
+    - commit bb458c644a59 ("Safer ABI for O_TMPFILE")
 
-Cheers,
-Andreas
+I haven't found anything in the document itself, nor in conf.py.
 
+Kind regards,
+Petr
+
+[1] https://git.kernel.org/torvalds/c/75069f2b5bfb
+[2] https://docs.kernel.org/process/adding-syscalls.html#references-and-sources
+...
