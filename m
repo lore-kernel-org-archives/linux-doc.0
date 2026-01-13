@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D6392B89;
-	Tue, 13 Jan 2026 15:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B401392C46;
+	Tue, 13 Jan 2026 15:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768318053; cv=none; b=JQH7mK5uyWBguYrrL08SuMZbllW2/Cxbo5x4hvS7qH4q8lVoWKCKWAWU164xNmLsJDeJVNBSxuAMAeszzyLnI/bN0/j+w5+kbQO8W+KFIKbEnwFCBiVJb0J0sXQMtoq8MO49YniUjBRK+3DKQvgLiErVvJAc7qdC307sguNHqTc=
+	t=1768318056; cv=none; b=FtlywKKzb8aPGWj3lxsBsNHZdSAEHrKT23Mxl1aXAtQajlM1fDafgs89JESwsdBUHf04mXY0TcXuq0Mbxww6Zg/y8qWCESTkjuMXxjbtQ21uArpVPolfKTM+DgcONo5DfpV6Tve90x28fYiz1Rr18RtHwg95ZjbHqa0GT1xhCiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768318053; c=relaxed/simple;
-	bh=pT8rCC+C0SK1J6+L6zG1LeeNo37asvsmk7EOOOw2HLA=;
+	s=arc-20240116; t=1768318056; c=relaxed/simple;
+	bh=ZmJrAkMA9Irtz6OhLBZFE9S6wzn9oxN2fIfGy091mqs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jTd+1R+taUVyoX/aB03XTR8aevpO5+LaAnol6+/ic6I2L3yag0hYijYkifnt6xhJboCbU+U/PNLgUu+G1beailEOfa+mqGeg7dRoJrp3s4i+oXJxj4RkwtxjZSX+9+yjMPC25YHK9T0IuJsVLSF0weDOIAxo9s4tDqTwVwnngDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgsY/EKw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=IntY2JYnrj7DA/uguqwns/SCZdcKn7LXO1pVjt/rHycmGchLwwqFaJoJK4V3eTrz/bdbqTcTbpxHYALaUg030w6D7Bz2JpYcvUoZhu1ytjhRB0WBdiUS6UTStGFjmiZ5Rkn//dI8XZoKxJCKcUNAqCgM6IQw65JXvl/jJ+Fwlo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QbKz/WvZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgsY/EKw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FC40C2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QbKz/WvZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97C6C19421;
 	Tue, 13 Jan 2026 15:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768318053;
-	bh=pT8rCC+C0SK1J6+L6zG1LeeNo37asvsmk7EOOOw2HLA=;
+	s=k20201202; t=1768318054;
+	bh=ZmJrAkMA9Irtz6OhLBZFE9S6wzn9oxN2fIfGy091mqs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BgsY/EKwjt7qmaf3qUOIY0hmGSbVVt9OdvhnNXzeZBijHgaHf+WDh02E8rNvP8rIP
-	 V3HOJo0D8Hs9EEIn7xVw0Y3TRmn4+kGO7tHhaAjSRb74C3aeTu4usHqNeJCwdOuF0z
-	 Ky7/AWiVPrn39Y0jFkiavTeqCs5g4Np4bo+q4zonH1+f59pPCT6u1W9mzHleoMW6Pm
-	 kPqKlx5hmYPopCVxstoGHsTxXOFg3eSSxWiodmJddCzbxBrtwsMcfphrBK8x/wRbCS
-	 QeA6GmB6r7CYyRyfARgcqihrh6ZyprF7pZiN9g8l00FIjjlXgtRC/SY0WC/3yvQAU3
-	 7VigYfNXpZqVg==
+	b=QbKz/WvZSBUAf7ErFfDMyIrvtRdGi7BE8mJZkAoVw+9dngIBXggRh0/SXNXLO0k5j
+	 0y05XEwmUbLtA0ZMkjsp1RJ3840rkwwpZmnzxnCv9PnMkWzdR2LyQIrxGuhgdbQV5e
+	 hdOyvmKV/84XqF0TwTVJflLYzgJp5feHdBlmkqoGxfGCTvbd6S5BjYgh1cPWBQRnWC
+	 pscrF2vTCU/q+j2+xq3tib+MHqM3uygZTYqB8lsiM0Xx1b9o7VEgDjp1dxyhEPO6cP
+	 gIJtE7TZb31/2wsfsA1rp4zOwLOabR45EF4qSEtFqorzu38cLfJ5De1HPsDYpLp6jq
+	 TLPrD4cR7us2A==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -41,9 +41,9 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH 09/11] Docs/admin-guide/mm/damon/lru_sort: document active_mem_bp parameter
-Date: Tue, 13 Jan 2026 07:27:14 -0800
-Message-ID: <20260113152717.70459-10-sj@kernel.org>
+Subject: [PATCH 11/11] Docs/admin-guide/mm/damon/lru_sort: document intervals autotuning
+Date: Tue, 13 Jan 2026 07:27:16 -0800
+Message-ID: <20260113152717.70459-12-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260113152717.70459-1-sj@kernel.org>
 References: <20260113152717.70459-1-sj@kernel.org>
@@ -55,31 +55,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document a newly added DAMON_LRU_SORT parameter for doing auto-tuning
-aiming an active to inactive memory size ratio.
+Document a newly added DAMON_LRU_SORT module parameter for using
+monitoring intervals auto-tuning feature of DAMON.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/lru_sort.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ Documentation/admin-guide/mm/damon/lru_sort.rst | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-index bb222a32aefd..6af3ab5579a3 100644
+index 6af3ab5579a3..20a8378d5a94 100644
 --- a/Documentation/admin-guide/mm/damon/lru_sort.rst
 +++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-@@ -79,6 +79,18 @@ of parametrs except ``enabled`` again.  Once the re-reading is done, this
- parameter is set as ``N``.  If invalid parameters are found while the
- re-reading, DAMON_LRU_SORT will be disabled.
+@@ -91,6 +91,17 @@ increases and decreases the effective level of the quota aiming the LRU
  
-+active_mem_bp
-+-------------
+ Disabled by default.
+ 
++Auto-tune monitoring intervals
++------------------------------
 +
-+Desired active to [in]active memory ratio in bp (1/10,000).
-+
-+While keeping the caps that set by other quotas, DAMON_LRU_SORT automatically
-+increases and decreases the effective level of the quota aiming the LRU
-+[de]prioritizations of the hot and cold memory resulting in this active to
-+[in]active memory ratio.  Value zero means disabling this auto-tuning feature.
++If this parameter is set as ``Y``, DAMON_LRU_SORT automatically tunes DAMON's
++sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
++amount of access events in each DAMON-snapshot, while keeping the sampling
++interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
++``N`` disables the auto-tuning.
 +
 +Disabled by default.
 +
