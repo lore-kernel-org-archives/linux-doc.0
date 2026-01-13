@@ -1,33 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C129834FF5C;
-	Tue, 13 Jan 2026 10:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD2738B7B7
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 10:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768299872; cv=none; b=EfgngstVGJK4W8CTPIhm0l2hveLJbvZuvn4W5VxkVVjCiMDibGQx9JSpw2sjsQ0fUhTGpRF15jdhDsUdsF1xYE3tIUW4IO4UAF1xNTgucSx6jz0utMBhXKsCfMKS8klsDW0wgtdaubPuGcxdraKKyOrJAZrkkkxm+GcSX6x4UwE=
+	t=1768300079; cv=none; b=cF2mZw/C0lHKfojLSa+FtXVq25LvjXUIZQ35ByUnuNunw/BbksZVEno1vjPcrhXGSLYjxY6Y7JbRw9LIJt7X5DMynflkmXlnSq19MEBcCo9aOmNCsSeC896uYoPFM94FPQn6plXlOzrDELnssLZ/Fbsmdiyb/f7bOaEtIfIbg24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768299872; c=relaxed/simple;
-	bh=lp5DxS+Pi7wl7PFR07vL24CgIil/9+7y9jleMQ7K18o=;
+	s=arc-20240116; t=1768300079; c=relaxed/simple;
+	bh=Xs40V71NSFgBl8ux07wXA+nnPiuQ97Bp4CQVChxYDDY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J0yfAm8Th1TuEtU6OgM8BqcfUQ+NFYldgJaK/wuc024bO1fag1vAxi9MK5CR3rZvAZhWXbVde6j0f3FW0UhkQiKPHi0URMhiBipAI5yGWX7B+IBGiZ87jcx89pbPutTGPNyO9/6URMIz+JqT7Z9/NmgaBHUE0mn7Fo5DukopYos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eIR8YX6U; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=HlgCFz5aLsPEO6kIjbmEe3FArckmASex19XlCvXQAoNHmLP51LpRAQmw8HyninQKTESj1NaTQdsSKoIEYxWhQ1DXPgFEKBiO5wn2eDuW4k43kPVGeFm48ksMNqOcrsOLlnfGsqSWCvU+MTLsHpGs7Q4rvRS3c/Iv1MIeY7vKLYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NClj29oc; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=EYSiAaws; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eIR8YX6U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3953BC116C6;
-	Tue, 13 Jan 2026 10:24:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768299872;
-	bh=lp5DxS+Pi7wl7PFR07vL24CgIil/9+7y9jleMQ7K18o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eIR8YX6Uyj+2NRYDekiCMRzkhDmRrc2VZTkMvTXk5TdZSzJoIdcnUhTDvx/aFdH8y
-	 UosN5aVE9GXo7glCBozLXqaBtoYKjUsk4nE+Xiri9ZTtbzjAh/14Rwnxca5tG2nHU5
-	 H/0vip8iFAABH2/cw4oNa58t6pxYtot26dbvQdPVS3ByrjDk9r8hUR8fJnhr8OZXnF
-	 UxpX7UGdwAB15CPmspS81j3QGP4dg+cQppPchuKWohGRPkd2QixQ3cmW90QyYrtsnK
-	 xuS1reJSsqwYG65d6xB1MIKEc03soU+EJvmkQbgLVnGtfcTeO30Jbr0y6Ua5XcLoUB
-	 LXE5+5uU2W7ZQ==
-Message-ID: <51fe7876-c24b-48b9-a038-6cd850ebe512@kernel.org>
-Date: Tue, 13 Jan 2026 11:24:26 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NClj29oc";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="EYSiAaws"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768300075;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WZv6AyyuLVVLAZ1eQ6zjrtIwS0o/q5F3gCFQ/xz3D2k=;
+	b=NClj29ocrXBwpERDSs1D7BvqCTEwbxSgumH3xypeSfL4Ed1Ul5PKrpFSr0Zqi1kDKw0IOq
+	geC9aM/QNMyUGf+dBIEBdbl3VjYb128jEagbVYrjEoWCoIYCG3nxNymrrRWwA25LW/cSZX
+	CBGoFJFSfV109z2rwkiUrHPUq/Zt2ek=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-402-G-woaCozPw2-XCSKTOFe8g-1; Tue, 13 Jan 2026 05:27:53 -0500
+X-MC-Unique: G-woaCozPw2-XCSKTOFe8g-1
+X-Mimecast-MFC-AGG-ID: G-woaCozPw2-XCSKTOFe8g_1768300072
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-477bf8c1413so50110685e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 02:27:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1768300071; x=1768904871; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WZv6AyyuLVVLAZ1eQ6zjrtIwS0o/q5F3gCFQ/xz3D2k=;
+        b=EYSiAawsYTNJ9xFyiruITJqpMqvq5MTxe55vxFB2RULPWx2bFC4i+M0XCRiRdxO1aI
+         NLuKPzHTYQmJjQE0JAf6tkdPeouonRRwd6/g2Ggd5zDFJJLBujqKqyGJgnFuv7i4sy5z
+         3appb2k9lkm1CXMlHE+ZX5igZYi7HI+Yq8TPoelOciqgUC3rSqoQE1vsc9nByeV5um2H
+         MV/3TyCysCSGDrl53vvNLxDvytR/UUa0i3XLonf8pakzayCZ0eJ3kUN2CyT3IR62UNuw
+         0pgl28vgzJAgCd7Sqtm3c8cNz7FFONybLD578SNU7J5RuvKOu+4+VJkKUsMyysN4UZp4
+         FIuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768300071; x=1768904871;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WZv6AyyuLVVLAZ1eQ6zjrtIwS0o/q5F3gCFQ/xz3D2k=;
+        b=OECOKP0dlnwDqgkDlnuHkf4x2CoPAhO4PyiMZXJpAiyPPOltfc48mESkQ1VI8L2+fs
+         lCXXWFoJpT6aAo+BEnn8i4h3d8bs4c5Ta3Rnb8VBP43mS48J6yjWug8PJicJCIZMDDAs
+         gOY73ThXtroqXA3JdPo/4vMFf8yJioy6iXo8y3bThtSz2bfDEQqE6H+eZVKW6ZOljJ+l
+         VfEPnLuq01qH3fa+sbLOdVVEsBpa9EwqZXiaNP71YXasV5XHsPcj//VkozmPoby6IOmI
+         geDU75VJ22/zQEIC/0KCqpyZokXBPwisf+ksV+al54s4c+eAadXFxnu7/QfXrmvm2Url
+         H3Mg==
+X-Forwarded-Encrypted: i=1; AJvYcCUYzg9bP86rGQfAbzv23MkiE/+vW+kzN6dCxYUawbB8pdfidphM0TxZB+Y1EaJE712aWTAWTxQaiJY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjxLkKMeulYewnNjG7kdk6yRwJEJ3iGmgtnXwlSw3HPSCyWNyv
+	4qXCyUOWE/vxV+pC131AxPNeISuzG8JJJiKQxzaoeLlsvfghYodIK+zqFU7d1T3IKRnBTr+G1Eh
+	X8CO6Q/SU7cXvHBz/Yu2Njwi0GmsTOaW26v5ewKDwAgeQaxtVjJPBsDP23AoVhA==
+X-Gm-Gg: AY/fxX4wHTKr8n8P703+eXNDOqOQyYR+t3uHA7jmYiwPCYAKzOcNab+RbDAtGoVNw2w
+	5IN2yuZoRKdsRsIeJpicrikcja9Kyo8hKpLuBIllB/zbkbYu8GSRuUE53BRRK9N+0wg249QK72m
+	emqueN3qpRxjqzJcZqwmbse+2ZLa0x6gtglviNjlQUW9kJx2GRyp3r08g4TIim1KWrmjml7noTg
+	BzYbevoFnG401Wymdxr99cuFqA4skgETT7oGgB42cIz/+0NX4z+8ZiTWfaGHbbF2AHuuVlOoebO
+	7aNEqkL1g+gm3LNDv0Aqgy01QwRif1A5tXB3etUOyTvTFR2nKitnPtobsuHlNkXfd4LcebU2ChI
+	uQXvpC4p0LVTO
+X-Received: by 2002:a05:600c:c10f:b0:47e:d6ee:7dd1 with SMTP id 5b1f17b1804b1-47ed6ee7dfbmr30480565e9.2.1768300071566;
+        Tue, 13 Jan 2026 02:27:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFBi8qAsCyoUj8yK3DWWfIteg/UVGEMMZ3DTwKr3HpHFkur4u7m4Xtrpa9L15tB9tU9SsSBiA==
+X-Received: by 2002:a05:600c:c10f:b0:47e:d6ee:7dd1 with SMTP id 5b1f17b1804b1-47ed6ee7dfbmr30480125e9.2.1768300071047;
+        Tue, 13 Jan 2026 02:27:51 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.155.93])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f695956sm408197555e9.6.2026.01.13.02.27.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jan 2026 02:27:50 -0800 (PST)
+Message-ID: <4db44c27-4654-46f9-be41-93bcf06302b2@redhat.com>
+Date: Tue, 13 Jan 2026 11:27:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,110 +88,95 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 02/14] mm/sparse: Check memmap alignment
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
-References: <3b758468-9985-49b8-948a-e5837decf52d@kernel.org>
- <CDAEC896-E3EB-4EAB-9F0F-70BC448B3B9A@linux.dev>
- <4f82b8ef-77de-422b-a9a5-691c4eca24a3@kernel.org>
- <glu3noshgeh7ktwwqofk7xcwkvhek2x3hrbdmyyo56gmctdx3t@adsfih557p7g>
- <2ace6fc2-6891-4d6c-98de-c027da03d516@kernel.org>
- <aWF3xg-72SV4tmLk@casper.infradead.org>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Subject: Re: [PATCH net-next v8 6/9] eth: bnxt: adjust the fill level of agg
+ queues with larger buffers
+To: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Joshua Washington <joshwash@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Alexander Duyck <alexanderduyck@fb.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, Shuah Khan
+ <shuah@kernel.org>, Willem de Bruijn <willemb@google.com>,
+ Ankit Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>,
+ Alok Tiwari <alok.a.tiwari@oracle.com>, Ziwei Xiao <ziweixiao@google.com>,
+ John Fraker <jfraker@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Mohsin Bashir <mohsin.bashr@gmail.com>, Joe Damato <joe@dama.to>,
+ Mina Almasry <almasrymina@google.com>,
+ Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Samiullah Khawaja <skhawaja@google.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>, David Wei
+ <dw@davidwei.uk>, Yue Haibing <yuehaibing@huawei.com>,
+ Haiyue Wang <haiyuewa@163.com>, Jens Axboe <axboe@kernel.dk>,
+ Simon Horman <horms@kernel.org>, Vishwanath Seshagiri <vishs@fb.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, dtatulea@nvidia.com,
+ io-uring@vger.kernel.org
+References: <cover.1767819709.git.asml.silence@gmail.com>
+ <8b6486d8a498875c4157f28171b5b0d26593c3d8.1767819709.git.asml.silence@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
-In-Reply-To: <aWF3xg-72SV4tmLk@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <8b6486d8a498875c4157f28171b5b0d26593c3d8.1767819709.git.asml.silence@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
->> When the program was called "2025" I considered it very ambitious :) Now I
->> consider it ambitious. I think Willy already shared early versions of the
->> "struct slab" split and the "struct ptdesc" split recently on the list.
+On 1/9/26 12:28 PM, Pavel Begunkov wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
 > 
-> ptdesc, yes.  Slab is still in progress.
-
-Ah, I could have sworn you sent something out, but maybe these were 
-preparations only. :)
-
+> The driver tries to provision more agg buffers than header buffers
+> since multiple agg segments can reuse the same header. The calculation
+> / heuristic tries to provide enough pages for 65k of data for each header
+> (or 4 frags per header if the result is too big). This calculation is
+> currently global to the adapter. If we increase the buffer sizes 8x
+> we don't want 8x the amount of memory sitting on the rings.
+> Luckily we don't have to fill the rings completely, adjust
+> the fill level dynamically in case particular queue has buffers
+> larger than the global size.
 > 
->> For quite some time there will be a magical config option that will switch
->> between both layouts. I'd assume that things will get more complicated if we
->> suddenly have a "compound_head/folio" pointer and a "compound_info" pointer
->> at the same time.
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> [pavel: rebase on top of agg_size_fac, assert agg_size_fac]
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> ---
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 28 +++++++++++++++++++----
+>  1 file changed, 24 insertions(+), 4 deletions(-)
 > 
-> What I'm hoping to get to is a point where calling compound_head() on
-> a page which is part of a folio is a BUG.  You should only be calling
-> page_folio() on a page which is part of a folio -- because there's nothing
-> useful to find in the head page.  So compound_head (or compound_info) can
-> share space with page->memdesc.  For now I've actually put page->memdesc
-> adjacent to page->compound_head, for no reason that I can recall.
-> 
-> I had thought that calling page_folio() on a page that's not part of
-> a folio would also be a BUG(), but now I think it's better to quietly
-> return NULL.  That's based on my experience working with slab and ptdesc.
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> index 8f42885a7c86..137e348d2b9c 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> @@ -3816,16 +3816,34 @@ static void bnxt_free_rx_rings(struct bnxt *bp)
+>  	}
+>  }
+>  
+> +static int bnxt_rx_agg_ring_fill_level(struct bnxt *bp,
+> +				       struct bnxt_rx_ring_info *rxr)
+> +{
+> +	/* User may have chosen larger than default rx_page_size,
+> +	 * we keep the ring sizes uniform and also want uniform amount
+> +	 * of bytes consumed per ring, so cap how much of the rings we fill.
+> +	 */
+> +	int fill_level = bp->rx_agg_ring_size;
+> +
+> +	if (rxr->rx_page_size > BNXT_RX_PAGE_SIZE)
+> +		fill_level /= rxr->rx_page_size / BNXT_RX_PAGE_SIZE;
 
-So once that is in, even if we only allocate "struct folio" separately, 
-the whole fake-head stuff can go away either way, as it is 
-hugetlb->folio material only.
+According to the check in bnxt_alloc_rx_page_pool() it's theoretically
+possible for `rxr->rx_page_size / BNXT_RX_PAGE_SIZE` being zero. If so
+the above would crash.
 
-Which leaves the question whether we should consider Kiryl's patch set 
-in the meantime here as something to merge.
+Side note: this looks like something AI review could/should catch. The
+fact it didn't makes me think I'm missing something...
 
-Willy, what is the rough timeline until we can expect to see at least 
-"struct folio" get allocated separately, and would this patch set here 
-get in the way of doing so, or doesn't it really matter?
+/P
 
--- 
-Cheers
-
-David
