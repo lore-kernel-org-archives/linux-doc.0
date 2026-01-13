@@ -1,80 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E489D1CD1E4;
-	Tue, 13 Jan 2026 17:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5785934EEFC
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 17:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768325643; cv=none; b=pf2xm8Kjjq2VAcPf8Mx8MInrIib9MShGlm3yAL2whotM3YMAZGnjgaYRM9D+eJCRbkbSILZtFAeEbVpucOIxfj0D5KoZyr2ByVPVue761PiXDZ6OoAifeARK1pNMUws14TCRnON3QEuMuOqVDDLRtvAL3vzEF955JvipN5Rxrko=
+	t=1768326289; cv=none; b=gJwRVWcHHXzbSUmfi7w0Zb69cBVr+JXw252rdzSGwQHgehdIO9PUjtUlXHrP4miOaosYVkuhIYqnVjhiRyItE+cq3UIQGuEvPFL8kosRo3T76jZSmTLlC6UJ5qMSXX16aXoL15IG2+KxreyKuxBY9Z8usYDUHmxbB1H0hFWemHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768325643; c=relaxed/simple;
-	bh=YZwbcRRPs13mP8+rij8yZTXdw99Dd9eLfldfmPqX6MI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=m3muBAnRfUy3kAhG+bmfzh1hKraZOpEvN7W6efoNKr/PRAMP9HijIZlVFkFD+fQWol6H0dEsMOBDnd4x6q/3AXB1XLSNsxl9lYIBPldJVo424v7EBRCXTKK0E4w5FDR/XI9pPVYqORt9PueZd+gyxqZrnXyRQo+UNMlpnrUXHJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=WbyA3+Fz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WbyA3+Fz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7658C116C6;
-	Tue, 13 Jan 2026 17:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1768325642;
-	bh=YZwbcRRPs13mP8+rij8yZTXdw99Dd9eLfldfmPqX6MI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WbyA3+FzTYTAmHvwVlZfLUe40KQDNlYCOwODqmT24UnodE6me2UXyfdkbMRcgiM2A
-	 Ie7nNf0bhgBJqvjW6G7/jpya3q2bjnOxZm4JHG8oFsLRnvEoKeoDSzoMF0+3t4TFR5
-	 ZgzaiDm3pu+lQM1rrx41GzTtPJgJ5q3yEJ2FLXuA=
-Date: Tue, 13 Jan 2026 09:34:00 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Maciej Wieczor-Retman <m.wieczorretman@pm.me>, corbet@lwn.net,
- morbo@google.com, rppt@kernel.org, lorenzo.stoakes@oracle.com,
- ubizjak@gmail.com, mingo@redhat.com, vincenzo.frascino@arm.com,
- maciej.wieczor-retman@intel.com, maz@kernel.org, catalin.marinas@arm.com,
- yeoreum.yun@arm.com, will@kernel.org, jackmanb@google.com,
- samuel.holland@sifive.com, glider@google.com, osandov@fb.com,
- nsc@kernel.org, luto@kernel.org, jpoimboe@kernel.org,
- Liam.Howlett@oracle.com, kees@kernel.org, jan.kiszka@siemens.com,
- thomas.lendacky@amd.com, jeremy.linton@arm.com, dvyukov@google.com,
- axelrasmussen@google.com, leitao@debian.org, ryabinin.a.a@gmail.com,
- bigeasy@linutronix.de, peterz@infradead.org, mark.rutland@arm.com,
- urezki@gmail.com, brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com,
- andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org,
- vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com,
- samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com,
- surenb@google.com, anshuman.khandual@arm.com, smostafa@google.com,
- yuanchu@google.com, ada.coupriediaz@arm.com, dave.hansen@linux.intel.com,
- kas@kernel.org, nick.desaulniers+lkml@gmail.com, david@kernel.org,
- ardb@kernel.org, justinstitt@google.com, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, kasan-dev@googlegroups.com, llvm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for
- x86
-Message-Id: <20260113093400.412cb4c5596ff3336ac803fb@linux-foundation.org>
-In-Reply-To: <20260113114705.GJaWYwubl3yCqa1POx@fat_crate.local>
-References: <cover.1768233085.git.m.wieczorretman@pm.me>
-	<20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
-	<20260113114705.GJaWYwubl3yCqa1POx@fat_crate.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1768326289; c=relaxed/simple;
+	bh=ydCY4dMkYiDlitiuC6Z0F5oaftjzbWrrsxFgbMP3eh8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Qihj+YUzDZQksuSALw9y/1UatRvXh23OkHE9TlRNnWe988KNXtohs5vwwa/jbB+llMf6SJwAap5DoxbgkFmU20kt9UcogMJC/wVg5y5ic7YFU6u+g5t8aD+3DKS9Ix34DfGqQZpH/I15Mr8q2rASbnDwH/iuUrc3GK9cVSQOrSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8712507269so353858966b.3
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 09:44:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768326286; x=1768931086;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nRDDaI8PSQ9i8fUQYmRubU2lZ9FKKoqL8+7T/Yos84E=;
+        b=jhb5DOsFhd8pksXSNdN1fDlA53EPiErLmZtxwPQvJCJ2aC4a6AFeMVwEm7zcejHwJA
+         ils+W54/EVqIGc34qc8MPb8vMMJ1neRLNHbikHXOsRIKyXVP08gQ/ZjZJn65N1EEQ1K/
+         xW3SSACZg8yt6Qni34SiQo0xOPnBISbdXiD/8aB1PHYfbI50gqFIGdLo+LCceu2hyecw
+         5snzcPq9EB8jXcxu3XNhj7MIgKvj489iGEnmgtt2O/O8bOgE52+uMCLeD3N2bUzTBvSi
+         kYY8sBf2R89UcXCupr7kKXAO0spOHmWZLKoRAItUUCpHR202hg2kKsy1OzdfEcy2wy6/
+         0M5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU9xxXG8WsKqnIsagqQ5EAtiH7p+pk7nC+bfrq8q4ya6fSlb1vJT5EMF9p6tAM84Zlt8KsYso99N2Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8IGfQk405bC/+u9Y2atY7oduvPITrw0XmHWCvzJAFd1iuQ7Nc
+	o10xmDjPVFtGJ8KtlcCBfdzlYbL4MU9UZMsoWyYS8o9njr3cf/1Dp4zX
+X-Gm-Gg: AY/fxX4/5kStNsfWn3+IYfogzCZ/Z4587WVc0qb3rebP+L4SsNmSBbgL0gMy0AiHe+I
+	ODBAlmKIFx0lvxmkl5NOWLaV0d6KmR1YmiqFgQitq5M6pkNSFNvJFQ7R01TBgT+6XD/zJw2TKj4
+	y5jkavtKzE1QkqG1NiqxAgg0QfluwO1fWQm9leygNVSCG1BP+98hjR4rNdXtKi4dBEcXcPa+Jeo
+	YuqwkpTresh/wZvEm047CvZSfuSIgUruEliwyFIQA+nrfAyyhwWr8m5yXuHM9IjmH1U++P+Mpa2
+	tFLrqf/0KkIjOpq/hLVYg+yjPDnupVEo8irnL2NqpnB9IVyjks9tUuWYttANCmDSlVthz9mZg0L
+	cpxsonhKuLBwtVSKnEsqMu68r5+udqhu7e1mgoC5jv0l/hCDmCUnrqAcWHdi/1/RSeaDUMnX+yI
+	Xo3sKgTwc0IA9wC7ADTUytknKn9DvhC6P6u0yhZrB5BGFzMQ==
+X-Google-Smtp-Source: AGHT+IF2LxGsN/6Keoe3DyT2UHG1IbdrBpLZY09D3elBScNdSzuVpg3kGMzeCVp/wgijXP8twmjnjw==
+X-Received: by 2002:a17:906:7954:b0:b87:2579:b6cf with SMTP id a640c23a62f3a-b872579ba1bmr579850766b.41.1768326285367;
+        Tue, 13 Jan 2026 09:44:45 -0800 (PST)
+Received: from [10.42.0.1] (cst-prg-36-231.cust.vodafone.cz. [46.135.36.231])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507be655aesm20873259a12.17.2026.01.13.09.44.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 09:44:44 -0800 (PST)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH 0/5] New DRM accel driver for Texas Instruments' C7x DSPs
+Date: Tue, 13 Jan 2026 18:44:34 +0100
+Message-Id: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIKEZmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQ0Nj3ZKMxNzUYl1jYxNDI/NEoxRLwxQloOKCotS0zAqwQdGxtbUAsQm
+ 1olgAAAA=
+X-Change-ID: 20260113-thames-334127a2d91d
+To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
+ Randolph Sapp <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, 
+ Andrei Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+X-Mailer: b4 0.14.2
 
-On Tue, 13 Jan 2026 12:47:05 +0100 Borislav Petkov <bp@alien8.de> wrote:
+This series adds a new DRM/Accel driver that supports the C7x DSPs
+inside some Texas Instruments SoCs such as the J722S. These can be used
+as accelerators for various workloads, including machine learning
+inference.
 
-> On Mon, Jan 12, 2026 at 10:29:57AM -0800, Andrew Morton wrote:
-> > The review process seems to be proceeding OK so I'll add this to
-> > mm.git's mm-new branch, which is not included in linux-next.  I'll aim
-> > to hold it there for a week while people check the patches over and
-> > send out their acks (please).  Then I hope I can move it into mm.git's
-> > mm-unstable branch where it will receive linux-next exposure.
-> 
-> Yah, you can drop this one and take the next revision after all comments have
-> been addressed.
+This driver controls the power state of the hardware via remoteproc and
+communicates with the firmware running on the DSP via rpmsg_virtio.  The
+kernel driver itself allocates buffers, manages contexts, and submits
+jobs to the DSP firmware. Buffers are mapped by the DSP itself using its
+MMU, providing memory isolation among different clients.
 
-Cool, I removed the series.
+The source code for the firmware running on the DSP is available at:
+https://gitlab.freedesktop.org/tomeu/thames_firmware/.
+
+Everything else is done in userspace, as a Gallium driver (also called
+thames) that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
+
+If there is more than one core that advertises the same rpmsg_virtio
+service name, the driver will load balance jobs between them with
+drm-gpu-scheduler.
+
+Userspace portion of the driver: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39298
+
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+---
+Tomeu Vizoso (5):
+      arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add memory pool for DSP i/o buffers
+      accel/thames: Add driver for the C7x DSPs in TI SoCs
+      accel/thames: Add IOCTLs for BO creation and mapping
+      accel/thames: Add IOCTL for job submission
+      accel/thames: Add IOCTL for memory synchronization
+
+ Documentation/accel/thames/index.rst               |  28 ++
+ MAINTAINERS                                        |   9 +
+ .../boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi      |  11 +-
+ drivers/accel/Kconfig                              |   1 +
+ drivers/accel/Makefile                             |   3 +-
+ drivers/accel/thames/Kconfig                       |  26 ++
+ drivers/accel/thames/Makefile                      |  11 +
+ drivers/accel/thames/thames_core.c                 | 161 +++++++
+ drivers/accel/thames/thames_core.h                 |  53 +++
+ drivers/accel/thames/thames_device.c               |  93 +++++
+ drivers/accel/thames/thames_device.h               |  46 ++
+ drivers/accel/thames/thames_drv.c                  | 180 ++++++++
+ drivers/accel/thames/thames_drv.h                  |  21 +
+ drivers/accel/thames/thames_gem.c                  | 407 ++++++++++++++++++
+ drivers/accel/thames/thames_gem.h                  |  45 ++
+ drivers/accel/thames/thames_ipc.h                  | 204 +++++++++
+ drivers/accel/thames/thames_job.c                  | 463 +++++++++++++++++++++
+ drivers/accel/thames/thames_job.h                  |  51 +++
+ drivers/accel/thames/thames_rpmsg.c                | 276 ++++++++++++
+ drivers/accel/thames/thames_rpmsg.h                |  27 ++
+ 20 files changed, 2113 insertions(+), 3 deletions(-)
+---
+base-commit: 27927a79b3c6aebd18f38507a8160294243763dc
+change-id: 20260113-thames-334127a2d91d
+
+Best regards,
+-- 
+Tomeu Vizoso <tomeu@tomeuvizoso.net>
+
