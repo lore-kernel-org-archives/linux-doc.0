@@ -1,87 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7782C241690;
-	Tue, 13 Jan 2026 22:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8AF277818
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 22:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768342241; cv=none; b=T+oZdWeFm946ShggHiRuxtUuxadICsspkSqrG0RZ8c8Eu2tFSKOSa4WOpRrJ+1/6lZS8TbG00jZrBmn68U4lyBWwG/E+4E8iAGbQiGVDdcdZAHKHft4zdh2Od70RsGcVkfbZ/cP4DOEPumI2Pwbm02ai4kuGhFl3kWwrsVB7W5Q=
+	t=1768344344; cv=none; b=kh6oMdHIxyG0F0ri0Y25K3YZsydmSZJLohZYdKu6HyQawFtOjW6UzuKtx4IhQLioG+bGzNbDJTLXlIZRuG7VYuuSnomfL9rLshw9S+6qGH6kqRX/mBP0cLzIJ0sfBHhT8QKh9kx/6ijV+gUqeWYuzPQMBWrphrLJzxY93IBG7V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768342241; c=relaxed/simple;
-	bh=x/cY1en+jbTWnP0WHB3Y30BIf+4E6M3H1MYJX4CpAQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KYnahblTbxbZb82DxhXiR9aWAhILCk/xXl1IAl9PkvA/qonvB5bXRekJKNgFyzC/gliSW98Azx0d89iNEwLP5KToO56XlDSbnbXKOekDQC+hAfWSsDT8W0Oct7mQd1I+aoT0iUqZ8HETk8OejvuHIctibhN9wcJ6lYI3dlpt+No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCO62U5Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768344344; c=relaxed/simple;
+	bh=OSAPb0X0rmvZiV2wXNRKbIJTmO7hsN5SCy3PsVINcLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQqg0NYzlE/ZVYYhylRwWdUP/USvU/7ZP/xR9BBaJrdyVD+tpzcVOZvnik0f2f2TsGHbVCLlRxkidx0VuqzJQ6akQFCs6z2DzDuzKYF8uwLGu1E8twfcY9fJ/BupHDXj7R2c/za22e31yRg46jVRhkcU2RxD9FWBAckKsetzK8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nr7N1pqA; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCO62U5Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99929C116C6;
-	Tue, 13 Jan 2026 22:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768342241;
-	bh=x/cY1en+jbTWnP0WHB3Y30BIf+4E6M3H1MYJX4CpAQo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HCO62U5QzNICgpRCqXcX9a45Ytrt05ixidPUDt9Y6yx5qjpo/CW6EBCYeTuzUokxC
-	 5kjT6F2nYMo7wG70lfTFoONj/fLIgXZWc92ojoj+i/huXH/A8sF8AblUotQDPJT7Kw
-	 thAJ3kELZDtqr9gxSWiAFk9Yd9pjPYHcq/l4UKlFArE01v45JFrYimktlKinhF182i
-	 WNgqeEsuFXyDDnfJ9aPKAr6XiOE9M5tSgCdP49Klqci1C//z52t9BgrIStJc4V36By
-	 u+JY0l13OKfmUN7AY4vT5Id81b2Z5T5qTypvni6C4ThWrpdurnVSfmhA47G0sX2+Yu
-	 sxzFnZC5k0vWw==
-Date: Tue, 13 Jan 2026 23:10:36 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v3 4/4] scripts/kernel-doc: some fixes to kernel-doc
- comments
-Message-ID: <20260113231036.0b10f4a9@foz.lan>
-In-Reply-To: <20260113224943.3e8b014c@foz.lan>
-References: <cover.1768324572.git.mchehab+huawei@kernel.org>
-	<434e60e7868ef4e001e81e8cfa872dec711ddd34.1768324572.git.mchehab+huawei@kernel.org>
-	<87sec9w7ux.fsf@trenco.lwn.net>
-	<20260113224943.3e8b014c@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nr7N1pqA"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-81f5381d168so2424519b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 14:45:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768344342; x=1768949142; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NJwCd6SZ2NrvK21po8YmNoi0HiWxgby2JNrwXj9hGzY=;
+        b=Nr7N1pqApx7/jsqzjit2paqkJ8gya9wZayvB57zONpVtQ7XsMqGMXXvCQmQuPO8RkV
+         YK5IpAObsXbAZklN7s0NHEiLL4wsHcGTdvCiE8u7j5ynENcSaTT33LEvK+b84ip4+dbi
+         sy07DJ7tQDBWy40qHMDIOWN6d//NrK6F48+poI4Uejx7QNsYGNdNKVWquOCmXpbo3BLH
+         Rskis4uZKLf/FvU6OhSTt2/rmN9hX0Ey5bRssoTmnTofPhE5myWkAzG34+lEw1Okh3Vg
+         8/C6T7lG37rN3CI/P4Ziq6m2z79sBy6o1k9wua3BQP8YJspd0Dce32G2/qZjhuGmnrl+
+         FQCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768344342; x=1768949142;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NJwCd6SZ2NrvK21po8YmNoi0HiWxgby2JNrwXj9hGzY=;
+        b=mt70xbQg4K+3xZ+tdhtahfw+763ooqnAroW7nIOvIpgqqOc7LkPrhjo0WdUcP3+vW1
+         viKJm4vB4iawtc/+jxzbmpXVEB6FtzgbAu08sDV3FObpJiqjEervtjafsUT+UaUBcsiZ
+         d0ItGIidGBAq8JK0VYHgmoQ5LZ0IgSSQd30HQWG4NmupU6ggMJNL4h4+gPv+PWLjFs0M
+         TklWrk/ZaJZ/L5qAKXZntvf1DwC1GGQ9oR964peDUkI4aa9zQ28rvdpjKHaoRIpJj5/c
+         u4R8V6WBu63cLN/s9cWoRkBJOG50v5ZGgX0qbqbMJGxOaSDvwUJVy65qaMnb9Mz6iUgn
+         w7FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWK6AbABUWqyjQo2PeERf3GcmKgBWZbkxfJ6sUPe1v7L6Qbta/IkhSquNxBNPTJVqYXFQcQx29t2oA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywcb+qOl7IPQ8zYFY642tW2hGg12ZgCfiNBPTYxIBqqItltObWm
+	9lp882h6BJus+fTWkFnccJ16YZPcLJoqtZPsgB+OvFEd6K8mSye+5y1S
+X-Gm-Gg: AY/fxX61XkLQA3VAal4gYB7RiD734+MvyLkCaiu0TRAeeaLTAd9RR59kry2lUvL2DBd
+	ZCW2dnE5fq+lWisBTpvgdXE6SoE+D0VxF5/1wtr3YpJfDwa3vYGR/PzLBFI3PkGlprMC1bYUl8Z
+	LUtFa2Hzu4SoP3XwutMdkPfuzxsdYoVg/DokItRB/uH0QntWcK4la78tnn9YDN+NVaXRosvWMbo
+	cfVJgd0bS9n1MiuG3B/CwkLiGel4DmauMapjAYXrNkuVYm3Gg1RddapTVRoHDcTY8ekEN0L9fs1
+	3Xr+EuCF8JI2lNI65KkRKqMkpJfukdO9qeUrNKBah6SftwlBEbZ33TVr45EqXNylbI/JVQHaiud
+	2M39Bf17KX1qs89BOLmIzjfvFn1jdF3zRim0GPpgxtFo5BoRJFLrOkR+iPUXhB6dicyhNJxgCrG
+	MzAR/AKjA=
+X-Received: by 2002:a05:6a00:4516:b0:7ab:5e68:e204 with SMTP id d2e1a72fcca58-81f81d3ab82mr454066b3a.29.1768344342051;
+        Tue, 13 Jan 2026 14:45:42 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f44a94e98sm6145133b3a.69.2026.01.13.14.45.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 14:45:39 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9EE3D42BEE9B; Wed, 14 Jan 2026 05:45:37 +0700 (WIB)
+Date: Wed, 14 Jan 2026 05:45:37 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Petr Vorel <pvorel@suse.cz>, linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Alejandro Colomar <alx@kernel.org>,
+	man-pages@man7.org
+Subject: Re: [PATCH v3 3/3] Documentation: CSS: Improve man page font
+Message-ID: <aWbLEeeVuY1X-YjA@archie.me>
+References: <20260113113612.315748-1-pvorel@suse.cz>
+ <20260113113612.315748-4-pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rwnCSDOQih/CPcEH"
+Content-Disposition: inline
+In-Reply-To: <20260113113612.315748-4-pvorel@suse.cz>
+
+
+--rwnCSDOQih/CPcEH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Em Tue, 13 Jan 2026 22:49:43 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+On Tue, Jan 13, 2026 at 12:36:10PM +0100, Petr Vorel wrote:
+> +
+> +a.manpage {
+> +	font-style: normal;
+> +	font-weight: bold;
+> +	font-family: "Courier New", Courier, monospace;
+> +}
 
-> Em Tue, 13 Jan 2026 13:55:18 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->=20
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> >  =20
+Shouldn't font-family be the same as Alabaster's default for consistency?:
 
-> > "flowers"?  Did the LLM put that out too? :) =20
+font-family: 'Consolas', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans =
+Mono', monospace;
 
-Heh, asking it to be funny and use figures of speech gave a funny
-yet precise description:
+Thanks.
 
-<llm>
-	There are hidden gremlins and linguistic shadows lurking in the
-	kernel=E2=80=91doc.py comments.
-	Summon them with the aid of an LLM (gpt=E2=80=91oss 14B), executed locally
-	like a sorcerer=E2=80=99s spell, using this incantation:
+--=20
+An old man doll... just what I always wanted! - Clara
 
-	    review English grammar and syntax at the comments on the code below:
-	    <cat scripts/kernel-doc.py>
+--rwnCSDOQih/CPcEH
+Content-Type: application/pgp-signature; name=signature.asc
 
-	The oracle did not yield a bouquet of roses; instead, it revealed
-	a handful of wilted blossoms. Gather the radiant ones, and toss
-	the withered ones into the abyss.
-</llm>
+-----BEGIN PGP SIGNATURE-----
 
-If you ever see a patch description like that from my side, you can=20
-be certain that it was a LLM-generated one ;-)
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaWbLDQAKCRD2uYlJVVFO
+o/NgAP9BSpWey8UcUP2/zF1VAmDwPYa7H1z8Gbk1qrPPdw7QpQEA7atJG0Fv7HWW
+zIvZm0Km65cvGpfMuDpDkl+iwweRNg4=
+=ObqY
+-----END PGP SIGNATURE-----
 
-
-Thanks,
-Mauro
+--rwnCSDOQih/CPcEH--
