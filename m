@@ -1,78 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113B338E127;
-	Tue, 13 Jan 2026 11:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C514285068;
+	Tue, 13 Jan 2026 11:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768304804; cv=none; b=eULrnalfMmea/GIm6pDJB4X6MD0LGb0sjNgyvgNMq5eDKD3pE/wgT+43mswaG26JaB9WXnMzZRrmFdOpu+9oxu+Xc9YKXMYYgK4H5FyPJpmQ7TykvxITJ4hBh9MAu7QXjb3Uf1eJ0rmd/rbFJzBp0MN0nOqBxc44poaOm9SdfGk=
+	t=1768304897; cv=none; b=jEYLq31E42DszZl/Og1Bn4uOmh+FWnONXdDRxTzNnrTcztu/qnLjNnNFBa/q62Qxo6qi6qk8XGekW78Kq0PTpRJfzdSO5XIreu4yp0fYO/42fLRIkxYrR3ZFrGPiOLI8hbz45ZNAVK4pqswm2xTbdZQ2Wy9jhAVqSQzkVst2U58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768304804; c=relaxed/simple;
-	bh=QBvEjggRtfBWW+wFoMsPP+V5V4/wuLjkk0gzonL5Dhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QormMiwhjWbZhYEBqFvGn5x0Ee/md233R2kH5hg+RtoWqpXE0I4mLxQzJbzydQLyQSh+cVBPD10PyjVpYW+V6W7ZQpTBSR9lU0XY5RmVAIFwh7ESlsMYfU32nnS3D2vSNTybpbLMw4a2fV1PdpZgDu85qc3BWDUJydJ5P3pWAtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0AV2JbL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768304897; c=relaxed/simple;
+	bh=/KMIFQGR4Bul37gWLEtJAePhpTN+maF3gId13DkHyMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RsHFNz+/8nHE0mmeL4oBp7hvDCZwCmuqei7puPHomrV9nuRxbIIJLKqfpsU2TYQ6aRQP9Wb3EYGRhWTIT2FRBs6fuWLLkoljdZXdLPhwpbLOZWGc8J48JG1EFyV7zykeo+v7dSFF2JKdFCo7DjJxMIG6ZQaR/Nkj0vECWrYHV0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Xu0+QRmj; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T0AV2JbL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B238AC116C6;
-	Tue, 13 Jan 2026 11:46:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768304803;
-	bh=QBvEjggRtfBWW+wFoMsPP+V5V4/wuLjkk0gzonL5Dhs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=T0AV2JbLHdR0uY1BGGkx3jnerLW4YUk8M9uFfmoXDD+YiKRUoKDT48KWILGPwObhg
-	 fiLLCq/6wihMNvqP6TFhKlkt+LlgovaR1Vk3JUo8FR+Jw6XVnmIhHpGKlvslBRig7p
-	 E26K38ELH3H9/CUW3q2za6sLxWeDCqsQp9fLGiNWBMTIK/WP2zW7Hc6UFW7TkO3G4j
-	 bJSCXVo2HDHG3SJAAqcL3G16iSm+OUlgFYVIcsvBcxF/v5jV8Z1IBlbQXNo0CoCVTf
-	 7/1884ejIbCljAZMMD7rOgVSAa4seYOtCyi9oQKaLz6CEJMzn+4Is5ANsFt94TtHzp
-	 6CLNJvxMYJeJg==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	ojeda@kernel.org
-Cc: linux-doc@vger.kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	dakr@kernel.org,
-	gary@garyguo.net,
-	linux-kernel@vger.kernel.org,
-	lossin@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	tmgross@umich.edu
-Subject: Re: [PATCH] rust: conclude the Rust experiment
-Date: Tue, 13 Jan 2026 12:46:23 +0100
-Message-ID: <20260113114623.114117-1-ojeda@kernel.org>
-In-Reply-To: <20251213000042.23072-1-ojeda@kernel.org>
-References: <20251213000042.23072-1-ojeda@kernel.org>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Xu0+QRmj"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5470340E0028;
+	Tue, 13 Jan 2026 11:48:14 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id TuovWBZKXyO3; Tue, 13 Jan 2026 11:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768304892; bh=rTbY8atxjKRjBA0y7/TdrF1D3ojAC1i7Hfmy4BpGVjk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Xu0+QRmjVzNBeP/SFAjZtAYJhh21/UMZZySy8yfoIPEBTM4uIy81JkjyYzMDkN+01
+	 n+8yvHO7z7BYTqramqSmlCga3GRnbhy7+aaGT9vruZ8fLyV2f6AyRnKg7EVljfIqK6
+	 lOHOIMZuDODjGpIdo4Qc2uqTKS9WoZmSXSetNTKJ/hoXL1K3f0EuVcGvghZ6XV2pje
+	 uSZa2REx13fy9H2mVCdKrJtb02uLGMEYUONgSqVGTtnI9OLu8V1NSDwPz7de71ETiO
+	 wBA9CcU/Bzp1kCBtzPupRc/pF1vb5GoIkk9j8U0lmI827DrbA0GGCKA9XqcU1poQqb
+	 uKIrf9KzbJYRxhJHXaSxcxLN52HneYEXBmDHVmSOgslImgxuumZkdJAvl4SVmu9BMy
+	 1ZNoNFr194LKYfVF+BxPzd5FSH2shoVaru+f41SJ+nEeSwAX29dBPVqqHxxnEo7Uua
+	 yy30+t1ym5n601GoZV5F76xpQhfo7AV29Y9mu3rWjfyxDPhVrHt53rWfTxzQ6bG+11
+	 UXsjKFSGRi/2UG/gm5Kh3HFtjczcjwwRG/cn6wYOMivXrevjw8nosm4zMs55sut6HD
+	 wAi/LWh0YyOYKy54CB2fW1apZheJfHlztDFVkJvkT1BYdgWEEW46JWy3RDdAcDDsHR
+	 FcYQ/RrS/jrxs8yaH2eXQqk8=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 78B1A40E0194;
+	Tue, 13 Jan 2026 11:47:06 +0000 (UTC)
+Date: Tue, 13 Jan 2026 12:47:05 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Maciej Wieczor-Retman <m.wieczorretman@pm.me>, corbet@lwn.net,
+	morbo@google.com, rppt@kernel.org, lorenzo.stoakes@oracle.com,
+	ubizjak@gmail.com, mingo@redhat.com, vincenzo.frascino@arm.com,
+	maciej.wieczor-retman@intel.com, maz@kernel.org,
+	catalin.marinas@arm.com, yeoreum.yun@arm.com, will@kernel.org,
+	jackmanb@google.com, samuel.holland@sifive.com, glider@google.com,
+	osandov@fb.com, nsc@kernel.org, luto@kernel.org,
+	jpoimboe@kernel.org, Liam.Howlett@oracle.com, kees@kernel.org,
+	jan.kiszka@siemens.com, thomas.lendacky@amd.com,
+	jeremy.linton@arm.com, dvyukov@google.com, axelrasmussen@google.com,
+	leitao@debian.org, ryabinin.a.a@gmail.com, bigeasy@linutronix.de,
+	peterz@infradead.org, mark.rutland@arm.com, urezki@gmail.com,
+	brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com,
+	andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org,
+	vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com,
+	samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com,
+	surenb@google.com, anshuman.khandual@arm.com, smostafa@google.com,
+	yuanchu@google.com, ada.coupriediaz@arm.com,
+	dave.hansen@linux.intel.com, kas@kernel.org,
+	nick.desaulniers+lkml@gmail.com, david@kernel.org, ardb@kernel.org,
+	justinstitt@google.com, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for x86
+Message-ID: <20260113114705.GJaWYwubl3yCqa1POx@fat_crate.local>
+References: <cover.1768233085.git.m.wieczorretman@pm.me>
+ <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
 
-On Sat, 13 Dec 2025 01:00:42 +0100 Miguel Ojeda <ojeda@kernel.org> wrote:
->
->  Documentation/rust/index.rst | 18 ------------------
+On Mon, Jan 12, 2026 at 10:29:57AM -0800, Andrew Morton wrote:
+> The review process seems to be proceeding OK so I'll add this to
+> mm.git's mm-new branch, which is not included in linux-next.  I'll aim
+> to hold it there for a week while people check the patches over and
+> send out their acks (please).  Then I hope I can move it into mm.git's
+> mm-unstable branch where it will receive linux-next exposure.
 
-When I apply the patch soon I will also remove this one as well which
-I recalled we had (Cc docs/Jon):
+Yah, you can drop this one and take the next revision after all comments have
+been addressed.
 
-diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-index bc56dee6d0bc..f39d1d3dd9ce 100644
---- a/Documentation/process/programming-language.rst
-+++ b/Documentation/process/programming-language.rst
-@@ -34,7 +34,7 @@ Please refer to ``include/linux/compiler_attributes.h`` for more information.
- Rust
- ----
+Thx.
 
--The kernel has experimental support for the Rust programming language
-+The kernel has support for the Rust programming language
- [rust-language]_ under ``CONFIG_RUST``. It is compiled with ``rustc`` [rustc]_
- under ``--edition=2021`` [rust-editions]_. Editions are a way to introduce
- small changes to the language that are not backwards compatible.
+-- 
+Regards/Gruss,
+    Boris.
 
-Cheers,
-Miguel
+https://people.kernel.org/tglx/notes-about-netiquette
