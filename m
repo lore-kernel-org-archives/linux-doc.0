@@ -1,109 +1,162 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44562D9499
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 15:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1B72EC09B;
+	Tue, 13 Jan 2026 15:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768316912; cv=none; b=DnLe9OaF3jD4tIU5Tz1gZtSzK2OofM+3xfH+rgA1U0kOpU8wyohatfOJYrkrP99Dr5HQA+D4yp73OvTR2m4LPxuyRnRa8U7E84SCCNm71aqkHTWXIOhcoUNPF1eELilR1XfDbunJeHasX8entkHI5JNNyXWfH7ysMOZP9rMo+0o=
+	t=1768318050; cv=none; b=KbdOJNqpfxDK0botxBNjePRPhS/0LOKSdsyCWJHVMvdX9Oq3YojQrrsVI/Nd1GPHDgVmsCrNMgAfgJj+NhjHm7WQwb2gQdOO9OgWCz5oI7bj4uGKjcELpvMzzxPNb4u218DZNuwxuIwyyCTYbNRHs0t1EJB9PCcly+pKYhadu0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768316912; c=relaxed/simple;
-	bh=Zby18NWIZd9LikNKagpy2NdD5nLGxACKPIZ2QhLKgIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HvygJxcrW4ppzEYuL/HCi41tIb4JP3RbR/QbM5/Eju5oDsGrHYqip7EYBhMvHKKlO0WVz2tdQXKgiQUwwgjlzVZmS4SsAbJF9Ppuw0lC9zqMfOZ1v7rAt/+7OVQPkSv/jxLSmze4SBvrtp1pzGJrDXP9Oai8vzJSlXPo0eC9u6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=JUDqJ7Bq; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1768318050; c=relaxed/simple;
+	bh=9B4uMGFwloAk5ZAEn3IBwWCzYGd064BJjvrO/dS6ItQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hbrnaHAZF94sNGiGkzcG8BHOgGpz569gMJff32nGdfrUdZ4HEKljFzpB+vf/Gk3mnNY5aHNTshPanEMB7SnZOGsxFvI/kl2xpbZ6TmFM8MsYQYFPPxGqjwUGAaZbq51JFBDILLTAVaqXKpKdzjjF/j/PAV2G9Bxhe93UWpg2nuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNkBCAAu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="JUDqJ7Bq"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b25ed53fcbso290094385a.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:08:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1768316910; x=1768921710; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zby18NWIZd9LikNKagpy2NdD5nLGxACKPIZ2QhLKgIE=;
-        b=JUDqJ7Bq0RsedDLwBXVWeJnqte1agHdfmJpW4D3oMyijYOT9FZyYb/lZA3kKTB2XRw
-         gyfU9kwV0TeSE04a3O3VmnVtqd7bVTFkruT2fCnUwcGCrTQfwJd6e8J8BiAXzwz/kcGp
-         O2jKH5ixrGKkhciDqH5Porin2Ns7fdYIa3XT5CdEJQ03EjDwtoDKjxoqFQk/7pNfxOWR
-         c7sjFA9dF4S0D5WkNL87lklDW8JnH9sUyYcyNbnsyE1tbSdFayN8Bh68dDmA29KviG2B
-         tymaLQIg6NousnKbL62Svt2xCe2wPqPWnPkPwXARsax7E/jPTWotp4WsGK9+13dUZiae
-         qc3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768316910; x=1768921710;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zby18NWIZd9LikNKagpy2NdD5nLGxACKPIZ2QhLKgIE=;
-        b=sRtR9ou24EmsAwk7LrUhVDWiMtITG3Sep0ANnNw6hmp6gK0yplyVISn7OwfY6X1OcZ
-         k47hPX1tQUzYe6h+L6hGHRqn3wHsIJ7lu6r7dk8H5t3Iv6LwCRwerj7dT3HMeRZpbYWC
-         M8m6mQz3spYlbaW2rilWZmpLea2NpHz+P2hPC0VoCLJqeXDKp/ElcJjcNwvOo6+R4Maw
-         cULblr5Zv4+t/GkiZkvu3417j5BdR+92+zW/r61wGMjOJpnfTcqNdQfOAtPs4sbCOGKY
-         lwim+mrBX8oQ6WqXn1tKT6h2ua4aw1GVaEq+O3giZ6b4swhGg8xvmudHmyLz3tsTE1YJ
-         kYLA==
-X-Forwarded-Encrypted: i=1; AJvYcCX3ifbY2igAbms10aOlZody0zocLTeMt1lc1neilcEDqA1LigQVz7RlPFZnA3rwVjRb1S6+hnBst3Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMZpf8YEgseLZHerLSznQgV5kq4iJvbv0a+GZavLT3iSixLy6X
-	BunXHhqLMtLNsD0W1fhCYOHzdpg42qhzQ6UUEcH63WDjV/f932e6moR9INTssLy1Hl0=
-X-Gm-Gg: AY/fxX7jU3S0O6n6pwa8NcPeXFHp3cUO1oeDOBt/KXmMgyxwDlzCY+MyB28sHDTAkJS
-	FGkaSuV0kK5dSNV3Wl4s0gRDcO+CFhlsS3vxVvmqoiLP7l8sX1fVww24k4pCtzQI+RsHhMvjMP5
-	LespQYAIwwkcJOlJ9RWKI2i8vkiEpzoWvzlM0EjD+cpjhbZUP82cdB435LjHy1rT4PKiAeiLMnW
-	E/O9UTL9rd+POTiNdz1dvEKnornAdeW4F31j4wPi05o20eVQkkKkvUwjkJmmURltyXHcQgROQYq
-	cY8UEl6I8KNBQ7/pWORafQj6T5ZTVCv7A/Zdh1hXc9+Hnqc4Tws8xBfsoxkMI85Hpt0CzblioKG
-	G32YE498CzbXxeadJSYAHBEaPQeZHMSNjLoAO3IyuaQsfzBcqOviHVvVEzvj2ImA+EthBhFBjMa
-	p9ozVAqgSbKOnu4W3RtWbmvT3pbIbRNF5jiFUrfIYyztj08bQy1SVatY0XT03gFkC+MiQ=
-X-Google-Smtp-Source: AGHT+IEXQELOkUASiIG47wGrsPIeAZgzyEl1xKDO2iVvMsRIfq+sXO7FgFplrL2YHUPM6Jt0YgNMYQ==
-X-Received: by 2002:a05:620a:44cf:b0:8b2:74e5:b3e with SMTP id af79cd13be357-8c3893a9e9fmr3015531385a.36.1768316909508;
-        Tue, 13 Jan 2026 07:08:29 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51b732sm1696908185a.25.2026.01.13.07.08.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 07:08:29 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vfg0S-00000003udw-1o8a;
-	Tue, 13 Jan 2026 11:08:28 -0400
-Date: Tue, 13 Jan 2026 11:08:28 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>, linux-mm@kvack.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, xiaqinxin@huawei.com, baolu.lu@linux.intel.com,
-	rdunlap@infradead.org, Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH v6 3/4] iommu: debug-pagealloc: Track IOMMU pages
-Message-ID: <20260113150828.GP745888@ziepe.ca>
-References: <20260109195111.GQ545276@ziepe.ca>
- <CAFgf54r_au6isA10Nrve=MHL455X=tKhNsSwH1ej-TX08J3xLA@mail.gmail.com>
- <20260112133256.GB745888@ziepe.ca>
- <CAFgf54psxPrsvujStPNtrzxiKOsJF+aVrN7BcNxxmAF4wDmRXA@mail.gmail.com>
- <20260112135208.GD745888@ziepe.ca>
- <CAFgf54q+9Y5TtGJDB=8q_BW-0F=TM7zBbCcMzvtvr_N2WMnd-w@mail.gmail.com>
- <746f5adb-1d91-4ca2-8ae0-a2d171203b66@kernel.org>
- <CAFgf54pbkfdFr6biE8BiNKBnTBFWxXGmvxsZ0E+C1C44c9AW_g@mail.gmail.com>
- <482f2f36-e906-492a-a80c-987bf7359d83@kernel.org>
- <CAFgf54ovfnTHmMuZGk73SEEKsP3k-_exR1wqUE4W9tLYKv_iDw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNkBCAAu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A412C116C6;
+	Tue, 13 Jan 2026 15:27:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768318050;
+	bh=9B4uMGFwloAk5ZAEn3IBwWCzYGd064BJjvrO/dS6ItQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CNkBCAAudUv4/3USgBu/lTnxxryOMiV6WwUq/uGyfscdpNEgyE3cCYRMIpRisUv+x
+	 nqC/IishGpRJ2VNhWc1T2ba1KSoHxv2RjWc7JTaVNYMRg3bi+fyENeylR3WlKTeKwH
+	 PV/g11CNxfMyh3qLtbroljLGm7xMlru9UGMoFJkefj4Cekr21WgPUUUzd9dd1PRK72
+	 Lw/ChIay2KTD/fciRkKC+jjSqrTYwR4mDuxYUQvM5tuZNgugf/SA2KBf/Ml7u8PYta
+	 bdTnCk5MrBWh6LwHNfWzRq8+JhCqNog3Tbown+vhGy8Su5/3/q2Al+KVijWVQ5LcKg
+	 uNcMvRe07LzbQ==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 00/11] mm/damon: advance DAMOS-based LRU sorting
+Date: Tue, 13 Jan 2026 07:27:05 -0800
+Message-ID: <20260113152717.70459-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFgf54ovfnTHmMuZGk73SEEKsP3k-_exR1wqUE4W9tLYKv_iDw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 13, 2026 at 10:49:28AM +0000, Mostafa Saleh wrote:
-> Would you have a problem if we added a new function in page_ext
-> "page_ext_from_phys()" as Jason suggested?
+DAMOS_LRU_[DE]PRIO actions were added to DAMOS for more access-aware LRU
+lists sorting.  For simple usage, a specialized kernel module, namely
+DAMON_LRU_SORT, has also been introduced.  After the introduction of the
+module, DAMON got a few important new features, including the aim-based
+quota auto-tuning, age tracking, young page filter, and monitoring
+intervals auto-tuning.  Meanwhile, DAMOS-based LRU sorting had no direct
+updates.  Now we show some rooms to advance for DAMOS-based LRU sorting.
 
-Given the hidden complexity that David just pointed out I think this
-is essential to encapsulate it in a function.
+Firstly, the aim-oriented quota auto-tuning can simplify the LRU
+sorting parameters tuning.  But there is no good auto-tuning target
+metric for LRU sorting use case.  Secondly, the behavior of
+DAMOS_LRU_[DE]PRIO are not very symmetric.  DAMOS_LRU_DEPRIO directly
+moves the pages to inactive LRU list, while DAMOS_LRU_PRIO only marks
+the page as accessed, so that the page can not directly but only
+eventually moved to the active LRU list.  Finally, DAMON_LRU_SORT users
+cannot utilize the modern features that can be useful for them, too.
 
-The function must be able to accept any phys_addr_t and safely returns
-NULL if page_ext cannot be used for some reason.
+Improve the situation with the following changes.  First, introduce a
+new DAMOS quota auto-tuning target metric for active:inactive memory
+size ratio.  Since LRU sorting is a kind of balancing of active and
+inactive pages, the active:inactive memory size ratio can be intuitively
+set.  Second, update DAMOS_LRU_[DE]PRIO behaviors to be more intuitive
+and symmetric, by letting them directly move the pages to [in]active LRU
+list.  Third, update the DAMON_LRU_SORT module user interface to be able
+to fully utilize the modern features including the [in]active memory
+size ratio-based quota auto-tuning, young page filter, and monitoring
+intervals auto-tuning.
 
-Jason
+With these changes, for example, users can now ask DAMON to "find
+hot/cold memory regions with auto-tuned monitoring intervals, do one
+more page level access check for found hot/cold memory, and move pages
+of those to active or inactive LRU lists accordingly, aiming X:Y active
+to inactive memory ratio."  For example, if they know 30% of the memory
+is better to be protected from reclamation, 30:70 can be set as the
+target ratio.
+
+Test Results
+------------
+
+I ran DAMON_LRU_SORT with the features introduced by this series, on a
+real world server workload.  For the active:inactive ratio goal, I set
+50:50.  I confirmed it achieves the target active:inactive ratio,
+without manual tuning of the monitoring intervals and the hot/coldness
+thresholds.  The baseline system that was not running the DAMON_LRU_SORT
+was keeping active:inactive ratio of about 1:10.
+
+Note that the test didn't show a clear performance difference, though.  I
+believe that was mainly because the workload was not very memory
+intensive.  Also, whether the 50:50 target ratio was optimum is unclear.
+Nonetheless, the positive performance impact of the basic LRU sorting
+idea is already confirmed with the initial DAMON_LRU_SORT introduction
+patch series.  The goal of this patch series is simplifying the
+parameters tuning of DAMOS-based LRU sorting, and the test confirmed the
+aimed goals are achieved.
+
+Patches Sequence
+----------------
+
+First three patches extend DAMOS quota auto-tuning to support [in]active
+memory ratio target metric type.  Those (patches 1-3) introduce new
+metrics, implement DAMON sysfs support, and update the documentation,
+respectively.
+
+Following patch (patch 4) makes DAMOS_LRU_PRIO action to directly move
+target pages to active LRU list, instead of only marking them accessed.
+
+Following seven patches (patches 5-11) updates DAMON_LRU_SORT to support
+modern DAMON features.  Patch 5 makes it uses not only access
+frequency but also age at under-quota regions prioritization.  Patches
+6-11 add the support for young page filtering, active:inactive memory
+ratio based quota auto-tuning, and monitoring intervals auto-tuning,
+with appropriate document updates.
+
+Changes from RFC
+(https://lore.kernel.org/20250628165144.55528-1-sj@kernel.org)
+- rebase to latest mm-new
+- add test results on the cover letter
+- minor wordsmithing and typo fixes
+
+SeongJae Park (11):
+  mm/damon/core: introduce [in]active memory ratio damos quota goal
+    metric
+  mm/damon/sysfs-schemes: support DAMOS_QUOTA_[IN]ACTIVE_MEM_BP
+  Docs/mm/damon/design: document DAMOS_QUOTA_[IN]ACTIVE_MEM_BP
+  mm/damon/paddr: activate DAMOS_LRU_PRIO targets instead of marking
+    accessed
+  mm/damon/lru_sort: consider age for quota prioritization
+  mm/damon/lru_sort: support young page filters
+  Docs/admin-guide/mm/damon/lru_sort: document filter_young_pages
+  mm/damon/lru_sort: support active:inactive memory ratio based
+    auto-tuning
+  Docs/admin-guide/mm/damon/lru_sort: document active_mem_bp parameter
+  mm/damon/lru_sort: add monitoring intervals auto-tuning parameter
+  Docs/admin-guide/mm/damon/lru_sort: document intervals autotuning
+
+ .../admin-guide/mm/damon/lru_sort.rst         |  37 ++++++
+ Documentation/mm/damon/design.rst             |   4 +
+ include/linux/damon.h                         |   4 +
+ mm/damon/core.c                               |  22 ++++
+ mm/damon/lru_sort.c                           | 110 +++++++++++++++++-
+ mm/damon/paddr.c                              |  18 ++-
+ mm/damon/sysfs-schemes.c                      |   8 ++
+ 7 files changed, 189 insertions(+), 14 deletions(-)
+
+
+base-commit: 7a1491b1b0a461872951e8fdf885fc243f67f5e4
+-- 
+2.47.3
