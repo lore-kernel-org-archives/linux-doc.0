@@ -1,142 +1,130 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66671369226
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 06:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D9824290D;
+	Tue, 13 Jan 2026 07:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768287054; cv=none; b=DlXORxGpn5DZenZ0LS4snWH5dbgusHQ6Q90o2ipDg2cwi60cio6j3rJx0cECXf+2hBC9Z6yUzFFbfexsiJdf7ePX4XPHB++yFDCMYXHtc8+rWs8EQm4vzjy/ZitYaQBloiEhkQDJ5BlPNCcdOKpRedF7Uwxfq2eLvJyeL9wchTo=
+	t=1768288399; cv=none; b=mNTUsze5UAnXpetoGaCQcSMdOexAY2lt6D4um4GYHQLbXVaGf2qXnhl6ni6LvmXnWuertH1HQ2FYdZG/9C76Q+B34szhDgWDTDjrEIH7OzOf+KUcsc/pt85HChciZqP0NPU2UGM/PKu2l2Abk2lCajGoQ/uFnb99/D2ibHcAGOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768287054; c=relaxed/simple;
-	bh=aDB3sdHl8yEvBSscr99tVhZre5iBP2s4Ktcd0fugEGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BWIye15Z8VMFAsJ557EQqfdANiJhMGp3WkZcxM7TTnHoHlxEkgJ87D97a/HOpTSDetf4OAppPqEVjkpr3j4Arjm/HyAiI8xvGFp7X3g/QcJjQ3lfxH4JVt/aO2G3b2X4HEk5KiYXijm5VUUDRWsQaMJj3QcRJGUYRl048lH7ZBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDminwzO; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768288399; c=relaxed/simple;
+	bh=04GpJoYBI3MpHElb+mWeTl5CD/pVXY6JUdtsfLVKI1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MiSiErhEE3Pa6TOaT3YM0nhM0MLPYap7EBWeT/kdovDQMu38ETEdVoddys+h2kT2RzpEaAigwmkT8lOYDrmiutsny/TVaQpP0LjfRfT38QyexTYxgLlikVDdx+LvsJ1NtJYAdhksHtzNou3ZmpqXPDJEvqg/laRFVrIh13l8FoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtk0GdKo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDminwzO"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-88fcc71dbf4so45770806d6.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 22:50:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768287051; x=1768891851; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vX59/flKMUDb8zjb/CqTAfKlTuGyJwgf2lJ9POWv81Y=;
-        b=aDminwzOmtGELvrpXwoJuF8Vised+qClS8KGMqtYTJiKEfsIaa5dWb3jmtAob22nDv
-         twjz1EHrcgyDKfjRZ3Twgh4sHntR+paZs4j/WrWXcezBL5h9pZB+Y35Rpaoqj94bzJLH
-         LzUJJDummWcO7+Fu9vmEXHAqMtN/RgAVNL3HVVVJ/KA9KgjbQbJw9SJjv2T+owOdJrSI
-         gKtqBri2R3YLCNaWnzW1ZZwYkw5Kz5JavRwotg7jJ9otywgfhsKptyFtV2uULx+3+Hx6
-         ffuyj5L+UjDyfUNovCLPg1y4mFHEIYGqp2qIrLLjXqPRk7VyPT1s4YT3HU1to52g4vnP
-         AqDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768287051; x=1768891851;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vX59/flKMUDb8zjb/CqTAfKlTuGyJwgf2lJ9POWv81Y=;
-        b=ctoLrzL8LRKBRvxohaF7knXxY1NOadu1DuCimqEQKA9iWP92dhctpYBuuL4JL9KpWW
-         lsZOqbHpYfS9qGve6y6/63w5GMSRUR5JviBc8oW/UzbXfqL/n3pHRTENi+oG7EuiSa/f
-         yPSPaLjQ7mKuUK+v/AAvRsNHNN1JeT21Uj/S3XewykBahO10XPjVUYTrVVo4qHb7dNy8
-         NkNse5gAusHCCD9+vB94VWTo6y69+CleBWc35INdoNkqiZBFj+EJa10Ee1SC9YeGRud2
-         /EyHrsEHm3QFFpA0SJPkVbehFH7oHsiG/ZAkVHCo7NYWCxy4Rn3eJ7FDz/DRdXvU2UFy
-         EPMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPK/vhMdPUhSEvUQgr1FeuC6x+EMszxNFcOdVsvDFi+TYah2VvJRc6+4OvWY5fw2pjUTfq5PzlHl4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2enciqzaimNnvTPvq2IFjFAkjDa26Q7kxRgAXTZZSWXl5Jt+3
-	+9Y8lCRU8GGrI8Hr+KULOTfnIZ6d8T3LehXpO4N14L4usZaLPqvb+1y9
-X-Gm-Gg: AY/fxX7ipNInZwYuph6ehLVL3iJv7SGh9FROTRWtRHyBaoJ5SdX4Y5qQ6kPabQjB/7F
-	NxQl1pWbHX7Eq0AmISGnCVOGEltzlQ0nVexJEgZ/yR/rk5xZ4v8Xny4G+C3M73tm8+Rz1dBbDQL
-	I212xsttE+a3BOQr07TIjXlIrEBtc7pVbDu9HekWP8+uSdA89gm+qS+zl2XBAyUDfdyN0j8bTuY
-	vhxwlXntLZXRMLCKvwUf18twwVqi6um0yFXD70SpBVzp+QtkxMcQ8blkzQ1Cn7nWgEXggDeQKIA
-	avdrr0/tzpA9upWrr9UM3p19aRrIWuuMNWYl/R3vGuzbEB76sB3ct9kHZ6iuwRVDXwwwatIK55f
-	mN9ymy2IDimdsbIALnQhRvyreuAblL8Kh1K8uygDPpscge/Py2es/Ug79hVmy/1SYQEg4coAgN5
-	tJe54KHQCiduIEhgpKA8MyuQ6U9M2xDEr6sZ6v/kLhdIybmtUAygbwI+L2TQ==
-X-Google-Smtp-Source: AGHT+IFA85MjM1cnTGL5nks8UTBaUTRvSeGOw/MqVWENdA/8we2okwkLgNeF33lCoaLlOIlw7RP7mg==
-X-Received: by 2002:a05:6214:4291:b0:888:81f1:a05e with SMTP id 6a1803df08f44-890842d1be9mr273660036d6.60.1768287051243;
-        Mon, 12 Jan 2026 22:50:51 -0800 (PST)
-Received: from [172.20.10.9] (mobile-access-c1d2ca-216.dhcp.inet.fi. [193.210.202.216])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890770cdfb0sm152433806d6.6.2026.01.12.22.50.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 22:50:50 -0800 (PST)
-Message-ID: <86b974d7-cabd-4913-b5f2-5b62b520e023@gmail.com>
-Date: Tue, 13 Jan 2026 08:50:33 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtk0GdKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3B1C116C6;
+	Tue, 13 Jan 2026 07:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768288399;
+	bh=04GpJoYBI3MpHElb+mWeTl5CD/pVXY6JUdtsfLVKI1o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dtk0GdKom5QUN/wnoLeXDwHZZwiTgRKjwuZvejSr66NB0aTdgTIWsOKK08YBzGXCX
+	 xdzJdiYDaheW5+n3x14zUazasQDOODYAWwpdVHkwDMEe9A52l+MUgWyv7Q3k/d4yPu
+	 p1J4FusCKhtbi70uugEsgIBU8Sl5d2+TUToAoJXiftyLV1oeEBByMv+a/HsAhacgvb
+	 tK9rn9drLs6TLE6YSs8/ajZ5QmpprhxbhMHEXoymoajzziSCc3UW6L4zCcQ8In3AiK
+	 0OedB8WGr/VFDQJtO39WNCmiA1JfNUpcA//1xrCAsEOQ/loVUbvq2KqBxlbOAUHR9O
+	 0JeQ9Kt6Nqwsg==
+Date: Tue, 13 Jan 2026 12:43:11 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Upal Kumar Saha <upal.saha@oss.qualcomm.com>, Himanshu Shukla <quic_himashuk@quicinc.com>, 
+	Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>, Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: Re: [PATCH 01/11] bus: mhi: host: Add support to read MHI
+ capabilities
+Message-ID: <u3d62zn56yj6k56t4jwcqylm4rofipp2f42dgpi2kqgumowzu7@m5iqfem5y5up>
+References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
+ <20251211-siva_mhi_dp2-v1-1-d2895c4ec73a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/29] arch, mm: consolidate hugetlb early reservation
-To: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
-Cc: Alex Shi <alexs@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Andreas Larsson <andreas@gaisler.com>, Borislav Petkov <bp@alien8.de>,
- Brian Cain <bcain@kernel.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- David Hildenbrand <david@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Guo Ren <guoren@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Jonathan Corbet <corbet@lwn.net>, Klara Modin <klarasmodin@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Magnus Lindholm <linmag7@gmail.com>, Matt Turner <mattst88@gmail.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Pratyush Yadav <pratyush@kernel.org>,
- Richard Weinberger <richard@nod.at>, Ritesh Harjani <ritesh.list@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Thomas Gleixner <tglx@linutronix.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Vineet Gupta <vgupta@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Will Deacon <will@kernel.org>, x86@kernel.org, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org
-References: <20260111082105.290734-1-rppt@kernel.org>
- <20260112142323.495fc43e662e7d276b0fa371@linux-foundation.org>
-Content-Language: en-US
-From: Kalle Niemi <kaleposti@gmail.com>
-In-Reply-To: <20260112142323.495fc43e662e7d276b0fa371@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251211-siva_mhi_dp2-v1-1-d2895c4ec73a@oss.qualcomm.com>
 
-On 1/13/26 00:23, Andrew Morton wrote:
-> On Sun, 11 Jan 2026 10:20:34 +0200 Mike Rapoport <rppt@kernel.org> wrote:
+On Thu, Dec 11, 2025 at 01:37:33PM +0530, Sivareddy Surasani wrote:
+> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 > 
->> v3 changes:
->> * fix empty_zero_page initialization on arm
->> * fix ZONE_DMA limit calculation on powerpc
->> * add Acks
+> As per MHI spec v1.2,sec 6.6, MHI has capability registers which are
+> located after the ERDB array. The location of this group of registers is
+> indicated by the MISCOFF register. Each capability has a capability ID to
+> determine which functionality is supported and each capability will point
+> to the next capability supported.
 > 
-> updated, thanks.  I'll suppress the ensuing email flood.
+> Add a basic function to read those capabilities offsets.
 > 
-> Kalle, can you please retest sometime, see if the BeagleBone Black boot
-> failure was fixed?
+> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/common.h    | 13 +++++++++++++
+>  drivers/bus/mhi/host/init.c | 32 ++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
 > 
-> Seems we haven't heard back from rmk regarding
-> https://lkml.kernel.org/r/aVrUDeSkqqY9ZCtS@shell.armlinux.org.uk.
+> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+> index dda340aaed95..58f27c6ba63e 100644
+> --- a/drivers/bus/mhi/common.h
+> +++ b/drivers/bus/mhi/common.h
+> @@ -16,6 +16,7 @@
+>  #define MHICFG				0x10
+>  #define CHDBOFF				0x18
+>  #define ERDBOFF				0x20
+> +#define MISCOFF				0x24
+>  #define BHIOFF				0x28
+>  #define BHIEOFF				0x2c
+>  #define DEBUGOFF			0x30
+> @@ -113,6 +114,9 @@
+>  #define MHISTATUS_MHISTATE_MASK		GENMASK(15, 8)
+>  #define MHISTATUS_SYSERR_MASK		BIT(2)
+>  #define MHISTATUS_READY_MASK		BIT(0)
+> +#define MISC_CAP_MASK			GENMASK(31, 0)
+> +#define CAP_CAPID_MASK			GENMASK(31, 24)
+> +#define CAP_NEXT_CAP_MASK		GENMASK(23, 12)
+>  
+>  /* Command Ring Element macros */
+>  /* No operation command */
+> @@ -204,6 +208,15 @@
+>  #define MHI_RSCTRE_DATA_DWORD1		cpu_to_le32(FIELD_PREP(GENMASK(23, 16), \
+>  							       MHI_PKT_TYPE_COALESCING))
+>  
+> +enum mhi_capability_type {
+> +	MHI_CAP_ID_INTX = 0x1,
+> +	MHI_CAP_ID_TIME_SYNC = 0x2,
+> +	MHI_CAP_ID_BW_SCALE = 0x3,
+> +	MHI_CAP_ID_TSC_TIME_SYNC = 0x4,
+> +	MHI_CAP_ID_MAX_TRB_LEN = 0x5,
+> +	MHI_CAP_ID_MAX,
+> +};
 
-Hello!
+If you are not going to define a variable with type 'mhi_capability_type', I'd
+suggest using '#define'.
 
-I will test this v3 patch ASAP and reply results here.
-Collective sorry for the delay; I have been busy!
+> +
+>  enum mhi_pkt_type {
+>  	MHI_PKT_TYPE_INVALID = 0x0,
+>  	MHI_PKT_TYPE_NOOP_CMD = 0x1,
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 099be8dd1900..4c092490c9fd 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -466,6 +466,38 @@ static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
+>  	return ret;
+>  }
+>  
+> +static int mhi_find_capability(struct mhi_controller *mhi_cntrl, u32 capability, u32 *offset)
+> +{
 
-BR
-Kalle
+Why can't you return the cap offset like pci_find_capability()?
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
