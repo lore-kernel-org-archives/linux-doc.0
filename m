@@ -1,68 +1,77 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2820822A4FC
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 11:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90148346ADB
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 11:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768304194; cv=none; b=MHgu85NXdow56h846HZIMS15GUdgRrw6vLZ7GW8KdVVqbqcHubZGFZjHDipgCaVfe7gDgpbl6S/M2bG74zXWdLG4Rw60hCWY+TRHsYMXcPLmKQ7t5lhcJ6JgPG3Rkv2ik92MPxMM2+8TbgYtee1u//Vu+A4so6vm0Ck1WO5tDJ4=
+	t=1768304194; cv=none; b=L+Jga61yNPP5qx5MDhmVsV7rc5uxihJCLuBgUscQP4+DgZps9VQf5yplaqH+MM7nDmG27UJ0LMd9TKNPPUq2wgaAmBnCJiRxrYjyMurwWO2W/rp4PDFRuXvi6BVj0ufJ8OtJXPKP/gJn1BGYNW46btRHZ/H333Dpjl9H/39yLi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768304194; c=relaxed/simple;
-	bh=LkuabeRvOqwnBE2Wgh1zq5p1ZB9yb4MO6HscZDk4fjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nBn0zcEKmDf1x8Z796dTW2jFZpOUOJD2ndbIjNS7EWV6Ny0z+bZuMZDQODycjyqobOog+7/w/4oXNbvZbswzL6Wt+czkkCqgtkkpZGTPav9JFmR/QUttTKBNsWXrNRIDglEcs7SIlHWwycabLK3HaYIk9AUtIWLC5E/j+qYhG4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nXV1TAnB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oGzB9v51; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=exvu94ZG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gcUryMiU; arc=none smtp.client-ip=195.135.223.130
+	bh=0ICapT+9Cjx1VZ7QGck2RybVoK7A651SI4DE4WphjGw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=r0ajp+tO8koHpnoT8C5Y1ZnUH4+A87WPzwJ1n7bsq3Y0cakQCluRka4VLOISOdZfxyWb7B7a2f5pC9yH5F7jEIaW963uuzUfIcFu/+lRdWYGPvAPldEAkLdq1rB3dcI0iYZuZwu+ZPYo0fXfsCYWgjmMl7YCaNd4a9auyUaXZMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cAbRcIQf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7tvd0tdu; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cAbRcIQf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7tvd0tdu; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nXV1TAnB";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oGzB9v51";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="exvu94ZG";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gcUryMiU"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cAbRcIQf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7tvd0tdu";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cAbRcIQf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7tvd0tdu"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 41B13336A0;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B4D485BCDC;
 	Tue, 13 Jan 2026 11:36:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768304186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hzymDT9SpqCW6EaUDKnFn81tcENLGkkbJ6VziVoLZ7Y=;
-	b=nXV1TAnB1+h5evj9nrAgbwvW3OMYhQk8raz2y3S5mh63xCo0Z6txUOnIq7rfVDNPvtLi/M
-	uJTeCwDcr+eDNiqo0DuCCV0i4OkxwIaEm2gc6PG2Zhldl5E2WfshOn34bl9qoZa8SPkcWX
-	1DPT0ll6trLZokb+bF032q6aDgCpVqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768304186;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hzymDT9SpqCW6EaUDKnFn81tcENLGkkbJ6VziVoLZ7Y=;
-	b=oGzB9v51FPAQ6m/IZjLlH2uCexZrxqLR7G6BLtjJHa6srgiH/lo7TrcO882vQSOYVCL+Hx
-	6oUlOPRXmUaYqvAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
 	t=1768304185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hzymDT9SpqCW6EaUDKnFn81tcENLGkkbJ6VziVoLZ7Y=;
-	b=exvu94ZGTgUBPYDXxmfN23lmeheNC4yMYiP7yBj3eEt0vsUTqY7g5PqdKZl8Ps+N3zH2MD
-	Y2DUkUGl0NGbyGWSUI9YI1kAvpq+TFoveXgphTL7onbE6O6Q6BSOTFek0tD/tnauWatPDY
-	d1jj7nKWfyOjyh90iWJUjp4o8Lj/lWo=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbbcESVxUNpaUERzg1ykgT4DLBWeyzBUs4l/nXbNwu4=;
+	b=cAbRcIQftRckk2ZbqdDYLJXZu9ou3tZZCsPvjY78doNhdqc+WEIUrldZDIaqtJO88oaSWM
+	HPIK9pjxgEvH0tFdavSuJ9kSrE2/c94eLPP7/P1QPASzRCuMP7HdvxvPFv/bxwfTIuEg/M
+	tsUSm/p2+eJXv+5Hl61aKjhMTq8mi8g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
 	s=susede2_ed25519; t=1768304185;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hzymDT9SpqCW6EaUDKnFn81tcENLGkkbJ6VziVoLZ7Y=;
-	b=gcUryMiUDtx7kvVzeZwYoLYdYKjv7NbFbFJirk88rLS7ixx6b0zQkRhuS9bxcPH4exaCRE
-	AGE32jkh2qlqCFBQ==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbbcESVxUNpaUERzg1ykgT4DLBWeyzBUs4l/nXbNwu4=;
+	b=7tvd0tduDpSeiciO286FjM+Z82s8uMaeFlmmbnDN6GUWw/n7qNCreOkD3YXHsWWbSHAKDT
+	GQDC1paUBj9peKAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768304185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbbcESVxUNpaUERzg1ykgT4DLBWeyzBUs4l/nXbNwu4=;
+	b=cAbRcIQftRckk2ZbqdDYLJXZu9ou3tZZCsPvjY78doNhdqc+WEIUrldZDIaqtJO88oaSWM
+	HPIK9pjxgEvH0tFdavSuJ9kSrE2/c94eLPP7/P1QPASzRCuMP7HdvxvPFv/bxwfTIuEg/M
+	tsUSm/p2+eJXv+5Hl61aKjhMTq8mi8g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768304185;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AbbcESVxUNpaUERzg1ykgT4DLBWeyzBUs4l/nXbNwu4=;
+	b=7tvd0tduDpSeiciO286FjM+Z82s8uMaeFlmmbnDN6GUWw/n7qNCreOkD3YXHsWWbSHAKDT
+	GQDC1paUBj9peKAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B0E63EA63;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 932383EA67;
 	Tue, 13 Jan 2026 11:36:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yaEWBTkuZmnDHwAAD6G6ig
+	id MBcOIzkuZmnDHwAAD6G6ig
 	(envelope-from <pvorel@suse.cz>); Tue, 13 Jan 2026 11:36:25 +0000
 From: Petr Vorel <pvorel@suse.cz>
 To: linux-doc@vger.kernel.org
@@ -70,10 +79,12 @@ Cc: Petr Vorel <pvorel@suse.cz>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Alejandro Colomar <alx@kernel.org>,
 	man-pages@man7.org
-Subject: [PATCH v3 0/3] Documentation: Link man pages to https://man7.org/
-Date: Tue, 13 Jan 2026 12:36:07 +0100
-Message-ID: <20260113113612.315748-1-pvorel@suse.cz>
+Subject: [PATCH v3 3/3] Documentation: CSS: Improve man page font
+Date: Tue, 13 Jan 2026 12:36:10 +0100
+Message-ID: <20260113113612.315748-4-pvorel@suse.cz>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260113113612.315748-1-pvorel@suse.cz>
+References: <20260113113612.315748-1-pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,55 +92,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.78 / 50.00];
+	BAYES_HAM(-2.98)[99.91%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[man7.org:url,suse.cz:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,man7.org:url,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spam-Score: -2.78
+X-Spam-Level: 
 
-Changes v1->v2:
-* Remove `...` (italic) from non-existing man pages (Jonathan).
-* Squash fix for sp_SP to following commit (Jonathan).
-* Remove :manpage: also from fxyzzy(3) (non-existing man page).
-* Add CSS for man page.
+Define man page font as monospace and bold, i.e. the same as what is
+used for .code and <pre>.
 
-Link to v2:
-https://lore.kernel.org/linux-doc/20260111233534.183272-1-pvorel@suse.cz/
+Signed-off-by: Petr Vorel <pvorel@suse.cz>
+---
+New in v3.
 
-Link to v1:
-https://lore.kernel.org/linux-doc/20260109183012.114372-1-pvorel@suse.cz/
+ Documentation/sphinx-static/custom.css | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Petr Vorel (3):
-  Documentation: Remove :manpage: from non-existing man pages
-  Documentation: Link man pages to https://man7.org/
-  Documentation: CSS: Improve man page font
-
- Documentation/conf.py                            |  3 +++
- Documentation/process/adding-syscalls.rst        | 16 ++++++++--------
- Documentation/sphinx-static/custom.css           |  8 +++++++-
- .../it_IT/process/adding-syscalls.rst            | 16 ++++++++--------
- .../sp_SP/process/adding-syscalls.rst            | 16 ++++++++--------
- 5 files changed, 34 insertions(+), 25 deletions(-)
-
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 06cedbae095c2..e7ddf3eae7ede 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -20,7 +20,7 @@ div.sphinxsidebar { font-size: inherit;
+ 		    overflow-y: auto; }
+ /* Tweak document margins and don't force width */
+ div.document {
+-    margin: 20px 10px 0 10px; 
++    margin: 20px 10px 0 10px;
+     width: auto;
+ }
+ 
+@@ -151,3 +151,9 @@ div.sphinxsidebar a:hover {
+     text-decoration: underline;
+     text-underline-offset: 0.3em;
+ }
++
++a.manpage {
++	font-style: normal;
++	font-weight: bold;
++	font-family: "Courier New", Courier, monospace;
++}
 -- 
 2.51.0
 
