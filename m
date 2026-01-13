@@ -1,75 +1,191 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57608318B9E;
-	Tue, 13 Jan 2026 20:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685E834F256;
+	Tue, 13 Jan 2026 21:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768337888; cv=none; b=eSyLN2F3X9oZiAfSX41+vyLzISrSvzSHn7lj/tDz+h3DYXdacIKdvhz9ImVOyC3c3sFRG65Bqc+4Tpj7aOEn8NbVfGHXcPI1peNR86i9lS/UJ3IuIsFMiYk9jIzrluGMmAJph8kVBrFqQd34olSSfYszbuhLfxbqAtHKMwH/fAI=
+	t=1768340988; cv=none; b=unwwc7rs+w0BZlKmJM82STUEQ2fW/ef3vfSUNOhyeymDHOToqZRoabZD+GOKa3FAiI8jnHHPTHrq67yoOstJRkQZbDeexbnP0Ft6ANBwJfMjCDqbgk6Q76vOc+jIPRvla6q/NyHgm5PdbAUuGh4lDUMj2SMIZfdozWT5q5Jheus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768337888; c=relaxed/simple;
-	bh=TD2Vm9wqBzFMKU8+rXMduQiJ/DYduTKCttxOJrynlJY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XwKzJWOGDWQkvHSrK0NIr86RvfeUq/IpLYm5gNYhqHZxUXs397C98BfWAkXtFmoKN9Vrz/DxahB8fpizxO/TnThCvCOng0yDmNlA173Hf+QpZM3tLK6+XAWgL2S2WJM5GK4GP/dA2p4qL5CbIdZ05cqi9mw1tETSRXoiBcnQyMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KFbKNiGe; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1768340988; c=relaxed/simple;
+	bh=+pubfcq/fHKvX+Jxi5hGDgx8nbfdO4yelnz7e6o6ytA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nQLH0Hqc7kpt/VPmpQAmbMUmKxUUzQ9Zq1RbfWtI61ncWUBfbknSAdo0LjhuFjfuooSlg2m068UBAY5xVeGPT2yS4fuKrVYqoZ/rO+hs6KL0szUCUwh/x4GQpmgmG8EuDa7ohpSe6cZZJYlwF31nupNJEMtcLLYiWPeymMrJDdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p30rYLmW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KFbKNiGe"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8ECE440C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768337886; bh=jqbRJsomiPWk6cLkmHUFygsj5IDMKDpLe8eU/EmOQZg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KFbKNiGe2YaK8agCCcuhtI6+jquk1zq0gG+KF8tf26qgrt+mu/JiJ+gzbKP6bqQMN
-	 o7GNTc4J3fQM8W/8z9Yx+/EG84EKlxLg/7D0V7II0cgTusmeD6IcxuPu8sgGfOQzpy
-	 4N4Gkr2u0sDZzk9fId6gcMxp8Ciq4WMgzd/vmlwqjgiD+v3Cy9kMqvJz2MNhhjW7gN
-	 lpVos9KUAT0bDV2gX0BhW+OGZIfJ9cCaY9mK+GH8vWLbsEG7FHDMcQKw3rsAHsVS4d
-	 Cc/SUpnN4GZzmtLCv3EguW3eyNyTVrc0OnxJvFwbyJ5loGgMWHfxEQXNZaBGW3v4kw
-	 xXElLZXpMaoyw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8ECE440C7C;
-	Tue, 13 Jan 2026 20:58:06 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Nauman Sabir <officialnaumansabir@gmail.com>
-Cc: linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-kbuild@vger.kernel.org, Nauman Sabir
- <officialnaumansabir@gmail.com>
-Subject: Re: [PATCH v3 3/3] Documentation: Fix typos and grammatical errors
-In-Reply-To: <20260112160820.19075-1-officialnaumansabir@gmail.com>
-References: <20260112160820.19075-1-officialnaumansabir@gmail.com>
-Date: Tue, 13 Jan 2026 13:58:05 -0700
-Message-ID: <87o6mxw7qa.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p30rYLmW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C889EC116C6;
+	Tue, 13 Jan 2026 21:49:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768340988;
+	bh=+pubfcq/fHKvX+Jxi5hGDgx8nbfdO4yelnz7e6o6ytA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=p30rYLmWhAGyFGwrARGUWdRgJOdoqhH/CVyC67IEPD+oNOwkyxnjrLFW14NOAVIJG
+	 0gZR54xkIEuUpvYS7UJYaTAhDyd/zwGu2PR+rUhRPDi7IvoEx0oTxS6+i1SzwPKyQz
+	 0V7BKGvtveRf6Hh5FJ6DFJ3spg0NZZG+NGvI3//Z6CIlugqQUgqFwgQLRzQc/Igse0
+	 jTRwS6tdfFwh75FbHcqtldYHSpk4MHRHP3wUGT/X0/LXBLMZwosvBWxEUic2SC57tG
+	 teVBxC0sJdGDL2DS2yPl7pfUn1HwEK1PFZdjmL5m96uDQa5OfMXq9ZZ17/vde9W6Kf
+	 8hFGyxtPYGE9A==
+Date: Tue, 13 Jan 2026 22:49:43 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v3 4/4] scripts/kernel-doc: some fixes to kernel-doc
+ comments
+Message-ID: <20260113224943.3e8b014c@foz.lan>
+In-Reply-To: <87sec9w7ux.fsf@trenco.lwn.net>
+References: <cover.1768324572.git.mchehab+huawei@kernel.org>
+	<434e60e7868ef4e001e81e8cfa872dec711ddd34.1768324572.git.mchehab+huawei@kernel.org>
+	<87sec9w7ux.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Nauman Sabir <officialnaumansabir@gmail.com> writes:
+Em Tue, 13 Jan 2026 13:55:18 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Fix various typos and grammatical errors across documentation files:
->
-> - Fix missing preposition 'in' in process/changes.rst
-> - Correct 'result by' to 'result from' in admin-guide/README.rst
-> - Fix 'before hand' to 'beforehand' in cgroup-v1/hugetlb.rst
-> - Correct 'allows to limit' to 'allows limiting' in hugetlb.rst,
->   cgroup-v2.rst, and kconfig-language.rst
-> - Fix 'needs precisely know' to 'needs to precisely know'
-> - Correct 'overcommited' to 'overcommitted' in hugetlb.rst
-> - Fix subject-verb agreement: 'never causes' to 'never cause'
-> - Fix 'there is enough' to 'there are enough' in hugetlb.rst
-> - Fix 'metadatas' to 'metadata' in filesystems/erofs.rst
-> - Fix 'hardwares' to 'hardware' in scsi/ChangeLog.sym53c8xx
->
-> Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > There are some typos and English errors at the kernel-doc.py comments.
+> >
+> > Locate them with the help of LLM (gpt-oss 14B), locally excecuted
+> > with this prompt:
+> >
+> >     review English grammar andsyntax at the comments on the code
+> >     below:
+> >     <cat scripts/kernel-doc.py>
+> >
+> > Not all results are flowers, although it caught several minor
+> > issues there. Add the pertinent fixes, discarding the bad ones. =20
+>=20
+> "flowers"?  Did the LLM put that out too? :)
 
-The "3/3" in the subject suggests there's two other patches somewhere?
+No, you should blame me for the description ;-) I didn't ask LLM
+to write it for me. On past experiments, LLM is not great writing
+texts - specially with open models that run fine with 16GB VRAM.
+I might have asked it to review(*).
+
+I was trying to say that: while LLM worked fine for the task of
+doing an English grammar review for the strings, being able to
+distinguish them from the actual code, it was not is perfect:=20
+some things required manual work to fix.
+
+(*) asking it to review with this prompt:
+
+	"review the test below and produce a version with English spelling fixed:
+	 <patch description>"
+
+Gave:
+
+	"There are some typos and English errors in the comments of kernel=E2=80=
+=91doc.py.
+
+	 Locate them with the help of an LLM (gpt=E2=80=91oss 14B), executed local=
+ly with this prompt:
+=20
+	review English grammar and syntax at the comments on the code below:
+	<cat scripts/kernel-doc.py>
+
+	Not all results are perfect, although the LLM caught several minor issues.
+	Add the relevant fixes, discarding the incorrect ones."
+
+Asking it to explain what changed with:
+
+	"what changes you did? why?"  (**)
+
+using ollama with gpt-oss:latest (14B) gave:
+
+<llm_output>
+Changes I made to the test text
+-------------------------------
+
++---+---------------------+-----------------+--------------------------+
+| # | Original phrase     | Fixed phrase    | Why it was changed       |
++=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+| 1 | ``excecuted``       | ``executed``    | Misspelling of           |
+|   |                     |                 | *executed*.              |
++---+---------------------+-----------------+--------------------------+
+| 2 | ``synatx``          | ``syntax``      | Misspelling of *syntax*. |
++---+---------------------+-----------------+--------------------------+
+| 3 | ``review English    | ``review        | Added a space between    |
+|   | grammar andsyntax`` | English grammar | *grammar* and *syntax*   |
+|   |                     | and syntax``    | and kept the             |
+|   |                     |                 | capitalization           |
+|   |                     |                 | consistent.              |
++---+---------------------+-----------------+--------------------------+
+| 4 | ``there.``          | ``there.`` (no  | The original had an      |
+|   |                     | change needed)  | extraneous period after  |
+|   |                     |                 | =E2=80=9Cthere=E2=80=9D.     =
+            |
++---+---------------------+-----------------+--------------------------+
+| 5 | ``Not all results   | *Unchanged*     | The phrase is            |
+|   | are flowers``       | (this is a      | intentional (=E2=80=9Cflowers=
+=E2=80=9D   |
+|   |                     | playful phrase; | as a metaphor).          |
+|   |                     | kept as=E2=80=91is.)    |                      =
+    |
++---+---------------------+-----------------+--------------------------+
+| 6 | ``although it       | ``although      | No change=E2=80=94just added =
+the |
+|   | caught several minor| it caught       | missing period at the    |
+|   | issues there.``     |  several minor  | end for completeness.    |
+|   |                     | issues there.`` |                          |
++---+---------------------+-----------------+--------------------------+
+| 7 | ``Add the pertinent | ``Add the       | No spelling/grammar      |
+|   | fixes, discard      | pertinent fixes,| issue; kept for clarity. |
+|   | ing the bad ones.`` | discarding      |                          |
+|   |                     | the bad ones.`` |                          |
++---+---------------------+-----------------+--------------------------+
+
+Why these changes were made
+---------------------------
+
+  - Spelling =E2=80=93 The text contained a handful of typographical errors=
+=20
+    (excecuted, synatx). Fixing them prevents confusion and gives=20
+    the reader confidence in the quality of the documentation. =20
+
+  - Punctuation =E2=80=93 Adding a period after the final sentence makes the
+    paragraph a complete statement. =20
+
+  - Clarity =E2=80=93 Adding a space between grammar and syntax keeps the=20
+    instruction legible. =20
+
+  - Professional tone =E2=80=93 Corrected wording preserves the informal =
+=E2=80=9Cflowers=E2=80=9D
+    metaphor while ensuring that the rest of the instruction reads cleanly.
+</llm_output>
+
+Not a bad review.
+
+Funny enough, on (5) it understood my metaphor, but it ended replacing
+it to "Not all results are perfect", probably to give a "professional
+tone".
+
+(**) Yeah, that prompt is grammatically incorrect: I should have used=20
+     "did you do?" but, as I'm playing with LLM, I like to write prompts
+     with typos and other problems to see how well a 14B or less models
+     would get it right :-D
+
+     Sometimes I even change my language during prompts... it is funny
+     that sometimes it follows my lead and change the language as well,
+     while, on others, it keeps using the initial language... I even got
+     a case were it randomly switched to a completely different language.
+    =20
+> The changes themselves look fine.
+
+Good! want me to send a new version to improve description?
 
 Thanks,
-
-jon
+Mauro
