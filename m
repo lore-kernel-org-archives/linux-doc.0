@@ -1,124 +1,131 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90822836B1;
-	Tue, 13 Jan 2026 16:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21D823C51D;
+	Tue, 13 Jan 2026 16:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768321193; cv=none; b=j1PIHt6X2mvpBaQvuR/NjY4QQaiebG7rt9qOugGR47vauIb6ZcQ8+ijWT2XwL7PnPuPut79BPxY9lux97HLTY/aCWQC+wSm7oqThm5A8Hu7dXMZX1Lg7mNbdiB+n1duqInq7WfPjbC+tlNpV3aCbXyDah66FfNkSLo5m7CWv2hQ=
+	t=1768321503; cv=none; b=oFIhAK49izXSJRMSYgoryL+abXI8/1BuQO4345moJt8SZAVRAQiWg7pi2WefOLi15FybOp5biokxoGbB5vZcL/vBdktWIqtxVIytLH9v/P+8gQ116JLkI5RXkXevmalsJ83na12LdQN06PbIT7n7XKSC8QKk7yIRgFfC6IbTtyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768321193; c=relaxed/simple;
-	bh=3SBUDUSg032YdNQugE/A6UbCvUL2kWPTmr5jCJFI3SE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K1WQVPcARVXJz7Y+DJZa0dBVOKKsw5+AASdLk9Xa/aGlYP5OkIGLioyW6qYuNrcTCCO5FyxAdXQKdy36L+u8ichJlkPnWOhDtigdEVAIHjdkbYrbvIc/TEiWcxCIHt5pJ7SU9b2Md2QUEIhbkjVKg7NWXArEaNSfjBJ/j3HLNj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bSt62rP3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bSt62rP3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WDqoLGxmdtNlpqkgAnKp8A4MMg8bcpe4ZbFlPH09aeA=; b=bSt62rP3j9P9Dne7STT4kRtlhJ
-	J2js/GE5z/G3KyBx9J+GJXpuI3cTWfczMSlhyCVB3mZio9Uj0v9Np4VNm+y34Z8CrHXeYy0o4hD+8
-	tgeIIENtpaMJ3JGB82WUpO2T45ZK9z05h82H3ZC8CgzCV041lxB6Ernz9xfZe0hDftxXC22hMoWaT
-	11NTrRoqSHh3yR97GH6MptgHUWoM/S+TprSyDU+4OKprYLu8ZZH9cQwsGXvxi6BBS2NKY/HxmIXXO
-	CVb0YhYpEKYMxjUyZzfQ/Ba+Ch6GViEXA/wlUwXPpug/3aUFhgzY+rrKONVRfc6mNHCOeKcejltI9
-	60RSI1Kg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfh7W-00000007SU1-0DEN;
-	Tue, 13 Jan 2026 16:19:50 +0000
-Message-ID: <4f221696-7a67-4fce-83d9-d5573f16ca6f@infradead.org>
-Date: Tue, 13 Jan 2026 08:19:49 -0800
+	s=arc-20240116; t=1768321503; c=relaxed/simple;
+	bh=U3y4Aj9jg/XmG6S7/BTbczsDrq1C4zgzKyQ2kpKoI2A=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h7D3iVC83bIOolHPFxR9UbYLGUzLoAfvH2BD/fuJOosAH+ZgAInb/4mgaI2ZBUrz/XuGA08ZhYv1GnGyoqRXMPn9Ndy5FsZtlpyqkjJsqcKZkoOiRfhwCrkceWeK20ezD0ftElR8gALu0knSVrKludO6iJPjzis+V+BafHyrm9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4drF2L5f5TzJ468V;
+	Wed, 14 Jan 2026 00:24:42 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0A5C640569;
+	Wed, 14 Jan 2026 00:24:56 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Tue, 13 Jan
+ 2026 16:24:53 +0000
+Date: Tue, 13 Jan 2026 16:24:52 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Gregory Price <gourry@gourry.net>
+CC: Yosry Ahmed <yosry.ahmed@linux.dev>, <linux-mm@kvack.org>,
+	<cgroups@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <kernel-team@meta.com>,
+	<longman@redhat.com>, <tj@kernel.org>, <hannes@cmpxchg.org>,
+	<mkoutny@suse.com>, <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
+	<rafael@kernel.org>, <dakr@kernel.org>, <dave@stgolabs.net>,
+	<dave.jiang@intel.com>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
+	<dan.j.williams@intel.com>, <akpm@linux-foundation.org>, <vbabka@suse.cz>,
+	<surenb@google.com>, <mhocko@suse.com>, <jackmanb@google.com>,
+	<ziy@nvidia.com>, <david@kernel.org>, <lorenzo.stoakes@oracle.com>,
+	<Liam.Howlett@oracle.com>, <rppt@kernel.org>, <axelrasmussen@google.com>,
+	<yuanchu@google.com>, <weixugc@google.com>, <yury.norov@gmail.com>,
+	<linux@rasmusvillemoes.dk>, <rientjes@google.com>, <shakeel.butt@linux.dev>,
+	<chrisl@kernel.org>, <kasong@tencent.com>, <shikemeng@huaweicloud.com>,
+	<nphamcs@gmail.com>, <bhe@redhat.com>, <baohua@kernel.org>,
+	<chengming.zhou@linux.dev>, <roman.gushchin@linux.dev>,
+	<muchun.song@linux.dev>, <osalvador@suse.de>, <matthew.brost@intel.com>,
+	<joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>, <byungchul@sk.com>,
+	<ying.huang@linux.alibaba.com>, <apopple@nvidia.com>, <cl@gentwo.org>,
+	<harry.yoo@oracle.com>, <zhengqi.arch@bytedance.com>
+Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
+Message-ID: <20260113162452.00000da9@huawei.com>
+In-Reply-To: <aWWEvAaUmpA_0ERP@gourry-fedora-PF4VCD3F>
+References: <20260108203755.1163107-1-gourry@gourry.net>
+	<20260108203755.1163107-8-gourry@gourry.net>
+	<i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
+	<aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F>
+	<4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
+	<aWWEvAaUmpA_0ERP@gourry-fedora-PF4VCD3F>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: hwmon: coretemp: Fix malformed RST
- table
-To: Laveesh Bansal <laveeshb@laveeshbansal.com>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: linux@roeck-us.net, corbet@lwn.net, sfr@canb.auug.org.au,
- linux-kernel@vger.kernel.org, linux-next@vger.kernel.org
-References: <20260113075322.978737-1-laveeshb@laveeshbansal.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260113075322.978737-1-laveeshb@laveeshbansal.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
 
+...
 
-On 1/12/26 11:53 PM, Laveesh Bansal wrote:
-> Shorten the Celeron/Pentium processor entries in the TjMax table to fit
-> within the 47-character column width, fixing the RST table parsing error.
+> > Are we checking if the device has enough memory for the worst case
+> > scenario (i.e. PAGE_SIZE)?
+> > 
+> > Or are we checking if the device can compress this specific page and
+> > checking if it can compress it and store it? This seems like it could be
+> > racy and there might be some throwaway work.
+> >   
 > 
-> The following entries exceeded the column width:
->   - "Celeron/Pentium Processors (Goldmont/Apollo Lake)" (49 chars)
->   - "Celeron/Pentium Processors (Goldmont Plus/Gemini Lake)" (54 chars)
->   - "Celeron/Pentium Processors (Tremont/Jasper Lake)" (48 chars)
+> We essentially need to capture the current compression ratio and
+> real-usage to determine whether there's another page available.
 > 
-> Drop "Processors" from these entries as this preserves all searchable
-> technical keywords (Celeron, Pentium, Goldmont, Gemini Lake, etc.) while
-> "Processors" is implied by the chip names and adds no search value.
-> 
-> Fixes: 099cc1051df7 ("Documentation: hwmon: coretemp: Update supported CPUs and TjMax values")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20260113155444.57c7775b@canb.auug.org.au/
-> Signed-off-by: Laveesh Bansal <laveeshb@laveeshbansal.com>
+> It is definitely racey, and the best we can do is set reasonable
+> real-memory-usage limits to prevent ever finding ourselves in that
+> scenario.  That most likely means requiring the hardware send an
+> interrupt when usage and/or ratio hit some threshhold and setting a
+> "NO ALLOCATION ALLOWED" bit.
 
-Works for me. Thanks.
+I believe we could do some dance to close the race.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+What we need is some upper bounds on usage at any point in time,
+if that estimate is too high stop allocating until we get a better bound.
 
-> ---
-> v2:
->   - Shorten text instead of widening columns (widening would require
->     adjusting 101 data rows to realign TjMax values)
-> 
-> Tested with:
->   - python3 -m docutils Documentation/hwmon/coretemp.rst /dev/null
->   - make htmldocs
-> 
-> Open to alternative approaches if anyone has a better solution.
-> ---
->  Documentation/hwmon/coretemp.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/coretemp.rst b/Documentation/hwmon/coretemp.rst
-> index 3afb179e0ced..3ba44b57d028 100644
-> --- a/Documentation/hwmon/coretemp.rst
-> +++ b/Documentation/hwmon/coretemp.rst
-> @@ -120,12 +120,12 @@ Process		Processor					TjMax(C)
->  		x5-E3940/E3930					105
->  		x7-E3950					105
->  
-> -14nm		Celeron/Pentium Processors (Goldmont/Apollo Lake)
-> +14nm		Celeron/Pentium (Goldmont/Apollo Lake)
->  		J3455/J3355					105
->  		N3450/N3350					105
->  		N4200						105
->  
-> -14nm		Celeron/Pentium Processors (Goldmont Plus/Gemini Lake)
-> +14nm		Celeron/Pentium (Goldmont Plus/Gemini Lake)
->  		J4105/J4005					105
->  		N4100/N4000					105
->  		N5000						105
-> @@ -133,7 +133,7 @@ Process		Processor					TjMax(C)
->  10nm		Atom Processors (Tremont/Elkhart Lake)
->  		x6000E						105
->  
-> -10nm		Celeron/Pentium Processors (Tremont/Jasper Lake)
-> +10nm		Celeron/Pentium (Tremont/Jasper Lake)
->  		N4500/N5100/N6000 series			105
->  
->  45nm		Xeon Processors 5400 Quad-Core
+Can do that by starting an allocation counter before reading capacity.
+As long as it only counts allocations (and not frees) then it will
+always be an upper bound. 
 
--- 
-~Randy
+Any frees will be dealt with when we reread current allocation (having
+started a new counter of allocations just before that). Once we have
+that new upper bound, can ignore the previous one as being less accurate.
+
+If we see the interrupt, all bets are off. That's a fatal error in capacity
+tracking.
+
+> 
+> But in software we can also try to query/track this as well, but we may
+> not be able to query the device at allocation time (or at least that
+> would be horribly non-performant).
+> 
+> So yeah, it's racy.
+
+ 
+> > > 
+> > > Thank you again for taking a look, this has been enlightening.  Good
+> > > takeaways for the rest of the N_PRIVATE design.  
+> > 
+> > Thanks for kicking off the discussion here, an interesting problem to
+> > solve for sure :)
+> >   
+> 
+> One of the more interesting ones i've had in a few years :]
+
+Agreed. Compressed memory is fun ;)
+> 
+> Cheers,
+> ~Gregory
+
