@@ -1,107 +1,136 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18AA32F756;
-	Tue, 13 Jan 2026 03:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC0E284B54;
+	Tue, 13 Jan 2026 03:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768274967; cv=none; b=jb9blmIHdEkY7mezU/0R3Oz/E2q6TwF2Y/e7dDXOqDTgXbeOITeCqUP8qgrmvxGnzs6Os0b46zRhWyBnW0f9NHxesI9bw+C6iwphtPCylGdQV4EL91yY8iQ7Hda4CkFf2HcjEgzlAwhweyfIxYT4Dogbse6Oe6cu2h36Qdsr+Kg=
+	t=1768275213; cv=none; b=ft+HZIf6YaFtVrDz1/Ir6oTRVgA+Xlv+u7CQbfbxtc5isDtOHaqaijWY1ZVwENPg38xE0I4DtQ6hlAXGVP6oJOzrabSEZoAFJjIqSxrfa4tasGdzkXx9tVovsPhsYZqyKyzynTq1ffazwgcE9ClqWLhwTf48H6oRyEir6UpZ3NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768274967; c=relaxed/simple;
-	bh=Z0pv5t00X+m40IZFR/9YcLeKNpM77T7BRom0g+Hf3E8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bw9hI8kUFHbrV0DYtS0gVddGxhpA0HADqPQrXjr9MH53om8L9LtoAyUT2tqc7o2Llu209G3xfMLsw+NHjSeFj5UUIoPgpe16dWe2IykrVwKT91rKEWmDIj+fRryTxZ+wvNJ7Tl9I8m7NsVIGZOsF9Ozvv+iYE1I1HVpvszndExA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KbZFLqAc; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1768275213; c=relaxed/simple;
+	bh=sgTKCfGG+ujwKC4Dd64UEjm0eoToqgRObMoSTSjLZXI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=t2b7Dj2EPA5xhyfLouDgq2zHJuZuvbra/66hdgn56aPHKeDgEV6p0c2zAG8MxwwlDCQppdvvHbgwp0JD5kYYho5a1spPyw8G8U//axnD07U6BPDn2M04a87pCIsb/vwpbt1kOabyUaWpsmqFLbSrbRvJom06eDUKDH3tRTexFnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gpmp715a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KbZFLqAc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=0J
-	i4TaSWr8IkhQZkimpMfWwJazZdbadNYrKKqL15LiI=; b=KbZFLqAcrkJ2BPnWFy
-	qr0HoAVw5PqdqjpihkE5fMmMGtKDPkLh4kPKP1/mXn4k9nPg/nEqQMX6kUhsxCvc
-	KInCRUeyhsX0PVh/DICnJSrLcCWQ6eoMiwTAYiTIMQ54xr0ZebdpwHwyQWAJIqx1
-	jD8fTOzLE7AH/YM6aHVqzhVKo=
-Received: from ubuntu24-z.. (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgCHsO+nu2Vpjun8LA--.33S2;
-	Tue, 13 Jan 2026 11:27:38 +0800 (CST)
-From: ranxiaokai627@163.com
-To: kent.overstreet@linux.dev
-Cc: Liam.Howlett@oracle.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	david@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	lorenzo.stoakes@oracle.com,
-	mhocko@suse.com,
-	ran.xiaokai@zte.com.cn,
-	ranxiaokai627@163.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	vbabka@suse.cz
-Subject: Re: [PATCH] alloc_tag: remove sysctl prefix from mem_profiling boot parameter
-Date: Tue, 13 Jan 2026 03:27:35 +0000
-Message-ID: <20260113032735.161838-1-ranxiaokai627@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aWMLQkvushKidjQQ@moria.home.lan>
-References: <aWMLQkvushKidjQQ@moria.home.lan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gpmp715a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD5A1C4AF09;
+	Tue, 13 Jan 2026 03:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768275213;
+	bh=sgTKCfGG+ujwKC4Dd64UEjm0eoToqgRObMoSTSjLZXI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=gpmp715aEfjdGQRP1Lsy2r9WnRwxooF4LBHteETys7E9S/B4AasmzbM9fCX6h+3sG
+	 mx+e2/0p7Drd8yIuHQZFr1ulX314ftQQqLwD9zVG5P7rS3XnOhA0AF2jiawsCSmcl3
+	 vfR5mn0VnFPR8lGZy1csRlIAU84Mz27Lg8HaO/tXRO/aXyMxst5MC1reJS9E55YnIe
+	 ufSLK3aXwEchtOBEMHe+xnG8RegKllS1ZXNu8I0CxBJ3aAXaPyO8gQZplqnX6kQwVp
+	 O0RIDZOTjlSCeamfAwdPviopfRpZNcfSn9TxofFA0k+eFJd+ylTEPlMWCG1nQT/Upw
+	 iLtQVk4ax3o6g==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id DF59FF40068;
+	Mon, 12 Jan 2026 22:33:31 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 12 Jan 2026 22:33:31 -0500
+X-ME-Sender: <xms:C71laZTSvFftyQUq7Fso7o5Q4dyoUTE-4uhN5qTY6WsLIadic9rAuA>
+    <xme:C71ladl0lVRJEtiaQ2kMNsU9UPlgPiOOc3YeANP_pNL_b-Zo_mMEp3GUiqHbZIN_e
+    YBU0cqLZffQ7nXHdzMYNBUX2hCua-ogzwXOGy66PgaqhfKkT4TNvg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudelvdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefghfeguedtieeiveeugfevtdejfedukeevgfeggfeugfetgfeltdetueelleelteen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepudelpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghmihhrjeefih
+    hlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrvggrlhhmvghiugesihhgrghl
+    ihgrrdgtohhmpdhrtghpthhtohepkhgvrhhnvghlqdguvghvsehighgrlhhirgdrtghomh
+    dprhgtphhtthhopegrnhhnrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghu
+    nhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepthhrohhnughmhieskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheptghorhgsvghtsehlfihnrdhnvght
+X-ME-Proxy: <xmx:C71laX12KT62jCgJVH1DIh3MjTLZqmVvD7KKznDP-_MfRQvSvwD_JQ>
+    <xmx:C71laUeryqxK-dQw6SWpNK8ZYdAb-Yay47668xkP5zFLem9ILWbMkw>
+    <xmx:C71laT5wDJuAa36sVzQWEcl8ELv0IbbgbfxZfLseOECNaZL1dX5gxw>
+    <xmx:C71laf8Upy7a_7AaLZ1nTEfYaFx87F05uNvr_-bs8VXWCSx_CQ14Zg>
+    <xmx:C71laSIs34B4Pu6cEkSUTR-BMI_avWjiKs710G9gCqzctDGwpMgQ3ZyJ>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id ADA6E780054; Mon, 12 Jan 2026 22:33:31 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgCHsO+nu2Vpjun8LA--.33S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AFWfuFWDGr4rKry7trWrXwb_yoW8uF45pF
-	WkGF18tr1kJ3s2kr17Aw1IgrySyr48Jr4aqw1DWrW0ywnrWF92vrWI9FWSyFnrWr93Ca18
-	Xa1ava40vw4jv37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUo5lUUUUUU=
-X-CM-SenderInfo: xudq5x5drntxqwsxqiywtou0bp/xtbCxQrMGWllu6oN3QAA3X
+X-ThreadId: AkghU2ftp2PN
+Date: Mon, 12 Jan 2026 22:33:11 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com
+Message-Id: <7ac583b8-3480-4a54-bcd7-9b1a8689a7f7@app.fastmail.com>
+In-Reply-To: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
+References: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
+Subject: Re: [PATCH 0/4] exportfs: Some kernel-doc fixes
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
->On Fri, Jan 09, 2026 at 06:24:19AM +0000, ranxiaokai627@163.com wrote:
->> From: Ran Xiaokai <ran.xiaokai@zte.com.cn>
->> 
->> Boot parameters prefixed with "sysctl." are processed separately
->> during the final stage of system initialization via kernel_init()->
->> do_sysctl_args(). Since mem_profiling support should be parsed
->> in early boot stage, it is unsuitable for centralized handling
->> in do_sysctl_args().
->> Also, when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled,
->> the sysctl.vm.mem_profiling entry is not writable and will cause
->> a warning. To prevent duplicate processing of sysctl.vm.mem_profiling,
->> rename the boot parameter to "mem_profiling".
->> 
->> Signed-off-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+
+
+On Mon, Jan 12, 2026, at 8:51 PM, Andr=C3=A9 Almeida wrote:
+> This short series removes some duplicated documentation and address so=
+me
+> kernel-doc issues:
 >
->How was this observed/detected?
+> WARNING: ../include/linux/exportfs.h:289 struct member 'get_uuid' not=20
+> described in 'export_operations'
+> WARNING: ../include/linux/exportfs.h:289 struct member 'map_blocks' no=
+t=20
+> described in 'export_operations'
+> WARNING: ../include/linux/exportfs.h:289 struct member 'commit_blocks'=20
+> not described in 'export_operations'
+> WARNING: ../include/linux/exportfs.h:289 struct member 'permission' no=
+t=20
+> described in 'export_operations'
+> WARNING: ../include/linux/exportfs.h:289 struct member 'open' not=20
+> described in 'export_operations'
+> WARNING: ../include/linux/exportfs.h:289 struct member 'flags' not=20
+> described in 'export_operations'
+>
+> ---
+> Andr=C3=A9 Almeida (4):
+>       exportfs: Fix kernel-doc output for get_name()
+>       exportfs: Mark struct export_operations functions at kernel-doc
+>       exportfs: Complete kernel-doc for struct export_operations
+>       docs: exportfs: Use source code struct documentation
+>
+>  Documentation/filesystems/nfs/exporting.rst | 42 ++++----------------=
+---------
+>  include/linux/exportfs.h                    | 33 ++++++++++++++++----=
+---
+>  2 files changed, 28 insertions(+), 47 deletions(-)
+> ---
+> base-commit: 9c7ef209cd0f7c1a92ed61eed3e835d6e4abc66c
+> change-id: 20260112-tonyk-fs_uuid-973d5fdfc76f
+>
+> Best regards,
+> --=20
+> Andr=C3=A9 Almeida <andrealmeid@igalia.com>
 
-Actually no kernel bug or funtional defect was observed through testing.
-Via code reading, i found after commit [1],
-boot parameters prefixed with sysctl is processed redundantly.
+Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
 
-[1] https://lore.kernel.org/all/20200427180433.7029-3-vbabka@suse.cz/T/#u
 
->My reading of early_param() would seem to indicate that
->setup_early_mem_profiling() is getting called at the appropriate time -
->and then additionally a second time by do_sysctl_args(), which then
->becomes a noop.
-
-In the handling of process_sysctl_arg(), it at least needs to call
-kern_mount("proc"), file_open_root_mnt("/proc/sys/vm/xxx"), kernel_write(),
-and filp_close() for processing.
-I dont quite understand why it was optimized into a noop.
-
->So the only bug would seem to be that the sysctl is not writeable in
->debug mode? There's an easier fix for that one...
-
- - When debug mode is enabled, a warning is triggered because the file is not writable.
- - When debug mode is disabled, do_sysctl_args() cannot handle boot parameters
-   like "1,compressed". It only accepts writes of 0 or 1.
-
-As mem_profiling should be parsed in early boot, so this makes it
-unsuitable for processing in do_sysctl_args(), which is why I have renamed the parameter.
-But as Andrew mentioned, I did not consider the backward compatibility issues.
-
+--=20
+Chuck Lever
