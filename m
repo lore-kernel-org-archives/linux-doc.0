@@ -1,104 +1,148 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C514285068;
-	Tue, 13 Jan 2026 11:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E2C2FC876
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 11:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768304897; cv=none; b=jEYLq31E42DszZl/Og1Bn4uOmh+FWnONXdDRxTzNnrTcztu/qnLjNnNFBa/q62Qxo6qi6qk8XGekW78Kq0PTpRJfzdSO5XIreu4yp0fYO/42fLRIkxYrR3ZFrGPiOLI8hbz45ZNAVK4pqswm2xTbdZQ2Wy9jhAVqSQzkVst2U58=
+	t=1768305000; cv=none; b=IKS2ZqO3TZr6uce49QRm2ZUfAQM3HvlOmrzu+c3Ym9tQtO/6atfAhhWCrFro92ETwlOTwcmb01bp3AK83B4YMjjkTEBwYqVx53ABYjnT4wWNmYihLBDnDsQ+G+GmGaZf1TYZq+QB5OVk24VOa1WOUxnzGh/lptapspEwux5XHys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768304897; c=relaxed/simple;
-	bh=/KMIFQGR4Bul37gWLEtJAePhpTN+maF3gId13DkHyMg=;
+	s=arc-20240116; t=1768305000; c=relaxed/simple;
+	bh=jN+EvhJ6frs5MaJE5v0ZEl++swYn5X7F3CStPd7aJag=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RsHFNz+/8nHE0mmeL4oBp7hvDCZwCmuqei7puPHomrV9nuRxbIIJLKqfpsU2TYQ6aRQP9Wb3EYGRhWTIT2FRBs6fuWLLkoljdZXdLPhwpbLOZWGc8J48JG1EFyV7zykeo+v7dSFF2JKdFCo7DjJxMIG6ZQaR/Nkj0vECWrYHV0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Xu0+QRmj; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Np1uiV54skpK/GVAyiSreRx73xTCsEgNVJozk0ep0EZonCkgdttC3A6BPCbF2BfjBZrWK5Xjp2+wYAIcoLnVFpbduiHPcUT4OstlBYlURu9GTGtm1jc23LITyXbfFmU/FxCQbE6ATdVUUpq9Bdhz+4DJ2AjSuvspWerQ/arlHcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ASwmePYv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Xu0+QRmj"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5470340E0028;
-	Tue, 13 Jan 2026 11:48:14 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id TuovWBZKXyO3; Tue, 13 Jan 2026 11:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768304892; bh=rTbY8atxjKRjBA0y7/TdrF1D3ojAC1i7Hfmy4BpGVjk=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ASwmePYv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1EF7C116C6;
+	Tue, 13 Jan 2026 11:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768305000;
+	bh=jN+EvhJ6frs5MaJE5v0ZEl++swYn5X7F3CStPd7aJag=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xu0+QRmjVzNBeP/SFAjZtAYJhh21/UMZZySy8yfoIPEBTM4uIy81JkjyYzMDkN+01
-	 n+8yvHO7z7BYTqramqSmlCga3GRnbhy7+aaGT9vruZ8fLyV2f6AyRnKg7EVljfIqK6
-	 lOHOIMZuDODjGpIdo4Qc2uqTKS9WoZmSXSetNTKJ/hoXL1K3f0EuVcGvghZ6XV2pje
-	 uSZa2REx13fy9H2mVCdKrJtb02uLGMEYUONgSqVGTtnI9OLu8V1NSDwPz7de71ETiO
-	 wBA9CcU/Bzp1kCBtzPupRc/pF1vb5GoIkk9j8U0lmI827DrbA0GGCKA9XqcU1poQqb
-	 uKIrf9KzbJYRxhJHXaSxcxLN52HneYEXBmDHVmSOgslImgxuumZkdJAvl4SVmu9BMy
-	 1ZNoNFr194LKYfVF+BxPzd5FSH2shoVaru+f41SJ+nEeSwAX29dBPVqqHxxnEo7Uua
-	 yy30+t1ym5n601GoZV5F76xpQhfo7AV29Y9mu3rWjfyxDPhVrHt53rWfTxzQ6bG+11
-	 UXsjKFSGRi/2UG/gm5Kh3HFtjczcjwwRG/cn6wYOMivXrevjw8nosm4zMs55sut6HD
-	 wAi/LWh0YyOYKy54CB2fW1apZheJfHlztDFVkJvkT1BYdgWEEW46JWy3RDdAcDDsHR
-	 FcYQ/RrS/jrxs8yaH2eXQqk8=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 78B1A40E0194;
-	Tue, 13 Jan 2026 11:47:06 +0000 (UTC)
-Date: Tue, 13 Jan 2026 12:47:05 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Maciej Wieczor-Retman <m.wieczorretman@pm.me>, corbet@lwn.net,
-	morbo@google.com, rppt@kernel.org, lorenzo.stoakes@oracle.com,
-	ubizjak@gmail.com, mingo@redhat.com, vincenzo.frascino@arm.com,
-	maciej.wieczor-retman@intel.com, maz@kernel.org,
-	catalin.marinas@arm.com, yeoreum.yun@arm.com, will@kernel.org,
-	jackmanb@google.com, samuel.holland@sifive.com, glider@google.com,
-	osandov@fb.com, nsc@kernel.org, luto@kernel.org,
-	jpoimboe@kernel.org, Liam.Howlett@oracle.com, kees@kernel.org,
-	jan.kiszka@siemens.com, thomas.lendacky@amd.com,
-	jeremy.linton@arm.com, dvyukov@google.com, axelrasmussen@google.com,
-	leitao@debian.org, ryabinin.a.a@gmail.com, bigeasy@linutronix.de,
-	peterz@infradead.org, mark.rutland@arm.com, urezki@gmail.com,
-	brgerst@gmail.com, hpa@zytor.com, mhocko@suse.com,
-	andreyknvl@gmail.com, weixugc@google.com, kbingham@kernel.org,
-	vbabka@suse.cz, nathan@kernel.org, trintaeoitogc@gmail.com,
-	samitolvanen@google.com, tglx@kernel.org, thuth@redhat.com,
-	surenb@google.com, anshuman.khandual@arm.com, smostafa@google.com,
-	yuanchu@google.com, ada.coupriediaz@arm.com,
-	dave.hansen@linux.intel.com, kas@kernel.org,
-	nick.desaulniers+lkml@gmail.com, david@kernel.org, ardb@kernel.org,
-	justinstitt@google.com, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [PATCH v8 00/14] kasan: x86: arm64: KASAN tag-based mode for x86
-Message-ID: <20260113114705.GJaWYwubl3yCqa1POx@fat_crate.local>
-References: <cover.1768233085.git.m.wieczorretman@pm.me>
- <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
+	b=ASwmePYvs4p74Akr1yxtI3WXNMn1oVYtWRokhNday8BBp5sFRXSzvqKCjnLGb4IZW
+	 APPk2LyzxXs8p/mHM+TXKlYzZ4+A8zhOscOv/NOP9lBUDYuj0PkZ/RgVMYpjL23hCj
+	 AO7pIrxgzz7+GrzNIa0rriitpsntx2h3ojEUrBjktbzMuhaVvskj/T0Q0g3f5AZVQM
+	 mHqisprMkyNRQlLgAqUtwoKraXdKEw8V1nPVKSqmG4k/8e0HeZUrjXgXOzwn0xVT7v
+	 1SNhzJyH83/MnDHH/x61xF6Qi2zgX71Bkxgqtz9KafK64wa6aECxmak4NU+cjKZJH6
+	 rEZ+bhdM8zjeg==
+Date: Tue, 13 Jan 2026 12:49:56 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	Michael Kerrisk <mtk@man7.org>, man-pages@man7.org
+Subject: Re: [PATCH v2 2/3] Documentation: Remove :manpage: from non-existing
+ man pages
+Message-ID: <aWYwzD82rhg6CZHV@devuan>
+References: <20260111233534.183272-1-pvorel@suse.cz>
+ <20260111233534.183272-3-pvorel@suse.cz>
+ <877btm2388.fsf@trenco.lwn.net>
+ <20260113110053.GA306468@pevik>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tuw22n637jbv5obc"
 Content-Disposition: inline
-In-Reply-To: <20260112102957.359c8de904b11dc23cffd575@linux-foundation.org>
+In-Reply-To: <20260113110053.GA306468@pevik>
 
-On Mon, Jan 12, 2026 at 10:29:57AM -0800, Andrew Morton wrote:
-> The review process seems to be proceeding OK so I'll add this to
-> mm.git's mm-new branch, which is not included in linux-next.  I'll aim
-> to hold it there for a week while people check the patches over and
-> send out their acks (please).  Then I hope I can move it into mm.git's
-> mm-unstable branch where it will receive linux-next exposure.
 
-Yah, you can drop this one and take the next revision after all comments have
-been addressed.
+--tuw22n637jbv5obc
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	Michael Kerrisk <mtk@man7.org>, man-pages@man7.org
+Subject: Re: [PATCH v2 2/3] Documentation: Remove :manpage: from non-existing
+ man pages
+Message-ID: <aWYwzD82rhg6CZHV@devuan>
+References: <20260111233534.183272-1-pvorel@suse.cz>
+ <20260111233534.183272-3-pvorel@suse.cz>
+ <877btm2388.fsf@trenco.lwn.net>
+ <20260113110053.GA306468@pevik>
+MIME-Version: 1.0
+In-Reply-To: <20260113110053.GA306468@pevik>
 
-Thx.
+Hi Petr,
 
--- 
-Regards/Gruss,
-    Boris.
+On Tue, Jan 13, 2026 at 12:00:53PM +0100, Petr Vorel wrote:
+[...]
+> > > -If your new :manpage:`xyzzy(2)` system call does return a new file d=
+escriptor,
+> > > +If your new `xyzzy(2)` system call does return a new file descriptor,
+>=20
+> > Here, once again, you're retaining the backticks.  If we need to mark up
+> > those references at all, they should be ``literal``.
+>=20
+> I'm sorry to keep the same mistake. BTW I did not notice because both rea=
+l man
+> pages a) without manpages_url:
+>=20
+> <em class=3D"manpage">read(2)</em>
+>=20
+> b) with manpages_url:
+>=20
+> <em class=3D"manpage">
+> <a class=3D"manpage reference external" href=3D"https://man7.org/linux/ma=
+n-pages/man8/auditctl.8.html">auditctl(8)</a>
+> </em>
+>=20
+> don't have specified CSS. And because my browser default has font-style: =
+italic
+> for <em>, I don't see any difference for :manpage:`read(2)` and `read(2)`.
+>=20
+> BTW I'll add in v3 CSS font-family: ..., monospace for manpages.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+FWIW, in the Linux man-pages project, we currently use bold with
+proportional font for manual page references, and will soon change to
+italics with proportional font.  We don't use monospace (when formatting
+in PDF, of course).
+
+
+Have a lovely day!
+Alex
+
+> > (If you simply remove the backticks, you might run into conflict with
+> > automarkup, though I *think* that the section number will evade its
+> > regexp).
+>=20
+> In my local build plain fxyzzy(3) without backticks works. I slightly pre=
+fer to
+> not use double ``.
+>=20
+> Kind regards,
+> Petr
+>=20
+> > Thanks,
+>=20
+> > jon
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--tuw22n637jbv5obc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmlmMV4ACgkQ64mZXMKQ
+wqmy/A/9ECYFc9XBfc5bBGNinMvoM5W9tZ0ifXLmg0E7lWCDD6jXwp710QnFU24W
+lmQm8B6Wca1Gb8H1Cdu4JtlCqGItXZMhPV6mY3imSKn45YISyfI+nqFhzK+pYAQg
+2lHjPwM+B0AO/HJ0cAPE1HtPJm1sn+sO+OywqGzjHpV+cU2nOl3lTmjCPm+A0U99
+fWErC6XwkIerUnjtPnfCxG3TxEu5Kn6DfyGfGyW/N4ZhSDsJNldVNzCRvU6U8Koh
+bpldz1iTfwNv8cEyE0nv6RlRszqWO3P5FB9rM0RrTS4qbTMMZCoOjl3Kz8G7yus0
+jLoWZsCtqZPwwqpFq59XN2ZwuYLnFwbl1Zb7off44jEDqxcNmygq2k+JCZvosVe2
+0J91kTdt6OQG78kWobdHP5+RQZNGXjQQvVXLq4mBMXg0AFFlxub+HAXjR+Bsx1hd
+ieRn6StisOa0UUmMORLIoSusWDlZtPjJZ/40Uhw9JfC1XaJfHDZn5Vy76V0uCq7G
+0szgNAUFkprZpLX495iSPNEUOynRS/F9oxVNE1Ao3djSk5E78WP77gS2P5FBDjVZ
+XbMTsM6Z33rnc5FApSGfJ2ObPvjElHQ2FNaZT8RO4B4V6l1FkTm8+7nHh3fcB2Jx
+jg6aLxQ92LA79heqRpg7HfDblDMA8fC/1pkJmQuO5mt0HqPT5Gg=
+=uwhV
+-----END PGP SIGNATURE-----
+
+--tuw22n637jbv5obc--
