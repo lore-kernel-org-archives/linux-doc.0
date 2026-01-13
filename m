@@ -1,157 +1,155 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54074378D8E
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 08:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F1034D909;
+	Tue, 13 Jan 2026 08:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768291652; cv=none; b=KYFUwHM2KjXssSykt91Qdu5/7nCvpGk00uZ8KhRS0U77vjYPRsnOw4GqNx7661mgrn0IW421/ZI/BhUvDZMTaum3E1CVDNBObzk6HjOH+8WrDzG9Uaq/ZrJOuSvPW8N5SJ5BJR3Z7wP/YSUYCZhRgyu6/z7jrMkxZAjxwIZUyeU=
+	t=1768292048; cv=none; b=bBrwmPvF8OkWzpeA/PdGDPPL5e1GCi6FlwSnskQHWlZhp0tREiIZOi6COfaz5PRSY6RBAUIMsctiHwx0TIwVzdon/2CnsjK1UPcuu18Nv49OIvXPJ0QCT5UERgNQbK4aHKn1M1gAcQK3mZd1HoBd4KtaPboktFIf8DgfyOi8T0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768291652; c=relaxed/simple;
-	bh=QqHS8tGSO+lAiUJDu64Fy3Z87MlLp6hIRj3FncezFoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vEhmdhh6yaPIwN7+Ygjhk/eNfMKFvkPvtSZrhf7VgbR5J3aVe2fL48nrVB1k7s+n6kne6Gp7rQa+eKIUGiMSZkCULR3W0xKWcpB/SxufYSSGp4Ep9x+2DTk17+WtCcE/003DBAXds7MZoz4CUE0M705TWSILIpg4r1iRObCmRYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CBz7Dsth; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ed8CfGmy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1768292048; c=relaxed/simple;
+	bh=A7mGP5zBcxtKo6Ya32gDahYikc66GApTgdae0kYiY3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=prDEv2FjoAS9Jruj+y2I7qzUoBz8t+RTBPgtoMxuGz5fE+r00eMy8qhgvdCizXPnsdT+b5mccuVOq4DLwv4HSda2vlmyH984XCa1q8a5Of1bse5DB7KbQwqh9zxYNYKCyp3O9QMMgXe+AR/1awemWvIH2B24aie+ZsA2q6D0ZFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=utoE0g34; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CBz7Dsth";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ed8CfGmy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768291650;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xpFpD/66JMzeRmJEIFuITSB9NnlDWQx+ollnQo+GVf4=;
-	b=CBz7DsthE4vc27GB1wvMHrqnNeLj1JTsEyDIMHP4UfexI+5JebCBp7cZ3VJ0wRhHaYKrKf
-	8NnErHCaMoNUA1DpAz2IDuY8jN0LrnfuX1a3hTKH4U7g6MPU9NQCyHCQTWNdo4WaYhKK1J
-	AqsDWaaTQWGTfSOzcTr64X8i9Zwg5qQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-323-xOwLo3g9MR20o00HVER2VA-1; Tue, 13 Jan 2026 03:07:29 -0500
-X-MC-Unique: xOwLo3g9MR20o00HVER2VA-1
-X-Mimecast-MFC-AGG-ID: xOwLo3g9MR20o00HVER2VA_1768291648
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-47d4029340aso74775115e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 00:07:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768291648; x=1768896448; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xpFpD/66JMzeRmJEIFuITSB9NnlDWQx+ollnQo+GVf4=;
-        b=ed8CfGmyBD0iCkq2DLkqoHqtkOvdr3HG7Mll8xuZHKEdRpfXzcPQVONz0+4ffq9hE6
-         snR0Qi9dIyKDtDrhH0XEXRGyN/obMzHpXslvCD7B31CctHBVY5TamnJ/MZb+p/LmDXpO
-         5akYvGgcebbhmDh094ZBGHVX1tKlfCnVniTjTInXfuhlNnB1MC3FV/UorEcJGFq5pHyc
-         Jfp7xu5bZrTqDDG8ankhVybdnnH41pAbe+ynm4jQq3xuKlTHM6d5rNK5h1pty+ZwE+4O
-         EaxImmAcQ1n9mtT4WgsM26lR+H283+fumPLLzLVOn4IK79i01yJMZqZBBuB1M6iUl3lj
-         Xc/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768291648; x=1768896448;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xpFpD/66JMzeRmJEIFuITSB9NnlDWQx+ollnQo+GVf4=;
-        b=EsU1k8AqazfuyyEDlBzt58750E5gyNELPBJiGTeSPJop6Iy8T2BBS8QC/R1CIYOV81
-         mRN+hz1+rrVfVUT+oyHhIRmi7LUqVxd7Ni8qKQhKBWsUxTIzS23sW8F6ZmkIb6IN/CCj
-         7WvVcot58xv5zWL0xNCY7M4sQb6zlzosHRJjaZD/XVwUJZ12Yr0F5ueSkwJWxtvT+I1n
-         xhfk4hBINQrCFS1y2R+bOGMnh1IMvr0qPv0D43rLv6s+ae3JB+CU+C4qKP7grWBh9s7s
-         j6V+PxGJe298vEfffcT+1yf9kPaIc2PyPQLA1MeClmj7pYC1gjm5LT0NCrg8PcNXM9ra
-         DP7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXZATSrIVAsOqMF7XY91LWIHxegRRvUXxawZo62Y5qKVNBv0dDesZL5NsXtltl7umwur3L+s38lPNw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5fdsinGXsLIQSWzc5uxsp2zqwx8H0EPk20p4TQv/FZ5U6vR/G
-	MM1UeyEwW0nbbdUM6BL17GeOTl7uSjxo3UZlNO3DPrI+ZbJeakjyaT/YdLEMJzhDjvfN/fAd66Z
-	V56uAFf4g25VRuiew0YX02XEBfLdjAXz5O/rMWfxwNicMEkX2UXJ0Qjy9A4FtPw==
-X-Gm-Gg: AY/fxX5oeROWV+eOLUOs2gosrlkc/uld70Iu5lEekhMHcIiwFwJBYES1kbSznWI4yzG
-	e7BBiaYQzzZ5DGZZwf7dfOS+zxNvvHu3I8FQjTqMP7FtoN/szT+K2XjR16fuzLTYgROLvA4sVCL
-	rIBDN/cZ6dM7F7H42MzTGTUZBdaY3XVjRH9UohVxn0euEUXLn8LmkKmG0fg0pcaW1RZafkAxSLs
-	9/mymV6BT/gVXdD4hratj9Yo4GyNhykhNtdeoJwL/QDXtAzwcckM4Ivc5aOn/f7kTjZoDqjz7F5
-	J/giOpswrBa6DSYmTTwXCChUiSIZgBwxyuanxLfrY4WqtT6PvbV8Hmyj1z8mZ2eBYnPL1rT3nVz
-	EOa8mNrRmXZG1
-X-Received: by 2002:a05:600c:4e8a:b0:479:1b0f:dfff with SMTP id 5b1f17b1804b1-47d84b170famr271324565e9.10.1768291647872;
-        Tue, 13 Jan 2026 00:07:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHOFVjo+JswERF7bNgzNfXDlKZqG+DpPg56zhYUkxZzuUQMa8aCTbd70GGyky4hiW1KBY5XaA==
-X-Received: by 2002:a05:600c:4e8a:b0:479:1b0f:dfff with SMTP id 5b1f17b1804b1-47d84b170famr271324195e9.10.1768291647476;
-        Tue, 13 Jan 2026 00:07:27 -0800 (PST)
-Received: from [192.168.88.32] ([212.105.155.93])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e6784sm43665733f8f.19.2026.01.13.00.07.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jan 2026 00:07:26 -0800 (PST)
-Message-ID: <c9fca0a2-227e-4081-b7f9-ea7c2189f6d2@redhat.com>
-Date: Tue, 13 Jan 2026 09:07:24 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="utoE0g34"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9302CC116C6;
+	Tue, 13 Jan 2026 08:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768292048;
+	bh=A7mGP5zBcxtKo6Ya32gDahYikc66GApTgdae0kYiY3k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=utoE0g34qABZkA2cE1BzQXdN2qB9cXqwaiQwd9A5LtXzg6l9tmr6OwXlqjVgbAr5j
+	 8pKsCi6wDl26YYH/zCZg1am4OxTHneGuNEofYR+ET2J9Vmh9vzIKQWyVlt43TOi8LF
+	 LDsZP5BrnGKXmVsglUx3VJpqedUv1XW16JNLMxd9JPoo3zwynvbqKeSvx0VgXW9V46
+	 0aDkKv5V/vSWtLlMPXzLctCdrqlkL1wG/1t+0Pk1smRx+xThF5MtFEZkoMbB9bVVc6
+	 FwMvC+Ppwt6LwnCM7l4RvKaIg8GyuhlGexewGUZcJyECrWgFv9Q+h9PnyOqHkBP6XL
+	 ifwMgp6Sx9wSQ==
+Date: Tue, 13 Jan 2026 13:44:00 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Upal Kumar Saha <upal.saha@oss.qualcomm.com>, Himanshu Shukla <quic_himashuk@quicinc.com>, 
+	Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
+Subject: Re: [PATCH 07/11] bus: mhi: host: core: Add overflow disable flag
+Message-ID: <vzmacvzafgrtxupg6cmm2bi5kxuzyeoeod56qzp5ftlnh4txlj@xni5cok2lj3j>
+References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
+ <20251211-siva_mhi_dp2-v1-7-d2895c4ec73a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 net-next 00/13] AccECN protocol case handling series
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>,
- Eric Dumazet <edumazet@google.com>, Neal Cardwell <ncardwell@google.com>
-Cc: "parav@nvidia.com" <parav@nvidia.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
- "dsahern@kernel.org" <dsahern@kernel.org>,
- "kuniyu@google.com" <kuniyu@google.com>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "dave.taht@gmail.com" <dave.taht@gmail.com>,
- "jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
- "stephen@networkplumber.org" <stephen@networkplumber.org>,
- "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
- "jiri@resnulli.us" <jiri@resnulli.us>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
- "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
- "ast@fiberby.net" <ast@fiberby.net>,
- "liuhangbin@gmail.com" <liuhangbin@gmail.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "ij@kernel.org" <ij@kernel.org>,
- "Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
- "g.white@cablelabs.com" <g.white@cablelabs.com>,
- "ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
- "mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
- cheshire <cheshire@apple.com>, "rs.ietf@gmx.at" <rs.ietf@gmx.at>,
- "Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>,
- Vidhi Goel <vidhi_goel@apple.com>
-References: <20260103131028.10708-1-chia-yu.chang@nokia-bell-labs.com>
- <56f6f3dd-14a8-44e9-a13d-eeb0a27d81d2@redhat.com>
- <PAXPR07MB798456B62DBAC92A9F5915DAA385A@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <9d64dd7e-273b-4627-ba0c-a3c8aab2dcb1@redhat.com>
- <CANn89iKRAs86PVNAGKMUgE49phgZ2zpZU99rRkJq=cc_kNYf=Q@mail.gmail.com>
- <PAXPR07MB79845267EDCDAF9FA379B139A385A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <PAXPR07MB79845267EDCDAF9FA379B139A385A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251211-siva_mhi_dp2-v1-7-d2895c4ec73a@oss.qualcomm.com>
 
-On 1/8/26 5:01 PM, Chia-Yu Chang (Nokia) wrote:
->> On Thu, Jan 8, 2026 at 1:05 PM Paolo Abeni <pabeni@redhat.com> wrote:
->>> On 1/8/26 9:47 AM, Chia-Yu Chang (Nokia) wrote:
->>>> Regarding the packetdrill cases for AccECN, shall I can include in this patch series (v8) or is it suggested to submit them in a standalone series?
->>>
->>> IMHO can be in a separate series, mainly because this one is already 
->>> quite big.
->>>
->>> /P
->>>
->>
->> If possible, please send a packetdrill series _before_ adding more code.
->>
->> I have been reluctant to review your changes, because there is no test.
+On Thu, Dec 11, 2025 at 01:37:39PM +0530, Sivareddy Surasani wrote:
+> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 > 
-> Hi Eric and Neal,
+> When the client transfers a large packet, the host may set
+> overflow events if the packet size exceeds the transfer ring
+> element size. Add a flag to disable overflow events.
 > 
-> A separated AccECN selftest patch series has been submitted.
-> You can find the used packetdrill commit and github link in the cover letter.
+> Scenario: A device sends a packet of 5000 bytes. The host has
+> buffers of 2048 bytes, so the packet is split across three
+> buffers. The host expects one event for the entire packet, but
+> three events are generated: two marked as overflow and the
+> third as end of packet. The client driver wants only one
+> callback for the EOT event, not for overflow events. This
+> change prevents host channels from generating overflow events.
+> 
+> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 
-I marked this revision as 'changes requested' because I think a resubmit
-after pktdrill patches merge will help the review process.
+Great, you just broke bisectability. This patch should come before 06/11 which
+uses this flag.
 
-/P
+- Mani
 
+> Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/common.h        | 3 ++-
+>  drivers/bus/mhi/host/init.c     | 3 +++
+>  drivers/bus/mhi/host/internal.h | 1 +
+>  include/linux/mhi.h             | 2 ++
+>  4 files changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/bus/mhi/common.h b/drivers/bus/mhi/common.h
+> index 58f27c6ba63e..31ff4d2e6eba 100644
+> --- a/drivers/bus/mhi/common.h
+> +++ b/drivers/bus/mhi/common.h
+> @@ -282,7 +282,8 @@ struct mhi_event_ctxt {
+>  #define CHAN_CTX_CHSTATE_MASK		GENMASK(7, 0)
+>  #define CHAN_CTX_BRSTMODE_MASK		GENMASK(9, 8)
+>  #define CHAN_CTX_POLLCFG_MASK		GENMASK(15, 10)
+> -#define CHAN_CTX_RESERVED_MASK		GENMASK(31, 16)
+> +#define CHAN_CTX_OVF_DISABLE_MASK	GENMASK(17, 16)
+> +#define CHAN_CTX_RESERVED_MASK		GENMASK(31, 18)
+>  struct mhi_chan_ctxt {
+>  	__le32 chcfg;
+>  	__le32 chtype;
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index 4c092490c9fd..50f96f2c823f 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -340,6 +340,8 @@ static int mhi_init_dev_ctxt(struct mhi_controller *mhi_cntrl)
+>  		tmp |= FIELD_PREP(CHAN_CTX_BRSTMODE_MASK, mhi_chan->db_cfg.brstmode);
+>  		tmp &= ~CHAN_CTX_POLLCFG_MASK;
+>  		tmp |= FIELD_PREP(CHAN_CTX_POLLCFG_MASK, mhi_chan->db_cfg.pollcfg);
+> +		tmp &= ~CHAN_CTX_OVF_DISABLE_MASK;
+> +		tmp |= FIELD_PREP(CHAN_CTX_OVF_DISABLE_MASK, mhi_chan->db_cfg.ovf_dis);
+>  		chan_ctxt->chcfg = cpu_to_le32(tmp);
+>  
+>  		chan_ctxt->chtype = cpu_to_le32(mhi_chan->type);
+> @@ -870,6 +872,7 @@ static int parse_ch_cfg(struct mhi_controller *mhi_cntrl,
+>  
+>  		mhi_chan->ee_mask = ch_cfg->ee_mask;
+>  		mhi_chan->db_cfg.pollcfg = ch_cfg->pollcfg;
+> +		mhi_chan->db_cfg.ovf_dis = ch_cfg->ovf_disable;
+>  		mhi_chan->lpm_notify = ch_cfg->lpm_notify;
+>  		mhi_chan->offload_ch = ch_cfg->offload_channel;
+>  		mhi_chan->db_cfg.reset_req = ch_cfg->doorbell_mode_switch;
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 97bf6a70b9fa..db00ede0aa48 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -189,6 +189,7 @@ struct db_cfg {
+>  	bool reset_req;
+>  	bool db_mode;
+>  	u32 pollcfg;
+> +	bool ovf_dis;
+>  	enum mhi_db_brst_mode brstmode;
+>  	dma_addr_t db_val;
+>  	void (*process_db)(struct mhi_controller *mhi_cntrl,
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index 299216b5e4de..926a20835467 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -215,6 +215,7 @@ enum mhi_db_brst_mode {
+>   * @ee_mask: Execution Environment mask for this channel
+>   * @pollcfg: Polling configuration for burst mode.  0 is default.  milliseconds
+>  	     for UL channels, multiple of 8 ring elements for DL channels
+> + * @ovf_disbale: Overflow disable flag
+>   * @doorbell: Doorbell mode
+>   * @lpm_notify: The channel master requires low power mode notifications
+>   * @offload_channel: The client manages the channel completely
+> @@ -232,6 +233,7 @@ struct mhi_channel_config {
+>  	enum mhi_ch_type type;
+>  	u32 ee_mask;
+>  	u32 pollcfg;
+> +	bool ovf_disable;
+>  	enum mhi_db_brst_mode doorbell;
+>  	bool lpm_notify;
+>  	bool offload_channel;
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
