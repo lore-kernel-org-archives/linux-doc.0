@@ -1,168 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B98336EC7;
-	Tue, 13 Jan 2026 07:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC932E54A3
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768288842; cv=none; b=AXkevpSVl56qrajXOBGSTflHoIYi0nN2CbHbpuZk82Q3Yg9CywbSQ4SfNwnAKtCwI6ysNfJ6zqceFZ9K3o5AgtbC/kFz0+5YNi+9chKEeOjC+YgKgv688E7UvQXF43E/Y80j+BTqIHOpwmFRFAPT2EvtFUxC2f/5MIixp3Hr38w=
+	t=1768289002; cv=none; b=Ol68NlLi6D36Kh8ecx1rt3yVNxV3tky4JoO4HFileJiba3vV/h/hckfw4cCBulE17kOTUF+rzk679mqoNdF8qqnwbCBJqfHnLsTz50XXOEuJaqnPg5vUI9B9KHhMRA/M22mWS0iuFeltSIw9Ni/JVpRh924WT3pjQIy31N3uHFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768288842; c=relaxed/simple;
-	bh=8yDWPgJ6kBkWS42Au9iudZhBUxV2z920hNmIPsojAuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BXBlaMBtyvt7B2BdtZ+J/e52trcPjYYiB7jRa3SrHPe9vkOSHO03l/lr6Hhco0sVxHpBWqzi5MiWdlU6ytgL3gRn7vv94oLxYAW9i0P/y2+MBa4VrlAAr2UnmNSe1RiJItUHAXAIF6QECa/TLAzoQwrP2hCKbv5iTAv66a01aZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ingFkQwg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768289002; c=relaxed/simple;
+	bh=jCZOTQ0S4zPGrVewV7zNDwWTEanfwMTrGpGoODy9ROY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=plSB04IywF16nsdR7WUDhisJTnkDzyf9qBmAHjStd7X9fsfQ5S24F/ZtY+NFQa9SUuCx9S8uONa72pSC4WdurbcIATWGnPrF0geiNA64g62ajhhFG25QK3rsia4JWRNwzM9tl6W7f0Zh8zfPkf3eA7bD37A8m4xoSz4Cp6iqQlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TPfBOJIg; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ingFkQwg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 721ABC19421;
-	Tue, 13 Jan 2026 07:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768288841;
-	bh=8yDWPgJ6kBkWS42Au9iudZhBUxV2z920hNmIPsojAuc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ingFkQwgWcs32St+H0XvktNvl2dlT23KKlLdzFZBwl/TEVq0jrglLl6UMD8g/NSLt
-	 RvVsDLGENfdpOqN4a3+ypjkCDa+DaggjE9zLW1eD4x+IRUv+KGT2chlWltseOy1/WP
-	 bLMPnp2rmmhuRD1sVT02HRcScmGl0yTl9LZXS2OU95B9waKLJ8xGDizax7TnNbAXS2
-	 rdRAN/TuASGzyIv3PXujIR9PB9y7eztoQBU0ZllXv7v+B6H5SpO9IALiK+cZ+zxKT2
-	 3zOx693ZIwpU2qroKzD2RxJpBljlcKKW0KtUMT57V7bM/i/N50apiWmRv5QG16jvk+
-	 SuIEUHIkWS0jQ==
-Date: Tue, 13 Jan 2026 12:50:34 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Upal Kumar Saha <upal.saha@oss.qualcomm.com>, Himanshu Shukla <quic_himashuk@quicinc.com>, 
-	Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-Subject: Re: [PATCH 02/11] bus: mhi: pci_generic: Add Data plane channels for
- QDU100 VF's
-Message-ID: <4b4venqe6cflvdbu7b4qbwskufnvsvjb7orhk6zfm65zvq2764@i5ghkpajhdhm>
-References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
- <20251211-siva_mhi_dp2-v1-2-d2895c4ec73a@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TPfBOJIg"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-430f57cd471so3534851f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 23:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768288999; x=1768893799; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YEbfMOGmFF3KnEiYpptf/1+FNigGAulyjnzCIqxEBOU=;
+        b=TPfBOJIgrjKwtS0hbpOa+YFYudKlrR0CPcUtTfdEvzeeGkf75XE8p5OdMCp+xgNSUr
+         Em3jDJO4Lsxe5HJ/s68EtWjooy9yuBpYMojRsUEtrcnqb0GlX2/yWNCILSWys35oaI0+
+         BY+PokINPAVyhaz73SHbevjePMu4Z0Qc0nHDfHKdF/sscQwpjtciIxVlN3F7njfU7S0z
+         BH//oazgL9BxiOsuzX771XeAgdNqgurTA7TGX9AT+BqNK2MYiY+AvAtiliY6YJQiNLSP
+         SUNnG3Up14dd+6EQuGcl58SVYqS6LrdLuRdS0wiJ0m2Jk7OsdkAz5H0fimFeyn7gsqgQ
+         bodg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768288999; x=1768893799;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YEbfMOGmFF3KnEiYpptf/1+FNigGAulyjnzCIqxEBOU=;
+        b=fDAkmogbacKVqLvM8BbUYD0UIrc2NLegSbFb6Ruw4HUWJygdiDJp11axSeAgmdlv/A
+         EvUmmN+QPoO6Cis0tmuRxm1INbK5ZjSV8s1y0quonMHGHRIYhJ++hih8KujxIHo6KlwJ
+         pz5MI4eNuZPmOoYn0ftgu/9Ol/GaR5mVq29PEKvmxrglzYbIcPDa18VM8hR6SRjyguGx
+         TfTnmGwBxbrrZ4Q+uAVQkbqC2pIzE6SGgRHO8sTffgGaGzcAcLoLv0xBVse5UF61I70T
+         DIoyUn/Qoo8XAlY6A0G6Cs/knvdc1HtGWud4icsyJguXEgoxXV8f1xt2zTfZ76qu5H+2
+         eCAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWljIZvGpP3XFzeAvGLmb8zR9LKCKcIPxOpR1ZBfl0NHd/ExMnOV0dZeeNTpDkOu31TGQub3QpbGK8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwN29UNtQP1hAA4eHNMJ+JOH+eHmLV6O/LFZUZwL9QQmYAwBOO+
+	ybPl4OcAoxK05yosJBXFj3FRjPWE97vfQxb2WkNZHpAiruhC+0uSezVF
+X-Gm-Gg: AY/fxX7YzmcwPEmRNEmL9XSJTYeRH3IAy+u4p/1eEW094rNXpg5+GAljtr/beQhTPmi
+	lbNB2iTt2/VUeZmmSHIs77rgd59/RQtaaUdyxJCLlhrD5etfbQ3RZK6aBepbQO8EyqZgKcYEwpf
+	/v/JlJj/LMk4zQP3Mkr/V9dKU8HvNrblGMEDRvdXJrLOCg878BtQOzsATPab9uhH9ZJWbhp45y/
+	WJ3bL7nwifKSsvyDf9ZzLw8A+4f2h7tEuzh9mc09mdoIL2UDXITFCNByrFBF+ZZWVK7Z73/sqwN
+	fHvZofL1eSKjz9khPr27WJsbYaEQNb91FLEKeA6ZZrGLkYYACw1k0Anp6lNPQ3M+JkqiOXJL0je
+	McTvTASBZalVaGzp39bGTl38phWeW+vJ7RFtj5deo2HhOIJ0aTF4VTZWXnnbujnsD58N1oI83MX
+	jDGbM9/is87UHnG2o+aBF4c5QfOa7scDEan8od75KmlrWSuKgPEvsBjnC/lDAbOkpjkRNqFfoZZ
+	Z7EhuI9TQOahKhKVbz/PQytx6enGk4kYV9BLNMDu2kqipHlG1iUgg==
+X-Google-Smtp-Source: AGHT+IFV42pk/BOqaBnb9I6uBmKsbIDQ/GvcmLOlMRG74oAZupSAMqRvBe/YcWOX7gd+PN5uttt4Jw==
+X-Received: by 2002:a05:6000:1448:b0:431:a0:7dea with SMTP id ffacd0b85a97d-432c374ff61mr26596396f8f.40.1768288999226;
+        Mon, 12 Jan 2026 23:23:19 -0800 (PST)
+Received: from ?IPV6:2003:ea:8f03:3800:3cc9:69c1:1a2a:f175? (p200300ea8f0338003cc969c11a2af175.dip0.t-ipconnect.de. [2003:ea:8f03:3800:3cc9:69c1:1a2a:f175])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e199bsm42227535f8f.16.2026.01.12.23.23.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jan 2026 23:23:18 -0800 (PST)
+Message-ID: <ff8ac321-435c-48d0-b376-fbca80c0c22e@gmail.com>
+Date: Tue, 13 Jan 2026 08:23:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251211-siva_mhi_dp2-v1-2-d2895c4ec73a@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Russell King - ARM Linux <linux@armlinux.org.uk>,
+ Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, David Miller <davem@davemloft.net>,
+ Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ linux-doc@vger.kernel.org
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH v2 net-next] net: phy: remove unused fixup unregistering
+ functions
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 11, 2025 at 01:37:34PM +0530, Sivareddy Surasani wrote:
-> From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-> 
-> Add Data plane channels and event ring for QDU100 VF's. Disable
-> IRQ moderation for HW channels.
-> 
-> IP_HW1: Control configuration procedures over the L1 FAPI P5 interface
-> include initialization, termination, restart, reset, and error
-> notification. These procedures transition the PHY layer through IDLE,
-> CONFIGURED, and RUNNING states.
-> 
-> IP_HW2: Data plane configuration procedures control DL and UL frame
-> structures and transfer subframe data between L2/L3 software and PHY.
-> Supported procedures include subframe message transmission, SFN/SF
-> synchronization, and various transport channel operations.
-> 
+No user of PHY fixups unregisters these. IOW: The fixup unregistering
+functions are unused and can be removed. Remove also documentation
+for these functions. Whilst at it, remove also mentioning of
+phy_register_fixup() from the Documentation, as this function has been
+static since ea47e70e476f ("net: phy: remove fixup-related definitions
+from phy.h which are not used outside phylib").
 
-These IP_HW channels are intented for carrying IP packets and exposed as
-netdevs. I don't know how the netdevs are used for the above mentioned usecases.
-Especially the 'configuration procedures'.
+Fixup unregistering functions were added with f38e7a32ee4f
+("phy: add phy fixup unregister functions") in 2016, and last user
+was removed with 6782d06a47ad ("net: usb: lan78xx: Remove KSZ9031 PHY
+fixup") in 2024.
 
-- Mani
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+v2:
+- improve commit message
+- remove related documentation
+- remove also phy_register_fixup from documentation
+---
+ Documentation/networking/phy.rst | 22 +--------------
+ drivers/net/phy/phy_device.c     | 46 --------------------------------
+ include/linux/phy.h              |  4 ---
+ 3 files changed, 1 insertion(+), 71 deletions(-)
 
-> Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
-> Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
-> ---
->  drivers/bus/mhi/host/pci_generic.c | 43 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-> index b64b155e4bd7..bb3c5350a462 100644
-> --- a/drivers/bus/mhi/host/pci_generic.c
-> +++ b/drivers/bus/mhi/host/pci_generic.c
-> @@ -253,6 +253,20 @@ struct mhi_pci_dev_info {
->  		.channel = ch_num,		\
->  	}
->  
-> +#define MHI_EVENT_CONFIG_HW_DATA_NO_IRQ_MOD(ev_ring, el_count, ch_num, cl_manage) \
-> +	{					\
-> +		.num_elements = el_count,	\
-> +		.irq_moderation_ms = 0,		\
-> +		.irq = (ev_ring) + 1,		\
-> +		.priority = 1,			\
-> +		.mode = MHI_DB_BRST_DISABLE,	\
-> +		.data_type = MHI_ER_DATA,	\
-> +		.hardware_event = true,		\
-> +		.client_managed = cl_manage,	\
-> +		.offload_channel = false,	\
-> +		.channel = ch_num,		\
-> +	}
-> +
->  static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
->  	MHI_CHANNEL_CONFIG_UL(0, "LOOPBACK", 32, 2),
->  	MHI_CHANNEL_CONFIG_DL(1, "LOOPBACK", 32, 2),
-> @@ -278,6 +292,14 @@ static const struct mhi_channel_config mhi_qcom_qdu100_channels[] = {
->  
->  };
->  
-> +static const struct mhi_channel_config mhi_qcom_qdu100_vf_channels[] = {
-> +	/* HW channels */
-> +	MHI_CHANNEL_CONFIG_UL(104, "IP_HW1", 2048, 1),
-> +	MHI_CHANNEL_CONFIG_DL(105, "IP_HW1", 2048, 2),
-> +	MHI_CHANNEL_CONFIG_UL(106, "IP_HW2", 2048, 3),
-> +	MHI_CHANNEL_CONFIG_DL(107, "IP_HW2", 2048, 4),
-> +};
-> +
->  static struct mhi_event_config mhi_qcom_qdu100_events[] = {
->  	/* first ring is control+data ring */
->  	MHI_EVENT_CONFIG_CTRL(0, 64),
-> @@ -294,6 +316,17 @@ static struct mhi_event_config mhi_qcom_qdu100_events[] = {
->  	MHI_EVENT_CONFIG_SW_DATA(8, 512),
->  };
->  
-> +static struct mhi_event_config mhi_qcom_qdu100_vf_events[] = {
-> +	/* first ring is control+data ring */
-> +	MHI_EVENT_CONFIG_CTRL(0, 64),
-> +	/*  HW channels dedicated event ring */
-> +	MHI_EVENT_CONFIG_HW_DATA_NO_IRQ_MOD(1, 4096, 104, 0),
-> +	MHI_EVENT_CONFIG_HW_DATA_NO_IRQ_MOD(2, 4096, 105, 1),
-> +	MHI_EVENT_CONFIG_HW_DATA_NO_IRQ_MOD(3, 4096, 106, 0),
-> +	MHI_EVENT_CONFIG_HW_DATA_NO_IRQ_MOD(4, 4096, 107, 0),
-> +
-> +};
-> +
->  static const struct mhi_controller_config mhi_qcom_qdu100_config = {
->  	.max_channels = 128,
->  	.timeout_ms = 120000,
-> @@ -303,11 +336,21 @@ static const struct mhi_controller_config mhi_qcom_qdu100_config = {
->  	.event_cfg = mhi_qcom_qdu100_events,
->  };
->  
-> +static const struct mhi_controller_config mhi_qcom_qdu100_vf_config = {
-> +	.max_channels = 128,
-> +	.timeout_ms = 120000,
-> +	.num_channels = ARRAY_SIZE(mhi_qcom_qdu100_vf_channels),
-> +	.ch_cfg = mhi_qcom_qdu100_vf_channels,
-> +	.num_events = ARRAY_SIZE(mhi_qcom_qdu100_vf_events),
-> +	.event_cfg = mhi_qcom_qdu100_vf_events,
-> +};
-> +
->  static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
->  	.name = "qcom-qdu100",
->  	.fw = "qcom/qdu100/xbl_s.melf",
->  	.edl_trigger = true,
->  	.config = &mhi_qcom_qdu100_config,
-> +	.vf_config = &mhi_qcom_qdu100_vf_config,
->  	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
->  	.dma_data_width = 32,
->  	.vf_dma_data_width = 40,
-> 
-> -- 
-> 2.34.1
-> 
-
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
+index b0f2ef83735..0170c9d4dc5 100644
+--- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -524,33 +524,13 @@ When a match is found, the PHY layer will invoke the run function associated
+ with the fixup.  This function is passed a pointer to the phy_device of
+ interest.  It should therefore only operate on that PHY.
+ 
+-The platform code can either register the fixup using phy_register_fixup()::
+-
+-	int phy_register_fixup(const char *phy_id,
+-		u32 phy_uid, u32 phy_uid_mask,
+-		int (*run)(struct phy_device *));
+-
+-Or using one of the two stubs, phy_register_fixup_for_uid() and
+-phy_register_fixup_for_id()::
++The platform code can register the fixup using one of::
+ 
+  int phy_register_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask,
+ 		int (*run)(struct phy_device *));
+  int phy_register_fixup_for_id(const char *phy_id,
+ 		int (*run)(struct phy_device *));
+ 
+-The stubs set one of the two matching criteria, and set the other one to
+-match anything.
+-
+-When phy_register_fixup() or \*_for_uid()/\*_for_id() is called at module load
+-time, the module needs to unregister the fixup and free allocated memory when
+-it's unloaded.
+-
+-Call one of following function before unloading module::
+-
+- int phy_unregister_fixup(const char *phy_id, u32 phy_uid, u32 phy_uid_mask);
+- int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask);
+- int phy_register_fixup_for_id(const char *phy_id);
+-
+ Standards
+ =========
+ 
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 81984d4ebb7..95f5bb3ab59 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -474,52 +474,6 @@ int phy_register_fixup_for_id(const char *bus_id,
+ }
+ EXPORT_SYMBOL(phy_register_fixup_for_id);
+ 
+-/**
+- * phy_unregister_fixup - remove a phy_fixup from the list
+- * @bus_id: A string matches fixup->bus_id (or PHY_ANY_ID) in phy_fixup_list
+- * @phy_uid: A phy id matches fixup->phy_id (or PHY_ANY_UID) in phy_fixup_list
+- * @phy_uid_mask: Applied to phy_uid and fixup->phy_uid before comparison
+- */
+-int phy_unregister_fixup(const char *bus_id, u32 phy_uid, u32 phy_uid_mask)
+-{
+-	struct list_head *pos, *n;
+-	struct phy_fixup *fixup;
+-	int ret;
+-
+-	ret = -ENODEV;
+-
+-	mutex_lock(&phy_fixup_lock);
+-	list_for_each_safe(pos, n, &phy_fixup_list) {
+-		fixup = list_entry(pos, struct phy_fixup, list);
+-
+-		if ((!strcmp(fixup->bus_id, bus_id)) &&
+-		    phy_id_compare(fixup->phy_uid, phy_uid, phy_uid_mask)) {
+-			list_del(&fixup->list);
+-			kfree(fixup);
+-			ret = 0;
+-			break;
+-		}
+-	}
+-	mutex_unlock(&phy_fixup_lock);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(phy_unregister_fixup);
+-
+-/* Unregisters a fixup of any PHY with the UID in phy_uid */
+-int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask)
+-{
+-	return phy_unregister_fixup(PHY_ANY_ID, phy_uid, phy_uid_mask);
+-}
+-EXPORT_SYMBOL(phy_unregister_fixup_for_uid);
+-
+-/* Unregisters a fixup of the PHY with id string bus_id */
+-int phy_unregister_fixup_for_id(const char *bus_id)
+-{
+-	return phy_unregister_fixup(bus_id, PHY_ANY_UID, 0xffffffff);
+-}
+-EXPORT_SYMBOL(phy_unregister_fixup_for_id);
+-
+ /* Returns 1 if fixup matches phydev in bus_id and phy_uid.
+  * Fixups can be set to match any in one or more fields.
+  */
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index fbbe028cc4b..082612ee954 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -2356,10 +2356,6 @@ int phy_register_fixup_for_id(const char *bus_id,
+ int phy_register_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask,
+ 			       int (*run)(struct phy_device *));
+ 
+-int phy_unregister_fixup(const char *bus_id, u32 phy_uid, u32 phy_uid_mask);
+-int phy_unregister_fixup_for_id(const char *bus_id);
+-int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask);
+-
+ int phy_eee_tx_clock_stop_capable(struct phy_device *phydev);
+ int phy_eee_rx_clock_stop(struct phy_device *phydev, bool clk_stop_enable);
+ int phy_init_eee(struct phy_device *phydev, bool clk_stop_enable);
 -- 
-மணிவண்ணன் சதாசிவம்
+2.52.0
+
