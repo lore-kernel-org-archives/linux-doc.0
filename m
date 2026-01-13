@@ -1,154 +1,365 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42709284686;
-	Tue, 13 Jan 2026 14:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768316201; cv=none; b=o0wgjhKmbdX/h3jJdxLDMvVofaOuMK5KwvkFqNTYatnZhEON0CIjItTyiB4lD3Bk9kKOd8vh+IUbOnHmA+bBjQD5vA+JDoGwzdJ/XwSjBVx5iLM74NQdzOky6PfRwnfseMLcYM14SeCi1U2L4XEg/mE6DeysuL87U7MoHGOn4Ew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768316201; c=relaxed/simple;
-	bh=NAqsrBRRVQ9IjNII30nTZcG+axDLjmdYDnjuoF9bBio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HV6KWreyR79nz9hSHBqcqHWaQbSfQWstauNtshrJCeATQeFxgDWFsRTR7WbRw5h67t7Q5CJ3yfLkQXGbHQCUnghie4yR31tS3dXYfvRPQl/iLOnxj1AVfkqBlbialY/ys9scasObMUhnq0rTFf8Tt7MA/o2EiLmeSe/FsXFh1JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sSx4mOU4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EElHHGGH; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F342BD587
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 14:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768316357; cv=pass; b=SB/Q20icZ69ywgLps7vKD5sOGk/UdCoT7YCRmei5Ihe78Lra0GC177pBmbz/1zi3Oj7mJ36+wiLgr/AaO5RGRbhqHFO/eOQmB9Kxbb6+uLSRS2G7iX6YSKWGKvfmeJuDNws7cgrytrS8Lixpn9uMkKLE3tiY9PIYaZgHVGGjVlM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768316357; c=relaxed/simple;
+	bh=zPf3YoW4m/woyXDwob6YFjb2tYc58F297IepxgIBakc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C2eBUipj+CYPbBlOK9MVrGu8TkMF1jr/n2K1tePFmWwnJUvEdNajOLtm4lEAA/1PDepqaNTL14+zNlBSt0RjkUtZ975eqT5T/Ttkt6FIPX7SbrZC3Go6c2UOXj1TiNabnypd0c9MibPPAuJKZPMa3Wi3xTLKuwT1qKvG+TqjWSQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OpYL2D4L; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sSx4mOU4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EElHHGGH"
-Date: Tue, 13 Jan 2026 15:56:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768316198;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7sfzPEDYda0fB777q3Y+R5qIxdXTsgJj2IRA+hNFGpw=;
-	b=sSx4mOU4qkDYzkkx/o4BEtWyl3KyxW3euTuarzApOzTpXlaTS++4XY/zozFEdwI+2D4gqc
-	X/2YYXHPhJ39OiUekNo9mxCgbd3mRKVP6iJ5LixKaumKVEOue7aHTdj2/SSw9AIA7xysiw
-	khwRiBeHIgbbxPJE6nsPK4snz9MXXmwk6QsCaNwglaoU9+6Hv1fw7AOuDtH/SrsWBwtrSs
-	Zpm5UWEXMa1w74IQw5HzaMgnRUPa2rwJxDOUlrasiueQFGxKTnhVEfsy49uPFRY/wFDjFK
-	OtlrNM9syil5J8J1N2p2o6zWC7xe4RZ5ft3jv1L7pqgXQLYRRkdUm/6V+g4TPg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768316198;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7sfzPEDYda0fB777q3Y+R5qIxdXTsgJj2IRA+hNFGpw=;
-	b=EElHHGGH26sj8RjZyTS7MzBbQHDhVABCJGxSUKy3ePFAS2cW41IbJqoE/+HSbaCGe4llt6
-	VlRf7PDMccGp4EBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <20260113145635.YfSTBhVs@linutronix.de>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OpYL2D4L"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ffbaaafac4so593521cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 06:59:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768316355; cv=none;
+        d=google.com; s=arc-20240605;
+        b=acvxZRS9070vmyrtDPf4PDoxss5tuvxseGtq8bepCwvvwKcf63dEPyZiHQUtYgqvvN
+         qtEO0kUiQkozPVi67TrX+THC2nF9D6M2Q2nmG+LPHLeDd5NH2EHNYHmIc9YiNQOw3QqH
+         /dXmlbHEh/uNFVrZF5LHHSxoeRQi0hQFLOR3ryEpx6Yst0NGZh5taT7rF/Uh/U/Nlgky
+         pUmMgHaiyzlMXPk4rEzy5DCqV7u/C0VQiRr10uNg6XdB5sfQMwjCoBxYJuA0pl5UKfly
+         nYvdpKUtLTJ2kTCf0emjMDgWJBZv9G2mkvm6hNl1O1aUGH6v8BZKxx15w6GCyddNgqF1
+         6Xzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=pZlojhgCGQRJd86Bfq6GmjSuTaKdj0Ma2frE3Xf58I0=;
+        fh=28zo0EK8+/DQ3MS2+WwiP+rG2sN9AJqd+ufKWlsJ9Ac=;
+        b=h+3iqlFePkOaUEKMHBkT0i1jf6kfotE/XigyWZ1hLjJ2XQDm6pYOz926EgSf9qkhOC
+         Rb0cNAtq60MEUPotbU7NZ5zh6T3XlwVKSPh8d2gS4ApwcU6RGwcyyoQ4CuRJzSUM9nAh
+         11ubWhNK/vh6PYZBYcl3GDv+VWcdUQMrY/hzttXki8b7fQeYZspkULnAfa/g/D3VUBTg
+         S197R0VhezwqAFtD9AUKYADWUsh7JWzBGRXOXSuqpQu2562RE885yMI606tcmFIBePcZ
+         EBEFJgVFLOLFzzePo7GZrnIwZyywz46bOdYOsYa19PoCMkpViF1GO4PcVJx/I8sbzPHB
+         nayw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768316355; x=1768921155; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZlojhgCGQRJd86Bfq6GmjSuTaKdj0Ma2frE3Xf58I0=;
+        b=OpYL2D4LPoDrU+QpNTzLqEcsYg22APbpR7Q09oqDR5BE2nxA1b1/zPdSnUGEdrl63h
+         Owx/Rde+YVTFPcvnusAm4VDI1jQmJjwFVXhOD7mbaXhiIOqcodRHwGERIUyYiI7ZjDNC
+         tSxCAH9bCoIuPdGqcfuScWsgSGFTEaZXGci1UIuqfAALpNmyuKA0Vb4tYwWLJa2qX6Hy
+         5UJdHxzuPzFPWhg3hO/IikG0nCdmZXn8ST5Cr2wQ5hRk1FHlEx0dHB5NWPgSCS+FBl1t
+         OyMXwWx3RmGNdlNfU/ORJX7YpNQhsykvlh2y47wFe4uuRF6x8F63DoAgK0tzylymzL52
+         RBEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768316355; x=1768921155;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pZlojhgCGQRJd86Bfq6GmjSuTaKdj0Ma2frE3Xf58I0=;
+        b=KdYL4MVGgsP26e6O0typLPCTsghshb1gV1AzDdoLWPTqUtWDYPH6V4s/XTZ0WxGBBh
+         G6A+eJvFW8N38TOAap3X4kMkDWjobmk++dqIoG/fExyB5g9o/KIaoB2D856l6dZ2DGfq
+         PGq+J1fIHFL0zZvjJPbX8O7P5btNiYmg8S4e8A7C6wlF4eCTIjEvcbGJzanTOiugfeuH
+         EtGpxRxncWa+UYfG5W4nufbGQWi2X7Pb6hA1b+hqmKQk6G0cy5IzIIy0GpnUvKhpjDEK
+         emd7OdkrdbdVobfy2uVYxgn1OcGJHdGAIxxhx+1VsoIaTqJ+xm5WRd2xq14KuCcR69Sm
+         bK7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXh+mefJM984x3ubiQ3bIZR/F2I2QURccRtxOj3/lbTQollYNM6OmKfossvN0GbBscgvY1sPpTp6QI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy31wV7Yx5VObvpv1o5VGxr5vJrh8F8/irqtvqQ0foocZLOcLFa
+	irgJugFw7s+vniBbgVAuO6fsHdduBjSBKnNywKxODSYuS/zDIyssinfyXu+UmpK2MG88HP8QeNs
+	zQeOkvbVHhBsw0W/thFL5RWC5s83QDo7uh0R/dVsJ
+X-Gm-Gg: AY/fxX7NjaQhmXoQ6eactYMMhPF2Yeqi0POYe5LldZV0PBjktolBUX7Xkt6ohkZDX9y
+	cVULvNW0Wv2+o0kf8zA4Xvz8M4ZzW+D3sJ8od77wbvN1vsl6ErYpKJzEKJ3eUeYKbkfwuxzBjUi
+	XApHSPdWv71zVCc6xgpKLFPtU74ekzawMJmYJCCraaTkHmgvmqRUD+r+KM4d3wZCkxtXnl4mqws
+	65wyyyWUCQ0gjej4QzNTLsWp7K2Dxzd92tyvt9MBwWbqZdhRbMNnw8OGMfwvweBKb9jWYlVdb0x
+	JG3wMbIopH564bT+pW/XxORKSg==
+X-Received: by 2002:a05:622a:1803:b0:4ed:ff79:e679 with SMTP id
+ d75a77b69052e-5013b24c643mr4567491cf.19.1768316354656; Tue, 13 Jan 2026
+ 06:59:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+From: Fuad Tabba <tabba@google.com>
+Date: Tue, 13 Jan 2026 14:58:37 +0000
+X-Gm-Features: AZwV_QjSfPf_Qtos4PBfowPO8me3Hnm4jktWm-anHeSkcEqLyKFJ9qvABg5y_BU
+Message-ID: <CA+EHjTxOKDZ+gc9Ru=HpcRb8O-AvRm9UJaWM1fZeoqSz0bLK=g@mail.gmail.com>
+Subject: Re: [PATCH v9 00/30] KVM: arm64: Implement support for SME
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
+	Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-01-13 13:28:59 [+0100], Thomas Wei=C3=9Fschuh wrote:
-> --- /dev/null
-> +++ b/scripts/modules-merkle-tree.c
-> @@ -0,0 +1,467 @@
-=E2=80=A6
-> +static void build_proof(struct mtree *mt, unsigned int n, int fd)
-> +{
-> +	unsigned char cur[EVP_MAX_MD_SIZE];
-> +	unsigned char tmp[EVP_MAX_MD_SIZE];
+Hi Mark,
 
-This and a few other instances below could be optimized to avoid
-hashing. I probably forgot to let you know.
--> https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/mtree-hashed-mod=
-s.git/commit/?id=3D10b565c123c731da37befe862de13678b7c54877
+On Tue, 23 Dec 2025 at 01:21, Mark Brown <broonie@kernel.org> wrote:
+>
+> I've removed the RFC tag from this version of the series, but the items
+> that I'm looking for feedback on remains the same:
 
-> +	struct file_entry *fe, *fe_sib;
-> +
-> +	fe =3D &fh_list[n];
-> +
-> +	if ((n & 1) =3D=3D 0) {
-> +		/* No pair, hash with itself */
-> +		if (n + 1 =3D=3D num_files)
-> +			fe_sib =3D fe;
-> +		else
-> +			fe_sib =3D &fh_list[n + 1];
-> +	} else {
-> +		fe_sib =3D &fh_list[n - 1];
-> +	}
-> +	/* First comes the node position into the file */
-> +	write_be_int(fd, n);
-> +
-> +	if ((n & 1) =3D=3D 0)
-> +		hash_entry(fe->hash, fe_sib->hash, cur);
-> +	else
-> +		hash_entry(fe_sib->hash, fe->hash, cur);
-> +
-> +	/* Next is the sibling hash, followed by hashes in the tree */
-> +	write_hash(fd, fe_sib->hash);
-> +
-> +	for (unsigned int i =3D 0; i < mt->levels - 1; i++) {
-> +		n >>=3D 1;
-> +		if ((n & 1) =3D=3D 0) {
-> +			void *h;
-> +
-> +			/* No pair, hash with itself */
-> +			if (n + 1 =3D=3D mt->entries[i])
-> +				h =3D cur;
-> +			else
-> +				h =3D mt->l[i][n + 1].hash;
-> +
-> +			hash_entry(cur, h, tmp);
-> +			write_hash(fd, h);
-> +		} else {
-> +			hash_entry(mt->l[i][n - 1].hash, cur, tmp);
-> +			write_hash(fd, mt->l[i][n - 1].hash);
-> +		}
-> +		memcpy(cur, tmp, hash_size);
-> +	}
-> +
-> +	 /* After all that, the end hash should match the root hash */
-> +	if (memcmp(cur, mt->l[mt->levels - 1][0].hash, hash_size))
-> +		errx(1, "hash mismatch");
-> +}
+Now that I've gone through the patch series (except for the
+selftests), here are some of my thoughts at a high level.
 
-Sebastian
+The first one is something you have documented in api.rst:
+
+> Changing the value of SVCR.SM will result in the contents of
+> the Z, P and FFR registers being reset to 0.  When restoring the
+> values of these registers for a VM with SME support it is
+> important that SVCR.SM be configured first.
+
+However, the order returned by kvm_arm_copy_reg_indices() is core,
+sve, fw, then system. So this means that the VMM will need to hardcode
+this order, rather than rely on KVM_GET_REG_LIST. It _is_ documented,
+but it is tricky and it's easy to miss.
+
+Looking at copy_sve_reg_indices(), there's a special case for
+KVM_REG_ARM64_SVE_VLS, which forces it to appear before the other SVE
+registers. So I wonder if we need to do something at the level of
+kvm_arm_copy_reg_indices(), or do some sort of post-processing to the
+list, to avoid this problem.
+
+>  - The userspace ABI, in particular:
+>   - The vector length used for the SVE registers, access to the SVE
+>     registers and access to ZA and (if available) ZT0 depending on
+>     the current state of PSTATE.{SM,ZA}.
+
+One issue I see here, from a VMM's perspective, is that the amount of
+data transferred via KVM_GET_ONE_REG/KVM_SET_ONE_REG depends on the
+guest's current architectural mode. So now the VMM needs to first
+figure out what that is, before being able to SET/GET when
+saving/restoring a VM state.
+
+Before this series, SVE just assumed a maximum amount of data and
+zero-pad the rest. SME state is bigger, but in practice, do we expect
+many cases where the VL sizes between modes would be drastically
+different that it would make a difference in terms of storage?
+
+Other than that, I think the asymmetry of VLs might be a painpoint for
+users. The problem is that there is no guarantee that the set of
+vector lengths supported for SME match or the set supported for SVE.
+But I wonder if there's something we can do to help. Maybe a discovery
+IOCTL that returns the entire matrix of supported configurations (SVE
+VLs, SME VLs, and their intersection) to simplify VMM decision-making?
+
+One final note, I think the pKVM code will change a bit, especially
+since the pKVM SVE code has changed in Android. But since none of this
+is upstream yet, your changes are consistent with the existing code.
+I'll have a closer look at that code on the next respin.
+
+Thanks,
+/fuad
+
+
+
+
+
+>   - The use of a single finalisation for both SVE and SME.
+>
+>  - The addition of control for enabling fine grained traps in a similar
+>    manner to FGU but without the UNDEF, I'm not clear if this is desired
+>    at all and at present this requires symmetric read and write traps like
+>    FGU. That seemed like it might be desired from an implementation
+>    point of view but we already have one case where we enable an
+>    asymmetric trap (for ARM64_WORKAROUND_AMPERE_AC03_CPU_38) and it
+>    seems generally useful to enable asymmetrically.
+>
+> This series implements support for SME use in non-protected KVM guests.
+> Much of this is very similar to SVE, the main additional challenge that
+> SME presents is that it introduces a new vector length similar to the
+> SVE vector length and two new controls which change the registers seen
+> by guests:
+>
+>  - PSTATE.ZA enables the ZA matrix register and, if SME2 is supported,
+>    the ZT0 LUT register.
+>  - PSTATE.SM enables streaming mode, a new floating point mode which
+>    uses the SVE register set with the separately configured SME vector
+>    length.  In streaming mode implementation of the FFR register is
+>    optional.
+>
+> It is also permitted to build systems which support SME without SVE, in
+> this case when not in streaming mode no SVE registers or instructions
+> are available.  Further, there is no requirement that there be any
+> overlap in the set of vector lengths supported by SVE and SME in a
+> system, this is expected to be a common situation in practical systems.
+>
+> Since there is a new vector length to configure we introduce a new
+> feature parallel to the existing SVE one with a new pseudo register for
+> the streaming mode vector length.  Due to the overlap with SVE caused by
+> streaming mode rather than finalising SME as a separate feature we use
+> the existing SVE finalisation to also finalise SME, a new define
+> KVM_ARM_VCPU_VEC is provided to help make user code clearer.  Finalising
+> SVE and SME separately would introduce complication with register access
+> since finalising SVE makes the SVE registers writeable by userspace and
+> doing multiple finalisations results in an error being reported.
+> Dealing with a state where the SVE registers are writeable due to one of
+> SVE or SME being finalised but may have their VL changed by the other
+> being finalised seems like needless complexity with minimal practical
+> utility, it seems clearer to just express directly that only one
+> finalisation can be done in the ABI.
+>
+> Access to the floating point registers follows the architecture:
+>
+>  - When both SVE and SME are present:
+>    - If PSTATE.SM == 0 the vector length used for the Z and P registers
+>      is the SVE vector length.
+>    - If PSTATE.SM == 1 the vector length used for the Z and P registers
+>      is the SME vector length.
+>  - If only SME is present:
+>    - If PSTATE.SM == 0 the Z and P registers are inaccessible and the
+>      floating point state accessed via the encodings for the V registers.
+>    - If PSTATE.SM == 1 the vector length used for the Z and P registers
+>  - The SME specific ZA and ZT0 registers are only accessible if SVCR.ZA is 1.
+>
+> The VMM must understand this, in particular when loading state SVCR
+> should be configured before other state.  It should be noted that while
+> the architecture refers to PSTATE.SM and PSTATE.ZA these PSTATE bits are
+> not preserved in SPSR_ELx, they are only accessible via SVCR.
+>
+> There are a large number of subfeatures for SME, most of which only
+> offer additional instructions but some of which (SME2 and FA64) add
+> architectural state. These are configured via the ID registers as per
+> usual.
+>
+> Protected KVM supported, with the implementation maintaining the
+> existing restriction that the hypervisor will refuse to run if streaming
+> mode or ZA is enabled.  This both simplfies the code and avoids the need
+> to allocate storage for host ZA and ZT0 state, there seems to be little
+> practical use case for supporting this and the memory usage would be
+> non-trivial.
+>
+> The new KVM_ARM_VCPU_VEC feature and ZA and ZT0 registers have not been
+> added to the get-reg-list selftest, the idea of supporting additional
+> features there without restructuring the program to generate all
+> possible feature combinations has been rejected.  I will post a separate
+> series which does that restructuring.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+> Changes in v9:
+> - Rebase onto v6.19-rc1.
+> - ABI document clarifications.
+> - Add changes dropping asserts on single bit wide bitfields in set_id_regs.
+> - Link to v8: https://lore.kernel.org/r/20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org
+>
+> Changes in v8:
+> - Small fixes in ABI documentation.
+> - Link to v7: https://lore.kernel.org/r/20250822-kvm-arm64-sme-v7-0-7a65d82b8b10@kernel.org
+>
+> Changes in v7:
+> - Rebase onto v6.17-rc1.
+> - Handle SMIDR_EL1 as a VM wide ID register and use this in feat_sme_smps().
+> - Expose affinity fields in SMIDR_EL1.
+> - Remove SMPRI_EL1 from vcpu_sysreg, the value is always 0 currently.
+> - Prevent userspace writes to SMPRIMAP_EL2.
+> - Link to v6: https://lore.kernel.org/r/20250625-kvm-arm64-sme-v6-0-114cff4ffe04@kernel.org
+>
+> Changes in v6:
+> - Rebase onto v6.16-rc3.
+> - Link to v5: https://lore.kernel.org/r/20250417-kvm-arm64-sme-v5-0-f469a2d5f574@kernel.org
+>
+> Changes in v5:
+> - Rebase onto v6.15-rc2.
+> - Add pKVM guest support.
+> - Always restore SVCR.
+> - Link to v4: https://lore.kernel.org/r/20250214-kvm-arm64-sme-v4-0-d64a681adcc2@kernel.org
+>
+> Changes in v4:
+> - Rebase onto v6.14-rc2 and Mark Rutland's fixes.
+> - Expose SME to nested guests.
+> - Additional cleanups and test fixes following on from the rebase.
+> - Flush register state on VMM PSTATE.{SM,ZA}.
+> - Link to v3: https://lore.kernel.org/r/20241220-kvm-arm64-sme-v3-0-05b018c1ffeb@kernel.org
+>
+> Changes in v3:
+> - Rebase onto v6.12-rc2.
+> - Link to v2: https://lore.kernel.org/r/20231222-kvm-arm64-sme-v2-0-da226cb180bb@kernel.org
+>
+> Changes in v2:
+> - Rebase onto v6.7-rc3.
+> - Configure subfeatures based on host system only.
+> - Complete nVHE support.
+> - There was some snafu with sending v1 out, it didn't make it to the
+>   lists but in case it hit people's inboxes I'm sending as v2.
+>
+> ---
+> Mark Brown (30):
+>       arm64/sysreg: Update SMIDR_EL1 to DDI0601 2025-06
+>       arm64/fpsimd: Update FA64 and ZT0 enables when loading SME state
+>       arm64/fpsimd: Decide to save ZT0 and streaming mode FFR at bind time
+>       arm64/fpsimd: Check enable bit for FA64 when saving EFI state
+>       arm64/fpsimd: Determine maximum virtualisable SME vector length
+>       KVM: arm64: Pay attention to FFR parameter in SVE save and load
+>       KVM: arm64: Pull ctxt_has_ helpers to start of sysreg-sr.h
+>       KVM: arm64: Move SVE state access macros after feature test macros
+>       KVM: arm64: Rename SVE finalization constants to be more general
+>       KVM: arm64: Document the KVM ABI for SME
+>       KVM: arm64: Define internal features for SME
+>       KVM: arm64: Rename sve_state_reg_region
+>       KVM: arm64: Store vector lengths in an array
+>       KVM: arm64: Implement SME vector length configuration
+>       KVM: arm64: Support SME control registers
+>       KVM: arm64: Support TPIDR2_EL0
+>       KVM: arm64: Support SME identification registers for guests
+>       KVM: arm64: Support SME priority registers
+>       KVM: arm64: Provide assembly for SME register access
+>       KVM: arm64: Support userspace access to streaming mode Z and P registers
+>       KVM: arm64: Flush register state on writes to SVCR.SM and SVCR.ZA
+>       KVM: arm64: Expose SME specific state to userspace
+>       KVM: arm64: Context switch SME state for guests
+>       KVM: arm64: Handle SME exceptions
+>       KVM: arm64: Expose SME to nested guests
+>       KVM: arm64: Provide interface for configuring and enabling SME for guests
+>       KVM: arm64: selftests: Remove spurious check for single bit safe values
+>       KVM: arm64: selftests: Skip impossible invalid value tests
+>       KVM: arm64: selftests: Add SME system registers to get-reg-list
+>       KVM: arm64: selftests: Add SME to set_id_regs test
+>
+>  Documentation/virt/kvm/api.rst                   | 120 ++++++++---
+>  arch/arm64/include/asm/fpsimd.h                  |  26 +++
+>  arch/arm64/include/asm/kvm_emulate.h             |   6 +
+>  arch/arm64/include/asm/kvm_host.h                | 163 ++++++++++++---
+>  arch/arm64/include/asm/kvm_hyp.h                 |   5 +-
+>  arch/arm64/include/asm/kvm_pkvm.h                |   2 +-
+>  arch/arm64/include/asm/vncr_mapping.h            |   2 +
+>  arch/arm64/include/uapi/asm/kvm.h                |  33 +++
+>  arch/arm64/kernel/cpufeature.c                   |   2 -
+>  arch/arm64/kernel/fpsimd.c                       |  89 ++++----
+>  arch/arm64/kvm/arm.c                             |  10 +
+>  arch/arm64/kvm/config.c                          |  11 +-
+>  arch/arm64/kvm/fpsimd.c                          |  28 ++-
+>  arch/arm64/kvm/guest.c                           | 252 ++++++++++++++++++++---
+>  arch/arm64/kvm/handle_exit.c                     |  14 ++
+>  arch/arm64/kvm/hyp/fpsimd.S                      |  28 ++-
+>  arch/arm64/kvm/hyp/include/hyp/switch.h          | 168 +++++++++++++--
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h       | 110 ++++++----
+>  arch/arm64/kvm/hyp/nvhe/hyp-main.c               |  86 ++++++--
+>  arch/arm64/kvm/hyp/nvhe/pkvm.c                   |  85 ++++++--
+>  arch/arm64/kvm/hyp/nvhe/switch.c                 |   4 +-
+>  arch/arm64/kvm/hyp/nvhe/sys_regs.c               |   6 +
+>  arch/arm64/kvm/hyp/vhe/switch.c                  |  17 +-
+>  arch/arm64/kvm/hyp/vhe/sysreg-sr.c               |   7 +
+>  arch/arm64/kvm/nested.c                          |   3 +-
+>  arch/arm64/kvm/reset.c                           | 156 ++++++++++----
+>  arch/arm64/kvm/sys_regs.c                        | 140 ++++++++++++-
+>  arch/arm64/tools/sysreg                          |   8 +-
+>  include/uapi/linux/kvm.h                         |   1 +
+>  tools/testing/selftests/kvm/arm64/get-reg-list.c |  15 +-
+>  tools/testing/selftests/kvm/arm64/set_id_regs.c  |  84 ++++++--
+>  31 files changed, 1367 insertions(+), 314 deletions(-)
+> ---
+> base-commit: 3e7f562e20ee87a25e104ef4fce557d39d62fa85
+> change-id: 20230301-kvm-arm64-sme-06a1246d3636
+>
+> Best regards,
+> --
+> Mark Brown <broonie@kernel.org>
+>
