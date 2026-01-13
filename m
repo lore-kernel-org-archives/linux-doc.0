@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFCE34E74F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF5D32B98F;
 	Tue, 13 Jan 2026 17:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768324802; cv=none; b=Oz27J7TPlCirAwXk3gGA5bSm+/UrlF8/O7guF5yG36Rt0HlALv+wUw6twiN1h7Bv6z9Z9lK6Q8MZ957S/fRGusmZwm81ZRxMRmdMa0Y64L8jv3qAqmZrUQhtGyuCJrwSOYzrSRcYQl1HwLz4VfEnKebHcxgt5fbfSsh8bgVdv2c=
+	t=1768324802; cv=none; b=JnZ/XbNUc+5ppE4BHAsdftgV5/nImErfmn2ANz0xaperiklueOfjVSqTJawRbHiSlPv5bZ/7AkrUxMXUOig4D0oCiFXdY9AJH12SftzlC6m8FD2H240DG2KwTXBMpEUQ4vX1WAc/Jth4iWsKoR0WOynWc6rXnW6zGL9IOSUj3Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768324802; c=relaxed/simple;
-	bh=foDF5kyQKVn5m0aZgBgzovxLoUT+5gGYYs+E7zG6moo=;
+	bh=2m6TV9TmCb8dmWC8RNmdbds1yQ7T9JqcpLqXcM2+DNA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FZexYwE5CeChLg15DH7V4TCclYkdv7tjWgWZzIPPFUJrb09Cdh/pMuioNk/xf3uSNlP7KEZFKmCN71wds12F6WlovcuWuEu6KQCdkoOTcaTzE5bs8JhqgpGgYfHvm/+dzQRfaeBBHn8MRBvfy8lwfapY27Ztf20mJFXko/ZNROk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvic6u1O; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BikPkYyfKRC29yuO8395FNdp1ntZ/XwOlRhxXUP7fzbTMxCz101D396xH5i+S0XzXJ+10r+mKF+B09BdJvevuXy+cyZ9CMovVIBbXpjEwX6d5i+UjC8ofGyCrmquY4S+VGy457pqa3lilN/+zPwpLSoh9LNyMwAMUqkO4xINR4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YpUAVV07; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvic6u1O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFA44C19424;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YpUAVV07"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8223C4AF0C;
 	Tue, 13 Jan 2026 17:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768324801;
-	bh=foDF5kyQKVn5m0aZgBgzovxLoUT+5gGYYs+E7zG6moo=;
+	bh=2m6TV9TmCb8dmWC8RNmdbds1yQ7T9JqcpLqXcM2+DNA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fvic6u1OgU037oeHc/12bn7Y9ejQv7En2yCgdE74A+Q8bexSBY3ZwkPhsmGwDikcA
-	 liLnVZIbi8pMRE9azYO6Ext8Qus0tLzBMHsjV4ZwbNiMJcG6YJnQkbU23i6gx70xH+
-	 8/UCN3HH/DLyICbgu4OOLhijUWRjuCq/UUeCZ9ou6wBIL9KHUghrIV2bho09UO6Vk2
-	 sGWK9SKP6TR49j9hjyKkR2gRScAXgEVtDJkzG726WnZAWgtR7+Jcwjm5GQZNexuz64
-	 XJeYPkx8dznCp6QAPl/Q+qoSKCkOe8bgTVKWYt30yrPeyfX3d+2qm2CRD/7yRpHCHb
-	 958qk0tkXVWLQ==
+	b=YpUAVV078V6+5O6pPjAW4daEBUuna0/7o0qBfhQtnBwPEylvFjqT4S4rKg0L1zTPd
+	 r5JGwGZ7Is3Is6umlwV6523mfqet8niK84IuPxeqLOAQikYAYBKpQ01q3+Dy9TpHHt
+	 FC6fS7he8Oyqli2I1SJiv/Oh0RLCKlcqpDEfttQfepmBum3jEtj2bXs31rWyNYp6/v
+	 UXEtn3uDOloI/qe/IXy5KWlppWWdMPdElaMfphkX1uxPz7Ar74dXiQG8qJ2UDDS1T/
+	 h8Q6ZtHYUBlNI94vL2u5ZKApIw/vyAD8v6I2X/4HYs54cN4MHfW+RjYXe2hIHjmfb+
+	 dxIs6ZfeS7G1A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vfi3j-00000000zeK-3dJ5;
+	id 1vfi3j-00000000zeG-3WOy;
 	Tue, 13 Jan 2026 18:19:59 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -38,9 +38,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Jani Nikula <jani.nikula@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v3 4/4] scripts/kernel-doc: some fixes to kernel-doc comments
-Date: Tue, 13 Jan 2026 18:19:56 +0100
-Message-ID: <434e60e7868ef4e001e81e8cfa872dec711ddd34.1768324572.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 3/4] scripts/kernel-doc: ensure that comments are using our coding style
+Date: Tue, 13 Jan 2026 18:19:55 +0100
+Message-ID: <55357e0465e1a73c64f875f4b45c6d443b33ab38.1768324572.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768324572.git.mchehab+huawei@kernel.org>
 References: <cover.1768324572.git.mchehab+huawei@kernel.org>
@@ -54,107 +54,121 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are some typos and English errors at the kernel-doc.py comments.
-
-Locate them with the help of LLM (gpt-oss 14B), locally excecuted
-with this prompt:
-
-    review English grammar andsyntax at the comments on the code
-    below:
-    <cat scripts/kernel-doc.py>
-
-Not all results are flowers, although it caught several minor
-issues there. Add the pertinent fixes, discarding the bad ones.
+Along kernel-doc libs, we opted to have all comments starting/ending
+with a blank comment line. Use the same style here.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ scripts/kernel-doc.py | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index da06184cbd8b..4998a79ea6d1 100755
+index 5d2f29e90ebe..da06184cbd8b 100755
 --- a/scripts/kernel-doc.py
 +++ b/scripts/kernel-doc.py
-@@ -9,9 +9,9 @@
- #       The rationale is that it shall fail gracefully during Kernel
- #       compilation with older Kernel versions. Due to that:
- #       - encoding line is needed here;
--#       - no f-strings can be used on this file.
--#       - the libraries that require newer versions can only be included
--#         after Python version is checked.
-+#       - f-strings cannot be used in this file.
-+#       - libraries that require newer versions can only be included
-+#         after the Python version has been checked.
+@@ -3,7 +3,7 @@
+ # Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
  #
+ # pylint: disable=C0103,R0912,R0914,R0915
+-
++#
+ # NOTE: While kernel-doc requires at least version 3.6 to run, the
+ #       command line should work with Python 3.2+ (tested with 3.4).
+ #       The rationale is that it shall fail gracefully during Kernel
+@@ -12,7 +12,7 @@
+ #       - no f-strings can be used on this file.
+ #       - the libraries that require newer versions can only be included
+ #         after Python version is checked.
+-
++#
  # Converted from the kernel-doc script originally written in Perl
  # under GPLv2, copyrighted since 1998 by the following authors:
-@@ -134,13 +134,13 @@ May be used multiple times.
- """
+ #
+@@ -197,8 +197,9 @@ def main():
+     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
+                                      description=DESC)
  
- EXPORT_DESC = """
--Only output documentation for the symbols that have been
-+Only output documentation for symbols that have been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
++    #
+     # Normal arguments
+-
++    #
+     parser.add_argument("-v", "-verbose", "--verbose", action="store_true",
+                         help="Verbose output, more warnings and other information.")
  
- INTERNAL_DESC = """
--Only output documentation for the symbols that have NOT been
-+Only output documentation for symbols that have NOT been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
-@@ -163,7 +163,7 @@ Header and C source files to be parsed.
- """
+@@ -213,8 +214,9 @@ def main():
+                         action="store_true",
+                         help="Enable line number output (only in ReST mode)")
  
- WARN_CONTENTS_BEFORE_SECTIONS_DESC = """
--Warns if there are contents before sections (deprecated).
-+Warn if there are contents before sections (deprecated).
++    #
+     # Arguments to control the warning behavior
+-
++    #
+     parser.add_argument("-Wreturn", "--wreturn", action="store_true",
+                         help="Warns about the lack of a return markup on functions.")
  
- This option is kept just for backward-compatibility, but it does nothing,
- neither here nor at the original Perl script.
-@@ -171,7 +171,7 @@ neither here nor at the original Perl script.
+@@ -235,8 +237,9 @@ def main():
+     parser.add_argument("-export-file", "--export-file", action='append',
+                         help=EXPORT_FILE_DESC)
  
++    #
+     # Output format mutually-exclusive group
+-
++    #
+     out_group = parser.add_argument_group("Output format selection (mutually exclusive)")
  
- class MsgFormatter(logging.Formatter):
--    """Helper class to format warnings on a similar way to kernel-doc.pl"""
-+    """Helper class to format warnings in a similar way to kernel-doc.pl."""
+     out_fmt = out_group.add_mutually_exclusive_group()
+@@ -248,8 +251,9 @@ def main():
+     out_fmt.add_argument("-N", "-none", "--none", action="store_true",
+                          help="Do not output documentation, only warnings.")
  
-     def format(self, record):
-         record.levelname = record.levelname.capitalize()
-@@ -273,7 +273,7 @@ def main():
++    #
+     # Output selection mutually-exclusive group
+-
++    #
+     sel_group = parser.add_argument_group("Output selection (mutually exclusive)")
+     sel_mut = sel_group.add_mutually_exclusive_group()
+ 
+@@ -262,7 +266,9 @@ def main():
+     sel_mut.add_argument("-s", "-function", "--symbol", action='append',
+                          help=FUNCTION_DESC)
+ 
++    #
+     # Those are valid for all 3 types of filter
++    #
+     parser.add_argument("-n", "-nosymbol", "--nosymbol", action='append',
                          help=NOSYMBOL_DESC)
  
-     parser.add_argument("-D", "-no-doc-sections", "--no-doc-sections",
--                        action='store_true', help="Don't outputt DOC sections")
-+                        action='store_true', help="Don't output DOC sections")
+@@ -295,9 +301,11 @@ def main():
  
-     parser.add_argument("files", metavar="FILE",
-                         nargs="+", help=FILES_DESC)
-@@ -302,12 +302,12 @@ def main():
      python_ver = sys.version_info[:2]
      if python_ver < (3,6):
-         #
--        # Depending on Kernel configuration, kernel-doc --none is called at
-+        # Depending on the Kernel configuration, kernel-doc --none is called at
++        #
+         # Depending on Kernel configuration, kernel-doc --none is called at
          # build time. As we don't want to break compilation due to the
          # usage of an old Python version, return 0 here.
-         #
++        #
          if args.none:
--            logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
-+            logger.error("Python 3.6 or later is required by kernel-doc. Skipping checks")
+             logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
              sys.exit(0)
- 
-         sys.exit("Python 3.6 or later is required by kernel-doc. Aborting.")
-@@ -316,7 +316,7 @@ def main():
+@@ -307,7 +315,9 @@ def main():
+     if python_ver < (3,7):
          logger.warning("Python 3.7 or later is required for correct results")
  
-     #
--    # Import kernel-doc libraries only after checking Python version
-+    # Import kernel-doc libraries only after checking the Python version
-     #
++    #
+     # Import kernel-doc libraries only after checking Python version
++    #
      from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
      from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
+ 
+@@ -346,6 +356,8 @@ def main():
+ 
+     sys.exit(0)
+ 
++#
+ # Call main method
++#
+ if __name__ == "__main__":
+     main()
 -- 
 2.52.0
 
