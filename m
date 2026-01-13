@@ -1,158 +1,163 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42E538A729
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 10:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768299609; cv=none; b=EJY6rn3K5cM7KMnPpm0Ifpkzl2kfky2X4XN0ZTBNwpkoruPreuj+XFvI/PS12AhHbbT6nby7a9oUuSauV2OKUr92QpXbU0R4nCLO4CPyXkymGvkTA36yei98nSEIFCsfTODhJoJtGW0DhX9vA/VL8xq+/k44Zoew6BpVIjA8+lo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768299609; c=relaxed/simple;
-	bh=qrJawEyRk9QiRfi3F12wRwzElwNErv3g2l29eOs+r0k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oy4VlqN66cou6F9Yo5wlmLd0law7LyjnmDKq1XQo6omsc+zMb2d8vXgAYZFi5nNyMtDTT59RbBfjH8ylqGe8XJXaGJOOCEU+Eo65AXLoAARrcEBGWNabPhoFcX38jB4oj2fp7Tjy5UTHA0sygH9H0SxcM1s87MjssLXAcsQ4AfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HIcheGNe; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ooiqeq4C; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CA932862D
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 10:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768299778; cv=pass; b=Zh4gnPNZnVr4voHBFtrvONjI5iScw3c+YKoQfsigM7FqU4GjZsyBl2VlhpcuSJl+vFxvcE88Pd5GQ47KBUFkT1cg958yLyEke5ex8lO2+kpeTuyEqSMYA4SO84G95nyfCjvs56YtDMQ5OU0ssZp4+bTNaaCiyxJd0mbbCjX4hC8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768299778; c=relaxed/simple;
+	bh=j3OwXXEAmSxRLTGPF30uCuH9V/84AQ8BpwM0oX197Jc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uZ0IHzwgCzOYCZn9JxNToHqat4DTWe9BrepANwa7r17AGqARCgoRuZ6FYGTG5AS4ZhgMvO6uf6BKj7TR3OBGziL2WZ+8Cwj9czNUQSGA1Gk6xTNJkmSYhBbZHkGCIvQ6xMCO6ApzARqLkQhO3Cykraaqx+cdp0c6nwH61llyn7s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aCZ9Tm41; arc=pass smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HIcheGNe";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ooiqeq4C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768299605;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bv1RPjaO9ZdZred2Z39o/pHiVJywyFuAbsRMKmfexlM=;
-	b=HIcheGNe7k18hNS9kZhjl0ulo7Wm+W1t8ShqjQcofzTqFPNU4fuW/S3YXicuWwSiFqcwLr
-	uGcyI+GcR9J8Y6SuUbE8ZoOJUbIObs2bkpN/QI4nAB3TmTRR2uOqmsdfMLddIT95+rcA95
-	NkxLc9al15W+MOLub7mvhPOXcjXbh44=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-345-NwgJmM4NObim8pZKZKh-gw-1; Tue, 13 Jan 2026 05:20:04 -0500
-X-MC-Unique: NwgJmM4NObim8pZKZKh-gw-1
-X-Mimecast-MFC-AGG-ID: NwgJmM4NObim8pZKZKh-gw_1768299603
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-432db1a9589so1708633f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 02:20:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aCZ9Tm41"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4edb8d6e98aso330791cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 02:22:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768299776; cv=none;
+        d=google.com; s=arc-20240605;
+        b=O9XAO+mgkaa0g+OLHGuCb2sGFGFDsD4SKl4lq8ow+7hov8g5ngszrzfDs408gatuge
+         zOn+gvk8kMOxOB4QJNoYTnpfEK41P0Rbq/6pZYyQdIn8UyI7QKOSBRiWGIY9sbfCgfsR
+         2rJHo6zGlpOHnVadx1bYSdDBjwvMuADxbQrkX7hpihMPavXv7KLVaEFvPQGazHMhkkqS
+         ep/+yT9h85hrpjYNylhAE/3NwMrxwztSmJjzrIQUCfd+zhH1TxBVjE7pSOKxHByLE8XE
+         o9eqyNTdSY1a9WcQuL+4DSwhllHlTPnU4fGIx/k/61cbQ4wOBPCuxX1MPPU3iUqA6y/q
+         S5mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O+f//pvo+PKe+VeeiEDq3PkoxP0zliahBI3UIRJy+vU=;
+        fh=+GzD3R4zBKFy3OSw02T7iUi+KZ28kQW0OZ+AWKnWUqA=;
+        b=BPjDPzFwGmevtUIACPDJqbmj5jvlt/IgRvPS40n+ZMelsN559bZN+vNZYVT3HeCXb6
+         W+c1OclpaXgQIkFCzqQqi+kgFhHfY/Bh70g/+hpFj7Ol0sOXnQydURnjUnGTNrw5nP/Y
+         cjqjKeILuoRfKqSkKgPqevjohsQJ2X9e9cjVLoO5zqnMuoez1mq/0YygRZrFCYjZHCDm
+         NebAozJp8S9HhodjAvoR/u90GWenBbPsxajoaphIE4YQZP+UE+Z6QONruoHC+41uM9AU
+         9dVeBu7RHA6AbKHG4IX5GHTntJZmctOAZ5kKTt8vnaE6PuGB1mQjWoRMJOwsKibnajoU
+         rKOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768299603; x=1768904403; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bv1RPjaO9ZdZred2Z39o/pHiVJywyFuAbsRMKmfexlM=;
-        b=Ooiqeq4CDJAdeztIVeP08RIjonIFbu0Ix1QSuGAGLnpXxoa1G3zjRACEzvO2cO3ng5
-         K2zLp5murkupoMQjsTkt9xyL+bugptxPbtuaxL0PmUm2MeHLsh6JpmYCJcD6ViHvQH8v
-         P3Xjf6FBz8ZsWfwg3RlydqvAFLgF734ZChGJX/Rxjup6E0lD0YazXep9YNEvw+gEXxhB
-         y0PYSiW7q1diBoV5bcyaw+WPI0/VuMzlg9av8Bske1sOljgBO+qV2wTVqNaE7l0+wop6
-         BIE3XlsWPy2wCq73FGqRfy/zu5PLxZ441tO03GqAILwUpvnuVJdr777gVgEP+SxqdJ3w
-         xkNA==
+        d=google.com; s=20230601; t=1768299776; x=1768904576; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O+f//pvo+PKe+VeeiEDq3PkoxP0zliahBI3UIRJy+vU=;
+        b=aCZ9Tm4131uXydwm2nMmNLeRhPs4M7XteXIuWCzQo3fzpzHDY0I9PeUi4BD3FzB8LW
+         xuJO26HhG7h7VvMaq5P9ohVa4OApJNhE98C2X55SXIhpSFE0i5WGya+FjdqIbIzwkUc6
+         PT0Nsy2oNVcKSzHtvdQOuSZQ0RRKngsz1drI5mRWp+hGHtXZs6/SmRM9JXmQmc8flR9b
+         gru9xz1qkndanqvWEl7dnqgL1KwWZcwxVKdQRzQKHBlVpgqAeeXNFZIv4C7cwsg8omwD
+         NdMHJI8CtooKo+bUjgUkOZdYMntQvIJCaILe2tg0tH8QBjHgiF5frXfo3DYcrwFttQvY
+         9E1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768299603; x=1768904403;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bv1RPjaO9ZdZred2Z39o/pHiVJywyFuAbsRMKmfexlM=;
-        b=pzW9GqW2a4JBm9ILUTWVn4mAuXM9Xn1KxFWfx/fa9arLUR9sbN0POZZ9aXrgirC4Ye
-         /RxY6ZwBseEqXi5OG1yj624vNIMNyhsEcZFzZWK548YQmyJ7w54cUFlfpmmQ0KpvlFJm
-         XiL0Uu74sxwMC6Mdxe6b7S35gPVKgM8JxQflr7pYgyDWMSBiMmHY9qIs2DPtlElaXJwF
-         gtvkvaLiNMBibS4iyac47TgqE+f7/WtKWtb8RsH6Xo09Ri/PMGAu9et2zxWH48vIZleD
-         F9wcQeaGWZJRby/YvhSOcRQyWaSM43UzxjnRTq9z98YZD64pd4Q4rCS0WBqWxWwvWQGm
-         zJcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFVkjVZGIJiD1h3RfnjKWPXLioOxaSXxH7hDnDMm7IdnqWTB5I8lvqSJwQVbfcBYBmwsBQhdFFmtk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuMto3k/dXAvYW18blIJGZpDyW3FAlW+l14DBExvtSgyLnvhHE
-	hWqDpnAfO9ksBPskwzN0of6tWhmzTUAb38fr4eCLFafqwu1nlAwn8G6gK1Zp3ZmDZDDYFRPOZic
-	UAG6ju/NB/UsbDE9YDu7qRVdtB+n3G9wuZAlbUINinvF5GRsF3sJ4TGjVFipiQw==
-X-Gm-Gg: AY/fxX5JBY5YMa86sdSpnE3bZzR3U52LxU8AqQOfxWGUmRhjvKv8tFiaHDVO91ZpFlg
-	M8xLMSfbma9eHH3gMY3nlb5o/IAaPVGRlZiIxJqUhf86Ra5R/JhyrEMra586KAYGqUB8TKNqczy
-	btql+gQ7Cliv5NGzXp7SHVDm1meXg8jBbVvFYKtelva2VyHeXrXprLibPAnvYqc5arZOgxJrIDu
-	C7amOBDM1z8jUF4ib+bCWA1UD7gxSpTbus3LcX08pxH3f/N6pENCYvuptqp1d9krJ0s4keOUJPc
-	x/VmI0I3kKv0inx/vCMf7XR+w2b+4AcerG0l4ULFIOWgjk0oRmBH601YddvOAha9GgB+qKv9F6E
-	OtUuxyThJBHG1
-X-Received: by 2002:a05:6000:184d:b0:431:35a:4a97 with SMTP id ffacd0b85a97d-432c37c3600mr21248021f8f.59.1768299603301;
-        Tue, 13 Jan 2026 02:20:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHrath3hRlhdo9WrSLU/1jbO11BPh+MoIv4sHPe4d/wYiA0ReRHh6C563cNyJeTG7EVpok72g==
-X-Received: by 2002:a05:6000:184d:b0:431:35a:4a97 with SMTP id ffacd0b85a97d-432c37c3600mr21247977f8f.59.1768299602857;
-        Tue, 13 Jan 2026 02:20:02 -0800 (PST)
-Received: from [192.168.88.32] ([212.105.155.93])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5df96asm42541852f8f.28.2026.01.13.02.19.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jan 2026 02:20:02 -0800 (PST)
-Message-ID: <017b07c8-ed86-4ed1-9793-c150ded68097@redhat.com>
-Date: Tue, 13 Jan 2026 11:19:59 +0100
+        d=1e100.net; s=20230601; t=1768299776; x=1768904576;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O+f//pvo+PKe+VeeiEDq3PkoxP0zliahBI3UIRJy+vU=;
+        b=aF7lVyt7drLXqGBSXmJBpwBPuu7+W6B7pQkiUNM1rXah9UUNHnyCnibMOGeldqqS1g
+         k9VIY1CiHWQCpNIeGZC3L/X3UbJinlr4qrhfVKmUhL1Y25GfcpaFn7JNPbzhgiJ56Vec
+         4FMJb00je2sWg7ZntjB17+tv/PCnorEizQI4e5WxBvtPjGn7ZZr0/IwWm2NXGJCbzWgZ
+         nu7MZq5WUPokjvlogrkFv52TO8ZYQv3Oq+nz5HvjagUdBkT21KOZRMLttRBkAzfx5hcn
+         8xMG4ITIeZUeWtcUWHDQVEmUvrbLRfBWPwXffzeEL/XN5Oj5E5626Or5qIauPhmpFkpj
+         nSUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUcNPQ08XTLFDb2y038uGch+45uW2VKpsb8kNyFD9YWAU2aDka/ML9rdd0NmgLRuBLNS/yPpEvKAbQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuJtcG6zbARAldejRxPWFXfa6ra93q/lddCMOBpyPR/SybUv9f
+	lMD6yIpWfkDNeStiIbIQh5YMiMsuw+DKdyUSuBzA6+mPDtegvPpmsh9xnfiPY/nqfJOZhrYSTZ7
+	OyWlxpi4py9MvVbsBOEXG1cRqXDsp20eBO7NlE6oP
+X-Gm-Gg: AY/fxX5zD1h3pusUP5M0hyehYAR9VdTuUWGZDsiv5Yx+mdFl9ZysBW+03KBX2gf+hXz
+	BDur6b2V7gPgku4IBoW3So5N8fwbFToaLpvX0P/73bX/cMvJAJQkhnOfSHgjztHRo7jWkOaKTIc
+	UcuvxDJn4eaKnb67z1eAvP2Ofi67T+eDQymqyRFIW6tR2VRQycN1zaJu502ofEHPpDWzfG/1VCv
+	H0OnF3uFQIMv1MJmFZNJlmz2l9OB0bNxTmzl2rYs9PuYgHw/WAGl2/IGbzmx+2kDAE1DkTi0MoY
+	TwGRqGK6ryZ3//WmaA/+srkEBg==
+X-Received: by 2002:a05:622a:2cb:b0:4f3:54eb:f26e with SMTP id
+ d75a77b69052e-5013af668a5mr7179931cf.1.1768299775379; Tue, 13 Jan 2026
+ 02:22:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v8 5/9] eth: bnxt: store rx buffer size per queue
-To: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org
-Cc: "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Joshua Washington <joshwash@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Alexander Duyck <alexanderduyck@fb.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Shuah Khan
- <shuah@kernel.org>, Willem de Bruijn <willemb@google.com>,
- Ankit Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>,
- Alok Tiwari <alok.a.tiwari@oracle.com>, Ziwei Xiao <ziweixiao@google.com>,
- John Fraker <jfraker@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Mohsin Bashir <mohsin.bashr@gmail.com>, Joe Damato <joe@dama.to>,
- Mina Almasry <almasrymina@google.com>,
- Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Kuniyuki Iwashima <kuniyu@google.com>,
- Samiullah Khawaja <skhawaja@google.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>, David Wei
- <dw@davidwei.uk>, Yue Haibing <yuehaibing@huawei.com>,
- Haiyue Wang <haiyuewa@163.com>, Jens Axboe <axboe@kernel.dk>,
- Simon Horman <horms@kernel.org>, Vishwanath Seshagiri <vishs@fb.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-kselftest@vger.kernel.org, dtatulea@nvidia.com,
- io-uring@vger.kernel.org
-References: <cover.1767819709.git.asml.silence@gmail.com>
- <e01023029e10a8ff72b5d85cb15e7863b3613ff4.1767819709.git.asml.silence@gmail.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <e01023029e10a8ff72b5d85cb15e7863b3613ff4.1767819709.git.asml.silence@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260109171805.901995-1-smostafa@google.com> <20260109171805.901995-4-smostafa@google.com>
+ <20260109195111.GQ545276@ziepe.ca> <CAFgf54r_au6isA10Nrve=MHL455X=tKhNsSwH1ej-TX08J3xLA@mail.gmail.com>
+ <20260112133256.GB745888@ziepe.ca> <CAFgf54psxPrsvujStPNtrzxiKOsJF+aVrN7BcNxxmAF4wDmRXA@mail.gmail.com>
+ <20260112135208.GD745888@ziepe.ca> <CAFgf54q+9Y5TtGJDB=8q_BW-0F=TM7zBbCcMzvtvr_N2WMnd-w@mail.gmail.com>
+ <746f5adb-1d91-4ca2-8ae0-a2d171203b66@kernel.org>
+In-Reply-To: <746f5adb-1d91-4ca2-8ae0-a2d171203b66@kernel.org>
+From: Mostafa Saleh <smostafa@google.com>
+Date: Tue, 13 Jan 2026 10:22:43 +0000
+X-Gm-Features: AZwV_QgLu7sBxIPXL9VWKxHh4_TpVGZL_EvYu3l8xKSz8ElTbsqiQ8JNqP1h6nI
+Message-ID: <CAFgf54pbkfdFr6biE8BiNKBnTBFWxXGmvxsZ0E+C1C44c9AW_g@mail.gmail.com>
+Subject: Re: [PATCH v6 3/4] iommu: debug-pagealloc: Track IOMMU pages
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-mm@kvack.org, iommu@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, 
+	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
+	Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/9/26 12:28 PM, Pavel Begunkov wrote:
-> @@ -4478,7 +4485,7 @@ static void bnxt_init_one_rx_agg_ring_rxbd(struct bnxt *bp,
->  	ring = &rxr->rx_agg_ring_struct;
->  	ring->fw_ring_id = INVALID_HW_RING_ID;
->  	if ((bp->flags & BNXT_FLAG_AGG_RINGS)) {
-> -		type = ((u32)BNXT_RX_PAGE_SIZE << RX_BD_LEN_SHIFT) |
-> +		type = ((u32)(u32)rxr->rx_page_size << RX_BD_LEN_SHIFT) |
+On Mon, Jan 12, 2026 at 7:12=E2=80=AFPM David Hildenbrand (Red Hat)
+<david@kernel.org> wrote:
+>
+> On 1/12/26 15:58, Mostafa Saleh wrote:
+> > On Mon, Jan 12, 2026 at 1:52=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> =
+wrote:
+> >>
+> >> On Mon, Jan 12, 2026 at 01:43:41PM +0000, Mostafa Saleh wrote:
+> >>> But I don=E2=80=99t see why not. from the documentation:
+> >>> /**
+> >>>   * pfn_valid - check if there is a valid memory map entry for a PFN
+> >>>   * @pfn: the page frame number to check
+> >>>   *
+> >>>   * Check if there is a valid memory map entry aka struct page for th=
+e @pfn.
+> >>>   * Note, that availability of the memory map entry does not imply th=
+at
+> >>>   * there is actual usable memory at that @pfn. The struct page may
+> >>>   * represent a hole or an unusable page frame.
+> >>> =E2=80=A6
+> >>>
+> >>> That means that struct page exists, which is all what we need here.
+> >>
+> >> A struct page that has never been initialize shouldn't ever be read. I
+> >> don't know how that relates to page_ext, but are you really sure that
+> >> is all you need?
+> >>
+> >
+> > AFAIU, if pfn_valid() returns true, it means the struct page is valid,
+> > and lookup_page_ext() will check that a valid page_ext exists for this
+> > entry.
+>
+> Not always. Offline memory blocks have a memory map but no page ext. We
+> allocate the page ext at memory onlining time.
+>
+> Also, I'm not sure about ZONE_DEVICE memory, very likely we never
+> allocate a page_ext for them?
+>
+> I'd assume both cases are not relevant for your use case, though.
+>
 
-Minor nit: duplicate cast above.
+From my understanding, in that case, page_ext_get() will return NULL.
 
-> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> index f5f07a7e6b29..4c880a9fba92 100644
-> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> @@ -1107,6 +1107,7 @@ struct bnxt_rx_ring_info {
->  
->  	unsigned long		*rx_agg_bmap;
->  	u16			rx_agg_bmap_size;
-> +	u16			rx_page_size;
+So, as long as struct page exists, page_ext_get won't misbehave.
 
-Any special reason for using u16 above? AFAICS using u32 will not change
-the struct size on 64 bit arches, and using u32 will likely yield better
-code.
+I am not sure about offline memory, but MMIO can be used. We use
+pfn_valid() before getting the struct page that we pass to page_ext.
+Would that be OK?
 
-/P
+Thanks,
+Mostafa
 
+
+> --
+> Cheers
+>
+> David
