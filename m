@@ -1,430 +1,141 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2A22F6925
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB3A30F94C
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768289771; cv=none; b=got1FtSSn4CiRqQZzTnKAA7tfaiNE7844Mpc1tfX93FRBOi/p+JwWGmZ7Eb0qecGQJ8Ne1+KcGs+fHMX9Ne9uhC0vYE1lKQaT4RLoxyORiXlWzBH8TlHcT+VMmQe4gbMir4UU4qRVdU44+IPBwzVyJovagiZZ79RY0ew+bS9BkE=
+	t=1768290376; cv=none; b=jjgpVOSlsb85pkVZQWlPVHil3dA+xgausH12HmC/fPpINqCWym1XpdrONg8MMAmWXMv3Mh+voMVQ8Xu963TDdlMI0piTyBDZVDBwRjZ+UjZ2y4P5zhUAJH9WNcXD7ek93KeIxDmwSEp2SP2Z9sdQzt4t63tKMXFgFT61N/kPdTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768289771; c=relaxed/simple;
-	bh=cD1gmgCMZ2kKsY2iSVlykludi8YdzF4sn4ccaRGgEW4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TjH1cQk/9qELEiR+3MOK03U9ywWybD89eRLNvnqknFHpImFEa1teLPIj9tafoEUxzaEL3mBN9oVUl6sp/pri3ZCNeZJmGjtl4+9O25k2w19mHKE20bzuDpoqBiEd7pobIzB/+SeJLhcfQFcdqgAmktS3SfNsjdH6VbFzIIXzPk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UdmXy+QH; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768290376; c=relaxed/simple;
+	bh=G/wZDvuQOJ/sIgMSogrhCI0LOUdTTDMoWlE7v4CDGBw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iOBowvrUj9IVGNW0ONBsd6iN+X2AbpKo2twwnPnbITlM5Cgm1Mm+O5gmGLDz+dnnRD66OHtuDbXPwcb/XRbZ9U6HZaDmz1DhP/mGDeELyPJK1hVkftCQRE8CAWwOYGBNq+eivJLv2Fp8JLG1j2MB3Ro3+GYMr4VKXHDSqrPDwuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=On/Uzie+; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UdmXy+QH"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4327778df7fso4517744f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 23:36:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="On/Uzie+"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a09757004cso66223625ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 23:46:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768289768; x=1768894568; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eUozRbnze9HzpC21A9V0Ws1+iVaj/6k577CuB99o4e0=;
-        b=UdmXy+QH1e7OlgjAv0ItCRvAhfpk/BnC/RF0654E178f8y7MRUcqRjMrMbQDbQsChl
-         gY6zgtrt4LxDIFNayujDCxK6jRBVI2GpeDYR7zX/+wIQP696UzGixV5CDw8t29BLwJBc
-         DeIFIzNahafIJTVBkD/bG/m2CPQcb6mdNDZJFa5ZcWpcX60sIStT+LVPRR7vfKN/SpxQ
-         3pVe34VFK8UPEmcrqQRmxdvTwyXDUYfRHHebRP6vVznYtPfGHodb28Umde+9uo4lz79B
-         tkvSCVT7Sk7W2W/y9zlOG7+W1k1ostJMvD914ArhWNfLAOEk8Ya9+p7SrAjninG59J/6
-         jyuA==
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768290371; x=1768895171; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sVxSFr5roBVYFLRhnAgNNp/8sMao7GowEf9CUckDDWw=;
+        b=On/Uzie+HCknzvJKw6z4ikjUIKR+F4aes6QTrWNxTQ61gXuF/H+G00dZIJUDAOEWjD
+         WDSbuVEYNMP0P1MXUbgmG/lnVDwekQWHQ2+Lg5wtW7EaTD65DK3HulnGY5R1tMT16C3d
+         SggF/SREUlGSAfMDLhdhYuGJPTUMjLj0gGIenP+CersPCCl4U1CbskPUmQrdztYvCaLM
+         uCW9s9fn8dojVdbk/q48zT4KkFkMcm2J3W0wX9vcEgZOCDXGIQEeiOA62W6p/McNXiYQ
+         qTA7GnnZjrcFegjBejoy50MhPUOmcyfk8Jzq9xgotbmVMwQr5qyvPQg/0vnpKyhZDZQ5
+         n5BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768289768; x=1768894568;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eUozRbnze9HzpC21A9V0Ws1+iVaj/6k577CuB99o4e0=;
-        b=RCeW2cbEFu45X4QyG7iT9zC2EtrzmPSlTGlnqvZ/Jihiki0utVuZFgjmQW3UUa3e9A
-         JVvtWH9MCTRaDKXlX2GvzAbjZ2frsSNDMMQp8aaG9WnoRWB051/GfcVI9Lm5+z+SeRsW
-         cFLSam8x/xwH9nclIOAC3XX0BRPAZ7B/OEoWOFs3NJj+fnWI8moe8NpgyOjZjwX4MS6f
-         g2wyNBNC59ytptd7J6v3sSogfRV4Ar4rS7STjK2v9k1xXeYqE0Ve4h+HFyHVRdP5KIqN
-         RQ4STaY1oTPB1nCrqEUxY3YpF5MFXBdZNQ4XiKHvXEYRdxraHeIrA3RLsRzBFgJqlXrB
-         RY+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVhaAZWMxtlrX204UVDCkFhoR7r9mSqr26Jm6bMzKGlUKqPi8T+T6gy+ke4IdJ6RbHDmZcX52GEbVs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxF+1InVEa+sBcA/RqOlbu3A1fDEaZChlb1jix1RMRMwJIFxb0N
-	vJKkvBJSqKkaiQ5gWI14Dm6v/hbdChjYYACfKav0EkM1hw48XTM6n8cvh4YlSHWRRwRhgb3uniS
-	Qia/e5xG0vGFqajz8rwizzXWQNMHJweQ=
-X-Gm-Gg: AY/fxX4/9U1qe7bHFMb5yZZBKL58bQTrEB47A5NgXesOy/OFpUTq3NMx8Syzvllq1St
-	ntmE8sE2niJDOvZlutMnilUYjFMgATR1G4wNNsp4QKgU4VV061gfGLAUKnvAtS7XF6O5EAytkQO
-	KEUjI7rnD6eg9dE4W5Q8i606/eBb1XmQAicaj7IVD8Sr+JgGkKcSq7yHhyMQ5xjAEpwUxu7MEwK
-	w7K78wb5AORD8Ms6N/9dTCYFLhFpjbY6+VTb0Ozhb3qulMETHdD8bDD/Ayf07r93c0s6tI=
-X-Google-Smtp-Source: AGHT+IH9RAgZVfoszvmI2rHlHQQ/65rwZdAI+w8Ko1vSjYRWtReTjlaib+Hvfplj6jXWv7FNxUvUF0QpMOELK4Wju5M=
-X-Received: by 2002:a05:6000:4301:b0:42b:5592:ebe6 with SMTP id
- ffacd0b85a97d-432c32f701cmr20640766f8f.0.1768289767408; Mon, 12 Jan 2026
- 23:36:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768290371; x=1768895171;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sVxSFr5roBVYFLRhnAgNNp/8sMao7GowEf9CUckDDWw=;
+        b=PZlDmoVKwLXIisn+Oqachytl2LTHLmwGCPTSxkmZs0T4OjTTJkbpoG2zmbRNfpObFA
+         4/82gUBwPwkUdHPATJA19u0dgoYNzAbJ0Wh1jYrkAGcRRm60oKCbbXlAFK/FCDyz8Vec
+         1wc8UL8Io11BpUvwGiFv35yyYnnjVeBo9oD7lCGIEPHK+LGsaczzjTRWLaEIV9J8EJct
+         A1FkIOYtXSJVnXd0ak6WPazIwdpjRaWPAitVbhEotRtov87B/jNFmMVASVLSLZHfwo6i
+         xsnTieCRaUJnWPEs9ipFRDLMEsdgZtgdrQCU0643DFwuoaQxs1XrgoPeKFvn9b35qryk
+         0IMA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVF0MW0/oydEnpRG1f/sIM5SAqSvKIWPaN6JmQpLQhnbyXEMF+hwXiQ2mzh+2D1J2humnYwXNpgOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxt4LkOwlJL8rbcJYdQYLzUwGwlMaJd1u8jCrah+ktZgHINRocL
+	uV/TycavxIlYcNh3weNQj+lA/uw7irFqrrZOjKIXChNhKPHpL+TpGZM9WgNynpmhnmY=
+X-Gm-Gg: AY/fxX6eUgaa4AC0MplTkC8YVT5wuZIb1ta0qlg5RrFMbXwlwJ6x3bOZdOQh3Nzi2aQ
+	VZOKcW89KBOv36KULwNDDjE/2Gb94AscUlSebPlyJnWC2E+7fXl8jtVMeQU1CQ5CgR56jzWHvR9
+	EsNOvHwy7MT7DIKjputgvNv6SLDoyY12MUAjNe/zHkP2ZipOkob4dDckHRSFEMCb3V1RVnxEb2w
+	gha/2gHlJfafoFesdt92QbQJXmy5TlGqqyr8OSjI6Ym/hEmu7T0oCHiDj3IgtTDqIRJuePdUe09
+	cZVGg4DQueLIF4DYZB8Go4Oh5/zCDYCYqdGOfYvANUvo5Xlf5FqZ6z+yR1o3M4llgzE+n/ORxD8
+	3yhMLgutIWsuuxxirhmNlgfoJjeVcFJdFkP/OZui44xvBAUAe3LBCFbhgHDAhDt0md+3QMJMBfJ
+	SjNbSiVxipvIyQ0aCKubGlIZWqWldwp8ISFlmxJdqDSHHDI5eb4blskg==
+X-Google-Smtp-Source: AGHT+IHbHcGmc6lMn+EQWcpZEtvrjvUz6htmK3Tb0lxfDS12q7Bh+oS5FfObSwVuTxLhekVSu4CkJg==
+X-Received: by 2002:a17:903:1a6b:b0:2a0:de4f:ca7 with SMTP id d9443c01a7336-2a3ee41516dmr200714135ad.1.1768290371623;
+        Mon, 12 Jan 2026 23:46:11 -0800 (PST)
+Received: from [127.0.1.1] ([45.8.220.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd4bd8sm190956165ad.102.2026.01.12.23.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 23:46:11 -0800 (PST)
+From: Guodong Xu <guodong@riscstar.com>
+Subject: [PATCH 0/2] riscv: dts: Add "b" ISA extension to existing
+ devicetrees
+Date: Tue, 13 Jan 2026 15:45:52 +0800
+Message-Id: <20260113-adding-b-dtsi-v1-0-22d6e55d19df@riscstar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260108203755.1163107-1-gourry@gourry.net> <20260108203755.1163107-8-gourry@gourry.net>
- <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
- <aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F> <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
-In-Reply-To: <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 13 Jan 2026 16:35:55 +0900
-X-Gm-Features: AZwV_QhbH32JBJthS6KlFQhKn8wWXAfJ1iISfNLvWOTOVFurrrg7BnRers1QG9U
-Message-ID: <CAKEwX=MftJXOE8H=m1C=_RVL8cu516efixTwcaQMBB9pdj=K+g@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
-To: Yosry Ahmed <yosry.ahmed@linux.dev>
-Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, cgroups@vger.kernel.org, 
-	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	kernel-team@meta.com, longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
-	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net, 
-	jonathan.cameron@huawei.com, dave.jiang@intel.com, alison.schofield@intel.com, 
-	vishal.l.verma@intel.com, ira.weiny@intel.com, dan.j.williams@intel.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, ziy@nvidia.com, david@kernel.org, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	yury.norov@gmail.com, linux@rasmusvillemoes.dk, rientjes@google.com, 
-	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com, 
-	shikemeng@huaweicloud.com, bhe@redhat.com, baohua@kernel.org, 
-	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	osalvador@suse.de, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	apopple@nvidia.com, cl@gentwo.org, harry.yoo@oracle.com, 
-	zhengqi.arch@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADD4ZWkC/y3NwQ6CMAyA4VchO1uzMRQhxvgehsNgHTaGoeskJ
+ oR3d4LHv2m/zoIxELKos1kEnIhp9CnULhPd3fgegWxqkcv8KJXSYKwl30MLNjKBKk6lKg5aO1m
+ KdPMM6Oizerdm64Cvd2LjNhQDMpuVrbPzX5Xw0NAapi6pMBUgwRZV7rTR0jlzDcQdRxP23Thcf
+ m/SLkKKgWKdefxE2CRZiWZZvrj2++7VAAAA
+X-Change-ID: 20260113-adding-b-dtsi-148714533f07
+To: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Conor Dooley <conor.dooley@microchip.com>, 
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+ Yixun Lan <dlan@gentoo.org>
+Cc: Palmer Dabbelt <palmer@rivosinc.com>, 
+ Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, sophgo@lists.linux.dev, 
+ spacemit@lists.linux.dev, Guodong Xu <guodong@riscstar.com>
+X-Mailer: b4 0.14.2
 
-On Tue, Jan 13, 2026 at 6:13=E2=80=AFAM Yosry Ahmed <yosry.ahmed@linux.dev>=
- wrote:
->
-> On Fri, Jan 09, 2026 at 04:40:08PM -0500, Gregory Price wrote:
-> > On Fri, Jan 09, 2026 at 04:00:00PM +0000, Yosry Ahmed wrote:
-> > > On Thu, Jan 08, 2026 at 03:37:54PM -0500, Gregory Price wrote:
-> > >
-> > > If the memory is byte-addressable, using it as a second tier makes it
-> > > directly accessible without page faults, so the access latency is muc=
-h
-> > > better than a swapped out page in zswap.
-> > >
-> > > Are there some HW limitations that allow a node to be used as a backe=
-nd
-> > > for zswap but not a second tier?
-> > >
-> >
-> > Coming back around - presumably any compressed node capable of hosting =
-a
-> > proper tier would be compatible with zswap, but you might have hardware
-> > which is sufficiently slow(er than dram, faster than storage) that usin=
-g
-> > it as a proper tier may be less efficient than incurring faults.
-> >
-> > The standard I've been using is 500ns+ cacheline fetches, but this is
-> > somewhat arbitrary.  Even 500ns might be better than accessing multi-us
-> > storage, but then when you add compression you might hit 600ns-1us.
-> >
-> > This is besides the point, and apologies for the wall of text below,
-> > feel free to skip this next section - writing out what hardware-specifi=
-c
-> > details I can share for the sake of completeness.
->
-> The wall of text is very helpful :)
->
-> >
-> >
-> > Some hardware details
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > The way every proposed piece of compressed memory hardware I have seen
-> > would operate is essentially by lying about its capacity to the
-> > operating system - and then providing mechanisms to determine when the
-> > compression ratio becomes is dropping to dangerous levels.
-> >
-> > Hardware Says : 8GB
-> > Hardware Has  : 1GB
-> > Node Capacity : 8GB
-> >
-> > The capacity numbers are static.  Even with hotplug, they must be
-> > considered static - because the runtime compression ratio can change.
-> >
-> > If the device fails to achieve a 4:1 compression ratio, and real usage
-> > starts to exceed real capacity - the system will fail.
-> > (dropped writes, poisons, machine checks, etc).
-> >
-> > We can mitigate this with strong write-controls and querying the device
-> > for compression ratio data prior to actually migrating a page.
->
-> I am a little bit confused about this. Why do we only need to query the
-> device before migrating the page?
->
-> Are we checking if the device has enough memory for the worst case
-> scenario (i.e. PAGE_SIZE)?
->
-> Or are we checking if the device can compress this specific page and
-> checking if it can compress it and store it? This seems like it could be
-> racy and there might be some throwaway work.
->
-> I guess my question is: why not just give the page to the device and get
-> either: successfully compressed and stored OR failed?
->
-> Another question, can the device or driver be configured such that we
-> reject pages that compress poorly to avoid wasting memory and BW on the
-> device for little savings?
->
-> >
-> > Why Zswap to start
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > ZSwap is an existing, clean read and write control path control.
-> >    - We fault on all accesses.
-> >    - It otherwise uses system memory under the hood (kmalloc)
-> >
-> > I decided to use zswap as a proving ground for the concept.  While the
-> > design in this patch is simplistic (and as you suggest below, can
-> > clearly be improved), it demonstrates the entire concept:
-> >
-> > on demotion:
-> > - allocate a page from private memory
-> > - ask the driver if it's safe to use
-> > - if safe -> migrate
-> >   if unsafe -> fallback
-> >
-> > on memory access:
-> > - "promote" to a real page
-> > - inform the driver the page has been released (zero or discard)
-> >
-> > As you point out, the real value in byte-accessible memory is leaving
-> > the memory mapped, the only difference on cram.c and zswap.c in the
-> > above pattern would be:
-> >
-> > on demotion:
-> > - allocate a page from private memory
-> > - ask the driver if it's safe to use
-> > - if safe -> migrate and remap the page as RO in page tables
-> >   if unsafe
-> >      -> trigger reclaim on cram node
-> >      -> fallback to another demotion
-> >
-> > on *write* access:
-> > - promote to real page
-> > - clean up the compressed page
->
-> This makes sense. I am assuming the main benefit of zswap.c over cram.c
-> in this scenario is limiting read accesses as well.
->
-> [..]
-> > > So the CXL code tells zswap what nodes are usable, then zswap tries
-> > > getting a page from these nodes and checking them using APIs provided=
- by
-> > > the CXL code.
-> > >
-> > > Wouldn't it be a better abstraction if the nodemask lived in the CXL
-> > > code and an API was exposed to zswap just to allocate a page to copy =
-to?
-> > > Or we can abstract the copy as well and provide an API that directly
-> > > tries to copy the page to the compressible node.
-> > >
-> > > IOW move zswap_compress_direct() (probably under a different name?) a=
-nd
-> > > zswap_direct_nodes into CXL code since it's not really zswap logic.
-> > >
-> > > Also, I am not sure if the zswap_compress_direct() call and check wou=
-ld
-> > > introduce any latency, since almost all existing callers will pay for=
- it
-> > > without benefiting.
-> > >
-> > > If we move the function into CXL code, we could probably have an inli=
-ne
-> > > wrapper in a header with a static key guarding it to make there is no
-> > > overhead for existing users.
-> > >
-> >
-> >
-> > CXL is also the wrong place to put it - cxl is just one potential
-> > source of such a node.  We'd want that abstracted...
-> >
-> > So this looks like a good use of memor-tiers.c - do dispatch there and
-> > have it set static branches for various features on node registration.
-> >
-> > struct page* mt_migrate_page_to(NODE_TYPE, src, &size);
-> > -> on success return dst page and the size of the page on hardware
-> >    (target_size would address your accounting notes below)
-> >
-> > Then have the migrate function in mt do all the node_private callbacks.
-> >
-> > So that would limit the zswap internal change to
-> >
-> > if (zswap_node_check()) { /* static branch check */
-> >     cpage =3D mt_migrate_page_to(NODE_PRIVATE_ZSWAP, src, &size);
-> >     if (compressed_page) {
-> >         entry->page_handle =3D cpage;
-> >         entry->length =3D size;
-> >         entry->direct =3D true;
-> >       return true;
-> >     }
-> > }
-> > /* Fallthrough */
->
-> Yeah I didn't necessarily mean CXL code, but whatever layer is
-> responsible for keeping track of which nodes can be used for what.
->
-> >
-> > ack. this is all great, thank you.
-> >
-> > ... snip ...
-> > > > entry->length =3D size
-> > >
-> > > I don't think this works. Setting entry->length =3D PAGE_SIZE will ca=
-use a
-> > > few problems, off the top of my head:
-> > >
-> > > 1. An entire page of memory will be charged to the memcg, so swapping
-> > > out the page won't reduce the memcg usage, which will cause thrashing
-> > > (reclaim with no progress when hitting the limit).
-> > >
-> > > Ideally we'd get the compressed length from HW and record it here to
-> > > charge it appropriately, but I am not sure how we actually want to
-> > > charge memory on a compressed node. Do we charge the compressed size =
-as
-> > > normal memory? Does it need separate charging and a separate limit?
-> > >
-> > > There are design discussions to be had before we commit to something.
-> >
-> > I have a feeling tracking individual page usage would be way too
-> > granular / inefficient, but I will consult with some folks on whether
-> > this can be quieried.  If so, we can add way to get that info.
-> >
-> > node_private_page_size(page) -> returns device reported page size.
-> >
-> > or work it directly into the migrate() call like above
-> >
-> > --- assuming there isn't a way and we have to deal with fuzzy math ---
-> >
-> > The goal should definitely be to leave the charging statistics the same
-> > from the perspective of services - i.e zswap should charge a whole page=
-,
-> > because according to the OS it just used a whole page.
-> >
-> > What this would mean is memcg would have to work with fuzzy data.
-> > If 1GB is charged and the compression ratio is 4:1, reclaim should
-> > operate (by way of callback) like it has used 256MB.
-> >
-> > I think this is the best you can do without tracking individual pages.
->
-> This part needs more thought. Zswap cannot charge a full page because
-> then from the memcg perspective reclaim is not making any progress.
-> OTOH, as you mention, from the system perspective we just consumed a
-> full page, so not charging that would be inconsistent.
->
-> This is not a zswap-specific thing though, even with cram.c we have to
-> figure out how to charge memory on the compressed node to the memcg.
-> It's perhaps not as much of a problem as with zswap because we are not
-> dealing with reclaim not making progress.
->
-> Maybe the memcg limits need to be "enlightened" about different tiers?
-> We did have such discussions in the past outside the context of
-> compressed memory, for memory tiering in general.
+The RISC-V "b" (Bit-manipulation) extension was ratified in April 2024,
+much later than its component extensions zba/zbb/zbs (June 2021). Recent
+updates to the device tree bindings [2] enforce that when all three
+component extensions are present, "b" must also be specified. Related
+discussion can also be found in [1].
 
-What if we add a reclaim flag that says "hey, we are hitting actual
-memory limit and need to make memory reclaim forward progress".
+Patch 1 clarifies the ISA spec version for canonical ordering in uabi.rst.
+It is a trivial update, but can help readers reference the correct
+document version.
 
-Then, we can have zswap skip compressed cxl backend and fall back to
-real compression.
+Patch 2 adds "b" after "c" in 3 device tree files (anlogic, sophgo and
+spacemit), fixing the related dtbs_check warnings.
 
-(Maybe also demotion, which only move memory from one node to another,
-as well as the new cram.c stuff? This will technically also save some
-wasted work, as in the status quo we will need to do a demotion pass
-first, before having to reclaiom memory from the bottom tier anyway?
-But not sure if we want this).
+This patchset is based on top of linux-next, tag: next-20260109, and
+depends on [2].
 
->
-> Not sure if this is the right place to discuss this, but I see the memcg
-> folks CC'd so maybe it is :)
->
-> >
-> > >
-> > > 2. The page will be incorrectly counted in
-> > > zswap_stored_incompressible_pages.
-> > >
-> >
-> > If we can track individual page size, then we can fix that.
-> >
-> > If we can't, then we'd need zswap_stored_direct_pages and to do the
-> > accounting a bit differently.  Probably want direct_pages accounting
-> > anyway, so i might just add that.
->
-> Yeah probably the easiest way to deal with this, assuming we keep
-> entry->length as PAGE_SIZE.
+Link: https://lore.kernel.org/all/20251230-imprison-sleet-6b5a1e26d34b@spud/ [1]
+Link: https://lore.kernel.org/all/20260110-k3-basic-dt-v4-0-d492f3a30ffa@riscstar.com/ [2]
 
-Yeah this one is no big deal. I like a new informative counter :)
+Signed-off-by: Guodong Xu <guodong@riscstar.com>
+---
+Guodong Xu (2):
+      Documentation: riscv: uabi: Clarify ISA spec version for canonical order
+      riscv: dts: Add "b" ISA extension to existing devicetrees
 
->
-> >
-> > > Aside from that, zswap_total_pages() will be wrong now, as it gets th=
-e
-> > > pool size from zsmalloc and these pages are not allocated from zsmall=
-oc.
-> > > This is used when checking the pool limits and is exposed in stats.
-> > >
-> >
-> > This is ignorance of zswap on my part, and yeah good point.  Will look
-> > into this accounting a little more.
->
-> This is similar-ish to the memcg charging problem, how do we count the
-> compressed memory usage toward the global zswap limit? Do we keep this
-> limit for the top-tier? If not, do we charge full size for pages in
-> c.zswap or compressed size?
->
-> Do we need a separate limit for c.zswap? Probably not if the whole node
-> is dedicated for zswap usage.
->
-> >
-> > > > +         memcpy_folio(folio, 0, zfolio, 0, PAGE_SIZE);
-> > >
-> > > Why are we using memcpy_folio() here but copy_mc_highpage() on the
-> > > compression path? Are they equivalent?
-> > >
-> >
-> > both are in include/linux/highmem.h
-> >
-> > I was avoiding page->folio conversions in the compression path because
-> > I had a struct page already.
-> >
-> > tl;dr: I'm still looking for the "right" way to do this.  I originally
-> > had a "HACK:" tag here previously but seems I definitely dropped it
-> > prematurely.
->
-> Not a big deal. An RFC or HACK or whatever tag just usually helps signal
-> to everyone (and more importantly, to Andrew) that this should not be
-> merged as-is.
->
-> >
-> > (I also think this code can be pushed into mt_ or callbacks)
->
-> Agreed.
->
-> >
-> > > > + if (entry->direct) {
-> > > > +         struct page *freepage =3D (struct page *)entry->handle;
-> > > > +
-> > > > +         node_private_freed(freepage);
-> > > > +         __free_page(freepage);
-> > > > + } else
-> > > > +         zs_free(pool->zs_pool, entry->handle);
-> > >
-> > > This code is repeated in zswap_entry_free(), we should probably wrap =
-it
-> > > in a helper that frees the private page or the zsmalloc entry based o=
-n
-> > > entry->direct.
-> > >
-> >
-> > ack.
-> >
-> > Thank you again for taking a look, this has been enlightening.  Good
-> > takeaways for the rest of the N_PRIVATE design.
->
-> Thanks for kicking off the discussion here, an interesting problem to
-> solve for sure :)
->
-> >
-> > I think we can minimize zswap changes even further given this.
-> >
-> > ~Gregory
+ Documentation/arch/riscv/uabi.rst           |   4 +-
+ arch/riscv/boot/dts/anlogic/dr1v90.dtsi     |   5 +-
+ arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi | 256 ++++++++++++++--------------
+ arch/riscv/boot/dts/spacemit/k1.dtsi        |  32 ++--
+ 4 files changed, 150 insertions(+), 147 deletions(-)
+---
+base-commit: 31d167f54de93f14fa8e4bc6cbc4adaf7019fd94
+change-id: 20260113-adding-b-dtsi-148714533f07
+prerequisite-message-id: <20260110-k3-basic-dt-v4-0-d492f3a30ffa@riscstar.com>
+prerequisite-patch-id: 0c859b4d131b3360875c795c6148c6176b55fb91
+prerequisite-patch-id: 2ed98dc1ab0f5ed923cc252415c345dc8caf6f17
+prerequisite-patch-id: 1be1a031763fac029076a768f012af31e455be66
+prerequisite-patch-id: 21bb8387c946e050910440e7a7622305d46d946d
+prerequisite-patch-id: f3bdc2c74b230663710086bd770a755d56cb8b9c
+prerequisite-patch-id: 1f162c02f8bdb5bbc8ce52ead4fcb76258f5c2b9
+prerequisite-patch-id: 76e1ff26c2f1fe4019cfa574942b568000e6ca1f
+prerequisite-patch-id: 77ddc9e5dc85495adc803cdc605bdda2ddc7fa47
+prerequisite-patch-id: a75c798383b46a14d40436357c769c3671184768
+prerequisite-patch-id: 781fc10dcae2c38c84c25bee887ef7474786dd36
+prerequisite-patch-id: 5be5d3e62aa73024bf9e1de6aad155be6d618f40
+
+Best regards,
+-- 
+Guodong Xu <guodong@riscstar.com>
+
