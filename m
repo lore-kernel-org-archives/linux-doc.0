@@ -1,212 +1,189 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC51E3806DD;
-	Tue, 13 Jan 2026 10:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2B03816EE
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 11:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301584; cv=none; b=Aac6RN4vgrPMwqsjSdbGYPUiiNkqVJAmL1/L+uaO0tS6mU5pXVUO6IKhk9Q5PPZOC5OGpytiUpf+3+BdSF08QWeKGNkZRrVWZ0Jhrb/7+zmCYqezOQ41Gw0PvMmZtJzXi8bw9PAUcK2cfn0r8IZLcgK/NLFKGZDnCp9TapWz7/M=
+	t=1768302058; cv=none; b=TRHqewuk4Jm6elkKur1VTW/lY3/4yCkgnhjnaIxwgBaTaVgyb9gAbcanwO4CpAkRaGJbtrpc/dj0jCI84XjFxQr1xA61LUGX2GlLbkGSpXa4EIoGVdeEpaIiSeCuYAQJgwq/yUx5JMfGsSdTK5FSQ3yMFpUsFsU/3DADbrtNhPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768301584; c=relaxed/simple;
-	bh=4ud7s/x//wWO9M9VSXwDrnbrgUVZaWyUIXKR42pioi8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jnr4s0bzFAg/ZUOHTNrQaokF/0maCukABjfC9ENCBYa6Avq6rCXCBtVLk1Twj+Xu3H7tj6iLVtwXL1IZm5srCxp9ZPDRCU7rgskWEbfRvhJyjbB7153bBRY/XpJMDj8siaTzRlWPLyGAnIDs3Wwlx4DvoGZovTkoMrhMLwYJMWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D8BD497;
-	Tue, 13 Jan 2026 02:52:55 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E56233F5A1;
-	Tue, 13 Jan 2026 02:52:58 -0800 (PST)
-Message-ID: <75ea1f3d-7589-4946-bffe-406459ee77d2@arm.com>
-Date: Tue, 13 Jan 2026 10:52:57 +0000
+	s=arc-20240116; t=1768302058; c=relaxed/simple;
+	bh=WiwQjWugRhk7kpSn8K7lpjlBaN+MQGbiBQVWkN1twpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uw7ApeNRiWIRl3UVonNU33c6Y2cOi5MxipCZ5nBT1Cc9LzSKnMDQBFi4YoqXx2cPeKtz5dCGdgsz810oQHhKxGTgPo/8CCXyOlIzve3aIMUxdrByHU9wUSKvyaMxVyFMfEfQKpa+oS88rEcd+34bWUDrcvqupXJOc1MT/tDwo0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QX2ufmJc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CJho0nAO; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=d0e0qvtG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SED9F9Mj; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QX2ufmJc";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CJho0nAO";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="d0e0qvtG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SED9F9Mj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E126833684;
+	Tue, 13 Jan 2026 11:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768302055;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ggc2Jp4TAzGqHUNJ156vzhpLuR5CExJb4jyEdujNCbY=;
+	b=QX2ufmJcuybsJXHDO8NaPQnTPjI015GW+WlHx6h6f5jkwmFQ77MTnVMU8V+LhUs233snqh
+	9d3fyQW8cefdKkSIPLrIPxThOx7f5m1IqYEHiFe3j1pcl7gnV1rHNS3jYbDAf2AF6hPIdd
+	UfZijxbqFLoA+ycIDNHlpZjFKhSulUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768302055;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ggc2Jp4TAzGqHUNJ156vzhpLuR5CExJb4jyEdujNCbY=;
+	b=CJho0nAOLVVWSfGNUaTIZbcVkC8/ro4+g6XUAnk/3qflQwholFd7WTpCVy7c10ddg/9KHH
+	63KyWjYSNM07l7DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=d0e0qvtG;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=SED9F9Mj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768302054;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ggc2Jp4TAzGqHUNJ156vzhpLuR5CExJb4jyEdujNCbY=;
+	b=d0e0qvtGSQ0+vKp+tt2pX0swPxuWWfMsJpV5BtK5Hcv4fb4LzaTpKLKmPr4sW7d5gYfZWa
+	RMYoQch+ym/uHYGKnJqcRz8y9mpLN4MItTAQS+s8xpNZSyAaAxa2lRt5JlaPTVJt2hlCwz
+	zbAZBRwyi4YsHhRqukUbzgk82tx/nNg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768302054;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ggc2Jp4TAzGqHUNJ156vzhpLuR5CExJb4jyEdujNCbY=;
+	b=SED9F9MjGCccpMvoS4co+C9ZjblBSbNKRJDudZXUoNunT7WXrysztVcMFUpnkW8uMhuYCU
+	JKpjhYRiLoioOSBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A92F83EA63;
+	Tue, 13 Jan 2026 11:00:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iQqgKOYlZml0ewAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Tue, 13 Jan 2026 11:00:54 +0000
+Date: Tue, 13 Jan 2026 12:00:53 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Michael Kerrisk <mtk@man7.org>,
+	Alejandro Colomar <alx@kernel.org>, man-pages@man7.org
+Subject: Re: [PATCH v2 2/3] Documentation: Remove :manpage: from non-existing
+ man pages
+Message-ID: <20260113110053.GA306468@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20260111233534.183272-1-pvorel@suse.cz>
+ <20260111233534.183272-3-pvorel@suse.cz>
+ <877btm2388.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 28/30] KVM: arm64: selftests: Skip impossible invalid
- value tests
-To: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
-Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
- Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Peter Maydell <peter.maydell@linaro.org>, Eric Auger <eric.auger@redhat.com>
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
- <20251223-kvm-arm64-sme-v9-28-8be3867cb883@kernel.org>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <20251223-kvm-arm64-sme-v9-28-8be3867cb883@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877btm2388.fsf@trenco.lwn.net>
+X-Spamd-Result: default: False [-3.71 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -3.71
+X-Rspamd-Queue-Id: E126833684
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-Hi Mark,
+> Petr Vorel <pvorel@suse.cz> writes:
 
-On 12/23/25 01:21, Mark Brown wrote:
-> The set_id_regs test currently assumes that there will always be invalid
-> values available in bitfields for it to generate but this may not be the
-> case if the architecture has defined meanings for every possible value for
-> the bitfield. An assert added in commit bf09ee918053e ("KVM: arm64:
-> selftests: Remove ARM64_FEATURE_FIELD_BITS and its last user") refuses to
-> run for single bit fields which will show the issue most readily but there
-> is no reason wider ones can't show the same issue.
-> 
-> Rework the tests for invalid value to check if an invalid value can be
-> generated and skip the test if not, removing the assert.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  tools/testing/selftests/kvm/arm64/set_id_regs.c | 58 ++++++++++++++++++++-----
->  1 file changed, 46 insertions(+), 12 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/kvm/arm64/set_id_regs.c b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-> index 322cd13b9352..641194c5005a 100644
-> --- a/tools/testing/selftests/kvm/arm64/set_id_regs.c
-> +++ b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-> @@ -318,11 +318,12 @@ uint64_t get_safe_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
->  }
->  
->  /* Return an invalid value to a given ftr_bits an ftr value */
-> -uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
-> +uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr,
-> +			   bool *skip)
->  {
->  	uint64_t ftr_max = ftr_bits->mask >> ftr_bits->shift;
->  
-> -	TEST_ASSERT(ftr_max > 1, "This test doesn't support single bit features");
-> +	*skip = false;
->  
->  	if (ftr_bits->sign == FTR_UNSIGNED) {
->  		switch (ftr_bits->type) {
-> @@ -330,42 +331,72 @@ uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
->  			ftr = max((uint64_t)ftr_bits->safe_val + 1, ftr + 1);
+> > Removing :manpage: from non-existing man pages (xyzzy(2), xyzzyat(2),
+> > fxyzzy(3) in adding-syscalls.rst, including translations) prevent
+> > adding link to nonexisting man pages when using manpages_url in next
+> > commit.
 
-Don't you want the check you've got in the signed case here to deal with
-safe_val or ftr being equal to ftr_max. In the 1 bit case we there won't
-be any invalid values if the safe_val and ftr are different.
+> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > ---
+> > New in v2.
 
->  			break;
->  		case FTR_LOWER_SAFE:
-> +			if (ftr == ftr_max)
-> +				*skip = true;
->  			ftr++;
->  			break;
->  		case FTR_HIGHER_SAFE:
-> +			if (ftr == 0)
-> +				*skip = true;
->  			ftr--;
->  			break;
->  		case FTR_HIGHER_OR_ZERO_SAFE:
-> -			if (ftr == 0)
-> +			switch (ftr) {
-> +			case 0:
->  				ftr = ftr_max;
-> -			else
-> +				break;
-> +			case 1:
-> +				*skip = true;
-> +				break;
-> +			default:
->  				ftr--;
-> -			break;
-> +				break;
-> +			}
+> >  Documentation/process/adding-syscalls.rst          | 14 +++++++-------
+> >  .../translations/it_IT/process/adding-syscalls.rst | 14 +++++++-------
+> >  .../translations/sp_SP/process/adding-syscalls.rst | 14 +++++++-------
+> >  3 files changed, 21 insertions(+), 21 deletions(-)
 
-Missing break for the outer switch statement.
+> > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> > index fc0b0bbcd34df..1f61d0b114120 100644
+> > --- a/Documentation/process/adding-syscalls.rst
+> > +++ b/Documentation/process/adding-syscalls.rst
+> > @@ -111,7 +111,7 @@ should use a file descriptor as the handle for that object -- don't invent a
+> >  new type of userspace object handle when the kernel already has mechanisms and
+> >  well-defined semantics for using file descriptors.
 
->  		default:
-> +			*skip = true;
->  			break;
->  		}
->  	} else if (ftr != ftr_max) {
->  		switch (ftr_bits->type) {
->  		case FTR_EXACT:
->  			ftr = max((uint64_t)ftr_bits->safe_val + 1, ftr + 1);
-> +			if (ftr > ftr_max)
-> +				*skip = true;
->  			break;
->  		case FTR_LOWER_SAFE:
-> -			ftr++;
-> +			if (ftr == ftr_max)
-> +				*skip = true;
+> > -If your new :manpage:`xyzzy(2)` system call does return a new file descriptor,
+> > +If your new `xyzzy(2)` system call does return a new file descriptor,
 
-This is the opposite condition of the enclosing else if.
+> Here, once again, you're retaining the backticks.  If we need to mark up
+> those references at all, they should be ``literal``.
 
-> +			else
-> +				ftr++;
->  			break;
->  		case FTR_HIGHER_SAFE:
-> -			ftr--;
-> -			break;
-> -		case FTR_HIGHER_OR_ZERO_SAFE:
->  			if (ftr == 0)
-> -				ftr = ftr_max - 1;
-> +				*skip = true;
+I'm sorry to keep the same mistake. BTW I did not notice because both real man
+pages a) without manpages_url:
 
-Isn't ftr_max, -1, invalid in FTR_HIGHER_SAFE case when ftr is 0. Also,
-need to check for the actual highest.
+<em class="manpage">read(2)</em>
 
->  			else
->  				ftr--;
->  			break;
-> +		case FTR_HIGHER_OR_ZERO_SAFE:
-> +			switch (ftr) {
-> +			case 0:
-> +				if (ftr_max > 1)
-> +					ftr = ftr_max - 1;
-> +				else
-> +					*skip = true;
-> +				break;
-> +			case 1:
-> +				*skip = true;
-> +				break;
-> +			default:
-> +				ftr--;
-> +				break;
-> +			break;
-> +			}
->  		default:
-> +			*skip = true;
->  			break;
->  		}
->  	} else {
-> -		ftr = 0;
-> +		*skip = true;
+b) with manpages_url:
 
-Why do we always skip when signed and ftr is -1? Wouldn't 0 be an
-invalid in the FTR_LOWER_SAFE case.
+<em class="manpage">
+<a class="manpage reference external" href="https://man7.org/linux/man-pages/man8/auditctl.8.html">auditctl(8)</a>
+</em>
 
->  	}
->  
->  	return ftr;
-> @@ -400,12 +431,15 @@ static void test_reg_set_fail(struct kvm_vcpu *vcpu, uint64_t reg,
->  	uint8_t shift = ftr_bits->shift;
->  	uint64_t mask = ftr_bits->mask;
->  	uint64_t val, old_val, ftr;
-> +	bool skip;
->  	int r;
->  
->  	val = vcpu_get_reg(vcpu, reg);
->  	ftr = (val & mask) >> shift;
->  
-> -	ftr = get_invalid_value(ftr_bits, ftr);
-> +	ftr = get_invalid_value(ftr_bits, ftr, &skip);
-> +	if (skip)
-> +		return;
->  
->  	old_val = val;
->  	ftr <<= shift;
-> 
+don't have specified CSS. And because my browser default has font-style: italic
+for <em>, I don't see any difference for :manpage:`read(2)` and `read(2)`.
 
+BTW I'll add in v3 CSS font-family: ..., monospace for manpages.
 
-Thanks,
+> (If you simply remove the backticks, you might run into conflict with
+> automarkup, though I *think* that the section number will evade its
+> regexp).
 
-Ben
+In my local build plain fxyzzy(3) without backticks works. I slightly prefer to
+not use double ``.
 
+Kind regards,
+Petr
+
+> Thanks,
+
+> jon
