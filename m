@@ -1,222 +1,430 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC932E54A3
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2A22F6925
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 07:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768289002; cv=none; b=Ol68NlLi6D36Kh8ecx1rt3yVNxV3tky4JoO4HFileJiba3vV/h/hckfw4cCBulE17kOTUF+rzk679mqoNdF8qqnwbCBJqfHnLsTz50XXOEuJaqnPg5vUI9B9KHhMRA/M22mWS0iuFeltSIw9Ni/JVpRh924WT3pjQIy31N3uHFE=
+	t=1768289771; cv=none; b=got1FtSSn4CiRqQZzTnKAA7tfaiNE7844Mpc1tfX93FRBOi/p+JwWGmZ7Eb0qecGQJ8Ne1+KcGs+fHMX9Ne9uhC0vYE1lKQaT4RLoxyORiXlWzBH8TlHcT+VMmQe4gbMir4UU4qRVdU44+IPBwzVyJovagiZZ79RY0ew+bS9BkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768289002; c=relaxed/simple;
-	bh=jCZOTQ0S4zPGrVewV7zNDwWTEanfwMTrGpGoODy9ROY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=plSB04IywF16nsdR7WUDhisJTnkDzyf9qBmAHjStd7X9fsfQ5S24F/ZtY+NFQa9SUuCx9S8uONa72pSC4WdurbcIATWGnPrF0geiNA64g62ajhhFG25QK3rsia4JWRNwzM9tl6W7f0Zh8zfPkf3eA7bD37A8m4xoSz4Cp6iqQlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TPfBOJIg; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1768289771; c=relaxed/simple;
+	bh=cD1gmgCMZ2kKsY2iSVlykludi8YdzF4sn4ccaRGgEW4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TjH1cQk/9qELEiR+3MOK03U9ywWybD89eRLNvnqknFHpImFEa1teLPIj9tafoEUxzaEL3mBN9oVUl6sp/pri3ZCNeZJmGjtl4+9O25k2w19mHKE20bzuDpoqBiEd7pobIzB/+SeJLhcfQFcdqgAmktS3SfNsjdH6VbFzIIXzPk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UdmXy+QH; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TPfBOJIg"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-430f57cd471so3534851f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 23:23:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UdmXy+QH"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4327778df7fso4517744f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 23:36:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768288999; x=1768893799; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1768289768; x=1768894568; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YEbfMOGmFF3KnEiYpptf/1+FNigGAulyjnzCIqxEBOU=;
-        b=TPfBOJIgrjKwtS0hbpOa+YFYudKlrR0CPcUtTfdEvzeeGkf75XE8p5OdMCp+xgNSUr
-         Em3jDJO4Lsxe5HJ/s68EtWjooy9yuBpYMojRsUEtrcnqb0GlX2/yWNCILSWys35oaI0+
-         BY+PokINPAVyhaz73SHbevjePMu4Z0Qc0nHDfHKdF/sscQwpjtciIxVlN3F7njfU7S0z
-         BH//oazgL9BxiOsuzX771XeAgdNqgurTA7TGX9AT+BqNK2MYiY+AvAtiliY6YJQiNLSP
-         SUNnG3Up14dd+6EQuGcl58SVYqS6LrdLuRdS0wiJ0m2Jk7OsdkAz5H0fimFeyn7gsqgQ
-         bodg==
+        bh=eUozRbnze9HzpC21A9V0Ws1+iVaj/6k577CuB99o4e0=;
+        b=UdmXy+QH1e7OlgjAv0ItCRvAhfpk/BnC/RF0654E178f8y7MRUcqRjMrMbQDbQsChl
+         gY6zgtrt4LxDIFNayujDCxK6jRBVI2GpeDYR7zX/+wIQP696UzGixV5CDw8t29BLwJBc
+         DeIFIzNahafIJTVBkD/bG/m2CPQcb6mdNDZJFa5ZcWpcX60sIStT+LVPRR7vfKN/SpxQ
+         3pVe34VFK8UPEmcrqQRmxdvTwyXDUYfRHHebRP6vVznYtPfGHodb28Umde+9uo4lz79B
+         tkvSCVT7Sk7W2W/y9zlOG7+W1k1ostJMvD914ArhWNfLAOEk8Ya9+p7SrAjninG59J/6
+         jyuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768288999; x=1768893799;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YEbfMOGmFF3KnEiYpptf/1+FNigGAulyjnzCIqxEBOU=;
-        b=fDAkmogbacKVqLvM8BbUYD0UIrc2NLegSbFb6Ruw4HUWJygdiDJp11axSeAgmdlv/A
-         EvUmmN+QPoO6Cis0tmuRxm1INbK5ZjSV8s1y0quonMHGHRIYhJ++hih8KujxIHo6KlwJ
-         pz5MI4eNuZPmOoYn0ftgu/9Ol/GaR5mVq29PEKvmxrglzYbIcPDa18VM8hR6SRjyguGx
-         TfTnmGwBxbrrZ4Q+uAVQkbqC2pIzE6SGgRHO8sTffgGaGzcAcLoLv0xBVse5UF61I70T
-         DIoyUn/Qoo8XAlY6A0G6Cs/knvdc1HtGWud4icsyJguXEgoxXV8f1xt2zTfZ76qu5H+2
-         eCAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWljIZvGpP3XFzeAvGLmb8zR9LKCKcIPxOpR1ZBfl0NHd/ExMnOV0dZeeNTpDkOu31TGQub3QpbGK8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN29UNtQP1hAA4eHNMJ+JOH+eHmLV6O/LFZUZwL9QQmYAwBOO+
-	ybPl4OcAoxK05yosJBXFj3FRjPWE97vfQxb2WkNZHpAiruhC+0uSezVF
-X-Gm-Gg: AY/fxX7YzmcwPEmRNEmL9XSJTYeRH3IAy+u4p/1eEW094rNXpg5+GAljtr/beQhTPmi
-	lbNB2iTt2/VUeZmmSHIs77rgd59/RQtaaUdyxJCLlhrD5etfbQ3RZK6aBepbQO8EyqZgKcYEwpf
-	/v/JlJj/LMk4zQP3Mkr/V9dKU8HvNrblGMEDRvdXJrLOCg878BtQOzsATPab9uhH9ZJWbhp45y/
-	WJ3bL7nwifKSsvyDf9ZzLw8A+4f2h7tEuzh9mc09mdoIL2UDXITFCNByrFBF+ZZWVK7Z73/sqwN
-	fHvZofL1eSKjz9khPr27WJsbYaEQNb91FLEKeA6ZZrGLkYYACw1k0Anp6lNPQ3M+JkqiOXJL0je
-	McTvTASBZalVaGzp39bGTl38phWeW+vJ7RFtj5deo2HhOIJ0aTF4VTZWXnnbujnsD58N1oI83MX
-	jDGbM9/is87UHnG2o+aBF4c5QfOa7scDEan8od75KmlrWSuKgPEvsBjnC/lDAbOkpjkRNqFfoZZ
-	Z7EhuI9TQOahKhKVbz/PQytx6enGk4kYV9BLNMDu2kqipHlG1iUgg==
-X-Google-Smtp-Source: AGHT+IFV42pk/BOqaBnb9I6uBmKsbIDQ/GvcmLOlMRG74oAZupSAMqRvBe/YcWOX7gd+PN5uttt4Jw==
-X-Received: by 2002:a05:6000:1448:b0:431:a0:7dea with SMTP id ffacd0b85a97d-432c374ff61mr26596396f8f.40.1768288999226;
-        Mon, 12 Jan 2026 23:23:19 -0800 (PST)
-Received: from ?IPV6:2003:ea:8f03:3800:3cc9:69c1:1a2a:f175? (p200300ea8f0338003cc969c11a2af175.dip0.t-ipconnect.de. [2003:ea:8f03:3800:3cc9:69c1:1a2a:f175])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e199bsm42227535f8f.16.2026.01.12.23.23.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 23:23:18 -0800 (PST)
-Message-ID: <ff8ac321-435c-48d0-b376-fbca80c0c22e@gmail.com>
-Date: Tue, 13 Jan 2026 08:23:17 +0100
+        d=1e100.net; s=20230601; t=1768289768; x=1768894568;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eUozRbnze9HzpC21A9V0Ws1+iVaj/6k577CuB99o4e0=;
+        b=RCeW2cbEFu45X4QyG7iT9zC2EtrzmPSlTGlnqvZ/Jihiki0utVuZFgjmQW3UUa3e9A
+         JVvtWH9MCTRaDKXlX2GvzAbjZ2frsSNDMMQp8aaG9WnoRWB051/GfcVI9Lm5+z+SeRsW
+         cFLSam8x/xwH9nclIOAC3XX0BRPAZ7B/OEoWOFs3NJj+fnWI8moe8NpgyOjZjwX4MS6f
+         g2wyNBNC59ytptd7J6v3sSogfRV4Ar4rS7STjK2v9k1xXeYqE0Ve4h+HFyHVRdP5KIqN
+         RQ4STaY1oTPB1nCrqEUxY3YpF5MFXBdZNQ4XiKHvXEYRdxraHeIrA3RLsRzBFgJqlXrB
+         RY+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVhaAZWMxtlrX204UVDCkFhoR7r9mSqr26Jm6bMzKGlUKqPi8T+T6gy+ke4IdJ6RbHDmZcX52GEbVs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxF+1InVEa+sBcA/RqOlbu3A1fDEaZChlb1jix1RMRMwJIFxb0N
+	vJKkvBJSqKkaiQ5gWI14Dm6v/hbdChjYYACfKav0EkM1hw48XTM6n8cvh4YlSHWRRwRhgb3uniS
+	Qia/e5xG0vGFqajz8rwizzXWQNMHJweQ=
+X-Gm-Gg: AY/fxX4/9U1qe7bHFMb5yZZBKL58bQTrEB47A5NgXesOy/OFpUTq3NMx8Syzvllq1St
+	ntmE8sE2niJDOvZlutMnilUYjFMgATR1G4wNNsp4QKgU4VV061gfGLAUKnvAtS7XF6O5EAytkQO
+	KEUjI7rnD6eg9dE4W5Q8i606/eBb1XmQAicaj7IVD8Sr+JgGkKcSq7yHhyMQ5xjAEpwUxu7MEwK
+	w7K78wb5AORD8Ms6N/9dTCYFLhFpjbY6+VTb0Ozhb3qulMETHdD8bDD/Ayf07r93c0s6tI=
+X-Google-Smtp-Source: AGHT+IH9RAgZVfoszvmI2rHlHQQ/65rwZdAI+w8Ko1vSjYRWtReTjlaib+Hvfplj6jXWv7FNxUvUF0QpMOELK4Wju5M=
+X-Received: by 2002:a05:6000:4301:b0:42b:5592:ebe6 with SMTP id
+ ffacd0b85a97d-432c32f701cmr20640766f8f.0.1768289767408; Mon, 12 Jan 2026
+ 23:36:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, David Miller <davem@davemloft.net>,
- Jonathan Corbet <corbet@lwn.net>, Simon Horman <horms@kernel.org>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- linux-doc@vger.kernel.org
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH v2 net-next] net: phy: remove unused fixup unregistering
- functions
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260108203755.1163107-1-gourry@gourry.net> <20260108203755.1163107-8-gourry@gourry.net>
+ <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
+ <aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F> <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
+In-Reply-To: <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 13 Jan 2026 16:35:55 +0900
+X-Gm-Features: AZwV_QhbH32JBJthS6KlFQhKn8wWXAfJ1iISfNLvWOTOVFurrrg7BnRers1QG9U
+Message-ID: <CAKEwX=MftJXOE8H=m1C=_RVL8cu516efixTwcaQMBB9pdj=K+g@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
+To: Yosry Ahmed <yosry.ahmed@linux.dev>
+Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, cgroups@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	kernel-team@meta.com, longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
+	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net, 
+	jonathan.cameron@huawei.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	vishal.l.verma@intel.com, ira.weiny@intel.com, dan.j.williams@intel.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, ziy@nvidia.com, david@kernel.org, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+	yury.norov@gmail.com, linux@rasmusvillemoes.dk, rientjes@google.com, 
+	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com, 
+	shikemeng@huaweicloud.com, bhe@redhat.com, baohua@kernel.org, 
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	osalvador@suse.de, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	apopple@nvidia.com, cl@gentwo.org, harry.yoo@oracle.com, 
+	zhengqi.arch@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No user of PHY fixups unregisters these. IOW: The fixup unregistering
-functions are unused and can be removed. Remove also documentation
-for these functions. Whilst at it, remove also mentioning of
-phy_register_fixup() from the Documentation, as this function has been
-static since ea47e70e476f ("net: phy: remove fixup-related definitions
-from phy.h which are not used outside phylib").
+On Tue, Jan 13, 2026 at 6:13=E2=80=AFAM Yosry Ahmed <yosry.ahmed@linux.dev>=
+ wrote:
+>
+> On Fri, Jan 09, 2026 at 04:40:08PM -0500, Gregory Price wrote:
+> > On Fri, Jan 09, 2026 at 04:00:00PM +0000, Yosry Ahmed wrote:
+> > > On Thu, Jan 08, 2026 at 03:37:54PM -0500, Gregory Price wrote:
+> > >
+> > > If the memory is byte-addressable, using it as a second tier makes it
+> > > directly accessible without page faults, so the access latency is muc=
+h
+> > > better than a swapped out page in zswap.
+> > >
+> > > Are there some HW limitations that allow a node to be used as a backe=
+nd
+> > > for zswap but not a second tier?
+> > >
+> >
+> > Coming back around - presumably any compressed node capable of hosting =
+a
+> > proper tier would be compatible with zswap, but you might have hardware
+> > which is sufficiently slow(er than dram, faster than storage) that usin=
+g
+> > it as a proper tier may be less efficient than incurring faults.
+> >
+> > The standard I've been using is 500ns+ cacheline fetches, but this is
+> > somewhat arbitrary.  Even 500ns might be better than accessing multi-us
+> > storage, but then when you add compression you might hit 600ns-1us.
+> >
+> > This is besides the point, and apologies for the wall of text below,
+> > feel free to skip this next section - writing out what hardware-specifi=
+c
+> > details I can share for the sake of completeness.
+>
+> The wall of text is very helpful :)
+>
+> >
+> >
+> > Some hardware details
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > The way every proposed piece of compressed memory hardware I have seen
+> > would operate is essentially by lying about its capacity to the
+> > operating system - and then providing mechanisms to determine when the
+> > compression ratio becomes is dropping to dangerous levels.
+> >
+> > Hardware Says : 8GB
+> > Hardware Has  : 1GB
+> > Node Capacity : 8GB
+> >
+> > The capacity numbers are static.  Even with hotplug, they must be
+> > considered static - because the runtime compression ratio can change.
+> >
+> > If the device fails to achieve a 4:1 compression ratio, and real usage
+> > starts to exceed real capacity - the system will fail.
+> > (dropped writes, poisons, machine checks, etc).
+> >
+> > We can mitigate this with strong write-controls and querying the device
+> > for compression ratio data prior to actually migrating a page.
+>
+> I am a little bit confused about this. Why do we only need to query the
+> device before migrating the page?
+>
+> Are we checking if the device has enough memory for the worst case
+> scenario (i.e. PAGE_SIZE)?
+>
+> Or are we checking if the device can compress this specific page and
+> checking if it can compress it and store it? This seems like it could be
+> racy and there might be some throwaway work.
+>
+> I guess my question is: why not just give the page to the device and get
+> either: successfully compressed and stored OR failed?
+>
+> Another question, can the device or driver be configured such that we
+> reject pages that compress poorly to avoid wasting memory and BW on the
+> device for little savings?
+>
+> >
+> > Why Zswap to start
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > ZSwap is an existing, clean read and write control path control.
+> >    - We fault on all accesses.
+> >    - It otherwise uses system memory under the hood (kmalloc)
+> >
+> > I decided to use zswap as a proving ground for the concept.  While the
+> > design in this patch is simplistic (and as you suggest below, can
+> > clearly be improved), it demonstrates the entire concept:
+> >
+> > on demotion:
+> > - allocate a page from private memory
+> > - ask the driver if it's safe to use
+> > - if safe -> migrate
+> >   if unsafe -> fallback
+> >
+> > on memory access:
+> > - "promote" to a real page
+> > - inform the driver the page has been released (zero or discard)
+> >
+> > As you point out, the real value in byte-accessible memory is leaving
+> > the memory mapped, the only difference on cram.c and zswap.c in the
+> > above pattern would be:
+> >
+> > on demotion:
+> > - allocate a page from private memory
+> > - ask the driver if it's safe to use
+> > - if safe -> migrate and remap the page as RO in page tables
+> >   if unsafe
+> >      -> trigger reclaim on cram node
+> >      -> fallback to another demotion
+> >
+> > on *write* access:
+> > - promote to real page
+> > - clean up the compressed page
+>
+> This makes sense. I am assuming the main benefit of zswap.c over cram.c
+> in this scenario is limiting read accesses as well.
+>
+> [..]
+> > > So the CXL code tells zswap what nodes are usable, then zswap tries
+> > > getting a page from these nodes and checking them using APIs provided=
+ by
+> > > the CXL code.
+> > >
+> > > Wouldn't it be a better abstraction if the nodemask lived in the CXL
+> > > code and an API was exposed to zswap just to allocate a page to copy =
+to?
+> > > Or we can abstract the copy as well and provide an API that directly
+> > > tries to copy the page to the compressible node.
+> > >
+> > > IOW move zswap_compress_direct() (probably under a different name?) a=
+nd
+> > > zswap_direct_nodes into CXL code since it's not really zswap logic.
+> > >
+> > > Also, I am not sure if the zswap_compress_direct() call and check wou=
+ld
+> > > introduce any latency, since almost all existing callers will pay for=
+ it
+> > > without benefiting.
+> > >
+> > > If we move the function into CXL code, we could probably have an inli=
+ne
+> > > wrapper in a header with a static key guarding it to make there is no
+> > > overhead for existing users.
+> > >
+> >
+> >
+> > CXL is also the wrong place to put it - cxl is just one potential
+> > source of such a node.  We'd want that abstracted...
+> >
+> > So this looks like a good use of memor-tiers.c - do dispatch there and
+> > have it set static branches for various features on node registration.
+> >
+> > struct page* mt_migrate_page_to(NODE_TYPE, src, &size);
+> > -> on success return dst page and the size of the page on hardware
+> >    (target_size would address your accounting notes below)
+> >
+> > Then have the migrate function in mt do all the node_private callbacks.
+> >
+> > So that would limit the zswap internal change to
+> >
+> > if (zswap_node_check()) { /* static branch check */
+> >     cpage =3D mt_migrate_page_to(NODE_PRIVATE_ZSWAP, src, &size);
+> >     if (compressed_page) {
+> >         entry->page_handle =3D cpage;
+> >         entry->length =3D size;
+> >         entry->direct =3D true;
+> >       return true;
+> >     }
+> > }
+> > /* Fallthrough */
+>
+> Yeah I didn't necessarily mean CXL code, but whatever layer is
+> responsible for keeping track of which nodes can be used for what.
+>
+> >
+> > ack. this is all great, thank you.
+> >
+> > ... snip ...
+> > > > entry->length =3D size
+> > >
+> > > I don't think this works. Setting entry->length =3D PAGE_SIZE will ca=
+use a
+> > > few problems, off the top of my head:
+> > >
+> > > 1. An entire page of memory will be charged to the memcg, so swapping
+> > > out the page won't reduce the memcg usage, which will cause thrashing
+> > > (reclaim with no progress when hitting the limit).
+> > >
+> > > Ideally we'd get the compressed length from HW and record it here to
+> > > charge it appropriately, but I am not sure how we actually want to
+> > > charge memory on a compressed node. Do we charge the compressed size =
+as
+> > > normal memory? Does it need separate charging and a separate limit?
+> > >
+> > > There are design discussions to be had before we commit to something.
+> >
+> > I have a feeling tracking individual page usage would be way too
+> > granular / inefficient, but I will consult with some folks on whether
+> > this can be quieried.  If so, we can add way to get that info.
+> >
+> > node_private_page_size(page) -> returns device reported page size.
+> >
+> > or work it directly into the migrate() call like above
+> >
+> > --- assuming there isn't a way and we have to deal with fuzzy math ---
+> >
+> > The goal should definitely be to leave the charging statistics the same
+> > from the perspective of services - i.e zswap should charge a whole page=
+,
+> > because according to the OS it just used a whole page.
+> >
+> > What this would mean is memcg would have to work with fuzzy data.
+> > If 1GB is charged and the compression ratio is 4:1, reclaim should
+> > operate (by way of callback) like it has used 256MB.
+> >
+> > I think this is the best you can do without tracking individual pages.
+>
+> This part needs more thought. Zswap cannot charge a full page because
+> then from the memcg perspective reclaim is not making any progress.
+> OTOH, as you mention, from the system perspective we just consumed a
+> full page, so not charging that would be inconsistent.
+>
+> This is not a zswap-specific thing though, even with cram.c we have to
+> figure out how to charge memory on the compressed node to the memcg.
+> It's perhaps not as much of a problem as with zswap because we are not
+> dealing with reclaim not making progress.
+>
+> Maybe the memcg limits need to be "enlightened" about different tiers?
+> We did have such discussions in the past outside the context of
+> compressed memory, for memory tiering in general.
 
-Fixup unregistering functions were added with f38e7a32ee4f
-("phy: add phy fixup unregister functions") in 2016, and last user
-was removed with 6782d06a47ad ("net: usb: lan78xx: Remove KSZ9031 PHY
-fixup") in 2024.
+What if we add a reclaim flag that says "hey, we are hitting actual
+memory limit and need to make memory reclaim forward progress".
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
-v2:
-- improve commit message
-- remove related documentation
-- remove also phy_register_fixup from documentation
----
- Documentation/networking/phy.rst | 22 +--------------
- drivers/net/phy/phy_device.c     | 46 --------------------------------
- include/linux/phy.h              |  4 ---
- 3 files changed, 1 insertion(+), 71 deletions(-)
+Then, we can have zswap skip compressed cxl backend and fall back to
+real compression.
 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-index b0f2ef83735..0170c9d4dc5 100644
---- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -524,33 +524,13 @@ When a match is found, the PHY layer will invoke the run function associated
- with the fixup.  This function is passed a pointer to the phy_device of
- interest.  It should therefore only operate on that PHY.
- 
--The platform code can either register the fixup using phy_register_fixup()::
--
--	int phy_register_fixup(const char *phy_id,
--		u32 phy_uid, u32 phy_uid_mask,
--		int (*run)(struct phy_device *));
--
--Or using one of the two stubs, phy_register_fixup_for_uid() and
--phy_register_fixup_for_id()::
-+The platform code can register the fixup using one of::
- 
-  int phy_register_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask,
- 		int (*run)(struct phy_device *));
-  int phy_register_fixup_for_id(const char *phy_id,
- 		int (*run)(struct phy_device *));
- 
--The stubs set one of the two matching criteria, and set the other one to
--match anything.
--
--When phy_register_fixup() or \*_for_uid()/\*_for_id() is called at module load
--time, the module needs to unregister the fixup and free allocated memory when
--it's unloaded.
--
--Call one of following function before unloading module::
--
-- int phy_unregister_fixup(const char *phy_id, u32 phy_uid, u32 phy_uid_mask);
-- int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask);
-- int phy_register_fixup_for_id(const char *phy_id);
--
- Standards
- =========
- 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 81984d4ebb7..95f5bb3ab59 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -474,52 +474,6 @@ int phy_register_fixup_for_id(const char *bus_id,
- }
- EXPORT_SYMBOL(phy_register_fixup_for_id);
- 
--/**
-- * phy_unregister_fixup - remove a phy_fixup from the list
-- * @bus_id: A string matches fixup->bus_id (or PHY_ANY_ID) in phy_fixup_list
-- * @phy_uid: A phy id matches fixup->phy_id (or PHY_ANY_UID) in phy_fixup_list
-- * @phy_uid_mask: Applied to phy_uid and fixup->phy_uid before comparison
-- */
--int phy_unregister_fixup(const char *bus_id, u32 phy_uid, u32 phy_uid_mask)
--{
--	struct list_head *pos, *n;
--	struct phy_fixup *fixup;
--	int ret;
--
--	ret = -ENODEV;
--
--	mutex_lock(&phy_fixup_lock);
--	list_for_each_safe(pos, n, &phy_fixup_list) {
--		fixup = list_entry(pos, struct phy_fixup, list);
--
--		if ((!strcmp(fixup->bus_id, bus_id)) &&
--		    phy_id_compare(fixup->phy_uid, phy_uid, phy_uid_mask)) {
--			list_del(&fixup->list);
--			kfree(fixup);
--			ret = 0;
--			break;
--		}
--	}
--	mutex_unlock(&phy_fixup_lock);
--
--	return ret;
--}
--EXPORT_SYMBOL(phy_unregister_fixup);
--
--/* Unregisters a fixup of any PHY with the UID in phy_uid */
--int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask)
--{
--	return phy_unregister_fixup(PHY_ANY_ID, phy_uid, phy_uid_mask);
--}
--EXPORT_SYMBOL(phy_unregister_fixup_for_uid);
--
--/* Unregisters a fixup of the PHY with id string bus_id */
--int phy_unregister_fixup_for_id(const char *bus_id)
--{
--	return phy_unregister_fixup(bus_id, PHY_ANY_UID, 0xffffffff);
--}
--EXPORT_SYMBOL(phy_unregister_fixup_for_id);
--
- /* Returns 1 if fixup matches phydev in bus_id and phy_uid.
-  * Fixups can be set to match any in one or more fields.
-  */
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index fbbe028cc4b..082612ee954 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -2356,10 +2356,6 @@ int phy_register_fixup_for_id(const char *bus_id,
- int phy_register_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask,
- 			       int (*run)(struct phy_device *));
- 
--int phy_unregister_fixup(const char *bus_id, u32 phy_uid, u32 phy_uid_mask);
--int phy_unregister_fixup_for_id(const char *bus_id);
--int phy_unregister_fixup_for_uid(u32 phy_uid, u32 phy_uid_mask);
--
- int phy_eee_tx_clock_stop_capable(struct phy_device *phydev);
- int phy_eee_rx_clock_stop(struct phy_device *phydev, bool clk_stop_enable);
- int phy_init_eee(struct phy_device *phydev, bool clk_stop_enable);
--- 
-2.52.0
+(Maybe also demotion, which only move memory from one node to another,
+as well as the new cram.c stuff? This will technically also save some
+wasted work, as in the status quo we will need to do a demotion pass
+first, before having to reclaiom memory from the bottom tier anyway?
+But not sure if we want this).
 
+>
+> Not sure if this is the right place to discuss this, but I see the memcg
+> folks CC'd so maybe it is :)
+>
+> >
+> > >
+> > > 2. The page will be incorrectly counted in
+> > > zswap_stored_incompressible_pages.
+> > >
+> >
+> > If we can track individual page size, then we can fix that.
+> >
+> > If we can't, then we'd need zswap_stored_direct_pages and to do the
+> > accounting a bit differently.  Probably want direct_pages accounting
+> > anyway, so i might just add that.
+>
+> Yeah probably the easiest way to deal with this, assuming we keep
+> entry->length as PAGE_SIZE.
+
+Yeah this one is no big deal. I like a new informative counter :)
+
+>
+> >
+> > > Aside from that, zswap_total_pages() will be wrong now, as it gets th=
+e
+> > > pool size from zsmalloc and these pages are not allocated from zsmall=
+oc.
+> > > This is used when checking the pool limits and is exposed in stats.
+> > >
+> >
+> > This is ignorance of zswap on my part, and yeah good point.  Will look
+> > into this accounting a little more.
+>
+> This is similar-ish to the memcg charging problem, how do we count the
+> compressed memory usage toward the global zswap limit? Do we keep this
+> limit for the top-tier? If not, do we charge full size for pages in
+> c.zswap or compressed size?
+>
+> Do we need a separate limit for c.zswap? Probably not if the whole node
+> is dedicated for zswap usage.
+>
+> >
+> > > > +         memcpy_folio(folio, 0, zfolio, 0, PAGE_SIZE);
+> > >
+> > > Why are we using memcpy_folio() here but copy_mc_highpage() on the
+> > > compression path? Are they equivalent?
+> > >
+> >
+> > both are in include/linux/highmem.h
+> >
+> > I was avoiding page->folio conversions in the compression path because
+> > I had a struct page already.
+> >
+> > tl;dr: I'm still looking for the "right" way to do this.  I originally
+> > had a "HACK:" tag here previously but seems I definitely dropped it
+> > prematurely.
+>
+> Not a big deal. An RFC or HACK or whatever tag just usually helps signal
+> to everyone (and more importantly, to Andrew) that this should not be
+> merged as-is.
+>
+> >
+> > (I also think this code can be pushed into mt_ or callbacks)
+>
+> Agreed.
+>
+> >
+> > > > + if (entry->direct) {
+> > > > +         struct page *freepage =3D (struct page *)entry->handle;
+> > > > +
+> > > > +         node_private_freed(freepage);
+> > > > +         __free_page(freepage);
+> > > > + } else
+> > > > +         zs_free(pool->zs_pool, entry->handle);
+> > >
+> > > This code is repeated in zswap_entry_free(), we should probably wrap =
+it
+> > > in a helper that frees the private page or the zsmalloc entry based o=
+n
+> > > entry->direct.
+> > >
+> >
+> > ack.
+> >
+> > Thank you again for taking a look, this has been enlightening.  Good
+> > takeaways for the rest of the N_PRIVATE design.
+>
+> Thanks for kicking off the discussion here, an interesting problem to
+> solve for sure :)
+>
+> >
+> > I think we can minimize zswap changes even further given this.
+> >
+> > ~Gregory
