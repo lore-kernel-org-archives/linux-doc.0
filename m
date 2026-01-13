@@ -1,257 +1,293 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD24C1BCA1C;
-	Tue, 13 Jan 2026 01:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768267086; cv=fail; b=h5DmYb/PoC8+2z1JZcvLoggENujfg27HLeeVPIerZFjQqSBCJW0NX1g4A++jwvEMX/kduE64uK/MrgTY/+4NtthXksW/PtOTJgFdh8wgUguQdkMyuzthLRaxtipcCJ/I5M4eHJT/LtbjGhXhV2j8Pr9Kz30YqCIrDys2hjkLkd4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768267086; c=relaxed/simple;
-	bh=l2j+VwGEUNNoWWvXu9iLfUYtvnOqjVF4tYiE/3AtpPg=;
-	h=From:Date:To:CC:Message-ID:In-Reply-To:References:Subject:
-	 Content-Type:MIME-Version; b=CbBCFs8YEt3QO2Sm2iK8X+Li00kanU3BHJhjq/JXAO+UxnzRnYAG/it5fqjiMZtgfl5VdbbJy2ZkCC/FneIYKcPEtww8ygMyIjuMFZRZQ+TC7vwLIsSn/TkYuES1iAjfP4N3pkV4t1vJkvfnZwTMtyaTWM4CNUaU3k+jS1u6BbE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivOR1L0q; arc=fail smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25B026CE39
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 01:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768267321; cv=none; b=Lc2rLBE1q8JQ01YYZOcHh+2H5eoYovqgSX2VVOLZOhWBlFMXzyG1abO/Bq8CmoMjArdj0RvtIgFgVGYl1O6MZxvouzI4rGg96J1+uZUo8LHgp4nW+ZMyasEOJLzlQ4NKKuR5nol3zCSWGxo7U2poyi9gLBgVfvd10svawZ8V0nw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768267321; c=relaxed/simple;
+	bh=v/UT6HDT+7vlL3p425i3RakRTg7lpwMZN+O5x0sx87k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sR+yhHrQfrLi4A6OX0/3TY3beUwv4Ue9ZQkGOp79MezhCsE+ABNIAMFzRAdTlpTViaU2CiYNalhMSj3ihoVg7+yzLAjbFTLtKF6zh+z9jj7kxwqMQRK2lDM9ch2ptalVGErrcqiQ7eVQ2BkGxujKOEart/SdAUTbZ/h6fl1yCqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nVRuLMDS; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivOR1L0q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768267085; x=1799803085;
-  h=from:date:to:cc:message-id:in-reply-to:references:
-   subject:content-transfer-encoding:mime-version;
-  bh=l2j+VwGEUNNoWWvXu9iLfUYtvnOqjVF4tYiE/3AtpPg=;
-  b=ivOR1L0q8agt2dif8b/NmwRdhW98vssYei637kzwIQPGbFWcYaIn18Xf
-   7h83TzYMui+1DVwBeQVowUGhW6IccCCziuw/tAUdp6jyNRKB6nuNhnyue
-   FI1KB9nKa2EryReGsTHd4lS2BRtAOBy5NRMYCvWsj93UdfWO7BZiRMI3B
-   OK0qArhHz5d0dOpYt45h9ENtbzLck57R9N5MeShB0XjglsUtIJ3ev3gLj
-   MoUDX08BdRdIGoAchOCnMBXHpzYl69YyakqVfh1v6k8BSVM0+xO/BL3Ck
-   WiU5eWGuL/6zi9TOttRCmnMxXb5yeWGAu3QhsxJAwn8NmvY9DNDbhdIqK
-   w==;
-X-CSE-ConnectionGUID: Afr8WyB2QdemR0JY1GNECw==
-X-CSE-MsgGUID: WhngSihfSq++BQ+zj1gDdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87129674"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="87129674"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 17:18:03 -0800
-X-CSE-ConnectionGUID: tyVFO71QQTKU5CJEmIoTHw==
-X-CSE-MsgGUID: tNoWa8L+QfaEWoA2qZoBDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208713289"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 17:18:02 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 12 Jan 2026 17:18:02 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 12 Jan 2026 17:18:02 -0800
-Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.31) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 12 Jan 2026 17:18:01 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=biQ7DMM5XnTOSluiE9nLsZfE19x+q6Bo5K6ecycHW3mkTW4cnrK5O1Nhp9rCoraFMnAlXj0cpt2C8YxNvdMPXnbK8SjsvUL684zufto+HKzAB7eXXaZoHoiB9LCYwWEq9FTrYPK0IgOJxyesLzlx0apXimwSu7j2AZ02iVVV/IGqnmAQKLN6ddIfryrSBr2esgdoEWblQm5hVRcMn0gAqZqJfPy09lV6LKVmXuhH0EWd17Fp8DWEZZ1EF5ngRk5TwjePFLAvA95Rhq70xcYOzYCJpPjKPIc8SOWPQXR2VDlyypZdfeqp0MfE1MdPAAFiNv+ynjAK40jVyd6peLgLNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BUtU8xyzTrKLTb7E3IujW/kqtsvgLxf5/cgkQss0Bw4=;
- b=TY249+PtIUTJE7y2yKQiR0064fqM+0mzsYHayIm2wI2vZ2IQiSB+5TLMP+wNDSPmZ0LW9vv0iqtHElKMUPyG543HIBb9cqQ4LY1/eqsdqJNJKfJ439RdSYGKi9voqm9ZPA9JYgUJoerTvNyGDGkoD0ZENj9RTFBhTUHL/9b8ZJcMl8tSv3/Ko9zjB703oKiY20xvDJ1Np0WEtvAm7HLlRbJypH/yqO2KIN8YHp+NrU8Fmg8WpRM74XVf3KkATyrijAJS9QZjNmxqYPGQCm2+vNpX/fL1W6lqTDSsd/slWVbymjPDL5oyaCu30L5W1novyt4MRPePeWS0TxmqJ7n/Gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by BL1PR11MB5270.namprd11.prod.outlook.com (2603:10b6:208:313::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Tue, 13 Jan
- 2026 01:17:55 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::1ff:1e09:994b:21ff]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::1ff:1e09:994b:21ff%4]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
- 01:17:55 +0000
-From: <dan.j.williams@intel.com>
-Date: Mon, 12 Jan 2026 17:17:53 -0800
-To: Gregory Price <gourry@gourry.net>, Balbir Singh <balbirs@nvidia.com>
-CC: <dan.j.williams@intel.com>, Yury Norov <ynorov@nvidia.com>,
-	<linux-mm@kvack.org>, <cgroups@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <kernel-team@meta.com>,
-	<longman@redhat.com>, <tj@kernel.org>, <hannes@cmpxchg.org>,
-	<mkoutny@suse.com>, <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
-	<rafael@kernel.org>, <dakr@kernel.org>, <dave@stgolabs.net>,
-	<jonathan.cameron@huawei.com>, <dave.jiang@intel.com>,
-	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
-	<ira.weiny@intel.com>, <akpm@linux-foundation.org>, <vbabka@suse.cz>,
-	<surenb@google.com>, <mhocko@suse.com>, <jackmanb@google.com>,
-	<ziy@nvidia.com>, <david@kernel.org>, <lorenzo.stoakes@oracle.com>,
-	<Liam.Howlett@oracle.com>, <rppt@kernel.org>, <axelrasmussen@google.com>,
-	<yuanchu@google.com>, <weixugc@google.com>, <yury.norov@gmail.com>,
-	<linux@rasmusvillemoes.dk>, <rientjes@google.com>, <shakeel.butt@linux.dev>,
-	<chrisl@kernel.org>, <kasong@tencent.com>, <shikemeng@huaweicloud.com>,
-	<nphamcs@gmail.com>, <bhe@redhat.com>, <baohua@kernel.org>,
-	<yosry.ahmed@linux.dev>, <chengming.zhou@linux.dev>,
-	<roman.gushchin@linux.dev>, <muchun.song@linux.dev>, <osalvador@suse.de>,
-	<matthew.brost@intel.com>, <joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>,
-	<byungchul@sk.com>, <ying.huang@linux.alibaba.com>, <apopple@nvidia.com>,
-	<cl@gentwo.org>, <harry.yoo@oracle.com>, <zhengqi.arch@bytedance.com>
-Message-ID: <69659d418650a_207181009a@dwillia2-mobl4.notmuch>
-In-Reply-To: <aWWGZVsY84D7YNu1@gourry-fedora-PF4VCD3F>
-References: <20260108203755.1163107-1-gourry@gourry.net>
- <6604d787-1744-4acf-80c0-e428fee1677e@nvidia.com>
- <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
- <aWUs8Fx2CG07F81e@yury>
- <696566a1e228d_2071810076@dwillia2-mobl4.notmuch>
- <e635e534-5aa6-485a-bd5c-7a0bc69f14f2@nvidia.com>
- <696571507b075_20718100d4@dwillia2-mobl4.notmuch>
- <966ce77a-c055-4ab8-9c40-d02de7b67895@nvidia.com>
- <aWWGZVsY84D7YNu1@gourry-fedora-PF4VCD3F>
-Subject: Re: [RFC PATCH v3 0/8] mm,numa: N_PRIVATE node isolation for
- device-managed memory
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ2PR07CA0020.namprd07.prod.outlook.com
- (2603:10b6:a03:505::19) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nVRuLMDS"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47ed987d51aso1651205e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:21:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768267318; x=1768872118; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V98bbCaXhvCSK3ORMF0ddg8nJ4GMw1PJ4T3czKQPpIM=;
+        b=nVRuLMDSe5MwvTq9Fp/lOITCNhwAnSU0vZ15DZQl3jFJobJq8EeFJirmddSzOjntkv
+         AQzq++6/WN1//d6w0ybqs80J83zMr3CFnwZe/OasgA3lB+I8CuRVS8r0SaHBFR91wOGT
+         9kdOUWNcdHUgMfODtvedMOo0g6rJ0+vmbDtLtYrQmcn5ZYMR8DyA16kUfBSNhuu9d2qb
+         mRCqBMNwP1yM2fzrgHwZblN6xsOTQ6iyMLG02D7bC3VpA8Bb5NIawhZd5OA0R/a/ehLq
+         wYcJCJNp4Zyj1rkG6d8rtXac/5U6PxJ4iJwtXoHQL2S34OGFGHrJmoNi5BzSlPkiNVwB
+         T2Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768267318; x=1768872118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=V98bbCaXhvCSK3ORMF0ddg8nJ4GMw1PJ4T3czKQPpIM=;
+        b=Xy1Lu3/8ySOiH2Db3g2sgZBd7IREJuPRAX25i98TEnEMDsesA8FUqFFjSlmrgjmrGi
+         BNDqfbUF7Kbzq+U8EuOBewxUstWIki0eEelRwGXOHl2lMygmif1/6WqcG2QCg53urmwK
+         Mk6xzZgBXTDXOyhGktMDVl1KpqQScJ7cTcS7GA2yPz65jyIhQwHX0R1hk19SXsX2xweo
+         MQue57ZIOyGmCvxFTjHjswZah/MJs/fJ1N42AF16TNDBaGHxnI4oN67zR4TEJFDsDeRW
+         QPQrz1Jc4RkBbQxZHxnQ6i2kumGXRutUL4g+OHTqA2hyx+SWPUxY4cGtNNHwnMsYwwBb
+         CuQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJJnmvbDsroRRM54WYEKMMGt78IRRE1QdY3uihcq0Ylu3B1S/CWK0lx1rZSJhcm6xXHmO1m8m8oEE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5ToGKU3biBXgfOIclqIZD/eaqu8qR4tS/uAcw4D0doc1cQrMM
+	q5cCQu4TxKAF2IMxBvmLSHh4+fWsFxbpUFk/38nL95/q53nwWjvxdKZhjjJN/Zk9VNPow2vwA+I
+	+KJWn8yyNdb+S93kMMVyGmJiV9vuH+s0=
+X-Gm-Gg: AY/fxX4i+d9rvQLkkrtMv+UPOb1XNJw2ubRe9Cl9lxv1gSrMFsCq/6U7SktIWdTA36V
+	YN+ZiKCQdPAnY4fLbQVrZdvSSxckUfgEW7OEKt5Qi4A5EWfOYgRBorYx4pq4xA4S+YmfLReQT9n
+	ru2rmrYIjuXi9ZlNQhnPpPB0IYz0CYkRx0UEIsp1hc1SsEDYQ3MPqItUDeTH6acfOhFZltua7kG
+	g1BvaWeevN8DCAqMKOqaWLCB0sPvRj52ypWnBhHn6I/RWUvsaCgjiRofjGe7zCXpjWThSJfUc0X
+	IfzsXAyPI1Y3ZZAxhGgkDzoQpTajPhITa8pVXf8O
+X-Google-Smtp-Source: AGHT+IGhu58R4caMkoymA06t6jucP+IC26haiqxVEeUFvBVDwHkSe/jfxzCa51B+j6E5vpkVAqkvsagRpoBj/VBJ7BU=
+X-Received: by 2002:a05:600c:1392:b0:46e:37fe:f0e6 with SMTP id
+ 5b1f17b1804b1-47d84b3b724mr253049155e9.30.1768267318036; Mon, 12 Jan 2026
+ 17:21:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|BL1PR11MB5270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3265b456-5402-42fb-c60f-08de5241945d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NGNjWWN5cGxXL3BVcm9NUVhUWEU0TnNLMTZRSW5kbXVwbjFDdWxlR3hBQXcy?=
- =?utf-8?B?Zkp4aTYzYUZoWFpjZ0lnSnU4ZU5lcURHVnUreElGd3VjWENLWjRxeWs4SnFH?=
- =?utf-8?B?Z3RJUFRTaW9oVUJMaWhLYnBqRW9hS2NoT3NlR3BFTkNvM3JncmxpWkxxYXNz?=
- =?utf-8?B?K1VkV0k2Mm1RejRZT3N0dTlzYUlnT2RBRWxKSys2Z1lsbFRvR3BVRTM1WW13?=
- =?utf-8?B?ZXdIaUd1aWttMHVrckpOejJaZWY0MnIrSEZJeExiTjJ1WmVHTWVFMks3am45?=
- =?utf-8?B?Y2RhTWZOSzFJUFRwREhiZWlZUWw2WUNSZTNsbmN1OGFROEZTQ1lMdTc4a29p?=
- =?utf-8?B?Tzk1ZnVaZ2hHVlM5WldwVjIrb3M1SXhJc3hXWE0yNUdwRmxpZDh3Yk9HK0s1?=
- =?utf-8?B?M29USTlod1JGT0RtS00rNDM5L2xlMmhqOVFGam5UZWw0SEJFUlk5NXpKYUVH?=
- =?utf-8?B?NldzTTVHNGQzNWw5NDlraGlvYkZqTklQM3lHSUVGbHJWTndsWXNSSEVuVXd6?=
- =?utf-8?B?di9ZeXQzbC9IdmZ4dW9MNDU5ZG1BeE13K3BpSTc2WlRTQVJqdVBvSE96Um02?=
- =?utf-8?B?UW9xSE5GckQ4NExrNTk5SE5GM29jbWsvdHRpQUQ0a3NUa2tZTzNKLzJVcjEy?=
- =?utf-8?B?NS82YXRNZHo2Nzc1ZHcvUDdsTnBYNitOWFEyZjYyL0ZjRHlrc3psVHpaZzJa?=
- =?utf-8?B?dzlIbHV2VjNxczJSWGkzdlBPbjkyeDhGcmcvZ0NuWW55aUUvZGoycnFjaVky?=
- =?utf-8?B?aVBaRThnQjJDK3F2UFJVRXNsQWNxeml3WkxzcVVuajl4bTdTZXgxZVFCK25X?=
- =?utf-8?B?aWRIOWoyNzVFSFVRUmtKcFQ4ajZIT0g2L0VlRERrQ2VDcXZ1YW5HSWNnKzdu?=
- =?utf-8?B?UUtrdHlGTG5PaFZlZ2hjem5pZGlXQ2svakRsVnhGcnFxUGw0OXFPcWhOS1Zj?=
- =?utf-8?B?MWVnZGcxc09SQVBjSFl4MjBHM2xlaHdqZzE4b1RXQ00yTklqT0NHeUZxTEYx?=
- =?utf-8?B?bkxvOWRWdytjOHhBaGRsS3lzWlZQK2VWVy9iQlVVbUlMUzk1WDE2VVQyOUFD?=
- =?utf-8?B?WktVcGRXa1NlVGZEM0k3aXg5eTdEdVpJMktTUXU2VnRYMEFVNkpIV2xoWmlE?=
- =?utf-8?B?UGF2eGtON0h6Wnh6ZEw4QXJFT2pLZ2pOa3F4dUFEWU80d1hPcXVtOVg2OUxO?=
- =?utf-8?B?c1VOR1dtb0JCTnZ1MkxVd3hEWW43ZFAwdWJ2VnM5YU1QZ2tRWElvZThyNndY?=
- =?utf-8?B?Y01mcnozd0N6dTBzSnlURVdPY3dabnlvM05ycHdZYXo1ZjVCQUJ3YmhBNGhH?=
- =?utf-8?B?bktaSVRKMmx5VDR5NDBFSGQyOEhXOGFzcVBUaVhYYlVCS2JsMi9vYW5DdEJC?=
- =?utf-8?B?bGVvUlIyM0EvbitaalBIWkJiR0tOTDIrMlIxN3ZYUERxWWdERnNwdjF4dFBt?=
- =?utf-8?B?MkoxbmFJNDBKTDNxVTZ6cFdtWVZtZmNWMkgzc2JxOFluZUdoMk1IcWdUcVg2?=
- =?utf-8?B?YUFnaFc5SDRrOGxPcU5jTzZLY0k2cWxQQnlBSlV5bjF6MkRrZzdNUW9oSEhl?=
- =?utf-8?B?SzdJNE5QbFp0TDAvUGNOTVpuOEdlT0hOUi9iWjA3M0dsUC9zNmZSVXhYbG1v?=
- =?utf-8?B?MlFrdjdON0RJWGZoVHUrbWloWUo0eXlPUWlxWkRYMG05dGxJTjFOOTFxRSth?=
- =?utf-8?B?YytpUUlVc3VMbUtYT2RVVDhkVHRxa01aZzF2dTV0Q1FkUWZ5azR4VUpkTmFw?=
- =?utf-8?B?Rm5ET0w5VW1ROC9uUDBOTVRPVGQrejNQVGxuT3A5Q2MwZldiY0ttcUJqTEpk?=
- =?utf-8?B?cnNEeHNEWWxlTW5IdDhiZmxCK0wvQ2hiMGxHalFyOFNVTXhlUjg2TERFMjlx?=
- =?utf-8?B?THZaOGY1R0x4dkltdk5JTEFFTW5XWldzZlRhb25LSHEreFhyM25yVjJWUy9Y?=
- =?utf-8?Q?51CY/soD07DAAf6jBok7wNXuHzFLJ0ci?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bUVSTDRYU2FQc2pyR3lGaDN6ejNsRmlhWXJoN09VZnA5RFNkUm92cDlZeHA4?=
- =?utf-8?B?MHIvSmluNW9EMmc3bmhkU2M0eUpKNDhQOWFXb3ZYOVpqNzhrRndldElTNHQ3?=
- =?utf-8?B?eXZUOHI1anc3L1J1SHFPQ28xdXd0NHFZN0hNNG9Ra1RENnJVdXRsa2MxTlNw?=
- =?utf-8?B?S3puRzZ3UjE1Z3hvT0VGV3drVFZmOGdFTnY3d2lFMUVXS0ExMlVUNWJ5ZUJm?=
- =?utf-8?B?VlVaVmY0VlBKMkVXQWtLVTRtVTZqbHl4UVA1bmVMT0xISUEvdjNRQXpZUVBR?=
- =?utf-8?B?ZlBaNFlJKzRidDI0ZmI2RWNicEVLeFhaakhNZFVEdXFDSW1xMGF0Uk14Z3Yw?=
- =?utf-8?B?YlFiRWJ6RXZKUlhBS2MxL3gvbElqakNBekpnQUp0VEw1dzN0NnY1aW9iN2Nr?=
- =?utf-8?B?a3I5QU1yY3RKOGRtM3BqUm94bUF3aStiOEg2YTBKRGNmNHBlc243dDBJYUk5?=
- =?utf-8?B?Y2pvM2dEUVg3UGsyei9hSWpVY2F1ZVpJV01PanZNeFQzRFBVUWxTOTJsWWEv?=
- =?utf-8?B?dm5kcDVyNmN4M205cXdlQitHd3BmSEhNTFhWNENZMlAzajhOUTdFLy8rcTg3?=
- =?utf-8?B?MDJWdEZLbXMyZGpMaEVZdTdGUW9pOEhQV3lJU2ZYWEpSSEE4eERJWjlydVJw?=
- =?utf-8?B?ck4xczR5MjZKZ1EreGUxWWpjSng0QVM3NVRKY3RUNUlmVUFpUFFyV1VaYmZo?=
- =?utf-8?B?QWlENndscnBSaFdldTJDbXNIeE1Ob2hVKzlIeTBJbDRKN2ZHZ2JKYUtYblRa?=
- =?utf-8?B?UmNRRm05YUsrQ2JjNndUbUE1eGVLTERsN29nZmVVNmh4QWV1NUdvNVZjOGR6?=
- =?utf-8?B?OVZGSjJlNzl6TUpkeHZ3MmFkeEZTYUFFd2c2T0pta2kwb3N6ZGRPRE9EQ2pY?=
- =?utf-8?B?VkZvMVZ3VytCSnNWWU1qeE1yZEE4c052WFhKR2hPZ0ZUTmppdE5OSS9rYmxi?=
- =?utf-8?B?WUR6TWVUMnZuU0NDaUlodENISmJwbjVPb3BRSkQ4dUFQWHRzbUtXV0FSQXdp?=
- =?utf-8?B?Q0VROVZMYkl5VHQvMzlndVRSUk41N1hod2NaME5LbE40UVJIdEMrUngwRkxI?=
- =?utf-8?B?L0s0ekNPcS9iTkxHVzROT3VqeExHYkdOR3VRMEVEM2xQaGdZZGZrdHpFYldr?=
- =?utf-8?B?UUtUdksyRENXd0haUmpjbm9JUkZWZWJWVFdZTmpqdGVYVXdneC9WOERqbTdy?=
- =?utf-8?B?WHlTV0xwV2U3UGI2UCt6TEh0TEYybUIwUkFVWnVVNzA2SXhoUGViRXRZZEE5?=
- =?utf-8?B?TFRDRlRvRmhKbUZUQXI3Z0pEbnpvUVNMWSsvS0FBUXlkcG9rQStJdUthT1RK?=
- =?utf-8?B?bzVCNTZWblc3QmI0RU5SaWRPNDdjMVhxK1hFWmZCMFYzKzhuYklPN1pFZy9K?=
- =?utf-8?B?dDl4b3Q4Wks3WW9uRnRPdUs5V011U1FZc1RPbkYydE9HbTMyQW91ZHluYTBW?=
- =?utf-8?B?M3lPbWNXOHNhSERiZ1ROcWYxelV4MC82UFdZeHJmUjh4Y0psTEQzVXczUXdu?=
- =?utf-8?B?MERsZXNYSjNrQlpuQXRuQmdpNXNxbXRoWlk2Z0lrOHg4QVRUaklUZ1Q5d2Zo?=
- =?utf-8?B?S1R6c2JiWEk1eTF5c2FrdmpJbjRDSnUrQWxmenRzdjE0Uml3K3BMNEdGWUJl?=
- =?utf-8?B?cFdkdDZLNTA4ZTFBVTFjcjhtUkZ5SDR0ODhZbGg2eURWSnZjSGovTktuUTJh?=
- =?utf-8?B?cU1meFBId2JZWWlYVlYzSk9oemV6TDlPYlFGRGp0azAza0pSS3pwQUVoampx?=
- =?utf-8?B?UzNzcVdaY1dNR3l0YVFxMk9vcWdpUXduVGpGaU1yV3JtS3dOc2xaeHJmV3Uy?=
- =?utf-8?B?eHROTnlhWm1uSGJOTzdRNnlQNVZ4R2RQUEZzVTQwVE5CVFRrY2lQRjI2QzBp?=
- =?utf-8?B?SGYzV3RYYk9FVjgvbUx4Rm4yaHR5K0FBUHdGcCtMNXliZEFvanphRXFCRVBo?=
- =?utf-8?B?ZmFPTG01bTlOd01XVGJCMkd2NXI5WFlMekFiS1A5RTBUZmMyQ2tzWllOYWUr?=
- =?utf-8?B?OE5Hc2hmZzBHNzFTTFNTdFhsVjBrZXo2bTdNQWd0a3VhK21UMXRURUtGbjFV?=
- =?utf-8?B?YmNwWk00UnRqQUpHN1F0SUFuK3dHdlRmdyszN2wyVTV1bkFBdWl1cW13SXR4?=
- =?utf-8?B?U24ybzlweDF2dURNVnB0KzJrSEhOZW9lWWZ3Y0M2M3hsS0NpTVJPRXZuUFZD?=
- =?utf-8?B?N245MkR2bWNUUnN1VFloeHZTWWFyMnJVa25YL0tJNk9sNlZhMXpTVFZwS05a?=
- =?utf-8?B?WllJZjV2VThTN3pNMXoyL1p2clVoQ25iM3A0VVdLaWk1d2w2UHNoSmdkOTg4?=
- =?utf-8?B?eDl4UFNPK0JtM1IvSzM5QlIwMFVGTXBubTJzcnA1K3NyVTZVRlV0Q2o3QVdC?=
- =?utf-8?Q?VExcrNjDOOo/NU6s=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3265b456-5402-42fb-c60f-08de5241945d
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 01:17:55.0365
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n2WzYV5F/PQ6dA+hqyz98iusyS+CcOBtiCEEQlsBCQfOZuTPOn3l8aHNbPA5bq9N4kFOz62bWEbYo6OSHXnjOmoQU/ipFhKmGv9dWXkkbnA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5270
-X-OriginatorOrg: intel.com
+References: <cover.1768233085.git.m.wieczorretman@pm.me> <5b46822936bf9bf7e5cf5d1b57f936345c45a140.1768233085.git.m.wieczorretman@pm.me>
+In-Reply-To: <5b46822936bf9bf7e5cf5d1b57f936345c45a140.1768233085.git.m.wieczorretman@pm.me>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 13 Jan 2026 02:21:47 +0100
+X-Gm-Features: AZwV_Qi5qDo_RW3GUl03sUQLy4_9JT9vPGqPKV7l-vPxKwl8DzaLwsGyVKGsEyg
+Message-ID: <CA+fCnZeVEDwojqUfT1CC10sLZiY8MVN-7S7R6FP_OHkU3TH+0g@mail.gmail.com>
+Subject: Re: [PATCH v8 14/14] x86/kasan: Make software tag-based kasan available
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Gregory Price wrote:
-> On Tue, Jan 13, 2026 at 09:54:32AM +1100, Balbir Singh wrote:
-> > On 1/13/26 08:10, dan.j.williams@intel.com wrote:
-> > > Balbir Singh wrote:
-> > > [..]
-> > >>> I agree with Gregory the name does not matter as much as the
-> > >>> documentation explaining what the name means. I am ok if others do not
-> > >>> sign onto the rationale for why not include _MEMORY, but lets capture
-> > >>> something that tries to clarify that this is a unique node state that
-> > >>> can have "all of the above" memory types relative to the existing
-> > >>> _MEMORY states.
-> > >>>
-> > >>
-> > >> To me, N_ is a common prefix, we do have N_HIGH_MEMORY, N_NORMAL_MEMORY.
-> > >> N_PRIVATE does not tell me if it's CPU or memory related.
-> > > 
-> > > True that confusion about whether N_PRIVATE can apply to CPUs is there.
-> > > How about split the difference and call this:
-> > > 
-> > >     N_MEM_PRIVATE
-> > > 
-> > > To make it both distinct from _MEMORY and _HIGH_MEMORY which describe
-> > > ZONE limitations and distinct from N_CPU.
-> > 
-> > I'd be open to that name, how about N_MEMORY_PRIVATE? So then N_MEMORY
-> > becomes (N_MEMORY_PUBLIC by default)
-> >
-> 
-> N_MEMORY_PUBLIC is forcing everyone else to change for the sake a new
-> feature, better to keep it N_MEM[ORY]_PRIVATE if anything
+On Mon, Jan 12, 2026 at 6:28=E2=80=AFPM Maciej Wieczor-Retman
+<m.wieczorretman@pm.me> wrote:
+>
+> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>
+> Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
+> ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignore
+> (TBI) that allows the software tag-based mode on arm64 platform.
+>
+> The value for sw_tags KASAN_SHADOW_OFFSET was calculated by rearranging
+> the formulas for KASAN_SHADOW_START and KASAN_SHADOW_END from
+> arch/x86/include/asm/kasan.h - the only prerequisites being
+> KASAN_SHADOW_SCALE_SHIFT of 4, and KASAN_SHADOW_END equal to the
+> one from KASAN generic mode.
+>
+> Set scale macro based on KASAN mode: in software tag-based mode 16 bytes
+> of memory map to one shadow byte and 8 in generic mode.
+>
+> Disable CONFIG_KASAN_INLINE and CONFIG_KASAN_STACK when
+> CONFIG_KASAN_SW_TAGS is enabled on x86 until the appropriate compiler
+> support is available.
+>
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> ---
+> Changelog v7:
+> - Add a paragraph to the patch message explaining how the various
+>   addresses and the KASAN_SHADOW_OFFSET were calculated.
+>
+> Changelog v6:
+> - Don't enable KASAN if LAM is not supported.
+> - Move kasan_init_tags() to kasan_init_64.c to not clutter the setup.c
+>   file.
+> - Move the #ifdef for the KASAN scale shift here.
+> - Move the gdb code to patch "Use arithmetic shift for shadow
+>   computation".
+> - Return "depends on KASAN" line to Kconfig.
+> - Add the defer kasan config option so KASAN can be disabled on hardware
+>   that doesn't have LAM.
+>
+> Changelog v4:
+> - Add x86 specific kasan_mem_to_shadow().
+> - Revert x86 to the older unsigned KASAN_SHADOW_OFFSET. Do the same to
+>   KASAN_SHADOW_START/END.
+> - Modify scripts/gdb/linux/kasan.py to keep x86 using unsigned offset.
+> - Disable inline and stack support when software tags are enabled on
+>   x86.
+>
+> Changelog v3:
+> - Remove runtime_const from previous patch and merge the rest here.
+> - Move scale shift definition back to header file.
+> - Add new kasan offset for software tag based mode.
+> - Fix patch message typo 32 -> 16, and 16 -> 8.
+> - Update lib/Kconfig.kasan with x86 now having software tag-based
+>   support.
+>
+> Changelog v2:
+> - Remove KASAN dense code.
+>
+>  Documentation/arch/x86/x86_64/mm.rst | 6 ++++--
+>  arch/x86/Kconfig                     | 4 ++++
+>  arch/x86/boot/compressed/misc.h      | 1 +
+>  arch/x86/include/asm/kasan.h         | 5 +++++
+>  arch/x86/mm/kasan_init_64.c          | 6 ++++++
+>  lib/Kconfig.kasan                    | 3 ++-
+>  6 files changed, 22 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x8=
+6/x86_64/mm.rst
+> index a6cf05d51bd8..ccbdbb4cda36 100644
+> --- a/Documentation/arch/x86/x86_64/mm.rst
+> +++ b/Documentation/arch/x86/x86_64/mm.rst
+> @@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
+>     ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unus=
+ed hole
+>     ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual =
+memory map (vmemmap_base)
+>     ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unus=
+ed hole
+> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN sh=
+adow memory
+> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN sh=
+adow memory (generic mode)
+> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN sh=
+adow memory (software tag-based mode)
+>    __________________|____________|__________________|_________|_________=
+___________________________________________________
+>                                                                |
+>                                                                | Identica=
+l layout to the 56-bit one from here on:
+> @@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
+>     ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unus=
+ed hole
+>     ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual =
+memory map (vmemmap_base)
+>     ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unus=
+ed hole
+> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN sh=
+adow memory
+> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN sh=
+adow memory (generic mode)
+> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN sh=
+adow memory (software tag-based mode)
+>    __________________|____________|__________________|_________|_________=
+___________________________________________________
+>                                                                |
+>                                                                | Identica=
+l layout to the 47-bit one from here on:
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 80527299f859..21c71d9e0698 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -67,6 +67,7 @@ config X86
+>         select ARCH_CLOCKSOURCE_INIT
+>         select ARCH_CONFIGURES_CPU_MITIGATIONS
+>         select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
+> +       select ARCH_DISABLE_KASAN_INLINE        if X86_64 && KASAN_SW_TAG=
+S
+>         select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE &=
+& MIGRATION
+>         select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
+>         select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
+> @@ -196,6 +197,8 @@ config X86
+>         select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>         select HAVE_ARCH_KASAN                  if X86_64
+>         select HAVE_ARCH_KASAN_VMALLOC          if X86_64
+> +       select HAVE_ARCH_KASAN_SW_TAGS          if ADDRESS_MASKING
+> +       select ARCH_NEEDS_DEFER_KASAN           if ADDRESS_MASKING
 
-I think what Balbir is saying is that the _PUBLIC is implied and can be
-omitted. It is true that N_MEMORY[_PUBLIC] already indicates multi-zone
-support. So N_MEMORY_PRIVATE makes sense to me as something that it is
-distinct from N_{HIGH,NORMAL}_MEMORY which are subsets of N_MEMORY.
-Distinct to prompt "go read the documentation to figure out why this
-thing looks not like the others".
+Do we need this?
+
+>         select HAVE_ARCH_KFENCE
+>         select HAVE_ARCH_KMSAN                  if X86_64
+>         select HAVE_ARCH_KGDB
+> @@ -410,6 +413,7 @@ config AUDIT_ARCH
+>  config KASAN_SHADOW_OFFSET
+>         hex
+>         depends on KASAN
+> +       default 0xeffffc0000000000 if KASAN_SW_TAGS
+>         default 0xdffffc0000000000
+>
+>  config HAVE_INTEL_TXT
+> diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/m=
+isc.h
+> index fd855e32c9b9..ba70036c2abd 100644
+> --- a/arch/x86/boot/compressed/misc.h
+> +++ b/arch/x86/boot/compressed/misc.h
+> @@ -13,6 +13,7 @@
+>  #undef CONFIG_PARAVIRT_SPINLOCKS
+>  #undef CONFIG_KASAN
+>  #undef CONFIG_KASAN_GENERIC
+> +#undef CONFIG_KASAN_SW_TAGS
+>
+>  #define __NO_FORTIFY
+>
+> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
+> index 9b7951a79753..b38a1a83af96 100644
+> --- a/arch/x86/include/asm/kasan.h
+> +++ b/arch/x86/include/asm/kasan.h
+> @@ -6,7 +6,12 @@
+>  #include <linux/kasan-tags.h>
+>  #include <linux/types.h>
+>  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define KASAN_SHADOW_SCALE_SHIFT 4
+> +#else
+>  #define KASAN_SHADOW_SCALE_SHIFT 3
+> +#endif
+>
+>  /*
+>   * Compiler uses shadow offset assuming that addresses start
+> diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+> index 7f5c11328ec1..3a5577341805 100644
+> --- a/arch/x86/mm/kasan_init_64.c
+> +++ b/arch/x86/mm/kasan_init_64.c
+> @@ -465,4 +465,10 @@ void __init kasan_init(void)
+>
+>         init_task.kasan_depth =3D 0;
+>         kasan_init_generic();
+> +       pr_info("KernelAddressSanitizer initialized\n");
+
+This pr_info is not needed, kasan_init_generic already prints the message.
+
+
+
+> +
+> +       if (boot_cpu_has(X86_FEATURE_LAM))
+> +               kasan_init_sw_tags();
+> +       else
+> +               pr_info("KernelAddressSanitizer not initialized (sw-tags)=
+: hardware doesn't support LAM\n");
+>  }
+> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> index a4bb610a7a6f..d13ea8da7bfd 100644
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -112,7 +112,8 @@ config KASAN_SW_TAGS
+>
+>           Requires GCC 11+ or Clang.
+>
+> -         Supported only on arm64 CPUs and relies on Top Byte Ignore.
+> +         Supported on arm64 CPUs that support Top Byte Ignore and on x86=
+ CPUs
+> +         that support Linear Address Masking.
+>
+>           Consumes about 1/16th of available memory at kernel start and
+>           add an overhead of ~20% for dynamic allocations.
+> --
+> 2.52.0
+>
+>
