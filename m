@@ -1,81 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3477434D90D;
-	Tue, 13 Jan 2026 17:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB0E346AE8
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 18:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768326455; cv=none; b=ZSRKJ+gScGxZQs4X9+/VnRwrBpHD1eT6VsEi3plEi3jjwcM2xUPfEeTKaAGk2Lf6F0BLGo4vtw2vdTd6abbHR/eQjtQUrxNdmNCTopG/MkDFXfDYsWvnhsOkUAwhPmzXys9XlAe7JzLf1eayUkjsH8xHfnh0vtIM7i1ZXVuWWfc=
+	t=1768328586; cv=none; b=MnwHIzsZvBv452QCy/U6VQ1HCQ6vu5aBOIRxAJPhTGwt+TzV3MGfD1jLLblipXVGQJgCYC8PTKI+GA9ogUSKO3iyXfGfa58FsEvbruxyvt2abaHu2Cty5De2YXHBN/Hdomdgc16uSknLm5tzqtyoJmMme20j3zjgNK5/FNEMqrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768326455; c=relaxed/simple;
-	bh=08QBqmZ6vl5jlxbVBid2paYidrcy2skUmee6MBLxCEo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=X+JDF4xruI5vRZzw5cmbZt+AZayfj+mlVXvkqJBWyrKbvMsBSTums2xeEP80wNHwovrVqnbiSvFBqxnRgy3DAIOeqCF/dqvOp/TGCHCBuL7IusZF9doAE+0hcoSfj+FOfIJ/jDb3577wBupoPonxBKyASZOBU1ISLBBOuwFElCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6fMARB7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768328586; c=relaxed/simple;
+	bh=pAgp1UzTbV+J+yQfckrYJ/aFVvvjjT+ZcYLLUKGP9DI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JIh472Opzup59MuQevNKZULV2YxJBk1I0FvrTONh8pMPAS/s06yVj1owbRZpRaS7O6gRArWCLBjKsB1eM5+BZWdBoH4tQX1eTsFzEzKAXt2mK7oyvowPFCeeiJtIZxteCTqMRvLWXDBtANxV2fSV5ti+DfNbWaBRRvvEnlC5YLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2t6K5ZX; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6fMARB7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 782F9C116C6;
-	Tue, 13 Jan 2026 17:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768326455;
-	bh=08QBqmZ6vl5jlxbVBid2paYidrcy2skUmee6MBLxCEo=;
-	h=From:Date:Subject:To:Cc:From;
-	b=V6fMARB73crLUQJ3VXRzYWZvy2+J/IlMqbM9xQL8XoBUkWHyFBaPGsTJNDjG+wPF8
-	 cOcVEy5aDuQxPOIfqs6S9137QqBP1/txIs1f0d/Gf4XnNQja/5pGMBlKlviT2Xv51H
-	 qctFeQdCxemnDgOOyf7l1y623B1k3xaStTe0WgNq/GbHlovvaejezb7YTkAhUG3GNZ
-	 idI530vRvAfZhFzDu1i3YVVaVaoAGiH2eIxiBiRKTvvy/IAxb630i8DpFIxiOQQji0
-	 rGFbb74hmD/DclXCjeUkQDwDAYKHagUvRbbjWIys2rTQH3PHtV904WZBgh5HigBalu
-	 ASmaSy2EYE6mg==
-From: Simon Horman <horms@kernel.org>
-Date: Tue, 13 Jan 2026 17:47:15 +0000
-Subject: [PATCH] docs: netdev: refine 15-patch limit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2t6K5ZX"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-121bf277922so9375275c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 10:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768328584; x=1768933384; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ktFARcL7abjEswMdxHANS1AOCLFu8aD4rHTTseQcdl0=;
+        b=G2t6K5ZXd5eIfLO0G2Jh2T00KSAYR0RBmZ26CgtNO4ZXw7GH6ZbS++EjQQ4l+kEEYY
+         pfROVkGC6AG9Exa1E5Efjy8PaXtPmKQJn+0WhxGenaRah/b4RzBulcsOQjt6d2Z++IpD
+         2GHz4e/DWCNhMjodjZgx+3H+h4DdVPe9LdIOt/+rjnwxaOEWfb2kIJPbtUMjHvv3YNHk
+         3eBOqRbh9MYrkbxGjONzmP2A5lMN03VZ8pR7CQINkkr+sNbLmtvdmajlunX3blna4tMR
+         W2wInONpSD/f05hxD5egFH868WmlBu0vhXljNT+5faa9HlQLLnkwp3IrUV62La+XYfte
+         i0Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768328584; x=1768933384;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ktFARcL7abjEswMdxHANS1AOCLFu8aD4rHTTseQcdl0=;
+        b=xKLt/3ptpk4d+/5BZ/g/nnCo91p3dOFZf9zIwVZWcSH1GM04jy6dp/oi9/smu0gvvk
+         g/05BfisF69RBe4IQe140iE0EzYVecU6xSz7a3fP7duLbwnr5cKw8UOK9d8DtnwxGZl7
+         ZE5VgKD+Z3nkKBLycUP9VjIEgcnmvMXq8QJXxYakO7aI7e6ofvPwa3NLVsOr7yvaS9Ts
+         bgKriJ8gosaveqaEblx0EnhqBJbjH03cptJdwm0SfKGaDR9Wz3TfcHTMM1nbM4sfbYkf
+         lWREoLH/JuADsS06EkIOspFC7EVaZgFDJajkp8vWn5GY/3gem8vQPpLkhaOw3y1Mm4jo
+         kURA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPaS8B38mMgT3ucStIYI/6FjBSw9LtHmDeIKQ8SoIao8CC8uVX5MzOZd6CVzFXnZdHJPjsyRzo+Sg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUZASfT3fk7QS3xFIknuSbUWdEwIVVXUB1LeWz674Rmn40aW7/
+	myYyH+ER6n8+ceOmNoMciolLCRZAbTzyiVItXxjI+zRhJ7YyraDLv1HL/NHSoAaVgrBQ6qHYJt1
+	4WcpD0y94xghgxbzrV7Bh3iMAM7jiZxQ=
+X-Gm-Gg: AY/fxX7y3EG1C1wGwqiqs1LKqpJspGKUkt0Te0ZodYZsMY3PJTLoeHCWEuoATTFXUPt
+	mXHS9N36ns5hNOlpxP5Pk+rHBtNpkLnBy9zrcS9PEnZTUMtMZ5JHQxOlrrGHCGQucm+jHlctXE5
+	damIjiD/BmcKlBu07obIunqHbv4NOFJi6Xw3cLv+VADg8liOCqaNP3wIA1qvygTb5LKzQ63LyFc
+	+dIiNfQC0bTynN9ImnrAFBYoyfKpBUNMnjM1sG4p3Bq8a3gu9z2zD20U69Rpcvgelt1GLVmDE6T
+	Gkf7ugIIdBOM69lDw4a8kMsbR3p/Rns0CgXdae5yX23gIdBbd8I6lcWEUUbbUvhbDThsDGbVt/a
+	qdrVISpY3fuIw3XY=
+X-Google-Smtp-Source: AGHT+IFry5mrp+qhfmaTmFowwpyilhTDV99e4+YsYHR4eczlm0CCEKca1hIFDilnVzeT/ocGVM7wlP2rRttk0FeEdcc=
+X-Received: by 2002:a05:7022:613:b0:119:e569:f62e with SMTP id
+ a92af1059eb24-121f8b8d73amr21681821c88.39.1768328584025; Tue, 13 Jan 2026
+ 10:23:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-15-minutes-of-fame-v1-1-0806b418c6fd@kernel.org>
-X-B4-Tracking: v=1; b=H4sIACKFZmkC/x3MQQqAIBBA0avErBtwNCO6SrSIHGsWWmhFEN09a
- fkW/z+QOQln6KsHEl+SZYsFVFcwr1NcGMUVg1a6VUQGyWKQeB6ccfPop8DodWNU56xVTFDCPbG
- X+58O4/t+HT3EdmQAAAA=
-X-Change-ID: 20260113-15-minutes-of-fame-f24308d550e1
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.2
+References: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net> <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
+In-Reply-To: <20260113-thames-v1-2-99390026937c@tomeuvizoso.net>
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Tue, 13 Jan 2026 12:22:37 -0600
+X-Gm-Features: AZwV_QgGjFNmrIcWdIpWbLrkpdUzkEwOLFO_r4C0G38vOy1_mGAz7cr1Zzr72TQ
+Message-ID: <CAOCHtYgW4Gzyed3oTofjZYzZ+Umr1Q2fxNm7uGDEUmnG-kXyOg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] accel/thames: Add driver for the C7x DSPs in TI SoCs
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, Randolph Sapp <rs@ti.com>, 
+	Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The 15 patch limit is intended by the maintainers to cover
-all outstanding patches on the mailing list, not just those
-in a single patchset. Document this practice accordingly.
+On Tue, Jan 13, 2026 at 11:45=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.ne=
+t> wrote:
+>
+> Some SoCs from Texas Instruments contain DSPs that can be used for
+> general compute tasks.
+>
+> This driver provides a drm/accel UABI to userspace for submitting jobs
+> to the DSP cores and managing the input, output and intermediate memory.
+>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  Documentation/accel/thames/index.rst |  28 +++++
+>  MAINTAINERS                          |   9 ++
+>  drivers/accel/Kconfig                |   1 +
+>  drivers/accel/Makefile               |   3 +-
+>  drivers/accel/thames/Kconfig         |  26 +++++
+>  drivers/accel/thames/Makefile        |   9 ++
+>  drivers/accel/thames/thames_core.c   | 155 ++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_core.h   |  53 +++++++++
+>  drivers/accel/thames/thames_device.c |  93 ++++++++++++++++
+>  drivers/accel/thames/thames_device.h |  46 ++++++++
+>  drivers/accel/thames/thames_drv.c    | 156 +++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_drv.h    |  21 ++++
+>  drivers/accel/thames/thames_ipc.h    | 204 +++++++++++++++++++++++++++++=
+++++++
+>  drivers/accel/thames/thames_rpmsg.c  | 155 ++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_rpmsg.h  |  27 +++++
+>  15 files changed, 985 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/accel/thames/index.rst b/Documentation/accel/t=
+hames/index.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ca8391031f226f7ef1dc210a3=
+56c86acbe126c6f
+> --- /dev/null
+> +++ b/Documentation/accel/thames/index.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> + accel/thames Driver for the C7x DSPs from Texas Instruments
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The accel/thames driver supports the C7x DSPs inside some Texas Instrume=
+nts SoCs
+> +such as the J722S. These can be used as accelerators for various workloa=
+ds,
+> +including machine learning inference.
+> +
+> +This driver controls the power state of the hardware via :doc:`remotepro=
+c </staging/remoteproc>`
+> +and communicates with the firmware running on the DSP via :doc:`rpmsg_vi=
+rtio </staging/rpmsg_virtio>`.
+> +The kernel driver itself allocates buffers, manages contexts, and submit=
+s jobs
+> +to the DSP firmware. Buffers are mapped by the DSP itself using its MMU,
+> +providing memory isolation among different clients.
+> +
+> +The source code for the firmware running on the DSP is available at:
+> +https://gitlab.freedesktop.org/tomeu/thames_firmware/.
+> +
+> +Everything else is done in userspace, as a Gallium driver (also called t=
+hames)
+> +that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
+> +
+> +If there is more than one core that advertises the same rpmsg_virtio ser=
+vice
+> +name, the driver will load balance jobs between them with drm-gpu-schedu=
+ler.
+> +
+> +Hardware currently supported:
+> +
+> +* J722S
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dc731d37c8feeff25613c59fe9c929927dadaa7e..a3fc809c797269d0792dfe520=
+2cc1b49f6ff57e9 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7731,6 +7731,15 @@ F:       Documentation/devicetree/bindings/npu/roc=
+kchip,rk3588-rknn-core.yaml
+>  F:     drivers/accel/rocket/
+>  F:     include/uapi/drm/rocket_accel.h
+>
+> +DRM ACCEL DRIVER FOR TI C7x DSPS
+> +M:     Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> +L:     dri-devel@lists.freedesktop.org
+> +S:     Supported
+> +T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
+> +F:     Documentation/accel/thames/
+> +F:     drivers/accel/thames/
+> +F:     include/uapi/drm/thames_accel.h
 
-Signed-off-by: Simon Horman <horms@kernel.org>
----
- Documentation/process/maintainer-netdev.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 989192421cc9db6c93c816f2dfb7afbe48dd25fc..d98d2f46129eb0eaf55e5106d50b214ddc7bfb67 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -363,6 +363,14 @@ just do it. As a result, a sequence of smaller series gets merged quicker and
- with better review coverage. Re-posting large series also increases the mailing
- list traffic.
- 
-+Limit patches outstanding on mailing list
-+-----------------------------------------
-+
-+Avoid having more than 15 patches, across all series, outstanding for
-+review on the mailing list. This limit is intended to focus developer
-+effort on testing patches before upstream review. Aiding the quality of
-+upstream submissions, and easing the load on reviewers.
-+
- .. _rcs:
- 
- Local variable ordering ("reverse xmas tree", "RCS")
+Oh where is this "thames_accel.h" ? ;)
 
 
+2026-01-13T18:16:11.881084Z 01E
+drivers/accel/thames/thames_drv.c:8:10: fatal error:
+drm/thames_accel.h: No such file or directory
+2026-01-13T18:16:11.881086Z 01E     8 | #include <drm/thames_accel.h>
+2026-01-13T18:16:11.881087Z 01E       |          ^~~~~~~~~~~~~~~~~~~~
+2026-01-13T18:16:11.881115Z 01E compilation terminated.
+2026-01-13T18:16:11.884552Z 01E make[8]: ***
+[scripts/Makefile.build:287: drivers/accel/thames/thames_drv.o] Error
+1
+2026-01-13T18:16:11.884694Z 01E make[7]: ***
+[scripts/Makefile.build:544: drivers/accel/thames] Error 2
+2026-01-13T18:16:11.884926Z 01E make[6]: ***
+[scripts/Makefile.build:544: drivers/accel] Error 2
+2026-01-13T18:16:11.884976Z 01E make[6]: *** Waiting for unfinished jobs...=
+.
 
+$ find . | grep thames_accel.h
+$ grep -R "thames_accel.h" ./*
+./drivers/accel/thames/Kconfig:      include/uapi/drm/thames_accel.h
+and is used by the Thames userspace
+./drivers/accel/thames/thames_job.c:#include <drm/thames_accel.h>
+./drivers/accel/thames/thames_drv.c:#include <drm/thames_accel.h>
+./drivers/accel/thames/thames_gem.c:#include <drm/thames_accel.h>
+./MAINTAINERS:F:    include/uapi/drm/thames_accel.h
+
+Regards,
+
+--=20
+Robert Nelson
+https://rcn-ee.com/
