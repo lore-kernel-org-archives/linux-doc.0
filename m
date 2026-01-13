@@ -1,177 +1,170 @@
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6408418B0A;
-	Tue, 13 Jan 2026 14:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FFE27E045
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 14:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768313399; cv=none; b=cbClQ0W/GtJLp5W+SNu6L4YN/TzPvnZxP+O0isNXodU+fZBCrRfXfPCemVEDVpobXLdpZUX0Wngh1320/hzZaB2DrNnMvI0F9hg8qQsDuNkCjf+c0WCw+tgKfQ5ga2hx25SOkHjp3Ezraqm1Q5TWZCJs6x/zQetGGl5tgADAEk4=
+	t=1768313789; cv=none; b=D9FlwjQ1xCQ9M8VlAi2eRazTsQUvxzBdIbt4fv+uYdG9rR6aMPNdj9b1LBaMQ6QQJ96J+YC3RTBL0TWtjO+/iwZO3MBHaHh8YVazXu/r+sbqT009SWyM6cNXOOcOKrfcTFk4e7uIeMsHxI6H/+FiIQ7QHfH/arRlsv5QlR5Le+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768313399; c=relaxed/simple;
-	bh=XVnPgoMT6BpLWpzpYcNaQb2TTRsjkCf5sw503RN2/1k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cFUHscrkwK6cohN4pr+VfCxX1BKGaAvcbXg9BNNDvMQrDaYrQ/21n8CetzlYP+q6ZP1VuuNufQtMPnP0NX6U+Yz7mFodKqffF98TSIJYBTswdnWT17LP+nDvH1dmqQz3WtA3bDm0+c8r9gCu0djljo/KY/8u5vyKRiz9aIVpK1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=PGI8b+UB; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1768313789; c=relaxed/simple;
+	bh=L8RKTSgZzn96TggX+YEpwMvvmrSwzzrKlYFGRXKLwfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NbyzXcNMl2YcVI4Xsvcimey6H2G8XhcjfEhKT1tZlFnXLf1DhWrUWgYadiED78R8QgcDTmemyYXxUXNMpDMANfhP1CWTiUcGjlogPWMu9fO6maRkWoDXFKZHR6SalZgQhbJJbXnxCyK0idb6LaaAHhbt+Nd1Mu7VfFrgwpL26FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=SPc2JJKa; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="PGI8b+UB"
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 60DCArKX1832210;
-	Tue, 13 Jan 2026 06:09:44 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=JAuKhkCrAHpF94tqXXlAdNjuzgLDHJZz0Y/lLs95e8g=; b=PGI8b+UBtizs
-	1dhAPX0qbs4Uc6SNgynZq370y0kqx20f/msyHogB0OatdczXL1xCX6zkdfpl4okV
-	X0WhWjrwNaBXNc0mahO6rChgXtLS5sbatRPTTJWaxcByREJvDEi52Cv+x7ajDH50
-	/EAowJ7XGdKMoIo3s1mbR125/xh+dPfuhw5ZevoY4CUGCcQ3rPsGJAgaInMEKj9F
-	kwNfLF1nsyJfR2FS4l/BPo6u0mfU487v7iGjb3fXh+O+i5YunXMKOXL7RNMsftPn
-	5stTVV/lb0MsX8J+XRCZIYzUycOyA0HeWvQxHnWZN355vCCf7qtqlteND00a63OC
-	ZUEevcKp2g==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 4bnagnd7qu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 13 Jan 2026 06:09:44 -0800 (PST)
-Received: from devbig003.atn7.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.29; Tue, 13 Jan 2026 14:09:40 +0000
-From: Chris Mason <clm@meta.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: Chris Mason <clm@meta.com>, <jasonmiu@google.com>, <graf@amazon.com>,
-        <rppt@kernel.org>, <dmatlack@google.com>, <rientjes@google.com>,
-        <corbet@lwn.net>, <rdunlap@infradead.org>,
-        <ilpo.jarvinen@linux.intel.com>, <kanie@linux.alibaba.com>,
-        <ojeda@kernel.org>, <aliceryhl@google.com>, <masahiroy@kernel.org>,
-        <akpm@linux-foundation.org>, <tj@kernel.org>, <yoann.congal@smile.fr>,
-        <mmaurer@google.com>, <roman.gushchin@linux.dev>,
-        <chenridong@huawei.com>, <axboe@kernel.dk>, <mark.rutland@arm.com>,
-        <jannh@google.com>, <vincent.guittot@linaro.org>, <hannes@cmpxchg.org>,
-        <dan.j.williams@intel.com>, <david@redhat.com>,
-        <joel.granados@kernel.org>, <rostedt@goodmis.org>,
-        <anna.schumaker@oracle.com>, <song@kernel.org>, <linux@weissschuh.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-mm@kvack.org>, <gregkh@linuxfoundation.org>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-        <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-        <rafael@kernel.org>, <dakr@kernel.org>,
-        <bartosz.golaszewski@linaro.org>, <cw00.choi@samsung.com>,
-        <myungjoo.ham@samsung.com>, <yesanishhere@gmail.com>,
-        <Jonathan.Cameron@huawei.com>, <quic_zijuhu@quicinc.com>,
-        <aleksander.lobakin@intel.com>, <ira.weiny@intel.com>,
-        <andriy.shevchenko@linux.intel.com>, <leon@kernel.org>,
-        <lukas@wunner.de>, <bhelgaas@google.com>, <wagi@kernel.org>,
-        <djeffery@redhat.com>, <stuart.w.hayes@gmail.com>, <ptyadav@amazon.de>,
-        <lennart@poettering.net>, <brauner@kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <saeedm@nvidia.com>, <ajayachandra@nvidia.com>, <jgg@nvidia.com>,
-        <parav@nvidia.com>, <leonro@nvidia.com>, <witu@nvidia.com>,
-        <hughd@google.com>, <skhawaja@google.com>, <chrisl@kernel.org>
-Subject: Re: [PATCH v8 14/18] mm: memfd_luo: allow preserving memfd
-Date: Tue, 13 Jan 2026 06:09:23 -0800
-Message-ID: <20260113140927.1074142-1-clm@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251125165850.3389713-15-pasha.tatashin@soleen.com>
-References:
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="SPc2JJKa"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4ee14ba3d9cso84125441cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 06:16:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1768313787; x=1768918587; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EA4FEA3d8sqza+07mct2btPiz1RY5DfLWXNlCi+Rawg=;
+        b=SPc2JJKaFMa5z9jtGsClwMIJjee1JQTyEBNqKdkrc3uH9J+E/PabY7k7e4RsFS+nNe
+         ygwe9iDzAihYKkBJvwP51qg3ZweUgRj4gW4bHr9bwmQ3xyiId1T0jj94vqPhnFu7fzYo
+         E/FNpnJ2/4VUfRoAmUNf0huLGzScIFipAcrl7sT0TvRn4ISpK6/5heQn89bZ3dEYVpT4
+         0m9JuZdvZf6ofqNhendiguV8rzdZSVy5RCIRDGP8+GaqRrinzSPIXT1QuKQcoxkPSBFV
+         apbkp+Si0LNTWKy5r8+rtrdqWDvwTESHlC2wXBzYDSfNQm00tP9VlQMIy+5+uWW2F8oe
+         5mbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768313787; x=1768918587;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EA4FEA3d8sqza+07mct2btPiz1RY5DfLWXNlCi+Rawg=;
+        b=uPmON7CdnsxjNnSL3bElbVT/JTvfS8Aqk+oUOSStKJefMlwByGVsnmK1Yz+pvitVeW
+         p1Kr/Uzadljx7Oe9ZLRt2qJjkj8edDIvt37p6zPtAhB7nQ0DcgD4YLFlKx+2N3ly9A7q
+         bso2SG1IF1pSF+uB+beL4iIpe21AUGk8gn+buaMGHzWndSOCEe1VV/ynSr83MKNpKCRS
+         dqRgTRSknyDQLuD0KKgbsN3tVdt32+W7UsIfW533t+ivYYBFaAwz/zC/9dkd4DNBKNYi
+         q/KBjx1c8KCUjG965mlpPzgzCyOpg0M++ngdRR37kDri7nr2kKiz9A1I2VVLJ9cdWCku
+         5zzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmlgdhN1jO5S6I0Xtp7S4ze0xYQCygp2bbJF9VZcpqG+RmuKGovo6HZPCu8U5RDQgrvZFQnVVT0aE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjmmNDYB5hT+fnX4TGoyf/XJIZ1mRQ+V5858arlZN9Jzh8OAkg
+	Mfs0aiOlRpFKTv+/RfLeDQxdKk1QR0Cxp/rMKfsGlRdc/l4pgNZiocIALJ6xVSCUo6Q=
+X-Gm-Gg: AY/fxX4CpiR1i8AtUE4GWcHvYwxJfcU5k3X+/4VfpJ11+yBFzGYNVkYaMpI+MZA+9js
+	dINE9EZgwF192yS2g9hNqEpJzcVD2Y5WSxBP0NnTfsR52DgU0nMtZTZDpOujIjTjXGC+0YeYGMB
+	WeEWnR/NcNeydCV52D7CJLNx50+tcC1QcEt0GWWunr5+dAtzA+wA25b8rnOvEwvG4JWOgPNvsjV
+	EG9d5dU73/fwfQKJAHnCPgojgwWCscReGvBesfUaJut3uN5aFfUmyGO7pN1SM1TZcMrIiFMWlhb
+	Ekx6eNwVlCx5Vi1MJTuuLKLD+elf+drF6eY2cRGOHt9k0qrt63KDmcEwvRmjGgw8LwmBhleWjKt
+	5fdSIPPzF+TPJHbl07WBYJfrFTU214ld2+KO1i7mAAC2o50XXzAO5c75Ymu3ch9XhFo0HSJOzx5
+	3rHOPJXdVKFpSqmjgh3Lev2aUQcA85sIzxHxwhnABvoWy/3N/xKjhvFl7QBsNAioh//whECA==
+X-Google-Smtp-Source: AGHT+IENvQu0lA+w8r7eNtBm9WUJ3/lNNLy7qp1W9GClRyOkBrOA+5+QqmRhEmTzN0zeeABQ2fhjWQ==
+X-Received: by 2002:a05:622a:1823:b0:4e8:9704:7c83 with SMTP id d75a77b69052e-4ffb47d759bmr323881271cf.14.1768313786490;
+        Tue, 13 Jan 2026 06:16:26 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8d39230sm147458241cf.6.2026.01.13.06.16.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 06:16:21 -0800 (PST)
+Date: Tue, 13 Jan 2026 09:15:43 -0500
+From: Gregory Price <gourry@gourry.net>
+To: dan.j.williams@intel.com
+Cc: Balbir Singh <balbirs@nvidia.com>, Yury Norov <ynorov@nvidia.com>,
+	linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel-team@meta.com, longman@redhat.com, tj@kernel.org,
+	hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
+	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com,
+	david@kernel.org, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk, rientjes@google.com,
+	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com,
+	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com,
+	baohua@kernel.org, yosry.ahmed@linux.dev, chengming.zhou@linux.dev,
+	roman.gushchin@linux.dev, muchun.song@linux.dev, osalvador@suse.de,
+	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
+	byungchul@sk.com, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+	cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
+Subject: Re: [RFC PATCH v3 0/8] mm,numa: N_PRIVATE node isolation for
+ device-managed memory
+Message-ID: <aWZTjzW54LMedKMH@gourry-fedora-PF4VCD3F>
+References: <aWUHAboKw28XepWr@gourry-fedora-PF4VCD3F>
+ <aWUs8Fx2CG07F81e@yury>
+ <696566a1e228d_2071810076@dwillia2-mobl4.notmuch>
+ <e635e534-5aa6-485a-bd5c-7a0bc69f14f2@nvidia.com>
+ <696571507b075_20718100d4@dwillia2-mobl4.notmuch>
+ <966ce77a-c055-4ab8-9c40-d02de7b67895@nvidia.com>
+ <aWWGZVsY84D7YNu1@gourry-fedora-PF4VCD3F>
+ <69659d418650a_207181009a@dwillia2-mobl4.notmuch>
+ <aWWuU8xphCP_g6KI@gourry-fedora-PF4VCD3F>
+ <6965b80a887d5_875d100b5@dwillia2-mobl4.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: s1CCR8UZO73_rjnu6xSP054ZxjCtViBV
-X-Proofpoint-ORIG-GUID: s1CCR8UZO73_rjnu6xSP054ZxjCtViBV
-X-Authority-Analysis: v=2.4 cv=Q7LfIo2a c=1 sm=1 tr=0 ts=69665228 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7ipKWUHlAAAA:8
- a=m6o-FXAq6gqIrf99m5QA:9 a=gpc5p9EgBqZVLdJeV_V1:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEzMDExOSBTYWx0ZWRfX5CNvvrAwyW4k
- 6EJSeAG0c5Q8z/80YV/NCKjAgvqtiRw50RPHu1phI8kbtyoXdGOgv54X5julOdiLcAEzOg5KQS6
- RvxQd20x9ZD0l2C/HYop8b4WFgcvXUck2DzwvWD/phFzvC9L9eNVrPP0q4WNMy9z8xEisOuJ+kN
- hxtk0eQG7jhUVSm/31U9ZAYzwxclEpfPSwCpn5D0v9ehyVT4vTsy95GsohsdPZ17v0emPCFN9td
- TJopv5yHAcfD8mF5H9fn1sHqTOse9mbVi+41BVtWkoV4Wuh/PmVG0gCfi3hkfgrApCvH3lQph6y
- BPD81K3pD1tMd8f+PJrOFBsCCnQ76RtFjQ0tKs5YdGY9YFL0RwiF90/2JAocm6dRdIh6/wR6y/m
- J3MEQTMiRubinot5H/QcGHq0e5VbLOhUxmj04I28+SQr9rkNx5twsKT2dPvA3M5cz6zJj9bDn09
- pAo2hmSM3zMQdfaQwmA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-13_03,2026-01-09_02,2025-10-01_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6965b80a887d5_875d100b5@dwillia2-mobl4.notmuch>
 
-On Tue, 25 Nov 2025 11:58:44 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+On Mon, Jan 12, 2026 at 07:12:10PM -0800, dan.j.williams@intel.com wrote:
+> Gregory Price wrote:
+> > On Mon, Jan 12, 2026 at 05:17:53PM -0800, dan.j.williams@intel.com wrote:
+> > > 
+> > > I think what Balbir is saying is that the _PUBLIC is implied and can be
+> > > omitted. It is true that N_MEMORY[_PUBLIC] already indicates multi-zone
+> > > support. So N_MEMORY_PRIVATE makes sense to me as something that it is
+> > > distinct from N_{HIGH,NORMAL}_MEMORY which are subsets of N_MEMORY.
+> > > Distinct to prompt "go read the documentation to figure out why this
+> > > thing looks not like the others".
+> > 
+> > Ah, ack.  Will update for v4 once i give some thought to the compression
+> > stuff and the cgroups notes.
+> > 
+> > I would love if the ZONE_DEVICE folks could also chime in on whether the
+> > callback structures for pgmap and hmm might be re-usable here, but might
+> > take a few more versions to get the attention of everyone.
+> 
+> page->pgmap clobbers page->lru, i.e. they share the same union, so you
+> could not directly use the current ZONE_DEVICE scheme. That is because
+> current ZONE_DEVICE scheme needs to support ZONE_DEVICE mixed with
+> ZONE_NORMAL + ZONE_MOVABLE in the same node.
+> 
+> However, with N_MEMORY_PRIVATE effectively enabling a "node per device"
+> construct, you could move 'struct dev_pagemap' to node scope. I.e.
+> rather than annotate each page with which device it belongs teach
+> pgmap->ops callers to consider that the dev_pagemap instance may come
+> from the node instead.
 
-Hi everyone,
+Hmmmmmmm... this is interesting.
 
-I'm running the v6.19 mm commits through patch review automation, and this
-commit was flagged.  I don't know this code well, but it looks like it
-might be a real bug.
+should be able to do that cleanly with page_pgmap() and/or folio_pgmap()
+and update direct accessors.
 
-[AI review output below]
+probably we'd want mildly different patterns for N_PRIVATE that does
+something like
 
-> diff --git a/mm/memfd_luo.c b/mm/memfd_luo.c
-> new file mode 100644
-> index 0000000000000..4f6ba63b43105
-> --- /dev/null
-> +++ b/mm/memfd_luo.c
+if (is_private_page(page)) {
+	... send to private router ...
+}
 
-[ ... ]
+bool is_private_page(page) {
+	pgdat = NODE_DATA(page_to_nid(page));
+	return pgdat && pgdat->pgmap;
 
-> +static int memfd_luo_retrieve_folios(struct file *file,
-> +				     struct memfd_luo_folio_ser *folios_ser,
-> +				     u64 nr_folios)
-> +{
-> +	struct inode *inode = file_inode(file);
-> +	struct address_space *mapping = inode->i_mapping;
-> +	struct folio *folio;
-> +	int err = -EIO;
-> +	long i;
-> +
-> +	for (i = 0; i < nr_folios; i++) {
+	/* or this, but seems less efficient */
+	return node_state(page_to_nid, N_PRIVATE);
+}
 
-[ ... ]
+Then we can add all the callbacks to pgmap instead of dumping them in
+node.c.  Shouldn't affect any existing users, since this doesn't
+intersect with ZONE_DEVICE.
 
-> +		err = shmem_add_to_page_cache(folio, mapping, index, NULL,
-> +					      mapping_gfp_mask(mapping));
-> +		if (err) {
-> +			pr_err("shmem: failed to add to page cache folio index %ld: %d\n",
-> +			       i, err);
-> +			goto unlock_folio;
-> +		}
-> +
-> +		if (flags & MEMFD_LUO_FOLIO_UPTODATE)
-> +			folio_mark_uptodate(folio);
-> +		if (flags & MEMFD_LUO_FOLIO_DIRTY)
-> +			folio_mark_dirty(folio);
-> +
-> +		err = shmem_inode_acct_blocks(inode, 1);
-> +		if (err) {
-> +			pr_err("shmem: failed to account folio index %ld: %d\n",
-> +			       i, err);
-> +			goto unlock_folio;
-> +		}
+Technically you COULD have ZONE_DEVICE in N_PRIVATE, but that would be
+per-page pgmap, and probably you'd have to have the private router
+handle the is_device_page() pattern like everyone else does.
 
-When shmem_inode_acct_blocks() fails here, the folio has already been
-added to the page cache by shmem_add_to_page_cache(). Should the folio be
-removed from the page cache before going to unlock_folio?
+(Seems pointless though, feels like N_PRIVATE replaces ZONE_DEVICE for
+ some use cases)
 
-Looking at shmem_alloc_and_add_folio() in mm/shmem.c, when
-shmem_inode_acct_blocks() fails after the folio has been added, it calls
-filemap_remove_folio() to remove it:
-
-    error = shmem_inode_acct_blocks(inode, pages);
-    if (error) {
-        ...
-        if (error) {
-            filemap_remove_folio(folio);
-            goto unlock;
-        }
-    }
-
-Without this, the folio remains in the page cache (counted in
-mapping->nrpages) but info->alloced is not incremented (since
-shmem_recalc_inode is not called). This could cause shmem accounting
-inconsistency.
-
-
+~Gregory
