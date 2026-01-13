@@ -1,94 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988BBEEBB;
-	Tue, 13 Jan 2026 08:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0054D36AB58;
+	Tue, 13 Jan 2026 08:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768293931; cv=none; b=rF3pzhB4iIdPn5qNiTyC2ME4MuWHBW2I1y0U923RyLUIS6QsQZJXceDAFbtZ0tvLa+7bBtD+yMq1fZgcGR5S+UWKUgxnXMgbRRsrOUaaJ0Dl1uFNOeg5KW26f/rUDQpnvosTcVpa/peGQEGux+EbEgJugShP24B78H/Gaa43iAI=
+	t=1768294376; cv=none; b=g2h8cC3Fs1iv7G41EhqtzpsOoW6NTUWqxEylIcE59l0553AIWTGvJ85DhZ7fv4v7WhBBFscWW9JU+bHI9lN+lXCZ5nz+50KKV7A9GYsxXODAXCiRaZE7cN8urPUzov3vneUE0rUYb3dVxKGTWrxEv9GJdQRAw8fwDJ6IBfhchXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768293931; c=relaxed/simple;
-	bh=6sxlwd/nbX4EZ0nsyiBG5EL0XzNqgxa2bnQd92SD4FE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bI8uVV87QzdW99mLRC/hfU0B27yUBBKZIARYTJUSWVlWzdMEqW8RcUUHpqZ4gT9RxsTAPQebKdtsdVV+WuavPuUsWUhUxNsbgUEF6fxiahM2meS/7cTjlVQzw3SKNzKEajGrj7uYOYTx2Ctyvk+r9OV8bLc2RhLWcu8vcLamdV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FxMmrpjC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FxMmrpjC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB7DC116C6;
-	Tue, 13 Jan 2026 08:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768293931;
-	bh=6sxlwd/nbX4EZ0nsyiBG5EL0XzNqgxa2bnQd92SD4FE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FxMmrpjC+hfKXh11mMDuyOYAhmdyt5813G5Ku4a46lfmknefA9mjBiLlU2W/mG28e
-	 dTMvY2EMBHekbmcb67kL4PP224nWh5XhAGiSas9SW8RwAxJ7OCgnYSXc31PGaRlSw0
-	 vok8ujJyIdvRNXrzGODam/EpzDNHqN+lyQMdGg25/nJlybU8K2X3UUA4Dv+YEntwsX
-	 nWadPWYb4zwrNAhBjDtoGB6HffqQNpitS/I1gsO7A0eSF4PxNWcUcresLHxEYGoin1
-	 kv8uwDlpg0NwogYPRAKMlbZGTTmKq+1xYMEFMl4zSG+71fyYEw83hHwUSNZaf0m1Mh
-	 JIQOELckEn0/w==
-From: Christian Brauner <brauner@kernel.org>
-To: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
+	s=arc-20240116; t=1768294376; c=relaxed/simple;
+	bh=OWsBgRVRhkQ6Duwp8Qo2MOZzACg+S2m5GMrtotJF2Y8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kxrSCvGqMUS2UoGyyX2ldpKbBSqo96BcGV8X9DrIuvbDFd/k3R6NAXCDZtvL/G+QQI9gEypuAyr0pMWgcmbNzwPjckzMdgRArjlSpPKkHAg1yZoV5ccX2IXLDyX2idZ0D3SX5MXwASvpRBsiRtMINrv4udTQoF8zuTwgKljRXRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 740E1200B88;
+	Tue, 13 Jan 2026 09:52:53 +0100 (CET)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 3F471200960;
+	Tue, 13 Jan 2026 09:52:53 +0100 (CET)
+Received: from NXL37714.wbi.nxp.com (nxl37714.wbi.nxp.com [10.31.156.112])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id BE6DD180009C;
+	Tue, 13 Jan 2026 16:52:51 +0800 (+08)
+From: Mayank Mahajan <mayankmahajan.x@nxp.com>
+To: linux@roeck-us.net,
+	corbet@lwn.net,
+	linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 0/4] exportfs: Some kernel-doc fixes
-Date: Tue, 13 Jan 2026 09:45:17 +0100
-Message-ID: <20260113-gestochen-campen-1d3a663928df@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
-References: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
+	linux-kernel@vger.kernel.org
+Cc: priyanka.jain@nxp.com,
+	vikash.bansal@nxp.com,
+	Mayank Mahajan <mayankmahajan.x@nxp.com>
+Subject: [PATCH 3/3] hwmon: (tmp108) Add P3T1035 and P3T2030 support
+Date: Tue, 13 Jan 2026 14:22:47 +0530
+Message-ID: <20260113085248.1771-1-mayankmahajan.x@nxp.com>
+X-Mailer: git-send-email 2.47.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1291; i=brauner@kernel.org; h=from:subject:message-id; bh=6sxlwd/nbX4EZ0nsyiBG5EL0XzNqgxa2bnQd92SD4FE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSmsSl35KxlL4l8yscpp+fjIbVL/9Mldr57bRv2vDnK9 WpW/+wJHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO5s4Hhf56wlV7bvUV35fq+ zt1m4Xrqquru+geVDdyPt8vOuW+Y08zwV+TwhVUBE76/1+b5IXdNJPsFd6HBQp0SfqbJK8t04vq d2QA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-On Mon, 12 Jan 2026 22:51:23 -0300, André Almeida wrote:
-> This short series removes some duplicated documentation and address some
-> kernel-doc issues:
-> 
-> 
+Update the hwmon driver documentation for sensors: P3T1035 and P3T2030.
 
-Applied to the vfs-7.0.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.0.misc branch should appear in linux-next soon.
+Signed-off-by: Mayank Mahajan <mayankmahajan.x@nxp.com>
+---
+ Documentation/hwmon/tmp108.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+diff --git a/Documentation/hwmon/tmp108.rst b/Documentation/hwmon/tmp108.rst
+index bc4941d98268..c218ea333dd6 100644
+--- a/Documentation/hwmon/tmp108.rst
++++ b/Documentation/hwmon/tmp108.rst
+@@ -3,6 +3,15 @@ Kernel driver tmp108
+ 
+ Supported chips:
+ 
++  * NXP P3T1035
++
++    Prefix: 'p3t1035'
++
++    Addresses scanned: none
++
++    Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1035XUK_P3T2030XUK.pdf
++
++
+   * NXP P3T1085
+ 
+     Prefix: 'p3t1085'
+@@ -11,6 +20,14 @@ Supported chips:
+ 
+     Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1085UK.pdf
+ 
++  * NXP P3T2030
++
++    Prefix: 'p3t2030'
++
++    Addresses scanned: none
++
++    Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1035XUK_P3T2030XUK.pdf
++
+   * Texas Instruments TMP108
+ 
+     Prefix: 'tmp108'
+-- 
+2.34.1
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.0.misc
-
-[1/4] exportfs: Fix kernel-doc output for get_name()
-      https://git.kernel.org/vfs/vfs/c/c9ae970f7c11
-[2/4] exportfs: Mark struct export_operations functions at kernel-doc
-      https://git.kernel.org/vfs/vfs/c/69639fccd6e3
-[3/4] exportfs: Complete kernel-doc for struct export_operations
-      https://git.kernel.org/vfs/vfs/c/66982f431798
-[4/4] docs: exportfs: Use source code struct documentation
-      https://git.kernel.org/vfs/vfs/c/4e9076eaa1a9
