@@ -1,273 +1,174 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816892BE639
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 14:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768314611; cv=pass; b=k3j6pAjjZrgYB539KWxl85MH3/6ZfcQ/OF4jVpjdVKuV3/D7NGl1n5qJQ06R7o8PCJoYHmReV4i0tIyIE/gppA/sgAVtzwBCECf91oDrCGG+FkoB8oXibfC/AQiXWRPQtFR5hWXiqshgoomSGVJ6s+HfzpUwNBULtH/QkZRu6Ic=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768314611; c=relaxed/simple;
-	bh=G5FodbqLvXK9tpyH66xlaj/l47vKj19iBm8mD+95DeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tbz66KWCsjwCKC9NS5ZrJ2/Nkc4smgyrHvg+bWRGst+Zt8EJaZ0wQPQAmejQDsQEn3tCsGBAeXPbcWbW3N22ROOnH8hyzMscDljFM/NXd3tta28r9FsyGqoABsknuXl632+Je7TTzlKJOuV97pQOLbCWwel3uYvM1PRhKTtD/IQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B+wyn6gB; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E730D259C9C;
+	Tue, 13 Jan 2026 14:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768314641; cv=none; b=PxUTX6+YXSru76l/w2tWzlBd2xMBEYIRf5IHEvIhy/AjNE/JiOyHaDgnFCMCtRSCPPvmQSRc/8jA8zPfF8iCLGV92x0vdg142ekr7i6LY/sseSKH4mVfWsVexpyWdymqxNXNc8uDhm61JKg3Le4opPQmtQfI6vxyvLD/fPnwbYY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768314641; c=relaxed/simple;
+	bh=j52PdzIENv2XLxvMWCdJ+c3e62adqHWubgUdVFqyWPM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DGRZOOB674cTVRQ3OImtGybs2zuV1xwO5t5fHgJ3iasGTtrMcyLPSq1L+3vs+ylZmW+sYl007DpzUh76Q3gRSJ5++/FnJ0djEnrKrHOmmJwNQoOHkqqCpnFjCfCKw9K2VZIau29UR+9GhjGvKzQZrwactsBZtDZEX7xaBtUQ/XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=TNvMx1NT; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B+wyn6gB"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4edb8d6e98aso424991cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 06:30:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768314607; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hAUKW6mwlMWtQvyl77/2n8evd0Dp+CkNxoBdfHChnxs/rGv42RPviuolOAGfB6maAe
-         rRUV4VSgNMWfDGcMj7j+evTxjGcq0aVGdwQrYiLPjjcPQLKnQCn1bEXqUMEh/VIa9B+L
-         m4HWxDIotaTB7hPJwwNpT4J6p7FLzGx2NEPukKFPb5aB58aab6xod+kp/a5BbLLAMr0S
-         fcRLaUXV7tCNWW4oFvJQni/Gd4AtDfv1hH6cUlAv799hQoQyOmbcoeHFd0plQgDMRC2k
-         vdmEfT/pFg/Uquewqu+ND1sMgxRXy4mo8zbY4OpJWsdtpMQkohJvSLhjba/hWYTW8k3J
-         A+/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=b091E81/2unB3PJIE3JLMImmryguifLfk5JsrT4l5/A=;
-        fh=pMdb54Ef+1U36SimoJvWpBlY2iwDA0NmGX6DKZKIYE8=;
-        b=J5+lHICoWYrrR7H2XuSGZandTn3dGID3rJNdC5LahpRXnrIaM9d6UkAkxXsE/vfgr4
-         EDOcDyIFWlmR0t/lEvOGJa2U+9Sz1bKhLIp6rllrRupI2NCCo89obUZO8F/s8R/tcPPK
-         0bPkbs26hBEko6pPWA0+Yb713VOzDGV4YgAK3Q002lsOVyKbegq8Kx0IcoJPdaTnu3hp
-         WoZOlrRpQqhDHaR8y2JX5oNHXgbgSAgy6Ok8H96ql1NlyyWK45s1Gj/RIvgDNE+7zwSy
-         deb1K6ReYzcfp5+BbaPQaWeOXuwdxDEs+yFwYqpJ0DvMIZ0U48PUTc8mgn8PUY8WXMJC
-         4tPw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768314607; x=1768919407; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=b091E81/2unB3PJIE3JLMImmryguifLfk5JsrT4l5/A=;
-        b=B+wyn6gBeRVxtZ/U6WcHc9YOm2TCL+0bcnT/ZIa0YIUM6Ce/cG4R0gIuofmBsVwzfq
-         mjKU5Vk3WK7lFJlUQ6pJJATqiXTeienDpdkviDulL25OjuyFu9WhpJw/ynaE11ekXc1y
-         oYefzbYHfpwoP82mOQ/pmDHtwqZ8CgRmYeQeSUOimfOWQ+iV21cHE9iSXmckvv6Hf5Y0
-         l23XQ+uQidUY3cfGHQGe68NE2QFAuT5GQXxrrmKMig5gTJeoivKRSkaYMyIJDbEvR8Cd
-         gtC+2Qt2PoaJjwDY/oq0n+lgC/BlsEc+WfHq82GYlo+FPRXNSNdR/EaIIpBklTmeBiUR
-         DSxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768314607; x=1768919407;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b091E81/2unB3PJIE3JLMImmryguifLfk5JsrT4l5/A=;
-        b=kpqsgmfbtQdpuE5X077H79NCiD0ILB/fIqXU8f/j/TNQhyNNlNRYssFz/W3Omu4guu
-         k3H9dAGa5DNtWLY8a0j2mO1h9VYTEgzW54hG7yGrk/RwQmUUAdVyz82yqs8otGLCTmSC
-         yeopocDKdVcIiQ5r65CT5gFVjW3OwOXSWHmqda+sVxJx9soSbd/rwbxUNHvCwwHvtNXV
-         URmfp1HLM6K7lLk9D3/ZM/G0vanS+LhMHfuEKorFCjIqq8MdzB/KcQNh6bHz+wcA4R2U
-         2Lk9uMUgE8hMv0NplAk8545cXnrpTldot1kIxOiM3JpmiJXRvV7flPSG6SN8LdjyXfEM
-         R8AA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTzWURBEOf0TiOuXe1MkpTfkC6Nzum8ZAhJOWCO3bjboXFxPr97yTvfqal1CtQenUI8P1N+AgNXz4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm1q6g7k5b2PtjpCqAXwwnKWFZ//9OcstI5t3sd0h8uYzibw5r
-	CuglxrCQb/BI0SuYBgGgqjOjEys1JiekfNU3GiwfTpvJ4OMBRvZRZd0CVoOXoHMhx3u3DHXYN2g
-	SBLCXTh9tFNcJPTW9HOsetybRNU+bTu3Sifrj6MWs
-X-Gm-Gg: AY/fxX6PbCqvsOMfsXy0xOpgw0IrHPvvuV9MJ+7/G4N2d82c+KPq7DxOyMrwv8Kv9xT
-	DEvrwfHIJwCZK1Vddi+hsWp788/4lLyeO1vHTz29mQbX9JUCMdXpbXAQpb3PVu2mV+XMcwV7s16
-	JlVT+dARHU6alWZEUTx2kEqs05BrjKi07vW0dJyx39fXoXiXV0Sit+2dkeOMrLmkQsWwvwq2IGT
-	1NU2QALYFG1kMqEvrj5uoGCniNPVpXKYk7gYgnkPUDPqcF9wmYhdCQyaX7LDnpwXHluCiAN+h36
-	z0FpZ6yrmOLe7fpj7IeQx02dJQ==
-X-Received: by 2002:ac8:5ad4:0:b0:4f1:83e4:73be with SMTP id
- d75a77b69052e-5013b23e77amr10218591cf.15.1768314606872; Tue, 13 Jan 2026
- 06:30:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="TNvMx1NT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=YD/1Io+arbRJx4PEdND+flImAcKUeEptkUACRUXcVZQ=; t=1768314640;
+	x=1768746640; b=TNvMx1NTmx9enK7w7yKUlkcfGm+aKZxymVaHkq73kuyW3DGXupyiQKFOgFouM
+	qHP3nMZGdRPA1KjjCknQeCYurPU0FaXeJ5beSIZf1NMgczDrIk5voDxmWjjV9+AcnVFjrYKu0Z01a
+	Z9TrufNBnzvO+/BYm11zeRzdp/PWlW84jWESsrGaC0EX6IeXG9gm1cDi8bpHavzn500tELBQdC/9e
+	PFiaRJrCFjg8Akdy12SjX+F+g41QN+SM92ta2tnJWFe+CAOrf16lGGwl50XNinc/OtjyIdxLS8blZ
+	nNesz2FEWu8SAvbUZ6L5ApDoP0kOvHo4qLZbsgRdsmaaIERSlA==;
+Received: from [2a02:8108:8984:1d00:a0cf:1912:4be:477f]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1vffPp-008uOy-25;
+	Tue, 13 Jan 2026 15:30:37 +0100
+Message-ID: <acf27b9d-fe11-4650-b525-4a91d1271e25@leemhuis.info>
+Date: Tue, 13 Jan 2026 15:30:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-24-8be3867cb883@kernel.org>
-In-Reply-To: <20251223-kvm-arm64-sme-v9-24-8be3867cb883@kernel.org>
-From: Fuad Tabba <tabba@google.com>
-Date: Tue, 13 Jan 2026 14:29:30 +0000
-X-Gm-Features: AZwV_Qi1BQ7vCKiwPSasBf7ZnHIRAUGyzNDOshXruUEpESYhIak7mxGtl8xsYqo
-Message-ID: <CA+EHjTyL5gFQ8osKHaXQHa6327-HBJ4wvn6G2isDY3og4tCBKw@mail.gmail.com>
-Subject: Re: [PATCH v9 24/30] KVM: arm64: Handle SME exceptions
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
-	Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/30] docs: reporting-issues: tweak the reference
+ section intro
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1761481839.git.linux@leemhuis.info>
+ <d94aa32d4a1ed5ef9d0f768d05e64987f4a1ae69.1761481839.git.linux@leemhuis.info>
+ <87qzuontlj.fsf@trenco.lwn.net>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: <87qzuontlj.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1768314640;5d949aba;
+X-HE-SMSGID: 1vffPp-008uOy-25
 
-On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
->
-> The access control for SME follows the same structure as for the base FP
-> and SVE extensions, with control being via CPACR_ELx.SMEN and CPTR_EL2.TSM
-> mirroring the equivalent FPSIMD and SVE controls in those registers. Add
-> handling for these controls and exceptions mirroring the existing handling
-> for FPSIMD and SVE.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+On 10/27/25 18:27, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
+> 
+>> Small improvements to the intro of the reference section.
+> 
+> That's a bit uninformative ... what is the purpose of these
+> improvements?  That information would be especially helpful in a patch
+> that simply replaces that section altogether.
 
-Reviewed-by: Fuad Tabba <tabba@google.com>
+Sorry, yes, of course, changes that to
 
-Cheers,
-/fuad
+"""
+Fine tuning to the intro of the reference section:
 
+ * Call the step-by-step guide what it is.
+ * Reorder the links to the guides on bug reporting to first mention the
+  most modern one.
+ * Many small changes to streamline the text and slightly shorten it
+"""
 
+>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+>> ---
+>>  .../admin-guide/reporting-issues.rst          | 67 +++++++++----------
+>>  1 file changed, 31 insertions(+), 36 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+>> index 3bc47afaf85ea0..90b50c27c0d2b6 100644
+>> --- a/Documentation/admin-guide/reporting-issues.rst
+>> +++ b/Documentation/admin-guide/reporting-issues.rst
+>> @@ -244,42 +244,37 @@ The reference section below explains each of these steps in more detail.
+> 
+> [...]
+> 
+>> +The step-by-step guide above outlines all the major steps in brief fashion,
+>> +which usually covers everything required. But even experienced users will
+>> +sometimes wonder how to actually realize some of those steps or why they are
+>> +needed; there are also corner cases the guide ignores for readability. That is
+>> +what the entries in this reference section are for, which provide additional
+>> +information for each of the steps in the detailed guide.
+>> +
+>> +A few words of general advice:
+>> +
+>> +* The Linux kernel developers are well aware that reporting bugs to them is
+>> +  more complicated and demanding than in other FLOSS projects. Quite a few
+>> +  would love to make it simpler. But that would require convincing a lot of
+>> +  developers to change their habits; it, furthermore, would require improvements
+>> +  on several technical fronts and people that constantly take care of various
+>> +  things. Nobody has stepped up to do or fund that work.
+> 
+> This paragraph ... essentially says "we're making it hard on you because
+> kernel developers can't be bothered to work on GitHub".
 
-> ---
->  arch/arm64/kvm/handle_exit.c            | 14 ++++++++++++++
->  arch/arm64/kvm/hyp/include/hyp/switch.h | 11 ++++++-----
->  arch/arm64/kvm/hyp/nvhe/switch.c        |  4 +++-
->  arch/arm64/kvm/hyp/vhe/switch.c         | 17 ++++++++++++-----
->  4 files changed, 35 insertions(+), 11 deletions(-)
->
-> diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
-> index cc7d5d1709cb..1e54d5d722e4 100644
-> --- a/arch/arm64/kvm/handle_exit.c
-> +++ b/arch/arm64/kvm/handle_exit.c
-> @@ -237,6 +237,19 @@ static int handle_sve(struct kvm_vcpu *vcpu)
->         return 1;
->  }
->
-> +/*
-> + * Guest access to SME registers should be routed to this handler only
-> + * when the system doesn't support SME.
-> + */
-> +static int handle_sme(struct kvm_vcpu *vcpu)
-> +{
-> +       if (guest_hyp_sme_traps_enabled(vcpu))
-> +               return kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
-> +
-> +       kvm_inject_undefined(vcpu);
-> +       return 1;
-> +}
-> +
->  /*
->   * Two possibilities to handle a trapping ptrauth instruction:
->   *
-> @@ -390,6 +403,7 @@ static exit_handle_fn arm_exit_handlers[] = {
->         [ESR_ELx_EC_SVC64]      = handle_svc,
->         [ESR_ELx_EC_SYS64]      = kvm_handle_sys_reg,
->         [ESR_ELx_EC_SVE]        = handle_sve,
-> +       [ESR_ELx_EC_SME]        = handle_sme,
->         [ESR_ELx_EC_ERET]       = kvm_handle_eret,
->         [ESR_ELx_EC_IABT_LOW]   = kvm_handle_guest_abort,
->         [ESR_ELx_EC_DABT_LOW]   = kvm_handle_guest_abort,
-> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> index 5bcc72ae48ff..ad88cc7bd5d3 100644
-> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> @@ -69,11 +69,8 @@ static inline void __activate_cptr_traps_nvhe(struct kvm_vcpu *vcpu)
->  {
->         u64 val = CPTR_NVHE_EL2_RES1 | CPTR_EL2_TAM | CPTR_EL2_TTA;
->
-> -       /*
-> -        * Always trap SME since it's not supported in KVM.
-> -        * TSM is RES1 if SME isn't implemented.
-> -        */
-> -       val |= CPTR_EL2_TSM;
-> +       if (!vcpu_has_sme(vcpu) || !guest_owns_fp_regs())
-> +               val |= CPTR_EL2_TSM;
->
->         if (!vcpu_has_sve(vcpu) || !guest_owns_fp_regs())
->                 val |= CPTR_EL2_TZ;
-> @@ -101,6 +98,8 @@ static inline void __activate_cptr_traps_vhe(struct kvm_vcpu *vcpu)
->                 val |= CPACR_EL1_FPEN;
->                 if (vcpu_has_sve(vcpu))
->                         val |= CPACR_EL1_ZEN;
-> +               if (vcpu_has_sme(vcpu))
-> +                       val |= CPACR_EL1_SMEN;
->         }
->
->         if (!vcpu_has_nv(vcpu))
-> @@ -142,6 +141,8 @@ static inline void __activate_cptr_traps_vhe(struct kvm_vcpu *vcpu)
->                 val &= ~CPACR_EL1_FPEN;
->         if (!(SYS_FIELD_GET(CPACR_EL1, ZEN, cptr) & BIT(0)))
->                 val &= ~CPACR_EL1_ZEN;
-> +       if (!(SYS_FIELD_GET(CPACR_EL1, SMEN, cptr) & BIT(0)))
-> +               val &= ~CPACR_EL1_SMEN;
->
->         if (kvm_has_feat(vcpu->kvm, ID_AA64MMFR3_EL1, S2POE, IMP))
->                 val |= cptr & CPACR_EL1_E0POE;
-> diff --git a/arch/arm64/kvm/hyp/nvhe/switch.c b/arch/arm64/kvm/hyp/nvhe/switch.c
-> index d3b9ec8a7c28..b2cba7c92b0f 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/switch.c
-> +++ b/arch/arm64/kvm/hyp/nvhe/switch.c
-> @@ -181,6 +181,7 @@ static const exit_handler_fn hyp_exit_handlers[] = {
->         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
->         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg,
->         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
-> +       [ESR_ELx_EC_SME]                = kvm_hyp_handle_fpsimd,
->         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
->         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
->         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
-> @@ -192,7 +193,8 @@ static const exit_handler_fn pvm_exit_handlers[] = {
->         [0 ... ESR_ELx_EC_MAX]          = NULL,
->         [ESR_ELx_EC_SYS64]              = kvm_handle_pvm_sys64,
->         [ESR_ELx_EC_SVE]                = kvm_handle_pvm_restricted,
-> -       [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
-> +       [ESR_ELx_EC_SME]                = kvm_handle_pvm_restricted,
-> +       [ESR_ELx_EC_FP_ASIMD]           = kvm_handle_pvm_restricted,
->         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
->         [ESR_ELx_EC_DABT_LOW]           = kvm_hyp_handle_dabt_low,
->         [ESR_ELx_EC_WATCHPT_LOW]        = kvm_hyp_handle_watchpt_low,
-> diff --git a/arch/arm64/kvm/hyp/vhe/switch.c b/arch/arm64/kvm/hyp/vhe/switch.c
-> index 9984c492305a..8449004bc24e 100644
-> --- a/arch/arm64/kvm/hyp/vhe/switch.c
-> +++ b/arch/arm64/kvm/hyp/vhe/switch.c
-> @@ -458,22 +458,28 @@ static bool kvm_hyp_handle_cpacr_el1(struct kvm_vcpu *vcpu, u64 *exit_code)
->         return true;
->  }
->
-> -static bool kvm_hyp_handle_zcr_el2(struct kvm_vcpu *vcpu, u64 *exit_code)
-> +static bool kvm_hyp_handle_vec_cr_el2(struct kvm_vcpu *vcpu, u64 *exit_code)
->  {
->         u32 sysreg = esr_sys64_to_sysreg(kvm_vcpu_get_esr(vcpu));
->
->         if (!vcpu_has_nv(vcpu))
->                 return false;
->
-> -       if (sysreg != SYS_ZCR_EL2)
-> +       switch (sysreg) {
-> +       case SYS_ZCR_EL2:
-> +       case SYS_SMCR_EL2:
-> +               break;
-> +       default:
->                 return false;
-> +       }
->
->         if (guest_owns_fp_regs())
->                 return false;
->
->         /*
-> -        * ZCR_EL2 traps are handled in the slow path, with the expectation
-> -        * that the guest's FP context has already been loaded onto the CPU.
-> +        * ZCR_EL2 and SMCR_EL2 traps are handled in the slow path,
-> +        * with the expectation that the guest's FP context has
-> +        * already been loaded onto the CPU.
->          *
->          * Load the guest's FP context and unconditionally forward to the
->          * slow path for handling (i.e. return false).
-> @@ -493,7 +499,7 @@ static bool kvm_hyp_handle_sysreg_vhe(struct kvm_vcpu *vcpu, u64 *exit_code)
->         if (kvm_hyp_handle_cpacr_el1(vcpu, exit_code))
->                 return true;
->
-> -       if (kvm_hyp_handle_zcr_el2(vcpu, exit_code))
-> +       if (kvm_hyp_handle_vec_cr_el2(vcpu, exit_code))
->                 return true;
->
->         return kvm_hyp_handle_sysreg(vcpu, exit_code);
-> @@ -522,6 +528,7 @@ static const exit_handler_fn hyp_exit_handlers[] = {
->         [0 ... ESR_ELx_EC_MAX]          = NULL,
->         [ESR_ELx_EC_CP15_32]            = kvm_hyp_handle_cp15_32,
->         [ESR_ELx_EC_SYS64]              = kvm_hyp_handle_sysreg_vhe,
-> +       [ESR_ELx_EC_SME]                = kvm_hyp_handle_fpsimd,
->         [ESR_ELx_EC_SVE]                = kvm_hyp_handle_fpsimd,
->         [ESR_ELx_EC_FP_ASIMD]           = kvm_hyp_handle_fpsimd,
->         [ESR_ELx_EC_IABT_LOW]           = kvm_hyp_handle_iabt_low,
->
-> --
-> 2.47.3
->
+/me looks puzzled
+/me noticed that Jonathan is right
+/me looks puzzled in a different way
+
+> I'm not sure this paragraph is needed at all but, if
+> you're going to keep it, have it at least reflect that the complexity of
+> problem reporting has a lot to do with the complexity of the problem
+> domain rather than developers who are stuck in their habits.
+
+Considered dropping it, but in the end decided that I think it's wort it
+and changed it to:
+
+* The Linux developers are well aware that reporting bugs to them is
+more complicated and demanding than in other FLOSS projects. Some of it
+is because the kernel is different, among others due to its mail-driven
+development process and because it consists mostly of drivers. Some of
+it is because improving things would require work in several technical
+areas and people triaging bugs –– and nobody has stepped up to do or
+fund that work.
+
+Ciao, Thorsten
