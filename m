@@ -1,217 +1,536 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9332FDC35
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 20:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768336940; cv=none; b=KpR+tqj0y3QsckX7aV/O7wAYvKO4IMzfRZ6Hasyaqeb3d/U2sOOZVUCiGCZXx9W6pZt229HDhf++q6zd3hYwpwpWtB9VUS6DyjYBxLZbSLyKmCrOK6jKcREh86rkbdEDJhKmgWg84wzKbBXGKxQ6tKDddgLWL3wwlRVWm11CXWk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768336940; c=relaxed/simple;
-	bh=fONd7IIJav6dpx/YSnyZ8a+G2AkKv1pBjK8zWxIouU8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=op8FHkxOHKBN0XKMdOFBUAHxkIvIwcBTi9dStRyWKgFpJUODH0D7rq5EBPDYdsrfKGzKsCjB/1gn2frlNpiJHnJ9ylJstZMylkeb3PMxq8yVPVxy/x1fd6Wu16oNzdAeYv4AGEF6ajXiTH9AJhxcbtmLvGMZt2qL4rTmHJsIGhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZMuABEd3; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A37130FF06
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 20:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768336987; cv=pass; b=ft/WW1Vn0LXlbIhGxz1yQcxXTCO2ZqGTMC/+bALRKub1PIaZJr3lgCqC4YJgD1QK9eTI3YfgnnahsjQt7020KlXXnRTQy87vYcJIeLCWdbx91eRBasCqO1XnBx2srnb759vb6BS8snk5DzkhyZEGlQ6ytEWm8212IsEGj1R11RQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768336987; c=relaxed/simple;
+	bh=hSf3R/YVk//+ujbhyN+bD/qV4nruZvODNEYfVDWxeb4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XhFPFjcx8U9NNZrKjqS6oDbbbT2PjadKj/LSZ7BaAzOiDf0pUkzucoIdYD6g0KiY+oPkPOjnP9rq2ZRkvt6wtY6i/DXw/ha1FSXwHtpd+7GhOFUBRfQMxsd0DZULuLdXVtaMEqa6KqtALM0sB2DOvT5nGxR8NE56GvyC9aQYXFQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JJclDuSq; arc=pass smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZMuABEd3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E000840C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768336938; bh=e3ZkxX/QCPULMjOeKlyAwQ2Txi/Cu+zenrCG1cMaD/Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZMuABEd3sIhmf6LW5j9jYDeG+LzHa3fH7CCGLO+GETvAYGCEb2kRAFH9TMi/7xMYS
-	 KduSwqOodk7s2fzHzEkjr7lqXVgXrpylRjxd4UiWvWAQUjd9w5aOYvCc9o5U4/yR66
-	 HT6QMItxMnFGcv5FxTcGub73LfINp41BN57yWICA2X4t2tnb35U2TmaB5iZ3C18urA
-	 dTEmemIznhlF4mLv+NYeL7f9Tr0CGpxfh36GAQm5fuq+G6+MlfBkSkobGAXdtLTobj
-	 mazqWADid/Pt1sNfJY80dCvRF+xgHGBvxs6nv4jI/3e6DqUDm6SPrcv7buO1uV72YX
-	 7fjRFh58hWqnw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E000840C7C;
-	Tue, 13 Jan 2026 20:42:17 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Changbin Du
- <changbin.du@huawei.com>
-Subject: [PATCH] Rework the jobserver open logic
-Date: Tue, 13 Jan 2026 13:42:16 -0700
-Message-ID: <871pjtxn13.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JJclDuSq"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b78649941so250e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 12:43:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768336984; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FNJx1YvrvbRkskceBKIbi082CAPCUBvFmH3OqDEE0Oan54vp3Mh5E6pXqYNS42zA8E
+         cKLlWVYujEjKYYrUj9Lp4kCLAN8JjRd+wyKuINLAcZgzVG9BUc74K2FAn4R7Hso0GHht
+         nB+zUk5aMHEWAJpuw0E0D2WoV1fiGVN298n2a4znjFtl+4+XB7NCYpr21CrQa4PZZtI8
+         UywDVpAG+hzqkiCdJ9JpQ6Rxo1h4cjQVZEkBkdSQzqSGmCwJBBmRXtOk5zHnXiQhI61B
+         FOz7Wr8azoUOPeIk6XNC2UjwrIkONwVCiqnK5zSnWk33sxFkMuQ+LtXgM9Izbyhh3pWl
+         qEiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=x7rZQoaFWDVZHnj6smUs01byVX9zqt9iWxrOQ24b43U=;
+        fh=iUOqSWjvHShzDyboP0AWy7dTj+3UoT9UiRnNORNSzf8=;
+        b=XfTVCsHWb+FDJmFAGnKeLU9setZqYt6+qjRLxzOUY0eyTMiKYk7d69EG9c89Sjs93m
+         DCDIvAcbRrCVz/VX48gvTcEo4ZF6+tcuFDNIf/4gblgmM3/IDn1cJNMQLKoHQOCytUvx
+         hbxfzaf4j6qjcvkyTbHxj/692Fp0Q84ipafVBf3g7xBHvZ86qklpQ09pXKpNSizJEddc
+         fksdHhd60wc/09D+doq86uMysTxjm3OmIHko2S7qXiPhAi2sHok7d7AV8a/Kypoizb8A
+         mWkIDD+RM+c5OpXHIACml2z5RzgQobqmXSvRNG1J/9/0S9+lg/Gcw3YEjznrYs9Xk7MD
+         Nmvg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768336984; x=1768941784; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x7rZQoaFWDVZHnj6smUs01byVX9zqt9iWxrOQ24b43U=;
+        b=JJclDuSqvR0pHlmRizqPmASUySRZo0wIIfHwKMK687d6kT6b8o1i94GahusEYD7CjN
+         Jv6lhOWIcbjZVabFGYowp6laShlXLoksYDtxlIQr3kC9D1JqPcJSdqftnvEPa29Jg1Je
+         xIuvOo76W1Kyf3oSmFWNCjGBNdBG+HyHVEh48tg/leNKswtl3tN/NDQLFIfXvQHyH2bj
+         oF1GsOPaAZj8GBJptA3Lj1vJEM/I860tfrPZM1Onwmx93UiUuRnC1jWGVr9nstLhmufI
+         FhVKsk+kBXntYy4u2y2LVroojde6dG2dnnPPqTvCCwxJepOePAwns+hQMFMy7GbYiHQq
+         IGqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768336984; x=1768941784;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=x7rZQoaFWDVZHnj6smUs01byVX9zqt9iWxrOQ24b43U=;
+        b=ko+n5TeI5vH9iyZ4wO1j7YOsaQNZpj0/nk2kXnGx8ewZnNgMqlFTe15K29YGvYnQI2
+         wzre1Enp7f2iRoKVXHipeQ1Hsbgib/9jPe8KqXyfbIzOnZTGwWR8qJFr0D4hO4Da7Jr6
+         oDBw2OOcywpnwHj1lRpWXkGI7xVFF4PLdBjicQhYFfDFOTiIv9QOWrxna4E9ershyNeu
+         PxjhlbYJCtbAlWKGB653TqSylKTbczCJbPwbN0Cvxc1/iMUatThj8oBBDZYayqrtW6Ub
+         r29Oobk2/K/+W7IO2lMCUwWFpvTUbpkesz9elIa5IO80bzoJo52+jLp4ZeLPHYs4RHjN
+         cTKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVSPiiyPI377AZSRd3DPofQC1WQvAvGNWobTdJ1XB00/GOnyxachXa+x4RX0R8HgnI/mLOxcUgmQ8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCs5+H4SfkKu/jXtarWs/X7LuHsnitAF3b4dUoggstpuc5F6Cd
+	HW7Bx33/Y62jC+hbyob6bEjYvIo1jGQFNk3Zo6Yt1zj/+dbDs3fIlj3KofOE6Hxq8L4CLljSq1R
+	Aif4UR+RmyYnsJifp9LrdX7r8cfOjOsPgChjV6ry/
+X-Gm-Gg: AY/fxX4o8Hu/jjXc/O+LtxfoQc2etGKdNzqTmBAm+/IyxQnnHVGkFPe5owtGn4/JMMF
+	y2RfwKgMS+F1aiGttThhVgBXSHpARWNYLhKnytvU/8KqejNG1jXNMaVmEYHblOHMTRQTPGA9fHU
+	gCar6yeHVJZ4NC4K2ge6AYzoFvASTa96gDhkdJcld7xNjQbMqt9MnwXH9vAwVy43nNjTXmqXAZ7
+	I7+qrD9lZhUBZk9eK/CmW2TT4uH6vkpGEkjOeQlX+2PwH3J8avha700ZanGif1XxfAIS8v4pNOF
+	ZHh2J/sqKkBhzaoG2LrROFxndVnBvTpes0w=
+X-Received: by 2002:a05:6512:1c6:b0:595:7664:56b with SMTP id
+ 2adb3069b0e04-59ba0c12542mr23823e87.11.1768336983053; Tue, 13 Jan 2026
+ 12:43:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260109-scratch-bobbyeshleman-devmem-tcp-token-upstream-v9-0-8042930d00d7@meta.com>
+ <20260109-scratch-bobbyeshleman-devmem-tcp-token-upstream-v9-3-8042930d00d7@meta.com>
+ <CAHS8izO=kddnYW_Z7s=zgbV5vJyc1A0Aqbx4pnkAz=dtbstWNw@mail.gmail.com>
+ <aWUgNd6nOzZY3JCJ@devvm11784.nha0.facebook.com> <CAHS8izMfw_m4ajVK-VHy-a4H4FXx45m33fP=vquHLGTJMX7aYA@mail.gmail.com>
+ <aWar7n5vOptzQpeC@devvm11784.nha0.facebook.com>
+In-Reply-To: <aWar7n5vOptzQpeC@devvm11784.nha0.facebook.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 13 Jan 2026 12:42:50 -0800
+X-Gm-Features: AZwV_QhxzKVuyytHoPIBscDcgUiz1NX8yMIvNyoCUU6iZ0ewG1voO5edpP3yUTA
+Message-ID: <CAHS8izOjORbGYYtVxcQ6ycN6LXP241qSLmgKddEZvopGO7pKqA@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 3/5] net: devmem: implement autorelease token management
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, 
+	Donald Hunter <donald.hunter@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com, 
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The parsing of jobserver options is done in a massive try: block that hides
-problems and (perhaps) bugs.  Split up that block and make the logic
-explicit by moving the initial parsing of MAKEFLAGS out of that block.  Add
-warnings in the places things can go wrong.
+On Tue, Jan 13, 2026 at 12:32=E2=80=AFPM Bobby Eshleman <bobbyeshleman@gmai=
+l.com> wrote:
+>
+> On Tue, Jan 13, 2026 at 11:27:38AM -0800, Mina Almasry wrote:
+> > On Mon, Jan 12, 2026 at 8:24=E2=80=AFAM Bobby Eshleman <bobbyeshleman@g=
+mail.com> wrote:
+> > >
+> > > On Sun, Jan 11, 2026 at 11:12:19AM -0800, Mina Almasry wrote:
+> > > > On Fri, Jan 9, 2026 at 6:19=E2=80=AFPM Bobby Eshleman <bobbyeshlema=
+n@gmail.com> wrote:
+> > > > >
+> > > > > From: Bobby Eshleman <bobbyeshleman@meta.com>
+> > > > >
+> > > > > Add support for autorelease toggling of tokens using a static bra=
+nch to
+> > > > > control system-wide behavior. This allows applications to choose =
+between
+> > > > > two memory management modes:
+> > > > >
+> > > > > 1. Autorelease on: Leaked tokens are automatically released when =
+the
+> > > > >    socket closes.
+> > > > >
+> > > > > 2. Autorelease off: Leaked tokens are released during dmabuf unbi=
+nd.
+> > > > >
+> > > > > The autorelease mode is requested via the NETDEV_A_DMABUF_AUTOREL=
+EASE
+> > > > > attribute of the NETDEV_CMD_BIND_RX message. Having separate mode=
+s per
+> > > > > binding is disallowed and is rejected by netlink. The system will=
+ be
+> > > > > "locked" into the mode that the first binding is set to. It can o=
+nly be
+> > > > > changed again once there are zero bindings on the system.
+> > > > >
+> > > > > Disabling autorelease offers ~13% improvement in CPU utilization.
+> > > > >
+> > > > > Static branching is used to limit the system to one mode or the o=
+ther.
+> > > > >
+> > > > > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> > > > > ---
+> > > > > Changes in v9:
+> > > > > - Add missing stub for net_devmem_dmabuf_binding_get() when NET_D=
+EVMEM=3Dn
+> > > > > - Add wrapper around tcp_devmem_ar_key accesses so that it may be
+> > > > >   stubbed out when NET_DEVMEM=3Dn
+> > > > > - only dec rx binding count for rx bindings in free (v8 did not e=
+xclude
+> > > > >   TX bindings)
+> > > > >
+> > > > > Changes in v8:
+> > > > > - Only reset static key when bindings go to zero, defaulting back=
+ to
+> > > > >   disabled (Stan).
+> > > > > - Fix bad usage of xarray spinlock for sleepy static branch switc=
+hing,
+> > > > >   use mutex instead.
+> > > > > - Access pp_ref_count via niov->desc instead of niov directly.
+> > > > > - Move reset of static key to __net_devmem_dmabuf_binding_free() =
+so that
+> > > > >   the static key can not be changed while there are outstanding t=
+okens
+> > > > >   (free is only called when reference count reaches zero).
+> > > > > - Add net_devmem_dmabuf_rx_bindings_count because tokens may be a=
+ctive
+> > > > >   even after xa_erase(), so static key changes must wait until al=
+l
+> > > > >   RX bindings are finally freed (not just when xarray is empty). =
+A
+> > > > >   counter is a simple way to track this.
+> > > > > - socket takes reference on the binding, to avoid use-after-free =
+on
+> > > > >   sk_devmem_info.binding in the case that user releases all token=
+s,
+> > > > >   unbinds, then issues SO_DEVMEM_DONTNEED again (with bad token).
+> > > > > - removed some comments that were unnecessary
+> > > > >
+> > > > > Changes in v7:
+> > > > > - implement autorelease with static branch (Stan)
+> > > > > - use netlink instead of sockopt (Stan)
+> > > > > - merge uAPI and implementation patches into one patch (seemed le=
+ss
+> > > > >   confusing)
+> > > > >
+> > > > > Changes in v6:
+> > > > > - remove sk_devmem_info.autorelease, using binding->autorelease i=
+nstead
+> > > > > - move binding->autorelease check to outside of
+> > > > >   net_devmem_dmabuf_binding_put_urefs() (Mina)
+> > > > > - remove overly defensive net_is_devmem_iov() (Mina)
+> > > > > - add comment about multiple urefs mapping to a single netmem ref=
+ (Mina)
+> > > > > - remove overly defense netmem NULL and netmem_is_net_iov checks =
+(Mina)
+> > > > > - use niov without casting back and forth with netmem (Mina)
+> > > > > - move the autorelease flag from per-binding to per-socket (Mina)
+> > > > > - remove the batching logic in sock_devmem_dontneed_manual_releas=
+e()
+> > > > >   (Mina)
+> > > > > - move autorelease check inside tcp_xa_pool_commit() (Mina)
+> > > > > - remove single-binding restriction for autorelease mode (Mina)
+> > > > > - unbind always checks for leaked urefs
+> > > > >
+> > > > > Changes in v5:
+> > > > > - remove unused variables
+> > > > > - introduce autorelease flag, preparing for future patch toggle n=
+ew
+> > > > >   behavior
+> > > > >
+> > > > > Changes in v3:
+> > > > > - make urefs per-binding instead of per-socket, reducing memory
+> > > > >   footprint
+> > > > > - fallback to cleaning up references in dmabuf unbind if socket l=
+eaked
+> > > > >   tokens
+> > > > > - drop ethtool patch
+> > > > >
+> > > > > Changes in v2:
+> > > > > - always use GFP_ZERO for binding->vec (Mina)
+> > > > > - remove WARN for changed binding (Mina)
+> > > > > - remove extraneous binding ref get (Mina)
+> > > > > - remove WARNs on invalid user input (Mina)
+> > > > > - pre-assign niovs in binding->vec for RX case (Mina)
+> > > > > - use atomic_set(, 0) to initialize sk_user_frags.urefs
+> > > > > - fix length of alloc for urefs
+> > > > > ---
+> > > > >  Documentation/netlink/specs/netdev.yaml |  12 ++++
+> > > > >  include/net/netmem.h                    |   1 +
+> > > > >  include/net/sock.h                      |   7 ++-
+> > > > >  include/uapi/linux/netdev.h             |   1 +
+> > > > >  net/core/devmem.c                       | 104 ++++++++++++++++++=
+++++++++++----
+> > > > >  net/core/devmem.h                       |  27 ++++++++-
+> > > > >  net/core/netdev-genl-gen.c              |   5 +-
+> > > > >  net/core/netdev-genl.c                  |  10 ++-
+> > > > >  net/core/sock.c                         |  57 +++++++++++++++--
+> > > > >  net/ipv4/tcp.c                          |  76 ++++++++++++++++++=
+-----
+> > > > >  net/ipv4/tcp_ipv4.c                     |  11 +++-
+> > > > >  net/ipv4/tcp_minisocks.c                |   3 +-
+> > > > >  tools/include/uapi/linux/netdev.h       |   1 +
+> > > > >  13 files changed, 269 insertions(+), 46 deletions(-)
+> > > > >
+> > > > > diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentat=
+ion/netlink/specs/netdev.yaml
+> > > > > index 596c306ce52b..7cbe9e7b9ee5 100644
+> > > > > --- a/Documentation/netlink/specs/netdev.yaml
+> > > > > +++ b/Documentation/netlink/specs/netdev.yaml
+> > > > > @@ -562,6 +562,17 @@ attribute-sets:
+> > > > >          type: u32
+> > > > >          checks:
+> > > > >            min: 1
+> > > > > +      -
+> > > > > +        name: autorelease
+> > > > > +        doc: |
+> > > > > +          Token autorelease mode. If true (1), leaked tokens are=
+ automatically
+> > > > > +          released when the socket closes. If false (0), leaked =
+tokens are only
+> > > > > +          released when the dmabuf is unbound. Once a binding is=
+ created with a
+> > > > > +          specific mode, all subsequent bindings system-wide mus=
+t use the same
+> > > > > +          mode.
+> > > > > +
+> > > > > +          Optional. Defaults to false if not specified.
+> > > > > +        type: u8
+> > > > >
+> > > > >  operations:
+> > > > >    list:
+> > > > > @@ -769,6 +780,7 @@ operations:
+> > > > >              - ifindex
+> > > > >              - fd
+> > > > >              - queues
+> > > > > +            - autorelease
+> > > > >          reply:
+> > > > >            attributes:
+> > > > >              - id
+> > > > > diff --git a/include/net/netmem.h b/include/net/netmem.h
+> > > > > index 9e10f4ac50c3..80d2263ba4ed 100644
+> > > > > --- a/include/net/netmem.h
+> > > > > +++ b/include/net/netmem.h
+> > > > > @@ -112,6 +112,7 @@ struct net_iov {
+> > > > >         };
+> > > > >         struct net_iov_area *owner;
+> > > > >         enum net_iov_type type;
+> > > > > +       atomic_t uref;
+> > > > >  };
+> > > > >
+> > > > >  struct net_iov_area {
+> > > > > diff --git a/include/net/sock.h b/include/net/sock.h
+> > > > > index aafe8bdb2c0f..9d3d5bde15e9 100644
+> > > > > --- a/include/net/sock.h
+> > > > > +++ b/include/net/sock.h
+> > > > > @@ -352,7 +352,7 @@ struct sk_filter;
+> > > > >    *    @sk_scm_rights: flagged by SO_PASSRIGHTS to recv SCM_RIGH=
+TS
+> > > > >    *    @sk_scm_unused: unused flags for scm_recv()
+> > > > >    *    @ns_tracker: tracker for netns reference
+> > > > > -  *    @sk_user_frags: xarray of pages the user is holding a ref=
+erence on.
+> > > > > +  *    @sk_devmem_info: the devmem binding information for the s=
+ocket
+> > > > >    *    @sk_owner: reference to the real owner of the socket that=
+ calls
+> > > > >    *               sock_lock_init_class_and_name().
+> > > > >    */
+> > > > > @@ -584,7 +584,10 @@ struct sock {
+> > > > >         struct numa_drop_counters *sk_drop_counters;
+> > > > >         struct rcu_head         sk_rcu;
+> > > > >         netns_tracker           ns_tracker;
+> > > > > -       struct xarray           sk_user_frags;
+> > > > > +       struct {
+> > > > > +               struct xarray                           frags;
+> > > > > +               struct net_devmem_dmabuf_binding        *binding;
+> > > > > +       } sk_devmem_info;
+> > > > >
+> > > > >  #if IS_ENABLED(CONFIG_PROVE_LOCKING) && IS_ENABLED(CONFIG_MODULE=
+S)
+> > > > >         struct module           *sk_owner;
+> > > > > diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/net=
+dev.h
+> > > > > index e0b579a1df4f..1e5c209cb998 100644
+> > > > > --- a/include/uapi/linux/netdev.h
+> > > > > +++ b/include/uapi/linux/netdev.h
+> > > > > @@ -207,6 +207,7 @@ enum {
+> > > > >         NETDEV_A_DMABUF_QUEUES,
+> > > > >         NETDEV_A_DMABUF_FD,
+> > > > >         NETDEV_A_DMABUF_ID,
+> > > > > +       NETDEV_A_DMABUF_AUTORELEASE,
+> > > > >
+> > > > >         __NETDEV_A_DMABUF_MAX,
+> > > > >         NETDEV_A_DMABUF_MAX =3D (__NETDEV_A_DMABUF_MAX - 1)
+> > > > > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > > > > index 05a9a9e7abb9..05c16df657c7 100644
+> > > > > --- a/net/core/devmem.c
+> > > > > +++ b/net/core/devmem.c
+> > > > > @@ -11,6 +11,7 @@
+> > > > >  #include <linux/genalloc.h>
+> > > > >  #include <linux/mm.h>
+> > > > >  #include <linux/netdevice.h>
+> > > > > +#include <linux/skbuff_ref.h>
+> > > > >  #include <linux/types.h>
+> > > > >  #include <net/netdev_queues.h>
+> > > > >  #include <net/netdev_rx_queue.h>
+> > > > > @@ -28,6 +29,19 @@
+> > > > >
+> > > > >  static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_=
+ALLOC1);
+> > > > >
+> > > > > +/* If the user unbinds before releasing all tokens, the static k=
+ey must not
+> > > > > + * change until all tokens have been released (to avoid calling =
+the wrong
+> > > > > + * SO_DEVMEM_DONTNEED handler). We prevent this by making static=
+ key changes
+> > > > > + * and binding alloc/free atomic with regards to each other, usi=
+ng the
+> > > > > + * devmem_ar_lock. This works because binding free does not occu=
+r until all of
+> > > > > + * the outstanding token's references on the binding are dropped=
+.
+> > > > > + */
+> > > > > +static DEFINE_MUTEX(devmem_ar_lock);
+> > > > > +
+> > > > > +DEFINE_STATIC_KEY_FALSE(tcp_devmem_ar_key);
+> > > > > +EXPORT_SYMBOL(tcp_devmem_ar_key);
+> > > > > +static int net_devmem_dmabuf_rx_bindings_count;
+> > > > > +
+> > > > >  static const struct memory_provider_ops dmabuf_devmem_ops;
+> > > > >
+> > > > >  bool net_is_devmem_iov(struct net_iov *niov)
+> > > > > @@ -60,6 +74,14 @@ void __net_devmem_dmabuf_binding_free(struct w=
+ork_struct *wq)
+> > > > >
+> > > > >         size_t size, avail;
+> > > > >
+> > > > > +       if (binding->direction =3D=3D DMA_FROM_DEVICE) {
+> > > > > +               mutex_lock(&devmem_ar_lock);
+> > > > > +               net_devmem_dmabuf_rx_bindings_count--;
+> > > > > +               if (net_devmem_dmabuf_rx_bindings_count =3D=3D 0)
+> > > > > +                       static_branch_disable(&tcp_devmem_ar_key)=
+;
+> > > > > +               mutex_unlock(&devmem_ar_lock);
+> > > > > +       }
+> > > > > +
+> > > >
+> > > > I find this loging with devmem_ar_lock and
+> > > > net_devmem_dmabuf_rx_bindigs_count a bit complicated. I wonder if w=
+e
+> > > > can do another simplification here? Can we have it such that the fi=
+rst
+> > > > binding sets the system in autorelease on or autorelease off mode, =
+and
+> > > > all future bindings maintain this state? We already don't support
+> > > > autorelease on/off mix.
+> > >
+> > > I think that would greatly simplify things. We would still need a loc=
+k
+> > > to make the static branch change and first release mode setting atomi=
+c WRT
+> > > each other, but the other parts (like the one above) can be
+> > > removed.
+> > >
+> > > >
+> > > >
+> > > > >         gen_pool_for_each_chunk(binding->chunk_pool,
+> > > > >                                 net_devmem_dmabuf_free_chunk_owne=
+r, NULL);
+> > > > >
+> > > > > @@ -116,6 +138,24 @@ void net_devmem_free_dmabuf(struct net_iov *=
+niov)
+> > > > >         gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
+> > > > >  }
+> > > > >
+> > > > > +static void
+> > > > > +net_devmem_dmabuf_binding_put_urefs(struct net_devmem_dmabuf_bin=
+ding *binding)
+> > > > > +{
+> > > > > +       int i;
+> > > > > +
+> > > > > +       for (i =3D 0; i < binding->dmabuf->size / PAGE_SIZE; i++)=
+ {
+> > > > > +               struct net_iov *niov;
+> > > > > +               netmem_ref netmem;
+> > > > > +
+> > > > > +               niov =3D binding->vec[i];
+> > > > > +               netmem =3D net_iov_to_netmem(niov);
+> > > > > +
+> > > > > +               /* Multiple urefs map to only a single netmem ref=
+. */
+> > > > > +               if (atomic_xchg(&niov->uref, 0) > 0)
+> > > > > +                       WARN_ON_ONCE(!napi_pp_put_page(netmem));
+> > > > > +       }
+> > > > > +}
+> > > > > +
+> > > > >  void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *=
+binding)
+> > > > >  {
+> > > > >         struct netdev_rx_queue *rxq;
+> > > > > @@ -143,6 +183,7 @@ void net_devmem_unbind_dmabuf(struct net_devm=
+em_dmabuf_binding *binding)
+> > > > >                 __net_mp_close_rxq(binding->dev, rxq_idx, &mp_par=
+ams);
+> > > > >         }
+> > > > >
+> > > > > +       net_devmem_dmabuf_binding_put_urefs(binding);
+> > > >
+> > > > Sigh, I think what you're trying to do here is very complicated. Yo=
+u
+> > > > need to think about this scenario:
+> > > >
+> > > > 1. user binds dmabuf and opens a autorelease=3Doff socket.
+> > > > 2. Data arrives on these sockets, and sits in the receive queues,
+> > > > recvmsg has not been called yet by the user.
+> > > > 3. User unbinds the dma-buff, netmems are still in the receive queu=
+es.
+> > > > 4. User calls recvmsg on one of these sockets, which obtains a uref=
+ on
+> > > > the netmems in the receive queues.
+> > > > 5. user closes the socket.
+> > > >
+> > > > With autorelease=3Don, this works, because the binding remains aliv=
+e
+> > > > until step 5 (even though it's unbound from the queue,
+> > > > ..._binding_free has not been called yet) and step 5 cleans up all
+> > > > references, even if the binding is unbound but alive, and
+> > > >
+> > > > calling net_devmem_dmabuf_binding_put_urefs here is weird.
+> > > > Autorelease=3Doff implies the user must clean their urefs themselve=
+s,
+> > > > but we have this here in the unbind path, and it doesn't even
+> > > > guarantee that the urefs are free at this point because it may race
+> > > > with a recvmsg.
+> > > >
+> > > > Should we delete this uref cleanup here, and enforce that
+> > > > autorelease=3Doff means that the user cleans up the references (the
+> > > > kernel never cleans them up on unbind or socket close)? The dontnee=
+d
+> > > > path needs to work whether the binding is active or unbound.
+> > > >
+> > >
+> > > I agree, I think we can do away with the "unbind drops references" id=
+ea.
+> > > A counter argument could be that it introduces the ability for one
+> > > process to interfere with another, but in fact that is already possib=
+le
+> > > with autorelease=3Don by not issuing dontneed and starving the other =
+of
+> > > tokens.
+> > >
+> >
+> > On second thought I don't think we can remove the references drop
+> > completely. AFAIU if the userspace misbehaves and doens't dontneed the
+> > netmems in this setup, then the binding will leak forever, which is
+> > really not great.
+> >
+> > I think what may work is having a refcount on the binding for each
+> > rxqueue it's bound to and each socket that's using it. Once that
+> > refcount drops to 0, then we can be sure that the urefs in the binding
+> > are not in use anymore, and we can drop the urefs, which should make
+> > the binding refcount to hit 0 and the _binding_free() function to be
+> > called.
+> >
+>
+> That checks out. I guess a reasonable name to differentiate with
+> binding->ref might be binding->users?
+>
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- tools/lib/python/jobserver.py | 140 +++++++++++++++++++++-------------
- 1 file changed, 87 insertions(+), 53 deletions(-)
+I was turning that exact same question in my head. It would be nice to
+reuse binding->ref somehow, but without deep thinking I'm not sure
+that's possible. It seems that binding->ref should guard
+*_binding_free() being called when the binding is not used by anything
+(remember that each netmem allocated from the binding has effectively
+a ref on the page_pool it belong too, and the page_pool has a ref on
+the binding, so effectively the binding never goes away until all the
+netmems are returned to the pool).
 
-diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver.py
-index 616411087725e..cd3bddb6e7560 100755
---- a/tools/lib/python/jobserver.py
-+++ b/tools/lib/python/jobserver.py
-@@ -58,64 +58,98 @@ class JobserverExec:
- 
-         if self.is_open:
-             return
--
--        try:
--            # Fetch the make environment options.
--            flags = os.environ["MAKEFLAGS"]
--            # Look for "--jobserver=R,W"
--            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
--            # so this handles all of them.
--            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
--
--            # Parse out R,W file descriptor numbers and set them nonblocking.
--            # If the MAKEFLAGS variable contains multiple instances of the
--            # --jobserver-auth= option, the last one is relevant.
--            fds = opts[-1].split("=", 1)[1]
--
--            # Starting with GNU Make 4.4, named pipes are used for reader
--            # and writer.
--            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
--            _, _, path = fds.partition("fifo:")
--
--            if path:
-+        self.is_open = True  # We only try once
-+        self.claim = None
-+        #
-+        # Check the make flags for "--jobserver=R,W"
-+        # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-+        # so this handles all of them.
-+        #
-+        flags = os.environ.get('MAKEFLAGS', '')
-+        opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-+        if not opts:
-+            return
-+        #
-+        # Separate out the provided file descriptors
-+        #
-+        split_opt = opts[-1].split('=', 1)
-+        if len(split_opt) != 2:
-+            print('WARNING: unparseable option:', opts[-1])
-+            return
-+        fds = split_opt[1]
-+        #
-+        # As of GNU Make 4.4, we'll be looking for a named pipe
-+        # identified as fifo:path
-+        #
-+        if fds.startswith('fifo:'):
-+            path = fds[5:]
-+            try:
-                 self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-                 self.writer = os.open(path, os.O_WRONLY)
--            else:
--                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-+            except (OSError, IOError):
-+                print('WARNING: unable to open jobserver pipe', path)
-+                return
-+        #
-+        # Otherwise look for integer file-descriptor numbers.
-+        #
-+        else:
-+            split_fds = fds.split(',')
-+            if len(split_fds) != 2:
-+                print('WARNING: malformed jobserver file descriptors:', fds)
-+                return
-+            try:
-+                self.reader = int(split_fds[0])
-+                self.writer = int(split_fds[1])
-+            except ValueError:
-+                print('WARNING: non-integer jobserver file-descriptors:', fds)
-+                return
-+            try:
-+                #
-                 # Open a private copy of reader to avoid setting nonblocking
-                 # on an unexpecting process with the same reader fd.
--                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-+                #
-+                self.reader = os.open(f"/proc/self/fd/{self.reader}",
-                                       os.O_RDONLY | os.O_NONBLOCK)
--
--            # Read out as many jobserver slots as possible
--            while True:
--                try:
--                    slot = os.read(self.reader, 8)
--                    if not slot:
--                        # Clear self.jobs to prevent us from probably writing incorrect file.
--                        self.jobs = b""
--                        raise ValueError("unexpected empty token from jobserver fd, invalid '--jobserver-auth=' setting?")
--                    self.jobs += slot
--                except (OSError, IOError) as e:
--                    if e.errno == errno.EWOULDBLOCK:
--                        # Stop at the end of the jobserver queue.
--                        break
--                    # If something went wrong, give back the jobs.
--                    if self.jobs:
--                        os.write(self.writer, self.jobs)
--                    raise e
--
--            # Add a bump for our caller's reserveration, since we're just going
--            # to sit here blocked on our child.
--            self.claim = len(self.jobs) + 1
--
--        except (KeyError, IndexError, ValueError, OSError, IOError) as e:
--            print(f"jobserver: warning: {repr(e)}", file=sys.stderr)
--            # Any missing environment strings or bad fds should result in just
--            # not being parallel.
--            self.claim = None
--
--        self.is_open = True
-+            except (IOError, OSError):
-+                print('WARNING: Unable to reopen jobserver read-side pipe')
-+                return
-+        #
-+        # OK, we have the channel to the job server; read out as many jobserver
-+        # slots as possible.
-+        #
-+        while True:
-+            try:
-+                slot = os.read(self.reader, 8)
-+                if not slot:
-+                    #
-+                    # Something went wrong.  Clear self.jobs to avoid writing
-+                    # weirdness back to the jobserver and give up.
-+                    self.jobs = b""
-+                    print("WARNING: unexpected empty token from jobserver;"
-+                          " possible invalid '--jobserver-auth=' setting")
-+                    self.claim = None
-+                    return
-+            except (OSError, IOError) as e:
-+                #
-+                # If there is nothing more to read then we are done.
-+                #
-+                if e.errno == errno.EWOULDBLOCK:
-+                    break
-+                #
-+                # Anything else says that something went weird; give back
-+                # the jobs and give up.
-+                #
-+                if self.jobs:
-+                    os.write(self.writer, self.jobs)
-+                    self.claim = None
-+                    print('WARNING: error reading from jobserver pipe', e)
-+                    return
-+            self.jobs += slot
-+        #
-+        # Add a bump for our caller's reserveration, since we're just going
-+        # to sit here blocked on our child.
-+        #
-+        self.claim = len(self.jobs) + 1
- 
-     def close(self):
-         """Return all reserved slots to Jobserver"""
--- 
-2.52.0
+and seemingly binding->users should guard *_put_urefs() being called
+when we're user there is no userspace refs outstanding (no sockets
+open and no rx queues active).
 
+
+--=20
+Thanks,
+Mina
