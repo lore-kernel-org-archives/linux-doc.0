@@ -1,100 +1,87 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD84267B89
-	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 01:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4154F1F3B85;
+	Tue, 13 Jan 2026 01:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768268862; cv=none; b=QgH0DDw+Phd3b6FMgBpnjHB3H/M5AwSIn3U89KzMmRmN177FXT4CCbB10hJhipm1ivw6elr2Kj2dmffPtj6TOIqin28aloftXpxFeMSf2YphFuys8xOxdtKT8JYCEEqqwzNvVoAdQvR1LLfrNVS04BjGbmHAFMWhD21tp+hTqGg=
+	t=1768269106; cv=none; b=npkuWK0A6WKIMTAKW9CxIBHnyIEYAP+4DL02F0g3gElWSizBqgduaIam1smGW2r5HN9gaegmKZpIvO+EccRvPlvFaH3Ehg4OUSrdwG5Ybs4vXPh0M4prX1kiqn2UL8rpJ1BkUA1/QGwIrBodw2QYBIXsuGL09UhNJvB+CtvYlHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768268862; c=relaxed/simple;
-	bh=ad32iXyTi4EbZ1XO99xfmDWdXhUVYTE5uI1F/YJLopw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJLNIlVEyiFcQXI3pbZPVvIiBhxBs7+FTvroV+kTlaDHBUaKcEMFmmy8lQaLiZ7iMUyrCfk36pKNIVPMKzYgt5HctOZ/FVB9ZGdqjKIDzZp01ZGt/isGd/73Ui90WrVGvQuT41ELsV9oEcCN0Z/uvaz8TPSOyGH99HM24nLIjjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGY93orx; arc=none smtp.client-ip=209.85.217.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768269106; c=relaxed/simple;
+	bh=N5mJD84jjlTOcWQ/5lkZb0ciTA+kRswmgjHCiPQ4CSo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YM/seHjWxV80muG+Mn/anJiAqsitus8FYspihcdW0Fjje9JgHAYSXc8Se6cLuJInXdg1sVddm4SJf9hVOhf8M2hRgaXYXFSW9KCQci0s/mbIR3b7EGwp8HrHCLwjwAjFC9jvvJVY8QE0jnpwnkCD91UcwgmSZF7C6ucIFLAZ2dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=UNFuL9RW; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGY93orx"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5eeaae0289bso3038440137.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Jan 2026 17:47:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768268856; x=1768873656; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M/HecYQMpzSx+pKogOGD9AgS/QaSSY95HkqZjIA46rM=;
-        b=UGY93orxyww8SaDXOIhFKxUVnOQHhKpOCYsW6KSauR2wX/dGdXmxyZNEmSdvD4054U
-         qxJQF+mbklobXr/TJArPwmFZDO1rXPZquOgz/lJ9T3TfCAvKtyfR0eopehhluWFnjzk4
-         x4AX4W7/XOEJ8Jz9Ca+BywVfXQBPk/jj4qmK1nQxNpWze8cKa9qJM9zhVyzAA/GN6CGJ
-         OKGA8CSAU6H+DsxZ9dCTw3nmGay+qiOgaeW6RsxGxxf+ZcvpUYARMdQrT23ED6IYZ2na
-         kYXCXJ6+AG6A71QjGnNfF37CvxMHyhMVz4xJZUZ1c7B8CfU05Cq4DRnZCjqZEYe8nnbz
-         +Qeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768268856; x=1768873656;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=M/HecYQMpzSx+pKogOGD9AgS/QaSSY95HkqZjIA46rM=;
-        b=q+L5fKtgqH2eTXd8zZKwY5HLSpNaFNDuqRgm690KtyB4c1Ija/fHIscgz5jSLifVeh
-         QSf1O2EP5x29T8BVmxH9iSX5/c8UTxEwXmX19lcKJqXQjlMxomyPyfn43mYRkk0d3n6B
-         4DIE30PqRKoYNVxUpD4dZ8ts6bJyFei14x2OXhGCDGQOOoU6DP98x/WzNOCXLmZhvnH1
-         NUw6as4bqnI6YsSGyaCGM/owlb6YLPhzJVdVRHN5fIi8KW9OJJ8Oak7Qc0szGpwQ//sb
-         EqC60ISfEvVjsFcZoJjA3PHHIT2jm8WlKqBWqorfziXp6yAnlvgKkPL2HBTsQM/7vvL+
-         7GpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZpsFtnugLiy5X42ytaHaf7UPJipaOu7lVgJ/ds2HcPn7q70M6Deo84w3Ssvuu6FnZXBBaSiJ9epA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvkVAwgtQcXyBZL+UgRjFldU1VZqHa2Q5tyba76341u5TYHkmE
-	7dKZYknGxkXWCZa62XpNVoVgAhWEgRAjsudv0G8qkX/3O49GABFhYpojKUv0IQ==
-X-Gm-Gg: AY/fxX4Gdmio68yvaIkYTg8DvvFVetSBuAstp+6vgY0szEZbBmRotS462037Z+irX5f
-	UjagSFzCkePFpQcxqw47NEByif9L7XoWZ+/X/s0C2NpoLWgmsqW27C09PaRyQPhJf/doMaVEJw0
-	Q/cxOGCtm1OhAG6VwWZpgaya1+Z9bA17CWCshRUxTivN9Wbl36U3HCPIbV+dFboH4zGj04ZeiE/
-	DZJ4xBqYnshjDy5z1YpNlJIPQmWUtRrX2/I7xhJjJoAgt8s8I/ZYyOuU3e2T0ytT+O6JEaQWfCf
-	NeOV/yi1JAuAlfAdaNPu1EebcepNagvIYh1qmA+O5WC8QDNF/PsVakKd8sPT1K9ly222fGJjK0Q
-	IDINzBnwtN5npIuQa8MvFbLU9rfJmktKNI+0WKIqhatD0GR2ZO6nAxYyEK/9VGLQLJHumnXjCWf
-	ZQF0GquQAHRM+agDCOV8D79QDc
-X-Google-Smtp-Source: AGHT+IGq7SH/P29EOxwJv+i4U56r7yzSOhU39ES1wZYIBI+ODZJsWgoNszRhwOG326pCJxzPcgjgSw==
-X-Received: by 2002:a05:693c:4151:10b0:2a4:8576:abf5 with SMTP id 5a478bee46e88-2b17d2b0af0mr12747919eec.23.1768262565381;
-        Mon, 12 Jan 2026 16:02:45 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b1707b0b2bsm16475727eec.23.2026.01.12.16.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 16:02:44 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 12 Jan 2026 16:02:44 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cryolitia PukNgae <cryolitia@uniontech.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	zhanjun@uniontech.com, niecheng1@uniontech.com,
-	kylon <3252255+kylon@users.noreply.github.com>
-Subject: Re: [PATCH] hwmon: (gpd-fan) add support for Micro PC 2
-Message-ID: <2892cfa4-f033-41b3-bc8d-b849dcbd1a07@roeck-us.net>
-References: <20251222-mpc2-v1-1-695d8d351cc1@uniontech.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="UNFuL9RW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=KvW2nbBjK1SsE1/dbKHi+WGWuDVP3eEQGp4M6t41xno=; b=UNFuL9RWa7hUCSGFtK5B+KHwYZ
+	y1NWMSmaQ9rpECpg4i77RczHM/i6LGSrWMWZ1GfeOZeusX1ifPjEKbYkJO7BYkyBnz39kH8Mb7yZg
+	98nO1dGmqb6bs/MzFrhZm5x0qBIJLm3wpLxopePNKX4JWOFDffLZr2f6kD1sb4SVmepLersVHhpRK
+	8qxecRGkpSle+fbcZqAvmgd2NnlnoZaupI2cw8LqH2lG3kLpXpfxlKhzTUVHatDNF2+D1OB/CjxiS
+	58rn/eF+QOwHReGTayNmPFXU2yC8SiLuERBUHe90KCRFeU7ob0AewDvd8S5joV50Gyt5QnTurphzJ
+	lNpAVgoQ==;
+Received: from [179.118.187.16] (helo=[192.168.15.100])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1vfTZO-004eIK-58; Tue, 13 Jan 2026 02:51:42 +0100
+From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Date: Mon, 12 Jan 2026 22:51:24 -0300
+Subject: [PATCH 1/4] exportfs: Fix kernel-doc output for get_name()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251222-mpc2-v1-1-695d8d351cc1@uniontech.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260112-tonyk-fs_uuid-v1-1-acc1889de772@igalia.com>
+References: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
+In-Reply-To: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
+To: Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+ Amir Goldstein <amir73il@gmail.com>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, 
+ Anna Schumaker <anna@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-dev@igalia.com, 
+ =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+X-Mailer: b4 0.14.3
 
-On Mon, Dec 22, 2025 at 06:51:39PM +0800, Cryolitia PukNgae wrote:
-> From: Cryolitia PukNgae <cryolitia@uniontech.com>
-> 
-> GPD Micro PC 2 is a mobile productivity device with 7-inch screen and
-> abundant ports.[1]
-> 
-> Link: https://www.gpd.hk/gpdmicropc2345345345 #1
-> Co-developed-by: kylon <3252255+kylon@users.noreply.github.com>
-> Signed-off-by: kylon <3252255+kylon@users.noreply.github.com>
-> Tested-by: kylon <3252255+kylon@users.noreply.github.com>
-> Link: https://github.com/Cryolitia/gpd-fan-driver/pull/23
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-> ---
+Without a space between %NAME_MAX and the plus sign, kernel-doc will
+output ``NAME_MAX``+1, which scapes the last backtick and make Sphinx
+format a much larger string as monospaced text.
 
-Applied.
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ include/linux/exportfs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Guenter
+diff --git a/include/linux/exportfs.h b/include/linux/exportfs.h
+index f0cf2714ec52..599ea86363e1 100644
+--- a/include/linux/exportfs.h
++++ b/include/linux/exportfs.h
+@@ -234,7 +234,7 @@ struct handle_to_path_ctx {
+  * get_name:
+  *    @get_name should find a name for the given @child in the given @parent
+  *    directory.  The name should be stored in the @name (with the
+- *    understanding that it is already pointing to a %NAME_MAX+1 sized
++ *    understanding that it is already pointing to a %NAME_MAX + 1 sized
+  *    buffer.   get_name() should return %0 on success, a negative error code
+  *    or error.  @get_name will be called without @parent->i_rwsem held.
+  *
+
+-- 
+2.52.0
+
