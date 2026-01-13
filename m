@@ -1,136 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC0E284B54;
-	Tue, 13 Jan 2026 03:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2032B2FDC4D
+	for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 03:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768275213; cv=none; b=ft+HZIf6YaFtVrDz1/Ir6oTRVgA+Xlv+u7CQbfbxtc5isDtOHaqaijWY1ZVwENPg38xE0I4DtQ6hlAXGVP6oJOzrabSEZoAFJjIqSxrfa4tasGdzkXx9tVovsPhsYZqyKyzynTq1ffazwgcE9ClqWLhwTf48H6oRyEir6UpZ3NA=
+	t=1768276218; cv=none; b=XZ7YeOk1xtvgEhI5N5bcsLfyVQi9uqyLMQyxJeQXjFbsUwRoYVeYmW9wWeoDKXE3CKWnDBWEMPKqlfm1oN5xcOPWTAWpTgV3Q+7195B2wpcincPVpA3OMzOZh10t7mfLx73BcUyzHH5RG2s9Ku8QNp6Oo2/V478nRwfBNeYkfLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768275213; c=relaxed/simple;
-	bh=sgTKCfGG+ujwKC4Dd64UEjm0eoToqgRObMoSTSjLZXI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=t2b7Dj2EPA5xhyfLouDgq2zHJuZuvbra/66hdgn56aPHKeDgEV6p0c2zAG8MxwwlDCQppdvvHbgwp0JD5kYYho5a1spPyw8G8U//axnD07U6BPDn2M04a87pCIsb/vwpbt1kOabyUaWpsmqFLbSrbRvJom06eDUKDH3tRTexFnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gpmp715a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768276218; c=relaxed/simple;
+	bh=9+1LGPDxQBoApq/NIEvhSmdX4RekmgRP/yFpwVzTCV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jtiT9bOw74zBjXfxHRXs4D57ruaz4UarCWsvxkKCbHNg7sHH1n/NdlmsYtgnIkQBZPN7vxblts+1mr1JEqpI8ecJVG2W7iz8SsYuWrDJIfzkKYr+htenI6S2cA8+HLKg3ZanNmpG72+aAeIYyTRj98rorTFvyeErk2+NWZxOCq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=q5FZ9zlF; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gpmp715a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD5A1C4AF09;
-	Tue, 13 Jan 2026 03:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768275213;
-	bh=sgTKCfGG+ujwKC4Dd64UEjm0eoToqgRObMoSTSjLZXI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=gpmp715aEfjdGQRP1Lsy2r9WnRwxooF4LBHteETys7E9S/B4AasmzbM9fCX6h+3sG
-	 mx+e2/0p7Drd8yIuHQZFr1ulX314ftQQqLwD9zVG5P7rS3XnOhA0AF2jiawsCSmcl3
-	 vfR5mn0VnFPR8lGZy1csRlIAU84Mz27Lg8HaO/tXRO/aXyMxst5MC1reJS9E55YnIe
-	 ufSLK3aXwEchtOBEMHe+xnG8RegKllS1ZXNu8I0CxBJ3aAXaPyO8gQZplqnX6kQwVp
-	 O0RIDZOTjlSCeamfAwdPviopfRpZNcfSn9TxofFA0k+eFJd+ylTEPlMWCG1nQT/Upw
-	 iLtQVk4ax3o6g==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id DF59FF40068;
-	Mon, 12 Jan 2026 22:33:31 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 12 Jan 2026 22:33:31 -0500
-X-ME-Sender: <xms:C71laZTSvFftyQUq7Fso7o5Q4dyoUTE-4uhN5qTY6WsLIadic9rAuA>
-    <xme:C71ladl0lVRJEtiaQ2kMNsU9UPlgPiOOc3YeANP_pNL_b-Zo_mMEp3GUiqHbZIN_e
-    YBU0cqLZffQ7nXHdzMYNBUX2hCua-ogzwXOGy66PgaqhfKkT4TNvg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudelvdehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefghfeguedtieeiveeugfevtdejfedukeevgfeggfeugfetgfeltdetueelleelteen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohepudelpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghmihhrjeefih
-    hlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrvggrlhhmvghiugesihhgrghl
-    ihgrrdgtohhmpdhrtghpthhtohepkhgvrhhnvghlqdguvghvsehighgrlhhirgdrtghomh
-    dprhgtphhtthhopegrnhhnrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghu
-    nhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepthhrohhnughmhieskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheptghorhgsvghtsehlfihnrdhnvght
-X-ME-Proxy: <xmx:C71laX12KT62jCgJVH1DIh3MjTLZqmVvD7KKznDP-_MfRQvSvwD_JQ>
-    <xmx:C71laUeryqxK-dQw6SWpNK8ZYdAb-Yay47668xkP5zFLem9ILWbMkw>
-    <xmx:C71laT5wDJuAa36sVzQWEcl8ELv0IbbgbfxZfLseOECNaZL1dX5gxw>
-    <xmx:C71laf8Upy7a_7AaLZ1nTEfYaFx87F05uNvr_-bs8VXWCSx_CQ14Zg>
-    <xmx:C71laSIs34B4Pu6cEkSUTR-BMI_avWjiKs710G9gCqzctDGwpMgQ3ZyJ>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id ADA6E780054; Mon, 12 Jan 2026 22:33:31 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="q5FZ9zlF"
+Date: Mon, 12 Jan 2026 22:50:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768276214;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccuHs/PhTi+GRhRHUsSlbq/s7PpYOv/9mfNFn5Q2piY=;
+	b=q5FZ9zlFsFilp4zf38MD7SqYTzYkX2j700qDdNMnOHrr1s4gSqH2/e0E5mYLu4lLy/BtSt
+	O4voqlRru1XGPp4e6URnHWezxx1pC62g6FDdQVcWggDr0iNdXMb6vSOAolg+2Lsokdne9e
+	f7AQeQ63t6cHwIliWq/elIAPYACqgSA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: ranxiaokai627@163.com
+Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, corbet@lwn.net, 
+	david@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	ran.xiaokai@zte.com.cn, rppt@kernel.org, surenb@google.com, vbabka@suse.cz
+Subject: Re: [PATCH] alloc_tag: remove sysctl prefix from mem_profiling boot
+ parameter
+Message-ID: <aWXAaiLXn2tXr8nU@moria.home.lan>
+References: <aWMLQkvushKidjQQ@moria.home.lan>
+ <20260113032735.161838-1-ranxiaokai627@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AkghU2ftp2PN
-Date: Mon, 12 Jan 2026 22:33:11 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- "Chuck Lever" <chuck.lever@oracle.com>, "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-Message-Id: <7ac583b8-3480-4a54-bcd7-9b1a8689a7f7@app.fastmail.com>
-In-Reply-To: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
-References: <20260112-tonyk-fs_uuid-v1-0-acc1889de772@igalia.com>
-Subject: Re: [PATCH 0/4] exportfs: Some kernel-doc fixes
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113032735.161838-1-ranxiaokai627@163.com>
+X-Migadu-Flow: FLOW_OUT
 
+On Tue, Jan 13, 2026 at 03:27:35AM +0000, ranxiaokai627@163.com wrote:
+> >On Fri, Jan 09, 2026 at 06:24:19AM +0000, ranxiaokai627@163.com wrote:
+> >> From: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+> >> 
+> >> Boot parameters prefixed with "sysctl." are processed separately
+> >> during the final stage of system initialization via kernel_init()->
+> >> do_sysctl_args(). Since mem_profiling support should be parsed
+> >> in early boot stage, it is unsuitable for centralized handling
+> >> in do_sysctl_args().
+> >> Also, when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled,
+> >> the sysctl.vm.mem_profiling entry is not writable and will cause
+> >> a warning. To prevent duplicate processing of sysctl.vm.mem_profiling,
+> >> rename the boot parameter to "mem_profiling".
+> >> 
+> >> Signed-off-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+> >
+> >How was this observed/detected?
+> 
+> Actually no kernel bug or funtional defect was observed through testing.
+> Via code reading, i found after commit [1],
+> boot parameters prefixed with sysctl is processed redundantly.
 
+When bcachefs was in the kernel, I spent an inordinate amount of time in
+code reviews trying to convince people that yes, they really do need to
+be testing their code.
 
-On Mon, Jan 12, 2026, at 8:51 PM, Andr=C3=A9 Almeida wrote:
-> This short series removes some duplicated documentation and address so=
-me
-> kernel-doc issues:
->
-> WARNING: ../include/linux/exportfs.h:289 struct member 'get_uuid' not=20
-> described in 'export_operations'
-> WARNING: ../include/linux/exportfs.h:289 struct member 'map_blocks' no=
-t=20
-> described in 'export_operations'
-> WARNING: ../include/linux/exportfs.h:289 struct member 'commit_blocks'=20
-> not described in 'export_operations'
-> WARNING: ../include/linux/exportfs.h:289 struct member 'permission' no=
-t=20
-> described in 'export_operations'
-> WARNING: ../include/linux/exportfs.h:289 struct member 'open' not=20
-> described in 'export_operations'
-> WARNING: ../include/linux/exportfs.h:289 struct member 'flags' not=20
-> described in 'export_operations'
->
-> ---
-> Andr=C3=A9 Almeida (4):
->       exportfs: Fix kernel-doc output for get_name()
->       exportfs: Mark struct export_operations functions at kernel-doc
->       exportfs: Complete kernel-doc for struct export_operations
->       docs: exportfs: Use source code struct documentation
->
->  Documentation/filesystems/nfs/exporting.rst | 42 ++++----------------=
----------
->  include/linux/exportfs.h                    | 33 ++++++++++++++++----=
----
->  2 files changed, 28 insertions(+), 47 deletions(-)
-> ---
-> base-commit: 9c7ef209cd0f7c1a92ed61eed3e835d6e4abc66c
-> change-id: 20260112-tonyk-fs_uuid-973d5fdfc76f
->
-> Best regards,
-> --=20
-> Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-
-Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
-
-
---=20
-Chuck Lever
+Strangely enough, I have never had this issue with project contributors
+who did not come to the project by way of the kernel community... :)
