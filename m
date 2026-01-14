@@ -1,74 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72FA345CBC;
-	Wed, 14 Jan 2026 19:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BBB346AD7;
+	Wed, 14 Jan 2026 19:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768418576; cv=none; b=oDzlU3F4yZaSC1Q/Pc61nOiCoDJpP1llfKWH03Zt5x3Y3heuR4Q4AwbSWtZcZXT6o9p2g334wI2mKpnjF1Ty5Rbkrg2HRKlUSv90kF7CbUGwzMLWIH+cXwe1hJyqH3vgAwyjlR02wV0mXv1sK5Gr3QaQk6fhzwy1qLe3UNdJ4fE=
+	t=1768418681; cv=none; b=mtTT/HhfI8qkqT/+vUuxdbzwSvyQ0Z1I3CotKNJ9B2szij2tHU/+LcSp4trt1egrvJAngLsPMFLUngMsFbEGhyjAjIhCNFT5zzgHJZJJg8h1ninczOZe8SOSjQVKmashMwUfvXMx3zaY2aj2E9E8Hjp69r2ffsrvvaGQzP4w2TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768418576; c=relaxed/simple;
-	bh=iS35d3PWnlOuU7WvThznMhQLwXxW6GhgS5samZ6duos=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=itJ4dYcXb7vyfTGqu+sSUDUS6gyryx8hDe3/j6gP/gs24c0lTH8Z2WdvQo8+Ovuea4PwAAyr0nt/FygmsRc23UAnskJTPXMcHwbAQWBPR+UuKIg9Em2+jAV188Mvaz28qpsWTPqXdcm79MP8XEEB2Ea45lQViH8NruCIvoY3CBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rDQpmmqF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768418681; c=relaxed/simple;
+	bh=WYF2wW4PXFp8iVn51RRMqTOdsLe7cFP/i+VmUuAJ5GE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NYv/nFikdlUpo01TPAuHIIJAnbv70Dc5BsE4LlXGR1EcidUaHY26KdSnWiU8MBo/cyKz5epdKlPn+lQN5rbh6U0M325y03KsHErx/UBqO+zYqKKfXTd9R1F1oAi2crv76YTGWY0YncWNknDCZpM+CvaaY21b6GYBsFcSUXPcxL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Efyy1dLh; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rDQpmmqF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1686CC4CEF7;
-	Wed, 14 Jan 2026 19:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768418576;
-	bh=iS35d3PWnlOuU7WvThznMhQLwXxW6GhgS5samZ6duos=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=rDQpmmqFkeupsSOl12q1y9zFYHntvwGW9vMtaytYTfItSQZOdu97oWh5reeenfcVg
-	 4NYUysNbZdpat832NxXVpNiv4zIcon6aRSzviOG8uqu9tiwmNeDn+T5hDSTvjClFTy
-	 MtHY+zdyGx+S73i5bSWYBHCDLWs0R2dieFoiSHJnYaX/4+EJ4CR3/tCtq7M/+S4LUW
-	 DIPcG8GoMEf4hsKJduLZhJ3BpXU6wLCxfuiTmL+ssY2+AaLLPKZhOPA1rjv9jG1W7G
-	 n112uY6qncIDVvRv8CdsMFjwLs8dQUEK5cNjZqMeL1bwkahjn2edmQ4KM1+doJtLmA
-	 98Uh2ANw0vFVg==
-Date: Wed, 14 Jan 2026 12:22:54 -0700 (MST)
-From: Paul Walmsley <pjw@kernel.org>
-To: Conor Dooley <conor.dooley@microchip.com>, Conor Dooley <conor@kernel.org>, 
-    Guodong Xu <guodong@riscstar.com>
-cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-    Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-    Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-    Yixun Lan <dlan@gentoo.org>, Palmer Dabbelt <palmer@rivosinc.com>, 
-    Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org, 
-    linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-    devicetree@vger.kernel.org, sophgo@lists.linux.dev, 
-    spacemit@lists.linux.dev
-Subject: Re: [PATCH 1/2] Documentation: riscv: uabi: Clarify ISA spec version
- for canonical order
-In-Reply-To: <20260113-adding-b-dtsi-v1-1-22d6e55d19df@riscstar.com>
-Message-ID: <dc610e3e-48f4-5df4-4929-fafeab9c381f@kernel.org>
-References: <20260113-adding-b-dtsi-v1-0-22d6e55d19df@riscstar.com> <20260113-adding-b-dtsi-v1-1-22d6e55d19df@riscstar.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Efyy1dLh"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A43D440C42
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768418672; bh=p9AjR/UbZ1dl11VzOU7hAjsllzzG0yWSU3fCsT+Xkwo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Efyy1dLhFkaBFBWAFfcqBymuKEtPqiiSnDEcOH5UWpkDxKBBLxjLzzMNVpd91assd
+	 AYcLKbPMvBZkB1OQ32tC0QVQYuVPKKgNFPwJq7VDmy0oH5cTD4UjCrLoOjXZWJF5pz
+	 z2JyhdGV/idx02igvOltXf5ivaKTg2ONgMPpgYulSwQJ5Krka7jA2pfYBUw8Cu6Opg
+	 zp0yiwPLoX3pCRvnWoyVpyLC8iU9GZkB8Q4s2vJ6eb/QHCFJDcMZPldEBlqQnBaA4F
+	 YPeks5eAPGU3vjV01myWqbSESZwZt7Aa1V6jx+dpXkK7hbx9xni77iLGC5MEmeLXEb
+	 +qOs/CMqnNyhg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id A43D440C42;
+	Wed, 14 Jan 2026 19:24:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 0/2] Move kernel-doc to tools/docs
+In-Reply-To: <813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
+References: <20260114164146.532916-1-corbet@lwn.net>
+ <813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
+Date: Wed, 14 Jan 2026 12:24:31 -0700
+Message-ID: <87zf6gt2ts.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 
-On Tue, 13 Jan 2026, Guodong Xu wrote:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Specify that chapter 27 refers to version 20191213 of the RISC-V ISA
-> Unprivileged Architecture. The chapter numbering differs across
-> specification versions - for example, in version 20250508, the ISA
-> Extension Naming Conventions is chapter 36, not chapter 27.
-> 
-> Historical versions of the RISC-V specification can be found via Link [1].
-> 
-> Link: https://riscv.org/specifications/ratified/ [1]
-> Fixes: f07b2b3f9d47 ("Documentation: riscv: add a section about ISA string ordering in /proc/cpuinfo")
-> Signed-off-by: Guodong Xu <guodong@riscstar.com>
+> I do many of these on a regular basis:
+>
+> $ ./scripts/kernel-doc -none -Wall <path_to_source_file>
+>
+> Will I still be able to do that (by using ./tools/doc/kernel-doc ...)?
 
-Conor, want to take this one if you pick up the subsequent patch?  If so,
+Yes.  The tool moves, but its functionality remains unchanged.
 
-Acked-by: Paul Walmsley <pjw@kernel.org>
+Thanks,
 
-
-- Paul
+jon
