@@ -1,46 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46E9396B7C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B464A395DA9;
 	Wed, 14 Jan 2026 13:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768396652; cv=none; b=VR0MLZ0dj4ukrA69R5vKzGOWifA6w1HneAuRDQpQak3MLj9pHE+f2PBk4hu6CBDdbUj5mYEctKF/k/6nYndHYAAC58WA7qGmvi8z8jl1N24cXn3xzn47q/EJsWJNWf4wnZrJLetkHtmj+PoBD1VNgrYyGpWu2jaKibVXeyMz2Bw=
+	t=1768396652; cv=none; b=fEA6gCd89p1tSSRr6wbh+ABKMzGciWUAmkLciaLjPovtc3uLEAzkRfSAAvGUpqeJFsRFDIbXuLi3V0b+9r8itgliHC7Nc9DNvP2RwA+Ed2t5dTP8ujqURZOxHUw8ee8qq85szm25xN2Gxjh1iJhUQ7j/cu+RoTN7giYqJZ6gA5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768396652; c=relaxed/simple;
-	bh=8EV2kMyHFBYOwDJy/B32qhN86aNNNl5vCgBCa/qBL8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pSv7NvS+Kg1jqKZVQXDVKCYjW3zXu8wb/2cboGrPjBuVmHkqWtVoo4jt+gjMuJ04W3x2ZtvRtWA/lAhkwBSLgynY0cNpUM4tmfjxgDM71juEhtBCu35916Bt1AsRJbYFyubz95jjGPB342791TUY2FCRqQB8q9I5IxUL2MDoHwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o/Kz0T9T; arc=none smtp.client-ip=10.30.226.201
+	bh=exjBpROHq5nt6ys/3V4S6O/quh/Jy14gJjvOKZLMHAo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P9HHFLfJ/UFfIyUN7loa9+Pdfd8WIXyo4Rr2XdsLUNx1WCb6eIAwLEOX8J3wuXVzdSdhXkRwB32FC+EYYmZVA+NyQ1grQgg4Y5EPMEkwKJNM/ynNFkgaB48gw+U10DKouckSTVlxbUMZpqIphNDga+FIc3k/awPqhpXmSPfOovU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lysnj4L8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/Kz0T9T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70459C16AAE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lysnj4L8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E4FEC19422;
 	Wed, 14 Jan 2026 13:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768396652;
-	bh=8EV2kMyHFBYOwDJy/B32qhN86aNNNl5vCgBCa/qBL8Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=o/Kz0T9TiY45qPOcyKHTBQpZ6dstSC4u18o6n7dc/LCsNPdSq2lnZQutLceolEMPH
-	 EUeySdJzaUPxa2MrM1ZVXM9FahV3O/XmcF/gQDY7tbiVyMp8iFBLviP7/P3arUrFK3
-	 ZpMwFZFmEdNPbmIXCaON7gU+1oc3qpvr9kbXCOGyegjvAuK6ZuQmZmBjXhgMn8ZLb6
-	 nHgnL7+YVDYTnDoLPZU4ymxDpEoZmeFzzgFip59vjIzJyXKBVGA3Gz97JSzQ9GXUb6
-	 W7T+wjwGamWB2s5UiWj2hNtVKFXFXq9eMZsasZj8Uw24YhSk1LHrrDjYLyX292Stg6
-	 hZl0x73sizcGg==
+	bh=exjBpROHq5nt6ys/3V4S6O/quh/Jy14gJjvOKZLMHAo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Lysnj4L8lUZvSwqK60AHspBOkTZk+2/TeppDAaS1mLPdQhzT0iTKtJOKsLB3hEqYs
+	 23LR77WTMpKMuuiR2ngmoDinnXD4gMwp2B5+/EQpG4rRGQ8ojc5Mv8UNkPQMkv75iK
+	 CZgqq3xStmN7bJPeplMUxYHcxBRdKUyC/FaspSj/dP56MrXyKCRl2YKq7LIFo6RYw2
+	 e77DtU2x3zvqCE+6POxIXvFuup2e6EEzEi8JumkH6jig+5FSKcG1ofQ/BaPRKrLBgg
+	 MW4Ko7QzSmmvB9TBrvTcAZ0t9i37GE31njh5hS8z7oTGR2+7sfQwYzc1uD3JIHmFZ/
+	 IOQjdlDPFSPhQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vg0kc-00000002mxV-2p6K;
+	id 1vg0kc-00000002mxY-2wEi;
 	Wed, 14 Jan 2026 14:17:30 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 00/13] Add kernel-doc modules to Documentation/tools
-Date: Wed, 14 Jan 2026 14:17:13 +0100
-Message-ID: <cover.1768396023.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/13] docs: custom.css: prevent li marker to override text
+Date: Wed, 14 Jan 2026 14:17:14 +0100
+Message-ID: <8a6e0e40f45a6e92e18c20f6c98f496ab5beaeef.1768396023.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1768396023.git.mchehab+huawei@kernel.org>
+References: <cover.1768396023.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,85 +54,31 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+There's currently an issue with li marker: it is set to use
+-1em, which actually makes it override the text. This is visible
+on indexes that are deep enough.
 
-This is the splitted version of my RFC to use sphinx.ext.autodoc
-to document kernel-doc modules. It documents only kernel-doc
-modules, but, once we merge it, we can document other things.
+Fix it.
 
-This series comes after:
-    https://lore.kernel.org/linux-doc/cover.1768395332.git.mchehab+huawei@kernel.org/T/#t
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx-static/custom.css | 3 +++
+ 1 file changed, 3 insertions(+)
 
-patch 1 is actually not directly related: if fixes a bug I noticed
-on Sphinx indexes with a large maxdepth;
-
-patch 2 adds sphinx.ext.autodoc and place the directories where
-python modules can be found. It doesn't use the extension, though.
-This will happen only at the final patch;
-
-patches 3 to 12 are basically documentation cleanups and fixes that
-ensure that the documentation will be complete.
-
-patch 13 creates new *.rst files that points to python.lib.kdoc
-files.
-
-With this version, python files inside tools/ or scripts/
-can be documented, but there is a catch (probably due to PEP8):
-
-    - files must end with ".py"
-    - file names can't have "-".
-
-So, unfortunately, we can't document kernel-doc.py, except if
-we rename it to kernel_doc.py.
-
-As I mentioned at RFC, we could use:
-
-    $ sphinx-apidoc scripts tools -o foobar
-    $ sphinx-apidoc tools/docs -o foobar
-    ...
-
-to generate .rst skeletons with the modules to be added, but
-manual work is needed afterwards.
-
-Mauro Carvalho Chehab (13):
-  docs: custom.css: prevent li marker to override text
-  docs: enable Sphinx autodoc extension to allow documenting python
-  docs: custom.css: add CSS for python
-  docs: kdoc: latex_fonts: Improve docstrings and comments
-  docs: kdoc_files: Improve docstrings and comments
-  docs: kdoc_item: Improve docstrings and comments
-  docs: kdoc_parser: Improve docstrings and comments
-  docs: kdoc_output: Improve docstrings and comments
-  docs: kdoc_re: Improve docstrings and comments
-  docs: kdoc: parse_data_structs: Improve docstrings and comments
-  docs: kdoc: enrich_formatter: Improve docstrings and comments
-  docs: kdoc: python_version: Improve docstrings and comments
-  docs: add kernel-doc modules documentation
-
- Documentation/conf.py                       |  11 +-
- Documentation/sphinx-static/custom.css      |  12 ++
- Documentation/tools/index.rst               |   1 +
- Documentation/tools/kdoc.rst                |  12 ++
- Documentation/tools/kdoc_ancillary.rst      |  46 +++++
- Documentation/tools/kdoc_output.rst         |  14 ++
- Documentation/tools/kdoc_parser.rst         |  29 ++++
- Documentation/tools/python.rst              |  10 ++
- tools/lib/python/kdoc/enrich_formatter.py   |  20 ++-
- tools/lib/python/kdoc/kdoc_files.py         |  23 +--
- tools/lib/python/kdoc/kdoc_item.py          |  18 ++
- tools/lib/python/kdoc/kdoc_output.py        |  60 ++++---
- tools/lib/python/kdoc/kdoc_parser.py        | 175 +++++++++++---------
- tools/lib/python/kdoc/kdoc_re.py            |  18 +-
- tools/lib/python/kdoc/latex_fonts.py        |  95 ++++++-----
- tools/lib/python/kdoc/parse_data_structs.py |  62 ++++---
- tools/lib/python/kdoc/python_version.py     |  20 ++-
- 17 files changed, 430 insertions(+), 196 deletions(-)
- create mode 100644 Documentation/tools/kdoc.rst
- create mode 100644 Documentation/tools/kdoc_ancillary.rst
- create mode 100644 Documentation/tools/kdoc_output.rst
- create mode 100644 Documentation/tools/kdoc_parser.rst
- create mode 100644 Documentation/tools/python.rst
-
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index 06cedbae095c..b6a7a5f6b6d4 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -30,6 +30,9 @@ img.logo {
+     margin-bottom: 20px;
+ }
+ 
++/* The default is to use -1em, wich makes it override text */
++li { text-indent: 0em; }
++
+ /*
+  * Parameters for the display of function prototypes and such included
+  * from C source files.
 -- 
 2.52.0
 
