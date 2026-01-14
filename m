@@ -1,134 +1,174 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA9736C5BB;
-	Wed, 14 Jan 2026 06:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCEC35FF5C;
+	Wed, 14 Jan 2026 07:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768372945; cv=none; b=Ai59OsHIwReGdtAXYZwVW8vb1wkbVV/lJD8qzDedhwTl9xC57rKJcvxZVdMVBEE27jwvi9vx0hn3dCQ0JHCVtN/eLAevXVhSi4+PAy2eG+VGWUN2mxRBXR+1WelN26DQ1rl4JbGMgZnGb+X/v4IFxBI1yKXTO+egK7c0t0lg0lc=
+	t=1768375609; cv=none; b=EfKxqIgBVuQvZtvl/uZTJX+oUPHkxWtVT55oIFYLaK34hbI+GAi6LEH9B8ItoGohEza5rxO1BEvCcVXIqwLLwfbJC+10vxAH95cTRlVuk3ucDSILP26YOhFcyz8UYYqCUGpbg1FaXWxR0jW47rJr+nxaW1EFXUptT15iA0n7XUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768372945; c=relaxed/simple;
-	bh=iiuFnbFRuv6lEhKDArUISVQPynMG6wSyW8BS55K2Kzo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O01j+8oAB0urW+RM3N/4c32yQGUJx4VggqVYlngPfIrcot6oeTyu1//YGj9SVtjfLlk1sWmGsOtd4F0Y0hcU8iZ3EnSP6HplBR3hV9u6+CZGKhW0QkzrtdM8TdXwfg5mvOiruRWRYenFpaVxYyt107uhskXhUAHgrOacy1mnjpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Zn/1Iqu3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768375609; c=relaxed/simple;
+	bh=8MY3tCzYH4LjFUppMbMgZpe/HPePXtf+OKAPtC4LYdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aKhGweLTXVlObdw+s9oXP/9OI7gRu02PLkOyhfk5ZNW+3lakpD9wBVZTiA1Nln/W7KWXu8MFIdny8XEKDnagCeSK5CP7YmltHyZN7YN1lDts39FBmS4QjQR8JGA8wHoaCxidqmjwennhjQfvSIrGVTLKemJGo3ZtecoBKoleLlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=iCU2IWq3; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Zn/1Iqu3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ScN+Ac0MsYE0ns/Mmofc+hTGIotZQRuqma1Uz6SovDM=; b=Zn/1Iqu3fgOSmkufa8/TacqqiB
-	Gtftep0tiOh6T2nhr/GcwgjmV2NtMpSKlVPgQy6vciVoea7lDHyUKHOAMidgeDHhfyDeUokuMqa0G
-	Fg3EfQuRcaHmu/U+WiXsL2w1MRaOMQIcPQMVQiN2XuaXbzxp7TX/+yia8KKxKVZ9tDkmQ2quGVngQ
-	Gy3k4Oe/bIQ2TUO20v4wC+6r4u20EDJPbtLMiW4hED6PQo91FPZ2TVEHcd5c9QcUvoDUEPQMG0oeE
-	IebSmrIuEEadZUA8k8KRI+/xq8hPLOw+vn3X40P9JGLhJvvaWXSo2fZ0I5CtSQF/V1MW/iV1dBr9T
-	HRI0CDug==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfua2-000000088fE-1p4Y;
-	Wed, 14 Jan 2026 06:42:10 +0000
-Message-ID: <0eadb091-2a5c-402b-908a-7f069c115c9f@infradead.org>
-Date: Tue, 13 Jan 2026 22:42:08 -0800
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="iCU2IWq3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
+	Content-Type; bh=sDfhHZq7pNuGramNwSmcc9whrmx0jtWM21KT7YNBBeQ=;
+	b=iCU2IWq3Z1xq2GxuiyHBBn5sQAv+AskaZoeE6RjOELgW1d5TomuijJU/q8M53k
+	0dgxPAyfvfJGXN1iFVNtgOZzJ6b26XQnzYgXqM7x+r0F2QR0hOKfIY/0Y0wmkC2I
+	gxlgoylmKpYu7tuYN+i7rKhoewFrLqvo4YNBIIVBTbMCQ=
+Received: from ubuntu24-z.. (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wBXu7XVRGdpOfHRFw--.72S2;
+	Wed, 14 Jan 2026 15:25:11 +0800 (CST)
+From: ranxiaokai627@163.com
+To: surenb@google.com
+Cc: Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	david@kernel.org,
+	kent.overstreet@linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	lorenzo.stoakes@oracle.com,
+	mhocko@suse.com,
+	ran.xiaokai@zte.com.cn,
+	ranxiaokai627@163.com,
+	rppt@kernel.org,
+	vbabka@suse.cz
+Subject: Re: [PATCH] alloc_tag: remove sysctl prefix from mem_profiling boot parameter
+Date: Wed, 14 Jan 2026 07:25:00 +0000
+Message-ID: <20260114072507.163364-1-ranxiaokai627@163.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAJuCfpFTJUowSAjNum1zecDJYuyUi84vUNkoNNf=CnUwpsTVeg@mail.gmail.com>
+References: <CAJuCfpFTJUowSAjNum1zecDJYuyUi84vUNkoNNf=CnUwpsTVeg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] scripts/kernel-doc: avoid error_count overflows
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- stable@vger.kernel.org
-References: <cover.1768324572.git.mchehab+huawei@kernel.org>
- <80bd110988b8c1bd1118250c2acc05e9d2241709.1768324572.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <80bd110988b8c1bd1118250c2acc05e9d2241709.1768324572.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBXu7XVRGdpOfHRFw--.72S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGryUWry3Kr4rKr4kKw1kuFg_yoWrAF1fpF
+	y0gF1Ykw4kJryxCr92ya4Ik34Syw48Jw42qasFgry7ZwnIkrWDJr1kKFWS9FnrXFZFkF4r
+	XF1jvr97uw1UAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUo5lUUUUUU=
+X-CM-SenderInfo: xudq5x5drntxqwsxqiywtou0bp/xtbC7hh7x2lnRNhn2QAA3m
 
+>On Mon, Jan 12, 2026 at 7:50 PM Kent Overstreet
+><kent.overstreet@linux.dev> wrote:
+>>
+>> On Tue, Jan 13, 2026 at 03:27:35AM +0000, ranxiaokai627@163.com wrote:
+>> > >On Fri, Jan 09, 2026 at 06:24:19AM +0000, ranxiaokai627@163.com wrote:
+>> > >> From: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+>> > >>
+>> > >> Boot parameters prefixed with "sysctl." are processed separately
+>> > >> during the final stage of system initialization via kernel_init()->
+>> > >> do_sysctl_args(). Since mem_profiling support should be parsed
+>> > >> in early boot stage, it is unsuitable for centralized handling
+>> > >> in do_sysctl_args().
+>> > >> Also, when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled,
+>> > >> the sysctl.vm.mem_profiling entry is not writable and will cause
+>> > >> a warning. To prevent duplicate processing of sysctl.vm.mem_profiling,
+>> > >> rename the boot parameter to "mem_profiling".
+>> > >>
+>> > >> Signed-off-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+>> > >
+>> > >How was this observed/detected?
+>> >
+>> > Actually no kernel bug or funtional defect was observed through testing.
+>> > Via code reading, i found after commit [1],
+>> > boot parameters prefixed with sysctl is processed redundantly.
+>
+>I was able to reproduce the warning by enabling
+>CONFIG_MEM_ALLOC_PROFILING,
+>CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT,
+>CONFIG_MEM_ALLOC_PROFILING_DEBUG, CONFIG_SYSCTL and setting
+>CONFIG_CMDLINE="1".
+>The fix I posted eliminates that warning. Ran, you can post my
+>suggestion yourself with me as Suggested-by or I can post it with you
+>as Reported-by. Let me know your preference.
 
+I think this version is better.
 
-On 1/13/26 9:19 AM, Mauro Carvalho Chehab wrote:
-> The glibc library limits the return code to 8 bits. We need to
-> stick to this limit when using sys.exit(error_count).
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: stable@vger.kernel.org
-> ---
->  scripts/kernel-doc.py | 26 +++++++++++++++++++-------
->  1 file changed, 19 insertions(+), 7 deletions(-)
-> 
-> diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-> index 7a1eaf986bcd..5d2f29e90ebe 100755
-> --- a/scripts/kernel-doc.py
-> +++ b/scripts/kernel-doc.py
-> @@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
->  
->  sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
->  
-> +WERROR_RETURN_CODE = 3
-> +
->  DESC = """
->  Read C language source or header FILEs, extract embedded documentation comments,
->  and print formatted documentation to standard output.
-> @@ -176,7 +178,21 @@ class MsgFormatter(logging.Formatter):
->          return logging.Formatter.format(self, record)
->  
->  def main():
-> -    """Main program"""
-> +    """
-> +    Main program
-> +    By default, the return value is:
-> +
-> +    - 0: parsing warnings or Python version is not compatible with
-> +      kernel-doc. The rationale for the latter is to not break Linux
-> +      compilation on such cases;
+[PATCH] alloc_tag: fix rw permission issue when handling boot parameter
 
-    Does "parsing warnings" mean that there were no errors, just possibly
-    warnings or possibly nothing, i.e., all clean?
+Boot parameters prefixed with "sysctl." are processed
+during the final stage of system initialization via kernel_init()->
+do_sysctl_args(). When CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled,
+the sysctl.vm.mem_profiling entry is not writable and will cause
+a warning.
 
-> +
-> +    - 1: an abnormal condition happened;
-> +
-> +    - 2: arparse issued an error;
+Before run_init_process(), system initialization executes in kernel
+thread context. Use current->mm to distinguish sysctl writes during
+do_sysctl_args() from user-space triggered ones.
 
-            argparse ?
+And when the proc_handler is from do_sysctl_args(), always return success
+because the same value was already set by setup_early_mem_profiling()
+and this eliminates a permission denied warning.
 
-> +
-> +    - 3: -Werror is used, and one or more unfiltered parse warnings
-> +         happened.
-> +    """
->  
->      parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
->                                       description=DESC)
-> @@ -323,16 +339,12 @@ def main():
->  
->      if args.werror:
->          print("%s warnings as errors" % error_count)    # pylint: disable=C0209
-> -        sys.exit(error_count)
-> +        sys.exit(WERROR_RETURN_CODE)
->  
->      if args.verbose:
->          print("%s errors" % error_count)                # pylint: disable=C0209
->  
-> -    if args.none:
-> -        sys.exit(0)
-> -
-> -    sys.exit(error_count)
-> -
-> +    sys.exit(0)
->  
->  # Call main method
->  if __name__ == "__main__":
+Signed-off-by: Ran Xiaokai <ran.xiaokai@zte.com.cn>
+Suggested-by: Suren Baghdasaryan <surenb@google.
+---
+ lib/alloc_tag.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
+diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+index 846a5b5b44a4..00ae4673a271 100644
+--- a/lib/alloc_tag.c
++++ b/lib/alloc_tag.c
+@@ -776,8 +776,22 @@ EXPORT_SYMBOL(page_alloc_tagging_ops);
+ static int proc_mem_profiling_handler(const struct ctl_table *table, int write,
+ 				      void *buffer, size_t *lenp, loff_t *ppos)
+ {
+-	if (!mem_profiling_support && write)
+-		return -EINVAL;
++	if (write) {
++		/*
++		 * Call from do_sysctl_args() which is a no-op since the same
++		 * value was already set by setup_early_mem_profiling.
++		 * Return success to avoid warnings from do_sysctl_args().
++		 */
++		if (!current->mm)
++			return 0;
++
++#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
++		/* User can't toggle profiling while debugging */
++		return -EACCES;
++#endif
++		if (!mem_profiling_support)
++			return -EINVAL;
++	}
+ 
+ 	return proc_do_static_key(table, write, buffer, lenp, ppos);
+ }
+@@ -787,11 +801,7 @@ static const struct ctl_table memory_allocation_profiling_sysctls[] = {
+ 	{
+ 		.procname	= "mem_profiling",
+ 		.data		= &mem_alloc_profiling_key,
+-#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
+-		.mode		= 0444,
+-#else
+ 		.mode		= 0644,
+-#endif
+ 		.proc_handler	= proc_mem_profiling_handler,
+ 	},
+ };
 -- 
-~Randy
+2.25.1
+
+
+>> When bcachefs was in the kernel, I spent an inordinate amount of time in
+>> code reviews trying to convince people that yes, they really do need to
+>> be testing their code.
+>>
+>> Strangely enough, I have never had this issue with project contributors
+>> who did not come to the project by way of the kernel community... :)
 
