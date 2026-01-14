@@ -1,98 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2184333ADB2;
-	Wed, 14 Jan 2026 19:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87193033ED;
+	Wed, 14 Jan 2026 19:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768417367; cv=none; b=gq+3dNgXwUY91jGQ9r4gtDN3PYD2gjHbOHI11QtXV9aVAsNZVHAiKZAceOxPfC4nY54NOsjIc5x72m45DZ9X//WrFZUd2krQ16fnc8Rs9uDjyQKBiaI/eeLrx9sitc39SQcSESNXu6YPa6DpHWwB5imBH3o0m2jTuGbZON0GGn8=
+	t=1768417601; cv=none; b=VxeN2GKUkMbSfoTIAHWbPs1CXIB6uwaZQdZAvxFVVJzTq8YsZ+zVfrfp54sE7Y3ISQ5FET7nZTaNir2BZxj+3WtDdnXe6pD8Js9pchcmL119s27oc/o4i0oRV10GtHpDf4VsuWpwN+cKpRMARd4UanTXguXmRuiUGMPtIEBQ5HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768417367; c=relaxed/simple;
-	bh=/g7znYFrTNdvW4RKWutiVFghMR5mmCYvmvOEw8ACiRY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rJh3IQFprwAAamvaj7L7qYhEnH7Btq1QU/9388CFJY4ikliqptc8O72YbEz36fUtH1bw7P652o2gg67zj8pYwGjMAeSUjHMo6fOb3So/lDPpA449Ud02X3sFcywPAXVHf313bC6tFAdG3L6obdSIn3NJ5X+e1PzlMUGQ0949f4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MDy3xT6j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768417601; c=relaxed/simple;
+	bh=BjbEvGKrM6/uTuvoCN82lSElypxjb3gXUCDtFhg8NqI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FGIv1cNp9snAL+rYCmzGR7f8ZHNbvItbjzhixvfHkq9FMaYKHlZuXw9PvRqriA/qsKEJrrzQjWltIlxgxS81uokci1L3IBzNdBgyQh+U/gEP8FKcGZQ78fPsOHcJaHgPDdc+Ija2IhP2taqeoolN/Zf5QTKoGiq9PMZ4bUgE4m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TrjKq+vQ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MDy3xT6j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC1CC4CEF7;
-	Wed, 14 Jan 2026 19:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768417366;
-	bh=/g7znYFrTNdvW4RKWutiVFghMR5mmCYvmvOEw8ACiRY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MDy3xT6jPzV3ToLQ0kmCeUKluxH6b6eqZef89YSDaEdyPmUTF25s0ngTuJRsFWG9I
-	 926T/0gY2RTddhgU1TCiaRmd4sCjIUiNFcQZzygn8PStwkaslCSJiBbriS+MdR5RTj
-	 B/PYWWzg6p+l/Y98krWhmMK6Cvrgw3f+JfcZjWNbQbYOpPZCIpFUDsjnIux2zFOsUM
-	 qS7dO+juVkXHGmH+RbP66XAuWNKf+qL0xFihgSLD8kYJp9N3hKv0AHG50sCTOIyUas
-	 4CvfudY0fUeQnlrTe8OQZdiqGrDg83Wff11I/f/gUsKjJYUJf9t8TrQqO0WQYrdSdM
-	 CP8ErjTmVxEUw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>,  pratyush@kernel.org,
-  jasonmiu@google.com,  graf@amazon.com,  rppt@kernel.org,
-  dmatlack@google.com,  rientjes@google.com,  corbet@lwn.net,
-  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
-  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
-  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
-  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
-  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
-  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
-  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
-  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
-  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
-  gregkh@linuxfoundation.org,  tglx@linutronix.de,  mingo@redhat.com,
-  bp@alien8.de,  dave.hansen@linux.intel.com,  x86@kernel.org,
-  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
-  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
-  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
-  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
-  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
-  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
-  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
-  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
-  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  saeedm@nvidia.com,  ajayachandra@nvidia.com,  parav@nvidia.com,
-  leonro@nvidia.com,  witu@nvidia.com,  hughd@google.com,
-  skhawaja@google.com,  chrisl@kernel.org
-Subject: Re: [PATCH v8 14/18] mm: memfd_luo: allow preserving memfd
-In-Reply-To: <20260107185414.GG293394@nvidia.com> (Jason Gunthorpe's message
-	of "Wed, 7 Jan 2026 14:54:14 -0400")
-References: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
-	<20251125165850.3389713-15-pasha.tatashin@soleen.com>
-	<20260107185414.GG293394@nvidia.com>
-Date: Wed, 14 Jan 2026 19:02:34 +0000
-Message-ID: <2vxzecnshvat.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TrjKq+vQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=MqYY9HoGox5VJhwTh0fKFFPWA1fKcL3f/K/VaXSx/pQ=; b=TrjKq+vQePymuAoxR+5z1RQxz6
+	CLbbYgQCRyLwYwFhevpQgzdNUiSSmd2pWZTEav9dqY+vchO0hlVsJmIlU67i3o2S5055FUZkodK3z
+	5KQfjqRoWWd6jIxr7+wyclxu/3HL+K2s5S2PNDMKzeuwh55Gi/4hv1t9U4EQQgpE8G865ra4Uqdbe
+	TUMSZlgL4G/5Sk7wJLTQR7v02zb32YQcY1ri6RcKmgnWzfWtbs82DzxbmigDAOmxdnKAb1WzuSRqK
+	EnBALR97rIR0sHT6uFrMor4EQ67y/KuyqV6tSeZg5ZjUx9orExAWeTnT9NYg6KqUgF/oCZYZKFQnM
+	hYqZgedA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vg6CS-0000000AQO2-1ik6;
+	Wed, 14 Jan 2026 19:06:36 +0000
+Message-ID: <6ec2b90e-c6e9-444d-926a-68d19f42acba@infradead.org>
+Date: Wed, 14 Jan 2026 11:06:34 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] accel/thames: Add IOCTL for job submission
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
+ "Andrew F. Davis" <afd@ti.com>, Randolph Sapp <rs@ti.com>,
+ Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>,
+ Chirag Shilwant <c-shilwant@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Robert Nelson <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
+ <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 07 2026, Jason Gunthorpe wrote:
 
-> On Tue, Nov 25, 2025 at 11:58:44AM -0500, Pasha Tatashin wrote:
->> From: Pratyush Yadav <ptyadav@amazon.de>
->> 
->> The ability to preserve a memfd allows userspace to use KHO and LUO to
->> transfer its memory contents to the next kernel. This is useful in many
->> ways. For one, it can be used with IOMMUFD as the backing store for
->> IOMMU page tables. Preserving IOMMUFD is essential for performing a
->> hypervisor live update with passthrough devices. memfd support provides
->> the first building block for making that possible.
->
-> I would lead with the use of memfd to back the guest memory pages for
-> use with KVM :)
 
-I would assume using 1G-page-backed memfd is the more common use case,
-and this patch doesn't come with 1G page support.
+On 1/14/26 12:46 AM, Tomeu Vizoso wrote:
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
+> 
+> Contexts are created in all cores, and buffers mapped to all of them as
+> well, so all cores are ready to execute any job.
+> 
+> The job submission code was initially based on Panfrost.
+> 
+> v2:
+> - Add thames_accel.h UAPI header (Robert Nelson).
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  drivers/accel/thames/Makefile       |   1 +
+>  drivers/accel/thames/thames_core.c  |   6 +
+>  drivers/accel/thames/thames_drv.c   |  19 ++
+>  drivers/accel/thames/thames_job.c   | 463 ++++++++++++++++++++++++++++++++++++
+>  drivers/accel/thames/thames_job.h   |  51 ++++
+>  drivers/accel/thames/thames_rpmsg.c |  52 ++++
+>  include/uapi/drm/thames_accel.h     |  54 +++++
+>  7 files changed, 646 insertions(+)
+> 
 
-Anyway, the patch is now already applied so we can't go back and fix
-the commit message...
+
+> diff --git a/include/uapi/drm/thames_accel.h b/include/uapi/drm/thames_accel.h
+> index 0a5a5e5f6637ab474e9effbb6db29c1dd95e56b5..5b35e50826ed95bfcc3709bef33416d2b6d11c70 100644
+> --- a/include/uapi/drm/thames_accel.h
+> +++ b/include/uapi/drm/thames_accel.h
+
+> @@ -75,6 +78,55 @@ struct drm_thames_bo_mmap_offset {
+>  	__u64 offset;
+>  };
+>  
+> +/**
+> + * struct drm_thames_job - A job to be run on the NPU
+> + *
+> + * The kernel will schedule the execution of this job taking into account its
+> + * dependencies with other jobs. All tasks in the same job will be executed
+> + * sequentially on the same core, to benefit from memory residency in SRAM.
+> + */
+
+Please make these comments full-fledged kernel-doc comments.
+E.g.:
+
+> +struct drm_thames_job {
+> +	/** Input: BO handle for kernel. */
+
+	/** @kernel: input: BO handle for kernel. */
+
+> +	__u32 kernel;
+> +
+> +	/** Input: Size in bytes of the compiled kernel. */
+> +	__u32 kernel_size;
+> +
+> +	/** Input: BO handle for params BO. */
+> +	__u32 params;
+> +
+> +	/** Input: Size in bytes of the params BO. */
+> +	__u32 params_size;
+> +
+> +	/** Input: Pointer to a u32 array of the BOs that are read by the job. */
+> +	__u64 in_bo_handles;
+> +
+> +	/** Input: Pointer to a u32 array of the BOs that are written to by the job. */
+> +	__u64 out_bo_handles;
+> +
+> +	/** Input: Number of input BO handles passed in (size is that times 4). */
+> +	__u32 in_bo_handle_count;
+> +
+> +	/** Input: Number of output BO handles passed in (size is that times 4). */
+> +	__u32 out_bo_handle_count;
+> +};
+> +
+> +/**
+> + * struct drm_thames_submit - ioctl argument for submitting commands to the NPU.
+> + *
+> + * The kernel will schedule the execution of these jobs in dependency order.
+> + */
+
+Same here.
+
+> +struct drm_thames_submit {
+> +	/** Input: Pointer to an array of struct drm_thames_job. */
+> +	__u64 jobs;
+> +
+> +	/** Input: Number of jobs passed in. */
+> +	__u32 job_count;
+> +
+> +	/** Reserved, must be zero. */
+> +	__u32 pad;
+> +};
+> +
+
 
 -- 
-Regards,
-Pratyush Yadav
+~Randy
+
