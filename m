@@ -1,200 +1,137 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA8D3A63E4
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 16:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768409018; cv=none; b=ZQ08g/GG2UwQCwX602xN5TCCDD1ABd4Bw/wBA1qfMmB/7XPJ0qF8/1cQ5sH83osT7IarO62MeO71WMDv48uhVY0B7J2qgxdLBY1cxmWC0FyZ9ZPrN2ketsCkDR1aPYZjW8usSy1WWoG+JuJTen8fVSvvb2hKEZS1HRjgpxftQ9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768409018; c=relaxed/simple;
-	bh=dzaYjfbIZZavp/S2MnKk+6oK1c7oQVF6rcvC3rrGw2Q=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YZ5Asamq1yebjSCAUNw8t5YDlbWkMJUN0zI+pOUjPozSA50gp73EwOYE4yGAU6K6B+2nZLETjuylWF0jDeKhmXYCuISBP+ov+n4/XSclcFD+s8+5NNmJBj541IPlKMogMnl+XLRu4QdPO1TllUOXlYy20aK+j2QZEqtUp8KGClg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P/Hf0UZx; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B5E1D5170;
+	Wed, 14 Jan 2026 16:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768409770; cv=pass; b=iCUnDmmAdr4pukyiNbY5KwyZQe9BSOY4Z0AuyqE0QFZwxxbHPzGQ1/WFZ/34BdVy6gYqUW6eRQAFIXoTMUMO5L4XweFUI2eiB1rRJUWQ5scCxJOc/4RRWeRQOq4tQ4ZoWzxGRptQEQxQTR/MiBhqeHu51124Kq48MkWxSMDN674=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768409770; c=relaxed/simple;
+	bh=netvWp8HMu5F68sSUgrtPN31M7VfJJ3V5ro7P6W7kIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=o78Qqhr7icF9skGcVP5CFJ2otv67PTJQ26+zS4rjuXkn/v1b+1EYM2cFpyAvzrfAgYkpx47GLrpTQRIMtNptvCew7KXRNMor6boFvcwTyntl75oNX/lBmtkIsScvr9JHlbr4VKAlykaHjKwkJsff/h53bC3GDsTZTnMaAQVpCrw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net; spf=pass smtp.mailfrom=hartkopp.net; dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=eHTlQTgE; dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=KzWCT/g5; arc=pass smtp.client-ip=85.215.255.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hartkopp.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P/Hf0UZx"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4775e00b16fso196655e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 08:43:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768409015; x=1769013815; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lp9W32Kped56Je6lvPD7Xlxv6Ozf5Aka/rllxnPof5w=;
-        b=P/Hf0UZxSUrFsPl2uLiWbu78LsSUl9fAKysbjchf4cfdZXi5sYyG/CmFj3wO3swjps
-         6FP/x3iqLcWAQr3vPZa5rKZXL4siCXZ+LSPpB5z49PSUES77zKJGfnDf74iylfHJaPgU
-         NawlIIaN8qpnFdAwaFZ4aBzIr7BnHp8CO7+oBVBGf3uls5LHU03guXHOPzkg1j1FfiYw
-         J7goX9e1SVOBPricoMDenmAW5JXpC4f55WFzBL81mfjSyjp+LsbkKZQbRYaoZKBzkz74
-         5+1omG5WkndYeDNvY3urlGdvjE2IZ7zrbkFB12Oa3iVhLI6JwK5XajJy+v7POOTeWOoZ
-         xFkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768409015; x=1769013815;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lp9W32Kped56Je6lvPD7Xlxv6Ozf5Aka/rllxnPof5w=;
-        b=S4I0h9P5WxPrpYXFsm41APMddoVBZiTID+ODJJ3eS/LIQ/kZmXXDdOlftNEjjcGvcK
-         z8PWdy7qO7BrfyTXdTVg3uaT5AT0Cdg7+tTWRq3yvbs/AHkd6Gh17hISoazu1X1y/dpB
-         C6B/ohDVzwk0k+GRGVlRWhtjz+rm2jXcYeL4plY0ezIcDCi/Ru1RsJpnnyNurcbyF3we
-         FHQgf7FYNs+DICo3WVM+yg1GzFpz41NCm4NTiD8CgE17BaD3DkVaDGZjoIFQor2WmsVG
-         QYevBlu7y1c/nKRM3dei3Z1dnjmRGVkcT7bNdXU0Z9gKGT0fLy1YH7s+KDxPOdvtw9h7
-         oBKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUwemw4ZLfFeUS1rYjDV8UYpXqmYos8yWaDXJSt9ybPyBf5Ddb5PVBb1kS9BJmjrQSldFzJKfAoVPg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy92ezrMGt+BefFPzwyO4+8Oa+A0LNU6cXoARS0mGCuLmG5Hba0
-	fh/eoSsKXH3LEklTN0Sd6kQgaV841dP4PIFFJyxMatZ76Or/XamHKMiCKgpvNBYMZ/2fXV/DWuH
-	ZRxcIi7LYkgA9Hg==
-X-Received: from wmbd23.prod.google.com ([2002:a05:600c:58d7:b0:477:9654:b44c])
- (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5285:b0:477:7ab8:aba with SMTP id 5b1f17b1804b1-47ee32e0be0mr36180785e9.1.1768409014935;
- Wed, 14 Jan 2026 08:43:34 -0800 (PST)
-Date: Wed, 14 Jan 2026 16:43:22 +0000
-In-Reply-To: <20260114164322.787125-1-smostafa@google.com>
+	dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="eHTlQTgE";
+	dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="KzWCT/g5"
+ARC-Seal: i=1; a=rsa-sha256; t=1768409765; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Co5ChP3FeP91Jxb5w9B76w612rcdihF0C079dI30EnOIdYXMkIwNcfRBn+dxWY3+24
+    r/fJuEAgsvCcJAt8KXXFupt/h+iin9DI2pQffNvp8LocBVOP89QVJnVBj/OWVtg8J0un
+    dXx6wQHd5w7VMi1FLtS1MHPHJKEw/fsiT0C7rPaR44U225H38nEdq3I327cbfc2CHhwr
+    87YGEHWFAvqD3ShOT7zGKmDXueA+B73WVullrCW0Vj1n8OGeMqyBnlp9X8XUfwcqN/s/
+    IspeE2WBNIlrEJ+SBF4XXnNNLUU6nLO2+c9Kb9H1q5u/srzuKw12xfFlpCsaQ6DDR4p1
+    wMdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1768409765;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=YRgXCsZkgp987wIF+DINeW4kt6V2borISeBk6YwtmeY=;
+    b=tFhqVquSO34hMd8SsEfBKYq39MmeiOFYE2QefdZpibqOlVoUbfpj8sZ34OnDkOdlCC
+    BAOqWuZ6KjgRlbTxi575FZ2wckr3I35izbfzoRn8iD3k2WjXc3SgQv1BjkOMkfzR85VL
+    bCjYxENCICcAEQ+BZR4P+nN+o7zCfHB0DkD0+wtiK1wqgroLFySc8KaHEH8TUAdOfBmR
+    s8fQ+h/eTq+sdHQJaws0XckLaPI53ztoKtFkMbfUgkDrAR+qEo2hjKbQtEBbIH+jGrXq
+    Vcv5eyUjcrOScOdFEKjxYh6hj2/vEHCxT+TdYre4jxcOYtbMw7jxy8ViEIFABc8eG9WF
+    RnJw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1768409765;
+    s=strato-dkim-0002; d=hartkopp.net;
+    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=YRgXCsZkgp987wIF+DINeW4kt6V2borISeBk6YwtmeY=;
+    b=eHTlQTgEE5ZaVPhAkWTw4Qbwk4Ou8Xq4GSvbSJnkI6xhid/Xs+c3OQI+eXVu4gPz+q
+    s1d59bPqgZnsPtbi5vmthYqPAnEZzvrAT+SlA8zN6X1NE15fcjPtNDYLC1+l0qNRCVQ9
+    325flgchGI+QOaIDN5uE2/nTxTHNrEvpnmjoWfuYLjwSfgJBk9x0mGir2fw7DLLBd7G3
+    gYsNeaZlyZKcWsHP3U7cSzePXFu5wPlMCQgSk4tIOCC8xvFUL/x7AqQlylbaUYdqHaN4
+    bGtS6SiYcJnp5C/ki3zZYWDIxTGNTuEOMdDJY/H/QaClug/EOqmjB4UxQtjQo2be9aWA
+    mfTQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1768409765;
+    s=strato-dkim-0003; d=hartkopp.net;
+    h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=YRgXCsZkgp987wIF+DINeW4kt6V2borISeBk6YwtmeY=;
+    b=KzWCT/g5mDQNBf1JrqcZJJeBR4SwAJqgzy5+sXTtHsWre0tTmyh9y7qRXHkfKBr0wg
+    DoVPgyvvoF9nIRyxSIBA==
+X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjH4JKvMdQv2tTUsMrZpkO3Mw3lZ/t54cFxeEQ7s8bGWj0Q=="
+Received: from [IPV6:2a00:6020:4a38:6810::9f3]
+    by smtp.strato.de (RZmta 54.1.0 AUTH)
+    with ESMTPSA id K0e68b20EGu5uCc
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Wed, 14 Jan 2026 17:56:05 +0100 (CET)
+Message-ID: <5d24e045-8ede-4db1-8b0d-a6efd5037704@hartkopp.net>
+Date: Wed, 14 Jan 2026 17:55:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260114164322.787125-1-smostafa@google.com>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-Message-ID: <20260114164322.787125-6-smostafa@google.com>
-Subject: [PATCH v7 5/5] iommu: debug-pagealloc: Check mapped/unmapped kernel memory
-From: Mostafa Saleh <smostafa@google.com>
-To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
-	Mostafa Saleh <smostafa@google.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Pranjal Shrivastava <praan@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: can: update SocketCAN documentation for CAN XL
+From: Oliver Hartkopp <socketcan@hartkopp.net>
+To: Rakuram Eswaran <rakuram.e96@gmail.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, Vincent Mailhol
+ <mailhol@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-can@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20251231-can_doc_update_v1-v1-0-97aac5c20a35@gmail.com>
+ <20251231-can_doc_update_v1-v1-2-97aac5c20a35@gmail.com>
+ <5f8f17eb-b0d7-4b5d-aa66-31113ee891c5@hartkopp.net>
+Content-Language: en-US
+In-Reply-To: <5f8f17eb-b0d7-4b5d-aa66-31113ee891c5@hartkopp.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Now, as the page_ext holds count of IOMMU mappings, we can use it to
-assert that any page allocated/freed is indeed not in the IOMMU.
+Hello Rakuram,
 
-The sanitizer doesn=E2=80=99t protect against mapping/unmapping during this
-period. However, that=E2=80=99s less harmful as the page is not used by the
-kernel.
+On 13.01.26 17:14, Oliver Hartkopp wrote:
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
- drivers/iommu/iommu-debug-pagealloc.c | 23 +++++++++++++++++++++++
- include/linux/iommu-debug-pagealloc.h | 14 ++++++++++++++
- include/linux/mm.h                    |  5 +++++
- 3 files changed, 42 insertions(+)
+>> +For user space applications the following rules are important when
+>> +handling CAN XL:
+>> +
+>> +- Use ``struct canxl_frame`` as basic data structure when CAN XL traffic
+>> +  is expected.
+>> +- Set CANXL_XLF in ``canxl_frame.flags`` for all valid CAN XL frames.
+>> +- Ensure that undefined bits in ``canxl_frame.flags`` are kept at zero.
+>> +- Respect the configured device MTU; do not send frames larger than
+>> +  the MTU announced by the kernel.
+>> +- For mixed-mode controllers, be prepared to handle Classical CAN,
+>> +  CAN FD and CAN XL frames on the same interface and choose the frame
+>> +  structure according to the socket/protocol semantics (e.g. dedicated
+>> +  CAN XL APIs when available).
+> 
+> There's one big difference between CC/FD and XL frames when you read/ 
+> write it to CAN_RAW sockets:
+> 
+> For CAN CC and CAN FD you write struct can(fd)_frame's with CAN_MTU 
+> resp. CANFD_MTU lengths - no matter about the data length (cf->len).
+> 
+> When you read/write CAN XL frames you are reading and writing the 
+> CANXL_HDR_SIZE + the length of the data.
+> 
+> So only in the case of writing 2048 byte data, you write 2060 bytes.
+> 
+> The minimum size for read/write is CANXL_HDR_SIZE + CANXL_MIN_DLEN == 13
+> 
 
-diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-de=
-bug-pagealloc.c
-index 3ce3385588b2..a283b5dbe26f 100644
---- a/drivers/iommu/iommu-debug-pagealloc.c
-+++ b/drivers/iommu/iommu-debug-pagealloc.c
-@@ -9,6 +9,7 @@
- #include <linux/iommu-debug-pagealloc.h>
- #include <linux/kernel.h>
- #include <linux/page_ext.h>
-+#include <linux/page_owner.h>
-=20
- #include "iommu-priv.h"
-=20
-@@ -75,6 +76,28 @@ static size_t iommu_debug_page_size(struct iommu_domain =
-*domain)
- 	return 1UL << __ffs(domain->pgsize_bitmap);
- }
-=20
-+static bool iommu_debug_page_count(const struct page *page)
-+{
-+	unsigned int ref;
-+	struct page_ext *page_ext =3D page_ext_get(page);
-+	struct iommu_debug_metadata *d =3D get_iommu_data(page_ext);
-+
-+	ref =3D atomic_read(&d->ref);
-+	page_ext_put(page_ext);
-+	return ref !=3D 0;
-+}
-+
-+void __iommu_debug_check_unmapped(const struct page *page, int numpages)
-+{
-+	while (numpages--) {
-+		if (WARN_ON(iommu_debug_page_count(page))) {
-+			pr_warn("iommu: Detected page leak!\n");
-+			dump_page_owner(page);
-+		}
-+		page++;
-+	}
-+}
-+
- void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size=
-_t size)
- {
- 	size_t off, end;
-diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-de=
-bug-pagealloc.h
-index a439d6815ca1..46c3c1f70150 100644
---- a/include/linux/iommu-debug-pagealloc.h
-+++ b/include/linux/iommu-debug-pagealloc.h
-@@ -13,6 +13,20 @@ DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
-=20
- extern struct page_ext_operations page_iommu_debug_ops;
-=20
-+void __iommu_debug_check_unmapped(const struct page *page, int numpages);
-+
-+static inline void iommu_debug_check_unmapped(const struct page *page, int=
- numpages)
-+{
-+	if (static_branch_unlikely(&iommu_debug_initialized))
-+		__iommu_debug_check_unmapped(page, numpages);
-+}
-+
-+#else
-+static inline void iommu_debug_check_unmapped(const struct page *page,
-+					      int numpages)
-+{
-+}
-+
- #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
-=20
- #endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 6f959d8ca4b4..32205d2a24b2 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -36,6 +36,7 @@
- #include <linux/rcuwait.h>
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
-+#include <linux/iommu-debug-pagealloc.h>
-=20
- struct mempolicy;
- struct anon_vma;
-@@ -4133,12 +4134,16 @@ extern void __kernel_map_pages(struct page *page, i=
-nt numpages, int enable);
- #ifdef CONFIG_DEBUG_PAGEALLOC
- static inline void debug_pagealloc_map_pages(struct page *page, int numpag=
-es)
- {
-+	iommu_debug_check_unmapped(page, numpages);
-+
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 1);
- }
-=20
- static inline void debug_pagealloc_unmap_pages(struct page *page, int nump=
-ages)
- {
-+	iommu_debug_check_unmapped(page, numpages);
-+
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 0);
- }
---=20
-2.52.0.457.g6b5491de43-goog
+Here is an example that I've been implemented recently that shows a good 
+example how to handle CC/FD/XL frames, when they are all enabled on the 
+CAN_RAW socket:
+
+https://github.com/hartkopp/can-utils/commit/bf0cae218af9b1c1f5eabad7f3704b88ab642e00
+
+Feel free to pick the code for some example.
+
+But please do not reference the commit as it is in my private repo and 
+not yet integrated in the official can-utils repo.
+
+Best regards,
+Oliver
 
