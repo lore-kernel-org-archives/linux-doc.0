@@ -1,110 +1,186 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F523A0B20;
-	Wed, 14 Jan 2026 15:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A79E239C655;
+	Wed, 14 Jan 2026 15:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768405645; cv=none; b=X908mYV16jV4zWT3xPQWvdE2NUuV2Jw/9R1hW4ijY4+jgHcDw0ZasC9MdahBZKoX1SR96301VXFG9iw74UtPMT7oM0a5ApGX4HXfpWXQLd4IEBR7ywGFE84XXojjlMyECu8gzXWNSZ1v8FlKLyshkt+Bqx3D5Nr98voYS0SNpOQ=
+	t=1768406212; cv=none; b=aGCqYV2/coA5IAKIE80qR9fyO63VGqv+LC6qV9Aqc0K5Anf7P21CfLPrS/pAEmGdUOPNA7EjFgvBInhYLaJSJFR9wRcLBMQp8242sw1YchFbDmhWnAOVFOJyCp0AaxoBcFKvc7hphEytwzhyKLfmDXUc7PuRYtz9/LzLl00ebo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768405645; c=relaxed/simple;
-	bh=UPnHOPIjGmubnCAzxv2GweargRz8EcqG9W3rLov+k0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uV1sOqk1ewRcP/k79xXoGltJFdDBwIpnzLRWLNF6vZG8oeWkX4YJ1eV3a3ewaCoEb3ppa6Fpg05+bxLIJKUI+OED2uAVaaSTf7Eq2u0h/UjWR3A8KiAtvLVawPnFEEK28e2+toV9aA+GfnLNYRAuSLTFi7PEF1JFuWPdMYP4rTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=gDEI+zFP; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1768406212; c=relaxed/simple;
+	bh=8LvjqpKpYSn0kCgkK42snGxJ0siCqZmpNrcG6nsNfMA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=HtzeKfH5jiXqag76TEUmXrbxpYfreAC/z0G/6pFuZQVOgUHElFMivVtrqbAh81XA4h5VLTcJut8y4B3uHJx+0iEUneL9SYYPBwUt4x4/TV4X+jURgXbpPCWmGz09h7cmSrYvU0LrfKvxsg2xIi5z2aCfiz4fa/Ai/jj9EaU39Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Q8Gv1l+k; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="gDEI+zFP"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5591040E0281;
-	Wed, 14 Jan 2026 15:47:19 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 2Abegj8iRGYn; Wed, 14 Jan 2026 15:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768405635; bh=xSyGH2S7hw1AUiS9jEfdC4Jr8F3HyJxMOuZ6mZOurSc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gDEI+zFP6Ss3OY2BMcgbNLN6U7b1rIDSoTpKUB2buPrrZIaCri12/AmAYJPCvFLam
-	 xVr8dN9vmC39iER+aqrDI6eEPdJs9jDu5SJm2HSujdKeX+WMVtFn7scxIyP391CrrZ
-	 uDxlfppV1co4BKRgvTr3mf4urvTob2ZO8gc3iC3oIYaA/Qi09Pnsyi1ohpiQKcdRdX
-	 IPStX4Mnb3FyoI8OHQxQ6SI1v1sXu3zihNxvpN2msC1FPV91G9Y7rVhbR9CTYPCwXd
-	 l3H2ncP4mMl8x7V57bLLQ+4C3Gy7P8BznsWOg+YaNBbMI1Eek8yCGfdw9PiFixOxeU
-	 6fBFy2sbgx8riUtgBto4EnqAu8bybVK/QI37n5OjBb9RKLEl2rcZGJQuO3vkHaNZNe
-	 ZxBftFt8d3VDUfd7efGESykH4eyJP0nr2ANXZ/BxfOvGpqwrTKpumDKfmMXTuVwRgV
-	 9A92b7etLcXP+ZyK2eFIs6RP5/1AYim6VJt8Ezr4xZgxUDtxW9W9YwEQs/naCDmuXw
-	 Jp1B5c5uZ2gkql++3Booc1daFCgLsXonLPu0VWNPJoHq//zGKX69DVD27I1Xv9c/ml
-	 dt8B+W4d2egZAZDv1WjRCMNkJqYVfVrMP38EX0VMmHl4mJG6Mn2JkpGXfwWSf6G+aC
-	 YxlOwbepQGXZpEMl2IfwwON0=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 1DC3E40E0028;
-	Wed, 14 Jan 2026 15:47:03 +0000 (UTC)
-Date: Wed, 14 Jan 2026 16:46:56 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shenghao Yang <me@shenghaoyang.info>
-Cc: x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH] x86/acpi: Add acpi=spcr to use SPCR-provided default
- console
-Message-ID: <20260114154656.GDaWe6cFCruAGbJbhe@fat_crate.local>
-References: <20251228092222.130954-1-me@shenghaoyang.info>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Q8Gv1l+k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1768406184; x=1769010984; i=markus.elfring@web.de;
+	bh=29a7g00VV5oIMgcPIIXbUmKffyrVQzVif3rgoF/F7J8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Q8Gv1l+krWN9a4Nd0EkJcVR9kjWM56wrTdwFyts44//Pu0p1KDyg29CDnpO+hWfY
+	 N1F8wlN1a4AXa8IPHISsMbjn98usATVXdYeM94ZM8OzG8fyQg6KX8pP5pP6kJiIud
+	 szLj6FIuE8bWcvQ0vRYRCQFqclx7SvnleAXOUnxVjd/K/5ZH5IcVPYmeoGGkCtxpJ
+	 SZl1gGkocnR18Dy/SFKizxP0GPGswshqL9bkotbbD0a9NE6wwg1TnRdO3SKWXHDIl
+	 8kq0OUPRDJz9dBf6ApK97ST1Osgltz97lMNu9ooztanhCM2fPtP9m8umO9XqsI2ui
+	 J+XUkAq7/s6p1KCCtQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.218]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MeDQZ-1wDBWS2uRj-00gGQO; Wed, 14
+ Jan 2026 16:56:23 +0100
+Message-ID: <cfba57a6-01c1-4f47-80e2-9db4d5013986@web.de>
+Date: Wed, 14 Jan 2026 16:56:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251228092222.130954-1-me@shenghaoyang.info>
+User-Agent: Mozilla Thunderbird
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Andrei Aldea <a-aldea@ti.com>, "Andrew F. Davis" <afd@ti.com>,
+ Chirag Shilwant <c-shilwant@ti.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jonathan Humphreys <j-humphreys@ti.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Randolph Sapp <rs@ti.com>,
+ Rob Herring <robh@kernel.org>, Robert Nelson <robertcnelson@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Tero Kristo <kristo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Vignesh Raghavendra <vigneshr@ti.com>
+References: <20260114-thames-v2-3-e94a6636e050@tomeuvizoso.net>
+Subject: Re: [PATCH v2 3/5] accel/thames: Add IOCTLs for BO creation and
+ mapping
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260114-thames-v2-3-e94a6636e050@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:BmEAR/B01vrMrlhj8U/EtTsWHSonlYX3lblnupw8ocrF3zNmFYt
+ 33KSzhEeErVmrm52rsnWfqU9TNbqIVICwFPaf1ZOA5Fh2qKl4/fN9fTLtesIVCtm0OSpNjT
+ j/W3LSp6IRTw/QX4JOb0WvLA0hwh+d7VUvCrKHOD3fcmnlZa6xTuObr6RMjhLoCV0D/Y9ZN
+ z7bTRmIp5ZBo5lvgW+2XQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uDWSF01tjIk=;RM3BOg6EJ72Ndu6h+DwIRZwQNey
+ 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
+ lkAuypJg=
 
-On Sun, Dec 28, 2025 at 05:22:22PM +0800, Shenghao Yang wrote:
-> Commit 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86")
-> made SPCR available as an earlycon option on x86 but did not add
-> it as a preferred console to avoid breaking existing setups -
+=E2=80=A6
+> Buffers belong to a context, which is used by the DSP to switch to the
+> page table that mapped the buffers for the user of the job to execute.
+>=20
+> v2:
+> - Add thames_accel.h UAPI header (Robert Nelson).
 
-No one has noticed AFAICT since 2018 (this commit's date).
+* Please move patch version descriptions behind the marker line.
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.19-rc5#n785
 
-Also:
+* See also once more:
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.19-rc5#n94
 
-        /* Do not enable ACPI SPCR console by default */
-        acpi_parse_spcr(earlycon_acpi_spcr_enable, false);
 
-Looks nicely conservative to me.
+=E2=80=A6
+> +++ b/drivers/accel/thames/thames_gem.c
+> @@ -0,0 +1,353 @@
+=E2=80=A6
+> +static void thames_free_vaddr(struct thames_device *tdev, struct thames=
+_gem_object *bo)
+> +{
+=E2=80=A6
+> +	mutex_lock(&tdev->mm_lock);
+> +	drm_mm_remove_node(&bo->mm);
+> +	mutex_unlock(&tdev->mm_lock);
+> +}
+=E2=80=A6
 
-> users have to round trip the dumped console options
-> ("SPCR: console: uart,io,0x3f8,115200") back via their
-> bootloader.
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(mutex)(&tdev->mm_lock);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.19-rc5/source/include/linux/mutex.h#L2=
+53
 
-I don't know what that means.
-
-> Let users opt in so serial console configuration can be made
-> automatic.
-
-Why?
-
-Text says:
-
-	[X86] When used with no options the early console is
-	determined by the ACPI SPCR table.
-
-But the code doesn't enable the SPCR console by default.
-
-I have no clue what this patch is trying to do.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Regards,
+Markus
