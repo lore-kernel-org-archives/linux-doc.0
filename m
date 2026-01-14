@@ -1,53 +1,52 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8E02BE65F
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 08:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DAE3803CF
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 08:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768380440; cv=none; b=J5b09JPQXlwfJ/fQwiZdCx7oRhQj/FbiJwZwHL0gWCGYoaBzcYZA67mvuiKujavXAqObQpsHuDn766IWtV0dXKpsb/IzvG9Ayzt8k0EQVLZLalKRQaqBKqPtQFYRz6wMrMzmTmM3OKBYCOkP3RoXC4u7Bq/MK1D6Y8wVn/dB7Lo=
+	t=1768380451; cv=none; b=sfVJEtc/NoXexBPxc0X0FjkoyX7nscSfOXCLOcO+9vGju0017tB2xkIwfoxdWd/Fwrp7kDUKGRUY4qkW9ZfjDOKYWkU+hi749gIVV4qvfjw1/hvmrLWIHTgJ/gHbYi2Y550TvRuRc45v0KVy7n116wMle3Oe6/DXykOY7EA8UtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768380440; c=relaxed/simple;
-	bh=724MKfbyRVpOlMBiWmZ+VnfVEBQCW/q6CKIp1BMjM/0=;
+	s=arc-20240116; t=1768380451; c=relaxed/simple;
+	bh=S790a5X3uzkW8n3YiCxdxC5d6m+cBugOxTOqMxpwGQQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pL1IwleLXJBTchupnp67laoDf7kBZ3JqQ8U1eFgIDBJpm+BoWrDrySPBqN3AGQRhMHtfUFuicZ6qxpjlhxsN7pAlLmf80Iidt/Bc2EDOFPyZw6fJoq7SoLiV2ZgjcJZ/wU6mvwXes1j4Kt0P8twWKnFX/YBminTep0PW/mSn3UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+	 In-Reply-To:To:Cc; b=H3+oUVmVYyarKayZ83UU8jvZcG95eWhJXidNCMZ60IQ71XBbuihpVuEUo9psNcVD0/LBWNY32y7bFj9aNeBaaPLAGKOMoUi+PdxTeTPKejO4TptpZS3VCPI8NyZUXb/wl1NBAkfcjo+lWKyL1a77ls0ARokIGeus7EKEX2ZMQmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64d02c01865so1845443a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 00:47:17 -0800 (PST)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64b4b35c812so13738722a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 00:47:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768380435; x=1768985235;
+        d=1e100.net; s=20230601; t=1768380445; x=1768985245;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=s8k0pXMV1y8Iq4ImwhXf2ahDkvy9IQZJDHOXmgWjWKM=;
-        b=UtMysO10fFwCqVoISLUsaXU/s+uM0PjFVOk79yMAeVt1bEVOADZU3AjoTnz9Fd6Pw2
-         uhI6bd/GXFMnddR0RBQx1Y9ioEdcL7qe8O/6rAWUOOIhj8k3fxd9imD2DedBfYBmFcdT
-         wOScVJRvQxrmhHVWmqpxiu+pwslULedvsASsmO1oEts2sNkGUnzIa7I7icHsutHsg03u
-         ZNT/7OJeq2T+I6/fUuWgH+zpLhoN6jI870LLjAHFJwDRcrKl+dO9Xd606bbSiOycOm+n
-         9PyBZx5r1mHrifenGkHeSkfPG7/pAtAOEdquuzitU4ZEqHowz/WhYyqd4L2MsNNEMUde
-         td9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ0AGhdldxq/FNnZHA1KTSUaS3kT8G93atGquFqX+X+KrEb13niHddbyx+7s7qgR9ANbKyRwO3WBQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ6sJz2iVOsuQ7KxnFOXTO2lu4PM6hG8WW9a/zJcPKl6xGu47E
-	i71aYYCJaU83wa6qFsGO0/EFqSPycW45JZGDzvY96D6IEl850NHudbPbn3FBJA==
-X-Gm-Gg: AY/fxX4HNmOY2MB8qQqcgGnQLb68R+9t7IwVMaK/q/NL97kU+E9z4d8toBXYH5PvaWU
-	z6eEpuw0PZUmJL4/SJCsusb98g9VmHJiCfOYMUPY4X4Dh2XVMA6i5VVHK2ls/EiP1DEtcRMCUB7
-	8RwZT0Xa040w9dIV8xN2LtLlfCw5mpcM0Nj9JBREP473let2/LGv4t3YK+kYvMHqyr98AZCoN3F
-	Nqx4vV0o9+PUxzdQEfnhZLspffhgODkRR9TWuEofF4sQc/ohVr22+GcmRs/tF5EZO77f9lFhgaB
-	PnnNCKCB3E0/aKxwxXeGq1g+69OlSCofmrkQKz5VlKRefDUC1q13DGdJoNloTObMKSRTn34ylRJ
-	0IZZ/B7x22lsyhYAYLDnKpKcZO1/ObFEqdWQMB1xaEYed+f+aHGYH3+KXirKI3U8I3Ivatcl4oh
-	nF1BjhV3FH7C9mfR8oFdPSz5r70TcLuXClwcBha9UKzYXxZXOzOW4uQ/gw
-X-Received: by 2002:a05:6402:1474:b0:64b:82c8:e7b7 with SMTP id 4fb4d7f45d1cf-653ec45985emr1298237a12.24.1768380435183;
-        Wed, 14 Jan 2026 00:47:15 -0800 (PST)
+        bh=MFgbGKta1WWetg8kikPQgA/0YVVbzxRzodQq2Gmv8S8=;
+        b=TPMxKw1fQRZAu9FDTOFkv5gLBxJGVC8+8RlNPzjLVZ8JLOoO+JYZQ/Ob/UdXQB0FiG
+         ud4DXTW/+WtTS0UTM57ppN/jNXKv07Y7lTo3+T38IvdGy17dfEJA3QjXiu/X7VN/dPah
+         MY+pngAdFadJ7mf2CgvF6PjNvAAqQb4ph49tNz8S2XPy7As9HPAWuCoHCcbi8YD6SVrq
+         bGyK8kuJBqCQ3uvnCZ3I7md49QmlhDamU3O+3fvKRkfdUjoLLQnNQL/w7yRvuKNZc5PR
+         PZ5DQqAKevVX6UL7CdsQFh+JMRztp0ZfY8mPD438X/GPLBaXSSYg9x9qXY9Us9in62fw
+         aZ2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWjUWmKMmqnN7GuTuSdADJwcXv7ifqHjxH3K3A0WRAGzHMQoSPqCMXkCpk+RNFRLAoHX9qn0faLUrc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB5Psrvmhzd4Xb3dr0aUK7DmuCqh0IRA+gQaRqQNLVtSaMfW59
+	JckASiix3bOtIbiF0ppWUJUMQZKbUQqDp0xEm/viuhDlUKEzfAQWMxVA
+X-Gm-Gg: AY/fxX6I7QdcbTbZgGZo82X7PW1ihlap0EZX2+qMaxKbXkCv45j2Wjw1nLrlLhLItXN
+	6HEvNTTcoqxZOUCX9MAuoqeH/CT3mHQLa3IUyhwLhpO8u0QLEcTZwoitD7MHmOLu+/85o0rFkt0
+	BpBKUp52qywZgXl7h+C8/jtLaa62WzFEyagtIfWBfGxOl0BMMx3kSHsp+r4aQntDw8w6TvefNao
+	kDnFf3UTcYu8gZCTsoKojf26EGPAX24R9i40j4jtqFM1xjGxR+g7cFyl01ebRm5Q40DoZLvILU8
+	JWNqbfNvteAvhaEXdDVZwoWcsErsNrrXSmuGCCmEcbi1YZ22A0V9Sa8xHhLnyj8N/B6dyM99582
+	5nLLvUS1QUbdy95LZqgO+6Yge7JZGoB5Ne0vQdKsRLVV2Bl9FiqcPkcLeXyHzCmJAAdDAqIlOv0
+	R5XXKrUxeQ2zypWlSiTOsaYUjrejpGgAtYbbx+mbYBiGDslOb28Qf4Dtp4
+X-Received: by 2002:a05:6402:790:b0:640:e75a:f95d with SMTP id 4fb4d7f45d1cf-653ec12583bmr1081734a12.15.1768380445470;
+        Wed, 14 Jan 2026 00:47:25 -0800 (PST)
 Received: from [10.42.0.1] (cst-prg-36-231.cust.vodafone.cz. [46.135.36.231])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.13
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 00:47:14 -0800 (PST)
+        Wed, 14 Jan 2026 00:47:25 -0800 (PST)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Wed, 14 Jan 2026 09:46:48 +0100
-Subject: [PATCH v2 1/5] arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add
- memory pool for DSP i/o buffers
+Date: Wed, 14 Jan 2026 09:46:52 +0100
+Subject: [PATCH v2 5/5] accel/thames: Add IOCTL for memory synchronization
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260114-thames-v2-1-e94a6636e050@tomeuvizoso.net>
+Message-Id: <20260114-thames-v2-5-e94a6636e050@tomeuvizoso.net>
 References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
 In-Reply-To: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
 To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
@@ -77,49 +76,170 @@ Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, Tomeu Vizoso <tomeu@tomeuvizoso.net>
 X-Mailer: b4 0.14.2
 
-This memory region is used by the DRM/accel driver to allocate addresses
-for buffers that are used for communication with the DSP cores and for
-their intermediate results.
+The DSP cores have their own access to the memory bus, and it isn't
+cache coherent with the CPUs.
+
+Add IOCTLs so userspace can mark when the caches need to be flushed, and
+also when a writer job needs to be waited for before the buffer can be
+accessed from the CPU.
+
+Initially based on the same IOCTLs from the Etnaviv driver.
+
+v2:
+- Add thames_accel.h UAPI header (Robert Nelson).
 
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/accel/thames/thames_drv.c |  2 ++
+ drivers/accel/thames/thames_gem.c | 52 +++++++++++++++++++++++++++++++++++++++
+ drivers/accel/thames/thames_gem.h |  4 +++
+ include/uapi/drm/thames_accel.h   | 31 +++++++++++++++++++++++
+ 4 files changed, 89 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-index 3fbff927c4c08bce741555aa2753a394b751144f..b80d2a5a157ad59eaed8e57b22f1f4bce4765a85 100644
---- a/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi
-@@ -42,6 +42,11 @@ c7x_0_memory_region: memory@a3100000 {
- 		no-map;
- 	};
+diff --git a/drivers/accel/thames/thames_drv.c b/drivers/accel/thames/thames_drv.c
+index 1ff01428e6c80765cb741ae45c67971b7b0f28c8..6993d503139d3aaef830cdf5cfcf38476c5f9d99 100644
+--- a/drivers/accel/thames/thames_drv.c
++++ b/drivers/accel/thames/thames_drv.c
+@@ -76,6 +76,8 @@ static const struct drm_ioctl_desc thames_drm_driver_ioctls[] = {
+ 	THAMES_IOCTL(BO_CREATE, bo_create),
+ 	THAMES_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset),
+ 	THAMES_IOCTL(SUBMIT, submit),
++	THAMES_IOCTL(BO_PREP, bo_prep),
++	THAMES_IOCTL(BO_FINI, bo_fini),
+ };
  
-+	c7x_iova_pool: iommu-pool@a7000000 {
-+		reg = <0x00 0xa7000000 0x00 0x18200000>;
-+		no-map;
-+	};
+ DEFINE_DRM_ACCEL_FOPS(thames_accel_driver_fops);
+diff --git a/drivers/accel/thames/thames_gem.c b/drivers/accel/thames/thames_gem.c
+index 5a01ddaeb2448117d400a79e53d2c6123ecb5390..4ded8fab0f3ff6f75a1446c5661fdbc68f1f2ac7 100644
+--- a/drivers/accel/thames/thames_gem.c
++++ b/drivers/accel/thames/thames_gem.c
+@@ -351,3 +351,55 @@ int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_
+ 
+ 	return 0;
+ }
 +
- 	c7x_1_dma_memory_region: memory@a4000000 {
- 		compatible = "shared-dma-pool";
- 		reg = <0x00 0xa4000000 0x00 0x100000>;
-@@ -151,13 +156,15 @@ &main_r5fss0_core0 {
- &c7x_0 {
- 	mboxes = <&mailbox0_cluster2 &mbox_c7x_0>;
- 	memory-region = <&c7x_0_dma_memory_region>,
--			<&c7x_0_memory_region>;
-+			<&c7x_0_memory_region>,
-+			<&c7x_iova_pool>;
- 	status = "okay";
++int thames_ioctl_bo_prep(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_prep *args = data;
++	struct drm_gem_object *gem_obj;
++	struct drm_gem_shmem_object *shmem_obj;
++	unsigned long timeout = drm_timeout_abs_to_jiffies(args->timeout_ns);
++	long ret = 0;
++
++	if (args->reserved != 0)
++		return -EINVAL;
++
++	gem_obj = drm_gem_object_lookup(file, args->handle);
++	if (!gem_obj)
++		return -ENOENT;
++
++	ret = dma_resv_wait_timeout(gem_obj->resv, DMA_RESV_USAGE_WRITE, true, timeout);
++	if (!ret)
++		ret = timeout ? -ETIMEDOUT : -EBUSY;
++
++	shmem_obj = &to_thames_bo(gem_obj)->base;
++
++	dma_sync_sgtable_for_cpu(ddev->dev, shmem_obj->sgt, DMA_FROM_DEVICE);
++
++	drm_gem_object_put(gem_obj);
++
++	return ret;
++}
++
++int thames_ioctl_bo_fini(struct drm_device *ddev, void *data, struct drm_file *file)
++{
++	struct drm_thames_bo_fini *args = data;
++	struct drm_gem_shmem_object *shmem_obj;
++	struct thames_gem_object *thames_obj;
++	struct drm_gem_object *gem_obj;
++
++	if (args->reserved != 0)
++		return -EINVAL;
++
++	gem_obj = drm_gem_object_lookup(file, args->handle);
++	if (!gem_obj)
++		return -ENOENT;
++
++	thames_obj = to_thames_bo(gem_obj);
++	shmem_obj = &thames_obj->base;
++
++	dma_sync_sgtable_for_device(ddev->dev, shmem_obj->sgt, DMA_TO_DEVICE);
++
++	drm_gem_object_put(gem_obj);
++
++	return 0;
++}
+diff --git a/drivers/accel/thames/thames_gem.h b/drivers/accel/thames/thames_gem.h
+index 785843c40a89a9e84ab634aad77e9ec46111693e..e5a8278e98c578c2903cf23aea1bf887be0389e8 100644
+--- a/drivers/accel/thames/thames_gem.h
++++ b/drivers/accel/thames/thames_gem.h
+@@ -29,6 +29,10 @@ int thames_ioctl_bo_create(struct drm_device *ddev, void *data, struct drm_file
+ 
+ int thames_ioctl_bo_mmap_offset(struct drm_device *ddev, void *data, struct drm_file *file);
+ 
++int thames_ioctl_bo_prep(struct drm_device *ddev, void *data, struct drm_file *file);
++
++int thames_ioctl_bo_fini(struct drm_device *ddev, void *data, struct drm_file *file);
++
+ int thames_context_create(struct thames_file_priv *priv);
+ 
+ void thames_context_destroy(struct thames_file_priv *priv);
+diff --git a/include/uapi/drm/thames_accel.h b/include/uapi/drm/thames_accel.h
+index 5b35e50826ed95bfcc3709bef33416d2b6d11c70..07477087211c14721298ff52a1f3d253a6e65d58 100644
+--- a/include/uapi/drm/thames_accel.h
++++ b/include/uapi/drm/thames_accel.h
+@@ -31,6 +31,12 @@ enum drm_thames_ioctl_id {
+ 
+ 	/** @DRM_THAMES_SUBMIT: Submit a job and BOs to run. */
+ 	DRM_THAMES_SUBMIT,
++
++	/** @DRM_THAMES_BO_PREP: Prepare a BO for CPU access after DSP writes. */
++	DRM_THAMES_BO_PREP,
++
++	/** @DRM_THAMES_BO_FINI: Finish CPU access and prepare BO for DSP access. */
++	DRM_THAMES_BO_FINI,
  };
  
- &c7x_1 {
- 	mboxes = <&mailbox0_cluster3 &mbox_c7x_1>;
- 	memory-region = <&c7x_1_dma_memory_region>,
--			<&c7x_1_memory_region>;
-+			<&c7x_1_memory_region>,
-+			<&c7x_iova_pool>;
- 	status = "okay";
+ /**
+@@ -127,6 +133,27 @@ struct drm_thames_submit {
+ 	__u32 pad;
  };
+ 
++/**
++ * struct drm_thames_bo_prep - ioctl argument for preparing a BO for CPU access.
++ *
++ * This invalidates CPU caches and waits for pending DSP operations to complete.
++ */
++struct drm_thames_bo_prep {
++	__u32 handle;
++	__u32 reserved;
++	__s64 timeout_ns;	/* absolute */
++};
++
++/**
++ * struct drm_thames_bo_fini - ioctl argument for finishing CPU access to a BO.
++ *
++ * This flushes CPU caches to make CPU writes visible to the DSP.
++ */
++struct drm_thames_bo_fini {
++	__u32 handle;
++	__u32 reserved;
++};
++
+ /**
+  * DRM_IOCTL_THAMES() - Build a thames IOCTL number
+  * @__access: Access type. Must be R, W or RW.
+@@ -149,6 +176,10 @@ enum {
+ 		DRM_IOCTL_THAMES(WR, BO_MMAP_OFFSET, bo_mmap_offset),
+ 	DRM_IOCTL_THAMES_SUBMIT =
+ 		DRM_IOCTL_THAMES(WR, SUBMIT, submit),
++	DRM_IOCTL_THAMES_BO_PREP =
++		DRM_IOCTL_THAMES(WR, BO_PREP, bo_prep),
++	DRM_IOCTL_THAMES_BO_FINI =
++		DRM_IOCTL_THAMES(WR, BO_FINI, bo_fini),
+ };
+ 
+ #if defined(__cplusplus)
 
 -- 
 2.52.0
