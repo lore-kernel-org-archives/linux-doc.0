@@ -1,101 +1,89 @@
-Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6012FE056
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 03:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88009296BB7;
+	Wed, 14 Jan 2026 03:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768361142; cv=none; b=r+/slMMeXHxtXCHaE90xdNTqpfmhJhsMInFNz1VYsU/rT3eGaQPDuMvQm4dwfC1QZrSYI8ErAFJxszYtGhLOERpL2QnRfcRp+qm9NCw66eGNpwu+zO1qJXpajUfytID9KMdMG43i2X4Jk2Jl1VdkzTSPeYeooeVnpSnDGlvJjS0=
+	t=1768361775; cv=none; b=FocCfMZOiK294dnuWPjq/CUbiTPNpDSSLBEsEbTN3wsmJXo6x3G3bd9wCC/CoIIt9GEG61/DLiLHmFWVzrKJ33Qx/8QGxPT/LR0ivI0K1pxz5LnFk6HkBu7xA28E9ty7st8lsQB5NLCsJKiOLisrgSRhrQmwtTjY1rEmu0qJHic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768361142; c=relaxed/simple;
-	bh=qeyFFUHOfvOf/Lso0USRbtt36V45laqGZKievGEoTMc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nCwV5na+GjmjlK9t7R3HF3Y6ng24ZHXO4em0nCzO9iqs2Q/nT+bXs4wK38azU7QkCVjwGf3E1YqiRoflllxtOOqJlqT+aHEFQgPSlmL2jj0NoRCcvvduBa/3mitaPyEze80QTtdywi6JbTSYaMJmp8uGd9DVM6n17iMXMV2GFEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kGBTo0lH; arc=none smtp.client-ip=74.125.82.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768361775; c=relaxed/simple;
+	bh=XdgwGXL6Xkf7KFiVxYJaa6oGaEzMG6qYj6DrtcALVZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TyRPnPB9CkYtPh7m+Ap0z1zVsPQ4PoqZVqvVXt3/+YgXDcVdhm8x+XDviL38sUV77PIjEWWTJJFqbD8zusirtRQlvDniDMLEQZw0pq5mrKA0BtvOOyfhfHos53GcKCvem5RKQtR3U0q/2Zm1cFoWktPksdA6gRuml2mE0lkiDik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KtPxaBvF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kGBTo0lH"
-Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-12332910300so2420787c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 19:25:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768361139; x=1768965939; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LbWLobpjJa8xgEi+LiwpClMK13xKffaVB3M347EXltk=;
-        b=kGBTo0lHDRtfeus4UXrpkvez/lsS70AbWAdhs48rYptBGxuNmYGrZs8YkyvWYbuGmS
-         Vi4/wqaexSg81WPDCFTBUBb6ddMSmEncg2/uX7wIgh1fzwdi5LTZB6qOo++9FhqZsaDA
-         H4kxA8ueSgD2aX3Q7JFuWmu3guEddoSgnetQ4Gh1ZSLQPQu3rWPK/62+caNzHWq7YfHe
-         pFpUugSqNxJ6bvJIw2PrZWcE3rpeF6oIxeP/KujEBQVW51eM3BHRsKtD5VXQ9mkAuFNh
-         tHj3O6fQo7XJPy7SAsOM5ya8dhXZJTsZ/EAkm6E32cGEDmro+Y/H1AFmZimv0S6dEZWv
-         RADg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768361139; x=1768965939;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LbWLobpjJa8xgEi+LiwpClMK13xKffaVB3M347EXltk=;
-        b=rFXbs5qhEG0SbVmuWbv3V6amNTWL23s2+0oQ2HDbbVZiRs6moG8RF4JgXPfvILDWDW
-         +y6zYKTHlDaxVWJTqeSkKHF7xTzQV5363p80drmR77UesGT24aUdXyzwyrOGhSQxl38y
-         TKZL7bZcX80XUJokauCA2QeGzT0hqkyivxRA8/MfkQE4bx9eAcIwMwxU7lGSljX9WSeX
-         As1Inll+l1mvxM9xzndkmVT8+v/yetkLZ6eCIbOuRRz8OiCYioCNhsfDWamTG4eWHRxs
-         /Gp9hSPuqIbNgGWzpBY6NQnvqJ5czGw0JKYD0LE4i8xmx9F9eZi65vENT/Y4Ehi7Wcf5
-         oEkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUAcvwUGSQLFSo6NUJLI4NCRCx49xUkZU6vsMiJeMc/4OksgaWfJTHaO4sOCg9AfZYmUgUXqifkvw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBPghWommzBKW/ylVXzr6nSkRDKUejLNn0+yR0OKWhCtaZmuXr
-	Ui/1bqXMIa3KHuisuuyA+94gq34Yex1hZX/da/4c3VVLZ/cFrxyviNyC
-X-Gm-Gg: AY/fxX4bx3MNfJL1Og1lFYN2pzO7UIMqT2iDBuTpP1hBwPH0A1G5lQgffWi8L/8lem3
-	aGWy+y0G6dS7a1PP2censYfRac1lS1rtG0gcFAljjbhZpq0vT5JPJ+4M7beJ1AoCJThvGZecvNw
-	gH5uZHaRCwT/AHaDSKAEucWYHPIvW9F2RrsdUqjGnFcxDedJGAZN/8d1rvap6Op4nizHlP/iHos
-	i1mQRY0z0aCHQaedb9gsBRelpqHRo+s7ABXE89dQvu320H93IWELp9nbu2KcDKUZV1IOkHAt79Y
-	pGjzkYe1iORYYw61geA/GtvGnnZuP0d+kzNZoWM5ykzLodJFF+eghLH+4CHxRqQ0cLkYjN02W0k
-	j4s9DKVWW/2iLBBFACPXeDW8iRkZh/+y2bYPUDKd3YTXMk0F0StR53uovUMobBm8INaxUKmj3wt
-	yq
-X-Received: by 2002:a05:701b:2504:b0:11b:ca88:c503 with SMTP id a92af1059eb24-12336a33f69mr1176816c88.3.1768361138641;
-        Tue, 13 Jan 2026 19:25:38 -0800 (PST)
-Received: from localhost.localdomain ([2607:f130:0:11a::31])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121f248c246sm29706885c88.11.2026.01.13.19.25.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 13 Jan 2026 19:25:38 -0800 (PST)
-From: wang lian <lianux.mm@gmail.com>
-To: sj@kernel.org
-Cc: Liam.Howlett@oracle.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	damon@lists.linux.dev,
-	david@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	lorenzo.stoakes@oracle.com,
-	mhocko@suse.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	vbabka@suse.cz,
-	wang lian <lianux.mm@gmail.com>
-Subject: Re: [PATCH 07/11] Docs/admin-guide/mm/damon/lru_sort: document filter_young_pages
-Date: Wed, 14 Jan 2026 11:25:16 +0800
-Message-ID: <20260114032516.83483-1-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260113152717.70459-8-sj@kernel.org>
-References: <20260113152717.70459-8-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KtPxaBvF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE5F8C4CEF7;
+	Wed, 14 Jan 2026 03:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768361775;
+	bh=XdgwGXL6Xkf7KFiVxYJaa6oGaEzMG6qYj6DrtcALVZw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KtPxaBvFjvBQXFgO6ttgm1CTd9pwSd7h+Lyh+D9BlZcO995/kseP/Wry1CiCN3v/n
+	 gBwIeg1brhKqIgABt6UECFua/Ct/X6gYsG38FVO8f6nWOf173R366ktySg2c/OI6jY
+	 vk2Ge2hCtjCrU3a9L6qa0l7mSw2vfPb0vGqD7MpfJV5pEDB/zBBeNPk3CdhrwD5Zu0
+	 eumNzZOYzfdZb4LKIHdXfESrFvoslPCoWdoC1b0JaoLC/mIXrjkvL3pAioVtBHM6eI
+	 WeCKp318EhcZFMv/64Kg8sLAhyMxzF4GhCzOaMZyc6/3d1xjwxIJU83EoMG09a8DJm
+	 WGF3Zo8ytomJg==
+Date: Tue, 13 Jan 2026 19:36:12 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Michael Chan <michael.chan@broadcom.com>, Pavan
+ Chebbi <pavan.chebbi@broadcom.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
+ Fastabend <john.fastabend@gmail.com>, Joshua Washington
+ <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Saeed
+ Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+ <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Alexander Duyck
+ <alexanderduyck@fb.com>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Shuah Khan <shuah@kernel.org>, Willem de Bruijn <willemb@google.com>, Ankit
+ Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>, Alok Tiwari
+ <alok.a.tiwari@oracle.com>, Ziwei Xiao <ziweixiao@google.com>, John Fraker
+ <jfraker@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, Mohsin
+ Bashir <mohsin.bashr@gmail.com>, Joe Damato <joe@dama.to>, Mina Almasry
+ <almasrymina@google.com>, Dimitri Daskalakis
+ <dimitri.daskalakis1@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Samiullah Khawaja
+ <skhawaja@google.com>, Ahmed Zaki <ahmed.zaki@intel.com>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, David Wei <dw@davidwei.uk>, Yue Haibing
+ <yuehaibing@huawei.com>, Haiyue Wang <haiyuewa@163.com>, Jens Axboe
+ <axboe@kernel.dk>, Simon Horman <horms@kernel.org>, Vishwanath Seshagiri
+ <vishs@fb.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, dtatulea@nvidia.com,
+ io-uring@vger.kernel.org
+Subject: Re: [PATCH net-next v8 7/9] eth: bnxt: support qcfg provided rx
+ page size
+Message-ID: <20260113193612.2abfcf10@kernel.org>
+In-Reply-To: <28028611f572ded416b8ab653f1b9515b0337fba.1767819709.git.asml.silence@gmail.com>
+References: <cover.1767819709.git.asml.silence@gmail.com>
+	<28028611f572ded416b8ab653f1b9515b0337fba.1767819709.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri,  9 Jan 2026 11:28:46 +0000 Pavel Begunkov wrote:
+> @@ -4342,7 +4343,8 @@ static void bnxt_init_ring_struct(struct bnxt *bp)
+>  		if (!rxr)
+>  			goto skip_rx;
+>  
+> -		rxr->rx_page_size = BNXT_RX_PAGE_SIZE;
+> +		rxq = __netif_get_rx_queue(bp->dev, i);
+> +		rxr->rx_page_size = rxq->qcfg.rx_page_size;
 
-> Document the new DAMON_LRU_SORT parameter, filter_young_pages.  It can
-> be used to use page level access re-check for the LRU sorting.
+Pretty sure I asked for the netdev_queue_config() helper to make 
+a return, instead of drivers poking directly into core state.
+Having the config live in rxq directly is also ugh.
 
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-
-Acked-by: wang lian <lianux.mm@gmail.com>
-
---
-Best Regards,
-wang lian
+But at this stage we're probably better off if you just respin
+to fix the nits from Paolo and I try to de-lobotimize the driver
+facing API. This is close enough.
