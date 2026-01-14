@@ -1,558 +1,302 @@
-Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51378381715;
-	Wed, 14 Jan 2026 11:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.62.165.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DC5394490
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 11:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768390459; cv=none; b=HvxKhA+nrqKTZDPux05scoClgTzXQkzXQTLcS4jz6/lpl8wX5yaziTDnIGkZWYZTxdP33qWVkHCEl0SUxC0q04qeUyZtviuv2OUufz0O8L9FpBGrqux9wxikUEPmQIJwTxcNaFE7g72b8zl3GO1fvR0+wmZ7PLgGmLvGjLaJjfE=
+	t=1768390738; cv=none; b=dD+he0FZik+MT3EgKlRI2XZmhRXQXi5C5p4MtlezSGl8lYdjfq+IAmBadSSgIDnmJxUV2QsSInrjxy60NX3/4ITN1iQepozoNxAKSZ4ejvU/McUgEsAqAMNwnmgTNdGognm531ENRj6ZdCKZfIl/ubuc7k2nxBzEMxwfgPej+RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768390459; c=relaxed/simple;
-	bh=N3guFVMxE9DvVvVy8npzOscw6MalrM39ZsAXrOktUqw=;
-	h=Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type; b=TMRnnS/Z/wYy91mcuhiZgWFZWYwkEZavsoHXu30YKAUjoKzxzxLVHiOmLdLDNSxdLXXYZ87hNpOZI46EmGV7Z5Q/XqHHWC/iTleAxXNfJsWNAISgqYcDFQimLtWLmO6Dr8iT8bzE4MgoL8YKU7c5vik2nP1SR+cg5VVg7yWfses=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=183.62.165.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxct.zte.com.cn (FangMail) with ESMTPS id 4drkXd16zRz4y2Nn;
-	Wed, 14 Jan 2026 19:34:09 +0800 (CST)
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 60EBY0Vs058638;
-	Wed, 14 Jan 2026 19:34:00 +0800 (+08)
-	(envelope-from wang.yaxin@zte.com.cn)
-Received: from mapi (xaxapp04[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Wed, 14 Jan 2026 19:34:03 +0800 (CST)
-X-Zmail-TransId: 2afb69677f2b7f8-640aa
-X-Mailer: Zmail v1.0
-Message-ID: <202601141934036563c-MXYWMY4VX0grNNmdA_@zte.com.cn>
-Date: Wed, 14 Jan 2026 19:34:03 +0800 (CST)
+	s=arc-20240116; t=1768390738; c=relaxed/simple;
+	bh=Yn88Pg0vMcc66C9CMonnkVjgM+Kw8NPXkajKjHvUqMY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pA8lm/htBxQL5hevTp1fSFjBHsjdE6eOCAlwzC2qo9sjVSWTVDR6ExAuLqgNQiNlJ0mpa0RA21ldLEK1W/UoRr1rFyfJf1Xmkjl/gnmSH2E32MKj6w7MaDGzHrnffYj1ebUWzk0uZCNqMLMgX3ucetbdBvG+D4zg4JD7YLjTiME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EKvG8uiz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=pQy3sV4k; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EKvG8uiz";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="pQy3sV4k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768390735;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0h6NKVbWVYP+F+luUS4YFm9OAqVWQtYmKRMMyGnW+Nw=;
+	b=EKvG8uizTbHws/bY3f2WsDPiDleyPhqW4x2keSEqhl0OypX1HM1f7DpzypiZFylznty6Cd
+	xQAtCUsrjrZ0E88XR4j7tKAfI8xDg7liKe3SY74KxjSgQltOF8hc7TBSeCy5HjeXUHzzx0
+	yD3uAmMEb+E5EiBWUovTfHgPnmFqLUU=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-297-bW3rcE3aN_agAaD0BIe9pQ-1; Wed, 14 Jan 2026 06:38:53 -0500
+X-MC-Unique: bW3rcE3aN_agAaD0BIe9pQ-1
+X-Mimecast-MFC-AGG-ID: bW3rcE3aN_agAaD0BIe9pQ_1768390733
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-45a135956eeso17974309b6e.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 03:38:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1768390733; x=1768995533; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0h6NKVbWVYP+F+luUS4YFm9OAqVWQtYmKRMMyGnW+Nw=;
+        b=pQy3sV4k7ciVTQ2LE6nhoSQo6cq5zgPiOQbDtKD+ySBBBV7LNqRKdpkxc+e0B5EL8e
+         oaXbqjWxdLDPQRqyJn1sjOYedhzVahRY6N6HrAWrwW6lUfme8cbbBMsE330t2yCR9ZsD
+         MVScOPHQTA4r3KZjrbAvIObDP6W615kVr8KQM0MWl0rc+ddEORpw8fE7RoOKXogUPywW
+         uL1XbXLCGTvm0U6WxCM/0pHu/3CSP+Ced1En7eOxXXbhi/oS7O788PMaqc94OLbCZXCt
+         j2eOf3p2qlvKkk7HWsHGweeBK5stMVCxZTDT1yIGd6r67dCXFVt7T71k+pLuroBLseYQ
+         U/JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768390733; x=1768995533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0h6NKVbWVYP+F+luUS4YFm9OAqVWQtYmKRMMyGnW+Nw=;
+        b=aKdjcJwVda9jBHPsK1UsJVO7i38GQXK/3WJRmB/UewBQllPVpQm7toohNpKanPl7og
+         yjUcKLWvObH9G+SZFDXfsg5s6JdTUGjeb4MPudoQT1wGDpbsm53MPabF5TKVMl7gjLR2
+         lXUB6UHXUFcJFBSfxRy9ze6zOeORYk7s4Ys5dyhJv/SbwwX/HttljLoZWUbU3E0KGdY2
+         ClE/x/UgnMfV9/+oY/ECI/w1sg29ce392uqLwY3sblZJL7mvOKgd/ZFgiDHFe4J0csef
+         mHVmtNangtKMI4593hBOrXTU7SfWAsYIYbMfKMhfcEBlbxzMBBrlgZUnX2QzpoIMA5yQ
+         BArg==
+X-Forwarded-Encrypted: i=1; AJvYcCXFWDC69GC0bbzzYwZ1Umi9nNcpXDXJRcYGHFM2GU55G8hX1bUInTLIJFNXOPmqXHDNzaEZGS/3Its=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+HWZwiFg7VgdQW/EdP/86dY4jJtbbeFVTltruktH0JFBoatug
+	ygbtMHUbiBz+jVQoIE5de9/3c/YwHCDieXWUWgFpLVq5LOuZjzzxTTQu4D453sFhlO5a4rYWFjZ
+	JmD/B5vrMpoMXocE4kPx8XX+4cACY2M2IX6mLGYZf7qh1WLLtiOcf22YLhSplIeTVXPb4EIy/lg
+	jpQr7yMsa85nfJwRUJddFrUvPJQGAV0lzVvOEO
+X-Gm-Gg: AY/fxX4ig0xZijomeoyWRwANYy148OQiJ18wbShMrcdedQnC5lIwZ5xJSpoDFmnFGAB
+	b0GDxRuJQXd9/BlU69/rcWM9RYxXbNfJFBusc23lmdYl95DHbT5eeVovSo2plL8M8nu98DeQSBT
+	hPDX5t1JEcUJMkHaUVv3yLBLW1Bnuy65OLgJmodmPqEKe8l5SwAG57yadIVTFY+kmy/gY=
+X-Received: by 2002:a05:6808:690a:b0:453:860a:fed with SMTP id 5614622812f47-45c7153cddfmr1353851b6e.36.1768390732973;
+        Wed, 14 Jan 2026 03:38:52 -0800 (PST)
+X-Received: by 2002:a05:6808:690a:b0:453:860a:fed with SMTP id
+ 5614622812f47-45c7153cddfmr1353841b6e.36.1768390732559; Wed, 14 Jan 2026
+ 03:38:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <wang.yaxin@zte.com.cn>
-To: <akpm@linux-foundation.org>, <fan.yu9@zte.com.cn>,
-        <yang.yang29@zte.com.cn>
-Cc: <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <xu.xin16@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBkZWxheWFjY3Q6IGFkZCB0aW1lc3RhbXAgb2YgZGVsYXkgbWF4?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 60EBY0Vs058638
-X-TLS: YES
-X-SPF-DOMAIN: zte.com.cn
-X-ENVELOPE-SENDER: wang.yaxin@zte.com.cn
-X-SPF: None
-X-SOURCE-IP: 10.5.228.132 unknown Wed, 14 Jan 2026 19:34:09 +0800
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 69677F31.001/4drkXd16zRz4y2Nn
+MIME-Version: 1.0
+References: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
+ <20251216144154.15172-1-vgrinber@redhat.com> <IA1PR11MB621913F389165EE4D7CCFF2D9284A@IA1PR11MB6219.namprd11.prod.outlook.com>
+ <CACLnSDikAToGRvfZAhTcT0NCtMj+N9z-GGzRQ5qmpHsvCr2QSA@mail.gmail.com> <LV4PR11MB9491EB644FC83676522107669B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
+In-Reply-To: <LV4PR11MB9491EB644FC83676522107669B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
+From: Vitaly Grinberg <vgrinber@redhat.com>
+Date: Wed, 14 Jan 2026 13:38:36 +0200
+X-Gm-Features: AZwV_QhMnX5vuJC2sC36pYCBqaNsIqpLqRK16xJXdk4kL6u-XItifBTye6cYGWk
+Message-ID: <CACLnSDhEQVJ5piUKp6bddxvOff88qj5X6Y8zbqAH8Kf5a7a_Zg@mail.gmail.com>
+Subject: Re: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for
+ unmanaged DPLL on E830 NIC
+To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc: "Nitka, Grzegorz" <grzegorz.nitka@intel.com>, 
+	"Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>, 
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "horms@kernel.org" <horms@kernel.org>, 
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>, 
+	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Wed, Jan 14, 2026 at 12:23=E2=80=AFPM Kubalewski, Arkadiusz
+<arkadiusz.kubalewski@intel.com> wrote:
+>
+> >From: Vitaly Grinberg <vgrinber@redhat.com>
+> >Sent: Saturday, January 10, 2026 10:29 PM
+> >
+> >Hi Grzegors,
+> >Thanks very much for your reply! Added some clarifications inline.
+> >
+> >On Wed, Jan 7, 2026 at 11:33=E2=80=AFPM Nitka, Grzegorz <grzegorz.nitka@=
+intel.com>
+> >wrote:
+> >>
+> >> > -----Original Message-----
+> >> > From: Vitaly Grinberg <vgrinber@redhat.com>
+> >> > Sent: Tuesday, December 16, 2025 3:42 PM
+> >> > To: Nitka, Grzegorz <grzegorz.nitka@intel.com>
+> >> > Cc: Loktionov, Aleksandr <aleksandr.loktionov@intel.com>; Nguyen,
+> >> > Anthony L <anthony.l.nguyen@intel.com>; Kubalewski, Arkadiusz
+> >> > <arkadiusz.kubalewski@intel.com>; horms@kernel.org; intel-wired-
+> >> > lan@lists.osuosl.org; linux-doc@vger.kernel.org; linux-
+> >> > kernel@vger.kernel.org; netdev@vger.kernel.org;
+> >> > pmenzel@molgen.mpg.de; Kitszel, Przemyslaw
+> >> > <przemyslaw.kitszel@intel.com>
+> >> > Subject: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support
+> >> > for unmanaged DPLL on E830 NIC
+> >> >
+> >> > Will a notification be provided when the lock is re-acquired?
+> >> >
+> >>
+> >> Hi Vitaly, thanks for your comments.
+> >> We discussed it offline already, but I think I need more clarification=
+s.
+> >>
+> >> Regarding above question ... yes, 'lock' recovery shall be reported in
+> >>the same way.
+> >> Maybe the name of health status is a little bit misleading
+> >> (ICE_AQC_HEALTH_STATUS_INFO_LOSS_OF_LOCK),
+> >> However health_info struct contains the current lock status (either
+> >>'locked' or 'unlocked').
+> >
+> >Great, thanks for clarifying this!
+> >
+> >> > Another concern is the absence of periodical pin notifications. With
+> >> > the E810, users received the active pin notifications every 1
+> >> > second. However, the unmanaged DPLL appears to lack this
+> >> > functionality. User implementations currently rely on these
+> >> > periodical notifications to derive the overall clock state, metrics
+> >> > and events from the phase offset. It seems that unmanaged DPLL users
+> >> > will be forced to support two distinct types of DPLLs: one that
+> >> > sends periodical pin notifications and one that does not. Crucially,
+> >> > this difference does not appear to be reflected in the device
+> >> > capabilities, meaning users cannot know in advance whether to expect
+> >> > these notifications.
+> >>
+> >> After reading it one more time, I'm not sure if I get it right in the
+> >> first place.
+> >> With this patch implementation, there is dpll change notification
+> >> applied.
+> >> By dpll notification I mean calling dpll_device_change_ntf function.
+> >> Isn't it what you're looking for?
+> >> Notification is triggered only in case when lock status has changed.
+> >> It's unmanaged DPLL so the implementation is a little bit simplified,
+> >> based on FW notification.
+> >> There is no need for polling thread like it's done for E810.
+> >> But even in case of E810, where polling is applied (2 samples per
+> >> second), notification is triggered only in case of dpll/pin status
+> >> change, not every 1 second.
+> >> So please clarify, so either I don't understand the question (please
+> >> note, I'm only covering the main author) or notification mechanism, at
+> >> least about dpll lock state, is already implemented.
+> >>
+> >
+> >Yes, device lock status change notification is definitely what we are
+> >looking for, but there is more. Let me clarify the user perspective.
+> >The e810-based telco system relies on both device and pin notifications.
+> >Phase offset included in pin notifications is critical because the e810
+> >DPLL "Locked" state is too coarse for Telco requirements.
+> >It is true that pin notifications are only sent on change; however, sinc=
+e
+> >the phase offset varies slightly with every measurement, the driver dete=
+cts
+> >a change every second. This effectively turns the event-driven notificat=
+ion
+> >into a periodic one. The e810-based application strongly relies on the f=
+act
+> >that phase offset notifications are unsolicited and the driver sends the=
+m
+> >from time to time.
+> >Now, with the unmanaged DPLL, no pin notification will be sent. Last tim=
+e I
+> >checked, the device and pin information looked like this:
+> >Device:
+> > {'clock-id': 1165870453030569040,
+> >  'id': 4,
+> >  'lock-status': 'locked',
+> >  'mode': 'automatic',
+> >  'mode-supported': ['automatic'],
+> >  'module-name': 'ice',
+> >  'type': 'eec'},
+> >
+> >Input pin:
+> >{
+> >  "id": 17,
+> >  "module-name": "ice",
+> >  "clock-id": 1165870453030569040,
+> >  "board-label": "1588-TIME_SYNC",
+> >  "type": "ext",
+> >  "capabilities": [],
+> >  "frequency": 10000000,
+> >  "phase-adjust-min": 0,
+> >  "phase-adjust-max": 0,
+> >  "parent-device": [
+> >    {
+> >      "parent-id": 4,
+> >      "state": "connected",
+> >      "direction": "input"
+> >    }
+> >  ]
+> >}
+> >
+> >I see a few challenges for the user here. The biggest one is that the
+> >application can't tell the difference between a device that will report
+> >phase offsets and this unmanaged device that never will.
+> >A possible way forward would be adding a capability flag to the DPLL API=
+ so
+> >users don't have to guess.
+>
+> There is no phase-offset field as pointed in the above example.
+> No 'phase-offset' attribute -> no such capability.
+> Why isn=E2=80=99t that enough?
 
-Problem
-=======
-Commit 658eb5ab916d ("delayacct: add delay max to record delay peak")
-introduced the delay max for getdelays, which records abnormal latency
-peaks and helps us understand the magnitude of such delays. However,
-the peak latency value alone is insufficient for effective root cause
-analysis. Without the precise timestamp of when the peak occurred, we
-still lack the critical context needed to correlate it with other
-system events.
+Pin reply does not contain phase offset, so no change notifications
+are expected?
+Could there be devices that don't report phase offset, but report state cha=
+nges?
+Is this the intended use of the phase offset API to be interpreted as
+a general pin
+notification capability flag?
 
-Solution
-========
-To address this, we need to additionally record a precise timestamp
-when the maximum latency occurs. By correlating this timestamp with
-system logs and monitoring metrics, we can identify processes with
-abnormal resource usage at the same moment, which can help us to
-pinpoint root causes.
+>
+> >However, the preferred solution would be to simply mirror the E810 behav=
+ior
+> >(sending phase offset). This preserves the existing API contract and
+> >prevents users, who have already built applications for this interface,
+> >from needing to implement special handling for a new hardware variant th=
+at
+> >behaves differently.
+>
+> This is not currently possible from driver perspective.
+> We miss the FW API for it.
+>
+> >There are additional inconsistencies in the existing structure I wanted =
+to
+> >bring to your attention.
+> >1. I'm not entirely sure how a 1588-TIME_SYNC pin can have a parent devi=
+ce
+> >of type "eec". EEC is all about frequency synchronization, and yet the p=
+in
+> >named 1588-TIME_SYNC is clearly a phase pin. This also doesn't play well
+> >with existing implementations, where EEC circuits deal with frequency, P=
+PS
+> >circuits deal with phase, and there is clear distinction between the two
+> >with regard to the meaning of "being locked".
+>
+> This dpll device type was established based on the main purpose of dpll
+> device which is to drive the network ports phy clocks with it.
 
-Use Case
-========
-bash-4.4# ./getdelays -d -t 200
-print delayacct stats ON
-TGID    200
+What is the physical meaning of this indication (lock-status':
+'locked')? Locked on what?
+As a user of this circuit I want to know that the device is locked on
+the phase of the input signal with a certain precision.
+Is this the meaning of "locked" here? Can an EEC device be locked on
+the Phase of the input signal?
+Users of other devices (e810, zl3073x) may have implemented logic to
+determine the phase lock by
+enforcing the pin parent device type as PPS. How should they change it
+to determine phase lock (and why)?
 
-CPU         count     real total  virtual total    delay total  delay average      delay max      delay min       max timestamp
-               45      176000000      181535534        1429077          0.032ms     0.418387ms     0.124835ms 2026-01-13 12:38:39
-IO          count    delay total  delay average      delay max      delay min       max timestamp
-                0              0          0.000ms     0.000000ms     0.000000ms                 N/A
-SWAP        count    delay total  delay average      delay max      delay min       max timestamp
-                0              0          0.000ms     0.000000ms     0.000000ms                 N/A
-RECLAIM     count    delay total  delay average      delay max      delay min       max timestamp
-                0              0          0.000ms     0.000000ms     0.000000ms                 N/A
-THRASHING   count    delay total  delay average      delay max      delay min       max timestamp
-                0              0          0.000ms     0.000000ms     0.000000ms                 N/A
-COMPACT     count    delay total  delay average      delay max      delay min       max timestamp
-                0              0          0.000ms     0.000000ms     0.000000ms                 N/A
-WPCOPY      count    delay total  delay average      delay max      delay min       max timestamp
-              154       14315567          0.093ms     3.450139ms     0.018359ms 2026-01-13 12:38:47
-IRQ         count    delay total  delay average      delay max      delay min       max timestamp
-                0              0          0.000ms     0.000000ms     0.000000ms                 N/A
-bash-4.4#
+>
+> >2. Since it is also an external embedded sync input pin, could it be
+> >possible to expose this information and include `esync-frequency` and
+> >`esync-pulse`? That could be useful for configuring the leading DPLL tha=
+t
+> >drives the unmanaged one.
+>
+> Sure, esync caps should be provided, as the commit message example shown:
+> +    'esync-frequency': 1,
+> +    'esync-frequency-supported': [{'frequency-max': 1, 'frequency-min': =
+1}],
+> +    'esync-pulse': 25,
+>
 
-Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
----
- include/linux/delayacct.h      |   8 ++
- include/linux/sched.h          |   5 +
- include/uapi/linux/taskstats.h |  22 ++++-
- kernel/delayacct.c             |  27 ++++--
- kernel/sched/stats.h           |   8 +-
- tools/accounting/getdelays.c   | 171 +++++++++++++++++++++++++++------
- 6 files changed, 203 insertions(+), 38 deletions(-)
+Oh, I must have missed that.
+Thanks!
+Vitaly
 
-diff --git a/include/linux/delayacct.h b/include/linux/delayacct.h
-index 800dcc360db2..ecb06f16d22c 100644
---- a/include/linux/delayacct.h
-+++ b/include/linux/delayacct.h
-@@ -69,6 +69,14 @@ struct task_delay_info {
- 	u32 compact_count;	/* total count of memory compact */
- 	u32 wpcopy_count;	/* total count of write-protect copy */
- 	u32 irq_count;	/* total count of IRQ/SOFTIRQ */
-+
-+	struct timespec64 blkio_delay_max_ts;
-+	struct timespec64 swapin_delay_max_ts;
-+	struct timespec64 freepages_delay_max_ts;
-+	struct timespec64 thrashing_delay_max_ts;
-+	struct timespec64 compact_delay_max_ts;
-+	struct timespec64 wpcopy_delay_max_ts;
-+	struct timespec64 irq_delay_max_ts;
- };
- #endif
+> Thank you!
+> Arkadiusz
 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index c403f572bac8..ee83e4646ebd 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -49,6 +49,7 @@
- #include <linux/tracepoint-defs.h>
- #include <linux/unwind_deferred_types.h>
- #include <asm/kmap_size.h>
-+#include <linux/time64.h>
- #ifndef COMPILE_OFFSETS
- #include <generated/rq-offsets.h>
- #endif
-@@ -87,6 +88,7 @@ struct task_delay_info;
- struct task_group;
- struct task_struct;
- struct user_event_mm;
-+struct timespec64;
-
- #include <linux/sched/ext.h>
-
-@@ -435,6 +437,9 @@ struct sched_info {
- 	/* When were we last queued to run? */
- 	unsigned long long		last_queued;
-
-+	/* Timestamp of max time spent waiting on a runqueue: */
-+	struct timespec64		max_run_delay_ts;
-+
- #endif /* CONFIG_SCHED_INFO */
- };
-
-diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
-index 5929030d4e8b..1b31e8e14d2f 100644
---- a/include/uapi/linux/taskstats.h
-+++ b/include/uapi/linux/taskstats.h
-@@ -18,6 +18,16 @@
- #define _LINUX_TASKSTATS_H
-
- #include <linux/types.h>
-+#ifdef __KERNEL__
-+#include <linux/time64.h>
-+#else
-+#ifndef _LINUX_TIME64_H
-+struct timespec64 {
-+	__s64   tv_sec;         /* seconds */
-+	long    tv_nsec;        /* nanoseconds */
-+};
-+#endif
-+#endif
-
- /* Format for per-task data returned to userland when
-  *	- a task exits
-@@ -34,7 +44,7 @@
-  */
-
-
--#define TASKSTATS_VERSION	16
-+#define TASKSTATS_VERSION	17
- #define TS_COMM_LEN		32	/* should be >= TASK_COMM_LEN
- 					 * in linux/sched.h */
-
-@@ -230,6 +240,16 @@ struct taskstats {
-
- 	__u64	irq_delay_max;
- 	__u64	irq_delay_min;
-+
-+	/*v17: delay max timestamp record*/
-+	struct timespec64 cpu_delay_max_ts;
-+	struct timespec64 blkio_delay_max_ts;
-+	struct timespec64 swapin_delay_max_ts;
-+	struct timespec64 freepages_delay_max_ts;
-+	struct timespec64 thrashing_delay_max_ts;
-+	struct timespec64 compact_delay_max_ts;
-+	struct timespec64 wpcopy_delay_max_ts;
-+	struct timespec64 irq_delay_max_ts;
- };
-
-
-diff --git a/kernel/delayacct.c b/kernel/delayacct.c
-index 30e7912ebb0d..143c5b9b67ea 100644
---- a/kernel/delayacct.c
-+++ b/kernel/delayacct.c
-@@ -18,6 +18,7 @@
- do { \
- 	d->type##_delay_max = tsk->delays->type##_delay_max; \
- 	d->type##_delay_min = tsk->delays->type##_delay_min; \
-+	d->type##_delay_max_ts = tsk->delays->type##_delay_max_ts; \
- 	tmp = d->type##_delay_total + tsk->delays->type##_delay; \
- 	d->type##_delay_total = (tmp < d->type##_delay_total) ? 0 : tmp; \
- 	d->type##_count += tsk->delays->type##_count; \
-@@ -104,7 +105,8 @@ void __delayacct_tsk_init(struct task_struct *tsk)
-  * Finish delay accounting for a statistic using its timestamps (@start),
-  * accumulator (@total) and @count
-  */
--static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *count, u64 *max, u64 *min)
-+static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *count,
-+							 u64 *max, u64 *min, struct timespec64 *ts)
- {
- 	s64 ns = local_clock() - *start;
- 	unsigned long flags;
-@@ -113,8 +115,10 @@ static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *cou
- 		raw_spin_lock_irqsave(lock, flags);
- 		*total += ns;
- 		(*count)++;
--		if (ns > *max)
-+		if (ns > *max) {
- 			*max = ns;
-+			ktime_get_real_ts64(ts);
-+		}
- 		if (*min == 0 || ns < *min)
- 			*min = ns;
- 		raw_spin_unlock_irqrestore(lock, flags);
-@@ -137,7 +141,8 @@ void __delayacct_blkio_end(struct task_struct *p)
- 		      &p->delays->blkio_delay,
- 		      &p->delays->blkio_count,
- 		      &p->delays->blkio_delay_max,
--		      &p->delays->blkio_delay_min);
-+		      &p->delays->blkio_delay_min,
-+			  &p->delays->blkio_delay_max_ts);
- }
-
- int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
-@@ -170,6 +175,7 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
-
- 	d->cpu_delay_max = tsk->sched_info.max_run_delay;
- 	d->cpu_delay_min = tsk->sched_info.min_run_delay;
-+	d->cpu_delay_max_ts = tsk->sched_info.max_run_delay_ts;
- 	tmp = (s64)d->cpu_delay_total + t2;
- 	d->cpu_delay_total = (tmp < (s64)d->cpu_delay_total) ? 0 : tmp;
- 	tmp = (s64)d->cpu_run_virtual_total + t3;
-@@ -217,7 +223,8 @@ void __delayacct_freepages_end(void)
- 		      &current->delays->freepages_delay,
- 		      &current->delays->freepages_count,
- 		      &current->delays->freepages_delay_max,
--		      &current->delays->freepages_delay_min);
-+		      &current->delays->freepages_delay_min,
-+			  &current->delays->freepages_delay_max_ts);
- }
-
- void __delayacct_thrashing_start(bool *in_thrashing)
-@@ -241,7 +248,8 @@ void __delayacct_thrashing_end(bool *in_thrashing)
- 		      &current->delays->thrashing_delay,
- 		      &current->delays->thrashing_count,
- 		      &current->delays->thrashing_delay_max,
--		      &current->delays->thrashing_delay_min);
-+		      &current->delays->thrashing_delay_min,
-+			  &current->delays->thrashing_delay_max_ts);
- }
-
- void __delayacct_swapin_start(void)
-@@ -256,7 +264,8 @@ void __delayacct_swapin_end(void)
- 		      &current->delays->swapin_delay,
- 		      &current->delays->swapin_count,
- 		      &current->delays->swapin_delay_max,
--		      &current->delays->swapin_delay_min);
-+		      &current->delays->swapin_delay_min,
-+			  &current->delays->swapin_delay_max_ts);
- }
-
- void __delayacct_compact_start(void)
-@@ -271,7 +280,8 @@ void __delayacct_compact_end(void)
- 		      &current->delays->compact_delay,
- 		      &current->delays->compact_count,
- 		      &current->delays->compact_delay_max,
--		      &current->delays->compact_delay_min);
-+		      &current->delays->compact_delay_min,
-+			  &current->delays->compact_delay_max_ts);
- }
-
- void __delayacct_wpcopy_start(void)
-@@ -286,7 +296,8 @@ void __delayacct_wpcopy_end(void)
- 		      &current->delays->wpcopy_delay,
- 		      &current->delays->wpcopy_count,
- 		      &current->delays->wpcopy_delay_max,
--		      &current->delays->wpcopy_delay_min);
-+		      &current->delays->wpcopy_delay_min,
-+			  &current->delays->wpcopy_delay_max_ts);
- }
-
- void __delayacct_irq(struct task_struct *task, u32 delta)
-diff --git a/kernel/sched/stats.h b/kernel/sched/stats.h
-index c903f1a42891..a612cf253c87 100644
---- a/kernel/sched/stats.h
-+++ b/kernel/sched/stats.h
-@@ -253,8 +253,10 @@ static inline void sched_info_dequeue(struct rq *rq, struct task_struct *t)
- 	delta = rq_clock(rq) - t->sched_info.last_queued;
- 	t->sched_info.last_queued = 0;
- 	t->sched_info.run_delay += delta;
--	if (delta > t->sched_info.max_run_delay)
-+	if (delta > t->sched_info.max_run_delay) {
- 		t->sched_info.max_run_delay = delta;
-+		ktime_get_real_ts64(&t->sched_info.max_run_delay_ts);
-+	}
- 	if (delta && (!t->sched_info.min_run_delay || delta < t->sched_info.min_run_delay))
- 		t->sched_info.min_run_delay = delta;
- 	rq_sched_info_dequeue(rq, delta);
-@@ -278,8 +280,10 @@ static void sched_info_arrive(struct rq *rq, struct task_struct *t)
- 	t->sched_info.run_delay += delta;
- 	t->sched_info.last_arrival = now;
- 	t->sched_info.pcount++;
--	if (delta > t->sched_info.max_run_delay)
-+	if (delta > t->sched_info.max_run_delay) {
- 		t->sched_info.max_run_delay = delta;
-+		ktime_get_real_ts64(&t->sched_info.max_run_delay_ts);
-+	}
- 	if (delta && (!t->sched_info.min_run_delay || delta < t->sched_info.min_run_delay))
- 		t->sched_info.min_run_delay = delta;
-
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index 21cb3c3d1331..fdf4d30bcf24 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -24,6 +24,7 @@
- #include <sys/socket.h>
- #include <sys/wait.h>
- #include <signal.h>
-+#include <time.h>
-
- #include <linux/genetlink.h>
- #include <linux/taskstats.h>
-@@ -194,6 +195,36 @@ static int get_family_id(int sd)
- #define average_ms(t, c) (t / 1000000ULL / (c ? c : 1))
- #define delay_ms(t) (t / 1000000ULL)
-
-+/*
-+ * Format timespec64 to human readable string (YYYY-MM-DD HH:MM:SS)
-+ * Returns formatted string or "N/A" if timestamp is zero
-+ */
-+static const char *format_timespec64(struct timespec64 *ts)
-+{
-+	static char buffer[32];
-+	struct tm *tm_info;
-+	time_t time_sec;
-+
-+	/* Check if timestamp is zero (not set) */
-+	if (ts->tv_sec == 0 && ts->tv_nsec == 0)
-+		return "N/A";
-+
-+	time_sec = (time_t)ts->tv_sec;
-+	tm_info = localtime(&time_sec);
-+	if (!tm_info)
-+		return "N/A";
-+
-+	snprintf(buffer, sizeof(buffer), "%04d-%02d-%02d %02d:%02d:%02d",
-+		tm_info->tm_year + 1900,
-+		tm_info->tm_mon + 1,
-+		tm_info->tm_mday,
-+		tm_info->tm_hour,
-+		tm_info->tm_min,
-+		tm_info->tm_sec);
-+
-+	return buffer;
-+}
-+
- /*
-  * Version compatibility note:
-  * Field availability depends on taskstats version (t->version),
-@@ -205,13 +236,28 @@ static int get_family_id(int sd)
-  * version >= 13  - supports WPCOPY statistics
-  * version >= 14  - supports IRQ statistics
-  * version >= 16  - supports *_max and *_min delay statistics
-+ * version >= 17  - supports delay max timestamp statistics
-  *
-  * Always verify version before accessing version-dependent fields
-  * to maintain backward compatibility.
-  */
- #define PRINT_CPU_DELAY(version, t) \
- 	do { \
--		if (version >= 16) { \
-+		if (version >= 17) { \
-+			printf("%-10s%15s%15s%15s%15s%15s%15s%15s%20s\n", \
-+				"CPU", "count", "real total", "virtual total", \
-+				"delay total", "delay average", "delay max", \
-+				"delay min", "max timestamp"); \
-+			printf("          %15llu%15llu%15llu%15llu%15.3fms%13.6fms%13.6fms%20s\n", \
-+				(unsigned long long)(t)->cpu_count, \
-+				(unsigned long long)(t)->cpu_run_real_total, \
-+				(unsigned long long)(t)->cpu_run_virtual_total, \
-+				(unsigned long long)(t)->cpu_delay_total, \
-+				average_ms((double)(t)->cpu_delay_total, (t)->cpu_count), \
-+				delay_ms((double)(t)->cpu_delay_max), \
-+				delay_ms((double)(t)->cpu_delay_min), \
-+				format_timespec64(&(t)->cpu_delay_max_ts)); \
-+		} else if (version >= 16) { \
- 			printf("%-10s%15s%15s%15s%15s%15s%15s%15s\n", \
- 				"CPU", "count", "real total", "virtual total", \
- 				"delay total", "delay average", "delay max", "delay min"); \
-@@ -257,44 +303,115 @@ static int get_family_id(int sd)
- 		} \
- 	} while (0)
-
-+#define PRINT_FILED_DELAY_WITH_TS(name, version, t, count, total, max, min, max_ts) \
-+	do { \
-+		if (version >= 17) { \
-+			printf("%-10s%15s%15s%15s%15s%15s%20s\n", \
-+				name, "count", "delay total", "delay average", \
-+				"delay max", "delay min", "max timestamp"); \
-+			printf("          %15llu%15llu%15.3fms%13.6fms%13.6fms%20s\n", \
-+				(unsigned long long)(t)->count, \
-+				(unsigned long long)(t)->total, \
-+				average_ms((double)(t)->total, (t)->count), \
-+				delay_ms((double)(t)->max), \
-+				delay_ms((double)(t)->min), \
-+				format_timespec64(&(t)->max_ts)); \
-+		} else if (version >= 16) { \
-+			printf("%-10s%15s%15s%15s%15s%15s\n", \
-+				name, "count", "delay total", "delay average", \
-+				"delay max", "delay min"); \
-+			printf("          %15llu%15llu%15.3fms%13.6fms%13.6fms\n", \
-+				(unsigned long long)(t)->count, \
-+				(unsigned long long)(t)->total, \
-+				average_ms((double)(t)->total, (t)->count), \
-+				delay_ms((double)(t)->max), \
-+				delay_ms((double)(t)->min)); \
-+		} else { \
-+			printf("%-10s%15s%15s%15s\n", \
-+				name, "count", "delay total", "delay average"); \
-+			printf("          %15llu%15llu%15.3fms\n", \
-+				(unsigned long long)(t)->count, \
-+				(unsigned long long)(t)->total, \
-+				average_ms((double)(t)->total, (t)->count)); \
-+		} \
-+	} while (0)
-+
- static void print_delayacct(struct taskstats *t)
- {
- 	printf("\n\n");
-
- 	PRINT_CPU_DELAY(t->version, t);
-
--	PRINT_FILED_DELAY("IO", t->version, t,
--		blkio_count, blkio_delay_total,
--		blkio_delay_max, blkio_delay_min);
-+	/* Use new macro with timestamp support for version >= 17 */
-+	if (t->version >= 17) {
-+		PRINT_FILED_DELAY_WITH_TS("IO", t->version, t,
-+			blkio_count, blkio_delay_total,
-+			blkio_delay_max, blkio_delay_min, blkio_delay_max_ts);
-
--	PRINT_FILED_DELAY("SWAP", t->version, t,
--		swapin_count, swapin_delay_total,
--		swapin_delay_max, swapin_delay_min);
-+		PRINT_FILED_DELAY_WITH_TS("SWAP", t->version, t,
-+			swapin_count, swapin_delay_total,
-+			swapin_delay_max, swapin_delay_min, swapin_delay_max_ts);
-
--	PRINT_FILED_DELAY("RECLAIM", t->version, t,
--		freepages_count, freepages_delay_total,
--		freepages_delay_max, freepages_delay_min);
-+		PRINT_FILED_DELAY_WITH_TS("RECLAIM", t->version, t,
-+			freepages_count, freepages_delay_total,
-+			freepages_delay_max, freepages_delay_min, freepages_delay_max_ts);
-
--	PRINT_FILED_DELAY("THRASHING", t->version, t,
--		thrashing_count, thrashing_delay_total,
--		thrashing_delay_max, thrashing_delay_min);
-+		PRINT_FILED_DELAY_WITH_TS("THRASHING", t->version, t,
-+			thrashing_count, thrashing_delay_total,
-+			thrashing_delay_max, thrashing_delay_min, thrashing_delay_max_ts);
-
--	if (t->version >= 11) {
--		PRINT_FILED_DELAY("COMPACT", t->version, t,
--			compact_count, compact_delay_total,
--			compact_delay_max, compact_delay_min);
--	}
-+		if (t->version >= 11) {
-+			PRINT_FILED_DELAY_WITH_TS("COMPACT", t->version, t,
-+				compact_count, compact_delay_total,
-+				compact_delay_max, compact_delay_min, compact_delay_max_ts);
-+		}
-
--	if (t->version >= 13) {
--		PRINT_FILED_DELAY("WPCOPY", t->version, t,
--			wpcopy_count, wpcopy_delay_total,
--			wpcopy_delay_max, wpcopy_delay_min);
--	}
-+		if (t->version >= 13) {
-+			PRINT_FILED_DELAY_WITH_TS("WPCOPY", t->version, t,
-+				wpcopy_count, wpcopy_delay_total,
-+				wpcopy_delay_max, wpcopy_delay_min, wpcopy_delay_max_ts);
-+		}
-
--	if (t->version >= 14) {
--		PRINT_FILED_DELAY("IRQ", t->version, t,
--			irq_count, irq_delay_total,
--			irq_delay_max, irq_delay_min);
-+		if (t->version >= 14) {
-+			PRINT_FILED_DELAY_WITH_TS("IRQ", t->version, t,
-+				irq_count, irq_delay_total,
-+				irq_delay_max, irq_delay_min, irq_delay_max_ts);
-+		}
-+	} else {
-+		/* Use original macro for older versions */
-+		PRINT_FILED_DELAY("IO", t->version, t,
-+			blkio_count, blkio_delay_total,
-+			blkio_delay_max, blkio_delay_min);
-+
-+		PRINT_FILED_DELAY("SWAP", t->version, t,
-+			swapin_count, swapin_delay_total,
-+			swapin_delay_max, swapin_delay_min);
-+
-+		PRINT_FILED_DELAY("RECLAIM", t->version, t,
-+			freepages_count, freepages_delay_total,
-+			freepages_delay_max, freepages_delay_min);
-+
-+		PRINT_FILED_DELAY("THRASHING", t->version, t,
-+			thrashing_count, thrashing_delay_total,
-+			thrashing_delay_max, thrashing_delay_min);
-+
-+		if (t->version >= 11) {
-+			PRINT_FILED_DELAY("COMPACT", t->version, t,
-+				compact_count, compact_delay_total,
-+				compact_delay_max, compact_delay_min);
-+		}
-+
-+		if (t->version >= 13) {
-+			PRINT_FILED_DELAY("WPCOPY", t->version, t,
-+				wpcopy_count, wpcopy_delay_total,
-+				wpcopy_delay_max, wpcopy_delay_min);
-+		}
-+
-+		if (t->version >= 14) {
-+			PRINT_FILED_DELAY("IRQ", t->version, t,
-+				irq_count, irq_delay_total,
-+				irq_delay_max, irq_delay_min);
-+		}
- 	}
- }
-
--- 
-2.25.1
