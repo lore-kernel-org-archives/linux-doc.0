@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA5432C93B;
-	Wed, 14 Jan 2026 20:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D65339719;
+	Wed, 14 Jan 2026 20:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768422035; cv=none; b=TP/4Ut0IDjlPU/BYfHysFg1WZtvfNvVmbE5PbRmji462jtx/THeKPmae+dot3yJBDuE5oc+c5zqgH3w3r/U8eFO3mnZLarv2vmQjb828w9v+yPgdzvJjBpIAeW09kk0j2TWdJjgPrszaFJwBTeLRZ7NEGxaKmqU2ZtAFnxnSp14=
+	t=1768422363; cv=none; b=FPZyjtPDSZvKE02wShX7OuOUp4AKnAbX8nuxqVGlCIXUDleDmoP93ulOMvssGXptxy0Mp7SNpI1+vFngAQyGpzw/gs+pZ22mr7wgd/kqGgpLawOu2Wj/zKwtEEKhSoj5mJnixIHZ7zref9E8C+p+p13UG/yBaOUsWgi1acFzF/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768422035; c=relaxed/simple;
-	bh=D7mM/Q2PjIaKQ7I4eUylcIJgA438OxF74AnCYWL6nxY=;
+	s=arc-20240116; t=1768422363; c=relaxed/simple;
+	bh=B+/ZjXaHl5t5NIx5dWtCgaCl26J8dtH8qRHeJJPcxFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MLjs73UXzNab8CcmBTKS7tHOp4wPIphcZm1+h63/Hs2bBOoOWr92g5oTuuDBNgkBI4E7cig55n8nuLxpjknKM/sIJp1AjN650T0Fo5lq32nJqGhe3jeFpK4dZfvHb69VaOViy5RqCPChXOVrsXF4yq+Oum70+zKOs+NdCop7nsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dnfovwpT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AcN/uIGi+yYgYjn5Z4VNjIRQq85dRKVM4ymN8yOzX/0GFIY+3zlonAFpWD3SSN1q1AQdQgfUjrc+7yJXl74RHANgPPpfa4b/dFmNhI045Vntea3HV342KBQc5YL4v4/e+qO4pgmmV90zMnEAfoowHWscupyAdT9UeL8ZbWqeTpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jWQo9IED; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dnfovwpT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D69B6C4CEF7;
-	Wed, 14 Jan 2026 20:20:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jWQo9IED"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 403A6C4CEF7;
+	Wed, 14 Jan 2026 20:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768422035;
-	bh=D7mM/Q2PjIaKQ7I4eUylcIJgA438OxF74AnCYWL6nxY=;
+	s=k20201202; t=1768422363;
+	bh=B+/ZjXaHl5t5NIx5dWtCgaCl26J8dtH8qRHeJJPcxFE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dnfovwpTW2dOcWhmgD82Oin5wXe4ifFAMrRng7VUi60WuRI+ta9lAZ8hnlz/AxjjY
-	 9CQcIaJq68BwODVs1BPYwLP9Pyrhrc6SRIqDCiBerSlv7CoIUgev31uiOA/u/cnl1E
-	 haAxMWm22nl3JIADuwyDU4KbxumCE2R8wIYuxFamrIjMcEOZtntyfje9RlpkaGCsrV
-	 pwNj1ydkLAXbxeU+ZVVfMycvOAY0apvsxDqYIY2YQZfD/ilIrSnxavpqwHXEISn356
-	 7gLTyNkBKLunvgmBVk5mgH0iWZB0YQasmewNWsZBy+c92I7ToHjp+t43HmJZ7Dua1N
-	 tbI/oDzoh4kzA==
-Date: Wed, 14 Jan 2026 21:20:30 +0100
+	b=jWQo9IEDq708LxLdfy0GgN1zfztzzwJo9GZgYV9N6yYW0gfvOQ/4BQpawYKaJ3TR6
+	 QV+D85XhEZt/OyRx3mDwVAYRYsewrkdyJFSmhnkrrGUTJm8+ZIU1yid7E1Uqg3HnoH
+	 n7KLL0JFMLVKw4h6zPGXnJtUa1e4kTVzhCoZ90P5BPWRGZvEMauWefR9MkEA3/gGPW
+	 SztCdyVNMD7TU460UE5n0Fkzm2pSD8CkJ8piMOQ4AxDDC19U8DH7MQ47Y7EFD7TUau
+	 qQrR0HChbW6Jx8GCWHaBIiWNQgUneWKop82fja4dgzUqlaK6LbX3aKaAceXG+Hgu9U
+	 /cFqdoThJ5nzg==
+Date: Wed, 14 Jan 2026 21:25:58 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "
- =?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@collabora.com>, Randy
- Dunlap <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 00/13] Add kernel-doc modules to Documentation/tools
-Message-ID: <20260114212030.28129f38@foz.lan>
-In-Reply-To: <874iooul86.fsf@trenco.lwn.net>
-References: <cover.1768396023.git.mchehab+huawei@kernel.org>
-	<874iooul86.fsf@trenco.lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 0/2] Move kernel-doc to tools/docs
+Message-ID: <20260114212558.1aeb1b17@foz.lan>
+In-Reply-To: <87zf6gt2ts.fsf@trenco.lwn.net>
+References: <20260114164146.532916-1-corbet@lwn.net>
+	<813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
+	<87zf6gt2ts.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -47,73 +48,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 14 Jan 2026 11:01:45 -0700
+Em Wed, 14 Jan 2026 12:24:31 -0700
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> Randy Dunlap <rdunlap@infradead.org> writes:
 > 
-> > With this version, python files inside tools/ or scripts/
-> > can be documented, but there is a catch (probably due to PEP8):
+> > I do many of these on a regular basis:
 > >
-> >     - files must end with ".py"
-> >     - file names can't have "-".
+> > $ ./scripts/kernel-doc -none -Wall <path_to_source_file>
 > >
-> > So, unfortunately, we can't document kernel-doc.py, except if
-> > we rename it to kernel_doc.py.  
+> > Will I still be able to do that (by using ./tools/doc/kernel-doc ...)?  
 > 
-> That is ... irritating ...
+> Yes.  The tool moves, but its functionality remains unchanged.
 
-Agreed, but this is not really a problem with Sphinx but with
-Python itself: you can't include any module that has "-" on it, or
-doesn't end with ".py"[1].
-
-[1] I guess it is actually possible, but only using low-level APIs,
-    e.g. using importlib.util, importlib.util.module_from_spec(spec)
-    and other dirty tricks, but this is certainly something we should
-    avoid to do.
-
-> You've probably seen my other series to finally ... rename
-> kernel-doc.py. 
-
-Just saw it ;-)
-
-> We could certainly rename it to something different.
-> But I really dislike having language extensions on files meant to be
-> executed as commands; you shouldn't care what language it's written in
-> when you run it.
-
-I don't like it either, but Python is really picky on some things.
-
-The problem here is that this is a Python policy violation. To change
-that, one needs to write a PEP and convince Python maintainers to merge
-it, together with changes on python "import" directive.
-
-Alternatively, assuming that some magic words would be enough to
-convince importlib to load a name without ".py" and with "-", it could be
-easier to convince Sphinx autodoc maintainers to take a patch, as they're 
-probably using importlib somewhere to dynamically import a file based 
-at the string inside "automodule" directive. On a quick grep,
-this seems to be the case, and such logic is inside:
-
-	sphinx/ext/autodoc/importer.py
-
-
-> In the end, I'd say let's not worry about running autodoc on that file.
-> All there is to document is its command line, and we can certainly
-> maintain that separately.
-
-It may be true for kernel-doc, but:
-
-- there are other scripts that we may want to document; and:
-- we need to define a naming convention for python code
-
-Also,
-
-- keeping it in separate makes harder to maintain.
-
-So, even if we don't actually add kernel-doc docstrings and
-functions via autodoc, I think it is still worth having a
-name convention that would allow that.
+That's actually a good point: should we preserve a link on scripts
+pointing to ../tools/doc/kernel-doc? I suspect that a change like
+that could break some machinery on several CI tools and scripts
+out there. If so, it could be useful to keep a link - at least for
+a couple of kernel releases.
 
 Thanks,
 Mauro
