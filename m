@@ -1,134 +1,270 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BD7231829;
-	Wed, 14 Jan 2026 14:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63212E1F02
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768400180; cv=none; b=fh3aja0plzHBvsRzOHb/tH5X5xjqEP473PO3OUJ9LzXjzix9oWWXorcHaTazV4scSAMt1tIvnpKu+63CpKTpnqxyhBICSleC9S1BFjre3HbFIpiB6WfDIaWDkKPPrYDV0BIn1aqDCgS9XMzezQiznRNjD28TmLfU9b3anO48FQ0=
+	t=1768402380; cv=none; b=awikr7SSjiwKaY4Q+Hnihdw94LQXVm9S9xw05Ks9QxwgdwQddk3usao4HR3eDvsDSnbjMTGu3G6ETjLnWqqBhLeV0iPm8Tyd8pl0BpapBTZZWmGPDGoIhADlDmN1zXAEaa4e98DZUy1bsKF4FWJ0GZRoQrEjjdNTKrTXSeS0ghw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768400180; c=relaxed/simple;
-	bh=Zk+X0U0nP+GtJI9b23g7B8znsodnQPS5UKylro1oFwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xzvx485fnRh2JGtEFiuptTHurs0GfvWU1eBPIToOL46OYfuPGOEHpW1n53ICgoo7UxJANeLDI7oOvZIyzwqxG8R9RCTQXEI9S4pihgaguxXdkujjdtZgnWvl+5Wn11eI2DW0jLlhJoL4+CKZSRU23tzCUNYzuhCSvZw7NBCvAOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=htk+x4Na reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1768402380; c=relaxed/simple;
+	bh=6EcsH4NJZuMHhhsCJiB1QN03+YEdExhWKAvJd5QzkRw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tSVehiq4u169HsrDC/Y3HLZ/TAvFX5aHbVjf/tOGnUOCiEWdzRwJyrn+g93W+OO5DGMSzTBJu5a+XNFTryWyRKlGMN6xxbNln6IQmsx5oqjGlgfC244xrCV7KtS6GlY8Zf3NeB67maZkVfeTmf09EoQvm21yPJvjva/4eS9g4is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lucaswei.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ljd1EdfI; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lucaswei.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="htk+x4Na"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 628C540E0194;
-	Wed, 14 Jan 2026 14:16:17 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id U9i6nnOD5eUv; Wed, 14 Jan 2026 14:16:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768400172; bh=VRoSE/2YTwFhEpBBl9wXpY8ydPU6I1xxtgwmqqKape0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=htk+x4Natx08his9bWPcyT1eRR2E8mDo6r0Ufv6M7oX9I1xf/5nuKcRZPOt5JxFil
-	 0DvrlAz0d2fonr1AfsbmuosW50C8y8AmnD9ABkAVcz/irfYQKSMHS3Y9ltalVds6wU
-	 DTuRZk1RmrxFdRMrSl+9eeEWHB+qnXrGlJIW18D40BH0Xy6VF5Du6dcAqHL/QItIOG
-	 RhFxknDK9aKTwPtwPZsc81Qo0JEgFJCxA1h/UwnEh/jQkCQG/L+NJn8fXYLTBuk/W4
-	 1VKxEB5pqHN7dp5Cq1iwvaQ+uh/YYx/6aGXFad82Mh4WYRT2IpNSty94gOwXqUgk88
-	 iKFWzxUOws2xTDEzs8v7XzGbqOe+Rd6ucImcyNSW4ZQGj+KdtHAiOrbA+YGgScbR2t
-	 QRL7tKqgCCIA+X48lHwrFW3P4rqDumjugBJINl8I0z+W59xVpbdlcDhJ7sg2om9sb/
-	 Vg8KkN7bmGqZdrjoBMYFo9BhQESYLdHsRAMR4uvUmD7lK3Qrl/6CiaGP0QSHTxCdwJ
-	 ql6xe/rslfuUVQk11RN3dRitXJxteJ/bvPvKYj3QndGFsiI8Z/9qcxMUg+EWW7qpZX
-	 VtDCCiOy6v1ID7knmO7TX5qxIvsynDRvzdk0cPpkA4nPPz7chJwTdXHX3AZ2hHoj8I
-	 Smbu6S3Z1aBrY+pY/st1NB+g=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 5C64E40E0280;
-	Wed, 14 Jan 2026 14:15:58 +0000 (UTC)
-Date: Wed, 14 Jan 2026 15:15:51 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
-	tony.luck@intel.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com
-Subject: Re: [PATCH 00/12] ras: share firmware-first estatus handling
-Message-ID: <20260114141551.GKaWelF-Gsvzr71LUs@fat_crate.local>
-References: <20251221013534.GAaUdO5vWqMWAdbWbd@renoirsky.local>
- <20251229115440.2734800-1-ahmed.tiba@arm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ljd1EdfI"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c5859a38213so2262073a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 06:52:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768402378; x=1769007178; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qY8ISVuzSMYysF5FVAjGM0hrJi0sARJDavcxZKDaL/Y=;
+        b=ljd1EdfInOQ6cmyDkbPMVXO7M5zh/5B7c7M1ti12ttZBC8YOmIkJNKTvB/lH9ubxgD
+         7U6uvIMTLb3LkA/2eh3Ha3/LZelYVmRYbBoiC9eXrsxLPAd/UUX1g17Sgi5rq0Ov+Onm
+         cIjtsaBXh5SqvTz3615sN0PaWeT+FakD/rmJGfZENxOcU9VAzuGJe4ilXylF3P//bOMX
+         P90pc3T//aHjXxklZqXmmNIE7oy4KGvrgjA0FH3vwRN5mSQ2+0x6CW88Z5CLOUoPvVao
+         bpTNyVh7yOOAH2vjEf9Rp6pGGNKMA4RuwyIA8Y/PBalXoh0bGbxxpu8iJeUi8zm5E3w7
+         iGkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768402378; x=1769007178;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qY8ISVuzSMYysF5FVAjGM0hrJi0sARJDavcxZKDaL/Y=;
+        b=s6RHQZVo49OldCcC7VXKz5TigJphaCFSxuUJmBik2tPL+kbpITQpoiT9IytWf0iY8r
+         /0zYKgES1Y/XyegyTvZA+F4VxS7lUQnrYrJYErAZt2PZ06H6ZMI1PqBI0gW8dUf5uP4X
+         VJf1jZ9tzBBVmXtdOSXvmBvI1dVtLC2KS93rPKIpA/hW876aQbFXI1oKBYiQaVRhq69W
+         x0p8qsFHJkpzX6uWxLWxl8Ga909IwzIggO3dmQxnFluXk3u9cvb3Su/+E3VgKCOmFwHS
+         VWB6YaDJlOGDYS+WZQdAOpNTXakB8LUMnNeZIe6FWap4LZ+2Di1WiIol151yMyNCaPF+
+         vvJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWqK/2QaWymTMsEEkr3drVdRqCiMBJ+Kcn2wDh8zDaE9T7/rrlm+ekq/Kb/i3SBfMhcmC6lxPuNOuw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYvzjfFhpwpkUktwQ3dwmasTu4BXCPPtczjHitu7ozePgvBPum
+	WXOr4Oa0XoiL6W1Tkx+gY2ws3oATpomD6spCBKdWByjfQBuBzI2Miwudhs6YpUmUeReN81hPtWd
+	NP9wARhWwEw4/ig==
+X-Received: from pfgs36.prod.google.com ([2002:a05:6a00:17a4:b0:7e8:a188:d95e])
+ (user=lucaswei job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a21:998a:b0:33f:4e3d:afff with SMTP id adf61e73a8af0-38bed0b4ad5mr2928565637.14.1768402378210;
+ Wed, 14 Jan 2026 06:52:58 -0800 (PST)
+Date: Wed, 14 Jan 2026 14:52:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251229115440.2734800-1-ahmed.tiba@arm.com>
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260114145243.3458315-1-lucaswei@google.com>
+Subject: [PATCH v3] arm64: errata: Workaround for SI L1 downstream coherency issue
+From: Lucas Wei <lucaswei@google.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: sjadavani@google.com, Lucas Wei <lucaswei@google.com>, stable@vger.kernel.org, 
+	kernel-team@android.com, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Dec 29, 2025 at 11:54:36AM +0000, Ahmed Tiba wrote:
-> By =E2=80=9Cerror status=E2=80=9D I=E2=80=99m referring to the UEFI CPE=
-R Generic Error Status block,
-> which is the standard firmware-produced error payload that Linux alread=
-y
+When software issues a Cache Maintenance Operation (CMO) targeting a
+dirty cache line, the CPU and DSU cluster may optimize the operation by
+combining the CopyBack Write and CMO into a single combined CopyBack
+Write plus CMO transaction presented to the interconnect (MCN).
+For these combined transactions, the MCN splits the operation into two
+separate transactions, one Write and one CMO, and then propagates the
+write and optionally the CMO to the downstream memory system or external
+Point of Serialization (PoS).
+However, the MCN may return an early CompCMO response to the DSU cluster
+before the corresponding Write and CMO transactions have completed at
+the external PoS or downstream memory. As a result, stale data may be
+observed by external observers that are directly connected to the
+external PoS or downstream memory.
 
-Standard, schmandard - a bunch of fw crap.
+This erratum affects any system topology in which the following
+conditions apply:
+ - The Point of Serialization (PoS) is located downstream of the
+   interconnect.
+ - A downstream observer accesses memory directly, bypassing the
+   interconnect.
 
-That's UEFI's understanding of a common platform error record, no?
+Conditions:
+This erratum occurs only when all of the following conditions are met:
+ 1. Software executes a data cache maintenance operation, specifically,
+    a clean or clean&invalidate by virtual address (DC CVAC or DC
+    CIVAC), that hits on unique dirty data in the CPU or DSU cache.
+    This results in a combined CopyBack and CMO being issued to the
+    interconnect.
+ 2. The interconnect splits the combined transaction into separate Write
+    and CMO transactions and returns an early completion response to the
+    CPU or DSU before the write has completed at the downstream memory
+    or PoS.
+ 3. A downstream observer accesses the affected memory address after the
+    early completion response is issued but before the actual memory
+    write has completed. This allows the observer to read stale data
+    that has not yet been updated at the PoS or downstream memory.
 
-So why is this a generic estatus and not part of CPER-something?
+The implementation of workaround put a second loop of CMOs at the same
+virtual address whose operation meet erratum conditions to wait until
+cache data be cleaned to PoC. This way of implementation mitigates
+performance penalty compared to purely duplicate original CMO.
 
-You're calling something "estatus" which sounds like a generic thing but =
-it is
-simply a subset of functionality you need to make it work on ARM without
-ACPI and have packaged whatever you need under the name "estatus".
+Cc: stable@vger.kernel.org # 6.12.x
+Signed-off-by: Lucas Wei <lucaswei@google.com>
+---
 
-Why does this thing need to be called an "estatus core"?
+Changes in v3:
 
-I'd expect to see a compilation unit which contains shared functionality,=
- gets
-linked to your stuff and that's it. No "fanfares", no CONFIG symbols, no
-nothing.
+ 1. Fix typos
+ 2. Remove 'lkp@intel.com' from commit message
+ 3. Keep ARM within a single section
+ 4. Remove workaround of #4311569 from `cache_inval_poc()`
 
-> consumes via GHES on ACPI systems. I=E2=80=99m not introducing a new er=
-ror model
-> here; the intent is to reuse the existing CPER decoding and handling on=
-ce
-> that payload exists.
+Changes in v2:
 
-So why aren't you doing only that? Why are you doing all that extra stuff=
-?
+ 1. Fixed warning from kernel test robot by changing
+    arm_si_l1_workaround_4311569 to static
+    [Reported-by: kernel test robot <lkp@intel.com>]
 
-> The practical use case is firmware-first RAS platforms that emit CPER
-> records but do not use ACPI/APEI GHES for discovery or notification. To=
-day,
-> those platforms either have to duplicate CPER parsing logic or miss out=
- on
-> the common Linux RAS handling (standard logging, memory failure flow,
-> vendor notification paths). As a result, the full firmware-first RAS
-> pipeline effectively only works when CPER arrives through GHES.
+---
+ Documentation/arch/arm64/silicon-errata.rst |  1 +
+ arch/arm64/Kconfig                          | 19 +++++++++++++
+ arch/arm64/include/asm/assembler.h          | 10 +++++++
+ arch/arm64/kernel/cpu_errata.c              | 31 +++++++++++++++++++++
+ arch/arm64/tools/cpucaps                    |  1 +
+ 5 files changed, 62 insertions(+)
 
-Yah, got it.
+diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+index a7ec57060f64..4c300caad901 100644
+--- a/Documentation/arch/arm64/silicon-errata.rst
++++ b/Documentation/arch/arm64/silicon-errata.rst
+@@ -212,6 +212,7 @@ stable kernels.
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Broadcom       | Brahma-B53      | N/A             | ARM64_ERRATUM_845719        |
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 93173f0a09c7..89326bb26f48 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1155,6 +1155,25 @@ config ARM64_ERRATUM_3194386
+ 
+ 	  If unsure, say Y.
+ 
++config ARM64_ERRATUM_4311569
++	bool "SI L1: 4311569: workaround for premature CMO completion erratum"
++	default y
++	help
++	  This option adds the workaround for ARM SI L1 erratum 4311569.
++
++	  The erratum of SI L1 can cause an early response to a combined write
++	  and cache maintenance operation (WR+CMO) before the operation is fully
++	  completed to the Point of Serialization (POS).
++	  This can result in a non-I/O coherent agent observing stale data,
++	  potentially leading to system instability or incorrect behavior.
++
++	  Enabling this option implements a software workaround by inserting a
++	  second loop of Cache Maintenance Operation (CMO) immediately following the
++	  end of function to do CMOs. This ensures that the data is correctly serialized
++	  before the buffer is handed off to a non-coherent agent.
++
++	  If unsure, say Y.
++
+ config CAVIUM_ERRATUM_22375
+ 	bool "Cavium erratum 22375, 24313"
+ 	default y
+diff --git a/arch/arm64/include/asm/assembler.h b/arch/arm64/include/asm/assembler.h
+index f0ca7196f6fa..d3d46e5f7188 100644
+--- a/arch/arm64/include/asm/assembler.h
++++ b/arch/arm64/include/asm/assembler.h
+@@ -381,6 +381,9 @@ alternative_endif
+ 	.macro dcache_by_myline_op op, domain, start, end, linesz, tmp, fixup
+ 	sub	\tmp, \linesz, #1
+ 	bic	\start, \start, \tmp
++alternative_if ARM64_WORKAROUND_4311569
++	mov	\tmp, \start
++alternative_else_nop_endif
+ .Ldcache_op\@:
+ 	.ifc	\op, cvau
+ 	__dcache_op_workaround_clean_cache \op, \start
+@@ -402,6 +405,13 @@ alternative_endif
+ 	add	\start, \start, \linesz
+ 	cmp	\start, \end
+ 	b.lo	.Ldcache_op\@
++alternative_if ARM64_WORKAROUND_4311569
++	.ifnc	\op, cvau
++	mov	\start, \tmp
++	mov	\tmp, xzr
++	cbnz	\start, .Ldcache_op\@
++	.endif
++alternative_else_nop_endif
+ 	dsb	\domain
+ 
+ 	_cond_uaccess_extable .Ldcache_op\@, \fixup
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 8cb3b575a031..5c0ab6bfd44a 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
+ 	return (ctr_real != sys) && (ctr_raw != sys);
+ }
+ 
++#ifdef CONFIG_ARM64_ERRATUM_4311569
++static DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
++static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
++{
++	static_branch_enable(&arm_si_l1_workaround_4311569);
++	pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
++
++	return 0;
++}
++early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
++
++/*
++ * We have some earlier use cases to call cache maintenance operation functions, for example,
++ * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
++ * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
++ * safe to have the workaround off by default.
++ */
++static bool
++need_arm_si_l1_workaround_4311569(const struct arm64_cpu_capabilities *entry, int scope)
++{
++	return static_branch_unlikely(&arm_si_l1_workaround_4311569);
++}
++#endif
++
+ static void
+ cpu_enable_trap_ctr_access(const struct arm64_cpu_capabilities *cap)
+ {
+@@ -870,6 +894,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		ERRATA_MIDR_RANGE_LIST(erratum_spec_ssbs_list),
+ 	},
+ #endif
++#ifdef CONFIG_ARM64_ERRATUM_4311569
++	{
++		.capability = ARM64_WORKAROUND_4311569,
++		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
++		.matches = need_arm_si_l1_workaround_4311569,
++	},
++#endif
+ #ifdef CONFIG_ARM64_WORKAROUND_SPECULATIVE_UNPRIV_LOAD
+ 	{
+ 		.desc = "ARM errata 2966298, 3117295",
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 0fac75f01534..856b6cf6e71e 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -103,6 +103,7 @@ WORKAROUND_2077057
+ WORKAROUND_2457168
+ WORKAROUND_2645198
+ WORKAROUND_2658417
++WORKAROUND_4311569
+ WORKAROUND_AMPERE_AC03_CPU_38
+ WORKAROUND_AMPERE_AC04_CPU_23
+ WORKAROUND_TRBE_OVERWRITE_FILL_MODE
 
-But see above.
+base-commit: 0f61b1860cc3f52aef9036d7235ed1f017632193
+-- 
+2.52.0.457.g6b5491de43-goog
 
-Please do not "over-design" this into a separate thing but simply carve o=
-ut
-the functionality and share it. And leave it where it belongs
-- drivers/firmware/efi/ is not the right place as this isn't really EFI. =
-This
-is a piece of APEI/GHES crap you need.
-
-Later, when there's need to make it more sophisticated, then we can talk
-again.
-
-Thx.
-
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
