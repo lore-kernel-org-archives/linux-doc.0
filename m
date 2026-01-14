@@ -1,128 +1,99 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6159537FF5C
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 11:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7DF38FEE3;
+	Wed, 14 Jan 2026 11:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768388930; cv=none; b=ldHkvswnHPhKB8F/mA8vgvzdsny7oMXjEHmx9G9Q3bF+PXAmqLLjJ37hXocacykVxzfuSxPAvcxsEsRw5BHgKlz32bl9cqfMiRfPlxEq7I/ochPjdkiD+ZgixgSgWQPxsrdUEcCRETtQnJzb1jmQHeae8F9sIsl5ZYemMPzCaXo=
+	t=1768389995; cv=none; b=GOb8ZGUTMX1C6tIGwgB9GD4dsnCNjAfe7s1MQP/Z7DA5mKGTjKYcL+Juyw1sNxpxPV7rvBzw212ml8hiRf9jFR3jN4rEMW5E2sD8R4BPmJF6xULvw/4/rP0m2gqK7O6OlpGvdAoDtJx+YIF18tK3zxNsvdwvTklLpWPKWm8KCOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768388930; c=relaxed/simple;
-	bh=NGDpNgaYAnKJpFJ27LdnKRDIF7bjbzvgTyRhQktCjO4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWkBmgTT0JaJXY3oUGA8nSCc7IYPoOGSFZy8oi9GqYn8sR7lims2JV+ARLq8DyFPUfzLoANrSterCe/hsNgz9Se0CSSMeG4zTXYnmPYaweXzS0GR97R4bkXDIHrJWiPANflc5vuZ58gxmA+AzFCLKUCkadupI6HVxK3uyq38FZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=AjzIh0RA; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	s=arc-20240116; t=1768389995; c=relaxed/simple;
+	bh=3R7aGXkmrAlcnHbsJlqLfFOTxNQctONIW+dEMUzHkuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hgOF46hhhTXcIibaB1E0Bw0S0hEx2YvWwfu3XoBBZioyLsk5Zv/law9sbNMQitNU49EXf6VCDPzBbY0sWjA4L+P9I1BEtl+ZelJBgEwgIYz+jFIyeStq8fRdXbpfOIqJsz0BfY8j1HqGUMvsriZxl7bieILWb0eglotmBwUWeGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=B8nwzilc; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="AjzIh0RA"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0ac29fca1so54557065ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 03:08:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1768388926; x=1768993726; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rp+ERt1dfU/la6Ha2tXOSz2jWN3a9Tr4qXg0gnWoaNY=;
-        b=AjzIh0RArrWimh5hKL1MDgEkrBOHoLNgMq5EiwNcySzypMjPTjqCX64siqpiSNN56b
-         SmeTA5PQAM0EyhqIRMLfq+bQ0qDBAIxcxYbntdZxXmrKaf6cNigi5+TVmZYbRQ4Murcr
-         M+P3N4WhtF5p51/ofqEWiFcOUQrMa5Va40ApfVoclVX+ZD2gOB6x/8bdIke5LnDXqTF3
-         1wIbE/hCDYn0l/r1TNd8vnbGGjMJGEoUrAfmd1KmKMOrjAFzKbRAW5JScqKjlV7S9sVA
-         cRGmT0KvIDO3oX9SjJRu5P/B1xbR79oaBCl5LEWKzXuvhkK5r/DJO/vMGG6eGZuUGwHF
-         uTmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768388926; x=1768993726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rp+ERt1dfU/la6Ha2tXOSz2jWN3a9Tr4qXg0gnWoaNY=;
-        b=f5w3wXd4rgWn7CBlBmfudAZflbIn2qj64e4K5NR2PRC9KFeIHNcxU53F+o2Nq+Rbr0
-         rGf/IG6ohDy2mmEzYd/zQ+AvRh4SN22P03bkj4AiFH046uPQIaWRG23QbZQxb1MEpIfI
-         e2x2x7QSvoF5NTWojR10fhOxPLJbFnP5GrOiVJI28Nt+AK3OPyZeX9NmUX7gJgjBhFLn
-         DLRJp25fQhwgOQDioaUyST9WrHasi+qObjG/MwE67ji1BqnyyR9ctgwM8MZ/nF4ZCDGr
-         DENiGj5sVUvuxd2jityLjPyyuDuMhowp/TIYaxOfMzOmZ9jDRJmjNgF13+1n36szH9gf
-         8fMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWf9qGjILUpPV5nijbuROoi7NkHlnFIzwG+Ohfvp16b0HcxaeXKJJe/XCASSkLDS0wOHuFNqaIfjqQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywHsFlQeovdcheYyspCIDDk/rZb+ikRawsr2U1RKwYSRstYYKa
-	tqIUyecS1/m9T976Y3jvB3JkTXRuJ/AKV0zyz84Tm6ROszOJQMCKBbHGv3Y1gGB8YkA=
-X-Gm-Gg: AY/fxX5awHzFHly3vw8hrpHri2b4SlpZ2UoYOZrm2RJcG18aG6PwJr2L2B8ZFej8ok5
-	lyjnEv5QfKzt98YsT6GRWXUViCDGe5MpFhaAMOPgJ/+eHfvl8geXAatyLHOi5gzi4kfjO+enG4I
-	hBeO9GPvVbA6Ng19/ILoPPTpZhIQZeJBJEqvDqf0MCcFUTCsmB5l6rXEuVOASF4T/1f8IjgrrJs
-	D/bxXbIykMpXCrw4JST4nbfIxEyOPyYuUNxAArUBNiGmTcgaDAjPYAIsbPEPYjgnQQ8M2FRV+fr
-	htjD4CYlLsn38CtFu/4Uz7JMA9JPa0mq9PIwLdd7E/JRHj5BHG+NoJ9bE/nKaq7SyfuRVem2WyP
-	1D6QIoM/+rdzlftQkZ5x8wX4VJULNPlW3EW24DX37jJJ8dKd4FViZmf1INFi2M6zVrKLUNDrA
-X-Received: by 2002:a17:902:f686:b0:2a0:d728:2e79 with SMTP id d9443c01a7336-2a599e05654mr24223935ad.16.1768388925818;
-        Wed, 14 Jan 2026 03:08:45 -0800 (PST)
-Received: from localhost.localdomain ([147.136.157.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd492fsm103732285ad.98.2026.01.14.03.08.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 03:08:45 -0800 (PST)
-From: Tang Yizhou <yizhou.tang@shopee.com>
-X-Google-Original-From: Tang Yizhou
-To: tj@kernel.org,
-	corbet@lwn.net,
-	axboe@kernel.dk,
-	hch@lst.de
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tang Yizhou <yizhou.tang@shopee.com>
-Subject: [PATCH] docs: Fix blk-iolatency peer throttling description
-Date: Wed, 14 Jan 2026 19:08:37 +0800
-Message-ID: <20260114110837.84126-1-yizhou.tang@shopee.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="B8nwzilc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=U2VBhAIqVc+Ad2EEEY7j2m8eAnaVVil1jXNoQt+h07M=; b=B8nwzilcna8h+RA5veOgLMmWev
+	NVJ+7+pjZAdT7xdnWNHnOcMaZUyApk36jynqZPWvHwb5sFsKdPLVkjyJ7BVRYXtI+/wS46ms8i88+
+	0AvSNERwAOwG6I6QEBxVI5XIoYi1wOvgxRW5ROXCSStTJViVAhaifPpBWn5c+4vUgvjGQ2aVlf6Kb
+	SnSm+hq6sh8+83sR4mGxYgsGnQ5Z0qV3yF9HOThoq8C48kMeIeCn/mtQyXk7hLN4iymZV2TD6eac6
+	st8m9Z5vW/l09JHj3nI3Ui0cRqFTiuiWdyHGbNToBOOAEJoH6NERLHi37ACuDN/mdEd7+F7Kqfr07
+	jKfdbJAw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53234)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vfz14-000000008Vv-0IWn;
+	Wed, 14 Jan 2026 11:26:22 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vfz0z-000000001bw-1RuS;
+	Wed, 14 Jan 2026 11:26:17 +0000
+Date: Wed, 14 Jan 2026 11:26:17 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Tao Wang <tao03.wang@horizon.auto>
+Cc: kuba@kernel.org, alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, horms@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	maxime.chevallier@bootlin.com, mcoquelin.stm32@gmail.com,
+	netdev@vger.kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
+ resume
+Message-ID: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
+References: <20260112200550.2cd3c212@kernel.org>
+ <20260114110031.113367-1-tao03.wang@horizon.auto>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260114110031.113367-1-tao03.wang@horizon.auto>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-From: Tang Yizhou <yizhou.tang@shopee.com>
+On Wed, Jan 14, 2026 at 07:00:31PM +0800, Tao Wang wrote:
+> after resume dev_watchdog() message:
+> "NETDEV WATCHDOG: CPU: x: transmit queue x timed out xx ms"
+> 
+> The trigging scenario is as follows:
+> When the TSO function sets tx_skbuff_dma[tx_q->cur_tx].last_segment = true,
+>  and the last_segment value is not cleared in stmmac_free_tx_buffer after
+>  resume, restarting TSO transmission may incorrectly use
+> tx_q->tx_skbuff_dma[first_entry].last_segment = true for a new TSO packet.
+> 
+> When the tx queue has timed out, and the emac TX descriptor is as follows:
+> eth0: 221 [0x0000000876d10dd0]: 0x73660cbe 0x8 0x42 0xb04416a0
+> eth0: 222 [0x0000000876d10de0]: 0x77731d40 0x8 0x16a0 0x90000000
+> 
+> Descriptor 221 is the TSO header, and descriptor 222 is the TSO payload.
+> In the tdes3 (0xb04416a0), bit 29 (first descriptor) and bit 28
+> (last descriptor) of the TSO packet 221 DMA descriptor cannot both be
+> set to 1 simultaneously. Since descriptor 222 is the actual last
+> descriptor, failing to set it properly will cause the EMAC DMA to stop
+> and hang.
+> 
+> To solve the issue, set last_segment to false in stmmac_free_tx_buffer:
+> tx_q->tx_skbuff_dma[i].last_segment = false.  Do not use the last_segment
+>  default value and set last_segment to false in stmmac_tso_xmit. This
+> will prevent similar issues from occurring in the future.
 
-The current text states that peers with a lower latency target are
-throttled, which is the opposite of the actual behavior. In fact,
-blk-iolatency throttles peer groups with a higher latency target in order
-to protect the more latency-sensitive group.
+While I agree with the change for stmmac_tso_xmit(), please explain why
+the change in stmmac_free_tx_buffer() is necessary.
 
-In addition, peer groups without a configured latency target are also
-throttled, as they are treated as lower priority compared to groups with
-explicit latency requirements.
+It seems to me that if this is missing in stmmac_free_tx_buffer(), the
+driver should have more problems than just TSO.
 
-Update the documentation to reflect the correct throttling behavior.
-
-Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 7f5b59d95fce..d6f7ef08b67d 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2238,8 +2238,9 @@ IO Latency
- 
- This is a cgroup v2 controller for IO workload protection.  You provide a group
- with a latency target, and if the average latency exceeds that target the
--controller will throttle any peers that have a lower latency target than the
--protected workload.
-+controller will throttle any peers that have a higher latency target than the
-+protected workload, as well as peers that do not have a latency target
-+configured.
- 
- The limits are only applied at the peer level in the hierarchy.  This means that
- in the diagram below, only groups A, B, and C will influence each other, and
-@@ -2265,8 +2266,9 @@ How IO Latency Throttling Works
- 
- io.latency is work conserving; so as long as everybody is meeting their latency
- target the controller doesn't do anything.  Once a group starts missing its
--target it begins throttling any peer group that has a higher target than itself.
--This throttling takes 2 forms:
-+target it begins throttling any peer group that has a higher target than itself,
-+as well as any peer group without a latency target. This throttling takes 2
-+forms:
- 
- - Queue depth throttling.  This is the number of outstanding IO's a group is
-   allowed to have.  We will clamp down relatively quickly, starting at no limit
 -- 
-2.43.0
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
