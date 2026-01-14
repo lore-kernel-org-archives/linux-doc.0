@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B464A395DA9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2D739B4AA;
 	Wed, 14 Jan 2026 13:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768396652; cv=none; b=fEA6gCd89p1tSSRr6wbh+ABKMzGciWUAmkLciaLjPovtc3uLEAzkRfSAAvGUpqeJFsRFDIbXuLi3V0b+9r8itgliHC7Nc9DNvP2RwA+Ed2t5dTP8ujqURZOxHUw8ee8qq85szm25xN2Gxjh1iJhUQ7j/cu+RoTN7giYqJZ6gA5Y=
+	t=1768396652; cv=none; b=kct8F4FxJoMZup7Y4QNXKmPE6l8EJhvnshLBlCZfq5odFUJeYvCMvO82wUuw+0fB4oxcHemKJvZdhY8651n9m96YjdtD8FcfTjBsMVxhMVZtyjEdJVvLw9Ivzv48RsJTT6EQ02rboOHy4sxEDOLTrEhxPMINT3uoElrMLCd1F8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768396652; c=relaxed/simple;
-	bh=exjBpROHq5nt6ys/3V4S6O/quh/Jy14gJjvOKZLMHAo=;
+	bh=D20byBH6Dc3S8kqec0afWoBETHqoICKqefEL4fRTSCc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P9HHFLfJ/UFfIyUN7loa9+Pdfd8WIXyo4Rr2XdsLUNx1WCb6eIAwLEOX8J3wuXVzdSdhXkRwB32FC+EYYmZVA+NyQ1grQgg4Y5EPMEkwKJNM/ynNFkgaB48gw+U10DKouckSTVlxbUMZpqIphNDga+FIc3k/awPqhpXmSPfOovU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lysnj4L8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=thJZwZelkMi0jtqk4n9afYIskom35UqMAqV/wYWrO4D/ROv9NAOGjhJ5mKfXEB+eDSVxC02XHDT9W0mvIq1VfyDQUzVKLQKzqYMyzhpqkOSnQ1iTcf9ArxfdKKuN+OJPIrl+GQSRRhzWlgVudRMml0Xm73veeUHS5lFOlu1W+rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QG8LpUQX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lysnj4L8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E4FEC19422;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QG8LpUQX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826C3C19425;
 	Wed, 14 Jan 2026 13:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768396652;
-	bh=exjBpROHq5nt6ys/3V4S6O/quh/Jy14gJjvOKZLMHAo=;
+	bh=D20byBH6Dc3S8kqec0afWoBETHqoICKqefEL4fRTSCc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Lysnj4L8lUZvSwqK60AHspBOkTZk+2/TeppDAaS1mLPdQhzT0iTKtJOKsLB3hEqYs
-	 23LR77WTMpKMuuiR2ngmoDinnXD4gMwp2B5+/EQpG4rRGQ8ojc5Mv8UNkPQMkv75iK
-	 CZgqq3xStmN7bJPeplMUxYHcxBRdKUyC/FaspSj/dP56MrXyKCRl2YKq7LIFo6RYw2
-	 e77DtU2x3zvqCE+6POxIXvFuup2e6EEzEi8JumkH6jig+5FSKcG1ofQ/BaPRKrLBgg
-	 MW4Ko7QzSmmvB9TBrvTcAZ0t9i37GE31njh5hS8z7oTGR2+7sfQwYzc1uD3JIHmFZ/
-	 IOQjdlDPFSPhQ==
+	b=QG8LpUQXloJmXI6yPwA76dzJm1UgLxlZ9fxT3JehKor7f/rbOOPjkh0ZxmGSFJMVH
+	 eNZmHH4P5H21+1w1/7+omL4TtBYHmY7XuVjaHlEor1VYUlNF44wR7Jawd912m0BoGf
+	 +ODnKzxyaxec2gme0N3vHn/zlPoP3uSyadSi8yGrSSNoSoJm0iGvgrjHcvzQAvyDc5
+	 iPXmWKi3sOsytgCBQLNvYXWw8m1rcu5uvhTYek9TQw+gM0AaJ7q/Pb1Fsy8K13Jji6
+	 20+6CbNubwB6CoQfZ4vGaXXeAfdI7dmOKV9pqzOD5KyCIY3pbXAqR06HnS0xcazmwA
+	 odoaDQyBIoaGw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vg0kc-00000002mxY-2wEi;
+	id 1vg0kc-00000002mxo-3N5c;
 	Wed, 14 Jan 2026 14:17:30 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 01/13] docs: custom.css: prevent li marker to override text
-Date: Wed, 14 Jan 2026 14:17:14 +0100
-Message-ID: <8a6e0e40f45a6e92e18c20f6c98f496ab5beaeef.1768396023.git.mchehab+huawei@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 05/13] docs: kdoc_files: Improve docstrings and comments
+Date: Wed, 14 Jan 2026 14:17:18 +0100
+Message-ID: <5bb81566bdf632344c59e1ea4a9283d0aa5ef20f.1768396023.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768396023.git.mchehab+huawei@kernel.org>
 References: <cover.1768396023.git.mchehab+huawei@kernel.org>
@@ -54,31 +53,105 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There's currently an issue with li marker: it is set to use
--1em, which actually makes it override the text. This is visible
-on indexes that are deep enough.
-
-Fix it.
+In preparation to document kernel-doc module, improve its
+documentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx-static/custom.css | 3 +++
- 1 file changed, 3 insertions(+)
+ tools/lib/python/kdoc/kdoc_files.py | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 06cedbae095c..b6a7a5f6b6d4 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -30,6 +30,9 @@ img.logo {
-     margin-bottom: 20px;
- }
+diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
+index bfe02baf1606..022487ea2cc6 100644
+--- a/tools/lib/python/kdoc/kdoc_files.py
++++ b/tools/lib/python/kdoc/kdoc_files.py
+@@ -5,7 +5,8 @@
+ # pylint: disable=R0903,R0913,R0914,R0917
  
-+/* The default is to use -1em, wich makes it override text */
-+li { text-indent: 0em; }
-+
- /*
-  * Parameters for the display of function prototypes and such included
-  * from C source files.
+ """
+-Parse lernel-doc tags on multiple kernel source files.
++Classes for navigating through the files that kernel-doc needs to handle
++to generate documentation.
+ """
+ 
+ import argparse
+@@ -43,7 +44,7 @@ class GlobSourceFiles:
+         self.srctree = srctree
+ 
+     def _parse_dir(self, dirname):
+-        """Internal function to parse files recursively"""
++        """Internal function to parse files recursively."""
+ 
+         with os.scandir(dirname) as obj:
+             for entry in obj:
+@@ -65,7 +66,7 @@ class GlobSourceFiles:
+     def parse_files(self, file_list, file_not_found_cb):
+         """
+         Define an iterator to parse all source files from file_list,
+-        handling directories if any
++        handling directories if any.
+         """
+ 
+         if not file_list:
+@@ -91,18 +92,18 @@ class KernelFiles():
+ 
+     There are two type of parsers defined here:
+         - self.parse_file(): parses both kernel-doc markups and
+-          EXPORT_SYMBOL* macros;
+-        - self.process_export_file(): parses only EXPORT_SYMBOL* macros.
++          ``EXPORT_SYMBOL*`` macros;
++        - self.process_export_file(): parses only ``EXPORT_SYMBOL*`` macros.
+     """
+ 
+     def warning(self, msg):
+-        """Ancillary routine to output a warning and increment error count"""
++        """Ancillary routine to output a warning and increment error count."""
+ 
+         self.config.log.warning(msg)
+         self.errors += 1
+ 
+     def error(self, msg):
+-        """Ancillary routine to output an error and increment error count"""
++        """Ancillary routine to output an error and increment error count."""
+ 
+         self.config.log.error(msg)
+         self.errors += 1
+@@ -128,7 +129,7 @@ class KernelFiles():
+ 
+     def process_export_file(self, fname):
+         """
+-        Parses EXPORT_SYMBOL* macros from a single Kernel source file.
++        Parses ``EXPORT_SYMBOL*`` macros from a single Kernel source file.
+         """
+ 
+         # Prevent parsing the same file twice if results are cached
+@@ -157,7 +158,7 @@ class KernelFiles():
+                  wcontents_before_sections=False,
+                  logger=None):
+         """
+-        Initialize startup variables and parse all files
++        Initialize startup variables and parse all files.
+         """
+ 
+         if not verbose:
+@@ -213,7 +214,7 @@ class KernelFiles():
+ 
+     def parse(self, file_list, export_file=None):
+         """
+-        Parse all files
++        Parse all files.
+         """
+ 
+         glob = GlobSourceFiles(srctree=self.config.src_tree)
+@@ -242,7 +243,7 @@ class KernelFiles():
+             filenames=None, export_file=None):
+         """
+         Interacts over the kernel-doc results and output messages,
+-        returning kernel-doc markups on each interaction
++        returning kernel-doc markups on each interaction.
+         """
+ 
+         self.out_style.set_config(self.config)
 -- 
 2.52.0
 
