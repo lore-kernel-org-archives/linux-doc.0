@@ -1,63 +1,64 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809FD3B5313
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554193AEF37
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428843; cv=none; b=h7TGzuqxArnGfpMCV3mW460y09Edgh7E+hPvmdvR0WRKDwUg1cSGiBtTuHbZdDGDRES5A/pLIQNGXpYLJS4xuU+MprtnzkRAHLqmGF4LuOwq5lJxBzMprslhBZW0FH2Rvwpmc/z1DWVSrjBIWaUerbFtRlLQC+i2uZjYxODiXE4=
+	t=1768428847; cv=none; b=AQKgxuTo2lNaFhFZbTD8g1f1ZjUBVO782dRun+92aCroV3vwskMM2KTHWxzdrvKQDnsXGYHWFMDONaH+l7dPXzqrNdG2SQYTMHKKIZJIjaKuQygvFhfoCiDya+IyQsWSAD+/yNru+YQKH9Y60FQ8EWtXMySxs9YG37k0VBfS75c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428843; c=relaxed/simple;
-	bh=Frl8g7gPNJZnVuF1cortnAJ5yPmXpbnchhHZccoy5S8=;
+	s=arc-20240116; t=1768428847; c=relaxed/simple;
+	bh=A8Qn2ZXNyjvn8gNDuWwA+Rtb50kD3BeNv2696tgjRjY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IfZ+t86lhYKJ7YbWo7a0HpV5yhSMBz9/Si0VxuQ0rp829B9Ln706VNLXJScX0586Nh2RQfln7628NxmVYg2OZO7ZI+fdxACofNlsgGX2Ga5wE9WH5IjVqTmppEwn9uvHdjAVH6KU4dj8WTuU67wQTfwIU+k52yt3pNB05ygo62U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Erf8d9oF; arc=none smtp.client-ip=209.85.222.172
+	 MIME-Version; b=pad0hFQSUcZd3/jAYKwk3AsBemOpkn23ROm6m+FTgOiQijuHpBU4SwvNQ63D5JI6+//XZW2CoMxpOK97nHxGe6LW1DkysJhF0+6W2ZSGoLLjg3z4e8edj6KkCWbXNzDuA0nTPYK9hDh/hI0oOYM4YfnnkeNcgXsVu+JQoyT1Mk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KkFSUbeM; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Erf8d9oF"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8c52f15c5b3so29785885a.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:13:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KkFSUbeM"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c52c67f64cso32088285a.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:13:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768428825; x=1769033625; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768428828; x=1769033628; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5gG/T9PvlN7aaWKP3v8uvJnzLqAaoC9Sf8EP4s01LO0=;
-        b=Erf8d9oFtq6hQp6TsprMFlAAV1Rp4tW/kqQykHoOoyI5xunoLIPFIqPXZ5i3ILFtBF
-         q5Gt+QRNqs29RFYUr0kvQcqHbiu4nw/umjhIKNk2V1a4/BdQ0xTuJ6XCA3e/91vpahVS
-         gOLh0PvCdJoJPoKf4MAR8nvca9eV63Ca46gGxNq7Sln3dpNI87bBKR3roy8NlhHKtjog
-         rLxMyNXLoCKq+7c8UCh1nzANmsqiuL36JNqEv9LTfL6BM5vQiCQpIhLeneaLZD5p3Aks
-         1L/ainQw23HM3nVDwVfPw0Qmo92Om/EmrvViLBWt2Bv0FDwStI81fA47g/giKbJHbOEx
-         pKrg==
+        bh=lVTV9saCiqOGcBv4/N1kZOQdjcejYiLRdluYVStkd9M=;
+        b=KkFSUbeMrfhGDKaMkcBs1gAfFq6i4S05xZsadrVDqLIjDc58XprImxwIwuuNeNYowF
+         gP+Dc3oOBEHLBWJ81YZvIZaYPHFQZJS/eayyUVt8WEBjMGAPf+g67kQ9sLe9rZ8XRJpC
+         BkQLHHCsA/+9pCdqroGPtuAeuaeLK781dhZcGJeKNh89MKrdzUyQJjwT1Vd9IsV4esIl
+         upz8N1YbOjI3Ll11oaCts5RgRnZCVhFv4w5JTiwfmDoabFCGYX5snatjYlW+qIlSAJnW
+         TL2us52c6ZFX5vPc1RescPzu1E/6IYJvM+9JxAPgKIJm+Gcuqu+ryoyML14NrM84S/ii
+         YIDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768428825; x=1769033625;
+        d=1e100.net; s=20230601; t=1768428828; x=1769033628;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5gG/T9PvlN7aaWKP3v8uvJnzLqAaoC9Sf8EP4s01LO0=;
-        b=K1rOoAmPrf+6xuTofTd/VZUvorcPfMHHu91PtzHaMWR4QZ4S2JiO2BXr6LZaB8b42J
-         38YyRNaHKRSHuqTnzP2NIK/FYVu4vh4KAW35gyMKXva0Ra6VfHjG8U7bpouxgLNsX7RR
-         3i0FBeBk09rzDBhGc8RraP9zUZvmnSVQsBl2VfLNxdX6FUMdNSUtKCA9Q759fc7mnvUG
-         fvXSZhnJvpEFRImLZaUr56XtTnUXpzVOpAj0xxFuUY/yvk4TBosdp8WGipIYk/5hAncM
-         DOsMjRBZJ2UH6pQRPuA5eFUBh7y4EKbY67ARLunDmWp1WzFwkfcYTkuA+g4BLb3rtWMt
-         9Y3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVccu2AYw5h7JRRk5nAYcPV1BFe21VcxDafJPDDzFO2lVqFoIwosGDpFReBhksbWul3sgzor6tEd/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgcfFf4Nd92++TIo8lz32eJA0PZEXlQRQChI5PNHoala3lqmos
-	eYNFTodacISL1xReYbrsXu52b77nL40Kmae7XGx/Jq1EqhtU/hHnXTbl
-X-Gm-Gg: AY/fxX4SgbSB0WSiV1R0zpllqvWZZ4F7sP7eaub6WekR6B+busF3P/s85p9JqAAZhCN
-	LvGqBFzAz4c27LensFAgaqhN/ia+rnqmOy7cCny4gzZUV1wXVY7iL/6tAXGR8NjKw8cRQdQoC64
-	o/FTV3eicFG2OD/ge5fkBBT6B9dXyywiSIaa8cnarCU6qHXZDG+L9Z9whjO82REQSUtQXHjGBZT
-	4vdVu87arIQ1o5l+QDNAk3t7l1DccerAUYwsOUDIghYFfGZ3JSiJ/7GrPBTGDiJzS6oTv0br8HN
-	RQagRyEqdVU56jLR3gaedQDDbffUCzW/vfLOgMBzmg1Vf4GGtN6cSp0HQhxVplcpK40vQrOx3tg
-	XCofEWCnJrU1y9at7fd2kOi5+B5Ykwu7UI4DamCrVenor9l01pc7UptcY6UDk1y+DqaxPiMvoEQ
-	bFVylG8FYODA/0TPP3IvImA2rU71P0oJVxIiBPobmMJd3laWF9Oot0Z5lN+SqrBs5U4XSFSfE=
-X-Received: by 2002:a05:620a:708a:b0:8b5:222d:ce3b with SMTP id af79cd13be357-8c52fbdce95mr670335885a.52.1768428825363;
-        Wed, 14 Jan 2026 14:13:45 -0800 (PST)
+        bh=lVTV9saCiqOGcBv4/N1kZOQdjcejYiLRdluYVStkd9M=;
+        b=XQy6BJGLwboJ8V4SfB1Sh9cY4h0JUbp/8HuC/B5bHQTkkh8on0za06PWkB4nbIPn0Z
+         kMEPn12B7OmZBCA4bspR0IFi8c85ZMh4osipsM4WDuy7bFMZjy+W22+KtI7RnMGOgTq2
+         Vp6bSyc8ebY9misTv7s4iB0l5Zkw4T7O+TzDtVw2r/aHdbyWYbv11kzCNvYHSf/6rvF4
+         0F9HtjxQENOrHT34wqcTHYEJKlINbtrjvwzBLKrIhbgOy3zqDcmcXEyq92dc4wByc3P3
+         VoUSkhQ5UoAUweloKq+7pTswloppSe1mX0N4d+aS3phjyqOA/R6mKDIbBkMPLwl7JMFC
+         D99g==
+X-Forwarded-Encrypted: i=1; AJvYcCVgZc2h3IISwdhKKx+1fJDPKVx0/a2RRqgQKEaLlNzG7PjkKY122b4GAgFvhsgSGT4feOaskQ0cn3I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8YWcie6oxiuxHHSUxOYh24/0vhtEeBaUfCINKLxX3UXzrBECP
+	aB98h930DTzjdLzcY0TnaVlFlMffpk/Obov4n4Kylyu4WjBZy2Y52/Zn
+X-Gm-Gg: AY/fxX7dLy49UC1DH54Ej1oT1NlzOIKGrJLDLmqfsXsXtUuce6IrXF3CTqqkEuC2GKq
+	+tgce5GAZ66nR7cNzcqeAVhOp1zCEKiFZzIoORCHd8K1Q8BZtnu0UgZpFfGC2J20Tn57ZxsiopI
+	rhJByaWZePI3pJAI+UAidIOG2YPg/PhafdE1vpDSrNWz1oVIKZdI5ATvdxjbVtDDQU+3HXUVwlP
+	7R1R9ybxFFy+1yDujcdHP0ak4m7jZL75aBXUosJcg4HgFG0Nrk9kNdp34ZwK3LDXDlGfwC5i3D6
+	oJR66mCo3XLnjUmKfcBbyBG3N2niFVqvsOj9hJwRwg8xoEYYwHiYAZXqJFU+7T0t/yQrfxYRo38
+	45FoyS/9Y1+tzKruFbdwHf+lxyGEXPs6RnVjWWy4G9G/xtpeqjJpDdPtFmNV86Sqre4Z3+sAv3d
+	TNVhZ8biR10D0BoZXtrJ6hGgYfkVQ6eFrbZ7OhCdiNQWdeI4DM0NIMV6hzKdriZPmXcIStY8/Pi
+	bXij+ArQw==
+X-Received: by 2002:a05:620a:2946:b0:8c6:670c:953f with SMTP id af79cd13be357-8c6670c9641mr44853285a.58.1768428828498;
+        Wed, 14 Jan 2026 14:13:48 -0800 (PST)
 Received: from pc.mynetworksettings.com ([2600:4041:4491:2000:c1bc:6046:8762:e96])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c530bb685fsm250007785a.44.2026.01.14.14.13.44
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c530bb685fsm250007785a.44.2026.01.14.14.13.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 14:13:44 -0800 (PST)
+        Wed, 14 Jan 2026 14:13:48 -0800 (PST)
 From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
 To: rostedt@goodmis.org,
 	mhiramat@kernel.org,
@@ -69,9 +70,9 @@ Cc: mathieu.desnoyers@efficios.com,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Subject: [PATCH v5 1/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
-Date: Wed, 14 Jan 2026 17:13:38 -0500
-Message-ID: <20260114221341.128038-2-seokwoo.chung130@gmail.com>
+Subject: [PATCH v5 3/3] selftests/ftrace: Add accept cases for fprobe list syntax
+Date: Wed, 14 Jan 2026 17:13:40 -0500
+Message-ID: <20260114221341.128038-4-seokwoo.chung130@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260114221341.128038-1-seokwoo.chung130@gmail.com>
 References: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
@@ -86,162 +87,22 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
 ---
- kernel/trace/trace.c        |  4 +--
- kernel/trace/trace_fprobe.c | 49 ++++++++++++++++++++-----------------
- kernel/trace/trace_probe.h  |  2 ++
- 3 files changed, 31 insertions(+), 24 deletions(-)
+ tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 10cdcc7b194e..73b59d47dfe7 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -5578,8 +5578,8 @@ static const char readme_msg[] =
- 	"\t           r[maxactive][:[<group>/][<event>]] <place> [<args>]\n"
- #endif
- #ifdef CONFIG_FPROBE_EVENTS
--	"\t           f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]\n"
--	"\t		(single symbols still accept %return)\n"
-+	"\t           f[:[<group>/][<event>]] <func-name>[%return] [<args>]\n"
-+	"\t	      f[:[<group>/][<event>]] <func-list>[:entry|:exit] [<args>]\n" 
- 	"\t           t[:[<group>/][<event>]] <tracepoint> [<args>]\n"
- #endif
- #ifdef CONFIG_HIST_TRIGGERS
-diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
-index 5a2a41eea603..1663c341ddb4 100644
---- a/kernel/trace/trace_fprobe.c
-+++ b/kernel/trace/trace_fprobe.c
-@@ -187,16 +187,23 @@ DEFINE_FREE(tuser_put, struct tracepoint_user *,
-  */
- struct trace_fprobe {
- 	struct dyn_event	devent;
--	char			*filter;
-+
- 	struct fprobe		fp;
--	bool			list_mode;
--	char			*nofilter;
- 	const char		*symbol;
--	struct trace_probe	tp;
-+	char			*filter;
-+	char			*nofilter;
-+
- 	bool			tprobe;
- 	struct tracepoint_user	*tuser;
-+
-+	struct trace_probe tp;
- };
+diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+index 45e57c6f487d..79392e268929 100644
+--- a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
++++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0
+ # description: Fprobe event list syntax and :entry/:exit suffixes
+-# requires: dynamic_events "f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]":README
++# requires: dynamic_events "f[:[<group>/][<event>]] <func-list>[:entry|:exit] [<args>]":README
  
-+static inline bool trace_fprobe_has_list(const struct trace_fprobe *tf)
-+{
-+	return tf->filter || tf->nofilter;
-+}
-+
- static bool is_trace_fprobe(struct dyn_event *ev)
- {
- 	return ev->ops == &trace_fprobe_ops;
-@@ -847,7 +854,7 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
- 	 * - list_mode: pass filter/nofilter
- 	 * - single: pass symbol only (legacy)
- 	 */
--	if (tf->list_mode)
-+	if (trace_fprobe_has_list(tf))
- 		return register_fprobe(&tf->fp, tf->filter, tf->nofilter);
- 	return register_fprobe(&tf->fp, tf->symbol, NULL);
- }
-@@ -1188,11 +1195,18 @@ static int parse_fprobe_spec(const char *in, bool is_tracepoint,
- 	*base = NULL; *filter = NULL; *nofilter = NULL;
- 	*is_return = false; *list_mode = false;
- 
--	if (is_tracepoint) {
-+	if (is_tracepoint) 
-+	{
- 		if (strchr(in, ',') || strchr(in, ':'))
-+		{
-+			trace_probe_log_err(0, BAD_TP_NAME);
- 			return -EINVAL;
-+		}
- 		if (strstr(in, "%return"))
-+		{
-+			trace_probe_log_err(p - in, BAD_TP_NAME);
- 			return -EINVAL;
-+		}
- 		for (p = in; *p; p++)
- 			if (!isalnum(*p) && *p != '_')
- 				return -EINVAL;
-@@ -1225,6 +1239,7 @@ static int parse_fprobe_spec(const char *in, bool is_tracepoint,
- 			} else if (!strcmp(p, ":entry")) {
- 				*(char *)p = '\0';
- 			} else {
-+				trace_probe_log_err(p - work, BAD_LIST_SUFFIX);
- 				return -EINVAL;
- 			}
- 		}
-@@ -1233,6 +1248,7 @@ static int parse_fprobe_spec(const char *in, bool is_tracepoint,
- 	list = !!strchr(work, ',');
- 	
- 	if (list && legacy_ret) {
-+		trace_probe_log_err(p - work, BAD_LEGACY_RET);
- 		return -EINVAL;
- 	}
- 
-@@ -1245,12 +1261,9 @@ static int parse_fprobe_spec(const char *in, bool is_tracepoint,
- 
- 	if (list) {
- 		char *tmp = b, *tok;
--		size_t fsz, nfsz;
- 
--		fsz = nfsz = strlen(b) + 1;
--
--		f = kzalloc(fsz, GFP_KERNEL);
--		nf = kzalloc(nfsz, GFP_KERNEL);
-+		f = kzalloc(strlen(b) + 1, GFP_KERNEL);
-+		nf = kzalloc(strlen(b) + 1, GFP_KERNEL);
- 		if (!f || !nf)
- 			return -ENOMEM;
- 
-@@ -1261,6 +1274,7 @@ static int parse_fprobe_spec(const char *in, bool is_tracepoint,
- 			if (*tok == '\0') {
- 				trace_probe_log_err(tmp - b - 1, BAD_TP_NAME);
- 				return -EINVAL;
-+			}
- 
- 			if (neg)
- 				tok++;
-@@ -1455,17 +1469,8 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
- 
- 	/* carry list parsing result into tf */
- 	if (!is_tracepoint) {
--		tf->list_mode = list_mode;
--		if (parsed_filter) {
--			tf->filter = kstrdup(parsed_filter, GFP_KERNEL);
--			if (!tf->filter)
--				return -ENOMEM;
--		}
--		if (parsed_nofilter) {
--			tf->nofilter = kstrdup(parsed_nofilter, GFP_KERNEL);
--			if (!tf->nofilter)
--				return -ENOMEM;
--		}
-+		tf->filter = no_free_ptr(parsed_filter);
-+		tf->nofilter = no_free_ptr(parsed_nofilter);
- 	}
- 
- 	/* parse arguments */
-diff --git a/kernel/trace/trace_probe.h b/kernel/trace/trace_probe.h
-index 9fc56c937130..b8b0544eb7cd 100644
---- a/kernel/trace/trace_probe.h
-+++ b/kernel/trace/trace_probe.h
-@@ -494,9 +494,11 @@ extern int traceprobe_define_arg_fields(struct trace_event_call *event_call,
- 	C(BAD_PROBE_ADDR,	"Invalid probed address or symbol"),	\
- 	C(NON_UNIQ_SYMBOL,	"The symbol is not unique"),		\
- 	C(BAD_RETPROBE,		"Retprobe address must be an function entry"), \
-+	C(BAD_LEGACY_RET,	"Legacy %return not allowed with list"), \
- 	C(NO_TRACEPOINT,	"Tracepoint is not found"),		\
- 	C(BAD_TP_NAME,		"Invalid character in tracepoint name"),\
- 	C(BAD_ADDR_SUFFIX,	"Invalid probed address suffix"), \
-+	C(BAD_LIST_SUFFIX,	"Bad list suffix"), \
- 	C(NO_GROUP_NAME,	"Group name is not specified"),		\
- 	C(GROUP_TOO_LONG,	"Group name is too long"),		\
- 	C(BAD_GROUP_NAME,	"Group name must follow the same rules as C identifiers"), \
+ # Setup symbols to test. These are common kernel functions.
+ PLACE=vfs_read
 -- 
 2.43.0
 
