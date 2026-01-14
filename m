@@ -1,160 +1,97 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24962BFC85
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 17:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC00B2BFC85;
+	Wed, 14 Jan 2026 17:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768410595; cv=none; b=YolfK/qU/ZXxFpjlQ6Z34q79YX88nsKfW4KNNmEnK0e5KgxLqoCdCQ+bOQu0Bxx/1nAuNfkdJL4grRr1fyGh6FgtJwTlXwAm2pKuBQr3QdvXBo/ZSmG75Q0xDpQVZX7QsxvtEruA4lBelLOKrpxqyshQCShpkSSLIgEBnB7A0wA=
+	t=1768411680; cv=none; b=nPmcsqw0LC8ljFbzHZiRbLAZnCnfvVGZyH84SgXNLTYnSaXUJYiKe/ADVA9gGTcEXI5kLeFI7PCnEzSTOcXRRaODJE5qSfIPFZDkjPm+D4EdE1NtY2Azj51wcxhjc03m162XEeWhtZlr73lMFtlGBlfQW8f/AsSObWFABbnlw+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768410595; c=relaxed/simple;
-	bh=PM6sHi1aQfy0NtK9ko2ZFgH/OijvhK/kCkUnfQiolAs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UGyrCnGj4N/aMjd3VgMvg6pp3qDQ59F3IkXo16oU9sQLRYEfzGyJ+1jdJSVHbHRUxy5c0KQIEcD/zAYO24m1GlynOtzzJfkU78UXDbx6i1oY1wttuNOHTh5LV9h9DBdF29yp2IyNNmf8KxIrXmEZAg3rMJOquLxE6Yq/4DOFHjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info; spf=pass smtp.mailfrom=shenghaoyang.info; dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b=EvnJ18aU; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shenghaoyang.info
+	s=arc-20240116; t=1768411680; c=relaxed/simple;
+	bh=MKErPubq+4dytiNTQQKxbBYuZq0PRZbULHtHlGPOA9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BE03Gu4TIeg1HIhNGtm7484AyBfZ+R6RAx8x94KaEp6hWnIWjFGUKk4qfM+KJlKH8gKbKHs2OYBM5ijdtmrCJJpyvzJUAlq0UnnSSecK08aPoKbz4f8cyUT7Z0/hDhXFPPL3OuT7HczqoEOGmjnoXJaf8tuFbBqCRgn1edN2/HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPNzAUNV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="EvnJ18aU"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-34abca71f9cso406077a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 09:09:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shenghaoyang.info; s=google; t=1768410593; x=1769015393; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S7mzYYJYLlSKoW+IZetZsbxI9tBQZKOvmgPmXcCAqdY=;
-        b=EvnJ18aUOj8QfcPfJ3/s1L7bK3/408J1P7VDM9KmmWQYvJTjvJnPm4YqTliIQtGvSq
-         wton5eObUlJ1S8iboCnS2l0R5pEF9coWuxbtOzQL6WAvANp20SmSESejFVLb25J2LrNO
-         0vdOAog4zgn4DEdwfmgU5/wTyAMSc7viT06AgV80csm66iSejYaIgmNFTobz1kxwUdmK
-         5DAaDQD9HOvee+2HxMapiuus2tJlVF57NZUta3Gdv2Eds0qDGLXrm16y5uP1CHiCcyU2
-         ortQd9+t1bEDQbezoIjwYDFoh3VSZUUuwgaVUm54SmEIhOdDGtR3/82Qcyd7kwP+spcg
-         zADw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768410593; x=1769015393;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S7mzYYJYLlSKoW+IZetZsbxI9tBQZKOvmgPmXcCAqdY=;
-        b=BsyCFM+yG54MDEnlql6E+mjd7fvHWjdcX0CSYvLN7iBe08E5CiIUNzmqkn591EeWwp
-         wh70i4sQ/1Rg67s3kJJrqWXPVANSzILZZZD+Ugse2ZZLij8sy/aryd5jSTDWjdNl49oJ
-         qCN19n2o9VetcZt+euARIJmtwzOpxt72OaV6plF2rSe+x3dvj6lO1RF5FcmXS6llwuED
-         IAcqXe35XqKTL3YwPyTzjlmgmhgKxNPCDbxfruXIt3qA286TKlqmL8umOe0dMBApdUBu
-         fndTU0YUMmk7gkT48eLUf6A4SZc35S4oNqzYaDl8rVRLCupLlUMXu7YlRIqxHjYydJwH
-         m45A==
-X-Forwarded-Encrypted: i=1; AJvYcCVoWcs/6AXYJ0GryGtFFClktxaFRKlLUZpEmZXlEEPKoxzSGVhOjgSWQPwvkEWhPECkZ9a5VFneLxM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU3VPwjVhdjVM57CzzSW/VQBQfaliOKKlDWuvsaulkeYoZGZRd
-	bsPdgguhHESJAZ73ks7SkVTA5pOkGacWRXuvlIDP5ik2iPaJ5hXes7VAP4e/AVEM6tQ=
-X-Gm-Gg: AY/fxX5YsDEjhqSD09/xK+84Ll/QpanJGw2mjYZkibceawWLFO2iqijFUOGo+MYOmPQ
-	n23AL+dlYzJ+NBtChO2fpM0xNSKCNl+D+Wzf/aiXHb6kJGbR37C5qLS9vIk+xr1bXbQax7apCWb
-	yxXmXZE/2Dskz8KzDIkLuNPkddxWDUDpG9BQtj2oZG9M3J6VkiOF7Fcl4MbrDk5WlmswkMTUQdp
-	AqibuJZjf+f0xoHLgNn0ArktJEY8pTigqb9UH4Bjzw7R2dXp6RaTqrzUYp48jomywuA5VqCuHYl
-	VspfCQQVU8c+w/Rn4lYexZpIxv++QWRlub9+xBncz5n7D0QD+BKvZm2Jl4hGHJg2b0x4JXxUtLs
-	6TZBv5cgZyt7U/9LJsLyEI0aNknj+z1FppSwaxmv5G8JCveUl6CSi69aJGi76zxFKPZTEPEWc2V
-	bE8q7j97nj0lEb
-X-Received: by 2002:a17:90a:fc4c:b0:34f:4416:33b5 with SMTP id 98e67ed59e1d1-3510918d67bmr2365054a91.8.1768410593040;
-        Wed, 14 Jan 2026 09:09:53 -0800 (PST)
-Received: from [10.0.0.178] ([132.147.84.99])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3510691b655sm1211536a91.2.2026.01.14.09.09.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 09:09:52 -0800 (PST)
-Message-ID: <b5d54942-f280-40ab-b445-00b6dc610a8e@shenghaoyang.info>
-Date: Thu, 15 Jan 2026 01:09:40 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPNzAUNV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D171AC4CEF7;
+	Wed, 14 Jan 2026 17:27:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768411679;
+	bh=MKErPubq+4dytiNTQQKxbBYuZq0PRZbULHtHlGPOA9U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NPNzAUNVJjw7ci4jNIO2uMrDaRZ+xEVkHOjM5IQaB+UAc/c442sRxq+JFqShLlNHu
+	 XfqXYF3w43bN21mG+uwwl5Iy8UmeqdAF6OK+8BA3dJRHuc3qxpeZ7sISIDpad07B+b
+	 jv0O9lGX3cAw6lWQMYieUSLvbvMcZ62jwgH84qc3c3mRz2fGAgBep8rPfPeqZAy0jo
+	 2dfXmVozyUzfknjXc8Ivt7BoXalm2KIXNSEnqIHuiqB0zUpwqgkgpaDN17ovsedGUq
+	 yYEBZ8Lc+y9wmjLpRmdkKVnH4HYJqOsm4rroiYmT2UWZVGLhiIVe2pKwFyE4zUS7iv
+	 BdEdk1L1lKyHw==
+Date: Wed, 14 Jan 2026 17:27:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Fuad Tabba <tabba@google.com>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v9 23/30] KVM: arm64: Context switch SME state for guests
+Message-ID: <5a053bb6-5052-4664-b0cb-f05d56d4679d@sirena.org.uk>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+ <20251223-kvm-arm64-sme-v9-23-8be3867cb883@kernel.org>
+ <CA+EHjTyYcrWwBR0AwwdWFfOSwbmTMOhSee7y_-vrMfOxphrvqw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] x86/acpi: Add acpi=spcr to use SPCR-provided default
- console
-To: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org
-References: <20251228092222.130954-1-me@shenghaoyang.info>
- <20260114154656.GDaWe6cFCruAGbJbhe@fat_crate.local>
-Content-Language: en-US
-From: Shenghao Yang <me@shenghaoyang.info>
-In-Reply-To: <20260114154656.GDaWe6cFCruAGbJbhe@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5VzuVXkE42Zf47rW"
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTyYcrWwBR0AwwdWFfOSwbmTMOhSee7y_-vrMfOxphrvqw@mail.gmail.com>
+X-Cookie: Absence makes the heart grow frantic.
 
-Hi,
 
-On 14/1/26 23:46, Borislav Petkov wrote:
-> On Sun, Dec 28, 2025 at 05:22:22PM +0800, Shenghao Yang wrote:
->> Commit 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86")
->> made SPCR available as an earlycon option on x86 but did not add
->> it as a preferred console to avoid breaking existing setups -
-> 
-> No one has noticed AFAICT since 2018 (this commit's date).
-> 
-> Also:
-> 
->         /* Do not enable ACPI SPCR console by default */
->         acpi_parse_spcr(earlycon_acpi_spcr_enable, false);
-> 
-> Looks nicely conservative to me.
-> 
+--5VzuVXkE42Zf47rW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for taking a look.
+On Tue, Jan 13, 2026 at 02:24:56PM +0000, Fuad Tabba wrote:
+> On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
 
->> users have to round trip the dumped console options
->> ("SPCR: console: uart,io,0x3f8,115200") back via their
->> bootloader.
-> 
-> I don't know what that means.
+> > +#define sme_cond_update_smcr_vq(val, reg)                      \
+> > +       do {                                                    \
+> > +               u64 __smcr = read_sysreg_s((reg));              \
+> > +               u64 __new = __smcr & ~SMCR_ELx_LEN_MASK;        \
+> > +               __new |= (val) & SMCR_ELx_LEN_MASK;             \
 
-The kernel decodes the SPCR table and dumps the settings to use
-the firmware preferred console in the kernel log:
+> Similar to what I pointed out in patch 15 [1], I think you need to
+> preserve the other bits, since SMCR isn't just about the length.
 
-[    0.005091] ACPI: SPCR 0x000000007FFB5000 000059 (v04 ALASKA A M I    01072009 INTL 20250404)
-[    0.073387] ACPI: SPCR: console: uart,io,0x3f8,115200
+This does preserve the existing bits?  It reads SMCR, masks out and then
+replaces the length.
 
-We've been inserting the dumped config into the kernel command 
-line and rebooting on first boot (e.g. console=uart,io,0x3f8,115200),
-but would love to avoid this loop.
+--5VzuVXkE42Zf47rW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
->> Let users opt in so serial console configuration can be made
->> automatic.
-> 
-> Why?
+-----BEGIN PGP SIGNATURE-----
 
-It's easier this way for larger fleets - we don't want to manage
-hardware specific serial console settings on the kernel command line
-if the firmware is already capable of telling us the correct ones.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmln0hgACgkQJNaLcl1U
+h9BMEAf/RF9rOJl8ekbOzDRQR11JDX39xOnp1XjKNL/LwADVFknoshEFGbwNHbg7
+57daW1rnmcC+bbYUI884dlgzpo1QO8eu4Ln3iZDbBO3RiskXsxPq0/Aw9YPMpukh
+389uJu/fYy9Ag03Cgwp1Gcp7bMqs3eDrjnW6q4Rdaqc6tzECGGKLYT25uZjD9qdu
+n5jJy4QwQfmTpm1eH93FgHCkiW5PHP8wUv+dYDQ02i/Bg1ZOuiOeiof+YcAfZoxn
+okZ9Seieeb/x/OD9CYTtepifFAelR40y3pF8VLhESbkMzGiy7v6SmiCWhPvFhNkF
+uyOxnmGui2Xy46sOprB2XcG91p5l5g==
+=e2HB
+-----END PGP SIGNATURE-----
 
-> 
-> Text says:
-> 
-> 	[X86] When used with no options the early console is
-> 	determined by the ACPI SPCR table.
-> 
-> But the code doesn't enable the SPCR console by default.
-
-If earlycon is specified on the command line the console from SPCR
-is used, but only as a boot console. It's not present in
-/proc/consoles.
-
-It is possible to retain it with keep_bootcon, but that uses the
-less efficient (in the 8250 case) 8250_early driver.
-
-> 
-> I have no clue what this patch is trying to do.
-> 
-
-In 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86") the SPCR
-console is only added as an option for earlycon but not as an ordinary
-console so users don't see console output changes.  
-
-The patch adds an opt in so we can get the SPCR console added as
-an ordinary console.
-
-Thanks,
-
-Shenghao
+--5VzuVXkE42Zf47rW--
