@@ -1,78 +1,80 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6153B5304
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E03AEF2C
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428756; cv=none; b=u0jc0E2P86WyPtJAUGZdxomkjBL+/hl+ddjlOhRVNaBG2sAUfdG+O9KpkPqh0jfMrrAcKRemgLdeAMFXruohbuQKl0hcfaUzJiU+73OaisFVZvCFEhOJE8jLI4pC2M0dhto3z0dFnRG2ZHwqK7AEgo+ZEp0eeRiu/iCWc5h3h2g=
+	t=1768428759; cv=none; b=A+nCl0afP/oAbEQvBCVpormazaCtrFmzlhXurwbiTvInIEtT+URwNRrhOAolmSLwi5qQRvWaeIYN4Tw3c1bzUzn4J5ovIZ+4krYNLJSThQpEEHR4zNqqMArLUGOcbiUOd/M9maSgihDc8A89X+ZR6Ta+qHx97c66cmoL7tp5Ytw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428756; c=relaxed/simple;
-	bh=HcuqsBAtZvOWyIs4Xt0uhzuCiOOW+T+QxtanzaAEL14=;
+	s=arc-20240116; t=1768428759; c=relaxed/simple;
+	bh=v/6ny77OEhOTDZTQ79j46inEoAHozIzSVLV54SqB5XU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P8tCYNFTYlfK5yDe5uGWkvTUdnyYLuGFH5xHztQgII6bwlHFin2SJD0gstEGMRQYLJqGXwkkKe6UAO/f+hjxvDQT9do39q2jfAHLg0Jp5zXUk6dPLcqP9VHr+PfhOpy+4xw0BsF8xkabLkIczne2UES6Zoro23mAeZL9A7C9irs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=perenite.com; spf=pass smtp.mailfrom=perenite.com; dkim=pass (2048-bit key) header.d=perenite-com.20230601.gappssmtp.com header.i=@perenite-com.20230601.gappssmtp.com header.b=JvK+Vr+B; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=perenite.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perenite.com
+	 MIME-Version; b=vD7IE6GOExCjf1OlXp1vjfN9OIYN10guBm7qLP52MwBTvX3bG7tfLM7+TRuazNpclbWN5DVBNC5j6L9DwYUtOak6HQPdcgoI8B1sGj7KDYPRlw1pI3+CYhKuoNK7tA1X5TBspRLpswdxCz3Ejpk0010kvI0GCqmKWX42lv378hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ddWWI+FR; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=perenite-com.20230601.gappssmtp.com header.i=@perenite-com.20230601.gappssmtp.com header.b="JvK+Vr+B"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47f3b7ef761so1689735e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:12:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ddWWI+FR"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5018ec2ae21so2795021cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=perenite-com.20230601.gappssmtp.com; s=20230601; t=1768428738; x=1769033538; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768428743; x=1769033543; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B9JJU809fV3hatrHlPxX8QZ9hS3VlNGwjApCyrU92DA=;
-        b=JvK+Vr+BbahaQVDnNmy06A3QitSf6QvFTk92pcdPV5x1VMLpV+X934MoHhJCi1HU9R
-         yBL9TDz9HocPqBzBex7RkkZyqw0Zeb3hrAStbYr+JONNWRX85quTtsddiSalx3MShbES
-         Aw1prFRcl9AvRGNumHe26IvI04Ch5mJHexL12NkOxeB7JLibL+ED1vcBR1ZxDrc0D5RN
-         r8HDDm3BiVgQeIFxxMRP0SzeApf1HKzYt7KIPCZqUyOaXWjTaRfTepUnievVM1kcmuxO
-         hTv5h7fm2s2NHNTKtIVpHyvpJwoQJBA09nrDU4XcYXIbs+fomudMhTOA4yHXOHvhvH+U
-         67Eg==
+        bh=ckc2PkyYWXkN9ubnJOQKa6sgkDYo191+Pf3SF4+RdaY=;
+        b=ddWWI+FRLumCuusgHg2nvzmSWJc0Ve1vPjN0qxW3mKB7ybPluQdol7T3MJfDcaW840
+         woR2r49G1wj9G31aWOSJptkBrwK5yQYUUWort0yJMvFhc/eCEfv3tvIGBv1BFkACMkOt
+         k/7Z03hf5gKEn9FPVZ58A/PM4/xQ4vSZHtGzS0iInqeZP1ypwBUJ9XYby7Lprs1gXkCD
+         9DhW9BUFb3+5iWGkVHx7MvOzySCwUNXuSIq5Y+xraCVPkYooFcBqV09c97aPqYY5VMbN
+         K24M39GB9uTFdiYO2lx/wA6VfiNWIEupMYhnCT8UkuSeT0dhtFZAlDx6qxzwcRlsLcIW
+         2seg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768428738; x=1769033538;
+        d=1e100.net; s=20230601; t=1768428743; x=1769033543;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=B9JJU809fV3hatrHlPxX8QZ9hS3VlNGwjApCyrU92DA=;
-        b=Xvoz9SBGJfSFtkjt9ZBDgx5I0zB5tLVmc/DTK4WtLopP06E5w87+wCNmT93iSLXc6w
-         aXua5J7e93hVasrZZO3bYH1lYRFF7DDy2Glb3FylqIgvqw7xQyDDdBfTrDV/Sk31DBnt
-         0s0Ako9xPa3bSsN2DAemQU2g/kZg8HWifl1UM0Cta29tKJnNVp7bCMnKn6eavbdBl7aO
-         9gl+9EynP98FRKD5hgTpgWp5mztUOfodgoohamOzcH9mGJ+AuSsFI6VFDCzoMl1FPogR
-         2TNv3a76mk8xaIHtWZvTbtFVqXe5Kt9h8/xdUkVUOevIaA6qr3spcDg5NT1TtSsJ6jWB
-         bQYg==
-X-Forwarded-Encrypted: i=1; AJvYcCWypZH9/P231KPhc8a/ucJ64VOMjCqSjY1ySw00cHSCngqfwEUzWO0VHzQ59kqNdfXZ+dYkjzVXbpA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxdB75gpPTf7UMzSoEuk5Y4xQR4x+8zd3MixWfuOidG8M0v37p
-	GLPpxqsBNwWQdmnaVXUPFegMKCd0mj6lkTbR/tlEc6dhbAJRnVXurgbyDPmponh9Pg==
-X-Gm-Gg: AY/fxX7kiV5kyr4v4aCArEB/vP/3g15x0cUqCWCtPj3kMfr3yYktYk3/9ehdjh0eQZi
-	riTTq4Umr7N6o94ZTVHE3b+8LD19/VaMaqzBSNl9cnhvCVAPVG6GGraaFXeavQ5Q+dCdtKSrMfM
-	SYUq/H1jTBxUaECQiCC31CxLjmWh2M8hW0FPc95UY7sjWtt/Dliy1XVJm4UxOsKNgblYwDkDgWU
-	gloyb4fHZtjVXY8xbrgDlQdynyH7mun+hE+jUm/RWwbvXOJO/yBcGCrrgHdcJ/N+vf8d2JBfYH1
-	ieWZDA4HH78D6UjhieCp33Y93m/pUgPN+LpY0cYMMzzfAr0wI0/seyURaej8hI4nd82S9x7CKlZ
-	EkDsKixSS4zwFDGcMTShTKVnQg94qFBzBl4tyhS8LRbwCIughBmqD8Yh2jbWzDr1OZbLCpDE9rw
-	iBKFeROrRmCVHGyfEKkgeeveLrjazCrOZHxJENrruU2xglTTT3qLRdPZoOkIFbxX0+ls5IWw30w
-	SViljsR8+BBMD4lMQ==
-X-Received: by 2002:a05:600c:a318:b0:47e:e952:86ca with SMTP id 5b1f17b1804b1-47ee9528812mr13358225e9.2.1768428737713;
-        Wed, 14 Jan 2026 14:12:17 -0800 (PST)
-Received: from localhost.localdomain (217-128-226-200.ftth.fr.orangecustomers.net. [217.128.226.200])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f941a670dsm3098195e9.5.2026.01.14.14.12.16
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Jan 2026 14:12:17 -0800 (PST)
-From: "benoit.masson" <yahoo@perenite.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
+        bh=ckc2PkyYWXkN9ubnJOQKa6sgkDYo191+Pf3SF4+RdaY=;
+        b=WFCLsrCEgX9575RkyBJtRKpX2ygDVM763WcrJueR7hrLYpWq6p8L/06yDppEqOSlTX
+         29Pm9yL8++4wx/OzMc0a49T2Az4goB0nrr1WfGPeq75Fjc7do2YrUH51UhUk4REqozM9
+         2IvxpBQtgmWzWBUPNrzla9t06HoT9tG1N4KHGnh9bD/YD982r8RNyEnF3uQpstOS4n5p
+         Rpe50Ld0G/xfEmK/Li9w929ifpZJkV2heYJ4yoTtpHKoAEiqKFnRPOpEbzOOQqA060uE
+         mwkYiiPTSs5SePKp0/WG1qz/txuDSV9VmYzobsjCr1lcRdndGNRy1Pf8XCwk8PJEFRjO
+         3jbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYPaJ14rk974+pkNlF6DGyfCe93eidHs016w+9bVlSoqdOUxOZyyFmBiS3luI6R/ayEKuUtOhEjzQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvONWdqxs4JsRUYgKDOzzoM0yGOmP7ZKOMBEPaFTezeIZvEoC3
+	BazDo3aZ7FHUih0IcyUIokknwl27457wnvf1bnlG85Zv8AFRAWq3OfYU
+X-Gm-Gg: AY/fxX5twuRCKVoMftZYan+rtOgP29IVfUFQjYFiURPFAI6HAz3EmTvBTweCgQmT6UU
+	b/82tndzzbWNCbXe70wGPwyXem1MGNN4CewHDMJqH8dg9sQdOUjqHGMgQMerMKPB+vy9rf1wwqP
+	A2CbwOlH22relxlA/hOq0gObDaY1lKqh9RvWa/Qcp96rpjVaB7Td1223MjVhSLr1pCycyfwY1QA
+	OdEr9fnrLa//CDX4L4TOqZEnwKVTGKz3Va0q8c/GoMfpc8YPlUlbp/vyebW+KLbOJnO9V33J1Up
+	XUJsyRWfxiT8xoU+jfvg6gS/BQONuD/I5D9NeReUbvZDKmMFABezepO+6icHLKcpRw+DIs6sSAy
+	5IxLSgsAkrAetEPSLiGOwDnMz7lPSNbJ14GUU95KexJ+ZNEPtt0GuqUqwkd1GN+5NAqib/8Ds5f
+	nhtV6Lq4heL05hc8dHl8OHeP98+4M3YWQtbdvfpXipUUonr9QXGvEeb7CRse+ajjVtGGGk0XM=
+X-Received: by 2002:a05:622a:ec2:b0:501:48c4:28dd with SMTP id d75a77b69052e-50148c42c2cmr38121401cf.72.1768428742964;
+        Wed, 14 Jan 2026 14:12:22 -0800 (PST)
+Received: from pc.mynetworksettings.com ([2600:4041:4491:2000:c1bc:6046:8762:e96])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50148dd766fsm21715341cf.7.2026.01.14.14.12.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 14:12:22 -0800 (PST)
+From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	corbet@lwn.net,
+	shuah@kernel.org
+Cc: mathieu.desnoyers@efficios.com,
 	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
+	linux-trace-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	"benoit.masson" <yahoo@perenite.com>
-Subject: [PATCH v4 4/5] hwmon: it87: add IT8613E identification
-Date: Wed, 14 Jan 2026 23:12:09 +0100
-Message-ID: <20260114221210.98071-5-yahoo@perenite.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260114221210.98071-1-yahoo@perenite.com>
-References: <20260114221210.98071-1-yahoo@perenite.com>
+	linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: [PATCH v5 0/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
+Date: Wed, 14 Jan 2026 17:12:16 -0500
+Message-ID: <20260114221219.127777-1-seokwoo.chung130@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
+References: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,64 +83,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Teach the Super I/O probe path to recognize IT8613E and advertise
-its model name in the supported device list.
+This series extends fprobe dynamic events to accept a comma-separated list of
+symbols and explicit/suffixes.
 
-Signed-off-by: benoit.masson <yahoo@perenite.com>
----
- drivers/hwmon/it87.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Currently, fprobe only supports a single symbol (or wildcard) per event. This
+series allow users to specify a comma-separated list of symbols, including
+exclusions, and to select entry/exit explicitly using /
 
-diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
-index 368ae68ace15..4453bf3e8ef4 100644
---- a/drivers/hwmon/it87.c
-+++ b/drivers/hwmon/it87.c
-@@ -35,6 +35,7 @@
-  *            IT8790E  Super I/O chip w/LPC interface
-  *            IT8792E  Super I/O chip w/LPC interface
-  *            IT87952E  Super I/O chip w/LPC interface
-+ *            IT8613E  Super I/O chip w/LPC interface
-  *            Sis950   A clone of the IT8705F
-  *
-  *  Copyright (C) 2001 Chris Gauthron
-@@ -64,7 +65,7 @@
- 
- enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
- 	     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
--	     it8792, it8603, it8620, it8622, it8628, it87952 };
-+	     it8792, it8603, it8613, it8620, it8622, it8628, it87952 };
- 
- static struct platform_device *it87_pdev[2];
- 
-@@ -158,6 +159,7 @@ static inline void superio_exit(int ioreg, bool noexit)
- #define IT8786E_DEVID 0x8786
- #define IT8790E_DEVID 0x8790
- #define IT8603E_DEVID 0x8603
-+#define IT8613E_DEVID 0x8613
- #define IT8620E_DEVID 0x8620
- #define IT8622E_DEVID 0x8622
- #define IT8623E_DEVID 0x8623
-@@ -547,6 +549,10 @@ static const struct it87_devices it87_devices[] = {
- 		.num_temp_map = 4,
- 		.peci_mask = 0x07,
- 	},
-+	[it8613] = {
-+		.name = "it8613",
-+		.model = "IT8613E",
-+	},
- 	[it8620] = {
- 		.name = "it8620",
- 		.model = "IT8620E",
-@@ -2988,6 +2994,9 @@ static int __init it87_find(int sioaddr, unsigned short *address,
- 	case IT8623E_DEVID:
- 		sio_data->type = it8603;
- 		break;
-+	case IT8613E_DEVID:
-+		sio_data->type = it8613;
-+		break;
- 	case IT8620E_DEVID:
- 		sio_data->type = it8620;
- 		break;
+Examples:
+- f:[GRP/][EVENT] func1,func2,func3
+- f:[GRP/][EVENT] func1,!func2,func3 (exclude with '!')
+
+Logic changes:
+- Refactor parsing logic into parse_fprobe_spec()
+- Support comma-separated lists and '!' exclusions
+- Add / suffixes for explicit entry/exit selection
+- Preserve legacy single-symbol behavior (single symbols still accept %return)
+- Disable BTF-based signature lookup when list/wildcard is used, since one
+  function signature cannot apply to multiple functions
+- Reject mixed legacy/new syntax where applicable (e.g. list + %return)
+- Update tracefs/README and fprobe documentation
+- Add ftrace selftests covering accepted list syntax cases
+
+*Patch order is adjusted: code first, then docs, then selftest
+
+Changes in v5:
+- Reordered patches (code->docs->selftests) as suggested
+- Addressed review feedback on README help text to show both legacy and list
+  syntaxes
+- Added missing traceprobe error IDs used by the new validation and fixed
+  parsing/bracing issues found by automated builds
+- Removed the dedicated list_mode field and infer list behavior from presence of
+  filter/nofilter and keep struct trace_probe as the last member
+- Link to v4: https://lore.kernel.org/linux-trace-kernel/20251127151218.4763b25c751bb2aac4b1ee36@kernel.org/
+
+I am not fully confident the runtime testing coverage that I did is sufficient
+across configs/architectures, so additional verification would be appreciated.
+
+Best regards,
+Ryan Chung
+
+Seokwoo Chung (Ryan) (3):
+  tracing/fprobe: Support comma-separated symbols and :entry/:exit
+  docs: tracing/fprobe: Document list filters and :entry/:exit
+  selftests/ftrace: Add accept cases for fprobe list syntax
+
+ Documentation/trace/fprobetrace.rst           | 18 +++++--
+ kernel/trace/trace.c                          |  4 +-
+ kernel/trace/trace_fprobe.c                   | 49 ++++++++++---------
+ kernel/trace/trace_probe.h                    |  2 +
+ .../ftrace/test.d/dynevent/fprobe_list.tc     |  2 +-
+ 5 files changed, 47 insertions(+), 28 deletions(-)
+
+
+base-commit: f0c13b210e4366e03bd9e8967347b06b227e20a4
 -- 
-2.50.1 (Apple Git-155)
+2.43.0
 
