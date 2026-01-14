@@ -1,127 +1,148 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C56B3876CB
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 23:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F2438A9B9
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 23:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768432777; cv=none; b=R8Ab7uYX/rGT9ulbp0LbxdMS+uYQ7pbkijg2XYsrQ+QQphFPQjMtMmh4kkpOfnF5/vcnDnJ/+5owsl+Ky5WotYSTcM/YtpRSquvjI8wBEkDBb2wAvAm7XY/9BEZF4KqOmPzUA4f5ExIC0ninvKG46Vj8RKyaLSDVBqmQ1F5q9rg=
+	t=1768432779; cv=none; b=Ij8SJOIHCHUW2y17yn/xPd+IKPAAz+hxN1wqQNrQ9RHgXVa+1unptc37a6Qea0eUyFLSA3R2WyGs+nZ+MmoDTruAA5Dq0i3BV7D+lcxRY5Z+HmddJZgLOTT8oLh01xWPUz2Ob+AFUd1OCCtB8+3KV70bUHcb/n/oQT5/t0hka74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768432777; c=relaxed/simple;
-	bh=g9R/DgoDWl6EF5D3q8DzkV6XBEbhurMxaGpLqhJaO2g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qcfSSNwAAScINdmiaUyFxWDd3ZNFWHRMBBoqfPx+b9TBymn9gur/iz5KOlsX3gx2KoU70g2Q3tabwakSVDhe3r+WeQRhOcYG82VAse0xdiNFrWOi8RjOFxQ3WXwpELlr3sFKbmVyP5CrQA0/qvh5SHMQhWY1mr6ADKTg/vejRZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=06E9X8Db; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	s=arc-20240116; t=1768432779; c=relaxed/simple;
+	bh=EHMwJPD2Vt6csWKDxVM2bpGH+6rPVOBI0T+ZdejS8PM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jlfzUqbe1wrrcQNW7VZhiwhbWi/Azf1EFh7D5cSEyEm5YeHAF+ENTPWj4ixfOHAhDsgdJTQA8t1xOULa0LxTh+evBngvNDoMrkYcVN5VG8WgBDf7yWsvTUSbMVOH9XUhgbSxkFDWlfK9hsiBhkgoSDAHfGGUzWQh53DFp3RuuX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ObRw2eHM; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="06E9X8Db"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a0d67f1877so2369815ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 15:19:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ObRw2eHM"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2b05fe2bf14so767985eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 15:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768432763; x=1769037563; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kaSWKwxLaghni7N9hjcOEG+LzgsthN0XWKW1He+SYHg=;
-        b=06E9X8DbDizq7HZjDrz3eH+WNaCfytp50w6SeXd5h1DnyTv24T1pO39A5//oEqud53
-         Q77qvAX7eFz1dxddDuvHqkpSZdQCePXx6padmaWdPABpG1EAD4ILzGWby3wjK+ZtNWXX
-         VwQml3srcYfu9h6RX4iKcMLJPhweBkhtwnD2gXb6gRzFT8aukOOzFp49eWwzcjLkQEns
-         3HdsZuMQw1idiWZI/qKI9lZ19ixCH/4PdxK0GW8d1ch/CssAVJcPb/y3dN0Z1F1vAfie
-         duWJADyVv3RI+8kwy0eaXgALEYM6GbIz+fW8rNv0Ye2QlotYyDGm2OuBZuCW+b3zbFV+
-         h9/g==
+        d=gmail.com; s=20230601; t=1768432767; x=1769037567; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WIEMUdHe6tYyV62gaPFR8QpHnKQnU3PaCpWSzsgNDe8=;
+        b=ObRw2eHM50a9vlVG7ZfGVerwDmdjkLfI0hzjYRcpsRSz4XhLJZHTA7Kx8Rc25vfzwn
+         keaWbCGjo3oFCnl4driL2p5bC634nB8GUB1RMLUedaKHOQ02CHYhTLTLLK3TJqk3KKVL
+         1Xow/qYOrFAd1ixfRiIVETx2+JIV7gW+SeM3MckYQGy2Vy/knMEZtmy928NJtQGkE2um
+         rgRl078KuzWwjCXvBTZmuIs22h9pjokgj4ydFQAlTAfxjQH0Bc9014sDD3HjeiHKR+V+
+         FByLnc2Un2frbWopA2CROkcVxnK8PIdac7vQHDtUNhuHgdsA7MyDDINDL/KM8dNJnrL8
+         WwlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768432763; x=1769037563;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kaSWKwxLaghni7N9hjcOEG+LzgsthN0XWKW1He+SYHg=;
-        b=RGkftQKs3BI/We8I5xWC6oOVwNSVBab2EKChkb2xWK4+jh/QulStNEaZlFbba3jFxr
-         HsMhFVFTMbHPE/Uj9X2BokzsczcNoQlDs6u8QpQParQ5UiFWCR909Hb1fcAZove1bysM
-         4xGk6YvrKPRDcb9UPZxvz2nsreEr36TC6cxE79Bf6cqoagFhdQSVbZu0H6l60evH+fw3
-         U648SXlNqty188DNuWrHWiGy8/2lmM3vIb6EId3liZEe5TZB52JSWbvgq761Z1SfAtzj
-         8dIwAat7gBpaz5IaLxlrwyLqdBrTrepumxVIS97HDNaEG5dHdiad0dyRq2hVaM7MYW0T
-         YQsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpT43+LyfXBECNr2rSVRasvqfQ+sNED+kqafTceZruZUdM2f+fS5apgl1DgNaO6H4vJeiJWTNbXTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzG4KMRFpwIpI4ad6Sw59HsIGvJkbKx2UeKF60kGfZut012TDe2
-	ccn0SWxeMbYGjyOC23xeE1yGPpTcEC72K+bP/PF+om+dz57PsORq/uBS5ho0QB/wxu4=
-X-Gm-Gg: AY/fxX77WjMSCQPJFk86Yzto3bLrTmlJGz+icYh/4XwIdF2jc/NpsIonfmR3Q4GnqgP
-	INr7XsvUqpjyycVRJtzQCMVr8mkezB0tzgQvOkgpMC91S+nsQ4ESAR1AwwUcMU2b6qGJqt4LmVf
-	6OHqZImLTGj5Ftenbg6tHSaWUTWkwLrOUCskJ8/Lienw7OsYpVoSdR/UJ5kOG/Crf3G9GHfyKgh
-	5/JE0ZYVXtMumILqHpw81SqHqaiqw45gSmueducsm8kZ/J0JOWHl/ma3qyM6Z7wrT47PwL1BSCB
-	dAYhroe1UHTvjFRAWouJHcj58bH8Bmi9LwAFTLaWE4e3GmMXJ+SLp5WM8lvOhl7NUlZeRdJ6exZ
-	u0G6hUYcCWPEeWZh800t7vGQ0fVhqr52LlsPeVLl36ucDqqDW/5JJ+6QG4wLTJJf+kE5yKbpihZ
-	aP2lLz1CLJAHwuinMLLaPOGHo8KG7+3vNpAaSNzoxnw+XKocBVGVJVTA==
-X-Received: by 2002:a17:902:fc8e:b0:297:f09a:51cd with SMTP id d9443c01a7336-2a599daf6afmr44260145ad.14.1768432762876;
-        Wed, 14 Jan 2026 15:19:22 -0800 (PST)
-Received: from [127.0.1.1] ([45.8.220.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d6csm238591755ad.64.2026.01.14.15.19.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 15:19:22 -0800 (PST)
-From: Guodong Xu <guodong@riscstar.com>
-Date: Thu, 15 Jan 2026 07:18:58 +0800
-Subject: [PATCH v2 2/4] riscv: dts: anlogic: dr1v90: Add "b" ISA extension
+        d=1e100.net; s=20230601; t=1768432767; x=1769037567;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WIEMUdHe6tYyV62gaPFR8QpHnKQnU3PaCpWSzsgNDe8=;
+        b=ip6dUzREoogmoSqg8JxI1drZn6bqR2wmMTqh4svZAPCQMle7ouOpRPAtNjG0YmB9wi
+         FqcURhvJSLm4XkvGOoBGoN/k21YtXiMT7Xx5f/t0YzVzL9QxtxNFJEUn5PZEsmFXJyA6
+         2aOeLZUsb9DiRRi8bet4ZlXejtYo3NSJiLVbEcdDgPn5DN5OV7khA+EJMrUHo9U9YGjK
+         +lhlCCmidfLvXcmgwTtu3uXHZUF3HgYjkUEoN90NkoFE+eHEj4NgwW7PFnSv1TvfhYOg
+         dx+e0Z2q3/Fn5B/uLaQIWwf0QCTjGWi9oKgRdR8YqpFyI+VGFPfwFMX3uTYe1+dyspZ2
+         qOFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxHHEGovvWjWvTqv6/5g9BGLyLjNT8YdrT7fEcpUB57F+wJGwOMgZGHHcs1HAcuLJsbO9irOcOm/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEEEyFIYv85v36NAJjEr4FDaO2goMGA6tqLo9esIMR+NAP8Nmk
+	zPyWGD/R961GbgpTupK1XzhpSKv27g+O8LswFImIMjaV6kgOKycUvUX5
+X-Gm-Gg: AY/fxX7NssmSoUBt1plFaxjdf9QIcO8tX81F763FXtKn+xIt1CRDkzZN8tu2dnuhIUz
+	ye7sMCPELRsb3MFCAb8caZ3z2gkg2UE6/Q95lH5szFbhTXb69ioRW3xF+qkOoSptDO4P0hdnI6r
+	wgAqrr0Rg1g6LwyKFHeti3Zrn6sFJuxnfVXMRzAZHR1ZjV5/9oQhN97+7GOi899CSuoQunrF3YY
+	taWMbhy6K+hdYt8Z/I4qtxM5j63pH1EWAKmeA6OrZrYwvjmLfcYD5Kt6EiE1+itVUCJxkfVUY4T
+	42HOPn3QO4lb1CyST7gEAKL6KrmYprSJIiPnjdrRe0jgmvCuqJXJtEjTBNuY6SCF1T04PB+mr8m
+	oM/L5j5MvBMIaZz9aHue6dFjEOiBumdBXbzZ/5ZukfpL5pkZ47jej2dHKwVpTbcGsdoB8A//ZUC
+	qm8Kw/90DEg+E5l+KbhxP5WQ5EmCBwkglffiTtUVSss7MD7EeaABvjy00=
+X-Received: by 2002:a05:6871:7817:b0:3e0:9188:8f10 with SMTP id 586e51a60fabf-40406c5d030mr2965148fac.0.1768427121522;
+        Wed, 14 Jan 2026 13:45:21 -0800 (PST)
+Received: from localhost.localdomain ([2603:8080:1500:3d89:4c85:2962:e438:72c4])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3ffa4de55ffsm17644773fac.2.2026.01.14.13.45.19
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 14 Jan 2026 13:45:21 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+From: John Groves <John@Groves.net>
+X-Google-Original-From: John Groves <john@groves.net>
+To: John Groves <John@Groves.net>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	James Morse <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	venkataravis@micron.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH V2 0/2] ndctl: Add daxctl support for the new "famfs" mode of devdax
+Date: Wed, 14 Jan 2026 15:45:17 -0600
+Message-ID: <20260114214519.29999-1-john@groves.net>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260114153133.29420.compound@groves.net>
+References: <20260114153133.29420.compound@groves.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260115-adding-b-dtsi-v2-2-254dd61cf947@riscstar.com>
-References: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
-In-Reply-To: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
-To: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Conor Dooley <conor.dooley@microchip.com>, 
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
- Yixun Lan <dlan@gentoo.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, sophgo@lists.linux.dev, 
- spacemit@lists.linux.dev, Guodong Xu <guodong@riscstar.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-"b" is ratified (Apr/2024) much later than its components zba/zbb/zbs
-(Jun/2021). With "b" added into riscv/extensions.yaml, a dependency
-checking rule is now enforced, which requires that when zba, zbb, and zbs
-are all specified, "b" must be added as well. Failing to do this will
-cause dtbs_check schema check warnings.
+No change since V1 - reposting as v2 to keep this with the related
+kernel (dax and fuse) patches and libfuse patches.
 
-According to uabi.rst, as a single-letter extension, "b" should be added
-after "c" in canonical order.
+This short series adds support and tests to daxctl for famfs[1]. The
+famfs kernel patch series, under the same "compound cover" as this
+series, adds a new 'fsdev_dax' driver for devdax. When that driver
+is bound (instead of device_dax), the device is in 'famfs' mode rather
+than 'devdax' mode.
 
-Update dr1v90.dtsi to conform to this rule. Line balancing is performed
-to improve readability.
+References
 
-Signed-off-by: Guodong Xu <guodong@riscstar.com>
----
-v2: New patch, a split from the Patch 2 in v1. This patch is for
-    Anlogic dr1v90.
----
- arch/riscv/boot/dts/anlogic/dr1v90.dtsi | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+[1] - https://famfs.org
 
-diff --git a/arch/riscv/boot/dts/anlogic/dr1v90.dtsi b/arch/riscv/boot/dts/anlogic/dr1v90.dtsi
-index a5d0765ade32..9fe183f5f5c8 100644
---- a/arch/riscv/boot/dts/anlogic/dr1v90.dtsi
-+++ b/arch/riscv/boot/dts/anlogic/dr1v90.dtsi
-@@ -27,8 +27,9 @@ cpu@0 {
- 			mmu-type = "riscv,sv39";
- 			reg = <0>;
- 			riscv,isa-base = "rv64i";
--			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zba", "zbb", "zbc",
--					       "zbkc", "zbs", "zicntr", "zicsr", "zifencei",
-+			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "b",
-+					       "zba", "zbb", "zbc", "zbkc", "zbs",
-+					       "zicntr", "zicsr", "zifencei",
- 					       "zihintpause", "zihpm";
- 
- 			cpu0_intc: interrupt-controller {
 
+John Groves (2):
+  daxctl: Add support for famfs mode
+  Add test/daxctl-famfs.sh to test famfs mode transitions:
+
+ daxctl/device.c                | 126 ++++++++++++++--
+ daxctl/json.c                  |   6 +-
+ daxctl/lib/libdaxctl-private.h |   2 +
+ daxctl/lib/libdaxctl.c         |  77 ++++++++++
+ daxctl/lib/libdaxctl.sym       |   7 +
+ daxctl/libdaxctl.h             |   3 +
+ test/daxctl-famfs.sh           | 253 +++++++++++++++++++++++++++++++++
+ test/meson.build               |   2 +
+ 8 files changed, 465 insertions(+), 11 deletions(-)
+ create mode 100755 test/daxctl-famfs.sh
+
+
+base-commit: 4f7a1c63b3305c97013d3c46daa6c0f76feff10d
 -- 
-2.43.0
+2.49.0
 
