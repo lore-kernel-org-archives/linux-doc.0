@@ -1,214 +1,172 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E690296BB7;
-	Wed, 14 Jan 2026 18:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BEB33BBAB;
+	Wed, 14 Jan 2026 19:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768416859; cv=none; b=IDWnya2O73Kwmlhf8SlJz9TnoRihAsoRJGYMvR+5WapQVmO8cBoiXnaDqznyfp/9rbXUqk5vz9DaNGT3k9HjTgXq/osFum9+c79p6lfw5tAox0Gi7CKkAGSi+SCzSWHQ7JeKeLC45w09fl/3fu+TPqiIOa6mdr7Jj3L4MlT82oY=
+	t=1768417209; cv=none; b=Ea7NA9EO09ru40Lmup+g4zfg4fnp522wFcDSyFsMzMk2fHHIkosdhg/gia5isTwAE6zqokkSp420l0lJTyv5/fM9oV7ufqkgn0upuTkGzHaFiqsqukkq7esIJnEZNSad+yNaicV4O4Boog6KA+X1pOho1yIB4sKoreTQn4dAEW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768416859; c=relaxed/simple;
-	bh=u8GL/uWY78HFpYvyzZhlMf8LaZdNgYByZD4HjbNlCfI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uPbIaIjT3g5x8zUQqP34xyjum9AtSFl48+TjbKDlFqDzfbA4f3Xj/zN7mxovYgK+tpVQfXEhQcGmxTOlKvS+NvPq2DtHTrVnWd6ZRYoIAGZEojAYojOT0a5wPW2nfZX41OLOj0sPRjK8ZiEOLwokllwWfZyV2a3su4m/bxp8wyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Kr8yrggs; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768417209; c=relaxed/simple;
+	bh=Ea4+GFq3dvRVKBWLXL2dGpjC6QUsN/5CKbbkdtcSkAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JiU64dDY8/nfCPSd7N6j+A1zOOZlB1+ErXaCzqAbxo99EmNRTxRftnnf/VmwRbXfL1GN0iFu0uNaJGY2ONmmMktBV0KG1EyJIVMbsvgdHewGxbz4A0w9OwVR5NjfTqYApdFdOLtMAUzl85GwtTDtc/laKSahOlyy0aHnc7WYZHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A3zkJyOI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Kr8yrggs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=zcnIuWiSTIZZ0AACUI8rXLp5eXesHA5I/iZOlgjvMlE=; b=Kr8yrggslKb45qc/SMU7bLtOZc
-	a6T5AL0DkJtLc0OCBqC/g6HwDweR62qhUZxxhORr9CwZNktdGapst2q5mhiPHGB7dbbWv2BiJHjXl
-	hgSsok1QzcLKnrw4WYOMblinhb6RZlAz+7RBcEsnMYfxhB5I05Rm8Qr4seGQXFbhvj1qMwKcx/OKA
-	J2QPocAQIsQd14OoTLWOLzXP9cW3hWSWc19e5Mj2DZt4vvtWMEHhMx73rkY97IjDHWNa9DpxJ2K75
-	K/w4rfwnHP6J9x8r6omNzfDgqcGV41BCnSwenOZYkNLxmZDmnb/5Z/1qbtbT1jkrP+Aiigwpm6khl
-	LrNPOcHg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vg60K-0000000AOJo-1FEC;
-	Wed, 14 Jan 2026 18:54:04 +0000
-Message-ID: <d5ff6967-ddf4-42df-840e-d960f7fab257@infradead.org>
-Date: Wed, 14 Jan 2026 10:54:03 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A3zkJyOI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC8F8C4CEF7;
+	Wed, 14 Jan 2026 18:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768417208;
+	bh=Ea4+GFq3dvRVKBWLXL2dGpjC6QUsN/5CKbbkdtcSkAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=A3zkJyOIMhlgNA/h3KeOk3OevIOv/TNRnD9jwxfEpcT4iwUdK7IuStF/J4dAztaS2
+	 QxiG/782koAMadAkIagGwjkxXsaprOWjFRbvT9uiHPQCmYN+ISppQv31zLJ7cx6/tI
+	 vlDr+NkuUQznVfygHj1igc6to9U/6XHduqX+fNf+tkeAdyjo2Skd3vu3iRaRWSJwBI
+	 KsKMHuc/b9okeyVJ8ji42js4SGI8WGBHnUZNX80EUCFhdqSNsRwpKpFZtZWE2xesQ3
+	 RYisN7Fo16Hh+Fb4JXNRjk+iDzt9AJ6QSl7Nha3hD9wS1BPYDLxxTkWo1MAb4WLciX
+	 1Buo4VHDjDTFA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Chris Mason <clm@meta.com>,  Pratyush Yadav <pratyush@kernel.org>,
+  Pasha Tatashin <pasha.tatashin@soleen.com>,  jasonmiu@google.com,
+  graf@amazon.com,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
+  gregkh@linuxfoundation.org,  tglx@linutronix.de,  mingo@redhat.com,
+  bp@alien8.de,  dave.hansen@linux.intel.com,  x86@kernel.org,
+  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
+Subject: Re: [PATCH v8 14/18] mm: memfd_luo: allow preserving memfd
+In-Reply-To: <aWfLS48tG7XInpNN@kernel.org> (Mike Rapoport's message of "Wed,
+	14 Jan 2026 18:58:51 +0200")
+References: <20251125165850.3389713-15-pasha.tatashin@soleen.com>
+	<20260113140927.1074142-1-clm@meta.com> <aWfLS48tG7XInpNN@kernel.org>
+Date: Wed, 14 Jan 2026 18:59:56 +0000
+Message-ID: <2vxzikd4hvf7.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] accel/thames: Add driver for the C7x DSPs in TI
- SoCs
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
- "Andrew F. Davis" <afd@ti.com>, Randolph Sapp <rs@ti.com>,
- Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>,
- Chirag Shilwant <c-shilwant@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Robert Nelson <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
- <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+On Wed, Jan 14 2026, Mike Rapoport wrote:
 
+> On Tue, Jan 13, 2026 at 06:09:23AM -0800, Chris Mason wrote:
+>> On Tue, 25 Nov 2025 11:58:44 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+>> 
+>> Hi everyone,
+>> 
+>> I'm running the v6.19 mm commits through patch review automation, and this
+>> commit was flagged.  I don't know this code well, but it looks like it
+>> might be a real bug.
+>> 
+>> [AI review output below]
+>> 
+>> > diff --git a/mm/memfd_luo.c b/mm/memfd_luo.c
+>> > new file mode 100644
+>> > index 0000000000000..4f6ba63b43105
+>> > --- /dev/null
+>> > +++ b/mm/memfd_luo.c
+>> 
+>> [ ... ]
+>> 
+>> > +static int memfd_luo_retrieve_folios(struct file *file,
+>> > +				     struct memfd_luo_folio_ser *folios_ser,
+>> > +				     u64 nr_folios)
+>> > +{
+>> > +	struct inode *inode = file_inode(file);
+>> > +	struct address_space *mapping = inode->i_mapping;
+>> > +	struct folio *folio;
+>> > +	int err = -EIO;
+>> > +	long i;
+>> > +
+>> > +	for (i = 0; i < nr_folios; i++) {
+>> 
+>> [ ... ]
+>> 
+>> > +		err = shmem_add_to_page_cache(folio, mapping, index, NULL,
+>> > +					      mapping_gfp_mask(mapping));
+>> > +		if (err) {
+>> > +			pr_err("shmem: failed to add to page cache folio index %ld: %d\n",
+>> > +			       i, err);
+>> > +			goto unlock_folio;
+>> > +		}
+>> > +
+>> > +		if (flags & MEMFD_LUO_FOLIO_UPTODATE)
+>> > +			folio_mark_uptodate(folio);
+>> > +		if (flags & MEMFD_LUO_FOLIO_DIRTY)
+>> > +			folio_mark_dirty(folio);
+>> > +
+>> > +		err = shmem_inode_acct_blocks(inode, 1);
+>> > +		if (err) {
+>> > +			pr_err("shmem: failed to account folio index %ld: %d\n",
+>> > +			       i, err);
+>> > +			goto unlock_folio;
+>> > +		}
+>> 
+>> When shmem_inode_acct_blocks() fails here, the folio has already been
+>> added to the page cache by shmem_add_to_page_cache(). Should the folio be
+>> removed from the page cache before going to unlock_folio?
+>> 
+>> Looking at shmem_alloc_and_add_folio() in mm/shmem.c, when
+>> shmem_inode_acct_blocks() fails after the folio has been added, it calls
+>> filemap_remove_folio() to remove it:
+>> 
+>>     error = shmem_inode_acct_blocks(inode, pages);
+>>     if (error) {
+>>         ...
+>>         if (error) {
+>>             filemap_remove_folio(folio);
+>>             goto unlock;
+>>         }
+>>     }
+>> 
+>> Without this, the folio remains in the page cache (counted in
+>> mapping->nrpages) but info->alloced is not incremented (since
+>> shmem_recalc_inode is not called). This could cause shmem accounting
+>> inconsistency.
+>  
+> My understanding that if anything fails in memfd_luo_retrieve_folios() the
+> file is destroyed anyway and the accounting wouldn't matter.
+>
+> But to be on the safe side we should fix the error handling here.
+> @Pratyush, what do you say?
 
-On 1/14/26 12:46 AM, Tomeu Vizoso wrote:
-> Some SoCs from Texas Instruments contain DSPs that can be used for
-> general compute tasks.
-> 
-> This driver provides a drm/accel UABI to userspace for submitting jobs
-> to the DSP cores and managing the input, output and intermediate memory.
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->  Documentation/accel/thames/index.rst |  28 +++++
->  MAINTAINERS                          |   9 ++
->  drivers/accel/Kconfig                |   1 +
->  drivers/accel/Makefile               |   3 +-
->  drivers/accel/thames/Kconfig         |  26 +++++
->  drivers/accel/thames/Makefile        |   9 ++
->  drivers/accel/thames/thames_core.c   | 155 ++++++++++++++++++++++++++
->  drivers/accel/thames/thames_core.h   |  53 +++++++++
->  drivers/accel/thames/thames_device.c |  93 ++++++++++++++++
->  drivers/accel/thames/thames_device.h |  46 ++++++++
->  drivers/accel/thames/thames_drv.c    | 155 ++++++++++++++++++++++++++
->  drivers/accel/thames/thames_drv.h    |  21 ++++
->  drivers/accel/thames/thames_ipc.h    | 204 +++++++++++++++++++++++++++++++++++
->  drivers/accel/thames/thames_rpmsg.c  | 155 ++++++++++++++++++++++++++
->  drivers/accel/thames/thames_rpmsg.h  |  27 +++++
->  15 files changed, 984 insertions(+), 1 deletion(-)
-> 
+Yeah, I don't think the inode's alloced accounting is a real issue here
+since the file will be destroyed immediately after. This is why I didn't
+want to add the extra complexity of the error handling.
 
-> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-> index 1d3a7251b950f39e2ae600a2fc07a3ef7e41831e..8472989cbe22746f1e7292d2401fa0f7424a6c15 100644
-> --- a/drivers/accel/Makefile
-> +++ b/drivers/accel/Makefile
-> @@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
->  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
->  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
->  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
-> -obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> \ No newline at end of file
-> +obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> +obj-$(CONFIG_DRM_ACCEL_THAMES)		+= thames/
-> \ No newline at end of file
+But now that I think of it, perhaps the lingering unaccounted folio
+might cause an underflow in vm_committed_as. shmem_inode_acct_blocks()
+cleans up the vm_acct_memory() call in case of failure. But perhaps the
+iput() triggers an extra shmem_unacct_memory() because of the lingering
+folio.
 
-Please eliminate these warnings.
-
-
-> diff --git a/drivers/accel/thames/thames_ipc.h b/drivers/accel/thames/thames_ipc.h> new file mode 100644
-> index 0000000000000000000000000000000000000000..60297b4bc2ffd990315cb735a96a23429d390f43
-> --- /dev/null
-> +++ b/drivers/accel/thames/thames_ipc.h
-> @@ -0,0 +1,204 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/
-> + *
-> + * This header defines the RPMSG message structures exchanged between
-> + * the Linux kernel (host) and the C7x DSP (remote) firmware for the
-> + * Thames DRM/accel driver.
-> + */
-> +
-> +#ifndef _THAMES_IPC_H
-> +#define _THAMES_IPC_H
-> +
-> +#ifdef __KERNEL__
-> +#include <linux/types.h>
-> +#else
-> +#include <stdint.h>
-> +typedef uint8_t __u8;
-> +typedef uint16_t __u16;
-> +typedef uint32_t __u32;
-> +typedef uint64_t __u64;
-> +#endif
-> +
-> +#define THAMES_SERVICE_NAME "thames-service"
-> +
-> +/**
-> + * @THAMES_MSG_TYPE: Simplified message type enumeration
-> + */
-
-"/**" means "this is kernel-doc format", which should look like:
-
-/**
- * enum thames_msg_type - Simplified message type enumeration
- */
-
-and then each enum value should be documented as well.
-
-> +enum thames_msg_type {
-> +	/* --- Host (Kernel) -> Remote (DSP) --- */
-> +	THAMES_MSG_PING = 0x100, /* Ping message to test communication */
-> +	THAMES_MSG_CONTEXT_OP, /* Create/destroy context */
-> +	THAMES_MSG_BO_OP, /* Map/unmap buffer objects */
-> +	THAMES_MSG_SUBMIT_JOB, /* Submit job for execution */
-> +
-> +	/* --- Remote (DSP) -> Host (Kernel) --- */
-> +	THAMES_MSG_PING_RESPONSE = 0x200,
-> +	THAMES_MSG_CONTEXT_OP_RESPONSE,
-> +	THAMES_MSG_BO_OP_RESPONSE,
-> +	THAMES_MSG_SUBMIT_JOB_RESPONSE,
-> +};
-> +
-> +/**
-> + * @THAMES_CONTEXT_OP: Context operation types
-
- * enum thames_context_op - Context operations types
-
-> + */
-> +enum thames_context_op {
-> +	THAMES_CONTEXT_CREATE = 0,
-> +	THAMES_CONTEXT_DESTROY,
-> +};
-> +
-> +/**
-> + * @THAMES_BO_OP: Buffer Object operation types
-
- * enum thames_bo_op - Buffer Object operation types
-
-> + */
-> +enum thames_bo_op {
-> +	THAMES_BO_MAP = 0,
-> +	THAMES_BO_UNMAP,
-> +};
-> +
-> +/**
-> + * @THAMES_RESP_STATUS: Response status codes
-
- * enum thames_resp_status - Response status codes
-
-> + */
-> +enum thames_resp_status {
-> +	THAMES_RESP_SUCCESS = 0,
-> +	THAMES_RESP_ERR_GENERIC = 1,
-> +	THAMES_RESP_ERR_NOMEM = 2,
-> +	THAMES_RESP_ERR_INVAL = 3,
-> +	THAMES_RESP_ERR_NO_CTX = 4,
-> +	THAMES_RESP_ERR_MMU = 5,
-> +	THAMES_RESP_ERR_JOB_TIMEOUT = 6,
-> +};
-
-Or you could just use "/*" so that they aren't considered as
-kernel-doc.
-
+I am not 100% sure that can actually happen since the code is a bit
+complex. Let me check and get back to you.
 
 -- 
-~Randy
-
+Regards,
+Pratyush Yadav
