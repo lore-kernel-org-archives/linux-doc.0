@@ -1,66 +1,67 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971C52FC006
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 23:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22120389462
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 23:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768432752; cv=none; b=rw5X2YjnC6BXBchTUaSmcHb9iBIpozhOuHa3MGgfTCM2Aod2txenheoE2WkH3ieLd2SeVvKnlMFjoUle0tN4KdlY8Nl/mn7IPUW6NXXu0iJziCREjPk10ifcQ3W0EJ6T/4hqmKBlf7kZfMk1oCvlnYvyNsyNDK7o60ypRHpsAhE=
+	t=1768432759; cv=none; b=m6D6we9BIW2QkS6RfYepXMnExpa7dXOd8qKdW9DFKalry2afodUf8tikSDUP7DOm+x9Wgs49BDa4+tcnOl1rjp/P9DFa01PlBZFjEpjpPf+CVBcefRt3PIsIqDAGaSL3djBJEPdUUVjyLBX4VCLHILhaZUBDGGkYVAmC7jEoqcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768432752; c=relaxed/simple;
-	bh=dMRDUj67juJ+/SsYMp+tHnUQdNzJNprfUWQkHUrBcs0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VRDWLYzGdtwHozWylbhh1538mr25XBGqoByMlX86Wa0d3JTqOUR1FUxHXL+mZ4zBquDMoFFXK4imule1amvDP8dQdIFKW9Xi0p6gMEg3Xwr/UcoAWJ/eiATn2EYPgR0tLWeUPb15zqNFT2JE+R0ywSSna3K55RfwrSBnj2+bfXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=UcyrkykV; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1768432759; c=relaxed/simple;
+	bh=Z0/JjbecIj4mMFn/eww29bfEtMYsLkii0TunPLdkuaI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JG5T6L8WsR5w4gKS//xRYytxxVjeBO8QFl2iNpfYx5FuDnSj7toG6Ql1Ll8aBEPtd+SDxwe4ht2UgQm6m6ghaafS7csEBqYaWlWYYzADDuMm32M13z6bYZ2D3P4sI4trmF6mN4uvjlN0Q4S0WQyF0rGfTHyB4RVZbYusgkWNIoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=3L3Uarpv; arc=none smtp.client-ip=209.85.214.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="UcyrkykV"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a0c20ee83dso2152365ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 15:19:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="3L3Uarpv"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a0bb2f093aso1901115ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 15:19:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768432750; x=1769037550; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vDXoKIsP9kVNdS0qAjm217ovsIR/3ucrGnmc72Ajwto=;
-        b=UcyrkykVRXjiepdhiaU1Uq0futWg9K8uHnTqk/0bKi7c666VC+PDXWo7W3X04R34aE
-         EaebB4S7whMql8kHlMT1k4hjnc4hkGfe46Qdw7lK6siZzDv5tt/oMnoG6NJaoWXdcMiW
-         gYZ1M8pWpeLXtRWr1bBNMprGhszCFnThqUxtlzzCfPPf2YTgqARXRvDxWnlSwTItHG2a
-         M4PxGbaLzSc2naojGJPK2z91FEs+GpbrhVaJsxgacnqncQtNn9goiXQCGlW+J+KAq3P2
-         XoDXMT5JmBG+qZvty5Y5kyTIXuYd6pooV3qF/oONGXxewCVxzOV1UlcwoPKDOkg6xV+5
-         8Bsw==
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768432756; x=1769037556; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Nbmp2d0HgOyIl8jX1BIaQZ3qrfCn/EZHa3mK+NXd3sU=;
+        b=3L3UarpvnoSE1BCkAKka2b7aUvdBkeMooO4+u+QtHXxwmnHvbVYgbzKSIbb+IAxdp8
+         nhcs9SRu0SufhLwfZtRjwgFmk61McJd8l9WBe0GniszTEdtuwkztc8zOVgTDklHmdD78
+         s93vKB8GzW6F1mS1gAKmBj/FlFIQtAInVtZHU88I4C3bPAPA3DQ2WL6pM2euTs2GCwvD
+         6BdiYHEh3URw6UKogpHvfu3/3cJu0UuNc/eBGiy8KA78eJIFX1SzEJAylX500mfUtwfb
+         YmpGTWLZVROoYHls/XqsP5IzRpwEhsaTLeMhp4JDbU4RfB8Lilj023qni0sQWO4opkvI
+         XTwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768432750; x=1769037550;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vDXoKIsP9kVNdS0qAjm217ovsIR/3ucrGnmc72Ajwto=;
-        b=g2RlDR3Km47FIvYsGg4TmvFcMjouw/jSbhs8VbuDXQQ/ieg/igBMPtQNSggzS61m0T
-         t5iV2H5tXsjghiYTONKotWRlhr90qQL61cxttgIXL+Pob0Kt/gFcw+/OVrOE1riYu3xc
-         tz+C8NwNDoog48G/MEg9VmR8+Ehc+d0mUCyBkaZXFKKA484aW/dtAbkqoQ/mnHAl+rNT
-         4dY3FnlU+R0hLFsgoVbiXyuGra2YFmtJ0WnJgFiVMZ5odNAlCmxOm6fphBXgOVWj9NZE
-         hNlx1SnJPcyGXTWkeQPVqLj3SuMXeR58oCglNWgK5Vh2YUKg8oGOT+qC3rVrVC50aikv
-         19qw==
-X-Forwarded-Encrypted: i=1; AJvYcCURF8dGzv+TaMp3nYEF9hUtI57njAqUiKciKPaFYVEIzUe+QTjZvVppUwGk90XniOgCSM6Y0nIEHho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpZ7hpbfntqWm4aSvgEauLIgmeZeh7wY6YYgQwkEaKhodSwQA+
-	21jDdOkNq4Xv8ogaofGYQDHgh/tetNfHYwT0L+z9knE9QM1NKeyM/xZKNOop8JYz+VY=
-X-Gm-Gg: AY/fxX6PhOZV2nv8/+1Y/raBdWOHNJngh1Uw2xvbsxA07hDgJWXgCSo6pkX/Y7VCrID
-	rFVhaj05n8Ii5LpyHKLxNUNhbpACUMZ0iG8xn95WXn5z5tOyuU79khDzCLYAEDwDqWQEuoIej30
-	nZxJ/zC0za5YC7fNa3KtmtqhxOtQ2ZY4PVgNCCkTpuuszHnFoOG8ZD70KH0fyUhxtZ5wNzuCUGc
-	L7sCWA7gmnLRr13ctt9ZSC3RJB23lNFzzdiq4Dn0QTNwYZinD2yWLWOfaadlHc2kvQcURSWYIRx
-	iXZbF2L/5B6F9QTpOIcgn4qV54Q+GO9G8C4WGM5SxutiV+sCLMT7fWzzxHlOQKf1KoHLybOndlq
-	dtYgJ2LciGbhPfXNBx3RRWfIjApU06VtoQjtj9rpJHaQ6cIIEcfw+2OLeYfCgE9EjRs/X/k/9Jg
-	b3C7/BE19NCm5ykiqX8Z69jYltJxVsC4mRaZNoxtuxWb/RzocrSyQE9Q==
-X-Received: by 2002:a17:903:230d:b0:2a0:de4f:ca7 with SMTP id d9443c01a7336-2a59bb17305mr35287005ad.1.1768432750017;
-        Wed, 14 Jan 2026 15:19:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768432756; x=1769037556;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Nbmp2d0HgOyIl8jX1BIaQZ3qrfCn/EZHa3mK+NXd3sU=;
+        b=Hlv9kVW2WjM82X0sfSvo0UJ+wyTV0I2GDG73Jy0Sv7Xn8kfDTkdVojj9J1Fjvxf54L
+         731WykTWlR9wZxfLnsQAY+oB7HhRK5YLbGN8/JjcaUsh6vdjkuXvAAdrfq3x6XrHofUY
+         XDrp5xBxpisbgHHWMuuN5Jx72A20wny5BeVgjpoKkXBzPJsvMZPsH1xWF9gXIkQIN2Pd
+         Nfl6UpuS7z4mq8CLdTQI+p53JD8nrTp6wb5IQyErXNFe7osWrB6NeeYXboR7G/jz7fRf
+         hDRfR6j7aAwvIEB8KJprWuy+kt7wJuBIMJGPu1RwndufdMyiAsw+qfciQgTdGWSLy6Zp
+         CsYA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNbz6DyJtjOeMHMMOUyzxcgM75Vt6B+iWVi+1v7WplLwg53t//ith0n8vRTn/12pdL4H/qUuY/G28=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxElvXdpOrp1DpIyr5d2mZA5j7T8aJ6MLKDQPfX8FoEEX9vk67B
+	ouCwIByYwF/Y4N7VedK4E8HaUKarLvrRp4tm99WjJ6MPR/bui276IstdoggsvWUPNbU=
+X-Gm-Gg: AY/fxX5iNu1395LpRCfP/vezfVLh5cTq94MHoVdN+XHJk3NwJjLmC25WHLh8LhURfs5
+	RSGQzy7U+hpMcuRvPtcXFmpCO9G74jXK7+qLoVYaDpO1NlEyhu317SF71BhC91FOyhym1/Ihr9i
+	vFzpJc6pCFJs7zpL5mwQ4Pc44d6IGGUtZcwLqdXBOha2cdeTAPCE+J8eH0G1YpyFZ5RFPSLYUBC
+	CY8JN8kqFyFzVqp7mQwAlKyG6Z5rN3+eBwOKw2c52EMm1RjuJRQlik9v3t3XDvpvTjMUlbJ88b6
+	DbpFx5sVM1tR9tMUxRDSMDcP5Q0kejtwK8r9EpoPyUQckE+bTBeYvq2Ku9AjxG619o87QBmp4kY
+	n0QOR6AKIIGKFgI82hJirThnimGthCTpVBdtazTI21qxoxZp0aa0d3ByriBCkpeAcfnRs/YIEse
+	ekbGS3uRvUdxZkW0iY5bI8aGyRfn5k/x+DG7Cffc/kWHgop8unbvFIuVLRbKZbSZ1k
+X-Received: by 2002:a17:903:3bad:b0:295:3584:1bbd with SMTP id d9443c01a7336-2a599e8edb4mr40339635ad.41.1768432756448;
+        Wed, 14 Jan 2026 15:19:16 -0800 (PST)
 Received: from [127.0.1.1] ([45.8.220.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d6csm238591755ad.64.2026.01.14.15.19.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d6csm238591755ad.64.2026.01.14.15.19.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 15:19:09 -0800 (PST)
+        Wed, 14 Jan 2026 15:19:16 -0800 (PST)
 From: Guodong Xu <guodong@riscstar.com>
-Subject: [PATCH v2 0/4] riscv: dts: Add "b" ISA extension to existing
- devicetrees
-Date: Thu, 15 Jan 2026 07:18:56 +0800
-Message-Id: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
+Date: Thu, 15 Jan 2026 07:18:57 +0800
+Subject: [PATCH v2 1/4] Documentation: riscv: uabi: Clarify ISA spec
+ version for canonical order
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,12 +70,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGAkaGkC/3WPTW/CMAxA/0rl8zzlo4W1Qoj/gTiExgFragtxq
- IpQ//tCu8sOOz4rfs95gVBkEmiKF0QaWXjoM5iPAtqr6y+E7DODUWajtLbovOf+gmf0SRh1+bX
- VZWVtUFvIO7dIgafFdzytHOn+yNq0DqEjEbdom2L3a1X4bfHshNtsxbFEhb6sTbDOqhDcIbK0k
- lz8bIdu/87kt4QZOk5N0dOUcDWpGt7VK0sa4nP51KiX7D/3jzq3jPEbqiqvax/+tOA0z/MPi9k
- PniMBAAA=
-X-Change-ID: 20260113-adding-b-dtsi-148714533f07
+Message-Id: <20260115-adding-b-dtsi-v2-1-254dd61cf947@riscstar.com>
+References: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
+In-Reply-To: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
 To: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
  Alexandre Ghiti <alex@ghiti.fr>, Conor Dooley <conor.dooley@microchip.com>, 
@@ -88,62 +86,39 @@ Cc: Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org,
  spacemit@lists.linux.dev, Guodong Xu <guodong@riscstar.com>
 X-Mailer: b4 0.14.3
 
-The RISC-V "b" (Bit-manipulation) extension was ratified in April 2024,
-much later than its component extensions zba/zbb/zbs (June 2021). Recent
-updates to the device tree bindings [2] enforce that when all three
-component extensions are present, "b" must also be specified. Related
-discussion can also be found in [1].
+Specify that chapter 27 refers to version 20191213 of the RISC-V ISA
+Unprivileged Architecture. The chapter numbering differs across
+specification versions - for example, in version 20250508, the ISA
+Extension Naming Conventions is chapter 36, not chapter 27.
 
-Patch 1 clarifies the ISA spec version for canonical ordering in uabi.rst.
-It is a trivial update, but can help readers reference the correct
-document version. Acked-by Paul Walmsley in v1.
+Historical versions of the RISC-V specification can be found via Link [1].
 
-Patch 2, 3 and 4 adds "b" after "c" in 3 different device tree files
-respectivly, anlogic, sophgo and spacemit, fixing the related dtbs_check
-warnings.
-
-This patchset is based on top of linux-next, tag: next-20260109, and
-depends on [2].
-
-Link: https://lore.kernel.org/all/20251230-imprison-sleet-6b5a1e26d34b@spud/ [1]
-Link: https://lore.kernel.org/all/20260110-k3-basic-dt-v4-0-d492f3a30ffa@riscstar.com/ [2]
-
-Changes in v2:
-- Patch 1: Add Acked-by from Paul Walmsley.
-- Patch 2/3/4: These are splits from the v1 Patch 2. Split into three
-    different patches for each SoC.
-- Link to v1: https://lore.kernel.org/r/20260113-adding-b-dtsi-v1-0-22d6e55d19df@riscstar.com
-
+Acked-by: Paul Walmsley <pjw@kernel.org>
+Link: https://riscv.org/specifications/ratified/ [1]
+Fixes: f07b2b3f9d47 ("Documentation: riscv: add a section about ISA string ordering in /proc/cpuinfo")
 Signed-off-by: Guodong Xu <guodong@riscstar.com>
 ---
-Guodong Xu (4):
-      Documentation: riscv: uabi: Clarify ISA spec version for canonical order
-      riscv: dts: anlogic: dr1v90: Add "b" ISA extension
-      riscv: dts: sophgo: sg2044: Add "b" ISA extension
-      riscv: dts: spacemit: k1: Add "b" ISA extension
-
- Documentation/arch/riscv/uabi.rst           |   4 +-
- arch/riscv/boot/dts/anlogic/dr1v90.dtsi     |   5 +-
- arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi | 256 ++++++++++++++--------------
- arch/riscv/boot/dts/spacemit/k1.dtsi        |  32 ++--
- 4 files changed, 150 insertions(+), 147 deletions(-)
+v2: Add Acked-by from Paul.
 ---
-base-commit: 31d167f54de93f14fa8e4bc6cbc4adaf7019fd94
-change-id: 20260113-adding-b-dtsi-148714533f07
-prerequisite-message-id: <20260110-k3-basic-dt-v4-0-d492f3a30ffa@riscstar.com>
-prerequisite-patch-id: 0c859b4d131b3360875c795c6148c6176b55fb91
-prerequisite-patch-id: 2ed98dc1ab0f5ed923cc252415c345dc8caf6f17
-prerequisite-patch-id: 1be1a031763fac029076a768f012af31e455be66
-prerequisite-patch-id: 21bb8387c946e050910440e7a7622305d46d946d
-prerequisite-patch-id: f3bdc2c74b230663710086bd770a755d56cb8b9c
-prerequisite-patch-id: 1f162c02f8bdb5bbc8ce52ead4fcb76258f5c2b9
-prerequisite-patch-id: 76e1ff26c2f1fe4019cfa574942b568000e6ca1f
-prerequisite-patch-id: 77ddc9e5dc85495adc803cdc605bdda2ddc7fa47
-prerequisite-patch-id: a75c798383b46a14d40436357c769c3671184768
-prerequisite-patch-id: 781fc10dcae2c38c84c25bee887ef7474786dd36
-prerequisite-patch-id: 5be5d3e62aa73024bf9e1de6aad155be6d618f40
+ Documentation/arch/riscv/uabi.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Best regards,
+diff --git a/Documentation/arch/riscv/uabi.rst b/Documentation/arch/riscv/uabi.rst
+index 243e40062e34..0c5299e00762 100644
+--- a/Documentation/arch/riscv/uabi.rst
++++ b/Documentation/arch/riscv/uabi.rst
+@@ -7,7 +7,9 @@ ISA string ordering in /proc/cpuinfo
+ ------------------------------------
+ 
+ The canonical order of ISA extension names in the ISA string is defined in
+-chapter 27 of the unprivileged specification.
++Chapter 27 of the RISC-V Instruction Set Manual Volume I Unprivileged ISA
++(Document Version 20191213).
++
+ The specification uses vague wording, such as should, when it comes to ordering,
+ so for our purposes the following rules apply:
+ 
+
 -- 
-Guodong Xu <guodong@riscstar.com>
+2.43.0
 
