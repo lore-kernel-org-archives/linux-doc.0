@@ -1,217 +1,134 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592A52D6E74
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BD7231829;
+	Wed, 14 Jan 2026 14:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768400070; cv=none; b=u7gFU5GLSpzvnxa9lLsp8OPVvStz7qatOeCR26DS1hrDKTubFn0mlp/Q3tFKp/e3VnyYFkJ555mjiZpGIitNfSRkpiWIIYq1GLELsLJM7uLAlPuP+svAclWDJFbuEsslxd+MvjTqag8yMM2KqGwlLuSngYZKWMYC4eVTXA83qk4=
+	t=1768400180; cv=none; b=fh3aja0plzHBvsRzOHb/tH5X5xjqEP473PO3OUJ9LzXjzix9oWWXorcHaTazV4scSAMt1tIvnpKu+63CpKTpnqxyhBICSleC9S1BFjre3HbFIpiB6WfDIaWDkKPPrYDV0BIn1aqDCgS9XMzezQiznRNjD28TmLfU9b3anO48FQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768400070; c=relaxed/simple;
-	bh=EVxOIndNclLVBz66EPG+/56lwGCRWQUQFbefqx9zJEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UIUoovlAxK1XPQ0SrimH1vVJIhA1/KFMwgKt3u0B2s0ZYe3A0z9ts+CTZV69OwySncgTPc5vtyQ0QNdMpqt7TgBMOSGERxi+n9oIdIbpkI+710ArBZ/lLCQJlUka6SWX1jm/Qb8T8yg3V3G9gyEc7tB76tjH9uDs0M89IO+tL6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATDvkPvs; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768400180; c=relaxed/simple;
+	bh=Zk+X0U0nP+GtJI9b23g7B8znsodnQPS5UKylro1oFwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xzvx485fnRh2JGtEFiuptTHurs0GfvWU1eBPIToOL46OYfuPGOEHpW1n53ICgoo7UxJANeLDI7oOvZIyzwqxG8R9RCTQXEI9S4pihgaguxXdkujjdtZgnWvl+5Wn11eI2DW0jLlhJoL4+CKZSRU23tzCUNYzuhCSvZw7NBCvAOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=htk+x4Na reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ATDvkPvs"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64b7318f1b0so12669064a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 06:14:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768400067; x=1769004867; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LXI/JsxBbKF9LcEy7WQN83dkdhDN53l6d1BjVlfpBx8=;
-        b=ATDvkPvsgMJyP3EIhSx+waeN9em7laMQLBeBB3nIO+P3DLVzV5+OaA+5w7ya7SWhN8
-         wxwHQhvJgPAWmt6bUYWUHbmYg+0uA+NXPZ27hecPI96gQRzBbIIMHPS88+NAz+S2onWh
-         IITOWoxVIC/1im6BVMkfcl6YB9fPp9i7tIlNEeE+z1DHFBYIlBTQXnVMON5eCvNh29i2
-         gui/dtbkxpTqMyfBpOA8f7X1MzRlvBCgmW/njxfFa4ST5kIbk7NQ8bL7m07qTToF/Mmq
-         kPMZz0eQcj4/Yi8GH6Zjk8I6SVs2qWA0kbfAyllVjXHX6l8TuerIvVK9OcJa+huOZOJx
-         fxlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768400067; x=1769004867;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LXI/JsxBbKF9LcEy7WQN83dkdhDN53l6d1BjVlfpBx8=;
-        b=Z4wN3qM9SoVJrCI/XnlOwmqZ3sHdpBS7fD6FwGKYo1Pc15Uz370ptQNm2St9Qc8nFg
-         M1r0Fy9OchvOXuN4jI8q4nTmmcavwjt+Ccq2uoPFFlki1elM6Fuvikscg199bi5yZ3nm
-         Sha2Mtb5PY5P29nJtNkQPS9NN9xZs50/Bo+i5MBYjbuE8hlK2+lGGXDI0LVYkFgcRjev
-         kOZ5MQfNg06g0VR4FFF9+Ag0J0AlVdHkM7qPABwdXn3j5sWEyHlXC+3GtsRJU8AEhHlF
-         s6D6crioVtherJQBzpa2z+RcKZUvYIGNL3KYXCBW0AfhLc97LQwOPoE98PjdyCQy1Xnz
-         igJA==
-X-Forwarded-Encrypted: i=1; AJvYcCXchduWC8KEZagzowv2v8cKykaOzamcRFinwNMV6XC82RRg8culp6Z3VQTH0PXyMWngiQO5iJcsh9w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGz1bqiponES5loIIEA2sXx8zJM0NhZtTlmtI4g0NPNrqwfxj1
-	XwsXca0/XEtsFWMUPGjpau6hg87YP3TNg07jNiWOmPGW4M+8f3NJDr6h7HiGOjUuI9bIrWfRA6a
-	TA0/1hwbySWECHvMf5Eopzqj9Jk7WdI8=
-X-Gm-Gg: AY/fxX5hdD+x1FlgUxgW3sucfHc+7BrMI8gA5vI0UY1SYA36LlOpQ++dQPxi3AdR+5s
-	3U+pFQiy45UTg2Z2Rkwrgo5gn3m/vH6hlpOIe1QPY6zIFnorcGGjshXUrDQ0adV4KysWV0/jlDr
-	kYBlewoTFdRdHsknKiXUlwigwPCs1HHO02Qn0YZnOZlrpnK2pzXLqYiuoRcdlsDVkbPI8ivH+hK
-	w+hCcSHQlr3mgMlYlAwEqwRp7VWf5c3hsxJhemEyZ0e1A3de9iY9DN2RdlkeEIGQ6+ejpMAox0m
-	1d5EtZvNz9fQTt5FXd3kgytOloTeJg==
-X-Received: by 2002:a05:6402:210c:b0:64b:42a6:3946 with SMTP id
- 4fb4d7f45d1cf-653ec10b2c1mr2391600a12.7.1768400066360; Wed, 14 Jan 2026
- 06:14:26 -0800 (PST)
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="htk+x4Na"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 628C540E0194;
+	Wed, 14 Jan 2026 14:16:17 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id U9i6nnOD5eUv; Wed, 14 Jan 2026 14:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768400172; bh=VRoSE/2YTwFhEpBBl9wXpY8ydPU6I1xxtgwmqqKape0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=htk+x4Natx08his9bWPcyT1eRR2E8mDo6r0Ufv6M7oX9I1xf/5nuKcRZPOt5JxFil
+	 0DvrlAz0d2fonr1AfsbmuosW50C8y8AmnD9ABkAVcz/irfYQKSMHS3Y9ltalVds6wU
+	 DTuRZk1RmrxFdRMrSl+9eeEWHB+qnXrGlJIW18D40BH0Xy6VF5Du6dcAqHL/QItIOG
+	 RhFxknDK9aKTwPtwPZsc81Qo0JEgFJCxA1h/UwnEh/jQkCQG/L+NJn8fXYLTBuk/W4
+	 1VKxEB5pqHN7dp5Cq1iwvaQ+uh/YYx/6aGXFad82Mh4WYRT2IpNSty94gOwXqUgk88
+	 iKFWzxUOws2xTDEzs8v7XzGbqOe+Rd6ucImcyNSW4ZQGj+KdtHAiOrbA+YGgScbR2t
+	 QRL7tKqgCCIA+X48lHwrFW3P4rqDumjugBJINl8I0z+W59xVpbdlcDhJ7sg2om9sb/
+	 Vg8KkN7bmGqZdrjoBMYFo9BhQESYLdHsRAMR4uvUmD7lK3Qrl/6CiaGP0QSHTxCdwJ
+	 ql6xe/rslfuUVQk11RN3dRitXJxteJ/bvPvKYj3QndGFsiI8Z/9qcxMUg+EWW7qpZX
+	 VtDCCiOy6v1ID7knmO7TX5qxIvsynDRvzdk0cPpkA4nPPz7chJwTdXHX3AZ2hHoj8I
+	 Smbu6S3Z1aBrY+pY/st1NB+g=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 5C64E40E0280;
+	Wed, 14 Jan 2026 14:15:58 +0000 (UTC)
+Date: Wed, 14 Jan 2026 15:15:51 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
+	tony.luck@intel.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
+	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com
+Subject: Re: [PATCH 00/12] ras: share firmware-first estatus handling
+Message-ID: <20260114141551.GKaWelF-Gsvzr71LUs@fat_crate.local>
+References: <20251221013534.GAaUdO5vWqMWAdbWbd@renoirsky.local>
+ <20251229115440.2734800-1-ahmed.tiba@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8af369636c32b868f83669c49aea708ca3b894ac.camel@kernel.org>
- <CAOQ4uxgD+Sgbbg9K2U0SF9TyUOBb==Z6auShUWc4FfPaDCQ=rg@mail.gmail.com>
- <ec78bf021fa1f6243798945943541ba171e337e7.camel@kernel.org>
- <cb5d2da6-2090-4639-ad96-138342bba56d@oracle.com> <ce700ee20834631eceededc8cd15fc5d00fee28e.camel@kernel.org>
- <20260113-mondlicht-raven-82fc4eb70e9d@brauner> <aWZcoyQLvbJKUxDU@infradead.org>
- <ce418800f06aa61a7f47f0d19394988f87a3da07.camel@kernel.org>
- <aWc3mwBNs8LNFN4W@infradead.org> <CAOQ4uxhMjitW_DC9WK9eku51gE1Ft+ENhD=qq3uehwrHO=RByA@mail.gmail.com>
- <aWeUv2UUJ_NdgozS@infradead.org> <c40862cd65a059ad45fa88f5473722ea5c5f70a5.camel@kernel.org>
-In-Reply-To: <c40862cd65a059ad45fa88f5473722ea5c5f70a5.camel@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 14 Jan 2026 15:14:13 +0100
-X-Gm-Features: AZwV_QgcgdaBnds1gv_V4-TD2P8OEmx8uWYCKQoKmrAoITMmwNZxXsYhEeLI48A
-Message-ID: <CAOQ4uxhDwR7dteLaqURX+9CooGM1hA7PL6KnVmSwX11ZdKxZTA@mail.gmail.com>
-Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to
- lease support
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Christian Brauner <brauner@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	Nicolas Pitre <nico@fluxnic.net>, Anders Larsen <al@alarsen.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, 
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Phillip Lougher <phillip@squashfs.org.uk>, 
-	Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, Xiubo Li <xiubli@redhat.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, 
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
-	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org, 
-	gfs2@lists.linux.dev, linux-doc@vger.kernel.org, v9fs@lists.linux.dev, 
-	ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251229115440.2734800-1-ahmed.tiba@arm.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 14, 2026 at 2:41=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wr=
-ote:
->
-> On Wed, 2026-01-14 at 05:06 -0800, Christoph Hellwig wrote:
-> > On Wed, Jan 14, 2026 at 10:34:04AM +0100, Amir Goldstein wrote:
-> > > On Wed, Jan 14, 2026 at 7:28=E2=80=AFAM Christoph Hellwig <hch@infrad=
-ead.org> wrote:
-> > > >
-> > > > On Tue, Jan 13, 2026 at 12:06:42PM -0500, Jeff Layton wrote:
-> > > > > Fair point, but it's not that hard to conceive of a situation whe=
-re
-> > > > > someone inadvertantly exports cgroupfs or some similar filesystem=
-:
-> > > >
-> > > > Sure.  But how is this worse than accidentally exporting private da=
-ta
-> > > > or any other misconfiguration?
-> > > >
-> > >
-> > > My POV is that it is less about security (as your question implies), =
-and
-> > > more about correctness.
-> >
-> > I was just replying to Jeff.
-> >
-> > > The special thing about NFS export, as opposed to, say, ksmbd, is
-> > > open by file handle, IOW, the export_operations.
-> > >
-> > > I perceive this as a very strange and undesired situation when NFS
-> > > file handles do not behave as persistent file handles.
-> >
-> > That is not just very strange, but actually broken (discounting the
-> > obscure volatile file handles features not implemented in Linux NFS
-> > and NFSD).  And the export ops always worked under the assumption
-> > that these file handles are indeed persistent.  If they're not we
-> > do have a problem.
-> >
-> > >
-> > > cgroupfs, pidfs, nsfs, all gained open_by_handle_at() capability for
-> > > a known reason, which was NOT NFS export.
-> > >
-> > > If the author of open_by_handle_at() support (i.e. brauner) does not
-> > > wish to imply that those fs should be exported to NFS, why object?
-> >
-> > Because "want to export" is a stupid category.
-> >
-> > OTOH "NFS exporting doesn't actually properly work because someone
-> > overloaded export_ops with different semantics" is a valid category.
-> >
->
-> cgroupfs definitely doesn't behave as expected when exported via NFS.
-> The files aren't readable, at least. I'd also be surprised if the
-> filehandles were stable across a reboot, which is sort of necessary for
-> proper operation. I didn't test writing, but who knows whether that
-> might also just not work, crash the box, or do something else entirely.
->
-> I imagine this is the case for all sorts of filesystems like /proc,
-> /sys, etc. Those aren't exportable today (to my knowledge), but we're
-> growing export_operations across a wide range of fs's these days.
->
-> I'd prefer that we require someone to take the deliberate step to say
-> "yes, allow nfsd to access this type of filesystem".
->
-> > > We could have the opt-in/out of NFS export fixes per EXPORT_OP_
-> > > flags and we could even think of allowing admin to make this decision
-> > > per vfsmount (e.g. for cgroupfs).
-> > >
-> > > In any case, I fail to see how objecting to the possibility of NFS ex=
-port
-> > > opt-out serves anyone.
-> >
-> > You're still think of it the wrong way.  If we do have file systems
-> > that break the original exportfs semantics we need to fix that, and
-> > something like a "stable handles" flag will work well for that.  But
-> > a totally arbitrary "is exportable" flag is total nonsense.
->
+On Mon, Dec 29, 2025 at 11:54:36AM +0000, Ahmed Tiba wrote:
+> By =E2=80=9Cerror status=E2=80=9D I=E2=80=99m referring to the UEFI CPE=
+R Generic Error Status block,
+> which is the standard firmware-produced error payload that Linux alread=
+y
 
-Very well then.
-How about EXPORT_OP_PERSISTENT_HANDLES?
+Standard, schmandard - a bunch of fw crap.
 
-This terminology is from the NFS protocol spec and it is also used
-to describe the same trait in SMB protocol.
+That's UEFI's understanding of a common platform error record, no?
 
-> The problem there is that we very much do want to keep tmpfs
-> exportable, but it doesn't have stable handles (per-se).
+So why is this a generic estatus and not part of CPER-something?
 
-Thinking out loud -
-It would be misguided to declare tmpfs as
-EXPORT_OP_PERSISTENT_HANDLES
-and regressing exports of tmpfs will surely not go unnoticed.
+You're calling something "estatus" which sounds like a generic thing but =
+it is
+simply a subset of functionality you need to make it work on ARM without
+ACPI and have packaged whatever you need under the name "estatus".
 
-How about adding an exportfs option "persistent_handles",
-use it as default IFF neither options fsid=3D, uuid=3D are used,
-so that at least when exporting tmpfs, exportfs -v will show
-"no_persistent_handles" explicitly?
+Why does this thing need to be called an "estatus core"?
 
-Thanks,
-Amir.
+I'd expect to see a compilation unit which contains shared functionality,=
+ gets
+linked to your stuff and that's it. No "fanfares", no CONFIG symbols, no
+nothing.
+
+> consumes via GHES on ACPI systems. I=E2=80=99m not introducing a new er=
+ror model
+> here; the intent is to reuse the existing CPER decoding and handling on=
+ce
+> that payload exists.
+
+So why aren't you doing only that? Why are you doing all that extra stuff=
+?
+
+> The practical use case is firmware-first RAS platforms that emit CPER
+> records but do not use ACPI/APEI GHES for discovery or notification. To=
+day,
+> those platforms either have to duplicate CPER parsing logic or miss out=
+ on
+> the common Linux RAS handling (standard logging, memory failure flow,
+> vendor notification paths). As a result, the full firmware-first RAS
+> pipeline effectively only works when CPER arrives through GHES.
+
+Yah, got it.
+
+But see above.
+
+Please do not "over-design" this into a separate thing but simply carve o=
+ut
+the functionality and share it. And leave it where it belongs
+- drivers/firmware/efi/ is not the right place as this isn't really EFI. =
+This
+is a piece of APEI/GHES crap you need.
+
+Later, when there's need to make it more sophisticated, then we can talk
+again.
+
+Thx.
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
