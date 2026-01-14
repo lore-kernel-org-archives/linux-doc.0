@@ -1,63 +1,63 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DE32FBDFF
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 21:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC85343208
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 21:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426367; cv=none; b=Cl4KpIzdHnG2SEfUxeKFUcMIlUbWLzAgq7Q2P3h/uL2pXsEk6OFNbh4/Op7EiJH2JAb/Dj/NEtQAQZCOYK5NnMVN60p6v5AnfIvnyuEf7IRVWw7vW+60xVKSmvoyoaTFqH55Hj4gfQ1RHW4g3vawPHwRhYeusKeFNQ4hgAM9Wyc=
+	t=1768426401; cv=none; b=o34HvcsYkFr9FR4yt7QcfjzHTONXVZxO76z6c6ANIni2eMb+KKO3gvUkfFB5srmDT2K2b5jEqmTWGQOrsREhKq2CFaoU7V1HWXlzhUYMPKXY+DVy1DepLceE/RNaOr00mP+PH8indVDkflNcdcZ7VWOWaIiLRCjdiMlIHYdNHX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426367; c=relaxed/simple;
-	bh=rl+jQFmW9bJctWZaIMhOgi7nvti71S9dTb0lCysIN04=;
+	s=arc-20240116; t=1768426401; c=relaxed/simple;
+	bh=Z7q2dDcOGE5HHI9QjGkZF0YF9uZw21LuZRZPZpdyNIM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=macYF8bFQwUQSGzpr8MwdK038iYDcwkmEa479agNLkCScTTtd3x/f2xWqej5kyJDplP0XBUBsaZ9rUtaj6pqeNTltED2UC66rk1/1iKV88n1uPXngmdQfk07S1lLpIUV6jjwiPi3t+X2Y34RDZ0slTaX5mwjH44vXO+/8sqDTAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DtvkIwjv; arc=none smtp.client-ip=209.85.210.43
+	 MIME-Version; b=MKmfLnyLuRL6MIGFakabQIEEdoLVULxsE2sgOnyhqLMfLttzFfzyr9oUqGS3r3wrNisq0Mg5js5sIzOUxyUCmz399YtLaxiXV9BDy1ZAtyJPYT4iO4DXsq2LD+AhtZciwD05zXQGebXq/ZI5DtUj2wVXx99fg9dTDFTBMsbiS8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JzOa/227; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DtvkIwjv"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7cfccba483eso97496a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 13:32:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JzOa/227"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7c7533dbd87so195610a34.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 13:33:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768426365; x=1769031165; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768426398; x=1769031198; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5+ZFzB1bOq1z4EOZD4cYTHTPj9h8hzHs0/3N91Bb6XY=;
-        b=DtvkIwjvXfYtf/To5+Fx2Hg9xeKVhr5+4S/kYC9GDIKtL1Ocb1tLNBm1JYvtrcSrDy
-         KIpKbv7TyOBPgtuqtavqCobaLpGEIEH9ozpJXn3HaRPeBBIV9V+MerOT3Y977RIv4L5p
-         J44aeEvWfaM9O30vqRibyH8titOwGRPtVx2RLuuie60hZhN643yxeuKBCmjynZ/k/rqp
-         sK28s4ONTINstsrJT2s0aC+pDh8RXjfZc2EHg5wpTS0nwu8uroRL/u2fwsfznPnw5Hwr
-         oDr7Cd8ses94H52hMhe/QlyKCrtx8kmOu3gw4uVTwDQ/G3YhxpOgytASSfTIxy3HDtJ5
-         nsdw==
+        bh=WSGuW77Tqa7tA2WLBhJJdwtXNnuVhxLeXVZSIZi6p4U=;
+        b=JzOa/227Efe9oKpPOLLaSbebVvzfyc42E/v99KGVF+H1gXiLXkud0T8kigaTfa5uL5
+         lhZwrQCXzDxKXbq0DtwO1HWwJPVRiVqmO1rF3np3bwcUBF8pLXEjBsZUTu8SO97D0c//
+         nRhT+LJexsBR+IwpkV/GLsvkEx3G1EttdpDLjmSz2AHQ4pyUuS0D2JbTfDVBeJi6qB8V
+         xo0QXlvy49aoVkqYFUOrO2eJLVq2Fh210DDhm59bglaf7vyb7L9bB4s5/tY9CvOjzjN/
+         uzYDpUzIPPkqXazqzUXhJt5YN0klwjm+vxxghHp4w2yFB3vR0IXG09R7wE2WVU33sr0y
+         w2yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768426365; x=1769031165;
+        d=1e100.net; s=20230601; t=1768426398; x=1769031198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+ZFzB1bOq1z4EOZD4cYTHTPj9h8hzHs0/3N91Bb6XY=;
-        b=tqz+K5p9Iq6t8a8E6SOdR9nDr/NzN9c8UREj5aUWJPuWhLonkWFFzyCGgefTIBwxle
-         VAfAg+NmEft78HeGcyYdZPI68ZTjCR4+XGRSF6dvuM7XqUSFjH/2C5aRFPtmG89IjbzH
-         uDD7qrU58vJvZBDpWi7ej2g+GtP9rO9EWd6Z4UBfXEowVPK0Fdl42oP+ttnCuyId8ogv
-         Nm/1RVWurg9Or/7Ocb7xPiQxsbOJOOBuLGnNh4DwnWxfn+CnfUjoGvGmp0vUA4ftjzR3
-         sfqNxPJvZ3aSKMPiLbO92li9x36dKvulV8OdAZlIKWXSb7sifpcXQlXWR/ReyfraEtpc
-         zj2A==
-X-Forwarded-Encrypted: i=1; AJvYcCV8NhHBN6I9I3vq8yMT56lQ6u4Ad4JqDz55DQe/BqHGFLtR8L2jaSN0J1yEgFLiUI7wlix3BobBY3w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTStjw1N1+HDcWBbuK0IDoYx6HCBOoa5U9eis+itwZgeB8xfrx
-	6sNbiYZ1CI9+NrbCsXOOvah/P9XytzpJffv+nX+cMsC32bRvq+nOy2HY
-X-Gm-Gg: AY/fxX48bWkqXnNf5cP28+6UYUbv2Vj8hhdZt6VtxA4Lmhtyj1aawp+X41XvfypFA4Q
-	qVikk+woeO5+60wqc3/ydNvOREKxK0jfdialt93rBixiJ9daMoBXH49rZhEY/jr54i1zo0BRMvS
-	bf6Y/o2CLyzLER20/hb3clEHWPRDnXb2G9qtPK5spMwZAvnt9Njl+XfxEaHe6R2feo1P1JFowlC
-	jIBHWROsbqioCLr9ycsdY7ChTOTNAJVjxN/k9NkDH5QyVz+u9u0SCG4KZ0aFYA1YN7rNj6lrJtW
-	6WjS9L/XEeg7tds/qavbV33/seL6oP1D14fipQzSbQpaiuWf9rRn0hZRNU/cu1GBS3BGlRxjn4U
-	ermVtTkHKA3/aUkIjslLRYYMEiJlSo0jpWDcNqRw75t7jwY4cs62BRy4f2R9nyiLG8IAEgzuDkT
-	2T4Azm3/5H1i1Er8Drevi6iPQcnd4gDqxcoW+Hzzpdie7K
-X-Received: by 2002:a05:6830:268c:b0:7c7:6e32:dc7f with SMTP id 46e09a7af769-7cfcb46d690mr2240341a34.0.1768426364916;
-        Wed, 14 Jan 2026 13:32:44 -0800 (PST)
+        bh=WSGuW77Tqa7tA2WLBhJJdwtXNnuVhxLeXVZSIZi6p4U=;
+        b=pHY+wHBDasQgqNQaE0TxoGKdPpQ5cdQO0p0WIMGoRL3YhglheKgSa2VLo5Ipf05ZGC
+         oLqx0gkZenFVLePFw7pluluH77yBpV7q+XOQPV6SVA1Sq/FpQYUOUpJ40bOkS80+AKvI
+         FJN4RMyEFDZZvA+V8lnQf8d5ZtVmKfPFY8zEdgS1St6pTAk17IX5oiBYrYhX1R5WvvXx
+         YzvRhB8JCqxcu9WExuBouqhCLWqnd3aDhrRE4As9PCUraRcZcOtoewUTLauDqIfqNePi
+         rIPrAWvIvk0nA7vQ4grgT+YWKCENhYOl2A6mMfnoHbs9PGsKpMcUj1mHNup0gDK1+xtZ
+         Zq+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVHtJZZfmwUImeCk7bF59meJQVu3h2teFTUpPqXhcvRNwtfPQVi+Twn/BSWjsf0tkN6Bt22ff9AhMI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2q7FDBtjP87ihgolYaCS0LOq8ewPSj+DxvB0wje2JhDtjgZ4a
+	rLnWz1uV8ZN5J9zhCSoSHon3bA+NY5gK6uDW6Nsaoxfpr6WOs6Hecwte
+X-Gm-Gg: AY/fxX50ATV+A9iG/hhVsbGwxChxvQoaqYGbaKz+QXbEygBcyYk5nWsZVJfBAhPM7Ed
+	DdkTLSV/O5P5ehSiFAhirRHF+8u7isOkTTRNYKgfbBI9+zryFpN3f3TQcEFqhchF26zf4oc5Z7T
+	VXcz5qAWSEbC/TJdLg7RaeQ+oPBFRkQyWtgYKpt5xc1V6URB7xJnUNlT8If4hAtTUR2dxEwje1B
+	TVzeD3UN869NLegJAziPNuQo5FfD72TwxmgXPAuSNfmvbI4YadZjrRvpekIin6LonLhFr98HAVs
+	KQW/JWmAQEiHKgYLaIpNYVkBmxxNN3Hmt0mI3D7FVgHIvaCzUM5g3keXukpWT7UglmvHwGURNCL
+	uZqYdHXmlT1rWVvS/1oSFkflIbwb+dDC+Vl1Lc8Rypt2APPrvom0zx4MBjfcrB+xLgq5Usxu4P9
+	PlKOB+rY4C/p+w+uq0XI3+ae0czDFJjLNsrBUU7S9AOLFo
+X-Received: by 2002:a05:6830:44a4:b0:7c7:4bb:dc06 with SMTP id 46e09a7af769-7cfc8965df3mr3143110a34.0.1768426397962;
+        Wed, 14 Jan 2026 13:33:17 -0800 (PST)
 Received: from localhost.localdomain ([2603:8080:1500:3d89:4c85:2962:e438:72c4])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfcb084c89sm2440494a34.12.2026.01.14.13.32.42
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfd68b13fesm76200a34.3.2026.01.14.13.33.15
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Jan 2026 13:32:44 -0800 (PST)
+        Wed, 14 Jan 2026 13:33:17 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
 From: John Groves <John@Groves.net>
 X-Google-Original-From: John Groves <john@groves.net>
@@ -98,9 +98,9 @@ Cc: John Groves <jgroves@micron.com>,
 	nvdimm@lists.linux.dev,
 	linux-cxl@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH V4 01/19] dax: move dax_pgoff_to_phys from [drivers/dax/] device.c to bus.c
-Date: Wed, 14 Jan 2026 15:31:48 -0600
-Message-ID: <20260114213209.29453-2-john@groves.net>
+Subject: [PATCH V4 02/19] dax: Factor out dax_folio_reset_order() helper
+Date: Wed, 14 Jan 2026 15:31:49 -0600
+Message-ID: <20260114213209.29453-3-john@groves.net>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114213209.29453-1-john@groves.net>
 References: <20260114153133.29420.compound@groves.net>
@@ -113,87 +113,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This function will be used by both device.c and fsdev.c, but both are
-loadable modules. Moving to bus.c puts it in core and makes it available
-to both.
+From: John Groves <John@Groves.net>
 
-No code changes - just relocated.
+Both fs/dax.c:dax_folio_put() and drivers/dax/fsdev.c:
+fsdev_clear_folio_state() (the latter coming in the next commit after this
+one) contain nearly identical code to reset a compound DAX folio back to
+order-0 pages. Factor this out into a shared helper function.
 
+The new dax_folio_reset_order() function:
+- Clears the folio's mapping and share count
+- Resets compound folio state via folio_reset_order()
+- Clears PageHead and compound_head for each sub-page
+- Restores the pgmap pointer for each resulting order-0 folio
+- Returns the original folio order (for callers that need to advance by
+  that many pages)
+
+This simplifies fsdev_clear_folio_state() from ~50 lines to ~15 lines while
+maintaining the same functionality in both call sites.
+
+Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: John Groves <john@groves.net>
 ---
- drivers/dax/bus.c    | 24 ++++++++++++++++++++++++
- drivers/dax/device.c | 23 -----------------------
- 2 files changed, 24 insertions(+), 23 deletions(-)
+ fs/dax.c | 60 +++++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 42 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index fde29e0ad68b..a73f54eac567 100644
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -1417,6 +1417,30 @@ static const struct device_type dev_dax_type = {
- 	.groups = dax_attribute_groups,
- };
- 
-+/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c */
-+__weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
-+			      unsigned long size)
-+{
-+	int i;
-+
-+	for (i = 0; i < dev_dax->nr_range; i++) {
-+		struct dev_dax_range *dax_range = &dev_dax->ranges[i];
-+		struct range *range = &dax_range->range;
-+		unsigned long long pgoff_end;
-+		phys_addr_t phys;
-+
-+		pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
-+		if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
-+			continue;
-+		phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
-+		if (phys + size - 1 <= range->end)
-+			return phys;
-+		break;
-+	}
-+	return -1;
-+}
-+EXPORT_SYMBOL_GPL(dax_pgoff_to_phys);
-+
- static struct dev_dax *__devm_create_dev_dax(struct dev_dax_data *data)
- {
- 	struct dax_region *dax_region = data->dax_region;
-diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-index 22999a402e02..132c1d03fd07 100644
---- a/drivers/dax/device.c
-+++ b/drivers/dax/device.c
-@@ -57,29 +57,6 @@ static int check_vma(struct dev_dax *dev_dax, struct vm_area_struct *vma,
- 			   vma->vm_file, func);
+diff --git a/fs/dax.c b/fs/dax.c
+index 289e6254aa30..7d7bbfb32c41 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -378,6 +378,45 @@ static void dax_folio_make_shared(struct folio *folio)
+ 	folio->share = 1;
  }
  
--/* see "strong" declaration in tools/testing/nvdimm/dax-dev.c */
--__weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
--		unsigned long size)
--{
--	int i;
--
--	for (i = 0; i < dev_dax->nr_range; i++) {
--		struct dev_dax_range *dax_range = &dev_dax->ranges[i];
--		struct range *range = &dax_range->range;
--		unsigned long long pgoff_end;
--		phys_addr_t phys;
--
--		pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
--		if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
--			continue;
--		phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
--		if (phys + size - 1 <= range->end)
--			return phys;
--		break;
--	}
--	return -1;
--}
--
- static void dax_set_mapping(struct vm_fault *vmf, unsigned long pfn,
- 			      unsigned long fault_size)
++/**
++ * dax_folio_reset_order - Reset a compound DAX folio to order-0 pages
++ * @folio: The folio to reset
++ *
++ * Splits a compound folio back into individual order-0 pages,
++ * clearing compound state and restoring pgmap pointers.
++ *
++ * Returns: the original folio order (0 if already order-0)
++ */
++int dax_folio_reset_order(struct folio *folio)
++{
++	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
++	int order = folio_order(folio);
++	int i;
++
++	folio->mapping = NULL;
++	folio->share = 0;
++
++	if (!order) {
++		folio->pgmap = pgmap;
++		return 0;
++	}
++
++	folio_reset_order(folio);
++
++	for (i = 0; i < (1UL << order); i++) {
++		struct page *page = folio_page(folio, i);
++		struct folio *f = (struct folio *)page;
++
++		ClearPageHead(page);
++		clear_compound_head(page);
++		f->mapping = NULL;
++		f->share = 0;
++		f->pgmap = pgmap;
++	}
++
++	return order;
++}
++
+ static inline unsigned long dax_folio_put(struct folio *folio)
  {
+ 	unsigned long ref;
+@@ -391,28 +430,13 @@ static inline unsigned long dax_folio_put(struct folio *folio)
+ 	if (ref)
+ 		return ref;
+ 
+-	folio->mapping = NULL;
+-	order = folio_order(folio);
+-	if (!order)
+-		return 0;
+-	folio_reset_order(folio);
++	order = dax_folio_reset_order(folio);
+ 
++	/* Debug check: verify refcounts are zero for all sub-folios */
+ 	for (i = 0; i < (1UL << order); i++) {
+-		struct dev_pagemap *pgmap = page_pgmap(&folio->page);
+ 		struct page *page = folio_page(folio, i);
+-		struct folio *new_folio = (struct folio *)page;
+ 
+-		ClearPageHead(page);
+-		clear_compound_head(page);
+-
+-		new_folio->mapping = NULL;
+-		/*
+-		 * Reset pgmap which was over-written by
+-		 * prep_compound_page().
+-		 */
+-		new_folio->pgmap = pgmap;
+-		new_folio->share = 0;
+-		WARN_ON_ONCE(folio_ref_count(new_folio));
++		WARN_ON_ONCE(folio_ref_count((struct folio *)page));
+ 	}
+ 
+ 	return ref;
 -- 
 2.52.0
 
