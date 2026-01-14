@@ -1,372 +1,230 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0FA3A4F2E;
-	Wed, 14 Jan 2026 16:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4BE3A4AD4
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 16:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768408921; cv=none; b=kU+wZtsPQ3GNRycBsofAyyN9daPIGkHTBm8NEfgKz389mtgSrjZTUov0G8xrif5DArp1JryHmiT3cPtcvcNclsgpWFsUDzllNoO18c2FMjsiiqQ95UBPSjp1fH/fKJOkeC1aaXAy/cUHAJftiMKOq54ccuCuKe98QbNMTiO/XA0=
+	t=1768409013; cv=none; b=BbvwxuGwhsixOYMiJrsJ/dYPpuvYGqvDD0IZ+C1o78DcCabkzGJVewFVTfT5bjaMQZvc7V3bWpfnnRgkHpJg5gBwKa5mnaiwxrFYmGXzBYCbyBsm3gsTbc+xtBC9hH2Gx1WZMz01ST+8uN2ZlmbKoBBo2+jy4HLCntUelqztmFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768408921; c=relaxed/simple;
-	bh=SX1sa8CiqOBBWhpbhpIXX3id/ld04Q1Rs7bqSyJg+As=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jQBlnZ/P1nxChcyVdYW2VYvJBDO29rCkoGXVE60ZO3Wqyi0J7R5V2oFaM5aN+/a6hDZ9zfNk88x4FcWuJlfrSg1FMxNu+lC6nCH5IYtYEHg8F5M44DsQtUHSGPuc8d7no4iotunxjSg/WxOEe5RVUcQLNnAhSG7IKaIDO9CNGjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Vre51E+j; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1768409013; c=relaxed/simple;
+	bh=dXh2ayx+79QFmMkjaJ3fx+VU7Efs17lwo3jymxpelrw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=NNhzAaoaD/l4bdjkq8Mepk62RJWMY1dJc00yTJQ6nkyeYys5hg1ycn/emumpRS/y0g2z75CV81AQzwL804Ls5VjOu+9l/lfDMDoh3Re9TXSi+KHo5aI1Uck4cXIoCUQ+bhf7u/BVwaHsXRdJNyKbAU++PhCFC4KXjp7vewMJWaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jxkn+zFE; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Vre51E+j"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 60AD940C9A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768408918; bh=3KOvvozDmCpKfbGUoA+YZq8QeW7SfmkTQKClfqAjp7s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Vre51E+jZTOnSFQPXUM770ItxPhrpI9IJ90zlv9QVo75mjDrnz6MOO8bezxV5zXVp
-	 O7NIA1FCr7UB+1xFUQwU1qvRamY3LrolIJwNqzOX/StC1cc/2Mg5A57O8a4ghXWebr
-	 VzIWAknuOOmo1Oseuc1TsR9Mov7P8fpNk6oXfbC/AW9Op8NoXv0x3XV2mZwVw/7w6S
-	 sbwXBEN374p+Y/g8st2SV0vKjbGjMJ/SGI62jOo27x1muE9/nvEleVkG+fFQ/Q7d7y
-	 tQ18s1XE+8h+4gPDJH/9V38IQSPUA/ge71xPuMftXxqC4RVC72ijWFqEU/adlf1PPB
-	 k5hduncS0J9hg==
-Received: from trenco.lwn.net (unknown [IPv6:2601:280:4600:27b::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 60AD940C9A;
-	Wed, 14 Jan 2026 16:41:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/2] Move kernel-doc to tools/docs
-Date: Wed, 14 Jan 2026 09:41:44 -0700
-Message-ID: <20260114164146.532916-3-corbet@lwn.net>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260114164146.532916-1-corbet@lwn.net>
-References: <20260114164146.532916-1-corbet@lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jxkn+zFE"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-432db1a9589so33098f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 08:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768409010; x=1769013810; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ptbGfqhARAg/OJu3oyRxs8/LiGbyPAv+mElQ7v4+SEE=;
+        b=jxkn+zFEX4wqkCL028YMr8Tb4x07CF2YDV/spkm027HK3h0ioFF7fKRgFZ7KLre9h7
+         FAo+4GXiHHFkPosauFoIRkZGYA3cDKNEtUErtxXixH4xH2NQxws7uNXJQ8czeqDKCSzi
+         fFcPDstRn0Cs7LuUtqtuOnN16IS13/XIl5U0a1kdwwmOGqG+iVndq93RAaYTeI7ROquG
+         DUxWEGn8oioitqNIdcBpyj5/VMixecd0DYYO+34i08lsqWIk+xm53BN/J7Fs/p9YvR23
+         nTgWwtYUlfNNRZjKJvIl1qxxzj0s6GLHy1UBWrMCMEL8figz/veQk1DsDOzWRrwwLz9B
+         r8Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768409010; x=1769013810;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ptbGfqhARAg/OJu3oyRxs8/LiGbyPAv+mElQ7v4+SEE=;
+        b=hBPf+a3rHZhW6tomyOwpISL+glENCi0Txeh81Mr8KJpPzofpNob/6COvjkcyla+zcG
+         UUUob7vif90O77chq0guVXV5dtDS/4rMoK/1ldKiz4zZsy05fRzS7BXjOmjVxSKskZ59
+         qxG5Rg8ifYALoOVr9mscoHvPJS/N/hwwp/vLpWCVJDq1KFSMfkIZldyLzJmpCVRo87P+
+         ku/vRu/5BCU5CaE6yoxeRHRZOWvpCKvtaYyI/RbiW68IjeRzjiGZ05G6g2rsqIWnAiVW
+         mbiMDtIrym8p7MzefTLBdDZz7WczjhMk9CxJQpbAZxeO7BWYEk+p/sSXMFQzQ7j0k2zz
+         fdng==
+X-Forwarded-Encrypted: i=1; AJvYcCWtEToyt3f+oljBtwyE2QMGHxm0QdYKn9YE6Ckx3CzICcjNpypfna5veKpmQWeauG0YVtKNkxbO6uQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnPW0m2RxsM6uks80iCOkn2VHJ7ODRzbLOcCGIFTCnHXdphmB2
+	tX5fn5zrC88KLvobbk85q3s/C7Jq7yZgnBOLIuV/0SmtCB9D10FNlhpotSfFFjf1iJAGTYiNChy
+	zwx4KoFGLAvyG8A==
+X-Received: from wmbem10.prod.google.com ([2002:a05:600c:820a:b0:479:3624:3472])
+ (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4e0f:b0:477:73cc:82c2 with SMTP id 5b1f17b1804b1-47ee32fcef4mr41658405e9.9.1768409009960;
+ Wed, 14 Jan 2026 08:43:29 -0800 (PST)
+Date: Wed, 14 Jan 2026 16:43:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260114164322.787125-1-smostafa@google.com>
+Subject: [PATCH v7 0/5] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+From: Mostafa Saleh <smostafa@google.com>
+To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
+	Mostafa Saleh <smostafa@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-kernel-doc is the last documentation-related tool still living outside of
-the tools/docs directory; the time has come to move it over.
+Overview
+--------
+This patch series introduces a new debugging feature,
+IOMMU_DEBUG_PAGEALLOC, designed to catch DMA use-after-free bugs
+and IOMMU mapping leaks from buggy drivers.
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/conf.py                                  |  2 +-
- Documentation/doc-guide/kernel-doc.rst                 |  8 ++++----
- Documentation/kbuild/kbuild.rst                        |  2 +-
- Documentation/process/coding-style.rst                 |  2 +-
- .../translations/it_IT/doc-guide/kernel-doc.rst        |  8 ++++----
- .../translations/sp_SP/process/coding-style.rst        |  2 +-
- .../translations/zh_CN/doc-guide/kernel-doc.rst        | 10 +++++-----
- Documentation/translations/zh_CN/kbuild/kbuild.rst     |  2 +-
- .../translations/zh_CN/process/coding-style.rst        |  2 +-
- .../translations/zh_TW/process/coding-style.rst        |  2 +-
- MAINTAINERS                                            |  2 --
- Makefile                                               |  2 +-
- drivers/gpu/drm/i915/Makefile                          |  2 +-
- scripts/kernel-doc                                     |  1 -
- tools/docs/find-unused-docs.sh                         |  2 +-
- scripts/kernel-doc.py => tools/docs/kernel-doc         |  0
- tools/docs/sphinx-build-wrapper                        |  2 +-
- 17 files changed, 24 insertions(+), 27 deletions(-)
- delete mode 120000 scripts/kernel-doc
- rename scripts/kernel-doc.py => tools/docs/kernel-doc (100%)
+The kernel has powerful sanitizers like KASAN and DEBUG_PAGEALLOC
+for catching CPU-side memory corruption. However, there is limited
+runtime sanitization for DMA mappings managed by the IOMMU. A buggy
+driver can free a page while it is still mapped for DMA, leading to
+memory corruption or use-after-free vulnerabilities when that page is
+reallocated and used for a different purpose.
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 1ea2ae5c6276c..383d5e5b9d0af 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -582,7 +582,7 @@ pdf_documents = [
- # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
- # the Docs). In a normal build, these are supplied from the Makefile via command
- # line arguments.
--kerneldoc_bin = "../scripts/kernel-doc.py"
-+kerneldoc_bin = "../tools/docs/kernel-doc"  # Not used now
- kerneldoc_srctree = ".."
- 
- def setup(app):
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index b56128d7f5c3a..8d2c09fb36e4d 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -54,7 +54,7 @@ Running the ``kernel-doc`` tool with increased verbosity and without actual
- output generation may be used to verify proper formatting of the
- documentation comments. For example::
- 
--	scripts/kernel-doc -v -none drivers/foo/bar.c
-+	tools/docs/kernel-doc -v -none drivers/foo/bar.c
- 
- The documentation format of ``.c`` files is also verified by the kernel build
- when it is requested to perform extra gcc checks::
-@@ -365,7 +365,7 @@ differentiated by whether the macro name is immediately followed by a
- left parenthesis ('(') for function-like macros or not followed by one
- for object-like macros.
- 
--Function-like macros are handled like functions by ``scripts/kernel-doc``.
-+Function-like macros are handled like functions by ``tools/docs/kernel-doc``.
- They may have a parameter list. Object-like macros have do not have a
- parameter list.
- 
-@@ -596,8 +596,8 @@ from the source file.
- 
- The kernel-doc extension is included in the kernel source tree, at
- ``Documentation/sphinx/kerneldoc.py``. Internally, it uses the
--``scripts/kernel-doc`` script to extract the documentation comments from the
--source.
-+``tools/docs/kernel-doc`` script to extract the documentation comments from
-+the source.
- 
- .. _kernel_doc:
- 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 82826b0332df4..5a9013bacfb75 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -180,7 +180,7 @@ architecture.
- KDOCFLAGS
- ---------
- Specify extra (warning/error) flags for kernel-doc checks during the build,
--see scripts/kernel-doc for which flags are supported. Note that this doesn't
-+see tools/docs/kernel-doc for which flags are supported. Note that this doesn't
- (currently) apply to documentation builds.
- 
- ARCH
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 258158637f654..35b381230f6e4 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -614,7 +614,7 @@ it.
- 
- When commenting the kernel API functions, please use the kernel-doc format.
- See the files at :ref:`Documentation/doc-guide/ <doc_guide>` and
--``scripts/kernel-doc`` for details. Note that the danger of over-commenting
-+``tools/docs/kernel-doc`` for details. Note that the danger of over-commenting
- applies to kernel-doc comments all the same. Do not add boilerplate
- kernel-doc which simply reiterates what's obvious from the signature
- of the function.
-diff --git a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-index aa0e31d353d6f..bac959b8b7b96 100644
---- a/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-+++ b/Documentation/translations/it_IT/doc-guide/kernel-doc.rst
-@@ -80,7 +80,7 @@ Al fine di verificare che i commenti siano formattati correttamente, potete
- eseguire il programma ``kernel-doc`` con un livello di verbosità alto e senza
- che questo produca alcuna documentazione. Per esempio::
- 
--	scripts/kernel-doc -v -none drivers/foo/bar.c
-+	tools/docs/kernel-doc -v -none drivers/foo/bar.c
- 
- Il formato della documentazione è verificato della procedura di generazione
- del kernel quando viene richiesto di effettuare dei controlli extra con GCC::
-@@ -378,7 +378,7 @@ distinguono in base al fatto che il nome della macro simile a funzione sia
- immediatamente seguito da una parentesi sinistra ('(') mentre in quelle simili a
- oggetti no.
- 
--Le macro simili a funzioni sono gestite come funzioni da ``scripts/kernel-doc``.
-+Le macro simili a funzioni sono gestite come funzioni da ``tools/docs/kernel-doc``.
- Possono avere un elenco di parametri. Le macro simili a oggetti non hanno un
- elenco di parametri.
- 
-@@ -595,7 +595,7 @@ documentazione presenti nel file sorgente (*source*).
- 
- L'estensione kernel-doc fa parte dei sorgenti del kernel, la si può trovare
- in ``Documentation/sphinx/kerneldoc.py``. Internamente, viene utilizzato
--lo script ``scripts/kernel-doc`` per estrarre i commenti di documentazione
-+lo script ``tools/docs/kernel-doc`` per estrarre i commenti di documentazione
- dai file sorgenti.
- 
- Come utilizzare kernel-doc per generare pagine man
-@@ -604,4 +604,4 @@ Come utilizzare kernel-doc per generare pagine man
- Se volete utilizzare kernel-doc solo per generare delle pagine man, potete
- farlo direttamente dai sorgenti del kernel::
- 
--  $ scripts/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :^tools) | scripts/split-man.pl /tmp/man
-+  $ tools/docs/kernel-doc -man $(git grep -l '/\*\*' -- :^Documentation :^tools) | scripts/split-man.pl /tmp/man
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index 025223be9706d..7d63aa8426e63 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -633,7 +633,7 @@ posiblemente POR QUÉ hace esto.
- 
- Al comentar las funciones de la API del kernel, utilice el formato
- kernel-doc. Consulte los archivos en :ref:`Documentation/doc-guide/ <doc_guide>`
--y ``scripts/kernel-doc`` para más detalles.
-+y ``tools/docs/kernel-doc`` para más detalles.
- 
- El estilo preferido para comentarios largos (de varias líneas) es:
- 
-diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-index ccfb9b8329c23..fb2bbaaa85c18 100644
---- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-@@ -43,7 +43,7 @@ kernel-doc注释用 ``/**`` 作为开始标记。 ``kernel-doc`` 工具将提取
- 用详细模式和不生成实际输出来运行 ``kernel-doc`` 工具，可以验证文档注释的格式
- 是否正确。例如::
- 
--	scripts/kernel-doc -v -none drivers/foo/bar.c
-+	tools/docs/kernel-doc -v -none drivers/foo/bar.c
- 
- 当请求执行额外的gcc检查时，内核构建将验证文档格式::
- 
-@@ -473,7 +473,7 @@ doc: *title*
- 如果没有选项，kernel-doc指令将包含源文件中的所有文档注释。
- 
- kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/kerneldoc.py`` 。
--在内部，它使用 ``scripts/kernel-doc`` 脚本从源代码中提取文档注释。
-+在内部，它使用 ``tools/docs/kernel-doc`` 脚本从源代码中提取文档注释。
- 
- .. _kernel_doc_zh:
- 
-@@ -482,18 +482,18 @@ kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/k
- 
- 如果您只想使用kernel-doc生成手册页，可以从内核git树这样做::
- 
--  $ scripts/kernel-doc -man \
-+  $ tools/docs/kernel-doc -man \
-     $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-     | scripts/split-man.pl /tmp/man
- 
- 一些旧版本的git不支持路径排除语法的某些变体。
- 以下命令之一可能适用于这些版本::
- 
--  $ scripts/kernel-doc -man \
-+  $ tools/docs/kernel-doc -man \
-     $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
-     | scripts/split-man.pl /tmp/man
- 
--  $ scripts/kernel-doc -man \
-+  $ tools/docs/kernel-doc -man \
-     $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
-     | scripts/split-man.pl /tmp/man
- 
-diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-index 57f5cf5b2cddb..a477b4b089585 100644
---- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
-+++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-@@ -174,7 +174,7 @@ UTS_MACHINE 变量（在某些架构中还包括内核配置）来猜测正确
- KDOCFLAGS
- ---------
- 指定在构建过程中用于 kernel-doc 检查的额外（警告/错误）标志，查看
--scripts/kernel-doc 了解支持的标志。请注意，这目前不适用于文档构建。
-+tools/docs/kernel-doc 了解支持的标志。请注意，这目前不适用于文档构建。
- 
- ARCH
- ----
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 0484d0c65c25b..5a342a024c01e 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -545,7 +545,7 @@ Linux 里这是提倡的做法，因为这样可以很简单的给读者提供
- 也可以加上它做这些事情的原因。
- 
- 当注释内核 API 函数时，请使用 kernel-doc 格式。详见
--Documentation/translations/zh_CN/doc-guide/index.rst 和 scripts/kernel-doc 。
-+Documentation/translations/zh_CN/doc-guide/index.rst 和 tools/docs/kernel-doc 。
- 
- 长 (多行) 注释的首选风格是：
- 
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index 311c6f6bad0bc..e2ba97b3d8bbf 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -548,7 +548,7 @@ Linux 裏這是提倡的做法，因爲這樣可以很簡單的給讀者提供
- 也可以加上它做這些事情的原因。
- 
- 當註釋內核 API 函數時，請使用 kernel-doc 格式。詳見
--Documentation/translations/zh_CN/doc-guide/index.rst 和 scripts/kernel-doc 。
-+Documentation/translations/zh_CN/doc-guide/index.rst 和 tools/docs/kernel-doc 。
- 
- 長 (多行) 註釋的首選風格是：
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e03e33bd33b83..8ea68e7c2fa7a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7522,7 +7522,6 @@ S:	Maintained
- P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
--F:	scripts/kernel-doc*
- F:	tools/lib/python/*
- F:	tools/docs/
- F:	tools/net/ynl/pyynl/lib/doc_generator.py
-@@ -7559,7 +7558,6 @@ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
- F:	Documentation/sphinx/
--F:	scripts/kernel-doc*
- F:	tools/lib/python/*
- F:	tools/docs/
- 
-diff --git a/Makefile b/Makefile
-index 3cd00b62cde99..81a4ab11256ce 100644
---- a/Makefile
-+++ b/Makefile
-@@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
- 
- # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
- # has a logic to call it
--KERNELDOC       = $(srctree)/scripts/kernel-doc.py
-+KERNELDOC       = $(srctree)/tools/docs/kernel-doc
- export KERNELDOC
- 
- KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 4db24050edb0e..c979c579de66f 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -443,7 +443,7 @@ always-$(CONFIG_DRM_I915_WERROR) += \
- 
- quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-       cmd_hdrtest = $(CC) $(filter-out $(CFLAGS_GCOV), $(c_flags)) -S -o /dev/null -x c /dev/null -include $<; \
--		$(srctree)/scripts/kernel-doc -none -Werror $<; touch $@
-+		$(KERNELDOC) -none -Werror $<; touch $@
- 
- $(obj)/%.hdrtest: $(src)/%.h FORCE
- 	$(call if_changed_dep,hdrtest)
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-deleted file mode 120000
-index 3b6ef807791a2..0000000000000
---- a/scripts/kernel-doc
-+++ /dev/null
-@@ -1 +0,0 @@
--kernel-doc.py
-\ No newline at end of file
-diff --git a/tools/docs/find-unused-docs.sh b/tools/docs/find-unused-docs.sh
-index ca4e607ec3f72..53514c759dc1b 100755
---- a/tools/docs/find-unused-docs.sh
-+++ b/tools/docs/find-unused-docs.sh
-@@ -54,7 +54,7 @@ for file in `find $1 -name '*.c'`; do
- 	if [[ ${FILES_INCLUDED[$file]+_} ]]; then
- 	continue;
- 	fi
--	str=$(PYTHONDONTWRITEBYTECODE=1 scripts/kernel-doc -export "$file" 2>/dev/null)
-+	str=$(PYTHONDONTWRITEBYTECODE=1 tools/docs/kernel-doc -export "$file" 2>/dev/null)
- 	if [[ -n "$str" ]]; then
- 	echo "$file"
- 	fi
-diff --git a/scripts/kernel-doc.py b/tools/docs/kernel-doc
-similarity index 100%
-rename from scripts/kernel-doc.py
-rename to tools/docs/kernel-doc
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 7a5fcef254297..cb2a5005e633f 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -246,7 +246,7 @@ class SphinxBuilder:
-         #
-         self.sphinxbuild = os.environ.get("SPHINXBUILD", "sphinx-build")
-         self.kerneldoc = self.get_path(os.environ.get("KERNELDOC",
--                                                      "scripts/kernel-doc.py"))
-+                                                      "tools/docs/kernel-doc"))
-         self.builddir = self.get_path(builddir, use_cwd=True, abs_path=True)
- 
-         #
--- 
-2.52.0
+Inspired by DEBUG_PAGEALLOC, this sanitizer tracks IOMMU mappings on a
+per-page basis, as it=E2=80=99s not possible to unmap the pages, because it
+requires to lock and walk all domains on every kernel free, instead we
+rely on page_ext to add an IOMMU-specific mapping reference count for
+each page.
+And on each page allocated/freed from the kernel we simply check the
+count and WARN if it is not zero, and dumping page owner information
+if enabled.
+
+Concurrency
+-----------
+By design this check is racy where one caller can map pages just after
+the check, which can lead to false negatives.
+In my opinion this is acceptable for sanitizers (for ex KCSAN have
+that property).
+Otherwise we have to implement locks in iommu_map/unmap for all domains
+which is not favourable even for a debug feature.
+The sanitizer only guarantees that the refcount itself doesn=E2=80=99t get
+corrupted using atomics. And there are no false positives.
+
+CPU vs IOMMU Page Size
+----------------------
+IOMMUs can use different page sizes and which can be non-homogeneous;
+not even all of them have the same page size.
+
+To solve this, the refcount is always incremented and decremented in
+units of the smallest page size supported by the IOMMU domain. This
+ensures the accounting remains consistent regardless of the size of
+the map or unmap operation, otherwise double counting can happen.
+
+Testing & Performance
+---------------------
+Earlier versions were tested on Morello with Arm64 + SMMUv3
+This version was tested and benchmarked on Lenovo IdeaCentre X Gen 10
+Snapdragon.
+
+With dma_map_benchmark, tested on both SMMUv3 and SMMUv3, where:
+
+CONFIG refers to "CONFIG_IOMMU_DEBUG_PAGEALLOC"
+cmdline refers to "iommu.debug_pagealloc"
+Numbers are (map latency)/(unmap latency), lower is better.
+
+SMMUv3:
+echo dma_map_benchmark > /sys/bus/pci/devices/0005\:01\:00.0/driver_overrid=
+e
+echo 0005:01:00.0 >  /sys/bus/pci/devices/0005\:01\:00.0/driver/unbind
+echo 0005:01:00.0 > /sys/bus/pci/drivers/dma_map_benchmark/bind
+./dma_map_benchmark -t $threads -g $nr_pages
+
+			CONFIG=3Dn    CONFIG=3Dy    CONFIG=3Dy
+			            cmdline=3D0   cmdline=3D1
+4K - 1 thread		0.0/1.8     0.0/1.8     0.1/1.9
+4K - 8 threads		0.2/6.2     0.2/6.1     0.3/6.8
+1M - 1 thread		0.5/54.3    0.5/54.4    6.7/74.4
+1M - 8 threads		1.2/339.7   1.1/340.9   10.5/331.7
+
+
+SMMUv2:
+echo dma_map_benchmark > /sys/bus/platform/devices/ac0000.geniqup/driver_ov=
+erride
+echo ac0000.geniqup >  /sys/bus/platform/devices/ac0000.geniqup/driver/unbi=
+nd
+echo ac0000.geniqup > /sys/bus/platform/drivers/dma_map_benchmark/bind
+./dma_map_benchmark -t $threads -g $nr_pages
+
+			CONFIG=3Dn    CONFIG=3Dy    CONFIG=3Dy
+			            cmdline=3D0   cmdline=3D1
+4K - 1 thread		0.6/3.9     0.6/3.9     0.7/4.0
+4K - 8 threads		1.0/19.6    1.0/19.7    1.1/19.9
+1M - 1 thread		61.8/372.0  61.8/374.9  68.1/396.7
+1M - 8 threads		89.4/1470.5 89.9/1362.9 100.3/1373.3
+
+Changes in v7:
+v6: https://lore.kernel.org/linux-iommu/20260109171805.901995-1-smostafa@go=
+ogle.com/
+- Add a new function page_ext_get_phys() and use it instead of
+  pfn_valid() + phys_to_page().
+- Drop R-bs on patch 4.
+
+Changes in v6:
+v5: https://lore.kernel.org/linux-iommu/20260106162200.2223655-1-smostafa@g=
+oogle.com/
+- Remove wrong logic for handling unmap with bigger size than requested
+  and warn instead.
+- Collect R-bs and Acked-by
+
+Changes in v5:
+v4: https://lore.kernel.org/all/20251211125928.3258905-1-smostafa@google.co=
+m/
+- Fix typo in comment
+- Collect Baolu R-bs
+
+Main changes in v4:
+v3: https://lore.kernel.org/all/20251124200811.2942432-1-smostafa@google.co=
+m/
+- Update the kernel parameter format in docs based on Randy feedback
+- Update commit subjects
+- Add IOMMU only functions in iommu-priv.h based on Baolu feedback
+
+Main changes in v3: (Most of them addressing Will comments)
+v2: https://lore.kernel.org/linux-iommu/20251106163953.1971067-1-smostafa@g=
+oogle.com/
+- Reword the Kconfig help
+- Use unmap_begin/end instead of unmap/remap
+- Use relaxed accessors when refcounting
+- Fix a bug with checking the returned address from iova_to_phys
+- Add more hardening checks (overflow)
+- Add more debug info on assertions (dump_page_owner())
+- Handle cases where unmap returns larger size as the core code seems
+  to tolerate that.
+- Drop Tested-by tags from Qinxin as the code logic changed
+
+Main changes in v2:
+v1: https://lore.kernel.org/linux-iommu/20251003173229.1533640-1-smostafa@g=
+oogle.com/
+- Address J=C3=B6rg comments about #ifdefs and static keys
+- Reword the Kconfig help
+- Drop RFC
+- Collect t-b from Qinxin
+- Minor cleanups
+
+Mostafa Saleh (5):
+  mm/page_ext: Add page_ext_get_phys()
+  iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+  iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
+  iommu: debug-pagealloc: Track IOMMU pages
+  iommu: debug-pagealloc: Check mapped/unmapped kernel memory
+
+ .../admin-guide/kernel-parameters.txt         |   9 +
+ drivers/iommu/Kconfig                         |  19 ++
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/iommu-debug-pagealloc.c         | 169 ++++++++++++++++++
+ drivers/iommu/iommu-priv.h                    |  58 ++++++
+ drivers/iommu/iommu.c                         |  11 +-
+ include/linux/iommu-debug-pagealloc.h         |  32 ++++
+ include/linux/mm.h                            |   5 +
+ include/linux/page_ext.h                      |   6 +
+ mm/page_ext.c                                 |  27 +++
+ 10 files changed, 335 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+ create mode 100644 include/linux/iommu-debug-pagealloc.h
+
+--=20
+2.52.0.457.g6b5491de43-goog
 
