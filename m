@@ -1,63 +1,63 @@
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE292F4A10
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 01:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F200A2F5A0C
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 01:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768355934; cv=none; b=cPP7WKr0+cLRjpQMAzVTgMtv0d9aXJTFWyPHWzo7/xDVPCcWQWUTvODJJQPw5XrlEjUnVTSbVyN63NGcqyE28c337Sm4j7SFvXYGYQ0KUurx+gW8ck0e46P42h59oc9xXfoxIEYH8eIZHJ8M43mKjH1Obd79TRfQa0dOpx8qb7w=
+	t=1768355938; cv=none; b=tjKj93lNCRoaRaTvvsLiqQv+tSGAsFr56qHO6hNyIT8A2WewvG0Egxzmscaijxfl+KSBzjlpnZBno+DtO/PTYNGJIMtL/dYx/8yO/Y9qpT1dw8QASxNfTYNpr5ZTlEtqggHbxUIrDowv34vN03Dw2ppqTg67v/z4c4PVsyWA0EM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768355934; c=relaxed/simple;
-	bh=qcJ9WTVfS0uIhrALRso7IA2CF/K5hLrMPEervT/QQok=;
+	s=arc-20240116; t=1768355938; c=relaxed/simple;
+	bh=Dl6cNQBg3u7SGfQmdKJXxn3my2NuuDbw75ihDoc9xW4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FiOKnEEZnwPNueGbDcp4jV9ac2uKFafG5LKoJq6f+Ccrv4RXY7gdmQy1E1+7y/jOV6FuxrHeF9CENvJOTZIcZfwayFkhZi58qCAtZAte8rzTfS7j4ZvYfCDvQ9evL9igS/fLDGuDanfwOW2TPQeuSs+o46bsPKvChOS3PoBMQxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F4TP4YOb; arc=none smtp.client-ip=209.85.210.68
+	 MIME-Version; b=bd0dUFFHvBynudZhnu761CIck6vg3uPnn7ju8SspzHi/RUmM6ARiM1bAVlDFYfH2LvojPSpJnGZCnnXAssoOdxpWNMONwwhjY3fTlPwbm2F1wvaLT2ej6VKgx1m/mMbDggbOLh5+8EoltURF/7JiotlUd/AvXRynHcpolIarAHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YKvNYgJ7; arc=none smtp.client-ip=209.85.160.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F4TP4YOb"
-Received: by mail-ot1-f68.google.com with SMTP id 46e09a7af769-7cfcb5b1e2fso92623a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 17:58:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKvNYgJ7"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-3f9ebb269c3so3790289fac.3
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 17:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768355932; x=1768960732; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768355936; x=1768960736; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8i2B8ufAHD9sSahBAZkEx2yO1Ly/YjHLa83EmimubvQ=;
-        b=F4TP4YObB0sTRljRjnPa4bn148Ydgc7cCZathvFMZxSGlOBrYOo5wDXXICWBXJRhFI
-         TTFDg9FFB5b2wiFCk3Kyr7YAfG2m52pO8lEcdRan+jT2OUBRROdOSsbNSQiVz0oJtSRG
-         zwqzmikELmJOExjhvPzmvuV7FDK82VU9SFWT6E9kZW9ACQKfaVCD0VNOkzFWw61hyMCz
-         oe/3VfYXgWFgnBI6+zUKa6b0sfQfi4RcnD7H6cNI7rT0nHQY3ePGmC5wmCSoaD+sklk9
-         bTB54h5DSMW/YcckExIUKrDv8QZTuQifVBBO58SwQ26RNPbNDzHDDRPL4V7slEjL4H2H
-         DvXw==
+        bh=Oa5wcVDeV5J5v7vkbrVOxP4Roi/4nUDRF2hheke3WoM=;
+        b=YKvNYgJ7pxNABYu3ET3TqbUOcbI4Cmtt5k4DjxlMUso2hWTF40mwZ0SWFc4rX2ozjR
+         eTylGhosevmasLg0EB3QSTC/X+Jjn06AA8R33IdyRJsqDFMdK/BCAwP9nZmH8R9FfXxs
+         bXPZmLrCYahULm2zO+u+BGSq46xuxfXJyXoDFxXA0E42aNWHsy2PV36o84T49d0ZAInf
+         /ceNZmzoLKYrv4rM+D4DsKbCvkoxrORikR+xcMsxZHMZujthWhj8OeE4YqeZrjtuAlj2
+         MBlRQPATHkejTOpiSUYf3XTdLaqgMNnccY4cxb3FwEkr/wfFQd4cN5va5SGXeT80Sidy
+         AjBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768355932; x=1768960732;
+        d=1e100.net; s=20230601; t=1768355936; x=1768960736;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8i2B8ufAHD9sSahBAZkEx2yO1Ly/YjHLa83EmimubvQ=;
-        b=vUwtUs9IdF0I27/w744PapgRC0jI3Ndt3LgEmpfAQOVX4NClaLf9kr4tVZmWm9dzIs
-         FMTc/HytyMFI2ppn+AgsmgUqvv2lMInFtL8KmtbrSbdvoclYzm9UtNXKqJZE7LEM3Cqu
-         pxL2Dp3cELn/Z4QCOSZv1YWA3BoRVcBGJRuRb5W6u+9OW+Fm5Hw4L9k0o4R3rBSJpn5l
-         itUPEV/kwhpoLXFr/W2bYNIpfAZVKmM2+qUvLgZbVYWZAKBKM7Besrd4fus/Pwua1cuf
-         286LvGFVsj759EBOasjlVFEbUF6g5bn4yrJBY/Ruq+SSWic+XFxyP1SGiUrxqyU+U/pA
-         4dNA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8rvt3zYC/Zql/fsWNAr4eSNYw/wOSXoa226zP4Dj9vlJuHqs2aZ49/aco54/ZhjvXRCL3NhBe0XU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygD15SPc1WtPVEP5ceOhjWc4ba4A184hTzstnblviDyFEIxcv/
-	rPG6jDexA2KjKVMEkA7xF2AcQ2rCWxeUxdsthBL0ma7GdTfgUN7k0WnB
-X-Gm-Gg: AY/fxX4Xded7fh5riCmpYz1yZLu7214v7jm52dOW7BIpNGkrHYKLgg2XMgn7mf743lW
-	7asqmrngKjLbkwADA06ak40Tfw6xM5dxBcvHkxGIOEjgMD3AvBItmh9yy48m0LYfecaPYc+skyt
-	NQFbOL7gEPw7L/6vfvAYjfvNHZVHSbIbhUKG4ENHIHPOZFgcRSP7QY9S3wy6YKco24tFhFU/QbP
-	hkudGuPMkkhRK7AdSYYpmy/b0mmqY6wO5Rn2foZHXqzBGWfoCa1UcHQQ1MINq8kuAoUnWdHuFL4
-	atyw8o/dK+Kyo4SsBjum+U0zVFEDspexjYpR0dXj/0KJIxR4i+wEN1pUrQCh2JyFIIeJ42OXgwn
-	CNVoDL6Lq6+TM94/Rp2eihmFShBA6NGZIKuTrznRs2GpVFBadnanGqopQxXqEp4WDCLwG/Q/uHN
-	56fOTFILV01AyQtNXWQ7Q1zZxRJzJOy9fiy0He
-X-Received: by 2002:a05:6830:3148:b0:7c6:cf19:1dec with SMTP id 46e09a7af769-7cfc8b73711mr1019391a34.33.1768355931685;
-        Tue, 13 Jan 2026 17:58:51 -0800 (PST)
+        bh=Oa5wcVDeV5J5v7vkbrVOxP4Roi/4nUDRF2hheke3WoM=;
+        b=LtkZl/oiTpl2lus1/kW9obyE5JsB508na635dxkVF+hZclnIMSfxCAw+6z5eh7Ew/M
+         uf2iLmlJ0AHDrXYUkgsIWgjkaQ7havZeD3t+M+LcKdSViGsJz5wHYYL0maxfLj2Lzcdk
+         FX8jHOQf0xOfHUp6jB6+IbggaWLMRdVrwpjJohbFEjX+SfndYUxQ5Viugr9fvQeNvQVI
+         SQAhzgNQuJKC4ij7NOzMN0phI3+n+gnm3M54SDKLerqK5Da+J6XzRkIcU6R14Ihdo7Er
+         JB32EvmSkfSC6lSMRk0cH+ozD3f/OgkYs6zKtpDDbUl44hJIwcnklT8Qk/03YqGdIyki
+         ElQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGupaEZ8NX5Rzb5sS5Laxu0/Fuov8WtwJ90kZC1S7ngPV0g45QZ1VzFntVfL0JwxU+OLFdrFClu5s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDMnKJeqcr6+Pzm6HOCon2TRswG6x+k90va9l1V61WDsjHSAjN
+	klerwYUclJ9rUA70Ohl+5UbHr8y72Icj7T57nM8dfRa4RtCPd+NlrE78
+X-Gm-Gg: AY/fxX7z3qnhOLXtMrxfHVw1/ZRvFIZHjZLf4XSucQJs6CE/aJE/st91IgnyD/L0AzI
+	6BDHbKVrHH1NpK+RH2xK0usiz4tl2/GYhkLnsBsVdddey1mACgg8akOgz75rGO7gD/gD0xm2OSE
+	va31ynj3VjetT+OIBiDQrFR1aA6Znz3+sFxto/wOePEAnDcJMEZgvKRdytAyx2grrmHiqHFXRLz
+	aB+b/9g267wmjBLgeF4ct24JItLEXDnGPCK5K5/LYjnPg+NCNPkZz+HP41XrTv5qaeWPWjXLPTM
+	aCAi9kokh839TwtuxKSXJspGAiW04bfkS/FoFO3XQM3XmyC+F4jqQahMQMqNYQ+ZqNIdo9I5JhJ
+	1hhZadZuM2sntfoLiGc/st8JQreQjCrS2YwWoHMiuvE8rJsFYdaoAHeJjM3CmJGdTkD2DSFruHC
+	8f/4lVUBZeGIUmjd0YSWJO6XKZn2zX+7yDXHKo
+X-Received: by 2002:a05:6870:3041:b0:3f1:6dce:b865 with SMTP id 586e51a60fabf-4040bffc5a7mr412510fac.28.1768355935829;
+        Tue, 13 Jan 2026 17:58:55 -0800 (PST)
 Received: from frodo (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-7ce478d9c17sm17120860a34.22.2026.01.13.17.58.50
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-3ffa50722e9sm15400748fac.14.2026.01.13.17.58.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 17:58:51 -0800 (PST)
+        Tue, 13 Jan 2026 17:58:55 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
@@ -77,9 +77,9 @@ Cc: Jim Cromie <jim.cromie@gmail.com>,
 	linux-doc@vger.kernel.org,
 	Steven Rostedt <rostedt@goodmis.org>,
 	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [PATCH v8 02/31] dyndbg: add stub macro for DECLARE_DYNDBG_CLASSMAP
-Date: Tue, 13 Jan 2026 18:57:18 -0700
-Message-ID: <20260114015815.1565725-3-jim.cromie@gmail.com>
+Subject: [PATCH v8 03/31] docs/dyndbg: update examples \012 to \n
+Date: Tue, 13 Jan 2026 18:57:19 -0700
+Message-ID: <20260114015815.1565725-4-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114015815.1565725-1-jim.cromie@gmail.com>
 References: <20260114015815.1565725-1-jim.cromie@gmail.com>
@@ -91,83 +91,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the stub macro for !DYNAMIC_DEBUG builds, after moving the
-original macro-defn down under the big ifdef.  Do it now so future
-changes have a cleaner starting point.
+commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
+changed the control-file to display format strings with "\n" rather
+than "\012".  Update the docs to match the new reality.
 
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/dynamic_debug.h | 43 ++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index ff44ec346162..98a36e2f94b6 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -92,27 +92,6 @@ struct ddebug_class_map {
- 	enum class_map_type map_type;
- };
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 7c036590cd07..4ac18c0a1d95 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
  
--/**
-- * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
-- * @_var:   a struct ddebug_class_map, passed to module_param_cb
-- * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
-- * @_base:  offset of 1st class-name. splits .class_id space
-- * @classes: class-names used to control class'd prdbgs
-- */
--#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
--	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
--	static struct ddebug_class_map __aligned(8) __used		\
--		__section("__dyndbg_classes") _var = {			\
--		.mod = THIS_MODULE,					\
--		.mod_name = KBUILD_MODNAME,				\
--		.base = _base,						\
--		.map_type = _maptype,					\
--		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
--		.class_names = _var##_classnames,			\
--	}
--#define NUM_TYPE_ARGS(eltype, ...)				\
--        (sizeof((eltype[]){__VA_ARGS__}) / sizeof(eltype))
--
- /* encapsulate linker provided built-in (or module) dyndbg data */
- struct _ddebug_info {
- 	struct _ddebug *descs;
-@@ -137,6 +116,27 @@ struct ddebug_class_param {
- #if defined(CONFIG_DYNAMIC_DEBUG) || \
- 	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
+   :#> head -n7 /proc/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
+-  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
+-  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
+-  init/main.c:1426 [main]run_init_process =_ "    %s\012"
+-  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
+-  init/main.c:1429 [main]run_init_process =_ "    %s\012"
++  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
++  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
++  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
++  init/main.c:1426 [main]run_init_process =_ "    %s\n"
++  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
++  init/main.c:1429 [main]run_init_process =_ "    %s\n"
  
-+/**
-+ * DECLARE_DYNDBG_CLASSMAP - declare classnames known by a module
-+ * @_var:   a struct ddebug_class_map, passed to module_param_cb
-+ * @_type:  enum class_map_type, chooses bits/verbose, numeric/symbolic
-+ * @_base:  offset of 1st class-name. splits .class_id space
-+ * @classes: class-names used to control class'd prdbgs
-+ */
-+#define DECLARE_DYNDBG_CLASSMAP(_var, _maptype, _base, ...)		\
-+	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
-+	static struct ddebug_class_map __aligned(8) __used		\
-+		__section("__dyndbg_classes") _var = {			\
-+		.mod = THIS_MODULE,					\
-+		.mod_name = KBUILD_MODNAME,				\
-+		.base = _base,						\
-+		.map_type = _maptype,					\
-+		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
-+		.class_names = _var##_classnames,			\
-+	}
-+#define NUM_TYPE_ARGS(eltype, ...)				\
-+	(sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
-+
- extern __printf(2, 3)
- void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
+ The 3rd space-delimited column shows the current flags, preceded by
+ a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
+@@ -59,10 +59,10 @@ query/commands to the control file.  Example::
  
-@@ -303,6 +303,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+   :#> ddcmd '-p; module main func run* +p'
+   :#> grep =p /proc/dynamic_debug/control
+-  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
+-  init/main.c:1426 [main]run_init_process =p "    %s\012"
+-  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
+-  init/main.c:1429 [main]run_init_process =p "    %s\012"
++  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
++  init/main.c:1426 [main]run_init_process =p "    %s\n"
++  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
++  init/main.c:1429 [main]run_init_process =p "    %s\n"
  
- #define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt)
- #define DYNAMIC_DEBUG_BRANCH(descriptor) false
-+#define DECLARE_DYNDBG_CLASSMAP(...)
+ Error messages go to console/syslog::
  
- #define dynamic_pr_debug(fmt, ...)					\
- 	no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
 -- 
 2.52.0
 
