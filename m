@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B1E39B4B7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C6839B4BC;
 	Wed, 14 Jan 2026 13:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768396652; cv=none; b=sk+QjAV1pzQcM+CFT+SZZZUQkvGqnhgK4o0rcjfTnvL3QRQm2lBc3zEYysBQis0MQ/Rh3owNFSUdbmAI9GqLsvNpUyecLFDiC3w3fhyqX0Xvg2/AYjDfIu2mYGy0YqYS59ymCFmUEsLSPNcd7X74JR0ToH+YfH9xKoVedTOvdqU=
+	t=1768396653; cv=none; b=s93t+8We5paalby4C3VcZVSxsPLDEJXe153m3LhV33usXaeJOw7Deq6XL/YwPiSinVUWd+nAtwC0E4dN4i2/XBXfr9G3g6Jw+Urh/vAoEnXSHQxs66rhPfoRllu/eHNUJ2LD6s9afNIXoXTrfPm1isTRhB/SZqqWK/KhoPL8QAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768396652; c=relaxed/simple;
-	bh=AT9QRc72PaX75+hy9TLUQhCbT/HxXyi982eiR6wBTwU=;
+	s=arc-20240116; t=1768396653; c=relaxed/simple;
+	bh=EJEpOIpo13K5wVlZXAiPofrL9GMVio3Ohn/l0ADAKD4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XNssTRc6rC3RJCwQXzwU97TpjdVAxtXDwTAO5FUhBQL5r3abkP7zPRm9sge0AwRo3OuNOde/xlCe87dv44wyJy56QovbA1r+qrOy86v0RcfH+yt17SRztiCJsJCOXAsTlhMdOG+tm6+Grfbv7Z2WQLIg5uflfqkWlUMgDgP4YU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dZVLD9D4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=g6COkmryQvZVLBsFgl9wQd4Iye4LMuTuM1+44I1FPo4DxEWu5b6rblDoQ/V1DUUo/XHAWkyfPV28AeXRgyjLUyVb6O2jXBFJ+5+knjYc4gH+rHv3ge0t9k59200z2KFlJnM1GZ9icuM74RN5YzfUfCoZ1NwSgI/5c3XrzksQNfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLbhrGZ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dZVLD9D4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0590C2BCB7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLbhrGZ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A96A4C2BCC6;
 	Wed, 14 Jan 2026 13:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768396652;
-	bh=AT9QRc72PaX75+hy9TLUQhCbT/HxXyi982eiR6wBTwU=;
+	bh=EJEpOIpo13K5wVlZXAiPofrL9GMVio3Ohn/l0ADAKD4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dZVLD9D4yv64QmkwAgRHO5t2AVwIAP0rrzKjkQyHVpjn+ZfwNmsQBSm1pnr68nMaJ
-	 iKAO2zyDRPRGGpifS1RPLJCw8WpSfX6gSk2VYJ/nrtoTo2XblZf9GDx33Wy2qC5TOy
-	 Rs6i6NRxQFkZKc45eMJ+KVepaBtXZk9MPfdaxTopFrMlD1lhkisP3xFO94TsNLj0Lj
-	 yPyjZrx14ScLHSLSKV+FMSC0KArVGC85B7SupkgB0PDeAvlzTrwAI+n7yAhpIZdsPI
-	 35RLFUYd5i4qD8rMVXeVH5DvVSbpDKzxTP+h+hLPcb3BpwmdP+qMxi7LmdniNwO9Uu
-	 kuwSJBwyQS8ow==
+	b=DLbhrGZ+0j3jD3BMgsfu/nIsI07kioZVWxH27YQqN+s8CkQ6L3Jf2aVPKadfDF/WA
+	 6xNAKoNi1PRVZVKQvrHeobonhOPEpNxwF1RG5UNDO8sGuSux0vhmxoB8TWU6ETIPd4
+	 /nA2Igv6Vx6pg8AMmSseOvwyIVvUVBh8EgPrHcdcSmscTZlekNwtcolYeQCjYrYj6I
+	 43KnpFHuDwMjk9WB+OZ9B8flPhmFgt1afKK2bXWl8S8KDwJ+L07C6ObJwJoo58Z6Cl
+	 bR0FI8MbkrDt68PY88J05yzQ/WHU4vi4/ni4K/wK4/J2zEn7HhrWRexXnq4BmP0AE5
+	 iLhXGFeC+IhMQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vg0kc-00000002my4-3njU;
+	id 1vg0kc-00000002myC-40fC;
 	Wed, 14 Jan 2026 14:17:30 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 09/13] docs: kdoc_re: Improve docstrings and comments
-Date: Wed, 14 Jan 2026 14:17:22 +0100
-Message-ID: <ec6e230335a719417c4234b01ac628f6d1b96cd2.1768396023.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 11/13] docs: kdoc: enrich_formatter: Improve docstrings and comments
+Date: Wed, 14 Jan 2026 14:17:24 +0100
+Message-ID: <b6cbdced7499ed7fc7c7b4490e9f46fa79ac7361.1768396023.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768396023.git.mchehab+huawei@kernel.org>
 References: <cover.1768396023.git.mchehab+huawei@kernel.org>
@@ -58,91 +57,62 @@ documentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_re.py | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ tools/lib/python/kdoc/enrich_formatter.py | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-index 2dfa1bf83d64..2816bd9f90f8 100644
---- a/tools/lib/python/kdoc/kdoc_re.py
-+++ b/tools/lib/python/kdoc/kdoc_re.py
-@@ -51,6 +51,9 @@ class KernRe:
-         """
-         return self.regex.pattern
+diff --git a/tools/lib/python/kdoc/enrich_formatter.py b/tools/lib/python/kdoc/enrich_formatter.py
+index bb171567a4ca..d1be4e5e1962 100644
+--- a/tools/lib/python/kdoc/enrich_formatter.py
++++ b/tools/lib/python/kdoc/enrich_formatter.py
+@@ -26,12 +26,16 @@ class EnrichFormatter(argparse.HelpFormatter):
+     and how they're used at the __doc__ description.
+     """
+     def __init__(self, *args, **kwargs):
+-        """Initialize class and check if is TTY"""
++        """
++        Initialize class and check if is TTY.
++        """
+         super().__init__(*args, **kwargs)
+         self._tty = sys.stdout.isatty()
  
-+    def __repr__(self):
-+        return f're.compile("{self.regex.pattern}")'
-+
-     def __add__(self, other):
-         """
-         Allows adding two regular expressions into one.
-@@ -61,7 +64,7 @@ class KernRe:
+     def enrich_text(self, text):
+-        """Handle ReST markups (currently, only ``foo``)"""
++        r"""
++        Handle ReST markups (currently, only \`\`text\`\` markups).
++        """
+         if self._tty and text:
+             # Replace ``text`` with ANSI SGR (bold)
+             return re.sub(r'\`\`(.+?)\`\`',
+@@ -39,12 +43,16 @@ class EnrichFormatter(argparse.HelpFormatter):
+         return text
  
-     def match(self, string):
-         """
--        Handles a re.match storing its results
-+        Handles a re.match storing its results.
-         """
+     def _fill_text(self, text, width, indent):
+-        """Enrich descriptions with markups on it"""
++        """
++        Enrich descriptions with markups on it.
++        """
+         enriched = self.enrich_text(text)
+         return "\n".join(indent + line for line in enriched.splitlines())
  
-         self.last_match = self.regex.match(string)
-@@ -69,7 +72,7 @@ class KernRe:
+     def _format_usage(self, usage, actions, groups, prefix):
+-        """Enrich positional arguments at usage: line"""
++        """
++        Enrich positional arguments at usage: line.
++        """
  
-     def search(self, string):
-         """
--        Handles a re.search storing its results
-+        Handles a re.search storing its results.
-         """
+         prog = self._prog
+         parts = []
+@@ -63,7 +71,9 @@ class EnrichFormatter(argparse.HelpFormatter):
+         return usage_text
  
-         self.last_match = self.regex.search(string)
-@@ -77,28 +80,28 @@ class KernRe:
+     def _format_action_invocation(self, action):
+-        """Enrich argument names"""
++        """
++        Enrich argument names.
++        """
+         if not action.option_strings:
+             return self.enrich_text(f"``{action.dest.upper()}``")
  
-     def findall(self, string):
-         """
--        Alias to re.findall
-+        Alias to re.findall.
-         """
- 
-         return self.regex.findall(string)
- 
-     def split(self, string):
-         """
--        Alias to re.split
-+        Alias to re.split.
-         """
- 
-         return self.regex.split(string)
- 
-     def sub(self, sub, string, count=0):
-         """
--        Alias to re.sub
-+        Alias to re.sub.
-         """
- 
-         return self.regex.sub(sub, string, count=count)
- 
-     def group(self, num):
-         """
--        Returns the group results of the last match
-+        Returns the group results of the last match.
-         """
- 
-         return self.last_match.group(num)
-@@ -110,7 +113,7 @@ class NestedMatch:
-     even harder on Python with its normal re module, as there are several
-     advanced regular expressions that are missing.
- 
--    This is the case of this pattern:
-+    This is the case of this pattern::
- 
-             '\\bSTRUCT_GROUP(\\(((?:(?>[^)(]+)|(?1))*)\\))[^;]*;'
- 
-@@ -121,6 +124,7 @@ class NestedMatch:
-     replace nested expressions.
- 
-     The original approach was suggested by:
-+
-         https://stackoverflow.com/questions/5454322/python-how-to-match-nested-parentheses-with-regex
- 
-     Although I re-implemented it to make it more generic and match 3 types
 -- 
 2.52.0
 
