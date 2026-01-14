@@ -1,63 +1,63 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
+Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7F42F39B9
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 01:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4E82FC876
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 01:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768355950; cv=none; b=flvmGWl1jDMJbECU2bHidWQsZtc+mSxUbrWH8dI1v3WpRvxMuqZY3UH97jedMfd64+qDn4mCFmbCSFljz5nIogr43ZSYBTP3/BCLtopbRe5drbIk+YnXgmPaPhjpBgGnxPOne3HGNXQpVvRQbH2kjWzqKWS8TTU9hflDOj2WyKM=
+	t=1768355953; cv=none; b=h4UjM1dRVZZcnltjkktU/UdM85Irv0/c9UShLjeQiEhhAFd2skexlvcGObiRXWHWugvLSE7NKwG4tVe2jTaxTq2DWDfACOT9WlY/yLVU1qpoN4FFwtCRQbGz5bstDeAqjanJbyBG1XcHPA0xz49ij29jwYTOa9gpSDyXPasSHM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768355950; c=relaxed/simple;
-	bh=fM95hmZ04ed6zy8idewI3EL31tuL2KItDxeKe01AAec=;
+	s=arc-20240116; t=1768355953; c=relaxed/simple;
+	bh=buhxBjHOVKorNueLk5sK7AoBcrC3h4riWAq7157uSMU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zym4Pw5lpVFLcy8J9yQHaKn/6oPdYfxVrKlpzfgjFUVt0uED2PepPrhUNR05F3+6wguD7XnPPAsUk9/0yeUm9yf5TgLHkusUBt1ePiyEUUL0KUPnZ47BDsXDfEjfH2O3WVtOSXKayG3xsoklQ2WwjgtMUuxvLUjoqzzhwudV4pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2P8o88E; arc=none smtp.client-ip=209.85.167.194
+	 MIME-Version; b=N8Q/2Ctd0dOgNragxK04c3ZKQ25v4MsTQ0lr5h9teTXFXvYTq2I6hevvANGXZQGL26q1DMLJiKPkv/2s3UgLMWd7FGVV2T0kuwLQNa7l8WdfPkqzOko61C7UebGw7n6fkCPQNzD7wmJcJqhMidxAVaaizZCm9e9WlAmsJtZ0eH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DsuiyZv7; arc=none smtp.client-ip=209.85.160.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2P8o88E"
-Received: by mail-oi1-f194.google.com with SMTP id 5614622812f47-45391956bfcso6109552b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 17:59:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DsuiyZv7"
+Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-3ed15120e55so5668379fac.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 17:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768355944; x=1768960744; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768355948; x=1768960748; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HpOUBSAqvR/6qLOY5JhuGvZqZpKLgLxKB67YbPHT84s=;
-        b=F2P8o88EZ6FOol0KFM6oRgkUV+ZiBeg+RkJVqmm8I8ZxyqFpQTfS8iozFd1koz0ZXg
-         RgD5xwNXHPMfa+cwy8FV9z7Rjhs2DBUUfcA63DUGCuEQL78M9gCS033+5FToMoCpGkt3
-         rlBq3p0Smmq1SvfuTs0E0lI2u+NynaDMzO6U4R+iumLju/5TVDqReftdeOE5rkZOQgRM
-         hcc+RbnQIt4elku6/5F+vWgnqWQ9oMBhGeYYhmeVgx38y8V6FIgkRHsQeV6WOVVvPCfU
-         3UbgajGBiNs6xYZs80lz2XpQ2UpBDJRa4ksO9czL/jyAAAD4wxhh4eApEtDAaaCalgxk
-         KUMw==
+        bh=U7ftMB0O2RO6V6KEGBmyXf/qaI8CtnkfkNTYnuarQaQ=;
+        b=DsuiyZv7CIU6U0L0cMoBchRXu+lxSRFwAoh44p05wOrGL9px8JWy5W1zp4uq3E/7yZ
+         JY5VfmxD9NisOujwfk9QBTvhsxGJXNv9nzvunEUnxVOJxi3nCE5Pl15OTlmORmbv88ti
+         ou3ehLm/uqzFtE1d/2pSpi/vB6zFqLijZ8otrfZkVXtpELxMHAd+46A6It7rYUUHFVdF
+         VSPKV/sEwkADRSPXpeZGtaMkhgG+7w42gmbgCoGmV8VdbtNpOs0Z31+zGFePDnyaw+Ww
+         QMyN4bzjnw7FvQSgRyN5QxVWEN5qR6fOONzV1sm1/DrC+I1fPJTfEVyG5T9+4DWl+gw4
+         o7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768355944; x=1768960744;
+        d=1e100.net; s=20230601; t=1768355948; x=1768960748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HpOUBSAqvR/6qLOY5JhuGvZqZpKLgLxKB67YbPHT84s=;
-        b=fUoI6Rf+yMf975SpIBAyBouDpsoeKR3j3n0aiF+OrtKIk0lUgCQQmZkiURQPQVTvRL
-         pvNx7vLzbepB/Uvbm5VYbgPBSYaN+wQRWjtXgRzqTa8qs2gih+ZPqS+cQ2bqGapZEJft
-         oC0YUzx6ive7wLMPS33LYR5NPRrkOYVA/GnKDC7zF1cAPDU96U9lk5/uEFrwKhZb9NYK
-         /XvxEPhxjqQw6l9t46V56Mi+unrUCNEkYBtj8jUqkefk1eysiC7bR3pdSqFPf9snqSVF
-         g5tnQUwnv7ao6owozP8Lo7StmVoY+xArbi1xVEmmM1tgHuKZoAgbJfG3wlFQNcnEZF2g
-         ulpg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbk0ZIit/h5DUqIVIDAmI4sI3BZDv9cncdB37Z1k2miUiPgqp7iGco4PKGj/wqqmP2D62ugzu/78Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxamL1bK7zp9gmUvTRJF6EwIzKWyk9cwZf+gnTsJJ1R9vvRdk0z
-	TJqOI3mecYPRHIpti6r5eEfNzYFLwzx9wiPAnFw6IRxdUPGSisk4D7ug
-X-Gm-Gg: AY/fxX6k0BwtheTGjjPthwJ0HFJjy5ViCNyjWlQPLiCZcVqMudiTmfC+l3Mnw92c2Dj
-	oBrMxOEklkVogdLD7tOAg1VNIbw5+pOARfQ0rRX8tQRdhOsQkOa8S9EqOrpdgYHMt8cVYumNliZ
-	NOlN2v9ehiwJBNKGjswrrPPrpJQZK6f5mhGzXErG1RLWPIvR4HJWkjFpdLWQaflLi+N2j9hBMm+
-	JhZAWz93Cj+vepIJO6UjXvsFITjyDXdXbFMnJ3CRQi6pf0jqmrLgKg7oiIqIXWoZ6MApq5Htl4W
-	bzWWNnt9gIysuQZgnLMm8x4M7iwPqXVyom606Ua8c9uG/lWU7z238sh4FBOXLCtkeQzvaVgoO7y
-	qWy0YJyBO1yeakXFfz3ncZdi1d+Yt305XqGLThgRdSW8W5uVrTJn0Ipw3DUpGxnXb4GgVSxwt7l
-	tUbX8/v65hMl2hVdIVvTfEhRHsBNXYk7JDGOzP
-X-Received: by 2002:a05:6808:1785:b0:45a:a4b7:e5a9 with SMTP id 5614622812f47-45c71553f80mr625400b6e.61.1768355943758;
-        Tue, 13 Jan 2026 17:59:03 -0800 (PST)
+        bh=U7ftMB0O2RO6V6KEGBmyXf/qaI8CtnkfkNTYnuarQaQ=;
+        b=xEz1wx1k+1c/afeUtCb0SsgPZywGRPIqUrjTHC1vgTYNEBO/3ct9Plj29e11Dens7i
+         xVLZBDg1C/VTG70wqajRWuM/X9zZ7ilCZ/Tm7eTOAIrXPRSU49TwVoV+oY0w1W9TZEHC
+         zVraSv0dz3jqgUjtdsQ1kJ5KGDoswaCFTT2JnvjgT4CTdtP36IxDNntVVBOh3GP78wkZ
+         o5L2IO6VUNA2CmDtljIK/sBNbUQRhxe4zhNW1NA5MaRMn3f6VLMfIMUZV6LtBmWPWDEB
+         Mg/8/4r6dbw4KRVWHkwQTYgpb8erpVBUczCC4zW/oQcjTHSTisgbbb33ZAnZLeCdiF66
+         Eb4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXf0xSnWIkSYzhWbCiifhbZylOPbY9qy5qlvrGdLAiMGRTdIxY1LgXp5MgbvPVvvUr+JuUZByAntIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtk9QiLMEvREkvKg/d5ZOl9qzWChMQEqf5oYe7y0gdd+Ov4Xgv
+	cFjkY90tlB+FleEOboMAgV+a9B45fzHrucgJPr9S9roBv2GWYasVsMKH
+X-Gm-Gg: AY/fxX7XjiaPjc3Oeh0bwE5PUsIOxSoebJamU6owZ4bkHm/EjHxqwaU5RiXkEoD8itr
+	M+rkluJU/O9yyGcpHMNwwrXZxFEQ+7NMvbOs6wJzm6aJlPC1XkpJ3pg65zG7jpsXA9a7UkaPsAW
+	uuFp+GR9NThN+BKImsQ4avXBFbAZmRXEQeUoj769e/JUWDLetkGZVco4hPljFWydXnol/n10eEI
+	ipjNOuIQuDshzcVN2FHGVriB4bwXvBfdTxTKMzYIN9jPbjSHBHxwnGvuBdAYa4GdbmFvAS8b7bA
+	QknAhPtyAunYXHWkL40e0T3mYGySWVBIfW/QietUnDFLe/TAipvV9t+ovAqlaKhzrnwNyjBnkH5
+	aXqLwz0aQWmXTjlelXsXmRu2l6IfbUYwpr0xMOTP8FK0U7B4851Z9XmZUtgyNa5zGNpiYYlrwvg
+	S/tqxxNtNtWhChyhe+Gt0WdUQy1svOk+RlpFA8
+X-Received: by 2002:a05:6871:3a0f:b0:3ec:44ca:ca33 with SMTP id 586e51a60fabf-40406f3b654mr743821fac.4.1768355947689;
+        Tue, 13 Jan 2026 17:59:07 -0800 (PST)
 Received: from frodo (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 5614622812f47-45a5dfb6256sm10704815b6e.0.2026.01.13.17.59.02
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-4040cba2d2asm341362fac.5.2026.01.13.17.59.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 17:59:03 -0800 (PST)
+        Tue, 13 Jan 2026 17:59:07 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org
@@ -77,9 +77,9 @@ Cc: Jim Cromie <jim.cromie@gmail.com>,
 	linux-doc@vger.kernel.org,
 	Steven Rostedt <rostedt@goodmis.org>,
 	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [PATCH v8 05/31] test-dyndbg: fixup CLASSMAP usage error
-Date: Tue, 13 Jan 2026 18:57:21 -0700
-Message-ID: <20260114015815.1565725-6-jim.cromie@gmail.com>
+Subject: [PATCH v8 06/31] dyndbg: reword "class unknown," to "class:_UNKNOWN_"
+Date: Tue, 13 Jan 2026 18:57:22 -0700
+Message-ID: <20260114015815.1565725-7-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260114015815.1565725-1-jim.cromie@gmail.com>
 References: <20260114015815.1565725-1-jim.cromie@gmail.com>
@@ -91,42 +91,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-commit 6ea3bf466ac6 ("dyndbg: test DECLARE_DYNDBG_CLASSMAP, sysfs nodes")
+When a dyndbg classname is unknown to a kernel module (as before
+previous patch), the callsite is un-addressable via >control queries.
 
-A closer look at test_dynamic_debug.ko logging output reveals a macro
-usage error:
-
-lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
-lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
-lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
-
-107 says: HI is unknown, and 105,106 have a LOW/MID and MID/HI skew.
-
-DECLARE_DYNDBG_CLASSMAP() _base arg must equal the enum's 1st value,
-in this case it was _base + 1.  This leaves HI class un-selectable.
-
-NB: the macro could better validate its arguments.
+The control-file displays this condition as "class unknown,"
+currently.  That spelling is sub-optimal/too-generic, so change it to
+"class:_UNKNOWN_" to loudly announce the erroneous situation, and to
+make it uniquely greppable.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/test_dynamic_debug.c | 2 +-
+ lib/dynamic_debug.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-index 77c2a669b6af..396144cf351b 100644
---- a/lib/test_dynamic_debug.c
-+++ b/lib/test_dynamic_debug.c
-@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
- DD_SYS_WRAP(disjoint_bits, T);
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index eb5146bcfaca..cb171088850c 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -1165,7 +1165,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 		if (class)
+ 			seq_printf(m, " class:%s", class);
+ 		else
+-			seq_printf(m, " class unknown, _id:%d", dp->class_id);
++			seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
+ 	}
+ 	seq_putc(m, '\n');
  
- /* symbolic input, independent bits */
--enum cat_disjoint_names { LOW = 11, MID, HI };
-+enum cat_disjoint_names { LOW = 10, MID, HI };
- DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
- 			"LOW", "MID", "HI");
- DD_SYS_WRAP(disjoint_names, p);
 -- 
 2.52.0
 
