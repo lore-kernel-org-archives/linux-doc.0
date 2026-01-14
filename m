@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E34B33769C
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 19:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F179E346AC6;
+	Wed, 14 Jan 2026 19:43:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768419615; cv=none; b=jdE90qK5vaIlXg441dSQE/G3o8ho3zLy8wTvw7I2bt48gJBl1WYgJ4Hh/UG3NhexvNeqYVUNZ3cayPYLqONC195UlZAeHKUe1EuftYvHEew69GV0lZN9mImXMTTwT80oH6euQy1Fw0iwTp5YFc5pYRmKRaxpQizKtRJJP/eQKwU=
+	t=1768419781; cv=none; b=TBR/VslKbbyxXtNMc+gv7ny59yXVjc1Sxai2gZWRaJH1JjvnRLNxLO5D6cEeP2rmjy7O8hTtHntxirRi8gK/250nP69h3VOOt7sJI3PX+csfvpMPH9Fag7OOV7dfhgQiDjF93XZy4ELxG1tR3PIVnfcRKB3fnvi8dSpYBV/mzDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768419615; c=relaxed/simple;
-	bh=UZXash7GT+zKNLGZ/b7IAOi3awkxRZDrTqMOTmesLF8=;
+	s=arc-20240116; t=1768419781; c=relaxed/simple;
+	bh=CawOrzEaMhv0Aa/7fQdY+0jgGgVZ56U3tf+fbQnpMvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WzaHEPNqugW6mQUaty75mbdiXadpI13B7CSIzLqaQSFQ6Q8nIwzX5XNx5FsEs0RXwPlcizaloLAuVFdYoG9JLT/nR0KrEhb5V2OzyKu7RaAhzoU0HXJ7rm+7ILsXIYwXMkxJHTfC3X/fK4KX1LbenfxvS7AE3+IEwWJOulUXON8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2LuUOa7; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LktsetRuM55k9Unp2GhDztUYcx9j64Nrd3yWtQ0/LTV/leuB+CMFKcaSQHo1w2B+aqPbDhHhLuxeU9rk1GkhPfSHNhNPvymt8nXVlEiPmbxAoIonCllgV/iv0bvhwBcKXqV0Qq/vQmv0dnXEZ0bHuC9n6FT1a5nyd1ahrHX8XpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsZ7C/gb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2LuUOa7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE26C4CEF7;
-	Wed, 14 Jan 2026 19:40:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsZ7C/gb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7171C4CEF7;
+	Wed, 14 Jan 2026 19:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768419615;
-	bh=UZXash7GT+zKNLGZ/b7IAOi3awkxRZDrTqMOTmesLF8=;
+	s=k20201202; t=1768419780;
+	bh=CawOrzEaMhv0Aa/7fQdY+0jgGgVZ56U3tf+fbQnpMvA=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=M2LuUOa7Mb0D/8aKDz8sVqgdkUY+EQ8M6DuplA1ubrdxH6HlgxjbrSwKrWahGkuxM
-	 HIyExY/aJv7byWr+i3yBpTQ+fE1ScwAdEZcLUHHowU3gnItNoD70uJMLgONVRGN2zY
-	 vymXIw4EsJEj2T+KVfmLXH35xzq/9G3rp+Qj+YUY5sTelHSAUUFLQtPuxCmUKWfJmH
-	 KugdBT0uFBjANEVUhYJJ8D8nCq+Bd/Pag1ogi2+SYxyJi/lsYuzefJ6dMUfzB3Bayk
-	 MPJnTOZ/e+4WT4nqBcpYnerl+JGcqfO4f7rb3nMbK1vciNXX5JuHtdEYuy6YNm4D0V
-	 usjR0IF8kXYDw==
-Date: Wed, 14 Jan 2026 20:40:10 +0100
+	b=jsZ7C/gbw7twUlsd3T9MTlbO9Ugrrb0zSoCT+AlzQRvXQPU6voWSQuwRTEd8OGZ7S
+	 owGHKGqW3jVWQmnnRYXF6C5VcfI7cR69Zc91UqwNdQjMI/r12vZaeYOBlxkIyVmqnM
+	 SvtXP46qtp0lGiI8VLHtYKxQ1PekeVxZb5UzmJdxF+/kCBkwxyXxAOy+6QSA6aBYhi
+	 pchqaYDFtzArEUnz09B1WH+XMcgGDtRWrmFf+bSnotBhCp2ltVu/B1oRqDK1+LeYHr
+	 d5BLOjt6ap3P6FW4rNeaIyU83+9oUD4fLdl/tCRyPW3gH2pzzq8X+EcNZ2sPD69+hY
+	 F/AP5cYzBgw9g==
+Date: Wed, 14 Jan 2026 20:42:55 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Changbin Du <changbin.du@huawei.com>
-Subject: Re: [PATCH] Rework the jobserver open logic
-Message-ID: <20260114204010.0ddc36fd@foz.lan>
-In-Reply-To: <87h5soupog.fsf@trenco.lwn.net>
-References: <871pjtxn13.fsf@trenco.lwn.net>
-	<20260114102045.1c164472@foz.lan>
-	<87h5soupog.fsf@trenco.lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>, Shuah Khan <shuah@kernel.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 1/2] docs: kdoc: remove support for an external
+ kernel-doc from sphinx
+Message-ID: <20260114204255.0140a59b@foz.lan>
+In-Reply-To: <20260114164146.532916-2-corbet@lwn.net>
+References: <20260114164146.532916-1-corbet@lwn.net>
+	<20260114164146.532916-2-corbet@lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -47,52 +48,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 14 Jan 2026 09:25:35 -0700
+Em Wed, 14 Jan 2026 09:41:43 -0700
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> The ability to build the docs with an external kernel-doc program involves
+> some truly confusing logic and complicates the task of moving kernel-doc
+> out of scripts/.  But this feature is not useful for normal documentation
+> builds, and the external kernel-doc can always be run by hand when it needs
+> debugging.  So just remove that feature and make life easier.
 > 
-> > On all prints, please use file=sys.stderr.  
+> There is still a bunch of logic to build a command line that we never use;
+> the idea is to be able to output it, but I'm not sure if that is worth
+> keeping.
 > 
-> I was thinking, as I wrote all those, that I needed a warn() function,
-> but then it slipped my mind.
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-well, you could logging. As this is called also inside kernel-doc,
-this could be a good idea.
+Agreed: it is time to get rid of such support.
 
-> 
-> >> +            return
-> >> +        fds = split_opt[1]
-> >> +        #
-> >> +        # As of GNU Make 4.4, we'll be looking for a named pipe
-> >> +        # identified as fifo:path
-> >> +        #
-> >> +        if fds.startswith('fifo:'):
-> >> +            path = fds[5:]  
-> >
-> > Hmm... moving from partition() to startswith might be problematic...
-> > are we sure that "fifo:" can't be in the middle of the string?  
-> 
-> If we don't get fifo:file then it's something unexpected and it should
-> complain.  At least with these changes it will actually complain.
-> 
-> > If so, instead of using "5" magic number, I would use len("fifo:")  
-> 
-> I guess, though that's just replacing one constant with another; if
-> something changes, both have to be tweaked either way.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I meant:
-
-	FIFO = "fifo:"
-	if fds.startswith(FIFO):
-	    path = fds[len(FIFO):]
-
-(or encapsulate it on a function)
-
+> ---
+>  Documentation/sphinx/kerneldoc.py | 53 ++++---------------------------
+>  1 file changed, 6 insertions(+), 47 deletions(-)
 > 
-> Thanks,
-> 
-> jon
+> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> index d8cdf068ef35c..afbab458550a8 100644
+> --- a/Documentation/sphinx/kerneldoc.py
+> +++ b/Documentation/sphinx/kerneldoc.py
+> @@ -190,35 +190,7 @@ class KernelDocDirective(Directive):
+>  
+>          return cmd
+>  
+> -    def run_cmd(self, cmd):
+> -        """
+> -        Execute an external kernel-doc command.
+> -        """
+> -
+> -        env = self.state.document.settings.env
+> -        node = nodes.section()
+> -
+> -        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+> -        out, err = p.communicate()
+> -
+> -        out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
+> -
+> -        if p.returncode != 0:
+> -            sys.stderr.write(err)
+> -
+> -            logger.warning("kernel-doc '%s' failed with return code %d"
+> -                                % (" ".join(cmd), p.returncode))
+> -            return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
+> -        elif env.config.kerneldoc_verbosity > 0:
+> -            sys.stderr.write(err)
+> -
+> -        filenames = self.parse_args["file_list"]
+> -        for filename in filenames:
+> -            self.parse_msg(filename, node, out, cmd)
+> -
+> -        return node.children
+> -
+> -    def parse_msg(self, filename, node, out, cmd):
+> +    def parse_msg(self, filename, node, out):
+>          """
+>          Handles a kernel-doc output for a given file
+>          """
+> @@ -244,7 +216,7 @@ class KernelDocDirective(Directive):
+>  
+>          self.do_parse(result, node)
+>  
+> -    def run_kdoc(self, cmd, kfiles):
+> +    def run_kdoc(self, kfiles):
+>          """
+>          Execute kernel-doc classes directly instead of running as a separate
+>          command.
+> @@ -258,23 +230,17 @@ class KernelDocDirective(Directive):
+>          filenames = self.parse_args["file_list"]
+>  
+>          for filename, out in kfiles.msg(**self.msg_args, filenames=filenames):
+> -            self.parse_msg(filename, node, out, cmd)
+> +            self.parse_msg(filename, node, out)
+>  
+>          return node.children
+>  
+>      def run(self):
+> -        global kfiles
+> -
+>          cmd = self.handle_args()
+>          if self.verbose >= 1:
+>              logger.info(cmd_str(cmd))
+>  
+>          try:
+> -            if kfiles:
+> -                return self.run_kdoc(cmd, kfiles)
+> -            else:
+> -                return self.run_cmd(cmd)
+> -
+> +            return self.run_kdoc(kfiles)
+>          except Exception as e:  # pylint: disable=W0703
+>              logger.warning("kernel-doc '%s' processing failed with: %s" %
+>                             (cmd_str(cmd), pformat(e)))
+> @@ -286,15 +252,8 @@ class KernelDocDirective(Directive):
+>  
+>  def setup_kfiles(app):
+>      global kfiles
+> -
+> -    kerneldoc_bin = app.env.config.kerneldoc_bin
+> -
+> -    if kerneldoc_bin and kerneldoc_bin.endswith("kernel-doc.py"):
+> -        print("Using Python kernel-doc")
+> -        out_style = RestFormat()
+> -        kfiles = KernelFiles(out_style=out_style, logger=logger)
+> -    else:
+> -        print(f"Using {kerneldoc_bin}")
+> +    out_style = RestFormat()
+> +    kfiles = KernelFiles(out_style=out_style, logger=logger)
+>  
+>  
+>  def setup(app):
 
 
 
