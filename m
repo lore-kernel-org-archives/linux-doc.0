@@ -1,414 +1,123 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6923921F4
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 21:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A753A89D5
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 21:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768427205; cv=none; b=o5H2lwnHVhH0zd8AH8yZA6aReyN9Uw9H8qKcep1TaitXLV1llCXpdlT3suADwH59xG5ppAvipKo5qiE58XAgcmFNsSeOex6IvcoafxiXA7sYSaW/4ZvAw1GMZ6kbAZvIjRMVqsDgnz0YnPFpGhJvDkBwFwkPGG1o5xYndO99YRM=
+	t=1768427987; cv=none; b=DFFx3eQjEqly2x6eSJWPS3YfiiyL1VkCmyVx/QG9KofZIWbrLeemK0QVxblHAK/j7/SMq1Ibu/QePXWrKYDvf3e7hmwMeiyhmov37Qms9DqJjsUjrZLh1R24/gu2Xt+b6eSyon02HhbnVsw23PJNjvG32tHla4XI2zLT75Z/pHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768427205; c=relaxed/simple;
-	bh=UH7UVmm/ifZMz2a7ctzEVAj9QL1YqJfv9TEsJAmqvl0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hHGJL3web7Wn8kARRfZK2WJkgl5x23whtKO9Q2T+R71YvWUkwsGalqhtnOdOF9YRvh9MNc1NldoPRMDNndV5ii6URK4JMh0Nq4MIG3ohzGvSBs/hUVjtItSoLlkPoGY34l5PcUQ1sEgtt45wVkYC5Cz+t3zaoP9LnaPJCYPnD5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U1x22Y2N; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768427987; c=relaxed/simple;
+	bh=tO0znVmDXAymHNCdzPnVwtYP7QD1kxrOykARoYLTeBE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=tsuJpg3qfmIXgUMi7k0yyMKAp95O1/btra1hg4tTUtqsXLjohpqmnOPTof13xHVphrU/jsduDpZDgFIHGDvMlofhitbj9MIJJFJajo7IwuRbKkxgMxJ/GniDMHHEES2keSXbKY6fDd9IaDUreA2Up5bvMEGsKBRQLVPt7BRS+qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hSW5Vy+S; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1x22Y2N"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7cdae63171aso211494a34.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 13:46:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hSW5Vy+S"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c52743b781eso156204a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 13:59:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768427188; x=1769031988; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ezmCIUYTCpc47N9MRFviC1UdzpKfkRUPsUPtXb573Uk=;
-        b=U1x22Y2NCadasD+0/b0bPw8Jn26D+SpJIsuZ4rfvGJuun0FUtpy0yEVTNC3SEZP49O
-         kQVrOW6VEUFevmJ8Tfwfloc26DmUxyJoZ481dP5SY8Vnr0yaGCBUcA9VTM7MT7dob2CR
-         oiiiZipKAFt6EypCdSmvuGhN7YU6+rNC/Omt2OxUb6Bpqs/brbeXxwniyW2pSoKXlr1j
-         5Nmyyb9fjC0sh1XqduP4U+K+mNhMYvlCQ/YkkA6Ud9AjV5bJHdFrgw5fg/85+1DcnwsH
-         sECOWV2MlG2C9LRm5loBKJOi81lh/7zVpq8T+4On6fvrdPc3x9pbcjsq464wKeTHGJhD
-         hpWw==
+        d=google.com; s=20230601; t=1768427965; x=1769032765; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wc5IYW1fIu5cyAHFpaj29f0bgcaP13LBp3YapifQT5w=;
+        b=hSW5Vy+SGhQcYxbEd5IwbQss4zcbV4g2hELRx9Isus+w4SC0+K55AFsf5LThNPaD0z
+         iX0qvcGmeRXiOJHpd0TW7z1fwfq5SfuIRL6IAQGWkzrkXFg++BDcf65CDgRNUQ13HqO/
+         Ucr/ZIMFRzYZwT+qn1DZpZAekxqBeeV/NLKibGnhHihyKDKUNxvs2+2pSTVoI6e3Oxuu
+         HJVB2ASDVT69USBw4+bEkh1ThVcyILL8IXhEyzD1tgkNsx2EZQC4qtjS1fk+LMe/3e7R
+         /OIouO1efH52uxgwQxriWCIRsWnwj+8vUwGNZdL5tNVyvn4y5ATbVkpFPmKnxpDZToX2
+         xQNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768427188; x=1769031988;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ezmCIUYTCpc47N9MRFviC1UdzpKfkRUPsUPtXb573Uk=;
-        b=DK3f72DjAZnhex83WQ2+nrnUqVoPT0EDR+eVkNr4EWeUdAlpjv6lJxHlAcHKeQjU7B
-         YuuGQoM3WGmh/e2zKt+PyiGjvb2PtqGkqzmY/r7EbkJmrfKCUPgQbpeMHAxPD8a3U6mQ
-         XA1r7w6Z8Rbl511scEApO2X6633xiGZF3aPV1HSdN0iJQnHGOSie9C0PHA2tZNVbCdIM
-         TweAUyCvWptdbyb16mRTRJILugj5dWdL3hmP5nsmU8pnox2KXjkd24iIh/DT24RtT3N/
-         2s2eOMd7ks+QvNQqiOvleypntIPG0S949naw7NwPaE2iG5tIgsBARnQWN4SGo1Z3EMpP
-         1nPw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4HZPWula7gGrkvQk1znk7yWtq+cZmhVQTsw1gCMgiZqjqmwTPX0YsTLKYAT4pGgtaW34S4pbDATA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV5F8g0KGsEDp50bVlrULpZhj4HckpacnjCYgJ90OuEV9dwQVY
-	Rvxn+ZFR3ntBCwUDNREXxSvzRuZ+wejBjRLxwql4KNV+leIh3cOHdnZy
-X-Gm-Gg: AY/fxX5JtukqgVSNH5XRgUrw+C7AeLIxh4Jlw2qFYQB1QTuHv2dwh3GAKni6WgNpA1D
-	aJ7+MIWFLMrJFnzwWBzHDj54sVFPDu9T4mLp0DXHwYrjAsvYOXj5jqv0puKF6dscB1cBK6egJNB
-	tEugjjut6SO4XmCYT1Le34gfskrL4yKDfDt4t+A6DfkBny9bxNqY8fJbw9TZ3yo40D06gwuNG/d
-	XraDjJyREgltLd2zQkoBVyDHd5c1Q8RXjQllnvpt/G++ZihpOsoNieR2JKbBpQatV529qZKkpiE
-	gohfGRFifxvVJUzPJLGvPsuqwnb3iAX1mnZpdBCRDlC9oMcomUuTGcAB9Q+YUuIPHbpdOgFaIy+
-	poTy++Oy1JWnWCECLzLqtQGXKL/rujWoPWTfOJKpYmFpP1GerO/STgAULqzs+0YCcZh7fbeHPQU
-	cKiVJy++Zgu+tJFLLcf8VTqZvuyOWur6dy8Vgk6WGQGAor
-X-Received: by 2002:a05:6830:2541:b0:7cf:cc11:f7cc with SMTP id 46e09a7af769-7cfcc11f982mr2409830a34.36.1768427188084;
-        Wed, 14 Jan 2026 13:46:28 -0800 (PST)
-Received: from localhost.localdomain ([2603:8080:1500:3d89:4c85:2962:e438:72c4])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfc3692f3asm3936197a34.10.2026.01.14.13.46.25
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Jan 2026 13:46:27 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-From: John Groves <John@Groves.net>
-X-Google-Original-From: John Groves <john@groves.net>
-To: John Groves <John@Groves.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	James Morse <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	venkataravis@micron.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH V2 2/2] Add test/daxctl-famfs.sh to test famfs mode transitions:
-Date: Wed, 14 Jan 2026 15:45:19 -0600
-Message-ID: <20260114214519.29999-3-john@groves.net>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260114214519.29999-1-john@groves.net>
-References: <20260114153133.29420.compound@groves.net>
- <20260114214519.29999-1-john@groves.net>
+        d=1e100.net; s=20230601; t=1768427965; x=1769032765;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wc5IYW1fIu5cyAHFpaj29f0bgcaP13LBp3YapifQT5w=;
+        b=CYPiOSjyWLoX/qljipHJrZKWU08uO6cBqndysRRyML495CpbxRMDsuTMenfUSqgUpJ
+         paw0Z+rupW4uvBzPU1yUufhoXEpuPg7tZGybGJGjnnvoBS912HdsQIJ+p5JyA2F2kmUK
+         e5TaHAO/Bt1tlgN1dSR2LRB0xjWwtQGZVKQCoYLKco+wFxuag/OQwtcr8U2qtbYFSsZ3
+         AUsgGIWU6tBVxkSBJD4vHxFPhHA61566+0JZ8K2bpNhHz4it7sdkSv4IMY/FinjR/JgU
+         QIf4QXidZRXPimUjFgLbsunT2QHA87ab/MKC6B5IIHe+UXgl/GMojK6YCMSzC+k6WWnj
+         va7A==
+X-Forwarded-Encrypted: i=1; AJvYcCV0ozQE8AMwFo0VIREjZB2696FbBAUKWfWKYkexcHt8w1L0wuZjJ5OYVp4HKq5FQGecuxMN24tBXWs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV83gASSzxORMNmyNOnneOpsDdmTt8i7N99MgNdh+5lYhw9XKC
+	objGjr0DbJ9HC73+BR7lU5PTBnsxTnjBziOehooPYh00L7juwN/OHs0TqPTv5Qc7q2b0qeEmdkv
+	yypkmLQ==
+X-Received: from pjbga22.prod.google.com ([2002:a17:90b:396:b0:34c:9f0b:fd7])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:6d0:b0:341:6164:c27d
+ with SMTP id 98e67ed59e1d1-35109091a6cmr3714526a91.3.1768427965337; Wed, 14
+ Jan 2026 13:59:25 -0800 (PST)
+Date: Wed, 14 Jan 2026 13:59:24 -0800
+In-Reply-To: <jf2zfqo6jrrcdkdatztiijmf7tgkho7bks4q4oaegiqpeflrkj@7blq6f5ck2hf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20250901051656.209083-1-manali.shukla@amd.com>
+ <20250901052146.209158-1-manali.shukla@amd.com> <jf2zfqo6jrrcdkdatztiijmf7tgkho7bks4q4oaegiqpeflrkj@7blq6f5ck2hf>
+Message-ID: <aWgRvCdPsAFHRwcU@google.com>
+Subject: Re: [PATCH v2 03/12] KVM: Add KVM_GET_EXT_LAPIC and KVM_SET_EXT_LAPIC
+ for extapic
+From: Sean Christopherson <seanjc@google.com>
+To: Naveen N Rao <naveen@kernel.org>
+Cc: Manali Shukla <manali.shukla@amd.com>, kvm@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
+	pbonzini@redhat.com, nikunj@amd.com, bp@alien8.de, peterz@infradead.org, 
+	mingo@redhat.com, mizhang@google.com, thomas.lendacky@amd.com, 
+	ravi.bangoria@amd.com, Sandipan.Das@amd.com
+Content-Type: text/plain; charset="us-ascii"
 
-From: John Groves <John@Groves.net>
+On Tue, Dec 16, 2025, Naveen N Rao wrote:
+> On Mon, Sep 01, 2025 at 10:51:46AM +0530, Manali Shukla wrote:
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 6aa40ee05a4a..0653718a4f04 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -2048,6 +2048,18 @@ error.
+> >  Reads the Local APIC registers and copies them into the input argument.  The
+> >  data format and layout are the same as documented in the architecture manual.
+> >  
+> > +::
+> > +
+> > +  #define KVM_APIC_EXT_REG_SIZE 0x540
 
-- devdax <-> famfs mode switches
-- Verify famfs -> system-ram is rejected (must go via devdax)
-- Test JSON output shows correct mode
-- Test error handling for invalid modes
+As discussed in PUCK, just go the full 0x1000 bytes, and do:
 
-The test is added to the destructive test suite since it
-modifies device modes.
+#define KVM_GET_LAPIC2            _IOR(KVMIO,  0x8e, struct kvm_lapic_state2)
+#define KVM_SET_LAPIC2            _IOW(KVMIO,  0x8f, struct kvm_lapic_state2)
 
-Signed-off-by: John Groves <john@groves.net>
----
- test/daxctl-famfs.sh | 253 +++++++++++++++++++++++++++++++++++++++++++
- test/meson.build     |   2 +
- 2 files changed, 255 insertions(+)
- create mode 100755 test/daxctl-famfs.sh
+> > +  struct kvm_ext_lapic_state {
+> > +	__DECLARE_FLEX_ARRAY(__u8, regs);
+> > +  };
+> > +
+> > +Applications should use KVM_GET_EXT_LAPIC ioctl if extended APIC is
+> > +enabled. KVM_GET_EXT_LAPIC reads Local APIC registers with extended
+> > +APIC register space located at offsets 400h-530h and copies them into input
+> > +argument.
+> 
+> I suppose the reason for using a flex array was for addressing review 
+> comments on the previous version -- to make the new APIs extensible so 
+> that they can accommodate any future changes to the extended APIC 
+> register space.
+> 
+> I wonder if it would be better to introduce a KVM extension, say 
+> KVM_CAP_EXT_LAPIC (along the lines of KVM_CAP_PMU_CAPABILITY).
 
-diff --git a/test/daxctl-famfs.sh b/test/daxctl-famfs.sh
-new file mode 100755
-index 0000000..12fbfef
---- /dev/null
-+++ b/test/daxctl-famfs.sh
-@@ -0,0 +1,253 @@
-+#!/bin/bash -Ex
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2025 Micron Technology, Inc. All rights reserved.
-+#
-+# Test daxctl famfs mode transitions and mode detection
-+
-+rc=77
-+. $(dirname $0)/common
-+
-+trap 'cleanup $LINENO' ERR
-+
-+daxdev=""
-+original_mode=""
-+
-+cleanup()
-+{
-+	printf "Error at line %d\n" "$1"
-+	# Try to restore to original mode if we know it
-+	if [[ $daxdev && $original_mode ]]; then
-+		"$DAXCTL" reconfigure-device -f -m "$original_mode" "$daxdev" 2>/dev/null || true
-+	fi
-+	exit $rc
-+}
-+
-+# Check if fsdev_dax module is available
-+check_fsdev_dax()
-+{
-+	if modinfo fsdev_dax &>/dev/null; then
-+		return 0
-+	fi
-+	if grep -qF "fsdev_dax" "/lib/modules/$(uname -r)/modules.builtin" 2>/dev/null; then
-+		return 0
-+	fi
-+	printf "fsdev_dax module not available, skipping\n"
-+	exit 77
-+}
-+
-+# Check if kmem module is available (needed for system-ram mode tests)
-+check_kmem()
-+{
-+	if modinfo kmem &>/dev/null; then
-+		return 0
-+	fi
-+	if grep -qF "kmem" "/lib/modules/$(uname -r)/modules.builtin" 2>/dev/null; then
-+		return 0
-+	fi
-+	printf "kmem module not available, skipping system-ram tests\n"
-+	return 1
-+}
-+
-+# Find an existing dax device to test with
-+find_daxdev()
-+{
-+	# Look for any available dax device
-+	daxdev=$("$DAXCTL" list | jq -er '.[0].chardev // empty' 2>/dev/null) || true
-+
-+	if [[ ! $daxdev ]]; then
-+		printf "No dax device found, skipping\n"
-+		exit 77
-+	fi
-+
-+	# Save the original mode so we can restore it
-+	original_mode=$("$DAXCTL" list -d "$daxdev" | jq -er '.[].mode')
-+
-+	printf "Found dax device: %s (current mode: %s)\n" "$daxdev" "$original_mode"
-+}
-+
-+daxctl_get_mode()
-+{
-+	"$DAXCTL" list -d "$1" | jq -er '.[].mode'
-+}
-+
-+# Ensure device is in devdax mode for testing
-+ensure_devdax_mode()
-+{
-+	local mode
-+	mode=$(daxctl_get_mode "$daxdev")
-+
-+	if [[ "$mode" == "devdax" ]]; then
-+		return 0
-+	fi
-+
-+	if [[ "$mode" == "system-ram" ]]; then
-+		printf "Device is in system-ram mode, attempting to convert to devdax...\n"
-+		"$DAXCTL" reconfigure-device -f -m devdax "$daxdev"
-+	elif [[ "$mode" == "famfs" ]]; then
-+		printf "Device is in famfs mode, converting to devdax...\n"
-+		"$DAXCTL" reconfigure-device -m devdax "$daxdev"
-+	else
-+		printf "Device is in unknown mode: %s\n" "$mode"
-+		return 1
-+	fi
-+
-+	[[ $(daxctl_get_mode "$daxdev") == "devdax" ]]
-+}
-+
-+#
-+# Test basic mode transitions involving famfs
-+#
-+test_famfs_mode_transitions()
-+{
-+	printf "\n=== Testing famfs mode transitions ===\n"
-+
-+	# Ensure starting in devdax mode
-+	ensure_devdax_mode
-+	[[ $(daxctl_get_mode "$daxdev") == "devdax" ]]
-+	printf "Initial mode: devdax - OK\n"
-+
-+	# Test: devdax -> famfs
-+	printf "Testing devdax -> famfs... "
-+	"$DAXCTL" reconfigure-device -m famfs "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "famfs" ]]
-+	printf "OK\n"
-+
-+	# Test: famfs -> famfs (re-enable in same mode)
-+	printf "Testing famfs -> famfs (re-enable)... "
-+	"$DAXCTL" reconfigure-device -m famfs "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "famfs" ]]
-+	printf "OK\n"
-+
-+	# Test: famfs -> devdax
-+	printf "Testing famfs -> devdax... "
-+	"$DAXCTL" reconfigure-device -m devdax "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "devdax" ]]
-+	printf "OK\n"
-+
-+	# Test: devdax -> devdax (re-enable in same mode)
-+	printf "Testing devdax -> devdax (re-enable)... "
-+	"$DAXCTL" reconfigure-device -m devdax "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "devdax" ]]
-+	printf "OK\n"
-+}
-+
-+#
-+# Test mode transitions with system-ram (requires kmem)
-+#
-+test_system_ram_transitions()
-+{
-+	printf "\n=== Testing system-ram transitions with famfs ===\n"
-+
-+	# Ensure we start in devdax mode
-+	ensure_devdax_mode
-+	[[ $(daxctl_get_mode "$daxdev") == "devdax" ]]
-+
-+	# Test: devdax -> system-ram
-+	printf "Testing devdax -> system-ram... "
-+	"$DAXCTL" reconfigure-device -N -m system-ram "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "system-ram" ]]
-+	printf "OK\n"
-+
-+	# Test: system-ram -> famfs should fail
-+	printf "Testing system-ram -> famfs (should fail)... "
-+	if "$DAXCTL" reconfigure-device -m famfs "$daxdev" 2>/dev/null; then
-+		printf "FAILED - should have been rejected\n"
-+		return 1
-+	fi
-+	printf "OK (correctly rejected)\n"
-+
-+	# Test: system-ram -> devdax -> famfs (proper path)
-+	printf "Testing system-ram -> devdax -> famfs... "
-+	"$DAXCTL" reconfigure-device -f -m devdax "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "devdax" ]]
-+	"$DAXCTL" reconfigure-device -m famfs "$daxdev"
-+	[[ $(daxctl_get_mode "$daxdev") == "famfs" ]]
-+	printf "OK\n"
-+
-+	# Restore to devdax for subsequent tests
-+	"$DAXCTL" reconfigure-device -m devdax "$daxdev"
-+}
-+
-+#
-+# Test JSON output shows correct mode
-+#
-+test_json_output()
-+{
-+	printf "\n=== Testing JSON output for mode field ===\n"
-+
-+	# Test devdax mode in JSON
-+	ensure_devdax_mode
-+	printf "Testing JSON output for devdax mode... "
-+	mode=$("$DAXCTL" list -d "$daxdev" | jq -er '.[].mode')
-+	[[ "$mode" == "devdax" ]]
-+	printf "OK\n"
-+
-+	# Test famfs mode in JSON
-+	"$DAXCTL" reconfigure-device -m famfs "$daxdev"
-+	printf "Testing JSON output for famfs mode... "
-+	mode=$("$DAXCTL" list -d "$daxdev" | jq -er '.[].mode')
-+	[[ "$mode" == "famfs" ]]
-+	printf "OK\n"
-+
-+	# Restore to devdax
-+	"$DAXCTL" reconfigure-device -m devdax "$daxdev"
-+}
-+
-+#
-+# Test error messages for invalid transitions
-+#
-+test_error_handling()
-+{
-+	printf "\n=== Testing error handling ===\n"
-+
-+	# Ensure we're in famfs mode
-+	"$DAXCTL" reconfigure-device -m famfs "$daxdev"
-+
-+	# Test that invalid mode is rejected
-+	printf "Testing invalid mode rejection... "
-+	if "$DAXCTL" reconfigure-device -m invalidmode "$daxdev" 2>/dev/null; then
-+		printf "FAILED - invalid mode should be rejected\n"
-+		return 1
-+	fi
-+	printf "OK (correctly rejected)\n"
-+
-+	# Restore to devdax
-+	"$DAXCTL" reconfigure-device -m devdax "$daxdev"
-+}
-+
-+#
-+# Main test sequence
-+#
-+main()
-+{
-+	check_fsdev_dax
-+	find_daxdev
-+
-+	rc=1  # From here on, failures are real failures
-+
-+	test_famfs_mode_transitions
-+	test_json_output
-+	test_error_handling
-+
-+	# System-ram tests require kmem module
-+	if check_kmem; then
-+		# Save and disable online policy for system-ram tests
-+		saved_policy="$(cat /sys/devices/system/memory/auto_online_blocks)"
-+		echo "offline" > /sys/devices/system/memory/auto_online_blocks
-+
-+		test_system_ram_transitions
-+
-+		# Restore online policy
-+		echo "$saved_policy" > /sys/devices/system/memory/auto_online_blocks
-+	fi
-+
-+	# Restore original mode
-+	printf "\nRestoring device to original mode: %s\n" "$original_mode"
-+	"$DAXCTL" reconfigure-device -f -m "$original_mode" "$daxdev"
-+
-+	printf "\n=== All famfs tests passed ===\n"
-+
-+	exit 0
-+}
-+
-+main
-diff --git a/test/meson.build b/test/meson.build
-index 615376e..ad1d393 100644
---- a/test/meson.build
-+++ b/test/meson.build
-@@ -209,6 +209,7 @@ if get_option('destructive').enabled()
-   device_dax_fio = find_program('device-dax-fio.sh')
-   daxctl_devices = find_program('daxctl-devices.sh')
-   daxctl_create = find_program('daxctl-create.sh')
-+  daxctl_famfs = find_program('daxctl-famfs.sh')
-   dm = find_program('dm.sh')
-   mmap_test = find_program('mmap.sh')
- 
-@@ -226,6 +227,7 @@ if get_option('destructive').enabled()
-     [ 'device-dax-fio.sh', device_dax_fio, 'dax'   ],
-     [ 'daxctl-devices.sh', daxctl_devices, 'dax'   ],
-     [ 'daxctl-create.sh',  daxctl_create,  'dax'   ],
-+    [ 'daxctl-famfs.sh',   daxctl_famfs,   'dax'   ],
-     [ 'dm.sh',             dm,		   'dax'   ],
-     [ 'mmap.sh',           mmap_test,	   'dax'   ],
-   ]
--- 
-2.49.0
+Please figure out a different name than "ext_lapic".  Verbatim from the SDM
+(minus a closing parenthesis)
 
+  the xAPIC architecture) is an extension of the APIC architecture
+
+and
+
+  EXTENDED XAPIC (X2APIC)
+  The x2APIC architecture extends the xAPIC architecture
+
+There's zero chance I'm going to remember which "extended" we're talking about. 
+
+KVM_CAP_X2APIC_API further muddies the waters, so maybe something absurd and
+arbitrary like KVM_CAP_LAPIC2?  The capability doesn't have to strictly follow
+the naming of the underlying feature(s) it supports.
