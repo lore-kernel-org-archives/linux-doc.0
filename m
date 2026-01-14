@@ -1,52 +1,74 @@
-Received: from mailgw03.horizon.ai (mailgw03.horizon.ai [42.62.85.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488DA394481
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 11:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.62.85.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6159537FF5C
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 11:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768388486; cv=none; b=g2TlQAE7sRanWjvmS7SS4m9YRUfObFtdazBuVWaYeHyJ9E0rig8L77mveRJQG2zX8qnB58cHGEv83ICcRCZBQHCV/9h/Do680h+SaoWBYFUyHurzU8Zw0WkwRs+aZ5n66dR/AAO+YcdxnvS7F4obtXN2u+y5eJMxdZax/gQj2Vk=
+	t=1768388930; cv=none; b=ldHkvswnHPhKB8F/mA8vgvzdsny7oMXjEHmx9G9Q3bF+PXAmqLLjJ37hXocacykVxzfuSxPAvcxsEsRw5BHgKlz32bl9cqfMiRfPlxEq7I/ochPjdkiD+ZgixgSgWQPxsrdUEcCRETtQnJzb1jmQHeae8F9sIsl5ZYemMPzCaXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768388486; c=relaxed/simple;
-	bh=VugPVUJMd+z7HOlqndsVEWJlVsudafHzu3nkiEkg/oA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K4+n8Qn3xkTZl5kje3RIjNFaXeGE+i1MTi9VwaWG748Bx/WWWKXSVQOGACZELL+EIjNTbeR8nTzQjTOnOSY0knY7HwiMSJFJoPA8uTg2MNv3oaJdCUBGuWCBUmK2BU6/UNkeHPV4htWQb21WaT4bgT4ZOSLTDsjVYlmAu1nqBzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto; spf=pass smtp.mailfrom=horizon.auto; dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b=jBM9JE5y; arc=none smtp.client-ip=42.62.85.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horizon.auto
+	s=arc-20240116; t=1768388930; c=relaxed/simple;
+	bh=NGDpNgaYAnKJpFJ27LdnKRDIF7bjbzvgTyRhQktCjO4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWkBmgTT0JaJXY3oUGA8nSCc7IYPoOGSFZy8oi9GqYn8sR7lims2JV+ARLq8DyFPUfzLoANrSterCe/hsNgz9Se0CSSMeG4zTXYnmPYaweXzS0GR97R4bkXDIHrJWiPANflc5vuZ58gxmA+AzFCLKUCkadupI6HVxK3uyq38FZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=AjzIh0RA; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b="jBM9JE5y"
-DKIM-Signature: v=1; a=rsa-sha256; d=horizon.auto; s=horizonauto; c=relaxed/simple;
-	q=dns/txt; i=@horizon.auto; t=1768388445; x=2632302045;
-	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VugPVUJMd+z7HOlqndsVEWJlVsudafHzu3nkiEkg/oA=;
-	b=jBM9JE5yJid1r+mIEInToqhFd0Tb677SLRzUo5KOEouTzs4UwOVI2i6Kk58muZi1
-	xqud11w/SYLCmzdWS2y1WvwkLoLlkDVqhdMMnUzASjk5n2OOvvNpH22wb0PdPFuY
-	BisGoqSxGIXgqvBcBWWSngz62bEDWlBTj15RBdwlvEE=;
-X-AuditID: 0a0901b2-df5da70000001406-c3-6967775d57e1
-Received: from mailgw03.horizon.ai ( [10.69.1.10])
-	by mailgw03.horizon.ai (Anti-spam for msg) with SMTP id F6.EA.05126.D5777696; Wed, 14 Jan 2026 19:00:45 +0800 (HKT)
-Received: from wangtao-VirtualBox.hobot.cc (10.9.0.252) by
- exchange003.hobot.cc (10.69.1.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.27; Wed, 14 Jan 2026
- 19:00:43 +0800
-From: Tao Wang <tao03.wang@horizon.auto>
-To: <kuba@kernel.org>
-CC: <alexandre.torgue@foss.st.com>, <andrew+netdev@lunn.ch>,
-	<davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<maxime.chevallier@bootlin.com>, <mcoquelin.stm32@gmail.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <rmk+kernel@armlinux.org.uk>,
-	<tao03.wang@horizon.auto>
-Subject: [PATCH net v2] net: stmmac: fix transmit queue timed out after resume
-Date: Wed, 14 Jan 2026 19:00:31 +0800
-Message-ID: <20260114110031.113367-1-tao03.wang@horizon.auto>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260112200550.2cd3c212@kernel.org>
-References: <20260112200550.2cd3c212@kernel.org>
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="AjzIh0RA"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a0ac29fca1so54557065ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 03:08:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shopee.com; s=shopee.com; t=1768388926; x=1768993726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rp+ERt1dfU/la6Ha2tXOSz2jWN3a9Tr4qXg0gnWoaNY=;
+        b=AjzIh0RArrWimh5hKL1MDgEkrBOHoLNgMq5EiwNcySzypMjPTjqCX64siqpiSNN56b
+         SmeTA5PQAM0EyhqIRMLfq+bQ0qDBAIxcxYbntdZxXmrKaf6cNigi5+TVmZYbRQ4Murcr
+         M+P3N4WhtF5p51/ofqEWiFcOUQrMa5Va40ApfVoclVX+ZD2gOB6x/8bdIke5LnDXqTF3
+         1wIbE/hCDYn0l/r1TNd8vnbGGjMJGEoUrAfmd1KmKMOrjAFzKbRAW5JScqKjlV7S9sVA
+         cRGmT0KvIDO3oX9SjJRu5P/B1xbR79oaBCl5LEWKzXuvhkK5r/DJO/vMGG6eGZuUGwHF
+         uTmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768388926; x=1768993726;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rp+ERt1dfU/la6Ha2tXOSz2jWN3a9Tr4qXg0gnWoaNY=;
+        b=f5w3wXd4rgWn7CBlBmfudAZflbIn2qj64e4K5NR2PRC9KFeIHNcxU53F+o2Nq+Rbr0
+         rGf/IG6ohDy2mmEzYd/zQ+AvRh4SN22P03bkj4AiFH046uPQIaWRG23QbZQxb1MEpIfI
+         e2x2x7QSvoF5NTWojR10fhOxPLJbFnP5GrOiVJI28Nt+AK3OPyZeX9NmUX7gJgjBhFLn
+         DLRJp25fQhwgOQDioaUyST9WrHasi+qObjG/MwE67ji1BqnyyR9ctgwM8MZ/nF4ZCDGr
+         DENiGj5sVUvuxd2jityLjPyyuDuMhowp/TIYaxOfMzOmZ9jDRJmjNgF13+1n36szH9gf
+         8fMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWf9qGjILUpPV5nijbuROoi7NkHlnFIzwG+Ohfvp16b0HcxaeXKJJe/XCASSkLDS0wOHuFNqaIfjqQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywHsFlQeovdcheYyspCIDDk/rZb+ikRawsr2U1RKwYSRstYYKa
+	tqIUyecS1/m9T976Y3jvB3JkTXRuJ/AKV0zyz84Tm6ROszOJQMCKBbHGv3Y1gGB8YkA=
+X-Gm-Gg: AY/fxX5awHzFHly3vw8hrpHri2b4SlpZ2UoYOZrm2RJcG18aG6PwJr2L2B8ZFej8ok5
+	lyjnEv5QfKzt98YsT6GRWXUViCDGe5MpFhaAMOPgJ/+eHfvl8geXAatyLHOi5gzi4kfjO+enG4I
+	hBeO9GPvVbA6Ng19/ILoPPTpZhIQZeJBJEqvDqf0MCcFUTCsmB5l6rXEuVOASF4T/1f8IjgrrJs
+	D/bxXbIykMpXCrw4JST4nbfIxEyOPyYuUNxAArUBNiGmTcgaDAjPYAIsbPEPYjgnQQ8M2FRV+fr
+	htjD4CYlLsn38CtFu/4Uz7JMA9JPa0mq9PIwLdd7E/JRHj5BHG+NoJ9bE/nKaq7SyfuRVem2WyP
+	1D6QIoM/+rdzlftQkZ5x8wX4VJULNPlW3EW24DX37jJJ8dKd4FViZmf1INFi2M6zVrKLUNDrA
+X-Received: by 2002:a17:902:f686:b0:2a0:d728:2e79 with SMTP id d9443c01a7336-2a599e05654mr24223935ad.16.1768388925818;
+        Wed, 14 Jan 2026 03:08:45 -0800 (PST)
+Received: from localhost.localdomain ([147.136.157.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd492fsm103732285ad.98.2026.01.14.03.08.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 03:08:45 -0800 (PST)
+From: Tang Yizhou <yizhou.tang@shopee.com>
+X-Google-Original-From: Tang Yizhou
+To: tj@kernel.org,
+	corbet@lwn.net,
+	axboe@kernel.dk,
+	hch@lst.de
+Cc: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tang Yizhou <yizhou.tang@shopee.com>
+Subject: [PATCH] docs: Fix blk-iolatency peer throttling description
+Date: Wed, 14 Jan 2026 19:08:37 +0800
+Message-ID: <20260114110837.84126-1-yizhou.tang@shopee.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,82 +76,53 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: exchange004.hobot.cc (10.9.15.112) To exchange003.hobot.cc
- (10.69.1.10)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFIsWRmVeSWpSXmKPExsXC5crIpRtbnp5pMGemuMXPl9MYLZY/2MFq
-	Med8C4vF02OP2C0e9Z9gs7iwrY/VYmHbEhaLy7vmsFm8fL2N2WLe37WsFscWiFl8O/2G0eJS
-	/0QmB16Py9cuMnvMW1PtsWXlTSaPp/1b2T12zrrL7rFgU6nHplWdbB47d3xm8ni/7yqbx+dN
-	cgFcUVw2Kak5mWWpRfp2CVwZbW+3MhasFq44Onk3UwPjAoEuRk4OCQETidb1LexdjFwcQgIr
-	GCXmf73NCOE8Z5ToefyGGaSKTUBD4u7UaywgtoiAqMT2DevAOpgFXjFJ9N6YzgqSEBbwk1g/
-	ZTE7iM0ioCoxp+UiWJxXwFZi/70WVoh18hL7D54FG8opYCjR8Wo2WL2QgIHE9YuH2SHqBSVO
-	znwCtowZqL5562xmCFtC4uCLF8wQ9SoSzSfns0PMlJN4vWE/G4QdI7F90jG2CYxCs5CMmoVk
-	1CwkoxYwMq9iFM5NzMxJLzcw1svIL8qsys/TS8zcxAiKPk7GTTsYlyz4qHeIkYmD8RCjBAez
-	kggv7++0TCHelMTKqtSi/Pii0pzU4kOM0hwsSuK82opxmUIC6YklqdmpqQWpRTBZJg5OqQYm
-	7bnRuunRBf+kUv5aN9fN23DRnfVSmPaVTcnHwtKF2FIPaArsf5b8Surm5YMLfU50aPIeURKy
-	PLGEZ73g/GXX+FySv9z4ple85nZv4yaOt4I5z9b+3KTG/8fLUzJHbfW2nPVx/Uuvztp5vHSm
-	8JH1vrHNq3hPmB7eKGgkJ1jc7NjoyiOf9HVaabvOI46f06p5VzqnNWZPVvYyDV/4KDAjruxC
-	0dOzt9dF/S495sHilx3oMVknL0Tg0a/LN4Mnxi10Fz9j+2zNkbO/PN3XqTJUrW937tPwjhDm
-	v7ZpEpvQZduXUu9mvtmQX/k0feGkfJ+mgMo7R36kbC4UOpCrnLzlxqTTJ/tP8Ly6IW5l+2WK
-	EktxRqKhFnNRcSIARoYp4S0DAAA=
 
-after resume dev_watchdog() message:
-"NETDEV WATCHDOG: CPU: x: transmit queue x timed out xx ms"
+From: Tang Yizhou <yizhou.tang@shopee.com>
 
-The trigging scenario is as follows:
-When the TSO function sets tx_skbuff_dma[tx_q->cur_tx].last_segment = true,
- and the last_segment value is not cleared in stmmac_free_tx_buffer after
- resume, restarting TSO transmission may incorrectly use
-tx_q->tx_skbuff_dma[first_entry].last_segment = true for a new TSO packet.
+The current text states that peers with a lower latency target are
+throttled, which is the opposite of the actual behavior. In fact,
+blk-iolatency throttles peer groups with a higher latency target in order
+to protect the more latency-sensitive group.
 
-When the tx queue has timed out, and the emac TX descriptor is as follows:
-eth0: 221 [0x0000000876d10dd0]: 0x73660cbe 0x8 0x42 0xb04416a0
-eth0: 222 [0x0000000876d10de0]: 0x77731d40 0x8 0x16a0 0x90000000
+In addition, peer groups without a configured latency target are also
+throttled, as they are treated as lower priority compared to groups with
+explicit latency requirements.
 
-Descriptor 221 is the TSO header, and descriptor 222 is the TSO payload.
-In the tdes3 (0xb04416a0), bit 29 (first descriptor) and bit 28
-(last descriptor) of the TSO packet 221 DMA descriptor cannot both be
-set to 1 simultaneously. Since descriptor 222 is the actual last
-descriptor, failing to set it properly will cause the EMAC DMA to stop
-and hang.
+Update the documentation to reflect the correct throttling behavior.
 
-To solve the issue, set last_segment to false in stmmac_free_tx_buffer:
-tx_q->tx_skbuff_dma[i].last_segment = false.  Do not use the last_segment
- default value and set last_segment to false in stmmac_tso_xmit. This
-will prevent similar issues from occurring in the future.
-
-Fixes: c2837423cb54 ("net: stmmac: Rework TX Coalesce logic")
-
-changelog:
-v1 -> v2:
-	- Modify commit message, del empty line, add fixed commit
-	 information.
-
-Signed-off-by: Tao Wang <tao03.wang@horizon.auto>
+Signed-off-by: Tang Yizhou <yizhou.tang@shopee.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/admin-guide/cgroup-v2.rst | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index b3730312aeed..d786ac3c78f7 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1653,6 +1653,7 @@ static void stmmac_free_tx_buffer(struct stmmac_priv *priv,
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 7f5b59d95fce..d6f7ef08b67d 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2238,8 +2238,9 @@ IO Latency
  
- 	tx_q->tx_skbuff_dma[i].buf = 0;
- 	tx_q->tx_skbuff_dma[i].map_as_page = false;
-+	tx_q->tx_skbuff_dma[i].last_segment = false;
- }
+ This is a cgroup v2 controller for IO workload protection.  You provide a group
+ with a latency target, and if the average latency exceeds that target the
+-controller will throttle any peers that have a lower latency target than the
+-protected workload.
++controller will throttle any peers that have a higher latency target than the
++protected workload, as well as peers that do not have a latency target
++configured.
  
- /**
-@@ -4448,6 +4449,7 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 	if (dma_mapping_error(priv->device, des))
- 		goto dma_map_err;
+ The limits are only applied at the peer level in the hierarchy.  This means that
+ in the diagram below, only groups A, B, and C will influence each other, and
+@@ -2265,8 +2266,9 @@ How IO Latency Throttling Works
  
-+	tx_q->tx_skbuff_dma[first_entry].last_segment = false;
- 	stmmac_set_desc_addr(priv, first, des);
- 	stmmac_tso_allocator(priv, des + proto_hdr_len, pay_len,
- 			     (nfrags == 0), queue);
+ io.latency is work conserving; so as long as everybody is meeting their latency
+ target the controller doesn't do anything.  Once a group starts missing its
+-target it begins throttling any peer group that has a higher target than itself.
+-This throttling takes 2 forms:
++target it begins throttling any peer group that has a higher target than itself,
++as well as any peer group without a latency target. This throttling takes 2
++forms:
+ 
+ - Queue depth throttling.  This is the number of outstanding IO's a group is
+   allowed to have.  We will clamp down relatively quickly, starting at no limit
 -- 
-2.34.1
+2.43.0
 
