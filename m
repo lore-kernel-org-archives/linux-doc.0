@@ -1,108 +1,142 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554193AEF37
-	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767D354AF3
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428847; cv=none; b=AQKgxuTo2lNaFhFZbTD8g1f1ZjUBVO782dRun+92aCroV3vwskMM2KTHWxzdrvKQDnsXGYHWFMDONaH+l7dPXzqrNdG2SQYTMHKKIZJIjaKuQygvFhfoCiDya+IyQsWSAD+/yNru+YQKH9Y60FQ8EWtXMySxs9YG37k0VBfS75c=
+	t=1768431313; cv=none; b=OHiYZJj8azvdw2tKVKDp7ymqIQxKYHBWfXR6DaH7qDO4PuQ6Q/NR9ipNnQ9s/6L8XFYQVn+K03GK5nzlmDPX+RBs5N/23+IoPj9nhm8MSEx2Idebuo2nnzJw3QRUau3O35jqGDNvgUaeCYOP7m7vDEkD9V+882YlbQHYxm5Dtvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428847; c=relaxed/simple;
-	bh=A8Qn2ZXNyjvn8gNDuWwA+Rtb50kD3BeNv2696tgjRjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pad0hFQSUcZd3/jAYKwk3AsBemOpkn23ROm6m+FTgOiQijuHpBU4SwvNQ63D5JI6+//XZW2CoMxpOK97nHxGe6LW1DkysJhF0+6W2ZSGoLLjg3z4e8edj6KkCWbXNzDuA0nTPYK9hDh/hI0oOYM4YfnnkeNcgXsVu+JQoyT1Mk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KkFSUbeM; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768431313; c=relaxed/simple;
+	bh=V1py82AjhxEE3vmI27KtbVxIIIMpzO9ROtiUPz6KBIM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZeqnAR/a8QBmiY/HpU1Fz6kI6xNq862DUBmFUziLPR/JOIL/2Y1TuO0alFqY+Bk1bLfn+CJE8rQEVUAGvuHiYcryaowe14yBSh+K8kglwBVZT+HCAWTPi1lnbDrYDB/JdNO8sTMD1QCELzjCiblnul7w8TMDGd5IpCtsdrjjsmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=ULLpnZ13; arc=none smtp.client-ip=74.125.224.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KkFSUbeM"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c52c67f64cso32088285a.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:13:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="ULLpnZ13"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64472ea7d18so175052d50.2
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 14:55:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768428828; x=1769033628; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1768431308; x=1769036108; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lVTV9saCiqOGcBv4/N1kZOQdjcejYiLRdluYVStkd9M=;
-        b=KkFSUbeMrfhGDKaMkcBs1gAfFq6i4S05xZsadrVDqLIjDc58XprImxwIwuuNeNYowF
-         gP+Dc3oOBEHLBWJ81YZvIZaYPHFQZJS/eayyUVt8WEBjMGAPf+g67kQ9sLe9rZ8XRJpC
-         BkQLHHCsA/+9pCdqroGPtuAeuaeLK781dhZcGJeKNh89MKrdzUyQJjwT1Vd9IsV4esIl
-         upz8N1YbOjI3Ll11oaCts5RgRnZCVhFv4w5JTiwfmDoabFCGYX5snatjYlW+qIlSAJnW
-         TL2us52c6ZFX5vPc1RescPzu1E/6IYJvM+9JxAPgKIJm+Gcuqu+ryoyML14NrM84S/ii
-         YIDQ==
+        bh=R3aA2X7iGQsnnel6fRLVe4SLr2+v2d/5zouhV3Vlqcs=;
+        b=ULLpnZ13u0uAWoBNOyx2pQX7xk573XQRxshqnkDODrBfdlOGHdBLeiGjQUMMJ7e0MT
+         yaxOaIMTKucIcX4OfsR6gfN1eFNdXT1pWQSb1rBy3+hTxxs8BpHH9ujUcKvWGon++zOc
+         frasvVhgblBEFDQvNS4s+VdZbgKRWfLOdyvLVXZKdXMyjGooin++rQelFJ+Ai0cyIWdj
+         3nXmWjRLOcdLlDhMrPX1xyFazfSpsNB1YbCdAwXXgzGP0dxA0Aj6b1/FYPc28C0wygDL
+         gFBm5ONEJLhsh0on5iB1eim+lHgZygUTwvX5PlvB8Fv7BYrr1aiO4p1zyYFyQKfiKHOu
+         f66w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768428828; x=1769033628;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1768431308; x=1769036108;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lVTV9saCiqOGcBv4/N1kZOQdjcejYiLRdluYVStkd9M=;
-        b=XQy6BJGLwboJ8V4SfB1Sh9cY4h0JUbp/8HuC/B5bHQTkkh8on0za06PWkB4nbIPn0Z
-         kMEPn12B7OmZBCA4bspR0IFi8c85ZMh4osipsM4WDuy7bFMZjy+W22+KtI7RnMGOgTq2
-         Vp6bSyc8ebY9misTv7s4iB0l5Zkw4T7O+TzDtVw2r/aHdbyWYbv11kzCNvYHSf/6rvF4
-         0F9HtjxQENOrHT34wqcTHYEJKlINbtrjvwzBLKrIhbgOy3zqDcmcXEyq92dc4wByc3P3
-         VoUSkhQ5UoAUweloKq+7pTswloppSe1mX0N4d+aS3phjyqOA/R6mKDIbBkMPLwl7JMFC
-         D99g==
-X-Forwarded-Encrypted: i=1; AJvYcCVgZc2h3IISwdhKKx+1fJDPKVx0/a2RRqgQKEaLlNzG7PjkKY122b4GAgFvhsgSGT4feOaskQ0cn3I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8YWcie6oxiuxHHSUxOYh24/0vhtEeBaUfCINKLxX3UXzrBECP
-	aB98h930DTzjdLzcY0TnaVlFlMffpk/Obov4n4Kylyu4WjBZy2Y52/Zn
-X-Gm-Gg: AY/fxX7dLy49UC1DH54Ej1oT1NlzOIKGrJLDLmqfsXsXtUuce6IrXF3CTqqkEuC2GKq
-	+tgce5GAZ66nR7cNzcqeAVhOp1zCEKiFZzIoORCHd8K1Q8BZtnu0UgZpFfGC2J20Tn57ZxsiopI
-	rhJByaWZePI3pJAI+UAidIOG2YPg/PhafdE1vpDSrNWz1oVIKZdI5ATvdxjbVtDDQU+3HXUVwlP
-	7R1R9ybxFFy+1yDujcdHP0ak4m7jZL75aBXUosJcg4HgFG0Nrk9kNdp34ZwK3LDXDlGfwC5i3D6
-	oJR66mCo3XLnjUmKfcBbyBG3N2niFVqvsOj9hJwRwg8xoEYYwHiYAZXqJFU+7T0t/yQrfxYRo38
-	45FoyS/9Y1+tzKruFbdwHf+lxyGEXPs6RnVjWWy4G9G/xtpeqjJpDdPtFmNV86Sqre4Z3+sAv3d
-	TNVhZ8biR10D0BoZXtrJ6hGgYfkVQ6eFrbZ7OhCdiNQWdeI4DM0NIMV6hzKdriZPmXcIStY8/Pi
-	bXij+ArQw==
-X-Received: by 2002:a05:620a:2946:b0:8c6:670c:953f with SMTP id af79cd13be357-8c6670c9641mr44853285a.58.1768428828498;
-        Wed, 14 Jan 2026 14:13:48 -0800 (PST)
-Received: from pc.mynetworksettings.com ([2600:4041:4491:2000:c1bc:6046:8762:e96])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c530bb685fsm250007785a.44.2026.01.14.14.13.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 14:13:48 -0800 (PST)
-From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	corbet@lwn.net,
-	shuah@kernel.org
-Cc: mathieu.desnoyers@efficios.com,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Subject: [PATCH v5 3/3] selftests/ftrace: Add accept cases for fprobe list syntax
-Date: Wed, 14 Jan 2026 17:13:40 -0500
-Message-ID: <20260114221341.128038-4-seokwoo.chung130@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260114221341.128038-1-seokwoo.chung130@gmail.com>
-References: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
- <20260114221341.128038-1-seokwoo.chung130@gmail.com>
+        bh=R3aA2X7iGQsnnel6fRLVe4SLr2+v2d/5zouhV3Vlqcs=;
+        b=UBlKk1M1shFYS/gPNcP1qWCMHfO+2ArT2TjBa6MEwmJxWjStjLLSEjBL0QIWJgsHEh
+         whLNGr2aFp4ZwpC2tDKMNVmqnnE0YY9a84yZW1tVMw4r7TFH+o2YLUhp2s1F0PG0vWwl
+         /qKTbBeImSva3eDq8WxZ9IOloHjTdaz5fHwD4FVS5Um6ZKYwtAkjhs5kZzBakzaGCTH9
+         j5W05t++xv2rzh+tnsupfKsNv1U3HTjWYOYhHPHI08lSS6JTFUzQknpAGPk+Nv5U6+m/
+         FAYK7+Qi22ogaK4Haxc3C7Jt+eEbVQf/mBVlY3yPBm2mvkIlO5DzVtsD7AU2Bf9wQh5B
+         gZTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCSY5R20Vc13N1WkmzKtbwb6NWGMZ/8T2rkfXmsnDFm7C1SsKWSc4yx+7y6VX+vNz0qGmjw2gT/sQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVppkNPpB8xlo/yvuX/q/jQGnARZaVxpr9Bfu7SljtyldfSPyv
+	WKXI6N04C2e2w8qN1kh32akaEyWqHgzKb8Hg33LnCIcZLopAZh1u8TCp2hHUOYEOHSazQyzugE4
+	tLQVxirEYBObUoALM0LYypOMnw8ahFtDo8onSsqTHdQ==
+X-Gm-Gg: AY/fxX4POuZZjP+eQ8MTd6McE3n+CGQmrdEjsbx4j02AQO7y3DMoEcdH0u0lnSv807c
+	sVMSjPz/Hhyxyu/aoYP2h/Qbwg5Bxlkthj1IB3TSUU+lfSPhZdg54rUk7tQpG469G4hjzMMujTK
+	nk+FTBkXiSCQeJ/ZNMwX53n95weLqPqjTgg2VLi2DS3+voofU5BXhyPOxDhPsMg+KygRpWOPd+U
+	VTAVL2awD1B3nwkj5s0j9Q57+IcejPsYGtf62rDg+dx1NbWrS33NOpmJ5nOBnmRgubCPYWDwq0A
+	elYntV59/HH+68ofs0g0rCnrMoF6n0ft78zWrg==
+X-Received: by 2002:a05:690e:b8d:b0:644:77bb:5705 with SMTP id
+ 956f58d0204a3-64903b55ebbmr2982962d50.77.1768431307959; Wed, 14 Jan 2026
+ 14:55:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260113-adding-b-dtsi-v1-0-22d6e55d19df@riscstar.com>
+ <20260113-adding-b-dtsi-v1-2-22d6e55d19df@riscstar.com> <20260113075339-GYA25466@gentoo.org>
+ <CAH1PCMarzrZJ072iyAQthB-i-LHFCSJ+tZLx6HcWiVcUrQeafw@mail.gmail.com> <20260114-evergreen-gluten-b1c8558e7684@spud>
+In-Reply-To: <20260114-evergreen-gluten-b1c8558e7684@spud>
+From: Guodong Xu <guodong@riscstar.com>
+Date: Thu, 15 Jan 2026 06:54:57 +0800
+X-Gm-Features: AZwV_Qhkxzj_Y9cwaD4tSP0GMlfoxTMZyhjGCrw4ED-TcUztP4RUDmlAh8THzag
+Message-ID: <CAH1PCMZAEwO4Vg=TdZ9SR1uwm3OOw_y79iCRC+E+SZiVRNtp+w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] riscv: dts: Add "b" ISA extension to existing devicetrees
+To: Conor Dooley <conor@kernel.org>
+Cc: Yixun Lan <dlan@gentoo.org>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Conor Dooley <conor.dooley@microchip.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
+	Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, sophgo@lists.linux.dev, spacemit@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
----
- tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Jan 15, 2026 at 4:42=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Wed, Jan 14, 2026 at 10:33:34AM +0800, Guodong Xu wrote:
+> > Hi, Conor, Yixun
+> >
+> > On Tue, Jan 13, 2026 at 3:53=E2=80=AFPM Yixun Lan <dlan@gentoo.org> wro=
+te:
+> > >
+> > > Hi Guodong,
+> > >
+> > >
+> > > On 15:45 Tue 13 Jan     , Guodong Xu wrote:
+> > > > "b" is ratified (Apr/2024) much later than its components zba/zbb/z=
+bs
+> > > > (Jun/2021). With "b" added into riscv/extensions.yaml, a dependency
+> > > > checking rule is now enforced, which requires that when zba, zbb, a=
+nd zbs
+> > > > are all specified, "b" must be added as well. Failing to do this wi=
+ll
+> > > > cause dtbs_check schema check warnings.
+> > > >
+> > > > According to uabi.rst, as a single-letter extension, "b" should be =
+added
+> > > > after "c" in canonical order.
+> > > >
+> > > > Update existing devicetree files to conform to this rule. Line bala=
+ncing
+> > > > is performed where needed to improve readability.
+> > > >
+> > > > Signed-off-by: Guodong Xu <guodong@riscstar.com>
+> > > > ---
+> > > >  arch/riscv/boot/dts/anlogic/dr1v90.dtsi     |   5 +-
+> > > >  arch/riscv/boot/dts/sophgo/sg2044-cpus.dtsi | 256 ++++++++++++++--=
+------------
+> > > >  arch/riscv/boot/dts/spacemit/k1.dtsi        |  32 ++--
+> > > >  3 files changed, 147 insertions(+), 146 deletions(-)
+> > > please have separated patch for different SoCs, so they can go via
+> >
+> > Understand your concern.
+> >
+> > > their own SoC tree.. thanks
+> >
+> > Conor, is it possible to take this as one patch instead?
+> >
+> > It fixes the same dtbs_check warnings from riscv/extensions.yaml across=
+ three
+> > SoCs. Keeping them together maintains readability and clear tracking, I=
+MHO.
+> >
+> > Happy to split if needed, but wanted to check first.
+>
+> I'd rather you split it, sorry.
 
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
-index 45e57c6f487d..79392e268929 100644
---- a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
-@@ -1,7 +1,7 @@
- #!/bin/sh
- # SPDX-License-Identifier: GPL-2.0
- # description: Fprobe event list syntax and :entry/:exit suffixes
--# requires: dynamic_events "f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]":README
-+# requires: dynamic_events "f[:[<group>/][<event>]] <func-list>[:entry|:exit] [<args>]":README
- 
- # Setup symbols to test. These are common kernel functions.
- PLACE=vfs_read
--- 
-2.43.0
+Sure, will do.
+Thank you both.
 
+BR
+Guodong Xu
