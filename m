@@ -1,97 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC00B2BFC85;
-	Wed, 14 Jan 2026 17:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F863009F6;
+	Wed, 14 Jan 2026 17:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768411680; cv=none; b=nPmcsqw0LC8ljFbzHZiRbLAZnCnfvVGZyH84SgXNLTYnSaXUJYiKe/ADVA9gGTcEXI5kLeFI7PCnEzSTOcXRRaODJE5qSfIPFZDkjPm+D4EdE1NtY2Azj51wcxhjc03m162XEeWhtZlr73lMFtlGBlfQW8f/AsSObWFABbnlw+M=
+	t=1768411680; cv=none; b=cwuQdMmWt8eiSU2NhlOKYp8wBkBQ37Dade6XOW3sTSFBRIabKu9x2ls2Tnk6+SjkVSmBjArQx8W0Mioc4g2kcMYzFV6DF2egbYCwKlkl78biueahsRpfKmO8qY/A6w4twmYwSOgHR7lc7FLOpjk3J/OPQhavLi/qYq3ta9zc5JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768411680; c=relaxed/simple;
-	bh=MKErPubq+4dytiNTQQKxbBYuZq0PRZbULHtHlGPOA9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BE03Gu4TIeg1HIhNGtm7484AyBfZ+R6RAx8x94KaEp6hWnIWjFGUKk4qfM+KJlKH8gKbKHs2OYBM5ijdtmrCJJpyvzJUAlq0UnnSSecK08aPoKbz4f8cyUT7Z0/hDhXFPPL3OuT7HczqoEOGmjnoXJaf8tuFbBqCRgn1edN2/HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPNzAUNV; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPNzAUNV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D171AC4CEF7;
-	Wed, 14 Jan 2026 17:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768411679;
-	bh=MKErPubq+4dytiNTQQKxbBYuZq0PRZbULHtHlGPOA9U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NPNzAUNVJjw7ci4jNIO2uMrDaRZ+xEVkHOjM5IQaB+UAc/c442sRxq+JFqShLlNHu
-	 XfqXYF3w43bN21mG+uwwl5Iy8UmeqdAF6OK+8BA3dJRHuc3qxpeZ7sISIDpad07B+b
-	 jv0O9lGX3cAw6lWQMYieUSLvbvMcZ62jwgH84qc3c3mRz2fGAgBep8rPfPeqZAy0jo
-	 2dfXmVozyUzfknjXc8Ivt7BoXalm2KIXNSEnqIHuiqB0zUpwqgkgpaDN17ovsedGUq
-	 yYEBZ8Lc+y9wmjLpRmdkKVnH4HYJqOsm4rroiYmT2UWZVGLhiIVe2pKwFyE4zUS7iv
-	 BdEdk1L1lKyHw==
+	bh=m+SYEh/IiGmnEgrdEv27uXtqymbTpeuiTu/N6f3F940=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D4R12N1fv3A7iUGJt/u1ahBXq5ikOgIJkBeBHjfWOnNKtNanZNyKeZVx4i1qTvfbkzoIeJskrxZWeRaitQK4LL9fwnIHb9jqydAS5G6fwOhsbXGpuvcUCCBgFSKjp2nQQLwpFb1UZmgLCDRjDI2+pNNODKutzrEEB1dkeBz+er0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4drtNX314NzJ46CZ;
+	Thu, 15 Jan 2026 01:27:40 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 61C9940572;
+	Thu, 15 Jan 2026 01:27:55 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Wed, 14 Jan
+ 2026 17:27:54 +0000
 Date: Wed, 14 Jan 2026 17:27:53 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Fuad Tabba <tabba@google.com>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v9 23/30] KVM: arm64: Context switch SME state for guests
-Message-ID: <5a053bb6-5052-4664-b0cb-f05d56d4679d@sirena.org.uk>
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
- <20251223-kvm-arm64-sme-v9-23-8be3867cb883@kernel.org>
- <CA+EHjTyYcrWwBR0AwwdWFfOSwbmTMOhSee7y_-vrMfOxphrvqw@mail.gmail.com>
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Robert Richter <rrichter@amd.com>
+CC: Alison Schofield <alison.schofield@intel.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
+	<dan.j.williams@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Davidlohr
+ Bueso" <dave@stgolabs.net>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Gregory Price
+	<gourry@gourry.net>, "Fabio M. De Francesco"
+	<fabio.m.de.francesco@linux.intel.com>, Terry Bowman <terry.bowman@amd.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 1/3] cxl, doc: Remove isonum.txt inclusion
+Message-ID: <20260114172753.00003f71@huawei.com>
+In-Reply-To: <20260112111707.794526-1-rrichter@amd.com>
+References: <20260112111707.794526-1-rrichter@amd.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5VzuVXkE42Zf47rW"
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTyYcrWwBR0AwwdWFfOSwbmTMOhSee7y_-vrMfOxphrvqw@mail.gmail.com>
-X-Cookie: Absence makes the heart grow frantic.
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
+On Mon, 12 Jan 2026 12:16:43 +0100
+Robert Richter <rrichter@amd.com> wrote:
 
---5VzuVXkE42Zf47rW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Jan 13, 2026 at 02:24:56PM +0000, Fuad Tabba wrote:
-> On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
-
-> > +#define sme_cond_update_smcr_vq(val, reg)                      \
-> > +       do {                                                    \
-> > +               u64 __smcr = read_sysreg_s((reg));              \
-> > +               u64 __new = __smcr & ~SMCR_ELx_LEN_MASK;        \
-> > +               __new |= (val) & SMCR_ELx_LEN_MASK;             \
-
-> Similar to what I pointed out in patch 15 [1], I think you need to
-> preserve the other bits, since SMCR isn't just about the length.
-
-This does preserve the existing bits?  It reads SMCR, masks out and then
-replaces the length.
-
---5VzuVXkE42Zf47rW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmln0hgACgkQJNaLcl1U
-h9BMEAf/RF9rOJl8ekbOzDRQR11JDX39xOnp1XjKNL/LwADVFknoshEFGbwNHbg7
-57daW1rnmcC+bbYUI884dlgzpo1QO8eu4Ln3iZDbBO3RiskXsxPq0/Aw9YPMpukh
-389uJu/fYy9Ag03Cgwp1Gcp7bMqs3eDrjnW6q4Rdaqc6tzECGGKLYT25uZjD9qdu
-n5jJy4QwQfmTpm1eH93FgHCkiW5PHP8wUv+dYDQ02i/Bg1ZOuiOeiof+YcAfZoxn
-okZ9Seieeb/x/OD9CYTtepifFAelR40y3pF8VLhESbkMzGiy7v6SmiCWhPvFhNkF
-uyOxnmGui2Xy46sOprB2XcG91p5l5g==
-=e2HB
------END PGP SIGNATURE-----
-
---5VzuVXkE42Zf47rW--
+> This patch removes the line to include:: <isonum.txt>. From Jon:
+>=20
+> "This include has been cargo-culted around the docs...the only real
+> use of it is to write |copy| rather than =A9, but these docs don't even
+> do that. It can be taken out."
+>=20
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Signed-off-by: Robert Richter <rrichter@amd.com>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
