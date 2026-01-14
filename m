@@ -1,108 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4788A2D73A6;
-	Wed, 14 Jan 2026 17:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B882E62D1
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 17:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768410452; cv=none; b=jzIE4kkYt+TaxJ75LULMybvnQ3klyRUnCzFXXyd+3dWn5wL8TLBsj4vGZyKDJ3CKjhJqrOcJnTdJheUiLHoNQX+C4RhwfZR75/jvRAOZjYqbATnQhVVic/HEdkkyw8bGA+Q1O0dUg1qAOxcM8WI247er1bxVtfxM+R/AAmDKGg8=
+	t=1768410553; cv=none; b=ctbIIdx1w6bEVjqqg13lxL7OVV8ZLDQYLCKX0XKeUStTNFBSCKkCrCOi8YFvf7ilNpZHN2J6a0kKd0A6rsbkdyaovJ/W1rKrEBZYHzvOfZBc3jbDJ1BLpCDIgfU4WRh6PjEtSX9FQ9QysYUKTnzypq1ApVRnbApBmdc+mNGnU/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768410452; c=relaxed/simple;
-	bh=MGElqEXwoRbt8mMzLI9gWMm6tx51R4BHJkiacnjgofs=;
+	s=arc-20240116; t=1768410553; c=relaxed/simple;
+	bh=98G5EZefFkl/9hWfVjLIKGerKNrUGutT82EZGZKIFWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lICmki7wmFHah8wHSxJwY/mkGkTonIKvgZU5FovRuziF8YfwJk6MmYEm2fFaEYIsbrTPoA8om68ASfjLHpqMp8+EGe1zpOgoWvRkLgG0o2qIpmJuq85kqK0lc2k4JUAmPog7AKQf+L02qQ5Te4RA/NEcMHqumLEgFQhZ4s1b8Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vEolMwCH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tXaOpZWYB5DqJ9WIr20G9mrn0Y3GgIC+MU9jdVdzo+VUs93uvwxQO0yVTzUGkSnnSnP5Q45Rea1UontdgrVlR/mpJ94a2fxK6oc99bwyo2RAOHOIt37lsQwFx2/+3tGijsnM7a2yU/gIonDVJvYUulzun8KhTF2b0nRIIjuqKL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nPOFF5Wv; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vEolMwCH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE6DFC4CEF7;
-	Wed, 14 Jan 2026 17:07:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768410451;
-	bh=MGElqEXwoRbt8mMzLI9gWMm6tx51R4BHJkiacnjgofs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vEolMwCHO3gyuvdGmOE3O9pKCM5M8SbSniKQidIWzOSx0PpTJ7Hj4ZwnGYFesCRZ3
-	 nUL/jdfJLelH5D0whFKOjdwr35MISlOXKDOa6Lbi19ptoggFUpvSTGZlhxy8wcydSe
-	 2ru/TkW9rbl9o0etsJta6Ukc466KaXjOjS0EZlRUsIFFI5uicpeVB9DXRy+PEASF5k
-	 BFWehX7gdc0YEru5parDTnCckbHf4EXKG0ybaCo62t3jvZVfDovR7/4iu9t8FWPKOS
-	 0BvNX/YWefxE1P6ozppwQ4KuBl43vg9R78UIaOZkuSwgv6K/q5DHyUyj8B/+g5oMax
-	 iic2DLJRvz0ug==
-Date: Wed, 14 Jan 2026 17:07:25 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Fuad Tabba <tabba@google.com>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v9 22/30] KVM: arm64: Expose SME specific state to
- userspace
-Message-ID: <1b5493ed-2d44-47e2-916b-3a5052e3b88f@sirena.org.uk>
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
- <20251223-kvm-arm64-sme-v9-22-8be3867cb883@kernel.org>
- <CA+EHjTwMy1crsZLqfy8_Y56NFPJZ7vGyN-egc433GhxB_n=7aA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nPOFF5Wv"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a081c163b0so401185ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 09:09:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768410550; x=1769015350; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GYBoGaWLHXCd8PqOgncqDf0BayRCOnmKkumvRRhT/88=;
+        b=nPOFF5WvpP6JYLkGsTCz7jGiTmJo3jwZ0DTpNAB/ow7pn/vlxcFrZpwD29ke0UgB6J
+         rbJ3+aio9aQAN/cJ7p7agdIM2gArdtbkKpupdFule2uW9tjzKdw5wzEb9ZLIXMJcefvo
+         S1rTBS1zD+I9E0fKAeDXL/qwvanivjt8nVLkYF3XBmJqeX7JxVBfho6z82phixlXxKLy
+         WPnDVpUpNanxQJantCenNwBAHx5K1l7rYJlXR5rXwIai7XMizm9lHuRPOGMlEPCR4T18
+         bnDIaqGxUeIy+AfCP+wYoJnaDcStXD2y6Np0om2LDbnEqC2gzkvLZ8VzKenPkvEep7Nh
+         iqsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768410550; x=1769015350;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GYBoGaWLHXCd8PqOgncqDf0BayRCOnmKkumvRRhT/88=;
+        b=rv5UzJsMbUCAV1POrarUmx4VoLyQS8l04UAJgc1jM+LIR9XdYjXf4EYdFJcbzfAF1L
+         oAtfozJ68SqgwApMhXAbsfAQOgYqdi8hMEdTAAyz284/bbTPYDFKLSAk/ex/djlflvhF
+         gtXCUef1NK+DWPfrdfZe+KvGYl/QAGQaxP8MORqgF+4RzUTPflMmKuVQfq57fqiMr/3X
+         drG2VrLnvB1A1PLMFNUHI3zFtbdpulsnFeLivDp7Qd25wSXP1RC7UN/SA2b+6NK2yMAJ
+         nkfsPljBseqQSN3h+DF8G7xtPefD2DtHp4Rs9YdO1/zIpqCz554OSfjaUNTiEdYHXTBD
+         nU5g==
+X-Forwarded-Encrypted: i=1; AJvYcCU7y7a8qwisDIFbkR/Zscv62Vzyc8L4ax9ofNhDeP8H4EBTrm2jh3xcb9G3WTZd4UEcLqUe645FOhA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDnwbFNE2sGO0eJb2ZrTnX0fovF8Gzn0FUw5FV6tLNm7v6Fm/f
+	bQEaylavGaTUt7JU4uiN4bX0KnSPkVgX2GUp+NzWuVm07rcV+DSZZlKu0gSRoi73PEQ=
+X-Gm-Gg: AY/fxX6L9ekoGll4s+FoQ8u41LPC7OfB7IwYvpjqCTbYxQgFyxP3qGuK/faSfU774gf
+	Ayxs6MQChFmh7eBwvS39vK8llDKSrF8ezBbwTZh6HL69Y3Phs8NYgereP4lUpwFbFBza2N6BW3Q
+	cL6p/xEppnL5qTnCs3hOZxvgqtX19GMidycN5BOdDh0nU/PjhD6/4tiLqcc3Hz7nVxxOLVvwLZs
+	pXiDGhRlhebZw0DmG75fQxGTB+RH3y7WRCfS/SgPaQGd/wb2B4J9reKLGo43DlZEMmHyuQbWfUr
+	lVxQqqj7usa5FRE5ZRdHw/1cMeycatwsEygbJHShRqSOoEyytYc0+3mnVMG4wRRDYtVhbx6PJsh
+	ZQ+bwrsBajl/qCAzQIrDEDt7nLMUoSEzgd2vdEcvQ9eNzBylHQ1kpIMXo83U3JeXoSC8INcN10p
+	l+iOZkgoxvtV/C9A==
+X-Received: by 2002:a17:902:c949:b0:2a0:992c:c54e with SMTP id d9443c01a7336-2a599e33f1dmr33469595ad.48.1768410550174;
+        Wed, 14 Jan 2026 09:09:10 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:c447:f90e:a227:47bf])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc88d8sm231003025ad.80.2026.01.14.09.09.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 09:09:09 -0800 (PST)
+Date: Wed, 14 Jan 2026 10:09:06 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-imx@nxp.com
+Subject: Re: [PATCH v6 0/5] Enable Remote GPIO over RPMSG on i.MX Platform
+Message-ID: <aWfNsrpC5Rgiwwp3@p14s>
+References: <20251212194341.966387-1-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wWm1d/lEDlGXNOgF"
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTwMy1crsZLqfy8_Y56NFPJZ7vGyN-egc433GhxB_n=7aA@mail.gmail.com>
-X-Cookie: Absence makes the heart grow frantic.
-
-
---wWm1d/lEDlGXNOgF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251212194341.966387-1-shenwei.wang@nxp.com>
 
-On Tue, Jan 13, 2026 at 02:06:53PM +0000, Fuad Tabba wrote:
-> On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
+On Fri, Dec 12, 2025 at 01:43:36PM -0600, Shenwei Wang wrote:
+> Support the remote devices on the remote processor via the RPMSG bus on
+> i.MX platform.
+> 
+> Changes in v6:
+>  - make the driver more generic with the actions below:
+>      rename the driver file to gpio-rpmsg.c
+>      remove the imx related info in the function and variable names
+>      rename the imx_rpmsg.h to rpdev_info.h
+>      create a gpio-rpmsg.yaml and refer it in imx_rproc.yaml
+>  - update the gpio-rpmsg.rst according to the feedback from Andrew and
+>    move the source file to driver-api/gpio
+>  - fix the bug reported by Zhongqiu Han
+>  - remove the I2C related info
+>
 
-> > +static int sme_reg_to_region(struct vec_state_reg_region *region,
-> > +                            struct kvm_vcpu *vcpu,
-> > +                            const struct kvm_one_reg *reg)
-> > +{
-
-> > +       reg_num = (reg->id & SVE_REG_ID_MASK) >> SVE_REG_ID_SHIFT;
-
-> You use array_index_nospec() below for koffset, but it might be worth
-> using it for intermediate values, such as this one.
-
-This is following the existing pattern for the SVE registers, I'm
-trusting the logic there.
-
-> > +       sme_state_size = vcpu_sme_state_size(vcpu);
-
-> Is it worth caching this value and storing it in arch, since the state
-> size doesn't change after finalization?
-
-It feels marginal, and we've not been caching it for SVE all this time.
-Most of the time we use the value we're doing so as part of a fairly
-expensive operation so it seems like a reasonable choice.
-
---wWm1d/lEDlGXNOgF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlnzUwACgkQJNaLcl1U
-h9Cvrgf7BgTXha0CzEi5j4VgVBXcclvOZGymP1dBDz6D4Y8U/TMKH/bpOQcIjws/
-lkQGHPmKpBCHKgkE9ZCJu5oOQqQdCjFh9pHQQZwJM1QMRg/P/cwzO+CoyMsIkb1A
-4o2x/8WgiXF4LRsm4hmHRDR51VYSsH+Pg2dVgpSdiyIG1xi02AzthMF9vY0/fEiE
-GHKptYCfpxgy14m/Ns0VKGfgNXAXH6reAeVqWVo5BQ0K9a5M1pFAIoLyaKFulRTR
-0jgqosqFLXemYeGJ99w1TFrJRO3bltyiVULxBQBDupshqNvIwApsbjn92T0Qh8ir
-VwMGpz89Lk6CAe/3AHGVTw/0GgAFBw==
-=h+Uy
------END PGP SIGNATURE-----
-
---wWm1d/lEDlGXNOgF--
+NAK - I asked to use the virtio interface (in this case virtio-gpio), something
+I do not see in the above summary and the first 2 patches in this series.  This
+work will not move forward until that happens.
+ 
+> Changes in v5:
+>  - move the gpio-rpmsg.rst from admin-guide to staging directory after
+>    discussion with Randy Dunlap.
+>  - add include files with some code improvements per Bartosz's comments.
+> 
+> Changes in v4:
+>  - add a documentation to describe the transport protocol per Andrew's
+>    comments.
+>  - add a new handler to get the gpio direction.
+> 
+> Changes in v3:
+>  - fix various format issue and return value check per Peng 's review
+>    comments.
+>  - add the logic to also populate the subnodes which are not in the
+>    device map per Arnaud's request. (in imx_rproc.c)
+>  - update the yaml per Frank's review comments.
+> 
+> Changes in v2:
+>  - re-implemented the gpio driver per Linus Walleij's feedback by using
+>    GPIOLIB_IRQCHIP helper library.
+>  - fix various format issue per Mathieu/Peng 's review comments.
+>  - update the yaml doc per Rob's feedback
+> 
+> Shenwei Wang (5):
+>   dt-bindings: remoteproc: imx_rproc: Add "rpmsg" subnode support
+>   remoteproc: imx_rproc: Populate devices under "rpmsg" subnode
+>   docs: driver-api: gpio: generic gpio driver over rpmsg bus
+>   gpio: rpmsg: add generic rpmsg GPIO driver
+>   arm64: dts: imx8ulp: Add rpmsg node under imx_rproc
+> 
+>  .../devicetree/bindings/gpio/gpio-rpmsg.yaml  |  49 ++
+>  .../bindings/remoteproc/fsl,imx-rproc.yaml    |  54 ++
+>  Documentation/driver-api/gpio/gpio-rpmsg.rst  | 232 +++++++++
+>  Documentation/driver-api/gpio/index.rst       |   1 +
+>  arch/arm64/boot/dts/freescale/imx8ulp.dtsi    |  27 +
+>  drivers/gpio/Kconfig                          |  16 +
+>  drivers/gpio/Makefile                         |   1 +
+>  drivers/gpio/gpio-rpmsg.c                     | 490 ++++++++++++++++++
+>  drivers/remoteproc/imx_rproc.c                | 143 +++++
+>  include/linux/rpmsg/rpdev_info.h              |  33 ++
+>  10 files changed, 1046 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-rpmsg.yaml
+>  create mode 100644 Documentation/driver-api/gpio/gpio-rpmsg.rst
+>  create mode 100644 drivers/gpio/gpio-rpmsg.c
+>  create mode 100644 include/linux/rpmsg/rpdev_info.h
+> 
+> --
+> 2.43.0
+> 
