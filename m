@@ -1,76 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8A9944F;
-	Wed, 14 Jan 2026 00:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B411DC198
+	for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 00:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768349613; cv=none; b=G7EaOi0Ya+AmPfZIDLxS620/U2it2WQJSDZClDYQQLA6mZNW57QmMfvcrynbbscJboO2BzPG8hpDc1MqWU9TMXs1VTuLgju7x+g9CL6lR++8dUBOYD5GUf1pfOaOyhF7NcGGhcU+w5ufjYdkuNRNR/eD5rJd1yDvq6upv/2q+AQ=
+	t=1768351329; cv=none; b=Q8lzfCHCeSZnU8BQC414hXMmQu3s3Cn9DyMBOfj+ZkohmS15XcNMoUmdM5T2XiiDeq135VuUshcXLGAqUvSHM4xK0dhA/KnX4ABFx0YnAJG4oCOAQyBtHNHVd/C68pFGzUkL5b3M2QoLaNneWRpfQJNqFnUXPTZh04SDgeTECeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768349613; c=relaxed/simple;
-	bh=aqnHze+Td25OVXDIGdgpRDIRDAM53FeOGdj9+wWFseY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=DW+HDFpj2NoItVT01wtVhXIhHtrI7IOMWauUbu9DK4YKqLG9C8qX/c3wWwjCjhHS/jwOy4Z542MhQS671LozkKy9YkSVjjWzZviDaDwYiJTb8OQYrbUkOTTgqsYj18isZj675/XCWqacsa3m1KC3TfVdKUdYmT50MUkGTzTR/ME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgV3+5Ff; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768351329; c=relaxed/simple;
+	bh=Bopgb5ZIVLWPBVYEccSD9skYtC+OxMkBXkfDoARxMtU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=YKR+JhcEFGYpWWmYzKGYxgR9GgxJL4xlEb7VtJFut5s2qFIRFJdPJ93EcSbcIMwfZjNCTF8KtulwVasHgZ2jZKIRQeDp/FtX20y1640vdk5wIDsQ9hAlCh+SpLS5lVI4pKGKjNqndoM++JYX6VPhHZ4zRv25d+cBEnm4jk24PDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qpKym3Ej; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgV3+5Ff"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEEE8C116C6;
-	Wed, 14 Jan 2026 00:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768349612;
-	bh=aqnHze+Td25OVXDIGdgpRDIRDAM53FeOGdj9+wWFseY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=TgV3+5Ff8t0/g8AniA+UuBLz/Te7zln4zP21xGOw2JnnTMj3jDJZ1Dwk5FMA0H9Dj
-	 +OqDCfjpRGBvu0BYh6LnMFQePJ+g2bRtpcVOztF22fRiNA4a/mD+R1Hs7FISM5rNHF
-	 jhvfjvXWOxbz+dcGEaUhuQ3+PUjGO78rX5xPY4bimyAvbd1upIk2XmMTl7jHaZxBzw
-	 fAZRM+6nkobv7zU0ij/QyB9vBixc6RPODIg38Qr2hX1pWFehiPkTHf2d+fru2zP45w
-	 reobcE+PZXhrQ72FSvth9pxLj+AknWR3iaYJ+SjLQ606c9dQf8jc4aPtDAOOlrmboM
-	 tjQ4mazH7TALQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3B9D93808200;
-	Wed, 14 Jan 2026 00:10:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qpKym3Ej"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-34c387d3eb6so5856140a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Jan 2026 16:42:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768351327; x=1768956127; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pd5+DJp4tMXnHmf+bQwLqAmsmcSpJgq9CjvpTrkRj6s=;
+        b=qpKym3Ejlg89nsjFscQ1kCgyhX3Yf9Z3HXpVTvC3KBQeOtvPxgtDKpCSq7ijpffugP
+         3Gk0zKqW/6e7szgNH07uhebNGp3TmgE2CcU+EHvAqTXlNi+5/JmAdcyw8E/2Pcy1c0sM
+         e4AhzDGd+k2eUvyVN0At1tenaA4RMem5M2UPZDDsToJ3WrgnlRaQ6lC02RW38JxnZzhc
+         CVcroQxZ6sXT2KF7WIGfr8vqKeiI0N0pWZJBIivLVRsAKKOjXudd3QwaMvKHB9p8Trv+
+         QsrR8a0jybpeoyZI19X2u+mamCVPW+XqNc4asZ1Ei1oETiSXEoNCmjHM8AHd192dt9LT
+         Kl1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768351327; x=1768956127;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pd5+DJp4tMXnHmf+bQwLqAmsmcSpJgq9CjvpTrkRj6s=;
+        b=huRIwg4VkOhTsJg4aLbXvBdQwK1c0iB51hTQFJB9rn3d++mg3FmSdubD+x/yJtcV0s
+         7dyqxQErrMd3tcds/1ppLeRrvCLjr0lXHYjXAGULC+856O2KDLs1IXZPz9SdTQMywcf3
+         BJOb7jedpWadsS6MAeZDpTfEhjtkCrKUf/54LKCnQ3ULMn7pOgl0jK+uJjLJlMOMCliX
+         XD6yv+J1ugrZAKsZ3RiwmLonVNvX3z9YTfkaVy8ZB5bxXTh30QAG0n3xap5pf4bUsT4R
+         41PBGBGhajmqV36zJmxYuvNixywWcb25Tq2ao+LQh8P4PZLQ4j+M2VmaC5OjDtug/zZt
+         ciAw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlvmL+sa4WzdJALvb+jh4pZNp1srNGQSepEuyQvXvXhSJTkHJrWtUME6njVjatQUVq4ARBpkSYUwA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz797gUOj7MH9tkRBYIeVHotIHHDYo8uCm5N+9o3meez5NKhoQ/
+	pHX7KYlOFoaqrYk0/hUyggMVaAdOm55uYD7iVctKLk1TS8QUX0fS3It3NcsRCOh+6S6lF58UvN1
+	CTLpg0A==
+X-Received: from pjbie5.prod.google.com ([2002:a17:90b:4005:b0:34c:fe27:790f])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1d09:b0:34c:fe7e:84fe
+ with SMTP id 98e67ed59e1d1-35109135069mr688153a91.28.1768351327191; Tue, 13
+ Jan 2026 16:42:07 -0800 (PST)
+Date: Tue, 13 Jan 2026 16:42:05 -0800
+In-Reply-To: <20260113225406.273373-1-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v1] tools: ynl: render event op docs correctly
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176834940605.2527918.15409968883446606893.git-patchwork-notify@kernel.org>
-Date: Wed, 14 Jan 2026 00:10:06 +0000
-References: <20260112153436.75495-1-donald.hunter@gmail.com>
-In-Reply-To: <20260112153436.75495-1-donald.hunter@gmail.com>
-To: Donald Hunter <donald.hunter@gmail.com>
-Cc: donhunte@redhat.com, kuba@kernel.org, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
- netdev@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Mime-Version: 1.0
+References: <20260113225406.273373-1-jmattson@google.com>
+Message-ID: <aWbmXTJdZDO_tnvE@google.com>
+Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hello:
+On Tue, Jan 13, 2026, Jim Mattson wrote:
+> Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM to allow L1 to set
+> IA32_DEBUGCTL.FREEZE_IN_SMM in vmcs12 when using nested VMX.  Prior to
+> commit 6b1dd26544d0 ("KVM: VMX: Preserve host's
+> DEBUGCTLMSR_FREEZE_IN_SMM while running the guest"), L1 could set
+> FREEZE_IN_SMM in vmcs12 to freeze PMCs during physical SMM coincident
+> with L2's execution.  The quirk is enabled by default for backwards
+> compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRKS2 if
+> consistency with WRMSR(IA32_DEBUGCTL) is desired.
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+It's probably worth calling out that KVM will still drop FREEZE_IN_SMM in vmcs02
 
-On Mon, 12 Jan 2026 15:34:36 +0000 you wrote:
-> The docs for YNL event ops currently render raw python structs. For
-> example in:
+	if (vmx->nested.nested_run_pending &&
+	    (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS)) {
+		kvm_set_dr(vcpu, 7, vmcs12->guest_dr7);
+		vmx_guest_debugctl_write(vcpu, vmcs12->guest_ia32_debugctl &
+					       vmx_get_supported_debugctl(vcpu, false)); <====
+	} else {
+		kvm_set_dr(vcpu, 7, vcpu->arch.dr7);
+		vmx_guest_debugctl_write(vcpu, vmx->nested.pre_vmenter_debugctl);
+	}
+
+both from a correctness standpoint and so that users aren't mislead into thinking
+the quirk lets L1 control of FREEZE_IN_SMM while running L2.
+
+> diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+> index 0521b55d47a5..bc8f0b3aa70b 100644
+> --- a/arch/x86/kvm/vmx/nested.c
+> +++ b/arch/x86/kvm/vmx/nested.c
+> @@ -3298,10 +3298,24 @@ static int nested_vmx_check_guest_state(struct kvm_vcpu *vcpu,
+>  	if (CC(vmcs12->guest_cr4 & X86_CR4_CET && !(vmcs12->guest_cr0 & X86_CR0_WP)))
+>  		return -EINVAL;
+>  
+> -	if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) &&
+> -	    (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> -	     CC(!vmx_is_valid_debugctl(vcpu, vmcs12->guest_ia32_debugctl, false))))
+> -		return -EINVAL;
+> +	if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) {
+> +		u64 debugctl = vmcs12->guest_ia32_debugctl;
+> +
+> +		/*
+> +		 * FREEZE_IN_SMM is not virtualized, but allow L1 to set it in
+> +		 * L2's DEBUGCTL under a quirk for backwards compatibility.
+> +		 * Prior to KVM taking ownership of the bit to ensure PMCs are
+> +		 * frozen during physical SMM, L1 could set FREEZE_IN_SMM in
+> +		 * vmcs12 to freeze PMCs during physical SMM coincident with
+> +		 * L2's execution.
+> +		 */
+> +		if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM))
+> +			debugctl &= ~DEBUGCTLMSR_FREEZE_IN_SMM;
+> +
+> +		if (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> +		    CC(!vmx_is_valid_debugctl(vcpu, debugctl, false)))
+
+I'm mildly tempted to say we should quirk the entire consistency check instead of
+limiting it to FREEZE_IN_SMM, purely so that we don't have to add yet another quirk
+if a different setup breaks on a different bit.  I suppose we could limit the quirk
+to bits that could have been plausibly set in hardware, because otherwise VM-Entry
+using L2 would VM-Fail, but that's still quite a few bits.
+
+I'm definitely not opposed to a targeted quirk though.
+
+> +			return -EINVAL;
+> +	}
+>  
+>  	if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_PAT) &&
+>  	    CC(!kvm_pat_valid(vmcs12->guest_ia32_pat)))
+> -- 
+> 2.52.0.457.g6b5491de43-goog
 > 
-> https://docs.kernel.org/netlink/specs/ethtool.html#cable-test-ntf
-> 
->   event: {‘attributes’: [‘header’, ‘status’, ‘nest’], ‘__lineno__’: 2385}
-> 
-> [...]
-
-Here is the summary with links:
-  - [net,v1] tools: ynl: render event op docs correctly
-    https://git.kernel.org/netdev/net/c/fa5726692e4c
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
