@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4619431AA81;
-	Thu, 15 Jan 2026 19:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51FC17DE36;
+	Thu, 15 Jan 2026 19:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768506369; cv=none; b=XXD5dHZUKo+iAdmfbFdirokT5V3ai5GEC9EjkQqmjAlGw5TjkaBvE20a0y+Ueq+l25zi26eb8Fp4bdaFonSLGuBc3CpAxF8HG0AvDOUjLdOSrMLMPTjWmPzSd1yZ9zpWP76onRIgjGtzjg6EwZ6U1kNMj3z0rc3p3LrsTWEskT4=
+	t=1768506442; cv=none; b=uwZOlkg0+fpr9LCOGVelGaZHQXPa/8AxkcLHB2rhkD1ljqwAqnf4/QSOJFWSGC3ZI8cfDp0KR5jr7plfROM/4mS4CdilMeGdfw82M5Y+3UYqC6Y9wEmnfJMKAkf4mEgHCoK6wsUpYySlqd0tXFf55I9wQ+hRhNHxTYNqb+Lsw5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768506369; c=relaxed/simple;
-	bh=LhWnu62cfOyQJ3ARTOTa8rucVSi8LwKMxYb1uIgntTM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=VSpLtm30XSwVzDWhV4ZwbTjnqvtNYNj4v5BJdiWPbMIyc6JLO80TMhvDkgbV0KSN1tgmMQSIHdyqkoD4v6WNkpPMTXQmBTIgxB0lCEsOq5E/GINQe9KDX7Ak6NuGxDgpzYVuowYRo4/+KBitqEmiPPT1DNjd9JeHepizfhkocyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I8Sx4xn0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768506442; c=relaxed/simple;
+	bh=D+jjqpzEzwsq5h/veNpZGYB8c7XNukTOJhE3rBm203Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fvR6pMbX8SG4AONnp2LEmK8YDMGOfi7GK3vDzIy0SCWbMohsHX61Gv3NNfGmqA8RlUXxSE9YQAdMFAe7QejOpSJsw+Em+k2z0MJCtSS7aP+e/SRRlUvynK7kLX3df8yDhsZVrEhk70O5cEUdaTVWrGXKPUn1lR1oHK7MCOPQWfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQR/OY/h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I8Sx4xn0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34DBCC116D0;
-	Thu, 15 Jan 2026 19:46:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQR/OY/h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE08FC116D0;
+	Thu, 15 Jan 2026 19:47:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768506368;
-	bh=LhWnu62cfOyQJ3ARTOTa8rucVSi8LwKMxYb1uIgntTM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=I8Sx4xn04viygNYbwBcqLbW3A+1NMl+9DVjolPZJ2TZrKLtVJMZB2mROLGbCVtz3n
-	 jO58/gWeE+Fj9PDh8ZyUEufnleXbWquSRBtzvmyVXRpJdq/W7BIRabdQUNim8DKnGA
-	 IptFgMDamSuoe5T/PiOf+bbv1JpPq/0sw98DH+FMVDmdv8rvAAvy0kdZeJGF7og0ZR
-	 kRDU475A4ebqHYKGs/Ky6vkrrctgU5E41qzwdR4Iw1SysVAUn5C9jfJjGJHlBs7AK7
-	 Gu1Gur5vrV1/5dLyCWpBRdRA231pF74rZMfED1Vw//70ccyJf6wZzPTGVkcmeMGL0t
-	 bwP473aKna1uA==
-Message-ID: <15a0dd88-3ec5-4538-ae6c-d2ad39f284e1@kernel.org>
-Date: Thu, 15 Jan 2026 20:46:02 +0100
+	s=k20201202; t=1768506441;
+	bh=D+jjqpzEzwsq5h/veNpZGYB8c7XNukTOJhE3rBm203Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VQR/OY/hCNDvRaE+jNTt6iA1m4T71lc8DJ03ytv75m8RJa+E2kIn3bIO+6SltMCXJ
+	 GX0nISHvh4p+yN8hYE4UZ/2FPM27BNzPZKmQxyhuQUOYFzxFoPw6VTYYUDErxTU8xX
+	 TY0C6tg3XalvaV8GjNKrmEazIRgCvoT5eAxlgyehIs0vq3EbNAGTb/WD4COO5d4xEx
+	 VQgTFnuov8EhTFm8wqqniXzcDzUvkw5+8+A0XE06pvdustXvsOTIsQEClLaSyhyUDs
+	 sDuIV7aRw7+GWxk0cv5JIZiSDT74X1qfb38/FIt5Q+cebDi/t76E7uPhwN2GX+pNnG
+	 Xr4tbwGP8qA/A==
+Message-ID: <dd326898-ac9c-494e-8af0-9a1ec382598f@kernel.org>
+Date: Thu, 15 Jan 2026 20:47:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,26 +35,28 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+Subject: Re: [PATCH v2 00/23] mm: balloon infrastructure cleanups
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linuxppc-dev@lists.ozlabs.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, linux-doc@vger.kernel.org,
+ virtualization@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Zi Yan <ziy@nvidia.com>
+References: <20260115092015.3928975-1-david@kernel.org>
+ <20260115104907.96d2aac4de42dce12d6064d9@linux-foundation.org>
 From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>,
- Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260115144604.822702-1-kas@kernel.org>
- <20260115144604.822702-11-kas@kernel.org>
- <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
- <aWkhbWR-3fWjeTaE@thinkstation>
- <b10e3b2a-b298-4d27-b8ce-63327864c220@kernel.org>
- <aWk1tZyFZOOkF0AH@thinkstation>
- <f87a904e-ac1b-4eb7-897c-79b49615511e@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -99,149 +101,28 @@ Autocrypt: addr=david@kernel.org; keydata=
  cFAM8nBWrEmNU2vvIGJzjJ/NVYYIY0TgOc5bS9wh6jKHL2+chrfDW5neLJjY2x3snF8q7U9G
  EIbBfNHDlOV8SyhEjtX0DyKxQKioTYPOHcW9gdV5fhSz5tEv+ipqt4kIgWqBgzK8ePtDTqRM
  qZq457g1/SXSoSQi4jN+gsneqvlTJdzaEu1bJP0iv6ViVf15+qHuY5iojCz8fa0=
-In-Reply-To: <f87a904e-ac1b-4eb7-897c-79b49615511e@kernel.org>
+In-Reply-To: <20260115104907.96d2aac4de42dce12d6064d9@linux-foundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/15/26 20:33, David Hildenbrand (Red Hat) wrote:
-> On 1/15/26 19:58, Kiryl Shutsemau wrote:
->> On Thu, Jan 15, 2026 at 06:41:44PM +0100, David Hildenbrand (Red Hat) wrote:
->>> On 1/15/26 18:23, Kiryl Shutsemau wrote:
->>>> On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red Hat) wrote:
->>>>> On 1/15/26 15:45, Kiryl Shutsemau wrote:
->>>>>> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
->>>>>> vmemmap pages for huge pages and remapping the freed range to a single
->>>>>> page containing the struct page metadata.
->>>>>>
->>>>>> With the new mask-based compound_info encoding (for power-of-2 struct
->>>>>> page sizes), all tail pages of the same order are now identical
->>>>>> regardless of which compound page they belong to. This means the tail
->>>>>> pages can be truly shared without fake heads.
->>>>>>
->>>>>> Allocate a single page of initialized tail struct pages per NUMA node
->>>>>> per order in the vmemmap_tails[] array in pglist_data. All huge pages
->>>>>> of that order on the node share this tail page, mapped read-only into
->>>>>> their vmemmap. The head page remains unique per huge page.
->>>>>>
->>>>>> This eliminates fake heads while maintaining the same memory savings,
->>>>>> and simplifies compound_head() by removing fake head detection.
->>>>>>
->>>>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
->>>>>> ---
->>>>>>      include/linux/mmzone.h | 16 ++++++++++++++-
->>>>>>      mm/hugetlb_vmemmap.c   | 44 ++++++++++++++++++++++++++++++++++++++++--
->>>>>>      mm/sparse-vmemmap.c    | 44 ++++++++++++++++++++++++++++++++++--------
->>>>>>      3 files changed, 93 insertions(+), 11 deletions(-)
->>>>>>
->>>>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
->>>>>> index 322ed4c42cfc..2ee3eb610291 100644
->>>>>> --- a/include/linux/mmzone.h
->>>>>> +++ b/include/linux/mmzone.h
->>>>>> @@ -82,7 +82,11 @@
->>>>>>       * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
->>>>>>       * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
->>>>>>       */
->>>>>> -#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
->>>>>> +#ifdef CONFIG_64BIT
->>>>>> +#define MAX_FOLIO_ORDER		(34 - PAGE_SHIFT)
->>>>>> +#else
->>>>>> +#define MAX_FOLIO_ORDER		(30 - PAGE_SHIFT)
->>>>>> +#endif
->>>>>
->>>>> Where do these magic values stem from, and how do they related to the
->>>>> comment above that clearly spells out 16G vs. 1G ?
->>>>
->>>> This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << 30
->>>> is 1G. Subtract PAGE_SHIFT to get the order.
->>>>
->>>> The change allows the value to be used to define NR_VMEMMAP_TAILS which
->>>> is used specify size of vmemmap_tails array.
->>>
->>> get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G) should evaluate to a
->>> constant by the compiler.
->>>
->>> See __builtin_constant_p handling in get_order().
->>>
->>> If that is not working then we have to figure out why.
->>
->> asm-offsets.s compilation fails:
->>
->> ../include/linux/mmzone.h:1574:16: error: fields must have a constant size:
->>         'variable length array in structure' extension will never be supported
->>    1574 |         unsigned long vmemmap_tails[NR_VMEMMAP_TAILS];
->>
->> Here's how preprocessor dump of vmemmap_tails looks like:
->>
->>    unsigned long vmemmap_tails[(get_order(1 ? (0x400000000ULL) : 0x40000000) - (( __builtin_constant_p(2 * ((1UL) << 12) / sizeof(struct page)) ? ((2 * ((1UL) << 12) / sizeof(struct page)) < 2 ? 0 : 63 - __builtin_clzll(2 * ((1UL) << 12) / sizeof(struct page))) : (sizeof(2 * ((1UL) << 12) / sizeof(struct page)) <= 4) ? __ilog2_u32(2 * ((1UL) << 12) / sizeof(struct page)) : __ilog2_u64(2 * ((1UL) << 12) / sizeof(struct page)) )) + 1)];
->>
->> And here's get_order():
->>
->> static inline __attribute__((__gnu_inline__)) __attribute__((__unused__)) __attribute__((no_instrument_function)) __attribute__((__always_inline__)) __attribute__((__const__)) int get_order(unsigned long size)
->> {
->>    if (__builtin_constant_p(size)) {
->>     if (!size)
->>      return 64 - 12;
->>
->>     if (size < (1UL << 12))
->>      return 0;
->>
->>     return ( __builtin_constant_p((size) - 1) ? (((size) - 1) < 2 ? 0 : 63 - __builtin_clzll((size) - 1)) : (sizeof((size) - 1) <= 4) ? __ilog2_u32((size) - 1) : __ilog2_u64((size) - 1) ) - 12 + 1;
->>    }
->>
->>    size--;
->>    size >>= 12;
->>
->>
->>
->>    return fls64(size);
->>
->> }
->>
->> I am not sure why it is not compile-time constant. I have not dig
->> deeper.
+On 1/15/26 19:49, Andrew Morton wrote:
+> On Thu, 15 Jan 2026 10:19:50 +0100 "David Hildenbrand (Red Hat)" <david@kernel.org> wrote:
 > 
-> Very weird. Almost sounds like a bug given that get_order() ends up using ilog2.
+>> I started with wanting to remove the dependency of the balloon
+>> infrastructure on the page lock, but ended up performing various other
+>> cleanups, some of which I had on my todo list for years.
+>>
+>> This series heavily cleans up and simplifies our balloon infrastructure,
+>> including our balloon page migration functionality.
 > 
-> But it gets even weirder:
+> Thanks, I'll add this.  Again, I'll suppress the ensuing 528 emails.
 > 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6f959d8ca4b42..a54445682ccc4 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2281,6 +2281,9 @@ static inline unsigned long folio_nr_pages(const struct folio *folio)
->     * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
->     */
->    #define MAX_FOLIO_ORDER                get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
-> +
-> +static_assert(__builtin_constant_p(MAX_FOLIO_ORDER));
-> +
->    #else
->    /*
->     * Without hugetlb, gigantic folios that are bigger than a single PUD are
-> 
-> gives me
-> 
-> 
-> ./include/linux/build_bug.h:78:41: error: static assertion failed: "__builtin_constant_p(MAX_FOLIO_ORDER)"
->      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->         |                                         ^~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
->      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
->         |                                  ^~~~~~~~~~~~~~~
-> ./include/linux/mm.h:2285:1: note: in expansion of macro 'static_assert'
->    2285 | static_assert(__builtin_constant_p(MAX_FOLIO_ORDER));
->         | ^~~~~~~~~~~~~
-> 
-> And reversing the condition fixes it.
-> 
-> ... so it is a constant? Huh?
+> Sigh, I do worry that the ongoing email deluge is training people to
+> ignore addition of things to mm.git.  Maybe more emails like this one
+> is the way to address this.
 
-I've been staring at the computer for too long, this is not BUILD_BUG 
-semantics. So we don't get a constant.
-
-For some reason :)
-
-Even when I just use get_order(4096).
+It would be sufficient to only send a single mail for the whole 
+patchset, maybe?
 
 -- 
 Cheers
