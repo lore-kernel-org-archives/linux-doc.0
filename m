@@ -1,64 +1,64 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D5D3ACA65
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A6E3BFE22
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768497147; cv=none; b=ZsVAlUxqsoGA5957Yd3KPPx6MdHrBR0NpdtAwTxJArLOBDvx93cuTONrbashJRKWqLEaWRxbzJDSnscpfEM7GmeQTW4bPrwFU5M4Hk0NOZ1ucWPcBfYiDRgsnxwbTuiflC9JuviL7XbR9RzU3LZWB9FnMfBNGPrbW9lgiUzR83Q=
+	t=1768497151; cv=none; b=GExnsHUvbzcueQA1gj0e8AsWA8M7IvqmgoUNB6wehHDwRvBIt/PG+SQFgo2yDOSiAPhXFlOC2KgEGIvuSnsHoHgvvvRm+GEMLCxcvF38B5SBCcQiqGhjvgqXC8AzVlqYWHSPoOPSyYjdXDxX04/v7HTkXy1EZrwPabl71foFBy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768497147; c=relaxed/simple;
-	bh=LSh5hLuiJCxDRwJ+BQ+Xc7tCZE16QA/b770rYhc+vp8=;
+	s=arc-20240116; t=1768497151; c=relaxed/simple;
+	bh=42xckaESf3j1/c9BstDJDSEUMXBt7iNWBkDF/+HLvPg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LIzhuhtSdRopWETcNydF4DT0Ks1eCAu2i7KVmPVqjoSmtC189Oa4wXjC5fa92C6yYQytVpN8ryiPP/7xOY8/VnkJIWA3JS5N8CLz1d73h5fhzbWwJdZP2ClJzjTXwGeIaLJ27r57CZUvXPn+4RgXzmKLCeLj58NeLT6A2lVPXMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BpSyJ0Nx; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=K9EL1eMAGRM/nRe3yukQ8N/Wg6CwOOdVd0lhpdZQmNyxc4a9KYrTg/eQZiMFbQjtwVYFzTHdgJaVewIb1OMMDST6wKFuV6AQLVptpaMPU9E+4EpBU62cgZmCcNHUdj7Iv5CVFdKpYbPKQ9BAoDmLcif8w6cxOc8e+HgsU2r65LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BSozIh62; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpSyJ0Nx"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee937ecf2so9445955e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:12:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BSozIh62"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47ee2715254so5705165e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:12:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768497144; x=1769101944; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768497147; x=1769101947; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BopLoWIhKj7xpDJExutQghL/d96/x+rVfP3p1ohtywE=;
-        b=BpSyJ0NxtpRPZ6abZNisiXXoEYNXasXggd9O3OKVrGnHSKsViorbq/MWM0H+4+vazG
-         wTWa6BJKsVkIsYVo4yw5n1V36rolO6khYXu1on9DSEl6H8AJa8Y7Z4y+Hr7EnSyAbAJL
-         DtY/5SZojfLmswHJCdLMrYeVy16h5gtGQFlxzRL2Zfsd2Gh15s7MO/hW57pZ5JtvIdbB
-         QsYiSaDzlLIQW0Vbt6yqGYOi1Tutq0LhPaSWhlPyAOp9WghftsjiYCqKgjEsBWG0k6oB
-         BbZEJGFMCKC46d5tVENMJ26vXugK9oIXgKOBZgW8fSv6KqwRyAHOkGrBH/EbNo6QQyaj
-         5NMg==
+        bh=ZzXTN5GPRXX9JktaEoAXzWi3s9VynOdluwYCuvOxVM0=;
+        b=BSozIh62kZ+spfzWRT6eykR7HFH56OVNcsqeNDIdtpTNdnNiv+AwKekWffGvnKsAHV
+         qggO678RCgaNXagQijZLaJXcvjglgpgq7Y1jMFOGQSQzPT5sc9PVXZiDbYtyzMM5fo0C
+         tecW0jtMBzVUmgNZ0kilpejk/Kf79dYApfsz8p6CxEj4vEGyUVtiai/B5KC75TqtFEVI
+         /dKyl/tXjKdiYRbYWWDIl17LI6eOPiqEV/sWWFlCHF1LO9Z8vSXyqNWG+ujyPfDeEZhL
+         NA+I+XmH1rfLO+qBltZ3oEy4pCx2t6yk2SBEJ3P7jR6Vv7kzjv2Imae9gW/NU3Wlvuyi
+         3CGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768497144; x=1769101944;
+        d=1e100.net; s=20230601; t=1768497147; x=1769101947;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BopLoWIhKj7xpDJExutQghL/d96/x+rVfP3p1ohtywE=;
-        b=rGXJluGxqf3/IuoRAUkzVLFTAFBWhkS0//+QOiKxtnbxYC1Id+kBpUhFUM7GW3b7ve
-         CuBfGkHwBloZDb4sG32V1HW9UoMs32mwKwh941HcfG0TUYBhMDG1H4AQVb758Pfams+T
-         i9RxreaSUFmU0qoUq4oDbAPjr0OIUSvJ+MM8hyK/on8p97JvuJkNX2IqX+P10N1NpJ4c
-         3EGnWAk14kXCAuXNznpdn2DwXBdZ4K2JJC7NjrpAKCf4Qpt/CwqQ29Omi874BNRX03n4
-         fGSyF1MgGVpnoQf0we/ZEmMrcbIvyLrdij9iWqNDYJ6qxgY+xGyyjfSi3ZaqzMS7m264
-         nOOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXV7CE61axKuxlQ6+xJ9jagurNZWP5LUZPXd0izruFH4NVgzjYrrmG95d4AlM13Si+5uEQ8dC5L6S4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHdKohILYM8NWsgvLrFw49agrdah4EHiEvdeOgzCMUABeqbr40
-	v3gceQa5PgwTdHHYskBGRytccICxjVEisUAUmsTkpVoAdDK0IVhZXZmF
-X-Gm-Gg: AY/fxX4lr5jDABTGJJ/mL9uUPdbUmaLgMCa6PV1DdUBb0AsapdGEVzPmV4UV5m6JwdW
-	b66GH3Qdw6lw073r1uHXnXN7cmR/TyoAKvTcMa0LM6erxQEpL7nyLXKzbOYI2/HailyA3reD1cx
-	qH2CJ5djujE+qhbFmXnxepGqiY1uPbFx1dTsBvuyAVrc8K8meE9hyWQmG3HlAaBddKOudiv7VgP
-	GvzHkge2NUOmWpzqpo7BN7qCAISxKvdpkW+//6QEEp6+cKjz5lrSJITRdxH0/AXjxZsNQ3vspF/
-	LBGbercb/EV+DPI8difKLmVZ7P0hLq343LE/CamqLSvhJjNc6tEMfYlUW7fu3EaO86mXxSNzpip
-	Y7bMGe5ppUcuNwH9/umNXhnQDyE93rLWViDDfPzTgmiR6ma4qdKfhmBWolBzH7WEHcsrapQM8h/
-	cJZxAbIrcPj2ssO3bGPgBV+SCxF0tvw/x3lHnYh958eAVBsmykZjHIwiGKhLumSleC3QhvxzYrI
-	T3wAc2yqRiDxVWGGA==
-X-Received: by 2002:a05:600d:640f:20b0:47d:6c36:a125 with SMTP id 5b1f17b1804b1-4801e7d2a3cmr1460515e9.17.1768497144306;
-        Thu, 15 Jan 2026 09:12:24 -0800 (PST)
+        bh=ZzXTN5GPRXX9JktaEoAXzWi3s9VynOdluwYCuvOxVM0=;
+        b=w2SvK7gv+rWwg8hnWBgv5OHicW8K+REVJhZcyIqnBxyueUnTrRHNZvvlgMf4WSog+a
+         t8PbhTY1OQvg87tn3zZZL3cAZj6bttm125tCdudi3Ely+o8vf+dIOIiMauMsSvOY/cV2
+         2g/Yp7QbSF4rAV657Nt6ik8Nil2zPYDmYR9mazHDW7J6UkADOnXW0KaDQbactJwe92cK
+         fnz+R01XxN3GH6QaQsWYtdqJS/Jfk/ZLOQ8UAZnsdKOJBNR3y1CMOqqGluolvw71mtlr
+         gNFHknGAnG0FxvQIoypwEdiKRm97xgllAg/xpZYM64zwu69inxAMwSHfrS/kKczX8mSN
+         gxZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUlHYqiFadgQ8nCRYJ8ZwJSuV7xC5bxI6A1XKCwAWlTg6eXAU9sqssq05NofAkdlE/MZHd5hF1YcEs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1VAL+yQlYnUfxN9qf2u7wpW+QiTQFNzVc4k8Gvgo8b3VCZyxL
+	0ZOpQV1WBmeo1H3gdV9Cgpg5YFTJIQy2nOEqGFTsi66tfyuD2kLy4Pzh
+X-Gm-Gg: AY/fxX5GXayZAO+zOsvRoY70W8/YDB7zqZFspCYM9yghApvKyPq1czHuqTyjIZ51w1x
+	8xUgdkgAqfvZc83UAIewuoptpeoAuAkNUxvK1Sdr45znd8j6b1esPIp8Px7NhCcHYhgTjExBl7k
+	ibHoijk3Zljbn794OSHCPgoBeYt2ZbeIXCMoiwb59cixFvL583i/6DzmWmTL8x1tb51m6YHHYcT
+	04RzI+RHFzBsOcCcdhVTB9PvBq1N/xgdhNJ3xjpMbe/YekcMGWTafRuZioAHJAcEXHo7PbZatG8
+	9uKZl/hD5vqDMMNUWcU8Hl1q+knP11vl/aWTZ9kqrjgLtWjCNxC6jwCeI8ysSqkmvKGbHkGsNHq
+	Rid4+n86EZbAWsZtMAE2AVJnsH3B3aUJiqeZW5v1AHy9QHnep3YcJ6kTnR7GDzi3lomCjqQ35GA
+	N1zdaNwWnmh5TP/KO+D48Z/Cl/yjiQOMfXrHtoHNWQhOEpzk7tOsBxOk4ppqEa/7vlhKmJp9Ydx
+	fWpBy01nrnbqGPHzkbn+nII82xv
+X-Received: by 2002:a05:600c:3504:b0:47a:935f:61a0 with SMTP id 5b1f17b1804b1-4801e2a95fcmr6718835e9.0.1768497146951;
+        Thu, 15 Jan 2026 09:12:26 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f429071a2sm54741645e9.11.2026.01.15.09.12.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f429071a2sm54741645e9.11.2026.01.15.09.12.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 09:12:23 -0800 (PST)
+        Thu, 15 Jan 2026 09:12:25 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: netdev@vger.kernel.org
 Cc: "David S . Miller" <davem@davemloft.net>,
@@ -112,9 +112,9 @@ Cc: "David S . Miller" <davem@davemloft.net>,
 	dtatulea@nvidia.com,
 	kernel-team@meta.com,
 	io-uring@vger.kernel.org
-Subject: [PATCH net-next v9 1/9] net: memzero mp params when closing a queue
-Date: Thu, 15 Jan 2026 17:11:54 +0000
-Message-ID: <7073bb4b696f5593c1f2e0b9451f0120ca624182.1768493907.git.asml.silence@gmail.com>
+Subject: [PATCH net-next v9 2/9] net: reduce indent of struct netdev_queue_mgmt_ops members
+Date: Thu, 15 Jan 2026 17:11:55 +0000
+Message-ID: <92d76cf96dcbc3c58daa84dbbf71a3ca8d9de53d.1768493907.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768493907.git.asml.silence@gmail.com>
 References: <cover.1768493907.git.asml.silence@gmail.com>
@@ -126,43 +126,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Instead of resetting memory provider parameters one by one in
-__net_mp_{open,close}_rxq, memzero the entire structure. It'll be used
-to extend the structure.
+From: Jakub Kicinski <kuba@kernel.org>
 
+Trivial change, reduce the indent. I think the original is copied
+from real NDOs. It's unnecessarily deep, makes passing struct args
+problematic.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Reviewed-by: Mina Almasry <almasrymina@google.com>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- net/core/netdev_rx_queue.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ include/net/netdev_queues.h | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
-index c7d9341b7630..a0083f176a9c 100644
---- a/net/core/netdev_rx_queue.c
-+++ b/net/core/netdev_rx_queue.c
-@@ -139,10 +139,9 @@ int __net_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
+diff --git a/include/net/netdev_queues.h b/include/net/netdev_queues.h
+index cd00e0406cf4..541e7d9853b1 100644
+--- a/include/net/netdev_queues.h
++++ b/include/net/netdev_queues.h
+@@ -135,20 +135,20 @@ void netdev_stat_queue_sum(struct net_device *netdev,
+  * be called for an interface which is open.
+  */
+ struct netdev_queue_mgmt_ops {
+-	size_t			ndo_queue_mem_size;
+-	int			(*ndo_queue_mem_alloc)(struct net_device *dev,
+-						       void *per_queue_mem,
+-						       int idx);
+-	void			(*ndo_queue_mem_free)(struct net_device *dev,
+-						      void *per_queue_mem);
+-	int			(*ndo_queue_start)(struct net_device *dev,
+-						   void *per_queue_mem,
+-						   int idx);
+-	int			(*ndo_queue_stop)(struct net_device *dev,
+-						  void *per_queue_mem,
+-						  int idx);
+-	struct device *		(*ndo_queue_get_dma_dev)(struct net_device *dev,
+-							 int idx);
++	size_t	ndo_queue_mem_size;
++	int	(*ndo_queue_mem_alloc)(struct net_device *dev,
++				       void *per_queue_mem,
++				       int idx);
++	void	(*ndo_queue_mem_free)(struct net_device *dev,
++				      void *per_queue_mem);
++	int	(*ndo_queue_start)(struct net_device *dev,
++				   void *per_queue_mem,
++				   int idx);
++	int	(*ndo_queue_stop)(struct net_device *dev,
++				  void *per_queue_mem,
++				  int idx);
++	struct device *	(*ndo_queue_get_dma_dev)(struct net_device *dev,
++						 int idx);
+ };
  
- 	rxq->mp_params = *p;
- 	ret = netdev_rx_queue_restart(dev, rxq_idx);
--	if (ret) {
--		rxq->mp_params.mp_ops = NULL;
--		rxq->mp_params.mp_priv = NULL;
--	}
-+	if (ret)
-+		memset(&rxq->mp_params, 0, sizeof(rxq->mp_params));
-+
- 	return ret;
- }
- 
-@@ -179,8 +178,7 @@ void __net_mp_close_rxq(struct net_device *dev, unsigned int ifq_idx,
- 			 rxq->mp_params.mp_priv != old_p->mp_priv))
- 		return;
- 
--	rxq->mp_params.mp_ops = NULL;
--	rxq->mp_params.mp_priv = NULL;
-+	memset(&rxq->mp_params, 0, sizeof(rxq->mp_params));
- 	err = netdev_rx_queue_restart(dev, ifq_idx);
- 	WARN_ON(err && err != -ENETDOWN);
- }
+ bool netif_rxq_has_unreadable_mp(struct net_device *dev, int idx);
 -- 
 2.52.0
 
