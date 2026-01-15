@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C612C0282;
-	Thu, 15 Jan 2026 16:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B5C3B95FB;
+	Thu, 15 Jan 2026 16:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768494845; cv=none; b=G7SvrJWw02kbMn/G8IRGKqE7MIRE2TOWhC8GYl4VmvguFz/KnFf3cZi7tMhc2aBL7F2tGYIrh/tK11JfhLWubJ6jmcZJNC0C0zgKhw2HS4Xz9s/qSk4c0XsEB2nPzP7OGOTk+ouL0rWReFyXJ0g6G1hhw2SgyVuhaV05e/01unU=
+	t=1768494937; cv=none; b=r6+S7qZktnR8RI3OdiunDYBov84USWW2PuBQcsMOjd/XId75qpoMhuHmfrM+YYnaeuq6ma7No01pACL7PF87L01VPukLIvo+p8OnoDvBDRuv+Mt4FNESanSapWGsuER2Xqa9k679uzv5O0sDjcIich394fpvQ15AM+nRGiJVGIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768494845; c=relaxed/simple;
-	bh=8hxhpYwatqg4ec2o/1bKwmlVi3StWJTQEmDCQHBf2HM=;
+	s=arc-20240116; t=1768494937; c=relaxed/simple;
+	bh=WkGd+S9X8HZuOVaKovh1nuFPEjR1qyneI4tbR/riCJw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qs/YN43Ww0xvE2LN8ht/9hwJt40PVRpSMRTO29gue7n5W8ylTEAZL8Af/MwUhD9NzyOPQHM/SD7/6GGyxHeLDgQOezF3h5rcLVBFu31xX+nkmsfBA1Is45X7K3jWVAjYiZ2Kc3OKn2N45j5C1jhudk/QYpcr5gnAURlLqo1Bkvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=quFB9Of5; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=lpnHGJAMEpuPw+p4lbY2YL+BlrdcrYO/8sWibD0nagGs4EvIgb2qEvGljeMwac1FvkN5joDEzUDbgTk+xdRSpYOA8QHWfDY31kZQklncfUYuwZ2MFEY1506Zmr3xWrW4aX7hVorh72ALmJCEpBSsy1YejXKjH9KrUHzoKY2XJo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rwEAajmA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="quFB9Of5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9C67C19422;
-	Thu, 15 Jan 2026 16:33:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rwEAajmA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB7E9C116D0;
+	Thu, 15 Jan 2026 16:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768494844;
-	bh=8hxhpYwatqg4ec2o/1bKwmlVi3StWJTQEmDCQHBf2HM=;
+	s=k20201202; t=1768494937;
+	bh=WkGd+S9X8HZuOVaKovh1nuFPEjR1qyneI4tbR/riCJw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=quFB9Of5eORu4Ot6l7yrlb+gSDrL7IV3sLfpi/BGIn2H5RovR9oIfLoMmaCjZF0UT
-	 aCgMWFBfwSVPIcRSBogpaoSibyzYGdFaEWbRQ7BYgQdm/JAinkyAwmmoMDoMQB8jet
-	 w1WlHBNhXCkYAa0S7greRyO98Vwu06B1uqXshcYQrAGpK5+DYRPN2deju3oBzqIVGy
-	 R13VoFjcpRxkKR8fYKdRz74vwVOKSm4AjkK4sW7rP+1AcSSbJY7y4XUNCTsFbaYWkk
-	 5G3Cx2mCBnDJnuVrNyMGv0b7OYo6/nsxYV5WX8wVOjAu+56KS7Lo19VFPw7E1dePHH
-	 SIoChbZRn1Rmw==
-Message-ID: <37fdb994-59d1-4196-b377-f3f749148b19@kernel.org>
-Date: Thu, 15 Jan 2026 17:33:56 +0100
+	b=rwEAajmAeF9Dju7pLBLBFA+V/SjNSUKyu5CH/wuYCzVJTlUSsnB8coQqV4jYsIAG4
+	 fLhV7pCz8pipFqHSiIH5D1DvqiTVth/mZPKyaIs+YFPzzf0++Elb9W0nIYbCOBMAGa
+	 eQ5qu3dzUOKiYyWcwTjoSxee80QO6JXP5l8yTU7x4UlVABuOXHxH37y0CzLekHzGOY
+	 UbnfWT9iU6PegxtH7tddO4mX7QJBDCBgLvTrCGLrY4vSmPaJVYG29E9aj4n2jDUJAL
+	 UQDJksMqf/UihFDQlYYaftNzKw0SFPzO6mSLlxgRL5DBqWDIfDCwLw6QhxT8fP+Ayu
+	 OrpJ4/j+L51uw==
+Message-ID: <be57dfa5-e6fa-4ce6-93c1-239436ff6e89@kernel.org>
+Date: Thu, 15 Jan 2026 17:35:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,29 +35,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 22/23] mm: rename CONFIG_MEMORY_BALLOON ->
- CONFIG_BALLOON
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, linux-doc@vger.kernel.org,
- virtualization@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Arnd Bergmann
- <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Zi Yan <ziy@nvidia.com>
-References: <20260115092015.3928975-1-david@kernel.org>
- <20260115092015.3928975-23-david@kernel.org>
- <219f7be4-8355-4376-bf97-3410c6e23867@lucifer.local>
+Subject: Re: [PATCHv3 02/15] mm: Move MAX_FOLIO_ORDER definition to mmzone.h
+To: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260115144604.822702-1-kas@kernel.org>
+ <20260115144604.822702-3-kas@kernel.org>
 From: "David Hildenbrand (Red Hat)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -103,58 +94,14 @@ Autocrypt: addr=david@kernel.org; keydata=
  cFAM8nBWrEmNU2vvIGJzjJ/NVYYIY0TgOc5bS9wh6jKHL2+chrfDW5neLJjY2x3snF8q7U9G
  EIbBfNHDlOV8SyhEjtX0DyKxQKioTYPOHcW9gdV5fhSz5tEv+ipqt4kIgWqBgzK8ePtDTqRM
  qZq457g1/SXSoSQi4jN+gsneqvlTJdzaEu1bJP0iv6ViVf15+qHuY5iojCz8fa0=
-In-Reply-To: <219f7be4-8355-4376-bf97-3410c6e23867@lucifer.local>
+In-Reply-To: <20260115144604.822702-3-kas@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/15/26 14:55, Lorenzo Stoakes wrote:
-> On Thu, Jan 15, 2026 at 10:20:12AM +0100, David Hildenbrand (Red Hat) wrote:
->> Let's make it consistent with the naming of the files but also with the
->> naming of CONFIG_BALLOON_MIGRATION.
->>
->> While at it, add a "/* CONFIG_BALLOON */".
-> 
-> Probably not relevant but cheap for me to share :) so grepped for
-> 'memory_balloon' and saw:
-> 
-> include/uapi/linux/virtio_ids.h
-> 44:#define VIRTIO_ID_MEMORY_BALLOON	13 /* virtio memory balloon */
-> 
-> This maybe relevant (I guess this isn't actually used anywhere?) though
-> interesting there is also VIRTIO_ID_BALLOON... hmm :)
+On 1/15/26 15:45, Kiryl Shutsemau wrote:
+> Move MAX_FOLIO_ORDER definition from mm.h to mmzone.h.
 
-Yeah, we want to leave the virtio stuff alone.
-
-Now you'll learn something you probably wish you wouldn't know:
-
-As you spotted, there is
-
-	#define VIRTIO_ID_BALLOON               5 /* virtio balloon */
-
-And
-
-	#define VIRTIO_ID_MEMORY_BALLOON        13 /* virtio memory balloon */
-
-
-The virtio-spec [1] defines ID 5 to be the "Traditional Memory Balloon Device".
-
-And in there, we document that
-
-"This is the traditional balloon device. The device number 13 is reserved for
-a new memory balloon interface, with different semantics, which is expected
-in a future version of the standard. "
-
-That's in the spec already like, forever. Likely, at some point someone wanted to implement a
-new version (for whatever reason) and defined ID 13. But that never happened.
-
-So now we have these beautiful two device IDs.
-
-I'll note that the spec also defines a "DEVICE ID of Virtio Cpu balloon device as 47". But
-no changes really happened in the spec with that for the last two years (only the
-id is reserved).
-
-
-[1] https://docs.oasis-open.org/virtio/virtio/v1.4/virtio-v1.4.html#x1-4260001
+Why should that belong to mmzone.h ? Semantically doesn't make sense, no?
 
 -- 
 Cheers
