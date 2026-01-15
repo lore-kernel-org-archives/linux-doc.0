@@ -1,112 +1,148 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73D02417C2
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 02:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768442785; cv=none; b=Lx9zHVpiepQ9rgvECQnkrxzMq3fRGDdGQ2y5ffbJVDBANSRpOfa9keA+9VTzpJFAabMpfonbyKhLI9iyBrr6I0zJKNt9irByZlqSyf13VHpcjPeUAcRanL+MpTxJ6w70Lj9EV91iwPHU+oroeo2cdV2fDNiCRv1y81K8yR4uUG8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768442785; c=relaxed/simple;
-	bh=ivn8qt3qtOtcFgu+q0kk1YYIE13gmngy4cnYQWDGEK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hXxd5ODv3//eonP+uR9laytvJsLuIcGWiCEnvBxzvzUWFnSKbo7s4MoWhej+0iTHZyYnnZuLaWQEJQX8/mUVaHefycQmcbMSxV1ZpqBdiwLG8QlaMTX2g8AfJqQI9iFMxqWSUwLerPkyalANcLYndQCU1lbWRDQrVK3rjP0yYzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YN3Lyrcf; arc=none smtp.client-ip=209.85.222.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA74125FA0E
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 02:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768443092; cv=pass; b=UeliHWpoPC5CcWGD7wsbRq6G6l6lFotIaBjygt7LGupAiRmH3wcjg0v+PfrSLLoSG1/FOrBQesVCD2uRJ5Bsq5nwXlzvqSn4/KBjgQhgGR6NzGjGfkPLc7X6DvD43TcWjfoeT7MAfhj6f3bAbLw7HLsQx8TcuqgWCQvd/oshX7w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768443092; c=relaxed/simple;
+	bh=GU9gFbsEQKP3YK7yys92528/fDnsy2Fkse95G/VoLxQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F80En5idMAIrDBLIyHHInbHaMYZ9adGmQ/4Rca1wJX9YooQOk0XfB4qzOAVrbrP6VlFOeG7Z76idh+i2o/tzrHksl+Umj9oLlLwEXsRoychQB7mFb7/gS1P7D+UOmy/1cWvEptoV0RlMH1/kh2wr3XeE27cJ9Lxjd1P17DH4S7A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LmS0Affo; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YN3Lyrcf"
-Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8c52e25e644so40768585a.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 18:06:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LmS0Affo"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47ee730612dso31775e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 18:11:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768443089; cv=none;
+        d=google.com; s=arc-20240605;
+        b=exQLAS09IotvWFUfQUvLzexymE0fZL/H3PQJd6f42MI6yx0hi+Y1Caq5LscGkX1ugf
+         UNKlAY2C9i4215O2jyc/taCynse6GdWKDJhXQJDII3LBE4343TXkO9cwClcc2SnulFw2
+         9pEGVg8h/au5j4FnkBhsVt8TqbAIW0M4wLFV/Wb4xe1Rc7WdONG/uMf00IsfoUWzuPsw
+         X0OCsCXOybzrD+9eXnPonEKFGdpDJ5+8wUwnS9QjTqKb/2wiIh06A3tFwggqvkOL/mUl
+         uiTNPtszp7jab3BRuuZCRL9l75i3OI/kdWcmt8YuubLq7kJ4/NjWrPAzmVAQSAnxKmUu
+         xycg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZB2Tkb2iBFUCMnkjohKuozepoklzEsrHClEgCnaxUK8=;
+        fh=p2YHRIEdYEVRcVkuqkEvdpoRPgVPsArWYz0dMqHDpYI=;
+        b=bkJq9ziFQqrMeVoiWxfcPS+97vgbvkuTZD+tWVn7MvzlSh6ZJtWq1Qy1pCv8+6bENA
+         xbr5cRj3kgKCwAgMXHFfiDUhycjfRbDWa8Lcl4fAquDFFFiqBbZhJSgCoUHmkpxyMQFX
+         ogQggbGUeZ/qLrDQWxJJgrkh1U/OgRp1hn2WHYdosXv1rYE9CUOaoCUuWJIoOGSBvUjT
+         neAQDT+nuys1SkEjW4LmT2Eea3K4exgGVnkK0lVD96jrZdzTIJTBh+IX2hSzEjRuN7eV
+         YKW6HNPFQGLByIpx/h5pvpsJjfqmTbvEwxqJn2SoL3oEvca3LT/3wDVYfA7mkBcF0xOG
+         N7dA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768442782; x=1769047582; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=puth6Wv7pkNXWqWqMPPrzQflQ0wnF2gVjRI6DfFw6z8=;
-        b=YN3LyrcfwyQgOmhQzYi3V9mYjGizjWVdxdzi1ckXFcnVxoRgM+mYTnAK22I56upxze
-         u1E8eBNyVdV/UK3PK3lTnaS6Jd1llheKx2lQcsNtAU22VJTHrWZKYdV0+fSs8T8937jH
-         mNqpYxiyUSYqhFX8VYdHNh8YsRRMUCbmD6aLCq4TJNwiB38qnppuWa00/4X/GaQ1dmk5
-         0OYdITyPZiYAP1KWVNrcu64qzMB3bFnjan2PbjlEBbb8f4W6W0cOn8tPH+fkVXXBJTEv
-         //E18Ra/D5IzX6t/F/p0VIUDuKZ32U3o/6W3DbTjeiPo+OIljirq3idbBcEnN3ZZZsX8
-         CrRg==
+        d=google.com; s=20230601; t=1768443089; x=1769047889; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZB2Tkb2iBFUCMnkjohKuozepoklzEsrHClEgCnaxUK8=;
+        b=LmS0AffoT/V7muaWPbErujyQ9EZhZwsVdqJezhlprALRNlWGEGnblSid/8PNZs3ovp
+         Tu4Yt59SIvCL5mxa+enNHB7sJcPlQyfeLfKeLJVYmDuwhMeQRnm5Cf+Z0m2m9zA+0y35
+         8rNAjRkzHv0f1P2ZLSUGdi5WLY2vl8ClruB+Tvy2JX09/QlxobkliRqCmJ0k7WiKh4lx
+         FsXzBEPj+PhFQf3biVL1zwuRc02mqlke3KTWs8IytnKFzZp1CjJ7TfAmjmO0wqzPfmAl
+         rbBsHYc19c7G8TYXwuWoKbDXwApIbmcITOOEQT5mdPfign0qZgEZy3WjkxUGmYk5XvfC
+         e6cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768442782; x=1769047582;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=puth6Wv7pkNXWqWqMPPrzQflQ0wnF2gVjRI6DfFw6z8=;
-        b=LZlEhCh5w9i+vLs5w7Woj+Kx11K78sXO6jHNTujkgTyctEPEcuqwb1+mCeKWMl8W9v
-         jNROvcdfJmaa/xXc45glCE7ReOgf85TnfGgiS1KiCtCSX34Gj6x5g0dFrp/lijXWCWpF
-         QkX52I+o58TQe8WUkZlJgPptKM9kV6nZMeKnjgCZo6DH7kMEa8gH0R8iFhtAOB+kpooI
-         CKaW9CJneG2E5Egd3cZN7mVQMnEsOZ/gQv8UfwibS8Ki0Tq6/U4k+HC3GYG921L1WsEj
-         LYzhap/7Bnr8TGARQ9sXhXO2heFZwxAJfGxWnILPEs2EKopKZompo1RzCqwsAgvHNUsY
-         ZRyA==
-X-Gm-Message-State: AOJu0YyukTBMW+/oOT/Pvt7BupBFBNgFOU+HkvmAs+EKd8AJptyYq1Px
-	jcHN5AM4V6iJbshr4A+73xilqRtjQM+rM9MfyUust6+IVqp6abTYcQsi7iqtf0t9
-X-Gm-Gg: AY/fxX5t65BuLpXJRzzTU2795gE9KlEVECepiQdu6gsCuDCYFgYT0Dc/1mj/VxRIBgv
-	RZz0upDfQrTHkEm8m3E+6D4il68QLfEywkZ6QAblFN+zanIElNjPleR6X3bTAwGM422s4OJGV/2
-	uCyokDGipUTe3AXVKzSKsUZqBrMUM6ODpnbn0WY1GhrZ+uILiRGVqzR7qiCBg6/IlgwtkSR5VRj
-	iUs7W6pvg8a4QzmidUy4yByM0Kleq7gGZP2prrakydgfEB5Thbfr98m44UT6VTTVYoEFSINZq/u
-	3I8ptNKOj3Mr6OB8FfMjCzCaVU916SIVbUC/ib7dEOvZBFSVL4EQE0kvY19xAR3b9cdQZckraM9
-	UnLl3+R2hXcRDZ8o2kEoZy1wnfUEazoC7ZEZcz7wbK6IDO3GPd04IyJ00xJKPXDbco5nLKN3y9T
-	1Wf2gpVicCXRUsysmgeRy8Na4xkaODgERgOCSXc9Q1ovFP+Ew/ztf3
-X-Received: by 2002:a05:620a:4092:b0:8b2:7536:bd49 with SMTP id af79cd13be357-8c52fb05591mr737490785a.12.1768442782037;
-        Wed, 14 Jan 2026 18:06:22 -0800 (PST)
-Received: from daniel-desktop3.localnet ([204.48.94.102])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c530894ecasm313151085a.0.2026.01.14.18.06.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 18:06:21 -0800 (PST)
-From: Daniel Tang <danielzgtg.opensource@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Babu Moger <babu.moger@amd.com>, Borislav Petkov <bp@alien8.de>
-Subject:
- [PATCH v2 RESEND] Documentation/protection-keys: Mark as available on AMD
-Date: Wed, 14 Jan 2026 21:06:20 -0500
-Message-ID: <45127739.pHGDlbCDJk@daniel-desktop3>
-In-Reply-To: <2728119.mhk5qWAgFL@daniel-desktop3>
-References:
- <3647894.L58v44csPz@daniel-desktop3>
- <20251119215038.GHaR47rlpLKZlu-m0y@fat_crate.local>
- <2728119.mhk5qWAgFL@daniel-desktop3>
+        d=1e100.net; s=20230601; t=1768443089; x=1769047889;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZB2Tkb2iBFUCMnkjohKuozepoklzEsrHClEgCnaxUK8=;
+        b=GYBotrq0vDqYj4UylohSeay3wqUmvcC2fEqlfyEub/ChGbMt9EX091DAwGJMo8QPWc
+         JusJLJh3qnfQnN2mmghWV9XVj+B/wSPKep438tAQziZUEOsahR/6Lw8GRopLPe4TfPp4
+         Uwj5jN5ImJTFaV1pRfszIXayQoXPmcqfTK4zz+Ju5Xq0G6nYLUuCBcsKBdVd3tdFSpQI
+         tExxUOvLb08fPHTmYG8BoeAtAf2VzlQ5gGGGxWO6XkAgqZBYNzT1y5u7nfyNm7IfuBu7
+         B6D0FIkyJxi4pct1lk/Iu6+zrZkgwDujvVp9+xa+ShnpkwvD9wpneJzV+Aqf31U3dqgn
+         eiyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWepBfkSvcjzhvXFbur0uRTJ5CBiHPfhkb5zJV4Z6KzMscBc+EciRQyratcR+NbPLM74Af/y8tasTs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx52hWJFD0K/g5cVdr1Vk6G71ev8Ckvbe+9s6Q15QXUeA3k1MmZ
+	ZJsBD34efPJsuPIbzPwkkOrWBuyM7IddZLLBbpKHjQJaQCWT0rcFuTH8cSK8bJPNH10tIYIoAJg
+	ucAOp7nG0AVpbPOmxH+evHMlxOzQycDfEWuvsPNGX
+X-Gm-Gg: AY/fxX56kCQoiJO4bsw2Xh28H1Xw7l0DEwHUsUxjlr2vX48RPg4QuCZ0Y0kjNixEje9
+	VhKGdo2kuCWblom5joCC4kcxOouqtK2vUMuLphF8u0l3wV0q6Pfr0q+LNfDF2CQGknXi9EBMf7P
+	d3ga2xOMRJ7Xd/vagj+5bj9nj2vK1Mvg8BNAHh+vHKCpppfMd73qeo7u8U+gp9t7yydw78x3BiB
+	SbaTux2E2W7fvy5I139t6jemA9Q5z6MLZUauLqvSe9fa4B7JGRPBdS+O/I93zYDNUl/O8OUMeOg
+	uKF5AOW4UdAP2Cuw/lCTl44=
+X-Received: by 2002:a05:600c:19ce:b0:47d:6b82:d954 with SMTP id
+ 5b1f17b1804b1-47ff94e9861mr213485e9.5.1768443089055; Wed, 14 Jan 2026
+ 18:11:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20260114145243.3458315-1-lucaswei@google.com> <d10116ae-fc21-42e3-8ee0-a68d3bb72425@infradead.org>
+In-Reply-To: <d10116ae-fc21-42e3-8ee0-a68d3bb72425@infradead.org>
+From: Lucas Wei <lucaswei@google.com>
+Date: Thu, 15 Jan 2026 10:11:12 +0800
+X-Gm-Features: AZwV_QjxHuOYFBK_XIX3hZH91ksqeZtJ2lgVboIBtf45I2RCXUJSUGcAgkAQ8Vg
+Message-ID: <CAPTxkvRXmVB9MbPX2vkyhAnLDyJX7YviekOH=y3EcS_1e796Zg@mail.gmail.com>
+Subject: Re: [PATCH v3] arm64: errata: Workaround for SI L1 downstream
+ coherency issue
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com, stable@vger.kernel.org, 
+	kernel-team@android.com, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, robin.murphy@arm.com, 
+	maz@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This is shown on page 78 of AMD document 55898 "Preliminary Processor
-Programming Reference (PPR) for AMD Family 19h Model 01h, Revision B1
-Processors Volume 1 of 2" for Zen 3.
+Hi Randy,
 
-I tested this on my 5900X via the program in pkeys(7) and
-`grep ospke /proc/cpuinfo`.
+> > diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+> > index 8cb3b575a031..5c0ab6bfd44a 100644
+> > --- a/arch/arm64/kernel/cpu_errata.c
+> > +++ b/arch/arm64/kernel/cpu_errata.c
+> > @@ -141,6 +141,30 @@ has_mismatched_cache_type(const struct arm64_cpu_capabilities *entry,
+> >       return (ctr_real != sys) && (ctr_raw != sys);
+> >  }
+> >
+> > +#ifdef CONFIG_ARM64_ERRATUM_4311569
+> > +static DEFINE_STATIC_KEY_FALSE(arm_si_l1_workaround_4311569);
+> > +static int __init early_arm_si_l1_workaround_4311569_cfg(char *arg)
+> > +{
+> > +     static_branch_enable(&arm_si_l1_workaround_4311569);
+> > +     pr_info("Enabling cache maintenance workaround for ARM SI-L1 erratum 4311569\n");
+> > +
+> > +     return 0;
+> > +}
+> > +early_param("arm_si_l1_workaround_4311569", early_arm_si_l1_workaround_4311569_cfg);
+> > +
+>
+> It looks like all other errata don't use early_param() -- are they auto-detected?
+> Could this one be auto-detected?
 
-Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
----
- Documentation/core-api/protection-keys.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sadly, this can't be auto-detected...
 
-diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
-index 7eb7c6023e09..59e7c178af4b 100644
---- a/Documentation/core-api/protection-keys.rst
-+++ b/Documentation/core-api/protection-keys.rst
-@@ -11,7 +11,7 @@ application changes protection domains.
- Pkeys Userspace (PKU) is a feature which can be found on:
-         * Intel server CPUs, Skylake and later
-         * Intel client CPUs, Tiger Lake (11th Gen Core) and later
--        * Future AMD CPUs
-+        * AMD Zen 3 and later
-         * arm64 CPUs implementing the Permission Overlay Extension (FEAT_S1POE)
- 
- x86_64
--- 
-2.51.0
+In my v2 patches, thanks Marc and Will for pointing this question out
+and we don't have a reliable way to detect
+errata in runtime because Linux generally doesn't need to worry about the SLC.
 
+Robin also proposes a few feasible ways(SMCCC, top-level SoC/platform
+compatible or kernel cmdline) to
+enable this workaround. But, I think it would be more straightforward
+to let the admin to enable this workaround via cmdline.
 
+> > +/*
+> > + * We have some earlier use cases to call cache maintenance operation functions, for example,
+> > + * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
+> > + * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
+> > + * safe to have the workaround off by default.
+>
+> But it's not off by default...
 
+I think it's off by default.
+Would you point me to where the workaround was enabled without cmdline?
+
+Thanks.
+
+ - Lucas
