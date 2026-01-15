@@ -1,272 +1,277 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5272F33E371
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 08:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578FC32B9B4;
+	Thu, 15 Jan 2026 08:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768467490; cv=none; b=hQLuuTpEA4UkqRg/lXkSZ6CmngCJkCGsvnmO9cZ+mfLVQaKG8hfEBQ7uHPUVIfXKeatpbS4T6zw6VROLjX4XebhqqDHTW4CilyW7ntQmCl9A9QKUeTCODqAW8NxhaBWjhNqigamgxPoGiEhi8aKjdE5o1Vbe4rfn/iv/CsCun8U=
+	t=1768467492; cv=none; b=a6VDKRT36K256LPkiGtK0Sz9RRKKIbv0+lqwv1Dxxi28dMQ7DdA8KeF44pjh49NlPg6u9G1VC/5bThRnmBbEvy0jAeaxC2aTkO4bUSFrX4n5/DHPXc45qOQhGL+thhFiTKVeAONsiHrHJOAkcoUc04fSvo95Nkyx7msVLfWLl9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768467490; c=relaxed/simple;
-	bh=a1Xb74epBoiF26GtYYturswnNknIceQZZvdMkCDEo38=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WhAF1qukeoWo7qwqLBjF2Ir35MVJS5TDzzUo9VY6HrDt7agk/85mlT1SuVLM1BhKSVcyh2za8BTsV0jzjOdfmE2oLlvs0E2yvvmqulc8H6uV9ZvZFNTBj+D1eba78J/2IpbH8igwSrWMwZW7Xh0QbDCBEsXLwDBU5ZHmkVeOuV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hHTSFoiA; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PNlfSuRe; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1768467492; c=relaxed/simple;
+	bh=B2ircWOnxIY1pU54fNDLsd4VKwrmRZJntAlog/mRaQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=W/5G9MntMO4O2v57Y7JBKnGFHYdBXcQ5FOPuWtM47H61WXSA18wnKhjktVR7OMsgUrWWZcVWoJBOfy+fOBTYTmZ9cauL6RavWrmmfesIcYv9NvNWvE6okfYdwZqMzTiPXAFe/zIvGAKpns1LO4Bep6DCOMvNbZ7IJ0q5QfZXd6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=RD71lJTS; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hHTSFoiA";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PNlfSuRe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768467488;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LxJnA8ESHNGloyx98rY09AuEzCkDTn54NDk73Ig9am8=;
-	b=hHTSFoiAY8ydIc6ZkgSObsF8tZVFsh0KVmx6Uzp41GyhDOO/2tx8cMoDM7BYt8nGBeQ422
-	7CG3xPdH4yZzuK5GU7d4LNznMxCr+tcNOkxUWNXHdaFuXzJ+jVcMdO9E2kYcZOrT7RJD4t
-	pe+GXipogDBpQm+UD97Lx2bwQl5lb5c=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-54-q9dtSkxuMbyK9lOSqncPlQ-1; Thu, 15 Jan 2026 03:58:06 -0500
-X-MC-Unique: q9dtSkxuMbyK9lOSqncPlQ-1
-X-Mimecast-MFC-AGG-ID: q9dtSkxuMbyK9lOSqncPlQ_1768467486
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-45a684d8f6aso4275258b6e.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 00:58:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768467486; x=1769072286; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LxJnA8ESHNGloyx98rY09AuEzCkDTn54NDk73Ig9am8=;
-        b=PNlfSuRe8wBYZuv7eudp1PXrK9cCIX878v8dZEYPTEExpyYyIOvtWBJnDCwgpt8e2/
-         f4NRkHZQZm4/kHzV9lyOaiBww7E1cOEfE68Rh1CFaS97tO3dREdPxskjzjeDePsHRVfE
-         oTheVxBc0s5RapnSPGFT2OMvycxVRlC4vFmkCcFmGDGpE+DQUsnnWOn3MESgRPM+PMWq
-         bws6aFa/SlV5RUtWlc8aaHy8v5JsfaCQKZkYnyQJQPAPXXlG0ND1O9fPxyTnoXTomz/5
-         7B6jc+nX9i/wR/3Bzb9V7fI4xvm1WYCa6GnT3/LEucyadvDSTWj/YspvosWQv+MMGFRX
-         a/Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768467486; x=1769072286;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LxJnA8ESHNGloyx98rY09AuEzCkDTn54NDk73Ig9am8=;
-        b=Af0DJMsTESBIFRing8nIaOcWmeOEIDQdUa6nnLnpx2p4aYAbaOMZljyg2H7J7IBm9G
-         brBF3ejFKFYCnJPQMr2NnGcBysKRvmP4VvkS4QWVAJEtMa8oE0okP7UhRKnOWeokYuAT
-         ZiASHdrruQISGRzDuMFltBpH82tvaXoKl7QS0leoJv5Xn7BHtwim2cxOHtJJtCFgaS/n
-         gbR/OM83QLbFdOtSQBO5kCAZm9af4blG1IiBImttuHLha4jhIQRAViGj9yyPVJLltlRY
-         MPPFC/M9rIM2e74efpLX3t0KlsJ0ESQkn+qMnKEy+MIIkPxCkv5kVJeHKTV4U6A+BQTi
-         RN2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVcNU2vl16eWZMoabQLttUBB1QyTeJiy643ZtLu2MikIRuaTiNMzJM8qj8kuGnWsIv/LtvGViYrBpQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyreQ2inkB1MTp2YlZeZ0+dAjUevjsG5l1vTuQwUy+C/6KYysts
-	K8U1RlSawDY5aLT1AwMGruuLV05MTJv1tXtfr0KFPxWR2tFmQfWDvNsZTNHIua52a3qpZwnHonI
-	3p3Cg5zTQZ5nOGqLgn6r8R++j97E0Z0F5zfAFHZQ0iTl+pS+zxFofC4BIFXX7rtJW3xyg02xVrY
-	32hD4WLmMA1RHYYaOPOca8wPfqyFiKKHzGs3HX
-X-Gm-Gg: AY/fxX6Mz/A77+eFEQxjzrOmUXeH5y7WCD6Wh7cMrLkMm1LX3XFWKgR01G3iVIx1yfj
-	mE38+2Q2xxBTaLS+ESe3BxLph4lyO4M6bII7wu8p9Oa/Du3X1tH6zeq1nGTF/cJj+J6ngQrI9RO
-	zg0+RSr/45tWe0qOOgcJj1yl6DAyvTp5GkYTBbSVR0HrydNgs/k+apUCEFQC2Yd5mD
-X-Received: by 2002:a05:6808:23c6:b0:450:89ee:922b with SMTP id 5614622812f47-45c8808d2ffmr1705714b6e.22.1768467485991;
-        Thu, 15 Jan 2026 00:58:05 -0800 (PST)
-X-Received: by 2002:a05:6808:23c6:b0:450:89ee:922b with SMTP id
- 5614622812f47-45c8808d2ffmr1705703b6e.22.1768467485610; Thu, 15 Jan 2026
- 00:58:05 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="RD71lJTS"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=aeiL2R6ODZn3JTHgngaW3ACQLXMC+A3IlTyFLau/KNQ=;
+	b=RD71lJTS45cgKDWBa+lYXVvBGHkXoPIHbvfnJuMjjWRhxNfHjD2pU6MQM+IxZ/YMS2s64pTll
+	0+iaiNMozD3NaSy7scq9tjyz97s6unuRKbrZ6IEQtNa52MJQZvmWYfTw1ERvB7moSdS6zlX+C4r
+	+8lDmj4dhbRAMDw1yvLfcsc=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4dsGyB0JWTz1K983;
+	Thu, 15 Jan 2026 16:54:42 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 26D5140565;
+	Thu, 15 Jan 2026 16:58:00 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 15 Jan
+ 2026 16:57:59 +0800
+Message-ID: <7e5bfa69-96e2-4f54-9446-cc64845b52cd@huawei.com>
+Date: Thu, 15 Jan 2026 16:57:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
- <20251216144154.15172-1-vgrinber@redhat.com> <IA1PR11MB621913F389165EE4D7CCFF2D9284A@IA1PR11MB6219.namprd11.prod.outlook.com>
- <CACLnSDikAToGRvfZAhTcT0NCtMj+N9z-GGzRQ5qmpHsvCr2QSA@mail.gmail.com>
- <LV4PR11MB9491EB644FC83676522107669B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
- <CACLnSDhEQVJ5piUKp6bddxvOff88qj5X6Y8zbqAH8Kf5a7a_Zg@mail.gmail.com> <LV4PR11MB9491B0E591D66E4AEDE9B1329B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
-In-Reply-To: <LV4PR11MB9491B0E591D66E4AEDE9B1329B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
-From: Vitaly Grinberg <vgrinber@redhat.com>
-Date: Thu, 15 Jan 2026 10:57:49 +0200
-X-Gm-Features: AZwV_QijwZUQitFksicMP9ueDYXoIsh6EMNIvOTnPt4NWgLOWM54f4CZgNSuas0
-Message-ID: <CACLnSDggQLQMFdT3VLxm+GNNad6xy43nh6D+UzbW-u9Wwg+WOw@mail.gmail.com>
-Subject: Re: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for
- unmanaged DPLL on E830 NIC
-To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
-Cc: "Nitka, Grzegorz" <grzegorz.nitka@intel.com>, 
-	"Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>, 
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "horms@kernel.org" <horms@kernel.org>, 
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>, 
-	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>, Zoltan Fodor <zoltan.fodor@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 09/11] cpufreq: CPPC: sync policy limits when toggling
+ auto_select
+To: Sumit Gupta <sumitg@nvidia.com>
+CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <lenb@kernel.org>,
+	<robert.moore@intel.com>, <corbet@lwn.net>, <pierre.gondois@arm.com>,
+	<rdunlap@infradead.org>, <ray.huang@amd.com>, <gautham.shenoy@amd.com>,
+	<mario.limonciello@amd.com>, <perry.yuan@amd.com>, <ionela.voinescu@arm.com>,
+	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
+	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
+	<nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-10-sumitg@nvidia.com>
+ <ae4ff90a-d2c4-4c13-9d65-a0f266bb4b4b@huawei.com>
+ <fb876f94-f92e-4c8a-9b64-fe9118a15595@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <fb876f94-f92e-4c8a-9b64-fe9118a15595@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-, the ea
+On 2026/1/8 22:21, Sumit Gupta wrote:
+> 
+> On 26/12/25 08:25, zhenglifeng (A) wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On 2025/12/23 20:13, Sumit Gupta wrote:
+>>> When CPPC autonomous selection (auto_select) is enabled or disabled,
+>>> the policy min/max frequency limits should be updated appropriately to
+>>> reflect the new operating mode.
+>>>
+>>> Currently, toggling auto_select only changes the hardware register but
+>>> doesn't update the cpufreq policy constraints, which can lead to
+>>> inconsistent behavior between the hardware state and the policy limits
+>>> visible to userspace.
+>>>
+>>> Add cppc_cpufreq_update_autosel_config() function to handle the
+>>> auto_select toggle by syncing min/max_perf values with policy
+>>> constraints. When enabling auto_sel, restore preserved min/max_perf
+>>> values to policy limits. When disabling, reset policy to defaults
+>>> while preserving hardware register values for later use.
+>>>
+>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>> ---
+>>>   drivers/cpufreq/cppc_cpufreq.c | 112 +++++++++++++++++++++++++++------
+>>>   1 file changed, 92 insertions(+), 20 deletions(-)
+>>>
+>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+>>> index 0202c7b823e6..b1f570d6de34 100644
+>>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>>> @@ -544,14 +544,20 @@ static void populate_efficiency_class(void)
+>>>    * cppc_cpufreq_set_mperf_limit - Set min/max performance limit
+>>>    * @policy: cpufreq policy
+>>>    * @val: performance value to set
+>>> + * @update_reg: whether to update hardware register
+>>>    * @update_policy: whether to update policy constraints
+>>>    * @is_min: true for min_perf, false for max_perf
+>>>    *
+>>> + * When @update_reg is true, writes to HW registers and preserves values.
+>>>    * When @update_policy is true, updates cpufreq policy frequency limits.
+>>> + *
+>>> + * @update_reg is false when disabling auto_sel to preserve HW values.
+>>> + * The preserved value is used on next enabling of the autonomous mode.
+>>>    * @update_policy is false during cpu_init when policy isn't fully set up.
+>>>    */
+>>>   static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>>> -                                     bool update_policy, bool is_min)
+>>> +                                     bool update_reg, bool update_policy,
+>>> +                                     bool is_min)
+>>>   {
+>>>        struct cppc_cpudata *cpu_data = policy->driver_data;
+>>>        struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>>> @@ -563,19 +569,22 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>>>
+>>>        perf = clamp(val, caps->lowest_perf, caps->highest_perf);
+>>>
+>>> -     ret = is_min ? cppc_set_min_perf(cpu, perf) :
+>>> -                    cppc_set_max_perf(cpu, perf);
+>>> -     if (ret) {
+>>> -             if (ret != -EOPNOTSUPP)
+>>> -                     pr_warn("Failed to set %s_perf (%llu) on CPU%d (%d)\n",
+>>> -                             is_min ? "min" : "max", (u64)perf, cpu, ret);
+>>> -             return ret;
+>>> -     }
+>>> +     if (update_reg) {
+>>> +             ret = is_min ? cppc_set_min_perf(cpu, perf) :
+>>> +                            cppc_set_max_perf(cpu, perf);
+>>> +             if (ret) {
+>>> +                     if (ret != -EOPNOTSUPP)
+>>> +                             pr_warn("CPU%d: set %s_perf=%llu failed (%d)\n",
+>>> +                                     cpu, is_min ? "min" : "max",
+>>> +                                     (u64)perf, ret);
+>>> +                     return ret;
+>>> +             }
+>>>
+>>> -     if (is_min)
+>>> -             cpu_data->perf_ctrls.min_perf = perf;
+>>> -     else
+>>> -             cpu_data->perf_ctrls.max_perf = perf;
+>>> +             if (is_min)
+>>> +                     cpu_data->perf_ctrls.min_perf = perf;
+>>> +             else
+>>> +                     cpu_data->perf_ctrls.max_perf = perf;
+>>> +     }
+>>>
+>>>        if (update_policy) {
+>>>                freq = cppc_perf_to_khz(caps, perf);
+>>> @@ -592,11 +601,74 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>>>        return 0;
+>>>   }
+>>>
+>>> -#define cppc_cpufreq_set_min_perf(policy, val, update_policy) \
+>>> -     cppc_cpufreq_set_mperf_limit(policy, val, update_policy, true)
+>>> +#define cppc_cpufreq_set_min_perf(policy, val, update_reg, update_policy)     \
+>>> +     cppc_cpufreq_set_mperf_limit(policy, val, update_reg, update_policy,  \
+>>> +                                  true)
+>>> +
+>>> +#define cppc_cpufreq_set_max_perf(policy, val, update_reg, update_policy)     \
+>>> +     cppc_cpufreq_set_mperf_limit(policy, val, update_reg, update_policy,  \
+>>> +                                  false)
+>>> +
+>>> +/**
+>>> + * cppc_cpufreq_update_autosel_config - Update autonomous selection config
+>>> + * @policy: cpufreq policy
+>>> + * @is_auto_sel: enable/disable autonomous selection
+>>> + *
+>>> + * Return: 0 on success, negative error code on failure
+>>> + */
+>>> +static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
+>>> +                                           bool is_auto_sel)
+>>> +{
+>>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>>> +     struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>>> +     u64 min_perf = caps->lowest_nonlinear_perf;
+>>> +     u64 max_perf = caps->nominal_perf;
+>>> +     unsigned int cpu = policy->cpu;
+>>> +     bool update_reg = is_auto_sel;
+>>> +     bool update_policy = true;
+>>> +     int ret;
+>>> +
+>>> +     guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+>>> +
+>>> +     if (is_auto_sel) {
+>>> +             /* Use preserved values if available, else use defaults */
+>>> +             if (cpu_data->perf_ctrls.min_perf)
+>>> +                     min_perf = cpu_data->perf_ctrls.min_perf;
+>>> +             if (cpu_data->perf_ctrls.max_perf)
+>>> +                     max_perf = cpu_data->perf_ctrls.max_perf;
+>>> +     }
+>> So if !is_auto_sel, min_perf and max_perf reg will be set to
+>> lowest_nonlinear_perf and nominal_perf, but perf_ctrls.min_perf and
+>> perf_ctrls.max_perf remain the old value. A little bit strange I think. And
+>> when this happen, min_freq_req and max_freq_req will retain the value last
+>> set by the users through min_perf and max_perf. It's that alright?
+> 
+> When disabling: Reset policy to defaults for normal governor control,
+> but preserve HW min/max_perf values and cached values for when
+> auto_sel is re-enabled.
+> When enabling: Restore policy to preserved min/max_perf values.
 
-On Wed, Jan 14, 2026 at 3:32=E2=80=AFPM Kubalewski, Arkadiusz
-<arkadiusz.kubalewski@intel.com> wrote:
->
-> >From: Vitaly Grinberg <vgrinber@redhat.com>
-> >Sent: Wednesday, January 14, 2026 12:39 PM
-> >
->
-> [..]
->
-> >> >
-> >> >I see a few challenges for the user here. The biggest one is that the
-> >> >application can't tell the difference between a device that will repo=
-rt
-> >> >phase offsets and this unmanaged device that never will.
-> >> >A possible way forward would be adding a capability flag to the DPLL =
-API
-> >> >so
-> >> >users don't have to guess.
-> >>
-> >> There is no phase-offset field as pointed in the above example.
-> >> No 'phase-offset' attribute -> no such capability.
-> >> Why isn=E2=80=99t that enough?
-> >
-> >Pin reply does not contain phase offset, so no change notifications
-> >are expected?
-> >Could there be devices that don't report phase offset, but report state
-> >changes?
-> >Is this the intended use of the phase offset API to be interpreted as
-> >a general pin
-> >notification capability flag?
-> >
->
-> Sorry, this is not what I meant.
->
-> The E810 produces notifications not only for the pin's phase offset but
-> also for other pin attribute changes. When it comes to the E810 pins,
-> notifications generated by phase offset changes are quite frequent.
-> However, it wasn't intention to produce them every second; this is simply
-> the result of frequent phase offset changes.
->
-> Typically, the pin state changes for the pin, but for E830, the unmanaged
-> mode means that the state of the pin never changes, resulting in no pin
-> notifications being produced in the end.
->
-> Hope that clears things up.
+It's easy to assume that the values store in reg and in
+cpu_data->perf_ctrls should be consistent. Perhaps adding some comments
+would be better.
 
-Will the reported pin state remain "connected" even if I disconnect
-the input signal?
-Is there any information in DPLL or pin replies that can tell the user
-"this DPLL is unmanaged type, it behaves differently"?
+> 
+>>> +
+>>> +     /*
+>>> +      * Set min/max performance and update policy constraints.
+>>> +      *   When enabling: update both HW registers and policy.
+>>> +      *   When disabling: update policy only, preserve HW registers.
+>>> +      * Continue even if min/max are not supported, as EPP and autosel
+>>> +      * might still be supported.
+>>> +      */
+>>> +     ret = cppc_cpufreq_set_min_perf(policy, min_perf, update_reg,
+>>> +                                     update_policy);
+>>> +     if (ret && ret != -EOPNOTSUPP)
+>>> +             return ret;
+>>> +
+>>> +     ret = cppc_cpufreq_set_max_perf(policy, max_perf, update_reg,
+>>> +                                     update_policy);
+>>> +     if (ret && ret != -EOPNOTSUPP)
+>>> +             return ret;
+>>> +
+>>> +     /* Update auto_sel register */
+>>> +     ret = cppc_set_auto_sel(cpu, is_auto_sel);
+>>> +     if (ret && ret != -EOPNOTSUPP) {
+>>> +             pr_warn("Failed to set auto_sel=%d for CPU%d (%d)\n",
+>>> +                     is_auto_sel, cpu, ret);
+>>> +             return ret;
+>>> +     }
+>>> +     if (!ret)
+>>> +             cpu_data->perf_ctrls.auto_sel = is_auto_sel;
+>>> +
+>>> +     return 0;
+>> Better to return ret.
+> 
+> Here, return 0 is intentional.
+> If cppc_set_auto_sel() returns -EOPNOTSUPP, we still consider the
+> function successful since auto_sel is an optional register.
 
->
-> >>
-> >> >However, the preferred solution would be to simply mirror the E810
-> >> >behavior
-> >> >(sending phase offset). This preserves the existing API contract and
-> >> >prevents users, who have already built applications for this interfac=
-e,
-> >> >from needing to implement special handling for a new hardware variant
-> >> >that
-> >> >behaves differently.
-> >>
-> >> This is not currently possible from driver perspective.
-> >> We miss the FW API for it.
-> >>
-> >> >There are additional inconsistencies in the existing structure I want=
-ed
-> >> >to
-> >> >bring to your attention.
-> >> >1. I'm not entirely sure how a 1588-TIME_SYNC pin can have a parent
-> >> >device
-> >> >of type "eec". EEC is all about frequency synchronization, and yet th=
-e
-> >> >pin
-> >> >named 1588-TIME_SYNC is clearly a phase pin. This also doesn't play w=
-ell
-> >> >with existing implementations, where EEC circuits deal with frequency=
-,
-> >> >PPS
-> >> >circuits deal with phase, and there is clear distinction between the =
-two
-> >> >with regard to the meaning of "being locked".
-> >>
-> >> This dpll device type was established based on the main purpose of dpl=
-l
-> >> device which is to drive the network ports phy clocks with it.
-> >
-> >What is the physical meaning of this indication (lock-status':
-> >'locked')? Locked on what?
->
-> Lock status is dpll device property.
->
-> But full picture has to be determined from the list of pins, for this
-> particular case, one input provided from host through pci-e pin, 10MHz
-> bandwidth frequency and 1 PPS sync pulses.
->
-> As already pointed the type of dpll shall let user know the purpose of
-> the dpll existence instead of particular input properties.
-> Input properties are determined with the pin's attributes.
->
-> >As a user of this circuit I want to know that the device is locked on
-> >the phase of the input signal with a certain precision.
-> >Is this the meaning of "locked" here? Can an EEC device be locked on
-> >the Phase of the input signal?
->
-> Well I don't have any data on the precision of such, but AFAIK it can.
-> EEC dpll shall be producing stable signal, the input it uses is only
-> part of the full dpll device picture.
->
-> >Users of other devices (e810, zl3073x) may have implemented logic to
-> >determine the phase lock by
-> >enforcing the pin parent device type as PPS. How should they change it
-> >to determine phase lock (and why)?
-> >
->
-> I am Sorry, I don't understand the example above, could you please
-> Elaborate on details of such setup?
+Why consider it successful?
 
-Yep, gladly!
-Telco customers rely on the Phase being locked on the reference with a
-certain precision. In E810 and zl3073x the equation is simple:
-1. "eec locked" means synTonization achieved - frequency locked
-2. "pps locked" means synChronization achieved - phase locked
-The T-BC application checks the reported device type. If the device
-type is "pps", the report is processed by the synchronization state
-decision logic. Otherwise, the report doesn't have any meaning within
-"T-BC without SyncE" context and is discarded.
-
-Since this patch is going to create eec reports only, they are all
-going to be discarded, and this is a compatibility issue I'm trying to
-address.
-
-Could you please answer my question above:
-What is the physical meaning of this indication
-(lock-status':'locked') in this report?
-
-Thanks!
-VG
-
-> Thank you!
-> Arkadiusz
->
-> >>
-> >> >2. Since it is also an external embedded sync input pin, could it be
-> >> >possible to expose this information and include `esync-frequency` and
-> >> >`esync-pulse`? That could be useful for configuring the leading DPLL
-> >> >that
-> >> >drives the unmanaged one.
-> >>
-> >> Sure, esync caps should be provided, as the commit message example sho=
-wn:
-> >> +    'esync-frequency': 1,
-> >> +    'esync-frequency-supported': [{'frequency-max': 1, 'frequency-min=
-':
-> >>1}],
-> >> +    'esync-pulse': 25,
-> >>
-> >
-> >Oh, I must have missed that.
-> >Thanks!
-> >Vitaly
-> >
-> >> Thank you!
-> >> Arkadiusz
->
+> 
+>>> +}
+>>> +
+>>>
+>>> -#define cppc_cpufreq_set_max_perf(policy, val, update_policy) \
+>>> -     cppc_cpufreq_set_mperf_limit(policy, val, update_policy, false)
+>>>   static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>>>   {
+>>>        struct cppc_cpudata *cpu_data;
+>>> @@ -889,7 +961,7 @@ static ssize_t store_auto_select(struct cpufreq_policy *policy,
+>>>        if (ret)
+>>>                return ret;
+>> Since you already store auto_sel value in perf_ctrls, We can compare the
+>> new value with perf_ctrls.auto_sel here, and just return if they are the
+>> same.
+> 
+> Will add in v6.
+> 
+> Thank you,
+> Sumit Gupta
+> 
+> ....
+> 
+> 
+> 
 
