@@ -1,282 +1,209 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8013395DA7;
-	Thu, 15 Jan 2026 12:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768480464; cv=fail; b=isBCq2gyCjf6zVUEradljMb9DFD1BxM7iPuEH9+jldGiltm2b4GzDAFRxP2yq5+ev67SdPpWtYHhbnhly4Jz1iVw0G6rnrvrFs8b7/QLyXp4u6dgx3XWyHxIh8Hqe2KRgx9k+sIrjW5F/5i6VWvqaOdOw/5jUcBSUZazDgM3vFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768480464; c=relaxed/simple;
-	bh=9vkNfd5+vA99LQSPMGg7UTvvBDFIzxvOvjmktOeFQeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=F+hLWmLWv8cQCeDmPHqeYZc5naIEh+uoPV8GxVAI6mQmHGbCCWfgUyIzbf4xuRIko60ZlOyZHqudVXQhAf+tVqGrTWODPIcGPVyf8+W5HAByfe0fwUNq1wvC4PuUUaOteU717aO/9sVz+HLqNqf4CbTKYD3bVs/0eXWCB5sZCLE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=aq/dtEEK; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=txHdk3nI; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC68433B6C7;
+	Thu, 15 Jan 2026 12:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768480509; cv=none; b=sN6wXhoiV1AuKbbv5Whm7FO7t4hJJHR7W3nZ7ZwmPDIb5DtTLysTaByCQMYcuC4986jOpefa6KbIRw9A9EIhX/Rxl1aU2m/x99FTuzZ1w49i6SbmqMhYmmQMz1ucW8/PbBF6ekAN4JVZ1P0+ig7ruif2EPUl4huxbJSPxE6a0hw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768480509; c=relaxed/simple;
+	bh=iQDh81qHTocbmheSpRuQOg5hT7ISRsk+bLONrdXNclI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pUtzpvvQWUy5yRV72ouOYU0Xz+IC1ZttA1fg7V5TRXQ0+Y2OLiWhp8kwVGeckzI/yPit52wXURYCbLegxiU8ARhng2yGzCj8AFZXvb6cfFx6Wi6Bk4K+YPBUOoARhyOl1XEwmajJoFSuZkQFKR0hF5sPaQ1CWRuTlHjFSsfvOM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HM2wWo3B; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="aq/dtEEK";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="txHdk3nI"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FBCqOL1360856;
-	Thu, 15 Jan 2026 12:33:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=EBV+/04lZKdptAbRJI
-	YqAv3rxwYt+XA7YTl9awQgrnM=; b=aq/dtEEKfNQHHaS/6GVeeXRWmLKoFtsgaT
-	I/cIaLUaKB6DrXkdMC/6vFWbnsoPQEcoC795dxkxqVTcMXbjlOQYpt+knCXD6+o9
-	2DpzqETqIoHr/D89pYI7n+UZ+DTa6x+vODs1MQe+WfYIM2DLyJZ8qCHKIlU+Cd0j
-	YAy32s5r5B9fQ2q3A55JefshOI0y7F2WnuCEdPjj4pSZjHByRfkTR38V62+Y5VQE
-	7m+4ZCuj2dzg8xwVLtkuqs6UOO3WI0fqAjTZwQJGocEGkNUybbqNe9joKvI6x88P
-	2wcjdzmTEnub2QlphKkNNBmq+KKhmb+nTEp2HfKH6f7h0l6PeJiA==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bp5vp2wq8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 12:33:48 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60FB8dHH004157;
-	Thu, 15 Jan 2026 12:33:48 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011058.outbound.protection.outlook.com [40.93.194.58])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7n2wjy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 12:33:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YiKRG9OMt+wLtxNjrChIyiRLlzhWBgYLi+qKIDCPYvEuP3aHDntH4a4nth+nz8TPuZhXzYY/lfQRmrtOBwuYBcOZ5wzLaFL96H1ZSjYvJXQIR2fqUXWl75fWs8niTOCQPoC9UwlmB7FxfkVNHeqEYh2arxPJOdYKvSa1dMiWfZXg7ib4GPOsnMGEdTErlEtYjvJszhrEwKOetgMSlA1Fsy1y565P7sW0UzpfQ65HBCf3jarW7r/N4DljDQmrHUhAc7b/C3UX0QqCVD6FIoUvBC3Ndc8JV097WGj338YKGom+wcnySrL1kLkorfykbzrrCfiOTrTJhWffB9BOj+Wwpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EBV+/04lZKdptAbRJIYqAv3rxwYt+XA7YTl9awQgrnM=;
- b=MPs0vp0+CjZNAyV01Tx9K6NBKSxuuzWmuoleO6RtZNuk76D8cv7pJ3aSkRSBFTjWTPQARwFeDx5cHslXVW1vLDJ7zRpyMQp54FRkno5mPlD3JaSBHE0tRCGbvrIVU4w0IVmiMBJPe5LcvxYDzTnFRAetY4JFUrv/ypFH4ExcfJLEVlABZpVWCd3E0XVEIWr+PESv5gXPAxAKqUhR1gEeRlvAHsDWogfM7uG7VXs17g4ZcRUhnAvsT02lW4c8WKM7FBwppH3rDjzwSixGsZmNAUf+Oe36gCySAZw7JADsej4p3VtrXqxrBRknnOoWaqC05Ble5m0HTt350sg4NVr+Fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EBV+/04lZKdptAbRJIYqAv3rxwYt+XA7YTl9awQgrnM=;
- b=txHdk3nI8ncEVXsnPjYCc4s4WkfTm/3yo4vaWpWgaOMlzNnhUDeXpad/4AZdKcN7oKHcYYD+UYFR6ii0yYB9h8APMzgSRtbmg3dZv9WL8PJ32LOGP8N/GUWdNXApf/jgt/6I20r5YNxbaI1i7Ry/99A/1z2i02npTfDxlAZw31w=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by CO1PR10MB4801.namprd10.prod.outlook.com (2603:10b6:303:96::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Thu, 15 Jan
- 2026 12:33:43 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
- 12:33:43 +0000
-Date: Thu, 15 Jan 2026 12:33:46 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-        Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v2 16/23] mm/balloon_compaction: mark remaining functions
- for having proper kerneldoc
-Message-ID: <e093894b-4846-4115-91af-22884804b2fd@lucifer.local>
-References: <20260115092015.3928975-1-david@kernel.org>
- <20260115092015.3928975-17-david@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115092015.3928975-17-david@kernel.org>
-X-ClientProxiedBy: LO4P123CA0671.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:351::11) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HM2wWo3B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768480507; x=1800016507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iQDh81qHTocbmheSpRuQOg5hT7ISRsk+bLONrdXNclI=;
+  b=HM2wWo3BdtGz9edrAQljoRyvch9ILrpwwOk2dN3dmZ4RpqYnj/K9Yt5F
+   ypVLRmDB3n/o7W66S3q3zgaEUspdROB2lqpp98csq1kfrMZEKrLxqm8OG
+   guO4Es86EyPvgk14Lioc51zL53Tpg2r1BegBnwiwZQc5C5LQslzdzVQqY
+   /y+zRBCtCICX0ensuYeCHhe36X05Yum3G5rgd6cvbGmRA+VUmN4wzzHFt
+   5DueupgppoqTeyOsAW5WLgkNWe3iw2e18AvKtvMmrIEHgDA+3HLkcU2i3
+   BcsUDxzimSQeE1hsVY0aWAEmlMPBlXBjdCuAd8Qo3PstcGtn6KyH65+KX
+   g==;
+X-CSE-ConnectionGUID: j0ZplWN8SISqkrVpX6lZYQ==
+X-CSE-MsgGUID: m73AfHGTR3OMofxB+8KL3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69692180"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="69692180"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:35:06 -0800
+X-CSE-ConnectionGUID: y7SbJBrSS8yjmqLFuIAqrg==
+X-CSE-MsgGUID: BABOIsT/S0iCAjHcMcObrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="209805656"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2026 04:35:03 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgMZ2-00000000HxI-314J;
+	Thu, 15 Jan 2026 12:35:00 +0000
+Date: Thu, 15 Jan 2026 20:34:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
+	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, priyanka.jain@nxp.com,
+	vikash.bansal@nxp.com, Mayank Mahajan <mayankmahajan.x@nxp.com>
+Subject: Re: [PATCH v2 1/3] hwmon: (tmp108) Add support for P3T1035 and
+ P3T2030
+Message-ID: <202601152046.9FkRF3Hu-lkp@intel.com>
+References: <20260115065757.35-1-mayankmahajan.x@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|CO1PR10MB4801:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3004a1f0-1aad-4ac2-cae8-08de543251ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?MZvMqTLKcmtJfAL5UZo1bGvJ5cfj6Y9miXllibxk6fVFtVVPSx5lEFmoLsVj?=
- =?us-ascii?Q?3646DbRpO548qUXQucQ9A28r2GoY4q+0XnmP9X7Vab3lkhDWoYPXnXc0Olqe?=
- =?us-ascii?Q?YFDaw8KIxZ5/Ho5y24xShc2GSnzeXcurZw54r62YjUmWPV2R6dxlNZ//3Tya?=
- =?us-ascii?Q?GGvCbiZ+BhyJbm/DjT2hOzzGW+zybUDAwfICvYkri6J11qcQn7/ycgbteH20?=
- =?us-ascii?Q?Zw+RQ6QFRkj/jlSyQkXKbSp8MA/Iq8AFpFc/0NH0FR4HjhBDAyOQzUl2L14X?=
- =?us-ascii?Q?h3MOkjMq8r33oiggCpHDbP9nyfqcT7gy6eryUbunI6lcCPbdPdOzIDdQj9EC?=
- =?us-ascii?Q?m0JWrEtzQtLFb07JPwIdsobRMtf2xgWwazm/SM137toSAYULYDW9L7cSdihy?=
- =?us-ascii?Q?V6TW+CmQ2HZl0KIcGQyQR8zVf2w8aWEmHnS37ok+oVyG1Nnx1+TfDBbpY6So?=
- =?us-ascii?Q?37jGmR5RVeyOqReChdXIaFIJICe/iNGpG5J9QZpaLOlJHa0NQ6Tn/q6HShJa?=
- =?us-ascii?Q?Ldm1ZiICmPb7KG5jdcjYvio6/gdM6jUCxIi3eN6RWVqY8UQlr7rQXJatMRDx?=
- =?us-ascii?Q?qbRl3QqlZ9g5JjP0Q8DbuUGG19T/oJdMbVxFFfS8US0C8HS3IwWcFAep1Im1?=
- =?us-ascii?Q?iUc5zOhZFIykRRUQadI60dr8r0/M+5wruDGHr+S/jmvqFMszrjCE1cXyxIDt?=
- =?us-ascii?Q?t0CIgq9Y4wK6NrT63QdbkNxvnZlV1otfpLwu76HoozZTf+zjsodA3Btw9D+5?=
- =?us-ascii?Q?MriGM5o6dA+ZZ4asnbxkRLnD5qDSbmWuNU1IqdrMiE4vdaJ0OdXXEgRO58GQ?=
- =?us-ascii?Q?dEY7ryVAvukWGYDq4MMCRVdBV9pfCNvMiRH+MWyuZDhZRRpdEsL+f8IQndjo?=
- =?us-ascii?Q?v63gKCaZZMCmHgPW7cCQt6V5Ul8Vrlhuvg03zfX2A4PYx6FEf7UZXMGd81oh?=
- =?us-ascii?Q?Ly5+erwrWGZqZgpOT8IFDe2I9OnSTHMehHPFpZXUFDIR8aCze4dMLgNla2Qu?=
- =?us-ascii?Q?mIkbR/GuZcjOIPEu7rJCGO1Y07THzul9Rb1dncL9bf6qUc3pw1ubdR97rAkn?=
- =?us-ascii?Q?fTSUJ2SldzAIrZMYHbhekgffB69LD66XAjmCHwl1lDStsrN8Rai5lKZVg0vP?=
- =?us-ascii?Q?uNmsv0jYvoa7yVOssQeuPJm+7gZ2b4Uw3w32DCNUTFqs0d1Dbbku11yyHpKM?=
- =?us-ascii?Q?kUiZMRIdINCbb81/alc9vP7XPaUl6menMrAs3HZcV+VVIdHi5jg2dqtMnnV0?=
- =?us-ascii?Q?sy/fq6T2ZnK7rP3IE/pDsWeVRcuygHr5Oomxgf14W/pmOB0awq9yPZhiucLG?=
- =?us-ascii?Q?kYhhwofafLJb0DkqzJ8bvzwNNcGcCbSyMIKFfCEJi+WgIqg6yae2/7Krtf8h?=
- =?us-ascii?Q?+MsL5eJCyF0ooF/t8xWgMrZJEE99FzueNRy8W2SxGu9lkLQ037AecZouamYK?=
- =?us-ascii?Q?bFBSXJcWTRHUT9mVwD9X4YkVVv2oVgO2QzffMRgQ1uM2aLXtdZouYYmQdnzu?=
- =?us-ascii?Q?GJ6GQHmBcjdZvyKDjnWIoxtsWkzwQ74YRQJSfDXmjPfM1/6vviid4sTBefcr?=
- =?us-ascii?Q?OB4UyO81VT3qzkafceI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/D9T20CwvVhgH/hOC72St6Ktgd2BawkMpStbKV5RrBIXZCMJD6QOy/TNS/fD?=
- =?us-ascii?Q?zJrUqFvVd551d6a1z2YfLN7CfawvBvzQ/hRGhAOPifkd2VgIT48o4aei2EM1?=
- =?us-ascii?Q?zjRMplbLor8eY4NC32bN9OJSSm9wG71K3j7aGxMSLWXlWHN2Jvdy5l0l+MeR?=
- =?us-ascii?Q?NhO/adj7rYY1ESzJ46PY/xXJl5w8BMU/WPw0bmktB1p5FcB/dv/O4SExmRpu?=
- =?us-ascii?Q?ilwB9y1BfHa4EMhxj0SJENEfIv1ZM+IMditkwYE1dlzOKMuRbnkHDu4zN0ZS?=
- =?us-ascii?Q?jR2u78P6172QydPfCPyrCicXQny33eZKKIPaul/t06t2b8OCOIrFvK9C+O+Q?=
- =?us-ascii?Q?DPlMbK+muH3ip89QeD2Cw2WkwCtfkhmF7Kf7xPaDdOmTlNAmpPlz+2QVHes4?=
- =?us-ascii?Q?tocChst0neaUqtiXDBKRzxbYDivayfg/AjnZYRlI1p4LZoJYpn/RsioEXQ4G?=
- =?us-ascii?Q?lI6krz6I1rxiuFUAua+bFNrHelhxval2QCLgtmjaQRAv/4wt8WFhNRUnrI3G?=
- =?us-ascii?Q?9IGZLFmj0LqasdwoJj6AWmeS7diBfPse3CQ+a8uAs9qJbTnZDivY//M+cEHE?=
- =?us-ascii?Q?c+juqhqfyDNdw4HWnaWxKR9mdkgSjslNsLJQKv1zig4PE0JXia9VKD+uF5DU?=
- =?us-ascii?Q?O+0ivNSaQrwtj1vhcXSyLTVIxJ9px1m2VZOBqdYV9r3WlmtFSBOQAKPDcgtt?=
- =?us-ascii?Q?AchXa0GFgPPo0r0JSeEwN7ondzTM1EIlNVVZHJTtrmX91oENIMQPz/0h8YKx?=
- =?us-ascii?Q?0Gy4OtaqomweLeMZFNEs1kRT8+qH8FOYktbr/B3nEuhKao3Y1rQG9tJYoo3F?=
- =?us-ascii?Q?S2A/LW0yL/zrAYDmTsp8BrNQFJ3MiT/ciEUdQ3g0S99cMimSmhAlgXEYfbsl?=
- =?us-ascii?Q?oJ7dg/uVZ3wQLueU4hiyRlmMFO4fKpzRhWJcpZ2kCaoMPt7b/WUe5Jg9dh35?=
- =?us-ascii?Q?IUdGu1+1G2u2rc+w7geAh9gVdTI6CbG7q7sIqBvn5HgauEC8qFtbIYMlcTY6?=
- =?us-ascii?Q?w8E8abHkO8Ta5QcMLnePc+g2zjYmeHpibswWNsRiTpUQHZ5V6Zzl6M49Klyu?=
- =?us-ascii?Q?ZEkzIfuVnSDwuKcvb+QMwbV4e4A83UBPJAaS6E7Mlyeu9ukOa0VcOQ2uN+3Y?=
- =?us-ascii?Q?B/AvrUUMRDlSxX7p98gobDk4mVIuS9G3wRJ9Nyu663ozF6Ccz400xlobZY2i?=
- =?us-ascii?Q?YZ1ZzODLxPZ5UjZE6yOrRSiPb9YBunTRe6xE/VDYX9mho13CeeZDiwObkp/Z?=
- =?us-ascii?Q?0OfcXdpRZHnjV6/eHkpSsG/HWi4PONbzi2zgubP1gWpijBVlp576Ok7juPzc?=
- =?us-ascii?Q?Q2ZsmgVmEIRwBAPRGThwPgyi+1wy/kgBtzcKDdk9wr1Rr5deIklHB0Hl49dA?=
- =?us-ascii?Q?sx0b34byyZ0Uhx+MPpHOEgtCBYhG/UWOsjtJc833rVLNpFdRO197IsR9QJZ2?=
- =?us-ascii?Q?YDrs1uiBZO2S9Mqln4NnatqVLJ0Vko1g7ZaFsNL14AfDga+85FPN3Jfh4NJ/?=
- =?us-ascii?Q?J7nmtSJ175PeNRcAGH5H68BJC74+CH2Np8yyTnkPHAkpoD2APzEUtV31noSo?=
- =?us-ascii?Q?rVqLU+IOAyiTY3RJ8D9CLEZV7D4Oa/Wy0RpC0gDn765kqJAA1bAUf9WbC5G+?=
- =?us-ascii?Q?X5wkMeQs8snsR3O8vj/ev2zJQbaNN5tvJaIIWlOM44N24TF9OBYhDTgZXa/g?=
- =?us-ascii?Q?0q9z32SmwDb2DoI/XwYiDSNmIuSRCURi6LwdrlztxNyt/B7nG99gZBtlaPUM?=
- =?us-ascii?Q?AfMsuVfnT9Z30uVgQTRGFBZiYDlgjeE=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	oMN0xPXs1p3NHJUvTAQ9avDjoSeKctucFD+BLpL5yW/pDHpJEMUxjbLEeF0zZ9e8So3jjcor8CyrkZvz75IF12RHvhQ/cDccxGYE3Wh8WhtJ9n5z19SwY8Bp4plXZnejvG5/D+WN/AoESpvNk89JxBi4LWdgYHz9q9XQsKdJYsyGWgS+nBEQlvrpqFxC9+Kplrbw27IkooXwoTMAls3xHLEMb+MnhF87/bBQ2vnvKREoFJ/vfj04H07Qobt0SEm7PuAhGUyTdiVNVEi3M/eUosMUyudZTUlp3SLy9Ephz9v3SKNCrHHhyoBiy8ERVMTLAe3CIR2DAF6AeNvk0qbb8HqR4YzWDoN7FI0v4pbl5i8l4mUkgsJrDHRq95yhGaXOjCllsMLHcHHqSiMX50ViggVtMXzd8PWUcyMwZRh6ETs0OnOyRXIVElnJVuUpU8SuCL8a0uUXV2a3SYJcL90dqBc/xP3Emq17KqyMYzUZERdcL4xZGyUXhBVEKB0r1XfpVIzFyu6hNbfn55y8iL0Lo8klqNlJ+PLyLDo/2smAeQVvILelvaFAzmWu/d7wnfb+t0TPAgnU1j5g5kNZNYZH8puufodtshwkLGZtgHqCtJo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3004a1f0-1aad-4ac2-cae8-08de543251ec
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 12:33:43.3399
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yTbIoZ4aBrJFwhDX6htbTOK0YH6T8jqv0aUJqwNbMlVo/MBDuq0eYvQKbG4GZ8LYU1KGlIWxAuXjiNcE9IrjRe2fVHHXUY3UkYF+UKRpTdE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4801
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_03,2026-01-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 spamscore=0 adultscore=0 mlxscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2512120000 definitions=main-2601150093
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA5MyBTYWx0ZWRfX5CG00fggakSO
- 7fqawI95PXbvXYUuGqRnyyKgpzm5UnGCT79+yp9bEdVF5Zxh+Ig7/eJHCC33jnxtI3YlSnjfep7
- XW9xG3SVEiBO2j4uylpTXU8Azrlj3bRL19qk1KQsKO+OtDCjIV6a3D1vJSOsCBtu7vqZz8J4V9q
- VUVag5NREu26A8E4J8GjgykGuFlEsGW49MGpLhQbv1vQwRHpTPxOYnx4l3JrCk0x14l24I8JIa/
- 7igxKkR3IMQvFvQAitz2FZSvn9vHsX4KDBgb0OBnLfHTdaFu/wagRwa70nCZUF/YWjymYYIEkKj
- GpsRqM1BaIWop+ZzVU2xSFTMd6+ZjxwTgQ2u8U1ldDCrBhVqZm2iNl84qzvPwM89uWfYuzCQgSR
- V7oj5+foZx3VS3m6achyi/srhige/szvhgzxN40BlSCuL8B6HSM2ZuEi3aerC4eE/EybirgXidt
- HLQHtk/Qs2aq8NJ5Xiji1jBs7U072FqNYIZTyPqk=
-X-Proofpoint-GUID: noDIkNUBDA58vlQWq9BTBJpSap4_aQQU
-X-Authority-Analysis: v=2.4 cv=aZtsXBot c=1 sm=1 tr=0 ts=6968deac b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=RkSXhLthngpksvzXFfEA:9 a=CjuIK1q_8ugA:10
- cc=ntf awl=host:12110
-X-Proofpoint-ORIG-GUID: noDIkNUBDA58vlQWq9BTBJpSap4_aQQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115065757.35-1-mayankmahajan.x@nxp.com>
 
-On Thu, Jan 15, 2026 at 10:20:06AM +0100, David Hildenbrand (Red Hat) wrote:
-> Looks like all we are missing for proper kerneldoc is another "*".
+Hi Mayank,
 
-Ah nice and easy :) If only it were so easy across the kernel... ;)
+kernel test robot noticed the following build errors:
 
->
-> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.19-rc5 next-20260115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Mayank-Mahajan/dt-bindings-hwmon-ti-tmp108-Add-P3T1035-P3T2030/20260115-145945
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20260115065757.35-1-mayankmahajan.x%40nxp.com
+patch subject: [PATCH v2 1/3] hwmon: (tmp108) Add support for P3T1035 and P3T2030
+config: arm-randconfig-r072-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152046.9FkRF3Hu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152046.9FkRF3Hu-lkp@intel.com/reproduce)
 
-> ---
->  mm/balloon_compaction.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
-> index f6e0582bd7ffe..f41e4a179a431 100644
-> --- a/mm/balloon_compaction.c
-> +++ b/mm/balloon_compaction.c
-> @@ -22,7 +22,7 @@ static inline struct balloon_dev_info *balloon_page_device(struct page *page)
->  	return (struct balloon_dev_info *)page_private(page);
->  }
->
-> -/*
-> +/**
->   * balloon_page_insert - insert a page into the balloon's page list and make
->   *			 the page->private assignment accordingly.
->   * @balloon : pointer to balloon device
-> @@ -42,7 +42,7 @@ static inline void balloon_page_insert(struct balloon_dev_info *balloon,
->  	list_add(&page->lru, &balloon->pages);
->  }
->
-> -/*
-> +/**
->   * balloon_page_finalize - prepare a balloon page that was removed from the
->   *			   balloon list for release to the page allocator
->   * @page: page to be released to the page allocator
-> @@ -140,7 +140,7 @@ size_t balloon_page_list_dequeue(struct balloon_dev_info *b_dev_info,
->  }
->  EXPORT_SYMBOL_GPL(balloon_page_list_dequeue);
->
-> -/*
-> +/**
->   * balloon_page_alloc - allocates a new page for insertion into the balloon
->   *			page list.
->   *
-> @@ -163,7 +163,7 @@ struct page *balloon_page_alloc(void)
->  }
->  EXPORT_SYMBOL_GPL(balloon_page_alloc);
->
-> -/*
-> +/**
->   * balloon_page_enqueue - inserts a new page into the balloon page list.
->   *
->   * @b_dev_info: balloon device descriptor where we will insert a new page
-> @@ -186,7 +186,7 @@ void balloon_page_enqueue(struct balloon_dev_info *b_dev_info,
->  }
->  EXPORT_SYMBOL_GPL(balloon_page_enqueue);
->
-> -/*
-> +/**
->   * balloon_page_dequeue - removes a page from balloon's page list and returns
->   *			  its address to allow the driver to release the page.
->   * @b_dev_info: balloon device descriptor where we will grab a page from.
-> --
-> 2.52.0
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152046.9FkRF3Hu-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/hwmon/tmp108.c: In function 'tmp108_common_probe':
+>> drivers/hwmon/tmp108.c:457:52: error: macro "memcpy" passed 6 arguments, but takes just 3
+     457 |                        sizeof(tmp108->sample_times));
+         |                                                    ^
+   In file included from include/linux/string.h:386,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:37,
+                    from include/linux/delay.h:13,
+                    from drivers/hwmon/tmp108.c:7:
+   include/linux/fortify-string.h:690: note: macro "memcpy" defined here
+     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         | 
+>> drivers/hwmon/tmp108.c:456:17: warning: statement with no effect [-Wunused-value]
+     456 |                 memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
+         |                 ^~~~~~
+   drivers/hwmon/tmp108.c:460:52: error: macro "memcpy" passed 6 arguments, but takes just 3
+     460 |                        sizeof(tmp108->sample_times));
+         |                                                    ^
+   In file included from include/linux/string.h:386,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:37,
+                    from include/linux/delay.h:13,
+                    from drivers/hwmon/tmp108.c:7:
+   include/linux/fortify-string.h:690: note: macro "memcpy" defined here
+     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         | 
+   drivers/hwmon/tmp108.c:459:17: warning: statement with no effect [-Wunused-value]
+     459 |                 memcpy(tmp108->sample_times, (unsigned int[]){ 63, 250, 1000, 4000 },
+         |                 ^~~~~~
+
+
+vim +/memcpy +457 drivers/hwmon/tmp108.c
+
+   434	
+   435	static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name,
+   436				       enum tmp108_hw_id hw_id)
+   437	{
+   438		struct device *hwmon_dev;
+   439		struct tmp108 *tmp108;
+   440		u32 config;
+   441		int err;
+   442	
+   443		err = devm_regulator_get_enable(dev, "vcc");
+   444		if (err)
+   445			return dev_err_probe(dev, err, "Failed to enable regulator\n");
+   446	
+   447		tmp108 = devm_kzalloc(dev, sizeof(*tmp108), GFP_KERNEL);
+   448		if (!tmp108)
+   449			return -ENOMEM;
+   450	
+   451		dev_set_drvdata(dev, tmp108);
+   452		tmp108->regmap = regmap;
+   453		tmp108->hw_id = hw_id;
+   454		tmp108->config_reg_16bits = (hw_id == P3T1035_ID) ? false : true;
+   455		if (hw_id == P3T1035_ID)
+ > 456			memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
+ > 457			       sizeof(tmp108->sample_times));
+   458		else
+   459			memcpy(tmp108->sample_times, (unsigned int[]){ 63, 250, 1000, 4000 },
+   460			       sizeof(tmp108->sample_times));
+   461	
+   462		err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &config);
+   463		if (err < 0) {
+   464			dev_err_probe(dev, err, "Error reading config register");
+   465			return err;
+   466		}
+   467		tmp108->orig_config = config;
+   468	
+   469		/* Only continuous mode is supported. */
+   470		config &= ~TMP108_CONF_MODE_MASK;
+   471		config |= TMP108_MODE_CONTINUOUS;
+   472		/* Only comparator mode is supported. */
+   473		config &= ~TMP108_CONF_TM;
+   474	
+   475		err = regmap_write(tmp108->regmap, TMP108_REG_CONF, config);
+   476		if (err < 0) {
+   477			dev_err_probe(dev, err, "Error writing config register");
+   478			return err;
+   479		}
+   480	
+   481		tmp108->ready_time = jiffies;
+   482		if ((tmp108->orig_config & TMP108_CONF_MODE_MASK) ==
+   483		    TMP108_MODE_SHUTDOWN)
+   484			tmp108->ready_time +=
+   485				msecs_to_jiffies(TMP108_CONVERSION_TIME_MS);
+   486	
+   487		err = devm_add_action_or_reset(dev, tmp108_restore_config, tmp108);
+   488		if (err) {
+   489			dev_err_probe(dev, err, "Add action or reset failed");
+   490			return err;
+   491		}
+   492	
+   493		hwmon_dev = devm_hwmon_device_register_with_info(dev, name,
+   494								 tmp108,
+   495								 &tmp108_chip_info,
+   496								 NULL);
+   497		return PTR_ERR_OR_ZERO(hwmon_dev);
+   498	}
+   499	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
