@@ -1,227 +1,154 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DFD31DDBF
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 21:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768511230; cv=pass; b=LNRVosHMze1XXc+Xa8b0sMRJyU0K56JjrDa7dJLGIYeqhSxBSNYXOoUnNrPpUjAnSmqnfUyVF2VfOzv0e5uRSIgV9wDcVR5Z6sz9xCPS0ySDKRfoRp5B3AWZ/Du6C/UvPZdSCHyfda6i3wNkBXxSsM1s3mVVIYQzBQ5ND5MWo50=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768511230; c=relaxed/simple;
-	bh=Yj5Px6CBHG4dfhDnY0aiL+o/Xd3AGh3M1dNNpc7+Hj0=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OIcSzXahC9405z+EfPz+iuZNsR8TyXV+FLmNcjQry1pVppmelTiw1ScFmUolRFynLlX76wfxjElMlHJ+LhZAZAuzUKSCvDVEIXH3vphtH7zx4xnEKc0Q6j6kZVLmpuYgP5jiGdUrVAe0RmNNZxECjJ5z//VoJjRxfDQ4BtzyPqw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4XJgfLQP; arc=pass smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2B630DD13
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 21:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768512937; cv=none; b=Ecx7r0iFsaVGZdwmBRNHBbDyoyT52UtU/8OWuUdVRozqXQhyNVMPC6xlRPOxAF2KlvZyrQ7xzU/uV/fMs1npakiD5PQNuKXvvYTwIfxHFmTXs4KG7liiMKN3ie+KpuTnEBKIaBDJ7oLgvF9W5va895aJdylp2crGv/AHCjmwW88=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768512937; c=relaxed/simple;
+	bh=37YWRbNwvnyyFvjrt7JMRWs3o6ZgMumlyr0qRXEnv1I=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=U7OaJG/zzQMwr6hJfyaA3rf5DJlZA5suAb8BfDkCX+L8N39PNb0q7gVp19H8yFnLi5692coIf81lOtMwxfy/dABa+LjMZY6/TTot9ASu63q7jL8Nxsl30f4ey/aozCMR6WooYlQQdsZfAJvDDVLUYnrfo74WLeazScgN56TTcPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BKarNav8; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4XJgfLQP"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5eea3fe88bdso488903137.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 13:07:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768511227; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DqBfWF1244+01tabGmxeBxm+uYyHiAXHLab9Um8pVviU1Ss0PJNrWsInbnniN5zfF0
-         /HINTfyLqMI/Kwszti7qInpQg+2omkHH+uXW3RN2Xjzat2lkNfuRYMpYFEvH/6tAFHMF
-         Qk3Xt813gBxm/V83Lm7xy37oGESDmXpoTx56zCpg1gmN5aaD3+u2CKe3AGpL73EJ7hfE
-         l3FxoDsjB57oK0CzQhmpHIpsDKPRCv6SCvPb1VCl5s+IclGufwjvlO04kzX5qhJWytFt
-         Cr1qLPSR3KdjSnlsQEdUZBljA/vs209JiOAPxiJuvUdGSTjqGsKrADGE/sqyR4768V5F
-         SxEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=y4BwArZ5FLhyM5BEN34gjuDvwbvdpN2Nxoskvco/5nM=;
-        fh=Wf1yQcoJnAOAeADdlyctlTfIsdV7zjoZIgqJ8s7/3Jc=;
-        b=beUL2ZgyCT21NYUztXQMu0QFKxMN3K0IrEeTOxQnotWJYiKl2E5sWjqXH3UCXqeHgK
-         LRM2tGscpboo7uhFtLe3D7peuo6Iq0KJoeq9We8o2k1UEEok0fplByZCmOVbrp99a9uK
-         j6HF9RH3SuftrmqMPz0WSGKDN/vyi64lEqCH52lvVRMFwXm4DAUTGvFKFKBm4KoPKWWU
-         /efWzP0IvmLKZiFts4B5KmljC9+i2yJRvD9aYvbZijrQWlo8VPVRrWR3LNQcEmT6xWlO
-         aEmFehn0nCbVpYFq5iy3FzA2om2PfxV+gu9zbSQx6lCn7X0VeRf82TO13wqmge03d1Ry
-         0mFQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768511227; x=1769116027; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y4BwArZ5FLhyM5BEN34gjuDvwbvdpN2Nxoskvco/5nM=;
-        b=4XJgfLQPzxM5FXWJkEQS/kXTzEqlaoNNsykVgVssx9ILv7rH2f0RPJB0Dsm8qrAms2
-         ca1bhsEOHx0BFLwVRFmof0lTpYymrpbdRKK/1/bgNnjBFJ1AA+33K9xdNQSiAbvhG8Vy
-         kL1ZSO+dansx6NIyFH+a86drC/+BMsplkmTtJSR9nFM0y3dL3IKx8KoAfTFU2xpZZJqf
-         kXdl+n+ILpES0C/0nzoY1zoUXovu+P1soJ4YMJl215plLGiz7WqYtLuFdstWhf3zf/0K
-         vN6yKSUSFWHjiVS56FlbC+Rx9vxZCxMtufdgDE6UWoEzY472DLjt5vOicDkHTSjO/ErR
-         NXzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768511227; x=1769116027;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y4BwArZ5FLhyM5BEN34gjuDvwbvdpN2Nxoskvco/5nM=;
-        b=X6UojNjFtcJphZ4jmU9Om3n+8Epwj/F0h/sGCe3mgRxa0sHur19Bbx216c/mTn71bJ
-         Ht23LCd+5ygqzgGMsBs6qGDh8vmy7G9mtfCXOLWyBLdqhm9DyH2zzfEqbaUqwLX2/yKH
-         BdAdKedrlC186VYxl9XDxBPQCxNq6ejtrVMRaRACizCiqlc1fgP5/U/9h2wtrBUHOoGM
-         MFjHfwod0Qby5VIOeXJscTkVrCtwBv8I/7ML3W3PH45NwvESwzUhRW9fSZa9r1OOY+d+
-         IZNF8DUOba5mH2kEjrPp/tnFjkgfaR5zuAay/0CYZF1j2ee7I4Xspp46hMxmWeXvhZuc
-         Gk9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVtszuU25qAiYKqjyuyol8MuoqXMGuF9nMkNch+x12jIDYRUwf6F/bQwTSSbaPyWGKoumKE07njgTY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxI8v/LfU+9emYxJC4LS44fQv1jrh8Z5npLW/sYVqu3SHU+gnps
-	+Txe2w4bcpxfVPgXf3xviuY/WRb6c5xkSRxJ/FzFjYKLNIpiQKNlBv6ejKGDH9kuKYy2KkYu3hS
-	3ZBKAKdi7yzFsHVUAWGGHRyj93I8q6ZfMrg8mpQHclhSRa6QyeeRGTQ/9fog=
-X-Gm-Gg: AY/fxX7j2e8QgRFT1Wrf1dX+MLxBl63FkePMDnepHO7cKIqwvNpIx3wRHjfJCL6JSo3
-	yOqLmFrChXqz04DQsStIRhkpoTmrZbzy698rmP1UgyiEFy7J2LLyjKH323Wr32U0IQX/N6LmBjG
-	zTishq/oKDXtFWfzhmA8MJe+MnFabWztgchQGzH8FcHKO7HGBxvT+7bSGC9u5lgaIku3yGEftEr
-	2HWshLXgIudGshu399Knb7vBMF9FahLmKd5l0YxZYtKTNE7rzsb2xHA0aZ4wWUng8rdQo5Mggmy
-	xAppoJp9GXXiIflMTwHhF8Lu5g==
-X-Received: by 2002:a05:6102:945:b0:5df:aff3:c41c with SMTP id
- ada2fe7eead31-5f1a719e362mr155618137.30.1768511226367; Thu, 15 Jan 2026
- 13:07:06 -0800 (PST)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 15 Jan 2026 13:07:05 -0800
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 15 Jan 2026 13:07:05 -0800
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260114134510.1835-2-kalyazin@amazon.com>
-References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-2-kalyazin@amazon.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BKarNav8"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 407DEC1F1EC;
+	Thu, 15 Jan 2026 21:35:06 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CB404606E0;
+	Thu, 15 Jan 2026 21:35:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CB28D10B686F5;
+	Thu, 15 Jan 2026 22:35:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768512931; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=gt0k7cpxkwgvJr17BqCbb8eyAiyjEBq1DZWOyzllr+4=;
+	b=BKarNav81M8+i7lZoS0D+VOJVywBzkYRHvpkHIlKbPtv24BlZr8KLaLaqqP0R+TO19oyFS
+	tNWPUNz242qhsmQENrqIcktYa8Xv9RGvn+L35PvQ85g6Qfj2QIoJ34LX/agrBWQJQf59iO
+	gcuelY/WfZ3nns4x2nxFtprTSlLDCNxRyjT5YHKjK7Ypz6Zh5a4R4MyKTQU1cttKKbvXuu
+	9obSK8lF6vz+K6WEAgZqPkKw/oor7CDWUtsKlq2CCvSL4DKcAmUNOn7XBULVb0Pwp4dRoP
+	Ta9JYB/SZQDsAkR3/XGYKfvhtfIT/MtPVFP/ktUUbSAI60L1oVnUP7dzd6zcuA==
+Message-ID: <51859704-57fd-4913-b09d-9ac58a57f185@bootlin.com>
+Date: Thu, 15 Jan 2026 22:35:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 15 Jan 2026 13:07:05 -0800
-X-Gm-Features: AZwV_QitN6L4bb0XJb_ZZH7nFdRT7CH1pyddv4cbgutSArI7UeCs00Q7KzDEw7c
-Message-ID: <CAEvNRgGXeow48BUJYyuAOUp8qK97v1LdF4KdTB=Nbk7pTs9tfw@mail.gmail.com>
-Subject: Re: [PATCH v9 01/13] set_memory: add folio_{zap,restore}_direct_map helpers
-To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
-	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
-	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
-	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "riel@surriel.com" <riel@surriel.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
-	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
-	"maobibo@loongson.cn" <maobibo@loongson.cn>, "prsampat@amd.com" <prsampat@amd.com>, 
-	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
-	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
-	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
-	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
-	"hca@linux.ibm.com" <hca@linux.ibm.com>, 
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
-	"pjw@kernel.org" <pjw@kernel.org>, 
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
-	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com" <jackmanb@google.com>, 
-	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>, 
-	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>, 
-	"Manwaring, Derek" <derekmn@amazon.com>, "Cali, Marco" <xmarcalx@amazon.co.uk>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
+ resume
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Tao Wang <tao03.wang@horizon.auto>
+Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, horms@kernel.org, kuba@kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mcoquelin.stm32@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com
+References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
+ <20260115070853.116260-1-tao03.wang@horizon.auto>
+ <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
+ <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
+ <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-"Kalyazin, Nikita" <kalyazin@amazon.co.uk> writes:
+Hi again,
 
-> From: Nikita Kalyazin <kalyazin@amazon.com>
->
-> These allow guest_memfd to remove its memory from the direct map.
-> Only implement them for architectures that have direct map.
-> In folio_zap_direct_map(), flush TLB on architectures where
-> set_direct_map_valid_noflush() does not flush it internally.
->
-> The new helpers need to be accessible to KVM on architectures that
-> support guest_memfd (x86 and arm64).  Since arm64 does not support
-> building KVM as a module, only export them on x86.
->
-> Direct map removal gives guest_memfd the same protection that
-> memfd_secret does, such as hardening against Spectre-like attacks
-> through in-kernel gadgets.
->
-> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
-> ---
->  arch/arm64/include/asm/set_memory.h     |  2 ++
->  arch/arm64/mm/pageattr.c                | 12 ++++++++++++
->  arch/loongarch/include/asm/set_memory.h |  2 ++
->  arch/loongarch/mm/pageattr.c            | 16 ++++++++++++++++
->  arch/riscv/include/asm/set_memory.h     |  2 ++
->  arch/riscv/mm/pageattr.c                | 16 ++++++++++++++++
->  arch/s390/include/asm/set_memory.h      |  2 ++
->  arch/s390/mm/pageattr.c                 | 18 ++++++++++++++++++
->  arch/x86/include/asm/set_memory.h       |  2 ++
->  arch/x86/mm/pat/set_memory.c            | 20 ++++++++++++++++++++
->  include/linux/set_memory.h              | 10 ++++++++++
->  11 files changed, 102 insertions(+)
->
-> diff --git a/arch/arm64/include/asm/set_memory.h b/arch/arm64/include/asm/set_memory.h
-> index 90f61b17275e..d949f1deb701 100644
-> --- a/arch/arm64/include/asm/set_memory.h
-> +++ b/arch/arm64/include/asm/set_memory.h
-> @@ -14,6 +14,8 @@ int set_memory_valid(unsigned long addr, int numpages, int enable);
->  int set_direct_map_invalid_noflush(struct page *page);
->  int set_direct_map_default_noflush(struct page *page);
->  int set_direct_map_valid_noflush(struct page *page, unsigned nr, bool valid);
-> +int folio_zap_direct_map(struct folio *folio);
-> +int folio_restore_direct_map(struct folio *folio);
->  bool kernel_page_present(struct page *page);
->
->  int set_memory_encrypted(unsigned long addr, int numpages);
-> diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-> index f0e784b963e6..a94eff324dda 100644
-> --- a/arch/arm64/mm/pageattr.c
-> +++ b/arch/arm64/mm/pageattr.c
-> @@ -357,6 +357,18 @@ int set_direct_map_valid_noflush(struct page *page, unsigned nr, bool valid)
->  	return set_memory_valid(addr, nr, valid);
->  }
->
-> +int folio_zap_direct_map(struct folio *folio)
-> +{
-> +	return set_direct_map_valid_noflush(folio_page(folio, 0),
-> +					    folio_nr_pages(folio), false);
-> +}
-> +
-> +int folio_restore_direct_map(struct folio *folio)
-> +{
-> +	return set_direct_map_valid_noflush(folio_page(folio, 0),
-> +					    folio_nr_pages(folio), true);
-> +}
-> +
+On 15/01/2026 22:04, Maxime Chevallier wrote:
+> Hi,
+> 
+>>
+>> I've just run iperf3 in both directions with the kernel I had on the
+>> board (based on 6.18.0-rc7-net-next+), and stmmac really isn't looking
+>> particularly great - by that I mean, iperf3 *failed* spectacularly.
+>>
+>> First, running in normal mode (stmmac transmitting, x86 receiving)
+>> it's only capable of 210Mbps, which is nowhere near line rate.
+>>
+>> However, when running iperf3 in reverse mode, it filled the stmmac's
+>> receive queue, which then started spewing PAUSE frames at a rate of
+>> knots, flooding the network, and causing the entire network to stop.
+>> It never recovered without rebooting.
 
-Was going to suggest a _noflush suffix to these functions, but saw
-Aneesh's comment that these functions actually do flush_tlb_kernel [1]
+ [...]
 
-[1] https://lore.kernel.org/all/yq5ajz07czvz.fsf@kernel.org/
+> Heh, I was able to reproduce something similar on imx8mp, that has an
+> imx-dwmac (dwmac 4/5 according to dmesg) :
+> 
+> DUT to x86
+> 
+> Connecting to host 192.168.2.1, port 5201
+> [  5] local 192.168.2.13 port 54744 connected to 192.168.2.1 port 5201
+> [ ID] Interval           Transfer     Bitrate         Retr  Cwnd
+> [  5]   0.00-1.00   sec  0.00 Bytes  0.00 bits/sec    2   1.41 KBytes
+> [  5]   1.00-2.00   sec  0.00 Bytes  0.00 bits/sec    1   1.41 KBytes
+> 
+> x86 to DUT :
+> 
+> Reverse mode, remote host 192.168.2.1 is sending
+> [  5] local 192.168.2.13 port 47050 connected to 192.168.2.1 port 5201
+> [ ID] Interval           Transfer     Bitrate
+> [  5]   0.00-1.00   sec   112 MBytes   935 Mbits/sec
+> [  5]   1.00-2.00   sec   112 MBytes   936 Mbits/sec
+> [  5]   2.00-3.00   sec   112 MBytes   936 Mbits/sec
+> 
+> Nothing as bas as what you face, but there's defintely something going
+> on there. "good" news is that it worked in v6.19-rc1, I have a bisect
+> ongoing.
+> 
+> I'll update once I have homed-in on something.
+> 
+> Maxime
 
-Reviewed-by: Ackerley Tng <ackerleytng@google.com>
+So the bisect results are in, at least for the problem I noticed. It's
+not certain yet this is the same problem as Russell, and maybe not the
+same as Tao Wang as well...
 
->  #ifdef CONFIG_DEBUG_PAGEALLOC
->  /*
->   * This is - apart from the return value - doing the same
->
-> [...snip...]
->
+The culprit commit is :
+
+commit 8409495bf6c907a5bc9632464dbdd8fb619f9ceb (HEAD)
+Author: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Date:   Thu Jan 8 17:36:40 2026 +0000
+
+    net: stmmac: cores: remove many xxx_SHIFT definitions
+    
+    We have many xxx_SHIFT definitions along side their corresponding
+    xxx_MASK definitions for the various cores. Manually using the
+    shift and mask can be error prone, as shown with the dwmac4 RXFSTS
+    fix patch.
+    
+    Convert sites that use xxx_SHIFT and xxx_MASK directly to use
+    FIELD_GET(), FIELD_PREP(), and u32_replace_bits() as appropriate.
+    
+    Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+    Link: https://patch.msgid.link/E1vdtw8-00000002Gtu-0Hyu@rmk-PC.armlinux.org.uk
+    Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+
+Lore link :
+
+https://lore.kernel.org/netdev/E1vdtw8-00000002Gtu-0Hyu@rmk-PC.armlinux.org.uk/
+
+I confirm that iperf3 works perfectly in both directions before this commit,
+and I get 0 bits/s when running "iperf3 -c my_host" on the DUT that has stmmac.
+
+Looks like something happened while cleaning-up the macros for the various
+definitions.
+
+Unfortunately it's getting late here, I'm not going to dig any further
+tonight :(
+
+Thanks,
+
+Maxime
+
+
