@@ -1,157 +1,280 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466FA3A1E63;
-	Thu, 15 Jan 2026 15:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E93A345758
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 16:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768492532; cv=none; b=VTm1VYFFIx/JI+mw9sjDh+mB8/NgDwo8PrXsxw4CjtUqs5JTu36ov1eAbK9BJCYSrst+KlMaMM/+mksTs1bo/7H0QfX6Z63q1kushony8HRgji/CJNIuV2jCh/+x3J+O7LZRlsoUENNvJcMwo68451BU3eN9GOjKVygx8Lab6nc=
+	t=1768493426; cv=none; b=EiZEFHHLV6iAhwJtjObOEDvFe8dbg7pTHEJ0yNFSGx8PgwspYofKVjrZs8FzIJci/GzQPh/WFl3oQyVhm4NgVnd+rZJ7HS9NkzQPAofV6ShgN6FFpVGCk9ulBLSHMxOQkMhDbGbPbBYnBLaofN+EizIDn7tkW6QnwLjei0bD1xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768492532; c=relaxed/simple;
-	bh=46BFkTdwtLapqZHArkx23WouduY4BLv38XWs7Y82E7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ECueSyTIRNEWFH7spDB5ZT7QqlZNIDoxw4jdj6pGePkKhKvzd80g8YJuSfZNRiByUwzoV3u/qOonvCOJMjKkByRffWebxQEtRFWqPCy21wxpgPShTGZv4pKhEap+/0l0rXM4UYeveRlj5h0UkOpAssQYFWYa8wHEL6/v6fRhB/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O2rIC7Vp; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768493426; c=relaxed/simple;
+	bh=4ukEu6Htb08KeJpFPdqBiNp0aFZktOCLUSGBYIRzOmw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LGUE+gDbdzBGCUNGzfWXJ4olXganQYOtS9tqvV0qJxnGGaFJ2FP7H8eaW56Oanes47EhWQMadjPxw0fWgeb+T6fLFMhrjzafQ9D2Avm9xA1IJfKCzZRoC3qCPLOSDgV9nvYzSsFnz6Raleg/Hc/auyrQN6uCWAQf/AhTftJyJ+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWwQYfVN; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O2rIC7Vp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=q5bkL3Phvitbtx1bT4hfJIq6tZnmxPD0rFJlAMAShJ4=; b=O2rIC7VppOmyI4NJVqpXeNx1ps
-	9E8lXOJndmHISi9czu2yHfSrQTRbYobUU55b39rEMzyDlLR6z+C4bKlMldkk0zKZcDtVQyRXirthW
-	KI1r01BntklxKvuUMRRrhgmfBmFnpmdmRgaKJwlaz+Qr95fzmRdU8AMMwVYhCB/fCB/gyfRfTEhdL
-	oCCHfn5loLBrr7rjqMykoBHhlmKOfS1Z5lF7LMiDAfY3TLvCDDF6etTTuk+ncZAGMIu/wScOPq3Qt
-	ysh0B8nLJ2h3UIs60lSbHici2O7xcYYlHYyatawLyoOOL6mJoOtWjhMKRYG6tjN8XoPCMrGZHt0W7
-	BP1PTC9g==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgPgp-00000007w8N-2zaT;
-	Thu, 15 Jan 2026 15:55:15 +0000
-Date: Thu, 15 Jan 2026 15:55:15 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"oupton@kernel.org" <oupton@kernel.org>,
-	"joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-	"vbabka@suse.cz" <vbabka@suse.cz>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>,
-	"ast@kernel.org" <ast@kernel.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>,
-	"eddyz87@gmail.com" <eddyz87@gmail.com>,
-	"song@kernel.org" <song@kernel.org>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>,
-	"jolsa@kernel.org" <jolsa@kernel.org>,
-	"jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>,
-	"peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"riel@surriel.com" <riel@surriel.com>,
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"jgross@suse.com" <jgross@suse.com>,
-	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"coxu@redhat.com" <coxu@redhat.com>,
-	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>,
-	"maobibo@loongson.cn" <maobibo@loongson.cn>,
-	"prsampat@amd.com" <prsampat@amd.com>,
-	"mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-	"jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-	"alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-	"chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"dev.jain@arm.com" <dev.jain@arm.com>,
-	"gor@linux.ibm.com" <gor@linux.ibm.com>,
-	"hca@linux.ibm.com" <hca@linux.ibm.com>,
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>,
-	"thuth@redhat.com" <thuth@redhat.com>,
-	"wyihan@google.com" <wyihan@google.com>,
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
-	"vannapurve@google.com" <vannapurve@google.com>,
-	"jackmanb@google.com" <jackmanb@google.com>,
-	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
-	"patrick.roy@linux.dev" <patrick.roy@linux.dev>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>,
-	"Itazuri, Takahiro" <itazur@amazon.co.uk>,
-	"Manwaring, Derek" <derekmn@amazon.com>,
-	"Cali, Marco" <xmarcalx@amazon.co.uk>
-Subject: Re: [PATCH v9 01/13] set_memory: add folio_{zap,restore}_direct_map
- helpers
-Message-ID: <aWkN4yzwPtotaTeq@casper.infradead.org>
-References: <20260114134510.1835-1-kalyazin@amazon.com>
- <20260114134510.1835-2-kalyazin@amazon.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWwQYfVN"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0bae9aca3so7432425ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 08:10:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768493421; x=1769098221; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zkxDR5udwN4n/Bv1rkRa8kZ2WADSPaLS60MQgSZ2YU0=;
+        b=mWwQYfVNO0DSk6+fzD4AhgxQznp/z1Xd6SDJ9wStNseEBuY6nqo861rJHl83dRD/vF
+         3q4LWreg4jF59UNtETRTb8tqb9Qg7ddbazpNE25z8rtRI/GIL+wn/f3Q0qAy9vWsOz44
+         h6F1GsSZXr5Su80xm/fPaRn28k0sK424izO7y1y2pjjLUz1Y6/8vUVF1dFNICmi1kjJP
+         eYKJXKVP3X0XTmMr9Ruum9E3lEoaejv7OGSZDJ3XL1KoBdoEvtGHfx5l8D2AkiYPxe8G
+         x8qvdvF2XJrnntudwlmOie+oX57XLv/C9ng3kmHjyzEeA5FrvE8a0+DrhgPfeZ5rSG2s
+         5fog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768493421; x=1769098221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zkxDR5udwN4n/Bv1rkRa8kZ2WADSPaLS60MQgSZ2YU0=;
+        b=Tnx2Rm47xU1uPqBKOO3ejRNpIGYwuLQpkPzA1ZkJJPk4gQuaZFJ7P9QKztDOCOlPCS
+         GabM8WsZxiy0vg/agu1QyJERwvLV5nOIi2/bs4yu/3c00udcGl4QPMW+A76bhet49Urw
+         y6yF8ieh6OA/NYNLicRbT9V8N9CSRZNO8n+qmaDQfGTqH7toO/4IPMZJCRo9vP+zSuAZ
+         dx6mVAPcVgRqC6Cu1Uovu4VCk1WNS+Z0ut1lb591XYmIgwj7aanApeAFXWkXTXvJohvD
+         mepsC3ruAjSxP8W5JhGgXC6f+e8a8iIw4VeSfBcRmljyOvM3Wwk+BucK3ZJit0MCneoF
+         wd9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUKfXsNqIHFEvie8nLQdu3zkR5OPHRa2L53OstE4425yrY+YrzeZaXtdVL/NcUAr9e18EwYcQ0peBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFKPWf3NqaDs1ysJviUbXadXBH7v9XyVqDttvn/COPFFHiU3gn
+	w9uOrtBqQv0avRynP3PS3s3ZTIT5RPeKdR7ReqJ8tZT/G3seJ+FB6QP9
+X-Gm-Gg: AY/fxX7xhJygiR4R6qtWx+lf9WDbRDK93C1GgpDB57OQcL8Vk0hZWngZE6c7d61qK9x
+	5ziux3a+SKHkh/OmZGKGSSxgyYDiKwX9IyxzqaD+n7Ewe+9v5D5oM0Qm32X8dR4N5CPujOge9rH
+	0NqmftI9TidOpK431LnKcEW5o3unTxKd6KxKVt7GaLCySwf0AZCs7qiL/f/wk5wBY6tb9rBiJyn
+	GTo5KyLZR9fZy8w3drweB7CAtfPZuLy23qxRTrl0VFV7ecr8AFf1f6AJZ/elS/7ldtpiDP/w2Fd
+	J5wpO8dwZ0I+ZgyFLKAdFDWtzlHKRsX2wbN1uKJ6YpdIfJiKzzijU+404HxZsCpcZGk1UQXumk/
+	jEyVhohW9X/8hBKEv554z0BkKsZ9QK0ClZux3+r+fwCNrnhP8bJRgA/uAgGvp2gErqE9kIXEFN+
+	SVgyq0Vq9divk4UDnV66v6LeJFBmx4kt3S
+X-Received: by 2002:a17:903:41cd:b0:2a0:ba6d:d101 with SMTP id d9443c01a7336-2a717537551mr346625ad.21.1768493421190;
+        Thu, 15 Jan 2026 08:10:21 -0800 (PST)
+Received: from DESKTOP-P76LG1N.lan ([42.114.215.169])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d88sm258523195ad.52.2026.01.15.08.10.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 08:10:20 -0800 (PST)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	gregkh@linuxfoundation.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v22 0/2] leds: add new LED driver for TI LP5812
+Date: Thu, 15 Jan 2026 23:10:11 +0700
+Message-Id: <20260115161013.40706-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114134510.1835-2-kalyazin@amazon.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 14, 2026 at 01:45:23PM +0000, Kalyazin, Nikita wrote:
-> +int folio_zap_direct_map(struct folio *folio)
-> +{
-> +	return set_direct_map_valid_noflush(folio_page(folio, 0),
-> +					    folio_nr_pages(folio), false);
-> +}
+This patch series adds initial support for the TI LP5812,
+a 4x3 matrix RGB LED driver with autonomous engine control.
+This version provides a minimal, clean implementation focused
+on core functionality only. The goal is to upstream a solid
+foundation, with the expectation that additional features can
+be added incrementally in future patches.
 
-The implementation isn't the greatest.  None of the implementations
-of set_direct_map_valid_noflush() actually do anything with the struct
-page; they all call page_address() or page_to_virt() (fundamentally the
-same thing).  So converting folio->page->address is a bit inefficient.
+The driver integrates with the LED multicolor framework and
+supports a set of basic sysfs interfaces for LED control and
+chip management.
 
-It feels like we should change set_direct_map_valid_noflush() to take a
-const void * and pass either page_address() or folio_address(), depending
-whether the caller has a page or a folio.  What do you think?
+This version contains only the remaining driver and documentation
+patches. The DT binding patch included in earlier versions has
+already been applied to for-leds-next.
+
+The series is rebased onto:
+https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git (for-leds-next)
+
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v22:
+- Rebased onto for-leds-next. No functional changes.
+- Dropped the DT binding patch (already applied)
+- Link to v21: https://lore.kernel.org/linux-leds/20260111135519.28112-1-trannamatk@gmail.com/
+
+Changes in v21:
+- Rebased onto Linux Next. No functional changes.
+- Link to v20: https://lore.kernel.org/linux-leds/20251221041950.4631-1-trannamatk@gmail.com/
+
+Changes in v20:
+- Rebase on v6.19-rc1
+- Link to v19: https://lore.kernel.org/linux-leds/20251130153956.241375-1-trannamatk@gmail.com/
+
+Changes in v19:
+- DT bindings: Reverted to v17, as making `label` required in v18 was incorrect.
+- Driver: Drop validation code enforcing parsing of the optional `label` property.
+- Driver: Renamed unions for clarity: replaced u_scan_order { s_scan_order, scan_order_val} with
+  lp5812_scan_order { bits, val }. Applied the same pattern to the drive-mode union.
+- Driver: Updated all code to use the new `bits` and `val` fields.
+- Documentation: Fix links (remove backticks, add `.rst`) and make attribute formatting consistent.
+- Link to v18: https://lore.kernel.org/linux-leds/20251123191042.116917-1-trannamatk@gmail.com/
+
+Changes in v18:
+- Mark `label` as required for all LED nodes for proper sysfs naming, including single-color
+  (led@[0-3]) and multi-color parent nodes (multi-led@[4-7]); remove previous Reviewed-by tag.
+- Simplified parse_drive_mode() logic: replaced nested if checks with continue to reduce indentation.
+- Use leds[i] instead of each in lp5812_register_leds() for clarity.
+- Remove wrapper function lp5812_auto_dc()
+- Define all magic numbers.
+- Handle parsing properties safely and removed unnecessary pre-initialization.
+- Rename lp5812_of_populate_pdata() to lp5812_of_probe().
+- Save chip in i2c_set_clientdata(), not led; use leds instead of led for the array in lp5812_probe().
+- Remove chip register map structure; use register addresses directly.
+- Minor formatting, blank line, comment clean-ups, and add email to MODULE_AUTHOR().
+- Link to v17: https://lore.kernel.org/linux-leds/20251021155927.140929-1-trannamatk@gmail.com/
+
+Changes in v17:
+- Dropped direct_mode from ti,scan-mode property.
+- Updated logic so that omitting ti,scan-mode now implies direct-drive mode by default.
+- Refactor lp5812_parse_led_channel() to simplify function arguments.
+- Mark lp5812_cfg as const since it contains only static configuration data.
+- Link to v16: https://lore.kernel.org/linux-leds/20251013173551.108205-1-trannamatk@gmail.com/
+
+Changes in v16:
+- Renamed property 'ti,operation-mode' to 'ti,scan-mode'.
+- Simplified allowed values using regex pattern instead of long enum list.
+- Updated description accordingly and noted 'direct_mode' as default.
+- Updated core driver to match the binding change.
+- Link to v15: https://lore.kernel.org/linux-leds/20251005153337.94025-1-trannamatk@gmail.com/
+
+Changes in v15:
+- Removed all custom sysfs attributes; driver now fully relies on standard LED multicolor class interfaces.
+- Added new device tree property `ti,operation-mode` to configure direct, TCM, and mix scan modes.
+- Dropped previous Reviewed-by tag from the binding patch due to property addition.
+- Removed ABI documentation since no new sysfs entries are created.
+- Updated lp5812.rst documentation accordingly.
+- Link to v14: https://lore.kernel.org/linux-leds/20250907160944.149104-1-trannamatk@gmail.com/
+
+Changes in v14:
+- Replaced inline constants with proper macros for readability and maintainability.
+- Refactored lp5812_read() and lp5812_write() to simplify logic and improve clarity.
+- Updated lp5812_fault_clear() to use switch() instead of if/else chain.
+- Refactored parse_drive_mode() for cleaner logic, removed string parsing of concatenated data.
+- Updated activate_store() and led_current_store() to replace strsep()/kstrtoint() parsing with sscanf().
+- Removed redundant comments and renamed variables for better clarity.
+- Link to v13: https://lore.kernel.org/lkml/20250818012654.143058-1-trannamatk@gmail.com/
+
+Changes in v13:
+- Fixes build warnings reported by kernel test robot:
+  - Inconsistent indent in lp5812_probe()
+  - Uninitialized variable 'ret' in lp5812_multicolor_brightness()
+- Drop of_match_ptr() and directly assign of_match_table, as the driver is DT-only.
+- Link to v12: https://lore.kernel.org/lkml/20250728065814.120769-1-trannamatk@gmail.com/
+
+Changes in v12:
+- Reordered helper functions above lp5812_probe() for better structure.
+- Clarified DT-only support by removing fallback paths and i2c_device_id table.
+- Directly assign platform_data to the correct pointer instead of relying on
+  string comparisons (LP5812_SC_LED, LP5812_MC_LED) and container_of() casting.
+  This simplifies the logic and avoids unnecessary type checks.
+- Removed redundant messages.
+- Update ABI documentation to reflect reduced feature set.
+- Link to v11: https://lore.kernel.org/lkml/20250714172355.84609-1-trannamatk@gmail.com/
+
+Changes in v11:
+- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
+- Simplify LED parsing to use a unified path.
+- Clean up and streamline code
+  - Use alphabetically ordered includes
+  - Remove redundant comments
+  - Fix style issues (e.g., comment capitalization, code placement)
+- Update ABI documentation to reflect reduced feature set.
+- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
+
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
+
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
+
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
+
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
+
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
+
+Nam Tran (2):
+  leds: add basic support for TI/National Semiconductor LP5812 LED
+    Driver
+  docs: leds: Document TI LP5812 LED driver
+
+ Documentation/leds/index.rst       |   1 +
+ Documentation/leds/leds-lp5812.rst |  50 +++
+ MAINTAINERS                        |   5 +
+ drivers/leds/rgb/Kconfig           |  13 +
+ drivers/leds/rgb/Makefile          |   1 +
+ drivers/leds/rgb/leds-lp5812.c     | 642 +++++++++++++++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h     | 172 ++++++++
+ 7 files changed, 884 insertions(+)
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
+
+
+base-commit: 33e822f6f4eba2cfbd09ffd080af221cf8c542b2
+-- 
+2.25.1
+
