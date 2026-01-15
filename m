@@ -1,123 +1,118 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F34341AD7
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768467791; cv=pass; b=itwxt59GN7h9KmmaNOWT/GafAj2A/WwvIXupTkGCaC+eyaBaUMg4fEtVXOQi2xLV+oalmXUXkUCxrygtThDglTLC1j8Ww+u8pk+zptmCg2qrGSBDmtGCacFCzRReOagmwlf4rd2j1+9UDsHSde1h+4CCy3UsNTH+4mQSACeFBm4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768467791; c=relaxed/simple;
-	bh=03g5GHo7VUuroNdnNffpeJG0qnrQfvR4X6uMf/z1OKw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480643557EF
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768468552; cv=none; b=Of2rXjLx2zNHufoZERkddrZfynOyf8IcYirrL6GM0ZafnzvtygbayMCC+aGR/vLyVoajzV4GEIsDMads9tkxWtlTlaiT53fhUrgpeBw7zqbRDJ+2R3fcgFxr64RFGELvaHkTcp7tdNwyPinpELZP8fFqQpiEuza9Vf+u4rmLLd4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768468552; c=relaxed/simple;
+	bh=eBA8tsm8Ni+Bzi7zcKnL4RYHAwSwHYdeZQ5yl9+veto=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MqwlZRNoT+D/XX4vzuuj2yUd7aFPuG2S3eyPJUfZbOi5liGhW4KGaeoDERi3c79wALN82CoNFFNO8kVBvaAj1hXGz42VfA0zng1AKTH4PEBJxjT3I+60Za26C+DAwvhNMyKQCod7+ZQFpz89Obqrtmvl+6JPTmuIoaZeNqTKFh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y+TIzgsj; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=HQO4uJC8LH9sgcTQIEdmCFIrz1n9Es8w87v7oIdTgrobX3YnIjwj5CoQiMGwy14AjzMyf6kDUOwuuR7tWrWBzGUlT8MhlZQJq6Z2CXkStL+FkAPW77f0HvbWC4p/s6It7B8Pjz44sWKY28cZu0BMt+61IUSa0HnaYYGROtSFzg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=man7.org; spf=pass smtp.mailfrom=man7.org; dkim=pass (2048-bit key) header.d=man7.org header.i=@man7.org header.b=vw8YkUzL; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=man7.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=man7.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y+TIzgsj"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-501511aa012so446301cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 01:03:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768467788; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XrIzcIulBKAGx3veK1svkvYexg298n7VQtu5VNcSNqcES/E7XT3NPsTLk+CwZ7r4Eb
-         AJqZkBbz43cEfqKYgp2R1zYA+QH/S7JfoIaLjontu9hRX40WAdkCxAlyOwmZQJW87mHy
-         q6xkQc/m+kzdeSej2tHOSfh/cd6gV2HDFeebhFUKaB21WXyRfWH/Px+RCsSjcMGnYZA6
-         /umccuzdIjvUU2fPtXn9vK9mKw+URg9GeL4oE/hn7vK1d7QCZw2jgJQN+2PmlqmitFPj
-         TRMf+hxt8z7UhZKXFFJpM+0cOFd5QlEEwQiWFFPJf/733VDnpUDfuYtfkUtGsPCc+pjm
-         tO6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jaHTBHlKT0XpapwOdZ2HklxNZ/MZMO/Ynn29Wqw5zNk=;
-        fh=J1tJBemr2X5XJhcN0KaaKEd0KJd1AfhLIlhTZPStoTo=;
-        b=fKI3FHlmfPatlqWVFihAJycGrx9KyBzZjbmGH5yDSXMAGWiBCdMoWD49y+FwBLLucA
-         zQWPL7bGQNLsK/ORzHCSMGcnoRHgatzMFi/n3wpertTk4fmw6thpY7XgfajRpgz6EmPz
-         LtuHuM6EwIlMT8yivf93x7SA+mfa3mGVFhIU+Hf+dLibYoWbSaUekZI3853S9zEzVm6r
-         nuRHC5Xc9tEEgOY7cIHeBPSdYLlXVDfx4mJj9CHAS9CvTkZVoLVmg4Qkk0MFLWaEkbx+
-         LehfywBHIV523/WgtB+XdOCtQ5wX26e8UmRNS1wDXaBVimVL9O4GXcEzHDJF3NygXnbT
-         jaqg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=man7.org header.i=@man7.org header.b="vw8YkUzL"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-430f57cd471so412812f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 01:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768467788; x=1769072588; darn=vger.kernel.org;
+        d=man7.org; s=google; t=1768468547; x=1769073347; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jaHTBHlKT0XpapwOdZ2HklxNZ/MZMO/Ynn29Wqw5zNk=;
-        b=Y+TIzgsjwX0wqyLVxHk1V9ZPIbOXuA9OZSYYibpJez1wFrkQujaRFOo5p1sGkl6fgj
-         LU6bpaiZtR9+7pL1gjOyJyuMOP3+ihoibFETGmuyNoIdjWuuJMXbCyr4Z0P90eaN3eQB
-         h9hvaEOE47igHK8xd1x0aJZVoURBgg5zQ7CWNpwwoIkD6AXlhTuUDHnNPS+rm+VV+NH9
-         8rZx9qCAkzjg7MVA5OjbSq2lhVvt5AN48pR3jVKYjqHQbBmAnYwClOtgLMh9YaWZ83Ui
-         JF5XEiFMQsi2pbet37O5LZz/pNq7yUnZnGk3uMpUT9MGOrDvvI6oquIOHZwLBBodRCBc
-         rtnA==
+        bh=BYtcx+RwYO0dJCrZBAUZVpy+SKZ7vWAN8Ja1SpojGhk=;
+        b=vw8YkUzL9fa/YB+47m8jCTaVoW4/Yo3cE5L08uthw2Xdnwlhzl5godSFXr7U6Fb9Ka
+         fhxNs4KS0C8UvY0wacGDJq7KYG9AsOWqHRGCZWuMyt1Cajh3Huf+sQpnfbPMV/l69cve
+         ZvZkHgKSNvlLUVnRJev01GcBBCLLYaI8ORREGCUhzXEKeC0SKtHr97n1en4hVvOv06Ks
+         5Vvark5zQ+9uGakCPolCEeKDxTyV7bLPFoqk8KmpWgvbRtPU8oKyfAQ7kPftfsdMUTGl
+         IxbKl2t+OhQ5sKZjWW+1nH3eb1tLPGXfWfMvGyYK8rmgGg48uCeyTCYhz/da538Oxr95
+         aUlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768467788; x=1769072588;
+        d=1e100.net; s=20230601; t=1768468547; x=1769073347;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jaHTBHlKT0XpapwOdZ2HklxNZ/MZMO/Ynn29Wqw5zNk=;
-        b=MW8OFxKX/bgif4ICdyCpZsPYmOAGzPP6KRzvhE3zPhyPyOjCdxjQqGSBEGFKiKiGHu
-         tVQHSKu+ye6QwLYU+qYzFm0X6BPZErabO3490u+SHGpjx+nuLYN03LEMA+8vNJ0YFvTB
-         pa7Jz/QbxqAT+WbGlG2NpN5BgfBWTo3DBC0KjeFtk3PnRlDlkgKpA1yTrLiEsNhRasC7
-         O7XySPhkGVjzFadQ0qE1LhPkr06SMCvgD8+0+taHOPi+4tkPjpPboJ3hrGSbSOmvACKM
-         3Vf/VtzcdkYXM1xfRMrYB/618zk9XAQevsGgPZhuJ/murYllQuaAk0ptrm0dMC9qEviI
-         t7dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURUITBWYvw1eL8tUvhNuDg573t14gNW28VzSSDzUyTQj8VGXcvR2JGDaBDaGLOcV3TOqY2yt29ntw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ3tMPYvq8acjCEMYXbbKg0HAyFfGHSYF7MG1NoffL80WzKWs6
-	+VEmxL6e6gvOIHFV1X1eKAWlhGIhwGi2x1+yoB3Nl9qsRNDZjl/0ZTyoIne4h924bVIBdJrLJyF
-	c6594pPryn2EGZoFSB0PUCISycSbQhFLQOavaT82U
-X-Gm-Gg: AY/fxX7L6TjvHluER7WR0uxT9wRM21Ei0OGJ4uAen7exOa2lug3JqYnMX7LwiJNZm2u
-	BE+IzyFfP4qU++RTrU4vsHwAfDszgigFWus1goLPG52QEZF200o2jbeGfQrSy/EwynbYuEajHkA
-	7jkOXGyI10UGAbfNj9HsNA3fysQ4Hv+9FHjcnCWlb2awPJ19uVzEhC9oQMyHihG5S41LXLUWJWH
-	WBEr/9Ed+2Ng7dBFkdLXavRpt1z+8FiNZu4BnuAm/ER30rH+nCTtrWmXOGBZhpWs130O6s/
-X-Received: by 2002:ac8:5dd3:0:b0:4f0:2e33:81aa with SMTP id
- d75a77b69052e-5026ed4f925mr5343061cf.11.1768467788106; Thu, 15 Jan 2026
- 01:03:08 -0800 (PST)
+        bh=BYtcx+RwYO0dJCrZBAUZVpy+SKZ7vWAN8Ja1SpojGhk=;
+        b=docrYFloiZtOgs9tV1ZhVvZd4Rmemp0XP/ixUG9VP/7yMsmG8ov+12fNaufMi/M8TT
+         yv9A/ZeWx02Zf8OSWpt8jNHhalsZfApRoZ7zatrbhYxzA+YHMlzul/uAvr38mMXMOqWL
+         mhJWs2Gkds0YV3z1AQ42p86E/6hX9MKzgIR2yiYSiEiTzQRi4HXblFrGcLmSEkroZdMA
+         UozhQ3hf+wZMUNIGUTRQsONQUZREkmXm+PBikd8BYgIJUhDL7aWfFJuO4KscLM3RWkqQ
+         Ml+1ByAkLKz9KmgFX7hwXSJmlqNGdv7Y0zG8lR6oFSZAIzty09x+650TolTupHNNxqtb
+         IAYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaJDTAt/ZArhKrUpumCy82zUHwsCP2PmZMQEKdPIvW6VbNVnGUWIctKSICe++KfhsIF35qB73DUGQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN5ejffczeq1hJ2fJk8SMxVZQBHLvopSKMurrZ1rcT7oxma/DY
+	TspXdzA0XrMyOgoopIOaj8SvbSDg9nC59U/XkyiHBO3osO2lcBrMjgoi825bIFomv7xSf8QFMkm
+	jSqjxQ5LXfWU/5NlZPEDc7iZcN9gWKgfgOClorIcqFg==
+X-Gm-Gg: AY/fxX5w40j2cGSvlhlN/PTjKuE2xV6A9h9SyjYahSNfk2FLCo+EaqKmgiJqetM0vbK
+	2PB3MrdYCZdrHfRQeitDZZ1ShnqWuwr4FK8KeMsRx7hp55dPAJ9G6UkbxNxANBkH0+M+Kovc6z3
+	jKSwbri8g7CVsC1XQIuL0ltnlI1PtcyLg5VjjhG5ro+ClGKviYGKggA+YZojpGaMXcwzRiKX/M8
+	doMaubRGrUgLzbQZ6dBy5J+WQphZgzTj8gxWolcB5yQ9j4RQzOPEo6dQxllNXwMRJWU5mKBbA7Z
+	LT/smxeWOQH86MzC/BiQ0Xol1nYsMZeXg2lRuJ+qSr4ka4dpiU3h4tDja7Yszun2doNvVg==
+X-Received: by 2002:a5d:5d81:0:b0:432:e00b:8669 with SMTP id
+ ffacd0b85a97d-4342c4fc9bdmr5796999f8f.18.1768468546247; Thu, 15 Jan 2026
+ 01:15:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
- <20251223-kvm-arm64-sme-v9-23-8be3867cb883@kernel.org> <CA+EHjTyYcrWwBR0AwwdWFfOSwbmTMOhSee7y_-vrMfOxphrvqw@mail.gmail.com>
- <5a053bb6-5052-4664-b0cb-f05d56d4679d@sirena.org.uk>
-In-Reply-To: <5a053bb6-5052-4664-b0cb-f05d56d4679d@sirena.org.uk>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 15 Jan 2026 09:02:31 +0000
-X-Gm-Features: AZwV_Qg4xCZRn6ebTpsQyf1oiKPYkQGhv7VLsovgzCpdoBOU9QpCHpXoiLQKrWU
-Message-ID: <CA+EHjTwMs6BzZwtcNjyZnxLb9Gs01B1RcDvo1RB-f2w98eMzFQ@mail.gmail.com>
-Subject: Re: [PATCH v9 23/30] KVM: arm64: Context switch SME state for guests
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>, 
-	Eric Auger <eric.auger@redhat.com>
+References: <aWFnRcjl5SogBakq@devuan> <20260114195334.3958694-1-safinaskar@gmail.com>
+ <aWf1cM9SsMuH-Rxi@devuan> <20260115064021.GA436616@pevik>
+In-Reply-To: <20260115064021.GA436616@pevik>
+From: "Michael Kerrisk (man7.org)" <mtk@man7.org>
+Date: Thu, 15 Jan 2026 10:15:10 +0100
+X-Gm-Features: AZwV_QhtBL38pZUjbzNv4YdSdtzT7mhIPkZDEScGNhVGJcIkwRfBS7qgxUKxazQ
+Message-ID: <CAFs=pga-QdXJZZ+X9AbVLnpjWDK6Xpup7085ruALcUNuF1h65A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Documentation: Link man pages to https://man7.org/
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Alejandro Colomar <alx@kernel.org>, Askar Safin <safinaskar@gmail.com>, corbet@lwn.net, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 14 Jan 2026 at 17:28, Mark Brown <broonie@kernel.org> wrote:
+On Thu, 15 Jan 2026 at 07:40, Petr Vorel <pvorel@suse.cz> wrote:
 >
-> On Tue, Jan 13, 2026 at 02:24:56PM +0000, Fuad Tabba wrote:
-> > On Tue, 23 Dec 2025 at 01:23, Mark Brown <broonie@kernel.org> wrote:
+> > Hi Askar,
 >
-> > > +#define sme_cond_update_smcr_vq(val, reg)                      \
-> > > +       do {                                                    \
-> > > +               u64 __smcr = read_sysreg_s((reg));              \
-> > > +               u64 __new = __smcr & ~SMCR_ELx_LEN_MASK;        \
-> > > +               __new |= (val) & SMCR_ELx_LEN_MASK;             \
+> > On Wed, Jan 14, 2026 at 10:53:34PM +0300, Askar Safin wrote:
+> > > Alejandro Colomar <alx@kernel.org>:
+> > > > FWIW, Michael has been following recent releases of the project quite
+> > > > promptly (faster than distros), so it's reasonable to use it.
 >
-> > Similar to what I pointed out in patch 15 [1], I think you need to
-> > preserve the other bits, since SMCR isn't just about the length.
+> > Hmmm, he didn't publish 6.16 yet, indeed.  I hadn't realized.
 >
-> This does preserve the existing bits?  It reads SMCR, masks out and then
-> replaces the length.
+> Ah, pity. From my point was nice that man7.org is non-distro related.
+>
+> > > I don't think so. There is still no open_tree(2) on man7.org .
+>
+> > > I suggest using https://manpages.debian.org/unstable/ instead.
+>
+> > That would be okay, although Debian is sometimes also a bit laggy.
+>
+> > Arch might be more up-to-date when man7.org isn't.
+> > <https://man.archlinux.org/man/open_tree.2.en>
+>
+>
+> > IIRC, Arch has a good track of being the quickest distro to package new
+> > releases of the Linux man-pages project.
+>
+> > In any case, I think either of man7/Debian unstable/Arch is a relatively
+> > good choice.
+>
+> Also openSUSE Tumbleweed:
+> https://manpages.opensuse.org/Tumbleweed/man-pages/open_tree.2.en.html
+>
+> @Jonathan any of these sites you would prefer? (if you like this change)
 
-You're right. Sorry for the noise.
+FWIW, I'll probably manage a refresh in the next few weeks.
 
 Cheers,
-/fuad
+
+Michael
+
+-- 
+Michael Kerrisk, man7.org Training and Consulting
+mtk@man7.org, http://man7.org/training/
+"The Linux Programming Interface" -- http://man7.org/tlpi/
