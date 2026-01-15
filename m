@@ -1,346 +1,240 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011003.outbound.protection.outlook.com [52.101.65.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D92389E0E;
-	Thu, 15 Jan 2026 12:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5931B36B07F;
+	Thu, 15 Jan 2026 12:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.3
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768480387; cv=fail; b=WFw3AroSapeGUvLNtWlBmP92m3puu4f5E9Md4v7ZwwNmAP4A1pRgB+dVWokOQYK3ssoBZ/11YU/qRfE6XKlEecRYaQjb9YVGQ7rZsuCrVP4eRprziKkdDdQKHa0jcv8UH/hr3xZlLbStWt8WlxSfLpTKr4+pYqk+53Kr1tI0IzM=
+	t=1768480389; cv=fail; b=HRpwofWyfQtRXSGPnyUn4+Lg+Y4keQIzCmvBxvuJ1g66cyJ/WFZ83uzxQ7gY9heNmHa+xy6iwdFIl3D8e6Rbh/GL3usRU7VXd4YR9+CKcrVPWWBN5yDc7Nge1uwUwZ0sR9lJqxVMEoP5cmvqRWJzwCWWUkeV5xhf3ec0yS2lmcQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768480387; c=relaxed/simple;
-	bh=uK0vdzcXVC3pxE48zWzzDQlRgUHMsGcYViwHng0htIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=T+iwmYN2nNGmnmtgrs/70ultb0bZyUelFKj8Vjh5RTJPTOLzPBFlFMbog9vwnkqv7GJwmeUNYWu4ICe2e9yXOmwq3JPFerubYeKpoiTUVNMSEr/pXJNDl4vXLzwJK9FYY81CLFFftBVPcfy3+XkwZlwzFRH9Kxc4Y0XYiYRbJ00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=EvAha5WZ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=hk4HkJQs; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1768480389; c=relaxed/simple;
+	bh=8NcgwPK858lXROEZAS0o7zMnbFv3T+sxLAYyExoAX9U=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nv8lvUihYcPcHkh6w61SfGvcxg6M9qmD6Lrj+D9ar/qpog5EeOSygm+0mv4IppZjB8vL25NKIkt1G1t6UMpE0kXjFT14JNojQj/kaAjqflbHPSPsBXmkie+bkD9/IQqxZzFhFtXkvQBykADDs/9rufz7YY2m7mIi/ABznqFreB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=BeLgMqHK; arc=fail smtp.client-ip=52.101.65.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EvAha5WZ";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="hk4HkJQs"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FBqUtH2753003;
-	Thu, 15 Jan 2026 12:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=ulY1xBKscRHXLXWg0c
-	LwVHbhv18BWaM9gdEM3tHo4uc=; b=EvAha5WZxfKff/bVeWiWim83sg9GQKRkIk
-	0gA5XuMT2Q3Dadn9Qyn61INMQkxVY5ObH4bzwhL9Cco/MbiKZkd3HS7fTU68Bs+v
-	ruPWvJuVrmuiWo8xy6ZS8/GTvkyHFNtq/jIcU1Nx2bhUCS7cM5NZKfeG5KDHtiVA
-	3xmmpvXbWvXVqE9k6W5Lb5fm2n1ZTU3VcNUXMcAu4fgN9wl7P2dFu5DTJnYxVUfj
-	WGthfWqdJXANRWOeCzq/usFjR25KKQrKA8chiNijpaDjQPQeQ3cr0CdrLmkea6g1
-	v2Ezi7i/pUVZ2Hv6gsHKwPYLPCJPAcfZxUxOD7ZwcKZ1CVEpqN3w==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkpwgqnb4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 12:32:25 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60FB6G7i004244;
-	Thu, 15 Jan 2026 12:32:23 GMT
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011019.outbound.protection.outlook.com [52.101.52.19])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7n2vpj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 12:32:23 +0000
+	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="BeLgMqHK"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J647XRZYArYyZ1sesuqehOY7wb5xrFgUfL97DZGc5yy/oze1tEuDjacyeCrSey+rY6Kg4SgVmj/dmOD4AY7UMg3AjyFN1JmPsz+gn4oo5UemOZxo3bwSAbd3qM5poaqQwS88iycMWbrlfvkqGWZSK+2Qs0LT7p4WRHuOfxXubZrrlVUMNmBGHRsMbFFjd4NyXzlM2szPevf3A2Mon7dMWskezuRjemYrBZXVrpyoK+he20e6kmTkXuf6+RP67sBlM3XYfNBgewLDjAQ7G3qHSZdKZhf3WpHgx8s3IizVTyTho7vvtG1e9LQMLUW/ZPn+GOnqeSVvIFLXiDYXs7KDtQ==
+ b=LejXdz1T3ssFwZSlzu7ZSj97lfl9Om2soVTioLDQR0z/QcUNJL/u2372f1E6adZI0e5QG7vYNTsFhbsIn0n+4kn4FbuYBFqjryA3m8p8ui2vmfThuC05mWETFzL6IjVV1XUQeokBfP/8v9nwPex8hnCfBWK/7DpGOQj7lyoXDt+XPIM4LumbvjraFoVivrtsaVlgJeiYNUdghPpLmRCojiz6q/T3zASTRabH2yDgeB4ZwG6JvdjvW+1hjBzCLKjPquvglZeKlvEJUgO24+bgqHC1jzLEe4ErbSfE/0e121sVPZyEIkNjVhJcJSqRaDAx/VnyVZKAyG5JawSgGX67nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ulY1xBKscRHXLXWg0cLwVHbhv18BWaM9gdEM3tHo4uc=;
- b=dc8TNnSto7zcEOeKShMycCnGlvP1KVg2Vo8m0RAIDAbPUlC+XrTMi7JQu3uOrXgeSiQ5Jgb6Y1k5+uonfKViBhneb8kFVxB5880w9Qfv7lL/1wAHqVC3dE8AMC6weoC/wGHG6Az4Fx4uWNSVEU8Htm+dz3YpIdi6AN84aIJhYmv2h/HWGPZc5yFOYkmMZv69vXiTpNWOvsnTw5sJ98iLiUhijdxFnu/Gjg+6SZEthwGKvySsuCnML3AiCgS0LdMwF1PdglXY+Sbpa1FjmX4oefU1kjBrLRPeXB3CL6bN5ene135WUKVRA3Q029aPNCChJV7ZefFbX/n3xP5kZtRszg==
+ bh=8NcgwPK858lXROEZAS0o7zMnbFv3T+sxLAYyExoAX9U=;
+ b=Cahm1/+ECSgXcs0OQQ/U925lI0Q5woF+0Xuc1EZx5P78U3V+OZONLcwHFXgRvu7tW/kYyUJR6rlp0lYV3/ZnByDbUgevy4Iw+aAfFZaNulvMwfJraLKgT3iIrK0YnPDT+6iQVOuQaOkzQRKihvKo59OGd8sD/+k1v0DIVvr1rx9lUufivclmhbdoM5xqv5I+hWQLXHO93ZBHA36N9aBsT/xi7mYY4BWZsQs0U36xxdsWQ7V/NLP6e8At2eHrDKgkYqtFd8S8X6v4aIFGQnFoItvBzY67ABELm23aRo+8C1BIPcnwVnYcOIlPPjw9uNC/j3wBuCfQZS/InJIrt/5XNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nokia-bell-labs.com; dmarc=pass action=none
+ header.from=nokia-bell-labs.com; dkim=pass header.d=nokia-bell-labs.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ulY1xBKscRHXLXWg0cLwVHbhv18BWaM9gdEM3tHo4uc=;
- b=hk4HkJQsKkggZfZPM/DBDrKVnkXPPe74QM+x0AM3Jrc9uRxVFTCNRIExiV8Q5weFcQhtOdtUWdbHCi6uHagZvziEpGXL43/+7Li8tojfKcp6tY1YQUKof5AO7rM3WEYo5VSQN7IJMkBgWJwqsFm8/9saGIQlnp4U49s77aZiSWQ=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by SA3PR10MB7072.namprd10.prod.outlook.com (2603:10b6:806:31d::15) with
+ bh=8NcgwPK858lXROEZAS0o7zMnbFv3T+sxLAYyExoAX9U=;
+ b=BeLgMqHKEyHopLFy9/A2FH7mLF1NNXoysTjqQSENyau+xEUckTcp79bxxjfKkEVw6Buf2X1KRJ2a7CpWdkk5UMlcJKI7/TY2H2PjsyjVOjdYBICO3m0bK34Wm4sSv+5LUPQXX86FBdMvrGHvhhzrYliP5QL8XBxLdqUM2OfFb4fkSrkkw8IPGN1y2P8YI4s6lmhmwLGvhAPpGwe8m0dO1vYB2n9U3MR3DyW0zDDDfYYXQbKEq1Aako9SH/aA3xaVl4VwclHkjjvxjHui8e3XKUe7KMOkSGyJL6h5iKaCgxbQdoGl+kuNFboDqSWRwkq1Yo/97KbDkk8L9zXmrSaKWw==
+Received: from PAXPR07MB7984.eurprd07.prod.outlook.com (2603:10a6:102:133::12)
+ by VI1PR07MB10068.eurprd07.prod.outlook.com (2603:10a6:800:1d0::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Thu, 15 Jan
- 2026 12:32:19 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
- 12:32:19 +0000
-Date: Thu, 15 Jan 2026 12:32:22 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-        Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v2 14/23] mm/balloon_compaction: move internal helpers to
- balloon_compaction.c
-Message-ID: <aaf62122-364f-4bbf-91a1-28cfb3805c69@lucifer.local>
-References: <20260115092015.3928975-1-david@kernel.org>
- <20260115092015.3928975-15-david@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115092015.3928975-15-david@kernel.org>
-X-ClientProxiedBy: LNXP265CA0076.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:76::16) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+ 2026 12:33:02 +0000
+Received: from PAXPR07MB7984.eurprd07.prod.outlook.com
+ ([fe80::b7f8:dc0a:7e8d:56]) by PAXPR07MB7984.eurprd07.prod.outlook.com
+ ([fe80::b7f8:dc0a:7e8d:56%2]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
+ 12:33:02 +0000
+From: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com"
+	<edumazet@google.com>, "parav@nvidia.com" <parav@nvidia.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net"
+	<corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
+	<dsahern@kernel.org>, "kuniyu@google.com" <kuniyu@google.com>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
+	"jhs@mojatatu.com" <jhs@mojatatu.com>, "stephen@networkplumber.org"
+	<stephen@networkplumber.org>, "xiyou.wangcong@gmail.com"
+	<xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>,
+	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
+	"ast@fiberby.net" <ast@fiberby.net>, "liuhangbin@gmail.com"
+	<liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"ij@kernel.org" <ij@kernel.org>, "ncardwell@google.com"
+	<ncardwell@google.com>, "Koen De Schepper (Nokia)"
+	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
+	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
+	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
+	<mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>,
+	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
+	<Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
+Subject: RE: [PATCH v2 net-next 0/1] AccECN packetdrill selftest series
+Thread-Topic: [PATCH v2 net-next 0/1] AccECN packetdrill selftest series
+Thread-Index: AQHchXLvLZ9jpF/GoE2EiLZqr4hX4LVSS/cAgAAA3dCAAFJWgIAAi5+g
+Date: Thu, 15 Jan 2026 12:33:02 +0000
+Message-ID:
+ <PAXPR07MB7984DAC49A65444E61206A90A38CA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+References: <20260114162915.94820-1-chia-yu.chang@nokia-bell-labs.com>
+	<20260114151346.734001ac@kernel.org>
+	<PAXPR07MB7984E23DB685074239202CA8A38FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+ <20260114201133.710abe3c@kernel.org>
+In-Reply-To: <20260114201133.710abe3c@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nokia-bell-labs.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR07MB7984:EE_|VI1PR07MB10068:EE_
+x-ms-office365-filtering-correlation-id: 055ce134-f5d0-4ab1-c15c-08de543239b5
+x-ld-processed: 5d471751-9675-428d-917b-70f44f9630b0,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?D1knh5tBnC5DHb4cnljWrPqPhbKep7qpE7szH7aLJt5WSQ4e48py+cXirijs?=
+ =?us-ascii?Q?oo7SkOHYXgr2zx8HJIt5ylh/uCJ8gkd/pz9VrGTMzJHGBIloWLNBkgcCOanw?=
+ =?us-ascii?Q?E0r+oeqzpPg1YcpEwPOe42U/DuBO2afHksZ6eS13enBP+jH+dQ966eSWf4qA?=
+ =?us-ascii?Q?pYNVTtmXUsel6//oo/Avvz23+m1iDmgGZhLVyqcYErWrOOuy9wJcU+0iU7ee?=
+ =?us-ascii?Q?IUNiwkxIDGiSywgRjOfH+SwoASwVLCf95I7W6hNWZz5fSaACOASjE13/awnP?=
+ =?us-ascii?Q?1l1vzca4ipopSL7eGsQZbfmqTxfZZ4otRRxMjI7XES4sgLCk5eN+eHM6koNn?=
+ =?us-ascii?Q?SvDEDHTHQvoAXNMVBbjaGKAwfwtfRfLMoL6veXT+y10R5kvCpOHzAijkNive?=
+ =?us-ascii?Q?f/aDZMDxA5a8i5toe1oQAnik+XQPY4TQk59jq1Rg/UkVT0gkgGmgFNFOsV+w?=
+ =?us-ascii?Q?oX9X6IrtPF0LCPPFlWxeypA7rFg1NBxMG00HsAzkb55gMW6bP7mwzGGCKcoR?=
+ =?us-ascii?Q?jkItBMyQJI88Gm+Mi2hvXUDnmXI+vbuzVloOABNX9Gfhp/PcNY0iVFGFV4ZK?=
+ =?us-ascii?Q?hSjgUv0MHs1PShu4EOAYu08K/VkDiRw1R5PT3cV9/iZ0AKDo+UdrMixeG8dy?=
+ =?us-ascii?Q?Cd1b23WCk4SwTN9HQPeHm+ali/0ubnHQFyVh4khXzQWBD+KYgnGCae6/bAbe?=
+ =?us-ascii?Q?xf4WO57AXUL4IEL+jStmXU50EE2hl+HYkkZfR9+GHgi/AvoT28cLYBvq13jW?=
+ =?us-ascii?Q?kiDb/vRwiXENEwQANZ2uljNsEt7HIalj9uJRT0eZjC0JZAEEMNat+6LtriDm?=
+ =?us-ascii?Q?q9eW9ZCijBxnuh4jtl2tzM2dIbgriuwPAYh88Biz5nYFbd2AsGZsYLYqpHmX?=
+ =?us-ascii?Q?Iaulv8jBzHyyDJzusUDEB2bKwILusxtsBc6zqjaG+JVF1MlVF4FBuKQ5EMbF?=
+ =?us-ascii?Q?MfzzP2eAG0Rm4vJ1PUl33e1VWTR+OwvgYLXwVCfT9vRXtJegkqsZNBMpjZab?=
+ =?us-ascii?Q?NqMrDLB1gFYftXQdPzsdNPqqhsAImJmR7KGESE2cAsdrlj8hLxOph6BRAhm+?=
+ =?us-ascii?Q?AgiLpzZ27QcRuzxAE8hkrMhFRQiRTkAn2XHQVxbCd4yZMTFBuxBTGFsdN4tX?=
+ =?us-ascii?Q?qAd+GajaEUKGydWcSgwo8X4FTlIY+ZPm1AYjHymIZyXX22VNyF3y0hEMcsxO?=
+ =?us-ascii?Q?+DVl57xXihP9dxN2c9QoPMYFGUKj5W6B3GzuOOOB4CvqPPccvCql/FiL1OMv?=
+ =?us-ascii?Q?mp2iIOy4viBaP+k8CYcucLGtDQmyyoob+oAx8z3ltYxT6VN5rZe4QpfthRiu?=
+ =?us-ascii?Q?3/qkArlk5imIPI8KMWi4KjdNZPryPqq/IXMmaQQxoiIRbXBCcaks+9UovMAy?=
+ =?us-ascii?Q?M0My5N4nlDxtTGxFlparHA+wlrjfwRQebCYwoFrQNGNo0azdGmMRSyt+HIoW?=
+ =?us-ascii?Q?N6OEqsogDEmzTF/K+Ezf+ItvKR9hjK+quKagPSVyJ62CnyRybtkqZ4FkrntR?=
+ =?us-ascii?Q?bH/PawmyQUEBUayeKlGCS3vmNUtw76uxTzXttlKCgveMpM8OYYqxHEgAMyRe?=
+ =?us-ascii?Q?+1i/ctj51B+39IndIHYGaQoPEaFeSkphxtm2ioLkMdMfi/YtTmDmADE7DgIM?=
+ =?us-ascii?Q?OGX5U8UrVGme3IW5lQTSxQs=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB7984.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?C1A4ztx8wAbT3PpuNdUd4UYkYqdg4EmKjH0oBl8eBLVfRzV0dACoDevSIMrA?=
+ =?us-ascii?Q?wFJeRdQzZwb0cnYVt1qr/4Zew8dPV+kjPcse/k5xzjKO2Onpr/fr8C3v0nPX?=
+ =?us-ascii?Q?vlfykdH4H4dn2K83fd7orjXCK+j08lPr/9b07eeWIrFNFrrVjLCVKnGt4JaY?=
+ =?us-ascii?Q?GPjhL7aHlhfkafZbWt3BIzcWgPhszZ/fNj7zKEgXEyiDJELHvzzdwKGw1AjX?=
+ =?us-ascii?Q?uUpNahk1mVPg/SFnqCnD2xhTj+dLwLz4DhfAYv3M7IaOiSr3Ra1RqlFTR6Di?=
+ =?us-ascii?Q?LUSA6CO32NKaXQt6L9RDiDEwtLWahsSFMNQzF6TpUzQ9DQ6GeuowL/VMvzpG?=
+ =?us-ascii?Q?mnwpf2bQLp+7kggflRktiVNoUTRWVQu06CfChS57/cFJuzueWcTsKAAJL+Qu?=
+ =?us-ascii?Q?xx8TGx52RsCvkZ+pCd8T8qR1AkqvG9jJetQJHcOA4yRHzNSCLwYfqhwwvU6J?=
+ =?us-ascii?Q?d0/VZM33Ml0qtQS+8+yA4cHlOUDHey3jfjbb+zeQaVEbR1X30WlnpWArEc13?=
+ =?us-ascii?Q?3jyyqowQrp5cyH6OimuWMVYKLIlfhFA1KYsKfjx76ePN4c7wEglc4nUO0Hg0?=
+ =?us-ascii?Q?L48J5T/sN0/mvq3AWepfKbUuwwyRG/7iYnx0eNVT2hR3H0LFDq1rhrRKvObn?=
+ =?us-ascii?Q?CNa8QCq5LmzoXUf4/pDJ0OYuWHWkZw5yNPmEVE0D+MDU4biU1zJf5VKW/gjU?=
+ =?us-ascii?Q?96T/hBVgeCFgmF/haIQJDs0QX6b/C8x50XohA8elGvSQAQUK1WVGSeg1ZiNF?=
+ =?us-ascii?Q?eAMlb/Qlh4bLjIGGwuem0eu0OKX/QMRR0n8MnSPU32ADxz4aM+v2agJqDJsu?=
+ =?us-ascii?Q?QohEXDvNqHZnNn/Kagbf5uv185tULE1wqOOyshW8p14ubGBkQDZxVyn5QL97?=
+ =?us-ascii?Q?xkUt+DFKTwqMISgggmRtlr+v8mayT6Ui0CfWs8O44JjVm7xOrYzAQEp0o7yE?=
+ =?us-ascii?Q?PsbbrGKNRKt1Cp8BLbH3Z/xG1hYVHLhbtgXshjSl20EdN4gsBIb72sjDqV6f?=
+ =?us-ascii?Q?uqbCbX/WqUu0uFaCw7bsnOoqWJrs++mAdYhk0I/jz5Kwk++83eg8vPJouonc?=
+ =?us-ascii?Q?sloEVzwqBiXNTgFPDojYy7cz+bs3vQ5l9E5N9D6bM5YfEXceDQzbSNxAHpr3?=
+ =?us-ascii?Q?HhZIoJwtlnqk8dB1TvpZ9elawXkZh6cvU5S7vy+vzOiFrWJvxgjCxqQrwTM0?=
+ =?us-ascii?Q?sy8KhAYIaDhWJuymVAYxvbrMhzakp7627cLnm/UFgHLe9zjAQEVqa+9gtb6t?=
+ =?us-ascii?Q?mizhpvbKgDpYUhyoro9hl3XCotwSGRgwpYaR0d0p6+9YofCX2yas3x8nkWqW?=
+ =?us-ascii?Q?bcJEr2cN0XGJlFAMSxgeJOX9yotizmNx2RZ31cv7s1R8kRkIwbqplmWof+Bo?=
+ =?us-ascii?Q?E6pvSzwbzn0R5vsUHW0z5H/FJ/6Qcc/VnIustviJOUi4Ft97JECQhwQSh/M9?=
+ =?us-ascii?Q?3uyDOcmTyJHkB9H50f8OwBBGtOukKij66EpLpuUltuvdi5UsyszOjCvMJpdy?=
+ =?us-ascii?Q?eyDyKC4ST5ryM+NOScsvaUSCXP/nymU/rboLcvbiXTc9MZxgEa5v3WOwryH1?=
+ =?us-ascii?Q?MTvxxYIz+/ebpmW3KgMU6PO+WH7a/XTngaVcpp/9GNHnaB/NWFyIj9zz4C+W?=
+ =?us-ascii?Q?eEpmtovqDI68TgnMVCp2N/tfqpQU1js4HUMUR+aEiQwfEdOlgcg/QFtSIATV?=
+ =?us-ascii?Q?4LzrVl1dedT/BgruOFzDXtxo9m20ZPSSGH5QFHs8hGIbBdic6ayRKIx5pwhp?=
+ =?us-ascii?Q?3lEhFlWMfmuJkQzkc8/ee93ErNty4oM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|SA3PR10MB7072:EE_
-X-MS-Office365-Filtering-Correlation-Id: bec5245d-8904-4024-5900-08de54322008
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?1AGlEeHYBZEy/9NoidokYuZLas0J4IKDS3k5T6X+DiNlI7gaTokU9fY0UPmB?=
- =?us-ascii?Q?99KOedXQebtx09oPWYxXY/S012ly3AK6VrgRsveuMc4vBfII38PqQUD/FWjM?=
- =?us-ascii?Q?rXL/NAeAESx5e9r8sPYt2/zmErrWhnSmoSFSxhGCfkpktnuaE014l7g+c3u0?=
- =?us-ascii?Q?4RuzKZCKBNB1BX+mszXlJHbWY6aPrwSQGVgpMU7EoQ20/UMNDMx9waUfV2nL?=
- =?us-ascii?Q?klvyRyJ1pySDe47bKz6asljGhn/hesCwpBzxqxCM5qfCiGicI0W/NB+MUDGc?=
- =?us-ascii?Q?FVfDtfa9gC+2CamvOyb5rsTzbiHc3qvInRUZPA/ITFJQzbrOoywZac2Ezv2v?=
- =?us-ascii?Q?gDzGdafhIleSj0Sc2YM0c9s1t0F2rVeBNsrVy4aiG2Db+WpMYm43J2qZeWbJ?=
- =?us-ascii?Q?RtDYgJagmTZ5GdwYvW37WDE1SN4kZlSMlt6+z09avNGdurkgJYES88Vb0Zvk?=
- =?us-ascii?Q?1ywqN1+Npkr51xAELZZ0CvdEFvIhcAiEcQJGYh6BE+L/1Qw/Tf/pXcgbLDmI?=
- =?us-ascii?Q?RM1PNprLrfQ5ABv2BTDnzGeq7CIQO301CSQZ09YRC5Ph0LQONmyt2ju6YMbx?=
- =?us-ascii?Q?Ri6cHMijvgGDGgyUgiq6TdGnKvnj7EZ0suHCWVB9CBuXwmrAUc/9tMrfv6z4?=
- =?us-ascii?Q?FauAMi9Bq/JTspY6F/cG4RR6/oNm/R8myACusqsvUSRad1uAsnXTNIzbcoBl?=
- =?us-ascii?Q?wczyIiE7X1DZ9nczIVCGRsd/hyOzLFGlS+bGn3gxR6FIVM3cZILX+JpMp+eK?=
- =?us-ascii?Q?gbV1Qt0pbP9CB7ndI5uIF57yVNbOLvy41Kbi+9xAvDp0pE8uHHhHbP0j42Yu?=
- =?us-ascii?Q?XfjOUqHmRrN8+3mcgqq//VHkr9HKFSvdhbUbveOpRETaYogaTrpV1yGRpMwq?=
- =?us-ascii?Q?0gBGpb9km4W8wWG4ZgUtlGAC/sg/8bAiDBlOdHP482MtRodlY7wM4L/NtPL+?=
- =?us-ascii?Q?v5k+4JVOVDdlEF2NI6QD3UvvKh4g2MWDMCvid7jYGhuLWPYRc5qiKtr/Wx9B?=
- =?us-ascii?Q?T0HTVbI7eynjZefIRpP+bTNC1PWJGRcm25a/lLZ8LU+TDluUpc8bEwehPvfp?=
- =?us-ascii?Q?/b3qB4/zgwk8/JZJUoeFNA9Ce0p3CkN61HhADcjBg4BjMaAdeCbQwQhrWDvR?=
- =?us-ascii?Q?ZloBWyTQeOxPZ6JjCqizrXd1qANa5JxyFzWUrEVnL44khaDk9PDyuDHs/4jS?=
- =?us-ascii?Q?RZDiJx4/oei+o5622WmDuHdc1KLn2AUFJFli+r5wb98wuT5yH5z6DGdHYF6c?=
- =?us-ascii?Q?ViyY6MS3jo2LjuUIFpCaVO6PjBdbATGZdiVVUDNd4FlhELHzdEZEt4yj8f4q?=
- =?us-ascii?Q?rraEseV43ge+stgTY+YANCFsIts0ZlKKW5whLx1bEHsiyXwbyXiepLNdSHkE?=
- =?us-ascii?Q?qOp2oZWnoMwbi/SLxpE3r6SER47T1IcUVLo3HMSaIrb4EBSgWYl4o/8NpTAO?=
- =?us-ascii?Q?fvX66zWLuZLa+nnDvSekPfScR+ek9XxJoAX/ysKfIpclwjS6GxHfAtsQB1S0?=
- =?us-ascii?Q?e1O8wfD6yWH0cTMZgyWcB2GtNwb3FlOS4SvGGMlHnQvFLO2ehGV3+gotOAq+?=
- =?us-ascii?Q?8EhFWd+IdF7adaRpn6M=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yQ9+rIpagLb8dAjFYlQU0O0U9576UTZRKVdIBuFPHS6dqukLR7cCVTlFQMhy?=
- =?us-ascii?Q?IvDQLx0LFKE3lLiqOpZjFsxO5APt7eGnrLo4yPToTsnlPVY7wsuJ/hXPwegK?=
- =?us-ascii?Q?8CIJZB+6uLAR2mlTOGFjHozyplxL5ysI0YNIT0nGCoXQZtOk436LupsYPy3V?=
- =?us-ascii?Q?BIw/H7wRnS+MB0LzqX/ixjDEc8GNvof1PCbaNXw2xQ0KwkaJWLapyVZ4Gmzs?=
- =?us-ascii?Q?1RujtD4bm/RI/ZfzKSOJusYeCClL3o5p09HRakMXUSRTJpt9qHnJyrYFM6L+?=
- =?us-ascii?Q?RXck41LbKHcXRZaP6GRtVn+8Pvc/Z8GnDulv+Is0c3PeWJTshnneW3D9LUJH?=
- =?us-ascii?Q?9OnMcz+MvMDy2f/PvKVk9yVpuneVrdOcOdpoIC9/MH09OHu+WUcxobE0+xSX?=
- =?us-ascii?Q?JSND6GM8pnimFPsQocl1gAILDR4nzmWjoQzwlI4Xnqsy+CsYCrDHUf+OzD6I?=
- =?us-ascii?Q?Jc4iyfveD9LBSkgLMxZQ/fy423Ahhv7i/yef2BtDhZ7fqfmznk682VyvDMyN?=
- =?us-ascii?Q?GQpSmAMtAYuALJIUvOVytSfDOvQR7jciHwc5eOnamQzGlD5eLIi1q5fagj1g?=
- =?us-ascii?Q?SqSFM8Qt0uE93rLfgrMjtzbqP3PB0bjiLdpz/zvlkmdwqJt16HYuKs7Q+hiM?=
- =?us-ascii?Q?QfjLRHjaFnGAzOXFvEpR93+4Gmt+JBNh4aFfFMe21jPki1jCnirAZHpaQhZr?=
- =?us-ascii?Q?8wwWKFiV/8avajA3eXv2PfGhp6qHSo9XWbk14eCoMc++KQLBQhBQBQYZgBnN?=
- =?us-ascii?Q?FtXxpzYKrb2G7eBSNHzWFJWvMFtcdLPMjO92wIik5nA+iyFAbSBHDkv2ZXS/?=
- =?us-ascii?Q?EH6YTuCxk3TkORaTjpZMUi7V6LDD1jAkf9zKREHowiDK5iH07HCyr/Y6gKZc?=
- =?us-ascii?Q?iSgS7hf091G09zoRQ7IlSCXIa+rNWVo0DOa5clvZwtcpundHWQMx3Hx0Lfdr?=
- =?us-ascii?Q?2bo1SehYLFxJoqdnzyaRh104n0Z6RIslZrSlDXPowSxTXrfxIZr+QhEkNBL0?=
- =?us-ascii?Q?MxFtG7GcdhfUmprevHzAJFLVxI5Xy4tjdLli0V3Wj/4l/B2J5PU43mKwGOqe?=
- =?us-ascii?Q?mwoZ9B1LiwoWlfSJCvFwDEAD+32tAK08ottkPfSJKlRYnSWCtZJCF8OTZe5e?=
- =?us-ascii?Q?JqitAz+I2Qem73HP5/C5FHAhgVcPLlPy+HSfBpoyGgrnpbIxM750OaHEO8YC?=
- =?us-ascii?Q?4+905yAD9LG81o0Mc+8jrvzS2fly/DJqWhJ0pvNHxBQ1DNvs1JUN0mZzWu6h?=
- =?us-ascii?Q?HLB6+ZkKe9v5Cejfm/aLiM3cjMD1JPJZjhbsVzUiIZypCrv8ceQtWjuZQ7Nc?=
- =?us-ascii?Q?k32zPaDru+vxS4Q23YsB5lapIPLvU1TksqE/I1+Zhjo3FL5MwuuQua1K56Si?=
- =?us-ascii?Q?NPcdRwmkGDsA44nwM56O9VwIVKEn9MoTAYdiCP0KtdKBVim0pn5g4vnY8qsO?=
- =?us-ascii?Q?l+KTGkYz9RAWjQGOmxAq0G6NYw33JBNGcq12RWYMTDfx38qFTLOJHwjZSXJS?=
- =?us-ascii?Q?I0XtG9HEauEMHOURmdhRvPPKrAqF8XfqQauNUcsWbTsQDdU+4N95iL6Aykxk?=
- =?us-ascii?Q?MJxYjt27jtEDf/tr7jLnMSuEdvfxWwBFEeW/d5f+BmJklXLnmlCHgIKfzx6Z?=
- =?us-ascii?Q?vgSjzi8ze9h25zVpBHZQ+nBXxIGD1jCMZMWe+juBi7KY3ZSoBUcLtl6JWFDF?=
- =?us-ascii?Q?3XealzBH0p858/cpsgozh35IGiaUZfoLm3/4yNdbg/UcCZ2sMvKrIQlsQSAI?=
- =?us-ascii?Q?sn0kPhWJWPR733Lq5fu7BXX0fGAyLFs=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	01G9+viUIISSq1S54Pfrj02EAOl1abSc9m2Kt1L6cMwtTwD8k3j0fpjX+0HJyAKZyjkkVU0OxBGTep3LrUMg6f2zYIxwGZzPFd5kd8pEraH0gcbVaEFz9VN2puKZ4SK4WG07tXbfBPrfBYG0QlsGTCWubWXUZvvQkUMIaC8sykBmvDHC3s1Uub8l0FDE2PkwXUCO8CUCSjT/qQsMEPMckp54PvHA9e6BxJatZ667Ax0bK5chRp196/cGRWrzo15VVrDR0BVZ57nicsR+0p37x0FBBDH4fKtJZkMU4iYNYE3RU2slXxJXQbQkuXnjwBMutnLEkCOOEtgIgQ3knlbYeMluXN5fNcAJc4jbSEZIX8LEqY9n3K2J5W5/Aj1mPHQ4z8A+sQE1K2xeMrV/jjt5QG32ZlSuH1XwG9VI7tAy+aNnDsPF5+cPm7k7BAxbnWX6Yu3eVYEmlHoEA0slCit1pcvZdtJDKPlPAzoWL66F/jr4viZRTJKGC9bvHyhvcJJRQiNNpOmpUmac67lnMHiH3VREoyKUliCmSSfUtyF5IUTz3iMQUk/AuHFCXZHUe7uoMJmrnVKImdnFFS9wZnteQSanPoLLLIGEHheT309dcgI=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bec5245d-8904-4024-5900-08de54322008
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-OriginatorOrg: nokia-bell-labs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 12:32:19.7336
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB7984.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 055ce134-f5d0-4ab1-c15c-08de543239b5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2026 12:33:02.6257
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tkjfiF9tUK0141W2oHjcq6cmm3YVAqlOngQoY6+/vBZg6B9BaxRQexVkFgfjkTbyfchEYXuUlH2VT6yfh2B9S7oek1w2V8hGkFFMyADkMDc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB7072
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_03,2026-01-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 spamscore=0 adultscore=0 mlxscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2512120000 definitions=main-2601150092
-X-Proofpoint-GUID: cwaeljeeAikWas73KCD8tMc66rh3wkJ-
-X-Proofpoint-ORIG-GUID: cwaeljeeAikWas73KCD8tMc66rh3wkJ-
-X-Authority-Analysis: v=2.4 cv=ZtLg6t7G c=1 sm=1 tr=0 ts=6968de59 b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=uICwKfb82vh2Q8OXV-IA:9 a=CjuIK1q_8ugA:10
- cc=ntf awl=host:12110
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA5MyBTYWx0ZWRfXzLVQ4kFcvFre
- gNTG3FUR6/l3IAHBp/2hGqlhxPqGnkjVX67JyswpmFj2TdOZpGhuXU35X7FNLCZpPorsoweoXM2
- zDfhqoHI7kBJfE8WFq2+iF/0tQfGv0/3T+pDoXDSt+KiZw8mcmaUmGD98WVFdXyn2utrYtsgRgR
- zGqeP4vk5nAe8F2/1cOGH+kzhiKHTD6cxl932WlsaCktSXtmAc3XIxleeVIOoaqBadlKIvJX115
- DCgcJ1D/iq74eNYYh9p3BxDQJD2wLkBFBc/hlgsGofU5tb055ppVvmIvI6FO15LsKLpGpxMuH6Y
- rzk+ycdZU6pouHkMIaC3CeIQeZDKQZgAWRWpE+8cxFs9/urskUu0nAwDVcI03TmX1FiK5B9JKKp
- y/gUGxOJ6DcsbwOamG+YrOencBrNorfJl0cecds4pafu2CuJYQ0rkZz8rfor/ChKXpoVZoeIeVo
- ym+P5vdQwSxXbMZ9ld9o2hq/4rHlPcMuRwJxovts=
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EN2L647R840cdi9onx+q5U7mCX4FyfnrmdPDPRkI7n34bteThx7rRRx0ChyPt8oHm+0BvBYM7dtVQs20Vqd+hlsmK5M1wJy3U1e0B47a7osmKQiKD/43rjGix0WaSAJJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR07MB10068
 
-On Thu, Jan 15, 2026 at 10:20:04AM +0100, David Hildenbrand (Red Hat) wrote:
-> Let's move the helpers that are not required by drivers anymore.
->
-> While at it, drop the doc of balloon_page_device() as it is trivial.
->
-> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+> -----Original Message-----
+> From: Jakub Kicinski <kuba@kernel.org>=20
+> Sent: Thursday, January 15, 2026 5:12 AM
+> To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
+> Cc: pabeni@redhat.com; edumazet@google.com; parav@nvidia.com; linux-doc@v=
+ger.kernel.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kuniy=
+u@google.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmail.=
+com; jhs@mojatatu.com; stephen@networkplumber.org; xiyou.wangcong@gmail.com=
+; jiri@resnulli.us; davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunt=
+er@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shuah@kernel.org; linu=
+x-kselftest@vger.kernel.org; ij@kernel.org; ncardwell@google.com; Koen De S=
+chepper (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.c=
+om; ingemar.s.johansson@ericsson.com; mirja.kuehlewind@ericsson.com; cheshi=
+re <cheshire@apple.com>; rs.ietf@gmx.at; Jason_Livingood@comcast.com; Vidhi=
+ Goel <vidhi_goel@apple.com>
+> Subject: Re: [PATCH v2 net-next 0/1] AccECN packetdrill selftest series
+>=20
+>=20
+> CAUTION: This is an external email. Please be very careful when clicking =
+links or opening attachments. See the URL nok.it/ext for additional informa=
+tion.
+>=20
+>=20
+>=20
+> On Wed, 14 Jan 2026 23:25:59 +0000 Chia-Yu Chang (Nokia) wrote:
+> > > Missing your own SoB on the patch, but also -- are these supposed to =
+pass without the kernel patches? Without going back to check Paolo's messag=
+e my understanding was that you'd repost this as patch 15 of the kernel ser=
+ies.
+> > >
+> > > On the packetdrill side -- is PR #61 the code we need merged?
+> > > Doesn't seem like it. Could you please clean that part up and start t=
+he review process?
+> >
+> > Thanks, I will add my own SoB in the next version.
+> > This patch can NOT pass without the last kernel patch; shall I merge=20
+> > this series into that kernel series? If yes, I will submit v8 on that=20
+> > series and add this patch as the last one.
+>=20
+> Yes, please.
+>=20
+> > On the packetdrill, the used packetdrill is commit=20
+> > 6f2116af6b7e1936a53e80ab31b77f74abda1aaa of the branch:
+> > https://eur03.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit=
+h
+> > ub.com%2Fminuscat%2Fpacketdrill_accecn&data=3D05%7C02%7Cchia-yu.chang%4=
+0nokia-bell-labs.com%7C4e8d1d517df64fb0e6b008de53ec2d5e%7C5d4717519675428d9=
+17b70f44f9630b0%7C0%7C0%7C639040470993547718%7CUnknown%7CTWFpbGZsb3d8eyJFbX=
+B0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUI=
+joyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D5%2BP0xyXIjXqfC7B6kuMAaEp%2FYuoPSUkYzKC5Pg=
+RZUA4%3D&reserved=3D0 Shall I create PR? Or above info is ok for merging in=
+to packetdrill.
+>=20
+> Please create a PR and let's give Neal a couple of days to look thru it.
+> We don't need the packetdrill side to be fully merged upstream but I'd lo=
+ve some indication that it's not going to take long because we need to manu=
+ally manage the packetdrill build if it's not upstream.
 
-LGTM, with some nits below so:
+A new PR is now created: PR#96 I google/packetdrill
+And the v8 of this patch is also submitted with the updated commit messages=
+.
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-
-> ---
->  include/linux/balloon_compaction.h | 44 ------------------------------
->  mm/balloon_compaction.c            | 38 ++++++++++++++++++++++++++
->  2 files changed, 38 insertions(+), 44 deletions(-)
->
-> diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
-> index d1d4739398978..eec8994056a44 100644
-> --- a/include/linux/balloon_compaction.h
-> +++ b/include/linux/balloon_compaction.h
-> @@ -75,48 +75,4 @@ static inline void balloon_devinfo_init(struct balloon_dev_info *balloon)
->  	balloon->migratepage = NULL;
->  	balloon->adjust_managed_page_count = false;
->  }
-> -
-> -#ifdef CONFIG_BALLOON_COMPACTION
-> -/*
-> - * balloon_page_device - get the b_dev_info descriptor for the balloon device
-> - *			 that enqueues the given page.
-> - */
-> -static inline struct balloon_dev_info *balloon_page_device(struct page *page)
-> -{
-> -	return (struct balloon_dev_info *)page_private(page);
-> -}
-> -#endif /* CONFIG_BALLOON_COMPACTION */
-> -
-> -/*
-> - * balloon_page_insert - insert a page into the balloon's page list and make
-> - *			 the page->private assignment accordingly.
-> - * @balloon : pointer to balloon device
-> - * @page    : page to be assigned as a 'balloon page'
-> - *
-> - * Caller must ensure the balloon_pages_lock is held.
-> - */
-> -static inline void balloon_page_insert(struct balloon_dev_info *balloon,
-> -				       struct page *page)
-> -{
-> -	__SetPageOffline(page);
-> -	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION)) {
-> -		SetPageMovableOps(page);
-> -		set_page_private(page, (unsigned long)balloon);
-> -	}
-> -	list_add(&page->lru, &balloon->pages);
-> -}
-> -
-> -/*
-> - * balloon_page_finalize - prepare a balloon page that was removed from the
-> - *			   balloon list for release to the page allocator
-> - * @page: page to be released to the page allocator
-> - *
-> - * Caller must ensure the balloon_pages_lock is held.
-> - */
-> -static inline void balloon_page_finalize(struct page *page)
-> -{
-> -	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION))
-> -		set_page_private(page, 0);
-> -	/* PageOffline is sticky until the page is freed to the buddy. */
-> -}
->  #endif /* _LINUX_BALLOON_COMPACTION_H */
-> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
-> index 709c57c00b481..717bc43732d09 100644
-> --- a/mm/balloon_compaction.c
-> +++ b/mm/balloon_compaction.c
-> @@ -17,6 +17,44 @@
->   */
->  static DEFINE_SPINLOCK(balloon_pages_lock);
->
-> +static inline struct balloon_dev_info *balloon_page_device(struct page *page)
-
-NIT: inline here isn't needed.
-
-> +{
-> +	return (struct balloon_dev_info *)page_private(page);
-> +}
-> +
-> +/*
-> + * balloon_page_insert - insert a page into the balloon's page list and make
-> + *			 the page->private assignment accordingly.
-> + * @balloon : pointer to balloon device
-> + * @page    : page to be assigned as a 'balloon page'
-> + *
-> + * Caller must ensure the balloon_pages_lock is held.
-> + */
-> +static inline void balloon_page_insert(struct balloon_dev_info *balloon,
-> +				       struct page *page)
-
-NIT: same as above.
-
-> +{
-> +	__SetPageOffline(page);
-> +	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION)) {
-> +		SetPageMovableOps(page);
-> +		set_page_private(page, (unsigned long)balloon);
-> +	}
-> +	list_add(&page->lru, &balloon->pages);
-> +}
-> +
-> +/*
-> + * balloon_page_finalize - prepare a balloon page that was removed from the
-> + *			   balloon list for release to the page allocator
-> + * @page: page to be released to the page allocator
-> + *
-> + * Caller must ensure the balloon_pages_lock is held.
-> + */
-> +static inline void balloon_page_finalize(struct page *page)
-
-NIT: same as above.
-
-> +{
-> +	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION))
-> +		set_page_private(page, 0);
-> +	/* PageOffline is sticky until the page is freed to the buddy. */
-> +}
-> +
->  static void balloon_page_enqueue_one(struct balloon_dev_info *b_dev_info,
->  				     struct page *page)
->  {
-> --
-> 2.52.0
->
+Thanks.
+Chia-Yu
