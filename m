@@ -1,95 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FBE3BF2E6;
-	Thu, 15 Jan 2026 17:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD8B3271F2
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768498308; cv=none; b=gtrTfYka5FNv855/ce5bQZ5162rkc7wuD3gnnEDkDVRL+1iOW5AHnzQLCkC3bEk2pCdsHy8mH+Y2mYmAxp9HIgshzkU/agWHy3rJnSfwImfWRt0wJtL8P3ahZtawNfyQRWv8h92xt+8Wg9NWxiQGQRParbm7F1R+nxCIu9v58xw=
+	t=1768498400; cv=none; b=Q72C1pwhlthnLQardh1JtabH3nsVhX+JQjL5UGVMhbe3GIMPAKUF9oFHvEkxzYHW3wm/qgrNw2Nzhy/BxkSXT4k8ucdUyKon+bRZJKDS2jdIoKCAifMQCw6OEhPzeKj5otyYnG6BU9lZ5hxvgwacTUGvufnDt7H6zuGNL6dsUkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768498308; c=relaxed/simple;
-	bh=fipIBUhmA8tW6kksPAM+qGV8JZQlKTQQwsZJoLAa3s0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qG2bodE6oAsFnLC+Ca/Yhg5x8IyX1yeec6l4QWVsYAWexbKVlarUoIJdEOEqaDvZmiws1KlpO3B0CUQSKfgJLvpbDHYUPCDbbyFYe+GYIXFI2qV5Wv5xdUSKPqVAz6RnJf4DCLM/e8ZKdbN/IE7JnXi6Vz6vPSJ3tE6OgUjuj4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FOG2W4WW; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768498400; c=relaxed/simple;
+	bh=gmWxAy5uTUT/UhmfH7kZ4VlAnV5ZizQ7PRjs0zDcgrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sOHOa+53J9VEczZtZ+azuvYnZ8/oA/q2GkohMyf+yWIZPKNlmCS+YR+d/bDE3ALWTgSbB4c8neNzC0q1s5sGY24jZDssHDZ7T1iBGamymL3OHed7AqKdmO8lyJfGiYhn9Ivv/NCdiAEnbzdb6k/QpVT7V1zX2dkwhbM0gW0p6Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=DDIQUtMP; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FOG2W4WW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=hMhblZ3EDuQznDOXy5jJiVzvOLpt/1Rd/6/oRN1eD4w=; b=FOG2W4WWU4m5sCf3LU/qlC2IC1
-	OLmrqGQGL7SYfMSXo67jTu61Mpb9RRTgu9+lFS7kL6caNSW7FrYF4mEJf93naOF+7wKYxkxIlFLL+
-	e2D/F3nfJG7M7/n+FhtK1okhmk/szyCRSLUh2saLYaSje8ivEiX7kpS8uBXs2z0ZSJX58mH9ul1n6
-	ZkQ1hWim3rxCgeOCPE40UC1E19yEZnobearxOpBdKbm1glW8U2TVRvX/7qeFJmOzDf7J6PJ3715hj
-	gvBVkEVRDOlbNiL+CLXGUALX4YiYkSf0yXoBvKsrG6JElpOl5tVx+ldS0+f8MD8A1I1QTAYaploXH
-	+lqhRnTQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgRCC-0000000CrJR-28NG;
-	Thu, 15 Jan 2026 17:31:44 +0000
-Message-ID: <8af04281-6cde-4903-8b30-3eea213d8ff9@infradead.org>
-Date: Thu, 15 Jan 2026 09:31:44 -0800
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="DDIQUtMP"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-88a2b99d8c5so9383966d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:33:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1768498398; x=1769103198; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HELVBq+JbyCXR2ZFI5M9lAV4vG/kM2Ay1hf/o0jB9SU=;
+        b=DDIQUtMPS6qsYgGC4olHxdA2og7hiboMmzlbdkYOPfrQTvla0yrc0UEt7U0a7jUvpL
+         JlUSmDECkpRXSGxaapxEyApW/eTYlXf4e/RhQI/ueH/vC9vHEO8TpXRK/JmOaEsxk/8V
+         dRqvb1+sPOCkYfume+xdaF9zZhDuHyQWmWLiS9Az9jd7JyjO5JFgNYzWGR0YR0vq6p7g
+         L+yqOpuYCyesOqFnbRg5Rea+bHmHwOtJzfIHA7Qv9WGVy9Z9KyVt4H5Yz2vZKQrQkAeU
+         ntn7bxStqacS+ix2hXl/3p8oeI5HZd5zJY+6+h6ZsHN0WPWWT0R99Dx8z2+bKie+e4VL
+         Zc0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768498398; x=1769103198;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HELVBq+JbyCXR2ZFI5M9lAV4vG/kM2Ay1hf/o0jB9SU=;
+        b=TbEC1u3bKkVqptja8tdYMmLhwJcd7EP3Ae0pkrexwGZ/AjCJy1/TDwMGCqbsUyhzm8
+         /OzzS/jujiSzO4xCKkDvm/xKh3RjEaCfdbKcAgC8tgUlJ+gulkZwrvsIqWMuorOEZCEC
+         O2jlqAwPi+gTHgu1l6WGqX0Uy2S4DVBzJzHoVX/PZKw4RAVmsDQrUACvam2vJL9MGdiF
+         vDZtkmEICLj7MaiWOU63l2ysWcvu4weYLAmK4NKzS9GxB80g6a1t2uHMwby9aYYxtRjh
+         ZsTLgp7cnMMZyWf5FHjjR0z8lJF4yBx/vYC+/Je/1fH1UpHxYW0n5xIuy0yMa0yHsD5T
+         Ntxg==
+X-Forwarded-Encrypted: i=1; AJvYcCX+dYAzKCreW3L+rfsxvPSHZE/ZE4Y9f1f9gtB8SgIyhwGrDEhL205Khzr1K1FoN+RzNmQhOC0Wqfw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiyYe4G1pxWIa9OcyQAEnIEjWZ8tLiGYQ4nADn8p/8pC7GbPuf
+	ajjYuCoGVKTySwmrBbXINeS7usMo1gL/UJLyIeN2DzNmxSYliN6hdzhCNb6THhFzPds=
+X-Gm-Gg: AY/fxX6J3K8YZuNcaEALEhjByMSl+Vl67nutcnEYhkVoSbZohQmFbZCU+Eeh8rE177l
+	Lfulf3AhixwNVWTtRrbsBKsKVTP6429DVNlwca+W8oLtdSrHSqTtqb7192ScVrDPRJYqcEb54OO
+	YVyskZwI9RJkHHECMQMMJVawLwoPBNUD5HD4OK5cNIht6m/oC4unnYqnnTsBEqeoxQqYpv+mHVu
+	ZsJJhf4yOY0IWET7aQ31+DKIV0dmUlAewCHf0n9RwlPpXiknDVO9Ts6S2UXZM+9bwCpe+cts4qg
+	0U/bnf4iKb9zzSpVyJuIOllypPeRNlEAWznl8hq6lqbCBH2W3E9pI54YvtDQlt30/cYQdIJrk0t
+	CORDF61fjpwPJTVh57UIuMAR5SfBkHUfIZ9QPJGV4md/HI/l2PTUDhnUiBKG29csNblwL+iBMOP
+	3HzDjAvUE8O90oA5Z/9YRImiBg7l6fbMlI3n+ENG1emibFuDiLb8pKVFAu5n65QIpu03dLrQ==
+X-Received: by 2002:ad4:5f8e:0:b0:880:541c:8243 with SMTP id 6a1803df08f44-8942dd060f8mr2986496d6.1.1768498397481;
+        Thu, 15 Jan 2026 09:33:17 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e47d897sm548586d6.0.2026.01.15.09.33.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 09:33:15 -0800 (PST)
+Date: Thu, 15 Jan 2026 12:32:41 -0500
+From: Gregory Price <gourry@gourry.net>
+To: Yosry Ahmed <yosry.ahmed@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com,
+	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org,
+	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org,
+	rafael@kernel.org, dakr@kernel.org, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, dan.j.williams@intel.com,
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
+	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com,
+	david@kernel.org, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com,
+	linux@rasmusvillemoes.dk, rientjes@google.com,
+	shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com,
+	shikemeng@huaweicloud.com, bhe@redhat.com, baohua@kernel.org,
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev,
+	muchun.song@linux.dev, osalvador@suse.de, matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+	ying.huang@linux.alibaba.com, apopple@nvidia.com, cl@gentwo.org,
+	harry.yoo@oracle.com, zhengqi.arch@bytedance.com
+Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
+Message-ID: <aWkkuaYt0cEyvbGj@gourry-fedora-PF4VCD3F>
+References: <20260108203755.1163107-1-gourry@gourry.net>
+ <20260108203755.1163107-8-gourry@gourry.net>
+ <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
+ <aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F>
+ <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
+ <CAKEwX=MftJXOE8H=m1C=_RVL8cu516efixTwcaQMBB9pdj=K+g@mail.gmail.com>
+ <CAKEwX=M8=vDO_pg5EJWiaNnJQpob8=NWvbZzssKKPpzs24wj+A@mail.gmail.com>
+ <e6eydzdvuiktmalhcmoiwsgzjbw5v7t4532fkbroylwr5cqetx@v6pgjaoxgmyz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Move kernel-doc to tools/docs
-To: Jonathan Corbet <corbet@lwn.net>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>, Shuah Khan <shuah@kernel.org>
-References: <20260114164146.532916-1-corbet@lwn.net>
- <813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
- <87zf6gt2ts.fsf@trenco.lwn.net> <20260114212558.1aeb1b17@foz.lan>
- <3237bd2e1397910708743dba2c7d80b2c8eecb0b@intel.com>
- <87ecnquda3.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87ecnquda3.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e6eydzdvuiktmalhcmoiwsgzjbw5v7t4532fkbroylwr5cqetx@v6pgjaoxgmyz>
 
-
-
-On 1/15/26 7:05 AM, Jonathan Corbet wrote:
-> Jani Nikula <jani.nikula@linux.intel.com> writes:
+On Thu, Jan 15, 2026 at 05:00:04PM +0000, Yosry Ahmed wrote:
+> > 
+> > 2. Just enable zswap shrinker and have memory reclaim move these pages
+> > into disk swap. This will have a much more drastic performance
+> > implications though :)
 > 
->> On Wed, 14 Jan 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->>> Em Wed, 14 Jan 2026 12:24:31 -0700
->>> Jonathan Corbet <corbet@lwn.net> escreveu:
->>>
->>>> Randy Dunlap <rdunlap@infradead.org> writes:
->>>>
->>>>> I do many of these on a regular basis:
->>>>>
->>>>> $ ./scripts/kernel-doc -none -Wall <path_to_source_file>
->>>>>
->>>>> Will I still be able to do that (by using ./tools/doc/kernel-doc ...)?  
->>>>
->>>> Yes.  The tool moves, but its functionality remains unchanged.
->>>
->>> That's actually a good point: should we preserve a link on scripts
->>> pointing to ../tools/doc/kernel-doc? I suspect that a change like
->>> that could break some machinery on several CI tools and scripts
->>> out there. If so, it could be useful to keep a link - at least for
->>> a couple of kernel releases.
->>
->> I think the tool source should be called kernel_doc.py or something, and
->> scripts/kernel-doc should be a script running the former.
+> I think what you're getting it as that we can still make forward
+> progress after memory lands in compressed cxl. But moving memory to
+> compressed cxl is already forward progress that reclaim won't capture if
+> we charge memory as a full page. I think this is the crux of the issue.
 > 
-> I honestly don't get it - why add an extra indirection step here?
+> We need to figure out how to make accounting work such that moving
+> memory to compressed cxl is forward progress, but make sure we don't
+> break the overall accounting consisteny. If we only charge the actual
+> compressed size, then from the system perspective there is a page that
+> is only partially charged and the rest of it is more-or-less leaked.
 
-a. compatibility with people in the wild running scripts/kernel-doc
+Which is comically fine - because the actual capacity of the node is
+functionally a lie anyway :D
 
-b. adhere to well-known naming conventions.
-
--- 
-~Randy
-
+~Gregory
