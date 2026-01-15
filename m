@@ -1,73 +1,104 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8CC1917F1;
-	Thu, 15 Jan 2026 00:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0063D76;
+	Thu, 15 Jan 2026 00:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768437577; cv=none; b=OyNHLiDicBiVHYEuA00e+QRDXByZrp+9ysl4L7781HTSHn6T+kgoTfV9AQnYXP53zCop47kHq5S2qX9Azf3fHsUzGB5FMEdizwG9mug6pfLmB9gZSxNQcdwKdsMx414e0fbW36FbCI+bzHHZECNmK0y3A89KYlCaOKYKQ2nKGwE=
+	t=1768437801; cv=none; b=bBrkuvPhf/UI/NxXLXSdeL/fW5jn1dXQg4o1uaaXwBrgp+OPbh6spmqONDirYUS5MUY4i5cuQeK2R1t16I3Gx/eGLczBXdHgjGs8r2N8n+NtygnYphDxOmwG0vNTzQUKONHG9OyK4gZZGXDcCRkV7BGeTFwyH/WGN4dY0M77v4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768437577; c=relaxed/simple;
-	bh=NK6H6hJtfATaruOaMMeAo/X/tsh1ZpMFyB+26JRS3EU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ntefvVAwpBif832y40BUm0tMvc/wmNw9d+J8RFW2zPePaWDy4q/Q05jm44KrYJwOH/PpcF3KgAJxGHY4XVu6fotTVzYh8DWhKTzt8aFk0Z4Cv+MqhTUBK0h8B+Jag2O/EL2uiUYhJy7iT2mzY7fvW+n3dd9uSIYxQB5f7UA2NvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from localhost (unknown [116.232.18.222])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dlan)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 36B89340FC6;
-	Thu, 15 Jan 2026 00:39:32 +0000 (UTC)
-Date: Thu, 15 Jan 2026 08:39:29 +0800
-From: Yixun Lan <dlan@gentoo.org>
-To: Guodong Xu <guodong@riscstar.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Junhui Liu <junhui.liu@pigmoral.tech>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev,
-	spacemit@lists.linux.dev
-Subject: Re: [PATCH v2 4/4] riscv: dts: spacemit: k1: Add "b" ISA extension
-Message-ID: <20260115003929-GYA33650@gentoo.org>
-References: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
- <20260115-adding-b-dtsi-v2-4-254dd61cf947@riscstar.com>
+	s=arc-20240116; t=1768437801; c=relaxed/simple;
+	bh=Fc33RkLkjHD3KToYwOX2/sMU2WXz7e3DfW6v2CPHymI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=F40oMIVC/7MryGA2zv2gA8NORI3rseXZVTz9lgJXzcpLtMaOy1OwGt3umfdVUSDWBevxsMrIAFcIkGII65gYAALMNPPB6q1BtHSpsvTCh0GG+B1kNNGcMjbmTRLJcb+ohYgo2XzN1BVBWj8HB0T8PD29yZyywHomEs5AYuLrwmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IXRmJgeO; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IXRmJgeO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Xh42m2LUwLT4sb748BpO/fu2qZRhBc7yNgZM4yJFUM0=; b=IXRmJgeOZdjHBHW25otBCHqNSb
+	q+v9FwM9cbPMNq5XH4kKXOrODdEBr04QdI5C0V/dt+UD6nmCZoF1ejJHVwlJy/h+1LPheylWmwdkC
+	GyXDtYSbUy8mhy+NXbFbKnAdkDwq7kxI5J5m7yq1nj3dwCK3JAgvkGYswenSjJbuWdZPvAVhNViRe
+	J5sgQa+wjSzP6tjx6lzNcmEcEJfa1oDcyFEwLCZLe+ofh+XnNGbMu7ivNTjKKE9KFZB1Os/ZJY/je
+	+coRKvm9au/3or5JbPnuOpC2WQqP7frjXa8xYX0ckFpfztXYKYcTeWXhuA3uTgQSfgOAtPLrgTS9k
+	xFyepITA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vgBSI-0000000BGkz-0uzb;
+	Thu, 15 Jan 2026 00:43:18 +0000
+Message-ID: <79bb75da-5233-46d8-9590-7443806e2bd7@infradead.org>
+Date: Wed, 14 Jan 2026 16:43:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115-adding-b-dtsi-v2-4-254dd61cf947@riscstar.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] scripts/kernel-doc: avoid error_count overflows
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ stable@vger.kernel.org
+References: <cover.1768395332.git.mchehab+huawei@kernel.org>
+ <68ec6027db89b15394b8ed81b3259d1dc21ab37f.1768395332.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <68ec6027db89b15394b8ed81b3259d1dc21ab37f.1768395332.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Guodong,
+Mauro,
+The line formatting is weird on one line below
+(looks like 2 text lines are joined).
 
-On 07:19 Thu 15 Jan     , Guodong Xu wrote:
-> "b" is ratified (Apr/2024) much later than its components zba/zbb/zbs
-> (Jun/2021). With "b" added into riscv/extensions.yaml, a dependency
-> checking rule is now enforced, which requires that when zba, zbb, and zbs
-> are all specified, "b" must be added as well. Failing to do this will
-> cause dtbs_check schema check warnings.
+On 1/14/26 4:57 AM, Mauro Carvalho Chehab wrote:
+> The glibc library limits the return code to 8 bits. We need to
+> stick to this limit when using sys.exit(error_count).
 > 
-> According to uabi.rst, as a single-letter extension, "b" should be added
-> after "c" in canonical order.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: stable@vger.kernel.org
+> ---
+>  scripts/kernel-doc.py | 25 ++++++++++++++++++-------
+>  1 file changed, 18 insertions(+), 7 deletions(-)
 > 
-> Update k1.dtsi to conform to this rule.
-> 
-> Signed-off-by: Guodong Xu <guodong@riscstar.com>
+> diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
+> index 7a1eaf986bcd..3992ca49d593 100755
+> --- a/scripts/kernel-doc.py
+> +++ b/scripts/kernel-doc.py
+> @@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
+>  
+>  sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+>  
+> +WERROR_RETURN_CODE = 3
+> +
+>  DESC = """
+>  Read C language source or header FILEs, extract embedded documentation comments,
+>  and print formatted documentation to standard output.
+> @@ -176,7 +178,20 @@ class MsgFormatter(logging.Formatter):
+>          return logging.Formatter.format(self, record)
+>  
+>  def main():
+> -    """Main program"""
+> +    """
+> +    Main program
+> +    By default, the return value is:
+> +
+> +    - 0: success or Python version is not compatible with                                                                kernel-doc.  If -Werror is not used, it will also
 
-Reviewed-by: Yixun Lan <dlan@gentoo.org>
+Here ^^^^^
+
+> +       return 0 if there are issues at kernel-doc markups;
+> +
+> +    - 1: an abnormal condition happened;
+
 
 -- 
-Yixun Lan (dlan)
+~Randy
+
