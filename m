@@ -1,128 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB12E3904F9;
-	Thu, 15 Jan 2026 11:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4F418024;
+	Thu, 15 Jan 2026 12:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768477830; cv=none; b=Hpt8JQpAaKYySiXw9ZySSEddKt/ALhbzXIJSoXydA0hQzxhUms5QY0fDKt5eCRnQ3lT+5mIIINtxJe0e2tNLpuyFOPye5yGaGaP3tTtFhbgVkETPBNQ7/G+i9rujce5HoLMEh4ojN7jbEyuKb2UmqeZX6PSu8WfHBZk/75GKYXY=
+	t=1768478494; cv=none; b=ZCGkkYVyoEXrtYDX3Ir3vT1+lTv1ZJxOOaXbWUnThCoYmZQOgMFOYYIsyMusX2+0Zk+lPFxhFKHEG3/Q7e+q5BXzxYzbrArtkikIPQF5Id10OlkWh+zyWAxX9R8S7S8m6L95g08zux0/JNxtfOuqjQlURxjaxcC0980sSyg/blc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768477830; c=relaxed/simple;
-	bh=JQGvIx3RK2klAmCnEcOh7zgcth49wM3m+5L2IoCstSo=;
+	s=arc-20240116; t=1768478494; c=relaxed/simple;
+	bh=VWg9tkWooAwTyDYbBBH3VW10anfovUgwUzjPjFnkxqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KuKR6GJg0DznjeaPV2vIdIonyk8UX3G+UXcrcSqFzyR5mBQZQsQ/7WzWC8ndM3MoxbG0/vEcmjRTaa2g5sRHEBz8UYSm8o3zB+SpRO3R2IL8lD8XhYBTLX5kgPnqBLBp+lJFfAZosmWrJRNYHm9x92FrEZk3xrSmwW1GqiB5rWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BhqVRGaR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFLRJyOKpZOlUhL9N8nNXlnN9XU5YYGQ3XWxgVk2Z59tyfFZs36meadNeTHMNbakDXZu0gtHoi/5B70DDxuQs/XqUAVddJiC3SxPeRSpcZy0i0YLOk2IejYXOUZAc+j9UTvBEIIVK3B9cW0BVTcmXtWcb524BJcEon7oP0E+1QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=EC9VvLD6; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BhqVRGaR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ECF3C116D0;
-	Thu, 15 Jan 2026 11:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768477829;
-	bh=JQGvIx3RK2klAmCnEcOh7zgcth49wM3m+5L2IoCstSo=;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="EC9VvLD6"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 93FD940E0252;
+	Thu, 15 Jan 2026 12:01:29 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id fIkZKrXH-6Ud; Thu, 15 Jan 2026 12:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768478481; bh=EHXXD1og8jlFQ9XvOYhFi/5ELaOn5f8KORiwXzjZrQE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BhqVRGaRV6+x5R3kjDUdJgEBvl/go+7Y5Odcdue7VV+soPABXx1zJsWBCyiUgRG8Z
-	 z6dvmAN07qwE7Pt+eUWJIDUtlOXF7UwWoazIgje38sXukFIxG9BGVfFnXyf03urnz9
-	 yD4YGZPt8M0xk4sIpE4R9cMhj2FQsel1FcY7CJDej8hEp3u961qpVvlLsrxqtQjQpo
-	 sVnTtQsNntTvzxQU4KZcZM7izNbvwr5+3ucpSx/g4sj6CFzjQcvh3UDL7nQMdtWLtd
-	 G/z01H3YpF2oP00CtIkU4yZQrh+AsC7W+M8wcysYghbU4IGVtjnn+dq3trNy7jDQgm
-	 rq7wVkXUN7+zg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vgLru-00000003uFn-3RVa;
-	Thu, 15 Jan 2026 12:50:26 +0100
-Date: Thu, 15 Jan 2026 12:50:26 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 02/13] docs: enable Sphinx autodoc extension to allow
- documenting python
-Message-ID: <aWjRdFNJ_FMVnypU@foz.lan>
-References: <cover.1768396023.git.mchehab+huawei@kernel.org>
- <6aa5a5b4a686f07c8f3e6cb04fe4c07ed9c1d071.1768396023.git.mchehab+huawei@kernel.org>
- <8e5e9257091275c6a3ddbbb254ca15ed55020627@intel.com>
+	b=EC9VvLD6qRCSk8VAYVc6w0Mqczo//dPyeBqvAdgByrGFTu5GELOXEhU+2J1PtdUbd
+	 qZKHqfCT8zVgXt2edJvSOs7x/pNPTGu0nBH+QyzBaWWh/VLfqo3posK6TtzQ0PwFKx
+	 tpY/4rGN8uakiPCs9/2zvTghvjMYkbJF+q/fY4z65e+4+rp1fmxtLNEqiYvv/chH6A
+	 150wv3FYn29WS9oyGXBgYq7iGqCwBcs1hmNNnprYkKbqxdxR3Nn/rn27LjfCuH4epj
+	 he4lhNR/BJAh6ain0yOTCBuFF+f6YI+iFUzJVJtFbkzhhZtjFlLh7hRCFfzk2CmKnu
+	 gu9WkQAtUUSXQZCciPHRl5occNXtvQ13YUoIoIYbtq/ouGyDe+Kaj9oRLGkGTHSuev
+	 TKgEoQ57KSkGwN/0HUJRGJoergzDF2+rdJvZdGTQEMg8rEDBMFxaUeWJyAAF1JaX9Y
+	 wimf/aCqUXPQwTV8Q+WNmLl+y1AuFbqwqNzI1NiHEX9JbUxBrCMFD7YL/WP1z85HQ7
+	 RdD8MJjoEOUEChm0VvAR22dinY3kzQTj+U7Zuz7SBTQ1rSezb15BmGkKNDF154JNCM
+	 waWtXJ1VNvv0ggO6uRCeCCrpt3d4PiC8rnFvXy4PK+h2vG6TXR0Tp7uWUSbTqBlOuk
+	 q7j+LiQGnMatEPS5wIP6NiCM=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 1B3F540E0173;
+	Thu, 15 Jan 2026 12:01:09 +0000 (UTC)
+Date: Thu, 15 Jan 2026 13:00:58 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Shenghao Yang <me@shenghaoyang.info>
+Cc: x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH] x86/acpi: Add acpi=spcr to use SPCR-provided default
+ console
+Message-ID: <20260115120058.GCaWjW-sT7eBr94SEr@fat_crate.local>
+References: <20251228092222.130954-1-me@shenghaoyang.info>
+ <20260114154656.GDaWe6cFCruAGbJbhe@fat_crate.local>
+ <b5d54942-f280-40ab-b445-00b6dc610a8e@shenghaoyang.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8e5e9257091275c6a3ddbbb254ca15ed55020627@intel.com>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <b5d54942-f280-40ab-b445-00b6dc610a8e@shenghaoyang.info>
 
-On Thu, Jan 15, 2026 at 12:19:48PM +0200, Jani Nikula wrote:
-> On Wed, 14 Jan 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > Adding python documentation is simple with Sphinx: all we need
-> > is to include the ext.autodoc extension and add the directories
-> > where the Python code sits at the sys.path.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/conf.py | 11 ++++++++---
-> >  1 file changed, 8 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/conf.py b/Documentation/conf.py
-> > index 1ea2ae5c6276..429fcc9fd7f7 100644
-> > --- a/Documentation/conf.py
-> > +++ b/Documentation/conf.py
-> > @@ -13,11 +13,18 @@ from  textwrap import dedent
-> >  
-> >  import sphinx
-> >  
-> > +# Location of Documentation/ directory
-> > +doctree = os.path.abspath(".")
+On Thu, Jan 15, 2026 at 01:09:40AM +0800, Shenghao Yang wrote:
+> We've been inserting the dumped config into the kernel command 
+> line and rebooting on first boot (e.g. console=uart,io,0x3f8,115200),
+> but would love to avoid this loop.
+
+Yah, put that in your v2 pls. That's much more understandable.
+
+> It's easier this way for larger fleets - we don't want to manage
+> hardware specific serial console settings on the kernel command line
+> if the firmware is already capable of telling us the correct ones.
+
+Should also be in the commit message.
+
+> If earlycon is specified on the command line the console from SPCR
+> is used, but only as a boot console. It's not present in
+> /proc/consoles.
 > 
-> Looking this up based on __file__ would be more robust than cwd.
+> It is possible to retain it with keep_bootcon, but that uses the
+> less efficient (in the 8250 case) 8250_early driver.
 
-Agreed.
+Also for the commit message.
 
-> Calling this doctree is misleading because doctree is a specific Sphinx
-> term that means something else. The doctree directory is where the
-> parsed and pickled documents are cached.
-
-Yeah, you're right: better use a different name.
-
+> In 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86") the SPCR
+> console is only added as an option for earlycon but not as an ordinary
+> console so users don't see console output changes.  
 > 
-> Oh, I see that you're just moving this, but this is something that
-> should be fixed first.
+> The patch adds an opt in so we can get the SPCR console added as
+> an ordinary console.
 
-It can also be changed afterwards. Anyway, this should be on another
-series, as such changes don't have anything to do with sphinx.ext.autodoc.
+Yap, your explanations make much more sense, thanks.
 
-> 
-> > +
-> >  # If extensions (or modules to document with autodoc) are in another directory,
-> >  # add these directories to sys.path here. If the directory is relative to the
-> >  # documentation root, use os.path.abspath to make it absolute, like shown here.
-> >  sys.path.insert(0, os.path.abspath("sphinx"))
-> >  
-> > +# Allow sphinx.ext.autodoc to document from tools and scripts
-> > +sys.path.append(f"{doctree}/../tools")
-> > +sys.path.append(f"{doctree}/../scripts")
-> 
-> These would be much nicer with pathlib.Path.
+Please structure your v2 something like this boilerplate guidance below:
 
-I guess we agree to disagree here: patchlib basically overrides math divison 
-operator to work on patches like[1]
+1. Prepare the context for the explanation briefly.
 
-    p = Path('/etc')
-    q = p / 'init.d' / 'reboot'
+2. Explain the problem at hand.
 
-This looks really weird on my eyes. I can't see why this would be better
-than:
+3. "It happens because of <...>"
 
-    q = "/etc/init.d/reboot"
+4. "Fix it by doing X"
 
-And yeah, I've seen examples in c++ that does similar things overriding 
-math operators to do something else. Never liked this kind of math operator
-abuse.
+5. "(Potentially do Y)."
 
-[1] got from textbook example at https://docs.python.org/3/library/pathlib.html
+And some of those above are optional depending on the issue being
+explained.
+
+For more detailed info, see
+Documentation/process/submitting-patches.rst,
+Section "2) Describe your changes".
+
+Also, to the tone, from Documentation/process/submitting-patches.rst:
+
+ "Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
+  instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+  to do frotz", as if you are giving orders to the codebase to change
+  its behaviour."
+
+Also, do not talk about what your patch does - that should (hopefully) be
+visible from the diff itself. Rather, talk about *why* you're doing what
+you're doing.
 
 -- 
-Thanks,
-Mauro
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
