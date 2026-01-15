@@ -1,101 +1,178 @@
-Received: from mailgw03.horizon.ai (mailgw03.horizon.ai [42.62.85.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE03732825B
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 07:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.62.85.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B871D2E0B77
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 07:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768461601; cv=none; b=iGkT5eSKROtYGX43RTzscRrno+cpfasBqXIvNp+tPZV2MuOzlyCQmdldLBK1vitRocQ/VueBuDxUmyNhivBmyEEyX0qjRdheNQkJb5gguZOe8+9GPM+LwyoVSW6x9864fd4Aw/v8i8BvkPGd3/RD06YuI7HP37hSIIgIsyXTrYM=
+	t=1768461765; cv=none; b=F2JXs7+Dxi90BwU4N4u4RVXBI9uIy8bqLDAgMcAGcBIz9/RHeiR4y/pGmaENzqyPCibBy4tgMfpcLNEIDWhpaBmosQe+S3wlCMJTtSz5XLYgSESph0ezo2wvW7xIEEvlRdYDaT/VsTQkcMb15VcuDiUEqpPonVeXL/T+zh46boM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768461601; c=relaxed/simple;
-	bh=qlcDgNGG2656bF5uh/RNu7eudkJOmvbjlqIJXlTkkWc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L6mu0ePjQ79+x1Z4deb+AOj4m5XD0CyHUVVO1mKhHAve0qaOC04KdjfFxRakF52MN6xlUgRXPAO0HzABrQMkp3Xvwo7eHGGY9dMIzQ9Zzy2NgEKTjVAViDvIFSvPdI0fD1Lk9eFaPOTnoJTr1osHJGW59nmTDmmy889+BTILoO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto; spf=pass smtp.mailfrom=horizon.auto; dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b=A3bXMdjd; arc=none smtp.client-ip=42.62.85.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horizon.auto
+	s=arc-20240116; t=1768461765; c=relaxed/simple;
+	bh=lL1Avl783rhITTu4HenSV62o9ZTr9XM5crHRP9Og7rs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eNtLSJtIzsaogfz4bg+9lGaASlzHZohP/QEE5i813Zi5Ri7sdkY1ri2LKcZQaMP6fVxYpe6KOp4RjuxAv85GBPMUDOvozslTHzyVYRjcQ9MpFtU3xbjQ/dYJ/lc3HUnM65qisd7nkbQPBPCzy4tYQ0v82urtoNeP7GHecmK0us4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XudOJ7mX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=laRMAzTM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EHOK3G7L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hnIFZBUb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b="A3bXMdjd"
-DKIM-Signature: v=1; a=rsa-sha256; d=horizon.auto; s=horizonauto; c=relaxed/simple;
-	q=dns/txt; i=@horizon.auto; t=1768461591; x=2632375191;
-	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qlcDgNGG2656bF5uh/RNu7eudkJOmvbjlqIJXlTkkWc=;
-	b=A3bXMdjdeMr84nPHcqcDWBbxG7JYyYC0y6wlXnxcAjtwXu3eguLg7k4m8D/dt26o
-	v+LO1QajvKcXlPTwK3bWNwfv9VwbWFHn6GRcm5bT2+tWmIwONnKTcdS3h+AW1gS8
-	halF6Mr6wY9o/gvsSJ2qIUmsWBGK43o5gsa9OYIkX2o=;
-X-AuditID: 0a0901b2-df5da70000001406-e3-69689516a14b
-Received: from mailgw03.horizon.ai ( [10.9.15.111])
-	by mailgw03.horizon.ai (Anti-spam for msg) with SMTP id FD.D2.05126.61598696; Thu, 15 Jan 2026 15:19:50 +0800 (HKT)
-Received: from wangtao-VirtualBox.hobot.cc (10.9.0.252) by
- exchange002.hobot.cc (10.9.15.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.27;
- Thu, 15 Jan 2026 15:19:49 +0800
-From: Tao Wang <tao03.wang@horizon.auto>
-To: <kuba@kernel.org>
-CC: <alexandre.torgue@foss.st.com>, <andrew+netdev@lunn.ch>,
-	<davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<maxime.chevallier@bootlin.com>, <mcoquelin.stm32@gmail.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <rmk+kernel@armlinux.org.uk>,
-	<tao03.wang@horizon.auto>
-Subject: Re: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after resume
-Date: Thu, 15 Jan 2026 15:19:38 +0800
-Message-ID: <20260115071938.116336-1-tao03.wang@horizon.auto>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260114191645.03ed8d67@kernel.org>
-References: <20260114191645.03ed8d67@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XudOJ7mX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="laRMAzTM";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EHOK3G7L";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hnIFZBUb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D20F333694;
+	Thu, 15 Jan 2026 07:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768461762;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
+	b=XudOJ7mXjnIlMu3K7TB0kagbLb1j6nnRvRPD/IEC0DEoJZdAWPKWq6viZgqjpf2X5VNEap
+	Cx6R4BrUaFXl+LF7szzxyk8SdYFXL4M/pMa7opi98bXMR//mtYJUpUBuLrzuwYVLVLhNNB
+	FuEkbP/vrzh1iC9/wFPY/VixADrHNso=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768461762;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
+	b=laRMAzTMuY0e1xM1KJ0OlxKvtxtI3igNm1eI91cdWd7eQ9S5M3wV8LhKp8vZQkVLlPMwVa
+	8WJzcpBCjMt/ZbDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768461760;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
+	b=EHOK3G7LUt5NFSkL63tRI1gVs6DgtgfLeW9tSWAhPSyJqR8Dpu9TteYq98YSkVWxb2dPfl
+	Cv5glKbITvpaCnUMw5WPyBYgW/f3xosTrbA43TNKzE8Jz4Rb1Wl24fBQGSVvLc9CCHS1k/
+	CrBgnU+hNvH4jTulh75LGJnARVM4ciU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768461760;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
+	b=hnIFZBUbDdTh8Jjf23yzSwZRQKE4wan9Aarv1CEz22nKP5qYRqNhnXLw+iH2vLihSYeB0T
+	Da0DgR1RIODq1JCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B03F3EA63;
+	Thu, 15 Jan 2026 07:22:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oXj3IMCVaGmrRwAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Thu, 15 Jan 2026 07:22:40 +0000
+Date: Thu, 15 Jan 2026 08:22:31 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: cryolitia@uniontech.com
+Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, workflows@vger.kernel.org,
+	niecheng1@uniontech.com, ltp@lists.linux.it, zhanjun@uniontech.com
+Subject: Re: [LTP] [PATCH RESEND v2] checkpatch: Suppress warnings when
+ Reported-by: is followed by Link:
+Message-ID: <20260115072231.GA438294@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20260113-checkpatch-v2-1-5dfe8b9f4d90@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: exchange001.hobot.cc (10.9.15.110) To exchange002.hobot.cc
- (10.9.15.111)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplkeLIzCtJLcpLzFFi42Lh4uTP1xWbmpFpsOuCjcXPl9MYLZY/2MFq
-	Med8C4vFo/4TbBYXtvWxWixsW8JicXnXHDaLl6+3MVscWyBm8e30G0aLS/0TmRy4PS5fu8js
-	MW9NtceWlTeZPJ72b2X32LSqk81j547PTB7v911l8/i8SS6AI4rLJiU1J7MstUjfLoEr4+Xv
-	j6wFfRwVK1+1MTYw7mfrYuTgkBAwkbjTVdnFyMUhJLCSUWLuvQmsEM4LRonZPzYydjFycrAJ
-	aEjcnXqNBcQWERCV2L5hHTtIEbPAKyaJ3hvTWUESwgJhEpdP/GADsVkEVCUunz7HDGLzCthK
-	rH00H8yWEJCXuD7lANhQTgFDia03F4MNFRIwkHja18wCUS8ocXLmEzCbGai+eetsZghbQuLg
-	ixfMEPUqEs0n57NDzJSTeL0B5ptYiRM/PCYwCs1CMmkWkkmzkExawMi8ilE4NzEzJ73cwFgv
-	I78osyo/Ty8xcxMjOKYYN+1gXLLgo94hRiYOxkOMEhzMSiK8vL/TMoV4UxIrq1KL8uOLSnNS
-	iw8xSnOwKInzaivGZQoJpCeWpGanphakFsFkmTg4pRqYTpQwn3hrUNw3/69f9OKrnDd13xq+
-	O3v48Y3fH17yLctw1dx5tGz+9A8Xm2ULhcTjF2/qWLck78Dm6ZNf3FT8Y3X2g1OYz8bZKzfy
-	cGXde5S1b+u5G7/cin3v3OfK1LgzrSThxsZn3RFXnnTqBGeu4jZnv2Gy/jTP23eBtXrJqi+c
-	H+Y+SargNZnzkWfTuoL70p82le9j5Lq0M1N79Yx3IfsfHAnImb0xa8/MNEnHqg375wRMv7Sq
-	hqnD8PvSRPP0dwphVZar7ocIpMfKdPd2v3rMnshRkPNofsJL382tcrY6Gz4Htgh/nnH3c792
-	JcemBe3L5m2Y5vJkuqzjxzIpk1M79vcvP/j5IPdD9S52lrVKLMUZiYZazEXFiQA5irVgGAMA
-	AA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113-checkpatch-v2-1-5dfe8b9f4d90@uniontech.com>
+X-Spam-Score: -6.00
+X-Spamd-Result: default: False [-6.00 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[canonical.com,perches.com,gmail.com,kernel.org,vger.kernel.org,kvack.org,uniontech.com,lists.linux.it];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TAGGED_RCPT(0.00)[cryolitia.uniontech.com];
+	REPLYTO_EQ_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[uniontech.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-> > To solve the issue, set last_segment to false in stmmac_free_tx_buffer:
-> > tx_q->tx_skbuff_dma[i].last_segment = false.  Do not use the last_segment
-> >  default value and set last_segment to false in stmmac_tso_xmit. This
-> > will prevent similar issues from occurring in the future.
-> > 
-> > Fixes: c2837423cb54 ("net: stmmac: Rework TX Coalesce logic")
-> > 
-> > changelog:
-> > v1 -> v2:
-> > 	- Modify commit message, del empty line, add fixed commit
-> > 	 information.
-> > 
-> > Signed-off-by: Tao Wang <tao03.wang@horizon.auto>
-> 
-> When you repost to address Russell's feedback in the commit
-> message please:
->  - follow the recommended format (changelog placement and no empty
->    lines between Fixes and SoB):
-> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#changes-requested
->  - do not send new version in reply to the old one, start a new thread
+Hi Cryolitia,
 
-Understood, I will correct the commit message format and post the next
- version of the patch as a new thread.
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Thanks
-Tao Wang
+> > The tag should be followed by a Closes: tag pointing to the report,
+> > unless the report is not available on the web. The Link: tag can be
+> > used instead of Closes: if the patch fixes a part of the issue(s)
+> > being reported.
+
+Indeed, this is true, although there is a prerequisite:
+
+	The Link: tag can be used instead of Closes: if the patch fixes a part of
+	the issue(s) being reported.
+
+Reviewed-by: Petr Vorel <pvorel@suse.cz>
+
+I also see you Cc LTP ML. FYI we vendored scripts/checkpatch.pl (with occasional
+updates).
+
+Kind regards,
+Petr
+
+> Accroding to Documentation/process/submitting-patches.rst , Link: is
+> also acceptable to followed a Reported-by:
+
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+> ---
+> Link to previous: https://lore.kernel.org/r/20251023-checkpatch-v1-1-ff73ed1027d6@uniontech.com
+> ---
+>  scripts/checkpatch.pl | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index c0250244cf7a..dac9d98133c6 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3209,10 +3209,10 @@ sub process {
+>  			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
+>  				if (!defined $lines[$linenr]) {
+>  					WARN("BAD_REPORTED_BY_LINK",
+> -					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . "\n");
+> -				} elsif ($rawlines[$linenr] !~ /^closes:\s*/i) {
+> +					     "Reported-by: should be immediately followed by Closes: or Link: with a URL to the report\n" . $herecurr . "\n");
+> +				} elsif ($rawlines[$linenr] !~ /^(closes|link):\s*/i) {
+>  					WARN("BAD_REPORTED_BY_LINK",
+> -					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+> +					     "Reported-by: should be immediately followed by Closes: or Link: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+>  				}
+>  			}
+>  		}
