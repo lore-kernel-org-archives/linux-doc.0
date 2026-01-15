@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A547381C4;
-	Thu, 15 Jan 2026 06:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887192236EB;
+	Thu, 15 Jan 2026 06:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768458381; cv=none; b=EFlwtLcb8VkPbZ0L1JCCw5vgH9TkeN5uNhtBde87Qd/HKKX3/LrkqaEtev/vbumF+es1/UNH6mdK2A/xVnU1bq3bVuXC1PgtZa1+kMRqhJ7BDX8M2z36sEnIqHvUY7tQ/L1j6ungwnsQXhptVuwG6nGPF6nGihgYpeFGrntJNOM=
+	t=1768458886; cv=none; b=HBCXvHto/mkPSbRY/7B592k7i3zcMi+tJxPSZIZtPtduufNBnQ0HWCAjMST/qe1gqIaE4YdJVQx3g9PtXPtCuvWL7JKO5RVBxi3yv5ATnEY5O4JIHjlqh2GLi9zYhzzo31iE/p2ze4s5TKAgELzh283Qsz0cpQTI3HS8nCBrn2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768458381; c=relaxed/simple;
-	bh=4bWaNRd/9pK5d27UNaSsZ81eikp4OQNqsVqc86VgXeY=;
+	s=arc-20240116; t=1768458886; c=relaxed/simple;
+	bh=mv94Uf47wLc2p2uUkPIInSKkBvPpEDMBknx63iRR++c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KJThfjTdwo83UONGptvpCsYNlHr/xDsiIKAjZgP9vYeU6KSsV7nH45g6FRkg1jyzZxNXe0sHb5xIx7lMJqYU5VEBqsSiG5a94f8klsgqATezEJtpVEU0hO8n6C+6aKI3f3Y9bEfngD0SAaFicZ+cq4ypg/M5D6YdAh7v2EpnDUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KliSw+WN; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=oBvYpRwLgEjGIC9IMyXaeZOfwXpPUKGlGCSk5HCDtkhWfJO8A8BYn6j6Pb8kXZxt1kvG/U9seiTlXL2B23rZWRCV8jdyIESScQNcrPRKMxS+9eycip4k+iKgQQi9n0dDhIcE5Y4T/SqViupSnRngoPY5R8vLkmoSYdiN4sMPE7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t1Sy1xB5; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KliSw+WN"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t1Sy1xB5"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=rd4uquxchhYlI1uf+9FDWEl0NlqA5AmaEDZzEOPLiMs=; b=KliSw+WNr29bncz8c4BN7tP94e
-	2jVB66hArpDHpsoMiE3XPFnrZjihb97/qrgTSQ0aDRTlRCAVno7g6IIR1g6uKMt6j6gYhYG5fK3zM
-	gcoTrHfbKLrMmjWpd2CxkXAK9bPzYQB/kG+u1x2lqJEJPZ+I4Tpezici40KLfQbHl0DJKBx13Yg8p
-	XF147lRY7Owy9KCFFtiiiouWBhEIczOZ1XSMbA87VgjzCclQvbuCOvBsHUReLQan1/yEyEtgo7gYU
-	lRP72zjfMIztgfYPwofHlYWXHexwNV4VOo84UwrlVRK8bWWs+wSDM65c+xG1FleXTMimpP/Ghuu2+
-	L8nFzDhA==;
+	bh=FelXLJKJFTPvfuGarv9AqXqto+G0br03snxCt1zdXxI=; b=t1Sy1xB5Uo5dt8EYs0M2a8PmzD
+	nAvp6IbDaG6PTOOBTv5Jlp0uVjiz+RM0L9cHJNiE5s/7vCRUDROz1p+wnoFdL6agzVpecyg5cYAgT
+	mxc/RFiqzvzkr0cWy7BMYx7Lzh+qrXMurp1mqOKL7kKd5rZ/BH+2zfV31ofLTBgV1P1zqGGwuXUgR
+	dvrR8e0XVTjoLr3ycO7KK8Ol4lfmQ2mIIS459RAdLIsAy3qhqNaC0Dd42ZISnLoqrykewcSro9jjN
+	vNWyhNu430RmfFhUVntlef/JN5SoRgskYMW2asM57izaGLoiudNE9OgVgOOaBNeIKlAHyrYiZpI8Y
+	xYrbazWw==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgGoC-0000000BqpL-44N7;
-	Thu, 15 Jan 2026 06:26:17 +0000
-Message-ID: <e08ada29-556e-4251-b4bb-c122ca3ec3e0@infradead.org>
-Date: Wed, 14 Jan 2026 22:26:16 -0800
+	id 1vgGwM-0000000BrRD-3Gzv;
+	Thu, 15 Jan 2026 06:34:42 +0000
+Message-ID: <d329da11-d33e-4f6d-bf1b-c2466ffb3165@infradead.org>
+Date: Wed, 14 Jan 2026 22:34:41 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,48 +39,79 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm64: errata: Workaround for SI L1 downstream
- coherency issue
-To: Lucas Wei <lucaswei@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com,
- stable@vger.kernel.org, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, robin.murphy@arm.com, maz@kernel.org
-References: <20260114145243.3458315-1-lucaswei@google.com>
- <d10116ae-fc21-42e3-8ee0-a68d3bb72425@infradead.org>
- <CAPTxkvRXmVB9MbPX2vkyhAnLDyJX7YviekOH=y3EcS_1e796Zg@mail.gmail.com>
+Subject: Re: [PATCH] scsi: docs: Add description for missing options of
+ link_power_management_policy
+To: Yiwei Lin <s921975628@gmail.com>, corbet@lwn.net,
+ linux-doc@vger.kernel.org
+Cc: hdegoede@redhat.com, srinivas.pandruvada@linux.intel.com,
+ linux-kernel@vger.kernel.org
+References: <20260115032952.6658-1-s921975628@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAPTxkvRXmVB9MbPX2vkyhAnLDyJX7YviekOH=y3EcS_1e796Zg@mail.gmail.com>
+In-Reply-To: <20260115032952.6658-1-s921975628@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi,
 
-
-On 1/14/26 6:11 PM, Lucas Wei wrote:
-> Hi Randy,
+On 1/14/26 7:29 PM, Yiwei Lin wrote:
+> With the kernel update we have more different policy for SCSI
+> link power management. Add the corresponding description to
+> the file.
 > 
-
->>> +/*
->>> + * We have some earlier use cases to call cache maintenance operation functions, for example,
->>> + * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
->>> + * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
->>> + * safe to have the workaround off by default.
->>
->> But it's not off by default...
+> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
+> ---
+>  .../scsi/link_power_management_policy.rst       | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
 > 
-> I think it's off by default.
-> Would you point me to where the workaround was enabled without cmdline?
+> diff --git a/Documentation/scsi/link_power_management_policy.rst b/Documentation/scsi/link_power_management_policy.rst
+> index 64288dcf1..07fbfd937 100644
+> --- a/Documentation/scsi/link_power_management_policy.rst
+> +++ b/Documentation/scsi/link_power_management_policy.rst
+> @@ -5,13 +5,13 @@ Link Power Managent Policy
+>  ==========================
+>  
+>  This parameter allows the user to set the link (interface) power management.
+> -There are 3 possible options:
+> +There are 6 possible options:
+>  
 
-I'm probably confused by the Kconfig option defaulting to 'y' but the run-time option
-itself is still off by default.  Sorry for the noise.
+These table headings lines (the ===== lines) need to be as long or longer than
+the text. keep_firmware_settings and min_power_with_partial are longer than the
+headings ===== line.
+Please extend the Value column headings ===== line by one character (just
+replace a space by '=') to avoid these warnings:
 
-+config ARM64_ERRATUM_4311569
-+	bool "SI L1: 4311569: workaround for premature CMO completion erratum"
-+	default y
-+	help
-+	  This option adds the workaround for ARM SI L1 erratum 4311569.
+Documentation/scsi/link_power_management_policy.rst:26: ERROR: Malformed table.
+Text in column margin in table line 17.
+
+
+>  =====================   =====================================================
+>  Value			Effect
+>  =====================   =====================================================
+> -min_power		Tell the controller to try to make the link use the
+> -			least possible power when possible.  This may
+> +min_power		Enable slumber mode(no partial mode) for the link to
+> +			use the least possible power when possible.  This may
+>  			sacrifice some performance due to increased latency
+>  			when coming out of lower power states.
+>  
+> @@ -22,4 +22,15 @@ max_performance		Generally, this means no power management.  Tell
+>  medium_power		Tell the controller to enter a lower power state
+>  			when possible, but do not enter the lowest power
+>  			state, thus improving latency over min_power setting.
+> +
+> +keep_firmware_settings	Do not change the current firmware settings for
+> +			Power management. This is the default setting.
+> +
+> +med_power_with_dipm	Same as medium_power, but additionally with
+> +			Device-initiated power management(DIPM) enabled,
+> +			as Intel Rapid Storage Technology(IRST) does.
+> +
+> +min_power_with_partial	Same as min_power, but additionally with partial
+> +			power state enabled, which may improve performance
+> +			over min_power setting.
+>  =====================   =====================================================
 
 -- 
 ~Randy
