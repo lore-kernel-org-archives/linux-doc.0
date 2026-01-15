@@ -1,64 +1,85 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43DE3AEF2C
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 15:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61173ACEE2;
+	Thu, 15 Jan 2026 15:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768489882; cv=none; b=QQc2ZGm4ovqfmAQgG25q5bZaMYpwYmuvo44CN/Y41d5Waqkk4RYQa481M3w/S8FFAK8ThAxMsMGTBzOcW+hvKJmWDoVBfAuQySFehV3l2PDKGCKLCSfJ7VHsz5mWE7a+IFstjNkpaQgFUbbIQ4lY9WxzB9PNASBxVNQ8DvH/nec=
+	t=1768490062; cv=none; b=AIlbH2D3NRMBvxaFG4p4nk6Fhf/1ilJp1aPRbJ7qlzMeEzXttZXp+VeLn8f6lqaAwwEsKLrCffqnbOkW9wwdYQXv3Ub111TEyt1sYNZMRVlcr9sgM6mbUV6JX4oY9cTCTpupD4B0O36mALGOlFzzGfaKaQ5AFpIYuwgv7ibm4SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768489882; c=relaxed/simple;
-	bh=Rdh2+9pDTGK+TmskpvABcQ0or+EGTbKezNLmPe1qvY0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dydaTpwNhtAHY/rmioZfAuUmWCNzgG8YSgo9TYgtOYCnaDR8vDNuWd0G4c+jc4aRfD05PoBz2Uh7nvKNjXbs0yl8TGJSvJhtF3LgseMxmL0jUW3pTeChktUFqGVAk7aCVSA3CpnlQLUw9PIeQmJT0JvTmQ4HcgELKTaOkdme+kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YZONghKj; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1768490062; c=relaxed/simple;
+	bh=KlJS7yWzDPntAj1shRRl81usLthEKoFEFO2HzEY27Cc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pbZ1MyrcHJYgcj6jN0Myd4NbOhC/rfTorQ8nIh1Wyu99co3Pb8lWHr0LgT/gFWbFcVQgJ4Q7LsbFaQFfmaBz1UnsO4uVnG6fQd3FdfbNasvDhO8x0LJ+w5srRMmp/UDbay1GjtcWkd5IWn7KCJ3RiTOhk/uHI5Ja0/fT8r/dlB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3jVz017; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YZONghKj"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5CEC340C99
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768489856; bh=Rdh2+9pDTGK+TmskpvABcQ0or+EGTbKezNLmPe1qvY0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YZONghKj4qpkyfgqda51aaubmQdPOdukf2RtQJ45as+1vTBMOuZbh8GD6frSlIlng
-	 a/U3syc0SbQ5I0qLFx1R3xeD+xgC/tvXY2vbo10E0TXw62j2T7SLRvqsH1RFe+t2pI
-	 2Xt/bF3GFiGTyS00/ts6Ypx99VTkUl7G7J+ZDH9QpHuJtnZaaOgDxqtYRgi1UmqPlc
-	 5bUypH3eh8FyzQ+27OjanvryRBtbdZP/mX2nngHy/e2QFK0SEkD6iKOJd6CM6r0K4q
-	 /V8hGnvQ+WmiDkxeSsryu7t18tZn+ly1+9X1SiKuCJ/U12veMH82GDGdza11oPa/nW
-	 jPLuYvOu2B/AA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5CEC340C99;
-	Thu, 15 Jan 2026 15:10:56 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Petr Vorel <pvorel@suse.cz>, Alejandro Colomar <alx@kernel.org>
-Cc: Askar Safin <safinaskar@gmail.com>, Michael Kerrisk <mtk@man7.org>,
- linux-doc@vger.kernel.org, man-pages@man7.org
-Subject: Re: [PATCH 1/1] Documentation: Link man pages to https://man7.org/
-In-Reply-To: <20260115064021.GA436616@pevik>
-References: <aWFnRcjl5SogBakq@devuan>
- <20260114195334.3958694-1-safinaskar@gmail.com> <aWf1cM9SsMuH-Rxi@devuan>
- <20260115064021.GA436616@pevik>
-Date: Thu, 15 Jan 2026 08:10:55 -0700
-Message-ID: <87a4yeud1c.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3jVz017"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58320C16AAE;
+	Thu, 15 Jan 2026 15:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768490062;
+	bh=KlJS7yWzDPntAj1shRRl81usLthEKoFEFO2HzEY27Cc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g3jVz017r3HjqhJCKdPOFCFYJjbcMIjlP8+4yuFicYPjCQG+yz3Lf4XI0YBHy+jtK
+	 5PZk901fFBfegHw0SpkhOTN7GSwyh9TfFG1yK7PJoMxzOUSsqrqDOjjzXKsHr11/KR
+	 sFPiPPbCd1oUtI1SxaxteydCJ4qYNXqXslUPN8+JuQjy3BmwoyQigl11/RjEo5ZvDC
+	 UAaINvBCQdGnfSF4JpVHRn2Gf2q4NqarN+8wPqFvZMEeMJDM2hC6UvN2js4Mst7Xvx
+	 mEaROrk9b58EMVV61KGPUHM9+Vvbi0+6wkqAUn2gNqfk0fW/bSo/qV8K45nni4JaRr
+	 vQEiptuwvwtwA==
+Date: Thu, 15 Jan 2026 15:14:16 +0000
+From: Lee Jones <lee@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: gregkh@linuxfoundation.org, pavel@kernel.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v21 0/3] leds: add new LED driver for TI LP5812
+Message-ID: <20260115151416.GG2842980@google.com>
+References: <20260113124053.GA2842980@google.com>
+ <20260113132247.36012-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260113132247.36012-1-trannamatk@gmail.com>
 
-Petr Vorel <pvorel@suse.cz> writes:
+On Tue, 13 Jan 2026, Nam Tran wrote:
 
-> @Jonathan any of these sites you would prefer? (if you like this change)
+> On Tue, 13 Jan 2026, Lee Jones wrote:
+> 
+> > On Sun, 11 Jan 2026, Nam Tran wrote:
+> > 
+> > > This patch series adds initial support for the TI LP5812,
+> > > a 4x3 matrix RGB LED driver with autonomous engine control.
+> > > This version provides a minimal, clean implementation focused
+> > > on core functionality only. The goal is to upstream a solid
+> > > foundation, with the expectation that additional features can
+> > > be added incrementally in future patches.
+> > > 
+> > > The driver integrates with the LED multicolor framework and
+> > > supports a set of basic sysfs interfaces for LED control and
+> > > chip management.
+> > > 
+> > > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > 
+> > Still does not apply - which branch did you rebase this to?
+> 
+> I rebased this set onto linux-next, specifically:
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git (master).
+> 
+> Please let me know if you would prefer it rebased onto a different branch.
 
-Still haven't formed an opinion on the series as a whole.
+-next should work, so not sure what's going on there.
 
-I've generally linked to man7.org, but don't have strong opinions there.
+Try this branch instead then:
 
-Thanks,
+  https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git/log/?h=for-leds-next
 
-jon
+-- 
+Lee Jones [李琼斯]
