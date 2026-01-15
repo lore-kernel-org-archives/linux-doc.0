@@ -1,178 +1,293 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B871D2E0B77
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 07:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DA92E8B98;
+	Thu, 15 Jan 2026 08:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768461765; cv=none; b=F2JXs7+Dxi90BwU4N4u4RVXBI9uIy8bqLDAgMcAGcBIz9/RHeiR4y/pGmaENzqyPCibBy4tgMfpcLNEIDWhpaBmosQe+S3wlCMJTtSz5XLYgSESph0ezo2wvW7xIEEvlRdYDaT/VsTQkcMb15VcuDiUEqpPonVeXL/T+zh46boM=
+	t=1768464071; cv=none; b=K8YlHzihxs9nIL/MhcdcuE8evIMG5R5iKrbJq1Sy2vKRXH8+Z8cGLsAcsuENtaGlkcI5kdfNM03CjCgvl4bzeV5hY8OhBxT4X4eSg2hDv2MM8HFZ/3Q7q9o2hGnQ+lSe5p5eGaXg3Qgrc/Y8mMFCDUFwuSBQREp0OXRyblxUYmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768461765; c=relaxed/simple;
-	bh=lL1Avl783rhITTu4HenSV62o9ZTr9XM5crHRP9Og7rs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eNtLSJtIzsaogfz4bg+9lGaASlzHZohP/QEE5i813Zi5Ri7sdkY1ri2LKcZQaMP6fVxYpe6KOp4RjuxAv85GBPMUDOvozslTHzyVYRjcQ9MpFtU3xbjQ/dYJ/lc3HUnM65qisd7nkbQPBPCzy4tYQ0v82urtoNeP7GHecmK0us4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XudOJ7mX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=laRMAzTM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EHOK3G7L; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hnIFZBUb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1768464071; c=relaxed/simple;
+	bh=il+ur2AmFhBIas4/rfObzdgF/u8NIMfbFkNRWVDGI5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=nXn9IpQDK0OxE3m8JhJBmhhHLOrNYfFABrcYSRJV7HpRhmolln5ik063f2jexLIyOI9yCp2/txvq5yPTkDJK5GRUO4NnpjLxdNB0jSIFNaJswdEwDG2wciT7g8yCp+iTtnn4/ukFhmC5s28pDMdvcGQ1u7BwhRa+b9tCt7ELMkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=L2x0TQlK; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XudOJ7mX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="laRMAzTM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EHOK3G7L";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hnIFZBUb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D20F333694;
-	Thu, 15 Jan 2026 07:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768461762;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
-	b=XudOJ7mXjnIlMu3K7TB0kagbLb1j6nnRvRPD/IEC0DEoJZdAWPKWq6viZgqjpf2X5VNEap
-	Cx6R4BrUaFXl+LF7szzxyk8SdYFXL4M/pMa7opi98bXMR//mtYJUpUBuLrzuwYVLVLhNNB
-	FuEkbP/vrzh1iC9/wFPY/VixADrHNso=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768461762;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
-	b=laRMAzTMuY0e1xM1KJ0OlxKvtxtI3igNm1eI91cdWd7eQ9S5M3wV8LhKp8vZQkVLlPMwVa
-	8WJzcpBCjMt/ZbDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768461760;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
-	b=EHOK3G7LUt5NFSkL63tRI1gVs6DgtgfLeW9tSWAhPSyJqR8Dpu9TteYq98YSkVWxb2dPfl
-	Cv5glKbITvpaCnUMw5WPyBYgW/f3xosTrbA43TNKzE8Jz4Rb1Wl24fBQGSVvLc9CCHS1k/
-	CrBgnU+hNvH4jTulh75LGJnARVM4ciU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768461760;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AlpvlU9RUc1F4iCVSO3rQkbgCwaKD8hJUxYfFKTEWPM=;
-	b=hnIFZBUbDdTh8Jjf23yzSwZRQKE4wan9Aarv1CEz22nKP5qYRqNhnXLw+iH2vLihSYeB0T
-	Da0DgR1RIODq1JCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B03F3EA63;
-	Thu, 15 Jan 2026 07:22:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oXj3IMCVaGmrRwAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Thu, 15 Jan 2026 07:22:40 +0000
-Date: Thu, 15 Jan 2026 08:22:31 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: cryolitia@uniontech.com
-Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, workflows@vger.kernel.org,
-	niecheng1@uniontech.com, ltp@lists.linux.it, zhanjun@uniontech.com
-Subject: Re: [LTP] [PATCH RESEND v2] checkpatch: Suppress warnings when
- Reported-by: is followed by Link:
-Message-ID: <20260115072231.GA438294@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20260113-checkpatch-v2-1-5dfe8b9f4d90@uniontech.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="L2x0TQlK"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=oip95iPWTAaoPcXICTEjsNFUgVofongS4JHq1pQa6L4=;
+	b=L2x0TQlK4LzJbCmJflrRMkpTVxA6gI83/6eZn6KclUo4gpTexniFkeVPPZiHQhfze0R5d0q50
+	gncTICkF2qU7f+3t0GNZEGQqkpil4lcHYzM7UtXsvmTsF6if4POl3WYfSAfaudDPXpKA3RYcOIN
+	XxciGDdoRqqFJGWA2w9P58E=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dsFhs5dPxz12Lc0;
+	Thu, 15 Jan 2026 15:58:05 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 72E6B201E9;
+	Thu, 15 Jan 2026 16:01:05 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 15 Jan
+ 2026 16:01:04 +0800
+Message-ID: <abc72d3a-990b-4eaa-9043-185e1d205df5@huawei.com>
+Date: Thu, 15 Jan 2026 16:01:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113-checkpatch-v2-1-5dfe8b9f4d90@uniontech.com>
-X-Spam-Score: -6.00
-X-Spamd-Result: default: False [-6.00 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[canonical.com,perches.com,gmail.com,kernel.org,vger.kernel.org,kvack.org,uniontech.com,lists.linux.it];
-	MISSING_XM_UA(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[cryolitia.uniontech.com];
-	REPLYTO_EQ_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[uniontech.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/11] ACPI: CPPC: add APIs and sysfs interface for
+ perf_limited
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <pierre.gondois@arm.com>, <rdunlap@infradead.org>,
+	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
+	<perry.yuan@amd.com>, <ionela.voinescu@arm.com>, <zhanjie9@hisilicon.com>,
+	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-7-sumitg@nvidia.com>
+ <14851f8e-b6ac-42ff-9623-b7ac8d8893e2@huawei.com>
+ <0a2b7d49-bd1f-442e-9247-705cd2eb0d1c@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <0a2b7d49-bd1f-442e-9247-705cd2eb0d1c@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-Hi Cryolitia,
+On 2026/1/8 22:38, Sumit Gupta wrote:
+> 
+> On 25/12/25 17:36, zhenglifeng (A) wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On 2025/12/23 20:13, Sumit Gupta wrote:
+>>> Add sysfs interface to read/write the Performance Limited register.
+>>>
+>>> The Performance Limited register indicates to the OS that an
+>>> unpredictable event (like thermal throttling) has limited processor
+>>> performance. It contains two sticky bits set by the platform:
+>>>    - Bit 0 (Desired_Excursion): Set when delivered performance is
+>>>      constrained below desired performance. Not used when Autonomous
+>>>      Selection is enabled.
+>>>    - Bit 1 (Minimum_Excursion): Set when delivered performance is
+>>>      constrained below minimum performance.
+>>>
+>>> These bits remain set until OSPM explicitly clears them. The write
+>>> operation accepts a bitmask of bits to clear:
+>>>    - Write 1 to clear bit 0
+>>>    - Write 2 to clear bit 1
+>>>    - Write 3 to clear both bits
+>> It's a bit odd that users write a 1 to and then read a 0 from the sysfs
+>> file. I think it is better to seperate these two bits, as two sysfs files.
+>> Then users can write '0' or 'clear' or others into them to clear each bit.
+> 
+> I think its better to keep one sysfs interface per HW register.
+> Can change the perf_limited write interface to accept bit index
+> instead of bitmask.
+>  - Write 0 to clear bit 0 (desired performance excursion)
+>  - Write 1 to clear bit 1 (minimum performance excursion)
+> 
+> Thank you,
+> Sumit Gupta
 
-> From: Cryolitia PukNgae <cryolitia@uniontech.com>
+I believe that user-facing interfaces should prioritize usability, ideally
+allowing users to guess how to use them simply from the interface name
+without reading any documentation. While this is nearly impossible, user
+interfaces should strive towards this goal, rather than being rigidly bound
+to register implementations.
 
-> > The tag should be followed by a Closes: tag pointing to the report,
-> > unless the report is not available on the web. The Link: tag can be
-> > used instead of Closes: if the patch fixes a part of the issue(s)
-> > being reported.
+Viresh, Rafael, what do you think?
 
-Indeed, this is true, although there is a prerequisite:
+> 
+> 
+>>
+>>> This enables users to detect if platform throttling impacted a workload.
+>>> Users clear the register before execution, run the workload, then check
+>>> afterward - if set, hardware throttling occurred during that time window.
+>>>
+>>> The interface is exposed as:
+>>>    /sys/devices/system/cpu/cpuX/cpufreq/perf_limited
+>>>
+>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>> ---
+>>>   drivers/acpi/cppc_acpi.c       | 56 ++++++++++++++++++++++++++++++++++
+>>>   drivers/cpufreq/cppc_cpufreq.c | 31 +++++++++++++++++++
+>>>   include/acpi/cppc_acpi.h       | 15 +++++++++
+>>>   3 files changed, 102 insertions(+)
+>>>
+>>> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+>>> index 9f28c20d902d..ffd866c1c00d 100644
+>>> --- a/drivers/acpi/cppc_acpi.c
+>>> +++ b/drivers/acpi/cppc_acpi.c
+>>> @@ -1786,6 +1786,62 @@ int cppc_set_max_perf(int cpu, u32 max_perf)
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(cppc_set_max_perf);
+>>>
+>>> +/**
+>>> + * cppc_get_perf_limited - Get the Performance Limited register value.
+>>> + * @cpu: CPU from which to get Performance Limited register.
+>>> + * @perf_limited: Pointer to store the Performance Limited value.
+>>> + *
+>>> + * The returned value contains sticky status bits indicating platform-imposed
+>>> + * performance limitations.
+>>> + *
+>>> + * Return: 0 for success, -EIO on failure, -EOPNOTSUPP if not supported.
+>>> + */
+>>> +int cppc_get_perf_limited(int cpu, u64 *perf_limited)
+>>> +{
+>>> +     return cppc_get_reg_val(cpu, PERF_LIMITED, perf_limited);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(cppc_get_perf_limited);
+>>> +
+>>> +/**
+>>> + * cppc_set_perf_limited() - Clear bits in the Performance Limited register.
+>>> + * @cpu: CPU on which to write register.
+>>> + * @bits_to_clear: Bitmask of bits to clear in the perf_limited register.
+>>> + *
+>>> + * The Performance Limited register contains two sticky bits set by platform:
+>>> + *   - Bit 0 (Desired_Excursion): Set when delivered performance is constrained
+>>> + *     below desired performance. Not used when Autonomous Selection is enabled.
+>>> + *   - Bit 1 (Minimum_Excursion): Set when delivered performance is constrained
+>>> + *     below minimum performance.
+>>> + *
+>>> + * These bits are sticky and remain set until OSPM explicitly clears them.
+>>> + * This function only allows clearing bits (the platform sets them).
+>>> + *
+>>> + * Return: 0 for success, -EINVAL for invalid bits, -EIO on register
+>>> + *         access failure, -EOPNOTSUPP if not supported.
+>>> + */
+>>> +int cppc_set_perf_limited(int cpu, u64 bits_to_clear)
+>>> +{
+>>> +     u64 current_val, new_val;
+>>> +     int ret;
+>>> +
+>>> +     /* Only bits 0 and 1 are valid */
+>>> +     if (bits_to_clear & ~CPPC_PERF_LIMITED_MASK)
+>>> +             return -EINVAL;
+>>> +
+>>> +     if (!bits_to_clear)
+>>> +             return 0;
+>>> +
+>>> +     ret = cppc_get_perf_limited(cpu, &current_val);
+>>> +     if (ret)
+>>> +             return ret;
+>>> +
+>>> +     /* Clear the specified bits */
+>>> +     new_val = current_val & ~bits_to_clear;
+>>> +
+>>> +     return cppc_set_reg_val(cpu, PERF_LIMITED, new_val);
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(cppc_set_perf_limited);
+>>> +
+>>>   /**
+>>>    * cppc_set_enable - Set to enable CPPC on the processor by writing the
+>>>    * Continuous Performance Control package EnableRegister field.
+>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+>>> index 1e282dfabc76..1f8825006940 100644
+>>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>>> @@ -1052,12 +1052,42 @@ static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+>>>        return count;
+>>>   }
+>>>
+>>> +/**
+>>> + * show_perf_limited - Show Performance Limited register status
+>>> + * @policy: cpufreq policy
+>>> + * @buf: buffer to write the value to
+>>> + *
+>>> + * Read the Performance Limited register to check if platform throttling
+>>> + * (thermal/power/current limits) occurred.
+>>> + */
+>>> +static ssize_t show_perf_limited(struct cpufreq_policy *policy, char *buf)
+>>> +{
+>>> +     return cppc_cpufreq_sysfs_show_u64(policy->cpu,
+>>> +                                        cppc_get_perf_limited, buf);
+>>> +}
+>>> +
+>>> +/**
+>>> + * store_perf_limited - Clear Performance Limited register bits
+>>> + * @policy: cpufreq policy
+>>> + * @buf: buffer containing the bitmask of bits to clear
+>>> + * @count: number of bytes in buf
+>>> + *
+>>> + * Write 1 to clear bit 0, 2 to clear bit 1, or 3 to clear both.
+>>> + */
+>>> +static ssize_t store_perf_limited(struct cpufreq_policy *policy,
+>>> +                               const char *buf, size_t count)
+>>> +{
+>>> +     return cppc_cpufreq_sysfs_store_u64(policy->cpu,
+>>> +                                         cppc_set_perf_limited, buf, count);
+>>> +}
+>>> +
+>>>   cpufreq_freq_attr_ro(freqdomain_cpus);
+>>>   cpufreq_freq_attr_rw(auto_select);
+>>>   cpufreq_freq_attr_rw(auto_act_window);
+>>>   cpufreq_freq_attr_rw(energy_performance_preference_val);
+>>>   cpufreq_freq_attr_rw(min_perf);
+>>>   cpufreq_freq_attr_rw(max_perf);
+>>> +cpufreq_freq_attr_rw(perf_limited);
+>>>
+>>>   static struct freq_attr *cppc_cpufreq_attr[] = {
+>>>        &freqdomain_cpus,
+>>> @@ -1066,6 +1096,7 @@ static struct freq_attr *cppc_cpufreq_attr[] = {
+>>>        &energy_performance_preference_val,
+>>>        &min_perf,
+>>>        &max_perf,
+>>> +     &perf_limited,
+>>>        NULL,
+>>>   };
+>>>
+>>> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+>>> index a49b50bddaf9..57e04326a4b6 100644
+>>> --- a/include/acpi/cppc_acpi.h
+>>> +++ b/include/acpi/cppc_acpi.h
+>>> @@ -42,6 +42,11 @@
+>>>   #define CPPC_EPP_PERFORMANCE_PREF            0x00
+>>>   #define CPPC_EPP_ENERGY_EFFICIENCY_PREF              0xFF
+>>>
+>>> +#define CPPC_PERF_LIMITED_DESIRED_EXCURSION  BIT(0)
+>>> +#define CPPC_PERF_LIMITED_MINIMUM_EXCURSION  BIT(1)
+>>> +#define CPPC_PERF_LIMITED_MASK               (CPPC_PERF_LIMITED_DESIRED_EXCURSION | \
+>>> +                                      CPPC_PERF_LIMITED_MINIMUM_EXCURSION)
+>>> +
+>>>   /* Each register has the folowing format. */
+>>>   struct cpc_reg {
+>>>        u8 descriptor;
+>>> @@ -177,6 +182,8 @@ extern int cppc_get_min_perf(int cpu, u64 *min_perf);
+>>>   extern int cppc_set_min_perf(int cpu, u32 min_perf);
+>>>   extern int cppc_get_max_perf(int cpu, u64 *max_perf);
+>>>   extern int cppc_set_max_perf(int cpu, u32 max_perf);
+>>> +extern int cppc_get_perf_limited(int cpu, u64 *perf_limited);
+>>> +extern int cppc_set_perf_limited(int cpu, u64 perf_limited);
+>>>   extern int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf);
+>>>   extern int amd_get_boost_ratio_numerator(unsigned int cpu, u64 *numerator);
+>>>   extern int amd_detect_prefcore(bool *detected);
+>>> @@ -285,6 +292,14 @@ static inline int cppc_set_max_perf(int cpu, u32 max_perf)
+>>>   {
+>>>        return -EOPNOTSUPP;
+>>>   }
+>>> +static inline int cppc_get_perf_limited(int cpu, u64 *perf_limited)
+>>> +{
+>>> +     return -EOPNOTSUPP;
+>>> +}
+>>> +static inline int cppc_set_perf_limited(int cpu, u64 perf_limited)
+>>> +{
+>>> +     return -EOPNOTSUPP;
+>>> +}
+>>>   static inline int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf)
+>>>   {
+>>>        return -ENODEV;
+> 
 
-	The Link: tag can be used instead of Closes: if the patch fixes a part of
-	the issue(s) being reported.
-
-Reviewed-by: Petr Vorel <pvorel@suse.cz>
-
-I also see you Cc LTP ML. FYI we vendored scripts/checkpatch.pl (with occasional
-updates).
-
-Kind regards,
-Petr
-
-> Accroding to Documentation/process/submitting-patches.rst , Link: is
-> also acceptable to followed a Reported-by:
-
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-> ---
-> Link to previous: https://lore.kernel.org/r/20251023-checkpatch-v1-1-ff73ed1027d6@uniontech.com
-> ---
->  scripts/checkpatch.pl | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index c0250244cf7a..dac9d98133c6 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3209,10 +3209,10 @@ sub process {
->  			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
->  				if (!defined $lines[$linenr]) {
->  					WARN("BAD_REPORTED_BY_LINK",
-> -					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . "\n");
-> -				} elsif ($rawlines[$linenr] !~ /^closes:\s*/i) {
-> +					     "Reported-by: should be immediately followed by Closes: or Link: with a URL to the report\n" . $herecurr . "\n");
-> +				} elsif ($rawlines[$linenr] !~ /^(closes|link):\s*/i) {
->  					WARN("BAD_REPORTED_BY_LINK",
-> -					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
-> +					     "Reported-by: should be immediately followed by Closes: or Link: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
->  				}
->  			}
->  		}
