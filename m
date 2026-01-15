@@ -1,154 +1,215 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2B630DD13
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 21:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E6A322B90
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 21:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768512937; cv=none; b=Ecx7r0iFsaVGZdwmBRNHBbDyoyT52UtU/8OWuUdVRozqXQhyNVMPC6xlRPOxAF2KlvZyrQ7xzU/uV/fMs1npakiD5PQNuKXvvYTwIfxHFmTXs4KG7liiMKN3ie+KpuTnEBKIaBDJ7oLgvF9W5va895aJdylp2crGv/AHCjmwW88=
+	t=1768513234; cv=none; b=bEZrvU1FIPIOVsThFFJMleLEYK+PuVNT+lRJAXehqbJ9NvVyvY3gKi9W1vYkotI9ns18pwNktXb6VWJKxklTki6CXBoO/cR+TFl5WE9362MiL1QMS+gLOJIrW6/jhPOcqN+3K7zUQUlnVPyg86G7S7mHg8/3vs5q4/oet2BUP9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768512937; c=relaxed/simple;
-	bh=37YWRbNwvnyyFvjrt7JMRWs3o6ZgMumlyr0qRXEnv1I=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=U7OaJG/zzQMwr6hJfyaA3rf5DJlZA5suAb8BfDkCX+L8N39PNb0q7gVp19H8yFnLi5692coIf81lOtMwxfy/dABa+LjMZY6/TTot9ASu63q7jL8Nxsl30f4ey/aozCMR6WooYlQQdsZfAJvDDVLUYnrfo74WLeazScgN56TTcPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BKarNav8; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1768513234; c=relaxed/simple;
+	bh=YLVgLT4dUXUIoNeLlkn8NPNLP7+k5vVkNVKFyec+BfQ=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RNuwrcWbXXAq8jLKgAQXbkkuX3+gNeaJQF1jVN5MVk+0t2zjr+rsFg/78mWT1X6iqy1u9KgLKOY7x1fRqnHUdIDy4y5o6w/OimjrIkqogaYY/NT/NhwuM6gA5GUvukdWeae7afpGfZ3xZbZ8TNtXt80C8Jp68sDy0mujPHGh02c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lf0IKR0g; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BKarNav8"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 407DEC1F1EC;
-	Thu, 15 Jan 2026 21:35:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CB404606E0;
-	Thu, 15 Jan 2026 21:35:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CB28D10B686F5;
-	Thu, 15 Jan 2026 22:35:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768512931; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=gt0k7cpxkwgvJr17BqCbb8eyAiyjEBq1DZWOyzllr+4=;
-	b=BKarNav81M8+i7lZoS0D+VOJVywBzkYRHvpkHIlKbPtv24BlZr8KLaLaqqP0R+TO19oyFS
-	tNWPUNz242qhsmQENrqIcktYa8Xv9RGvn+L35PvQ85g6Qfj2QIoJ34LX/agrBWQJQf59iO
-	gcuelY/WfZ3nns4x2nxFtprTSlLDCNxRyjT5YHKjK7Ypz6Zh5a4R4MyKTQU1cttKKbvXuu
-	9obSK8lF6vz+K6WEAgZqPkKw/oor7CDWUtsKlq2CCvSL4DKcAmUNOn7XBULVb0Pwp4dRoP
-	Ta9JYB/SZQDsAkR3/XGYKfvhtfIT/MtPVFP/ktUUbSAI60L1oVnUP7dzd6zcuA==
-Message-ID: <51859704-57fd-4913-b09d-9ac58a57f185@bootlin.com>
-Date: Thu, 15 Jan 2026 22:35:26 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lf0IKR0g"
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-5ef2561e395so946033137.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 13:40:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768513230; x=1769118030; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4NEsY4l4MT9Q6cBqefYtZtOy3s+dR+V7JNDYTBav7MA=;
+        b=lf0IKR0gDEJm+zUkDVWEQnyz02mUC38xJjNWbxZSufD5XA2asUWXVijSwCfiKBPOEo
+         PWN0zwI9sbPy850jxDVGg3EN1phjW/RLkghF6vpgkgT1eMMOq+IVHCAkG8t7iYLBGiOE
+         2OQJ8Kkwp1PkAL21akSXUHTuAQZYWtIjKjOFMCceevZ4tbWRG2lu9qaLd0igq4PRS2Oq
+         5C9Ws5/HnJ/M7rLBCJlfM2cq/whe6jHVp4dGrx++x1Icu8+oXFrSjrCjM8PGG6OH8etg
+         9G/QMJ8xqIdsHm44z702O6VasJ7Wmk3KV1SKqu5ZlOO86RoG83E0DFzJadJAts6MtxKr
+         vxuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768513230; x=1769118030;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4NEsY4l4MT9Q6cBqefYtZtOy3s+dR+V7JNDYTBav7MA=;
+        b=DsPCQLAr67347idqd4LvVZVLTzDDqVsRu0qrwUoX59Lt8N+mLpoNfOw/sxRW6ZKV+J
+         UL/uUjoP92WVAy0Qd8HVfbl54yYHQM3BLq15/IQ0xFew1wD08yhOf1wlSZpK+Uq4ocQJ
+         9mHEMkX0+ubjU0SZqXDh8sVrY0LHFFUSlP8gmmj+TWuh94VEIXvQsXjGoZjijFkdt7as
+         v54HUUX6RTKF+DsANZwv1KlQD6RVII78oYED2fuxPAMLj1DjFgVl5sdtTzSCKNuMM3bR
+         oBATWzaUIFZku21LJeoTYtNovzvoYlVCqK33ZFAdZ8g3WPUoW91B6XQeVpnLYez5S4LS
+         kkDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMIpJCF3j74ei4kyUnrCv8k6fqN0n/YJfn7qTq44eQeEhAD7sBELgrnoH5aJwqhBfndXT5m96gKkM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIo99QrDjDPeUgSQALpm6kitbjbBKW2X/s/4sIJkggS696ptQ9
+	G2Gn+AdAPdkS+ntQIv1LvNUxeEBipfKNP12JD+Pzo9NVrZ+l5zYrSfDHa9+uirU26r7GmPSMxrv
+	crT1q++C0qfQhZzPOp7BCXtdSxw9+0WFZXEEeqlSs
+X-Gm-Gg: AY/fxX5RVG0JnEivR1kqpnUg05ofrP01ykBKC6JZf44pzRoA2FenXGFopHCNWO1HX4s
+	AI21tUtixyMzJyETshC+ik9uvtyxp9Nvom5t795wzzTPVW+z7oGOy5Y1S7bEa3t0OzuMXVavNZY
+	A9I/8579uPQxwgOQH28akj1TO3Cla6x1SHiknHCa4IdIzb+hTt7EbAmw4qU7pRMH41VzqIPPpIO
+	i39CmyRbZhAr4FJMCwZ1sK35BVBIRJmSVL35ap1uSZYDQbhxxD11/N4SvDxRj1yvryzJL40YeXK
+	8NWlPxJPHY9K7yhLrjUZBSBLAstuzJiqWqIb
+X-Received: by 2002:a05:6102:947:b0:5db:cec7:810b with SMTP id
+ ada2fe7eead31-5f1a556dabcmr465899137.29.1768513229577; Thu, 15 Jan 2026
+ 13:40:29 -0800 (PST)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 15 Jan 2026 13:40:28 -0800
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 15 Jan 2026 13:40:28 -0800
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260114134510.1835-3-kalyazin@amazon.com>
+References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-3-kalyazin@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
- resume
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Tao Wang <tao03.wang@horizon.auto>
-Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, horms@kernel.org, kuba@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mcoquelin.stm32@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com
-References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
- <20260115070853.116260-1-tao03.wang@horizon.auto>
- <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
- <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
- <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Thu, 15 Jan 2026 13:40:28 -0800
+X-Gm-Features: AZwV_Qj-0gm6vYHJJ3iH96aBpuGEWZXgwnMiQkeNvlZWuDVc-Nc0GygCth2Cvyc
+Message-ID: <CAEvNRgGrpv5h04s+btubhUFHo=d6mBFbr2BVrMt=bWuWOztdJQ@mail.gmail.com>
+Subject: Re: [PATCH v9 02/13] mm/gup: drop secretmem optimization from gup_fast_folio_allowed
+To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
+	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "riel@surriel.com" <riel@surriel.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
+	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "prsampat@amd.com" <prsampat@amd.com>, 
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
+	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+	"pjw@kernel.org" <pjw@kernel.org>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
+	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com" <jackmanb@google.com>, 
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>, 
+	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>, 
+	"Manwaring, Derek" <derekmn@amazon.com>, "Cali, Marco" <xmarcalx@amazon.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi again,
+"Kalyazin, Nikita" <kalyazin@amazon.co.uk> writes:
 
-On 15/01/2026 22:04, Maxime Chevallier wrote:
-> Hi,
-> 
->>
->> I've just run iperf3 in both directions with the kernel I had on the
->> board (based on 6.18.0-rc7-net-next+), and stmmac really isn't looking
->> particularly great - by that I mean, iperf3 *failed* spectacularly.
->>
->> First, running in normal mode (stmmac transmitting, x86 receiving)
->> it's only capable of 210Mbps, which is nowhere near line rate.
->>
->> However, when running iperf3 in reverse mode, it filled the stmmac's
->> receive queue, which then started spewing PAUSE frames at a rate of
->> knots, flooding the network, and causing the entire network to stop.
->> It never recovered without rebooting.
+> From: Patrick Roy <patrick.roy@linux.dev>
+>
+> This drops an optimization in gup_fast_folio_allowed() where
+> secretmem_mapping() was only called if CONFIG_SECRETMEM=y. secretmem is
+> enabled by default since commit b758fe6df50d ("mm/secretmem: make it on
+> by default"), so the secretmem check did not actually end up elided in
+> most cases anymore anyway.
+>
+> This is in preparation of the generalization of handling mappings where
+> direct map entries of folios are set to not present.  Currently,
+> mappings that match this description are secretmem mappings
+> (memfd_secret()).  Later, some guest_memfd configurations will also fall
+> into this category.
+>
+> Signed-off-by: Patrick Roy <patrick.roy@linux.dev>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
+> ---
+>  mm/gup.c | 11 +----------
+>  1 file changed, 1 insertion(+), 10 deletions(-)
+>
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 95d948c8e86c..9cad53acbc99 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2739,7 +2739,6 @@ static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
+>  {
+>  	bool reject_file_backed = false;
+>  	struct address_space *mapping;
+> -	bool check_secretmem = false;
+>  	unsigned long mapping_flags;
+>
+>  	/*
+> @@ -2751,14 +2750,6 @@ static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
 
- [...]
+Copying some lines the diff didn't contain:
 
-> Heh, I was able to reproduce something similar on imx8mp, that has an
-> imx-dwmac (dwmac 4/5 according to dmesg) :
-> 
-> DUT to x86
-> 
-> Connecting to host 192.168.2.1, port 5201
-> [  5] local 192.168.2.13 port 54744 connected to 192.168.2.1 port 5201
-> [ ID] Interval           Transfer     Bitrate         Retr  Cwnd
-> [  5]   0.00-1.00   sec  0.00 Bytes  0.00 bits/sec    2   1.41 KBytes
-> [  5]   1.00-2.00   sec  0.00 Bytes  0.00 bits/sec    1   1.41 KBytes
-> 
-> x86 to DUT :
-> 
-> Reverse mode, remote host 192.168.2.1 is sending
-> [  5] local 192.168.2.13 port 47050 connected to 192.168.2.1 port 5201
-> [ ID] Interval           Transfer     Bitrate
-> [  5]   0.00-1.00   sec   112 MBytes   935 Mbits/sec
-> [  5]   1.00-2.00   sec   112 MBytes   936 Mbits/sec
-> [  5]   2.00-3.00   sec   112 MBytes   936 Mbits/sec
-> 
-> Nothing as bas as what you face, but there's defintely something going
-> on there. "good" news is that it worked in v6.19-rc1, I have a bisect
-> ongoing.
-> 
-> I'll update once I have homed-in on something.
-> 
-> Maxime
+	/*
+	 * If we aren't pinning then no problematic write can occur. A long term
+	 * pin is the most egregious case so this is the one we disallow.
+	 */
+	if ((flags & (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE)) ==
+	    (FOLL_PIN | FOLL_LONGTERM | FOLL_WRITE))
 
-So the bisect results are in, at least for the problem I noticed. It's
-not certain yet this is the same problem as Russell, and maybe not the
-same as Tao Wang as well...
+If we're pinning, can we already return true here? IIUC this function
+is passed a folio that is file-backed, and the check if (!mapping) is
+just there to catch the case where the mapping got truncated.
 
-The culprit commit is :
+Or should we wait for the check where the mapping got truncated? If so,
+then maybe we can move this "are we pinning" check to after this check
+and remove the reject_file_backed variable?
 
-commit 8409495bf6c907a5bc9632464dbdd8fb619f9ceb (HEAD)
-Author: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Date:   Thu Jan 8 17:36:40 2026 +0000
-
-    net: stmmac: cores: remove many xxx_SHIFT definitions
-    
-    We have many xxx_SHIFT definitions along side their corresponding
-    xxx_MASK definitions for the various cores. Manually using the
-    shift and mask can be error prone, as shown with the dwmac4 RXFSTS
-    fix patch.
-    
-    Convert sites that use xxx_SHIFT and xxx_MASK directly to use
-    FIELD_GET(), FIELD_PREP(), and u32_replace_bits() as appropriate.
-    
-    Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-    Link: https://patch.msgid.link/E1vdtw8-00000002Gtu-0Hyu@rmk-PC.armlinux.org.uk
-    Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-
-Lore link :
-
-https://lore.kernel.org/netdev/E1vdtw8-00000002Gtu-0Hyu@rmk-PC.armlinux.org.uk/
-
-I confirm that iperf3 works perfectly in both directions before this commit,
-and I get 0 bits/s when running "iperf3 -c my_host" on the DUT that has stmmac.
-
-Looks like something happened while cleaning-up the macros for the various
-definitions.
-
-Unfortunately it's getting late here, I'm not going to dig any further
-tonight :(
-
-Thanks,
-
-Maxime
+	/*
+	 * The mapping may have been truncated, in any case we cannot determine
+	 * if this mapping is safe - fall back to slow path to determine how to
+	 * proceed.
+	 */
+	if (!mapping)
+		return false;
 
 
+>  		reject_file_backed = true;
+>
+>  	/* We hold a folio reference, so we can safely access folio fields. */
+> -
+> -	/* secretmem folios are always order-0 folios. */
+> -	if (IS_ENABLED(CONFIG_SECRETMEM) && !folio_test_large(folio))
+> -		check_secretmem = true;
+> -
+> -	if (!reject_file_backed && !check_secretmem)
+> -		return true;
+> -
+>  	if (WARN_ON_ONCE(folio_test_slab(folio)))
+>  		return false;
+>
+> @@ -2800,7 +2791,7 @@ static bool gup_fast_folio_allowed(struct folio *folio, unsigned int flags)
+>  	 * At this point, we know the mapping is non-null and points to an
+>  	 * address_space object.
+>  	 */
+> -	if (check_secretmem && secretmem_mapping(mapping))
+> +	if (secretmem_mapping(mapping))
+>  		return false;
+>  	/* The only remaining allowed file system is shmem. */
+>  	return !reject_file_backed || shmem_mapping(mapping);
+> --
+> 2.50.1
