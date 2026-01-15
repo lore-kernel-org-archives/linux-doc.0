@@ -1,118 +1,174 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887192236EB;
-	Thu, 15 Jan 2026 06:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6922DB7B5
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 06:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768458886; cv=none; b=HBCXvHto/mkPSbRY/7B592k7i3zcMi+tJxPSZIZtPtduufNBnQ0HWCAjMST/qe1gqIaE4YdJVQx3g9PtXPtCuvWL7JKO5RVBxi3yv5ATnEY5O4JIHjlqh2GLi9zYhzzo31iE/p2ze4s5TKAgELzh283Qsz0cpQTI3HS8nCBrn2o=
+	t=1768459228; cv=none; b=DGa26IfKtfracUeFidfguyb6aBVP5yCHtcTANaV1FzQElhict5LI4oxr63CJtQchGnwj0p29XTXfPlQpUVZF6ALIUPlk+0gXg5JftLk6z9iEGPObWj6bSdXxDXm3p1xEzyGA8Ctl9H5cfl/rT+O7Xb+9FEwGkYG30pTf+oGtdeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768458886; c=relaxed/simple;
-	bh=mv94Uf47wLc2p2uUkPIInSKkBvPpEDMBknx63iRR++c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oBvYpRwLgEjGIC9IMyXaeZOfwXpPUKGlGCSk5HCDtkhWfJO8A8BYn6j6Pb8kXZxt1kvG/U9seiTlXL2B23rZWRCV8jdyIESScQNcrPRKMxS+9eycip4k+iKgQQi9n0dDhIcE5Y4T/SqViupSnRngoPY5R8vLkmoSYdiN4sMPE7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=t1Sy1xB5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768459228; c=relaxed/simple;
+	bh=aWGh6ii1fU7P9ksdvy5QMsqK4qhfbY/CPvC5M/BF5zw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgwvhXdHczhYkvfk1qcdoGM7kdeFbkW7YEdcArFTr00rNjAZIjxTP6VBxYcd5G6spsdCntNZ3o9RCybAbJ1BSp8snUaCt7cOSD9ruL5UhKKzfojSJHLgDBNkx9+EQdE1Kyiy1XV85MVmT/PTbJUOON0PDdOl4P1HZxXGZWdyEUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K45hrni6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lHTQRBTL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=qMBzJCye; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OxDKJqK7; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="t1Sy1xB5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=FelXLJKJFTPvfuGarv9AqXqto+G0br03snxCt1zdXxI=; b=t1Sy1xB5Uo5dt8EYs0M2a8PmzD
-	nAvp6IbDaG6PTOOBTv5Jlp0uVjiz+RM0L9cHJNiE5s/7vCRUDROz1p+wnoFdL6agzVpecyg5cYAgT
-	mxc/RFiqzvzkr0cWy7BMYx7Lzh+qrXMurp1mqOKL7kKd5rZ/BH+2zfV31ofLTBgV1P1zqGGwuXUgR
-	dvrR8e0XVTjoLr3ycO7KK8Ol4lfmQ2mIIS459RAdLIsAy3qhqNaC0Dd42ZISnLoqrykewcSro9jjN
-	vNWyhNu430RmfFhUVntlef/JN5SoRgskYMW2asM57izaGLoiudNE9OgVgOOaBNeIKlAHyrYiZpI8Y
-	xYrbazWw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgGwM-0000000BrRD-3Gzv;
-	Thu, 15 Jan 2026 06:34:42 +0000
-Message-ID: <d329da11-d33e-4f6d-bf1b-c2466ffb3165@infradead.org>
-Date: Wed, 14 Jan 2026 22:34:41 -0800
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K45hrni6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lHTQRBTL";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="qMBzJCye";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OxDKJqK7"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EBCD533694;
+	Thu, 15 Jan 2026 06:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768459224;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNzk2/uIjitYDVt3dGIcDQ+WU2RksEqN1dg/ZPD4iQc=;
+	b=K45hrni6UEXNPOCZx6wNurhAXGq16xiDhwPlZQp6tSdn2ADpauZ/iiKj+SX2sKFEK/fZTM
+	Bg4Ypp8NrMr4FQLE4PP54FEOEpTz5HQeGl63EiZa5g+vLXY3hwppc/8Z70l+ZJmKowTgVf
+	M5KHvC45bArPNUwlNap4MX7EMdBoAls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768459224;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNzk2/uIjitYDVt3dGIcDQ+WU2RksEqN1dg/ZPD4iQc=;
+	b=lHTQRBTLRtzKqyTJyMuzJ0McWIGdbxPPi2CIP6HZ/6w/okdiZXLJZnpZSPvDsGsI2qQfbD
+	FrMgd08aalzt0ECw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qMBzJCye;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OxDKJqK7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768459222;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNzk2/uIjitYDVt3dGIcDQ+WU2RksEqN1dg/ZPD4iQc=;
+	b=qMBzJCyeLA/FiDa60sszIKarSHb8854ghxKvYaW0vLWilx20/zhZNzLLZFvVwLOV3XQ38d
+	TQjBxiUtAOXaMHvNaZ+aukaWUtg8A/n08MlBizGC5njyJU0V6U9IKgaSmqkEbh0nJ058o6
+	CwCXV8atdxmxW5jHg4sg7gznzOf8dsI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768459222;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNzk2/uIjitYDVt3dGIcDQ+WU2RksEqN1dg/ZPD4iQc=;
+	b=OxDKJqK78TNnYSRf0SveTaqK4q9mMGY0vy/Py3a1hzdAoNFcWHW2D3WaDpNQjzn6WPCHzF
+	4qxv9wM8RxSaZHAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86A0F3EA63;
+	Thu, 15 Jan 2026 06:40:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mrj5HNaLaGmxHwAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Thu, 15 Jan 2026 06:40:22 +0000
+Date: Thu, 15 Jan 2026 07:40:21 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Askar Safin <safinaskar@gmail.com>, Michael Kerrisk <mtk@man7.org>,
+	corbet@lwn.net, linux-doc@vger.kernel.org, man-pages@man7.org
+Subject: Re: [PATCH 1/1] Documentation: Link man pages to https://man7.org/
+Message-ID: <20260115064021.GA436616@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <aWFnRcjl5SogBakq@devuan>
+ <20260114195334.3958694-1-safinaskar@gmail.com>
+ <aWf1cM9SsMuH-Rxi@devuan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scsi: docs: Add description for missing options of
- link_power_management_policy
-To: Yiwei Lin <s921975628@gmail.com>, corbet@lwn.net,
- linux-doc@vger.kernel.org
-Cc: hdegoede@redhat.com, srinivas.pandruvada@linux.intel.com,
- linux-kernel@vger.kernel.org
-References: <20260115032952.6658-1-s921975628@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260115032952.6658-1-s921975628@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWf1cM9SsMuH-Rxi@devuan>
+X-Spam-Score: -2.71
+X-Spamd-Result: default: False [-2.71 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	URL_IN_SUBJECT(1.00)[man7.org];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[archlinux.org:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:replyto,opensuse.org:url];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,man7.org,lwn.net,vger.kernel.org];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: EBCD533694
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Hi,
+> Hi Askar,
 
-On 1/14/26 7:29 PM, Yiwei Lin wrote:
-> With the kernel update we have more different policy for SCSI
-> link power management. Add the corresponding description to
-> the file.
-> 
-> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
-> ---
->  .../scsi/link_power_management_policy.rst       | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/scsi/link_power_management_policy.rst b/Documentation/scsi/link_power_management_policy.rst
-> index 64288dcf1..07fbfd937 100644
-> --- a/Documentation/scsi/link_power_management_policy.rst
-> +++ b/Documentation/scsi/link_power_management_policy.rst
-> @@ -5,13 +5,13 @@ Link Power Managent Policy
->  ==========================
->  
->  This parameter allows the user to set the link (interface) power management.
-> -There are 3 possible options:
-> +There are 6 possible options:
->  
+> On Wed, Jan 14, 2026 at 10:53:34PM +0300, Askar Safin wrote:
+> > Alejandro Colomar <alx@kernel.org>:
+> > > FWIW, Michael has been following recent releases of the project quite
+> > > promptly (faster than distros), so it's reasonable to use it.
 
-These table headings lines (the ===== lines) need to be as long or longer than
-the text. keep_firmware_settings and min_power_with_partial are longer than the
-headings ===== line.
-Please extend the Value column headings ===== line by one character (just
-replace a space by '=') to avoid these warnings:
+> Hmmm, he didn't publish 6.16 yet, indeed.  I hadn't realized.
 
-Documentation/scsi/link_power_management_policy.rst:26: ERROR: Malformed table.
-Text in column margin in table line 17.
+Ah, pity. From my point was nice that man7.org is non-distro related.
+
+> > I don't think so. There is still no open_tree(2) on man7.org .
+
+> > I suggest using https://manpages.debian.org/unstable/ instead.
+
+> That would be okay, although Debian is sometimes also a bit laggy.
+
+> Arch might be more up-to-date when man7.org isn't.
+> <https://man.archlinux.org/man/open_tree.2.en>
 
 
->  =====================   =====================================================
->  Value			Effect
->  =====================   =====================================================
-> -min_power		Tell the controller to try to make the link use the
-> -			least possible power when possible.  This may
-> +min_power		Enable slumber mode(no partial mode) for the link to
-> +			use the least possible power when possible.  This may
->  			sacrifice some performance due to increased latency
->  			when coming out of lower power states.
->  
-> @@ -22,4 +22,15 @@ max_performance		Generally, this means no power management.  Tell
->  medium_power		Tell the controller to enter a lower power state
->  			when possible, but do not enter the lowest power
->  			state, thus improving latency over min_power setting.
-> +
-> +keep_firmware_settings	Do not change the current firmware settings for
-> +			Power management. This is the default setting.
-> +
-> +med_power_with_dipm	Same as medium_power, but additionally with
-> +			Device-initiated power management(DIPM) enabled,
-> +			as Intel Rapid Storage Technology(IRST) does.
-> +
-> +min_power_with_partial	Same as min_power, but additionally with partial
-> +			power state enabled, which may improve performance
-> +			over min_power setting.
->  =====================   =====================================================
+> IIRC, Arch has a good track of being the quickest distro to package new
+> releases of the Linux man-pages project.
 
--- 
-~Randy
+> In any case, I think either of man7/Debian unstable/Arch is a relatively
+> good choice.
 
+Also openSUSE Tumbleweed:
+https://manpages.opensuse.org/Tumbleweed/man-pages/open_tree.2.en.html
+
+@Jonathan any of these sites you would prefer? (if you like this change)
+
+Kind regards,
+Petr
+
+> Have a lovely night!
+> Alex
+
+
+> > -- 
+> > Askar Safin
