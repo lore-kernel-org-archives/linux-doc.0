@@ -1,45 +1,73 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4AE282EB;
-	Thu, 15 Jan 2026 06:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB371309EF7
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 06:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768459678; cv=none; b=X57f004RcC4nORAsoCaP/ylqR2ZjCDvkXYlYUaPttHIFQ8x3LRIbt5wDbyBjN5F06tXG9SFDulXeMYzK9cwGp940bUYpuMNPzN4N1hkkrpn2Yzi/lBxX4Y0oxGozadGomutV90Z9pqlZ/qKQ/B3woHlRkPQMs5NRGqk42w/vFow=
+	t=1768460052; cv=none; b=jV0Y5ghV6h1J6F6I8aALvS2okizeU2s8TWbhqjF6kbw2T45WsPdLRcnLiU8vaB6shK8sx+ibm39yDY5qCzzZ4PXpxGq9hnTDkL9poyZ7FFMbWTLvJ/eBryFsZGvIaTmlOI/mHWW1sEFAdmJ+FSKinpyanSJRHketBN6w3i0ZATo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768459678; c=relaxed/simple;
-	bh=oDLvYGJrdViK5ppA5IPeKs7Gae0fYg9Dz5ORqGmzE2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ESC0MIo7bQH/EF0sy1Y8gZnPoe8K8AO2q53fIM6JnYZPr5A9WCNKwP/O64uaHjpcRGLZBnT44DuGX2OvFB3zwKCLctBj9E/T1WAuJ1Fe28epYuprbv5mlpotyraJshlh06fIgVaaAXNtNybQ8rqpcBD1KxnPm8f8Hvd9YRKjKuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fBOmSDme; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768460052; c=relaxed/simple;
+	bh=B3BbHcJxCbl5kZ6l1jOVKdEUzVWNYI0omxaP2/+qVLA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YHRXig/32TzcfmvKUs4GoreILuTtUNopGtErJptNEEvxz6WXCpn2vyj8GKhWsTHiJ9Cd6U2XS3F+IcaNPrJV2lGAWG3t3vuAnynAgxuC2ohPy5YTHUyXW8NndoQLa43eTi87Ihh7i+DZp6XGRTOTypUGNtByTO2URclVZcFEJHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c9lcc5mg; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fBOmSDme"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=r4ZYrndUdmykkWpA2HDaycS96f9Fhc4y1mchGGN3DBc=; b=fBOmSDme2BV0U1fVglIPoNbB3o
-	0Ob/M+MbXeSMisJBSx6D56ZwCy4fdqPCwyRhD2pl5HA0tRH5Xs+pc8WnaWk0DEJKBfN92ygGt8Lhx
-	/CdmNYEiOdcWUoMW2fj42uDSnfWEPqBZybA7VdPNTXalm14GITY9DQeXXaEVmzOZOTxikCq+pUz9U
-	mAtzGSVZ+Qq6gZNSxBqqy3G0eunHaBjpJzlvbwkwgZjuQ+s6Ea7iFtC44Vos7Q6Qf/L2/BpZVEJvM
-	2UuLwSoHISHUoZ0zJ54qWVoGZx4pT3v1jhPB4zLMEyrSNDcNUV/9SV/Y/O5UgmAVngGU6e8XeCOrE
-	iHn3Qbvg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgH9A-0000000Bsbp-3noK;
-	Thu, 15 Jan 2026 06:47:56 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v4] kernel-chktaint: add reporting for tainted modules
-Date: Wed, 14 Jan 2026 22:47:56 -0800
-Message-ID: <20260115064756.531592-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c9lcc5mg"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-81f42a49437so293333b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 22:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768460049; x=1769064849; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kKhd618xjsvDuEuPwrm+JCeU68pfSg69amjpKuyrL+8=;
+        b=c9lcc5mgnASJU8Zg3JkmuqoLW4u2glHym857t9BWo5d9kXylX+LpQ+0ZojYbp2Hfaw
+         F6+W+Rbz5LhzfxyQmxwP0yNwpEBD6irqQeGoGvIKNfodQ69ZZ1Eh0rmHljjNZDbke6bg
+         YAU52OnufryCbSk4quHfhtIdsyZwMnYW8/n8WNMKStPWj7mtqEgpplBHqXONgT9rsY9p
+         3G3fWkbvQLPpVLm3sDQPjdILlMxknr3liDW4CkiLzVdPnQmMFc86FXWvqoSJvILsniPr
+         amy6CMSvphrRa8ifXrbRKJ+4eh2WZ3eS49RyDnr+6mRFAoq09H49LwnL9BQzB0uH0vHu
+         IDqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768460049; x=1769064849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kKhd618xjsvDuEuPwrm+JCeU68pfSg69amjpKuyrL+8=;
+        b=sDcEKL5WOTlG9BOJKrx8n1Q5nRGnm8nDO92vcX8pjlbKWZcsuQj/5t6ws8k6QMCjYO
+         WGA+gu8VuqH7+H/LKUYsGlFpJke5HTbvYtyEzSKPrU/G/OjilDkA+usckExrH+LWz/rS
+         3hTG4+Caja0+rLJSr2l9QZN1qDRof23VCvWaCeb0ERhmpLY7mCnPSzcbIkE+58cSB1UV
+         0ekK6S3hvVB0fOqpgyglBpTHWG+/6aA6d/p9mGGi+Hb8Wf4O/sUv0h9nm27yc+dlBFq+
+         yzbtlHND8ndGomQlW1y2Lga7auWdXKcW01DDYAEGNOBCD03FlaKT57vDyhueU0E9EqHL
+         xZ9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUd9jCtPXLRemrSCFioFLu39aMvGXPm3O2pc6XhBpT+NDFNXmrEYFVD0YKCTQ8opojefx35upz8Yh0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYyNerPudeu8zmkaljKXE4R7lbIEZqC6A8zMaOVw1VdHgrUCXK
+	tzRbwT+LgLqosqaVRIT7WmG+7CWjx3tQ9V3duQVPyfV0kLa5X8dIjy6r
+X-Gm-Gg: AY/fxX6Roi62nLS1GFCX1Z4jagqt6bqUYzzZTsLZqXmK3G/25wbl22dL0Nl9Pztjhng
+	tFlez1Luz7cAhWiDN/7J+HrCnoNA73Ho5Lit+ub2+zhuiU5xjD+LkYfR/AhPsyMrO98iXS8s+ki
+	Vra1U7brbKwgMisrnmNGJzVgkoLQAjrbHcgj+TwRh8c7bdKljW5Yh68asPXbghmzQiP+Sno5VW/
+	qgxoQY1lj7mo8nTcWU1nurVWsuFNLbyGqQXAF0Imx5IHe4CejC8sxg/695qDelJKjoa4TL17XmZ
+	uIPEYR3q9BALkujLoC8xb8qXvjSHlZ5RwH/tEH+hfgl0V9izSjFzRRxclf9LAN2FKJj9Zn7rJer
+	cnd025WQsBm6ltoPkgDaLEBWhg3rDHjbYy/PJPIye9alnXZY8gO/wYt0Vp+3M0LF+NYwTuGMYOp
+	yHRj8YRwOlnM9qSNMqajSr9A==
+X-Received: by 2002:a05:6a00:4196:b0:81f:4abd:f15b with SMTP id d2e1a72fcca58-81f8200640amr4799382b3a.58.1768460048941;
+        Wed, 14 Jan 2026 22:54:08 -0800 (PST)
+Received: from localhost.localdomain ([72.25.121.34])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f8e4b8246sm1499683b3a.3.2026.01.14.22.54.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 22:54:08 -0800 (PST)
+From: Yiwei Lin <s921975628@gmail.com>
+To: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	rdunlap@infradead.org
+Cc: hdegoede@redhat.com,
+	srinivas.pandruvada@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	Yiwei Lin <s921975628@gmail.com>
+Subject: [PATCH v2] scsi: docs: Add description for missing options of link_power_management_policy
+Date: Thu, 15 Jan 2026 14:53:41 +0800
+Message-Id: <20260115065341.10230-1-s921975628@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,62 +76,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check all loaded modules and report any that have their 'taint'
-flags set.  The tainted module output format is:
- * <module_name> (<taint_flags>)
+With the kernel update we have more different policy for SCSI
+link power management. Add the corresponding description to
+the file.
 
-Example output:
-
-Kernel is "tainted" for the following reasons:
- * externally-built ('out-of-tree') module was loaded  (#12)
- * unsigned module was loaded (#13)
-Raw taint value as int/string: 12288/'G           OE      '
-
-Tainted modules:
- * dump_test (OE)
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
+Signed-off-by: Yiwei Lin <s921975628@gmail.com>
 ---
-v2: change tainted modules output a bit (Thorsten);
-v3: add Acked-by from Thorsten (forgot it on v2);
-    more changes as suggested by Thorsten;
-v4: no changes, just resend.
+ .../scsi/link_power_management_policy.rst     | 23 ++++++++++++++-----
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- tools/debugging/kernel-chktaint |   18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
---- linux-next-20251210.orig/tools/debugging/kernel-chktaint
-+++ linux-next-20251210/tools/debugging/kernel-chktaint
-@@ -211,9 +211,25 @@ else
- 	addout "J"
- 	echo " * fwctl's mutating debug interface was used (#19)"
- fi
-+echo "Raw taint value as int/string: $taint/'$out'"
-+
-+# report on any tainted loadable modules
-+[ "$1" = "" ] && [ -r /sys/module/ ] && \
-+	cnt=`grep [A-Z] /sys/module/*/taint | wc -l` || cnt=0
+diff --git a/Documentation/scsi/link_power_management_policy.rst b/Documentation/scsi/link_power_management_policy.rst
+index 64288dcf1..e350892cc 100644
+--- a/Documentation/scsi/link_power_management_policy.rst
++++ b/Documentation/scsi/link_power_management_policy.rst
+@@ -5,13 +5,13 @@ Link Power Managent Policy
+ ==========================
  
-+if [ $cnt -ne 0 ]; then
-+	echo
-+	echo "Tainted modules:"
-+	for dir in `ls /sys/module` ; do
-+		if [ -r /sys/module/$dir/taint ]; then
-+			modtnt=`cat /sys/module/$dir/taint`
-+			[ "$modtnt" = "" ] || echo " * $dir ($modtnt)"
-+		fi
-+	done
-+fi
+ This parameter allows the user to set the link (interface) power management.
+-There are 3 possible options:
++There are 6 possible options:
+ 
+-=====================   =====================================================
++======================  =====================================================
+ Value			Effect
+-=====================   =====================================================
+-min_power		Tell the controller to try to make the link use the
+-			least possible power when possible.  This may
++======================  =====================================================
++min_power		Enable slumber mode(no partial mode) for the link to
++			use the least possible power when possible.  This may
+ 			sacrifice some performance due to increased latency
+ 			when coming out of lower power states.
+ 
+@@ -22,4 +22,15 @@ max_performance		Generally, this means no power management.  Tell
+ medium_power		Tell the controller to enter a lower power state
+ 			when possible, but do not enter the lowest power
+ 			state, thus improving latency over min_power setting.
+-=====================   =====================================================
 +
-+echo
- echo "For a more detailed explanation of the various taint flags see"
- echo " Documentation/admin-guide/tainted-kernels.rst in the Linux kernel sources"
- echo " or https://kernel.org/doc/html/latest/admin-guide/tainted-kernels.html"
--echo "Raw taint value as int/string: $taint/'$out'"
- #EOF#
++keep_firmware_settings	Do not change the current firmware settings for
++			Power management. This is the default setting.
++
++med_power_with_dipm	Same as medium_power, but additionally with
++			Device-initiated power management(DIPM) enabled,
++			as Intel Rapid Storage Technology(IRST) does.
++
++min_power_with_partial	Same as min_power, but additionally with partial
++			power state enabled, which may improve performance
++			over min_power setting.
++======================  =====================================================
+-- 
+2.34.1
+
