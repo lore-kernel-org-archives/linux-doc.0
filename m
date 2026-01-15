@@ -1,57 +1,152 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD2E32AAD3;
-	Thu, 15 Jan 2026 12:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FFE34D911;
+	Thu, 15 Jan 2026 12:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768478983; cv=none; b=ZYY3sDLdm0n1ykaNTH/N4sKX8Mtpk1PmZO043nDr91MHuGlzDHI3BKb36g6LNOXqZyEt74Ligs4UPPk+ei9wir/rXH77jb0nfYJWwIsPpd3oXSIIQBGEFJV7YJoRkPwTzk73Jbibw1rByanB6X5ewh68sejLV2dg7NR38SORenM=
+	t=1768479251; cv=none; b=VRnD3xi0hQJsrTrS2Y4o5qzstyUYbvGafTwVnncn4CDtBgGQYgoLcK5ANHeCJgwDZVF0PU2igA9DSq76McvbOxLciS/xbuIydqd1cxWlIzmIQ5qj1fVNIz8A2Txu1jpSWNW3o3jqQB4nuztCrqtQwJvQqhQvnoQTYLTqp7txWaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768478983; c=relaxed/simple;
-	bh=e7AlCNzlVH3ZmlehrqqZwgELJt8oDva2zlAwZPPPcKI=;
+	s=arc-20240116; t=1768479251; c=relaxed/simple;
+	bh=dbbBys7KiuTWXq9B3XNkEcrhBqu1MPkgaTNO6LYJB2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qg0qtZdlzGfCxKa9SYTtOqgGtWBuCluxZQgoH1hl6JExOsVt8ISUqHaRCAvo5EnvOPZC1sZavwKBSdZKhhUyVfs04A0AG5zwkiisVa6Keczr2p8MUrQpRaPnwIVRE+T7xaLTH1iQuNMbih2m/bvsmRfRo0/7I3pFKXiBrh1MrNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=BerLoNwp; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5E75rdxv3N5kPsKlhPwAvYhBw9aJ7pfg55n4oFpkdSi3NhaNzFmCcfTjQv/ofzDP7Nx3M2XaTr4O72IYKIsOy/pkGxxeYqEFb0YNLVqwH0U5V+NMjV6GLQWnQDGDRGTMBN5/HuhFYdUw0OX+bDKz8YLki3LTgEFwXYkrvd+piY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cuKu8ya/; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="BerLoNwp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=CpDlZDYGk/1e+fdVI0TLnG6gmOYxSARFLqzqg3eymM0=; b=BerLoNwpnMfmGC+gbR6vvcItKY
-	Bg0w0BRZtrFSV0g3p33pSNJe9hAurONKc9POnEfhqpTlETL4VgGGq/II/dSJ8CcJzELdWiu4pPTSw
-	kZ2oOz+f560G5soZE81OPIjtbJk5Z3lS6QqnXWfhFyWSpQmQBN9wuUbaywSCnu4nhnml3jBbmtfaF
-	RGKZ5ZWJOAsTxyqn8xqkioanhRXAVleOPoS1TbIAOt25gupt+sLYAezz0bnXzQCEzemEl8C6v1SQ/
-	9/Cy7mf5/8ZlSZKJFPh9piLGjwHrFqCrjl+D4nojDrPPlfsZ/Rza5OJBUE0SA9U9D7Xmwx2vlgyV/
-	8qSiv/Hw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:46422)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vgMAG-000000001FZ-3JWl;
-	Thu, 15 Jan 2026 12:09:24 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vgMAA-000000002bd-2qwX;
-	Thu, 15 Jan 2026 12:09:18 +0000
-Date: Thu, 15 Jan 2026 12:09:18 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Tao Wang <tao03.wang@horizon.auto>
-Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, horms@kernel.org,
-	kuba@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maxime.chevallier@bootlin.com,
-	mcoquelin.stm32@gmail.com, netdev@vger.kernel.org,
-	pabeni@redhat.com
-Subject: Re: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out
- after resume
-Message-ID: <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
-References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
- <20260115070853.116260-1-tao03.wang@horizon.auto>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cuKu8ya/"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60FBh0Lo026299;
+	Thu, 15 Jan 2026 12:12:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=Ltc+hcjxizM3P3QQBHE8tMO8jkD4Ax
+	QpYmpFhYGG4/w=; b=cuKu8ya/gJARYizZ+g/vHOY4PzDBHZF7Wwq1mv4V5AdCv1
+	XtCNos0bxbpmqKnKdLi4H5IdfKb9s7ch6G1geIanNdWa/X3K6YkKRecaAPokUfb2
+	1x4mgLqPN16fB0/D0Pkm6U/pb59Ogtc3eOpM1B44xD2ehHe+glr2xrd1WVELSucC
+	w1jyKp86zhqkdOnALb30dL2/ACSyMp7uPc3x6mqSdi/3nwslJn8vSQg4Ja6SAUY9
+	GldKPVt66qLjpOUIAyutPLXE6dH9uWTlCr+0Z+SnIyuknO5Dx7wiiH3LkchHwh+j
+	RNdQcJfkXvDGCHWjOidfiUORs+UGEwXKLPICprOA==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bpja4k093-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Jan 2026 12:12:17 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60FBW8mI025858;
+	Thu, 15 Jan 2026 12:12:16 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4bm2kkqtyb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Jan 2026 12:12:15 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60FCCBvg36634880
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 15 Jan 2026 12:12:11 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B634A2004D;
+	Thu, 15 Jan 2026 12:12:11 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B8BAA20040;
+	Thu, 15 Jan 2026 12:12:10 +0000 (GMT)
+Received: from osiris (unknown [9.52.214.206])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 15 Jan 2026 12:12:10 +0000 (GMT)
+Date: Thu, 15 Jan 2026 13:12:09 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
+Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "kernel@xen0n.name" <kernel@xen0n.name>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "pbonzini@redhat.com" <pbonzini@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+        "oupton@kernel.org" <oupton@kernel.org>,
+        "joey.gouly@arm.com" <joey.gouly@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "seanjc@google.com" <seanjc@google.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "david@kernel.org" <david@kernel.org>,
+        "lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+        "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+        "vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+        "surenb@google.com" <surenb@google.com>,
+        "mhocko@suse.com" <mhocko@suse.com>, "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "martin.lau@linux.dev" <martin.lau@linux.dev>,
+        "eddyz87@gmail.com" <eddyz87@gmail.com>,
+        "song@kernel.org" <song@kernel.org>,
+        "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+        "kpsingh@kernel.org" <kpsingh@kernel.org>,
+        "sdf@fomichev.me" <sdf@fomichev.me>,
+        "haoluo@google.com" <haoluo@google.com>,
+        "jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+        "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+        "peterx@redhat.com" <peterx@redhat.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "pfalcato@suse.de" <pfalcato@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "riel@surriel.com" <riel@surriel.com>,
+        "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+        "jgross@suse.com" <jgross@suse.com>,
+        "yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>,
+        "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>,
+        "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
+        "ackerleytng@google.com" <ackerleytng@google.com>,
+        "maobibo@loongson.cn" <maobibo@loongson.cn>,
+        "prsampat@amd.com" <prsampat@amd.com>,
+        "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+        "jmattson@google.com" <jmattson@google.com>,
+        "jthoughton@google.com" <jthoughton@google.com>,
+        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+        "alex@ghiti.fr" <alex@ghiti.fr>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
+        "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+        "dev.jain@arm.com" <dev.jain@arm.com>,
+        "gor@linux.ibm.com" <gor@linux.ibm.com>,
+        "Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
+        "palmer@dabbelt.com" <palmer@dabbelt.com>,
+        "pjw@kernel.org" <pjw@kernel.org>,
+        "shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
+        "svens@linux.ibm.com" <svens@linux.ibm.com>,
+        "thuth@redhat.com" <thuth@redhat.com>,
+        "wyihan@google.com" <wyihan@google.com>,
+        "yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
+        "vannapurve@google.com" <vannapurve@google.com>,
+        "jackmanb@google.com" <jackmanb@google.com>,
+        "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+        "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
+        "Thomson, Jack" <jackabt@amazon.co.uk>,
+        "Itazuri, Takahiro" <itazur@amazon.co.uk>,
+        "Manwaring, Derek" <derekmn@amazon.com>,
+        "Cali, Marco" <xmarcalx@amazon.co.uk>
+Subject: Re: [PATCH v9 01/13] set_memory: add folio_{zap,restore}_direct_map
+ helpers
+Message-ID: <20260115121209.7060B42-hca@linux.ibm.com>
+References: <20260114134510.1835-1-kalyazin@amazon.com>
+ <20260114134510.1835-2-kalyazin@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,248 +155,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115070853.116260-1-tao03.wang@horizon.auto>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20260114134510.1835-2-kalyazin@amazon.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDA4NiBTYWx0ZWRfX8xuvdIWONZns
+ NVj8BAvAH4TNQ9O0kDyAmsAi7jrDlvBlIX5lrVtDjlKsAykqSak61W2NzOEE/mTeTapMZAxp4BE
+ Kg5JlEQ4oCZWkWECJyrK2hjes04NLm7FAxGCZLFEpSOLNK1+igAOkLJOHY9GXNAN7bkVCl9xtfU
+ qXDykXOjQUTOWBz25zMoy3olki99jMxOPUC0PwGY/k8vF3D7ujIT5mkzaC/zsmark/FqUFuC91E
+ +10vy+dh49wFMZRjzJA1LX+EM18nWBc15kk/7b4DHobAhio5bH3z57/Jt8du8sRGsMSFOrV8v9q
+ 1gZM94iCNVVUgv/wFLJNo3sZMr4MvSRNs611NG5Gl6uaOxxj0gsx1F0GA9AWcV2yHhAJAOQjPhG
+ ywiloEVRKAUYbQRI1zQhnfFyDO73c8tnH757E4fEE+iW/HO5M2Mf9Wc16eZZ8naIw0Qe3IcZlBk
+ 4FgoOq0SpQYiKqDUr5w==
+X-Proofpoint-ORIG-GUID: SiTgUlerDfUVs79tMKJhCw9rSIvAm_ra
+X-Proofpoint-GUID: SiTgUlerDfUVs79tMKJhCw9rSIvAm_ra
+X-Authority-Analysis: v=2.4 cv=U4afzOru c=1 sm=1 tr=0 ts=6968d9a1 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=vggBfdFIAAAA:8 a=3DJOwtP4az6VclhYBKkA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-15_03,2026-01-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1011 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601150086
 
-On Thu, Jan 15, 2026 at 03:08:53PM +0800, Tao Wang wrote:
-> > While I agree with the change for stmmac_tso_xmit(), please explain why
-> > the change in stmmac_free_tx_buffer() is necessary.
-> >
-> > It seems to me that if this is missing in stmmac_free_tx_buffer(), the
-> > driver should have more problems than just TSO.
+On Wed, Jan 14, 2026 at 01:45:23PM +0000, Kalyazin, Nikita wrote:
+> From: Nikita Kalyazin <kalyazin@amazon.com>
 > 
-> The change in stmmac_free_tx_buffer() is intended to be generic for all
-> users of last_segment, not only for the TSO path.
+> These allow guest_memfd to remove its memory from the direct map.
+> Only implement them for architectures that have direct map.
+> In folio_zap_direct_map(), flush TLB on architectures where
+> set_direct_map_valid_noflush() does not flush it internally.
 
-However, transmit is a hotpath, so work needs to be minimised for good
-performance. We don't want anything that is unnecessary in these paths.
+...
 
-If we always explicitly set .last_segment when adding any packet to the
-ring, then there is absolutely no need to also do so when freeing them.
+> diff --git a/arch/s390/mm/pageattr.c b/arch/s390/mm/pageattr.c
+> index d3ce04a4b248..df4a487b484d 100644
+> --- a/arch/s390/mm/pageattr.c
+> +++ b/arch/s390/mm/pageattr.c
+> @@ -412,6 +412,24 @@ int set_direct_map_valid_noflush(struct page *page, unsigned nr, bool valid)
+>  	return __set_memory((unsigned long)page_to_virt(page), nr, flags);
+>  }
+>  
+> +int folio_zap_direct_map(struct folio *folio)
+> +{
+> +	unsigned long addr = (unsigned long)folio_address(folio);
+> +	int ret;
+> +
+> +	ret = set_direct_map_valid_noflush(folio_page(folio, 0),
+> +					   folio_nr_pages(folio), false);
+> +	flush_tlb_kernel_range(addr, addr + folio_size(folio));
+> +
+> +	return ret;
+> +}
 
-Also, I think there's a similar issue with .is_jumbo.
-
-So, I think it would make more sense to have some helpers for setting
-up the tx_skbuff_dma entry. Maybe something like the below? I'll see
-if I can measure the performance impact of this later today, but I
-can't guarantee I'll get to that.
-
-The idea here is to ensure that all members with the exception of
-xsk_meta are fully initialised when an entry is populated.
-
-I haven't removed anything in the tx_q->tx_skbuff_dma entry release
-path yet, but with this in place, we should be able to eliminate the
-clearance of these in stmmac_tx_clean() and stmmac_free_tx_buffer().
-
-Note that the driver assumes setting .buf to zero means the entry is
-cleared. dma_addr_t is a cookie which is device specific, and zero
-may be a valid DMA cookie. Only DMA_MAPPING_ERROR is invalid, and
-can be assumed to hold any meaning in driver code. So that needs
-fixing as well.
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index a8a78fe7d01f..0e605d0f6a94 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1874,6 +1874,34 @@ static int init_dma_rx_desc_rings(struct net_device *dev,
- 	return ret;
- }
- 
-+static void stmmac_set_tx_dma_entry(struct stmmac_tx_queue *tx_q,
-+				    unsigned int entry,
-+				    enum stmmac_txbuf_type type,
-+				    dma_addr_t addr, size_t len,
-+				    bool map_as_page)
-+{
-+	tx_q->tx_skbuff_dma[entry].buf = addr;
-+	tx_q->tx_skbuff_dma[entry].len = len;
-+	tx_q->tx_skbuff_dma[entry].buf_type = type;
-+	tx_q->tx_skbuff_dma[entry].map_as_page = map_as_page;
-+	tx_q->tx_skbuff_dma[entry].last_segment = false;
-+	tx_q->tx_skbuff_dma[entry].is_jumbo = false;
-+}
-+
-+static void stmmac_set_tx_skb_dma_entry(struct stmmac_tx_queue *tx_q,
-+					unsigned int entry, dma_addr_t addr,
-+					size_t len, bool map_as_page)
-+{
-+	stmmac_set_tx_dma_entry(tx_q, entry, STMMAC_TXBUF_T_SKB, addr, len,
-+				map_as_page);
-+}
-+
-+static void stmmac_set_tx_dma_last_segment(struct stmmac_tx_queue *tx_q,
-+					   unsigned int entry)
-+{
-+	tx_q->tx_skbuff_dma[entry].last_segment = true;
-+}
-+
- /**
-  * __init_dma_tx_desc_rings - init the TX descriptor ring (per queue)
-  * @priv: driver private structure
-@@ -1919,11 +1947,8 @@ static int __init_dma_tx_desc_rings(struct stmmac_priv *priv,
- 			p = tx_q->dma_tx + i;
- 
- 		stmmac_clear_desc(priv, p);
-+		stmmac_set_tx_skb_dma_entry(tx_q, i, 0, 0, false);
- 
--		tx_q->tx_skbuff_dma[i].buf = 0;
--		tx_q->tx_skbuff_dma[i].map_as_page = false;
--		tx_q->tx_skbuff_dma[i].len = 0;
--		tx_q->tx_skbuff_dma[i].last_segment = false;
- 		tx_q->tx_skbuff[i] = NULL;
- 	}
- 
-@@ -2649,19 +2674,15 @@ static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
- 		meta = xsk_buff_get_metadata(pool, xdp_desc.addr);
- 		xsk_buff_raw_dma_sync_for_device(pool, dma_addr, xdp_desc.len);
- 
--		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XSK_TX;
--
- 		/* To return XDP buffer to XSK pool, we simple call
- 		 * xsk_tx_completed(), so we don't need to fill up
- 		 * 'buf' and 'xdpf'.
- 		 */
--		tx_q->tx_skbuff_dma[entry].buf = 0;
--		tx_q->xdpf[entry] = NULL;
-+		stmmac_set_tx_dma_entry(tx_q, entry, STMMAC_TXBUF_T_XSK_TX,
-+					0, xdp_desc.len, false);
-+		stmmac_set_tx_dma_last_segment(tx_q, entry);
- 
--		tx_q->tx_skbuff_dma[entry].map_as_page = false;
--		tx_q->tx_skbuff_dma[entry].len = xdp_desc.len;
--		tx_q->tx_skbuff_dma[entry].last_segment = true;
--		tx_q->tx_skbuff_dma[entry].is_jumbo = false;
-+		tx_q->xdpf[entry] = NULL;
- 
- 		stmmac_set_desc_addr(priv, tx_desc, dma_addr);
- 
-@@ -2836,6 +2857,9 @@ static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue,
- 			tx_q->tx_skbuff_dma[entry].map_as_page = false;
- 		}
- 
-+		/* This looks at tx_q->tx_skbuff_dma[tx_q->dirty_tx].is_jumbo
-+		 * and tx_q->tx_skbuff_dma[tx_q->dirty_tx].last_segment
-+		 */
- 		stmmac_clean_desc3(priv, tx_q, p);
- 
- 		tx_q->tx_skbuff_dma[entry].last_segment = false;
-@@ -4494,10 +4518,8 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 	 * this DMA buffer right after the DMA engine completely finishes the
- 	 * full buffer transmission.
- 	 */
--	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf = des;
--	tx_q->tx_skbuff_dma[tx_q->cur_tx].len = skb_headlen(skb);
--	tx_q->tx_skbuff_dma[tx_q->cur_tx].map_as_page = false;
--	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
-+	stmmac_set_tx_skb_dma_entry(tx_q, tx_q->cur_tx, des, skb_headlen(skb),
-+				    false);
- 
- 	/* Prepare fragments */
- 	for (i = 0; i < nfrags; i++) {
-@@ -4512,17 +4534,14 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
- 		stmmac_tso_allocator(priv, des, skb_frag_size(frag),
- 				     (i == nfrags - 1), queue);
- 
--		tx_q->tx_skbuff_dma[tx_q->cur_tx].buf = des;
--		tx_q->tx_skbuff_dma[tx_q->cur_tx].len = skb_frag_size(frag);
--		tx_q->tx_skbuff_dma[tx_q->cur_tx].map_as_page = true;
--		tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
-+		stmmac_set_tx_skb_dma_entry(tx_q, tx_q->cur_tx, des,
-+					    skb_frag_size(frag), true);
- 	}
- 
--	tx_q->tx_skbuff_dma[tx_q->cur_tx].last_segment = true;
-+	stmmac_set_tx_dma_last_segment(tx_q, tx_q->cur_tx);
- 
- 	/* Only the last descriptor gets to point to the skb. */
- 	tx_q->tx_skbuff[tx_q->cur_tx] = skb;
--	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
- 
- 	/* Manage tx mitigation */
- 	tx_packets = (tx_q->cur_tx + 1) - first_tx;
-@@ -4774,23 +4793,18 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
- 		if (dma_mapping_error(priv->device, des))
- 			goto dma_map_err; /* should reuse desc w/o issues */
- 
--		tx_q->tx_skbuff_dma[entry].buf = des;
--
-+		stmmac_set_tx_skb_dma_entry(tx_q, entry, des, len, true);
- 		stmmac_set_desc_addr(priv, desc, des);
- 
--		tx_q->tx_skbuff_dma[entry].map_as_page = true;
--		tx_q->tx_skbuff_dma[entry].len = len;
--		tx_q->tx_skbuff_dma[entry].last_segment = last_segment;
--		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_SKB;
--
- 		/* Prepare the descriptor and set the own bit too */
- 		stmmac_prepare_tx_desc(priv, desc, 0, len, csum_insertion,
- 				priv->mode, 1, last_segment, skb->len);
- 	}
- 
-+	stmmac_set_tx_dma_last_segment(tx_q, entry);
-+
- 	/* Only the last descriptor gets to point to the skb. */
- 	tx_q->tx_skbuff[entry] = skb;
--	tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_SKB;
- 
- 	/* According to the coalesce parameter the IC bit for the latest
- 	 * segment is reset and the timer re-started to clean the tx status.
-@@ -4869,14 +4883,13 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
- 		if (dma_mapping_error(priv->device, des))
- 			goto dma_map_err;
- 
--		tx_q->tx_skbuff_dma[first_entry].buf = des;
--		tx_q->tx_skbuff_dma[first_entry].buf_type = STMMAC_TXBUF_T_SKB;
--		tx_q->tx_skbuff_dma[first_entry].map_as_page = false;
-+		stmmac_set_tx_skb_dma_entry(tx_q, first_entry, des, nopaged_len,
-+					    false);
- 
- 		stmmac_set_desc_addr(priv, first, des);
- 
--		tx_q->tx_skbuff_dma[first_entry].len = nopaged_len;
--		tx_q->tx_skbuff_dma[first_entry].last_segment = last_segment;
-+		if (last_segment)
-+			stmmac_set_tx_dma_last_segment(tx_q, first_entry);
- 
- 		if (unlikely((skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) &&
- 			     priv->hwts_tx_en)) {
-@@ -5064,6 +5077,7 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
- 	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
- 	bool csum = !priv->plat->tx_queues_cfg[queue].coe_unsupported;
- 	unsigned int entry = tx_q->cur_tx;
-+	enum stmmac_txbuf_type buf_type;
- 	struct dma_desc *tx_desc;
- 	dma_addr_t dma_addr;
- 	bool set_ic;
-@@ -5091,7 +5105,7 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
- 		if (dma_mapping_error(priv->device, dma_addr))
- 			return STMMAC_XDP_CONSUMED;
- 
--		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XDP_NDO;
-+		buf_type = STMMAC_TXBUF_T_XDP_NDO;
- 	} else {
- 		struct page *page = virt_to_page(xdpf->data);
- 
-@@ -5100,14 +5114,12 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
- 		dma_sync_single_for_device(priv->device, dma_addr,
- 					   xdpf->len, DMA_BIDIRECTIONAL);
- 
--		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XDP_TX;
-+		buf_type = STMMAC_TXBUF_T_XDP_TX;
- 	}
- 
--	tx_q->tx_skbuff_dma[entry].buf = dma_addr;
--	tx_q->tx_skbuff_dma[entry].map_as_page = false;
--	tx_q->tx_skbuff_dma[entry].len = xdpf->len;
--	tx_q->tx_skbuff_dma[entry].last_segment = true;
--	tx_q->tx_skbuff_dma[entry].is_jumbo = false;
-+	stmmac_set_tx_dma_entry(tx_q, entry, buf_type, dma_addr, xdpf->len,
-+				false);
-+	stmmac_set_tx_dma_last_segment(tx_q, entry);
- 
- 	tx_q->xdpf[entry] = xdpf;
- 
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+The instructions used in the s390 implementation of
+set_direct_map_valid_noflush() do flush TLB entries.
+The extra flush_tlb_kernel_range() is not required.
