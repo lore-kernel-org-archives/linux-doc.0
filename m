@@ -1,399 +1,419 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFDE39E6ED
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 14:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768485611; cv=none; b=jv+lA6fHR8R5V6Vvki1QqIAN3In+at5xv3y9C8VcrZ9NIvH7pmuy0oE5moqy8Kzz8Ykq8XE059SBfvqjQ3SdY4g6wYVcsQkJrN7UIO3ev8GEXNE0QoCmaTgIRWDzSyKy5QUp+zURIZ0p6Jfln136jmHwhvd3kNA/doi29iBaWHI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768485611; c=relaxed/simple;
-	bh=aEqdwEszh+pQ6E4raqUIGNswQCSYpT7Dqv/kK0c+aWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TwE/4kltqEOtGtGiJW2KbQny2WMgSYLLBJ18uB4FK94pa1ZJSOKAje+AJ65GQYFPgMyG95gl5pNv/5yUAOv4gJecFBNsklbJwhWXqUIjgnJjRfmoaX4dSxj8YwSIrMp7z3wJRE/gXxXoq52fjiEXtNf3HDburgBIqaSsNKgYH+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dM/VUY3M; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02098274B40;
+	Thu, 15 Jan 2026 14:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768486026; cv=fail; b=QWUQ9RvjW9ChYwt7tFIl2nIUs0ytbM75b0D5ahBwsDoGzEdYuaYabOev2BVl2Sh3d2S4uCdQpnus4udYGeSDx/V3t7L2Cw6hv3GlewOl0rvXFduuplzP8rFvTsuLo0bkrHborJ7s1/otRx62Xr08Gw1p8XO6wCo9xf+lnmuuFNg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768486026; c=relaxed/simple;
+	bh=dkDLuWt2ymFi/M1+I1FZt144FHlTXUdSgCJxwf4lajE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=L0wNadiB46kIwwvBRniLKVtYFlG6ofHMcROSQ/yhwBGz2mFkus6nQ7GpTqZWPW5o6pX+xNJkUbLcL99j65KFoG/yB9AGWiWPvfojV5wQ7iR4qDdzEAK1j3b/7BqFnSVgzVwpRPvpphPtSJaY+WcvIuSAHOv4LEu4AOfVKtMs358=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=heHtFfpI; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=n3p9LGy5; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dM/VUY3M"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8707005183so152410266b.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 06:00:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="heHtFfpI";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="n3p9LGy5"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FDjth72863589;
+	Thu, 15 Jan 2026 14:06:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=81SwDb2ZUODLNOB/N7
+	wKJ9zbmpWP4I6Lt4Pj0c6Op7M=; b=heHtFfpI6k6z3PxV6kxGp0iBEyUVVo5LHL
+	JB3NZKWxPyD031R1oFZB5LDcUiLB254BKVoxSA0/vac0mMOQ7IBlfWcqDucD+Iq/
+	VI7Hs0VEp8Dox0ED7E2ZULaRtA//0c6ByKLBT59hrYLEl/xq6yHj09uzNgw8JIg1
+	cwIWGNqo1gkudeWgsW3kHMhCd9PKp6M4Yaowyl6cssC7LA0MgzaKI2rMmg29rn2f
+	efNEv82gmp14Ydxo+EzKmiU7EMHTDPppJl/MYBEIfi0Tgj1ng+WF4lwfHt4SPNeq
+	QUmn3z1TGvnar4+BakiIXp1h9gHqUmsIXWwkXv8REgbO5h0200Ww==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkh7nr20q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 15 Jan 2026 14:06:24 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60FC5UTP004547;
+	Thu, 15 Jan 2026 14:06:23 GMT
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012009.outbound.protection.outlook.com [40.93.195.9])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7bbehb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 15 Jan 2026 14:06:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OxIz0v4B/8X8QyS1RP1WFAPTvDPeK8Q5l9HcgQpl9yN5Pbz9/z7EsEclJXN6S21M87ndg/P0hos73LEnaKKbUbyUjP4XZ49IRaZnG4htWOBb3UmHHWO+PSQz0pRIUT46/HPNfcV0G7sUuszyxvucvxTsNWQx8IWJRgyXyQ1MZYqi4oST0cSzmBvjnPdBvpz5TbTTDw5Jo2u7jEV+0bfypZAevv9R0HTWkHpbXmCUmb1y6rS9KvozHFJcR3uuUAe8ABWun+m6lN+f/YHBRcZ71kC34IQl7rqohd+S/yVQHHlukM2goR2Aq2kzf2l3TppOqmKeG/xBh0MLrL5VyQrs1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=81SwDb2ZUODLNOB/N7wKJ9zbmpWP4I6Lt4Pj0c6Op7M=;
+ b=q1BrQJ7dVR+D5BSGIyClxph/HtLnaMSpTlUE6V8dmokE6UbuDlbWOItt1F7H6dM2Co011FL+vPvayhs9JDRgr14T497CZcYG64bLIanTaeNi+yVKgUNshMCTCrQqYXMjpMFArf+MRQzYqrisWd7cvu4OhrehztjY1EB2AllGN8MZC+aLmyqx4WKz1Q75veD7zelIXSLCTjCQxDydpWMLhjfEPseZ6oIgFKwqUz+chPQceFEqZIS3sjpoToizNreqOBvueDDTVOx9kw9J3qTZUYgrfuUvuNpQANoxzI9O7Ns3zZXUfIvhfIn2GoI2ogI5m/3Q1IChOUFYoLZqXWiPrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768485607; x=1769090407; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6sLwRZXnWih+mOyCPNae25BI7GaUFDW7tdsjLIiO/Sg=;
-        b=dM/VUY3Mv8nLtOC7/44eeYWbFCbBzJGYdhPGqigxyrWSGmqSUZSEAR9nlyndptsIkk
-         ViO4iEoeqtMesnSJ2jGdW8XsOnklajbzdZSH9qmMR2CaS5UW6KPOKQLG0yyMAITXalj3
-         71xArbatYUyK2K62QJNmjfd+oScaT1U/sKZ5LTLqxbNZW3nCZogTuScxZhpHBIs+XF/I
-         QJ6801PLBwIa8GM9qmfaoFr5boc/eApZlU4s6xxYDlIZ23ud8aZDPAgk1QBL38QDjsaD
-         6gQjbXEg0StCY+E7bJsSRudpGfCfD97xmuOMXNZA2ytTUsohhoI6S1G9Iqa9O4jc6eTC
-         GE7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768485607; x=1769090407;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6sLwRZXnWih+mOyCPNae25BI7GaUFDW7tdsjLIiO/Sg=;
-        b=VI+YYGBOEyjDq8/yFyVutjZjpxB71a/C6lEFam2moizOXkVNnYdcdZuuOVzDwIOYtz
-         rrSeCZfRJaGd1QC/J/Nb6guHIexj/abvXqSnUEJYFMwaTnYho7f/w11Xuwk+gPbFXG1v
-         4UGs3UFiSjb3kEn/eHUdML3Apa9KZJ5I6gRwF4Mojb1nOdkNHhsESmoCowbgIFNDTWOK
-         xv9cXNVtXAyTRed45mvSsKdC2MXrwvJS7PGDtdz5NeBzIboXDRi8njg7W2ARKK0VGqcB
-         m81nEAwNimTbQbf3GXadWcEOK8+73+p5HLBFgw0/rhXR8HMMa/phq5KHgMskCAe248Wn
-         03hw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4/11cebU+rhhnCV4ajc9W3V6BopAlsTdDpLb7MiZ8WRF9K8oTeZ6Yj0Dd/bZMFP/fNNwaW6xvuCc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNi2FykpldUZ0+2ko0AtYZKS5kL9cTefKEJ2o6y4RvUUAoDyc2
-	b9MpTmieNo2i4keD087ox+M9r1w4aYzhYDBGTk0JdiFNd30AiAzscnMy
-X-Gm-Gg: AY/fxX6KsXIKXmlwPWAjIoweDB6Ps4xQRVgU1ulBnjxgZhHJaM6V/cJZoMLM4RUTkBm
-	C10sIwdPeuMP0KKmhnY1nnH6Y5ViaeFJ0gBTDKooMrzdAO4DHWQ9N0UzO1u9aHCKjpKAsN/p6T/
-	Ylm2rlcSWZ7v0pIH73uckmsiwn/Q0fFxSWTQ+ZtOK3naUgP0o0MfvPtsF77Flh/TkXerlvHJOS/
-	Ho7Z8knekyQHfItFDPK4KTPhWgSxuEMycHYX71MLaOThbT+CHtDKHuxum1qn1Q6luuOEyVPqV+y
-	rciZbpqMR2minxEDqkimjbF6rLQtXaoBfh54hS+WcXBikqBykr2C36+ifZd/UT44Wemy96E9OtN
-	6slDSfFRmJEx47KLHGvElOiGD+uEq9dvEtTf2A50S3Q2Zd/ZfS/54HcFKcZcqyzOobBdhH3bpjW
-	Q/yZtbPSSMb5lFKLe5BYw=
-X-Received: by 2002:a17:907:d15:b0:b76:f090:777b with SMTP id a640c23a62f3a-b8761074528mr552256566b.22.1768485607163;
-        Thu, 15 Jan 2026 06:00:07 -0800 (PST)
-Received: from vamoirid-laptop ([2a04:ee41:82:7577:9faf:2056:44a:a73a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8724197145sm1064135266b.11.2026.01.15.06.00.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 06:00:06 -0800 (PST)
-Date: Thu, 15 Jan 2026 15:00:03 +0100
-From: Vasileios Amoiridis <vassilisamir@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
-Subject: Re: [PATCH v1 2/2] hwmon: Add support for HiTRON HAC300S PSU
-Message-ID: <aWjy405syjr134lR@vamoirid-laptop>
-References: <20260106160353.14023-1-vassilisamir@gmail.com>
- <20260106160353.14023-3-vassilisamir@gmail.com>
- <67eb366e-1207-4e9a-9659-3482c8a9ec9b@roeck-us.net>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=81SwDb2ZUODLNOB/N7wKJ9zbmpWP4I6Lt4Pj0c6Op7M=;
+ b=n3p9LGy5H0NWWlI2JzSinI6B98F9MdxROJGdVqeDpF7LWMaCNYwJtYPnFVi1y8+9ryJW2FOfwFwXVOG/ERkHYf8TC5S8MFFvDMeeGBlsY2s4dnD588wXFNpCcZ3RABc1SJ8WhNI6IWCJ9GTdFG2r9gHh7gkcKaPIMBhFE3A57EA=
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
+ by DS0PR10MB7201.namprd10.prod.outlook.com (2603:10b6:8:f2::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.4; Thu, 15 Jan 2026 14:06:19 +0000
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9520.003; Thu, 15 Jan 2026
+ 14:06:18 +0000
+Date: Thu, 15 Jan 2026 09:06:13 -0500
+From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+        Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v2 05/23] mm/balloon_compaction: centralize
+ adjust_managed_page_count() handling
+Message-ID: <vdgwo5wyvuxuijygb5jq4mv4wsxtj3lwweebynyc44iukoiecy@qjdu4qpxpokh>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linuxppc-dev@lists.ozlabs.org, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-doc@vger.kernel.org, virtualization@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador <osalvador@suse.de>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Zi Yan <ziy@nvidia.com>
+References: <20260115092015.3928975-1-david@kernel.org>
+ <20260115092015.3928975-6-david@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115092015.3928975-6-david@kernel.org>
+User-Agent: NeoMutt/20250905
+X-ClientProxiedBy: YT4PR01CA0006.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d1::8) To PH0PR10MB5777.namprd10.prod.outlook.com
+ (2603:10b6:510:128::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67eb366e-1207-4e9a-9659-3482c8a9ec9b@roeck-us.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|DS0PR10MB7201:EE_
+X-MS-Office365-Filtering-Correlation-Id: a14e8496-2fa1-42c6-c399-08de543f40ed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?STHPXkOPhRd4cVUdDRMsLqWgq71P7Lwez3kU863/IYHXsyAYv5coz1v5hi7f?=
+ =?us-ascii?Q?6p47XWW+s51hnh3K70v5+tzuUsjl1alpI3vFgsaew/4K9juZSsww/p4cfo0t?=
+ =?us-ascii?Q?zFjmqGpHu9cPCM/MaDVru4Ng/ip+vxWocrLGvNcjhHiLCy2TyU2/a/gPotxl?=
+ =?us-ascii?Q?ZJWFo39G3/A9ZJuWJS/r/QxqCk149DVXW0qJFTJeVOhjmWiBTMk63qnmkaBE?=
+ =?us-ascii?Q?nQL5FGt9qKo1q4U0pJBT9G0aTrKV4KMTFg8bQtl9w14KH8U18y0igIUiutpu?=
+ =?us-ascii?Q?DaUi9Fkyh3MtgCr2f5zYXT8a7iBLbDEthSbxEWSfCPzzkmZk+HnWx51DY4Qk?=
+ =?us-ascii?Q?VBpsSgsbM00aljk6K5Bw5UQUYJd1smv8t9cV3odzfpSzCOpRQwvdN7lRoZrv?=
+ =?us-ascii?Q?Aep85mRGZ7RdJV8IImS7ieEcg15tozYNU5YlAIXEVlTqkTlnUpVvnnqialpg?=
+ =?us-ascii?Q?zIQwpamQzedo0+2hQbfFtn24CjQoBRzTzJzumN4UOscW4mThWCuLaNn0rlD3?=
+ =?us-ascii?Q?UgHGCWWnBgEUFIy1tQnbJFp3xoaqKNdlVkUXDhlYe8U2ygraWrEHyAw2hSxn?=
+ =?us-ascii?Q?vnC0ts6Sor0of3OcklAVED1HZabkTerjkttCWModU37cEQQb+Up1uU2iRbom?=
+ =?us-ascii?Q?Cwcem2wN/KCcEiyJZVd8d6MTg7Ufp8fa9krPE/aeniuLO+Tk4umwq7XwdyOp?=
+ =?us-ascii?Q?UEZGd6FrJLO65M4mw8UbmvqNRTdxSpPeAKIPyIEZzXL36lbSDoFcbR5JAP/H?=
+ =?us-ascii?Q?Wwj6HnKZ5bZOjKriffQQTYwxngvAeIRebMXLjs1iEmSkDlHy6OxmvJ0ly6WH?=
+ =?us-ascii?Q?YTrO4dypFd34iz7NCHWT+15hK0EEPdnlrVPPcFEdQ6YURcHzFrn+sOOrrZqI?=
+ =?us-ascii?Q?wu2q1na0r0qU9G/DmFyGD5B2p+NxQyU1fd5oA/al6fdddEdCS0ZpIgXCHv1X?=
+ =?us-ascii?Q?K2wpvHVrXjvbvqX1tY+lDZgYk3Gz1I3mbBW9580qNN13bWGRsaMG93VNN+Ip?=
+ =?us-ascii?Q?SvSsh0uavoSzgf6WEGgNxwADPxH2hTOuhA6+PWm1idfeewsqMQm/Jdkbowlv?=
+ =?us-ascii?Q?gstyBwTEDiqntFFUNnMAEZ4qb9vmeyQJAcuttO4vtBrE6b7BHswLpJ5FBaDn?=
+ =?us-ascii?Q?5lMxWBzk+DRxwWv6GaVqoZg5rUwC27SvZ0Ph52LpKFgZ7xJ9sVZo0ugHF6dO?=
+ =?us-ascii?Q?XjRbBGOf8k0pFEGohXDqQrK2sNQPW7+SwaMQq5Iq0Bvu9wP6dYUS0cuvuVVY?=
+ =?us-ascii?Q?SklD/AlEPQqhiZX95DXbxoVnRBfo32jX3oORFkBaCZ0V46WdmJD+xmeiQ0Ex?=
+ =?us-ascii?Q?TlVPmFaPsv3cmGUuqNrYnSimAjgdbmWWzwaIRIgx67r6pE5/T43/51G4cI2c?=
+ =?us-ascii?Q?gBY/FsvVPKnN3/1bVT0Ubo+koXMb4wpo99oBWVFnyuZdT0MCF7RQifo8rx07?=
+ =?us-ascii?Q?iITaDro2I6JaqJ1HCwPmXMhnvaEN74GjKSQijOFBrFIl+qnhzaPWbAVCsBN7?=
+ =?us-ascii?Q?KU618E8Kl+XV+QgnU+W6S4+ogukYhTS2RwqP8pA/VgaMmnJv7ZujFIo8/21Y?=
+ =?us-ascii?Q?LmEStCb+Kqi5JrxAC7E=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?hLoZL2J5tMhRvDqJBqxO3IyCPBjUW+e76MJLRc7Cq2MjBggEKPCX4m+/Gr02?=
+ =?us-ascii?Q?ESyPr14vflX/23Ea1Srn5r7W+UdXgVv1nfWwh/xSOzLgWqvBvtESRZx1DAk4?=
+ =?us-ascii?Q?a+HmWayk6ldS4uzwvGQm9jwa28MySTHREeuRUxqYgRqMe8TLg5aWiCTg0aeC?=
+ =?us-ascii?Q?Uvz3LvJuKWztAQOKDtO861bcTwSc81lGP/KFkT8JESgL3IvLwhBY49VgPK//?=
+ =?us-ascii?Q?JT6HC4ZmjE+AnaQ4cq4xCXUAwXPOQVHq4MxlLzQ8FfLN+8M9p/Etpmd1ESgq?=
+ =?us-ascii?Q?thOb9e1FWJPTtxOoDSKyrJsuweKOB3WevJ1Emluk9S4myJVLElw6E3nzlk2I?=
+ =?us-ascii?Q?m5N3Z0ZnmhyvzSxKksRS2CWPrYwd5X1tvfgxq+6wI/7SqrDW/bDvDhWbXkKa?=
+ =?us-ascii?Q?EZlvOmaLwg0ZZWqyYU/CbEa3bU2kHxNmOjk2l2K6icZRilXYt94E8TxGL+gm?=
+ =?us-ascii?Q?2oy6j8q5aKWpeZU3KNsJtpRgOzENpRWv2d+aBIlVewVu9jWY/edpa4uADP+u?=
+ =?us-ascii?Q?Cho0xuJ65aR8f3X2F141qbiAQTgl5Ij7ytYxyZtvoThuREEqVTWsXV2gJ61K?=
+ =?us-ascii?Q?ioSfnNR8Oii7t0bdy2DBzkJI+Cd0I+s7CYRNbHWhjkFvjqxLI6HL7Yic47r/?=
+ =?us-ascii?Q?kCr7AXMij6vGdxhC+wjpzr9aVGwZtludFUhGqdsvgbqeSzo1XXF2LmGrIVuQ?=
+ =?us-ascii?Q?eqCkAf0Ev1vvTtaef4fTEEbjquAlrRWdfse9NwHOH1uBd00PFdSwxtmuc87B?=
+ =?us-ascii?Q?GPTOM1fPFNNDBZi3XaHUElwne+cQOF6WxYnEUhWWT6JKmwfXVDztbYr4nPVN?=
+ =?us-ascii?Q?kYCbWk1t0uLvmFiBRvdG6XGx8j2ibHlx9nHVK/D+HLC08lT4SHOo0oXkXxbA?=
+ =?us-ascii?Q?0xuZrULNcmDDq4e0BLL1BlbSkWfIpe4EiZ5QLzbrmFElaKit1Q3IEQySvxgx?=
+ =?us-ascii?Q?ofsWsE2TuNxgy6tlyt5zSYorWjxlCTqHM77rM0rw5ZBd0/KOTPKKTU6Ah26K?=
+ =?us-ascii?Q?hfRPR9hl/Mi16lX4Ks4tlrvmFAAGjLeW5k40F4OqoN7GLCkOYSN8WRzTJ7S4?=
+ =?us-ascii?Q?diLD1+hb0gGECA0XLW8PIIUMiRdJdXuPkY/0T2G/6tZBsvwdnQJ9vBzoxb4J?=
+ =?us-ascii?Q?VtqUCDNK+jh+24fOp/yXns5HHiWyHWjibVhe9jyeQNHrmsjkpE8ihN9ODWPv?=
+ =?us-ascii?Q?XksUvljtOc2qU59LPzjUsS89R4DXD9YI3BZKK/jK8gSaaRnkAHIjKBBIgj3v?=
+ =?us-ascii?Q?MRvIqFTWM8JEhQQ6XRkY+8/VoWnKFgVnz+zU9kxheNftLUHO+UsakLpFrjPN?=
+ =?us-ascii?Q?07ljC9+sFn9w0JiXUmZKpPXCjVNkJK5fnITs4T8e5KlvmBRVosNduRMmFBl6?=
+ =?us-ascii?Q?ppR/nMdiHx6bzpFAric9f5IWCIzjGOwy3Z7iYu+JeS/bFtGMWazjWboYZ4U6?=
+ =?us-ascii?Q?KG7kr4HYEsON8K5pU+PK3EbJProbtPQyM00IfE0mEfip9X/9qjemNr7/oKL7?=
+ =?us-ascii?Q?kIoycTgZoU9Zz8XtAZwBMvyHmAufTLbFJl++kXFLqhD7vC5Y3meOqWdHuX7l?=
+ =?us-ascii?Q?Jz60P0+jIGsi7dhygrPQuX0MqNbbAvkH2z8G+izduHXGdWHcLrM+lEqna4lN?=
+ =?us-ascii?Q?k4OaQuT7QL6WC39LomN++4UAo/D4XKtJRn5oXWTQmGF/+6bvUpy1dehGWHxA?=
+ =?us-ascii?Q?BtD1d65OVONYIBFBLg+aXc6ZrdHEg+3EfNHUNdl6g2BOZd6vFFJJt1JUMPor?=
+ =?us-ascii?Q?qK0hkonAdw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	3PZE06udBpZ24zEMgqrsul2z8ObeK50xSRoe94bIAdxBgO9XecXWwAFL4DwG74Yk7k9zcLQbSg8ndILvreQ/x7ypJ13cT9xJs70/GxcquQ97NGYmDFiDIl0nseio0SuNNGCyfrv45lWctyg0k1sgOu/zkIPgnU3eGJHssZUhs6nDHz18cB9sfio6w4IYNJQbMDLIOiPqsTDb4/fMUvhvbsjUKU+UjpSAEx4j7ML3KsIbFvyPH17Mw5ywbPdQPcw+z7shob3HvqCoJrePZ5LfAofBAkuF4hLe94brMLrgcbPknTiJRZUkG5esPnuOnx9GWmm9eYyqG1pK0+cN6Cxlg82XUn7Jmf+W+/zUAv9zV0O6Mse8NjHNrIrAKzXJevKVpfapd/ak56AJ9BhDvHvTuPCoyoVSp6JcZ6AvJq9Loi5g9uvd42GYf1RQpiHGydWlg6Q912df6MjrMl5SmXm1q8uTs9rVjhE4o+mxNP18MCCy0tuaS3fwW74ckq+dDzn2P0dcOxZPZtacmBEuDbLqN/Bja5qqwGKnefn2r8SY2Hrzt+Ita3V7OKanviWrdU6Qh7HeYGJW/SumhRafNp4jIJI6fXVUyEG5FYpxZBmDhd8=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a14e8496-2fa1-42c6-c399-08de543f40ed
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 14:06:18.6332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NA2cQCRlVBd/aSkL+qnjVNSt0frLp2MgQWKTPu3tEfo+CE0n40H+bb5dJEQYRkg5pWFmGVeSisZFGrL/L+Px5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7201
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-15_04,2026-01-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
+ definitions=main-2601150104
+X-Proofpoint-GUID: s8wI8iqfIigHJoUS-C8oEAUXy3MuF6Eu
+X-Authority-Analysis: v=2.4 cv=X7Bf6WTe c=1 sm=1 tr=0 ts=6968f460 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=dFmrGhp3TjRllwzZRqMA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDEwNSBTYWx0ZWRfX8fatSKCT5E0G
+ i/GsIQpnDdNrB04Ymv9FprMXDPcNAQzTsrE50oJ8aDyz/ZvT9Na6LmpGl5owzQlLrxiGcQrRQuo
+ p+t+jW3ZHvDW8Le1jzYDVXmrGybhmm3VJHLm10Ag0HUx874uNdWvKuzelExH/RIPL/DbRZ4Vf+p
+ +O0mpor0nfEeMm6PcjqoeHDH/Ta91J4uhGZFWxIlwfsYhFzR7SNtzaeyGznp1/vCNCYvsFGjTsK
+ YNcaZv8YxNiaAKi/OqJ1mK5MDBlOckIoluF1KCQPT01p1cZTzOFiPGhfXQtrQXtnCvzSp8DLNAJ
+ lGEa8od4tPP7bC7PMOKpzgdmiLQnjxAiFxD46IU/AbdaksiH7J0GU78tW5gxdb8gYrVr7BzcVpG
+ bd81OCagn3PBrHdr0hU6gE6eucozsHdz5cM8CI5LhH5QIvyASkyyTexDxYi0OU5KRsdr7qUWdCr
+ ftkXXHC83P20J+cAJZQ==
+X-Proofpoint-ORIG-GUID: s8wI8iqfIigHJoUS-C8oEAUXy3MuF6Eu
 
-On Mon, Jan 12, 2026 at 07:26:49AM -0800, Guenter Roeck wrote:
-> On 1/6/26 08:03, Vasileios Amoiridis wrote:
-> > From: Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
-> > 
-> > Add Support for HiTRON HAC300S PSU. This is a AC/DC hot-swappable
-> > CompactPCI Serial Dual output active current sharing switching power
-> > supply with a 312W rating.
-> > 
-> > Signed-off-by: Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
-> > ---
-> >   Documentation/hwmon/hac300s.rst |  37 ++++++++
+* David Hildenbrand (Red Hat) <david@kernel.org> [260115 04:21]:
+> Let's centralize it, by allowing for the driver to enable this handling
+> through a new flag (bool for now) in the balloon device info.
 > 
-> Needs to be added to index.rst.
+> Note that we now adjust the counter when adding/removing a page into the
+> balloon list: when removing a page to deflate it, it will now happen
+> before the driver communicated with hypervisor, not afterwards.
 > 
-
-ACK
-
-> >   MAINTAINERS                     |   7 ++
-> >   drivers/hwmon/pmbus/Kconfig     |   9 ++
-> >   drivers/hwmon/pmbus/Makefile    |   1 +
-> >   drivers/hwmon/pmbus/hac300s.c   | 152 ++++++++++++++++++++++++++++++++
-> >   5 files changed, 206 insertions(+)
-> >   create mode 100644 Documentation/hwmon/hac300s.rst
-> >   create mode 100644 drivers/hwmon/pmbus/hac300s.c
-> > 
-> > diff --git a/Documentation/hwmon/hac300s.rst b/Documentation/hwmon/hac300s.rst
-> > new file mode 100644
-> > index 000000000000..573269fc81f8
-> > --- /dev/null
-> > +++ b/Documentation/hwmon/hac300s.rst
-> > @@ -0,0 +1,37 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Kernel driver hac300s
-> > +=====================
-> > +
-> > +Supported chips:
-> > +
-> > +   * HiTRON HAC300S
-> > +
-> > +     Prefix: 'hac300s'
-> > +
-> > +     Datasheet: Publicly available at HiTRON website.
-> > +
-> > +Author:
-> > +
-> > +  - Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
-> > +
-> > +Description
-> > +-----------
-> > +
-> > +This driver implements support for the HiTRON HAC300S PSU. It is a Universal
+> This shouldn't make a difference in practice.
 > 
-> s/implements support/supports/
+> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+
+For what it's worth,
+
+Acked-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+
+> ---
+>  arch/powerpc/platforms/pseries/cmm.c | 13 +------------
+>  drivers/virtio/virtio_balloon.c      | 19 ++-----------------
+>  include/linux/balloon_compaction.h   |  2 ++
+>  mm/balloon_compaction.c              | 17 +++++++++++++++++
+>  4 files changed, 22 insertions(+), 29 deletions(-)
 > 
-
-ACK
-
-> > +AC input harmonic correction AC-DC hot-swappable CompactPCI Serial Dual output
-> > +(with 5V standby) 312 Watts active current sharing switching power supply.
-> > +
-> > +The device has an input of 90-264VAC and 2 nominal output voltaged at 12V and
-> > +5V which they can supplu up to 25A and 2.5A respectively.
-> > +
-> > +Sysfs entries
-> > +-------------
-> > +
-> > +======= ==========================================
-> > +curr1   Output current
-> > +in1     Output voltage
-> > +power1  Output power
-> > +temp1   Ambient temperature inside the module
-> > +temp2   Internal secondary component's temperature
-> > +======= ==========================================
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index a0dd762f5648..feb8ec4d9b17 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11254,6 +11254,13 @@ F:	kernel/time/timer_list.c
-> >   F:	kernel/time/timer_migration.*
-> >   F:	tools/testing/selftests/timers/
-> > +HITRON HAC300S PSU DRIVER
-> > +M:	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
-> > +L:	linux-hwmon@vger.kernel.org
-> > +S:	Maintained
-> > +F:	Documentation/hwmon/hac300s.rst
-> > +F:	drivers/hwmon/pmbus/hac300s.c
-> > +
-> >   DELAY, SLEEP, TIMEKEEPING, TIMERS [RUST]
-> >   M:	Andreas Hindborg <a.hindborg@kernel.org>
-> >   R:	Boqun Feng <boqun.feng@gmail.com>
-> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> > index f3fb94cebf1a..4c2cb51dbe3f 100644
-> > --- a/drivers/hwmon/pmbus/Kconfig
-> > +++ b/drivers/hwmon/pmbus/Kconfig
-> > @@ -124,6 +124,15 @@ config SENSORS_FSP_3Y
-> >   	  This driver can also be built as a module. If so, the module will
-> >   	  be called fsp-3y.
-> > +config SENSORS_HAC300S
-> > +	tristate "Hitron HAC300S-D120E PSU"
-> > +	help
-> > +	  If you say yes here you get hardware monitoring support for the
-> > +	  Hitron HAC300S-D120E Power Supply.
-> > +
-> > +	  This driver can also be built as a module. If so, the module will
-> > +	  be called hac300s.
-> > +
-> >   config SENSORS_IBM_CFFPS
-> >   	tristate "IBM Common Form Factor Power Supply"
-> >   	depends on LEDS_CLASS
-> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> > index 349a89b6d92e..b92309019d35 100644
-> > --- a/drivers/hwmon/pmbus/Makefile
-> > +++ b/drivers/hwmon/pmbus/Makefile
-> > @@ -13,6 +13,7 @@ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
-> >   obj-$(CONFIG_SENSORS_BPA_RS600)	+= bpa-rs600.o
-> >   obj-$(CONFIG_SENSORS_DELTA_AHE50DC_FAN) += delta-ahe50dc-fan.o
-> >   obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
-> > +obj-$(CONFIG_SENSORS_HAC300S)	+= hac300s.o
-> >   obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
-> >   obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
-> >   obj-$(CONFIG_SENSORS_INA233)	+= ina233.o
-> > diff --git a/drivers/hwmon/pmbus/hac300s.c b/drivers/hwmon/pmbus/hac300s.c
-> > new file mode 100644
-> > index 000000000000..a1640449e5f5
-> > --- /dev/null
-> > +++ b/drivers/hwmon/pmbus/hac300s.c
-> > @@ -0,0 +1,152 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +// SPDX-FileCopyrightText: 2024 CERN (home.cern)
-> > +/*
-> > + * Hardware monitoring driver for Hi-Tron HAC300S PSU.
-> > + *
-> > + * NOTE: The HAC300S device does not support the PMBUS_VOUT_MODE register.
-> > + * On top of that, it returns the Voltage output values in Linear11 which is
-> > + * not adhering to the PMBus specifications. (PMBus Specification Part II,
-> > + * Section 7.1-7.3). For that reason the PMBUS_VOUT_MODE register is being faked
-> > + * and returns the exponent value of the READ_VOUT register. The exponent part
-> > + * of the VOUT_* registers is being cleared in order to return the mantissa to
-> > + * the pmbus core.
-> > + */
-> > +
-> > +#include <linux/bitfield.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/err.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/init.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pmbus.h>
-> > +
-> > +#include "pmbus.h"
-> > +
-> > +#define LINEAR11_EXPONENT_MASK GENMASK(15, 11)
-> > +#define LINEAR11_MANTISSA_MASK GENMASK(10, 0)
-> > +
-> > +#define to_hac300s_data(x) container_of(x, struct hac300s_data, info)
-> > +
-> > +struct hac300s_data {
-> > +	struct pmbus_driver_info info;
-> > +	bool vout_linear11;
-> > +	s8 exponent;
-> > +};
-> > +
-> > +static int hac300s_read_byte_data(struct i2c_client *client, int page, int reg)
-> > +{
-> > +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-> > +	struct hac300s_data *data = to_hac300s_data(info);
-> > +
-> > +	if (reg == PMBUS_VOUT_MODE && data->vout_linear11)
-> > +		return data->exponent;
-> > +
-> > +	return pmbus_read_byte_data(client, page, reg);
-> > +}
-> > +
-> > +static int hac300s_read_word_data(struct i2c_client *client, int page,
-> > +				   int phase, int reg)
-> > +{
-> > +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-> > +	struct hac300s_data *data = to_hac300s_data(info);
-> > +	int rv;
-> > +
-> > +	rv = pmbus_read_word_data(client, page, phase, reg);
-> > +	if (rv < 0)
-> > +		return rv;
-> > +
-> > +	switch (reg) {
-> > +	case PMBUS_VIRT_READ_IOUT_AVG:
-> > +	case PMBUS_VIRT_READ_POUT_AVG:
-> > +	case PMBUS_VIRT_READ_TEMP_AVG:
-> > +		return -ENXIO;
-> > +	case PMBUS_VOUT_OV_WARN_LIMIT:
-> > +	case PMBUS_VOUT_UV_WARN_LIMIT:
-> > +	case PMBUS_VOUT_OV_FAULT_LIMIT:
-> > +	case PMBUS_VOUT_UV_FAULT_LIMIT:
-> > +	case PMBUS_MFR_VOUT_MAX:
-> > +	case PMBUS_MFR_VOUT_MIN:
-> > +	case PMBUS_READ_VOUT:
-> > +		if (data->vout_linear11)
-> > +			return FIELD_GET(LINEAR11_MANTISSA_MASK, rv);
-> 
-> Is it guaranteed that the exponent is always the same ? Because if not the
-> conversion will have to be explicit.
-> 
-
-Yes, after a lot of testing with different values, it remained the same.
-
-> > +		fallthrough;
-> > +	default:
-> > +		return rv;
-> 
-> This is wrong. The register should only be read by affected commands, and
-> the function should return -ENODATA for the others.
-> 
-
-ACK. I hadn't understood that this was the usecase of this function.
-
-> > +	}
-> > +}
-> > +
-> > +#define HAC300S_SW_FUNC (PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | \
-> > +			 PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT | \
-> > +			 PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT | \
-> > +			 PMBUS_HAVE_POUT | PMBUS_HAVE_STATUS_TEMP)
-> > +
-> Unnecessary define since it is only used once. Please fold into the declaration
-> below.
-> 
-
-ACK.
-
-> > +static struct pmbus_driver_info hac300s_info = {
-> > +	.pages = 1,
-> > +	.func[0] = HAC300S_SW_FUNC,
-> > +	.read_byte_data = hac300s_read_byte_data,
-> > +	.read_word_data = hac300s_read_word_data,
-> > +	.format[PSC_VOLTAGE_OUT] = linear,
-> > +};
-> > +
-> > +static struct pmbus_platform_data hac300s_pdata = {
-> > +	.flags = PMBUS_NO_CAPABILITY,
-> > +};
-> > +
-> > +static int hac300s_probe(struct i2c_client *client)
-> > +{
-> > +	struct hac300s_data *data;
-> > +	int rv;
-> > +
-> > +	data = devm_kzalloc(&client->dev, sizeof(struct hac300s_data), GFP_KERNEL);
-> > +	if (!data)
-> > +		return -ENOMEM;
-> > +
-> > +	if (!i2c_check_functionality(client->adapter,
-> > +				     I2C_FUNC_SMBUS_READ_BYTE_DATA |
-> > +				     I2C_FUNC_SMBUS_READ_WORD_DATA))
-> > +		return -ENODEV;
-> > +
-> > +	rv = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
-> > +	if (rv < 0) {
-> 
-> This needs explanation. Why try to read PMBUS_VOUT_MODE if the failure is
-> expected ? Are there variants of the PSU which return something useful here ?
-> The note above does not explain the reason for this conditional.
-> 
-> If this is supposed to check if this is really the expected device,
-> read and verify PMBUS_MFR_ID instead.
-> 
-> Thanks,
-> Guenter
-> 
-
-That was just some sanity check, it can indeed be removed. 
-
-Cheers,
-Vasilis
-
-> > +		data->vout_linear11 = true;
-> > +		/* LINEAR11 format, use exponent from READ_VOUT register */
-> > +		rv = i2c_smbus_read_word_data(client, PMBUS_READ_VOUT);
-> > +		if (rv < 0)
-> > +			return dev_err_probe(&client->dev, rv, "Failed to read vout_mode\n");
-> > +
-> > +		data->exponent = FIELD_GET(LINEAR11_EXPONENT_MASK, rv);
-> > +	}
-> > +
-> > +	data->info = hac300s_info;
-> > +	client->dev.platform_data = &hac300s_pdata;
-> > +	return pmbus_do_probe(client, &data->info);
-> > +}
-> > +
-> > +static const struct of_device_id hac300s_of_match[] = {
-> > +	{ .compatible = "hitron,hac300s" },
-> > +	{}
-> > +};
-> > +MODULE_DEVICE_TABLE(of, hac300s_of_match);
-> > +
-> > +static const struct i2c_device_id hac300s_id[] = {
-> > +	{"hac300s", 0},
-> > +	{}
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, hac300s_id);
-> > +
-> > +static struct i2c_driver hac300s_driver = {
-> > +	.driver = {
-> > +		   .name = "hac300s",
-> > +		   .of_match_table = hac300s_of_match,
-> > +	},
-> > +	.probe = hac300s_probe,
-> > +	.id_table = hac300s_id,
-> > +
-> > +};
-> > +module_i2c_driver(hac300s_driver);
-> > +
-> > +MODULE_AUTHOR("Vasileios Amoiridis");
-> > +MODULE_DESCRIPTION("PMBus driver for Hi-Tron HAC300S PSU");
-> > +MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS("PMBUS");
+> diff --git a/arch/powerpc/platforms/pseries/cmm.c b/arch/powerpc/platforms/pseries/cmm.c
+> index 15f873f733a41..7fd8b3d7e7637 100644
+> --- a/arch/powerpc/platforms/pseries/cmm.c
+> +++ b/arch/powerpc/platforms/pseries/cmm.c
+> @@ -165,7 +165,6 @@ static long cmm_alloc_pages(long nr)
+>  
+>  		balloon_page_enqueue(&b_dev_info, page);
+>  		atomic_long_inc(&loaned_pages);
+> -		adjust_managed_page_count(page, -1);
+>  		nr--;
+>  	}
+>  
+> @@ -190,7 +189,6 @@ static long cmm_free_pages(long nr)
+>  		if (!page)
+>  			break;
+>  		plpar_page_set_active(page);
+> -		adjust_managed_page_count(page, 1);
+>  		__free_page(page);
+>  		atomic_long_dec(&loaned_pages);
+>  		nr--;
+> @@ -515,16 +513,6 @@ static int cmm_migratepage(struct balloon_dev_info *b_dev_info,
+>  		return -EBUSY;
+>  	}
+>  
+> -	/*
+> -	 * When we migrate a page to a different zone, we have to fixup the
+> -	 * count of both involved zones as we adjusted the managed page count
+> -	 * when inflating.
+> -	 */
+> -	if (page_zone(page) != page_zone(newpage)) {
+> -		adjust_managed_page_count(page, 1);
+> -		adjust_managed_page_count(newpage, -1);
+> -	}
+> -
+>  	/*
+>  	 * activate/"deflate" the old page. We ignore any errors just like the
+>  	 * other callers.
+> @@ -551,6 +539,7 @@ static int cmm_init(void)
+>  		return -EOPNOTSUPP;
+>  
+>  	balloon_devinfo_init(&b_dev_info);
+> +	b_dev_info.adjust_managed_page_count = true;
+>  	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION))
+>  		b_dev_info.migratepage = cmm_migratepage;
+>  
+> diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
+> index df2756c071dae..15c1cf5fd249c 100644
+> --- a/drivers/virtio/virtio_balloon.c
+> +++ b/drivers/virtio/virtio_balloon.c
+> @@ -274,9 +274,6 @@ static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
+>  
+>  		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
+>  		vb->num_pages += VIRTIO_BALLOON_PAGES_PER_PAGE;
+> -		if (!virtio_has_feature(vb->vdev,
+> -					VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
+> -			adjust_managed_page_count(page, -1);
+>  		vb->num_pfns += VIRTIO_BALLOON_PAGES_PER_PAGE;
+>  	}
+>  
+> @@ -295,9 +292,6 @@ static void release_pages_balloon(struct virtio_balloon *vb,
+>  	struct page *page, *next;
+>  
+>  	list_for_each_entry_safe(page, next, pages, lru) {
+> -		if (!virtio_has_feature(vb->vdev,
+> -					VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
+> -			adjust_managed_page_count(page, 1);
+>  		list_del(&page->lru);
+>  		put_page(page); /* balloon reference */
+>  	}
+> @@ -839,17 +833,6 @@ static int virtballoon_migratepage(struct balloon_dev_info *vb_dev_info,
+>  	if (!mutex_trylock(&vb->balloon_lock))
+>  		return -EAGAIN;
+>  
+> -	/*
+> -	  * When we migrate a page to a different zone and adjusted the
+> -	  * managed page count when inflating, we have to fixup the count of
+> -	  * both involved zones.
+> -	  */
+> -	if (!virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_DEFLATE_ON_OOM) &&
+> -	    page_zone(page) != page_zone(newpage)) {
+> -		adjust_managed_page_count(page, 1);
+> -		adjust_managed_page_count(newpage, -1);
+> -	}
+> -
+>  	/* balloon's page migration 1st step  -- inflate "newpage" */
+>  	vb->num_pfns = VIRTIO_BALLOON_PAGES_PER_PAGE;
+>  	set_page_pfns(vb, vb->pfns, newpage);
+> @@ -958,6 +941,8 @@ static int virtballoon_probe(struct virtio_device *vdev)
+>  	if (err)
+>  		goto out_free_vb;
+>  
+> +	if (!virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
+> +		vb->vb_dev_info.adjust_managed_page_count = true;
+>  #ifdef CONFIG_BALLOON_COMPACTION
+>  	vb->vb_dev_info.migratepage = virtballoon_migratepage;
+>  #endif
+> diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
+> index 7cfe48769239e..3109d3c43d306 100644
+> --- a/include/linux/balloon_compaction.h
+> +++ b/include/linux/balloon_compaction.h
+> @@ -56,6 +56,7 @@ struct balloon_dev_info {
+>  	struct list_head pages;		/* Pages enqueued & handled to Host */
+>  	int (*migratepage)(struct balloon_dev_info *, struct page *newpage,
+>  			struct page *page, enum migrate_mode mode);
+> +	bool adjust_managed_page_count;
+>  };
+>  
+>  extern struct page *balloon_page_alloc(void);
+> @@ -73,6 +74,7 @@ static inline void balloon_devinfo_init(struct balloon_dev_info *balloon)
+>  	spin_lock_init(&balloon->pages_lock);
+>  	INIT_LIST_HEAD(&balloon->pages);
+>  	balloon->migratepage = NULL;
+> +	balloon->adjust_managed_page_count = false;
+>  }
+>  
+>  #ifdef CONFIG_BALLOON_COMPACTION
+> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
+> index 5444c61bb9e76..fd9ec47cf4670 100644
+> --- a/mm/balloon_compaction.c
+> +++ b/mm/balloon_compaction.c
+> @@ -23,6 +23,8 @@ static void balloon_page_enqueue_one(struct balloon_dev_info *b_dev_info,
+>  	BUG_ON(!trylock_page(page));
+>  	balloon_page_insert(b_dev_info, page);
+>  	unlock_page(page);
+> +	if (b_dev_info->adjust_managed_page_count)
+> +		adjust_managed_page_count(page, -1);
+>  	__count_vm_event(BALLOON_INFLATE);
+>  	inc_node_page_state(page, NR_BALLOON_PAGES);
+>  }
+> @@ -95,6 +97,8 @@ size_t balloon_page_list_dequeue(struct balloon_dev_info *b_dev_info,
+>  			continue;
+>  
+>  		list_del(&page->lru);
+> +		if (b_dev_info->adjust_managed_page_count)
+> +			adjust_managed_page_count(page, 1);
+>  		balloon_page_finalize(page);
+>  		__count_vm_event(BALLOON_DEFLATE);
+>  		list_add(&page->lru, pages);
+> @@ -256,12 +260,25 @@ static int balloon_page_migrate(struct page *newpage, struct page *page,
+>  
+>  		balloon_page_insert(b_dev_info, newpage);
+>  		__count_vm_event(BALLOON_MIGRATE);
+> +
+> +		if (b_dev_info->adjust_managed_page_count &&
+> +		    page_zone(page) != page_zone(newpage)) {
+> +			/*
+> +			 * When we migrate a page to a different zone we
+> +			 * have to fixup the count of both involved zones.
+> +			 */
+> +			adjust_managed_page_count(page, 1);
+> +			adjust_managed_page_count(newpage, -1);
+> +		}
+>  		break;
+>  	case -ENOENT:
+>  		spin_lock_irqsave(&b_dev_info->pages_lock, flags);
+>  
+>  		/* Old page was deflated but new page not inflated. */
+>  		__count_vm_event(BALLOON_DEFLATE);
+> +
+> +		if (b_dev_info->adjust_managed_page_count)
+> +			adjust_managed_page_count(page, 1);
+>  		break;
+>  	default:
+>  		return rc;
+> -- 
+> 2.52.0
 > 
