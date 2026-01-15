@@ -1,281 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9B6231A41;
-	Thu, 15 Jan 2026 01:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73D02417C2
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 02:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768440566; cv=none; b=n7y+iPfjUVAqAlel9OOdQKQ28FvOitN77VpVeXZXbRFnosrlKvJwkw4GIRoWXniKOrFlElRSxQuxxfbJ92M6gCDovGBbBNwgZmvWSA4YCx6Ag6hhtRldiMRAZA6JP6Bugt+N9rnYhKX9YRBYHXGGtlXqeWNai9HSSQOmAL0Fwec=
+	t=1768442785; cv=none; b=Lx9zHVpiepQ9rgvECQnkrxzMq3fRGDdGQ2y5ffbJVDBANSRpOfa9keA+9VTzpJFAabMpfonbyKhLI9iyBrr6I0zJKNt9irByZlqSyf13VHpcjPeUAcRanL+MpTxJ6w70Lj9EV91iwPHU+oroeo2cdV2fDNiCRv1y81K8yR4uUG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768440566; c=relaxed/simple;
-	bh=LeVhYsnjXeFf9ZReWEIavw7w9RifcqsMjq+5Srgecz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RFJ1bHDXnq/yo5cu+IZnqJp7QQVw/37L7TyJu0MRRoZWY+CeIM9Var5WZf3l662DAVYhaABk2ht5RSi6r1BplDRftGnn7R0s/ldV3lYTsUWIe0h/0hhe3NlpF0TZVhy6yHGvbBx/JAJ/Bltshs3dvDzbNQvx2QVIYUE6bw2iD3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACGSDlsA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768442785; c=relaxed/simple;
+	bh=ivn8qt3qtOtcFgu+q0kk1YYIE13gmngy4cnYQWDGEK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hXxd5ODv3//eonP+uR9laytvJsLuIcGWiCEnvBxzvzUWFnSKbo7s4MoWhej+0iTHZyYnnZuLaWQEJQX8/mUVaHefycQmcbMSxV1ZpqBdiwLG8QlaMTX2g8AfJqQI9iFMxqWSUwLerPkyalANcLYndQCU1lbWRDQrVK3rjP0yYzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YN3Lyrcf; arc=none smtp.client-ip=209.85.222.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACGSDlsA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9D7C4CEF7;
-	Thu, 15 Jan 2026 01:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768440565;
-	bh=LeVhYsnjXeFf9ZReWEIavw7w9RifcqsMjq+5Srgecz4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ACGSDlsAWy6ZlYQ0Q53hYw2A9NtGj3wTXgEFs/c9gWX0aCbP5o2SX/SUCyzMA4q2B
-	 Zqb/pplllccIn4TfCSSzdwI/6moFPHxif/lUTKsguNoilEwr5VnUlNr1jTH4nUNKHi
-	 iI/ewpNWzVtJ/KOzoKvILCJ4nQJYJvxfy7n5fYzj1jnQIjPEdc2lBKjQb+W+IwsR8Y
-	 Fkqlk9JRlRijDYQBQyKy3omD5JMW9+ThGwjbaScpDJY71dlMFWieiIe8mEARTPi+jQ
-	 ikGBUeOlYg7anBDgnVewztL/hAu8MnQRYnFUcMYg0nYS5ej0LutsB6PM5yr92XjM/F
-	 Ir0Ys9dwyptBQ==
-Date: Thu, 15 Jan 2026 02:29:21 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, "
- =?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@collabora.com>, Randy
- Dunlap <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 00/13] Add kernel-doc modules to Documentation/tools
-Message-ID: <20260115022921.6de58ec8@foz.lan>
-In-Reply-To: <87v7h3udlk.fsf@trenco.lwn.net>
-References: <cover.1768396023.git.mchehab+huawei@kernel.org>
-	<874iooul86.fsf@trenco.lwn.net>
-	<20260114212030.28129f38@foz.lan>
-	<87v7h3udlk.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YN3Lyrcf"
+Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8c52e25e644so40768585a.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 18:06:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768442782; x=1769047582; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=puth6Wv7pkNXWqWqMPPrzQflQ0wnF2gVjRI6DfFw6z8=;
+        b=YN3LyrcfwyQgOmhQzYi3V9mYjGizjWVdxdzi1ckXFcnVxoRgM+mYTnAK22I56upxze
+         u1E8eBNyVdV/UK3PK3lTnaS6Jd1llheKx2lQcsNtAU22VJTHrWZKYdV0+fSs8T8937jH
+         mNqpYxiyUSYqhFX8VYdHNh8YsRRMUCbmD6aLCq4TJNwiB38qnppuWa00/4X/GaQ1dmk5
+         0OYdITyPZiYAP1KWVNrcu64qzMB3bFnjan2PbjlEBbb8f4W6W0cOn8tPH+fkVXXBJTEv
+         //E18Ra/D5IzX6t/F/p0VIUDuKZ32U3o/6W3DbTjeiPo+OIljirq3idbBcEnN3ZZZsX8
+         CrRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768442782; x=1769047582;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=puth6Wv7pkNXWqWqMPPrzQflQ0wnF2gVjRI6DfFw6z8=;
+        b=LZlEhCh5w9i+vLs5w7Woj+Kx11K78sXO6jHNTujkgTyctEPEcuqwb1+mCeKWMl8W9v
+         jNROvcdfJmaa/xXc45glCE7ReOgf85TnfGgiS1KiCtCSX34Gj6x5g0dFrp/lijXWCWpF
+         QkX52I+o58TQe8WUkZlJgPptKM9kV6nZMeKnjgCZo6DH7kMEa8gH0R8iFhtAOB+kpooI
+         CKaW9CJneG2E5Egd3cZN7mVQMnEsOZ/gQv8UfwibS8Ki0Tq6/U4k+HC3GYG921L1WsEj
+         LYzhap/7Bnr8TGARQ9sXhXO2heFZwxAJfGxWnILPEs2EKopKZompo1RzCqwsAgvHNUsY
+         ZRyA==
+X-Gm-Message-State: AOJu0YyukTBMW+/oOT/Pvt7BupBFBNgFOU+HkvmAs+EKd8AJptyYq1Px
+	jcHN5AM4V6iJbshr4A+73xilqRtjQM+rM9MfyUust6+IVqp6abTYcQsi7iqtf0t9
+X-Gm-Gg: AY/fxX5t65BuLpXJRzzTU2795gE9KlEVECepiQdu6gsCuDCYFgYT0Dc/1mj/VxRIBgv
+	RZz0upDfQrTHkEm8m3E+6D4il68QLfEywkZ6QAblFN+zanIElNjPleR6X3bTAwGM422s4OJGV/2
+	uCyokDGipUTe3AXVKzSKsUZqBrMUM6ODpnbn0WY1GhrZ+uILiRGVqzR7qiCBg6/IlgwtkSR5VRj
+	iUs7W6pvg8a4QzmidUy4yByM0Kleq7gGZP2prrakydgfEB5Thbfr98m44UT6VTTVYoEFSINZq/u
+	3I8ptNKOj3Mr6OB8FfMjCzCaVU916SIVbUC/ib7dEOvZBFSVL4EQE0kvY19xAR3b9cdQZckraM9
+	UnLl3+R2hXcRDZ8o2kEoZy1wnfUEazoC7ZEZcz7wbK6IDO3GPd04IyJ00xJKPXDbco5nLKN3y9T
+	1Wf2gpVicCXRUsysmgeRy8Na4xkaODgERgOCSXc9Q1ovFP+Ew/ztf3
+X-Received: by 2002:a05:620a:4092:b0:8b2:7536:bd49 with SMTP id af79cd13be357-8c52fb05591mr737490785a.12.1768442782037;
+        Wed, 14 Jan 2026 18:06:22 -0800 (PST)
+Received: from daniel-desktop3.localnet ([204.48.94.102])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c530894ecasm313151085a.0.2026.01.14.18.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 18:06:21 -0800 (PST)
+From: Daniel Tang <danielzgtg.opensource@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Babu Moger <babu.moger@amd.com>, Borislav Petkov <bp@alien8.de>
+Subject:
+ [PATCH v2 RESEND] Documentation/protection-keys: Mark as available on AMD
+Date: Wed, 14 Jan 2026 21:06:20 -0500
+Message-ID: <45127739.pHGDlbCDJk@daniel-desktop3>
+In-Reply-To: <2728119.mhk5qWAgFL@daniel-desktop3>
+References:
+ <3647894.L58v44csPz@daniel-desktop3>
+ <20251119215038.GHaR47rlpLKZlu-m0y@fat_crate.local>
+ <2728119.mhk5qWAgFL@daniel-desktop3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Em Wed, 14 Jan 2026 13:46:31 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+This is shown on page 78 of AMD document 55898 "Preliminary Processor
+Programming Reference (PPR) for AMD Family 19h Model 01h, Revision B1
+Processors Volume 1 of 2" for Zen 3.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->=20
-> >> We could certainly rename it to something different.
-> >> But I really dislike having language extensions on files meant to be
-> >> executed as commands; you shouldn't care what language it's written in
-> >> when you run it. =20
-> >
-> > I don't like it either, but Python is really picky on some things.
-> >
-> > The problem here is that this is a Python policy violation. To change
-> > that, one needs to write a PEP and convince Python maintainers to merge
-> > it, together with changes on python "import" directive. =20
->=20
-> ...or just ignore it.=20
+I tested this on my 5900X via the program in pkeys(7) and
+`grep ospke /proc/cpuinfo`.
 
-Indeed this is an option.
-
-> There is a reason that "pip" is called "pip"
-> rather than "pip.py" - the Python folks don't keep those extensions on
-> commands either.
-
-True, but see what pip has:
-
-	$ more /usr/bin/pip
-	#! /usr/bin/python3 -P
-	# -*- coding: utf-8 -*-
-	import re
-	import sys
-	from pip._internal.cli.main import main
-	if __name__ =3D=3D '__main__':
-	    sys.argv[0] =3D re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-	    sys.exit(main())
-	/usr/bin/pip (END)
-
-Everything, including main are outside it. Btw, this code is almost
-identical to sphinx-build:
-
-	$ more /usr/bin/sphinx-build
-	#! /usr/bin/python3 -P
-	# -*- coding: utf-8 -*-
-	import re
-	import sys
-	from sphinx.cmd.build import main
-	if __name__ =3D=3D '__main__':
-	    sys.argv[0] =3D re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-	    sys.exit(main())
-
-This would be equivalent of having a tools/docs/kernel-doc like this
-(untested):
-
-	#!/usr/bin/env python3
-	from .kdoc.main import main
-	if __name__ =3D=3D '__main__':
-	    sys.exit(main())
-
-where the actual argparse code would be inside tools/docs/kdoc/main.py
-
-> > Alternatively, assuming that some magic words would be enough to
-> > convince importlib to load a name without ".py" and with "-", it could =
-be
-> > easier to convince Sphinx autodoc maintainers to take a patch, as they'=
-re=20
-> > probably using importlib somewhere to dynamically import a file based=20
-> > at the string inside "automodule" directive. On a quick grep,
-> > this seems to be the case, and such logic is inside:
-> >
-> > 	sphinx/ext/autodoc/importer.py =20
->=20
-> No doubt we could do that.  But is it really worth the trouble?  There
-> is not much in kernel-doc that needs documenting, especially since you
-> did the work to move the actual functionality into separate modules.=20
-
-I'm not particularly concerned about kernel-doc here. I'm more
-concerned on defining how things like that are expected to be
-documented.
-
-Yet, if you add this:
-
-	.. automodule:: docs.kernel_doc
-	   :members:
-	   :show-inheritance:
-	   :undoc-members:
-
-The generated documentation sounds somewhat relevant to me - specially
-if placed together with the kernel-doc module API documentation:
-
-	kernel-doc module documentation
-	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-
-	kernel_doc
-
-	Print formatted kernel documentation to stdout
-
-	Read C language source or header FILEs, extract embedded documentation com=
-ments,
-	and print formatted documentation to standard output.
-
-	The documentation comments are identified by the /** opening comment mark.
-
-	See Documentation/doc-guide/kernel-doc.rst for the documentation comment s=
-yntax.
-
-	class docs.kernel_doc.MsgFormatter(fmt=3DNone, datefmt=3DNone, style=3D'%'=
-, validate=3DTrue, *, defaults=3DNone)
-
-	    Bases: Formatter
-
-	    Helper class to format warnings in a similar way to kernel-doc.pl.
-
-	    format(record)
-
-	        Format the specified record as text.
-
-	        The record=E2=80=99s attribute dictionary is used as the operand t=
-o a=20
-		string formatting operation which yields the returned string.=20
-		Before formatting the dictionary, a couple of preparatory
-		steps are carried out. The message attribute of the record
-		is computed using LogRecord.getMessage(). If the formatting
-		string uses the time (as determined by a call to usesTime(),
-		formatTime() is called to format the event time. If there is=20
-		exception information, it is formatted using formatException()
-		and appended to the message.
-
-	docs.kernel_doc.main()
-
-	    Main program By default, the return value is:
-
-	        0: success or Python version is not compatible with
-		   kernel-doc. If -Werror is not used, it will also
-        	   return 0 if there are issues at kernel-doc markups;
-
-	        1: an abnormal condition happened;
-
-	        2: argparse issued an error;
-
-	        3: -Werror is used, and one or more unfiltered parse warnings
-	           happened.
-
-> > So, even if we don't actually add kernel-doc docstrings and
-> > functions via autodoc, I think it is still worth having a
-> > name convention that would allow that. =20
->=20
-> Instead, I think you're trying to take a functionality meant to describe
-> APIs and use it to document command-line stuff.  I'm happy to live by
-> the import rules for stuff that is actually imported; I think it makes
-> less sense to let them drive the naming of files that are outside of
-> their intended scope.
-
-Yeah, `MsgFormatter` doesn't belong to doc-guide. main return values
-does, however. IMO it is important to keep it documented together with
-the code.
-
-It should be noticed that autodoc has support for selecting symbols.
-So:
-
-	.. automodule:: docs.kernel_doc
-	   :members: main
-
-would pick only module description + main
-
-and if we add, instead:
-
-	.. autofunction:: docs.kernel_doc.main
-
-it would just pick docstrings for main, e.g. it would place just
-this:
-
-	docs.kernel_doc.main()
-
-	    Main program By default, the return value is:
-
-	        0: success or Python version is not compatible with
-		   kernel-doc. If -Werror is not used, it will also
-        	   return 0 if there are issues at kernel-doc markups;
-
-	        1: an abnormal condition happened;
-
-	        2: argparse issued an error;
-
-	        3: -Werror is used, and one or more unfiltered parse warnings
-	           happened.
-
+Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
 ---
+ Documentation/core-api/protection-keys.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In summary, all I'm saying is that, if we stick to PEP8 names, we
-can opt to import a documentation directly from the script instead
-of writing it twice: at the code and on a rst file.
-
-Btw, if you want to test it, you need just one patch to enable
-it:
-
-	https://lore.kernel.org/linux-doc/6aa5a5b4a686f07c8f3e6cb04fe4c07ed9c1d071=
-.1768396023.git.mchehab+huawei@kernel.org/T/#u
-
-this basically allows using tools/ and scripts/ as the base for
-documentation.
-
-You may also want this css patch, as default format with alabaster
-is very ugly:
-
-	https://lore.kernel.org/linux-doc/8d66988f05d06d10938e062ed4465bf303c51441=
-.1768396023.git.mchehab+huawei@kernel.org/T/#u
-=09
-with that, you can experiment inserting autodoc stuff using:=09
-
-	.. automodule:: docs.name
-	   :modules:
-
-to document all public methods from "docs/name.py" file, or:
-
-	.. autofunction:: docs.name.function
-
-and/or:
-
-	.. autoclass:: docs.name.class
-
-for a single "function" (or "class") inside "docs/name.py".
-
-Again, the limitation is that "name" ends with ".py" and only
-have (lower case?) letters, numbers and underscores - e.g. it
-shall be something that "import" and "from ... import" supports.
+diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
+index 7eb7c6023e09..59e7c178af4b 100644
+--- a/Documentation/core-api/protection-keys.rst
++++ b/Documentation/core-api/protection-keys.rst
+@@ -11,7 +11,7 @@ application changes protection domains.
+ Pkeys Userspace (PKU) is a feature which can be found on:
+         * Intel server CPUs, Skylake and later
+         * Intel client CPUs, Tiger Lake (11th Gen Core) and later
+-        * Future AMD CPUs
++        * AMD Zen 3 and later
+         * arm64 CPUs implementing the Permission Overlay Extension (FEAT_S1POE)
+ 
+ x86_64
+-- 
+2.51.0
 
 
-Thanks,
-Mauro
+
