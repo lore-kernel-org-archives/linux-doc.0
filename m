@@ -1,98 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99F52E92C3;
-	Thu, 15 Jan 2026 08:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562A332E13B;
+	Thu, 15 Jan 2026 08:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768465143; cv=none; b=sHlRCLBVoXaRpwX02m6pgQVAHgaYRnRCj7y7PNAa98VAYvZYyzwLdIlHU1OJUhQ36ZZbzoRoThmLXCNNAdHRDwMaJaASRjpAxC1Q1AoBY2M1qM7IrZ3KH/bE9xSHPL50PVGStERVQtQmMRnOvSLncslRASo88u0zTGAjgOlH4Sg=
+	t=1768465256; cv=none; b=bqYeX0Zn94ArMCyIFzw5g47VZ0hi8cQnhBOM6llsSsc6d02Wvc7pMbQg/1DjXqA0XaQfMHQH8uKSXiI0nR1n4UMaE9a61JdN8+Mr2Mszi0yHKIlWLQHi5QpMntBdnLhG1k9YBvU7EGmJ+Snl6a8KKLbKF+As18f87znI4jUNu3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768465143; c=relaxed/simple;
-	bh=g8fgxkdEmT3gKXWufE7oV9na7UkVXcbj4Z3BE9lnGFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=to+gk8NzV7mVPYarohmaxjN3Eoqj2IYSAgp0uS/IsjExKtjltT/hJKsN3Iq+dqigAyXRc7gaHex5oeziwzbNHotQYswrKgBzzpP7HBMrpk73reNLZQToWrN2rE1bYz074Vpov9zARmcHqJ1cdyqCKjtT+ACRls3Lkbx37xDabBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjAZtcoy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768465256; c=relaxed/simple;
+	bh=jNIFovNVIGhlItKX0qGOBm3AOqzFkWf5UcB9Gb1ODGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=e2s7LLEJtHrAbpTWdrbXGcztZ+ARMyl/axkypAa4Gx9lldMNzIDMQAIv5uUdHe4IZ7wOvq5IOpco2LWIsGe/g/m0i3HtJKRidTqaFIKFU/i+lYkdAxFi0inXo1XJimjdLK5GH47JcJ+RYPKgnQP3p0ecwHK0dBst1GmXizCMBEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=crw+iAFP; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjAZtcoy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541B5C116D0;
-	Thu, 15 Jan 2026 08:18:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768465142;
-	bh=g8fgxkdEmT3gKXWufE7oV9na7UkVXcbj4Z3BE9lnGFI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VjAZtcoyRkWMO1uB5ytW9qEsvR5V7Cs30p4xBsOxbZrUvEisSAE2EAo076KOotF78
-	 qEIKjz9ZTs3Sah+mDEl6HKj/6ZFsJhhpdu706ffgp7GsppnNy/6v1rRUieEi0S94hY
-	 gC8UiOPABxtZ5SIRdk6TnqsJ46pJFV01GedBAmQ72u+truEug3h3KyekccB7qCl4DP
-	 95uk0iMVEM0+GLeuGt9ROv/NmuQGtvdz+rOC5qiuMik08aNMJAx9GrhYTNr3cCos8t
-	 Qo4BNTMVBC3PWI/mIp/yopDVejft/5N8xaatqcyNxvAtf/4oY+yxbkUxuUcKT52lNf
-	 EkFY9LJmLUerg==
-Date: Thu, 15 Jan 2026 09:18:41 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, Jeff Layton <jlayton@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>, Luis de Bethencourt <luisbg@kernel.org>, 
-	Salah Triki <salah.triki@gmail.com>, Nicolas Pitre <nico@fluxnic.net>, Anders Larsen <al@alarsen.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>, 
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
-	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>, 
-	Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
-	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
-	Dave Kleikamp <shaggy@kernel.org>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Phillip Lougher <phillip@squashfs.org.uk>, Carlos Maiolino <cem@kernel.org>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Andreas Gruenbacher <agruenba@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
-	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Steve French <sfrench@samba.org>, Paulo Alcantara <pc@manguebit.org>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Tom Talpey <tom@talpey.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, linux-unionfs@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-mm@kvack.org, gfs2@lists.linux.dev, 
-	linux-doc@vger.kernel.org, v9fs@lists.linux.dev, ceph-devel@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, samba-technical@lists.samba.org
-Subject: Re: [PATCH 00/24] vfs: require filesystems to explicitly opt-in to
- lease support
-Message-ID: <20260115-rundgang-leihgabe-12018e93c00c@brauner>
-References: <ce700ee20834631eceededc8cd15fc5d00fee28e.camel@kernel.org>
- <20260113-mondlicht-raven-82fc4eb70e9d@brauner>
- <aWZcoyQLvbJKUxDU@infradead.org>
- <ce418800f06aa61a7f47f0d19394988f87a3da07.camel@kernel.org>
- <aWc3mwBNs8LNFN4W@infradead.org>
- <CAOQ4uxhMjitW_DC9WK9eku51gE1Ft+ENhD=qq3uehwrHO=RByA@mail.gmail.com>
- <aWeUv2UUJ_NdgozS@infradead.org>
- <c40862cd65a059ad45fa88f5473722ea5c5f70a5.camel@kernel.org>
- <CAOQ4uxhDwR7dteLaqURX+9CooGM1hA7PL6KnVmSwX11ZdKxZTA@mail.gmail.com>
- <aWewryHrESHgXGoL@infradead.org>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="crw+iAFP"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=tPJnyjjzBtAbdEvoWrXmQFCJkcMAShhpYesGC/5vtSc=;
+	b=crw+iAFPcFtuUoDavH3ipN9sTep3cdG0djrDylZjNCZoR91Hb7UQpLa6WJ+r+tgElyGvudz2i
+	TWFCd0YyInx1BIJKVm7lUEu9GrOEZ6JR7hao1f5VASKVHxWxWAa3f6FV7TIuWNmqzRZSQwp9Q75
+	ci3XHV2W+X7MAHRpvNTa3tg=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4dsG7J74zkz1K9Vh;
+	Thu, 15 Jan 2026 16:17:32 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 133A74055B;
+	Thu, 15 Jan 2026 16:20:51 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 15 Jan
+ 2026 16:20:49 +0800
+Message-ID: <9e5d9733-10da-47c1-b265-07c6ac820ea6@huawei.com>
+Date: Thu, 15 Jan 2026 16:20:49 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aWewryHrESHgXGoL@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/11] cpufreq: CPPC: sync policy limits when updating
+ min/max_perf
+To: Sumit Gupta <sumitg@nvidia.com>
+CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <lenb@kernel.org>,
+	<robert.moore@intel.com>, <corbet@lwn.net>, <pierre.gondois@arm.com>,
+	<rdunlap@infradead.org>, <ray.huang@amd.com>, <gautham.shenoy@amd.com>,
+	<mario.limonciello@amd.com>, <perry.yuan@amd.com>, <ionela.voinescu@arm.com>,
+	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
+	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
+	<nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20251223121307.711773-1-sumitg@nvidia.com>
+ <20251223121307.711773-9-sumitg@nvidia.com>
+ <9ea62a14-46a1-4238-97ed-aeabf9f3ab77@huawei.com>
+ <2e0e7b5d-e424-4a45-9783-178a1af24ccc@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <2e0e7b5d-e424-4a45-9783-178a1af24ccc@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-On Wed, Jan 14, 2026 at 07:05:19AM -0800, Christoph Hellwig wrote:
-> On Wed, Jan 14, 2026 at 03:14:13PM +0100, Amir Goldstein wrote:
-> > Very well then.
-> > How about EXPORT_OP_PERSISTENT_HANDLES?
+On 2026/1/8 21:53, Sumit Gupta wrote:
 > 
-> Sure.
+> On 25/12/25 19:26, zhenglifeng (A) wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On 2025/12/23 20:13, Sumit Gupta wrote:
+>>> When min_perf or max_perf is updated via sysfs in autonomous mode, the
+>>> policy frequency limits should also be updated to reflect the new
+>>> performance bounds.
+>>>
+>>> Add @update_policy parameter to cppc_cpufreq_set_mperf_limit() to
+>>> control whether policy constraints are synced with HW registers.
+>>> The policy is updated only when autonomous selection is enabled to
+>>> keep SW limits in sync with HW.
+>>>
+>>> This ensures that scaling_min_freq and scaling_max_freq values remain
+>>> consistent with the actual min/max_perf register values when operating
+>>> in autonomous mode.
+>>>
+>>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>>> ---
+>>>   drivers/cpufreq/cppc_cpufreq.c | 35 ++++++++++++++++++++++++++--------
+>>>   1 file changed, 27 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+>>> index 1f8825006940..0202c7b823e6 100644
+>>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>>> @@ -544,14 +544,20 @@ static void populate_efficiency_class(void)
+>>>    * cppc_cpufreq_set_mperf_limit - Set min/max performance limit
+>>>    * @policy: cpufreq policy
+>>>    * @val: performance value to set
+>>> + * @update_policy: whether to update policy constraints
+>>>    * @is_min: true for min_perf, false for max_perf
+>>> + *
+>>> + * When @update_policy is true, updates cpufreq policy frequency limits.
+>>> + * @update_policy is false during cpu_init when policy isn't fully set up.
+>>>    */
+>>>   static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>>> -                                     bool is_min)
+>>> +                                     bool update_policy, bool is_min)
+>>>   {
+>>>        struct cppc_cpudata *cpu_data = policy->driver_data;
+>>>        struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>>>        unsigned int cpu = policy->cpu;
+>>> +     struct freq_qos_request *req;
+>>> +     unsigned int freq;
+>>>        u32 perf;
+>>>        int ret;
+>>>
+>>> @@ -571,15 +577,26 @@ static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy *policy, u64 val,
+>>>        else
+>>>                cpu_data->perf_ctrls.max_perf = perf;
+>>>
+>>> +     if (update_policy) {
+>>> +             freq = cppc_perf_to_khz(caps, perf);
+>>> +             req = is_min ? policy->min_freq_req : policy->max_freq_req;
+>>> +
+>>> +             ret = freq_qos_update_request(req, freq);
+>>> +             if (ret < 0) {
+>>> +                     pr_warn("Failed to update %s_freq constraint for CPU%d: %d\n",
+>>> +                             is_min ? "min" : "max", cpu, ret);
+>>> +                     return ret;
+>>> +             }
+>>> +     }
+>>> +
+>> OK. Now I see the necessity of extracting this function. But why not use
+>> freq_khz as a input parameter and convert it to perf in this funciton,
+>> since you need the freq here?
+> 
+> That will still need cppc_perf_to_khz to be called so that policy
+> has what HW actually delivers. Otherwise, there could be some
+> asymmetry.
+> Also the clamping is done on perf values. So, if user provides a
+> very high freq value then that will get passed to freq_qos and the
+> HW register will have actual perf value which doesn't match with qos.
+> 
+> Either way the conversion chain is:
+>   freq_to_perf -> clamp perf -> set perf -> perf_to_freq -> set qos
+> It's just a matter of where we place the logic.
 
-That sounds good to me too.
+Yes, you are right. I missed the clamping. Thanks for the explanation.
+
+> 
+> Thank you,
+> Sumit Gupta
+> 
+>>>        return 0;
+>>>   }
+>>>
+>>> -#define cppc_cpufreq_set_min_perf(policy, val) \
+>>> -     cppc_cpufreq_set_mperf_limit(policy, val, true)
+>>> -
+>>> -#define cppc_cpufreq_set_max_perf(policy, val) \
+>>> -     cppc_cpufreq_set_mperf_limit(policy, val, false)
+>>> +#define cppc_cpufreq_set_min_perf(policy, val, update_policy) \
+>>> +     cppc_cpufreq_set_mperf_limit(policy, val, update_policy, true)
+>>>
+>>> +#define cppc_cpufreq_set_max_perf(policy, val, update_policy) \
+>>> +     cppc_cpufreq_set_mperf_limit(policy, val, update_policy, false)
+>>>   static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>>>   {
+>>>        struct cppc_cpudata *cpu_data;
+>>> @@ -988,7 +1005,8 @@ static ssize_t store_min_perf(struct cpufreq_policy *policy, const char *buf,
+>>>        perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
+>>>
+>>>        guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+>>> -     ret = cppc_cpufreq_set_min_perf(policy, perf);
+>>> +     ret = cppc_cpufreq_set_min_perf(policy, perf,
+>>> +                                     cpu_data->perf_ctrls.auto_sel);
+>>>        if (ret)
+>>>                return ret;
+>>>
+>>> @@ -1045,7 +1063,8 @@ static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+>>>        perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
+>>>
+>>>        guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+>>> -     ret = cppc_cpufreq_set_max_perf(policy, perf);
+>>> +     ret = cppc_cpufreq_set_max_perf(policy, perf,
+>>> +                                     cpu_data->perf_ctrls.auto_sel);
+>>>        if (ret)
+>>>                return ret;
+>>>
+> 
+
