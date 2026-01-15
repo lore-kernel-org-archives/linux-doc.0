@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9C53AA1AA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8C03A9DA3;
 	Thu, 15 Jan 2026 15:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768491642; cv=none; b=RmssOi6uhMpNfZFyTapZ70d7maUsZYyEKqSCCtJg3O5txx4EiHzXTLoE+1iU9P6JhB8iiIfP301SmNCyfkrh6UglLXimj7zs8U8xo2PZIiMnGiZYBZ6+fFLS8OUWWR8XZ2gpj0LitPIcIyRqzfiJEVn1voqnU8mFG/hHdKj7/mA=
+	t=1768491642; cv=none; b=dGaWvafYG2TGUC9hhKAm4uMsUL1pltDnLL+0MFWJlaXjnpkJnpnJNLjKsI97Qj/EjSLKhy+IpIHZCJG04T0Rjzju/V6D6MIogSmsYoiHoqLpdeDzFZEE5kX8pxP7TaSH/i7ny5MOZjZBl9ZKLgwv4h6ZUaH5NMqGbiSuBqNWdiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768491642; c=relaxed/simple;
-	bh=i1tcZCaxJM2MU0fiO/S47vsflPzYkddGYteNjd18qHw=;
+	bh=kmk1GvA8qQBm6LrMB53lcAYigASy9DuUwFJjdBAuCYA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ncINNDZIxyyvFzFbCDyvNHd5L4SZ2VM7ibBue6FZCg4aGpDUDGS+w96WJ48pgp5A2a9w71RvMdpbg4l9mpC7YI9MCISANzjeQkhik4jVSc7u1+nJPYEWswQ/at30Gok8z8/4tRgHUbbHPkayVG/e0S8792aSYRd924WW61ED9Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G96KHlOd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AXURSySrZK8smMWjs690xwpfMt6YMaqKyFTKt7fsAQm8ultOv8P1J59YunARlorWL4C31Mza1MdPOkRYGeTTWI6K1hfCazjzoZJMwqf3OaRcoicLvqGsJwZTR3O09u1boc3+zRXX79kj7MvxO4x92SLK/dV+ywuhsU4MssyRBU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOChNeqZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G96KHlOd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22136C2BCB1;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOChNeqZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19ACAC2BC9E;
 	Thu, 15 Jan 2026 15:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768491642;
-	bh=i1tcZCaxJM2MU0fiO/S47vsflPzYkddGYteNjd18qHw=;
+	bh=kmk1GvA8qQBm6LrMB53lcAYigASy9DuUwFJjdBAuCYA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G96KHlOdkwqcE7M0bta2YtY+/0hCe4qQtNb8PMvha3wAvXEm+6sGE2eJ7y88RkDx2
-	 rjNHwkidXUnol4368x87s6mPp0tVY/Pvcsp7JxR00Oaq12MW2CzZHM985jjiao3R7z
-	 e/u4AMH8jJ4l5Vkbq3yDJls85ElfMVBnq2sjC7634a8iK7A9J6cOasX3mCiJAPrEdd
-	 Wbgdqs755Xn5IKQUy72+QqyC/wnEykPIe1NffDNvA9OSl166EaGCTvvClRY+HYuyeU
-	 gRofAvM23PyNhzJIKMS4TTo1/J90lojHlv6UL/ET+GwOkTtaqEvdUbgAdoexrLw3L6
-	 tjsyVBWTPfKOw==
+	b=VOChNeqZjsMGc4p/t/QMppcsIXTzVj80ELNAdbuL0Zpkm2NAAaw7ZFf5qBz4bHxYv
+	 YSsFyurw46vk0QQtyOOnVPMfvEVztOgyG/Fxzqi8+STYqAA493Wl4yGA9+E/0IW18C
+	 g9nSCWYwOoiHxSM6wXwczSL79KRMJxUtT6uizJh611mIcBdku5nNwxLEM1sZ9mzdUa
+	 HzQT2TCT1tRRcwwR30w+BHbvAB9+vLohgDm3e7I3XtO02/erG6RopCP/7UnXOPXcEe
+	 9ZYhmORr0eghmh3MW7B1DA6bggrl+7+enRsCf/gh1hahj35MKOzYlyG1kurkVbv8Oa
+	 BX5ER/4NRIzMg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vgPSi-000000043It-1jAP;
+	id 1vgPSi-000000043Id-1Hsl;
 	Thu, 15 Jan 2026 16:40:40 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -36,9 +36,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v2 12/15] docs: kdoc: parse_data_structs: Improve docstrings and comments
-Date: Thu, 15 Jan 2026 16:40:33 +0100
-Message-ID: <6a613960686d6ff0377f7365f7f547c31d487593.1768488832.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 08/15] docs: kdoc_item: Improve docstrings and comments
+Date: Thu, 15 Jan 2026 16:40:29 +0100
+Message-ID: <a68daefd2db512f220b615e0d2e3be30fbf49d1e.1768488832.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768488832.git.mchehab+huawei@kernel.org>
 References: <cover.1768488832.git.mchehab+huawei@kernel.org>
@@ -57,182 +57,57 @@ documentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/parse_data_structs.py | 62 +++++++++++++--------
- 1 file changed, 39 insertions(+), 23 deletions(-)
+ tools/lib/python/kdoc/kdoc_item.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/tools/lib/python/kdoc/parse_data_structs.py b/tools/lib/python/kdoc/parse_data_structs.py
-index 25361996cd20..9941cd19032e 100755
---- a/tools/lib/python/kdoc/parse_data_structs.py
-+++ b/tools/lib/python/kdoc/parse_data_structs.py
-@@ -9,12 +9,12 @@ Parse a source file or header, creating ReStructured Text cross references.
- It accepts an optional file to change the default symbol reference or to
- suppress symbols from the output.
+diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
+index 19805301cb2c..2b8a93f79716 100644
+--- a/tools/lib/python/kdoc/kdoc_item.py
++++ b/tools/lib/python/kdoc/kdoc_item.py
+@@ -4,7 +4,16 @@
+ # then pass into the output modules.
+ #
  
--It is capable of identifying defines, functions, structs, typedefs,
--enums and enum symbols and create cross-references for all of them.
-+It is capable of identifying ``define``, function, ``struct``, ``typedef``,
-+``enum`` and ``enum`` symbols and create cross-references for all of them.
- It is also capable of distinguish #define used for specifying a Linux
- ioctl.
- 
--The optional rules file contains a set of rules like:
-+The optional rules file contains a set of rules like::
- 
-     ignore ioctl VIDIOC_ENUM_FMT
-     replace ioctl VIDIOC_DQBUF vidioc_qbuf
-@@ -34,8 +34,8 @@ class ParseDataStructs:
-     It is meant to allow having a more comprehensive documentation, where
-     uAPI headers will create cross-reference links to the code.
- 
--    It is capable of identifying defines, functions, structs, typedefs,
--    enums and enum symbols and create cross-references for all of them.
-+    It is capable of identifying ``define``, function, ``struct``, ``typedef``,
-+    ``enum`` and ``enum`` symbols and create cross-references for all of them.
-     It is also capable of distinguish #define used for specifying a Linux
-     ioctl.
- 
-@@ -43,13 +43,13 @@ class ParseDataStructs:
-     allows parsing an exception file. Such file contains a set of rules
-     using the syntax below:
- 
--    1. Ignore rules:
-+    1. Ignore rules::
- 
-         ignore <type> <symbol>`
- 
-     Removes the symbol from reference generation.
- 
--    2. Replace rules:
-+    2. Replace rules::
- 
-         replace <type> <old_symbol> <new_reference>
- 
-@@ -58,22 +58,22 @@ class ParseDataStructs:
-         - A simple symbol name;
-         - A full Sphinx reference.
- 
--    3. Namespace rules
-+    3. Namespace rules::
- 
-         namespace <namespace>
- 
-        Sets C namespace to be used during cross-reference generation. Can
-        be overridden by replace rules.
- 
--    On ignore and replace rules, <type> can be:
--        - ioctl: for defines that end with _IO*, e.g. ioctl definitions
--        - define: for other defines
--        - symbol: for symbols defined within enums;
--        - typedef: for typedefs;
--        - enum: for the name of a non-anonymous enum;
--        - struct: for structs.
-+    On ignore and replace rules, ``<type>`` can be:
-+        - ``ioctl``: for defines that end with ``_IO*``, e.g. ioctl definitions
-+        - ``define``: for other defines
-+        - ``symbol``: for symbols defined within enums;
-+        - ``typedef``: for typedefs;
-+        - ``enum``: for the name of a non-anonymous enum;
-+        - ``struct``: for structs.
- 
--    Examples:
-+    Examples::
- 
-         ignore define __LINUX_MEDIA_H
-         ignore ioctl VIDIOC_ENUM_FMT
-@@ -83,13 +83,15 @@ class ParseDataStructs:
-         namespace MC
-     """
- 
--    # Parser regexes with multiple ways to capture enums and structs
-+    #: Parser regex with multiple ways to capture enums.
-     RE_ENUMS = [
-         re.compile(r"^\s*enum\s+([\w_]+)\s*\{"),
-         re.compile(r"^\s*enum\s+([\w_]+)\s*$"),
-         re.compile(r"^\s*typedef\s*enum\s+([\w_]+)\s*\{"),
-         re.compile(r"^\s*typedef\s*enum\s+([\w_]+)\s*$"),
-     ]
++"""
++Data class to store a kernel-doc Item.
++"""
 +
-+    #: Parser regex with multiple ways to capture structs.
-     RE_STRUCTS = [
-         re.compile(r"^\s*struct\s+([_\w][\w\d_]+)\s*\{"),
-         re.compile(r"^\s*struct\s+([_\w][\w\d_]+)$"),
-@@ -97,11 +99,13 @@ class ParseDataStructs:
-         re.compile(r"^\s*typedef\s*struct\s+([_\w][\w\d_]+)$"),
-     ]
- 
--    # FIXME: the original code was written a long time before Sphinx C
-+    # NOTE: the original code was written a long time before Sphinx C
-     # domain to have multiple namespaces. To avoid to much turn at the
-     # existing hyperlinks, the code kept using "c:type" instead of the
-     # right types. To change that, we need to change the types not only
-     # here, but also at the uAPI media documentation.
+ class KdocItem:
++    """
++    A class that will, eventually, encapsulate all of the parsed data that we
++    then pass into the output modules.
++    """
 +
-+    #: Dictionary containing C type identifiers to be transformed.
-     DEF_SYMBOL_TYPES = {
-         "ioctl": {
-             "prefix": "\\ ",
-@@ -158,6 +162,10 @@ class ParseDataStructs:
-             self.symbols[symbol_type] = {}
+     def __init__(self, name, fname, type, start_line, **other_stuff):
+         self.name = name
+         self.fname = fname
+@@ -24,6 +33,9 @@ class KdocItem:
+         self.other_stuff = other_stuff
  
-     def read_exceptions(self, fname: str):
+     def get(self, key, default = None):
 +        """
-+        Read an optional exceptions file, used to override defaults.
++        Get a value from optional keys.
 +        """
-+
-         if not fname:
-             return
+         return self.other_stuff.get(key, default)
  
-@@ -242,9 +250,9 @@ class ParseDataStructs:
-     def store_type(self, ln, symbol_type: str, symbol: str,
-                    ref_name: str = None, replace_underscores: bool = True):
-         """
--        Stores a new symbol at self.symbols under symbol_type.
-+        Store a new symbol at self.symbols under symbol_type.
- 
--        By default, underscores are replaced by "-"
-+        By default, underscores are replaced by ``-``.
-         """
-         defs = self.DEF_SYMBOL_TYPES[symbol_type]
- 
-@@ -276,12 +284,16 @@ class ParseDataStructs:
-         self.symbols[symbol_type][symbol] = (f"{prefix}{ref_link}{suffix}", ln)
- 
-     def store_line(self, line):
--        """Stores a line at self.data, properly indented"""
+     def __getitem__(self, key):
+@@ -33,10 +45,16 @@ class KdocItem:
+     # Tracking of section and parameter information.
+     #
+     def set_sections(self, sections, start_lines):
 +        """
-+        Store a line at self.data, properly indented.
++        Set sections and start lines.
 +        """
-         line = "    " + line.expandtabs()
-         self.data += line.rstrip(" ")
+         self.sections = sections
+         self.section_start_lines = start_lines
  
-     def parse_file(self, file_in: str, exceptions: str = None):
--        """Reads a C source file and get identifiers"""
+     def set_params(self, names, descs, types, starts):
 +        """
-+        Read a C source file and get identifiers.
++        Set parameter list: names, descriptions, types and start lines.
 +        """
-         self.data = ""
-         is_enum = False
-         is_comment = False
-@@ -433,7 +445,7 @@ class ParseDataStructs:
- 
-     def gen_toc(self):
-         """
--        Create a list of symbols to be part of a TOC contents table
-+        Create a list of symbols to be part of a TOC contents table.
-         """
-         text = []
- 
-@@ -464,6 +476,10 @@ class ParseDataStructs:
-         return "\n".join(text)
- 
-     def write_output(self, file_in: str, file_out: str, toc: bool):
-+        """
-+        Write a ReST output file.
-+        """
-+
-         title = os.path.basename(file_in)
- 
-         if toc:
+         self.parameterlist = names
+         self.parameterdescs = descs
+         self.parametertypes = types
 -- 
 2.52.0
 
