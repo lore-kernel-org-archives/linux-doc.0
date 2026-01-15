@@ -1,93 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF2517A2EA;
-	Thu, 15 Jan 2026 21:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694882D9ECB
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 22:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768514248; cv=none; b=tlcV/m0k9Ot0g6lDfXJlCWkec29yAL/fm8LbgjfACwpLM+iaOUyJnwEuq2sjThZziltvS3njzXaeHyNKJnVYUTvHNwERxxd7GDh/YY9j9MB8Ure0+4Mo4C29zDttrS8el0IZNZhBwnDeMAtQS/icLrzsZBoecG90Tan4irIj/Ik=
+	t=1768514991; cv=none; b=RTJE46SQsnu87YMcNA554cmGWjgROy8X6gSYcXtICN2WI7Ff9hhg41MtwiVVEZhustCyVkKrugthjnTgwLldBss3KVwJFAZFNZvXVgdcB0stqwiiRp4rbA9FAQVfxElNdNctt3H6PTwbHhM7adT1D6Shk7My3+VC6nhnU5Igwww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768514248; c=relaxed/simple;
-	bh=dmb9pxb/DdDeE0oFuNsHGAvh/+naPbPX/6SjznaiaIw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IN0ApfGDdVVewdmgP/Q4/fitHK0vAw+Tqop4ZvBVnUczl5FCRNQw/7P0Jucy9cx6P0dqGJ/iZxQCq9gd9WryzKP+K8tsda5jn/XAON3ThyW0ewzADBpziDEQdixcl03D3sETdHqHDIQQGugKrzDSBQqlsWY4joDX8j7aH8o29uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUrt4iVp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768514991; c=relaxed/simple;
+	bh=VRWbceNOpYxJG/pXnzBrtC/69uqaDhIJ1H90ANTzV5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kD+ojFEhX5vxNSYy4ai1n3VjdZ69UdJDWr3Nw18lhyX7a1MUIHRxJpwpLe+K9DsKLb2qKGS/M3RW3PbJ0a0jzYG34LzFsMc3F0dH+HPLv3Bt+4xG/0IB4LdetsN2RrHwTy3SMwRGVqUrCh93+0tnpxdLcReiImf92GoagXJp5LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OIusGAXN; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUrt4iVp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F0BC116D0;
-	Thu, 15 Jan 2026 21:57:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768514248;
-	bh=dmb9pxb/DdDeE0oFuNsHGAvh/+naPbPX/6SjznaiaIw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=JUrt4iVpk5xAVB7X7jA5dDzlc3IP/0Yhm9QenVxAMSoRgMN/dU0/BgCoBRh/A8rxw
-	 lMy47CYmz9eOZte9AU3gjeoZwK52oO3PgU2cKI3M3eKRpUOd7w5lZPGzQ3Et/1kbYK
-	 1JjEG/4lS4Xolbmr2lh6fCnPzmT2FtZxyWQ0dCg6dGTDPZ7h7fE507420Qbymo3mqu
-	 AYTVf0MzwEbvBU1k6jmLGvyHfERiHamgeaQs2/wjUFfoZgRXgG09V3ggKMSfWRCk23
-	 UmMZMeCQ59tH+tODHUsXPNLw1lua7k5dZhQn1hM9B/UDDFTr5t7/9bIKPakf0H435v
-	 rczrZRcaRzKjA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH] driver-core: improve driver binding documentation
-Date: Thu, 15 Jan 2026 22:56:57 +0100
-Message-ID: <20260115215718.6405-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OIusGAXN"
+Date: Thu, 15 Jan 2026 22:09:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768514986;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ntiyNJN8HUkrpuQ5dePzjgUJxHCqX6FK7kqJzCegw+E=;
+	b=OIusGAXNYjd6pQKnQb4pYZB362R/Uq6SZMD7NGXJxBHnNS69t8wrcQtIbBJNqaTuC80Pna
+	1B1aJhYUHEnszVjYApCXTd+Gt9K1YVjlQad72LjRCUqhY/vzPj45CjoTETaH4jFO+s4zRB
+	NM4IMy0XAzy0qYMp5GRNYklKDReZHSQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yosry Ahmed <yosry.ahmed@linux.dev>
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-mm@kvack.org, cgroups@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	kernel-team@meta.com, longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, 
+	mkoutny@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, dave@stgolabs.net, jonathan.cameron@huawei.com, 
+	dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com, 
+	ira.weiny@intel.com, dan.j.williams@intel.com, akpm@linux-foundation.org, 
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com, jackmanb@google.com, 
+	ziy@nvidia.com, david@kernel.org, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, rppt@kernel.org, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, yury.norov@gmail.com, linux@rasmusvillemoes.dk, 
+	rientjes@google.com, shakeel.butt@linux.dev, chrisl@kernel.org, kasong@tencent.com, 
+	shikemeng@huaweicloud.com, nphamcs@gmail.com, bhe@redhat.com, baohua@kernel.org, 
+	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	osalvador@suse.de, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	apopple@nvidia.com, cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
+Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
+Message-ID: <a3zwoccozpnpum3dkvdytjl4aookymmuuhzcnswznxft5jy6mi@wfcyp4euizrx>
+References: <20260108203755.1163107-1-gourry@gourry.net>
+ <20260108203755.1163107-8-gourry@gourry.net>
+ <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
+ <aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F>
+ <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
+ <aWWEvAaUmpA_0ERP@gourry-fedora-PF4VCD3F>
+ <fkxcxh4eilncsbtwt7jmuiaxrfvuidlnbovesa6m7eoif5tmxc@r34c5zy4nr4y>
+ <aWkjUXpyLEJyc-C0@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWkjUXpyLEJyc-C0@gourry-fedora-PF4VCD3F>
+X-Migadu-Flow: FLOW_OUT
 
-The driver binding documentation (still) mentions that "When a driver is
-attached to a device, the device is inserted into the driver's list of
-devices.".
+On Thu, Jan 15, 2026 at 12:26:41PM -0500, Gregory Price wrote:
+> > > For the first go, yeah.  A cram.c would need special page table handling
+> > > bits that will take a while to get right.  We can make use of the
+> > > hardware differently in the meantime.
+> > 
+> > Makes sense.
+> > 
+> > I just want to point out that using compressed memory with zswap doesn't
+> > buy us much in terms of reclaim latency, so the main goal here is just
+> > saving memory on the top tier, not improving performance, right?
+> >
+> 
+> Yeah first goal is to just demonstrate such an accelerator can even work
+> as a top-tier memory saving mechanism.  But hard to say whether reclaim
+> latency will be affected appreciably - won't know until we get there :]
+> 
+> I'm totally prepared for this to be a science experiment that gets
+> thrown away.
 
-While it is true that the driver-core keeps track of all the devices
-that are attached to a driver, this is purely for internal purposes
-(i.e. it is an implementation detail) and has no relevance for user
-facing documentation.
+If that's the case I would put the zswap stuff under an experimental
+config option that's not enabled by default, so that we can rip it out
+later if needed. 
 
-In fact, it is even misleading, since it could be read as if it were
-valid for driver implementations to keep track of all the devices bound
-to it.
-
-Instead, drivers operate on a per-device basis, with a separate
-per-device instance created when the driver is bound to a device.
-
-Hence, remove the mention of a driver's list of devices and instead add
-some documentation of the relationship between drivers and devices.
-
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- Documentation/driver-api/driver-model/binding.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/driver-api/driver-model/binding.rst b/Documentation/driver-api/driver-model/binding.rst
-index 7ea1d7a41e1d..d1d311a4011f 100644
---- a/Documentation/driver-api/driver-model/binding.rst
-+++ b/Documentation/driver-api/driver-model/binding.rst
-@@ -53,9 +53,12 @@ class's register_dev callback.
- Driver
- ~~~~~~
- 
--When a driver is attached to a device, the device is inserted into the
--driver's list of devices.
--
-+When a driver is attached to a device, the driver's probe() function is
-+called. Within probe(), the driver initializes the device and allocates
-+and initializes per-device data structures. This per-device state is
-+associated with the device object for as long as the driver remains bound
-+to it. Conceptually, this per-device data together with the binding to
-+the device can be thought of as an instance of the driver.
- 
- sysfs
- ~~~~~
--- 
-2.52.0
-
+> 
+> > > 
+> > > I will probably need some help to get the accounting right if I'm being
+> > > honest.  I can't say I fully understanding the implications here, but
+> > > what you describe makes sense.
+> > > 
+> > 
+> > Yeah it's counter-intuitive. Zswap needs to charge less than PAGE_SIZE
+> > so that memcg tracking continues to make sense with reclaim (i.e. usage
+> > goes down), but if zswap consumed a full page from the system
+> > perspective, the math won't math.
+> > 
+> > Separate limits *could* be the answer, but it's harder to configure and
+> > existing configuration won't "just work" with compressed memory.
+> >
+> 
+> I think you are right. I am also inquiring whether individual page
+> compression data is retrievable.  If so, then this actually should be a
+> trivial integration.
+> 
+> If not then this is probably ending up on the cutting room floor and
+> going straight to a full cram.c implementation.
+> 
+> ~Gregory
