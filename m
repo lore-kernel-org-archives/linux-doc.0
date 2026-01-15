@@ -1,198 +1,307 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2359734846A
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 12:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD2E32AAD3;
+	Thu, 15 Jan 2026 12:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768478513; cv=none; b=Z4kM8dGZz2M9PWr0G3nkSP0rkpBOxyeQ4C5NMROHYeIfu+LjAW6w7FxcbE+eYsIUk7Q8gFxZuWTMSQKTgmaA8Ryc5YsMBQZ0glJfFlGeiiwzP5km2AMzuY4k4mxcnwFgW/nzCIs/cJRsA2JBe2Ua6/GRLPQB8zBdgPqPdaz36f8=
+	t=1768478983; cv=none; b=ZYY3sDLdm0n1ykaNTH/N4sKX8Mtpk1PmZO043nDr91MHuGlzDHI3BKb36g6LNOXqZyEt74Ligs4UPPk+ei9wir/rXH77jb0nfYJWwIsPpd3oXSIIQBGEFJV7YJoRkPwTzk73Jbibw1rByanB6X5ewh68sejLV2dg7NR38SORenM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768478513; c=relaxed/simple;
-	bh=lxYu8LbUGQ2I1A7AkDKLMt/0lbWwK+GrfdBdOVh3CHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HBgeTRflcWSwrJCg+xgsUcoB11qr5W1Qx/c7LDYdELPMIm1Vfp4oHN14X5ikFZDaIZTm6v/fhF8BJ0pg2ukuy6Ii63UjxbPG0241b/0w8SVUp9sypkPTmy+yBJ0awHuiAsKEgMeS8tDTgM9nC5hXoOJ/UzwkFRIY5PF/NKA4Mqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CEAD3368D;
-	Thu, 15 Jan 2026 12:01:50 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 543513EA63;
-	Thu, 15 Jan 2026 12:01:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NDM1FC7XaGnnWwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 15 Jan 2026 12:01:50 +0000
-Message-ID: <2c4c2b2e-bf96-4c4a-a66c-93b66553030c@suse.cz>
-Date: Thu, 15 Jan 2026 13:01:49 +0100
+	s=arc-20240116; t=1768478983; c=relaxed/simple;
+	bh=e7AlCNzlVH3ZmlehrqqZwgELJt8oDva2zlAwZPPPcKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qg0qtZdlzGfCxKa9SYTtOqgGtWBuCluxZQgoH1hl6JExOsVt8ISUqHaRCAvo5EnvOPZC1sZavwKBSdZKhhUyVfs04A0AG5zwkiisVa6Keczr2p8MUrQpRaPnwIVRE+T7xaLTH1iQuNMbih2m/bvsmRfRo0/7I3pFKXiBrh1MrNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=BerLoNwp; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="BerLoNwp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=CpDlZDYGk/1e+fdVI0TLnG6gmOYxSARFLqzqg3eymM0=; b=BerLoNwpnMfmGC+gbR6vvcItKY
+	Bg0w0BRZtrFSV0g3p33pSNJe9hAurONKc9POnEfhqpTlETL4VgGGq/II/dSJ8CcJzELdWiu4pPTSw
+	kZ2oOz+f560G5soZE81OPIjtbJk5Z3lS6QqnXWfhFyWSpQmQBN9wuUbaywSCnu4nhnml3jBbmtfaF
+	RGKZ5ZWJOAsTxyqn8xqkioanhRXAVleOPoS1TbIAOt25gupt+sLYAezz0bnXzQCEzemEl8C6v1SQ/
+	9/Cy7mf5/8ZlSZKJFPh9piLGjwHrFqCrjl+D4nojDrPPlfsZ/Rza5OJBUE0SA9U9D7Xmwx2vlgyV/
+	8qSiv/Hw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:46422)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vgMAG-000000001FZ-3JWl;
+	Thu, 15 Jan 2026 12:09:24 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vgMAA-000000002bd-2qwX;
+	Thu, 15 Jan 2026 12:09:18 +0000
+Date: Thu, 15 Jan 2026 12:09:18 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Tao Wang <tao03.wang@horizon.auto>
+Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, horms@kernel.org,
+	kuba@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maxime.chevallier@bootlin.com,
+	mcoquelin.stm32@gmail.com, netdev@vger.kernel.org,
+	pabeni@redhat.com
+Subject: Re: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out
+ after resume
+Message-ID: <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
+References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
+ <20260115070853.116260-1-tao03.wang@horizon.auto>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 23/23] MAINTAINERS: move memory balloon infrastructure
- to "MEMORY MANAGEMENT - BALLOON"
-Content-Language: en-US
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, linux-doc@vger.kernel.org,
- virtualization@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Arnd Bergmann
- <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Zi Yan <ziy@nvidia.com>
-References: <20260115092015.3928975-1-david@kernel.org>
- <20260115092015.3928975-24-david@kernel.org>
- <f2ce1126-0059-481c-b54f-0b09518666d3@lucifer.local>
- <284775bd-767d-45f8-b66b-96709dabcc5e@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <284775bd-767d-45f8-b66b-96709dabcc5e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Score: -4.00
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 8CEAD3368D
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115070853.116260-1-tao03.wang@horizon.auto>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 1/15/26 12:25, David Hildenbrand (Red Hat) wrote:
-> On 1/15/26 10:39, Lorenzo Stoakes wrote:
->> On Thu, Jan 15, 2026 at 10:20:13AM +0100, David Hildenbrand (Red Hat) wrote:
->>> Nowadays, there is nothing virtio-balloon specific anymore about these
->>> files, the basic infrastructure is used by multiple memory balloon
->>> drivers.
->>>
->>> For now we'll route it through Andrew's tree, maybe in some future it
->>> makes sense to route this through a separate tree.
->>>
->>> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
->> 
->> Assuming below fixed + Michael's concern addressed, LGTM so:
->> 
->> Acked-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> 
->>> ---
->>>   MAINTAINERS | 12 ++++++++++--
->>>   1 file changed, 10 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index de8f89ca1149f..b974f8c1c2225 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -16454,6 +16454,16 @@ T:	quilt git://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new
->>>   F:	mm/
->>>   F:	tools/mm/
->>>
->>> +MEMORY MANAGEMENT - BALLOON
->>> +M:	Andrew Morton <akpm@linux-foundation.org>
->>> +M:	David Hildenbrand <david@redhat.com>
->> 
->> david@kernel.org you mean? ;)
+On Thu, Jan 15, 2026 at 03:08:53PM +0800, Tao Wang wrote:
+> > While I agree with the change for stmmac_tso_xmit(), please explain why
+> > the change in stmmac_free_tx_buffer() is necessary.
+> >
+> > It seems to me that if this is missing in stmmac_free_tx_buffer(), the
+> > driver should have more problems than just TSO.
 > 
-> Maybe I just want all the patches to go to /dev/null soon? ;)
-> 
-> The following on top:
-> 
-> 
->  From 3d344330b1ff6088582fe8e3bbff49d1557eba22 Mon Sep 17 00:00:00 2001
-> From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-> Date: Thu, 15 Jan 2026 12:23:57 +0100
-> Subject: [PATCH] fixup: MAINTAINERS: move memory balloon infrastructure to
->   "MEMORY MANAGEMENT - BALLOON"
-> 
-> CC the virt list and use the proper mail address.
-> 
-> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+> The change in stmmac_free_tx_buffer() is intended to be generic for all
+> users of last_segment, not only for the TSO path.
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-for both
+However, transmit is a hotpath, so work needs to be minimised for good
+performance. We don't want anything that is unnecessary in these paths.
 
-> ---
->   MAINTAINERS | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b974f8c1c2225..11720728d92f2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16456,8 +16456,9 @@ F:	tools/mm/
->   
->   MEMORY MANAGEMENT - BALLOON
->   M:	Andrew Morton <akpm@linux-foundation.org>
-> -M:	David Hildenbrand <david@redhat.com>
-> +M:	David Hildenbrand <david@kernel.org>
->   L:	linux-mm@kvack.org
-> +L:	virtualization@lists.linux.dev
->   S:	Maintained
->   W:	http://www.linux-mm.org
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+If we always explicitly set .last_segment when adding any packet to the
+ring, then there is absolutely no need to also do so when freeing them.
 
+Also, I think there's a similar issue with .is_jumbo.
+
+So, I think it would make more sense to have some helpers for setting
+up the tx_skbuff_dma entry. Maybe something like the below? I'll see
+if I can measure the performance impact of this later today, but I
+can't guarantee I'll get to that.
+
+The idea here is to ensure that all members with the exception of
+xsk_meta are fully initialised when an entry is populated.
+
+I haven't removed anything in the tx_q->tx_skbuff_dma entry release
+path yet, but with this in place, we should be able to eliminate the
+clearance of these in stmmac_tx_clean() and stmmac_free_tx_buffer().
+
+Note that the driver assumes setting .buf to zero means the entry is
+cleared. dma_addr_t is a cookie which is device specific, and zero
+may be a valid DMA cookie. Only DMA_MAPPING_ERROR is invalid, and
+can be assumed to hold any meaning in driver code. So that needs
+fixing as well.
+
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index a8a78fe7d01f..0e605d0f6a94 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1874,6 +1874,34 @@ static int init_dma_rx_desc_rings(struct net_device *dev,
+ 	return ret;
+ }
+ 
++static void stmmac_set_tx_dma_entry(struct stmmac_tx_queue *tx_q,
++				    unsigned int entry,
++				    enum stmmac_txbuf_type type,
++				    dma_addr_t addr, size_t len,
++				    bool map_as_page)
++{
++	tx_q->tx_skbuff_dma[entry].buf = addr;
++	tx_q->tx_skbuff_dma[entry].len = len;
++	tx_q->tx_skbuff_dma[entry].buf_type = type;
++	tx_q->tx_skbuff_dma[entry].map_as_page = map_as_page;
++	tx_q->tx_skbuff_dma[entry].last_segment = false;
++	tx_q->tx_skbuff_dma[entry].is_jumbo = false;
++}
++
++static void stmmac_set_tx_skb_dma_entry(struct stmmac_tx_queue *tx_q,
++					unsigned int entry, dma_addr_t addr,
++					size_t len, bool map_as_page)
++{
++	stmmac_set_tx_dma_entry(tx_q, entry, STMMAC_TXBUF_T_SKB, addr, len,
++				map_as_page);
++}
++
++static void stmmac_set_tx_dma_last_segment(struct stmmac_tx_queue *tx_q,
++					   unsigned int entry)
++{
++	tx_q->tx_skbuff_dma[entry].last_segment = true;
++}
++
+ /**
+  * __init_dma_tx_desc_rings - init the TX descriptor ring (per queue)
+  * @priv: driver private structure
+@@ -1919,11 +1947,8 @@ static int __init_dma_tx_desc_rings(struct stmmac_priv *priv,
+ 			p = tx_q->dma_tx + i;
+ 
+ 		stmmac_clear_desc(priv, p);
++		stmmac_set_tx_skb_dma_entry(tx_q, i, 0, 0, false);
+ 
+-		tx_q->tx_skbuff_dma[i].buf = 0;
+-		tx_q->tx_skbuff_dma[i].map_as_page = false;
+-		tx_q->tx_skbuff_dma[i].len = 0;
+-		tx_q->tx_skbuff_dma[i].last_segment = false;
+ 		tx_q->tx_skbuff[i] = NULL;
+ 	}
+ 
+@@ -2649,19 +2674,15 @@ static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
+ 		meta = xsk_buff_get_metadata(pool, xdp_desc.addr);
+ 		xsk_buff_raw_dma_sync_for_device(pool, dma_addr, xdp_desc.len);
+ 
+-		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XSK_TX;
+-
+ 		/* To return XDP buffer to XSK pool, we simple call
+ 		 * xsk_tx_completed(), so we don't need to fill up
+ 		 * 'buf' and 'xdpf'.
+ 		 */
+-		tx_q->tx_skbuff_dma[entry].buf = 0;
+-		tx_q->xdpf[entry] = NULL;
++		stmmac_set_tx_dma_entry(tx_q, entry, STMMAC_TXBUF_T_XSK_TX,
++					0, xdp_desc.len, false);
++		stmmac_set_tx_dma_last_segment(tx_q, entry);
+ 
+-		tx_q->tx_skbuff_dma[entry].map_as_page = false;
+-		tx_q->tx_skbuff_dma[entry].len = xdp_desc.len;
+-		tx_q->tx_skbuff_dma[entry].last_segment = true;
+-		tx_q->tx_skbuff_dma[entry].is_jumbo = false;
++		tx_q->xdpf[entry] = NULL;
+ 
+ 		stmmac_set_desc_addr(priv, tx_desc, dma_addr);
+ 
+@@ -2836,6 +2857,9 @@ static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue,
+ 			tx_q->tx_skbuff_dma[entry].map_as_page = false;
+ 		}
+ 
++		/* This looks at tx_q->tx_skbuff_dma[tx_q->dirty_tx].is_jumbo
++		 * and tx_q->tx_skbuff_dma[tx_q->dirty_tx].last_segment
++		 */
+ 		stmmac_clean_desc3(priv, tx_q, p);
+ 
+ 		tx_q->tx_skbuff_dma[entry].last_segment = false;
+@@ -4494,10 +4518,8 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	 * this DMA buffer right after the DMA engine completely finishes the
+ 	 * full buffer transmission.
+ 	 */
+-	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf = des;
+-	tx_q->tx_skbuff_dma[tx_q->cur_tx].len = skb_headlen(skb);
+-	tx_q->tx_skbuff_dma[tx_q->cur_tx].map_as_page = false;
+-	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
++	stmmac_set_tx_skb_dma_entry(tx_q, tx_q->cur_tx, des, skb_headlen(skb),
++				    false);
+ 
+ 	/* Prepare fragments */
+ 	for (i = 0; i < nfrags; i++) {
+@@ -4512,17 +4534,14 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		stmmac_tso_allocator(priv, des, skb_frag_size(frag),
+ 				     (i == nfrags - 1), queue);
+ 
+-		tx_q->tx_skbuff_dma[tx_q->cur_tx].buf = des;
+-		tx_q->tx_skbuff_dma[tx_q->cur_tx].len = skb_frag_size(frag);
+-		tx_q->tx_skbuff_dma[tx_q->cur_tx].map_as_page = true;
+-		tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
++		stmmac_set_tx_skb_dma_entry(tx_q, tx_q->cur_tx, des,
++					    skb_frag_size(frag), true);
+ 	}
+ 
+-	tx_q->tx_skbuff_dma[tx_q->cur_tx].last_segment = true;
++	stmmac_set_tx_dma_last_segment(tx_q, tx_q->cur_tx);
+ 
+ 	/* Only the last descriptor gets to point to the skb. */
+ 	tx_q->tx_skbuff[tx_q->cur_tx] = skb;
+-	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
+ 
+ 	/* Manage tx mitigation */
+ 	tx_packets = (tx_q->cur_tx + 1) - first_tx;
+@@ -4774,23 +4793,18 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		if (dma_mapping_error(priv->device, des))
+ 			goto dma_map_err; /* should reuse desc w/o issues */
+ 
+-		tx_q->tx_skbuff_dma[entry].buf = des;
+-
++		stmmac_set_tx_skb_dma_entry(tx_q, entry, des, len, true);
+ 		stmmac_set_desc_addr(priv, desc, des);
+ 
+-		tx_q->tx_skbuff_dma[entry].map_as_page = true;
+-		tx_q->tx_skbuff_dma[entry].len = len;
+-		tx_q->tx_skbuff_dma[entry].last_segment = last_segment;
+-		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_SKB;
+-
+ 		/* Prepare the descriptor and set the own bit too */
+ 		stmmac_prepare_tx_desc(priv, desc, 0, len, csum_insertion,
+ 				priv->mode, 1, last_segment, skb->len);
+ 	}
+ 
++	stmmac_set_tx_dma_last_segment(tx_q, entry);
++
+ 	/* Only the last descriptor gets to point to the skb. */
+ 	tx_q->tx_skbuff[entry] = skb;
+-	tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_SKB;
+ 
+ 	/* According to the coalesce parameter the IC bit for the latest
+ 	 * segment is reset and the timer re-started to clean the tx status.
+@@ -4869,14 +4883,13 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		if (dma_mapping_error(priv->device, des))
+ 			goto dma_map_err;
+ 
+-		tx_q->tx_skbuff_dma[first_entry].buf = des;
+-		tx_q->tx_skbuff_dma[first_entry].buf_type = STMMAC_TXBUF_T_SKB;
+-		tx_q->tx_skbuff_dma[first_entry].map_as_page = false;
++		stmmac_set_tx_skb_dma_entry(tx_q, first_entry, des, nopaged_len,
++					    false);
+ 
+ 		stmmac_set_desc_addr(priv, first, des);
+ 
+-		tx_q->tx_skbuff_dma[first_entry].len = nopaged_len;
+-		tx_q->tx_skbuff_dma[first_entry].last_segment = last_segment;
++		if (last_segment)
++			stmmac_set_tx_dma_last_segment(tx_q, first_entry);
+ 
+ 		if (unlikely((skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) &&
+ 			     priv->hwts_tx_en)) {
+@@ -5064,6 +5077,7 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
+ 	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
+ 	bool csum = !priv->plat->tx_queues_cfg[queue].coe_unsupported;
+ 	unsigned int entry = tx_q->cur_tx;
++	enum stmmac_txbuf_type buf_type;
+ 	struct dma_desc *tx_desc;
+ 	dma_addr_t dma_addr;
+ 	bool set_ic;
+@@ -5091,7 +5105,7 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
+ 		if (dma_mapping_error(priv->device, dma_addr))
+ 			return STMMAC_XDP_CONSUMED;
+ 
+-		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XDP_NDO;
++		buf_type = STMMAC_TXBUF_T_XDP_NDO;
+ 	} else {
+ 		struct page *page = virt_to_page(xdpf->data);
+ 
+@@ -5100,14 +5114,12 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
+ 		dma_sync_single_for_device(priv->device, dma_addr,
+ 					   xdpf->len, DMA_BIDIRECTIONAL);
+ 
+-		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XDP_TX;
++		buf_type = STMMAC_TXBUF_T_XDP_TX;
+ 	}
+ 
+-	tx_q->tx_skbuff_dma[entry].buf = dma_addr;
+-	tx_q->tx_skbuff_dma[entry].map_as_page = false;
+-	tx_q->tx_skbuff_dma[entry].len = xdpf->len;
+-	tx_q->tx_skbuff_dma[entry].last_segment = true;
+-	tx_q->tx_skbuff_dma[entry].is_jumbo = false;
++	stmmac_set_tx_dma_entry(tx_q, entry, buf_type, dma_addr, xdpf->len,
++				false);
++	stmmac_set_tx_dma_last_segment(tx_q, entry);
+ 
+ 	tx_q->xdpf[entry] = xdpf;
+ 
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
