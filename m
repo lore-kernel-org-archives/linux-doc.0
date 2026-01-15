@@ -1,139 +1,198 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4F418024;
-	Thu, 15 Jan 2026 12:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2359734846A
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 12:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768478494; cv=none; b=ZCGkkYVyoEXrtYDX3Ir3vT1+lTv1ZJxOOaXbWUnThCoYmZQOgMFOYYIsyMusX2+0Zk+lPFxhFKHEG3/Q7e+q5BXzxYzbrArtkikIPQF5Id10OlkWh+zyWAxX9R8S7S8m6L95g08zux0/JNxtfOuqjQlURxjaxcC0980sSyg/blc=
+	t=1768478513; cv=none; b=Z4kM8dGZz2M9PWr0G3nkSP0rkpBOxyeQ4C5NMROHYeIfu+LjAW6w7FxcbE+eYsIUk7Q8gFxZuWTMSQKTgmaA8Ryc5YsMBQZ0glJfFlGeiiwzP5km2AMzuY4k4mxcnwFgW/nzCIs/cJRsA2JBe2Ua6/GRLPQB8zBdgPqPdaz36f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768478494; c=relaxed/simple;
-	bh=VWg9tkWooAwTyDYbBBH3VW10anfovUgwUzjPjFnkxqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rFLRJyOKpZOlUhL9N8nNXlnN9XU5YYGQ3XWxgVk2Z59tyfFZs36meadNeTHMNbakDXZu0gtHoi/5B70DDxuQs/XqUAVddJiC3SxPeRSpcZy0i0YLOk2IejYXOUZAc+j9UTvBEIIVK3B9cW0BVTcmXtWcb524BJcEon7oP0E+1QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=EC9VvLD6; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="EC9VvLD6"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 93FD940E0252;
-	Thu, 15 Jan 2026 12:01:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fIkZKrXH-6Ud; Thu, 15 Jan 2026 12:01:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768478481; bh=EHXXD1og8jlFQ9XvOYhFi/5ELaOn5f8KORiwXzjZrQE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EC9VvLD6qRCSk8VAYVc6w0Mqczo//dPyeBqvAdgByrGFTu5GELOXEhU+2J1PtdUbd
-	 qZKHqfCT8zVgXt2edJvSOs7x/pNPTGu0nBH+QyzBaWWh/VLfqo3posK6TtzQ0PwFKx
-	 tpY/4rGN8uakiPCs9/2zvTghvjMYkbJF+q/fY4z65e+4+rp1fmxtLNEqiYvv/chH6A
-	 150wv3FYn29WS9oyGXBgYq7iGqCwBcs1hmNNnprYkKbqxdxR3Nn/rn27LjfCuH4epj
-	 he4lhNR/BJAh6ain0yOTCBuFF+f6YI+iFUzJVJtFbkzhhZtjFlLh7hRCFfzk2CmKnu
-	 gu9WkQAtUUSXQZCciPHRl5occNXtvQ13YUoIoIYbtq/ouGyDe+Kaj9oRLGkGTHSuev
-	 TKgEoQ57KSkGwN/0HUJRGJoergzDF2+rdJvZdGTQEMg8rEDBMFxaUeWJyAAF1JaX9Y
-	 wimf/aCqUXPQwTV8Q+WNmLl+y1AuFbqwqNzI1NiHEX9JbUxBrCMFD7YL/WP1z85HQ7
-	 RdD8MJjoEOUEChm0VvAR22dinY3kzQTj+U7Zuz7SBTQ1rSezb15BmGkKNDF154JNCM
-	 waWtXJ1VNvv0ggO6uRCeCCrpt3d4PiC8rnFvXy4PK+h2vG6TXR0Tp7uWUSbTqBlOuk
-	 q7j+LiQGnMatEPS5wIP6NiCM=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	s=arc-20240116; t=1768478513; c=relaxed/simple;
+	bh=lxYu8LbUGQ2I1A7AkDKLMt/0lbWwK+GrfdBdOVh3CHo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HBgeTRflcWSwrJCg+xgsUcoB11qr5W1Qx/c7LDYdELPMIm1Vfp4oHN14X5ikFZDaIZTm6v/fhF8BJ0pg2ukuy6Ii63UjxbPG0241b/0w8SVUp9sypkPTmy+yBJ0awHuiAsKEgMeS8tDTgM9nC5hXoOJ/UzwkFRIY5PF/NKA4Mqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 1B3F540E0173;
-	Thu, 15 Jan 2026 12:01:09 +0000 (UTC)
-Date: Thu, 15 Jan 2026 13:00:58 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shenghao Yang <me@shenghaoyang.info>
-Cc: x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH] x86/acpi: Add acpi=spcr to use SPCR-provided default
- console
-Message-ID: <20260115120058.GCaWjW-sT7eBr94SEr@fat_crate.local>
-References: <20251228092222.130954-1-me@shenghaoyang.info>
- <20260114154656.GDaWe6cFCruAGbJbhe@fat_crate.local>
- <b5d54942-f280-40ab-b445-00b6dc610a8e@shenghaoyang.info>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CEAD3368D;
+	Thu, 15 Jan 2026 12:01:50 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 543513EA63;
+	Thu, 15 Jan 2026 12:01:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NDM1FC7XaGnnWwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 15 Jan 2026 12:01:50 +0000
+Message-ID: <2c4c2b2e-bf96-4c4a-a66c-93b66553030c@suse.cz>
+Date: Thu, 15 Jan 2026 13:01:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b5d54942-f280-40ab-b445-00b6dc610a8e@shenghaoyang.info>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 23/23] MAINTAINERS: move memory balloon infrastructure
+ to "MEMORY MANAGEMENT - BALLOON"
+Content-Language: en-US
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linuxppc-dev@lists.ozlabs.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, linux-doc@vger.kernel.org,
+ virtualization@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Zi Yan <ziy@nvidia.com>
+References: <20260115092015.3928975-1-david@kernel.org>
+ <20260115092015.3928975-24-david@kernel.org>
+ <f2ce1126-0059-481c-b54f-0b09518666d3@lucifer.local>
+ <284775bd-767d-45f8-b66b-96709dabcc5e@kernel.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <284775bd-767d-45f8-b66b-96709dabcc5e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Score: -4.00
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 8CEAD3368D
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
 
-On Thu, Jan 15, 2026 at 01:09:40AM +0800, Shenghao Yang wrote:
-> We've been inserting the dumped config into the kernel command 
-> line and rebooting on first boot (e.g. console=uart,io,0x3f8,115200),
-> but would love to avoid this loop.
-
-Yah, put that in your v2 pls. That's much more understandable.
-
-> It's easier this way for larger fleets - we don't want to manage
-> hardware specific serial console settings on the kernel command line
-> if the firmware is already capable of telling us the correct ones.
-
-Should also be in the commit message.
-
-> If earlycon is specified on the command line the console from SPCR
-> is used, but only as a boot console. It's not present in
-> /proc/consoles.
+On 1/15/26 12:25, David Hildenbrand (Red Hat) wrote:
+> On 1/15/26 10:39, Lorenzo Stoakes wrote:
+>> On Thu, Jan 15, 2026 at 10:20:13AM +0100, David Hildenbrand (Red Hat) wrote:
+>>> Nowadays, there is nothing virtio-balloon specific anymore about these
+>>> files, the basic infrastructure is used by multiple memory balloon
+>>> drivers.
+>>>
+>>> For now we'll route it through Andrew's tree, maybe in some future it
+>>> makes sense to route this through a separate tree.
+>>>
+>>> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+>> 
+>> Assuming below fixed + Michael's concern addressed, LGTM so:
+>> 
+>> Acked-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>> 
+>>> ---
+>>>   MAINTAINERS | 12 ++++++++++--
+>>>   1 file changed, 10 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index de8f89ca1149f..b974f8c1c2225 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -16454,6 +16454,16 @@ T:	quilt git://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new
+>>>   F:	mm/
+>>>   F:	tools/mm/
+>>>
+>>> +MEMORY MANAGEMENT - BALLOON
+>>> +M:	Andrew Morton <akpm@linux-foundation.org>
+>>> +M:	David Hildenbrand <david@redhat.com>
+>> 
+>> david@kernel.org you mean? ;)
 > 
-> It is possible to retain it with keep_bootcon, but that uses the
-> less efficient (in the 8250 case) 8250_early driver.
-
-Also for the commit message.
-
-> In 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86") the SPCR
-> console is only added as an option for earlycon but not as an ordinary
-> console so users don't see console output changes.  
+> Maybe I just want all the patches to go to /dev/null soon? ;)
 > 
-> The patch adds an opt in so we can get the SPCR console added as
-> an ordinary console.
+> The following on top:
+> 
+> 
+>  From 3d344330b1ff6088582fe8e3bbff49d1557eba22 Mon Sep 17 00:00:00 2001
+> From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+> Date: Thu, 15 Jan 2026 12:23:57 +0100
+> Subject: [PATCH] fixup: MAINTAINERS: move memory balloon infrastructure to
+>   "MEMORY MANAGEMENT - BALLOON"
+> 
+> CC the virt list and use the proper mail address.
+> 
+> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
 
-Yap, your explanations make much more sense, thanks.
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+for both
 
-Please structure your v2 something like this boilerplate guidance below:
+> ---
+>   MAINTAINERS | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b974f8c1c2225..11720728d92f2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16456,8 +16456,9 @@ F:	tools/mm/
+>   
+>   MEMORY MANAGEMENT - BALLOON
+>   M:	Andrew Morton <akpm@linux-foundation.org>
+> -M:	David Hildenbrand <david@redhat.com>
+> +M:	David Hildenbrand <david@kernel.org>
+>   L:	linux-mm@kvack.org
+> +L:	virtualization@lists.linux.dev
+>   S:	Maintained
+>   W:	http://www.linux-mm.org
+>   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
-1. Prepare the context for the explanation briefly.
-
-2. Explain the problem at hand.
-
-3. "It happens because of <...>"
-
-4. "Fix it by doing X"
-
-5. "(Potentially do Y)."
-
-And some of those above are optional depending on the issue being
-explained.
-
-For more detailed info, see
-Documentation/process/submitting-patches.rst,
-Section "2) Describe your changes".
-
-Also, to the tone, from Documentation/process/submitting-patches.rst:
-
- "Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
-  instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
-  to do frotz", as if you are giving orders to the codebase to change
-  its behaviour."
-
-Also, do not talk about what your patch does - that should (hopefully) be
-visible from the diff itself. Rather, talk about *why* you're doing what
-you're doing.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
