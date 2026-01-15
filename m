@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E6D3570AE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CFD34575A;
 	Thu, 15 Jan 2026 15:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768491642; cv=none; b=uSNd0REL+KUK1eXG78ZseTsWsm/Featu3QMdUh/OPHpe1dV0KWMc3bgGBSGNJPxRyscoYfp/aKDXCUSVl3xmMkfeEKniw6yJwkBrpK64FJzbMD+ozcd+CXTemAw+eWeBuzuDqBIVTcNt5C2zhqNyrHQgE+3jkrWFYANMztRVuac=
+	t=1768491642; cv=none; b=slN8wIurFbDInND9ettdqZJTwLk0N/TDe7xJdi4TtXUYSU/C2tmcLQAQW8ulGzfR78lZ3GOOr1yXuw9iYZHW5EJStEPzbF/O16pqTr6HuqLKudN6AlSFTPLEYynZ1vyGh7CsBpkINc++c9Fzw9laYKjbQum2E1S9mxs1eQnu6Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768491642; c=relaxed/simple;
-	bh=TCHwfk8ThCkFaLgmH3fFwJfEQHJ1oXz9bzKs/OW/Myg=;
+	bh=D20byBH6Dc3S8kqec0afWoBETHqoICKqefEL4fRTSCc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eGHqszTO22rc5u6jLu30z0sq4XSlzQARxrxI19WtZGR9x0745848zkCW6WiivDVIxo/IZJoiEp1+i+qjW4Bt+7Xa4Y2q1S7SzZM09saREZ87uyEl0/aMoBfNXAX26l0savjVDylCYlyneZGvqHjVMgnpG1gvKB/fahboGQtXfsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQpcTweP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=FICCqs8G633+Ez7XJpX5T9xGu3hmi//v2mn7tHSGBB1nmAmDFDb+NyovT9QWZFfrUFisRNAn4fGAqUPZJ1kHRYYqASvXfQkIPj/HsO/SY0FFmVQZRo7dqdgL4fwSftqWqwAM+Rz0ic5yUtimeKZrkQF14AieYYJct2eZ7jzNu/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chRPCMEA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQpcTweP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABCFC16AAE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chRPCMEA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1509BC2BC87;
 	Thu, 15 Jan 2026 15:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768491642;
-	bh=TCHwfk8ThCkFaLgmH3fFwJfEQHJ1oXz9bzKs/OW/Myg=;
+	bh=D20byBH6Dc3S8kqec0afWoBETHqoICKqefEL4fRTSCc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dQpcTwePp0HWy37rz5HnMQzk/fEX5PE24Pmo5QExdQbmd4ZVUwPD1J8+jau1s40mi
-	 w9/i1/T6bwDmP4INdUw5BXgEOcEHI1x2TQxt6BAOFdvSgzulWRg/Vy/A5c2W9rY7CL
-	 9BIe4/Ma107GQ1G3MRxzS/WRyU8W2m09Myzas1td9OLEA1EQSxafX47zY/zHpogTsA
-	 6WJRAYHen6DPuJ2DIwJsClUR6HJbdRDDlfeZ/4bRfjUYizquj8jPHqGdYXUZPEvI9A
-	 TYyTeKckemUOFgrL30YV/fOEHg62WO0/GF2lPTwmKhl2Aq6zK6LrDG9ym1oUXmMc3N
-	 I9wPfu+NnJGpw==
+	b=chRPCMEA/qk4UuU036GaQNrBNwXGrhP0dcFpd9iZtppyTFdzbbEhlYvL219bqWVd3
+	 q5ln/JkpORaXYLe1hiuV9PlArR0cxWHaxSzyqbGMiGUzyjlVM8x9Ja6amfSMdrIHIG
+	 UY+gqnVCQ3gkv+8U5uQiZwyF0HQxZeXGMUnBGqhG6ZAHUsOYGOEfynV4Mxsdy0tdMk
+	 USqE8KmM9ayEzShFYUh4O65y/zsNZUZadrHxj/HkvcqHvQ2fqVRXT4mWbHwxElfg6X
+	 2HbTkOk8mBfZMzvCmdSc7CN5I/Vq2zHaCu5+ujnVWojgC5kRRqRproEML7LulvhGF1
+	 vQI1AoOPaB5aQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vgPSi-000000043IF-0cno;
+	id 1vgPSi-000000043IZ-1B5k;
 	Thu, 15 Jan 2026 16:40:40 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v2 02/15] docs: conf.py: don't use doctree with a different meaning
-Date: Thu, 15 Jan 2026 16:40:23 +0100
-Message-ID: <34a3b676b2eaa58058a2578f5aa1427274fc633e.1768488832.git.mchehab+huawei@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2 07/15] docs: kdoc_files: Improve docstrings and comments
+Date: Thu, 15 Jan 2026 16:40:28 +0100
+Message-ID: <003d4df10446d545113c6361755da99915bcf321.1768488832.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768488832.git.mchehab+huawei@kernel.org>
 References: <cover.1768488832.git.mchehab+huawei@kernel.org>
@@ -54,57 +53,105 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-At Sphinx, doctree is a directory where doc build cache is stored.
-Use a better name.
+In preparation to document kernel-doc module, improve its
+documentation.
 
-No functional changes.
-
-Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/conf.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tools/lib/python/kdoc/kdoc_files.py | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 1ea2ae5c6276..548e57b1fb01 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -33,7 +33,7 @@ else:
-     include_patterns = ["**.rst"]
+diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
+index bfe02baf1606..022487ea2cc6 100644
+--- a/tools/lib/python/kdoc/kdoc_files.py
++++ b/tools/lib/python/kdoc/kdoc_files.py
+@@ -5,7 +5,8 @@
+ # pylint: disable=R0903,R0913,R0914,R0917
  
- # Location of Documentation/ directory
--doctree = os.path.abspath(".")
-+kern_doc_dir = os.path.abspath(".")
+ """
+-Parse lernel-doc tags on multiple kernel source files.
++Classes for navigating through the files that kernel-doc needs to handle
++to generate documentation.
+ """
  
- # Exclude of patterns that don't contain directory names, in glob format.
- exclude_patterns = []
-@@ -70,7 +70,7 @@ def config_init(app, config):
-     # setup include_patterns dynamically
-     if has_include_patterns:
-         for p in dyn_include_patterns:
--            full = os.path.join(doctree, p)
-+            full = os.path.join(kern_doc_dir, p)
+ import argparse
+@@ -43,7 +44,7 @@ class GlobSourceFiles:
+         self.srctree = srctree
  
-             rel_path = os.path.relpath(full, start=app.srcdir)
-             if rel_path.startswith("../"):
-@@ -80,7 +80,7 @@ def config_init(app, config):
+     def _parse_dir(self, dirname):
+-        """Internal function to parse files recursively"""
++        """Internal function to parse files recursively."""
  
-     # setup exclude_patterns dynamically
-     for p in dyn_exclude_patterns:
--        full = os.path.join(doctree, p)
-+        full = os.path.join(kern_doc_dir, p)
+         with os.scandir(dirname) as obj:
+             for entry in obj:
+@@ -65,7 +66,7 @@ class GlobSourceFiles:
+     def parse_files(self, file_list, file_not_found_cb):
+         """
+         Define an iterator to parse all source files from file_list,
+-        handling directories if any
++        handling directories if any.
+         """
  
-         rel_path = os.path.relpath(full, start=app.srcdir)
-         if rel_path.startswith("../"):
-@@ -92,7 +92,7 @@ def config_init(app, config):
-     # of the app.srcdir. Add them here
+         if not file_list:
+@@ -91,18 +92,18 @@ class KernelFiles():
  
-     # Handle the case where SPHINXDIRS is used
--    if not os.path.samefile(doctree, app.srcdir):
-+    if not os.path.samefile(kern_doc_dir, app.srcdir):
-         # Add a tag to mark that the build is actually a subproject
-         tags.add("subproject")
+     There are two type of parsers defined here:
+         - self.parse_file(): parses both kernel-doc markups and
+-          EXPORT_SYMBOL* macros;
+-        - self.process_export_file(): parses only EXPORT_SYMBOL* macros.
++          ``EXPORT_SYMBOL*`` macros;
++        - self.process_export_file(): parses only ``EXPORT_SYMBOL*`` macros.
+     """
  
+     def warning(self, msg):
+-        """Ancillary routine to output a warning and increment error count"""
++        """Ancillary routine to output a warning and increment error count."""
+ 
+         self.config.log.warning(msg)
+         self.errors += 1
+ 
+     def error(self, msg):
+-        """Ancillary routine to output an error and increment error count"""
++        """Ancillary routine to output an error and increment error count."""
+ 
+         self.config.log.error(msg)
+         self.errors += 1
+@@ -128,7 +129,7 @@ class KernelFiles():
+ 
+     def process_export_file(self, fname):
+         """
+-        Parses EXPORT_SYMBOL* macros from a single Kernel source file.
++        Parses ``EXPORT_SYMBOL*`` macros from a single Kernel source file.
+         """
+ 
+         # Prevent parsing the same file twice if results are cached
+@@ -157,7 +158,7 @@ class KernelFiles():
+                  wcontents_before_sections=False,
+                  logger=None):
+         """
+-        Initialize startup variables and parse all files
++        Initialize startup variables and parse all files.
+         """
+ 
+         if not verbose:
+@@ -213,7 +214,7 @@ class KernelFiles():
+ 
+     def parse(self, file_list, export_file=None):
+         """
+-        Parse all files
++        Parse all files.
+         """
+ 
+         glob = GlobSourceFiles(srctree=self.config.src_tree)
+@@ -242,7 +243,7 @@ class KernelFiles():
+             filenames=None, export_file=None):
+         """
+         Interacts over the kernel-doc results and output messages,
+-        returning kernel-doc markups on each interaction
++        returning kernel-doc markups on each interaction.
+         """
+ 
+         self.out_style.set_config(self.config)
 -- 
 2.52.0
 
