@@ -1,191 +1,272 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB81522A4EB;
-	Thu, 15 Jan 2026 08:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5272F33E371
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 08:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768467204; cv=none; b=hbpmS6KQ/MNdJ5itghMsmIfCzdr6BDnKZL8ft3e9fCA99A+C1vYwLoR9Y34RK+jr6o/l/OjhgNbBgaI2JB/v9swcWkUn7Nx27eKqQ8JhXxgwyoMB6JcGNXeu/90a+4gbe+iq/Q/kbBONof1qXcX/NwsDuwYTjoZPbDkXFFHdyRI=
+	t=1768467490; cv=none; b=hQLuuTpEA4UkqRg/lXkSZ6CmngCJkCGsvnmO9cZ+mfLVQaKG8hfEBQ7uHPUVIfXKeatpbS4T6zw6VROLjX4XebhqqDHTW4CilyW7ntQmCl9A9QKUeTCODqAW8NxhaBWjhNqigamgxPoGiEhi8aKjdE5o1Vbe4rfn/iv/CsCun8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768467204; c=relaxed/simple;
-	bh=u4r7k4v/QLQr7iis7zl29Bdym9mmUE102gG7EboGlzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JQrYS9ajm6TMbAidc4zJFDymK94uBUzxu491REpavIc7UAeJPFGA+8Zo5lovIYQLYLFminIGrPPPGksYHboVeNAPFckfEtxGmO+QpRag4vluQjy9NW8N9fi5ZvxAaZqMht0JaN0InDDUsaErvL20tz3+NUAwp+DgKCwfOS+ecuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTgGlXxd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768467490; c=relaxed/simple;
+	bh=a1Xb74epBoiF26GtYYturswnNknIceQZZvdMkCDEo38=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WhAF1qukeoWo7qwqLBjF2Ir35MVJS5TDzzUo9VY6HrDt7agk/85mlT1SuVLM1BhKSVcyh2za8BTsV0jzjOdfmE2oLlvs0E2yvvmqulc8H6uV9ZvZFNTBj+D1eba78J/2IpbH8igwSrWMwZW7Xh0QbDCBEsXLwDBU5ZHmkVeOuV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hHTSFoiA; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PNlfSuRe; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTgGlXxd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC1A3C116D0;
-	Thu, 15 Jan 2026 08:53:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768467204;
-	bh=u4r7k4v/QLQr7iis7zl29Bdym9mmUE102gG7EboGlzA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cTgGlXxdv5orzbDwpbqvnVWNc7KaYKVJLUWBAfSQ9NAMjKg2evRemjSSB6p1mxlSR
-	 ovE+lTvbSgcuj2dBoAdOd8ruld2ri65X9DMD0CyR2PiL24qiWg2G/Ms+XLas4/rzeQ
-	 D2jodQaSnm5mgCXyIPk66t4PCwLfct346gOIErK2o9sH9bp+5dHOWdFemWQuEbIZFF
-	 ZxEz93I5g3O3nHnEIylH/8KygzsPv7s555CnoMSt+urHtgsSASqWIKQvTGIZB2KWsR
-	 0++eKV40HMwyjEP96Xpz9fOW0VPHKUjgJwXLi9FQEMsVFo+GWowxVc1Mvw1uaTCdzT
-	 DvPDUx3H+tlGw==
-Message-ID: <ae5d7b54-bc05-434a-b4a1-8cad1899462c@kernel.org>
-Date: Thu, 15 Jan 2026 09:53:19 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hHTSFoiA";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PNlfSuRe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768467488;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LxJnA8ESHNGloyx98rY09AuEzCkDTn54NDk73Ig9am8=;
+	b=hHTSFoiAY8ydIc6ZkgSObsF8tZVFsh0KVmx6Uzp41GyhDOO/2tx8cMoDM7BYt8nGBeQ422
+	7CG3xPdH4yZzuK5GU7d4LNznMxCr+tcNOkxUWNXHdaFuXzJ+jVcMdO9E2kYcZOrT7RJD4t
+	pe+GXipogDBpQm+UD97Lx2bwQl5lb5c=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-54-q9dtSkxuMbyK9lOSqncPlQ-1; Thu, 15 Jan 2026 03:58:06 -0500
+X-MC-Unique: q9dtSkxuMbyK9lOSqncPlQ-1
+X-Mimecast-MFC-AGG-ID: q9dtSkxuMbyK9lOSqncPlQ_1768467486
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-45a684d8f6aso4275258b6e.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 00:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1768467486; x=1769072286; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LxJnA8ESHNGloyx98rY09AuEzCkDTn54NDk73Ig9am8=;
+        b=PNlfSuRe8wBYZuv7eudp1PXrK9cCIX878v8dZEYPTEExpyYyIOvtWBJnDCwgpt8e2/
+         f4NRkHZQZm4/kHzV9lyOaiBww7E1cOEfE68Rh1CFaS97tO3dREdPxskjzjeDePsHRVfE
+         oTheVxBc0s5RapnSPGFT2OMvycxVRlC4vFmkCcFmGDGpE+DQUsnnWOn3MESgRPM+PMWq
+         bws6aFa/SlV5RUtWlc8aaHy8v5JsfaCQKZkYnyQJQPAPXXlG0ND1O9fPxyTnoXTomz/5
+         7B6jc+nX9i/wR/3Bzb9V7fI4xvm1WYCa6GnT3/LEucyadvDSTWj/YspvosWQv+MMGFRX
+         a/Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768467486; x=1769072286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LxJnA8ESHNGloyx98rY09AuEzCkDTn54NDk73Ig9am8=;
+        b=Af0DJMsTESBIFRing8nIaOcWmeOEIDQdUa6nnLnpx2p4aYAbaOMZljyg2H7J7IBm9G
+         brBF3ejFKFYCnJPQMr2NnGcBysKRvmP4VvkS4QWVAJEtMa8oE0okP7UhRKnOWeokYuAT
+         ZiASHdrruQISGRzDuMFltBpH82tvaXoKl7QS0leoJv5Xn7BHtwim2cxOHtJJtCFgaS/n
+         gbR/OM83QLbFdOtSQBO5kCAZm9af4blG1IiBImttuHLha4jhIQRAViGj9yyPVJLltlRY
+         MPPFC/M9rIM2e74efpLX3t0KlsJ0ESQkn+qMnKEy+MIIkPxCkv5kVJeHKTV4U6A+BQTi
+         RN2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVcNU2vl16eWZMoabQLttUBB1QyTeJiy643ZtLu2MikIRuaTiNMzJM8qj8kuGnWsIv/LtvGViYrBpQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyreQ2inkB1MTp2YlZeZ0+dAjUevjsG5l1vTuQwUy+C/6KYysts
+	K8U1RlSawDY5aLT1AwMGruuLV05MTJv1tXtfr0KFPxWR2tFmQfWDvNsZTNHIua52a3qpZwnHonI
+	3p3Cg5zTQZ5nOGqLgn6r8R++j97E0Z0F5zfAFHZQ0iTl+pS+zxFofC4BIFXX7rtJW3xyg02xVrY
+	32hD4WLmMA1RHYYaOPOca8wPfqyFiKKHzGs3HX
+X-Gm-Gg: AY/fxX6Mz/A77+eFEQxjzrOmUXeH5y7WCD6Wh7cMrLkMm1LX3XFWKgR01G3iVIx1yfj
+	mE38+2Q2xxBTaLS+ESe3BxLph4lyO4M6bII7wu8p9Oa/Du3X1tH6zeq1nGTF/cJj+J6ngQrI9RO
+	zg0+RSr/45tWe0qOOgcJj1yl6DAyvTp5GkYTBbSVR0HrydNgs/k+apUCEFQC2Yd5mD
+X-Received: by 2002:a05:6808:23c6:b0:450:89ee:922b with SMTP id 5614622812f47-45c8808d2ffmr1705714b6e.22.1768467485991;
+        Thu, 15 Jan 2026 00:58:05 -0800 (PST)
+X-Received: by 2002:a05:6808:23c6:b0:450:89ee:922b with SMTP id
+ 5614622812f47-45c8808d2ffmr1705703b6e.22.1768467485610; Thu, 15 Jan 2026
+ 00:58:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] hwmon: (tmp108) Add support for P3T1035 and
- P3T2030
-To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
- corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: priyanka.jain@nxp.com, vikash.bansal@nxp.com
-References: <20260115065757.35-1-mayankmahajan.x@nxp.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260115065757.35-1-mayankmahajan.x@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
+ <20251216144154.15172-1-vgrinber@redhat.com> <IA1PR11MB621913F389165EE4D7CCFF2D9284A@IA1PR11MB6219.namprd11.prod.outlook.com>
+ <CACLnSDikAToGRvfZAhTcT0NCtMj+N9z-GGzRQ5qmpHsvCr2QSA@mail.gmail.com>
+ <LV4PR11MB9491EB644FC83676522107669B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
+ <CACLnSDhEQVJ5piUKp6bddxvOff88qj5X6Y8zbqAH8Kf5a7a_Zg@mail.gmail.com> <LV4PR11MB9491B0E591D66E4AEDE9B1329B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
+In-Reply-To: <LV4PR11MB9491B0E591D66E4AEDE9B1329B8FA@LV4PR11MB9491.namprd11.prod.outlook.com>
+From: Vitaly Grinberg <vgrinber@redhat.com>
+Date: Thu, 15 Jan 2026 10:57:49 +0200
+X-Gm-Features: AZwV_QijwZUQitFksicMP9ueDYXoIsh6EMNIvOTnPt4NWgLOWM54f4CZgNSuas0
+Message-ID: <CACLnSDggQLQMFdT3VLxm+GNNad6xy43nh6D+UzbW-u9Wwg+WOw@mail.gmail.com>
+Subject: Re: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for
+ unmanaged DPLL on E830 NIC
+To: "Kubalewski, Arkadiusz" <arkadiusz.kubalewski@intel.com>
+Cc: "Nitka, Grzegorz" <grzegorz.nitka@intel.com>, 
+	"Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>, 
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "horms@kernel.org" <horms@kernel.org>, 
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>, 
+	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>, Zoltan Fodor <zoltan.fodor@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15/01/2026 07:57, Mayank Mahajan wrote:
+, the ea
 
-> @@ -369,7 +486,7 @@ static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *
-> 
->  	err = devm_add_action_or_reset(dev, tmp108_restore_config, tmp108);
->  	if (err) {
-> -		dev_err(dev, "add action or reset failed: %d", err);
-> +		dev_err_probe(dev, err, "Add action or reset failed");
+On Wed, Jan 14, 2026 at 3:32=E2=80=AFPM Kubalewski, Arkadiusz
+<arkadiusz.kubalewski@intel.com> wrote:
+>
+> >From: Vitaly Grinberg <vgrinber@redhat.com>
+> >Sent: Wednesday, January 14, 2026 12:39 PM
+> >
+>
+> [..]
+>
+> >> >
+> >> >I see a few challenges for the user here. The biggest one is that the
+> >> >application can't tell the difference between a device that will repo=
+rt
+> >> >phase offsets and this unmanaged device that never will.
+> >> >A possible way forward would be adding a capability flag to the DPLL =
+API
+> >> >so
+> >> >users don't have to guess.
+> >>
+> >> There is no phase-offset field as pointed in the above example.
+> >> No 'phase-offset' attribute -> no such capability.
+> >> Why isn=E2=80=99t that enough?
+> >
+> >Pin reply does not contain phase offset, so no change notifications
+> >are expected?
+> >Could there be devices that don't report phase offset, but report state
+> >changes?
+> >Is this the intended use of the phase offset API to be interpreted as
+> >a general pin
+> >notification capability flag?
+> >
+>
+> Sorry, this is not what I meant.
+>
+> The E810 produces notifications not only for the pin's phase offset but
+> also for other pin attribute changes. When it comes to the E810 pins,
+> notifications generated by phase offset changes are quite frequent.
+> However, it wasn't intention to produce them every second; this is simply
+> the result of frequent phase offset changes.
+>
+> Typically, the pin state changes for the pin, but for E830, the unmanaged
+> mode means that the state of the pin never changes, resulting in no pin
+> notifications being produced in the end.
+>
+> Hope that clears things up.
 
-How is this relevant to new device? Do not mix independent changes into
-one commit. Please carefully read submitting patches, although this is
-generic programming practice and nothing specific to kernel.
+Will the reported pin state remain "connected" even if I disconnect
+the input signal?
+Is there any information in DPLL or pin replies that can tell the user
+"this DPLL is unmanaged type, it behaves differently"?
 
->  		return err;
->  	}
-> 
-> @@ -384,17 +501,34 @@ static int tmp108_probe(struct i2c_client *client)
->  {
->  	struct device *dev = &client->dev;
->  	struct regmap *regmap;
-> +	enum tmp108_hw_id hw_id;
-> +	const void *of_data;
-> 
->  	if (!i2c_check_functionality(client->adapter,
-> -				     I2C_FUNC_SMBUS_WORD_DATA))
-> -		return dev_err_probe(dev, -ENODEV,
-> +				     I2C_FUNC_SMBUS_BYTE_DATA | I2C_FUNC_SMBUS_WORD_DATA))
-> +		return dev_err_probe(dev, -EOPNOTSUPP,
->  				     "adapter doesn't support SMBus word transactions\n");
+>
+> >>
+> >> >However, the preferred solution would be to simply mirror the E810
+> >> >behavior
+> >> >(sending phase offset). This preserves the existing API contract and
+> >> >prevents users, who have already built applications for this interfac=
+e,
+> >> >from needing to implement special handling for a new hardware variant
+> >> >that
+> >> >behaves differently.
+> >>
+> >> This is not currently possible from driver perspective.
+> >> We miss the FW API for it.
+> >>
+> >> >There are additional inconsistencies in the existing structure I want=
+ed
+> >> >to
+> >> >bring to your attention.
+> >> >1. I'm not entirely sure how a 1588-TIME_SYNC pin can have a parent
+> >> >device
+> >> >of type "eec". EEC is all about frequency synchronization, and yet th=
+e
+> >> >pin
+> >> >named 1588-TIME_SYNC is clearly a phase pin. This also doesn't play w=
+ell
+> >> >with existing implementations, where EEC circuits deal with frequency=
+,
+> >> >PPS
+> >> >circuits deal with phase, and there is clear distinction between the =
+two
+> >> >with regard to the meaning of "being locked".
+> >>
+> >> This dpll device type was established based on the main purpose of dpl=
+l
+> >> device which is to drive the network ports phy clocks with it.
+> >
+> >What is the physical meaning of this indication (lock-status':
+> >'locked')? Locked on what?
+>
+> Lock status is dpll device property.
+>
+> But full picture has to be determined from the list of pins, for this
+> particular case, one input provided from host through pci-e pin, 10MHz
+> bandwidth frequency and 1 PPS sync pulses.
+>
+> As already pointed the type of dpll shall let user know the purpose of
+> the dpll existence instead of particular input properties.
+> Input properties are determined with the pin's attributes.
+>
+> >As a user of this circuit I want to know that the device is locked on
+> >the phase of the input signal with a certain precision.
+> >Is this the meaning of "locked" here? Can an EEC device be locked on
+> >the Phase of the input signal?
+>
+> Well I don't have any data on the precision of such, but AFAIK it can.
+> EEC dpll shall be producing stable signal, the input it uses is only
+> part of the full dpll device picture.
+>
+> >Users of other devices (e810, zl3073x) may have implemented logic to
+> >determine the phase lock by
+> >enforcing the pin parent device type as PPS. How should they change it
+> >to determine phase lock (and why)?
+> >
+>
+> I am Sorry, I don't understand the example above, could you please
+> Elaborate on details of such setup?
 
-I do not see how changing error code is related/relevant to new device
-support...
+Yep, gladly!
+Telco customers rely on the Phase being locked on the reference with a
+certain precision. In E810 and zl3073x the equation is simple:
+1. "eec locked" means synTonization achieved - frequency locked
+2. "pps locked" means synChronization achieved - phase locked
+The T-BC application checks the reported device type. If the device
+type is "pps", the report is processed by the synchronization state
+decision logic. Otherwise, the report doesn't have any meaning within
+"T-BC without SyncE" context and is discarded.
 
-> 
-> -	regmap = devm_regmap_init_i2c(client, &tmp108_regmap_config);
-> +	regmap = devm_regmap_init(dev, &tmp108_i2c_regmap_bus, client, &tmp108_regmap_config);
->  	if (IS_ERR(regmap))
->  		return dev_err_probe(dev, PTR_ERR(regmap), "regmap init failed");
-> 
-> -	return tmp108_common_probe(dev, regmap, client->name);
-> +	/* Prefer OF match data (DT-first systems) */
-> +	of_data = device_get_match_data(&client->dev);
-> +	if (of_data) {
-> +		hw_id = (enum tmp108_hw_id)(uintptr_t)of_data;
+Since this patch is going to create eec reports only, they are all
+going to be discarded, and this is a compatibility issue I'm trying to
+address.
 
-Completely mixed up cases. First, do not use uintptr_t. Second, last
-enum cast is not needed. You only need cast via unsigned long.
+Could you please answer my question above:
+What is the physical meaning of this indication
+(lock-status':'locked') in this report?
 
-> +	} else {
-> +		/* Fall back to legacy I2C ID table */
-> +		const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> +
-> +		if (!id) {
-> +			dev_err_probe(dev, -ENODEV, "No matching device ID for i2c device\n");
-> +			return -ENODEV;
+Thanks!
+VG
 
-Syntax is return dev_err_probe. Look above - just few lines above you
-have it right, so you are you introducing different syntax?
+> Thank you!
+> Arkadiusz
+>
+> >>
+> >> >2. Since it is also an external embedded sync input pin, could it be
+> >> >possible to expose this information and include `esync-frequency` and
+> >> >`esync-pulse`? That could be useful for configuring the leading DPLL
+> >> >that
+> >> >drives the unmanaged one.
+> >>
+> >> Sure, esync caps should be provided, as the commit message example sho=
+wn:
+> >> +    'esync-frequency': 1,
+> >> +    'esync-frequency-supported': [{'frequency-max': 1, 'frequency-min=
+':
+> >>1}],
+> >> +    'esync-pulse': 25,
+> >>
+> >
+> >Oh, I must have missed that.
+> >Thanks!
+> >Vitaly
+> >
+> >> Thank you!
+> >> Arkadiusz
+>
 
-> +		}
-> +		hw_id = (enum tmp108_hw_id)id->driver_data;
-
-And this should cause build warnings on W=1.
-
-Are you sure you build tested it with different compilers, with W=1, for
-32 and 64 bit platforms?
-
-> +	}
-> +
-> +	return tmp108_common_probe(dev, regmap, client->name, hw_id);
->  }
-> 
-
-
-> 
->  static const struct of_device_id tmp108_of_ids[] = {
-> -	{ .compatible = "nxp,p3t1085", },
-> -	{ .compatible = "ti,tmp108", },
-> -	{}
-> +	{ .compatible = "nxp,p3t1035", .data = (void *)(uintptr_t)P3T1035_ID },
-> +	{ .compatible = "nxp,p3t1085", .data = (void *)(uintptr_t)P3T1085_ID },
-> +	{ .compatible = "nxp,p3t2030", .data = (void *)(uintptr_t)P3T1035_ID },
-
-So devices are compatible? If so, drop this and express it in the bindings.
-
-> +	{ .compatible = "ti,tmp108", .data = (void *)(uintptr_t)TMP108_ID },
-> +	{ /* sentinel */ },
-
-Please organize the patch documenting the compatible (DT bindings)
-before the patch using that compatible.
-See also:
-https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/devicetree/bindings/submitting-patches.rst#L46
-
-
-
-Best regards,
-Krzysztof
