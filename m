@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FC036D4F5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E6D3570AE;
 	Thu, 15 Jan 2026 15:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768491642; cv=none; b=RRL8IWa14/7VPbAsIoQdD0e+lS+Lrb2zqhCeIN9GanyqFaUF+jZRGhY8ObONpD0wusLib7GZhyh0ZAYAcfFgsNI4dEm5/fzbYYMiFsGouLkinTP29kyT75xB/Ei/IzhaY/sa1xEW1oGBs9sqBJf44SaUNhRG+bGFtuem9bFiaFY=
+	t=1768491642; cv=none; b=uSNd0REL+KUK1eXG78ZseTsWsm/Featu3QMdUh/OPHpe1dV0KWMc3bgGBSGNJPxRyscoYfp/aKDXCUSVl3xmMkfeEKniw6yJwkBrpK64FJzbMD+ozcd+CXTemAw+eWeBuzuDqBIVTcNt5C2zhqNyrHQgE+3jkrWFYANMztRVuac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768491642; c=relaxed/simple;
-	bh=exjBpROHq5nt6ys/3V4S6O/quh/Jy14gJjvOKZLMHAo=;
+	bh=TCHwfk8ThCkFaLgmH3fFwJfEQHJ1oXz9bzKs/OW/Myg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZeMmrnegfyxYKi8ypxIhybojRXBBc8QBpu5s+HtBvFfZBswSZR2lY1j2PdG5Zomh9vZMpZBQoVqFllRVyWxZTSxL44cwD92VHvbyKZCnklRLX9xK4uyLU5787INbJaynqeIZpY3bEwtu28IbRLCsYi7Xhp3PQFxRNNNyvJxwQck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hsl1GMRw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=eGHqszTO22rc5u6jLu30z0sq4XSlzQARxrxI19WtZGR9x0745848zkCW6WiivDVIxo/IZJoiEp1+i+qjW4Bt+7Xa4Y2q1S7SzZM09saREZ87uyEl0/aMoBfNXAX26l0savjVDylCYlyneZGvqHjVMgnpG1gvKB/fahboGQtXfsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQpcTweP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hsl1GMRw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C46C19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQpcTweP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABCFC16AAE;
 	Thu, 15 Jan 2026 15:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768491642;
-	bh=exjBpROHq5nt6ys/3V4S6O/quh/Jy14gJjvOKZLMHAo=;
+	bh=TCHwfk8ThCkFaLgmH3fFwJfEQHJ1oXz9bzKs/OW/Myg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hsl1GMRweCxxcuyrSKMeI18gA591D6gGrSjKULWXkIVP0T4JZ8DE5Am27t4PyPvO9
-	 PM9gACccKM4WSvM0nPbHuPBTIurBkHaTzyefsxZ8y4ZGqqpVcA3Rm8XWNPZw5c/vrp
-	 6XY+23nSNynI8fq1IHXIhInRTA7i0JszdYhdceWbH657Fm6gocoOhq9jhoSoomROea
-	 XJKx7ZaHNJR7OrBnbOXzEVhdWDFDmkvkrV7arSwNmmHO8EzJuGxuZMiOUn6C6iU3q0
-	 Z8yg+WnRdWtXhkgYG6XOjsak0WmhOxhHGRp1gUIcObuwER3NBZDGpIVHIiaTSnbRge
-	 kreUr3l3UChTQ==
+	b=dQpcTwePp0HWy37rz5HnMQzk/fEX5PE24Pmo5QExdQbmd4ZVUwPD1J8+jau1s40mi
+	 w9/i1/T6bwDmP4INdUw5BXgEOcEHI1x2TQxt6BAOFdvSgzulWRg/Vy/A5c2W9rY7CL
+	 9BIe4/Ma107GQ1G3MRxzS/WRyU8W2m09Myzas1td9OLEA1EQSxafX47zY/zHpogTsA
+	 6WJRAYHen6DPuJ2DIwJsClUR6HJbdRDDlfeZ/4bRfjUYizquj8jPHqGdYXUZPEvI9A
+	 TYyTeKckemUOFgrL30YV/fOEHg62WO0/GF2lPTwmKhl2Aq6zK6LrDG9ym1oUXmMc3N
+	 I9wPfu+NnJGpw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vgPSi-000000043IB-0Vqe;
+	id 1vgPSi-000000043IF-0cno;
 	Thu, 15 Jan 2026 16:40:40 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2 01/15] docs: custom.css: prevent li marker to override text
-Date: Thu, 15 Jan 2026 16:40:22 +0100
-Message-ID: <f139d304fe4dab288152caf1fda921bd8d9dd7d5.1768488832.git.mchehab+huawei@kernel.org>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH v2 02/15] docs: conf.py: don't use doctree with a different meaning
+Date: Thu, 15 Jan 2026 16:40:23 +0100
+Message-ID: <34a3b676b2eaa58058a2578f5aa1427274fc633e.1768488832.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768488832.git.mchehab+huawei@kernel.org>
 References: <cover.1768488832.git.mchehab+huawei@kernel.org>
@@ -54,31 +54,57 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There's currently an issue with li marker: it is set to use
--1em, which actually makes it override the text. This is visible
-on indexes that are deep enough.
+At Sphinx, doctree is a directory where doc build cache is stored.
+Use a better name.
 
-Fix it.
+No functional changes.
 
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx-static/custom.css | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/conf.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 06cedbae095c..b6a7a5f6b6d4 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -30,6 +30,9 @@ img.logo {
-     margin-bottom: 20px;
- }
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 1ea2ae5c6276..548e57b1fb01 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -33,7 +33,7 @@ else:
+     include_patterns = ["**.rst"]
  
-+/* The default is to use -1em, wich makes it override text */
-+li { text-indent: 0em; }
-+
- /*
-  * Parameters for the display of function prototypes and such included
-  * from C source files.
+ # Location of Documentation/ directory
+-doctree = os.path.abspath(".")
++kern_doc_dir = os.path.abspath(".")
+ 
+ # Exclude of patterns that don't contain directory names, in glob format.
+ exclude_patterns = []
+@@ -70,7 +70,7 @@ def config_init(app, config):
+     # setup include_patterns dynamically
+     if has_include_patterns:
+         for p in dyn_include_patterns:
+-            full = os.path.join(doctree, p)
++            full = os.path.join(kern_doc_dir, p)
+ 
+             rel_path = os.path.relpath(full, start=app.srcdir)
+             if rel_path.startswith("../"):
+@@ -80,7 +80,7 @@ def config_init(app, config):
+ 
+     # setup exclude_patterns dynamically
+     for p in dyn_exclude_patterns:
+-        full = os.path.join(doctree, p)
++        full = os.path.join(kern_doc_dir, p)
+ 
+         rel_path = os.path.relpath(full, start=app.srcdir)
+         if rel_path.startswith("../"):
+@@ -92,7 +92,7 @@ def config_init(app, config):
+     # of the app.srcdir. Add them here
+ 
+     # Handle the case where SPHINXDIRS is used
+-    if not os.path.samefile(doctree, app.srcdir):
++    if not os.path.samefile(kern_doc_dir, app.srcdir):
+         # Add a tag to mark that the build is actually a subproject
+         tags.add("subproject")
+ 
 -- 
 2.52.0
 
