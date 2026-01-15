@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317523A35D9;
-	Thu, 15 Jan 2026 17:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABA03BC4EB;
+	Thu, 15 Jan 2026 17:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768498911; cv=none; b=htVASoS0dXqmU6FIqV/A3I+uAv2UNfFSBGjyRx4Jpn2D/cx6LoH9hBuBaj5Ts679vToC4KdkFmMDjhQkTbKbMbokto/q7lE8hiU7SBQiHQcRtSAVnMsVzhaOy7yGN6GXzJgRXYyZU+vX6z3cjYJsPY0rTAl1l9GRKsmS+HfQo4A=
+	t=1768499146; cv=none; b=dG8N9ISEJUeRlnzdcA6xHEBP69/5gwPNkEsBPfYH7jiYGnTQ5tY27hDFwfF7cAeFjA21P0CJOYfZ5SqP8JI+TyyTC7c/anc4VSFLg0NAkAkLS0KF/GDdygVG+FzBLkgSDKUQaGMyA0LLYfaXpO0hyczU0tFy2oVYOh0ptmVXnfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768498911; c=relaxed/simple;
-	bh=Og6i3thTN1lragtARMir4Fy1CEAvjRfPYpKglMK6jGA=;
+	s=arc-20240116; t=1768499146; c=relaxed/simple;
+	bh=NKP/tku6cMDuVGoK2diSQ2fB/LmycsGoKdg789sJ9Os=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s9olUKfHRufiZ3V0wDVeQNtbWDSOx6QGc3Q5sIzh6x5tQ/XzEsl0Qta+CtxuUjDzXeV4aAGB8PGloRrbSmfh+LpzNadeqxGVURP8UNI9BoJri/3Z01tROYrwz29Yy3j4PvHn+mqwQyhzbXye6jAIypgZoyQnfIRys4X0klAZ6+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dl1EW8Bk; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=ciDEGWWs7Prs2Xj93/2XAS/OwRmOoQZqdhQMli6xuR7LmOU+DhgYt61Yr6jrxUC9b8ztnhFd+jTdvIR3C1cNyVH6AeGZZmjjoG+vwc0v40gDhXFgUULI/D4UJnaPKkodmx0TdSaTmM1QHtcSPuwXYpp/1Yf7AnDR05DiBLQ7lbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nYJy6A9T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dl1EW8Bk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703E1C116D0;
-	Thu, 15 Jan 2026 17:41:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nYJy6A9T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A14CC16AAE;
+	Thu, 15 Jan 2026 17:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768498911;
-	bh=Og6i3thTN1lragtARMir4Fy1CEAvjRfPYpKglMK6jGA=;
+	s=k20201202; t=1768499146;
+	bh=NKP/tku6cMDuVGoK2diSQ2fB/LmycsGoKdg789sJ9Os=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dl1EW8Bk/wk7n+ked6d5dTqvGdNDbGhl8PLkyO2JwRqCbK85aViLYdw68xiFFERHu
-	 YA2RE9D2nOCr1Mp+bpDoUvE7ZdJrHdTGzhVX5fZO+KivWZQwTWaecvAtWWkglQ75W2
-	 kZWMNaiFgu7oOn0WetGjHSnQvEaxClLl30Ku/0aUVUK0XpoBfJmO3UmbZ+c8cUkd5X
-	 eYZwNkOZrx6cP3m1cYFkY+8bNZPHXr+yQRnCYctDNvif1JySmQdEaSpxX4nDRp+yOT
-	 HOvkRaiWNPUYYljW9aSgf8nHB/6/E/dzCRGl+D4kKv3Ul673G+YRA3K8/sUN+rb77H
-	 FV/Gto8aur1OQ==
-Message-ID: <b10e3b2a-b298-4d27-b8ce-63327864c220@kernel.org>
-Date: Thu, 15 Jan 2026 18:41:44 +0100
+	b=nYJy6A9T9kR4JzP3jLbFrMuhD5QSni458tPEJNyZe9FnKgyjHYih4jU0WRXNUw0LH
+	 pTfMZriffkXiZFrvSAmt26mME740xZvARzVdizcMhnRc89em6g58j90U8fliJfpYwe
+	 tFUU+KlCvMBpPF+bLn4w7s4XRCwgC+B0vm1IyFUZ42QTOICVZNSrT62YkoTsI7DamE
+	 HNrdZNKrSI9J3wtjVhk5Cy8AK8PvjrHFv7Gj/IjQYvxCF8FCRMmYqGKlP59yLokCVg
+	 2HALZ1mRoGMKbke+ujLSlpAU0HvbyypzJsd/AG/kSOirOW1Lhoj2+gs5groxWjFcit
+	 Tz2O0IjV/zg0Q==
+Message-ID: <bdf9681f-04a0-42e0-b319-d247b14a7cba@kernel.org>
+Date: Thu, 15 Jan 2026 18:45:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+Subject: Re: [PATCHv3 02/15] mm: Move MAX_FOLIO_ORDER definition to mmzone.h
 To: Kiryl Shutsemau <kas@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
  Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
@@ -48,9 +48,10 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20260115144604.822702-1-kas@kernel.org>
- <20260115144604.822702-11-kas@kernel.org>
- <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
- <aWkhbWR-3fWjeTaE@thinkstation>
+ <20260115144604.822702-3-kas@kernel.org>
+ <be57dfa5-e6fa-4ce6-93c1-239436ff6e89@kernel.org>
+ <bf788cfe-ac2e-4ffc-9349-64d9c36bf072@kernel.org>
+ <aWkivSMMKX3AGdMw@thinkstation>
 From: "David Hildenbrand (Red Hat)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,69 +97,27 @@ Autocrypt: addr=david@kernel.org; keydata=
  cFAM8nBWrEmNU2vvIGJzjJ/NVYYIY0TgOc5bS9wh6jKHL2+chrfDW5neLJjY2x3snF8q7U9G
  EIbBfNHDlOV8SyhEjtX0DyKxQKioTYPOHcW9gdV5fhSz5tEv+ipqt4kIgWqBgzK8ePtDTqRM
  qZq457g1/SXSoSQi4jN+gsneqvlTJdzaEu1bJP0iv6ViVf15+qHuY5iojCz8fa0=
-In-Reply-To: <aWkhbWR-3fWjeTaE@thinkstation>
+In-Reply-To: <aWkivSMMKX3AGdMw@thinkstation>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/15/26 18:23, Kiryl Shutsemau wrote:
-> On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red Hat) wrote:
->> On 1/15/26 15:45, Kiryl Shutsemau wrote:
->>> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
->>> vmemmap pages for huge pages and remapping the freed range to a single
->>> page containing the struct page metadata.
+On 1/15/26 18:26, Kiryl Shutsemau wrote:
+> On Thu, Jan 15, 2026 at 05:48:20PM +0100, David Hildenbrand (Red Hat) wrote:
+>> On 1/15/26 17:35, David Hildenbrand (Red Hat) wrote:
+>>> On 1/15/26 15:45, Kiryl Shutsemau wrote:
+>>>> Move MAX_FOLIO_ORDER definition from mm.h to mmzone.h.
 >>>
->>> With the new mask-based compound_info encoding (for power-of-2 struct
->>> page sizes), all tail pages of the same order are now identical
->>> regardless of which compound page they belong to. This means the tail
->>> pages can be truly shared without fake heads.
->>>
->>> Allocate a single page of initialized tail struct pages per NUMA node
->>> per order in the vmemmap_tails[] array in pglist_data. All huge pages
->>> of that order on the node share this tail page, mapped read-only into
->>> their vmemmap. The head page remains unique per huge page.
->>>
->>> This eliminates fake heads while maintaining the same memory savings,
->>> and simplifies compound_head() by removing fake head detection.
->>>
->>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
->>> ---
->>>    include/linux/mmzone.h | 16 ++++++++++++++-
->>>    mm/hugetlb_vmemmap.c   | 44 ++++++++++++++++++++++++++++++++++++++++--
->>>    mm/sparse-vmemmap.c    | 44 ++++++++++++++++++++++++++++++++++--------
->>>    3 files changed, 93 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
->>> index 322ed4c42cfc..2ee3eb610291 100644
->>> --- a/include/linux/mmzone.h
->>> +++ b/include/linux/mmzone.h
->>> @@ -82,7 +82,11 @@
->>>     * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
->>>     * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
->>>     */
->>> -#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
->>> +#ifdef CONFIG_64BIT
->>> +#define MAX_FOLIO_ORDER		(34 - PAGE_SHIFT)
->>> +#else
->>> +#define MAX_FOLIO_ORDER		(30 - PAGE_SHIFT)
->>> +#endif
+>>> Why should that belong to mmzone.h ? Semantically doesn't make sense, no?
 >>
->> Where do these magic values stem from, and how do they related to the
->> comment above that clearly spells out 16G vs. 1G ?
+>> To clarify, I would have moved it to something more folio-type specific, not
+>> something buddy/zone specific.
+>>
+>> I guess page-flags.h + mm.h are our dumping ground for folio handling. I
+>> would have moved it to the former.
 > 
-> This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << 30
-> is 1G. Subtract PAGE_SHIFT to get the order.
-> 
-> The change allows the value to be used to define NR_VMEMMAP_TAILS which
-> is used specify size of vmemmap_tails array.
+> I moved it next to MAX_PAGE_ORDER definition which seemed to be logical.
 
-get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G) should evaluate to 
-a constant by the compiler.
-
-See __builtin_constant_p handling in get_order().
-
-If that is not working then we have to figure out why.
-
-Was this only a specific config in where you ran into compile-time problems?
+MAX_PAGE_ORDER is a buddy concept. MAX_FOLIO_ORDER is not a buddy concept.
 
 -- 
 Cheers
