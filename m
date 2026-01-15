@@ -1,134 +1,123 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+Received: from mail-dl1-f73.google.com (mail-dl1-f73.google.com [74.125.82.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B079C2BEC27
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 04:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A852D94BA
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 05:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768450315; cv=none; b=gLe8DhKBMBCQvW3XRbB5L7ucDpy8SCVsp3ta8mowEBmUvATONub03Y2E3cIo9jDR8DtQr/bDUJADH7YnIhc30HR8PVbayoVnBYxcz2a6+SrQFNplOxHaNx1pcqtyMXh1G2rwvlACqb7Vy13kt/fZo2ubCmI7Z2owal41cD/WdIs=
+	t=1768455966; cv=none; b=N2jakGpd1Ois/fR+bKMSQmlpRzuZqvzUDf+LoUDjbsbTsZkepDd12dZqNobMAYMv3DG5Txy1Sa9qo/0wf3+USld/2koi5eOnkSJam8x9/PTxJG50tpMU69BDTwIkWXmdBxKy/w6kYeaeHDgTn98XlXprngVez3nAH/yYJ/ciwpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768450315; c=relaxed/simple;
-	bh=eH05iNFww19kcMZ0contcs3Ur4Aq0Uioewvs0Ol8TEA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RrtmZhBQrWxagh7z4vDMCrSOhyfasahKTut4AEYrroINP5FQj0yZcoSSOcIy/dkdzySko6DZJLeVg/PfAeIO2gSi8azIfpU8jeZlqvpPjRMCcYEsnPH2JGMxrI/Y6fjSFeZ5+c0dsnyb+Pev6WXUNqfJs+QYLsFWsTYdJdNQcK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NjBBA6I8; arc=none smtp.client-ip=209.85.216.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768455966; c=relaxed/simple;
+	bh=oCpw7jog4Ls/Y7/A/Xl/Q7Wuv3MmMbEyOn73zYZS5ww=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=VwzG/mKjHwC+THsjk24xY9plWW40w5IwlKtoFYoBMyLa93fh0sZEnSz22vRwzcIjMVyTvy3Gp1JL34lukcoTX1tytuCyWxRWyzJLIS0951yCP41ZbClYzmP899YDTrD7VFDKrCv6CA61OJPqD2Q96v5dFM05J399AXTYeSoOsDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x2VWUdH6; arc=none smtp.client-ip=74.125.82.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NjBBA6I8"
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-34e90f7b49cso210565a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 20:11:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x2VWUdH6"
+Received: by mail-dl1-f73.google.com with SMTP id a92af1059eb24-123349958b2so2384479c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 21:46:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768450314; x=1769055114; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bInY6G+fRPU4N4S6clAbFXdycHArb+K858x2QHnaCgU=;
-        b=NjBBA6I8zTjR+COaFg4APBqhFb9KxKXmTsf+mmmk029wc0laJtRNRxybaRYW2oeJwU
-         EEDTvo/ZzKUloYLMqwLXvGpFDGMPor8ovCmtxWVppkMsEoEsQ/9N+qRnm09k6g1paFko
-         XLz4u+PcEav30JWiCrBB9azJm2ktXvDL67a4BP8IyU7+aRfogXPVzZi1pGQ4sK8jk1lI
-         iu//9GagC0pDm+FUr4gErOWug8JaQYZAD39sNL9jh2ANJH/7KB8ynKj8mBRyXkCCEVkJ
-         eQI4aYYNPuYo2v/DIwalqjG+zEw8GPBu+m9lhQDECfmGqDhIWZOM/dd7U0EpDYdXP6nc
-         yLoQ==
+        d=google.com; s=20230601; t=1768455961; x=1769060761; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=aDAvyad0Gd6nn9PvkirLJfs5+fzAbzM3y3l25Mdn4/I=;
+        b=x2VWUdH68EMWb+8hqX/HurpzBUHWkXUCUhwh6WP+ddTv/BUs7v+btDC/lQpy4UybUF
+         aUKMKq2ewm3Z8TmQJr0iiLBXYr4g1u+AA1TmIaOw4z3UYT7U86ZzmZwL6Az9JxoE+hIO
+         eR7fZQp7aE2RB8aIpMV6ojsMbk/HS4wszGehIgI9/PC7F2tpEq95bLuZHm+799fFss6P
+         b2Fs3m1pspDk4sjUDTEUzQ9Ze8t/Z9i7cGxgkzZPyfR8/ZjLTdHphk2mAQmeA1B3pPFJ
+         Hj+C9LEi/pjmIZAGf76+FUawcSmmBu5qNy+QMwkcg7/c2xZeet8b62PpAf2yK5M0FJho
+         TM3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768450314; x=1769055114;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bInY6G+fRPU4N4S6clAbFXdycHArb+K858x2QHnaCgU=;
-        b=H+VY9whkq77RHbWnQqNHy9KYzfVspKtof+zTGh1tvcI7Ivnagnsqq51dqSvqslYsw+
-         5gXr478AZCRgIfS7ZdrI7DyqV0o5qP13NAMn3vLtYSZBWlXz7Aw9AJrZOGy4jbCl3+Eq
-         KfgTklz7WxG0SJNgZIUy20Nh74OAhrBb3Z3DA5hDpOyJawSqp8MaEtTBPIq8uQHZawH+
-         gFR5ZLjT/qSNjYqJOFpRFbHJiFpTHjNQAW13LOIl859LKyLPswJeCvh/Pbphy1Cs8aC1
-         ghhcOeT3+8u0dEygMpI3wLP2b9q1y6wSkgd8F6ydfUeICbxAU+1gy1Upsuxnso5EvDox
-         TUjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyMezYnPRjLNaPXunnAyP2jEKowbO7nyZ4mSTgQbA0bdYOCS0DDdPMf9OxQObZlTBfBjclr2UnRYI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2fwOrVpDXzQ5CtL0mtoyagZHcN31jcMTZMRnCRyj7SY9h4HJ2
-	xNiWvpYDv0QCXb/pUIkqDRyeAo2mhE/bmAfiNf8X6fpSmf6pBUWD2cYx
-X-Gm-Gg: AY/fxX5LGE15gA2oCt8YFPnYgxWTVn+5iYQsJnB+6vQc+w3IDxZV/04He2mrx872okc
-	r0W0BTkTa0kgQWY6Uu6pilf+ukz1J23xb+YQLJFOUo0oCS30mKamDMkPhAihMk8K5FUVZnoMANL
-	S7aMeBuKxEw2icID+ZlSrIxOzSvcMCcGslxERFxemb1lBsXNqPv/xq0dH8tY7mKTlGwaohwRzoe
-	/vRWFBATaXtQByH836ooileLuzb47OsQO/y7hqzVf2nxpAJ+5IXGHQzFsl0H5FMfgJyowfah2D6
-	rxfT5t6IWv+F58f6KUmHE/gpa1Th+rZl9yAu+Nt30e4Y6LyF0lFq+htbypo/iAIWdk9bLCFkuwY
-	bbWCSM7+duo3nmo59L+rIm/HlNSYwlP+JeklrHrAinHWFLoM/j56LSgs4RUpJTy80ZbVk0xCqFQ
-	lTSAx9JLc0palq8x+43FInJ2K0P1I7e+Tk4OWhsChjx7W1/JH1
-X-Received: by 2002:a17:90b:3806:b0:34c:635f:f855 with SMTP id 98e67ed59e1d1-351090bde3cmr5297541a91.7.1768450313919;
-        Wed, 14 Jan 2026 20:11:53 -0800 (PST)
-Received: from fric.. ([210.73.43.101])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-351099e2fbesm1626399a91.3.2026.01.14.20.11.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 20:11:53 -0800 (PST)
-From: Jiakai Xu <jiakaipeanut@gmail.com>
-X-Google-Original-From: Jiakai Xu <jiakaiPeanut@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jiakai Xu <xujiakai2025@iscas.ac.cn>
-Subject: [PATCH] RISC-V: KVM: Document scounteren and senvcfg in CSRs
-Date: Thu, 15 Jan 2026 04:11:46 +0000
-Message-Id: <20260115041146.807967-1-jiakaiPeanut@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1768455961; x=1769060761;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aDAvyad0Gd6nn9PvkirLJfs5+fzAbzM3y3l25Mdn4/I=;
+        b=tokY40OZZVd3+5KW7TlYMS7ySuFOsvwwqTqhTK/j/mND7wCGAO5jrdsKYzD6YPI5qj
+         LH6Lv+CTa/B4l0ABXTX2OC9Cj/BO61AkCFGGqZkfVy5Q1tE2xhLmXYENYayfzj7LsUXd
+         w3BvK6WKoCQYR/MMKUtWYrCkIm4xk4AXmXemZMnKdMsCmgPnxnnE9zRV9IxCXM48r/1y
+         nnGjP3U3CAuwIvsAH75A/UpZvdcvMDeRJNcj3on+Y/dXvNK0rJjMI8XqKWd2Qps5VP7E
+         /HYJl4aOK5PP+e/sZ2O4ncbXHTX5viX4pj7EH2BwU/RtELr7GJjgnptlAIvp5JNIBilH
+         hvSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdDHPANpqqmWiy68LkYQReJ9yXyogUXCEFG67xflYWYUoJpLDO/69uK+jHtIZcKzmtgm47eHKRpiw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzLksFt+457/FWZ4fHaAgdngoXjnOW3QJ+yW08WWiOMJd43CWM
+	CTfTsp4MDaypg/IC7r5EFsl+nkJD5NodSv0ECXj5cxxusBXp5tTVpiPqiyYkkhP2YbWE5CPWSH+
+	toeNBrw==
+X-Received: from dybb6.prod.google.com ([2002:a05:693c:6086:b0:2a2:4eb1:3771])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7301:688:b0:2ac:2480:f0ac
+ with SMTP id 5a478bee46e88-2b48f5bac9emr4987449eec.23.1768455961332; Wed, 14
+ Jan 2026 21:46:01 -0800 (PST)
+Date: Wed, 14 Jan 2026 21:45:57 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260115054557.2127777-1-surenb@google.com>
+Subject: [PATCH 1/1] Docs/mm/allocation-profiling: describe sysctrl
+ limitations in debug mode
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, corbet@lwn.net, ranxiaokai627@163.com, 
+	ran.xiaokai@zte.com.cn, surenb@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jiakai Xu <xujiakai2025@iscas.ac.cn>
+When CONFIG_MEM_ALLOC_PROFILING_DEBUG=y, /proc/sys/vm/mem_profiling is
+read-only to avoid debug warnings in a scenario when an allocation is
+made while profiling is disabled (allocation does not get an allocation
+tag), then profiling gets enabled and allocation gets freed (warning due
+to the allocation missing allocation tag).
 
-Extend the documentation of guest supervisor-mode CSRs to include
-scounteren and senvcfg.
-
-These registers are part of the RISC-V supervisor CSR set but were
-previously missing from the documented encoding table. Also adjust
-the table formatting to keep column alignment consistent.
-
-Signed-off-by: Jiakai Xu <xujiakai2025@iscas.ac.cn>
+Fixes: ebdf9ad4ca98 ("memprofiling: documentation")
+Reported-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Cc: stable@vger.kernel.org
 ---
- Documentation/virt/kvm/api.rst | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ Documentation/admin-guide/sysctl/vm.rst   |  4 ++++
+ Documentation/mm/allocation-profiling.rst | 10 ++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb..6dab20637c7b 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -2837,19 +2837,21 @@ of a Guest VCPU and it has the following id bit patterns::
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 9096e2d77c2a..8577ea91e226 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -487,6 +487,10 @@ memory allocations.
  
- Following are the RISC-V csr registers:
+ The default value depends on CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT.
  
--======================= ========= =============================================
--    Encoding            Register  Description
--======================= ========= =============================================
--  0x80x0 0000 0300 0000 sstatus   Supervisor status
--  0x80x0 0000 0300 0001 sie       Supervisor interrupt enable
--  0x80x0 0000 0300 0002 stvec     Supervisor trap vector base
--  0x80x0 0000 0300 0003 sscratch  Supervisor scratch register
--  0x80x0 0000 0300 0004 sepc      Supervisor exception program counter
--  0x80x0 0000 0300 0005 scause    Supervisor trap cause
--  0x80x0 0000 0300 0006 stval     Supervisor bad address or instruction
--  0x80x0 0000 0300 0007 sip       Supervisor interrupt pending
--  0x80x0 0000 0300 0008 satp      Supervisor address translation and protection
--======================= ========= =============================================
-+======================= ========== =============================================
-+    Encoding            Register   Description
-+======================= ========== =============================================
-+  0x80x0 0000 0300 0000 sstatus    Supervisor status
-+  0x80x0 0000 0300 0001 sie        Supervisor interrupt enable
-+  0x80x0 0000 0300 0002 stvec      Supervisor trap vector base
-+  0x80x0 0000 0300 0003 sscratch   Supervisor scratch register
-+  0x80x0 0000 0300 0004 sepc       Supervisor exception program counter
-+  0x80x0 0000 0300 0005 scause     Supervisor trap cause
-+  0x80x0 0000 0300 0006 stval      Supervisor bad address or instruction
-+  0x80x0 0000 0300 0007 sip        Supervisor interrupt pending
-+  0x80x0 0000 0300 0008 satp       Supervisor address translation and protection
-+  0x80x0 0000 0300 0009 scounteren Supervisor counter-enable
-+  0x80x0 0000 0300 000a senvcfg    Supervisor environment configuration
-+======================= ========== =============================================
++When CONFIG_MEM_ALLOC_PROFILING_DEBUG=y, this control is read-only to avoid
++warnings produces by allocations made while profiling is disabled and freed
++when it's enabled.
++
  
- RISC-V timer registers represent the timer state of a Guest VCPU and it has
- the following id bit patterns::
+ memory_failure_early_kill
+ =========================
+diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm/allocation-profiling.rst
+index 316311240e6a..058d2faffb75 100644
+--- a/Documentation/mm/allocation-profiling.rst
++++ b/Documentation/mm/allocation-profiling.rst
+@@ -33,6 +33,16 @@ Boot parameter:
+ sysctl:
+   /proc/sys/vm/mem_profiling
+ 
++  1: Enable memory profiling.
++
++  0: Disable memory profiling.
++
++  The default value depends on CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT.
++
++  When CONFIG_MEM_ALLOC_PROFILING_DEBUG=y, this control is read-only to avoid
++  warnings produces by allocations made while profiling is disabled and freed
++  when it's enabled.
++
+ Runtime info:
+   /proc/allocinfo
+ 
+
+base-commit: 560d6a4c4951ae76b5c6d5b5b8650276706f68ac
 -- 
-2.34.1
+2.52.0.457.g6b5491de43-goog
 
