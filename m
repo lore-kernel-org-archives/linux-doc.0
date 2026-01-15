@@ -1,213 +1,249 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E5C312807;
-	Thu, 15 Jan 2026 19:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4619431AA81;
+	Thu, 15 Jan 2026 19:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768506057; cv=none; b=PbTUGJb1vPavr6ajSWpZcv5srPLl6U7CgwNpcfW9XuGAs8TUItMzeORus2Aa0AsFhYKmNEPnum6xHINOeYEc7LYIFkZahj6WHCG+sAtoenc3KMNoCEO4cC7jjjLqM/umDRlkM9qG/Kj5ep/vK2I+8TbYt5T+8uucKHDtQZWTq3c=
+	t=1768506369; cv=none; b=XXD5dHZUKo+iAdmfbFdirokT5V3ai5GEC9EjkQqmjAlGw5TjkaBvE20a0y+Ueq+l25zi26eb8Fp4bdaFonSLGuBc3CpAxF8HG0AvDOUjLdOSrMLMPTjWmPzSd1yZ9zpWP76onRIgjGtzjg6EwZ6U1kNMj3z0rc3p3LrsTWEskT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768506057; c=relaxed/simple;
-	bh=jkLwMh0+s8F8/4KKUY4lQr01Nkc+QMk9WY4RS6aqE/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enNOlh5zKFo26gNWJoZaSeK9811ah59zOjOcKnGJZFRISX9QYeeu5NVVPvbtF3mPVhgUYXys4w1EDUJBswH1EWcz7DCvePITO9Trd9/XC4sYfWsn5ksNC30/IZAkyz/w/rLWsIHtB09gmwRTBBy5Yz44oiYDk2yc7mIzACmFMn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=vBmfavXA; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1768506369; c=relaxed/simple;
+	bh=LhWnu62cfOyQJ3ARTOTa8rucVSi8LwKMxYb1uIgntTM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=VSpLtm30XSwVzDWhV4ZwbTjnqvtNYNj4v5BJdiWPbMIyc6JLO80TMhvDkgbV0KSN1tgmMQSIHdyqkoD4v6WNkpPMTXQmBTIgxB0lCEsOq5E/GINQe9KDX7Ak6NuGxDgpzYVuowYRo4/+KBitqEmiPPT1DNjd9JeHepizfhkocyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I8Sx4xn0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="vBmfavXA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=4x0cWJUel0J1tULjHpUGDfg62j6P8cwyjilUsV/2zFQ=; b=vBmfavXAC/f/xKs89DcuqXY013
-	JysHxq1ejIiEja9MOTvyBMM1UDi1xx02NiciYucw2eb7wbT48SmdSSq3Bl2xc1svonPDlI54zmKPX
-	ClC+q0+6LQet87sbkevf10XTC0hHJS/KH2qFTMvau7vdkiuAVK8+dOp9uD+qxBmtv3yf2v+nTHM3V
-	AhiDGjTqeUyDtMk2qUkuHRoTNq/l9/FYATofG6L3f27j2MxiPKESWUublVwhPs+uBT/4NTi1wdMk2
-	z93RZbHDXqeYjoMYIQc8XEp+hilstWZipKOob7RodUAaDDWQJVboQ/hlgMNStAK0O9vLv6u5mn+mV
-	i5hqxdAA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50804)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vgTCy-000000001di-3wlW;
-	Thu, 15 Jan 2026 19:40:41 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vgTCt-000000002v6-0sek;
-	Thu, 15 Jan 2026 19:40:35 +0000
-Date: Thu, 15 Jan 2026 19:40:35 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Tao Wang <tao03.wang@horizon.auto>
-Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, horms@kernel.org,
-	kuba@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maxime.chevallier@bootlin.com,
-	mcoquelin.stm32@gmail.com, netdev@vger.kernel.org,
-	pabeni@redhat.com
-Subject: Re: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out
- after resume
-Message-ID: <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
-References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
- <20260115070853.116260-1-tao03.wang@horizon.auto>
- <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I8Sx4xn0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34DBCC116D0;
+	Thu, 15 Jan 2026 19:46:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768506368;
+	bh=LhWnu62cfOyQJ3ARTOTa8rucVSi8LwKMxYb1uIgntTM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=I8Sx4xn04viygNYbwBcqLbW3A+1NMl+9DVjolPZJ2TZrKLtVJMZB2mROLGbCVtz3n
+	 jO58/gWeE+Fj9PDh8ZyUEufnleXbWquSRBtzvmyVXRpJdq/W7BIRabdQUNim8DKnGA
+	 IptFgMDamSuoe5T/PiOf+bbv1JpPq/0sw98DH+FMVDmdv8rvAAvy0kdZeJGF7og0ZR
+	 kRDU475A4ebqHYKGs/Ky6vkrrctgU5E41qzwdR4Iw1SysVAUn5C9jfJjGJHlBs7AK7
+	 Gu1Gur5vrV1/5dLyCWpBRdRA231pF74rZMfED1Vw//70ccyJf6wZzPTGVkcmeMGL0t
+	 bwP473aKna1uA==
+Message-ID: <15a0dd88-3ec5-4538-ae6c-d2ad39f284e1@kernel.org>
+Date: Thu, 15 Jan 2026 20:46:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260115144604.822702-1-kas@kernel.org>
+ <20260115144604.822702-11-kas@kernel.org>
+ <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
+ <aWkhbWR-3fWjeTaE@thinkstation>
+ <b10e3b2a-b298-4d27-b8ce-63327864c220@kernel.org>
+ <aWk1tZyFZOOkF0AH@thinkstation>
+ <f87a904e-ac1b-4eb7-897c-79b49615511e@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAa2VybmVsLm9yZz7CwY0EEwEIADcWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCaKYhwAIbAwUJJlgIpAILCQQVCgkIAhYCAh4FAheAAAoJEE3eEPcA/4Naa5EP/3a1
+ 9sgS9m7oiR0uenlj+C6kkIKlpWKRfGH/WvtFaHr/y06TKnWn6cMOZzJQ+8S39GOteyCCGADh
+ 6ceBx1KPf6/AvMktnGETDTqZ0N9roR4/aEPSMt8kHu/GKR3gtPwzfosX2NgqXNmA7ErU4puf
+ zica1DAmTvx44LOYjvBV24JQG99bZ5Bm2gTDjGXV15/X159CpS6Tc2e3KvYfnfRvezD+alhF
+ XIym8OvvGMeo97BCHpX88pHVIfBg2g2JogR6f0PAJtHGYz6M/9YMxyUShJfo0Df1SOMAbU1Q
+ Op0Ij4PlFCC64rovjH38ly0xfRZH37DZs6kP0jOj4QdExdaXcTILKJFIB3wWXWsqLbtJVgjR
+ YhOrPokd6mDA3gAque7481KkpKM4JraOEELg8pF6eRb3KcAwPRekvf/nYVIbOVyT9lXD5mJn
+ IZUY0LwZsFN0YhGhQJ8xronZy0A59faGBMuVnVb3oy2S0fO1y/r53IeUDTF1wCYF+fM5zo14
+ 5L8mE1GsDJ7FNLj5eSDu/qdZIKqzfY0/l0SAUAAt5yYYejKuii4kfTyLDF/j4LyYZD1QzxLC
+ MjQl36IEcmDTMznLf0/JvCHlxTYZsF0OjWWj1ATRMk41/Q+PX07XQlRCRcE13a8neEz3F6we
+ 08oWh2DnC4AXKbP+kuD9ZP6+5+x1H1zEzsFNBFXLn5EBEADn1959INH2cwYJv0tsxf5MUCgh
+ Cj/CA/lc/LMthqQ773gauB9mN+F1rE9cyyXb6jyOGn+GUjMbnq1o121Vm0+neKHUCBtHyseB
+ fDXHA6m4B3mUTWo13nid0e4AM71r0DS8+KYh6zvweLX/LL5kQS9GQeT+QNroXcC1NzWbitts
+ 6TZ+IrPOwT1hfB4WNC+X2n4AzDqp3+ILiVST2DT4VBc11Gz6jijpC/KI5Al8ZDhRwG47LUiu
+ Qmt3yqrmN63V9wzaPhC+xbwIsNZlLUvuRnmBPkTJwwrFRZvwu5GPHNndBjVpAfaSTOfppyKB
+ Tccu2AXJXWAE1Xjh6GOC8mlFjZwLxWFqdPHR1n2aPVgoiTLk34LR/bXO+e0GpzFXT7enwyvF
+ FFyAS0Nk1q/7EChPcbRbhJqEBpRNZemxmg55zC3GLvgLKd5A09MOM2BrMea+l0FUR+PuTenh
+ 2YmnmLRTro6eZ/qYwWkCu8FFIw4pT0OUDMyLgi+GI1aMpVogTZJ70FgV0pUAlpmrzk/bLbRk
+ F3TwgucpyPtcpmQtTkWSgDS50QG9DR/1As3LLLcNkwJBZzBG6PWbvcOyrwMQUF1nl4SSPV0L
+ LH63+BrrHasfJzxKXzqgrW28CTAE2x8qi7e/6M/+XXhrsMYG+uaViM7n2je3qKe7ofum3s4v
+ q7oFCPsOgwARAQABwsF8BBgBCAAmAhsMFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAmic2qsF
+ CSZYCKEACgkQTd4Q9wD/g1oq0xAAsAnw/OmsERdtdwRfAMpC74/++2wh9RvVQ0x8xXvoGJwZ
+ rk0Jmck1ABIM//5sWDo7eDHk1uEcc95pbP9XGU6ZgeiQeh06+0vRYILwDk8Q/y06TrTb1n4n
+ 7FRwyskKU1UWnNW86lvWUJuGPABXjrkfL41RJttSJHF3M1C0u2BnM5VnDuPFQKzhRRktBMK4
+ GkWBvXlsHFhn8Ev0xvPE/G99RAg9ufNAxyq2lSzbUIwrY918KHlziBKwNyLoPn9kgHD3hRBa
+ Yakz87WKUZd17ZnPMZiXriCWZxwPx7zs6cSAqcfcVucmdPiIlyG1K/HIk2LX63T6oO2Libzz
+ 7/0i4+oIpvpK2X6zZ2cu0k2uNcEYm2xAb+xGmqwnPnHX/ac8lJEyzH3lh+pt2slI4VcPNnz+
+ vzYeBAS1S+VJc1pcJr3l7PRSQ4bv5sObZvezRdqEFB4tUIfSbDdEBCCvvEMBgoisDB8ceYxO
+ cFAM8nBWrEmNU2vvIGJzjJ/NVYYIY0TgOc5bS9wh6jKHL2+chrfDW5neLJjY2x3snF8q7U9G
+ EIbBfNHDlOV8SyhEjtX0DyKxQKioTYPOHcW9gdV5fhSz5tEv+ipqt4kIgWqBgzK8ePtDTqRM
+ qZq457g1/SXSoSQi4jN+gsneqvlTJdzaEu1bJP0iv6ViVf15+qHuY5iojCz8fa0=
+In-Reply-To: <f87a904e-ac1b-4eb7-897c-79b49615511e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 15, 2026 at 12:09:18PM +0000, Russell King (Oracle) wrote:
-> On Thu, Jan 15, 2026 at 03:08:53PM +0800, Tao Wang wrote:
-> > > While I agree with the change for stmmac_tso_xmit(), please explain why
-> > > the change in stmmac_free_tx_buffer() is necessary.
-> > >
-> > > It seems to me that if this is missing in stmmac_free_tx_buffer(), the
-> > > driver should have more problems than just TSO.
-> > 
-> > The change in stmmac_free_tx_buffer() is intended to be generic for all
-> > users of last_segment, not only for the TSO path.
+On 1/15/26 20:33, David Hildenbrand (Red Hat) wrote:
+> On 1/15/26 19:58, Kiryl Shutsemau wrote:
+>> On Thu, Jan 15, 2026 at 06:41:44PM +0100, David Hildenbrand (Red Hat) wrote:
+>>> On 1/15/26 18:23, Kiryl Shutsemau wrote:
+>>>> On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red Hat) wrote:
+>>>>> On 1/15/26 15:45, Kiryl Shutsemau wrote:
+>>>>>> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
+>>>>>> vmemmap pages for huge pages and remapping the freed range to a single
+>>>>>> page containing the struct page metadata.
+>>>>>>
+>>>>>> With the new mask-based compound_info encoding (for power-of-2 struct
+>>>>>> page sizes), all tail pages of the same order are now identical
+>>>>>> regardless of which compound page they belong to. This means the tail
+>>>>>> pages can be truly shared without fake heads.
+>>>>>>
+>>>>>> Allocate a single page of initialized tail struct pages per NUMA node
+>>>>>> per order in the vmemmap_tails[] array in pglist_data. All huge pages
+>>>>>> of that order on the node share this tail page, mapped read-only into
+>>>>>> their vmemmap. The head page remains unique per huge page.
+>>>>>>
+>>>>>> This eliminates fake heads while maintaining the same memory savings,
+>>>>>> and simplifies compound_head() by removing fake head detection.
+>>>>>>
+>>>>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>>>>>> ---
+>>>>>>      include/linux/mmzone.h | 16 ++++++++++++++-
+>>>>>>      mm/hugetlb_vmemmap.c   | 44 ++++++++++++++++++++++++++++++++++++++++--
+>>>>>>      mm/sparse-vmemmap.c    | 44 ++++++++++++++++++++++++++++++++++--------
+>>>>>>      3 files changed, 93 insertions(+), 11 deletions(-)
+>>>>>>
+>>>>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+>>>>>> index 322ed4c42cfc..2ee3eb610291 100644
+>>>>>> --- a/include/linux/mmzone.h
+>>>>>> +++ b/include/linux/mmzone.h
+>>>>>> @@ -82,7 +82,11 @@
+>>>>>>       * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
+>>>>>>       * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+>>>>>>       */
+>>>>>> -#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
+>>>>>> +#ifdef CONFIG_64BIT
+>>>>>> +#define MAX_FOLIO_ORDER		(34 - PAGE_SHIFT)
+>>>>>> +#else
+>>>>>> +#define MAX_FOLIO_ORDER		(30 - PAGE_SHIFT)
+>>>>>> +#endif
+>>>>>
+>>>>> Where do these magic values stem from, and how do they related to the
+>>>>> comment above that clearly spells out 16G vs. 1G ?
+>>>>
+>>>> This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << 30
+>>>> is 1G. Subtract PAGE_SHIFT to get the order.
+>>>>
+>>>> The change allows the value to be used to define NR_VMEMMAP_TAILS which
+>>>> is used specify size of vmemmap_tails array.
+>>>
+>>> get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G) should evaluate to a
+>>> constant by the compiler.
+>>>
+>>> See __builtin_constant_p handling in get_order().
+>>>
+>>> If that is not working then we have to figure out why.
+>>
+>> asm-offsets.s compilation fails:
+>>
+>> ../include/linux/mmzone.h:1574:16: error: fields must have a constant size:
+>>         'variable length array in structure' extension will never be supported
+>>    1574 |         unsigned long vmemmap_tails[NR_VMEMMAP_TAILS];
+>>
+>> Here's how preprocessor dump of vmemmap_tails looks like:
+>>
+>>    unsigned long vmemmap_tails[(get_order(1 ? (0x400000000ULL) : 0x40000000) - (( __builtin_constant_p(2 * ((1UL) << 12) / sizeof(struct page)) ? ((2 * ((1UL) << 12) / sizeof(struct page)) < 2 ? 0 : 63 - __builtin_clzll(2 * ((1UL) << 12) / sizeof(struct page))) : (sizeof(2 * ((1UL) << 12) / sizeof(struct page)) <= 4) ? __ilog2_u32(2 * ((1UL) << 12) / sizeof(struct page)) : __ilog2_u64(2 * ((1UL) << 12) / sizeof(struct page)) )) + 1)];
+>>
+>> And here's get_order():
+>>
+>> static inline __attribute__((__gnu_inline__)) __attribute__((__unused__)) __attribute__((no_instrument_function)) __attribute__((__always_inline__)) __attribute__((__const__)) int get_order(unsigned long size)
+>> {
+>>    if (__builtin_constant_p(size)) {
+>>     if (!size)
+>>      return 64 - 12;
+>>
+>>     if (size < (1UL << 12))
+>>      return 0;
+>>
+>>     return ( __builtin_constant_p((size) - 1) ? (((size) - 1) < 2 ? 0 : 63 - __builtin_clzll((size) - 1)) : (sizeof((size) - 1) <= 4) ? __ilog2_u32((size) - 1) : __ilog2_u64((size) - 1) ) - 12 + 1;
+>>    }
+>>
+>>    size--;
+>>    size >>= 12;
+>>
+>>
+>>
+>>    return fls64(size);
+>>
+>> }
+>>
+>> I am not sure why it is not compile-time constant. I have not dig
+>> deeper.
 > 
-> However, transmit is a hotpath, so work needs to be minimised for good
-> performance. We don't want anything that is unnecessary in these paths.
+> Very weird. Almost sounds like a bug given that get_order() ends up using ilog2.
 > 
-> If we always explicitly set .last_segment when adding any packet to the
-> ring, then there is absolutely no need to also do so when freeing them.
+> But it gets even weirder:
 > 
-> Also, I think there's a similar issue with .is_jumbo.
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 6f959d8ca4b42..a54445682ccc4 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2281,6 +2281,9 @@ static inline unsigned long folio_nr_pages(const struct folio *folio)
+>     * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+>     */
+>    #define MAX_FOLIO_ORDER                get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
+> +
+> +static_assert(__builtin_constant_p(MAX_FOLIO_ORDER));
+> +
+>    #else
+>    /*
+>     * Without hugetlb, gigantic folios that are bigger than a single PUD are
 > 
-> So, I think it would make more sense to have some helpers for setting
-> up the tx_skbuff_dma entry. Maybe something like the below? I'll see
-> if I can measure the performance impact of this later today, but I
-> can't guarantee I'll get to that.
+> gives me
 > 
-> The idea here is to ensure that all members with the exception of
-> xsk_meta are fully initialised when an entry is populated.
 > 
-> I haven't removed anything in the tx_q->tx_skbuff_dma entry release
-> path yet, but with this in place, we should be able to eliminate the
-> clearance of these in stmmac_tx_clean() and stmmac_free_tx_buffer().
+> ./include/linux/build_bug.h:78:41: error: static assertion failed: "__builtin_constant_p(MAX_FOLIO_ORDER)"
+>      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>         |                                         ^~~~~~~~~~~~~~
+> ./include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+>      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+>         |                                  ^~~~~~~~~~~~~~~
+> ./include/linux/mm.h:2285:1: note: in expansion of macro 'static_assert'
+>    2285 | static_assert(__builtin_constant_p(MAX_FOLIO_ORDER));
+>         | ^~~~~~~~~~~~~
 > 
-> Note that the driver assumes setting .buf to zero means the entry is
-> cleared. dma_addr_t is a cookie which is device specific, and zero
-> may be a valid DMA cookie. Only DMA_MAPPING_ERROR is invalid, and
-> can be assumed to hold any meaning in driver code. So that needs
-> fixing as well.
+> And reversing the condition fixes it.
+> 
+> ... so it is a constant? Huh?
 
-I've just run iperf3 in both directions with the kernel I had on the
-board (based on 6.18.0-rc7-net-next+), and stmmac really isn't looking
-particularly great - by that I mean, iperf3 *failed* spectacularly.
+I've been staring at the computer for too long, this is not BUILD_BUG 
+semantics. So we don't get a constant.
 
-First, running in normal mode (stmmac transmitting, x86 receiving)
-it's only capable of 210Mbps, which is nowhere near line rate.
+For some reason :)
 
-However, when running iperf3 in reverse mode, it filled the stmmac's
-receive queue, which then started spewing PAUSE frames at a rate of
-knots, flooding the network, and causing the entire network to stop.
-It never recovered without rebooting.
-
-Trying again on 6.19.0-rc4-net-next+,
-
-stmmac transmitting shows the same dire performance:
-
-[ ID] Interval           Transfer     Bitrate         Retr  Cwnd
-[  5]   0.00-1.00   sec  24.2 MBytes   203 Mbits/sec    0    230 KBytes
-[  5]   1.00-2.00   sec  25.5 MBytes   214 Mbits/sec    0    230 KBytes
-[  5]   2.00-3.00   sec  25.0 MBytes   210 Mbits/sec    0    230 KBytes
-[  5]   3.00-4.00   sec  25.5 MBytes   214 Mbits/sec    0    230 KBytes
-[  5]   4.00-5.00   sec  25.1 MBytes   211 Mbits/sec    0    230 KBytes
-[  5]   5.00-6.00   sec  25.1 MBytes   211 Mbits/sec    0    230 KBytes
-[  5]   6.00-7.00   sec  25.7 MBytes   215 Mbits/sec    0    230 KBytes
-[  5]   7.00-8.00   sec  25.2 MBytes   212 Mbits/sec    0    230 KBytes
-[  5]   8.00-9.00   sec  25.3 MBytes   212 Mbits/sec    0    346 KBytes
-[  5]   9.00-10.00  sec  25.4 MBytes   213 Mbits/sec    0    346 KBytes
-- - - - - - - - - - - - - - - - - - - - - - - - -
-[ ID] Interval           Transfer     Bitrate         Retr
-[  5]   0.00-10.00  sec   252 MBytes   211 Mbits/sec    0             sender
-[  5]   0.00-10.02  sec   250 MBytes   210 Mbits/sec                  receiver
-
-stmmac receiving shows the same problem:
-
-[ ID] Interval           Transfer     Bitrate
-[  5]   0.00-1.00   sec  64.1 MBytes   537 Mbits/sec
-[  5]   1.00-2.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   2.00-3.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   3.00-4.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   4.00-5.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   5.00-6.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   6.00-7.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   7.00-8.00   sec  0.00 Bytes  0.00 bits/sec
-[  5]   8.00-9.00   sec  0.00 Bytes  0.00 bits/sec
-^C[  5]   9.00-9.43   sec  0.00 Bytes  0.00 bits/sec
-- - - - - - - - - - - - - - - - - - - - - - - - -
-[ ID] Interval           Transfer     Bitrate
-[  5]   0.00-9.43   sec  0.00 Bytes  0.00 bits/sec                  sender
-[  5]   0.00-9.43   sec  64.1 MBytes  57.0 Mbits/sec                  receiver
-iperf3: interrupt - the client has terminated
-
-and it's now spewing PAUSE frames again.
-
-The RXQ 0 debug register shows:
-
-Value at address 0x02490d38: 0x002b0020
-
-bits 29:16 (PRXQ = 43) is the number of packets in the RX queue
-bits 5:4 (RXQSTS = 10) shows that the internal RX queue is above the
-  flow control activate threshold.
-
-The RXQ 0 operating mode register shows:
-
-Value at address 0x02490d30: 0x0ff1c4e0
-
-bits 29:20 (RQS = 15) indicates that the receive queue size is
-  (255 + 1) * 256 = 65536 bytes (which is what hw feature 1 reports)
-
-bits 16:14 (RFD = 7) indicates the threshold for deactivating flow
-  control
-
-bits 10:8 (RFA = 4) indicates the threshold for activing flow control
-
-Disabling EHFC (bit 7, enable hardware flow control) stops the flood.
-
-Looking at the receive descriptor ring, all the entries are marked
-with RDES3_OWN | RDES3_BUFFER1_VALID_ADDR - so there are free ring
-entries, but the hardware is not transferring the queued packets.
-
-Looking at the channel 0 status register, it's indicating RBU
-(receive buffer unavailable.)
-
-This gets more weird.
-
-Channel 0 Rx descriptor tail pointer register:
-Value at address 0x02491128: 0xffffee30
-Channel 0 current application receive descriptor register:
-Value at address 0x0249114c: 0xffffee30
-
-Receive queue descriptor:
-227 [0x0000007fffffee30]: 0xfee00040 0x7f 0x0 0x81000000
-
-I've tried writing to the tail pointer register (both the current
-value and the next descriptor value), this doesn't seem to change
-anything.
-
-I've tried clearing SR in DMA_CHAN_RX_CONTROL() and setting it,
-again no change.
-
-So, it looks like the receive hardware has permanently stalled,
-needing at minimum a soft reset of the entire stmmac core to
-recover it.
-
-I think I'm going to have to declare stmmac receive on dwmac4 to
-be buggy at the moment, as I can't get to the bottom of what's
-causing this.
+Even when I just use get_order(4096).
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Cheers
+
+David
