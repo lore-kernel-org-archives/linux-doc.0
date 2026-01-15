@@ -1,380 +1,399 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F93A3A0E8E;
-	Thu, 15 Jan 2026 13:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768485368; cv=fail; b=AEEHoVyBpuZz9kWF04Hi6zy6fMnHzKbEMlLaVaAOyU1vK34AnAqDHt9oo5chpvFj8l78xDXNjoRT3dfs+SGMhTJ/YgKNbv6ly6PCqzBZeo+RGvyZGBeQucBMRe9Bb8FMJHTwLaFDTUe/GClT35G77AqHaktM0npnM3Gh7vQVLAc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768485368; c=relaxed/simple;
-	bh=/zH1rqjqDeTjNqrIHrrMbgPgr/1bEwkxfNxXYOiLi+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nw265B4wJxP+K83qm6uK9TGbI0qpj1ylnQuOALaQLLnYbLSBUFC9mKj1WiXfbpfW05rcnKlmvsCcm1cW7bOfsAae53U2mnIXioVFLOlaByovLL/yvsEFsnNg3gfez9MHYmQG54AI78gPaEIjT3VOt9qcYjXmywQRAzXCVJ5TQOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qYroEA7y; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=egyQZ1Qd; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFDE39E6ED
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 14:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768485611; cv=none; b=jv+lA6fHR8R5V6Vvki1QqIAN3In+at5xv3y9C8VcrZ9NIvH7pmuy0oE5moqy8Kzz8Ykq8XE059SBfvqjQ3SdY4g6wYVcsQkJrN7UIO3ev8GEXNE0QoCmaTgIRWDzSyKy5QUp+zURIZ0p6Jfln136jmHwhvd3kNA/doi29iBaWHI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768485611; c=relaxed/simple;
+	bh=aEqdwEszh+pQ6E4raqUIGNswQCSYpT7Dqv/kK0c+aWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TwE/4kltqEOtGtGiJW2KbQny2WMgSYLLBJ18uB4FK94pa1ZJSOKAje+AJ65GQYFPgMyG95gl5pNv/5yUAOv4gJecFBNsklbJwhWXqUIjgnJjRfmoaX4dSxj8YwSIrMp7z3wJRE/gXxXoq52fjiEXtNf3HDburgBIqaSsNKgYH+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dM/VUY3M; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qYroEA7y";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="egyQZ1Qd"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60F9saSg1296007;
-	Thu, 15 Jan 2026 13:55:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=CYGcVHv6GBVven2JTl
-	wGSp11PtDeofmrIGx0jxYggV4=; b=qYroEA7yuJeCcs17peG1ENL65iWxNmcBCw
-	JrnBOyg/uWuKoMB5gIKcYotyWcUGSpg39KE6aqkfQMbCfOehd6z3tRBFGdxKpqn3
-	oFL9NFMATATLYVOwLtcKXT9r+0BJCbQlkfjG6NTUIOLmw/sWFNuZLGtzicF9LzNV
-	Ks8H+K7AgOa6CwmFx1DHAwWTGwoieSqBfyDuKsbYIMdPH6RvdjEuOZbiteMYXmHe
-	10N/n/gcno95GdBEXuZEMnqu4kEo+9bxaJbbHGxiAl/jMEwrnAqBL4BCG+S1ay7X
-	UfYM62U5uUZ1hwlni0RA1b7ntAjY27YomyW8PrNo/Y0gKeCd0A5Q==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bp5tc36sd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 13:55:14 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60FCReo7032190;
-	Thu, 15 Jan 2026 13:55:12 GMT
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010012.outbound.protection.outlook.com [52.101.46.12])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7f4p85-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 13:55:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MiYQ26+CrDAdtXV/Qdf6aMZdU+r3HvTVMYaWOpcC8sjAA+U73WEq15xJ4EX2i4C1ToTUW6hRBWyytyqplfxjH7wYVqt549DA9t5n/YlEW78RybrznTfjPDi27bGfPJ/6XWYniA8w8BrrQZDSf+5sOTp7OuBsvYupuVwyUoL0xrLg6D6kQWD3jbDXikAnLBUZXSREQLZ1ntANQj3HBCjI1ebOjd95i0WKzIstLxLzzlFEm1bWvKmxjxqdSIZxNLggmD4BQUBN7PhCnop7OeNq7Wyi5J8YLW4TCAaumUf3eooVwylJaZkXAJOs+YL/RRZKFBDrpjr+lPI58NImnXocdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYGcVHv6GBVven2JTlwGSp11PtDeofmrIGx0jxYggV4=;
- b=GtEY/ezXF7n8FT2/0qZGicfyDSDoQT/VtC6XlUVqn9u3lDGsSy4XYplFe+xw9HQ+L5ZRmVzS6jJ0xITjEla/JJ8mmiC4VrYQntfHhoX9e9OCO+FsFj3yPOlGA1/aAv+legQChxrVyCRk9VBMFnNfYxfgPfNesJjHOZxLcbQwKmGoAZ1EEslCOlzGaYkvNZjrwIPkZe+NzMyt4tbSpgD4due49QDlNE5+Ji7VmxtZC46h5U1/No4cCLIkmGCN6nbTNdumJb9BjDGpzWnGSb+/1IjNVvEVjnsQopbzLD4SdQoxpyyH46kVvRYoG/s+qub404UBxb/sjWh7QGr3OrgQRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dM/VUY3M"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8707005183so152410266b.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 06:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CYGcVHv6GBVven2JTlwGSp11PtDeofmrIGx0jxYggV4=;
- b=egyQZ1Qdg/BQ3uwBzKICpgRHiBp3tImHcC1Ma1VXTBRl38OI57Le880j/FI9UXLMpioqlma/aSx+3XI98t6BpMTZOgrNKxuvDNLoYrEVEGUl071KvD9FLSjYZ2bCNIU/zN7uWK6HrnGbQtZRacAO2lnPTybBtZPNj5OvfBgIqqw=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by CH3PR10MB7561.namprd10.prod.outlook.com (2603:10b6:610:178::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Thu, 15 Jan
- 2026 13:55:08 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Thu, 15 Jan 2026
- 13:55:08 +0000
-Date: Thu, 15 Jan 2026 13:55:10 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-        Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v2 22/23] mm: rename CONFIG_MEMORY_BALLOON ->
- CONFIG_BALLOON
-Message-ID: <219f7be4-8355-4376-bf97-3410c6e23867@lucifer.local>
-References: <20260115092015.3928975-1-david@kernel.org>
- <20260115092015.3928975-23-david@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115092015.3928975-23-david@kernel.org>
-X-ClientProxiedBy: LO4P123CA0271.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:195::6) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+        d=gmail.com; s=20230601; t=1768485607; x=1769090407; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6sLwRZXnWih+mOyCPNae25BI7GaUFDW7tdsjLIiO/Sg=;
+        b=dM/VUY3Mv8nLtOC7/44eeYWbFCbBzJGYdhPGqigxyrWSGmqSUZSEAR9nlyndptsIkk
+         ViO4iEoeqtMesnSJ2jGdW8XsOnklajbzdZSH9qmMR2CaS5UW6KPOKQLG0yyMAITXalj3
+         71xArbatYUyK2K62QJNmjfd+oScaT1U/sKZ5LTLqxbNZW3nCZogTuScxZhpHBIs+XF/I
+         QJ6801PLBwIa8GM9qmfaoFr5boc/eApZlU4s6xxYDlIZ23ud8aZDPAgk1QBL38QDjsaD
+         6gQjbXEg0StCY+E7bJsSRudpGfCfD97xmuOMXNZA2ytTUsohhoI6S1G9Iqa9O4jc6eTC
+         GE7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768485607; x=1769090407;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6sLwRZXnWih+mOyCPNae25BI7GaUFDW7tdsjLIiO/Sg=;
+        b=VI+YYGBOEyjDq8/yFyVutjZjpxB71a/C6lEFam2moizOXkVNnYdcdZuuOVzDwIOYtz
+         rrSeCZfRJaGd1QC/J/Nb6guHIexj/abvXqSnUEJYFMwaTnYho7f/w11Xuwk+gPbFXG1v
+         4UGs3UFiSjb3kEn/eHUdML3Apa9KZJ5I6gRwF4Mojb1nOdkNHhsESmoCowbgIFNDTWOK
+         xv9cXNVtXAyTRed45mvSsKdC2MXrwvJS7PGDtdz5NeBzIboXDRi8njg7W2ARKK0VGqcB
+         m81nEAwNimTbQbf3GXadWcEOK8+73+p5HLBFgw0/rhXR8HMMa/phq5KHgMskCAe248Wn
+         03hw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4/11cebU+rhhnCV4ajc9W3V6BopAlsTdDpLb7MiZ8WRF9K8oTeZ6Yj0Dd/bZMFP/fNNwaW6xvuCc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNi2FykpldUZ0+2ko0AtYZKS5kL9cTefKEJ2o6y4RvUUAoDyc2
+	b9MpTmieNo2i4keD087ox+M9r1w4aYzhYDBGTk0JdiFNd30AiAzscnMy
+X-Gm-Gg: AY/fxX6KsXIKXmlwPWAjIoweDB6Ps4xQRVgU1ulBnjxgZhHJaM6V/cJZoMLM4RUTkBm
+	C10sIwdPeuMP0KKmhnY1nnH6Y5ViaeFJ0gBTDKooMrzdAO4DHWQ9N0UzO1u9aHCKjpKAsN/p6T/
+	Ylm2rlcSWZ7v0pIH73uckmsiwn/Q0fFxSWTQ+ZtOK3naUgP0o0MfvPtsF77Flh/TkXerlvHJOS/
+	Ho7Z8knekyQHfItFDPK4KTPhWgSxuEMycHYX71MLaOThbT+CHtDKHuxum1qn1Q6luuOEyVPqV+y
+	rciZbpqMR2minxEDqkimjbF6rLQtXaoBfh54hS+WcXBikqBykr2C36+ifZd/UT44Wemy96E9OtN
+	6slDSfFRmJEx47KLHGvElOiGD+uEq9dvEtTf2A50S3Q2Zd/ZfS/54HcFKcZcqyzOobBdhH3bpjW
+	Q/yZtbPSSMb5lFKLe5BYw=
+X-Received: by 2002:a17:907:d15:b0:b76:f090:777b with SMTP id a640c23a62f3a-b8761074528mr552256566b.22.1768485607163;
+        Thu, 15 Jan 2026 06:00:07 -0800 (PST)
+Received: from vamoirid-laptop ([2a04:ee41:82:7577:9faf:2056:44a:a73a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8724197145sm1064135266b.11.2026.01.15.06.00.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 06:00:06 -0800 (PST)
+Date: Thu, 15 Jan 2026 15:00:03 +0100
+From: Vasileios Amoiridis <vassilisamir@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+Subject: Re: [PATCH v1 2/2] hwmon: Add support for HiTRON HAC300S PSU
+Message-ID: <aWjy405syjr134lR@vamoirid-laptop>
+References: <20260106160353.14023-1-vassilisamir@gmail.com>
+ <20260106160353.14023-3-vassilisamir@gmail.com>
+ <67eb366e-1207-4e9a-9659-3482c8a9ec9b@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|CH3PR10MB7561:EE_
-X-MS-Office365-Filtering-Correlation-Id: 959dbdf4-0107-4909-db2c-08de543db1b7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?XANOPyZXfBHX61hGm7cYtT6rve81Q8hS1cW+BSADlDDtOmpLPHuyxrUA6SsA?=
- =?us-ascii?Q?5mVaNqGJies2ebijZ4S2VaXiRhLM4LScmTKYzDjvMDxpXRLeoOJaifQaIar+?=
- =?us-ascii?Q?7UrZlTjNrJ2bAZ+0GCI45VxvNi3q2XdeVSBZWHARJMLg3t2CGHNit1QERpeR?=
- =?us-ascii?Q?I3le3/EwAcLjWWuY93UoQ3xtXRvOgMJ0WQXzZd5tWjBNS0QHSuWepjWuWf4R?=
- =?us-ascii?Q?a1BAvtDwxE2u50YKtAPfQXw3auKUibEyRaRWCO71j602/xtILAT57uST3LY+?=
- =?us-ascii?Q?20vsz24xZg+q06ca15M/w4F04CqSXdFltaqNaI9TE2i5gxCC8cI2vN/NrvSH?=
- =?us-ascii?Q?AnQMI0T60L2Mes6bg7mLzc06hCDI/IKN6kdsG5pjqQ3POAToF4PmWXUdcoNX?=
- =?us-ascii?Q?zlX0N5ZzxcnYSIaxz+HT0fiW2TGsK18cjjvRmkOXODXsH7cf1uvM+txuZ+o0?=
- =?us-ascii?Q?1YoDFMaTN5Kf2Swd6PWfaka7JNQqylB4rqTinqWepEvDfoZtDUaOTOKjUZ+r?=
- =?us-ascii?Q?E7XSHtIAaQqXIAXnkxdWYNTEQ3+pNYVZ3O7TibhMJ08cednamdpkpJ2rZpOx?=
- =?us-ascii?Q?D7SeZrhAz6Q2Vu08jXnHAXwHrJhl5X5FnRuYV35QmrI5One9rTqK1qtUCVCi?=
- =?us-ascii?Q?/EnIwskYL89XghoU3GSjA84u3XZFl22qSHIYlaoZbQZM0WFYOEDFj4vuzofH?=
- =?us-ascii?Q?DVKFUJpbGAit3N/o+ITFSgi8G0KNeXP1h1umxhQdRihW8DQuLUVA9t3SmOfp?=
- =?us-ascii?Q?vWUZ212sMMIEMKbT/m5n1OXXWdBoZnQT6TUKvAUl3j0QXHZVJww7z9HaoLNJ?=
- =?us-ascii?Q?dQ94NCOC38knbmJzFTGhFK8nDc8jocN5H+lsmpRzkjqxNQDMlOodCRCmeJNx?=
- =?us-ascii?Q?4gP0FR64sYvlid3eL4MBGsxjL8WzPsIx+Ih1WuZumxsE0VyM0eVIcRweB8Xc?=
- =?us-ascii?Q?AfkyUusSMvN8y/mKqApACjDb+dtkpYADv2paaQ5ENGefTk+PYphFZRETGRhz?=
- =?us-ascii?Q?juMiH0NQ2tLZJx+8Eh8yRdxICB17/cXUEGM3O9SXhkyPdvSFQZ5kXFHbZMo4?=
- =?us-ascii?Q?piUyAqCN4+C2uHnikFcQlxeHoWjzGPWV/JXCrs/PDGDpocx0m+4uHBZWckCj?=
- =?us-ascii?Q?ExqF1cAZkUWmyCDFv3ESmOylXw+Ls4ed0Sna0376xmCgOMoujF0gHcfHm3rG?=
- =?us-ascii?Q?xt8LJroLa0f89LkjstaL2Z3cWrvW/DI/qHz0AWKhjOuY4TMnXTOKVZtPZ7Lg?=
- =?us-ascii?Q?2PgdGkmBH+PwwuoisBAkM20qKiBXbRqbGF/XuNqhgRfyrCH0NTRG7x1gpQGO?=
- =?us-ascii?Q?S3fdzL6Fb4OVQGdZuXmTHWErO38HPyjTw3oNdq72ZP1CkeLJj3Vjy4/IePTk?=
- =?us-ascii?Q?8rZi66skrWo62ahz2VAHBR6v/CsUvcG4j7PxYc376I1WwRZNAAoQrZcIvJpa?=
- =?us-ascii?Q?VBX+kHCyhOAHAS6xHe4RddhgnQ5vkV9fq24/c0R40z1l4RGbts9iMKNg1BhO?=
- =?us-ascii?Q?PRlsLB8sd9bgCXlxRetcysn9VI9KapsMOsrONgw6mEED4GK9Ls7MW5i6vvAb?=
- =?us-ascii?Q?gvvMtYBS4lAKXHzhs4M=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SSDOcjFxreF4VzBNbFQs/Acd4QelUrOVVoQhArtehySVBvpkrRHqXdHFF4df?=
- =?us-ascii?Q?7h14DWrNq5QkiGHDBXrsVhYjDbyFjys1Ct/jGY/myNCAz69uQMiCuHbxsBaV?=
- =?us-ascii?Q?uohsYEjhnkVpMxHd7AjTWYtuZOopFJuZW56iQHFAn1N8/A0EgPMq9Yg10AXz?=
- =?us-ascii?Q?geba4qBtJUE+zltt2tPnjb0Lq90Zn5HvGYwvDARpQHriDIw17rINZpmgGiFx?=
- =?us-ascii?Q?eEbjYxArTb1V/bssG2nTtQNq3ZyV/PwXhvljt02zeWWLnz1y+c9X4XiVJ7AH?=
- =?us-ascii?Q?hiizUgHH2baML9ItYOIDAnmza6hlTKxSg8xbOtp3BwLyIMXK0qOcPIp87X/j?=
- =?us-ascii?Q?oW4M/yqEmVe9KnZw53SzETeyi09vfOb8lUdDgNdkDNVv8kkNs5s4HqCiyaVz?=
- =?us-ascii?Q?+V7s5UVnGU9lFRfoO3P0hU+vTLds3O9WFcMXbwtZH5cjDXjWDVr/rY9oCZAQ?=
- =?us-ascii?Q?VZfpOySKgI1D8vdpH2oUHGdKj6yu9mBjopJNjLSDR9yM0u0NngjfYIdzwSkk?=
- =?us-ascii?Q?RBZAIS9RRnQm9LaNkv8P9+vB2aY8sP7zpFQM6FJxQo3ryOdo5DLmT7MeAqEV?=
- =?us-ascii?Q?XYVyNXu9IDok9oMAESU/3N4MJOfDPdxQOYVxNH/bYLiS3AeDlFzcGFcR96si?=
- =?us-ascii?Q?F60jf0A46Z++89LLfy2oz6rdtJ2GF3Bd7x3dv4yWJuf75lTV++zikWaJEFYq?=
- =?us-ascii?Q?3tYMfYE8BJhKG0LeBhcLXdRx/4vFRmb0Hio5dYzOGJej2MHJszeGk1GYiPMA?=
- =?us-ascii?Q?ePWEc3YlfwIMMWMkxZYwBCd/wsTmPlkYENfZ54DfQXwGpDrjTZ6GSMqaccJR?=
- =?us-ascii?Q?jxOzhE6Ut1InWsg3Ihu2bbFk9bE54qJjBItQWAMkDl1vF+/ZbTAQP7gU6rYG?=
- =?us-ascii?Q?pA0jIOC1ZCfLTC6uwwUr0PLAXPTJ5FFxEevYnh+pyI4QM7FGoScXhZbruGrv?=
- =?us-ascii?Q?ekJTxJ6bzKnNL3cz0YhRvBDVYIpo2MW0x9PT6q35ylSMzDTig84YC1mSkIdz?=
- =?us-ascii?Q?CIcnO4f/h5S+h0w0vV3bWb8z6uow5vFx6dwzzRcKzZfi08VqlgEd074rFxoj?=
- =?us-ascii?Q?lqgJLBkHIIA/UqgXP5bZNim96Esa1Je+DxHSd+PzNZPjSjYKqfMYzuRFVN0W?=
- =?us-ascii?Q?qZHTEABddhHQ8wXiit7TAxKQoZP3heu3nG5348a5v9eaw6tT3Gwt6vGfN7SQ?=
- =?us-ascii?Q?TisQ2Yw96zcupVmqzgtBnZ+yKw+Zm2BY8LHZftnYfDu5nRbktrSz1W+50y28?=
- =?us-ascii?Q?xM9FrkrlYYSsWRk+W5eAFMguYPSjCbPwmvK5F+MJjUkt2GhHqr8hQWGVn2E9?=
- =?us-ascii?Q?JrN5HvBNFI4vRJ7P9DGEAUSEb+h7snf74a+8ggLYQTdYbtnGD85tEYhPueHX?=
- =?us-ascii?Q?xAIOvRwC2xeGdNCGpWxZoJXcOEjSRVzk+fmdiUxkqxBe3ysr25R8a/naQqGW?=
- =?us-ascii?Q?CyQzXV7WVkyCGwVsCA1h+MrR/ZtSehzWA+pm1puQmdQNxHn53G4Za0G6ppfL?=
- =?us-ascii?Q?yJQmJVJG4zBld/Z4RK8nmpToHGfAoKivhtuAfk0LcbKXr9mC88vPpCY2FL7X?=
- =?us-ascii?Q?7kX9T5VAPKQDAmRA/AuwtPOPuDuM1QYcdrH2GUUoLl6j0dg9d0tpVrPddf8N?=
- =?us-ascii?Q?JCBJ4MKOrvb5G1CJSqAZmb7zrA0S2tDyioOC7T7RTI41z2YgGFOTdFJM/iXX?=
- =?us-ascii?Q?/OIWUjX03MBfcMMJwrAU08HuDWeu4smNfZO9YVtH/lo8swFf8PuDOaGFH51e?=
- =?us-ascii?Q?4uLxbyMSV2G4uC/T1nhC4IdsIw8tO7g=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	5JxhwI/8RM3bJolRzVEI9ELWRaf+bEIRqYw+HVFC1Bhtyaz/2OMjQIVMeSfpq1yVfIxQOCtVv1F9EDYkN+4oaovO/qYX1ymFMfQhWlD7JYwHf1MXvnRh/jbO/XRgd0pulj5POs1HOJxTknciKv0ivDhR7dCJZe2Wzmi7MVkryu2dR5V2dLbnljGUxHjabAkSoOBAyxAZXSK4Tlc5rLI2gJ/3r+iXRLg34ycvqrb4W41/mXZ4XX1qJz1O5clD48PVQBtQ2CLxC9lI5iss4/ROc/I5OWWFc1ljzmTyseLG+jMkqIuTCRR1JSp0JWSlWBWQ/XZmujsVSlwRTyhlRe2zc+imAQxj3PErO7RL3BxW7ClyON+I/FkoHGy+t7qU6byRvv5xDkaEu5/0GyI7GfZSEL3HbMsPEg19knKSRcVrn3jiAOu7wCY8NWT0thtAyiETR2EcQzDUT9ML6lxwRu7+p9FfULa43utKGgo5qAnJoQFGgA9ytPUygJdnOSB9FQHkQx939udOwAJPvr754I/UsePpD6lb//oSJ7yVxXjI4FyAvX7bfHSgFs+NDZMBjaGAs9RrVRs3+5ZQ358y+IcQv701pJZTw/Ju6AQHE88h1rY=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 959dbdf4-0107-4909-db2c-08de543db1b7
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 13:55:08.5697
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lu+d9KZNnTU4NPCZOCxPX9RYhmzb59MudBKKCmyrxKZ+We18bsx3XNU1o8achI5WHulT3lEJqDHIIE93Ab49mWikCPuVJRONFKrByWbZ57c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7561
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_04,2026-01-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601150103
-X-Authority-Analysis: v=2.4 cv=XP09iAhE c=1 sm=1 tr=0 ts=6968f1c2 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=sBEWCj9P95Ywb8woPbgA:9 a=CjuIK1q_8ugA:10
- cc=ntf awl=host:13654
-X-Proofpoint-GUID: Zv6ltIHmY8kTKqvF3-i8rkonMxwC7vzn
-X-Proofpoint-ORIG-GUID: Zv6ltIHmY8kTKqvF3-i8rkonMxwC7vzn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDEwMiBTYWx0ZWRfX+5HPCz54WKZL
- 9SWKANZhf2XpKTXo8F6v+nGm7AcAOdI4WamdOCfYDZiI6hjMvR3cQS5kBAYX558CUkTZggOj88N
- NMFgrmwrCsCxbQPJsDeR/qOD8OK0bYXg6YCbW+tb1uoOQn6QCzJVKrMcGZBvZ7OLzgBp+K5gZDt
- rYFW6KEU2zREe8WswZmhUSoqo2ZRx9fPldJrXYOqS275LcdnDFh98aQ6fLrzWNIrsOHU13qHmqg
- odxiqJivQb2ylg6fztaN884GckvC82FS3jkBqvaI71BGTPmSfWJq+IUDXoRquGj+STyQwU1urrS
- OF32NngHQXl5h+aXouSbNtKRpZ31vuoko0izdBiqnbrYiONqVJxBLFIKqcD0uC/8TEyQx0ksb4F
- NqM6wwMCGQKQeImiBq9N+8SS/iZTv9ue61Mm2yR0jIbRNdKxcTGbseZzAc/1y8f83XLjlCBZ9P2
- FYXdV572aaYDnIEINvHs4GCLOgBvY/pjySoOJLP0=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67eb366e-1207-4e9a-9659-3482c8a9ec9b@roeck-us.net>
 
-On Thu, Jan 15, 2026 at 10:20:12AM +0100, David Hildenbrand (Red Hat) wrote:
-> Let's make it consistent with the naming of the files but also with the
-> naming of CONFIG_BALLOON_MIGRATION.
->
-> While at it, add a "/* CONFIG_BALLOON */".
+On Mon, Jan 12, 2026 at 07:26:49AM -0800, Guenter Roeck wrote:
+> On 1/6/26 08:03, Vasileios Amoiridis wrote:
+> > From: Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+> > 
+> > Add Support for HiTRON HAC300S PSU. This is a AC/DC hot-swappable
+> > CompactPCI Serial Dual output active current sharing switching power
+> > supply with a 312W rating.
+> > 
+> > Signed-off-by: Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+> > ---
+> >   Documentation/hwmon/hac300s.rst |  37 ++++++++
+> 
+> Needs to be added to index.rst.
+> 
 
-Probably not relevant but cheap for me to share :) so grepped for
-'memory_balloon' and saw:
+ACK
 
-include/uapi/linux/virtio_ids.h
-44:#define VIRTIO_ID_MEMORY_BALLOON	13 /* virtio memory balloon */
+> >   MAINTAINERS                     |   7 ++
+> >   drivers/hwmon/pmbus/Kconfig     |   9 ++
+> >   drivers/hwmon/pmbus/Makefile    |   1 +
+> >   drivers/hwmon/pmbus/hac300s.c   | 152 ++++++++++++++++++++++++++++++++
+> >   5 files changed, 206 insertions(+)
+> >   create mode 100644 Documentation/hwmon/hac300s.rst
+> >   create mode 100644 drivers/hwmon/pmbus/hac300s.c
+> > 
+> > diff --git a/Documentation/hwmon/hac300s.rst b/Documentation/hwmon/hac300s.rst
+> > new file mode 100644
+> > index 000000000000..573269fc81f8
+> > --- /dev/null
+> > +++ b/Documentation/hwmon/hac300s.rst
+> > @@ -0,0 +1,37 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Kernel driver hac300s
+> > +=====================
+> > +
+> > +Supported chips:
+> > +
+> > +   * HiTRON HAC300S
+> > +
+> > +     Prefix: 'hac300s'
+> > +
+> > +     Datasheet: Publicly available at HiTRON website.
+> > +
+> > +Author:
+> > +
+> > +  - Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+> > +
+> > +Description
+> > +-----------
+> > +
+> > +This driver implements support for the HiTRON HAC300S PSU. It is a Universal
+> 
+> s/implements support/supports/
+> 
 
-This maybe relevant (I guess this isn't actually used anywhere?) though
-interesting there is also VIRTIO_ID_BALLOON... hmm :)
+ACK
 
-The below doesn't look relevant at all.
+> > +AC input harmonic correction AC-DC hot-swappable CompactPCI Serial Dual output
+> > +(with 5V standby) 312 Watts active current sharing switching power supply.
+> > +
+> > +The device has an input of 90-264VAC and 2 nominal output voltaged at 12V and
+> > +5V which they can supplu up to 25A and 2.5A respectively.
+> > +
+> > +Sysfs entries
+> > +-------------
+> > +
+> > +======= ==========================================
+> > +curr1   Output current
+> > +in1     Output voltage
+> > +power1  Output power
+> > +temp1   Ambient temperature inside the module
+> > +temp2   Internal secondary component's temperature
+> > +======= ==========================================
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a0dd762f5648..feb8ec4d9b17 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11254,6 +11254,13 @@ F:	kernel/time/timer_list.c
+> >   F:	kernel/time/timer_migration.*
+> >   F:	tools/testing/selftests/timers/
+> > +HITRON HAC300S PSU DRIVER
+> > +M:	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+> > +L:	linux-hwmon@vger.kernel.org
+> > +S:	Maintained
+> > +F:	Documentation/hwmon/hac300s.rst
+> > +F:	drivers/hwmon/pmbus/hac300s.c
+> > +
+> >   DELAY, SLEEP, TIMEKEEPING, TIMERS [RUST]
+> >   M:	Andreas Hindborg <a.hindborg@kernel.org>
+> >   R:	Boqun Feng <boqun.feng@gmail.com>
+> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> > index f3fb94cebf1a..4c2cb51dbe3f 100644
+> > --- a/drivers/hwmon/pmbus/Kconfig
+> > +++ b/drivers/hwmon/pmbus/Kconfig
+> > @@ -124,6 +124,15 @@ config SENSORS_FSP_3Y
+> >   	  This driver can also be built as a module. If so, the module will
+> >   	  be called fsp-3y.
+> > +config SENSORS_HAC300S
+> > +	tristate "Hitron HAC300S-D120E PSU"
+> > +	help
+> > +	  If you say yes here you get hardware monitoring support for the
+> > +	  Hitron HAC300S-D120E Power Supply.
+> > +
+> > +	  This driver can also be built as a module. If so, the module will
+> > +	  be called hac300s.
+> > +
+> >   config SENSORS_IBM_CFFPS
+> >   	tristate "IBM Common Form Factor Power Supply"
+> >   	depends on LEDS_CLASS
+> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> > index 349a89b6d92e..b92309019d35 100644
+> > --- a/drivers/hwmon/pmbus/Makefile
+> > +++ b/drivers/hwmon/pmbus/Makefile
+> > @@ -13,6 +13,7 @@ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
+> >   obj-$(CONFIG_SENSORS_BPA_RS600)	+= bpa-rs600.o
+> >   obj-$(CONFIG_SENSORS_DELTA_AHE50DC_FAN) += delta-ahe50dc-fan.o
+> >   obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+> > +obj-$(CONFIG_SENSORS_HAC300S)	+= hac300s.o
+> >   obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+> >   obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
+> >   obj-$(CONFIG_SENSORS_INA233)	+= ina233.o
+> > diff --git a/drivers/hwmon/pmbus/hac300s.c b/drivers/hwmon/pmbus/hac300s.c
+> > new file mode 100644
+> > index 000000000000..a1640449e5f5
+> > --- /dev/null
+> > +++ b/drivers/hwmon/pmbus/hac300s.c
+> > @@ -0,0 +1,152 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +// SPDX-FileCopyrightText: 2024 CERN (home.cern)
+> > +/*
+> > + * Hardware monitoring driver for Hi-Tron HAC300S PSU.
+> > + *
+> > + * NOTE: The HAC300S device does not support the PMBUS_VOUT_MODE register.
+> > + * On top of that, it returns the Voltage output values in Linear11 which is
+> > + * not adhering to the PMBus specifications. (PMBus Specification Part II,
+> > + * Section 7.1-7.3). For that reason the PMBUS_VOUT_MODE register is being faked
+> > + * and returns the exponent value of the READ_VOUT register. The exponent part
+> > + * of the VOUT_* registers is being cleared in order to return the mantissa to
+> > + * the pmbus core.
+> > + */
+> > +
+> > +#include <linux/bitfield.h>
+> > +#include <linux/bits.h>
+> > +#include <linux/err.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/init.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/pmbus.h>
+> > +
+> > +#include "pmbus.h"
+> > +
+> > +#define LINEAR11_EXPONENT_MASK GENMASK(15, 11)
+> > +#define LINEAR11_MANTISSA_MASK GENMASK(10, 0)
+> > +
+> > +#define to_hac300s_data(x) container_of(x, struct hac300s_data, info)
+> > +
+> > +struct hac300s_data {
+> > +	struct pmbus_driver_info info;
+> > +	bool vout_linear11;
+> > +	s8 exponent;
+> > +};
+> > +
+> > +static int hac300s_read_byte_data(struct i2c_client *client, int page, int reg)
+> > +{
+> > +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> > +	struct hac300s_data *data = to_hac300s_data(info);
+> > +
+> > +	if (reg == PMBUS_VOUT_MODE && data->vout_linear11)
+> > +		return data->exponent;
+> > +
+> > +	return pmbus_read_byte_data(client, page, reg);
+> > +}
+> > +
+> > +static int hac300s_read_word_data(struct i2c_client *client, int page,
+> > +				   int phase, int reg)
+> > +{
+> > +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> > +	struct hac300s_data *data = to_hac300s_data(info);
+> > +	int rv;
+> > +
+> > +	rv = pmbus_read_word_data(client, page, phase, reg);
+> > +	if (rv < 0)
+> > +		return rv;
+> > +
+> > +	switch (reg) {
+> > +	case PMBUS_VIRT_READ_IOUT_AVG:
+> > +	case PMBUS_VIRT_READ_POUT_AVG:
+> > +	case PMBUS_VIRT_READ_TEMP_AVG:
+> > +		return -ENXIO;
+> > +	case PMBUS_VOUT_OV_WARN_LIMIT:
+> > +	case PMBUS_VOUT_UV_WARN_LIMIT:
+> > +	case PMBUS_VOUT_OV_FAULT_LIMIT:
+> > +	case PMBUS_VOUT_UV_FAULT_LIMIT:
+> > +	case PMBUS_MFR_VOUT_MAX:
+> > +	case PMBUS_MFR_VOUT_MIN:
+> > +	case PMBUS_READ_VOUT:
+> > +		if (data->vout_linear11)
+> > +			return FIELD_GET(LINEAR11_MANTISSA_MASK, rv);
+> 
+> Is it guaranteed that the exponent is always the same ? Because if not the
+> conversion will have to be explicit.
+> 
 
-drivers/virt/vboxguest/vmmdev.h
-326:#define VMMDEV_MEMORY_BALLOON_CHUNK_SIZE             (1048576)
-327:#define VMMDEV_MEMORY_BALLOON_CHUNK_PAGES            (1048576 / 4096)
-355:	u64 phys_page[VMMDEV_MEMORY_BALLOON_CHUNK_PAGES];
+Yes, after a lot of testing with different values, it remained the same.
 
-drivers/virt/vboxguest/vboxguest_core.c
-278:	pages = kmalloc_array(VMMDEV_MEMORY_BALLOON_CHUNK_PAGES,
-286:	req->pages = VMMDEV_MEMORY_BALLOON_CHUNK_PAGES;
-288:	for (i = 0; i < VMMDEV_MEMORY_BALLOON_CHUNK_PAGES; i++) {
-333:	req->pages = VMMDEV_MEMORY_BALLOON_CHUNK_PAGES;
-335:	for (i = 0; i < VMMDEV_MEMORY_BALLOON_CHUNK_PAGES; i++)
-344:	for (i = 0; i < VMMDEV_MEMORY_BALLOON_CHUNK_PAGES; i++)
+> > +		fallthrough;
+> > +	default:
+> > +		return rv;
+> 
+> This is wrong. The register should only be read by affected commands, and
+> the function should return -ENODATA for the others.
+> 
 
->
-> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+ACK. I hadn't understood that this was the usecase of this function.
 
-Otherwise LGTM, so:
+> > +	}
+> > +}
+> > +
+> > +#define HAC300S_SW_FUNC (PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | \
+> > +			 PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT | \
+> > +			 PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT | \
+> > +			 PMBUS_HAVE_POUT | PMBUS_HAVE_STATUS_TEMP)
+> > +
+> Unnecessary define since it is only used once. Please fold into the declaration
+> below.
+> 
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+ACK.
 
-> ---
->  arch/powerpc/platforms/pseries/Kconfig | 2 +-
->  drivers/misc/Kconfig                   | 2 +-
->  drivers/virtio/Kconfig                 | 2 +-
->  include/linux/vm_event_item.h          | 4 ++--
->  mm/Kconfig                             | 4 ++--
->  mm/Makefile                            | 2 +-
->  mm/vmstat.c                            | 4 ++--
->  7 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/arch/powerpc/platforms/pseries/Kconfig b/arch/powerpc/platforms/pseries/Kconfig
-> index 3e042218d6cd8..f7052b131a4c5 100644
-> --- a/arch/powerpc/platforms/pseries/Kconfig
-> +++ b/arch/powerpc/platforms/pseries/Kconfig
-> @@ -120,7 +120,7 @@ config PPC_SMLPAR
->  config CMM
->  	tristate "Collaborative memory management"
->  	depends on PPC_SMLPAR
-> -	select MEMORY_BALLOON
-> +	select BALLOON
->  	default y
->  	help
->  	  Select this option, if you want to enable the kernel interface
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index d7d41b054b982..5cc79d1517af5 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -410,7 +410,7 @@ config DS1682
->  config VMWARE_BALLOON
->  	tristate "VMware Balloon Driver"
->  	depends on VMWARE_VMCI && X86 && HYPERVISOR_GUEST
-> -	select MEMORY_BALLOON
-> +	select BALLOON
->  	help
->  	  This is VMware physical memory management driver which acts
->  	  like a "balloon" that can be inflated to reclaim physical pages
-> diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
-> index 6db5235a7693d..ce5bc0d9ea287 100644
-> --- a/drivers/virtio/Kconfig
-> +++ b/drivers/virtio/Kconfig
-> @@ -112,7 +112,7 @@ config VIRTIO_PMEM
->  config VIRTIO_BALLOON
->  	tristate "Virtio balloon driver"
->  	depends on VIRTIO
-> -	select MEMORY_BALLOON
-> +	select BALLOON
->  	select PAGE_REPORTING
->  	help
->  	 This driver supports increasing and decreasing the amount
-> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-> index fca34d3473b6b..22a139f82d75f 100644
-> --- a/include/linux/vm_event_item.h
-> +++ b/include/linux/vm_event_item.h
-> @@ -122,13 +122,13 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
->  		THP_SWPOUT,
->  		THP_SWPOUT_FALLBACK,
->  #endif
-> -#ifdef CONFIG_MEMORY_BALLOON
-> +#ifdef CONFIG_BALLOON
->  		BALLOON_INFLATE,
->  		BALLOON_DEFLATE,
->  #ifdef CONFIG_BALLOON_MIGRATION
->  		BALLOON_MIGRATE,
->  #endif /* CONFIG_BALLOON_MIGRATION */
-> -#endif
-> +#endif /* CONFIG_BALLOON */
->  #ifdef CONFIG_DEBUG_TLBFLUSH
->  		NR_TLB_REMOTE_FLUSH,	/* cpu tried to flush others' tlbs */
->  		NR_TLB_REMOTE_FLUSH_RECEIVED,/* cpu received ipi for flush */
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 460a148d5b71a..8e23af521605e 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -593,7 +593,7 @@ config SPLIT_PMD_PTLOCKS
->
->  #
->  # support for memory balloon
-> -config MEMORY_BALLOON
-> +config BALLOON
->  	bool
->
->  #
-> @@ -601,7 +601,7 @@ config MEMORY_BALLOON
->  config BALLOON_MIGRATION
->  	bool "Allow for balloon memory migration"
->  	default y
-> -	depends on MIGRATION && MEMORY_BALLOON
-> +	depends on MIGRATION && BALLOON
->  	help
->  	  Allow for migration of pages inflated in a memory balloon such that
->  	  they can be allocated from memory areas only available for movable
-> diff --git a/mm/Makefile b/mm/Makefile
-> index 1e31e0a528dc1..0d85b10dbdde4 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -122,7 +122,7 @@ obj-$(CONFIG_CMA)	+= cma.o
->  obj-$(CONFIG_NUMA) += numa.o
->  obj-$(CONFIG_NUMA_MEMBLKS) += numa_memblks.o
->  obj-$(CONFIG_NUMA_EMU) += numa_emulation.o
-> -obj-$(CONFIG_MEMORY_BALLOON) += balloon.o
-> +obj-$(CONFIG_BALLOON) += balloon.o
->  obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
->  obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
->  obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index e96a344ab5974..0f64c898f79f8 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1419,13 +1419,13 @@ const char * const vmstat_text[] = {
->  	[I(THP_SWPOUT)]				= "thp_swpout",
->  	[I(THP_SWPOUT_FALLBACK)]		= "thp_swpout_fallback",
->  #endif
-> -#ifdef CONFIG_MEMORY_BALLOON
-> +#ifdef CONFIG_BALLOON
->  	[I(BALLOON_INFLATE)]			= "balloon_inflate",
->  	[I(BALLOON_DEFLATE)]			= "balloon_deflate",
->  #ifdef CONFIG_BALLOON_MIGRATION
->  	[I(BALLOON_MIGRATE)]			= "balloon_migrate",
->  #endif /* CONFIG_BALLOON_MIGRATION */
-> -#endif /* CONFIG_MEMORY_BALLOON */
-> +#endif /* CONFIG_BALLOON */
->  #ifdef CONFIG_DEBUG_TLBFLUSH
->  	[I(NR_TLB_REMOTE_FLUSH)]		= "nr_tlb_remote_flush",
->  	[I(NR_TLB_REMOTE_FLUSH_RECEIVED)]	= "nr_tlb_remote_flush_received",
-> --
-> 2.52.0
->
+> > +static struct pmbus_driver_info hac300s_info = {
+> > +	.pages = 1,
+> > +	.func[0] = HAC300S_SW_FUNC,
+> > +	.read_byte_data = hac300s_read_byte_data,
+> > +	.read_word_data = hac300s_read_word_data,
+> > +	.format[PSC_VOLTAGE_OUT] = linear,
+> > +};
+> > +
+> > +static struct pmbus_platform_data hac300s_pdata = {
+> > +	.flags = PMBUS_NO_CAPABILITY,
+> > +};
+> > +
+> > +static int hac300s_probe(struct i2c_client *client)
+> > +{
+> > +	struct hac300s_data *data;
+> > +	int rv;
+> > +
+> > +	data = devm_kzalloc(&client->dev, sizeof(struct hac300s_data), GFP_KERNEL);
+> > +	if (!data)
+> > +		return -ENOMEM;
+> > +
+> > +	if (!i2c_check_functionality(client->adapter,
+> > +				     I2C_FUNC_SMBUS_READ_BYTE_DATA |
+> > +				     I2C_FUNC_SMBUS_READ_WORD_DATA))
+> > +		return -ENODEV;
+> > +
+> > +	rv = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
+> > +	if (rv < 0) {
+> 
+> This needs explanation. Why try to read PMBUS_VOUT_MODE if the failure is
+> expected ? Are there variants of the PSU which return something useful here ?
+> The note above does not explain the reason for this conditional.
+> 
+> If this is supposed to check if this is really the expected device,
+> read and verify PMBUS_MFR_ID instead.
+> 
+> Thanks,
+> Guenter
+> 
+
+That was just some sanity check, it can indeed be removed. 
+
+Cheers,
+Vasilis
+
+> > +		data->vout_linear11 = true;
+> > +		/* LINEAR11 format, use exponent from READ_VOUT register */
+> > +		rv = i2c_smbus_read_word_data(client, PMBUS_READ_VOUT);
+> > +		if (rv < 0)
+> > +			return dev_err_probe(&client->dev, rv, "Failed to read vout_mode\n");
+> > +
+> > +		data->exponent = FIELD_GET(LINEAR11_EXPONENT_MASK, rv);
+> > +	}
+> > +
+> > +	data->info = hac300s_info;
+> > +	client->dev.platform_data = &hac300s_pdata;
+> > +	return pmbus_do_probe(client, &data->info);
+> > +}
+> > +
+> > +static const struct of_device_id hac300s_of_match[] = {
+> > +	{ .compatible = "hitron,hac300s" },
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, hac300s_of_match);
+> > +
+> > +static const struct i2c_device_id hac300s_id[] = {
+> > +	{"hac300s", 0},
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, hac300s_id);
+> > +
+> > +static struct i2c_driver hac300s_driver = {
+> > +	.driver = {
+> > +		   .name = "hac300s",
+> > +		   .of_match_table = hac300s_of_match,
+> > +	},
+> > +	.probe = hac300s_probe,
+> > +	.id_table = hac300s_id,
+> > +
+> > +};
+> > +module_i2c_driver(hac300s_driver);
+> > +
+> > +MODULE_AUTHOR("Vasileios Amoiridis");
+> > +MODULE_DESCRIPTION("PMBus driver for Hi-Tron HAC300S PSU");
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_IMPORT_NS("PMBUS");
+> 
