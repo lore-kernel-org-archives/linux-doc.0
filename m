@@ -1,171 +1,140 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C46A3C1983
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD51227B340
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768497164; cv=none; b=nUkUHqEd2P56G5H0SAC0JB+dvUxj+r/CRz4NJf53HlsSDdC5C58Z9f8jUCmfUNbYlqnC9ZooKfPPJL7zN2Ue27ji5oJ3AEFFCbS4GwkJliIDJn0ec/RbF99r9yuo3nAcSrown78hWpYldajpcjZBNYm5CFMBxSF+TUM6tshXK1c=
+	t=1768497812; cv=none; b=p8K4HnI9T8SgOv0aKy6owmlrXXmliM7Tmb0E/X9GdTb3qB/0LJZiHaYO9wILloKiI37tRoDJXlkH7pzNq3Aqc0eRh344wTM2K+rGOKtPOJYO4VJ53kAMQ+BH/o83+Qn4/4NZ6BtugxTHHJRH7NC01NF93lTfxGuonj1BbfrDLPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768497164; c=relaxed/simple;
-	bh=axdc3q5KY7YeHULab/TvgzOYs0oof9ugiogriyYfhIs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rtEXgEVPfQEnuRYhznKjtUhh1Wq0EpjopPGsD/kB+hmLcwyeBiB/28ocFIRWe6HmgEhJHI+37RBFFqDsb8PxwRdoJ/2COoR2gbK0QlGjrBo2RcWHtC2wiO1deTESn4SeceznJQDTGVSse/ymUUpsKjchqmYRkODOsuwkPo7Uhx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8GoXRFc; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768497812; c=relaxed/simple;
+	bh=mNdqCNiv3YpkIfV+LBX1fZkrX1vRUP6RN453FsHaaLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ljHdYiRdpOuiEQbLtj+PXlQYRyfny9mi4xZAHFAxUodfa2zavTaZNFxndg4B4UukZ8sUqie4UOI5vmBxDypIFZAV1YTmeqNuUymi7uxYLGbqlGBtL59YJ8ozKecQIL/GP1QNUGkCzretINVy/qqiBbjlEfTwztF8JL0Nw1g13rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTKAoUZr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8GoXRFc"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47ee2715254so5706385e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:12:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768497160; x=1769101960; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kiBEtLY6CE0u/w5HMF7IyfpDPmY7qzN3np9POU+8r/k=;
-        b=A8GoXRFc0IJMW1qfOfJrOBj1JHhZwXvCopVi2+PE2DOaFTMuDMnBiAw+2k0Qtxm+hs
-         LgdgjOe7NnSX7UaF8b7r4PfW15tcwfenWHlJ7akUcMP7Evmb2nyvPmhrYTLKAaP/DS9d
-         o2UqH7xu88UmohiLg90AcDD97OgiExglCL4W44+PajXj7dUvM39oUJn+f+nN9pJyVIiw
-         jq2aONOfPO73F4MWAC9MrzLv+DmU0STcN5G9FGhOc8U8A7SQuiNaSbnHgRnrkcIU4cm6
-         O88JXvbq1HxOS5z7yJqidF2evKknMKxlYrkoQbvbL+v/aV3JMwrMxGuXWX/hviJc+hMn
-         ELig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768497160; x=1769101960;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kiBEtLY6CE0u/w5HMF7IyfpDPmY7qzN3np9POU+8r/k=;
-        b=sF9ciUaoNwxZoWav3ygDb65cemuPWApObAUzMJNqsCkIjfsCcojuOiKEV5Cu79ZGl1
-         L/jNDGoHnG/m9S/6XKshGGYDxN5N3tHOoRGc1JGyKJuSS1MY3UGnbNOmUrxnI+lsdSwg
-         4SeAt9iWQ/6/ISC0bSDrWV343KHCNzAlIS7Ud8ZxUQsmOLYxMLf43bjTXYbIXGiHX/+Y
-         QJ4K7hTa6uGJ9NI5HY4JPFxc97fEeyHUK96czifPKXuT+RwlUZGRG/FrlNrWSbNz3o92
-         P1AxuCmY5a4yibe3mFoJ5rcFrLPK/cSqdABm8O0HNzHe+jqD9lv/gZqVm7ZeFdvOqpnG
-         nqtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXURdOGQ8I5DXqNGqjC0JMMHlHaJIEevzvgoFNkmMPyDqWmqhFxPuRjOk9jc8s7Fh88rp2vLitfVko=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf2849bOt6fb82pAonuENvmWR//Jpkwg0NqEwwtUJmVLWZ7ojf
-	WY2AKYjdupsp/J3fv97R2LgiixeERTbuRDzf3KcbfvB9EF2A315RJk+J
-X-Gm-Gg: AY/fxX5jhdSz4INRFCmitQ8+sfADcBC2MEr3fpxCjRQ3wGdbO6nEQULj/spiv3G00a8
-	MlsF1eRNkGCu/M0PFsgdJig1t/3lzQJlusWgqfU0AmYlFF+v+eIJnEIX5xKrdYyWSqIvFF/zrOi
-	3rg7+qxuE3yq5A0nkGyMhNRW7ejMkW4mLcG12BvcAHJvMRjzQ1jBuKJocVasSLSYLH1Ha141lSw
-	9gDWzrPBJksFPXGNE7oetMqAdY7FJSa2nlUYV3DyhdP0l9V8zwSsRR8rm83d4Bfglo7eGARdyAR
-	lMCB/JAaN7W4efF6111wWywDOnE2pCZp+4craJPKwg8KX7QyOthIEWj3+2wznCE/MAQi+qsrfkG
-	OH6xbvqH4PEnRJyHtA894f/Jt0P3GObWAvqyhpMmedxk2Xsk7OqX589dYZfb6ZnSj8giX9dhFno
-	BWy4+DjmWmmtx+rGY3iks5w1YarYyQEvZnh2TS5Py6AYJespsbExUC8ghrDIoGqavDCtJX3aV9a
-	9KZU0sMTe1mVQ01PPct0yqb23zA
-X-Received: by 2002:a05:600c:3ba8:b0:477:9eb8:97d2 with SMTP id 5b1f17b1804b1-4801e2fddcbmr5854765e9.8.1768497160083;
-        Thu, 15 Jan 2026 09:12:40 -0800 (PST)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f429071a2sm54741645e9.11.2026.01.15.09.12.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 09:12:39 -0800 (PST)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: netdev@vger.kernel.org
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Duyck <alexanderduyck@fb.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Ankit Garg <nktgrg@google.com>,
-	Tim Hostetler <thostet@google.com>,
-	Alok Tiwari <alok.a.tiwari@oracle.com>,
-	Ziwei Xiao <ziweixiao@google.com>,
-	John Fraker <jfraker@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>,
-	Joe Damato <joe@dama.to>,
-	Mina Almasry <almasrymina@google.com>,
-	Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	David Wei <dw@davidwei.uk>,
-	Yue Haibing <yuehaibing@huawei.com>,
-	Haiyue Wang <haiyuewa@163.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Simon Horman <horms@kernel.org>,
-	Vishwanath Seshagiri <vishs@fb.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	dtatulea@nvidia.com,
-	kernel-team@meta.com,
-	io-uring@vger.kernel.org
-Subject: [PATCH net-next v9 9/9] io_uring/zcrx: document area chunking parameter
-Date: Thu, 15 Jan 2026 17:12:02 +0000
-Message-ID: <d1de61db1536727c1cad049c09decff22e8b6dd7.1768493907.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1768493907.git.asml.silence@gmail.com>
-References: <cover.1768493907.git.asml.silence@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTKAoUZr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C9BBC16AAE;
+	Thu, 15 Jan 2026 17:23:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768497812;
+	bh=mNdqCNiv3YpkIfV+LBX1fZkrX1vRUP6RN453FsHaaLM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QTKAoUZrRJTFIUXC+qBThBUef1tfw6+caWhlQmOrJlq1y4Y59B3nRrdC4p8tbfznr
+	 +zYDahECxJh6XLBQSjVQ5lK/Z+FUz0gmdZkSMK/jz9ByXSdTbeLqklfkHPSsuONOh8
+	 0XC9uGGQNYkaBkMOk3bvdCOyMoMq7Sbn7Xggxu6SWJo0jJL5gdubSTNSVl3FeAvd0Q
+	 QbcwB9UlxNYDoc0nqWaFjEobZ6M5xk+8Jkoxcu42Tq7j5ZT4nW8Cocavj/DD10gBjr
+	 FALpdF9Edq5DGhAecQFzJT85k44erYcpDGKLqAnhim68UNPehkJVIW1N7dS5gSpMfl
+	 8HWEpAJ/us2CA==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 10D2FF40068;
+	Thu, 15 Jan 2026 12:23:31 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 15 Jan 2026 12:23:31 -0500
+X-ME-Sender: <xms:kyJpaQlmKR4zWD4yNkrPq64SA1xp7c-4NlCNztIXOAjPV7sUrJ7Mjw>
+    <xme:kyJpabOm1wWiz3SP3UTlIMK8kFwcfca9opGoMojNNhIPcB9nknMvO6v56vjI57Vqh
+    ks4GebSZ_BvDU_GFRvVA3Wyt5ALqWrj26WiHljIomzmAKx92kpD-FU>
+X-ME-Received: <xmr:kyJpaYDSS1BWvW1HxFQLWONhcViWOVpUksiuG9v7CDzYzZvvBw_4EEnlsRswcw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduvdeiieehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinh
+    hugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhn
+    gheslhhinhhugidruggvvhdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurd
+    horhhgpdhrtghpthhtohepuhhsrghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhr
+    tghpthhtohepfhhvughlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehoshgrlhhvrg
+    guohhrsehsuhhsvgdruggvpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehvsggrsghkrgesshhushgvrdgtii
+X-ME-Proxy: <xmx:kyJpaUXo0tCYhkX-oXD9KdOoJ7QqO_gqdcH0YL3zhRO8DU-lpdGRRg>
+    <xmx:kyJpaabOv2GsX6wd9z_1oGf6UIPxMc3CFAB5a0LyU8aw66SWH7z5wg>
+    <xmx:kyJpaaJKwQUXAogKqTYlQcK5mC24RWiEp-psBYSnLcKywz3bBvD4Cw>
+    <xmx:kyJpaUgd1C3TR_3mnUHIvuGoa2y3I4abzU23Etdz-tWDHpd4FGrO6Q>
+    <xmx:kyJpaVSCY1dGwv-wWPPWaU8Dg923g_coG7UvpT854GH_qjzGmXCDuwHy>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Jan 2026 12:23:28 -0500 (EST)
+Date: Thu, 15 Jan 2026 17:23:23 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
+	Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>, 
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+Message-ID: <aWkhbWR-3fWjeTaE@thinkstation>
+References: <20260115144604.822702-1-kas@kernel.org>
+ <20260115144604.822702-11-kas@kernel.org>
+ <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
 
-struct io_uring_zcrx_ifq_reg::rx_buf_len is used as a hint specifying
-the kernel what buffer size it should use. Document the API and
-limitations.
+On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red Hat) wrote:
+> On 1/15/26 15:45, Kiryl Shutsemau wrote:
+> > HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
+> > vmemmap pages for huge pages and remapping the freed range to a single
+> > page containing the struct page metadata.
+> > 
+> > With the new mask-based compound_info encoding (for power-of-2 struct
+> > page sizes), all tail pages of the same order are now identical
+> > regardless of which compound page they belong to. This means the tail
+> > pages can be truly shared without fake heads.
+> > 
+> > Allocate a single page of initialized tail struct pages per NUMA node
+> > per order in the vmemmap_tails[] array in pglist_data. All huge pages
+> > of that order on the node share this tail page, mapped read-only into
+> > their vmemmap. The head page remains unique per huge page.
+> > 
+> > This eliminates fake heads while maintaining the same memory savings,
+> > and simplifies compound_head() by removing fake head detection.
+> > 
+> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> > ---
+> >   include/linux/mmzone.h | 16 ++++++++++++++-
+> >   mm/hugetlb_vmemmap.c   | 44 ++++++++++++++++++++++++++++++++++++++++--
+> >   mm/sparse-vmemmap.c    | 44 ++++++++++++++++++++++++++++++++++--------
+> >   3 files changed, 93 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> > index 322ed4c42cfc..2ee3eb610291 100644
+> > --- a/include/linux/mmzone.h
+> > +++ b/include/linux/mmzone.h
+> > @@ -82,7 +82,11 @@
+> >    * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
+> >    * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+> >    */
+> > -#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
+> > +#ifdef CONFIG_64BIT
+> > +#define MAX_FOLIO_ORDER		(34 - PAGE_SHIFT)
+> > +#else
+> > +#define MAX_FOLIO_ORDER		(30 - PAGE_SHIFT)
+> > +#endif
+> 
+> Where do these magic values stem from, and how do they related to the
+> comment above that clearly spells out 16G vs. 1G ?
 
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- Documentation/networking/iou-zcrx.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << 30
+is 1G. Subtract PAGE_SHIFT to get the order.
 
-diff --git a/Documentation/networking/iou-zcrx.rst b/Documentation/networking/iou-zcrx.rst
-index 54a72e172bdc..7f3f4b2e6cf2 100644
---- a/Documentation/networking/iou-zcrx.rst
-+++ b/Documentation/networking/iou-zcrx.rst
-@@ -196,6 +196,26 @@ Return buffers back to the kernel to be used again::
-   rqe->len = cqe->res;
-   IO_URING_WRITE_ONCE(*refill_ring.ktail, ++refill_ring.rq_tail);
- 
-+Area chunking
-+-------------
-+
-+zcrx splits the memory area into fixed-length physically contiguous chunks.
-+This limits the maximum buffer size returned in a single io_uring CQE. Users
-+can provide a hint to the kernel to use larger chunks by setting the
-+``rx_buf_len`` field of ``struct io_uring_zcrx_ifq_reg`` to the desired length
-+during registration. If this field is set to zero, the kernel defaults to
-+the system page size.
-+
-+To use larger sizes, the memory area must be backed by physically contiguous
-+ranges whose sizes are multiples of ``rx_buf_len``. It also requires kernel
-+and hardware support. If registration fails, users are generally expected to
-+fall back to defaults by setting ``rx_buf_len`` to zero.
-+
-+Larger chunks don't give any additional guarantees about buffer sizes returned
-+in CQEs, and they can vary depending on many factors like traffic pattern,
-+hardware offload, etc. It doesn't require any application changes beyond zcrx
-+registration.
-+
- Testing
- =======
- 
+The change allows the value to be used to define NR_VMEMMAP_TAILS which
+is used specify size of vmemmap_tails array.
+
 -- 
-2.52.0
-
+  Kiryl Shutsemau / Kirill A. Shutemov
