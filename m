@@ -1,419 +1,209 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02098274B40;
-	Thu, 15 Jan 2026 14:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768486026; cv=fail; b=QWUQ9RvjW9ChYwt7tFIl2nIUs0ytbM75b0D5ahBwsDoGzEdYuaYabOev2BVl2Sh3d2S4uCdQpnus4udYGeSDx/V3t7L2Cw6hv3GlewOl0rvXFduuplzP8rFvTsuLo0bkrHborJ7s1/otRx62Xr08Gw1p8XO6wCo9xf+lnmuuFNg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768486026; c=relaxed/simple;
-	bh=dkDLuWt2ymFi/M1+I1FZt144FHlTXUdSgCJxwf4lajE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=L0wNadiB46kIwwvBRniLKVtYFlG6ofHMcROSQ/yhwBGz2mFkus6nQ7GpTqZWPW5o6pX+xNJkUbLcL99j65KFoG/yB9AGWiWPvfojV5wQ7iR4qDdzEAK1j3b/7BqFnSVgzVwpRPvpphPtSJaY+WcvIuSAHOv4LEu4AOfVKtMs358=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=heHtFfpI; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=n3p9LGy5; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AB6327C05;
+	Thu, 15 Jan 2026 14:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768486933; cv=none; b=j/2lqzZtOormtxVYNzS8TamZVoENdXj0m7sv8JAXC7ufCo0mhTFamGUAL83/EZnQrKENyMM7rrv+DrcZEB/7E9wKfTq2DRWV1dMs19wIx9dCsNhEqtEJ1urit1NiJ4f8F667stK7+vt/OY/zALc+bqqwuVW9GlCS5hWC+GM3Kss=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768486933; c=relaxed/simple;
+	bh=VaahnzZz83uGRiasMP6wLuszVvlY8iVa+7dR+DbPbJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oxUkuGxbJho0JuXLd9fSsKd9cfcFag3l7Z/BgyiqcC76DZ+Qf8/eHqGLZ8LAtZaVUBH2JFR0o1eXCMKQ+rZF6TUv1KVBfhffIUEGHlYUe8T3YhlYVgk/mZvwOsQE3aJk4nSulWCQdUhJ59EygOPZ/1Lx1dBmgV/tuarh4ArN1p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0pT1eXK; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="heHtFfpI";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="n3p9LGy5"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FDjth72863589;
-	Thu, 15 Jan 2026 14:06:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=81SwDb2ZUODLNOB/N7
-	wKJ9zbmpWP4I6Lt4Pj0c6Op7M=; b=heHtFfpI6k6z3PxV6kxGp0iBEyUVVo5LHL
-	JB3NZKWxPyD031R1oFZB5LDcUiLB254BKVoxSA0/vac0mMOQ7IBlfWcqDucD+Iq/
-	VI7Hs0VEp8Dox0ED7E2ZULaRtA//0c6ByKLBT59hrYLEl/xq6yHj09uzNgw8JIg1
-	cwIWGNqo1gkudeWgsW3kHMhCd9PKp6M4Yaowyl6cssC7LA0MgzaKI2rMmg29rn2f
-	efNEv82gmp14Ydxo+EzKmiU7EMHTDPppJl/MYBEIfi0Tgj1ng+WF4lwfHt4SPNeq
-	QUmn3z1TGvnar4+BakiIXp1h9gHqUmsIXWwkXv8REgbO5h0200Ww==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkh7nr20q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 14:06:24 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60FC5UTP004547;
-	Thu, 15 Jan 2026 14:06:23 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012009.outbound.protection.outlook.com [40.93.195.9])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7bbehb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 15 Jan 2026 14:06:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OxIz0v4B/8X8QyS1RP1WFAPTvDPeK8Q5l9HcgQpl9yN5Pbz9/z7EsEclJXN6S21M87ndg/P0hos73LEnaKKbUbyUjP4XZ49IRaZnG4htWOBb3UmHHWO+PSQz0pRIUT46/HPNfcV0G7sUuszyxvucvxTsNWQx8IWJRgyXyQ1MZYqi4oST0cSzmBvjnPdBvpz5TbTTDw5Jo2u7jEV+0bfypZAevv9R0HTWkHpbXmCUmb1y6rS9KvozHFJcR3uuUAe8ABWun+m6lN+f/YHBRcZ71kC34IQl7rqohd+S/yVQHHlukM2goR2Aq2kzf2l3TppOqmKeG/xBh0MLrL5VyQrs1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=81SwDb2ZUODLNOB/N7wKJ9zbmpWP4I6Lt4Pj0c6Op7M=;
- b=q1BrQJ7dVR+D5BSGIyClxph/HtLnaMSpTlUE6V8dmokE6UbuDlbWOItt1F7H6dM2Co011FL+vPvayhs9JDRgr14T497CZcYG64bLIanTaeNi+yVKgUNshMCTCrQqYXMjpMFArf+MRQzYqrisWd7cvu4OhrehztjY1EB2AllGN8MZC+aLmyqx4WKz1Q75veD7zelIXSLCTjCQxDydpWMLhjfEPseZ6oIgFKwqUz+chPQceFEqZIS3sjpoToizNreqOBvueDDTVOx9kw9J3qTZUYgrfuUvuNpQANoxzI9O7Ns3zZXUfIvhfIn2GoI2ogI5m/3Q1IChOUFYoLZqXWiPrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=81SwDb2ZUODLNOB/N7wKJ9zbmpWP4I6Lt4Pj0c6Op7M=;
- b=n3p9LGy5H0NWWlI2JzSinI6B98F9MdxROJGdVqeDpF7LWMaCNYwJtYPnFVi1y8+9ryJW2FOfwFwXVOG/ERkHYf8TC5S8MFFvDMeeGBlsY2s4dnD588wXFNpCcZ3RABc1SJ8WhNI6IWCJ9GTdFG2r9gHh7gkcKaPIMBhFE3A57EA=
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
- by DS0PR10MB7201.namprd10.prod.outlook.com (2603:10b6:8:f2::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.4; Thu, 15 Jan 2026 14:06:19 +0000
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9520.003; Thu, 15 Jan 2026
- 14:06:18 +0000
-Date: Thu, 15 Jan 2026 09:06:13 -0500
-From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jerrin Shaji George <jerrin.shaji-george@broadcom.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-        Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-        Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v2 05/23] mm/balloon_compaction: centralize
- adjust_managed_page_count() handling
-Message-ID: <vdgwo5wyvuxuijygb5jq4mv4wsxtj3lwweebynyc44iukoiecy@qjdu4qpxpokh>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linuxppc-dev@lists.ozlabs.org, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, linux-doc@vger.kernel.org, virtualization@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador <osalvador@suse.de>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jerrin Shaji George <jerrin.shaji-george@broadcom.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, Zi Yan <ziy@nvidia.com>
-References: <20260115092015.3928975-1-david@kernel.org>
- <20260115092015.3928975-6-david@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115092015.3928975-6-david@kernel.org>
-User-Agent: NeoMutt/20250905
-X-ClientProxiedBy: YT4PR01CA0006.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d1::8) To PH0PR10MB5777.namprd10.prod.outlook.com
- (2603:10b6:510:128::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0pT1eXK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768486932; x=1800022932;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VaahnzZz83uGRiasMP6wLuszVvlY8iVa+7dR+DbPbJY=;
+  b=h0pT1eXKxCShxmyWKjMj9aOwVQ0nYPwaw/k6y+MrCnLok572BfwwsvED
+   R7q82iWNgk+DuY7osGnZZiRIuGMculqbVo6UqE+AnAlSsD3Ajm6/sB/ir
+   SBm0C7msnz7EaFsUiwLS0C7pVyoxJc36ANKPTOfMJ+FBNpaJYcKIxfOK6
+   chLb1jepF3UTfprs71lktS1WjL7ZtvrmlZUo43HtlRIOfECqZXXNoI53j
+   IoqP+F+ANAdCSplpFfoq+ie1tAx3UFe0f0yQkb0zTO/vtgS1E059KriIX
+   N3A+hYe+6vaShJPpuQ0LNvMie3gARHW1iWAsq99nAchdqpWN/xDki1oqa
+   g==;
+X-CSE-ConnectionGUID: DauMSQXkSEqyPTR7YIRU/w==
+X-CSE-MsgGUID: zsW9SRuFQ4SMeDsEljOKXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="68804183"
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="68804183"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:22:11 -0800
+X-CSE-ConnectionGUID: LZovwVRjROalIhGdNaIzWg==
+X-CSE-MsgGUID: J5TnfJRWRl+tyyKtJwuncQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
+   d="scan'208";a="204169860"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 15 Jan 2026 06:22:08 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgOEf-00000000I3I-3bYn;
+	Thu, 15 Jan 2026 14:22:05 +0000
+Date: Thu, 15 Jan 2026 22:22:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
+	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, priyanka.jain@nxp.com,
+	vikash.bansal@nxp.com, Mayank Mahajan <mayankmahajan.x@nxp.com>
+Subject: Re: [PATCH v2 1/3] hwmon: (tmp108) Add support for P3T1035 and
+ P3T2030
+Message-ID: <202601152241.dTXwVh7v-lkp@intel.com>
+References: <20260115065757.35-1-mayankmahajan.x@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|DS0PR10MB7201:EE_
-X-MS-Office365-Filtering-Correlation-Id: a14e8496-2fa1-42c6-c399-08de543f40ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?STHPXkOPhRd4cVUdDRMsLqWgq71P7Lwez3kU863/IYHXsyAYv5coz1v5hi7f?=
- =?us-ascii?Q?6p47XWW+s51hnh3K70v5+tzuUsjl1alpI3vFgsaew/4K9juZSsww/p4cfo0t?=
- =?us-ascii?Q?zFjmqGpHu9cPCM/MaDVru4Ng/ip+vxWocrLGvNcjhHiLCy2TyU2/a/gPotxl?=
- =?us-ascii?Q?ZJWFo39G3/A9ZJuWJS/r/QxqCk149DVXW0qJFTJeVOhjmWiBTMk63qnmkaBE?=
- =?us-ascii?Q?nQL5FGt9qKo1q4U0pJBT9G0aTrKV4KMTFg8bQtl9w14KH8U18y0igIUiutpu?=
- =?us-ascii?Q?DaUi9Fkyh3MtgCr2f5zYXT8a7iBLbDEthSbxEWSfCPzzkmZk+HnWx51DY4Qk?=
- =?us-ascii?Q?VBpsSgsbM00aljk6K5Bw5UQUYJd1smv8t9cV3odzfpSzCOpRQwvdN7lRoZrv?=
- =?us-ascii?Q?Aep85mRGZ7RdJV8IImS7ieEcg15tozYNU5YlAIXEVlTqkTlnUpVvnnqialpg?=
- =?us-ascii?Q?zIQwpamQzedo0+2hQbfFtn24CjQoBRzTzJzumN4UOscW4mThWCuLaNn0rlD3?=
- =?us-ascii?Q?UgHGCWWnBgEUFIy1tQnbJFp3xoaqKNdlVkUXDhlYe8U2ygraWrEHyAw2hSxn?=
- =?us-ascii?Q?vnC0ts6Sor0of3OcklAVED1HZabkTerjkttCWModU37cEQQb+Up1uU2iRbom?=
- =?us-ascii?Q?Cwcem2wN/KCcEiyJZVd8d6MTg7Ufp8fa9krPE/aeniuLO+Tk4umwq7XwdyOp?=
- =?us-ascii?Q?UEZGd6FrJLO65M4mw8UbmvqNRTdxSpPeAKIPyIEZzXL36lbSDoFcbR5JAP/H?=
- =?us-ascii?Q?Wwj6HnKZ5bZOjKriffQQTYwxngvAeIRebMXLjs1iEmSkDlHy6OxmvJ0ly6WH?=
- =?us-ascii?Q?YTrO4dypFd34iz7NCHWT+15hK0EEPdnlrVPPcFEdQ6YURcHzFrn+sOOrrZqI?=
- =?us-ascii?Q?wu2q1na0r0qU9G/DmFyGD5B2p+NxQyU1fd5oA/al6fdddEdCS0ZpIgXCHv1X?=
- =?us-ascii?Q?K2wpvHVrXjvbvqX1tY+lDZgYk3Gz1I3mbBW9580qNN13bWGRsaMG93VNN+Ip?=
- =?us-ascii?Q?SvSsh0uavoSzgf6WEGgNxwADPxH2hTOuhA6+PWm1idfeewsqMQm/Jdkbowlv?=
- =?us-ascii?Q?gstyBwTEDiqntFFUNnMAEZ4qb9vmeyQJAcuttO4vtBrE6b7BHswLpJ5FBaDn?=
- =?us-ascii?Q?5lMxWBzk+DRxwWv6GaVqoZg5rUwC27SvZ0Ph52LpKFgZ7xJ9sVZo0ugHF6dO?=
- =?us-ascii?Q?XjRbBGOf8k0pFEGohXDqQrK2sNQPW7+SwaMQq5Iq0Bvu9wP6dYUS0cuvuVVY?=
- =?us-ascii?Q?SklD/AlEPQqhiZX95DXbxoVnRBfo32jX3oORFkBaCZ0V46WdmJD+xmeiQ0Ex?=
- =?us-ascii?Q?TlVPmFaPsv3cmGUuqNrYnSimAjgdbmWWzwaIRIgx67r6pE5/T43/51G4cI2c?=
- =?us-ascii?Q?gBY/FsvVPKnN3/1bVT0Ubo+koXMb4wpo99oBWVFnyuZdT0MCF7RQifo8rx07?=
- =?us-ascii?Q?iITaDro2I6JaqJ1HCwPmXMhnvaEN74GjKSQijOFBrFIl+qnhzaPWbAVCsBN7?=
- =?us-ascii?Q?KU618E8Kl+XV+QgnU+W6S4+ogukYhTS2RwqP8pA/VgaMmnJv7ZujFIo8/21Y?=
- =?us-ascii?Q?LmEStCb+Kqi5JrxAC7E=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hLoZL2J5tMhRvDqJBqxO3IyCPBjUW+e76MJLRc7Cq2MjBggEKPCX4m+/Gr02?=
- =?us-ascii?Q?ESyPr14vflX/23Ea1Srn5r7W+UdXgVv1nfWwh/xSOzLgWqvBvtESRZx1DAk4?=
- =?us-ascii?Q?a+HmWayk6ldS4uzwvGQm9jwa28MySTHREeuRUxqYgRqMe8TLg5aWiCTg0aeC?=
- =?us-ascii?Q?Uvz3LvJuKWztAQOKDtO861bcTwSc81lGP/KFkT8JESgL3IvLwhBY49VgPK//?=
- =?us-ascii?Q?JT6HC4ZmjE+AnaQ4cq4xCXUAwXPOQVHq4MxlLzQ8FfLN+8M9p/Etpmd1ESgq?=
- =?us-ascii?Q?thOb9e1FWJPTtxOoDSKyrJsuweKOB3WevJ1Emluk9S4myJVLElw6E3nzlk2I?=
- =?us-ascii?Q?m5N3Z0ZnmhyvzSxKksRS2CWPrYwd5X1tvfgxq+6wI/7SqrDW/bDvDhWbXkKa?=
- =?us-ascii?Q?EZlvOmaLwg0ZZWqyYU/CbEa3bU2kHxNmOjk2l2K6icZRilXYt94E8TxGL+gm?=
- =?us-ascii?Q?2oy6j8q5aKWpeZU3KNsJtpRgOzENpRWv2d+aBIlVewVu9jWY/edpa4uADP+u?=
- =?us-ascii?Q?Cho0xuJ65aR8f3X2F141qbiAQTgl5Ij7ytYxyZtvoThuREEqVTWsXV2gJ61K?=
- =?us-ascii?Q?ioSfnNR8Oii7t0bdy2DBzkJI+Cd0I+s7CYRNbHWhjkFvjqxLI6HL7Yic47r/?=
- =?us-ascii?Q?kCr7AXMij6vGdxhC+wjpzr9aVGwZtludFUhGqdsvgbqeSzo1XXF2LmGrIVuQ?=
- =?us-ascii?Q?eqCkAf0Ev1vvTtaef4fTEEbjquAlrRWdfse9NwHOH1uBd00PFdSwxtmuc87B?=
- =?us-ascii?Q?GPTOM1fPFNNDBZi3XaHUElwne+cQOF6WxYnEUhWWT6JKmwfXVDztbYr4nPVN?=
- =?us-ascii?Q?kYCbWk1t0uLvmFiBRvdG6XGx8j2ibHlx9nHVK/D+HLC08lT4SHOo0oXkXxbA?=
- =?us-ascii?Q?0xuZrULNcmDDq4e0BLL1BlbSkWfIpe4EiZ5QLzbrmFElaKit1Q3IEQySvxgx?=
- =?us-ascii?Q?ofsWsE2TuNxgy6tlyt5zSYorWjxlCTqHM77rM0rw5ZBd0/KOTPKKTU6Ah26K?=
- =?us-ascii?Q?hfRPR9hl/Mi16lX4Ks4tlrvmFAAGjLeW5k40F4OqoN7GLCkOYSN8WRzTJ7S4?=
- =?us-ascii?Q?diLD1+hb0gGECA0XLW8PIIUMiRdJdXuPkY/0T2G/6tZBsvwdnQJ9vBzoxb4J?=
- =?us-ascii?Q?VtqUCDNK+jh+24fOp/yXns5HHiWyHWjibVhe9jyeQNHrmsjkpE8ihN9ODWPv?=
- =?us-ascii?Q?XksUvljtOc2qU59LPzjUsS89R4DXD9YI3BZKK/jK8gSaaRnkAHIjKBBIgj3v?=
- =?us-ascii?Q?MRvIqFTWM8JEhQQ6XRkY+8/VoWnKFgVnz+zU9kxheNftLUHO+UsakLpFrjPN?=
- =?us-ascii?Q?07ljC9+sFn9w0JiXUmZKpPXCjVNkJK5fnITs4T8e5KlvmBRVosNduRMmFBl6?=
- =?us-ascii?Q?ppR/nMdiHx6bzpFAric9f5IWCIzjGOwy3Z7iYu+JeS/bFtGMWazjWboYZ4U6?=
- =?us-ascii?Q?KG7kr4HYEsON8K5pU+PK3EbJProbtPQyM00IfE0mEfip9X/9qjemNr7/oKL7?=
- =?us-ascii?Q?kIoycTgZoU9Zz8XtAZwBMvyHmAufTLbFJl++kXFLqhD7vC5Y3meOqWdHuX7l?=
- =?us-ascii?Q?Jz60P0+jIGsi7dhygrPQuX0MqNbbAvkH2z8G+izduHXGdWHcLrM+lEqna4lN?=
- =?us-ascii?Q?k4OaQuT7QL6WC39LomN++4UAo/D4XKtJRn5oXWTQmGF/+6bvUpy1dehGWHxA?=
- =?us-ascii?Q?BtD1d65OVONYIBFBLg+aXc6ZrdHEg+3EfNHUNdl6g2BOZd6vFFJJt1JUMPor?=
- =?us-ascii?Q?qK0hkonAdw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	3PZE06udBpZ24zEMgqrsul2z8ObeK50xSRoe94bIAdxBgO9XecXWwAFL4DwG74Yk7k9zcLQbSg8ndILvreQ/x7ypJ13cT9xJs70/GxcquQ97NGYmDFiDIl0nseio0SuNNGCyfrv45lWctyg0k1sgOu/zkIPgnU3eGJHssZUhs6nDHz18cB9sfio6w4IYNJQbMDLIOiPqsTDb4/fMUvhvbsjUKU+UjpSAEx4j7ML3KsIbFvyPH17Mw5ywbPdQPcw+z7shob3HvqCoJrePZ5LfAofBAkuF4hLe94brMLrgcbPknTiJRZUkG5esPnuOnx9GWmm9eYyqG1pK0+cN6Cxlg82XUn7Jmf+W+/zUAv9zV0O6Mse8NjHNrIrAKzXJevKVpfapd/ak56AJ9BhDvHvTuPCoyoVSp6JcZ6AvJq9Loi5g9uvd42GYf1RQpiHGydWlg6Q912df6MjrMl5SmXm1q8uTs9rVjhE4o+mxNP18MCCy0tuaS3fwW74ckq+dDzn2P0dcOxZPZtacmBEuDbLqN/Bja5qqwGKnefn2r8SY2Hrzt+Ita3V7OKanviWrdU6Qh7HeYGJW/SumhRafNp4jIJI6fXVUyEG5FYpxZBmDhd8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a14e8496-2fa1-42c6-c399-08de543f40ed
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 14:06:18.6332
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NA2cQCRlVBd/aSkL+qnjVNSt0frLp2MgQWKTPu3tEfo+CE0n40H+bb5dJEQYRkg5pWFmGVeSisZFGrL/L+Px5w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7201
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-15_04,2026-01-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601150104
-X-Proofpoint-GUID: s8wI8iqfIigHJoUS-C8oEAUXy3MuF6Eu
-X-Authority-Analysis: v=2.4 cv=X7Bf6WTe c=1 sm=1 tr=0 ts=6968f460 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=dFmrGhp3TjRllwzZRqMA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDEwNSBTYWx0ZWRfX8fatSKCT5E0G
- i/GsIQpnDdNrB04Ymv9FprMXDPcNAQzTsrE50oJ8aDyz/ZvT9Na6LmpGl5owzQlLrxiGcQrRQuo
- p+t+jW3ZHvDW8Le1jzYDVXmrGybhmm3VJHLm10Ag0HUx874uNdWvKuzelExH/RIPL/DbRZ4Vf+p
- +O0mpor0nfEeMm6PcjqoeHDH/Ta91J4uhGZFWxIlwfsYhFzR7SNtzaeyGznp1/vCNCYvsFGjTsK
- YNcaZv8YxNiaAKi/OqJ1mK5MDBlOckIoluF1KCQPT01p1cZTzOFiPGhfXQtrQXtnCvzSp8DLNAJ
- lGEa8od4tPP7bC7PMOKpzgdmiLQnjxAiFxD46IU/AbdaksiH7J0GU78tW5gxdb8gYrVr7BzcVpG
- bd81OCagn3PBrHdr0hU6gE6eucozsHdz5cM8CI5LhH5QIvyASkyyTexDxYi0OU5KRsdr7qUWdCr
- ftkXXHC83P20J+cAJZQ==
-X-Proofpoint-ORIG-GUID: s8wI8iqfIigHJoUS-C8oEAUXy3MuF6Eu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115065757.35-1-mayankmahajan.x@nxp.com>
 
-* David Hildenbrand (Red Hat) <david@kernel.org> [260115 04:21]:
-> Let's centralize it, by allowing for the driver to enable this handling
-> through a new flag (bool for now) in the balloon device info.
-> 
-> Note that we now adjust the counter when adding/removing a page into the
-> balloon list: when removing a page to deflate it, it will now happen
-> before the driver communicated with hypervisor, not afterwards.
-> 
-> This shouldn't make a difference in practice.
-> 
-> Signed-off-by: David Hildenbrand (Red Hat) <david@kernel.org>
+Hi Mayank,
 
-For what it's worth,
+kernel test robot noticed the following build errors:
 
-Acked-by: Liam R. Howlett <Liam.Howlett@oracle.com>
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.19-rc5 next-20260115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> ---
->  arch/powerpc/platforms/pseries/cmm.c | 13 +------------
->  drivers/virtio/virtio_balloon.c      | 19 ++-----------------
->  include/linux/balloon_compaction.h   |  2 ++
->  mm/balloon_compaction.c              | 17 +++++++++++++++++
->  4 files changed, 22 insertions(+), 29 deletions(-)
-> 
-> diff --git a/arch/powerpc/platforms/pseries/cmm.c b/arch/powerpc/platforms/pseries/cmm.c
-> index 15f873f733a41..7fd8b3d7e7637 100644
-> --- a/arch/powerpc/platforms/pseries/cmm.c
-> +++ b/arch/powerpc/platforms/pseries/cmm.c
-> @@ -165,7 +165,6 @@ static long cmm_alloc_pages(long nr)
->  
->  		balloon_page_enqueue(&b_dev_info, page);
->  		atomic_long_inc(&loaned_pages);
-> -		adjust_managed_page_count(page, -1);
->  		nr--;
->  	}
->  
-> @@ -190,7 +189,6 @@ static long cmm_free_pages(long nr)
->  		if (!page)
->  			break;
->  		plpar_page_set_active(page);
-> -		adjust_managed_page_count(page, 1);
->  		__free_page(page);
->  		atomic_long_dec(&loaned_pages);
->  		nr--;
-> @@ -515,16 +513,6 @@ static int cmm_migratepage(struct balloon_dev_info *b_dev_info,
->  		return -EBUSY;
->  	}
->  
-> -	/*
-> -	 * When we migrate a page to a different zone, we have to fixup the
-> -	 * count of both involved zones as we adjusted the managed page count
-> -	 * when inflating.
-> -	 */
-> -	if (page_zone(page) != page_zone(newpage)) {
-> -		adjust_managed_page_count(page, 1);
-> -		adjust_managed_page_count(newpage, -1);
-> -	}
-> -
->  	/*
->  	 * activate/"deflate" the old page. We ignore any errors just like the
->  	 * other callers.
-> @@ -551,6 +539,7 @@ static int cmm_init(void)
->  		return -EOPNOTSUPP;
->  
->  	balloon_devinfo_init(&b_dev_info);
-> +	b_dev_info.adjust_managed_page_count = true;
->  	if (IS_ENABLED(CONFIG_BALLOON_COMPACTION))
->  		b_dev_info.migratepage = cmm_migratepage;
->  
-> diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
-> index df2756c071dae..15c1cf5fd249c 100644
-> --- a/drivers/virtio/virtio_balloon.c
-> +++ b/drivers/virtio/virtio_balloon.c
-> @@ -274,9 +274,6 @@ static unsigned int fill_balloon(struct virtio_balloon *vb, size_t num)
->  
->  		set_page_pfns(vb, vb->pfns + vb->num_pfns, page);
->  		vb->num_pages += VIRTIO_BALLOON_PAGES_PER_PAGE;
-> -		if (!virtio_has_feature(vb->vdev,
-> -					VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
-> -			adjust_managed_page_count(page, -1);
->  		vb->num_pfns += VIRTIO_BALLOON_PAGES_PER_PAGE;
->  	}
->  
-> @@ -295,9 +292,6 @@ static void release_pages_balloon(struct virtio_balloon *vb,
->  	struct page *page, *next;
->  
->  	list_for_each_entry_safe(page, next, pages, lru) {
-> -		if (!virtio_has_feature(vb->vdev,
-> -					VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
-> -			adjust_managed_page_count(page, 1);
->  		list_del(&page->lru);
->  		put_page(page); /* balloon reference */
->  	}
-> @@ -839,17 +833,6 @@ static int virtballoon_migratepage(struct balloon_dev_info *vb_dev_info,
->  	if (!mutex_trylock(&vb->balloon_lock))
->  		return -EAGAIN;
->  
-> -	/*
-> -	  * When we migrate a page to a different zone and adjusted the
-> -	  * managed page count when inflating, we have to fixup the count of
-> -	  * both involved zones.
-> -	  */
-> -	if (!virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_DEFLATE_ON_OOM) &&
-> -	    page_zone(page) != page_zone(newpage)) {
-> -		adjust_managed_page_count(page, 1);
-> -		adjust_managed_page_count(newpage, -1);
-> -	}
-> -
->  	/* balloon's page migration 1st step  -- inflate "newpage" */
->  	vb->num_pfns = VIRTIO_BALLOON_PAGES_PER_PAGE;
->  	set_page_pfns(vb, vb->pfns, newpage);
-> @@ -958,6 +941,8 @@ static int virtballoon_probe(struct virtio_device *vdev)
->  	if (err)
->  		goto out_free_vb;
->  
-> +	if (!virtio_has_feature(vb->vdev, VIRTIO_BALLOON_F_DEFLATE_ON_OOM))
-> +		vb->vb_dev_info.adjust_managed_page_count = true;
->  #ifdef CONFIG_BALLOON_COMPACTION
->  	vb->vb_dev_info.migratepage = virtballoon_migratepage;
->  #endif
-> diff --git a/include/linux/balloon_compaction.h b/include/linux/balloon_compaction.h
-> index 7cfe48769239e..3109d3c43d306 100644
-> --- a/include/linux/balloon_compaction.h
-> +++ b/include/linux/balloon_compaction.h
-> @@ -56,6 +56,7 @@ struct balloon_dev_info {
->  	struct list_head pages;		/* Pages enqueued & handled to Host */
->  	int (*migratepage)(struct balloon_dev_info *, struct page *newpage,
->  			struct page *page, enum migrate_mode mode);
-> +	bool adjust_managed_page_count;
->  };
->  
->  extern struct page *balloon_page_alloc(void);
-> @@ -73,6 +74,7 @@ static inline void balloon_devinfo_init(struct balloon_dev_info *balloon)
->  	spin_lock_init(&balloon->pages_lock);
->  	INIT_LIST_HEAD(&balloon->pages);
->  	balloon->migratepage = NULL;
-> +	balloon->adjust_managed_page_count = false;
->  }
->  
->  #ifdef CONFIG_BALLOON_COMPACTION
-> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
-> index 5444c61bb9e76..fd9ec47cf4670 100644
-> --- a/mm/balloon_compaction.c
-> +++ b/mm/balloon_compaction.c
-> @@ -23,6 +23,8 @@ static void balloon_page_enqueue_one(struct balloon_dev_info *b_dev_info,
->  	BUG_ON(!trylock_page(page));
->  	balloon_page_insert(b_dev_info, page);
->  	unlock_page(page);
-> +	if (b_dev_info->adjust_managed_page_count)
-> +		adjust_managed_page_count(page, -1);
->  	__count_vm_event(BALLOON_INFLATE);
->  	inc_node_page_state(page, NR_BALLOON_PAGES);
->  }
-> @@ -95,6 +97,8 @@ size_t balloon_page_list_dequeue(struct balloon_dev_info *b_dev_info,
->  			continue;
->  
->  		list_del(&page->lru);
-> +		if (b_dev_info->adjust_managed_page_count)
-> +			adjust_managed_page_count(page, 1);
->  		balloon_page_finalize(page);
->  		__count_vm_event(BALLOON_DEFLATE);
->  		list_add(&page->lru, pages);
-> @@ -256,12 +260,25 @@ static int balloon_page_migrate(struct page *newpage, struct page *page,
->  
->  		balloon_page_insert(b_dev_info, newpage);
->  		__count_vm_event(BALLOON_MIGRATE);
-> +
-> +		if (b_dev_info->adjust_managed_page_count &&
-> +		    page_zone(page) != page_zone(newpage)) {
-> +			/*
-> +			 * When we migrate a page to a different zone we
-> +			 * have to fixup the count of both involved zones.
-> +			 */
-> +			adjust_managed_page_count(page, 1);
-> +			adjust_managed_page_count(newpage, -1);
-> +		}
->  		break;
->  	case -ENOENT:
->  		spin_lock_irqsave(&b_dev_info->pages_lock, flags);
->  
->  		/* Old page was deflated but new page not inflated. */
->  		__count_vm_event(BALLOON_DEFLATE);
-> +
-> +		if (b_dev_info->adjust_managed_page_count)
-> +			adjust_managed_page_count(page, 1);
->  		break;
->  	default:
->  		return rc;
-> -- 
-> 2.52.0
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Mayank-Mahajan/dt-bindings-hwmon-ti-tmp108-Add-P3T1035-P3T2030/20260115-145945
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20260115065757.35-1-mayankmahajan.x%40nxp.com
+patch subject: [PATCH v2 1/3] hwmon: (tmp108) Add support for P3T1035 and P3T2030
+config: sparc-randconfig-001-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152241.dTXwVh7v-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152241.dTXwVh7v-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152241.dTXwVh7v-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/hwmon/tmp108.c: In function 'tmp108_common_probe':
+   drivers/hwmon/tmp108.c:457:52: error: macro 'memcpy' passed 6 arguments, but takes just 3
+     457 |                        sizeof(tmp108->sample_times));
+         |                                                    ^
+   In file included from include/linux/string.h:65,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:11,
+                    from arch/sparc/include/asm/smp_32.h:15,
+                    from arch/sparc/include/asm/smp.h:7,
+                    from arch/sparc/include/asm/switch_to_32.h:5,
+                    from arch/sparc/include/asm/switch_to.h:7,
+                    from arch/sparc/include/asm/ptrace.h:120,
+                    from arch/sparc/include/asm/thread_info_32.h:19,
+                    from arch/sparc/include/asm/thread_info.h:7,
+                    from include/linux/thread_info.h:60,
+                    from arch/sparc/include/asm/current.h:15,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:13,
+                    from drivers/hwmon/tmp108.c:7:
+   arch/sparc/include/asm/string.h:15:9: note: macro 'memcpy' defined here
+      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+         |         ^~~~~~
+>> drivers/hwmon/tmp108.c:456:17: error: 'memcpy' undeclared (first use in this function)
+     456 |                 memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
+         |                 ^~~~~~
+   drivers/hwmon/tmp108.c:19:1: note: 'memcpy' is defined in header '<string.h>'; this is probably fixable by adding '#include <string.h>'
+      18 | #include <linux/regmap.h>
+     +++ |+#include <string.h>
+      19 | #include <linux/regulator/consumer.h>
+   drivers/hwmon/tmp108.c:456:17: note: each undeclared identifier is reported only once for each function it appears in
+     456 |                 memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
+         |                 ^~~~~~
+   drivers/hwmon/tmp108.c:460:52: error: macro 'memcpy' passed 6 arguments, but takes just 3
+     460 |                        sizeof(tmp108->sample_times));
+         |                                                    ^
+   arch/sparc/include/asm/string.h:15:9: note: macro 'memcpy' defined here
+      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+         |         ^~~~~~
+
+
+vim +/memcpy +456 drivers/hwmon/tmp108.c
+
+   434	
+   435	static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name,
+   436				       enum tmp108_hw_id hw_id)
+   437	{
+   438		struct device *hwmon_dev;
+   439		struct tmp108 *tmp108;
+   440		u32 config;
+   441		int err;
+   442	
+   443		err = devm_regulator_get_enable(dev, "vcc");
+   444		if (err)
+   445			return dev_err_probe(dev, err, "Failed to enable regulator\n");
+   446	
+   447		tmp108 = devm_kzalloc(dev, sizeof(*tmp108), GFP_KERNEL);
+   448		if (!tmp108)
+   449			return -ENOMEM;
+   450	
+   451		dev_set_drvdata(dev, tmp108);
+   452		tmp108->regmap = regmap;
+   453		tmp108->hw_id = hw_id;
+   454		tmp108->config_reg_16bits = (hw_id == P3T1035_ID) ? false : true;
+   455		if (hw_id == P3T1035_ID)
+ > 456			memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
+   457			       sizeof(tmp108->sample_times));
+   458		else
+   459			memcpy(tmp108->sample_times, (unsigned int[]){ 63, 250, 1000, 4000 },
+   460			       sizeof(tmp108->sample_times));
+   461	
+   462		err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &config);
+   463		if (err < 0) {
+   464			dev_err_probe(dev, err, "Error reading config register");
+   465			return err;
+   466		}
+   467		tmp108->orig_config = config;
+   468	
+   469		/* Only continuous mode is supported. */
+   470		config &= ~TMP108_CONF_MODE_MASK;
+   471		config |= TMP108_MODE_CONTINUOUS;
+   472		/* Only comparator mode is supported. */
+   473		config &= ~TMP108_CONF_TM;
+   474	
+   475		err = regmap_write(tmp108->regmap, TMP108_REG_CONF, config);
+   476		if (err < 0) {
+   477			dev_err_probe(dev, err, "Error writing config register");
+   478			return err;
+   479		}
+   480	
+   481		tmp108->ready_time = jiffies;
+   482		if ((tmp108->orig_config & TMP108_CONF_MODE_MASK) ==
+   483		    TMP108_MODE_SHUTDOWN)
+   484			tmp108->ready_time +=
+   485				msecs_to_jiffies(TMP108_CONVERSION_TIME_MS);
+   486	
+   487		err = devm_add_action_or_reset(dev, tmp108_restore_config, tmp108);
+   488		if (err) {
+   489			dev_err_probe(dev, err, "Add action or reset failed");
+   490			return err;
+   491		}
+   492	
+   493		hwmon_dev = devm_hwmon_device_register_with_info(dev, name,
+   494								 tmp108,
+   495								 &tmp108_chip_info,
+   496								 NULL);
+   497		return PTR_ERR_OR_ZERO(hwmon_dev);
+   498	}
+   499	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
