@@ -1,125 +1,254 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B3C287247
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 23:45:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DF9331202
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 23:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768520727; cv=none; b=PzoyYmYk/QEarm5M4nvIH+q3yfvzb6iafrP+xrxv7DKuJNPni6XfKBT+Jih1WA5GP/fcU2LG6TD6kaJRB+GXvomeq+xsP8hpqq6BVI8ilxFbwP1HL97kdHNzKrmcC+xP7Wje2cQFW64Rz8uMFaEsvCJgM7bHV83YP/abLRw8e8o=
+	t=1768521396; cv=none; b=UFFaHJU69Dp0I5p05AZlyRG3VrVmxVWS+fzkwGRG4RJ/9Uy9DFK6dwoREkqtDEaJa4fzZbGX5XiUxUwi7baWyzWnnlnSudxyNXb0qIvw/3Opi6Ws4wcvZhk2d5ZtSs/3V0D7reIzUQ/IBInmAs/37NVwQei3ESOJcH2bbWBNoRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768520727; c=relaxed/simple;
-	bh=anu0cb12MUsXZDetyUJXmHWS6gx5i4J6kT+HeZDwZ7E=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QVUswLicE0CNVXaQ6zkLM09kFIG+/dFPjQVySILiMCKkMUVg7AC2lVUFkqndIQ4T2dU2YuuQWbhvO0IOtqum8zR4sXeKY88ycg+HAD47mc4WfzQF+Z8gGS86B1SECSY0l6s6w/fP+AlQYDM0Fj1kHP4gfv70V0JsdN2w+vnMCBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNC6WO9/; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768521396; c=relaxed/simple;
+	bh=QDPfz9ujw/RP1aYpy3CyZsrtxzsxbZGQiCEVPNme1oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPIlZNGoNLRUyunwH5VWnh5gi19AkFZHr3y0S2osYyYHjyiZIZIb8NgJz1cd4qWbp4CczA94nIGJUR3BDBsoEYqtpMYmCccRkqvPnl95YeIa36zRLOKaSbo/gliXNYk5zWBTvSEBmRH02wBJjT1an0+83GoQQILNnFTNopntIas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gF08ylFA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IP8o4PDW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNC6WO9/"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a0c09bb78cso10356935ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 15:45:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gF08ylFA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IP8o4PDW"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60FMd2qE4101603
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 23:56:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=irBiMr6CSbVRpYyOwfv82LqW
+	psqYNDBdD+tqHLqBSZI=; b=gF08ylFAUxFHsYjFUuZnr3tqhwjYRsGlydrkv9zD
+	T9KmNe4vJh1QQrR2XB3754hRbNcmNUgPRPKBjKt7fCkH2Ku+xLQcurfjxmfgbvVc
+	uch+M13GWIyx8I+zqAkW3d4RB+Wr3iQ2lcIecrQFTJk8Rg/qv7ocCNt/4pcJKGCW
+	oEx9KTImWDV3+otwOk3hGhbbT9aUlBO676aBU3vfqLCd3juPi4w5KToneoMMtvZQ
+	1Ab7FOU9ujAcmPWLd9ENyXyg7bKINiWycPyzT6EQqxMZl/Vd8SE0tTTn67Hzi6o3
+	4HNvX229swWpxSB9XVcR67SlnlUtNtZpX/xg7C1eh7CVNw==
+Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bq97504nx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 23:56:34 +0000 (GMT)
+Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1219f27037fso5318474c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 15:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768520726; x=1769125526; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1768521394; x=1769126194; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pxBy609TOOX7PEiqMrbm1/JiMEAuCKLzkMf3kkYPtDA=;
-        b=PNC6WO9/n9mgliX46Y6vyS1hq8+8wb1ElL1BH9V9Hu6clMYs83H5X4/z+v6uovev3N
-         wbF1ABmd/zuGaeTyENQp1nQcGs9BR/Pu3V7SUbU4kRzSczegI44XUBO17AyNZWmghrxn
-         ATIUz9M9JkaDES5vJp5WQxPpKps7VA2lcCLuSSj/RuoMZZkFCAhPWaLeZkIS5gESfif5
-         KDDXI3cMO6KkP5KUH2wwQnOQjIjoY4fOYBtlppnTRPsZShAxRij4HFzXHvkGMcIzQBU6
-         xhRAAOOsPXXsejfFkQEwrSRnIAfKeWcXVvlhU47BMLSxdydTkFxQe/Khw6+fg1GCWJNh
-         3IPQ==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=irBiMr6CSbVRpYyOwfv82LqWpsqYNDBdD+tqHLqBSZI=;
+        b=IP8o4PDWQTySB6dylvvCkzmvYLSBIyZeIHHByjD8PNBw6awVbwVZAN+PzkYiUAbZ/4
+         urRotl5HhIwL87IFbDERTKDASPHwWxtDeXmQQQrAEre8qJjW+munVNn+2Nyz7yJTQguP
+         YdY6o5O3OBUZblX9DBmOjfDWkIEK1lN/5T8sGFapXYVuv0svQQtkdzPzPK6kwwU1+yu+
+         EtPBKkhkUltpmyzh0nPUdtao/HEDZHoERRvG7+5cwP22tdNX8w98GoCVi6nmXWEJOH5M
+         gD0/JUampyN4kxMM2mZ5eiChIslKctujEj0nMoWv/OscNA1iFdutnnzLdoupr95vlL1g
+         vVYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768520726; x=1769125526;
+        d=1e100.net; s=20230601; t=1768521394; x=1769126194;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pxBy609TOOX7PEiqMrbm1/JiMEAuCKLzkMf3kkYPtDA=;
-        b=GzQbR4KOX7FyiGA635fCAmtMM5W7+wSzG8XpSdtj2oncgUVocCl+cI7ongXq0aDHt+
-         DPz9MrQcDkCIHomWJeyar1cYw+aYfipwywngmjFvItxwec1Hzq5nNI4KlZHtxuOxNDil
-         htDNOO1ov+G0DPmxvL3O35bfrJWtwGumYm0BzWYohXjkFoDCorIKt8jQj2qAcszvLFtp
-         YGO/MSDFcSL84MXhQP7tha6u0RneT5OD1tjluFG6C48j/riYgfQoBeCvlbFTHprr5OGz
-         fygnPpWFwCxrSGPgv3FOt6WSTEX6NS4VJJnTEkidYwUbFlS7/8UBH/8MfT+mB+DTx5V5
-         PKCw==
-X-Forwarded-Encrypted: i=1; AJvYcCUNOhD9Lb6N3p6ppWT5BD2AoIhDggcouxzlShaxhXMpKAcIYkLSRP2dsQYBH5+YFUdFhX7yDRMIb88=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGtAAnpEJum9yuUD3zKL9KjnSK/fbFAwE4q5+3fbfqvLx1SZLO
-	qEh6zFt5yXcg+5Ab0hTOCBJ8KjOtZ1HZo5wSCsEiGoYzF6uP/JMpiRPK
-X-Gm-Gg: AY/fxX7G2/7tY9MYbX4vx0KjhVirL/Imdssp25HXPI1RHU5KWbf1fH5sJy6Ykw8bSPB
-	6M3Sh7UjnZe9DPdiSeyGtxsXlZTk33w7+l6NtjL38lI8EFhNf4ElBOv9xTXUJU2n0kswL6T7zim
-	lHAbascB/Im0O/eU2WtFB95h9Wl9CvtCIkdi8envZQHlZJwXHjC7aV78zXDp5/ZEBPy0NbtAwrZ
-	PFq+9jCa1iA9rrqISRMYIcKrRntWQcIYKadqtG+mHR2xPt9QEGSSoaCE084D8grIdLiOZpsJBID
-	sChXkuyMg7ZtZbBr6CoBW/9Ch3FYChJXB7OunB+V4eKB5HQ+f1h0SCq0PFwg3Z79CnRk8dhTO2d
-	fk2yq8qS8kHtDH/K3RCg04Zd9PSB1vWK27b+SWkCHdoQ2okz9nHITkz+52WmmRzr6+acY3rTt1p
-	xls4TXTQuyEaM8pAmehg==
-X-Received: by 2002:a17:902:e745:b0:2a3:ccf5:6691 with SMTP id d9443c01a7336-2a71782783emr12224645ad.30.1768520725819;
-        Thu, 15 Jan 2026 15:45:25 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a7190eee4fsm3623595ad.42.2026.01.15.15.45.24
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=irBiMr6CSbVRpYyOwfv82LqWpsqYNDBdD+tqHLqBSZI=;
+        b=VGF40H3CEdSozyOL1JmkIbI6CagmxIHJ84b1KRCdKhJyPi8yq52fYzy0fAK8L3X2f0
+         x8wacudYK6SgUqkvFu4K3U66pVFFbVx/4dol+C785d3bg90PB3sCUNxsWLdgkHGP/JFX
+         ejaixIxf4MPGMhWlGNERnw58V0pO/JvogGzwETWj5/R97dGro/B8hW7CoefnmF/lMFy8
+         gSdIGUMy2fDEm7lXr4MLeYnyzm7pPSyB3wPYWiew8OeGqnIlJWDuVqioEuvCmH1qTwA7
+         wW4ej3brZVlSNAX7P9duXiSmqHWXoIjs1nxcvREPk4e6g750L7xXDcFctA4WfwwVNMmo
+         kJgA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6moTIu1sag6rrGXmxAkECdrLEt0PV959Z1uIIy21qIITxNFjTSdwZ42x/pIQECgZEqR1mT1XvSOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+1in5q7GPt8A0plygFxOBVQs2W8OfOPfQvM5t4qL6/xgAco/i
+	gcYeXPRiK13PB2PBbwzCBnIEBtkN6JQDuwdj6gHjcC5ZmFUYpihMCOnO+kLQlcd/k/qp8WaDK+q
+	7CoMgx+RHzmYKgrnLcfQueqdEN/Fl8oNWMoGTRjl7WsZ9YYZHQE/+DPQ5XPkbBr0=
+X-Gm-Gg: AY/fxX4XpL/26TVpg9nZrogpSK+Pdhppg+rQXZgSs10pGW/yMp3aMaAw8yfRHPEBSwh
+	/iYXRJjYKxDZNTwXrQCze7vflvQpQ48Y6ZlebY+RmoqaCxzesu2lk7/bydEyCJEquVHYnuzP1jN
+	FINeg9WdFs5QELgUftl9cWTgG08Zc2dkiU5o/Xn0gW6HeY8P9896Tm4jtV/icrErhY5G90Cqq8t
+	roXfvyR8Ucn9wj1QWulHA4anzgXx62tscDQ1Y7ZEsyHKEeHtKQHncQfsVdgkB1G+5crxl5Iuz+9
+	wseL93jKjmW9UHCh8sy6GdQveeZZhoHl3OPik/aHLl4MOCzoNWq15HAw0/hw+vtdTzHqhnafQ91
+	VWzPp9NC9eiqIufIR6Io=
+X-Received: by 2002:a05:7022:6286:b0:11d:f44c:afbc with SMTP id a92af1059eb24-1244a74fb80mr1753394c88.37.1768521393917;
+        Thu, 15 Jan 2026 15:56:33 -0800 (PST)
+X-Received: by 2002:a05:7022:6286:b0:11d:f44c:afbc with SMTP id a92af1059eb24-1244a74fb80mr1753378c88.37.1768521393394;
+        Thu, 15 Jan 2026 15:56:33 -0800 (PST)
+Received: from localhost ([140.82.166.162])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244af10c3csm879911c88.15.2026.01.15.15.56.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 15:45:24 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 814914207D2D; Fri, 16 Jan 2026 06:45:21 +0700 (WIB)
-Date: Fri, 16 Jan 2026 06:45:21 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Brett A C Sheffield <bacs@librecast.net>, Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] docs: kselftest: remove link to obsolete wiki
-Message-ID: <aWl8EXT-Fp59WDMS@archie.me>
-References: <20260115172817.7120-1-bacs@librecast.net>
+        Thu, 15 Jan 2026 15:56:32 -0800 (PST)
+Date: Thu, 15 Jan 2026 17:56:31 -0600
+From: Andrew Jones <andrew.jones@oss.qualcomm.com>
+To: fangyu.yu@linux.alibaba.com
+Cc: pbonzini@redhat.com, corbet@lwn.net, anup@brainfault.org,
+        atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, alex@ghiti.fr, guoren@kernel.org,
+        ajones@ventanamicro.com, rkrcmar@ventanamicro.com,
+        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
+Message-ID: <dfhacs3uppweqmw5t6gwli2iy3b7l5oj6saykogjb5qkadl4rc@bi7mvnezkd2m>
+References: <20260105143232.76715-1-fangyu.yu@linux.alibaba.com>
+ <20260105143232.76715-3-fangyu.yu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="a/+0KyrOdn65OOla"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115172817.7120-1-bacs@librecast.net>
+In-Reply-To: <20260105143232.76715-3-fangyu.yu@linux.alibaba.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDE5MCBTYWx0ZWRfX1l7ZDU+Wo1C9
+ 6vQGRtKXU7vg49kNVX2j/lqeu9o9TbrRJI2sAAInQ644yMfLCiI8GwgfQxy8VhEEcqbBkdUIcvb
+ 5g/MlRP45bcPCsFoHiZMhn0D8Y5IR3U/JcPlU2835SJDSj9m0XX594nxzaSu+89cwrhvQRoaczN
+ SrfgQLddhaUdwT85UosYP2xMqKjqnRE98UTEXOVJ9SHJlvIP9F73MzSWuhOj+qk3E4egKgD0KBL
+ QeZyt85M7oD8AXvQhKaEK51SdHeto3NgGPFX7S14Ij8Vz8w7dIueJCWWyWV19W4aIE7NXHsnR3y
+ ksejwwTp0miswElaWu7ygD9dy6BnrXSIN7rI9pyz1VbtAb2U78DxqRLJagauddYDxcepZiFUrlb
+ sVAIdEuSSJ/yb+sAieYEp2c4gw1N+Co0wkWbX64MIPI7X32K79onOxZe2cl62+qtjUIyCecSvn1
+ fMIhOChSsVpuX21u92A==
+X-Authority-Analysis: v=2.4 cv=Sv6dKfO0 c=1 sm=1 tr=0 ts=69697eb2 cx=c_pps
+ a=SvEPeNj+VMjHSW//kvnxuw==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
+ a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=SRrdq9N9AAAA:8 a=SurXiuQvfP0cLrRCYjkA:9
+ a=CjuIK1q_8ugA:10 a=Kq8ClHjjuc5pcCNDwlU0:22
+X-Proofpoint-GUID: s7lETXpax6ujUR4wtJ7ASXZOkXZVtxYp
+X-Proofpoint-ORIG-GUID: s7lETXpax6ujUR4wtJ7ASXZOkXZVtxYp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-15_07,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 impostorscore=0 bulkscore=0 adultscore=0
+ phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150190
 
+On Mon, Jan 05, 2026 at 10:32:32PM +0800, fangyu.yu@linux.alibaba.com wrote:
+> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+> 
+> This capability allows userspace to explicitly select the HGATP mode
+> for the VM. The selected mode must be less than or equal to the max
+> HGATP mode supported by the hardware. This capability must be enabled
+> before creating any vCPUs, and can only be set once per VM.
+> 
+> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 14 ++++++++++++++
+>  arch/riscv/kvm/vm.c            | 26 ++++++++++++++++++++++++--
+>  include/uapi/linux/kvm.h       |  1 +
+>  3 files changed, 39 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 01a3abef8abb..9e17788e3a9d 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8765,6 +8765,20 @@ helpful if user space wants to emulate instructions which are not
+>  This capability can be enabled dynamically even if VCPUs were already
+>  created and are running.
+>  
+> +7.47 KVM_CAP_RISCV_SET_HGATP_MODE
+> +---------------------------------
+> +
+> +:Architectures: riscv
+> +:Type: VM
+> +:Parameters: args[0] contains the requested HGATP mode
+> +:Returns: 0 on success, -EINVAL if arg[0] is outside the range of hgatp
+> +          modes supported by the hardware.
+> +
+> +This capability allows userspace to explicitly select the HGATP mode for
+> +the VM. The selected mode must be less than or equal to the maximum HGATP
+> +mode supported by the hardware. This capability must be enabled before
+> +creating any vCPUs, and can only be set once per VM.
 
---a/+0KyrOdn65OOla
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think I would prefer a KVM_CAP_RISCV_SET_MAX_GPA type of capability. The
+reason is because, while one of the results of the max-gpa being set will
+be to set hgatp, there may be other reasons to track the guest's maximum
+physical address too and kvm userspace shouldn't need to think about each
+individually.
 
-On Thu, Jan 15, 2026 at 05:24:44PM +0000, Brett A C Sheffield wrote:
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-to=
-ols/kselftest.rst
-> index 18c2da67fae4..e13aff7a80b5 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -15,11 +15,6 @@ able to run that test on an older kernel. Hence, it is=
- important to keep
->  code that can still test an older kernel and make sure it skips the test
->  gracefully on newer releases.
-> =20
-> -You can find additional information on Kselftest framework, how to
-> -write new tests using the framework on Kselftest wiki:
-> -
-> -https://kselftest.wiki.kernel.org/
-> -
->  On some systems, hot-plug tests could hang forever waiting for cpu and
->  memory to be ready to be offlined. A special hot-plug target is created
->  to run the full range of hot-plug tests. In default mode, hot-plug tests=
- run
+> +
+>  8. Other capabilities.
+>  ======================
+>  
+> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
+> index 4b2156df40fc..e9275023a73a 100644
+> --- a/arch/riscv/kvm/vm.c
+> +++ b/arch/riscv/kvm/vm.c
+> @@ -202,6 +202,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  	case KVM_CAP_VM_GPA_BITS:
+>  		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
+>  		break;
+> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
+> +#ifdef CONFIG_64BIT
+> +		r = 1;
+> +#else/* CONFIG_32BIT */
+> +		r = 0;
+> +#endif
 
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+ r = IS_ENABLED(CONFIG_64BIT) ? 1 : 0;
 
---=20
-An old man doll... just what I always wanted! - Clara
+> +		break;
+>  	default:
+>  		r = 0;
+>  		break;
+> @@ -212,12 +219,27 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  
+>  int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
+>  {
+> +	if (cap->flags)
+> +		return -EINVAL;
 
---a/+0KyrOdn65OOla
-Content-Type: application/pgp-signature; name=signature.asc
+add blank line
 
------BEGIN PGP SIGNATURE-----
+>  	switch (cap->cap) {
+>  	case KVM_CAP_RISCV_MP_STATE_RESET:
+> -		if (cap->flags)
+> -			return -EINVAL;
+>  		kvm->arch.mp_state_reset = true;
+>  		return 0;
+> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
+> +#ifdef CONFIG_64BIT
+> +		if (cap->args[0] < HGATP_MODE_SV39X4 ||
+> +			cap->args[0] > kvm_riscv_gstage_max_mode)
+> +			return -EINVAL;
+> +		if (kvm->arch.gstage_mode_initialized)
+> +			return 0;
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaWl8DQAKCRD2uYlJVVFO
-o7FCAP4u3YWvqpb7XuvP/CShB6gKhNtUSEORxT+JfChh/8g9KwD7BwQstmQJZk8i
-g7dOs1hlHWOFkH38sNz4SQJkGR3F+AY=
-=39Y4
------END PGP SIGNATURE-----
+I think we want to return -EBUSY here and it should be documented where it
+already states "...can only be set once per VM"
 
---a/+0KyrOdn65OOla--
+> +		kvm->arch.gstage_mode_initialized = true;
+
+In the previous patch I thought we were missing this, but I see now it
+means "user initialized". Let's rename it as such,
+
+ gstage_mode_user_initialized
+
+> +		kvm->arch.kvm_riscv_gstage_mode = cap->args[0];
+> +		kvm->arch.kvm_riscv_gstage_pgd_levels = 3 +
+> +		    kvm->arch.kvm_riscv_gstage_mode - HGATP_MODE_SV39X4;
+> +		kvm_info("using SV%lluX4 G-stage page table format\n",
+> +			39 + (cap->args[0] - HGATP_MODE_SV39X4) * 9);
+> +#endif
+> +		return 0;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index dddb781b0507..00c02a880518 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -974,6 +974,7 @@ struct kvm_enable_cap {
+>  #define KVM_CAP_GUEST_MEMFD_FLAGS 244
+>  #define KVM_CAP_ARM_SEA_TO_USER 245
+>  #define KVM_CAP_S390_USER_OPEREXEC 246
+> +#define KVM_CAP_RISCV_SET_HGATP_MODE 247
+>  
+>  struct kvm_irq_routing_irqchip {
+>  	__u32 irqchip;
+> -- 
+> 2.50.1
+>
+
+Thanks,
+drew
