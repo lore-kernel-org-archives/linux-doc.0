@@ -1,126 +1,91 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C328B246788
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 03:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC16EEA8;
+	Thu, 15 Jan 2026 04:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768447812; cv=none; b=Nr3WHzkEefUDBnExJngBn5XBesT/pY8ZoY+PxnIO8D6mgyqfJzgFi7LZQoUwd7BB/9DFkC2Az+HqEJYEBRYaNhAZjKmObrJgm/x4ftXdcqfrbvxt89UiRxbLQhcuCxmDF7MugKJdWOSr+QCjb2MSlHJikv+lMNb7cfwhOM/Udrw=
+	t=1768450295; cv=none; b=o8otknYNqX9qR+qcLUfwS/8iqbZNgFJN4VsliboE8I/2I+D9LXFW84JIJzPQ8hI/0NFWc+MPBjYWu2BMKSmRGkt4Asf1rf6mEinTHpm1a15okprFlJ3a8Q250nNU6qjtm6JF/mdX8YNMueCfR5AaxtNErkcXsPDVeHJWAL0iTAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768447812; c=relaxed/simple;
-	bh=62HFnepFZP90FsZhJ6jPVaeKY/NWRxc3uPHaG2yO4DI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LBmRybKZ1bT8joIa9MIXzSI3rPZYChez45a1HSn3B6jbXp+Npdj+sdbkfN/kE+iVuNlG7q9ibyYSMTnb+bP25yX2aiiFSckW6DbfbE/qMRTX0vNfwKEdaLa1/jJUGaiWlt1FJ3BGvdM9skfOtTjqkgYbsloMYLSU3ZqQs2GrMPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPuKlBiT; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768450295; c=relaxed/simple;
+	bh=bVEzf1YEsVmAfpl4RGUDHiheNnPIShSLYxhFE64NKhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TATyXte5zLB1NuLf2PUBMVIkP/DXs1c7rnZeV2mu8gEry8nPQQyIP43FYmwD4pdZB1He9N/PejWobECT5ch0D7zYHfJ8vLA467bJoGHhQDcrB0u/c5rXELkgzCtW/a3bVHzPxz5cyE99XO397A+/I/JFWmXQldJISlACw1eTy1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5VlrzLx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPuKlBiT"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-81db1530173so196142b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Jan 2026 19:30:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768447810; x=1769052610; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FpRX2CypnBmpF1Zh2HL0+7/J4ILuLCOUDnWHN01D8Ns=;
-        b=QPuKlBiTz7FhNfH1QqbSJqCWQkRZkGl5h0FroWa3gvrhpJrIAX2lh6jGBDSnxKTkuh
-         CvOmJGVztWEyDvw2hAoBG+1CZtE/vkOs+B9FUGexHnNBUBpy7dxR8wT/gVieRhQ+Dt7o
-         5uJQd1ZPOGTbiNYkOILCt6KasP89pGVEOrYurwZTUujA4AUOtITkXrsdsfw0vsvKB02P
-         LrqB4/0fsc4T95G/B9s2dFaBXqaT41U/Ti0zxj2OF7N/ggLiXttXCnq0uxYP5p+0vPb+
-         O2GqKovvvPnRCFSv3SoVvxiOdV9Xm28q5gODPg3OVFdxXV2LSV5UUabHkG5PMkii+KAG
-         9Zkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768447810; x=1769052610;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FpRX2CypnBmpF1Zh2HL0+7/J4ILuLCOUDnWHN01D8Ns=;
-        b=cm8YjMQWXK12QLMS7c0850JFbgWAX2tAZtbFdH58Rgvb06GwBb+S7RpGvMVRBgb2mO
-         ufsFvVRFMWwYZl+UrBVvMdrue+dd8iFAPsUbZGX9CWdqv8niEiI9VZeZcavycZ/FFKYr
-         O/bZR6aASUHy49OkX1A44Gkg6jOWzq3DgBMA/FLRJXXo0KsrQiq8uBVzUQyRKvPcafz8
-         Z14POIKoVwNTpy5GR7FfNSED0r9n9RDiBbuQZVl7lTD9/to0YpzuijkAN6ppnmWXZ3Gd
-         SPlzHBfH2hBX1sIcCCohe41fQIzlz6tYporYG5J0mCawOG4WaF8S2v34zoi3q+jkn6bJ
-         RARg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXwRixuMKVcUY9Gs5PJNwPuhe6EJa6+ZnjyMHuES2nMVelgyacRvEttNCM/ul0roYLvYqISavwlKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyomaFhbf3qJLzL8JjGL5fCLCOdErpgUGHdJR66tyuOE4IFhZe1
-	THPWPfyvD70KRP0QpqjxQWmWqvV8aYUvMVz7J4D8DcYraZ3oKzERjUAK
-X-Gm-Gg: AY/fxX7sw2bUaZTMbgcjFC7nOc3TmdH8/99kAaBU5Uax+HpbhfHgK5JOHbHRKbtvRO1
-	Xotwd2j6XBCvrPrP20e4fVk9MbqFN0h/heagd/+wm1k9naoeWOsaiso7ppKyQLpCW1XT1mR3Jag
-	O9J4g4R4OV5+pKyPfhkWCpDjZkLRy6AgDVdpYb5nil0yNJwaYH36UC6F91loLW2Fkw0+ZX9uBY/
-	ktH+n6O4KbX9vs91Uu14NDyCLG1wpBysc68FIzF5oW2eAn02h2bHVfrCzHJ0sI3YAQFiH/hQjGe
-	/PPLZVpB+1Uri8e0lAtWvqC9d82WkmdaJOPdetg0kXpqL6ooG0cIKTf0l/IIWsPJaONHybrZ8S5
-	LmpH5IC7pEMopnQT2X8+QPPnKOzp3TFifl6N2k56mzrsVBF2kfaC2Wc4hO+b39conWUD/0RGh8z
-	umhoTDpVg07mOezwsIx0SSfA==
-X-Received: by 2002:a05:6a00:a883:b0:81f:3d13:e081 with SMTP id d2e1a72fcca58-81f81fa2fabmr3888270b3a.41.1768447809862;
-        Wed, 14 Jan 2026 19:30:09 -0800 (PST)
-Received: from localhost.localdomain ([72.25.121.34])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f8e4df4f8sm945797b3a.16.2026.01.14.19.30.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 19:30:09 -0800 (PST)
-From: Yiwei Lin <s921975628@gmail.com>
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Cc: hdegoede@redhat.com,
-	srinivas.pandruvada@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	Yiwei Lin <s921975628@gmail.com>
-Subject: [PATCH] scsi: docs: Add description for missing options of link_power_management_policy
-Date: Thu, 15 Jan 2026 11:29:52 +0800
-Message-Id: <20260115032952.6658-1-s921975628@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5VlrzLx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2D57C116D0;
+	Thu, 15 Jan 2026 04:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768450295;
+	bh=bVEzf1YEsVmAfpl4RGUDHiheNnPIShSLYxhFE64NKhc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=G5VlrzLxRqLvfO0lhVUQKX8RVuAclYZ5DXQW7V6v8UY1VB+zXZ0jOoOWx2dE4JBlR
+	 YmuFXwgwKHpEcP2Mgf9iRNx/qHDFcIrxg2DXAVoNdvJRU6+8dFIDFa9XIEl3L1Etpu
+	 iXoVBMS36ls72qM3pQwkzYGvdAYIdPx5ooQcBReJpU133MXyakTc889hjeo0EMd/co
+	 ldHtVOlAVKgstTehtAEfbsdRXPTtxUbCh+h0TcxBF5v1gQNcEEodAx6pnTNNjQwRp/
+	 hHqHkqWJRgBrlBYKWDqTyAC+5nM1c22pJZn5nfMoySkYLoba9cjTB1caGm9WEw7Tqt
+	 rSSTlg480f5gw==
+Date: Wed, 14 Jan 2026 20:11:33 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
+Cc: "pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com"
+ <edumazet@google.com>, "parav@nvidia.com" <parav@nvidia.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net"
+ <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>,
+ "dsahern@kernel.org" <dsahern@kernel.org>, "kuniyu@google.com"
+ <kuniyu@google.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "dave.taht@gmail.com"
+ <dave.taht@gmail.com>, "jhs@mojatatu.com" <jhs@mojatatu.com>,
+ "stephen@networkplumber.org" <stephen@networkplumber.org>,
+ "xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
+ <jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
+ "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
+ <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
+ "liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
+ <shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
+ <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
+ "ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
+ <koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
+ <g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
+ <ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
+ <mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>,
+ "rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
+ <Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
+Subject: Re: [PATCH v2 net-next 0/1] AccECN packetdrill selftest series
+Message-ID: <20260114201133.710abe3c@kernel.org>
+In-Reply-To: <PAXPR07MB7984E23DB685074239202CA8A38FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+References: <20260114162915.94820-1-chia-yu.chang@nokia-bell-labs.com>
+	<20260114151346.734001ac@kernel.org>
+	<PAXPR07MB7984E23DB685074239202CA8A38FA@PAXPR07MB7984.eurprd07.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-With the kernel update we have more different policy for SCSI
-link power management. Add the corresponding description to
-the file.
+On Wed, 14 Jan 2026 23:25:59 +0000 Chia-Yu Chang (Nokia) wrote:
+> > Missing your own SoB on the patch, but also -- are these supposed to pass without the kernel patches? Without going back to check Paolo's message my understanding was that you'd repost this as patch 15 of the kernel series.
+> > 
+> > On the packetdrill side -- is PR #61 the code we need merged?
+> > Doesn't seem like it. Could you please clean that part up and start the review process?  
+> 
+> Thanks, I will add my own SoB in the next version.
+> This patch can NOT pass without the last kernel patch; shall I merge
+> this series into that kernel series? If yes, I will submit v8 on that
+> series and add this patch as the last one.
 
-Signed-off-by: Yiwei Lin <s921975628@gmail.com>
----
- .../scsi/link_power_management_policy.rst       | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+Yes, please.
 
-diff --git a/Documentation/scsi/link_power_management_policy.rst b/Documentation/scsi/link_power_management_policy.rst
-index 64288dcf1..07fbfd937 100644
---- a/Documentation/scsi/link_power_management_policy.rst
-+++ b/Documentation/scsi/link_power_management_policy.rst
-@@ -5,13 +5,13 @@ Link Power Managent Policy
- ==========================
- 
- This parameter allows the user to set the link (interface) power management.
--There are 3 possible options:
-+There are 6 possible options:
- 
- =====================   =====================================================
- Value			Effect
- =====================   =====================================================
--min_power		Tell the controller to try to make the link use the
--			least possible power when possible.  This may
-+min_power		Enable slumber mode(no partial mode) for the link to
-+			use the least possible power when possible.  This may
- 			sacrifice some performance due to increased latency
- 			when coming out of lower power states.
- 
-@@ -22,4 +22,15 @@ max_performance		Generally, this means no power management.  Tell
- medium_power		Tell the controller to enter a lower power state
- 			when possible, but do not enter the lowest power
- 			state, thus improving latency over min_power setting.
-+
-+keep_firmware_settings	Do not change the current firmware settings for
-+			Power management. This is the default setting.
-+
-+med_power_with_dipm	Same as medium_power, but additionally with
-+			Device-initiated power management(DIPM) enabled,
-+			as Intel Rapid Storage Technology(IRST) does.
-+
-+min_power_with_partial	Same as min_power, but additionally with partial
-+			power state enabled, which may improve performance
-+			over min_power setting.
- =====================   =====================================================
--- 
-2.34.1
+> On the packetdrill, the used packetdrill is commit
+> 6f2116af6b7e1936a53e80ab31b77f74abda1aaa of the branch:
+> https://github.com/minuscat/packetdrill_accecn Shall I create PR? Or
+> above info is ok for merging into packetdrill.
 
+Please create a PR and let's give Neal a couple of days to look thru it.
+We don't need the packetdrill side to be fully merged upstream but
+I'd love some indication that it's not going to take long because
+we need to manually manage the packetdrill build if it's not upstream.
