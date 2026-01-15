@@ -1,50 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36D91E9B12;
-	Thu, 15 Jan 2026 06:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A547381C4;
+	Thu, 15 Jan 2026 06:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768457734; cv=none; b=UDY9+SeJfu4Tq1mQaZAgn6Gcwd7mS8H4n+ctZjrDZssQFdcx3WTviO3xX6s6UnGwiBEKP6BuMFQgDiDjnIU13rcFwofFxq8byVpzrkn89aZxa2U4N3rxfmJrN2bLvJAo2XcPrCX1PpB9nx87d02RznPLSSdZK+3FUaS725YTUNc=
+	t=1768458381; cv=none; b=EFlwtLcb8VkPbZ0L1JCCw5vgH9TkeN5uNhtBde87Qd/HKKX3/LrkqaEtev/vbumF+es1/UNH6mdK2A/xVnU1bq3bVuXC1PgtZa1+kMRqhJ7BDX8M2z36sEnIqHvUY7tQ/L1j6ungwnsQXhptVuwG6nGPF6nGihgYpeFGrntJNOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768457734; c=relaxed/simple;
-	bh=3J7tIy8k8Bcf/iUPBVTRCC72t2DHrr8dVnhgEH9Q9ug=;
+	s=arc-20240116; t=1768458381; c=relaxed/simple;
+	bh=4bWaNRd/9pK5d27UNaSsZ81eikp4OQNqsVqc86VgXeY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dg4etf6C6ool1OY+zans4nAFovJBHxvR1wF21PBkg5+Z+6EftzQGqkDE6t9qNs4rqRw4txm5CEuB1mUncnSpxyiHlBRzes1WJmD/qXtwZODTR4WPd2Ti7ouB3PZBPAJnf0q35e6viGCkdClLGavgPLOn8Hw/wSk8V3wtuOXAF84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1W8bEql; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=KJThfjTdwo83UONGptvpCsYNlHr/xDsiIKAjZgP9vYeU6KSsV7nH45g6FRkg1jyzZxNXe0sHb5xIx7lMJqYU5VEBqsSiG5a94f8klsgqATezEJtpVEU0hO8n6C+6aKI3f3Y9bEfngD0SAaFicZ+cq4ypg/M5D6YdAh7v2EpnDUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KliSw+WN; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1W8bEql"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768457733; x=1799993733;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3J7tIy8k8Bcf/iUPBVTRCC72t2DHrr8dVnhgEH9Q9ug=;
-  b=W1W8bEql1RsFhagCeHJPZeBGiD69KF7oHoQmX1mNy2dJ/xzkeSj95Mza
-   I6IkX8m7uurU01biSaNM26SYd3NvRGMW9NmKvwuPTyUswkaPk6zNL5/ry
-   KGDRUCZs9+uuv34JblqJRxrH0+zhpD6YOMzxLx6ovmUWfUvfhxJYkcoYm
-   WpJgAjynalJsoZ5+ALQUJ7t16Vpea9YQCBCUZFeRKzT1fltBE1wsvwNbc
-   4Pd2dQ2Bw67sNltzT/OXnOL9gEYYHpFHggKkRnYfLt+4u1N8z1yAPeMDH
-   KD5P8MRcFEvAd1/trYb2aMEOXqd8J8Pts8sQWOLwPfh0WOMau1uRhgmXb
-   w==;
-X-CSE-ConnectionGUID: TtpFdSkKT62/n6o/W6+b3Q==
-X-CSE-MsgGUID: jxgF89++RRmK91AZc8xIBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="72345738"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="72345738"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 22:15:32 -0800
-X-CSE-ConnectionGUID: Pj1GQVOFRsqZrvJuRHsaaw==
-X-CSE-MsgGUID: DapuPcptS7yR3gSSG93FjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="236129327"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 22:15:28 -0800
-Message-ID: <f3ab0156-3d7c-470d-9c1e-922195ea27af@linux.intel.com>
-Date: Thu, 15 Jan 2026 14:15:32 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KliSw+WN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=rd4uquxchhYlI1uf+9FDWEl0NlqA5AmaEDZzEOPLiMs=; b=KliSw+WNr29bncz8c4BN7tP94e
+	2jVB66hArpDHpsoMiE3XPFnrZjihb97/qrgTSQ0aDRTlRCAVno7g6IIR1g6uKMt6j6gYhYG5fK3zM
+	gcoTrHfbKLrMmjWpd2CxkXAK9bPzYQB/kG+u1x2lqJEJPZ+I4Tpezici40KLfQbHl0DJKBx13Yg8p
+	XF147lRY7Owy9KCFFtiiiouWBhEIczOZ1XSMbA87VgjzCclQvbuCOvBsHUReLQan1/yEyEtgo7gYU
+	lRP72zjfMIztgfYPwofHlYWXHexwNV4VOo84UwrlVRK8bWWs+wSDM65c+xG1FleXTMimpP/Ghuu2+
+	L8nFzDhA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vgGoC-0000000BqpL-44N7;
+	Thu, 15 Jan 2026 06:26:17 +0000
+Message-ID: <e08ada29-556e-4251-b4bb-c122ca3ec3e0@infradead.org>
+Date: Wed, 14 Jan 2026 22:26:16 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,32 +39,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/5] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
-To: Mostafa Saleh <smostafa@google.com>, linux-mm@kvack.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
- akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
- mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
- david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, xiaqinxin@huawei.com, rdunlap@infradead.org
-References: <20260114164322.787125-1-smostafa@google.com>
+Subject: Re: [PATCH v3] arm64: errata: Workaround for SI L1 downstream
+ coherency issue
+To: Lucas Wei <lucaswei@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, sjadavani@google.com,
+ stable@vger.kernel.org, kernel-team@android.com,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robin.murphy@arm.com, maz@kernel.org
+References: <20260114145243.3458315-1-lucaswei@google.com>
+ <d10116ae-fc21-42e3-8ee0-a68d3bb72425@infradead.org>
+ <CAPTxkvRXmVB9MbPX2vkyhAnLDyJX7YviekOH=y3EcS_1e796Zg@mail.gmail.com>
 Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20260114164322.787125-1-smostafa@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAPTxkvRXmVB9MbPX2vkyhAnLDyJX7YviekOH=y3EcS_1e796Zg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/15/26 00:43, Mostafa Saleh wrote:
-> Changes in v7:
-> v6:https://lore.kernel.org/linux-iommu/20260109171805.901995-1- 
-> smostafa@google.com/
-> - Add a new function page_ext_get_phys() and use it instead of
->    pfn_valid() + phys_to_page().
-> - Drop R-bs on patch 4.
 
-This series has been applied. If you have any further fixups, it's
-better to submit them as follow-up patches.
 
-Thanks,
-baolu
+On 1/14/26 6:11 PM, Lucas Wei wrote:
+> Hi Randy,
+> 
+
+>>> +/*
+>>> + * We have some earlier use cases to call cache maintenance operation functions, for example,
+>>> + * dcache_inval_poc() and dcache_clean_poc() in head.S, before making decision to turn on this
+>>> + * workaround. Since the scope of this workaround is limited to non-coherent DMA agents, its
+>>> + * safe to have the workaround off by default.
+>>
+>> But it's not off by default...
+> 
+> I think it's off by default.
+> Would you point me to where the workaround was enabled without cmdline?
+
+I'm probably confused by the Kconfig option defaulting to 'y' but the run-time option
+itself is still off by default.  Sorry for the noise.
+
++config ARM64_ERRATUM_4311569
++	bool "SI L1: 4311569: workaround for premature CMO completion erratum"
++	default y
++	help
++	  This option adds the workaround for ARM SI L1 erratum 4311569.
+
+-- 
+~Randy
+
