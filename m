@@ -1,134 +1,109 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED082C028F
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768496431; cv=none; b=r7/ta6O1IxXlJLlic4YVJC6f5l07aeUfUHFf5Ou/NVcIMy/XxwsXovzofqzwADL4UGqcKjCZMhw+uEB2JOXjNa+/7XN4vP0zqQExzQhK6Rw1I8crV/Hz9DnpDh6YjLh86EJooBmdQTySxStl2mZWrQIKHtfDyF6Hh4Bi4e81JhE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768496431; c=relaxed/simple;
-	bh=BtokHh4+lGUXhkRc80WbQQozqtSuNo+ZLaEDaAPJVvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h10e2BZ0vyWgBbFg8AfQaAc06tthMWiK0FYNZexuecfYPedi7HYEDHdk33hxWmY6H/QHqUkDwa7Ok5cNIyAYTwrKFJC+/uJ+yxk3GmPWiR/mv9AOa3JOcKvcTIelzc+hhPzo3iSFnY4FYjfDJRyFFkaG6/PmpHuNmExnH/xjKTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wT445DsQ; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037FD3A35A4
+	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 17:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768496739; cv=pass; b=ZNFrOke7s4GpGf3CmbnDfVMjcFb5onBt8+FYSeKde+uR/UJCe06ZhQyR3TVmFV6Bs39QAOeu/aqzkXMEaPxpbJFKr25d9omK7Ala0GAzUIUniWbfbsug81BkDZ6wAZCCPenmgQUQDNKxJuznDrpzqDfR1HV0UpbjvoOb/vwDsF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768496739; c=relaxed/simple;
+	bh=pPXLxJMYfVMaHXQyHAeqgHOdmMjU1dVPx+zj6HAusMg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P4jSIZRAjEx9xbRqlj8ILseV6Ehb9Zn1UvuXufboU3uvPFiUajo+/5kip7f5oRNRWI5RBSkwikz7DYZaNKxhhQeDbUtiAaYoo8RjaNnrCU3forbMAmWRez5pPSSrYizjuZ+rXrj48jdBQbUV4qtmFsOTrWzMm+sC/VacnOYaVmI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TfsPcnhr; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wT445DsQ"
-Date: Thu, 15 Jan 2026 17:00:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768496417;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VFhntWShXHgOAIorUq2E/j9pvFsqctkiMpQmDw8UuZQ=;
-	b=wT445DsQd4/3Xmj+RvJ2Ntg8GFkTgTIfwuwltdPW2wrMKBYK1L/wQAA7vFELJHski3hyGh
-	MmBUfmpJyjXE7E7f69igcg9ZrmSZjp6krqT/hyIEEmg+mPBDUzac1RCa+KgWCgebP2ws3G
-	mIFyVcZuKu0Q3CLBz6F5nVMY3RU3Z6Y=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yosry Ahmed <yosry.ahmed@linux.dev>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, 
-	cgroups@vger.kernel.org, linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, 
-	corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	dave@stgolabs.net, jonathan.cameron@huawei.com, dave.jiang@intel.com, 
-	alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com, 
-	dan.j.williams@intel.com, akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, 
-	mhocko@suse.com, jackmanb@google.com, ziy@nvidia.com, david@kernel.org, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
-	linux@rasmusvillemoes.dk, rientjes@google.com, shakeel.butt@linux.dev, chrisl@kernel.org, 
-	kasong@tencent.com, shikemeng@huaweicloud.com, bhe@redhat.com, baohua@kernel.org, 
-	chengming.zhou@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev, 
-	osalvador@suse.de, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
-	apopple@nvidia.com, cl@gentwo.org, harry.yoo@oracle.com, zhengqi.arch@bytedance.com
-Subject: Re: [RFC PATCH v3 7/8] mm/zswap: compressed ram direct integration
-Message-ID: <e6eydzdvuiktmalhcmoiwsgzjbw5v7t4532fkbroylwr5cqetx@v6pgjaoxgmyz>
-References: <20260108203755.1163107-1-gourry@gourry.net>
- <20260108203755.1163107-8-gourry@gourry.net>
- <i6o5k4xumd5i3ehl6ifk3554sowd2qe7yul7vhaqlh2zo6y7is@z2ky4m432wd6>
- <aWF1uDdP75gOCGLm@gourry-fedora-PF4VCD3F>
- <4ftthovin57fi4blr2mardw4elwfsiv6vrkhrjqjsfvvuuugjj@uivjc5uzj5ys>
- <CAKEwX=MftJXOE8H=m1C=_RVL8cu516efixTwcaQMBB9pdj=K+g@mail.gmail.com>
- <CAKEwX=M8=vDO_pg5EJWiaNnJQpob8=NWvbZzssKKPpzs24wj+A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TfsPcnhr"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-50299648ae9so432051cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 09:05:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768496737; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hldQbraH7Tk/7fv2NDDw2jyQi8oIN7zPJGZuTVaNI3KIYNuwFE7LYtCMiYHA/SchdN
+         XM1ZOG/2v1XyP2N1E6Sa2fOYuQhByi1WZUWhXCD3YTcSC4f3maBaFwgcptfgtk2GgiXj
+         cwa8b/JyaiWxT2g1vK5EZjjTZxw7uBDSYb02G9BUoRBa4KfEk+LDOJF73Etz5nbzZtdz
+         hpw1iTlYW6lUFMW+Vrc6WvPgHsQsPb3i3/xV+8DDckPhq2DXnf8LkJP1NTb8Kvu+z1s3
+         7dvihp0ErIw5FE3p20MJHNSP1K1EidYHL040nE9mlUivFTktlB6344cZD4o/MjhD6WOG
+         RoqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=54li8Nl2hua4YlG/5pe5hANT9Dk06MGWYeEoawn3DKE=;
+        fh=rhDlUEjnwbwcZ4GCn8+7TZxl4Wx0uv96Vx6EzyJE5Ms=;
+        b=LfkFyfAKCtm4GIg1kkr7nHE3SBy2T+Z/LSOXiaHyUoVsOwmwC9vUBbVWISKYrrK3O3
+         ds9OgcZuSNXYhWTcjzIZ94mXtyvhUUISUzJiDMXO9y/0A9Qznla88zEhA6IQ+nEK1rf6
+         sHwI9ogABHnQK4oBF6LuN90EGQvyC55UdbRs/f40Wgc2DBFlUnqpVioKYwdzT21QiOlq
+         afTrcfeMbCXvaJSsrDW8GRIClvrNWveNZyWxEAEAAKW4gpIXuhTCvKbE/BeJkFZXz561
+         WzNUHf/R87uJGnLzaMLVu8rpnviIgYht7YaaJwNQhAS6D3yhcBrexy8C8fU6ty84QqLR
+         2ktg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768496737; x=1769101537; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=54li8Nl2hua4YlG/5pe5hANT9Dk06MGWYeEoawn3DKE=;
+        b=TfsPcnhrrmhvZcBjPSro0GVDZZzXXZ2gUEzR961AAmOXn3ULUis4ZRSRmkeZDvzRZl
+         ZBzGrJQW5Fb84/QEAaX01ltbuWGsOuY6EFcZ/7g6mSBxdxp7DJo1X819fFRkBncckdxq
+         bBIAI45eyER0POtVdp7UCRYdyV3+ZPdyMk3mTs8QsRMPlXzDx6wFF8DeB4yisY7eDZcK
+         tN+dbGwbECaeo2sfqpr0ixHVyo3D0owcapiFFBytIlH17qsEeses/6bkpQdU2VGV/DBj
+         8NudcB+EpjLPwRnmfNM4doqs5OQ/lU3EMkhhNTOZEiLqQi1EdpyRCI9uc8MDoiD8Qyyg
+         g0yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768496737; x=1769101537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=54li8Nl2hua4YlG/5pe5hANT9Dk06MGWYeEoawn3DKE=;
+        b=lpPHUIZMAiFrDD92j8/FC3cXZ9VBJD+FDxYRCZHz0NQO7Y6BeT3BwS+xBW+RKmAM4J
+         6FIOs7al5m2JrTBZ+2+2FLgT6J4GlbZ/v94rYSlklqZ/AH9hr1ggky+lz5rty4K/ANn/
+         XgCUwLSWEDk8ouavEh2TE1XZPjY4nbWqhY6PF4vBZYo0R7OtYShy6/8FBy9OkhiLoHOA
+         E2exMQm0mrh2/w7AM/KkOirQoDBeAs9V1RoamIgzJTZxZI5shDh8q80cZuOkM5PAhCDR
+         nBZFGclpkCmgM5KgG2Lbj1YYhgq6ulS3/Nj0KOPCXjgOFeaqgtytsUYUFUsdOJMrN/Xj
+         S/2A==
+X-Forwarded-Encrypted: i=1; AJvYcCU/B6nLkIbc3lHV7lYVbG7nBvWz/qn+a7QEc6xNpiQGWattTJI0u6HrbpCRvuizBnSdK7tAV+Qyup8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwC0G0EYOHW2kGYRsigHCbhcXe7VA4blwjHOQgZRTKpKfveKSrV
+	UjxdoqFEG+BVJB3R+qfCg9U9OtGLVW2AyHqBQkMlhXhHZu0DxSJW3LGPxcPJnXjNLwycsQqiuTH
+	9dWXALvi+RLzGaz9RXeayrImjg06lMlQ/YPpmbW3q
+X-Gm-Gg: AY/fxX7s1cBlZG2OXQNsStVscvKsvWrv/HnUIfHxgI3VkS/OLwKiXK9xQYlL4EmwfRg
+	NhxQr2sMj83sBiBnf2I1lNpGKNflBoWXoysvWJM+EXAA+Frer+Ok+yxh480Xhz/J7utgeu9LXyN
+	rPWzJ7VzKAFDPyspIPCb126HMVW//kFupZM7S5qV/QZXeLt95kT+BDkMK37SKph2kXdCqpCIYap
+	CyH0ACH6vF7pps9i/O/Eaihpj88qkaK6COnipJcqEQB3Jfhrc925TQiLvLK0/biBN/EC9KNMU4E
+	MPYwIszkSNNjpjxQYpckb2okFw==
+X-Received: by 2002:ac8:7d44:0:b0:501:3b94:bcae with SMTP id
+ d75a77b69052e-501eab81d32mr11968081cf.8.1768496736612; Thu, 15 Jan 2026
+ 09:05:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKEwX=M8=vDO_pg5EJWiaNnJQpob8=NWvbZzssKKPpzs24wj+A@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20260115054557.2127777-1-surenb@google.com> <aWiBv4A4QGJ1pr1l@casper.infradead.org>
+In-Reply-To: <aWiBv4A4QGJ1pr1l@casper.infradead.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 15 Jan 2026 09:05:25 -0800
+X-Gm-Features: AZwV_QjrzboZ9bNCbx-dGc7Nl_6nQsBcpSB2Pv5eAnsjMWYU5mH2P1l-S49q7HY
+Message-ID: <CAJuCfpEQZMVCz0WUQ9SOP6TBKxaT3ajpHi24Aqdd73RCsmi8rg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Docs/mm/allocation-profiling: describe sysctrl
+ limitations in debug mode
+To: Matthew Wilcox <willy@infradead.org>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, corbet@lwn.net, 
+	ranxiaokai627@163.com, ran.xiaokai@zte.com.cn, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 13, 2026 at 04:49:20PM +0900, Nhat Pham wrote:
-> On Tue, Jan 13, 2026 at 4:35 PM Nhat Pham <nphamcs@gmail.com> wrote:
-> >
-> > > This part needs more thought. Zswap cannot charge a full page because
-> > > then from the memcg perspective reclaim is not making any progress.
-> > > OTOH, as you mention, from the system perspective we just consumed a
-> > > full page, so not charging that would be inconsistent.
-> > >
-> > > This is not a zswap-specific thing though, even with cram.c we have to
-> > > figure out how to charge memory on the compressed node to the memcg.
-> > > It's perhaps not as much of a problem as with zswap because we are not
-> > > dealing with reclaim not making progress.
-> > >
-> > > Maybe the memcg limits need to be "enlightened" about different tiers?
-> > > We did have such discussions in the past outside the context of
-> > > compressed memory, for memory tiering in general.
-> >
-> > What if we add a reclaim flag that says "hey, we are hitting actual
-> > memory limit and need to make memory reclaim forward progress".
-> >
-> > Then, we can have zswap skip compressed cxl backend and fall back to
-> > real compression.
-> >
-> > (Maybe also demotion, which only move memory from one node to another,
-> > as well as the new cram.c stuff? This will technically also save some
-> > wasted work, as in the status quo we will need to do a demotion pass
-> > first, before having to reclaiom memory from the bottom tier anyway?
-> > But not sure if we want this).
-> 
-> Some more thoughts - right now demotion is kinda similar, right? We
-> move pages from one node (fast tier) to another (slow tier). This
-> frees up space in the fast tier, but it actually doesn't change the
-> memcg memory usage. So we are not making "forward progress" with this
-> either.
-> 
-> I suppose this is fine-ish, because reclaim subsystem can then proceed
-> by reclaiming from the bottom tier, which will now go to disk swap,
-> zswap, etc.
-> 
-> Can we achieve the same effect by making pages in
-> zswap-backed-by-compressed-cxl reclaimable:
-> 
-> 1. Recompression - take them off compressed cxl and store them in
-> zswap proper (i.e in-memory compression).
+On Wed, Jan 14, 2026 at 9:57=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+> wrote:
+>
+> On Wed, Jan 14, 2026 at 09:45:57PM -0800, Suren Baghdasaryan wrote:
+> > +  warnings produces by allocations made while profiling is disabled an=
+d freed
+>
+> "produced"
 
-I think the whole point of using compressed cxl with zswap is saving
-memory in the top-tier, so this would be counter-productive (probably
-even if we use slightly less memory in the top-tier).
-
-> 
-> 2. Just enable zswap shrinker and have memory reclaim move these pages
-> into disk swap. This will have a much more drastic performance
-> implications though :)
-
-I think what you're getting it as that we can still make forward
-progress after memory lands in compressed cxl. But moving memory to
-compressed cxl is already forward progress that reclaim won't capture if
-we charge memory as a full page. I think this is the crux of the issue.
-
-We need to figure out how to make accounting work such that moving
-memory to compressed cxl is forward progress, but make sure we don't
-break the overall accounting consisteny. If we only charge the actual
-compressed size, then from the system perspective there is a page that
-is only partially charged and the rest of it is more-or-less leaked.
+Thanks! I'll wait for a day and if there are no other objections, I
+will post a fixed version.
