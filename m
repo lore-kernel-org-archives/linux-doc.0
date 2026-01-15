@@ -1,281 +1,86 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457A2397AB6
-	for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 14:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6A03A9DB9;
+	Thu, 15 Jan 2026 15:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768488852; cv=none; b=Eg+VHM7U/MYbfcSnOOZknPL0DgWSoibbxNDuBrTRllwfB7TXZxRBK5gcmi77NotshgBHB2ZpwFOFnNB1yLrVi0OVesXRTZHR5cEK0cke8DlPOmriUPfoN3GIKZRJRRukXBB2/y/h7hMHmO6wgTyKmczTnHWTi/+r9nKluXvMEL8=
+	t=1768489550; cv=none; b=PCWyUbLvC2hQL4iazOl/D46g6J9jvOpNoXNhOMWwA94/nNSkFMegrFuB/Ub4s+y1s6RpTpEGDpAs2G68WZMx1FnmFaqhCAovKrqg1KTrcww/TJwprjr5wWcRoS4sATkGHfIQeq6rJXKrmMXJoCsR+fL2OWoA2txhQk0tcD/sTFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768488852; c=relaxed/simple;
-	bh=kGn5ufCD2jXTTdxEirwcUNO4FHgwrNNxGOcBr7XwKF0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TuBRtGiwZ3kCv9Q5qsU8z3OXL4eX6PJjrWGxZHI37+UqSIrGJ0gg0sNK1F3IaN41lVJ/QX2i6XM1f+nHdT5LhlvnDgmT3TJPVU3IeMBN+MwmOGJ64jwvhFmunnZeI5VM93PcviCvj9+htU1nDS+1GfFVhsDzIqEe1q+S+RuOi4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZB2SXpok; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768489550; c=relaxed/simple;
+	bh=ZYKXMs0hBi9WU3FI6lPvYRM2x2BPZgLuM2dFvniBz1c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XaPOZkUwFWY/YMF0MTlte25Cv+FfGAgTqL0Gqnk4D2FdZF0dvc4r4Ml+fYlJke/eegYjERQgq+klhMoVHFUnrD+Kl+h7TNJ06o137FlVCFAXJozMPt4hPz33NeJ679zz0Y2BYMenVeYTYMu6OGK5afZsXkMkAkKndJzzTTY5ONw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OmujBLoJ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZB2SXpok"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a07fac8aa1so7240985ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 06:54:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768488849; x=1769093649; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s5/4FHNHwz9CtyRKUeDLugwuQOX195LiHNnu/QshYQE=;
-        b=ZB2SXpokVWCd0WkkZrX7LUuIKpaqa4WP/Gao3y2TAMXf5m9nDgEi3u9FT75cwT5g7i
-         f+JS7RQp4T3dpwKt+y9BjgKdxUuwRjlLZvEDnkflz0Id09YiAv4DnB3EDB8VTQyo972w
-         f8TbvsgWvjn+ubrfZR3sMsoLl1qWHqcZ4pUND4vMCPchmIWzMTEM1L0Z/6DxDDxmENcu
-         gf//tmZ9BF0yeh8Uc/LiSRWhBXfa74ancz0FD4LI3CBnArSSo94QKTMjT7Ne4h9onL9f
-         NV1gHdCN915J2tBS+0lqBX/z2ICihME0oK+I0CNIBjxjTTCqdsppsWC5rpfwld52rrMV
-         QFxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768488849; x=1769093649;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s5/4FHNHwz9CtyRKUeDLugwuQOX195LiHNnu/QshYQE=;
-        b=pqTUTpx1MTCADZm9EqnjW4JwOc/30XLPmS34zde1mujbKVCQ8y1l7WuCjHOCEI64B0
-         3sZ0zgDu9jd9FobuQzLARGoqGAlqytdYqL/zOC4YdCjliBRh2Te3ABPca7A9zqa+ryL7
-         OWcF+t0C/9bKSo8C+PBeXOQZdXGmarbE3i8ELO4chFh2xks0xVYQJ8zIAh2sbRo9p/wD
-         QHcB2lUQX4z+N2Iw2n974NMKHXq+OuSdP/YVNQTFGg08rm+RAkL+hxP9Kz/d3z2sA6Ie
-         lRwhzX5H2ylegUNNbH97NIC+kMtIUGDi4IJIHScXFulXjAWQyd5Saoc3I4QR7Qg7ODFK
-         M+qw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMFFHub0Bnqdk7N5ksBSJ1t4aGKOTQawWRSdAlZaKrjf917GpKF4zDlhch52abHf+cb8XOz3E5zu8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpPzdvV7xPOzk/SpRuhaeOA4u2P7tr5Hj+sZcU5xaA2YgNLp5m
-	xnHdj9P9B/h7EUmXEhB4blT6RWQlSHtwCNcIaKKt/OV9pMnnGecvPdxL
-X-Gm-Gg: AY/fxX5Dx3dzW/KzzN9l1p1qFvTFI/W5MUyRN7gDNuyHc30d0y3+Q0fMD9UWwef5d0s
-	CQnRPKFys10HPvvGiuxuAFiANTVCSaxvVJMXFFDzyiWp23hlP5/ZMLayzoG34xuKxaBi0nSLe97
-	4hCCJdxmOTRNGjgPz/30mVm6OaCgsTilMvuPmrRw7gbLbMaaHosUrNnO1LKjusdJuCXlf8M3nvF
-	PZ6HksKm3GA6WbTdr4J7dhlEnWoDhU7OSBKO1mjT+AowEF+DTjJJaUmCM9bHV5S0vLgGftSTXyG
-	ds5rOVDur71b9xxYOzVdLar/l/AYxg84hAGk7+STEpa+zU76CtUcUki7nZVHZvCcTiYVvB9ALvf
-	E5aS82qY76kY3hsgs1BGsiTqx0o8pplJa5+VTLqTPVhgU0cn+Awho2Zbna6hKzSpYdCrTIRNkmN
-	bB5zJHw6DMSusuS96Hu8M=
-X-Received: by 2002:a17:902:c408:b0:2a0:afeb:fbbb with SMTP id d9443c01a7336-2a599ded4b5mr63604885ad.1.1768488848976;
-        Thu, 15 Jan 2026 06:54:08 -0800 (PST)
-Received: from [172.16.80.107] ([210.228.119.9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2ea0sm261120955ad.62.2026.01.15.06.54.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 06:54:08 -0800 (PST)
-From: Ryota Sakamoto <sakamo.ryota@gmail.com>
-Date: Thu, 15 Jan 2026 23:53:56 +0900
-Subject: [PATCH] kunit: add bash completion
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OmujBLoJ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D8F0440C99
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768489542; bh=DuKzz1/YJHs2VL6GCvWxqszGITIG/Rnm/C9K+GZ+WSw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OmujBLoJcUiRIScluZawXwAq1daZCqnoZyaH4Vzf2kk6xGFAR5p5qPjOOCb4WqNQr
+	 vFFg5K5zXrzqQaU0t278u/dNZP+0b/6eTrYFCWaUIENNSsSLlYVSbJoWeDFp7bl6jC
+	 Xc1E2cwyqz/arbd6JNTnZlfbE6FT0vGe1ZpJNFF4AJxn8KXdh+jbuDytcKN2awYIDw
+	 yhrrNdHgxmSyCf8YWY4bRKD0po+Wo+QHqZAZAHOYYKRIg3tH5w+4qasg02NZS5+QJR
+	 8dJXQ782AdpzESn5yNevExydJJs0s6XnKV5GhNt/P1Qeyl1quqKf9EylGW8jY/+LyP
+	 ms7Z+FlHtnlxg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D8F0440C99;
+	Thu, 15 Jan 2026 15:05:41 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jani Nikula <jani.nikula@linux.intel.com>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Shuah
+ Khan <shuah@kernel.org>
+Subject: Re: [PATCH 0/2] Move kernel-doc to tools/docs
+In-Reply-To: <3237bd2e1397910708743dba2c7d80b2c8eecb0b@intel.com>
+References: <20260114164146.532916-1-corbet@lwn.net>
+ <813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
+ <87zf6gt2ts.fsf@trenco.lwn.net> <20260114212558.1aeb1b17@foz.lan>
+ <3237bd2e1397910708743dba2c7d80b2c8eecb0b@intel.com>
+Date: Thu, 15 Jan 2026 08:05:40 -0700
+Message-ID: <87ecnquda3.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260115-kunit-completion-v1-1-4de6564962c4@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7TlBJ0b4SHcK2WioLtQjCvycdB
- 2bmhYiBMEJbvRDwpkiHLyDqCtwy+BkZjYVBcqm5EA1bL0+JuWM/N0xFZlIrY+ykrFMSSnYGnOj
- 5l12f8wdrRnFKYgAAAA==
-X-Change-ID: 20260114-kunit-completion-265889f59c52
-To: Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <raemoar63@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org, Ryota Sakamoto <sakamo.ryota@gmail.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain
 
-Currently, kunit.py has many subcommands and options, making it difficult
-to remember them without checking the help message.
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-Add --list-cmds and --list-opts to kunit.py to get available commands and
-options, use those outputs in kunit-completion.sh to show completion.
+> On Wed, 14 Jan 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+>> Em Wed, 14 Jan 2026 12:24:31 -0700
+>> Jonathan Corbet <corbet@lwn.net> escreveu:
+>>
+>>> Randy Dunlap <rdunlap@infradead.org> writes:
+>>> 
+>>> > I do many of these on a regular basis:
+>>> >
+>>> > $ ./scripts/kernel-doc -none -Wall <path_to_source_file>
+>>> >
+>>> > Will I still be able to do that (by using ./tools/doc/kernel-doc ...)?  
+>>> 
+>>> Yes.  The tool moves, but its functionality remains unchanged.
+>>
+>> That's actually a good point: should we preserve a link on scripts
+>> pointing to ../tools/doc/kernel-doc? I suspect that a change like
+>> that could break some machinery on several CI tools and scripts
+>> out there. If so, it could be useful to keep a link - at least for
+>> a couple of kernel releases.
+>
+> I think the tool source should be called kernel_doc.py or something, and
+> scripts/kernel-doc should be a script running the former.
 
-This implementation is similar to perf and tools/perf/perf-completion.sh.
+I honestly don't get it - why add an extra indirection step here?
 
-Example output:
-  $ source tools/testing/kunit/kunit-completion.sh
-  $ ./tools/testing/kunit/kunit.py [TAB][TAB]
-  build   config  exec    parse   run
-  $ ./tools/testing/kunit/kunit.py run --k[TAB][TAB]
-  --kconfig_add  --kernel_args  --kunitconfig
+Thanks,
 
-Signed-off-by: Ryota Sakamoto <sakamo.ryota@gmail.com>
----
- Documentation/dev-tools/kunit/run_wrapper.rst |  9 ++++++++
- tools/testing/kunit/kunit-completion.sh       | 33 +++++++++++++++++++++++++++
- tools/testing/kunit/kunit.py                  | 30 ++++++++++++++++++++++++
- tools/testing/kunit/kunit_tool_test.py        | 21 +++++++++++++++++
- 4 files changed, 93 insertions(+)
-
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index 6697c71ee8ca020b8ac7e91b46e29ab082d9dea0..3c0b585dcfffbd3929d0eef1ab9376fa4f380872 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -335,3 +335,12 @@ command line arguments:
- 
- - ``--list_tests_attr``: If set, lists all tests that will be run and all of their
-   attributes.
-+
-+Command-line completion
-+==============================
-+
-+The kunit_tool comes with a bash completion script:
-+
-+.. code-block:: bash
-+
-+	source tools/testing/kunit/kunit-completion.sh
-diff --git a/tools/testing/kunit/kunit-completion.sh b/tools/testing/kunit/kunit-completion.sh
-new file mode 100644
-index 0000000000000000000000000000000000000000..3b9b68e3bc384c026f10f74b8a1df2129cb2cd50
---- /dev/null
-+++ b/tools/testing/kunit/kunit-completion.sh
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# bash completion support for KUnit
-+
-+_kunit_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-+
-+_kunit()
-+{
-+	local cur prev words cword
-+	_init_completion || return
-+
-+	local script="${_kunit_dir}/kunit.py"
-+
-+	if [[ $cword -eq 1 && "$cur" != -* ]]; then
-+		local cmds=$(${script} --list-cmds 2>/dev/null)
-+		COMPREPLY=($(compgen -W "${cmds}" -- "$cur"))
-+		return 0
-+	fi
-+
-+	if [[ "$cur" == -* ]]; then
-+		if [[ -n "${words[1]}" && "${words[1]}" != -* ]]; then
-+			local opts=$(${script} ${words[1]} --list-opts 2>/dev/null)
-+			COMPREPLY=($(compgen -W "${opts}" -- "$cur"))
-+			return 0
-+		else
-+			local opts=$(${script} --list-opts 2>/dev/null)
-+			COMPREPLY=($(compgen -W "${opts}" -- "$cur"))
-+			return 0
-+		fi
-+	fi
-+}
-+
-+complete -o default -F _kunit kunit.py
-+complete -o default -F _kunit kunit
-diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-index cd99c1956331dbbfb06cf4ddf130db3dcf2a7c31..a5aee1eb88e65fa2387b2623642d2ee9a66db600 100755
---- a/tools/testing/kunit/kunit.py
-+++ b/tools/testing/kunit/kunit.py
-@@ -323,6 +323,17 @@ def get_default_jobs() -> int:
- 		return ncpu
- 	raise RuntimeError("os.cpu_count() returned None")
- 
-+def add_completion_opts(parser: argparse.ArgumentParser) -> None:
-+	parser.add_argument('--list-opts',
-+			    help=argparse.SUPPRESS,
-+			    action='store_true')
-+
-+def add_root_opts(parser: argparse.ArgumentParser) -> None:
-+	parser.add_argument('--list-cmds',
-+			    help=argparse.SUPPRESS,
-+			    action='store_true')
-+	add_completion_opts(parser)
-+
- def add_common_opts(parser: argparse.ArgumentParser) -> None:
- 	parser.add_argument('--build_dir',
- 			    help='As in the make command, it specifies the build '
-@@ -374,6 +385,8 @@ def add_common_opts(parser: argparse.ArgumentParser) -> None:
- 			    help='Additional QEMU arguments, e.g. "-smp 8"',
- 			    action='append', metavar='')
- 
-+	add_completion_opts(parser)
-+
- def add_build_opts(parser: argparse.ArgumentParser) -> None:
- 	parser.add_argument('--jobs',
- 			    help='As in the make command, "Specifies  the number of '
-@@ -569,6 +582,7 @@ subcommand_handlers_map = {
- def main(argv: Sequence[str]) -> None:
- 	parser = argparse.ArgumentParser(
- 			description='Helps writing and running KUnit tests.')
-+	add_root_opts(parser)
- 	subparser = parser.add_subparsers(dest='subcommand')
- 
- 	# The 'run' command will config, build, exec, and parse in one go.
-@@ -603,12 +617,28 @@ def main(argv: Sequence[str]) -> None:
- 	parse_parser.add_argument('file',
- 				  help='Specifies the file to read results from.',
- 				  type=str, nargs='?', metavar='input_file')
-+	add_completion_opts(parse_parser)
- 
- 	cli_args = parser.parse_args(massage_argv(argv))
- 
- 	if get_kernel_root_path():
- 		os.chdir(get_kernel_root_path())
- 
-+	if cli_args.list_cmds:
-+		print(" ".join(subparser.choices.keys()))
-+		return
-+
-+	if cli_args.list_opts:
-+		target_parser = subparser.choices.get(cli_args.subcommand)
-+		if not target_parser:
-+			target_parser = parser
-+
-+		# Accessing private attribute _option_string_actions to get
-+		# the list of options. This is not a public API, but argparse
-+		# does not provide a way to inspect options programmatically.
-+		print(' '.join(target_parser._option_string_actions.keys()))
-+		return
-+
- 	subcomand_handler = subcommand_handlers_map.get(cli_args.subcommand, None)
- 
- 	if subcomand_handler is None:
-diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
-index bbba921e0eacb18663abfcabb2bccf330d8666f5..a7f09a6c97a473ff85e087d17c2f5faf7755b994 100755
---- a/tools/testing/kunit/kunit_tool_test.py
-+++ b/tools/testing/kunit/kunit_tool_test.py
-@@ -11,11 +11,13 @@ from unittest import mock
- 
- import tempfile, shutil # Handling test_tmpdir
- 
-+import io
- import itertools
- import json
- import os
- import signal
- import subprocess
-+import sys
- from typing import Iterable
- 
- import kunit_config
-@@ -855,5 +857,24 @@ class KUnitMainTest(unittest.TestCase):
- 			mock.call(args=None, build_dir='.kunit', filter_glob='suite2.test1', filter='', filter_action=None, timeout=300),
- 		])
- 
-+	@mock.patch.object(sys, 'stdout', new_callable=io.StringIO)
-+	def test_list_cmds(self, mock_stdout):
-+		kunit.main(['--list-cmds'])
-+		output = mock_stdout.getvalue()
-+		output_cmds = sorted(output.split())
-+		expected_cmds = sorted(['build', 'config', 'exec', 'parse', 'run'])
-+		self.assertEqual(output_cmds, expected_cmds)
-+
-+	@mock.patch.object(sys, 'stdout', new_callable=io.StringIO)
-+	def test_run_list_opts(self, mock_stdout):
-+		kunit.main(['run', '--list-opts'])
-+		output = mock_stdout.getvalue()
-+		output_cmds = set(output.split())
-+		self.assertIn('--help', output_cmds)
-+		self.assertIn('--kunitconfig', output_cmds)
-+		self.assertIn('--jobs', output_cmds)
-+		self.assertIn('--kernel_args', output_cmds)
-+		self.assertIn('--raw_output', output_cmds)
-+
- if __name__ == '__main__':
- 	unittest.main()
-
----
-base-commit: b71e635feefc852405b14620a7fc58c4c80c0f73
-change-id: 20260114-kunit-completion-265889f59c52
-
-Best regards,
--- 
-Ryota Sakamoto <sakamo.ryota@gmail.com>
-
+jon
