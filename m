@@ -1,144 +1,118 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324C91F3D56
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768588230; cv=pass; b=a706YCO7pMXsG5q95/FAbKUlVOpcvdA8VtSZnNK4hREl6cQCfgRrlsOGrVBwZaOXtL1YIIPtZL6J8W1oVYwPIsvvWH8up9BrblafarO+hO20q8hE0YpW0I591khehiQX1LCnKzkIA0Nqy3QndaNpm0pFaACgd8JZGgq9YedeS7o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768588230; c=relaxed/simple;
-	bh=gIA9cnkunWjSA6aBsAeXZeJQx2q9RSEgvOoE0mcOzHg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F53311972
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768588326; cv=none; b=VcOomRGKTRK6cr6nDn12YAFIjivoTEoAuJBz75u8bBp/eK5SERTyiiQ6aLzjqNkMYhh32XQDa3/8R56fqPXdMugirlgMdOE2r64UZDG6OFXcyFA+jKBsRvFNNeOVSsyLyyOVxWTYs24OEHnzZP1wR+ewTvZBCzxfZoR/fUBO260=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768588326; c=relaxed/simple;
+	bh=Ss7qiRqTeuY+VD+9H9/ZWNCvERV6Dkawhl4DEc9LoVI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=poivbJ4au2yOR7kq8G1laKFg3/JIHEH/3BJJtD+TxN0Wk2uYFzMMG6+M6R9SlBRiO9Fg5BsuhwAvwxKj0i765aOzxE+pBHUdekicXonr//R3WVnkiTsWk9fAeUrcVTp1JWTd8QoOU0UW2muBvNONNcjXnm9NRwEUKHIG382vHIs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FNSYgp3E; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=tX1CuzGDPUI1VsAvY/XmJbJQjJgVV2W1gpKx/PDVKKWX9vep3Wnv2+lH0FP7M5HqAgfafuIMOL/z6E9hzGWAPhgxITvMRzHsBjEWFCaQ7IYDjGzHtGVgiF5QQcFNBXs3fdl2iliwjNc8EirzXUsb6zf85zAy8K0E0nH2U9HO/sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4SGA+/1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FNSYgp3E"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-50299648ae9so9861cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 10:30:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768588227; cv=none;
-        d=google.com; s=arc-20240605;
-        b=a+MexK3iFHAucw8kwb5ARU1NA+H+Phd9G+fjTXlHYL+EWvpTnmBIujdwuPrFyRgPGf
-         qFDTl/ErxDdo09+OEWY4PXz6unQHPciWuCEXXTPl2f9ew2W84o2NeHNLyCib8IH9cWQA
-         kdhByMtsHn7w8Tvx3GrziNztQd67MEs8+wrrtszkL9YNI4dWE117/kbc+5jn8JFGh2JC
-         Ph80XUN2E+HjKrfg4CJIZHpF5ydULm1TRW3ptyiAiQZOh6Q/Q2wPJHNqfPCPH2m/26O5
-         9J/Sr97CUbteufCnFU7qWbqZA5FEaxMcCBL1FG36M+VPFfCq4qFUXgYhItRBGej9AfMJ
-         R2BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=78gXhgLyIFLLpASS5oKJ8Lx5Grl+s0Di0xH8SDZDXS4=;
-        fh=Cyp8T9aHBq1igPSilAJ1tTp+FF59Lx31/ORLq0kW328=;
-        b=XTvi1h9PViL9N/HuFER/u74nP3iEHlo7hzdWv0WxDzI9lS4JfOF/IvSI2NixPBdLIh
-         auPt1E0Ng/tV7EAqXZ5R1mc7EFD8l1VW2ipcYoeP97WthRY861stGJahklxatrneoErC
-         XWPuDVoOA7ykbYhTGA/2aSAqx5BkdQFNt6mwmc3dEJAMMotayrwsc+Reqi29xGnKeB0N
-         t8iztg9mwTpX9qt09SJ7MLl6vz3FIfGL7Q/HAuRsZQB9ydRyChoByzJ0PYpebUaPlMLB
-         NW8wSAsqXm3wjPuIDiMGbkDZaTDnDJda8Eisu/2+SklfWBpV0WG0RtYDdeTFgh/G1YuJ
-         QXgA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768588227; x=1769193027; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78gXhgLyIFLLpASS5oKJ8Lx5Grl+s0Di0xH8SDZDXS4=;
-        b=FNSYgp3EPnyCnvQy2fzGWc1q7nFzQMQR4pk8MZfkIZyWCeulmhsnIOGU+39PVa4/k4
-         2dM3APrNRfCi70ABSeDpuKA464G07F1jRd3GlS7kyTHRPM2fwlh+rPPxvY4aeVx3bVOO
-         d9aZ0/uDe+FZZaKgT5heNfiUVrJ0mPO7VF78wP7Nnd8pU3QU/2PdAp+gOQDLcwgVihP/
-         VrSrD1wd/NWwH07W57Ug3TLF2wd/TyXuzkXgNFd51tGdtoBVsEPTyr40YdnUgDtIxz++
-         UI1l53YWqZrz37UbDHGKsVQhK3KtM4vcrsE4bNet/474p5EciDittjhVd1uNOeTx5bRR
-         GsYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768588227; x=1769193027;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=78gXhgLyIFLLpASS5oKJ8Lx5Grl+s0Di0xH8SDZDXS4=;
-        b=uAdk3gY6Zta4mcQwJxBElfp5mOvifYcy+LfLelPepVCnk6+cHjPJkE5jqcPGWdccsv
-         DW+LbUPwF94C0wrJ7/8EKMd7JUksRgw8vGQZ7uTf9c4X4WeFy4IXkfDvGguXP043DG7O
-         WQ1M7/6HSv3br4sfU9jlbh04P7AgNYcmWYC65+6WsV7A/qpMMyh24Sa1TDe5yYvng6pH
-         8k8lnBULMeBPDxHeQ9FXYmKFxh7VZAIJ3ecKGaWQXtOE1uBIXUFEi8yO1DEk2xkKb+ud
-         v8nS/5R+kEg62FQAvCxqLSU/iYoLMkxqa9dAsXLT9Zb9WwAvSgbUSS7lpEFY+gKaKRba
-         TyBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWysK71XhBK1qx9v4MiTWkHKsKsBIsyO6SBi9zKV9UnQJGnTxuWRQmw8dtCREezhdNk7RVzLN5hGqI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUdAUVYxgG52bi0Y+AM7mbYUngdYWquTgc5fSH1CiKK0ab1tVY
-	pSz5QgJYVxv6tC0UJLOxGG3L4GBEkzDyNGq63WbWGxk79WK8/UkVul+vQTbFTo4JjJPUF7Gnp+I
-	tFkiXuoYT9stf1qVoXxB82WkMwWxsdYt/vR94rnTs
-X-Gm-Gg: AY/fxX6/83WYKR2t0sJ2yAq4pRiL/a89cqnAdsGFgZnSBST/UbH3bXaEqvzfMWoAYwU
-	xSjzCAagFPStA4cdtJhlvgpi7EuSomIkidr0qAEjBSG1p6K2n0CQPRdcUY3PX1fuu7ubxLulofk
-	DnH+2McLEXBW0eAQ6YJMrebICb8pLKE+Cd+eD4ATZbdg4w0cSEMtA3357et2NddkLAjAPqF7mm0
-	dyN9VFf27/MCkJ8yFrZaUsHSspXv9UXq7U2OmEz52Hc12dKJx/k73bgQL65+QCHmBRziA==
-X-Received: by 2002:a05:622a:1999:b0:4ff:c109:6a4 with SMTP id
- d75a77b69052e-502af961d0emr427261cf.4.1768588226665; Fri, 16 Jan 2026
- 10:30:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4SGA+/1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A075BC2BCB2
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768588325;
+	bh=Ss7qiRqTeuY+VD+9H9/ZWNCvERV6Dkawhl4DEc9LoVI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=b4SGA+/1MZXjRUOv6t/Nl8NtJ/OLE9LVuNugo9h6zdSvVvdEmabRufWLmKz2c+Vhy
+	 +bbjsOm4lhhi70Bb2IF6Am1apRaUIVDgVHhHFCf3miqVmjr8J0/X5JrpofEmx0fJ56
+	 u+r9m1oXG4y8YOHIhn/PcguhnDW1O4/mIF346Py2RNG8seasZ29/mxrCec6JtqAkUQ
+	 Fwvrlhpn9jJ6KJydXlQBRPSGu+wcOrk0fIWswrZ41m8XSG1KmGhjtxpqI4QMNfg3hD
+	 QPavFKm/WZDhd1vxAfUkpwj4YQYHogJJfPe5/6H4glBBPFVqo4FzMqC2XDS0QGbAKh
+	 BGxHq+jgsO3Jg==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b6a987346so2207658e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 10:32:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX3yWXxz31HLmZyVz5KOvP1wCHpvCG27Ssp1cYfXpve5qUpH881AkR222v+Wieb1KjJ1OWqbU6MOGg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3+LBH1xBokCRcrpdAS8GsXA1mns2BT+T0r38442cwSeNgaiez
+	LTNhmA6AzinNJFgg7XV1WfAQivKa1wvw3Iwtrud3O5f89RZlpQYKw0nyLTr/3wnsIqWGRKdCDkf
+	zTQDLbvA+K/qrgM7Mut5mXoSTNp5JbXWZG4stLtezeg==
+X-Received: by 2002:a05:6512:b81:b0:59b:9f92:301f with SMTP id
+ 2adb3069b0e04-59bafdb63a8mr1058854e87.7.1768588324162; Fri, 16 Jan 2026
+ 10:32:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJuCfpEQZMVCz0WUQ9SOP6TBKxaT3ajpHi24Aqdd73RCsmi8rg@mail.gmail.com>
- <20260116021835.71770-1-sj@kernel.org>
-In-Reply-To: <20260116021835.71770-1-sj@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 16 Jan 2026 10:30:14 -0800
-X-Gm-Features: AZwV_Qijfm4QX7A8EtjaARaEPudSI5DCWWeSwN_9u_yVlGn-gJw7kPfo1GWvE2U
-Message-ID: <CAJuCfpFevUwXxwOrpH3+VOibjJw0rBw3=QL-nqeKreNEky7_Gg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Docs/mm/allocation-profiling: describe sysctrl
- limitations in debug mode
-To: SeongJae Park <sj@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, akpm@linux-foundation.org, 
-	kent.overstreet@linux.dev, corbet@lwn.net, ranxiaokai627@163.com, 
-	ran.xiaokai@zte.com.cn, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, stable@vger.kernel.org
+References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
+ <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org> <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
+ <20260116160424.GA14499@pendragon.ideasonboard.com> <DFQ5W41X6Z7S.3V6FRPXYMDJ1F@kernel.org>
+ <CAMRc=MfAZxzd2hjqgDsXBR+UxgkaEQX0vR5nNZ=a+5WccUb4GQ@mail.gmail.com> <20260116182431.GA1134360@nvidia.com>
+In-Reply-To: <20260116182431.GA1134360@nvidia.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 16 Jan 2026 19:31:51 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McsrthHS4kcV7UkmdVFS4nr9vXe8Z_kQODvMUYxVkE8KQ@mail.gmail.com>
+X-Gm-Features: AZwV_QhX6LG8DkljEPjMvfuFGbrj6wIYYufM6rhcWWImQbypzvqc5Ui2tF-rlh8
+Message-ID: <CAMRc=McsrthHS4kcV7UkmdVFS4nr9vXe8Z_kQODvMUYxVkE8KQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 15, 2026 at 6:18=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
-:
+On Fri, Jan 16, 2026 at 7:24=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
+ote:
 >
-> On Thu, 15 Jan 2026 09:05:25 -0800 Suren Baghdasaryan <surenb@google.com>=
- wrote:
->
-> > On Wed, Jan 14, 2026 at 9:57=E2=80=AFPM Matthew Wilcox <willy@infradead=
-.org> wrote:
+> On Fri, Jan 16, 2026 at 07:19:50PM +0100, Bartosz Golaszewski wrote:
+> > On Fri, Jan 16, 2026 at 5:41=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
+rg> wrote:
 > > >
-> > > On Wed, Jan 14, 2026 at 09:45:57PM -0800, Suren Baghdasaryan wrote:
-> > > > +  warnings produces by allocations made while profiling is disable=
-d and freed
+> > > On Fri Jan 16, 2026 at 5:04 PM CET, Laurent Pinchart wrote:
+> > > > Based on the discussions we had at LPC, the revocable resource mana=
+gement API
+> > > > is not the right solution to handle races between device removal an=
+d userspace
+> > > > access.
 > > >
-> > > "produced"
+> > > Please see: https://lore.kernel.org/all/DFQ5D44A0348.PZJIGPL972N@kern=
+el.org/
+> > >
+> > > > It is however a possibly useful tool for races between producers an=
+d consumers
+> > > > *inside the kernel*.
+> > >
+> > > Do you have an example for such a case?
 > >
-> > Thanks! I'll wait for a day and if there are no other objections, I
-> > will post a fixed version.
+> > Isn't the GPIO use-case - which the series on top of it addresses - one=
+?
+> >
+> > With fw_devlink=3Doff it's quite easy to trigger all kinds of crashes
+> > with in-kernel users.
 >
-> Assuming Matthiew's good finding will be fixed,
+> Does this series solve that? It looked to me like it just replaces the
+> existing SRCU with a wrapper?
 >
-> Acked-by: SeongJae Park <sj@kernel.org>
 
-Thanks!
+SRCU already *did* solve it. Revocable *is* a wrapper around SRCU that
+generalizes the initial solution.
 
->
-> Fwiw, the typo is also on the .../sysctl/vm.rst part.
+Replacing SRCU with a generalized wrapper is fine but there are
+subsystems out there, where the problem is much less trivial. Take I2C
+for example: the struct device management is so broken that there
+isn't even anything *to revoke* yet. It'll take years of little
+reworks before we can even use revocable at all.
 
-Correct, I'll fix in both places.
+I'm not against it as a library of functions. But TBH I looked at the
+series and - besides making the code run slower - it also kind of
+makes it harder to read. With *naked* SRCU it's very clear what's
+going on, when you start hiding the logic, it becomes needlessly
+obfuscated.
 
-> And from the finding, I
-> was wondering if it is better to put the description only one of two docu=
-ments
-> rather than having the duplication, and further if the 'Usage:' part of
-> allocation-profiling.rst is better to be moved to
-> 'Documentation/admin-guide/mm/'.  But I ended up thinking those are too t=
-rivial
-> and small things.
+I want to first see revocable match current GPIO performance and then
+we can talk about accepting it.
 
-Yes, I didn't want to complicate reader's life by adding a reference
-for a couple of sentences.
-
->
->
-> Thanks,
-> SJ
+Bartosz
