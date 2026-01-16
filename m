@@ -1,201 +1,321 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988CD2264B0;
-	Fri, 16 Jan 2026 14:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBB113B293;
+	Fri, 16 Jan 2026 14:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768573805; cv=none; b=MIlBkcEPnXuH92WBbwGeDyYSUhErQMfUlYqP9saJecajV2nbVJAykWhWezVCyOYHeXzJrcoCk73iBeLauRWFbfItHn5yZcQWJ9N4Un1t0DjW55nBDaUWst2c+e60th/ndO29Mlkr8URQn4AcvumR2qwjlacp/eDZ60h4s7Qe4t8=
+	t=1768573958; cv=none; b=SN/gSEJ+UhzBchT725yDi9vliU52okCIq+K7pFspA3JCZphBqknCdwK9ZSbK61YK4F5GqmlOQvvZwSQqEDBPQOX2sbRJhs5zpiMRMXHvAxBRmY6v8PDSq36kB2BAmJTxG58J3CIKMiHQDZ7ypGy2tX8rieps3bIxWgxbybjP60k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768573805; c=relaxed/simple;
-	bh=Ze8/tNVvQO7baDWI7fWfu7Bet/8G2e9QTRDyHU8fgn0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NSM5MQeTbf+AEptH2MEbTLq8R2gf2OeJvMZHcU+ZwqEggr4fOqAgrEyENOINKGXTWUcxcTe5IvWw/VmuLw2/aAmq8yBK6QFsnEaKQ/w38H3+jNy4FQFoiDOT9QkzOxLFvSZSxr+4jQINchk3zNQuvb7SibdLs5i27F0H/7zuIz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=WWkresjD; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1768573958; c=relaxed/simple;
+	bh=iAolrLV7aSjCNA0ezx11JkQLHIz9e59CzjWTdjR6rvE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sm3cZc+W/FvfsiRLrIsL5l0RSlgU5zzQNkOk55dz/lfLB4V8+eByxYigsZF14dM4zrGVHZbVeKUHY3bVTp8YUnEnTr/4Kp23lN8u84dgSPWV9gilZ6ao9OyH4Cm3L5XMEnxgPgvqF0mmZDd2SsKuWEs1TxsvyhOI8I0a2F0ZmIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uz1q6UJx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="WWkresjD"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1768573794; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=XnMbHiZD4Q8ihaJAYTR3qJJVShDyzERVKVSspF7MbMc=;
-	b=WWkresjDY+kOIakHS+Ll9HuhWEMGMZq2hM/VOE18HFCgxoe24Zv+S/wQa8f9+vz1gYn0hjIxfx2HPn7WNf/U3oJQHLn40KaYy+eovkYiRS7bXzmmdOUwYxmpa9QiGPz7VgoQkx3neJtlI+/tGwRwPBO5Ulsdbk6vkTAJrW6glMU=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WxARSAt_1768573791 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 16 Jan 2026 22:29:53 +0800
-From: fangyu.yu@linux.alibaba.com
-To: andrew.jones@oss.qualcomm.com
-Cc: ajones@ventanamicro.com,
-	alex@ghiti.fr,
-	anup@brainfault.org,
-	aou@eecs.berkeley.edu,
-	atish.patra@linux.dev,
-	corbet@lwn.net,
-	fangyu.yu@linux.alibaba.com,
-	guoren@kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	pbonzini@redhat.com,
-	pjw@kernel.org,
-	rkrcmar@ventanamicro.com
-Subject: Re: Re: [PATCH v2] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
-Date: Fri, 16 Jan 2026 22:29:47 +0800
-Message-Id: <20260116142947.30520-1-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <dfhacs3uppweqmw5t6gwli2iy3b7l5oj6saykogjb5qkadl4rc@bi7mvnezkd2m>
-References: <dfhacs3uppweqmw5t6gwli2iy3b7l5oj6saykogjb5qkadl4rc@bi7mvnezkd2m>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uz1q6UJx"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 89B3DC19421;
+	Fri, 16 Jan 2026 14:32:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768573958;
+	bh=iAolrLV7aSjCNA0ezx11JkQLHIz9e59CzjWTdjR6rvE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=Uz1q6UJx1e/tCmkq2bVVKSb3BVrWejyzQ3m/wuMWAth8Y40rsrpVBjjOdQ9Xr98fh
+	 vKx4+k1L1F7MhC1/Hvv8CCzZcdgXTf8cVwZc4Fgjz56DHZJfR4F8UTkQHBFf2q2UVH
+	 A5fUSpcKKaPzJC/PI8/pBqvgbfJr+3JqttjNDm5v7L4GkWnjloq/l9NNLwrXdvn7Lo
+	 mmBt3UbEV2agwKwOv+jJk4pv1Y0dz+000gPozt/AJdE76IpgYn75kDkzcQR6DLvJ5x
+	 LDbhFAhwLDyfn7UP5PsmHGqArnJkcrVqU16xXjTWC8UJLgOC2BqDqI5wLpgGxtnqmd
+	 X+HJnzR/2aMQg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B5B2C79FBC;
+	Fri, 16 Jan 2026 14:32:38 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Date: Fri, 16 Jan 2026 14:32:20 +0000
+Subject: [PATCH v4 1/7] dt-bindings: iio: frequency: add adf41513
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260116-adf41513-iio-driver-v4-1-dbb7d6782217@analog.com>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+In-Reply-To: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768573956; l=9129;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=QWPTp3OpLB0o766799gHTRhV4kjqgh/BctQ7wyvpQrA=;
+ b=qigi1h9XmHVf5iYbg/vN1d9HkbRJATdB4c+BiC9m2DfKBRzq77CTPFVjB19pinovTT5O/06Fn
+ 18HWrHdWRSOAL3NZWH2O3CqJc6ys4A5lpswUYL9gVIZHOsP5a4ajtKS
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
->> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->>
->> This capability allows userspace to explicitly select the HGATP mode
->> for the VM. The selected mode must be less than or equal to the max
->> HGATP mode supported by the hardware. This capability must be enabled
->> before creating any vCPUs, and can only be set once per VM.
->>
->> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> ---
->>  Documentation/virt/kvm/api.rst | 14 ++++++++++++++
->>  arch/riscv/kvm/vm.c            | 26 ++++++++++++++++++++++++--
->>  include/uapi/linux/kvm.h       |  1 +
->>  3 files changed, 39 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> index 01a3abef8abb..9e17788e3a9d 100644
->> --- a/Documentation/virt/kvm/api.rst
->> +++ b/Documentation/virt/kvm/api.rst
->> @@ -8765,6 +8765,20 @@ helpful if user space wants to emulate instructions which are not
->>  This capability can be enabled dynamically even if VCPUs were already
->>  created and are running.
->>
->> +7.47 KVM_CAP_RISCV_SET_HGATP_MODE
->> +---------------------------------
->> +
->> +:Architectures: riscv
->> +:Type: VM
->> +:Parameters: args[0] contains the requested HGATP mode
->> +:Returns: 0 on success, -EINVAL if arg[0] is outside the range of hgatp
->> +          modes supported by the hardware.
->> +
->> +This capability allows userspace to explicitly select the HGATP mode for
->> +the VM. The selected mode must be less than or equal to the maximum HGATP
->> +mode supported by the hardware. This capability must be enabled before
->> +creating any vCPUs, and can only be set once per VM.
->
->I think I would prefer a KVM_CAP_RISCV_SET_MAX_GPA type of capability. The
->reason is because, while one of the results of the max-gpa being set will
->be to set hgatp, there may be other reasons to track the guest's maximum
->physical address too and kvm userspace shouldn't need to think about each
->individually.
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-That makes sense, thanks.
+DT-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
+can be used to implement local oscillators (LOs) as high as 26.5 GHz.
+Most properties are based upon an existing PLL device properties
+(e.g. ADF4350).
 
->> +
->>  8. Other capabilities.
->>  ======================
->>
->> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
->> index 4b2156df40fc..e9275023a73a 100644
->> --- a/arch/riscv/kvm/vm.c
->> +++ b/arch/riscv/kvm/vm.c
->> @@ -202,6 +202,13 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>  	case KVM_CAP_VM_GPA_BITS:
->>  		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
->>  		break;
->> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
->> +#ifdef CONFIG_64BIT
->> +		r = 1;
->> +#else/* CONFIG_32BIT */
->> +		r = 0;
->> +#endif
->
-> r = IS_ENABLED(CONFIG_64BIT) ? 1 : 0;
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+ .../bindings/iio/frequency/adi,adf41513.yaml       | 212 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 +
+ 2 files changed, 219 insertions(+)
 
-Ack.
+diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+new file mode 100644
+index 000000000000..a797b70dc9bc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+@@ -0,0 +1,212 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/frequency/adi,adf41513.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices ADF41513 PLL Frequency Synthesizer
++
++maintainers:
++  - Rodrigo Alencar <rodrigo.alencar@analog.com>
++
++description:
++  The ADF41513 is an ultralow noise frequency synthesizer that can be used to
++  implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
++  downconversion sections of wireless receivers and transmitters. The ADF41510
++  supports frequencies up to 10 GHz.
++
++  https://www.analog.com/en/products/adf41510.html
++  https://www.analog.com/en/products/adf41513.html
++
++$ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - adi,adf41510
++      - adi,adf41513
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 25000000
++
++  clocks:
++    maxItems: 1
++    description: Clock that provides the reference input frequency.
++
++  avdd1-supply:
++    description: PFD and Up and Down Digital Driver Power Supply (3.3 V)
++
++  avdd2-supply:
++    description: RF Buffer and Prescaler Power Supply (3.3 V)
++
++  avdd3-supply:
++    description: N Divider Power Supply (3.3 V)
++
++  avdd4-supply:
++    description: R Divider and Lock Detector Power Supply (3.3 V)
++
++  avdd5-supply:
++    description: Sigma-Delta Modulator and SPI Power Supply (3.3 V)
++
++  vp-supply:
++    description: Charge Pump Power Supply (3.3 V)
++
++  enable-gpios:
++    description:
++      GPIO that controls the chip enable pin. A logic low on this pin
++      powers down the device and puts the charge pump output into
++      three-state mode.
++    maxItems: 1
++
++  lock-detect-gpios:
++    description:
++      GPIO for lock detect functionality. When configured for digital lock
++      detect, this pin will output a logic high when the PLL is locked.
++    maxItems: 1
++
++  adi,power-up-frequency-mhz:
++    minimum: 1000
++    maximum: 26500
++    default: 10000
++    description:
++      The PLL tunes to this frequency during the initialization sequence.
++      This property should be set to a frequency supported by the loop filter
++      and VCO used in the design. Range is 1 GHz to 26.5 GHz for ADF41513,
++      and 1 GHz to 10 GHz for ADF41510.
++
++  adi,reference-div-factor:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 32
++    default: 1
++    description:
++      Value for the reference division factor (R Counter). The driver will
++      increment R Counter as needed to achieve a PFD frequency within the
++      allowed range. High R counter values will reduce the PFD frequency, which
++      lowers the frequency resolution, and affects phase noise performance.
++      As it affects the PFD frequency, this value depends on the loop filter
++      design.
++
++  adi,reference-doubler-enable:
++    description:
++      Enables the reference doubler when deriving the PFD frequency.
++      The maximum reference frequency when the doubler is enabled is 225 MHz.
++      As it affects the PFD frequency, this value depends on the loop filter
++      design.
++    type: boolean
++
++  adi,reference-div2-enable:
++    description:
++      Enables the reference divide-by-2 function when deriving the PFD
++      frequency. As it affects the PFD frequency, this value depends on the
++      loop filter design.
++    type: boolean
++
++  adi,charge-pump-resistor-ohms:
++    minimum: 1800
++    maximum: 10000
++    default: 2700
++    description:
++      External charge pump resistor (R_SET) value in ohms. This sets the maximum
++      charge pump current along with the charge pump current setting.
++
++  adi,charge-pump-current-microamp:
++    description:
++      Charge pump current (I_CP) in microamps. The value will be rounded to the
++      nearest supported value. Range of acceptable values depends on the
++      charge pump resistor value, such that 810 mV <= I_CP * R_SET <= 12960 mV.
++      This value depends on the loop filter and the VCO design.
++
++  adi,logic-level-1v8-enable:
++    description:
++      Set MUXOUT and DLD logic levels to 1.8V. Default is 3.3V.
++    type: boolean
++
++  adi,phase-detector-polarity-positive-enable:
++    description:
++      Set phase detector polarity to positive. Default is negative.
++      Use positive polarity with non-inverting loop filter and VCO with
++      positive tuning slope, or with inverting loop filter and VCO with
++      negative tuning slope.
++    type: boolean
++
++  adi,lock-detector-count:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 64
++    description:
++      Sets the value for Lock Detector count of the PLL, which determines the
++      number of consecutive phase detector cycles that must be within the lock
++      detector window before lock is declared. Lower values increase the lock
++      detection sensitivity, while higher values provides a more stable lock
++      detection. Applications that consume the lock detect signal may require
++      different settings based on system requirements.
++    enum: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
++
++  adi,phase-resync-period-ns:
++    default: 0
++    description:
++      When this value is non-zero, enable phase resync functionality, which
++      produces a consistent output phase offset with respect to the input
++      reference. The value specifies the resync period in nanoseconds, used
++      to configure clock dividers with respect to the PFD frequency. This value
++      should be set to a value that is at least as long as the worst case lock
++      time, i.e., it depends mostly on the loop filter design.
++
++  adi,le-sync-enable:
++    description:
++      Synchronizes Load Enable (LE) transitions with the reference signal to
++      avoid asynchronous glitches in the output. This is recommended when using
++      the PLL as a frequency synthesizer, where the reference signal will always
++      be present while the device is being configured. When using the PLL as a
++      frequency tracker, where the reference signal may be absent, LE sync
++      should be left disabled.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - avdd1-supply
++  - avdd2-supply
++  - avdd3-supply
++  - avdd4-supply
++  - avdd5-supply
++  - vp-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pll@0 {
++            compatible = "adi,adf41513";
++            reg = <0>;
++            spi-max-frequency = <25000000>;
++            clocks = <&ref_clk>;
++            avdd1-supply = <&avdd1_3v3>;
++            avdd2-supply = <&avdd2_3v3>;
++            avdd3-supply = <&avdd3_3v3>;
++            avdd4-supply = <&avdd4_3v3>;
++            avdd5-supply = <&avdd5_3v3>;
++            vp-supply = <&vp_3v3>;
++            enable-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
++            lock-detect-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
++
++            adi,power-up-frequency-mhz = <15500>;
++            adi,charge-pump-current-microamp = <3600>;
++            adi,charge-pump-resistor-ohms = <2700>;
++            adi,reference-doubler-enable;
++            adi,lock-detector-count = <64>;
++            adi,phase-resync-period-ns = <0>;
++            adi,phase-detector-polarity-positive-enable;
++            adi,le-sync-enable;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4dd9f758a871..095af34e234e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1618,6 +1618,13 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/amplifiers/adi,ada4250.yaml
+ F:	drivers/iio/amplifiers/ada4250.c
+ 
++ANALOG DEVICES INC ADF41513 DRIVER
++M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
++L:	linux-iio@vger.kernel.org
++S:	Supported
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
++
+ ANALOG DEVICES INC ADF4377 DRIVER
+ M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+ L:	linux-iio@vger.kernel.org
 
->> +		break;
->>  	default:
->>  		r = 0;
->>  		break;
->> @@ -212,12 +219,27 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>
->>  int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
->>  {
->> +	if (cap->flags)
->> +		return -EINVAL;
->
->add blank line
+-- 
+2.43.0
 
-Ack, will add a blank line after the flags check.
 
->
->>  	switch (cap->cap) {
->>  	case KVM_CAP_RISCV_MP_STATE_RESET:
->> -		if (cap->flags)
->> -			return -EINVAL;
->>  		kvm->arch.mp_state_reset = true;
->>  		return 0;
->> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
->> +#ifdef CONFIG_64BIT
->> +		if (cap->args[0] < HGATP_MODE_SV39X4 ||
->> +			cap->args[0] > kvm_riscv_gstage_max_mode)
->> +			return -EINVAL;
->> +		if (kvm->arch.gstage_mode_initialized)
->> +			return 0;
->
->I think we want to return -EBUSY here and it should be documented where it
->already states "...can only be set once per VM"
-
-Agreed.
-
->> +		kvm->arch.gstage_mode_initialized = true;
->
->In the previous patch I thought we were missing this, but I see now it
->means "user initialized". Let's rename it as such,
->
-> gstage_mode_user_initialized
-
-Agreed.
-
->> +		kvm->arch.kvm_riscv_gstage_mode = cap->args[0];
->> +		kvm->arch.kvm_riscv_gstage_pgd_levels = 3 +
->> +		    kvm->arch.kvm_riscv_gstage_mode - HGATP_MODE_SV39X4;
->> +		kvm_info("using SV%lluX4 G-stage page table format\n",
->> +			39 + (cap->args[0] - HGATP_MODE_SV39X4) * 9);
->> +#endif
->> +		return 0;
->>  	default:
->>  		return -EINVAL;
->>  	}
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index dddb781b0507..00c02a880518 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -974,6 +974,7 @@ struct kvm_enable_cap {
->>  #define KVM_CAP_GUEST_MEMFD_FLAGS 244
->>  #define KVM_CAP_ARM_SEA_TO_USER 245
->>  #define KVM_CAP_S390_USER_OPEREXEC 246
->> +#define KVM_CAP_RISCV_SET_HGATP_MODE 247
->>
->>  struct kvm_irq_routing_irqchip {
->>  	__u32 irqchip;
->> --
->> 2.50.1
->>
->
->Thanks,
->drew
->
-Thanks,
-Fangyu
