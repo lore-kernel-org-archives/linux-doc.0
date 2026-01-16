@@ -1,237 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A95436A036;
-	Fri, 16 Jan 2026 19:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A13229A9C9;
+	Fri, 16 Jan 2026 19:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768591766; cv=none; b=kNS/Zgd7GqlTlmOru2I9WBHmz7DrJfw+yjG0Q7mRp7q7k/JsnKPTbEMTTrTpZ0c4beqUmRci0evPf6xJXUNxH/cOgMd9hsRiTWJcDvAFXlCHxnEqRCS1hzDia4EdG849/YNxmiheJg5cf+6hbDC9gHPbk9iybqEEXza+e+QBF90=
+	t=1768593007; cv=none; b=oSjLG5GJ1I+KBdsloe4XawSh9jrVASuDe9PJGT470QXMjVFk1QGipyIBu38CKTTYg/83YK0/ZEZYgYqIQ0RkJshYgEtEPYwY62MPmLiOEhsW43eGoMo7nUN6ziYOhn49ZZpNtoYLem88XTCZTRkINvd3umRHDMAMh41joVqe7EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768591766; c=relaxed/simple;
-	bh=JUdVGwrQBP70IPOM3GRt0sUXKorpEx+rLp6QE6NzE0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A2T8woGvBBpqa1lGMzYA7dPRcr5DNywcYT1ZbVhO2zAItJOAa5ox2FnfdAHPDh/MAR7YhUutp6hG0EcJe4yUuCue9FTDcaBsbaImqeOetdBkvu4NXW5xs8H1rquV+QGT4Oex813u2Qd9eIAS+La/v5iKcUlWqJKkS5jOn/yakIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S76gOrZ5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768593007; c=relaxed/simple;
+	bh=SDliI6SbgfaVR36PRPvKO1fNo6q+8jPmc/p3JwD/npw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eRRXUTLKEuX7XsO/aMxYS0XiLnvicF3cudEVhJ1ULNg8m4Oapi7onMyFNZ6ykAnOE14RNlcoAacTHF+Za0px9Ohft8AigV/GwSJloL3kozkSvlNHb3XDBwawZh4GxWS33vIwvemKKg/+dMwMMHY9qctSMk3xvVvAp2vzv37/AhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MnQoWZhE; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S76gOrZ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3529FC19422;
-	Fri, 16 Jan 2026 19:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768591765;
-	bh=JUdVGwrQBP70IPOM3GRt0sUXKorpEx+rLp6QE6NzE0Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S76gOrZ5hRzdjbsaj/rvorPXATOW+BM9dLJz9vkYDwlnKlsIUZTF163fDPknrQkkM
-	 BJgP5T9qLqnhUsDkMsPg/xOcAqopqP3hOwuHa8VDcU+kKZkKvvJlVbSh+SPMmEkizh
-	 QMUCouPloCLUShqDiUndslKl3toYsYv6eBOYmR9oG62gPI5Lin9hrtCYyBBui1OiMp
-	 XOK1MI8J5hSG+t9dKMiT3L2HWJHGZM9icRnsJOJ3sqzEDxELvU8wLfEtHaCveRzbsQ
-	 he/HEa+shUU0Av4hVXDsWUuktOu53wlDGjCT215BaJz/di/SQ3mBQzLiLXM1LUyhcL
-	 a/bI36/1y5/TQ==
-Date: Fri, 16 Jan 2026 19:29:16 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
-Message-ID: <20260116192916.436d24c9@jic23-huawei>
-In-Reply-To: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
-References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
-	<20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MnQoWZhE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768593005; x=1800129005;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=SDliI6SbgfaVR36PRPvKO1fNo6q+8jPmc/p3JwD/npw=;
+  b=MnQoWZhEav3NvRblFqQ4YE09d5aODgyUpfLoOx5RO9PPvt9quid7CzbQ
+   cZZOu3/ZtvEa86827r4yp7pMkrLhLTMTB1qYoBrJhMNkJihKq4Gz/vwpf
+   lGIUzS2gKjpSdRs2akg9o9Jdes1qmhB2hl0SzYbsKPmHIV+f8axRr875j
+   ZByacZbHDLMoInb+GIeZPPf4KhjVYm5RWGm1LAYUz7Rej0eaWC6L9uiiS
+   xH8hqabITWg8h9XzJJ9NxuMlQJsSWE8wBO3Fmu3kb4tg77c6tZ+gC+GT5
+   1Fyj4vH4n+IQQFx6L9Mkycj8fHPT3xceplY9N1axk9EHU9hShXEA2T7uI
+   w==;
+X-CSE-ConnectionGUID: znI0cZSkTrS8+psuDA6xkw==
+X-CSE-MsgGUID: kFMrd8a2Tm+rY9NIg9Huiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="80551483"
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="80551483"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 11:50:05 -0800
+X-CSE-ConnectionGUID: 5EWABOIQSF+CRKRCNGqU3A==
+X-CSE-MsgGUID: /3hpLGnDSGW7SWb9/+MYmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="204939094"
+Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.111.136]) ([10.125.111.136])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 11:49:58 -0800
+Message-ID: <d856b68d-3721-4d76-922b-4c98e2eb6c67@intel.com>
+Date: Fri, 16 Jan 2026 11:49:53 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 08/22] KVM: VMX: Set FRED MSR intercepts
+To: "Xin Li (Intel)" <xin@zytor.com>, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
+ hch@infradead.org, sohil.mehta@intel.com
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-9-xin@zytor.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20251026201911.505204-9-xin@zytor.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, 16 Jan 2026 14:32:22 +0000
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org=
-> wrote:
+On 10/26/25 13:18, Xin Li (Intel) wrote:
+> Both MSR_IA32_FRED_RSP0 and MSR_IA32_FRED_SSP0 (aka MSR_IA32_PL0_SSP)
+> are dedicated for userspace event delivery, IOW they are NOT used in
+> any kernel event delivery and the execution of ERETS.  Thus KVM can
+> run safely with guest values in the two MSRs.  As a result, save and
+> restore of their guest values are deferred until vCPU context switch,
+> Host MSR_IA32_FRED_RSP0 is restored upon returning to userspace, and
+> Host MSR_IA32_PL0_SSP is managed with XRSTORS/XSAVES.
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->=20
-> The driver is based on existing PLL drivers in the IIO subsystem and
-> implements the following key features:
->=20
-> - Integer-N and fractional-N (fixed/variable modulus) synthesis modes
-> - High-resolution frequency calculations using microhertz (=C2=B5Hz) prec=
-ision
->   to handle sub-Hz resolution across multi-GHz frequency ranges
-> - IIO debugfs interface for direct register access
-> - FW property parsing from devicetree including charge pump settings,
->   reference path configuration and muxout options
-> - Power management support with suspend/resume callbacks
-> - Lock detect GPIO monitoring
->=20
-> The driver uses 64-bit microhertz values throughout PLL calculations to
-> maintain precision when working with frequencies that exceed 32-bit Hz
-> representation while requiring fractional Hz resolution.
->=20
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Hi Rodrigo,
+Is it worth making MSR_IA32_FRED_RSP0 special versus MSR_IA32_FRED_RSP[123]?
 
-A couple of additional comments for this version.
+Is it needed because MSR_IA32_FRED_RSP0 is rewritten all the time as
+CPUs switch between threads? But MSR_IA32_FRED_RSP[123] are not
+frequently written?
 
-Thanks,
-
-Jonathan
-
-> diff --git a/drivers/iio/frequency/adf41513.c b/drivers/iio/frequency/adf=
-41513.c
-> new file mode 100644
-> index 000000000000..9068c427d8e9
-> --- /dev/null
-> +++ b/drivers/iio/frequency/adf41513.c
-
-
-
-> +
-> +static int adf41513_write_raw(struct iio_dev *indio_dev,
-> +			      struct iio_chan_spec const *chan,
-> +			      int val, int val2, long info)
-> +{
-> +	struct adf41513_state *st =3D iio_priv(indio_dev);
-> +	u64 phase_urad;
-> +	u16 phase_val;
-> +
-> +	guard(mutex)(&st->lock);
-> +
-> +	switch (info) {
-> +	case IIO_CHAN_INFO_PHASE:
-> +		phase_urad =3D (u64)val * MICRO + val2;
-> +		if (val < 0 || val2 < 0 || phase_urad >=3D ADF41513_MAX_PHASE_MICRORAD)
-
-Check val and val2 before setting phase_urad.  Whilst it's not a bug it
-is a lot less readable to perform checks on inputs after you've already used
-them to compute something.
-		if (val < 0 || val2 < 0)
-			return -EINVAL;
-
-		phase_urad =3D ...
-		if (phase_urad >=3D ...)
-			return -EINVAL;
-
-> +			return -EINVAL;
-> +
-> +		phase_val =3D DIV_U64_ROUND_CLOSEST(phase_urad << 12,
-> +						  ADF41513_MAX_PHASE_MICRORAD);
-> +		phase_val =3D min(phase_val, ADF41513_MAX_PHASE_VAL);
-> +		st->regs[ADF41513_REG2] |=3D ADF41513_REG2_PHASE_ADJ_MSK;
-> +		FIELD_MODIFY(ADF41513_REG2_PHASE_VAL_MSK,
-> +			     &st->regs[ADF41513_REG2], phase_val);
-> +		return adf41513_sync_config(st, ADF41513_SYNC_REG0);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
-> +
-> +static int adf41513_parse_fw(struct adf41513_state *st)
-> +{
-> +	struct device *dev =3D &st->spi->dev;
-> +	int ret;
-> +	u32 tmp, cp_resistance, cp_current;
-> +
-> +	/* power-up frequency */
-> +	st->data.power_up_frequency_hz =3D ADF41510_MAX_RF_FREQ_HZ;
-> +	ret =3D device_property_read_u32(dev, "adi,power-up-frequency-mhz", &tm=
-p);
-> +	if (!ret) {
-Can easily do the same as below here  No precision issue given definition of
-the _MAX_RF_FREQ_HZ value includes a larger power 10 multiplier.
-=09
-	tmp =3D ADF41510_MAX_RF_FREQ_HZ / HZ_PER_MHZ;
-	device_property_read_u32(dev, "adi,power-up-frequency-mhz", &tmp;
-	st->data.power_up_frequency_hz =3D (u64)tmp * HZ_PER_MHZ;
-	if (st...
-
-or use a local u64 for a temporary you only assign to power_up_frequency_hz
-after checks. That would be more consistent with the code that follows.
-
-> +		st->data.power_up_frequency_hz =3D (u64)tmp * HZ_PER_MHZ;
-> +		if (st->data.power_up_frequency_hz < ADF41513_MIN_RF_FREQ_HZ ||
-> +		    st->data.power_up_frequency_hz > ADF41513_MAX_RF_FREQ_HZ)
-> +			return dev_err_probe(dev, -ERANGE,
-> +					     "power-up frequency %llu Hz out of range\n",
-> +					     st->data.power_up_frequency_hz);
-> +	}
-> +
-> +	tmp =3D ADF41513_MIN_R_CNT;
-> +	device_property_read_u32(dev, "adi,reference-div-factor", &tmp);
-> +	if (tmp < ADF41513_MIN_R_CNT || tmp > ADF41513_MAX_R_CNT)
-> +		return dev_err_probe(dev, -ERANGE,
-> +				     "invalid reference div factor %u\n", tmp);
-> +	st->data.ref_div_factor =3D tmp;
-> +
-> +	st->data.ref_doubler_en =3D device_property_read_bool(dev, "adi,referen=
-ce-doubler-enable");
-> +	st->data.ref_div2_en =3D device_property_read_bool(dev, "adi,reference-=
-div2-enable");
-> +
-> +	cp_resistance =3D ADF41513_DEFAULT_R_SET;
-> +	device_property_read_u32(dev, "adi,charge-pump-resistor-ohms", &cp_resi=
-stance);
-> +	if (cp_resistance < ADF41513_MIN_R_SET || cp_resistance > ADF41513_MAX_=
-R_SET)
-> +		return dev_err_probe(dev, -ERANGE, "R_SET %u Ohms out of range\n", cp_=
-resistance);
-> +
-> +	st->data.charge_pump_voltage_mv =3D ADF41513_DEFAULT_CP_VOLTAGE_mV;
-
-This leaves some odd corner cases.
-If DT defines cp_resistance but not cp_current then we ignore the cp_resita=
-nce.
-If you want to insist it is either both or nothing, that needs enforcing in=
- the dt-binding.
-I think I slightly prefer this option..
-
-Alternative is define a default current such that the maths works to give t=
-he DEFAULT_CP_VOLTAGE_mV
-if both properties use defaults and use that here + document in the dt-bind=
-ing as the default
-for this property.   That may mean if only one property is set we reject th=
-e pair and fail
-to probe.  You have comment about valid combinations in the dt-binding so t=
-hat's fine.
-=20
-> +	ret =3D device_property_read_u32(dev, "adi,charge-pump-current-microamp=
-", &cp_current);
-> +	if (!ret) {
-> +		tmp =3D DIV_ROUND_CLOSEST(cp_current * cp_resistance, MILLI); /* conve=
-rt to mV */
-> +		if (tmp < ADF41513_MIN_CP_VOLTAGE_mV || tmp > ADF41513_MAX_CP_VOLTAGE_=
-mV)
-> +			return dev_err_probe(dev, -ERANGE, "I_CP %u uA (%u Ohms) out of range=
-\n",
-> +					     cp_current, cp_resistance);
-> +		st->data.charge_pump_voltage_mv =3D tmp;
-> +	}
-> +
-> +	st->data.phase_detector_polarity =3D
-> +		device_property_read_bool(dev, "adi,phase-detector-polarity-positive-e=
-nable");
-> +
-> +	st->data.logic_lvl_1v8_en =3D device_property_read_bool(dev, "adi,logic=
--level-1v8-enable");
-> +
-> +	tmp =3D ADF41513_LD_COUNT_MIN;
-> +	device_property_read_u32(dev, "adi,lock-detector-count", &tmp);
-> +	if (tmp < ADF41513_LD_COUNT_FAST_MIN || tmp > ADF41513_LD_COUNT_MAX ||
-> +	    !is_power_of_2(tmp))
-> +		return dev_err_probe(dev, -ERANGE,
-> +				     "invalid lock detect count: %u\n", tmp);
-> +	st->data.lock_detect_count =3D tmp;
-> +
-> +	st->data.freq_resolution_uhz =3D MICROHZ_PER_HZ;
-> +
-> +	return 0;
-> +}
-
+I'd like to hear more about the motivation.
