@@ -1,108 +1,86 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C383A0B0F
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555CB335573
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768588048; cv=none; b=g/Uzq+397RqZNsKPdBAqUt+TsuRJ2AxMKY7UaY1EOSDxdPvOC23i5dsT5552tZVHJ7dnaQL9odqG8UJBz2C32mRz7X4JKlUwA+ijhcpe6b0WeteERoc3pC3lQ2H8iTt1GuOWAZsFQgqO81AWS0m+uht87KiDKh/nf3D+JZoEFT8=
+	t=1768588159; cv=none; b=d8LaeBGjchZ94P0kHm2PMFXXy7Mi4MGEZoIMtDO0E0zS7xrTIfZmqSFv38TAWmgkw5hZ27z/BJsfxWJ85ostTfzL394qXSU4y6voj/Oi6IQ0GEoHgSmFnnQQHrTc38gwPpm1pnh/6QiSlULw39H55c/qWq0vNofMxxtr9w1T5TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768588048; c=relaxed/simple;
-	bh=rKVfbx5b3NHIz96zrGog3gdN7qEDREG19ZAC1KiUd3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RqkaXEAgTADjSrtBCMC9iBTaUFHwtkDXiD81rx8W/6qOarNLTHr84s7Qzz/PmzG7Ii9VRhy2uEFZ3wlxx+g6f7yYsxy5Ts7BFyry/+o8T8RRQ8xpnoEYVlnIip/RkGgT1ZWW8Ls+mTzaDMZE01gSeojyrDE6px9GkVM6aT2j8Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RFgRY2sI; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1768588159; c=relaxed/simple;
+	bh=OVLkH/DI521hwl8F1386gqExY44eNCoof9kF9sX8Jr4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tsD3QDpuVCXzTg5cRl8zvw3qRArS+coPENzdNcxQGHSjdGpVK8D3A++LXkPT/g31vdsQopzbRmlW02sWxRi1Cj006wWyCZsipPaiHuVNHRoKiT98+Wme45S6IJAYAw7s3rKOBkbdGprSRfytPXLyB/qqdPb+1BQIeof04ZQbuZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Dr29EfQM; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RFgRY2sI"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9C5DF1A28C6;
-	Fri, 16 Jan 2026 18:27:24 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6817C606F9;
-	Fri, 16 Jan 2026 18:27:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 616D010B68C23;
-	Fri, 16 Jan 2026 19:27:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768588043; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=M9QR7Zfctf+mqpFF5OtHWXHDrgz/+4rKeF7GVZtlVBo=;
-	b=RFgRY2sIGvEGUEUZPSs3f1xmwal9VBo1eHybEb1WaE5/CQo5uZtqT8e2GY+NEad65eBC+w
-	k5ky8nxJhCdQeByMFpc27f654Pd7C0iRNtLloxAUEkFPP0oFNoAd7WvcCu8XiAbC5n5Ikw
-	69Fb+6Zyu2h5J2aeI20XHtOIvf66GY45GhK09KvzEeKiZVhopIS70FjyR2IP8wip5cvznJ
-	LPrpz9uwt8oC3HYNW4e1Tdm0gdc05lW1rktDb599MG4wVpNcgyf6aKwYEYF/VlFCqAO35f
-	Bkbu8DWGw/PSg7CoMQPmdaF8XPdpDgSlSg2bUM1a7Xs0DH47I8oc02qEHCMnuA==
-Message-ID: <3a93c79e-f755-4642-a3b0-1cce7d0ea0ef@bootlin.com>
-Date: Fri, 16 Jan 2026 19:27:16 +0100
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Dr29EfQM"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6512B40425
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768588157; bh=qUU/AD22JoX3zUO6Zi4OLajnlTtooAvMGVsAqwvU1Sk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Dr29EfQM2PGuMSLlUUb8D+DeTh39+6r4p/5MrLXvHnPg86L3f7bYg6AsKaXRdyKpz
+	 RoVGo+UHJVnS1X9275MDNpDyHW+Kz+mFMYC2IIvJ4PmwPp1yhl7u+z7+2IgDGjC65h
+	 ROG0VZRolajAI3ocrC5HmLRYIM4e7T7ZQNjawrr4mePpHd6UeI7OcnGxK7yIJGLqos
+	 /j9pfE02ui7SXD3+cmqQrsyLIw9IEOjxB3BbnatDsxMf0xBksLxt7U1cURAzYLXr0K
+	 ISldRUf1c62rODnEbll4Z1QuaDALAf+TpW0YgksQCzy0dLfAIUIKJhzjRfSsJ8KqBU
+	 ICrC9NqgvO2VQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6512B40425;
+	Fri, 16 Jan 2026 18:29:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Petr Vorel <pvorel@suse.cz>, linux-doc@vger.kernel.org
+Cc: Petr Vorel <pvorel@suse.cz>, Alejandro Colomar <alx@kernel.org>,
+ man-pages@man7.org
+Subject: Re: [PATCH v3 0/3] Documentation: Link man pages to https://man7.org/
+In-Reply-To: <20260113113612.315748-1-pvorel@suse.cz>
+References: <20260113113612.315748-1-pvorel@suse.cz>
+Date: Fri, 16 Jan 2026 11:29:16 -0700
+Message-ID: <87a4ydo1hf.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
- resume
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Tao Wang <tao03.wang@horizon.auto>, alexandre.torgue@foss.st.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- horms@kernel.org, kuba@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, mcoquelin.stm32@gmail.com,
- netdev@vger.kernel.org, pabeni@redhat.com
-References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
- <20260115070853.116260-1-tao03.wang@horizon.auto>
- <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
- <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
- <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
- <51859704-57fd-4913-b09d-9ac58a57f185@bootlin.com>
- <aWmLWxVEBmFSVjvF@shell.armlinux.org.uk>
- <aWo_K0ocxs5kWcZT@shell.armlinux.org.uk>
- <aWp-lDunV9URYNRL@shell.armlinux.org.uk>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <aWp-lDunV9URYNRL@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
 
-Hi,
+Petr Vorel <pvorel@suse.cz> writes:
 
-On 16/01/2026 19:08, Russell King (Oracle) wrote:
-> On Fri, Jan 16, 2026 at 01:37:48PM +0000, Russell King (Oracle) wrote:
->> On Fri, Jan 16, 2026 at 12:50:35AM +0000, Russell King (Oracle) wrote:
->>> However, while this may explain the transmit slowdown because it's
->>> on the transmit side, it doesn't explain the receive problem.
->>
->> I'm bisecting to find the cause of the receive issue, but it's going to
->> take a long time (in the mean time, I can't do any mainline work.)
->>
->> So far, the range of good/bad has been narrowed down to 6.14 is good,
->> 1b98f357dadd ("Merge tag 'net-next-6.16' of
->> git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next") is bad.
->>
->> 14 more iterations to go. Might be complete by Sunday. (Slowness in
->> building the more fully featured net-next I use primarily for build
->> testing, the slowness of the platform to reboot, and the need to
->> manually test each build.)
-> 
-> Well, that's been a waste of time today. While the next iteration was
-> building, because it's been suspicious that each and every bisect
-> point has failed so far, I decided to re-check 6.14, and that fails.
-> So, it looks like this problem has existed for some considerable
-> time. I don't have the compute power locally to bisect over a massive
-> range of kernels, so I'm afraid stmmac receive is going to have to
-> stay broken unless someone else can bisect (and find a "good" point
-> in the git history.)
-> 
+> Changes v1->v2:
+> * Remove `...` (italic) from non-existing man pages (Jonathan).
+> * Squash fix for sp_SP to following commit (Jonathan).
+> * Remove :manpage: also from fxyzzy(3) (non-existing man page).
+> * Add CSS for man page.
+>
+> Link to v2:
+> https://lore.kernel.org/linux-doc/20260111233534.183272-1-pvorel@suse.cz/
+>
+> Link to v1:
+> https://lore.kernel.org/linux-doc/20260109183012.114372-1-pvorel@suse.cz/
+>
+> Petr Vorel (3):
+>   Documentation: Remove :manpage: from non-existing man pages
+>   Documentation: Link man pages to https://man7.org/
+>   Documentation: CSS: Improve man page font
+>
+>  Documentation/conf.py                            |  3 +++
+>  Documentation/process/adding-syscalls.rst        | 16 ++++++++--------
+>  Documentation/sphinx-static/custom.css           |  8 +++++++-
+>  .../it_IT/process/adding-syscalls.rst            | 16 ++++++++--------
+>  .../sp_SP/process/adding-syscalls.rst            | 16 ++++++++--------
+>  5 files changed, 34 insertions(+), 25 deletions(-)
 
-To me RX looks OK, at least on the various devices I have that use
-stmmac. It's fine on Cyclone V socfpga, and imx8mp. Maybe that's Jetson
-specific ?
+I have applied this set, thanks.
 
-I've got pretty-much line rate with a basic 'iperf3 -c XX" and same with
-'iperf3 -c XX -R". What commands are you running to check the issue ?
+Even nicer, of course, would be to have automarkup recognize man-page
+references and add the links automatically so we wouldn't need the
+:manpage: noise.  Something for another day, I guess...
 
-Are you still seeing the pause frames flood ?
+Thanks,
 
-Maxime
+jon
