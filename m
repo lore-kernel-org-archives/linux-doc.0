@@ -1,121 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694021DE8AE;
-	Fri, 16 Jan 2026 15:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487B726F2B0
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 15:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768577225; cv=none; b=beC3mONKyJX8McCg8N83xUf4sOKoJD0pA6pj3/nABYz8F4xxdaouzSJpyjcSoj9IWRPGhgZn9WFvGzZb4qa+sYOXlz6+XWE0uP8Qf/SAHXt1QIewYyj8CPEmWOvpgjukN+1YhTIo2GCKLLmUgI/n8kLznhlAV2FsuVTr4DnvMWY=
+	t=1768577261; cv=none; b=CnwO+suSDk1d/dkK/h72fIuR2MuijJRzHNDWtf5FJf9i+PEIKoXot0VsgqHxfr9hWYrGVbikCWPPyIjQMgo7GPkUuFh/1T5h6j6EDIbXvUqr21eRbcbEc/mBkgk777UqYXWyWiDzpT/3OnIQwOQBdXriXbeZ89MDRm/FMz1tNRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768577225; c=relaxed/simple;
-	bh=TBPjZir6bRs6F1JSnlKvHlYgPS6tOywkmB/+jwYMEVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e4hR+dn/piZbotnDChmljUZ/SNbPfjWaJ2CW612z8sPNBmD/YAJLdAvZWO+165TDQA4YphveUXuEdn0IvvHTidEENOz08o8mzl5vK5Q/KsFt5LXAharyJrJpdgy8lpzRHMrW/e7n503sLdk7wEKJUj5MayLlLYAZs0EMvKOizdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1W0SgWy; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768577261; c=relaxed/simple;
+	bh=oy+oDQg69oRiKkw6u3e47Ejf8DbCCwkCscmr6o/Xmp4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aopiNtXDg8ZxSyn0VybIh0Rol2EDNf+38tn2/o81718g5SSHJfi2v61hBwix3cxHrivHLlFypSwCiil+uv7l5V7Q/ZU+lQDE58g4/IdWRYtWELTCaZK4I+PdVp6J2wyUqKscv5WYI+sbgZFWGZCzPOmiyi44x76l6gpdyDBOIXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmWbvFDF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1W0SgWy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768577223; x=1800113223;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=TBPjZir6bRs6F1JSnlKvHlYgPS6tOywkmB/+jwYMEVo=;
-  b=Y1W0SgWy+GtJbvROS35k7FuEdyMBT22Mpd9hSDe1CBWVLj2LtddKOPyG
-   t5DNvJGcVNQw9cgFmbDR77yFCrGryLHujzbPuwgWFGXxGUrWPP4iyBYfG
-   Fs5U6acFWDcugFBDg3X4Lh5ERcusSJOHNy81oR3v2U09Y3/nUt9ftyLZs
-   JgigYaLTyul5BwIklCdnr50J5MWqeJY/CkphJlSFwZRJmYxuLzmbh8ZC5
-   ad76IAqgt0irEUZv+FppLkirZLfQfdriedIhhxBLUvKS+Y3tnzDV2FA4L
-   wxrTFYdO+28lglL6qqD/Uw/wnPp/JoxVTg5Ck7pSMJeQAUCXcbSve4/y6
-   A==;
-X-CSE-ConnectionGUID: +lhqlhzkROi6Ka6USiuZdA==
-X-CSE-MsgGUID: /iC+QTChQXe6hOBUNm8Rqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="81261523"
-X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="81261523"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 07:27:02 -0800
-X-CSE-ConnectionGUID: OucHfsTVR76B2OFG0b0wKQ==
-X-CSE-MsgGUID: 1bEJyYIJRtaGhsfODJFX6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="205684651"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 07:26:58 -0800
-Date: Fri, 16 Jan 2026 17:26:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: rodrigo.alencar@analog.com, Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4 2/7] units: Add HZ_PER_GHZ definition
-Message-ID: <aWpYwJUp7Wl0s_Qe@smile.fi.intel.com>
-References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
- <20260116-adf41513-iio-driver-v4-2-dbb7d6782217@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmWbvFDF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17207C19425
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 15:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768577261;
+	bh=oy+oDQg69oRiKkw6u3e47Ejf8DbCCwkCscmr6o/Xmp4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LmWbvFDFg5yW/RgaFNzhGXCBHIqLMNhGykiU/iYoYF4+7Egic2j45nEmpDSL0QPwL
+	 Gr2+US4VOnYTrscPU/tvN+6T3x9Dwa3lFrnpLD5FmBqWuMfQz2ltrMq/KHvbiNu2rg
+	 n6U0iPteIpnuR+wwvueWlkXVKkhpJ27jxgPlN2WqATUpXNZUxXo8WBoyQVg/7c5IAc
+	 kSoV0Gne9gmuBdEDyvojC1n0pkYfkNupmFkLAZgO1wi5qXDVLK3zDBeELHM1geToEZ
+	 TeocM6WFDdaPFn7G9z94w8aqdGpRhrweqmxcvGEQom/XKrtgVGT8hQcR2H2DFVHvep
+	 SF5LM7wJF3utQ==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b6c13b68dso2888225e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 07:27:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWoTFcfU/5YZsLdoIxtAUV0i/ZAHY2fd7U79juxj4yUeDe1bfYGzsOMDn+LcaHPpQ0gxxnjxYFFT3Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2kwZSqK9GlM58cPSLAE8o8ICzQvLfywh6/LWe+fCo6quPdH3r
+	6iujCQOme8BCyKPP943h89w1Jm8QnncZYkyjPM0Bc6jCv/oeeMHXUV7jjHcbnuGR6Cfioabheow
+	+b5xTUGAkjVltj4ATaXGwog/23kS2P+24WekpHkenAA==
+X-Received: by 2002:a05:6512:2244:b0:59b:67cf:ac0c with SMTP id
+ 2adb3069b0e04-59baf188751mr1188971e87.17.1768577259688; Fri, 16 Jan 2026
+ 07:27:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260116-adf41513-iio-driver-v4-2-dbb7d6782217@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
+ <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org>
+In-Reply-To: <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 16 Jan 2026 16:27:27 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
+X-Gm-Features: AZwV_QhexDGBLPur6KXBiX5v5UlgefBBx6UNCnW-Gys53WIr1Th56tAxsqbMKFE
+Message-ID: <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-+Cc: Andi
+On Fri, Jan 16, 2026 at 4:20=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Fri Jan 16, 2026 at 9:02 AM CET, Tzung-Bi Shih wrote:
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index a671e3d4e8be..fd683c62012a 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -22517,6 +22517,13 @@ F:   include/uapi/linux/rseq.h
+> >  F:   kernel/rseq.c
+> >  F:   tools/testing/selftests/rseq/
+> >
+> > +REVOCABLE RESOURCE MANAGEMENT
+> > +M:   Tzung-Bi Shih <tzungbi@kernel.org>
+> > +L:   linux-kernel@vger.kernel.org
+> > +S:   Maintained
+> > +F:   drivers/base/revocable.c
+> > +F:   include/linux/revocable.h
+>
+> NIT: I think we should add this include to the DRIVER CORE entry as well.
 
-On Fri, Jan 16, 2026 at 02:32:21PM +0000, Rodrigo Alencar via B4 Relay wrote:
-> 
-> New PLL IIO driver supports output frequency of several GHz.
-> The new define helps to constraint DT properties and frequency
-> calculation parameters.
+FWIW: I'm not even sure drivers/base/ is the right place for this.
+Except for a few devm_ helpers, nothing here is inherently tied into
+the driver model This could be useful outside of device drivers and I
+would suggest to put it under lib/ with devres factored out into a
+separate source file.
 
-There is already pending patch to add this in I²C host controller subsystem.
-On one hand the conflict, if any, is easy to resolve (the other patch adds
-a couple of comments). On the other we are at almost rc6 and it seems DT people
-are not happy about something, which would mean that the series most likely
-will miss next merge window.
-
-So, the solutions are:
-- do nothing and resolve conflicts, if any
-- define this constant locally in the respective IIO driver and drop it after merge
-- postpone this series to the next cycle (effectively drop this patch)
-- ask Andi to provide an immutable branch / tag with I²C host patches
-- ask Andi to provide the only that patch in immutable tag / branch, but it
-  will require him to rebase his tree
-
-I'm skeptical about last two options on the grounds on how the IIO works and
-possible rebase requirement (which is not good to have).
-
-I leave it to you and the respective maintainers to make a final decision.
-
-> diff --git a/include/linux/units.h b/include/linux/units.h
-> index 00e15de33eca..06870e9e90b8 100644
-> --- a/include/linux/units.h
-> +++ b/include/linux/units.h
-> @@ -27,6 +27,7 @@
->  
->  #define HZ_PER_KHZ		1000UL
->  #define HZ_PER_MHZ		1000000UL
-> +#define HZ_PER_GHZ		1000000000UL
->  
->  #define KHZ_PER_MHZ		1000UL
->  #define KHZ_PER_GHZ		1000000UL
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Bartosz
