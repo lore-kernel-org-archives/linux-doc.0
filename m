@@ -1,125 +1,115 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D0A3195E8
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 09:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768554538; cv=pass; b=n492Ff26PQ6ehWkW/wpgr0ChQ00hJX6von1aWsEy94U+Xqby4ssrPBKTg0amphNFXkYGDcNSeBkbo9RCtq9NZ0c4rsL1n48mvOHlvRVYjS9tkUt6yhr+1qnWcsj635CJ+9kZ9BPsOchthhg8V4pdmVinzdDOjTa9+huZ4D45TjI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768554538; c=relaxed/simple;
-	bh=uV5ai8+6EC+pJzLYQZ3fFgNGH9Y3bcfVxId6H0sX3yk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rzm++f3sVGglxFBD/rO3tuhZzhTtHOcxq/8BINquggX8hOyNLSGxAEHaKw0DbK2i/iEijpV57wmSItu/XcxkZocWlsy9NZsYnHJBsU4UTcq8RA43DWbp2jo2TJxOvR0ATTFbrBTC6UNvW+EtsgUyf2rhTFpwRbNA4vHrHiDrFAI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U45VTv8A; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6240534A774;
+	Fri, 16 Jan 2026 09:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768555175; cv=none; b=A+/uw9Kdp2qNKHX++RiDg14sC4t7fIYuCJLCF3ri4cWIw+ZbnRfSdQpktoL113Ba/9ZAF8cf2RcuXxBe9vNJ+08blxQdQuzdCinnxzkvNIX8UBlC0s1SbigqG+A4KCCzrtGKuyJedaBspdmzGi4GZ60w+bZQTeq3t+V8yGdqfwg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768555175; c=relaxed/simple;
+	bh=nbqYEwOFH/CNWY515SS06cHxOSHnobg0rVqVqnAYQ3A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QGAFB54zSNpFS01pQyL54onNDdi6uTMcuOrArZ5/Otj4UabA/nsuqgTBegS5uVFGceo5kMUWI5MxG+8NBYHhFtlm6Wq9QuVlgm0jqA5Vs0PyRv4kBDEZ2daHQn0P7C8mBku0Yeo4tBMlljmBNFjoTZlTfIja7U8fEF4l4wqTacE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QuO+vis6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U45VTv8A"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50299648ae9so307011cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 01:08:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768554535; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RM3dxPfr21vg1MfM40JtYC4Tr8KMl5hRL9uo4LxDwPUCbqGVjEStM1tZd5wMr8CM8t
-         yfq1C6XOpW4rYtw3YGgUMU0A27JHxtmJbivbiLoo/0HLYfT5olGQ4QT5oSPjk0KWBank
-         gl1mbnCuKPY0xlsyts/6Fk6tq0Vc17j74N7yw/Wmr1p3p2uMS3tnMjjIlM1bGrxlR1e9
-         PgfzyLmPPTXLcOpy+c/F1f60hg+NQLD/K5SVsSH/NVfqeHm81XhzvCd2xCMIZBa9xUjV
-         wJeRlZjsIMUTKtT8Cl4fzGmwXbHNoVgk+xCLu2D9fxq5MTFWnFqUnjJIf94n3/OElv1O
-         s7yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RcimFNxoQuk1GUtLKJNj8zegx2jcra7sXFZBTJ6wuhQ=;
-        fh=WwfgSuWFyvBX2UyFBsuYyZQDMS+FjlfUju5jCX9pKEk=;
-        b=PlT0UU2fFPfuEhBfHxVB84l10R6gCAFoB756EbnKfglXFbCm3vFwuxpZ9KdoMW4TSo
-         UvtFRr/8bNE2Ox5aEbN5pwU6KuCfqktuNUJ+OBQ0DYvfB/LNKU7wOKjW9snrcdeFt2qI
-         jU5w3fdP8L3E7iwWn5UvtV1XiOXwmse6a19r7e+xlWYjGssBAgjl4DsZd4Kk8OQ4X4l9
-         wF657zl1BJ9mUAVpoKH/2L1a0k9xobDtHTQ87/HRPFtdLmKEJz1xcNKHnRkwD56pZ5Nv
-         Bj/vqWtfyU/6ewcbrzU3fixGTJTepJ/pMMjH5bY4qAOckwg2XYmXWma0RtwqFueCOb2Y
-         305g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768554535; x=1769159335; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RcimFNxoQuk1GUtLKJNj8zegx2jcra7sXFZBTJ6wuhQ=;
-        b=U45VTv8AolTC3SpMQt7LCI9QsipTbjfX+AMZetLumuOl0x1JMlbSSuP0Dix9OgvLru
-         z1d2NgEKZPrpK+4zlYnpPqwUjNb4E81wGKPu0L5QswKiChfG+NBirvbuX8+iZ8H61vOR
-         NedLJcQ/byEjzeey+GvgDpHOL/KsZvekAvQNrYTaSZwpSIA7ApCTso5P0piJOeYtkx5Q
-         NK3idMDleEs2aOeUwNIWYoqVQQG1I/sZ25HnrPyddcC4HfZGu6TAWFA8RtuMUzRjyQO1
-         NNmYPKBTlTyj3/S+3OYflJiV24LkxVBBib+PyLUjjLtVogeFkGvKfdDNCxkTPXpmncbR
-         sy+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768554535; x=1769159335;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RcimFNxoQuk1GUtLKJNj8zegx2jcra7sXFZBTJ6wuhQ=;
-        b=fg3zC6MzIu2+VQNdvQzh7oTHPrc8gLZNnqPiYhf3p13QpRV13FGi1Iix376fBcdmQC
-         bviCd7e3pevQn6/cwLjCjUe64tNHmJ8JUa04UX9hEviczUzLMCQd50TZk88Ai4PVeo51
-         wxJNL6fYPPOw5hqZyJUpK0anGgKqLid+aHf5zUrL/pDCWph5J0d4ugVXnA+O+VCSrO+I
-         U7zpl0cNkaONaq61zHesHJ6cBmbzelbk+38HzVYiOL6qdsdX09BOkJrkYCE1YMP4YRru
-         4zFH+g+Ad8/85IVn06tQdoLIMYqUACEWe2wezWoAWLKDWFMc1ruwnYR5MLigVVOpWB63
-         GScw==
-X-Forwarded-Encrypted: i=1; AJvYcCWwSJouBQG/8Jq+OMXDPYIiBRmDVnnfpARQ6LMQyIYfT2lEHasPVjJIX/rTmHIAuTZCvFbAu8dxylk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQVNzHzpmVlzLSlvtbXBSZ9sm3IkE7R4Tw7YlVEozkzh/BbXog
-	IDIN8ngORUA8jTt0MGBQPt779p03Qgp4uIvjDN2I/0RJfeX/XsJPLHRbci4dmDz4Z6Bi0dHOmo2
-	wtlePR2EoFVRXGrOR4UkWQVgKN9PiwLs4AXWa27c1bB2Oy+avRuj1dxw9
-X-Gm-Gg: AY/fxX603DYoGB3k5GOA7fL1n9ppFGAMhIIiC1jZ/zMP8KlV1SSIwMERCClpRe0JiMA
-	ORcasA5Z+hlQKDIJ1EiF3lelLy7ZhFJhPQURtaE90nhPElZk3NlMjnjUwlpxePB1cfjAhXI1IIj
-	ehgyClGhGq558C+aWtceNgdK8T7rJEq6h3eUR+xmR2JLnCMu/6w3VnmlSd/UOedHXSqkvYFI8Jz
-	CfLMLRWsIgUgOqecyHzGsRjuDl8CnuO+A5zYpqKE6F9/H5O0TnWFnFv0qgQHQFNstROH7M=
-X-Received: by 2002:a05:622a:1aa0:b0:501:3b94:bcae with SMTP id
- d75a77b69052e-502a2386e05mr553561cf.8.1768554534866; Fri, 16 Jan 2026
- 01:08:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuO+vis6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA71C116C6;
+	Fri, 16 Jan 2026 09:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768555175;
+	bh=nbqYEwOFH/CNWY515SS06cHxOSHnobg0rVqVqnAYQ3A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QuO+vis6dGujj7BEcrYm6RDDzfzangbrVY1TMUUeDY3VrT+W2rF3nqHvPxz4nepO1
+	 zNH2sofTQEil8WLKDuWJfRx3qluXBkBlmKo8DAL+v9a4Wd7J6FoSMmcHsVThr7GHDE
+	 ZgMuw4xDmzPqTo7WIc8cV1qWkCoDpE3FgzAAFWveAZ3cXSZX3tKniOE/0pb8IlhAtl
+	 iLQXbVIM/f7oBrEzjhUq1ySs3obQvkSVpagZ6p9X9Si+4MIDBQ9oVhWa5ZD76BYy9B
+	 UhHKdEr16LmsS0DsjdH14cbZtGfU2F68z9Q11S9ybF8yp+adQ1kUNeFy3CECn8G5ky
+	 5Mr516aavFC1Q==
+Message-ID: <bafd22ce-2916-4d22-8bba-1b7c3052f087@kernel.org>
+Date: Fri, 16 Jan 2026 10:19:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260114164322.787125-1-smostafa@google.com> <f3ab0156-3d7c-470d-9c1e-922195ea27af@linux.intel.com>
-In-Reply-To: <f3ab0156-3d7c-470d-9c1e-922195ea27af@linux.intel.com>
-From: Mostafa Saleh <smostafa@google.com>
-Date: Fri, 16 Jan 2026 09:08:42 +0000
-X-Gm-Features: AZwV_QiM8_AWnP4if6nM9uRrMx7z-1pq157-8TMrLaAscPdc1UVyRJ2GSwTSnA8
-Message-ID: <CAFgf54rVPaUgbouXWQkczCyFQvXkrei_x6FYY6n1X5NkSSwYfA@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org, 
-	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz, 
-	surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com, 
-	rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/2] dt-bindings: hwmon: add STEF48H28
+To: Charles Hsu <hsu.yungteng@gmail.com>, linux@roeck-us.net,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260116085802.696661-1-hsu.yungteng@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260116085802.696661-1-hsu.yungteng@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sorry I was travelling all day yesterday. I see Jorg hasn't done the
-pull request yet, so I was hoping we can still change it.
-But I can send the fix separately also.
+On 16/01/2026 09:58, Charles Hsu wrote:
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - st,stef48h28
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
 
-Thanks,
-Mostafa
+This must be additionalProperties instead, see speeches/presentations
+material or very explicit rule in writing bindings.
 
+OTOH, this is so trivial now, that you could just add it to
+trivial-devices schema.
 
-
-On Thu, Jan 15, 2026 at 6:15=E2=80=AFAM Baolu Lu <baolu.lu@linux.intel.com>=
- wrote:
->
-> On 1/15/26 00:43, Mostafa Saleh wrote:
-> > Changes in v7:
-> > v6:https://lore.kernel.org/linux-iommu/20260109171805.901995-1-
-> > smostafa@google.com/
-> > - Add a new function page_ext_get_phys() and use it instead of
-> >    pfn_valid() + phys_to_page().
-> > - Drop R-bs on patch 4.
->
-> This series has been applied. If you have any further fixups, it's
-> better to submit them as follow-up patches.
->
-> Thanks,
-> baolu
+Best regards,
+Krzysztof
