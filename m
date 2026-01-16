@@ -1,118 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F53311972
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F222040B6;
+	Fri, 16 Jan 2026 18:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768588326; cv=none; b=VcOomRGKTRK6cr6nDn12YAFIjivoTEoAuJBz75u8bBp/eK5SERTyiiQ6aLzjqNkMYhh32XQDa3/8R56fqPXdMugirlgMdOE2r64UZDG6OFXcyFA+jKBsRvFNNeOVSsyLyyOVxWTYs24OEHnzZP1wR+ewTvZBCzxfZoR/fUBO260=
+	t=1768588359; cv=none; b=RIugVZCQJtowLVA6H0S4KqBTQubuwewUDSzatV1/56f3xp3oabX3IkJ1pUnXhUbYyrQ6jDexhXg2Almk7Hy9AuN5lf99EH09asVfx4jM+zSgbcDe9Ru75M1Lkkap/s4MfM6RHZIDNJfknwjjJUEugwXi8wItlUhiW7BBHoyLis4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768588326; c=relaxed/simple;
-	bh=Ss7qiRqTeuY+VD+9H9/ZWNCvERV6Dkawhl4DEc9LoVI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tX1CuzGDPUI1VsAvY/XmJbJQjJgVV2W1gpKx/PDVKKWX9vep3Wnv2+lH0FP7M5HqAgfafuIMOL/z6E9hzGWAPhgxITvMRzHsBjEWFCaQ7IYDjGzHtGVgiF5QQcFNBXs3fdl2iliwjNc8EirzXUsb6zf85zAy8K0E0nH2U9HO/sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4SGA+/1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768588359; c=relaxed/simple;
+	bh=8bhPpR54Sr1KDTE+z2o9z9BFZRCJFJtMmd0JdzPcxUA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=r0/LCHpk9llxhFbHPnn2dUio7sPLmxIG7g84n57VJP8wg042WjYbXbG8AIMGiRC3+G4+UX21BsqwB8CvIjUGXduHSMzKRyaD/8h3aBXhHMI5MGRnARYPmfpKolabHmfh0tkAvBJ3GwFWGF5k0rxZem9m15ZwYidCi+pcngMfsXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=F4/iSsaz; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4SGA+/1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A075BC2BCB2
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 18:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768588325;
-	bh=Ss7qiRqTeuY+VD+9H9/ZWNCvERV6Dkawhl4DEc9LoVI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=b4SGA+/1MZXjRUOv6t/Nl8NtJ/OLE9LVuNugo9h6zdSvVvdEmabRufWLmKz2c+Vhy
-	 +bbjsOm4lhhi70Bb2IF6Am1apRaUIVDgVHhHFCf3miqVmjr8J0/X5JrpofEmx0fJ56
-	 u+r9m1oXG4y8YOHIhn/PcguhnDW1O4/mIF346Py2RNG8seasZ29/mxrCec6JtqAkUQ
-	 Fwvrlhpn9jJ6KJydXlQBRPSGu+wcOrk0fIWswrZ41m8XSG1KmGhjtxpqI4QMNfg3hD
-	 QPavFKm/WZDhd1vxAfUkpwj4YQYHogJJfPe5/6H4glBBPFVqo4FzMqC2XDS0QGbAKh
-	 BGxHq+jgsO3Jg==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b6a987346so2207658e87.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 10:32:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX3yWXxz31HLmZyVz5KOvP1wCHpvCG27Ssp1cYfXpve5qUpH881AkR222v+Wieb1KjJ1OWqbU6MOGg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3+LBH1xBokCRcrpdAS8GsXA1mns2BT+T0r38442cwSeNgaiez
-	LTNhmA6AzinNJFgg7XV1WfAQivKa1wvw3Iwtrud3O5f89RZlpQYKw0nyLTr/3wnsIqWGRKdCDkf
-	zTQDLbvA+K/qrgM7Mut5mXoSTNp5JbXWZG4stLtezeg==
-X-Received: by 2002:a05:6512:b81:b0:59b:9f92:301f with SMTP id
- 2adb3069b0e04-59bafdb63a8mr1058854e87.7.1768588324162; Fri, 16 Jan 2026
- 10:32:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="F4/iSsaz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 068A540425
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768588357; bh=v8l2UzCbJZY2JQ34meWtbSkjsjYkuQfQDLV7YHGbWi4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=F4/iSsazY4MXOpOsGVa1N/E9BZitnG4rrwuuK0jJywoxQI4GlKm97OPjuu1H7hYoG
+	 3Va9MkNkHqZXGASD86ZwvyE0bagmfF8Uqd1nsJ5XrNDfX1a9i693jbuU9t5fPgFl2e
+	 04/ug2m5rVa+xBRnJsCA1bn/tezJ0Zz4yR5KI+KPCMKuCwRhHoicud636dHGOPZlhv
+	 cVZbkf+2BRPMv433985nj2HUjK9KMujIp8d8rrHLeBq8c2lSuWgzvgXqJnIvbVyrtj
+	 Lfx16FgVPZx98GThvbqT40OwzCNfWDZJ+RdclsYpmKICZTD5UVrnuHvDjoM79xBliL
+	 3rKy5GBVpIlyw==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 068A540425;
+	Fri, 16 Jan 2026 18:32:36 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Marc Herbert <marc.herbert@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Marc Herbert <marc.herbert@linux.intel.com>
+Subject: Re: [PATCH v2] docs: make kptr_restrict and hash_pointers reference
+ each other
+In-Reply-To: <20260107-doc-hash-ptr-v2-1-cb4c161218d7@linux.intel.com>
+References: <20260107-doc-hash-ptr-v2-1-cb4c161218d7@linux.intel.com>
+Date: Fri, 16 Jan 2026 11:32:36 -0700
+Message-ID: <875x91o1bv.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
- <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org> <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
- <20260116160424.GA14499@pendragon.ideasonboard.com> <DFQ5W41X6Z7S.3V6FRPXYMDJ1F@kernel.org>
- <CAMRc=MfAZxzd2hjqgDsXBR+UxgkaEQX0vR5nNZ=a+5WccUb4GQ@mail.gmail.com> <20260116182431.GA1134360@nvidia.com>
-In-Reply-To: <20260116182431.GA1134360@nvidia.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 16 Jan 2026 19:31:51 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McsrthHS4kcV7UkmdVFS4nr9vXe8Z_kQODvMUYxVkE8KQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhX6LG8DkljEPjMvfuFGbrj6wIYYufM6rhcWWImQbypzvqc5Ui2tF-rlh8
-Message-ID: <CAMRc=McsrthHS4kcV7UkmdVFS4nr9vXe8Z_kQODvMUYxVkE8KQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Fri, Jan 16, 2026 at 7:24=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
+Marc Herbert <marc.herbert@linux.intel.com> writes:
+
+> vsprintf.c uses a mix of the `kernel.kptr_restrict` sysctl and the
+> `hash_pointers` boot param to control pointer hashing. But that wasn't
+> possible to tell without looking at the source code.
 >
-> On Fri, Jan 16, 2026 at 07:19:50PM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Jan 16, 2026 at 5:41=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
-rg> wrote:
-> > >
-> > > On Fri Jan 16, 2026 at 5:04 PM CET, Laurent Pinchart wrote:
-> > > > Based on the discussions we had at LPC, the revocable resource mana=
-gement API
-> > > > is not the right solution to handle races between device removal an=
-d userspace
-> > > > access.
-> > >
-> > > Please see: https://lore.kernel.org/all/DFQ5D44A0348.PZJIGPL972N@kern=
-el.org/
-> > >
-> > > > It is however a possibly useful tool for races between producers an=
-d consumers
-> > > > *inside the kernel*.
-> > >
-> > > Do you have an example for such a case?
-> >
-> > Isn't the GPIO use-case - which the series on top of it addresses - one=
-?
-> >
-> > With fw_devlink=3Doff it's quite easy to trigger all kinds of crashes
-> > with in-kernel users.
+> They have a different focus and purpose. To avoid wasting the time of
+> users trying to use one instead of the other, simply have them reference
+> each other in the Documentation.
 >
-> Does this series solve that? It looked to me like it just replaces the
-> existing SRCU with a wrapper?
+> Signed-off-by: Marc Herbert <marc.herbert@linux.intel.com>
+> ---
+> Please just go ahead with any minor correction(s); I mean do not ask
+> for my opinion.
 >
+> Changes in v2:
+> - Rebased on today's docs-next/master to fix textual, unrelated conflict
+> - Stop using backquotes in kernel-parameters.txt for consistency
+> - Link to v1: https://patch.msgid.link/20251205-doc-hash-ptr-v1-1-573966cfa404@linux.intel.com
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 +++
+>  Documentation/admin-guide/sysctl/kernel.rst     | 3 +++
+>  2 files changed, 6 insertions(+)
 
-SRCU already *did* solve it. Revocable *is* a wrapper around SRCU that
-generalizes the initial solution.
+Applied, thanks.
 
-Replacing SRCU with a generalized wrapper is fine but there are
-subsystems out there, where the problem is much less trivial. Take I2C
-for example: the struct device management is so broken that there
-isn't even anything *to revoke* yet. It'll take years of little
-reworks before we can even use revocable at all.
-
-I'm not against it as a library of functions. But TBH I looked at the
-series and - besides making the code run slower - it also kind of
-makes it harder to read. With *naked* SRCU it's very clear what's
-going on, when you start hiding the logic, it becomes needlessly
-obfuscated.
-
-I want to first see revocable match current GPIO performance and then
-we can talk about accepting it.
-
-Bartosz
+jon
