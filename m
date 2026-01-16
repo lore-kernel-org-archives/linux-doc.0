@@ -1,175 +1,119 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a11-132.smtp-out.amazonses.com (a11-132.smtp-out.amazonses.com [54.240.11.132])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DA820FAAB
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 19:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB89A92E;
+	Fri, 16 Jan 2026 19:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768590212; cv=none; b=nYq5KT8wQSLlY6KBmXueLEJwarJYPigKa+hF+wYxvuhs7e2e8HIPdvfFTS97FuJahkYHunZkuz7MpPvG3zQ+766u4Mw8WeM70hGQleoOEktJElNK1F8KK9giEhn/aAuCrxamZBthy8lWIHefUHYo78RCOnRS53iNHN14HT7EwL8=
+	t=1768590232; cv=none; b=FfWyjHQ+90V4QsOh4dze8zFCGnE34Jw/OKHMX5iTQJNG5n0MxdmGsxMzTbx+Xi+ehZ30gH6y+5LcA2MnL0UhuA5KoXcf0Ga/ziVM83iQp+Z679ZYTWMgEGH4aFHFuGFZuaOnGR8C4oYUmuMSz03Tfb3g7AYpdGtAgLeON+doj/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768590212; c=relaxed/simple;
-	bh=HuX7hUb9VnEgzckNNR8hCXPuRconp2LHDDQtvWoHK74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ew1Qprcg/oWUT6IPYtZksnYG50UExY38okTsQGQnWoFt2+nFZVtoMOG66dWmDa3Wba1Ek+nZTEzHSsBnTvJ7UmSEwd0KL4LmqyVXKnKfH+QmeeyD9maHLzGWRCU2fKRv+8hvPwMc/J8WENrrHwAKJZFh+ZnsPBr/EoszcaPRTcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LGtcOnPt; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kUuq+dg2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1768590232; c=relaxed/simple;
+	bh=g29XoRu1KtFXVlm54ZglPWVGBdayg5rwEE7d/Ie6Hl0=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
+	 References:Message-ID; b=DdwyXn713q7uR6fHq2u14usp7rtwWaz20Y4dr71/TFhXsRWOsc4kY9fAm/tcXcpbxY86xzrDTbER6rCv84qWY4P7Du6AEE9l4ZVl/+IEdz8MA5uLOl03DzJtJsjd3UmefPuD+xuETyN5ROBE7fDxeMX5NZXYu0ceHFumDEqoMT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=hLOXHYQH; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=jyzG7539; arc=none smtp.client-ip=54.240.11.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LGtcOnPt";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kUuq+dg2"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GDWGvx1300301
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 19:03:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=ctdwtzx4woC6De+DgvE6qX6t
-	IJzFb2FXyuR20qfZBEg=; b=LGtcOnPtOR+13bTj4jHF6nGlYrcYhfluq4KC3l/S
-	6UOnnPz6682Jwq/EWmZW7agEUTEQL9y/l/PX/3AY7ugCJJZv1Nv+Nkf1HOEIVRNK
-	VPWJrH9q5xHOVlCTzIs5XWUMYWhk0iG+QMZdlPRjtaH/H0G6GVd+bKz2O9p6xAWB
-	hyMIE2I3yBgJAo3Ot+sE+XHGeVz8BZ3xbwVwb5LcR936uamiROOi5uArxm1Rwy33
-	/a+kV+OgDTBk/cGmIw16Bz157nFLcOyn8Z8RU7UzEaqzbMIxJh24EJyUfS9gkUrt
-	NeAAhMJWuU3AN0XXa8dchBbWjJ6bl+HRWAC6/YsNZ7CYfw==
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bqp9x914g-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 19:03:30 +0000 (GMT)
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7cfd0f67288so4894155a34.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 11:03:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768590210; x=1769195010; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ctdwtzx4woC6De+DgvE6qX6tIJzFb2FXyuR20qfZBEg=;
-        b=kUuq+dg2LT0/wtIK/KOsZwibRvF5xnSZdZ2ID7zyP6EAz+3u+OdddnQcw/lYeOkwT6
-         /9C1f31YlaY4m7z2STzL+i/39RMHbn1j1zR1ovEx/z/OOaXG18X4hjLVVyplH1jnV3eh
-         nQ3XRA3aPuDC5SM/4yDMgh4Hq4qU6cGinfwDTY0po9PrtAzebUeT05aPtveN6/uIpq6i
-         qsNuM4V1USBvBTSwIBT9qZvVm6W4oJOPlOzuF2fMVKTAF3mxYatkoir2h89/iwL4rtgj
-         ODvybTo/pYN3niCdxnI4rNDVLI+6my3nKqnnxVtP+MePXzwXfWlrivzF2QFZ7ssyqSsh
-         9CbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768590210; x=1769195010;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ctdwtzx4woC6De+DgvE6qX6tIJzFb2FXyuR20qfZBEg=;
-        b=t52W1TBf4pVmv4aRKOiu/uNua95kb6Ct0h9lVXgzhPTHhxe000AykrGYJPMNFWrnN1
-         P3G7ZToy+cij6/+MEjdKODgItUXw55D1j/QWONS87hXURXDXdjv6uhWxkb6sC8wDGzn0
-         lBWwMU9VsSSDXe2RE+t2Jz0ggvofO1ulTaxvFO0vzlEt43P1ku3CuY97wqEeiWQ2N8rK
-         vrTP5xBJJpFqJrbd2CeCNWvh3W2EDnMbdLWbyL9qsItb9jqiN7+jnVf1HPldpHVMLDv1
-         DX9XtWVz6NmredEuMzfobv3jwHxUm4oaw4DIn2B3Q+YUgnoqabYE4DptOK1iute5OUnh
-         I4nw==
-X-Forwarded-Encrypted: i=1; AJvYcCVC/uamLziHT4r05D41CS8Dh8zHsMBGKgaJgChdt702/dAmFyFC1P+X/urcj6CNArOm4FbqaFUunh0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwNN4mq8+m7UJDrBDavLTczYwFiixIwunG5yYyQqyf1CX5CqzA
-	2ifUTUXIaXOjUiWebT3YvewDURymh1vetEB3qOLmuoD+42OAzrIajI/Y5452sT8T6GUuclCnmQx
-	/9PVc+zxaCFntDyg7D+yUWR/a7t0X0U0bLCrtNWEt0nxbLgFkNmqd4zYeK4vgJi4=
-X-Gm-Gg: AY/fxX6bVuMK3f9UKaXhBlaDtogqBlfsh3gF/UM4KN612euqu0bE4s2A18jWGWZvY93
-	G2u703fh8619FXGAaxRRTc2Te6CKsjG5pWBx4LHiUpvQoZI94L+lCde7/w7Fqhcict9RoEKHBHH
-	FwOUtYCxgTPdTlGh/OYnz50NTQFI1xPwv8+IyNuo84yPz9csUsZ1QeR/+UpiWH+BDAnU03rbv1/
-	NANT0dUNUVAEX99fBYC7iXt8QoLg6kzL+pneoKHzR4BeZ4kCeD1S2WZ62r9Qg13bc/e5Xng3/hv
-	nvvXjeQbZ0Uj975ji83uYchHvR0lA7kItlVYM+jwK5T2KCsOMinDJjEwZpLjycRssts1ZkR9T1t
-	bXTklDzid6q2hyPNvVK4=
-X-Received: by 2002:a05:6830:7305:b0:7ca:f1fa:e9d7 with SMTP id 46e09a7af769-7cfe013b1cbmr1708168a34.16.1768590210048;
-        Fri, 16 Jan 2026 11:03:30 -0800 (PST)
-X-Received: by 2002:a05:6830:7305:b0:7ca:f1fa:e9d7 with SMTP id 46e09a7af769-7cfe013b1cbmr1708026a34.16.1768590204813;
-        Fri, 16 Jan 2026 11:03:24 -0800 (PST)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf0f0137sm2144941a34.12.2026.01.16.11.03.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 11:03:24 -0800 (PST)
-Date: Fri, 16 Jan 2026 13:03:23 -0600
-From: Andrew Jones <andrew.jones@oss.qualcomm.com>
-To: fangyu.yu@linux.alibaba.com
-Cc: pbonzini@redhat.com, corbet@lwn.net, anup@brainfault.org,
-        atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, alex@ghiti.fr, guoren@kernel.org,
-        ajones@ventanamicro.com, rkrcmar@ventanamicro.com,
-        linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-        kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
-Message-ID: <6txqxrkyqh4afmked4hdi6qekkqrb54ar3q5upz3ennnuaktsi@dtoarqt7e26t>
-References: <20260105143232.76715-1-fangyu.yu@linux.alibaba.com>
- <20260105143232.76715-3-fangyu.yu@linux.alibaba.com>
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="hLOXHYQH";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="jyzG7539"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1768590230;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
+	bh=g29XoRu1KtFXVlm54ZglPWVGBdayg5rwEE7d/Ie6Hl0=;
+	b=hLOXHYQHt0DWGuEmyUfExlP2TNPznvFprtrGkiVCB42QQhhkI3/cYiyc/2qiJ52a
+	Fmc5dlq6tQwjRcEUmHNDJuPhHW8l37MnmAqeB3HhHQsQ0/vK9BFTMJaq0upezIMcqE+
+	QvVXl7Vom8nJ1qyzTTKo4X0ZPJhJgsE6F8vu1v90=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1768590230;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
+	bh=g29XoRu1KtFXVlm54ZglPWVGBdayg5rwEE7d/Ie6Hl0=;
+	b=jyzG7539crGZz4UUBoqqXCSem+SHD7X1EetO74zu2gXPdEUuGIX2cbwbXI3G2F9J
+	Iftwb4nJXjlb2PbtTUvX8ZTC4wPrI7xZKqTA81tbrgn5yKo273s7uBhpfb2U+cLoukV
+	iknXfOBuczOMi2KUZrUmW98QcaRIjhNa4fchPaA0=
+Subject: [PATCH V5 08/19] dax: export dax_dev_get()
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
+	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?John_Groves?= <jgroves@fastmail.com>, 
+	=?UTF-8?Q?Jonathan_Corbet?= <corbet@lwn.net>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
+	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
+	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
+	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
+	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
+	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
+	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
+	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
+	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
+	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
+	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
+	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
+	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
+	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
+	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
+	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
+	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
+	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
+	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>
+Date: Fri, 16 Jan 2026 19:03:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260105143232.76715-3-fangyu.yu@linux.alibaba.com>
-X-Proofpoint-GUID: By9uczRKsKcLPMx61FI99uhZs2IBDc7U
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDE0MSBTYWx0ZWRfX8Jvvpvvu6YOY
- X3vRqqKccn69j31FqiV7oqpcYxdAToDqjqlWxGI7Rj4Muv3koD4K5yeoRT6v1zXK9SPfS3G+ydt
- dDRSeWmH11181aefpSyQV4mQVKJOfcFRHD8P+i9CKux9yvv/cIt/Z2H554LOuUblDf6vDjhblRY
- K2AYQPuYfObVbDqbAjwAwJr0SQDXweQ2L+OE87a/luGVCmnweWJkR/vugc5s6XcI0LA/QvYjnny
- S99qO9pRqjRArvhBquQbt0EFcSeDsoOnUMc7Si2Q2dlU0dvl6IOji7Q7Km3tY1svrK2RFpdarvn
- 7TfTsTYhkbKEVnc8+0Yw52Q9CqSVGcy+Y/blp70FA9Vqx1tkUcBGur5itxwKQogBTfnDLZM33hi
- FmeM3FBjFZGAMbdZl5yasd7FC76hJ4n8soekIorR0bXe9NOBI0XDFl72H1mSnviFsUOwXl1bJnz
- R25eFDmw+EJUXvVO69Q==
-X-Proofpoint-ORIG-GUID: By9uczRKsKcLPMx61FI99uhZs2IBDc7U
-X-Authority-Analysis: v=2.4 cv=bYpmkePB c=1 sm=1 tr=0 ts=696a8b82 cx=c_pps
- a=+3WqYijBVYhDct2f5Fivkw==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
- a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=JfrnYn6hAAAA:8 a=SRrdq9N9AAAA:8
- a=y9tgS1qgbWeIrQugNAQA:9 a=CjuIK1q_8ugA:10 a=eYe2g0i6gJ5uXG_o6N4q:22
- a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-16_07,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- spamscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160141
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260116185911.1005-1-john@jagalactic.com>
+References: <20260116125831.953.compound@groves.net> 
+ <20260116185911.1005-1-john@jagalactic.com> 
+ <20260116185911.1005-9-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHchxoe1VAe00deR0Sw2d725QhurgAABexrAAAukUo=
+Thread-Topic: [PATCH V5 08/19] dax: export dax_dev_get()
+X-Wm-Sent-Timestamp: 1768590228
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019bc83141c8-456ef04c-7071-4f4f-b513-17ea25c4e547-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.01.16-54.240.11.132
 
-On Mon, Jan 05, 2026 at 10:32:32PM +0800, fangyu.yu@linux.alibaba.com wrote:
-...
-> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
-> +#ifdef CONFIG_64BIT
-> +		if (cap->args[0] < HGATP_MODE_SV39X4 ||
-> +			cap->args[0] > kvm_riscv_gstage_max_mode)
-> +			return -EINVAL;
-> +		if (kvm->arch.gstage_mode_initialized)
-> +			return 0;
-> +		kvm->arch.gstage_mode_initialized = true;
-> +		kvm->arch.kvm_riscv_gstage_mode = cap->args[0];
-> +		kvm->arch.kvm_riscv_gstage_pgd_levels = 3 +
-> +		    kvm->arch.kvm_riscv_gstage_mode - HGATP_MODE_SV39X4;
-> +		kvm_info("using SV%lluX4 G-stage page table format\n",
-> +			39 + (cap->args[0] - HGATP_MODE_SV39X4) * 9);
-
-I don't think we want this kvm_info line, particularly if it doesn't also
-include a VM ID in some form to allow readers to know which VM is using
-the selected format. Let's either drop it or change it to kvm_debug and
-include a VM ID.
-
-Thanks,
-drew
-
-> +#endif
-> +		return 0;
->  	default:
->  		return -EINVAL;
->  	}
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index dddb781b0507..00c02a880518 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -974,6 +974,7 @@ struct kvm_enable_cap {
->  #define KVM_CAP_GUEST_MEMFD_FLAGS 244
->  #define KVM_CAP_ARM_SEA_TO_USER 245
->  #define KVM_CAP_S390_USER_OPEREXEC 246
-> +#define KVM_CAP_RISCV_SET_HGATP_MODE 247
->  
->  struct kvm_irq_routing_irqchip {
->  	__u32 irqchip;
-> -- 
-> 2.50.1
-> 
-> 
-> -- 
-> kvm-riscv mailing list
-> kvm-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kvm-riscv
+From: John Groves <john@groves.net>=0D=0A=0D=0Afamfs needs to look up a d=
+ax_device by dev_t when resolving fmap=0D=0Aentries that reference charac=
+ter dax devices.=0D=0A=0D=0ASigned-off-by: John Groves <john@groves.net>=0D=
+=0A---=0D=0A drivers/dax/super.c | 3 ++-=0D=0A include/linux/dax.h | 1 +=0D=
+=0A 2 files changed, 3 insertions(+), 1 deletion(-)=0D=0A=0D=0Adiff --git=
+ a/drivers/dax/super.c b/drivers/dax/super.c=0D=0Aindex 00c330ef437c..d09=
+7561d78db 100644=0D=0A--- a/drivers/dax/super.c=0D=0A+++ b/drivers/dax/su=
+per.c=0D=0A@@ -513,7 +513,7 @@ static int dax_set(struct inode *inode, vo=
+id *data)=0D=0A =09return 0;=0D=0A }=0D=0A=20=0D=0A-static struct dax_dev=
+ice *dax_dev_get(dev_t devt)=0D=0A+struct dax_device *dax_dev_get(dev_t d=
+evt)=0D=0A {=0D=0A =09struct dax_device *dax_dev;=0D=0A =09struct inode *=
+inode;=0D=0A@@ -536,6 +536,7 @@ static struct dax_device *dax_dev_get(dev=
+_t devt)=0D=0A=20=0D=0A =09return dax_dev;=0D=0A }=0D=0A+EXPORT_SYMBOL_GP=
+L(dax_dev_get);=0D=0A=20=0D=0A struct dax_device *alloc_dax(void *private=
+, const struct dax_operations *ops)=0D=0A {=0D=0Adiff --git a/include/lin=
+ux/dax.h b/include/linux/dax.h=0D=0Aindex 6897c5736543..1ef9b03f9671 1006=
+44=0D=0A--- a/include/linux/dax.h=0D=0A+++ b/include/linux/dax.h=0D=0A@@ =
+-55,6 +55,7 @@ struct dax_device *alloc_dax(void *private, const struct d=
+ax_operations *ops);=0D=0A void *dax_holder(struct dax_device *dax_dev);=0D=
+=0A void put_dax(struct dax_device *dax_dev);=0D=0A void kill_dax(struct =
+dax_device *dax_dev);=0D=0A+struct dax_device *dax_dev_get(dev_t devt);=0D=
+=0A void dax_write_cache(struct dax_device *dax_dev, bool wc);=0D=0A bool=
+ dax_write_cache_enabled(struct dax_device *dax_dev);=0D=0A bool dax_sync=
+hronous(struct dax_device *dax_dev);=0D=0A--=20=0D=0A2.52.0=0D=0A=0D=0A
