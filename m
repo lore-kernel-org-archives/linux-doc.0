@@ -1,180 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FAA32AAA2;
-	Fri, 16 Jan 2026 15:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D65C337B9D
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 15:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768577770; cv=none; b=POEeQuHGP8zEDrnMJUyInx6MsftJvWwDckemwDFwgEywphALEYmBLaahooO+bGKX9U37awkwNaMNWs77zdarxiIpgpnXLoODzM9vCm/OqpvlRfaGKIXg+TMnn4bBlAHs41/4xFNBSbD10TbzwE8L4zWU5QGWUGfO7oRNJS0w/GM=
+	t=1768578067; cv=none; b=YCPqDRz0rRG64Ry+mqhRzCTSkCcZHEV8lhKlT/k/N+Q51H6NAljyWZ2ANhcnE34NpT6muSXcjIDyX+ZTTnI1GXw3zwnrg3xU7wVe/2g0z6qcBuPAhnZk1YobMYTXVO/upool663sGpcTUvV9oK4lCIZawpJwu6HoF5aRS6qoUlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768577770; c=relaxed/simple;
-	bh=GJwdW800GznqW1CUb1bMuwCBh1lbTvD+02usxtCCeF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DhbMe4WWeLKw8qHJPGHRlb6p7oNQ7KPWn7lagTFeVFG/i8Asu/KDz40WiI5mBdecWGt+WnCAKGtc84de0PSZ/YbxRzFChLFokQffLW47WimUL+5OYSWMgU+Ghu5xiY4IDysqEaWXLpQXunG/j31Ck9YnZjINjNoKtE7/fviIDTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LfnztrdS; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768578067; c=relaxed/simple;
+	bh=cbz4P0q8LjyF0OVI7OVejj9Lnkf5fBOIA9+hzT8ibrU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iOptkY95HB5pqA/PLdM/mcnBdWqvvzMWandUDlEJPvhZo2N7XANEMksWB3mhfwU8ffAfCRncizDO6VnV28DN6M4cn7XInzmLG1bvA5s2B8hdGRyB+m5NjFGGplZ+sSc1sdGcAwOal47okiybr/v4icfvfxDZNILLyftGbxteocM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dbO//O9G; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LfnztrdS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768577769; x=1800113769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=GJwdW800GznqW1CUb1bMuwCBh1lbTvD+02usxtCCeF8=;
-  b=LfnztrdSEtn0AaeG5MhsF/VMvTl784dnvGr3T9+Pfwpgqp72drvThr1x
-   SoAhOj15ArCPd/t2qL1aGbcnvRClG+Eu58LYanDZFUwmmKT+xUvPtNQLe
-   JnxVbWVDl6M9YCyhgzjQFnbzMUcgbAzUFGlIvXjwPJNcRQIf3JZM6xdWV
-   16wdXLx3LTlCwiQxjcGnQQZEBN/Do+WmO+FxqNwgX7tug86gFKgmIC6ey
-   kdshmRTrAnjQ/tstIXFHr50wXi3vM/S4mDzVgwsl4xJ7fh4KqwqLt3Qbl
-   P0riEf0R68KlA+aoLTD/iB2j2/uJEBHv/VjOp8PtdAcvKKnYl88Agb1Gs
-   w==;
-X-CSE-ConnectionGUID: Xp4qSWq9SvGBxZ0HjJsaZg==
-X-CSE-MsgGUID: V6tDDQlDRP+hbGhMUw5x8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69094578"
-X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="69094578"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 07:36:08 -0800
-X-CSE-ConnectionGUID: cmP8qWClS2SXzZEAZ2tDJA==
-X-CSE-MsgGUID: q+gQDhUuS1u0U19Of09mjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="242809246"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 07:36:05 -0800
-Date: Fri, 16 Jan 2026 17:36:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4 5/7] iio: frequency: adf41513: features on frequency
- change
-Message-ID: <aWpa4XbFVsz9qQ9U@smile.fi.intel.com>
-References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
- <20260116-adf41513-iio-driver-v4-5-dbb7d6782217@analog.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dbO//O9G"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2a0d59f0198so23284255ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 07:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768578064; x=1769182864; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cbz4P0q8LjyF0OVI7OVejj9Lnkf5fBOIA9+hzT8ibrU=;
+        b=dbO//O9G332HhBxJtKD2JQbZXK+wnfpwC3CQvQdXruUpCU57QkYhLoE6roepa/T/BJ
+         b2U9QTNYTDXYM1jnVjamlkZ11yafdYxSc2lqrCLiLTrAID0EED8UiSLuWClSP7SdGAhL
+         VEg/nR0AyoIciYoDj2SfSQ8VAysUDxh8K5rd3qfFEU5qyHg+kM6mSVcrggtSnqoscvNn
+         M26BO8fQuN3lafBfW2vvav43Wy8ZKkD0gXxAKpHKHJ/NXK83VgQPP+x1zgHCVHRYpfFI
+         RgoPXlK6/kyxRKGDnYFNAbZC3z+Se0A6SUSvIYINsdjJ0rsO4EQXgvwcwTQm1E6IPVg/
+         m8NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768578064; x=1769182864;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cbz4P0q8LjyF0OVI7OVejj9Lnkf5fBOIA9+hzT8ibrU=;
+        b=GQNsDB3aUOrTor1RhD+7m1iDepp4Xx4E6lVHAI+8aWLy5k/CArbFMXu8j1tizbYYJj
+         ceI7LS48DQrHe8eNCiaqNRnURCN55e8gzkGBGhg+X34Y9evCTRQChc+DEZgxRe4xojQu
+         j8f+dwNYWf+8Ax4t2/FL0JWQCjN/ZMSJN2yklp4FNmjAaQvMbHeGozkucacfKQOTQxZg
+         QjWrC/YPQsFBwtcTkUSOodi5oCMiqcftNyfnj4XyG/BH7Dy6P9kjnyMHySVYNepwRnku
+         VW9x0S9xgfEw2Mmv9T6UeLqCqRQjrxim91ZNciSkf14ivKmJGFGq9sy25P02hFN1ptFX
+         1Kiw==
+X-Forwarded-Encrypted: i=1; AJvYcCXm/qZ5uNgoMwVnnEVRBywutJ7WLo5mPfENkKesnDHiqAA2y8SsOOYMZqXyBeIRlpbzrPUq5QBIKfs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjE+7ToaOyy0uUllU/8EJ+Hkh7TqbPfXX0Pux0bEN0XN1c+C3M
+	MLD+hr+2BB9H803RvBCIZUbIQezhNvoCJItoQmi42Xjqeao3mpKXRJAsKn2cMHxSqFdENwhGbBp
+	fQ4BkhQ==
+X-Received: from plss10.prod.google.com ([2002:a17:902:c64a:b0:29f:68b:3550])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:cf07:b0:2a2:bff6:42ef
+ with SMTP id d9443c01a7336-2a7174fa860mr37848805ad.7.1768578064299; Fri, 16
+ Jan 2026 07:41:04 -0800 (PST)
+Date: Fri, 16 Jan 2026 07:41:02 -0800
+In-Reply-To: <4781ba9c5d16394cdd785d008cf2a2d81c5cda35.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260116-adf41513-iio-driver-v4-5-dbb7d6782217@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-8-kalyazin@amazon.com>
+ <ed01838830679880d3eadaf6f11c539b9c72c22d.camel@intel.com>
+ <208b151b-f458-4327-94bc-eb3f32d20a68@amazon.com> <4781ba9c5d16394cdd785d008cf2a2d81c5cda35.camel@intel.com>
+Message-ID: <aWpcDrGVLrZOqdcg@google.com>
+Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct map
+From: Sean Christopherson <seanjc@google.com>
+To: Rick P Edgecombe <rick.p.edgecombe@intel.com>
+Cc: "kalyazin@amazon.com" <kalyazin@amazon.com>, "kalyazin@amazon.co.uk" <kalyazin@amazon.co.uk>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "david@kernel.org" <david@kernel.org>, 
+	"svens@linux.ibm.com" <svens@linux.ibm.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"palmer@dabbelt.com" <palmer@dabbelt.com>, "jgross@suse.com" <jgross@suse.com>, 
+	"surenb@google.com" <surenb@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"riel@surriel.com" <riel@surriel.com>, "pfalcato@suse.de" <pfalcato@suse.de>, "x86@kernel.org" <x86@kernel.org>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "thuth@redhat.com" <thuth@redhat.com>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "maz@kernel.org" <maz@kernel.org>, 
+	"peterx@redhat.com" <peterx@redhat.com>, "ast@kernel.org" <ast@kernel.org>, 
+	Vishal Annapurve <vannapurve@google.com>, "pjw@kernel.org" <pjw@kernel.org>, "alex@ghiti.fr" <alex@ghiti.fr>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, "willy@infradead.org" <willy@infradead.org>, 
+	"wyihan@google.com" <wyihan@google.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, "jolsa@kernel.org" <jolsa@kernel.org>, 
+	"jmattson@google.com" <jmattson@google.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "haoluo@google.com" <haoluo@google.com>, 
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "coxu@redhat.com" <coxu@redhat.com>, 
+	"mhocko@suse.com" <mhocko@suse.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "song@kernel.org" <song@kernel.org>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "jthoughton@google.com" <jthoughton@google.com>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"chenhuacai@kernel.org" <chenhuacai@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"prsampat@amd.com" <prsampat@amd.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "itazur@amazon.co.uk" <itazur@amazon.co.uk>, 
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "yuzenghui@huawei.com" <yuzenghui@huawei.com>, 
+	"gor@linux.ibm.com" <gor@linux.ibm.com>, "jackabt@amazon.co.uk" <jackabt@amazon.co.uk>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "joey.gouly@arm.com" <joey.gouly@arm.com>, 
+	"derekmn@amazon.com" <derekmn@amazon.com>, "xmarcalx@amazon.co.uk" <xmarcalx@amazon.co.uk>, 
+	"kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>, 
+	"jackmanb@google.com" <jackmanb@google.com>, "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"ackerleytng@google.com" <ackerleytng@google.com>, "jannh@google.com" <jannh@google.com>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"will@kernel.org" <will@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 16, 2026 at 02:32:24PM +0000, Rodrigo Alencar via B4 Relay wrote:
+On Fri, Jan 16, 2026, Rick P Edgecombe wrote:
+> On Fri, 2026-01-16 at 15:02 +0000, Nikita Kalyazin wrote:
+> > > TDX does some clearing at the direct map mapping for pages that
+> > > comes from gmem, using a special instruction. It also does some
+> > > clflushing at the direct map address for these pages. So I think we
+> > > need to make sure TDs don't pull from gmem fds with this flag.
+> >=20
+> > Would you be able to give a pointer on how we can do that?=C2=A0 I'm no=
+t
+> > very familiar with the TDX code.
+>=20
+> Uhh, that is a good question. Let me think.
 
-> Set Bleed current when PFD frequency changes (bleed enabled when in
-> fractional mode). Set lock detector window size, handling bias and
-> precision. Add phase resync support, setting clock dividers when
-> PFD frequency changes.
-
-...
-
-> +static void adf41513_set_bleed_val(struct adf41513_state *st)
-> +{
-> +	u32 bleed_value;
-> +
-> +	if (st->data.phase_detector_polarity)
-> +		bleed_value = 90;
-> +	else
-> +		bleed_value = 144;
-> +
-> +	bleed_value *= 1 + FIELD_GET(ADF41513_REG5_CP_CURRENT_MSK,
-> +				     st->regs[ADF41513_REG5]);
-
-I think it's better to have yet another temporary variable for this multiplier...
-
-> +	bleed_value = div64_u64(st->settings.pfd_frequency_uhz * bleed_value,
-
-...and here three operands instead.
-
-	bleed_value = div64_u64(st->settings.pfd_frequency_uhz * curr * bleed_value,
-
-> +				1600ULL * MEGA * MICROHZ_PER_HZ);
-> +
-> +	FIELD_MODIFY(ADF41513_REG6_BLEED_CURRENT_MSK, &st->regs[ADF41513_REG6],
-> +		     bleed_value);
-> +}
-> +
-> +static void adf41513_set_ld_window(struct adf41513_state *st)
-> +{
-> +	/*
-> +	 * The ideal lock detector window size is halfway between the max
-> +	 * window, set by the phase comparison period t_PFD = (1 / f_PFD),
-> +	 * and the minimum is set by (I_BLEED/I_CP) × t_PFD
-> +	 */
-> +	u16 ld_window_10x_ns = div64_u64(10ULL * NSEC_PER_SEC * MICROHZ_PER_HZ,
-> +					 st->settings.pfd_frequency_uhz << 1);
-
-Okay, if we go this direction...
-
-> +	u8 ld_idx, ldp, ld_bias;
-> +
-> +	if (st->settings.mode != ADF41513_MODE_INTEGER_N) {
-> +		/* account for bleed current (deduced from eq.6 and eq.7) */
-> +		if (st->data.phase_detector_polarity)
-> +			ld_window_10x_ns += 4;
-> +		else
-> +			ld_window_10x_ns += 6;
-> +	}
-> +
-> +	ld_idx = find_closest(ld_window_10x_ns, adf41513_ld_window_x10_ns,
-> +			      ARRAY_SIZE(adf41513_ld_window_x10_ns));
-> +	ldp = (adf41513_ldp_bias[ld_idx] >> 2) & 0x3;
-> +	ld_bias = adf41513_ldp_bias[ld_idx] & 0x3;
-> +
-> +	FIELD_MODIFY(ADF41513_REG6_LDP_MSK, &st->regs[ADF41513_REG6], ldp);
-> +	FIELD_MODIFY(ADF41513_REG9_LD_BIAS_MSK, &st->regs[ADF41513_REG9], ld_bias);
-> +}
-> +
-> +static void adf41513_set_phase_resync(struct adf41513_state *st)
-> +{
-> +	u32 total_div, clk1_div, clk2_div;
-> +
-> +	if (!st->data.phase_resync_period_ns)
-> +		return;
-> +
-> +	/* assuming both clock dividers hold similar values */
-> +	total_div = mul_u64_u64_div_u64(st->settings.pfd_frequency_uhz,
-> +					st->data.phase_resync_period_ns,
-> +					1ULL * MICRO * NANO);
-
-...for the consistency we may also use the same approach here
-
-					1ULL * MICROHZ_PER_HZ * NSEC_PER_SEC);
-
-At least it will be consistent with the annihilated units.
-
-> +	clk1_div = clamp(int_sqrt(total_div), 1,
-> +			 ADF41513_MAX_CLK_DIVIDER);
-> +	clk2_div = clamp(DIV_ROUND_CLOSEST(total_div, clk1_div), 1,
-> +			 ADF41513_MAX_CLK_DIVIDER);
-> +
-> +	FIELD_MODIFY(ADF41513_REG5_CLK1_DIV_MSK, &st->regs[ADF41513_REG5],
-> +		     clk1_div);
-> +	FIELD_MODIFY(ADF41513_REG7_CLK2_DIV_MSK, &st->regs[ADF41513_REG7],
-> +		     clk2_div);
-> +
-> +	/* enable phase resync */
-> +	st->regs[ADF41513_REG7] |= ADF41513_REG7_CLK_DIV_MODE_MSK;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Pass @kvm to kvm_arch_gmem_supports_no_direct_map() and then return %false =
+if
+it's a TDX VM.
