@@ -1,104 +1,62 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09737379998;
-	Fri, 16 Jan 2026 11:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D28E35959;
+	Fri, 16 Jan 2026 12:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768563368; cv=none; b=HuUQpB4JRB+77/OOENeICUdkHJFtlMxErJlGcCnnCgoAZjK4KZyij7gAsgv4hP0wqtF7HJnPfV/LlfwGx/yHjS2nyiWscPZiU4gRTV4r5+9hFEG8/Mll6umHvTqwCEPY+bMb0ihsx7YzIUO2ghNSEVgbGALV5iokI6ZDTDkcO9I=
+	t=1768565993; cv=none; b=EubFQ1Vnc1NoQS7+eEHm6JzKNnN/5rB3Mr4BpUS7rDZ7F8fcagO3Cz3v2z59wweGj0Y2D+JuycRq4rjwqb8TfW2gtMHvxn/TxikXyqKGBt9PySEuBWyDU9xTlQShxyxnqW9Sywvc3RMRjrQcbYJZEgolLSNV3ln+XvqwxDP5NfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768563368; c=relaxed/simple;
-	bh=ojj2zA8/kfq+e1OyB79iNd8IHV8LNIDA5SlVi4zoTKU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qba0yubAS9bOcM6rNJzDrQAsQ1C5H0lBFrxRaOcRXBf0YPuE9YS1wVym/84QZTwWJ93ywI7BbVIlKyRaBbmtJihK4OkPjp9QglHeGCrrn40mMZyb8dqnd0y8eYq6ExZfht7L0LDlwrZ/jROGShJSzLpGIjwEWAFXmRFSVnFE6wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 76EDB200ED9;
-	Fri, 16 Jan 2026 12:36:05 +0100 (CET)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 41BDA200E91;
-	Fri, 16 Jan 2026 12:36:05 +0100 (CET)
-Received: from NXL37714.wbi.nxp.com (nxl37714.wbi.nxp.com [10.31.156.112])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 6C4A41800089;
-	Fri, 16 Jan 2026 19:36:03 +0800 (+08)
-From: Mayank Mahajan <mayankmahajan.x@nxp.com>
-To: linux@roeck-us.net,
-	corbet@lwn.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: priyanka.jain@nxp.com,
-	vikash.bansal@nxp.com,
-	Mayank Mahajan <mayankmahajan.x@nxp.com>
-Subject: [PATCH v4 3/3] hwmon: (tmp108) Add P3T1035 and P3T2030 support
-Date: Fri, 16 Jan 2026 17:05:54 +0530
-Message-ID: <20260116113554.986-3-mayankmahajan.x@nxp.com>
-X-Mailer: git-send-email 2.47.1.windows.1
-In-Reply-To: <20260116113554.986-1-mayankmahajan.x@nxp.com>
-References: <20260116113554.986-1-mayankmahajan.x@nxp.com>
+	s=arc-20240116; t=1768565993; c=relaxed/simple;
+	bh=N27lR6LD8aLrpqUY3jTvrBfxTbUYZ+iLvKoUwVGh4p8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eqR31n/zyKHC78O5cuGs3ESzcLyUDZeKHb42aO7QicbJMn8c8swpuedWgvDTvV88J2gk+m85sj/Q1B3FBqMxIZVzUa64v6zFXN4Ic03QY/bUcfW4aaQhtDsjZWPBDK6G0gzkW4FeiOaqErlOnynRgmr0cG22YU4pZLNp4v4qHvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLDqW3um; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLDqW3um"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA661C116C6;
+	Fri, 16 Jan 2026 12:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768565993;
+	bh=N27lR6LD8aLrpqUY3jTvrBfxTbUYZ+iLvKoUwVGh4p8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NLDqW3umKUH+oTSWeFot7VEADoh18cZVilBpn//cNgFD3fP0Bxh+2ORvBW1B98Yst
+	 GB/QiuV75BD/IAJzSl0SjZ5nI8Nf35O63pUOq3j8tLKWi//TNDE6XNb/iuAbpIaiTV
+	 L3Ky+yG5G96EPeyo3Rmhmi8oDXcvMZVsjShSrYq8+B3dvzeIzrFnhM2B6oc4bFmMBT
+	 MH1ib2aX1LQSJO5pvg7w3fWjAATy4D2EyqR6051befqLmQKGiZWfPME/S1vX82U7+w
+	 yX20DDUn4pt6fugT9hFrKeMcdmd84MPGKKZZ9MLThalk0lScIBzxAQP4uWB9JxNNHl
+	 put1nqc2PqCnA==
+Date: Fri, 16 Jan 2026 12:19:45 +0000
+From: Will Deacon <will@kernel.org>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: Baolu Lu <baolu.lu@linux.intel.com>, linux-mm@kvack.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
+	surenb@google.com, mhocko@suse.com, jackmanb@google.com,
+	hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, xiaqinxin@huawei.com, rdunlap@infradead.org
+Subject: Re: [PATCH v7 0/5] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+Message-ID: <aWos4aIxKpqWuHoK@willie-the-truck>
+References: <20260114164322.787125-1-smostafa@google.com>
+ <f3ab0156-3d7c-470d-9c1e-922195ea27af@linux.intel.com>
+ <CAFgf54rVPaUgbouXWQkczCyFQvXkrei_x6FYY6n1X5NkSSwYfA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFgf54rVPaUgbouXWQkczCyFQvXkrei_x6FYY6n1X5NkSSwYfA@mail.gmail.com>
 
-Update the hwmon driver documentation for sensors: P3T1035 and P3T2030.
+On Fri, Jan 16, 2026 at 09:08:42AM +0000, Mostafa Saleh wrote:
+> Sorry I was travelling all day yesterday. I see Jorg hasn't done the
+> pull request yet, so I was hoping we can still change it.
+> But I can send the fix separately also.
 
-Signed-off-by: Mayank Mahajan <mayankmahajan.x@nxp.com>
----
-V1 -> V2:
-- No changes in v2.
-V2 -> V3:
-- No changes in v3.
-V3 -> V4:
-- No changes in v4.
+iommu/core is a stable (non-rebasing) branch, so patches on top, please.
 
- Documentation/hwmon/tmp108.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/Documentation/hwmon/tmp108.rst b/Documentation/hwmon/tmp108.rst
-index bc4941d98268..c218ea333dd6 100644
---- a/Documentation/hwmon/tmp108.rst
-+++ b/Documentation/hwmon/tmp108.rst
-@@ -3,6 +3,15 @@ Kernel driver tmp108
-
- Supported chips:
-
-+  * NXP P3T1035
-+
-+    Prefix: 'p3t1035'
-+
-+    Addresses scanned: none
-+
-+    Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1035XUK_P3T2030XUK.pdf
-+
-+
-   * NXP P3T1085
-
-     Prefix: 'p3t1085'
-@@ -11,6 +20,14 @@ Supported chips:
-
-     Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1085UK.pdf
-
-+  * NXP P3T2030
-+
-+    Prefix: 'p3t2030'
-+
-+    Addresses scanned: none
-+
-+    Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1035XUK_P3T2030XUK.pdf
-+
-   * Texas Instruments TMP108
-
-     Prefix: 'tmp108'
---
-2.34.1
+Will
