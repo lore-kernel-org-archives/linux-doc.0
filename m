@@ -1,157 +1,523 @@
-Received: from a11-129.smtp-out.amazonses.com (a11-129.smtp-out.amazonses.com [54.240.11.129])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFAB2F5485;
-	Fri, 16 Jan 2026 19:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5B12F3618
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 19:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768590335; cv=none; b=k+lBAaQ1/eH3Lq7dC/qvZGJHx3zdj3X6n5ajb87R0q3Pbb0WdNHWpfTrKxinanyzRQMib1hwmGGqlzsx9MRdV7VDNPM07inEq7NXboc0xTluYFyDCvada2UIKx/FF9FtnTB6XU1uJ42iG4PDcX1SK+jdsXhxLPR/Dfkor8hnOq8=
+	t=1768590349; cv=none; b=EAbX3VpZHbqjS7LnkAKVn6dW+RUZDF6sJk3m6OW8VgoAc4Xk4ZkygDY7xCwqxUajYSC5OPmcrKY65kDa3hdmIw+vqpF76DPkyV88T+z9qCzfIgzP6GZ0NeQUS7Wl8AGX8J/geh+Tw/FuFGmCt7A6VamJFDTIXKiGxkW60gQ3r3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768590335; c=relaxed/simple;
-	bh=iut77gaxquLysmZmztLRMRZhsWQOMrcw7mV3QknlVLM=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=S65UiQHKPgkaYEXBWSjeU/0LrXFLFHylZw5KdkZbpa3h4yufJajBytt5lq0d8EvHsr+9M3skz+6HJBbBZBmrH2zSVpN1TGu1XgG9rHugTXml/BGPS5fyN80u+k3M6PmOlbdmHQ+imoTvogqv6nhl2Bu07fwas+FZJr+YhGCdqRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=QkyAPcJZ; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=jQMv+kqu; arc=none smtp.client-ip=54.240.11.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1768590349; c=relaxed/simple;
+	bh=vHlVGAWPcszY+/6EJRP7zPdt3oOKqc4PxBbNFP1S9rM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=qo9ikyUYMdGLa4LdvLovnW/8WpK2FEWvvttqZAWd7Fwk4uujwQXmRRpSimwioIwKEXxiiiMKxsvBtfZ57KyRyJM1yhxWd9Brsk4W7npD1qRtiFVC0Fb4pjs8PdvvNFPN6SkhNk+E4KJEg8pEeZk2TxMdOCbmF7GVQ/ysTfasexg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eermATvT; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="QkyAPcJZ";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="jQMv+kqu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1768590332;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=iut77gaxquLysmZmztLRMRZhsWQOMrcw7mV3QknlVLM=;
-	b=QkyAPcJZ1pAQ3eBEkQ2xKrHBRccuohO/qULWBIoJTUlnVMeKkFWbaNQDPVvkJCUM
-	WVxNv193BJ/lGpBCiRPoPYs0X5EE5moddVkBJ7RDJLpmx2ouJOqyUBSHTjRqy8U48DJ
-	uXQgByHURXcdrMp7tqNHdiqpJJn4N+VqewaFDLE8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1768590332;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=iut77gaxquLysmZmztLRMRZhsWQOMrcw7mV3QknlVLM=;
-	b=jQMv+kquzzsogM52Dnr9xqu86kLT3cuwt49mgTS5+b5C72YJ8nC0Zh5n2Pex3uDK
-	4yNEM6Jqhmhagb4F+KmD7AQL8T0BESchbI2pKbqsn9jQLNijCuWAGCmmFHdhEccXFxr
-	oMGpNUaOy7a6lmMRMlUxvTWgwCOzAGmRxMPOV+b0=
-Subject: [PATCH V5 11/19] famfs_fuse: Basic fuse kernel ABI enablement for
- famfs
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?John_Groves?= <jgroves@fastmail.com>, 
-	=?UTF-8?Q?Jonathan_Corbet?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>
-Date: Fri, 16 Jan 2026 19:05:32 +0000
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eermATvT"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-81ea3358dd3so2081397b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 11:05:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768590347; x=1769195147; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/+J+USbCUwLKnGpjF9FWwwq2oHpJVzFZ1Dj2VUFFUcI=;
+        b=eermATvTAlbxCv5hraWVsAssYo9pyJSX2tJD7ghnCgkUTSJTxd9KTkdB8DxBqJz4+i
+         UZhwEmDXKyt8k89cYFJcajlHCeBB0fu9Hax9soROm9+vGkhdbhjEbqoKW81CNLvoh1If
+         qPUWgkWz0pO8oLVUskaujtfUKUq6Yw2ruHsrQC3suGHLc9Ahgav4tMBaaQHuXPyHvH7H
+         9AxuICAKS2R3/00N7D74VGgSducowXls8b+EeeZ0hB3PyI0Hn3i5svjxy7CB5Z4uDttQ
+         MyHG71x7ST9hZK+s0REV49GlvW53EOZG4xqsrvaMQUivkutc0VbxCgeKYJvwFxslCc2c
+         2pug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768590347; x=1769195147;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/+J+USbCUwLKnGpjF9FWwwq2oHpJVzFZ1Dj2VUFFUcI=;
+        b=tXgEuuElugkMTv4Y1zWz8GswOEyEGLwwuRe49oitrbhg48KqrukoX1gdzImXsD+bim
+         wO/pKC9hAzjTajG4dQjgpBf6KcDiB4Y0GS0BJKdX3AMarNkz/pZpEl1/nknXtlN+ERle
+         OXJTF4GDIcbuGpkjNmaooPGSj1wh4BUHkyvOI+6jMGroc4/Ex/Lapmem6aunKaUaomQx
+         dAIOqELkc1/PVRCpXDp9i+N2epLxKDqLtvg5Vjp9lDBAsyNEjBNpBrH4bup56db+BCPT
+         J8VhzriFvoHKfsyf+n9C/tNPObTwNipIeWHFw/u0GVCWyWFzZeAiqImwQUYnRhU2Y1zZ
+         zaTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWOwaV+X9TD5N0qBk0Pb6p6UNz8VpcJ5bSjW6ZKsM4Yz84OFh5GEHko8RVf3VKsUGumpoTCuL+7BNA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwHJJwSJqKesFevfx7K0TAH6xn7WN818aOfiT1sXiu9WFNcdkE
+	03da3pP1qu0o2PuOHQorzdsC19OhGfCK8xffWl/evhli+NkA+/sASP4DMn11fuQoCgS+XjmlEnC
+	vsrwcs/FO9T+mAJwZPQ==
+X-Received: from pfbln22.prod.google.com ([2002:a05:6a00:3cd6:b0:7a5:20e6:4185])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:6c94:b0:81b:bfd5:1bce with SMTP id d2e1a72fcca58-81fa184db58mr3153618b3a.56.1768590346800;
+ Fri, 16 Jan 2026 11:05:46 -0800 (PST)
+Date: Fri, 16 Jan 2026 11:05:12 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260116185911.1005-1-john@jagalactic.com>
-References: <20260116125831.953.compound@groves.net> 
- <20260116185911.1005-1-john@jagalactic.com> 
- <20260116185911.1005-12-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHchxoe1VAe00deR0Sw2d725QhurgAABexrAAA920E=
-Thread-Topic: [PATCH V5 11/19] famfs_fuse: Basic fuse kernel ABI enablement
- for famfs
-X-Wm-Sent-Timestamp: 1768590331
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019bc832d1e8-87e09103-e053-4d76-b984-f41134d43e7a-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.11.129
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260116190517.3268458-1-tjmercier@google.com>
+Subject: [PATCH] dma-buf: Remove DMA-BUF sysfs stats
+From: "T.J. Mercier" <tjmercier@google.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: "T.J. Mercier" <tjmercier@google.com>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: John Groves <john@groves.net>=0D=0A=0D=0AThis patch starts the kern=
-el ABI enablement of famfs in fuse.=0D=0A=0D=0A- Kconfig: Add FUSE_FAMFS_=
-DAX config parameter, to control=0D=0A  compilation of famfs within fuse.=
-=0D=0A- FUSE_DAX_FMAP flag in INIT request/reply=0D=0A- fuse_conn->famfs_=
-iomap (enable famfs-mapped files) to denote a=0D=0A  famfs-enabled connec=
-tion=0D=0A=0D=0AReviewed-by: Joanne Koong <joannelkoong@gmail.com>=0D=0AS=
-igned-off-by: John Groves <john@groves.net>=0D=0A---=0D=0A fs/fuse/Kconfi=
-g           | 14 ++++++++++++++=0D=0A fs/fuse/fuse_i.h          |  3 +++=0D=
-=0A fs/fuse/inode.c           |  6 ++++++=0D=0A include/uapi/linux/fuse.h=
- |  5 +++++=0D=0A 4 files changed, 28 insertions(+)=0D=0A=0D=0Adiff --git=
- a/fs/fuse/Kconfig b/fs/fuse/Kconfig=0D=0Aindex 3a4ae632c94a..5ca9fae62c7=
-b 100644=0D=0A--- a/fs/fuse/Kconfig=0D=0A+++ b/fs/fuse/Kconfig=0D=0A@@ -7=
-6,3 +76,17 @@ config FUSE_IO_URING=0D=0A=20=0D=0A =09  If you want to all=
-ow fuse server/client communication through io-uring,=0D=0A =09  answer Y=
-=0D=0A+=0D=0A+config FUSE_FAMFS_DAX=0D=0A+=09bool "FUSE support for fs-da=
-x filesystems backed by devdax"=0D=0A+=09depends on FUSE_FS=0D=0A+=09depe=
-nds on DEV_DAX=0D=0A+=09depends on FS_DAX=0D=0A+=09default FUSE_FS=0D=0A+=
-=09help=0D=0A+=09  This enables the fabric-attached memory file system (f=
-amfs),=0D=0A+=09  which enables formatting devdax memory as a file system=
-=2E Famfs=0D=0A+=09  is primarily intended for scale-out shared access to=
-=0D=0A+=09  disaggregated memory.=0D=0A+=0D=0A+=09  To enable famfs or ot=
-her fuse/fs-dax file systems, answer Y=0D=0Adiff --git a/fs/fuse/fuse_i.h=
- b/fs/fuse/fuse_i.h=0D=0Aindex 45e108dec771..2839efb219a9 100644=0D=0A---=
- a/fs/fuse/fuse_i.h=0D=0A+++ b/fs/fuse/fuse_i.h=0D=0A@@ -921,6 +921,9 @@ =
-struct fuse_conn {=0D=0A =09/* Is synchronous FUSE_INIT allowed=3F */=0D=0A=
- =09unsigned int sync_init:1;=0D=0A=20=0D=0A+=09/* dev_dax_iomap support =
-for famfs */=0D=0A+=09unsigned int famfs_iomap:1;=0D=0A+=0D=0A =09/* Use =
-io_uring for communication */=0D=0A =09unsigned int io_uring;=0D=0A=20=0D=
-=0Adiff --git a/fs/fuse/inode.c b/fs/fuse/inode.c=0D=0Aindex ed667920997f=
-=2E.acabf92a11f8 100644=0D=0A--- a/fs/fuse/inode.c=0D=0A+++ b/fs/fuse/ino=
-de.c=0D=0A@@ -1456,6 +1456,10 @@ static void process_init_reply(struct fu=
-se_mount *fm, struct fuse_args *args,=0D=0A=20=0D=0A =09=09=09if (flags &=
- FUSE_REQUEST_TIMEOUT)=0D=0A =09=09=09=09timeout =3D arg->request_timeout=
-;=0D=0A+=0D=0A+=09=09=09if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&=0D=0A+=09=
-=09=09    flags & FUSE_DAX_FMAP)=0D=0A+=09=09=09=09fc->famfs_iomap =3D 1;=
-=0D=0A =09=09} else {=0D=0A =09=09=09ra_pages =3D fc->max_read / PAGE_SIZ=
-E;=0D=0A =09=09=09fc->no_lock =3D 1;=0D=0A@@ -1517,6 +1521,8 @@ static st=
-ruct fuse_init_args *fuse_new_init(struct fuse_mount *fm)=0D=0A =09=09fla=
-gs |=3D FUSE_SUBMOUNTS;=0D=0A =09if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))=
-=0D=0A =09=09flags |=3D FUSE_PASSTHROUGH;=0D=0A+=09if (IS_ENABLED(CONFIG_=
-FUSE_FAMFS_DAX))=0D=0A+=09=09flags |=3D FUSE_DAX_FMAP;=0D=0A=20=0D=0A =09=
-/*=0D=0A =09 * This is just an information flag for fuse server. No need =
-to check=0D=0Adiff --git a/include/uapi/linux/fuse.h b/include/uapi/linux=
-/fuse.h=0D=0Aindex c13e1f9a2f12..25686f088e6a 100644=0D=0A--- a/include/u=
-api/linux/fuse.h=0D=0A+++ b/include/uapi/linux/fuse.h=0D=0A@@ -240,6 +240=
-,9 @@=0D=0A  *  - add FUSE_COPY_FILE_RANGE_64=0D=0A  *  - add struct fuse=
-_copy_file_range_out=0D=0A  *  - add FUSE_NOTIFY_PRUNE=0D=0A+ *=0D=0A+ * =
- 7.46=0D=0A+ *  - Add FUSE_DAX_FMAP capability - ability to handle in-ker=
-nel fsdax maps=0D=0A  */=0D=0A=20=0D=0A #ifndef _LINUX_FUSE_H=0D=0A@@ -44=
-8,6 +451,7 @@ struct fuse_file_lock {=0D=0A  * FUSE_OVER_IO_URING: Indica=
-te that client supports io-uring=0D=0A  * FUSE_REQUEST_TIMEOUT: kernel su=
-pports timing out requests.=0D=0A  *=09=09=09 init_out.request_timeout co=
-ntains the timeout (in secs)=0D=0A+ * FUSE_DAX_FMAP: kernel supports dev_=
-dax_iomap (aka famfs) fmaps=0D=0A  */=0D=0A #define FUSE_ASYNC_READ=09=09=
-(1 << 0)=0D=0A #define FUSE_POSIX_LOCKS=09(1 << 1)=0D=0A@@ -495,6 +499,7 =
-@@ struct fuse_file_lock {=0D=0A #define FUSE_ALLOW_IDMAP=09(1ULL << 40)=0D=
-=0A #define FUSE_OVER_IO_URING=09(1ULL << 41)=0D=0A #define FUSE_REQUEST_=
-TIMEOUT=09(1ULL << 42)=0D=0A+#define FUSE_DAX_FMAP=09=09(1ULL << 43)=0D=0A=
-=20=0D=0A /**=0D=0A  * CUSE INIT request/reply flags=0D=0A--=20=0D=0A2.52=
-=2E0=0D=0A=0D=0A
+Commit bdb8d06dfefd ("dmabuf: Add the capability to expose DMA-BUF stats
+in sysfs") added dmabuf statistics to sysfs in 2021 under
+CONFIG_DMABUF_SYSFS_STATS. After being used in production, performance
+problems were discovered leading to its deprecation in 2022 in commit
+e0a9f1fe206a ("dma-buf: deprecate DMABUF_SYSFS_STATS"). Some of the
+problems with this interface were discussed in my LPC 2025 talk. [1][2]
+
+Android was probably the last user of the interface, which has since
+been migrated to use the dmabuf BPF iterator [3] to obtain the same
+information more cheaply. As promised in that series, now that the
+longterm stable 6.18 kernel has been released let's remove the sysfs
+dmabuf statistics from the kernel.
+
+[1] https://www.youtube.com/watch?v=D83qygudq9c
+[2] https://lpc.events/event/19/contributions/2118/
+[3] https://lore.kernel.org/all/20250522230429.941193-1-tjmercier@google.com/
+
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+---
+ .../ABI/testing/sysfs-kernel-dmabuf-buffers   |  24 ---
+ Documentation/driver-api/dma-buf.rst          |   5 -
+ drivers/dma-buf/Kconfig                       |  15 --
+ drivers/dma-buf/Makefile                      |   1 -
+ drivers/dma-buf/dma-buf-sysfs-stats.c         | 202 ------------------
+ drivers/dma-buf/dma-buf-sysfs-stats.h         |  35 ---
+ drivers/dma-buf/dma-buf.c                     |  18 --
+ include/linux/dma-buf.h                       |  12 --
+ 8 files changed, 312 deletions(-)
+ delete mode 100644 Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+ delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.c
+ delete mode 100644 drivers/dma-buf/dma-buf-sysfs-stats.h
+
+diff --git a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers b/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
+deleted file mode 100644
+index 5d3bc997dc64..000000000000
+--- a/Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers
++++ /dev/null
+@@ -1,24 +0,0 @@
+-What:		/sys/kernel/dmabuf/buffers
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	The /sys/kernel/dmabuf/buffers directory contains a
+-		snapshot of the internal state of every DMA-BUF.
+-		/sys/kernel/dmabuf/buffers/<inode_number> will contain the
+-		statistics for the DMA-BUF with the unique inode number
+-		<inode_number>
+-Users:		kernel memory tuning/debugging tools
+-
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	This file is read-only and contains the name of the exporter of
+-		the DMA-BUF.
+-
+-What:		/sys/kernel/dmabuf/buffers/<inode_number>/size
+-Date:		May 2021
+-KernelVersion:	v5.13
+-Contact:	Hridya Valsaraju <hridya@google.com>
+-Description:	This file is read-only and specifies the size of the DMA-BUF in
+-		bytes.
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 29abf1eebf9f..2f36c21d9948 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -125,11 +125,6 @@ Implicit Fence Poll Support
+ .. kernel-doc:: drivers/dma-buf/dma-buf.c
+    :doc: implicit fence polling
+ 
+-DMA-BUF statistics
+-~~~~~~~~~~~~~~~~~~
+-.. kernel-doc:: drivers/dma-buf/dma-buf-sysfs-stats.c
+-   :doc: overview
+-
+ DMA Buffer ioctls
+ ~~~~~~~~~~~~~~~~~
+ 
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index fdd823e446cc..012d22e941d6 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -75,21 +75,6 @@ menuconfig DMABUF_HEAPS
+ 	  allows userspace to allocate dma-bufs that can be shared
+ 	  between drivers.
+ 
+-menuconfig DMABUF_SYSFS_STATS
+-	bool "DMA-BUF sysfs statistics (DEPRECATED)"
+-	depends on DMA_SHARED_BUFFER
+-	help
+-	   Choose this option to enable DMA-BUF sysfs statistics
+-	   in location /sys/kernel/dmabuf/buffers.
+-
+-	   /sys/kernel/dmabuf/buffers/<inode_number> will contain
+-	   statistics for the DMA-BUF with the unique inode number
+-	   <inode_number>.
+-
+-	   This option is deprecated and should sooner or later be removed.
+-	   Android is the only user of this and it turned out that this resulted
+-	   in quite some performance problems.
+-
+ source "drivers/dma-buf/heaps/Kconfig"
+ 
+ endmenu
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 2008fb7481b3..7a85565d906b 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -6,7 +6,6 @@ obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
+ obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
+ obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
+ obj-$(CONFIG_UDMABUF)		+= udmabuf.o
+-obj-$(CONFIG_DMABUF_SYSFS_STATS) += dma-buf-sysfs-stats.o
+ 
+ dmabuf_selftests-y := \
+ 	selftest.o \
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+deleted file mode 100644
+index b5b62e40ccc1..000000000000
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ /dev/null
+@@ -1,202 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * DMA-BUF sysfs statistics.
+- *
+- * Copyright (C) 2021 Google LLC.
+- */
+-
+-#include <linux/dma-buf.h>
+-#include <linux/dma-resv.h>
+-#include <linux/kobject.h>
+-#include <linux/printk.h>
+-#include <linux/slab.h>
+-#include <linux/sysfs.h>
+-
+-#include "dma-buf-sysfs-stats.h"
+-
+-#define to_dma_buf_entry_from_kobj(x) container_of(x, struct dma_buf_sysfs_entry, kobj)
+-
+-/**
+- * DOC: overview
+- *
+- * ``/sys/kernel/debug/dma_buf/bufinfo`` provides an overview of every DMA-BUF
+- * in the system. However, since debugfs is not safe to be mounted in
+- * production, procfs and sysfs can be used to gather DMA-BUF statistics on
+- * production systems.
+- *
+- * The ``/proc/<pid>/fdinfo/<fd>`` files in procfs can be used to gather
+- * information about DMA-BUF fds. Detailed documentation about the interface
+- * is present in Documentation/filesystems/proc.rst.
+- *
+- * Unfortunately, the existing procfs interfaces can only provide information
+- * about the DMA-BUFs for which processes hold fds or have the buffers mmapped
+- * into their address space. This necessitated the creation of the DMA-BUF sysfs
+- * statistics interface to provide per-buffer information on production systems.
+- *
+- * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
+- * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
+- *
+- * The following stats are exposed by the interface:
+- *
+- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/exporter_name``
+- * * ``/sys/kernel/dmabuf/buffers/<inode_number>/size``
+- *
+- * The information in the interface can also be used to derive per-exporter
+- * statistics. The data from the interface can be gathered on error conditions
+- * or other important events to provide a snapshot of DMA-BUF usage.
+- * It can also be collected periodically by telemetry to monitor various metrics.
+- *
+- * Detailed documentation about the interface is present in
+- * Documentation/ABI/testing/sysfs-kernel-dmabuf-buffers.
+- */
+-
+-struct dma_buf_stats_attribute {
+-	struct attribute attr;
+-	ssize_t (*show)(struct dma_buf *dmabuf,
+-			struct dma_buf_stats_attribute *attr, char *buf);
+-};
+-#define to_dma_buf_stats_attr(x) container_of(x, struct dma_buf_stats_attribute, attr)
+-
+-static ssize_t dma_buf_stats_attribute_show(struct kobject *kobj,
+-					    struct attribute *attr,
+-					    char *buf)
+-{
+-	struct dma_buf_stats_attribute *attribute;
+-	struct dma_buf_sysfs_entry *sysfs_entry;
+-	struct dma_buf *dmabuf;
+-
+-	attribute = to_dma_buf_stats_attr(attr);
+-	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
+-	dmabuf = sysfs_entry->dmabuf;
+-
+-	if (!dmabuf || !attribute->show)
+-		return -EIO;
+-
+-	return attribute->show(dmabuf, attribute, buf);
+-}
+-
+-static const struct sysfs_ops dma_buf_stats_sysfs_ops = {
+-	.show = dma_buf_stats_attribute_show,
+-};
+-
+-static ssize_t exporter_name_show(struct dma_buf *dmabuf,
+-				  struct dma_buf_stats_attribute *attr,
+-				  char *buf)
+-{
+-	return sysfs_emit(buf, "%s\n", dmabuf->exp_name);
+-}
+-
+-static ssize_t size_show(struct dma_buf *dmabuf,
+-			 struct dma_buf_stats_attribute *attr,
+-			 char *buf)
+-{
+-	return sysfs_emit(buf, "%zu\n", dmabuf->size);
+-}
+-
+-static struct dma_buf_stats_attribute exporter_name_attribute =
+-	__ATTR_RO(exporter_name);
+-static struct dma_buf_stats_attribute size_attribute = __ATTR_RO(size);
+-
+-static struct attribute *dma_buf_stats_default_attrs[] = {
+-	&exporter_name_attribute.attr,
+-	&size_attribute.attr,
+-	NULL,
+-};
+-ATTRIBUTE_GROUPS(dma_buf_stats_default);
+-
+-static void dma_buf_sysfs_release(struct kobject *kobj)
+-{
+-	struct dma_buf_sysfs_entry *sysfs_entry;
+-
+-	sysfs_entry = to_dma_buf_entry_from_kobj(kobj);
+-	kfree(sysfs_entry);
+-}
+-
+-static const struct kobj_type dma_buf_ktype = {
+-	.sysfs_ops = &dma_buf_stats_sysfs_ops,
+-	.release = dma_buf_sysfs_release,
+-	.default_groups = dma_buf_stats_default_groups,
+-};
+-
+-void dma_buf_stats_teardown(struct dma_buf *dmabuf)
+-{
+-	struct dma_buf_sysfs_entry *sysfs_entry;
+-
+-	sysfs_entry = dmabuf->sysfs_entry;
+-	if (!sysfs_entry)
+-		return;
+-
+-	kobject_del(&sysfs_entry->kobj);
+-	kobject_put(&sysfs_entry->kobj);
+-}
+-
+-
+-/* Statistics files do not need to send uevents. */
+-static int dmabuf_sysfs_uevent_filter(const struct kobject *kobj)
+-{
+-	return 0;
+-}
+-
+-static const struct kset_uevent_ops dmabuf_sysfs_no_uevent_ops = {
+-	.filter = dmabuf_sysfs_uevent_filter,
+-};
+-
+-static struct kset *dma_buf_stats_kset;
+-static struct kset *dma_buf_per_buffer_stats_kset;
+-int dma_buf_init_sysfs_statistics(void)
+-{
+-	dma_buf_stats_kset = kset_create_and_add("dmabuf",
+-						 &dmabuf_sysfs_no_uevent_ops,
+-						 kernel_kobj);
+-	if (!dma_buf_stats_kset)
+-		return -ENOMEM;
+-
+-	dma_buf_per_buffer_stats_kset = kset_create_and_add("buffers",
+-							    &dmabuf_sysfs_no_uevent_ops,
+-							    &dma_buf_stats_kset->kobj);
+-	if (!dma_buf_per_buffer_stats_kset) {
+-		kset_unregister(dma_buf_stats_kset);
+-		return -ENOMEM;
+-	}
+-
+-	return 0;
+-}
+-
+-void dma_buf_uninit_sysfs_statistics(void)
+-{
+-	kset_unregister(dma_buf_per_buffer_stats_kset);
+-	kset_unregister(dma_buf_stats_kset);
+-}
+-
+-int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
+-{
+-	struct dma_buf_sysfs_entry *sysfs_entry;
+-	int ret;
+-
+-	if (!dmabuf->exp_name) {
+-		pr_err("exporter name must not be empty if stats needed\n");
+-		return -EINVAL;
+-	}
+-
+-	sysfs_entry = kzalloc(sizeof(struct dma_buf_sysfs_entry), GFP_KERNEL);
+-	if (!sysfs_entry)
+-		return -ENOMEM;
+-
+-	sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
+-	sysfs_entry->dmabuf = dmabuf;
+-
+-	dmabuf->sysfs_entry = sysfs_entry;
+-
+-	/* create the directory for buffer stats */
+-	ret = kobject_init_and_add(&sysfs_entry->kobj, &dma_buf_ktype, NULL,
+-				   "%lu", file_inode(file)->i_ino);
+-	if (ret)
+-		goto err_sysfs_dmabuf;
+-
+-	return 0;
+-
+-err_sysfs_dmabuf:
+-	kobject_put(&sysfs_entry->kobj);
+-	dmabuf->sysfs_entry = NULL;
+-	return ret;
+-}
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.h b/drivers/dma-buf/dma-buf-sysfs-stats.h
+deleted file mode 100644
+index 7a8a995b75ba..000000000000
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.h
++++ /dev/null
+@@ -1,35 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * DMA-BUF sysfs statistics.
+- *
+- * Copyright (C) 2021 Google LLC.
+- */
+-
+-#ifndef _DMA_BUF_SYSFS_STATS_H
+-#define _DMA_BUF_SYSFS_STATS_H
+-
+-#ifdef CONFIG_DMABUF_SYSFS_STATS
+-
+-int dma_buf_init_sysfs_statistics(void);
+-void dma_buf_uninit_sysfs_statistics(void);
+-
+-int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file);
+-
+-void dma_buf_stats_teardown(struct dma_buf *dmabuf);
+-#else
+-
+-static inline int dma_buf_init_sysfs_statistics(void)
+-{
+-	return 0;
+-}
+-
+-static inline void dma_buf_uninit_sysfs_statistics(void) {}
+-
+-static inline int dma_buf_stats_setup(struct dma_buf *dmabuf, struct file *file)
+-{
+-	return 0;
+-}
+-
+-static inline void dma_buf_stats_teardown(struct dma_buf *dmabuf) {}
+-#endif
+-#endif // _DMA_BUF_SYSFS_STATS_H
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index a4d8f2ff94e4..8e23580f1754 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -33,8 +33,6 @@
+ #include <uapi/linux/dma-buf.h>
+ #include <uapi/linux/magic.h>
+ 
+-#include "dma-buf-sysfs-stats.h"
+-
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/dma_buf.h>
+ 
+@@ -184,7 +182,6 @@ static void dma_buf_release(struct dentry *dentry)
+ 	 */
+ 	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+ 
+-	dma_buf_stats_teardown(dmabuf);
+ 	dmabuf->ops->release(dmabuf);
+ 
+ 	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+@@ -765,10 +762,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 		dmabuf->resv = resv;
+ 	}
+ 
+-	ret = dma_buf_stats_setup(dmabuf, file);
+-	if (ret)
+-		goto err_dmabuf;
+-
+ 	file->private_data = dmabuf;
+ 	file->f_path.dentry->d_fsdata = dmabuf;
+ 	dmabuf->file = file;
+@@ -779,10 +772,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 
+ 	return dmabuf;
+ 
+-err_dmabuf:
+-	if (!resv)
+-		dma_resv_fini(dmabuf->resv);
+-	kfree(dmabuf);
+ err_file:
+ 	fput(file);
+ err_module:
+@@ -1802,12 +1791,6 @@ static inline void dma_buf_uninit_debugfs(void)
+ 
+ static int __init dma_buf_init(void)
+ {
+-	int ret;
+-
+-	ret = dma_buf_init_sysfs_statistics();
+-	if (ret)
+-		return ret;
+-
+ 	dma_buf_mnt = kern_mount(&dma_buf_fs_type);
+ 	if (IS_ERR(dma_buf_mnt))
+ 		return PTR_ERR(dma_buf_mnt);
+@@ -1821,6 +1804,5 @@ static void __exit dma_buf_deinit(void)
+ {
+ 	dma_buf_uninit_debugfs();
+ 	kern_unmount(dma_buf_mnt);
+-	dma_buf_uninit_sysfs_statistics();
+ }
+ __exitcall(dma_buf_deinit);
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 0bc492090237..91f4939db89b 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -429,18 +429,6 @@ struct dma_buf {
+ 
+ 		__poll_t active;
+ 	} cb_in, cb_out;
+-#ifdef CONFIG_DMABUF_SYSFS_STATS
+-	/**
+-	 * @sysfs_entry:
+-	 *
+-	 * For exposing information about this buffer in sysfs. See also
+-	 * `DMA-BUF statistics`_ for the uapi this enables.
+-	 */
+-	struct dma_buf_sysfs_entry {
+-		struct kobject kobj;
+-		struct dma_buf *dmabuf;
+-	} *sysfs_entry;
+-#endif
+ };
+ 
+ /**
+
+base-commit: 26b4309a3ab82a0697751cde52eb336c29c19035
+-- 
+2.52.0.457.g6b5491de43-goog
+
