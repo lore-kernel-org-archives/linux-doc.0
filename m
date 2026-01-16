@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F222040B6;
-	Fri, 16 Jan 2026 18:32:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759C134D4CF;
+	Fri, 16 Jan 2026 18:40:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768588359; cv=none; b=RIugVZCQJtowLVA6H0S4KqBTQubuwewUDSzatV1/56f3xp3oabX3IkJ1pUnXhUbYyrQ6jDexhXg2Almk7Hy9AuN5lf99EH09asVfx4jM+zSgbcDe9Ru75M1Lkkap/s4MfM6RHZIDNJfknwjjJUEugwXi8wItlUhiW7BBHoyLis4=
+	t=1768588848; cv=none; b=ojEvwxpjGQ77imHjSHcStrD2dxlHINr69/qmLmUjkTxRQIuhs6RJSyV988cPDi+7lfG8Irti1spMCyM/qDnnq/UDHLj5DQj+lWSJbsH3rC+JDHHIuF9V4LUSWNaegSc5l2nOqxE6dGhT324MbIRGT0juvKs1Qj/g7f8jHWzqD1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768588359; c=relaxed/simple;
-	bh=8bhPpR54Sr1KDTE+z2o9z9BFZRCJFJtMmd0JdzPcxUA=;
+	s=arc-20240116; t=1768588848; c=relaxed/simple;
+	bh=Dty10U6WF4QyF+KPpGS/GhjrkPRrgq9qywHEW475isw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r0/LCHpk9llxhFbHPnn2dUio7sPLmxIG7g84n57VJP8wg042WjYbXbG8AIMGiRC3+G4+UX21BsqwB8CvIjUGXduHSMzKRyaD/8h3aBXhHMI5MGRnARYPmfpKolabHmfh0tkAvBJ3GwFWGF5k0rxZem9m15ZwYidCi+pcngMfsXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=F4/iSsaz; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=JoYTZDWYnKxquImPW6PLmrM7mNvNRIuJz+rIv0TUDoCX3mO3MtMKBl3nuiK39zC2JbFhNQEokPWkR9N5m7Zmj0i2ZhmhtTh1cj+nd8QiAo4aO2vt7NYpfLb3vOoUc6ySv3Jf0ShzI2I9FmJN3HYPzX6RF7RayfowUG/3rZEW4Vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fk3MsYN9; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="F4/iSsaz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 068A540425
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fk3MsYN9"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9218F40425
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768588357; bh=v8l2UzCbJZY2JQ34meWtbSkjsjYkuQfQDLV7YHGbWi4=;
+	t=1768588846; bh=buANyMgVQg1KuzVvtstTUuXIbQBefDLuFIKdgZN8TcA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=F4/iSsazY4MXOpOsGVa1N/E9BZitnG4rrwuuK0jJywoxQI4GlKm97OPjuu1H7hYoG
-	 3Va9MkNkHqZXGASD86ZwvyE0bagmfF8Uqd1nsJ5XrNDfX1a9i693jbuU9t5fPgFl2e
-	 04/ug2m5rVa+xBRnJsCA1bn/tezJ0Zz4yR5KI+KPCMKuCwRhHoicud636dHGOPZlhv
-	 cVZbkf+2BRPMv433985nj2HUjK9KMujIp8d8rrHLeBq8c2lSuWgzvgXqJnIvbVyrtj
-	 Lfx16FgVPZx98GThvbqT40OwzCNfWDZJ+RdclsYpmKICZTD5UVrnuHvDjoM79xBliL
-	 3rKy5GBVpIlyw==
+	b=fk3MsYN9pXWYgH2tNyFcgFN+6YZLW7LN7mr4oSOlqO7mRogAk4ToAD8PO3qLEG0FA
+	 TCHWg0gvLBTbhUAFSs+f3XLSWYCyzdsCeihAJ9j9w03naMaJZbQEaqH7KgTpqzqrqf
+	 N5NWhTPHuq8Mv4/MYYkD6jSLfT2nYncEf14NzcUbwm+jSXiS4c8NLj0eUT+7CajCW8
+	 BsdeqW3srxsFI97LdQkDvMT7YHPjBkdvRtMpw6zPB0E8ZFE6Mf8ZYcvxKKVs/TydmB
+	 l91lWiqsBQpXjyBmLzLQGIWivb4zTIESgzjdOACEOV8RrW3C3+L+6NkY9CJFQy7FQh
+	 lCtuu2EJ8KkEw==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 068A540425;
-	Fri, 16 Jan 2026 18:32:36 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9218F40425;
+	Fri, 16 Jan 2026 18:40:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Marc Herbert <marc.herbert@linux.intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Marc Herbert <marc.herbert@linux.intel.com>
-Subject: Re: [PATCH v2] docs: make kptr_restrict and hash_pointers reference
- each other
-In-Reply-To: <20260107-doc-hash-ptr-v2-1-cb4c161218d7@linux.intel.com>
-References: <20260107-doc-hash-ptr-v2-1-cb4c161218d7@linux.intel.com>
-Date: Fri, 16 Jan 2026 11:32:36 -0700
-Message-ID: <875x91o1bv.fsf@trenco.lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Matthew Wilcox
+ <willy@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] docs: filesystems: add fs/open.c to api-summary
+In-Reply-To: <20260104204530.518206-1-rdunlap@infradead.org>
+References: <20260104204530.518206-1-rdunlap@infradead.org>
+Date: Fri, 16 Jan 2026 11:40:45 -0700
+Message-ID: <871pjpo0ya.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,30 +50,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Marc Herbert <marc.herbert@linux.intel.com> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> vsprintf.c uses a mix of the `kernel.kptr_restrict` sysctl and the
-> `hash_pointers` boot param to control pointer hashing. But that wasn't
-> possible to tell without looking at the source code.
+> Include fs/open.c in filesystems/api-summary.rst to provide its
+> exported APIs.
 >
-> They have a different focus and purpose. To avoid wasting the time of
-> users trying to use one instead of the other, simply have them reference
-> each other in the Documentation.
->
-> Signed-off-by: Marc Herbert <marc.herbert@linux.intel.com>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
-> Please just go ahead with any minor correction(s); I mean do not ask
-> for my opinion.
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
 >
-> Changes in v2:
-> - Rebased on today's docs-next/master to fix textual, unrelated conflict
-> - Stop using backquotes in kernel-parameters.txt for consistency
-> - Link to v1: https://patch.msgid.link/20251205-doc-hash-ptr-v1-1-573966cfa404@linux.intel.com
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 +++
->  Documentation/admin-guide/sysctl/kernel.rst     | 3 +++
->  2 files changed, 6 insertions(+)
+>  Documentation/filesystems/api-summary.rst |    3 +++
+>  1 file changed, 3 insertions(+)
+>
+> --- linux-next-20251219.orig/Documentation/filesystems/api-summary.rst
+> +++ linux-next-20251219/Documentation/filesystems/api-summary.rst
+> @@ -56,6 +56,9 @@ Other Functions
+>  .. kernel-doc:: fs/namei.c
+>     :export:
+>  
+> +.. kernel-doc:: fs/open.c
+> +   :export:
+> +
 
-Applied, thanks.
+So I've applied this, but it does add a couple of new warnings:
+
+  Documentation/filesystems/api-summary:59: ./fs/open.c:1157: WARNING: Inline emphasis start-string without end-string. [docutils]
+  Documentation/filesystems/api-summary:59: ./fs/open.c:1147: ERROR: Unknown target name: "o". [docutils]
+
+It would be nice to get those fixed up.
+
+Thanks,
 
 jon
