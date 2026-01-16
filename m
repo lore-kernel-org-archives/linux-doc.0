@@ -1,156 +1,315 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw03.horizon.ai (mailgw03.horizon.ai [42.62.85.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9420E334;
-	Fri, 16 Jan 2026 07:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03F2261B98
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 07:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.62.85.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768548152; cv=none; b=LLmbR/7akW2hZND+nxwCzV7WpI+AI4JzrG0bWPvyLhkXXaAC5G9Tf6hjMZmYdGB4Cdj3hwXxJkZLk9SipXG3Lu7mcFwHxFDoMljiWrwMGHibFYqa7qx/HR5N7LkFNK8MZJ84uvr61c1s767q/3lApo6gTli2cXesZ+xmSGvtF+g=
+	t=1768548615; cv=none; b=miLRhoZA4Uwg16VqDSUKDm6ReVKMQTyBgn5mY7h7qMz6/JbiMimFM3DgQVKBADhKXeiPA9zegaCOLTGJMUH/7asG/YqemPTkQmtxbq5zRwuJnMOhsqWILMa/EgfypK+lyl84aK8b5rERF+gBxGx/SnxiibIIyhgt79FkT1iIyt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768548152; c=relaxed/simple;
-	bh=e5o2+jbPlcfX9buN533fjtdFmJQ5bod4+MERKRJ/slw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=awRxQn4faJgQz64R01yeWrW8mKC8lxQwXC2vPKYBcQ3vtnWxeOZy7kgJwLJKHOw/L9BIWQ4ARyhfhKpZFDtumM1SM10Ljw23K9kqcIHlsXgbbShiT1nWKHIBAJg9/Qqh0btIhWkTbGSZA1VnhTAEnJSqHkquZ8gJ5u79yQ5Fsto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RQtdvaAE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768548615; c=relaxed/simple;
+	bh=O9AD6dejuN3H7Qcztavj3uUt/Napd/KAyHiclubWADI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EA84rDMbL43lpS6ceHlUmZBmzyJylwOs0RIRCxphfyCc+x3aqi4P2lh7uJJKeS1/OvgjDfo7yDLYdGs6opML60HXfC+eE/vbB6KBPNqskKyOvWou8SS1TXTaPEu8LtXaBKDKpyVP6cuF6NFvkutuxuxif1JwtkfEO5+pLWPznRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto; spf=pass smtp.mailfrom=horizon.auto; dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b=fsxFwow/; arc=none smtp.client-ip=42.62.85.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horizon.auto
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RQtdvaAE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EEA0C19421;
-	Fri, 16 Jan 2026 07:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768548150;
-	bh=e5o2+jbPlcfX9buN533fjtdFmJQ5bod4+MERKRJ/slw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RQtdvaAEtBX/a5wPl+xkkG++oKal0jyRHjXXuj/J4lpwLOdN6Uao7EwPApXZv7FKu
-	 e+UrMe54NIlPCdI5JMbpPDUCTx2gyfjHhM+hAjbgpa706mgYYA4qQjnpPF7tLi6R0n
-	 PRJ46vyi9+3LOM7uvPJuqWz1VfANsQRg98b3y9hKZ2lKn7lMXJwQjTJCYxAGf07xxe
-	 XTiWaueRblR1QXUM8ALbJKzqcewOoo1ArFfe+Fac3zaOczWUDk97vlIRC2En+nO71r
-	 /Ug1glVHg+O09osWR8d0dDnoNl8IIY6zejWC4OLmP/xFXSB37wb1Pz5NQ99QDmZt3P
-	 YbkFOecKpE1kA==
-Message-ID: <21d080bf-8938-42ea-8870-f9959c332b18@kernel.org>
-Date: Fri, 16 Jan 2026 08:22:25 +0100
+	dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b="fsxFwow/"
+DKIM-Signature: v=1; a=rsa-sha256; d=horizon.auto; s=horizonauto; c=relaxed/simple;
+	q=dns/txt; i=@horizon.auto; t=1768548598; x=2632462198;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=O9AD6dejuN3H7Qcztavj3uUt/Napd/KAyHiclubWADI=;
+	b=fsxFwow/LGaP6vQ97RASC6QUuVtCdkEdVCoMnetjyH3pDAnK0/X/cDLba+611OUO
+	TzMnV5tlNZVhVmyfRUHi9CkV6XMRKbeFz7JddBxF0LDbB/gCodwGk3oF7OTDsHyh
+	Ibo3lud4rZAdTGBAo/28dD8hPnx9XJr+RS4RTSwOqB4=;
+X-AuditID: 0a0901b2-dfddb70000001406-9d-6969e8f6acc1
+Received: from mailgw03.horizon.ai ( [10.9.15.211])
+	by mailgw03.horizon.ai (Anti-spam for msg) with SMTP id 6F.4B.05126.6F8E9696; Fri, 16 Jan 2026 15:29:58 +0800 (HKT)
+Received: from wangtao-VirtualBox.hobot.cc (10.9.0.252) by
+ robotics002.hobot.cc (10.9.15.211) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Fri, 16 Jan 2026 15:29:57 +0800
+From: Tao Wang <tao03.wang@horizon.auto>
+To: <linux@armlinux.org.uk>
+CC: <alexandre.torgue@foss.st.com>, <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
+	<kuba@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <maxime.chevallier@bootlin.com>,
+	<mcoquelin.stm32@gmail.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<tao03.wang@horizon.auto>
+Subject: Re: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after resume
+Date: Fri, 16 Jan 2026 15:29:45 +0800
+Message-ID: <20260116072945.125661-1-tao03.wang@horizon.auto>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
+References: <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: hwmon: ti,tmp108: Add P3T1035,P3T2030
-To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
- corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: priyanka.jain@nxp.com, vikash.bansal@nxp.com
-References: <20260115111418.1851-1-mayankmahajan.x@nxp.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260115111418.1851-1-mayankmahajan.x@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: exchange001.hobot.cc (10.9.15.110) To robotics002.hobot.cc
+ (10.9.15.211)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmkeLIzCtJLcpLzFFi42Lh4uS/rPvtRWamwdHXxhY/X05jtFj+YAer
+	xZzzLSwWj/pPsFlc2NbHarGwbQmLxeVdc9gsDk3dy2jx8vU2ZotjC8Qsvp1+w+jA7XH52kVm
+	j3lrqj22rLzJ5PG0fyu7x6ZVnWweO3d8ZvJ4v+8qm8fnTXIBHFFcNimpOZllqUX6dglcGX1r
+	ggt6AiuuT5rL1MDY5tTFyMkhIWAi0bHuPjOILSSwklHi3X6tLkYuIPsto8S61qdMIAk2AQ2J
+	u1OvsXQxcnCICEhLHJujAVLDLHCfSeLY0d2MIDXCAmESl0/8YAOpYRFQlTi+TxUkzCtgK/Hi
+	3yxWiF3yEtenHAAr5xQwlbj5ayfUXhOJ/rWdzBD1ghInZz5hAbGZgeqbt85mhrAlJA6+eAFV
+	ryLRfHI+O8RMOYnXG/azQdixEqsbnrJNYBSahWTULCSjZiEZtYCReRWjcG5iZk56uYGxXkZ+
+	UWZVfp5eYuYmRnA8MW7awbhkwUe9Q4xMHIyHGCU4mJVEeHl/p2UK8aYkVlalFuXHF5XmpBYf
+	YpTmYFES59VWjMsUEkhPLEnNTk0tSC2CyTJxcEo1MGm5dp54Ny2zdwZ/4OOSc+dWt67Tn7b/
+	ttpDrkztnn/Oa/f/uuXwTuvvTPFmhwPCatYrV7JFf19juN30qJLtHq0HvxU3W65q/2p5Qjaw
+	IyBm5UKJb69n+jKvPOzBfbT1wlT1+ut3RBIsNOP/Bh5RXJnN9fyz44zj+fe55xy07n10M1ss
+	+a5JzL+VhpN2CK/j/vglr2f91HvztHqXpvgvdHo6O/ntvJcf7tveF79sPuGV/5eNldkvNecp
+	a9c07rz3OdJ5TwSb4Y15W/Oi9JZffVL6OGYXD2Maw/YbxWaH2N6e3dt8/ZPkpK7kH182teUe
+	3z6dQz60OzLpmCMzxzV50bQP98VUH2/4VynmWHWost9NiaU4I9FQi7moOBEA9RTv7RYDAAA=
 
-On 15/01/2026 12:14, Mayank Mahajan wrote:
-> Document the NXP P3T1035 and P3T2030 compatibles in TMP108.
+> > > While I agree with the change for stmmac_tso_xmit(), please explain why
+> > > the change in stmmac_free_tx_buffer() is necessary.
+> > >
+> > > It seems to me that if this is missing in stmmac_free_tx_buffer(), the
+> > > driver should have more problems than just TSO.
+> > 
+> > The change in stmmac_free_tx_buffer() is intended to be generic for all
+> > users of last_segment, not only for the TSO path.
 > 
-> Signed-off-by: Mayank Mahajan <mayankmahajan.x@nxp.com>
-> ---
-> V1 -> V2:
-> - No changes in v2.
-> V2 -> V3:
-> - Add P3T1035 fallback for P3T2030 as they are functionally identical.
-> - Add comment in the description explaining the use of P3T2030.
+> However, transmit is a hotpath, so work needs to be minimised for good
+> performance. We don't want anything that is unnecessary in these paths.
 > 
->  .../devicetree/bindings/hwmon/ti,tmp108.yaml  | 24 ++++++++++++-------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+> If we always explicitly set .last_segment when adding any packet to the
+> ring, then there is absolutely no need to also do so when freeing them.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tmp108.yaml b/Documentation/devicetree/bindings/hwmon/ti,tmp108.yaml
-> index a6f9319e068d..1f540c623de6 100644
-> --- a/Documentation/devicetree/bindings/hwmon/ti,tmp108.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/ti,tmp108.yaml
-> @@ -4,27 +4,35 @@
->  $id: http://devicetree.org/schemas/hwmon/ti,tmp108.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> Also, I think there's a similar issue with .is_jumbo.
 > 
-> -title: TMP108/P3T1085(NXP) temperature sensor
-> +title: TMP108/P3T1035/P3T1085/P3T2030 temperature sensor
+> So, I think it would make more sense to have some helpers for setting
+> up the tx_skbuff_dma entry. Maybe something like the below? I'll see
+> if I can measure the performance impact of this later today, but I
+> can't guarantee I'll get to that.
 > 
->  maintainers:
->    - Krzysztof Kozlowski <krzk@kernel.org>
+> The idea here is to ensure that all members with the exception of
+> xsk_meta are fully initialised when an entry is populated.
 > 
->  description: |
-> -  The TMP108/P3T1085(NXP) is a digital-output temperature sensor with a
-> -  dynamically-programmable limit window, and under- and overtemperature
-> -  alert functions.
-> +  The TMP108 or NXP P3T Family (P3T1035, P3T1085 and P3T2030) is a digital-
-> +  output temperature sensor with a dynamically-programmable limit window,
-> +  and under- and over-temperature alert functions.
+> I haven't removed anything in the tx_q->tx_skbuff_dma entry release
+> path yet, but with this in place, we should be able to eliminate the
+> clearance of these in stmmac_tx_clean() and stmmac_free_tx_buffer().
 > 
-> -  P3T1085(NXP) support I3C.
-> +  NXP P3T Family (P3T1035, P3T1085 and P3T2030) supports I3C.
+> Note that the driver assumes setting .buf to zero means the entry is
+> cleared. dma_addr_t is a cookie which is device specific, and zero
+> may be a valid DMA cookie. Only DMA_MAPPING_ERROR is invalid, and
+> can be assumed to hold any meaning in driver code. So that needs
+> fixing as well.
 > 
->    Datasheets:
->      https://www.ti.com/product/TMP108
->      https://www.nxp.com/docs/en/data-sheet/P3T1085UK.pdf
-> +    https://www.nxp.com/docs/en/data-sheet/P3T1035XUK_P3T2030XUK.pdf
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index a8a78fe7d01f..0e605d0f6a94 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -1874,6 +1874,34 @@ static int init_dma_rx_desc_rings(struct net_device *dev,
+>  	return ret;
+>  }
+>  
+> +static void stmmac_set_tx_dma_entry(struct stmmac_tx_queue *tx_q,
+> +				    unsigned int entry,
+> +				    enum stmmac_txbuf_type type,
+> +				    dma_addr_t addr, size_t len,
+> +				    bool map_as_page)
+> +{
+> +	tx_q->tx_skbuff_dma[entry].buf = addr;
+> +	tx_q->tx_skbuff_dma[entry].len = len;
+> +	tx_q->tx_skbuff_dma[entry].buf_type = type;
+> +	tx_q->tx_skbuff_dma[entry].map_as_page = map_as_page;
+> +	tx_q->tx_skbuff_dma[entry].last_segment = false;
+> +	tx_q->tx_skbuff_dma[entry].is_jumbo = false;
+> +}
 > +
-> +  P3T2030 is functionally identical to P3T1035. Hence, device tree nodes that
-> +  use the P3T2030 must provide a fallback compatible string of "nxp,p3t1035"
+> +static void stmmac_set_tx_skb_dma_entry(struct stmmac_tx_queue *tx_q,
+> +					unsigned int entry, dma_addr_t addr,
+> +					size_t len, bool map_as_page)
+> +{
+> +	stmmac_set_tx_dma_entry(tx_q, entry, STMMAC_TXBUF_T_SKB, addr, len,
+> +				map_as_page);
+> +}
+> +
+> +static void stmmac_set_tx_dma_last_segment(struct stmmac_tx_queue *tx_q,
+> +					   unsigned int entry)
+> +{
+> +	tx_q->tx_skbuff_dma[entry].last_segment = true;
+> +}
+> +
+>  /**
+>   * __init_dma_tx_desc_rings - init the TX descriptor ring (per queue)
+>   * @priv: driver private structure
+> @@ -1919,11 +1947,8 @@ static int __init_dma_tx_desc_rings(struct stmmac_priv *priv,
+>  			p = tx_q->dma_tx + i;
+>  
+>  		stmmac_clear_desc(priv, p);
+> +		stmmac_set_tx_skb_dma_entry(tx_q, i, 0, 0, false);
+>  
+> -		tx_q->tx_skbuff_dma[i].buf = 0;
+> -		tx_q->tx_skbuff_dma[i].map_as_page = false;
+> -		tx_q->tx_skbuff_dma[i].len = 0;
+> -		tx_q->tx_skbuff_dma[i].last_segment = false;
+>  		tx_q->tx_skbuff[i] = NULL;
+>  	}
+>  
+> @@ -2649,19 +2674,15 @@ static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
+>  		meta = xsk_buff_get_metadata(pool, xdp_desc.addr);
+>  		xsk_buff_raw_dma_sync_for_device(pool, dma_addr, xdp_desc.len);
+>  
+> -		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XSK_TX;
+> -
+>  		/* To return XDP buffer to XSK pool, we simple call
+>  		 * xsk_tx_completed(), so we don't need to fill up
+>  		 * 'buf' and 'xdpf'.
+>  		 */
+> -		tx_q->tx_skbuff_dma[entry].buf = 0;
+> -		tx_q->xdpf[entry] = NULL;
+> +		stmmac_set_tx_dma_entry(tx_q, entry, STMMAC_TXBUF_T_XSK_TX,
+> +					0, xdp_desc.len, false);
+> +		stmmac_set_tx_dma_last_segment(tx_q, entry);
+>  
+> -		tx_q->tx_skbuff_dma[entry].map_as_page = false;
+> -		tx_q->tx_skbuff_dma[entry].len = xdp_desc.len;
+> -		tx_q->tx_skbuff_dma[entry].last_segment = true;
+> -		tx_q->tx_skbuff_dma[entry].is_jumbo = false;
+> +		tx_q->xdpf[entry] = NULL;
+>  
+>  		stmmac_set_desc_addr(priv, tx_desc, dma_addr);
+>  
+> @@ -2836,6 +2857,9 @@ static int stmmac_tx_clean(struct stmmac_priv *priv, int budget, u32 queue,
+>  			tx_q->tx_skbuff_dma[entry].map_as_page = false;
+>  		}
+>  
+> +		/* This looks at tx_q->tx_skbuff_dma[tx_q->dirty_tx].is_jumbo
+> +		 * and tx_q->tx_skbuff_dma[tx_q->dirty_tx].last_segment
+> +		 */
+>  		stmmac_clean_desc3(priv, tx_q, p);
+>  
+>  		tx_q->tx_skbuff_dma[entry].last_segment = false;
+> @@ -4494,10 +4518,8 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
+>  	 * this DMA buffer right after the DMA engine completely finishes the
+>  	 * full buffer transmission.
+>  	 */
+> -	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf = des;
+> -	tx_q->tx_skbuff_dma[tx_q->cur_tx].len = skb_headlen(skb);
+> -	tx_q->tx_skbuff_dma[tx_q->cur_tx].map_as_page = false;
+> -	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
+> +	stmmac_set_tx_skb_dma_entry(tx_q, tx_q->cur_tx, des, skb_headlen(skb),
+> +				    false);
+>  
+>  	/* Prepare fragments */
+>  	for (i = 0; i < nfrags; i++) {
+> @@ -4512,17 +4534,14 @@ static netdev_tx_t stmmac_tso_xmit(struct sk_buff *skb, struct net_device *dev)
+>  		stmmac_tso_allocator(priv, des, skb_frag_size(frag),
+>  				     (i == nfrags - 1), queue);
+>  
+> -		tx_q->tx_skbuff_dma[tx_q->cur_tx].buf = des;
+> -		tx_q->tx_skbuff_dma[tx_q->cur_tx].len = skb_frag_size(frag);
+> -		tx_q->tx_skbuff_dma[tx_q->cur_tx].map_as_page = true;
+> -		tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
+> +		stmmac_set_tx_skb_dma_entry(tx_q, tx_q->cur_tx, des,
+> +					    skb_frag_size(frag), true);
+>  	}
+>  
+> -	tx_q->tx_skbuff_dma[tx_q->cur_tx].last_segment = true;
+> +	stmmac_set_tx_dma_last_segment(tx_q, tx_q->cur_tx);
+>  
+>  	/* Only the last descriptor gets to point to the skb. */
+>  	tx_q->tx_skbuff[tx_q->cur_tx] = skb;
+> -	tx_q->tx_skbuff_dma[tx_q->cur_tx].buf_type = STMMAC_TXBUF_T_SKB;
+>  
+>  	/* Manage tx mitigation */
+>  	tx_packets = (tx_q->cur_tx + 1) - first_tx;
+> @@ -4774,23 +4793,18 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
+>  		if (dma_mapping_error(priv->device, des))
+>  			goto dma_map_err; /* should reuse desc w/o issues */
+>  
+> -		tx_q->tx_skbuff_dma[entry].buf = des;
+> -
+> +		stmmac_set_tx_skb_dma_entry(tx_q, entry, des, len, true);
+>  		stmmac_set_desc_addr(priv, desc, des);
+>  
+> -		tx_q->tx_skbuff_dma[entry].map_as_page = true;
+> -		tx_q->tx_skbuff_dma[entry].len = len;
+> -		tx_q->tx_skbuff_dma[entry].last_segment = last_segment;
+> -		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_SKB;
+> -
+>  		/* Prepare the descriptor and set the own bit too */
+>  		stmmac_prepare_tx_desc(priv, desc, 0, len, csum_insertion,
+>  				priv->mode, 1, last_segment, skb->len);
+>  	}
+>  
+> +	stmmac_set_tx_dma_last_segment(tx_q, entry);
+> +
+>  	/* Only the last descriptor gets to point to the skb. */
+>  	tx_q->tx_skbuff[entry] = skb;
+> -	tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_SKB;
+>  
+>  	/* According to the coalesce parameter the IC bit for the latest
+>  	 * segment is reset and the timer re-started to clean the tx status.
+> @@ -4869,14 +4883,13 @@ static netdev_tx_t stmmac_xmit(struct sk_buff *skb, struct net_device *dev)
+>  		if (dma_mapping_error(priv->device, des))
+>  			goto dma_map_err;
+>  
+> -		tx_q->tx_skbuff_dma[first_entry].buf = des;
+> -		tx_q->tx_skbuff_dma[first_entry].buf_type = STMMAC_TXBUF_T_SKB;
+> -		tx_q->tx_skbuff_dma[first_entry].map_as_page = false;
+> +		stmmac_set_tx_skb_dma_entry(tx_q, first_entry, des, nopaged_len,
+> +					    false);
+>  
+>  		stmmac_set_desc_addr(priv, first, des);
+>  
+> -		tx_q->tx_skbuff_dma[first_entry].len = nopaged_len;
+> -		tx_q->tx_skbuff_dma[first_entry].last_segment = last_segment;
+> +		if (last_segment)
+> +			stmmac_set_tx_dma_last_segment(tx_q, first_entry);
+>  
+>  		if (unlikely((skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) &&
+>  			     priv->hwts_tx_en)) {
+> @@ -5064,6 +5077,7 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
+>  	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
+>  	bool csum = !priv->plat->tx_queues_cfg[queue].coe_unsupported;
+>  	unsigned int entry = tx_q->cur_tx;
+> +	enum stmmac_txbuf_type buf_type;
+>  	struct dma_desc *tx_desc;
+>  	dma_addr_t dma_addr;
+>  	bool set_ic;
+> @@ -5091,7 +5105,7 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
+>  		if (dma_mapping_error(priv->device, dma_addr))
+>  			return STMMAC_XDP_CONSUMED;
+>  
+> -		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XDP_NDO;
+> +		buf_type = STMMAC_TXBUF_T_XDP_NDO;
+>  	} else {
+>  		struct page *page = virt_to_page(xdpf->data);
+>  
+> @@ -5100,14 +5114,12 @@ static int stmmac_xdp_xmit_xdpf(struct stmmac_priv *priv, int queue,
+>  		dma_sync_single_for_device(priv->device, dma_addr,
+>  					   xdpf->len, DMA_BIDIRECTIONAL);
+>  
+> -		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XDP_TX;
+> +		buf_type = STMMAC_TXBUF_T_XDP_TX;
+>  	}
+>  
+> -	tx_q->tx_skbuff_dma[entry].buf = dma_addr;
+> -	tx_q->tx_skbuff_dma[entry].map_as_page = false;
+> -	tx_q->tx_skbuff_dma[entry].len = xdpf->len;
+> -	tx_q->tx_skbuff_dma[entry].last_segment = true;
+> -	tx_q->tx_skbuff_dma[entry].is_jumbo = false;
+> +	stmmac_set_tx_dma_entry(tx_q, entry, buf_type, dma_addr, xdpf->len,
+> +				false);
+> +	stmmac_set_tx_dma_last_segment(tx_q, entry);
+>  
+>  	tx_q->xdpf[entry] = xdpf;
 
-Drop the sentence. Schema already tells that. Never repeat the schema in
-free text. It's like adding comments to code:
-
-ptr = kzalloc()
-/* Check for null pointer after allocation */
-if (!ptr)
-	return -ENOMEM
-
-This is worse coding. Write concise, clearly readable code.
-
-With this fixed:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
+Since the changes are relatively large, I suggest splitting them into 
+a separate optimization patch.As I cannot validate the is_jumbo scenario, 
+I have dropped the changes to stmmac_free_tx_buffer.I will submit a 
+separate patch focusing only on fixing the TSO case.
