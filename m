@@ -1,67 +1,67 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FDB30BF74
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 21:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BAA3090C1
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 21:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768598952; cv=none; b=qSqWUDHfeoTppxFnMGHQLIH79NVtlOVikLkEw8iiBehzOmepCL0s1UQ1DBh87jUs54g6uAtfnoHdy9FUYLjOYAIwxJWodUiOzoW3io+kWAkrw0vLKGwlKdNMsosGMZmLa+6GvfAe7D7lYas9w/k+c/rKmoVtRGYThBGnCc1MDTE=
+	t=1768598953; cv=none; b=ClzsEGkUVpyB/iJHx7cvziqKV0PNiCZIMkMY8kwQI77OWyCwsI0N9YYh+ZpISvf1Mo4pmGhgu6gMI1ciWO6Ebx8KTRNlrDFWQgh4gjqbqGQtweRzDsbqNciU7fE6O4CzXf0RMtLgdnR5lzz+GM+Hc82mY/meBRgJ4b/joL2GyCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768598952; c=relaxed/simple;
-	bh=FRcd1avd4PB9PmO5dQgmUicVEjm2xp4QOwjVLS7lcRo=;
+	s=arc-20240116; t=1768598953; c=relaxed/simple;
+	bh=uCgr9JbNpxUqM9gbGsf2Jmk4aJqJ6fTLHuKaFTvudAQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XmEEwjKkP5m5fE+gKOhG7XxulPoYzAW+9mhmdoi0dxHeLpPgpLhLe8/vaDewqG9+djawN/01w2qTeEscHHEU1B89BHh5UYtDEr1+ehJtDG8SfJfRs/lw5WPNR7+n9R2cKzBs5xhKIrrNngKuj/TinxeQ/2+05YYA352IP2klUhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Osn+NoiR; arc=none smtp.client-ip=209.85.128.177
+	 In-Reply-To:To:Cc; b=Q08kUSyMgNQ3TrRujkEGc2AiUs6UUvoFTk901UcB9e3AA7FjVNXqFOoF+cZTGqCt9fNMtuVWXC2gMJpb+T35f/0UaKa7mvMu4q9jHLTXMymzJsfr48OyBMPPZ3m5Zrse/g9FNazgqdDAOzuLW3u9ayRtfwVf+U4x3wONtGCWMgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTngvH+a; arc=none smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Osn+NoiR"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-792768a0cd3so23888647b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 13:29:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTngvH+a"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6455a60c12bso2218331d50.3
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 13:29:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768598947; x=1769203747; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768598949; x=1769203749; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=I07oD5ozWqHJLvu76IbvCT33HoDsgDmgjc920I58eyc=;
-        b=Osn+NoiRUJBgwuOv7pxlurjOBPbLXJUuE+lcy93gFLwXujgUYLZWhSR829JhVurRYi
-         65SnBwiPcePiJ6/Q1GeCz3WyhdqZid6C0LpwAaBVs8cvBPIBPRVWCL06lr4JJrYdhlaN
-         +Bmi196Hn1wxBgayhyEe/RFnhlfaks0dd3uq8cDCiHRQUlVGWaTb6HdvJ6JUU8BYyBlP
-         aWotOM535PYs9+rDG3Ug/Y6Nf/RIXdWfZeHaSKJ4Iki9UF6PM/TWLfHGSLi3/GJEXQTi
-         g5u9/eN1topAcLapSF1R0sEA26rFoFKgEyx2G9ThwN351Nuag8oZ75WAD28NBlAFqS0K
-         e9mw==
+        bh=9UqzpQf1IlJwSFAKiovBpo5/3/EPxdibd9liBmZD9wA=;
+        b=QTngvH+aHSlgpc6sbkMxQQXQgVjpHfvo8/ybabtKjpTSprv3GfeKKJBTALE6RgtdDg
+         RswwtkZl+IAqTCdFrDCPHorrsMHWw0aGSIuwfImh/UGEDyme9oneRL6kbIwX9Efx4xYB
+         mSieuSGsc5RLrst1Mabf/Ewlk7C2Dqx2NlbGcdszebK3DDxj6a+r+epSXdjJn0nDPKzT
+         LlHE6x72Cg7y9/xaxwXYp/AuW6SFdnS4tBfDYGej85+UwalYdyDNm/lmAXapIFWbnshx
+         Zf+/2YilCh3DnjHITvjH31s0Dihvq+0QcEtewyuuNiLeDx3Zqzetfk728lYJ+zB4Ell/
+         0pBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768598947; x=1769203747;
+        d=1e100.net; s=20230601; t=1768598949; x=1769203749;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=I07oD5ozWqHJLvu76IbvCT33HoDsgDmgjc920I58eyc=;
-        b=XC10KiAzzgwzWoEh0oobwAZPQso7xC6ZSxR8QaS81L61K7iZexUxyoUbFrwuTPcj+4
-         ZUr8hPX69YWQg2i6DI6L1DCOlApDdGxYm3j/fa2+Zk1La53ONfQoeK2cJ02olKw+AXNo
-         zRtO3og2/HE4FJj/amma4tocWLNEw+7+laJ7kOUcZHcxR1RcBMYdzwVwo2tyE+T8Bd3+
-         uBH6O6clvjrxtXn9cfqDG/lbBwCLuMHaAS5O2BJzyX3ADb8R9AwjclA5ulaA8gS48Zyb
-         etRhMvjtrzI2NgVVb/ujzhbLlg+sqonE954lWkG0mii3Rqw09f8o5BoBmTs1JF0Ag2T9
-         r3yw==
-X-Forwarded-Encrypted: i=1; AJvYcCXP/Y9eM5D+MUC73s3PhjIWXHOxbze8KpW1qlcL/HutSVa+r3S+b/D96Ofrhux3RTiHLj0hnsQ23AU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+0nCohk3tmL6Q32CdBQBIyv/FHShosyjDCGw5c+/TBx547riY
-	kFOg/jETptpcFpvtZE6GgbeQ2MdtfO4dndrK7CfSc9fIBxfvUrU4Dy9A
-X-Gm-Gg: AY/fxX4BI/G9HFtorN9wOmOe/iMncwwUAHRJva1sAkod6jhH3mwGefjTEl+ColQUKTX
-	3zKF5q01yziE2lIKHPeUsTngU2XiQ+qXtJGB7CXgQjup4JQ6/QJf1dO49cp9OjFU5S7K3Rfn9Nn
-	Y8ZQ6/rgWhc9sQgc12tof6zAbYX1HjlAwbZQpDW0NABz77CSDGdREnhBG6fIaFvTHIwbKpuzxeR
-	JSHYBDr8ZdoDzOm1BiQaHZN/y6JKFcJ22kOYakJvgTmixZpEvgFpBYI4j7wsH/pCp0FioK3zZDO
-	U/QW3MGoKXSbs2in+w6DSiItzRDAYQeGeqUo5wDCIY/FCZx7BeU6RXJ5VlpUR3TfjcJ7CatMdZT
-	2sizm0EuOyGW8/zG/YpJlOMc80cWjMciOWhPQgDNFxaasx9cJo7J3fmSQu/ss0utRo1kPeDlFiA
-	xylYFQc6bYDA==
-X-Received: by 2002:a05:690c:b15:b0:792:6c16:110c with SMTP id 00721157ae682-793c6878c95mr28874267b3.61.1768598947252;
-        Fri, 16 Jan 2026 13:29:07 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:53::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-793c66f3284sm13566387b3.17.2026.01.16.13.29.06
+        bh=9UqzpQf1IlJwSFAKiovBpo5/3/EPxdibd9liBmZD9wA=;
+        b=I4N+TDtQEulksfPG8DWUyd+pBb/GIsNXn9wJ8r4P1jXb82CnkTdTDFaaguNCVBGNeN
+         LrFuWt+ydoOBsMcZbZtvw4TaPp3EwLl9pfly0SL0Os1PASGeGyr9TfGALp4pMouq/P+G
+         Up8BlT42vh28ZTpwdaVBhDT3BjpKnMDU8Ur1nJNWgkPWL0Josiw3nSJ38jKOIFkE0m2u
+         Y7Bb1sgC7ARZY+JM3Yz+42PgFHvn+zaWFWp0bHerETs4mOKmR/9hY7vVdLjfu8p/7rm8
+         VRfhjc6wa5VOwSgi44EaolWVkmXCoUrnNwke23wcVlSgN4F73Orh0qoAKegvuWVoEb/Q
+         esXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWI9HUqWlL3nlZKKtbmHYXf2iJpD7gmzu6qRbPSDwVcTOZkbcBJwN/0AAitGeWn4atvA3TpgMvGkc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYsw4hlUcEY4FyZn+ytYgjz2/wkvmxwbTyM91Q6B/NhujWo3J7
+	O8o8o3DK50XEkwKo/wLr0Fji9RJi/KYEcv6CiRimcV9rN+yp6ieY1rip
+X-Gm-Gg: AY/fxX5U4kqbxe7SZFdcJcE+6Q6MvS4jhyVH9XApcEdyXl4nqV5mQEo8UL26D82mG7I
+	fihIqP0fz+VHeE3oyZBr4XXNasK++7fEtgfOmB3LnlGtQvq/lHcg+wU9KRtYpIU7WAivriSsgrt
+	QXKyJ9U2iFjBkiFlhiRk5l43EcAcgrGbjk/pl3FOzYlbNVNH4gj/qQqY8CLtyDZU/OJGLOZ7htv
+	9H/APzogiaE8LpCcTMnvAxGCNiYIqqUiyn+tO3ulpdZhMu+4otPeaPSsaGtAxYAT93p1Me392cm
+	xgfmSWM5/o8QrEGY5CQMqWH2ru54RjXrPGfnLwnSoW7IAAwVFhGsHif2sI6JMLyCOWVNLi+C34X
+	JYTO7vRfp5CmeJbYPnrWKYMXNQVhtOjMrE4g8HtW1WLeoC2H3BFC9hTjN5i9XxKoB905d5yipuZ
+	XlDbTzjkYx
+X-Received: by 2002:a05:690e:d8d:b0:644:60d9:8667 with SMTP id 956f58d0204a3-64917773d86mr2650287d50.88.1768598948802;
+        Fri, 16 Jan 2026 13:29:08 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:8::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-649170d2f04sm1663457d50.22.2026.01.16.13.29.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 13:29:06 -0800 (PST)
+        Fri, 16 Jan 2026 13:29:08 -0800 (PST)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Fri, 16 Jan 2026 13:28:45 -0800
-Subject: [PATCH net-next v15 05/12] selftests/vsock: add namespace helpers
- to vmtest.sh
+Date: Fri, 16 Jan 2026 13:28:47 -0800
+Subject: [PATCH net-next v15 07/12] selftests/vsock: add
+ vm_dmesg_{warn,oops}_count() helpers
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-vsock-vmtest-v15-5-bbfd1a668548@meta.com>
+Message-Id: <20260116-vsock-vmtest-v15-7-bbfd1a668548@meta.com>
 References: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
 In-Reply-To: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
 To: Stefano Garzarella <sgarzare@redhat.com>, 
@@ -97,89 +97,70 @@ X-Mailer: b4 0.14.3
 
 From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Add functions for initializing namespaces with the different vsock NS
-modes. Callers can use add_namespaces() and del_namespaces() to create
-namespaces global0, global1, local0, and local1.
-
-The add_namespaces() function initializes global0, local0, etc... with
-their respective vsock NS mode by toggling child_ns_mode before creating
-the namespace.
-
-Remove namespaces upon exiting the program in cleanup(). This is
-unlikely to be needed for a healthy run, but it is useful for tests that
-are manually killed mid-test.
-
-This patch is in preparation for later namespace tests.
+These functions are reused by the VM tests to collect and compare dmesg
+warnings and oops counts. The future VM-specific tests use them heavily.
+This patches relies on vm_ssh() already supporting namespaces.
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-Changes in v13:
-- intialize namespaces to use the child_ns_mode mechanism
-- remove setting modes from init_namespaces() function (this function
-  only sets up the lo device now)
-- remove ns_set_mode(ns) because ns_mode is no longer mutable
+Changes in v11:
+- break these out into an earlier patch so that they can be used
+  directly in new patches (instead of causing churn by adding this
+  later)
 ---
- tools/testing/selftests/vsock/vmtest.sh | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ tools/testing/selftests/vsock/vmtest.sh | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
-index c7b270dd77a9..c2bdc293b94c 100755
+index 1d03acb62347..4b5929ffc9eb 100755
 --- a/tools/testing/selftests/vsock/vmtest.sh
 +++ b/tools/testing/selftests/vsock/vmtest.sh
-@@ -49,6 +49,7 @@ readonly TEST_DESCS=(
- )
- 
- readonly USE_SHARED_VM=(vm_server_host_client vm_client_host_server vm_loopback)
-+readonly NS_MODES=("local" "global")
- 
- VERBOSE=0
- 
-@@ -103,6 +104,36 @@ check_result() {
+@@ -380,6 +380,17 @@ host_wait_for_listener() {
  	fi
  }
  
-+add_namespaces() {
-+	local orig_mode
-+	orig_mode=$(cat /proc/sys/net/vsock/child_ns_mode)
++vm_dmesg_oops_count() {
++	local ns=$1
 +
-+	for mode in "${NS_MODES[@]}"; do
-+		echo "${mode}" > /proc/sys/net/vsock/child_ns_mode
-+		ip netns add "${mode}0" 2>/dev/null
-+		ip netns add "${mode}1" 2>/dev/null
-+	done
-+
-+	echo "${orig_mode}" > /proc/sys/net/vsock/child_ns_mode
++	vm_ssh "${ns}" -- dmesg 2>/dev/null | grep -c -i 'Oops'
 +}
 +
-+init_namespaces() {
-+	for mode in "${NS_MODES[@]}"; do
-+		# we need lo for qemu port forwarding
-+		ip netns exec "${mode}0" ip link set dev lo up
-+		ip netns exec "${mode}1" ip link set dev lo up
-+	done
-+}
++vm_dmesg_warn_count() {
++	local ns=$1
 +
-+del_namespaces() {
-+	for mode in "${NS_MODES[@]}"; do
-+		ip netns del "${mode}0" &>/dev/null
-+		ip netns del "${mode}1" &>/dev/null
-+		log_host "removed ns ${mode}0"
-+		log_host "removed ns ${mode}1"
-+	done
++	vm_ssh "${ns}" -- dmesg --level=warn 2>/dev/null | grep -c -i 'vsock'
 +}
-+
- vm_ssh() {
- 	ssh -q -o UserKnownHostsFile=/dev/null -p ${SSH_HOST_PORT} localhost "$@"
- 	return $?
-@@ -110,6 +141,7 @@ vm_ssh() {
  
- cleanup() {
- 	terminate_pidfiles "${!PIDFILES[@]}"
-+	del_namespaces
- }
+ vm_vsock_test() {
+ 	local ns=$1
+@@ -587,8 +598,8 @@ run_shared_vm_test() {
  
- check_args() {
+ 	host_oops_cnt_before=$(dmesg | grep -c -i 'Oops')
+ 	host_warn_cnt_before=$(dmesg --level=warn | grep -c -i 'vsock')
+-	vm_oops_cnt_before=$(vm_ssh -- dmesg | grep -c -i 'Oops')
+-	vm_warn_cnt_before=$(vm_ssh -- dmesg --level=warn | grep -c -i 'vsock')
++	vm_oops_cnt_before=$(vm_dmesg_oops_count "init_ns")
++	vm_warn_cnt_before=$(vm_dmesg_warn_count "init_ns")
+ 
+ 	name=$(echo "${1}" | awk '{ print $1 }')
+ 	eval test_"${name}"
+@@ -606,13 +617,13 @@ run_shared_vm_test() {
+ 		rc=$KSFT_FAIL
+ 	fi
+ 
+-	vm_oops_cnt_after=$(vm_ssh -- dmesg | grep -i 'Oops' | wc -l)
++	vm_oops_cnt_after=$(vm_dmesg_oops_count "init_ns")
+ 	if [[ ${vm_oops_cnt_after} -gt ${vm_oops_cnt_before} ]]; then
+ 		echo "FAIL: kernel oops detected on vm" | log_host
+ 		rc=$KSFT_FAIL
+ 	fi
+ 
+-	vm_warn_cnt_after=$(vm_ssh -- dmesg --level=warn | grep -c -i 'vsock')
++	vm_warn_cnt_after=$(vm_dmesg_warn_count "init_ns")
+ 	if [[ ${vm_warn_cnt_after} -gt ${vm_warn_cnt_before} ]]; then
+ 		echo "FAIL: kernel warning detected on vm" | log_host
+ 		rc=$KSFT_FAIL
 
 -- 
 2.47.3
