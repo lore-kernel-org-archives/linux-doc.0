@@ -1,236 +1,157 @@
-Received: from a48-179.smtp-out.amazonses.com (a48-179.smtp-out.amazonses.com [54.240.48.179])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3F1306B02;
-	Fri, 16 Jan 2026 19:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.48.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4B41F1932;
+	Fri, 16 Jan 2026 19:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768590850; cv=none; b=m88uNXMx3bIvLYvBtxG4f9xb+j5jcQGXMkBmFVFmuqve3d/q+YdDZBI3jM9jcbYyZaEiAcB+QgZox/slgOIlWPFN9BSWt0qUJCZ+R60TfRDAwHvCj7TC8K37idtmKyKLcTSgz/cOtGHOUSv1VYgzTVbTn9j1AWIfnC8JxQm7GNA=
+	t=1768591381; cv=none; b=MMQ2ULIRj4rBr1vIcyOs2SEvh19SMwTjeW7pLp04jHwp3s2sv07MPzTp0/PRw5SHohKKAmRYcPMtjZ5U6V0j+dNGEekzmDJmUqN/9EvpUi0vCCeast88+H/vno1iBT5PGd5wgGswM511gV8jGRccpqSqWpuuXPKKHQOsylqOn04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768590850; c=relaxed/simple;
-	bh=JllOgEM7aQKk+PtcWXrB+BYsUOTL+sv45IkCgmrJnLk=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=oYvlTeWkNqenM3BM4TLRVWEjyzclKMhb52C0porj6pKmuENxed0ENcLtbavSikacgPNXgKoEGkJPdApIbw9MpAGY8kPxAudzWEb+bojH9t1YU3gNZUVt1ue0mQSeX8s3MtdxbFpUf0quPrs91JYs8YMEIqiTh+T/sgsAY2rqanM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=RLPPtBtH; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=AjEq9hZ0; arc=none smtp.client-ip=54.240.48.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1768591381; c=relaxed/simple;
+	bh=AaA921OgWgVGcYxhc/bFfdVLOLTjeI93lm9H8nt8ULU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p35siKoQ2PIYOhRf6RhQonLsN+UQkqxyfoOp9nDrKdN6VjZznuMv8ZMpCz2xwarog+bW2iWClpJVbrhRJa4f2v+9WAwDV0KdZQb38SVhtyIEiYIclp6W/oG+OAfUTksFlND7B4gKmGPTNo6e64I19r4Hqkt4kGFUX582wupMciQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=PC8hgBR/; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="RLPPtBtH";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="AjEq9hZ0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1768590847;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=JllOgEM7aQKk+PtcWXrB+BYsUOTL+sv45IkCgmrJnLk=;
-	b=RLPPtBtHKchKd1ZGbpIgdnL2Bu01ppfsu/cIEE9CBZ/ACnLfP8a+Z+bnezbVKJh5
-	TZ0kpkTxBeaiHHJ9FsW/oD2SSuix4PNI2HadJFivDhSzIO7S99VgKWrO4WgkWjOMB9s
-	0kLtZ/UrMBNP7XnyEvmyIsgGj4YLBbosYbZTW79g=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1768590847;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=JllOgEM7aQKk+PtcWXrB+BYsUOTL+sv45IkCgmrJnLk=;
-	b=AjEq9hZ0TYguMv9aam6OkZRRZNstQZREIfiUF7G26KQq+3UtnW6upspWQoJaL0nb
-	E8/BK85Y96L+uDKhDuaG5emCmpUJol/5tRcRsOsiupS8bUXhff6khkydMWmcYeZwFQc
-	/ov+/zWG6gQdctB9S1C3MYDBd+0n8mqe8XgnIO/s=
-Subject: [PATCH V3 2/2] Add test/daxctl-famfs.sh to test famfs mode
- transitions:
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?John_Groves?= <jgroves@fastmail.com>, 
-	=?UTF-8?Q?Jonathan_Corbet?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>
-Date: Fri, 16 Jan 2026 19:14:07 +0000
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="PC8hgBR/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=nNIBJ/gbrOzWSlLTD1GWeFnlI64FCaEfCKZHp3Gq1yQ=; b=PC8hgBR/4eKiTuiiAtp6ojEkup
+	vEwn0OMgJ03AK1nFjyZaycmOaMDTRvSp0h3KWJUYQycJyvd7u1x/ChRwJkRgewR/zQ0FpJfDNBTIi
+	z4POefgQ4NKvrdTKRovA0oqn5Gv4CCJrJGiMD9hsPN7HlTELnCtqKGJoF2VUlX/p9BT1L/1SkmpSQ
+	2MqkAI69LcGQy/3sqAwHQARTyaqXE9xV8wwpnLt+wQpYkDV6LPIvn+/dtVZK6u1RUG6xjbw2ULBG5
+	17/e/zjEqHhOAYp1+83uiYTDUaNn9rxc41wsPR920b0UAc1LiZT7NudOS5lkcQ3ulMEKsPlhxDG8m
+	FFCUoZZQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55682)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vgpPB-000000002bC-2XxK;
+	Fri, 16 Jan 2026 19:22:45 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vgpP4-000000003qk-41XR;
+	Fri, 16 Jan 2026 19:22:38 +0000
+Date: Fri, 16 Jan 2026 19:22:38 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Tao Wang <tao03.wang@horizon.auto>, alexandre.torgue@foss.st.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	horms@kernel.org, kuba@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mcoquelin.stm32@gmail.com,
+	netdev@vger.kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
+ resume
+Message-ID: <aWqP_hhX73x_8Qs1@shell.armlinux.org.uk>
+References: <aWd9WUUGhSU5tWcn@shell.armlinux.org.uk>
+ <20260115070853.116260-1-tao03.wang@horizon.auto>
+ <aWjY7m96e87cBLUZ@shell.armlinux.org.uk>
+ <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
+ <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
+ <51859704-57fd-4913-b09d-9ac58a57f185@bootlin.com>
+ <aWmLWxVEBmFSVjvF@shell.armlinux.org.uk>
+ <aWo_K0ocxs5kWcZT@shell.armlinux.org.uk>
+ <aWp-lDunV9URYNRL@shell.armlinux.org.uk>
+ <3a93c79e-f755-4642-a3b0-1cce7d0ea0ef@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260116191253.1559-1-john@jagalactic.com>
-References: <20260116125831.953.compound@groves.net> 
- <20260116191253.1559-1-john@jagalactic.com> 
- <20260116191253.1559-3-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHchxoe1VAe00deR0Sw2d725QhurgAAgGyVAACKljg=
-Thread-Topic: [PATCH V3 2/2] Add test/daxctl-famfs.sh to test famfs mode
- transitions:
-X-Wm-Sent-Timestamp: 1768590846
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019bc83aadfc-2ad270c8-4e1e-4ab1-bda4-febf8d5ee4fc-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.01.16-54.240.48.179
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a93c79e-f755-4642-a3b0-1cce7d0ea0ef@bootlin.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-From: John Groves <John@Groves.net>=0D=0A=0D=0A- devdax <-> famfs mode sw=
-itches=0D=0A- Verify famfs -> system-ram is rejected (must go via devdax)=
-=0D=0A- Test JSON output shows correct mode=0D=0A- Test error handling fo=
-r invalid modes=0D=0A=0D=0AThe test is added to the destructive test suit=
-e since it=0D=0Amodifies device modes.=0D=0A=0D=0ASigned-off-by: John Gro=
-ves <john@groves.net>=0D=0A---=0D=0A test/daxctl-famfs.sh | 253 +++++++++=
-++++++++++++++++++++++++++++++++++=0D=0A test/meson.build     |   2 +=0D=0A=
- 2 files changed, 255 insertions(+)=0D=0A create mode 100755 test/daxctl-=
-famfs.sh=0D=0A=0D=0Adiff --git a/test/daxctl-famfs.sh b/test/daxctl-famfs=
-=2Esh=0D=0Anew file mode 100755=0D=0Aindex 0000000..12fbfef=0D=0A--- /dev=
-/null=0D=0A+++ b/test/daxctl-famfs.sh=0D=0A@@ -0,0 +1,253 @@=0D=0A+#!/bin=
-/bash -Ex=0D=0A+# SPDX-License-Identifier: GPL-2.0=0D=0A+# Copyright (C) =
-2025 Micron Technology, Inc. All rights reserved.=0D=0A+#=0D=0A+# Test da=
-xctl famfs mode transitions and mode detection=0D=0A+=0D=0A+rc=3D77=0D=0A=
-+. $(dirname $0)/common=0D=0A+=0D=0A+trap 'cleanup $LINENO' ERR=0D=0A+=0D=
-=0A+daxdev=3D""=0D=0A+original_mode=3D""=0D=0A+=0D=0A+cleanup()=0D=0A+{=0D=
-=0A+=09printf "Error at line %d\n" "$1"=0D=0A+=09# Try to restore to orig=
-inal mode if we know it=0D=0A+=09if [[ $daxdev && $original_mode ]]; then=
-=0D=0A+=09=09"$DAXCTL" reconfigure-device -f -m "$original_mode" "$daxdev=
-" 2>/dev/null || true=0D=0A+=09fi=0D=0A+=09exit $rc=0D=0A+}=0D=0A+=0D=0A+=
-# Check if fsdev_dax module is available=0D=0A+check_fsdev_dax()=0D=0A+{=0D=
-=0A+=09if modinfo fsdev_dax &>/dev/null; then=0D=0A+=09=09return 0=0D=0A+=
-=09fi=0D=0A+=09if grep -qF "fsdev_dax" "/lib/modules/$(uname -r)/modules.=
-builtin" 2>/dev/null; then=0D=0A+=09=09return 0=0D=0A+=09fi=0D=0A+=09prin=
-tf "fsdev_dax module not available, skipping\n"=0D=0A+=09exit 77=0D=0A+}=0D=
-=0A+=0D=0A+# Check if kmem module is available (needed for system-ram mod=
-e tests)=0D=0A+check_kmem()=0D=0A+{=0D=0A+=09if modinfo kmem &>/dev/null;=
- then=0D=0A+=09=09return 0=0D=0A+=09fi=0D=0A+=09if grep -qF "kmem" "/lib/=
-modules/$(uname -r)/modules.builtin" 2>/dev/null; then=0D=0A+=09=09return=
- 0=0D=0A+=09fi=0D=0A+=09printf "kmem module not available, skipping syste=
-m-ram tests\n"=0D=0A+=09return 1=0D=0A+}=0D=0A+=0D=0A+# Find an existing =
-dax device to test with=0D=0A+find_daxdev()=0D=0A+{=0D=0A+=09# Look for a=
-ny available dax device=0D=0A+=09daxdev=3D$("$DAXCTL" list | jq -er '.[0]=
-=2Echardev // empty' 2>/dev/null) || true=0D=0A+=0D=0A+=09if [[ ! $daxdev=
- ]]; then=0D=0A+=09=09printf "No dax device found, skipping\n"=0D=0A+=09=09=
-exit 77=0D=0A+=09fi=0D=0A+=0D=0A+=09# Save the original mode so we can re=
-store it=0D=0A+=09original_mode=3D$("$DAXCTL" list -d "$daxdev" | jq -er =
-'.[].mode')=0D=0A+=0D=0A+=09printf "Found dax device: %s (current mode: %=
-s)\n" "$daxdev" "$original_mode"=0D=0A+}=0D=0A+=0D=0A+daxctl_get_mode()=0D=
-=0A+{=0D=0A+=09"$DAXCTL" list -d "$1" | jq -er '.[].mode'=0D=0A+}=0D=0A+=0D=
-=0A+# Ensure device is in devdax mode for testing=0D=0A+ensure_devdax_mod=
-e()=0D=0A+{=0D=0A+=09local mode=0D=0A+=09mode=3D$(daxctl_get_mode "$daxde=
-v")=0D=0A+=0D=0A+=09if [[ "$mode" =3D=3D "devdax" ]]; then=0D=0A+=09=09re=
-turn 0=0D=0A+=09fi=0D=0A+=0D=0A+=09if [[ "$mode" =3D=3D "system-ram" ]]; =
-then=0D=0A+=09=09printf "Device is in system-ram mode, attempting to conv=
-ert to devdax...\n"=0D=0A+=09=09"$DAXCTL" reconfigure-device -f -m devdax=
- "$daxdev"=0D=0A+=09elif [[ "$mode" =3D=3D "famfs" ]]; then=0D=0A+=09=09p=
-rintf "Device is in famfs mode, converting to devdax...\n"=0D=0A+=09=09"$=
-DAXCTL" reconfigure-device -m devdax "$daxdev"=0D=0A+=09else=0D=0A+=09=09=
-printf "Device is in unknown mode: %s\n" "$mode"=0D=0A+=09=09return 1=0D=0A=
-+=09fi=0D=0A+=0D=0A+=09[[ $(daxctl_get_mode "$daxdev") =3D=3D "devdax" ]]=
-=0D=0A+}=0D=0A+=0D=0A+#=0D=0A+# Test basic mode transitions involving fam=
-fs=0D=0A+#=0D=0A+test_famfs_mode_transitions()=0D=0A+{=0D=0A+=09printf "\=
-n=3D=3D=3D Testing famfs mode transitions =3D=3D=3D\n"=0D=0A+=0D=0A+=09# =
-Ensure starting in devdax mode=0D=0A+=09ensure_devdax_mode=0D=0A+=09[[ $(=
-daxctl_get_mode "$daxdev") =3D=3D "devdax" ]]=0D=0A+=09printf "Initial mo=
-de: devdax - OK\n"=0D=0A+=0D=0A+=09# Test: devdax -> famfs=0D=0A+=09print=
-f "Testing devdax -> famfs... "=0D=0A+=09"$DAXCTL" reconfigure-device -m =
-famfs "$daxdev"=0D=0A+=09[[ $(daxctl_get_mode "$daxdev") =3D=3D "famfs" ]=
-]=0D=0A+=09printf "OK\n"=0D=0A+=0D=0A+=09# Test: famfs -> famfs (re-enabl=
-e in same mode)=0D=0A+=09printf "Testing famfs -> famfs (re-enable)... "=0D=
-=0A+=09"$DAXCTL" reconfigure-device -m famfs "$daxdev"=0D=0A+=09[[ $(daxc=
-tl_get_mode "$daxdev") =3D=3D "famfs" ]]=0D=0A+=09printf "OK\n"=0D=0A+=0D=
-=0A+=09# Test: famfs -> devdax=0D=0A+=09printf "Testing famfs -> devdax..=
-=2E "=0D=0A+=09"$DAXCTL" reconfigure-device -m devdax "$daxdev"=0D=0A+=09=
-[[ $(daxctl_get_mode "$daxdev") =3D=3D "devdax" ]]=0D=0A+=09printf "OK\n"=
-=0D=0A+=0D=0A+=09# Test: devdax -> devdax (re-enable in same mode)=0D=0A+=
-=09printf "Testing devdax -> devdax (re-enable)... "=0D=0A+=09"$DAXCTL" r=
-econfigure-device -m devdax "$daxdev"=0D=0A+=09[[ $(daxctl_get_mode "$dax=
-dev") =3D=3D "devdax" ]]=0D=0A+=09printf "OK\n"=0D=0A+}=0D=0A+=0D=0A+#=0D=
-=0A+# Test mode transitions with system-ram (requires kmem)=0D=0A+#=0D=0A=
-+test_system_ram_transitions()=0D=0A+{=0D=0A+=09printf "\n=3D=3D=3D Testi=
-ng system-ram transitions with famfs =3D=3D=3D\n"=0D=0A+=0D=0A+=09# Ensur=
-e we start in devdax mode=0D=0A+=09ensure_devdax_mode=0D=0A+=09[[ $(daxct=
-l_get_mode "$daxdev") =3D=3D "devdax" ]]=0D=0A+=0D=0A+=09# Test: devdax -=
-> system-ram=0D=0A+=09printf "Testing devdax -> system-ram... "=0D=0A+=09=
-"$DAXCTL" reconfigure-device -N -m system-ram "$daxdev"=0D=0A+=09[[ $(dax=
-ctl_get_mode "$daxdev") =3D=3D "system-ram" ]]=0D=0A+=09printf "OK\n"=0D=0A=
-+=0D=0A+=09# Test: system-ram -> famfs should fail=0D=0A+=09printf "Testi=
-ng system-ram -> famfs (should fail)... "=0D=0A+=09if "$DAXCTL" reconfigu=
-re-device -m famfs "$daxdev" 2>/dev/null; then=0D=0A+=09=09printf "FAILED=
- - should have been rejected\n"=0D=0A+=09=09return 1=0D=0A+=09fi=0D=0A+=09=
-printf "OK (correctly rejected)\n"=0D=0A+=0D=0A+=09# Test: system-ram -> =
-devdax -> famfs (proper path)=0D=0A+=09printf "Testing system-ram -> devd=
-ax -> famfs... "=0D=0A+=09"$DAXCTL" reconfigure-device -f -m devdax "$dax=
-dev"=0D=0A+=09[[ $(daxctl_get_mode "$daxdev") =3D=3D "devdax" ]]=0D=0A+=09=
-"$DAXCTL" reconfigure-device -m famfs "$daxdev"=0D=0A+=09[[ $(daxctl_get_=
-mode "$daxdev") =3D=3D "famfs" ]]=0D=0A+=09printf "OK\n"=0D=0A+=0D=0A+=09=
-# Restore to devdax for subsequent tests=0D=0A+=09"$DAXCTL" reconfigure-d=
-evice -m devdax "$daxdev"=0D=0A+}=0D=0A+=0D=0A+#=0D=0A+# Test JSON output=
- shows correct mode=0D=0A+#=0D=0A+test_json_output()=0D=0A+{=0D=0A+=09pri=
-ntf "\n=3D=3D=3D Testing JSON output for mode field =3D=3D=3D\n"=0D=0A+=0D=
-=0A+=09# Test devdax mode in JSON=0D=0A+=09ensure_devdax_mode=0D=0A+=09pr=
-intf "Testing JSON output for devdax mode... "=0D=0A+=09mode=3D$("$DAXCTL=
-" list -d "$daxdev" | jq -er '.[].mode')=0D=0A+=09[[ "$mode" =3D=3D "devd=
-ax" ]]=0D=0A+=09printf "OK\n"=0D=0A+=0D=0A+=09# Test famfs mode in JSON=0D=
-=0A+=09"$DAXCTL" reconfigure-device -m famfs "$daxdev"=0D=0A+=09printf "T=
-esting JSON output for famfs mode... "=0D=0A+=09mode=3D$("$DAXCTL" list -=
-d "$daxdev" | jq -er '.[].mode')=0D=0A+=09[[ "$mode" =3D=3D "famfs" ]]=0D=
-=0A+=09printf "OK\n"=0D=0A+=0D=0A+=09# Restore to devdax=0D=0A+=09"$DAXCT=
-L" reconfigure-device -m devdax "$daxdev"=0D=0A+}=0D=0A+=0D=0A+#=0D=0A+# =
-Test error messages for invalid transitions=0D=0A+#=0D=0A+test_error_hand=
-ling()=0D=0A+{=0D=0A+=09printf "\n=3D=3D=3D Testing error handling =3D=3D=
-=3D\n"=0D=0A+=0D=0A+=09# Ensure we're in famfs mode=0D=0A+=09"$DAXCTL" re=
-configure-device -m famfs "$daxdev"=0D=0A+=0D=0A+=09# Test that invalid m=
-ode is rejected=0D=0A+=09printf "Testing invalid mode rejection... "=0D=0A=
-+=09if "$DAXCTL" reconfigure-device -m invalidmode "$daxdev" 2>/dev/null;=
- then=0D=0A+=09=09printf "FAILED - invalid mode should be rejected\n"=0D=0A=
-+=09=09return 1=0D=0A+=09fi=0D=0A+=09printf "OK (correctly rejected)\n"=0D=
-=0A+=0D=0A+=09# Restore to devdax=0D=0A+=09"$DAXCTL" reconfigure-device -=
-m devdax "$daxdev"=0D=0A+}=0D=0A+=0D=0A+#=0D=0A+# Main test sequence=0D=0A=
-+#=0D=0A+main()=0D=0A+{=0D=0A+=09check_fsdev_dax=0D=0A+=09find_daxdev=0D=0A=
-+=0D=0A+=09rc=3D1  # From here on, failures are real failures=0D=0A+=0D=0A=
-+=09test_famfs_mode_transitions=0D=0A+=09test_json_output=0D=0A+=09test_e=
-rror_handling=0D=0A+=0D=0A+=09# System-ram tests require kmem module=0D=0A=
-+=09if check_kmem; then=0D=0A+=09=09# Save and disable online policy for =
-system-ram tests=0D=0A+=09=09saved_policy=3D"$(cat /sys/devices/system/me=
-mory/auto_online_blocks)"=0D=0A+=09=09echo "offline" > /sys/devices/syste=
-m/memory/auto_online_blocks=0D=0A+=0D=0A+=09=09test_system_ram_transition=
-s=0D=0A+=0D=0A+=09=09# Restore online policy=0D=0A+=09=09echo "$saved_pol=
-icy" > /sys/devices/system/memory/auto_online_blocks=0D=0A+=09fi=0D=0A+=0D=
-=0A+=09# Restore original mode=0D=0A+=09printf "\nRestoring device to ori=
-ginal mode: %s\n" "$original_mode"=0D=0A+=09"$DAXCTL" reconfigure-device =
--f -m "$original_mode" "$daxdev"=0D=0A+=0D=0A+=09printf "\n=3D=3D=3D All =
-famfs tests passed =3D=3D=3D\n"=0D=0A+=0D=0A+=09exit 0=0D=0A+}=0D=0A+=0D=0A=
-+main=0D=0Adiff --git a/test/meson.build b/test/meson.build=0D=0Aindex 61=
-5376e..ad1d393 100644=0D=0A--- a/test/meson.build=0D=0A+++ b/test/meson.b=
-uild=0D=0A@@ -209,6 +209,7 @@ if get_option('destructive').enabled()=0D=0A=
-   device_dax_fio =3D find_program('device-dax-fio.sh')=0D=0A   daxctl_de=
-vices =3D find_program('daxctl-devices.sh')=0D=0A   daxctl_create =3D fin=
-d_program('daxctl-create.sh')=0D=0A+  daxctl_famfs =3D find_program('daxc=
-tl-famfs.sh')=0D=0A   dm =3D find_program('dm.sh')=0D=0A   mmap_test =3D =
-find_program('mmap.sh')=0D=0A=20=0D=0A@@ -226,6 +227,7 @@ if get_option('=
-destructive').enabled()=0D=0A     [ 'device-dax-fio.sh', device_dax_fio, =
-'dax'   ],=0D=0A     [ 'daxctl-devices.sh', daxctl_devices, 'dax'   ],=0D=
-=0A     [ 'daxctl-create.sh',  daxctl_create,  'dax'   ],=0D=0A+    [ 'da=
-xctl-famfs.sh',   daxctl_famfs,   'dax'   ],=0D=0A     [ 'dm.sh',        =
-     dm,=09=09   'dax'   ],=0D=0A     [ 'mmap.sh',           mmap_test,=09=
-   'dax'   ],=0D=0A   ]=0D=0A--=20=0D=0A2.49.0=0D=0A=0D=0A
+On Fri, Jan 16, 2026 at 07:27:16PM +0100, Maxime Chevallier wrote:
+> Hi,
+> 
+> On 16/01/2026 19:08, Russell King (Oracle) wrote:
+> > On Fri, Jan 16, 2026 at 01:37:48PM +0000, Russell King (Oracle) wrote:
+> >> On Fri, Jan 16, 2026 at 12:50:35AM +0000, Russell King (Oracle) wrote:
+> >>> However, while this may explain the transmit slowdown because it's
+> >>> on the transmit side, it doesn't explain the receive problem.
+> >>
+> >> I'm bisecting to find the cause of the receive issue, but it's going to
+> >> take a long time (in the mean time, I can't do any mainline work.)
+> >>
+> >> So far, the range of good/bad has been narrowed down to 6.14 is good,
+> >> 1b98f357dadd ("Merge tag 'net-next-6.16' of
+> >> git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next") is bad.
+> >>
+> >> 14 more iterations to go. Might be complete by Sunday. (Slowness in
+> >> building the more fully featured net-next I use primarily for build
+> >> testing, the slowness of the platform to reboot, and the need to
+> >> manually test each build.)
+> > 
+> > Well, that's been a waste of time today. While the next iteration was
+> > building, because it's been suspicious that each and every bisect
+> > point has failed so far, I decided to re-check 6.14, and that fails.
+> > So, it looks like this problem has existed for some considerable
+> > time. I don't have the compute power locally to bisect over a massive
+> > range of kernels, so I'm afraid stmmac receive is going to have to
+> > stay broken unless someone else can bisect (and find a "good" point
+> > in the git history.)
+> > 
+> 
+> To me RX looks OK, at least on the various devices I have that use
+> stmmac. It's fine on Cyclone V socfpga, and imx8mp. Maybe that's Jetson
+> specific ?
+
+Maybe - it could be something to do with MMUs slowing down the packet
+rate, or it could be uncovering a bug in stmmac's handling of dwmac4
+when it runs out of descriptors in the ring.
+
+The problem I'm seeing is that RBU ends up being set in the channel 0
+control register (there's only a single channel) which means that the
+hardware moved on to the next receive descriptor, and found that it
+didn't own it.
+
+It _should_ be counted by this statistic:
+
+     rx_buf_unav_irq: 0
+
+but clearly, this doesn't work, because here is the channel 0 status
+register:
+
+Value at address 0x02491160: 0x00000484
+
+which has:
+
+#define DMA_CHAN_STATUS_RBU             BIT(7)
+
+set. The documentation I have (sadly not for Xavier but for stm32mp151)
+states that when this occurs, a "Receive Poll Demand" command needs to
+be issued, but fails to explain how to do that. Older cores (such as
+dwmac1000) had a "received poll demand" register to write to for this.
+
+> I've got pretty-much line rate with a basic 'iperf3 -c XX" and same with
+> 'iperf3 -c XX -R". What commands are you running to check the issue ?
+
+Merely iperf3 -R -c XX, it's enough to make it fall over normally
+within the first second.
+
+> Are you still seeing the pause frames flood ?
+
+Yes, because the receive DMA has stopped, which makes the FIFO between
+the MAC and MTL fill above the threshold for sending pause frames.
+
+In order to stop the disruption to my network (because it basically
+causes *everything* to clog up) I've had to turn off pause autoneg,
+but that doesn't affect whether or not this happens.
+
+It _may_ be worth testing whether adding a ndelay(500) into the
+receive processing path, thereby making it intentionally slow,
+allows you to reproduce the problem. If it does, then that confirms
+that we're missing something in the dwmac4 handling for RBU.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
