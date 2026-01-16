@@ -1,623 +1,213 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689BA325726
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 06:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38DD218592
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 06:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768543897; cv=none; b=HOaHKhCWPHX7SkE/HOVkvpf7yIEpDSEhBXEx8EAMD5AMVOdItN6SHFafA2hSdB0a46xqTJeEz0V9N3YROd1vV58eYywx4LFDznGC/JzSr/Xqh3MBm0Qnx8kYsdR5kNvR25bRieWszhZtyqKQicDtDXSvAvu7CbywLPtctPLj54w=
+	t=1768545822; cv=none; b=N26AzTyRY/cEEq1mtlsaiCWQED12aywjM6HkCY3efKzPZAhAHvRXJTedV+aOhKy2JSe+SsN6A6FOpE+34jAXpRN2UHYPMYCfVveHorZKXQ8/Tz36GSYI05agC8npjPAPMHC2YA92D2InHuJX0SWkA/Ke+5PMNezXFip3GA9J6vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768543897; c=relaxed/simple;
-	bh=/m68g0Qt1I0hspMAjjIrQAxpoGB6n+7PhwjcrPoEjXU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eRNLojcnLVwUCAGKEXtiM9Tcrvr9AqcfU2l3EF/QrSrh6jYaCBnMw0Ctzi+8HpcYsmhrGQh8oK95JDHovM3lcaIRXQsXGXPfCsL2sSdhy4fL27HnSGRcDWhoowPSqqs939Mp76zcGYlD63JShHyUp1m/bEpilgmyjsnC+P39XzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=inqdw1Eg; arc=none smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1768545822; c=relaxed/simple;
+	bh=auSMoPKWCajUDwEFhG4/1C5B0ulKuOi59DJ5mdB4wqw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UTnCal4DBaSVy5N+J2N0dazVpfSpvbNmZe2afIlsxuluzuP+wQNDmrrMFwWmIbWFgnXDleUHAAOBke2Be2eYUCTELpQof2PA9TOv2ITeICS3tcKxMQHzuLja3Ew+5IZprKxptDfgWQqUIUVZiThF06XO+WVvsU09wM1lqPopVpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhBWnCY3; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inqdw1Eg"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1233702afd3so2150006c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 22:11:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhBWnCY3"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8908f5ed4aeso17669586d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 Jan 2026 22:43:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768543893; x=1769148693; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=hSQuOmMnvMPFRPSX6BFyMxcWf9xgMR05MF64h510eQ8=;
-        b=inqdw1EgB5xK6ZKYJLZLB9KVTdadaBwUapn60jzhjuWlGq8pqDZlC4d5SE+C3ngOpB
-         bDhYTHIn8PlCY40T2TxhIrpzyGi4AyWmMmra8wZpWLcrU1l7CNDUGrYHZdHvrmvlT8w4
-         C2KP/SOwmm2bb/RimIr/7mnKO/16KouH8eljL061x33vailEnTLcDXE1mG4LcBvYj18/
-         CVlR/3E2d2zi3dVYbJ7PZXIndsDW2/Cbdr0LwyKLyC6+bduWoBzoV+f+PdJQ8VCr4nM1
-         rNXncXlWB6Va15jrE1OAA5zKAbLWIb/z6fVBv1IR93ER5mmCw1wGqdDVPowzJOj3ek4Y
-         y2pA==
+        d=gmail.com; s=20230601; t=1768545820; x=1769150620; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eSj8YbqJilmqRga93ax0BVm+4H5y9SZdZjVdaZpiAbo=;
+        b=DhBWnCY3gTsvmQjiTDCNRTdDYHd1HkQsUwCj5L8+WRnaPGcn6pR98x8TCVj5j+03pq
+         31SOU5P908Rf9AmqhXKvqbMH202BXfjGwPhxnGSrY7w5GpFEENuUJcyUojuK5tCpvgOH
+         UFmm6mj/Esw7a+QOYrol7hCwC5MQe43x0d5cC2hFf04fRDZ0xLhwopqpt4olHNyO6XhG
+         /N5YyONzic9i0ylUmHQqkcdernaO3HsylxUjt1FMWXkGkb784wZdHxnGI0ymC2gJ+p75
+         W95eUU7Tp/0nlUBoesznpyLKwHyy8CV5XsTMHbAygHdZovfGJn3IcTGDH8E4GJ7PFE4I
+         8xew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768543893; x=1769148693;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hSQuOmMnvMPFRPSX6BFyMxcWf9xgMR05MF64h510eQ8=;
-        b=Jom4xvuUXFlPALqqdck3l6PG01v3dAJSSrdClLIh5Zf9zSMLMMNI5gbUku+urSS5J2
-         9yPeEklmYHT4W8WJ0QCJXTq6SZ6P0UB+zEqFoiQnOWxH/AjE0Kv4nQ2M8VWXB1zol6FF
-         +IDGEp2U17+MH3CuD4HvJwE2najg2lP82ecrY6jqkeXv5HoMY8kaXsN3vNVJlHp8zW0F
-         VyvxzGpIKK8tVmbqZ3j3IVgWhk5e3sDod2fF/p4Yc7GycQJu4tdc4R7L4YsI+81srVbv
-         fKHSvD10uCRCXAK/NydrKtwheBOPuGbC9DS+Tk3p/RpVqt2gw+DG78qXyrWxOlr0gEZT
-         TTbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ1wy9KwiR9kHBYdm0xjBoTTPlBYCDALxMZVGUImbi6VPa0iYRKb7TeWX7FdjcgKiDAFpgBaBhx/s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRABGmYer1MuQuy20FvCjBFrmYOM5/FDPagS+YEN3em2GfWr05
-	aJ0X/kuCQclAUFEl6pXuJzitZjfqGlj53tUMoCKsie6WiPtRl9NX2wWU
-X-Gm-Gg: AY/fxX4Vwo8O3vFTtlMlvct+e0Q7icXAYNz1nweNAMW3BwE4HbibakjEtcjLSrbiw2F
-	PD6TPgY3zXo1EATiwwjL8VSgR5d7pcSKv/QugLPpfSB4bNLRr8iSCjxBwEm+RwPOMu7U1Zb9pYx
-	AOEIAIFMbMQoZ4UX4zLqwLGyECfIW7vbMAOeTWJHJvgg/fVHqmwvlMeNEIk+B9ChinxSt7uDIis
-	/EZZ1nnr89wwI1Ckx/K60X9N1DraBxj1XZd6LmZS/wOXPjNmNzWCRg73wm87BLEomboxygwrOgq
-	ZR0Pu3hnv4LgfE2M7RiCwZZf0cf/L7T8Rl7knhYTLceQpVer1QUpotLbkCDQ6PPAgg0Xrds0xPb
-	ZFUjJS+95sv0GKqifgzVU9n5vDfx64g/qAcJqdtOi4OPp3mjlETUnEHcf1d6a+IvPYao6StW2E5
-	mTxddFFuzml0nkpIzuFcoHmuzydgysWsDHPFKShP2J3yBTPpCBRXGVIf3hgvko
-X-Received: by 2002:a05:7022:6286:b0:11b:9386:a38c with SMTP id a92af1059eb24-1244a7a43e0mr1711534c88.47.1768543893232;
-        Thu, 15 Jan 2026 22:11:33 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244af10736sm1636478c88.14.2026.01.15.22.11.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jan 2026 22:11:32 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c5459b90-d157-4393-a5e5-dca76c2decf1@roeck-us.net>
-Date: Thu, 15 Jan 2026 22:11:30 -0800
+        d=1e100.net; s=20230601; t=1768545820; x=1769150620;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eSj8YbqJilmqRga93ax0BVm+4H5y9SZdZjVdaZpiAbo=;
+        b=IR/0KgRJ3kcA2AL9mNtDsTDhKZRP+g6qch1cJfqbeWY7aWDsHXotrDTD7xkp4gQ70u
+         C5gQQ0v/A5I8mCgraHW2RmCOVqknh0u9S9DjiSYgf4TEbJD9ST+OG/GIVXXAC79BM8HX
+         9s5lXqEuusiDHQHY7fSFLyAATvg1aEDfTiozJHSfUDPDA3bfJja85iBe+4n8mrTVUsfB
+         meSJ9RwEqBj8gLf/TOhJdOkTtPx1x69NksI3pLw/ckCR5tVTlveExPRl3nOKO1EdbWQD
+         ISBQFROacr7loyrx0ZByVOc/kmMQZGAMw6MZkxk7MTeuoBjrjkGiOuiV3G5dIUvYgp5L
+         xgdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOFNHYQV4rb4nePYWRob3Di6ZlhIlX/da36WadrZyGQJLqUFyrjJUmUNo9sBPvrjDttBpGIrrcx2Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIS6/zm+tNGdfiVmdrqhagqRapZc5WeH2BskMIH6tgjHeGoScs
+	iN468bHx0RTKEX7ir0rUv0U+brKOLn0vWPt7QhYPPDXLV0CGhRs93TKTRxVZDg==
+X-Gm-Gg: AY/fxX5HTfZltAPof+fT1CAC3Pwn2ZMKcrBWb0vx3DU7XY5Vy/VL3/6QaTrRfb/dkZR
+	2rogLtloubNHEReE3uz708yK6LKlyUcATqGGeOc8++WFoAH4eb1DfnEBnRZwAKU1VZ/oMnAFJdX
+	IHhTdd1nrTJgniHdtbLyleqGaEnT2kihxGfwSWheLIe7RNd2yJrsIBfhZbrmTvs3zOtftL4ruMw
+	6k51jfC4TIX0aWZHvZl2QrZjFIyMBNGZ3+DpwPd9jaOjaFAan14bAuVMtqa2N6M5YT4hXY6MaAg
+	eOJVJoXrLybfGxDWDzqZas0SN5Kx2GkYbEKUe0B2/BSCwfmTpz3mPmoNLVSs/m1PTXrWVojiv4d
+	J5Xggp0CkRx4ir6ld6O7bK9DXgkLHss4ShwlI/X6fJDUvYkomktXtqrCYuePdFAeNuiXFeTAQdQ
+	4NODBZGE2iqhfcRo0OrR7/
+X-Received: by 2002:a05:690c:46ca:b0:78c:25fa:1bb7 with SMTP id 00721157ae682-793c68762a3mr13549577b3.60.1768539797365;
+        Thu, 15 Jan 2026 21:03:17 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:5e::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-793c66f326bsm5392537b3.19.2026.01.15.21.03.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 21:03:16 -0800 (PST)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: [PATCH net-next v10 0/5] net: devmem: improve cpu cost of RX token
+ management
+Date: Thu, 15 Jan 2026 21:02:11 -0800
+Message-Id: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] hwmon: (tmp108) Add support for P3T1035 and
- P3T2030
-To: Mayank Mahajan <mayankmahajan.x@nxp.com>, corbet@lwn.net,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: priyanka.jain@nxp.com, vikash.bansal@nxp.com
-References: <20260115111418.1851-1-mayankmahajan.x@nxp.com>
- <20260115111418.1851-2-mayankmahajan.x@nxp.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260115111418.1851-2-mayankmahajan.x@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFTGaWkC/53SS2rDMBCA4asYrTNl9Jayyj1KF3qMa9PaDpZqE
+ kLuXjC0Nd6564HvH4Z5sEJzT4WdmwebaelLP43s3HA8NSx1YXwn6DM7N0yg0OiEh5LmUFMHcYr
+ xTqX7pCGMkGkZaICarlCnDxrh61rqTGEA4UUkblXWKNmpYdeZ2v62Jl/ZSBVGulX2dmpY15c6z
+ fd1l4Wv87XqURyuLhwQsleGGx+11ngZqIaXNA1rahEbnvPjvACE5DBbqWNWWu54ueGFOc5LQEC
+ nojIxB+faHa9/eY5CHuc1ICibotOtFtrTjjd/PEd1nDeAQMG71KqsMO6PYzc8P/5QiwUEHmJyy
+ lipVdrx7oc3yNEe5x0geJG8cUZy5c2O91v+H9t7QHCohJeYEbPd8M/n8xvX8SiHkQMAAA==
+X-Change-ID: 20250829-scratch-bobbyeshleman-devmem-tcp-token-upstream-292be174d503
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, 
+ Willem de Bruijn <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, 
+ David Ahern <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, 
+ Donald Hunter <donald.hunter@gmail.com>
+Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 
-On 1/15/26 03:14, Mayank Mahajan wrote:
-> Add support for the P3T1035 & P3T2030 temperature sensor. While mostly
-> compatible with the TMP108, P3T1035 uses an 8-bit configuration register
-> instead of the 16-bit layout used by TMP108. Updated driver to handle
-> this difference during configuration read/write.
-> 
-> Signed-off-by: Mayank Mahajan <mayankmahajan.x@nxp.com>
-> ---
-> V1 -> V2:
-> - Disabled hysteresis in is_visible function for P3T1035.
-> - Added tables for conversion rate similar to the LM75 driver.
-> - Implemented different bus access depending on the chip being used.
->    - Removed regmap for 8 bits; now we are using one regmap as before.
->    - Added read and write functions for i2c and i3c for use with regmap.
->    - Mapped the 8-bit configuration register to a 16 bit value for P3T1035.
-> V2 -> V3:
-> - Remove changes not relevant to adding a new device in the driver.
-> - Address warnings due to incorrect usage of casting operations.
-> - Remove the usage of P3T2030 as it's functionally identical to P3T1035.
-> 
->   drivers/hwmon/Kconfig  |   2 +-
->   drivers/hwmon/tmp108.c | 227 +++++++++++++++++++++++++++++++++--------
->   2 files changed, 186 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 157678b821fc..31969bddc812 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -2398,7 +2398,7 @@ config SENSORS_TMP108
->   	select REGMAP_I3C if I3C
->   	help
->   	  If you say yes here you get support for Texas Instruments TMP108
-> -	  sensor chips and NXP P3T1085.
-> +	  sensor chips, NXP temperature sensors P3T1035, P3T1085 and P3T2030.
-> 
->   	  This driver can also be built as a module. If so, the module
->   	  will be called tmp108.
-> diff --git a/drivers/hwmon/tmp108.c b/drivers/hwmon/tmp108.c
-> index 60a237cbedbc..38a2203c3bd9 100644
-> --- a/drivers/hwmon/tmp108.c
-> +++ b/drivers/hwmon/tmp108.c
-> @@ -17,9 +17,16 @@
->   #include <linux/regmap.h>
->   #include <linux/regulator/consumer.h>
->   #include <linux/slab.h>
-> +#include <linux/util_macros.h>
-> 
->   #define	DRIVER_NAME "tmp108"
-> 
-> +enum tmp108_hw_id {
-> +	P3T1035_ID,		/* For sensors p3t1035 and p3t2030 */
-> +	P3T1085_ID,
-> +	TMP108_ID,
-> +};
-> +
->   #define	TMP108_REG_TEMP		0x00
->   #define	TMP108_REG_CONF		0x01
->   #define	TMP108_REG_TLOW		0x02
-> @@ -61,6 +68,7 @@
->   #define TMP108_CONVRATE_1HZ		TMP108_CONF_CR0		/* Default */
->   #define TMP108_CONVRATE_4HZ		TMP108_CONF_CR1
->   #define TMP108_CONVRATE_16HZ		(TMP108_CONF_CR0|TMP108_CONF_CR1)
-> +#define TMP108_CONVRATE_SHIFT		13
-> 
->   #define TMP108_CONF_HYSTERESIS_MASK	(TMP108_CONF_HYS0|TMP108_CONF_HYS1)
->   #define TMP108_HYSTERESIS_0C		0x0000
-> @@ -71,11 +79,21 @@
->   #define TMP108_CONVERSION_TIME_MS	30	/* in milli-seconds */
-> 
->   struct tmp108 {
-> -	struct regmap *regmap;
-> -	u16 orig_config;
-> -	unsigned long ready_time;
-> +	struct regmap		*regmap;
-> +	u16			orig_config;
-> +	unsigned long		ready_time;
-> +	enum tmp108_hw_id	hw_id;
-> +	bool			config_reg_16bits;
-> +	u8			reg_buf[1];
-> +	u8			val_buf[3];
-> +	unsigned int		sample_times[4];
->   };
-> 
-> +static const u16 tmp108_sample_set_masks[] = { 3 << TMP108_CONVRATE_SHIFT,
-> +					       2 << TMP108_CONVRATE_SHIFT,
-> +					       1 << TMP108_CONVRATE_SHIFT,
-> +					       0 << TMP108_CONVRATE_SHIFT };
-> +
+This series improves the CPU cost of RX token management by adding an
+attribute to NETDEV_CMD_BIND_RX that configures sockets using the
+binding to avoid the xarray allocator and instead use a per-binding niov
+array and a uref field in niov.
 
-Unnecessary. See below.
+Improvement is ~13% cpu util per RX user thread.
 
->   /* convert 12-bit TMP108 register value to milliCelsius */
->   static inline int tmp108_temp_reg_to_mC(s16 val)
->   {
-> @@ -94,6 +112,8 @@ static int tmp108_read(struct device *dev, enum hwmon_sensor_types type,
->   	struct tmp108 *tmp108 = dev_get_drvdata(dev);
->   	unsigned int regval;
->   	int err, hyst;
-> +	u16 conv_rate;
-> +	u8 index;
-> 
->   	if (type == hwmon_chip) {
->   		if (attr == hwmon_chip_update_interval) {
-> @@ -101,21 +121,10 @@ static int tmp108_read(struct device *dev, enum hwmon_sensor_types type,
->   					  &regval);
->   			if (err < 0)
->   				return err;
-> -			switch (regval & TMP108_CONF_CONVRATE_MASK) {
-> -			case TMP108_CONVRATE_0P25HZ:
-> -			default:
-> -				*temp = 4000;
-> -				break;
-> -			case TMP108_CONVRATE_1HZ:
-> -				*temp = 1000;
-> -				break;
-> -			case TMP108_CONVRATE_4HZ:
-> -				*temp = 250;
-> -				break;
-> -			case TMP108_CONVRATE_16HZ:
-> -				*temp = 63;
-> -				break;
-> -			}
-> +			conv_rate = regval & TMP108_CONF_CONVRATE_MASK;
-> +			index = find_closest_descending(conv_rate, tmp108_sample_set_masks,
-> +							(int)ARRAY_SIZE(tmp108_sample_set_masks));
-> +			*temp = tmp108->sample_times[index];
+Using kperf, the following results were observed:
 
-(regval & TMP108_CONF_CONVRATE_MASK) >> TMP108_CONVRATE_SHIFT, or alternatively
-FIELD_GET(TMP108_CONF_CONVRATE_MASK, regval), yields 0..3. With a sample_times
-array of { 4000, 1000, 250, 63 } or { 4000, 1000, 250, 125 }, the code above
-could simply be
-			*temp = tmp108->sample_times[FIELD_GET(TMP108_CONF_CONVRATE_MASK, regval)];
-which would both be easier to understand and much simpler.
+Before:
+	Average RX worker idle %: 13.13, flows 4, test runs 11
+After:
+	Average RX worker idle %: 26.32, flows 4, test runs 11
 
->   			return 0;
->   		}
->   		return -EOPNOTSUPP;
-> @@ -192,22 +201,17 @@ static int tmp108_write(struct device *dev, enum hwmon_sensor_types type,
->   {
->   	struct tmp108 *tmp108 = dev_get_drvdata(dev);
->   	u32 regval, mask;
-> +	u8 index;
->   	int err;
-> 
->   	if (type == hwmon_chip) {
->   		if (attr == hwmon_chip_update_interval) {
-> -			if (temp < 156)
-> -				mask = TMP108_CONVRATE_16HZ;
-> -			else if (temp < 625)
-> -				mask = TMP108_CONVRATE_4HZ;
-> -			else if (temp < 2500)
-> -				mask = TMP108_CONVRATE_1HZ;
-> -			else
-> -				mask = TMP108_CONVRATE_0P25HZ;
-> +			index = find_closest(temp, tmp108->sample_times,
-> +					     (int)ARRAY_SIZE(tmp108->sample_times));
+Two other approaches were tested, but with no improvement. Namely, 1)
+using a hashmap for tokens and 2) keeping an xarray of atomic counters
+but using RCU so that the hotpath could be mostly lockless. Neither of
+these approaches proved better than the simple array in terms of CPU.
 
-I don't see why the type cast would be needed. Other users of find_closest()
-don't need it either.
+The attribute NETDEV_A_DMABUF_AUTORELEASE is added to toggle the
+optimization. It is an optional attribute and defaults to 0 (i.e.,
+optimization on).
 
->   			return regmap_update_bits(tmp108->regmap,
->   						  TMP108_REG_CONF,
->   						  TMP108_CONF_CONVRATE_MASK,
-> -						  mask);
-> +						  tmp108_sample_set_masks[index]);
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Use GENMASK().
+Changes in v10:
+- add new tests for edge cases
+- add new binding->users to binding for tracking socket/rxq users
+- remove rx binding count (use xarray instead)
+- Link to v9: https://lore.kernel.org/r/20260109-scratch-bobbyeshleman-devmem-tcp-token-upstream-v9-0-8042930d00d7@meta.com
 
->   		}
->   		return -EOPNOTSUPP;
->   	}
-> @@ -251,6 +255,8 @@ static int tmp108_write(struct device *dev, enum hwmon_sensor_types type,
->   static umode_t tmp108_is_visible(const void *data, enum hwmon_sensor_types type,
->   				 u32 attr, int channel)
->   {
-> +	const struct tmp108 *tmp108 = data;
-> +
->   	if (type == hwmon_chip && attr == hwmon_chip_update_interval)
->   		return 0644;
-> 
-> @@ -264,8 +270,11 @@ static umode_t tmp108_is_visible(const void *data, enum hwmon_sensor_types type,
->   		return 0444;
->   	case hwmon_temp_min:
->   	case hwmon_temp_max:
-> +		return 0644;
->   	case hwmon_temp_min_hyst:
->   	case hwmon_temp_max_hyst:
-> +		if (tmp108->hw_id == P3T1035_ID)
-> +			return 0;
->   		return 0644;
->   	default:
->   		return 0;
-> @@ -311,6 +320,105 @@ static bool tmp108_is_volatile_reg(struct device *dev, unsigned int reg)
->   	return reg == TMP108_REG_TEMP || reg == TMP108_REG_CONF;
->   }
-> 
-> +static int tmp108_i2c_reg_read(void *context, unsigned int reg, unsigned int *val)
-> +{
-> +	struct i2c_client *client = context;
-> +	struct tmp108 *tmp108 = i2c_get_clientdata(client);
-> +	int ret;
-> +
-> +	if (reg == TMP108_REG_CONF && !tmp108->config_reg_16bits)
-> +		ret = i2c_smbus_read_byte_data(client, TMP108_REG_CONF);
-> +	else
-> +		ret = i2c_smbus_read_word_swapped(client, reg);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (reg == TMP108_REG_CONF && !tmp108->config_reg_16bits)
-> +		*val = ret << 8;
-> +	else
-> +		*val = ret;
+Changes in v9:
+- fixed build with NET_DEVMEM=n
+- fixed bug in rx bindings count logic
+- Link to v8: https://lore.kernel.org/r/20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-0-92c968631496@meta.com
 
-This evaluates reg and tmp108->config_reg_16bits twice. Try
+Changes in v8:
+- change static branch logic (only set when enabled, otherwise just
+  always revert back to disabled)
+- fix missing tests
+- Link to v7: https://lore.kernel.org/r/20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com
 
-	if (reg == TMP108_REG_CONF && !tmp108->config_reg_16bits) {
-		ret = i2c_smbus_read_byte_data(client, TMP108_REG_CONF);
-		if (ret < 0)
-			return ret;
-		*val = ret << 8;
-		return 0;
-	}
-	ret = i2c_smbus_read_word_swapped(client, reg);
-	if (ret < 0)
-		return ret;
-	*val = ret;
-	return 0;
+Changes in v7:
+- use netlink instead of sockopt (Stan)
+- restrict system to only one mode, dmabuf bindings can not co-exist
+  with different modes (Stan)
+- use static branching to enforce single system-wide mode (Stan)
+- Link to v6: https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com
 
-instead to reduce runtime overhead.
+Changes in v6:
+- renamed 'net: devmem: use niov array for token management' to refer to
+  optionality of new config
+- added documentation and tests
+- make autorelease flag per-socket sockopt instead of binding
+  field / sysctl
+- many per-patch changes (see Changes sections per-patch)
+- Link to v5: https://lore.kernel.org/r/20251023-scratch-bobbyeshleman-devmem-tcp-token-upstream-v5-0-47cb85f5259e@meta.com
 
-> +
-> +	return 0;
-> +}
-> +
-> +static int tmp108_i2c_reg_write(void *context, unsigned int reg, unsigned int val)
-> +{
-> +	struct i2c_client *client = context;
-> +	struct tmp108 *tmp108 = i2c_get_clientdata(client);
-> +
-> +	if (reg == TMP108_REG_CONF && !tmp108->config_reg_16bits)
-> +		return i2c_smbus_write_byte_data(client, reg, val >> 8);
-> +	return i2c_smbus_write_word_swapped(client, reg, val);
-> +}
-> +
-> +static const struct regmap_bus tmp108_i2c_regmap_bus = {
-> +	.reg_read = tmp108_i2c_reg_read,
-> +	.reg_write = tmp108_i2c_reg_write,
-> +};
-> +
-> +static int tmp108_i3c_reg_read(void *context, unsigned int reg, unsigned int *val)
-> +{
-> +	struct i3c_device *i3cdev = context;
-> +	struct tmp108 *tmp108 = i3cdev_get_drvdata(i3cdev);
-> +	struct i3c_xfer xfers[] = {
-> +		{
-> +			.rnw = false,
-> +			.len = 1,
-> +			.data.out = tmp108->reg_buf,
-> +		},
-> +		{
-> +			.rnw = true,
-> +			.len = 2,
-> +			.data.in = tmp108->val_buf,
+Changes in v5:
+- add sysctl to opt-out of performance benefit, back to old token release
+- Link to v4: https://lore.kernel.org/all/20250926-scratch-bobbyeshleman-devmem-tcp-token-upstream-v4-0-39156563c3ea@meta.com
 
-What is the point of having reg_buf and val_buf allocated instead
-of just using local variables/arrays ?
+Changes in v4:
+- rebase to net-next
+- Link to v3: https://lore.kernel.org/r/20250926-scratch-bobbyeshleman-devmem-tcp-token-upstream-v3-0-084b46bda88f@meta.com
 
-> +		},
-> +	};
-> +	int ret;
-> +
-> +	tmp108->reg_buf[0] = reg;
-> +
-> +	if (reg == TMP108_REG_CONF && !tmp108->config_reg_16bits)
-> +		xfers[1].len--;
-> +
-> +	ret = i3c_device_do_xfers(i3cdev, xfers, 2, I3C_SDR);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = tmp108->val_buf[0] << 8;
-> +	if (!(reg == TMP108_REG_CONF && !tmp108->config_reg_16bits))
+Changes in v3:
+- make urefs per-binding instead of per-socket, reducing memory
+  footprint
+- fallback to cleaning up references in dmabuf unbind if socket
+  leaked tokens
+- drop ethtool patch
+- Link to v2: https://lore.kernel.org/r/20250911-scratch-bobbyeshleman-devmem-tcp-token-upstream-v2-0-c80d735bd453@meta.com
 
-Please refrain from using double negations.
-	if (reg != TMP108_REG_CONF || tmp108->config_reg_16bits)
-is much easier to understand.
+Changes in v2:
+- net: ethtool: prevent user from breaking devmem single-binding rule
+  (Mina)
+- pre-assign niovs in binding->vec for RX case (Mina)
+- remove WARNs on invalid user input (Mina)
+- remove extraneous binding ref get (Mina)
+- remove WARN for changed binding (Mina)
+- always use GFP_ZERO for binding->vec (Mina)
+- fix length of alloc for urefs
+- use atomic_set(, 0) to initialize sk_user_frags.urefs
+- Link to v1: https://lore.kernel.org/r/20250902-scratch-bobbyeshleman-devmem-tcp-token-upstream-v1-0-d946169b5550@meta.com
 
-> +		*val |= tmp108->val_buf[1];
-> +
-> +	return 0;
-> +}
-> +
-> +static int tmp108_i3c_reg_write(void *context, unsigned int reg, unsigned int val)
-> +{
-> +	struct i3c_device *i3cdev = context;
-> +	struct tmp108 *tmp108 = i3cdev_get_drvdata(i3cdev);
-> +	struct i3c_xfer xfers[] = {
-> +		{
-> +			.rnw = false,
-> +			.len = 3,
-> +			.data.out = tmp108->val_buf,
-> +		},
-> +	};
-> +
-> +	tmp108->val_buf[0] = reg;
-> +	tmp108->val_buf[1] = (val >> 8) & 0xff;
-> +
-> +	if (reg == TMP108_REG_CONF && !tmp108->config_reg_16bits)
-> +		xfers[0].len--;
-> +	else
-> +		tmp108->val_buf[2] = val & 0xff;
-> +
-> +	return i3c_device_do_xfers(i3cdev, xfers, 1, I3C_SDR);
-> +}
-> +
-> +static const struct regmap_bus tmp108_i3c_regmap_bus = {
-> +	.reg_read = tmp108_i3c_reg_read,
-> +	.reg_write = tmp108_i3c_reg_write,
-> +};
-> +
->   static const struct regmap_config tmp108_regmap_config = {
->   	.reg_bits = 8,
->   	.val_bits = 16,
-> @@ -323,7 +431,8 @@ static const struct regmap_config tmp108_regmap_config = {
->   	.use_single_write = true,
->   };
-> 
-> -static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name)
-> +static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name,
-> +			       enum tmp108_hw_id hw_id)
->   {
->   	struct device *hwmon_dev;
->   	struct tmp108 *tmp108;
-> @@ -340,6 +449,14 @@ static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *
-> 
->   	dev_set_drvdata(dev, tmp108);
->   	tmp108->regmap = regmap;
-> +	tmp108->hw_id = hw_id;
-> +	tmp108->config_reg_16bits = (hw_id == P3T1035_ID) ? false : true;
-> +	if (hw_id == P3T1035_ID)
-> +		memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
-> +		       sizeof(tmp108->sample_times));
-> +	else
-> +		memcpy(tmp108->sample_times, (unsigned int[]){ 63, 250, 1000, 4000 },
-> +		       sizeof(tmp108->sample_times));
+---
+Bobby Eshleman (5):
+      net: devmem: rename tx_vec to vec in dmabuf binding
+      net: devmem: refactor sock_devmem_dontneed for autorelease split
+      net: devmem: implement autorelease token management
+      net: devmem: document NETDEV_A_DMABUF_AUTORELEASE netlink attribute
+      selftests: drv-net: devmem: add autorelease tests
 
-You'd think that the repeated 0-day complaints have an effect.
-Just make tmp108->sample_times a pointer and create two ushort arrays where the values
-match the index values.
+ Documentation/netlink/specs/netdev.yaml           |  12 ++
+ Documentation/networking/devmem.rst               |  73 +++++++++++
+ include/net/netmem.h                              |   1 +
+ include/net/sock.h                                |   7 +-
+ include/uapi/linux/netdev.h                       |   1 +
+ net/core/devmem.c                                 | 148 ++++++++++++++++++----
+ net/core/devmem.h                                 |  66 +++++++++-
+ net/core/netdev-genl-gen.c                        |   5 +-
+ net/core/netdev-genl.c                            |  10 +-
+ net/core/sock.c                                   | 103 +++++++++++----
+ net/ipv4/tcp.c                                    |  87 ++++++++++---
+ net/ipv4/tcp_ipv4.c                               |  15 ++-
+ net/ipv4/tcp_minisocks.c                          |   3 +-
+ tools/include/uapi/linux/netdev.h                 |   1 +
+ tools/testing/selftests/drivers/net/hw/devmem.py  |  98 +++++++++++++-
+ tools/testing/selftests/drivers/net/hw/ncdevmem.c |  68 +++++++++-
+ 16 files changed, 611 insertions(+), 87 deletions(-)
+---
+base-commit: d4596891e72cbf155d61798a81ce9d36b69bfaf4
+change-id: 20250829-scratch-bobbyeshleman-devmem-tcp-token-upstream-292be174d503
 
-	struct tmp108 {
-		ushort *sample_times;
-	};
-
-	ushort p3t_1035_sample_times[] = {4000, 1000, 250, 125};
-	ushort tmp108_sample_times[] = {4000, 1000, 250, 125};
-
-	if (hw_id == P3T1035_ID)
-		tmp108->sample_times = p3t_1035_sample_times;
-	else
-		tmp108->sample_times = tmp108_sample_times;
-
-Something like
-	tmp108->sample_times = (ushort []) {4000, 1000, 250, 125};
-might work as well, but I did not test it.
-		
-The memcpy is really unnecessary here.
-
-> 
->   	err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &config);
->   	if (err < 0) {
-> @@ -351,7 +468,6 @@ static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *
->   	/* Only continuous mode is supported. */
->   	config &= ~TMP108_CONF_MODE_MASK;
->   	config |= TMP108_MODE_CONTINUOUS;
-> -
->   	/* Only comparator mode is supported. */
->   	config &= ~TMP108_CONF_TM;
-> 
-> @@ -384,17 +500,33 @@ static int tmp108_probe(struct i2c_client *client)
->   {
->   	struct device *dev = &client->dev;
->   	struct regmap *regmap;
-> +	enum tmp108_hw_id hw_id;
-> +	const void *of_data;
-> 
->   	if (!i2c_check_functionality(client->adapter,
-> -				     I2C_FUNC_SMBUS_WORD_DATA))
-> +				     I2C_FUNC_SMBUS_BYTE_DATA | I2C_FUNC_SMBUS_WORD_DATA))
->   		return dev_err_probe(dev, -ENODEV,
->   				     "adapter doesn't support SMBus word transactions\n");
-> 
-> -	regmap = devm_regmap_init_i2c(client, &tmp108_regmap_config);
-> +	regmap = devm_regmap_init(dev, &tmp108_i2c_regmap_bus, client, &tmp108_regmap_config);
->   	if (IS_ERR(regmap))
->   		return dev_err_probe(dev, PTR_ERR(regmap), "regmap init failed");
-> 
-> -	return tmp108_common_probe(dev, regmap, client->name);
-> +	/* Prefer OF match data (DT-first systems) */
-> +	of_data = device_get_match_data(&client->dev);
-> +	if (of_data) {
-> +		hw_id = (unsigned long)of_data;
-> +	} else {
-> +		/* Fall back to legacy I2C ID table */
-> +		const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> +
-> +		if (!id) {
-> +			return dev_err_probe(dev, -ENODEV, "No matching device ID for i2c device\n");
-> +		}
-> +		hw_id = (unsigned long)id->driver_data;
-> +	}
-
-That complexity is unnecessary. Just use i2c_get_match_data().
-
-> +
-> +	return tmp108_common_probe(dev, regmap, client->name, hw_id);
->   }
-> 
->   static int tmp108_suspend(struct device *dev)
-> @@ -420,16 +552,18 @@ static int tmp108_resume(struct device *dev)
->   static DEFINE_SIMPLE_DEV_PM_OPS(tmp108_dev_pm_ops, tmp108_suspend, tmp108_resume);
-> 
->   static const struct i2c_device_id tmp108_i2c_ids[] = {
-> -	{ "p3t1085" },
-> -	{ "tmp108" },
-> -	{ }
-> +	{ "p3t1035", P3T1035_ID },
-> +	{ "p3t1085", P3T1085_ID },
-> +	{ "tmp108", TMP108_ID },
-> +	{ /* sentinel */ },
->   };
->   MODULE_DEVICE_TABLE(i2c, tmp108_i2c_ids);
-> 
->   static const struct of_device_id tmp108_of_ids[] = {
-> -	{ .compatible = "nxp,p3t1085", },
-> -	{ .compatible = "ti,tmp108", },
-> -	{}
-> +	{ .compatible = "nxp,p3t1035", .data = (void *)(uintptr_t)P3T1035_ID },
-> +	{ .compatible = "nxp,p3t1085", .data = (void *)(uintptr_t)P3T1085_ID },
-> +	{ .compatible = "ti,tmp108", .data = (void *)(uintptr_t)TMP108_ID },
-> +	{ /* sentinel */ },
->   };
->   MODULE_DEVICE_TABLE(of, tmp108_of_ids);
-> 
-> @@ -444,8 +578,9 @@ static struct i2c_driver tmp108_driver = {
->   };
-> 
->   static const struct i3c_device_id p3t1085_i3c_ids[] = {
-> -	I3C_DEVICE(0x011b, 0x1529, NULL),
-> -	{}
-> +	I3C_DEVICE(0x011B, 0x1529, (void *)P3T1085_ID),
-> +	I3C_DEVICE(0x011B, 0x152B, (void *)P3T1035_ID),
-> +	{ /* sentinel */ },
-
-I know that some people like that comment, and I accept it for new drivers.
-I do _not_ accept it being changed in existing drivers.
-
->   };
->   MODULE_DEVICE_TABLE(i3c, p3t1085_i3c_ids);
-> 
-> @@ -453,13 +588,21 @@ static int p3t1085_i3c_probe(struct i3c_device *i3cdev)
->   {
->   	struct device *dev = i3cdev_to_dev(i3cdev);
->   	struct regmap *regmap;
-> +	const struct i3c_device_id *id;
-> +	enum tmp108_hw_id hw_id;
-> 
-> -	regmap = devm_regmap_init_i3c(i3cdev, &tmp108_regmap_config);
-> +	regmap = devm_regmap_init(dev, &tmp108_i3c_regmap_bus, i3cdev, &tmp108_regmap_config);
->   	if (IS_ERR(regmap))
->   		return dev_err_probe(dev, PTR_ERR(regmap),
->   				     "Failed to register i3c regmap\n");
-> 
-> -	return tmp108_common_probe(dev, regmap, "p3t1085_i3c");
-> +	id = i3c_device_match_id(i3cdev, p3t1085_i3c_ids);
-> +	if (!id) {
-> +		return dev_err_probe(dev, -ENODEV, "No matching device ID for i3c device\n");
-> +	}
-
-Unnecessary error check since the id already matches or the function would not
-have been called.
-
-> +	hw_id = (enum tmp108_hw_id)(uintptr_t)id->data;
-> +
-> +	return tmp108_common_probe(dev, regmap, "p3t1085_i3c", hw_id);
->   }
-> 
->   static struct i3c_driver p3t1085_driver = {
-> --
-> 2.34.1
-> 
+Best regards,
+-- 
+Bobby Eshleman <bobbyeshleman@meta.com>
 
