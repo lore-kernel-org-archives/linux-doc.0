@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B08217705;
-	Fri, 16 Jan 2026 14:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF0E2D77FF;
+	Fri, 16 Jan 2026 14:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768574145; cv=none; b=A4/ZZYYaKZ4xs6FnyrE0VGEThLgvoTKSxtqL/K2G8R27wPT3yEd0e4m2e1EWnr7jYsgEAKWC8RAnn2FAIYOo2Bn0wzZ4NKw//xW4XqE1nqxUfew+PoT4XOkKdiyT3H4nDA/Yr5TyNwKwZOy0GPuRD63kzfaHlCaLnJNw7U9dBMM=
+	t=1768574291; cv=none; b=S2uip4rzEBU+cERo10zVg5AanMqHj/ybDPwHG2tuGtPG+gvofOA9y1z168ogx+2arDLPxdibZKspFyauLq/O7MIJcGMzwoLepFc4s7d8i5hS0RFR3sDHSHp3QNh1qDBHn2/Yzqkrr2NiuQUlkwh74y5ptr3fQ8cTiRlruDeaa9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768574145; c=relaxed/simple;
-	bh=BSLkGfcqJG8MgwULyRbEeYENauoqCttA7M2QtTMUUR4=;
+	s=arc-20240116; t=1768574291; c=relaxed/simple;
+	bh=eaubboqRrOt4wiQ7dNDQSYRVvwj9pKBmaAE6JATQbdk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oNkK3+itaj1vQ1BiImreB+67tRo8q1MIry9ZFE8uvvEL6UiNKcHEUlhqZ14eSaIV7avXn8KzjGJ/Ks1SN1+KGFB2SNe5JKZBTUXk8C1oBhL1bwLp1OvheG3j5gTOsJNL98ykbrwHNPe9J27llHimMyt9udwnMXYnHpKPduHIRRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UoyWZSMC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=g/eOqscKvYYcQ3ci7WEfTUBnV3L9Qz4YrKXd+I76LE8mWXyzDj6CS7r9uAlH0DWUELDmQc5gnjUfQImaxeLLZGYx6t6GX4wjzXVIXXSs9MDFD7VOzc3sABnWVwGXZeRd6339GagQJ09HX8QngAwsJkXiJBeQcsZu6n4Q2kU7svY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ma2qg64p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UoyWZSMC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D483C116C6;
-	Fri, 16 Jan 2026 14:35:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ma2qg64p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4556C2BC86;
+	Fri, 16 Jan 2026 14:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768574145;
-	bh=BSLkGfcqJG8MgwULyRbEeYENauoqCttA7M2QtTMUUR4=;
+	s=k20201202; t=1768574291;
+	bh=eaubboqRrOt4wiQ7dNDQSYRVvwj9pKBmaAE6JATQbdk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UoyWZSMCmwSfaeAKL93NfwHnSjVPGoLMxjGc6k5+4RJ80QCJD3pZGTih6v//SKbxg
-	 xKNz5D32Oj5xx0eVZexEzIVl2YEC5CgJrNosj0OAyc60gCQymEiFJMLXBZW95CPasp
-	 VMyvWp23Prd3R3s5JoMUCM2SbIGkjUV6Vu6BeFRRK7fzq4vFCFeNQX7FELtvU7jXmL
-	 aS0R6EwtIO3LPHGz/ZqxkVPGgncVDiqN0jRSgZLbXy7eOzCgBJKKnIpJUJDZdF5iUm
-	 4ky4YIpVObiwzz6jz3ymricm6LU+6PwTNnpcvmsY7Ws6A+/FngUde+SrW3d6YnExJJ
-	 gdppdADPtYkyw==
-Message-ID: <f9df5218-6fad-47a8-9323-7a92d003f163@kernel.org>
-Date: Fri, 16 Jan 2026 15:35:40 +0100
+	b=ma2qg64p6yDllE44OJeg4SCt/XSz6wXdMSMlrSzaO8jMCXTC9586fMY4TJBgdUWxl
+	 mpVEwof9SEu4wCoHJ/63T7L4nQBjBLcOkgaak85Ugo7GJXmNMcL721atKtcD10KbAG
+	 eKdYZ5OVb4DM0X9nxEiTGnX3qC15zey48uyl8Prrzz/HZkB+i35OqDhFnTdE1ZbBNO
+	 adp6FyCsxX+zWUQ2/1jyEFS5qGshwUBeZDi2mrXXJOSr40s5xNKfovUjWG3j7VEpKI
+	 O08daJoJX+pPAlcCNBlijE+D2giRpArnGZZ0iCQXkVO5QN5Dz9s9oiPRq8bMKCgA3D
+	 Y5oVREMKyo5xA==
+Message-ID: <0e4c18b6-134e-4c66-ad19-1704fd51c92a@kernel.org>
+Date: Fri, 16 Jan 2026 15:38:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,18 +35,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/7] dt-bindings: iio: frequency: add adf41513
-To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
- <20260116-adf41513-iio-driver-v4-1-dbb7d6782217@analog.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: ti,tmp108: Add P3T1035,P3T2030
+To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
+ corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: priyanka.jain@nxp.com, vikash.bansal@nxp.com
+References: <20260116113554.986-1-mayankmahajan.x@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,21 +87,16 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260116-adf41513-iio-driver-v4-1-dbb7d6782217@analog.com>
+In-Reply-To: <20260116113554.986-1-mayankmahajan.x@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/01/2026 15:32, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On 16/01/2026 12:35, Mayank Mahajan wrote:
+> Document the NXP P3T1035 and P3T2030 compatibles in TMP108.
 > 
-> DT-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
-> can be used to implement local oscillators (LOs) as high as 26.5 GHz.
-> Most properties are based upon an existing PLL device properties
-> (e.g. ADF4350).
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> Signed-off-by: Mayank Mahajan <mayankmahajan.x@nxp.com>
 
-I will not do the work twice without you providing the reason for that.
+Read carefully replies you receive.
 
 <form letter>
 This is a friendly reminder during the review process.
