@@ -1,241 +1,251 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66339343D80
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 21:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A87C1E51EE;
+	Fri, 16 Jan 2026 21:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768598959; cv=none; b=rgpduWjFd7rhIaDy8vXW88B2yRxZ9c+HZiPf0tEbArhXsldjXzaJT+4U/gXxFIdgOjYjoCas3XBVDaDUrIp8hR/P0UpY21F/GPP74i7tiymxEV2Ze/V+MAR0BIQoc27rDqEacf7cn/QSTl8qfoT/w6GfqDFEFp29hkcZe5H0uKU=
+	t=1768599448; cv=none; b=t+0ixVo50Jo9f4FeolWtnvIK7EpaPenEyRleEmTADT4ZvwEc1iwZlJZf/Z/0vJrHnY08+bxqU20rLw3DW1skATNcvAQ93hAXi9lwT1sSckfoKSR+hBfCSmACbzddhahvQa8N+LnpJnd3d6JBl7NqPOh2wxXVYKPz5lMbplLkQEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768598959; c=relaxed/simple;
-	bh=JAQQN7P77tr97fU7vyuVMrvCiNP4sSFAq43cZhTlmi0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XFGqz7B5FjkavF5I/UciCvgBWMxs7mBX/HUxFPim/0MemiXVfU73iUZom/i41lpDyOg8oUJcXQvYVJECVaLyrm+U6k5cenOfbeaP+5iPKlipEh4hPhuWogb06egDySBWpMe+WASVjyQEHV7wGXevNu1/MOwyGOpAozz3UyWKSiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CN+ICmwO; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768599448; c=relaxed/simple;
+	bh=euHakU3Cm3tzvjW7BAytl4uh1jyOgYlbifHaTarnt5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I8dW0NJrHYql3fkQXH2yt6iJdA1hBOTK6sfq1O/TZhJh1pwRd5SkfirUHqtx7mm+03Mbbw2TC1KycCYGpfM6Pu8SqXDmkFdzqfE/zLwC/rmxU400eiHrLzbbqz7em0B1Meit6Wz2v9+awQBtHh7j8Ofa5vliZxQ4Zf6Cwkrf0uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOgIKhsF; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CN+ICmwO"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-78e6dc6d6d7so25869767b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 13:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768598954; x=1769203754; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2mpdsMRuLW1cRrssyJH9GNY+tfbuaJ3H6voxC/Fdtqg=;
-        b=CN+ICmwOOFDAWqLFXVe+ehEYsYDe98ZwRORTNMXXMYcxmuarAT0xWcWw/OCPblOyMw
-         taj9HLX0kv/8r2lXtWWsZhjtOvMnUTzlj05hcIi3AqK3dt7Iyb2xvgUY7f4Iw1yym/DL
-         AqIDdsUH0+04vM6xp9JE36eCT7E5yHMIYOSFHs9XJnXNj//5v/rgy33OheR2In9uPe2j
-         d5vZpszV0S+3xe5EiATdWudw3TyvoVc0N+OkL8UABr4wKc5lv43fCnk4wbgTGIDp5dNu
-         QKs6xhR5DFyz3VIPILYqjKKqJ1q0KoK9YcxlM0Ym/cnveXwEWugCcmDBtzEyl5UzkELw
-         Vppw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768598954; x=1769203754;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2mpdsMRuLW1cRrssyJH9GNY+tfbuaJ3H6voxC/Fdtqg=;
-        b=pSM3cmveBebCk0Tzhct4EW9Nux38/233qqwsd/lkA2A2Bu6KTD1LRFEhlQHwRWGI9/
-         w3ssx7Lj9O9uzqcjjkinyzj88Zhb/oFcZaX14k0Is47dXcR7cZ4zUEmwoLhRrxVYlBzH
-         L/JMGjPDXFXtlEQPiCxmopERQfJj88guWhPKCt9EBkeE+gU/jU/J1j/QNhadyO1T528L
-         aDKcDBefXgiprad5JsdbINL3wg1/s/phNABjj9xp4epfaAZJ5frYKz4Jlr2V/4mp1yU8
-         Ep03FvE84InGhU6iRk3+PXSsyg4rX0vQwQLMyV5+g7HZbK8rhixp77LmhIZ0NF27QIXq
-         qX3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUa3Lnexa7Lgt3L+eSiK/OIW+4dtRyuAOh7X1IhixYa0q3ngtgKgRu2dY82C6WqOW4UX/kisPQ8FZY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0VU7DzNNRjrg2HelgWx9f/Wdb1eAasDiu8eI0E7tBq5Yw5ZtG
-	GaGIvSVYcTk9wUNBeVUzJ11KaspnofVpZQJULQWGedx13d+ZMO8fwfHH
-X-Gm-Gg: AY/fxX67KTqSW2W93JWOypvA+YNUiF4hveab4qcthj0iUBn3jvvMmaPK1T3JmONu6FY
-	+fIW+Tnc6QYiIZGzW9+HPRlf3k6SIJ5oLTGeZwryFjfK1oUCdvjiN9AjgN/giUJNbDVxvE2Qdn/
-	fwOJ6twubvbWIbCTL2xkvCxOwTVwWNA9eaxKoHsFMes1QsxwSaZ8G6YQbCmuw8a+LOhZThFf8Fb
-	AylcO7zXfp0f9TL7W2pj6/RJPAehKoh+ZKphsn/y4vvOdk25tu4aOG33P9041LWiHH14y/AkwV9
-	LA4BaTPvVTnJLiBxHV1hSVYl/a7fk95pL5Wy4gEocn4e5YmITaMsZcIA+GcqsSpmkEBF9OCb/MT
-	3i1CHnMZ5LOdJO1F932fDNpBXELJvGJmye3D/aggl6nXSQqh8PSpxvcQ8KCDbA0m2nGZwN+bNsZ
-	XqUPyBMXpXiiBiYvW+AJbi
-X-Received: by 2002:a05:690c:7010:b0:78c:6ae6:3c7c with SMTP id 00721157ae682-793c6824cf7mr29133577b3.48.1768598953565;
-        Fri, 16 Jan 2026 13:29:13 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:50::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-793c68ceebfsm13175697b3.56.2026.01.16.13.29.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 13:29:13 -0800 (PST)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Fri, 16 Jan 2026 13:28:52 -0800
-Subject: [PATCH net-next v15 12/12] selftests/vsock: add tests for
- namespace deletion
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOgIKhsF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768599447; x=1800135447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=euHakU3Cm3tzvjW7BAytl4uh1jyOgYlbifHaTarnt5I=;
+  b=cOgIKhsFGIbY75rBAhMLo68AfECXs32Ezf7V2XPZmyJISOfBaDTJ0ye2
+   uLzI7qXuZ73VwTdMAb+qrwRtWf0sQuvwgN9Eoj7d4PafAbJp/K1vavvUX
+   T2uDto/KQuKL79tJj91PPw55w0QIeMfTCbKwUARrl/U6BpIhezRAnObc9
+   uwU8b6dXxr0zMRPGDDtq8euM6aC9XaWVV3N51CNHA/yV9pcWr2XPDEvXP
+   q0brF3GmkhykZvHBM+/uJvobR8160dStWSsC4jELP4lj7cA/ZhXVgYExB
+   8KKg0gAysCcNP18TKMcb+sac9X/oKql3G7Gohe8QdN84UagJFjB+NUvZm
+   g==;
+X-CSE-ConnectionGUID: FiukX5ZOQLej8tZv9sbBsQ==
+X-CSE-MsgGUID: qBOQvsIvSHaz2O7ZQ5M18g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="92583843"
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="92583843"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 13:37:25 -0800
+X-CSE-ConnectionGUID: XSVjO9CwTziruvACI+9evQ==
+X-CSE-MsgGUID: bjY3thmeRmSmMYbPzk1y/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="205401657"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 16 Jan 2026 13:37:21 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgrVO-00000000LGW-3A9T;
+	Fri, 16 Jan 2026 21:37:18 +0000
+Date: Sat, 17 Jan 2026 05:37:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
+	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	priyanka.jain@nxp.com, vikash.bansal@nxp.com,
+	Mayank Mahajan <mayankmahajan.x@nxp.com>
+Subject: Re: [PATCH v4 2/3] hwmon: (tmp108) Add support for P3T1035 and
+ P3T2030
+Message-ID: <202601170516.uQw9DKHB-lkp@intel.com>
+References: <20260116113554.986-2-mayankmahajan.x@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260116-vsock-vmtest-v15-12-bbfd1a668548@meta.com>
-References: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
-In-Reply-To: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
-To: Stefano Garzarella <sgarzare@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
- Vishnu Dasa <vishnu.dasa@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, berrange@redhat.com, 
- Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org, 
- Bobby Eshleman <bobbyeshleman@gmail.com>, 
- Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116113554.986-2-mayankmahajan.x@nxp.com>
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+Hi Mayank,
 
-Add tests that validate vsock sockets are resilient to deleting
-namespaces. The vsock sockets should still function normally.
+kernel test robot noticed the following build errors:
 
-The function check_ns_delete_doesnt_break_connection() is added to
-re-use the step-by-step logic of 1) setup connections, 2) delete ns,
-3) check that the connections are still ok.
+[auto build test ERROR on 983d014aafb14ee5e4915465bf8948e8f3a723b5]
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
----
-Changes in v13:
-- remove tests that change the mode after socket creation (this is not
-  supported behavior now and the immutability property is tested in other
-  tests)
-- remove "change_mode" behavior of
-  check_ns_changes_dont_break_connection() and rename to
-  check_ns_delete_doesnt_break_connection() because we only need to test
-  namespace deletion (other tests confirm that the mode cannot change)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mayank-Mahajan/hwmon-tmp108-Add-support-for-P3T1035-and-P3T2030/20260116-193800
+base:   983d014aafb14ee5e4915465bf8948e8f3a723b5
+patch link:    https://lore.kernel.org/r/20260116113554.986-2-mayankmahajan.x%40nxp.com
+patch subject: [PATCH v4 2/3] hwmon: (tmp108) Add support for P3T1035 and P3T2030
+config: i386-buildonly-randconfig-004-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170516.uQw9DKHB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170516.uQw9DKHB-lkp@intel.com/reproduce)
 
-Changes in v11:
-- remove pipefile (Stefano)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170516.uQw9DKHB-lkp@intel.com/
 
-Changes in v9:
-- more consistent shell style
-- clarify -u usage comment for pipefile
----
- tools/testing/selftests/vsock/vmtest.sh | 84 +++++++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
+All errors (new ones prefixed by >>):
 
-diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
-index a9eaf37bc31b..dc8dbe74a6d0 100755
---- a/tools/testing/selftests/vsock/vmtest.sh
-+++ b/tools/testing/selftests/vsock/vmtest.sh
-@@ -68,6 +68,9 @@ readonly TEST_NAMES=(
- 	ns_same_local_loopback_ok
- 	ns_same_local_host_connect_to_local_vm_ok
- 	ns_same_local_vm_connect_to_local_host_ok
-+	ns_delete_vm_ok
-+	ns_delete_host_ok
-+	ns_delete_both_ok
- )
- readonly TEST_DESCS=(
- 	# vm_server_host_client
-@@ -135,6 +138,15 @@ readonly TEST_DESCS=(
- 
- 	# ns_same_local_vm_connect_to_local_host_ok
- 	"Run vsock_test client in VM in a local ns with server in same ns."
-+
-+	# ns_delete_vm_ok
-+	"Check that deleting the VM's namespace does not break the socket connection"
-+
-+	# ns_delete_host_ok
-+	"Check that deleting the host's namespace does not break the socket connection"
-+
-+	# ns_delete_both_ok
-+	"Check that deleting the VM and host's namespaces does not break the socket connection"
- )
- 
- readonly USE_SHARED_VM=(
-@@ -1287,6 +1299,78 @@ test_vm_loopback() {
- 	return "${KSFT_PASS}"
- }
- 
-+check_ns_delete_doesnt_break_connection() {
-+	local pipefile pidfile outfile
-+	local ns0="global0"
-+	local ns1="global1"
-+	local port=12345
-+	local pids=()
-+	local rc=0
-+
-+	init_namespaces
-+
-+	pidfile="$(create_pidfile)"
-+	if ! vm_start "${pidfile}" "${ns0}"; then
-+		return "${KSFT_FAIL}"
-+	fi
-+	vm_wait_for_ssh "${ns0}"
-+
-+	outfile=$(mktemp)
-+	vm_ssh "${ns0}" -- \
-+		socat VSOCK-LISTEN:"${port}",fork STDOUT > "${outfile}" 2>/dev/null &
-+	pids+=($!)
-+	vm_wait_for_listener "${ns0}" "${port}" "vsock"
-+
-+	# We use a pipe here so that we can echo into the pipe instead of using
-+	# socat and a unix socket file. We just need a name for the pipe (not a
-+	# regular file) so use -u.
-+	pipefile=$(mktemp -u /tmp/vmtest_pipe_XXXX)
-+	ip netns exec "${ns1}" \
-+		socat PIPE:"${pipefile}" VSOCK-CONNECT:"${VSOCK_CID}":"${port}" &
-+	pids+=($!)
-+
-+	timeout "${WAIT_PERIOD}" \
-+		bash -c 'while [[ ! -e '"${pipefile}"' ]]; do sleep 1; done; exit 0'
-+
-+	if [[ "$1" == "vm" ]]; then
-+		ip netns del "${ns0}"
-+	elif [[ "$1" == "host" ]]; then
-+		ip netns del "${ns1}"
-+	elif [[ "$1" == "both" ]]; then
-+		ip netns del "${ns0}"
-+		ip netns del "${ns1}"
-+	fi
-+
-+	echo "TEST" > "${pipefile}"
-+
-+	timeout "${WAIT_PERIOD}" \
-+		bash -c 'while [[ ! -s '"${outfile}"' ]]; do sleep 1; done; exit 0'
-+
-+	if grep -q "TEST" "${outfile}"; then
-+		rc="${KSFT_PASS}"
-+	else
-+		rc="${KSFT_FAIL}"
-+	fi
-+
-+	terminate_pidfiles "${pidfile}"
-+	terminate_pids "${pids[@]}"
-+	rm -f "${outfile}" "${pipefile}"
-+
-+	return "${rc}"
-+}
-+
-+test_ns_delete_vm_ok() {
-+	check_ns_delete_doesnt_break_connection "vm"
-+}
-+
-+test_ns_delete_host_ok() {
-+	check_ns_delete_doesnt_break_connection "host"
-+}
-+
-+test_ns_delete_both_ok() {
-+	check_ns_delete_doesnt_break_connection "both"
-+}
-+
- shared_vm_test() {
- 	local tname
- 
+>> drivers/hwmon/tmp108.c:123:33: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     123 |                         *temp = tmp108->sample_times[FIELD_GET(TMP108_CONF_CONVRATE_FLD, regval)];
+         |                                                      ^
+>> drivers/hwmon/tmp108.c:210:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     210 |                                                   FIELD_PREP(TMP108_CONF_CONVRATE_FLD, index));
+         |                                                   ^
+   2 errors generated.
+
+
+vim +/FIELD_GET +123 drivers/hwmon/tmp108.c
+
+   109	
+   110	static int tmp108_read(struct device *dev, enum hwmon_sensor_types type,
+   111			       u32 attr, int channel, long *temp)
+   112	{
+   113		struct tmp108 *tmp108 = dev_get_drvdata(dev);
+   114		unsigned int regval;
+   115		int err, hyst;
+   116	
+   117		if (type == hwmon_chip) {
+   118			if (attr == hwmon_chip_update_interval) {
+   119				err = regmap_read(tmp108->regmap, TMP108_REG_CONF,
+   120						  &regval);
+   121				if (err < 0)
+   122					return err;
+ > 123				*temp = tmp108->sample_times[FIELD_GET(TMP108_CONF_CONVRATE_FLD, regval)];
+   124				return 0;
+   125			}
+   126			return -EOPNOTSUPP;
+   127		}
+   128	
+   129		switch (attr) {
+   130		case hwmon_temp_input:
+   131			/* Is it too early to return a conversion ? */
+   132			if (time_before(jiffies, tmp108->ready_time)) {
+   133				dev_dbg(dev, "%s: Conversion not ready yet..\n",
+   134					__func__);
+   135				return -EAGAIN;
+   136			}
+   137			err = regmap_read(tmp108->regmap, TMP108_REG_TEMP, &regval);
+   138			if (err < 0)
+   139				return err;
+   140			*temp = tmp108_temp_reg_to_mC(regval);
+   141			break;
+   142		case hwmon_temp_min:
+   143		case hwmon_temp_max:
+   144			err = regmap_read(tmp108->regmap, attr == hwmon_temp_min ?
+   145					  TMP108_REG_TLOW : TMP108_REG_THIGH, &regval);
+   146			if (err < 0)
+   147				return err;
+   148			*temp = tmp108_temp_reg_to_mC(regval);
+   149			break;
+   150		case hwmon_temp_min_alarm:
+   151		case hwmon_temp_max_alarm:
+   152			err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &regval);
+   153			if (err < 0)
+   154				return err;
+   155			*temp = !!(regval & (attr == hwmon_temp_min_alarm ?
+   156					     TMP108_CONF_FL : TMP108_CONF_FH));
+   157			break;
+   158		case hwmon_temp_min_hyst:
+   159		case hwmon_temp_max_hyst:
+   160			err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &regval);
+   161			if (err < 0)
+   162				return err;
+   163			switch (regval & TMP108_CONF_HYSTERESIS_MASK) {
+   164			case TMP108_HYSTERESIS_0C:
+   165			default:
+   166				hyst = 0;
+   167				break;
+   168			case TMP108_HYSTERESIS_1C:
+   169				hyst = 1000;
+   170				break;
+   171			case TMP108_HYSTERESIS_2C:
+   172				hyst = 2000;
+   173				break;
+   174			case TMP108_HYSTERESIS_4C:
+   175				hyst = 4000;
+   176				break;
+   177			}
+   178			err = regmap_read(tmp108->regmap, attr == hwmon_temp_min_hyst ?
+   179					  TMP108_REG_TLOW : TMP108_REG_THIGH, &regval);
+   180			if (err < 0)
+   181				return err;
+   182			*temp = tmp108_temp_reg_to_mC(regval);
+   183			if (attr == hwmon_temp_min_hyst)
+   184				*temp += hyst;
+   185			else
+   186				*temp -= hyst;
+   187			break;
+   188		default:
+   189			return -EOPNOTSUPP;
+   190		}
+   191	
+   192		return 0;
+   193	}
+   194	
+   195	static int tmp108_write(struct device *dev, enum hwmon_sensor_types type,
+   196				u32 attr, int channel, long temp)
+   197	{
+   198		struct tmp108 *tmp108 = dev_get_drvdata(dev);
+   199		u32 regval, mask;
+   200		u8 index;
+   201		int err;
+   202	
+   203		if (type == hwmon_chip) {
+   204			if (attr == hwmon_chip_update_interval) {
+   205				index = find_closest_descending(temp, tmp108->sample_times,
+   206								tmp108->n_sample_times);
+   207				return regmap_update_bits(tmp108->regmap,
+   208							  TMP108_REG_CONF,
+   209							  TMP108_CONF_CONVRATE_MASK,
+ > 210							  FIELD_PREP(TMP108_CONF_CONVRATE_FLD, index));
+   211			}
+   212			return -EOPNOTSUPP;
+   213		}
+   214	
+   215		switch (attr) {
+   216		case hwmon_temp_min:
+   217		case hwmon_temp_max:
+   218			temp = clamp_val(temp, TMP108_TEMP_MIN_MC, TMP108_TEMP_MAX_MC);
+   219			return regmap_write(tmp108->regmap,
+   220					    attr == hwmon_temp_min ?
+   221						TMP108_REG_TLOW : TMP108_REG_THIGH,
+   222					    tmp108_mC_to_temp_reg(temp));
+   223		case hwmon_temp_min_hyst:
+   224		case hwmon_temp_max_hyst:
+   225			temp = clamp_val(temp, TMP108_TEMP_MIN_MC, TMP108_TEMP_MAX_MC);
+   226			err = regmap_read(tmp108->regmap,
+   227					  attr == hwmon_temp_min_hyst ?
+   228						TMP108_REG_TLOW : TMP108_REG_THIGH,
+   229					  &regval);
+   230			if (err < 0)
+   231				return err;
+   232			if (attr == hwmon_temp_min_hyst)
+   233				temp -= tmp108_temp_reg_to_mC(regval);
+   234			else
+   235				temp = tmp108_temp_reg_to_mC(regval) - temp;
+   236			if (temp < 500)
+   237				mask = TMP108_HYSTERESIS_0C;
+   238			else if (temp < 1500)
+   239				mask = TMP108_HYSTERESIS_1C;
+   240			else if (temp < 3000)
+   241				mask = TMP108_HYSTERESIS_2C;
+   242			else
+   243				mask = TMP108_HYSTERESIS_4C;
+   244			return regmap_update_bits(tmp108->regmap, TMP108_REG_CONF,
+   245						  TMP108_CONF_HYSTERESIS_MASK, mask);
+   246		default:
+   247			return -EOPNOTSUPP;
+   248		}
+   249	}
+   250	
 
 -- 
-2.47.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
