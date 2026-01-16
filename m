@@ -1,92 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487B726F2B0
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 15:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8F127146A;
+	Fri, 16 Jan 2026 15:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768577261; cv=none; b=CnwO+suSDk1d/dkK/h72fIuR2MuijJRzHNDWtf5FJf9i+PEIKoXot0VsgqHxfr9hWYrGVbikCWPPyIjQMgo7GPkUuFh/1T5h6j6EDIbXvUqr21eRbcbEc/mBkgk777UqYXWyWiDzpT/3OnIQwOQBdXriXbeZ89MDRm/FMz1tNRs=
+	t=1768577328; cv=none; b=URws/aNoaYwBZYzPuP2uSVCwaSIw7X7kMQ8aTHE45B609bHbGNcLQ8TbCZ8i2vALhvjdGz4cnrX0w/w/ywecuvA0HjWREbYaF2Dwl5CxFrfNbRbn0FgSavEs2HSp4MDHb8Ca/Wcm2lDzzuynxa2ba7bR7xhWxgQcK2ck0J7ktMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768577261; c=relaxed/simple;
-	bh=oy+oDQg69oRiKkw6u3e47Ejf8DbCCwkCscmr6o/Xmp4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aopiNtXDg8ZxSyn0VybIh0Rol2EDNf+38tn2/o81718g5SSHJfi2v61hBwix3cxHrivHLlFypSwCiil+uv7l5V7Q/ZU+lQDE58g4/IdWRYtWELTCaZK4I+PdVp6J2wyUqKscv5WYI+sbgZFWGZCzPOmiyi44x76l6gpdyDBOIXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmWbvFDF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768577328; c=relaxed/simple;
+	bh=vecJKjAgtk9LRG+wn5qPyq+SGBuKDoB+drYl7G6aTYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLulWRZuJlja1OmPdAMwUFbLi08iLdnRCiTyEe5Ysl3vWOWSR1NafWwGVswPw4DDW5VaX7WARzz8Cv2wBorGd2dufg4x2cmceCmWldYB1QJg+mZwpLOwzqc1bOkTit5KF8H8XF22D6Te2ClevydSBFqL9kHr9b+TJ9NaX85pm9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9StoE4y; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmWbvFDF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17207C19425
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 15:27:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768577261;
-	bh=oy+oDQg69oRiKkw6u3e47Ejf8DbCCwkCscmr6o/Xmp4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=LmWbvFDFg5yW/RgaFNzhGXCBHIqLMNhGykiU/iYoYF4+7Egic2j45nEmpDSL0QPwL
-	 Gr2+US4VOnYTrscPU/tvN+6T3x9Dwa3lFrnpLD5FmBqWuMfQz2ltrMq/KHvbiNu2rg
-	 n6U0iPteIpnuR+wwvueWlkXVKkhpJ27jxgPlN2WqATUpXNZUxXo8WBoyQVg/7c5IAc
-	 kSoV0Gne9gmuBdEDyvojC1n0pkYfkNupmFkLAZgO1wi5qXDVLK3zDBeELHM1geToEZ
-	 TeocM6WFDdaPFn7G9z94w8aqdGpRhrweqmxcvGEQom/XKrtgVGT8hQcR2H2DFVHvep
-	 SF5LM7wJF3utQ==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59b6c13b68dso2888225e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 07:27:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWoTFcfU/5YZsLdoIxtAUV0i/ZAHY2fd7U79juxj4yUeDe1bfYGzsOMDn+LcaHPpQ0gxxnjxYFFT3Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2kwZSqK9GlM58cPSLAE8o8ICzQvLfywh6/LWe+fCo6quPdH3r
-	6iujCQOme8BCyKPP943h89w1Jm8QnncZYkyjPM0Bc6jCv/oeeMHXUV7jjHcbnuGR6Cfioabheow
-	+b5xTUGAkjVltj4ATaXGwog/23kS2P+24WekpHkenAA==
-X-Received: by 2002:a05:6512:2244:b0:59b:67cf:ac0c with SMTP id
- 2adb3069b0e04-59baf188751mr1188971e87.17.1768577259688; Fri, 16 Jan 2026
- 07:27:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9StoE4y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768577326; x=1800113326;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vecJKjAgtk9LRG+wn5qPyq+SGBuKDoB+drYl7G6aTYQ=;
+  b=A9StoE4yVEWjbn4tu2dqzkjy/HIWiqg4DB3VGmoOAlqKRmiW5Om/pay4
+   9GhpzMFs7Aj2VOJe5CRE0jvWx2DFB1BHZhZhwDl+UjY75Pb9yg1ahuvBq
+   xJKMdkT0/MqLG0sBKY77TdQoKdIwbOIEuJfJWHujaO1DIeMwUWUtt1BkZ
+   0IFxXquvcqAumnir+toREEvhwh4dxcklrjwI6YHXvPP1W5qGmId/OpzSz
+   sYbM/bXvBwRs0pum5oJqLZ71IVCNg+32ye31V792dWHgqTAy18dqK68bh
+   NibAMSaSh0F37xprcm3/U5YKCgmBtwBU+cYjKWz3OQtHdL2fiX0kgIPK6
+   w==;
+X-CSE-ConnectionGUID: W20zxn+cQ+2q6CFfr4MbkQ==
+X-CSE-MsgGUID: bHhfu5f1SpaMDIK+nXq7Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69625319"
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
+   d="scan'208";a="69625319"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 07:28:46 -0800
+X-CSE-ConnectionGUID: rzSpe6sIS8O8oJrA62xAcw==
+X-CSE-MsgGUID: hdH5MpoMTkyvQGWg/q4rUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
+   d="scan'208";a="205543946"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 07:28:42 -0800
+Date: Fri, 16 Jan 2026 17:28:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 7/7] Documentation: ABI: testing: add common ABI file
+ for iio/frequency
+Message-ID: <aWpZKO1Jwi8n4NSh@smile.fi.intel.com>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-7-dbb7d6782217@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
- <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org>
-In-Reply-To: <DFQ45FWO4XHC.2BW7I9LGC76WT@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 16 Jan 2026 16:27:27 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
-X-Gm-Features: AZwV_QhexDGBLPur6KXBiX5v5UlgefBBx6UNCnW-Gys53WIr1Th56tAxsqbMKFE
-Message-ID: <CAMRc=Medaqr5UPimc8o+VTy=9MgU5p8AXjArisQfBNqi7ktSGg@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116-adf41513-iio-driver-v4-7-dbb7d6782217@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jan 16, 2026 at 4:20=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> On Fri Jan 16, 2026 at 9:02 AM CET, Tzung-Bi Shih wrote:
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index a671e3d4e8be..fd683c62012a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -22517,6 +22517,13 @@ F:   include/uapi/linux/rseq.h
-> >  F:   kernel/rseq.c
-> >  F:   tools/testing/selftests/rseq/
-> >
-> > +REVOCABLE RESOURCE MANAGEMENT
-> > +M:   Tzung-Bi Shih <tzungbi@kernel.org>
-> > +L:   linux-kernel@vger.kernel.org
-> > +S:   Maintained
-> > +F:   drivers/base/revocable.c
-> > +F:   include/linux/revocable.h
->
-> NIT: I think we should add this include to the DRIVER CORE entry as well.
+On Fri, Jan 16, 2026 at 02:32:26PM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-FWIW: I'm not even sure drivers/base/ is the right place for this.
-Except for a few devm_ helpers, nothing here is inherently tied into
-the driver model This could be useful outside of device drivers and I
-would suggest to put it under lib/ with devres factored out into a
-separate source file.
+> Add ABI documentation file for PLL/DDS devices with frequency_resolution
+> sysfs entry attribute used by ADF4350 and ADF41513
 
-Bartosz
+In this and previous patch the commit messages miss the last period in them.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
