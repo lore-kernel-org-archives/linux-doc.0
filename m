@@ -1,57 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B6B2F5461;
-	Fri, 16 Jan 2026 08:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1AF314B9D
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 09:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768551138; cv=none; b=SblwW1+JcV4isg9k4nJIlYLh07Ql5fiHB59JaoRe533W7bWm9/Be8BH9n54Yl3ARZDFL889I/greApflcadgJHOz0HvwqTSU9Ycy5zj//IFRJkFs9CXTU6VKcp+MpYiDIrXqpxuBlixlYQuyyCTMBPs59+SD++ohjGTof0zTGzw=
+	t=1768554014; cv=none; b=uZpZqsTDhT/zgSmbo8srLImnGJR/qBweIJ/PGc22dTWYbZhtpYgxDTAysVcTB9Y5YyLkIqr8tmAJ4k8/B2IxNZG0QuzsUpeL/OXYPPyMRHWVWP2TyOxVmRzK9eg6rryle2my/n2JHiO48IHQDxX7vavHqA/yu5iPrRErtK8oNMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768551138; c=relaxed/simple;
-	bh=GhZ4IEFrAvMGKCF8VQdEwrw8Y7MMLL9mIj9KkZbgkIY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y0Pc/0CNBK6OUiKc3qMYMV8J2V8U5+2OFCS8vnnhIZzv/qTL9df7JpLJOT9EppNnvhFTYVKcJWc4QFAeKAs438wdUMSulGWoAiIItbuXfvs45da0FNBEN/5XUEfN/fETlxVBgV9vr5XQJH7OHIKwycMT5IxwZDuNDZ7eMh1eQ5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJo4pQ9P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768554014; c=relaxed/simple;
+	bh=k6kJZK+mSCtSaeQ/Na3/Nw6zleT4XQn7IR5BvpypeEg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RJx/j2BkaimQfkaLBZqQMkMI5UKw4KrsfgVaiYkGPa5k380iy8wmWYLHhZ3fVZnCdFkB/mdYjscYT1xu/p0tRkaFL76b7V5caPXH3BhvW7IFgv/IZeYl1i7tGR8QyNWcNjDxRIQJFJMJ1dEki0OqEcTJyaNUAamu7AAcJ6FCppo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CbK4WM0o; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJo4pQ9P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C4EEC116C6;
-	Fri, 16 Jan 2026 08:12:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768551137;
-	bh=GhZ4IEFrAvMGKCF8VQdEwrw8Y7MMLL9mIj9KkZbgkIY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mJo4pQ9PjN3qB0t8dLoed3B2Qv1+l8fJOdvOUCq0vXCCFlXCITTF4I/01WIQqEEqo
-	 9PkKr2qG4j/mN6dplWd7s8taoSX4AaPfIGZqoQ/tk1aoxWTsu9vmtKadHuH0eAIF6h
-	 UkhGQpPtz5F36KDrMpNRRTgfyBHAgUiOh3VM7qUEt2/vxja4caSWm7XMb12T6kzLxI
-	 wAFDkPQdQpqjEK/RaTAQwm+QV7oo+cVQkawSK8MAdcbUD1LwOP/D2VebLXDzP7nOdb
-	 EsF2dZ6oKqX6ZGj+X+fklKVcp6eL45N/hzgmqYkIwxvto1xUWeOj0C2w8zm/L4Zg5l
-	 7qETsHVKWghNg==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linusw@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CbK4WM0o"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c0ec27cad8cso790960a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 01:00:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768554011; x=1769158811; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i4V8XqUH2nzegFm44X+jl+a+Lf24yE7XhsC0KU3eBG0=;
+        b=CbK4WM0oNmsiD4PuBpttHMGmWa8udqCN0IRYH8sJvepkJ2xGw506y/B8bCNq0zEYDy
+         DRtfcHSNnVxYiN/7pg6EC5oR19qTS4rCnLPknXYqeeBT6cJJMo1a0Wn7fwztWmUy9WXW
+         kwngtE4yyptAAJLo78Km0tDZu6MRrBfmFt8wzTjs0w7Cp4mJA+Rc9jdTfg2N92g3KTRU
+         yMh/Gua6lCcO20O+y4By8HtBe7/Q8aFUt4r0ggrrH8t60AX29CFoWMQD+or5BpfQ0vqt
+         ZfparrEP9174vNVg0JsnqJrPIujnepKAMSqXILoU19L1TIodJeXdCox3fNwLGZ2bNGxZ
+         XydA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768554011; x=1769158811;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i4V8XqUH2nzegFm44X+jl+a+Lf24yE7XhsC0KU3eBG0=;
+        b=XWzXL0M59A6JPqribGvjGhWXshE718WsoLyaQu0AzCgqeGngvPdkgGq2FStAwYZoU6
+         C18HQKQUKeMTwFf8WtP8AeiiOvGBvNu0M67lteLIpeJswzMdUmhqT4lyJGWcdims1I4j
+         /0jMNJbRY7v+XJkX99vETsXD+6X3/wdhAiCYwLYXZuJ2skA8c6bNAoxe/CF0M66S1+Ur
+         BG3m914d+RiGL7Ryz7QMdu3jJNcWRcfSClD0+7KORs2D5l5vd6XuMT4OclSsXEncoOQh
+         603Or2Z2qTsP8WA5zdU4ODgfoWThrUZkYD/ZewFvyrdkzukkCnZfcT2zgovmq+qD0+Da
+         V7Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCWcMHdel8VJCQ876/8YS36erfSLAlIC3QuX9TrUurhZeDKbCWdcq+oohsXT6DtPeAl7HTQ9YTYOyLo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxXoHHuWofgNPOSFhEGUi1X1eRNmsUwE2C7le0l3mVqcR8LOrF
+	4jr49WacYI1X1nzDB1OSWkDdlKWyafMr5T11i/FhqESYT8R37lqRkZk6
+X-Gm-Gg: AY/fxX5zAINH6ff7Y1Z6HS/k86mOz/EjKAmgA5vSd6D7H8TdTGRN89ykJ2/UBw2aq0B
+	l/zhr00qdZcJJqkoEDDBfAau2Z7Lguq/3dxYKmG5PtEWVYA6wb7kU+gvcMa00GGZca4kvW8Y8dh
+	S1GdNg+8TKbd85WgVjTcn1LdJKwvH6tH8WSYUKlpnAYn/iX+6lZHSi3qZNx2h42qoXvAWLAM/sm
+	6/r9jfDVZ+qJiGd9MQt5tNWsfP0X2BFWFeip1HWh2VMrMn//KzQxchBJD6bhJD/+pEffUfgjnw9
+	FRpqbveQ1YRYyjVP7hw0kuAkjcJiBKPvLvQW2zvTYhsdTM5HSVdM5UPgLHNGFbB+HVAySLpPKwQ
+	Xb/ehlHlOllPWReFNnlDuecwHsRckvOcaFWuWHHOm+UUnnde2wrjpK2g9E+ZYR5evngSCa+YKId
+	Avk+0QY/l5rgKSK1OF6Xgeu+B+K3iIsf85c0g+HO0uANlAhnMVcKCA6oIpEMla+RjW3P+/QE6V2
+	P7JsshsCZWd1qie9gC2XXn6pwpCi10=
+X-Received: by 2002:a17:903:1cd:b0:2a0:be68:9457 with SMTP id d9443c01a7336-2a7177d0da0mr26039185ad.44.1768554011456;
+        Fri, 16 Jan 2026 01:00:11 -0800 (PST)
+Received: from charles-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a71941b915sm15304445ad.90.2026.01.16.01.00.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jan 2026 01:00:11 -0800 (PST)
+From: Charles Hsu <hsu.yungteng@gmail.com>
+To: linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	tzungbi@kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH 23/23] gpiolib: Remove unused `chip` and `srcu` in struct gpio_device
-Date: Fri, 16 Jan 2026 08:10:36 +0000
-Message-ID: <20260116081036.352286-24-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-In-Reply-To: <20260116081036.352286-1-tzungbi@kernel.org>
-References: <20260116081036.352286-1-tzungbi@kernel.org>
+	linux-doc@vger.kernel.org,
+	Charles Hsu <hsu.yungteng@gmail.com>
+Subject: [PATCH v6 1/2] dt-bindings: hwmon: add STEF48H28
+Date: Fri, 16 Jan 2026 16:58:01 +0800
+Message-Id: <20260116085802.696661-1-hsu.yungteng@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,160 +80,80 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-`chip` and `srcu` in struct gpio_device are unused as their usages are
-replaced to use revocable.  Remove them.
+Add device tree bindings for the hot-swap controller STEF48H28.
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Signed-off-by: Charles Hsu <hsu.yungteng@gmail.com>
 ---
- drivers/gpio/gpiolib.c | 26 +-------------------------
- drivers/gpio/gpiolib.h |  4 ----
- 2 files changed, 1 insertion(+), 29 deletions(-)
+Changes in v6:
+- Fix patch formatting issues.
 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 44915c8b6131..31f6cc27e0b7 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -424,8 +424,6 @@ static int gpiochip_get_direction(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->get_direction))
- 		return -EOPNOTSUPP;
- 
-@@ -880,7 +878,6 @@ static void gpiodev_release(struct device *dev)
- 	ida_free(&gpio_ida, gdev->id);
- 	kfree_const(gdev->label);
- 	kfree(gdev->descs);
--	cleanup_srcu_struct(&gdev->srcu);
- 	kfree(gdev);
- }
- 
-@@ -1104,14 +1101,9 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 		goto err_free_descs;
- 	}
- 
--	ret = init_srcu_struct(&gdev->srcu);
--	if (ret)
--		goto err_free_label;
--	rcu_assign_pointer(gdev->chip, gc);
--
- 	ret = init_srcu_struct(&gdev->desc_srcu);
- 	if (ret)
--		goto err_cleanup_gdev_srcu;
-+		goto err_free_label;
- 
- 	gdev->chip_rp = revocable_provider_alloc(gc);
- 	if (!gdev->chip_rp) {
-@@ -1286,8 +1278,6 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
- 
- err_cleanup_desc_srcu:
- 	cleanup_srcu_struct(&gdev->desc_srcu);
--err_cleanup_gdev_srcu:
--	cleanup_srcu_struct(&gdev->srcu);
- err_free_label:
- 	kfree_const(gdev->label);
- err_free_descs:
-@@ -1330,8 +1320,6 @@ void gpiochip_remove(struct gpio_chip *gc)
- 	synchronize_srcu(&gpio_devices_srcu);
- 
- 	/* Numb the device, cancelling all outstanding operations */
--	rcu_assign_pointer(gdev->chip, NULL);
--	synchronize_srcu(&gdev->srcu);
- 	revocable_provider_revoke(gdev->chip_rp);
- 	gpio_device_teardown_shared(gdev);
- 	gpiochip_irqchip_remove(gc);
-@@ -2843,8 +2831,6 @@ static int gpiochip_direction_input(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_input))
- 		return -EOPNOTSUPP;
- 
-@@ -2860,8 +2846,6 @@ static int gpiochip_direction_output(struct gpio_chip *gc, unsigned int offset,
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(!gc->direction_output))
- 		return -EOPNOTSUPP;
- 
-@@ -2952,8 +2936,6 @@ static int gpiochip_set(struct gpio_chip *gc, unsigned int offset, int value)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (WARN_ON(unlikely(!gc->set)))
- 		return -EOPNOTSUPP;
- 
-@@ -3312,8 +3294,6 @@ static int gpiochip_get(struct gpio_chip *gc, unsigned int offset)
- {
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	/* Make sure this is called after checking for gc->get(). */
- 	ret = gc->get(gc, offset);
- 	if (ret > 1)
-@@ -3368,8 +3348,6 @@ static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
- static int gpio_chip_get_multiple(struct gpio_chip *gc,
- 				  unsigned long *mask, unsigned long *bits)
- {
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->get_multiple) {
- 		int ret;
- 
-@@ -3731,8 +3709,6 @@ static int gpiochip_set_multiple(struct gpio_chip *gc,
- 	unsigned int i;
- 	int ret;
- 
--	lockdep_assert_held(&gc->gpiodev->srcu);
--
- 	if (gc->set_multiple) {
- 		ret = gc->set_multiple(gc, mask, bits);
- 		if (ret > 0)
-diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-index 00aa354950c9..c1952c287a64 100644
---- a/drivers/gpio/gpiolib.h
-+++ b/drivers/gpio/gpiolib.h
-@@ -28,7 +28,6 @@
-  * @chrdev: character device for the GPIO device
-  * @id: numerical ID number for the GPIO chip
-  * @owner: helps prevent removal of modules exporting active GPIOs
-- * @chip: pointer to the corresponding gpiochip, holding static
-  * data for this device
-  * @descs: array of ngpio descriptors.
-  * @valid_mask: If not %NULL, holds bitmask of GPIOs which are valid to be
-@@ -51,7 +50,6 @@
-  *                 process context
-  * @device_notifier: used to notify character device wait queues about the GPIO
-  *                   device being unregistered
-- * @srcu: protects the pointer to the underlying GPIO chip
-  * @chip_rp: revocable provider handle for the corresponding struct gpio_chip.
-  * @pin_ranges: range of pins served by the GPIO driver
-  *
-@@ -65,7 +63,6 @@ struct gpio_device {
- 	struct cdev		chrdev;
- 	int			id;
- 	struct module		*owner;
--	struct gpio_chip __rcu	*chip;
- 	struct gpio_desc	*descs;
- 	unsigned long		*valid_mask;
- 	struct srcu_struct	desc_srcu;
-@@ -79,7 +76,6 @@ struct gpio_device {
- 	rwlock_t		line_state_lock;
- 	struct workqueue_struct	*line_state_wq;
- 	struct blocking_notifier_head device_notifier;
--	struct srcu_struct	srcu;
- 	struct revocable_provider *chip_rp;
- 
- #ifdef CONFIG_PINCTRL
--- 
-2.52.0.457.g6b5491de43-goog
+Changes in v5:
+- Move the change list into the commit message.
+
+Changes in v4:
+- Fix an incorrect datasheet URL and update it to the correct reference.
+
+Changes in v3:
+- Move the STEF48H28 Device Tree binding from
+  trivial-devices.yaml to pmbus/stef48h28.yaml.
+
+Changes in v2:
+- Fix the entry in trivial-devices.yaml by correcting the comment
+  and compatible string ordering.
+---
+ .../bindings/hwmon/pmbus/st,stef48h28.yaml    | 43 +++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+new file mode 100644
+index 000000000000..c6a4b02bcd84
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/st,stef48h28.yaml
+@@ -0,0 +1,43 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/pmbus/st,stef48h28.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics hot-swap controller with PMBus interface
++
++maintainers:
++  - Charles Hsu <hsu.yungteng@gmail.com>
++
++description: |
++  The STEF48H28 is an advanced 30A integrated electronic fuse for
++  the 9-80V DC power lines.
++
++  Datasheet:
++    https://www.st.com/resource/en/data_brief/stef48h28.pdf
++
++properties:
++  compatible:
++    enum:
++      - st,stef48h28
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pmic@11 {
++            compatible = "st,stef48h28";
++            reg = <0x11>;
++        };
++    };
+--
+2.34.1
 
