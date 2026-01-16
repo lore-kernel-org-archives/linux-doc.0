@@ -1,72 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6D220C00C;
-	Fri, 16 Jan 2026 02:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1563E30DED4
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 02:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768530237; cv=none; b=fT8+FLaNgQ1Sm3LOkOj85k1EXNNZ7x+U3XS9W6BIiDZeEyVZmAZ+xkkzKIJdtoeOIGbJov6UUBjuNWpXFvEPCwO3DYmLiGWMRJPRn0tbqWV7/a89tLF/JgMNvp4I3m8BlOmQ1R5twU5oV16DsngCiIc5e5Crkcf8Ch/bH82TpOs=
+	t=1768531128; cv=none; b=DI/fZlkPjAbvOyHVjbH+7GHwxT0msu68qjjYvXvXyiAeFCSgPH/ziACNZ1i+myUg8JoNpqQX2FSCZAMIDuGW3nBIoZxmrzzCRBSdPlY/VjTbeB9t2U9bmklbLwaWProM4o8rDI/CtQ5vaX0j/tvKePW1KrD618miSjdBpUcY7UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768530237; c=relaxed/simple;
-	bh=MzmrCrtyA9+q65UCLOKh8braO2rZBjQLfxzOtiYVe0Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FtIr5W0EposDFQZalA4WPhItwaLaE5JpX7A4OMig/EQfNWJEfY+GZcdTj71TrzIVskFi97STaD4uC0WA2PfU6Y18SZJE+weTgjl23kAyiawnRTQ0vUGeZ5G32WLVnraauqrlnNaxLyhxqhWP7fOTJ2bOgoEKhoc4DQgUrSf9GkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K8JPkY0V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768531128; c=relaxed/simple;
+	bh=fIbdhxsgSWgRBSvVBJCLtMcMrTS5LfwDbiV7dh5IQvE=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ca1qLSbP6HCuEpjCwdOeoj1z34tJsaVxvAYpZ0U2hwffcT8tsZCh0DjB2ByqtSeu+uPoZ7k5Y/vLudcatrzb7uJbWm7yyaPc0TkToLzH/DFYVDl/6htzBDL0b4lSYFzIxXH+C8rVjJKkTk0S6v6m0MW24GHjOiw+q1cBfpjoAw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=J8ied54h; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8JPkY0V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 309A7C19421;
-	Fri, 16 Jan 2026 02:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768530237;
-	bh=MzmrCrtyA9+q65UCLOKh8braO2rZBjQLfxzOtiYVe0Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K8JPkY0VKfrKr7g2C2nl1/5AgjNU3cVmbyEuV/Xr1iso9FGu0958xoR+/5WO5xR96
-	 NganCa6kDXoT/v/2Bkpptbyjl6HRsSQ/k9evMYuvy8Xtbnk0SLeFmJqRKCvxcBs19x
-	 STOMTdGwlL7Fy9XvxHsX7PEwk4hIK63SK92m4wbBwZAwwNs+B14jJHPgMiUYUuC5r+
-	 Up5wQ7p41LB2hzHdJkY/7IGY25PdEE4d001BEep3vRpBMX1YeM/K60xfoo7I9VZBbz
-	 ZjQfeLqyKOdWcPuFu3usW6r/afhlwcbxUdXECjHNcCwbU8GJ4oxJOB5vMmC/arCuLp
-	 00DAFbPq+4XsA==
-From: SeongJae Park <sj@kernel.org>
-To: Brett A C Sheffield <bacs@librecast.net>
-Cc: SeongJae Park <sj@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] docs: kselftest: remove link to obsolete wiki
-Date: Thu, 15 Jan 2026 18:23:54 -0800
-Message-ID: <20260116022355.71959-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260115172817.7120-1-bacs@librecast.net>
-References: 
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="J8ied54h"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768531124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Cri5zZeu4l/sHLTLn9DRdlp9oa54DmyMUfS8ASAgrDA=;
+	b=J8ied54hRAfiXmZcd/vJyhN9dJE7hJs1aNeSfCEuIbfJPIgWG1kr94x4EqA139RWuzrkEX
+	YALxrBbcH/av5nhsPkuvrA/7F+Z4Dv8MJ0EuzmF4mxXlQDQEifADJG1c4WkESctGO8glsn
+	dSwO4Jq4+ofcmb9qpgrPRPkQYAaeRiw=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <aWkhbWR-3fWjeTaE@thinkstation>
+Date: Fri, 16 Jan 2026 10:38:02 +0800
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <53980726-C7F0-4648-99E9-89E10645F2E7@linux.dev>
+References: <20260115144604.822702-1-kas@kernel.org>
+ <20260115144604.822702-11-kas@kernel.org>
+ <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
+ <aWkhbWR-3fWjeTaE@thinkstation>
+To: Kiryl Shutsemau <kas@kernel.org>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 15 Jan 2026 17:24:44 +0000 Brett A C Sheffield <bacs@librecast.net> wrote:
-
-> Remove the reference to the obsolete kselftest wiki.
-> 
-> The kselftest wiki is marked obsolete and is no longer updated. The last
-> edit was in 2019, and the information is outdated, referring readers for
-> support to IRC networks that have not been used for years, and to kernel
-> versions that are no longer supported.
-> 
-> If there is any relevant information left in the wiki it needs to be
-> cleaned up and moved into the canonical kselftest documentation here.
-> 
-> Signed-off-by: Brett A C Sheffield <bacs@librecast.net>
-
-Acked-by: SeongJae Park <sj@kernel.org>
 
 
-Thanks,
-SJ
+> On Jan 16, 2026, at 01:23, Kiryl Shutsemau <kas@kernel.org> wrote:
+>=20
+> On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red Hat) =
+wrote:
+>> On 1/15/26 15:45, Kiryl Shutsemau wrote:
+>>> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing =
+most
+>>> vmemmap pages for huge pages and remapping the freed range to a =
+single
+>>> page containing the struct page metadata.
+>>>=20
+>>> With the new mask-based compound_info encoding (for power-of-2 =
+struct
+>>> page sizes), all tail pages of the same order are now identical
+>>> regardless of which compound page they belong to. This means the =
+tail
+>>> pages can be truly shared without fake heads.
+>>>=20
+>>> Allocate a single page of initialized tail struct pages per NUMA =
+node
+>>> per order in the vmemmap_tails[] array in pglist_data. All huge =
+pages
+>>> of that order on the node share this tail page, mapped read-only =
+into
+>>> their vmemmap. The head page remains unique per huge page.
+>>>=20
+>>> This eliminates fake heads while maintaining the same memory =
+savings,
+>>> and simplifies compound_head() by removing fake head detection.
+>>>=20
+>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>>> ---
+>>>  include/linux/mmzone.h | 16 ++++++++++++++-
+>>>  mm/hugetlb_vmemmap.c   | 44 =
+++++++++++++++++++++++++++++++++++++++++--
+>>>  mm/sparse-vmemmap.c    | 44 =
+++++++++++++++++++++++++++++++++++--------
+>>>  3 files changed, 93 insertions(+), 11 deletions(-)
+>>>=20
+>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+>>> index 322ed4c42cfc..2ee3eb610291 100644
+>>> --- a/include/linux/mmzone.h
+>>> +++ b/include/linux/mmzone.h
+>>> @@ -82,7 +82,11 @@
+>>>   * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with =
+hugetlb, we expect
+>>>   * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+>>>   */
+>>> -#define MAX_FOLIO_ORDER get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G =
+: SZ_1G)
+>>> +#ifdef CONFIG_64BIT
+>>> +#define MAX_FOLIO_ORDER (34 - PAGE_SHIFT)
+>>> +#else
+>>> +#define MAX_FOLIO_ORDER (30 - PAGE_SHIFT)
+>>> +#endif
+>>=20
+>> Where do these magic values stem from, and how do they related to the
+>> comment above that clearly spells out 16G vs. 1G ?
+>=20
+> This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << 30
+> is 1G. Subtract PAGE_SHIFT to get the order.
+>=20
+> The change allows the value to be used to define NR_VMEMMAP_TAILS =
+which
+> is used specify size of vmemmap_tails array.
 
-[...]
+How about allocate ->vmemmap_tails array dynamically? If sizeof of =
+struct
+page is not power of two, then we could optimize away this array. =
+Besides,
+the original MAX_FOLIO_ORDER could work as well.
+
+>=20
+> --=20
+>  Kiryl Shutsemau / Kirill A. Shutemov
+
+
