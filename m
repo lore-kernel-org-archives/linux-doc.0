@@ -1,147 +1,114 @@
-Received: from mail-43103.protonmail.ch (mail-43103.protonmail.ch [185.70.43.103])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34961202F65
-	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 13:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A22C23C512
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 13:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768569102; cv=none; b=sLL88gJN9XSa74i20HV2JlKBkdZb39RS7L7y/RE51K36Qz4YJSLoH+0USQnJ5vSr/ng+MuP0I+PZe+v28vnGokQXemv8tSk8vD9ywPry+mLuMhMCTT9xhAkXGNh1sBxCb6DK1Z98XncGdXj9Y7/d05+YGDb7FBi+qbbrXmKoQ7E=
+	t=1768569320; cv=none; b=ZY+ValHNW6yxEksWqneyA305HhDWpdN+CcQ1fiOxVqnNwli+3SFiNXpeNfVBk8EXig0LnQ4CRisoNLqJKKCSthmsfa/h8ItQLUjF8qdnpeVHI+9zHBqOkwZivDkzhT4p52JBVoGD2xkRoSiR3RSNBD0uB7JEuXN87x75Bogu7mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768569102; c=relaxed/simple;
-	bh=gA5Gcwjt++Ugz1oA1ig1zUCPtcY1thD7Vg+WwWrpi54=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DuJMdLCU1+C70TVpiV16KNHj44VcLlO4R6flSyaR39gn7O7IcnhIzg5BBUU2P9QuNHkBE/MBb66mMCM8g1JOQdpU8+iriLJHUMggvNfXDNJyIdRInCsPZlqjcPLLm6LQcuVhJgiRt2gxwT9K7pxv8UxByJdkFJozhTjVqXlAYq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=NsW4vNWI; arc=none smtp.client-ip=185.70.43.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1768569320; c=relaxed/simple;
+	bh=F0zejtQsFxq+RFGdR3iowVouDSNSub03rMOOO/DadmM=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b3V8dbQuaEf7RA9dnV6Bhua5sIjaDdeLTLI8jxPibzn6N64HIsQUNGu32YzFjGV8Aof4QR35MyYV6YTdKV4y+DxeDwVMTDVgCpPvGbqvRTOAjR20izhpWUno6PkpM5mso8c6g4VSdf63ynVfymbNMKbWTWoQVKDvc8mUgf72O8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgcXouMJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="NsW4vNWI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1768569098; x=1768828298;
-	bh=VUy6Z0nl3UN06uLRlgqbdTzfRq3/0KilXmceKHyT+FA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=NsW4vNWI+sy+jtCwGEepBnQnhkRgbVqOJ8bQNyN7XOu/Bmiv5eUFHRTgDUqIkkZCL
-	 3+CCEPXQsQCOIr68mCMChffW/v/xa4NXARE65ARAC1tUdbbVCR0YM/VVD87fT5Hnf4
-	 g7uTiInwCUmOnfHiNaRH18bYdqK3XZUA8thcmHVBaNFZ6vrtQYXmnYyJGmjtUTL/eI
-	 FeJuldGwl9Kv2xapCx8JUTWPf6JHyDRUjGnR9+bb0IaoSyvCU0fdqXQw8ZvrndtD8c
-	 iztvGbaWNit1drtUSc0hgFnX7xkOB7r9nmg0mEFIctA/zk1M/dLih3b+MPcDkmHT6E
-	 fi3T+X+l0xZ7Q==
-Date: Fri, 16 Jan 2026 13:11:32 +0000
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Samuel Holland <samuel.holland@sifive.com>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v8 01/14] kasan: sw_tags: Use arithmetic shift for shadow computation
-Message-ID: <aWo31aytvelldfiE@wieczorr-mobl1.localdomain>
-In-Reply-To: <2592f303-05f5-4646-b59f-38cb7549834e@gmail.com>
-References: <cover.1768233085.git.m.wieczorretman@pm.me> <4f31939d55d886f21c91272398fe43a32ea36b3f.1768233085.git.m.wieczorretman@pm.me> <2592f303-05f5-4646-b59f-38cb7549834e@gmail.com>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 3ed341666d06b561ea7c217cda5b5d4311dd5d20
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgcXouMJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799E5C116C6
+	for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 13:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768569320;
+	bh=F0zejtQsFxq+RFGdR3iowVouDSNSub03rMOOO/DadmM=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=XgcXouMJNUoG6WpBiXxL9gT9CCq/mOISBP6ZpjC5wQxLiE1J5koGWpNtEjVRyWJbL
+	 DE9pVJJM607nFdFx7SfyyXD4DjGUZwbpPlIhA3Bsji+L+yhKzYQa5B/Pks/8JsIeY+
+	 GbR7PwJgiVlwN9n4REV6Vriu2Wptoop1OcQPJMTH5S4XpUtQ5LSGqkKr4CuaksRFLT
+	 lRnbhQxFmg+ebNYejENnbG8ecxX1v/ORJbesoD4Xk5fBFTvJx802KY8yYNdQ3RzNor
+	 b5yGG4pW7oae+1qbdONKqATe32iX/xjVKoY9zlsr1AkcnbNhTC0Hs28FN65XWIOB+m
+	 F3qHNnauKyWGA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59b855a4700so1897007e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 05:15:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXQoCYdkpkFXlEdJGfzGyLmXi68r1t54x4ZhigdoKTHhiAIlRrciBFJOwgye7Kl8luFEXCZxOX/Xdw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy04SlBBelhTE4SooQcawJzdQvaJku8c/JKHygUri14kNx83RPI
+	DfzZQqgSCWbkIPMUSe6s1SU7bnjeiLSezE4HfTu/TrnjkjBNv9SUM74dEnbryGGmAfbD/tKmvAR
+	E7vofCYfn7jKeu4ITxY6hzbzFMsUsyf5WESBInGcMIg==
+X-Received: by 2002:a05:6512:32c8:b0:598:eef2:e209 with SMTP id
+ 2adb3069b0e04-59baeec26ebmr1143109e87.5.1768569318553; Fri, 16 Jan 2026
+ 05:15:18 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Jan 2026 13:15:17 +0000
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 16 Jan 2026 13:15:17 +0000
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260116081036.352286-2-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20260116081036.352286-1-tzungbi@kernel.org> <20260116081036.352286-2-tzungbi@kernel.org>
+Date: Fri, 16 Jan 2026 13:15:17 +0000
+X-Gmail-Original-Message-ID: <CAMRc=MeiQho5mfxGsL1AZ60brCzfox64XQao=xWnxMsdHF2-vA@mail.gmail.com>
+X-Gm-Features: AZwV_QjtzprOMqG2qDnke0_Bxhon5JnActWvxaD629LTW7BB9RenENKWKCocUJE
+Message-ID: <CAMRc=MeiQho5mfxGsL1AZ60brCzfox64XQao=xWnxMsdHF2-vA@mail.gmail.com>
+Subject: Re: [PATCH 01/23] gpiolib: Correct wrong kfree() usage for `kobj->name`
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org, 
+	stable@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for looking at the patches :)
+On Fri, 16 Jan 2026 09:10:14 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> `kobj->name` should be freed by kfree_const()[1][2].  Correct it.
+>
+> [1] https://elixir.bootlin.com/linux/v6.18/source/lib/kasprintf.c#L41
+> [2] https://elixir.bootlin.com/linux/v6.18/source/lib/kobject.c#L695
+>
 
-On 2026-01-15 at 23:42:02 +0100, Andrey Ryabinin wrote:
+Please don't add links third-party groks to git commit messages.
+
+> Cc: stable@vger.kernel.org
+> Fixes: c351bb64cbe6 ("gpiolib: free device name on error path to fix kmemleak")
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
+>  drivers/gpio/gpiolib.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index 5eb918da7ea2..ba9323432e3a 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -1263,7 +1263,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+>  err_free_descs:
+>  	kfree(gdev->descs);
+>  err_free_dev_name:
+> -	kfree(dev_name(&gdev->dev));
+> +	kfree_const(dev_name(&gdev->dev));
+>  err_free_ida:
+>  	ida_free(&gpio_ida, gdev->id);
+>  err_free_gdev:
+> --
+> 2.52.0.457.g6b5491de43-goog
 >
 >
->On 1/12/26 6:27 PM, Maciej Wieczor-Retman wrote:
-> =20
->> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
->> index 62c01b4527eb..b5beb1b10bd2 100644
->> --- a/mm/kasan/report.c
->> +++ b/mm/kasan/report.c
->> @@ -642,11 +642,39 @@ void kasan_non_canonical_hook(unsigned long addr)
->>  =09const char *bug_type;
->> =20
->>  =09/*
->> -=09 * All addresses that came as a result of the memory-to-shadow mappi=
-ng
->> -=09 * (even for bogus pointers) must be >=3D KASAN_SHADOW_OFFSET.
->> +=09 * For Generic KASAN, kasan_mem_to_shadow() uses the logical right s=
-hift
->> +=09 * and never overflows with the chosen KASAN_SHADOW_OFFSET values (o=
-n
->> +=09 * both x86 and arm64). Thus, the possible shadow addresses (even fo=
-r
->> +=09 * bogus pointers) belong to a single contiguous region that is the
->> +=09 * result of kasan_mem_to_shadow() applied to the whole address spac=
-e.
->>  =09 */
->> -=09if (addr < KASAN_SHADOW_OFFSET)
->> -=09=09return;
->> +=09if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
->> +=09=09if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0ULL)) ||
->> +=09=09    addr > (unsigned long)kasan_mem_to_shadow((void *)(~0ULL)))
->> +=09=09=09return;
->> +=09}
->> +
->> +=09/*
->> +=09 * For Software Tag-Based KASAN, kasan_mem_to_shadow() uses the
->> +=09 * arithmetic shift. Normally, this would make checking for a possib=
-le
->> +=09 * shadow address complicated, as the shadow address computation
->> +=09 * operation would overflow only for some memory addresses. However,=
- due
->> +=09 * to the chosen KASAN_SHADOW_OFFSET values and the fact the
->> +=09 * kasan_mem_to_shadow() only operates on pointers with the tag rese=
-t,
->> +=09 * the overflow always happens.
->> +=09 *
->> +=09 * For arm64, the top byte of the pointer gets reset to 0xFF. Thus, =
-the
->> +=09 * possible shadow addresses belong to a region that is the result o=
-f
->> +=09 * kasan_mem_to_shadow() applied to the memory range
->> +=09 * [0xFF000000000000, 0xFFFFFFFFFFFFFFFF]. Despite the overflow, the
->                  ^ Missing couple 00 here
->
->> +=09 * resulting possible shadow region is contiguous, as the overflow
->> +=09 * happens for both 0xFF000000000000 and 0xFFFFFFFFFFFFFFFF.
->                                  ^ same as above
 
-Hah, right, thank you!
+I've never paid attention to this bit but it really looks broken. I understand
+that this string won't get freed until we initialize refcounting on the
+underlying kobject but reaching two abstraction layers below to get the string
+for freeing out of the kobject looks incorrect to me.
 
->
->> +=09 */
->> +=09if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) && IS_ENABLED(CONFIG_ARM64)) {
->> +=09=09if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0xFFULL <<=
- 56)) ||
->
->This will not work for inline mode because compiler uses logical shift.
->Consider NULL-ptr derefernce. Compiler will calculate shadow address for 0=
- as:
->      (((0x0 | 0xffULL) << 56) >> 4)+0xffff800000000000ULL =3D 0x0fef8000.=
-...0
->Which is less than ((0xFF00...00LL) >> 4) +  0xffff800000000000ULL =3D 0xf=
-fff800...0
->So we will bail out here.
->Perhaps we could do addr |=3D 0xFFLL to fix this
+It's also one of only two instances of doing kfree(dev_name(dev)), the other
+one being in drivers/scsi/hosts.c.
 
-I suppose it should work; tried it in a python script by shoving various
-addresses into this check. Pushing addresses through a logical shift
-memory_to_shadow normally would return early as you noticed, and after 'add=
-r |=3D
-0xFFLL' it seems to work as expected. And I didn't really catch any incorre=
-ct
-address slipping by this scheme either. Thanks, I'll correct it.
+It looks to me that the device name is not really used in
+gpiochip_add_data_with_key(). Can we move dev_set_name() after
+device_initialize()?
 
->
->> +=09=09    addr > (unsigned long)kasan_mem_to_shadow((void *)(~0ULL)))
->> +=09=09=09return;
->> +=09}
->> =20
->>  =09orig_addr =3D (unsigned long)kasan_shadow_to_mem((void *)addr);
->> =20
-
---=20
-Kind regards
-Maciej Wiecz=C3=B3r-Retman
-
+Bart
