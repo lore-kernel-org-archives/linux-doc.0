@@ -1,48 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6A23321AA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F307330320;
 	Sat, 17 Jan 2026 09:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768642173; cv=none; b=NPjWZchizJhYhJObnsK/xqOLL4mnS8Lrc4bM4MgKKmr2PA/9akMCxisXFi1aAJ9W+j2CuHJ4vzbDOpCTXXsuLO3zFSYnych4jmt51T4mEw2hrelmo8I6fyx99ET9H54mz+RXm8HDnVDN3SJ630aVD3YAWCK/PbXzqaLVKV340oA=
+	t=1768642172; cv=none; b=aLkYPXGjshvfa1qY4mHNTDBWgprV/FPadUWu7rr4OoMefW+2EgdqwVCu3BUsy/gTPYZQvR5U4CfDzt9DF9x1oaVU/Xmq92g57cJz+Xc/ZV3OeA+BnM5k0P62Qq3cOSexA7ks51HDcFraMiuiP/sL2H5HN7nOjxqkPF81A2hkZ4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768642173; c=relaxed/simple;
-	bh=uAgz6NVwdL1fSgq++5Vdt7SvGll1o/f20D2+Kc+Gl6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Type; b=hbFrGCfRbzR6RqB2nLBAjoSgbsMEgx5ttjsOSYUPTvDxXW0lG2JnrTq0Ndej4FDWpTjKrBH35lS8bHwUAk+oyWHfRk5CWTkB2aI0dFlSiKiBGkkA0tcIrsJLBUGPErAH5TTRAfMtw6FQrGwQegChlZud0Yhx/umJ3LqiAEL5DSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sybllAQf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768642172; c=relaxed/simple;
+	bh=RXo2T4uT7vY3LJPjTvycgMKgkAkgjklF/1tyBtWAow8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Type; b=KVVBjLxY1ApRpp5E4eaTXwQJ5p0hFDzcQ78HEb9F92khaOgJuNkUekx9gfaVLskKVikq8nOyvQCryjJQtZcI/zsj+HCIuotu306CmCBXeYQORZaauje5g7+RDB1T2UBDdCzg2e4oJ3eR+gPCzscg88m6XiBbiVDcLWdMH4yNpc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dd5JQsPY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sybllAQf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CAB7C4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dd5JQsPY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18E67C4CEF7;
 	Sat, 17 Jan 2026 09:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768642172;
-	bh=uAgz6NVwdL1fSgq++5Vdt7SvGll1o/f20D2+Kc+Gl6c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sybllAQfk6XLJ1XUAsuB9WmR9aPN8p7tdcX1PXFujVQ7j3SugGU7HH7XvtbnxCxTy
-	 ZDTpgJRHm/5kozVm5TnDdgjg4wxy8ao79v5930/gExoq4nd4+qfeD3NP1Ek/Vv21I7
-	 HgV54NfeLoX5zyyqDz6gfGWFjqwFCm4JAqCiG8CDZmWxxI16YXivyyZrJ8tiVRXIzY
-	 6jGTv/HH0hdN7Lu7KM+Vv8lUdmxYxg9cwh0giv2bbSntX/sWevUM2X/Hi/AFXhJM44
-	 Fu5s83789MkFSkTIv+5jt9VBOiC5LEE/aRmNN2i1KQb7/vsK3meNuKPx8JjFXGDjM0
-	 VGOg7oiXHRBcA==
+	bh=RXo2T4uT7vY3LJPjTvycgMKgkAkgjklF/1tyBtWAow8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Dd5JQsPYv9o4j5iD9wl3SCBALXAdaMeNpBeHjZj88GsVDNATCzTuBUSxu/s2CFdsy
+	 dYwvTgPkBfQs+R3TlM70OkOjajOzDEbhviL1Uis4LoFXNmoPOmLRyGnvwb/GTuu6pP
+	 zzKLxXEPfSJcPXNTfL3TIxOsrFEaDtebQJg7H8rebeNTTEfZWHJfi0AVooNYWseIIo
+	 3NnwXiqjT+0MjGu1g33hsoTpfAIOjLy4Il+DB15h3Xnb6/Rwvr2nX/SPYFV+GfwxZJ
+	 ieh1cT3iWAoTOffnqTKnTrtDli1vKV/KJtl9FZShnfvZLzizGIdxDmsLlwmh3F5Luv
+	 4Mf48wBpwnCcw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vh2cc-00000000foA-0dJC;
+	id 1vh2cc-00000000fnt-0ACp;
 	Sat, 17 Jan 2026 10:29:30 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To: Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v5 4/4] scripts/kernel-doc: some fixes to kernel-doc comments
-Date: Sat, 17 Jan 2026 10:29:26 +0100
-Message-ID: <80e96e47af63a46d9a082785bf1bde35f73540d7.1768642102.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 0/4] fix -Werror issues
+Date: Sat, 17 Jan 2026 10:29:22 +0100
+Message-ID: <cover.1768642102.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1768642102.git.mchehab+huawei@kernel.org>
-References: <cover.1768642102.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,137 +54,71 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are some typos and English errors in the comments of kernel‑doc.py.
+Hi Jon,
 
-Locate them with the help of an LLM (gpt‑oss 14B), executed locally
-with this prompt:
+As pointed by Jani, and previously by Randy, several warnings
+are currently not considered as errors. The issue is related
+to changeset 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently
+discarded"), which was using directly a low-level interface.
 
-        review English grammar and syntax at the comments on the code below:
-        <cat scripts/kernel-doc.py>
+Patch 1 fix that.
+Patch 2 fixes a related issue: when there are more than 255
+errors, the return code with -Werror can be 0 even on errors,
+because of glibc behavior: programs can only use 8 bits for
+error codes.
 
-While LLM worked fine for the task of doing an English grammar review
-for strings, being able to distinguish them from the actual code, it
-was not is perfect: some things required manual work to fix.
+Patches 3 and 4 are not directly related, and touches only
+on comments inside python-doc.py script itself:
 
--
+- patch 3 is just a coding style change to match the comment
+  style we agreed;
 
-While here, replace:
+- patch 4 fixes some English issues on comments. The issues
+  were pointed by LLM, which was used as any other spelling
+  tool: I picked just the relevant changes, ignoring the ones
+  that were false positives. I also didn't agree with one of
+  the changes, replacing it by something else.
 
-    "/**" with: ``/**``
+  I wrote it more as an experiment about how to properly use
+  LLM. IMO, it could be useful to use LLM to review spelling
+  on docs, provided that the one using the tool will filter
+  out LLM-generated trash - just like one does when using any
+  other spelling tool. Yet, based on Jani feedback, extra
+  care is needed with regards to LLM abuse of UTF-8 chars.
 
-As, if we ever rename this script to kernel_doc.py and add it to
-Sphinx ext autodoc, we want to avoid this warning:
-
-    scripts/kernel_doc.py:docstring of kernel_doc:10: WARNING: Inline strong start-string without end-string. [docutils]
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index f1f3f56edeb5..4e3b9cfe3fd7 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -9,9 +9,9 @@
- #       The rationale is that it shall fail gracefully during Kernel
- #       compilation with older Kernel versions. Due to that:
- #       - encoding line is needed here;
--#       - no f-strings can be used on this file.
--#       - the libraries that require newer versions can only be included
--#         after Python version is checked.
-+#       - f-strings cannot be used in this file.
-+#       - libraries that require newer versions can only be included
-+#         after the Python version has been checked.
- #
- # Converted from the kernel-doc script originally written in Perl
- # under GPLv2, copyrighted since 1998 by the following authors:
-@@ -88,16 +88,13 @@
- #    Yujie Liu <yujie.liu@intel.com>
- 
- """
--kernel_doc
--==========
--
--Print formatted kernel documentation to stdout
-+Print formatted kernel documentation to stdout.
- 
- Read C language source or header FILEs, extract embedded
- documentation comments, and print formatted documentation
- to standard output.
- 
--The documentation comments are identified by the "/**"
-+The documentation comments are identified by the ``/**``
- opening comment mark.
- 
- See Documentation/doc-guide/kernel-doc.rst for the
-@@ -134,13 +131,13 @@ May be used multiple times.
- """
- 
- EXPORT_DESC = """
--Only output documentation for the symbols that have been
-+Only output documentation for symbols that have been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
- 
- INTERNAL_DESC = """
--Only output documentation for the symbols that have NOT been
-+Only output documentation for symbols that have NOT been
- exported using EXPORT_SYMBOL() and related macros in any input
- FILE or -export-file FILE.
- """
-@@ -163,7 +160,7 @@ Header and C source files to be parsed.
- """
- 
- WARN_CONTENTS_BEFORE_SECTIONS_DESC = """
--Warns if there are contents before sections (deprecated).
-+Warn if there are contents before sections (deprecated).
- 
- This option is kept just for backward-compatibility, but it does nothing,
- neither here nor at the original Perl script.
-@@ -171,7 +168,7 @@ neither here nor at the original Perl script.
- 
- 
- class MsgFormatter(logging.Formatter):
--    """Helper class to format warnings on a similar way to kernel-doc.pl"""
-+    """Helper class to format warnings in a similar way to kernel-doc.pl."""
- 
-     def format(self, record):
-         record.levelname = record.levelname.capitalize()
-@@ -273,7 +270,7 @@ def main():
-                         help=NOSYMBOL_DESC)
- 
-     parser.add_argument("-D", "-no-doc-sections", "--no-doc-sections",
--                        action='store_true', help="Don't outputt DOC sections")
-+                        action='store_true', help="Don't output DOC sections")
- 
-     parser.add_argument("files", metavar="FILE",
-                         nargs="+", help=FILES_DESC)
-@@ -302,12 +299,12 @@ def main():
-     python_ver = sys.version_info[:2]
-     if python_ver < (3,6):
-         #
--        # Depending on Kernel configuration, kernel-doc --none is called at
-+        # Depending on the Kernel configuration, kernel-doc --none is called at
-         # build time. As we don't want to break compilation due to the
-         # usage of an old Python version, return 0 here.
-         #
-         if args.none:
--            logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
-+            logger.error("Python 3.6 or later is required by kernel-doc. Skipping checks")
-             sys.exit(0)
- 
-         sys.exit("Python 3.6 or later is required by kernel-doc. Aborting.")
-@@ -316,7 +313,7 @@ def main():
-         logger.warning("Python 3.7 or later is required for correct results")
- 
-     #
--    # Import kernel-doc libraries only after checking Python version
-+    # Import kernel-doc libraries only after checking the Python version
-     #
-     from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-     from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
+v5:
+  - fixed some kernel-doc docstrings on patch 2 and 4.
+
+v4:
+  - improved description on patch 4;
+  - fixed some typos and problems at patch2 comments;
+  - fixed a potential sphinx.ext.autodoc issue.
+
+v3:
+  - did some cleanups at patch 1, placing the code on a new
+    function;
+  - removed extra blank line after comments
+
+v2:
+  - on patch 2, I changed the -Werror return code to "3". This
+    way, it is easier for a script to identify what happened;
+  - removed UTF-8 unbreakable whitespaces from patch 4.
+    Heh, it seems that LLM-produced stuff can suffer with
+    unwanted UTF-8 chars... On one of the strings it replaced
+    0x20 with 0xa0...
+
+Mauro Carvalho Chehab (4):
+  scripts/kernel-doc: fix logic to handle unissued warnings
+  scripts/kernel-doc: avoid error_count overflows
+  scripts/kernel-doc: ensure that comments are using our coding style
+  scripts/kernel-doc: some fixes to kernel-doc comments
+
+ scripts/kernel-doc.py                | 79 ++++++++++++++++++----------
+ tools/lib/python/kdoc/kdoc_parser.py | 35 +++++++++---
+ 2 files changed, 78 insertions(+), 36 deletions(-)
+
 -- 
 2.52.0
 
