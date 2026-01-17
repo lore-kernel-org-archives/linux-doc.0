@@ -1,106 +1,166 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF1F2AE77;
-	Sat, 17 Jan 2026 00:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650423081BE
+	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 02:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768610635; cv=none; b=DQXfClBkR92afgKFzxsVh1eQTZIDkkMPmFDHKPteP7bBYKyuYXatguWt1HuDRGdQH78MCn/MNCS+k0V3/RaElPTPkZ7eaR2Pz7inI1QHw2qgxfrBTv5TLI8+PrtlymEj7kipPRiGcsshanLX1hkqw9Y6mr7QtpSgzUl+4Q5F38I=
+	t=1768617615; cv=none; b=TK+ho1ckwQ5t8fdWmU7WUygQ83knBRMUaw+P4/qEmMZpBNU7ehvW+wAagkCOTsrUzcEZOdlsTvOq4BpY5C1qZ7qJPAd4wpbTTPla1vxwY3jkxflAiWcAxbjvsl/P61TiKysJxVDKe3ZNr0bWvQRNygn+tjFE3BkvIjdZisdl8l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768610635; c=relaxed/simple;
-	bh=GJGzOaw5XpicWH8ZxdOGPW7VUK9w4NSwHltaxAoD5gs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S2qL7hOpJ7qK91VVYbtZZVWWuUE7ZOVdXe6Awc5Rcxj/bzeBNacrkaPmWDxI8EhCCs5EmUlyM8a2IgG3msphH2ySmsVHMUmZPHi/G0eiJILEW7+2hXmk/YsqjTSjS24krcmU6id4vXnjKdUY2nP9QLZB5HprL06NblCss/tHI84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=X8mxWMAB; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1768617615; c=relaxed/simple;
+	bh=0ynNVtNeEZwk4HTGRWCQb3Zc0OanvI44FFjKzRdYEes=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=BT8L8peg2caPrQ3N7CoLNdOEJz5uwjkw45ZH1fIzxzE/cGAfsTyotMi7bZ3OvyrASQvXxZ7fWr2Ost5D51sLAWd3BvHZe3YcIRCFsWu2VFjvialu81La+BUsKwoYXdlpoZ/97rcKiHpNSuYiZq46e9aGFMrLIkbwuXV8EXcU+08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xp9iGWhD; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="X8mxWMAB"
-Received: from [172.27.2.41] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60H0h7CI3247648
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 16 Jan 2026 16:43:10 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60H0h7CI3247648
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1768610592;
-	bh=leLmyrJ1FfWSvMOk/rPhTdiGmvfjmFVcQEyk0fq21to=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X8mxWMABza4CzXSRrHyV8gVTuRUj93ewZVObWw1332qYM/DclYQbD7ekAae6Jgg7t
-	 NpGQg16UPyqV0JWbZfzRpoMPcZrRWVD4HfUL2NNggy43L3JYM2DO31ZaJLL7luBCDQ
-	 3gvT1MIEmfC2cBO2Vl5DVfv5xd7BFfiecdRLy8w99xLU9PbgSYSsC8rFac4HBw/DFR
-	 rh/EH0IZgtijX2HYrw4IS4m6DhtBVG47F/5VZd5+8Rmp9db/jp04yrJExnR695DJTs
-	 pXCcySASlBxTh2Q3vB195VSn3hzm3MUEsuERS+DpUK30Iy3isF+hHAtvPuccrkJRib
-	 Wq6UbYvhpauEw==
-Message-ID: <f0768546-a767-4d74-956e-b40128272a09@zytor.com>
-Date: Fri, 16 Jan 2026 16:43:00 -0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xp9iGWhD"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768617603;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DRAUHQ48YUycgqnfPxdOpy3lIq4LIKBXjAPLlYalbN8=;
+	b=xp9iGWhDcwt8mumGizWnyqjk+/ogh4k68oKpm1+E/iynSSYg1xwrWXba/vqeKNVNRBLryK
+	VyKizZ7ifbQnWKD05zPhDyOxZqQIB4a1DeDyfS02iI8QFUW0G6aPnHq58rSvgFgYuxBLx6
+	v5Xw4HdSkgdo5VqDVNQZR2AVyB7Qt+0=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 08/22] KVM: VMX: Set FRED MSR intercepts
-To: Dave Hansen <dave.hansen@intel.com>, "Xin Li (Intel)" <xin@zytor.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc: pbonzini@redhat.com, seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com, chao.gao@intel.com, hch@infradead.org,
-        sohil.mehta@intel.com
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-9-xin@zytor.com>
- <d856b68d-3721-4d76-922b-4c98e2eb6c67@intel.com>
-Content-Language: en-US, sv-SE
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <d856b68d-3721-4d76-922b-4c98e2eb6c67@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <aWpTopypeRTOIVGR@thinkstation>
+Date: Sat, 17 Jan 2026 10:38:48 +0800
+Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0F1C93F3-9A1A-4929-9157-589CF8C0588D@linux.dev>
+References: <20260115144604.822702-1-kas@kernel.org>
+ <20260115144604.822702-11-kas@kernel.org>
+ <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
+ <aWkhbWR-3fWjeTaE@thinkstation>
+ <53980726-C7F0-4648-99E9-89E10645F2E7@linux.dev>
+ <aWpTopypeRTOIVGR@thinkstation>
+To: Kiryl Shutsemau <kas@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-01-16 11:49, Dave Hansen wrote:
-> On 10/26/25 13:18, Xin Li (Intel) wrote:
->> Both MSR_IA32_FRED_RSP0 and MSR_IA32_FRED_SSP0 (aka MSR_IA32_PL0_SSP)
->> are dedicated for userspace event delivery, IOW they are NOT used in
->> any kernel event delivery and the execution of ERETS.  Thus KVM can
->> run safely with guest values in the two MSRs.  As a result, save and
->> restore of their guest values are deferred until vCPU context switch,
->> Host MSR_IA32_FRED_RSP0 is restored upon returning to userspace, and
->> Host MSR_IA32_PL0_SSP is managed with XRSTORS/XSAVES.
-> 
-> Is it worth making MSR_IA32_FRED_RSP0 special versus MSR_IA32_FRED_RSP[123]?
-> 
-> Is it needed because MSR_IA32_FRED_RSP0 is rewritten all the time as
-> CPUs switch between threads? But MSR_IA32_FRED_RSP[123] are not
-> frequently written?
-> 
-> I'd like to hear more about the motivation.
 
-Because RSP[123] (and SSP[123]) are used by the kernel itself they are
-context-switched by VTx automatically. This is necessary in order to preserve
-the FRED architectural invariant that there should NEVER be a "gap" during
-which it is unsafe to take an exception.
 
-[RS]SP0 are not used while in kernel mode (since the only time we switch
-*onto* the level 0 kernel stack is when entering from user space, logically
-"CSL -1"), so during FRED architectural discussions it was agreed that it was
-better to leave its management to kernel code, especially as KVM often does
-not need to cross back into user space after each VMEXIT.
+> On Jan 16, 2026, at 23:52, Kiryl Shutsemau <kas@kernel.org> wrote:
+>=20
+> On Fri, Jan 16, 2026 at 10:38:02AM +0800, Muchun Song wrote:
+>>=20
+>>=20
+>>> On Jan 16, 2026, at 01:23, Kiryl Shutsemau <kas@kernel.org> wrote:
+>>>=20
+>>> On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red =
+Hat) wrote:
+>>>> On 1/15/26 15:45, Kiryl Shutsemau wrote:
+>>>>> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing =
+most
+>>>>> vmemmap pages for huge pages and remapping the freed range to a =
+single
+>>>>> page containing the struct page metadata.
+>>>>>=20
+>>>>> With the new mask-based compound_info encoding (for power-of-2 =
+struct
+>>>>> page sizes), all tail pages of the same order are now identical
+>>>>> regardless of which compound page they belong to. This means the =
+tail
+>>>>> pages can be truly shared without fake heads.
+>>>>>=20
+>>>>> Allocate a single page of initialized tail struct pages per NUMA =
+node
+>>>>> per order in the vmemmap_tails[] array in pglist_data. All huge =
+pages
+>>>>> of that order on the node share this tail page, mapped read-only =
+into
+>>>>> their vmemmap. The head page remains unique per huge page.
+>>>>>=20
+>>>>> This eliminates fake heads while maintaining the same memory =
+savings,
+>>>>> and simplifies compound_head() by removing fake head detection.
+>>>>>=20
+>>>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>>>>> ---
+>>>>> include/linux/mmzone.h | 16 ++++++++++++++-
+>>>>> mm/hugetlb_vmemmap.c   | 44 =
+++++++++++++++++++++++++++++++++++++++++--
+>>>>> mm/sparse-vmemmap.c    | 44 =
+++++++++++++++++++++++++++++++++++--------
+>>>>> 3 files changed, 93 insertions(+), 11 deletions(-)
+>>>>>=20
+>>>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+>>>>> index 322ed4c42cfc..2ee3eb610291 100644
+>>>>> --- a/include/linux/mmzone.h
+>>>>> +++ b/include/linux/mmzone.h
+>>>>> @@ -82,7 +82,11 @@
+>>>>>  * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with =
+hugetlb, we expect
+>>>>>  * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+>>>>>  */
+>>>>> -#define MAX_FOLIO_ORDER get_order(IS_ENABLED(CONFIG_64BIT) ? =
+SZ_16G : SZ_1G)
+>>>>> +#ifdef CONFIG_64BIT
+>>>>> +#define MAX_FOLIO_ORDER (34 - PAGE_SHIFT)
+>>>>> +#else
+>>>>> +#define MAX_FOLIO_ORDER (30 - PAGE_SHIFT)
+>>>>> +#endif
+>>>>=20
+>>>> Where do these magic values stem from, and how do they related to =
+the
+>>>> comment above that clearly spells out 16G vs. 1G ?
+>>>=20
+>>> This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << =
+30
+>>> is 1G. Subtract PAGE_SHIFT to get the order.
+>>>=20
+>>> The change allows the value to be used to define NR_VMEMMAP_TAILS =
+which
+>>> is used specify size of vmemmap_tails array.
+>>=20
+>> How about allocate ->vmemmap_tails array dynamically? If sizeof of =
+struct
+>> page is not power of two, then we could optimize away this array. =
+Besides,
+>> the original MAX_FOLIO_ORDER could work as well.
+>=20
+> This is tricky.
+>=20
+> We need vmemmap_tails array to be around early, in
+> hugetlb_vmemmap_init_early(). By the time, we don't have slab
+> functional yet.
 
-A nice side effect, but just that -- a side effect -- is that we don't need to
-actually modify [RS]SP0 in the context-switch or task setup code.
+I mean zero-size array at the end of pg_data_t, no slab is needed.
 
-The invariant that needs to be maintained is that IF the cached rsp0 value is
-equal to the initial stack pointer for the running task, THEN the MSR MUST
-match the cached value. A corollary of that is that if we modify either the
-MSR or the cached value from an event that may have interrupted the kernel we
-MUST make sure that this invariant cannot be inadvertently broken.
+>=20
+> I think getting the array compile-time is the best shot.
+>=20
+> --=20
+>  Kiryl Shutsemau / Kirill A. Shutemov
 
-Setting the cached value to an invalid value (e.g. NULL/0) should work; there
-shouldn't be an actual need to read the MSR unless I'm mistaken -- but I have
-been working on other code today and so my cache for this specific code is not
-100% up to date.
-
-	-hpa
 
