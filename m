@@ -1,156 +1,169 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A133770FE
-	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 07:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E5132F761
+	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 07:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768633587; cv=none; b=f1U4Jejb+wyVuRgMTCIzIFxZnbQhGzEFJLk+psK4evgkcgFXG6uGotkcA6hJvmtFaUs4TQowUF1jLsUCgY4pmeK/pojo8NOTZLmqHItG27HGBNjGMbOEklSCfsoOR02XEqHuA9UrhUP6b8bgJiDsgebC+HQBn1M0w1qZV43c4GQ=
+	t=1768634929; cv=none; b=A0kFQgL+DAgH3U42WUrMyhxpa7onSKCFAaO1G+3rIJTOeQYLcSXbXqWvYPShO1+MMxkKqwp/BZ6M+HP0x28aslW41gRhaxsyuAXKKw+cicQ8c8IOBcsxX4dMHxd5aaBVDeNhs2w4D9rGsb6HljiO2qgz8uuvw4gW6HABe0fWg/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768633587; c=relaxed/simple;
-	bh=7xEDnjOE+1tFOIr1Nu08H/OKjlBqj/Z6q+hVMzK6dns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TuM1vCLZqP6LTxqk8l9ceVx98XW2WoXPDrJnM0sGF9u4VKFMhq4xsYsS1R+MffQ40YXf9dYaqZIzNycFMNvinnfee6Hy+Su2TTHEgr6EUnUBshqr+JbKay2/g0QXa1w98w9YBHMsFau4PUo8OkyvEwQyicUzpmTX67SNzDjl3f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info; spf=pass smtp.mailfrom=shenghaoyang.info; dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b=BNSY6ZOH; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1768634929; c=relaxed/simple;
+	bh=0dOjsz9/OTbsiieOE07EM6/GdvbrfPfmq+FYkav8ZqE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b0vvC7/fCGgzranXO0pUcLn34EkRpDd0q15jEZmaT0+Kxw2+PJfeS1HTM3JJjezrTaox9Rw7AIr8BZjJyJTdfOUkLDHlOzKPu8cKxXhpZGXDYQ39zWMluK1ME94Zl8b7Yvmgo5ro6MJV7usSLxOMLyPRjW3Vhvz0wAaXceEwZlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info; spf=pass smtp.mailfrom=shenghaoyang.info; dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b=VkPx0hCy; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shenghaoyang.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="BNSY6ZOH"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a08ced9a36so4416035ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 23:06:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="VkPx0hCy"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a08c65fceeso4500695ad.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 23:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shenghaoyang.info; s=google; t=1768633585; x=1769238385; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d4Z8k29GQli1MwJv6po4tns8b++VlSRu8LmhGsF0n5c=;
-        b=BNSY6ZOHvGoGXuBC0MjPmoqFJ75otbxSE4VGXktHo9J459W82B5fEx1R2F6onP/np5
-         uSYGGnQX3TIH4U0Nk16fKQ3A72XxeYBcbeDAmd7IE/LqaHn389TAm6Fz40zwf+OOHoJh
-         vfI4FgpxyKh9PoX1/6NAmuLDeZxZmddZerPsC7thZ4iG+FwlJAGxZlxW1Bm1smXKO02Y
-         tE9gd1IU67doaw3gbg+e+YaOf+Bdiyvw/jRl/tx7xnuJlE2DHIL58nLgZXxs9aWHHtzU
-         zSbjqnNW2iEvb0xdExmV7dzeNhPAM2L5vNhmYHF8Nig4mbmteEPs1zj9TXwbGHeRQwrW
-         zXQQ==
+        d=shenghaoyang.info; s=google; t=1768634926; x=1769239726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h9HAJVA/qJVm3szfavq91Ie6LHNeib+qVQ+QzfxwkO8=;
+        b=VkPx0hCyR+Ardk3SmvBKcHd16tEKL5d0DBtd+ralG9v4S4Eks1mkKYOSC/kPRKZxVF
+         9mo5klfXK3Bcjm0UYGVnUt9N5TI3aLk8Ws9uThdsay4qWuogFDGQUfjuPTG+V0btOV9B
+         RCcjOE8D/cfTAekbk2xnZGD8xp7BHUqQdHNAQYTIqI8PJ8jzoCzE3yNl0gqyFvUQMtGL
+         fwRfvZ22lzX+Z1n6e0YovPLvDtc2vvWE553sSzctsX5r20dw7caRj+kXK5yT4SVH8eaQ
+         2I20r+cpiwgZ2JoP31a9YcShIUU9lzK839XisxmRA0YtpWARqXQnPZYqVGJB8WSYwvTX
+         fIqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768633585; x=1769238385;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4Z8k29GQli1MwJv6po4tns8b++VlSRu8LmhGsF0n5c=;
-        b=h8jLuev7iF5c5ouDz86ajbW7+ExTaCBlI3Gr+fVeqdpXSF8Ho7/QZ9sqS+ex+Z2Wik
-         od96oKYVjlnUjZBESn8xQy9xlrMvaUnyZ3Nww2iYPnzaxK2N1IeYhVGaxIypfUxZoLlT
-         gUmtt8Qr+UYylDdU2fKxSA9u31j7wF9wabQOwNHfSpHYVUSHgWFcXJJUrn86ZspOsxhb
-         0N1/SM+IQb5Vk7eeEDp5Jcbf9s5++AnhOYUcPUBneTHR7m79yNKc4zOA0HpVMTWVgNcm
-         /jSqGfk3wIiVyEXjQdW/TaBFYJdUOAd3DJJQOf5UZetpebcLX7pZd3BgXESABDF7CPwE
-         vRoA==
-X-Forwarded-Encrypted: i=1; AJvYcCXI9ZLzgOC5hZX+srcNfXtNjIsFQiUYu8ImuPXDdP4B4oWIimoKgR7G/7d651uc0/AuWmhS0Yd07b0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFdtOw4RSnWbTpMZCaGa4yTZyaEi1uYjc4XYolrhmHI/Bw8xQD
-	Nd5HB2ENYhw7WQpHr6wg6P4NWy8HlriZgYDkvEx7E7ELD6BBDmbSe/cijDflouH0bYc=
-X-Gm-Gg: AY/fxX5aPledna7Ja5djI9QcV44GCO20gHpp6BHux97M064t5mq3l+P+q4XI+Fzktqk
-	NWT1tmtTEjB4Z5CAlvFfI7ceOXq+qkCbqzIBDJDaeZLV1NCi06C6PJv0yhxxYsMvzykRjRRgpgI
-	ZnH7p/H3AwamSpYiEtrF/wC13sOJtuCk8hFocwpG2i7B0BGX09qR0DCNTVaXqRXQ5N834Rx81w7
-	vxshA+LkUeV0su3kQQ3VHjrIEsh+AB7NT0ThYXgZQcgWwT9oCJRZwNNsTLtSg/Bux1a0KMeDueL
-	IzIPIKegjqQlQx+knMF7HstW2Xif4X2loDMiEIbczAvDAfdxyggAQrhe61YpT4JBf+IUaNYpsqI
-	cafDGy/CD8UWvJCJZhuGPbHxxkUz5f6uILyxTHqXpcOltEvo1q/LLH4VG+xsuaiyLLwRJDer6M2
-	5SnMM/nbzZ/JCY
-X-Received: by 2002:a17:902:c409:b0:29f:f14:18a0 with SMTP id d9443c01a7336-2a7175cd02dmr42177405ad.4.1768633585353;
-        Fri, 16 Jan 2026 23:06:25 -0800 (PST)
-Received: from [10.0.0.178] ([132.147.84.99])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c5edf355ca7sm3748156a12.27.2026.01.16.23.06.22
+        d=1e100.net; s=20230601; t=1768634926; x=1769239726;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h9HAJVA/qJVm3szfavq91Ie6LHNeib+qVQ+QzfxwkO8=;
+        b=rUJ9A7+YbyMHglqB0ZUuuLegybmItrr32+dT+l2apzZwtxM2XgE2eiXhH/qMP+MWvi
+         VV+RyHx7Cib9JHbZczi1c5c9EGe91RhCHxf2Cqh/BGNKG+/b88vhPEN3gvGsitNix2CM
+         uiThOgQjaSlS4qn1hZ2Hz60DDDt+uc+VCcjHSe9RSB9fsp7jY1dyYBKLJDYG+enHgkRA
+         IniY7IOAgVk4YqqrtWjLUKDADMVlhlnmsOaPi11z4skOcM1gv3CV/PnttRx8nbA3tZQz
+         pn4OIIdjBzW3e6IuXA242XrC1LtFbHgxsd1K4kL9t5vLBjnZxfUl/vvPhw+7unY1vQfL
+         +vng==
+X-Forwarded-Encrypted: i=1; AJvYcCWSjlUR43rVmCFqJ45K1jaDJJWkYONMoMgZshKcylt3X8NmVbUthwuthiXodnO20czG+Lp0NJ+AetE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yysv6X1xMjQEAAD4UX63XQq0imdFHG4ldAltiCSsPyKNDIGJwuS
+	PNbuSM3NkVyVva3k89mSUDxtppfyxwQcIwowDS6wjghSfouNVVlCf61XyGcq+lZdzPk=
+X-Gm-Gg: AY/fxX6pFZ9Wpk/8q/a85OOMgbXKhQ/KRQB7OYy28JD6TkWvDC10zJcb2Do1PdzmfQj
+	U52mo3KKQq9cvU4QKFIycK3iEu9fiuIRlY5+ENXfQmKRqcuyRc7lHgBZU5Jj8pGytq8hzEdnzpi
+	QWuUgwDuKuZ8upCraIRpmx4OYcKhLPy9V1e1C5GTECocjDczdKetO6mit5MbbhmE5eqhO/RmZU6
+	68n0MOD/367QK82/8YfpOZgKf5r3MlkRXVxy2MP6rHViEPrUHCKK4qJvEBzSA8SdpcL58oMmXQM
+	oaEbFNA9cwesFY3cDGZesJhaYF03uKx/MSI+NRVXcmQ44yzqZz73wb50hqWFOGmuo6LXTEFe/jD
+	smJMf1l9teXJ4jLUUviZL3xn5Ke6/2uWNRGVoE4JhfUjNab6a8VrC6EnhenZhF64j1B+7dqbq92
+	3J3fqYR5Jw
+X-Received: by 2002:a17:90b:58e4:b0:340:b8f2:250c with SMTP id 98e67ed59e1d1-35272ec84efmr3763296a91.1.1768634926224;
+        Fri, 16 Jan 2026 23:28:46 -0800 (PST)
+Received: from localhost ([132.147.84.99])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-c5edf32d68asm3686559a12.18.2026.01.16.23.28.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 23:06:25 -0800 (PST)
-Message-ID: <b2584ec9-8593-46d6-aff7-5a1f6081c9ae@shenghaoyang.info>
-Date: Sat, 17 Jan 2026 15:06:11 +0800
+        Fri, 16 Jan 2026 23:28:45 -0800 (PST)
+From: Shenghao Yang <me@shenghaoyang.info>
+To: x86@kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	Shenghao Yang <me@shenghaoyang.info>
+Subject: [PATCH v2] x86/acpi: Add acpi=spcr to use SPCR-provided default console
+Date: Sat, 17 Jan 2026 15:28:27 +0800
+Message-ID: <20260117072827.355360-1-me@shenghaoyang.info>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] x86/acpi: Add acpi=spcr to use SPCR-provided default
- console
-To: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org, Jonathan Corbet <corbet@lwn.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org
-References: <20251228092222.130954-1-me@shenghaoyang.info>
- <20260114154656.GDaWe6cFCruAGbJbhe@fat_crate.local>
- <b5d54942-f280-40ab-b445-00b6dc610a8e@shenghaoyang.info>
- <20260115120058.GCaWjW-sT7eBr94SEr@fat_crate.local>
-Content-Language: en-US
-From: Shenghao Yang <me@shenghaoyang.info>
-In-Reply-To: <20260115120058.GCaWjW-sT7eBr94SEr@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The SPCR provided console on x86 is only available as a boot
+console when earlycon is provided on the kernel command line,
+and will not be present in /proc/consoles.
 
-On 15/1/26 20:00, Borislav Petkov wrote:
-> On Thu, Jan 15, 2026 at 01:09:40AM +0800, Shenghao Yang wrote:
->> We've been inserting the dumped config into the kernel command 
->> line and rebooting on first boot (e.g. console=uart,io,0x3f8,115200),
->> but would love to avoid this loop.
-> 
-> Yah, put that in your v2 pls. That's much more understandable.
-> 
->> It's easier this way for larger fleets - we don't want to manage
->> hardware specific serial console settings on the kernel command line
->> if the firmware is already capable of telling us the correct ones.
-> 
-> Should also be in the commit message.
-> 
->> If earlycon is specified on the command line the console from SPCR
->> is used, but only as a boot console. It's not present in
->> /proc/consoles.
->>
->> It is possible to retain it with keep_bootcon, but that uses the
->> less efficient (in the 8250 case) 8250_early driver.
-> 
-> Also for the commit message.
-> 
->> In 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86") the SPCR
->> console is only added as an option for earlycon but not as an ordinary
->> console so users don't see console output changes.  
->>
->> The patch adds an opt in so we can get the SPCR console added as
->> an ordinary console.
-> 
-> Yap, your explanations make much more sense, thanks.
-> 
-> Please structure your v2 something like this boilerplate guidance below:
-> 
-> 1. Prepare the context for the explanation briefly.
-> 
-> 2. Explain the problem at hand.
-> 
-> 3. "It happens because of <...>"
-> 
-> 4. "Fix it by doing X"
-> 
-> 5. "(Potentially do Y)."
-> 
-> And some of those above are optional depending on the issue being
-> explained.
-> 
-> For more detailed info, see
-> Documentation/process/submitting-patches.rst,
-> Section "2) Describe your changes".
-> 
-> Also, to the tone, from Documentation/process/submitting-patches.rst:
-> 
->  "Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
->   instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
->   to do frotz", as if you are giving orders to the codebase to change
->   its behaviour."
-> 
-> Also, do not talk about what your patch does - that should (hopefully) be
-> visible from the diff itself. Rather, talk about *why* you're doing what
-> you're doing.
-> 
+While it's possible to retain the boot console with the
+keep_bootcon parameter, that leaves the console using the less
+efficient 8250_early driver.
 
-Thanks! I'll reword and send v2.
+Users wanting to use the firmware suggested console (to avoid
+maintaining unique serial console parameters for different
+server models in large fleets) with the conventional driver
+have to parse the kernel log for the console parameters and
+reinsert them.
 
-Shenghao
+[    0.005091] ACPI: SPCR 0x000000007FFB5000 000059 (v04 ALASKA A M I    01072009 INTL 20250404)
+[    0.073387] ACPI: SPCR: console: uart,io,0x3f8,115200
+
+In commit 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86") [1]
+the SPCR console was only added as an option for earlycon but
+not as an ordinary console so users don't see console output
+changes.
+
+So users can opt in to an automatic SPCR console, make ACPI
+init add it if acpi=spcr is set.
+
+[1]: https://lore.kernel.org/lkml/20180118150951.28964-1-prarit@redhat.com/
+
+Signed-off-by: Shenghao Yang <me@shenghaoyang.info>
+---
+v2: Reworded commit with more detail.
+
+[v1]: https://lore.kernel.org/lkml/20251228092222.130954-1-me@shenghaoyang.info/
+
+ Documentation/admin-guide/kernel-parameters.txt | 2 ++
+ arch/x86/kernel/acpi/boot.c                     | 7 ++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1058f2a6d6a8..9b65ec0b5e0a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -125,6 +125,8 @@ Kernel parameters
+ 			may result in duplicate corrected error reports.
+ 			nospcr -- disable console in ACPI SPCR table as
+ 				default _serial_ console on ARM64
++			spcr -- enable console in ACPI SPCR table as
++				default _serial_ console on X86
+ 			For ARM64, ONLY "acpi=off", "acpi=on", "acpi=force" or
+ 			"acpi=nospcr" are available
+ 			For RISCV64, ONLY "acpi=off", "acpi=on" or "acpi=force"
+diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
+index 9fa321a95eb3..83bbfa1d6f1f 100644
+--- a/arch/x86/kernel/acpi/boot.c
++++ b/arch/x86/kernel/acpi/boot.c
+@@ -47,6 +47,7 @@ EXPORT_SYMBOL(acpi_disabled);
+ 
+ int acpi_noirq;				/* skip ACPI IRQ initialization */
+ static int acpi_nobgrt;			/* skip ACPI BGRT */
++static int acpi_spcr_add __initdata;		/* add SPCR-provided console */
+ int acpi_pci_disabled;		/* skip ACPI PCI scan and IRQ initialization */
+ EXPORT_SYMBOL(acpi_pci_disabled);
+ 
+@@ -1666,7 +1667,7 @@ int __init acpi_boot_init(void)
+ 		x86_init.pci.init = pci_acpi_init;
+ 
+ 	/* Do not enable ACPI SPCR console by default */
+-	acpi_parse_spcr(earlycon_acpi_spcr_enable, false);
++	acpi_parse_spcr(earlycon_acpi_spcr_enable, acpi_spcr_add);
+ 	return 0;
+ }
+ 
+@@ -1703,6 +1704,10 @@ static int __init parse_acpi(char *arg)
+ 	/* "acpi=nocmcff" disables FF mode for corrected errors */
+ 	else if (strcmp(arg, "nocmcff") == 0) {
+ 		acpi_disable_cmcff = 1;
++	}
++	/* "acpi=spcr" adds the SPCR-provided console as a preferred one */
++	else if (strcmp(arg, "spcr") == 0) {
++		acpi_spcr_add = 1;
+ 	} else {
+ 		/* Core will printk when we return error. */
+ 		return -EINVAL;
+-- 
+2.52.0
 
