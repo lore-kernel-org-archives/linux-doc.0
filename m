@@ -1,173 +1,175 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D993328EC;
-	Sat, 17 Jan 2026 09:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221FD3321AA;
+	Sat, 17 Jan 2026 09:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768642173; cv=none; b=uQROCJkiVTG1udalEzMwzy2IVDn3aHLW3Tj1yZP/PBFvoJXoxxBHyOeD219rVGxBzlIT4YrmnbSQQqbizYCy9cLPhkNfx8PsCQKC/nPR8xW/A3d8e5ImL5sSW/rVw77RsJ5RB1gry6LvtDV09cxr2JVt3lND6XAhp7H9Gt4PKO0=
+	t=1768643531; cv=none; b=IDX0XlRr1LAujuSLjOV/3U3eqX7f04+TLYHblEcALUrf4CcZpNtmEEx1pG0nk6HMiXYnzZ6u3yxnXii+WIj7R1dRo51VBFjJh3GGTcxLYTQyWE8ZmzpoggKJApLn1X9b3/2LK0fiCwW1G8SuL/udSxwW8OB1xOmuLvI2315/bko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768642173; c=relaxed/simple;
-	bh=gIlHO7b2dpX1yT61k9PtOOKZE0nPF7btslse5y1Pu2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iBAkRTQvtTpN2HXjj0jz+8Bq/D037ttdKRr4WRwi/V5VVpoFF9XJWuo5f0cyWm3neTLSvWFCDLcgBt0QDGhvpstiFT35sU6DeTFRGGJ9CvTr8vi5uQiMDBIo7PMleNGO2i3oPLzEN/yDPpAqIhVVYZp4+tvxsnOwCZUH25ast3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BO/lpMzw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768643531; c=relaxed/simple;
+	bh=g0qCL0JoAiGU5ZstrM5vgZob9Sur8oHFKoDg1f/GvfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QMYNSjwShrRrIEm5WhoJmmHuJkVpxB6jRx0sBmVFLfQB+JiSylbNs6UQtR22//XgXHL6FuRylUv2uCVqcrm11fJCx5/lRzbbyetv6TC+A5C6zwj/OsU6G7x5LHItlJjNmrEMMa5CPCGuOr6ui6RCWyR3ZEk+nYahRpCSLN1tvhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muv8Df7o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BO/lpMzw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20914C19423;
-	Sat, 17 Jan 2026 09:29:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muv8Df7o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F08C4CEF7;
+	Sat, 17 Jan 2026 09:52:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768642172;
-	bh=gIlHO7b2dpX1yT61k9PtOOKZE0nPF7btslse5y1Pu2s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BO/lpMzw43rE83lYrKTAmtMkYhL5xVLJzHxs3lDTTghR49KXZM8AApGZKCzsgAJGx
-	 0HBU5TYotMfJ5lKs5Xzd8cvd2lS/dh65S2sx99ExtWZi5bpG08/giNCbRWoUaqv3Gb
-	 t9MvAw/sqPvz/OpFqdjTXVLMu3qF61moQKN+WgTwtzq3sX1H6sJtgnUnTXdJS5+XHf
-	 ePtzmGg/a0y6ia/Q5G3DloKiEUxnkHK8oBhNDUZRzm/PWEETnd6gk98/p2ZsJmiEsW
-	 I65RFBGlXfmBrXj+XO5LToWgYxwSvWemB+JqDOD9RyyhR9QWS2stG14G8/UB0pph9e
-	 HZBlxyWFZQxvQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vh2cc-00000000fo6-0Vya;
-	Sat, 17 Jan 2026 10:29:30 +0100
+	s=k20201202; t=1768643530;
+	bh=g0qCL0JoAiGU5ZstrM5vgZob9Sur8oHFKoDg1f/GvfI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=muv8Df7oZW6WDggzXF5rQMg8i6W4DKdVYV19H4d+9q2paaoS0WzDTTkz2uK3nGX+Y
+	 waPLwuenyScpMWfhXYcUI5dwc2nF9Ml+lAhqzO4hbvNtMftNRqXb2StIMVwjJOPMVd
+	 aSKOMi5oYfVtRMluAz3INcsdA0WxIAJWomToKdY+8Tf+jJ7WUNDDFnKxpJ9uN3WSX9
+	 54d2+8h4d7eHq86o/8HxWbwHS45svC79599OsQyrzMQ0KHpnTdsNxMsmaKqtrKNkmR
+	 BqpQzEwLhYhmXbCAmiMC4TXEorGCqErVPSSUhAyqqn3X0+iSAP8EsD2VPZFqgCM2rM
+	 eYLBePRm+grBA==
+Date: Sat, 17 Jan 2026 10:52:05 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v5 3/4] scripts/kernel-doc: ensure that comments are using our coding style
-Date: Sat, 17 Jan 2026 10:29:25 +0100
-Message-ID: <a26b24193ce22b6d3d6e1c13e18c3942800f2f42.1768642102.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1768642102.git.mchehab+huawei@kernel.org>
-References: <cover.1768642102.git.mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>, Shuah
+ Khan <skhan@linuxfoundation.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] scripts/kernel-doc: avoid error_count overflows
+Message-ID: <20260117105205.14eea6e3@foz.lan>
+In-Reply-To: <87ecnpo213.fsf@trenco.lwn.net>
+References: <cover.1768395332.git.mchehab+huawei@kernel.org>
+	<68ec6027db89b15394b8ed81b3259d1dc21ab37f.1768395332.git.mchehab+huawei@kernel.org>
+	<79bb75da-5233-46d8-9590-7443806e2bd7@infradead.org>
+	<87ecnpo213.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Along kernel-doc libs, we opted to have all comments starting/ending
-with a blank comment line. Use the same style here.
+Em Fri, 16 Jan 2026 11:17:28 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+> > Mauro,
+> > The line formatting is weird on one line below
+> > (looks like 2 text lines are joined).
+> >
+> > On 1/14/26 4:57 AM, Mauro Carvalho Chehab wrote:  
+> >> The glibc library limits the return code to 8 bits. We need to
+> >> stick to this limit when using sys.exit(error_count).
+> >> 
+> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >> Cc: stable@vger.kernel.org
+> >> ---
+> >>  scripts/kernel-doc.py | 25 ++++++++++++++++++-------
+> >>  1 file changed, 18 insertions(+), 7 deletions(-)
+> >> 
+> >> diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
+> >> index 7a1eaf986bcd..3992ca49d593 100755
+> >> --- a/scripts/kernel-doc.py
+> >> +++ b/scripts/kernel-doc.py
+> >> @@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
+> >>  
+> >>  sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+> >>  
+> >> +WERROR_RETURN_CODE = 3
+> >> +
+> >>  DESC = """
+> >>  Read C language source or header FILEs, extract embedded documentation comments,
+> >>  and print formatted documentation to standard output.
+> >> @@ -176,7 +178,20 @@ class MsgFormatter(logging.Formatter):
+> >>          return logging.Formatter.format(self, record)
+> >>  
+> >>  def main():
+> >> -    """Main program"""
+> >> +    """
+> >> +    Main program
+> >> +    By default, the return value is:
+> >> +
+> >> +    - 0: success or Python version is not compatible with                                                                kernel-doc.  If -Werror is not used, it will also  
+> >
+> > Here ^^^^^
+> >  
+> Mauro, can you get me a clean copy?  It seems like we're more than ready
+> to apply this set otherwise...
+
+Just sent.
+
+Ah, if you're curiously enough about autodoc, and don't want to apply
+the /15 patch series, or just want to check if the docstrings are OK,
+you can apply the enclosed test patch. I'm not proposing adding it
+to the series, but getting issues like the above where comments look
+weird is better caught by checking if the docstrings are properly
+formatted and parsed by Sphinx.
+
+Thanks,
+Mauro
+
+---
+
+[HACK] Python autodoc test
+
+This is just a minimal patch to place kernel-doc API documentation
+somewhere (at the wrong place).
+
+Goal here is just to easily allow testing autodoc.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/kernel-doc.py | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 1ebb16b9bb08..f1f3f56edeb5 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -3,7 +3,7 @@
- # Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
- #
- # pylint: disable=C0103,R0912,R0914,R0915
--
-+#
- # NOTE: While kernel-doc requires at least version 3.6 to run, the
- #       command line should work with Python 3.2+ (tested with 3.4).
- #       The rationale is that it shall fail gracefully during Kernel
-@@ -12,7 +12,7 @@
- #       - no f-strings can be used on this file.
- #       - the libraries that require newer versions can only be included
- #         after Python version is checked.
--
-+#
- # Converted from the kernel-doc script originally written in Perl
- # under GPLv2, copyrighted since 1998 by the following authors:
- #
-@@ -197,8 +197,9 @@ def main():
-     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-                                      description=DESC)
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 1ea2ae5c6276..bf16dd68bc62 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -18,6 +18,9 @@ import sphinx
+ # documentation root, use os.path.abspath to make it absolute, like shown here.
+ sys.path.insert(0, os.path.abspath("sphinx"))
  
-+    #
-     # Normal arguments
--
-+    #
-     parser.add_argument("-v", "-verbose", "--verbose", action="store_true",
-                         help="Verbose output, more warnings and other information.")
++# Allow sphinx.ext.autodoc to document any pyhton files within the Kernel tree
++sys.path.append(os.path.abspath(".."))
++
+ # Minimal supported version
+ needs_sphinx = "3.4.3"
  
-@@ -213,8 +214,9 @@ def main():
-                         action="store_true",
-                         help="Enable line number output (only in ReST mode)")
+@@ -151,6 +154,7 @@ extensions = [
+     "maintainers_include",
+     "parser_yaml",
+     "rstFlatTable",
++    "sphinx.ext.autodoc",
+     "sphinx.ext.autosectionlabel",
+     "sphinx.ext.ifconfig",
+     "translations",
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index b56128d7f5c3..7884c1297513 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -624,3 +624,11 @@ using SPHINXDIRS:
  
-+    #
-     # Arguments to control the warning behavior
--
-+    #
-     parser.add_argument("-Wreturn", "--wreturn", action="store_true",
-                         help="Warns about the lack of a return markup on functions.")
- 
-@@ -235,8 +237,9 @@ def main():
-     parser.add_argument("-export-file", "--export-file", action='append',
-                         help=EXPORT_FILE_DESC)
- 
-+    #
-     # Output format mutually-exclusive group
--
-+    #
-     out_group = parser.add_argument_group("Output format selection (mutually exclusive)")
- 
-     out_fmt = out_group.add_mutually_exclusive_group()
-@@ -248,8 +251,9 @@ def main():
-     out_fmt.add_argument("-N", "-none", "--none", action="store_true",
-                          help="Do not output documentation, only warnings.")
- 
-+    #
-     # Output selection mutually-exclusive group
--
-+    #
-     sel_group = parser.add_argument_group("Output selection (mutually exclusive)")
-     sel_mut = sel_group.add_mutually_exclusive_group()
- 
-@@ -262,7 +266,9 @@ def main():
-     sel_mut.add_argument("-s", "-function", "--symbol", action='append',
-                          help=FUNCTION_DESC)
- 
-+    #
-     # Those are valid for all 3 types of filter
-+    #
-     parser.add_argument("-n", "-nosymbol", "--nosymbol", action='append',
-                         help=NOSYMBOL_DESC)
- 
-@@ -295,9 +301,11 @@ def main():
- 
-     python_ver = sys.version_info[:2]
-     if python_ver < (3,6):
-+        #
-         # Depending on Kernel configuration, kernel-doc --none is called at
-         # build time. As we don't want to break compilation due to the
-         # usage of an old Python version, return 0 here.
-+        #
-         if args.none:
-             logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
-             sys.exit(0)
-@@ -307,7 +315,9 @@ def main():
-     if python_ver < (3,7):
-         logger.warning("Python 3.7 or later is required for correct results")
- 
-+    #
-     # Import kernel-doc libraries only after checking Python version
-+    #
-     from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-     from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
- 
-@@ -346,6 +356,8 @@ def main():
- 
-     sys.exit(0)
- 
-+#
- # Call main method
-+#
- if __name__ == "__main__":
-     main()
--- 
-2.52.0
+    When SPHINXDIRS={subdir} is used, it will only generate man pages for
+    the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
++
++kernel\-doc docstrings documentation
++------------------------------------
++
++.. automodule:: scripts.kernel_doc
++   :members:
++   :show-inheritance:
++   :undoc-members:
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 3b6ef807791a..47eaae84adeb 120000
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1 +1 @@
+-kernel-doc.py
+\ No newline at end of file
++kernel_doc.py
+\ No newline at end of file
+diff --git a/scripts/kernel-doc.py b/scripts/kernel_doc.py
+similarity index 100%
+rename from scripts/kernel-doc.py
+rename to scripts/kernel_doc.py
 
