@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221FD3321AA;
-	Sat, 17 Jan 2026 09:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B3B2749D5;
+	Sat, 17 Jan 2026 10:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768643531; cv=none; b=IDX0XlRr1LAujuSLjOV/3U3eqX7f04+TLYHblEcALUrf4CcZpNtmEEx1pG0nk6HMiXYnzZ6u3yxnXii+WIj7R1dRo51VBFjJh3GGTcxLYTQyWE8ZmzpoggKJApLn1X9b3/2LK0fiCwW1G8SuL/udSxwW8OB1xOmuLvI2315/bko=
+	t=1768644054; cv=none; b=hCRplENfnwnnrIrZoKMQRe7UsDV7hvn0ogyKmDc1inyPscP1/QQSCuWAs8aop7D0njZAQdWmgj4pU4AszjWizsJnw74Wj7wHDGcqwzuu8r6YUEGa+T1JlYjA3qGoBkdpDifjrvGvCTkWyVXluYYt58NX05J/bau3FWinSsCp1pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768643531; c=relaxed/simple;
-	bh=g0qCL0JoAiGU5ZstrM5vgZob9Sur8oHFKoDg1f/GvfI=;
+	s=arc-20240116; t=1768644054; c=relaxed/simple;
+	bh=8F5V8IZB9vDMO1JyN6t+ZvVzWbD3ouQ7tqsDaA5F8h8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QMYNSjwShrRrIEm5WhoJmmHuJkVpxB6jRx0sBmVFLfQB+JiSylbNs6UQtR22//XgXHL6FuRylUv2uCVqcrm11fJCx5/lRzbbyetv6TC+A5C6zwj/OsU6G7x5LHItlJjNmrEMMa5CPCGuOr6ui6RCWyR3ZEk+nYahRpCSLN1tvhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muv8Df7o; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kj2zKfcPlaLZTHFxpZeenceP2d35wrrQtX08LVvr1hGw7flRYOGPhehytNXr7c/Blu6XRQAvrBN1nqBk6KEWPQmB3YdkF6ttt49LgeCb6yOrhh8LRBmkERo1ufeVo7hDribWMiuywMOODO4VDPUIwC4Noa7Z6c29x6KRRxn/IPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RbK6WWvm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muv8Df7o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F08C4CEF7;
-	Sat, 17 Jan 2026 09:52:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RbK6WWvm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8499BC4CEF7;
+	Sat, 17 Jan 2026 10:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768643530;
-	bh=g0qCL0JoAiGU5ZstrM5vgZob9Sur8oHFKoDg1f/GvfI=;
+	s=k20201202; t=1768644054;
+	bh=8F5V8IZB9vDMO1JyN6t+ZvVzWbD3ouQ7tqsDaA5F8h8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=muv8Df7oZW6WDggzXF5rQMg8i6W4DKdVYV19H4d+9q2paaoS0WzDTTkz2uK3nGX+Y
-	 waPLwuenyScpMWfhXYcUI5dwc2nF9Ml+lAhqzO4hbvNtMftNRqXb2StIMVwjJOPMVd
-	 aSKOMi5oYfVtRMluAz3INcsdA0WxIAJWomToKdY+8Tf+jJ7WUNDDFnKxpJ9uN3WSX9
-	 54d2+8h4d7eHq86o/8HxWbwHS45svC79599OsQyrzMQ0KHpnTdsNxMsmaKqtrKNkmR
-	 BqpQzEwLhYhmXbCAmiMC4TXEorGCqErVPSSUhAyqqn3X0+iSAP8EsD2VPZFqgCM2rM
-	 eYLBePRm+grBA==
-Date: Sat, 17 Jan 2026 10:52:05 +0100
+	b=RbK6WWvm6I2B5Sb8+xjozRoMvA1+0HcXCt6ynfah27bb32bKxkHCK3P2uu/+2KSLA
+	 ZRIkmJwDW+sTm1XxY3OC3lPP1ksZxL0ykyV7ZrmJjdaNF5wDoARAsj/xtLy2xS/Mxo
+	 0jibitaZ2NJbAmBYx7bxC0IpzJzPOVVihOO2djhXkpVFZQZ8kFuX58CjAs1HfV6iM9
+	 tNYj39pI7k5VtdnpriN43LpEQD1r9+/TMOGWXt0Uz1lFqV6FPx96HusiZ1vNC0h4ju
+	 yKSx4s3ruCWQ3M9wVFVKrIprn6DASuxsvcLOJd7O86y8pPdU7GG2qGykGQvHTOryzQ
+	 fLlrL4LuXDBCw==
+Date: Sat, 17 Jan 2026 11:00:49 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>, Shuah
- Khan <skhan@linuxfoundation.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] scripts/kernel-doc: avoid error_count overflows
-Message-ID: <20260117105205.14eea6e3@foz.lan>
-In-Reply-To: <87ecnpo213.fsf@trenco.lwn.net>
-References: <cover.1768395332.git.mchehab+huawei@kernel.org>
-	<68ec6027db89b15394b8ed81b3259d1dc21ab37f.1768395332.git.mchehab+huawei@kernel.org>
-	<79bb75da-5233-46d8-9590-7443806e2bd7@infradead.org>
-	<87ecnpo213.fsf@trenco.lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 0/2] Move kernel-doc to tools/docs
+Message-ID: <20260117110049.6cc49048@foz.lan>
+In-Reply-To: <87wm1ho3cs.fsf@trenco.lwn.net>
+References: <20260114164146.532916-1-corbet@lwn.net>
+	<813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
+	<87zf6gt2ts.fsf@trenco.lwn.net>
+	<20260114212558.1aeb1b17@foz.lan>
+	<87wm1ho3cs.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,128 +48,57 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Em Fri, 16 Jan 2026 11:17:28 -0700
+Em Fri, 16 Jan 2026 10:48:51 -0700
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
-> > Mauro,
-> > The line formatting is weird on one line below
-> > (looks like 2 text lines are joined).
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>=20
+> > Em Wed, 14 Jan 2026 12:24:31 -0700
+> > Jonathan Corbet <corbet@lwn.net> escreveu:
+> > =20
+> >> Randy Dunlap <rdunlap@infradead.org> writes:
+> >>  =20
+> >> > I do many of these on a regular basis:
+> >> >
+> >> > $ ./scripts/kernel-doc -none -Wall <path_to_source_file>
+> >> >
+> >> > Will I still be able to do that (by using ./tools/doc/kernel-doc ...=
+)?   =20
+> >>=20
+> >> Yes.  The tool moves, but its functionality remains unchanged. =20
 > >
-> > On 1/14/26 4:57 AM, Mauro Carvalho Chehab wrote:  
-> >> The glibc library limits the return code to 8 bits. We need to
-> >> stick to this limit when using sys.exit(error_count).
-> >> 
-> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >> Cc: stable@vger.kernel.org
-> >> ---
-> >>  scripts/kernel-doc.py | 25 ++++++++++++++++++-------
-> >>  1 file changed, 18 insertions(+), 7 deletions(-)
-> >> 
-> >> diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-> >> index 7a1eaf986bcd..3992ca49d593 100755
-> >> --- a/scripts/kernel-doc.py
-> >> +++ b/scripts/kernel-doc.py
-> >> @@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-> >>  
-> >>  sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
-> >>  
-> >> +WERROR_RETURN_CODE = 3
-> >> +
-> >>  DESC = """
-> >>  Read C language source or header FILEs, extract embedded documentation comments,
-> >>  and print formatted documentation to standard output.
-> >> @@ -176,7 +178,20 @@ class MsgFormatter(logging.Formatter):
-> >>          return logging.Formatter.format(self, record)
-> >>  
-> >>  def main():
-> >> -    """Main program"""
-> >> +    """
-> >> +    Main program
-> >> +    By default, the return value is:
-> >> +
-> >> +    - 0: success or Python version is not compatible with                                                                kernel-doc.  If -Werror is not used, it will also  
-> >
-> > Here ^^^^^
-> >  
-> Mauro, can you get me a clean copy?  It seems like we're more than ready
-> to apply this set otherwise...
+> > That's actually a good point: should we preserve a link on scripts
+> > pointing to ../tools/doc/kernel-doc? I suspect that a change like
+> > that could break some machinery on several CI tools and scripts
+> > out there. If so, it could be useful to keep a link - at least for
+> > a couple of kernel releases. =20
+>=20
+> So is the location of kernel-doc part of our ABI, or an internal detail?
+> :)
 
-Just sent.
+Surely it is not part of ABI: it can be changed whenever we want.
 
-Ah, if you're curiously enough about autodoc, and don't want to apply
-the /15 patch series, or just want to check if the docstrings are OK,
-you can apply the enclosed test patch. I'm not proposing adding it
-to the series, but getting issues like the above where comments look
-weird is better caught by checking if the docstrings are properly
-formatted and parsed by Sphinx.
+=46rom my side, I don't mind where it is located: it will take some
+time, but my fingers will end learning its new location/name ;-)
+
+> I'm not deeply opposed to maintaining the symlink, though I'd rather
+> not.  It won't be for "a couple of releases", though; if the symlink is
+> there, nothing will ever change.
+
+I see two reasons why having a symlink:
+
+1. to avoid the risk of eventually breaking someone's CI or scripts.
+   This is just a preventive measure, as I'm not aware of anyone
+   with such scripts;
+
+2. as you don't want ".py" extension on execs, but PEP8 mandates it,=20
+   together with replacing "-" with "_", you can have a symlink that
+   would make both PEP8 and you happy ;-)
+
+Just my 2 cents.
+
 
 Thanks,
 Mauro
-
----
-
-[HACK] Python autodoc test
-
-This is just a minimal patch to place kernel-doc API documentation
-somewhere (at the wrong place).
-
-Goal here is just to easily allow testing autodoc.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 1ea2ae5c6276..bf16dd68bc62 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -18,6 +18,9 @@ import sphinx
- # documentation root, use os.path.abspath to make it absolute, like shown here.
- sys.path.insert(0, os.path.abspath("sphinx"))
- 
-+# Allow sphinx.ext.autodoc to document any pyhton files within the Kernel tree
-+sys.path.append(os.path.abspath(".."))
-+
- # Minimal supported version
- needs_sphinx = "3.4.3"
- 
-@@ -151,6 +154,7 @@ extensions = [
-     "maintainers_include",
-     "parser_yaml",
-     "rstFlatTable",
-+    "sphinx.ext.autodoc",
-     "sphinx.ext.autosectionlabel",
-     "sphinx.ext.ifconfig",
-     "translations",
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index b56128d7f5c3..7884c1297513 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -624,3 +624,11 @@ using SPHINXDIRS:
- 
-    When SPHINXDIRS={subdir} is used, it will only generate man pages for
-    the files explicitly inside a ``Documentation/{subdir}/.../*.rst`` file.
-+
-+kernel\-doc docstrings documentation
-+------------------------------------
-+
-+.. automodule:: scripts.kernel_doc
-+   :members:
-+   :show-inheritance:
-+   :undoc-members:
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3b6ef807791a..47eaae84adeb 120000
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1 +1 @@
--kernel-doc.py
-\ No newline at end of file
-+kernel_doc.py
-\ No newline at end of file
-diff --git a/scripts/kernel-doc.py b/scripts/kernel_doc.py
-similarity index 100%
-rename from scripts/kernel-doc.py
-rename to scripts/kernel_doc.py
-
