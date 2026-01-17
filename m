@@ -1,123 +1,85 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B251EBFE0;
-	Sat, 17 Jan 2026 18:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F25B50095D;
+	Sat, 17 Jan 2026 20:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768673409; cv=none; b=GR2ZWcrtRjpCOodEjzRrfxBory+ZqD3unSNhV6ASXUf35J6pT2KobkyAawc0EXS6/e+TALTit+zU21fQ55eOXBWRrSGKNWMYEgvmlszaxc0tnqLWchokFkts6nrksr/7MVPbBto+iUUNTcJoV6NigKc8FPzzzXp3STf5gGWsX20=
+	t=1768683036; cv=none; b=fqkjkOM6xGjjeASJo2T3P90XvncsosIlI5HvgZcm8Xvus6LmZg0lRPhJ145UwsJGT6hhL/YEpYDCLpN1v826k/PFd44+eVFZrCsqh4S9ARlfGPK2XnjhqrbnnO8lo4ziqu5s/jj6iR3JTDwycjSyZhKC3nu+PQjKlbW+hth9Mzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768673409; c=relaxed/simple;
-	bh=ZIoNoJKX26LmirjLlq6UqubJYlwhfHX59ay68WdZxnM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SZELI5tOfFeTGXXjXeaLRNvuQR/yjCOuGvpRDxYH1P71hmL/w+OWc0vrYCv/fcYty+rb+8Gkg6GgF8UPLC39uD2g8pwTne8mtC13kMwqfL/DCmTGconSdNyvH3IHFbnELJ9oUiln45DfcC1mgdKcXe9kZJJhcmn4GjGpRBSg3Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1yTmFWcY; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768683036; c=relaxed/simple;
+	bh=8+Lt0wHLkliFfdDrOmERdcOPvey2slepLAS2y6g+wgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1sfxcRpPigtY0kIN2iuqsq8MQ5g80c3fmSc1IsBw1OXLhpa7vT2cnxieW8vU+ctew8CZ1B+2onP2R6CfIT0R11raPCbISwD1KItM01F1TN46K1KouUwM7GfRGjv4lL2j7E15VQOdU1Wmt85dZD8JRKBpF7Yyu/z4jIuLFg0ABY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=EO2einq2; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1yTmFWcY"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="EO2einq2"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=eIdGFZQrq1W1+oDWg1pFyefKw3jSU0hUHz1p7WUuKX4=; b=1yTmFWcYMBAN3GUwybq8Skw0jv
-	/AtSdjUOVImaSNSTmGcHv0K9Uko+kKNepRmHvVv8bZ6yS2kfYD+manlx6eBTliSaCQXeK63sBv46q
-	lfNdoGXh4IbzDAH107sZXRBm3KLbxBW7SB871kCjEL7P2rUdrzXqX31at0lSVaiDMh2B++dG4/G+n
-	Oi7XjPo2h9gF4Nzpo3ZSMLauFGt+OzV3ho9+Ai/X4hnC+lfg02ev43nVoUL5FmYRraDR2IIN7jlYh
-	/Adkb1P/33Gqb6v6bKs3IKcFaWAIE+ArCgg45kCwI+oJ5PMPBY49zJuxPr39xFUuoBeYJIVR+MDCV
-	cO2D5BhA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vhAkH-0000000FiG2-1fs5;
-	Sat, 17 Jan 2026 18:09:57 +0000
-Message-ID: <1fd4145f-b9f2-471b-8203-679ecea0d214@infradead.org>
-Date: Sat, 17 Jan 2026 10:09:56 -0800
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9K2q75TKsNQCCs0lg/uHM2KXv09DFsFaURV+ZH8P+68=; b=EO2einq2klJGAwNNhJjvj1IXTL
+	4pBBGcLQGnH94dj5/DeZi9pSplhB6mWcVUVm6HV182w3OiIzKlWv6oBPaj0p45JxFI7+e0+LEJT1E
+	yB6erLonGANWgkRKUMeVyu8y7a/vBQcmc+oCIInQbjMCMO3gzW9xawsizLRGV4t2LmBI0PTXvCum9
+	ZADTMQFJqHWssgBEdS1ry6kn1LT4RSuPRiVLsG3ZNol+oyd8aJ5ySqIh98fL0Nyed7wfXeyv+bp0o
+	gaRLRSqJaXMILyFC+ofbOFk9KmGqtRVtTS3JHe2sGgpNGBrBqtMexbRogqukk3RktssuQBMi9oyyu
+	mu21r6Jg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58372)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vhDFS-000000003nQ-1xJL;
+	Sat, 17 Jan 2026 20:50:18 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vhDFL-000000004tu-0qW1;
+	Sat, 17 Jan 2026 20:50:11 +0000
+Date: Sat, 17 Jan 2026 20:50:11 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Tao Wang <tao03.wang@horizon.auto>, alexandre.torgue@foss.st.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	horms@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mcoquelin.stm32@gmail.com,
+	netdev@vger.kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
+ resume
+Message-ID: <aWv2A18ZHP6rV7tp@shell.armlinux.org.uk>
+References: <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
+ <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
+ <51859704-57fd-4913-b09d-9ac58a57f185@bootlin.com>
+ <aWmLWxVEBmFSVjvF@shell.armlinux.org.uk>
+ <aWo_K0ocxs5kWcZT@shell.armlinux.org.uk>
+ <aWp-lDunV9URYNRL@shell.armlinux.org.uk>
+ <3a93c79e-f755-4642-a3b0-1cce7d0ea0ef@bootlin.com>
+ <aWqP_hhX73x_8Qs1@shell.armlinux.org.uk>
+ <aWqmIRFsHkQKkXF-@shell.armlinux.org.uk>
+ <20260117090634.26148eb4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Move kernel-doc to tools/docs
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akira Yokosawa <akiyks@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>
-References: <20260114164146.532916-1-corbet@lwn.net>
- <813cd0b6-e23b-4571-91fa-224106d3ad54@infradead.org>
- <87zf6gt2ts.fsf@trenco.lwn.net> <20260114212558.1aeb1b17@foz.lan>
- <87wm1ho3cs.fsf@trenco.lwn.net> <20260117110049.6cc49048@foz.lan>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260117110049.6cc49048@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260117090634.26148eb4@kernel.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Sat, Jan 17, 2026 at 09:06:34AM -0800, Jakub Kicinski wrote:
+> Letting switches generate pause is
+> a recipe for.. not having a network. We'd need to figure out why Netgear
+> does what it does in your case, IMHO.
 
+... because they're dumb consumer switches.
 
-On 1/17/26 2:00 AM, Mauro Carvalho Chehab wrote:
-> Em Fri, 16 Jan 2026 10:48:51 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> 
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->>
->>> Em Wed, 14 Jan 2026 12:24:31 -0700
->>> Jonathan Corbet <corbet@lwn.net> escreveu:
->>>  
->>>> Randy Dunlap <rdunlap@infradead.org> writes:
->>>>   
->>>>> I do many of these on a regular basis:
->>>>>
->>>>> $ ./scripts/kernel-doc -none -Wall <path_to_source_file>
->>>>>
->>>>> Will I still be able to do that (by using ./tools/doc/kernel-doc ...)?    
->>>>
->>>> Yes.  The tool moves, but its functionality remains unchanged.  
->>>
->>> That's actually a good point: should we preserve a link on scripts
->>> pointing to ../tools/doc/kernel-doc? I suspect that a change like
->>> that could break some machinery on several CI tools and scripts
->>> out there. If so, it could be useful to keep a link - at least for
->>> a couple of kernel releases.  
->>
->> So is the location of kernel-doc part of our ABI, or an internal detail?
->> :)
-> 
-> Surely it is not part of ABI: it can be changed whenever we want.
-> 
-> From my side, I don't mind where it is located: it will take some
-> time, but my fingers will end learning its new location/name ;-)
-> 
->> I'm not deeply opposed to maintaining the symlink, though I'd rather
->> not.  It won't be for "a couple of releases", though; if the symlink is
->> there, nothing will ever change.
-> 
-> I see two reasons why having a symlink:
-> 
-> 1. to avoid the risk of eventually breaking someone's CI or scripts.
->    This is just a preventive measure, as I'm not aware of anyone
->    with such scripts;
-
-I have some such scripts. And it's easy to update them, but I'd like for them
-to be compatible both going forward and backward in kernel versions -- without
-having to do something like:
-
-	if [ -x scripts/kernel-doc ]; then
-		foo
-	elif [ -x tools/docs/kernel-doc ]; then
-		baz
-	else { help; }
-
-I doubt that I am unique/alone in this.
-
-> 2. as you don't want ".py" extension on execs, but PEP8 mandates it, >    together with replacing "-" with "_", you can have a symlink that
->    would make both PEP8 and you happy ;-)
-> 
-> Just my 2 cents.
-
+Also, the correct term is "a notwork" :D
 
 -- 
-~Randy
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
