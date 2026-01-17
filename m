@@ -1,283 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0766318B0A
-	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 10:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51EB3128DF;
+	Sat, 17 Jan 2026 11:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768646701; cv=none; b=WIpMMatYEd7HXhJhsBy9BODP1MXWzSSnZsO4PAvrcjOMiX54L/bkU7Jtpqnj/pe1660zFKASEV4u2BKOqq3+OMDXXwAUc+sTQdTi/xkGTBOvTtseaXj383tY5NFh79TqWMiJMgqn8yqw0MNlvx/wxPh7iY391hR5+Tw7XtzPLLA=
+	t=1768648204; cv=none; b=Qyvnofn90lp/RmSOtQlFCjcr6B91jQmF23t5XcWVHMRdd/VnPwF+17KN41IiajLa3gAXUkTuFj5toPAB9jfiPmysL585MHjqRqRNK0ciIBVwjfl31LmXz3hoEdGm039o395xA3ZUa4Gct1oNXEdvLbdLmqwJ8h3L7aNT6Y3lShw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768646701; c=relaxed/simple;
-	bh=oJ+JZAEwluS02XPTByYwDWPhOpttqnCZwFMCpppqXI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jSeBV662HyUbCXc7tNDtGBqocPgfIIZlAKL3Ph3SjOQqZokpRjcwDjCFrWNYcHg2DYyHpcoCq4ihDSaSPctYeBRxKo7uZPUF9NI/huZx4vWTwyKGyypTBWJppcZt35UBZyaGbdZRsRdpfotSRhLJeiNT+mBTlP/81ghbQgxeQLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qYafz7p/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768648204; c=relaxed/simple;
+	bh=7poodvKUuzOVou6yy26C68DYDDTn3cRpsimnGL1nDDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2vkfEpIHKDsHKAn31Tq52uenocQu9rbFK6NjFiVRGKml+fLnHQtY8yLA7ovFVHRUBQNXaUmfYUXTvpsY5sIzpFRdQr1zG+PEQx85tNHa7JsLu/mQEwyA9cEtEouaF8p4kwZMNRZzgVrJtbkJO158tjwckyKxFQGLVt1d+Hmt9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=JMeggK56; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qYafz7p/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8552DC4CEF7;
-	Sat, 17 Jan 2026 10:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768646700;
-	bh=oJ+JZAEwluS02XPTByYwDWPhOpttqnCZwFMCpppqXI0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qYafz7p/FYkbsfgg3BksStG3zXACS/k7ZQu2zLOSMiphjOzzcX8An1IOkafhZ/l5F
-	 oFr1gGkxlj8gYgBZG+1KmAlt/01djwOH1XQvDsT0xvGJc+X32SSUKj3FYSf79o8wmO
-	 v4Iv6yqftlHBlNC0OUh4z8BWpnh1+bqQoAZ3akhnA55XkdfCO41BnyOQYXcUdv3V3q
-	 xXN+/7RwzMpKaL3naQ4Zdo4oZ3ShbP+2dQ0JsCZKkWmj0K3bk8/A8Vz8RUSNgHBHDB
-	 kdQr+4bVfynuPI8JKePFk7tRmadg3uIxVEjpLjeNK7OFK3TYave5GOZzlKJdv4lvmO
-	 TkGDtNwycIrrQ==
-Date: Sat, 17 Jan 2026 11:44:56 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Changbin Du <changbin.du@huawei.com>
-Subject: Re: [PATCH v3] Rework the jobserver open logic
-Message-ID: <20260117114456.48121ec0@foz.lan>
-In-Reply-To: <20260117113632.18b19b4f@foz.lan>
-References: <875x91pid4.fsf@trenco.lwn.net>
-	<20260117113632.18b19b4f@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="JMeggK56"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=jOPle7CQdmTssFXDdVFhSB4QqaOxmM9CxYXqpbVKQco=; b=JMeggK56xm6oep9ztPotoQPnYu
+	ThsH19MPem4x4BSprEfAOw7ogoLTdjB+IXSkIxP0MAYtfINEyat8lqs9U4Ntc++2zi2nvv45s3VsF
+	C4HXnUmI1Xl1DeMMD1vaYz2cPeF2Q36J/9UQb722UgKWhOzKpz+8WMo0S6PFcBFX1MKP6PQgM8x4W
+	e9IEJDp1AGnchrawCPf2KNgh4niOs9m1kXkevcid9NzkRTRCxKwEaeabDqcZb1ixYx/Chd1QbJSwo
+	6lwm9Q523lSsaPLX0oc1/gUAVodsgM9iVw648qg5A7Xv9osyISoUzqYnAU+mducfXoJbcw5zK3kal
+	LzpVQG6g==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49136)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vh4Be-000000003Yr-0IBH;
+	Sat, 17 Jan 2026 11:09:46 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vh4BX-000000004XG-0FzH;
+	Sat, 17 Jan 2026 11:09:39 +0000
+Date: Sat, 17 Jan 2026 11:09:38 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Tao Wang <tao03.wang@horizon.auto>
+Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, horms@kernel.org,
+	kuba@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maxime.chevallier@bootlin.com,
+	mcoquelin.stm32@gmail.com, netdev@vger.kernel.org,
+	pabeni@redhat.com
+Subject: Re: [PATCH net v3] net: stmmac: fix transmit queue timed out after
+ resume for tso
+Message-ID: <aWtt8hlsqWVF1tYz@shell.armlinux.org.uk>
+References: <aWrJvrpIAZHQS2uv@shell.armlinux.org.uk>
+ <20260117075926.128979-1-tao03.wang@horizon.auto>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260117075926.128979-1-tao03.wang@horizon.auto>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Em Sat, 17 Jan 2026 11:36:38 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-
-> Em Fri, 16 Jan 2026 10:39:19 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
+On Sat, Jan 17, 2026 at 03:59:22PM +0800, Tao Wang wrote:
+> > Rather than using tx_q->tx_skbuff_dma[].last_segment to determine
+> > whether the first descriptor entry is the only segment, calculate the
+> > number of descriptor entries used. If there is only one descriptor,
+> > then the first is also the last, so mark it as such.
 > 
-> > The parsing of jobserver options is done in a massive try: block that hides
-> > problems and (perhaps) bugs.  Split up that block and make the logic
-> > explicit by moving the initial parsing of MAKEFLAGS out of that block.  Add
-> > warnings in the places things can go wrong.
-> > 
-> > Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> > ---
-> > Changes in v3:
-> >   - Let warn() take multiple arguments
-> >   - Fix syntactic brown-paper-bag error
-> > 
-> >  tools/lib/python/jobserver.py | 143 +++++++++++++++++++++-------------
-> >  1 file changed, 90 insertions(+), 53 deletions(-)
-> > 
-> > diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver.py
-> > index 616411087725..7659b93fd566 100755
-> > --- a/tools/lib/python/jobserver.py
-> > +++ b/tools/lib/python/jobserver.py
-> > @@ -35,6 +35,9 @@ import os
-> >  import subprocess
-> >  import sys
-> >  
-> > +def warn(text, *args):
-> > +    print(f'WARNING: {text}', *args, file = sys.stderr)  
+> This is a good idea. tx_q->tx_skbuff_dma[].last_segment no longer carries
+>  much meaning and can indeed be removed altogether.
 > 
-> Nit:
-> pylint would complain about that: it should be "file=sys.stderr".
+> > +       is_last_segment = ((tx_q->cur_tx - first_entry) &
+> > +                          (priv->dma_conf.dma_tx_size - 1)) == 1;
 > 
-> Heh, we should really write a coding style for python and define
-> what linter we would use, if any ;-)
-> 
-> > +
-> >  class JobserverExec:
-> >      """
-> >      Claim all slots from make using POSIX Jobserver.
-> > @@ -58,64 +61,98 @@ class JobserverExec:
-> >  
-> >          if self.is_open:
-> >              return
-> > -
-> > -        try:
-> > -            # Fetch the make environment options.
-> > -            flags = os.environ["MAKEFLAGS"]
-> > -            # Look for "--jobserver=R,W"
-> > -            # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-> > -            # so this handles all of them.
-> > -            opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-> > -
-> > -            # Parse out R,W file descriptor numbers and set them nonblocking.
-> > -            # If the MAKEFLAGS variable contains multiple instances of the
-> > -            # --jobserver-auth= option, the last one is relevant.
-> > -            fds = opts[-1].split("=", 1)[1]
-> > -
-> > -            # Starting with GNU Make 4.4, named pipes are used for reader
-> > -            # and writer.
-> > -            # Example argument: --jobserver-auth=fifo:/tmp/GMfifo8134
-> > -            _, _, path = fds.partition("fifo:")
-> > -
-> > -            if path:
-> > +        self.is_open = True  # We only try once
-> > +        self.claim = None
-> > +        #
-> > +        # Check the make flags for "--jobserver=R,W"
-> > +        # Note that GNU Make has used --jobserver-fds and --jobserver-auth
-> > +        # so this handles all of them.
-> > +        #
-> > +        flags = os.environ.get('MAKEFLAGS', '')
-> > +        opts = [x for x in flags.split(" ") if x.startswith("--jobserver")]
-> > +        if not opts:
-> > +            return
-> > +        #
-> > +        # Separate out the provided file descriptors
-> > +        #
-> > +        split_opt = opts[-1].split('=', 1)
-> > +        if len(split_opt) != 2:
-> > +            warn('unparseable option:', opts[-1])
-> > +            return
-> > +        fds = split_opt[1]
-> > +        #
-> > +        # As of GNU Make 4.4, we'll be looking for a named pipe
-> > +        # identified as fifo:path
-> > +        #
-> > +        if fds.startswith('fifo:'):
-> > +            path = fds[len('fifo:'):]
-> > +            try:
-> >                  self.reader = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-> >                  self.writer = os.open(path, os.O_WRONLY)
-> > -            else:
-> > -                self.reader, self.writer = [int(x) for x in fds.split(",", 1)]
-> > +            except (OSError, IOError):
-> > +                warn('unable to open jobserver pipe', path)
-> > +                return
-> > +        #
-> > +        # Otherwise look for integer file-descriptor numbers.
-> > +        #
-> > +        else:
-> > +            split_fds = fds.split(',')
-> > +            if len(split_fds) != 2:
-> > +                warn('malformed jobserver file descriptors:', fds)
-> > +                return
-> > +            try:
-> > +                self.reader = int(split_fds[0])
-> > +                self.writer = int(split_fds[1])
-> > +            except ValueError:
-> > +                warn('non-integer jobserver file-descriptors:', fds)
-> > +                return
-> > +            try:
-> > +                #
-> >                  # Open a private copy of reader to avoid setting nonblocking
-> >                  # on an unexpecting process with the same reader fd.
-> > -                self.reader = os.open("/proc/self/fd/%d" % (self.reader),
-> > +                #
-> > +                self.reader = os.open(f"/proc/self/fd/{self.reader}",
-> >                                        os.O_RDONLY | os.O_NONBLOCK)
-> > -
-> > -            # Read out as many jobserver slots as possible
-> > -            while True:
-> > -                try:
-> > -                    slot = os.read(self.reader, 8)
-> > -                    if not slot:
-> > -                        # Clear self.jobs to prevent us from probably writing incorrect file.
-> > -                        self.jobs = b""
-> > -                        raise ValueError("unexpected empty token from jobserver fd, invalid '--jobserver-auth=' setting?")
-> > -                    self.jobs += slot
-> > -                except (OSError, IOError) as e:
-> > -                    if e.errno == errno.EWOULDBLOCK:
-> > -                        # Stop at the end of the jobserver queue.
-> > -                        break
-> > -                    # If something went wrong, give back the jobs.
-> > -                    if self.jobs:
-> > -                        os.write(self.writer, self.jobs)
-> > -                    raise e
-> > -
-> > -            # Add a bump for our caller's reserveration, since we're just going
-> > -            # to sit here blocked on our child.
-> > -            self.claim = len(self.jobs) + 1
-> > -
-> > -        except (KeyError, IndexError, ValueError, OSError, IOError) as e:
-> > -            print(f"jobserver: warning: {repr(e)}", file=sys.stderr)
-> > -            # Any missing environment strings or bad fds should result in just
-> > -            # not being parallel.
-> > -            self.claim = None
-> > -
-> > -        self.is_open = True
-> > +            except (IOError, OSError):
-> > +                warn('Unable to reopen jobserver read-side pipe')  
-> 
-> I would add {repr(e)} here, to allow debugging what error was raised:
-> 
-> 	warn(f"Unable to reopen jobserver read-side pipe: {repr(e)}")
-> 
-> (or pass it via args, as the logic below)
-> 
-> > +                return
-> > +        #
-> > +        # OK, we have the channel to the job server; read out as many jobserver
-> > +        # slots as possible.
-> > +        #
-> > +        while True:
-> > +            try:
-> > +                slot = os.read(self.reader, 8)
-> > +                if not slot:
-> > +                    #
-> > +                    # Something went wrong.  Clear self.jobs to avoid writing
-> > +                    # weirdness back to the jobserver and give up.
-> > +                    self.jobs = b""
-> > +                    warn("unexpected empty token from jobserver;"
-> > +                         " possible invalid '--jobserver-auth=' setting")  
-> 
-> Maybe you should print "opts" here as well.
-> 
-> > +                    self.claim = None
-> > +                    return
-> > +            except (OSError, IOError) as e:
-> > +                #
-> > +                # If there is nothing more to read then we are done.
-> > +                #
-> > +                if e.errno == errno.EWOULDBLOCK:
-> > +                    break
-> > +                #
-> > +                # Anything else says that something went weird; give back
-> > +                # the jobs and give up.
-> > +                #
-> > +                if self.jobs:
-> > +                    os.write(self.writer, self.jobs)
-> > +                    self.claim = None
-> > +                    warn('error reading from jobserver pipe', e)
+> Since tx_q->cur_tx may wrap around and become smaller than first_entry,
+> the following statement is more concise:
+> is_last_segment = (tx_q->cur_tx == first_entry);
 
-Forgot to mention: instead of passing "e" (which would be converted
-internally to str(e), better to pass repr(e).
+That's incorrect. We advance tx_q->cur_tx by at least one by this
+point:
 
-The difference is that, when you use repr(e), it will print:
+        first_entry = tx_q->cur_tx;
 
-	<error subclass>: <error description>
+... fill descriptors ...
 
-e.g. something like (*):
+        /* We've used all descriptors we need for this skb, however,
+         * advance cur_tx so that it references a fresh descriptor.
+         * ndo_start_xmit will fill this descriptor the next time it's
+         * called and stmmac_tx_clean may clean up to this descriptor.
+         */
+        tx_q->cur_tx = STMMAC_GET_ENTRY(tx_q->cur_tx, priv->dma_conf.dma_tx_size);
 
-	BrokenPipeError: Pipe not found
+...
 
-Having the error class at the beginning helps a lot if in the future we 
-would need to fine tune it.
+        /* If we only have one entry used, then the first entry is the last
+         * segment.
+         */
+        is_last_segment = ((tx_q->cur_tx - first_entry) &
+                           (priv->dma_conf.dma_tx_size - 1)) == 1;
 
-(*) I just picked a random OSError subclass from 
+So, replacing this with a check for tx_q->cur_tx == first_entry
+would always be false here, unless we completely filled the ring
+with a single TSO.
 
-	https://docs.python.org/3/library/exceptions.html#os-exceptions
-
-    just for the sake of the example
-
-> > +                    return
-> > +            self.jobs += slot
-> > +        #
-> > +        # Add a bump for our caller's reserveration, since we're just going
-> > +        # to sit here blocked on our child.
-> > +        #
-> > +        self.claim = len(self.jobs) + 1
-> >  
-> >      def close(self):
-> >          """Return all reserved slots to Jobserver"""  
-> 
-> 
-> 
-> Thanks,
-> Mauro
-
-
-
-Thanks,
-Mauro
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
