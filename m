@@ -1,119 +1,104 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274342EB87D;
-	Sat, 17 Jan 2026 23:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF76241663
+	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 23:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768692428; cv=none; b=S95z3qOMat9+HqhhuxnY4T44jEBPgOdUvymOvIkwPm8xs24tVtVZ/exMk9g8IllQIw+Pj0bNWfrbOZ5xQt9boZv0T7JyYtUk3zoc49moxMco/dna258shL2JkK6iR/ZbCsYc13r3SBIa5+DfcsePFEWszf4N3f2CWzkDcGQPiZ0=
+	t=1768692760; cv=none; b=Ugai+I6hdE0vd2wJuQsu92o6tj/DlQ9lkXndj56BfY0pZyV/hL/9iOyN9jW7N8M9LjTI5gaSxjl6cFZ/gYsKnB9SaImxNgKqDZ2gX7xZqpgTpzJ7hPEIQEGn9DL7k5osJAITKDImtl+/QAr/DHw/lqmcwvqFoVr/opUsnSDi5Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768692428; c=relaxed/simple;
-	bh=iu/Nqtn8dRHZka2LF2nKKKy85TSJtks1y7TCW8Th124=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nTF91VO9h8t9j6xPG0UUFFmU2XOpnn8k08mONtSK3jz20hPzyOKIKNJt8APg4foIcn0fhZkmDm6F7dtqLn3j+Tg8zs5M10xC/fmDs/uZYw+lsIXRgeDPFJ204eAF5Gviivz18mKQ7qr7GRtiBxtXYdqC2eIOf6FXGBdQ+R32JFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=eX5xZY3s; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1768692760; c=relaxed/simple;
+	bh=KsgIAfP+W70BPJlRGYfbmCnGPSyOyXncu2CNcuP6E8E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a2ty2i2iYy/PgvLG2jLWSDtCJ6nf8LXBhpdivqFgrDqDuN3qclZqSiC7vT6dt2q1+cGetbR93jVvGVzRUcYsDOhQDvn4/KYanQBqYW9wF024v7fZr/P1OElaA59I92+hDg0GgIxGHix7Ps0ps9I6rocaoKkOI1uabo36iZwOXQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ago0No+V; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="eX5xZY3s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1768692418;
-	bh=iu/Nqtn8dRHZka2LF2nKKKy85TSJtks1y7TCW8Th124=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eX5xZY3sWyPyYTNGvJbMLmgGiFh9EpZlKnWtuqWjKd8LnTXDnfCO3likfmF4B86EV
-	 ReLJliukwII2tdxTFY9NYV45oS/vg49ZIc7gxPwjwuCWZs6q6h9h1RCo0AwNE1hE5E
-	 7Nuh4bJPDANr4SoE/LWaxf+mjUm3oKpFi36TSBWI=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 18 Jan 2026 00:26:23 +0100
-Subject: [PATCH 3/4] tools/docs: sphinx-build-wrapper: compute
- sphinxdirs_list earlier
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ago0No+V"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-45c733ccc32so2028453b6e.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 15:32:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768692758; x=1769297558; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJi2c02eGE0Lx/gRXI7yV1B+E+TXhOaeYVBCRIQYM7U=;
+        b=ago0No+VV5tcYrW2GfjWshjMK2/fswo9PRRsRJSfLkmuHyTCog/jTTE+kCWGznB/4b
+         8Y9ovwZE005YOOrBSjgysXGdWrGWaNg9Qrr5JILVpHuolyMF+a7DBFyutvm+0fchvlln
+         DEP/rVMMZBP/8PceVZqZzU8pKOGA104DU1JgcIVzbyU896q9lPsHjkNHGreK2AzZYUnj
+         JOJtm5HH88Gc8sYYlqjwP4Iec9/R7l27MCkghm/G5AB8C1hM3PKBef51sEjPGwFjl4/l
+         McEBZIIKsx9JrYrH1ekYlPQJEJ8dXbt+mFcmiyLnC1YyBIr0t/YUDhE3qqIXW7aOoQZu
+         8EtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768692758; x=1769297558;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YJi2c02eGE0Lx/gRXI7yV1B+E+TXhOaeYVBCRIQYM7U=;
+        b=BdMxKZzQjUwR1fciLbRu6RTzhxN1f1QmMLFudPLZ0kbcuh84Xk5p6JaiulZd8/JGQH
+         wgFqJmFHKag3vo+RSKTvY9ISX49VkqrN5HfForb4he4G9mfuSVgVPMVLt16MZAus5zZW
+         k+DHpLyO2ptcn9G6miCBbLtaLLpt6F/LKavxEY7eGjhlCzwA1iRYQyIsCqwhmYdI+/q0
+         zhoqmkWh6inJY/YorvbmOgvoEz6llm2iN3aN7CgLs6paPLLueIvwHYEQm/Esjsr6BKAX
+         1UP3ix3f7aX9cPWwchVQEkff5reUvOuztoyH2VsoGCyVJn89wmjomGUSv5cZ5AChBV4p
+         XHCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTtvPOlG+acDn7UwanCicRhFIAvgxRWzOpy5TvQKE+aP7SVUJy26eu+4C8+igMsLTTBeF26XYAruA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTcY+z0sNFA++/CIgVY6YzRlansRPmCZ6gl+C6k74UvOv16oNy
+	KBKH5q7QARxAz5CIwfCErFIn0Y4Pty/6jgW5hIuY1ZxRY1UOawaCocaP
+X-Gm-Gg: AY/fxX4xPgFBTs8XDkDHFOO4SJQEBBpQO+4MTUqDRzFUEivuxGb/ix+dWPSKcMzE+ji
+	hyoezzDGN98ZeSPAXnroi70cCeMmCWVNn9VBik3Vw1gFLw8ZsGPJsDRz4G708Wh652nxizIs31z
+	BU79IFPU96onaTVBF9LqXvOwAUXHW6JdkwWzwrGOQJKU7+CXlWrZ9CzEKzXVqpPH5klj6YUjwJD
+	eSpufnGYOk+gBX+W1jSJ9BR/y/LjhTU6iQFJ4otJnwsNjNNQ6VkYaq8W7DjzJv/PnMKsM+dSe41
+	syqeW1wWZBoPKk7YD7AfdiHFLEkJzRMSZtjGhzKIJU/SKHUZbJ7p+1oVA56eNQuKDrbcvvHpJr5
+	zpCpmL2IRAF/g/cvhKbF9GnMYuuOrZrScIGF87dMcZNGfrQhoseYuCbhonB52MA4g8Gv2XwPhI1
+	IDWKncVZESZhz6F+DG7+WAGIs1sewcuPd1ozoUzqFT
+X-Received: by 2002:a05:6808:3088:b0:43b:8cf4:9284 with SMTP id 5614622812f47-45c9bf84db1mr3555134b6e.14.1768692757671;
+        Sat, 17 Jan 2026 15:32:37 -0800 (PST)
+Received: from localhost.localdomain ([50.24.139.5])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-45c9e0086a4sm3424232b6e.12.2026.01.17.15.32.32
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 17 Jan 2026 15:32:36 -0800 (PST)
+From: Andy Chiu <andybnac@gmail.com>
+To: linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	pjw@kernel.org
+Cc: Andy Chiu <andybnac@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	paul.walmsley@sifive.com,
+	greentime.hu@sifive.com,
+	nick.hu@sifive.com,
+	nylon.chen@sifive.com,
+	eric.lin@sifive.com,
+	vincent.chen@sifive.com,
+	zong.li@sifive.com,
+	yongxuan.wang@sifive.com,
+	samuel.holland@sifive.com
+Subject: [PATCH v2 0/1] update riscv prctl for discovering V extension
+Date: Sat, 17 Jan 2026 17:32:26 -0600
+Message-Id: <20260117233228.36088-1-andybnac@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260118-docs-spurious-rust-v1-3-998e14b9ed9e@weissschuh.net>
-References: <20260118-docs-spurious-rust-v1-0-998e14b9ed9e@weissschuh.net>
-In-Reply-To: <20260118-docs-spurious-rust-v1-0-998e14b9ed9e@weissschuh.net>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768692417; l=2099;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=iu/Nqtn8dRHZka2LF2nKKKy85TSJtks1y7TCW8Th124=;
- b=zXEe6SzFXRWnNwB4HN3W+DDTGVVMHeECkvCg8P3tXadQlS+RIDtCXGP5H12Oy2praJKD82xc1
- w6XvSVoDu5SCk7BI0TGidiqsNConUaAZ3GMkbaSU1PhjmXyJSKQGbbT
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-An upcoming patch will require sphinxdirs_list to be available before
-the call to check_rust().
+This version of the patch fixes an htmldocs build fail and some formatting
+issues, and it has some sentences rewritten for an easier read. The
+patch is based on current riscv fixes and the hash is included at the
+bottom.
 
-Move it up in the function.
+Link to v1: https://lore.kernel.org/all/20260107000609.63892-1-andybnac@gmail.com/
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- tools/docs/sphinx-build-wrapper | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+Andy Chiu (1):
+  Documentation: riscv: update Vector discovery for userspace
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 5f956c289c02..a3cca4634355 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -670,6 +670,19 @@ class SphinxBuilder:
-         if kerneldoc.startswith(self.srctree):
-             kerneldoc = os.path.relpath(kerneldoc, self.srctree)
- 
-+        if not sphinxdirs:
-+            sphinxdirs = os.environ.get("SPHINXDIRS", ".")
-+
-+        #
-+        # sphinxdirs can be a list or a whitespace-separated string
-+        #
-+        sphinxdirs_list = []
-+        for sphinxdir in sphinxdirs:
-+            if isinstance(sphinxdir, list):
-+                sphinxdirs_list += sphinxdir
-+            else:
-+                sphinxdirs_list += sphinxdir.split()
-+
-         args = [ "-b", builder, "-c", docs_dir ]
- 
-         if builder == "latex":
-@@ -682,9 +695,6 @@ class SphinxBuilder:
-         if rustdoc:
-             args.extend(["-t", "rustdoc"])
- 
--        if not sphinxdirs:
--            sphinxdirs = os.environ.get("SPHINXDIRS", ".")
--
-         #
-         # The sphinx-build tool has a bug: internally, it tries to set
-         # locale with locale.setlocale(locale.LC_ALL, ''). This causes a
-@@ -695,16 +705,6 @@ class SphinxBuilder:
-         except locale.Error:
-             self.env["LC_ALL"] = "C"
- 
--        #
--        # sphinxdirs can be a list or a whitespace-separated string
--        #
--        sphinxdirs_list = []
--        for sphinxdir in sphinxdirs:
--            if isinstance(sphinxdir, list):
--                sphinxdirs_list += sphinxdir
--            else:
--                sphinxdirs_list += sphinxdir.split()
--
-         #
-         # Step 1:  Build each directory in separate.
-         #
+ Documentation/arch/riscv/vector.rst | 51 +++++++++++++++++++++++------
+ 1 file changed, 41 insertions(+), 10 deletions(-)
 
+
+base-commit: b0d7f5f0c9f05f1b6d4ee7110f15bef9c11f9df0
 -- 
-2.52.0
+2.39.3 (Apple Git-145)
 
