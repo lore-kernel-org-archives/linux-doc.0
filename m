@@ -1,85 +1,89 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F25B50095D;
-	Sat, 17 Jan 2026 20:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE13629E0F6
+	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 22:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768683036; cv=none; b=fqkjkOM6xGjjeASJo2T3P90XvncsosIlI5HvgZcm8Xvus6LmZg0lRPhJ145UwsJGT6hhL/YEpYDCLpN1v826k/PFd44+eVFZrCsqh4S9ARlfGPK2XnjhqrbnnO8lo4ziqu5s/jj6iR3JTDwycjSyZhKC3nu+PQjKlbW+hth9Mzk=
+	t=1768687907; cv=none; b=tL43pGQMxaAduX08YoY4COfr+JYiUoEd/5lyQRNVMv0k3nR5G2F0oywyAtn0a18hY+6cWWvUWjcg8/RR8iiZG+wFZpmCC2QRhes2xpBfJ00Hf44Qqo6/OJgLFXtDc5u9fZqSqANnLzS0XYkXAQR5hn/RJSVmSA2rlwt+EQBc1kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768683036; c=relaxed/simple;
-	bh=8+Lt0wHLkliFfdDrOmERdcOPvey2slepLAS2y6g+wgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O1sfxcRpPigtY0kIN2iuqsq8MQ5g80c3fmSc1IsBw1OXLhpa7vT2cnxieW8vU+ctew8CZ1B+2onP2R6CfIT0R11raPCbISwD1KItM01F1TN46K1KouUwM7GfRGjv4lL2j7E15VQOdU1Wmt85dZD8JRKBpF7Yyu/z4jIuLFg0ABY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=EO2einq2; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1768687907; c=relaxed/simple;
+	bh=0QsN4/s8foqpiEU2z8LgKHsRmHRPQeEOz4+b7HvRAaY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W7V79MsqEboDkz4lhM7Kp789UaiTupAGGU5IjaY+43ZXnxOFF9IhTKAO9RlUQpBfKBTb2TBM7R+NwJFLocf1RC2Ooqgs7HQTsXKq6CYeHX07t9Lz8qjJblMkBTuXdU2KygjocOZCZJqdtmWbgGn4X5/6EiHrvhh2tFcPYXoeFaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=perenite.com; spf=pass smtp.mailfrom=perenite.com; dkim=pass (2048-bit key) header.d=perenite-com.20230601.gappssmtp.com header.i=@perenite-com.20230601.gappssmtp.com header.b=NTL7pgPa; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=perenite.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perenite.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="EO2einq2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9K2q75TKsNQCCs0lg/uHM2KXv09DFsFaURV+ZH8P+68=; b=EO2einq2klJGAwNNhJjvj1IXTL
-	4pBBGcLQGnH94dj5/DeZi9pSplhB6mWcVUVm6HV182w3OiIzKlWv6oBPaj0p45JxFI7+e0+LEJT1E
-	yB6erLonGANWgkRKUMeVyu8y7a/vBQcmc+oCIInQbjMCMO3gzW9xawsizLRGV4t2LmBI0PTXvCum9
-	ZADTMQFJqHWssgBEdS1ry6kn1LT4RSuPRiVLsG3ZNol+oyd8aJ5ySqIh98fL0Nyed7wfXeyv+bp0o
-	gaRLRSqJaXMILyFC+ofbOFk9KmGqtRVtTS3JHe2sGgpNGBrBqtMexbRogqukk3RktssuQBMi9oyyu
-	mu21r6Jg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58372)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vhDFS-000000003nQ-1xJL;
-	Sat, 17 Jan 2026 20:50:18 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vhDFL-000000004tu-0qW1;
-	Sat, 17 Jan 2026 20:50:11 +0000
-Date: Sat, 17 Jan 2026 20:50:11 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Tao Wang <tao03.wang@horizon.auto>, alexandre.torgue@foss.st.com,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	horms@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mcoquelin.stm32@gmail.com,
-	netdev@vger.kernel.org, pabeni@redhat.com
-Subject: Re: [PATCH net v2] net: stmmac: fix transmit queue timed out after
- resume
-Message-ID: <aWv2A18ZHP6rV7tp@shell.armlinux.org.uk>
-References: <aWlCs5lksxfgL6Gi@shell.armlinux.org.uk>
- <6a946edc-297e-469a-8d91-80430d88f3e5@bootlin.com>
- <51859704-57fd-4913-b09d-9ac58a57f185@bootlin.com>
- <aWmLWxVEBmFSVjvF@shell.armlinux.org.uk>
- <aWo_K0ocxs5kWcZT@shell.armlinux.org.uk>
- <aWp-lDunV9URYNRL@shell.armlinux.org.uk>
- <3a93c79e-f755-4642-a3b0-1cce7d0ea0ef@bootlin.com>
- <aWqP_hhX73x_8Qs1@shell.armlinux.org.uk>
- <aWqmIRFsHkQKkXF-@shell.armlinux.org.uk>
- <20260117090634.26148eb4@kernel.org>
+	dkim=pass (2048-bit key) header.d=perenite-com.20230601.gappssmtp.com header.i=@perenite-com.20230601.gappssmtp.com header.b="NTL7pgPa"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59b6a987346so2873389e87.3
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 14:11:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=perenite-com.20230601.gappssmtp.com; s=20230601; t=1768687904; x=1769292704; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0QsN4/s8foqpiEU2z8LgKHsRmHRPQeEOz4+b7HvRAaY=;
+        b=NTL7pgPaCCeN29UEZ6r1c6GhXVoIuYYQHe3dWRWm7tFDWZG6IglFc4lUtvxFn2GEeh
+         tquXv307qJQi5yzn31gMMAVrcfFZfrUhxy9jt25+VhBY9TRZsW7aH2EuBrCnjl4PDO6K
+         TR3ES0InBdgmJCUpK5Hj0HEO8CMrPuO6dxNdq2/ykzsMZ/37YJ4mQnNXSnatgGE8spIy
+         4R9QDxOqA9fyYrXF8hAIItcpcmxfmnl6YGIOtKrZaUzyus2BumddRCyJFM2MlSGlUTbO
+         PS62KPMf6DwoGoxF7CpnZoEmWvOaY3dtwkIMSIIXJV8VJVMlmjFDQ2BdLFD7iNTiaF6w
+         LQ7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768687904; x=1769292704;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0QsN4/s8foqpiEU2z8LgKHsRmHRPQeEOz4+b7HvRAaY=;
+        b=pJOqXK3tWSz3WJ4XhD41uP3tQy209Byu9GwHasxE+mQgAwo1ZI2qM+NYJPMLki+xk3
+         59X0UVpQ5WDWyP4AehJ6ReF/mnx2wmOXbdlDrxnh0KMrEtoNUQNf2E2UTTA2fVJqoCvt
+         v2kLIvbF6+heYDQMfRbPqnA/R0Sy/TB3VCM5u1bsWu+zjAUUw18HaNiiaeSIORV05Via
+         ktScJRR4Yk4KDl47nv3QO55hgbYNE4e2uJT92/hI64H1rKGKU09aCzCckTHCL8BM0IRT
+         B1n6eqsZ2o/yPig4sznp9GUau2qXesnND46/qzirciloQFyvGfOKTXn2m1qWKxsEPJ6O
+         D/KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVix15k6SuixyHx5wzzregiSv9wsdpspWRqB5nzCPW+2BGImZCSWMsGABsck4cEgDkvhfGZ+tKQur8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0yIRBEGvtUBMmnTepIT54UkNi4fXqoMqSFelzaleaJAUpugRr
+	MXtsapuuAzztz31OWD63lRX2eouyt53SsrYvdj+goNNmSjdCAOWq1Z5wHRh3dyKB8FyHWT82dFX
+	bO2O0NeW42Waxri7aEpgKR5usQ0oeZaWuVqCwAhFl
+X-Gm-Gg: AY/fxX41wAwXoNk6UUQdt7zjtVCmW+S8UQ/3MSosPhFTg0yQnwYWZ6VOScDX1qxoFOV
+	rd2gGdeNILxAea/71gz/ahWMi/dmFLQC4fyCdekefvOEEzMPYobqIvEeX27DaJy2ewEmBqL96Rb
+	gXlCwqpjBR4Mb2uORZk6qoEqTNeSdzGBJZ/bJepOOb0WUeqh5ON8IRCyLzLJg72+dxuffjZcwqM
+	luAMrUIABAEb5pOeKUtL/UVj0kjFvSS00JbF2uRlJHCZFAUiovsRtazOJ6PtsIW0CFJaXl6RHby
+	dM/nmp7SkLt3Wr7lgM7b1VDD2kg=
+X-Received: by 2002:a05:6512:128a:b0:595:7854:af77 with SMTP id
+ 2adb3069b0e04-59bafebe300mr1967672e87.22.1768687903932; Sat, 17 Jan 2026
+ 14:11:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260117090634.26148eb4@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20260114221210.98071-1-yahoo@perenite.com> <20260114221210.98071-2-yahoo@perenite.com>
+ <0a4bfdac-3f3f-4dd7-87ca-a4edb58d2bdb@roeck-us.net>
+In-Reply-To: <0a4bfdac-3f3f-4dd7-87ca-a4edb58d2bdb@roeck-us.net>
+From: Benoit Masson <yahoo@perenite.com>
+Date: Sat, 17 Jan 2026 23:11:32 +0100
+X-Gm-Features: AZwV_Qjx8bKNnZwzQX3_lU5KGOFlQslHdigKheBNDxdgxIwKAmWPkmTQh2fb6AE
+Message-ID: <CAGHj7OJ75Sxn9AVguC8uFJwd8rdAvSREKFreWW3_-E+4MaHycQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] hwmon: it87: describe per-chip temperature resources
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 17, 2026 at 09:06:34AM -0800, Jakub Kicinski wrote:
-> Letting switches generate pause is
-> a recipe for.. not having a network. We'd need to figure out why Netgear
-> does what it does in your case, IMHO.
+On Sat, Jan 17, 2026 at 3:39=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+> Series applied.
+Guenter, my appologies but after changing some BIOS parameters of the
+IT8613E it seems the patch has something wrong and creates a null
+pointer exception. Can you please remove patch for now until I test
+all BIOS/changes before re-submiting. I'm sorry for the miss here and
+your work pushing for this but prefer to prevent the patch for getting
+deeping in the submission chain.
 
-... because they're dumb consumer switches.
-
-Also, the correct term is "a notwork" :D
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+> Thanks,
+> Guenter
+Tahnks and sorry again for missing this.
