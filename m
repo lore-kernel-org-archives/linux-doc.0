@@ -1,169 +1,89 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw03.horizon.ai (mailgw03.horizon.ai [42.62.85.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E5132F761
-	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 07:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86CB32AAA1
+	for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 08:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=42.62.85.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768634929; cv=none; b=A0kFQgL+DAgH3U42WUrMyhxpa7onSKCFAaO1G+3rIJTOeQYLcSXbXqWvYPShO1+MMxkKqwp/BZ6M+HP0x28aslW41gRhaxsyuAXKKw+cicQ8c8IOBcsxX4dMHxd5aaBVDeNhs2w4D9rGsb6HljiO2qgz8uuvw4gW6HABe0fWg/w=
+	t=1768636802; cv=none; b=DcaQH7S3+w1n522VY4Iba0KnOkEgewb0chLEZTu5Dfd5SDK7hDyk3HaMKX3JXANFNZJFVNBZmdeKo6RJO3BS7hrMkVD+YMfRs/drmnXETo3XKioumYGiaglh/urUlnDPYMGpY9qH5W96nGy4GsPgsdO/LsPww49XM3B7zq55a5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768634929; c=relaxed/simple;
-	bh=0dOjsz9/OTbsiieOE07EM6/GdvbrfPfmq+FYkav8ZqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b0vvC7/fCGgzranXO0pUcLn34EkRpDd0q15jEZmaT0+Kxw2+PJfeS1HTM3JJjezrTaox9Rw7AIr8BZjJyJTdfOUkLDHlOzKPu8cKxXhpZGXDYQ39zWMluK1ME94Zl8b7Yvmgo5ro6MJV7usSLxOMLyPRjW3Vhvz0wAaXceEwZlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info; spf=pass smtp.mailfrom=shenghaoyang.info; dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b=VkPx0hCy; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shenghaoyang.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shenghaoyang.info
+	s=arc-20240116; t=1768636802; c=relaxed/simple;
+	bh=kiy7jjnwu41yVzlHymSVTjyCswIwRjtWFH4Lz2ixVhM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aZ4Ayw2L2c9C4AhEF/ng63vz+32L8NAkJIarIsVgtVrBI4qnEklfM4DIjWn5KJ9Gy9IubCyTVGH+tJ126ozYjP4SvgUYiZDwuTs5tvL2UpA+iqgRmZF667EcF1ptP2n74yZ1NAfb3tXrCwj9DIogNagG8n0pBn7yfmT/FsfkrTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto; spf=pass smtp.mailfrom=horizon.auto; dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b=MsacfGes; arc=none smtp.client-ip=42.62.85.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=horizon.auto
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=horizon.auto
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="VkPx0hCy"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a08c65fceeso4500695ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Jan 2026 23:28:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shenghaoyang.info; s=google; t=1768634926; x=1769239726; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h9HAJVA/qJVm3szfavq91Ie6LHNeib+qVQ+QzfxwkO8=;
-        b=VkPx0hCyR+Ardk3SmvBKcHd16tEKL5d0DBtd+ralG9v4S4Eks1mkKYOSC/kPRKZxVF
-         9mo5klfXK3Bcjm0UYGVnUt9N5TI3aLk8Ws9uThdsay4qWuogFDGQUfjuPTG+V0btOV9B
-         RCcjOE8D/cfTAekbk2xnZGD8xp7BHUqQdHNAQYTIqI8PJ8jzoCzE3yNl0gqyFvUQMtGL
-         fwRfvZ22lzX+Z1n6e0YovPLvDtc2vvWE553sSzctsX5r20dw7caRj+kXK5yT4SVH8eaQ
-         2I20r+cpiwgZ2JoP31a9YcShIUU9lzK839XisxmRA0YtpWARqXQnPZYqVGJB8WSYwvTX
-         fIqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768634926; x=1769239726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h9HAJVA/qJVm3szfavq91Ie6LHNeib+qVQ+QzfxwkO8=;
-        b=rUJ9A7+YbyMHglqB0ZUuuLegybmItrr32+dT+l2apzZwtxM2XgE2eiXhH/qMP+MWvi
-         VV+RyHx7Cib9JHbZczi1c5c9EGe91RhCHxf2Cqh/BGNKG+/b88vhPEN3gvGsitNix2CM
-         uiThOgQjaSlS4qn1hZ2Hz60DDDt+uc+VCcjHSe9RSB9fsp7jY1dyYBKLJDYG+enHgkRA
-         IniY7IOAgVk4YqqrtWjLUKDADMVlhlnmsOaPi11z4skOcM1gv3CV/PnttRx8nbA3tZQz
-         pn4OIIdjBzW3e6IuXA242XrC1LtFbHgxsd1K4kL9t5vLBjnZxfUl/vvPhw+7unY1vQfL
-         +vng==
-X-Forwarded-Encrypted: i=1; AJvYcCWSjlUR43rVmCFqJ45K1jaDJJWkYONMoMgZshKcylt3X8NmVbUthwuthiXodnO20czG+Lp0NJ+AetE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yysv6X1xMjQEAAD4UX63XQq0imdFHG4ldAltiCSsPyKNDIGJwuS
-	PNbuSM3NkVyVva3k89mSUDxtppfyxwQcIwowDS6wjghSfouNVVlCf61XyGcq+lZdzPk=
-X-Gm-Gg: AY/fxX6pFZ9Wpk/8q/a85OOMgbXKhQ/KRQB7OYy28JD6TkWvDC10zJcb2Do1PdzmfQj
-	U52mo3KKQq9cvU4QKFIycK3iEu9fiuIRlY5+ENXfQmKRqcuyRc7lHgBZU5Jj8pGytq8hzEdnzpi
-	QWuUgwDuKuZ8upCraIRpmx4OYcKhLPy9V1e1C5GTECocjDczdKetO6mit5MbbhmE5eqhO/RmZU6
-	68n0MOD/367QK82/8YfpOZgKf5r3MlkRXVxy2MP6rHViEPrUHCKK4qJvEBzSA8SdpcL58oMmXQM
-	oaEbFNA9cwesFY3cDGZesJhaYF03uKx/MSI+NRVXcmQ44yzqZz73wb50hqWFOGmuo6LXTEFe/jD
-	smJMf1l9teXJ4jLUUviZL3xn5Ke6/2uWNRGVoE4JhfUjNab6a8VrC6EnhenZhF64j1B+7dqbq92
-	3J3fqYR5Jw
-X-Received: by 2002:a17:90b:58e4:b0:340:b8f2:250c with SMTP id 98e67ed59e1d1-35272ec84efmr3763296a91.1.1768634926224;
-        Fri, 16 Jan 2026 23:28:46 -0800 (PST)
-Received: from localhost ([132.147.84.99])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-c5edf32d68asm3686559a12.18.2026.01.16.23.28.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 23:28:45 -0800 (PST)
-From: Shenghao Yang <me@shenghaoyang.info>
-To: x86@kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	Shenghao Yang <me@shenghaoyang.info>
-Subject: [PATCH v2] x86/acpi: Add acpi=spcr to use SPCR-provided default console
-Date: Sat, 17 Jan 2026 15:28:27 +0800
-Message-ID: <20260117072827.355360-1-me@shenghaoyang.info>
+	dkim=pass (1024-bit key) header.d=horizon.auto header.i=@horizon.auto header.b="MsacfGes"
+DKIM-Signature: v=1; a=rsa-sha256; d=horizon.auto; s=horizonauto; c=relaxed/simple;
+	q=dns/txt; i=@horizon.auto; t=1768636780; x=2632550380;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=kiy7jjnwu41yVzlHymSVTjyCswIwRjtWFH4Lz2ixVhM=;
+	b=MsacfGeswgrQY6iSTOWPcAkdP80isLgr3FUhztPJjrV5IXyvuZYZytocdigzWA7O
+	cHyx6ATaXoHKEdNcqNAc+OKwf0m7FM7TpN0yOKTuxvYy1pYFtTjsghR5ZtA469Ip
+	iyfL83/bQM+6el7RAImcRjhCSmli53q+h2zTXATeiZI=;
+X-AuditID: 0a0901b2-df5da70000001406-19-696b416ca045
+Received: from mailgw03.horizon.ai ( [10.69.1.10])
+	by mailgw03.horizon.ai (Anti-spam for msg) with SMTP id 9E.27.05126.C614B696; Sat, 17 Jan 2026 15:59:40 +0800 (HKT)
+Received: from wangtao-VirtualBox.hobot.cc (10.9.0.252) by
+ exchange003.hobot.cc (10.69.1.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.27; Sat, 17 Jan 2026
+ 15:59:38 +0800
+From: Tao Wang <tao03.wang@horizon.auto>
+To: <linux@armlinux.org.uk>
+CC: <alexandre.torgue@foss.st.com>, <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>, <edumazet@google.com>, <horms@kernel.org>,
+	<kuba@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <maxime.chevallier@bootlin.com>,
+	<mcoquelin.stm32@gmail.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<tao03.wang@horizon.auto>
+Subject: Re: [PATCH net v3] net: stmmac: fix transmit queue timed out after resume for tso
+Date: Sat, 17 Jan 2026 15:59:22 +0800
+Message-ID: <20260117075926.128979-1-tao03.wang@horizon.auto>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <aWrJvrpIAZHQS2uv@shell.armlinux.org.uk>
+References: <aWrJvrpIAZHQS2uv@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: exchange004.hobot.cc (10.9.15.112) To exchange003.hobot.cc
+ (10.69.1.10)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOIsWRmVeSWpSXmKPExsXC5crIpZvjmJ1pMLVBxOLny2mMFssf7GC1
+	mHO+hcXi6bFH7BaP+k+wWVzY1sdqsbBtCYvF5V1z2CwOTd3LaPHy9TZmi3l/17JaHFsgZvHt
+	9BtGB16Py9cuMnvMW1PtsWXlTSaPp/1b2T12zrrL7rFgU6nHplWdbB47d3xm8ni/7yqbx+dN
+	cgFcUVw2Kak5mWWpRfp2CVwZhyZ1MxWcYa2YtPs1ewPjaZYuRk4OCQETibmrHjJ2MXJxCAms
+	YJQ4f6ufFcJ5zihxemo3M0gVm4CGxN2p14A6ODhEBKQljs3RAKlhFrjPJHHs6G5GkBphgSiJ
+	D99PsIHUsAioSuxpqgMJ8wrYSlxsfMoEsUxe4vqUA4wgJZwCphKPD5eAhIWAbthxYSIzRLmg
+	xMmZT8BuYwaa0n0EopUZqLV562xmiHoVieaT89khRspJvN6wnw3CjpHYPukY2wRGoVlIRs1C
+	MmoWklELGJlXMQrnJmbmpJcbGOtl5BdlVuXn6SVmbmIExR0n46YdjEsWfNQ7xMjEwXiIUYKD
+	WUmE98L7rEwh3pTEyqrUovz4otKc1OJDjNIcLErivNqKcZlCAumJJanZqakFqUUwWSYOTqkG
+	po4pISUHJGcHN19RKWO86J6x+OAa1eoXCyuMj4YpnPsffO1Q6sxjzJ/1ikv1LS2N3es2T60V
+	ZkiTu1YttaD1apPpVtFzLpK3f+ekKrEfnRoVlOnb56xs6mWgGcjYPUXs7L+ZDG8/Ri0OVTh0
+	xeasyz7fM7t15mb9iQ07/Wf16wBWuzOvd7Ex+VXsn3byd+pRDZ7AxwUzv7R9ZnbPWTS1nnXC
+	iwkrNpcsONsdkXabyzcml7FM0fZDUrfotOye7ZXrbrkJyFyPuragiCFW6Iz2qV8Gcm1f7icy
+	9xpaF8fZiKdqHRNkUX+o2v/8+GpB34jtGr77bZ7+1fxXzM41Y66CePhC9QsOBuF9BooTj9kr
+	sRRnJBpqMRcVJwIAVpPlbSoDAAA=
 
-The SPCR provided console on x86 is only available as a boot
-console when earlycon is provided on the kernel command line,
-and will not be present in /proc/consoles.
+> Rather than using tx_q->tx_skbuff_dma[].last_segment to determine
+> whether the first descriptor entry is the only segment, calculate the
+> number of descriptor entries used. If there is only one descriptor,
+> then the first is also the last, so mark it as such.
 
-While it's possible to retain the boot console with the
-keep_bootcon parameter, that leaves the console using the less
-efficient 8250_early driver.
+This is a good idea. tx_q->tx_skbuff_dma[].last_segment no longer carries
+ much meaning and can indeed be removed altogether.
 
-Users wanting to use the firmware suggested console (to avoid
-maintaining unique serial console parameters for different
-server models in large fleets) with the conventional driver
-have to parse the kernel log for the console parameters and
-reinsert them.
+> +       is_last_segment = ((tx_q->cur_tx - first_entry) &
+> +                          (priv->dma_conf.dma_tx_size - 1)) == 1;
 
-[    0.005091] ACPI: SPCR 0x000000007FFB5000 000059 (v04 ALASKA A M I    01072009 INTL 20250404)
-[    0.073387] ACPI: SPCR: console: uart,io,0x3f8,115200
-
-In commit 0231d00082f6 ("ACPI: SPCR: Make SPCR available to x86") [1]
-the SPCR console was only added as an option for earlycon but
-not as an ordinary console so users don't see console output
-changes.
-
-So users can opt in to an automatic SPCR console, make ACPI
-init add it if acpi=spcr is set.
-
-[1]: https://lore.kernel.org/lkml/20180118150951.28964-1-prarit@redhat.com/
-
-Signed-off-by: Shenghao Yang <me@shenghaoyang.info>
----
-v2: Reworded commit with more detail.
-
-[v1]: https://lore.kernel.org/lkml/20251228092222.130954-1-me@shenghaoyang.info/
-
- Documentation/admin-guide/kernel-parameters.txt | 2 ++
- arch/x86/kernel/acpi/boot.c                     | 7 ++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1058f2a6d6a8..9b65ec0b5e0a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -125,6 +125,8 @@ Kernel parameters
- 			may result in duplicate corrected error reports.
- 			nospcr -- disable console in ACPI SPCR table as
- 				default _serial_ console on ARM64
-+			spcr -- enable console in ACPI SPCR table as
-+				default _serial_ console on X86
- 			For ARM64, ONLY "acpi=off", "acpi=on", "acpi=force" or
- 			"acpi=nospcr" are available
- 			For RISCV64, ONLY "acpi=off", "acpi=on" or "acpi=force"
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 9fa321a95eb3..83bbfa1d6f1f 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -47,6 +47,7 @@ EXPORT_SYMBOL(acpi_disabled);
- 
- int acpi_noirq;				/* skip ACPI IRQ initialization */
- static int acpi_nobgrt;			/* skip ACPI BGRT */
-+static int acpi_spcr_add __initdata;		/* add SPCR-provided console */
- int acpi_pci_disabled;		/* skip ACPI PCI scan and IRQ initialization */
- EXPORT_SYMBOL(acpi_pci_disabled);
- 
-@@ -1666,7 +1667,7 @@ int __init acpi_boot_init(void)
- 		x86_init.pci.init = pci_acpi_init;
- 
- 	/* Do not enable ACPI SPCR console by default */
--	acpi_parse_spcr(earlycon_acpi_spcr_enable, false);
-+	acpi_parse_spcr(earlycon_acpi_spcr_enable, acpi_spcr_add);
- 	return 0;
- }
- 
-@@ -1703,6 +1704,10 @@ static int __init parse_acpi(char *arg)
- 	/* "acpi=nocmcff" disables FF mode for corrected errors */
- 	else if (strcmp(arg, "nocmcff") == 0) {
- 		acpi_disable_cmcff = 1;
-+	}
-+	/* "acpi=spcr" adds the SPCR-provided console as a preferred one */
-+	else if (strcmp(arg, "spcr") == 0) {
-+		acpi_spcr_add = 1;
- 	} else {
- 		/* Core will printk when we return error. */
- 		return -EINVAL;
--- 
-2.52.0
-
+Since tx_q->cur_tx may wrap around and become smaller than first_entry,
+the following statement is more concise:
+is_last_segment = (tx_q->cur_tx == first_entry);
