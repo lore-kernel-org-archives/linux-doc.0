@@ -1,87 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFC63019DC;
-	Sun, 18 Jan 2026 18:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768759394; cv=none; b=narP6HV0dgOUZeCDGhI0unsV+s3I3PLvI75d3x3TvUXI/dmwgnNGWvgeKRI4GCpGtdCrImo012kBWngpJ7gUjhPPXL5VwXj1w/DCu4QbS0rNUPk8or2wPz/kJ8TtL5VzdFX/zOs9XMT0aChdV0AlvmakFaN7cC1e1O+8EW/Tw84=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768759394; c=relaxed/simple;
-	bh=z3Zk/jJdUa1YP5N4FiUh/fhzLI3wr0WgwfqrSYYQ9/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ErvgxF7IYofFoaq6tFupMwupEU3soB1g6/aBjlwA1fo9m4SD9yJqWLOKruoK1jH+FTXlBygxia+IacMBSSn0Hldkg+9BTG+JvebSahfWXtif/VXchBCE1PDQZWFB2u1BhmZA3HzGR3+CveBbMnMFYtve7xsEdsbUzvZ5jYbBbf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aV9+A/Tj; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81271AF0AF;
+	Sun, 18 Jan 2026 18:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.165
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768760627; cv=pass; b=cOxUN5or7QXXTIeqY8wriQ02a7gHqXk8q6HmQGOAfImY4/pQ5SToPlX5OibHsfj+XYrr/7LuIX0vmRQgyZEYLPeTMWvTufvyeorBrrtY8Di6DoYB7HeP9GhKMxwgY2SeTbE9+GUOFoIhNUKqqZsCHcwLK0B5bXZMlNhVJrHYJpQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768760627; c=relaxed/simple;
+	bh=DQ6w9W7+WcZkFrI98+z6jw2a4/NFaaQz0KtoAd8Esck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qjAX8u3Mky/JDMcF0Bm25rdgsoRFZ36Z/jidlweXR9hxzdEDm4QMLPqGGCQo3zA0gDL9h5bHQdeilUjlLceAtL0/1HXae9CvTFxNMc0QHEYB7MhDUsbhRIqkAQEyj/ixTzTk2zB4G3ynUdBTZGmfNJQyBUGL4PCH1MQRaK1sY8U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net; spf=pass smtp.mailfrom=hartkopp.net; dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=NiH8oFmk; dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=6NYwfTaS; arc=pass smtp.client-ip=81.169.146.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hartkopp.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aV9+A/Tj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 487CDC2BC86;
-	Sun, 18 Jan 2026 18:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768759394;
-	bh=z3Zk/jJdUa1YP5N4FiUh/fhzLI3wr0WgwfqrSYYQ9/Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aV9+A/Tj2q1TX85Kvgou1yTr2rX8pG4GZCqHcC43bHHnXvnhCMN55xe0yC4RLpH3R
-	 AuGH1mSPhLXa2LnTX+HmuCvrLcwrXTC1ZiR8N8lnssMwtiFhf/xFQ/rxD/EA/z4mFJ
-	 OGaWsvs7+uE44Ed8UiKsJqEWis3/CMFf5HIQZrC+zRxMN28/y7qX872Px51Ag9TAKD
-	 3YhggbDuE9tnjGgECcOApWRtgF4Onitp4AAoEgIFunMk/rfh+nJ7CwuMeH3PMY+jlw
-	 02HqkCAEglLbmCzFuElojYT57sxYAVVROePpAyxUDXWJNANEhX1QWAD3OREp2mv2OH
-	 SCRuguUrfsNTg==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 8/8] Docs/mm/damon/maintainer-profile: remove damon-tests/perf suggestion
-Date: Sun, 18 Jan 2026 10:02:59 -0800
-Message-ID: <20260118180305.70023-9-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260118180305.70023-1-sj@kernel.org>
-References: <20260118180305.70023-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="NiH8oFmk";
+	dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="6NYwfTaS"
+ARC-Seal: i=1; a=rsa-sha256; t=1768760609; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Rdu80M40Qh2XY8N2aLFaa4ziibpvHyqpt+hTTdE3NFtVqECB3lADGFPp4uc2MUsYTj
+    /YimTC1m+CYIdcRFVVI9rNhTqOa1nRO3G3f9S5Nugjr2jq/URC0yVrxrUAW5EWl7TMfp
+    u+dgqUxsUDuPujePVStqCajzw3QmtVS3S2lNvEaUJQ351beV18l/tCs3w59Nat3C1adC
+    AbzcwX4hXYiVsX+7QEvSk2R6P7oznPvgpKfKcWhkzCXaK/SoEpKVw7m6gH8E87caT289
+    faKtyxGTWfcdkUQtr0MFG/J3PsGRs3J8hvuO8IEiVkDkXnDtzm5DaUpISKbQWgb6IGFP
+    O7Qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1768760609;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=QpvWstaJWmcx1e/B2PeFD0v0rEl94agJibzAkV6jqd8=;
+    b=R5NKVnGLvxsnp2U7q2XjwFdSHQSwryuBIPhEdRUfdg1t1vyx3llJoftYDNxHa/8R6w
+    ROQdwZseWl4XNvodxSxWNxNBLH6jm/r9H7jLmtVcAY0qo5Bl5/PWhFvoojsAEX4Dz23Q
+    hAMpIyktuk8qf33DbS0c84yboGPVdQaEaW4OeSpjgxo1RUIV+wWYhAOuLmZm82exsjQE
+    MYbmVUQ81ZtHtNG3EcMBEejU3SjnMI5PLEaS5Uh+EhtdrIx5bKA5wVwJdX5rBq53UTE3
+    5hEUYxTKVhQVZffBWgyhjXYBEPNe5xIPfKaluMcfuv/sPMBuiM5pafzAx4ddKmiuEKQi
+    qV2w==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1768760609;
+    s=strato-dkim-0002; d=hartkopp.net;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=QpvWstaJWmcx1e/B2PeFD0v0rEl94agJibzAkV6jqd8=;
+    b=NiH8oFmkWRm0uw1eBRNWdRzjh+UDwqiq7me2I7OKkCI8KjU9e9rUl4vwdwAGKl9gCz
+    iBTT7eLBgXlJQT5PkQhDXM270ZXImEAUZn/zQ4cAqA9vuVKA3xhGTXwvo9vBaWU5GDfi
+    J0Su6uBag2zQ1MJ/B8VXO77srK6kPVw4rK2Y5xqPUjDz/EHVuK7EyPj8drUokEoX2b9x
+    w7wUPtJ+OIV2zAseyvjCgA5DE6N0T+GeZDIXYbdJGr+ns0RdBuhOZfJ+BpknMM0K2mj+
+    +inKTuhWn5QXhCZwI+1h/sgXS73feSMzrkWdrdFV4z+5Gc3BgtfsmJAygVqka3i5/BvB
+    sRCQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1768760609;
+    s=strato-dkim-0003; d=hartkopp.net;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=QpvWstaJWmcx1e/B2PeFD0v0rEl94agJibzAkV6jqd8=;
+    b=6NYwfTaS+uS0v2yyH4SAeuy4tVGgEqRpnAc9My5XN0dMv7h7+jFMlu6To2X91TBKJn
+    rrjMSr5TiIbwpMuDbKAQ==
+X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjH4JKvMdQv2tTUsMrZpkO3Mw3lZ/t54cFxeEQ7s8bGWj0Q=="
+Received: from [IPV6:2a00:6020:4a38:6810::9f3]
+    by smtp.strato.de (RZmta 54.1.0 AUTH)
+    with ESMTPSA id K0e68b20IINSQTp
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sun, 18 Jan 2026 19:23:28 +0100 (CET)
+Message-ID: <6a99ce41-2200-49d7-9a6c-29e9311b46ab@hartkopp.net>
+Date: Sun, 18 Jan 2026 19:23:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: can: update SocketCAN documentation for CAN XL
+To: Rakuram Eswaran <rakuram.e96@gmail.com>
+Cc: corbet@lwn.net, linux-can@vger.kernel.org, linux-doc@vger.kernel.org,
+ mailhol@kernel.org, mkl@pengutronix.de, netdev@vger.kernel.org
+References: <5d24e045-8ede-4db1-8b0d-a6efd5037704@hartkopp.net>
+ <20260118144118.27487-1-rakuram.e96@gmail.com>
+Content-Language: en-US
+From: Oliver Hartkopp <socketcan@hartkopp.net>
+In-Reply-To: <20260118144118.27487-1-rakuram.e96@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The DAMON performance tests [1] use PARSEC 3.0 as its major test
-workloads.  But the official web site for PARSEC 3.0 has gone, so there
-is no easy way to get the benchmark.  Mainly due to the fact, DAMON
-performance tests are difficult to run, and effectively broken.  Do not
-request running it for now.  Instead, suggest running any benchmarks or
-real world workloads that make sense for performance changes.
 
-[1] https://github.com/damonitor/damon-tests/tree/master/perf
+On 18.01.26 15:41, Rakuram Eswaran wrote:
+> On Tue, 13 Jan 2026 at 21:45, Oliver Hartkopp <socketcan@hartkopp.net> wrote:
+>>
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/maintainer-profile.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+>>>    The length of the two CAN(FD) frame structures define the maximum transfer
+>>>    unit (MTU) of the CAN(FD) network interface and skbuff data length. Two
+>>> -definitions are specified for CAN specific MTUs in include/linux/can.h:
+>>> +definitions are specified for CAN specific MTUs in include/uapi/linux/can.h:
+>>
+>> No.
+>>   From the user perspective he has to include include/linux/can.h
+>>
+>> Better "MTUs in the linux/can.h include file:"
+>>
+> 
+> Can I just incude linux/can.h or include/linux/can.h? As in the current
+> document include/linux/can.h is used.
+> 
 
-diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-index 4fa06b21ec30..41b1d73b9bd7 100644
---- a/Documentation/mm/damon/maintainer-profile.rst
-+++ b/Documentation/mm/damon/maintainer-profile.rst
-@@ -48,8 +48,7 @@ Further doing below and putting the results will be helpful.
- - Run `damon-tests/corr
-   <https://github.com/damonitor/damon-tests/tree/master/corr>`_ for normal
-   changes.
--- Run `damon-tests/perf
--  <https://github.com/damonitor/damon-tests/tree/master/perf>`_ for performance
-+- Measure impacts on benchmarks or real world workloads for performance
-   changes.
- 
- Key cycle dates
--- 
-2.47.3
+If you look into the code you need e.g.
+
+#include <linux/can.h>
+#include <linux/can/raw.h>
+
+So I would name it the linux/can.h include file.
+
+>>
+>> What about the PWM settings here?
+>> When TMS is "on" the PWM values can be automatically calculated or set
+>> manually. There's also no CAN XL TDC when TMS=on as the TDC is a
+>> mixed-mode requirement for non-TMS transceivers.
+>>
+> 
+> Can I add the PWM settings under new heading (CAN XL PWM) or is it fine
+> to keep the content under the same heading (CAN XL TDC)?
+> 
+
+Yes. I would propose a new section
+
+CAN XL TMS (Transceiver Mode Setting / PWM)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Transceiver Mode Setting (TMS) switches the RX/TX lines between the 
+CAN XL controller and the CAN XL transceiver into the "Fast Mode" by 
+enabling a PWM protocol.
+
+In the Fast Mode a different sample point is used and the PWM ratio is 
+calculated automatically or can be set manually.
+
+>> There's one big difference between CC/FD and XL frames when you
+>> read/write it to CAN_RAW sockets:
+>>
+>> For CAN CC and CAN FD you write struct can(fd)_frame's with CAN_MTU
+>> resp. CANFD_MTU lengths - no matter about the data length (cf->len).
+>>
+>> When you read/write CAN XL frames you are reading and writing the
+>> CANXL_HDR_SIZE + the length of the data.
+>>
+>> So only in the case of writing 2048 byte data, you write 2060 bytes.
+>>
+>> The minimum size for read/write is CANXL_HDR_SIZE + CANXL_MIN_DLEN == 13
+>>
+> 
+> Good point! I will add this information along with an example. I will go
+> through your code and decide what to add. Does the example code should
+> focus only on CAN XL frames or also on CC/FD frames?
+
+When the CAN_RAW socket enables the CAN XL support you have to deal with 
+all kind of CAN frames. IMO is makes sense to show an example that deals 
+with all three types of frames.
+
+>> Here is an example that I've been implemented recently that shows a good
+>> example how to handle CC/FD/XL frames, when they are all enabled on the
+>> CAN_RAW socket:
+>>
+>> https://github.com/hartkopp/can-utils/commit/bf0cae218af9b1c1f5eabad7f3704b88ab642e00
+>>
+>> Feel free to pick the code for some example.
+>>
+>> But please do not reference the commit as it is in my private repo and
+>> not yet integrated in the official can-utils repo.
+>>
+
+Best regards,
+Oliver
+
