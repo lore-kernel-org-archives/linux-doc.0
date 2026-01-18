@@ -1,199 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A79517D6;
-	Sun, 18 Jan 2026 06:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128D51940A1;
+	Sun, 18 Jan 2026 09:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768718174; cv=none; b=T7X3NLpotNtC+8asSXHQgwBkGGlB48iXkjoGjkMrVC49tFiUhW6ygefTP33UsLeZ1k96pH2h+MCJFOu0Vxizz+eCZ2k14B1TrB8fpDEj4zRR6RJQpTLYkvHlXWiDvqpSi0xZIqmnJ1kKyt0vO/mjuLVWe+Bq19LxYXkSqS7A8mo=
+	t=1768729566; cv=none; b=JTcj5i4wts010YBt/R/yfeT2ez3Bu5FESs1r3mh2FY9dpKmqpTNeGa04gsdWfwJdlrITrWSvv1SwP/o1sehEVeifooRUsw8w8wRg89FRLIxpQCuddxUrBdGVpsU+bz/Ik7uzhXB5YN+a6LpbIkgQYzGp9ZmPRUAM4YBsrC8C0+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768718174; c=relaxed/simple;
-	bh=aKLCKvaFUBdlP+9DOV2yYz6au92+CHN/1gNqOaUJJBw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eYyywrd65tJBH68DfARUUs8nfcWzRr6YCC4/Tq307RBIlULc2oE6TxDPm4XpPB5Nc1YKO1e7YJ6/Sm6y1jteFYpY5+pREA0aAx7Uxog6e9viTmrIvPDcsONXOripPzcIUAYBjYNYN3GPfmBWGfyq8aNDDnkPzhxGoO3xAsQ1pIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zee7kwuB; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768729566; c=relaxed/simple;
+	bh=pVOwRSURauI8OX8J7+67T93iT1O49GeqBfIL66ymK0Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=q5veUsYYH+F286TjoMILCjg6s09gmOosYJbNWVCtz3nhypNVKbgwc8wLreyqaCKIFBW+NmhK1ojrl8998DlBtSxDf6DORoMnD9SP+VWx8LdBvuFoDASw0qjxyUwdYN/PLhs1sd8hi5N0s9WTUE+NtOBN9q1ZJk6411zRbZ03Thw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=gq8xQ0v6; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zee7kwuB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768718172; x=1800254172;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aKLCKvaFUBdlP+9DOV2yYz6au92+CHN/1gNqOaUJJBw=;
-  b=Zee7kwuBTH0z0TLAJV/NuGEofMzRh7y1wFn/F/d6SIqO/Emng9f3CDvq
-   dl4yBpFrfY/b1euhMVgnvmsM0azMSB6ZUkrqq+yySndcd0TNONVLTXpKd
-   kRHDciW8GQaNRznq+5IelkQp+CuTuqgjStjXsYdMG2uqoS7dSQVFZ4ZuN
-   kLiQB3Qb9x3ZoBSrBN0aO0J0pFzo8q99SxdFFEUK7DvYTF+qHSchHP0xd
-   +iY7+9ITzZsYQRe5vmzxMsM8z0Nk4uk0XFz+Ya4IJsgCpROEjNdrYAJMC
-   +Jt4CgxBZ1uxEWy14a2Mo8xh6+K92DJtEIFaiBJSSiGw25UdrgxG/kEdy
-   g==;
-X-CSE-ConnectionGUID: Km32jQg8TmGIXQnmpmGnBQ==
-X-CSE-MsgGUID: NNiWPGzgQwW/FF+/fpyWdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="73821862"
-X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="73821862"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 22:36:12 -0800
-X-CSE-ConnectionGUID: BPpWmG+ISj6n4H7uIA0V8g==
-X-CSE-MsgGUID: fZ4T/Se/QxyYisLOhJurYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="236270915"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Jan 2026 22:36:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vhMOL-00000000MjQ-42l9;
-	Sun, 18 Jan 2026 06:36:05 +0000
-Date: Sun, 18 Jan 2026 14:36:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>,
-	rostedt@goodmis.org, mhiramat@kernel.org, corbet@lwn.net,
-	shuah@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Subject: Re: [PATCH v5 v5 2/3] tracing/fprobe: Support comma-separated
- symbols and :entry/:exit
-Message-ID: <202601181443.vv7qeHyx-lkp@intel.com>
-References: <20260118011815.56516-3-seokwoo.chung130@gmail.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="gq8xQ0v6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1768729562;
+	bh=pVOwRSURauI8OX8J7+67T93iT1O49GeqBfIL66ymK0Q=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=gq8xQ0v6YGzTM81xP0eeW4mJhiogmJwxObr1DYymjzZqMDPaRGUPvGXTWBSz3r/ZE
+	 YHexCuGr5CHCpcII8xjdrBwiqm32fJrs7bMTPopSf6icim5Brkx8fWxwH2BhxhoxYs
+	 TcOqIUvnOshaFuRQnyhI7LDVgoy2ZhiIQGRjVQ9o=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 18 Jan 2026 10:45:55 +0100
+Subject: [PATCH v2 1/4] hwmon: (cros_ec) Split up supported features in the
+ documentation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260118011815.56516-3-seokwoo.chung130@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260118-cros_ec-hwmon-pwm-v2-1-77eb1709b031@weissschuh.net>
+References: <20260118-cros_ec-hwmon-pwm-v2-0-77eb1709b031@weissschuh.net>
+In-Reply-To: <20260118-cros_ec-hwmon-pwm-v2-0-77eb1709b031@weissschuh.net>
+To: Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@weissschuh.net>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Dustin Howett <dustin@howett.net>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Stephen Horvath <s.horvath@outlook.com.au>, chrome-platform@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ Sung-Chi Li <lschyi@chromium.org>, linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768729562; l=1702;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=pVOwRSURauI8OX8J7+67T93iT1O49GeqBfIL66ymK0Q=;
+ b=iXV13yPc7icclGm3211Ub44YYUGW4GfYiY9PuNnDgZHyzYSeJ/Lm/eBFv3hOKFvsnpS35tuBa
+ 6VSj/e9GGtgB1UJLBlg+ZqHjXVv1qhwPhTbiPGeL2S3FDSNkehUBAYK
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Hi Seokwoo,
+The wall of text of supported features is hard to read and messy to
+extend. Split it into a definition list with an explanations for each
+supported feature.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ Documentation/hwmon/cros_ec_hwmon.rst | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.19-rc5 next-20260116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Seokwoo-Chung-Ryan/docs-tracing-fprobe-Document-list-filters-and-entry-exit/20260118-092055
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20260118011815.56516-3-seokwoo.chung130%40gmail.com
-patch subject: [PATCH v5 v5 2/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
-config: x86_64-randconfig-012-20260118 (https://download.01.org/0day-ci/archive/20260118/202601181443.vv7qeHyx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181443.vv7qeHyx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601181443.vv7qeHyx-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/trace/trace_fprobe.c: In function 'parse_fprobe_spec':
-   kernel/trace/trace_fprobe.c:1282:12: error: invalid storage class for function 'trace_fprobe_create_internal'
-    1282 | static int trace_fprobe_create_internal(int argc, const char *argv[],
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1513:12: error: invalid storage class for function 'trace_fprobe_create_cb'
-    1513 | static int trace_fprobe_create_cb(int argc, const char *argv[])
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1530:12: error: invalid storage class for function 'trace_fprobe_create'
-    1530 | static int trace_fprobe_create(const char *raw_command)
-         |            ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1535:12: error: invalid storage class for function 'trace_fprobe_release'
-    1535 | static int trace_fprobe_release(struct dyn_event *ev)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1545:12: error: invalid storage class for function 'trace_fprobe_show'
-    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
-         |            ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1572:12: error: invalid storage class for function 'enable_trace_fprobe'
-    1572 | static int enable_trace_fprobe(struct trace_event_call *call,
-         |            ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1608:12: error: invalid storage class for function 'disable_trace_fprobe'
-    1608 | static int disable_trace_fprobe(struct trace_event_call *call,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1653:12: error: invalid storage class for function 'fprobe_register'
-    1653 | static int fprobe_register(struct trace_event_call *event,
-         |            ^~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1683:19: error: invalid storage class for function 'init_fprobe_trace_early'
-    1683 | static __init int init_fprobe_trace_early(void)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/fprobe.h:6,
-                    from kernel/trace/trace_fprobe.c:8:
->> include/linux/compiler.h:284:51: error: initializer element is not constant
-     284 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
-         |                                                   ^
-   include/linux/compiler.h:287:9: note: in expansion of macro '___ADDRESSABLE'
-     287 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:251:9: note: in expansion of macro '__ADDRESSABLE'
-     251 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:256:9: note: in expansion of macro '__define_initcall_stub'
-     256 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
-     269 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
-     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
-     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:295:41: note: in expansion of macro '__define_initcall'
-     295 | #define core_initcall(fn)               __define_initcall(fn, 1)
-         |                                         ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1702:1: note: in expansion of macro 'core_initcall'
-    1702 | core_initcall(init_fprobe_trace_early);
-         | ^~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1702:1: error: expected declaration or statement at end of input
-   kernel/trace/trace_fprobe.c: At top level:
-   kernel/trace/trace_fprobe.c:28:12: warning: 'trace_fprobe_create' used but never defined
-      28 | static int trace_fprobe_create(const char *raw_command);
-         |            ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:29:12: warning: 'trace_fprobe_show' used but never defined
-      29 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev);
-         |            ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:30:12: warning: 'trace_fprobe_release' used but never defined
-      30 | static int trace_fprobe_release(struct dyn_event *ev);
-         |            ^~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:741:12: warning: 'fprobe_register' used but never defined
-     741 | static int fprobe_register(struct trace_event_call *event,
-         |            ^~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1653:12: warning: 'fprobe_register' defined but not used [-Wunused-function]
-    1653 | static int fprobe_register(struct trace_event_call *event,
-         |            ^~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1545:12: warning: 'trace_fprobe_show' defined but not used [-Wunused-function]
-    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
-         |            ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1535:12: warning: 'trace_fprobe_release' defined but not used [-Wunused-function]
-    1535 | static int trace_fprobe_release(struct dyn_event *ev)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:1530:12: warning: 'trace_fprobe_create' defined but not used [-Wunused-function]
-    1530 | static int trace_fprobe_create(const char *raw_command)
-         |            ^~~~~~~~~~~~~~~~~~~
-
-
-vim +284 include/linux/compiler.h
-
-0ef8047b737d74 Juergen Gross  2024-11-29  275  
-7290d58095712a Ard Biesheuvel 2018-08-21  276  /*
-7290d58095712a Ard Biesheuvel 2018-08-21  277   * Force the compiler to emit 'sym' as a symbol, so that we can reference
-7290d58095712a Ard Biesheuvel 2018-08-21  278   * it from inline assembler. Necessary in case 'sym' could be inlined
-7290d58095712a Ard Biesheuvel 2018-08-21  279   * otherwise, or eliminated entirely due to lack of references that are
-7290d58095712a Ard Biesheuvel 2018-08-21  280   * visible to the compiler.
-7290d58095712a Ard Biesheuvel 2018-08-21  281   */
-92efda8eb15295 Sami Tolvanen  2022-09-08  282  #define ___ADDRESSABLE(sym, __attrs)						\
-92efda8eb15295 Sami Tolvanen  2022-09-08  283  	static void * __used __attrs						\
-9f14f1f91883aa Josh Poimboeuf 2025-09-17 @284  	__UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
-0ef8047b737d74 Juergen Gross  2024-11-29  285  
+diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+index 6db812708325..b7dc88d22fda 100644
+--- a/Documentation/hwmon/cros_ec_hwmon.rst
++++ b/Documentation/hwmon/cros_ec_hwmon.rst
+@@ -23,9 +23,20 @@ ChromeOS embedded controller used in Chromebooks and other devices.
+ 
+ The channel labels exposed via hwmon are retrieved from the EC itself.
+ 
+-Fan and temperature readings are supported. PWM fan control is also supported if
+-the EC also supports setting fan PWM values and fan mode. Note that EC will
+-switch fan control mode back to auto when suspended. This driver will restore
+-the fan state to what they were before suspended when resumed.
+-If a fan is controllable, this driver will register that fan as a cooling device
+-in the thermal framework as well.
++Supported features
++------------------
++
++Fan readings
++    Always supported.
++
++Temperature readings
++    Always supported.
++
++PWM fan control
++    If the EC also supports setting fan PWM values and fan mode.
++
++    Note that EC will switch fan control mode back to auto when suspended.
++    This driver will restore the fan state to what they were before suspended when resumed.
++
++    If a fan is controllable, this driver will register that fan as a cooling device
++    in the thermal framework as well.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.52.0
+
