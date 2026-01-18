@@ -1,203 +1,199 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B086C2EAB64;
-	Sun, 18 Jan 2026 03:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768707009; cv=pass; b=SCFq7l8VhbKPEK7IWpJFKv/UKT/UArprr+aImeWiTyS5rL3cBhe4joAf17+aqIcE+z5Y8Tj8thGqyMtRBVHX66rmRFcMbVa9YfAb0sLK3ddoq/b0Eq46Aj4nBi3E30xM6yNHijueCsOHOt9PD7ivcE3OY3Jao0/HOkPHcbqngck=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768707009; c=relaxed/simple;
-	bh=8WSKqM6owKiLoxBc0TAE9jchSpc4rzatwHY9InoLGRs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YwaPoQE+FRwXd6Ad0bHDPOT1bAUJd99erartdYYj9irWtU1ay4MHRbDxm8EpdRHRzqsRxnogrO7x4IKRoorjYIQvZjBhZBOFZDu1nlw8quf8dc64Bi9gDc9JGWIG9d8cRIqWi2p/aSE7B8csxQi17SbawdI4ug2/p8c+jOHa5QI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=oLLLw7ch; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A79517D6;
+	Sun, 18 Jan 2026 06:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768718174; cv=none; b=T7X3NLpotNtC+8asSXHQgwBkGGlB48iXkjoGjkMrVC49tFiUhW6ygefTP33UsLeZ1k96pH2h+MCJFOu0Vxizz+eCZ2k14B1TrB8fpDEj4zRR6RJQpTLYkvHlXWiDvqpSi0xZIqmnJ1kKyt0vO/mjuLVWe+Bq19LxYXkSqS7A8mo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768718174; c=relaxed/simple;
+	bh=aKLCKvaFUBdlP+9DOV2yYz6au92+CHN/1gNqOaUJJBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eYyywrd65tJBH68DfARUUs8nfcWzRr6YCC4/Tq307RBIlULc2oE6TxDPm4XpPB5Nc1YKO1e7YJ6/Sm6y1jteFYpY5+pREA0aAx7Uxog6e9viTmrIvPDcsONXOripPzcIUAYBjYNYN3GPfmBWGfyq8aNDDnkPzhxGoO3xAsQ1pIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zee7kwuB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="oLLLw7ch"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 00DEF109F2894;
-	Sun, 18 Jan 2026 12:24:07 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id gG5qwjHEM4Td; Sun, 18 Jan 2026 12:24:02 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 52798109F2892; Sun, 18 Jan 2026 12:24:02 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1768706642;
-	cv=none; b=KkB6borpXCvJgp4vpCOquAwT+RFtN0bp4rNbg+2gUQj4ZvrFTkaUhCBqf1A1GUXvquekFgJZr5OpTX6GdIhJW2jryWOvhY/iYNeJY8mlmiGxubcn0OkXhuoMV4dwvuRQDwIeW70Z+iUqUo0tmqrtoek46TAGpbe3uozZteP7UX4=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1768706642; c=relaxed/relaxed;
-	bh=57Dz4vq8+Gd641AyigqSF8x4ygJ/HmSuu4hqqbMnx/8=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=U9XVi0hnE/MWeKvOymqjQBInnRCpTQdtsF5iWr/5wNXQfTNDnjkUvCItvDq7v8mLyPPv20E3WX9RG2CB9rj7gdehgV4abk7NBWLeUpK3PJVHy1WQw2pTFjNixdvkUL2Mx2rtg8jZ7oNm9ClXOg2hJfKp3rPreW0XDJSs4BYSSSw=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 52798109F2892
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1768706642;
-	bh=57Dz4vq8+Gd641AyigqSF8x4ygJ/HmSuu4hqqbMnx/8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oLLLw7ch0Ms0eDLFbXnAoeueUft6A/yB29PARaUo8unGKW7GM8IBw85lhOqW5pvGh
-	 29Go9envOWs3UveWU4G3OZPwJzsWErip3xKAokAGHrwg7Lr9ShCWv7ZbUMKNIm8dfA
-	 zIguXdDXwkyb6kIKVd/G10pVsBfgQjumbUebixhQ=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: corbet@lwn.net
-Cc: akiyks@gmail.com,
-	shibata@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	weibu@redadmin.org
-Subject: [PATCH v3] docs: ja_JP: Start translation of submitting-patches
-Date: Sun, 18 Jan 2026 12:24:00 +0900
-Message-ID: <20260118032400.863320-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zee7kwuB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768718172; x=1800254172;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aKLCKvaFUBdlP+9DOV2yYz6au92+CHN/1gNqOaUJJBw=;
+  b=Zee7kwuBTH0z0TLAJV/NuGEofMzRh7y1wFn/F/d6SIqO/Emng9f3CDvq
+   dl4yBpFrfY/b1euhMVgnvmsM0azMSB6ZUkrqq+yySndcd0TNONVLTXpKd
+   kRHDciW8GQaNRznq+5IelkQp+CuTuqgjStjXsYdMG2uqoS7dSQVFZ4ZuN
+   kLiQB3Qb9x3ZoBSrBN0aO0J0pFzo8q99SxdFFEUK7DvYTF+qHSchHP0xd
+   +iY7+9ITzZsYQRe5vmzxMsM8z0Nk4uk0XFz+Ya4IJsgCpROEjNdrYAJMC
+   +Jt4CgxBZ1uxEWy14a2Mo8xh6+K92DJtEIFaiBJSSiGw25UdrgxG/kEdy
+   g==;
+X-CSE-ConnectionGUID: Km32jQg8TmGIXQnmpmGnBQ==
+X-CSE-MsgGUID: NNiWPGzgQwW/FF+/fpyWdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="73821862"
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
+   d="scan'208";a="73821862"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 22:36:12 -0800
+X-CSE-ConnectionGUID: BPpWmG+ISj6n4H7uIA0V8g==
+X-CSE-MsgGUID: fZ4T/Se/QxyYisLOhJurYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
+   d="scan'208";a="236270915"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 17 Jan 2026 22:36:08 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhMOL-00000000MjQ-42l9;
+	Sun, 18 Jan 2026 06:36:05 +0000
+Date: Sun, 18 Jan 2026 14:36:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>,
+	rostedt@goodmis.org, mhiramat@kernel.org, corbet@lwn.net,
+	shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: Re: [PATCH v5 v5 2/3] tracing/fprobe: Support comma-separated
+ symbols and :entry/:exit
+Message-ID: <202601181443.vv7qeHyx-lkp@intel.com>
+References: <20260118011815.56516-3-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260118011815.56516-3-seokwoo.chung130@gmail.com>
 
-Start a new Japanese translation of
-Documentation/process/submitting-patches.rst.
+Hi Seokwoo,
 
-As suggested by Akira Yokosawa, instead of moving the outdated 2011
-translation (SubmittingPatches), we are starting a fresh translation of
-the current English document.
+kernel test robot noticed the following build errors:
 
-This patch adds the initial file structure, the warning about the
-document being under construction, and the translation of the
-introduction section.
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.19-rc5 next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The translation work will be done incrementally.
+url:    https://github.com/intel-lab-lkp/linux/commits/Seokwoo-Chung-Ryan/docs-tracing-fprobe-Document-list-filters-and-entry-exit/20260118-092055
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20260118011815.56516-3-seokwoo.chung130%40gmail.com
+patch subject: [PATCH v5 v5 2/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
+config: x86_64-randconfig-012-20260118 (https://download.01.org/0day-ci/archive/20260118/202601181443.vv7qeHyx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181443.vv7qeHyx-lkp@intel.com/reproduce)
 
-Suggested-by: Akira Yokosawa <akiyks@gmail.com>
-Link: https://lore.kernel.org/298d3a9c-41c1-4cbd-b4ab-d3009df9388c@gmail.co=
-m/
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- Documentation/translations/ja_JP/index.rst    |  1 +
- .../ja_JP/process/submitting-patches.rst      | 39 +++++++++++++++++++
- 2 files changed, 40 insertions(+)
- create mode 100644 Documentation/translations/ja_JP/process/submitting-pat=
-ches.rst
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601181443.vv7qeHyx-lkp@intel.com/
 
-diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/tra=
-nslations/ja_JP/index.rst
-index 4159b417bfdd..5d47d588e368 100644
---- a/Documentation/translations/ja_JP/index.rst
-+++ b/Documentation/translations/ja_JP/index.rst
-@@ -13,6 +13,7 @@
-=20
-    disclaimer-ja_JP
-    process/howto
-+   process/submitting-patches
-    process/submit-checklist
-=20
- .. raw:: latex
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-new file mode 100644
-index 000000000000..5ab19f2ef280
---- /dev/null
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -0,0 +1,39 @@
-+.. _jp_process_submitting_patches:
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E6=8A=95=E7=A8=BF: =E3=82=AB=E3=83=BC=
-=E3=83=8D=E3=83=AB=E3=81=AB=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E5=85=A5=E3=
-=82=8C=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AE=E5=BF=85=E9=A0=88=E3=82=AC=E3=82=
-=A4=E3=83=89
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+.. note::
-+
-+   =E3=81=93=E3=81=AE=E3=83=89=E3=82=AD=E3=83=A5=E3=83=A1=E3=83=B3=E3=83=
-=88=E3=81=AF :ref:`Documentation/process/submitting-patches.rst <submitting=
-patches>` =E3=81=AE=E6=97=A5=E6=9C=AC=E8=AA=9E=E8=A8=B3=E3=81=A7=E3=81=99=
-=E3=80=82
-+
-+   =E5=85=8D=E8=B2=AC=E4=BA=8B=E9=A0=85: :ref:`translations_ja_JP_disclaim=
-er`
-+
-+.. warning::
-+
-+   **UNDER CONSTRUCTION!!**
-+
-+   =E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E7=BF=BB=E8=A8=B3=E6=9B=
-=B4=E6=96=B0=E3=81=AE=E4=BD=9C=E6=A5=AD=E4=B8=AD=E3=81=A7=E3=81=99=E3=80=82=
-=E6=9C=80=E6=96=B0=E3=81=AE=E5=86=85=E5=AE=B9=E3=81=AF=E5=8E=9F=E6=96=87=E3=
-=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=
-=84=E3=80=82
-+
-+Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=B8=E5=A4=89=E6=9B=B4=E3=
-=82=92=E6=8A=95=E7=A8=BF=E3=81=97=E3=81=9F=E3=81=84=E5=80=8B=E4=BA=BA=E3=82=
-=84=E4=BC=81=E6=A5=AD=E3=81=AB=E3=81=A8=E3=81=A3=E3=81=A6=E3=80=81=E3=82=82=
-=E3=81=97=E3=80=8C=E4=BB=95=E7=B5=84=E3=81=BF=E3=80=8D=E3=81=AB
-+=E6=85=A3=E3=82=8C=E3=81=A6=E3=81=84=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=
-=E3=80=81=E3=81=9D=E3=81=AE=E3=83=97=E3=83=AD=E3=82=BB=E3=82=B9=E3=81=AF=E6=
-=99=82=E3=81=AB=E6=B0=97=E5=BE=8C=E3=82=8C=E3=81=99=E3=82=8B=E3=82=82=E3=81=
-=AE=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=80=82
-+=E3=81=93=E3=81=AE=E3=83=86=E3=82=AD=E3=82=B9=E3=83=88=E3=81=AF=E3=80=81=
-=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E5=A4=89=E6=9B=B4=E3=81=8C=E5=8F=97=E3=
-=81=91=E5=85=A5=E3=82=8C=E3=82=89=E3=82=8C=E3=82=8B=E5=8F=AF=E8=83=BD=E6=80=
-=A7=E3=82=92=E5=A4=A7=E3=81=8D=E3=81=8F=E9=AB=98=E3=82=81=E3=82=8B=E3=81=9F=
-=E3=82=81=E3=81=AE
-+=E6=8F=90=E6=A1=88=E3=82=92=E9=9B=86=E3=82=81=E3=81=9F=E3=82=82=E3=81=AE=
-=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AB=E3=81=AF=E3=80=81=E6=AF=94=
-=E8=BC=83=E7=9A=84=E7=B0=A1=E6=BD=94=E3=81=AA=E5=BD=A2=E5=BC=8F=E3=81=A7=E5=
-=A4=9A=E6=95=B0=E3=81=AE=E6=8F=90=E6=A1=88=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=
-=8C=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82
-+=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E3=83=97=E3=83=AD=
-=E3=82=BB=E3=82=B9=E3=81=AE=E4=BB=95=E7=B5=84=E3=81=BF=E3=81=AB=E9=96=A2=E3=
-=81=99=E3=82=8B=E8=A9=B3=E7=B4=B0=E3=81=AF
-+Documentation/process/development-process.rst =E3=82=92=E5=8F=82=E7=85=A7=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=BE=E3=81=9F=E3=80=81=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E6=8A=95=
-=E7=A8=BF=E3=81=99=E3=82=8B=E5=89=8D=E3=81=AB=E7=A2=BA=E8=AA=8D=E3=81=99=E3=
-=81=B9=E3=81=8D=E9=A0=85=E7=9B=AE=E3=81=AE=E4=B8=80=E8=A6=A7=E3=81=A8=E3=81=
-=97=E3=81=A6
-+Documentation/process/submit-checklist.rst =E3=82=92=E8=AA=AD=E3=82=93=E3=
-=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=83=87=E3=83=90=E3=82=A4=E3=82=B9=E3=83=84=E3=83=AA=E3=83=BC=E3=83=90=
-=E3=82=A4=E3=83=B3=E3=83=87=E3=82=A3=E3=83=B3=E3=82=B0=E3=81=AE=E3=83=91=E3=
-=83=83=E3=83=81=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81
-+Documentation/devicetree/bindings/submitting-patches.rst =E3=82=92=E8=AA=
-=AD=E3=82=93=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E3=80=81=E3=83=91=E3=83=83=
-=E3=83=81=E4=BD=9C=E6=88=90=E3=81=AB ``git`` =E3=82=92=E4=BD=BF=E3=81=86=E5=
-=89=8D=E6=8F=90=E3=81=A7=E6=9B=B8=E3=81=8B=E3=82=8C=E3=81=A6=E3=81=84=E3=81=
-=BE=E3=81=99=E3=80=82
-+=E3=82=82=E3=81=97 ``git`` =E3=81=AB=E4=B8=8D=E6=85=A3=E3=82=8C=E3=81=A7=
-=E3=81=82=E3=82=8C=E3=81=B0=E3=80=81=E4=BD=BF=E3=81=84=E6=96=B9=E3=82=92=E5=
-=AD=A6=E3=81=B6=E3=81=93=E3=81=A8=E3=82=92=E5=BC=B7=E3=81=8F=E5=8B=A7=E3=82=
-=81=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=9D=E3=82=8C=E3=81=AB=E3=82=88=E3=82=8A=E3=80=81=E3=82=AB=E3=83=BC=
-=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E8=80=85=E3=81=A8=E3=81=97=E3=81=A6=E3=
-=80=81=E3=81=BE=E3=81=9F=E4=B8=80=E8=88=AC=E7=9A=84=E3=81=AB=E3=82=82=E3=80=
-=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E4=BD=9C=E6=A5=AD=E3=81=AF
-+=E3=81=9A=E3=81=A3=E3=81=A8=E6=A5=BD=E3=81=AB=E3=81=AA=E3=82=8B=E3=81=A7=
-=E3=81=97=E3=82=87=E3=81=86=E3=80=82
-+
-+=E3=81=84=E3=81=8F=E3=81=A4=E3=81=8B=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=
-=E3=82=B9=E3=83=86=E3=83=A0=E3=82=84=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=
-=83=84=E3=83=AA=E3=83=BC=E3=81=AB=E3=81=AF=E3=80=81=E5=90=84=E3=80=85=E3=81=
-=AE=E3=83=AF=E3=83=BC=E3=82=AF=E3=83=95=E3=83=AD=E3=83=BC=E3=82=84
-+=E6=9C=9F=E5=BE=85=E4=BA=8B=E9=A0=85=E3=81=AB=E9=96=A2=E3=81=99=E3=82=8B=
-=E8=BF=BD=E5=8A=A0=E6=83=85=E5=A0=B1=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=
-=81=99=E3=80=82=E6=AC=A1=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=
-=8F=E3=81=A0=E3=81=95=E3=81=84:
-+:ref:`Documentation/process/maintainer-handbooks.rst <maintainer_handbooks=
-_main>`.
-+
---=20
-2.47.3
+All errors (new ones prefixed by >>):
 
+   kernel/trace/trace_fprobe.c: In function 'parse_fprobe_spec':
+   kernel/trace/trace_fprobe.c:1282:12: error: invalid storage class for function 'trace_fprobe_create_internal'
+    1282 | static int trace_fprobe_create_internal(int argc, const char *argv[],
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1513:12: error: invalid storage class for function 'trace_fprobe_create_cb'
+    1513 | static int trace_fprobe_create_cb(int argc, const char *argv[])
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1530:12: error: invalid storage class for function 'trace_fprobe_create'
+    1530 | static int trace_fprobe_create(const char *raw_command)
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1535:12: error: invalid storage class for function 'trace_fprobe_release'
+    1535 | static int trace_fprobe_release(struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1545:12: error: invalid storage class for function 'trace_fprobe_show'
+    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1572:12: error: invalid storage class for function 'enable_trace_fprobe'
+    1572 | static int enable_trace_fprobe(struct trace_event_call *call,
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1608:12: error: invalid storage class for function 'disable_trace_fprobe'
+    1608 | static int disable_trace_fprobe(struct trace_event_call *call,
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1653:12: error: invalid storage class for function 'fprobe_register'
+    1653 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1683:19: error: invalid storage class for function 'init_fprobe_trace_early'
+    1683 | static __init int init_fprobe_trace_early(void)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/fprobe.h:6,
+                    from kernel/trace/trace_fprobe.c:8:
+>> include/linux/compiler.h:284:51: error: initializer element is not constant
+     284 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
+         |                                                   ^
+   include/linux/compiler.h:287:9: note: in expansion of macro '___ADDRESSABLE'
+     287 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/init.h:251:9: note: in expansion of macro '__ADDRESSABLE'
+     251 |         __ADDRESSABLE(fn)
+         |         ^~~~~~~~~~~~~
+   include/linux/init.h:256:9: note: in expansion of macro '__define_initcall_stub'
+     256 |         __define_initcall_stub(__stub, fn)                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
+     269 |         ____define_initcall(fn,                                 \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
+     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
+     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:295:41: note: in expansion of macro '__define_initcall'
+     295 | #define core_initcall(fn)               __define_initcall(fn, 1)
+         |                                         ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1702:1: note: in expansion of macro 'core_initcall'
+    1702 | core_initcall(init_fprobe_trace_early);
+         | ^~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1702:1: error: expected declaration or statement at end of input
+   kernel/trace/trace_fprobe.c: At top level:
+   kernel/trace/trace_fprobe.c:28:12: warning: 'trace_fprobe_create' used but never defined
+      28 | static int trace_fprobe_create(const char *raw_command);
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:29:12: warning: 'trace_fprobe_show' used but never defined
+      29 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev);
+         |            ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:30:12: warning: 'trace_fprobe_release' used but never defined
+      30 | static int trace_fprobe_release(struct dyn_event *ev);
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:741:12: warning: 'fprobe_register' used but never defined
+     741 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1653:12: warning: 'fprobe_register' defined but not used [-Wunused-function]
+    1653 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1545:12: warning: 'trace_fprobe_show' defined but not used [-Wunused-function]
+    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1535:12: warning: 'trace_fprobe_release' defined but not used [-Wunused-function]
+    1535 | static int trace_fprobe_release(struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1530:12: warning: 'trace_fprobe_create' defined but not used [-Wunused-function]
+    1530 | static int trace_fprobe_create(const char *raw_command)
+         |            ^~~~~~~~~~~~~~~~~~~
+
+
+vim +284 include/linux/compiler.h
+
+0ef8047b737d74 Juergen Gross  2024-11-29  275  
+7290d58095712a Ard Biesheuvel 2018-08-21  276  /*
+7290d58095712a Ard Biesheuvel 2018-08-21  277   * Force the compiler to emit 'sym' as a symbol, so that we can reference
+7290d58095712a Ard Biesheuvel 2018-08-21  278   * it from inline assembler. Necessary in case 'sym' could be inlined
+7290d58095712a Ard Biesheuvel 2018-08-21  279   * otherwise, or eliminated entirely due to lack of references that are
+7290d58095712a Ard Biesheuvel 2018-08-21  280   * visible to the compiler.
+7290d58095712a Ard Biesheuvel 2018-08-21  281   */
+92efda8eb15295 Sami Tolvanen  2022-09-08  282  #define ___ADDRESSABLE(sym, __attrs)						\
+92efda8eb15295 Sami Tolvanen  2022-09-08  283  	static void * __used __attrs						\
+9f14f1f91883aa Josh Poimboeuf 2025-09-17 @284  	__UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
+0ef8047b737d74 Juergen Gross  2024-11-29  285  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
