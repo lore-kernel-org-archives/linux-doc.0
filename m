@@ -1,196 +1,203 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC521E511
-	for <linux-doc@vger.kernel.org>; Sun, 18 Jan 2026 01:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768699114; cv=none; b=NLeMuIa8L/4bLElp5CfmFtXykvERvfqjrjLi+BHhVLeKuRZnGeiDeGS04/YuKIVGPcixqAnihBV+stz9U2K05EeLvR+nMFQ6dapj0rnplaucvjR/54nLoH1+j2AGW00wvF+XYRqRmCUZtKvfCZ9Qt0WQQhZXBUIsF1dHXwzawXQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768699114; c=relaxed/simple;
-	bh=ZDrrQk7+ZbCO+fyU001b1FgFHm9Go+TFY1C20mho8n0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BSB+2L5AtpE2HbcrcdbOQRPAN8tnaAgjXZXLXvYOGwOh02+0zkiEQKOgPe6iaBULDQ98VKRIZy8KJBnKwKhIj4zj4IkztKHz9an3WwIL9TpGiMhseBDkxHE8vgM6H1fYNeB0sRQrExA/b+kmYp2f2c1w0A29YuVOfdQ0F6vPVMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5jsxLwi; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B086C2EAB64;
+	Sun, 18 Jan 2026 03:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768707009; cv=pass; b=SCFq7l8VhbKPEK7IWpJFKv/UKT/UArprr+aImeWiTyS5rL3cBhe4joAf17+aqIcE+z5Y8Tj8thGqyMtRBVHX66rmRFcMbVa9YfAb0sLK3ddoq/b0Eq46Aj4nBi3E30xM6yNHijueCsOHOt9PD7ivcE3OY3Jao0/HOkPHcbqngck=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768707009; c=relaxed/simple;
+	bh=8WSKqM6owKiLoxBc0TAE9jchSpc4rzatwHY9InoLGRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YwaPoQE+FRwXd6Ad0bHDPOT1bAUJd99erartdYYj9irWtU1ay4MHRbDxm8EpdRHRzqsRxnogrO7x4IKRoorjYIQvZjBhZBOFZDu1nlw8quf8dc64Bi9gDc9JGWIG9d8cRIqWi2p/aSE7B8csxQi17SbawdI4ug2/p8c+jOHa5QI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=oLLLw7ch; arc=pass smtp.client-ip=222.228.43.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5jsxLwi"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8c5389c3cd2so351276985a.0
-        for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 17:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768699109; x=1769303909; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Tho2VqUNeLqQMboUEaDyPNZ6VVJ6gB0GGd5RNkCMkk=;
-        b=N5jsxLwiT0SL5Wdimo9JYVPftYjVKiGF3mRlvZvV98W+RJYJXT81Jrr4xusGkvsEe0
-         QmxS83+jvp5HAR2+VItnIK4E0rDDPPYNndfGcseZyevAiuPzSnsp32TywbQOAz5xXSJt
-         ANv2TE+DjMBvKpdXJ87a4Pr3l8WL+pAzxZEDLMXBwzNXrW8dGZ2linDwqEHmjcAYBpTJ
-         83kYXOTX0RRGJ20j00kB3rwNQZqAlqGc2f8jFJxglTjVwPnVwkzvtFQhiBXEBT9NpCLw
-         YDU7J3R5EwPvWZtDoEEvERjJ75LxZQl3QXtcFZoHiW6dS0HjlCDIpl5nSCCV6hdXR5NA
-         EUyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768699109; x=1769303909;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8Tho2VqUNeLqQMboUEaDyPNZ6VVJ6gB0GGd5RNkCMkk=;
-        b=tw4RTfojOJz99z25V+6Bld29wajBdxrqQncsCLxzGF6f8cixA70Va2FrEAQZpxuZxF
-         i6XScV3lrC9Sq0i0N/NwbOmYEoh8vuN/41uhQkbfosoYxx0aQ4xhD+4Q7bVCjKIFyO3Y
-         ALsm1hHFvZ8cHs+I5nksEkwDbyV+UHLf5nphIqZ8ApxnMS7rwAAYUgVywVCYErAKx2Ga
-         VKtuTsGHz28yh6SK4qIjd9yWttMM85r4uLk+8Aw7gw9REwmnETf3XOY3aLO5bCSRNoSs
-         Jq26s+NaAGuzzFYupQeMWTnc/OKR2lWBPJQEn9uatOY3hIrWJRm+9z/haI9ajkT3fx3O
-         ZM0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWFwYyABw9C1Ixn/zfbLvziQTP4vHt2DyMWToBIJHur5oF8HNiaiVX8klhSegemUAxvrdlmFudT/Mg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3Fy2uIfkPn8LZNU+I+22r4QAo5IJ/7+S+i1qVPM8dxItGddlY
-	LZs/sMCFBVzhWTfyKXQrAqtAREnaJM/F9CglmK+ARX95bi1+R7JtCk7M
-X-Gm-Gg: AY/fxX561u5k3+55Hv4nynyY5Qbz5ZCWeIuRZHl6anmdPf99Y9lii4iN8CGrOuo+IRa
-	bvTvM14yKGP3jEr1BbIYPhkSIpPNh38VaoY79Tn1OOVCPvz99/PsIGDvfW0J1v+ONfVF0DxtXJy
-	gR4pRth//4L8JD+KI5ZQMiZ/+P9MlaCDJiRUaIrEtvPnWra2CxrHqZKi+NXY+xZC+gI8T6MCaIi
-	PEvwvQ8Gt/nOA4H1iaSnh2GTblNl8YcLlM14toMXgL7SOLwn/dRCyBITDZrKcUkSjU4y+K8pCVO
-	Dh0gpmRfx5/l7m3NTLanp9dKRI+g5ehqoHTNdICLJJmA3XIFNUzfeId0OtYJC/g4mdw81m89Ad3
-	sEAcpwFtjFfR87iRgEi608F+eixg3hq5li2oKedPmwtk9rhbmOurGAkJWwsXk291kLOdc0ZVwUP
-	rtA8POIODxuss/jyu9278ZQkloN6Jljkhit9ho03RKZJxXqf9HmRtvg6ahJcSfGT5wJgrfnqI=
-X-Received: by 2002:a05:620a:191e:b0:8b2:ec00:7840 with SMTP id af79cd13be357-8c6a6704482mr1057363685a.27.1768699109428;
-        Sat, 17 Jan 2026 17:18:29 -0800 (PST)
-Received: from pc.tail882856.ts.net ([2600:4041:4491:2000:8a64:ec6b:4:f1])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a72642fdsm512290285a.46.2026.01.17.17.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jan 2026 17:18:28 -0800 (PST)
-From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	corbet@lwn.net,
-	shuah@kernel.org
-Cc: mathieu.desnoyers@efficios.com,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="oLLLw7ch"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 00DEF109F2894;
+	Sun, 18 Jan 2026 12:24:07 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id gG5qwjHEM4Td; Sun, 18 Jan 2026 12:24:02 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 52798109F2892; Sun, 18 Jan 2026 12:24:02 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1768706642;
+	cv=none; b=KkB6borpXCvJgp4vpCOquAwT+RFtN0bp4rNbg+2gUQj4ZvrFTkaUhCBqf1A1GUXvquekFgJZr5OpTX6GdIhJW2jryWOvhY/iYNeJY8mlmiGxubcn0OkXhuoMV4dwvuRQDwIeW70Z+iUqUo0tmqrtoek46TAGpbe3uozZteP7UX4=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1768706642; c=relaxed/relaxed;
+	bh=57Dz4vq8+Gd641AyigqSF8x4ygJ/HmSuu4hqqbMnx/8=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=U9XVi0hnE/MWeKvOymqjQBInnRCpTQdtsF5iWr/5wNXQfTNDnjkUvCItvDq7v8mLyPPv20E3WX9RG2CB9rj7gdehgV4abk7NBWLeUpK3PJVHy1WQw2pTFjNixdvkUL2Mx2rtg8jZ7oNm9ClXOg2hJfKp3rPreW0XDJSs4BYSSSw=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 52798109F2892
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1768706642;
+	bh=57Dz4vq8+Gd641AyigqSF8x4ygJ/HmSuu4hqqbMnx/8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oLLLw7ch0Ms0eDLFbXnAoeueUft6A/yB29PARaUo8unGKW7GM8IBw85lhOqW5pvGh
+	 29Go9envOWs3UveWU4G3OZPwJzsWErip3xKAokAGHrwg7Lr9ShCWv7ZbUMKNIm8dfA
+	 zIguXdDXwkyb6kIKVd/G10pVsBfgQjumbUebixhQ=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: corbet@lwn.net
+Cc: akiyks@gmail.com,
+	shibata@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Subject: [PATCH v5 v5 3/3] selftests/ftrace: Add accept cases for fprobe list syntax
-Date: Sat, 17 Jan 2026 20:18:15 -0500
-Message-ID: <20260118011815.56516-4-seokwoo.chung130@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
-References: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
+	linux-kernel@vger.kernel.org,
+	weibu@redadmin.org
+Subject: [PATCH v3] docs: ja_JP: Start translation of submitting-patches
+Date: Sun, 18 Jan 2026 12:24:00 +0900
+Message-ID: <20260118032400.863320-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Add selftest for comma-separated symbol lists, exclusion (!), and explicit
-:entry/:exit suffixes. Verify that excluded symbols are not attached and
-that enabled_functions shows the correct probes.
+Start a new Japanese translation of
+Documentation/process/submitting-patches.rst.
 
-Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+As suggested by Akira Yokosawa, instead of moving the outdated 2011
+translation (SubmittingPatches), we are starting a fresh translation of
+the current English document.
+
+This patch adds the initial file structure, the warning about the
+document being under construction, and the translation of the
+introduction section.
+
+The translation work will be done incrementally.
+
+Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/298d3a9c-41c1-4cbd-b4ab-d3009df9388c@gmail.co=
+m/
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
- .../ftrace/test.d/dynevent/fprobe_list.tc     | 92 +++++++++++++++++++
- 1 file changed, 92 insertions(+)
- create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+ Documentation/translations/ja_JP/index.rst    |  1 +
+ .../ja_JP/process/submitting-patches.rst      | 39 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 Documentation/translations/ja_JP/process/submitting-pat=
+ches.rst
 
-diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/tra=
+nslations/ja_JP/index.rst
+index 4159b417bfdd..5d47d588e368 100644
+--- a/Documentation/translations/ja_JP/index.rst
++++ b/Documentation/translations/ja_JP/index.rst
+@@ -13,6 +13,7 @@
+=20
+    disclaimer-ja_JP
+    process/howto
++   process/submitting-patches
+    process/submit-checklist
+=20
+ .. raw:: latex
+diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
+t b/Documentation/translations/ja_JP/process/submitting-patches.rst
 new file mode 100644
-index 000000000000..45e57c6f487d
+index 000000000000..5ab19f2ef280
 --- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
-@@ -0,0 +1,92 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: Fprobe event list syntax and :entry/:exit suffixes
-+# requires: dynamic_events "f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]":README
++++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+@@ -0,0 +1,39 @@
++.. _jp_process_submitting_patches:
 +
-+# Setup symbols to test. These are common kernel functions.
-+PLACE=vfs_read
-+PLACE2=vfs_write
-+PLACE3=vfs_open
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E6=8A=95=E7=A8=BF: =E3=82=AB=E3=83=BC=
+=E3=83=8D=E3=83=AB=E3=81=AB=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E5=85=A5=E3=
+=82=8C=E3=82=8B=E3=81=9F=E3=82=81=E3=81=AE=E5=BF=85=E9=A0=88=E3=82=AC=E3=82=
+=A4=E3=83=89
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 +
-+echo 0 > events/enable
-+echo > dynamic_events
++.. note::
 +
-+# Get baseline count of enabled functions (should be 0 if clean, but be safe)
-+if [ -f enabled_functions ]; then
-+	ocnt=`cat enabled_functions | wc -l`
-+else
-+	ocnt=0
-+fi
++   =E3=81=93=E3=81=AE=E3=83=89=E3=82=AD=E3=83=A5=E3=83=A1=E3=83=B3=E3=83=
+=88=E3=81=AF :ref:`Documentation/process/submitting-patches.rst <submitting=
+patches>` =E3=81=AE=E6=97=A5=E6=9C=AC=E8=AA=9E=E8=A8=B3=E3=81=A7=E3=81=99=
+=E3=80=82
 +
-+# Test 1: List default (entry) with exclusion
-+# Target: Trace vfs_read and vfs_open, but EXCLUDE vfs_write
-+echo "f:test/list_entry $PLACE,!$PLACE2,$PLACE3" >> dynamic_events
-+grep -q "test/list_entry" dynamic_events
-+test -d events/test/list_entry
++   =E5=85=8D=E8=B2=AC=E4=BA=8B=E9=A0=85: :ref:`translations_ja_JP_disclaim=
+er`
 +
-+echo 1 > events/test/list_entry/enable
++.. warning::
 +
-+grep -q "$PLACE" enabled_functions
-+grep -q "$PLACE3" enabled_functions
-+! grep -q "$PLACE2" enabled_functions
++   **UNDER CONSTRUCTION!!**
 +
-+# Check count (Baseline + 2 new functions)
-+cnt=`cat enabled_functions | wc -l`
-+if [ $cnt -ne $((ocnt + 2)) ]; then
-+	exit_fail
-+fi
++   =E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E7=BF=BB=E8=A8=B3=E6=9B=
+=B4=E6=96=B0=E3=81=AE=E4=BD=9C=E6=A5=AD=E4=B8=AD=E3=81=A7=E3=81=99=E3=80=82=
+=E6=9C=80=E6=96=B0=E3=81=AE=E5=86=85=E5=AE=B9=E3=81=AF=E5=8E=9F=E6=96=87=E3=
+=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=
+=84=E3=80=82
 +
-+# Cleanup Test 1
-+echo 0 > events/test/list_entry/enable
-+echo "-:test/list_entry" >> dynamic_events
-+! grep -q "test/list_entry" dynamic_events
++Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=B8=E5=A4=89=E6=9B=B4=E3=
+=82=92=E6=8A=95=E7=A8=BF=E3=81=97=E3=81=9F=E3=81=84=E5=80=8B=E4=BA=BA=E3=82=
+=84=E4=BC=81=E6=A5=AD=E3=81=AB=E3=81=A8=E3=81=A3=E3=81=A6=E3=80=81=E3=82=82=
+=E3=81=97=E3=80=8C=E4=BB=95=E7=B5=84=E3=81=BF=E3=80=8D=E3=81=AB
++=E6=85=A3=E3=82=8C=E3=81=A6=E3=81=84=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0=
+=E3=80=81=E3=81=9D=E3=81=AE=E3=83=97=E3=83=AD=E3=82=BB=E3=82=B9=E3=81=AF=E6=
+=99=82=E3=81=AB=E6=B0=97=E5=BE=8C=E3=82=8C=E3=81=99=E3=82=8B=E3=82=82=E3=81=
+=AE=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=80=82
++=E3=81=93=E3=81=AE=E3=83=86=E3=82=AD=E3=82=B9=E3=83=88=E3=81=AF=E3=80=81=
+=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E5=A4=89=E6=9B=B4=E3=81=8C=E5=8F=97=E3=
+=81=91=E5=85=A5=E3=82=8C=E3=82=89=E3=82=8C=E3=82=8B=E5=8F=AF=E8=83=BD=E6=80=
+=A7=E3=82=92=E5=A4=A7=E3=81=8D=E3=81=8F=E9=AB=98=E3=82=81=E3=82=8B=E3=81=9F=
+=E3=82=81=E3=81=AE
++=E6=8F=90=E6=A1=88=E3=82=92=E9=9B=86=E3=82=81=E3=81=9F=E3=82=82=E3=81=AE=
+=E3=81=A7=E3=81=99=E3=80=82
 +
-+# Count should return to baseline
-+cnt=`cat enabled_functions | wc -l`
-+if [ $cnt -ne $ocnt ]; then
-+	exit_fail
-+fi
++=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AB=E3=81=AF=E3=80=81=E6=AF=94=
+=E8=BC=83=E7=9A=84=E7=B0=A1=E6=BD=94=E3=81=AA=E5=BD=A2=E5=BC=8F=E3=81=A7=E5=
+=A4=9A=E6=95=B0=E3=81=AE=E6=8F=90=E6=A1=88=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=
+=8C=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82
++=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E3=83=97=E3=83=AD=
+=E3=82=BB=E3=82=B9=E3=81=AE=E4=BB=95=E7=B5=84=E3=81=BF=E3=81=AB=E9=96=A2=E3=
+=81=99=E3=82=8B=E8=A9=B3=E7=B4=B0=E3=81=AF
++Documentation/process/development-process.rst =E3=82=92=E5=8F=82=E7=85=A7=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E3=81=BE=E3=81=9F=E3=80=81=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E6=8A=95=
+=E7=A8=BF=E3=81=99=E3=82=8B=E5=89=8D=E3=81=AB=E7=A2=BA=E8=AA=8D=E3=81=99=E3=
+=81=B9=E3=81=8D=E9=A0=85=E7=9B=AE=E3=81=AE=E4=B8=80=E8=A6=A7=E3=81=A8=E3=81=
+=97=E3=81=A6
++Documentation/process/submit-checklist.rst =E3=82=92=E8=AA=AD=E3=82=93=E3=
+=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E3=83=87=E3=83=90=E3=82=A4=E3=82=B9=E3=83=84=E3=83=AA=E3=83=BC=E3=83=90=
+=E3=82=A4=E3=83=B3=E3=83=87=E3=82=A3=E3=83=B3=E3=82=B0=E3=81=AE=E3=83=91=E3=
+=83=83=E3=83=81=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81
++Documentation/devicetree/bindings/submitting-patches.rst =E3=82=92=E8=AA=
+=AD=E3=82=93=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
 +
-+# Test 2: List with explicit :entry suffix
-+# (Should behave exactly like Test 1)
-+echo "f:test/list_entry_exp $PLACE,!$PLACE2,$PLACE3:entry" >> dynamic_events
-+grep -q "test/list_entry_exp" dynamic_events
-+test -d events/test/list_entry_exp
++=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AF=E3=80=81=E3=83=91=E3=83=83=
+=E3=83=81=E4=BD=9C=E6=88=90=E3=81=AB ``git`` =E3=82=92=E4=BD=BF=E3=81=86=E5=
+=89=8D=E6=8F=90=E3=81=A7=E6=9B=B8=E3=81=8B=E3=82=8C=E3=81=A6=E3=81=84=E3=81=
+=BE=E3=81=99=E3=80=82
++=E3=82=82=E3=81=97 ``git`` =E3=81=AB=E4=B8=8D=E6=85=A3=E3=82=8C=E3=81=A7=
+=E3=81=82=E3=82=8C=E3=81=B0=E3=80=81=E4=BD=BF=E3=81=84=E6=96=B9=E3=82=92=E5=
+=AD=A6=E3=81=B6=E3=81=93=E3=81=A8=E3=82=92=E5=BC=B7=E3=81=8F=E5=8B=A7=E3=82=
+=81=E3=81=BE=E3=81=99=E3=80=82
++=E3=81=9D=E3=82=8C=E3=81=AB=E3=82=88=E3=82=8A=E3=80=81=E3=82=AB=E3=83=BC=
+=E3=83=8D=E3=83=AB=E9=96=8B=E7=99=BA=E8=80=85=E3=81=A8=E3=81=97=E3=81=A6=E3=
+=80=81=E3=81=BE=E3=81=9F=E4=B8=80=E8=88=AC=E7=9A=84=E3=81=AB=E3=82=82=E3=80=
+=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E4=BD=9C=E6=A5=AD=E3=81=AF
++=E3=81=9A=E3=81=A3=E3=81=A8=E6=A5=BD=E3=81=AB=E3=81=AA=E3=82=8B=E3=81=A7=
+=E3=81=97=E3=82=87=E3=81=86=E3=80=82
 +
-+echo 1 > events/test/list_entry_exp/enable
++=E3=81=84=E3=81=8F=E3=81=A4=E3=81=8B=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=
+=E3=82=B9=E3=83=86=E3=83=A0=E3=82=84=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=
+=83=84=E3=83=AA=E3=83=BC=E3=81=AB=E3=81=AF=E3=80=81=E5=90=84=E3=80=85=E3=81=
+=AE=E3=83=AF=E3=83=BC=E3=82=AF=E3=83=95=E3=83=AD=E3=83=BC=E3=82=84
++=E6=9C=9F=E5=BE=85=E4=BA=8B=E9=A0=85=E3=81=AB=E9=96=A2=E3=81=99=E3=82=8B=
+=E8=BF=BD=E5=8A=A0=E6=83=85=E5=A0=B1=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=
+=81=99=E3=80=82=E6=AC=A1=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=
+=8F=E3=81=A0=E3=81=95=E3=81=84:
++:ref:`Documentation/process/maintainer-handbooks.rst <maintainer_handbooks=
+_main>`.
 +
-+grep -q "$PLACE" enabled_functions
-+grep -q "$PLACE3" enabled_functions
-+! grep -q "$PLACE2" enabled_functions
-+
-+cnt=`cat enabled_functions | wc -l`
-+if [ $cnt -ne $((ocnt + 2)) ]; then
-+	exit_fail
-+fi
-+
-+# Cleanup Test 2
-+echo 0 > events/test/list_entry_exp/enable
-+echo "-:test/list_entry_exp" >> dynamic_events
-+
-+# Test 3: List with :exit suffix
-+echo "f:test/list_exit $PLACE,!$PLACE2,$PLACE3:exit" >> dynamic_events
-+grep -q "test/list_exit" dynamic_events
-+test -d events/test/list_exit
-+
-+echo 1 > events/test/list_exit/enable
-+
-+# Even for return probes, enabled_functions lists the attached symbols
-+grep -q "$PLACE" enabled_functions
-+grep -q "$PLACE3" enabled_functions
-+! grep -q "$PLACE2" enabled_functions
-+
-+cnt=`cat enabled_functions | wc -l`
-+if [ $cnt -ne $((ocnt + 2)) ]; then
-+	exit_fail
-+fi
-+
-+# Cleanup Test 3
-+echo 0 > events/test/list_exit/enable
-+echo "-:test/list_exit" >> dynamic_events
-+
-+clear_trace
--- 
-2.43.0
+--=20
+2.47.3
 
