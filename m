@@ -1,216 +1,137 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D4150094E
-	for <linux-doc@vger.kernel.org>; Sun, 18 Jan 2026 00:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2E578F2F
+	for <linux-doc@vger.kernel.org>; Sun, 18 Jan 2026 01:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768696061; cv=none; b=mGuBMXRex7iTcwmecyLnmvBTQxZXmrBGV+5F/X8LjYRhUHCxx0aAIzZJPtXJRE9jhRmdpIKyZiuPJGa/9kNtJ+5Pi60/HPWgysivegDnJs99BypLve7oli0ZEij9P7aUq5p16iKLXrlpNbyGuAGlGH4wONQmQzik2gY83Ft+xbM=
+	t=1768699104; cv=none; b=gDh7wrvPS/HI6Q8rWxEGHiXOD3RClYGAER0IuSFh/wKqfmDGbh/sV+uTcfKA32SN7OEPBaQ+dj6T7yCptYnYbA57TB1wS6okrB7NTSlIORW5GVIZS0dkbJYDMn53/5b5lfIlIuNOZQiVBFilK7sMCuP0BzV/LFlBIaxiWpYXkIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768696061; c=relaxed/simple;
-	bh=UC18EEQnpo5KNQ1B8+0gPq/jSkfQsmAtHCiWzpfW+1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OQpLywWi9jRg2V67lJeMuTfbLzuwcWU2VU842iy3BOiFzkP5zfQSMp55sc0hPQWC6K/2O52bGk+4u9UMGK6DBxaLVhCzFYe05Ffv54OVNnVU4T2NzU/BEWmAjAx58HW1mHMl1QHgk4L6iaYrDDaxYvMq5p6z5VhBeL+1WiOV9c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EJwAZOfj; arc=none smtp.client-ip=74.125.82.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1768699104; c=relaxed/simple;
+	bh=o255kqj9N8oeGK/I9xWWmtlxK6I+tQ2294asnIjtCKg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=okyS3rMTEFubvMEg/9R8KEBxSwTMA7x1bgqLly33DsKXQva08pEI9aN/DRMEqdrEISTwl1xgK13WsJlxho04O5Jg/IIp4WpxaCJ2yx/ks9ScNcHyMguw0JdgiCKktg4PekpZiBsVxASI70A73tPcA4lEyV6MlvMvemxV5UMBoJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nmc6wRa1; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EJwAZOfj"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1233bc1117fso2090505c88.0
-        for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 16:27:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nmc6wRa1"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c52c67f64cso349889285a.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Jan 2026 17:18:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768696059; x=1769300859; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=bfyXBIPR2trIB5PXoGw7goBrIzOi0pwZk7JsXji+6PM=;
-        b=EJwAZOfjp8QoBsvbqulEdFR0WDRpazN1rLCJpQyeqn69QtcOqYu+M8RUcx7L0ZrIJW
-         6Q1Z2FFzfrOJnc//p7QQMGCiYQPPGxMXzLL1GRzWUAZK8IsUOY4TubdaOExKFjSqS//t
-         QPpT37vPOB4xqkoZRSc2j5hWsbXkLSs0S3GY+jQAUwcsZ/o7x32pOBzI6AIENt4hhVqH
-         ypaIaPS9zVN/Ku5O48nZiMrSnSYrAQqH95CBr3byV1cjYzH40EEgMdNZInoEuo3jhrZt
-         UxSiSt+YRIC63/u9CP9SF5TIiQFx0Xjt8SRJT04dOwYfZNLg7SfRVPxCasQiiK3k+Ggs
-         eb0A==
+        d=gmail.com; s=20230601; t=1768699100; x=1769303900; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xHdYO4hylg5Fck4tzGsglyFOuT/7NqghvPt+ikirSH0=;
+        b=Nmc6wRa1BxZf6HAPU0ZjvSP03equlZEDZ+2RxwoMXkSCvmMzJZmpNHg5hkcJl80AMs
+         CMkiPLhzMp/f5PUBV9eZ1TmB8Oowu1EDKa4lCBhD0KDjdMdr3dW4AWVQq4tr5zOCMk4U
+         98phJzvZhttnyPNI9LxU1sgMX0MjK0VdaAAgnfXio6eUQ4WDm1HkNUNtW9AcgC99O4wt
+         kuyNIuNIxM7mYQuSc5bR1fvjHddY2MFJ34sJpYq8CkHMNrfxGenQCqhmJWWq/2AMRTLj
+         oFSPFI/x+ykKdyCCs0QVmLfah+WaxDs1G161opInE80VZ/sFiBL9qTNFZdR3+SkRm+DD
+         Fm5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768696059; x=1769300859;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bfyXBIPR2trIB5PXoGw7goBrIzOi0pwZk7JsXji+6PM=;
-        b=egbX1vBedRPbxBFQVuVDpXFDAroh+d5dv7k/OaOyJOb3EgOxKaxevwLPglpNGhJbF3
-         EKEimV3Tv5oszUBw+SfK5j+pj/2Zp6bPlGCIfYvY52nLDI0knzBVB2I+KY4P9JBe29zw
-         aboNctcTVn3kA5N3XhmmJrftbCk/mLJmZoEVRRBNVyZjZ3AYdFGgtpuEp5J/meciUn1/
-         zfZkVecH4SPUxeZWoD89U5VLpY5z8iQ805iv7qn2W5yZ+tkqfG7s4KiKbuvZ/hTzbFXD
-         EnlBZy1XEQOtZKhtYerTz5uNg59gZ42in8VaefgdzLZkTQ1vqwtsxsfC4PMkFbWWd11R
-         BJuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGhw2KDAQH0Faw2fcKMYNwVLFKfSWLHPK/zFjfRQ/+I1QeKuBXdZS+p1cVL0O/KQUkmSdLvoKdyC4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9jto8OSjfUCG69ls0tryvTtd/c24GnGdgEnMxrW13lv7FWthX
-	o0pbgh4dDvAVLFMat0YiYYC4FtiwAQAgcIKI8ALcwoJ48NdqWOxF+Mzvy5jS2g==
-X-Gm-Gg: AY/fxX4t3u5I4+/su3LurjzayDL6nTgnXUIjPy+u8BCTgwFn4Q0wLE88sO4RgyuNEQh
-	kESf1p1w4YelO7O7q4hc5HlRYgW04x24dIexkoDXw+NNHCsUCWhbefS6jxq+ev5AL4FOSWE2A7v
-	yBNW3ljwBdtlRy8JjNsGaER19Vq3YMIvHpH//Eivrfy5UA5NEgwG0m/woEzBRWSsOVkQgsG/Nsu
-	TblNDN3ST7LerSJZBWc+5vI0sz+hf/3A0rTnvxzs211kRUjO9PIVnYLxsMx6ySVoi4z/cGab5Zc
-	q6GjsruUFfNx3PCF1dYELR2RgxPpbbo8RoUcEHXnsPLts1qX7UYC2uM288UAB/tx1xYyW8OHtql
-	QwYkAVWaUzqTpXTwi54iKKhJot06pN3nOWbqOJTXx3bpzxcdoOuRAgZGn0/2vumfPWdiaJX3MsR
-	kU6mfAM5HSkufy+nTMDBBXuJucoHXCixsVys3MTVRy2DuopZhRG7M5ZNvDDjpt
-X-Received: by 2002:a05:7300:4347:b0:2a4:3593:ccad with SMTP id 5a478bee46e88-2b664300ff3mr9615863eec.10.1768696058870;
-        Sat, 17 Jan 2026 16:27:38 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b6b3502c65sm7335128eec.8.2026.01.17.16.27.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Jan 2026 16:27:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <0ae2d448-06e3-41f6-89aa-8aa3f939d64f@roeck-us.net>
-Date: Sat, 17 Jan 2026 16:27:36 -0800
+        d=1e100.net; s=20230601; t=1768699100; x=1769303900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xHdYO4hylg5Fck4tzGsglyFOuT/7NqghvPt+ikirSH0=;
+        b=o+vsj2IvL3HTNi2NGNRbr3XmO6hvStlGIOkiTRwcmY9HGqYVY5nYAbiHGEx6kujLIm
+         yt0P0rfFC9xW1Dwto/BVd01c0kaduF2zHNhSoreOgL634sUSRzY3qMDNZhna+xTqsho3
+         tbIQPwjocn4md3z8dyMhLHG2dwxxqbOVsQG7bBZS/463l/08G8F/jdi5W9d2FBjK6Kyk
+         V26sEFaU9RtNV84US2slZzQ+a45OxDTdZtdYKnXCYLrJAXRbgo54lybq4DCKETiFu9Pi
+         vhJZBdyAdEL5c0Xtkbbp6equ5W0+59htbUHG9MBam3wUYcXHMz0CEzyzp8PW8XTIH6Vx
+         jKTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQyBP/42s4ARKaqwl6RRIMz9RGU9RxslVaYelF/WfXBnj06URakDloNyi+zG1Kjps0sDUh2hbanU8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoXCgrWzoD1q4ZK+HKBdmjU33xEH9XyAAk4hKGiNFilcZjfR/3
+	xjBJ1JT9sR1MW3AeGLFsbY8vWvuBjYyGa5m/sc2yOxMpv99EuMsbeWBa
+X-Gm-Gg: AY/fxX5/4Kt3gDlZ+FjV/Csq0fBfvgoDw+QIyaKLqBMX/NWns+8k5IwZmkcutdX+k/Z
+	SyepJiy2o4s8cjaNUdx0LApAkjKAfAhSpy2ViQAG5rNnSQSI34/eEph/2nEt+n/1hd9Ucfx2w2U
+	zfzdd+aTWsLgmYW2Z4K8Fbai9+UQaKJbqGvEPQkDujepPjvHkA3npslWJh5LSWlyyS0SlA3/Lvv
+	sWVSxjyoV1Bp/Qrk9p75we0FL2IOKA/DNu4geEdq078tw2cEth4TW4zFKUs9sHOshSfliEWra0F
+	MHNFJMoKsVrynP3pn8N9/oR82P7YlvTlDFnkh/0hn28TOx7SlVhZKcFXKSZQCqn74K8zywvyTkb
+	Ch87hZXJlkU0fKK9zikIheX3YHBSH5EBK3sibVhSfKoRz3TrxgYdWxOEv1Q+AwNwMGlzo+pud9N
+	qVEdHcybwIiPFeMeMxKCb8xRtDVrf20TAutrdu/+c/+483Hgbn9Q+MiIKFz22BXvo5rkqS6XI=
+X-Received: by 2002:a05:620a:3953:b0:8c6:a5aa:465c with SMTP id af79cd13be357-8c6a676df81mr1041091985a.55.1768699100327;
+        Sat, 17 Jan 2026 17:18:20 -0800 (PST)
+Received: from pc.tail882856.ts.net ([2600:4041:4491:2000:8a64:ec6b:4:f1])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a72642fdsm512290285a.46.2026.01.17.17.18.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Jan 2026 17:18:19 -0800 (PST)
+From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	corbet@lwn.net,
+	shuah@kernel.org
+Cc: mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: [PATCH v5 v5 0/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
+Date: Sat, 17 Jan 2026 20:18:12 -0500
+Message-ID: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
- Controller
-To: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, "Rob Herring (Arm)" <robh@kernel.org>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Nuno,
+This series extends fprobe dynamic events to accept a comma-separated list of
+symbols and explicit/suffixes.
 
-On 12/23/25 04:21, Nuno Sá via B4 Relay wrote:
-> This is v3 for the LTC4283 how swap controller. Main change is that I'm
-> now using the auxiliary bus for adding the GPIO device (done depending
-> on FW properties).
-> 
-> Similar to the LTC4282 device, we're clearing some fault logs in the
-> reset_history attributes.
-> 
-> Guenter, in [1] you can find some replies for some questions you had in
-> v2 that likely you don't remember anymore. Regarding the regmap story I
-> ended up adding a secong regmap for the 16 bit wide registers which
-> seems like a clean solution (if I'm not missing nothing).
-> 
+Currently, fprobe only supports a single symbol (or wildcard) per event. This
+series allow users to specify a comma-separated list of symbols, including
+exclusions, and to select entry/exit explicitly using /
 
-Sorry for the long delay.
+Examples:
+- f:[GRP/][EVENT] func1,func2,func3
+- f:[GRP/][EVENT] func1,!func2,func3 (exclude with '!')
 
-Actually I prefer the solution used in the lm75 driver: Map all registers
-to 16-bit registers using a regmap bus. Would that be possible ?
+Logic changes:
+- Refactor parsing logic into parse_fprobe_spec()
+- Support comma-separated lists and '!' exclusions
+- Add / suffixes for explicit entry/exit selection
+- Preserve legacy single-symbol behavior (single symbols still accept %return)
+- Disable BTF-based signature lookup when list/wildcard is used, since one
+  function signature cannot apply to multiple functions
+- Reject mixed legacy/new syntax where applicable (e.g. list + %return)
+- Update tracefs/README and fprobe documentation
+- Add ftrace selftests covering accepted list syntax cases
 
-Other than that, I ran the series through an AI review. This is what it told me:
+*Patch order is adjusted: code first, then docs, then selftest
 
-   Identified Violations and Observations:
+Changes in v5:
+- Reordered patches (code->docs->selftests) as suggested
+- Addressed review feedback on README help text to show both legacy and list
+  syntaxes
+- Added missing traceprobe error IDs used by the new validation and fixed
+  parsing/bracing issues found by automated builds
+- Removed the dedicated list_mode field and infer list behavior from presence of
+  filter/nofilter and keep struct trace_probe as the last member
+- Link to v4: https://lore.kernel.org/linux-trace-kernel/20251127151218.4763b25c751bb2aac4b1ee36@kernel.org/
 
-    * Alphabetical Order of Includes: In drivers/hwmon/ltc4283.c, the include files are not strictly in alphabetical order.
-        * #include <linux/hwmon.h> is listed before #include <linux/hwmon-sysfs.h>.
+I am not fully confident the runtime testing coverage that I did is sufficient
+across configs/architectures, so additional verification would be appreciated.
 
--> Actually, linux/hwmon-sysfs.h> does not have to be included in the first place.
+Best regards,
+Ryan Chung
 
-        * According to strict ASCII sorting (e.g., LC_ALL=C sort), hwmon-sysfs.h should come first because the hyphen - (ASCII 45) precedes the dot . (ASCII 46).
-    * Documentation Discrepancy: The file Documentation/hwmon/ltc4283.rst includes a section for "Addresses scanned" listing I2C addresses 0x10-0x17 and 0x20-0x2E.
-        * Inaccuracy: The driver does not implement a .detect function, meaning no I2C address scanning is actually performed.
-        * Guideline Violation: The submitting-patches.rst guideline states that only specific I2C addresses (0x18-0x1f, 0x28-0x2f, etc.) shall be probed. The addresses listed in the documentation (specifically 0x10-0x17) are outside of this
-          approved range. While the driver doesn't probe, the documentation misleadingly suggests it does so on non-approved addresses.
 
--> Please fix.
+Seokwoo Chung (Ryan) (3):
+  docs: tracing/fprobe: Document list filters and :entry/:exit
+  tracing/fprobe: Support comma-separated symbols and :entry/:exit
+  selftests/ftrace: Add accept cases for fprobe list syntax
 
-Thanks,
-Guenter
+ Documentation/trace/fprobetrace.rst           |  17 +-
+ kernel/trace/trace.c                          |   3 +-
+ kernel/trace/trace_fprobe.c                   | 209 ++++++++++++++----
+ .../ftrace/test.d/dynevent/fprobe_list.tc     |  92 ++++++++
+ 4 files changed, 269 insertions(+), 52 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
 
-> [1]: https://lore.kernel.org/linux-hwmon/0765a0b89779331c62a3f136ef030f7f2f40ea47.camel@gmail.com/
-> [2]: https://lore.kernel.org/linux-iio/cover.1761588465.git.geert+renesas@glider.be/
-> 
-> ---
-> Changes in v5:
-> - Patch 2:
->    * Added a secong regmap for the 16bit wide registers;
->    * Add default value for rsense so that we can probe without FW
->      properties;
->    * Make sure to give the right file permissions to the reset_history
->      attrs.
-> - Patch 3:
->    * Make sure to get the right regmap (given that the device now has 2);
->    * Add error handling for getting the regmap.
-> - Link to v4: https://lore.kernel.org/r/20251204-ltc4283-support-v4-0-db0197fd7984@analog.com
-> 
-> ---
-> Nuno Sá (3):
->        dt-bindings: hwmon: Document the LTC4283 Swap Controller
->        hwmon: ltc4283: Add support for the LTC4283 Swap Controller
->        gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
-> 
->   .../devicetree/bindings/hwmon/adi,ltc4283.yaml     |  272 +++
->   Documentation/hwmon/index.rst                      |    1 +
->   Documentation/hwmon/ltc4283.rst                    |  266 +++
->   MAINTAINERS                                        |    9 +
->   drivers/gpio/Kconfig                               |   15 +
->   drivers/gpio/Makefile                              |    1 +
->   drivers/gpio/gpio-ltc4283.c                        |  218 +++
->   drivers/hwmon/Kconfig                              |   12 +
->   drivers/hwmon/Makefile                             |    1 +
->   drivers/hwmon/ltc4283.c                            | 1766 ++++++++++++++++++++
->   10 files changed, 2561 insertions(+)
-> ---
-> base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
-> change-id: 20250812-ltc4283-support-27c8c4e69c6b
-> --
-> 
-> Thanks!
-> - Nuno Sá
-> 
-> 
-> 
+-- 
+2.43.0
 
