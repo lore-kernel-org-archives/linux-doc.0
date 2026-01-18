@@ -1,85 +1,88 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB612ECD2A;
-	Sun, 18 Jan 2026 17:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7A61684BE;
+	Sun, 18 Jan 2026 18:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768757628; cv=none; b=hbOpSC3fIFUDwLDRNOMIYnZgwlUxOOAbWaDnuQM68ytpeya9SNjqRgzDGuY0cUtcOKvWYYy2YZshJWaeGIJGp2y4/HnVCJ4Qxk8kbu4kKrIQu2c3OwjvfFsabMkHsZfWqJITuMBQ7421R7NxMbJnGIjF+VIKVAOeb0J21tgixOE=
+	t=1768759392; cv=none; b=AnSPMF9JWIx8pJfKpolDD6ncpX+WJLR6r6lFCrK2/k3QldigEDZtHwceJzoq3/Za7WbD07vjOvZjXxvgzk2hly3qn5MYjdFXB2gAS6L0r33xfshulo0xDZ+EJIMjHTr1h1UIF229bi+UjvECaNDy/8ReIz/6iGW7S8uEoJCbUwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768757628; c=relaxed/simple;
-	bh=5WYncxczVCdYSzffmY7fZ0QwijmB9yzxp46+mzR5XKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CPL6g2uC1kbc1jBG+Tv0ejpIxc9yUFRUBfX5nLJ18iUDj3lo1l0nkqWZGepXOSVaQPyb1xYwu6xVs5LNGx1xMebLBvLgcWtyz0PLj+9OnOZVV7bQ3E0xjWl85YoldoVXgK9Rjl3YHJDGAqtsKAqOH1shdXX6nrYgxYG6yyfyS3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=LYK8FSDr; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1768759392; c=relaxed/simple;
+	bh=QNYks7ttqO9vmoAFlbyr+Kp8wOzmYyCyw42vhGbKo9M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CW7c9CzLIbk7XFbnSxq5dKpxWB2WrBTnzAHlQ+CfuchvVsQjkXU6uYjb1ofE5+VTkWnE7i/lsDF02bw4GV8g5nn5wa5o0f+Da6+4UDplqzdKMM15WofizqE8IyD7LhN26pw5wV3nuKiPoGZr+xBdrafHFeQXGvmuWQdnKHEU9ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u1ph9fId; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="LYK8FSDr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=iiZVfxP7lUgcZnBL6pX70dhtqK4uFbpEL9U/3xy0rNc=; b=LYK8FSDr4qE/eTCn9k2PAD7w6g
-	VCrTO7x7SdHBGxBtakBBmlPuPjn8j7sknBCDGHHtJII6B5veNvFd2joqMkkX6ODac4YLwdbr5QE0s
-	r0WGcFJNW8DyUrzzhXnOrmIJxeI/SvTiDtQwA9NSYYoq572U25Eu3VRSyxNm7dH4CC1/afeEj2bpc
-	EPGxyyOOUerFraE8yBC6+FN/iVk0vWm1QGaolDowKp7wzoXsMvqLO9GCX9OWopB45mHcu8wmdog1Q
-	qBwhoED9MEAK8g12z9kf7rzjftsECzAqZu3HTeos6g/EedI7qx4STcZ4bja4ya5BE0x/pbHMkJVW3
-	OtMkobAw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99 #2 (Red Hat Linux))
-	id 1vhWgI-00000000gWJ-0hN5;
-	Sun, 18 Jan 2026 17:35:18 +0000
-Date: Sun, 18 Jan 2026 17:35:18 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jay Winston <jaybenjaminwinston@gmail.com>
-Cc: corbet@lwn.net, brauner@kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] docs: filesystems: escape errant underscore in
- porting.rst
-Message-ID: <20260118173518.GC3634291@ZenIV>
-References: <20260118131612.21948-1-jaybenjaminwinston@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u1ph9fId"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 443C6C116D0;
+	Sun, 18 Jan 2026 18:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768759391;
+	bh=QNYks7ttqO9vmoAFlbyr+Kp8wOzmYyCyw42vhGbKo9M=;
+	h=From:To:Cc:Subject:Date:From;
+	b=u1ph9fIdAnZvv9dJCjjcTSv4bbYyqmA328oMhUxvu485T+x7uorCIBD/RYRusOVXA
+	 a8JBOWQ6Ee3v9chlzb0necHDvjcvbtMgWfVB5EZ2Zq5SUXvGfD7IuFZ8nbG4j+BJwA
+	 K/93Op3MB1fy6zig5Pu7X5hfPHmQzyzL2nNNgqSAVLibscXv9JiVqKaW/CQDufDQhx
+	 Q3YKl17q1h6u5Nn9BCloV2Bdv/IwWGQntCP5GYGf3RVAO8dktfaMjkXLi4LElkkkMP
+	 CAKMwmhwA2gAJbzhHne5R4IOUEyHVkcgZqu0dN8s/CKcBUhEpHKCExW8EKcwHFKYa6
+	 LCe9LZdXfaUIQ==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/8] Docs/mm/damon: update intro, modules, maintainer profile, and misc
+Date: Sun, 18 Jan 2026 10:02:51 -0800
+Message-ID: <20260118180305.70023-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260118131612.21948-1-jaybenjaminwinston@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 18, 2026 at 03:16:12PM +0200, Jay Winston wrote:
-> filename_...() seems to be literal text whereas Sphinx thinks filename_ is
-> a link. Wrap all with double backticks to quiet Sphinx warning and wrap
-> do_{...}() as well for consistency.
-> 
-> Signed-off-by: Jay Winston <jaybenjaminwinston@gmail.com>
-> ---
->  Documentation/filesystems/porting.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-> index 8bf09b2ea912..86d722ddd40e 100644
-> --- a/Documentation/filesystems/porting.rst
-> +++ b/Documentation/filesystems/porting.rst
-> @@ -1345,6 +1345,6 @@ implementation should set it to generic_setlease().
->  
->  **mandatory**
->  
-> -do_{mkdir,mknod,link,symlink,renameat2,rmdir,unlink}() are gone; filename_...()
-> -counterparts replace those.  The difference is that the former used to consume
-> -filename references; the latter do not.
-> +``do_{mkdir,mknod,link,symlink,renameat2,rmdir,unlink}()`` are gone;
-> +``filename_...()`` counterparts replace those.  The difference is that the
-> +former used to consume filename references; the latter do not.
+Update DAMON documentations for wordsmithing, clarifications, and
+miscellaneous outdated things with eight patches.  Patch 1 simplifies
+the brief introduction of DAMON.  Patch 2 updates DAMON user-space tool
+packaged distros information on design doc to include not only Fedora,
+but refer to repology.  Three following patches update design and usage
+documents for clarifying DAMON sample modules purposes (patch 3), and
+outdated information about usages of DAMON modules (patches 4 and 5).
+Final three patches update usage and maintainer-profile for sysfs
+refresh_ms feature behavior (patch 6), synchronize DAMON MAINTAINERS
+section name (patch 7), and broken damon-tests performance tests
+(patch 8).
 
-FWIW, check the current viro/vfs.git#work.filename; that fragment is now
+SeongJae Park (8):
+  Docs/mm/damon/index: simplify the intro
+  Docs/mm/damon/design: link repology instead of Fedora package
+  Docs/mm/damon/design: document DAMON sample modules
+  Docs/mm/damon/design: add reference to DAMON_STAT usage
+  Docs/admin-guide/mm/damon/usage: introduce DAMON modules at the
+    beginning
+  Docs/admin-guide/mm/damon/usage: update stats update process for
+    refresh_ms
+  Docs/mm/damon/maintainer-profile: fix wrong MAITNAINERS section name
+  Docs/mm/damon/maintainer-profile: remove damon-tests/perf suggestion
 
-fs/namei.c primitives that consume filesystem references (do_renameat2(),
-do_linkat(), do_symlinkat(), do_mkdirat(), do_mknodat(), do_unlinkat()
-and do_rmdir()) are gone; they are replaced with non-consuming analogues
-(filename_renameat2(), etc.)
-Callers are adjusted - responsibility for dropping the filenames belongs
-to them now.
+ Documentation/admin-guide/mm/damon/usage.rst  | 16 +++++++---
+ Documentation/mm/damon/design.rst             | 21 +++++++++++--
+ Documentation/mm/damon/index.rst              | 31 ++++++-------------
+ Documentation/mm/damon/maintainer-profile.rst |  7 ++---
+ 4 files changed, 42 insertions(+), 33 deletions(-)
 
+
+base-commit: 4bdd7e0e4afe2bb6bc27862130f1cd365f3cbbef
+-- 
+2.47.3
