@@ -1,79 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443EB3090D9;
-	Mon, 19 Jan 2026 10:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83325308F02;
+	Mon, 19 Jan 2026 10:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768818450; cv=none; b=ntWeH8T3olrApXvTqXE9+gtBltst9HVqPBzsg8zUgsU8z6hDtA13xF13TB8dOtPpHVvtikSdLxh/UicWV7coxRoc9eWG1HzcCIoJUz5VZVOS/JHFXqtndnMESWc5ciL+FiCANIbIXxer3oXqYPbqc+rIF4Bd2sbvZxKye1WiFEk=
+	t=1768819327; cv=none; b=I1qQgQCFCo24aN6eK07dOqCXwk8maShMN1U8rsoCLjRZDvIgHC3ZQmqMmYXMEw4Y5IMzypqWV1WVQxofhLCL3zEAOLQSoYTA2/F+ZcVbBFNKe2GNSTTb2R77LhYyq2sFDWfMPXdkjGzHCL0ry1hET3daE1qj/aLIyVIsUa/0R6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768818450; c=relaxed/simple;
-	bh=SaKAiIwbYX8VbXjWRjRdgrOUPR9xr5Jk3dnUZ1nX1fg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gsQWS/EKNEO6SONbQ8wGmmHqp11ZjtaastcGpeg6lWcvX4TGIw2vnT6spi7494f8B7r+Nfdp8b/osstTwjEvWsNhgwtP+Q6dLshZ511WtusavlxEdwEyhXk4iEYQWBK+OmrZdR7bsYRKkPe7zajRKwMR5P4LZRgCQkIB/Fk4Ipc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3Ddzlhp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3Ddzlhp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7587FC116C6;
-	Mon, 19 Jan 2026 10:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768818449;
-	bh=SaKAiIwbYX8VbXjWRjRdgrOUPR9xr5Jk3dnUZ1nX1fg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J3Ddzlhp4RMkim7SsafxDwRs8buOmXlgOKZATnKY4ZLzWXMMTts1ItrYht/H1bslL
-	 RTBk2ho5xY4cCSbpKUsOWKdXZ063zsTgU/PB2sm320lx6bsr3LVuQ+CJok7x8gDTV6
-	 yqGuPGypQNy6oMb3ygM4dqx2JRW9sx2fEtlDWFJ/fSLilFS5PdvnTN85nWsCVL53AQ
-	 jjHdsib/y8T85Gk6o5GWa0Buri0Qt3MhtBviY1FvXM7+NRmE2scawyQTgY2Ydvj2FZ
-	 d5dEeowcDScILKYNvaraz0aOf12LSmdWo+vO0wzq4QJ/1JjJHbJnVBm9sfOtISUPel
-	 FIaIvOWbw8FlA==
-Date: Mon, 19 Jan 2026 11:27:25 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Akira Yokosawa
- <akiyks@gmail.com>, Shuah Khan <shuah@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 2/2] Move kernel-doc to tools/docs
-Message-ID: <20260119112725.67b364f7@foz.lan>
-In-Reply-To: <20260114164146.532916-3-corbet@lwn.net>
-References: <20260114164146.532916-1-corbet@lwn.net>
-	<20260114164146.532916-3-corbet@lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1768819327; c=relaxed/simple;
+	bh=qenx5N2waJdC9QQIVsp9hQNVuZ57Bzo2azojkGh3inA=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pio6DrFjO0vBGCkMV+yy/F8sqctlEUGVY38UY6iBqbGwrQ27DWwrpzzqElsRoJOX0yUB432VeUUkGNEM2TeWQ0PGoImH3ZRD5POyE6P71KAqM8JO6XZfdmxpEzasQo49odkoQcxd/kL7UWJw+EJeBqEOvzkHqR/Dl+ssnv3uBs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dvn7l1RtNzJ46fh;
+	Mon, 19 Jan 2026 18:41:39 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id D94FC40573;
+	Mon, 19 Jan 2026 18:42:01 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 19 Jan
+ 2026 10:42:01 +0000
+Date: Mon, 19 Jan 2026 10:41:59 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+CC: Jonathan Cameron <jic23@kernel.org>, Rodrigo Alencar
+	<455.rodrigo.alencar@gmail.com>, <rodrigo.alencar@analog.com>,
+	<linux-kernel@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>, David Lechner
+	<dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, "Lars-Peter
+ Clausen" <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 4/6] iio: frequency: adf41513: features on frequency
+ change
+Message-ID: <20260119104159.000025f7@huawei.com>
+In-Reply-To: <aW3fYYK4ywhwOZv9@smile.fi.intel.com>
+References: <20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com>
+	<20260108-adf41513-iio-driver-v3-4-23d1371aef48@analog.com>
+	<aWFR2wTSWLydGN5O@smile.fi.intel.com>
+	<ptyn5x7qkmbakkompmijo6xeego2xrhjoeyomkgrytwgwcsaid@heiq3ilnx5ky>
+	<aWTS-npPY6yPARZH@smile.fi.intel.com>
+	<20260116175743.169eb595@jic23-huawei>
+	<aW3fYYK4ywhwOZv9@smile.fi.intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-Em Wed, 14 Jan 2026 09:41:44 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Mon, 19 Jan 2026 09:38:09 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-> kernel-doc is the last documentation-related tool still living outside of
-> the tools/docs directory; the time has come to move it over.
+> On Fri, Jan 16, 2026 at 05:57:43PM +0000, Jonathan Cameron wrote:
+> > On Mon, 12 Jan 2026 12:54:50 +0200
+> > Andy Shevchenko <andriy.shevchenko@intel.com> wrote:  
+> > > On Mon, Jan 12, 2026 at 09:45:49AM +0000, Rodrigo Alencar wrote:  
+> > > > On 26/01/09 09:07PM, Andy Shevchenko wrote:    
+> > > > > On Thu, Jan 08, 2026 at 12:14:53PM +0000, Rodrigo Alencar via B4 Relay wrote:    
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ...
+> 
+> > > > > > +	bleed_value = div64_u64(st->settings.pfd_frequency_uhz * bleed_value,
+> > > > > > +				1600ULL * HZ_PER_MHZ * MICROHZ_PER_HZ);    
+> > > 
+> > > You multiply Hz * Hz. One of them should be simply SI multiplier.
+> > > To me it sounds like one of
+> > > 
+> > > 				1600ULL * MEGA * MICROHZ_PER_HZ);
+> > > 				1600ULL * HZ_PER_MHZ * MICRO);
+> > > 
+> > > will be the correct one (and I lean towards the first one as you want units
+> > > to match).  
+> > 
+> > I don't really care, but... They are Hz * Hz / Hz * Hz / Hz = HZ
+> > if we assume the first number is in Hz.  The others are all ratios.
+> >  
+> > So original is fine as far as I can tell.  
+> 
+> I don't see it like this. I consider that we should have only one meaningful
+> units as the rest is just a value. What you wrote above has a little sense
+> to me, sorry.
+> 
 
-...
+I agree, but none of those XHZ PER HZ is mathematically valid way of applying a unit.
+This is because the per means divide so the units cancel out.
+Literally it's  (0.0000001Hz / 1Hz) 
+So using them to assign a unit is meaningless.  All they are doing is hinting
+that we are manipulating values already in some scaling of Hz.
 
-> diff --git a/scripts/kernel-doc.py b/tools/docs/kernel-doc
-> similarity index 100%
-> rename from scripts/kernel-doc.py
-> rename to tools/docs/kernel-doc
+Personally I'm not sure there is value in the unit specific defines given
+this. They kind of hint we are dealing with frequencies, but that's it.
 
-As reported by kernel test robot:
-	 https://lore.kernel.org/linux-doc/202601191546.Bvd74asP-lkp@intel.com/
+Jonathan
 
-Here, you also need to change the relative location of the modules:
 
-	 # Import Python modules
-
-	-LIB_DIR = "../tools/lib/python"
-	+LIB_DIR = "../lib/python"
-	 SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-
-	 sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
-
-Thanks,
-Mauro
