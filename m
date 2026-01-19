@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2E735970D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1E93596F9;
 	Mon, 19 Jan 2026 12:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768824317; cv=none; b=QZr6I3i2WhiVuW4OW7ndBWPW+ME0KYh652xnYP7kdYo3xVGOLwVm9kn8SsTbFm8IV1Y3CNaHJnuGSrdtc7DLT7qEe2xdZYCiXx1RhLZWzgh1CiUtBFaJ/D0TVsQX2TPF/L9MAesXGh9LyvSH5by0L4MRYm+BkiZDpYq336/m3lY=
+	t=1768824317; cv=none; b=Qehp/dWomLy522eFHpFJGLz3YEawfjRt/3PmrmMF+CSJN99evaQqXwWAL5TFoDAajVDIM9y8cud6cXVhdLt82FSQfRhcohq8nnLjSywMq+gT1ZGAWZgeQNkM3S+OfpW8fI5CgLQqhs6H7zNQB8+YSCsmsygCc5ViJbIn14VyyGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768824317; c=relaxed/simple;
-	bh=gswQgvIkCvCKkiNyrJA/gedBlbjViDDQyImQR0Lwtf4=;
+	bh=6HyC5gF4ScinHY1gGeYNGGYvsoRZQIoC1BWSJQdTkY4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dyFng7SQmvYASmdTWbaThdRnAaA9V7fNezIUnFS+HaSzzqEVy8lg9EcnzVTs6CQGOpNtALKa04sNntTM0iwqavFhuv1aATP7G1fWrE2m+CFil9Ja2YsWbmHmM4mgA+dPbdqGO+QUv1ZEtxe/Fi6sev7pGl+xzFSAhWWIhdZ8Mhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzyRKDQB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Lb6cwegxGrTTUKPQJUJjwMVcFGi1K/nJFVu5D/EmTURwql0q/M20voBKV1Ez331+rjiiKrF16KTwv0SRpgfXhGNCz5ppCs2cb7Ki4vTLGEleUwPstNN0iUFMHpUursofrQRvaYkxcUwXvH9IYnGs96GK1kqtd0iZMUS7Tld4bP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvOuF7hD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzyRKDQB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC637C19424;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvOuF7hD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4FDFC2BC9E;
 	Mon, 19 Jan 2026 12:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768824316;
-	bh=gswQgvIkCvCKkiNyrJA/gedBlbjViDDQyImQR0Lwtf4=;
+	bh=6HyC5gF4ScinHY1gGeYNGGYvsoRZQIoC1BWSJQdTkY4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RzyRKDQBKZ8Jd5mO530fmCqsSgPVKGTrzQlo0SAFbAu3XO+BVGDp0v53+SCfKNdCt
-	 CCpLlB5i4uwnLACxND1kGaKiPd/6DrKPu8UGfBPubqVllKHQxg+e4wrnmpMrW6WXIp
-	 BU4Kdnkhjw+Vg1BYLQ5ZAWOGhQDeCjdz2eB+VDrSLYp2q+1yLXbS3YaSDCtREmOQx3
-	 PeqUYx5SKCo+jGk5JoSxWH17jq6ujjtyvvzmssbAiYLhchZNIwdQaPmwOkFutOxae/
-	 99142H+xXfrRjd+vzmaxQvZSTzk3wR5uNv0YK7s2D3AKZJ75i+0v6Irh3qLVOQ2CWF
-	 StaZatb/RdONw==
+	b=WvOuF7hDdCBaQHihY9OW2YC1MzFJB74MOokdSvhwGI85VRZ6Ev5ixzSbIBVoGZb0/
+	 AmbHlcUNZ2uPeFv1VnM9Qa7+zTcxklTBwakBGzeGuORRTwf/v0c317Hhqo3pHRQvA8
+	 xN0ekp0C1rZw+mLt2vegSQ6so20BWtxxGtdy+loRJ5Q8MNLVrGGWAYazLjJon10GlF
+	 g9EbikW4yrmdSyIR3ntYNzXo9x6GcoTddi06ePHkoshuq6hlkf1qMgLFNTit1g9/Rc
+	 7z/wVoOni+N0u5k5pdd+YSlwDfNSmUkHEuPrq6WVsUrAwa34hFYy2oxu1hnL2sshDG
+	 vxQE1+IuvzqjQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vho0Q-00000001ZjE-3Jmu;
+	id 1vho0Q-00000001Zjj-48cY;
 	Mon, 19 Jan 2026 13:05:14 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -40,10 +40,10 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	workflows@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 2/9] docs: kdoc: avoid error_count overflows
-Date: Mon, 19 Jan 2026 13:04:57 +0100
-Message-ID: <233d1674db99ed8feb405a2f781de350f0fba0ac.1768823489.git.mchehab+huawei@kernel.org>
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH 9/9] docs: conf.py: get rid of the now unused kerneldoc_bin env var
+Date: Mon, 19 Jan 2026 13:05:04 +0100
+Message-ID: <c0fa9f561c1dd4370f9096de4195a9214763c51c.1768823489.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768823489.git.mchehab+huawei@kernel.org>
 References: <cover.1768823489.git.mchehab+huawei@kernel.org>
@@ -57,70 +57,66 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The glibc library limits the return code to 8 bits. We need to
-stick to this limit when using sys.exit(error_count).
+In the past, this contained the location of the binary file to parse
+kernel-doc. Nowadays, it is used only for debugging purposes, inside
+kerneldoc.py extension.
+
+Move it to sphinx/kerneldoc.py, to avoid needing to handle with it
+on several places.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: stable@vger.kernel.org
 ---
- scripts/kernel-doc.py | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ Documentation/conf.py             | 4 ----
+ Documentation/sphinx/kerneldoc.py | 7 +++++--
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 7a1eaf986bcd..1ebb16b9bb08 100755
---- a/scripts/kernel-doc.py
-+++ b/scripts/kernel-doc.py
-@@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 383d5e5b9d0a..65df81a9e414 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -579,10 +579,6 @@ pdf_documents = [
+     ("kernel-documentation", "Kernel", "Kernel", "J. Random Bozo"),
+ ]
  
- sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
+-# kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+-# the Docs). In a normal build, these are supplied from the Makefile via command
+-# line arguments.
+-kerneldoc_bin = "../tools/docs/kernel-doc"  # Not used now
+ kerneldoc_srctree = ".."
  
-+WERROR_RETURN_CODE = 3
+ def setup(app):
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index afbab458550a..c1cadb4eb099 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -47,6 +47,10 @@ sys.path.insert(0, os.path.join(srctree, "tools/lib/python"))
+ from kdoc.kdoc_files import KernelFiles
+ from kdoc.kdoc_output import RestFormat
+ 
++# Used when verbose is active to show how to reproduce kernel-doc
++# issues via command line
++kerneldoc_bin = "tools/docs/kernel-doc"
 +
- DESC = """
- Read C language source or header FILEs, extract embedded documentation comments,
- and print formatted documentation to standard output.
-@@ -176,7 +178,21 @@ class MsgFormatter(logging.Formatter):
-         return logging.Formatter.format(self, record)
+ __version__  = '1.0'
+ kfiles = None
+ logger = logging.getLogger(__name__)
+@@ -95,7 +99,7 @@ class KernelDocDirective(Directive):
+     def handle_args(self):
  
- def main():
--    """Main program"""
-+    """
-+    Main program.
-+
-+    By default, the return value is:
-+
-+    - 0: success or Python version is not compatible with
-+      kernel-doc.  If -Werror is not used, it will also
-+      return 0 if there are issues at kernel-doc markups;
-+
-+    - 1: an abnormal condition happened;
-+
-+    - 2: argparse issued an error;
-+
-+    - 3: -Werror is used, and one or more unfiltered parse warnings happened.
-+    """
+         env = self.state.document.settings.env
+-        cmd = [env.config.kerneldoc_bin, '-rst', '-enable-lineno']
++        cmd = [kerneldoc_bin, '-rst', '-enable-lineno']
  
-     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-                                      description=DESC)
-@@ -323,16 +339,12 @@ def main():
+         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
  
-     if args.werror:
-         print("%s warnings as errors" % error_count)    # pylint: disable=C0209
--        sys.exit(error_count)
-+        sys.exit(WERROR_RETURN_CODE)
+@@ -257,7 +261,6 @@ def setup_kfiles(app):
  
-     if args.verbose:
-         print("%s errors" % error_count)                # pylint: disable=C0209
  
--    if args.none:
--        sys.exit(0)
--
--    sys.exit(error_count)
--
-+    sys.exit(0)
+ def setup(app):
+-    app.add_config_value('kerneldoc_bin', None, 'env')
+     app.add_config_value('kerneldoc_srctree', None, 'env')
+     app.add_config_value('kerneldoc_verbosity', 1, 'env')
  
- # Call main method
- if __name__ == "__main__":
 -- 
 2.52.0
 
