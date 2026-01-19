@@ -1,89 +1,280 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7D8369988;
-	Mon, 19 Jan 2026 13:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD6C36921C;
+	Mon, 19 Jan 2026 13:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768829178; cv=none; b=b6zxaijDLMivxXFUcjfndemCPUZZjBNaX7pDhWnaE2HiIcsMz2U13f3WQh2C/ThZH3oqG2OQmRNRtR5W64YYuL2p8E27e/6m2wuxUKwkxLY6OJ+YjV8glHFhQSJqyEqRMEFlLIk1C0htIrAQ6WYsTkyQZmiQQYy1bHqLiqCkH4s=
+	t=1768830163; cv=none; b=VFXcM1p1y3zmcQ3PGB5U++TU9y1jgeWmw7KxrdSqbIctVkcv2zOueXWzm96BTI3eFJY4YH2sKjhviWH78G/tYdv1KABT3ch/87S+YoNi+NnAmCvEIbPKO2JvVH/tIfLjxR4eroGuJOOeea9BZ60CZTd6Aqxx1P3v8zz+GZGbYTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768829178; c=relaxed/simple;
-	bh=7wxKRnRov6rRr5k9pbQkiLIuW67DB6FJ9bnmrV4eGzU=;
+	s=arc-20240116; t=1768830163; c=relaxed/simple;
+	bh=V4mQ3VlRjiqoBXAOdadem2FcWXV+zUSy7/OHRaRfC0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kjRFAN2JqsVVg6xU3jYs0OtM5OobIrbW7vztPN54EhtR69nhrI2Qd2rcAoAKnqQ9eSQUPhWAQFtctAYto+n8k/rWXzf34vtijNLw1Ycts/7ROAdvxWhZo4cPe0v5jmR7Ovg+kxdrrONaNuQ7oL/FLCe83VjaKBLlQohUc3hT7AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=JBGVvVwM; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=OTQBkv9P/uA9OHx3EzIgWzA6GsMzjMSg3Y5ZFjbglBclsND9LVQvSBnZuUhCbWt19db5x3g8jxYsJw+e6iCIK/6EVxbA66SL86G4wWmdpA9Zpi6jjTTjNlblq5hZd/ynq8bCUgBXoedDfRrDN9TLg71yQZUaTQx6aW73Ylwp7LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JoIHZxjH; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="JBGVvVwM"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F334240E01A9;
-	Mon, 19 Jan 2026 13:26:08 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 2yovy3YDcIry; Mon, 19 Jan 2026 13:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768829162; bh=GH0orYiXKHRqf1gR91cC3HPL00358IkadtImZq1Nj9Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JBGVvVwMy00SxUZChghS13vHL4vAZRXORlt51NA72pGi+lK52B5GNUpLiu/8sFobw
-	 R6v2vxpjSQ+iSFbIkF4b8O0ju4O76CQuuZvU0Mcksq/eLajhDyv48C/xG+yN3yteCw
-	 ueuTEMI1qvu8iRb//6aeji5M0a6LOAiw/j2SDDR6TguObfx8c5ZaehmX+EmV/K6DT1
-	 /CFMS1yDXE9qIw7cs2iQUyQ9FXuZH7Ow9IvfGDJEFy6DsolyYWa1lem7EK8ttBh5TH
-	 YNDmXonjw5lQ6fuVesjugXdCbwt8KVHnpuZXFxetmPzqFjyzimBGCWF3G1wOzwUd13
-	 ujHx42s1DeL5TQzrgGcW65UzztvDRGILQWMWyBfy6TpjAbABFN5yFi3MOVF5P84glT
-	 JyQYgd9Y+rUJJWqQaRjXXxXjOtYn8cmUZDGGqBznKm7ikzi9rK18/WJqtTeBddypoZ
-	 pn1AqYUw+lsyqaObt4xdhWuxiSeVFgYJd+MLSZkACnAgohZJZAOReOiyKQOBe0JgoO
-	 DgxcAbnPhbv8jgJZNZleZUJahz4X5jnCpuEn5kEiJhf5bU+DeAg1BeSe4ngCIBAFZ1
-	 9/woXW7sCt7Poi6351dAO/S4MMPSs01DsHZvq1SjiwhNYMunvAXzZUB3czjd/bdU2P
-	 S9/SnPTxak/z653Mxe80SKp0=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 4065E40E019B;
-	Mon, 19 Jan 2026 13:25:32 +0000 (UTC)
-Date: Mon, 19 Jan 2026 14:25:25 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: corbet@lwn.net, anna-maria@linutronix.de, frederic@kernel.org,
-	tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
-	pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com,
-	kees@kernel.org, elver@google.com, arnd@arndb.de, fvdl@google.com,
-	lirongqing@baidu.com, bhelgaas@google.com, peterz@infradead.org,
-	brgerst@gmail.com, kai.huang@intel.com, benjamin.berg@intel.com,
-	andrew.cooper3@citrix.com, oleg@redhat.com, neelx@suse.com,
-	sean@ashe.io, mproche@gmail.com, chjohnst@gmail.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/idle: Mark "idle=poll" as deprecated
-Message-ID: <20260119132525.GCaW4wxSTvuW1ttufF@fat_crate.local>
-References: <20260118231009.3194039-1-atomlin@atomlin.com>
- <20260119102116.GAaW4FnNBECNPFzAW3@fat_crate.local>
- <lv4j25eogwjct5bzy76doh2thucpnqcqlpblbw3etmdrlc5rfq@3svjujqwisii>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JoIHZxjH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768830161; x=1800366161;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=V4mQ3VlRjiqoBXAOdadem2FcWXV+zUSy7/OHRaRfC0k=;
+  b=JoIHZxjHhKPFm+wxd23OaaW7eYSNqDqpa7jpZTKw59I+vVR4TcAxluxk
+   3qiDXGURiheufRb/iuKTy5/OXqDK3n7u+Gd6xJ928HNlwLPpvxKeB7rxv
+   23kePmvX4jAPqUdnKcb2GtVCaVTwsmtCLb1VuAhirln6rFfLKuYnsU8uq
+   TOBK5ZmZP+9U9ggovyYL8XGFg0HVsco2GmhjMf7BhLJ/fRvyj+1iXAEAc
+   ru0wAa8YPyyjvW3Y6IdOfdLrIM8kGD3ZvAasd4LQOxbiwNwTQs/PXCkKB
+   TItwk/LbcUcxTx83i3FE1ASikfSA/6vPr6UqtYR9QFeGFpjLnT5V97CZK
+   Q==;
+X-CSE-ConnectionGUID: OaK5iY4HSCeHAZcsjTN14A==
+X-CSE-MsgGUID: QJV8zTFkQA+xpy5kmaRxkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73669714"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="73669714"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 05:42:40 -0800
+X-CSE-ConnectionGUID: MJrvk+3oSqiJnsTZfpnklA==
+X-CSE-MsgGUID: ytX4QqSJQNu+cjSfQBWJPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="210372271"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.37])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 05:42:36 -0800
+Date: Mon, 19 Jan 2026 15:42:34 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <aW40ylvMwVhqNQMw@smile.fi.intel.com>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+ <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+ <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <lv4j25eogwjct5bzy76doh2thucpnqcqlpblbw3etmdrlc5rfq@3svjujqwisii>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jan 19, 2026 at 07:41:20AM -0500, Aaron Tomlin wrote:
-> I will investigate the possibility of implementing a boot-time parameter
-> for the PM QoS subsystem to bridge this gap. This would provide the same
-> immediate enforcement as "idle=poll" while retaining the runtime
-> flexibility of the QoS framework.
+On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alencar wrote:
+> On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-No, if what you claim is a valid and actual use case, then all it needs is
-documentation. Everything else is unnecessary.
+...
+
+> > > +struct adf41513_pll_settings {
+> > > +	enum adf41513_pll_mode mode;
+> > 
+> > Sounds to me like a room to improve the layout here,
+> 
+> I am targeting a 32-bit cpu, just moved in_value down:
+> would this be fine? (pahole output):
+
+Likely.
+
+> struct adf41513_pll_settings {
+>         enum adf41513_pll_mode     mode;                 /*     0     4 */
+
+Wondering if this can be shorter if moved down...
+
+>         u8                         r_counter;            /*     4     1 */
+>         u8                         ref_doubler;          /*     5     1 */
+>         u8                         ref_div2;             /*     6     1 */
+>         u8                         prescaler;            /*     7     1 */
+>         u64                        target_frequency_uhz; /*     8     8 */
+>         u64                        actual_frequency_uhz; /*    16     8 */
+>         u64                        pfd_frequency_uhz;    /*    24     8 */
+>         u32                        frac1;                /*    32     4 */
+>         u32                        frac2;                /*    36     4 */
+>         u32                        mod2;                 /*    40     4 */
+>         u16                        int_value;            /*    44     2 */
+> 
+>         /* size: 48, cachelines: 1, members: 12 */
+>         /* padding: 2 */
+>         /* last cacheline: 48 bytes */
+> };
+
+...at least I have had in mind that "mode" should be moved to be near
+to "int_value". But I think it will take 4 bytes still as we don't use
+short enums compile wise.
+
+> > > +	/* reference path parameters */
+> > > +	u8 r_counter;
+> > > +	u8 ref_doubler;
+> > > +	u8 ref_div2;
+> > > +	u8 prescaler;
+> > > +
+> > > +	/* frequency parameters */
+> > > +	u64 target_frequency_uhz;
+> > > +	u64 actual_frequency_uhz;
+> > > +	u64 pfd_frequency_uhz;
+> > > +
+> > > +	/* pll parameters */
+> > > +	u16 int_value;
+> > > +	u32 frac1;
+> > > +	u32 frac2;
+> > > +	u32 mod2;
+> > > +};
+
+...
+
+> > > +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+> > > +{
+> > > +	u64 uhz = 0;
+> > > +	int f_count = ADF41513_HZ_DECIMAL_PRECISION;
+> > > +	bool frac_part = false;
+> > > +
+> > > +	if (str[0] == '+')
+> > > +		str++;
+> > > +
+> > > +	while (*str && f_count > 0) {
+> > > +		if ('0' <= *str && *str <= '9') {
+> > > +			uhz = uhz * 10 + *str - '0';
+> > > +			if (frac_part)
+> > > +				f_count--;
+> > > +		} else if (*str == '\n') {
+> > > +			if (*(str + 1) == '\0')
+> > > +				break;
+> > > +			return -EINVAL;
+> > 
+> > > +		} else if (*str == '.' && !frac_part) {
+> > 
+> > This can be found by strchr() / strrchr() (depending on the expectations of
+> > the input).
+> > 
+> > > +			frac_part = true;
+> > > +		} else {
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		str++;
+> > > +	}
+> > 
+> > With the above the rest becomes just a couple of simple_strtoull() calls with
+> > a couple of int_pow(10) calls (and some validation on top).
+> > 
+> > > +	for (; f_count > 0; f_count--)
+> > > +		uhz *= 10;
+> > 
+> > This is int_pow(10).
+> > 
+> > > +	*freq_uhz = uhz;
+> > > +
+> > > +	return 0;
+> > > +}
+> 
+> The current implementation is kind of a stripped version of
+> __iio_str_to_fixpoint(). Would you prefer something like this, then?:
+
+Do they have most of the parts in common? If so, why can't we use
+__iio_str_to_fixpoint() directly? Or why can't we slightly refactor
+that to give us the results we need here?
+
+> static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+> {
+> 	u64 integer_part = 0, fractional_part = 0;
+> 	const char *decimal_point;
+> 	char *endptr;
+> 	int frac_digits;
+> 
+> 	if (str[0] == '+')
+> 	str++;
+> 
+> 	/* Find decimal point */
+> 	decimal_point = strchr(str, '.');
+> 	if (decimal_point) {
+
+> 		/* Parse integer part (if exists before decimal point) */
+> 		if (decimal_point > str) {
+
+I don't think you need this check, simple_strtoull() should return 0.
+
+Also check the ranges, perhaps you want in some cases simple_strtoul().
+
+> 			integer_part = simple_strtoull(str, &endptr, 10);
+> 			if (endptr != decimal_point)
+> 				return -EINVAL;
+> 		}
+> 
+> 		/* Parse fractional part */
+> 		fractional_part = simple_strtoull(decimal_point + 1, &endptr, 10);
+
+The idea of using the simple strtoull() (second "l") is to check for overflows,
+so if the number is > UINT_MAX we probably should return -ERANGE.
+
+We have somewhere already such a code in the kernel, maybe it's a time to have
+advanced version of simple_strtouint().
+
+drivers/crypto/intel/qat/qat_common/qat_uclo.c:206:     ae = simple_strtoull(str, &end, 10);
+drivers/crypto/intel/qat/qat_common/qat_uclo.c-207-     if (ae > UINT_MAX || str == end || (end - str) > 19)
+drivers/crypto/intel/qat/qat_common/qat_uclo.c-208-             return -EINVAL;
+
+> 		if (*endptr != '\0' && *endptr != '\n')
+> 			return -EINVAL;
+> 
+> 		/* Adjust for desired precision */
+
+> 		frac_digits = strcspn(decimal_point + 1, "\n");
+
+This is already precalculated: endptr - decimal_point (+ 1 ?).
+
+> 		if (frac_digits > ADF41513_HZ_DECIMAL_PRECISION)
+> 			fractional_part /= int_pow(10, frac_digits - ADF41513_HZ_DECIMAL_PRECISION);
+> 		else
+> 			fractional_part *= int_pow(10, ADF41513_HZ_DECIMAL_PRECISION - frac_digits);
+> 	} else {
+> 		/* No decimal point - just parse the integer */
+> 		ret = kstrtoull(str, 10, &integer_part);
+> 		if (ret)
+> 			return ret;
+> 	}
+> 
+> 	/* Combine integer and fractional parts */
+> 	*freq_uhz = integer_part * int_pow(10, ADF41513_HZ_DECIMAL_PRECISION) + fractional_part;
+> 
+> 	return 0;
+> }
+
+...
+
+> > > +static int adf41513_uhz_to_str(u64 freq_uhz, char *buf)
+> > > +{
+> > > +	u32 frac_part;
+> > > +	u64 int_part = div_u64_rem(freq_uhz, MICRO, &frac_part);
+> > 
+> > Perhaps MICROHZ_PER_HZ? This will be consistent with the int_value in
+> > _calc_*() below.
+> 
+> Here, the meaning is different. int_part is in Hz and frac_part in uHz.
+> Will add the suffixes to the variables.
+
+Yes, but here it's a constant divisor, and not a multiplier.
+Meaning that one divides µHz by µHz.
+
+> > > +	return sysfs_emit(buf, "%llu.%06u\n", int_part, frac_part);
+> > > +}
 
 -- 
-Regards/Gruss,
-    Boris.
+With Best Regards,
+Andy Shevchenko
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
