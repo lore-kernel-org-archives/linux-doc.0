@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C982ECEA3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B012EC57F;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839814; cv=none; b=OGBcoLFtIx1ImRKgEyLW//aX3bCg7+yx0cCUKRNcZIocvMK3WouV59OVzgNb1zjfUpW4Ozym4u3PvXvxAikHzruwGCPS3xbDnJasigT14sNcxok594FCR2DQqM1oUgEMHcRvUm0PY0KUbJv4/IhnKqboHvLDa5zEoxHWwfiKwdc=
+	t=1768839814; cv=none; b=jiBAc/3uzihMVPlSogn0JwE758hgmh+YcdtVNipCmdxOZCb5e2zPrt39ZJ2i3yxYPX0mvSb/xj+dKgHRmbQovAshbVENW87QQJykFJz1qj7ucpcfVHyS5OIyCyZ4XjNbsHu+NxdDcyp36j19NJoW7Q78nEHGtZ+pqA35+ud/lOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768839814; c=relaxed/simple;
-	bh=kmk1GvA8qQBm6LrMB53lcAYigASy9DuUwFJjdBAuCYA=;
+	bh=D20byBH6Dc3S8kqec0afWoBETHqoICKqefEL4fRTSCc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=chJjPFMSERseWflJOIOtvCF2M4fQtg9H7E2lDA/yjOoWfi6h90d+sesAA6eD816qKWlthRwtp9efEhmpMl8YXDnPd3iirWXGYdPoSSO3dDoY8GrhcHABWFCSjMcXa3EzuaTAzR64irZo7tI9djYCER7EaltyK394iKJaWAYBkZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jb6G/OZX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Th03JsIIg+IAaShS8/lsklbQeW/50pA1uegXzl9AKLN0SGxiGv7sdRWCaRV57YKUAXxA3siYfx51UrD7wAH23JZ2z3voMQad85Uv7ULiAc2sMnD74vhQXgkY8wtmSLK7h2X+dzqfl90vy73BEdh7IcoKh0UeRWIummZcpf14xc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jl9xTGhZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jb6G/OZX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B484C2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jl9xTGhZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33919C2BCB1;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768839814;
-	bh=kmk1GvA8qQBm6LrMB53lcAYigASy9DuUwFJjdBAuCYA=;
+	bh=D20byBH6Dc3S8kqec0afWoBETHqoICKqefEL4fRTSCc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jb6G/OZXZze8yAiPxyYcIkskwEVQixCDEkPRC8v8/IVWyNejEHzu3LzqFBnNS+GIr
-	 uubYwLjG6taquIKhrbQrEQ/+B+PssWOQaV+SjRSPUi8XOMSAALE0pgwSHJIXJH9UJI
-	 xD3+CrUUwoOoMV/Sql6E8IDYKJjXL4HD/P1TW3EF+g6BpytaCyVh1NGDjJSfD6wac/
-	 xWIksy8yRjMhzQ/8uNeqSBR1p4pSIRJ/W9d3CIsVBMxSwCRaxE+CmEduF34PocRp5x
-	 S43gBxsef6WIptJLAB3PPE3GzBDKdmDzYfrCUZcWlSTYsbH7e5Kx56GyIybU+isFb4
-	 Jw3kAH3KL2xgA==
+	b=Jl9xTGhZP81pMASVBixB9YAMFXfrS9/5eWyOyCuUnC8FLyrjeye65il4eYvkPBWC5
+	 kNl3Y1X6t7EhxRJ7ReeuETRq5NLQYZkINiMTvzo2fFK8uIMeCX+6I7j2spzPRW2sKO
+	 +gjiZVMupze9b3FtxtOJyFnYZ5z0bN/801Q+1N1ZIMdkH5jVKmFrTzAalCv1ecpppU
+	 /Qg6e1Z2F+9W9vRXhpC1oFQOWkEi1XHcFlZwmxYhm6DW2CaBgIEyn8iKJI9cWyQRSh
+	 Otkf9Mb3E9BGFEFjv+PniDanHlgCvD+vIdcSzwimgI8H63QV/hDcIwwGlgsFtSE2s1
+	 iRaCPEXPGhPiw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vhs2O-00000001j1s-1FF9;
+	id 1vhs2O-00000001j1o-18QL;
 	Mon, 19 Jan 2026 17:23:32 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 08/25] docs: kdoc_item: Improve docstrings and comments
-Date: Mon, 19 Jan 2026 17:23:11 +0100
-Message-ID: <65a7c6bb318e7a8cbf5c115903d507568099151a.1768838938.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 07/25] docs: kdoc_files: Improve docstrings and comments
+Date: Mon, 19 Jan 2026 17:23:10 +0100
+Message-ID: <75d58878ad6f83f24f1c0ce9e04301a000ecbaa3.1768838938.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768838938.git.mchehab+huawei@kernel.org>
 References: <cover.1768838938.git.mchehab+huawei@kernel.org>
@@ -57,57 +58,100 @@ documentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_item.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ tools/lib/python/kdoc/kdoc_files.py | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
-index 19805301cb2c..2b8a93f79716 100644
---- a/tools/lib/python/kdoc/kdoc_item.py
-+++ b/tools/lib/python/kdoc/kdoc_item.py
-@@ -4,7 +4,16 @@
- # then pass into the output modules.
- #
+diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
+index bfe02baf1606..022487ea2cc6 100644
+--- a/tools/lib/python/kdoc/kdoc_files.py
++++ b/tools/lib/python/kdoc/kdoc_files.py
+@@ -5,7 +5,8 @@
+ # pylint: disable=R0903,R0913,R0914,R0917
  
-+"""
-+Data class to store a kernel-doc Item.
-+"""
-+
- class KdocItem:
-+    """
-+    A class that will, eventually, encapsulate all of the parsed data that we
-+    then pass into the output modules.
-+    """
-+
-     def __init__(self, name, fname, type, start_line, **other_stuff):
-         self.name = name
-         self.fname = fname
-@@ -24,6 +33,9 @@ class KdocItem:
-         self.other_stuff = other_stuff
+ """
+-Parse lernel-doc tags on multiple kernel source files.
++Classes for navigating through the files that kernel-doc needs to handle
++to generate documentation.
+ """
  
-     def get(self, key, default = None):
-+        """
-+        Get a value from optional keys.
-+        """
-         return self.other_stuff.get(key, default)
+ import argparse
+@@ -43,7 +44,7 @@ class GlobSourceFiles:
+         self.srctree = srctree
  
-     def __getitem__(self, key):
-@@ -33,10 +45,16 @@ class KdocItem:
-     # Tracking of section and parameter information.
-     #
-     def set_sections(self, sections, start_lines):
-+        """
-+        Set sections and start lines.
-+        """
-         self.sections = sections
-         self.section_start_lines = start_lines
+     def _parse_dir(self, dirname):
+-        """Internal function to parse files recursively"""
++        """Internal function to parse files recursively."""
  
-     def set_params(self, names, descs, types, starts):
-+        """
-+        Set parameter list: names, descriptions, types and start lines.
-+        """
-         self.parameterlist = names
-         self.parameterdescs = descs
-         self.parametertypes = types
+         with os.scandir(dirname) as obj:
+             for entry in obj:
+@@ -65,7 +66,7 @@ class GlobSourceFiles:
+     def parse_files(self, file_list, file_not_found_cb):
+         """
+         Define an iterator to parse all source files from file_list,
+-        handling directories if any
++        handling directories if any.
+         """
+ 
+         if not file_list:
+@@ -91,18 +92,18 @@ class KernelFiles():
+ 
+     There are two type of parsers defined here:
+         - self.parse_file(): parses both kernel-doc markups and
+-          EXPORT_SYMBOL* macros;
+-        - self.process_export_file(): parses only EXPORT_SYMBOL* macros.
++          ``EXPORT_SYMBOL*`` macros;
++        - self.process_export_file(): parses only ``EXPORT_SYMBOL*`` macros.
+     """
+ 
+     def warning(self, msg):
+-        """Ancillary routine to output a warning and increment error count"""
++        """Ancillary routine to output a warning and increment error count."""
+ 
+         self.config.log.warning(msg)
+         self.errors += 1
+ 
+     def error(self, msg):
+-        """Ancillary routine to output an error and increment error count"""
++        """Ancillary routine to output an error and increment error count."""
+ 
+         self.config.log.error(msg)
+         self.errors += 1
+@@ -128,7 +129,7 @@ class KernelFiles():
+ 
+     def process_export_file(self, fname):
+         """
+-        Parses EXPORT_SYMBOL* macros from a single Kernel source file.
++        Parses ``EXPORT_SYMBOL*`` macros from a single Kernel source file.
+         """
+ 
+         # Prevent parsing the same file twice if results are cached
+@@ -157,7 +158,7 @@ class KernelFiles():
+                  wcontents_before_sections=False,
+                  logger=None):
+         """
+-        Initialize startup variables and parse all files
++        Initialize startup variables and parse all files.
+         """
+ 
+         if not verbose:
+@@ -213,7 +214,7 @@ class KernelFiles():
+ 
+     def parse(self, file_list, export_file=None):
+         """
+-        Parse all files
++        Parse all files.
+         """
+ 
+         glob = GlobSourceFiles(srctree=self.config.src_tree)
+@@ -242,7 +243,7 @@ class KernelFiles():
+             filenames=None, export_file=None):
+         """
+         Interacts over the kernel-doc results and output messages,
+-        returning kernel-doc markups on each interaction
++        returning kernel-doc markups on each interaction.
+         """
+ 
+         self.out_style.set_config(self.config)
 -- 
 2.52.0
 
