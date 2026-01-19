@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A22A1A3172;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A32329AAEA;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839814; cv=none; b=ETUkyUCrE/7wF/7Q4Ovih8BFv9/DPyYH9m841VkiSe/sW4mVEmHNmsE6tMW0yF3e2/0kt7OkCQZM3sUlwHLYXIZshgG6G7CnmmfwHnF/5fJsIEL6tVvlQVEV4twb8erCE7TJG+Ols+zK1OUxhxoV5tley7lDTM85QetVV/GRhD8=
+	t=1768839814; cv=none; b=PQiDn8KH3UV3YspXTnz+RJ/lVUhmlzwnyW1NtfddAP8kBJ3xkd4WsKHx//839BQ/1z0Afw0TRDBnAkKfi3RIFfu9qmfni7ma9gRALHQEKiY/AWeaKp6jLNu0zRKnZN+Z5Zkm/yycdEHLSjB8Y8+woKJ5zrbm2UQ9NSIvX+P17P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768839814; c=relaxed/simple;
-	bh=TKR+6Sf3vzBuaU+H9wxtOvYytkyV04qz1b4yGIhER0o=;
+	bh=F1iY5tojuZW+LSnzsdjV0WpgMur3Wq5H16GM35OkDAw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NXiFY5fL/fNOy7boLdAicPZ7fCHMRFOIuNLpkPLrZZHRX7KSsWwOIio8xrhTnSMzktpUhqg6edFHCR2/8/KnObcJAZTrpIA65nPTJKeYghJyZvN5dGA+dpIh0jvXjQZLQd9K2fCnaZJHSPEQ9k+Qg7InfPXhKKqi/xi4En4qu3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKml/KHO; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XrsHeTjliwZjTVjAD/aij2CFH5UDZPO5rG58OgisBdw0B1WonjJfPYI9VISO/G3nMTLtLsRY3FwX88q7ia1kBwz3plFvdt25786gJfJO5fTt8LBz+krsF+GgrT+3URiY64d5AQDUOmSfjGxMIU7LU9WqzotMX4uNR7lHFQH7wKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKYLUVTp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKml/KHO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24232C2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKYLUVTp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2008AC2BC86;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768839814;
-	bh=TKR+6Sf3vzBuaU+H9wxtOvYytkyV04qz1b4yGIhER0o=;
+	bh=F1iY5tojuZW+LSnzsdjV0WpgMur3Wq5H16GM35OkDAw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sKml/KHO/fdbULomu2DUJRk8Ii199it/B86L1dXvs/OsYeFms7ZIPWeWZRTD/69Hd
-	 EQNkkb+TJlnXpNtKDktlpDyKN8Z5+pQbkegGonq3mOw0sN0nidEjCnS0RXQwbKfVji
-	 0l7UMuHU2sv5aIKXwbrMeY/wzhyQP8oQ5j67vzFF9/5t+DjI/OK2bmZOURtl3t4rBS
-	 8B+6rc5di+vJFNE3313/IJOUkeYmIqcxsgaDSJrQgtxGQ57QLpzDUyBTLeG8Tt56tP
-	 D9Ka7XoFfAsdHEAQDs6VFNzZq3wUi8BvO1MBeqlhy8Q84tZWNOvN9lZ54OUQuKuT1Y
-	 NFx4pLHYtuEjg==
+	b=RKYLUVTpsDNrjnX6F8SLT7Cj9fyQQcqw/2LyzDlBedMwVf4N7dsQLBUGUenFGaoO2
+	 H9CleZU7ccLfFoznE4yCQIylN3HMWYucKkf6E2GlAKDr17jYp5NYulkIAFgu5Q5lAk
+	 4Q1J8T2yc+Nqw6R/VWrkuUJs9K9nl+M5Kohw5MSdexQBAQBMslCQE1XQuAF4IyQN4Q
+	 wWD+cQw5Tgm8LSvJzGcUQ5twdLKed8a5h7KsZOSqxfPxU4DaT7dQi2ThmnDz5Wq2gM
+	 NbAf5jJACFGQjJmTxoJvcH8JQxRQBdqfA5CXj9ByoJ1/t96LZdhlngPGzywNlvUEgr
+	 SsbVv0bf13djg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vhs2O-00000001j1Q-0T3M;
+	id 1vhs2O-00000001j1g-0uiw;
 	Mon, 19 Jan 2026 17:23:32 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -39,9 +39,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Petr Vorel <pvorel@suse.cz>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 01/25] docs: custom.css: prevent li marker to override text
-Date: Mon, 19 Jan 2026 17:23:04 +0100
-Message-ID: <4f28c485b72ea27c0981cd950a1819597d6736b1.1768838938.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/25] docs: custom.css: add CSS for python
+Date: Mon, 19 Jan 2026 17:23:08 +0100
+Message-ID: <b5a3dfd551b887a2885b85b4c9433e757c77628a.1768838938.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768838938.git.mchehab+huawei@kernel.org>
 References: <cover.1768838938.git.mchehab+huawei@kernel.org>
@@ -55,31 +55,34 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There's currently an issue with li marker: it is set to use
--1em, which actually makes it override the text. This is visible
-on indexes that are deep enough.
-
-Fix it.
+As we'll start adding python to documentation, add some CSS
+templates to better display python code.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx-static/custom.css | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/sphinx-static/custom.css | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index e7ddf3eae7ed..6757b5a59f23 100644
+index 6757b5a59f23..db24f4344e6c 100644
 --- a/Documentation/sphinx-static/custom.css
 +++ b/Documentation/sphinx-static/custom.css
-@@ -30,6 +30,9 @@ img.logo {
-     margin-bottom: 20px;
- }
+@@ -43,6 +43,15 @@ dl.function dt { margin-left: 10em; text-indent: -10em; }
+ dt.sig-object { font-size: larger; }
+ div.kernelindent { margin-left: 2em; margin-right: 4em; }
  
-+/* The default is to use -1em, wich makes it override text */
-+li { text-indent: 0em; }
++/*
++ * Parameters for the display of function prototypes and such included
++ * from Python source files.
++ */
++dl.py { margin-top: 2em; background-color: #ecf0f3; }
++dl.py.class { margin-left: 2em; text-indent: -2em; padding-left: 2em; }
++dl.py.method, dl.py.attribute { margin-left: 2em; text-indent: -2em; }
++dl.py li, pre { text-indent: 0em; padding-left: 0 !important; }
 +
  /*
-  * Parameters for the display of function prototypes and such included
-  * from C source files.
+  * Tweaks for our local TOC
+  */
 -- 
 2.52.0
 
