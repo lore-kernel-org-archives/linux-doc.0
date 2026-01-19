@@ -1,54 +1,54 @@
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9443036B075
-	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 14:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA4737F0F4
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 14:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768832576; cv=none; b=JLUvnLZfzRjkVcMUffoaIns5PGa/lb9D7GGy21q1yI5moWke5v20U1ya0ZwFizGNh1OGNQWEfl5oi0ttkOrUD2SyAgxKKhKa51Tq4LhwF83vrLePvI6tO7+i5/1r/1if+G/JiDVvhqPRnt66qo1IC8wb2BNzA6C23hqY+xO1iGc=
+	t=1768832576; cv=none; b=A4Vf4ZUigZJcrWvcGgixRkMhpAnre2GSn0B+xMlZWaKhUpHfk0rSCYzePE12vbpdIGvwse8KvnYxAv5G0ZumTeVCINr0BJQ59llHi0+X2w2fKsY/lR8N8LqD3j00zuV0l6bUPLXkCEJLxu1KJ1KrHFpGj91TMzOtvpEIyb3+CGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768832576; c=relaxed/simple;
-	bh=w2scubrWigPI5aAVKJGSmibtcgc4McVhvAh8XisAp4w=;
+	bh=etOSXYsmYRMQFELu3qc1hkWPdFr4xMVn+jE7/2P81kE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GJp2nuAW0MfCgera2bHAFBltlJsyeICIQfq2gMQlnMn7Jv2cojKifzRPTcr7nBVsXVCymXi/7Ic0MWYdZI+JhRJCMptjA9Hd1YJkw7thuz+AbmcEaDFWdljbA0zCYwMP42YmsYPPAMh2fle2Q/LiMVO5yu0SP8vK21ZZvmxlCxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aPS2OMFK; arc=none smtp.client-ip=209.85.218.74
+	 To:Cc:Content-Type; b=Q4Ft3R+LLNlGf4mrC9n62p2CFG0EW8yJ7in4oawPyP9mCPspE1uVcrfKKchq+8tdcYGon1ybkOrHgq92q/seDEQ2YJ7J2U4N6qyAWjFEQt1UxZU5l5sL0cw8zdapxrGhSAapS41YQmZK0XcjIIxeuQ6srCFr3kOhymmX/mxUeJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vtQokKD3; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aPS2OMFK"
-Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-b8720608e53so733152566b.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 06:22:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vtQokKD3"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-47d28e7960fso46557345e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 06:22:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768832572; x=1769437372; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1768832573; x=1769437373; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9nuz806mp9+5PhIDWKxO6w4brkXaM9E/Fe3SahLfIE4=;
-        b=aPS2OMFKECv3ZXwqy1jrWAiupoUh08fCzLXss1JJnJxpddbdyeqUMD/T+73MrwikUT
-         qjH0B0D/MwrT42RQ/nyJMoZohMH12Y9Ib0MorR2t0dEzn/71EJID+wqhn3e6mXVwBxp6
-         WaFgJJQs761Xzr49O/OXlGljDmNbO5hBrGUIbrfxmsw0mXOc4w9/xtNiXifPTsl+L1Dt
-         a9LZtMDcfI//LlVztj4dR5f9xDxGkoorBlBfJoK64QWvCdeNsxGhwoCqFW78VrxEV2/B
-         tlnBsVFTjubkEu6YY6N28JTkaw2IUoYy0nmZ7lMjmimlz9vLzPCTX2O6pmrcWd+/ZrEY
-         skYg==
+        bh=ctFjNYhvimSO0VVR6mHcQICH1dILW4P6822Kd8ujTu4=;
+        b=vtQokKD3GjkIALNjxl7uyYlDFN16vJZBvPzxsuIjEC4rm+5GdytAeNJnsfCUeBJ4Wn
+         shKbkPYwJE4kgG6hUd7L1HNIU62ltUM/kAjg2+TUR+ZunT7B91hO7lMLA0OVMrRMRQ5y
+         Iu1roPpaWs1edOot+Cz2o53QiCUA1DUmh5jY9R5VVx9xR6/Hp9rvkx3SUKbK1+DBrbhI
+         S8EF8Mkh+PpZyX/R72CIgN0H0z8rWDnNTWcjewtnse9sNIvAtd5vaFDENQshg9qadQUD
+         auWRnKhzW7400Wx2WObBPfZh50ivGa3UkD/oKRTNhHu1BjDP1dcryvfwTPrKWyWRvhz8
+         lEsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768832572; x=1769437372;
+        d=1e100.net; s=20230601; t=1768832573; x=1769437373;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9nuz806mp9+5PhIDWKxO6w4brkXaM9E/Fe3SahLfIE4=;
-        b=RWNtBvfdkZbcOBHshwrfjZbQqPGdaLza6slodFD0ANWF+bLY1IQzwSZdoGrG2bQ4Ra
-         1cmsnjc7cGeQNZLr+5KO41o2CWy0rbmx/g6fFi6SI+hdELhFt8QQRdVqSRq56b94loeJ
-         zWmsvXO+sSxdZ8yffZg4I20C/V1Si9r1dlD9qGb7seDbg4e7JfIaSHQBr20iKzpgFO3Y
-         QIhW7s78W/Uz/CTANI7pR6MlgDWbpMVkUhLYeB3dQPMOr7CS4yT0MNvVnxY5nrEAOvjJ
-         i9GjTJZDdhlfzN5aiXyoJNrXgdntsjtBY254HnvuIZ8+wKlVlS4x09W0h3dpW2NEt5xu
-         DsVw==
-X-Forwarded-Encrypted: i=1; AJvYcCWOZfFJ278pTDm5672ceA2hXtr4Ghi+ILWt4ReA4HDsyhNmATkUg2cLJ9Z9lVUwUVC7tD0XZnLXXXE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOF6QwWN+9zqikpH3JsFDZ261oddg8+6fJi/cdOLVCKmozUUed
-	Q7rRdlEa0gMMmuqtl5pmi7wxFrTSJmkyB/Rye1RnmWINvEKdkaNVl1VuM6C1At/74iTdhJjz/RG
-	igao0UGKf0yCf9w==
-X-Received: from edrb16.prod.google.com ([2002:aa7:d490:0:b0:650:5e46:20c])
+        bh=ctFjNYhvimSO0VVR6mHcQICH1dILW4P6822Kd8ujTu4=;
+        b=WYCdzZjx24bN6EK9QLuZGJM06iJWimmCuMa2j+QzBb4KpAnz/6i4BjrTKizDHh2tYH
+         uZSW5bKqW3a+NU6emthlRbB1r2GCQ7l1hOtG7MjXCk0/1ijFLZMa67bkw/HREV4C49vM
+         JbaOeBaXVzzS8i4HZ4QCUUm45Z0AqHcyqwwWjsr2+NDQz3gGFX/gEuZ1ksLfYaP0X9t/
+         GnfCDwQGfhz1/jiaAVK1tE8O6lWRtD5QuHqQ0h7RRy0uoRxIo4lddz1w+nA8BwiU6NL/
+         QF8iNHsI5ymPQXBvZIaGaUrSSXM5htSCtyaRjEu2lanWnU6EkoZ1ChDKVRrigi9k1YLZ
+         sHsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6ws3SI16m0ohSx3fbml9nboilUNLTigirS43zAMrAVoHt7ZWHH6AYrdCDsrndT+rA6DACR2WmmxQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx66pvA0QcE+tcWEp2wWPatNWDW/zq9JogzSBNZ8XfkW41MAsy4
+	71BEEeN0TFnc98hQ/8D4OSQXfIKdx31RNg+nkS7g5aHHBX/55Q6SuD3tMV2N2xn/WDZMGCO9xnC
+	6EVbLSn8LqD5JmQ==
+X-Received: from wrwj14.prod.google.com ([2002:a5d:564e:0:b0:432:85e9:432f])
  (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:7ba5:b0:b87:191f:4f96 with SMTP id a640c23a62f3a-b87932557e2mr1034243266b.61.1768832572024;
+ 2002:a05:600c:8b81:b0:477:9a28:b0a4 with SMTP id 5b1f17b1804b1-4801e2a2176mr148484965e9.0.1768832572948;
  Mon, 19 Jan 2026 06:22:52 -0800 (PST)
-Date: Mon, 19 Jan 2026 14:22:45 +0000
+Date: Mon, 19 Jan 2026 14:22:46 +0000
 In-Reply-To: <20260119142246.3821052-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260119142246.3821052-1-smostafa@google.com>
 X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-Message-ID: <20260119142246.3821052-2-smostafa@google.com>
-Subject: [PATCH 1/2] mm/page_ext: Add page_ext_get_phys()
+Message-ID: <20260119142246.3821052-3-smostafa@google.com>
+Subject: [PATCH 2/2] iommu: debug-pagealloc: Use page_ext_get_phys()
 From: Mostafa Saleh <smostafa@google.com>
 To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org
@@ -71,77 +71,87 @@ Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
 	Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-In the next patches, IOMMU code will add data to page_ext.
-The IOMMU code would operate on physical addresses which
-can be outside of system RAM.
-
-Add a new function page_ext_get_phys() to abstract the logic of
-checking the address and returning the page_ext.
+Instead of calling pfn_valid() and then getting the page, call
+the newly added function page_ext_get_phys(), which would also
+check for MMIO and offline memory and return NULL in that case.
 
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- include/linux/page_ext.h |  6 ++++++
- mm/page_ext.c            | 23 +++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ drivers/iommu/iommu-debug-pagealloc.c | 31 ++++++++++++---------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index 76c817162d2f..bd373496e166 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -93,6 +93,7 @@ static inline bool page_ext_iter_next_fast_possible(unsigned long next_pfn)
- #endif
+diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-debug-pagealloc.c
+index c080a38f45a4..9343af3bdbb6 100644
+--- a/drivers/iommu/iommu-debug-pagealloc.c
++++ b/drivers/iommu/iommu-debug-pagealloc.c
+@@ -30,14 +30,6 @@ struct page_ext_operations page_iommu_debug_ops = {
+ 	.need = need_iommu_debug,
+ };
  
- extern struct page_ext *page_ext_get(const struct page *page);
-+extern struct page_ext *page_ext_get_phys(phys_addr_t phys);
- extern void page_ext_put(struct page_ext *page_ext);
- extern struct page_ext *page_ext_lookup(unsigned long pfn);
- 
-@@ -215,6 +216,11 @@ static inline struct page_ext *page_ext_get(const struct page *page)
- 	return NULL;
- }
- 
-+static inline struct page_ext *page_ext_get_phys(phys_addr_t phys)
-+{
-+	return NULL;
-+}
-+
- static inline void page_ext_put(struct page_ext *page_ext)
+-static struct page_ext *get_iommu_page_ext(phys_addr_t phys)
+-{
+-	struct page *page = phys_to_page(phys);
+-	struct page_ext *page_ext = page_ext_get(page);
+-
+-	return page_ext;
+-}
+-
+ static struct iommu_debug_metadata *get_iommu_data(struct page_ext *page_ext)
  {
- }
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 297e4cd8ce90..5fe65a0ac4f3 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -538,6 +538,29 @@ struct page_ext *page_ext_get(const struct page *page)
- 	return page_ext;
+ 	return page_ext_data(page_ext, &page_iommu_debug_ops);
+@@ -45,18 +37,26 @@ static struct iommu_debug_metadata *get_iommu_data(struct page_ext *page_ext)
+ 
+ static void iommu_debug_inc_page(phys_addr_t phys)
+ {
+-	struct page_ext *page_ext = get_iommu_page_ext(phys);
+-	struct iommu_debug_metadata *d = get_iommu_data(page_ext);
++	struct page_ext *page_ext = page_ext_get_phys(phys);
++	struct iommu_debug_metadata *d;
++
++	if (!page_ext)
++		return;
+ 
++	d = get_iommu_data(page_ext);
+ 	WARN_ON(atomic_inc_return_relaxed(&d->ref) <= 0);
+ 	page_ext_put(page_ext);
  }
  
-+/**
-+ * page_ext_get_phys() - Get the page_ext structure for a physical address.
-+ * @phys: The physical address to query.
-+ *
-+ * This function safely gets the `struct page_ext` associated with a given
-+ * physical address. It performs validation to ensure the address corresponds
-+ * to a valid, online struct page before attempting to access it.
-+ * It should return NULL for (MMIO, ZONE_DEVICE, holes, offline memory)
-+ *
-+ * Return: NULL if no page_ext exists for this physical address.
-+ * Context: Any context.  Caller may not sleep until they have called
-+ * page_ext_put().
-+ */
-+struct page_ext *page_ext_get_phys(phys_addr_t phys)
-+{
-+	struct page *page = pfn_to_online_page(__phys_to_pfn(phys));
+ static void iommu_debug_dec_page(phys_addr_t phys)
+ {
+-	struct page_ext *page_ext = get_iommu_page_ext(phys);
+-	struct iommu_debug_metadata *d = get_iommu_data(page_ext);
++	struct page_ext *page_ext = page_ext_get_phys(phys);
++	struct iommu_debug_metadata *d;
 +
-+	if (!page)
-+		return NULL;
-+
-+	return page_ext_get(page);
-+}
-+
- /**
-  * page_ext_put() - Working with page extended information is done.
-  * @page_ext: Page extended information received from page_ext_get().
++	if (!page_ext)
++		return;
+ 
++	d = get_iommu_data(page_ext);
+ 	WARN_ON(atomic_dec_return_relaxed(&d->ref) < 0);
+ 	page_ext_put(page_ext);
+ }
+@@ -104,11 +104,8 @@ void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size_t siz
+ 	if (WARN_ON(!phys || check_add_overflow(phys, size, &end)))
+ 		return;
+ 
+-	for (off = 0 ; off < size ; off += page_size) {
+-		if (!pfn_valid(__phys_to_pfn(phys + off)))
+-			continue;
++	for (off = 0 ; off < size ; off += page_size)
+ 		iommu_debug_inc_page(phys + off);
+-	}
+ }
+ 
+ static void __iommu_debug_update_iova(struct iommu_domain *domain,
+@@ -123,7 +120,7 @@ static void __iommu_debug_update_iova(struct iommu_domain *domain,
+ 	for (off = 0 ; off < size ; off += page_size) {
+ 		phys_addr_t phys = iommu_iova_to_phys(domain, iova + off);
+ 
+-		if (!phys || !pfn_valid(__phys_to_pfn(phys)))
++		if (!phys)
+ 			continue;
+ 
+ 		if (inc)
 -- 
 2.52.0.457.g6b5491de43-goog
 
