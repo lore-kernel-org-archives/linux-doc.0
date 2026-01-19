@@ -1,253 +1,466 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022105.outbound.protection.outlook.com [52.101.96.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4702C30B529;
-	Sun, 18 Jan 2026 23:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0BE500960
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 00:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768777819; cv=fail; b=JRSuoKdQf+0H2jbzD0RBYnrkIRJh9gSXHPKKI6jcIDI/RwB+2XfPr+fDUlgxAy/WE5VIJTBLI0oCXRgxnQx3hHErsAxzn59ltdbJjkw7RsL4Tg278xHMLVQhORADYy0f6JpL0FWDiDAEvie1AzVbVtRGg3D6CSqPmVNLp072uMo=
+	t=1768781158; cv=pass; b=FkvnuPodCxqnuMoisZ/jdMP7XisLGC3pq51ul8aAdC+sB/nsVTgjSUQJfubFnbeiE3rwQ17Nhyldpu6xx1WzeccItbxLHrS8P2N9h32eRbWZ1EZ945gsBqAibfRVAwFZe0mGYvz/A6u+BCdUdY+nRMpejVNtbyEjPjjHY6hXotc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768777819; c=relaxed/simple;
-	bh=422C1ZziwOSy8n97vo+PcmKDWwCcRTjZZXh5x1bwizM=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=q+yKRSPOib59AEIf4k7lUAiKqeKrL585j6aoeEjt4uSaGXnJt7PriLxrkM+yMADtijz1pNqvKC7WxuLb8iE/5aDP/bn6yYUWMNvIdf5aMsDyT7rxOg4Khx6bpPZDkkekEQsRtxyFXbjPGePZGFnFqyoSHOeaSQM3VWVIGVgkZw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.96.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f0LlON6/6kxthFtkUXk3N0WoDIwenTaQTNkeRSd49P0KaeTYxzHXVZ9/mkIx3g52/RuCTOLT9W4cvEFWz4SOjzrrQIaE9nW+YxXN7R7mNKOYkrzz9Rhd5sCnSqQ65x+6va0bNdhM5gl9UhyZyzKDX4Cz6sEgT+mpU2z82VGpAGdlNJ5PHmTyQB3K+PCq5169eO3GyvJjDgCPr/fWLuIRssYnN71PdRZ3dA0htJy2RonqY1r13JvpjfJ7QKqSPQXfy7pxVgoFcRVBI1g20ZhdaEuR/hFmPcxSAOlTl0kh0HfKFe54CcuWXX6JSv29Xvt0ET04xFtyaVMMfXX8ujFCZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L5ZG979JF7g9myK5WavfHZ2/eJy68obWDdM2tFNuiKg=;
- b=KUwYrq++wN0wGLPQThk8KgE/42mgWvvZAFi5KPWixs4cYnnNitwTqkxwqW/MydkwB+egA1V86opYsVQIQEKSLqCr2xF0gQ/+Bao6K7MXY5Gr/esXvmJLiWAPA//PJ/TGY2yFr2gT7AS+X77ofm2SEmhh93oqARXfzOnljU1F0tCiMcQaAmOs5w9Kcbilkio481dv7j+uOjsoC6E1Uv2v+MBvrAiVwK872ED48B97esL86KqzgvwIAaqZiVJyC35lNsYxXA3AIGdN1iHxlVBrLteCnojvP33YKN7PSBjxeym/NylHbLriN0AfQK8vG3yCdbl3IwuJ+bcMnKk897No/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LOYP123MB3088.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:ef::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.10; Sun, 18 Jan
- 2026 23:10:15 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%5]) with mapi id 15.20.9520.011; Sun, 18 Jan 2026
- 23:10:13 +0000
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: corbet@lwn.net,
-	anna-maria@linutronix.de,
-	frederic@kernel.org,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com
-Cc: x86@kernel.org,
-	hpa@zytor.com,
-	akpm@linux-foundation.org,
-	pawan.kumar.gupta@linux.intel.com,
-	feng.tang@linux.alibaba.com,
-	kees@kernel.org,
-	elver@google.com,
-	arnd@arndb.de,
-	fvdl@google.com,
-	lirongqing@baidu.com,
-	bhelgaas@google.com,
-	peterz@infradead.org,
-	brgerst@gmail.com,
-	kai.huang@intel.com,
-	benjamin.berg@intel.com,
-	andrew.cooper3@citrix.com,
-	oleg@redhat.com,
-	neelx@suse.com,
-	atomlin@atomlin.com,
-	sean@ashe.io,
-	mproche@gmail.com,
-	chjohnst@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] x86/idle: Mark "idle=poll" as deprecated
-Date: Sun, 18 Jan 2026 18:10:09 -0500
-Message-ID: <20260118231009.3194039-1-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.51.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0595.namprd03.prod.outlook.com
- (2603:10b6:408:10d::30) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	s=arc-20240116; t=1768781158; c=relaxed/simple;
+	bh=VMV+WimP73eDUWfjl0u6jcYuIsXAyXwTXlyAbjDgKrc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UKcVI0oQUwtljusRegputQBph0w3RspkagXerySXUymKQ5/r/GBZ5zrcI+CrLf74P76wnIYOV4qThmpQMzT1L6SbHN5/81UJuqydoqQi8zDxaNhOgMerIo2SA+DuVWKT9LHrwCJSQket/Wxf5I/cLChna2bYrcsnukLVsXrwvcY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EU+0WTge; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EU+0WTge"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-501511aa012so619091cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 18 Jan 2026 16:05:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768781155; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KC4zh5hbhOt9F0IYo46ZJkwmWWY/ZTb4wThijU8ozimkgxVxv0TWdUUu587kcN5qrB
+         FX9YLGGBW5BUmKpWOSmbErpIIaMjgNImpVhrx8cgoqVlT6xlyoC9ERkmQhhbKumhn6j1
+         STRGtU6UHK7rpAupoD+ko9Nc6ZAFnOQvDFzX5scbzu7Uf6SnNANLTVpQ5TU+EJAeFtqH
+         TKiDvlFG5lke18NyzbKW+4eJhmB82nX7bkjPA9ZpBP2mANYaIZkDvDYvd2P6OGTPy+ka
+         f+HNEgQAvDR3pFMQUMevmbU32/qF9adZmvjmX8eN68xt48o2oQmBbrstAZA0fpHL1hQF
+         gzQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fgQF4r6yjLtHRY7UFU+ayksiXBrWDCrSHjT1kt5/rSM=;
+        fh=NiKvxkD5I3LCCQLB3SW0zaLIIhnArI/9VzQc/oJMEKo=;
+        b=brDvQnJ7kG1bTNEC3EuHRv3S9+Wpq039H/F9+4lAFQhu2kX4YprtHtGK8l3Fjqm4r6
+         y0ep+0qjLSd499XkHBDGSSrTWzEGNmFkXZL/wA7ZK4Tr0dfhL9mwSJ6JyQlNRIIM148x
+         LST6AhId5raZ4P4Rp7hcIvtMAlv+hxg57YLVS1gF9cxDD7YPre0R/RbMjNe+Gj3Ogk0G
+         GQM757aTJHeuZLCNHPBFyKzFtHSDYxDAudjxFK+FElsKTBLUh+4fsMQU6pU6eucjOCkH
+         n7XApY2bbczZMbWWgjE15ndjfugnBb28zxQlP7wzJyetou3VePhgXe+rxkpg5TVZhIn5
+         ktXg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768781155; x=1769385955; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fgQF4r6yjLtHRY7UFU+ayksiXBrWDCrSHjT1kt5/rSM=;
+        b=EU+0WTgeCVYhOCcaQFrqIONqCGorjMHb2lXsKNT4KT1GyzKcWtetOepQf6Ib8vpSG/
+         EyyQ02jBgpcBPq6uG3wFH6e2KEp6se6aRIHtZk70AXuAdYFV2JMe2fMlLIbIcfQ2PabM
+         QAv3rcyTjiHf9gPZ2xmWwTQWYny3dmt0U++2bMg1NsycCbXwx+viEwV2DMaog+WJHnSt
+         TphtUEjmz2dVfjnOMqBZ/RvH2KhLbm32y28yonc3t5oEaEhsM3C+lFUND5qxLqdnhA+h
+         pLL8zCXiUQmUN98vHHmHCVE8rVG7mKgtVdzsoR++jayBGZHu7bQhbiJ9Xz/GOKyPmlGX
+         S9/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768781155; x=1769385955;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fgQF4r6yjLtHRY7UFU+ayksiXBrWDCrSHjT1kt5/rSM=;
+        b=VHXmb/nmek9fMeMitbrqnAI1I1ODoMg8y3SjvOtG6y1fclt95XH4FCXP1tNRqk3Ibb
+         EtTpXeDrqf6fiLaDRq+Ry0EhyZv859KjV1AwkJLWMk/nPyVThcgp2y/ep1evXdlZL1qS
+         L/elcCJmuJsIZ+C3oNEuaU75a3J/RPXJ9/Ep6lfEoLLFOcUFJ1+Ip/QUDecOKearqUUe
+         8k/SfYi51EKFeYQY4nV/DsePIJa6isahH7vg1k57at8udtmVypm6PfMS1NFzQgtwewih
+         g+QVDbvv/traPdLxYJ9Do0md2pNdi1te3sLcsJSrXdNmLi+xuxcH+A7YAdpsuF+uwSIR
+         jldw==
+X-Forwarded-Encrypted: i=1; AJvYcCX9v19j7pkj7zqkrLVO/vZtouUJA/HCx0W7YMlRidj3ouJsWHEkCrf9WSOfrNMMv8VojB8Aq5mJWNU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLE+GrOYqCplPHvp8KHixqAl5uEaLVQWBzjQ101K4Sc6i9pD6u
+	IeFOHwPgI1PdHQS62S/awXaXKi3d0G04Q/7Hzmuo4K7Z9cMUo4C7pp1rGK8q5XPCMtmK4WMQdrY
+	IvP0cCC1O2/BF0lmhvI5HgJoVbGnxUe6WSr0gWP99
+X-Gm-Gg: AY/fxX62g3muwV7RWF6gT1Lc3kv44iFaym8g+umH/wj8/t7RG3YSXJBGxqtyVXwiROC
+	uiP8dnyZ7xVGldN/gV8yfc5L5EZJIU4m6eQXSPwvIANiw9+nfaH6pIyD7OfoQUt+7Wj3stFGAU0
+	h+KB3HLgomR+W7Pm8uD2EvlLmA/qQOuICnAH8eNWfwSw6EA+i9wpHHJjsFYSDkzRyeETwxstVLk
+	eY1a66fFfVdH+qt0ro6Z+Xxt+LDMwoNU+EdDb4r2Ka6/xXtrOtuONkUJtofSPsz6JdyrkuVsTGv
+	X8ZEiQt6IPgrvwq5Ta1ahvpqDpmvtEAmp6uuINE/FWmFPhvcMeKbmOYvQMAo
+X-Received: by 2002:ac8:5e0f:0:b0:4f3:b0f3:62bb with SMTP id
+ d75a77b69052e-502b0700cf3mr13377511cf.13.1768781154906; Sun, 18 Jan 2026
+ 16:05:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LOYP123MB3088:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b5a9af9-56e3-4e80-f1b8-08de56e6bc43
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?K+koifVPgOBwNIfCTFf+r0tWYqr/Um5MJYhks7A3CfNsVsYZyADFpvo+U8l1?=
- =?us-ascii?Q?rUT7lfVEo3bq0/rIyWIlMUV6qnZxG1w4qtW3E3EeiXr9DGwwHGeB+3DfHYi/?=
- =?us-ascii?Q?l8I/EUOhbV8NTIcbid50pGG2xAWic0J07lQ0EeMMc7lZTdrqy1petPPpGPFU?=
- =?us-ascii?Q?7v1yq28ULsUCB+BN+ifAE8d4UeZ+8cIkS3JVHCLwmF004YyvrnAwEZdfG3Bj?=
- =?us-ascii?Q?YTaQVvjQqC7dmV4ldnIb2LLtof3hzmpsNrGrr9EQjOxvFkSVHvGTwwcLyjcF?=
- =?us-ascii?Q?EQ3sjducIkXlhj3BmD9iLQbAEGPFepAq+GbmBczEyT7/M9vOuE1nBthOJU/q?=
- =?us-ascii?Q?rmrLdnUcp8MVTDDYLm6Fni3KxC/tibgWZmf9NOlT7nhib4PJQcjz3/KQU2kW?=
- =?us-ascii?Q?jeF/8ZB4Lzi3w+JVLHAk1FbCD3mvr+uRbi116EMbVwif91HSxOP0yKhHbOXU?=
- =?us-ascii?Q?JeJ7KvjQGBqhMI0zjXIyjSPXWNMIfnWBlsnAn+ftnDL6i+RL/IrGMPyzTfFS?=
- =?us-ascii?Q?lx5dZhv68m3YGR7l5nL/woebR4tSYnlrC4KXoLPnTfcHqlNI+mD1pKtQHhQi?=
- =?us-ascii?Q?d3wYRsSg/jqr3jdkWiHaaXFfkInGVwmm+3Il05aeMazOWp9tfAgSBFS9gvVb?=
- =?us-ascii?Q?BBvzitlvqnuKES47VzeWz84DZyEPx7FRFzQA4EjTBKfoBU1ItQVfF9c2FFqE?=
- =?us-ascii?Q?DUmtmA8K2z8cCpiXJnpHrE4OeObMPMadN/s3bLhYnfdwpbGD/hs2jFxoOZQs?=
- =?us-ascii?Q?oafmc9yxQg7GlhUC3AQQkuh5RTjfejN5x3ASJNcvQkl7gvDO0GlG/z8CCue3?=
- =?us-ascii?Q?G5r316QyVs8HSPCsDWYBFzFd5Klgod2qd3OB8rE34KMwOke+VdEIxW7Z5IoC?=
- =?us-ascii?Q?ZbUsAwAOdPGMTVi5tMzFZmXKCFzTWnGcMw8yrgObqPQMdRtSXQrzlRrYVWn3?=
- =?us-ascii?Q?dMnOXSYblinW4QCI6Zyew+hbJiVtc4Kkze4ELdLpD+fYcKDzaeK+qqHG2GnF?=
- =?us-ascii?Q?eoNUoSAg7J7PWgo/vtyYNFU5YK/C9jotBrXbFQpqmVuq444X5ZmkqX4ZyvXB?=
- =?us-ascii?Q?Oj09wrueqkabQQoGdpc3YyAK268CzrI7yauVqvrGXXw4b3xzF5aoS5MUm0Mi?=
- =?us-ascii?Q?hxSp/zW9Omoh/QW0c70pypjILL/57aEHZEeU9jp47Z7NFwVkJDA5B4mTgGRo?=
- =?us-ascii?Q?2xMTShY6hvewqzlDHUVplhah4mLWhayFFM4hXlBKBC1VMjz1YJFB13Kzc0Ly?=
- =?us-ascii?Q?v3cEQzW5QQXRQfKlhHqNlKrpJHp0K1gbUb33LItIjxxq/eNk1kb91sHdTA9U?=
- =?us-ascii?Q?Ds9BsH6Cp/LJ9OPYS9Tp8o/G32j1pREf3GZV/KJE6pYgxhvsxDNazXvz4qXo?=
- =?us-ascii?Q?3cGTFaSgHawlfZy/e//35DvV2NCydNcA446vISpeALC6lNIqihtuu5byB2Kj?=
- =?us-ascii?Q?i1siRxrTOOzn5Foql1ADX+CjwRHGo6YAyqGqhTNCW4i/+63jkIoz34DbqPwX?=
- =?us-ascii?Q?UIHsD+MStQW1FSziG1ZyZ6KT+z1ir1mrNiDvym3CnE0fKQZfVHoxQtjFLNei?=
- =?us-ascii?Q?I5OGVEN4ziLSsrNgBeI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rsn+fGWhhxVA7lO2AirXNf+L57FVEC/fZwpF3OtWFx4ukv2UNrAxb09Y4TiC?=
- =?us-ascii?Q?qjzsxDBtj70/xtqTV9Bl0zUfQvGjGq/jArEfge0SE/3ZQLwLb4z92rlgaSQq?=
- =?us-ascii?Q?0CtruPlUqZqh29r2/lLhOLfd0nIe74LEqi2GhFnA21HvkRsPwGJJmFTmbDd7?=
- =?us-ascii?Q?buQ7xmBv2KcvkwiLEgwBGp2S2/VVq2t26A6I9Ey3GXvCtnkStqMIIUTqQDfY?=
- =?us-ascii?Q?AzSoFbOLOyUTd67/AJSZr7heW5xz8/Uz4acsrVlqP9XF9jMkAX2i9xz83+1M?=
- =?us-ascii?Q?Ca/o35IfmmxvHoRwrijKjDDffF+PjOcqBBtMnROociqG3iJv+ZwDPd+P0Bmo?=
- =?us-ascii?Q?ioxKTTo/B/PBDinVjtIGDdgfG8Vi5N1nAkbAC9chOoy40YpDQYvip8BA102D?=
- =?us-ascii?Q?l+6Yd3sS77YQjdDhk76f98jJeS9bG5D2g/SLlaczRfzK6bG2coxVI6D64hu4?=
- =?us-ascii?Q?CPM/PCCN0zFA7AdSP3vNGHxsya4yxkTY79fYnFBy7eJrsMcbVevY8xMC/VTy?=
- =?us-ascii?Q?/OKdl8CkVUtwQGDjwSK4wKBIxOW1YniMPEPfSKccSkZHNUroxrwKUsfgQq24?=
- =?us-ascii?Q?8e+HPtNxuREiYTkr7l3siyUESaG0on2+5x7w5su5zAVXzbxT4VZuOKQrgoad?=
- =?us-ascii?Q?nm5xLMOf4B5SV0aQdlkZwtELIDXwx+u9Zu7vvnd57jyN0Y3yWxkASxIp76er?=
- =?us-ascii?Q?GSGX/DGFUgh3mPKMgEEHDb81lUJWScdxplFpoTEmC6b8Z4LrwmYqgPp79O+K?=
- =?us-ascii?Q?DvrI45nJBCd5BGGUstz7wWD/1R2fQor9RtGB+eyUXcVAnvEHI2Xhze6CCEtJ?=
- =?us-ascii?Q?Ds5TClwXvbu3lUkUvxtl/D7XaMdkmI78n7pq1WLEnCll1QQ93D0Ep5a0sz68?=
- =?us-ascii?Q?avCc/Wl6pSk0giyEdqA19UzLbp6taNFaUd9jBL0UcNHZ/ROZbp+lFcao7xF7?=
- =?us-ascii?Q?R/M3MbA26483740IsGF6otpPYlXrR4ljumZE76eoEvPRBuThf/6pcbVsYA83?=
- =?us-ascii?Q?j8GeY/I/L7w2oDZ4o8uDuSbGIABRAc6MEVYwbZ6xnmrE66+IxllPyY7XXQ9Q?=
- =?us-ascii?Q?AZd+tcTGttSMyBEekFmsAABeCmTB9oe7HpKzpNrBU/0dgbtiezs6cOfTIbQP?=
- =?us-ascii?Q?wO+IsgGrCiOJdFO+CMRzhaObFGI/68N9RrOVjIAbhtE3huH5NjBQ18Qm6rIj?=
- =?us-ascii?Q?O6zvxXvOfRwzBo2oOvVjVnicHbbg18PELVIRfQiI+BsKKywo6uV1fHPWLyo7?=
- =?us-ascii?Q?YUw4/CtAWr/p1oWrLI5h6F32YSPmiCBmhzGTioTvs7zpmF4z/VmRwB6JciEu?=
- =?us-ascii?Q?gqkoeOJYCkozUEhzDd3G5rHsOCwifRjpl4X7IIOCczRFshUjlggomTBdxaU3?=
- =?us-ascii?Q?7XiQZy8jmuyGkA5tKA2Y3Hv8v2Q+qwk3YCImPPIiVn4MVanafwrdyb0bKdt9?=
- =?us-ascii?Q?Xr6TrFoAenaZP3Ay54uFc2j+REdCMbDfsEDHd5zRPli7pOw6ThDjmeSMKkVv?=
- =?us-ascii?Q?WiQt4yQImwnKBf5L0f/sr5bl080Qn05/ksoufWXZm5tit7c9TKyjlIILYBbU?=
- =?us-ascii?Q?2HG2UtuN3u6JjOBo4ADBQdfVdxQdpOW5Za6WSYWDKcwI/x+tKtl7ZqdDnxXq?=
- =?us-ascii?Q?AuZ4z0dwvZ6UO99dqfywkRexkrhIZM4brQmdGHT6Y0FrQyGqnT9bOiy6Tyos?=
- =?us-ascii?Q?Yrp/aIKSKe/LN4LWBpPh1TmcDSXrS83WZzttYKsnWTYdf8wCsfWNIyqpfvNS?=
- =?us-ascii?Q?rwsT1XbBzg=3D=3D?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b5a9af9-56e3-4e80-f1b8-08de56e6bc43
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2026 23:10:13.7104
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /vzRStb2N6ml+pvofsMQx+nosSpXZf8Zc7eXyrBByYpJBaiDyCq8CYw/J9uf/Wq3uq1bVSQYPK47t34ph1a0Bw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP123MB3088
+References: <20260108155816.36001-1-chia-yu.chang@nokia-bell-labs.com>
+ <20260108155816.36001-2-chia-yu.chang@nokia-bell-labs.com>
+ <CADVnQykTJWJf7kjxWrdYMYaeamo20JDbd_SijTejLj1ES37j7Q@mail.gmail.com>
+ <CADVnQynBnqkND3nTS==f6MGy_9yUPBFb3RgBPnEuJ446Hkb-7g@mail.gmail.com> <PAXPR07MB79840B8A0D8FDC3778D79539A38BA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+In-Reply-To: <PAXPR07MB79840B8A0D8FDC3778D79539A38BA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+From: Neal Cardwell <ncardwell@google.com>
+Date: Sun, 18 Jan 2026 19:05:37 -0500
+X-Gm-Features: AZwV_QhpQAR-sDEtcWbPkwX7Cos4uMIpVOtY8K0FuKS0H__o6hznU_pPXh9_GzE
+Message-ID: <CADVnQyn7dqO8m4UjjQvujH4z8HFYOm0_mb5xNpNhgTdpG8L_PA@mail.gmail.com>
+Subject: Re: [PATCH net-next 1/1] selftests/net: Add packetdrill packetdrill cases
+To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
+Cc: "pabeni@redhat.com" <pabeni@redhat.com>, "edumazet@google.com" <edumazet@google.com>, 
+	"parav@nvidia.com" <parav@nvidia.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"corbet@lwn.net" <corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>, 
+	"dsahern@kernel.org" <dsahern@kernel.org>, "kuniyu@google.com" <kuniyu@google.com>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"dave.taht@gmail.com" <dave.taht@gmail.com>, "jhs@mojatatu.com" <jhs@mojatatu.com>, 
+	"kuba@kernel.org" <kuba@kernel.org>, "stephen@networkplumber.org" <stephen@networkplumber.org>, 
+	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
+	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
+	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
+	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>, 
+	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
+	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
+	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
+	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>, 
+	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
+	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>, 
+	Willem de Bruijn <willemb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The "idle=poll" boot parameter is a blunt instrument that forces all
-CPUs in the system into a continuous "polling" state. While effective
-at eliminating wake-up latency, this global override is architecturally
-obsolete and inefficient on modern multicore systems.
+On Sun, Jan 18, 2026 at 5:56=E2=80=AFPM Chia-Yu Chang (Nokia)
+<chia-yu.chang@nokia-bell-labs.com> wrote:
+>
+>
+> > -----Original Message-----
+> > From: Neal Cardwell <ncardwell@google.com>
+> > Sent: Sunday, January 18, 2026 5:11 PM
+> > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
+> > Cc: pabeni@redhat.com; edumazet@google.com; parav@nvidia.com; linux-doc=
+@vger.kernel.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kun=
+iyu@google.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmai=
+l.com; jhs@mojatatu.com; kuba@kernel.org; stephen@networkplumber.org; xiyou=
+.wangcong@gmail.com; jiri@resnulli.us; davem@davemloft.net; andrew+netdev@l=
+unn.ch; donald.hunter@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shu=
+ah@kernel.org; linux-kselftest@vger.kernel.org; ij@kernel.org; Koen De Sche=
+pper (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com;=
+ ingemar.s.johansson@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire =
+<cheshire@apple.com>; rs.ietf@gmx.at; Jason_Livingood@comcast.com; Vidhi Go=
+el <vidhi_goel@apple.com>; Willem de Bruijn <willemb@google.com>
+> > Subject: Re: [PATCH net-next 1/1] selftests/net: Add packetdrill packet=
+drill cases
+> >
+> >
+> > CAUTION: This is an external email. Please be very careful when clickin=
+g links or opening attachments. See the URL nok.it/ext for additional infor=
+mation.
+> >
+> >
+> >
+> > On Thu, Jan 8, 2026 at 5:46=E2=80=AFPM Neal Cardwell <ncardwell@google.=
+com> wrote:
+> > >
+> > > On Thu, Jan 8, 2026 at 10:58=E2=80=AFAM <chia-yu.chang@nokia-bell-lab=
+s.com> wrote:
+> > > >
+> > > > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> > > >
+> > > > Linux Accurate ECN test sets using ACE counters and AccECN options
+> > > > to cover several scenarios: Connection teardown, different ACK
+> > > > conditions, counter wrapping, SACK space grabbing, fallback schemes=
+,
+> > > > negotiation retransmission/reorder/loss, AccECN option drop/loss,
+> > > > different handshake reflectors, data with marking, and different sy=
+sctl values.
+> > > >
+> > > > Co-developed-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> > > > Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> > > > Co-developed-by: Neal Cardwell <ncardwell@google.com>
+> > > > Signed-off-by: Neal Cardwell <ncardwell@google.com>
+> > > > ---
+> > >
+> > > Chia-Yu, thank you for posting the packetdrill tests.
+> > >
+> > > A couple thoughts:
+> > >
+> > > (1) These tests are using the experimental AccECN packetdrill support
+> > > that is not in mainline packetdrill yet. Can you please share the
+> > > github URL for the version of packetdrill you used? I will work on
+> > > merging the appropriate experimental AccECN packetdrill support into
+> > > the Google packetdrill mainline branch.
+> >
+> > An update on the 3 patches at:
+> >
+> > https://github.com/google/packetdrill/pull/96
+> >
+> > (1) I have merged the following patch into the google packetdrill repo =
+to facilitate testing of the AccECN patch series:
+> >
+> > "net-test: packetdrill: add Accurate ECN (AccECN) option support"
+> > https://github.com/google/packetdrill/pull/96/changes/f6861f888bc7f1e08=
+026de4825519a95504d1047
+> >
+> > (2) The following patch I did not yet merge, because it proposes to add=
+ an odd number of u32 fields to tcp_info, so AFAICT leaves a 4-byte padding=
+ hole at the end of tcp_info:
+> >
+> >   net-test: packetdrill: Support AccECN counters through tcpi
+> >   https://github.com/google/packetdrill/pull/96/changes/f43649c87a2aa79=
+a33a78111d3d7e5f027d13a7f
+> >
+> > I think we'll need to tweak the AccECN kernel patch series so that it d=
+oes not leave a 4-byte padding hole at the end of tcp_info, then update thi=
+s packetdrill patch to match the kernel patch.
+> >
+> > Let's come up with another useful u32 field we can add to the tcp_info =
+struct, so that the kernel patch doesn't add a padding hole at the end of t=
+cp_info.
+> >
+> > One idea would be to add another field to represent newer options and c=
+onnection features that are enabled. AFAICT all 8 bits of the tcpi_options =
+field have been used, so we can't use more bits in that field. I'd suggest =
+we add a u32 tcpi_more_options field before the tcpi_received_ce field, so =
+we can encode other useful info, like:
+> >
+> > + 1 bit to indicate whether AccECN was negotiated (this can go in a
+> > separate patch)
+> >
+> > + 1 bit to indicate whether TCP_NODELAY was set (since forgetting to
+> > use TCP_NODELAY is a classic cause of performance problems; again this =
+can go in a separate patch)
+> >
+> > (And there will be future bits of info we want to add...)
+> >
+> > Also, regarding the comment in this line:
+> >   __u32   tcpi_received_ce;    /* # of CE marks received */
+> >
+> > That comment is ambiguous, since it doesn't indicate whether it's count=
+ing (potentially LRO/GRO) skbs or TCP segments. I would suggest clarifying =
+that this is counting segments:
+> >
+> > __u32   tcpi_received_ce;    /* # of CE marked segments received */
+> >
+>
+> Hi Neal,
+>
+> Related to these 32-bit hole, two extra entries are added into b40671b5ee=
+588c8a61b2d0eacbad32ffc57e9a8f of net-next, and one straightforward way is =
+to apply these changes also in tcp.h of packetdrill (This is my miss).
+>
+> +       __u16   tcpi_accecn_fail_mode;
+> +       __u16   tcpi_accecn_opt_seen;
+>
+> But I would prefer to update this, because tcpi_accecn_fail_mode and tcpi=
+_accecn_opt_seen overall just needs 8 bits (i.e., 4 bits for tcpi_accecn_fa=
+il_mode and 2 bits for tcpi_accecn_opt_seen).
+>
+> So, maybe we could add u16 tcpi_more_options before tcpi_received_ce and =
+change tcpi_accecn_fail_mode and tcpi_accecn_opt_seen both into u8.
+> Within tcpi_more_options, add one bit related to TCP_NODELAY as you said.
+> And within tcpi_accecn_opt_seen, add one bit related to whether AccECN wa=
+s negotiated as you said, then we can leave more unused bits in tcpi_more_o=
+ptions.
+>
+> Another thought is to use a single u32 before tcpi_received_ce, in which =
+4 bits for tcpi_accecn_fail_mode, 2 bits for tcpi_accecn_opt_seen, 26 bits =
+for tcpi_more_options.
+>
+> What do you think?
 
-It suffers from several significant drawbacks:
+I would suggest something like your last suggestion, where there is a
+u32 before tcpi_received_ce, with bit fields for tcpi_accecn_fail_mode
+(4 bits) and tcpi_accecn_opt_seen (2 bits), and a tcpi_options2 for
+the remaining unused bits in the u32.
 
-    1.  Lack of Granularity: It prevents "housekeeping" CPUs from
-        entering power-saving states, leading to unnecessary energy
-        waste and thermal throttling that can negatively impact the very
-        latency-sensitive tasks it aims to protect
+I am leaning toward tcpi_options2 rather than tcpi_more_options,
+because I guess in the future we might want yet another options bit
+field, in which case it would be better to have {tcpi_options,
+tcpi_options2, and tcpi_options3}, rather than having {tcpi_options,
+tcpi_more_options, and tcpi_yet_more_options}. :-)
 
-    2.  Resource Contention: On SMT systems, a polling sibling thread
-        actively consumes execution resources, potentially degrading the
-        performance of the primary thread on the same physical core.
+And rather than a single bit indicating whether AccECN was negotiated,
+it occurs to me that it would probably be better to have a 2-bit enum
+with 4 values, corresponding to the modes in tcp_ecn.h:
+tcp_ecn_disabled(), tcp_ecn_mode_rfc3168(), tcp_ecn_mode_accecn(), and
+tcp_ecn_mode_pending().
 
-The Power Management Quality of Service (PM QoS) subsystem now provides
-a superior, granular alternative.
-By writing special value "n/a" to the per-CPU sysfs node
-/sys/devices/system/cpu/cpuN/power/pm_qos_resume_latency_us, userspace
-can force a specific CPU to poll without imposing this cost globally.
-Writing "0" to the same file removes the constraint, allowing the
-governor to freely select the deepest applicable C-state.
+We also need to keep in mind that since the tcpi_accecn_fail_mode (4
+bits) and tcpi_accecn_opt_seen (2 bits) enums are exported to
+user-space, they will become part of the kernel API to userspace, so
+should be moved out of tcp_ecn.h and instead be declared in
+include/uapi/linux/tcp.h. We declare constant values exported to user
+space in that file: (a) to make it easier for maintainers to remember
+not to change the values for these, so kernel changes don't break
+user-space apps; (b) to make it easier for application developers to
+find the #define values they need to decode the values exported in
+struct  tcp_info. :-)
 
-This patch marks "idle=poll" as deprecated. A warning is issued at
-boot time if the parameter is used, guiding users toward the PM QoS
-interface.
+So how about something like:
 
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 9 +++++----
- Documentation/timers/no_hz.rst                  | 9 +++++++++
- arch/x86/kernel/process.c                       | 1 +
- 3 files changed, 15 insertions(+), 4 deletions(-)
+--- in include/uapi/linux/tcp.h:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1058f2a6d6a8..6a3d6bd0746c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2242,10 +2242,11 @@ Kernel parameters
- 	idle=		[X86,EARLY]
- 			Format: idle=poll, idle=halt, idle=nomwait
- 
--			idle=poll:  Don't do power saving in the idle loop
--			using HLT, but poll for rescheduling event. This will
--			make the CPUs eat a lot more power, but may be useful
--			to get slightly better performance in multiprocessor
-+			idle=poll: [Deprecated - use PM QoS]
-+			Don't do power saving in the idle loop using HLT, but
-+			poll for rescheduling event. This will make the CPUs
-+			eat a lot more power, but may be useful to get
-+			slightly better performance in multiprocessor
- 			benchmarks. It also makes some profiling using
- 			performance counters more accurate.  Please note that
- 			on systems with MONITOR/MWAIT support (like Intel
-diff --git a/Documentation/timers/no_hz.rst b/Documentation/timers/no_hz.rst
-index 7fe8ef9718d8..ca7918cc169e 100644
---- a/Documentation/timers/no_hz.rst
-+++ b/Documentation/timers/no_hz.rst
-@@ -234,6 +234,15 @@ Known Issues
- 	a.	Use PMQOS from userspace to inform the kernel of your
- 		latency requirements (preferred).
- 
-+		This interface offers a superior and more flexible alternative to
-+		global boot parameters such as "idle=poll", as it can be adjusted
-+		at runtime with per-CPU granularity.
-+
-+		To force a specific CPU (where N is the logical CPU number) to poll
-+		on idle, one can set the latency requirement to 0 microseconds:
-+
-+			echo "n/a" > /sys/devices/system/cpu/cpuN/power/pm_qos_resume_latency_us
-+
- 	b.	On x86 systems, use the "idle=mwait" boot parameter.
- 
- 	c.	On x86 systems, use the "intel_idle.max_cstate=" to limit
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index 4c718f8adc59..359b57f6272b 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -1000,6 +1000,7 @@ static int __init idle_setup(char *str)
- 
- 	if (!strcmp(str, "poll")) {
- 		pr_info("using polling idle threads\n");
-+		pr_warn("idle=poll is deprecated. Use the PM QoS interface instead via /sys/devices/system/cpu/cpuN/power/\n");
- 		boot_option_idle_override = IDLE_POLL;
- 		cpu_idle_poll_ctrl(true);
- 	} else if (!strcmp(str, "halt")) {
--- 
-2.51.0
+/* Values for tcpi_ecn_mode */
+#define TCPI_ECN_DISABLED 0x0
+#define TCPI_ECN_RFC3168 0x1
+#define  TCPI_ECN_ACCECN 0x2
+#define TCPI_ECN_PENDING 0x3
 
+/* Values for tcpi_accecn_opt_seen */
+#define TCP_ACCECN_OPT_NOT_SEEN         0x0
+#define TCP_ACCECN_OPT_EMPTY_SEEN       0x1
+#define TCP_ACCECN_OPT_COUNTER_SEEN     0x2
+#define TCP_ACCECN_OPT_FAIL_SEEN        0x3
+
+/* Values for tcpi_accecn_fail_mode */
+#define TCP_ACCECN_ACE_FAIL_SEND        BIT(0)
+#define TCP_ACCECN_ACE_FAIL_RECV        BIT(1)
+#define TCP_ACCECN_OPT_FAIL_SEND        BIT(2)
+#define TCP_ACCECN_OPT_FAIL_RECV        BIT(3)
+
+...
+__u32 tcpi_ecn_mode:2,
+    tcpi_accecn_opt_seen: 2,
+    tcpi_accecn_fail_mode: 4,
+    tcpi_options2:24;
+__u32   tcpi_received_ce;    /* # of CE marked segments received */
+...
+
+--- in tcp_get_info() in net/ipv4/tcp.c:
+
+if (tcp_ecn_disabled(tp))
+  info-> tcpi_ecn_mode =3D TCPI_ECN_DISABLED;
+else if (tcp_ecn_mode_rfc3168(tp))
+  info-> tcpi_ecn_mode =3D TCPI_ECN_RFC3168;
+else if (tcp_ecn_mode_accecn(tp))
+  info-> tcpi_ecn_mode =3D TCPI_ECN_ACCECN;
+else if (tcp_ecn_mode_pending(tp))
+  info-> tcpi_ecn_mode =3D TCPI_ECN_PENDING;
+
+WDYT?
+
+> And I will update the comment of tcpi_received_ce, thanks for the comment=
+s.
+
+Great. Thanks!
+
+neal
+
+> Chia-Yu
+>
+> > (3) The following patch I did not merge, because I'd like to migrate to=
+ having all packetdrill tests for the Linux kernel reside in one place, in =
+the Linux kernel source tree (not the Google packetdrill
+> > repo):
+> >
+> >   net-test: add TCP Accurate ECN cases
+> >   https://github.com/google/packetdrill/pull/96/changes/fe4c7293ea640a4=
+c81178b6c88744d7a5d209fd6
+> >
+> > Thanks!
+> > neal
+> Chia-Yu
+>
+> -----Original Message-----
+> From: Neal Cardwell <ncardwell@google.com>
+> Sent: Sunday, January 18, 2026 5:11 PM
+> To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
+> Cc: pabeni@redhat.com; edumazet@google.com; parav@nvidia.com; linux-doc@v=
+ger.kernel.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kuniy=
+u@google.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmail.=
+com; jhs@mojatatu.com; kuba@kernel.org; stephen@networkplumber.org; xiyou.w=
+angcong@gmail.com; jiri@resnulli.us; davem@davemloft.net; andrew+netdev@lun=
+n.ch; donald.hunter@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shuah=
+@kernel.org; linux-kselftest@vger.kernel.org; ij@kernel.org; Koen De Schepp=
+er (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com; i=
+ngemar.s.johansson@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire <c=
+heshire@apple.com>; rs.ietf@gmx.at; Jason_Livingood@comcast.com; Vidhi Goel=
+ <vidhi_goel@apple.com>; Willem de Bruijn <willemb@google.com>
+> Subject: Re: [PATCH net-next 1/1] selftests/net: Add packetdrill packetdr=
+ill cases
+>
+>
+> CAUTION: This is an external email. Please be very careful when clicking =
+links or opening attachments. See the URL nok.it/ext for additional informa=
+tion.
+>
+>
+>
+> On Thu, Jan 8, 2026 at 5:46=E2=80=AFPM Neal Cardwell <ncardwell@google.co=
+m> wrote:
+> >
+> > On Thu, Jan 8, 2026 at 10:58=E2=80=AFAM <chia-yu.chang@nokia-bell-labs.=
+com> wrote:
+> > >
+> > > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> > >
+> > > Linux Accurate ECN test sets using ACE counters and AccECN options
+> > > to cover several scenarios: Connection teardown, different ACK
+> > > conditions, counter wrapping, SACK space grabbing, fallback schemes,
+> > > negotiation retransmission/reorder/loss, AccECN option drop/loss,
+> > > different handshake reflectors, data with marking, and different sysc=
+tl values.
+> > >
+> > > Co-developed-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> > > Signed-off-by: Ilpo J=C3=A4rvinen <ij@kernel.org>
+> > > Co-developed-by: Neal Cardwell <ncardwell@google.com>
+> > > Signed-off-by: Neal Cardwell <ncardwell@google.com>
+> > > ---
+> >
+> > Chia-Yu, thank you for posting the packetdrill tests.
+> >
+> > A couple thoughts:
+> >
+> > (1) These tests are using the experimental AccECN packetdrill support
+> > that is not in mainline packetdrill yet. Can you please share the
+> > github URL for the version of packetdrill you used? I will work on
+> > merging the appropriate experimental AccECN packetdrill support into
+> > the Google packetdrill mainline branch.
+>
+> An update on the 3 patches at:
+>
+> https://github.com/google/packetdrill/pull/96
+>
+> (1) I have merged the following patch into the google packetdrill repo to=
+ facilitate testing of the AccECN patch series:
+>
+> "net-test: packetdrill: add Accurate ECN (AccECN) option support"
+> https://github.com/google/packetdrill/pull/96/changes/f6861f888bc7f1e0802=
+6de4825519a95504d1047
+>
+> (2) The following patch I did not yet merge, because it proposes to add a=
+n odd number of u32 fields to tcp_info, so AFAICT leaves a 4-byte padding h=
+ole at the end of tcp_info:
+>
+>   net-test: packetdrill: Support AccECN counters through tcpi
+>   https://github.com/google/packetdrill/pull/96/changes/f43649c87a2aa79a3=
+3a78111d3d7e5f027d13a7f
+>
+> I think we'll need to tweak the AccECN kernel patch series so that it doe=
+s not leave a 4-byte padding hole at the end of tcp_info, then update this =
+packetdrill patch to match the kernel patch.
+>
+> Let's come up with another useful u32 field we can add to the tcp_info st=
+ruct, so that the kernel patch doesn't add a padding hole at the end of tcp=
+_info.
+>
+> One idea would be to add another field to represent newer options and con=
+nection features that are enabled. AFAICT all 8 bits of the tcpi_options fi=
+eld have been used, so we can't use more bits in that field. I'd suggest we=
+ add a u32 tcpi_more_options field before the tcpi_received_ce field, so we=
+ can encode other useful info, like:
+>
+> + 1 bit to indicate whether AccECN was negotiated (this can go in a
+> separate patch)
+>
+> + 1 bit to indicate whether TCP_NODELAY was set (since forgetting to
+> use TCP_NODELAY is a classic cause of performance problems; again this ca=
+n go in a separate patch)
+>
+> (And there will be future bits of info we want to add...)
+>
+> Also, regarding the comment in this line:
+>   __u32   tcpi_received_ce;    /* # of CE marks received */
+>
+> That comment is ambiguous, since it doesn't indicate whether it's countin=
+g (potentially LRO/GRO) skbs or TCP segments. I would suggest clarifying th=
+at this is counting segments:
+>
+> __u32   tcpi_received_ce;    /* # of CE marked segments received */
+>
+> (3) The following patch I did not merge, because I'd like to migrate to h=
+aving all packetdrill tests for the Linux kernel reside in one place, in th=
+e Linux kernel source tree (not the Google packetdrill
+> repo):
+>
+>   net-test: add TCP Accurate ECN cases
+>   https://github.com/google/packetdrill/pull/96/changes/fe4c7293ea640a4c8=
+1178b6c88744d7a5d209fd6
+>
+> Thanks!
+> neal
