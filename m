@@ -1,283 +1,283 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AA22D1916;
-	Mon, 19 Jan 2026 11:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE8830E0D8
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 11:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768821482; cv=none; b=YKNoaz5Nkj96Arj50nMR7UNPk8TSUsxb9UZoj8ZVxz2CD6OV1wfQNpIbIMvcn9xCLJxeTBWXcGMftbndy7OJUM7lttMbgQeqmWDot6rEmXsjkItyfnWKwixIDaOM5uMK2BlfcxgVb/MulZhvgEZXPi/59x4tACoZB2smmAr4V1Q=
+	t=1768821732; cv=none; b=ChKapDjYpoVszSdbAT+XGUpU9Se79KnMkoCXXiLK8QrLJMgQSqf4wkwaKCy9DruYBYfudipjWlPeSz4XfWptaop4cDLGZwVEyL699TPv+ShRxdbkbBF9DwoFyCSwgF00Gu/q9ofUmknVF1A0T2R1KyWInmKqy4PYwlocraZEh40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768821482; c=relaxed/simple;
-	bh=XPLMKJ0mPRa+3xpcMU7T9MlRs9O0Q34i6inAof+61m0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCV0L5yeCuNDgQE6PLckcJcJd8zbRKVO+urMtqSybJEUEUzbyNX7dLB+J/9lCDjuayjrtMBnsuZpC8xJ9FfO7gVGgSYsEpgIrshAQOdvGOcZDU4UCAlbN0OxxcvNTzB6ZrbJ/khyDTyqSyMwaf33UK268ankmXabbVtDKyNFkQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UI6BANsZ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1768821732; c=relaxed/simple;
+	bh=qcHMJzj3S3JHYg5AN83WmoAPojwbypkaD61NRb0iu2c=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M9He7Ng8gzEXxa1KbNoP284braYQoR7iE5NRGmY0Zvgj5l1W0WYNG1jEazzHE0VzEq3vtC0iX2580vS9MC1IctFrQu+LygRfbWOEHgyzOzlHRqdXIIprYGTTBrM6u0lXcf7XC7MsHcD/63R3Edy9F/IRfdH9ZflcrrznJAqSA8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ca5qFmHc; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UI6BANsZ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B103240E019B;
-	Mon, 19 Jan 2026 11:17:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hzHadV7cM7xx; Mon, 19 Jan 2026 11:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768821466; bh=TAX0hP36wyQvHEnz9i/MFLh0hu4HHRH7RkC1l5jU0s4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UI6BANsZJms/cMsQyx9NI0WajdfSiKOsXcvVS8AdbyQxwHurE1TnCzdtYtPha8Q1J
-	 NMiIZdUfX7gmnPpCM30UwyL1kGlYxq5AgSjTA+dIeJGflAkuFOOPw37cfMUD5aH2a/
-	 zSMKMnJOTSOcWUEfwCiO/F6iB5P5khgSCCaYrt+dpnZCR9CZnlBA3W2fBzu2zHf9h7
-	 EIwhJxC2/vPPeJOYqeiAOHFJP93C2Xr0Dsvp6iASvtQ/kt3uOqxwmK7ne60A/ViqYR
-	 mktEibnHEE7OefjMLILpo26O4abbErxLwKKY6yk/Nj4d1zf2N/Ut7PlGyNl/aVO1Y2
-	 CgctK4pHRdvWvxcO1v2TvUYtgU2urGxJDbTavLgCsEd7GnGS9ecZ7jC86UyXrD0Kia
-	 19VFNH3KoGE7Am3YFoPwvAkEECKYIorWwDH4FsxFpBIBwBm+rAGyZ0aa6UAeDGP6vi
-	 pUuKljxcPVvMaq0Ao0w32gKjwElLwRblDhgPQ8InU3Kw6Gj/zrUh1t5iHLBlrL1y9K
-	 kaIpTS6RwNDv5tdeHLmayCMJGbpQ9oYlqA1j8qACBBzdYceFOsAMo4g9XfU5YU9N85
-	 JzbKFz0bVZNsYlwctUpoWE5/RgYZvEWkIwQsfwBSUDcrOc5FzMCBi9o47ZGa/jsSGo
-	 bol7Lf4Gh4l1k2KL44R7ScSI=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id B933C40E0028;
-	Mon, 19 Jan 2026 11:17:08 +0000 (UTC)
-Date: Mon, 19 Jan 2026 12:17:01 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: shiju.jose@huawei.com
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
-	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	rdunlap@infradead.org, jonathan.cameron@huawei.com,
-	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com,
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-Subject: Re: [PATCH v15 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <20260119111701.GBaW4Sres045xnfkpz@fat_crate.local>
-References: <20260115143101.876-1-shiju.jose@huawei.com>
- <20260115143101.876-2-shiju.jose@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ca5qFmHc"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5014d4ddb54so45328641cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 03:22:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768821729; x=1769426529; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B2BqFERkg0e6VczbJ7PW0zEOg1z28Kjgx5jFQH97OcM=;
+        b=ca5qFmHc2f7+6XmmBd/UB+j666Yv6Wom6dPa2RWp2WvL8cgWRWmA3l6vzjKmCkvOIc
+         PwvNueJNghlLf+Nk3BMJUuywUDI9/K7isPUTCzrPcm13FGWhSYjny66nGXr+r2TFMRJ2
+         p8MT2auXxFXyqfSTLPg7RcZzXXU/7WqM8CjI3tyjnlF+ZGxD055d4Oif7o1o2c6y0LfZ
+         1UyZTDgHA/AbLyzctUD2B7aK/vSd90wLCB6BUGXOJh8ep6NF/9fKNLnGxe4pmITCVcoM
+         4kPEy3WPab+uwKiyLaVjNzxHLNrmBCOuitKbSk2N5jIno1/L7BVJmoCBUWrJ0xBlva2p
+         Cz1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768821729; x=1769426529;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B2BqFERkg0e6VczbJ7PW0zEOg1z28Kjgx5jFQH97OcM=;
+        b=qZWCNQlWelkJF0ACp8baSMlnXHc81EuWFeYZNv3CNsAvo9+LBL32W/UrPqMGPIgEJU
+         OOiSOnPrDZqveJbN2uAXAu2fT2wIGyYmFrpwpLFDfv/2be5j/P9aBE2nviOAc4wy/TdM
+         55XHkJUUNaa4PwooLp9bOn3omzgb+EzcK5yIhD4XL4gIz56ok/+hGhjyLGZJQkBDVt7l
+         RW6SCMeFd3n9L/S8vgGt9eID/3GTRzdTVCVi+9XQ8Mfdlvq9U1OQ+xEeP5bBNS1r53GA
+         JCh0BoyPXCPTUZ0KaNd89CdHUh7P5nbp7RMSRo0XdZvTtoFJcG43vfi7HFYCVGqWj1uM
+         Awxg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUcsLLsy84so2RDIae/aloyzLNENfz4LVjlLLic2C/b1uUHogfi88jPTwGUkeDkTHi3uytN5/kNhw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzdblua432AtACVWlpnD0+lbrnie32o9haCHP6lgmr8qfYJRj7s
+	LfF1Fu085eyPUJV6W2DIJ05vMA2nbyYUHUc6NZP6tWQOj5x+P4tDfzBFEE/WeA==
+X-Gm-Gg: AY/fxX4iqOaePtvFshXV8wYG2n/IHlzkjOxV7uM8S/q2tBf8WgaA8PkNMQp3ZNzeMFE
+	Ro5tyoMMzdoLDgoFo17lM44t37MOz2bf0qdhJf6VUq6OJXFzesJ9cWOtcxFtBd3wbC9BxWVvMN7
+	9H14seD2E7aSw/7/sW7fV5ZqSbsK65AWTbpeVYfZEqttGJpuu8x4+0yT8rZQJ5GxmzYP3IRn/Hi
+	Uk63BslQOCzcWGxZ+SctHc95OK7Q7ApcKJ56Fn60RHGsJOvrrIMIzoirPUEyMoe5fdjVWfbHIVM
+	ygm+fVI3c9sXS1Mtll0YXfw9p2pG9H9wZ7tqbZ5GQV4zmRjbVQaITtmOzbd2HJ4Cg/NEp8Ryb+9
+	uVvjwJA1scaik9Boh2mKTOXexAUykC9cuYLOH40VqmVPywNvFJoVCD6TvOUq0y+d4AiwFj8LPns
+	/DoxHGsVAv2GMOrnlGdwDGLAeEuQNbChwK9eaKuK1vXyfmzxxPQU8D/86WKFrCC68hiI/83mblC
+	amc
+X-Received: by 2002:ac8:5ac2:0:b0:4ec:f84d:cb40 with SMTP id d75a77b69052e-502a17571a2mr168030081cf.44.1768821729355;
+        Mon, 19 Jan 2026 03:22:09 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502a1ef9847sm75227951cf.26.2026.01.19.03.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 03:22:08 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 19 Jan 2026 11:21:59 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+ <aW3dxuelYDM67pqZ@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115143101.876-2-shiju.jose@huawei.com>
+In-Reply-To: <aW3dxuelYDM67pqZ@smile.fi.intel.com>
 
-On Thu, Jan 15, 2026 at 02:30:58PM +0000, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
+On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B4 Relay wrote:
+
+...
+
+> > +struct adf41513_pll_settings {
+> > +	enum adf41513_pll_mode mode;
 > 
-> ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
-> Driver adds support for RAS2 feature table, which provides interfaces for
-> platform RAS features, e.g., for HW-based memory scrubbing, and logical to
-> PA translation service. RAS2 uses PCC channel subspace for communicating
-> with the ACPI compliant HW platform.
+> Sounds to me like a room to improve the layout here,
+>
+
+I am targeting a 32-bit cpu, just moved in_value down:
+would this be fine? (pahole output):
+
+struct adf41513_pll_settings {
+        enum adf41513_pll_mode     mode;                 /*     0     4 */
+        u8                         r_counter;            /*     4     1 */
+        u8                         ref_doubler;          /*     5     1 */
+        u8                         ref_div2;             /*     6     1 */
+        u8                         prescaler;            /*     7     1 */
+        u64                        target_frequency_uhz; /*     8     8 */
+        u64                        actual_frequency_uhz; /*    16     8 */
+        u64                        pfd_frequency_uhz;    /*    24     8 */
+        u32                        frac1;                /*    32     4 */
+        u32                        frac2;                /*    36     4 */
+        u32                        mod2;                 /*    40     4 */
+        u16                        int_value;            /*    44     2 */
+
+        /* size: 48, cachelines: 1, members: 12 */
+        /* padding: 2 */
+        /* last cacheline: 48 bytes */
+};
+ 
+> > +	/* reference path parameters */
+> > +	u8 r_counter;
+> > +	u8 ref_doubler;
+> > +	u8 ref_div2;
+> > +	u8 prescaler;
+> > +
+> > +	/* frequency parameters */
+> > +	u64 target_frequency_uhz;
+> > +	u64 actual_frequency_uhz;
+> > +	u64 pfd_frequency_uhz;
+> > +
+> > +	/* pll parameters */
+> > +	u16 int_value;
+> > +	u32 frac1;
+> > +	u32 frac2;
+> > +	u32 mod2;
+> > +};
 > 
-> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-> ---
->  drivers/acpi/Kconfig  |  10 +
->  drivers/acpi/Makefile |   1 +
->  drivers/acpi/bus.c    |   3 +
->  drivers/acpi/ras2.c   | 414 ++++++++++++++++++++++++++++++++++++++++++
->  include/acpi/ras2.h   |  57 ++++++
->  5 files changed, 485 insertions(+)
->  create mode 100644 drivers/acpi/ras2.c
->  create mode 100644 include/acpi/ras2.h
+
+...
+
+> > +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+> > +{
+> > +	u64 uhz = 0;
+> > +	int f_count = ADF41513_HZ_DECIMAL_PRECISION;
+> > +	bool frac_part = false;
+> > +
+> > +	if (str[0] == '+')
+> > +		str++;
+> > +
+> > +	while (*str && f_count > 0) {
+> > +		if ('0' <= *str && *str <= '9') {
+> > +			uhz = uhz * 10 + *str - '0';
+> > +			if (frac_part)
+> > +				f_count--;
+> > +		} else if (*str == '\n') {
+> > +			if (*(str + 1) == '\0')
+> > +				break;
+> > +			return -EINVAL;
 > 
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index ca00a5dbcf75..7f846c22fc30 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -293,6 +293,16 @@ config ACPI_CPPC_LIB
->  	  If your platform does not support CPPC in firmware,
->  	  leave this option disabled.
->  
-> +config ACPI_RAS2
-> +	bool "ACPI RAS2 driver"
-> +	select AUXILIARY_BUS
-> +	depends on MAILBOX
-> +	depends on PCC
-> +	help
-> +	  This driver adds support for RAS2 feature table provides interfaces
-> +	  for platform RAS features, e.g., for HW-based memory scrubbing.
-> +	  Say 'y/n' to enable/disable ACPI RAS2 support.
-> +
->  config ACPI_PROCESSOR
->  	tristate "Processor"
->  	depends on X86 || ARM64 || LOONGARCH || RISCV
-> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
-> index d1b0affb844f..abfec6745724 100644
-> --- a/drivers/acpi/Makefile
-> +++ b/drivers/acpi/Makefile
-> @@ -105,6 +105,7 @@ obj-$(CONFIG_ACPI_EC_DEBUGFS)	+= ec_sys.o
->  obj-$(CONFIG_ACPI_BGRT)		+= bgrt.o
->  obj-$(CONFIG_ACPI_CPPC_LIB)	+= cppc_acpi.o
->  obj-$(CONFIG_ACPI_SPCR_TABLE)	+= spcr.o
-> +obj-$(CONFIG_ACPI_RAS2)		+= ras2.o
->  obj-$(CONFIG_ACPI_DEBUGGER_USER) += acpi_dbg.o
->  obj-$(CONFIG_ACPI_PPTT) 	+= pptt.o
->  obj-$(CONFIG_ACPI_PFRUT)	+= pfr_update.o pfr_telemetry.o
-> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-> index a984ccd4a2a0..b02ceb2837c6 100644
-> --- a/drivers/acpi/bus.c
-> +++ b/drivers/acpi/bus.c
-> @@ -31,6 +31,7 @@
->  #include <acpi/apei.h>
->  #include <linux/suspend.h>
->  #include <linux/prmt.h>
-> +#include <acpi/ras2.h>
->  
->  #include "internal.h"
->  
-> @@ -1474,6 +1475,8 @@ static int __init acpi_init(void)
->  	acpi_debugger_init();
->  	acpi_setup_sb_notify_handler();
->  	acpi_viot_init();
-> +	acpi_ras2_init();
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/acpi/ras2.c b/drivers/acpi/ras2.c
-> new file mode 100644
-> index 000000000000..f27676e61a9c
-> --- /dev/null
-> +++ b/drivers/acpi/ras2.c
-> @@ -0,0 +1,414 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * ACPI RAS2 feature table driver.
-> + *
-> + * Copyright (c) 2024-2025 HiSilicon Limited.
-> + *
-> + * Support for RAS2 table - ACPI 6.5 Specification, section 5.2.21, which
-> + * provides interfaces for platform RAS features, e.g., for HW-based memory
-> + * scrubbing, and logical to PA translation service. RAS2 uses PCC channel
-> + * subspace for communicating with the ACPI compliant HW platform.
-> + */
-> +
-> +#define pr_fmt(fmt) "ACPI RAS2: " fmt
-> +
-> +#include <linux/delay.h>
-> +#include <linux/export.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/ktime.h>
-> +#include <acpi/pcc.h>
-> +#include <acpi/ras2.h>
-> +
-> +/**
-> + * struct ras2_sspcc - Data structure for PCC communication
-> + * @mbox_client:	struct mbox_client object
-> + * @pcc_chan:		Pointer to struct pcc_mbox_chan
-> + * @comm_addr:		Pointer to RAS2 PCC shared memory region
-> + * @pcc_lock:		PCC lock to provide mutually exclusive access
-> + *			to PCC channel subspace
-> + * @deadline_us:	Poll PCC status register timeout in micro secs
-> + *			for PCC command complete
-> + * @pcc_mpar:		Maximum Periodic Access Rate (MPAR) for PCC channel
-> + * @pcc_mrtt:		Minimum Request Turnaround Time (MRTT) in micro secs
-> + *			OS must wait after completion of a PCC command before
-> + *			issue next command
-> + * @last_cmd_cmpl_time:	completion time of last PCC command
-> + * @last_mpar_reset:	Time of last MPAR count reset
-> + * @mpar_count:		MPAR count
-> + * @pcc_id:		Identifier of the RAS2 platform communication channel
-> + * @last_cmd:		Last PCC command
-> + * @pcc_chnl_acq:	Status of PCC channel acquired
-> + */
-> +struct ras2_sspcc {
-> +	struct mbox_client		mbox_client;
-> +	struct pcc_mbox_chan		*pcc_chan;
-> +	struct acpi_ras2_shmem __iomem	*comm_addr;
-> +	struct mutex			pcc_lock;
-> +	unsigned int			deadline_us;
-> +	unsigned int			pcc_mpar;
-> +	unsigned int			pcc_mrtt;
-> +	ktime_t				last_cmd_cmpl_time;
-> +	ktime_t				last_mpar_reset;
-> +	int				mpar_count;
-> +	int				pcc_id;
-> +	u16				last_cmd;
-> +	bool				pcc_chnl_acq;
-> +};
-> +
-> +/*
-> + * Arbitrary retries for PCC commands because the remote processor
-> + * could be much slower to reply. Keeping it high enough to cover
-> + * emulators where the processors run painfully slow.
-> + */
-> +#define PCC_NUM_RETRIES 600ULL
-> +
-> +#define RAS2_MAX_NUM_PCC_DESCS 100
-> +#define RAS2_FEAT_TYPE_MEMORY 0x00
-> +
-> +static int decode_cap_error(u32 cap_status)
-> +{
-> +	switch (cap_status) {
-> +	case ACPI_RAS2_NOT_VALID:
-> +	case ACPI_RAS2_NOT_SUPPORTED:
-> +		return -EPERM;
-> +	case ACPI_RAS2_BUSY:
-> +		return -EBUSY;
-> +	case ACPI_RAS2_FAILED:
-> +	case ACPI_RAS2_ABORTED:
-> +	case ACPI_RAS2_INVALID_DATA:
-> +		return -EINVAL;
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static int check_pcc_chan(struct ras2_sspcc *sspcc)
-> +{
-> +	struct acpi_ras2_shmem __iomem *gen_comm_base = sspcc->comm_addr;
-> +	u16 status;
-> +	int rc;
-> +
-> +	/*
-> +	 * As per ACPI spec, the PCC space will be initialized by
-> +	 * platform and should have set the command completion bit when
-> +	 * PCC can be used by OSPM.
-> +	 *
-> +	 * Poll PCC status register every 3us for maximum of 600ULL * PCC
-> +	 * channel latency until PCC command complete bit is set.
-> +	 */
-> +	rc = readw_relaxed_poll_timeout(&gen_comm_base->status, status,
-> +					status & PCC_STATUS_CMD_COMPLETE, 3,
-> +					sspcc->deadline_us);
-> +	if (rc) {
-> +		pr_warn("PCC check channel timeout for pcc_id=%d rc=%d\n",
-> +			sspcc->pcc_id, rc);
+> > +		} else if (*str == '.' && !frac_part) {
+> 
+> This can be found by strchr() / strrchr() (depending on the expectations of
+> the input).
+> 
+> > +			frac_part = true;
+> > +		} else {
+> > +			return -EINVAL;
+> > +		}
+> > +		str++;
+> > +	}
+> 
+> With the above the rest becomes just a couple of simple_strtoull() calls with
+> a couple of int_pow(10) calls (and some validation on top).
+> 
+> > +	for (; f_count > 0; f_count--)
+> > +		uhz *= 10;
+> 
+> This is int_pow(10).
+> 
+> > +	*freq_uhz = uhz;
+> > +
+> > +	return 0;
+> > +}
 
-I'll stop here. This version still doesn't address comments from here:
+The current implementation is kind of a stripped version of
+__iio_str_to_fixpoint(). Would you prefer something like this, then?:
 
-https://lore.kernel.org/r/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local
+static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+{
+	u64 integer_part = 0, fractional_part = 0;
+	const char *decimal_point;
+	char *endptr;
+	int frac_digits;
 
-so I'll wait for a new one which has everything addressed.
+	if (str[0] == '+')
+	str++;
 
-Thx.
+	/* Find decimal point */
+	decimal_point = strchr(str, '.');
+	if (decimal_point) {
+		/* Parse integer part (if exists before decimal point) */
+		if (decimal_point > str) {
+			integer_part = simple_strtoull(str, &endptr, 10);
+			if (endptr != decimal_point)
+				return -EINVAL;
+		}
 
--- 
-Regards/Gruss,
-    Boris.
+		/* Parse fractional part */
+		fractional_part = simple_strtoull(decimal_point + 1, &endptr, 10);
+		if (*endptr != '\0' && *endptr != '\n')
+			return -EINVAL;
 
-https://people.kernel.org/tglx/notes-about-netiquette
+		/* Adjust for desired precision */
+		frac_digits = strcspn(decimal_point + 1, "\n");
+		if (frac_digits > ADF41513_HZ_DECIMAL_PRECISION)
+			fractional_part /= int_pow(10, frac_digits - ADF41513_HZ_DECIMAL_PRECISION);
+		else
+			fractional_part *= int_pow(10, ADF41513_HZ_DECIMAL_PRECISION - frac_digits);
+	} else {
+		/* No decimal point - just parse the integer */
+		ret = kstrtoull(str, 10, &integer_part);
+		if (ret)
+			return ret;
+	}
+
+	/* Combine integer and fractional parts */
+	*freq_uhz = integer_part * int_pow(10, ADF41513_HZ_DECIMAL_PRECISION) + fractional_part;
+
+	return 0;
+}
+
+> ...
+> 
+> > +static int adf41513_uhz_to_str(u64 freq_uhz, char *buf)
+> > +{
+> > +	u32 frac_part;
+> > +	u64 int_part = div_u64_rem(freq_uhz, MICRO, &frac_part);
+> 
+> Perhaps MICROHZ_PER_HZ? This will be consistent with the int_value in
+> _calc_*() below.
+
+Here, the meaning is different. int_part is in Hz and frac_part in uHz.
+Will add the suffixes to the variables.
+ 
+> > +	return sysfs_emit(buf, "%llu.%06u\n", int_part, frac_part);
+> > +}
+> 
+
+...
+
+> > +	if (freq_error_uhz > (result->pfd_frequency_uhz >> 1) && int_value < max_int) {
+> > +		int_value++;
+> > +		freq_error_uhz = result->pfd_frequency_uhz - freq_error_uhz;
+> > +	}
+> 
+> This and below the part for frac check seems very similar, I would consider
+> adding a helper.
+>
+
+It is similar, but in each case different variables are being handled.
+This one we can only deal with INT, the next one FRAC1 and the last MOD2.
+I am not sure how a single helper can deal with all of them separately.
+ 
+> > +	if (freq_error_uhz > st->data.freq_resolution_uhz)
+> > +		return -ERANGE;
+> > +
+
+...
+
+> > +	/* calculate required mod2 based on target resolution / 2 */
+> > +	mod2 = DIV64_U64_ROUND_CLOSEST(result->pfd_frequency_uhz << 1,
+> > +				       st->data.freq_resolution_uhz * ADF41513_FIXED_MODULUS);
+> 
+> This also seems familiar with the above mentioned check (for 50% tolerance).
+
+Here, there is no check, MOD2 has plenty of range to deal with the
+requested frequency resolution. Also this is the last attempt, after
+integer mode and fixed-modulus failed to achieve the requested frequency
+value. 
+ 
+Kind regards,
+
+Rodrigo Alencar
