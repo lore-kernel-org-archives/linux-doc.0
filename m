@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB592FE593;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9362FFDD6;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839814; cv=none; b=Ohl177sDMwCsE57ZmX1E54LTHJEaUDsDth+QMuYyAPOy5vvGj48O3ERrBhKEo4z/rEMTSO96XVg+QQFFIGui/7UpME0OXObP7+aYEMMGX8YteOnDW8nbiAcZgi09eJUjRGWH08jaX/bYsW2FZUZ7kZjnNmEagV4KJOTCSCLSJqA=
+	t=1768839814; cv=none; b=hQ9+dkMPxHSAlA3G5Cp4NsQJdKaHK2xWEvtK0JVGXuT8gai0XD2jkAhJcG/PbsJpNTiyNrSoQzkmxpMr9OoSohntgKtmEVVqzgzN9R5ct5M1XapkpPJcdUKuv9dna5iKrql+p5GQfwoZYQ7L9R0vK6w4euKJsLpigZpo8kFiFMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768839814; c=relaxed/simple;
-	bh=AVd8fmGIAF4zYlsPWk9dKYgZxAbzv6350/TY3F2WP6Y=;
+	bh=vD2wOczQTMyK8eBInsPg/A/L1CMB+IhGbdrLcMRyq0M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jTRlKsmOI+Ea3VdJr3UC+NfLSty7lFGcZR29qYomx7VNdiHIp5JoqyHs7jTGeJ34xXR9YdyEn/xfLRhTm5HmHLepTLwCIrEazqGNP+3yjKwLPfX7/7/QYc4b6ZGXJ+WgGd3bu+2j87aEeH8x4qwa98qMcpHA0ErSKZsAwB5NMjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hle9N8Af; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DsAhLYv2ThThOKWJEUUKfK5sBi6d95AJywFNR8121Z8kvOm+i8BvsN6pSJ44GYV7yUYaab6A//qD5FHJFsJf/HbTsiQzgmCTakvikNJ1WWe/M3UU3Fli9JWQLE10fM9C+bVRIehkJNp727qEJkJnkkoJOUICk1yssyVBgR6Z7ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRp1g37/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hle9N8Af"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A836C32786;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRp1g37/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4BEC2BCB6;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768839814;
-	bh=AVd8fmGIAF4zYlsPWk9dKYgZxAbzv6350/TY3F2WP6Y=;
+	bh=vD2wOczQTMyK8eBInsPg/A/L1CMB+IhGbdrLcMRyq0M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hle9N8Afd4V6xcMwvLV+zZK3thQALTyt7JP1o9URfKXdPq6Mau9maQPTph7KlTq1f
-	 BIRkGLcy2kmCxcFoha6OfN9yINqS5cX4c1pUNgRCKdxhdWUyew4tB+q7BTkKpEne0g
-	 /I/yke6dyV3/BaRy463vISHGnBq6WMxNEN1LebBDqY95JJm/tVmzzADjwZ7OKqJj+m
-	 3lDwfZ3yxZ1HPfsDalMbtN2QAWuW/OKKlf8a5QC6A8bCjKbwcysT7fP56D4v5BsY4i
-	 Z5crzK3+pjkyQPrjXIljd7DDG1ZeASYcF7Yt4bRVzqp++6iV+9tjc5LCwjLgGR4khL
-	 x7FE03VZRPN9A==
+	b=sRp1g37/1JO2xhTb25DKM8UcASOgLnA+U+o3wzGw0oLvlDJ5+p9SYowXD7+6CSGRP
+	 HVVSBIUy5EbUtexKNaBQyZ/BWAJxe38rUZZdPZkrwcqEZTiQh7/8Y4l6bZfzDzeK22
+	 IJ1brBdMAw/iuHL6l0VWzClzMzMBlUrI8Nmb2X7ES9dKl/URIlRO4SwU9RKnwDAiAJ
+	 w9TuIuxFc/wGmy0rwTzwzfFwxjMh2fDLC/HPvnLzVeuH8V5DM35sKE/lHqwzJTQcDe
+	 HQyL6zLoEXRwRBEPcAAVnM43nWQurOzZAoEAlNPITpoltANQ7FzNdLN3HexfGz9xBu
+	 9/YRhlkqc/KSA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vhs2O-00000001j2k-2g67;
+	id 1vhs2O-00000001j2a-2SU2;
 	Mon, 19 Jan 2026 17:23:32 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 21/25] docs: kabi: helpers: add documentation for each "enum" value
-Date: Mon, 19 Jan 2026 17:23:24 +0100
-Message-ID: <3b118b157e52d757bf82fd74f03b0f4bd9e8b8f1.1768838938.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 19/25] docs: kabi: system_symbols: end docstring phrases with a dot
+Date: Mon, 19 Jan 2026 17:23:22 +0100
+Message-ID: <efd0e150d8e12d8ea2665f54a96b1997f32897b7.1768838938.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768838938.git.mchehab+huawei@kernel.org>
 References: <cover.1768838938.git.mchehab+huawei@kernel.org>
@@ -52,67 +52,77 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Ensure that kABI module documentation will describe each
-debug bit.
+Some docstring classes are not ending with a dot. Fix to make it
+more uniform.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/abi/helpers.py | 40 ++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ tools/lib/python/abi/system_symbols.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tools/lib/python/abi/helpers.py b/tools/lib/python/abi/helpers.py
-index b8c8dfb1272e..2a378d780d3c 100644
---- a/tools/lib/python/abi/helpers.py
-+++ b/tools/lib/python/abi/helpers.py
-@@ -13,28 +13,28 @@ ABI_DIR = "Documentation/ABI/"
- class AbiDebug:
-     """Debug levels"""
+diff --git a/tools/lib/python/abi/system_symbols.py b/tools/lib/python/abi/system_symbols.py
+index 4a2554da217b..7bbefd274ea2 100644
+--- a/tools/lib/python/abi/system_symbols.py
++++ b/tools/lib/python/abi/system_symbols.py
+@@ -18,11 +18,11 @@ from random import shuffle
+ from abi.helpers import AbiDebug
  
--    WHAT_PARSING = 1
--    WHAT_OPEN = 2
--    DUMP_ABI_STRUCTS = 4
--    UNDEFINED = 8
--    REGEX = 16
--    SUBGROUP_MAP = 32
--    SUBGROUP_DICT = 64
--    SUBGROUP_SIZE = 128
--    GRAPH = 256
--
-+    WHAT_PARSING = 1        #: Enable debug parsing logic.
-+    WHAT_OPEN = 2           #: Enable debug messages on file open.
-+    DUMP_ABI_STRUCTS = 4    #: Enable debug for ABI parse data.
-+    UNDEFINED = 8           #: Enable extra undefined symbol data.
-+    REGEX = 16              #: Enable debug for what to regex conversion.
-+    SUBGROUP_MAP = 32       #: Enable debug for symbol regex subgroups
-+    SUBGROUP_DICT = 64      #: Enable debug for sysfs graph tree variable.
-+    SUBGROUP_SIZE = 128     #: Enable debug of search groups.
-+    GRAPH = 256             #: Display ref tree graph for undefined symbols.
+ class SystemSymbols:
+-    """Stores arguments for the class and initialize class vars"""
++    """Stores arguments for the class and initialize class vars."""
  
-+#: Helper messages for each debug variable
- DEBUG_HELP = """
--1  - enable debug parsing logic
--2  - enable debug messages on file open
--4  - enable debug for ABI parse data
--8  - enable extra debug information to identify troubles
--     with ABI symbols found at the local machine that
--     weren't found on ABI documentation (used only for
--     undefined subcommand)
--16 - enable debug for what to regex conversion
--32 - enable debug for symbol regex subgroups
--64 - enable debug for sysfs graph tree variable
-+1   - enable debug parsing logic
-+2   - enable debug messages on file open
-+4   - enable debug for ABI parse data
-+8   - enable extra debug information to identify troubles
-+      with ABI symbols found at the local machine that
-+      weren't found on ABI documentation (used only for
-+      undefined subcommand)
-+16  - enable debug for what to regex conversion
-+32  - enable debug for symbol regex subgroups
-+64  - enable debug for sysfs graph tree variable
- 128 - enable debug of search groups
- 256 - enable displaying refrence tree graphs for undefined symbols.
- """
+     def graph_add_file(self, path, link=None):
+         """
+-        add a file path to the sysfs graph stored at self.root
++        add a file path to the sysfs graph stored at self.root.
+         """
+ 
+         if path in self.files:
+@@ -43,7 +43,7 @@ class SystemSymbols:
+         self.files.add(path)
+ 
+     def print_graph(self, root_prefix="", root=None, level=0):
+-        """Prints a reference tree graph using UTF-8 characters"""
++        """Prints a reference tree graph using UTF-8 characters."""
+ 
+         if not root:
+             root = self.root
+@@ -173,7 +173,7 @@ class SystemSymbols:
+         self._walk(sysfs)
+ 
+     def check_file(self, refs, found):
+-        """Check missing ABI symbols for a given sysfs file"""
++        """Check missing ABI symbols for a given sysfs file."""
+ 
+         res_list = []
+ 
+@@ -214,7 +214,7 @@ class SystemSymbols:
+         return res_list
+ 
+     def _ref_interactor(self, root):
+-        """Recursive function to interact over the sysfs tree"""
++        """Recursive function to interact over the sysfs tree."""
+ 
+         for k, v in root.items():
+             if isinstance(v, dict):
+@@ -232,7 +232,7 @@ class SystemSymbols:
+ 
+ 
+     def get_fileref(self, all_refs, chunk_size):
+-        """Interactor to group refs into chunks"""
++        """Interactor to group refs into chunks."""
+ 
+         n = 0
+         refs = []
+@@ -250,7 +250,7 @@ class SystemSymbols:
+ 
+     def check_undefined_symbols(self, max_workers=None, chunk_size=50,
+                                 found=None, dry_run=None):
+-        """Seach ABI for sysfs symbols missing documentation"""
++        """Seach ABI for sysfs symbols missing documentation."""
+ 
+         self.abi.parse_abi()
+ 
 -- 
 2.52.0
 
