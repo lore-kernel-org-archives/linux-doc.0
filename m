@@ -1,154 +1,283 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2D23590CE
-	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 11:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AA22D1916;
+	Mon, 19 Jan 2026 11:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768820687; cv=none; b=TuYPs2XtFB3+P2ykmd40Vc9PYOczCrOz6En6ZksUysO1JJt4XxSHzcaqjW58TJm5e1RnwAajJsrtAft1XxZ0FxqF0Sk0dN975YB4E3szijtHCQ1dAsc3+ipZwuXuLghaOYCHlYDrmIT6O6F16AeK8hYp3DyR9IY6ADp8BevT81Q=
+	t=1768821482; cv=none; b=YKNoaz5Nkj96Arj50nMR7UNPk8TSUsxb9UZoj8ZVxz2CD6OV1wfQNpIbIMvcn9xCLJxeTBWXcGMftbndy7OJUM7lttMbgQeqmWDot6rEmXsjkItyfnWKwixIDaOM5uMK2BlfcxgVb/MulZhvgEZXPi/59x4tACoZB2smmAr4V1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768820687; c=relaxed/simple;
-	bh=/muiXxKbxDRdO0MB+mCm4SfaD5B3F+0ImKkl0B9gKiQ=;
+	s=arc-20240116; t=1768821482; c=relaxed/simple;
+	bh=XPLMKJ0mPRa+3xpcMU7T9MlRs9O0Q34i6inAof+61m0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eYVFyT23pUHQ39oOLi+6EuYTrpcTSgzb6FDarxL/Bov0adlTOZp9pp/xBU3H8mxkqiXrJ3xke3xEJkXVJQf1H+MkFlm+NKRXc1aEAoPaHJ/aF83RPec6oVKveh4ZCv/o8oLrGx/J8Qo1NeJ0RYfkKFqzNdl7vXsPCrl8pmqkysg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IUWqQC0C; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=nSyY1rrM; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bCV0L5yeCuNDgQE6PLckcJcJd8zbRKVO+urMtqSybJEUEUzbyNX7dLB+J/9lCDjuayjrtMBnsuZpC8xJ9FfO7gVGgSYsEpgIrshAQOdvGOcZDU4UCAlbN0OxxcvNTzB6ZrbJ/khyDTyqSyMwaf33UK268ankmXabbVtDKyNFkQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UI6BANsZ; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IUWqQC0C";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="nSyY1rrM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768820675;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hNfGrzoWgmkgHbgWpkrQnRoddNG6uHNGHcsuvEPWnR4=;
-	b=IUWqQC0CI4DWj/FbZf+8lBDAWwZzwRD/1uvRMC/t7kNlUOmunzGEgFePVLfJSZ8wY5lClI
-	fu60WM4Zx9LXqstwGoP3GYbwIU9EvnJN8DsLIKQkCyfJHvEVzK3qKC8qoanQyj5gLDNJ3f
-	/0nTlsPalBRWZQUfLiCpAlUiVEzxv9s=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-675-rleLTbH1Nue8KFyn9OyQrw-1; Mon, 19 Jan 2026 06:04:34 -0500
-X-MC-Unique: rleLTbH1Nue8KFyn9OyQrw-1
-X-Mimecast-MFC-AGG-ID: rleLTbH1Nue8KFyn9OyQrw_1768820673
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-430f8866932so3545069f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 03:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768820673; x=1769425473; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hNfGrzoWgmkgHbgWpkrQnRoddNG6uHNGHcsuvEPWnR4=;
-        b=nSyY1rrMvzEgw5q5ekPkpYf+X7bEsGR2ZnMi3a1KsILuFhjGJyOKSEzUYU6lmU+oCD
-         ao9N0vEHTBgp+qJIEYl6Z2JA7ejBbZKiqBO90y42uS4b11Vjm8BhoPf+bHY9qS/PuoK0
-         4ndt3DkZR116lRCo8ZANW0zTtGJxvDjgaa9rajLS5IXSHr3LONPGb/FLzFvER1wzo4ye
-         SbkklVlkkz/L9JbjvHCPgXyzp8TYtdDcUQAujbI3YXVeSJkk7HgZek3PulxwnoNsHH9L
-         U2amH4MxoZUzf3VbaXaM5aiSPasIHYYTABShZAw9czJ2WN7R+1KIir859nNBaWFK2hS6
-         hA9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768820673; x=1769425473;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hNfGrzoWgmkgHbgWpkrQnRoddNG6uHNGHcsuvEPWnR4=;
-        b=rsyLNeryghCDRLZHynFhQzxdry9Zoj+z7IzVl4Bi0PlCqxXMdfrwbhnuVSu9XPvVfQ
-         BQfseDR1rh2golk12Ep1w/W+16g8Kja5KiCmw0YQV1zWmenEi5e/DP4EwYKOJ2BN91Xk
-         yLZ/NXaESSZJi2JLCvxxG4il+FhMGhLRNwOO04FS03TS0cZfvvCmpnXgZ77ppBrju3QE
-         hZIDuofXiRbV8R20M/4aSm8i0+fzhbjUqzejO0OK5eRzBnT+kPgFuQdSQH4LQR0P1BjP
-         8/CWhvEZst53a4jY4uhXZFafPNc3C2X72GWCR/93ujIzBHZuWonYAjyvBlpKJTVvwEEU
-         qLeA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJIuAXHQ5DWq4c6EXWzBPq79K1Pyl4S2UaFAcdnO0JY+TAIkUSDgQO8t79eMajuaQ5KgRevwlfgbw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwK045Gt3A9VwEKwhJGoJoSPGuWaK3NUDo/1IO0K+tSrL8kZ4JP
-	nD7VJyrPg/5i2wi1blEYtNTSw3fKAXv6ppU6ZXRXYvx2lYIfubP1C0Hk/kVaQHxpyidWifZ1xpB
-	ECww3Z5pSKdGkVf8zd3Rgh0AocyktrLTseDrPeMWldPBK8wBn49XN8W2pRxRZww==
-X-Gm-Gg: AZuq6aLfvXVcF7TQusTQYS1DA/oM1s1WKsTXMMZK+G0dv/rxivmo6ySQbdQWuFkUekn
-	Dabl8Cd+5TtQH8LjSPYrNMarKVH7TrE3l9C2DubcJdCRYo579YI9njJc/lJk8c4CN0EaQfVQ8s4
-	LbdAerrv/FrXanWN0N0zaAT0e1mzWeWgZy1pnChwWsfokPWGNk6fDz52b46OdHD03TQJNZJWVtP
-	/epJVQLcEL3J6/jiEmqFQPnk4TVm9r0PVx5hosv5eJP9gWSnw8zQXHrH+zZx4r9TUDiwkK0Wvkp
-	DwybiA7RhpTIBn4oDS646kazf8MFq6Kb32y/ljw6E8TiwjeWDJpHvG+FZTklFLP32YpHjA2pOyf
-	Ov0A0mzmeBvW+w6bwgeO89TqCiHmsGazTwgVUri4E
-X-Received: by 2002:a05:6000:1843:b0:431:864:d492 with SMTP id ffacd0b85a97d-43569bbaf7dmr13975628f8f.36.1768820672840;
-        Mon, 19 Jan 2026 03:04:32 -0800 (PST)
-X-Received: by 2002:a05:6000:1843:b0:431:864:d492 with SMTP id ffacd0b85a97d-43569bbaf7dmr13975591f8f.36.1768820672434;
-        Mon, 19 Jan 2026 03:04:32 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.129.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996cf33sm23073587f8f.25.2026.01.19.03.04.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 03:04:31 -0800 (PST)
-Date: Mon, 19 Jan 2026 12:04:29 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Nam Cao <namcao@linutronix.de>, Juri Lelli <jlelli@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Tomas Glozar <tglozar@redhat.com>,
-	Clark Williams <williams@redhat.com>,
-	John Kacur <jkacur@redhat.com>
-Subject: Re: [PATCH v4 14/15] rv: Add deadline monitors
-Message-ID: <aW4PvcDxBJnDLJFq@jlelli-thinkpadt14gen4.remote.csb>
-References: <20260116123911.130300-1-gmonaco@redhat.com>
- <20260116123911.130300-15-gmonaco@redhat.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UI6BANsZ"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B103240E019B;
+	Mon, 19 Jan 2026 11:17:50 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id hzHadV7cM7xx; Mon, 19 Jan 2026 11:17:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768821466; bh=TAX0hP36wyQvHEnz9i/MFLh0hu4HHRH7RkC1l5jU0s4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UI6BANsZJms/cMsQyx9NI0WajdfSiKOsXcvVS8AdbyQxwHurE1TnCzdtYtPha8Q1J
+	 NMiIZdUfX7gmnPpCM30UwyL1kGlYxq5AgSjTA+dIeJGflAkuFOOPw37cfMUD5aH2a/
+	 zSMKMnJOTSOcWUEfwCiO/F6iB5P5khgSCCaYrt+dpnZCR9CZnlBA3W2fBzu2zHf9h7
+	 EIwhJxC2/vPPeJOYqeiAOHFJP93C2Xr0Dsvp6iASvtQ/kt3uOqxwmK7ne60A/ViqYR
+	 mktEibnHEE7OefjMLILpo26O4abbErxLwKKY6yk/Nj4d1zf2N/Ut7PlGyNl/aVO1Y2
+	 CgctK4pHRdvWvxcO1v2TvUYtgU2urGxJDbTavLgCsEd7GnGS9ecZ7jC86UyXrD0Kia
+	 19VFNH3KoGE7Am3YFoPwvAkEECKYIorWwDH4FsxFpBIBwBm+rAGyZ0aa6UAeDGP6vi
+	 pUuKljxcPVvMaq0Ao0w32gKjwElLwRblDhgPQ8InU3Kw6Gj/zrUh1t5iHLBlrL1y9K
+	 kaIpTS6RwNDv5tdeHLmayCMJGbpQ9oYlqA1j8qACBBzdYceFOsAMo4g9XfU5YU9N85
+	 JzbKFz0bVZNsYlwctUpoWE5/RgYZvEWkIwQsfwBSUDcrOc5FzMCBi9o47ZGa/jsSGo
+	 bol7Lf4Gh4l1k2KL44R7ScSI=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id B933C40E0028;
+	Mon, 19 Jan 2026 11:17:08 +0000 (UTC)
+Date: Mon, 19 Jan 2026 12:17:01 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: shiju.jose@huawei.com
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	rdunlap@infradead.org, jonathan.cameron@huawei.com,
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com,
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
+Subject: Re: [PATCH v15 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <20260119111701.GBaW4Sres045xnfkpz@fat_crate.local>
+References: <20260115143101.876-1-shiju.jose@huawei.com>
+ <20260115143101.876-2-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260116123911.130300-15-gmonaco@redhat.com>
+In-Reply-To: <20260115143101.876-2-shiju.jose@huawei.com>
 
-Hello,
-
-On 16/01/26 13:39, Gabriele Monaco wrote:
-> Add the deadline monitors collection to validate the deadline scheduler,
-> both for deadline tasks and servers.
+On Thu, Jan 15, 2026 at 02:30:58PM +0000, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
 > 
-> The currently implemented monitors are:
-> * throttle:
->     validate dl entities are throttled when they use up their runtime
-> * nomiss:
->     validate dl entities run to completion before their deadiline
+> ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
+> Driver adds support for RAS2 feature table, which provides interfaces for
+> platform RAS features, e.g., for HW-based memory scrubbing, and logical to
+> PA translation service. RAS2 uses PCC channel subspace for communicating
+> with the ACPI compliant HW platform.
 > 
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Reviewed-by: Nam Cao <namcao@linutronix.de>
-> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
+> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
+> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
 > ---
-
-...
-
+>  drivers/acpi/Kconfig  |  10 +
+>  drivers/acpi/Makefile |   1 +
+>  drivers/acpi/bus.c    |   3 +
+>  drivers/acpi/ras2.c   | 414 ++++++++++++++++++++++++++++++++++++++++++
+>  include/acpi/ras2.h   |  57 ++++++
+>  5 files changed, 485 insertions(+)
+>  create mode 100644 drivers/acpi/ras2.c
+>  create mode 100644 include/acpi/ras2.h
+> 
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+> index ca00a5dbcf75..7f846c22fc30 100644
+> --- a/drivers/acpi/Kconfig
+> +++ b/drivers/acpi/Kconfig
+> @@ -293,6 +293,16 @@ config ACPI_CPPC_LIB
+>  	  If your platform does not support CPPC in firmware,
+>  	  leave this option disabled.
+>  
+> +config ACPI_RAS2
+> +	bool "ACPI RAS2 driver"
+> +	select AUXILIARY_BUS
+> +	depends on MAILBOX
+> +	depends on PCC
+> +	help
+> +	  This driver adds support for RAS2 feature table provides interfaces
+> +	  for platform RAS features, e.g., for HW-based memory scrubbing.
+> +	  Say 'y/n' to enable/disable ACPI RAS2 support.
+> +
+>  config ACPI_PROCESSOR
+>  	tristate "Processor"
+>  	depends on X86 || ARM64 || LOONGARCH || RISCV
+> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
+> index d1b0affb844f..abfec6745724 100644
+> --- a/drivers/acpi/Makefile
+> +++ b/drivers/acpi/Makefile
+> @@ -105,6 +105,7 @@ obj-$(CONFIG_ACPI_EC_DEBUGFS)	+= ec_sys.o
+>  obj-$(CONFIG_ACPI_BGRT)		+= bgrt.o
+>  obj-$(CONFIG_ACPI_CPPC_LIB)	+= cppc_acpi.o
+>  obj-$(CONFIG_ACPI_SPCR_TABLE)	+= spcr.o
+> +obj-$(CONFIG_ACPI_RAS2)		+= ras2.o
+>  obj-$(CONFIG_ACPI_DEBUGGER_USER) += acpi_dbg.o
+>  obj-$(CONFIG_ACPI_PPTT) 	+= pptt.o
+>  obj-$(CONFIG_ACPI_PFRUT)	+= pfr_update.o pfr_telemetry.o
+> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+> index a984ccd4a2a0..b02ceb2837c6 100644
+> --- a/drivers/acpi/bus.c
+> +++ b/drivers/acpi/bus.c
+> @@ -31,6 +31,7 @@
+>  #include <acpi/apei.h>
+>  #include <linux/suspend.h>
+>  #include <linux/prmt.h>
+> +#include <acpi/ras2.h>
+>  
+>  #include "internal.h"
+>  
+> @@ -1474,6 +1475,8 @@ static int __init acpi_init(void)
+>  	acpi_debugger_init();
+>  	acpi_setup_sb_notify_handler();
+>  	acpi_viot_init();
+> +	acpi_ras2_init();
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/acpi/ras2.c b/drivers/acpi/ras2.c
+> new file mode 100644
+> index 000000000000..f27676e61a9c
+> --- /dev/null
+> +++ b/drivers/acpi/ras2.c
+> @@ -0,0 +1,414 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
 > +/*
-> + * User configurable deadline threshold. If the total utilisation of deadline
-> + * tasks is larger than 1, they are only guaranteed bounded tardiness. See
-> + * Documentation/scheduler/sched-deadline.rst for more details.
-> + * The minimum tardiness without sched_feat(HRTICK_DL) is 1 tick to accommodate
-> + * for throttle enforced on the next tick.
+> + * ACPI RAS2 feature table driver.
+> + *
+> + * Copyright (c) 2024-2025 HiSilicon Limited.
+> + *
+> + * Support for RAS2 table - ACPI 6.5 Specification, section 5.2.21, which
+> + * provides interfaces for platform RAS features, e.g., for HW-based memory
+> + * scrubbing, and logical to PA translation service. RAS2 uses PCC channel
+> + * subspace for communicating with the ACPI compliant HW platform.
 > + */
-> +static u64 deadline_thresh = TICK_NSEC;
-> +module_param(deadline_thresh, ullong, 0644);
-> +#define DEADLINE_NS(ha_mon) (pi_of(ha_get_target(ha_mon))->dl_deadline + deadline_thresh)
-
-...
-
-> +static inline u64 runtime_left_ns(struct ha_monitor *ha_mon)
+> +
+> +#define pr_fmt(fmt) "ACPI RAS2: " fmt
+> +
+> +#include <linux/delay.h>
+> +#include <linux/export.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/ktime.h>
+> +#include <acpi/pcc.h>
+> +#include <acpi/ras2.h>
+> +
+> +/**
+> + * struct ras2_sspcc - Data structure for PCC communication
+> + * @mbox_client:	struct mbox_client object
+> + * @pcc_chan:		Pointer to struct pcc_mbox_chan
+> + * @comm_addr:		Pointer to RAS2 PCC shared memory region
+> + * @pcc_lock:		PCC lock to provide mutually exclusive access
+> + *			to PCC channel subspace
+> + * @deadline_us:	Poll PCC status register timeout in micro secs
+> + *			for PCC command complete
+> + * @pcc_mpar:		Maximum Periodic Access Rate (MPAR) for PCC channel
+> + * @pcc_mrtt:		Minimum Request Turnaround Time (MRTT) in micro secs
+> + *			OS must wait after completion of a PCC command before
+> + *			issue next command
+> + * @last_cmd_cmpl_time:	completion time of last PCC command
+> + * @last_mpar_reset:	Time of last MPAR count reset
+> + * @mpar_count:		MPAR count
+> + * @pcc_id:		Identifier of the RAS2 platform communication channel
+> + * @last_cmd:		Last PCC command
+> + * @pcc_chnl_acq:	Status of PCC channel acquired
+> + */
+> +struct ras2_sspcc {
+> +	struct mbox_client		mbox_client;
+> +	struct pcc_mbox_chan		*pcc_chan;
+> +	struct acpi_ras2_shmem __iomem	*comm_addr;
+> +	struct mutex			pcc_lock;
+> +	unsigned int			deadline_us;
+> +	unsigned int			pcc_mpar;
+> +	unsigned int			pcc_mrtt;
+> +	ktime_t				last_cmd_cmpl_time;
+> +	ktime_t				last_mpar_reset;
+> +	int				mpar_count;
+> +	int				pcc_id;
+> +	u16				last_cmd;
+> +	bool				pcc_chnl_acq;
+> +};
+> +
+> +/*
+> + * Arbitrary retries for PCC commands because the remote processor
+> + * could be much slower to reply. Keeping it high enough to cover
+> + * emulators where the processors run painfully slow.
+> + */
+> +#define PCC_NUM_RETRIES 600ULL
+> +
+> +#define RAS2_MAX_NUM_PCC_DESCS 100
+> +#define RAS2_FEAT_TYPE_MEMORY 0x00
+> +
+> +static int decode_cap_error(u32 cap_status)
 > +{
-> +	return pi_of(ha_get_target(ha_mon))->runtime + RUNTIME_THRESH;
+> +	switch (cap_status) {
+> +	case ACPI_RAS2_NOT_VALID:
+> +	case ACPI_RAS2_NOT_SUPPORTED:
+> +		return -EPERM;
+> +	case ACPI_RAS2_BUSY:
+> +		return -EBUSY;
+> +	case ACPI_RAS2_FAILED:
+> +	case ACPI_RAS2_ABORTED:
+> +	case ACPI_RAS2_INVALID_DATA:
+> +		return -EINVAL;
+> +	default:
+> +		return 0;
+> +	}
 > +}
+> +
+> +static int check_pcc_chan(struct ras2_sspcc *sspcc)
+> +{
+> +	struct acpi_ras2_shmem __iomem *gen_comm_base = sspcc->comm_addr;
+> +	u16 status;
+> +	int rc;
+> +
+> +	/*
+> +	 * As per ACPI spec, the PCC space will be initialized by
+> +	 * platform and should have set the command completion bit when
+> +	 * PCC can be used by OSPM.
+> +	 *
+> +	 * Poll PCC status register every 3us for maximum of 600ULL * PCC
+> +	 * channel latency until PCC command complete bit is set.
+> +	 */
+> +	rc = readw_relaxed_poll_timeout(&gen_comm_base->status, status,
+> +					status & PCC_STATUS_CMD_COMPLETE, 3,
+> +					sspcc->deadline_us);
+> +	if (rc) {
+> +		pr_warn("PCC check channel timeout for pcc_id=%d rc=%d\n",
+> +			sspcc->pcc_id, rc);
 
-Why use pi_of() in above cases?
+I'll stop here. This version still doesn't address comments from here:
 
-For the first, in case the macro is called while the task is actually
-boosted, we then might continue to use that even after such task gets
-deboosted?
+https://lore.kernel.org/r/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local
 
-For the second, current PI implementation (even if admittedly not ideal)
-uses donor's static dl_runtime to replenish boosted task runtime, but
-then accounting is performed again the task dynamic runtime, not the
-donor's (this all will hopefully change soon with proxy exec..)?
+so I'll wait for a new one which has everything addressed.
 
-Thanks,
-Juri
+Thx.
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
