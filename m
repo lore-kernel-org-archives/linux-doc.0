@@ -1,427 +1,560 @@
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D4432F766;
-	Mon, 19 Jan 2026 04:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0F8264602;
+	Mon, 19 Jan 2026 07:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768795523; cv=none; b=TFjxGaeeK5ra6+WMIorczHfOQi4hM3Epo6nMazXR/A7e5FUJIZrqFS49KtYrpQ1+YXgxIVyQEYX9rZbFPz9QQWyqr5t5smiddAxwmwcuCm6pfwFxKAl8+YTGoFa/DJ/lUxvnrhNswL/Gt9HPt2xrzd2ihyvB9csE2IXBdny+oQ8=
+	t=1768807886; cv=none; b=e4+mUBPxPVwTkDJfLpAXJR7RZRhZnF1TOI46l1aw/e4Fhxj4LQubqofcWNEj/FAWOSz3PKvCsGKfPwDi6teoH42ZmW/3pSlqhArZ2sN5N61JqTFVWe+OshMauldczz8lRK6+0WDrfPeOzR/xYhT1xGHHC3tbECWkC/GlDnUMgOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768795523; c=relaxed/simple;
-	bh=Ksl+mbjm94bAf42aCz/AP8vxJdVRDnCNSRnJBFteJo8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aAYc+ACpIRWtLiMp+192CZaKT+w4TekEJqtp8/m2wlUCsJH7wFfFgtkhdbzTt/Lyy/xeQYpVCn39jVPFKOzo73Q/30I07ra8pF/P81qPEXxBzeDgabfT4HkA2MZt2lYJ9X+k+4+jy2mzJFK7WstjkGWm3d+JknFeG50UvmbvzH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 5E97B1A220A;
-	Mon, 19 Jan 2026 05:05:04 +0100 (CET)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 282371A2208;
-	Mon, 19 Jan 2026 05:05:04 +0100 (CET)
-Received: from lsv031445.swis.in-blr01.nxp.com (lsv031445.swis.in-blr01.nxp.com [92.120.147.159])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id EF9531800086;
-	Mon, 19 Jan 2026 12:05:02 +0800 (+08)
-From: Mayank Mahajan <mayankmahajan.x@nxp.com>
-To: linux@roeck-us.net,
-	corbet@lwn.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: priyanka.jain@nxp.com,
-	vikash.bansal@nxp.com,
-	Mayank Mahajan <mayankmahajan.x@nxp.com>
-Subject: [PATCH v5 2/3] hwmon: (tmp108) Add support for P3T1035 and P3T2030
-Date: Mon, 19 Jan 2026 09:34:58 +0530
-Message-Id: <20260119040459.2898998-2-mayankmahajan.x@nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260119040459.2898998-1-mayankmahajan.x@nxp.com>
-References: <20260119040459.2898998-1-mayankmahajan.x@nxp.com>
+	s=arc-20240116; t=1768807886; c=relaxed/simple;
+	bh=M94l9HqI0Iz56gFKjcR/DnvFfzrFroQ7YgA3Yn5iLcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tVL2ZE6LUneKWNIZzYDdffVcsvslRUU/4XPhMavWFmDroZMEuz23LHtWcZkWKwEwkT9jmZPNGO5M+5N1J2sdRoAbYNkpSGCZ6L9r/riGIjT//aZUwC5L5JDEIYD8qwEXCuC9qffzsNlDVsanRK/9S2RZrm5X7pCy0BOVgPJQNus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkFflOT7; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkFflOT7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768807885; x=1800343885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=M94l9HqI0Iz56gFKjcR/DnvFfzrFroQ7YgA3Yn5iLcQ=;
+  b=MkFflOT7TL1pq3LenuByLJIgX7sGaNj0g5d75Is0x/rJyi80S4T8cQfc
+   KTcXyNEHBheMNDR3eZuSgkGpvXN8z++YZQFyvQP4okXCrN9GbFI/LRDXB
+   oJE1hhGZsVpvUD9mBvvwJJTbR2D44sL4AT7tv6urfIovTxn+abGv35Cv4
+   Mj1vjLUE8MrIFccudscbTlLkBr1bcJL++UmL0Scct5zykXYaDIMQLxomE
+   v/Glo5AZ1eQE01fhDug21ggSLtaDMPMzFuVZxoQwqJjcNLVkAwKhXxvQ9
+   392pIxFOLGYR7qUW8P/gOxqP5Ax9YyVR0eGEWIpcSQg3OoIR2ryHb9FAf
+   A==;
+X-CSE-ConnectionGUID: X/fHS5uMT5Gk3CJPojDPdg==
+X-CSE-MsgGUID: sf24WH0rTmCOlG2MHBVSsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="72604153"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="72604153"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 23:31:24 -0800
+X-CSE-ConnectionGUID: dj46uFbzQd+Dv/dajzN5dg==
+X-CSE-MsgGUID: oariiDyPRgqSaSY4rqvQMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="205412637"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.37])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 23:31:20 -0800
+Date: Mon, 19 Jan 2026 09:31:18 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+In-Reply-To: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Add support for the P3T1035 & P3T2030 temperature sensor. While mostly
-compatible with the TMP108, P3T1035 uses an 8-bit configuration register
-instead of the 16-bit layout used by TMP108. Updated driver to handle
-this difference during configuration read/write.
+On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-Signed-off-by: Mayank Mahajan <mayankmahajan.x@nxp.com>
----
-V1 -> V2:
-- Disabled hysteresis in is_visible function for P3T1035.
-- Added tables for conversion rate similar to the LM75 driver.
-- Implemented different bus access depending on the chip being used.
-   - Removed regmap for 8 bits; now we are using one regmap as before.
-   - Added read and write functions for i2c and i3c for use with regmap.
-   - Mapped the 8-bit configuration register to a 16 bit value for P3T1035.
-V2 -> V3:
-- Remove changes not relevant to adding a new device in the driver.
-- Address warnings due to incorrect usage of casting operations.
-- Remove the usage of P3T2030 as it's functionally identical to P3T1035.
-V3 -> V4:
-- Add GENMASK for getting mask for conversion rates.
-- Add static arrays for containing sample times for different sensors.
-- Remove redundant code such as checking for NULL pointer in probe.
-- Improve readability by removing double negation.
-- Remove type cast where not required; make reg_buf & val_buf local.
-V4 -> V5:
-- Remove device ID and use a separate parameter structure instead.
-- Revert formatting in the device structure back to the original one.
+> The driver is based on existing PLL drivers in the IIO subsystem and
+> implements the following key features:
+> 
+> - Integer-N and fractional-N (fixed/variable modulus) synthesis modes
+> - High-resolution frequency calculations using microhertz (µHz) precision
+>   to handle sub-Hz resolution across multi-GHz frequency ranges
+> - IIO debugfs interface for direct register access
+> - FW property parsing from devicetree including charge pump settings,
+>   reference path configuration and muxout options
+> - Power management support with suspend/resume callbacks
+> - Lock detect GPIO monitoring
+> 
+> The driver uses 64-bit microhertz values throughout PLL calculations to
+> maintain precision when working with frequencies that exceed 32-bit Hz
+> representation while requiring fractional Hz resolution.
 
- drivers/hwmon/Kconfig  |   2 +-
- drivers/hwmon/tmp108.c | 197 +++++++++++++++++++++++++++++++++--------
- 2 files changed, 161 insertions(+), 38 deletions(-)
+...
 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 157678b821fc..31969bddc812 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -2398,7 +2398,7 @@ config SENSORS_TMP108
- 	select REGMAP_I3C if I3C
- 	help
- 	  If you say yes here you get support for Texas Instruments TMP108
--	  sensor chips and NXP P3T1085.
-+	  sensor chips, NXP temperature sensors P3T1035, P3T1085 and P3T2030.
+> +#define ADF41513_MAX_PFD_FREQ_INT_N_UHZ		(250ULL * MEGA * MICROHZ_PER_HZ)
+> +#define ADF41513_MAX_PFD_FREQ_FRAC_N_UHZ	(125ULL * MEGA * MICROHZ_PER_HZ)
+> +#define ADF41513_MAX_FREQ_RESOLUTION_UHZ	(100ULL * KILO * MICROHZ_PER_HZ)
 
- 	  This driver can also be built as a module. If so, the module
- 	  will be called tmp108.
-diff --git a/drivers/hwmon/tmp108.c b/drivers/hwmon/tmp108.c
-index 60a237cbedbc..ae258fa7676e 100644
---- a/drivers/hwmon/tmp108.c
-+++ b/drivers/hwmon/tmp108.c
-@@ -17,6 +17,8 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
-+#include <linux/util_macros.h>
-+#include <linux/bitfield.h>
+Yep, thanks, looks much better now!
 
- #define	DRIVER_NAME "tmp108"
+...
 
-@@ -70,10 +72,36 @@
+> +struct adf41513_chip_info {
+> +	bool has_prescaler_8_9;
+> +	u64 max_rf_freq_hz;
 
- #define TMP108_CONVERSION_TIME_MS	30	/* in milli-seconds */
+If you swap them, it might be a 4 bytes gain in some cases. Have you run
+`pahole`?
 
-+#define TMP108_CONF_CR0_POS		13
-+#define TMP108_CONF_CR1_POS		14
-+#define TMP108_CONF_CONVRATE_FLD	GENMASK(TMP108_CONF_CR1_POS, TMP108_CONF_CR0_POS)
-+
- struct tmp108 {
- 	struct regmap *regmap;
- 	u16 orig_config;
- 	unsigned long ready_time;
-+	const struct tmp108_params *params;
-+};
-+
-+struct tmp108_params {
-+	bool config_reg_16bits;
-+	const u16 *sample_times;
-+	size_t n_sample_times;
-+};
-+
-+static const u16 p3t1035_sample_times[] = {4000, 1000, 250, 125};
-+static const u16 tmp108_sample_times[] = {4000, 1000, 250, 63};
-+
-+static const struct tmp108_params p3t1035_data = {
-+	.sample_times = p3t1035_sample_times,
-+	.n_sample_times  = ARRAY_SIZE(p3t1035_sample_times),
-+	.config_reg_16bits = false,
-+};
-+
-+static const struct tmp108_params tmp108_data = {
-+	.sample_times = tmp108_sample_times,
-+	.n_sample_times  = ARRAY_SIZE(tmp108_sample_times),
-+	.config_reg_16bits = true,
- };
+> +};
 
- /* convert 12-bit TMP108 register value to milliCelsius */
-@@ -101,21 +129,8 @@ static int tmp108_read(struct device *dev, enum hwmon_sensor_types type,
- 					  &regval);
- 			if (err < 0)
- 				return err;
--			switch (regval & TMP108_CONF_CONVRATE_MASK) {
--			case TMP108_CONVRATE_0P25HZ:
--			default:
--				*temp = 4000;
--				break;
--			case TMP108_CONVRATE_1HZ:
--				*temp = 1000;
--				break;
--			case TMP108_CONVRATE_4HZ:
--				*temp = 250;
--				break;
--			case TMP108_CONVRATE_16HZ:
--				*temp = 63;
--				break;
--			}
-+			*temp = tmp108->params->sample_times[FIELD_GET(TMP108_CONF_CONVRATE_FLD,
-+								       regval)];
- 			return 0;
- 		}
- 		return -EOPNOTSUPP;
-@@ -192,22 +207,18 @@ static int tmp108_write(struct device *dev, enum hwmon_sensor_types type,
- {
- 	struct tmp108 *tmp108 = dev_get_drvdata(dev);
- 	u32 regval, mask;
-+	size_t len;
-+	u8 index;
- 	int err;
+...
 
- 	if (type == hwmon_chip) {
- 		if (attr == hwmon_chip_update_interval) {
--			if (temp < 156)
--				mask = TMP108_CONVRATE_16HZ;
--			else if (temp < 625)
--				mask = TMP108_CONVRATE_4HZ;
--			else if (temp < 2500)
--				mask = TMP108_CONVRATE_1HZ;
--			else
--				mask = TMP108_CONVRATE_0P25HZ;
-+			len = tmp108->params->n_sample_times;
-+			index = find_closest_descending(temp, tmp108->params->sample_times, len);
- 			return regmap_update_bits(tmp108->regmap,
- 						  TMP108_REG_CONF,
- 						  TMP108_CONF_CONVRATE_MASK,
--						  mask);
-+						  FIELD_PREP(TMP108_CONF_CONVRATE_FLD, index));
- 		}
- 		return -EOPNOTSUPP;
- 	}
-@@ -251,6 +262,8 @@ static int tmp108_write(struct device *dev, enum hwmon_sensor_types type,
- static umode_t tmp108_is_visible(const void *data, enum hwmon_sensor_types type,
- 				 u32 attr, int channel)
- {
-+	const struct tmp108 *tmp108 = data;
-+
- 	if (type == hwmon_chip && attr == hwmon_chip_update_interval)
- 		return 0644;
+> +struct adf41513_pll_settings {
+> +	enum adf41513_pll_mode mode;
 
-@@ -264,8 +277,11 @@ static umode_t tmp108_is_visible(const void *data, enum hwmon_sensor_types type,
- 		return 0444;
- 	case hwmon_temp_min:
- 	case hwmon_temp_max:
-+		return 0644;
- 	case hwmon_temp_min_hyst:
- 	case hwmon_temp_max_hyst:
-+		if (!tmp108->params->config_reg_16bits)
-+			return 0;
- 		return 0644;
- 	default:
- 		return 0;
-@@ -311,6 +327,106 @@ static bool tmp108_is_volatile_reg(struct device *dev, unsigned int reg)
- 	return reg == TMP108_REG_TEMP || reg == TMP108_REG_CONF;
- }
+Sounds to me like a room to improve the layout here,
 
-+static int tmp108_i2c_reg_read(void *context, unsigned int reg, unsigned int *val)
-+{
-+	struct i2c_client *client = context;
-+	struct tmp108 *tmp108 = i2c_get_clientdata(client);
-+	int ret;
-+
-+	if (reg == TMP108_REG_CONF && !tmp108->params->config_reg_16bits) {
-+		ret = i2c_smbus_read_byte_data(client, TMP108_REG_CONF);
-+		if (ret < 0)
-+			return ret;
-+		*val = ret << 8;
-+		return 0;
-+	}
-+
-+	ret = i2c_smbus_read_word_swapped(client, reg);
-+	if (ret < 0)
-+		return ret;
-+	*val = ret;
-+	return 0;
-+}
-+
-+static int tmp108_i2c_reg_write(void *context, unsigned int reg, unsigned int val)
-+{
-+	struct i2c_client *client = context;
-+	struct tmp108 *tmp108 = i2c_get_clientdata(client);
-+
-+	if (reg == TMP108_REG_CONF && !tmp108->params->config_reg_16bits)
-+		return i2c_smbus_write_byte_data(client, reg, val >> 8);
-+	return i2c_smbus_write_word_swapped(client, reg, val);
-+}
-+
-+static const struct regmap_bus tmp108_i2c_regmap_bus = {
-+	.reg_read = tmp108_i2c_reg_read,
-+	.reg_write = tmp108_i2c_reg_write,
-+};
-+
-+static int tmp108_i3c_reg_read(void *context, unsigned int reg, unsigned int *val)
-+{
-+	struct i3c_device *i3cdev = context;
-+	struct tmp108 *tmp108 = i3cdev_get_drvdata(i3cdev);
-+	u8 reg_buf[1], val_buf[2];
-+	struct i3c_xfer xfers[] = {
-+		{
-+			.rnw = false,
-+			.len = 1,
-+			.data.out = reg_buf,
-+		},
-+		{
-+			.rnw = true,
-+			.len = 2,
-+			.data.in = val_buf,
-+		},
-+	};
-+	int ret;
-+
-+	reg_buf[0] = reg;
-+
-+	if (reg == TMP108_REG_CONF && !tmp108->params->config_reg_16bits)
-+		xfers[1].len--;
-+
-+	ret = i3c_device_do_xfers(i3cdev, xfers, 2, I3C_SDR);
-+	if (ret < 0)
-+		return ret;
-+
-+	*val = val_buf[0] << 8;
-+	if (reg != TMP108_REG_CONF || tmp108->params->config_reg_16bits)
-+		*val |= val_buf[1];
-+
-+	return 0;
-+}
-+
-+static int tmp108_i3c_reg_write(void *context, unsigned int reg, unsigned int val)
-+{
-+	struct i3c_device *i3cdev = context;
-+	struct tmp108 *tmp108 = i3cdev_get_drvdata(i3cdev);
-+	u8 val_buf[3];
-+	struct i3c_xfer xfers[] = {
-+		{
-+			.rnw = false,
-+			.len = 3,
-+			.data.out = val_buf,
-+		},
-+	};
-+
-+	val_buf[0] = reg;
-+	val_buf[1] = (val >> 8) & 0xff;
-+
-+	if (reg == TMP108_REG_CONF && !tmp108->params->config_reg_16bits)
-+		xfers[0].len--;
-+	else
-+		val_buf[2] = val & 0xff;
-+
-+	return i3c_device_do_xfers(i3cdev, xfers, 1, I3C_SDR);
-+}
-+
-+static const struct regmap_bus tmp108_i3c_regmap_bus = {
-+	.reg_read = tmp108_i3c_reg_read,
-+	.reg_write = tmp108_i3c_reg_write,
-+};
-+
- static const struct regmap_config tmp108_regmap_config = {
- 	.reg_bits = 8,
- 	.val_bits = 16,
-@@ -323,7 +439,8 @@ static const struct regmap_config tmp108_regmap_config = {
- 	.use_single_write = true,
- };
+> +	/* reference path parameters */
+> +	u8 r_counter;
+> +	u8 ref_doubler;
+> +	u8 ref_div2;
+> +	u8 prescaler;
+> +
+> +	/* frequency parameters */
+> +	u64 target_frequency_uhz;
+> +	u64 actual_frequency_uhz;
+> +	u64 pfd_frequency_uhz;
+> +
+> +	/* pll parameters */
+> +	u16 int_value;
+> +	u32 frac1;
+> +	u32 frac2;
+> +	u32 mod2;
+> +};
 
--static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name)
-+static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name,
-+			       const struct tmp108_params *params)
- {
- 	struct device *hwmon_dev;
- 	struct tmp108 *tmp108;
-@@ -340,6 +457,7 @@ static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *
+...
 
- 	dev_set_drvdata(dev, tmp108);
- 	tmp108->regmap = regmap;
-+	tmp108->params = params;
+> + * See iio_write_channel_info and __iio_str_to_fixpoint in
 
- 	err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &config);
- 	if (err < 0) {
-@@ -351,7 +469,6 @@ static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *
- 	/* Only continuous mode is supported. */
- 	config &= ~TMP108_CONF_MODE_MASK;
- 	config |= TMP108_MODE_CONTINUOUS;
--
- 	/* Only comparator mode is supported. */
- 	config &= ~TMP108_CONF_TM;
+Refer to function as func(), i.o.w. mind the parentheses.
 
-@@ -386,15 +503,15 @@ static int tmp108_probe(struct i2c_client *client)
- 	struct regmap *regmap;
+> + * drivers/iio/industrialio-core.c
 
- 	if (!i2c_check_functionality(client->adapter,
--				     I2C_FUNC_SMBUS_WORD_DATA))
-+				     I2C_FUNC_SMBUS_BYTE_DATA | I2C_FUNC_SMBUS_WORD_DATA))
- 		return dev_err_probe(dev, -ENODEV,
- 				     "adapter doesn't support SMBus word transactions\n");
+Missing period at the end.
 
--	regmap = devm_regmap_init_i2c(client, &tmp108_regmap_config);
-+	regmap = devm_regmap_init(dev, &tmp108_i2c_regmap_bus, client, &tmp108_regmap_config);
- 	if (IS_ERR(regmap))
- 		return dev_err_probe(dev, PTR_ERR(regmap), "regmap init failed");
+...
 
--	return tmp108_common_probe(dev, regmap, client->name);
-+	return tmp108_common_probe(dev, regmap, client->name, i2c_get_match_data(client));
- }
+> +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+> +{
+> +	u64 uhz = 0;
+> +	int f_count = ADF41513_HZ_DECIMAL_PRECISION;
+> +	bool frac_part = false;
+> +
+> +	if (str[0] == '+')
+> +		str++;
+> +
+> +	while (*str && f_count > 0) {
+> +		if ('0' <= *str && *str <= '9') {
+> +			uhz = uhz * 10 + *str - '0';
+> +			if (frac_part)
+> +				f_count--;
+> +		} else if (*str == '\n') {
+> +			if (*(str + 1) == '\0')
+> +				break;
+> +			return -EINVAL;
 
- static int tmp108_suspend(struct device *dev)
-@@ -420,15 +537,17 @@ static int tmp108_resume(struct device *dev)
- static DEFINE_SIMPLE_DEV_PM_OPS(tmp108_dev_pm_ops, tmp108_suspend, tmp108_resume);
+> +		} else if (*str == '.' && !frac_part) {
 
- static const struct i2c_device_id tmp108_i2c_ids[] = {
--	{ "p3t1085" },
--	{ "tmp108" },
--	{ }
-+	{ "p3t1035", (unsigned long)&p3t1035_data },
-+	{ "p3t1085", (unsigned long)&tmp108_data },
-+	{ "tmp108", (unsigned long)&tmp108_data },
-+	{}
- };
- MODULE_DEVICE_TABLE(i2c, tmp108_i2c_ids);
+This can be found by strchr() / strrchr() (depending on the expectations of
+the input).
 
- static const struct of_device_id tmp108_of_ids[] = {
--	{ .compatible = "nxp,p3t1085", },
--	{ .compatible = "ti,tmp108", },
-+	{ .compatible = "nxp,p3t1035", .data = &p3t1035_data },
-+	{ .compatible = "nxp,p3t1085", .data = &tmp108_data },
-+	{ .compatible = "ti,tmp108", .data = &tmp108_data },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, tmp108_of_ids);
-@@ -444,7 +563,8 @@ static struct i2c_driver tmp108_driver = {
- };
+> +			frac_part = true;
+> +		} else {
+> +			return -EINVAL;
+> +		}
+> +		str++;
+> +	}
 
- static const struct i3c_device_id p3t1085_i3c_ids[] = {
--	I3C_DEVICE(0x011b, 0x1529, NULL),
-+	I3C_DEVICE(0x011B, 0x1529, &tmp108_data),
-+	I3C_DEVICE(0x011B, 0x152B, &p3t1035_data),
- 	{}
- };
- MODULE_DEVICE_TABLE(i3c, p3t1085_i3c_ids);
-@@ -453,13 +573,16 @@ static int p3t1085_i3c_probe(struct i3c_device *i3cdev)
- {
- 	struct device *dev = i3cdev_to_dev(i3cdev);
- 	struct regmap *regmap;
-+	const struct i3c_device_id *id;
+With the above the rest becomes just a couple of simple_strtoull() calls with
+a couple of int_pow(10) calls (and some validation on top).
 
--	regmap = devm_regmap_init_i3c(i3cdev, &tmp108_regmap_config);
-+	regmap = devm_regmap_init(dev, &tmp108_i3c_regmap_bus, i3cdev, &tmp108_regmap_config);
- 	if (IS_ERR(regmap))
- 		return dev_err_probe(dev, PTR_ERR(regmap),
- 				     "Failed to register i3c regmap\n");
+> +	for (; f_count > 0; f_count--)
+> +		uhz *= 10;
 
--	return tmp108_common_probe(dev, regmap, "p3t1085_i3c");
-+	id = i3c_device_match_id(i3cdev, p3t1085_i3c_ids);
-+
-+	return tmp108_common_probe(dev, regmap, "p3t1085_i3c", id->data);
- }
+This is int_pow(10).
 
- static struct i3c_driver p3t1085_driver = {
---
-2.34.1
+> +	*freq_uhz = uhz;
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int adf41513_uhz_to_str(u64 freq_uhz, char *buf)
+> +{
+> +	u32 frac_part;
+> +	u64 int_part = div_u64_rem(freq_uhz, MICRO, &frac_part);
+
+Perhaps MICROHZ_PER_HZ? This will be consistent with the int_value in
+_calc_*() below.
+
+> +	return sysfs_emit(buf, "%llu.%06u\n", int_part, frac_part);
+> +}
+
+...
+
+> +	cfg->pfd_frequency_uhz = div_u64(cfg->pfd_frequency_uhz,
+> +					 cfg->r_counter);
+
+Here 81 characters...
+
+> +	cfg->actual_frequency_uhz = (u64)cfg->int_value * cfg->pfd_frequency_uhz;
+
+...and here, but in one case the line is wrapped. I would unwrap the first one.
+
+
+...
+
+> +	result->ref_div2 = st->data.ref_div2_en ? 1 : 0;
+> +	result->ref_doubler = st->data.ref_doubler_en ? 1 : 0;
+
+Seems like "? 1 : 0" just redundant.
+
+...
+
+> +static int adf41513_calc_integer_n(struct adf41513_state *st,
+> +				   struct adf41513_pll_settings *result)
+> +{
+> +	u16 max_int = (st->chip_info->has_prescaler_8_9) ?
+
+Redundant parentheses.
+
+> +		      ADF41513_MAX_INT_8_9 : ADF41513_MAX_INT_4_5;
+> +	u64 freq_error_uhz;
+> +	u16 int_value = div64_u64_rem(result->target_frequency_uhz, result->pfd_frequency_uhz,
+> +				      &freq_error_uhz);
+
+> +	/* check if freq error is within a tolerance of 1/2 resolution */
+> +	if (freq_error_uhz > (result->pfd_frequency_uhz >> 1) && int_value < max_int) {
+> +		int_value++;
+> +		freq_error_uhz = result->pfd_frequency_uhz - freq_error_uhz;
+> +	}
+
+This and below the part for frac check seems very similar, I would consider
+adding a helper.
+
+> +	if (freq_error_uhz > st->data.freq_resolution_uhz)
+> +		return -ERANGE;
+> +
+> +	/* set prescaler */
+> +	if (st->chip_info->has_prescaler_8_9 && int_value >= ADF41513_MIN_INT_8_9 &&
+> +	    int_value <= ADF41513_MAX_INT_8_9)
+> +		result->prescaler = 1;
+> +	else if (int_value >= ADF41513_MIN_INT_4_5 && int_value <= ADF41513_MAX_INT_4_5)
+> +		result->prescaler = 0;
+> +	else
+> +		return -ERANGE;
+> +
+> +	result->actual_frequency_uhz = (u64)int_value * result->pfd_frequency_uhz;
+> +	result->mode = ADF41513_MODE_INTEGER_N;
+> +	result->int_value = int_value;
+> +	result->frac1 = 0;
+> +	result->frac2 = 0;
+> +	result->mod2 = 0;
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int adf41513_calc_variable_mod(struct adf41513_state *st,
+> +				      struct adf41513_pll_settings *result)
+> +{
+> +	u64 freq_error_uhz;
+> +	u32 frac1, frac2, mod2;
+> +	u16 int_value = div64_u64_rem(result->target_frequency_uhz,
+> +				      result->pfd_frequency_uhz,
+> +				      &freq_error_uhz);
+> +
+> +	if (st->chip_info->has_prescaler_8_9 && int_value >= ADF41513_MIN_INT_FRAC_8_9 &&
+> +	    int_value <= ADF41513_MAX_INT_8_9)
+> +		result->prescaler = 1;
+> +	else if (int_value >= ADF41513_MIN_INT_FRAC_4_5 && int_value <= ADF41513_MAX_INT_4_5)
+> +		result->prescaler = 0;
+> +	else
+> +		return -ERANGE;
+
+> +	/* calculate required mod2 based on target resolution / 2 */
+> +	mod2 = DIV64_U64_ROUND_CLOSEST(result->pfd_frequency_uhz << 1,
+> +				       st->data.freq_resolution_uhz * ADF41513_FIXED_MODULUS);
+
+This also seems familiar with the above mentioned check (for 50% tolerance).
+
+> +	/* ensure mod2 is at least 2 for meaningful operation */
+> +	mod2 = clamp(mod2, 2, ADF41513_MAX_MOD2);
+> +
+> +	/* calculate frac1 and frac2 */
+> +	frac1 = mul_u64_u64_div_u64(freq_error_uhz, ADF41513_FIXED_MODULUS,
+> +				    result->pfd_frequency_uhz);
+> +	freq_error_uhz -= mul_u64_u64_div_u64(frac1, result->pfd_frequency_uhz,
+> +					      ADF41513_FIXED_MODULUS);
+> +	frac2 = mul_u64_u64_div_u64(freq_error_uhz, (u64)mod2 * ADF41513_FIXED_MODULUS,
+
+I'm wondering why mod2 can't be defined as u64. This will allow to drop castings.
+
+> +				    result->pfd_frequency_uhz);
+> +
+> +	/* integer part */
+> +	result->actual_frequency_uhz = (u64)int_value * result->pfd_frequency_uhz;
+> +	/* fractional part */
+> +	result->actual_frequency_uhz += mul_u64_u64_div_u64((u64)frac1 * mod2 + frac2,
+> +							    result->pfd_frequency_uhz,
+> +							    (u64)mod2 * ADF41513_FIXED_MODULUS);
+> +	result->mode = ADF41513_MODE_VARIABLE_MODULUS;
+> +	result->int_value = int_value;
+> +	result->frac1 = frac1;
+> +	result->frac2 = frac2;
+> +	result->mod2 = mod2;
+> +
+> +	return 0;
+> +}
+
+...
+
+> +	/* apply computed results to pll settings */
+> +	memcpy(&st->settings, &result, sizeof(st->settings));
+
+Can't we simply use
+
+	st->settings = result;
+
+?
+
+...
+
+> +static ssize_t adf41513_read_powerdown(struct iio_dev *indio_dev,
+> +				       uintptr_t private,
+> +				       const struct iio_chan_spec *chan,
+> +				       char *buf)
+> +{
+> +	struct adf41513_state *st = iio_priv(indio_dev);
+> +	u32 val;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	switch ((u32)private) {
+
+Why casting? Ditto for similar cases.
+
+> +	case ADF41513_POWER_DOWN:
+> +		val = FIELD_GET(ADF41513_REG6_POWER_DOWN_MSK,
+> +				st->regs_hw[ADF41513_REG6]);
+> +		return sysfs_emit(buf, "%u\n", val);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+...
+
+> +static ssize_t adf41513_write_uhz(struct iio_dev *indio_dev,
+> +				  uintptr_t private,
+> +				  const struct iio_chan_spec *chan,
+> +				  const char *buf, size_t len)
+> +{
+> +	struct adf41513_state *st = iio_priv(indio_dev);
+> +	u64 freq_uhz;
+> +	int ret;
+> +
+> +	ret = adf41513_parse_uhz(buf, &freq_uhz);
+> +	if (ret)
+> +		return ret;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	switch ((u32)private) {
+> +	case ADF41513_FREQ:
+> +		ret = adf41513_set_frequency(st, freq_uhz, ADF41513_SYNC_DIFF);
+> +		break;
+> +	case ADF41513_FREQ_RESOLUTION:
+> +		if (freq_uhz == 0 || freq_uhz > ADF41513_MAX_FREQ_RESOLUTION_UHZ)
+> +			return -EINVAL;
+> +		st->data.freq_resolution_uhz = freq_uhz;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+
+> +	return ret ? ret : len;
+
+It can be Elvis operator:
+
+	return ret ?: len;
+
+Ditto for similar cases.
+
+> +}
+
+...
+
+> +static int adf41513_read_raw(struct iio_dev *indio_dev,
+> +			     struct iio_chan_spec const *chan,
+> +			     int *val, int *val2, long info)
+> +{
+> +	struct adf41513_state *st = iio_priv(indio_dev);
+> +	u64 phase_urad;
+> +	u16 phase_val;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	switch (info) {
+> +	case IIO_CHAN_INFO_PHASE:
+> +		phase_val = FIELD_GET(ADF41513_REG2_PHASE_VAL_MSK,
+> +				      st->regs_hw[ADF41513_REG2]);
+> +		phase_urad = (u64)phase_val * ADF41513_MAX_PHASE_MICRORAD;
+> +		phase_urad >>= 12;
+
+> +		*val = (u32)phase_urad / MICRO;
+> +		*val2 = (u32)phase_urad % MICRO;
+
+This needs a short comment explaining why castings are okay
+(i.o.w. why the 64-bit variable will contain 32-bit value).
+
+> +		return IIO_VAL_INT_PLUS_MICRO;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+...
+
+> +static int adf41513_write_raw(struct iio_dev *indio_dev,
+> +			      struct iio_chan_spec const *chan,
+> +			      int val, int val2, long info)
+> +{
+> +	struct adf41513_state *st = iio_priv(indio_dev);
+> +	u64 phase_urad;
+> +	u16 phase_val;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	switch (info) {
+> +	case IIO_CHAN_INFO_PHASE:
+> +		phase_urad = (u64)val * MICRO + val2;
+> +		if (val < 0 || val2 < 0 || phase_urad >= ADF41513_MAX_PHASE_MICRORAD)
+> +			return -EINVAL;
+
+It's better to check val* before use them.
+
+> +		phase_val = DIV_U64_ROUND_CLOSEST(phase_urad << 12,
+> +						  ADF41513_MAX_PHASE_MICRORAD);
+> +		phase_val = min(phase_val, ADF41513_MAX_PHASE_VAL);
+> +		st->regs[ADF41513_REG2] |= ADF41513_REG2_PHASE_ADJ_MSK;
+> +		FIELD_MODIFY(ADF41513_REG2_PHASE_VAL_MSK,
+> +			     &st->regs[ADF41513_REG2], phase_val);
+> +		return adf41513_sync_config(st, ADF41513_SYNC_REG0);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+...
+
+> +static void adf41513_power_down(void *data)
+> +{
+> +	struct adf41513_state *st = data;
+> +
+> +	adf41513_suspend(st);
+
+> +	if (st->chip_enable)
+
+Remove this dup check.
+
+> +		gpiod_set_value_cansleep(st->chip_enable, 0);
+> +}
+
+...
+
+> +static int adf41513_probe(struct spi_device *spi)
+> +{
+> +	struct iio_dev *indio_dev;
+> +	struct adf41513_state *st;
+> +	struct device *dev = &spi->dev;
+> +	int ret;
+
+Please, use reversed xmas tree ordering.
+
+> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	st = iio_priv(indio_dev);
+> +	st->spi = spi;
+> +	st->chip_info = spi_get_device_match_data(spi);
+> +	if (!st->chip_info)
+> +		return -EINVAL;
+> +
+> +	spi_set_drvdata(spi, st);
+> +
+> +	st->ref_clk = devm_clk_get_enabled(dev, NULL);
+> +	if (IS_ERR(st->ref_clk))
+> +		return PTR_ERR(st->ref_clk);
+> +
+> +	st->ref_freq_hz = clk_get_rate(st->ref_clk);
+> +	if (st->ref_freq_hz < ADF41513_MIN_REF_FREQ_HZ ||
+> +	    st->ref_freq_hz > ADF41513_MAX_REF_FREQ_HZ)
+> +		return dev_err_probe(dev, -ERANGE,
+> +				     "reference frequency %u Hz out of range\n",
+> +				     st->ref_freq_hz);
+> +
+> +	ret = adf41513_parse_fw(st);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_regulator_bulk_get_enable(dev,
+> +					     ARRAY_SIZE(adf41513_power_supplies),
+> +					     adf41513_power_supplies);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "failed to get and enable regulators\n");
+> +
+> +	st->chip_enable = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(st->chip_enable))
+> +		return dev_err_probe(dev, PTR_ERR(st->chip_enable),
+> +				     "fail to request chip enable GPIO\n");
+> +
+> +	st->lock_detect = devm_gpiod_get_optional(dev, "lock-detect", GPIOD_IN);
+> +	if (IS_ERR(st->lock_detect))
+> +		return dev_err_probe(dev, PTR_ERR(st->lock_detect),
+> +				     "fail to request lock detect GPIO\n");
+> +
+> +	ret = devm_mutex_init(dev, &st->lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	indio_dev->name = spi_get_device_id(spi)->name;
+> +	indio_dev->info = &adf41513_info;
+> +	indio_dev->modes = INDIO_DIRECT_MODE;
+> +	indio_dev->channels = &adf41513_chan;
+> +	indio_dev->num_channels = 1;
+> +
+> +	ret = adf41513_setup(st);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed to setup device\n");
+> +
+> +	ret = devm_add_action_or_reset(dev, adf41513_power_down, st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to add power down action\n");
+> +
+> +	return devm_iio_device_register(dev, indio_dev);
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
