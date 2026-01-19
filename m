@@ -1,47 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3E829B228;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4552DCBF2;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839814; cv=none; b=QkX9/LQnZosxYtCvlB6tHFCGz53tDNM12jtrrwrCm81sM1c0wfi0q0zfjHYrKniZ22+LNtIBoUak5Xt78oG9igDcQkZFd+0+WVBawjeVrecp/oe9JrDlZUnUc/nKCUL1vRPDnknx5ijbjkyVPz4u09GkaU+AqvOfdjcj6NiCb88=
+	t=1768839814; cv=none; b=dut3wseYOotH7hbMdNmewU52TeQfeY7H5+l+k+h6tecQXHDrG7SmpnN9pddb3t4nCIx28MlYsiXdtLyyjQkLCBR/I8Hvo9HWIzPhjdHLkvx4iuImbWw86hJNxHuDdpHCw1yukyIB6WVL03x+dT1Z3GH2aHOdNd06DWCIkmDtCpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768839814; c=relaxed/simple;
-	bh=i1tcZCaxJM2MU0fiO/S47vsflPzYkddGYteNjd18qHw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d4bJ3AzBXlTI6sNfLK9SMrkWHEtPUb/MY0cfGHwblS+8LBL71rLeyB2whfBKYm954zhPExg26hu88haCkz4BZd+Ah+dzmIuNcyuEaQXXse5lzO+/vIS+pUf0Yw+iz32He1gzhHsUmqIxNCM1qzrcA/0M3chxjpMUaplAKgaT96Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d69NExac; arc=none smtp.client-ip=10.30.226.201
+	bh=CbT9W7kjxqMTDt7gP2oqff7b5O437PLlcjqYfbAgISA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QxkGeDKYiqCba2kva6wMFtdMdgURtCJAJXfRC9hDVf+hhzjqlPgeBoyvp3DCJDt47zYHwb0EW7wA1uGsD6LoUjL1/bahmhLPRDI37Wf86ZaeqYLNUZ/Nxg7UmRNQLiBgkwv6U24kIvRUKwtc8W3eSecrYG0bglRtqmJ+tLBRV+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hH1COFGM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d69NExac"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D492C19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hH1COFGM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E87C116C6;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768839814;
-	bh=i1tcZCaxJM2MU0fiO/S47vsflPzYkddGYteNjd18qHw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d69NExacPxZ0Dv/g9MXpuB8KNYqUbDaN/faj7Wuh3UBiYZkvNsq3rwp7dtMGL8zKj
-	 3R5e9F5pdNcLGxxJPFW1EHdKeC+YrRgnT2YynPkBqGLZ60oQ0ovfIgDBJb8NrDMCGk
-	 chmcPegiSt77KiLWRrxabNZBYpQgLDPS20oRUgW9lxgs4dR0x2qrztFUJn/eNELEb3
-	 Ez1I+u2AEKONFm6NYLPPKcebHU+q2ckAuv4FGuK9FFXKnxMWgzuenX3E9mMe1y0AIp
-	 eJeca9oMxCExCqN1VAPsJuO9d9RuUBlLbq2qzipQWlng4LSXaoELeUGP4o9W6G7f6x
-	 1jIYmGjTD1TXA==
+	bh=CbT9W7kjxqMTDt7gP2oqff7b5O437PLlcjqYfbAgISA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hH1COFGMylm5aFzvTlPr3moA9LAUjFt3X4uuj0brYTnJkq9yj2lavqfagTVWmPmIE
+	 WUvUfgyunKSkInts+qvCbsQGqZBz4sF/WRPYr2Ft5p2NncWEUJ1p6cok0KpO4Kpyjo
+	 AtHXvdB8PRvNaz/ldtbSsXXpPwVAkR2IW99otvYTc98IOA+1tq/94ltUDJCFEJJ2Fc
+	 JjgZe+dK5uuQYUoz9OfdyQpLnDnltHPm+t1ZiuSVvgNJf7zARB+oPYxnIlY4g1Xo5z
+	 9iExOgGzwak3WVSbwgnsRglKCD4iNFWeQfvJXFGIRHyolkVGGOO/CD3/mJcKNxIOHZ
+	 Q3fD8BSeYmp6w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vhs2O-00000001j28-1gfC;
+	id 1vhs2O-00000001j1N-0Lz6;
 	Mon, 19 Jan 2026 17:23:32 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 12/25] docs: kdoc: parse_data_structs: Improve docstrings and comments
-Date: Mon, 19 Jan 2026 17:23:15 +0100
-Message-ID: <76ead85b4c13a8038180a792e270c3691d26cd25.1768838938.git.mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Petr Vorel <pvorel@suse.cz>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH 00/25] Add tools/lib/python modules to Documentation/tools
+Date: Mon, 19 Jan 2026 17:23:03 +0100
+Message-ID: <cover.1768838938.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1768838938.git.mchehab+huawei@kernel.org>
-References: <cover.1768838938.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,187 +53,153 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-In preparation to document kernel-doc module, improve its
-documentation.
+Hi Jon,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/lib/python/kdoc/parse_data_structs.py | 62 +++++++++++++--------
- 1 file changed, 39 insertions(+), 23 deletions(-)
+This is an extended version of:
+    https://lore.kernel.org/linux-doc/cover.1768488832.git.mchehab+huawei@kernel.org/
 
-diff --git a/tools/lib/python/kdoc/parse_data_structs.py b/tools/lib/python/kdoc/parse_data_structs.py
-index 25361996cd20..9941cd19032e 100755
---- a/tools/lib/python/kdoc/parse_data_structs.py
-+++ b/tools/lib/python/kdoc/parse_data_structs.py
-@@ -9,12 +9,12 @@ Parse a source file or header, creating ReStructured Text cross references.
- It accepts an optional file to change the default symbol reference or to
- suppress symbols from the output.
- 
--It is capable of identifying defines, functions, structs, typedefs,
--enums and enum symbols and create cross-references for all of them.
-+It is capable of identifying ``define``, function, ``struct``, ``typedef``,
-+``enum`` and ``enum`` symbols and create cross-references for all of them.
- It is also capable of distinguish #define used for specifying a Linux
- ioctl.
- 
--The optional rules file contains a set of rules like:
-+The optional rules file contains a set of rules like::
- 
-     ignore ioctl VIDIOC_ENUM_FMT
-     replace ioctl VIDIOC_DQBUF vidioc_qbuf
-@@ -34,8 +34,8 @@ class ParseDataStructs:
-     It is meant to allow having a more comprehensive documentation, where
-     uAPI headers will create cross-reference links to the code.
- 
--    It is capable of identifying defines, functions, structs, typedefs,
--    enums and enum symbols and create cross-references for all of them.
-+    It is capable of identifying ``define``, function, ``struct``, ``typedef``,
-+    ``enum`` and ``enum`` symbols and create cross-references for all of them.
-     It is also capable of distinguish #define used for specifying a Linux
-     ioctl.
- 
-@@ -43,13 +43,13 @@ class ParseDataStructs:
-     allows parsing an exception file. Such file contains a set of rules
-     using the syntax below:
- 
--    1. Ignore rules:
-+    1. Ignore rules::
- 
-         ignore <type> <symbol>`
- 
-     Removes the symbol from reference generation.
- 
--    2. Replace rules:
-+    2. Replace rules::
- 
-         replace <type> <old_symbol> <new_reference>
- 
-@@ -58,22 +58,22 @@ class ParseDataStructs:
-         - A simple symbol name;
-         - A full Sphinx reference.
- 
--    3. Namespace rules
-+    3. Namespace rules::
- 
-         namespace <namespace>
- 
-        Sets C namespace to be used during cross-reference generation. Can
-        be overridden by replace rules.
- 
--    On ignore and replace rules, <type> can be:
--        - ioctl: for defines that end with _IO*, e.g. ioctl definitions
--        - define: for other defines
--        - symbol: for symbols defined within enums;
--        - typedef: for typedefs;
--        - enum: for the name of a non-anonymous enum;
--        - struct: for structs.
-+    On ignore and replace rules, ``<type>`` can be:
-+        - ``ioctl``: for defines that end with ``_IO*``, e.g. ioctl definitions
-+        - ``define``: for other defines
-+        - ``symbol``: for symbols defined within enums;
-+        - ``typedef``: for typedefs;
-+        - ``enum``: for the name of a non-anonymous enum;
-+        - ``struct``: for structs.
- 
--    Examples:
-+    Examples::
- 
-         ignore define __LINUX_MEDIA_H
-         ignore ioctl VIDIOC_ENUM_FMT
-@@ -83,13 +83,15 @@ class ParseDataStructs:
-         namespace MC
-     """
- 
--    # Parser regexes with multiple ways to capture enums and structs
-+    #: Parser regex with multiple ways to capture enums.
-     RE_ENUMS = [
-         re.compile(r"^\s*enum\s+([\w_]+)\s*\{"),
-         re.compile(r"^\s*enum\s+([\w_]+)\s*$"),
-         re.compile(r"^\s*typedef\s*enum\s+([\w_]+)\s*\{"),
-         re.compile(r"^\s*typedef\s*enum\s+([\w_]+)\s*$"),
-     ]
-+
-+    #: Parser regex with multiple ways to capture structs.
-     RE_STRUCTS = [
-         re.compile(r"^\s*struct\s+([_\w][\w\d_]+)\s*\{"),
-         re.compile(r"^\s*struct\s+([_\w][\w\d_]+)$"),
-@@ -97,11 +99,13 @@ class ParseDataStructs:
-         re.compile(r"^\s*typedef\s*struct\s+([_\w][\w\d_]+)$"),
-     ]
- 
--    # FIXME: the original code was written a long time before Sphinx C
-+    # NOTE: the original code was written a long time before Sphinx C
-     # domain to have multiple namespaces. To avoid to much turn at the
-     # existing hyperlinks, the code kept using "c:type" instead of the
-     # right types. To change that, we need to change the types not only
-     # here, but also at the uAPI media documentation.
-+
-+    #: Dictionary containing C type identifiers to be transformed.
-     DEF_SYMBOL_TYPES = {
-         "ioctl": {
-             "prefix": "\\ ",
-@@ -158,6 +162,10 @@ class ParseDataStructs:
-             self.symbols[symbol_type] = {}
- 
-     def read_exceptions(self, fname: str):
-+        """
-+        Read an optional exceptions file, used to override defaults.
-+        """
-+
-         if not fname:
-             return
- 
-@@ -242,9 +250,9 @@ class ParseDataStructs:
-     def store_type(self, ln, symbol_type: str, symbol: str,
-                    ref_name: str = None, replace_underscores: bool = True):
-         """
--        Stores a new symbol at self.symbols under symbol_type.
-+        Store a new symbol at self.symbols under symbol_type.
- 
--        By default, underscores are replaced by "-"
-+        By default, underscores are replaced by ``-``.
-         """
-         defs = self.DEF_SYMBOL_TYPES[symbol_type]
- 
-@@ -276,12 +284,16 @@ class ParseDataStructs:
-         self.symbols[symbol_type][symbol] = (f"{prefix}{ref_link}{suffix}", ln)
- 
-     def store_line(self, line):
--        """Stores a line at self.data, properly indented"""
-+        """
-+        Store a line at self.data, properly indented.
-+        """
-         line = "    " + line.expandtabs()
-         self.data += line.rstrip(" ")
- 
-     def parse_file(self, file_in: str, exceptions: str = None):
--        """Reads a C source file and get identifiers"""
-+        """
-+        Read a C source file and get identifiers.
-+        """
-         self.data = ""
-         is_enum = False
-         is_comment = False
-@@ -433,7 +445,7 @@ class ParseDataStructs:
- 
-     def gen_toc(self):
-         """
--        Create a list of symbols to be part of a TOC contents table
-+        Create a list of symbols to be part of a TOC contents table.
-         """
-         text = []
- 
-@@ -464,6 +476,10 @@ class ParseDataStructs:
-         return "\n".join(text)
- 
-     def write_output(self, file_in: str, file_out: str, toc: bool):
-+        """
-+        Write a ReST output file.
-+        """
-+
-         title = os.path.basename(file_in)
- 
-         if toc:
+It basically adds everything we currently have inside libs/tool/python
+to "tools" book inside documentation.
+
+This version should be independent of the other series yet to be merged,
+(including the jobserver one).
+
+The vast amount of changes here are docstring cleanups and additions.
+They mainly consists on:
+
+- ensuring that every phrase will end with a period, making it uniform
+  along all files;
+- cleaning ups to better uniform docstrings;
+- variable descriptions now use "#:" markup, as it allows autodoc to
+  add them inside the documentation;
+- added some missing docstrings;
+- some new blank lines at comments to make ReST syntax parser happy;
+- add a couple of sphinx markups (mainly, code blocks).
+
+Most of those are minor changes, affecting only comments.
+
+It also has one patch per libarary type, adding them to docs.
+
+For kernel-doc, I did the cleanups first, as there is one code block
+inside tools/lib/python/kdoc/latex_fonts.py that would cause a Sphinx
+crash without such markups.
+
+The series actually starts with 3 fixes:
+
+- avoid "*" markups on indexes with deep> 3 to override text
+- a variable rename to stop abusing doctree name
+- don't rely on cwd to get Documentation/ location
+
+patch 4 adds support to document scripts either at:
+    - tools/
+    - scripts/
+
+patch 5 contains a CSS to better display autodoc html output.
+
+For those who want to play with documentation, documenting a python
+file is very simple. All it takes is to use:
+
+    .. automodule:: lib.python.<dir+name>
+
+Usually, we add a couple of control members to it to adjust
+the desired documentation scope (add/remove members, showing class
+inheritance, showing members that currently don't have
+docstrings, etc). That's why we're using:
+
+    .. automodule:: lib.python.kdoc.enrich_formatter
+       :members:
+       :show-inheritance:
+       :undoc-members:
+
+(and similar) inside tools/kdoc*.rst.
+
+autodoc allows filtering in/out members, file docstrings, etc.
+
+It also allows documenting just some members or functions with
+directives like:
+
+    ..autofunction:
+    ..automember:
+
+Sphinx also has a helper script to generate .rst files with
+documentation:
+
+    $ sphinx-apidoc -o foobar tools/lib/python/
+
+which can be helpful to discover what should be documented,
+although changes are needed to use what it produces.
+
+Mauro Carvalho Chehab (25):
+  docs: custom.css: prevent li marker to override text
+  docs: conf.py: don't use doctree with a different meaning
+  docs: conf: don't rely on cwd to get documentation location
+  docs: enable Sphinx autodoc extension to allow documenting python
+  docs: custom.css: add CSS for python
+  docs: kdoc: latex_fonts: Improve docstrings and comments
+  docs: kdoc_files: Improve docstrings and comments
+  docs: kdoc_item: Improve docstrings and comments
+  docs: kdoc_parser: Improve docstrings and comments
+  docs: kdoc_output: Improve docstrings and comments
+  docs: kdoc_re: Improve docstrings and comments
+  docs: kdoc: parse_data_structs: Improve docstrings and comments
+  docs: kdoc: enrich_formatter: Improve docstrings and comments
+  docs: kdoc: python_version: Improve docstrings and comments
+  docs: add kernel-doc modules documentation
+  docs: add kabi modules documentation
+  docs: python: abi_parser: do some improvements at documentation
+  docs: python: abi_regex: do some improvements at documentation
+  docs: kabi: system_symbols: end docstring phrases with a dot
+  docs: kabi: helpers: add helper for debug bits 7 and 8
+  docs: kabi: helpers: add documentation for each "enum" value
+  docs: add jobserver module documentation
+  docs: jobserver: do some documentation improvements
+  docs: add parse_features module documentation
+  docs: parse_features: make documentation more consistent
+
+ Documentation/conf.py                       |  23 +--
+ Documentation/sphinx-static/custom.css      |  12 ++
+ Documentation/tools/feat.rst                |  10 ++
+ Documentation/tools/index.rst               |   1 +
+ Documentation/tools/jobserver.rst           |  10 ++
+ Documentation/tools/kabi.rst                |  13 ++
+ Documentation/tools/kabi_helpers.rst        |  11 ++
+ Documentation/tools/kabi_parser.rst         |  10 ++
+ Documentation/tools/kabi_regex.rst          |  10 ++
+ Documentation/tools/kabi_symbols.rst        |  10 ++
+ Documentation/tools/kdoc.rst                |  12 ++
+ Documentation/tools/kdoc_ancillary.rst      |  46 ++++++
+ Documentation/tools/kdoc_output.rst         |  14 ++
+ Documentation/tools/kdoc_parser.rst         |  29 ++++
+ Documentation/tools/python.rst              |  13 ++
+ tools/lib/python/abi/abi_parser.py          |  33 ++--
+ tools/lib/python/abi/abi_regex.py           |  26 ++-
+ tools/lib/python/abi/helpers.py             |  42 ++---
+ tools/lib/python/abi/system_symbols.py      |  14 +-
+ tools/lib/python/feat/parse_features.py     |  27 +++-
+ tools/lib/python/jobserver.py               |  20 ++-
+ tools/lib/python/kdoc/enrich_formatter.py   |  20 ++-
+ tools/lib/python/kdoc/kdoc_files.py         |  23 +--
+ tools/lib/python/kdoc/kdoc_item.py          |  18 +++
+ tools/lib/python/kdoc/kdoc_output.py        |  60 ++++---
+ tools/lib/python/kdoc/kdoc_parser.py        | 169 +++++++++++---------
+ tools/lib/python/kdoc/kdoc_re.py            |  18 ++-
+ tools/lib/python/kdoc/latex_fonts.py        |  95 ++++++-----
+ tools/lib/python/kdoc/parse_data_structs.py |  62 ++++---
+ tools/lib/python/kdoc/python_version.py     |  20 ++-
+ 30 files changed, 607 insertions(+), 264 deletions(-)
+ create mode 100644 Documentation/tools/feat.rst
+ create mode 100644 Documentation/tools/jobserver.rst
+ create mode 100644 Documentation/tools/kabi.rst
+ create mode 100644 Documentation/tools/kabi_helpers.rst
+ create mode 100644 Documentation/tools/kabi_parser.rst
+ create mode 100644 Documentation/tools/kabi_regex.rst
+ create mode 100644 Documentation/tools/kabi_symbols.rst
+ create mode 100644 Documentation/tools/kdoc.rst
+ create mode 100644 Documentation/tools/kdoc_ancillary.rst
+ create mode 100644 Documentation/tools/kdoc_output.rst
+ create mode 100644 Documentation/tools/kdoc_parser.rst
+ create mode 100644 Documentation/tools/python.rst
+
 -- 
 2.52.0
 
