@@ -1,113 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A29D33B6E7
-	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 08:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8065E3559E8
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 09:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768811615; cv=none; b=sPHrvuEeL/Rm8W6zhUqceWbcSMrE6VnctQBkjbDm5oW1/WEP1uVmd1RN63OsnRAgxBFTQhoOgh93L7pGCUb/YC5VVqXnnIeGQ+aj+PADPmXoWdrjis/cBbNdgJ1nJKbF6qi7WWL0G+Q1xzP0SQsyNkb/9XGGEj+f08qZHU+WLn0=
+	t=1768815649; cv=none; b=EgMPG5fElszI518lL37JYICEobaUKKv/VNCR3I8DFPQTbVhNkXxyDxDSYyg8XCuAX/HPZlTNUHHbMRpC+t/v7LBVukm89cloX5eaqAL/pvERneJfWB2JfsyzUR1Af1AerKp3zpuJT69sY/TxR3lkNboAWOqEFTSkKr0NRcCYTV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768811615; c=relaxed/simple;
-	bh=EuBTo90+0xISmGE1iNCeM36DlYb7oTzHhMLT3OQBIPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N2WxZhQI6rwFcBkaycPZs/esaxNFIQtPHL7KV8EZINf71dJKh5bFxA6ZAHG/NPF+rekzqboy9eI0nqJO67fvNTNmBydeuPrWG524mxFJJMtTv+sgin7x4B0zUlWmFf20X4Q8HMXTPUbZ51+OxVLB2qsk5jG2afPSRRGunDFtx/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRNFvmSK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768815649; c=relaxed/simple;
+	bh=LFRNb1gEQo9FV1jLi6+eyd+fRn/YHv3OptpdwWFbVxE=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tEPSC3xtbpwCFoN0/ShZMwTQfF1vEBVRq5Cz9IheDySf9J3CfxSP2dXMr2maeHpqPAHkPgDdQxEDYXY+uHQWsWmnbgTkd+lDylZAxdra8e5zYTbYrxKRJvPGfQzfoXtVE9oaDSLInRp3K7rEX3MPKaWFLSJZTpW6OIUgVxmXrGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=37uQbcQ1; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRNFvmSK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BCEC2BCB7
-	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 08:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768811615;
-	bh=EuBTo90+0xISmGE1iNCeM36DlYb7oTzHhMLT3OQBIPE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SRNFvmSKtc1/gW2SNtZW30SG39DZstyWleIGLwc3+e6Cv9azYLqCXmb0J/NGIhIbj
-	 /wTmF4SDgNtHeyr2FQhinA3m/glZe57tHi14mTpCtWsPnYeUarbcRgIxavUISrDsiF
-	 w/580IPMEgXFFwc0v8Fshggp27kbxKyhsxTXUNOCrH6QfHnsQbjYXNbt24nOPycd4F
-	 vpnBXLnsXbBHOdAUahCpdjVRk1O+DOg03LaLQwKk8DkYT6QUgVbvubxkAb4QaizyoV
-	 dDRBaZga/AKjAy63AKSFj542BZn6t8VmFnC/kOeQo5/ATIHt3qyii6u4zyfSqo04fy
-	 OrmfHLBtQ4J0A==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b710d46ceso4155008e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 00:33:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWmmyiIdxN86cqQ3cUHW+X19BWyk91rFFi95aBfPb57HdRj9XonQW+K97Y3AD5Z+a6RCDTrQJ0L/zs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDV1RiNImY0Dg5YX1JMw8cUsX3oaUMZFRt994Otr6L9XleOSll
-	26+ebBxWoif3SkwlIYc4PSzffTO1WjvhqxaqCP8YvMeexN4ZUlaFjmvhxaXQNgUzfea9z4w3c9A
-	xIAGwV8iiS+TfV9EOHteAjfVyY5+BFRrnmWcqigXyDQ==
-X-Received: by 2002:a05:6512:10d6:b0:59d:4a12:5f9 with SMTP id
- 2adb3069b0e04-59d4a1206famr260681e87.3.1768811613889; Mon, 19 Jan 2026
- 00:33:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="37uQbcQ1"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-432db1a9589so2600159f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 01:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768815646; x=1769420446; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Tir03/0eTjGqYap+VXkH/YQyday94uYso0Z0/c7DdeU=;
+        b=37uQbcQ1CKqDDkAdb1lkP+I8pU0UDUltDhqfAVpP5SPDcQYJlViZ3k3dBVEq0WO12m
+         cIQccXy65LtV3IQv6H2M1jM4r7qEmkHAgILU6jRxF63kky97kNdQvKiE44GmhP27jDpp
+         mg5IPaWxJXg92hXihjlaEAo8Qw6TGqtc8JdJ7B9zk6nXT4dS9isbTmf2IzKi0P6Em1UJ
+         cwuT6tb5G0EslSIjR9kl6/E8R3TvBamDcsup8v/Xbqlm6ntQhsM0hI7cJiG2zwppXp1x
+         lPQaGz1ZK0Q1/17NzOKTPoJhh8MZSRzU+xrLLg2G8MGBcIboKCU67EwBDWVmM1cNsRUD
+         m9oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768815646; x=1769420446;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tir03/0eTjGqYap+VXkH/YQyday94uYso0Z0/c7DdeU=;
+        b=t08J7GLkS2wa1BfvjW/VUF9VvDohNDbGrPmpUfWN24DlAav9zfUJ/ZKrGSuWgETVYY
+         4/7THpp9iNVL56+1L2VAjIwcs5eRJbadBB95V25DFjcT3ZbsFbV1LIahK1cQI0zumXxL
+         D92rBsNDM+2pvfYUP+J0+7z8PAZPJjtb4wm1VYiQQENRfFf/1FPh0KGeOMSnpuwSARF3
+         9tCjU5CHiwQSnqulkrt0wuTqzHRPtmDdXUASUy/hREkkJSROiK3EcF3eMfZCfNSmmUXJ
+         AFz4t0bo6/lSRdXF9Ib6ddmNo5U09tsLUxjyRkPG+0B1Orv6MI3sRtWTRzfHLyKxrDoV
+         gP8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVFflX1Ex1aijiwIrRAmSnByqsxEbQNbOyBzLc5MX3whzWdUV14NXwHnN93lxkupKR49PFN/YrO9F8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCEWNP/dLKDSq0YwooT1DEwXo22ohAntpNTlN3gxVGs1d95rgV
+	JQ+yEEPTMiLjDZflgCia/8M3TSzKS0L/aDJZYaUwGRw0Lc6Jm/gyThhEKx9nSTr2LJQOyJ4uDmR
+	AWw==
+X-Received: from wmbil25.prod.google.com ([2002:a05:600c:a599:b0:46e:1e57:dbd6])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:358e:b0:470:fe3c:a3b7
+ with SMTP id 5b1f17b1804b1-4801e2f3083mr136239335e9.5.1768815645684; Mon, 19
+ Jan 2026 01:40:45 -0800 (PST)
+Date: Mon, 19 Jan 2026 10:05:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260116081036.352286-1-tzungbi@kernel.org> <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
- <aWuFBqIfJpDL9g-J@tzungbi-laptop>
-In-Reply-To: <aWuFBqIfJpDL9g-J@tzungbi-laptop>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 19 Jan 2026 09:33:21 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
-X-Gm-Features: AZwV_Qj-H4GoQtvkwFseN5jYlKSdPvBPHrbR8AGUp3PpNz29IUPVXyzfscvZ_KA
-Message-ID: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
-Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260119094029.1344361-1-elver@google.com>
+Subject: [PATCH tip/locking/core 0/6] compiler-context-analysis: Scoped init guards
+From: Marco Elver <elver@google.com>
+To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>, 
+	Christoph Hellwig <hch@lst.de>, Steven Rostedt <rostedt@goodmis.org>, Bart Van Assche <bvanassche@acm.org>, 
+	kasan-dev@googlegroups.com, llvm@lists.linux.dev, 
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 17, 2026 at 1:48=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
-wrote:
->
-> On Fri, Jan 16, 2026 at 11:35:00AM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.o=
-rg> wrote:
-> > >
-> > > This series transitions the UAF prevention logic within the GPIO core
-> > > (gpiolib) to use the 'revocable' mechanism.
-> > >
-> > > The existing code aims to prevent UAF issues when the underlying GPIO
-> > > chip is removed.  This series replaces that custom logic with the
-> > > generic 'revocable' API, which is designed to handle such lifecycle
-> > > dependencies.  There should be no change in behavior.
-> > >
-> > > This series depends on the 'revocable' API, introduced in [1].  Some
-> > > build bots may report errors due to undefined symbols related to
-> > > 'revocable' until the dependency is merged.
-> > >
-> >
-> > Hi Tzung-Bi!
-> >
-> > Thank you for doing this and considering my suggestions from LPC. I
-> > haven't looked at the code yet but I quickly tested the series with my
-> > regular test-suites. The good news is: nothing is broken, every test
-> > works fine. The bad news is: there seems to be a significant impact on
-> > performance. With the user-space test-suite from libgpiod (for core C
-> > library - gpiod-test) I'm seeing a consistent 40% impact on
-> > performance. That's not really acceptable. :( I will try to bisect the
-> > series later and see which part exactly breaks it.
-> >
-> > I can also help you with user-space testing with libgpiod, if you need
-> > it? Some documentation is available here:
-> > https://libgpiod.readthedocs.io/en/latest/testing.html
->
-> How to get the performance data?
->
-> I tried on libgpiod-2.2.2.tar.xz:
-> - ./configure --enable-tools --enable-tests
-> - make
-> - ./tests/gpiod-test
->
-> There is only TAP output.  Also I don't see the difference between:
-> `./tests/gpiod-test` vs. `./tests/gpiod-test -m perf`.
+Current context analysis treats lock_init() as implicitly "holding" the
+lock to allow initializing guarded members. This causes false-positive
+"double lock" reports if the lock is acquired immediately after
+initialization in the same scope; for example:
 
-Yeah, no, there's no dedicated performance measurement in GLib tests,
-I just timed the test-suite and it runs 40% slower with this series.
+	mutex_init(&d->mtx);
+	/* ... counter is guarded by mtx ... */
+	d->counter = 0;  /* ok, but mtx is now "held" */
+	...
+	mutex_lock(&d->mtx); /* warning: acquiring mutex already held */
 
-Bartosz
+This series proposes a solution to this by introducing scoped init
+guards which Peter suggested, using the guard(type_init)(&lock) or
+scoped_guard(type_init, ..) interface. This explicitly marks init scope
+where we can initialize guarded members. With that we can revert the
+"implicitly hold" after init annotations, which allows use after
+initialization scope as follows:
+
+	scoped_guard(mutex_init, &d->mtx) {
+		d->counter = 0;
+	}
+	...
+	mutex_lock(&d->mtx); /* ok */
+
+Note: Scoped guarded initialization remains optional, and normal
+initialization can still be used if no guarded members are being
+initialized. Another alternative is to just disable context analysis to
+initialize guarded members with `context_unsafe(var = init)` or adding
+the `__context_unsafe(init)` function attribute (the latter not being
+recommended for non-trivial functions due to lack of any checking):
+
+	mutex_init(&d->mtx);
+	context_unsafe(d->counter = 0);  /* ok */
+	...
+	mutex_lock(&d->mtx);
+
+This series is an alternative to the approach in [1]:
+
+   * Scoped init guards (this series): Sound interface, requires use of
+     guard(type_init)(&lock) or scoped_guard(type_init, ..) for guarded
+     member initialization.
+
+   * Reentrant init [1]: Less intrusive, type_init() just works, and
+     also allows guarded member initialization with later lock use in
+     the same function. But unsound, and e.g. misses double-lock bugs
+     immediately after init, trading false positives for false negatives.
+
+[1] https://lore.kernel.org/all/20260115005231.1211866-1-elver@google.com/
+
+Marco Elver (6):
+  cleanup: Make __DEFINE_LOCK_GUARD handle commas in initializers
+  compiler-context-analysis: Introduce scoped init guards
+  kcov: Use scoped init guard
+  crypto: Use scoped init guard
+  tomoyo: Use scoped init guard
+  compiler-context-analysis: Remove __assume_ctx_lock from initializers
+
+ Documentation/dev-tools/context-analysis.rst | 30 ++++++++++++++++++--
+ crypto/crypto_engine.c                       |  2 +-
+ crypto/drbg.c                                |  2 +-
+ include/linux/cleanup.h                      |  8 +++---
+ include/linux/compiler-context-analysis.h    |  9 ++----
+ include/linux/local_lock.h                   |  8 ++++++
+ include/linux/local_lock_internal.h          |  4 +--
+ include/linux/mutex.h                        |  4 ++-
+ include/linux/rwlock.h                       |  3 +-
+ include/linux/rwlock_rt.h                    |  1 -
+ include/linux/rwsem.h                        |  6 ++--
+ include/linux/seqlock.h                      |  6 +++-
+ include/linux/spinlock.h                     | 17 ++++++++---
+ include/linux/spinlock_rt.h                  |  1 -
+ include/linux/ww_mutex.h                     |  1 -
+ kernel/kcov.c                                |  2 +-
+ lib/test_context-analysis.c                  | 22 ++++++--------
+ security/tomoyo/common.c                     |  2 +-
+ 18 files changed, 80 insertions(+), 48 deletions(-)
+
+-- 
+2.52.0.457.g6b5491de43-goog
+
