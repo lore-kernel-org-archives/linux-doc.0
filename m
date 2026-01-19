@@ -1,79 +1,98 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D07364EBB
-	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 13:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12629366DD7
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 13:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768828221; cv=none; b=lQR12MxwzDDf68gq8bB1HKL+qcg1ujp7B3wo16Jaw7joS5uYoxeStYw78uRgDCZYQ1aKEvVGfqpsJ8eNyd0jfi43mVIjnZ42dql3pW/rfri+1p3WkBIpaPxQQBSgX/5tRWeHUo7TZpiKuiRFM1zfYsqFZZxcKDSTGNXUmR2SnCo=
+	t=1768828609; cv=none; b=bw51UICLo6wROPrD5E/M7dJSUjqwt51FcvwPbuJ9tDA5Eu8PyqvdyawscpRlfqEMqiK8UApYn+nCijfQ8M8Wr2KcCpXoppIEIx4kK9IZDPh5cjpnemoa4UGiyHsbHxhLfWRxO2iNz14EjOGk3d3iC1ZP3n4lG65trxbX/I1YifA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768828221; c=relaxed/simple;
-	bh=RbIznMFxyjtdscNIHV+mpdQT2F/p5a92VpVZkbRVgCw=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ksWKkVouCoHYlbZp1kjMLcpAdyrbln7bQBiY+pznoDqTVCMyIZRR+Vavcjpa6cNNPMovdMAReLanM3A3JCTj4lrTcJtT53q8zj5/PLZAy4febgPiVOc17tEab7KQe6kmGhD+hq0g3h3JolfGGctDSvrj37ix8fjyA/rCE7O7HHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XztQSOuu; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768828609; c=relaxed/simple;
+	bh=K6XZoyNgA4mHZWohG8tc3L3ulzvqxFpcRY8Ozu63mcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZ8a/qaB0Gm6WkUgyTgTewwDccyJ5pzozuC+J2A8ah/BS2+Jvj+evoZzWZzqZgzWZEC6EgIOW0fvxBFRMRrHG14jtF7keQ+2/bWl3Azy0zyz1ZLq7jeyw2J+ineMLDU5bysecHxnt9xqCgJxv5xvTOfIrk0I/b9bEVZ+3qRTByU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BUUkjRGS; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QJEQtxtu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XztQSOuu"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-88a35a00502so43371496d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 05:10:19 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BUUkjRGS";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QJEQtxtu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768828607;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xdz4rb1d9PRbGxq2hK7H+gxdLsBDCZap6WRSCpXGcXo=;
+	b=BUUkjRGSf1YVGfaAeiaU6wWnfFbLp8k4yrYCXxZJdVxaqYG7tfqNNA/BMIGFyo7mmfNXEk
+	gBAHwEAozbQOvA7jl/mxJHyzmVJeFVrZYnlENqFeZiXVguwW30eJMzwv3LAFjZ//gzVRy0
+	QG1Vkm/8ZUeGM5YuK560g+FDWIGPObw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-685-AbH-r4UHOqqboHkE2cFfcQ-1; Mon, 19 Jan 2026 08:16:45 -0500
+X-MC-Unique: AbH-r4UHOqqboHkE2cFfcQ-1
+X-Mimecast-MFC-AGG-ID: AbH-r4UHOqqboHkE2cFfcQ_1768828605
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-47d28e7960fso45836495e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 05:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768828216; x=1769433016; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1768828605; x=1769433405; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=As7ad+RroQjVUHt90+2p37ZNFr3kAcDjR6210U9k6EI=;
-        b=XztQSOuuNQ7SiY4+8EUkBdNz9etJRK8wNQQ5Ackw04WUt/HEg6EGhJ1i3V87lvDAaL
-         HLfJCiRoONq40qKZF3/81edrGdxkvcjZ2pjSi20Qzh56KhnSc422yhr/i7Liw7f6cUOg
-         zyG2wQkewsPgGu7Ndj3MBp3Rsmh7HjMlRhEZ1e2KkNwro1u2jn+rkDGA/j9H85hdi2cf
-         fF7j8H4rlw1LqVWcZ4IWOlcx1PX9ymHpDVKAINdpC+Vp5x5gEpk7M4L5em2mOCq3t4vo
-         UAooLkn2G94hDhgtzFGgwavP1zWRNHxH0JJgt02whRZKlftNvy+L0wOsL6QHBhSiFa8r
-         BtDQ==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xdz4rb1d9PRbGxq2hK7H+gxdLsBDCZap6WRSCpXGcXo=;
+        b=QJEQtxtuYY13R0tTFEe4P5vG9C7JrUm5twXROEKDlcjxkOedNhBiSssg7BLkRLlWPs
+         SV8Dk8ukKI3P4t68nt7fHO0cbCYahDKHS63rGY9yCRNTTTQIdG4iKP2XKPTXb+/JTGDW
+         oQLXoWlJ65y9vMt5E0j2Gyk6+2UoDFS3n10+3aNY58kzYyMnHB/u7lKhZ80hxVxY0eug
+         QZfyhtNv/2W2FKYZNxSUlXhRmmKA73/e2O9BX36Y+7ai8gOxrDqTxEAvSsOnfqaG1kEn
+         AH5ndWwoHdVRre0W5D5H14F35HXaPr/Bx+u826owxfOgyz6xOzltDgHgIxtLgYO/RoyX
+         zThw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768828216; x=1769433016;
+        d=1e100.net; s=20230601; t=1768828605; x=1769433405;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=As7ad+RroQjVUHt90+2p37ZNFr3kAcDjR6210U9k6EI=;
-        b=giXRfcuJLnZAa0XDz6BJJVasMoRPdjBfx0KnE6TbouISFQk01M7AIBobRikncr+fiW
-         BOUz1TRCAQtI/Eqzfaqli2iVZXKIj+XePJPFNOuvYWqDqPVlQzNgDGH/aQGP5oEazNV/
-         yqjbbAGT8z9RkodXmhwXtDqMHtWTs8yeJJ7YB1r52+rVun/WWXTFrWgQ0jrMedt1P5ct
-         b/w4pTtDSMRFIAgDWNHxQE+sjOCuu+0i9vE0xwlWi/1n5gEdzBsunkEMLUs036eL2X0M
-         J5+TkGz1cpJ7KLi4CZIClM3sxldkDpSfPEzfWfP75BQmn9FYOyc6ANr492rA7nfa+9OV
-         Cxeg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOpfNzYhu6grhVMIvWnKK79vGT2JtWBB1KvLPyRYeFWJYNt4m2l5bEqSNLd55nLqhje+IuNJeHDUE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWDRJqQA0bnEFnpwPcZulQZPuagUySK9kIAK8iF15zGYwmU2EV
-	LvtxloesbimECZaDjC9RkHQ4Q3RiRIMGhKjqFJ8Mv2uuHjft3WH+JiVE
-X-Gm-Gg: AY/fxX5go15wYtflYtqK5voTzy9ZJo+x8qg92S5dEc26bx53avaxwYO+8ePwGvV3KoI
-	9uS5dp9Ma6rsEecLmzLRJAIEQXmqH3XxyVbwLQuQzHch5UasXZ+y/9koIwc9oG8zLvMxp9T3Acj
-	qbL51FA7zBaAo08519Dvic+CyWDIrSPGxwzSpUFCn4kxoBQsNiRID0HrLh27yt5/mTh+nk57e2s
-	v/LBhUzDv/3DMqog7jMtGRQy3iE25B1qxUnUm6VyHP0LjOmHz8kIzj4y4oE5Sx1dpcR3m/Hvg9U
-	jhJlno6fhZ0gt/GdR5IJ3SKnqro64J7PW2Sv7oAIdsLYBdzVAKxt7TJaxP76YQ72tdr8dZFf1YN
-	jVwFXiZ63ef7KFthuwpFA6XuToNdyaqDfETxZw9gZWIL1EVFSjMX9zgT/kQ0A2vz6QkT8Gptute
-	Ikf/++X7EPJHLe1s2rAGdk7cT1pv2rYu7Fjbcv4wGBh11oItP8dv5Uu3M79L2CfC4/38IIftNFN
-	fDF
-X-Received: by 2002:ac8:7dc3:0:b0:502:9f6b:a3b3 with SMTP id d75a77b69052e-502a1e60bbamr148654691cf.37.1768828216161;
-        Mon, 19 Jan 2026 05:10:16 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a71ad820sm774437585a.10.2026.01.19.05.10.13
+        bh=Xdz4rb1d9PRbGxq2hK7H+gxdLsBDCZap6WRSCpXGcXo=;
+        b=T7nj5PFhCcbKaJZUfp9E58qn0NFr9CD0GurqZvg5tSLnojDHR2Z5KnVwvMmmyIDNyO
+         FPwBn7dRDF1UHFEtwQg9+SlnoatZYj1vwVxuqE4+ODhh+CKQW82jDsah+MnySCtsLaXu
+         pqggmt/AVEwARGH4AcO9fctx56BhCC/TEVgb8OIsMPnMs98xuQpw3SCG/g4tazrnxWHc
+         k/nD5BoWT2ooov8ucmyl5+xC7o/+/RxAz7ouEsc6XiF8zDxyv59BoOrWjc8uWHl4tBfJ
+         OPxV00mduR8JtmCvzQ0v68rOu/xRNZzM3L06IuH8Y5d3vbaHzEjRiI5Nb2eDYtkYvSAp
+         5qcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxyENIQ/c7NqL3PssbiNjej3i5HhV2nNGxkeOHerqQxUwB75hhcAlgnpmrXPtmLCVHiMAnINP3DlY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtxGpS183H9NzmcCiU7msALkTcEk/gziUMMUYk4nDw1cI9h/9L
+	2QvqkU5E2o0iVDo3r/9uO9/sz/8hRsXy63gVXbdTMLk3jGMQGqAoySTBgBVa6sKYaMa7hjV7u2c
+	KnTD+yKaf5erP1Faw2F6TZJZ2JmruPII/DjSBWrWoNO4fMS//ES8GZHoCGWitJw==
+X-Gm-Gg: AY/fxX47zCGdBHcMdgnjtFv0YFJk8yMx0U1AI00nZE/OGSWJRBwn/DpN3LxzcoU1/2T
+	l02x8zmJk5zdqm+VMz/s45iILkA7fc0yZPNbeAbjjFSFn1f+mtroppZTnBddtAlHbdVrQUao0mi
+	/QU716btfkTyYY1D04bqp1PSFggCJb264JqGUKh2J7t4trDiQwkroJfR/HRNuONtPdvFjcMfvJp
+	w6tLrT1NvXxUbNMRVRb3Eyz7U5O+qgxvUzcqiaBHsn8r/MFkGmlC3JCJMEZcZ0dVXxEYQt60k+7
+	KHerl0t2IWFOEFZbjdT6RV+dgIjlYcmlVc5g3xsAvOt5/j6R3s/Tcy5YSkpgZXySLXvHpuQNQT/
+	+m7C7jXGizDiJE+Fo3XseHsNDFXm2X0LOT+oIht7k
+X-Received: by 2002:a05:600c:8a09:20b0:47d:8479:78d5 with SMTP id 5b1f17b1804b1-4801e4a389amr113571815e9.7.1768828604567;
+        Mon, 19 Jan 2026 05:16:44 -0800 (PST)
+X-Received: by 2002:a05:600c:8a09:20b0:47d:8479:78d5 with SMTP id 5b1f17b1804b1-4801e4a389amr113571385e9.7.1768828604145;
+        Mon, 19 Jan 2026 05:16:44 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.129.40])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f429071besm245614985e9.10.2026.01.19.05.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 05:10:15 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 19 Jan 2026 13:10:09 +0000
-To: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
-Message-ID: <fv4kgfxqgzrw2yaq3vv5g5douyer4ocqk5nloi5iwxc2aueby2@vswsu4jxz6xh>
-References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
- <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
- <20260116192916.436d24c9@jic23-huawei>
+        Mon, 19 Jan 2026 05:16:43 -0800 (PST)
+Date: Mon, 19 Jan 2026 14:16:41 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Nam Cao <namcao@linutronix.de>, Juri Lelli <jlelli@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v4 14/15] rv: Add deadline monitors
+Message-ID: <aW4uuSUaG-W0NWuI@jlelli-thinkpadt14gen4.remote.csb>
+References: <20260116123911.130300-1-gmonaco@redhat.com>
+ <20260116123911.130300-15-gmonaco@redhat.com>
+ <aW4PvcDxBJnDLJFq@jlelli-thinkpadt14gen4.remote.csb>
+ <5df16facba05b84857ad09cee12df0c19a551285.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,40 +101,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116192916.436d24c9@jic23-huawei>
+In-Reply-To: <5df16facba05b84857ad09cee12df0c19a551285.camel@redhat.com>
 
-On 26/01/16 07:29PM, Jonathan Cameron wrote:
-> On Fri, 16 Jan 2026 14:32:22 +0000
-> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
->
-
-...
- 
-> > +
-> > +	cp_resistance = ADF41513_DEFAULT_R_SET;
-> > +	device_property_read_u32(dev, "adi,charge-pump-resistor-ohms", &cp_resistance);
-> > +	if (cp_resistance < ADF41513_MIN_R_SET || cp_resistance > ADF41513_MAX_R_SET)
-> > +		return dev_err_probe(dev, -ERANGE, "R_SET %u Ohms out of range\n", cp_resistance);
-> > +
-> > +	st->data.charge_pump_voltage_mv = ADF41513_DEFAULT_CP_VOLTAGE_mV;
+On 19/01/26 12:35, Gabriele Monaco wrote:
+> On Mon, 2026-01-19 at 12:04 +0100, Juri Lelli wrote:
+> > Why use pi_of() in above cases?
+> > 
+> > For the first, in case the macro is called while the task is actually
+> > boosted, we then might continue to use that even after such task gets
+> > deboosted?
 > 
-> This leaves some odd corner cases.
-> If DT defines cp_resistance but not cp_current then we ignore the cp_resitance.
-> If you want to insist it is either both or nothing, that needs enforcing in the dt-binding.
-> I think I slightly prefer this option..
+> Mmh, yeah thinking about it again it doesn't make much sense considering we are
+> not tracking when a task is deboosted, unless that always corresponds to a
+> replenish. Thought that doesn't seem the case..
 > 
-> Alternative is define a default current such that the maths works to give the DEFAULT_CP_VOLTAGE_mV
-> if both properties use defaults and use that here + document in the dt-binding as the default
-> for this property.   That may mean if only one property is set we reject the pair and fail
-> to probe.  You have comment about valid combinations in the dt-binding so that's fine.
+> > For the second, current PI implementation (even if admittedly not ideal)
+> > uses donor's static dl_runtime to replenish boosted task runtime, but
+> > then accounting is performed again the task dynamic runtime, not the
+> > donor's (this all will hopefully change soon with proxy exec..)?
+> 
+> At this point I should probably just ignore the pi_of() right?
+> I'm assuming the original (non-boosted) parameters are more conservative anyway
+> so it shouldn't be a problem for the model.
 
-Understood. I suppose the following in the dt-binding would be enough:
+Yeah, it seems alright (at least for now) to use original parameters.
 
-dependencies:
-  adi,charge-pump-resistor-ohms: ["adi,charge-pump-current-microamp"]
+Thanks,
+Juri
 
-as current can be defined alone (it would use the default resistor value).
-
-Kind regards,
-
-Rodrigo Alencar
