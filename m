@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCA02FB093;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC23C2FBE1D;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839814; cv=none; b=VMPSrL/2VQxv8kKNrFTWBFujC9f/noBImtCn94Zrb9NF9JQ/gj725od3lBHXapSFscG14oeiNJqbGHAAi5h7jzz8BfNFKqtQhndona4QmH3JkNNLi7tSIj7Trf6hmDIAWzuN4seNRWkZkMV1TL8AGhPmr2VmYhHoUl0WmreTxfs=
+	t=1768839814; cv=none; b=aMkGs6p8YraVdmnTaWs717TFNjuPNKXMAPqhrjH9Ys0D1CA9cEXqEbhHRpqqo+AdnM/bLx+tlOg6lSoVYTkL5PZfA9eZPOSd/tl649IuISIrFYuBflXvqvn0z6Dl4cQRczHZEqOPPwayfX/BRTFrqEOlYr82q80nR9BzA4YnHaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768839814; c=relaxed/simple;
-	bh=exx7FqZl941FZsZhtYfKeTVwWdKc6AHLhML71ImEVTk=;
+	bh=s1mjnTzuhsFarODXcVZv6x/pyTkp3qp8CK9/urSRqTw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oNXJBk1G54pyiWFxEaKhY3ghT768kfKo294Iebrnv3gydxZSILPEDbMULaeX2cJCLJNDXq87pBzgoJDLuapeVVsxhCRETTkBMjWzrmlNJpX5GAjxb3DQrQV0klLlUZajzhVkJxZ5Lo/NV6BUbQ0MW/37026Zl8Hnjn5YhQ6Eqh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6ZJzBFx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JMVFHZlxcbT4mo/B22MrZka7Bzw3cBcKAdsaRYGWAn8Ag/+rXwVVDydVTURywKHED5r57mw0vLyNwGAu7tdYTrRkvy32mXnYt1xjN3wBCT5cXWhp2IgeCPkMX2eQTNcptddK9rS22ephvmMzKhdxzKsIJTBpw/nuJzeV8AH3Mso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opIDcv+i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6ZJzBFx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E1AFC2BCC4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opIDcv+i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E6F5C4AF0B;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768839814;
-	bh=exx7FqZl941FZsZhtYfKeTVwWdKc6AHLhML71ImEVTk=;
+	bh=s1mjnTzuhsFarODXcVZv6x/pyTkp3qp8CK9/urSRqTw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=V6ZJzBFxN+RV5gpEo1KC0DrHBaeS3mKpanr3wyS2b6VLloW36+fqEpzRzk7kTqQ6d
-	 AvQr80+9Ry85SmPRWe4HSdg3YkWpE/+qS0Z+ZMVOmDEvrRb7FtRgGj1U80o6dVjk/p
-	 ZkvaWfwkny2qvHLnXEp3dnyTzdUkVEu3BvI96rrEJ12DBocJjnETnxN759nINlOGoZ
-	 SyiTGWFVG+eOXDNiQXpOk3f0/LCUWo0lQdRLaJs6cas/ilD14XlOy3zUtkneJAV5yS
-	 AfbNUb60b66nmJXA+gzGzcM0yfiv2zZcnfoEO1gzHjU4JTvBPaoMU/u/Aso+2BYqAg
-	 Y6Ekf//U8ca/g==
+	b=opIDcv+iX3GtIHbGZPS0pldZHcCVuuYq2fE38+qkU4QW01zbB9KP3XgwftfN4DoZI
+	 GG6fJZj6/ce5o5fCxuBa6ACLXzKNJCyw1UOxc1fv8v5fc41NSdgVP/WumS+N61euyS
+	 oaPB7yA3aECvyC7oGMrboR01FYZvasYrHTpawDIHEwWmbghLQm+x1dcGp7rOWU+cl0
+	 l8mO/M09HUcQEY2fc+BuUzWAzmAqPtsgitkIJAOAgYb63gE4usgEoFtr19qGDu4oYt
+	 qqBAKyTsyEO7V26Sjs5deKhxb7cY2NQy8L16nT+zEVGcS9r9S26FkjVtSVs0li9Oru
+	 /C/44NfUBtznw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vhs2O-00000001j2O-286m;
+	id 1vhs2O-00000001j2K-21He;
 	Mon, 19 Jan 2026 17:23:32 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 16/25] docs: add kabi modules documentation
-Date: Mon, 19 Jan 2026 17:23:19 +0100
-Message-ID: <ddc02f11d64fdfc0d8d3e3e0967e041b5172da6c.1768838938.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 15/25] docs: add kernel-doc modules documentation
+Date: Mon, 19 Jan 2026 17:23:18 +0100
+Message-ID: <88ac2d82a45718c4e27aefac831586a71204ebf2.1768838938.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768838938.git.mchehab+huawei@kernel.org>
 References: <cover.1768838938.git.mchehab+huawei@kernel.org>
@@ -53,116 +53,176 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Place kernel abi modules documentation at Linux Kernel docs.
+Place kernel-doc modules documentation at Linux Kernel docs.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/tools/kabi.rst         | 13 +++++++++++++
- Documentation/tools/kabi_helpers.rst | 11 +++++++++++
- Documentation/tools/kabi_parser.rst  | 10 ++++++++++
- Documentation/tools/kabi_regex.rst   | 10 ++++++++++
- Documentation/tools/kabi_symbols.rst | 10 ++++++++++
- Documentation/tools/python.rst       |  1 +
- 6 files changed, 55 insertions(+)
- create mode 100644 Documentation/tools/kabi.rst
- create mode 100644 Documentation/tools/kabi_helpers.rst
- create mode 100644 Documentation/tools/kabi_parser.rst
- create mode 100644 Documentation/tools/kabi_regex.rst
- create mode 100644 Documentation/tools/kabi_symbols.rst
+ Documentation/tools/index.rst          |  1 +
+ Documentation/tools/kdoc.rst           | 12 +++++++
+ Documentation/tools/kdoc_ancillary.rst | 46 ++++++++++++++++++++++++++
+ Documentation/tools/kdoc_output.rst    | 14 ++++++++
+ Documentation/tools/kdoc_parser.rst    | 29 ++++++++++++++++
+ Documentation/tools/python.rst         | 10 ++++++
+ 6 files changed, 112 insertions(+)
+ create mode 100644 Documentation/tools/kdoc.rst
+ create mode 100644 Documentation/tools/kdoc_ancillary.rst
+ create mode 100644 Documentation/tools/kdoc_output.rst
+ create mode 100644 Documentation/tools/kdoc_parser.rst
+ create mode 100644 Documentation/tools/python.rst
 
-diff --git a/Documentation/tools/kabi.rst b/Documentation/tools/kabi.rst
+diff --git a/Documentation/tools/index.rst b/Documentation/tools/index.rst
+index 80488e290e10..89b81a13c6a1 100644
+--- a/Documentation/tools/index.rst
++++ b/Documentation/tools/index.rst
+@@ -12,6 +12,7 @@ more additions are needed here:
+ 
+    rtla/index
+    rv/index
++   python
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/tools/kdoc.rst b/Documentation/tools/kdoc.rst
 new file mode 100644
-index 000000000000..92812a20fcf7
+index 000000000000..e51ba159d8c4
 --- /dev/null
-+++ b/Documentation/tools/kabi.rst
-@@ -0,0 +1,13 @@
++++ b/Documentation/tools/kdoc.rst
+@@ -0,0 +1,12 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=====================================
-+Kernel ABI documentation tool modules
-+=====================================
++==================
++Kernel-doc modules
++==================
 +
 +.. toctree::
 +   :maxdepth: 2
 +
-+   kabi_parser
-+   kabi_regex
-+   kabi_symbols
-+   kabi_helpers
-diff --git a/Documentation/tools/kabi_helpers.rst b/Documentation/tools/kabi_helpers.rst
++   kdoc_parser
++   kdoc_output
++   kdoc_ancillary
+diff --git a/Documentation/tools/kdoc_ancillary.rst b/Documentation/tools/kdoc_ancillary.rst
 new file mode 100644
-index 000000000000..5c6ec6081500
+index 000000000000..3950d0a3f104
 --- /dev/null
-+++ b/Documentation/tools/kabi_helpers.rst
-@@ -0,0 +1,11 @@
++++ b/Documentation/tools/kdoc_ancillary.rst
+@@ -0,0 +1,46 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +=================
 +Ancillary classes
 +=================
 +
-+.. automodule:: lib.python.abi.helpers
++Argparse formatter class
++========================
++
++.. automodule:: lib.python.kdoc.enrich_formatter
 +   :members:
-+   :member-order: bysource
 +   :show-inheritance:
 +   :undoc-members:
-diff --git a/Documentation/tools/kabi_parser.rst b/Documentation/tools/kabi_parser.rst
++
++Regular expression class handler
++================================
++
++.. automodule:: lib.python.kdoc.kdoc_re
++   :members:
++   :show-inheritance:
++   :undoc-members:
++
++
++Chinese, Japanese and Korean variable fonts handler
++===================================================
++
++.. automodule:: lib.python.kdoc.latex_fonts
++   :members:
++   :show-inheritance:
++   :undoc-members:
++
++Kernel C file include logic
++===========================
++
++.. automodule:: lib.python.kdoc.parse_data_structs
++   :members:
++   :show-inheritance:
++   :undoc-members:
++
++Python version ancillary methods
++================================
++
++.. automodule:: lib.python.kdoc.python_version
++   :members:
++   :show-inheritance:
++   :undoc-members:
+diff --git a/Documentation/tools/kdoc_output.rst b/Documentation/tools/kdoc_output.rst
 new file mode 100644
-index 000000000000..95826da21b3d
+index 000000000000..08fd271ec556
 --- /dev/null
-+++ b/Documentation/tools/kabi_parser.rst
-@@ -0,0 +1,10 @@
++++ b/Documentation/tools/kdoc_output.rst
+@@ -0,0 +1,14 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
++=======================
++Kernel-doc output stage
++=======================
++
++Output handler for man pages and ReST
 +=====================================
-+Kernel ABI documentation parser class
-+=====================================
 +
-+.. automodule:: lib.python.abi.abi_parser
++.. automodule:: lib.python.kdoc.kdoc_output
 +   :members:
 +   :show-inheritance:
 +   :undoc-members:
-diff --git a/Documentation/tools/kabi_regex.rst b/Documentation/tools/kabi_regex.rst
++
+diff --git a/Documentation/tools/kdoc_parser.rst b/Documentation/tools/kdoc_parser.rst
 new file mode 100644
-index 000000000000..bfc3a0d91c47
+index 000000000000..03ee54a1b1cc
 --- /dev/null
-+++ b/Documentation/tools/kabi_regex.rst
-@@ -0,0 +1,10 @@
++++ b/Documentation/tools/kdoc_parser.rst
+@@ -0,0 +1,29 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=============================
-+ABI regex search symbol class
-+=============================
++=======================
++Kernel-doc parser stage
++=======================
 +
-+.. automodule:: lib.python.abi.abi_regex
++File handler classes
++====================
++
++.. automodule:: lib.python.kdoc.kdoc_files
 +   :members:
 +   :show-inheritance:
 +   :undoc-members:
-diff --git a/Documentation/tools/kabi_symbols.rst b/Documentation/tools/kabi_symbols.rst
-new file mode 100644
-index 000000000000..c75a9380f89f
---- /dev/null
-+++ b/Documentation/tools/kabi_symbols.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
 +
-+=========================================
-+System ABI documentation validation class
-+=========================================
++Parsed item data class
++======================
 +
-+.. automodule:: lib.python.abi.system_symbols
++.. automodule:: lib.python.kdoc.kdoc_item
++   :members:
++   :show-inheritance:
++   :undoc-members:
++
++Parser classes and methods
++==========================
++
++.. automodule:: lib.python.kdoc.kdoc_parser
 +   :members:
 +   :show-inheritance:
 +   :undoc-members:
 diff --git a/Documentation/tools/python.rst b/Documentation/tools/python.rst
-index e826787ce9dd..978298fba6d3 100644
---- a/Documentation/tools/python.rst
+new file mode 100644
+index 000000000000..e826787ce9dd
+--- /dev/null
 +++ b/Documentation/tools/python.rst
-@@ -8,3 +8,4 @@ Python libraries
-    :maxdepth: 4
- 
-    kdoc
-+   kabi
+@@ -0,0 +1,10 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================
++Python libraries
++================
++
++.. toctree::
++   :maxdepth: 4
++
++   kdoc
 -- 
 2.52.0
 
