@@ -1,85 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B512FE593;
-	Mon, 19 Jan 2026 16:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEFE3009D4;
+	Mon, 19 Jan 2026 17:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768841862; cv=none; b=drk8OLHOCGj/dfSODZMCN7CpyEDvLnjVbB29CNpdE2vMntfJdFBf7fB8gSPt16M94V3/n+GUDXYlH3NOc9HuwacolH0n+j3tgvk8Mw9COFcfFAwQStHodk+9u8tuuF8PJwqA/iWnp9Bcjh5JtQvy0kWVDirg1ZuuubdGeYilJe4=
+	t=1768842439; cv=none; b=ZkT/FNSs7itT3MR6CNdkatwkNh0wTRCtMnmJn+besgQWzWKS4hurHCqEBA/Hs02WZi/G4XwA4mrBR4jnX7JVZUvlcU0/zZFNLRI+MLNnllME9GbpsZ2+Qt0GItgCAsY06/yGGORoNk/v/0hvbdHEU1OEj0Kwp/c8TeJwg/eFD60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768841862; c=relaxed/simple;
-	bh=YW8Q9Lrp/bZQRu5rYELHUc9owzCj1x411m/oRmGY61A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a5S3LjSeguLSwCi8jBxo9cvBeo0YKhxmpOluPF6B4jo0O6aObabJ6o0Tcr7YvuOe2ag3VAdvZ98GFuIimUfPf0Go2LkSfO1ubRJnB7rfUm45DFkpVqWrAUt6MqZpvGKailyjMwXrGYXdUrFlM/8hETAQfOK7VJ5HkD9L0+qsttE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ROxnCHVY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768842439; c=relaxed/simple;
+	bh=umGUgXUvr1uT8JukHyQuH75tpKnMXwJ4gEX/wfj8CtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gcQ5DB5JIB/dDDq8nobct9dzXapoaTeESf4LLwfvgxyZvYWzwbeCu9cMVOVVYrAoNigRcN2VeXjwmNVPjAH/+4aWcFTHVfC6+AKKZUYCirgIZsae3oqLgbkyg4Vg7Hb77AKZdjy3PasCI6D4yAYEHlUsr/trVjiXTkxPKltKAR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jHHR4ab+; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROxnCHVY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FF98C116C6;
-	Mon, 19 Jan 2026 16:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768841861;
-	bh=YW8Q9Lrp/bZQRu5rYELHUc9owzCj1x411m/oRmGY61A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ROxnCHVYM82zYZN+jSegSYEzsqVDfjVYwXb3yhsN3Z1ZlaUF5gukdxz9XNEvFF/5t
-	 mtrRIJVcR/okwxcWj+TbqhpTVzdQYh5BGz9VsSKZFN4ta0MzQIbHcU8S1Bu/mRWg+p
-	 1g3ZbULO9jvF+SBlE4G0pJmfv84EU9n3j/TamvLgQvZBC5nkTz3wDiDXei/jxErWmh
-	 d5GlLI9OjptF8FXjUzykeCU9hjns/DKjat7mHwQvDrrgUoWcvayl1q007/A2V8b1mA
-	 8I5/KxrFJtRHJWgKIQr5NZWfsY8BZVQDOAk3fpPZmmspIDbKVBWXUOoH+4Dp+QjBTJ
-	 Y6eZMsr498kLA==
-Date: Mon, 19 Jan 2026 08:57:37 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Michael Chan <michael.chan@broadcom.com>, Pavan
- Chebbi <pavan.chebbi@broadcom.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>, Joshua Washington
- <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Saeed
- Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
- <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Alexander Duyck
- <alexanderduyck@fb.com>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Shuah Khan <shuah@kernel.org>, Willem de Bruijn <willemb@google.com>, Ankit
- Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>, Alok Tiwari
- <alok.a.tiwari@oracle.com>, Ziwei Xiao <ziweixiao@google.com>, John Fraker
- <jfraker@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, Mohsin
- Bashir <mohsin.bashr@gmail.com>, Joe Damato <joe@dama.to>, Mina Almasry
- <almasrymina@google.com>, Dimitri Daskalakis
- <dimitri.daskalakis1@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
- Kuniyuki Iwashima <kuniyu@google.com>, Samiullah Khawaja
- <skhawaja@google.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
- David Wei <dw@davidwei.uk>, Yue Haibing <yuehaibing@huawei.com>, Haiyue
- Wang <haiyuewa@163.com>, Jens Axboe <axboe@kernel.dk>, Simon Horman
- <horms@kernel.org>, Vishwanath Seshagiri <vishs@fb.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-kselftest@vger.kernel.org, dtatulea@nvidia.com, kernel-team@meta.com,
- io-uring@vger.kernel.org
-Subject: Re: [PATCH net-next v9 0/9] Add support for providers with large rx
- buffer
-Message-ID: <20260119085737.2161f9e6@kernel.org>
-In-Reply-To: <7ab5309d-8654-4fa8-9a1e-24b948bccba2@gmail.com>
-References: <cover.1768493907.git.asml.silence@gmail.com>
-	<7ab5309d-8654-4fa8-9a1e-24b948bccba2@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHHR4ab+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768842438; x=1800378438;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=umGUgXUvr1uT8JukHyQuH75tpKnMXwJ4gEX/wfj8CtA=;
+  b=jHHR4ab+7JpwK1gYGr4JY/sWVe0ISoIFShy+jKlxhqfA5LtLjYNfIDu7
+   xD1M5hB2HiR6O5jo9tP9ZXqqdXtYXD8B/cIMsW/7bWon6IHqFv+VNy1Ub
+   ap5pZu7QCVCFLzUFdJCU8TwAP0X9ArTB8g/OX9GuLV/qJutfEXPEbfP6n
+   6GQrJ+0IF1USSpqpW9TMoWLl+c8c/XMqFp6LOm2WE4REJezef5E4BgFe+
+   JybR8E+xmYa9VI+mTHExc6Dj5N2IdhMUtoh5zueegWvHX0+5YJQLZWRiT
+   KMd28ftdly8BBCBPaVpR9JFBpUFpgwFr8txtYj0PHS7xhxgXOCmu6yUR1
+   w==;
+X-CSE-ConnectionGUID: zv7KStBWR7OiX77KClAtJw==
+X-CSE-MsgGUID: 1T2l/CgJSQOtH5egFF+aHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70106619"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="70106619"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 09:07:17 -0800
+X-CSE-ConnectionGUID: FDZ5n+reQkmsVYELbboAOQ==
+X-CSE-MsgGUID: hKjQXR76SVSKRSyem0tumA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="243497123"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.37])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 09:07:13 -0800
+Date: Mon, 19 Jan 2026 19:07:10 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <aW5kk6K30Izckvg5@smile.fi.intel.com>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+ <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+ <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+ <aW40ylvMwVhqNQMw@smile.fi.intel.com>
+ <hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, 19 Jan 2026 13:54:37 +0000 Pavel Begunkov wrote:
-> On 1/15/26 17:11, Pavel Begunkov wrote:
-> > Note: it's net/ only bits and doesn't include changes, which shoulf be
-> > merged separately and are posted separately. The full branch for
-> > convenience is at [1], and the patch is here:  
+On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar wrote:
+> On 26/01/19 03:42PM, Andy Shevchenko wrote:
+> > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alencar wrote:
+> > > On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B4 Relay wrote:
+
+...
+
+> > > > > +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+> > > > > +{
+> > > > > +	u64 uhz = 0;
+> > > > > +	int f_count = ADF41513_HZ_DECIMAL_PRECISION;
+> > > > > +	bool frac_part = false;
+> > > > > +
+> > > > > +	if (str[0] == '+')
+> > > > > +		str++;
+> > > > > +
+> > > > > +	while (*str && f_count > 0) {
+> > > > > +		if ('0' <= *str && *str <= '9') {
+> > > > > +			uhz = uhz * 10 + *str - '0';
+> > > > > +			if (frac_part)
+> > > > > +				f_count--;
+> > > > > +		} else if (*str == '\n') {
+> > > > > +			if (*(str + 1) == '\0')
+> > > > > +				break;
+> > > > > +			return -EINVAL;
+> > > > 
+> > > > > +		} else if (*str == '.' && !frac_part) {
+> > > > 
+> > > > This can be found by strchr() / strrchr() (depending on the expectations of
+> > > > the input).
+> > > > 
+> > > > > +			frac_part = true;
+> > > > > +		} else {
+> > > > > +			return -EINVAL;
+> > > > > +		}
+> > > > > +		str++;
+> > > > > +	}
+> > > > 
+> > > > With the above the rest becomes just a couple of simple_strtoull() calls with
+> > > > a couple of int_pow(10) calls (and some validation on top).
+> > > > 
+> > > > > +	for (; f_count > 0; f_count--)
+> > > > > +		uhz *= 10;
+> > > > 
+> > > > This is int_pow(10).
+> > > > 
+> > > > > +	*freq_uhz = uhz;
+> > > > > +
+> > > > > +	return 0;
+> > > > > +}
+> > > 
+> > > The current implementation is kind of a stripped version of
+> > > __iio_str_to_fixpoint(). Would you prefer something like this, then?:
+> > 
+> > Do they have most of the parts in common? If so, why can't we use
+> > __iio_str_to_fixpoint() directly? Or why can't we slightly refactor
+> > that to give us the results we need here?
 > 
-> Looks like patchwork says the patches don't apply, but the branch
-> still merges well. Alternatively, I can rebase on top of net-next
-> and likely delay the final io_uring commit to one release after.
+> __iio_str_to_fixpoint() only parses "int" chunks, adf41513_parse_uhz
+> was modified to accomodate the u64 parsing removing unnecessary stuff.
 
-Yes, David refactored the test in the meantime :/
-I'll pull the branch.
+But why? The fractional part most likely will be kept int (it's up to 10⁻⁹).
+The integer can be bigger than 10⁹?
+
+> I am preparing V5 to use simple_strtoull. Thanks for early review
+> and suggestions.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
