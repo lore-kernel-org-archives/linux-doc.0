@@ -1,48 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4552DCBF2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D9C2ED141;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839814; cv=none; b=dut3wseYOotH7hbMdNmewU52TeQfeY7H5+l+k+h6tecQXHDrG7SmpnN9pddb3t4nCIx28MlYsiXdtLyyjQkLCBR/I8Hvo9HWIzPhjdHLkvx4iuImbWw86hJNxHuDdpHCw1yukyIB6WVL03x+dT1Z3GH2aHOdNd06DWCIkmDtCpE=
+	t=1768839814; cv=none; b=t5XDzEyc2WVf9YSUl8xEzq1BNbJFq5Rlx4vW5aP98QniAR+rC4+eePG+QfN3CYy7gK6kBNng67GRNAlbqL4bNkF1NBtwpLme0cjiwRbMculrOE22uLS+t8xezIa7dPmXXdkSzep/v6oiPIToB6xK8yd6Ti3Yq8D+FixvIetUvvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768839814; c=relaxed/simple;
-	bh=CbT9W7kjxqMTDt7gP2oqff7b5O437PLlcjqYfbAgISA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QxkGeDKYiqCba2kva6wMFtdMdgURtCJAJXfRC9hDVf+hhzjqlPgeBoyvp3DCJDt47zYHwb0EW7wA1uGsD6LoUjL1/bahmhLPRDI37Wf86ZaeqYLNUZ/Nxg7UmRNQLiBgkwv6U24kIvRUKwtc8W3eSecrYG0bglRtqmJ+tLBRV+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hH1COFGM; arc=none smtp.client-ip=10.30.226.201
+	bh=AT9QRc72PaX75+hy9TLUQhCbT/HxXyi982eiR6wBTwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Za4/qOREt7AwAKgLw3tWXp0aPIBbUJwcVqPo4ZPfUmpjXaybnzaIwLDREc5I3wrvGUIbNADwog20g5rjM2fAJThJ3D+Wm/mR7IyYl/c0X9YhlUEJid110bqZN0dCxzarLBMi2aeLIko3bq2yux8GP9pvWzgAzOuBUN+xl16lGiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUBhz+mE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hH1COFGM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E87C116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUBhz+mE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E28BC2BCB2;
 	Mon, 19 Jan 2026 16:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768839814;
-	bh=CbT9W7kjxqMTDt7gP2oqff7b5O437PLlcjqYfbAgISA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hH1COFGMylm5aFzvTlPr3moA9LAUjFt3X4uuj0brYTnJkq9yj2lavqfagTVWmPmIE
-	 WUvUfgyunKSkInts+qvCbsQGqZBz4sF/WRPYr2Ft5p2NncWEUJ1p6cok0KpO4Kpyjo
-	 AtHXvdB8PRvNaz/ldtbSsXXpPwVAkR2IW99otvYTc98IOA+1tq/94ltUDJCFEJJ2Fc
-	 JjgZe+dK5uuQYUoz9OfdyQpLnDnltHPm+t1ZiuSVvgNJf7zARB+oPYxnIlY4g1Xo5z
-	 9iExOgGzwak3WVSbwgnsRglKCD4iNFWeQfvJXFGIRHyolkVGGOO/CD3/mJcKNxIOHZ
-	 Q3fD8BSeYmp6w==
+	bh=AT9QRc72PaX75+hy9TLUQhCbT/HxXyi982eiR6wBTwU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oUBhz+mE+VQypBJfENSOxgKBKsis1kBEXhuXOWOm1g2q+6qtbAEIHCfG3lDhax88Q
+	 EEPBWHPGaDGnwfIwUo4nmHMsvSfhudNf8I2vAsQI2sE0y1gKu9zSaoAEAGW63T5QLf
+	 z9rhp2MKN6mbEqJaC4kog4RU78rhTIv0Q3VUB5tgtrzora5uBIaJcHpj+5BL7W0Tc/
+	 ayFSRfj0FbXXYNLStbV6D86M2CEfowTPQs/goRkjlLsblkwgSWRZcNLgDPvNIg6Fv/
+	 UE8HTAyEO+N81bgFWp0RjOC8nHf+10ZaS2uGgC4329+5c/FYeu1thz5vcAQMXU7B1V
+	 G+/PPDODEJGhQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vhs2O-00000001j1N-0Lz6;
+	id 1vhs2O-00000001j24-1ZqU;
 	Mon, 19 Jan 2026 17:23:32 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
-	Petr Vorel <pvorel@suse.cz>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 00/25] Add tools/lib/python modules to Documentation/tools
-Date: Mon, 19 Jan 2026 17:23:03 +0100
-Message-ID: <cover.1768838938.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 11/25] docs: kdoc_re: Improve docstrings and comments
+Date: Mon, 19 Jan 2026 17:23:14 +0100
+Message-ID: <14a12a43144d52345bfd405d0401d246f0885acf.1768838938.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1768838938.git.mchehab+huawei@kernel.org>
+References: <cover.1768838938.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,153 +53,96 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+In preparation to document kernel-doc module, improve its
+documentation.
 
-This is an extended version of:
-    https://lore.kernel.org/linux-doc/cover.1768488832.git.mchehab+huawei@kernel.org/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ tools/lib/python/kdoc/kdoc_re.py | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-It basically adds everything we currently have inside libs/tool/python
-to "tools" book inside documentation.
-
-This version should be independent of the other series yet to be merged,
-(including the jobserver one).
-
-The vast amount of changes here are docstring cleanups and additions.
-They mainly consists on:
-
-- ensuring that every phrase will end with a period, making it uniform
-  along all files;
-- cleaning ups to better uniform docstrings;
-- variable descriptions now use "#:" markup, as it allows autodoc to
-  add them inside the documentation;
-- added some missing docstrings;
-- some new blank lines at comments to make ReST syntax parser happy;
-- add a couple of sphinx markups (mainly, code blocks).
-
-Most of those are minor changes, affecting only comments.
-
-It also has one patch per libarary type, adding them to docs.
-
-For kernel-doc, I did the cleanups first, as there is one code block
-inside tools/lib/python/kdoc/latex_fonts.py that would cause a Sphinx
-crash without such markups.
-
-The series actually starts with 3 fixes:
-
-- avoid "*" markups on indexes with deep> 3 to override text
-- a variable rename to stop abusing doctree name
-- don't rely on cwd to get Documentation/ location
-
-patch 4 adds support to document scripts either at:
-    - tools/
-    - scripts/
-
-patch 5 contains a CSS to better display autodoc html output.
-
-For those who want to play with documentation, documenting a python
-file is very simple. All it takes is to use:
-
-    .. automodule:: lib.python.<dir+name>
-
-Usually, we add a couple of control members to it to adjust
-the desired documentation scope (add/remove members, showing class
-inheritance, showing members that currently don't have
-docstrings, etc). That's why we're using:
-
-    .. automodule:: lib.python.kdoc.enrich_formatter
-       :members:
-       :show-inheritance:
-       :undoc-members:
-
-(and similar) inside tools/kdoc*.rst.
-
-autodoc allows filtering in/out members, file docstrings, etc.
-
-It also allows documenting just some members or functions with
-directives like:
-
-    ..autofunction:
-    ..automember:
-
-Sphinx also has a helper script to generate .rst files with
-documentation:
-
-    $ sphinx-apidoc -o foobar tools/lib/python/
-
-which can be helpful to discover what should be documented,
-although changes are needed to use what it produces.
-
-Mauro Carvalho Chehab (25):
-  docs: custom.css: prevent li marker to override text
-  docs: conf.py: don't use doctree with a different meaning
-  docs: conf: don't rely on cwd to get documentation location
-  docs: enable Sphinx autodoc extension to allow documenting python
-  docs: custom.css: add CSS for python
-  docs: kdoc: latex_fonts: Improve docstrings and comments
-  docs: kdoc_files: Improve docstrings and comments
-  docs: kdoc_item: Improve docstrings and comments
-  docs: kdoc_parser: Improve docstrings and comments
-  docs: kdoc_output: Improve docstrings and comments
-  docs: kdoc_re: Improve docstrings and comments
-  docs: kdoc: parse_data_structs: Improve docstrings and comments
-  docs: kdoc: enrich_formatter: Improve docstrings and comments
-  docs: kdoc: python_version: Improve docstrings and comments
-  docs: add kernel-doc modules documentation
-  docs: add kabi modules documentation
-  docs: python: abi_parser: do some improvements at documentation
-  docs: python: abi_regex: do some improvements at documentation
-  docs: kabi: system_symbols: end docstring phrases with a dot
-  docs: kabi: helpers: add helper for debug bits 7 and 8
-  docs: kabi: helpers: add documentation for each "enum" value
-  docs: add jobserver module documentation
-  docs: jobserver: do some documentation improvements
-  docs: add parse_features module documentation
-  docs: parse_features: make documentation more consistent
-
- Documentation/conf.py                       |  23 +--
- Documentation/sphinx-static/custom.css      |  12 ++
- Documentation/tools/feat.rst                |  10 ++
- Documentation/tools/index.rst               |   1 +
- Documentation/tools/jobserver.rst           |  10 ++
- Documentation/tools/kabi.rst                |  13 ++
- Documentation/tools/kabi_helpers.rst        |  11 ++
- Documentation/tools/kabi_parser.rst         |  10 ++
- Documentation/tools/kabi_regex.rst          |  10 ++
- Documentation/tools/kabi_symbols.rst        |  10 ++
- Documentation/tools/kdoc.rst                |  12 ++
- Documentation/tools/kdoc_ancillary.rst      |  46 ++++++
- Documentation/tools/kdoc_output.rst         |  14 ++
- Documentation/tools/kdoc_parser.rst         |  29 ++++
- Documentation/tools/python.rst              |  13 ++
- tools/lib/python/abi/abi_parser.py          |  33 ++--
- tools/lib/python/abi/abi_regex.py           |  26 ++-
- tools/lib/python/abi/helpers.py             |  42 ++---
- tools/lib/python/abi/system_symbols.py      |  14 +-
- tools/lib/python/feat/parse_features.py     |  27 +++-
- tools/lib/python/jobserver.py               |  20 ++-
- tools/lib/python/kdoc/enrich_formatter.py   |  20 ++-
- tools/lib/python/kdoc/kdoc_files.py         |  23 +--
- tools/lib/python/kdoc/kdoc_item.py          |  18 +++
- tools/lib/python/kdoc/kdoc_output.py        |  60 ++++---
- tools/lib/python/kdoc/kdoc_parser.py        | 169 +++++++++++---------
- tools/lib/python/kdoc/kdoc_re.py            |  18 ++-
- tools/lib/python/kdoc/latex_fonts.py        |  95 ++++++-----
- tools/lib/python/kdoc/parse_data_structs.py |  62 ++++---
- tools/lib/python/kdoc/python_version.py     |  20 ++-
- 30 files changed, 607 insertions(+), 264 deletions(-)
- create mode 100644 Documentation/tools/feat.rst
- create mode 100644 Documentation/tools/jobserver.rst
- create mode 100644 Documentation/tools/kabi.rst
- create mode 100644 Documentation/tools/kabi_helpers.rst
- create mode 100644 Documentation/tools/kabi_parser.rst
- create mode 100644 Documentation/tools/kabi_regex.rst
- create mode 100644 Documentation/tools/kabi_symbols.rst
- create mode 100644 Documentation/tools/kdoc.rst
- create mode 100644 Documentation/tools/kdoc_ancillary.rst
- create mode 100644 Documentation/tools/kdoc_output.rst
- create mode 100644 Documentation/tools/kdoc_parser.rst
- create mode 100644 Documentation/tools/python.rst
-
+diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
+index 2dfa1bf83d64..2816bd9f90f8 100644
+--- a/tools/lib/python/kdoc/kdoc_re.py
++++ b/tools/lib/python/kdoc/kdoc_re.py
+@@ -51,6 +51,9 @@ class KernRe:
+         """
+         return self.regex.pattern
+ 
++    def __repr__(self):
++        return f're.compile("{self.regex.pattern}")'
++
+     def __add__(self, other):
+         """
+         Allows adding two regular expressions into one.
+@@ -61,7 +64,7 @@ class KernRe:
+ 
+     def match(self, string):
+         """
+-        Handles a re.match storing its results
++        Handles a re.match storing its results.
+         """
+ 
+         self.last_match = self.regex.match(string)
+@@ -69,7 +72,7 @@ class KernRe:
+ 
+     def search(self, string):
+         """
+-        Handles a re.search storing its results
++        Handles a re.search storing its results.
+         """
+ 
+         self.last_match = self.regex.search(string)
+@@ -77,28 +80,28 @@ class KernRe:
+ 
+     def findall(self, string):
+         """
+-        Alias to re.findall
++        Alias to re.findall.
+         """
+ 
+         return self.regex.findall(string)
+ 
+     def split(self, string):
+         """
+-        Alias to re.split
++        Alias to re.split.
+         """
+ 
+         return self.regex.split(string)
+ 
+     def sub(self, sub, string, count=0):
+         """
+-        Alias to re.sub
++        Alias to re.sub.
+         """
+ 
+         return self.regex.sub(sub, string, count=count)
+ 
+     def group(self, num):
+         """
+-        Returns the group results of the last match
++        Returns the group results of the last match.
+         """
+ 
+         return self.last_match.group(num)
+@@ -110,7 +113,7 @@ class NestedMatch:
+     even harder on Python with its normal re module, as there are several
+     advanced regular expressions that are missing.
+ 
+-    This is the case of this pattern:
++    This is the case of this pattern::
+ 
+             '\\bSTRUCT_GROUP(\\(((?:(?>[^)(]+)|(?1))*)\\))[^;]*;'
+ 
+@@ -121,6 +124,7 @@ class NestedMatch:
+     replace nested expressions.
+ 
+     The original approach was suggested by:
++
+         https://stackoverflow.com/questions/5454322/python-how-to-match-nested-parentheses-with-regex
+ 
+     Although I re-implemented it to make it more generic and match 3 types
 -- 
 2.52.0
 
