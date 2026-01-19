@@ -1,905 +1,170 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6583B387570
-	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 15:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291AD37E2E4
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 15:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768835454; cv=none; b=Mrzaqv7etHV+cem1QzL59mc5IkkDryKIvElzdFUI0cPCuipvj+2CI2a2LiKhDq1VqAXuEvDmd7IeFSw+CJKFHX2Wg0cEpwDp8LUry7aNqjxNCjrVQOQJHA21HSBTSgI2hCn7OWwVYiRZy0bp958DPa4ypBjaGQP1KYGkAVIZgX8=
+	t=1768835731; cv=none; b=mQxSuDCgxUR80dNqnx7G0tfBnRvMhv/FB+9j7v2raeHu22aecIRMI7fhcwEgZAN1Xft9FtmHLyzZo9NHC+1Bpxzuvp3nFmhISQaJw4Vq5MenWEyGMaupdsYjt0zyvDCEcX3yBNMBJydHI5hAD1W8HASKxZ505DktlCEyHTNUVbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768835454; c=relaxed/simple;
-	bh=L7BAIeHvEn+Nw7VLBfm3THy7Qat4jKBvKHvv1HTEp0U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FvZ3CXz+uJHRV3oj/RxwuZQ31lmnKJfKirkIq8NpNNzmtQNvffec94q5z8vzwb38tdhjmo8YgZfgNejU96oN63TgAkAmBQCJpe9kvR+cYBelviS9hZ32bfHFq19lEzesRyMnmjE4txesOECSIqWQJfHPbI8VWU6L7BpNa/SIUto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=pass smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b=B5VX1tyt; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
+	s=arc-20240116; t=1768835731; c=relaxed/simple;
+	bh=ERVCOL+UrRNglZlm0SAA4pm43qoW2KUHl1G7b7RQrY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RQCQI4v5fMzwnqETrQfTgby3al+kMApnbt9xaqLkINiEY7dphBbaAJP4DrRzdDUlmsrPRqMT/Na20RI4NoQZNr84bUYwpKxKhrFkqcYgHOggRSDuzq/7zJPRFG1ByOq0j+bgv/vYwDoL1T5oxJCihctyqjbnqYqEUI0/yrWpTJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gxI4WxL2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b="B5VX1tyt"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59b7bb3b913so5130578e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 07:10:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1768835449; x=1769440249; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HnmwmV5MkJdvnRmjIwpcGJ5JhugTZOTPUzNJVyKYP9A=;
-        b=B5VX1tytASElNigwj7QNkDUuZvePEM54GsVB2tz/W2As17TFD4pwebnRBUO52eSMDi
-         9DlUdOgry8+666RW+srNEMNeojTAh5ZynqhY5lMW/C4EBxoL02tY5G0ajPExlEmguP6Y
-         AqOs5qaAgL3abTyZLBSFHyQ/iyMHcGgbk4cvXRkcyP4e6yD8F+un29MvZsnFKq+KXYep
-         A+9q7hoNlhl1YPuzjFyz25SrBwlSLactax1t4YjCR2Dc6QyqUBstR4oFEKqcTdJqK8C3
-         vKK7qmd1FOIdXJks4zXGfgw7OkimUgoKR2UqO2pJXvVpt6QuoV6CJzjh0BGz3+d6SQGY
-         3mvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768835449; x=1769440249;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HnmwmV5MkJdvnRmjIwpcGJ5JhugTZOTPUzNJVyKYP9A=;
-        b=GkfPDWvVVjJpbI8w/Pr7l/W+OfOut7rFEQPnGlxT7h8s10uYNUpAxEAPDmrrEqDSUQ
-         Tr32IK85XuduTMCj4Dp2EATsU78+Qh2O6pxgLyXlzu61VGirpcoRmTGx0M5pjN+xJRjK
-         rA/l0GYJxq6+x6GzxcU+a0bGPkxJ++zR02l3fXj/LEKsamOKMbvWbsBx6BdZw9hmLyYM
-         t2pcNP+U+l6M5iqI/JwGyvIw3nOmMY43BCBc3z/1mMUaFKYI8KmmSk8oluzGFZlMF7JE
-         i6gxtwQDvFkVfhs19Q/851OZhoKgpmmGZtDYr5mm/kkNEuASip9WAa1o7NaqDYOyoloW
-         OobQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXHkD8vREx2T0VBC6SkTWoopgvaYk74RvAMSHg8jFQ81CXsd0fWDwu7tD1KdVgXFOHpovXLMUakp0c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykbC97rHU9RzQSH4gM2kHlbY2Sl86wm9eHNo2xWlJk+qhMlnEF
-	+TkmaROGF+/n/L7Rl5l0ZWK6DcfBIylYVJzVzC853IMvMJa1K0oYvqRNQDdHLATt7gV4QCQ3Y/k
-	/0EF1t0o=
-X-Gm-Gg: AY/fxX7BvYV8jRyCVOyb6Jh4Ko7bbfiLUunLInBMkyDcNWHxvqe6IAotNU1b/jmPGdS
-	AJh1a6X96m9RNe+XzgoZjigjFdQ9KdgH+LBf9eZwTN1Gd0Y/tEbzwKjL/c0zYhAKkhRaONUQV0m
-	wULMLW0ANebxcAUOPEbA6tvkFbpjsHE4TMq3Ui5UThRQXcv/TbPFuLYEQ5U2uXMthQZVFOOJWWb
-	JqeEUS65PYW2l6OQfqJK/WHBvNUyqI15juQNjZbNMAFoHz53ivCeLAOWYZaC+4+qxmaSqQnG/xZ
-	DKa0rYJl+hL0+QqtR21IwHCrWtzkHMulZAmAN3i/CHDKUYsp6XWC9qcBnHs7cV/XLUqH0Z3sdmd
-	TopgskYYZCjI4PgHf/oa4M+jc4/YoZVBQbWIhD+5gQUBC85VEJlm0rOo9tx/daskSC+WNmtKIqc
-	dkB+1JKNIqHvSPaYIY3eXrYBh5c0ByTUeg
-X-Received: by 2002:adf:fec8:0:b0:435:71fe:5852 with SMTP id ffacd0b85a97d-43571fe5881mr8721313f8f.14.1768829181296;
-        Mon, 19 Jan 2026 05:26:21 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435699271easm23310642f8f.14.2026.01.19.05.26.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jan 2026 05:26:20 -0800 (PST)
-Message-ID: <1f58335a-d9a4-4667-98a4-8023c587711c@ursulin.net>
-Date: Mon, 19 Jan 2026 13:26:19 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gxI4WxL2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69928C19425;
+	Mon, 19 Jan 2026 15:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768835731;
+	bh=ERVCOL+UrRNglZlm0SAA4pm43qoW2KUHl1G7b7RQrY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gxI4WxL2KeCTrT1loBHKBH3ovIoJwmhprmU+FOkz/6UyJBRwPCNr91rYtPs6PacDe
+	 evX53ZMWitptOXs+a3Ou7dX4Xl7PmJINTpXNimVuMmPELldGgGgKwE2orlnX9vEBbA
+	 S9zf8vJdjTnTTiLxvnFe2ubuKaYj64JwQjSin/DwAW3DE/lzdxLVrNDK3MlujZxjT+
+	 auNDVo7pJ+mHRuSAIW33BPcxSTaUZq4xYlOFTkSYXUX7H4tbKhvuq5FRWoiNUs2Ic3
+	 6jFzSqIiw323NAlGa63b3YOUyaHnNdp0Pp40lygpqNqT+dC/94X03xDChegrMtacb8
+	 sg4uCUhJ1nfMg==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 8CFD9F4006A;
+	Mon, 19 Jan 2026 10:15:29 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 19 Jan 2026 10:15:29 -0500
+X-ME-Sender: <xms:kUpuadZdQgQcT-hJnAcxqwQrRPWBaTZjjZ6sEmDykyxNPXKPPr6BAg>
+    <xme:kUpuafxWF6RhjiGh0ZhMwjKoYzkIaY-9rVryNen3QkT2jWGMQRb_RBHCNXgjUUTYI
+    iQQZKt-MbbhJpCw8FR-vV9DofZVC5ydYQG004hiA9NA71GB8v17i4s>
+X-ME-Received: <xmr:kUpuaZV3F7vtVH6jOmDpG767nABDfS7nrvyfbyLEdZfOSa3-0kzC6GGfpsd8vg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufeejkeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehmuhgthhhunhdrshhonhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepuggrvh
+    hiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhu
+    nhgurghtihhonhdrohhrghdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurd
+    horhhgpdhrtghpthhtohepuhhsrghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhr
+    tghpthhtohepfhhvughlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehoshgrlhhvrg
+    guohhrsehsuhhsvgdruggvpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehvsggrsghkrgesshhushgvrdgtii
+X-ME-Proxy: <xmx:kUpuaTYQNaUhzdNBpaYFc1P_rbbk59geGHZ0hl22WoKGrCcyyaqVmg>
+    <xmx:kUpuaUNWmc-LybbWiCZGW4vtfkyMTsoMNExVXE3u9jJhf_W7ocF73Q>
+    <xmx:kUpuaXsW82VIWNabQV2XLV1pbDgDsJmzYu-Uw5RdcERSSnjuO55nWw>
+    <xmx:kUpuaa3eOPoICmiQDysPOIx1LxU0w755ZSyaZuzAFyTuFHVwwgHMug>
+    <xmx:kUpuaVWYJsNLs_16nkft-ftjAmGrP2kreJwGpoYPpku3zr3CnEXalXSB>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jan 2026 10:15:27 -0500 (EST)
+Date: Mon, 19 Jan 2026 15:15:22 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Muchun Song <muchun.song@linux.dev>
+Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>, 
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCHv3 10/15] mm/hugetlb: Remove fake head pages
+Message-ID: <aW5JqibNe4CVBa07@thinkstation>
+References: <20260115144604.822702-1-kas@kernel.org>
+ <20260115144604.822702-11-kas@kernel.org>
+ <30ae1623-63f9-4729-9c19-9b0a9a0ae9f1@kernel.org>
+ <aWkhbWR-3fWjeTaE@thinkstation>
+ <53980726-C7F0-4648-99E9-89E10645F2E7@linux.dev>
+ <aWpTopypeRTOIVGR@thinkstation>
+ <0F1C93F3-9A1A-4929-9157-589CF8C0588D@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] accel/thames: Add IOCTL for job submission
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
- "Andrew F. Davis" <afd@ti.com>, Randolph Sapp <rs@ti.com>,
- Jonathan Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>,
- Chirag Shilwant <c-shilwant@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Robert Nelson <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
- <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20260114-thames-v2-4-e94a6636e050@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0F1C93F3-9A1A-4929-9157-589CF8C0588D@linux.dev>
 
-
-On 14/01/2026 08:46, Tomeu Vizoso wrote:
-> Using the DRM GPU scheduler infrastructure, with a scheduler for each
-> core.
+On Sat, Jan 17, 2026 at 10:38:48AM +0800, Muchun Song wrote:
 > 
-> Contexts are created in all cores, and buffers mapped to all of them as
-> well, so all cores are ready to execute any job.
 > 
-> The job submission code was initially based on Panfrost.
+> > On Jan 16, 2026, at 23:52, Kiryl Shutsemau <kas@kernel.org> wrote:
+> > 
+> > On Fri, Jan 16, 2026 at 10:38:02AM +0800, Muchun Song wrote:
+> >> 
+> >> 
+> >>> On Jan 16, 2026, at 01:23, Kiryl Shutsemau <kas@kernel.org> wrote:
+> >>> 
+> >>> On Thu, Jan 15, 2026 at 05:49:43PM +0100, David Hildenbrand (Red Hat) wrote:
+> >>>> On 1/15/26 15:45, Kiryl Shutsemau wrote:
+> >>>>> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
+> >>>>> vmemmap pages for huge pages and remapping the freed range to a single
+> >>>>> page containing the struct page metadata.
+> >>>>> 
+> >>>>> With the new mask-based compound_info encoding (for power-of-2 struct
+> >>>>> page sizes), all tail pages of the same order are now identical
+> >>>>> regardless of which compound page they belong to. This means the tail
+> >>>>> pages can be truly shared without fake heads.
+> >>>>> 
+> >>>>> Allocate a single page of initialized tail struct pages per NUMA node
+> >>>>> per order in the vmemmap_tails[] array in pglist_data. All huge pages
+> >>>>> of that order on the node share this tail page, mapped read-only into
+> >>>>> their vmemmap. The head page remains unique per huge page.
+> >>>>> 
+> >>>>> This eliminates fake heads while maintaining the same memory savings,
+> >>>>> and simplifies compound_head() by removing fake head detection.
+> >>>>> 
+> >>>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> >>>>> ---
+> >>>>> include/linux/mmzone.h | 16 ++++++++++++++-
+> >>>>> mm/hugetlb_vmemmap.c   | 44 ++++++++++++++++++++++++++++++++++++++++--
+> >>>>> mm/sparse-vmemmap.c    | 44 ++++++++++++++++++++++++++++++++++--------
+> >>>>> 3 files changed, 93 insertions(+), 11 deletions(-)
+> >>>>> 
+> >>>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> >>>>> index 322ed4c42cfc..2ee3eb610291 100644
+> >>>>> --- a/include/linux/mmzone.h
+> >>>>> +++ b/include/linux/mmzone.h
+> >>>>> @@ -82,7 +82,11 @@
+> >>>>>  * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
+> >>>>>  * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+> >>>>>  */
+> >>>>> -#define MAX_FOLIO_ORDER get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
+> >>>>> +#ifdef CONFIG_64BIT
+> >>>>> +#define MAX_FOLIO_ORDER (34 - PAGE_SHIFT)
+> >>>>> +#else
+> >>>>> +#define MAX_FOLIO_ORDER (30 - PAGE_SHIFT)
+> >>>>> +#endif
+> >>>> 
+> >>>> Where do these magic values stem from, and how do they related to the
+> >>>> comment above that clearly spells out 16G vs. 1G ?
+> >>> 
+> >>> This doesn't change the resulting value: 1UL << 34 is 16GiB, 1UL << 30
+> >>> is 1G. Subtract PAGE_SHIFT to get the order.
+> >>> 
+> >>> The change allows the value to be used to define NR_VMEMMAP_TAILS which
+> >>> is used specify size of vmemmap_tails array.
+> >> 
+> >> How about allocate ->vmemmap_tails array dynamically? If sizeof of struct
+> >> page is not power of two, then we could optimize away this array. Besides,
+> >> the original MAX_FOLIO_ORDER could work as well.
+> > 
+> > This is tricky.
+> > 
+> > We need vmemmap_tails array to be around early, in
+> > hugetlb_vmemmap_init_early(). By the time, we don't have slab
+> > functional yet.
 > 
-> v2:
-> - Add thames_accel.h UAPI header (Robert Nelson).
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
->   drivers/accel/thames/Makefile       |   1 +
->   drivers/accel/thames/thames_core.c  |   6 +
->   drivers/accel/thames/thames_drv.c   |  19 ++
->   drivers/accel/thames/thames_job.c   | 463 ++++++++++++++++++++++++++++++++++++
->   drivers/accel/thames/thames_job.h   |  51 ++++
->   drivers/accel/thames/thames_rpmsg.c |  52 ++++
->   include/uapi/drm/thames_accel.h     |  54 +++++
->   7 files changed, 646 insertions(+)
-> 
-> diff --git a/drivers/accel/thames/Makefile b/drivers/accel/thames/Makefile
-> index 0051e319f2e4966de72bc342d5b6e40b2890c006..b6c4516f8250e3d442f22e80d609cb1be2970128 100644
-> --- a/drivers/accel/thames/Makefile
-> +++ b/drivers/accel/thames/Makefile
-> @@ -7,4 +7,5 @@ thames-y := \
->   	thames_device.o \
->   	thames_drv.o \
->   	thames_gem.o \
-> +	thames_job.o \
->   	thames_rpmsg.o
-> diff --git a/drivers/accel/thames/thames_core.c b/drivers/accel/thames/thames_core.c
-> index 92af1d68063116bcfa28a33960cbe829029fc1bf..5b96b25d287096803e034fcd4261d51795871543 100644
-> --- a/drivers/accel/thames/thames_core.c
-> +++ b/drivers/accel/thames/thames_core.c
-> @@ -13,6 +13,7 @@
->   
->   #include "thames_core.h"
->   #include "thames_device.h"
-> +#include "thames_job.h"
->   #include "thames_rpmsg.h"
->   
->   /* Shift to convert bytes to megabytes (divide by 1048576) */
-> @@ -115,11 +116,16 @@ int thames_core_init(struct thames_core *core)
->   	if (err)
->   		return err;
->   
-> +	err = thames_job_init(core);
-> +	if (err)
-> +		return err;
-> +
->   	return 0;
->   }
->   
->   void thames_core_fini(struct thames_core *core)
->   {
-> +	thames_job_fini(core);
->   	thames_rpmsg_fini(core);
->   }
->   
-> diff --git a/drivers/accel/thames/thames_drv.c b/drivers/accel/thames/thames_drv.c
-> index d9ea2cab80e89cd13b1422a17635a15b7f16fa4f..1ff01428e6c80765cb741ae45c67971b7b0f28c8 100644
-> --- a/drivers/accel/thames/thames_drv.c
-> +++ b/drivers/accel/thames/thames_drv.c
-> @@ -14,6 +14,7 @@
->   #include "thames_drv.h"
->   #include "thames_core.h"
->   #include "thames_gem.h"
-> +#include "thames_job.h"
->   #include "thames_ipc.h"
->   
->   static struct platform_device *drm_dev;
-> @@ -38,8 +39,22 @@ static int thames_open(struct drm_device *dev, struct drm_file *file)
->   
->   	file->driver_priv = thames_priv;
->   
-> +	ret = thames_job_open(thames_priv);
-> +	if (ret)
-> +		goto err_free;
-> +
-> +	ret = thames_context_create(thames_priv);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to create context for client: %d", ret);
-> +		goto err_close_job;
-> +	}
-> +
->   	return 0;
->   
-> +err_close_job:
-> +	thames_job_close(thames_priv);
-> +err_free:
-> +	kfree(thames_priv);
->   err_put_mod:
->   	module_put(THIS_MODULE);
->   	return ret;
-> @@ -49,6 +64,9 @@ static void thames_postclose(struct drm_device *dev, struct drm_file *file)
->   {
->   	struct thames_file_priv *thames_priv = file->driver_priv;
->   
-> +	thames_context_destroy(thames_priv);
-> +
-> +	thames_job_close(thames_priv);
->   	kfree(thames_priv);
->   	module_put(THIS_MODULE);
->   }
-> @@ -57,6 +75,7 @@ static const struct drm_ioctl_desc thames_drm_driver_ioctls[] = {
->   #define THAMES_IOCTL(n, func) DRM_IOCTL_DEF_DRV(THAMES_##n, thames_ioctl_##func, 0)
->   	THAMES_IOCTL(BO_CREATE, bo_create),
->   	THAMES_IOCTL(BO_MMAP_OFFSET, bo_mmap_offset),
-> +	THAMES_IOCTL(SUBMIT, submit),
->   };
->   
->   DEFINE_DRM_ACCEL_FOPS(thames_accel_driver_fops);
-> diff --git a/drivers/accel/thames/thames_job.c b/drivers/accel/thames/thames_job.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..bd8f8fa1783cf10c5e71c8f2ce5fcc880a9b150b
-> --- /dev/null
-> +++ b/drivers/accel/thames/thames_job.c
-> @@ -0,0 +1,463 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2019 Collabora ltd. */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-> +
-> +#include "linux/dev_printk.h"
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/thames_accel.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "thames_core.h"
-> +#include "thames_device.h"
-> +#include "thames_drv.h"
-> +#include "thames_gem.h"
-> +#include "thames_job.h"
-> +#include "thames_rpmsg.h"
-> +
-> +#define JOB_TIMEOUT_MS 500
-> +
-> +static struct thames_job *to_thames_job(struct drm_sched_job *sched_job)
-> +{
-> +	return container_of(sched_job, struct thames_job, base);
-> +}
-> +
-> +static const char *thames_fence_get_driver_name(struct dma_fence *fence)
-> +{
-> +	return "thames";
-> +}
-> +
-> +static const char *thames_fence_get_timeline_name(struct dma_fence *fence)
-> +{
-> +	return "thames";
-> +}
-> +
-> +static const struct dma_fence_ops thames_fence_ops = {
-> +	.get_driver_name = thames_fence_get_driver_name,
-> +	.get_timeline_name = thames_fence_get_timeline_name,
-> +};
-> +
-> +static struct dma_fence *thames_fence_create(struct thames_core *core)
-> +{
-> +	struct dma_fence *fence;
-> +
-> +	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-> +	if (!fence)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	dma_fence_init(fence, &thames_fence_ops, &core->fence_lock, core->fence_context,
-> +		       ++core->emit_seqno);
-> +
-> +	return fence;
-> +}
-> +
-> +static void thames_job_hw_submit(struct thames_core *core, struct thames_job *job)
-> +{
-> +	int ret;
-> +
-> +	/* Don't queue the job if a reset is in progress */
-> +	if (atomic_read(&core->reset.pending))
-> +		return;
-> +
-> +	ret = thames_rpmsg_send_submit_job(core, job->file_priv->context_id, job->job_id,
-> +					   to_thames_bo(job->kernel)->iova, job->kernel_size,
-> +					   to_thames_bo(job->params)->iova, job->params_size,
-> +					   &job->ipc_sequence);
-> +
-> +	if (ret) {
-> +		dev_err(core->dev, "Failed to submit kernel to DSP core %d\n", core->index);
-> +		return;
-> +	}
-> +}
-> +
-> +static int thames_acquire_object_fences(struct drm_gem_object **bos, int bo_count,
-> +					struct drm_sched_job *job, bool is_write)
-> +{
-> +	int i, ret;
-> +
-> +	for (i = 0; i < bo_count; i++) {
-> +		ret = dma_resv_reserve_fences(bos[i]->resv, 1);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = drm_sched_job_add_implicit_dependencies(job, bos[i], is_write);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void thames_attach_object_fences(struct drm_gem_object **bos, int bo_count,
-> +					struct dma_fence *fence)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < bo_count; i++)
-> +		dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
-> +}
-> +
-> +static int thames_job_push(struct thames_job *job)
-> +{
-> +	struct thames_device *tdev = job->tdev;
-> +	struct drm_gem_object **bos;
-> +	struct ww_acquire_ctx acquire_ctx;
-> +	int ret = 0;
-> +
-> +	dev_dbg(tdev->ddev.dev, "Pushing job with %u in BOs and %u out BOs\n", job->in_bo_count,
-> +		job->out_bo_count);
-> +	bos = kvmalloc_array(job->in_bo_count + job->out_bo_count, sizeof(void *), GFP_KERNEL);
-> +	memcpy(bos, job->in_bos, job->in_bo_count * sizeof(void *));
-> +	memcpy(&bos[job->in_bo_count], job->out_bos, job->out_bo_count * sizeof(void *));
-> +
-> +	ret = drm_gem_lock_reservations(bos, job->in_bo_count + job->out_bo_count, &acquire_ctx);
-> +	if (ret)
-> +		goto err;
-> +
-> +	scoped_guard(mutex, &tdev->sched_lock)
-> +	{
-> +		drm_sched_job_arm(&job->base);
-> +
-> +		job->inference_done_fence = dma_fence_get(&job->base.s_fence->finished);
-> +
-> +		ret = thames_acquire_object_fences(job->in_bos, job->in_bo_count, &job->base,
-> +						   false);
-> +		if (ret)
-> +			goto err_unlock;
-> +
-> +		ret = thames_acquire_object_fences(job->out_bos, job->out_bo_count, &job->base,
-> +						   true);
-> +		if (ret)
-> +			goto err_unlock;
-> +
-> +		kref_get(&job->refcount); /* put by scheduler job completion */
-> +
-> +		drm_sched_entity_push_job(&job->base);
-> +	}
-> +
-> +	thames_attach_object_fences(job->out_bos, job->out_bo_count, job->inference_done_fence);
-> +
-> +err_unlock:
-> +	drm_gem_unlock_reservations(bos, job->in_bo_count + job->out_bo_count, &acquire_ctx);
-> +err:
-> +	kvfree(bos);
-> +
-> +	return ret;
-> +}
-> +
-> +static void thames_job_cleanup(struct kref *ref)
-> +{
-> +	struct thames_job *job = container_of(ref, struct thames_job, refcount);
-> +	struct thames_device *tdev = job->tdev;
-> +	unsigned int i;
-> +
-> +	dma_fence_put(job->done_fence);
-> +	dma_fence_put(job->inference_done_fence);
-> +
-> +	ida_free(&tdev->job_ida, job->job_id);
-> +
-> +	if (job->kernel)
-> +		drm_gem_object_put(job->kernel);
-> +
-> +	if (job->params)
-> +		drm_gem_object_put(job->params);
-> +
-> +	if (job->in_bos) {
-> +		for (i = 0; i < job->in_bo_count; i++)
-> +			drm_gem_object_put(job->in_bos[i]);
-> +
-> +		kvfree(job->in_bos);
-> +	}
-> +
-> +	if (job->out_bos) {
-> +		for (i = 0; i < job->out_bo_count; i++)
-> +			drm_gem_object_put(job->out_bos[i]);
-> +
-> +		kvfree(job->out_bos);
-> +	}
-> +
-> +	kfree(job);
-> +}
-> +
-> +static void thames_job_put(struct thames_job *job)
-> +{
-> +	kref_put(&job->refcount, thames_job_cleanup);
-> +}
-> +
-> +static void thames_job_free(struct drm_sched_job *sched_job)
-> +{
-> +	struct thames_job *job = to_thames_job(sched_job);
-> +
-> +	drm_sched_job_cleanup(sched_job);
-> +
-> +	thames_job_put(job);
-> +}
-> +
-> +static struct thames_core *sched_to_core(struct thames_device *tdev,
-> +					 struct drm_gpu_scheduler *sched)
-> +{
-> +	unsigned int core;
-> +
-> +	for (core = 0; core < tdev->num_cores; core++) {
-> +		if (&tdev->cores[core].sched == sched)
-> +			return &tdev->cores[core];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static struct dma_fence *thames_job_run(struct drm_sched_job *sched_job)
-> +{
-> +	struct thames_job *job = to_thames_job(sched_job);
-> +	struct thames_device *tdev = job->tdev;
-> +	struct thames_core *core = sched_to_core(tdev, sched_job->sched);
-> +	struct dma_fence *fence = NULL;
-> +
-> +	if (unlikely(job->base.s_fence->finished.error))
-> +		return NULL;
-> +
-> +	fence = thames_fence_create(core);
-> +	if (IS_ERR(fence))
-> +		return fence;
-> +
-> +	if (job->done_fence)
-> +		dma_fence_put(job->done_fence);
-> +	job->done_fence = dma_fence_get(fence);
-> +
-> +	scoped_guard(mutex, &core->job_lock)
-> +	{
-> +		core->in_flight_job = job;
-> +		thames_job_hw_submit(core, job);
-> +	}
-> +
-> +	return fence;
-> +}
-> +
-> +static void thames_reset(struct thames_core *core, struct drm_sched_job *bad)
-> +{
-> +	if (!atomic_read(&core->reset.pending))
-> +		return;
-> +
-> +	drm_sched_stop(&core->sched, bad);
-> +	scoped_guard(mutex, &core->job_lock) core->in_flight_job = NULL;
-> +	thames_core_reset(core);
-> +	atomic_set(&core->reset.pending, 0);
-> +	drm_sched_start(&core->sched, 0);
-> +}
-> +
-> +static enum drm_gpu_sched_stat thames_job_timedout(struct drm_sched_job *sched_job)
-> +{
-> +	struct thames_job *job = to_thames_job(sched_job);
-> +	struct thames_device *tdev = job->tdev;
-> +	struct thames_core *core = sched_to_core(tdev, sched_job->sched);
-> +
-> +	if (!core) {
-> +		dev_err(tdev->ddev.dev, "Failed to find core for timed out job\n");
-> +		return DRM_GPU_SCHED_STAT_NONE;
-> +	}
-> +
-> +	dev_err(core->dev, "Job %u timed out on DSP core %d\n", job->job_id, core->index);
-> +
-> +	atomic_set(&core->reset.pending, 1);
-> +	thames_reset(core, sched_job);
-> +
-> +	return DRM_GPU_SCHED_STAT_RESET;
-> +}
-> +
-> +static void thames_reset_work(struct work_struct *work)
-> +{
-> +	struct thames_core *core;
-> +
-> +	core = container_of(work, struct thames_core, reset.work);
-> +	thames_reset(core, NULL);
-> +}
-> +
-> +static const struct drm_sched_backend_ops thames_sched_ops = { .run_job = thames_job_run,
-> +							       .timedout_job = thames_job_timedout,
-> +							       .free_job = thames_job_free };
-> +
-> +int thames_job_init(struct thames_core *core)
-> +{
-> +	struct drm_sched_init_args args = {
-> +		.ops = &thames_sched_ops,
-> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
-> +		.credit_limit = 1,
-> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-> +		.name = dev_name(core->dev),
-> +		.dev = core->dev,
-> +	};
-> +	int ret;
-> +
-> +	INIT_WORK(&core->reset.work, thames_reset_work);
-> +	spin_lock_init(&core->fence_lock);
-> +	mutex_init(&core->job_lock);
-> +
-> +	core->reset.wq = alloc_ordered_workqueue("thames-reset-%d", 0, core->index);
-> +	if (!core->reset.wq)
-> +		return -ENOMEM;
-> +
-> +	core->fence_context = dma_fence_context_alloc(1);
-> +
-> +	args.timeout_wq = core->reset.wq;
-> +	ret = drm_sched_init(&core->sched, &args);
-> +	if (ret) {
-> +		dev_err(core->dev, "Failed to create scheduler: %d.", ret);
-> +		destroy_workqueue(core->reset.wq);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void thames_job_fini(struct thames_core *core)
-> +{
-> +	drm_sched_fini(&core->sched);
-> +
-> +	cancel_work_sync(&core->reset.work);
-> +	destroy_workqueue(core->reset.wq);
-> +}
-> +
-> +int thames_job_open(struct thames_file_priv *thames_priv)
-> +{
-> +	struct thames_device *tdev = thames_priv->tdev;
-> +	struct drm_gpu_scheduler **scheds =
-> +		kmalloc_array(tdev->num_cores, sizeof(*scheds), GFP_KERNEL);
-> +	unsigned int core;
-> +	int ret;
-> +
-> +	for (core = 0; core < tdev->num_cores; core++)
-> +		scheds[core] = &tdev->cores[core].sched;
-> +
-> +	ret = drm_sched_entity_init(&thames_priv->sched_entity, DRM_SCHED_PRIORITY_NORMAL, scheds,
-> +				    tdev->num_cores, NULL);
-> +	if (WARN_ON(ret))
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +void thames_job_close(struct thames_file_priv *thames_priv)
-> +{
-> +	struct drm_sched_entity *entity = &thames_priv->sched_entity;
-> +
-> +	kfree(entity->sched_list);
-> +	drm_sched_entity_destroy(entity);
-> +}
-> +
-> +static int thames_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
-> +				   struct drm_thames_job *job)
-> +{
-> +	struct thames_device *tdev = to_thames_device(dev);
-> +	struct thames_file_priv *file_priv = file->driver_priv;
-> +	struct thames_job *tjob = NULL;
-> +	int ret = 0;
-> +
-> +	tjob = kzalloc(sizeof(*tjob), GFP_KERNEL);
-> +	if (!tjob)
-> +		return -ENOMEM;
-> +
-> +	kref_init(&tjob->refcount);
-> +
-> +	tjob->tdev = tdev;
-> +	tjob->file_priv = file_priv;
-> +
-> +	tjob->job_id = ida_alloc_min(&tdev->job_ida, 1, GFP_KERNEL);
-> +	if (tjob->job_id < 0)
-> +		goto out_put_job;
-> +
-> +	ret = drm_sched_job_init(&tjob->base, &file_priv->sched_entity, 1, NULL, file->client_id);
-> +	if (ret)
-> +		goto out_put_job;
-> +
-> +	tjob->kernel = drm_gem_object_lookup(file, job->kernel);
-> +	if (!tjob->kernel) {
-> +		ret = -ENOENT;
-> +		goto out_cleanup_job;
-> +	}
-> +
-> +	tjob->kernel_size = job->kernel_size;
-> +
-> +	if (job->params) {
-> +		tjob->params = drm_gem_object_lookup(file, job->params);
-> +		if (!tjob->params) {
-> +			ret = -ENOENT;
-> +			goto out_cleanup_job;
-> +		}
-> +		tjob->params_size = job->params_size;
-> +	}
-> +
-> +	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->in_bo_handles),
-> +				     job->in_bo_handle_count, &tjob->in_bos);
-> +	if (ret)
-> +		goto out_cleanup_job;
-> +
-> +	tjob->in_bo_count = job->in_bo_handle_count;
-> +
-> +	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->out_bo_handles),
-> +				     job->out_bo_handle_count, &tjob->out_bos);
-> +	if (ret)
-> +		goto out_cleanup_job;
-> +
-> +	tjob->out_bo_count = job->out_bo_handle_count;
-> +
-> +	ret = thames_job_push(tjob);
-> +
-> +out_cleanup_job:
-> +	if (ret)
-> +		drm_sched_job_cleanup(&tjob->base);
-> +out_put_job:
-> +	thames_job_put(tjob);
-> +
-> +	return ret;
-> +}
-> +
-> +#define THAMES_MAX_JOBS_PER_SUBMIT 256
-> +
-> +int thames_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *file)
-> +{
-> +	struct drm_thames_submit *args = data;
-> +	struct drm_thames_job *jobs;
-> +	size_t jobs_size;
-> +	int ret = 0;
-> +	unsigned int i = 0;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	if (args->job_count == 0)
-> +		return -EINVAL;
-> +
-> +	if (args->job_count > THAMES_MAX_JOBS_PER_SUBMIT) {
-> +		dev_err(dev->dev, "Job count %u exceeds maximum %u\n", args->job_count,
-> +			THAMES_MAX_JOBS_PER_SUBMIT);
-> +		return -EINVAL;
-> +	}
-> +
-> +	jobs_size = array_size(args->job_count, sizeof(*jobs));
-> +	if (jobs_size == SIZE_MAX)
-> +		return -EINVAL;
-> +
-> +	jobs = kvmalloc_array(args->job_count, sizeof(*jobs), GFP_KERNEL);
-> +	if (!jobs)
-> +		return -ENOMEM;
-> +
-> +	if (copy_from_user(jobs, u64_to_user_ptr(args->jobs), jobs_size)) {
-> +		ret = -EFAULT;
-> +		drm_dbg(dev, "Failed to copy incoming job array\n");
-> +		goto exit;
-> +	}
+> I mean zero-size array at the end of pg_data_t, no slab is needed.
 
-Just a drive by comment - above looks like a potential candidate for 
-vmemdup_array_user. Or even just go one by one and avoid the allocation.
+For !NUMA, the struct is in BSS. See contig_page_data.
 
-Regards,
+Dynamic array won't fly there.
 
-Tvrtko
-
-> +
-> +	for (i = 0; i < args->job_count; i++) {
-> +		ret = thames_ioctl_submit_job(dev, file, &jobs[i]);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +exit:
-> +	kvfree(jobs);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/accel/thames/thames_job.h b/drivers/accel/thames/thames_job.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3bfd2c779d9b783624a25e6d06368f3e1daf569e
-> --- /dev/null
-> +++ b/drivers/accel/thames/thames_job.h
-> @@ -0,0 +1,51 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +/* Copyright 2026 Texas Instruments Incorporated - https://www.ti.com/ */
-> +
-> +#ifndef __THAMES_JOB_H__
-> +#define __THAMES_JOB_H__
-> +
-> +#include <drm/drm_drv.h>
-> +#include <drm/gpu_scheduler.h>
-> +
-> +#include "thames_core.h"
-> +#include "thames_drv.h"
-> +
-> +struct thames_job {
-> +	struct drm_sched_job base;
-> +
-> +	struct thames_device *tdev;
-> +	struct thames_file_priv *file_priv;
-> +
-> +	u32 job_id;
-> +	u32 ipc_sequence;
-> +
-> +	struct drm_gem_object *kernel;
-> +	size_t kernel_size;
-> +
-> +	struct drm_gem_object *params;
-> +	size_t params_size;
-> +
-> +	struct drm_gem_object **in_bos;
-> +	u32 in_bo_count;
-> +
-> +	struct drm_gem_object **out_bos;
-> +	u32 out_bo_count;
-> +
-> +	/* Fence to be signaled by drm-sched once its done with the job */
-> +	struct dma_fence *inference_done_fence;
-> +
-> +	/* Fence to be signaled by rpmsg handler when the job is complete. */
-> +	struct dma_fence *done_fence;
-> +
-> +	struct kref refcount;
-> +};
-> +
-> +int thames_ioctl_submit(struct drm_device *dev, void *data, struct drm_file *file);
-> +
-> +int thames_job_init(struct thames_core *core);
-> +void thames_job_fini(struct thames_core *core);
-> +int thames_job_open(struct thames_file_priv *thames_priv);
-> +void thames_job_close(struct thames_file_priv *thames_priv);
-> +
-> +#endif
-> diff --git a/drivers/accel/thames/thames_rpmsg.c b/drivers/accel/thames/thames_rpmsg.c
-> index a25465295a177877c5ca2b3c93f52d8288863797..9747690e0f84fe00d605ad0e708d597da2240d97 100644
-> --- a/drivers/accel/thames/thames_rpmsg.c
-> +++ b/drivers/accel/thames/thames_rpmsg.c
-> @@ -11,6 +11,7 @@
->   #include "thames_core.h"
->   #include "thames_device.h"
->   #include "thames_ipc.h"
-> +#include "thames_job.h"
->   
->   #define THAMES_PING_TEST_PATTERN 0xDEADBEEF
->   #define THAMES_PING_TIMEOUT_MS 5000
-> @@ -71,6 +72,36 @@ static int thames_rpmsg_callback(struct rpmsg_device *rpdev, void *data, int len
->   		ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
->   		break;
->   
-> +	case THAMES_MSG_SUBMIT_JOB_RESPONSE: {
-> +		struct thames_job *job;
-> +
-> +		scoped_guard(mutex, &core->job_lock)
-> +		{
-> +			job = core->in_flight_job;
-> +			if (!job) {
-> +				dev_err(&rpdev->dev,
-> +					"Received job response but no job in flight\n");
-> +				ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
-> +				return -EINVAL;
-> +			}
-> +
-> +			if (hdr->seq != job->ipc_sequence) {
-> +				dev_err(&rpdev->dev,
-> +					"Job response sequence mismatch: got %u, expected %u\n",
-> +					hdr->seq, job->ipc_sequence);
-> +				ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
-> +				return -EINVAL;
-> +			}
-> +
-> +			dma_fence_signal(job->done_fence);
-> +			core->in_flight_job = NULL;
-> +		}
-> +
-> +		ida_free(&core->tdev->ipc_seq_ida, hdr->seq);
-> +
-> +		break;
-> +	}
-> +
->   	default:
->   		dev_warn(&rpdev->dev, "Unknown message type: %u\n", hdr->type);
->   		break;
-> @@ -191,6 +222,27 @@ int thames_rpmsg_send_unmap_bo(struct thames_core *core, u32 context_id, u32 bo_
->   	return thames_rpmsg_send_raw(core, &msg, sizeof(msg));
->   }
->   
-> +int thames_rpmsg_send_submit_job(struct thames_core *core, u32 context_id, u32 job_id,
-> +				 u64 kernel_iova, u64 kernel_size, u64 args_iova, u64 args_size,
-> +				 u32 *sequence)
-> +{
-> +	struct thames_msg_submit_job msg = {};
-> +
-> +	msg.hdr.type = THAMES_MSG_SUBMIT_JOB;
-> +	msg.hdr.seq = ida_alloc(&core->tdev->ipc_seq_ida, GFP_KERNEL);
-> +	msg.hdr.len = sizeof(msg);
-> +	msg.context_id = context_id;
-> +	msg.job_id = job_id;
-> +	msg.kernel_iova = kernel_iova;
-> +	msg.kernel_size = kernel_size;
-> +	msg.args_iova = args_iova;
-> +	msg.args_size = args_size;
-> +
-> +	*sequence = msg.hdr.seq;
-> +
-> +	return thames_rpmsg_send_raw(core, &msg, sizeof(msg));
-> +}
-> +
->   int thames_rpmsg_ping_test(struct thames_core *core)
->   {
->   	const u32 test_data = THAMES_PING_TEST_PATTERN;
-> diff --git a/include/uapi/drm/thames_accel.h b/include/uapi/drm/thames_accel.h
-> index 0a5a5e5f6637ab474e9effbb6db29c1dd95e56b5..5b35e50826ed95bfcc3709bef33416d2b6d11c70 100644
-> --- a/include/uapi/drm/thames_accel.h
-> +++ b/include/uapi/drm/thames_accel.h
-> @@ -28,6 +28,9 @@ enum drm_thames_ioctl_id {
->   	 * mmap to map a GEM object.
->   	 */
->   	DRM_THAMES_BO_MMAP_OFFSET,
-> +
-> +	/** @DRM_THAMES_SUBMIT: Submit a job and BOs to run. */
-> +	DRM_THAMES_SUBMIT,
->   };
->   
->   /**
-> @@ -75,6 +78,55 @@ struct drm_thames_bo_mmap_offset {
->   	__u64 offset;
->   };
->   
-> +/**
-> + * struct drm_thames_job - A job to be run on the NPU
-> + *
-> + * The kernel will schedule the execution of this job taking into account its
-> + * dependencies with other jobs. All tasks in the same job will be executed
-> + * sequentially on the same core, to benefit from memory residency in SRAM.
-> + */
-> +struct drm_thames_job {
-> +	/** Input: BO handle for kernel. */
-> +	__u32 kernel;
-> +
-> +	/** Input: Size in bytes of the compiled kernel. */
-> +	__u32 kernel_size;
-> +
-> +	/** Input: BO handle for params BO. */
-> +	__u32 params;
-> +
-> +	/** Input: Size in bytes of the params BO. */
-> +	__u32 params_size;
-> +
-> +	/** Input: Pointer to a u32 array of the BOs that are read by the job. */
-> +	__u64 in_bo_handles;
-> +
-> +	/** Input: Pointer to a u32 array of the BOs that are written to by the job. */
-> +	__u64 out_bo_handles;
-> +
-> +	/** Input: Number of input BO handles passed in (size is that times 4). */
-> +	__u32 in_bo_handle_count;
-> +
-> +	/** Input: Number of output BO handles passed in (size is that times 4). */
-> +	__u32 out_bo_handle_count;
-> +};
-> +
-> +/**
-> + * struct drm_thames_submit - ioctl argument for submitting commands to the NPU.
-> + *
-> + * The kernel will schedule the execution of these jobs in dependency order.
-> + */
-> +struct drm_thames_submit {
-> +	/** Input: Pointer to an array of struct drm_thames_job. */
-> +	__u64 jobs;
-> +
-> +	/** Input: Number of jobs passed in. */
-> +	__u32 job_count;
-> +
-> +	/** Reserved, must be zero. */
-> +	__u32 pad;
-> +};
-> +
->   /**
->    * DRM_IOCTL_THAMES() - Build a thames IOCTL number
->    * @__access: Access type. Must be R, W or RW.
-> @@ -95,6 +147,8 @@ enum {
->   		DRM_IOCTL_THAMES(WR, BO_CREATE, bo_create),
->   	DRM_IOCTL_THAMES_BO_MMAP_OFFSET =
->   		DRM_IOCTL_THAMES(WR, BO_MMAP_OFFSET, bo_mmap_offset),
-> +	DRM_IOCTL_THAMES_SUBMIT =
-> +		DRM_IOCTL_THAMES(WR, SUBMIT, submit),
->   };
->   
->   #if defined(__cplusplus)
-> 
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
