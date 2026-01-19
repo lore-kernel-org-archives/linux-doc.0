@@ -1,118 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9243A33CE8B;
-	Mon, 19 Jan 2026 08:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A29D33B6E7
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 08:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768811063; cv=none; b=i29l9uxg7Vx39M/C/ys1t2X8tK1rKryGJWiiE3Vy4pkKmRZcNg7IoXwYyVzn4FGuvTXGOlr9hh05Icj6hstzbjswily2yfzWaipBsLhv/yv9AWzK8QCstX20w2qHeOuwugoqrr/dXGuRujMAz/PT+5p3lmNwxSNPWB8nwiKAH8c=
+	t=1768811615; cv=none; b=sPHrvuEeL/Rm8W6zhUqceWbcSMrE6VnctQBkjbDm5oW1/WEP1uVmd1RN63OsnRAgxBFTQhoOgh93L7pGCUb/YC5VVqXnnIeGQ+aj+PADPmXoWdrjis/cBbNdgJ1nJKbF6qi7WWL0G+Q1xzP0SQsyNkb/9XGGEj+f08qZHU+WLn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768811063; c=relaxed/simple;
-	bh=ek0shKrzSAAunEX/d72L5w4AAFj3fcjzuZlmAQPI6LE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bam0F2e/2HyOOQqnUbCwdE6ZxIgvOMr1XL4snioG2EFyqTsDQT4rc37QstYEgZKVD0z6/s3c/FxxfGGV1MwnNXOAPYBZrdx9cOT5E3R+5TAzgUrHEPammjnEa1TdN9rwDA6TOME3+azP9qMVfsPusO2PL+hcc8d975IuHg20pjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GPL1yxZU; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768811615; c=relaxed/simple;
+	bh=EuBTo90+0xISmGE1iNCeM36DlYb7oTzHhMLT3OQBIPE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N2WxZhQI6rwFcBkaycPZs/esaxNFIQtPHL7KV8EZINf71dJKh5bFxA6ZAHG/NPF+rekzqboy9eI0nqJO67fvNTNmBydeuPrWG524mxFJJMtTv+sgin7x4B0zUlWmFf20X4Q8HMXTPUbZ51+OxVLB2qsk5jG2afPSRRGunDFtx/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRNFvmSK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GPL1yxZU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768811062; x=1800347062;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ek0shKrzSAAunEX/d72L5w4AAFj3fcjzuZlmAQPI6LE=;
-  b=GPL1yxZUZoGw4p3/H+jGc+IAWRK5ZGitf3zUy0V50srJjWHP0L77LjPw
-   vDGQu09ykqNf1/jhCfADRw8uZ3z83bPCvFPGiZnwclqj56fghwoV3sar3
-   AempY1GoghHihey/o1lMhk/TOZ010SaqYj+DA+HEXrSLb7w3MXuG/oLjy
-   KsjvmgmVTN41KvQjJGao1G4Rf/F1YRXXJBqkfTJAh8aHmm1opiFYIubYZ
-   AdL5XDsW5x9MUtxZvydLMbwCY4XmQkEAksde6KLHlQpuQiXMbReU2jE+5
-   8o+q5Fr6VNc1fdSwtmhnWwOFupgK3m8ylOu6tjDMMwlvWQNeXFbAXssnu
-   g==;
-X-CSE-ConnectionGUID: 9v2HDvuNRPy7plgAIRtE5w==
-X-CSE-MsgGUID: vAjox1aDSq+clm0wmXXimQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69217468"
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="69217468"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 00:24:21 -0800
-X-CSE-ConnectionGUID: ULlrqDt7QIeAzYWUmmSDwQ==
-X-CSE-MsgGUID: TprYcUiKTw+mcgwBRIQ85A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="228742758"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2026 00:24:18 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vhkYa-00000000Nax-00rz;
-	Mon, 19 Jan 2026 08:24:16 +0000
-Date: Mon, 19 Jan 2026 16:23:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/2] Move kernel-doc to tools/docs
-Message-ID: <202601191546.Bvd74asP-lkp@intel.com>
-References: <20260114164146.532916-3-corbet@lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRNFvmSK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BCEC2BCB7
+	for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 08:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768811615;
+	bh=EuBTo90+0xISmGE1iNCeM36DlYb7oTzHhMLT3OQBIPE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SRNFvmSKtc1/gW2SNtZW30SG39DZstyWleIGLwc3+e6Cv9azYLqCXmb0J/NGIhIbj
+	 /wTmF4SDgNtHeyr2FQhinA3m/glZe57tHi14mTpCtWsPnYeUarbcRgIxavUISrDsiF
+	 w/580IPMEgXFFwc0v8Fshggp27kbxKyhsxTXUNOCrH6QfHnsQbjYXNbt24nOPycd4F
+	 vpnBXLnsXbBHOdAUahCpdjVRk1O+DOg03LaLQwKk8DkYT6QUgVbvubxkAb4QaizyoV
+	 dDRBaZga/AKjAy63AKSFj542BZn6t8VmFnC/kOeQo5/ATIHt3qyii6u4zyfSqo04fy
+	 OrmfHLBtQ4J0A==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59b710d46ceso4155008e87.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 00:33:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWmmyiIdxN86cqQ3cUHW+X19BWyk91rFFi95aBfPb57HdRj9XonQW+K97Y3AD5Z+a6RCDTrQJ0L/zs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDV1RiNImY0Dg5YX1JMw8cUsX3oaUMZFRt994Otr6L9XleOSll
+	26+ebBxWoif3SkwlIYc4PSzffTO1WjvhqxaqCP8YvMeexN4ZUlaFjmvhxaXQNgUzfea9z4w3c9A
+	xIAGwV8iiS+TfV9EOHteAjfVyY5+BFRrnmWcqigXyDQ==
+X-Received: by 2002:a05:6512:10d6:b0:59d:4a12:5f9 with SMTP id
+ 2adb3069b0e04-59d4a1206famr260681e87.3.1768811613889; Mon, 19 Jan 2026
+ 00:33:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114164146.532916-3-corbet@lwn.net>
+References: <20260116081036.352286-1-tzungbi@kernel.org> <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
+ <aWuFBqIfJpDL9g-J@tzungbi-laptop>
+In-Reply-To: <aWuFBqIfJpDL9g-J@tzungbi-laptop>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 19 Jan 2026 09:33:21 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
+X-Gm-Features: AZwV_Qj-H4GoQtvkwFseN5jYlKSdPvBPHrbR8AGUp3PpNz29IUPVXyzfscvZ_KA
+Message-ID: <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
+Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jonathan,
+On Sat, Jan 17, 2026 at 1:48=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Fri, Jan 16, 2026 at 11:35:00AM +0100, Bartosz Golaszewski wrote:
+> > On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.o=
+rg> wrote:
+> > >
+> > > This series transitions the UAF prevention logic within the GPIO core
+> > > (gpiolib) to use the 'revocable' mechanism.
+> > >
+> > > The existing code aims to prevent UAF issues when the underlying GPIO
+> > > chip is removed.  This series replaces that custom logic with the
+> > > generic 'revocable' API, which is designed to handle such lifecycle
+> > > dependencies.  There should be no change in behavior.
+> > >
+> > > This series depends on the 'revocable' API, introduced in [1].  Some
+> > > build bots may report errors due to undefined symbols related to
+> > > 'revocable' until the dependency is merged.
+> > >
+> >
+> > Hi Tzung-Bi!
+> >
+> > Thank you for doing this and considering my suggestions from LPC. I
+> > haven't looked at the code yet but I quickly tested the series with my
+> > regular test-suites. The good news is: nothing is broken, every test
+> > works fine. The bad news is: there seems to be a significant impact on
+> > performance. With the user-space test-suite from libgpiod (for core C
+> > library - gpiod-test) I'm seeing a consistent 40% impact on
+> > performance. That's not really acceptable. :( I will try to bisect the
+> > series later and see which part exactly breaks it.
+> >
+> > I can also help you with user-space testing with libgpiod, if you need
+> > it? Some documentation is available here:
+> > https://libgpiod.readthedocs.io/en/latest/testing.html
+>
+> How to get the performance data?
+>
+> I tried on libgpiod-2.2.2.tar.xz:
+> - ./configure --enable-tools --enable-tests
+> - make
+> - ./tests/gpiod-test
+>
+> There is only TAP output.  Also I don't see the difference between:
+> `./tests/gpiod-test` vs. `./tests/gpiod-test -m perf`.
 
-kernel test robot noticed the following build errors:
+Yeah, no, there's no dedicated performance measurement in GLib tests,
+I just timed the test-suite and it runs 40% slower with this series.
 
-[auto build test ERROR on lwn/docs-next]
-[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc6 next-20260116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-kdoc-remove-support-for-an-external-kernel-doc-from-sphinx/20260115-004646
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20260114164146.532916-3-corbet%40lwn.net
-patch subject: [PATCH 2/2] Move kernel-doc to tools/docs
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260119/202601191546.Bvd74asP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191546.Bvd74asP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601191546.Bvd74asP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   Traceback (most recent call last):
-     File "tools/docs/kernel-doc", line 339, in <module>
-       main()
-       ~~~~^^
-     File "tools/docs/kernel-doc", line 295, in main
-       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->> ModuleNotFoundError: No module named 'kdoc'
-   make[3]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
-   make[3]: *** Deleting file 'scripts/mod/empty.o'
-   make[3]: Target 'scripts/mod/' not remade because of errors.
-   make[2]: *** [Makefile:1313: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bartosz
