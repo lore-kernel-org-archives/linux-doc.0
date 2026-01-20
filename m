@@ -1,184 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4B73C1FF4;
-	Tue, 20 Jan 2026 09:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768901107; cv=none; b=rJ8ySPgkT4sSWydIuafMHEfqQbCdN1+ILpk17Mwm8ww4mqS4NeUJwZH8ujpBJ/QtdRyxNufXJRBDFxfkXMnIeBpEUS6BncrQ4eVTahnSjAeGjoBIZA3+AkLrZUxMDPMdizN5dqimP9siNhJWNsmVTOz2Ee1k0S+ghVLfJm2ROG0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768901107; c=relaxed/simple;
-	bh=nhPK1JZXUenL4rQIQZipg6x9EzUXxz3bTri22sH14mg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FbU1mwCw6FLhRSonPckTUNQQBIhATGFMsPYhHJhexbE0bPTur+kT8SyRPgC6soocLxN1One+YVQXeYgmwyOVf3qeY0uElao5wKTQVpCDE6eUMS8csR9aQpTXoTZnJpsEeLy1saLJrYvfG8zwRLyJB5JmjuE6j3wBBYx9EcyQxPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aam//2ns; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88AD2EFD81
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 09:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768901265; cv=pass; b=fQyOJnJKrxmMq/XjvBdUYNE/eEVyc4qTLupfWfXAKlIIrzPHdiIMWiVYq5K1uxz6j58Td4pS6K4iXb2b3MEZqF2l80fYoLZ7G4imIOncP7vuOwgWo3dLq6wKR1jycUd61+TDJVvPbVFX0wwCG4tt3/zrRch9x5c3kaY7u7/os1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768901265; c=relaxed/simple;
+	bh=VFm+9wwtgk8aq4k8dQkzu3uNUhmEdxvmn8yiOGHPluU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hKHcrbV5gOWpYsl3sIF/zDnGb98vAnuw4sc7cJXzeEBMy5PY7ATzsE/f1BLUZGtRTZhSjCOdCGfpsyUN99R3G2MpU774ceFVSODScBBZ/WaViLChc8Iy5Un3vwjmm07jhg4G/Fzf0zad9g2IaOAsIf23AkFQeWmOML9b8UtA97o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SFtTGZHF; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aam//2ns"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768901104; x=1800437104;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=nhPK1JZXUenL4rQIQZipg6x9EzUXxz3bTri22sH14mg=;
-  b=Aam//2ns1yX4x8ajsGXyLKNvrzAwHzyPQ+hqBAVW0XdaWTZ+xWnvq077
-   qlOR8rgu/0sLpKU9ZNNJREz5j2vD1p1dkJ4lz9bie1prwxfnkygiZt4wc
-   Bb/MGkDVK6fS/SUaRFgQOrnSsa0/PNRgm1Ah3ZibnaHIx5O1HLf/6geKx
-   yVTOMq+FAjVJDfeVp0T0aGUsK788XApQqyB3rFYiMTUZWw2xY+qP9eMVY
-   5CzjJXZwVhwa9HyXjO7ByHSvfKi5aqFpKa6sccVerwnyXSry3iCmE7j7F
-   UJsIQHqpib7ttMucaVufz/vRiA6hnZ2XXmC08yyq4YdEoqKEkq8P9LbJP
-   g==;
-X-CSE-ConnectionGUID: Fb8LSbVaRmyL70HqmEMhjw==
-X-CSE-MsgGUID: P/9uDl+8Qbi8oby6+MFaBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="87686783"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="87686783"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 01:25:01 -0800
-X-CSE-ConnectionGUID: wm8UANGbTzCReE+X9c/XoA==
-X-CSE-MsgGUID: 774Q/J0wTkeRV4zJ24xUkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="236759098"
-Received: from unknown (HELO [10.238.1.231]) ([10.238.1.231])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 01:24:57 -0800
-Message-ID: <81bb8149-45c7-472a-a240-46d43bd33b5d@linux.intel.com>
-Date: Tue, 20 Jan 2026 17:24:54 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SFtTGZHF"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5029af2b4bcso21985991cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 01:27:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768901262; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BQrDQqdwqH8vUnRUQNlaFSff9TwJDelPqtB/35HwhxOWaJ2TkWRP+VzLeNE0G8Mpal
+         Jawz5E/9HxdATV7fPm14o7eeK0pnT7ocyN8R/z5Tcagj8QqtnRyhV6N17M30Q6IBgO3j
+         UFQUwCE+fVbrnXDuck7CrimGyPxnGslr6Xc5Tw2vw2Zs9a95YkaEzKDKz/7rIyf4YQsj
+         ALiKjtrdfCAjM+ncZ5g4+EE1ym16iPpfTF0HPikcohufob7+xgQfaqItMjPKfcJgQUrp
+         MLzYMJH/HmQYnClh4WBT3Rlqf0t9sQ10eGmVyZ0eI4pgvf5sHZ5jl0aCWAUx1r+igQsw
+         xX3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VFm+9wwtgk8aq4k8dQkzu3uNUhmEdxvmn8yiOGHPluU=;
+        fh=z2gfu34QJ+BxQ+DUmYzLuHoflQzzTQY2KoWIk2c2GHI=;
+        b=J/CkuA0npnhANtyvqm8uDfYXHBl0fhdHNh1HLd/kxnJcPGHtL4wxT0tCd9jwHwksPB
+         V7ILKhhMFUTRTEi+OH+0yZsFexX5vYOsCSmKQeNAB0r0tJ1XfE+nV6Yz2X4ryq+gge+0
+         r3VBmQN35apwkmGjgSGFLFRuBYdGCDStow8RfQ4BKtTB3QgpoxO389a0gMnjQJyWfRgn
+         JbmDhbQRN8zcA/8IPY92vfVoa79YG9CoyKcPR619QK5qJ9sBB60L4Pdj89FKDjG+IFRL
+         IQ9MzvHkPWCWzoBD9CzYfmW71abmcKm63RgL347Ag2+Sc1GXJSJYwgRJ10zzccQfwuxg
+         TyZg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768901262; x=1769506062; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VFm+9wwtgk8aq4k8dQkzu3uNUhmEdxvmn8yiOGHPluU=;
+        b=SFtTGZHF9NsJIabBnvYroZCzVEpdC2Hb+eE2ztAAX+AP/pxQ2GQn7gUzykX3xJE1T9
+         Ic3+0XhwYEuVO/+V7CTqq8bK8EbVBGm14wXQZAdOhxbgZZMUMf9Znai9ninsnRo+wuBU
+         tu+6U1tkqdA6QIiB0ZZEWgrBSf0CwqLCg11DMnxlCHHx1KnfwFltcwLKdvLS81XGy3Ib
+         L/g09oZlVwkvnAM5lZhMgbe4I3ro46YYjP41sN8IevjoS/Ikjp6uK/5GoMwOTCddfmBZ
+         od9r0TIDu2IfiN9us/4iZw1g2e/ZpWXGGBJWpcln/Gof4PS9uLDQvaUkilSORvAE5IYo
+         jpkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768901262; x=1769506062;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VFm+9wwtgk8aq4k8dQkzu3uNUhmEdxvmn8yiOGHPluU=;
+        b=f6hxnvyWfzokhwbUH0aiERV8jjH2/z3CorOPKzJo6U8ghjx3EbksBIHT9G+xmmdqLy
+         +GFKCJAeemN4D3d1jUKR+uxKDJlI4q9Q0tlSf764MIysgCDLahF9pCddEMRhWcE4SGfz
+         46iuaipyPQ2d/7rdRiYKaWKGrsNxoESGdkeTLN47VreLuo0Zhj0EGGZ5rjTzKa3hWzs3
+         2JdpmgyBTSwPfXQGSoUm79QeFG809NeLBEDzcDUOVvtLXBz2HTtkGdwxNN9Lkqzafek8
+         xJpMPAGOylQBU4yY/dPkiU+cPon4L3sHYqQyWyrimB4XSkmtY1GKOXeJZeSVui3Hg68z
+         in5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU9teBppFnqNQ6vGludsgEpuHgpPFqOxQW4Q/DBcoR6GVM26U7xNIZBQiZNuEOsl9+TOPUlb/nC2Ew=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHy9PfbpsJXhfb6UIZie8WpcNcd+YMjmn9JHXEkcakl8rlQnXG
+	+bvoc3HhbGgvZqht3pBra20OWqK47u/WFpAWY8kZwcyV52yqh27IDf89TloiVHjt+LPeaY5d4Pe
+	wilnr3kPnul4U+5xWXTOruX30jV+ZIeb8PInQ/M98
+X-Gm-Gg: AY/fxX7Azlevk1gC/8OQSrjb6VvK2sAF8uZ6NurO9TEf5P49nz6tCBAKJ0F9QCtHRo1
+	PmiqVhlspu3g7PeBLcZnbsMonJTdyq5EuXxlhdMZ0NrFAlojnWDiFDHhGPJlTY/+fVV57MwB9/C
+	hMgXKGOaVMgMn5v+A6/5aWdYZTqG2gOH26Pn4b3JuRyCXL2xKS/x1uAaNoUaCP7Td6xlfciGJII
+	V8o+ba8ZTH6GOMhzX9pRbPDFgEaDcvjJEtiLYw0MI0jf/8v/SsjPgeJ2xYpIIWGXTrvni0=
+X-Received: by 2002:a05:622a:180e:b0:501:47d3:217a with SMTP id
+ d75a77b69052e-502d829a969mr10411241cf.25.1768901262067; Tue, 20 Jan 2026
+ 01:27:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 02/22] KVM: VMX: Initialize VM entry/exit FRED controls
- in vmcs_config
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
- corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
- hch@infradead.org, sohil.mehta@intel.com
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-3-xin@zytor.com>
-Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <20251026201911.505204-3-xin@zytor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260119185852.11168-1-chia-yu.chang@nokia-bell-labs.com> <20260119185852.11168-2-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20260119185852.11168-2-chia-yu.chang@nokia-bell-labs.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 20 Jan 2026 10:27:30 +0100
+X-Gm-Features: AZwV_Qh2C6qterbUps9ipHoZiFx2JUtmLIyzTtH8Kko470SyemAziOwyIlRmsJc
+Message-ID: <CANn89i+44At=GtWMjksjjMmARZONeVAAiDgqAP2jXWSK3BxJLQ@mail.gmail.com>
+Subject: Re: [PATCH v9 net-next 01/15] tcp: try to avoid safer when ACKs are thinned
+To: chia-yu.chang@nokia-bell-labs.com
+Cc: pabeni@redhat.com, parav@nvidia.com, linux-doc@vger.kernel.org, 
+	corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@google.com, 
+	bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com, 
+	jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org, 
+	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net, 
+	andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net, 
+	liuhangbin@gmail.com, shuah@kernel.org, linux-kselftest@vger.kernel.org, 
+	ij@kernel.org, ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com, 
+	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com, 
+	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at, 
+	Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 19, 2026 at 7:59=E2=80=AFPM <chia-yu.chang@nokia-bell-labs.com>=
+ wrote:
+>
+> From: Ilpo J=C3=A4rvinen <ij@kernel.org>
+>
+> Add newly acked pkts EWMA. When ACK thinning occurs, select
+> between safer and unsafe cep delta in AccECN processing based
+> on it. If the packets ACKed per ACK tends to be large, don't
+> conservatively assume ACE field overflow.
+>
+> This patch uses the existing 2-byte holes in the rx group for new
+> u16 variables withtout creating more holes. Below are the pahole
+> outcomes before and after this patch:
 
-
-On 10/27/2025 4:18 AM, Xin Li (Intel) wrote:
-> From: Xin Li <xin3.li@intel.com>
-> 
-> Setup VM entry/exit FRED controls in the global vmcs_config for proper
-> FRED VMCS fields management:
->   1) load guest FRED state upon VM entry.
->   2) save guest FRED state during VM exit.
->   3) load host FRED state during VM exit.
-> 
-
-Nit:
-I think it's worth noting that IA32_FRED_RSP0 and IA32_FRED_SSP0 are treated
-differently. The change log might need more context on which MSRs are
-atomically switched in order to describe that though.
-  
-
-> Also add FRED control consistency checks to the existing VM entry/exit
-> consistency check framework.
-
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-
-> 
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Tested-by: Xuelian Guo <xuelian.guo@intel.com>
-> Reviewed-by: Chao Gao <chao.gao@intel.com>
-> ---
-> 
-> Change in v5:
-> * Remove the pair VM_ENTRY_LOAD_IA32_FRED/VM_EXIT_ACTIVATE_SECONDARY_CONTROLS,
->   since the secondary VM exit controls are unconditionally enabled anyway, and
->   there are features other than FRED needing it (Chao Gao).
-> * Add TB from Xuelian Guo.
-> 
-> Change in v4:
-> * Do VM exit/entry consistency checks using the new macro from Sean
->   Christopherson.
-> 
-> Changes in v3:
-> * Add FRED control consistency checks to the existing VM entry/exit
->   consistency check framework (Sean Christopherson).
-> * Just do the unnecessary FRED state load/store on every VM entry/exit
->   (Sean Christopherson).
-> ---
->  arch/x86/include/asm/vmx.h | 4 ++++
->  arch/x86/kvm/vmx/vmx.c     | 2 ++
->  arch/x86/kvm/vmx/vmx.h     | 7 +++++--
->  3 files changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-> index 1f60c04d11fb..dd79d027ea70 100644
-> --- a/arch/x86/include/asm/vmx.h
-> +++ b/arch/x86/include/asm/vmx.h
-> @@ -109,6 +109,9 @@
->  #define VM_EXIT_LOAD_CET_STATE                  0x10000000
->  #define VM_EXIT_ACTIVATE_SECONDARY_CONTROLS	0x80000000
->  
-> +#define SECONDARY_VM_EXIT_SAVE_IA32_FRED	BIT_ULL(0)
-> +#define SECONDARY_VM_EXIT_LOAD_IA32_FRED	BIT_ULL(1)
-> +
->  #define VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR	0x00036dff
->  
->  #define VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
-> @@ -122,6 +125,7 @@
->  #define VM_ENTRY_PT_CONCEAL_PIP			0x00020000
->  #define VM_ENTRY_LOAD_IA32_RTIT_CTL		0x00040000
->  #define VM_ENTRY_LOAD_CET_STATE                 0x00100000
-> +#define VM_ENTRY_LOAD_IA32_FRED			0x00800000
->  
->  #define VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR	0x000011ff
->  
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index 8de841c9c905..be48ba2d70e1 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -2622,6 +2622,8 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->  		u32 entry_control;
->  		u64 exit_control;
->  	} const vmcs_entry_exit2_pairs[] = {
-> +		{ VM_ENTRY_LOAD_IA32_FRED,
-> +			SECONDARY_VM_EXIT_SAVE_IA32_FRED | SECONDARY_VM_EXIT_LOAD_IA32_FRED },
->  	};
->  
->  	memset(vmcs_conf, 0, sizeof(*vmcs_conf));
-> diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-> index 349d96e68f96..645b0343e88c 100644
-> --- a/arch/x86/kvm/vmx/vmx.h
-> +++ b/arch/x86/kvm/vmx/vmx.h
-> @@ -487,7 +487,8 @@ static inline u8 vmx_get_rvi(void)
->  	 VM_ENTRY_LOAD_BNDCFGS |					\
->  	 VM_ENTRY_PT_CONCEAL_PIP |					\
->  	 VM_ENTRY_LOAD_IA32_RTIT_CTL |					\
-> -	 VM_ENTRY_LOAD_CET_STATE)
-> +	 VM_ENTRY_LOAD_CET_STATE |					\
-> +	 VM_ENTRY_LOAD_IA32_FRED)
->  
->  #define __KVM_REQUIRED_VMX_VM_EXIT_CONTROLS				\
->  	(VM_EXIT_SAVE_DEBUG_CONTROLS |					\
-> @@ -514,7 +515,9 @@ static inline u8 vmx_get_rvi(void)
->  	       VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
->  
->  #define KVM_REQUIRED_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
-> -#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
-> +#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS			\
-> +	     (SECONDARY_VM_EXIT_SAVE_IA32_FRED |			\
-> +	      SECONDARY_VM_EXIT_LOAD_IA32_FRED)
->  
->  #define KVM_REQUIRED_VMX_PIN_BASED_VM_EXEC_CONTROL			\
->  	(PIN_BASED_EXT_INTR_MASK |					\
-
+Reviewed-by: Eric Dumazet <edumazet@google.com>
