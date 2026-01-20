@@ -1,140 +1,148 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95248421A1E
-	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 11:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3444F3D6686
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 11:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768907995; cv=pass; b=H723uz5KfyCsjqfxIcCZWJ20bH5/UIeUKHoXJlfZvm1/d41eMwa2zNKT/0STOXVBZnWdqD5yOKpmPThqOAh5jyP5bkUkGEpabc2X1e+YJK+xs8UWUPj7oIl/1i8oKm7m7jaPF9SH2rSpXLi3NTtDue63GZolalPW2IAVX2opf/Q=
+	t=1768908306; cv=pass; b=buSKFRN6xKoYdkXud5FbCoRTwW/3HSzTJy87nT2a4uO/qvzxH4Ag7b+TUwuCP5ykSIKrsRKP53nw/mc/d9Pi7qBP2p3FdAzR9itmfms5ftgD1tha2hXQ4MoJPp3S5h4q9n4sKw8ruGOn69YdEnTq4KKED/B059MPPzEcYuPG1Qo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768907995; c=relaxed/simple;
-	bh=2SaI+Uz3QGNZurl++WnxVltgVZ/pVYMSpuX7ISsHQbQ=;
+	s=arc-20240116; t=1768908306; c=relaxed/simple;
+	bh=NRnrSD0zAFPtVaS5sTi5Ar8t18WLmEhSZ6lKcGsCMmg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gbo5EPAnWnlJ4+fhGuI15duysQr2sUDCvqZ2ucVgpGTYSf7iG4v1297bn0OLkqQhicNkwzi8nH73EKis/8Q2yE9lP3nAxkhOHzi0va0LIYZeSA+qNhSpTXwosegLYKjHqJkbBIAhTZ/kpJ20sx5EDg9Y0db7K1Z3FO1OgxKWYps=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3L+6hw7+; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=mGWsye2AyPmreflxSALseMI3qM0ocYtF4wMvjbNc8BdqDLWuBwjFXnAagTB7Piz/s1/qMIQbqg7QH19XImu0ZBM8OqsWf4hCDluUXZ4hkOCnXCxhGiUFpMfwagQPW1XvN9EgjqK08y1cUcP0qruY8ph7cDqutCKZkp7rcqJXGDA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fF4bTY6c; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3L+6hw7+"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5029aa94f28so39891541cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 03:19:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768907992; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fF4bTY6c"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b879d5c1526so778456866b.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 03:25:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768908303; cv=none;
         d=google.com; s=arc-20240605;
-        b=JEdBIIqR1W0o77uAcGMchiSmuko4+YlBmz37c1Y3aoqEkB1tE8z1yPKyVXT58LTwh9
-         jkyV79hj6WkzR5WVNbKfIG1e2uKYjNVGL4JmMbpLD3rhNJHT4mHTR2EfarWcUS8pUwv5
-         IutbGAID/xLxiRb22ntoMlO3IcOPKpGNpyq0S7nrCUKP1rAyyMmOpA1PhmAaR23lmVK+
-         OBUSa83q2ORdODVRbuNBUc2eiuJrN/fe62yGrfyD5KJn4K7nCHAsFkWA0OzTlPN0243n
-         VzYBeahJTmJUa0GOP5+WaK/Zv5XhPBVxeXwIovMdKhdReB/5/Qs98H60M2G0IHDUJiMi
-         fCkA==
+        b=RgOs95YHGF1PPrQv6eJ8gsLLzeo7Zk5HnaAYrn2ZtpSmjb1ZxbdEghRvWMuGFWyaKI
+         si4L9EvDkBE3Cg6GL5qxM0N8rMhBFvgrY5OyEwi9BzWlFQuvieJ3tYMSK4jp29eTyAye
+         iaEOIZqsrR2HEZ8JoeGey1C2p58j16kzbmTW0/9J3hohDiuom5EJ1xnDOCIW4+WEujC8
+         tjvMgPACVuDVkY1wr2VCm+fMlNyK0agHJcvs+/S1op8bsMroixtEeiRN2Q+WQDxkcTaU
+         nVi+3NpCkPBAwlZEOaWjbFTXNYsP+t4aMNs9V0lfi6lg4OYDULW3pONp33WgDsB+n0mE
+         xVgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=VqnDOdzFUDP6Yo0/hl8kW5DFgiqEg80gO7B+GBRDshA=;
-        fh=yjOiPl9tvH9UntyUt6w6UqoLcnppPVn0it0gG0/w3j0=;
-        b=MEYRRInsyZG75ZuAhlYqPGYyDtkrlHh+z2LZV6A1kdA5IHad0HI2Lr5NNw9WdhPqNt
-         6S58l5gwuiSne6xdlSYEpWtkqglruLRp9ks/QknOMwvxr2avgKF8v2m06VgmErD89s6I
-         m8s+TlijywdawV/dL3mu4cgOfKmzW4dc2XC1FMzyug4T3NxUbDxvT2g4+laXmSiuzsFH
-         iBABTrp2mEkcyFvnyb181GQta8/ucSdbeKup7QMTL40cHdCF+/n9Zi9Rup2P5vrPcEH7
-         Pjpr3FaNz2wy9W0278UIQ74iFoDzQHC/10lwrC8PLyk2q6pjcz8jxZyu7NkEBaD3qHl/
-         Ay8A==;
+        bh=NRnrSD0zAFPtVaS5sTi5Ar8t18WLmEhSZ6lKcGsCMmg=;
+        fh=KoBg1WxZoccz58rasrxdcD1QcaxU2taKFre5AipziCk=;
+        b=WjoBMtpWTqFxGlB/kVWBp2OJnZW7dINh4Txf/5HgNXUStaDsts5eew/qnKDl+MODwK
+         v9/9f3iFFE+dPLAnMFQxNlidn6UOPfYlOP4xQwdW71+s7rcFVH7l8csHQCihsPb5HO+n
+         9HCrWD6jcKsQKrNnlLzB/hVdk7LLkQqZg0jl6r/AiLK102m7iEjk4v6a/UeCMwuLhn3B
+         V+g57T1BH8CZ8d+Ex/4WEgM3/5pNAt45ruEH9ip+9h3vGc7HLRPuLGFE5ZXvzOVOEQcG
+         Y7ZXxeZc+wAQhnLV9r0fSlZf4YjU3lRR8rRck/aTU++6x+DGflYxA8n84vNQPAbMVvmQ
+         o5wA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768907992; x=1769512792; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768908303; x=1769513103; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VqnDOdzFUDP6Yo0/hl8kW5DFgiqEg80gO7B+GBRDshA=;
-        b=3L+6hw7+J/bvuzDos2PmP/fEqPXW6Vv/PafJcFx6vJQWpS2lDQhi9uQtq/88F954o7
-         vd6e8kufz3LdVkvcgn5AsHHXaqNSpGEYnePLRl9cSosx1tHx37i2+GEW1svJZz7rbSfg
-         MVwdzPKbpeMLnZ9CwwtLryrxZr4mBubNjBBu9KkyZcUeQiBgQ7vfBuHGvQk+C4+1GaAZ
-         LxpLlOj40rEyQqWfrEGhYFBEkurwtlBWUERzWK6+uNh11EU4Wso03UFCiB1C8dxESqRi
-         9IhG/DqVbR2qB3E232HcKoyLKpS6vbr9KoB07TtGlLQLXYEyzTbgkDL437C6Q+jl+ZKc
-         0deA==
+        bh=NRnrSD0zAFPtVaS5sTi5Ar8t18WLmEhSZ6lKcGsCMmg=;
+        b=fF4bTY6c3MbHOeQ/jKWah88aHsRPIwdCzy1n+76DzcN+krplIKkOg8JnbBr8qdeUMZ
+         XLIHNPiSeBkYa0qAKsaCHGaHVzrIhEMeJh+CtaPE/t4PRy+y8+f10o2y5z5IB8oZ78Jm
+         JfNzahHCQWQ5Wjo46/bNmVjJ4An2XmEnHbQAK/Pyautkqw47mw1dDp8Du70Dl9ZAtgz+
+         GXkVYjbaTWJer0qL0flmGqRtOOSfxPWvaDOCAxRX+9AMmZqdfK58u+x3BAq7h4a+p44p
+         0P/vp3R/Tmit/BIC5wkN7p274WeglzgE8vqaTCoKUXeRXwRo69w1TYzn4JVu2Ak1V6Ck
+         Z/pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768907992; x=1769512792;
+        d=1e100.net; s=20230601; t=1768908303; x=1769513103;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VqnDOdzFUDP6Yo0/hl8kW5DFgiqEg80gO7B+GBRDshA=;
-        b=Z94QfTCHv0JcufVgyD4SvMXt3zBgW+EIsKtwrBxxBSl895lLwTc8a8/UIY9VYgslY1
-         FoDn8bdpvbet3s8f0EL4/G1e/08f7jZQ0/Go9k37v1s7+pB6pQZE/bQK/Y5ehx4qZNlv
-         YTpbia/c5p5NOL2NjeQS71UIuw1YUDViCD5F2Q09pNB5e+Zab9DEqqF66D1ALR5Dm4g0
-         jXiuyAwHIZXjj/XB5wq7kqmtday2VQsVi5CEgzYuC1zcarBYIP+D4yQr/HCVCEZQtTbc
-         scvlJmYATrwA32VZc7pAoxapJ9s833pmUlyNVBgulqB03GD+ISr8FOzvm1gxFRg2Cc2H
-         vcxg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyXyL1dLxBjyFZ7u6BAlLbLWo6qUbKCiulX09PbMe96+AyxcBa/YujxyDcbudr3BonGdefKWizCVQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaONNeJDd98QRl4Jm5wWoYAGfmc5CDwapKolCulhm9T58Hnp6l
-	RQBBAsuIeLe3yNzxT6BfWjQ4Bv+Iqcuoj+0A7JufCNg3V7eGDqnb/hb5dqUOmpZGEXU181yBB4F
-	XMzXwin5empfopjkeIMkQgO/huHlurnHAw3j7X2J2
-X-Gm-Gg: AY/fxX7Nf7V+MUDeH1qS7KZuNLU9AW9N13+/kuzRrPksxn4j0Qzd2XYNqrN100DKu6v
-	CraKEo28j/nKx7UN50eTbG6p2wba3r2WSUh46XZNvtTwuMP9/kX8WcSgtSX8GcYmNEFpBHaFvzC
-	jywgfvNqOlhirnYZ835cimRCpJoJptZ0rFJkFx1kkRKxg5hCHjWB8g4+kndg1gFzTijocG1ayav
-	a3Ziqfu4KnGIdS66S8fCklkU2z+jUBMCE096KyiqIh9wEEQS2sil+OofuGpHwrI/iw5QzA=
-X-Received: by 2002:ac8:7fd0:0:b0:501:7d6c:2d4e with SMTP id
- d75a77b69052e-5019fafcbc0mr253993531cf.42.1768907991860; Tue, 20 Jan 2026
- 03:19:51 -0800 (PST)
+        bh=NRnrSD0zAFPtVaS5sTi5Ar8t18WLmEhSZ6lKcGsCMmg=;
+        b=BEAx4t1ygT2L/kQ5ceSwx1FYhGfdK6uwd50QzwhELxrab71B5SsM49gP+3FFjjqVud
+         z67fwlYnCt3lJdYhxihhVKSIjKgAOEpRbmteOpJbXvdBy9gHBST1ylOmqYiAr0srH8uC
+         WuQApxvylD2tEC/ew/i2dD3M+4gbpG3mD4g/9V6Cp6lCULEOFNCzdbeVUjSZ1kBIXhyG
+         F/o1p3GbbSUZvoLJ50RVuK9FVy/dPllPXhbYwdblnMuaCN9wOFWvydvpA/g64ZMHadIn
+         T1VXTXjSMPhIvHPkYr9dK8TKeJjHMtQDKP8+LUySnJNU2v8CwAN6wwR/NEzv3y4Yq9oD
+         WhRw==
+X-Forwarded-Encrypted: i=1; AJvYcCVR7Vu340m73AZreAAJeyPU/gYpwOwY0mgnG6gb9P5hCaXDMCgYtahhApNGjptE7LffyLIIz98BEXs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwrXTyGuJx/oHdL2otNkGJWWoTO1ECfsLIFQLUSUZecGGjfxPI
+	1NibyYg1P/rB2JaOMd+PuRtrN7OXRqeXW2XipJR/Uv7IP4hGZuMT+uYIlOwyQ1sxYSFLk4CRiWw
+	U9H9Fp2eB+Y6Cbn0YvuAAxDurfU9Ckqc=
+X-Gm-Gg: AY/fxX4ByYsHcbbJnuvOwWFT9XntX8+XhNCCO8kPkhARRNA5x2BSiVOjfPZJ0NaSVe6
+	QliujWSP3kJZdoYpKCd7T+r8+zovLmcpkZnkI9VhFZ+xFIh/jdXY5Uz8YQSbClj36KyThAF2omi
+	sPz0P5QLNKvwHgFL93+Aor3YddA7xTZ3Y5O9qNpwTMNmVBl6zl0o5BBVjddhPP8RdFXVKDxofp8
+	pDNCFcQRO81iDVIdGdgGA7oym31NWLGKS+5oBMB2nnKkuxu1Qm2OVSzhI1iOMv/nHSGQHyR61AC
+	rGIaA5C2UBetyNvDxuijXuziq2b/+IV8QdQY2De510YeQmnL8CZI5xXxnwsJHO4bTSQXzGI=
+X-Received: by 2002:a17:907:7212:b0:b86:edaf:5553 with SMTP id
+ a640c23a62f3a-b8796bb20f6mr1347007566b.59.1768908303287; Tue, 20 Jan 2026
+ 03:25:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260119185852.11168-1-chia-yu.chang@nokia-bell-labs.com> <20260119185852.11168-15-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20260119185852.11168-15-chia-yu.chang@nokia-bell-labs.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 20 Jan 2026 12:19:40 +0100
-X-Gm-Features: AZwV_QibkXIKRoXdwgvYg4Ojoj32k0JWscBRg_R3cjBAHC3thHUdUCmCY1qsLyM
-Message-ID: <CANn89i+fQQvoVhpg3HVh=RerB1tjKi25kGypVh3fwob2HWoH2Q@mail.gmail.com>
-Subject: Re: [PATCH v9 net-next 14/15] tcp: accecn: enable AccECN
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: pabeni@redhat.com, parav@nvidia.com, linux-doc@vger.kernel.org, 
-	corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@google.com, 
-	bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com, 
-	jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org, 
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net, 
-	andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net, 
-	liuhangbin@gmail.com, shuah@kernel.org, linux-kselftest@vger.kernel.org, 
-	ij@kernel.org, ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com, 
-	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com, 
-	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at, 
-	Jason_Livingood@comcast.com, vidhi_goel@apple.com
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+ <aW3dxuelYDM67pqZ@smile.fi.intel.com> <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+ <aW40ylvMwVhqNQMw@smile.fi.intel.com> <hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
+ <aW5kk6K30Izckvg5@smile.fi.intel.com> <e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
+In-Reply-To: <e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 20 Jan 2026 13:24:26 +0200
+X-Gm-Features: AZwV_QiT_7RWmWfYlrbsFcBlA4d2Dt_jON90l4jrfax3VAFOpLzCvwj49Sjh5L4
+Message-ID: <CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, rodrigo.alencar@analog.com, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 19, 2026 at 7:59=E2=80=AFPM <chia-yu.chang@nokia-bell-labs.com>=
- wrote:
->
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
->
-> Enable Accurate ECN negotiation and request for incoming and
-> outgoing connection by setting sysctl_tcp_ecn:
->
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> |              |  Highest ECN variant (Accurate ECN, ECN,  |
-> |   tcp_ecn    |  or no ECN) to be negotiated & requested  |
-> |              +---------------------+---------------------+
-> |              | Incoming connection | Outgoing connection |
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> |      0       |        No ECN       |        No ECN       |
-> |      1       |         ECN         |         ECN         |
-> |      2       |         ECN         |        No ECN       |
-> +--------------+---------------------+---------------------+
-> |      3       |     Accurate ECN    |     Accurate ECN    |
-> |      4       |     Accurate ECN    |         ECN         |
-> |      5       |     Accurate ECN    |        No ECN       |
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D+
->
-> Refer Documentation/networking/ip-sysctl.rst for more details.
->
-> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> Acked-by: Paolo Abeni <pabeni@redhat.com>
-> ---
+On Tue, Jan 20, 2026 at 12:43=E2=80=AFPM Rodrigo Alencar
+<455.rodrigo.alencar@gmail.com> wrote:
+> On 26/01/19 07:07PM, Andy Shevchenko wrote:
+> > On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar wrote:
+> > > On 26/01/19 03:42PM, Andy Shevchenko wrote:
+> > > > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alencar wrote:
+> > > > > On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> > > > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B=
+4 Relay wrote:
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+...
+
+> > > > > The current implementation is kind of a stripped version of
+> > > > > __iio_str_to_fixpoint(). Would you prefer something like this, th=
+en?:
+> > > >
+> > > > Do they have most of the parts in common? If so, why can't we use
+> > > > __iio_str_to_fixpoint() directly? Or why can't we slightly refactor
+> > > > that to give us the results we need here?
+> > >
+> > > __iio_str_to_fixpoint() only parses "int" chunks, adf41513_parse_uhz
+> > > was modified to accomodate the u64 parsing removing unnecessary stuff=
+.
+> >
+> > But why? The fractional part most likely will be kept int (it's up to 1=
+0=E2=81=BB=E2=81=B9).
+> > The integer can be bigger than 10=E2=81=B9?
+> >
+>
+> Correct, integer part of the frequency value goes up to 26.5 GHz
+> (uint_max is approx 4.3 GHz). Also, with the dual modulus, the PLL can
+> achieve micro Hz resolution.
+
+=C2=B5Hz is not a problem since it's up to nHz.
+So, the difference so far is the integer part that can be 64-bit.
+Again, can we factor out something to be used for this and for the
+__iio_str_to_fixpoint() cases?
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
