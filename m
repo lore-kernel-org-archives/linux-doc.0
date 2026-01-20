@@ -1,99 +1,140 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6C642E000;
-	Tue, 20 Jan 2026 12:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01B942315C
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 13:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768912747; cv=none; b=p+ejKaVRXJBZud0zwY8HG73Ahc1qi23fl62Vurjj52ZEFjKkjKsiEli69Q7mVan+Y7GysiwPRpZXudW6vu2xZo4accgTHSslju8yLPxQaZdGS0ykM9cwU7Z3GC59kBmaXqDvaiuolpTCQNsu+LGxJ84jJXXCM05fPr2149KJ5zo=
+	t=1768914482; cv=none; b=abuHlhAvBPBQEjg4ngX5MJn+xnD2LFX7SK/gURndzvxV09VnOXcPyc70Z4w7sNCA6sYpz2rjCN+Q8V96S8e354nYo/q4xrm3BTvDzQ3cgf26N+sHG32+0DrpTFnKgYXEif37MCqc5zko0bb2XESsf3VHg5+BIKB5gSUzB0xpPi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768912747; c=relaxed/simple;
-	bh=EABVssCM123G7jWb1K2EzG7DAOvkk0hnvjBy1LCXY/0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FZ77ZIXHpt1d+LCJZo/nzRPLdkue0HWYR5iDs9sEoEZJ4qFmmDKH0HRo3kXhptfvzgsDPA1hx41nye6JY2uRIOwmgDk62I0QgZ26/q++Ca6+kkNKXOJBip9W7LUu83JmBJCVdPP/+irK/XFmxf8JoLHKfUo9xy4bScyflsiqRrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pFH6JFXL; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1768914482; c=relaxed/simple;
+	bh=bYMQBpe4FCapv9lWaTVjMR/wpnPps8cMKnJ2IUEsQXg=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eWvevGrxb2E4HA+wZ8haEycmPv8qvorQdAueqs0exJt/tHt+uMcvNEzjS4ArSQ+Sq9tcOKJgtIAzZ533EYur505K4E6hznVcy+IQ0ZrJuL8ff6EMfO7ZjrOb05URcUZgZXvlVc+Sa/0xTGLSBg9bX2CABdcB6yj2TTTC6HojOHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d76yzj44; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pFH6JFXL"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=RyoonJga84J5TYM1qUcca+lnnVeYd8lqRPR77Y61Dr4=;
-	b=pFH6JFXLbQyoXthbYVtnz8XH05nCtt8/a74b8NqgOmA90cMyIz71b1r684czZpqvGBTqii1gw
-	EwJT6JaTFJUWUDxgaSf1e1NybnJQos/F8513ZI0oGkqz2qtv4KwI2v6VtbBasEwh68HEcD/2BUk
-	07caBsoVuxLI1MLC5DEUvhk=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4dwRcj6GlTzmV6J;
-	Tue, 20 Jan 2026 20:35:33 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id BE1414055B;
-	Tue, 20 Jan 2026 20:38:57 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 20 Jan 2026 20:38:56 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
-Subject: [PATCH net v01 4/5] hinic3: Use array_size instead of multiplying
-Date: Tue, 20 Jan 2026 20:38:42 +0800
-Message-ID: <18c4b650ed9d18d1163c0755bb375364362e8ffa.1768911232.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1768911232.git.zhuyikai1@h-partners.com>
-References: <cover.1768911232.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d76yzj44"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42fb2314f52so2987294f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 05:07:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768914478; x=1769519278; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SCg4baVejIBy6xrHVH6t/kFxefY8hFGPXKceU7pFofU=;
+        b=d76yzj44o/R9AJJiUfKn6x9P5vyO92Yx3QGXamQkGKFEYkHs2t21tPPD4RbWqvoPvU
+         QnEZEMRTM0n75T8wDsmP4awtJn/ppMwns/oBfYqtlA3RU0uhNRVWkY66WuWtnDo2Uv/e
+         X0wLVAAu5u6vfR2v/Mx5sIkrQR95qFJzdvLg/7klzAmVmWMPlYyBlg+nXP97gYOAXZWY
+         yUc2ZMc7U9FuHhypKLgkJ0Igg+PLTnnTQ9QQohwiZs41VpJ92r21RXfxzZXCMaK223EY
+         wOeIsG34SMhVJOs6/ahwfSchNfusd/RmAZ23sYlTs6FuPBLvarBmpj0/Wzmq0ccj1YlQ
+         Fn/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768914478; x=1769519278;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SCg4baVejIBy6xrHVH6t/kFxefY8hFGPXKceU7pFofU=;
+        b=dNfOzHPx3E3a7Xj78QiNIoZRojBZ//s//9k8HADS0+moUHwslB9yS6iN48jpDbjhJH
+         7R0T1gWJsoFGERWivaGsBIuAa8vM+gR1UuvclS+yox85kugm9oKbTiVnPWcKYA4i+edv
+         VqMiVdVJqhmBP46T5JU2vUDFcvozT8qb5v7ng3fISCI+xtNhxV++018BSkqVr5KNf0P6
+         ygHJA52jRuNRt5w5HUouJ5hV6BwQdwwoKxAd5W91nvSRYHTy3ogWg03BVvI81/fmRsEN
+         heG7tVTA6IvdndKz/CNBTImUMU7prK8izCVId2Koj8CfnxGRgZA0MzMMYRzNs9VYUPGK
+         +IjA==
+X-Forwarded-Encrypted: i=1; AJvYcCXszF3OhFl5WeM64XI9PimS1/nA8MaTnZM4/D+MZhmN8ak1HtgJdPUIelpVd4jZgcoxHWd33PXfQpQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwniAlp1Vn/vWJ9vtOwhZGHHlewwoWFBz3Msr+mMsm1YxemlsFS
+	xTsoq5gsZOvhflI/iBdxem2hyhak5bSXMk+w+HtKJbEtp6LRP8wlsAWe
+X-Gm-Gg: AZuq6aJlPAWlZym5tkk4ArnaYV94UB3BR05LfxON26R4mPrNuigMFdRfEimGz/DqNXN
+	Kxruk0Cdjag3rCoG5qncXZ2LXhuKEJki0hQpRjNISXchpyxVSAMRthzTNPoSWdn/bz00zb8Ew5s
+	9mXlKy3vkWE0eoVSPVXLc4yqzAUdK0BHhiHaJY3FEfptbRXlv0my6Aryw7AW7wawMqeqxSvvfht
+	vtQlX2axDpOGZcjPrzGR9ZSj1GD4eX7c3R1nqv4z5cQcMNt422l89zJ7z8raMHlotTPrxZYGbmO
+	IAkyWSFpb+7vQkiyOvNn1pX+Pzy0y8hP4oc8+3AkkGk0r6QQpu30OUcPlkuzdJz5EhrCtOw8TZ+
+	jxXWpT1cuT1iiDNBMOByWITqaFRsibYn+EMAD0MyBWJ9h895oqSF8DOcSb/tGM56ZzycsZbOSDN
+	mvn81a+eiDrY7C1VK28w0GnXiP6FGLKuLxzZGkkiHUGKYR96WhGAokdT6Mb8pjeszKQ3QVmWYZW
+	r09o3mTd2W9lu0=
+X-Received: by 2002:a05:6000:2486:b0:432:5bf9:cf2e with SMTP id ffacd0b85a97d-4358ff3efb4mr3038834f8f.13.1768914477693;
+        Tue, 20 Jan 2026 05:07:57 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356992201csm30156484f8f.2.2026.01.20.05.07.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jan 2026 05:07:57 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 20 Jan 2026 13:07:49 +0000
+To: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <vvdk3whhwua73g63eetnmn46t2cpbpkzzkx7m6wsbverp7gcvs@mi7cipis3i4t>
+References: <20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com>
+ <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+ <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+ <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+ <aW40ylvMwVhqNQMw@smile.fi.intel.com>
+ <hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
+ <aW5kk6K30Izckvg5@smile.fi.intel.com>
+ <e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
+ <CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+In-Reply-To: <CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
 
-According to comment of patch 03, check codes that were merged and
-use array_size instead of multiplying.
+On 26/01/20 01:24PM, Andy Shevchenko wrote:
+> On Tue, Jan 20, 2026 at 12:43 PM Rodrigo Alencar
+> <455.rodrigo.alencar@gmail.com> wrote:
+> > On 26/01/19 07:07PM, Andy Shevchenko wrote:
+> > > On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar wrote:
+> > > > On 26/01/19 03:42PM, Andy Shevchenko wrote:
+> > > > > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alencar wrote:
+> > > > > > On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> > > > > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index b6cc7bb7bb0c..44abccf9cb29 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -23,7 +23,8 @@ static int hinic3_feature_nego(struct hinic3_hwdev *hwdev, u8 opcode,
- 	feature_nego.func_id = hinic3_global_func_id(hwdev);
- 	feature_nego.opcode = opcode;
- 	if (opcode == MGMT_MSG_CMD_OP_SET)
--		memcpy(feature_nego.s_feature, s_feature, size * sizeof(u64));
-+		memcpy(feature_nego.s_feature, s_feature,
-+		       array_size(size, sizeof(u64)));
+...
  
- 	mgmt_msg_params_init_default(&msg_params, &feature_nego,
- 				     sizeof(feature_nego));
-@@ -37,7 +38,8 @@ static int hinic3_feature_nego(struct hinic3_hwdev *hwdev, u8 opcode,
- 	}
- 
- 	if (opcode == MGMT_MSG_CMD_OP_GET)
--		memcpy(s_feature, feature_nego.s_feature, size * sizeof(u64));
-+		memcpy(s_feature, feature_nego.s_feature,
-+		       array_size(size, sizeof(u64)));
- 
- 	return 0;
- }
--- 
-2.43.0
+> > > > > > The current implementation is kind of a stripped version of
+> > > > > > __iio_str_to_fixpoint(). Would you prefer something like this, then?:
+> > > > >
+> > > > > Do they have most of the parts in common? If so, why can't we use
+> > > > > __iio_str_to_fixpoint() directly? Or why can't we slightly refactor
+> > > > > that to give us the results we need here?
+> > > >
+> > > > __iio_str_to_fixpoint() only parses "int" chunks, adf41513_parse_uhz
+> > > > was modified to accomodate the u64 parsing removing unnecessary stuff.
+> > >
+> > > But why? The fractional part most likely will be kept int (it's up to 10⁻⁹).
+> > > The integer can be bigger than 10⁹?
+> > >
+> >
+> > Correct, integer part of the frequency value goes up to 26.5 GHz
+> > (uint_max is approx 4.3 GHz). Also, with the dual modulus, the PLL can
+> > achieve micro Hz resolution.
+> 
+> µHz is not a problem since it's up to nHz.
+> So, the difference so far is the integer part that can be 64-bit.
+> Again, can we factor out something to be used for this and for the
+> __iio_str_to_fixpoint() cases?
 
+I am not sure what you are suggesting, but I am avoiding changes to
+iio core at this point. If any other user needs similar behavior,
+I'd say we would need to have __iio_str_to_fixpoint() implementation
+modified, so to create a version of iio_str_to_fixpoint() that handles
+long long variables. Possibly consuming simple_strtoull instead of
+doing the manual parsing.
+
+Kind regards,
+
+Rodrigo Alencar
