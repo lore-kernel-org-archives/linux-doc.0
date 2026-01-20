@@ -1,109 +1,159 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601F0421892;
-	Tue, 20 Jan 2026 11:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768907742; cv=none; b=V6rGomeKsHwLgcje6hLDvc4jby6gWHeovSXWfMhEPoRoLi+/qOjuiKF/UikMKJVBcuW+HU+J6rTm6T9k9qAUDSGxeLBvZyexBo8+DQdRm4vl6CXcTfrqPcnF8fgpLgZ8RORsfxoVskMtIxTINT30MGevZjoSji4Kj+UYQgKcq9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768907742; c=relaxed/simple;
-	bh=JwisfVkKO4Z3FpwUNlvf3Cbw1xDvv2iEO5bqk5bBeCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JYh+koa9sgyevdgzL21Plfrg6zD1QbJjqazpvhUkc8YtFcdqHLLxg62cEq8D0LUpW4JV4/o9/+60KjbeMtbmngD8xU9YT1ZTTo6po5A83U9jXjDzTgcpin014smNyT2XvgcUKAOznH8AcR8uOTSO2fdXEwmM5L8bmj5qkK6gefc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=QJw+RVEC; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A17361660
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 11:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768907897; cv=pass; b=sJvON+izgPhQfl3VWA1Ii3eI8qJ/0xuA+oIiXO8LphzPMvfmuajdDRWweWtX6LfjEEMmgT16U0WIdML6XMpMWQjU9d/bl/wwYmW0Kb0fjEpcDGaQ4QG/jNBTXPkOeL7+XaIHx78HddyCFcxpEDaJeFxG0y42tQfYHd3+lDBiT3s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768907897; c=relaxed/simple;
+	bh=IdT7Cnqlw0gbduzUyd6rGZsiu6oNpbZ6fLa8v0srGMc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IEWLvMcAsM0sXQUrnGaU2QuQQnKlgweHBZbFzTxTZToRfsNyvB53s1yrZTOUc/7kfmPKQgOE1IP3MIpvYzUUj6dv7Efsc5Hdwyo4zwLhK5pVejBmlE3c9SOVIs+hNjyYnHipuwj1t2vPkJKPThY9NNqx1yHelrf8uMEnVY42eh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RuFIMCT+; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="QJw+RVEC"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7199C40E0281;
-	Tue, 20 Jan 2026 11:15:34 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fFjED6RZL-lM; Tue, 20 Jan 2026 11:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768907730; bh=mBvyFQuCshmJ3cwSs+iBUFdLtp7nh3PV7P2ugBf4G88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJw+RVECP6474Z9cwnRQGBFv8sIk9xEMcHs4PCqMOUshWVcXgh1mGxVFayiYt2fJU
-	 eNYOSPBgcBeAgyReMkkDtu7lDihOkorQe4FUa98gHynKy9tGbToHOIuBPLZukB/tj6
-	 6r4oJjQu9sOeLiMlXfHXGewjHRLvyjwiGzhNLSkFPmN7sUhHhxjtQPM0yrXCwXhHVd
-	 iWGuqYVtK78Y0cRmoyDJG9Cv01CGcoMSMDOrFw4dADlnjMF7oCVgXyRpMAbhzOG/hq
-	 Esq04zqEy2Zu5YrvmxwlO+KcaREy6Kpmut1oGRtHKNDtEccmH8bkcfTisf8MClvz4c
-	 6NCHWGEXr9OtuynPNfZv8JhNxDWqUh85cEq0NJn2K1ARIjqpid8uhO8MT7IYIjnG8T
-	 jAIwJ+Ru7XsdwVk9vptU2Pxd9Y46JEoMKtTaW07A4H2ylEwEdZqD9lu+m0WbSvGEup
-	 +MNT+Inm5j4hQO1nWyPfA9VLthy2QBEnoUQ0uX5fb5Wh8tVcLJY3v54M5R+UMCQJva
-	 7UDxdiMItyeuNLCKzULsjsXkUJmSR2QnQxy1THgfaj8fGQgShD+yVrqbMfdGr4SJjB
-	 VbxKe5F5k/aZqkahc3I2g64Wk0FkxDYScDW00cxNsy99hbgVLLOz21UDlpl+4ZI6zm
-	 2k5tV0YS9O70NRnieMr4FyfA=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id DB45E40E0268;
-	Tue, 20 Jan 2026 11:15:15 +0000 (UTC)
-Date: Tue, 20 Jan 2026 12:15:09 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
-	tony.luck@intel.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
-	Michael.Zhao2@arm.com
-Subject: Re: [PATCH 00/12] ras: share firmware-first estatus handling
-Message-ID: <20260120111509.GAaW9jvTirZhL_pHTT@fat_crate.local>
-References: <20251221013534.GAaUdO5vWqMWAdbWbd@renoirsky.local>
- <20251229115440.2734800-1-ahmed.tiba@arm.com>
- <20260114141551.GKaWelF-Gsvzr71LUs@fat_crate.local>
- <dc2f3dd7-b9db-4a2d-b431-f70738cefcfd@arm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RuFIMCT+"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5029901389dso33385351cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 03:18:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768907894; cv=none;
+        d=google.com; s=arc-20240605;
+        b=E2FIaxDyo7tbOTHm3cweS0OfsPqxZP4ENsamhAiC9We5OJ1fbHZdzstuzoRk5qpDU5
+         QkE01j1/BtYTsXiOfwO7foG/cqLr7kfMwb1LiPsJnwc5EvQNX2X+NnLMyYQfyvAQtiy9
+         VpfBGrU/KpYsu3o8YgPBp8BJgR0XB/dZ0PkCvG2PrT7gR1A0TKexyq5VFZB337F70WG0
+         gzXTtr6fn/e15S10AMaDEtz3uIX6O4RvUgCadGPuHu7Ac5P4QFVNlVyHh1lchp+WoCEn
+         XzODoAuJpRxui2WmFlHI5YpcEhG0wPOf/NqNBSjVNovk+FEUa+BFW07XXa31f4qEXdHS
+         UiUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LUXil22tiizCYyaIA03hv+e6KoZWp5K7Bky9alaR5BI=;
+        fh=lJ5/tCLEWyLs2jE44ePW3Ea/F3aSngAPNTMZ0p3A0m8=;
+        b=Z871uZxAaoaol1ggjzyvq9kVJi8qf/SXDQxC3gSNiKDyU3Enn/AYMXaPcfxGv3yOGK
+         xUZS8BWFNP7PEPHtx9/FOEBs5rsNf0LXX5CqOEhlK33pQRwhJUuRqrQwfkJKNJTiM5Sy
+         s7mKUcYmN0EucoJII0a/ST4sIqzAzyDUha5USes+24j9sngHijhEXcu10UaJynusqxnx
+         f44TmygvQ13/VsYhzacanHSpCmtyOatwrUo38Qzq8uUyYujDs8O+/ZO0s2PDFe39DdxG
+         ANnQZfTi+G3w52V3i+RL7LHlXdF1MSSFgMuw4St8rQnvNnMS5LhfD+zv1wz9N7y9Ae7E
+         q5Qg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768907894; x=1769512694; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LUXil22tiizCYyaIA03hv+e6KoZWp5K7Bky9alaR5BI=;
+        b=RuFIMCT+LVz7niNHIRJQfbaoPRSsdO8Hqz0Z/J3m63nr6LKihwAtY76EjTAxL7Y5He
+         DTI0+HBc2DA7Wws9P3a+ky+IPgAJiu38WkSpaLB9WI4HPkcQQJa1O5OABpYGa+wOaog0
+         2Xbxu3SsZ+voGu4vgCZtfGmL2Jx9v9GWUY1tMOd4nk0RZVG6ynthaiaHNcQoixfRAI/x
+         eQphwNh2B/mS+Kq3XTCmbTH89oN2NySA/zUtUdQYuoihubFh6NZjZW4Z0lv5RxuG5udH
+         jlwtVEf9G+ok8ktVWOYSAZZ6NkFiMIZO0+uEHNZYn/kHcdsP++8gMj3Q8f5KClcKCmsF
+         lhvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768907894; x=1769512694;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LUXil22tiizCYyaIA03hv+e6KoZWp5K7Bky9alaR5BI=;
+        b=bcV13x+hbOMWrrPC/H7/fQ61EG9cZkDvMkb2u3lqIZ0C2PcyFW6Gsyr3NbeHrTmgRa
+         QZJ/QxUoCuMpcgN85KuMOvoapP2QWZieqbPda1QCZmdhYg9lHmB4/N6X2RLItma0p24v
+         2lqiHu1/uHAKdOLRBTvLr4f7Dc3BCFb6GBFFAdU8Fm4CTtLJ4OEa4ycg0KpVvqqiTpTj
+         rsnXVOv7y1dDfZQvysIb0kPidf49B6lLUp4Nb14O0pUiu5rHhswUhoWXKHF9IZJSA53Q
+         K9gbOGKxQJ0KdGRJO9MrGN7ZgP05qKz1hw6E+jfHAa0s6VQBazRAWfhfhVM9bC+D9oe3
+         a7aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxA6SMa8CTXbPuTF/E3njptBsPLT1uzBX8cNutyA/CeAP//7smy6rM+9BBxLAlkiQGgXxioRWzBDk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3VIa/ToSbnqG6NizLg4HX0yzOrQ6CKurItMhaLjjEyC349zea
+	EZ7Jx5DFBRws/1q+CosvVW3N8QIefQXg4ywcRNQU3KlY+M2sClaFerP216Y+SDgZrZ/d7Js/kd9
+	Kucy1Hu80PRhlMX1fYUvoFEeWnBMvA2XtGRkn99/J
+X-Gm-Gg: AY/fxX7C87tyz91neWGAbmZPnnNnx8oy6yDQmvzMdE6S8uXe70s3EJcwrcG7sY/Dw03
+	OOai1ENnovInsgPcHj0DqVnT8jX6H8P8fdW3ySFdg1ne3LOolceM37xbPg/83zTqmyfZCSVgTpU
+	iOc62KvvtTYLHO4vnA9GtUiPd6J2YaHguyxG//GHK7c4Cv7x2vzdgdv4dpGaRj5gYPAJfcUDpjt
+	4b3BIgdNQp6uOmwE5ZnMM65/fsAITp8IwKPxqRNVzZj41SDkdcYcwiLDLkk7maHBU00u3A=
+X-Received: by 2002:ac8:598d:0:b0:4f4:de04:2434 with SMTP id
+ d75a77b69052e-502d84b0bdfmr14314171cf.11.1768907893248; Tue, 20 Jan 2026
+ 03:18:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <dc2f3dd7-b9db-4a2d-b431-f70738cefcfd@arm.com>
+References: <20260119185852.11168-1-chia-yu.chang@nokia-bell-labs.com> <20260119185852.11168-14-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20260119185852.11168-14-chia-yu.chang@nokia-bell-labs.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 20 Jan 2026 12:18:02 +0100
+X-Gm-Features: AZwV_Qgc8lwWGTeaXcXgJnQwinHD3Ss17Aa4vUO4GXRwqkl214KVxmDeii_C688
+Message-ID: <CANn89iKhAs3rMWFdmM-rma1wS-Xd7mf9PBUQKL8YMKhB81Jkkw@mail.gmail.com>
+Subject: Re: [PATCH v9 net-next 13/15] tcp: accecn: add tcpi_ecn_mode and
+ tcpi_option2 in tcp_info
+To: chia-yu.chang@nokia-bell-labs.com
+Cc: pabeni@redhat.com, parav@nvidia.com, linux-doc@vger.kernel.org, 
+	corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@google.com, 
+	bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com, 
+	jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org, 
+	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net, 
+	andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net, 
+	liuhangbin@gmail.com, shuah@kernel.org, linux-kselftest@vger.kernel.org, 
+	ij@kernel.org, ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com, 
+	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com, 
+	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at, 
+	Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 15, 2026 at 12:17:17PM +0000, Ahmed Tiba wrote:
-> In drivers/acpi/apei/ghes.c, this subset of CPER handling
-> is already implemented using a number of helpers mostly named
-> estatus_* rather than cper_*.
+On Mon, Jan 19, 2026 at 7:59=E2=80=AFPM <chia-yu.chang@nokia-bell-labs.com>=
+ wrote:
+>
+> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+>
+> Add 2-bit tcpi_ecn_mode feild within tcp_info to indicate which ECN
+> mode is negotiated: ECN_MODE_DISABLED, ECN_MODE_RFC3168, ECN_MODE_ACCECN,
+> or ECN_MODE_PENDING. This is done by utilizing available bits from
+> tcpi_accecn_opt_seen (reduced from 16 bits to 2 bits) and
+> tcpi_accecn_fail_mode (reduced from 16 bits to 4 bits).
+>
+> Also, an extra 24-bit tcpi_options2 field is identified to represent
+> newer options and connection features, as all 8 bits of tcpi_options
+> field have been used.
+>
+> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> Co-developed-by: Neal Cardwell <ncardwell@google.com>
+> Signed-off-by: Neal Cardwell <ncardwell@google.com>
 
-Which helpers are those?
+Are you sure Neal Cardwell really is ok with this patch, saw it and
+gave his SOB ?
 
-$ git grep -Ei "\Westatus_" drivers/acpi/apei/ghes.c
+> ---
 
-doesn't give me a single one. Maybe I can't grep.
+>  struct tcp_info {
+>         __u8    tcpi_state;
+>         __u8    tcpi_ca_state;
+> @@ -316,15 +334,17 @@ struct tcp_info {
+>                                          * in milliseconds, including any
+>                                          * unfinished recovery.
+>                                          */
+> -       __u32   tcpi_received_ce;    /* # of CE marks received */
+> +       __u32   tcpi_ecn_mode:2,
+> +               tcpi_accecn_opt_seen:2,
+> +               tcpi_accecn_fail_mode:4,
+> +               tcpi_options2:24;
+> +       __u32   tcpi_received_ce;    /* # of CE marked segments received =
+*/
+>         __u32   tcpi_delivered_e1_bytes;  /* Accurate ECN byte counters *=
+/
+>         __u32   tcpi_delivered_e0_bytes;
+>         __u32   tcpi_delivered_ce_bytes;
+>         __u32   tcpi_received_e1_bytes;
+>         __u32   tcpi_received_e0_bytes;
+>         __u32   tcpi_received_ce_bytes;
+> -       __u16   tcpi_accecn_fail_mode;
+> -       __u16   tcpi_accecn_opt_seen;
+>  };
 
-> The naming therefore originates from the existing GHES implementation, not
-> from a new abstraction.
+tcp_info is ABI.
 
-And even if, calling it a "estatus core" and making it a separate thing is
-just confusing and unnecessary.
+We can not add/remove fields in the middle.
 
-> What I did was lift that existing estatus_* logic so it can be reused by a
-> non-ACPI provider, rather than duplicating the CPER handling
-> in a parallel DT path.
-
-Nothing wrong with that as long as you simply export common helpers and we
-agree on how they're going to be shared. We do stuff like that all the time.
-
-> Because the DT-based path still needs a clean way to call into the shared
-> logic without dragging in ACPI plumbing.
-
-Yes, carve them out in a separate compilation unit and select it in your DT
-glue and that's it. No need for a Kconfig item and calling it a "core" bla.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+You must add fields at the end of it only.
