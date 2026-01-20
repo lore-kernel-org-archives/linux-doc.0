@@ -1,84 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310F63B8D68;
-	Tue, 20 Jan 2026 22:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC70D33C521;
+	Tue, 20 Jan 2026 22:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768949003; cv=none; b=IQCpR1AiQ98SfqT279z1wN3LHE4nZrQC6qzOiGoJOfyx/W1petkai8o4HEhIFWVXZbu3OsR6VHafG3VCd7KFkenL8vUp96KqN/8YDomSD4wkZjzNCYa6yA2dMPzQweINcnMH/5xa+yLQj1GOnu0sR7S2OXXD/tuKUh7jNT+T+u0=
+	t=1768949812; cv=none; b=JW2ve5rkmty3xIhKahLxWkWs+VGhPiNuzb194LFNs+GHuzvVeHh+qrt5DWUzd02MvNSCVQvHZsvW5pNFe4w1DKpr8b3HQXN1DT2r9EibqoYNt7gAk39ZCtwbwrFbWnMI1iklaRl+OODb793Pf4aMntr8gQ+3wHWfYw6GvIx3d4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768949003; c=relaxed/simple;
-	bh=FQJ3EqIPk1L40PaEl5wsScXaThKGK3nfpIxpMrbVLJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vF3QopTHeWBeXeBOfPknWSCtugahDbOazeMbcB6P2uBStxVbmqjfelgS0TYkAwA1bWz11MhM1ewYtw3OmopS7Zb+lKrXRLzBy2n0xG/Xk+vhEycTJvCvaSDvImhu03M6mwcU73SqfOoy1tJEs5Aia5Ce/+LSqtKXiStzH/X3zC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9MTK2tv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768949812; c=relaxed/simple;
+	bh=Q5UCLn5W6JABcLMKY9DAfSt0Og5walGe+HLU59/5skw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aCRRQA/HjK3+LU6MltLhEbt6MMaOrrcfMfPrM4N8UiD1BQYuZshR5emXytkc8EGgk0mNLXXmFu2Tm9fhRpXOiSKRXm7fPiMKc8ZDSp7KgdvuNTU8k9Dg4nkZEfAK1FZLINFASG8lblhnaK7e2o3L5o3jqypvwC9kPsR73qhrLgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lRK3m4HZ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9MTK2tv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53103C16AAE;
-	Tue, 20 Jan 2026 22:43:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768949002;
-	bh=FQJ3EqIPk1L40PaEl5wsScXaThKGK3nfpIxpMrbVLJ8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=d9MTK2tv+LnVl1eArfbVtGbEOHUDsE8gU7mpAPlHoEtBJy1tylR2efUj73jDtn5ZB
-	 0CdJePdkup8z73mFeKgcGARv3q4nf5KBp/R+QgInmqM4pzIC9gzgbrE0fL4LdWtXTY
-	 fxQ0sCQ57pZjUzvg8tOvcjLOb3NQICk+L+eiZnfu7kNmAptClBJc9IOHqLjSTV4Hx3
-	 rJEfLxkUNcjTIJMajsbxc+JfoooDah75Tm83uTHbgvlEYOMS3R14J79aogZxQPG8po
-	 TODqUYTLKyv4QdlfSHgE1GwwE5ahRg9e/iUtVD7aob74DT4ZEMLCzfrxddFPA5IwfS
-	 +JurG7iY2xlmQ==
-Date: Tue, 20 Jan 2026 23:43:17 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] tools/docs: sphinx-build-wrapper: avoid spurious
- rust docs generation
-Message-ID: <20260120234317.48887b52@foz.lan>
-In-Reply-To: <20260118-docs-spurious-rust-v1-0-998e14b9ed9e@weissschuh.net>
-References: <20260118-docs-spurious-rust-v1-0-998e14b9ed9e@weissschuh.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lRK3m4HZ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7FF8940C27
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1768949809; bh=3eKsNV/AaXk/1OQudVxiK4Bs15qEnnFSiizsYY5lccQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lRK3m4HZ4T4+ITEXyUBHIvV7JxjUFKNcojklaMwM9rDZue4KHvaldVW1UggAAAe4L
+	 GieTTeWbeOsXMR7azmTtfDsMiFyabGp4vi/SsAp3/lBAidrxodGcFiaPeFh4g7hkzV
+	 QLqu+kr42R5IPFv1JeH8fVcx+9aUaS4E+8tW652wCazgUbI5nxAagsCgrOGX1+y6xa
+	 LgZYcw+7sLD2FuBZ3wUcbQz/UFLIoXDLuuJrG/2FhLq68byqS+ssTlz1UdfpsguTls
+	 cCpocjMtriCI6ZIH4tUEDa2Q3N8L/6liAMZrm1UvY3Uapn+EsCE/TZ8hDHYFtE6gcr
+	 oIaeB0oOAtZqg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7FF8940C27;
+	Tue, 20 Jan 2026 22:56:49 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Alex Shi
+ <alexs@kernel.org>, Carlos Bilbao <carlos.bilbao@kernel.org>, David Airlie
+ <airlied@gmail.com>, Federico Vaga <federico.vaga@vaga.pv.it>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nsc@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona
+ Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>, Yanteng
+ Si <si.yanteng@linux.dev>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
+ <thomas.weissschuh@linutronix.de>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Avadhut Naik <avadhut.naik@amd.com>,
+ Chenguang Zhao <zhaochenguang@kylinos.cn>, David Disseldorp
+ <ddiss@suse.de>, Dongliang Mu <dzm91@hust.edu.cn>, Gang Yan
+ <yangang@kylinos.cn>, Kees Cook <kees@kernel.org>, Masahiro Yamada
+ <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Tamir Duberstein <tamird@gmail.com>,
+ Vincent Mailhol <mailhol@kernel.org>, WangYuli <wanyl5933@chinaunicom.cn>
+Subject: Re: [PATCH 0/9] docs: Fix kernel-doc -Werror and moves it to
+ tools/docs
+In-Reply-To: <cover.1768823489.git.mchehab+huawei@kernel.org>
+References: <cover.1768823489.git.mchehab+huawei@kernel.org>
+Date: Tue, 20 Jan 2026 15:56:48 -0700
+Message-ID: <87wm1bhozz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sun, 18 Jan 2026 00:26:20 +0100
-Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Currently the rust docs are generated for each entry of SPHINXDIRS,
-> even those not mentioning the rust directory.
->=20
-> Only generate the rust docs only once and only when requested.
->=20
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
-> Thomas Wei=C3=9Fschuh (4):
->       tools/docs: sphinx-build-wrapper: generate rust docs only once
->       tools/docs: sphinx-build-wrapper: make 'rustdoc' a local variable
->       tools/docs: sphinx-build-wrapper: compute sphinxdirs_list earlier
->       tools/docs: sphinx-build-wrapper: only generate rust docs when requ=
-ested
->=20
->  tools/docs/sphinx-build-wrapper | 80 +++++++++++++++++++++--------------=
-------
->  1 file changed, 41 insertions(+), 39 deletions(-)
+> Hi Jon,
+>
+> After a restful weekend and revisiting both yours and my series,
+> I'm opting to send a patch series merging both into one:
+>
+> - The first 4 patches are from my series (no changes since v5):
+>     https://lore.kernel.org/linux-doc/cover.1768642102.git.mchehab+huawei@kernel.org/T/#m81211c0ff38bbaa82b8b0b6606f242ccc0c2a9ac
+>
+> - It follows by the 2 patches from your renaming series:
+>     https://lore.kernel.org/linux-doc/20260119111745.4694546b@foz.lan/T/#m51099c31a99dccccdb4d17cbaadc818e9e4df8c4
+>
+>   with the fix I proposed for kernel-doc to find its libraries
+>
+> I added 3 patches afterwards:
+>
+>   - patch 5: move possible return values from docstring to helper message;
+>   - patch 6: improve MsgFormatter description;
+>   - patch 7: moves kerneldoc_bin from conf.py to the sphinx/kerneldoc.py
+>     (this is now just a debugging message - no need to pick it from env)
+>
+> IMO, this series is ready to be merged.
 
-Patches in this series look ok. Code reviewed and I also did some
-tests, and all LGTM.
+Patch 7 adds a new warning:
 
-So, for this series:
+  WARNING: unknown config value 'kerneldoc_bin' in override, ignoring
 
-[mchehab: tested building with and without config RUST, doing
- a full build and also passing --sphinxdirs rust peci and just
- --sphinxdirs rust]
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Tested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+It needs to be taken out of sphinx-build-wrapper; I've appended the
+following patch to the series to deal with it.  I think I'll go ahead
+and tack on a patch putting in the scripts/kernel-doc symlink, then I
+guess it's ready to go.
 
 Thanks,
-Mauro
+
+jon
+
+From 4a3efd128f7da996b677151790d043ec44a00561 Mon Sep 17 00:00:00 2001
+From: Jonathan Corbet <corbet@lwn.net>
+Date: Tue, 20 Jan 2026 15:50:38 -0700
+Subject: [PATCH] docs: sphinx-build-wrapper: stop setting kerneldoc_bin for
+ Sphinx
+
+Now that the Sphinx build does not use the kerneldoc_bin configuration
+variable, we shouldn't try to set it in the build wrapper or we get a nifty
+warning:
+
+  WARNING: unknown config value 'kerneldoc_bin' in override, ignoring
+
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ tools/docs/sphinx-build-wrapper | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index cb2a5005e633..9f1ae1485f84 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -750,7 +750,6 @@ class SphinxBuilder:
+ 
+             build_args = args + [
+                 "-d", doctree_dir,
+-                "-D", f"kerneldoc_bin={kerneldoc}",
+                 "-D", f"version={self.kernelversion}",
+                 "-D", f"release={self.kernelrelease}",
+                 "-D", f"kerneldoc_srctree={self.srctree}",
+-- 
+2.52.0
+
