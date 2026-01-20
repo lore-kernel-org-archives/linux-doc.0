@@ -1,96 +1,156 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC623BB9FB;
-	Tue, 20 Jan 2026 09:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558663BC4FB;
+	Tue, 20 Jan 2026 09:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768900220; cv=none; b=XTnqRk0R2fGCg84d7q6fNVAb3CoMXiujeruJwZZ7ggIBcvhEkL/QvO74TvIEErVOEU6abXVTTd8y4C3q0JiyLGatVRiRIF568NUZItZteMzYaK7OhWCKUDepotS4A5VCwq4JK3a0LAZeLAf2KLJtVXshL8GFerT880t+xjY40I0=
+	t=1768900350; cv=none; b=ncRvLpd5ckhN3NN6mWjfbqPG+S1x2IbDDTSR5SSA4SzgTP/t35hBfbMbiS/kAEM7neW50qdAKzhA/PsIgv8gkAz3UftMIZMwk62KLC1egYR+qYL8RjLG4Cq54QlHGeRxXj+/J9AboDn7NJoS1rB3vg/UHk17Cv7dn70T/ltW9/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768900220; c=relaxed/simple;
-	bh=INWriyqgU8K5z5tavmStfbwrpGA/bQ2dhB63CYeeg+U=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=Ya9W/VKq6IM0H6FavuKAx/OTw3n2Mvtsea2Fl60YV3v4Tx1oSnLnD55hJo/xO6i19goLVqeKaEZYEtbYRSRkFrmT/1kEG/BLfqq1YG2QYUq0qXtXj6Zw9Ce9rkitexo5nZPFgBmTLDuED83f7peBGtFKZw1r5xa0qZ8sm5ixSQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DPThlz90; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DPThlz90"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60K99blX3564407
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 20 Jan 2026 01:09:38 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60K99blX3564407
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1768900179;
-	bh=INWriyqgU8K5z5tavmStfbwrpGA/bQ2dhB63CYeeg+U=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=DPThlz90mXRExrFVls06gcRHiiYwXZRSTUEQYNuOga+6skrbb8DihoaoS4YFodhqz
-	 jFhXmhw36tt8Hi8m5ZhdObFoX3QGfyD1y25Z7YRiuwLm3RiiyRgIXonFWT9O/+yC7d
-	 pWchnPchIjcexYram0t4JrdGDifmy4CKb/prVFKykH+7v3qFn3IQCGHwkwivqIkHop
-	 9OzfVKzUE9b3mGgCNEQ7dFxDOaw+s5RXcyZm5PnmkTUyoZdTGf6gFKvBM1VFNl4JZk
-	 ywmoyC0SsYYax7ZGtiEkQNwagZHo19H6EPk1twXOO+ei0IGkrhaQMzkythMmhvQmTz
-	 NWXlhpE3r8bBg==
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1768900350; c=relaxed/simple;
+	bh=B05gVguD6HO3xQvzt2rGs+vO4e4DANFflmUfKhWSQPw=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hsV8UjvU7eZoV4gGPN1QsjJJUzVdQPFELTRzmEnOJ+Y2p3Tx87Bpvz1l0FBRoSW1+lB7dY6f9gZ/4eU3XVgnndEFSSTomoOre4rKrDavOtbZDbcbkccFNs+HNe5dcwFNX4ohja/TrX4LokkAaHoT3aTazURrYOM3DuV1Q6Wvx9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dwM5j0FVBzHnH4v;
+	Tue, 20 Jan 2026 17:11:53 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7874640571;
+	Tue, 20 Jan 2026 17:12:24 +0800 (CST)
+Received: from localhost (10.203.177.99) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 20 Jan
+ 2026 09:12:22 +0000
+Date: Tue, 20 Jan 2026 09:12:17 +0000
+From: Alireza Sanaee <alireza.sanaee@huawei.com>
+To: John Groves <john@jagalactic.com>
+CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
+ Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>, John Groves
+	<jgroves@micron.com>, John Groves <jgroves@fastmail.com>, Jonathan Corbet
+	<corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang
+	<dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara
+	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand
+	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, "Darrick J .
+ Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, "Jeff
+ Layton" <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, "Jonathan
+ Cameron" <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi
+	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
+	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, James Morse
+	<james.morse@arm.com>, Fuad Tabba <tabba@google.com>, Sean Christopherson
+	<seanjc@google.com>, Shivank Garg <shivankg@amd.com>, Ackerley Tng
+	<ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, Aravind Ramesh
+	<arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH BUNDLE v7] famfs: Fabric-Attached Memory File System
+Message-ID: <20260120091217.00007537.alireza.sanaee@huawei.com>
+In-Reply-To: <0100019bd33a16b4-6da11a99-d883-4cfc-b561-97973253bc4a-000000@email.amazonses.com>
+References: <20260118222911.92214-1-john@jagalactic.com>
+	<0100019bd33a16b4-6da11a99-d883-4cfc-b561-97973253bc4a-000000@email.amazonses.com>
+Organization: Huawei
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v9 17/22] KVM: x86: Advertise support for FRED
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <aW83vbC2KB6CZDvl@intel.com>
-Date: Tue, 20 Jan 2026 01:09:27 -0800
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C3F658E2-BB0D-4461-8412-F4BC5BCB2298@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-18-xin@zytor.com> <aRQ3ngRvif/0QRTC@intel.com>
- <71F2B269-4D29-4B23-9111-E43CDD09CF13@zytor.com> <aW83vbC2KB6CZDvl@intel.com>
-To: Chao Gao <chao.gao@intel.com>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
+On Sun, 18 Jan 2026 22:29:18 +0000
+John Groves <john@jagalactic.com> wrote:
 
+Hi John,
 
-> On Jan 20, 2026, at 12:07=E2=80=AFAM, Chao Gao <chao.gao@intel.com> =
-wrote:
->=20
-> On Mon, Jan 19, 2026 at 10:56:29PM -0800, Xin Li wrote:
->>=20
->>=20
->>> On Nov 11, 2025, at 11:30=E2=80=AFPM, Chao Gao <chao.gao@intel.com> =
-wrote:
->>>=20
->>> I'm not sure if AMD CPUs support FRED, but just in case, we can =
-clear FRED
->>> i.e., kvm_cpu_cap_clear(X86_FEATURE_FRED) in svm_set_cpu_caps().
->>=20
->> AMD will support FRED, with ISA level compatibility:
->>=20
->> =
-https://www.amd.com/en/blogs/2025/amd-and-intel-celebrate-first-anniversar=
-y-of-x86-ecosys.html
->>=20
->> Thus we don=E2=80=99t need to clear the bit.
->=20
-> In this case, we need to clear FRED for AMD.
->=20
-> The concern is that before AMD's FRED KVM support is implemented, FRED =
-will be
-> exposed to userspace on AMD FRED-capable hardware. This may cause =
-issues.
+I wonder if these new patches sent recently have been reflected on the github repo readme files. It seems it is not, is it?
 
-Hmm, I think it=E2=80=99s Qemu does that.
+> This is a coordinated patch submission for famfs (Fabric-Attached Memory
+> File System) across three repositories:
+> 
+>   1. Linux kernel (cover + 19 patches) - dax fsdev driver + fuse/famfs 
+>      integration
+>   2. libfuse (cover + 3 patches) - famfs protocol support for fuse servers
+>   3. ndctl/daxctl (cover + 2 patches) - support for the new "famfs" devdax
+>      mode
+> 
+> Each series is posted as a reply to this cover message, with individual
+> patches replying to their respective series cover.
+> 
+> Overview
+> --------
+> Famfs exposes shared memory as a file system. It consumes shared memory
+> from dax devices and provides memory-mappable files that map directly to
+> the memory with no page cache involvement. Famfs differs from conventional
+> file systems in fs-dax mode in that it handles in-memory metadata in a
+> sharable way (which begins with never caching dirty shared metadata).
+> 
+> Famfs started as a standalone file system [1,2], but the consensus at
+> LSFMM 2024 and 2025 [3,4] was that it should be ported into fuse.
+> 
+> The key performance requirement is that famfs must resolve mapping faults
+> without upcalls. This is achieved by fully caching the file-to-devdax
+> metadata for all active files via two fuse client/server message/response
+> pairs: GET_FMAP and GET_DAXDEV.
+> 
+> Patch Series Summary
+> --------------------
+> 
+> Linux Kernel (V7, 19 patches):
+>   - dax: New fsdev driver (drivers/dax/fsdev.c) providing a devdax mode
+>     compatible with fs-dax. Devices can be switched among 'devdax', 'fsdev'
+>     and 'system-ram' modes via daxctl or sysfs.
+>   - fuse: Famfs integration adding GET_FMAP and GET_DAXDEV messages for
+>     caching file-to-dax mappings in the kernel.
+> 
+> libfuse (V7, 3 patches):
+>   - Updates fuse_kernel.h to kernel 6.19 baseline
+>   - Adds famfs DAX fmap protocol definitions
+>   - Implements famfs DAX fmap support for fuse servers
+> 
+> ndctl/daxctl (V4, 2 patches):
+>   - Adds daxctl support for the new "famfs" mode of devdax
+>   - Adds test/daxctl-famfs.sh for testing mode transitions
+> 
+> Changes Since V2 (kernel)
+> -------------------------
+> - Dax: Completely new fsdev driver replaces the dev_dax_iomap modifications.
+>   Uses MEMORY_DEVICE_FS_DAX type with order-0 folios for fs-dax compatibility.
+> - Dax: The "poisoned page" problem is properly fixed via fsdev_clear_folio_state()
+>   which clears stale mapping/compound state when fsdev binds.
+> - Dax: Added dax_set_ops() and driver unbind protection while filesystem mounted.
+> - Fuse: Famfs mounts require CAP_SYS_RAWIO (exposing raw memory devices).
+> - Fuse: Added DAX address_space_operations with noop_dirty_folio.
+> - Rebased to latest kernels, compatible with recent dax refactoring.
+> 
+> Testing
+> -------
+> The famfs user space [5] includes comprehensive smoke and unit tests that
+> exercise all three components together. The ndctl series includes a
+> dedicated test for famfs mode transitions.
+> 
+> References
+> ----------
+> [1] https://lore.kernel.org/linux-cxl/cover.1708709155.git.john@groves.net/
+> [2] https://lore.kernel.org/linux-cxl/cover.1714409084.git.john@groves.net/
+> [3] https://lwn.net/Articles/983105/ (LSFMM 2024)
+> [4] https://lwn.net/Articles/1020170/ (LSFMM 2025)
+> [5] https://famfs.org (famfs user space)
+> [6] https://lore.kernel.org/linux-cxl/20250703185032.46568-1-john@groves.net/ (V2)
+> [7] https://lore.kernel.org/linux-fsdevel/20260107153244.64703-1-john@groves.net/T/#m0000d8c00290f48c086b8b176c7525e410f8508c (related ndctl series)
+> --
+> John Groves
+> 
+> 
+> 
 
-We have 2 filters, one in Qemu and one in KVM, only both are set a =
-feature is enabled.
-
-What I have missed?=
