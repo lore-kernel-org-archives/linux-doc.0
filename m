@@ -1,134 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160DE1F12E0;
-	Tue, 20 Jan 2026 04:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC14A332EC8
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 04:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768883424; cv=none; b=mCSxjuDP6vNZ/Qaxy500MSjebrSNDT8Lzb1JyVy2I7/Iq06r3pa66KF6kSbhcQvxkQH0Z3J7CeHs20P3Z0mtMMJq2Ze+wfiby/r8ksVqr3mmLkf+v1gOCytfAksaUKMw5pP7sU5W+MqfZwjnZ1lKHwikEuyczVQJi9y7zlozrIY=
+	t=1768884446; cv=none; b=HCvPDMPB9erlMnQTw6yTt+BAaKC+A6DFjgAeC+B+CPMU5Yvt3tAyDLpNDOu0dbFTr0mmXjLmkf8lyw08pSCZHmyAALINhbascqZR2sa4zkv3BxYcgBN73vhdUzJGCeugpmFf6risZCLyn8TZn04IuT6SZ4wnR5U/dX0a7N3qgM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768883424; c=relaxed/simple;
-	bh=HrTGxOIzAWOsG442JYWnxT5VLuB38BiL2DLjt2iHGC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PAyXWI5UuYpLq5sV0XirRSj3iLJg+Wes0Ew3QQLVO7BqoVyIAQ/XjUN07667HVy7cSpEWocO5yidc7/bKFpoqUZY09OOSKXqNBmHu6zS2bwjelZICrHAjPzzgNoCNTNrPeNtapFohSkA8H1uTNk+ykuzhOvIXQ1+iG7w0W1/JV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oBSIMFob; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768884446; c=relaxed/simple;
+	bh=n5A0OXSyk7lo7f3jHURyz0bX/5X3lYhpTO7Z9MO/Uec=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OUDdQOANKN9M1XH479XdaXrMGv+555YnXbyShcaD15F7jaUGhhMiuzKQ/2vu4p4arrd2QRCCx2mjB+TDEiGtB6t6tQNo9/BzssMMZLwRNZrCLdLmiPkJPLlimZK5+7k6AJWAhMF+pAkn2+DnFM7lVC51BXKleYWTwjGdMj5qYnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFFLR4B2; arc=none smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oBSIMFob"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B01AC16AAE;
-	Tue, 20 Jan 2026 04:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768883419;
-	bh=HrTGxOIzAWOsG442JYWnxT5VLuB38BiL2DLjt2iHGC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oBSIMFobJeA77Y+l8QTN3AbJFijrNmnr5lDh4TawZ3CvFV60KRDyx1E8s1jVb5Vrf
-	 ALL4yL6k8FxoklE4h4n6j+zrIBCtaxyxuFw/Xw6t6l5Vr2mEQx+1MpnD9GJwhdFqsk
-	 ra4zHUzFyrZiTkxxlHIOTdfCMuAWNqi9z9DMAVwdC9aR6Yqxwqo5lZutGiCVeiY/lP
-	 uRIbuRbe06cDopPqiuufc5BBqsEt5pSRA+SeTi4l/yhfzF56lI8pgOMpUv69wyyYve
-	 /MU6wR9BgMc/jO7UYPTV3BU+bBHoZ51afst/oumh+1zVZfLKvwnQhuHBkz+xMwIY8E
-	 Zuclt0UzSo7SQ==
-Date: Tue, 20 Jan 2026 04:30:14 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>, linux-gpio@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 01/23] gpiolib: Correct wrong kfree() usage for
- `kobj->name`
-Message-ID: <aW8E1i6L7-fhORFA@google.com>
-References: <20260116081036.352286-1-tzungbi@kernel.org>
- <20260116081036.352286-2-tzungbi@kernel.org>
- <20260116141356.GI961588@nvidia.com>
- <CAMRc=MfNHuTYsZJ+_RqPN1TtLOHsenv2neD5wvhA18NH6m7XjA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFFLR4B2"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-661106487f9so4993393eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 20:47:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768884443; x=1769489243; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i2Ldiltg0ilm3GITC1FlZ3jygue5ViLbnCHXlSmV/Sg=;
+        b=EFFLR4B2LEQ1h3TOilRRfEsNDy6prAiJFBaBHNO8lylbNd9ppeD7DUZ8NQhpJaCijh
+         AW5hkAIpKR4VrEvDwBusD+1jLkTWtm8GbBNmQtbitsRpi8ylBnMCL3IRG/4BAi5bjeaI
+         HH8SNdyh+0lmOLtxc+CnXoWePN6k7jV8CRspWe4aNkewgexFGQ/pRr7yb8QQCQrbQJ2F
+         +NrKy/OtsScs91dkHemZ5BMR1dHuKXcfrLr0aMjAD0FwwLnDERHwsviDesSMEbqwbmQv
+         3HpnYzKnVpasBS+C7RbrIyybhLpGtS71qxqLBG/qhuWm/ZJeXMBx8nKb5mTXArpcURYV
+         LIWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768884443; x=1769489243;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=i2Ldiltg0ilm3GITC1FlZ3jygue5ViLbnCHXlSmV/Sg=;
+        b=FppAE9OSj/A4nkIN5GmQ/oWry6jcpr2g8O3WdZUusfYh4WaPKR3GBYUgAlQnBWXfh4
+         H+Ce2EyUGMPKWaoRf8m2b4Y44sywf1E9jqsJ51CT8P6MTqSelAcolps/OlC8Z2EmsNI3
+         F0Ue/oqdX9QdmrfoEUlSn9bJ4lVSrHwCSlbL0QJ5d2KdW3etfHsxqaS5NI2cFDUDrkf3
+         AgGzf4d9bqU44VMD6R1v784LjsThsoau+F/mHIDwrnCKFbvi+juDLKS7mLNneusroh2g
+         Y9R7E4cBvcZWSDB9GrBL4fG72MUM9SaPfbuA6yc03obSFjA4zD7KPZpvvhWlrRBc7hbC
+         dOGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaw0+FI62iSxDO6ac3HiKPEl/BuLQpUJidzGz5AZwm6+Y/xczqBeaMYfxeJs6uPguk7A7GTYNDJiI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9FRsimpBzvx0LGktKCrdnJp6OtAn7Qsb4cMJs2zbPH1T4XD2M
+	T3sA9WGv+sxFguhTLUl9MUhK/YoLFx4CKU28S0B76ngX6VCzgrglHYW9wYWdtjBm
+X-Gm-Gg: AY/fxX7JdaNuZJ5/8O1AqJ2i5hlRXHDLMt9IcQHI8Wb5j8xhZ5e/yGKa+e8A0LjQMvc
+	Ff8Ktr63zmuZgSA+F6TQioIRBrdCMxe4c9Io7ubDBERGGb0uK4+OqvkBHQY1aVAUCuG0A2rv0C8
+	5yloG7FaVbGRL7CAcwubNMuIMrFzq1ZHNQXDDKu5uwxTiKgC9/anDzyOwyN0jWRdHb5WEnYzIv6
+	MYXKJlwhxBBEssnS8KqboMrn6UBKUB0HXKkO2KyPFwiKri3BmymGtN+xXCZ8jTIbCAheVGcphE8
+	IJ+RWBoCWzP0rfTcfqyUOBbTFpIhGboa7ZanOJRe61Rsu+zxwh0YrdqIYFyTcyKzfrVqQWVNBmO
+	KMfLXlcTuxv/1BXpvelqb5dYhFAkRMh/kVMaMRwx6aFLZgkoa/kLiStyhV5WwxhGOhvjlmKRmT5
+	fqb3y+uf/GXA==
+X-Received: by 2002:a05:7022:925:b0:119:e569:fba6 with SMTP id a92af1059eb24-1244a7195b4mr14136099c88.21.1768877353611;
+        Mon, 19 Jan 2026 18:49:13 -0800 (PST)
+Received: from localhost ([2001:19f0:ac00:4eb8:5400:5ff:fe30:7df3])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ac585a9sm16856206c88.2.2026.01.19.18.49.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 18:49:13 -0800 (PST)
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Yixun Lan <dlan@gentoo.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guodong Xu <guodong@riscstar.com>
+Cc: Inochi Amaoto <inochiama@gmail.com>,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	sophgo@lists.linux.dev,
+	spacemit@lists.linux.dev
+Subject: Re: (subset) [PATCH v2 0/4] riscv: dts: Add "b" ISA extension to existing devicetrees
+Date: Tue, 20 Jan 2026 10:48:55 +0800
+Message-ID: <176887176536.427065.4468747981087466363.b4-ty@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
+References: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MfNHuTYsZJ+_RqPN1TtLOHsenv2neD5wvhA18NH6m7XjA@mail.gmail.com>
+Message-ID: <20260120024855.iCWV6cvL2IFzEcYXsT6n52e0tE9dl_zwPeC3aHQO5-M@z>
 
-On Fri, Jan 16, 2026 at 03:38:37PM +0100, Bartosz Golaszewski wrote:
-> On Fri, Jan 16, 2026 at 3:14 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >
-> > On Fri, Jan 16, 2026 at 08:10:14AM +0000, Tzung-Bi Shih wrote:
-> > > `kobj->name` should be freed by kfree_const()[1][2].  Correct it.
-> > >
-> > > [1] https://elixir.bootlin.com/linux/v6.18/source/lib/kasprintf.c#L41
-> > > [2] https://elixir.bootlin.com/linux/v6.18/source/lib/kobject.c#L695
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: c351bb64cbe6 ("gpiolib: free device name on error path to fix kmemleak")
-> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> > > ---
-> > >  drivers/gpio/gpiolib.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> > > index 5eb918da7ea2..ba9323432e3a 100644
-> > > --- a/drivers/gpio/gpiolib.c
-> > > +++ b/drivers/gpio/gpiolib.c
-> > > @@ -1263,7 +1263,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
-> > >  err_free_descs:
-> > >       kfree(gdev->descs);
-> > >  err_free_dev_name:
-> > > -     kfree(dev_name(&gdev->dev));
-> > > +     kfree_const(dev_name(&gdev->dev));
-> > >  err_free_ida:
-> > >       ida_free(&gpio_ida, gdev->id);
-> > >  err_free_gdev:
-> >         kfree(gdev);
-> >
-> > I don't think users should be open coding this, put_device() frees the
-> > dev_name properly. The issue here is that the code doesn't call
-> > device_initialize() before doing dev_set_name() and then tries to
-> > fiddle a weird teardown sequence when it eventually does get initialized:
-> >
-> > err_remove_from_list:
-> >         if (gdev->dev.release) {
-> >                 /* release() has been registered by gpiochip_setup_dev() */
-> >                 gpio_device_put(gdev);
-> >                 goto err_print_message;
-> >         }
-> >
-> > If gpiochip_add_data_with_key() is split into two functions, one that
-> > does kzalloc(), some initialization and then ends with
-> > device_initialize(), then a second function that calls the first and
-> > does the rest of the initialization and error unwinds with
-> > put_device() it will work a lot better.
+On Thu, 15 Jan 2026 07:18:56 +0800, Guodong Xu wrote:
+> The RISC-V "b" (Bit-manipulation) extension was ratified in April 2024,
+> much later than its component extensions zba/zbb/zbs (June 2021). Recent
+> updates to the device tree bindings [2] enforce that when all three
+> component extensions are present, "b" must also be specified. Related
+> discussion can also be found in [1].
+> 
+> Patch 1 clarifies the ISA spec version for canonical ordering in uabi.rst.
+> It is a trivial update, but can help readers reference the correct
+> document version. Acked-by Paul Walmsley in v1.
+> 
+> [...]
 
-That's basically what the aggressive patch 03/23 tries to do without
-separating the first half to an indepedent function.
+Applied to dt/riscv, thanks!
 
-Generally, I think we can try to move device_initialize() earlier in the
-function.  On error handling paths, just put_device() for it.  In the
-.release() callback, free the resource iff it has initialized.
+[3/4] riscv: dts: sophgo: sg2044: Add "b" ISA extension
+      https://github.com/sophgo/linux/commit/f16ae81b80ca4e721f4c4ed1f28390115f7721eb
 
-> In theory yes but you wouldn't be the first one to attempt to improve
-> it. This code is very brittle when it comes to GPIO chips that need to
-> be initialized very early into the boot process. I'm talking old
-> drivers in arch which call this function without even an associated
-> parent struct device. When I'm looking at it now, it does seem
-> possible to call device_initialize() early but whether that will work
-> correctly for all existing users is a bigger question.
+Thanks,
+Inochi
 
-FWIW: found a very early stage calling path when I was investigating
-`gpiolib_initialized`: start_kernel() -> init_IRQ() -> dove_init_irq() ->
-orion_gpio_init() -> gpiochip_add_data() -> gpiochip_add_data_with_key().
-
-Prior to aab5c6f20023 ("gpio: set device type for GPIO chips"),
-device_initialize() is also called in gpiochip_add_data_with_key().  It
-seems to me it's possible to move it back to gpiochip_add_data_with_key()
-as 03/23 does, and move it earlier in the function.
