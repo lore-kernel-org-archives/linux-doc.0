@@ -1,77 +1,69 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E44A30DEA6;
-	Tue, 20 Jan 2026 06:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40E8392C3A;
+	Tue, 20 Jan 2026 07:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768892247; cv=none; b=MTkNENiouZtfkX5bLDl7q+YjPaw4qvaFaOaYfOeu5oV9hR9vXO5JTy0B2eZJDWBFkH3N6H7SOe4qxA85/7IQWXy/a3t1BB7QgqCJ9dR53NTy13Pk3fr2dj5X5dxvtaSWUdexHMQoHzCXPd83otVkRfth9Dl2eA+KoSDpwh9HFLM=
+	t=1768893856; cv=none; b=gyZtHRSiMQ6nRgy5O6wFSU9yM+c9YoDUSG1Q1x7pxp0jsRG1irDAIrB0yxC491AUDkYydJGvZQybToKfWSUPBQt9elIDyxBMQEZ4386xJcNje7v0/PzwbNiSrfUn9wTJFyMm6MNwbcEmzTjBf8KyMLko3RJ0/PgfxpgLP02h21o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768892247; c=relaxed/simple;
-	bh=3Iut3vWBR4ORWGRTckLdfnkoVnRmJ3Ea3o7FsYVU4iE=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=meKuD6o7pjuH4sOGJyH1pDTx4BKzMDryn8T0RyJBw7C1Ic7+s2IZcugo9lqIuqEjjCby1to9F9TcqYaJNL8uwgWaio1EhFOsYMXLU4nEL5GukTIx/vknPsvGdTowqJ99LJ2rQuat58vDkgdlnkvnE/1cnAGtu/C9MtuLupx9Mrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=iAA5iIAx; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="iAA5iIAx"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60K6ueNx3503645
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 19 Jan 2026 22:56:40 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60K6ueNx3503645
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1768892202;
-	bh=3Iut3vWBR4ORWGRTckLdfnkoVnRmJ3Ea3o7FsYVU4iE=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=iAA5iIAxtvT/7WYoWaMOSg5I7o+LVEwPByGsfL8bulkOSaAtMG2yi5nPFREBY029w
-	 4fftLudPh61VpCTWWO8Ru/+ibyb2pXYyd/DO8osaE5/wh5IMQ5urGINei2LspA0rh5
-	 jH7ROv3U6Fk1UYktKD/2OxbHScfC9gwEGtudWHM+yQ2VtCJvBp3ZFX7y11kc7pcqiS
-	 AZBMuTHoxwCZ7H6jaVhNRRFqACnuOfkqXrkGFTR83syxcnUd7nMj7jWiMA33Zx8jZK
-	 Kjz0AkzUU1giY63LIwcPYJ+R5hqpKhNdv27HFbtt8tLLwTBjgpLIvamObHNfRVdMI2
-	 D150vjmt8+wVQ==
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1768893856; c=relaxed/simple;
+	bh=tiH5YVbL3094wk6xrhxCuF+vnDU65uGfJx6ab8aN+uM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OuAXWmJqgiNqBTO3w9TasDSL8k7zEpjAtQgj3b//J9VM6XDI+N7PeX+wLbYNvLQXK+zmF7w1Ju7CUGoOgx8+/3ws4/fSc+4+sH7yPDnvB+r6FjNR1izw/UXnTQFhUI9q2QZsI8U8wyKJFYufup2vS96xzR81BYtV6M2IsW2Q7pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 14809227AA8; Tue, 20 Jan 2026 08:24:02 +0100 (CET)
+Date: Tue, 20 Jan 2026 08:24:01 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bart Van Assche <bvanassche@acm.org>, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH tip/locking/core 0/6] compiler-context-analysis: Scoped
+ init guards
+Message-ID: <20260120072401.GA5905@lst.de>
+References: <20260119094029.1344361-1-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v9 17/22] KVM: x86: Advertise support for FRED
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <aRQ3ngRvif/0QRTC@intel.com>
-Date: Mon, 19 Jan 2026 22:56:29 -0800
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <71F2B269-4D29-4B23-9111-E43CDD09CF13@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-18-xin@zytor.com> <aRQ3ngRvif/0QRTC@intel.com>
-To: Chao Gao <chao.gao@intel.com>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119094029.1344361-1-elver@google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
+On Mon, Jan 19, 2026 at 10:05:50AM +0100, Marco Elver wrote:
+> Note: Scoped guarded initialization remains optional, and normal
+> initialization can still be used if no guarded members are being
+> initialized. Another alternative is to just disable context analysis to
+> initialize guarded members with `context_unsafe(var = init)` or adding
+> the `__context_unsafe(init)` function attribute (the latter not being
+> recommended for non-trivial functions due to lack of any checking):
 
+I still think this is doing the wrong for the regular non-scoped
+cased, and I think I finally understand what is so wrong about it.
 
-> On Nov 11, 2025, at 11:30=E2=80=AFPM, Chao Gao <chao.gao@intel.com> =
-wrote:
->=20
-> I'm not sure if AMD CPUs support FRED, but just in case, we can clear =
-FRED
-> i.e., kvm_cpu_cap_clear(X86_FEATURE_FRED) in svm_set_cpu_caps().
+The fact that mutex_init (let's use mutexes for the example, applied
+to other primitives as well) should not automatically imply guarding
+the members for the rest of the function.  Because as soon as the
+structure that contains the lock is published that is not actually
+true, and we did have quite a lot of bugs because of that in the
+past.
 
-AMD will support FRED, with ISA level compatibility:
-
-=
-https://www.amd.com/en/blogs/2025/amd-and-intel-celebrate-first-anniversar=
-y-of-x86-ecosys.html
-
-Thus we don=E2=80=99t need to clear the bit.
-
+So I think the first step is to avoid implying the safety of guarded
+member access by initialing the lock.  We then need to think how to
+express they are save, which would probably require explicit annotation
+unless we can come up with a scheme that makes these accesses fine
+before the mutex_init in a magic way.
 
