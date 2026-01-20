@@ -1,72 +1,67 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCE527FB05
-	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 23:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A901139A7F4;
+	Tue, 20 Jan 2026 23:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768950556; cv=none; b=ZF52HRGgQ6zQUTMxqf1Il4F1flm5363LJRnJQdk1JskCvFBZI239L5aP1hsO4UqgxRkMQLfdvv5xb0rgCL+cju22tS4n0HHWqoIPsCLNGxgdn9BnQrNEWLNLGp1GGImFPxYONfbBW3wjP5Wj8t/epNMfiB+cUEswq9Ng+BdI3Xk=
+	t=1768952881; cv=none; b=hudBpFCGLhEkfmqPStg1/RqdBzxqqNVbgOkDUO2ROiWeqdaNFkx4mgH/HfnWewBd/c7RiahIK5rdU7R1iqPQ5sZTA3/Q0ecRAvDC0YEIAh5UIOpViQndK+whtRbJ6Y3N/cIjrTtLCH0E+OfLE4ZOhMSo7c0CVyODyNYP1xKs0e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768950556; c=relaxed/simple;
-	bh=wdB+Nv9KrQtaXh9e9rpf0Kmt4GPn6VNi5j3B4jQxTVQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=afuMx1W+sfEJTxIV14npTsSz1aJcJV0NhNwDEZgmH/tuG/pDsmcMbh0unva9XZpjKhsz47UZjurUJPJwJ21b6BcsYlhbnmQLDy9muL1Dsc9MbiB8SsPXnhks7OcwazxJ0fnT6XA3V+2hssQERqp9zEYi7l5Ef/xwQKnRzZyGjPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Qbi++z7Q; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1768952881; c=relaxed/simple;
+	bh=48E4DT0TvVY6z+infj8rNRT8NU9o/Y6Hu2IK7WPs1VM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mEwmb+TTAqEm1USQajfcvbXqq56vhhusMjS1kPkljzmq8mFjyzfKwEPeyTMeiyu5EOyGRhp4Kj22ffTsZe3kaiQJdyvpuUdw9A3OUBfDCQ3bBRMVhBxmmPwa8wNJ63XISkKioNeMEqqlym+TSZOz7yP2JcbGrNLHWbRAVAK6hMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NNIeyN+R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Qbi++z7Q"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2839940C27
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1768950553; bh=c3zunFBLvl7a/+zKtaec84FJz+UuX1srdqGeXVU43/4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Qbi++z7QW8AJlN1diQaWYmZMb8Kf0LslQ9rK3q8rlKsqJQP09h9+WVGNQmiLtvRG+
-	 MrZqQ0c6UloADJf/l+tmnO5pW/D+5ueZGQSN5wUn/aMQk7JdgcEdjnldcSuFT+CW7j
-	 nOR4wJlnkQbtEk9loEAVgpe2mftNK8QtGINA93VHMmA8GWRfHbSGl73yP8R7qsCNjY
-	 mftlD1atWKXW+AlGskQjlT5aw//6Nj2mG0NybkDQyS/OpZfjaScTzo5uJthMrsaDzR
-	 P5m0fJmxfebn92xF9eB3PErIGv3M0P2j33fMVXK0JXjLoAGna0W9W8pufUXP3EDl+S
-	 qW1+x+a8OKOFw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2839940C27;
-	Tue, 20 Jan 2026 23:09:13 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Changbin Du <changbin.du@huawei.com>
-Subject: Re: [PATCH v3] Rework the jobserver open logic
-In-Reply-To: <20260117113632.18b19b4f@foz.lan>
-References: <875x91pid4.fsf@trenco.lwn.net> <20260117113632.18b19b4f@foz.lan>
-Date: Tue, 20 Jan 2026 16:09:12 -0700
-Message-ID: <87sebzhofb.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NNIeyN+R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 988AFC16AAE;
+	Tue, 20 Jan 2026 23:48:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768952881;
+	bh=48E4DT0TvVY6z+infj8rNRT8NU9o/Y6Hu2IK7WPs1VM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NNIeyN+RP56ykcyAuEWsOR2kao1VmluBm6sGelI24WlfBVV2NDL6qDbEJ3hJP7qgC
+	 kc77XdxtVp9z35Z+jELJqsK3JSmJ6K8u+VxucB6cOpePrJkhFNYJxY7FFvu49KRwm3
+	 Cd/6h1Vw/7elpWOQ+ci6j83ADihGEibH+PfKhHHfWzD5GJ+Vl1CMCkDvszJ6Vs1I2v
+	 MR+WV5n2F/oqIkp0uoBOKjv2w9V3NiqNeNZmJr5ykogMiaFTQYNA5ts0Z5HmZ6/Njd
+	 MGirxfeJPyvAsniUoQsQOnB1Po0gmXauWvevvkZSpZ8i+8cSIKzKT0brbKfOcxW4eO
+	 F4JSqVVNvxTkA==
+Date: Tue, 20 Jan 2026 15:47:59 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+ <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+ <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Luo Yang
+ <luoyang82@h-partners.com>
+Subject: Re: [PATCH net v01 0/5] net: hinic3: Fix netif_queue_set_napi input
+ parameters and code styles
+Message-ID: <20260120154759.5a2c04c5@kernel.org>
+In-Reply-To: <cover.1768911232.git.zhuyikai1@h-partners.com>
+References: <cover.1768911232.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Tue, 20 Jan 2026 20:38:38 +0800 Fan Gong wrote:
+> This patchset provides netif_queue_set_napi bug fix and serveral code styles
+> fixes to :
+> 
+> Fix netif_queue_set_napi queue_index parameter passing error.
+> Remove empty lines between error handling.
+> Remove redundant defensive code.
+> Use array_size instead of multiplying.
+> Sq use SQ_CTXT_PREF_CI_HI to improve readability.
 
-> Em Fri, 16 Jan 2026 10:39:19 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->
->> -        self.is_open = True
->> +            except (IOError, OSError):
->> +                warn('Unable to reopen jobserver read-side pipe')
->
-> I would add {repr(e)} here, to allow debugging what error was raised:
->
-> 	warn(f"Unable to reopen jobserver read-side pipe: {repr(e)}")
->
-> (or pass it via args, as the logic below)
-
-OK, I've made those changes; now I think I'll just apply this, hopefully
-it's good enough now.
-
-Thanks,
-
-jon
+no reposts within 24h please
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
+-- 
+pv-bot: 24h
