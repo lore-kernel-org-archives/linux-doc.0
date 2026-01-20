@@ -1,70 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38774611C6;
-	Tue, 20 Jan 2026 16:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D80132F751;
+	Tue, 20 Jan 2026 16:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768925503; cv=none; b=rqTvebrT3asfK+lAf3+Eb6IYHKOV5LbB/rgM3de37gcmF26Rq+ZXY0GQxlFM8W8ha6krx11yINbOF1NfSdXWaF60hXt3MjExxi90Xo2cfIwdxk9UkO1UXO1iXC2HLRQECAxNyI45Ux7JcJBl8C31ps+yMAORr6EL6+XQyVtbSQM=
+	t=1768925647; cv=none; b=pNOhNW71pJiQkVG/9UKQ/91r3MiWt2DMkNiLmm2mrlQ1WSvEkvp6JY8s2+/ixJeuokMtvF6tlzKv0ZS4aEpxzJ+bY87M9LIXCXjdVn3n+Dph6MYc18pC8zz6OTSZfMBWsfaLUfGPx9ATmOpR0/pq4yfcP8bFO3eX7qLKxFZ9N8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768925503; c=relaxed/simple;
-	bh=dtUUx6lrNtFdy5/+TdTkG7ihJmXBG5s769rXUFmDzMI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ity3BPwRNulrLXtYeH1VAR33KLekeQSjNOZw/94qBlmpyx9M7GAu0Edz3TWpocfeQxSroNgc6xc/JjTFW9AFoIWPstVeiF2byQTp++vOpiPVze2VR8t3zG/XmJ1RNvo1kqB52JYzEbHOLWYRw8r88f1WlDstX4w4Iqb+BqvrkvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/u7R5+h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768925647; c=relaxed/simple;
+	bh=C1IvwOEB2IeBsljjj1U5exHtGWqVJB2lEhayoPqkk5Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BaOFEINDwjO+q8kfPaeP3iRxwubByR906hbIJMQIQ707+jjB9DKov0d0n6DmCMTMLvI2QY6G3iUMdIRMq4/miA4si5QG4aWProFkG+qaDK7IenOe0YFsO5kthuSi+sdl2rOI0L9QGjI7qmzY/U7Bxlc894if9+/cAdVQJk3O8DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dV47J2SI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/u7R5+h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 917DFC19422;
-	Tue, 20 Jan 2026 16:11:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dV47J2SI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF835C16AAE;
+	Tue, 20 Jan 2026 16:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768925503;
-	bh=dtUUx6lrNtFdy5/+TdTkG7ihJmXBG5s769rXUFmDzMI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Q/u7R5+hPtnkQdHXwUr7rplCFmrjMp4ucJKF8+aAi3t7ObI8CWsk0ZSfwI2io9TZ7
-	 G6EbSPqS4sXfMKzDNh5GSXbSGpIISgDcUrJMWmzja95XaHObaUlILHsr5XgCSsWKhb
-	 7qMkL67ioXva9EhwO+PnYksEku/pLjVj6CZksFLRUP6imyuZdoOPyeEYoHWjwIlGFs
-	 6EKRGNbnVm8vBdW8bhIjp1UxjN8BPlOcjvYuxAQVZkxWQutGufu2KT0fxNRtiJ+IV6
-	 9UO1GfSxJPVLxKQPtc7UVb6Yd36nARBmjMoT6v5md7iNsxE6VUbOI+AGqpaPQJEkQU
-	 eFZHFcX9c7H0w==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, Nam Tran <trannamatk@gmail.com>
-Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org, 
- christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org, 
- conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20260115161013.40706-1-trannamatk@gmail.com>
-References: <20260115161013.40706-1-trannamatk@gmail.com>
-Subject: Re: [PATCH v22 0/2] leds: add new LED driver for TI LP5812
-Message-Id: <176892550028.2317951.10477367628623153628.b4-ty@kernel.org>
-Date: Tue, 20 Jan 2026 16:11:40 +0000
+	s=k20201202; t=1768925644;
+	bh=C1IvwOEB2IeBsljjj1U5exHtGWqVJB2lEhayoPqkk5Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dV47J2SIEbcMdZkZ9Lifr8FksIvm38/wEBwH1gTlZgjkovIsgQnrHeducibOmFi2u
+	 0MXW3RUHb176VYbMK+JyeNcRLKwK0htuCP642Do6W9esCNrZRZeWgKmjratMzZhxJr
+	 /Y/U7vCLf/7KDZtCnyqsm9dTVBjlTW7u7n4Y36QbguNVCx+fcoocx9lfyB/wYY22GI
+	 YQxLDv4C46PPgDTux/jLnKScOureFjXjQ3T6yun1zCpFJ4Tb4SkyPicZP67prLnJsO
+	 81We6TisKb/KfU/+uDFPsfyFCg9wnY9yaM5CIJw6/dHdUdK9aIvJTFBmcf7RmuOPU6
+	 LE8IcaGoozNaQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,  Alexander Graf
+ <graf@amazon.com>,  Jason Miu <jasonmiu@google.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
+ Yadav <pratyush@kernel.org>,  kexec@lists.infradead.org,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-mm@kvack.org
+Subject: Re: [PATCH 4/6] kho: Introduce KHO FDT ABI header
+In-Reply-To: <20260105165839.285270-5-rppt@kernel.org> (Mike Rapoport's
+	message of "Mon, 5 Jan 2026 18:58:37 +0200")
+References: <20260105165839.285270-1-rppt@kernel.org>
+	<20260105165839.285270-5-rppt@kernel.org>
+Date: Tue, 20 Jan 2026 16:14:01 +0000
+Message-ID: <2vxz3440dzxy.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
+Content-Type: text/plain
 
-On Thu, 15 Jan 2026 23:10:11 +0700, Nam Tran wrote:
-> This patch series adds initial support for the TI LP5812,
-> a 4x3 matrix RGB LED driver with autonomous engine control.
-> This version provides a minimal, clean implementation focused
-> on core functionality only. The goal is to upstream a solid
-> foundation, with the expectation that additional features can
-> be added incrementally in future patches.
-> 
-> [...]
+On Mon, Jan 05 2026, Mike Rapoport wrote:
 
-Applied, thanks!
+> From: Jason Miu <jasonmiu@google.com>
+>
+> Introduce the `include/linux/kho/abi/kexec_handover.h` header file,
+> which defines the stable ABI for the KHO mechanism. This header specifies
+> how preserved data is passed between kernels using an FDT.
+>
+> The ABI contract includes the FDT structure, node properties, and the
+> "kho-v1" compatible string. By centralizing these definitions, this
+> header serves as the foundational agreement for inter-kernel
+> communication of preserved states, ensuring forward compatibility and
+> preventing misinterpretation of data across kexec transitions.
+>
+> Since the ABI definitions are now centralized in the header files, the
+> YAML files that previously described the FDT interfaces are
+> redundant. These redundant files have therefore been removed.
+>
+> Signed-off-by: Jason Miu <jasonmiu@google.com>
+> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-[1/2] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-      commit: 4301afd6b3cbd428082b55ec7a6a840b3c8ec749
-[2/2] docs: leds: Document TI LP5812 LED driver
-      commit: 974d724e58fd2eee0fe46299901deae6fa9ebad1
+Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
 
---
-Lee Jones [李琼斯]
+[...]
 
+-- 
+Regards,
+Pratyush Yadav
