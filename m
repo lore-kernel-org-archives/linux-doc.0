@@ -1,37 +1,96 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40E8392C3A;
-	Tue, 20 Jan 2026 07:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63853A901B;
+	Tue, 20 Jan 2026 07:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768893856; cv=none; b=gyZtHRSiMQ6nRgy5O6wFSU9yM+c9YoDUSG1Q1x7pxp0jsRG1irDAIrB0yxC491AUDkYydJGvZQybToKfWSUPBQt9elIDyxBMQEZ4386xJcNje7v0/PzwbNiSrfUn9wTJFyMm6MNwbcEmzTjBf8KyMLko3RJ0/PgfxpgLP02h21o=
+	t=1768895091; cv=none; b=SdxPMcg6fRUZMdnqviNNWPx6QSbEgaVml9Mjo+Avrx9yVA1kAxeZxkqO38Q3OZyeOVXU664ExUUmpQE4OJt2DaIS63XoMcpHAf1xLz/cRsRXThRZKZBflsdI5fM0FlzX4QSEVTzu/i4P8LIEdlC8UHl1Ndc0DA6pGvJUO/LL1sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768893856; c=relaxed/simple;
-	bh=tiH5YVbL3094wk6xrhxCuF+vnDU65uGfJx6ab8aN+uM=;
+	s=arc-20240116; t=1768895091; c=relaxed/simple;
+	bh=ABp37W5yV5qA3LTbx53INE0UExtc+Qv1dyBs7BoHxhQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OuAXWmJqgiNqBTO3w9TasDSL8k7zEpjAtQgj3b//J9VM6XDI+N7PeX+wLbYNvLQXK+zmF7w1Ju7CUGoOgx8+/3ws4/fSc+4+sH7yPDnvB+r6FjNR1izw/UXnTQFhUI9q2QZsI8U8wyKJFYufup2vS96xzR81BYtV6M2IsW2Q7pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 14809227AA8; Tue, 20 Jan 2026 08:24:02 +0100 (CET)
-Date: Tue, 20 Jan 2026 08:24:01 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Bart Van Assche <bvanassche@acm.org>, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH tip/locking/core 0/6] compiler-context-analysis: Scoped
- init guards
-Message-ID: <20260120072401.GA5905@lst.de>
-References: <20260119094029.1344361-1-elver@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QJW665GDAXZwzdb/cutgaTNaI+egqHNBQ/nBlVzkM+dnL78J2TLkGA4EEESCFLyOblWyMeNji1g725m/k0MnXEk8QhZKhQBjXXbCxpTQlvk43mCJCvnQkqucfYkQQzPQTfQVfBxBMrUsjSmpmIv+Syoy9cVvNmxgyb1BZ82lHbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ilacl4zO; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ilacl4zO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Kid6MiU7s5f8T4gEwmOyT2zu04YSeGDYh8750Mga8iQ=; b=ilacl4zOxBgb/lmdsCZTsr3EBk
+	zFj2GyVX/vUj1UlJHTeGnpcPnHJ9j1woWxvFz3xRKDyTqK+wAajiLLU925mQ8gXwhKmyxMR4v1epI
+	AOBbpi2btLiLaBkLAx55KwETuAMOToZG4XHJYEOLtQSWNewFbBS0oIkgoS8wa3txVmTRVKzYeS0A3
+	V9gH/Lab14QzzebmbPcXNWPVgrikm/JOCo+2HYwEDmDIwtOHHDne6sJtxRZS613O1tl53Srsju7g8
+	UT5LyUVPxepeDRdKwUet4llrhStqaMvjEAL5ucvkWWrFbYBz71lqsJk2Pg/Tigf0o/FCqWWyZna9G
+	sV+Bbw9g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vi6PX-00000003MrT-17WL;
+	Tue, 20 Jan 2026 07:44:23 +0000
+Date: Mon, 19 Jan 2026 23:44:23 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Carlos Maiolino <cem@kernel.org>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Dave Chinner <david@fromorbit.com>,
+	Christoph Hellwig <hch@infradead.org>, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-ext4@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org,
+	ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
+	linux-unionfs@vger.kernel.org, devel@lists.orangefs.org,
+	ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev,
+	linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+	linux-mtd@lists.infradead.org, gfs2@lists.linux.dev,
+	linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 01/31] Documentation: document EXPORT_OP_NOLOCKS
+Message-ID: <aW8yV6v8ZDiynOUm@infradead.org>
+References: <20260119-exportfs-nfsd-v2-0-d93368f903bd@kernel.org>
+ <20260119-exportfs-nfsd-v2-1-d93368f903bd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,30 +99,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260119094029.1344361-1-elver@google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260119-exportfs-nfsd-v2-1-d93368f903bd@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Jan 19, 2026 at 10:05:50AM +0100, Marco Elver wrote:
-> Note: Scoped guarded initialization remains optional, and normal
-> initialization can still be used if no guarded members are being
-> initialized. Another alternative is to just disable context analysis to
-> initialize guarded members with `context_unsafe(var = init)` or adding
-> the `__context_unsafe(init)` function attribute (the latter not being
-> recommended for non-trivial functions due to lack of any checking):
+On Mon, Jan 19, 2026 at 11:26:18AM -0500, Jeff Layton wrote:
+> +  EXPORT_OP_NOLOCKS - Disable file locking on this filesystem. Some
+> +    filesystems cannot properly support file locking as implemented by
+> +    nfsd. A case in point is reexport of NFS itself, which can't be done
+> +    safely without coordinating the grace period handling. Other clustered
+> +    and networked filesystems can be problematic here as well.
 
-I still think this is doing the wrong for the regular non-scoped
-cased, and I think I finally understand what is so wrong about it.
-
-The fact that mutex_init (let's use mutexes for the example, applied
-to other primitives as well) should not automatically imply guarding
-the members for the rest of the function.  Because as soon as the
-structure that contains the lock is published that is not actually
-true, and we did have quite a lot of bugs because of that in the
-past.
-
-So I think the first step is to avoid implying the safety of guarded
-member access by initialing the lock.  We then need to think how to
-express they are save, which would probably require explicit annotation
-unless we can come up with a scheme that makes these accesses fine
-before the mutex_init in a magic way.
+I'm not sure this is very useful.  It really needs to document what
+locking semantics nfs expects, because otherwise no reader will know
+if they set this or not.
 
