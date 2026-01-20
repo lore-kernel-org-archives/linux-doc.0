@@ -1,386 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1556128BA83;
-	Mon, 19 Jan 2026 23:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCBBEADC
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 00:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768867038; cv=none; b=VCLq1dDmsm81uSIsPInnAi7VKAyvH4nypkANisNy1pgpvYE1HeZwN/NlzQbZUygi7TtgxHQPO06qNvTiE6xq8i8qrXDn75aAqH4FJPqWFYOzvKkDpV0SGIIecKO70eatzrQ3wt3PGkbK4FWxvQtuukoEU1c3mwx1jMpC6M9ol4A=
+	t=1768867470; cv=none; b=TaRq41G6AFS7j7GBl0IpCpmAk5/8yNiYqI43FVS4Xl/2VuwcE2ojOuQYxsioV/4iaPuN6eTO7+kOAUw/uNpmUb5fOJmltdPxTylChiQ9KIqvQsxFDCGtMtYM0FOugnKzP+a3H53oBQ2VVGEz9yIqRK7LFllSGoH2lUd4Gvbq0/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768867038; c=relaxed/simple;
-	bh=Ymms9yZstnvBosvlJDW69N8zCazrKqkzBHDER+8GMkE=;
+	s=arc-20240116; t=1768867470; c=relaxed/simple;
+	bh=cuKZQcuapQnBZVta8YkwFU3o1xEnR1bsXItHBrnjVWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZTy+sQ6jKN7C/BHnFLamzrMY2kV4zKRHyNQUMaPS8IqkDNMFLM5l5/PEkjjOWfJayGDPw7Uq7nyq84XK4kaouWi6L8HjUUw4kiiz5c8ut8re6xkDCcN1jHwd1a34jG+mKg21AL2PKwg4WZ2bkgMgpA0gw2L9tFjct2CpLdTEXLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqSlJFF1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cev6iQ4kWZG71YC/w5aIKuwpXjBPk6hCz8RTq18/eg56Ui4PafUfqRbmOFBLicPIlwBD0Vc+sRxdwU/keorfJfarvzgm2FFn/EzotTiZ46vQ/uAehr0WrYozWUKQ0OnCRnudLbh8+wuFT4cu1QPHFi8+GYXjDjmVdRvpnc2eB2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SEg4VYDr; arc=none smtp.client-ip=209.85.215.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqSlJFF1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D79C0C116C6;
-	Mon, 19 Jan 2026 23:57:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768867037;
-	bh=Ymms9yZstnvBosvlJDW69N8zCazrKqkzBHDER+8GMkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gqSlJFF1p8EaqRan/QWfiqyPRR+l3N8NWdYO8KzA0XzAzHC2OUWwZrVV8MB7Eq7US
-	 yq3JIYQLfmvlgRezYpiSDd9NN3J1yiriwDLiMLrlnhmVVY3tfWMwj9GdSSG30uOqUd
-	 JkF2O1TYIZdFvL3Dv2bQFWvJbK3I6TF9/NOhrTywHiaWHwVyhVT2uaE5zbGgxFytzw
-	 DOS1N02aiWwfD/Tow6xjS2hjdTIB+ca5sN/CMlT5/lzJc6hMCBDbF2fu4DpS9pGqIm
-	 TeVGd1Q22M1dWebdj6AVN6eAlFhssSfF7uUO7nh6eqETNVXWFO7RbntSDWhmVJ5+vp
-	 VvtAlAsobaf/g==
-Date: Tue, 20 Jan 2026 01:57:13 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux.dev,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
-	ebiederm@xmission.com, dwmw2@infradead.org,
-	baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
-	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v15 02/28] tpm: Move TPM1 specific definitions and
- functions to new headers
-Message-ID: <aW7E2dVlmjZIUivW@kernel.org>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <20251215233316.1076248-3-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEg4VYDr"
+Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c2a9a9b43b1so3163945a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 16:04:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768867468; x=1769472268; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Wubt2tqx7SxUgLn+ubS/XLWpKCP8r4Dm/ia5St2vgU=;
+        b=SEg4VYDrKSJMyCmnOgFvsvmX7r5FsaMfTkaTXsQhLVFPGANJFzPlb3zvAENOtSJ/JM
+         zHqgi6sw+bHTRgjCynmW+ZffykQT8r+kBNvYY4wEaCZaD5w5aWYklnaVv/0XzZ09KWwF
+         N1V9+AP9hU9QoXh/64pykGR2wP2+P+vgsIOKicfx7nNeLQ/yJXdsPNTaj9eMnBwtIAWL
+         lPhX+wlpFgBnk9eJPRIpQEuGF1s37YoNk3UJGu2RidIBVJe1lCDDgoYBcot1Ty9dUmEr
+         eWeFDBcgfxPaqCu6QtAWuDRALiUgaTx5PfoJRrPUW2wEfrD6POqDszQGi9QA7SHSBgao
+         v5qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768867468; x=1769472268;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Wubt2tqx7SxUgLn+ubS/XLWpKCP8r4Dm/ia5St2vgU=;
+        b=IYLxWsFcF7r1ONFGuM7qggNtjFprNb9WFldBfQBez64I8Xr4nXkeniiQxK6TL9BuNC
+         Vx8JLuaERobTTfbRdvz9QNFCXlGbK49RBAit8fJ7ET3pC30XsbCGHmWailgF0ZjUdvm1
+         w5awmRbWj0pWWdQh7ef6ff0SLIp1cLIGNbxxMiRdBa7c1JBQF8BKPh6LpLXxA8CdXRPy
+         K1FmswB0CwNgGVexrITzTLeMxJ5M186SR4mVYdbTRICQXGgZ12wZ6hH3Bxmt/xMypEWe
+         4Df/zARH3Db6an3tX5H0p6exJOK1xRxsJdjqnlZVfPFzpD1XsJu9k1hYPpEA0Blhw0l9
+         vAoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVloIqiK+NZObKPvYlfbJW/yBYgZA8xmI3nQcTr2SsMjNSqt5WX2VUOwSTjEO5ESbosBJ+JhlFywdc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7GCqMolZMks3b6JPF6q75r1BKFDpzB582jexFjCGc58cnr7T1
+	t3hHWyZM5uuWNmkjx+NB4163UCYriL9PQqYhGSUoCqc59Lre1Azb1XvM
+X-Gm-Gg: AY/fxX5I7yDioqb+jmFUGN47hJIR350JT3KUPQkiwY5t6c66HOaq1uqiHUA9dlCwHd/
+	RSKQ83w0U0V3Y8+drDhDDFbXBoWvwNaRHPYz8EPDBkX8BJrTS0spX5bbOyZvMyAZyq0GOlk7Okb
+	+9Z/SjvnVWVPbhLHmqO4YFxIW/1jViHIRLjq6E4+rCOL08x5MBO7ktEWMKZpf/S6diGX35uRv9t
+	hk6M4wLH9JFhRQZZew20LDdx3fMz2CH258sehseM6pTMm32Tv6ZBglY/1Q42zofPm02FdtOkgKf
+	DmX4QVVgVcVw2GM29cNum3iTVcom6yg7AYKj4wpC1JdZHhQS/NmrEvtglYV+7ufsLiaOOLrBc3x
+	cM6b6qtdg0j7xXE6yRua4LSBYEyUAfbBK6pIu67TskrivC096+Bz9KrsNt0Xi1q7FgkHWA3mIXx
+	puaYPgEZ0=
+X-Received: by 2002:a05:6a21:6b05:b0:384:f573:42bf with SMTP id adf61e73a8af0-38e00d9682fmr11086386637.53.1768867468314;
+        Mon, 19 Jan 2026 16:04:28 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3527313c2a9sm10227886a91.17.2026.01.19.16.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 16:04:26 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id E9AC3422053E; Tue, 20 Jan 2026 07:04:23 +0700 (WIB)
+Date: Tue, 20 Jan 2026 07:04:23 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Vishnu Sankar <vishnuocv@gmail.com>, dmitry.torokhov@gmail.com,
+	hmh@hmh.eng.br, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
+	corbet@lwn.net, derekjohn.clark@gmail.com
+Cc: mpearson-lenovo@squebb.ca, linux-doc@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
+Subject: Re: [PATCH v5 3/3] Documentation: thinkpad-acpi - Document
+ doubletap_enable attribute
+Message-ID: <aW7Gh6WsTjVo5IO_@archie.me>
+References: <20251226235101.106451-1-vishnuocv@gmail.com>
+ <20251226235101.106451-4-vishnuocv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cXr86z952AoRnBdA"
 Content-Disposition: inline
-In-Reply-To: <20251215233316.1076248-3-ross.philipson@oracle.com>
-
-On Mon, Dec 15, 2025 at 03:32:50PM -0800, Ross Philipson wrote:
-> This gathers all the TPM1 definitions and structures into two separate
-> header files (public tpm1.h and private tpm1_structs.h). The definitions
-> moved to these files correspond to the TCG specification for TPM 1 family:
-> 
-> TPM 1.2 Main Specification
->  -  https://trustedcomputinggroup.org/resource/tpm-main-specification/
-> 
-> Note that the structures were pulled into tpm1_structs.h to allow their
-> external reuse.
-> 
-> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> ---
->  drivers/char/tpm/tpm.h          | 98 +--------------------------------
->  drivers/char/tpm/tpm1-cmd.c     |  5 --
->  drivers/char/tpm/tpm1_structs.h | 97 ++++++++++++++++++++++++++++++++
-
-I think you are overcomplicating the patch set and doing more
-than you really need to do.
-
-I.e. structs could go also just as well to tpm_command.h. We
-will deal with if/when that file ever grows too large. It's
-absolutely not a priority for this patch set.
-
->  include/linux/tpm1.h            | 34 +++++++++++-
->  4 files changed, 132 insertions(+), 102 deletions(-)
->  create mode 100644 drivers/char/tpm/tpm1_structs.h
-> 
-> diff --git a/drivers/char/tpm/tpm.h b/drivers/char/tpm/tpm.h
-> index ca391b2a211c..1f9f8540eede 100644
-> --- a/drivers/char/tpm/tpm.h
-> +++ b/drivers/char/tpm/tpm.h
-> @@ -50,105 +50,9 @@ enum tpm_addr {
->  	TPM_ADDR = 0x4E,
->  };
->  
-> -#define TPM_WARN_RETRY          0x800
-> -#define TPM_WARN_DOING_SELFTEST 0x802
-> -#define TPM_ERR_DEACTIVATED     0x6
-> -#define TPM_ERR_DISABLED        0x7
-> -#define TPM_ERR_FAILEDSELFTEST  0x1C
-> -#define TPM_ERR_INVALID_POSTINIT 38
-> -
-> -#define TPM_TAG_RQU_COMMAND 193
-> -
->  /* TPM2 specific constants. */
->  #define TPM2_SPACE_BUFFER_SIZE		16384 /* 16 kB */
->  
-> -struct	stclear_flags_t {
-> -	__be16	tag;
-> -	u8	deactivated;
-> -	u8	disableForceClear;
-> -	u8	physicalPresence;
-> -	u8	physicalPresenceLock;
-> -	u8	bGlobalLock;
-> -} __packed;
-> -
-> -struct tpm1_version {
-> -	u8 major;
-> -	u8 minor;
-> -	u8 rev_major;
-> -	u8 rev_minor;
-> -} __packed;
-> -
-> -struct tpm1_version2 {
-> -	__be16 tag;
-> -	struct tpm1_version version;
-> -} __packed;
-> -
-> -struct	timeout_t {
-> -	__be32	a;
-> -	__be32	b;
-> -	__be32	c;
-> -	__be32	d;
-> -} __packed;
-> -
-> -struct duration_t {
-> -	__be32	tpm_short;
-> -	__be32	tpm_medium;
-> -	__be32	tpm_long;
-> -} __packed;
-> -
-> -struct permanent_flags_t {
-> -	__be16	tag;
-> -	u8	disable;
-> -	u8	ownership;
-> -	u8	deactivated;
-> -	u8	readPubek;
-> -	u8	disableOwnerClear;
-> -	u8	allowMaintenance;
-> -	u8	physicalPresenceLifetimeLock;
-> -	u8	physicalPresenceHWEnable;
-> -	u8	physicalPresenceCMDEnable;
-> -	u8	CEKPUsed;
-> -	u8	TPMpost;
-> -	u8	TPMpostLock;
-> -	u8	FIPS;
-> -	u8	operator;
-> -	u8	enableRevokeEK;
-> -	u8	nvLocked;
-> -	u8	readSRKPub;
-> -	u8	tpmEstablished;
-> -	u8	maintenanceDone;
-> -	u8	disableFullDALogicInfo;
-> -} __packed;
-> -
-> -typedef union {
-> -	struct	permanent_flags_t perm_flags;
-> -	struct	stclear_flags_t	stclear_flags;
-> -	__u8	owned;
-> -	__be32	num_pcrs;
-> -	struct tpm1_version version1;
-> -	struct tpm1_version2 version2;
-> -	__be32	manufacturer_id;
-> -	struct timeout_t  timeout;
-> -	struct duration_t duration;
-> -} cap_t;
-> -
-> -enum tpm_capabilities {
-> -	TPM_CAP_FLAG = 4,
-> -	TPM_CAP_PROP = 5,
-> -	TPM_CAP_VERSION_1_1 = 0x06,
-> -	TPM_CAP_VERSION_1_2 = 0x1A,
-> -};
-> -
-> -enum tpm_sub_capabilities {
-> -	TPM_CAP_PROP_PCR = 0x101,
-> -	TPM_CAP_PROP_MANUFACTURER = 0x103,
-> -	TPM_CAP_FLAG_PERM = 0x108,
-> -	TPM_CAP_FLAG_VOL = 0x109,
-> -	TPM_CAP_PROP_OWNER = 0x111,
-> -	TPM_CAP_PROP_TIS_TIMEOUT = 0x115,
-> -	TPM_CAP_PROP_TIS_DURATION = 0x120,
-> -};
-> -
->  enum tpm2_pt_props {
->  	TPM2_PT_NONE = 0x00000000,
->  	TPM2_PT_GROUP = 0x00000100,
-> @@ -229,6 +133,8 @@ enum tpm2_pt_props {
->   * compiler warnings about stack frame size. */
->  #define TPM_MAX_RNG_DATA	128
->  
-> +#include "tpm1_structs.h"
-> +
->  extern const struct class tpm_class;
->  extern const struct class tpmrm_class;
->  extern dev_t tpm_devt;
-> diff --git a/drivers/char/tpm/tpm1-cmd.c b/drivers/char/tpm/tpm1-cmd.c
-> index f29827b454d2..02f20a0aa37d 100644
-> --- a/drivers/char/tpm/tpm1-cmd.c
-> +++ b/drivers/char/tpm/tpm1-cmd.c
-> @@ -505,11 +505,6 @@ ssize_t tpm1_getcap(struct tpm_chip *chip, u32 subcap_id, cap_t *cap,
->  }
->  EXPORT_SYMBOL_GPL(tpm1_getcap);
->  
-> -struct tpm1_get_random_out {
-> -	__be32 rng_data_len;
-> -	u8 rng_data[TPM_MAX_RNG_DATA];
-> -} __packed;
-> -
->  /**
->   * tpm1_get_random() - get random bytes from the TPM's RNG
->   * @chip:	a &struct tpm_chip instance
-> diff --git a/drivers/char/tpm/tpm1_structs.h b/drivers/char/tpm/tpm1_structs.h
-> new file mode 100644
-> index 000000000000..ad21376af5ab
-> --- /dev/null
-> +++ b/drivers/char/tpm/tpm1_structs.h
-> @@ -0,0 +1,97 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2004 IBM Corporation
-> + * Copyright (C) 2015 Intel Corporation
-> + *
-> + * Authors:
-> + * Leendert van Doorn <leendert@watson.ibm.com>
-> + * Dave Safford <safford@watson.ibm.com>
-> + * Reiner Sailer <sailer@watson.ibm.com>
-> + * Kylene Hall <kjhall@us.ibm.com>
-> + *
-> + * Maintained by: <tpmdd-devel@lists.sourceforge.net>
-> + *
-> + * Device driver for TCG/TCPA TPM (trusted platform module).
-> + * Specifications at www.trustedcomputinggroup.org
-> + */
-> +
-> +#ifndef __TPM1_STRUCTS_H__
-> +#define __TPM1_STRUCTS_H__
-> +
-> +struct	stclear_flags_t {
-> +	__be16	tag;
-> +	u8	deactivated;
-> +	u8	disableForceClear;
-> +	u8	physicalPresence;
-> +	u8	physicalPresenceLock;
-> +	u8	bGlobalLock;
-> +} __packed;
+In-Reply-To: <20251226235101.106451-4-vishnuocv@gmail.com>
 
 
-Don't retain alignment.
+--cXr86z952AoRnBdA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +
-> +struct tpm1_version {
-> +	u8 major;
-> +	u8 minor;
-> +	u8 rev_major;
-> +	u8 rev_minor;
-> +} __packed;
-> +
-> +struct tpm1_version2 {
-> +	__be16 tag;
-> +	struct tpm1_version version;
-> +} __packed;
-> +
-> +struct	timeout_t {
-> +	__be32	a;
-> +	__be32	b;
-> +	__be32	c;
-> +	__be32	d;
-> +} __packed;
-> +
-> +struct duration_t {
-> +	__be32	tpm_short;
-> +	__be32	tpm_medium;
-> +	__be32	tpm_long;
-> +} __packed;
-> +
-> +struct permanent_flags_t {
-> +	__be16	tag;
-> +	u8	disable;
-> +	u8	ownership;
-> +	u8	deactivated;
-> +	u8	readPubek;
-> +	u8	disableOwnerClear;
-> +	u8	allowMaintenance;
-> +	u8	physicalPresenceLifetimeLock;
-> +	u8	physicalPresenceHWEnable;
-> +	u8	physicalPresenceCMDEnable;
-> +	u8	CEKPUsed;
-> +	u8	TPMpost;
-> +	u8	TPMpostLock;
-> +	u8	FIPS;
-> +	u8	operator;
-> +	u8	enableRevokeEK;
-> +	u8	nvLocked;
-> +	u8	readSRKPub;
-> +	u8	tpmEstablished;
-> +	u8	maintenanceDone;
-> +	u8	disableFullDALogicInfo;
-> +} __packed;
-> +
-> +/* Gather all capabilities related information info one type */
-> +typedef union {
-> +	struct	permanent_flags_t perm_flags;
-> +	struct	stclear_flags_t	stclear_flags;
-> +	__u8	owned;
-> +	__be32	num_pcrs;
-> +	struct tpm1_version version1;
-> +	struct tpm1_version2 version2;
-> +	__be32	manufacturer_id;
-> +	struct timeout_t  timeout;
-> +	struct duration_t duration;
-> +} cap_t;
+On Sat, Dec 27, 2025 at 08:51:01AM +0900, Vishnu Sankar wrote:
+> +Values:
+> +	* 1 - doubletap events are processed (default)
+> +	* 0 - doubletap events are filtered out (ignored)
 
-Don't retain alignment here.
+Please separate the bullet list from "Values:" paragraph.
 
-> +
-> +struct tpm1_get_random_out {
-> +	__be32 rng_data_len;
-> +	u8 rng_data[TPM_MAX_RNG_DATA];
-> +} __packed;
-> +
-> +#endif
-> diff --git a/include/linux/tpm1.h b/include/linux/tpm1.h
-> index 54c6c211eb9e..5fad94ac8d15 100644
-> --- a/include/linux/tpm1.h
-> +++ b/include/linux/tpm1.h
-> @@ -47,7 +47,39 @@ enum tpm_command_ordinals {
->  	TPM_ORD_UNSEAL			= 24,
->  };
->  
-> -/* Other constants */
-> +enum tpm_capabilities {
-> +	TPM_CAP_FLAG		= 4,
-> +	TPM_CAP_PROP		= 5,
-> +	TPM_CAP_VERSION_1_1	= 0x06,
-> +	TPM_CAP_VERSION_1_2	= 0x1A,
-> +};
-> +
-> +enum tpm_sub_capabilities {
-> +	TPM_CAP_PROP_PCR		= 0x101,
-> +	TPM_CAP_PROP_MANUFACTURER	= 0x103,
-> +	TPM_CAP_FLAG_PERM		= 0x108,
-> +	TPM_CAP_FLAG_VOL		= 0x109,
-> +	TPM_CAP_PROP_OWNER		= 0x111,
-> +	TPM_CAP_PROP_TIS_TIMEOUT	= 0x115,
-> +	TPM_CAP_PROP_TIS_DURATION	= 0x120,
-> +};
-> +
-> +/* Return Codes */
-> +enum tpm_return_codes {
-> +	TPM_BASE_MASK			= 0,
-> +	TPM_NON_FATAL_MASK		= 0x00000800,
-> +	TPM_SUCCESS			= TPM_BASE_MASK + 0,
-> +	TPM_ERR_DEACTIVATED		= TPM_BASE_MASK + 6,
-> +	TPM_ERR_DISABLED		= TPM_BASE_MASK + 7,
-> +	TPM_ERR_FAIL			= TPM_BASE_MASK + 9,
-> +	TPM_ERR_FAILEDSELFTEST		= TPM_BASE_MASK + 28,
-> +	TPM_ERR_INVALID_POSTINIT	= TPM_BASE_MASK + 38,
-> +	TPM_ERR_INVALID_FAMILY		= TPM_BASE_MASK + 55,
-> +	TPM_WARN_RETRY			= TPM_BASE_MASK + TPM_NON_FATAL_MASK + 0,
-> +	TPM_WARN_DOING_SELFTEST		= TPM_BASE_MASK + TPM_NON_FATAL_MASK + 2,
-> +};
-> +
-> +/* Misc. constants */
+Thanks.
 
-These constants should be relocated in a separate patch.
+--=20
+An old man doll... just what I always wanted! - Clara
 
->  #define SRKHANDLE                       0x40000000
->  #define TPM_NONCE_SIZE                  20
->  #define TPM_ST_CLEAR			1
-> -- 
-> 2.43.7
-> 
+--cXr86z952AoRnBdA
+Content-Type: application/pgp-signature; name=signature.asc
 
-BR, Jarkko
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaW7GgwAKCRD2uYlJVVFO
+o5IaAP94b7MmrmseMySClfVwqN2J5VwmAmCppeUJ/3BURZkyIAD9FBUs2/yUHoyX
+mdvAzlxMyN4BFBzd/S6jJXcMr4fBwww=
+=2Yar
+-----END PGP SIGNATURE-----
+
+--cXr86z952AoRnBdA--
