@@ -1,772 +1,283 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF66C500965;
-	Tue, 20 Jan 2026 00:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768867841; cv=none; b=cnBOL7OCvqTrd7wne7v5/ssOlS4/1aN8LdBU9oLtdYu4fmQ9ZAjjcxTaxnQzx18RPd8fOmYuRfWUy4kAZG3hoUajjSZzPBjva8wjQ2ZKMoqgsZ4yFWtfhEkwyeNtQkbi9Y4zdJPxdtKVLXnlQw21zabqpiMqlBqGQvIh/dpKE+A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768867841; c=relaxed/simple;
-	bh=UYhkcw7jT1kDejb0HUjsjFTLq54ojVOMKU7QLWxq7a8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tjHBk083lt6Lo+d5ofDC2I8qGorho7h5DMfZquRh3Z0+myO4rPSvP26bIL9DMVkygB7abujFVinVFSsX5tkt2xCbS9GVTFhB5cwuz48ZKNxbcRAlF6rDuR61lUWqH2DxuBCv0h5TSL5FbAqpz45Ayn5FV++aJejWPwXErNOOY68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t10SaOiH; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874B71A238F;
+	Tue, 20 Jan 2026 02:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768875513; cv=fail; b=L5QoA3LqvSjD0DCwgC2plYvjww4SXs5C6Ttjjq530QXtNKaimWdt56Yx6d3AbwMuYK/4q/4gDnkWCR+ue6Be/zE2DssTmsf2gpqoOSJ2JbdQD/Q4FGifB5S6vHjPqgDKM8YUtsDtqaLCeDDywSai/e+m//KL1atjB9pg4shYmjk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768875513; c=relaxed/simple;
+	bh=njQPirqL+3QGNr8SW6NPdLwwkCytTnlDPgXyN7AJS0Q=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=VqJtLmiwUspQYUZL3ET+kmsFs16cpk2b4eQtTpSH4goDxkPG5Mk1myXWPHJsriO80YbVITd+pyOvgvY5h3XPt7RqygklfJlNuDyGbgaMZqax34sOm/k102qOB3Powy0mqW8kvAK04BSPjt5U5rDmAqi7ofzX+ulIfe0wqd9b3hQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+90CQuq; arc=fail smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t10SaOiH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A936C116C6;
-	Tue, 20 Jan 2026 00:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768867841;
-	bh=UYhkcw7jT1kDejb0HUjsjFTLq54ojVOMKU7QLWxq7a8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t10SaOiHvxDSb6/ZEchM2kpSMSAjd8YhA1P0+glMiPbt77/kn7WASwSHtzv+6AzHW
-	 hZBw8D/EqHctBuDmAlsbrKMnZOUqP56YVfvZbv6wswJZ3ea3w4q5BzzwlyzsAJGZAd
-	 1+HVVCSW0OG9fYYlP+1fplsC8gPaf1o2KaE2uMoCji72b7gh/CBK05j8jflna1ny4W
-	 jxaC4ORERDvpNYD6cMyu0n4qZc89YObI3xvhbWpA0mfq07p/UPbS3DCNqH1xLO+p5z
-	 +7iG2skk/OWddtHmEHb8cUZMnyB/V2VuL/YjSzXT9f9YdMZNDDx/R0ID1Q1pJ/OS+q
-	 VO3fkIpdSqe4Q==
-Date: Tue, 20 Jan 2026 02:10:36 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, iommu@lists.linux.dev,
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
-	ardb@kernel.org, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
-	ebiederm@xmission.com, dwmw2@infradead.org,
-	baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
-	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v15 19/28] x86/tpm: Early TPM PCR extending driver
-Message-ID: <aW7H_LwhYux0ajtq@kernel.org>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <20251215233316.1076248-20-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+90CQuq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768875511; x=1800411511;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   in-reply-to:mime-version;
+  bh=njQPirqL+3QGNr8SW6NPdLwwkCytTnlDPgXyN7AJS0Q=;
+  b=M+90CQuqDAGvYR3QLD/YmcUwkxMR1T7ENEyKtq0lraMr1J2nqKnC4RSO
+   id7b9eh4MWGxYlKDAm5pIA7b5NFh1aDW2pIH4pAmz647Ut46xRrZ5zZN1
+   m2RuGTssI2Urh2UO2hcGMYIF6qUGOCNXU41MO+JFIA+yZU9Lc+4QOlsEf
+   Eyw9QQKj/v+v5iaIWPxsF87CJnkWJ8GxrChgfYzduHGDxS3HNbUuReUF2
+   IZ8lBYw631ELFcSWewY1oUZ4jivUplKynl4Wbf05U1elJ5JtLk23z4xBY
+   WXpY2dV/PTD5A+99CR6K+rAbg0dEB8gC32ZkDhj5yRvWuahs6ao8PMMxb
+   A==;
+X-CSE-ConnectionGUID: aPgD0Pf0RHKYq72fVq3RJg==
+X-CSE-MsgGUID: 0vccItOlSd+9TfOOsA5TrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="69978080"
+X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
+   d="scan'208";a="69978080"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 18:18:30 -0800
+X-CSE-ConnectionGUID: kxlxRTlRRcmfVcUBlFzfPQ==
+X-CSE-MsgGUID: ctA0BwwJR52d3HrzN31+kw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
+   d="scan'208";a="210498005"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 18:18:28 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 19 Jan 2026 18:18:26 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Mon, 19 Jan 2026 18:18:26 -0800
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.40)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 19 Jan 2026 18:18:26 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VjihrXlGUMGxanuIETwaiFUjD3agXFcM61R+gFAFPMc/MsVn+VoAsNDIB/n+5qcjBSGFaN8LK3WNbJgl78V3wGPvGVboWD302hU/wYTUbzcX1PpFyih6QVpAaXT1+7y8rhVFuOGAtNrZUqKOqO+v+r0/xWjR74yAi+iVw/X9s5AJtomcArhVmNWy66/WGcI7FncRQDI/ucIhc+8h6Rp4pPy0y9hl47Y+By8Fg3YKt/qHEtrJHLY555GCzce14FYIfBUCiGUMWJ/ueNRU0lUJz2jL+jUIgHrE/PIqJpCi4JHc0+IE9kkru3uzPVMNkMMCKRjgXpWViBCiL5DwvavVhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9HQwzvk+locx2JKHmamaHHFD0TD7Ylh1InoifcU6fdw=;
+ b=WUxwrUPnKdjRdAANV34bgjkORjf8PVhhYcis18UtHDittL/mEUXttDhBI9OmwvB/HAdAUe/kFWfdzZkuoflBc8yoGCKCFYsPV9dTzYN7cjxEjCrAxqcrMerQIdGcCXmhoj0MFmFrLE7P0N6XujG11b6UqGMcKiKkQju+IGpS771lLZQqBQj8AdDd3/EJcjXGsAE8jQWxPbH8sVkwrW2eDMSJMbVgD5LS8PMRpAyHdwvlYQ+gq+pJgyGBybwFCmAd8/N3XwDdgGM2g3eCxQpuzfkWsag4BVAEvTWtHxxeBBP9+XJ4lfjPCJImDaZ+CJfJveFoL92yBuKMEWZn5dSPTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB5966.namprd11.prod.outlook.com (2603:10b6:8:71::6) by
+ DS4PPF6915D992B.namprd11.prod.outlook.com (2603:10b6:f:fc02::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
+ 2026 02:18:23 +0000
+Received: from DS7PR11MB5966.namprd11.prod.outlook.com
+ ([fe80::413f:aab:68fa:b1b2]) by DS7PR11MB5966.namprd11.prod.outlook.com
+ ([fe80::413f:aab:68fa:b1b2%4]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 02:18:23 +0000
+Date: Tue, 20 Jan 2026 10:15:19 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Ackerley Tng <ackerleytng@google.com>
+CC: <cgroups@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-trace-kernel@vger.kernel.org>, <x86@kernel.org>,
+	<akpm@linux-foundation.org>, <binbin.wu@linux.intel.com>, <bp@alien8.de>,
+	<brauner@kernel.org>, <chao.p.peng@intel.com>, <chenhuacai@kernel.org>,
+	<corbet@lwn.net>, <dave.hansen@intel.com>, <dave.hansen@linux.intel.com>,
+	<david@redhat.com>, <dmatlack@google.com>, <erdemaktas@google.com>,
+	<fan.du@intel.com>, <fvdl@google.com>, <haibo1.xu@intel.com>,
+	<hannes@cmpxchg.org>, <hch@infradead.org>, <hpa@zytor.com>,
+	<hughd@google.com>, <ira.weiny@intel.com>, <isaku.yamahata@intel.com>,
+	<jack@suse.cz>, <james.morse@arm.com>, <jarkko@kernel.org>, <jgg@ziepe.ca>,
+	<jgowans@amazon.com>, <jhubbard@nvidia.com>, <jroedel@suse.de>,
+	<jthoughton@google.com>, <jun.miao@intel.com>, <kai.huang@intel.com>,
+	<keirf@google.com>, <kent.overstreet@linux.dev>, <liam.merwick@oracle.com>,
+	<maciej.wieczor-retman@intel.com>, <mail@maciej.szmigiero.name>,
+	<maobibo@loongson.cn>, <mathieu.desnoyers@efficios.com>, <maz@kernel.org>,
+	<mhiramat@kernel.org>, <mhocko@kernel.org>, <mic@digikod.net>,
+	<michael.roth@amd.com>, <mingo@redhat.com>, <mlevitsk@redhat.com>,
+	<mpe@ellerman.id.au>, <muchun.song@linux.dev>, <nikunj@amd.com>,
+	<nsaenz@amazon.es>, <oliver.upton@linux.dev>, <palmer@dabbelt.com>,
+	<pankaj.gupta@amd.com>, <paul.walmsley@sifive.com>, <pbonzini@redhat.com>,
+	<peterx@redhat.com>, <pgonda@google.com>, <prsampat@amd.com>,
+	<pvorel@suse.cz>, <qperret@google.com>, <richard.weiyang@gmail.com>,
+	<rick.p.edgecombe@intel.com>, <rientjes@google.com>, <rostedt@goodmis.org>,
+	<roypat@amazon.co.uk>, <rppt@kernel.org>, <seanjc@google.com>,
+	<shakeel.butt@linux.dev>, <shuah@kernel.org>, <steven.price@arm.com>,
+	<steven.sistare@oracle.com>, <suzuki.poulose@arm.com>, <tabba@google.com>,
+	<tglx@linutronix.de>, <thomas.lendacky@amd.com>, <vannapurve@google.com>,
+	<vbabka@suse.cz>, <viro@zeniv.linux.org.uk>, <vkuznets@redhat.com>,
+	<wei.w.wang@intel.com>, <will@kernel.org>, <willy@infradead.org>,
+	<wyihan@google.com>, <xiaoyao.li@intel.com>, <yilun.xu@intel.com>,
+	<yuzenghui@huawei.com>, <zhiquan1.li@intel.com>
+Subject: Re: [RFC PATCH v1 09/37] KVM: guest_memfd: Skip LRU for guest_memfd
+ folios
+Message-ID: <aW7lNx8u9f95YbON@yzhao56-desk.sh.intel.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+References: <cover.1760731772.git.ackerleytng@google.com>
+ <02aad35b728f4918e62dc6eb1d1d5546487b099e.1760731772.git.ackerleytng@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <02aad35b728f4918e62dc6eb1d1d5546487b099e.1760731772.git.ackerleytng@google.com>
+X-ClientProxiedBy: SI1PR02CA0025.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::13) To DS7PR11MB5966.namprd11.prod.outlook.com
+ (2603:10b6:8:71::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215233316.1076248-20-ross.philipson@oracle.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB5966:EE_|DS4PPF6915D992B:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92f02b85-515d-482a-0424-08de57ca3001
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?i7gdcSefouBuAbqWT29OixQpIE66AZgfMM5zVH1Djgg1AKkqkltV24zo1rw7?=
+ =?us-ascii?Q?/FyKjx+0h6bTCbIUjXYmk4y1gWR+IRhawSE0S0HsvBBgt6vUvBwoBtaasnmr?=
+ =?us-ascii?Q?tnZXPwQAhkLtulWTp8CAlI1WC/JtDdobz/e40KFHHFGVLq59w+91Kcff18Jw?=
+ =?us-ascii?Q?rZSWMIqpu96LvdkAK1LkuT65pQc38z0AuJ66BfK35/5h54AWkmgDlGtgl8KV?=
+ =?us-ascii?Q?SUXgKPxc+C0k+MZ5RwyGBmyQ2Y6utEssbIsLH/boHTslzMKMiL94UKmWix2f?=
+ =?us-ascii?Q?A4Ln0s8OswqIhvhbK0pu4fNtTkHpSzZhBVPPCxd/44jorwiBqXXr6IPAcIqW?=
+ =?us-ascii?Q?PPMNPn59yco7ki5h8fKE23MixfobOtFQj30SjmERqU/i6oya8aDecvi8C+XS?=
+ =?us-ascii?Q?Vwaehyj5QK5EVgfx0j10+4gjnR1EjH20OPlqQ3E7R72FGmM8saZ4hlysh8D6?=
+ =?us-ascii?Q?YDBnlmHKUu4gVmKxxRroJpyz6fEav103lTCOPSPpu2gMDX1N/Vk5MCNpjFW/?=
+ =?us-ascii?Q?m9ftT0A/juriGoaJeS4zjHh1/HXh4wVQt5DH1YD6djWBVsqcrjuN6mcZXOdK?=
+ =?us-ascii?Q?FCESsMkWzWUHfxKxpB2/MHlr9KanwAAMD8AqQ/x0Z5bMpbhPB1y8M+ZiWGYn?=
+ =?us-ascii?Q?7ox9gc0zma/WPn76D1crAIotVv2elsGnnbEkvMKX41eGOlGYnUBHF3/KY5tM?=
+ =?us-ascii?Q?3hGNdYiqgJhqjhinDKpUMFsve0HSZm1Gra0y509oiE4B/gUUnfWEd1bvIyx3?=
+ =?us-ascii?Q?Kxz6fZh0TrpQFBibj0gBkWOJ/5ExVbgEsb0X5ZYKCmE+yWtgOPHpKmMUSfDP?=
+ =?us-ascii?Q?WfC5G8kmHFLNHMqZNiEf2Bvj22iXsKxkPf2kZdKNQdJglJfIlE46Q+ZnOfsW?=
+ =?us-ascii?Q?yKM0yMdWAqbV+ldJWgyjzZz6HNdGys+SE79mip4RAMEv8QeV8WV4csqEczQV?=
+ =?us-ascii?Q?gzFT02IEfAkGFgX3QMBhYnadyIBwAjiJ3IVSA6rJsnqEwM8OYjGnDsTUbMr8?=
+ =?us-ascii?Q?EQbPAd/Gzu+AE6mgvZ71o3gS2KzkEK/V+Rso7/BD6vF8Xh3pLpF2BYCGc+O6?=
+ =?us-ascii?Q?kywZBEoytUZx3m22mt5klKW1QytTdLFuPuDHa8XB6bZcche6M41bb+Xf7L6N?=
+ =?us-ascii?Q?e9aS+5o52lbLyMnf/1j6Ir9gJ1ce5z7EeIYGCEojfj1W84bchqkY3/xfXhW4?=
+ =?us-ascii?Q?Ae6t2tzmWtsMm2xPpg/hVPbzGuXqnScNvRmia99jiDS3WA6CAHSZMB+VU7vp?=
+ =?us-ascii?Q?a57eLgYRgSU9BwaEZYEpsuCCwaZxZsEXx0HvR1s7nhfrl9CP913osHaZfJzs?=
+ =?us-ascii?Q?82OHrL/nfD+LoZTDxrw6RdDnVeLQX8nD0+y9MTD0W01ZI5JYFWNapvkWzNNW?=
+ =?us-ascii?Q?FDz8xQbp+aRNtQD+XlxKSZATf3qmHHL98HHf4fQ4bYBR9kjU/AwyLRWHKeIn?=
+ =?us-ascii?Q?GADPmgstoAeG5GVxP/vZVRbJkMF5XVn7JikrCM0uOp+OJNQPvJbZpLgV5hay?=
+ =?us-ascii?Q?uPj0oxuacLMOiak5UfIk9qdxiRllPMRg0q/cj9ih7YSc5W7k9A1lDQKrpuWj?=
+ =?us-ascii?Q?wGvlpCzHr5yNhz34lqQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR11MB5966.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jSlgfLowiC7/QAqJEVk/vdal6diiwzH9lDXNzBHsqSlEnPLNlwKoHYSYT2kL?=
+ =?us-ascii?Q?FZWoXqj7oSwDXtJX9m/ts0NKRlgVmDLJnjBntyUYeXoKxSSRdfiM6cCLtop/?=
+ =?us-ascii?Q?MhfrrtquTJmCZ+5EyS7QMKqE2hjayvKSZ6FGVYUIspkHFAhpthYW93rey31z?=
+ =?us-ascii?Q?SrZARvAN7Nv6bIfXIFIIH4R5uNq5S3QgqJWyWrthhbhwXF23i5raRoV9x5O1?=
+ =?us-ascii?Q?JAQ76knxlkK0bMSIEMJjggUXXufy7a63wu14ZDXXF47A87sWZ91/XBUQqQ84?=
+ =?us-ascii?Q?eLLH7G58Y5YuWwcRhVrt/I1ogSAKjjt1KdFG0tFDkdc6/+AoQlWF5J2nKMta?=
+ =?us-ascii?Q?Kh3C063Wy+ajbBFPgWhNm8Za4aXK+NGo1jSchBn2R3U40Ef6NQJWmliMDWfV?=
+ =?us-ascii?Q?fjlCwifgFp/8sLzOAQ6oDTWkTXZICwUwdy4M4KNnjBPandnTzsnUqzo5d7nT?=
+ =?us-ascii?Q?vuQSp8kRyT1tPXODjhSiYQ+IthqRinG6/fPEQnLhbz92KPKmJ5SGLl9wOW6d?=
+ =?us-ascii?Q?NcBCS0zak0+Ax6zW/nmxzYT3EcMcsFl7qoKH/1/BxIpV6yOkGPlSro6osnvG?=
+ =?us-ascii?Q?zm/QnOwV2XlRDFT/6IMS/GPRZWtiAUgRhUJQ9YnsqIfoNANyvP+10oBDnK1p?=
+ =?us-ascii?Q?7ZaBRgmlkLEDR9DSmsQC4J+85BKsHC1LuqLulgeytAX7gA3yQRIdjoyj1gjs?=
+ =?us-ascii?Q?kS6IPAmsm7GBi2kD1wWSXkcOP+pv+z0fKi7sOrvgPBBlmrgdfWtePDLRrWHV?=
+ =?us-ascii?Q?b1OI7r1hBiIe4732r7kdV0bu6gM6kaoivzb4KkffwQLeiuw6UhkAjv5zJ4MS?=
+ =?us-ascii?Q?WbT+1zWFox0Z7p8aiJvoL2f6K66oKX1W9tY4viJOg1CC6pC66z1OdrP7fc+8?=
+ =?us-ascii?Q?cQ7REvbXcDrEej7/3/b4wxAkUg21ZBHiUny76So5SSrLRHbJh7BJjU0YbsSP?=
+ =?us-ascii?Q?ej3szkMWjauwwbpXIt64kfdFL6Ako59ec0zUXlMcR65nYp+nINFooKSVQCWM?=
+ =?us-ascii?Q?9+A/Bblcw5Owi2IPFQdBvv1PY32DDwW6d+s6JFv07+FQxrySzHR0E+EfFPrJ?=
+ =?us-ascii?Q?RJ11pQOX6l/6A5zWKwq+bYcNZYfsS6FsRC1adGNP7O3eK0oeiqpKBBqjdr+7?=
+ =?us-ascii?Q?YMMLgIZHKHHjiKbvTxTVWlpLALASKS+vBY0s9r+qS/jXMIqsn02OQw/K3jSO?=
+ =?us-ascii?Q?5p3YYoaTa5HiTteWgb+AWvYx34kh8k2LpnJoi4K6+vesKgw2CBG06Y56fjvi?=
+ =?us-ascii?Q?MVA/iEVQSlvyGa0dF8u9bp3My+MEV5NUuSAytMUBaCHeFy0CNVnA79T4OA4V?=
+ =?us-ascii?Q?yq1DGi08bZpHXWEe/hl3/xza4bji0i1T3Y5Obm+xjlmhnlZBM+DJ2nRtbTDQ?=
+ =?us-ascii?Q?z4yhvX6RRBHWgs69k7E0lVD7jXNrrqAzBQue4RXErp3QNDtVIbRzdczeyVm8?=
+ =?us-ascii?Q?rtbClizz4k2KQlrnL+KsHBjBxe1ZWXGVJkPci0wm4wBtczdktym/8TVyNvLv?=
+ =?us-ascii?Q?xhACZjXFsFNsqdYMJ72khUf1WE+0jnnZX8zFWo8o1u2RhMwd8SZA3SONgnKH?=
+ =?us-ascii?Q?AhXudoIT+6M/vpw56JIdR2PtJclUKB9ikqQGkAg5H2bGtpCh3BFSL8eHs8ja?=
+ =?us-ascii?Q?TkqUzRx6cUwNhpcpZejY9+9yRUAxdjfGvue3jFuYM5dotqvh5GCLKNVNFW5V?=
+ =?us-ascii?Q?bToMwA0dREktFIoD1KRGtBrweR8PXwa8xoGUTqqGV6XS+qHRjVj7BXxWH48K?=
+ =?us-ascii?Q?pIn/aN7klw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92f02b85-515d-482a-0424-08de57ca3001
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB5966.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 02:18:23.5607
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0zrTPk8WhTkEIO6frjfgw/TVpIF3WyUqtRXp7F3U+/TaAZeMb85t5LbXmpXS61XG925ZcRTfKznWwqngoz3BBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF6915D992B
+X-OriginatorOrg: intel.com
 
-On Mon, Dec 15, 2025 at 03:33:07PM -0800, Ross Philipson wrote:
-> Introduce an early driver that can interact minimally with the
-> TPM. This allows the Secure Launch startup code to extend measurement
-> values into the TPM's DRTM PCR banks early in the launch process.
-> 
-> This driver implementation is very minimal, only supporting basic
-> initialization and extend commands. An extend command can be sent to both
-> a TPM 2.0 or 1.2 chip but only the TIS/FIFO interface is currently
-> supported. The CRB interface is currently not supported. The TCG specs
-> for these interface can be found here:
-> 
-> https://trustedcomputinggroup.org/resource/pc-client-work-group-pc-client-specific-tpm-interface-specification-tis/
-> https://trustedcomputinggroup.org/resource/tpm-2-0-mobile-command-response-buffer-interface-specification/
-> 
-> The driver could be extended for further operations if needed. This
-> TPM dirver implementation relies as much as possible on existing mainline
-> kernel TPM code.
-> 
-> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-> Signed-off-by: Alec Brown <alec.r.brown@oracle.com>
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> +static struct folio *__kvm_gmem_get_folio(struct address_space *mapping,
+> +					  pgoff_t index,
+> +					  struct mempolicy *policy)
+> +{
+> +	const gfp_t gfp = mapping_gfp_mask(mapping);
+> +	struct folio *folio;
+> +	int err;
+> +
+> +	folio = filemap_lock_folio(mapping, index);
+> +	if (!IS_ERR(folio))
+> +		return folio;
+> +
+> +	folio = filemap_alloc_folio(gfp, 0, policy);
+> +	if (!folio)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	err = mem_cgroup_charge(folio, NULL, gfp);
+> +	if (err)
+> +		goto err_put;
+> +
+> +	__folio_set_locked(folio);
+> +
+> +	err = __filemap_add_folio(mapping, folio, index, gfp, NULL);
+> +	if (err) {
+		 mem_cgroup_uncharge(folio);
 
-Wouldn't it be possible to simply link code from tpm-interface.c and
-re-use PCR functions from tpm1-cmd.c and tpm2-cmd.c?
-
-We can even split transmit code from rest of tpm-interface.c if that
-is necessary for some reason.
-
-I.e. link the code and define ops re-using code below.
-
-If using tpm_transmit is impossible, less ideally you could also
-implement your own tpm_transmit_cmd and link tpm1-cmd.o and tpm2-cmd.o,
-which will work out as the symbol is there.
-
-> ---
->  arch/x86/boot/compressed/Makefile           |   1 +
->  arch/x86/boot/compressed/early_tpm_extend.c | 601 ++++++++++++++++++++
->  arch/x86/boot/compressed/tpm.h              |  42 ++
->  3 files changed, 644 insertions(+)
->  create mode 100644 arch/x86/boot/compressed/early_tpm_extend.c
->  create mode 100644 arch/x86/boot/compressed/tpm.h
-> 
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index 0ea8a11ec271..b108e0edf367 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -114,6 +114,7 @@ endif
+> +		__folio_clear_locked(folio);
+> +		goto err_put;
+> +	}
+> +
+> +	return folio;
+> +
+> +err_put:
+> +	folio_put(folio);
+> +	return ERR_PTR(err);
+> +}
+> +
+>  /*
+>   * Returns a locked folio on success.  The caller is responsible for
+>   * setting the up-to-date flag before the memory is mapped into the guest.
+> @@ -160,6 +195,7 @@ static struct mempolicy *kvm_gmem_get_folio_policy(struct gmem_inode *gi,
+>  static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>  {
+>  	/* TODO: Support huge pages. */
+> +	struct address_space *mapping = inode->i_mapping;
+>  	struct mempolicy *policy;
+>  	struct folio *folio;
 >  
->  slaunch-objs += $(obj)/sha1.o
->  slaunch-objs += $(obj)/sha256.o
-> +slaunch-objs += $(obj)/early_tpm_extend.o
+> @@ -167,16 +203,17 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>  	 * Fast-path: See if folio is already present in mapping to avoid
+>  	 * policy_lookup.
+>  	 */
+> -	folio = filemap_lock_folio(inode->i_mapping, index);
+> +	folio = filemap_lock_folio(mapping, index);
+>  	if (!IS_ERR(folio))
+>  		return folio;
 >  
->  vmlinux-objs-$(CONFIG_SECURE_LAUNCH) += $(slaunch-objs)
+>  	policy = kvm_gmem_get_folio_policy(GMEM_I(inode), index);
+> -	folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+> -					 FGP_LOCK | FGP_CREAT,
+> -					 mapping_gfp_mask(inode->i_mapping), policy);
+> -	mpol_cond_put(policy);
 >  
-> diff --git a/arch/x86/boot/compressed/early_tpm_extend.c b/arch/x86/boot/compressed/early_tpm_extend.c
-> new file mode 100644
-> index 000000000000..7cfdb7969878
-> --- /dev/null
-> +++ b/arch/x86/boot/compressed/early_tpm_extend.c
-> @@ -0,0 +1,601 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2010-2012 United States Government, as represented by
-> + * the Secretary of Defense.  All rights reserved.
-> + *
-> + * based off of the original tools/vtpm_manager code base which is:
-> + * Copyright (c) 2005, Intel Corp.
-> + * All rights reserved.
-> + *
-> + * Redistribution and use in source and binary forms, with or without
-> + * modification, are permitted provided that the following conditions
-> + * are met:
-> + *
-> + *   * Redistributions of source code must retain the above copyright
-> + *     notice, this list of conditions and the following disclaimer.
-> + *   * Redistributions in binary form must reproduce the above
-> + *     copyright notice, this list of conditions and the following
-> + *     disclaimer in the documentation and/or other materials provided
-> + *     with the distribution.
-> + *   * Neither the name of Intel Corporation nor the names of its
-> + *     contributors may be used to endorse or promote products derived
-> + *     from this software without specific prior written permission.
-> + *
-> + * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-> + * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-> + * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-> + * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-> + * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-> + * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-> + * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-> + * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-> + * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-> + * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-> + * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-> + * OF THE POSSIBILITY OF SUCH DAMAGE.
-> + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/init.h>
-> +#include <linux/string.h>
-> +#include <crypto/sha2.h>
-> +#include <asm/msr.h>
-> +#include <asm/io.h>
-> +
-> +#include <linux/tpm_common.h>
-> +#include <linux/tpm1.h>
-> +#include <linux/tpm2.h>
-> +#include <linux/tpm_ptp.h>
-> +#include <linux/tpm_buf.h>
-> +
-> +#include "../../../../drivers/char/tpm/tpm1_structs.h"
-> +#include "../../../../drivers/char/tpm/tpm2_structs.h"
-> +
-> +#include "tpm.h"
-> +
-> +static u8 tpm_buf_page[PAGE_SIZE];
-> +
-> +/*
-> + * Single threaded environment only running on BSP. Use a single shared
-> + * page for all TPM extend operations.
-> + */
-> +static inline struct tpm_buf *tpm_buf_alloc_page(void)
-> +{
-> +	memset(tpm_buf_page, 0, PAGE_SIZE);
-> +	return (struct tpm_buf *)tpm_buf_page;
-> +}
-> +
-> +static inline void tpm_buf_free_page(void)
-> +{
-> +	memset(tpm_buf_page, 0, PAGE_SIZE);
-> +}
-> +
-> +/* Pull in TPM buffer management support */
-> +#undef WARN
-> +#define WARN(c, f...)
-> +#undef WARN_ON
-> +#define WARN_ON(c) (0)
-> +
-> +#include "../../../../drivers/char/tpm/tpm-buf.c"
-> +
-> +static u32 tpm_get_alg_size(u16 alg_id)
-> +{
-> +	switch (alg_id) {
-> +	case TPM_ALG_SHA1:
-> +		return TPM_DIGEST_SIZE;
-> +	case TPM_ALG_SHA256:
-> +	case TPM_ALG_SM3_256:
-> +		return SHA256_DIGEST_SIZE;
-> +	case TPM_ALG_SHA384:
-> +		return SHA384_DIGEST_SIZE;
-> +	case TPM_ALG_SHA512:
-> +	default:
-> +		return SHA512_DIGEST_SIZE;
-> +	};
-> +}
-> +
-> +static inline u8 tpm_read8(struct tpm_chip *chip, u32 field)
-> +{
-> +	void *mmio_addr = (void *)(uintptr_t)(chip->baseaddr | field);
-> +	return readb(mmio_addr);
-> +}
-> +
-> +static inline void tpm_write8(struct tpm_chip *chip, u32 field, u8 val)
-> +{
-> +	void *mmio_addr = (void *)(uintptr_t)(chip->baseaddr | field);
-> +	writeb(val, mmio_addr);
-> +}
-> +
-> +static inline u32 tpm_read32(struct tpm_chip *chip, u32 field)
-> +{
-> +	void *mmio_addr = (void *)(uintptr_t)(chip->baseaddr | field);
-> +	return readl(mmio_addr);
-> +}
-> +
-> +static inline void tpm_write32(struct tpm_chip *chip, u32 field, u32 val)
-> +{
-> +	void *mmio_addr = (void *)(uintptr_t)(chip->baseaddr | field);
-> +	writel(val, mmio_addr);
-> +}
-> +
-> +static unsigned long ticks_per_ms = (5UL * 1000 * 1000 /* cpu_khz */ / 1000);
-> +
-> +static inline ktime_t tpm_now_ms(void)
-> +{
-> +	return rdtsc()/ticks_per_ms;
-> +}
-> +
-> +/*
-> + * We're far too early to calibrate time.  Assume a 5GHz processor (the upper
-> + * end of the Fam19h range), which causes us to be wrong in the safe direction
-> + * on slower systems.
-> + */
-> +static inline void tpm_mdelay(unsigned int msecs)
-> +{
-> +	unsigned long ticks = msecs * ticks_per_ms;
-> +	unsigned long s, e;
-> +
-> +	s = rdtsc();
 > +	do {
-> +		cpu_relax();
-> +		e = rdtsc();
-> +	} while ((e - s) < ticks);
-> +}
-> +
-> +static inline u8 __tis_status(struct tpm_chip *chip)
-> +{
-> +	return tpm_read8(chip, TPM_STS(chip->locality));
-> +}
-> +
-> +static inline void __tis_cancel(struct tpm_chip *chip)
-> +{
-> +	/* This causes the current command to be aborted */
-> +	tpm_write8(chip, TPM_STS(chip->locality), TPM_STS_COMMAND_READY);
-> +}
-> +
-> +static int __tis_get_burstcount(struct tpm_chip *chip)
-> +{
-> +	ktime_t stop;
-> +	int burstcnt;
-> +
-> +	stop = tpm_now_ms() + chip->timeout_d;
-> +	do {
-> +		burstcnt = tpm_read8(chip, (TPM_STS(chip->locality) + 1));
-> +		burstcnt += tpm_read8(chip, TPM_STS(chip->locality) + 2) << 8;
-> +
-> +		if (burstcnt)
-> +			return burstcnt;
-> +
-> +		tpm_mdelay(TPM_TIMEOUT);
-> +	} while (tpm_now_ms() < stop);
-> +
-> +	return -EBUSY;
-> +}
-> +
-> +static int __tis_wait_for_stat(struct tpm_chip *chip, u8 mask, ktime_t timeout)
-> +{
-> +	ktime_t stop;
-> +	u8 status;
-> +
-> +	if ((__tis_status(chip) & mask) == mask)
-> +		return 0;
-> +
-> +	stop = tpm_now_ms() + timeout;
-> +	do {
-> +		tpm_mdelay(TPM_TIMEOUT);
-> +
-> +		status = __tis_status(chip);
-> +		if ((status & mask) == mask)
-> +			return 0;
-> +	} while (tpm_now_ms() < stop);
-> +
-> +	return -ETIME;
-> +}
-> +
-> +static int __tis_recv_data(struct tpm_chip *chip, u8 *buf, int count)
-> +{
-> +	int size = 0;
-> +	int burstcnt;
-> +
-> +	while (size < count && __tis_wait_for_stat(chip, TPM_STS_DATA_AVAIL | TPM_STS_VALID, chip->timeout_c) == 0) {
-> +		burstcnt = __tis_get_burstcount(chip);
-> +
-> +		for ( ; burstcnt > 0 && size < count; --burstcnt)
-> +			buf[size++] = tpm_read8(chip, TPM_DATA_FIFO(chip->locality));
-> +	}
-> +
-> +	return size;
-> +}
-> +
-> +/**
-> + * tpm_tis_check_locality - Check if the given locality is the active one
-> + * @chip:	The TPM chip instance
-> + * @loc:	The locality to check
-> + *
-> + * Return: true - locality active, false - not active
-> + */
-> +bool tpm_tis_check_locality(struct tpm_chip *chip, int loc)
-> +{
-> +	if ((tpm_read8(chip, TPM_ACCESS(loc)) & (TPM_ACCESS_ACTIVE_LOCALITY | TPM_ACCESS_VALID)) == (TPM_ACCESS_ACTIVE_LOCALITY | TPM_ACCESS_VALID)) {
-> +		chip->locality = loc;
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +/**
-> + * tpm_tis_release_locality - Release the active locality
-> + * @chip:	The TPM chip instance
-> + */
-> +void tpm_tis_release_locality(struct tpm_chip *chip)
-> +{
-> +	if ((tpm_read8(chip, TPM_ACCESS(chip->locality)) & (TPM_ACCESS_REQUEST_PENDING | TPM_ACCESS_VALID)) == (TPM_ACCESS_REQUEST_PENDING | TPM_ACCESS_VALID))
-> +		tpm_write8(chip, TPM_ACCESS(chip->locality), TPM_ACCESS_RELINQUISH_LOCALITY);
-> +
-> +	chip->locality = 0;
-> +}
-> +
-> +/**
-> + * tpm_tis_request_locality - Request to make the given locality the active one
-> + * @chip:	The TPM chip instance
-> + * @loc:	The locality to make active/set as current
-> + *
-> + * Return:
-> + *  >= 0 - Success, new active locality returned or locality already active
-> + *  < 0  - Error occurred
-> + */
-> +int tpm_tis_request_locality(struct tpm_chip *chip, int loc)
-> +{
-> +	ktime_t stop;
-> +
-> +	if (tpm_tis_check_locality(chip, loc))
-> +		return loc;
-> +
-> +	/* Set the new locality */
-> +	tpm_write8(chip, TPM_ACCESS(loc), TPM_ACCESS_REQUEST_USE);
-> +
-> +	stop = tpm_now_ms() + chip->timeout_b;
-> +	do {
-> +		if (tpm_tis_check_locality(chip, loc))
-> +			return loc;
-> +
-> +		tpm_mdelay(TPM_TIMEOUT);
-> +	} while (tpm_now_ms() < stop);
-> +
-> +	return -1;
-> +}
-> +
-> +/**
-> + * tpm_tis_disable_interrupts - Disable interrupts for the TPM, use polling mode only
-> + * @chip:	The TPM chip instance
-> + */
-> +void tpm_tis_disable_interrupts(struct tpm_chip *chip)
-> +{
-> +	u32 intmask;
-> +
-> +	intmask = tpm_read32(chip, TPM_INT_ENABLE(chip->locality));
-> +	/* Disable everything to make sure it is in a consistent state */
-> +	intmask &= ~(TPM_GLOBAL_INT_ENABLE | TPM_INTF_CMD_READY_INT | TPM_INTF_LOCALITY_CHANGE_INT | TPM_INTF_STS_VALID_INT | TPM_INTF_DATA_AVAIL_INT);
-> +	tpm_write32(chip, TPM_INT_ENABLE(chip->locality), intmask);
-> +}
-> +
-> +/**
-> + * tpm_tis_recv - Receive response data from TPM via TIS FIFO
-> + * @chip:	The TPM chip instance
-> + * @buf:	The response buffer
-> + * @count:	Length of the response buffer
-> + *
-> + * Return:
-> + *  = 0 - Success, no response data
-> + *  > 0 - Success, value is the response data length
-> + *  < 0 - Error occurred
-> + */
-> +static int tpm_tis_recv(struct tpm_chip *chip, u8 *buf, int count)
-> +{
-> +	int expected, status, size = 0, rc = -EIO;
-> +
-> +	if (count < TPM_HEADER_SIZE)
-> +		goto out;
-> +
-> +	/* Read first 10 bytes, including tag, paramsize, and result */
-> +	size = __tis_recv_data(chip, buf, TPM_HEADER_SIZE);
-> +	if (size < TPM_HEADER_SIZE)
-> +		goto out;
-> +
-> +	expected = be32_to_cpu(*((u32 *)(buf + 2)));
-> +	if (expected > count)
-> +		goto out;
-> +
-> +	size += __tis_recv_data(chip, &buf[TPM_HEADER_SIZE], expected - TPM_HEADER_SIZE);
-> +	if (size < expected) {
-> +		rc = -ETIME;
-> +		goto out;
-> +	}
-> +
-> +	__tis_wait_for_stat(chip, TPM_STS_VALID, chip->timeout_c);
-> +
-> +	status = __tis_status(chip);
-> +	if (status & TPM_STS_DATA_AVAIL) {
-> +		rc = -EIO;
-> +		goto out;
-> +	}
-> +
-> +	return size;
-> +out:
-> +	__tis_cancel(chip);
-> +	tpm_tis_release_locality(chip);
-> +	return rc;
-> +}
-> +
-> +/**
-> + * tpm_tis_send - Send command to TPM via TIS FIFO
-> + * @chip:	The TPM chip instance
-> + * @buf:	The command buffer
-> + * @len:	Length of the command buffer to send
-> + *
-> + * Return:
-> + *  = len - Success, all data sent
-> + *  < 0	  - Error occurred
-> + */
-> +static int tpm_tis_send(struct tpm_chip *chip, u8 *buf, int len)
-> +{
-> +	int status, burstcnt = 0;
-> +	int count = 0;
-> +	int rc = 0;
-> +
-> +	status = __tis_status(chip);
-> +	if ((status & TPM_STS_COMMAND_READY) == 0) {
-> +		__tis_cancel(chip);
-> +		if (__tis_wait_for_stat(chip, TPM_STS_COMMAND_READY, chip->timeout_b) < 0) {
-> +			rc = -ETIME;
-> +			goto out_err;
-> +		}
-> +	}
-> +
-> +	while (count < len - 1) {
-> +		burstcnt = __tis_get_burstcount(chip);
-> +		for ( ; burstcnt > 0 && count < len - 1; --burstcnt)
-> +			tpm_write8(chip, TPM_DATA_FIFO(chip->locality), buf[count++]);
-> +
-> +		__tis_wait_for_stat(chip, TPM_STS_VALID, chip->timeout_c);
-> +		status = __tis_status(chip);
-> +		if ((status & TPM_STS_DATA_EXPECT) == 0) {
-> +			rc = -EIO;
-> +			goto out_err;
-> +		}
-> +	}
-> +
-> +	/* Write last byte */
-> +	tpm_write8(chip, TPM_DATA_FIFO(chip->locality), buf[count]);
-> +	__tis_wait_for_stat(chip, TPM_STS_VALID, chip->timeout_c);
-> +	status = __tis_status(chip);
-> +	if ((status & TPM_STS_DATA_EXPECT) != 0) {
-> +		rc = -EIO;
-> +		goto out_err;
-> +	}
-> +
-> +	/* Go and do it */
-> +	tpm_write8(chip, TPM_STS(chip->locality), TPM_STS_GO);
-> +
-> +	return len;
-> +
-> +out_err:
-> +	__tis_cancel(chip);
-> +	tpm_tis_release_locality(chip);
-> +	return rc;
-> +}
-> +
-> +/**
-> + * tpm_tis_transmit - Transmit a TPM FIFO command
-> + * @chip:	The TPM chip instance
-> + * @buf:	The request and response buffer object
-> + * @bufsize:	Entire size available in buffer
-> + *
-> + * Return:
-> + *  = 0 - Success, no returned data
-> + *  > 0 - Success, value is the return data length
-> + *  < 0 - Error occurred
-> + */
-> +static int tpm_tis_transmit(struct tpm_chip *chip, u8 *buf, u32 bufsize)
-> +{
-> +	ktime_t stop;
-> +	u32 count;
-> +	u8 status;
-> +	int rc;
-> +
-> +	count = be32_to_cpu(*((u32 *) (buf + 2)));
-> +	if (count == 0)
-> +		return -ENODATA;
-> +
-> +	if (count > bufsize)
-> +		return -E2BIG;
-> +
-> +	rc = tpm_tis_send(chip, buf, count);
-> +	if (rc < 0)
-> +		goto out;
-> +
-> +	stop = tpm_now_ms() + TIS_DURATION;
-> +	do {
-> +		status = __tis_status(chip);
-> +		if ((status & (TPM_STS_DATA_AVAIL | TPM_STS_VALID)) == (TPM_STS_DATA_AVAIL | TPM_STS_VALID))
-> +			goto out_recv;
-> +
-> +		if (status == TPM_STS_COMMAND_READY) {
-> +			rc = -ECANCELED;
-> +			goto out;
-> +		}
-> +
-> +		tpm_mdelay(TPM_TIMEOUT);
-> +		rmb();
-> +	} while (tpm_now_ms() < stop);
-> +
-> +	/* Cancel the command */
-> +	__tis_cancel(chip);
-> +	rc = -ETIME;
-> +	goto out;
-> +
-> +out_recv:
-> +	rc = tpm_tis_recv(chip, buf, bufsize);
-> +	if (rc >= 0) {
-> +		if (rc > 0 && rc < TPM_HEADER_SIZE)
-> +			return -EFAULT;
-> +		return rc;
-> +	}
-> +	/* Else return was an error, nothing to receive */
-> +
-> +out:
-> +	return rc;
-> +}
-> +
-> +/**
-> + * tpm_find_interface_and_family - interface FIFO/CRB, family 2.0 or 1.2
-> + * @chip:	The TPM chip instance
-> + *
-> + * Return: TPM family ID enum
-> + */
-> +static enum tpm_family tpm_find_interface_and_family(struct tpm_chip *chip)
-> +{
-> +	struct tpm_intf_capability intf_cap;
-> +	struct tpm_interface_id intf_id;
-> +
-> +	/* Sort out whether it is 1.x */
-> +	intf_cap.val = tpm_read32(chip, TPM_INTF_CAPS(0));
-> +	if ((intf_cap.interface_version == TPM_TIS_INTF_12) ||
-> +	    (intf_cap.interface_version == TPM_TIS_INTF_13))
-> +		return TPM_FAMILY_12; /* Always TIS */
-> +
-> +	/* Assume that it is 2.0 but check if the interface is CRB */
-> +	intf_id.val = tpm_read32(chip, TPM_INTF_ID(0));
-> +	if (intf_id.interface_type == TPM_CRB_INTF_ACTIVE)
-> +		return TPM_FAMILY_INVALID;
-> +
-> +	/* Else TPM 2.0 with TIS interface */
-> +	return TPM_FAMILY_20;
-> +}
-> +
-> +/**
-> + * tpm1_pcr_extend - send a TPM1 extend command to the device
-> + * @chip:	a TPM chip to use
-> + * @pcr_idx:	the PCR index to extend for the current locality
-> + * @hash:	the SHA1 hash digest to extend
-> + *
-> + * Return:
-> + * * 0		- OK
-> + * * -errno	- A system error
-> + * * TPM_RC	- A TPM error
-> + */
-> +int tpm1_pcr_extend(struct tpm_chip *chip, u32 pcr_idx, const u8 *hash)
-> +{
-> +	int rc = 0;
-> +	struct tpm_buf *buf = tpm_buf_alloc_page();
-> +
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	tpm_buf_init(buf, TPM_BUFSIZE);
-> +	tpm_buf_reset(buf, TPM_TAG_RQU_COMMAND, TPM_ORD_PCR_EXTEND);
-> +
-> +	tpm_buf_append_u32(buf, pcr_idx);
-> +	tpm_buf_append(buf, hash, TPM_DIGEST_SIZE);
-> +
-> +	rc = tpm_tis_transmit(chip, buf->data, PAGE_SIZE);
-> +
-> +	/* Ignoring output */
-> +	if (rc > 0)
-> +		rc = 0;
-> +
-> +	tpm_buf_free_page();
-> +
-> +	return rc;
-> +}
-> +
-> +/**
-> + * tpm2_pcr_extend() - send a TPM2 extend command to the device
-> + *
-> + * @chip:		TPM chip to use.
-> + * @pcr_idx:		index of the PCR.
-> + * @digests:		list of PCR banks and corresponding digest values to extend.
-> + * @digest_count:	count of digests to extend
-> + *
-> + * Return:
-> + * * 0		- OK
-> + * * -errno	- A system error
-> + * * TPM_RC	- A TPM error
-> + */
-> +int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
-> +		    struct tpm_digest *digests, u32 digest_count)
-> +{
-> +	struct tpm_buf *buf = tpm_buf_alloc_page();
-> +	int rc = 0, i;
-> +
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	tpm_buf_init(buf, TPM_BUFSIZE);
-> +	tpm_buf_reset(buf, TPM2_ST_SESSIONS, TPM2_CC_PCR_EXTEND);
-> +
-> +	tpm_buf_append_handle(buf, pcr_idx);
-> +
-> +	/* Setup a NULL auth session for the command */
-> +	tpm_buf_append_u32(buf, 9);
-> +	/* auth handle */
-> +	tpm_buf_append_u32(buf, TPM2_RS_PW);
-> +	/* nonce */
-> +	tpm_buf_append_u16(buf, 0);
-> +	/* attributes */
-> +	tpm_buf_append_u8(buf, 0);
-> +	/* passphrase */
-> +	tpm_buf_append_u16(buf, 0);
-> +
-> +	tpm_buf_append_u32(buf, digest_count);
-> +
-> +	for (i = 0; i < digest_count; i++) {
-> +		tpm_buf_append_u16(buf, digests[i].alg_id);
-> +		tpm_buf_append(buf, (const unsigned char *)&digests[i].digest,
-> +			       tpm_get_alg_size(digests[i].alg_id));
-> +	}
-> +
-> +	rc = tpm_tis_transmit(chip, buf->data, PAGE_SIZE);
-> +
-> +	/* Ignoring output */
-> +	if (rc > 0)
-> +		rc = 0;
-> +
-> +	tpm_buf_free_page();
-> +
-> +	return rc;
-> +}
-> +
-> +int early_tpm_init(struct tpm_chip *chip, u64 baseaddr)
-> +{
-> +	u32 didvid;
-> +
-> +	memset(chip, 0, sizeof(*chip));
-> +	chip->baseaddr = baseaddr;
-> +
-> +	chip->family = tpm_find_interface_and_family(chip);
-> +	if (chip->family == TPM_FAMILY_INVALID)
-> +		return TPM_ERR_INVALID_FAMILY;
-> +
-> +	/* Set default timeouts */
-> +	chip->timeout_a = TIS_SHORT_TIMEOUT;
-> +	chip->timeout_b = TIS_LONG_TIMEOUT;
-> +	chip->timeout_c = TIS_SHORT_TIMEOUT;
-> +	chip->timeout_d = TIS_SHORT_TIMEOUT;
-> +
-> +	/* Get the vendor and device ids */
-> +	didvid = tpm_read32(chip, TPM_DID_VID(0));
-> +	chip->did = didvid >> 16;
-> +	chip->vid = didvid & 0xFFFF;
-> +
-> +	return TPM_SUCCESS;
-> +}
-> +
-> +int early_tpm_fini(struct tpm_chip *chip)
-> +{
-> +	tpm_tis_release_locality(chip);
-> +	memset(chip, 0, sizeof(*chip));
-> +
-> +	return TPM_SUCCESS;
-> +}
-> diff --git a/arch/x86/boot/compressed/tpm.h b/arch/x86/boot/compressed/tpm.h
-> new file mode 100644
-> index 000000000000..6986593e0100
-> --- /dev/null
-> +++ b/arch/x86/boot/compressed/tpm.h
-> @@ -0,0 +1,42 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef BOOT_COMPRESSED_TPM_H
-> +#define BOOT_COMPRESSED_TPM_H
-> +
-> +enum early_tis_defaults {
-> +	TIS_MEM_X86_LPC_BASE	= 0xFED40000,
-> +	TIS_MEM_X86_LEN		= 0x5000,
-> +	TPM_TIMEOUT		= 5, /* ms */
-> +	TIS_DURATION		= 120000, /* 120 secs in ms */
-> +};
-> +
-> +enum tpm_family {
-> +	TPM_FAMILY_INVALID	= 0,
-> +	TPM_FAMILY_12		= 1,
-> +	TPM_FAMILY_20		= 2
-> +};
-> +
-> +struct tpm_chip {
-> +	enum tpm_family family;
-> +	u64 baseaddr;
-> +	int locality;
-> +	int did;
-> +	int vid;
-> +
-> +	/* in ms */
-> +	ktime_t timeout_a;
-> +	ktime_t timeout_b;
-> +	ktime_t timeout_c;
-> +	ktime_t timeout_d;
-> +};
-> +
-> +bool tpm_tis_check_locality(struct tpm_chip *chip, int loc);
-> +void tpm_tis_release_locality(struct tpm_chip *chip);
-> +int tpm_tis_request_locality(struct tpm_chip *chip, int loc);
-> +void tpm_tis_disable_interrupts(struct tpm_chip *chip);
-> +int tpm1_pcr_extend(struct tpm_chip *chip, u32 pcr_idx, const u8 *hash);
-> +int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
-> +		    struct tpm_digest *digests, u32 digest_count);
-> +int early_tpm_init(struct tpm_chip *chip, u64 baseaddr);
-> +int early_tpm_fini(struct tpm_chip *chip);
-> +
-> +#endif /* BOOT_COMPRESSED_TPM_H */
-> -- 
-> 2.43.7
-> 
+> +		folio = __kvm_gmem_get_folio(mapping, index, policy);
+> +	} while (IS_ERR(folio) && PTR_ERR(folio) == -EEXIST);
+Why not just return ERR_PTR(-EEXIST) up to kvm_gmem_get_pfn() and have a higher
+level retry?
 
-BR, Jarkko
+> +	mpol_cond_put(policy);
+>  	return folio;
+>  }
+ 
