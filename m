@@ -1,186 +1,125 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a11-32.smtp-out.amazonses.com (a11-32.smtp-out.amazonses.com [54.240.11.32])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D5347A0D0;
-	Tue, 20 Jan 2026 15:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB75545107F;
+	Tue, 20 Jan 2026 15:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768921601; cv=none; b=DX7/FuCKqPEYplgeD82ApUJk1hOucBnsLSnThpeVkMY+MPalmLGMi6gG1/L70H+86x7xwawnRYghVWHimgT2UHv549b48/GqMVITeU59naP3vA7cql3uF8K3+8jGoVFU1xv6t9S7yJpJfA3WMamldWNlQkkgHOjLI3IEDSWOeoc=
+	t=1768921991; cv=none; b=and0xMPOdcuDe81TGAM2Um+zTiJ5q3TziO3WmBPCvGhD+Ly02LtmledGZPtDkrEaW2p1PEHKqjjaf1Gy7lSkDPR4EENo9RYzwjdw/nGpnwmq55fVUTDFLl+P0mRFyfrsFgiyVg8OhskeLjC24xLibY1rSZ3VthucHXeGO/Hg6v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768921601; c=relaxed/simple;
-	bh=dZdygUVv2UjXz54Igq0SNBXzwj5uwKKwxACdBXxCC00=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F/DNQIs4vcEq4YzWo+MRQdOY76nTiD4V9uU26U4MrmZKZsF5x0tus/RHuhb1FJWKF3SpXF8gHvHuIkKGkHJtHbc+djrGmlTssoBFLy3n5OIstor6lUIkCKsvK1cdKuAO4tNoDZPd0Xei0vcztnRaXQKl1In1pJ1l2t3BSDMAOnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Eu2FjEVf; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1768921991; c=relaxed/simple;
+	bh=Ft0thuoltVVZMnW6hindS3fkwhaqA1m8xooBA/OmizE=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
+	 References:Message-ID; b=gj6/RMoMuwXIClyZGTcFkWjowZ8Lzy89Pauj+sYQdPy/bbbkIQyC3RFjjc5EkSP69bdBLur5QiN1wwtgGfuRRZ5MFkGc1zJx4Yutj0USjUDZmcYiRJavEcuklA+TbeuIizODaLdcgGb/WgoHVHI+AL801RDGiBiidN2xq3ykTkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=qfuc4mv9; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=Pr7cKIFm; arc=none smtp.client-ip=54.240.11.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Eu2FjEVf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1768921585; x=1769526385; i=w_armin@gmx.de;
-	bh=TJZoSCr0kilrD5gE8FnbwwULMFh+9+VUNqciQwHj2IU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=Eu2FjEVf4qQBbsN9SNZ9yyuLcGKdrOmn+jver8L15PupTcmvB0fnD3QzP/tkYrkh
-	 lbX4pCJtgOZcj6PADyXkYtOQ/ORyEbubdj3GOH+eGL+M426ldl1JE5cqtWVRp0667
-	 MjDAZzAAKKwGv7sLong5QNliY8yY/8pVn5v7tTy4vc58t4BaRWv6m4q3g3bJKcetV
-	 M7EtSmiBV8rHt2fvvtVVV4QQvt39AibsBtoBmwJyyMNrv4O9zEYXYEi0jmza5UoHh
-	 f/lCBPSEWyU7ZbL22C8a25URDUPW+le+mBrmLGOcNbeCayDYFkaxgH3tkDbI047yK
-	 jnhAHkK41V3Vzl3WMQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [172.16.117.128] ([141.76.8.160]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MrhUE-1wBnM50vWG-00kPPo; Tue, 20
- Jan 2026 16:06:25 +0100
-Message-ID: <c4c14edf-8d84-439e-ba71-135bb47ee49f@gmx.de>
-Date: Tue, 20 Jan 2026 16:06:23 +0100
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="qfuc4mv9";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="Pr7cKIFm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1768921988;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
+	bh=Ft0thuoltVVZMnW6hindS3fkwhaqA1m8xooBA/OmizE=;
+	b=qfuc4mv9Ri4JjFpZWoeGrjIgi9GFt84DZVs7ldEBYK9qwSCbV+G7how3cn8E1njD
+	R8qOMG8zOSinHT+yG+IhbI0eHyzyNyv4Y6YnOE6f4s/kORFFPBXrGrtylI2T44fBS2E
+	L38p2ZbHFw4Rc8p1mwUuaytbQqp9aXzh2KwMmp0Y=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1768921988;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
+	bh=Ft0thuoltVVZMnW6hindS3fkwhaqA1m8xooBA/OmizE=;
+	b=Pr7cKIFmHrGUrIvIzVRhb1/sTlFCAzumbBpqlIC98a7h1kqzf7JJ5Z0FZ5uY98R0
+	DjL8uS1K8eFijzGAVW+BRj+WGt39y6s4sJjYQRfur3D/gk7YlxFl9Pi8KLWqk/eqTta
+	62lVHk6gdgy3hxUN6HdkWYjWjI4ooWS3YTyjS8WA=
+Subject: Re: [PATCH BUNDLE v7] famfs: Fabric-Attached Memory File System
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?Alireza_Sanaee?= <alireza.sanaee@huawei.com>
+Cc: =?UTF-8?Q?John_Groves?= <John@groves.net>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
+	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
+	=?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?John_Groves?= <jgroves@fastmail.com>, 
+	=?UTF-8?Q?Jonathan_Corbet?= <corbet@lwn.net>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
+	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
+	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
+	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
+	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
+	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
+	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
+	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
+	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
+	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
+	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
+	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
+	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
+	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
+	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
+	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
+	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
+	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
+	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>
+Date: Tue, 20 Jan 2026 15:13:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/9] [PATCH v3 0/9] platform/wmi: Introduce marshalling
- support
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- hansg@kernel.org
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux@weissschuh.net, Dell.Client.Kernel@dell.com, corbet@lwn.net,
- linux-doc@vger.kernel.org
-References: <20260116204116.4030-1-W_Armin@gmx.de>
- <176892030133.15020.7666397577705687464.b4-ty@linux.intel.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <176892030133.15020.7666397577705687464.b4-ty@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HNlQwoOXg30+e1NpgiPT7l8kC9VvFSA4VJw29eql3AG9LrnqwLf
- EM+nUMMqUqqY5LW52FUu9D8aJVHDJG25MLB+7KxcfCLYPJ5jo/ZfAm7SgcGGkO79EeAFldY
- Uyw1B0JZlULoqxALfM3F8vBRLPoIzvGXRRpDmBbleRmzrq0QPna4fG/l+5TnyaB42oLNhMS
- ng9fArBJ5QnXlcDxF+4Lg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:l0ZYk0ZAxBU=;WtkAEyr/S0+1Bh7aUzqKvitomep
- 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
+In-Reply-To: <20260120091217.00007537.alireza.sanaee@huawei.com>
+References: <20260118222911.92214-1-john@jagalactic.com> 
+ <0100019bd33a16b4-6da11a99-d883-4cfc-b561-97973253bc4a-000000@email.amazonses.com> 
+ <20260120091217.00007537.alireza.sanaee@huawei.com> 
+ <aW-bOXOnwUVVorHu@groves.net>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHciMnhcFkpAz6WTSKstYDfyF/cJQBI+YTyAFVZlts=
+Thread-Topic: [PATCH BUNDLE v7] famfs: Fabric-Attached Memory File System
+X-Wm-Sent-Timestamp: 1768921986
+Message-ID: <0100019bdbf77d8b-fc329dba-dc0d-4233-9b6a-b45e3e271727-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.01.20-54.240.11.32
 
-Am 20.01.26 um 15:45 schrieb Ilpo J=C3=A4rvinen:
-
-> On Fri, 16 Jan 2026 21:41:07 +0100, Armin Wolf wrote:
->
->> The Windows WMI-ACPI driver likely uses wmilib [1] to interact with
->> the WMI service in userspace. Said library uses plain byte buffers
->> for exchanging data, so the WMI-ACPI driver has to convert between
->> those byte buffers and ACPI objects returned by the ACPI firmware.
->>
->> The format of the byte buffer is publicly documented [2], and after
->> some reverse eingineering of the WMI-ACPI driver using a set of custom
->> ACPI tables, the following conversion rules have been discovered:
->>
->> [...]
->>
->> Thank you for your contribution, it has been applied to my local
->> review-ilpo-next branch. Note it will show up in the public
->> platform-drivers-x86/review-ilpo-next branch only once I've pushed my
->> local branch there, which might take a while.
-
-Thank you :).
-
->>
->> The list of commits applied:
->> [1/9] platform/wmi: Introduce marshalling support
->>        commit: 015b70a6ae697f5dac3562e4ab45ee275d98860b
->> [2/9] platform/wmi: Add kunit test for the marshalling code
->>        commit: 29dfba69c3ddb7945cd772042c6a9ce770c1ba22
->> [3/9] platform/wmi: Add helper functions for WMI string conversions
->>        commit: b990a06f7ec6dc3ceecd8015c3b421690f267122
->> [4/9] platform/wmi: Add kunit test for the string conversion code
->>        commit: 0e1a8143e79713eef7e027737fed259aa58866e7
->> [5/9] platform/x86: intel-wmi-sbl-fw-update: Use new buffer-based WMI A=
-PI
->>        commit: 534f685d8a952371148e1374576f8ede2919ec1d
->> [6/9] platform/x86/intel/wmi: thunderbolt: Use new buffer-based WMI API
->>        commit: e210986f52b657301d009e23344e3effec12bbeb
->> [7/9] platform/x86: xiaomi-wmi: Use new buffer-based WMI API
->>        commit: bb7527c63f8567d69a22a818aa5999be47c5d479
->> [8/9] platform/x86: wmi-bmof: Use new buffer-based WMI API
->>        commit: 926a266575a21e96c4c0b9c16b1da1f7fda5a519
->> [9/9] platform/wmi: Update driver development guide
->>        commit: 2177a02246ffef9ed4a01af2942119e601312965
->>
->> --
->>   i.
->>
+On 26/01/20 09:12AM, Alireza Sanaee wrote:=0D=0A> On Sun, 18 Jan 2026 22:=
+29:18 +0000=0D=0A> John Groves <john@jagalactic.com> wrote:=0D=0A>=20=0D=0A=
+> Hi John,=0D=0A>=20=0D=0A> I wonder if these new patches sent recently h=
+ave been reflected on the github repo readme files. It seems it is not, i=
+s it=3F=0D=0A>=20=0D=0A=0D=0A[ ... ]=0D=0A=0D=0A> >=20=0D=0A> > Reference=
+s=0D=0A> > ----------=0D=0A> > [1] https://lore.kernel.org/linux-cxl/cove=
+r.1708709155.git.john@groves.net/=0D=0A> > [2] https://lore.kernel.org/li=
+nux-cxl/cover.1714409084.git.john@groves.net/=0D=0A> > [3] https://lwn.ne=
+t/Articles/983105/ (LSFMM 2024)=0D=0A> > [4] https://lwn.net/Articles/102=
+0170/ (LSFMM 2025)=0D=0A> > [5] https://famfs.org (famfs user space)=0D=0A=
+> > [6] https://lore.kernel.org/linux-cxl/20250703185032.46568-1-john@gro=
+ves.net/ (V2)=0D=0A> > [7] https://lore.kernel.org/linux-fsdevel/20260107=
+153244.64703-1-john@groves.net/T/#m0000d8c00290f48c086b8b176c7525e410f850=
+8c (related ndctl series)=0D=0A> > --=0D=0A=0D=0AHi Ali,=0D=0A=0D=0A[5] p=
+oints to the main famfs user space repo; I haven't updated documentation=0D=
+=0Athere yet. The master branch there works with this patch set, and also=
+=0D=0Aremains compatible with famfs kernels back to 6.8 (both fuse and st=
+andalone),=0D=0Abut I recommend this latest version (which is the famfs-v=
+7 tag in my kernel=0D=0Arepos).=0D=0A=0D=0ASome people are still running =
+standalone famfs, and for that I recommend the=0D=0Afamfs_dualv3 branch, =
+which supports both fuse and standalone mounts in a=0D=0A6.14 kernel. I d=
+on't currently plan to forward-port standalone famfs to=0D=0A6.19, becaus=
+e fuse is the path forward.=0D=0A=0D=0AWe're working on a performance reg=
+ression test suite now, but early=0D=0Aindications are the fuse version i=
+s equivalent performance to standalone -=0D=0Aexcept for open, which is s=
+lower due to the fuse kernel/server interaction.=0D=0AMost of our use cas=
+es involve large data sets, so we think this is OK - but=0D=0Athere is an=
+ opportunity later optimization of open.=0D=0A=0D=0AHope this is helpful,=
+=0D=0AJohn=0D=0A=0D=0A
