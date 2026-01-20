@@ -1,145 +1,79 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AB0451056
-	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 18:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768933332; cv=pass; b=E3DNOHIm49R9bijKn8+CrVakgAcSmvOS/IrUk6H04ZskPX7UlclhBqt2BulT0i8fDSEDSICDp7YKcNAnGDojrQmpmata0LCURyzm2WRnt9IbzdWklyx45mMaBLDmAEI5XaSggmu7FxWvNsSV/nxV/PmzK6OcX8r8Eq3/7hKRBRo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768933332; c=relaxed/simple;
-	bh=ZagQrHQFuN6e2A4tbUmN0iCJ+Oxzcz6Xqi1hSuy4FGA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C0CAjju2FKop3ljE5HEhnYulk2TK43kkv2g0pZ308ZHhbW8kI7ZRq+eqKnYfeqll67OGVZeMTDwIrPU7gQSvzGcRSA8fYo4brFBQinZTkajlQz13SbxXSs0sQErwST5p2izw/XgDavIfVSNYqM3PULSQsxw6YGkR7+bmgRtZ/Xc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V1twhqfN; arc=pass smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A0F43CEC2;
+	Tue, 20 Jan 2026 18:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768933458; cv=none; b=SjCxfC5olskmHXucy4TcEXOGmFz7bK+1dsI1xRtJGCCK6Ufq14WIH6xar286YIUdXpB1QEgUcxJtg3MAaah9K3Qr94oyubXj49j2VAuOMRtD+ROHG06W7OEOonWeBVrYJAmDEnJp245okCE74eyhu3hFLgRnkid8cfDb5S8r+5U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768933458; c=relaxed/simple;
+	bh=laO+s2zBiXudQJg6l9/ECBEXlmXile3qngJMXioXyAw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ut5AHp7ssOavVixWTlUWRopMN2tGgbWSP/fA2DqQ0fc0om+Gaj/ALZ4djek16TcTYQi2XE4bU/NK8uG5xlT12NZOXTDPwnwT1LQhrL15SiQCzEFG9BnXGOCPZ/YuJyxRSmeXQjSsk0A4mxsCTE1dt4mRfdgZh4FFpBJW64hryN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=AqUY9lXl; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V1twhqfN"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c52f15c5b3so647406285a.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 10:22:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768933329; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GMilbATTzlw1ZsX4682pfjFyvq/JDsYLK0OZzif5ubHDtWeV+E8o9eoJMT4896ZlEf
-         IfDr/v/K0lwVBeapu3wcUp6dXrWihrKxn8vJxSvCdy+5r9xodc3364da/lYLApxHjyY4
-         W0oRLIGR0k7Eyn5ya32qvV+8g1rtyoJGzPlDkcgsMjpnu7nWFGgCLnIwMjS9hinfU+wq
-         XhrseQobs3KrYx4n92bcGvrrY4I6yCRE89dEs44o427scAyFYe6V1wTxvExfRR7ii19+
-         CG28P9lUGqyl4yJR6vVIiGfVpBGvwW1CPkUs5MQ7mJCjpZu+3QSgZ5Z/pC6/G2OtNhMF
-         f9sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZagQrHQFuN6e2A4tbUmN0iCJ+Oxzcz6Xqi1hSuy4FGA=;
-        fh=F0Tld65yzEGJHj/O3aNV/PDGjXtpp+hIAPCY2o7lbts=;
-        b=KaC6XUnQlL1tlpzsGnMMm/ZZrkas6V4VdiuMenpD/XPgr8yx9FIBB2ri/KlveD+XCe
-         kPO6ICN98IsQhHsehnjziA1MK8HudZb2lu+fD07GkrYQO/CtdDONE4HVg7Sg1lAH/0Wp
-         mUkHWCrsBVc74NbS2toz7WR3qr64JiITA5gNQF17yI1aZCtuQf3sR1b+KQTXnXpoESyi
-         NT56r+HaEXxXHVgrx6Ohv0+5A2lVoXHNR/59UhcnD3lu4keXmYJP74DmUYRzAiWS/NSK
-         jficBpdkDPF76gJPTev4asR+UVFBlBWJoY++s/pMV0SmiNpls4qpVD/ioyZAVBQrGn6N
-         tc1w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768933329; x=1769538129; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZagQrHQFuN6e2A4tbUmN0iCJ+Oxzcz6Xqi1hSuy4FGA=;
-        b=V1twhqfNQgxIqAL86UhV6eZ5ewl1/+v1oclnw3QqGrQ+4Efb5K5rcNuQwnoPMEk/iM
-         MedsZuiGr2botbP8R9adTT78c99XtNZ0e1rcB3fkasa3i8QT+wtFnUypT9PqHmc8Qi1f
-         0z555qgfXkq+ft1tx7Ki/WOaJAyQZrqM+Af6/YSYb6fImgkhnSnQPw5dnlYmRDkYunlI
-         py5Sj9CvGbgStbZrcTxi/AUJIXJjqoBjCh6//Qls/ZJG9KBuFNTA7+IMHa/W9ksBidi0
-         HstoMirl5zMXIwoUKPrDf1arq8oeiNJeXr8KuSIvIlfhKahPRUAPph1w7tsS1pyTcjKm
-         b8tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768933329; x=1769538129;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZagQrHQFuN6e2A4tbUmN0iCJ+Oxzcz6Xqi1hSuy4FGA=;
-        b=bsuIN/Y52Yl30r1JlkqWhIcHfKRhHKWPXswNgow9vFsFv34wtcCud+Hq1/dxfEeL5C
-         CHqjZo5qtAvPUSRRjclJG7bXn0eQj59QPedKuS1dsiQ+gjxkAo+441NR6f4skBLJMLON
-         yNXR1piXvh8tFiNyLKVWiD+XMvewrHset4Vispff2WstYSH14o/K8u94sBQEDzMMGNFB
-         eBsM/DKpWKAp4nP4i6H5kgap68Z5sLg1ENWaaNdVbGitVuRI0CToCdYdJtHm2VEr0QnV
-         d4mLslJ4wqWnH6DUBLDkPvCqrYx/Kq/PZSwS0H419VYjKSBw6hkGJnY5QJSwdwnqX8Tr
-         nP5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWhtCG5o4fthDNatT0A0z4sWWFlTO5kBydxr9fYjAlKlEi2q5OVpXiPA5RMoSQ+unueqF43V2YxeJI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1msrouIYPAAFqPrINV52B2ATfsuYj22L/l1dPsv5COVenl16M
-	W1FQm6Juall+e1oaBKu5svW0lGXXCbBjLD8OeBaNGcPRcW4Jv9TVku6O1RyecOWM9kgvvzpaIaJ
-	0Hk4eVcsmRK/ZvvMsmlO4Tr8cUnfMTjwLRfdWWqOP
-X-Gm-Gg: AY/fxX757rdb6RqpLLmM/uYlg+qkyIqpjmWAOCWAAb2KKcWEL6KokFfIbO0erPBfAnM
-	L3Bkt41/ExjYzO6ERx2SZR+hGSagFFRtHK9z2bMpFHQhYsyDkGier3AIlEAVyRs3AgLliPYHIAy
-	0dqAL7SyH15FWigAmxKlKYsJCmmnhyPuKTMqm9f/z2gnxdChVQOlUwfrLeqfHdY3jxcUUbltmEj
-	V+ICx/9vbbF4W1HhxYpCACF77IlHlovJFoAfArUgHaKYPADbGduwDZLvqyglazPbachhthZ
-X-Received: by 2002:a05:620a:2947:b0:897:56e7:6aa3 with SMTP id
- af79cd13be357-8c6a676db0amr2122139685a.56.1768933328887; Tue, 20 Jan 2026
- 10:22:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="AqUY9lXl"
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4dwbM41s2Lz1XM0ns;
+	Tue, 20 Jan 2026 18:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1768933453; x=1771525454; bh=laO+s2zBiXudQJg6l9/ECBEX
+	lmXile3qngJMXioXyAw=; b=AqUY9lXlAQ4tazuUKBYtOVKX+Sxi+fpryjzp/hnc
+	Z1AscB9YpGz0GenM7OjEN3g14T9M/Kuce+x+5f3bG4kmckbcwZYJfJq9EyaysY72
+	qJw4hePIJKaAvOspdV2bQDFO4HeyNL8JD44+P+BQ14XFhP4xmlsr4FXDo/i4cnMe
+	mxRS9QxPfqEku4O18CCxatl0wvE3GFMMsFeS6BDvIQf/ih6+wet/Un5jjJk7Kwu9
+	4MDVTUzSLTlaMMbwyaZOfz8lROQZTYXIty0LXRmrI+JGyQesgVrQwNJcCJ0zvbYZ
+	jGcUcHjjHU95vSmMp/u05P9C9WLBkOPKCOICmMqwX+l2Zg==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id vZGs651jTWFO; Tue, 20 Jan 2026 18:24:13 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4dwbLx272pz1XM5jn;
+	Tue, 20 Jan 2026 18:24:08 +0000 (UTC)
+Message-ID: <16d01754-cab9-4067-a65f-60040ac6d47e@acm.org>
+Date: Tue, 20 Jan 2026 10:24:08 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260119185852.11168-1-chia-yu.chang@nokia-bell-labs.com>
- <20260119185852.11168-11-chia-yu.chang@nokia-bell-labs.com>
- <CANn89i+NEyZ+1R1pouUcroarCfNrQEN01azsEhOuZoeR0Y3mhA@mail.gmail.com> <PAXPR07MB7984E2D22D4337CA97EBB9CBA389A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-In-Reply-To: <PAXPR07MB7984E2D22D4337CA97EBB9CBA389A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 20 Jan 2026 19:21:57 +0100
-X-Gm-Features: AZwV_QhBrdPdlMbRCuth_kzLC6UfgC6v0TcEzAFsayFTN8n9oL2sLEky-qL_slw
-Message-ID: <CANn89iK5jhfO7B1yZK11bEs4DyF3Wjfr6DUgOt-JMDzEAs+94A@mail.gmail.com>
-Subject: Re: [PATCH v9 net-next 10/15] tcp: accecn: unset ECT if receive or
- send ACE=0 in AccECN negotiaion
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: "pabeni@redhat.com" <pabeni@redhat.com>, "parav@nvidia.com" <parav@nvidia.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org" <dsahern@kernel.org>, 
-	"kuniyu@google.com" <kuniyu@google.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>, 
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>, 
-	"stephen@networkplumber.org" <stephen@networkplumber.org>, 
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us" <jiri@resnulli.us>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, 
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>, 
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>, 
-	"ncardwell@google.com" <ncardwell@google.com>, 
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>, 
-	"g.white@cablelabs.com" <g.white@cablelabs.com>, 
-	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>, 
-	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>, 
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, 
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH tip/locking/core 0/6] compiler-context-analysis: Scoped
+ init guards
+To: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+ Christoph Hellwig <hch@lst.de>, Steven Rostedt <rostedt@goodmis.org>,
+ kasan-dev@googlegroups.com, llvm@lists.linux.dev,
+ linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260119094029.1344361-1-elver@google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20260119094029.1344361-1-elver@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 20, 2026 at 7:11=E2=80=AFPM Chia-Yu Chang (Nokia)
-<chia-yu.chang@nokia-bell-labs.com> wrote:
->
->
-> Hi Eric,
->
-> Thanks for the feedback.
-> Do you mean sk_listener here is read-only despite there is no const here?
+On 1/19/26 1:05 AM, Marco Elver wrote:
+> This series proposes a solution to this by introducing scoped init
+> guards which Peter suggested, using the guard(type_init)(&lock) or
+> scoped_guard(type_init, ..) interface.
+Although I haven't had the time yet to do an in-depth review, from a
+quick look all patches in this series look good to me.
 
-It is not const because we probably need to increment reference counts on i=
-t.
+Thanks,
 
-But if you have 1000 SYN_RECV, they might share the same listener
-socket, and we do not lock the listener socket,
-this would not scale very well on servers with 10,000,000 tcp sockets :)
-
-So using any listener-fields to store 'per-syn-recv' information is racy.
-
->
-> Then, could you help to suggest the way please?
-> Beacuse for AccECN, here we need to set fail flag after retransmitting SY=
-N/ACK > 1 time.
-
-Why not use state in req itself ? (Or tcp_rsk())
-
-> And this was done within tcp_make_synack(), but now move to every place w=
-here could retransmit SYN/ACK.
->
-> Thanks.
-> Chia-Yu
+Bart.
