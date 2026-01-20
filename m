@@ -1,156 +1,103 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558663BC4FB;
-	Tue, 20 Jan 2026 09:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856EE3C1980
+	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 09:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768900350; cv=none; b=ncRvLpd5ckhN3NN6mWjfbqPG+S1x2IbDDTSR5SSA4SzgTP/t35hBfbMbiS/kAEM7neW50qdAKzhA/PsIgv8gkAz3UftMIZMwk62KLC1egYR+qYL8RjLG4Cq54QlHGeRxXj+/J9AboDn7NJoS1rB3vg/UHk17Cv7dn70T/ltW9/M=
+	t=1768900775; cv=none; b=LiHppT3VSwGkZ+LdVWf/9e3T3FemXr2zx3ZWFuRs6DIC2dCtmH9Zd8OVVEZ/2SpYilnA0gGcLPMMAe9QxfmnI4v3edsvMuf78yp0wfjGgbZbWE018gDW7iJF4/sZvAm7Akf6Bd0ZkjmWtLIebyiYSI3VhfMxtSdrXUKIpjZyGHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768900350; c=relaxed/simple;
-	bh=B05gVguD6HO3xQvzt2rGs+vO4e4DANFflmUfKhWSQPw=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hsV8UjvU7eZoV4gGPN1QsjJJUzVdQPFELTRzmEnOJ+Y2p3Tx87Bpvz1l0FBRoSW1+lB7dY6f9gZ/4eU3XVgnndEFSSTomoOre4rKrDavOtbZDbcbkccFNs+HNe5dcwFNX4ohja/TrX4LokkAaHoT3aTazURrYOM3DuV1Q6Wvx9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dwM5j0FVBzHnH4v;
-	Tue, 20 Jan 2026 17:11:53 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7874640571;
-	Tue, 20 Jan 2026 17:12:24 +0800 (CST)
-Received: from localhost (10.203.177.99) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 20 Jan
- 2026 09:12:22 +0000
-Date: Tue, 20 Jan 2026 09:12:17 +0000
-From: Alireza Sanaee <alireza.sanaee@huawei.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>, John Groves
-	<jgroves@micron.com>, John Groves <jgroves@fastmail.com>, Jonathan Corbet
-	<corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang
-	<dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara
-	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand
-	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, "Darrick J .
- Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, "Jeff
- Layton" <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, "Jonathan
- Cameron" <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, James Morse
-	<james.morse@arm.com>, Fuad Tabba <tabba@google.com>, Sean Christopherson
-	<seanjc@google.com>, Shivank Garg <shivankg@amd.com>, Ackerley Tng
-	<ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, Aravind Ramesh
-	<arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH BUNDLE v7] famfs: Fabric-Attached Memory File System
-Message-ID: <20260120091217.00007537.alireza.sanaee@huawei.com>
-In-Reply-To: <0100019bd33a16b4-6da11a99-d883-4cfc-b561-97973253bc4a-000000@email.amazonses.com>
-References: <20260118222911.92214-1-john@jagalactic.com>
-	<0100019bd33a16b4-6da11a99-d883-4cfc-b561-97973253bc4a-000000@email.amazonses.com>
-Organization: Huawei
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1768900775; c=relaxed/simple;
+	bh=dz8KYRvaR4cIH7OFqi4HAkd8OxCeLLplo8K/12b6aYw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=XXGgDjXmCJ+FJyMsPUHt4P+3lDV+ErdQczjWuZXVHX/Fr0Csu2oIZeUHnJknzc2KpRroZW0CgKNHEMRxCgcs/swUke9QHRT9wSqwdQvd6aX1XJ7F3XuQbbNux2ed2QoCKxw0b4kSx3/5OOb5Np5mI2429/VtHh8OYjdj0JI/WFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eMyJBusn; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eMyJBusn"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-4358fe2e7e1so338082f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 01:19:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768900772; x=1769505572; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Gf2YI936iIbQws0HxhhxYueO3tESeyYZp/38y2RVRZI=;
+        b=eMyJBusnpMgFnAMXed+2f1wG4XySRJZqFhwWfa3RT9O+aq1hq9HI9eBwXn/mtpeTNb
+         oOCKme/NgFtShUllK4D4eLO2NKv7B7m84pInxUXAqI87zJl+3FXu+5TfifXtPJwlJY25
+         1P6kt9i00Qz/iN7wwHI3f3b8DpXvpmoQVBGzQ9C6Ayq6EdsVQ38FdnXsqmvaR7Xbzm3C
+         K9K9hXJ0UYXwiH/Ot00WEm7cGWmLT2VGZkiBY7KNPpo5/lRb6xoStHkcafG5Nr++K/7D
+         Qf5aAxvhEeigZUrBArkV9ticxW4A7ecatDPXuXo5eSLkKF+kox2S96xIwpm+KnelcBDf
+         +aPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768900772; x=1769505572;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gf2YI936iIbQws0HxhhxYueO3tESeyYZp/38y2RVRZI=;
+        b=ITokEYyW04bd6t81xtXIfRDdtE6jJcsiizkMaVKvNRq3QquI6XFN0WDdcBdJ+uImoF
+         DAhOSSOSZT3ZYvnVdCByOD3nwjWWfzCSjuCJcmK2WLFzqcQ5w3h0GdlK9b7Yzc/ALN23
+         3GE45BhlDEHw+KPEYiwffOT2mfWZSBH/RygdhQ0LiCZtD5Yj4Zw12ha3+kuDbLV0zMXw
+         so94JDpzfdsZSrVGraY5/7HGl1VF2/gKq1WD7zIjerD6YRXvVvmp1q9Aj6f40/a1KBPL
+         jdtNegvsAQOFkvP8AhbF5WkS8+vay6/JN4P+U3emKzRfhiOOP7FW+652nD7WTnprwRyh
+         +fWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUazHx3LHvveG05viUvCY+i4Qa8XZ01UPyUaDaEYRv8XgjM8VVSRyTBmewxqR5ciNL9LisgW49+kZU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuV6Rmva5thfH9kxiPcdlwTEtUacuiM/cQHtwCrunbnfBq9Gok
+	I9SuBCFl/DnpZT9riqE5l7Cf0wXY5TPPbg3bDxeFmwWIWJcbC6doSlAXIvZ98bsUz9blVGvcYwQ
+	ViWbBo+rWGv6dwg==
+X-Received: from wrvk17.prod.google.com ([2002:a5d:5191:0:b0:430:f5ea:d30b])
+ (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:1448:b0:42f:f627:3aa3 with SMTP id ffacd0b85a97d-4358ff398b2mr1994536f8f.56.1768900771795;
+ Tue, 20 Jan 2026 01:19:31 -0800 (PST)
+Date: Tue, 20 Jan 2026 09:19:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
+Message-ID: <20260120091926.670155-1-smostafa@google.com>
+Subject: [PATCH v2 0/2] iommu: debug-pagealloc: Remove pfn_valid() usage
+From: Mostafa Saleh <smostafa@google.com>
+To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
+	Mostafa Saleh <smostafa@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 18 Jan 2026 22:29:18 +0000
-John Groves <john@jagalactic.com> wrote:
+This is a small fix for the new config IOMMU_DEBUG_PAGEALLOC based
+on the discussion:
+https://lore.kernel.org/linux-iommu/CAFgf54pBAUm3ao-UJksiuGKtvv4wzRyFq_uKwLe0H1ettO4DLQ@mail.gmail.com/
 
-Hi John,
+Where it was concluded that pfn_valid() is not enough to validate
+physical addresses before access to page_ext.
 
-I wonder if these new patches sent recently have been reflected on the github repo readme files. It seems it is not, is it?
+The first patch introduces a new function in page_ext that takes a
+physical address as an argument, and the second patch uses it instead
+of calling pfn_valid() and phys_to_page()
 
-> This is a coordinated patch submission for famfs (Fabric-Attached Memory
-> File System) across three repositories:
-> 
->   1. Linux kernel (cover + 19 patches) - dax fsdev driver + fuse/famfs 
->      integration
->   2. libfuse (cover + 3 patches) - famfs protocol support for fuse servers
->   3. ndctl/daxctl (cover + 2 patches) - support for the new "famfs" devdax
->      mode
-> 
-> Each series is posted as a reply to this cover message, with individual
-> patches replying to their respective series cover.
-> 
-> Overview
-> --------
-> Famfs exposes shared memory as a file system. It consumes shared memory
-> from dax devices and provides memory-mappable files that map directly to
-> the memory with no page cache involvement. Famfs differs from conventional
-> file systems in fs-dax mode in that it handles in-memory metadata in a
-> sharable way (which begins with never caching dirty shared metadata).
-> 
-> Famfs started as a standalone file system [1,2], but the consensus at
-> LSFMM 2024 and 2025 [3,4] was that it should be ported into fuse.
-> 
-> The key performance requirement is that famfs must resolve mapping faults
-> without upcalls. This is achieved by fully caching the file-to-devdax
-> metadata for all active files via two fuse client/server message/response
-> pairs: GET_FMAP and GET_DAXDEV.
-> 
-> Patch Series Summary
-> --------------------
-> 
-> Linux Kernel (V7, 19 patches):
->   - dax: New fsdev driver (drivers/dax/fsdev.c) providing a devdax mode
->     compatible with fs-dax. Devices can be switched among 'devdax', 'fsdev'
->     and 'system-ram' modes via daxctl or sysfs.
->   - fuse: Famfs integration adding GET_FMAP and GET_DAXDEV messages for
->     caching file-to-dax mappings in the kernel.
-> 
-> libfuse (V7, 3 patches):
->   - Updates fuse_kernel.h to kernel 6.19 baseline
->   - Adds famfs DAX fmap protocol definitions
->   - Implements famfs DAX fmap support for fuse servers
-> 
-> ndctl/daxctl (V4, 2 patches):
->   - Adds daxctl support for the new "famfs" mode of devdax
->   - Adds test/daxctl-famfs.sh for testing mode transitions
-> 
-> Changes Since V2 (kernel)
-> -------------------------
-> - Dax: Completely new fsdev driver replaces the dev_dax_iomap modifications.
->   Uses MEMORY_DEVICE_FS_DAX type with order-0 folios for fs-dax compatibility.
-> - Dax: The "poisoned page" problem is properly fixed via fsdev_clear_folio_state()
->   which clears stale mapping/compound state when fsdev binds.
-> - Dax: Added dax_set_ops() and driver unbind protection while filesystem mounted.
-> - Fuse: Famfs mounts require CAP_SYS_RAWIO (exposing raw memory devices).
-> - Fuse: Added DAX address_space_operations with noop_dirty_folio.
-> - Rebased to latest kernels, compatible with recent dax refactoring.
-> 
-> Testing
-> -------
-> The famfs user space [5] includes comprehensive smoke and unit tests that
-> exercise all three components together. The ndctl series includes a
-> dedicated test for famfs mode transitions.
-> 
-> References
-> ----------
-> [1] https://lore.kernel.org/linux-cxl/cover.1708709155.git.john@groves.net/
-> [2] https://lore.kernel.org/linux-cxl/cover.1714409084.git.john@groves.net/
-> [3] https://lwn.net/Articles/983105/ (LSFMM 2024)
-> [4] https://lwn.net/Articles/1020170/ (LSFMM 2025)
-> [5] https://famfs.org (famfs user space)
-> [6] https://lore.kernel.org/linux-cxl/20250703185032.46568-1-john@groves.net/ (V2)
-> [7] https://lore.kernel.org/linux-fsdevel/20260107153244.64703-1-john@groves.net/T/#m0000d8c00290f48c086b8b176c7525e410f8508c (related ndctl series)
-> --
-> John Groves
-> 
-> 
-> 
+Benchmarks with the new implementation can be found in:
+https://lore.kernel.org/linux-iommu/20260114164322.787125-1-smostafa@google.com/
+
+This series applies to iommu/core tree.
+
+Changes on v2:
+v1: https://lore.kernel.org/linux-iommu/20260119142246.3821052-1-smostafa@google.com/
+- Rename page_ext_phys() to page_ext_from_phys()
+- Reword comment and commit messages.
+
+Mostafa Saleh (2):
+  mm/page_ext: Add page_ext_get_from_phys()
+  iommu: debug-pagealloc: Use page_ext_get_from_phys()
+
+ drivers/iommu/iommu-debug-pagealloc.c | 31 ++++++++++++---------------
+ include/linux/page_ext.h              |  6 ++++++
+ mm/page_ext.c                         | 23 ++++++++++++++++++++
+ 3 files changed, 43 insertions(+), 17 deletions(-)
+
+-- 
+2.52.0.457.g6b5491de43-goog
 
