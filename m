@@ -1,119 +1,80 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC14A332EC8
-	for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 04:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A177C36C5B2;
+	Tue, 20 Jan 2026 06:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768884446; cv=none; b=HCvPDMPB9erlMnQTw6yTt+BAaKC+A6DFjgAeC+B+CPMU5Yvt3tAyDLpNDOu0dbFTr0mmXjLmkf8lyw08pSCZHmyAALINhbascqZR2sa4zkv3BxYcgBN73vhdUzJGCeugpmFf6risZCLyn8TZn04IuT6SZ4wnR5U/dX0a7N3qgM0=
+	t=1768890687; cv=none; b=DddRIB+Kx6jitAEOIiqvgtv/AemtG4Aoh3IHaruneCXpQqMpB8vNjVy5qgdRlx4g1YSxXbE8ocKHdWmvhMMuHBCIaiiDFmrB+OgYmXwXsmnxSJDGzQDkogk/WB3z0XNgTVXnd7OQdmvKXIF+cw8/dqn6bWFV7KCufKgARAwjwRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768884446; c=relaxed/simple;
-	bh=n5A0OXSyk7lo7f3jHURyz0bX/5X3lYhpTO7Z9MO/Uec=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OUDdQOANKN9M1XH479XdaXrMGv+555YnXbyShcaD15F7jaUGhhMiuzKQ/2vu4p4arrd2QRCCx2mjB+TDEiGtB6t6tQNo9/BzssMMZLwRNZrCLdLmiPkJPLlimZK5+7k6AJWAhMF+pAkn2+DnFM7lVC51BXKleYWTwjGdMj5qYnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFFLR4B2; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768890687; c=relaxed/simple;
+	bh=ahfdh+GRBGiMNH8ZiPJWTMZ+dmy5DY77zy9WH9fo4oE=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=cRxEIY2ARysQZ2Nh2gY1a1ZBn1Xe1g+Frb6Rjlushu6s0GGrPtsuBzt44LIdQsdB6Y8COGNeMXjxvTJ6yy6lOoCI3YtY3y5nmag06RTwB5cPC1DCPxxe63tQXtVRYOV+8blhZ8HO4pi1r9UOSVVkVtAmfHczce7Y27doqM076uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=b+3ePQ0j; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFFLR4B2"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-661106487f9so4993393eaf.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 Jan 2026 20:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768884443; x=1769489243; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i2Ldiltg0ilm3GITC1FlZ3jygue5ViLbnCHXlSmV/Sg=;
-        b=EFFLR4B2LEQ1h3TOilRRfEsNDy6prAiJFBaBHNO8lylbNd9ppeD7DUZ8NQhpJaCijh
-         AW5hkAIpKR4VrEvDwBusD+1jLkTWtm8GbBNmQtbitsRpi8ylBnMCL3IRG/4BAi5bjeaI
-         HH8SNdyh+0lmOLtxc+CnXoWePN6k7jV8CRspWe4aNkewgexFGQ/pRr7yb8QQCQrbQJ2F
-         +NrKy/OtsScs91dkHemZ5BMR1dHuKXcfrLr0aMjAD0FwwLnDERHwsviDesSMEbqwbmQv
-         3HpnYzKnVpasBS+C7RbrIyybhLpGtS71qxqLBG/qhuWm/ZJeXMBx8nKb5mTXArpcURYV
-         LIWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768884443; x=1769489243;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=i2Ldiltg0ilm3GITC1FlZ3jygue5ViLbnCHXlSmV/Sg=;
-        b=FppAE9OSj/A4nkIN5GmQ/oWry6jcpr2g8O3WdZUusfYh4WaPKR3GBYUgAlQnBWXfh4
-         H+Ce2EyUGMPKWaoRf8m2b4Y44sywf1E9jqsJ51CT8P6MTqSelAcolps/OlC8Z2EmsNI3
-         F0Ue/oqdX9QdmrfoEUlSn9bJ4lVSrHwCSlbL0QJ5d2KdW3etfHsxqaS5NI2cFDUDrkf3
-         AgGzf4d9bqU44VMD6R1v784LjsThsoau+F/mHIDwrnCKFbvi+juDLKS7mLNneusroh2g
-         Y9R7E4cBvcZWSDB9GrBL4fG72MUM9SaPfbuA6yc03obSFjA4zD7KPZpvvhWlrRBc7hbC
-         dOGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaw0+FI62iSxDO6ac3HiKPEl/BuLQpUJidzGz5AZwm6+Y/xczqBeaMYfxeJs6uPguk7A7GTYNDJiI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9FRsimpBzvx0LGktKCrdnJp6OtAn7Qsb4cMJs2zbPH1T4XD2M
-	T3sA9WGv+sxFguhTLUl9MUhK/YoLFx4CKU28S0B76ngX6VCzgrglHYW9wYWdtjBm
-X-Gm-Gg: AY/fxX7JdaNuZJ5/8O1AqJ2i5hlRXHDLMt9IcQHI8Wb5j8xhZ5e/yGKa+e8A0LjQMvc
-	Ff8Ktr63zmuZgSA+F6TQioIRBrdCMxe4c9Io7ubDBERGGb0uK4+OqvkBHQY1aVAUCuG0A2rv0C8
-	5yloG7FaVbGRL7CAcwubNMuIMrFzq1ZHNQXDDKu5uwxTiKgC9/anDzyOwyN0jWRdHb5WEnYzIv6
-	MYXKJlwhxBBEssnS8KqboMrn6UBKUB0HXKkO2KyPFwiKri3BmymGtN+xXCZ8jTIbCAheVGcphE8
-	IJ+RWBoCWzP0rfTcfqyUOBbTFpIhGboa7ZanOJRe61Rsu+zxwh0YrdqIYFyTcyKzfrVqQWVNBmO
-	KMfLXlcTuxv/1BXpvelqb5dYhFAkRMh/kVMaMRwx6aFLZgkoa/kLiStyhV5WwxhGOhvjlmKRmT5
-	fqb3y+uf/GXA==
-X-Received: by 2002:a05:7022:925:b0:119:e569:fba6 with SMTP id a92af1059eb24-1244a7195b4mr14136099c88.21.1768877353611;
-        Mon, 19 Jan 2026 18:49:13 -0800 (PST)
-Received: from localhost ([2001:19f0:ac00:4eb8:5400:5ff:fe30:7df3])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ac585a9sm16856206c88.2.2026.01.19.18.49.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 18:49:13 -0800 (PST)
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Guodong Xu <guodong@riscstar.com>
-Cc: Inochi Amaoto <inochiama@gmail.com>,
-	Junhui Liu <junhui.liu@pigmoral.tech>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	sophgo@lists.linux.dev,
-	spacemit@lists.linux.dev
-Subject: Re: (subset) [PATCH v2 0/4] riscv: dts: Add "b" ISA extension to existing devicetrees
-Date: Tue, 20 Jan 2026 10:48:55 +0800
-Message-ID: <176887176536.427065.4468747981087466363.b4-ty@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
-References: <20260115-adding-b-dtsi-v2-0-254dd61cf947@riscstar.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="b+3ePQ0j"
+Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60K6UB0P3492316
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 19 Jan 2026 22:30:11 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60K6UB0P3492316
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025122301; t=1768890614;
+	bh=dl3PQXytQYWP6N7rKAaQY8Gd40xy1cLhOHyQGILlS1w=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+	b=b+3ePQ0jr7dR/DykkKpjdmoH6lpjp+XhtSg4UTlpOWMhDNLSSasAfpa2pPCrsX27v
+	 GniCwOyKJPuVW9aKOwPsnDWYekm/Fq+Had7c7lEpW/LlElB1A/J4IRi9L4/BoUL0Qr
+	 hMe2nWKV8oyvxpphRQ+Hp+L2iGCTcFD/JWqrKQuOrY+qIeCkQZuOOP9JhL1Leu5rak
+	 yCFGf4w0b5+8S5Qc/y8+V2sDTEyTF711hgwABk+8GEbfNxv9GsHrmoaHMXQ/mO7nhl
+	 7dkikxPs1qUwv5zdOZ5uUVMvqluJ0PywpyXeorVivlqlrFvus+ho/RNjPk5ZFpuF/q
+	 /NDHK5PuEcNEg==
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20260120024855.iCWV6cvL2IFzEcYXsT6n52e0tE9dl_zwPeC3aHQO5-M@z>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH v9 19/22] KVM: nVMX: Handle FRED VMCS fields in nested VMX
+ context
+From: Xin Li <xin@zytor.com>
+In-Reply-To: <aS6H/vIdKA/rLOxu@intel.com>
+Date: Mon, 19 Jan 2026 22:30:01 -0800
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+        hch@infradead.org, sohil.mehta@intel.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3F71014C-5692-4180-BC6B-CCD7D2A827BB@zytor.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-20-xin@zytor.com> <aS6H/vIdKA/rLOxu@intel.com>
+To: Chao Gao <chao.gao@intel.com>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
 
-On Thu, 15 Jan 2026 07:18:56 +0800, Guodong Xu wrote:
-> The RISC-V "b" (Bit-manipulation) extension was ratified in April 2024,
-> much later than its component extensions zba/zbb/zbs (June 2021). Recent
-> updates to the device tree bindings [2] enforce that when all three
-> component extensions are present, "b" must also be specified. Related
-> discussion can also be found in [1].
-> 
-> Patch 1 clarifies the ISA spec version for canonical ordering in uabi.rst.
-> It is a trivial update, but can help readers reference the correct
-> document version. Acked-by Paul Walmsley in v1.
-> 
-> [...]
 
-Applied to dt/riscv, thanks!
 
-[3/4] riscv: dts: sophgo: sg2044: Add "b" ISA extension
-      https://github.com/sophgo/linux/commit/f16ae81b80ca4e721f4c4ed1f28390115f7721eb
+> On Dec 1, 2025, at 10:32=E2=80=AFPM, Chao Gao <chao.gao@intel.com> =
+wrote:
+>=20
+>> +
+>> + nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
+>> +  MSR_IA32_FRED_RSP0, MSR_TYPE_RW);
+>=20
+> Why is only this specific MSR handled? What about other FRED MSRs?
 
-Thanks,
-Inochi
+Peter just gave a good explanation:
+
+=
+https://lore.kernel.org/lkml/f0768546-a767-4d74-956e-b40128272a09@zytor.co=
+m/
+
+
+
 
