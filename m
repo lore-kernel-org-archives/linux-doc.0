@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A65363C75;
-	Tue, 20 Jan 2026 18:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20ACD42EEA0;
+	Tue, 20 Jan 2026 18:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768932342; cv=none; b=QduNVlJBkcAz0q/5oI91TA7GoAolSHaTuHr7mlaId9XbP2VHWArgFSNI2+6yFU4vv0xvFDL0+1IC1vcn8+p9uLyfmKZtTpqu4jW9c+PvsjX0lWj83yR72xapqNk4T9X1PZsmtua4MRFZm6kAhkyRrdKnnhdY2TDU4WXVCPt6vCk=
+	t=1768932684; cv=none; b=W3qEdgTAKa9r0UUeBpZbemd5MCaQIWsHQbv6s0wlQCbN2e8lyiBZ6XK0UGNN6/xI3lsllOAS7k/TJ3PsvPwITru+/+BXcJNq8yBtYUUzi9HLNk851XeKS+PEiNwQQI4O43pCJCij7bMJIUl2wDesTiAspkm98X9U3WXf0Ek6+Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768932342; c=relaxed/simple;
-	bh=t8pxAjGHqxhIUw42LY58cBJinFtjuQYdzgoYGlBU5II=;
+	s=arc-20240116; t=1768932684; c=relaxed/simple;
+	bh=31CmkHnI4qUbLaiumqbwGxKzO9/BfZ2vOZAKFnVZMdI=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=XBigGRgWl0s21PYMfc1Zy7q6uYAvosiFCTX1rVTzdJlH9ENny0Ul1NjOLA7K0TQhncPNj0f3u0ikjA9QdWNd+yeFYXV1W0qzLtwtx3NbMEqSy8jbhcyH3Q2gpIpn5mbH1bJT+dlc9BWIKy8Z6B6ynh5wC7p1NhbCNYb0PqGBlUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Qmv529zj; arc=none smtp.client-ip=198.137.202.136
+	 Message-Id:References:To; b=e4R4u14Ob+lUx8JixLHwugFODtHxByYxCIAhEDYnOaJEY2SyVuuTn2baQzw7Vg+BKgHRC2lO/S38etzjXGA6TEhexhuuwBrPKICyUyfVQqrpuWwCR5UlPp3bQ6x5gdwvaLDXYJsAAur1h2hGAMWHhO7n0v3HeYMpv4En+vCF5sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=DGfB5hiY; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Qmv529zj"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="DGfB5hiY"
 Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60KI575l3818110
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60KIAmd13819567
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 20 Jan 2026 10:05:08 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60KI575l3818110
+	Tue, 20 Jan 2026 10:10:48 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60KIAmd13819567
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1768932309;
-	bh=qvhm6Bwt6RSQM25IbmsOFca4YmHzKStlPY6tm/YMdM4=;
+	s=2025122301; t=1768932649;
+	bh=8M3R17nO7V8nc/BUHch3zYz20ey7zMOEUc1KgvaQewA=;
 	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=Qmv529zj88UeS1sU2FeIGZLgF+wnjLYmOh5aLktQS3W6WJE+Kk+KEjofuvbKkPbct
-	 ZBR7rbJhN0Ybnbw/Op2wu+ESRG8EE5xdqg4blFCecesyQ80y4JYD1XjEQ0ysIf9HiT
-	 Vb+3Yu1fifkTgzhYYEHRA7dOd7p35j7PhTXgnox9u3YGZYMb3HacGDYq9ZnlzzJbts
-	 tPoHexDiLxsZ0iZ5KaHUvXLpihYrRo0fbfpaZGk8QjH4vRGX/xIvP01pqzoTNlXDs8
-	 iqo0QCiwB2DHY0XCBP67q0cy0yDn17AdFUx5lid5lfiz/wveIeB26/7Hzc+LDThJZL
-	 hgIWlrAfUecOw==
+	b=DGfB5hiYeOLbqHVaRE8LiLDqON0VpJZeq4fIudglza148x1/KxabRGJS+XT6xxtWk
+	 Wdbs4ktLnKsE+zH3o5XMB93+MMR5pOySg5RFDbvFSlkPgWBEDwDJcr+Rg2XkgRCZZU
+	 XiFMc7UTNEpeh3UAXPzKWBqn3SHVvlBAYc4k+niePb9mo+24HN+LWPNt6QvdmmZBUj
+	 QHph926LdYfJE/ZCVldEE+6eJC07VvAGATdTj60VSlkc3x8jmb2CxP+hD2ROjeBmjs
+	 VyuB3i713rNiQ2o3hxeFPVB5sNokX2wla9mjYqmVQuZPcLxVjyU1VkQyIPZR/iJEK7
+	 NE43cNjVB6/Lg==
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -40,60 +40,51 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v9 17/22] KVM: x86: Advertise support for FRED
+Subject: Re: [PATCH v9 19/22] KVM: nVMX: Handle FRED VMCS fields in nested VMX
+ context
 From: Xin Li <xin@zytor.com>
-In-Reply-To: <aW-eWcj5GBZfGerc@google.com>
-Date: Tue, 20 Jan 2026 10:04:57 -0800
-Cc: Binbin Wu <binbin.wu@linux.intel.com>, Chao Gao <chao.gao@intel.com>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        hch@infradead.org, sohil.mehta@intel.com
+In-Reply-To: <32096607-8426-4743-9d56-3ebf27d278cf@intel.com>
+Date: Tue, 20 Jan 2026 10:10:38 -0800
+Cc: Chao Gao <chao.gao@intel.com>, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com,
+        seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
+        andrew.cooper3@citrix.com, hch@infradead.org, sohil.mehta@intel.com
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <CB372B69-7B1C-44B6-A4C3-179C7387B8FC@zytor.com>
+Message-Id: <92CC125E-E778-447F-A2A8-25EE74F0B299@zytor.com>
 References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-18-xin@zytor.com> <aRQ3ngRvif/0QRTC@intel.com>
- <71F2B269-4D29-4B23-9111-E43CDD09CF13@zytor.com> <aW83vbC2KB6CZDvl@intel.com>
- <C3F658E2-BB0D-4461-8412-F4BC5BCB2298@zytor.com>
- <04d96812-f74a-4f43-9ea4-c4f2723251c5@linux.intel.com>
- <aW-eWcj5GBZfGerc@google.com>
-To: Sean Christopherson <seanjc@google.com>
+ <20251026201911.505204-20-xin@zytor.com> <aS6H/vIdKA/rLOxu@intel.com>
+ <3F71014C-5692-4180-BC6B-CCD7D2A827BB@zytor.com>
+ <32096607-8426-4743-9d56-3ebf27d278cf@intel.com>
+To: Dave Hansen <dave.hansen@intel.com>
 X-Mailer: Apple Mail (2.3864.300.41.1.7)
 
 
-> On Jan 20, 2026, at 7:25=E2=80=AFAM, Sean Christopherson =
-<seanjc@google.com> wrote:
+> On Jan 20, 2026, at 8:07=E2=80=AFAM, Dave Hansen =
+<dave.hansen@intel.com> wrote:
 >=20
->>>=20
->>> What I have missed?
+> On 1/19/26 22:30, Xin Li wrote:
+>>> On Dec 1, 2025, at 10:32=E2=80=AFPM, Chao Gao <chao.gao@intel.com> =
+wrote:
+>>>> + nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, =
+msr_bitmap_l0,
+>>>> +  MSR_IA32_FRED_RSP0, MSR_TYPE_RW);
+>>> Why is only this specific MSR handled? What about other FRED MSRs?
+>> Peter just gave a good explanation:
+>>=20
+>> =
+https://lore.kernel.org/lkml/f0768546-a767-4d74-956e-b40128272a09@zytor.co=
+m/
 >=20
-> The userspace VMM, e.g. QEMU, is completely irrelevant.  KVM must not =
-advertise
-> support for features it doesn't actually implement, and more =
-importantly must not
-> internally treat such features as supported.
+> Yup! It would be great to get some of that content into the changelogs
+> and comments.
 
-Right, FRED virtualization is not supported on AMD and obviously SVM =
-will
-need to add FRED virtualization in their own fashion later.
+Sure, I will do it with Peter :)
 
->=20
->> If a newer QEMU (with AMD's FRED support patch) + an older KVM =
-(without AMD's
->> FRED support, but KVM advertises it), it may cause issues.
->=20
-> Yep.
->=20
->> I guess it's no safety issue for host though,
->=20
-> Maybe.  Without fully analyzing the SVM implementation for FRED and =
-its interaction
-> with KVM, I don't think we can confidently say that incorrectly =
-treating FRED as
-> supported is benign for the host.  It's a moot point, I just want to =
-emphasize
-> how it important it is that KVM doesn't over-report features.
+And we already have a document file: =
+Documentation/arch/x86/x86_64/fred.rst.
 
-I will remove it on AMD.
+I think the comment is more for native, right?
+
+
