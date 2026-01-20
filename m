@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D8032C33D;
-	Tue, 20 Jan 2026 17:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A65363C75;
+	Tue, 20 Jan 2026 18:05:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768931969; cv=none; b=r+1Vbcd+cSl4tZW6E055w9vgApIGo+DH8JuW4RqxTP2EsHeU/G0Oe0p3s1hTmj1t8zJTSkW4bdv7h3okv6TseQVgT6PnLFR1v1GKPTKPmF9KJQ3DFKqLby1r+VeGojgfYHmNpoqk/9V4syl143UIqhd+mueDHX2ToUSUviNlT9w=
+	t=1768932342; cv=none; b=QduNVlJBkcAz0q/5oI91TA7GoAolSHaTuHr7mlaId9XbP2VHWArgFSNI2+6yFU4vv0xvFDL0+1IC1vcn8+p9uLyfmKZtTpqu4jW9c+PvsjX0lWj83yR72xapqNk4T9X1PZsmtua4MRFZm6kAhkyRrdKnnhdY2TDU4WXVCPt6vCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768931969; c=relaxed/simple;
-	bh=Z3vMuRF1OK9ofc9Kb9lrW4c+DbGca3aIeiMZIbiiwB8=;
+	s=arc-20240116; t=1768932342; c=relaxed/simple;
+	bh=t8pxAjGHqxhIUw42LY58cBJinFtjuQYdzgoYGlBU5II=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=deZw919Ll3anQWl7Oi8sDQ58ikBg6iUPBV+keC6P22rvB1+y8HyyhrLrDmtS9MSSm5hwANB2cWr+s49BK9ewYTnvpe3uAhdp/DQ9SPrmDG0aUkI4TnmCMGntHNrTsc3qvL0g2B/BP5/qCcLuzEHTfwGsUGwaiChzMHr0ftaKHo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=S1CjESig; arc=none smtp.client-ip=198.137.202.136
+	 Message-Id:References:To; b=XBigGRgWl0s21PYMfc1Zy7q6uYAvosiFCTX1rVTzdJlH9ENny0Ul1NjOLA7K0TQhncPNj0f3u0ikjA9QdWNd+yeFYXV1W0qzLtwtx3NbMEqSy8jbhcyH3Q2gpIpn5mbH1bJT+dlc9BWIKy8Z6B6ynh5wC7p1NhbCNYb0PqGBlUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Qmv529zj; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="S1CjESig"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Qmv529zj"
 Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60KHwoOO3814042
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60KI575l3818110
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 20 Jan 2026 09:58:50 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60KHwoOO3814042
+	Tue, 20 Jan 2026 10:05:08 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60KI575l3818110
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1768931932;
-	bh=Z3vMuRF1OK9ofc9Kb9lrW4c+DbGca3aIeiMZIbiiwB8=;
+	s=2025122301; t=1768932309;
+	bh=qvhm6Bwt6RSQM25IbmsOFca4YmHzKStlPY6tm/YMdM4=;
 	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=S1CjESige/1NJ92fjRB1BdUzyGmaPSBcDiQ61RBukHJMHpOSPytI5qiVOrl2ARZxZ
-	 /W4/Fi00bS58Txm7txN/6dAgAvinCYdXrr7+Zgq6NcnKBQWmVljSZ230ku5PExdJjt
-	 7CqFj+xX1L8UQ8JUscC39Fcf7Oz1ZfDU/3tFsIjTgEz69qNuoGMwpmUEa7jLNi9YvF
-	 rqE2rOBpTq+CO4GMmk+z3YUXFcFlEjPvAPYyeGt8lquFwAWQY4743ucA/F+EUaP3JM
-	 nh0NF9vicVZVfyFBTdNM2sAgNRS7MnPsvYHFGKQAQGliYKwmEEaH16lji8CeDmolqh
-	 3ykHgAekmf+Iw==
+	b=Qmv529zj88UeS1sU2FeIGZLgF+wnjLYmOh5aLktQS3W6WJE+Kk+KEjofuvbKkPbct
+	 ZBR7rbJhN0Ybnbw/Op2wu+ESRG8EE5xdqg4blFCecesyQ80y4JYD1XjEQ0ysIf9HiT
+	 Vb+3Yu1fifkTgzhYYEHRA7dOd7p35j7PhTXgnox9u3YGZYMb3HacGDYq9ZnlzzJbts
+	 tPoHexDiLxsZ0iZ5KaHUvXLpihYrRo0fbfpaZGk8QjH4vRGX/xIvP01pqzoTNlXDs8
+	 iqo0QCiwB2DHY0XCBP67q0cy0yDn17AdFUx5lid5lfiz/wveIeB26/7Hzc+LDThJZL
+	 hgIWlrAfUecOw==
 Content-Type: text/plain;
 	charset=utf-8
 Precedence: bulk
@@ -42,50 +42,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
 Subject: Re: [PATCH v9 17/22] KVM: x86: Advertise support for FRED
 From: Xin Li <xin@zytor.com>
-In-Reply-To: <04d96812-f74a-4f43-9ea4-c4f2723251c5@linux.intel.com>
-Date: Tue, 20 Jan 2026 09:58:40 -0800
-Cc: Chao Gao <chao.gao@intel.com>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com,
-        seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com, hch@infradead.org, sohil.mehta@intel.com
+In-Reply-To: <aW-eWcj5GBZfGerc@google.com>
+Date: Tue, 20 Jan 2026 10:04:57 -0800
+Cc: Binbin Wu <binbin.wu@linux.intel.com>, Chao Gao <chao.gao@intel.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+        hch@infradead.org, sohil.mehta@intel.com
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <C6C0D514-BCE0-4ADD-9110-3FC7A2E813F8@zytor.com>
+Message-Id: <CB372B69-7B1C-44B6-A4C3-179C7387B8FC@zytor.com>
 References: <20251026201911.505204-1-xin@zytor.com>
  <20251026201911.505204-18-xin@zytor.com> <aRQ3ngRvif/0QRTC@intel.com>
  <71F2B269-4D29-4B23-9111-E43CDD09CF13@zytor.com> <aW83vbC2KB6CZDvl@intel.com>
  <C3F658E2-BB0D-4461-8412-F4BC5BCB2298@zytor.com>
  <04d96812-f74a-4f43-9ea4-c4f2723251c5@linux.intel.com>
-To: Binbin Wu <binbin.wu@linux.intel.com>
+ <aW-eWcj5GBZfGerc@google.com>
+To: Sean Christopherson <seanjc@google.com>
 X-Mailer: Apple Mail (2.3864.300.41.1.7)
 
->>>=20
->>> In this case, we need to clear FRED for AMD.
->>>=20
->>> The concern is that before AMD's FRED KVM support is implemented, =
-FRED will be
->>> exposed to userspace on AMD FRED-capable hardware. This may cause =
-issues.
->>=20
->> Hmm, I think it=E2=80=99s Qemu does that.
->>=20
->> We have 2 filters, one in Qemu and one in KVM, only both are set a =
-feature is enabled.
->>=20
->> What I have missed?
+
+> On Jan 20, 2026, at 7:25=E2=80=AFAM, Sean Christopherson =
+<seanjc@google.com> wrote:
 >=20
-> If a newer QEMU (with AMD's FRED support patch) + an older KVM =
+>>>=20
+>>> What I have missed?
+>=20
+> The userspace VMM, e.g. QEMU, is completely irrelevant.  KVM must not =
+advertise
+> support for features it doesn't actually implement, and more =
+importantly must not
+> internally treat such features as supported.
+
+Right, FRED virtualization is not supported on AMD and obviously SVM =
+will
+need to add FRED virtualization in their own fashion later.
+
+>=20
+>> If a newer QEMU (with AMD's FRED support patch) + an older KVM =
 (without AMD's
-> FRED support, but KVM advertises it), it may cause issues.
+>> FRED support, but KVM advertises it), it may cause issues.
 >=20
-> I guess it's no safety issue for host though, AMD should also require =
-some
-> control bit(s) to be set to allow guests to use the feature.
+> Yep.
 >=20
-> I agree with Chao that it should be cleared for AMD before AMD's FRED =
-KVM
-> support is implemented.
+>> I guess it's no safety issue for host though,
+>=20
+> Maybe.  Without fully analyzing the SVM implementation for FRED and =
+its interaction
+> with KVM, I don't think we can confidently say that incorrectly =
+treating FRED as
+> supported is benign for the host.  It's a moot point, I just want to =
+emphasize
+> how it important it is that KVM doesn't over-report features.
 
-
-Damn, I somehow thought the host won=E2=80=99t report FRED on AMD...=
+I will remove it on AMD.
