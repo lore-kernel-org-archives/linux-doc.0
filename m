@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71FF441042;
-	Tue, 20 Jan 2026 16:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38774611C6;
+	Tue, 20 Jan 2026 16:11:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768925497; cv=none; b=tKoZ83eR7IkV7VmAy6CmgBnVfBrgdo7D4bx4b0M0bkD52R2uzJ6nZ5Sh+Cda9KgJa3OwonAwRz+/THVy2OWsYnNUPiH2J1AhzWHklmMmIBS7Luw1rhlGXicTK0iRYFcqSnNmWHMfa2ArZsnOZg1dMz7A9duFyIXI5YQqrJ8xQ9g=
+	t=1768925503; cv=none; b=rqTvebrT3asfK+lAf3+Eb6IYHKOV5LbB/rgM3de37gcmF26Rq+ZXY0GQxlFM8W8ha6krx11yINbOF1NfSdXWaF60hXt3MjExxi90Xo2cfIwdxk9UkO1UXO1iXC2HLRQECAxNyI45Ux7JcJBl8C31ps+yMAORr6EL6+XQyVtbSQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768925497; c=relaxed/simple;
-	bh=HXBV3Lx/h+H7VdEBJ3BfmE6klv68lSG5XkCtGO3hs6E=;
+	s=arc-20240116; t=1768925503; c=relaxed/simple;
+	bh=dtUUx6lrNtFdy5/+TdTkG7ihJmXBG5s769rXUFmDzMI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QUOeHn95v9rJpkcXdNKp5ZncF1laaJLU/Y3NuLoG2BrByuvqRPV39FeuJmoOX6vFkaaOzrOiyVxlEnUB3uJwg6NPhG94kfbc4VoFBzy5NibJLByw/BDtFectvTenFiQ6W4mSyEThH4Im4JI4YNTSrzHxMlhtdCC1+XGpuhhQhO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3W5RTc9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ity3BPwRNulrLXtYeH1VAR33KLekeQSjNOZw/94qBlmpyx9M7GAu0Edz3TWpocfeQxSroNgc6xc/JjTFW9AFoIWPstVeiF2byQTp++vOpiPVze2VR8t3zG/XmJ1RNvo1kqB52JYzEbHOLWYRw8r88f1WlDstX4w4Iqb+BqvrkvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/u7R5+h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3W5RTc9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCD9C16AAE;
-	Tue, 20 Jan 2026 16:11:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/u7R5+h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 917DFC19422;
+	Tue, 20 Jan 2026 16:11:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768925496;
-	bh=HXBV3Lx/h+H7VdEBJ3BfmE6klv68lSG5XkCtGO3hs6E=;
+	s=k20201202; t=1768925503;
+	bh=dtUUx6lrNtFdy5/+TdTkG7ihJmXBG5s769rXUFmDzMI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=C3W5RTc9BDp+2tl/P41YC7OFToe0242b3ObhNOj343jvSEcE5i4Df7WCOiz5L/WvB
-	 Q5OuquBfIbmIBbdcd5cdB7+krmmqYmEn6PWMmzCVNdU9utkubtF8CRqvRuTwh0kyjT
-	 hWAJuPDx7Bdw0IjE3BK3nL4tQSWDMqtLYh5mXliRDdBlNx1RLJC0urKSnzbxqRrHIo
-	 Bugnab4PPc/2R9Dagphp5Z12HSzhryBKONAIMUKMQaT+k7obwDdkYJlp0w5poHL0Jt
-	 IPdkOu7SA5VgMqf/T2FFcbbCs4tVXT3j5wh/foK8HiEasB1YrhwdDgJCApBPF1MQSf
-	 lOLiNN/awpH+Q==
+	b=Q/u7R5+hPtnkQdHXwUr7rplCFmrjMp4ucJKF8+aAi3t7ObI8CWsk0ZSfwI2io9TZ7
+	 G6EbSPqS4sXfMKzDNh5GSXbSGpIISgDcUrJMWmzja95XaHObaUlILHsr5XgCSsWKhb
+	 7qMkL67ioXva9EhwO+PnYksEku/pLjVj6CZksFLRUP6imyuZdoOPyeEYoHWjwIlGFs
+	 6EKRGNbnVm8vBdW8bhIjp1UxjN8BPlOcjvYuxAQVZkxWQutGufu2KT0fxNRtiJ+IV6
+	 9UO1GfSxJPVLxKQPtc7UVb6Yd36nARBmjMoT6v5md7iNsxE6VUbOI+AGqpaPQJEkQU
+	 eFZHFcX9c7H0w==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org, Nam Tran <trannamatk@gmail.com>
 Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org, 
@@ -33,11 +33,11 @@ Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org,
  conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-doc@vger.kernel.org
-In-Reply-To: <20260111135519.28112-1-trannamatk@gmail.com>
-References: <20260111135519.28112-1-trannamatk@gmail.com>
-Subject: Re: [PATCH v21 0/3] leds: add new LED driver for TI LP5812
-Message-Id: <176892549321.2317951.5782623090623899229.b4-ty@kernel.org>
-Date: Tue, 20 Jan 2026 16:11:33 +0000
+In-Reply-To: <20260115161013.40706-1-trannamatk@gmail.com>
+References: <20260115161013.40706-1-trannamatk@gmail.com>
+Subject: Re: [PATCH v22 0/2] leds: add new LED driver for TI LP5812
+Message-Id: <176892550028.2317951.10477367628623153628.b4-ty@kernel.org>
+Date: Tue, 20 Jan 2026 16:11:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +48,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-52d38
 
-On Sun, 11 Jan 2026 20:55:16 +0700, Nam Tran wrote:
+On Thu, 15 Jan 2026 23:10:11 +0700, Nam Tran wrote:
 > This patch series adds initial support for the TI LP5812,
 > a 4x3 matrix RGB LED driver with autonomous engine control.
 > This version provides a minimal, clean implementation focused
@@ -60,11 +60,9 @@ On Sun, 11 Jan 2026 20:55:16 +0700, Nam Tran wrote:
 
 Applied, thanks!
 
-[1/3] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-      commit: 014efef297240de5933b121f59f04800f732a09a
-[2/3] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-      (no commit info)
-[3/3] docs: leds: Document TI LP5812 LED driver
+[1/2] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+      commit: 4301afd6b3cbd428082b55ec7a6a840b3c8ec749
+[2/2] docs: leds: Document TI LP5812 LED driver
       commit: 974d724e58fd2eee0fe46299901deae6fa9ebad1
 
 --
