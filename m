@@ -1,107 +1,90 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E0A23A99E;
-	Wed, 21 Jan 2026 23:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC71B421A08;
+	Wed, 21 Jan 2026 23:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769037998; cv=none; b=t7AbBfceBSPGOMy9FltYvDcA+Xs7A7XghnXsiDWRyGCDKGf804uAKzo1vEI6jp9XzjJOb71LRprZwIJwC/vbbnrYs5eBCaN4iDEVGhjAUz1GRaK/xx6+nZHjvXLCMhW7o9LkNlhuBIMo9ZkT9D0D/BJ/MEEI46T3xK8YATJNR6s=
+	t=1769039781; cv=none; b=S2j50QfJeL4VY5tieDVCxEVMPAz3q8MVfwJI1ubt90plXLf0d54U6oJf6czJO//vCJbVREVQUut3I6VQURaqCfzgbk01lVsNsv2IpqCaoyb/YBxeVSiN1ErJ0LgVfGV4K2diphev9OhOvQ0BSrOrhyc14yae+PsNGxhZLWYn/No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769037998; c=relaxed/simple;
-	bh=kcQHkUKp1SjMbh7K0xzUeeer+Jw+MfHqvaWcaX6zmiU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jmvoQK020OI9ED6buJGOqLAi1XamdlNmhQqQ5HnOsvI8Q3cqEWwmrkQ/sK+87Ke3KnL1Jt8VZG05n6cLFaCB3C1CECGK9cWkWZ4Ai4MAmzrU2M9DxuNOkbk3TRxLUf2JzNEsVUIHFW5VI8OxTNvj6GWPPpkMtIiwsSDiI7QmoyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ao+RHABZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769039781; c=relaxed/simple;
+	bh=TGmzJQxYNjTwc1evAvFZSARhHl6cW44HegJFImhXa0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ld4Jf2HzJwwoboSXWvCzW6+sY2RC5TlIRbCmMc1cPAbmvElcPcnTW1mcRcodb+SkQ41qsorpVdlqA7F9o634Ij/vNm2g2N4QyiAx8BZ1cDNtZ9aanQcRAs7Jsc52iT+SSXcF5U8s1rtdOwKJSphygDmbm0Motdly8CvRVQWW1Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hFgxsSFy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ao+RHABZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=tMWWX7HsqJ3ljAFcwqBEgriz3Rdl/95aGxaN9VUpAOI=; b=ao+RHABZIpt0Ho9w4kNITNOA2U
-	wzy6NOXwxbeI4dRvbkQgetDbS57koUt5hpwOEz+X/mJ8uSkHLRBZc+nhZiRdaiyP/MXItJh6S2da/
-	ur2idGHiBwBANYn+4IwB09xbU/5OOOUQQt3LgUxnU91krpkrA4ZXLNiO65DMOsaz88Tc4TGP6s2lk
-	X47IppplwPpVK2oPYh4wqa0b55ZKcgNb8AP1wJG3hNdFlh3zj8mwkOWN3u7sBrlzqFFtyeEaSIH0+
-	o5kyIvg3/P9IzjT66mzh9vQr3kMg5H4vIEYmGfrkCI9x4hOOU9BF8TzRtNjTj864AZuSREbKBXE6M
-	TvH6jLIg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vihar-00000006AwT-1vRF;
-	Wed, 21 Jan 2026 23:26:33 +0000
-Message-ID: <9680d4f2-4bc0-4093-8a7d-7142c5d490cc@infradead.org>
-Date: Wed, 21 Jan 2026 15:26:32 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hFgxsSFy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4DEC4CEF1;
+	Wed, 21 Jan 2026 23:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769039781;
+	bh=TGmzJQxYNjTwc1evAvFZSARhHl6cW44HegJFImhXa0g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hFgxsSFyHLPuXXazm/yY7h2wWICHHfYZ9AQnPoIqED+aIpWmNvbrIRABEZ0tptNe3
+	 T7HYKOFGn/6FSFlZPuSJ3E9Zon1uC3FrBeIzgTlhuDUIAq3nmvl83x4dA1haSH5/z/
+	 PCJGVW8k/7dgI81iFtk4VQOlK43lzSq0TfVIcAwTCJmlKnUyyXQHdl/+5ePbM0jDOC
+	 XxaF44qeUborkYetOMlVs+9UHTUmIhdWo2h7rIsaahNefFLYcSS+UvN/y7t/1P6zPA
+	 IsK8A6FvKZ+2GfMAEFrnoC8CCMqjoAg9Y1HnBa+PwC40wODYiUu7Tgg559Glp89k/6
+	 Z2A9QsWpSCw/g==
+Date: Wed, 21 Jan 2026 16:56:16 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: linjh22s@gmail.com, Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] Documentation/kbuild: Document gendwarfksyms
+ build dependencies
+Message-ID: <20260121235616.GA3887168@ax162>
+References: <20260114-documents_gendwarfksyms-v2-0-297c98bd62c6@gmail.com>
+ <20260114-documents_gendwarfksyms-v2-1-297c98bd62c6@gmail.com>
+ <4d379736-9b6a-4e40-ad67-53ee7498759c@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: filesystems: add fs/open.c to api-summary
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: Matthew Wilcox <willy@infradead.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-References: <20260104204530.518206-1-rdunlap@infradead.org>
- <871pjpo0ya.fsf@trenco.lwn.net>
- <501f8b16-272b-4ea5-92ef-6bdb6f58f77b@infradead.org>
- <c7d47b56-2d37-4893-b8ec-1fb23f75a55e@infradead.org>
- <87wm1hmk82.fsf@trenco.lwn.net>
- <7db41ccc-11c8-4d3c-adbf-9d4f1f70f386@infradead.org>
-Content-Language: en-US
-In-Reply-To: <7db41ccc-11c8-4d3c-adbf-9d4f1f70f386@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d379736-9b6a-4e40-ad67-53ee7498759c@suse.com>
 
-
-
-On 1/16/26 2:24 PM, Randy Dunlap wrote:
+On Tue, Jan 20, 2026 at 01:17:48PM +0100, Petr Pavlu wrote:
+> Nit: I suggest slightly adjusting the text to something like:
 > 
+> """
+> Gendwarfksyms depends on the libelf, libdw, and zlib libraries.
 > 
-> On 1/16/26 11:27 AM, Jonathan Corbet wrote:
->> Randy Dunlap <rdunlap@infradead.org> writes:
->>
->>> Seems I was confused with fs/namei.c, where I see similar warnings.
->>> I don't see those warnings in fs/open.c.
->>>
->>> I'm using today's linux-next tree, where the latest change to
->>> fs/open.c is:
->>> ommit 750d2f1f7b5c
->>> Author: Al Viro <viro@zeniv.linux.org.uk>
->>> Date:   Sun Dec 14 03:13:59 2025 -0500
->>>     chroot(2): switch to CLASS(filename)
->>>
->>> Do you have something later (newer) than that?
->>>
->>> Also, at fs/open.c lines 1147-1157, I don't see anything that would
->>> cause docs warnings.
->>
->> No, docs-next is older - based on -rc2.  It seems that linux-next has
->> significantly thrashed thing there, and the offending function
->> (dentry_create()) moved to namei.c...
+> Here are a few examples of how to install these dependencies:
+> """
 > 
-> 2 patches have been sent for these warnings:
-> 
-> 2025-12-19:
-> https://lore.kernel.org/all/20251219-dentry-inline-v2-1-c074b5bfb3a6@gmail.com/
-> 
-> 2025-12-31:
-> https://lore.kernel.org/all/20251231153851.7523-1-krishnagopi487@gmail.com/
-> 
+> .. and swap the items on the pacman line to 'libelf zlib' so the order
+> is always libelf, libdw, zlib.
 
-Oh, so a third option was merged.
-https://lore.kernel.org/all/20260118110401.2651-1-jaybenjaminwinston@gmail.com/
+I applied the following diff to this change and applied these to
+kbuild-next.
 
-I only care for backporting reasons:
-https://lore.kernel.org/linux-doc/202601211140.pWd7ohTh-lkp@intel.com/
-
-since I am being blamed for some new warnings and these patches fix them (except
-that they have been moved from fs/open.c to fs/namei.c).
-
-
--- 
-~Randy
-
+diff --git a/Documentation/kbuild/gendwarfksyms.rst b/Documentation/kbuild/gendwarfksyms.rst
+index 0e153d13b052..c5e4617b4b41 100644
+--- a/Documentation/kbuild/gendwarfksyms.rst
++++ b/Documentation/kbuild/gendwarfksyms.rst
+@@ -17,13 +17,13 @@ details about the final module ABI.
+ Dependencies
+ ------------
+ 
+-libelf, libdw and zlib are dependencies of gendwarfksyms.
++gendwarfksyms depends on the libelf, libdw, and zlib libraries.
+ 
+-Here are a few examples for installing these dependencies:
++Here are a few examples of how to install these dependencies:
+ 
+ * Arch Linux and derivatives::
+ 
+-	sudo pacman --needed -S zlib libelf
++	sudo pacman --needed -S libelf zlib
+ 
+ * Debian, Ubuntu, and derivatives::
+ 
