@@ -1,236 +1,81 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E01943DA4B
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 22:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF04421A0A
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 22:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769033541; cv=none; b=S3Pz2cz38mVDm/fNm32eJvG/3a3Bv+Ja/++MMr0VnSNZpcrA2dqS6cMJinjocy4XCtQkMxw7U+SrsB5jnpSK57hlnluy+H6cam++YIcnlHne3fvPz3oqCtEUOOfmKWApj31pzMfTiK+Ox71OimohXp8Kp4E5YL4SjtPWoSYGYEI=
+	t=1769034004; cv=none; b=kg4yAEUD8SYcK6uDz9Ayzm0EeXY3uKJVN+jwRpBLz6z3y5cvFHY3aufsi48EXx3chZIgGkP2gziOjQmpbQCFGh6e7NWp6ZaAOUWp6jLAUqtz4JhoTKKaai8L8pP+kj+Xb0lhu7kYpmDg9+5d7dp7dvI8KgyB9NVkfI1yAhvBtMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769033541; c=relaxed/simple;
-	bh=43YZlXDQmW65hszyjr5m3UtpfpB8+72+oSXEtxR8B+c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cJGUVyUDfAu53mgkbHisZhDC2IfqbDgDEV0u3ed5/Lr/WNsA+LwLB542pUAYMQq2vUMhXZfidSP3PKfh50A1pjqGgw4eDN0Yo0gaOAX8wkSp3KQZPHUXlFwKXF+gUK66Ucfgo3+Pl1w6/xPs4wgVNHC3ZAOBhRlYf3YAl716obU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dc9Oa/dK; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769034004; c=relaxed/simple;
+	bh=yb3EVg95+PjCTvf2Xtv6yyaE4fFqLPPjH+MGY6BGmeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T+poOSyS7Hi8J43o1tu4Pgr2+bFp2zyaBLc3rtTi4IZSDa01uZ30pgWsMXLx7k1IqxkFiG7JjrvqMHcl7vTpLIBGVuT8oQCYkM9XqxBnVShUbfxERkOzPnO6vxjHKydU5mZmBWGHC4jnJKLMjfjrat5GIXYEOXIPQHjKUcb+xwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bRcPWOGZ; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dc9Oa/dK"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-6447743ce90so392257d50.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 14:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769033528; x=1769638328; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y3I8QcIsIeOrh9cIrz38ZjjL+G5z3ujRC9KA0ugGud8=;
-        b=Dc9Oa/dK474AK/J1sokviXcv8eJSFE4pPf5/G+DevjWBG93ky/wb3ViOV1OQ14dV4J
-         ieioWkyh7NgUeINzpDNPMoGlTdpDGXJMTpzvC3Wzr+IK37FiULLAxXhAmq5wfOqMB7Ri
-         o4ibr4Kgbip0rGfdEjuypC9e7cv6838XEFn9Z21KFaZJXj8krfF8vufTthSdUgh/UsMz
-         rsZu1TOirsQqhe8EJGOOkaCXM9ApDKAa10F9eM2Rb17Zp25He0YuwWUI+Onkb+6ineji
-         0IvH4vkvO4HBFjWamSEmZIi/YI7QFSMQ9CifTEBGpjOZK1Hlv/NdzdPoSsxwYmnTexKS
-         u8xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769033528; x=1769638328;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Y3I8QcIsIeOrh9cIrz38ZjjL+G5z3ujRC9KA0ugGud8=;
-        b=jkloC/ukuhHc9TGXuI3oKz1bJW6ecOoOVFxk0u9B7bD8hjF/iK2HJcnBhDvWWEnUtu
-         y8/FynTnnlB4qel/GQi39hDUVgzSEreaxEQQuemzrUXa/1Nyxm8bbvKit6ustL1BUgqe
-         WxfyIwD4jqptExgIVNiE8ze/WWBRyxCk9ShtqeEeBL8ngU3mO8YOR+/2lEjTitr/0Wcm
-         3NsvW7moH+czWFZzDvI5wahfSJgxtPZnkLJtfaYQkLIQB5fYlaTBP6UFS0v+XV9nZVSO
-         oLsRIrw9lAz/HclJQKd3gHU0rY+pPDB66MftwfxZ4Q8sb9gtJt/8QwkpY8IY0fFqQlvk
-         ToIA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCXUoI14/i2PZX9ipZNpIMuvLI/j+U29Xy1GTPse4ccu9RmhrZOd9PNSEkp6Pggw1rD/BJoB4Jpfc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI7W5J1FXwxUijnvAwzi8qBoWSy+RQNziGuZgD7j6YJlrIEZt1
-	I1I6pyFqUxFuHjTO/FDo4OulqwV7L9f3a248iyHK2HOQziWYsUMG+Hig
-X-Gm-Gg: AZuq6aJTrJHaCfav1yJgyyI0vjJyuhzaEXSjQ3VUHaof2JuGUgRHYLiwsPZiKthKBMl
-	JBbUGgXPUvj9zBlVhuYBFbn70yzYFiskm835e5GxZHwtMqoSE3uyL4LLGqDZZWKEYONxIRqoR2r
-	MGJtxHMl6ntXhXaiBBxkXjHgag5DVS3O8DM3WGjursvVV8yWVe0Dmuz6ArGoTO5w7YefBSPrf6G
-	vDa7VCZCM0EYOUluPrMz7xF3Y4+9V8X1TEpeLAGcmUCWh1unhm4WZfkDB8uMRVTYMod6gGc8NWC
-	xCWnwSE3U94rDxSUiqSVg0c6/k6u98k4fDOtEcov4CWVe5Q606MyzpGjNogQQj8Q4gzAqYdmzNx
-	dqI/SPAdR7wiQkwIpPAh0u/QbiDXQRi67s2uWPiKPY8Kcghlrxt/ZC9RWgS+0MKLiZG8+24CMCI
-	Rqp5OYk6F6iw==
-X-Received: by 2002:a05:690e:134c:b0:649:328b:66c1 with SMTP id 956f58d0204a3-6493c85636fmr4655728d50.71.1769033527964;
-        Wed, 21 Jan 2026 14:12:07 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:42::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6494686dd20sm1661755d50.22.2026.01.21.14.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 14:12:07 -0800 (PST)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Wed, 21 Jan 2026 14:11:50 -0800
-Subject: [PATCH net-next v16 10/12] selftests/vsock: add namespace tests
- for CID collisions
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bRcPWOGZ"
+Date: Wed, 21 Jan 2026 14:19:44 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769033989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HoQi6KkVwO2LhgzMpx+nRVqZde/RMh0LYhGYMNHF+wI=;
+	b=bRcPWOGZvCAF46Vb6d+TQK7NJXXCA1nyBDuGiR30fw6T2n2RgwTpzNZsEoy7Sw8d7wFm6H
+	dFr++EqcJGqK4eMkbiF/b08+spW4WaOIL49mAPk8Xb9i4ovQiwLgdCvZbi5lkyrSgh6UW+
+	dV28mKXR+f8sdVTOAWqWhdjoPIBVXz8=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: linux-mm@kvack.org, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Qi Zheng <zhengqi.arch@bytedance.com>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/3] mm/lru_gen: add memory.lru_gen interface for
+ cgroup v2
+Message-ID: <aXFPhnOn4oGllq_Q@linux.dev>
+References: <20260121123955.84806-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-vsock-vmtest-v16-10-2859a7512097@meta.com>
-References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
-In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
-To: Stefano Garzarella <sgarzare@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- "K. Y. Srinivasan" <kys@microsoft.com>, 
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
- Vishnu Dasa <vishnu.dasa@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, berrange@redhat.com, 
- Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org, 
- Bobby Eshleman <bobbyeshleman@gmail.com>, 
- Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121123955.84806-1-jiayuan.chen@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+On Wed, Jan 21, 2026 at 08:39:46PM +0800, Jiayuan Chen wrote:
+> This patchset adds a memory.lru_gen interface to cgroup v2, allowing users
+> to interact with MGLRU directly on a specific cgroup without needing to
+> know the internal memcg_id.
 
-Add tests to verify CID collision rules across different vsock namespace
-modes.
+Unfortunetely we don't want to expose reclaim implementation specific
+interface to a cgroup. 
 
-1. Two VMs with the same CID cannot start in different global namespaces
-   (ns_global_same_cid_fails)
-2. Two VMs with the same CID can start in different local namespaces
-   (ns_local_same_cid_ok)
-3. VMs with the same CID can coexist when one is in a global namespace
-   and another is in a local namespace (ns_global_local_same_cid_ok and
-   ns_local_global_same_cid_ok)
+> 
+> Motivation
+> ==========
+> Currently, the only way to perform aging or eviction on a specific memcg
+> is through the debugfs interface (/sys/kernel/debug/lru_gen), which
+> requires the memcg_id. However, there's no straightforward way to get the
+> memcg_id for a given cgroup path. This makes it difficult for users to
+> leverage MGLRU's proactive reclaim capabilities on specific cgroups.
 
-The tests ns_global_local_same_cid_ok and ns_local_global_same_cid_ok
-make sure that ordering does not matter.
+From the next kernel version, this memcg_id will be inode number of the
+cgroup for this interface. So, a simple 'ls -id cgroup_path' would  be
+sufficient for your use-case.
 
-The tests use a shared helper function namespaces_can_boot_same_cid()
-that attempts to start two VMs with identical CIDs in the specified
-namespaces and verifies whether VM initialization failed or succeeded.
+The relevant series [1] is in mm-tree at the moment and if you want, you
+can backport it to your kernels.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
----
-Changes in v11:
-- check vm_start() rc in namespaces_can_boot_same_cid() (Stefano)
-- fix ns_local_same_cid_ok() to use local0 and local1 instead of reusing
-  local0 twice. This check should pass, ensuring local namespaces do not
-  collide (Stefano)
----
- tools/testing/selftests/vsock/vmtest.sh | 78 +++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
-
-diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
-index 38785a102236..1bf537410ea6 100755
---- a/tools/testing/selftests/vsock/vmtest.sh
-+++ b/tools/testing/selftests/vsock/vmtest.sh
-@@ -50,6 +50,10 @@ readonly TEST_NAMES=(
- 	vm_loopback
- 	ns_host_vsock_ns_mode_ok
- 	ns_host_vsock_child_ns_mode_ok
-+	ns_global_same_cid_fails
-+	ns_local_same_cid_ok
-+	ns_global_local_same_cid_ok
-+	ns_local_global_same_cid_ok
- )
- readonly TEST_DESCS=(
- 	# vm_server_host_client
-@@ -66,6 +70,18 @@ readonly TEST_DESCS=(
- 
- 	# ns_host_vsock_child_ns_mode_ok
- 	"Check /proc/sys/net/vsock/ns_mode is read-only and child_ns_mode is writable."
-+
-+	# ns_global_same_cid_fails
-+	"Check QEMU fails to start two VMs with same CID in two different global namespaces."
-+
-+	# ns_local_same_cid_ok
-+	"Check QEMU successfully starts two VMs with same CID in two different local namespaces."
-+
-+	# ns_global_local_same_cid_ok
-+	"Check QEMU successfully starts one VM in a global ns and then another VM in a local ns with the same CID."
-+
-+	# ns_local_global_same_cid_ok
-+	"Check QEMU successfully starts one VM in a local ns and then another VM in a global ns with the same CID."
- )
- 
- readonly USE_SHARED_VM=(
-@@ -577,6 +593,68 @@ test_ns_host_vsock_ns_mode_ok() {
- 	return "${KSFT_PASS}"
- }
- 
-+namespaces_can_boot_same_cid() {
-+	local ns0=$1
-+	local ns1=$2
-+	local pidfile1 pidfile2
-+	local rc
-+
-+	pidfile1="$(create_pidfile)"
-+
-+	# The first VM should be able to start. If it can't then we have
-+	# problems and need to return non-zero.
-+	if ! vm_start "${pidfile1}" "${ns0}"; then
-+		return 1
-+	fi
-+
-+	pidfile2="$(create_pidfile)"
-+	vm_start "${pidfile2}" "${ns1}"
-+	rc=$?
-+	terminate_pidfiles "${pidfile1}" "${pidfile2}"
-+
-+	return "${rc}"
-+}
-+
-+test_ns_global_same_cid_fails() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "global0" "global1"; then
-+		return "${KSFT_FAIL}"
-+	fi
-+
-+	return "${KSFT_PASS}"
-+}
-+
-+test_ns_local_global_same_cid_ok() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "local0" "global0"; then
-+		return "${KSFT_PASS}"
-+	fi
-+
-+	return "${KSFT_FAIL}"
-+}
-+
-+test_ns_global_local_same_cid_ok() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "global0" "local0"; then
-+		return "${KSFT_PASS}"
-+	fi
-+
-+	return "${KSFT_FAIL}"
-+}
-+
-+test_ns_local_same_cid_ok() {
-+	init_namespaces
-+
-+	if namespaces_can_boot_same_cid "local0" "local1"; then
-+		return "${KSFT_PASS}"
-+	fi
-+
-+	return "${KSFT_FAIL}"
-+}
-+
- test_ns_host_vsock_child_ns_mode_ok() {
- 	local orig_mode
- 	local rc
-
--- 
-2.47.3
-
+[1] https://lkml.kernel.org/r/20251225232116.294540-1-shakeel.butt@linux.dev
