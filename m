@@ -1,131 +1,167 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921D747A0A1
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 09:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768987198; cv=pass; b=CrON+h6dxZp1cdbxRcoFVpbe16yYLeJCp96PX7MY5dRLHGHiNWwGPgPD1lQ/tSmhhiv8tMoK8Hq5R5hVB8K0oeMAyhu2AUSt0ULk21yDiqaC+38EMj+e3MxoIxpmC/Aq0Rk6sf59XmMZZI3ZnCuvyH8G8QHMJF4dWBy9o2Zp3Ww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768987198; c=relaxed/simple;
-	bh=79b775lMvczPPQ1sCHPV9x0iaa287H0D0dSytd73Qv8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sUEO9BovBlLhKKxUpn+G+OInJrAfZW2B9cZKTdVySvISxhdy2qufEz6xLxYYoXMIDafS54BlBL3dCWcvYRepkzGy6QfYOV0Bk+ZN//CojevhW43EQmTGh7YyOer0Q949wBtda55a3PyhwT+gHZ41R8YjjnmTEpIffTggUYwUj1k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jO7q7wal; arc=pass smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA44449EC1
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 09:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768988500; cv=none; b=PPNamw4p7TVttPze3DnvdO+FnCkj/p1PxX1C8jn89zu9M2C05feboA3OtgCJ8G8icBW+MZqqAU0Vpo1t5LLd6OOxqwxovVVhh/MxHqlcGG6I+68K7nirudo+WhiWN1wfDgMnL/xPi/DS+SX7/++YKV25BvkvM4nUqnEItE2wJF4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768988500; c=relaxed/simple;
+	bh=bxzThV7tQ3Murw+misd2L3l9CTOTGBERVGRAqk/Z1Uk=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CkdkIaefMT9b9ZUJVYMnndRJAzMSlGBuHpcK6U04fNIGQlUVTTplVW2cQHRhaexvXsF6T4jPvIuOCpdFaq8pMy07qJJ4bvO/XUsScIjUxxSJDftzWOsiT8wLodfZUBunndpfiz0BKWHFWiwuETrjQoPFCo8lDGbpX8z/0a1EO2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iko2czaZ; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jO7q7wal"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59b9fee282dso6337601e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 01:19:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768987195; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PJsF65DHSwOaLDTcK3iZ+84BKn/vllM5jAWlvHuqnFmck7hytpmbTetE96BNhaokZB
-         YMfdU6eKurz/sk9uVfFmYkV/7yN1zI0J+8YhfSFhOwOXrAQ9pZwUu363J+hB+vXsyKOi
-         gP4iG8y6rWwdw3ofdP/j4i3C8mLOM4QV3Z4qfj6NV5Geaa2lmZCVrjS4USdpxlTZx5ao
-         tpYTJUykDjIavp8yhMFuYMT5zQmT+/rQrW0NGTZs5YRABmppQugXM251Wh2q0niPerzp
-         fvk4j2CYzJQUp6mXVwzbh1NadMLoxGrLSH/nAV+mf51mI6luvN0/6Nlg3Zkbw2Q1w3Rh
-         YJKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cKTgJE3f1vXR3wpOnVsDNv0ntd16ZnwfsXCdqjWFLU8=;
-        fh=lWm2dqEUmLiZWqY8bwSKr5xNfxCN1QGPP4Mtn07ZqQ8=;
-        b=gMbrCo3twPfZcsGrE0dAr7aoPSiGt4/cEu5P8gMkV0oF3u4eQxsiyDgUF2ErVJ+iEu
-         8ApDKYCqMi3QcKW8nNGVdEw9NcNCNr02ukgOcKPU5+J2gfXTOE77tD52PuTCR5IdHFRi
-         mMnMtjS90mMqL9s4V7MLZSI9pF8uebWMsMnJhwS+UFvJJ9fAaelpRta6wd75kQfDm+F4
-         zkuAG3jOF4hT+/Wkyz9QNKcOpFFRaiozx8zYMjgIPI+Hn8lhxPU2EDNuPDfTwP3FucNq
-         9OTehu+HMKn/LOpT6itmadQPlM1JlT8uzC+fofdq4Ws5HNAK3yjLLfi7wgfLcJHxI3oz
-         pdIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iko2czaZ"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47d59da3d81so4447135e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 01:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768987195; x=1769591995; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cKTgJE3f1vXR3wpOnVsDNv0ntd16ZnwfsXCdqjWFLU8=;
-        b=jO7q7walxoTYrTV55gj7+zFq7/mMJige3Fi0WbTJ3uSmRNVKHXH/73RX99yEC1SoIT
-         p0ZTk5wUop33HwM5CF+4aFCVnx5PTBh+OX7JmnDBk8JFzA5wZjndbqZULYIgG14SFKmM
-         X8+c8y/dWwSeBcA/yabTEMSIs1IfTZguop6k8EAoXkNRq+swbnxzqSCeOjNRDknjTvw5
-         B5Dad1l62CHw8iVU2V+osk/J2aIGzvxGz//VaeP5TTsZ4uVBAheXgswQYeJFz5OhDmMS
-         tlqGzLaWBZRnRbNez19uotw0j4YO8wVG1pbcYuWwj1ucOMY2ncqGwwTVoZns+mhXsK6h
-         YZFg==
+        d=gmail.com; s=20230601; t=1768988496; x=1769593296; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UQrmNmrNqyC9vSBp6JJ3q8RaAwfn1AOiBhLRYJqypV4=;
+        b=Iko2czaZE397M8iccteVHSU6MrTe9cognIzK4Ju9MJbsLTR/wj2VtdFhQMHDIvFhgX
+         D7LX/uuXICJsFLnCMB/qKuN1gGAZmjpLWNjuRQh4CZcKRxaKzLI1CxoPFntNaQANakTe
+         AyTmjSFsHpeFbinXSStjIvwOKKtxK33zIFIAqcfugCOF9vKFOWZvuMAwV5rfQ9Gvm6OZ
+         xCscRXA102u/cEUwUsiuSktcvo+nd53WfeFosI2ctKgcl3o7xyxxWTeFfUDObYuc57Zj
+         0IXlubU0gteYtCX1fgxhXk7iUrbIO2gWNrbvBZ8EUN2ynUl1Db8CVRRGhmVkY4ZRuSqV
+         J2Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768987195; x=1769591995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cKTgJE3f1vXR3wpOnVsDNv0ntd16ZnwfsXCdqjWFLU8=;
-        b=X/tOfYk3pwTmmqz5B3jguIuv/YAJ28G/j40sYvz2yFDoWdX1MkfNI11aMw5DMcbfdJ
-         0KmkAiiYvyMTg04Qq2pg55cR6GkYBWKKHhYlIyDSIe901paW96ELd8mZB6nk+4uIkU3A
-         iiwUmMkd9YPGGZRPqbv/6lv/7VCac7ZQR8paUAP8WUljuvYERZBixQHDNB93zNYS8mbt
-         aa7gxdDPXwrzE44TlDgQUQAZ7lVr6bpnmh9f0SVGjXCLf4Z9QxeeyzS00Ufq3ZkZFmiV
-         PBD0bgnHHOCxgPRDpYQ+yqbjqAWajtvYXZ1EONDnz/8kwfaDunrHBz4xniMrGg94BkGi
-         wM6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXQhhxifQbZeere6YDpgjt6rhPbgmyt0p2kHU0rRv1LvvvBDxpIRgijxeV5PKooN+OGZrBBEPNEcuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlQueCDADdclMnZnjQOiDmEDjIAjKE7X04S9722Oq51q+V7VPG
-	Y9382KZ6BwgNPXOAaJ3ot+iYAlvWQm+zEM62Z8B2sOKK6/gpgwVdvP7VKs3qHYW/yKV2asECrp5
-	MuYYWhgM3UEIvpHJesVvQOFTcCjc1fzo=
-X-Gm-Gg: AZuq6aJa0Sa64XVMuFuBwfQcZ1lyzSTsJtouwYkNhBy1SA9CklI2hcM+kSA8wk+JZs9
-	FcD0J3j5NucufCJUoydPd97mPK7jg+5wUdpVL2ir9QmjDFCEy5jP9xTmDXT5SyhEKWfAAvh3U7d
-	nnmy/TMm2xffLbqV0XBGk43rrRIPdf4fXvLGUj7plN7Y3MlmSk6lKjdTvI73G9jLnOQXIvSmjd8
-	6Lm/StomFi1DYAIslsY5CDsKIv03TlYkKiKikgkZ2IDzDiIdiWsuIGwvs8Q+Vi3A1FqGPOBqNho
-	n9FB4A==
-X-Received: by 2002:a05:6512:3ba7:b0:59c:bf2e:fa15 with SMTP id
- 2adb3069b0e04-59cbf2efb55mr3787256e87.5.1768987194335; Wed, 21 Jan 2026
- 01:19:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768988496; x=1769593296;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQrmNmrNqyC9vSBp6JJ3q8RaAwfn1AOiBhLRYJqypV4=;
+        b=TiVl3863sx1ERrF8baCsJUaSmAO41wjJzagt8cQ2zdHg1pVODEDpmUS10/kQD8VSkL
+         NFh/2oeUJo4kSdtFqwjA2SDQyfIVilTRGYYZ3nJLVJICtl51xLs7B+FPuK4na8yxWLu/
+         KyGZmqM98m+uDUuSjIrLz97kThKekCABsp+M0UmZy9Cds9rgzfdZ5zoxTxbhicSRo+q9
+         UzzKxnIU8PGiLOEHbDd5mrbOSQ/HeFkF1sfujq/xBeItPTSXX7AlqXm+2vVNNSeUoQp9
+         BRJa+CoDAiiAZcsjImM6cYFB6FEjBMUwSNaP9IOhofB/3g4IMblbZM3ejd+5U9bKnBAS
+         RaUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXZHmyywT1hLgimHgyTlqYhbiIP1UzJSh/uDN8Nsjw9w5z3UivyfU4AUgcrx0LZD0crAsl3+P7Wb58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUe49MBnSgyYZs0QqQeAxeWh/Si+LBeYP42Q8uRICJi75FGuaM
+	o8iaBNTLIY7t75ZKZzMgUvfNq881MZbvAEwwvQfxsHq35E9nfe61jrNA
+X-Gm-Gg: AZuq6aLcVN6DVA6s0nCvriMN3pGhNRdXO7N27wtMSYnqhSyb3E4RShbc/rHWZ6IGz/y
+	yNEmsqeDvZUCMTZo5Ze6E7N7Pns+brcCxXuQUHHwloIz2cs7N29ZmHOo/CLLNmdqD90YtJ2lGbw
+	iXCU6thUqe6itmC2mDMy80/7pYT8jr+eHBiPhH74mkqqkvfDyZg8tLKNGtgrAsIRyygkz5yHSCa
+	qWH1jUgqzjNax8x+oB3JNfCgJU0mtYJpI8Ddpn1S7UwfUnQ6UYl2sIEaXLvWQrXvedL/rxms9JS
+	m5MoiFa8sYXaKMNwNMn4/hEgRjtzM1IdNTNwkhvLlMkerjc4uGiqbjd4C44DEq0U+yIvHYsgE3n
+	CJAH9WKv0zLPkNFGLRvXIkgS9NT6U+NokkQtuauXUeDLhgGNVtRcsADvNqxgw/uoEIDRIoSsfiv
+	ln1OdYkVGtHrjP5mELnbbp/pFjA1pkDruywiP/hSj7rnUbmSa/yzYAsVNp9iaHZIch55Imbt6tA
+	1yq
+X-Received: by 2002:a05:600c:1f86:b0:477:a289:d854 with SMTP id 5b1f17b1804b1-4801e53ca36mr276279895e9.5.1768988496073;
+        Wed, 21 Jan 2026 01:41:36 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e8caceesm297259935e9.13.2026.01.21.01.41.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 01:41:35 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Wed, 21 Jan 2026 09:41:25 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <kmdqcaewxxg7isappgfxuf5ode5fepbywrdriksmvrzmaykcjd@crpr27tt3bmf>
+References: <20260116-adf41513-iio-driver-v4-3-dbb7d6782217@analog.com>
+ <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+ <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+ <aW40ylvMwVhqNQMw@smile.fi.intel.com>
+ <hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
+ <aW5kk6K30Izckvg5@smile.fi.intel.com>
+ <e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
+ <CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
+ <vvdk3whhwua73g63eetnmn46t2cpbpkzzkx7m6wsbverp7gcvs@mi7cipis3i4t>
+ <aW-Fai68pk1tAeyY@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251226235101.106451-1-vishnuocv@gmail.com> <20251226235101.106451-4-vishnuocv@gmail.com>
- <aW7Gh6WsTjVo5IO_@archie.me>
-In-Reply-To: <aW7Gh6WsTjVo5IO_@archie.me>
-From: Vishnu Sankar <vishnuocv@gmail.com>
-Date: Wed, 21 Jan 2026 18:19:17 +0900
-X-Gm-Features: AZwV_QjqEORNJ_8f-MFBPABn9dnWmNGoiIrX3uwxX_lcnvbIxZvfTJIMH0UgnWc
-Message-ID: <CABxCQKuF_1w4iGwH4DVwWZSo1bfbUui8U_RenGBj8JYeCzOG9A@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] Documentation: thinkpad-acpi - Document
- doubletap_enable attribute
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: dmitry.torokhov@gmail.com, hmh@hmh.eng.br, hansg@kernel.org, 
-	ilpo.jarvinen@linux.intel.com, corbet@lwn.net, derekjohn.clark@gmail.com, 
-	mpearson-lenovo@squebb.ca, linux-doc@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, 
-	vsankar@lenovo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aW-Fai68pk1tAeyY@smile.fi.intel.com>
 
-Hi Bagas,
+On 26/01/20 03:38PM, Andy Shevchenko wrote:
+> On Tue, Jan 20, 2026 at 01:07:49PM +0000, Rodrigo Alencar wrote:
+> > On 26/01/20 01:24PM, Andy Shevchenko wrote:
+> > > On Tue, Jan 20, 2026 at 12:43 PM Rodrigo Alencar
+> > > <455.rodrigo.alencar@gmail.com> wrote:
+> > > > On 26/01/19 07:07PM, Andy Shevchenko wrote:
+> > > > > On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar wrote:
+> > > > > > On 26/01/19 03:42PM, Andy Shevchenko wrote:
+> > > > > > > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alencar wrote:
+> > > > > > > > On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> > > > > > > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-Thank you so much for the comments.
+...
 
-On Tue, Jan 20, 2026 at 9:04=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On Sat, Dec 27, 2025 at 08:51:01AM +0900, Vishnu Sankar wrote:
-> > +Values:
-> > +     * 1 - doubletap events are processed (default)
-> > +     * 0 - doubletap events are filtered out (ignored)
->
-> Please separate the bullet list from "Values:" paragraph.
-Acked.
-I will update this in my V6.
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+> > > > > > > > The current implementation is kind of a stripped version of
+> > > > > > > > __iio_str_to_fixpoint(). Would you prefer something like this, then?:
+> > > > > > >
+> > > > > > > Do they have most of the parts in common? If so, why can't we use
+> > > > > > > __iio_str_to_fixpoint() directly? Or why can't we slightly refactor
+> > > > > > > that to give us the results we need here?
+> > > > > >
+> > > > > > __iio_str_to_fixpoint() only parses "int" chunks, adf41513_parse_uhz
+> > > > > > was modified to accomodate the u64 parsing removing unnecessary stuff.
+> > > > >
+> > > > > But why? The fractional part most likely will be kept int (it's up to 10⁻⁹).
+> > > > > The integer can be bigger than 10⁹?
+> > > >
+> > > > Correct, integer part of the frequency value goes up to 26.5 GHz
+> > > > (uint_max is approx 4.3 GHz). Also, with the dual modulus, the PLL can
+> > > > achieve micro Hz resolution.
+> > > 
+> > > µHz is not a problem since it's up to nHz.
+> > > So, the difference so far is the integer part that can be 64-bit.
+> > > Again, can we factor out something to be used for this and for the
+> > > __iio_str_to_fixpoint() cases?
+> > 
+> > I am not sure what you are suggesting,
+> 
+> To make changes to reuse the code.
+> 
+> > but I am avoiding changes to iio core at this point.
+> 
+> Why?
 
+I understood that core changes would require more than one user
+supporting the change.
 
+> > If any other user needs similar behavior,
+> > I'd say we would need to have __iio_str_to_fixpoint() implementation
+> > modified, so to create a version of iio_str_to_fixpoint() that handles
+> > long long variables. Possibly consuming simple_strtoull instead of
+> > doing the manual parsing.
+> 
+> That's the problem here. With Yet Another Cool Parser this all becomes
+> unmaintainable very soon
 
---=20
+Considering that the need for a new parser for 64-bit parts is only driven
+by this specific PLL driver, I wonder how things become that unmaintainable.
 
-Regards,
+> (basically as you said when new comer needs a third
+> variant of it). This is not good. Instead better to create (amend, expand)
+> existing test cases, split out a foundation API that parses 64-bit parts
+> (maybe even for fractional as well, dunno) and evolve a needed (sub)API
+> from it.
 
-      Vishnu Sankar
-     +817015150407 (Japan)
+I don't disagree with you though, I suppose I will need a green light to
+move on with this?
+
+Kind regards,
+
+Rodrigo Alencar 
