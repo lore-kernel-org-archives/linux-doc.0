@@ -1,63 +1,64 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004AC3D3481
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 05:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D732C3F23CB
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 05:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768973381; cv=none; b=OMgRCbN5D6unY4s4VC2KrHA+s52NP78Br2chUIEQxNgT+KQUESVTYUWJuVGKv3oGUoJ/u5fFzleUgFtirTsKgq2Y00DjlUyhvrJhaCvc9f5eQMokOf1LQS+IpfxaKLhGYdDAmdSqnkjCydlsdCjgKj565SO7MQ4MFPXa2ONDrd0=
+	t=1768973637; cv=none; b=rQvus20KmvRVn+geREipHJX4fWYNFUqANMcGxhA3slt4VNS2T0+HwJfQVukJhJUEAPoM+iq5at7byq9oA1NBR0awPFpLhB8SfOHPVWm0pKLk1sddIQkuFe6wNOhc1hM6FM+GBzUbhrMpitgcuSg0v7XyHozTn7KH5UGC4o6HsBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768973381; c=relaxed/simple;
-	bh=uQc7kvpnr3eWQJ+H7RqNdRd5OZKaD9lrnlN+V2TeZpw=;
+	s=arc-20240116; t=1768973637; c=relaxed/simple;
+	bh=Cc7McXfM53XA8joxZklxQZYIsEwBSDIZEKAZdeQ/7uQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sUD0KcjebuHt+ICo7EUdSdHe+ejANV5RsLFSVVLLuLrVcxZV4ZrzsOPLHTbnQ8g8dvyaFUL2GqpPbKV3MYqdnIr6IyWCBYc3cL0p6Hw6Ws1ub38QdvKEJYNdYM6ONxGoXYKSbKRoHYN7NlC90ek/TdjaHtbQNIQHL+2jup33/6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5Mlk7u9; arc=none smtp.client-ip=74.125.224.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=esDfnfS9gH/2nPwNCrt9kvWnX0cZjj/x7fZpCOG3FoRw5HSqt6+gcSks/m++jZo2CHc0FFh0fykeTq6UK215r/YgXGPqFiux8sHyJq2UVfzwqnQ5J+mFvYHE5g/2+8uY7kbiyp94PWNZVe1Hw2ijKEE0x0yqLCWwMY8TujzYfuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KgGlOLU4; arc=none smtp.client-ip=74.125.224.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5Mlk7u9"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-6467c5acb7dso5230921d50.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 21:29:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KgGlOLU4"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-64455a2a096so5057653d50.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 21:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768973379; x=1769578179; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xj8z6sgYRSc2zcxSy7UyhR6bNJrDd7gH3jcOHm2KVdE=;
-        b=N5Mlk7u9FDtv8iuzab4wtE//XR4wWyXKvWvfNWKiMhMYaY2hk90IsgZpkX9QxE5r5W
-         E+qUf/NIq8OaJIc13eE5mtj6u9w7AAHIIoWzH5gg9L15O6Gpkq0vl64BijAuY+dpdn1l
-         Cd3MmbfbEGxleWpjm6Qz/UbSFqFOZ9oFZnKUfmoKwvefd+DUMatAKmC7j6CtXDqMy3wb
-         oKDTDIyRwiIuvQvjbjA3GujyM2WPByE0MUuc7FrndL7Og6k87i8CnbJAosSKeGKiJjob
-         4tZXjTKNqik++zdsjhNAQVzTeWVwaTbOEpfXcEJp4VjS9nLKnffIbWsvhZN+tSimS6Rr
-         upOA==
+        d=gmail.com; s=20230601; t=1768973634; x=1769578434; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=h3UPoz+4dGK8MYLy8d1alrE5wWkl0RR3HxeTS6m1CsA=;
+        b=KgGlOLU4yDh8kc9AiUI757njsyokT4Cf6fA044cNwggVqLkn/noDq7sgLa4FFh9SXJ
+         5t0AiKNmm1aYLVBOxsOO+DTwSmZRjmoUM3YliUtA2tsQBfxywqA7JjMmlLWU6uJpUSwo
+         H+i8ILusCJJXN7jV1vuBW93OOjwpkNvG1H2zvqEjd0XHFqza+FZgOXMmnNLI/iPaqL8N
+         L48c2lUQSoS/aNWjQWRBhJi6DolKn1xVk8+O9oELIQz0fCYqi/usqQFUqUF04c9quZQ0
+         wBnWiGFjTJ87Qm+E8SeCRl64996aYaOwZ+wunAOpwQ6pCLvMprIzpuh8EbyyzrPLXPbD
+         DU3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768973379; x=1769578179;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xj8z6sgYRSc2zcxSy7UyhR6bNJrDd7gH3jcOHm2KVdE=;
-        b=h8s4YMHScQxiYyr7EVvqK+hj7BaqAk2Rma+5QEjyvjighXap6XTAEeBl4Q8ywb0u4A
-         gp1YqSYo/7hmdwSrQTnDXrhcNqiGsrIyyciOkUNZUrbECS6Uz9iwfXzA+KlN8XQnR8/u
-         lxRLpocHMoweeqWlWvqrLX81f3LZqET7AkSuUpJx7W+Dp30BkVvTTc3QwrwQ3/anwOLb
-         apZ33rEwkamv5lbu5gY9dMyUsgw6otpvmIy206Mn1rtnE8YUCEKcDnzY7DZW8dxzUkvs
-         BOQwwa5qqbTPZfnY/XrbbJyuVFl/Fdi1dwGB858WcyiXQ8I+MA5/iVrDlgCKr555CEr0
-         KDiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYMhJh5lKpS3Q64KtmP1G0YcKJ9jKZFpIVUDXZDU7SPVyMwvEut/qi2OBLPK9D7VEtkJnLVkvnqyk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw15bFMz/ULoPe5fngli+bIR+Zwi73pX2WyxL+TuahB3OHq0lNi
-	EXwSrKG3qicm3YD3Sq2MYIgkD/lETNKNkFGdWG6Ad6/cXAI8P+LMTFSE
-X-Gm-Gg: AZuq6aJaW+BeLPeztge2DYDqwgJyITpWPFHTZawluE8P/KvldCwA9McgUlCIo8SLSvu
-	LPncyVhrSTTubxpz3Gjo76oixN1WutkzExth9h3wpfuuRkPfgdK5C9RjfK4mvPJYLedlR2z18Yt
-	RwF0YSm8QtvN00/IUAWdVEZt8q36NMUYHqxTc3ez4R3xxlhrtInlX40V4qD3zshu6sWaZJxlZlb
-	2OqYhapvf9rYCGtpyQctfLYXr5uHY7xH23zYDNMRk/nLL4S7Er80P/P2jUAznU8uRJJ1HtLssKY
-	/eEE675RIMP7p1qci5xzdBjkqK8ClJvnwYitcKsvVuGjlEt/PPOoXJ3oA6AprMY4cYMJvyeW8AK
-	rziEXVH47gPHUfYAt7U6jY9xBjlspiwAap+9pE0iCRTSIg7Nw6V7Vo1U5alFo5Ylh8rYFuQSn6q
-	fZs+YWglrHZrVpSFuUTcy5g7JuBRvPbqI9uw==
-X-Received: by 2002:a05:690c:f09:b0:78d:b1e9:85f0 with SMTP id 00721157ae682-793c6831d0dmr118307367b3.47.1768973378948;
-        Tue, 20 Jan 2026 21:29:38 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:9::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-793c6888b83sm61022937b3.48.2026.01.20.21.29.38
+        d=1e100.net; s=20230601; t=1768973634; x=1769578434;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h3UPoz+4dGK8MYLy8d1alrE5wWkl0RR3HxeTS6m1CsA=;
+        b=pOn244UZlghUP0V4TJilyER5ooOX9TOErbm4zwIrht2C03mimlR6fOoTiXsysvZUM+
+         Brazw+L22Us3W5AFGya8ds2ljjtXdbi+ET73FWT7ZkMg61RIi8BcnT//OJBxQ1ZBLbCI
+         QslfTdf1A5WK2mkunx15SHOJK3wPRQ2EB+o8iZDBqhiQACgE1f5w3old9ELLCXpFN69N
+         vIcAq+ftJ8eSKIfxXkiCHmYSBkMv58ZHjnhC0JtnLTZv3fQRETpZ2o2oLAD5mBMsMU2I
+         Q7sQhc/9Nw9XUcc6NbV38vWQCCoA0CLqDV6nKqvt4ADOT4fUbBvOy02UU5wF6Hy4mnCV
+         31LA==
+X-Forwarded-Encrypted: i=1; AJvYcCVGeuAEKzbTfLD3v9OYLkP1zSg+djXBqb/Kk+KEDfh3jKfVVwruckeKSPbHzj7A3VSu8/jCw1i7ahA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbjzAmdTlCcKwuWJv6vqxUMeZhw7NA0CAJmxc9YOeD44g9t1Hy
+	oq35YMZpUjiey8zMYxSJ07s/u9XYkfRpCtWCz04DIFuxaAIDu30SJOJ0
+X-Gm-Gg: AZuq6aIf2ocO47XRVb9IJfKriBKkS7CCdKg0O6lGOr+MXVakxDaAJInehr2G/y4gqrJ
+	c67ZOHbt50/1bv3L0CCDBf6Cd7NB3tlHshye6Y2PC8dMnW7NcMTqnMEUPkrVfJouEpIvm/PWkGb
+	oJIOkHs+SZeCCibsd2+XzD7y7EFfQKKa+eZCTxYLwuIvgEmXbJKbgkx1heebExwSpVct6Ss4Fhz
+	+OBQOJd7S++tUBcxOoueLV/ePlP8+u3akwoeeeEm9F16dhyeD8GF7NH4X/aMNPmVVvOtRFZJIrV
+	H6X0yOai0BE2Hl3OyYGxlWVlD8ocNxDTjGZy5p3Ur+l3VI1vglZqiDanX9rz9AaW4C0o8AkTQVu
+	0OgSzl128GMJonYhlvbXcxEA1TJD60f6SvcZB0cTa1T+6fINZ0FfrPSWHC1uulQ07w35VACEd5S
+	JaOw5ZsL8tW/XMGap2n9ZruFqKmHKl0jw2dlQ=
+X-Received: by 2002:a05:690c:4b11:b0:787:cddb:ec2d with SMTP id 00721157ae682-7940a12058amr83337797b3.19.1768973634255;
+        Tue, 20 Jan 2026 21:33:54 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:74::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-649170bebaesm7400355d50.21.2026.01.20.21.33.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 21:29:38 -0800 (PST)
-Date: Tue, 20 Jan 2026 21:29:36 -0800
+        Tue, 20 Jan 2026 21:33:53 -0800 (PST)
+Date: Tue, 20 Jan 2026 21:33:52 -0800
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -76,57 +77,190 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com,
 	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v10 0/5] net: devmem: improve cpu cost of RX
+Subject: Re: [PATCH net-next v10 3/5] net: devmem: implement autorelease
  token management
-Message-ID: <aXBkQErscGzJwh2i@devvm11784.nha0.facebook.com>
+Message-ID: <aXBlQJnsJ6PbqysE@devvm11784.nha0.facebook.com>
 References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
- <20260120170749.101e8bcc@kernel.org>
+ <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-3-686d0af71978@meta.com>
+ <20260120170042.43f038a2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260120170749.101e8bcc@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260120170042.43f038a2@kernel.org>
 
-On Tue, Jan 20, 2026 at 05:07:49PM -0800, Jakub Kicinski wrote:
-> On Thu, 15 Jan 2026 21:02:11 -0800 Bobby Eshleman wrote:
-> > This series improves the CPU cost of RX token management by adding an
-> > attribute to NETDEV_CMD_BIND_RX that configures sockets using the
-> > binding to avoid the xarray allocator and instead use a per-binding niov
-> > array and a uref field in niov.
-> > 
-> > Improvement is ~13% cpu util per RX user thread.
-> > 
-> > Using kperf, the following results were observed:
-> > 
-> > Before:
-> > 	Average RX worker idle %: 13.13, flows 4, test runs 11
-> > After:
-> > 	Average RX worker idle %: 26.32, flows 4, test runs 11
-> > 
-> > Two other approaches were tested, but with no improvement. Namely, 1)
-> > using a hashmap for tokens and 2) keeping an xarray of atomic counters
-> > but using RCU so that the hotpath could be mostly lockless. Neither of
-> > these approaches proved better than the simple array in terms of CPU.
-> > 
-> > The attribute NETDEV_A_DMABUF_AUTORELEASE is added to toggle the
-> > optimization. It is an optional attribute and defaults to 0 (i.e.,
-> > optimization on).
+On Tue, Jan 20, 2026 at 05:00:42PM -0800, Jakub Kicinski wrote:
+> On Thu, 15 Jan 2026 21:02:14 -0800 Bobby Eshleman wrote:
+> > diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> > index 596c306ce52b..a5301b150663 100644
+> > --- a/Documentation/netlink/specs/netdev.yaml
+> > +++ b/Documentation/netlink/specs/netdev.yaml
+> > @@ -562,6 +562,17 @@ attribute-sets:
+> >          type: u32
+> >          checks:
+> >            min: 1
+> > +      -
+> > +        name: autorelease
+> > +        doc: |
+> > +          Token autorelease mode. If true (1), leaked tokens are automatically
+> > +          released when the socket closes. If false (0), leaked tokens are only
+> > +          released when the dmabuf is torn down. Once a binding is created with
+> > +          a specific mode, all subsequent bindings system-wide must use the
+> > +          same mode.
+> > +
+> > +          Optional. Defaults to false if not specified.
+> > +        type: u8
 > 
-> IDK if the cmsg approach is still right for this flow TBH.
-> IIRC when Stan talked about this a while back we were considering doing
-> this via Netlink. Anything that proves that the user owns the binding
-> would work. IIUC the TCP socket in this design just proves that socket
-> has received a token from a given binding right?
+> if you plan to have more values - u32, if not - flag
+> u8 is 8b value + 24b of padding, it's only useful for proto fields
+> 
+> >  operations:
+> >    list:
+> > @@ -769,6 +780,7 @@ operations:
+> >              - ifindex
+> >              - fd
+> >              - queues
+> > +            - autorelease
+> >          reply:
+> >            attributes:
+> >              - id
+> 
+> >  static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
+> > +static DEFINE_MUTEX(devmem_ar_lock);
+> > +DEFINE_STATIC_KEY_FALSE(tcp_devmem_ar_key);
+> > +EXPORT_SYMBOL(tcp_devmem_ar_key);
+> 
+> I don't think you need the export, perhaps move the helper in here in
+> the first place (while keeping the static inline wrapper when devmem=n)?
+> 
+> > +	if (autorelease)
+> > +		static_branch_enable(&tcp_devmem_ar_key);
+> 
+> This is user-controlled (non-root), right? So I think we need 
+> the deferred version of key helpers. 
+> 
+> > -	if (direction == DMA_TO_DEVICE) {
+> > -		binding->vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
+> > -					      sizeof(struct net_iov *),
+> > -					      GFP_KERNEL);
+> > -		if (!binding->vec) {
+> > -			err = -ENOMEM;
+> > -			goto err_unmap;
+> > -		}
+> > +	binding->vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
+> > +				      sizeof(struct net_iov *),
+> > +				      GFP_KERNEL | __GFP_ZERO);
+> 
+> make it a kvcalloc() while we're touching it, pls
+> 
+> > +	if (!binding->vec) {
+> > +		err = -ENOMEM;
+> > +		goto err_unmap;
+> >  	}
+> >  
+> >  	/* For simplicity we expect to make PAGE_SIZE allocations, but the
+> > @@ -306,25 +386,41 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+> >  			niov = &owner->area.niovs[i];
+> >  			niov->type = NET_IOV_DMABUF;
+> >  			niov->owner = &owner->area;
+> > +			atomic_set(&niov->uref, 0);
+> 
+> Isn't it zero'ed during alloc?
+> 
+> >  			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
+> >  						      net_devmem_get_dma_addr(niov));
+> > -			if (direction == DMA_TO_DEVICE)
+> > -				binding->vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
+> > +			binding->vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
+> >  		}
+> >  
+> >  		virtual += len;
+> >  	}
+> >  
+> 
+> > +	if (info->attrs[NETDEV_A_DMABUF_AUTORELEASE])
+> > +		autorelease =
+> > +			!!nla_get_u8(info->attrs[NETDEV_A_DMABUF_AUTORELEASE]);
+> 
+> nla_get_u8_default() 
+> 
+> >  	priv = genl_sk_priv_get(&netdev_nl_family, NETLINK_CB(skb).sk);
+> >  	if (IS_ERR(priv))
+> >  		return PTR_ERR(priv);
+> 
+> > +static noinline_for_stack int
+> > +sock_devmem_dontneed_manual_release(struct sock *sk,
+> > +				    struct dmabuf_token *tokens,
+> > +				    unsigned int num_tokens)
+> > +{
+> > +	struct net_iov *niov;
+> > +	unsigned int i, j;
+> > +	netmem_ref netmem;
+> > +	unsigned int token;
+> > +	int num_frags = 0;
+> > +	int ret = 0;
+> > +
+> > +	if (!sk->sk_devmem_info.binding)
+> > +		return -EINVAL;
+> > +
+> > +	for (i = 0; i < num_tokens; i++) {
+> > +		for (j = 0; j < tokens[i].token_count; j++) {
+> > +			size_t size = sk->sk_devmem_info.binding->dmabuf->size;
+> > +
+> > +			token = tokens[i].token_start + j;
+> > +			if (token >= size / PAGE_SIZE)
+> > +				break;
+> > +
+> > +			if (++num_frags > MAX_DONTNEED_FRAGS)
+> > +				return ret;
+> > +
+> > +			niov = sk->sk_devmem_info.binding->vec[token];
+> > +			if (atomic_dec_and_test(&niov->uref)) {
+> 
+> Don't you need something like "atomic dec non zero and test" ?
+> refcount has refcount_dec_not_one() 🤔️
+> 
 
-In both designs the owner of the binding starts of as the netlink opener,
-and then ownership spreads out to TCP sockets as packets are steered to
-them. Tokens are received by the user which gives them a share in the
-form of references on the pp and binding. This design follows the same
-approach... but I may be misinterpreting what you mean by ownership?
+Good point, that would be better for sure.
 
-Best,
+> > +				netmem = net_iov_to_netmem(niov);
+> > +				WARN_ON_ONCE(!napi_pp_put_page(netmem));
+> > +			}
+> > +			ret++;
+> > +		}
+> 
+> >  frag_limit_reached:
+> > -	xa_unlock_bh(&sk->sk_user_frags);
+> > +	xa_unlock_bh(&sk->sk_devmem_info.frags);
+> 
+> may be worth separating the sk_devmem_info change out for clarity
+> 
+> >  	for (k = 0; k < netmem_num; k++)
+> >  		WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
+> 
+> > @@ -2503,7 +2506,15 @@ void tcp_v4_destroy_sock(struct sock *sk)
+> >  
+> >  	tcp_release_user_frags(sk);
+> >  
+> > -	xa_destroy(&sk->sk_user_frags);
+> > +	if (!net_devmem_autorelease_enabled() && sk->sk_devmem_info.binding) {
+> > +		net_devmem_dmabuf_binding_user_put(sk->sk_devmem_info.binding);
+> > +		net_devmem_dmabuf_binding_put(sk->sk_devmem_info.binding);
+> > +		sk->sk_devmem_info.binding = NULL;
+> > +		WARN_ONCE(!xa_empty(&sk->sk_devmem_info.frags),
+> > +			  "non-empty xarray discovered in autorelease off mode");
+> > +	}
+> > +
+> > +	xa_destroy(&sk->sk_devmem_info.frags);
+> 
+> Let's wrap this up in a helper that'll live in devmem.c
+
+All of the above SGTM!
+
+Thanks,
 Bobby
