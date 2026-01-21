@@ -1,320 +1,648 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012018.outbound.protection.outlook.com [40.107.209.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBEF345CD8
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 19:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769023893; cv=none; b=qXHkf8vRTV/qXZyGqIJB/yeJfILTYpz+x3aJ0RuNt6dXRiA0HNbQZFtZ+JED6149A+AUdXNgCyfvPWU8x7mB8d6leoFMuLMbulwlVpQWei23+vtwf9m9vVtQgYbYPUz78GvI6lI+TlvBZlcF5CF3dPgqX0QuwGQUooH+RKYQRGc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769023893; c=relaxed/simple;
-	bh=Lu0kHih9UWQeJ+lp2O4spjT0NK81+eYFDqsV1ZmCcuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ILfY47xbhpSadYOMzGAqYd5XIk48e+jDjFQnYPVNvoEhc2WbLFiH7q/0ttYjbyvkyr2Ewkoj1xF88WqYZ1gzeC8eFloSh+fi0edYMSKb48/gshSfdC5Z/m6haBWIttZC+nePa+GS8Vewjn0iWeqXMR5a7NikOSewz0j/BkzEVBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MizkgOi/; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D2932571D;
+	Wed, 21 Jan 2026 19:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769025033; cv=fail; b=pOuNxQCYJeVvrUy7naaj7cB+GMJo5n2hz2ckVHlFKKKIbV7EfCoz7eY/miKTBM9EygYFruH/sBDWSgEKfJdW4gDI58sA251SXEjl6V/8bw0q+Q18uDqV7K/iTpcHd8Y+gp4TDJxEMJaAjd7b2dzcZgVbhr0RsL/0ik2qq7QmXvY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769025033; c=relaxed/simple;
+	bh=cp+FoJvPGWrM83pIgcn+J7UIPVhTno8ukk3zVWTNNds=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=T4BHsTMuJBL2/T0cyx7fUxqD0sZhVGS0362EU/99kVVzKXPpPvvhb/ioFrShrjVTI7WKZulbIp4VjdSBAndJvAtDmuhCEZGUGlUM/JwDoGgrTLU5Fe/20SHudKhRQdjGdApnG7n7/5AqgVIc79rhaKs9HPfCqGAdV44cQjyxazw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VWJoFZni; arc=fail smtp.client-ip=40.107.209.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MizkgOi/"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8c5386f1c9fso26848285a.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 11:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769023890; x=1769628690; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iOPRZD47F8f143cIEqQqsk0mY0SdG+TC6tAqQjFOOoM=;
-        b=MizkgOi/MdFsirXb5WjeRi0cf6qe1nB2iNeD6roM9Xzh+a1Nvixbh/1Jp2+YyPrr38
-         +tqZ8/3pUSG2i/RXlUUs9TGIl/HKcwSnRieuaz6Njg+NisCRS/QkVmfYPtJC4BLk+bll
-         QuwG7M5amj3dwSthDfg/183cHuG09EQ0/ghznBOK8w/Gyof5ClATv7z3SWbjOWVEFFgw
-         hsliXHa+ySG6x4ysRxx/PXmrZX8KYqYlgaK1Ie5FGWlMG/W+cB040jXGXuIiJ7Q5E5iY
-         RKuHaqic54XbGUOZ2dWPPM6dzAnNHOtrAmnvUI2D1yiDTaxhTiTojCBncwg7CeHHE/BW
-         SuAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769023890; x=1769628690;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iOPRZD47F8f143cIEqQqsk0mY0SdG+TC6tAqQjFOOoM=;
-        b=Z79qlsmgUKIulqv+wdjwzM6KezEIg47PMrlYLi32IVyQRxiyZ4HXBMbwGD7tCmg6B6
-         Mms645bd7I77HLM2z2k/tBDca1BVkycUXkyApyR2q92+fWXyeT9PllghQY/zmokk3k8b
-         RcP6r1+AquARD/hSzhowK6i9yNAw4s1N40M7TMR/mQbtkjskaw+6GLatWDsDtYx+7aRG
-         SM4Suejsk/NkbOCbRoRVTTzf/EB3NY74XVT80oqavE0nZqAgtwiKO2KnpN09TahBQWzv
-         /4CwtSE43VRkPJ+XZbNTjorKQ9RJoxphkr+67e0QrxsaDGsgmHH1d+BorM/U7Y8Pddgr
-         kqUA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTiOEzeqAj+47k6EzaOzcTnSpkr1QAXrx+D/SmTH76sM/H9H9XZQoSHdNHtlsH7TZKXCfl3szb2eE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySQ87Padgt7npeTX1N5DH2j8dk2oZLjNJ70y2OmS9/Hl6hixvP
-	kY3loA3b80bl5raesa0X+XbPAPgQErxJNq/YrE/bZi4c/6Tm8aqWQx0j
-X-Gm-Gg: AZuq6aJx7DLVJpzllqmMis6XVHSPqiDATgl33e+hfwEVolvDD8ZPUPNAsrMLx8E+1oR
-	3rZV43ElYnqU0wETGdORTZfHzLOGwD66uk+KIzdC+0yoR7CB6Q1JXav57S8eu4B0Vt6Zkwdddy+
-	Ve3YYXRNu7987CfjDsQyPo1M4xe5Fr7T+BNvAz7FKBwlhK5O/ognSEnw/Vhfsbr2g7pUgpzxydm
-	rs+af1s6d2Od4CCRAZE3HgBP7xibk8cVMxyiBcP5RTWX94TlmrB0hkZ3oT37zrOYazIO2b2N0hV
-	hET27AN+84RF9f+7Or/+Of9SHVMCNUxfLil3lBE42qHUaROMpXbmSt5xd3uH68kWWPuQ8lXcwRA
-	ce/BiIiDj+qkfhZ6BDDt2NU9sZqn++raPEob+4LJTSHlr5YyLLQLQMljC1haT8RGzNyDU9KPgTG
-	LTwNFfUurj8LDXGWNU6ZM0lGc/966NXU4u1pc=
-X-Received: by 2002:a05:690c:6089:b0:792:7113:a305 with SMTP id 00721157ae682-793c671a7f3mr146815807b3.29.1769017778141;
-        Wed, 21 Jan 2026 09:49:38 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:40::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-793c66f6f97sm68737717b3.16.2026.01.21.09.49.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 09:49:37 -0800 (PST)
-Date: Wed, 21 Jan 2026 09:49:36 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Bryan Tan <bryan-bt.tan@broadcom.com>,
-	Vishnu Dasa <vishnu.dasa@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, netdev@vger.kernel.org,
-	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, berrange@redhat.com,
-	Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v15 01/12] vsock: add netns to vsock core
-Message-ID: <aXERsFJLz9b9Fzce@devvm11784.nha0.facebook.com>
-References: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
- <20260116-vsock-vmtest-v15-1-bbfd1a668548@meta.com>
- <aXDYfYy3f1NQm5A0@sgarzare-redhat>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VWJoFZni"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gHj6NuQ+ofKey7KbDto2XqObARQ3/83OlhfXNy75N0VvLQYyljku/BL4YVmQEMIp+dLrY623V7xouTykCrBCXQOkdr2wH1d8yTHiLNHVkiMfrz296YAnQSK4r2lpntud/RGNgVKX+TscBTGwtjGINe13XTRf8sYIeR0Kg9K2/Od2fGcI5I6g7hkdfS51jp9iKk/xzhPXKluWjj51DRRdVUtbbKazHe7N911JQ3fSteap+jiekWVOu95oYLsp+ohngBf1JUQdSa1rYIcdYL0IfTi+pn5igpbOs9vL/uFLy9gP2IFrSIWysOQwSA9XQv6kWSDt/MVDl7YMtduns8hwxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J8rMqGV8ZpQnx8wUYVJgMX4bwDEpxL8eEt9v9uRbIcA=;
+ b=D4KDvK9nUkjSOpOJuUm9LyXEzrED1aE8LQS+LRgpJWkAD0YELZ47zUDqX2xsbwP6ZfBb14G0T4y0zDNcwjrdVIlgK1txwJpw1GKdWnqLs4w3SFrByiZN1VoCvM14h472XPMgYwyZxthapHEZ2K3Vcwl4f6dOiYFzyKdVeNSwWrQWfgdq/eHX5FafYVuySgr2pxY1jOMSqpQLCGqq/dTjS5IFYpicZ0tdEOU2tlE4Kz+zJaMXxI6uK6EymZkoJPWx4ZasX0ZBZdNB2AQ6qK/me4QVka/t/wzMUQLcSb569uFzIgb7HgIMHGzn4HhILdpBhygJ9yI/v4iDxqlMVAr9KQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J8rMqGV8ZpQnx8wUYVJgMX4bwDEpxL8eEt9v9uRbIcA=;
+ b=VWJoFZnimeV0IvvJskDZqBleGnLaGaISwA1exT49OyeQ0lFbA1fVyOB4/xhlX4c27yCNkrmgsusZyw5uh32bJBj8i4tk1ia0kGxJk+oT9zOTS+RZFDwOERM915wlI70g2QvS2c53IbiJN3B9z1TZlePuxt+sPde2yRToVOuncMw86HjTtYL2L6wA4BqHhT5fScKbshPcj2CLC055PfpB8lHb+G46Ts+oj/1pemhPQOJ7YtTtzWEtrZbhBHIdJeSbXJxUa9uk9yzR7Hbw7v0NLhwYGHu0YiYNHAt5O4g8f59zxIRUnvkNgUhl2S+/alrDBrsgEQpYcswKF10tHHJ4Iw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ CY8PR12MB7490.namprd12.prod.outlook.com (2603:10b6:930:91::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.9; Wed, 21 Jan 2026 19:50:26 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
+ 19:50:26 +0000
+Message-ID: <01a981f1-64c7-4504-b309-45a024258fe9@nvidia.com>
+Date: Wed, 21 Jan 2026 14:50:21 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v6 01/26] rust: clist: Add support to interface with C
+ linked lists
+To: Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>, joel@joelfernandes.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
+ <20260120204303.3229303-2-joelagnelf@nvidia.com>
+ <DFTTGUYGY72V.3VLVSCB2OOXIB@garyguo.net>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DFTTGUYGY72V.3VLVSCB2OOXIB@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0079.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::24) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXDYfYy3f1NQm5A0@sgarzare-redhat>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CY8PR12MB7490:EE_
+X-MS-Office365-Filtering-Correlation-Id: c1caae2c-4216-42ee-9713-08de5926522d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WEZRbmI1d2hLRzFZbEZJRWhteHNIYStFY09teTBJMWlVYVB6dGdscCs0amlO?=
+ =?utf-8?B?M2hFWHltZjZQQ25UaGlXTGhUN0VFZU44cjFGZGhybXAxbThQajRPYnM2aHR6?=
+ =?utf-8?B?bWlVTlRYUDA4Q09pS2o1YXlVSFloK005cGU4NTNORjE4cUt0b2tLL0t1T1J5?=
+ =?utf-8?B?Z1d2d0EyQmlZZXU2eG9ManFCWDBQMzFtR0lkOVRLSTNCQzhqQ0d1am01RDBr?=
+ =?utf-8?B?cGJRRFk4Um5mU2gzaUlDMXkrSkM2czZaaG9xNmJCZVZwVTlEZEx5UHBjWW1h?=
+ =?utf-8?B?bWpmNG5jMFZ2eE9kSXIzWFBKTEFzMkVGeElOK1lLVXo5RlJORjFKTzE4QWtm?=
+ =?utf-8?B?aFpRTGpiMDhNWjNyWkJlaHFRQ3lhUjhySzZWMHFnSTVXTWFpLzVqek9BRkVn?=
+ =?utf-8?B?b0cxbm1SUHhtKzc4YnBQb01EZVhaLzZ3WTN0VEhmU0xzZ21WZzBCL0tXaGhw?=
+ =?utf-8?B?NTNobFRURFgwQzlxZlBlZXZHRXM0NEdjVUJucTlMODE2cmVzQ0o2ZGpuWi9X?=
+ =?utf-8?B?blFjM0hPS1NCV2RqOWkwNmdpVWVDQU1uY3FwTEZQa2QrRFp3enRpWmVMcVM5?=
+ =?utf-8?B?VFVzWmJ5YTg1Q3dpaFNrKzgya2FWZmhTOVQvRmlXNlJnM3J3aDMyTXJtY2sw?=
+ =?utf-8?B?L01Gak9MZkpCOUNaSzJwckhBL29CUHpxemcvajNDMWxwcWI5YmxRNThVUmQ3?=
+ =?utf-8?B?YUVNYnRTNUtOcEh5dyt2c2puOW9id1ZPTG1pNXp6K2gzdlJ4RTZqZDhHbEdM?=
+ =?utf-8?B?M0NtNzNTQzJPZ3hhdXJkUEVLSDh5TVZrU3VyNTFOYTBFcjE1b3MySGFuS1h4?=
+ =?utf-8?B?blhBNUlCOGJxM1BKVllvdmFGTmhleXVDWk9KL1BTL2RXSnNRTHRJMlNVV2xF?=
+ =?utf-8?B?MUNsSFAwUi9LaXRVUmlKZEw3c1laMUh6bkZMWnRxYlh0OEN2Z3hkRndKdWFR?=
+ =?utf-8?B?Z250ZlVFUDg1VkdnVUhFRlNrb2QrK2c0ZVJPRzI2WVlmeWxXc0RBSUo4WUYy?=
+ =?utf-8?B?WngxaG16cWltdXNIUlBrRmczV3NPOHhWazc1MmR5Mlh1clptcDcrNDFzbGhZ?=
+ =?utf-8?B?L3BHRFhtRDNTdjE4YVR5UExFN0c4NkhSeE9jTFRXNktVTUtNVWRxblQ3REZU?=
+ =?utf-8?B?c04yQzVsUjluTFBJOVVuY0o4OUc4WnJubDVoREl3KzFyK1NOUUZZRklBdTZi?=
+ =?utf-8?B?Rks5endLUHpSdUp0REljeUtRcUJ2azVab20zWjFDRU5IVUFWQWt5MU1mem92?=
+ =?utf-8?B?eFQ1SGFUVk11SlBBT1BMaDNaMHBuS0h3QXBmUU5tVnhoQ3J0eW96QVBUdUF6?=
+ =?utf-8?B?bVc4L1FJU3MzYTBEUXkxcllTa3VXaHk3TGQ2R0g2aVZjUTFxZllGMVRpdGFG?=
+ =?utf-8?B?cG5GTUdHVDI1SnNSK2V4a2VwZy9zcDVlaGgybUtIQllhaVVaVVY2YzdyOVFD?=
+ =?utf-8?B?Y3lTUTh2NFZtNHEwcDE1d0lSTDlmTmxITTlCN2xkZzUyUUw0eCtFWDQwcVJo?=
+ =?utf-8?B?cVY3S2EwQjIxMVUvVldKUHRrMmY5RUJ6VlgzSjBMVVFBNlFEMkl6RnZvTGJ5?=
+ =?utf-8?B?RGl0OFljbUc3cllhUFM2c0loTWJWdlhNWDhBbEVBSUpRV01DNFkrRFdXa2Vx?=
+ =?utf-8?B?SDBZWGcvYWwyR3BHMzNlUkc0Qm5od2g2Uk5WK1RRM2RUemNMOHVEeVp4WUJx?=
+ =?utf-8?B?dkVhdmNlZEMvY1luWWtvd3djaVMvNnI3L1AyUmdmN0xicGtPUkRiQnhLMWFS?=
+ =?utf-8?B?Q1Rpc01Oc3dTVm15NGZseHQrYWhkeTVOZkp5Zk1ONzY1WFV4b3grSHF2TlhJ?=
+ =?utf-8?B?UjJXRHdnSzJxK205MTRwdzlHbXBVbnNjcTVlNW0rTjBYakpzbDFJdGJ2M2c4?=
+ =?utf-8?B?a0RWZGN1L3NtNkxjSmxKZ3l4WU9GZE83cldhMVRBUnZyYmhyanMrd0EzaUs5?=
+ =?utf-8?B?TzVDSVMzNEU0UlZ6Wjg4RUVacyt2b050bHZJeXpaY0hJVVZneEw1aXgzY0hW?=
+ =?utf-8?B?bVVYcmNqd1FLYURxdVkyUTQraUhTeVVNN1Zjb3VkUUN0MStvYnV1bFMrS1pQ?=
+ =?utf-8?B?RHRDOEpWd2tHb0RtS01INGs5L21mSFNwUUhPV2RvQlNKalJlZU9BUnYwS1g5?=
+ =?utf-8?Q?kL/Q=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NjA3RnBvdlV0QkNoVVFNN3U1b3U1OG5HdU5aRGN5WmI5MlIrMm9DYjVjT3Aw?=
+ =?utf-8?B?Wm5ZRnJFSHFZdFFkTGlIVlVDRHlVZXBOdzQveEx1UXJ4bE45RlhXSHNoaHM1?=
+ =?utf-8?B?ejZDQTdPMkR4WVBIUm5nQm1hN3hMTUtnd0RaMmcxc3pibmFTdTliWnVJV1Vv?=
+ =?utf-8?B?VnZodUUyZTBTdGRkekZ6Q1VWWGdWMFd6NXIway9Ecmgzc2VOc3FKR3lJMG16?=
+ =?utf-8?B?V1Z4ZFNxT2NITkxXMkwyVWZ0dytQNm9NeVRrNEUvQmN3Z2tsYTlmNjVTUFNn?=
+ =?utf-8?B?elUwd1QvU0VsVVB2U3ZCVWFOTHdWaHlCdTQ0d0h2ZXpoOUJndEQzM0oyVnJr?=
+ =?utf-8?B?TW1KQ2Z3cDJtRVpVNFN3U0piQll3SS9rM3pScFpHMU9xWkxyTHZHUHovNmdH?=
+ =?utf-8?B?TXhXOW9VNWF6T2pBZ0ZXeTF2NnBDdk5haUpoMTQ5MjdlYnl3OWJiVVBBRHZS?=
+ =?utf-8?B?VG5iS0lyeWZINVMrcS9pR3NvYTlCenZQRkdwU08raGJ1THNxbXZNU0hHWUwy?=
+ =?utf-8?B?QVRoN3VUMmhxZlhzekFxMWR4WjlSZHI0QTF3c2hvYjhUQTMyYk5LakhMdHo2?=
+ =?utf-8?B?TGo0NXdndnJZdGdvWFdmclpnRWNaalNJaFRRbHBOZFlUV0RaYzNGQmZrbWpT?=
+ =?utf-8?B?VmdSZnF3NjF3T1BEa05hZExBRWI1bmNMZERrMWpudCtjdkRPN3c4TXJldlRZ?=
+ =?utf-8?B?M1BmVk43SzJvM3RjWWhCOS9VeTY0dXRZTUtPVkVZTXlkWWswY0xzbSs0eExX?=
+ =?utf-8?B?SDZXdEt1VTBDa1lNcXNadUNyWHFEc0VKWm9oSDJBRTJVTU9vMHpZVDgzUll4?=
+ =?utf-8?B?Tm5rYjlsRGRXV1BUTjZQWlJxRDFrV3VPZ3RDV3d2Zzg2clRpQnlxZkVoK2xy?=
+ =?utf-8?B?RFFVQzdQazAwL25YQXhtMXAyMGl5NVZTZXlDZjk2RXVTNGgvN2p6ZFRBZVRx?=
+ =?utf-8?B?KzlTSElpRTV2enViUWZVUTFHeGJqQi9ocFlYODhDVXAzZGgxQnFSbDF4aG5N?=
+ =?utf-8?B?LzdoMVcvV2UwZmdIMy9LdE0rZkFnS29rUHpVaGJZQWxFS3JFd050RmFCZ3ZV?=
+ =?utf-8?B?QS9TV1pYeEsxV2JuRkR1VjdBQXFIOVJLOVB3My9XSXhQb0NrWXoySjZOdkU1?=
+ =?utf-8?B?RFlKL0lFeENPWnZlYTJTZmxYTTRqM0JTUWlOOWFJeENIMzBnb3pKVWd6eWZO?=
+ =?utf-8?B?R2NDYzRTTGJJYjFaTU1Jc1BmR2hRUk92WEFkSCt4a0J4TXdCNGlBcElXZXBn?=
+ =?utf-8?B?NVh4bDRzOFJkVVl2UU9CRHBqbFkySGYwR2JuQlVUc2hwVE4xNlhhTzJoV3pY?=
+ =?utf-8?B?VDlsMktsQXNSSy9kNmxTVVdjUnRQWXgxRzZCK3crTHJzY0pFL0RXRXJKL08r?=
+ =?utf-8?B?K2t5ZHNMWGFKZFZrY3M3T2NPQ2hxVlpibDhLMTJLL2VHTExuWU85Slgvdzhz?=
+ =?utf-8?B?a243Nmdab2dtZ1ZDTEN0NTNaaHNzSnNEeDhIWXBQNndaYVoySWduUk5qWlpC?=
+ =?utf-8?B?Umx3a2p0ejlsVUtpUjJHUFlMWlRXZjY0elk3ai9PWEx4ZDMxRXBVd0hUYmhM?=
+ =?utf-8?B?S2FLTWRtL1JJL1BNL1JkYmJDNmdKQUVzdEFvVmRQZE12UEgxUkRiQnVKZTBZ?=
+ =?utf-8?B?bE9sQk1SdEFERFplTFpCTVpMOXU5VHFrZ2llM1VLYXNPV01GS2dkQXhnTW82?=
+ =?utf-8?B?UUFTUWZZWm04ZTJRVWZiSlJkb25DNWlrVzkvbU5GS3U4T29tekVObkNEVmZM?=
+ =?utf-8?B?K0RGRm1ycHM0bk9ValV0aURMZDlCb1Y5QWp4NUZJSUtNQXV3c2xvLyswaVNH?=
+ =?utf-8?B?OVlFaEFaSGxxQ3J4V0tvR1hEckV2d0gxTTlDcFdnZmt4MkVIMDdURFZLM0h3?=
+ =?utf-8?B?Q2VzaGViamtlWk9EVmFZdnIxT2lsUWJXZWExOWU3cDBRajYxN0FEbVdNOVgx?=
+ =?utf-8?B?aFp5TkZoN0xtejIwaWRMblpFVkJhbXVLL3VXV29OVWNsdVhJaEdhdGM2cjd2?=
+ =?utf-8?B?VVBkdkIwclJNeGZEekFpdVl0VGFMcUw4Z3RLNHhpNlRlTTgyUDZRcGhZVEdE?=
+ =?utf-8?B?OXliNHlIUHQrMWJXdnBFc2pwdXhJSGdWNDl0RDFxU3ZiTGZra1R1WVUyOEJK?=
+ =?utf-8?B?M2FWMzlPY2dIUUdkajk4RmhCRFhuNUxHZmVOdWowVTVzUDhpbldkbWkxNDk5?=
+ =?utf-8?B?ZkpGQlBlUjRZN2t2dXhWWlVqZHNuN00rNFNpczdnODZCa1lFMnhDRnZ3T2ly?=
+ =?utf-8?B?d0V4c0o2OTBuZzlxeTF2SnNjb0gxb3NCak5hMk11QkR1eTUrdXJZOXNseEQ3?=
+ =?utf-8?B?bDNPYkJmSDhHdUNOcllBcnRuNXV5S3BXR1g4OG1rcFdGcmlJTkNYUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1caae2c-4216-42ee-9713-08de5926522d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 19:50:25.8389
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PGGQDHXegM/govv5MmPSk84x3VNEzCJ1cZNtFvIzKMVL0GDcoN8ksGJ3Zgf9e/csIN59xid+gHC+1GnmVhHazg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7490
 
-On Wed, Jan 21, 2026 at 03:48:13PM +0100, Stefano Garzarella wrote:
-> On Fri, Jan 16, 2026 at 01:28:41PM -0800, Bobby Eshleman wrote:
-> > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > Add netns logic to vsock core. Additionally, modify transport hook
-> > prototypes to be used by later transport-specific patches (e.g.,
-> > *_seqpacket_allow()).
-> > 
-> > Namespaces are supported primarily by changing socket lookup functions
-> > (e.g., vsock_find_connected_socket()) to take into account the socket
-> > namespace and the namespace mode before considering a candidate socket a
-> > "match".
-> > 
-> > This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
-> > report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
-> > for new namespaces.
-> > 
-> > Add netns functionality (initialization, passing to transports, procfs,
-> > etc...) to the af_vsock socket layer. Later patches that add netns
-> > support to transports depend on this patch.
-> 
-> nit: maybe we should mention here why we changed the random port allocation
-> 
-> (not a big deal, only if you need to resend)
-> 
-> > 
-> > dgram_allow(), stream_allow(), and seqpacket_allow() callbacks are
-> > modified to take a vsk in order to perform logic on namespace modes. In
-> > future patches, the net will also be used for socket
-> > lookups in these functions.
-> > 
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > ---
-> > Changes in v15:
-> > - make static port in __vsock_bind_connectible per-netns
-> > - remove __net_initdata because we want the ops beyond just boot
-> > - add vsock_init_ns_mode kernel cmdline parameter to set init ns mode
-> > - use if (ret || !write) in __vsock_net_mode_string() (Stefano)
-> > - add vsock_net_mode_global() (Stefano)
-> > - hide !net == VSOCK_NET_MODE_GLOBAL inside vsock_net_mode() (Stefano)
-> > - clarify af_vsock.c comments on ns_mode/child_ns_mode (Stefano)
-> > 
-> > Changes in v14:
-> > - include linux/sysctl.h in af_vsock.c
-> > - squash patch 'vsock: add per-net vsock NS mode state' into this patch
-> >  (prior version can be found here):
-> >  https://lore.kernel.org/all/20251223-vsock-vmtest-v13-1-9d6db8e7c80b@meta.com/)
-> > 
-> > Changes in v13:
-> > - remove net_mode and replace with direct accesses to net->vsock.mode,
-> >  since this is now immutable.
-> > - update comments about mode behavior and mutability, and sysctl API
-> > - only pass NULL for net when wanting global, instead of net_mode ==
-> >  VSOCK_NET_MODE_GLOBAL. This reflects the new logic
-> >  of vsock_net_check_mode() that only requires net pointers (not
-> >  net_mode).
-> > - refactor sysctl string code into a re-usable function, because
-> >  child_ns_mode and ns_mode both handle the same strings.
-> > - remove redundant vsock_net_init(&init_net) call in module init because
-> >  pernet registration calls the callback on the init_net too
-> > 
-> > Changes in v12:
-> > - return true in dgram_allow(), stream_allow(), and seqpacket_allow()
-> >  only if net_mode == VSOCK_NET_MODE_GLOBAL (Stefano)
-> > - document bind(VMADDR_CID_ANY) case in af_vsock.c (Stefano)
-> > - change order of stream_allow() call in vmci so we can pass vsk
-> >  to it
-> > 
-> > Changes in v10:
-> > - add file-level comment about what happens to sockets/devices
-> >  when the namespace mode changes (Stefano)
-> > - change the 'if (write)' boolean in vsock_net_mode_string() to
-> >  if (!write), this simplifies a later patch which adds "goto"
-> >  for mutex unlocking on function exit.
-> > 
-> > Changes in v9:
-> > - remove virtio_vsock_alloc_rx_skb() (Stefano)
-> > - remove vsock_global_dummy_net, not needed as net=NULL +
-> >  net_mode=VSOCK_NET_MODE_GLOBAL achieves identical result
-> > 
-> > Changes in v7:
-> > - hv_sock: fix hyperv build error
-> > - explain why vhost does not use the dummy
-> > - explain usage of __vsock_global_dummy_net
-> > - explain why VSOCK_NET_MODE_STR_MAX is 8 characters
-> > - use switch-case in vsock_net_mode_string()
-> > - avoid changing transports as much as possible
-> > - add vsock_find_{bound,connected}_socket_net()
-> > - rename `vsock_hdr` to `sysctl_hdr`
-> > - add virtio_vsock_alloc_linear_skb() wrapper for setting dummy net and
-> >  global mode for virtio-vsock, move skb->cb zero-ing into wrapper
-> > - explain seqpacket_allow() change
-> > - move net setting to __vsock_create() instead of vsock_create() so
-> >  that child sockets also have their net assigned upon accept()
-> > 
-> > Changes in v6:
-> > - unregister sysctl ops in vsock_exit()
-> > - af_vsock: clarify description of CID behavior
-> > - af_vsock: fix buf vs buffer naming, and length checking
-> > - af_vsock: fix length checking w/ correct ctl_table->maxlen
-> > 
-> > Changes in v5:
-> > - vsock_global_net() -> vsock_global_dummy_net()
-> > - update comments for new uAPI
-> > - use /proc/sys/net/vsock/ns_mode instead of /proc/net/vsock_ns_mode
-> > - add prototype changes so patch remains c)mpilable
-> > ---
-> > Documentation/admin-guide/kernel-parameters.txt |  14 +
-> > MAINTAINERS                                     |   1 +
-> > drivers/vhost/vsock.c                           |   6 +-
-> > include/linux/virtio_vsock.h                    |   4 +-
-> > include/net/af_vsock.h                          |  61 ++++-
-> > include/net/net_namespace.h                     |   4 +
-> > include/net/netns/vsock.h                       |  21 ++
-> > net/vmw_vsock/af_vsock.c                        | 328 ++++++++++++++++++++++--
-> > net/vmw_vsock/hyperv_transport.c                |   7 +-
-> > net/vmw_vsock/virtio_transport.c                |   9 +-
-> > net/vmw_vsock/virtio_transport_common.c         |   6 +-
-> > net/vmw_vsock/vmci_transport.c                  |  26 +-
-> > net/vmw_vsock/vsock_loopback.c                  |   8 +-
-> > 13 files changed, 444 insertions(+), 51 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index a8d0afde7f85..b6e3bfe365a1 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -8253,6 +8253,20 @@ Kernel parameters
-> > 			            them quite hard to use for exploits but
-> > 			            might break your system.
-> > 
-> > +	vsock_init_ns_mode=
-> > +			[KNL,NET] Set the vsock namespace mode for the init
-> > +			(root) network namespace.
-> > +
-> > +			global      [default] The init namespace operates in
-> > +			            global mode where CIDs are system-wide and
-> > +			            sockets can communicate across global
-> > +			            namespaces.
-> > +
-> > +			local       The init namespace operates in local mode
-> > +			            where CIDs are private to the namespace and
-> > +			            sockets can only communicate within the same
-> > +			            namespace.
-> > +
-> 
-> My comment on v14 was more to start a discussion :-) sorry to not be clear.
+Hello, Gary,
 
-No worries, resending with this included started a good discussion so
-not for nil.
+On 1/20/2026 6:48 PM, Gary Guo wrote:
+> On Tue Jan 20, 2026 at 8:42 PM GMT, Joel Fernandes wrote:
+>> Add a new module `clist` for working with C's doubly circular linked
+>> lists. Provide low-level iteration over list nodes.
+>>
+>> Typed iteration over actual items is provided with a `clist_create`
+>> macro to assist in creation of the `Clist` type.
+> 
+> This should read "CList".
+
+Sure, will fix.
 
 > 
-> I briefly discussed it with Paolo in chat to better understand our policy
-> between cmdline parameters and module parameters, and it seems that both are
-> discouraged.
-> 
-> So he asked me if we have a use case for this, and thinking about it, I
-> don't have one at the moment. Also, if a user decides to set all netns to
-> local, whether init_net is local or global doesn't really matter, right?
-> 
-> So perhaps before adding this, we should have a real use case.
-> Perhaps more than this feature, I would add a way to change the default of
-> all netns (including init_net) from global to local. But we can do that
-> later, since all netns have a way to understand what mode they are in, so we
-> don't break anything and the user has to explicitly change it, knowing that
-> they are breaking compatibility with pre-netns support.\
-> 
-> 
-> That said, at this point, maybe we can remove this, documenting that
-> init_net is always global, and if we have a use case in the future, we can
-> add this (or something else) to set the init_net mode (or change the default
-> for all netns).
-> 
-> Let's wait a bit before next version to wait a comment from Paolo or Jakub
-> on this. But I'm almost fine with both ways, so:
-> 
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-> 
-> > 	vt.color=	[VT] Default text color.
-> > 			Format: 0xYX, X = foreground, Y = background.
-> > 			Default: 0x07 = light gray on black.
-> 
-> [...]
-> 
-> > diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-> > index a3505a4dcee0..3fc8160d51df 100644
-> > --- a/net/vmw_vsock/af_vsock.c
-> > +++ b/net/vmw_vsock/af_vsock.c
-> 
-> [...]
-> 
-> > @@ -235,33 +303,42 @@ static void __vsock_remove_connected(struct
-> > vsock_sock *vsk)
-> > 	sock_put(&vsk->sk);
-> > }
-> > 
-> 
-> In the v14 I suggested to add some documentation on top of the vsock_find*()
-> vs vsock_find_*_net() to explain better which one should be used by
-> transports.
-> 
-> Again is not a big deal, we can fix later if you don't need to resend.
-> 
-> Thanks,
-> Stefano
+> I was quite dubious about the patch just from the title (everybody knows how
+> easy a linked list is in Rust), but it turns out it is not as concerning as I
+> expected, mostly due to the read-only nature of the particular implementation
+> (a lot of the safety comments would be much more difficult to justify, say, if
+> it's mutable). That said, still a lot of feedbacks below.
 
-Sorry about that slipping through the cracks, will add to v16.
+Sure, the reason for requiring this is interfacing with lists coming from C
+code. I'd see a future where we may want it mutable too (example, Rust code
+adding elements to the existing). At which point, the invariants/safety
+reasoning may change.
 
-I'll resend with:
+> I think something like is okay in the short term. However, there's an growing
+> interest in getting our Rust list API improved, so it could be ideal if
+> eventually the Rust list can be capable of handling FFI lists, too.
 
-1. revert init ns cmdline
-2. update this message about why the port allocation changes
-3. fix the vmtest missing ns arg bug that Kuba mentioned
-4. update documentation on top of vsock_find* / vsock_find_*_net
-5. update documentation on top of af_vsock.c w/ note about init_ns
-having its mode fixed to global
+Yeah we looked into that, if you see old threads, the conclusion was it is not a
+good fit for existing rust list abstractions. TLDR; it does not fit into their
+ownership/borrowing model.
 
-Unless any prior feedback slipped, I think this captures everything
-pending? 
+[...]
+>> +
+>> +/// Initialize a `list_head` object to point to itself.
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// `list` must be a valid pointer to a `list_head` object.
+>> +#[inline]
+>> +pub unsafe fn init_list_head(list: *mut bindings::list_head) {
+>> +    // SAFETY: Caller guarantees `list` is a valid pointer to a `list_head`.
+>> +    unsafe {
+>> +        (*list).next = list;
+>> +        (*list).prev = list;
+> 
+> This needs to be an atomic write or it'll depart from the C implementation.
 
-Best,
-Bobby
+I am curious what you mean by atomic write, can you define it?  Does rust
+compiler have load/store fusing, invented stores, etc, like C does? Sorry I am
+only familiar with these concepts on C. Could you provide example of a race
+condition in Rust that can happen?
+
+Also I did this addition based on feedback from past review:
+https://lore.kernel.org/all/DEI89VUEYXAJ.1IQQPC3QRLITP@nvidia.com/
+
+There was some concerns around pointless function call overhead when the rust
+implementation is already quite intertwined with internals of the C linked list
+implementation. I do agree with that point of view too.
+
+Also see my other reply to Zhi on this helper topic, lets discuss there too, if
+that's Ok.
+
+>> +    }
+>> +}
+> 
+> I don't think we want to publicly expose this! I've not found a user in the
+> subsequent patch, too.
+
+There are 2 users:
+
+    pub fn try_init<E>(
+
+and the self-tests:
+
+//! # let head = head.as_mut_ptr();
+//! # // SAFETY: head and all the items are test objects allocated in [..]
+//! # unsafe { init_list_head(head) };
+//! #
+
+> 
+>> +
+>> +/// Wraps a `list_head` object for use in intrusive linked lists.
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// - [`CListHead`] represents an allocated and valid `list_head` structure.
+>> +/// - Once a [`CListHead`] is created in Rust, it will not be modified by non-Rust code.
+>> +/// - All `list_head` for individual items are not modified for the lifetime of [`CListHead`].
+>> +#[repr(transparent)]
+>> +pub struct CListHead(Opaque<bindings::list_head>);
+>> +
+>> +impl CListHead {
+>> +    /// Create a `&CListHead` reference from a raw `list_head` pointer.
+>> +    ///
+>> +    /// # Safety
+>> +    ///
+>> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
+>> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+>> +    #[inline]
+>> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
+>> +        // SAFETY:
+>> +        // - [`CListHead`] has same layout as `list_head`.
+>> +        // - `ptr` is valid and unmodified for 'a.
+>> +        unsafe { &*ptr.cast() }
+>> +    }
+>> +
+>> +    /// Get the raw `list_head` pointer.
+>> +    #[inline]
+>> +    pub fn as_raw(&self) -> *mut bindings::list_head {
+>> +        self.0.get()
+>> +    }
+>> +
+>> +    /// Get the next [`CListHead`] in the list.
+>> +    #[inline]
+>> +    pub fn next(&self) -> &Self {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY:
+>> +        // - `self.as_raw()` is valid per type invariants.
+>> +        // - The `next` pointer is guaranteed to be non-NULL.
+>> +        unsafe { Self::from_raw((*raw).next) }
+>> +    }
+>> +
+>> +    /// Get the previous [`CListHead`] in the list.
+>> +    #[inline]
+>> +    pub fn prev(&self) -> &Self {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY:
+>> +        // - self.as_raw() is valid per type invariants.
+>> +        // - The `prev` pointer is guaranteed to be non-NULL.
+>> +        unsafe { Self::from_raw((*raw).prev) }
+>> +    }
+>> +
+>> +    /// Check if this node is linked in a list (not isolated).
+>> +    #[inline]
+>> +    pub fn is_linked(&self) -> bool {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY: self.as_raw() is valid per type invariants.
+>> +        unsafe { (*raw).next != raw && (*raw).prev != raw }
+> 
+> While is this checking both prev and next? `list_empty` is just
+> `READ_ONCE(head->next) == head`.
+
+Sure, I can optimize to just check ->next, that makes sense. Will do.
+
+> 
+>> +    }
+>> +
+>> +    /// Fallible pin-initializer that initializes and then calls user closure.
+>> +    ///
+>> +    /// Initializes the list head first, then passes `&CListHead` to the closure.
+>> +    /// This hides the raw FFI pointer from the user.
+>> +    pub fn try_init<E>(
+>> +        init_func: impl FnOnce(&CListHead) -> Result<(), E>,
+>> +    ) -> impl PinInit<Self, E> {
+>> +        // SAFETY: init_list_head initializes the list_head to point to itself.
+>> +        // After initialization, we create a reference to pass to the closure.
+>> +        unsafe {
+>> +            pin_init::pin_init_from_closure(move |slot: *mut Self| {
+>> +                init_list_head(slot.cast());
+>> +                // SAFETY: slot is now initialized, safe to create reference.
+>> +                init_func(&*slot)
+> 
+> Why is this callback necessary? The user can just create the list head and
+> then reference it later? I don't see what this specifically gains over just
+> doing
+> 
+>     fn new() -> impl PinInit<Self>;
+> 
+> and have user-side
+> 
+>     list <- CListHead::new(),
+>     _: {
+>         do_want_ever(&list)
+>     }
+
+The list initialization can fail, see the GPU buddy patch:
+
+        // Create pin-initializer that initializes list and allocates blocks.
+        let init = try_pin_init!(AllocatedBlocks {
+            list <- CListHead::try_init(|list| {
+                // Lock while allocating to serialize with concurrent frees.
+                let guard = buddy_arc.lock();
+
+                // SAFETY: guard provides exclusive access, list is initialized.
+                to_result(unsafe {
+                    bindings::gpu_buddy_alloc_blocks(
+                        guard.as_raw(),
+                        params.start_range_address,
+                        params.end_range_address,
+                        params.size_bytes,
+                        params.min_block_size_bytes,
+                        list.as_raw(),
+                        params.buddy_flags.as_raw(),
+                    )
+                })
+            }),
+            buddy: Arc::clone(&buddy_arc),
+            flags: params.buddy_flags,
+        });
+
+> 
+> 
+>> +            })
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +// SAFETY: [`CListHead`] can be sent to any thread.
+>> +unsafe impl Send for CListHead {}
+>> +
+>> +// SAFETY: [`CListHead`] can be shared among threads as it is not modified
+>> +// by non-Rust code per type invariants.
+>> +unsafe impl Sync for CListHead {}
+>> +
+>> +impl PartialEq for CListHead {
+>> +    fn eq(&self, other: &Self) -> bool {
+>> +        self.as_raw() == other.as_raw()
+> 
+> Or just `core::ptr::eq(self, other)`
+
+Sure, will fix.
+
+> 
+>> +    }
+>> +}
+>> +
+>> +impl Eq for CListHead {}
+>> +
+>> +/// Low-level iterator over `list_head` nodes.
+>> +///
+>> +/// An iterator used to iterate over a C intrusive linked list (`list_head`). Caller has to
+>> +/// perform conversion of returned [`CListHead`] to an item (using `container_of` macro or similar).
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// [`CListHeadIter`] is iterating over an allocated, initialized and valid list.
+>> +struct CListHeadIter<'a> {
+>> +    current_head: &'a CListHead,
+>> +    list_head: &'a CListHead,
+>> +}
+>> +
+>> +impl<'a> Iterator for CListHeadIter<'a> {
+>> +    type Item = &'a CListHead;
+>> +
+>> +    #[inline]
+>> +    fn next(&mut self) -> Option<Self::Item> {
+>> +        // Advance to next node.
+>> +        let next = self.current_head.next();
+>> +
+>> +        // Check if we've circled back to the sentinel head.
+>> +        if next == self.list_head {
+>> +            None
+>> +        } else {
+>> +            self.current_head = next;
+>> +            Some(self.current_head)
+>> +        }
+> 
+> I think this could match the C iterator behaviour. When the iterator is created,
+> a `next` is done first, and then subsequently you only need to check if
+> `current_head` is `list_head`.
+> 
+> This is slightly better because the condition check does not need to dereference
+> a pointer.
+
+Sure, I can change it to that.
+>> +impl<'a> FusedIterator for CListHeadIter<'a> {}
+>> +
+>> +/// A typed C linked list with a sentinel head.
+>> +///
+>> +/// A sentinel head represents the entire linked list and can be used for
+>> +/// iteration over items of type `T`, it is not associated with a specific item.
+>> +///
+>> +/// The const generic `OFFSET` specifies the byte offset of the `list_head` field within
+>> +/// the struct that `T` wraps.
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// - `head` is an allocated and valid C `list_head` structure that is the list's sentinel.
+>> +/// - `OFFSET` is the byte offset of the `list_head` field within the struct that `T` wraps.
+>> +/// - All the list's `list_head` nodes are allocated and have valid next/prev pointers.
+>> +/// - The underlying `list_head` (and entire list) is not modified for the lifetime `'a`.
+>> +pub struct CList<'a, T, const OFFSET: usize> {
+>> +    head: &'a CListHead,
+>> +    _phantom: PhantomData<&'a T>,
+>> +}
+> 
+> Is there a reason that this is not
+> 
+>     #[repr(transparent)]
+>     struct CList(CListHead)
+> 
+> ? We typically want to avoid putting reference inside the struct if it can be on
+> the outside. This allows `&self` to be a single level of reference, not too.
+> 
+> It also means that you can just write `&CList<_>` in many cases, and doesn't need
+> `CList<'_, T>` (plus all the benefits of a reference).
+
+Sure! Will change to this. I am guessing you mean the following, but please let
+me know if you meant something else:
+
+  pub struct CList<T, const OFFSET: usize>(
+      CListHead,
+      PhantomData<T>,
+  );
+
+I don't see any issues with my code using that, at the moment. Will let you know
+how it goes.
+>> +impl<'a, T, const OFFSET: usize> CList<'a, T, OFFSET> {
+>> +    /// Create a typed [`CList`] from a raw sentinel `list_head` pointer.
+>> +    ///
+>> +    /// # Safety
+>> +    ///
+>> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure
+>> +    ///   representing a list sentinel.
+>> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+>> +    /// - The list must contain items where the `list_head` field is at byte offset `OFFSET`.
+>> +    /// - `T` must be `#[repr(transparent)]` over the C struct.
+>> +    #[inline]
+>> +    pub unsafe fn from_raw(ptr: *mut bindings::list_head) -> Self {
+>> +        Self {
+>> +            // SAFETY: Caller guarantees `ptr` is a valid, sentinel `list_head` object.
+>> +            head: unsafe { CListHead::from_raw(ptr) },
+>> +            _phantom: PhantomData,
+>> +        }
+>> +    }
+>> +
+>> +    /// Get the raw sentinel `list_head` pointer.
+>> +    #[inline]
+>> +    pub fn as_raw(&self) -> *mut bindings::list_head {
+>> +        self.head.as_raw()
+>> +    }
+>> +
+>> +    /// Check if the list is empty.
+>> +    #[inline]
+>> +    pub fn is_empty(&self) -> bool {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY: self.as_raw() is valid per type invariants.
+>> +        unsafe { (*raw).next == raw }
+> 
+> `self.head.is_linked()`?
+
+I'd considered `is_linked()` to be something that makes sense to call only on
+`ClistHead` objects that belong to a particular "item" node, not a sentinel
+node, so that was deliberate.
+
+Though, I am Ok with doing it the way you are suggesting too
+(`self.head.is_linked()`), since it is functionally equivalent.
+
+>> +    }
+>> +
+>> +    /// Create an iterator over typed items.
+>> +    #[inline]
+>> +    pub fn iter(&self) -> CListIter<'a, T, OFFSET> {
+>> +        CListIter {
+>> +            head_iter: CListHeadIter {
+>> +                current_head: self.head,
+>> +                list_head: self.head,
+>> +            },
+>> +            _phantom: PhantomData,
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +/// High-level iterator over typed list items.
+>> +pub struct CListIter<'a, T, const OFFSET: usize> {
+>> +    head_iter: CListHeadIter<'a>,
+>> +    _phantom: PhantomData<&'a T>,
+>> +}
+>> +
+>> +impl<'a, T, const OFFSET: usize> Iterator for CListIter<'a, T, OFFSET> {
+>> +    type Item = &'a T;
+>> +
+>> +    fn next(&mut self) -> Option<Self::Item> {
+>> +        let head = self.head_iter.next()?;
+>> +
+>> +        // Convert to item using OFFSET.
+>> +        // SAFETY: `item_ptr` calculation from `OFFSET` (calculated using offset_of!)
+>> +        // is valid per invariants.
+>> +        Some(unsafe { &*head.as_raw().byte_sub(OFFSET).cast::<T>() })
+>> +    }
+>> +}
+>> +
+>> +impl<'a, T, const OFFSET: usize> FusedIterator for CListIter<'a, T, OFFSET> {}
+>> +
+>> +/// Create a C doubly-circular linked list interface [`CList`] from a raw `list_head` pointer.
+>> +///
+>> +/// This macro creates a [`CList<T, OFFSET>`] that can iterate over items of type `$rust_type`
+>> +/// linked via the `$field` field in the underlying C struct `$c_type`.
+>> +///
+>> +/// # Arguments
+>> +///
+>> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut bindings::list_head`).
+>> +/// - `$rust_type`: Each item's rust wrapper type.
+>> +/// - `$c_type`: Each item's C struct type that contains the embedded `list_head`.
+>> +/// - `$field`: The name of the `list_head` field within the C struct.
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// The caller must ensure:
+>> +/// - `$head` is a valid, initialized sentinel `list_head` pointing to a list that remains
+>> +///   unmodified for the lifetime of the rust [`CList`].
+>> +/// - The list contains items of type `$c_type` linked via an embedded `$field`.
+>> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has compatible layout.
+>> +/// - The macro is called from an unsafe block.
+> 
+> This is not a safe requirement, probably lift it up and say "This is an unsafe
+> macro.".
+
+Sure, so like this then:
+  /// This is an unsafe macro. The caller must ensure:
+  /// - `$head` is a valid, initialized sentinel `list_head`...
+
+>> +///
+>> +/// # Examples
+>> +///
+>> +/// Refer to the examples in the [`crate::clist`] module documentation.
+>> +#[macro_export]
+>> +macro_rules! clist_create {
+>> +    ($head:expr, $rust_type:ty, $c_type:ty, $($field:tt).+) => {{
+>> +        // Compile-time check that field path is a list_head.
+>> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_head =
+>> +            |p| ::core::ptr::addr_of!((*p).$($field).+);
+> 
+> `&raw const` is preferred now.
+
+Sure, will fix.
+
+> 
+>> +
+>> +        // Calculate offset and create `CList`.
+>> +        const OFFSET: usize = ::core::mem::offset_of!($c_type, $($field).+);
+>> +        $crate::clist::CList::<$rust_type, OFFSET>::from_raw($head)
+>> +    }};
+>> +}
+>> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+>> index f812cf120042..cd7e6a1055b0 100644
+>> --- a/rust/kernel/lib.rs
+>> +++ b/rust/kernel/lib.rs
+>> @@ -75,6 +75,7 @@
+>>  pub mod bug;
+>>  #[doc(hidden)]
+>>  pub mod build_assert;
+>> +pub mod clist;
+> 
+> Can we keep this pub(crate)?
+
+Yes, will do.
+
+-- 
+Joel Fernandes
+
