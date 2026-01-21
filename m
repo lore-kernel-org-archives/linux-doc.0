@@ -1,113 +1,131 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4FF478857;
-	Wed, 21 Jan 2026 09:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768987080; cv=none; b=K+kpS15l0Y4RE0Vb4vhyR49pO7S6YHhSNAavFyTkhSR0UXawQO+jhw4wR/DkwnxwnN/f7RXBL+YBiy4mdo+s7dZyAAmzm6OeTTDaB7rBs68FMq5YV/u+fhipaqfXMMwBCHVT5oGNAymbwjorltrNkRxu4WkwqDFCqCAnBERynK0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768987080; c=relaxed/simple;
-	bh=pO5cDfr4usmkTORPaRFpCQPiJkEaTR8DriiJ39ztdjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fVq0TamuJOU7rce4CsQMNqUghFKOjIJqCk30EkPnRzEaX0Bt/rt35nO278ZsD0Zy4vBzkd0/q6aJgOR6+Wq2vvMxiKFaAk7S6ptd/g2CyMOrE3Q9M07fG2z5WbIJT9nsoHJaEDu/szFlEE+yv47PPWLCXXz2tTnY9v/wtDaI4Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=24wzxAEw; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921D747A0A1
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 09:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768987198; cv=pass; b=CrON+h6dxZp1cdbxRcoFVpbe16yYLeJCp96PX7MY5dRLHGHiNWwGPgPD1lQ/tSmhhiv8tMoK8Hq5R5hVB8K0oeMAyhu2AUSt0ULk21yDiqaC+38EMj+e3MxoIxpmC/Aq0Rk6sf59XmMZZI3ZnCuvyH8G8QHMJF4dWBy9o2Zp3Ww=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768987198; c=relaxed/simple;
+	bh=79b775lMvczPPQ1sCHPV9x0iaa287H0D0dSytd73Qv8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sUEO9BovBlLhKKxUpn+G+OInJrAfZW2B9cZKTdVySvISxhdy2qufEz6xLxYYoXMIDafS54BlBL3dCWcvYRepkzGy6QfYOV0Bk+ZN//CojevhW43EQmTGh7YyOer0Q949wBtda55a3PyhwT+gHZ41R8YjjnmTEpIffTggUYwUj1k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jO7q7wal; arc=pass smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="24wzxAEw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pO5cDfr4usmkTORPaRFpCQPiJkEaTR8DriiJ39ztdjg=; b=24wzxAEwPXJTolgvO6OimnOF/e
-	PCCP7ApFllcFgYK9BV6IZuc8L0kvbBATJY98kG3HNuTveRZoEzUleITitYeQ1sEnQgip/caZsU5xv
-	dJdwK+gChgUqQEbAxiKEXxp911m3G5JIHc4fo/9rWfbz2jLa0Cow1fhStf81u9dw3U+A3E/fWl28t
-	IuElfVoUimZYZqST6urDi+5jYot79IklyhhyH0P0aFel75wmUkQR3e1/AQ/ca6YocY6w0qefM0tUe
-	5G43HMgvqejRLyJPnuAu6NAaUiRuEcAm8fydlJcGpgj1S49T83E8l9dWUEwKUQtDLp4AvWyrlvm1Z
-	9pGZFeLQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viULN-00000005Aph-3NRp;
-	Wed, 21 Jan 2026 09:17:41 +0000
-Date: Wed, 21 Jan 2026 01:17:41 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
-	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Chunhai Guo <guochunhai@vivo.com>, Carlos Maiolino <cem@kernel.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>,
-	David Sterba <dsterba@suse.com>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	Phillip Lougher <phillip@squashfs.org.uk>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Dave Chinner <david@fromorbit.com>, linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-ext4@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-unionfs@vger.kernel.org, devel@lists.orangefs.org,
-	ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-	linux-mtd@lists.infradead.org, gfs2@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 01/31] Documentation: document EXPORT_OP_NOLOCKS
-Message-ID: <aXCZtS2_A_GCvcQ6@infradead.org>
-References: <20260119-exportfs-nfsd-v2-0-d93368f903bd@kernel.org>
- <20260119-exportfs-nfsd-v2-1-d93368f903bd@kernel.org>
- <aW8yV6v8ZDiynOUm@infradead.org>
- <9b64bed72e43d0bf24e9b1e3bc770c4a87082762.camel@kernel.org>
- <707f08e114bf603caf7de020bb630d5477e86bca.camel@kernel.org>
- <2ed97731c54ef130ea58861a91c80dacd785de9a.camel@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jO7q7wal"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59b9fee282dso6337601e87.3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 01:19:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768987195; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PJsF65DHSwOaLDTcK3iZ+84BKn/vllM5jAWlvHuqnFmck7hytpmbTetE96BNhaokZB
+         YMfdU6eKurz/sk9uVfFmYkV/7yN1zI0J+8YhfSFhOwOXrAQ9pZwUu363J+hB+vXsyKOi
+         gP4iG8y6rWwdw3ofdP/j4i3C8mLOM4QV3Z4qfj6NV5Geaa2lmZCVrjS4USdpxlTZx5ao
+         tpYTJUykDjIavp8yhMFuYMT5zQmT+/rQrW0NGTZs5YRABmppQugXM251Wh2q0niPerzp
+         fvk4j2CYzJQUp6mXVwzbh1NadMLoxGrLSH/nAV+mf51mI6luvN0/6Nlg3Zkbw2Q1w3Rh
+         YJKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cKTgJE3f1vXR3wpOnVsDNv0ntd16ZnwfsXCdqjWFLU8=;
+        fh=lWm2dqEUmLiZWqY8bwSKr5xNfxCN1QGPP4Mtn07ZqQ8=;
+        b=gMbrCo3twPfZcsGrE0dAr7aoPSiGt4/cEu5P8gMkV0oF3u4eQxsiyDgUF2ErVJ+iEu
+         8ApDKYCqMi3QcKW8nNGVdEw9NcNCNr02ukgOcKPU5+J2gfXTOE77tD52PuTCR5IdHFRi
+         mMnMtjS90mMqL9s4V7MLZSI9pF8uebWMsMnJhwS+UFvJJ9fAaelpRta6wd75kQfDm+F4
+         zkuAG3jOF4hT+/Wkyz9QNKcOpFFRaiozx8zYMjgIPI+Hn8lhxPU2EDNuPDfTwP3FucNq
+         9OTehu+HMKn/LOpT6itmadQPlM1JlT8uzC+fofdq4Ws5HNAK3yjLLfi7wgfLcJHxI3oz
+         pdIg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768987195; x=1769591995; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cKTgJE3f1vXR3wpOnVsDNv0ntd16ZnwfsXCdqjWFLU8=;
+        b=jO7q7walxoTYrTV55gj7+zFq7/mMJige3Fi0WbTJ3uSmRNVKHXH/73RX99yEC1SoIT
+         p0ZTk5wUop33HwM5CF+4aFCVnx5PTBh+OX7JmnDBk8JFzA5wZjndbqZULYIgG14SFKmM
+         X8+c8y/dWwSeBcA/yabTEMSIs1IfTZguop6k8EAoXkNRq+swbnxzqSCeOjNRDknjTvw5
+         B5Dad1l62CHw8iVU2V+osk/J2aIGzvxGz//VaeP5TTsZ4uVBAheXgswQYeJFz5OhDmMS
+         tlqGzLaWBZRnRbNez19uotw0j4YO8wVG1pbcYuWwj1ucOMY2ncqGwwTVoZns+mhXsK6h
+         YZFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768987195; x=1769591995;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cKTgJE3f1vXR3wpOnVsDNv0ntd16ZnwfsXCdqjWFLU8=;
+        b=X/tOfYk3pwTmmqz5B3jguIuv/YAJ28G/j40sYvz2yFDoWdX1MkfNI11aMw5DMcbfdJ
+         0KmkAiiYvyMTg04Qq2pg55cR6GkYBWKKHhYlIyDSIe901paW96ELd8mZB6nk+4uIkU3A
+         iiwUmMkd9YPGGZRPqbv/6lv/7VCac7ZQR8paUAP8WUljuvYERZBixQHDNB93zNYS8mbt
+         aa7gxdDPXwrzE44TlDgQUQAZ7lVr6bpnmh9f0SVGjXCLf4Z9QxeeyzS00Ufq3ZkZFmiV
+         PBD0bgnHHOCxgPRDpYQ+yqbjqAWajtvYXZ1EONDnz/8kwfaDunrHBz4xniMrGg94BkGi
+         wM6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXQhhxifQbZeere6YDpgjt6rhPbgmyt0p2kHU0rRv1LvvvBDxpIRgijxeV5PKooN+OGZrBBEPNEcuo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlQueCDADdclMnZnjQOiDmEDjIAjKE7X04S9722Oq51q+V7VPG
+	Y9382KZ6BwgNPXOAaJ3ot+iYAlvWQm+zEM62Z8B2sOKK6/gpgwVdvP7VKs3qHYW/yKV2asECrp5
+	MuYYWhgM3UEIvpHJesVvQOFTcCjc1fzo=
+X-Gm-Gg: AZuq6aJa0Sa64XVMuFuBwfQcZ1lyzSTsJtouwYkNhBy1SA9CklI2hcM+kSA8wk+JZs9
+	FcD0J3j5NucufCJUoydPd97mPK7jg+5wUdpVL2ir9QmjDFCEy5jP9xTmDXT5SyhEKWfAAvh3U7d
+	nnmy/TMm2xffLbqV0XBGk43rrRIPdf4fXvLGUj7plN7Y3MlmSk6lKjdTvI73G9jLnOQXIvSmjd8
+	6Lm/StomFi1DYAIslsY5CDsKIv03TlYkKiKikgkZ2IDzDiIdiWsuIGwvs8Q+Vi3A1FqGPOBqNho
+	n9FB4A==
+X-Received: by 2002:a05:6512:3ba7:b0:59c:bf2e:fa15 with SMTP id
+ 2adb3069b0e04-59cbf2efb55mr3787256e87.5.1768987194335; Wed, 21 Jan 2026
+ 01:19:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ed97731c54ef130ea58861a91c80dacd785de9a.camel@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20251226235101.106451-1-vishnuocv@gmail.com> <20251226235101.106451-4-vishnuocv@gmail.com>
+ <aW7Gh6WsTjVo5IO_@archie.me>
+In-Reply-To: <aW7Gh6WsTjVo5IO_@archie.me>
+From: Vishnu Sankar <vishnuocv@gmail.com>
+Date: Wed, 21 Jan 2026 18:19:17 +0900
+X-Gm-Features: AZwV_QjqEORNJ_8f-MFBPABn9dnWmNGoiIrX3uwxX_lcnvbIxZvfTJIMH0UgnWc
+Message-ID: <CABxCQKuF_1w4iGwH4DVwWZSo1bfbUui8U_RenGBj8JYeCzOG9A@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] Documentation: thinkpad-acpi - Document
+ doubletap_enable attribute
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: dmitry.torokhov@gmail.com, hmh@hmh.eng.br, hansg@kernel.org, 
+	ilpo.jarvinen@linux.intel.com, corbet@lwn.net, derekjohn.clark@gmail.com, 
+	mpearson-lenovo@squebb.ca, linux-doc@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, 
+	vsankar@lenovo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 20, 2026 at 09:35:48AM -0500, Jeff Layton wrote:
-> Even better, I think?
+Hi Bagas,
 
-This sounds great, thanks!
+Thank you so much for the comments.
 
+On Tue, Jan 20, 2026 at 9:04=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> On Sat, Dec 27, 2025 at 08:51:01AM +0900, Vishnu Sankar wrote:
+> > +Values:
+> > +     * 1 - doubletap events are processed (default)
+> > +     * 0 - doubletap events are filtered out (ignored)
+>
+> Please separate the bullet list from "Values:" paragraph.
+Acked.
+I will update this in my V6.
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
+
+
+
+--=20
+
+Regards,
+
+      Vishnu Sankar
+     +817015150407 (Japan)
