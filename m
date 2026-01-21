@@ -1,211 +1,186 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011068.outbound.protection.outlook.com [40.107.208.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57E72F5A10;
-	Wed, 21 Jan 2026 17:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3069F316192
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 17:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769018330; cv=fail; b=HHWN53KqfUlCzfnAZVEv3uB2WyEC0bLBm8G9I75Mkgmr9n/2l752/VROytTxR+TRVN0KPTaWvLIjAht2WnLhVUGUt40QX0A3a6YUbnvKB4Z3KXK7Z/YN/AqDMp/3FPiSLTC3VPArKf4NJ0dhe3lh7pauzBcTs6WiWXhn3tJGXBU=
+	t=1769018390; cv=pass; b=cDFNzw+18I2dPFOxpHtLAcvKaHNs1m500YmlXGEpN/MBFmTurZW14LICBSFR8JVjI8h/Yw3RsURlzfU7Ah3fbLDc+GxGv4sy9DEHTXzgCr5wzrImu33b28yqYbAWRvQ/ztVVRjzhZ3KKbuY5kNkUyoqRtKE+6yxkaX+skqO8Ghg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769018330; c=relaxed/simple;
-	bh=kUOVRp/Dqxqdil7X2Pz4zkmi27Vb4s1c2daZCRZUhLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AK4fNcxGe+dYWtIcehvCavLeN7G3jjNX+Yb4CvdSLvBdcSO4ZCv8AByIW33rKRro9/iaWVwG3aVOuo5qfWftIaMLbgJP5wIpSclk8iDnGOYJA4zXxNJNjGSWRGzI8HHqu0zGuZM4Gta7Hhqtg5Ut/zctBAg9d3PdCthF3oOF8Vg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HJrQ9Uzw; arc=fail smtp.client-ip=40.107.208.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1769018390; c=relaxed/simple;
+	bh=5wJnFw3PWGsP/L9WwaFzD4wkm2L2MyUZx6M0XU5KnCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lCegVG39BxFzOZ1xKvkOWjrvm6vJO26Esp4g4z0WalT4s8dMrfZkdsGsbN5+MShmFZtLvplQk42ACIih+kcN8hLRScVIuuFc4/Eyej7lMGhDZWowVWUTklMObZJ3HmsQOTCUPM31L0Tp2vR4xd0FihS7m3fzc10EJKSHm+Z8BF0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=o2aEcdR8; arc=pass smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HJrQ9Uzw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Grj9uWmeKK/8ySYRmTFidj0jejCoP2SR/xW/PGEow5MGrrnoUY7zLYv5moBWOnG6vM3Iuvg0ERYZWb+N7tqEkIS5W1JP+rscjJ48T/m6od6MMw9q6m0pkg6KdlKISjlTSDb9wFoyTdZNamwv6qjXg/Ph5Xh/oBlwd0b2IOoITUfyC+Xp9QIlL7sBbRbXPoCYdx85ClQdaNYD8Ka6bJlS9TfNfPIcdUTZbQ4+GULwTPFZN+D+320GYkDyqoxSE9ZTalwPE3Mn7HizZZfO5943q6WqD5kKbd1h0KEHZ9Ugsx6/4DY60U7btNnNgef0rXgRNI3yhE/MxugqsxZsHwbteQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k2nJo/IyrJBs96t+Sqn8fMULveLev4TsZBQ6SbPIUbQ=;
- b=phYaPYTZGiL+Vf33dtJjVSC9JZK+FSSD89VCAKDANmsLjUED+VKeqiuw1h+fqxReZLlgWlIfqBGSZB6yurAfUERXFKi9Kluuov9swOTisdz3gKPm/iwh1iMPLPpusOhTYT08extlqUQyoEGi3iy5xQBnNazHK72uKhVVf158tGlQuQaCOwPx77XaEQsRSdy8BWU/k/YXV373ZnbC7kdioH/upkcdyZPsNSwk1+M01dhuInPhrQdsDlIW0Aj8EyKjBovFH+kZ9QR0D8fXo14xE/AEXROVzUT3wrs9Kw55sEzXAqeidIKQE15l0yZf3xJhps6hjDV23PMu4avAzlSQvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k2nJo/IyrJBs96t+Sqn8fMULveLev4TsZBQ6SbPIUbQ=;
- b=HJrQ9Uzw4le0r/Hs/XGi6rDJpVAEfzbzJ3yKXl+mY8xtbTfOB+mox/QYZs12Hm7V9zwqYawsvcs3AUBoTLuOAXx45QEphuoNt+aBxzu2JXZYUJxwItouMbMiRidTKsfRvPM2dh8GRTUi7WUFTCpRS5Ze08attY+HEV+MG9HxQG14WH97t+etMrLguCzLb4xBm3v55E0UuWRZVOAJnKlgeW5eN3+0WHPxhVTiLVK/UUbygVfVDjgg/bbLBGM2Z3+YQA5tg3crgXZdTaRow1D6leL949f1z0ZEMzvRu911cZmXpLckgs2kufMITFY5bs0eUpFiyHoL/3yfltuYsTFYAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- DS5PPF5C5D42165.namprd12.prod.outlook.com (2603:10b6:f:fc00::64f) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Wed, 21 Jan
- 2026 17:58:43 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
- 17:58:43 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Baoquan He <bhe@redhat.com>,
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCHv4 07/14] mm/sparse: Check memmap alignment for
- compound_info_has_mask()
-Date: Wed, 21 Jan 2026 12:58:36 -0500
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <B752281D-4A31-4E2D-945B-FD18016B722E@nvidia.com>
-In-Reply-To: <20260121162253.2216580-8-kas@kernel.org>
-References: <20260121162253.2216580-1-kas@kernel.org>
- <20260121162253.2216580-8-kas@kernel.org>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0049.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::24) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="o2aEcdR8"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59b6c89d302so41285e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 09:59:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769018384; cv=none;
+        d=google.com; s=arc-20240605;
+        b=J32FwBODypmY+NjECb0n1N1BmYxIm4cct83n76KhoMGTe+7Luu7LHIuWEugPU/E5A9
+         pOpKSaVTYEurFumhTWrS1HxKHUP+56cNLHjzSC5ehm36MeNIUsJdhBkPLPkqbFl1dnnk
+         S8Rtxt3NGhPK/grp2Bgfj4Tn708iCZn74piLuhPrOd6z3G3j+79kVfplwA0NWehUyTUo
+         gI8OvuxuE8sRmeR1lblLXyBdyAdmSSeFDaPoVxCc+CJMoNVPWpmb4dWbJEQzrniPrhzT
+         exCVXvZ0HA/WfmIgjvG12El3oLxWEp4VatFBHuOGAGu2bfnwKYkjwyay7Vr73/c/79Ok
+         X+1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+vRpYn7EoZezAdH9Q0rbsZMXmV5i0aMEWNxHIvE4S8M=;
+        fh=yESshwBS3zEHTPaBFOH5s15PEApod01uGajj+UW5CKc=;
+        b=jK3e0aF6fsLc80zN5BvJpPdPg3iiMEm1GGqaNc11kzThBJV6s74n23jj/uaootsa07
+         t1qvpAXR7P+rr/ejV+FiM8eTPTY4mE2CGBrsJLmG8TuyFJSSYeByotMJyD90JeQ5Y0eY
+         RSKKLh2kweMkaaq02Qb8lLTwtKsXvk4OF5UKbd3S2YXCElfGHdlqJhd8NTeRzfQsEVa5
+         CkC1fY0e6YYJfBRVkajzDlTuC4/j/WKt60XgHeiedFVPi/3Crwikz1jap7oIDXEU90aM
+         Mo1izB9MdYxISiRMfylhTOYy3BkACmJhBGSl1xq2yHMRRSpCy1Y9srZk7jCUZ5ht7bzi
+         8Q3w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1769018384; x=1769623184; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+vRpYn7EoZezAdH9Q0rbsZMXmV5i0aMEWNxHIvE4S8M=;
+        b=o2aEcdR8CzgprfIED4g0hKu8p1nFURaS2aKz9DqXjnhgAOywomyvRXLEDZBCci5QN9
+         S3uFDPcXPJddnSKOO5uZzkmPxsbYmVuXF5uZ5hLtfnmsoeQTpNu4ZphpPoerXWx8+FWz
+         0AY3ac7EXf8cM5RhhPAHKWM8mXfXzUdxPdRE8XE7k1PfLQq1V4RKjP1VpV5tlPwIImRU
+         qk6fUDdga+scTvVKd6ry2mRBi2eBnAqdfmGZqpv1dZ19485ayEI85zKI9+fwTic4B8Zh
+         ofgBlOGdIO/3B9u858jBcNoQd83x3FEF7tbYLDlYyu2BqI+VDI92Sw9irlHN174jzzeh
+         SGCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769018384; x=1769623184;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+vRpYn7EoZezAdH9Q0rbsZMXmV5i0aMEWNxHIvE4S8M=;
+        b=oT/GDmG99GA7G44s23j1xUqrbxTT2Tdid66RIBAI9tSxZhdzoglRWVv1a6WqGvze9n
+         EmyZT/FqsKA5opmInL8uGETykh2iGxfcJp+cQAfZouBAVzrvtQdjRgOgTNZuUU4AAvLA
+         UnOykMS9cz8vtjTcEonecsf66pnEgKrlliWHh7tx1gYIzmfQmJkDX1EeWptXe5s4eVnA
+         6Ds9o0Cm5SN7THco4GLV3eOPkRAbYhkzRZndYfOtBB8rqyaQOudB4U5B+ZzkG5+FOCVs
+         i4Q2S+RwUu31gwe1X7xCJ47qupARzLtbGmCgFJxvrUvGBd9B3ocSMGbwCa3Pi6T3SIDv
+         UoSw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCTgtqWPGiB7mzVyN3H25JareJpmzk9f11lOuS04dVWpPtFKCHGISqSZsrlepc6A8VLySRAK5H33Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz50hWrEoCw+jbGRIxP0JPqutv30M3V509oGbYQklqbAzLD7YFR
+	u3vc07e8tx4ICR/0bj+dEngCTzdXJ5yWxKIXg+Wil7PNv/3ZnQs4XAAGEAxPVzfPFcDe8kGIkDv
+	MHUsWr6QPUDg7gJWvt5dKkdH+dLlmvlIGg2UBhHLw
+X-Gm-Gg: AZuq6aKjtR5PfaYNJFteBMTwFzFmCugizaPtIuafG+esvbrSBAboom2R9vDxmu6EM2u
+	J0OI7Vt6QhdzZHNey6AkiV7Hp3zpWely94H4U/FdMFguhKRqQUJvBPysBvCiLwB1KPXJ82gRthA
+	GRM+IBiS628JHqv3/Yt33nZdFITNU/tO4099PRHTzm1FhouxVj6C+S+QCQYyV4PlGGc9yvCRSIU
+	dlhQRwiBPvL8dc+3PsjpTVZYNmpJN6sXD8N4376DBf24hEYD7DusEKyH+FMa3FfT8QM8CN2oaI6
+	04s=
+X-Received: by 2002:a05:6512:12c5:b0:59b:70ff:200b with SMTP id
+ 2adb3069b0e04-59baeef1846mr5712407e87.53.1769018383603; Wed, 21 Jan 2026
+ 09:59:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DS5PPF5C5D42165:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0157925-7b1e-4910-83cb-08de5916b6e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?vzMYEIZNuRGrCK3JgUt48hCNyM2axq0L3Wm7Il82kt31Cz0aLZHvIkZ/UTCK?=
- =?us-ascii?Q?UUulaBbH19GVuAb/e5A/9x2I9jgE7JiRobzRdHuhpj5JbUsUDETIpj3sRD/O?=
- =?us-ascii?Q?hMTAnL4h0M7uSsE9Z92rF2jtW6FU79OYxs+TUP0tJV+bsxB9PT34gauvKKQf?=
- =?us-ascii?Q?LMaR/6+jFxLFsSVjA8LdifegMyMquBpNzfbeuJXfmzCvE8d7sq0KcVsoS2MD?=
- =?us-ascii?Q?aXDvIi8vRmg2473pqRiadRo+P5YGQ8OJyhxUwGfTkUeO0dcx7oWxG4tHfKW+?=
- =?us-ascii?Q?AdB8vQ80SVYIY0wrsd6P2pTFSBV0TOE7RZVpKrOLd6Z9JJ3JX7UdTEqS9l5/?=
- =?us-ascii?Q?7L6pd6+K+U74Spvx18AWM6xj4xMpMaVG3fwECrFkThRheOZC+QKtr0EBrEOS?=
- =?us-ascii?Q?41MXYpeF5vzEBxTqN8ExqsREOawM7T3AMy5vXxFmg4eLbi0+cgmER/r1FWZ1?=
- =?us-ascii?Q?mkHZzLsrPljLQUgpOGE9DUlnjVdhlHVNU28yMDRnaqhIUZpG6LL2I37B4rC1?=
- =?us-ascii?Q?E0NdKgY+3CdYAz0SH+6kBMhTdUu/w61u7rmdo839dz+Jki/DkEOFQWOhPcIp?=
- =?us-ascii?Q?vB4QZdRHO2tUIH1VK8oVLaNUMBs8o8NmBqhXNEzRwOmv4k+rEcz4g5w8yFq9?=
- =?us-ascii?Q?3+UGyaGViBAvpG5xlIhYX+NEwKNvXNIVN5PsFMzW9En5euQd0o5w0lirE4dq?=
- =?us-ascii?Q?d6WNmOQ4kEPjrl1G9VrxeCnsqvGmM28LxnxFYIiGd8Wv81XSATg1cj8cVap9?=
- =?us-ascii?Q?OtDW9xi/Gcd+plpon2GiYuXQ9FWYaq7HTkBy2qmxFYpK6f/MWa7y3Su0qOtB?=
- =?us-ascii?Q?W9V9/NURIx26WeW/vZILeQXVC2mg3TYvD+UHMLwEwGGkD79yT2Ms1IgcDB+w?=
- =?us-ascii?Q?++mH+wtG+5MYuHFRXXkZfCAHE13KDO0KX1lrMQhZOhsNhYFtRDKraULVLNDq?=
- =?us-ascii?Q?Y++u2ur4tbnZqscphBbww3G4EoYzu+fisoDL+w8U3JuJFlqQYavfwkh8L4Hg?=
- =?us-ascii?Q?DZ3CRuvv7vrTcjd7NU88ZZe7GDwTgTPPBA5ejT3TFX5ojJk1v2ei+NfuxaBj?=
- =?us-ascii?Q?uVT0gfNKuBmusmk+2GpxWoMUER962xSCsJjoFsasTlOM/k2EBuqA1PnIaCvW?=
- =?us-ascii?Q?NJOyx/1iggclNeJMrv3+W5t1jMukwCaXqkfXkMsGmP9N8nxlTURphtol/zQu?=
- =?us-ascii?Q?hO9VhkirtRaaAl9B5hOa2Mim3NF10r0EYZDtpuz2/XeKaMaDj8pBIcwAU668?=
- =?us-ascii?Q?8BHs5yw/0fsEkf+LBPaRegODTm9qVK+qxu+i5ls5Oln1xLc0ui5Ve4rXubHe?=
- =?us-ascii?Q?oUgnejgBEq6W7whLcbttiRdbYxooNmhTSTi+qIx7d5KHgo4j+X55aoqqRA9F?=
- =?us-ascii?Q?xQg4RI0Ywywmt48GO2cAHIlSjbfiRhXIRf6u5u5iUvN1p6wQmcl4OtryiJ6U?=
- =?us-ascii?Q?Mx2j8eTJxLJlU2rdV+Xvc3XRd8kKUVQayGfzqw1zu38NdpIGrw7OrNQHHPBA?=
- =?us-ascii?Q?WC2lg2I9pJ9yng+MVbsc5Osl4bMIzHJL1slni/NJAyp1dS7q5dWf2mfuxw75?=
- =?us-ascii?Q?eQDfRB4yOiyenO32xqw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0Ntro48KmNf1jFC+BqttgsOl/4jKqPMiBFUpBaRpMXsthbasXtojXj1USp7e?=
- =?us-ascii?Q?gzkA6duBu0/Ne9GdrWzxyJf72pCxdjByiNXxeG0FS4dQr0JHM5adtwcH3eTV?=
- =?us-ascii?Q?siz1aQybCo63yEghOq9y1SYV1GSM/neHzkTyU9f9XRB6ifmH0AhheqVSH72y?=
- =?us-ascii?Q?ysRem7Xcmbz3HcIisu3aY/kR/9+tXfyxI4bsMBSr8djyGz10TiNMR9auphRT?=
- =?us-ascii?Q?j8UgVNSdXwpJ/DV1KayYFBJCDatQHEf12eu1mdEVSO1NozwAGKVMEgbMAPdO?=
- =?us-ascii?Q?LMw07BhI2zG1opUQD3LUwI3xcLzE3rihVJ+/aruVNy9W/OkOr6zVo1hOxeA9?=
- =?us-ascii?Q?F2QJggUoXCJ2LMQt9sFt3M1GoJK9LSZr8YooGnNmwPjD6f8+GNMZI0LY65kt?=
- =?us-ascii?Q?UnPsxyePKzBE88z+ExlTMCdnhlnoPggBF80M08XsAhcWIQYiUs+LJNTIqme1?=
- =?us-ascii?Q?fWAV2F49BQBJQb/2lL2avELVEQKkAJB8c1MkhBkCdK+hxRrOQMPJnxmDTAnK?=
- =?us-ascii?Q?vtmTCMAAb2oenHt/1qiWvHhwxaiCi94qoDreg7NdYC0HanZAmtJXM1WeEEJY?=
- =?us-ascii?Q?9+OEMDi9ZAyBkT8vACGmKrcUj2hV43MU/J4RusjxV0EPuqLm/8Amo/C7BTaz?=
- =?us-ascii?Q?nUGVS6/nBaa9iaoV8K9F4w6PEV9aJewpcfVMXMn88o33dEcwlNsmfvQsLvZf?=
- =?us-ascii?Q?01itQqampelYt0MxnA39LgLIv/YCJc+nC++KspteSJdZHDYf6bdmLTs7CbPQ?=
- =?us-ascii?Q?ajHPQHLTBnNB3/wBDslEqjBqGy8Jx4AVFwv3DhsXUWSRtDT9dmX+pkDv/hgu?=
- =?us-ascii?Q?9S1tlnrN6/vY1oOuIBzpdVhvjAqgYHPgsrpKxipFmNuj8bYh/smIZmUpB6Rv?=
- =?us-ascii?Q?YHNCQOD8WuYot7DVHclnG5c8zOTAOu2gGe9+pUoXbdUssorMIddUHHEQWFGi?=
- =?us-ascii?Q?oKLeMpRJh5ufRfAwJNXKs4EPmCz4Y8tq8oqtXlzRiiTzI4I5AkYp6KIG3MYG?=
- =?us-ascii?Q?y+s0H8VSeecaZXDpx40rk4MY5ID2vdzIFY0ME+DCfhLcZ6Mztm1IkvR74qIC?=
- =?us-ascii?Q?5lzYzqJutEign/g9vu1TfJFNKB7AFwB6ARYLZZFH67K4mfd1gIEI4tZpfoO2?=
- =?us-ascii?Q?drUkMceWefEaD4QpDA9G2sGsVibfP6WhNCxNcfIeYQRgmrqxARBye3QHUs+6?=
- =?us-ascii?Q?3pZaf2aLWkGsn6AmWbEDq2y+PW3FewS2KKur+l+UspvRxV7peWVohu0DBm2C?=
- =?us-ascii?Q?525mENULJ8AYpLABH0/mbN/hVYDYFk0V7zHyIECzHIqLGN/Mata2r9kOx4Cj?=
- =?us-ascii?Q?iUybiGjtfDqKpA//SreDdNvccA69XJfqs6j91I7Nj7yGLSvpXr6qp8oaE5QB?=
- =?us-ascii?Q?jdhjZ79Q8J1F5HK+aInJ6b6TRbxZoRYwy/hr/wTiZ8CkanwfZlEZTa6Cv+QU?=
- =?us-ascii?Q?1gD98ESqQqWHR9DHMVFHV8GmL30+lFf+OPqatqe9/1d2PRDZBnqcO6ZUqTHH?=
- =?us-ascii?Q?oyS7GpCYCwUIXJqZz1RwDXYQhW/pXhnPYAIX8ZNRGRAYur/lFS0qOEL32D6W?=
- =?us-ascii?Q?867KYXKI0AT4ynV/x0hUfohxY7mOXUuSof+xQlZ3RTeqx9wL0kalbvrKQXps?=
- =?us-ascii?Q?09uiq8vxHYuO/htTJiFF9UMZr1hW7dTnA5bbAO5fPcZpS7QLfvYlbILe9eNO?=
- =?us-ascii?Q?zuke5K5Qnhe1QVt4dGh+HP+IC5Twp3mnu+9IowzT69ipckhw5gbiZ62VPO/Z?=
- =?us-ascii?Q?01JPDhNpOA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0157925-7b1e-4910-83cb-08de5916b6e4
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 17:58:42.7106
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lKiqkKri6+e+s1gg1eD4BV1mX4R2woVi98qO1HiElqItPusfGxWlkuUDj+1OiQlz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF5C5D42165
+References: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
+ <20251211124614.161900-7-aleksandr.mikhalitsyn@canonical.com>
+ <CANaxB-z8+UhZ+smuocN8h+YZY9tdKobhAu3H6fmzq+WzFmMrjg@mail.gmail.com> <2026-01-21-tame-yapping-name-paste-hnBZQp@cyphar.com>
+In-Reply-To: <2026-01-21-tame-yapping-name-paste-hnBZQp@cyphar.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 21 Jan 2026 09:59:32 -0800
+X-Gm-Features: AZwV_Qixaq2tKaBHL4PHonGnZsPxxYvp8csVlFiB7Zqqz-exNx5TDrfDXNalgoU
+Message-ID: <CALCETrXbTjD4ChWnhH8tRZ8MSGQqfueQPwv9EvT_aQ8gnnfaEw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] seccomp: allow nested listeners
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Andrei Vagin <avagin@gmail.com>, 
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>, kees@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	Will Drewry <wad@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Tycho Andersen <tycho@tycho.pizza>, Christian Brauner <brauner@kernel.org>, 
+	=?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@stgraber.org>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21 Jan 2026, at 11:22, Kiryl Shutsemau wrote:
+On Wed, Jan 21, 2026 at 7:43=E2=80=AFAM Aleksa Sarai <cyphar@cyphar.com> wr=
+ote:
+>
+> On 2026-01-20, Andrei Vagin <avagin@gmail.com> wrote:
+> > On Thu, Dec 11, 2025 at 4:46=E2=80=AFAM Alexander Mikhalitsyn
+> > <aleksandr.mikhalitsyn@canonical.com> wrote:
+> > >
+> > > Now everything is ready to get rid of "only one listener per tree"
+> > > limitation.
+> > >
+> > > Let's introduce a new uAPI flag
+> > > SECCOMP_FILTER_FLAG_ALLOW_NESTED_LISTENERS, so userspace may explicit=
+ly
+> > > allow nested listeners when installing a listener.
+> >
+> > I am not sure we really need SECCOMP_FILTER_FLAG_ALLOW_NESTED_LISTENERS=
+.
+> > If nested listeners are completely functional, why would we want to
+> > implicitly allow or disallow someone from using them?
+>
+> It can be quite easy to deadlock a process using seccomp-notify (even
+> in the single-notifier case) so especially in the case of container
+> managers I can see the argument for wanting this to be an opt-in thing
+> once container runtimes have verified their notifier won't break
+> nesting.
 
-> If page->compound_info encodes a mask, it is expected that memmap to be
-> naturally aligned to the maximum folio size.
->
-> Add a warning if it is not.
->
-> A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so the
-> kernel is still likely to be functional if this strict check fails.
->
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> ---
->  include/linux/mmzone.h | 1 +
->  mm/sparse.c            | 5 +++++
->  2 files changed, 6 insertions(+)
->
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index 390ce11b3765..7e4f69b9d760 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -91,6 +91,7 @@
->  #endif
->
->  #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
-> +#define MAX_FOLIO_SIZE		(PAGE_SIZE << MAX_FOLIO_ORDER)
->
->  enum migratetype {
->  	MIGRATE_UNMOVABLE,
-> diff --git a/mm/sparse.c b/mm/sparse.c
-> index 17c50a6415c2..5f41a3edcc24 100644
-> --- a/mm/sparse.c
-> +++ b/mm/sparse.c
-> @@ -600,6 +600,11 @@ void __init sparse_init(void)
->  	BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
->  	memblocks_present();
->
-> +	if (compound_info_has_mask()) {
-> +		WARN_ON(!IS_ALIGNED((unsigned long)pfn_to_page(0),
-> +				    MAX_FOLIO_SIZE / sizeof(struct page)));
-> +	}
-> +
+Is the deadlock such that a process and its manager can deadlock in a
+way that's hard to kill?  Or is there some problem that could
+adversely affect an outer manager?  It would be nice for these
+features to be automatic instead of opt in.
 
-16GB is only possible in arm64 with 64KB base page. Would it be overkill
-to align vmemmap to it unconditionally? Or how likely will this cause
-false positive warning?
+(I just wasted half an hour yesterday removing use of
+unshare(CLONE_FILES) from a program that didn't run under a container
+manager that, for some reason, thought that was a sensitive syscall.)
 
->  	pnum_begin = first_present_section_nr();
->  	nid_begin = sparse_early_nid(__nr_to_section(pnum_begin));
+--Andy
+
+>
+> > Actually, even the current behavior of SECCOMP_RET_USER_NOTIF looks a
+> > bit illogical. I think the following behavior would be more expected:
+> > instead of running all filters and picking the most restrictive result,
+> > the kernel should execute them one by one (most recent fist). If a filt=
+er
+> > returns USER_NOTIF, the kernel pauses immediately to let the listener
+> > handle the call. If that listener then issues "CONTINUE", the kernel
+> > resumes by running the remaining older filters in the chain.
+>
+> I guess there is a philosophical argument that earlier filters are "more
+> trusted" but the seccomp security model has always been that the
+> strictest filter return wins and I don't really see a strong argument
+> for deviating from that for USER_NOTIF.
 >
 
-Anyway,
+I don't know if I agree with that philosophy.  I would think the best
+philosophy is that, when filters are nested, the innermost filter +
+filtered task combination acts as a unit that is filtered by the outer
+filter.
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+Without notifiers and without filters that overwrite errno, I think
+strictest-wins is a decent approximation -- the choices are kill or
+allow, although one might quibble about the various forms of "kill".
 
+With SECCOMP_RET_ERRNO, I would argue that the behavior would be
+superior if we just stopped processing filters after an inner filter
+returned SECCOMP_RET_ERROR.  After all, the effect is to do no syscall
+at all, and having a process that didn't do a syscall get killed
+because it tried a bad syscall is kind of weird.
 
-Best Regards,
-Yan, Zi
+With notifiers, this is all rather more complex.  Notifiers can
+emulate syscalls, and having an outer notifier somehow process the
+syscall that was replaced by an inner notifier seems rather weird.  Or
+suppose that an outer filter wants to prevent some operation, but an
+inner system wants to emulate it in a way that doesn't do the
+offending syscall, why not allow it?
+
+So I'd argue for considering changing the behavior for everything,
+maybe optionally?  I'm not really sure where TRACE fits in.
+
+--Andy
+
+--=20
+Andy Lutomirski
+AMA Capital Management, LLC
