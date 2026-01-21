@@ -1,302 +1,415 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4624C040C;
-	Wed, 21 Jan 2026 14:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769006899; cv=pass; b=IrVam4Pe5UdcbViRwS33/SoGg4s+yuj6n3ruIIgYbeYvLVs3r4KLjTHuPKFdJCApLijKQm31/9ovUlmEojr6vGcYjGK7jtezOwQGpAOqpwj7Xo/a/ZByErGwdEenX/zg+EwbX+K4p3skuLSztihOEVksIUmZw59ACaRn8JXGczc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769006899; c=relaxed/simple;
-	bh=pGE0PIy8W/E/U7DQqVPXHM3rBx5JPfBTHiacQVrwiIw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gD8tzt+HI2Vgr6O4VLQFg84BlWotv2ATdojxPfk4uOybzMwzUm+MEUzzQFDgpKZmmqka2CUeMz/LB3VjD6Q9C6nEqQw14YEXqMkwvQdbPUfpEZohOdlG3+J0IbN1IXSFdqFyGHPvB9Of0X9pgB7igg6S9awwHKF5e7/wb1UmWdg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=HTZZ5vvq; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770204C8FE6
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 14:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769006904; cv=none; b=L6uBtvyNqBoKJT3TKbm+K0B27gtaVSEKNvk3yFW8W4hn0fKMhF3MA98vg5A5hTNb1HBmPYsy0S0mQ3Ok6pkA8Ab+HiEH2wzBhzlXfkOiUVoHE1Lz8pDugPa0yf/WQ6E+u9YdUCbqvZN//3h0RHW2MxSqRlFkHL31j9ulJCkgf+Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769006904; c=relaxed/simple;
+	bh=QUpRm5BO1PsMpJA/m+7TudemIjgPpKiHIo5jnkzHoIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=syg1d99kCPdAXRGyYU30HjXNBD1Dx1wg4rvcHKzgN7s2WZE7Gvezf8SiKNoxnj3G9Q2KNQMBBBuJ05mccAHoGJdASY48wVx7xDZf9GTemX/RS6lchPKJsVsP/ZmBOkkoi7ht3uKMJgoQ3T9cTR7EW57ou9tKbB8T0VDjn88i9zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z8bunWfz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=YRjmRTpM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="HTZZ5vvq"
-ARC-Seal: i=1; a=rsa-sha256; t=1769006852; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=b3nlQgy7kqy5vZLDiUJeco/gTNL+mlVmFBjg1D711N6ZGdVnOU2kx6xhhJ7gIYsLIlP8+KHP13qcvlbFZ+hs5OxHaTkZt9KzYGQSH9byTIOUamfFUD9PZaCmGX3bbMkTlhrsHu+adoaVLdFC2XsoRp2jMMgoJc0GVry5pFYhIOY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769006852; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=qFgsuYFcKp2aiHu+Dr9JQBFDziu8Ye39CXeQpE5eav4=; 
-	b=BIkGzs8mDov0gg17QZUJpagluJcGGmDXu4GWVt45btR2q1vdbxOl5bSUdyLeSztDg96K8uXEeLN9rcn/gg9MeuiIT9IGj9jlbpj82jfvTNlhBzUr5yoxEDcEveje+jHpPDFThHjRMrk8LngKBg3YCvMfhAO4y2g+sg7Ef4jn/Pg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769006852;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=qFgsuYFcKp2aiHu+Dr9JQBFDziu8Ye39CXeQpE5eav4=;
-	b=HTZZ5vvqzI4ZGz7XAqz5faoCfTX0jZtbqCys8MzDhlcGDmEN4CtsP4RBdN3Tk2JQ
-	l7qVkPLW6Ue6YoqUYWdLLtp1+rSQQBdsWo607Czlsc8YUJOPnGe4IhMxRSongxUC72K
-	rWn2P3xDLPDevCT4E6BRL9qYFA9UuWnjaomwBg9Y=
-Received: by mx.zohomail.com with SMTPS id 1769006851344687.0807726798835;
-	Wed, 21 Jan 2026 06:47:31 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 21 Jan 2026 15:45:22 +0100
-Subject: [PATCH v7 15/22] drm/rockchip: dw_hdmi_qp: Implement "color
- format" DRM property
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z8bunWfz";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="YRjmRTpM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769006901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VUJ1S4k/wjMiGcuwXZdRwnP1r4qcoeHu/Fk7TCF9Czg=;
+	b=Z8bunWfzmuii76fWRsYYofShRwYg2W/M5qdqU3GrFAFNjixqYiBRJ1+wWD0a8fdc4gjgMy
+	R18+kbl7WH2wwG0uH3meXV8UZkpyn/DG0Gsbp25ad+UIx0prPOgbIgYneAQbjchwdC17Lk
+	q5sSlgSjCvJIFYLzmAFldfEMWHTInyI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-471-jk7-GhFXOaOJq3sjLkgkVA-1; Wed, 21 Jan 2026 09:48:19 -0500
+X-MC-Unique: jk7-GhFXOaOJq3sjLkgkVA-1
+X-Mimecast-MFC-AGG-ID: jk7-GhFXOaOJq3sjLkgkVA_1769006899
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-47edf8ba319so56973935e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 06:48:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1769006898; x=1769611698; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VUJ1S4k/wjMiGcuwXZdRwnP1r4qcoeHu/Fk7TCF9Czg=;
+        b=YRjmRTpMJdzf8jSCZR5c6CUp2tqRg1IYXX7KFzzPx+S1hKu0rBPBEabK10izkFbZb7
+         8aTnKUHGysBsdMwSM6i9tSiwT71ZCiKtR2fQRqKUiZmonS6Z8AyvmSmolPtWBVzi7hid
+         EriDanVwNTHpbXWDo6tL0DmgFyKRtm45oqiTwimWc6fGHGZqX9bFE4/tqm8Mrcrc5sMj
+         x3yLAIEr2mCNho2mM2Zl7hYMhul16caalRx/hFxITRdpOGTsUitDlvoxNGSWYIWp3/L4
+         vieFfk4GkGCcCeXe+jUnyK529YJzuOzknU5KJP4gS1gW7Uht45DCb4t/gtJJAyN3p+jr
+         Zv8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769006898; x=1769611698;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VUJ1S4k/wjMiGcuwXZdRwnP1r4qcoeHu/Fk7TCF9Czg=;
+        b=lbKtR/mQctdvzE0/jtCo3cdunIwQWwPOzx9+wubYmwpalMc3sD08iKyeyT0uB2tPfK
+         6qHNAbZ+6C6P93LUfSlbl5pGVujBNfOXLYUA8JIMIWIsf2W7HPUeoppYjDXxBa8npJHi
+         P/Eg4mUOPS98sV+CH57GpJkA6GbvNiKQMzu8zPmfX0jahPRHMK254SWhpxgKfIfDg1Kb
+         3VusO5HZMB/ucCIXcOMHzLZe04Lyky/JOBUO4mgdiAQTNaLhRFGpYnSvGVTrFz+f7HD4
+         GjHtD6jkORCcasNsm+et+rbCio6Z3cE/MCfaIpwq1F/BOQtPV5aB8P/KBPAQ9pYIWsNp
+         G2jA==
+X-Forwarded-Encrypted: i=1; AJvYcCXARE9Wpd5b0oKRqvn0xvAmZktejvJmdxcBihrIZv+eSt/Duj39qTcJR6qELiWv2xlo4nZn6H/bcxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRfynCK9PHt0CzelmNPwuIHMnmTGyRnfvekdPtUvCdYxxnsYea
+	eGudmM+QH60i0HthuL51I8OavcBWUPTkqwSaEwtF4RUE0uLWNi8AQ39dsLumRUOIaP+mZXHQr/q
+	c+UWuXApGkWAV6NDyGApA4tABKTtg1WgN5XWrRlO7jHWQmIwPlTV14q5f3Bkqqw==
+X-Gm-Gg: AZuq6aKN6CuOw6SC7VJ23f1oUMh6MHDa0nqEsu++N4Famh29zkCdCR9rEUGjLhLQwbq
+	1Ij7a4pFo7dvx3DMleeEX/Oc0UyBT59BassMrAYDJfYTQRHbFR/QW6aHNBmj3Lqxcg7m7wm496L
+	uH6JnwPy6K9a5PHqbCpQs0E/16pprhZjFOKQBKvoh+6zrD1xRuGYhu60CbH2KtZR6y6DIYMq8vd
+	E6Jlpj0AmE8LJ9NIdvA/GVCRlLETCzQYVoWUkSmKBwqBZj06lRB0jJxf55KDk3S1WY+zAEPonZ7
+	Q/URtzdyP8QJg1pbSmapBeZDf5MQ1HfkckQtO7NyXFXI7dqksZ5oWOGEx3KXPBuYbv7H0sHY/Bc
+	0q+hamHmQJQHKU8Qkp8kVViAlVrfYt4HRvUdXe4gzGV8E4BxcwmLzv+X11fU=
+X-Received: by 2002:a05:600c:820b:b0:47a:9560:ec28 with SMTP id 5b1f17b1804b1-4803e7a2d1dmr73114185e9.13.1769006898448;
+        Wed, 21 Jan 2026 06:48:18 -0800 (PST)
+X-Received: by 2002:a05:600c:820b:b0:47a:9560:ec28 with SMTP id 5b1f17b1804b1-4803e7a2d1dmr73113705e9.13.1769006897944;
+        Wed, 21 Jan 2026 06:48:17 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48042c5965fsm22479875e9.17.2026.01.21.06.48.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 06:48:16 -0800 (PST)
+Date: Wed, 21 Jan 2026 15:48:13 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>, 
+	linux-doc@vger.kernel.org, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v15 01/12] vsock: add netns to vsock core
+Message-ID: <aXDYfYy3f1NQm5A0@sgarzare-redhat>
+References: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
+ <20260116-vsock-vmtest-v15-1-bbfd1a668548@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-color-format-v7-15-ef790dae780c@collabora.com>
-References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
-In-Reply-To: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260116-vsock-vmtest-v15-1-bbfd1a668548@meta.com>
 
-Switch between requested color formats by setting the right bus formats,
-configuring the VO GRF registers, and setting the right output mode.
+On Fri, Jan 16, 2026 at 01:28:41PM -0800, Bobby Eshleman wrote:
+>From: Bobby Eshleman <bobbyeshleman@meta.com>
+>
+>Add netns logic to vsock core. Additionally, modify transport hook
+>prototypes to be used by later transport-specific patches (e.g.,
+>*_seqpacket_allow()).
+>
+>Namespaces are supported primarily by changing socket lookup functions
+>(e.g., vsock_find_connected_socket()) to take into account the socket
+>namespace and the namespace mode before considering a candidate socket a
+>"match".
+>
+>This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
+>report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
+>for new namespaces.
+>
+>Add netns functionality (initialization, passing to transports, procfs,
+>etc...) to the af_vsock socket layer. Later patches that add netns
+>support to transports depend on this patch.
 
-To do this, the encoder's atomic_check queries the bus format of the
-first bridge, which was determined by the bridge chain recursive format
-selection. Pick the input format if it's !FIXED, otherwise, pick the
-output format.
+nit: maybe we should mention here why we changed the random port 
+allocation
 
-The previously unused GRF register color format defines are redone as
-well. Both RK3588 and RK3576 use the same defines; it didn't look like
-this as there was a typo in the previously (unused) definition.
+(not a big deal, only if you need to resend)
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 107 ++++++++++++++++++++++---
- 1 file changed, 98 insertions(+), 9 deletions(-)
+>
+>dgram_allow(), stream_allow(), and seqpacket_allow() callbacks are
+>modified to take a vsk in order to perform logic on namespace modes. In
+>future patches, the net will also be used for socket
+>lookups in these functions.
+>
+>Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+>---
+>Changes in v15:
+>- make static port in __vsock_bind_connectible per-netns
+>- remove __net_initdata because we want the ops beyond just boot
+>- add vsock_init_ns_mode kernel cmdline parameter to set init ns mode
+>- use if (ret || !write) in __vsock_net_mode_string() (Stefano)
+>- add vsock_net_mode_global() (Stefano)
+>- hide !net == VSOCK_NET_MODE_GLOBAL inside vsock_net_mode() (Stefano)
+>- clarify af_vsock.c comments on ns_mode/child_ns_mode (Stefano)
+>
+>Changes in v14:
+>- include linux/sysctl.h in af_vsock.c
+>- squash patch 'vsock: add per-net vsock NS mode state' into this patch
+>  (prior version can be found here):
+>  https://lore.kernel.org/all/20251223-vsock-vmtest-v13-1-9d6db8e7c80b@meta.com/)
+>
+>Changes in v13:
+>- remove net_mode and replace with direct accesses to net->vsock.mode,
+>  since this is now immutable.
+>- update comments about mode behavior and mutability, and sysctl API
+>- only pass NULL for net when wanting global, instead of net_mode ==
+>  VSOCK_NET_MODE_GLOBAL. This reflects the new logic
+>  of vsock_net_check_mode() that only requires net pointers (not
+>  net_mode).
+>- refactor sysctl string code into a re-usable function, because
+>  child_ns_mode and ns_mode both handle the same strings.
+>- remove redundant vsock_net_init(&init_net) call in module init because
+>  pernet registration calls the callback on the init_net too
+>
+>Changes in v12:
+>- return true in dgram_allow(), stream_allow(), and seqpacket_allow()
+>  only if net_mode == VSOCK_NET_MODE_GLOBAL (Stefano)
+>- document bind(VMADDR_CID_ANY) case in af_vsock.c (Stefano)
+>- change order of stream_allow() call in vmci so we can pass vsk
+>  to it
+>
+>Changes in v10:
+>- add file-level comment about what happens to sockets/devices
+>  when the namespace mode changes (Stefano)
+>- change the 'if (write)' boolean in vsock_net_mode_string() to
+>  if (!write), this simplifies a later patch which adds "goto"
+>  for mutex unlocking on function exit.
+>
+>Changes in v9:
+>- remove virtio_vsock_alloc_rx_skb() (Stefano)
+>- remove vsock_global_dummy_net, not needed as net=NULL +
+>  net_mode=VSOCK_NET_MODE_GLOBAL achieves identical result
+>
+>Changes in v7:
+>- hv_sock: fix hyperv build error
+>- explain why vhost does not use the dummy
+>- explain usage of __vsock_global_dummy_net
+>- explain why VSOCK_NET_MODE_STR_MAX is 8 characters
+>- use switch-case in vsock_net_mode_string()
+>- avoid changing transports as much as possible
+>- add vsock_find_{bound,connected}_socket_net()
+>- rename `vsock_hdr` to `sysctl_hdr`
+>- add virtio_vsock_alloc_linear_skb() wrapper for setting dummy net and
+>  global mode for virtio-vsock, move skb->cb zero-ing into wrapper
+>- explain seqpacket_allow() change
+>- move net setting to __vsock_create() instead of vsock_create() so
+>  that child sockets also have their net assigned upon accept()
+>
+>Changes in v6:
+>- unregister sysctl ops in vsock_exit()
+>- af_vsock: clarify description of CID behavior
+>- af_vsock: fix buf vs buffer naming, and length checking
+>- af_vsock: fix length checking w/ correct ctl_table->maxlen
+>
+>Changes in v5:
+>- vsock_global_net() -> vsock_global_dummy_net()
+>- update comments for new uAPI
+>- use /proc/sys/net/vsock/ns_mode instead of /proc/net/vsock_ns_mode
+>- add prototype changes so patch remains c)mpilable
+>---
+> Documentation/admin-guide/kernel-parameters.txt |  14 +
+> MAINTAINERS                                     |   1 +
+> drivers/vhost/vsock.c                           |   6 +-
+> include/linux/virtio_vsock.h                    |   4 +-
+> include/net/af_vsock.h                          |  61 ++++-
+> include/net/net_namespace.h                     |   4 +
+> include/net/netns/vsock.h                       |  21 ++
+> net/vmw_vsock/af_vsock.c                        | 328 ++++++++++++++++++++++--
+> net/vmw_vsock/hyperv_transport.c                |   7 +-
+> net/vmw_vsock/virtio_transport.c                |   9 +-
+> net/vmw_vsock/virtio_transport_common.c         |   6 +-
+> net/vmw_vsock/vmci_transport.c                  |  26 +-
+> net/vmw_vsock/vsock_loopback.c                  |   8 +-
+> 13 files changed, 444 insertions(+), 51 deletions(-)
+>
+>diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>index a8d0afde7f85..b6e3bfe365a1 100644
+>--- a/Documentation/admin-guide/kernel-parameters.txt
+>+++ b/Documentation/admin-guide/kernel-parameters.txt
+>@@ -8253,6 +8253,20 @@ Kernel parameters
+> 			            them quite hard to use for exploits but
+> 			            might break your system.
+>
+>+	vsock_init_ns_mode=
+>+			[KNL,NET] Set the vsock namespace mode for the init
+>+			(root) network namespace.
+>+
+>+			global      [default] The init namespace operates in
+>+			            global mode where CIDs are system-wide and
+>+			            sockets can communicate across global
+>+			            namespaces.
+>+
+>+			local       The init namespace operates in local mode
+>+			            where CIDs are private to the namespace and
+>+			            sockets can only communicate within the same
+>+			            namespace.
+>+
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 1a09bcc96c3e..d39a4284b92c 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -11,6 +11,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/hw_bitfield.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/media-bus-format.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-@@ -43,10 +44,6 @@
- #define RK3576_8BPC			0x0
- #define RK3576_10BPC			0x6
- #define RK3576_COLOR_FORMAT_MASK	GENMASK(7, 4)
--#define RK3576_RGB			0x9
--#define RK3576_YUV422			0x1
--#define RK3576_YUV444			0x2
--#define RK3576_YUV420			0x3
- #define RK3576_CECIN_MASK		BIT(3)
- 
- #define RK3576_VO0_GRF_SOC_CON14	0x0038
-@@ -74,8 +71,6 @@
- #define RK3588_8BPC			0x0
- #define RK3588_10BPC			0x6
- #define RK3588_COLOR_FORMAT_MASK	GENMASK(3, 0)
--#define RK3588_RGB			0x0
--#define RK3588_YUV420			0x3
- #define RK3588_SCLIN_MASK		BIT(9)
- #define RK3588_SDAIN_MASK		BIT(10)
- #define RK3588_MODE_MASK		BIT(11)
-@@ -87,6 +82,11 @@
- #define HOTPLUG_DEBOUNCE_MS		150
- #define MAX_HDMI_PORT_NUM		2
- 
-+#define RK_COLOR_FMT_RGB		0x0
-+#define RK_COLOR_FMT_YUV422		0x1
-+#define RK_COLOR_FMT_YUV444		0x2
-+#define RK_COLOR_FMT_YUV420		0x3
-+
- struct rockchip_hdmi_qp {
- 	struct device *dev;
- 	struct regmap *regmap;
-@@ -115,6 +115,33 @@ static struct rockchip_hdmi_qp *to_rockchip_hdmi_qp(struct drm_encoder *encoder)
- 	return container_of(rkencoder, struct rockchip_hdmi_qp, encoder);
- }
- 
-+/**
-+ * dw_hdmi_qp_rockchip_bus_fmt_to_reg - converts a bus format to a GRF reg value
-+ * @bus_fmt: One of the MEDIA_BUS_FMT_s allowed by this driver's atomic_check
-+ *
-+ * Returns: an unshifted value to be written to the COLOR_FORMAT GRF register
-+ * on success, or %-EINVAL if the bus format is not supported.
-+ */
-+static int __pure dw_hdmi_qp_rockchip_bus_fmt_to_reg(u32 bus_fmt)
-+{
-+	switch (bus_fmt) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+		return RK_COLOR_FMT_RGB;
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
-+		return RK_COLOR_FMT_YUV422;
-+	case MEDIA_BUS_FMT_YUV8_1X24:
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+		return RK_COLOR_FMT_YUV444;
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+		return RK_COLOR_FMT_YUV420;
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
- {
- 	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
-@@ -130,29 +157,83 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
- 		hdmi->ctrl_ops->enc_init(hdmi, to_rockchip_crtc_state(crtc->state));
- }
- 
-+/**
-+ * dw_hdmi_qp_rockchip_get_vop_format - get the bus format VOP should output
-+ * @encoder: pointer to a &struct drm_encoder
-+ * @conn_state: pointer to the current atomic &struct drm_connector_state
-+ *
-+ * Determines which bus format the Rockchip video processor should output as
-+ * to feed into the bridge chain.
-+ *
-+ * Returns a MEDIA_BUS_FMT_* on success, or %0 on error.
-+ */
-+static u32 dw_hdmi_qp_rockchip_get_vop_format(struct drm_encoder *encoder,
-+					      struct drm_connector_state *conn_state)
-+{
-+	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
-+	struct drm_bridge_state *bstate;
-+
-+	bridge = drm_bridge_chain_get_first_bridge(encoder);
-+	if (!bridge)
-+		return 0;
-+
-+	bstate = drm_atomic_get_bridge_state(conn_state->state, bridge);
-+	if (!bstate)
-+		return 0;
-+
-+	if (bstate->input_bus_cfg.format != MEDIA_BUS_FMT_FIXED)
-+		return bstate->input_bus_cfg.format;
-+
-+	return bstate->output_bus_cfg.format;
-+}
-+
- static int
- dw_hdmi_qp_rockchip_encoder_atomic_check(struct drm_encoder *encoder,
- 					 struct drm_crtc_state *crtc_state,
- 					 struct drm_connector_state *conn_state)
- {
--	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
- 	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
-+	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
- 	union phy_configure_opts phy_cfg = {};
-+	u32 ingest_fmt;
- 	int ret;
- 
-+	ingest_fmt = dw_hdmi_qp_rockchip_get_vop_format(encoder, conn_state);
-+	if (!ingest_fmt)
-+		return -EINVAL;
-+
- 	if (hdmi->tmds_char_rate == conn_state->hdmi.tmds_char_rate &&
--	    s->output_bpc == conn_state->hdmi.output_bpc)
-+	    s->output_bpc == conn_state->hdmi.output_bpc &&
-+	    s->bus_format == ingest_fmt)
- 		return 0;
- 
-+	switch (ingest_fmt) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+	case MEDIA_BUS_FMT_YUV8_1X24:
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
-+		break;
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		s->output_mode = ROCKCHIP_OUT_MODE_YUV422;
-+		break;
-+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-+		s->output_mode = ROCKCHIP_OUT_MODE_YUV420;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
- 	phy_cfg.hdmi.tmds_char_rate = conn_state->hdmi.tmds_char_rate;
- 	phy_cfg.hdmi.bpc = conn_state->hdmi.output_bpc;
- 
- 	ret = phy_configure(hdmi->phy, &phy_cfg);
- 	if (!ret) {
- 		hdmi->tmds_char_rate = conn_state->hdmi.tmds_char_rate;
--		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
- 		s->output_type = DRM_MODE_CONNECTOR_HDMIA;
- 		s->output_bpc = conn_state->hdmi.output_bpc;
-+		s->bus_format = ingest_fmt;
- 	} else {
- 		dev_err(hdmi->dev, "Failed to configure phy: %d\n", ret);
- 	}
-@@ -382,6 +463,7 @@ static void dw_hdmi_qp_rk3588_io_init(struct rockchip_hdmi_qp *hdmi)
- static void dw_hdmi_qp_rk3576_enc_init(struct rockchip_hdmi_qp *hdmi,
- 				       struct rockchip_crtc_state *state)
- {
-+	int color = dw_hdmi_qp_rockchip_bus_fmt_to_reg(state->bus_format);
- 	u32 val;
- 
- 	if (state->output_bpc == 10)
-@@ -389,12 +471,16 @@ static void dw_hdmi_qp_rk3576_enc_init(struct rockchip_hdmi_qp *hdmi,
- 	else
- 		val = FIELD_PREP_WM16(RK3576_COLOR_DEPTH_MASK, RK3576_8BPC);
- 
-+	if (likely(color > 0))
-+		val |= FIELD_PREP_WM16(RK3576_COLOR_FORMAT_MASK, color);
-+
- 	regmap_write(hdmi->vo_regmap, RK3576_VO0_GRF_SOC_CON8, val);
- }
- 
- static void dw_hdmi_qp_rk3588_enc_init(struct rockchip_hdmi_qp *hdmi,
- 				       struct rockchip_crtc_state *state)
- {
-+	int color = dw_hdmi_qp_rockchip_bus_fmt_to_reg(state->bus_format);
- 	u32 val;
- 
- 	if (state->output_bpc == 10)
-@@ -402,6 +488,9 @@ static void dw_hdmi_qp_rk3588_enc_init(struct rockchip_hdmi_qp *hdmi,
- 	else
- 		val = FIELD_PREP_WM16(RK3588_COLOR_DEPTH_MASK, RK3588_8BPC);
- 
-+	if (likely(color > 0))
-+		val |= FIELD_PREP_WM16(RK3588_COLOR_FORMAT_MASK, color);
-+
- 	regmap_write(hdmi->vo_regmap,
- 		     hdmi->port_id ? RK3588_GRF_VO1_CON6 : RK3588_GRF_VO1_CON3,
- 		     val);
+My comment on v14 was more to start a discussion :-) sorry to not be 
+clear.
 
--- 
-2.52.0
+I briefly discussed it with Paolo in chat to better understand our 
+policy between cmdline parameters and module parameters, and it seems 
+that both are discouraged.
+
+So he asked me if we have a use case for this, and thinking about it, I 
+don't have one at the moment. Also, if a user decides to set all netns 
+to local, whether init_net is local or global doesn't really matter, 
+right?
+
+So perhaps before adding this, we should have a real use case.
+Perhaps more than this feature, I would add a way to change the default 
+of all netns (including init_net) from global to local. But we can do 
+that later, since all netns have a way to understand what mode they are 
+in, so we don't break anything and the user has to explicitly change it, 
+knowing that they are breaking compatibility with pre-netns support.\
+
+
+That said, at this point, maybe we can remove this, documenting that 
+init_net is always global, and if we have a use case in the future, we 
+can add this (or something else) to set the init_net mode (or change the 
+default for all netns).
+
+Let's wait a bit before next version to wait a comment from Paolo or 
+Jakub on this. But I'm almost fine with both ways, so:
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
+> 	vt.color=	[VT] Default text color.
+> 			Format: 0xYX, X = foreground, Y = background.
+> 			Default: 0x07 = light gray on black.
+
+[...]
+
+>diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+>index a3505a4dcee0..3fc8160d51df 100644
+>--- a/net/vmw_vsock/af_vsock.c
+>+++ b/net/vmw_vsock/af_vsock.c
+
+[...]
+
+>@@ -235,33 +303,42 @@ static void __vsock_remove_connected(struct 
+>vsock_sock *vsk)
+> 	sock_put(&vsk->sk);
+> }
+>
+
+In the v14 I suggested to add some documentation on top of the 
+vsock_find*() vs vsock_find_*_net() to explain better which one should 
+be used by transports.
+
+Again is not a big deal, we can fix later if you don't need to resend.
+
+Thanks,
+Stefano
+
+>-static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
+>+static struct sock *__vsock_find_bound_socket_net(struct sockaddr_vm *addr,
+>+						  struct net *net)
+> {
+> 	struct vsock_sock *vsk;
+>
+> 	list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table) {
+>-		if (vsock_addr_equals_addr(addr, &vsk->local_addr))
+>-			return sk_vsock(vsk);
+>+		struct sock *sk = sk_vsock(vsk);
+>+
+>+		if (vsock_addr_equals_addr(addr, &vsk->local_addr) &&
+>+		    vsock_net_check_mode(sock_net(sk), net))
+>+			return sk;
+>
+> 		if (addr->svm_port == vsk->local_addr.svm_port &&
+> 		    (vsk->local_addr.svm_cid == VMADDR_CID_ANY ||
+>-		     addr->svm_cid == VMADDR_CID_ANY))
+>-			return sk_vsock(vsk);
+>+		     addr->svm_cid == VMADDR_CID_ANY) &&
+>+		     vsock_net_check_mode(sock_net(sk), net))
+>+			return sk;
+> 	}
+>
+> 	return NULL;
+> }
+>
+>-static struct sock *__vsock_find_connected_socket(struct sockaddr_vm *src,
+>-						  struct sockaddr_vm *dst)
+>+static struct sock *
+>+__vsock_find_connected_socket_net(struct sockaddr_vm *src,
+>+				  struct sockaddr_vm *dst, struct net *net)
+> {
+> 	struct vsock_sock *vsk;
+>
+> 	list_for_each_entry(vsk, vsock_connected_sockets(src, dst),
+> 			    connected_table) {
+>+		struct sock *sk = sk_vsock(vsk);
+>+
+> 		if (vsock_addr_equals_addr(src, &vsk->remote_addr) &&
+>-		    dst->svm_port == vsk->local_addr.svm_port) {
+>-			return sk_vsock(vsk);
+>+		    dst->svm_port == vsk->local_addr.svm_port &&
+>+		    vsock_net_check_mode(sock_net(sk), net)) {
+>+			return sk;
+> 		}
+> 	}
+>
+>@@ -304,12 +381,13 @@ void vsock_remove_connected(struct vsock_sock *vsk)
+> }
+> EXPORT_SYMBOL_GPL(vsock_remove_connected);
+>
+>-struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
+>+struct sock *vsock_find_bound_socket_net(struct sockaddr_vm *addr,
+>+					 struct net *net)
+> {
+> 	struct sock *sk;
+>
+> 	spin_lock_bh(&vsock_table_lock);
+>-	sk = __vsock_find_bound_socket(addr);
+>+	sk = __vsock_find_bound_socket_net(addr, net);
+> 	if (sk)
+> 		sock_hold(sk);
+>
+>@@ -317,15 +395,22 @@ struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
+>
+> 	return sk;
+> }
+>+EXPORT_SYMBOL_GPL(vsock_find_bound_socket_net);
+>+
+>+struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
+>+{
+>+	return vsock_find_bound_socket_net(addr, NULL);
+>+}
+> EXPORT_SYMBOL_GPL(vsock_find_bound_socket);
+>
+>-struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+>-					 struct sockaddr_vm *dst)
+>+struct sock *vsock_find_connected_socket_net(struct sockaddr_vm *src,
+>+					     struct sockaddr_vm *dst,
+>+					     struct net *net)
+> {
+> 	struct sock *sk;
+>
+> 	spin_lock_bh(&vsock_table_lock);
+>-	sk = __vsock_find_connected_socket(src, dst);
+>+	sk = __vsock_find_connected_socket_net(src, dst, net);
+> 	if (sk)
+> 		sock_hold(sk);
+>
+>@@ -333,6 +418,13 @@ struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+>
+> 	return sk;
+> }
+>+EXPORT_SYMBOL_GPL(vsock_find_connected_socket_net);
+>+
+>+struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+>+					 struct sockaddr_vm *dst)
+>+{
+>+	return vsock_find_connected_socket_net(src, dst, NULL);
+>+}
+> EXPORT_SYMBOL_GPL(vsock_find_connected_socket);
+>
+> void vsock_remove_sock(struct vsock_sock *vsk)
 
