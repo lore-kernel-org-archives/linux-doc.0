@@ -1,167 +1,212 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C460C48BD53;
-	Wed, 21 Jan 2026 13:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769003376; cv=pass; b=YAQ0nO/mrY5OYdzi/46P5GhTaSSi1p/g+tUVyxDxTtc71hEKHk2LHb53O44Kcvpaa/sx22BsO3vRK7E/xVUEfqpW/2810QfZmUtCx1vMo1r7BisOoi1R7DuxZ731LzMeWprko2zJ6U/elrv6I2+Hhx5PtNw/lcEW9JgAD37DNWc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769003376; c=relaxed/simple;
-	bh=3BsSm/0LBTwYQ15DEq1s5x1ZgOzqnAsygpOk8Vm/Ykc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ToqkmJso1HC658rnyuXM/1qja+cxoAlaS0C1GSMDQazddxuVs7eIQCLKSIFBqVdmN79KgiloYzi7kiI4D1duznKHxrCTRsL4ZfgEqFFVfZKbfCTrzBxZPUSuWKzagrD7zPzLMIuLg/e0Kmo3zwtMMe8PwnNYM1QxsJ6z1n4M+u0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=NBgc6ozo; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009EE481FB9
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 14:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769005220; cv=none; b=fl6kr6dLomZnsw4gB5vIz4icUzrohcHUcjNbZsdaPwHDP4pBraRAKt+Qv9D1s33Ht/M1/+yD7iConMsYuC9DMfhBqtGDK2IYnCK1xu8PMsYscp50YDeCIIWIni+TRrUYGYRgb7YGzRsgnyUsMrFGC9ebZBCKII4o7XDb5YgC9bI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769005220; c=relaxed/simple;
+	bh=O7m4ZpKhedGqokJhJAmLBqTyG3gdL+OWB9GtYVZR0c4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FViRCue3n+GmVxwjwDXhS0cxL3HSc9GHbEgFWdqfH5zPBFSluBb/rzPv8iCsaD4nXQdrSw7Xdn+F+PvUVcuj8EYRCZ/0BuXz5LcPgxJCrjj29UUZY68+AMa5u2KE/0WggQxZuMEDi7ebTY4YUL24cMssYa5aUKcGmXrg+v/kpZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q93RR6f8; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NBgc6ozo"
-ARC-Seal: i=1; a=rsa-sha256; t=1769003323; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Qu5HcFI7eZQyiLafHMrl40Bks9ctbn3Ag/wWiDv4upwjKR2blsOUlAAB+pwG4gnk1oMbo6IckVIieq4tPo2co0flrE6JQDG75MFPG2S8idT5LkDpkZRny0maeIl33YuuAvdD8Wa1Hcqu7VlU76nJ4rFSTTi3fw7mqUR/byQ4XEQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769003323; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=SfjcxeAT2W+o+UxrPmZJDMJEXHj1m3+fRUI5YUGISxM=; 
-	b=KhH6sT8FeyTWPQ93V/yBX/pRI+veKpouS2PgUmP8OeIaNEDLH4tu9tNIuh5NGYd4VowpJqrG5L8LoetvhaqhC13gGxEw/pFfh6b9XtAhyf5J54GPblqhxvTmTAmu6pd7bjSFhcGqnT32X0rrlhg0+5GWhbZerJ4jMWH9TxxPO4k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769003323;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=SfjcxeAT2W+o+UxrPmZJDMJEXHj1m3+fRUI5YUGISxM=;
-	b=NBgc6ozo0i/RTDRfPAIxxMCsaynl11+ueBDC0eT6tGUo92Lv21csWpMu8MW+PpwE
-	HG8fPD/kd3L6KIb+sPpMgHUXL3U4hMtwD8b3oN8/K0qN3AdNNpVXmLt5KKxEhNA3ehu
-	/RZi4IFp0AyKU9yvGug+X0zTy4RLOdZFb0bOtYKI=
-Received: by mx.zohomail.com with SMTPS id 1769003320832411.20417740809444;
-	Wed, 21 Jan 2026 05:48:40 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 21 Jan 2026 14:45:47 +0100
-Subject: [PATCH v6 21/21] drm/bridge: Document bridge chain format
- selection
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q93RR6f8"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso48740705e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 06:20:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769005217; x=1769610017; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=O7m4ZpKhedGqokJhJAmLBqTyG3gdL+OWB9GtYVZR0c4=;
+        b=Q93RR6f81EvQkB7iBQ5VLbGCFlzm6A6J8eQHyh9cWoZYBy4CBEySyHTFCFXSQ/F1Kx
+         tPzkABGWcmySKGB4bYXWrV8iTKxWYOjAjPcK2TdxTlGWlftBxFkPEjrwFyzzU0DDoMYt
+         zl3HYaYU4ce0nGCSZYp7nHjJTmX1uIRk1sfv7nMlTMkmVnWVaq7DO3PiVHJfPYqV1vNr
+         nA3XKRB0HsMBysyxW9HhNHHCrj8X/vYIrPX9zXeA0S9JDAHdQkZqHvqTNCm4HnzlOShb
+         v5JUJul67ZvarcQTIOPQ32UHuCBSpn1AVKdy+ybwXIALXjsUrm9wdFDKA+P/sNiJxs+P
+         45cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769005217; x=1769610017;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O7m4ZpKhedGqokJhJAmLBqTyG3gdL+OWB9GtYVZR0c4=;
+        b=OUsb9sH/NTVZgViWlrDKUh2nGrDzI1VOxQJjvwpFIVGa9kQ7KfuhBJPZWygG3pfBZu
+         7/HntFAl/CB3PrGyIaQjgNbc99DQeuRhQ+fTSCPdKfCan2S0LEcZhFt0NIzlRpyzNSck
+         LDu/NfimTqssn8yyUZX24FlVsMJBwZT8vVbcEoLjegBx2PIj/rtwAhuD00f7UxxLVuc4
+         heA9gZn/DBm0KHCRinPoFWHj7Um1yentfBS38IpS3Q2Y17jAi9rTW5a3sBPIAepmdkbJ
+         AK2ImJ5+mIjoaFxMRPdpUgiVVdy3SGpm3c/73+39o50yn28zRM93NaVCH7FBjfS84s7/
+         T9qg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFIa4RVbAjfoME1aFxPHPskUfA1GMgctZpE8Yen28jpjRWeY42QB+RPjhVJt7n8cyQhzOTeQ6nzx4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+/CfH8xsscjInmXvFZmPZsJDwMcabxdTG/+IORcAu9slFQbf5
+	Ig0ltT//gvaweejmOS86xdJ9qBcWHk+TbknBRVTWB/SoZNzb+M3SnMKm
+X-Gm-Gg: AZuq6aKLg+02JKEJYMzab5+gfw3A5vt/QQ/N7nbkKegIIOTuIEUaCoKEbRw2lpQUZvm
+	7bP+7tlnLkZfirbpyWNXQxN3Zy617N/rM4fGEXPFAuoM96yd2WnJa+cn3HQqYDh0BsBUtMlPnU1
+	gWmP1rrPObWUDb8QROXh4DAZJQKW0qqa/pf/9WYo5wseVUBWtmZazBRfiIcenkDTXhOP4NasQM7
+	Mot5S2RCXFK69X4K0TeKuX5lzE9wS62iLR7DN+Bu/IQ3xSOmq9iyvIHg7V7Md31DD4xMCqN0Pp/
+	mrOUeDKBQwcT7e+/XO8Xy/ARSWLvn1T67Fnuv3Cwe6DhVSzpmImKtYbqZgEeUGKiiMRY9OBPqnt
+	NVHSVbyDT/d6y3F0uaOTEL2ltgNT/SnjOy1pM2pNKrfxY9DP+bo39ihpT/n2IzQEby9jikIZ2o2
+	wSj4zpu5YJrCa7B4IENd8=
+X-Received: by 2002:a05:600c:4e50:b0:47e:e2ec:9947 with SMTP id 5b1f17b1804b1-4801e34dfdamr242339415e9.33.1769005217144;
+        Wed, 21 Jan 2026 06:20:17 -0800 (PST)
+Received: from [192.168.1.187] ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e886829sm311971825e9.8.2026.01.21.06.20.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 06:20:16 -0800 (PST)
+Message-ID: <99789eb34873eca976a3324c363a1dc70a2f0d3d.camel@gmail.com>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, Rodrigo Alencar
+	 <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, rodrigo.alencar@analog.com,
+ 	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron	
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Andy Shevchenko	
+ <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Date: Wed, 21 Jan 2026 14:21:00 +0000
+In-Reply-To: <aXChxvlZxKVrOMsW@smile.fi.intel.com>
+References: <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+	 <texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+	 <aW40ylvMwVhqNQMw@smile.fi.intel.com>
+	 <hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
+	 <aW5kk6K30Izckvg5@smile.fi.intel.com>
+	 <e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
+	 <CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
+	 <vvdk3whhwua73g63eetnmn46t2cpbpkzzkx7m6wsbverp7gcvs@mi7cipis3i4t>
+	 <aW-Fai68pk1tAeyY@smile.fi.intel.com>
+	 <kmdqcaewxxg7isappgfxuf5ode5fepbywrdriksmvrzmaykcjd@crpr27tt3bmf>
+	 <aXChxvlZxKVrOMsW@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-color-format-v6-21-7b81a771cd0b@collabora.com>
-References: <20260121-color-format-v6-0-7b81a771cd0b@collabora.com>
-In-Reply-To: <20260121-color-format-v6-0-7b81a771cd0b@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
+On Wed, 2026-01-21 at 11:52 +0200, Andy Shevchenko wrote:
+> On Wed, Jan 21, 2026 at 09:41:25AM +0000, Rodrigo Alencar wrote:
+> > On 26/01/20 03:38PM, Andy Shevchenko wrote:
+> > > On Tue, Jan 20, 2026 at 01:07:49PM +0000, Rodrigo Alencar wrote:
+> > > > On 26/01/20 01:24PM, Andy Shevchenko wrote:
+> > > > > On Tue, Jan 20, 2026 at 12:43=E2=80=AFPM Rodrigo Alencar
+> > > > > <455.rodrigo.alencar@gmail.com> wrote:
+> > > > > > On 26/01/19 07:07PM, Andy Shevchenko wrote:
+> > > > > > > On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar wro=
+te:
+> > > > > > > > On 26/01/19 03:42PM, Andy Shevchenko wrote:
+> > > > > > > > > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alencar=
+ wrote:
+> > > > > > > > > > On 26/01/19 09:31AM, Andy Shevchenko wrote:
+> > > > > > > > > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo Ale=
+ncar via B4 Relay wrote:
+>=20
+> ...
+>=20
+> > > > > > > > > > The current implementation is kind of a stripped versio=
+n of
+> > > > > > > > > > __iio_str_to_fixpoint(). Would you prefer something lik=
+e this, then?:
+> > > > > > > > >=20
+> > > > > > > > > Do they have most of the parts in common? If so, why can'=
+t we use
+> > > > > > > > > __iio_str_to_fixpoint() directly? Or why can't we slightl=
+y refactor
+> > > > > > > > > that to give us the results we need here?
+> > > > > > > >=20
+> > > > > > > > __iio_str_to_fixpoint() only parses "int" chunks, adf41513_=
+parse_uhz
+> > > > > > > > was modified to accomodate the u64 parsing removing unneces=
+sary stuff.
+> > > > > > >=20
+> > > > > > > But why? The fractional part most likely will be kept int (it=
+'s up to 10=E2=81=BB=E2=81=B9).
+> > > > > > > The integer can be bigger than 10=E2=81=B9?
+> > > > > >=20
+> > > > > > Correct, integer part of the frequency value goes up to 26.5 GH=
+z
+> > > > > > (uint_max is approx 4.3 GHz). Also, with the dual modulus, the =
+PLL can
+> > > > > > achieve micro Hz resolution.
+> > > > >=20
+> > > > > =C2=B5Hz is not a problem since it's up to nHz.
+> > > > > So, the difference so far is the integer part that can be 64-bit.
+> > > > > Again, can we factor out something to be used for this and for th=
+e
+> > > > > __iio_str_to_fixpoint() cases?
+> > > >=20
+> > > > I am not sure what you are suggesting,
+> > >=20
+> > > To make changes to reuse the code.
+> > >=20
+> > > > but I am avoiding changes to iio core at this point.
+> > >=20
+> > > Why?
+> >=20
+> > I understood that core changes would require more than one user
+> > supporting the change.
+>=20
+> At least one. And we have tons of them as the callers of
+> __iio_str_to_fixpoint() are not going to disappear. Basically it's a surg=
+ery in
+> the middle of the existing chain of APIs. To me one user is enough justif=
+ication
+> for such a surgery. For the newly introduced API (imagine __iio_str_to_fi=
+xpoint()
+> as an example) it's indeed one user not enough.
+>=20
+> > > > If any other user needs similar behavior,
+> > > > I'd say we would need to have __iio_str_to_fixpoint() implementatio=
+n
+> > > > modified, so to create a version of iio_str_to_fixpoint() that hand=
+les
+> > > > long long variables. Possibly consuming simple_strtoull instead of
+> > > > doing the manual parsing.
+> > >=20
+> > > That's the problem here. With Yet Another Cool Parser this all become=
+s
+> > > unmaintainable very soon
+> >=20
+> > Considering that the need for a new parser for 64-bit parts is only dri=
+ven
+> > by this specific PLL driver, I wonder how things become that unmaintain=
+able.
+>=20
+> Because there is a duplication of the code (to some extent) and if we fou=
+nd
+> a bug in the one implementation it will be hard to fix (or even remeber) =
+about
+> the other.
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
+Agreed!
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 39 +++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+>=20
+> > > (basically as you said when new comer needs a third
+> > > variant of it). This is not good. Instead better to create (amend, ex=
+pand)
+> > > existing test cases, split out a foundation API that parses 64-bit pa=
+rts
+> > > (maybe even for fractional as well, dunno) and evolve a needed (sub)A=
+PI
+> > > from it.
+> >=20
+> > I don't disagree with you though, I suppose I will need a green light t=
+o
+> > move on with this?
+>=20
+> Fine with me, let's gather opinions of David, Nuno, Jonathan, and others.
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..47c4f593cf9d 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -181,6 +181,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
- 
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index b0dfa03dbb81..a155b8aa4a3d 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,45 @@
-  * driver.
-  */
- 
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond to what the display driver
-+ * should set at its output 1:1. The bridge chain it feeds into may only be able
-+ * to reach the desired output format, if a conversion from a different starting
-+ * format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_COLOR_FORMAT_AUTO will allow fallbacks to
-+ * YCBCr 4:2:0 if the bandwidth requirements would otherwise be too high but the
-+ * mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge, %DRM_COLOR_FORMAT_AUTO
-+ * will be satisfied with the first output format on the last bridge for which
-+ * it can find a path back to the first bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
 
--- 
-2.52.0
+Fine with me.
 
+- Nuno S=C3=A1
