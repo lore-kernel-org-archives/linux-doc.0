@@ -1,90 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BA6313268
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 10:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C9F480356
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 10:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768990281; cv=none; b=G5ClqJhciociEofUVcxz4d678DNjCWFLY7NdehqRPX0en04O7makaSigKCNt79o5f3u58uihRP3AabI7QEa5KrxwwUHLGjfyxF31ELtFD4FQ5kI32ZYf5t5JnDzZ5EeLUsjZ7H+/yM/oRcGnyO4JNWc+XzVqPAovMzlAwzdlEVM=
+	t=1768992134; cv=none; b=gVxXUsM93G3UKIXLP+DUzf316xOOG7zd5hO4OLLKruW7ZcubLgF/DQwG3Wvh74TrA2Y7S3FZTBYh81StnOE02Qo7vPJ5FTndSEJCTQgbcxDuB8Hv4YRRG+AP22c9jZTYc+Zwbb06V15w2rLl7KFEfFQ2KA7u6ZRRcb/7F0TPplc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768990281; c=relaxed/simple;
-	bh=4jADyItNCaFIN2UcG9w72iX7TkyaBnLyRWojM089bfI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TPQkI9AIHnHbkJfyCInJHkbq2W2AZ1lu2OAN19Ik9oA/fYkvCKtoehhknP7aTnondrnmtFkiwbsT0SD2puzqLouLPpwAbpvQHWXjVf6Cs8OepiFujVFuvHarz45e4VxgVIrlxlStpF61sh6gZfwYbZUsjDTXMGewVZwLHb/QViA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRfAVefu; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768992134; c=relaxed/simple;
+	bh=R21oflyt7SrGqIaCohBGqYGY1hSCnp/1MlBXab+sm7k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L59+3Zb9QASv7axHrIs5zkllMjuPZG/+1axFqPfTXPrnGmqzMANFyGmRZx26HMh0jwyY8XbMfxCvcS3p+UriND+Sda1xDF8caNy/cj8tXWcqly6ZvQIaZ8o8+W0U4M+VW2wWSzpHtZM2oUK6T64Vw4wwk0QiBmLE76quFjApD+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuCWDPzK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRfAVefu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768990280; x=1800526280;
-  h=date:from:to:cc:subject:message-id;
-  bh=4jADyItNCaFIN2UcG9w72iX7TkyaBnLyRWojM089bfI=;
-  b=FRfAVefuKuUC7REoRShH6qcGPO2dgL24VjN/XlR7gs+IqwZW4zr8+r2n
-   SruqP/QR/yGcdjix1giVkGREPVZKPC/+4oGRxd6MxAu6YolgSw/EUfWgh
-   5jnwFFaomU02kX7iqLPvBzyEIzh6XC+xxwmGZc/J6hmhEaYwrG93+ffa6
-   U27j2+J0O5SHq/+p9Up/ajr0yIBvO1loR6R/ukoVUxeglkHScG39obSfB
-   a9Um1U8wyNmKJ61ikaOLqdzlVMcI6E2684RssN5080B8/dAYGNszCyp6Q
-   4HKwWN7xmp/8zXxJ8ISblffOuJoiNqdP7www6WL6bKi4aJOoH9/7F2VgM
-   w==;
-X-CSE-ConnectionGUID: yCkbUd4KRD+R+zzS8GJSZw==
-X-CSE-MsgGUID: QKWef5rnSSiwC1K20+bEiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70114477"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="70114477"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 02:11:19 -0800
-X-CSE-ConnectionGUID: ULiQNoMFQViUeBg5HlWuuQ==
-X-CSE-MsgGUID: x7WRd6LqRuOv3viMKAJI9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="206465805"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 21 Jan 2026 02:11:17 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viVBC-0000000003y-3JWK;
-	Wed, 21 Jan 2026 10:11:14 +0000
-Date: Wed, 21 Jan 2026 11:10:38 +0100
-From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
- Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org
-Subject: [sashal-linus-next:linus-next 7126/8109] htmldocs:
- Documentation/filesystems/api-summary:59: ./fs/open.c:1157: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-Message-ID: <202601211140.pWd7ohTh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuCWDPzK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CBA4C19424
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 10:42:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768992134;
+	bh=R21oflyt7SrGqIaCohBGqYGY1hSCnp/1MlBXab+sm7k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uuCWDPzKoVZZXKxa6bPgjmxODXrRoGoTMwAHaeFS5xCYfS7W94ziXycYAkvQxJIed
+	 xi7iXbpER2Ppeil+4pGZf/Gw7wJAyWZVKQcfwlTsTo4OTM8/HL48VY3cFuTDAl/qls
+	 B29+xNFEplPYwPldths9i3RppCwheWuWuDY4Xxhm8mM9/tZCyi9B0bM3VLVPHkrUfn
+	 DOTJSSAmCTxEJpBwohJE/9YxbPtIEGAm+1OhfmwwaiPiQ+tS2BwDRa1jeXv4aeneNA
+	 lEF/VG/DfkebuMKfh043gRFiWh5CiHPF08ovRPjuUbZcqAIgIwhAYHNZw2EHuntFry
+	 9PQxXxfuud5ig==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-383153e06d6so52831541fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 02:42:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVUMR79z2FKFaRl8cMs6UT530t914+EFBQXYHiMT5/dbQe7Rc1eMat8UzWtKjGTkBGeXY1DAm33Szo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe0VIFtf5C+VRO+uKv/gzlbOD1xG+/Zr/drp2d832Z6hyeYzH1
+	lChYerfJG/qCNMSvNRAp8LoAcV6x5IAIDijIxJ+R2nl/JfVC2usOHEj1imm5lRx5dBOmJHiuW3y
+	P1GQ20BNev03XPouDA5Zqr7ftJ/Y8Ca206ps5eoAepA==
+X-Received: by 2002:a2e:bc0f:0:b0:383:2537:f13b with SMTP id
+ 38308e7fff4ca-385a546efc7mr18343981fa.27.1768992132870; Wed, 21 Jan 2026
+ 02:42:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260116081036.352286-1-tzungbi@kernel.org> <CAMRc=MdOCvEb81k0whM9dGCE8Hp=tdxZTUuiFeiL3+WsEei9EQ@mail.gmail.com>
+ <aWuFBqIfJpDL9g-J@tzungbi-laptop> <CAMRc=McrFa42mNWmZtD1HKKKZ+USUKpQAAME50wbfxPM7L72gA@mail.gmail.com>
+ <aXBTPG9rUHMgbHYp@google.com>
+In-Reply-To: <aXBTPG9rUHMgbHYp@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 21 Jan 2026 11:42:00 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MejWmGb02akR6TZVPzM4rnZ041TRkJG94=JDYdA5z=xVg@mail.gmail.com>
+X-Gm-Features: AZwV_QixHT71jBAW6CYhhCzIJ7SgSnL_P7SnAvqNGHxkd0_5haa6k71I4bYVShY
+Message-ID: <CAMRc=MejWmGb02akR6TZVPzM4rnZ041TRkJG94=JDYdA5z=xVg@mail.gmail.com>
+Subject: Re: [PATCH 00/23] gpiolib: Adopt revocable mechanism for UAF prevention
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linus-next.git linus-next
-head:   61061ddd460681a8fe44b0fa8c09800154861a8d
-commit: f2d46684be2201e54c088728e741b71aa33b2aa5 [7126/8109] docs: filesystems: add fs/open.c to api-summary
-reproduce: (https://download.01.org/0day-ci/archive/20260121/202601211140.pWd7ohTh-lkp@intel.com/reproduce)
+On Wed, Jan 21, 2026 at 5:17=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Mon, Jan 19, 2026 at 09:33:21AM +0100, Bartosz Golaszewski wrote:
+> > On Sat, Jan 17, 2026 at 1:48=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.o=
+rg> wrote:
+> > >
+> > > On Fri, Jan 16, 2026 at 11:35:00AM +0100, Bartosz Golaszewski wrote:
+> > > > On Fri, Jan 16, 2026 at 9:11=E2=80=AFAM Tzung-Bi Shih <tzungbi@kern=
+el.org> wrote:
+> > > > >
+> > > > > This series transitions the UAF prevention logic within the GPIO =
+core
+> > > > > (gpiolib) to use the 'revocable' mechanism.
+> > > > >
+> > > > > The existing code aims to prevent UAF issues when the underlying =
+GPIO
+> > > > > chip is removed.  This series replaces that custom logic with the
+> > > > > generic 'revocable' API, which is designed to handle such lifecyc=
+le
+> > > > > dependencies.  There should be no change in behavior.
+> > > > >
+> > > > > This series depends on the 'revocable' API, introduced in [1].  S=
+ome
+> > > > > build bots may report errors due to undefined symbols related to
+> > > > > 'revocable' until the dependency is merged.
+> > > > >
+> > > >
+> > > > Hi Tzung-Bi!
+> > > >
+> > > > Thank you for doing this and considering my suggestions from LPC. I
+> > > > haven't looked at the code yet but I quickly tested the series with=
+ my
+> > > > regular test-suites. The good news is: nothing is broken, every tes=
+t
+> > > > works fine. The bad news is: there seems to be a significant impact=
+ on
+> > > > performance. With the user-space test-suite from libgpiod (for core=
+ C
+> > > > library - gpiod-test) I'm seeing a consistent 40% impact on
+> > > > performance. That's not really acceptable. :( I will try to bisect =
+the
+> > > > series later and see which part exactly breaks it.
+> > > >
+> > > > I can also help you with user-space testing with libgpiod, if you n=
+eed
+> > > > it? Some documentation is available here:
+> > > > https://libgpiod.readthedocs.io/en/latest/testing.html
+> > >
+> > > How to get the performance data?
+> > >
+> > > I tried on libgpiod-2.2.2.tar.xz:
+> > > - ./configure --enable-tools --enable-tests
+> > > - make
+> > > - ./tests/gpiod-test
+> > >
+> > > There is only TAP output.  Also I don't see the difference between:
+> > > `./tests/gpiod-test` vs. `./tests/gpiod-test -m perf`.
+> >
+> > Yeah, no, there's no dedicated performance measurement in GLib tests,
+> > I just timed the test-suite and it runs 40% slower with this series.
+>
+> I think this is mostly introduced by a redundant synchronize_srcu() call =
+in
+> revocable_provider_alloc().  Proposed a fix in
+> https://lore.kernel.org/all/20260121040204.2699886-1-tzungbi@kernel.org/.
+>
+> The replacement still brings a few overhead (e.g., for allocating some in
+> the .open() file operations).  Especially the test approach can accumulat=
+e
+> them.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601211140.pWd7ohTh-lkp@intel.com/
+People do care about open()/close() performance, please see the
+following discussion:
+https://lore.kernel.org/all/20250311110034.53959031@erd003.prtnl/
 
-All warnings (new ones prefixed by >>):
+It required us to use raw notifiers instead of atomic ones which call
+rcu_synchronize() to fix the performance regression.
 
-   ERROR: Cannot find file ./include/linux/dcache.h
-   WARNING: No kernel-doc for file ./include/linux/dcache.h
-   WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
-   WARNING: ./fs/namei.c:2853 function parameter 'state' not described in '__start_dirop'
-   WARNING: ./fs/namei.c:2853 expecting prototype for start_dirop(). Prototype was for __start_dirop() instead
->> Documentation/filesystems/api-summary:59: ./fs/open.c:1157: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/filesystems/api-summary:59: ./fs/open.c:1147: ERROR: Unknown target name: "o". [docutils]
-   ERROR: Cannot find file ./include/linux/buffer_head.h
-   WARNING: No kernel-doc for file ./include/linux/buffer_head.h
-   ERROR: Cannot find file ./include/linux/fscache-cache.h
-   WARNING: No kernel-doc for file ./include/linux/fscache-cache.h
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bartosz
