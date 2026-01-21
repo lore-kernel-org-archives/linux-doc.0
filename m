@@ -1,67 +1,67 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EDF3C196E
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 22:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F17243C05E
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 22:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769033529; cv=none; b=JXzwR5QACtAM4DEq5/VpdKqDwRoLC2jqd/2VRoN7JWEzs/kWm29LCs2TylMixcUHDgcTeOa+G5eZZv7vhZoPoqOuPp6o4e6xFiqTXm29Iw/wwnvFF17SBlj1EQ45tE2oiGwSI4BqkRL2HBcgDg/YNtCheTe1474O/scwAQn3d3w=
+	t=1769033535; cv=none; b=Jun6d18ZGcIH3zo3S+eXEySnWR12XvzPAdXI5S9YqxdpHUb/SWxHn6ZvasbMvuuSMcY2xTyyPefEAt9+QH2MD+yIImpEZsA0GDovsjmChniP6twC2U9XP3gCz6uzIN12veazm9tpkKOh1YOVHtfvE8rjKJ+7XRwzU07VihB4Ns8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769033529; c=relaxed/simple;
-	bh=vD964Lj1wPSOw/16ssWykcRPX0KDwrhlz4wvw7+NTyw=;
+	s=arc-20240116; t=1769033535; c=relaxed/simple;
+	bh=P4erHizl27nbkGk13UaQgtaMcmfPrCQL8OW5nr9GtQs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jX57dPdM3dWL3K4Z5z2OjdtZuggEM0XX5CE6WKrDvJgkxv13dak2DbqpEFPr5YYdwAE0PL/dHToAZ1eaL+KlZosDVn2Bt6qdQl0ZZ6nKzf9WCYUXjCSTWEqYZeF3TmshiVZqd5j8YOPiBgnhrStg34oaEcUEKAwDA21P+3i2WIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y99EiGsF; arc=none smtp.client-ip=209.85.128.182
+	 In-Reply-To:To:Cc; b=JTwTW2vAWce+cx5F24tC3w76jZDEj4ZDfVSV/QJfX09Ziez5ag/bcMecGLWOhpGuqQMK2kWmEdzayWHxx7LxcZcCMcz16pRt6ikO0os5o9Llvi9EMvW0HgBOmkmCPsVs9chyZMBben2QjB2Gkwk9NeSQQ5XjDoFtSXzG4cPsrqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GX+Ki3ni; arc=none smtp.client-ip=74.125.224.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y99EiGsF"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-790884840baso3696577b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 14:12:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GX+Ki3ni"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-6467b7c3853so326980d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 14:12:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769033521; x=1769638321; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769033526; x=1769638326; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N0yb8kb1LkqAc5YpKYa8ha5gJygHDPK65XDs8oEX3qw=;
-        b=Y99EiGsF9tk6R+Itkzxd0coovOKy9u52A1TXP4htixp2HgvCl6iJKdLzALNJZbVNzj
-         aJZcvkUY/XMAR+yvEorllUkeZVJ7k7WC6zO1pZIcx8Ql8QQB95xchErZ6Ky0QukvGaAn
-         ZStdmxheSgLVJkjkLAxtRJFmIGaW7mqAe9npBxjYaYz7YYCGdaWdz4TfWJEPTEuDt4UH
-         zYBc5LesM3ZKR4CSql4qIdUQkNDkGMYmFXAom1jQ7ovREkwAMjGx4hSmomH2LVdtKYdD
-         F4WQ0B9Ix79eBtf5yFI6ozINVYcYe1yQk6QNiFgjkMm/M1/ynQOIsw44A/3Sr/regoPl
-         No/w==
+        bh=pnWUXZAQs2u/RX1G1g/cLNdC4zcJTVF/JpiRxAH0cLc=;
+        b=GX+Ki3ni1gmYlUQWy3Q3fjHsgnMlGoIplsLk7tFb7aOkP+FjHR5a4F4aXX/xSZCpHV
+         7NKUmvCEUFVJZKJaL/FdMIw+coVyyvllvtq0yiyueCKEEN+NEztXmyDsW298+9uiQzVQ
+         Kn1ihdkV24XHlonR2x2EoU9kTxbDhVX6DIYA2KoP/1trI3i5+wquN+pcI1srfD7bWYxl
+         VI7EZXTi0SrL4pkRknKLtbf5vi6+24AmJzrLjq5tO+p/jChRu1oN7pJmvaLajtfUsuDG
+         ufCQWkc4TLtPxsgXcA9oC+OmCXI2NCnMlwuqiTrQ8hw62g2+Z+G251i2OXEb+FGRfAt0
+         vKDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769033521; x=1769638321;
+        d=1e100.net; s=20230601; t=1769033526; x=1769638326;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=N0yb8kb1LkqAc5YpKYa8ha5gJygHDPK65XDs8oEX3qw=;
-        b=MruqYr0UL5oGtA9KDwBxWguPbOjZUFp+TPS7UyTv9jh9BPF3bVFf9bOy6dFga/yBi1
-         8Cylks+Ww4R9lwHTN3K+zgvcyB4vDHELSfFTMe9VT7ejzRvvcbaiPYtN1gTgikP4AKm0
-         Lvj5YY6IdNJu7cFSG6udri6CKof2k9tZbsT3br1gyWkGYmGQHM6K7OGk6C9IH0IYesp/
-         vs32kU1kGn2uE1zlznHzoZTlStOh6JdXRhyp3UJ1i3V/2PvlOip40z7ePAbAXZ1Nfjs6
-         +KHSrwDViM5RjK2HTSmko1MwIEXwysrubj7w4GJxZebGGn+9rE5xgXSwiNAifgk230Wo
-         xGsw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2T45cR7vqcKWg6aMTm7OXcYXEyQZPPsj3ZjfuNxAMxxsfJHjpe2wX7f2+5PZb8IBbAV01vhleUDY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBPWCZIXw+HDfM2xo/KyI3dkRkmb/v+fQKgD1Ai1icElIBs7bp
-	o534TXH4x6aZdN6LfrXXG5SlsY8t6KzbcfDBYkjxfmknTrwEB0xGzFFe
-X-Gm-Gg: AZuq6aI+EFJzgZylgHkqlo7ggo+8YH28A6f8yrXeEUb+jMM+CGlFoCMHKZI00czrEfu
-	B4IQ1Vm1p0uxJqJxqxiQUeoFI2i1XklsD6shxZoeaVVaFTNIFOB9ysQaeSbK35h2utOJTWRakCj
-	D0+GgnxzO2nIf4Qs+/fjIyw5QalBaOU3lMCdSBOltOmEeH4KX3gesH5Tqe+cKcW67Kmcdwbhhuu
-	4vGlKjwfqTLt9qLUsFDnrrLiKqL+fys6T/dftoxA81HICOo1qRlOvFRR87lorDF27IxNFkGQ+Lr
-	Twf4UQ8vj1vpTWnMP4ZvVdV+6ZS3caljDrLkQoj2KwC2U92ZpDQa2QDpndZLzdFhXVJVdTQS6CM
-	zTDFWBgl+cpBeLlFLE4ePH8V7h6P9vP59QpW7CYvEyZt146DI38nSHWxP0pJCpO2Ryydl6Tqdcw
-	eLNZuzoTBh
-X-Received: by 2002:a05:690c:4990:b0:794:2ef:a445 with SMTP id 00721157ae682-79402efa762mr75302437b3.15.1769033520799;
-        Wed, 21 Jan 2026 14:12:00 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:c::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-794295ec411sm5665437b3.15.2026.01.21.14.12.00
+        bh=pnWUXZAQs2u/RX1G1g/cLNdC4zcJTVF/JpiRxAH0cLc=;
+        b=X7FadsLnZRppVCIYjQPatciLK9SxU47ZavRJFNRC9wgQSoriLIbFtwgGIREoCmR3TC
+         AJoee8f+XhldSzsNkDF93ggKXMj7Kbe1Y5DsfQsxLE1IJQjvXpjlabasweXCBFUGeOoH
+         rY5ERUmsJQqoVJMobPoxj2qTOQWgGY8I3UhgGMtRsGqLEq+6RklsHh8WvuT6ZITYY7tC
+         2a/AG1UHSfWHXXm0DDhExencUb6df0pzt9EgYEHjqDC2bTK/WioYYTyZ2Q5rSSH0+bJ9
+         O936aTZ3cbYHlzFyCJZaEaAVwt9eZIHyrBpSb7BYVtQNJ/p8Cq5VnYS6dbbi69YyAjJu
+         fdyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXya+1+JXNJrtEEBTZZVljWdQADLfPAyarS12Rms+2BxC4dPi+hwV1pzvBEyTyyvI0PgH7Lgck8SvA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnpUoEd2rx/IesCFfXOZjqixY56rj18kyfVh8viNcU/4XRlkYB
+	3/JRyrIMKXLejtbgXcA0MQNoojz2Q2z9V3LuucT/N4szJdFRsxpAKbhJ
+X-Gm-Gg: AZuq6aKwIfVotPMF9hvjaoZHqv7WJ02Txf3NvRSwVd6Vys0joId+JD+M22hPYhmLSlW
+	WWjBcusfR0nenMwiFHiUh808J9y3ezdTv+6mQRLc/B01Iz2UMvJ8IVx/G2JAAPD0EYHp0uoB6Y7
+	JW2T/iiW0Q6qH+nqL8mCg8AR3ucjHHcrAJGMRVuaXV642pTJq/e2xTDrZMUlxccjmLSNn/YPMR+
+	E3o3ULSIZKuoUGdqFsypGG86y1eYSeTPPPfeUxe9vRkQ7Wgc0tyy33iMyEjMIRQN8VZim0i5xPl
+	ojK6reawW2THHpJQ+EpEpNrvJaf0O+o/JKNYg/SM/tyZ9TZnrYelNNIgqAZSqJP0luO3GJ8jrJL
+	G1CN6kpFtZLzp40873+V6DH8skr/RMNc96WOT0/m6uaXZaJZiu4yPTJYVtWgC/2zNoBunQrMqDY
+	Lo7WFq3NLL
+X-Received: by 2002:a05:690e:b4d:b0:649:3f08:edc with SMTP id 956f58d0204a3-6493f080f88mr4683116d50.41.1769033526167;
+        Wed, 21 Jan 2026 14:12:06 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:d::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-649170acbdbsm8409641d50.13.2026.01.21.14.12.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 14:12:00 -0800 (PST)
+        Wed, 21 Jan 2026 14:12:05 -0800 (PST)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Wed, 21 Jan 2026 14:11:42 -0800
-Subject: [PATCH net-next v16 02/12] virtio: set skb owner of
- virtio_transport_reset_no_sock() reply
+Date: Wed, 21 Jan 2026 14:11:48 -0800
+Subject: [PATCH net-next v16 08/12] selftests/vsock: use ss to wait for
+ listeners instead of /proc/net
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-vsock-vmtest-v16-2-2859a7512097@meta.com>
+Message-Id: <20260121-vsock-vmtest-v16-8-2859a7512097@meta.com>
 References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
 In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
 To: Stefano Garzarella <sgarzare@redhat.com>, 
@@ -97,46 +97,133 @@ X-Mailer: b4 0.14.3
 
 From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Associate reply packets with the sending socket. When vsock must reply
-with an RST packet and there exists a sending socket (e.g., for
-loopback), setting the skb owner to the socket correctly handles
-reference counting between the skb and sk (i.e., the sk stays alive
-until the skb is freed).
+Replace /proc/net parsing with ss(8) for detecting listening sockets in
+wait_for_listener() functions and add support for TCP, VSOCK, and Unix
+socket protocols.
 
-This allows the net namespace to be used for socket lookups for the
-duration of the reply skb's lifetime, preventing race conditions between
-the namespace lifecycle and vsock socket search using the namespace
-pointer.
+The previous implementation parsed /proc/net/tcp using awk to detect
+listening sockets, but this approach could not support vsock because
+vsock does not export socket information to /proc/net/.
+
+Instead, use ss so that we can detect listeners on tcp, vsock, and unix.
+
+The protocol parameter is now required for all wait_for_listener family
+functions (wait_for_listener, vm_wait_for_listener,
+host_wait_for_listener) to explicitly specify which socket type to wait
+for.
+
+ss is added to the dependency check in check_deps().
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-Changes in v11:
-- move before adding to netns support (Stefano)
+ tools/testing/selftests/vsock/vmtest.sh | 47 +++++++++++++++++++++------------
+ 1 file changed, 30 insertions(+), 17 deletions(-)
 
-Changes in v10:
-- break this out into its own patch for easy revert (Stefano)
----
- net/vmw_vsock/virtio_transport_common.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
-index fdb8f5b3fa60..718be9f33274 100644
---- a/net/vmw_vsock/virtio_transport_common.c
-+++ b/net/vmw_vsock/virtio_transport_common.c
-@@ -1165,6 +1165,12 @@ static int virtio_transport_reset_no_sock(const struct virtio_transport *t,
- 		.op = VIRTIO_VSOCK_OP_RST,
- 		.type = le16_to_cpu(hdr->type),
- 		.reply = true,
-+
-+		/* Set sk owner to socket we are replying to (may be NULL for
-+		 * non-loopback). This keeps a reference to the sock and
-+		 * sock_net(sk) until the reply skb is freed.
-+		 */
-+		.vsk = vsock_sk(skb->sk),
- 	};
- 	struct sk_buff *reply;
+diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
+index 4b5929ffc9eb..0e681d4c3a15 100755
+--- a/tools/testing/selftests/vsock/vmtest.sh
++++ b/tools/testing/selftests/vsock/vmtest.sh
+@@ -182,7 +182,7 @@ check_args() {
+ }
  
+ check_deps() {
+-	for dep in vng ${QEMU} busybox pkill ssh; do
++	for dep in vng ${QEMU} busybox pkill ssh ss; do
+ 		if [[ ! -x $(command -v "${dep}") ]]; then
+ 			echo -e "skip:    dependency ${dep} not found!\n"
+ 			exit "${KSFT_SKIP}"
+@@ -337,21 +337,32 @@ wait_for_listener()
+ 	local port=$1
+ 	local interval=$2
+ 	local max_intervals=$3
+-	local protocol=tcp
+-	local pattern
++	local protocol=$4
+ 	local i
+ 
+-	pattern=":$(printf "%04X" "${port}") "
+-
+-	# for tcp protocol additionally check the socket state
+-	[ "${protocol}" = "tcp" ] && pattern="${pattern}0A"
+-
+ 	for i in $(seq "${max_intervals}"); do
+-		if awk -v pattern="${pattern}" \
+-			'BEGIN {rc=1} $2" "$4 ~ pattern {rc=0} END {exit rc}' \
+-			/proc/net/"${protocol}"*; then
++		case "${protocol}" in
++		tcp)
++			if ss --listening --tcp --numeric | grep -q ":${port} "; then
++				break
++			fi
++			;;
++		vsock)
++			if ss --listening --vsock --numeric | grep -q ":${port} "; then
++				break
++			fi
++			;;
++		unix)
++			# For unix sockets, port is actually the socket path
++			if ss --listening --unix | grep -q "${port}"; then
++				break
++			fi
++			;;
++		*)
++			echo "Unknown protocol: ${protocol}" >&2
+ 			break
+-		fi
++			;;
++		esac
+ 		sleep "${interval}"
+ 	done
+ }
+@@ -359,23 +370,25 @@ wait_for_listener()
+ vm_wait_for_listener() {
+ 	local ns=$1
+ 	local port=$2
++	local protocol=$3
+ 
+ 	vm_ssh "${ns}" <<EOF
+ $(declare -f wait_for_listener)
+-wait_for_listener ${port} ${WAIT_PERIOD} ${WAIT_PERIOD_MAX}
++wait_for_listener ${port} ${WAIT_PERIOD} ${WAIT_PERIOD_MAX} ${protocol}
+ EOF
+ }
+ 
+ host_wait_for_listener() {
+ 	local ns=$1
+ 	local port=$2
++	local protocol=$3
+ 
+ 	if [[ "${ns}" == "init_ns" ]]; then
+-		wait_for_listener "${port}" "${WAIT_PERIOD}" "${WAIT_PERIOD_MAX}"
++		wait_for_listener "${port}" "${WAIT_PERIOD}" "${WAIT_PERIOD_MAX}" "${protocol}"
+ 	else
+ 		ip netns exec "${ns}" bash <<-EOF
+ 			$(declare -f wait_for_listener)
+-			wait_for_listener ${port} ${WAIT_PERIOD} ${WAIT_PERIOD_MAX}
++			wait_for_listener ${port} ${WAIT_PERIOD} ${WAIT_PERIOD_MAX} ${protocol}
+ 		EOF
+ 	fi
+ }
+@@ -422,7 +435,7 @@ vm_vsock_test() {
+ 			return $rc
+ 		fi
+ 
+-		vm_wait_for_listener "${ns}" "${port}"
++		vm_wait_for_listener "${ns}" "${port}" "tcp"
+ 		rc=$?
+ 	fi
+ 	set +o pipefail
+@@ -463,7 +476,7 @@ host_vsock_test() {
+ 			return $rc
+ 		fi
+ 
+-		host_wait_for_listener "${ns}" "${port}"
++		host_wait_for_listener "${ns}" "${port}" "tcp"
+ 		rc=$?
+ 	fi
+ 	set +o pipefail
 
 -- 
 2.47.3
