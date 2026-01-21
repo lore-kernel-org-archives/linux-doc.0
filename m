@@ -1,141 +1,369 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012040.outbound.protection.outlook.com [52.101.53.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399A43F075B
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 20:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769027080; cv=none; b=pFOS249OjDiOIIRV+Kt2eWYEZKC4zaqPpbvMQYuRlxovBd9bV99SkJ9DAHNbbNb+s1VzHD/edG7RYr2hjWA5dN8v6MqI4yK5N9EOrIM8VZeKP9J039bw4wOvqdxi6t8jUAD56RfLq10U6gm76MjjWGdHDbIELnVC9oNrKrwHlpc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769027080; c=relaxed/simple;
-	bh=Jaq2jsRG/r4sZNtPJ8ltyTFCbLArZNy2emYqmWGFUaU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Z9Jj2PLL+oLoRVgvLPHRi1USQKdR2gSPX19MIYtS+HwEay51vM4CqL6rqF8uVT6/4Y6+pO3DypnpsF0+KT91lNumFyruDsbfnVu+tpxxWlKUOZ/1m6LDfD1BPxaQ98hehGN5p+vGfIoxZURD4pERkjzSBGjAA+qaVMtf/2VHyrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i+BT9swE; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8878D28506C;
+	Wed, 21 Jan 2026 20:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769027530; cv=fail; b=lw7Kp2cnj1/eWun+nu8esrMhe5hCTQT5clYndTVpQ4kGxvqieERabcWEb8VbfkV2F0uOfNWVSxvXmrqs/6Vy+pyvMhGebEdQTwXlfBcXqQ1STDJPbpf44j1R3S0H2AraXywVWzpF7XFrTqzeBhhNSZkE6FZZWlhDHH4tMYnNJ7U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769027530; c=relaxed/simple;
+	bh=4E9zsNU7VvKnKG+rJF7e18O+29pA5zSDlwfLEr1Jn8M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KPqwfLLN+0jTLt3bX2ijwmtDtUWkU+N0PTFFYXvNQwvww2XXMb4urtHJUdP/d6FknS79XBw9qKztto/udbXrr8Xzyi/8S+EKz6AO85VkwabspHgXxQ1txwtt4XJRRkJuL7sCgyqjxpEFW1eq9pcV2HMU5pZhDdWt3QJBnvvUq3I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gAWV4ETh; arc=fail smtp.client-ip=52.101.53.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i+BT9swE"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-352e1a8603bso254663a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 12:24:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769027078; x=1769631878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+MgxcQq5Xqx+GbQCEBAnHK7cTgnKSfyobaM2qHohzJ0=;
-        b=i+BT9swEet3BcYwvpun23CLnOmfL43ZZZW8N5xVlY1Iu9O+4YBbISMYw2ng9czEDIH
-         ciXoYnVPKINZw4o5aGUbHCCHaps6BqB9E02vYE4cQNtseroemksB0RIfCtrSDnHF48To
-         UO1uE7TzSrdYZ8OPUhKkvT2evmp4M3K/3Tfe8bq95iBv4YXRC8u0PbnCjL21P2imZdLK
-         L4vDBxdTUlKEBoVGLlG+MuYscjNw5jO1WjkBLfZGLl8V2Hbx85B4sjh/rASpmxL/Z4WU
-         C7LqMcfwcUkiUIBDxBPxOvuisgkQccqAD83b63g0yk2MeP93Hbm4xjQ2ISrWoxrP1Wqr
-         vJ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769027078; x=1769631878;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+MgxcQq5Xqx+GbQCEBAnHK7cTgnKSfyobaM2qHohzJ0=;
-        b=WNdnVYpoMMSCyf7meFxmEknmy+X1ix9GHVdeQIwgwgmvZVo+Lfs/8LU1DpILU9Qw4V
-         oIHlyhg8Q09TkmRa23lWGZCH7NwIwqUPunPnX95jx7vjpq5ff4GDyMi8dEA2ajAV89s5
-         2abN2OLAg9zrmn5RasIRU1u8RZsj9XC+zTxMrXjlljnJPNIc9t+Wxrg/GcumApW2YMrh
-         alOj3nthKAasG2LXc0FeuNA1R7EyNBJ1txu8mkxvidkBI9JQwOYic9Hsjq0Vbgrd9tt+
-         CKK++DV1P6Yq+1lqnDMr+jOAlMcIZePXxoiWnAu70WA4NlX9FoQ/sunwUPs6CweOAqH4
-         Efdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtLtuD4+Xm+0E3Dw9ZrwCyCEV1WVU0K5ckFJ5vKNILQtT4GPX+qzBPf1+3MHSETYVlMFgzgLJam6w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznJ5v0c5TQ30v/+b1RqPGvKQCVizBkz9QqzoiKT2CXVELIf8X2
-	3OXU91Mh6OYQvWTyKvh0HqMO9YbLUDI9foBkxpxRzM8M26/J+oRnkahRxqTxTjcP2tSNRpY49iO
-	/k9L1JQ==
-X-Received: from pjbca22.prod.google.com ([2002:a17:90a:f316:b0:33b:ba24:b207])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:dfce:b0:353:3977:a082
- with SMTP id 98e67ed59e1d1-3533977a5ddmr180576a91.1.1769027078236; Wed, 21
- Jan 2026 12:24:38 -0800 (PST)
-Date: Wed, 21 Jan 2026 12:24:36 -0800
-In-Reply-To: <BEB86711-AE1D-4438-8278-229275493134@zytor.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gAWV4ETh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aZEVR6ON7oz4R1+fVzWcnnhZ+um2xKUMJ2e9kmDBz/HPpRKQwuJuf8HEfM6Qq/6k5Qo/Pfau58qoU9eLZ4sqm+aA+0i+vOoBmSt6+mYE8SdoqYHUdK1STZ+xQvIw5jFJ7oVcz1DyR2lxsDCA33MSUUve86EUhg0ENZWGGXY4WPUmZ5a5LxegnAh399tf0dsvnj0WbHEcABRQ7WzMYx69m+R+MLdH+AXStG8WgKHREVWeeSu0sPenC4gfkwD/sXX1USwuu1sCIV9baDVHeSivli2e8Tjbgc+NQx8uJNhHZ47PqCzb0B5SvKHQ9Q4g9y17zCJerGcfbGWBQ6Y/+5DZEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rvRZYX+Xl/bahxWydpUxbjdURGCBdKgedbLW/Efn1CA=;
+ b=Gm91OuVtrnxoLB132/l3asQQYkdEDaumF3yRjmCE1TR/Bal6eThc3dUcDX0eh81AVVeztn3uJzv+h6rP8o5uzuZr2wqGL1Ixm04p9U6YL6zlek9nNH8Run2BffSRDrZnkzBztcDODyME2aaTR+d9+4Dh+fnG6Rexjp2KBqvgUn4oZ9xFVNUi8qzDqY9wF/ErpVH23UuWt3UG54kq7mpc8Cx/AZWY4xrJlzRJMuNroL3+SvdIKudhWKdW+bU5a1c1e6ldFOPFviCH9Ur7fmuKBqOe+l7qR+Vm5OAcBxFv/Z0smgpKa1ke8jWudZkxBhWK9UQoKdLqaUZXPnUvCRh8DA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rvRZYX+Xl/bahxWydpUxbjdURGCBdKgedbLW/Efn1CA=;
+ b=gAWV4EThnp8Zbb5pur5TxO3njsPglpNFYx5Igt0coePT33HZ4gXEUVC80MBoPP5gswL6oaGOAzA9lV4YK7XBeFd4O1fjMiOql+g00/6VTbcSMSJ0/mXZBusu5haR10etFyD1JlleHJELruJ5IP9OWRlfXc/E6KB4L7e04tOCNZJ3cRRKa3OJbfiYNKnk+RNUZ9flDQybp1binj2S0ydeKyENSMhO+OtSyUmeoPQk/CSub/b0XkflTdTU7zV5sfPYfVylw5s0bKRSvlML7kbMf1N7kYJLOrQhu8Kk5/vBfg9Mck+odyYRAWwf9yJ/Gsh4CNZuf1URHfmU7cBKLuymVA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ CH8PR12MB9768.namprd12.prod.outlook.com (2603:10b6:610:260::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.9; Wed, 21 Jan 2026 20:32:04 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
+ 20:32:04 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCHv4 00/14] mm: Eliminate fake head pages from vmemmap
+ optimization
+Date: Wed, 21 Jan 2026 15:31:59 -0500
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <E99A40AF-1535-4FC0-BEE5-6F0F5B3FF840@nvidia.com>
+In-Reply-To: <bc7b8c62-a8b3-4407-a69f-30b3fd269566@suse.cz>
+References: <20260121162253.2216580-1-kas@kernel.org>
+ <bc7b8c62-a8b3-4407-a69f-30b3fd269566@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BY5PR04CA0019.namprd04.prod.outlook.com
+ (2603:10b6:a03:1d0::29) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-12-xin@zytor.com>
- <9a628729-1b4f-4982-a3e6-b9269c91b3c2@linux.intel.com> <BEB86711-AE1D-4438-8278-229275493134@zytor.com>
-Message-ID: <aXE2BPCKvcIiQbqU@google.com>
-Subject: Re: [PATCH v9 11/22] KVM: x86: Add a helper to detect if FRED is
- enabled for a vCPU
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: Binbin Wu <binbin.wu@linux.intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com, 
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
-	hch@infradead.org, sohil.mehta@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|CH8PR12MB9768:EE_
+X-MS-Office365-Filtering-Correlation-Id: 248341f7-618e-4d14-a64e-08de592c2363
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MWswVW5QdVlsMURVVjFhcElNS2swR0pvNW5CajA5VUMwZUJGZUZWOUxLTkNh?=
+ =?utf-8?B?ZlRMdHRFalIzWWd6ZCtLZFJXOVlOcmFVK1ZadmZCbEVVMkVmd1didlBIRXEw?=
+ =?utf-8?B?TjhJRkZaWGJJWEZjeFZqSUkzSnRXVHBYSWFDWjBjNkx6SC93RXdzcEJCdngy?=
+ =?utf-8?B?VC9VWVJOcEtqaEdJUHYxRjZwUEJZN2ljeEV0OEdHcGtTT3pZekwySFNhVklo?=
+ =?utf-8?B?dmhRdDZuM2Z6bVZaWXNnRWVyL0wvdzBmdUREU0gvb05hNUVjZmwyY2VMTnFu?=
+ =?utf-8?B?L2s1cjVMWCt3SjdVUittd1dweWF5T3pPb2ZiSG9mZC9WbzBxSVpyd0xYOFlE?=
+ =?utf-8?B?OG5Od3M0cFk0alNiRzVYZE95MnZlUVVqL1RyeHY2aVN3YVI5dEhTam1xZXU0?=
+ =?utf-8?B?N0lxUWsxUDhzSU5Cd29IWWZsWmczRng4YjNyTTZtQ2g1QU9vSFJ5RHh6dW1w?=
+ =?utf-8?B?RTVRWndJOFdNL2hIM3gvN1BROTZKRFZKbnArbVdUL3BwdmI1ZFJ5N2w5cjgz?=
+ =?utf-8?B?bU1YMHE0bjR0djR0M1UyNDE5UGgybUNIUThwdE5RSlFRUXJDOTJLZHJ1V0hp?=
+ =?utf-8?B?ZGRWVmVrdmYrcHpGUG9ickRwUTl1Tk4ydGU0cDFZTmtKdHV5YnlRZWdYNDF4?=
+ =?utf-8?B?VVJiWmdKRmpzckdsTGhDMytGV0pKaGtReWtCVXBvNm9RbDlxSVl5YUVYalZW?=
+ =?utf-8?B?MHdrem93L0YxbmRUTzVVS0E5WXp3U2NwUlRONEdNcTNFbmhOZU80TlJORkZs?=
+ =?utf-8?B?THlqL2V3Rkh0S0YzTXJwOWl1OVpPaGpzc2w4TG9WY0M5cERRUU1wV2JCQzNq?=
+ =?utf-8?B?bTd4U2lXQWhwcnVTS1ZvSHViN0JyMkRSaVhoVDhMdzIydk13eXA1SFdFUzN4?=
+ =?utf-8?B?TE10akZMc3ZJOGFPQzdFL0ovb3h3Ri91ZnZmbWlrbzJrNkJmYlRJYnVGSFBC?=
+ =?utf-8?B?WXRaeS9lN054SjU1aVVsL0hYWkFVWUNnSWIwMkgzc1NhVVFHNlpNKzh3eEdE?=
+ =?utf-8?B?QmwzaUpWbVB6clAwNnVFU3QxZDF1V09HNkI1MlVOUWs2WFJiWXMrRGxUaFlh?=
+ =?utf-8?B?a0EzcTdjU282QlU0cTk5TjVzeTRFTFVmaVhrSTBLOXc1YzRTSzl6RDdIMWkv?=
+ =?utf-8?B?emNpVWxGNGY2a2R6U0dDd3JoMUdJckJDaEFpTW4xVFliU2JrQjBrTGZqRU1M?=
+ =?utf-8?B?MTR1Y3ZPRkxXN2lZSjVxYjdxc1l6V0VVck9xRk44S3Rwb3BJejJFY1VKQ3NE?=
+ =?utf-8?B?TXFYUlJJcFdEVGNLVnVvbjIwV1gyc1dXTHdJemIrUjgwdFh1Z04zMENPczFn?=
+ =?utf-8?B?UVlRSExzYmxCYm9KQyt3UUNLUDBpNlR5YmlVbHdzSlNISTZrbzV0WXBZdGZo?=
+ =?utf-8?B?R2psb3FjM29VcUd1NWJDRTJPeW5SMmlMK2sxQW5JdkxUR2FnbU92RlRvTDMy?=
+ =?utf-8?B?UlJRT09YL3MxSkY5NzJ4T3pZUUI5YmdUZHVaelhuaFBlV0ZrWWZ5N1FZSnJv?=
+ =?utf-8?B?WkFEaStSSHg4UFEwN0MxQjMvakNtbnIrK0R3RmE5ZTI5bWFSclZobkNXbXB3?=
+ =?utf-8?B?MjJIaTFxWkErZXZmRHR2NTJHM3BrWndMY2o1bnphV1JoQ1BSQllBSVVaZWR0?=
+ =?utf-8?B?eXp5elJoWlNJaDFDY2ZEZnpDZTFmY0s1azBoWGcxTDdkNzVic0s1b0JNOU10?=
+ =?utf-8?B?SXVkOHhUT0o2Mmp6R1kwZmJrbm1rbGE3UHFVd2JFbGMya2lMc3dSNGt5V2kw?=
+ =?utf-8?B?S0tEcHo4R3cxV3F4UWgzWkVybTB3c3lKWWEvQk4rd3pURTVMd09lNTZKd2s0?=
+ =?utf-8?B?SDZ6RmIrNmpTazZVUmk5c3FDZnI5WlNFZ0g2S0xHS1IvalJsdXNuZkxYWGph?=
+ =?utf-8?B?YWZ2UzFmRnJMRS9heUwwYWtRTElpRnJoWWg0bUtSTUpIVEhMUXVJU3NRZnlU?=
+ =?utf-8?B?OHlmRHpsbWRxTGxqWUF6dUlkS21TMWN6ejB2RWNCVWxST1ZLSXJFZkwvejJI?=
+ =?utf-8?B?Q2RrZXJ2azlYMDJ0RFhacDJuSE9wYVpNTzNEWnJ5QkFjdloyaXlsKzg1Vy9W?=
+ =?utf-8?B?bDFkRWowY1JDRlBjdk1uOWVyVXJTSTJ4a3JTOUtTWHBCck01Qjc5MUl3L2kv?=
+ =?utf-8?Q?dzXY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NTlZcFcxNXRmK29zTTg1ZmtkOEZlVDJnTzN2ZHdZdnFZazVqczNwZ2c2TW0y?=
+ =?utf-8?B?SnlZSFZuMzRPSldDYlMxWm9xZml6VVVGSHpnTGtTZEtXdk9DOEpoVnFKV2Zk?=
+ =?utf-8?B?NHpFb2lnOE1lR0NJYWNGRm1pMmcwNVB6UmtTMytHZ3ZiVmU4Y3dEekxVNVNS?=
+ =?utf-8?B?Y1J4Zmo4Qnc1K29FdXI3QVRFRWw1VGFLOWNUOGhDb0FpY2VqbFVCMDBpYXpy?=
+ =?utf-8?B?YUI5UDhnSDJETVdXbTc0STZaZjhMeHJXSFNCaWZ1RHp4QzFWVTU0UGpoYVJK?=
+ =?utf-8?B?c2RDbCsxdlY0bEYyWjB5amdBQldtcGdueWlvOTFIc21Dbk9ueXZHeW5kUVE5?=
+ =?utf-8?B?UmgvbU1NVTUxK0FrSUJwOG1nRGtrZlRpNDR2NFdIK2JYc25wMlNBdGNmOVlm?=
+ =?utf-8?B?QnJIMnIrWDhGeng3K0d4ZkZmUHRjVlNtRnB5M3JqMHoydno0QmxJSlpsdVNz?=
+ =?utf-8?B?UEpEbTZtdDh2KzNZTFE0cWpkeW81UklWcW93UnRIcjUvS1c5NUF6SDlkb3Vp?=
+ =?utf-8?B?Q0huTU8yUmI4UGpDaCtJRzZWVWNOSnVYclozRTVCSlR3Q08xR0x5TlJFd1pD?=
+ =?utf-8?B?SkZmODVCM1ZDMVNaRXVIY0wvNXgxc2JMWXB6ZVllY1hYSkpkMWxDbHdmWktx?=
+ =?utf-8?B?b1lrQW5wOFBEU3Y4SE1WMWI0aHlRU28wT3ArRzhTeHF5NndLNmYwSFNPRTFB?=
+ =?utf-8?B?WEw2OGpyRjNqTjk4TUtrSnJTTVVSN21VV3JiS2tpUWI2cjgyWU5SR1ZwdGFK?=
+ =?utf-8?B?UzBOUVF3UXVLNnZnRGhDRTRmU1JOVWJ2YkhIT0preFFtRDJnRVU4Q1EvWkVq?=
+ =?utf-8?B?VDJuR3liUlpoM2NPaTg3R1RyWks0WDJNaWZaU08vdmx5MWNVeUk3SUkydjR6?=
+ =?utf-8?B?bEplOFlCM0p3N2NiTFlLN3hLVVJkeFJ2Z1d4OUxiT1JoOVozdHJNaVNHVzdW?=
+ =?utf-8?B?NE1vV0VPRWV2anJIZ21EQkFQUWEvWW5nQTk0MEVBS1k4YjBTWDRid0ozVnhH?=
+ =?utf-8?B?WkN5cEJVL0dTVjM1VUhYUXhmQktYVlV1andtWjNRU1QyK2VqdkhoR2RNT1dB?=
+ =?utf-8?B?bko1OFRNdEsxdXBIS3Q5RXFtQnJ6d21vajFTV0RxYlpPcmNYdkVRaUxKRG5B?=
+ =?utf-8?B?RlZENTJva1pSNDV5VWVWVnhUTWcrV3Q3cnNrOXdSNjVOT0lpdDRvYWpQY3Fo?=
+ =?utf-8?B?RFR1UkwzRW50cmI4Y25vby9yRG9RdDgzbitHdWJNalZUZUtWV3ZTa1hXV1d1?=
+ =?utf-8?B?UkRlRStPeng3SHVEMmxhMnhpZkZBTk85V3ZONTJqeE9YSzZCd1hSZ2tHc3hv?=
+ =?utf-8?B?QkNYM1gxWDIrVnJUYzUyaWhNR1g2QjVHbTBLYTVFaURzWWtYS3NsWWdNODh1?=
+ =?utf-8?B?Q2pPU0tNMWVOL09qczZObHJETVNyL0ZrZE9GK0tTM0FSTjlueDFrN3RFeWg1?=
+ =?utf-8?B?UTFtUkhLYmtXU2tSZWh4bCt6bVpWQk9XVGRqclprOVBxL0FKV0k5VnlCOG1G?=
+ =?utf-8?B?TFBqS0lUT3VSZkFHMDVrWTkvY3hqN1QzbjM2YWVKcDRTTlNwblZQdkJyY1pK?=
+ =?utf-8?B?VGd1ajM3TnpxbG1BQUNFaThnOHIxcUV4K1hYV3RLeU1jbG5FU0ZGSVNCOWFF?=
+ =?utf-8?B?Umg0R01ObmtqSmlZSUdSQThJOVJLL0hML3o1Sy9FV1lhc0FDUUdYTkJKaUNM?=
+ =?utf-8?B?aGhRdjE1VkpueUFwRGZjcVhkZ0pBUTlYZWlNcWRBcWFzKzUxRWx4TkpjWkxE?=
+ =?utf-8?B?bVJuV24rWjJUclhLZWlRL0pqSXdZYXFUUzhUOTZxUGUxSFpRZGVqeFg2MExj?=
+ =?utf-8?B?WkZ0QVJlckdIb1NHNXp1WWNLTmVncXVuRjVFaUdNaUdtSkhHY1FRQ2JNcnhs?=
+ =?utf-8?B?UFpXY3oxS3hNdVpjTlRQS0hFa2RUcEIwZlFSU29wNG9QRnJtWUZRQnNCWDBF?=
+ =?utf-8?B?KzNFdURCYkxqS1A2cFFuQitUNVhqQ1phRDlNdUFiSTFOZ09GR1g4NnZOY2g0?=
+ =?utf-8?B?bUhocTVoRUlWcWRzSVZDTzd3cGNGN3dDNDVIcWVzLzVNeStzby9JTnVjSDlP?=
+ =?utf-8?B?bjZmZE83T3lQVkJ1bTIrOFpSb2JlMHpJRjRDeGZpVzJWQkdiTTFkb2Y5aWYy?=
+ =?utf-8?B?aVUvZiticTVHZGdsTWdRR2VXeTh1M01qalhDeHJ6d2dVSUFlbDc3SUt3NWp4?=
+ =?utf-8?B?bjduMGtoOGhjblpZUkFVYTZuZjBEMWU4QTA4SGkvTXlIcXRXTmFIMWFyQTFY?=
+ =?utf-8?B?THpCTWZpbmlmNGdGSHBRdFF3M1pyaXpGem5jMER0Tk1sdjdWVE9PRm9QOVN1?=
+ =?utf-8?B?R01nc2xvRHJodnB0VXlOL1laYmRoOXlwMFY3bVB0dzV5dzN0cVBXQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 248341f7-618e-4d14-a64e-08de592c2363
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 20:32:04.2147
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GoxqVEJ5iLh2mHbVD4rxCbUc2fQ7M26qjxhA/o3SuCWSplWWExnwliVEFDNY9yXK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9768
 
-On Wed, Jan 21, 2026, Xin Li wrote:
->=20
-> > On Jan 21, 2026, at 12:05=E2=80=AFAM, Binbin Wu <binbin.wu@linux.intel.=
-com> wrote:
-> >=20
-> >=20
-> > Not sure if it's OK with empty change log even though the patch is simp=
-le and
-> > the title has already described it.
->=20
-> IIRC, Sean changed it this way ;)
+On 21 Jan 2026, at 13:44, Vlastimil Babka wrote:
 
-I doubt that.  Ha!  Found it.  From: https://lore.kernel.org/all/ZmszIOsGtN=
-svqbpI@google.com
-as an attachment:
+> On 1/21/26 17:22, Kiryl Shutsemau wrote:
+>> This series removes "fake head pages" from the HugeTLB vmemmap
+>> optimization (HVO) by changing how tail pages encode their relationship
+>> to the head page.
+>>
+>> It simplifies compound_head() and page_ref_add_unless(). Both are in the
+>> hot path.
+>
+> We never got the definitive answer in the previous version discussions
+> whether it's worth to do this now with the upcoming memdesc stuff, right?
+>
+>> Background
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
+>> and remapping the freed virtual addresses to a single physical page.
+>> Previously, all tail page vmemmap entries were remapped to the first
+>> vmemmap page (containing the head struct page), creating "fake heads" -
+>> tail pages that appear to have PG_head set when accessed through the
+>> deduplicated vmemmap.
+>>
+>> This required special handling in compound_head() to detect and work
+>> around fake heads, adding complexity and overhead to a very hot path.
+>
+> So a very stupid question, why did we remap everything to the first page,
+> and not instead create two pages, where the first one would contain the h=
+ead
+> and the first batch of tails, and the second one would be used for the re=
+st
+> of the tails? I'd expect it wouldn't make the memory savings that much
+> worse, and eliminate most of the issues?
 
-[-- Attachment #4: 0013-KVM-x86-Add-a-helper-to-detect-if-FRED-is-enabled-f=
-o.patch --]
-[-- Type: text/x-diff, Size: 1418 bytes --]
+I think it was using 2 pages before[1]. The benefit of using one page is:
+=E2=80=9C
+It further reduces the overhead of struct
+page by 12.5% for a 2MB HugeTLB compared to the previous approach,
+which means 2GB per 1TB HugeTLB (2MB type).
+=E2=80=9C
 
-From f38dcc04e334cda572289f05f4be7702bebfc96a Mon Sep 17 00:00:00 2001
-From: Xin Li <xin3.li@intel.com>
-Date: Wed, 7 Feb 2024 09:26:31 -0800
-Subject: [PATCH 13/28] KVM: x86: Add a helper to detect if FRED is enabled =
-for
- a vCPU
+[1] https://lore.kernel.org/all/20211101031651.75851-1-songmuchun@bytedance=
+.com/T/#u
 
-Add is_fred_enabled() to detect if FRED is enabled on a vCPU.
+>
+>> New Approach
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> For architectures/configs where sizeof(struct page) is a power of 2 (the
+>> common case), this series changes how position of the head page is encod=
+ed
+>> in the tail pages.
+>>
+>> Instead of storing a pointer to the head page, the ->compound_info
+>> (renamed from ->compound_head) now stores a mask.
+>>
+>> The mask can be applied to any tail page's virtual address to compute
+>> the head page address. Critically, all tail pages of the same order now
+>> have identical compound_info values, regardless of which compound page
+>> they belong to.
+>>
+>> The key insight is that all tail pages of the same order now have
+>> identical compound_info values, regardless of which compound page they
+>> belong to. This allows a single page of tail struct pages to be shared
+>> across all huge pages of the same order on a NUMA node.
+>>
+>> Benefits
+>> =3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> 1. Simplified compound_head(): No fake head detection needed, can be
+>>    implemented in a branchless manner.
+>>
+>> 2. Simplified page_ref_add_unless(): RCU protection removed since there'=
+s
+>>    no race with fake head remapping.
+>>
+>> 3. Cleaner architecture: The shared tail pages are truly read-only and
+>>    contain valid tail page metadata.
+>>
+>> If sizeof(struct page) is not power-of-2, there are no functional change=
+s.
+>> HVO is not supported in this configuration.
+>>
+>> I had hoped to see performance improvement, but my testing thus far has
+>> shown either no change or only a slight improvement within the noise.
+>>
+>> Series Organization
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> Patch 1: Preparation - move MAX_FOLIO_ORDER to mmzone.h
+>> Patches 2-4: Refactoring - interface changes, field rename, code movemen=
+t
+>> Patch 5: Core change - new mask-based compound_head() encoding
+>> Patch 6: Correctness fix - page_zonenum() must use head page
+>> Patch 7: Add memmap alignment check for compound_info_has_mask()
+>> Patch 8: Refactor vmemmap_walk for new design
+>> Patch 9: Eliminate fake heads with shared tail pages
+>> Patches 10-13: Cleanup - remove fake head infrastructure
+>> Patch 14: Documentation update
+>>
+>> Changes in v4:
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>   - Fix build issues due to linux/mmzone.h <-> linux/pgtable.h
+>>     dependency loop by avoiding including linux/pgtable.h into
+>>     linux/mmzone.h
+>>
+>>   - Rework vmemmap_remap_alloc() interface. (Muchun)
+>>
+>>   - Use &folio->page instead of folio address for optimization
+>>     target. (Muchun)
+>>
+>> Changes in v3:
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>   - Fixed error recovery path in vmemmap_remap_free() to pass correct st=
+art
+>>     address for TLB flush. (Muchun)
+>>
+>>   - Wrapped the mask-based compound_info encoding within CONFIG_SPARSEME=
+M_VMEMMAP
+>>     check via compound_info_has_mask(). For other memory models, alignme=
+nt
+>>     guarantees are harder to verify. (Muchun)
+>>
+>>   - Updated vmemmap_dedup.rst documentation wording: changed "vmemmap_ta=
+il
+>>     shared for the struct hstate" to "A single, per-node page frame shar=
+ed
+>>     among all hugepages of the same size". (Muchun)
+>>
+>>   - Fixed build error with MAX_FOLIO_ORDER expanding to undefined PUD_OR=
+DER
+>>     in certain configurations. (kernel test robot)
+>>
+>> Changes in v2:
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> - Handle boot-allocated huge pages correctly. (Frank)
+>>
+>> - Changed from per-hstate vmemmap_tail to per-node vmemmap_tails[] array
+>>   in pglist_data. (Muchun)
+>>
+>> - Added spin_lock(&hugetlb_lock) protection in vmemmap_get_tail() to fix
+>>   a race condition where two threads could both allocate tail pages.
+>>   The losing thread now properly frees its allocated page. (Usama)
+>>
+>> - Add warning if memmap is not aligned to MAX_FOLIO_SIZE, which is
+>>   required for the mask approach. (Muchun)
+>>
+>> - Make page_zonenum() use head page - correctness fix since shared
+>>   tail pages cannot have valid zone information. (Muchun)
+>>
+>> - Added 'const' qualifier to head parameter in set_compound_head() and
+>>   prep_compound_tail(). (Usama)
+>>
+>> - Updated commit messages.
+>>
+>> Kiryl Shutsemau (14):
+>>   mm: Move MAX_FOLIO_ORDER definition to mmzone.h
+>>   mm: Change the interface of prep_compound_tail()
+>>   mm: Rename the 'compound_head' field in the 'struct page' to
+>>     'compound_info'
+>>   mm: Move set/clear_compound_head() next to compound_head()
+>>   mm: Rework compound_head() for power-of-2 sizeof(struct page)
+>>   mm: Make page_zonenum() use head page
+>>   mm/sparse: Check memmap alignment for compound_info_has_mask()
+>>   mm/hugetlb: Refactor code around vmemmap_walk
+>>   mm/hugetlb: Remove fake head pages
+>>   mm: Drop fake head checks
+>>   hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
+>>   mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
+>>   mm: Remove the branch from compound_head()
+>>   hugetlb: Update vmemmap_dedup.rst
+>>
+>>  .../admin-guide/kdump/vmcoreinfo.rst          |   2 +-
+>>  Documentation/mm/vmemmap_dedup.rst            |  62 ++--
+>>  include/linux/mm.h                            |  31 --
+>>  include/linux/mm_types.h                      |  20 +-
+>>  include/linux/mmzone.h                        |  47 +++
+>>  include/linux/page-flags.h                    | 167 +++++-----
+>>  include/linux/page_ref.h                      |   8 +-
+>>  include/linux/types.h                         |   2 +-
+>>  kernel/vmcore_info.c                          |   2 +-
+>>  mm/hugetlb.c                                  |   8 +-
+>>  mm/hugetlb_vmemmap.c                          | 300 ++++++++----------
+>>  mm/internal.h                                 |  12 +-
+>>  mm/mm_init.c                                  |   2 +-
+>>  mm/page_alloc.c                               |   4 +-
+>>  mm/slab.h                                     |   2 +-
+>>  mm/sparse-vmemmap.c                           |  44 ++-
+>>  mm/sparse.c                                   |   5 +
+>>  mm/util.c                                     |  16 +-
+>>  18 files changed, 369 insertions(+), 365 deletions(-)
+>>
 
-Signed-off-by: Xin Li <xin3.li@intel.com>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/kvm_cache_regs.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
 
-diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
-index 75eae9c4998a..fe5546efd388 100644
---- a/arch/x86/kvm/kvm_cache_regs.h
-+++ b/arch/x86/kvm/kvm_cache_regs.h
-@@ -187,6 +187,21 @@ static __always_inline bool kvm_is_cr4_bit_set(struct =
-kvm_vcpu *vcpu,
- 	return !!kvm_read_cr4_bits(vcpu, cr4_bit);
- }
-=20
-+/*
-+ * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
-+ * a vCPU is running with FRED enabled, because:
-+ * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA =3D 1.
-+ * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
-+ */
-+static inline bool is_fred_enabled(struct kvm_vcpu *vcpu)
-+{
-+#ifdef CONFIG_X86_64
-+	return kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
-+#else
-+	return false;
-+#endif
-+}
-+
- static inline ulong kvm_read_cr3(struct kvm_vcpu *vcpu)
- {
- 	if (!kvm_register_is_available(vcpu, VCPU_EXREG_CR3))
---=20
-2.45.2.627.g7a2c4fd464-goog
+Best Regards,
+Yan, Zi
