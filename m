@@ -1,242 +1,346 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012031.outbound.protection.outlook.com [52.101.53.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9963D3008;
-	Wed, 21 Jan 2026 18:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769020519; cv=fail; b=eOgbQIEPEzbWt4jQrj8tFWd3ZWRRYXsHho8NjjgNwUZkvl/E5KMc6ad4aUY1Q8uEA2EVTV/TxUynNJJ9JIoXlkfhVNj1phNzwDnLLEzkh49N8Ob//Ocu6G6jkSV1+OtQq/gOddeJc5FUo1SzGltG33Gap4/M5INhyojbCel8znw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769020519; c=relaxed/simple;
-	bh=ulFzBYC9SrnVomQtd08Zs4tCV9rMG09dL7uJH3CYTPg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aocfSTLRQOTqvjyJotnyDeRPdszLEgV+cJuU9DBJs8TQnXAmbXWZNlXeEnNWWDyH2cuHNtfMOC8nE2qnqGd3MSLrfqvLJ0cIrRlOKocV4CW2qAVRP4dTxb1bgiCsUHkcxe4wbKWiFMKKFqIR1+WwThuwUNXYeugqSAQj6bOcBNU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=d+Il0Ocm; arc=fail smtp.client-ip=52.101.53.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B344E3A960C
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 18:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769021061; cv=none; b=k3p64ACSJ7NHihYzadLVgWaS3NXeqm/DTixbPVFiaEC8EOsG7SGKjR3EJ9hlXHbz+voftY8Hh33a1LMZCCf/sEt0msaDso13DsjNi/gMZJEcshFBij5dYxoNrICfj9053HiH8q7QylCKz5D8PHMKSe2ais1cUYQgdXfopl/Y1HI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769021061; c=relaxed/simple;
+	bh=UbCjw8ssZKqQeQxBwGSnYqxZ4IcAgLQzF86UIoiyztA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IHtr2S4wAYA3k+UUcFd+i6mwgyiyBLpSa8NMSgzjJ2kQGwM84V9fC99RWxHI9fwqdSMpkbxLmq5iQ0BCmk2HT+96QqKtvMt1rpAuBJPJ0je/lWenoJSUqgVGxv3U8sgvNzT/KP3vNeAIXQr+K/YeFBudXbZyOSsoMclbQK5+SiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Yobx9b/q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=78Gec1+B; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Yobx9b/q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=78Gec1+B; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="d+Il0Ocm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NPoseDd27hrsJxWXWXVDG8uJTjeAY6FsdS9eHBCwU3bo0qkWLF4m9cRBKHIzsLZVjujdfH1WRucwh0HkCxFzubIN/68K1/mAqQR0QgculCAptSvwxFy39l0hyxqaF5OVz49FHZ8gnJo4GRdeTDtb7qiH69texFNYQGQx3BHdXnFU5UqQnNZgA9x0lHQ55Mnc8ToXwSsEmCAbnz2hNGUbXb6uOOmvU80gNz/3J6xuDEHfLi4/nPud06I0blHnHXEJaNkxTN3fogONYzQy9fxrjs0X9CDlMxRDL9RciI44e6qiTtPxGu6KQA6pm/AjaN7xvlqqK1ywmYRGRgFtyBNFtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U1LLixYnyy6MyF1z+KU6eZupHCFRavUEN7WI9J1l/+o=;
- b=C/G2cXSFrkBV1mXabZSlRV4H97UMvOGgkcVKALp2+9kFVb5aoDrfojo4qZ4uqoMm5w9WQFIPywVyWYuebpBfXvg8l6AGsDeHwK7KSewpNfewzkWnvTmJXPiVltUC7vflb1oJHTwHSytmm+bL+OD8RZSiwwquDkaUGAPxCR6rO8bWeyzQpaV4PMSzYKRXeusEkt3Q++AELzWgwJOj1MpF6fc0kwGU3pEbHLOMrv/Sqo7GbnVPEM2x6xCaPGEKI/c+xqhkpIs7y1AaHH4OoJFNORCR8Qh7w1FvKb56Nd8lxYybzawf0N+Rpiz+JXGQN1DFvMfchFWkkgszPl/6FeLqxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U1LLixYnyy6MyF1z+KU6eZupHCFRavUEN7WI9J1l/+o=;
- b=d+Il0OcmfGLtn8yBo+TQNHllkzWMxzh0P5M9gyHGk77MtTc/c7yls2XjPX2yBZaVETt1DAIMMIzvdhIj6TtW7/Y8y5r74W5RrO90WXjHFA4kQqMEn3elVas0qO/cF2won7MSjoVQ3VH7wrJtqTY58x2EsV1SwCJVEwXQXB2FVQl2hRayJaVqHFDGPWYRv65NZPsiP583EwL0OhBG42VRBJ1b6e1/lXe2dBxgz0LfbTSu06li5/WSP3Ss7zq77CmqNM+Q6ekVYDk1rKZb6PhdKUov1f9MYlH6kZ7v1dxONZBczkr/WfS2iPVHP9b4kkhlATpy+MAEHpkeZHwetNd4FQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- MW4PR12MB6973.namprd12.prod.outlook.com (2603:10b6:303:20a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
- 2026 18:35:11 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
- 18:35:09 +0000
-Message-ID: <925b7dd5-c941-4946-8148-ebd7e8eeca65@nvidia.com>
-Date: Wed, 21 Jan 2026 13:35:04 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v6 13/26] nova-core: mm: Add unified page table entry
- wrapper enums
-To: Zhi Wang <zhiw@nvidia.com>
-Cc: linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Alistair Popple <apopple@nvidia.com>, Alexandre Courbot
- <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Alexey Ivanov <alexeyi@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, joel@joelfernandes.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
- <20260120204303.3229303-14-joelagnelf@nvidia.com>
- <20260121115436.45e174d3.zhiw@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <20260121115436.45e174d3.zhiw@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1P222CA0001.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:208:2c7::6) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Yobx9b/q";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="78Gec1+B";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Yobx9b/q";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="78Gec1+B"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 90FE4336F7;
+	Wed, 21 Jan 2026 18:44:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769021056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=i6ugDYYexV6tlXTntW5lrwN365JGB8kSnp3GfE2NxRw=;
+	b=Yobx9b/qU+2xsltTGpMlbWRHGjIh8/EvBhQoQOErqZTeiSG/4c2u+EnMyOhDWvjvtrc23/
+	DhdaQ/aRtGjfbaFpzwHUYt3HOb3ihqB4kqORbAM7EQHrXGVHSR5yzk2upFRMHnM1G/Vm/y
+	45cGyh9mn6kwGMqdYIIOXOBCC8TYQu4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769021056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=i6ugDYYexV6tlXTntW5lrwN365JGB8kSnp3GfE2NxRw=;
+	b=78Gec1+B22YqNlEi+i5I6v/CgZgXFbmmGN61w+o4SBoWVoXyZXRpY03i56UNDu99R7Crrv
+	KxHEYpNDvI3CHzBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="Yobx9b/q";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=78Gec1+B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769021056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=i6ugDYYexV6tlXTntW5lrwN365JGB8kSnp3GfE2NxRw=;
+	b=Yobx9b/qU+2xsltTGpMlbWRHGjIh8/EvBhQoQOErqZTeiSG/4c2u+EnMyOhDWvjvtrc23/
+	DhdaQ/aRtGjfbaFpzwHUYt3HOb3ihqB4kqORbAM7EQHrXGVHSR5yzk2upFRMHnM1G/Vm/y
+	45cGyh9mn6kwGMqdYIIOXOBCC8TYQu4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769021056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=i6ugDYYexV6tlXTntW5lrwN365JGB8kSnp3GfE2NxRw=;
+	b=78Gec1+B22YqNlEi+i5I6v/CgZgXFbmmGN61w+o4SBoWVoXyZXRpY03i56UNDu99R7Crrv
+	KxHEYpNDvI3CHzBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B9B23EA63;
+	Wed, 21 Jan 2026 18:44:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kUnzDIAecWmEZQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 18:44:16 +0000
+Message-ID: <bc7b8c62-a8b3-4407-a69f-30b3fd269566@suse.cz>
+Date: Wed, 21 Jan 2026 19:44:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|MW4PR12MB6973:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52f835fd-45e8-4623-3815-08de591bce3f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MnZSczY0clVFRG9IQXRBZ2hOK2hSSTM2YUVKRktjK1ljeis3MDZSU2Q0dXlu?=
- =?utf-8?B?UGptbWtTQkcwQ0F4RzBQUHloaHduOGFvbHN1cEljeXB4NnZpeVUxVldTb2Iv?=
- =?utf-8?B?cUhSRUpnMjVHQWhHdGNWNGp4OHh3OWJmbHBjQzRrL0NlT0h5elZtbmhTT3pv?=
- =?utf-8?B?MnFCRU1iYzhxREhLWGF2Vms5cjhKR3RpWTl0S25MSXk4T0VaREhNWithMGZv?=
- =?utf-8?B?UmpCVll5VWVVWUplb3d0Q0x6TDhSbjF3S1IvbG5walRpZ1lvY002MnB1RURT?=
- =?utf-8?B?Yk5WKzA3bEg4TzFHeTlHRjZVK1BJdmhoc080dk9NRyt3ZEovTmVQU2o2MjJP?=
- =?utf-8?B?TUExYk1SVkw2ZHRXNVNVcUpxUVJzakZCS3AySE1TUEtGMlEwSm5VN1FtSE1w?=
- =?utf-8?B?ZWh2QzFsdVdEd3o3WnFtZ3A2Z0EwWW9POVdpRlp3emk0TjNhUkViSjRxWXlq?=
- =?utf-8?B?b2J5RUdpL244dVlJWlRZdXhFZmFwL2xwekxtMmpGeXJGUnI3akFBeFR5anVh?=
- =?utf-8?B?OTgwS1hLTzl5R0hyc2hpVUhidnlwWUdhNkVIN2RXdVBDVzdFU1ZrUkJ3SkpR?=
- =?utf-8?B?b3RWWXdqNEp6ZDBuKzdNeEhaUnZ4UWJNeVc5V0YySFpDNkJZZzJ3aEJqNkpj?=
- =?utf-8?B?VEJVWXFLTExYTGpGL0M4eFRFOEtHOVViZWk2dFh5Q2djWlpJMlVyYW1uZS9q?=
- =?utf-8?B?MHVDdzZZc3ZidFROU1ZoNkxKOUZVS2p6bml0YTRaVFVWbGdxanNsdC9nZE9M?=
- =?utf-8?B?ZkEvcEFLUCtOU1VidXFUcE90cmZvRUExVEF3eGY1dWtEZ3BNakorRVJ0cWt1?=
- =?utf-8?B?blliM3M3YnRhUEQ2dGhaWkt3bUdpUUdqMEhLNFZLdzRwaVJUZjNzRldOcU9R?=
- =?utf-8?B?dnNNS0xMbllSL1FyVkdXS0ZUZW5MWnY4QVJvMUc1M0Y1RTFINGpGZ3AvOHpC?=
- =?utf-8?B?TldzOFczRGlPUHZRRkN0NmpXdXhrVnBSZXRWVkNqYVNxa1dKQ09KeXlyUlhL?=
- =?utf-8?B?M2pESk9lcDBEcU1rODI5RnBkcG1CWW10TldpVVBNRDRjMnFJYXVoN0pLWnF6?=
- =?utf-8?B?cWMzcC9IVFozMEgyRGM5RVBnOWd0RUxFbkhkbFUvNStIWW5FVEltSHh2SVIy?=
- =?utf-8?B?UUgwRC9VTXJoZWtnQ3RYV013RFNpZ2pzVGZCUGJrU2x0L1cvYTgxd2gxUWl1?=
- =?utf-8?B?MGdSTFlJZHFtQ0wyYUpCT3kxalM4MWNadE5wa2lnb2ZXa2VWYXFqSnYxbWNJ?=
- =?utf-8?B?ekw2YmxJemxsdmhITi9IT1dOcVorLy9PaVFFMUNmb01DV3VRNlpFRGRFUllX?=
- =?utf-8?B?YjkzR01zVXVSdEF3YlR2S1hNak4vNXFqYS9YQXMvZGZyTHFtZlJDSXhCL1Fn?=
- =?utf-8?B?U0xDdXQxMTBnYzdqQjV5eE90a1pNZ1ljQmFrREcranNHMEplL1pIOEpUdnJk?=
- =?utf-8?B?WUQvNlRkSGJib211TUhhTVA1TFFuWnd6ZncrV1d3MlFYcUNYbmJjRG4wOXNu?=
- =?utf-8?B?UWU0OUdxRlBJTUR0NFczREZhZytFTVZhR3dEY09GRTlUWTQ3SDgvMEJPMUhI?=
- =?utf-8?B?NWZJQnMwOVJNU1hQRC9lYVRDdTRJV1RpeEFOQXVxT0hqczh2OURMR3NQVFFn?=
- =?utf-8?B?ekJwaDAyYnFlZmhIdUNIeU5LWHJ1L2tmSS9PS2N2K1BvQWNPb0Y2Wm1ZMGVU?=
- =?utf-8?B?VC8rYVl2bXJOTkJDcnRYVS9zclZyelJnSEl0NnA3M1plRGVHT29hdzRLdk5D?=
- =?utf-8?B?QTNqWlRvSkZnSysxY1lwd1lHdWQ3eVFld2VzdkE2bnhRYWJrRThoWWNFWm5E?=
- =?utf-8?B?M0h6RmZYc2RJYTJwKytzdmVzVDRpR0Q2OE5vaXZWbUx0THNiODF0L3JKVExT?=
- =?utf-8?B?ZXQwcmR4aTBkcGtybG5xN3JFYllNcElrdkV2Y2xjSGppeW4vQXRxNVJGaHc5?=
- =?utf-8?B?SkwvUGJYQnl5L1pMTUdXQ0kxV2k5ZTFZdDhPL3NtTHVLSE42QkYvZ0Z6TzZW?=
- =?utf-8?B?WWVENExONnpwNVVTbXIvL2hJYU5xZ2EvR2lGMWFrMUN3a283T3lidWd5VnBp?=
- =?utf-8?B?bGcvWWw0V3hVWkJ1Y05ERkc2a0ZkZ2trMkZwRGQwdENVNTJvbTJLK3M2dGRt?=
- =?utf-8?Q?Z8Kw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QUM3UmZUTzB6eTJhZkx3UC9yVmdOa1JKcUtjUTV0Z1Jac09uem9vK2ZEZ3pI?=
- =?utf-8?B?Q2hxbXJLMnR3a2VMMnB0empqcDlGemczSVE3amxGcHZBOE1PVFR1c3NOYzd2?=
- =?utf-8?B?Z3ZaN3pYRjlhZUEyRnFQSEx4MjNhZWp3SnhhMkRWWURJRmJlNDNBTUtHbmRl?=
- =?utf-8?B?aVNWcU1ubWpjcFFTWkdXakJwbGhwMEVoZEkwSi81eFpqNEl0YldWV0hXdzQv?=
- =?utf-8?B?N3B1Wm1rNU9zNEVRYlNpS2JNTUkwTHh1RkRKZkFTeC8xVWtiZVI2dllxeHBT?=
- =?utf-8?B?SkdFazZhaTVrYjVVb0cvRmszZ2kzL2FoQi81cHdhNG9RWUF5VjZ5aXdyMEhZ?=
- =?utf-8?B?cDZveXNKNWhnMis1d01PWTlORFEvMnF4MUhteFV6RGR1K2o4RDJnV0hEYXZH?=
- =?utf-8?B?MVYvOTYraXdLSFdVSE1aVlM3aUwySm9OR0JvUGcxUU96NnJMUWZQNnpSa0FB?=
- =?utf-8?B?dFVWZmhEYTBwQnlsQll1VVZNcHhuWjR2WmpJTHdLcU9yeExEVFMyZXNiUW9W?=
- =?utf-8?B?RHU1MENuUUhUUGRqU2RKL1FvaWpMTTNtdkFHRVBPYWQzbnBVeE5yL1BBcDdW?=
- =?utf-8?B?Zzg0MnMzNXcyRUh3NTFqRVdkaXA5UFNTODBCNlZuMnJNbUtld0F5VStpS050?=
- =?utf-8?B?YWZZMUNkY1hwYU9xR0FDMlh3MXpMbkFLc2RUT0JoMU9zOVQ4MVZib1doTWg1?=
- =?utf-8?B?UHJNMXRDQTVPaFdTSE5QSG9tSHJ2NlJRbkhJRWdNNjEyUUxWNjZESXc5Lzdx?=
- =?utf-8?B?bHRjb0ZuSjFqQ3VWU1FQeHVqb1VScmtTSGw0ZzMxWUx6ZGdwYmtSV29KbzBk?=
- =?utf-8?B?N3dsL094OGFxaUxobUJhWDF5dm1xK1grM1lwL0kzdDU2SDdhMW5TUThpU0Fo?=
- =?utf-8?B?R3ErbFFZeFRlelZ5alQwYU1VNUV4ZzQvcG1henk2YUxURllKVlNXK3NaZ0pD?=
- =?utf-8?B?b2k5STBWYVhGbWVocWNpRVNURlNQTjQ1cHB4cDNlVmVKSzd4eFhUMWNmR3VB?=
- =?utf-8?B?Q3pybEtnSFJwdXR0Rlc1TWlFZy9yeE9yUmtGMkdTRGx3YW1OaGo2eWpsN0py?=
- =?utf-8?B?VjdVbm1vbC9sMG9nckVjN2dsejl4MW1kblRVOXd4elVpYU1FQXhNWkZhNnUz?=
- =?utf-8?B?VXpJTkY4VUVPeGFwYmNGa01FcGgzMXRKaVBWb0lLWTRrZG9WOHVZQzRWM2Ju?=
- =?utf-8?B?b21ySnJxWWljWWhMS3pRV1BQNitTSEU3VTlpZTlzNVlYcUwvSTZUT2RValJi?=
- =?utf-8?B?a3RCRXpvZitVZzNSYWhDeVRUOGZLTnlub2hKWWlaUmVBQkx4czEvN3dNaUhr?=
- =?utf-8?B?Zm5MVE1QODJXenRGZW5QdU8xb2ZXdzRXRzFxaW1QZXRBaWRWOEhnbVVmRmxo?=
- =?utf-8?B?emprWHF4UUxaVVd4b3Fsa3N0ZlZwTFFHcGFKYkRQdnZXTm5pQ2IxcXRuMjV1?=
- =?utf-8?B?NjJ5R0lsR3hPcVhLMnkrUmY4WndENm1Zem5kaE9xelpJQnoyS1hsNmozVHF6?=
- =?utf-8?B?bzExZGtJODRRWDh1am16Z29nZVJHQm42NnNONDFRYWtIM0N2cW1meTNJalgw?=
- =?utf-8?B?VnArWENVb0ZNWm42Z1lRa3lIQVMxNE5vR3VmM2JKRm12bUh2cERvQmZweDlj?=
- =?utf-8?B?QnY2a2M1M3N4dElwK0tBUHlaU2d3UmtMZUhKb29naG10WVYxL3YyZTB5VjVW?=
- =?utf-8?B?YTRNY1hIYkRRNFdGZUtsdmdmTVRhVGpLNnFyMmZaUkZBNTc0TCtXU0JxaFEy?=
- =?utf-8?B?ZHdVUE1xNVpOY0VDR1BiWU5YMnlIaVgyU0YzdmlieDMyaVdBNUpFVmpPTGRx?=
- =?utf-8?B?aWtBdXVNd3hjUzZKbDVqVUZob1dkWHliajY4bks3Yk50dktNaG1PRWxSY3F4?=
- =?utf-8?B?SEVTeWJyMkxFc2p1RXB6bkhVUzVmVzJjeHhIWFJHODQ0Q1VwcjVleVhYdXpl?=
- =?utf-8?B?ZDhRZmpNNFR0VUdNUHZ5dTRhdE5RMGw2dDFncURoZ1VibFNETnlyL1VnUUVI?=
- =?utf-8?B?TklmcGI5a2FGZXBnNWZLd1hZNXFvS3puUEFtVVZpTjZyVkVOMENGckNlQkg3?=
- =?utf-8?B?UEdnRjF0RDMzWEFoeENoVTgzQmc5UkdneGNjZE1BQ0RiRUl4TG9yUHYrYmtk?=
- =?utf-8?B?V0N0U3c3L3JKOFAwZ01USjgxdWpFb0E4bmhDbVBmSm9ONForN0tSYk5ZSTNW?=
- =?utf-8?B?NXhpbjBwRFJXb3o1UlJoY0dRLzRmejFzMm55Rk5ja2NhTmI5Z1htZmhFNDZR?=
- =?utf-8?B?bjJEOGN1MUlseDdFSWZ5enBMRXR3c3JFeFdmdnVLOWlPMHo3dGp6M3pBN3pE?=
- =?utf-8?B?TTk0NU1SR04zcWFRQmE1NGh4YzVwQjhXN2ZzR21YYnBVU08xTnNmQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52f835fd-45e8-4623-3815-08de591bce3f
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 18:35:09.4048
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qQAQkLQyQYd88YVfp31F9yb9+XC28lqxprIZ+SS4rX9/qP5GQBLdNDYQj2lUrlDtcSmSNAMiIO8lS6qBVGH8Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6973
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv4 00/14] mm: Eliminate fake head pages from vmemmap
+ optimization
+Content-Language: en-US
+To: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260121162253.2216580-1-kas@kernel.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <20260121162253.2216580-1-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,linux-foundation.org,linux.dev,infradead.org,gmail.com,google.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 90FE4336F7
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-
-
-On 1/21/2026 4:54 AM, Zhi Wang wrote:
-> On Tue, 20 Jan 2026 15:42:50 -0500
-> Joel Fernandes <joelagnelf@nvidia.com> wrote:
->> Add unified Pte, Pde, and DualPde wrapper enums that abstract over
->> MMU v2 and v3 page table entry formats. These enums allow the page
->> table walker and VMM to work with both MMU versions.
->>
+On 1/21/26 17:22, Kiryl Shutsemau wrote:
+> This series removes "fake head pages" from the HugeTLB vmemmap
+> optimization (HVO) by changing how tail pages encode their relationship
+> to the head page.
 > 
-> snip
-> 
->> +impl DualPde {
->> +    /// Create a [`DualPde`] from raw 128-bit value (two `u64`s) for
->> the given MMU version.
->> +    pub(crate) fn new(version: MmuVersion, big: u64, small: u64) ->
->> Self {
->> +        match version {
->> +            MmuVersion::V2 => Self::V2(ver2::DualPde::new(big, small)),
->> +            MmuVersion::V3 => Self::V3(ver3::DualPde::new(big, small)),
->> +        }
->> +    }
->> +
->> +    /// Create a [`DualPde`] with only the small page table pointer set.
->> +    pub(crate) fn new_small(version: MmuVersion, table_pfn: Pfn) ->
->> Self {
->> +        match version {
->> +            MmuVersion::V2 =>
->> Self::V2(ver2::DualPde::new_small(table_pfn)),
->> +            MmuVersion::V3 =>
->> Self::V3(ver3::DualPde::new_small(table_pfn)),
->> +        }
->> +    }
->> +
->> +    /// Check if the small page table pointer is valid.
->> +    pub(crate) fn has_small(&self) -> bool {
->> +        match self {
->> +            Self::V2(d) => d.has_small(),
->> +            Self::V3(d) => d.has_small(),
->> +        }
->> +    }
->> +
-> 
-> Should we also have a has_big here as well?
-Good catch, I will add that in, thanks.
+> It simplifies compound_head() and page_ref_add_unless(). Both are in the
+> hot path.
 
---
-Joel Fernandes
+We never got the definitive answer in the previous version discussions
+whether it's worth to do this now with the upcoming memdesc stuff, right?
+
+> Background
+> ==========
+> 
+> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
+> and remapping the freed virtual addresses to a single physical page.
+> Previously, all tail page vmemmap entries were remapped to the first
+> vmemmap page (containing the head struct page), creating "fake heads" -
+> tail pages that appear to have PG_head set when accessed through the
+> deduplicated vmemmap.
+> 
+> This required special handling in compound_head() to detect and work
+> around fake heads, adding complexity and overhead to a very hot path.
+
+So a very stupid question, why did we remap everything to the first page,
+and not instead create two pages, where the first one would contain the head
+and the first batch of tails, and the second one would be used for the rest
+of the tails? I'd expect it wouldn't make the memory savings that much
+worse, and eliminate most of the issues?
+
+> New Approach
+> ============
+> 
+> For architectures/configs where sizeof(struct page) is a power of 2 (the
+> common case), this series changes how position of the head page is encoded
+> in the tail pages.
+> 
+> Instead of storing a pointer to the head page, the ->compound_info
+> (renamed from ->compound_head) now stores a mask.
+> 
+> The mask can be applied to any tail page's virtual address to compute
+> the head page address. Critically, all tail pages of the same order now
+> have identical compound_info values, regardless of which compound page
+> they belong to.
+> 
+> The key insight is that all tail pages of the same order now have
+> identical compound_info values, regardless of which compound page they
+> belong to. This allows a single page of tail struct pages to be shared
+> across all huge pages of the same order on a NUMA node.
+> 
+> Benefits
+> ========
+> 
+> 1. Simplified compound_head(): No fake head detection needed, can be
+>    implemented in a branchless manner.
+> 
+> 2. Simplified page_ref_add_unless(): RCU protection removed since there's
+>    no race with fake head remapping.
+> 
+> 3. Cleaner architecture: The shared tail pages are truly read-only and
+>    contain valid tail page metadata.
+> 
+> If sizeof(struct page) is not power-of-2, there are no functional changes.
+> HVO is not supported in this configuration.
+> 
+> I had hoped to see performance improvement, but my testing thus far has
+> shown either no change or only a slight improvement within the noise.
+> 
+> Series Organization
+> ===================
+> 
+> Patch 1: Preparation - move MAX_FOLIO_ORDER to mmzone.h
+> Patches 2-4: Refactoring - interface changes, field rename, code movement
+> Patch 5: Core change - new mask-based compound_head() encoding
+> Patch 6: Correctness fix - page_zonenum() must use head page
+> Patch 7: Add memmap alignment check for compound_info_has_mask()
+> Patch 8: Refactor vmemmap_walk for new design
+> Patch 9: Eliminate fake heads with shared tail pages
+> Patches 10-13: Cleanup - remove fake head infrastructure
+> Patch 14: Documentation update
+> 
+> Changes in v4:
+> ==============
+>   - Fix build issues due to linux/mmzone.h <-> linux/pgtable.h
+>     dependency loop by avoiding including linux/pgtable.h into
+>     linux/mmzone.h
+> 
+>   - Rework vmemmap_remap_alloc() interface. (Muchun)
+> 
+>   - Use &folio->page instead of folio address for optimization
+>     target. (Muchun)
+> 
+> Changes in v3:
+> ==============
+>   - Fixed error recovery path in vmemmap_remap_free() to pass correct start
+>     address for TLB flush. (Muchun)
+> 
+>   - Wrapped the mask-based compound_info encoding within CONFIG_SPARSEMEM_VMEMMAP
+>     check via compound_info_has_mask(). For other memory models, alignment
+>     guarantees are harder to verify. (Muchun)
+> 
+>   - Updated vmemmap_dedup.rst documentation wording: changed "vmemmap_tail
+>     shared for the struct hstate" to "A single, per-node page frame shared
+>     among all hugepages of the same size". (Muchun)
+> 
+>   - Fixed build error with MAX_FOLIO_ORDER expanding to undefined PUD_ORDER
+>     in certain configurations. (kernel test robot)
+> 
+> Changes in v2:
+> ==============
+> 
+> - Handle boot-allocated huge pages correctly. (Frank)
+> 
+> - Changed from per-hstate vmemmap_tail to per-node vmemmap_tails[] array
+>   in pglist_data. (Muchun)
+> 
+> - Added spin_lock(&hugetlb_lock) protection in vmemmap_get_tail() to fix
+>   a race condition where two threads could both allocate tail pages.
+>   The losing thread now properly frees its allocated page. (Usama)
+> 
+> - Add warning if memmap is not aligned to MAX_FOLIO_SIZE, which is
+>   required for the mask approach. (Muchun)
+> 
+> - Make page_zonenum() use head page - correctness fix since shared
+>   tail pages cannot have valid zone information. (Muchun)
+> 
+> - Added 'const' qualifier to head parameter in set_compound_head() and
+>   prep_compound_tail(). (Usama)
+> 
+> - Updated commit messages.
+> 
+> Kiryl Shutsemau (14):
+>   mm: Move MAX_FOLIO_ORDER definition to mmzone.h
+>   mm: Change the interface of prep_compound_tail()
+>   mm: Rename the 'compound_head' field in the 'struct page' to
+>     'compound_info'
+>   mm: Move set/clear_compound_head() next to compound_head()
+>   mm: Rework compound_head() for power-of-2 sizeof(struct page)
+>   mm: Make page_zonenum() use head page
+>   mm/sparse: Check memmap alignment for compound_info_has_mask()
+>   mm/hugetlb: Refactor code around vmemmap_walk
+>   mm/hugetlb: Remove fake head pages
+>   mm: Drop fake head checks
+>   hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
+>   mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
+>   mm: Remove the branch from compound_head()
+>   hugetlb: Update vmemmap_dedup.rst
+> 
+>  .../admin-guide/kdump/vmcoreinfo.rst          |   2 +-
+>  Documentation/mm/vmemmap_dedup.rst            |  62 ++--
+>  include/linux/mm.h                            |  31 --
+>  include/linux/mm_types.h                      |  20 +-
+>  include/linux/mmzone.h                        |  47 +++
+>  include/linux/page-flags.h                    | 167 +++++-----
+>  include/linux/page_ref.h                      |   8 +-
+>  include/linux/types.h                         |   2 +-
+>  kernel/vmcore_info.c                          |   2 +-
+>  mm/hugetlb.c                                  |   8 +-
+>  mm/hugetlb_vmemmap.c                          | 300 ++++++++----------
+>  mm/internal.h                                 |  12 +-
+>  mm/mm_init.c                                  |   2 +-
+>  mm/page_alloc.c                               |   4 +-
+>  mm/slab.h                                     |   2 +-
+>  mm/sparse-vmemmap.c                           |  44 ++-
+>  mm/sparse.c                                   |   5 +
+>  mm/util.c                                     |  16 +-
+>  18 files changed, 369 insertions(+), 365 deletions(-)
+> 
 
