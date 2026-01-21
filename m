@@ -1,125 +1,204 @@
-Received: from mail-yx1-f65.google.com (mail-yx1-f65.google.com [74.125.224.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E5C41C316
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 05:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA2D311C15;
+	Wed, 21 Jan 2026 06:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768974257; cv=none; b=ujpfHcQWJOco33CXcojFraA+qxnwFCM1WBQJBqFMxMtvGmHMzCteVWiSYcBKx/Zj8XghFWYNqrZ+n28OVdCV0kPGnJG0UMp4fl5Bq0opgY1i7LwH3kSdlTsrzyV62w7erlY7+IWt3+Vvd7kLQ7ez2gK5zIogC+YS+RtcA07Rjjg=
+	t=1768977908; cv=none; b=CqY6gT5IZuxv7+mZpxcU9rJkO5k8QjGxuEuamFv8tgrpaftWx2werBkB25L0PjXWBgbc7HBEi2fvfJOUZ/0W2UPwAtj8nh2ETfmMUMXB1t2oh7qTD07qbtAFc27plTAehMiFZAh43yww51XMSHQctblC3HUqTHZGP/ZgKI68CRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768974257; c=relaxed/simple;
-	bh=cCuhNoXS4wqZqsj/4ZE7U7PQyth2hfbCAfjifFmdGbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bAPGm4ULI4a0zwPRtY+VfiqzFSresAL0ECbAniXhqRCta/W8sG1s9MQwFPqLHsYdFQub1JB0GyLcMt9u1m6YlT99Zjw5tqpqriy9+JB/iIHWCGerk/C+WBKIN6U5PRlJj9LgJy/r0d8xEVvhwrDCLFC8+ZqkAeYdiutioHPkMMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PYKYkTXV; arc=none smtp.client-ip=74.125.224.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768977908; c=relaxed/simple;
+	bh=emFmtGjBh2YKCKjrMYKM35tuLZPSVERmIvEJbX2hJ18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=twNswR3nsx63RBDsdedg4WnEVadiVu575cxhozKwooDb6evA4wQcouelv5MID5JKvxrz+oCHJICyRMs8T7+oXHfxf7CZuWW06+zotAv7LFGNvsloHs9Xpx+XzDVmD/Su/jOR5oDEFF4BlRmTNghmsBDtr+de2nuvh7GflnEhpOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nVGzQRda; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PYKYkTXV"
-Received: by mail-yx1-f65.google.com with SMTP id 956f58d0204a3-644715aad1aso745842d50.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Jan 2026 21:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768974251; x=1769579051; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MoupjKqNDGOAMGhI8qwEY3FdnLYKFkn3HlTzVq0GQs4=;
-        b=PYKYkTXVVq1VPftFvETtr5mYeEShg+MMb1rf49mjquldDupu+J0rYNp5AG4YUt/wnC
-         iWTvlbLzNVvicwf/bUvzkFOEpdz8CCymPflmTgxZ6kgQfwNfgIPe9X/hPGzHc3CvPaw4
-         cAe2yJ2QKNSuWpyXAs+4SjHIZHpDtDzenYvCoNIODYtw+vS1vYOdqIGfwBhYL3VOT2vq
-         qUTVyUL1jzEtC0SGwAXu0tMOV9z1h2q/rVHDBYO4YHeJWrEmVUsMoE/C4BHTmWndQTDz
-         pwCtBEsAUmG6rORLtaG+tYFuhJ2GsjUOC81nt7n3NWXP12zx63Pw3pGLF8Ccsf3VW/fV
-         YWEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768974251; x=1769579051;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MoupjKqNDGOAMGhI8qwEY3FdnLYKFkn3HlTzVq0GQs4=;
-        b=vCanzDHca0pgH3U9ah5hiDExYtxRGQfh4OTfJbYPjHc4lH84azGaMJS4V9SsRxeFyr
-         IxcmAOxxWCDnscjpKQXwdES4/uem1O0ufers8yWVHrtuitLwWCM+rm2HGV5XESdDTO/0
-         zo65NcOQG54qLWJpaVQ9HRkKR00duZfj4xdP909Vo6bpN+lV9dyf82G9xomPfdfJtNTK
-         nYJrQTMZUnAuGvmjBbPVkjnP6hQaut6fy/94yH2PXuHBZJIzwYwXwLUPmwJxLGlKgHSB
-         rA/w1YnBRa6npFgNdlf5VpYegTKPks/cIHU5AOhZVyu+f/7MuwFxxaCQbepo+kq6YZMs
-         7Ukg==
-X-Forwarded-Encrypted: i=1; AJvYcCWLE39L5bmyPemE/oSt9eVefQe+ltD42E3MmZs6BddEExO5tCs8zoPugmIthSaPHfXgVScUxFbzRKI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6/P1xl7wGcVNyEQJ51kkQI8d06mvThK1ET6rRecmPHFNx9Dib
-	+oIk3WlokvlrzN0Uq2dbJALZwShfWPBVx3IxzTtNsqm/KDalrhGU/Clf
-X-Gm-Gg: AZuq6aKIgyzqGFLple1UZYcdQLwv/LoYxeUd0zrdLoJlz2o3ShLQmURL73wse4PDkfC
-	VAMeb006d5LzZewjwA1GBjO5m0qT4l6mZ1HtOA7JYR3OkMW5H58lu7FYe6W+7nyICFkH5zF/krP
-	Nkmt5AX2Yz2sbXstI/Ku0jO3PyKivpYOGV78/sU0LJmAowrVUgE8g6aqC9virTAW0Q/XM+I8+jd
-	G8A9mRDfvL4ucQ17u1Z2U/INMoBa4T3Z1j+lSg+5Ar0epEtNSkmS2pXtBOVPlONzVzMhlwF/3np
-	p2og34SlKa7Vm3WQtnc1zUjSEiLZz1nrX8QE7GDfLhqExDojPZMgPLgaC6c6s1nWrCtLqHV/WYa
-	OigWW7ZpPpkMMXL4JCdN8gqrYRQcBhVaoKC2vqHgBS0BizfsqzjCxJFmcSHq3YXyElRCePIW/gc
-	JaicgTpRuYsMmBioyyiUK+zcbwxRoVGaT2YKE=
-X-Received: by 2002:a05:690e:1907:b0:645:5297:3e5d with SMTP id 956f58d0204a3-6490a6a0761mr15697554d50.46.1768974251183;
-        Tue, 20 Jan 2026 21:44:11 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:5d::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6493dcbcce6sm1687077d50.24.2026.01.20.21.44.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jan 2026 21:44:10 -0800 (PST)
-Date: Tue, 20 Jan 2026 21:44:09 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v10 4/5] net: devmem: document
- NETDEV_A_DMABUF_AUTORELEASE netlink attribute
-Message-ID: <aXBnqYQdomzH9bT/@devvm11784.nha0.facebook.com>
-References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
- <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-4-686d0af71978@meta.com>
- <20260120163650.5a962648@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nVGzQRda"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768977906; x=1800513906;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=emFmtGjBh2YKCKjrMYKM35tuLZPSVERmIvEJbX2hJ18=;
+  b=nVGzQRda+1CHEK9EekqLyp5OqlibYwFJul60zdLf9jEUSjMgqwaUEiHo
+   usu4dvxECuh9UB/QD9Hy5XGESYk/6I0076NxYvjC5OoGnpjB5Mm4ajOnT
+   SVxku5EtQoaZ0HJCh5kjHjkBBSHlMWkcI4lg9OGQrEHow5HkpnfuS8oei
+   rc6V9kG17piVF3x7mMoR8v5ttwzEmQ60m2WBOSFaF06TGizY/fXNTuE/s
+   xVOklr+PVt6YlI4BCTF2kZlkUuR1nV7MGrxIJcHqlxSfOPS6n6h0VSkV/
+   EU1Q3ZZ1EvMlFIZU7caf9e0ipcYQV6oPYN/LM4krwKJkOtGUq8qp9Vkrm
+   A==;
+X-CSE-ConnectionGUID: /m3vWnOlQAim0az8PAaI0w==
+X-CSE-MsgGUID: mW+s9bpOTE6o1NiCeBOvFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81644458"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="81644458"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 22:45:05 -0800
+X-CSE-ConnectionGUID: /EJRXMFXR7iCgu3yICXfYw==
+X-CSE-MsgGUID: yg/ujrYvSdGYG75C7dU65A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="206415896"
+Received: from unknown (HELO [10.238.1.231]) ([10.238.1.231])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 22:45:00 -0800
+Message-ID: <8731e234-22b8-4ccf-89ef-63feed09e9c5@linux.intel.com>
+Date: Wed, 21 Jan 2026 14:44:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120163650.5a962648@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 07/22] KVM: VMX: Initialize VMCS FRED fields
+To: "Xin Li (Intel)" <xin@zytor.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+ corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com,
+ hch@infradead.org, sohil.mehta@intel.com
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-8-xin@zytor.com>
+Content-Language: en-US
+From: Binbin Wu <binbin.wu@linux.intel.com>
+In-Reply-To: <20251026201911.505204-8-xin@zytor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 20, 2026 at 04:36:50PM -0800, Jakub Kicinski wrote:
-> On Thu, 15 Jan 2026 21:02:15 -0800 Bobby Eshleman wrote:
-> > +- Once a system-wide autorelease mode is selected (via the first binding),
-> > +  all subsequent bindings must use the same mode. Attempts to create bindings
-> > +  with a different mode will be rejected with -EBUSY.
+
+
+On 10/27/2025 4:18 AM, Xin Li (Intel) wrote:
+> From: Xin Li <xin3.li@intel.com>
 > 
-> Why?
+> Initialize host VMCS FRED fields with host FRED MSRs' value and
+> guest VMCS FRED fields to 0.
+> 
+> FRED CPU state is managed in 9 new FRED MSRs:
+>         IA32_FRED_CONFIG,
+>         IA32_FRED_STKLVLS,
+>         IA32_FRED_RSP0,
+>         IA32_FRED_RSP1,
+>         IA32_FRED_RSP2,
+>         IA32_FRED_RSP3,
+>         IA32_FRED_SSP1,
+>         IA32_FRED_SSP2,
+>         IA32_FRED_SSP3,
+> as well as a few existing CPU registers and MSRs:
+>         CR4.FRED,
+>         IA32_STAR,
+>         IA32_KERNEL_GS_BASE,
+>         IA32_PL0_SSP (also known as IA32_FRED_SSP0).
+> 
+> CR4, IA32_KERNEL_GS_BASE and IA32_STAR are already well managed.
+> Except IA32_FRED_RSP0 and IA32_FRED_SSP0, all other FRED CPU state
+> MSRs have corresponding VMCS fields in both the host-state and
+> guest-state areas.  So KVM just needs to initialize them, and with
+> proper VM entry/exit FRED controls, a FRED CPU will keep tracking
+> host and guest FRED CPU state in VMCS automatically.
 > 
 
-Originally I was using EINVAL, but when writing the tests I noticed this
-might be a confusing case for users to interpret EINVAL (i.e., some
-binding possibly made by someone else is in a different mode). I thought
-EBUSY could capture the semantic "the system is locked up in a different
-mode, try again when it isn't".
+Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
 
-I'm not married to it though. Happy to go back to EINVAL or another
-errno.
+One nit below.
 
-> > +- Applications using manual release mode (autorelease=0) must ensure all tokens
-> > +  are returned via SO_DEVMEM_DONTNEED before socket close to avoid resource
-> > +  leaks during the lifetime of the dmabuf binding. Tokens not released before
-> > +  close() will only be freed when all RX queues are unbound AND all sockets
-> > +  that called recvmsg() are closed.
-> 
-> Could you add a short example on how? by calling shutdown()?
+[...]
 
-Show an example of the three steps: returning the tokens, unbinding, and closing the
-sockets (TCP/NL)?
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index fcfa99160018..c8b5359123bf 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -1459,6 +1459,15 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu *vcpu, int cpu)
+>  				    (unsigned long)(cpu_entry_stack(cpu) + 1));
+>  		}
+>  
+> +		/* Per-CPU FRED MSRs */
+> +		if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +#ifdef CONFIG_X86_64
 
-Best,
-Bobby
+Nit:
+
+Is this needed?
+
+FRED is initialized by X86_64_F(), if CONFIG_X86_64 is not enabled, this
+path is not reachable.
+There should be no compilation issue without #ifdef CONFIG_X86_64 / #endif.
+
+There are several similar patterns in this patch, using  #ifdef CONFIG_X86_64 / 
+#endif or not seems not consistent. E.g. __vmx_vcpu_reset() and init_vmcs()
+doesn't check the config, but here does.
+
+> +			vmcs_write64(HOST_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB));
+> +			vmcs_write64(HOST_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI));
+> +			vmcs_write64(HOST_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF));
+> +#endif
+> +		}
+> +
+>  		vmx->loaded_vmcs->cpu = cpu;
+>  	}
+>  }
+> @@ -4330,6 +4339,17 @@ void vmx_set_constant_host_state(struct vcpu_vmx *vmx)
+>  	 */
+>  	vmcs_write16(HOST_DS_SELECTOR, 0);
+>  	vmcs_write16(HOST_ES_SELECTOR, 0);
+> +
+> +	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +		/* FRED CONFIG and STKLVLS are the same on all CPUs */
+> +		vmcs_write64(HOST_IA32_FRED_CONFIG, kvm_host.fred_config);
+> +		vmcs_write64(HOST_IA32_FRED_STKLVLS, kvm_host.fred_stklvls);
+> +
+> +		/* Linux doesn't support kernel shadow stacks, thus SSPs are 0s */
+> +		vmcs_write64(HOST_IA32_FRED_SSP1, 0);
+> +		vmcs_write64(HOST_IA32_FRED_SSP2, 0);
+> +		vmcs_write64(HOST_IA32_FRED_SSP3, 0);
+> +	}
+>  #else
+>  	vmcs_write16(HOST_DS_SELECTOR, __KERNEL_DS);  /* 22.2.4 */
+>  	vmcs_write16(HOST_ES_SELECTOR, __KERNEL_DS);  /* 22.2.4 */
+> @@ -4841,6 +4861,17 @@ static void init_vmcs(struct vcpu_vmx *vmx)
+>  	}
+>  
+>  	vmx_setup_uret_msrs(vmx);
+> +
+> +	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +		vmcs_write64(GUEST_IA32_FRED_CONFIG, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_RSP1, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_RSP2, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_RSP3, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_STKLVLS, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_SSP1, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_SSP2, 0);
+> +		vmcs_write64(GUEST_IA32_FRED_SSP3, 0);
+> +	}
+>  }
+>  
+>  static void __vmx_vcpu_reset(struct kvm_vcpu *vcpu)
+> @@ -8717,6 +8748,11 @@ __init int vmx_hardware_setup(void)
+>  
+>  	kvm_caps.inapplicable_quirks &= ~KVM_X86_QUIRK_IGNORE_GUEST_PAT;
+>  
+> +	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> +		rdmsrl(MSR_IA32_FRED_CONFIG, kvm_host.fred_config);
+> +		rdmsrl(MSR_IA32_FRED_STKLVLS, kvm_host.fred_stklvls);
+> +	}
+> +
+>  	return r;
+>  }
+>  
+> diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+> index f3dc77f006f9..0c1fbf75442b 100644
+> --- a/arch/x86/kvm/x86.h
+> +++ b/arch/x86/kvm/x86.h
+> @@ -52,6 +52,9 @@ struct kvm_host_values {
+>  	u64 xss;
+>  	u64 s_cet;
+>  	u64 arch_capabilities;
+> +
+> +	u64 fred_config;
+> +	u64 fred_stklvls;
+>  };
+>  
+>  void kvm_spurious_fault(void);
+
