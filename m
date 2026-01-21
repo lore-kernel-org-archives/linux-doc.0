@@ -1,163 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BC530BB80
-	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 20:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399A43F075B
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 20:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769025634; cv=none; b=Eq2o7jdBkpOKWneevkKzdAMi8xzQ6yxbE+nx3tD+M7/hb58DUp3OSmjA6p79Zvfp1UnSdMHjXbE7+bDIXxeJzRaM6h62Uj0AuZu525bFGOMdQtf7P4S67nbXuyQ+lueu54pRsDVUbWed5fb0yP5GLn/tnOd5R6Oj+KuxRuUC+jI=
+	t=1769027080; cv=none; b=pFOS249OjDiOIIRV+Kt2eWYEZKC4zaqPpbvMQYuRlxovBd9bV99SkJ9DAHNbbNb+s1VzHD/edG7RYr2hjWA5dN8v6MqI4yK5N9EOrIM8VZeKP9J039bw4wOvqdxi6t8jUAD56RfLq10U6gm76MjjWGdHDbIELnVC9oNrKrwHlpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769025634; c=relaxed/simple;
-	bh=n3ESNd/ERl2OPDWk6Al3sMScCa+PyECZk2ZSqQtnSCg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fG+hw0ei1Str9PIj8m8zjpm/7kznTeF4xnAJEZnp725ORizxmczoiVrlmwsZhTeFR/m3h0hGc2npezSLMXk6NoPJnoJTNvR987yOCjXo9oGmHUXkdUGlfzFuOBbpr15yjraszHctH6MeB6Dt9RgMhTEQNygkq6XxEZtfXDuKJ+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EUnAgMWx; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769027080; c=relaxed/simple;
+	bh=Jaq2jsRG/r4sZNtPJ8ltyTFCbLArZNy2emYqmWGFUaU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Z9Jj2PLL+oLoRVgvLPHRi1USQKdR2gSPX19MIYtS+HwEay51vM4CqL6rqF8uVT6/4Y6+pO3DypnpsF0+KT91lNumFyruDsbfnVu+tpxxWlKUOZ/1m6LDfD1BPxaQ98hehGN5p+vGfIoxZURD4pERkjzSBGjAA+qaVMtf/2VHyrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i+BT9swE; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EUnAgMWx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769025633; x=1800561633;
-  h=date:from:to:cc:subject:message-id;
-  bh=n3ESNd/ERl2OPDWk6Al3sMScCa+PyECZk2ZSqQtnSCg=;
-  b=EUnAgMWxgZEZaudsbu0BMLfjzSBIZMJnF2QNrC1B59fiqQCoFl+gKkFl
-   m5DljN029BQV9kr0APrjbK4Qtq09fM68jfAF9fOsE+ltQV4/fEePn5nLC
-   46z4ZqNtwGRR8HNFjGKGt1gw6webvR045PNG1WabG6GNd4BBpmyiINbUU
-   hbqdNMctX9F0eNnCvH3vX5YxZ4S3gr2EgsS9sPpIdzyBhIui3YGslokz9
-   hey32lw2uq8j0dBj8XQsD9Ah7a7qdP7NPK04F5Dm8NC71gZws4AJ05vCD
-   JNGF5EJ6zidN1KBpqkX9tgrB7ELMXvxUJCediZHH/wWcI83RfMW9DzLlu
-   g==;
-X-CSE-ConnectionGUID: EgUYh2yjRNuJb2k2XHtM5Q==
-X-CSE-MsgGUID: UX106OF5TUeFTN/zaisIaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70233197"
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="70233197"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 12:00:31 -0800
-X-CSE-ConnectionGUID: ywdXeKtlRgKDQKXSnERkMA==
-X-CSE-MsgGUID: c4TjxpWmTvK6zENnpfI5uw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="229513802"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Jan 2026 12:00:29 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vieNP-000000000Mj-0KmQ;
-	Wed, 21 Jan 2026 20:00:27 +0000
-Date: Wed, 21 Jan 2026 21:00:18 +0100
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [linux-next:master 7293/8780]
- Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2:
- [warning] wrong indentation: expected 2 but found 1 (indentation)
-Message-ID: <202601212046.sQ0IKH27-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i+BT9swE"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-352e1a8603bso254663a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 12:24:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769027078; x=1769631878; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+MgxcQq5Xqx+GbQCEBAnHK7cTgnKSfyobaM2qHohzJ0=;
+        b=i+BT9swEet3BcYwvpun23CLnOmfL43ZZZW8N5xVlY1Iu9O+4YBbISMYw2ng9czEDIH
+         ciXoYnVPKINZw4o5aGUbHCCHaps6BqB9E02vYE4cQNtseroemksB0RIfCtrSDnHF48To
+         UO1uE7TzSrdYZ8OPUhKkvT2evmp4M3K/3Tfe8bq95iBv4YXRC8u0PbnCjL21P2imZdLK
+         L4vDBxdTUlKEBoVGLlG+MuYscjNw5jO1WjkBLfZGLl8V2Hbx85B4sjh/rASpmxL/Z4WU
+         C7LqMcfwcUkiUIBDxBPxOvuisgkQccqAD83b63g0yk2MeP93Hbm4xjQ2ISrWoxrP1Wqr
+         vJ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769027078; x=1769631878;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+MgxcQq5Xqx+GbQCEBAnHK7cTgnKSfyobaM2qHohzJ0=;
+        b=WNdnVYpoMMSCyf7meFxmEknmy+X1ix9GHVdeQIwgwgmvZVo+Lfs/8LU1DpILU9Qw4V
+         oIHlyhg8Q09TkmRa23lWGZCH7NwIwqUPunPnX95jx7vjpq5ff4GDyMi8dEA2ajAV89s5
+         2abN2OLAg9zrmn5RasIRU1u8RZsj9XC+zTxMrXjlljnJPNIc9t+Wxrg/GcumApW2YMrh
+         alOj3nthKAasG2LXc0FeuNA1R7EyNBJ1txu8mkxvidkBI9JQwOYic9Hsjq0Vbgrd9tt+
+         CKK++DV1P6Yq+1lqnDMr+jOAlMcIZePXxoiWnAu70WA4NlX9FoQ/sunwUPs6CweOAqH4
+         Efdg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtLtuD4+Xm+0E3Dw9ZrwCyCEV1WVU0K5ckFJ5vKNILQtT4GPX+qzBPf1+3MHSETYVlMFgzgLJam6w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznJ5v0c5TQ30v/+b1RqPGvKQCVizBkz9QqzoiKT2CXVELIf8X2
+	3OXU91Mh6OYQvWTyKvh0HqMO9YbLUDI9foBkxpxRzM8M26/J+oRnkahRxqTxTjcP2tSNRpY49iO
+	/k9L1JQ==
+X-Received: from pjbca22.prod.google.com ([2002:a17:90a:f316:b0:33b:ba24:b207])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:dfce:b0:353:3977:a082
+ with SMTP id 98e67ed59e1d1-3533977a5ddmr180576a91.1.1769027078236; Wed, 21
+ Jan 2026 12:24:38 -0800 (PST)
+Date: Wed, 21 Jan 2026 12:24:36 -0800
+In-Reply-To: <BEB86711-AE1D-4438-8278-229275493134@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-12-xin@zytor.com>
+ <9a628729-1b4f-4982-a3e6-b9269c91b3c2@linux.intel.com> <BEB86711-AE1D-4438-8278-229275493134@zytor.com>
+Message-ID: <aXE2BPCKvcIiQbqU@google.com>
+Subject: Re: [PATCH v9 11/22] KVM: x86: Add a helper to detect if FRED is
+ enabled for a vCPU
+From: Sean Christopherson <seanjc@google.com>
+To: Xin Li <xin@zytor.com>
+Cc: Binbin Wu <binbin.wu@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com, 
+	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
+	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
+	hch@infradead.org, sohil.mehta@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e3b32dcb9f23e3c3927ef3eec6a5842a988fb574
-commit: a8e3d66ff5c0c37e7c10b3e486d2c5047bf9cf2b [7293/8780] dt-bindings: arm: mediatek: audsys: Support mt8192-audsys variant
-config: microblaze-randconfig-2052-20260121 (https://download.01.org/0day-ci/archive/20260121/202601212046.sQ0IKH27-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.4.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601212046.sQ0IKH27-lkp@intel.com/reproduce)
+On Wed, Jan 21, 2026, Xin Li wrote:
+>=20
+> > On Jan 21, 2026, at 12:05=E2=80=AFAM, Binbin Wu <binbin.wu@linux.intel.=
+com> wrote:
+> >=20
+> >=20
+> > Not sure if it's OK with empty change log even though the patch is simp=
+le and
+> > the title has already described it.
+>=20
+> IIRC, Sean changed it this way ;)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601212046.sQ0IKH27-lkp@intel.com/
+I doubt that.  Ha!  Found it.  From: https://lore.kernel.org/all/ZmszIOsGtN=
+svqbpI@google.com
+as an attachment:
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:52:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
->> Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml:84:1: [warning] too many blank lines (2 > 1) (empty-lines)
+[-- Attachment #4: 0013-KVM-x86-Add-a-helper-to-detect-if-FRED-is-enabled-f=
+o.patch --]
+[-- Type: text/x-diff, Size: 1418 bytes --]
 
-vim +52 Documentation/devicetree/bindings/arm/mediatek/mediatek,audsys.yaml
+From f38dcc04e334cda572289f05f4be7702bebfc96a Mon Sep 17 00:00:00 2001
+From: Xin Li <xin3.li@intel.com>
+Date: Wed, 7 Feb 2024 09:26:31 -0800
+Subject: [PATCH 13/28] KVM: x86: Add a helper to detect if FRED is enabled =
+for
+ a vCPU
 
-     8	
-     9	maintainers:
-    10	  - Eugen Hristev <eugen.hristev@collabora.com>
-    11	
-    12	description:
-    13	  The MediaTek AUDSYS controller provides various clocks to the system.
-    14	
-    15	properties:
-    16	  compatible:
-    17	    oneOf:
-    18	      - items:
-    19	          - enum:
-    20	              - mediatek,mt2701-audsys
-    21	              - mediatek,mt6765-audsys
-    22	              - mediatek,mt6779-audsys
-    23	              - mediatek,mt7622-audsys
-    24	              - mediatek,mt8167-audsys
-    25	              - mediatek,mt8173-audsys
-    26	              - mediatek,mt8183-audiosys
-    27	              - mediatek,mt8183-audsys
-    28	              - mediatek,mt8186-audsys
-    29	              - mediatek,mt8192-audsys
-    30	              - mediatek,mt8516-audsys
-    31	          - const: syscon
-    32	      - items:
-    33	          # Special case for mt7623 for backward compatibility
-    34	          - const: mediatek,mt7623-audsys
-    35	          - const: mediatek,mt2701-audsys
-    36	          - const: syscon
-    37	
-    38	  reg:
-    39	    maxItems: 1
-    40	
-    41	  '#clock-cells':
-    42	    const: 1
-    43	
-    44	  audio-controller:
-    45	    type: object
-    46	
-    47	required:
-    48	  - compatible
-    49	  - '#clock-cells'
-    50	
-    51	allOf:
-  > 52	 - if:
-    53	     properties:
-    54	       compatible:
-    55	         contains:
-    56	           enum:
-    57	             - mediatek,mt2701-audsys
-    58	             - mediatek,mt7622-audsys
-    59	   then:
-    60	     properties:
-    61	       audio-controller:
-    62	         $ref: /schemas/sound/mediatek,mt2701-audio.yaml#
-    63	
-    64	 - if:
-    65	     properties:
-    66	       compatible:
-    67	         contains:
-    68	           const: mediatek,mt8183-audiosys
-    69	   then:
-    70	     properties:
-    71	       audio-controller:
-    72	         $ref: /schemas/sound/mediatek,mt8183-audio.yaml#
-    73	
-    74	 - if:
-    75	     properties:
-    76	       compatible:
-    77	         contains:
-    78	           const: mediatek,mt8192-audsys
-    79	   then:
-    80	     properties:
-    81	       audio-controller:
-    82	         $ref: /schemas/sound/mt8192-afe-pcm.yaml#
-    83	
-  > 84	
+Add is_fred_enabled() to detect if FRED is enabled on a vCPU.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Signed-off-by: Xin Li <xin3.li@intel.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/kvm/kvm_cache_regs.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
+index 75eae9c4998a..fe5546efd388 100644
+--- a/arch/x86/kvm/kvm_cache_regs.h
++++ b/arch/x86/kvm/kvm_cache_regs.h
+@@ -187,6 +187,21 @@ static __always_inline bool kvm_is_cr4_bit_set(struct =
+kvm_vcpu *vcpu,
+ 	return !!kvm_read_cr4_bits(vcpu, cr4_bit);
+ }
+=20
++/*
++ * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
++ * a vCPU is running with FRED enabled, because:
++ * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA =3D 1.
++ * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
++ */
++static inline bool is_fred_enabled(struct kvm_vcpu *vcpu)
++{
++#ifdef CONFIG_X86_64
++	return kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
++#else
++	return false;
++#endif
++}
++
+ static inline ulong kvm_read_cr3(struct kvm_vcpu *vcpu)
+ {
+ 	if (!kvm_register_is_available(vcpu, VCPU_EXREG_CR3))
+--=20
+2.45.2.627.g7a2c4fd464-goog
