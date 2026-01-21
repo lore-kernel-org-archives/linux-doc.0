@@ -1,68 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315C532FA29;
-	Wed, 21 Jan 2026 19:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBEF345CD8
+	for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 19:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769023026; cv=none; b=pcIfDRL3UK4/1Cl//BFmybzYpm8We3nOFXtXdwH9CNUqaLtiQgZZWJifKjIdqyFUwZ0d+HCdNT1kDwzS3P5oiRt3uu061U+jnx6qOunKp8ljk211x141x2oK61HGmlEdkc+iz1Yw7GEWWBaF02OpCxoTB0w00kgtZrxxFtN1K6M=
+	t=1769023893; cv=none; b=qXHkf8vRTV/qXZyGqIJB/yeJfILTYpz+x3aJ0RuNt6dXRiA0HNbQZFtZ+JED6149A+AUdXNgCyfvPWU8x7mB8d6leoFMuLMbulwlVpQWei23+vtwf9m9vVtQgYbYPUz78GvI6lI+TlvBZlcF5CF3dPgqX0QuwGQUooH+RKYQRGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769023026; c=relaxed/simple;
-	bh=WKT4K2OWmXphrsrK+FZH1Be2GwH/CcJ9u3AFpmT0jUc=;
+	s=arc-20240116; t=1769023893; c=relaxed/simple;
+	bh=Lu0kHih9UWQeJ+lp2O4spjT0NK81+eYFDqsV1ZmCcuk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLIt/DtAU0Zfz4yur72JN0W1HRR9UWSDR5Ca5E1MFjl/Lyh2qf1kcO7selklxlc5gR6VzUQnSn7Q2ZCGyHQLD/qcg0dXQ0IHXRcSBIHnUYqNaDcDzjfyyE2RXzIftA14nvvc5uYW9Fr7OAOYtkb6BKI4G+TlYHhsGDdPbmsBVrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7vgo0dO; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ILfY47xbhpSadYOMzGAqYd5XIk48e+jDjFQnYPVNvoEhc2WbLFiH7q/0ttYjbyvkyr2Ewkoj1xF88WqYZ1gzeC8eFloSh+fi0edYMSKb48/gshSfdC5Z/m6haBWIttZC+nePa+GS8Vewjn0iWeqXMR5a7NikOSewz0j/BkzEVBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MizkgOi/; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7vgo0dO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769023024; x=1800559024;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WKT4K2OWmXphrsrK+FZH1Be2GwH/CcJ9u3AFpmT0jUc=;
-  b=S7vgo0dOM4IOJB0wGE6TAsDGsvJMY4WIGGOaKsi8cOh6s/h0bHMxOo0w
-   lGgq3byDl/N0atmKCDR2Ckgw8ETSpZTqoeiBvGmP6auDvzM/8u77MUT1h
-   LNrf1jUQUydniLoJH5mpkARVyviyHKlB9lDd+yitKLb+2dkkRVIi14NbG
-   5Z5AFeTQNm5nPHYTHxGfo73YkIfKODWx9aW2y1PFE+j5WreqMNYAZwZkm
-   MI1LekXXiQr5sZ7Tzpjq3Oy8PwV2nqEsQUT/GR35dToYG4tsBMRt8X8q4
-   PnrQHlapxbHVTe4sS172EAktqKajVV1ww6BIvyQBxSuQHMjB1v7aCExuC
-   A==;
-X-CSE-ConnectionGUID: QDmoLWEmT2KCzgbfvNTzHQ==
-X-CSE-MsgGUID: Pq6XxXLtTNSVT4/ves8lww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70425235"
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="70425235"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 11:17:04 -0800
-X-CSE-ConnectionGUID: Sl+Ls0l+QDGO8dgpVVM22g==
-X-CSE-MsgGUID: lCBgPaCASaOclwJwG4zQLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; 
-   d="scan'208";a="211550219"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Jan 2026 11:16:59 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vidhI-00000000RgL-3W1o;
-	Wed, 21 Jan 2026 19:16:56 +0000
-Date: Thu, 22 Jan 2026 03:16:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v24 5/7] firmware: drivers: imx: adds miscdev
-Message-ID: <202601220225.eSj782As-lkp@intel.com>
-References: <20260121-imx-se-if-v24-5-c5222df51cc2@nxp.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MizkgOi/"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8c5386f1c9fso26848285a.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 11:31:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769023890; x=1769628690; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iOPRZD47F8f143cIEqQqsk0mY0SdG+TC6tAqQjFOOoM=;
+        b=MizkgOi/MdFsirXb5WjeRi0cf6qe1nB2iNeD6roM9Xzh+a1Nvixbh/1Jp2+YyPrr38
+         +tqZ8/3pUSG2i/RXlUUs9TGIl/HKcwSnRieuaz6Njg+NisCRS/QkVmfYPtJC4BLk+bll
+         QuwG7M5amj3dwSthDfg/183cHuG09EQ0/ghznBOK8w/Gyof5ClATv7z3SWbjOWVEFFgw
+         hsliXHa+ySG6x4ysRxx/PXmrZX8KYqYlgaK1Ie5FGWlMG/W+cB040jXGXuIiJ7Q5E5iY
+         RKuHaqic54XbGUOZ2dWPPM6dzAnNHOtrAmnvUI2D1yiDTaxhTiTojCBncwg7CeHHE/BW
+         SuAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769023890; x=1769628690;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iOPRZD47F8f143cIEqQqsk0mY0SdG+TC6tAqQjFOOoM=;
+        b=Z79qlsmgUKIulqv+wdjwzM6KezEIg47PMrlYLi32IVyQRxiyZ4HXBMbwGD7tCmg6B6
+         Mms645bd7I77HLM2z2k/tBDca1BVkycUXkyApyR2q92+fWXyeT9PllghQY/zmokk3k8b
+         RcP6r1+AquARD/hSzhowK6i9yNAw4s1N40M7TMR/mQbtkjskaw+6GLatWDsDtYx+7aRG
+         SM4Suejsk/NkbOCbRoRVTTzf/EB3NY74XVT80oqavE0nZqAgtwiKO2KnpN09TahBQWzv
+         /4CwtSE43VRkPJ+XZbNTjorKQ9RJoxphkr+67e0QrxsaDGsgmHH1d+BorM/U7Y8Pddgr
+         kqUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTiOEzeqAj+47k6EzaOzcTnSpkr1QAXrx+D/SmTH76sM/H9H9XZQoSHdNHtlsH7TZKXCfl3szb2eE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySQ87Padgt7npeTX1N5DH2j8dk2oZLjNJ70y2OmS9/Hl6hixvP
+	kY3loA3b80bl5raesa0X+XbPAPgQErxJNq/YrE/bZi4c/6Tm8aqWQx0j
+X-Gm-Gg: AZuq6aJx7DLVJpzllqmMis6XVHSPqiDATgl33e+hfwEVolvDD8ZPUPNAsrMLx8E+1oR
+	3rZV43ElYnqU0wETGdORTZfHzLOGwD66uk+KIzdC+0yoR7CB6Q1JXav57S8eu4B0Vt6Zkwdddy+
+	Ve3YYXRNu7987CfjDsQyPo1M4xe5Fr7T+BNvAz7FKBwlhK5O/ognSEnw/Vhfsbr2g7pUgpzxydm
+	rs+af1s6d2Od4CCRAZE3HgBP7xibk8cVMxyiBcP5RTWX94TlmrB0hkZ3oT37zrOYazIO2b2N0hV
+	hET27AN+84RF9f+7Or/+Of9SHVMCNUxfLil3lBE42qHUaROMpXbmSt5xd3uH68kWWPuQ8lXcwRA
+	ce/BiIiDj+qkfhZ6BDDt2NU9sZqn++raPEob+4LJTSHlr5YyLLQLQMljC1haT8RGzNyDU9KPgTG
+	LTwNFfUurj8LDXGWNU6ZM0lGc/966NXU4u1pc=
+X-Received: by 2002:a05:690c:6089:b0:792:7113:a305 with SMTP id 00721157ae682-793c671a7f3mr146815807b3.29.1769017778141;
+        Wed, 21 Jan 2026 09:49:38 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:40::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-793c66f6f97sm68737717b3.16.2026.01.21.09.49.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 09:49:37 -0800 (PST)
+Date: Wed, 21 Jan 2026 09:49:36 -0800
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Bryan Tan <bryan-bt.tan@broadcom.com>,
+	Vishnu Dasa <vishnu.dasa@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, berrange@redhat.com,
+	Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v15 01/12] vsock: add netns to vsock core
+Message-ID: <aXERsFJLz9b9Fzce@devvm11784.nha0.facebook.com>
+References: <20260116-vsock-vmtest-v15-0-bbfd1a668548@meta.com>
+ <20260116-vsock-vmtest-v15-1-bbfd1a668548@meta.com>
+ <aXDYfYy3f1NQm5A0@sgarzare-redhat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,155 +95,226 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260121-imx-se-if-v24-5-c5222df51cc2@nxp.com>
+In-Reply-To: <aXDYfYy3f1NQm5A0@sgarzare-redhat>
 
-Hi Pankaj,
+On Wed, Jan 21, 2026 at 03:48:13PM +0100, Stefano Garzarella wrote:
+> On Fri, Jan 16, 2026 at 01:28:41PM -0800, Bobby Eshleman wrote:
+> > From: Bobby Eshleman <bobbyeshleman@meta.com>
+> > 
+> > Add netns logic to vsock core. Additionally, modify transport hook
+> > prototypes to be used by later transport-specific patches (e.g.,
+> > *_seqpacket_allow()).
+> > 
+> > Namespaces are supported primarily by changing socket lookup functions
+> > (e.g., vsock_find_connected_socket()) to take into account the socket
+> > namespace and the namespace mode before considering a candidate socket a
+> > "match".
+> > 
+> > This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
+> > report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
+> > for new namespaces.
+> > 
+> > Add netns functionality (initialization, passing to transports, procfs,
+> > etc...) to the af_vsock socket layer. Later patches that add netns
+> > support to transports depend on this patch.
+> 
+> nit: maybe we should mention here why we changed the random port allocation
+> 
+> (not a big deal, only if you need to resend)
+> 
+> > 
+> > dgram_allow(), stream_allow(), and seqpacket_allow() callbacks are
+> > modified to take a vsk in order to perform logic on namespace modes. In
+> > future patches, the net will also be used for socket
+> > lookups in these functions.
+> > 
+> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> > ---
+> > Changes in v15:
+> > - make static port in __vsock_bind_connectible per-netns
+> > - remove __net_initdata because we want the ops beyond just boot
+> > - add vsock_init_ns_mode kernel cmdline parameter to set init ns mode
+> > - use if (ret || !write) in __vsock_net_mode_string() (Stefano)
+> > - add vsock_net_mode_global() (Stefano)
+> > - hide !net == VSOCK_NET_MODE_GLOBAL inside vsock_net_mode() (Stefano)
+> > - clarify af_vsock.c comments on ns_mode/child_ns_mode (Stefano)
+> > 
+> > Changes in v14:
+> > - include linux/sysctl.h in af_vsock.c
+> > - squash patch 'vsock: add per-net vsock NS mode state' into this patch
+> >  (prior version can be found here):
+> >  https://lore.kernel.org/all/20251223-vsock-vmtest-v13-1-9d6db8e7c80b@meta.com/)
+> > 
+> > Changes in v13:
+> > - remove net_mode and replace with direct accesses to net->vsock.mode,
+> >  since this is now immutable.
+> > - update comments about mode behavior and mutability, and sysctl API
+> > - only pass NULL for net when wanting global, instead of net_mode ==
+> >  VSOCK_NET_MODE_GLOBAL. This reflects the new logic
+> >  of vsock_net_check_mode() that only requires net pointers (not
+> >  net_mode).
+> > - refactor sysctl string code into a re-usable function, because
+> >  child_ns_mode and ns_mode both handle the same strings.
+> > - remove redundant vsock_net_init(&init_net) call in module init because
+> >  pernet registration calls the callback on the init_net too
+> > 
+> > Changes in v12:
+> > - return true in dgram_allow(), stream_allow(), and seqpacket_allow()
+> >  only if net_mode == VSOCK_NET_MODE_GLOBAL (Stefano)
+> > - document bind(VMADDR_CID_ANY) case in af_vsock.c (Stefano)
+> > - change order of stream_allow() call in vmci so we can pass vsk
+> >  to it
+> > 
+> > Changes in v10:
+> > - add file-level comment about what happens to sockets/devices
+> >  when the namespace mode changes (Stefano)
+> > - change the 'if (write)' boolean in vsock_net_mode_string() to
+> >  if (!write), this simplifies a later patch which adds "goto"
+> >  for mutex unlocking on function exit.
+> > 
+> > Changes in v9:
+> > - remove virtio_vsock_alloc_rx_skb() (Stefano)
+> > - remove vsock_global_dummy_net, not needed as net=NULL +
+> >  net_mode=VSOCK_NET_MODE_GLOBAL achieves identical result
+> > 
+> > Changes in v7:
+> > - hv_sock: fix hyperv build error
+> > - explain why vhost does not use the dummy
+> > - explain usage of __vsock_global_dummy_net
+> > - explain why VSOCK_NET_MODE_STR_MAX is 8 characters
+> > - use switch-case in vsock_net_mode_string()
+> > - avoid changing transports as much as possible
+> > - add vsock_find_{bound,connected}_socket_net()
+> > - rename `vsock_hdr` to `sysctl_hdr`
+> > - add virtio_vsock_alloc_linear_skb() wrapper for setting dummy net and
+> >  global mode for virtio-vsock, move skb->cb zero-ing into wrapper
+> > - explain seqpacket_allow() change
+> > - move net setting to __vsock_create() instead of vsock_create() so
+> >  that child sockets also have their net assigned upon accept()
+> > 
+> > Changes in v6:
+> > - unregister sysctl ops in vsock_exit()
+> > - af_vsock: clarify description of CID behavior
+> > - af_vsock: fix buf vs buffer naming, and length checking
+> > - af_vsock: fix length checking w/ correct ctl_table->maxlen
+> > 
+> > Changes in v5:
+> > - vsock_global_net() -> vsock_global_dummy_net()
+> > - update comments for new uAPI
+> > - use /proc/sys/net/vsock/ns_mode instead of /proc/net/vsock_ns_mode
+> > - add prototype changes so patch remains c)mpilable
+> > ---
+> > Documentation/admin-guide/kernel-parameters.txt |  14 +
+> > MAINTAINERS                                     |   1 +
+> > drivers/vhost/vsock.c                           |   6 +-
+> > include/linux/virtio_vsock.h                    |   4 +-
+> > include/net/af_vsock.h                          |  61 ++++-
+> > include/net/net_namespace.h                     |   4 +
+> > include/net/netns/vsock.h                       |  21 ++
+> > net/vmw_vsock/af_vsock.c                        | 328 ++++++++++++++++++++++--
+> > net/vmw_vsock/hyperv_transport.c                |   7 +-
+> > net/vmw_vsock/virtio_transport.c                |   9 +-
+> > net/vmw_vsock/virtio_transport_common.c         |   6 +-
+> > net/vmw_vsock/vmci_transport.c                  |  26 +-
+> > net/vmw_vsock/vsock_loopback.c                  |   8 +-
+> > 13 files changed, 444 insertions(+), 51 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index a8d0afde7f85..b6e3bfe365a1 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -8253,6 +8253,20 @@ Kernel parameters
+> > 			            them quite hard to use for exploits but
+> > 			            might break your system.
+> > 
+> > +	vsock_init_ns_mode=
+> > +			[KNL,NET] Set the vsock namespace mode for the init
+> > +			(root) network namespace.
+> > +
+> > +			global      [default] The init namespace operates in
+> > +			            global mode where CIDs are system-wide and
+> > +			            sockets can communicate across global
+> > +			            namespaces.
+> > +
+> > +			local       The init namespace operates in local mode
+> > +			            where CIDs are private to the namespace and
+> > +			            sockets can only communicate within the same
+> > +			            namespace.
+> > +
+> 
+> My comment on v14 was more to start a discussion :-) sorry to not be clear.
 
-kernel test robot noticed the following build warnings:
+No worries, resending with this included started a good discussion so
+not for nil.
 
-[auto build test WARNING on 6c790212c588fddeb0d852f2790840753bb604b1]
+> 
+> I briefly discussed it with Paolo in chat to better understand our policy
+> between cmdline parameters and module parameters, and it seems that both are
+> discouraged.
+> 
+> So he asked me if we have a use case for this, and thinking about it, I
+> don't have one at the moment. Also, if a user decides to set all netns to
+> local, whether init_net is local or global doesn't really matter, right?
+> 
+> So perhaps before adding this, we should have a real use case.
+> Perhaps more than this feature, I would add a way to change the default of
+> all netns (including init_net) from global to local. But we can do that
+> later, since all netns have a way to understand what mode they are in, so we
+> don't break anything and the user has to explicitly change it, knowing that
+> they are breaking compatibility with pre-netns support.\
+> 
+> 
+> That said, at this point, maybe we can remove this, documenting that
+> init_net is always global, and if we have a use case in the future, we can
+> add this (or something else) to set the init_net mode (or change the default
+> for all netns).
+> 
+> Let's wait a bit before next version to wait a comment from Paolo or Jakub
+> on this. But I'm almost fine with both ways, so:
+> 
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> 
+> > 	vt.color=	[VT] Default text color.
+> > 			Format: 0xYX, X = foreground, Y = background.
+> > 			Default: 0x07 = light gray on black.
+> 
+> [...]
+> 
+> > diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+> > index a3505a4dcee0..3fc8160d51df 100644
+> > --- a/net/vmw_vsock/af_vsock.c
+> > +++ b/net/vmw_vsock/af_vsock.c
+> 
+> [...]
+> 
+> > @@ -235,33 +303,42 @@ static void __vsock_remove_connected(struct
+> > vsock_sock *vsk)
+> > 	sock_put(&vsk->sk);
+> > }
+> > 
+> 
+> In the v14 I suggested to add some documentation on top of the vsock_find*()
+> vs vsock_find_*_net() to explain better which one should be used by
+> transports.
+> 
+> Again is not a big deal, we can fix later if you don't need to resend.
+> 
+> Thanks,
+> Stefano
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20260121-171044
-base:   6c790212c588fddeb0d852f2790840753bb604b1
-patch link:    https://lore.kernel.org/r/20260121-imx-se-if-v24-5-c5222df51cc2%40nxp.com
-patch subject: [PATCH v24 5/7] firmware: drivers: imx: adds miscdev
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260122/202601220225.eSj782As-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260122/202601220225.eSj782As-lkp@intel.com/reproduce)
+Sorry about that slipping through the cracks, will add to v16.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601220225.eSj782As-lkp@intel.com/
+I'll resend with:
 
-All warnings (new ones prefixed by >>):
+1. revert init ns cmdline
+2. update this message about why the port allocation changes
+3. fix the vmtest missing ns arg bug that Kuba mentioned
+4. update documentation on top of vsock_find* / vsock_find_*_net
+5. update documentation on top of af_vsock.c w/ note about init_ns
+having its mode fixed to global
 
-   drivers/firmware/imx/se_ctrl.c: In function 'se_ioctl_cmd_snd_rcv_rsp_handler':
->> drivers/firmware/imx/se_ctrl.c:504:51: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     504 |         if (copy_from_user(&cmd_snd_rcv_rsp_info, (u8 __user *)arg,
-         |                                                   ^
-   drivers/firmware/imx/se_ctrl.c:585:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     585 |         if (copy_to_user((void __user *)arg, &cmd_snd_rcv_rsp_info,
-         |                          ^
-   drivers/firmware/imx/se_ctrl.c: In function 'se_ioctl_get_mu_info':
-   drivers/firmware/imx/se_ctrl.c:619:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     619 |         if (copy_to_user((u8 __user *)arg, &if_info, sizeof(if_info))) {
-         |                          ^
-   drivers/firmware/imx/se_ctrl.c: In function 'se_ioctl_setup_iobuf_handler':
-   drivers/firmware/imx/se_ctrl.c:640:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     640 |         if (copy_from_user(&io, (u8 __user *)arg, sizeof(io))) {
-         |                                 ^
-   drivers/firmware/imx/se_ctrl.c:702:26: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     702 |         if (copy_to_user((u8 __user *)arg, &io, sizeof(io))) {
-         |                          ^
-   drivers/firmware/imx/se_ctrl.c: In function 'se_ioctl_get_se_soc_info_handler':
-   drivers/firmware/imx/se_ctrl.c:720:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     720 |         err = copy_to_user((u8 __user *)arg, (u8 *)(&soc_info), sizeof(soc_info));
-         |                            ^
+Unless any prior feedback slipped, I think this captures everything
+pending? 
 
-
-vim +504 drivers/firmware/imx/se_ctrl.c
-
-   496	
-   497	static int se_ioctl_cmd_snd_rcv_rsp_handler(struct se_if_device_ctx *dev_ctx,
-   498						    u64 arg)
-   499	{
-   500		struct se_ioctl_cmd_snd_rcv_rsp_info cmd_snd_rcv_rsp_info = {0};
-   501		struct se_if_priv *priv = dev_ctx->priv;
-   502		int err = 0;
-   503	
- > 504		if (copy_from_user(&cmd_snd_rcv_rsp_info, (u8 __user *)arg,
-   505				   sizeof(cmd_snd_rcv_rsp_info))) {
-   506			dev_err(priv->dev,
-   507				"%s: Failed to copy cmd_snd_rcv_rsp_info from user.",
-   508				dev_ctx->devname);
-   509			err = -EFAULT;
-   510			goto exit;
-   511		}
-   512	
-   513		if (cmd_snd_rcv_rsp_info.tx_buf_sz < SE_MU_HDR_SZ) {
-   514			dev_err(priv->dev, "%s: User buffer too small(%d < %d)",
-   515				dev_ctx->devname, cmd_snd_rcv_rsp_info.tx_buf_sz, SE_MU_HDR_SZ);
-   516			err = -ENOSPC;
-   517			goto exit;
-   518		}
-   519	
-   520		err = se_chk_tx_msg_hdr(priv, (struct se_msg_hdr *)cmd_snd_rcv_rsp_info.tx_buf);
-   521		if (err)
-   522			goto exit;
-   523	
-   524		struct se_api_msg *rx_msg __free(kfree) =
-   525			kzalloc(cmd_snd_rcv_rsp_info.rx_buf_sz, GFP_KERNEL);
-   526		if (!rx_msg) {
-   527			err = -ENOMEM;
-   528			goto exit;
-   529		}
-   530	
-   531		struct se_api_msg *tx_msg __free(kfree) =
-   532			memdup_user(cmd_snd_rcv_rsp_info.tx_buf,
-   533				    cmd_snd_rcv_rsp_info.tx_buf_sz);
-   534		if (IS_ERR(tx_msg)) {
-   535			err = PTR_ERR(tx_msg);
-   536			goto exit;
-   537		}
-   538	
-   539		if (tx_msg->header.tag != priv->if_defs->cmd_tag) {
-   540			err = -EINVAL;
-   541			goto exit;
-   542		}
-   543	
-   544		if (tx_msg->header.ver == priv->if_defs->fw_api_ver &&
-   545		    get_load_fw_instance(priv)->is_fw_tobe_loaded) {
-   546			err = se_load_firmware(priv);
-   547			if (err) {
-   548				dev_err(priv->dev, "Could not send msg as FW is not loaded.");
-   549				err = -EPERM;
-   550				goto exit;
-   551			}
-   552		}
-   553		set_se_rcv_msg_timeout(priv, SE_RCV_MSG_LONG_TIMEOUT);
-   554	
-   555		err = ele_msg_send_rcv(dev_ctx, tx_msg, cmd_snd_rcv_rsp_info.tx_buf_sz,
-   556				       rx_msg, cmd_snd_rcv_rsp_info.rx_buf_sz);
-   557		if (err < 0)
-   558			goto exit;
-   559	
-   560		dev_dbg(priv->dev, "%s: %s %s.", dev_ctx->devname, __func__,
-   561			"message received, start transmit to user");
-   562	
-   563		/* We may need to copy the output data to user before
-   564		 * delivering the completion message.
-   565		 */
-   566		err = se_dev_ctx_cpy_out_data(dev_ctx);
-   567		if (err < 0)
-   568			goto exit;
-   569	
-   570		/* Copy data from the buffer */
-   571		print_hex_dump_debug("to user ", DUMP_PREFIX_OFFSET, 4, 4, rx_msg,
-   572				     cmd_snd_rcv_rsp_info.rx_buf_sz, false);
-   573	
-   574		if (copy_to_user(cmd_snd_rcv_rsp_info.rx_buf, rx_msg,
-   575				 cmd_snd_rcv_rsp_info.rx_buf_sz)) {
-   576			dev_err(priv->dev, "%s: Failed to copy to user.", dev_ctx->devname);
-   577			err = -EFAULT;
-   578		}
-   579	
-   580	exit:
-   581	
-   582		/* shared memory is allocated before this IOCTL */
-   583		se_dev_ctx_shared_mem_cleanup(dev_ctx);
-   584	
-   585		if (copy_to_user((void __user *)arg, &cmd_snd_rcv_rsp_info,
-   586				 sizeof(cmd_snd_rcv_rsp_info))) {
-   587			dev_err(priv->dev, "%s: Failed to copy cmd_snd_rcv_rsp_info from user.",
-   588				dev_ctx->devname);
-   589			err = -EFAULT;
-   590		}
-   591	
-   592		return err;
-   593	}
-   594	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best,
+Bobby
