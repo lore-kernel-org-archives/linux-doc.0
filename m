@@ -1,87 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685D532FA3F
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 09:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B23B3382F6;
+	Thu, 22 Jan 2026 09:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769074449; cv=none; b=Jx+HIH1BDPp3ZORHXcF2xazon+OBKjzi2DWHg/E6LWgP8WW+NtaoQraVv++V5aUXfdnbOMzC50MA42SgDksD93f/UQ0HfxH9+ErDwbJD2aycQkU8eH5hY8rRXcryx6TBjAy2VhNYD08B/7JwVhDvSG2yFzWlCKWRkE4UkdRI6fU=
+	t=1769074935; cv=none; b=MsQWOOyAHo/dwanu3/4rbDfndDDp1MLG4XLtazXXG4UgJgcgsMW4GLnoKHdDtgLzeDAJAof5ZSc8goffEhYyMbQsViDiyW/sw4U5zp0ZMOqcj65FfWVsyulXekNSaWC0dfiESc18KSxpX2uYBrabGK2BhyExr+1ZIQR5Ulld60Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769074449; c=relaxed/simple;
-	bh=VI3KnFpkzVPIjMyrifZTTlbyrQk7VRd07T9Jofd0qTk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VbbvPOiWJdnhKl4AZ9ytY/YmM/VYlGN5iEdQEwW7wmN6oUz85t6o6xATfC3VykeFKoCxrnHAKzQM1s/Nv7clPI/Y5dK4eNtci4d4Bjo4P9Rqkpz3bTxZO9UoYvA5u4rrDE7pvBUqsOh1YervKCSI7zz+Y0ok0FUtLK+c7y2Cqco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu76sP7y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769074935; c=relaxed/simple;
+	bh=5SPePvLFCVU7uGpYZnAas7vBwKA+eg/HhSX+ND/pmf8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CK4GWIARWViuZbpypHQWdvnBsEi0OUCPpkuKxtyZ+LwP6ci0P7GnYSDWWEQqPUq2izYXY+qEOGHZqSYdojOicQpt1mvWCJqL3fN/ts0WIYUxce2m43EgBOaeJIu0m8/SOh2CaCLA2pd12aB6VaP1gnUis9rW7GZEvaOB0Xuuoxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=PcdW0KSk; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu76sP7y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6643C116C6
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 09:34:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769074448;
-	bh=VI3KnFpkzVPIjMyrifZTTlbyrQk7VRd07T9Jofd0qTk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Tu76sP7yDq615nyNP0Sw5aJ8msOU5/iEhh0tGD9r9igMKQ4mKORhoT3fyZ2+Ks0C3
-	 o72m08gZHs7OdiCaYRnUXF10d3acvrMIt6N3EtI+tbysNqJx7OjGpjuL5aATSNDdP1
-	 PuFA0dsGgYMeuLUn/qlBhX15XlzfnvTBf1s5XGAoJUaUakwJSjy7Bd/vyvVNdsN51d
-	 thDO6upOWKvOLddn+y51/WNnOoajrLo1Kf6VhSp6aCSQ8rOrTZIY5EYVgaW0dN5mm2
-	 gfLxTdEVRrHcGma41Qzam1xjQgN8zRk1PNGLwcKsdXyeP9+V966GOiVdB2/aZOpj58
-	 FooXdWxGQo0RA==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-383153e06d6so6519471fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 01:34:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWNUAVICc4mRlYeGe2scPlHg0sC3lcMu6xeuwaDCfC5XTmvEdlgPa/b5LWJiUj9BnwUqwckap4HfHE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6Cz+3N0yrDJYc13dvPlqiFKOknTTQgdV5cyXR/Cx7fgoUZbt6
-	ufTRH0uPb4WiNXZov7eVCqRU8vqf6FQXRLq/eNF8Nqr0Bcy1uxj5Hloo2eccJvTuZFt1JLjN4Jo
-	L0M96Q+Jh3bVw3yZKHj6L/DgsXwEzBwoXiFFWqKi1Wg==
-X-Received: by 2002:a2e:a589:0:b0:37f:d911:5941 with SMTP id
- 38308e7fff4ca-385a546f058mr26782401fa.21.1769074447641; Thu, 22 Jan 2026
- 01:34:07 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="PcdW0KSk"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=29WEvSrf/iaKqoW802ob5Q5yFZ8wknyJlgfI+Bmi4cQ=;
+	b=PcdW0KSk9uI4zf3umApWaFveqX96oe7u4VeqqvfDyhmbCgNe9uRTiYcQQBuFQ7wVtMUn3+Kee
+	vF1/JVpiYQbyvyDQcMOHHxjWFaZibcLKgUwQuEIRxYHAWaoLMTM+t/R1tngom2pgnccxmZosdZc
+	lVdd1tr0I7Ih1JJm0Z+Rk24=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dxbb05s2xznTbp;
+	Thu, 22 Jan 2026 17:38:04 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 39CAD40565;
+	Thu, 22 Jan 2026 17:42:02 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 22 Jan 2026 17:42:01 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
+Subject: [PATCH net] hinic3: Fix netif_queue_set_napi queue_index input parameter error
+Date: Thu, 22 Jan 2026 17:41:55 +0800
+Message-ID: <7b8e4eb5c53cbd873ee9aaefeb3d9dbbaff52deb.1769070766.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
- <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
- <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
- <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
- <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
- <aWBndOfbtweRr0uS@vaman> <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
- <CAMRc=MejA90TRue6F2JjQXHYo0AmFxc-gKkwNX0EKzP5scB14Q@mail.gmail.com>
-In-Reply-To: <CAMRc=MejA90TRue6F2JjQXHYo0AmFxc-gKkwNX0EKzP5scB14Q@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 22 Jan 2026 10:33:55 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Me7cZffQjtVtCX-cNtR_eKv6eJydaJMFEBpy3_CzzBZCQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhTxZsMbBIptV61AxdCydQlt4fhsgrQnsF7LtUbiNRe0UrslhgUjBrTCVQ
-Message-ID: <CAMRc=Me7cZffQjtVtCX-cNtR_eKv6eJydaJMFEBpy3_CzzBZCQ@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
- BAM locking
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Wed, Jan 14, 2026 at 4:37=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
-g> wrote:
->
-> >
-> > > But they might eventually right?
-> > >
-> >
-> > Yes, and they will already have the interface to do it - in the form
-> > of descriptor metadata.
-> >
->
-> Hi! Have I answered all your questions? Can we proceed with this?
->
-> Bartosz
+  Incorrectly transmitted interrupt number instead of queue number
+when using netif_queue_set_napi. Besides, move this to appropriate
+code location to set napi.
 
-Ping.
+Remove redundant netif_stop_subqueue beacuase it is not part of the
+hinic3_send_one_skb process.
 
-Bart
+Fixes: 17fcb3dc12bb ("hinic3: module initialization and tx/rx logic")
+Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   | 22 +++++++++++--------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+index a69b361225e9..84bee5d6e638 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
+@@ -43,21 +43,12 @@ static void qp_add_napi(struct hinic3_irq_cfg *irq_cfg)
+ 	struct hinic3_nic_dev *nic_dev = netdev_priv(irq_cfg->netdev);
+ 
+ 	netif_napi_add(nic_dev->netdev, &irq_cfg->napi, hinic3_poll);
+-	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
+-			     NETDEV_QUEUE_TYPE_RX, &irq_cfg->napi);
+-	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
+-			     NETDEV_QUEUE_TYPE_TX, &irq_cfg->napi);
+ 	napi_enable(&irq_cfg->napi);
+ }
+ 
+ static void qp_del_napi(struct hinic3_irq_cfg *irq_cfg)
+ {
+ 	napi_disable(&irq_cfg->napi);
+-	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
+-			     NETDEV_QUEUE_TYPE_RX, NULL);
+-	netif_queue_set_napi(irq_cfg->netdev, irq_cfg->irq_id,
+-			     NETDEV_QUEUE_TYPE_TX, NULL);
+-	netif_stop_subqueue(irq_cfg->netdev, irq_cfg->irq_id);
+ 	netif_napi_del(&irq_cfg->napi);
+ }
+ 
+@@ -150,6 +141,11 @@ int hinic3_qps_irq_init(struct net_device *netdev)
+ 			goto err_release_irqs;
+ 		}
+ 
++		netif_queue_set_napi(irq_cfg->netdev, q_id,
++				     NETDEV_QUEUE_TYPE_RX, &irq_cfg->napi);
++		netif_queue_set_napi(irq_cfg->netdev, q_id,
++				     NETDEV_QUEUE_TYPE_TX, &irq_cfg->napi);
++
+ 		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
+ 						irq_cfg->msix_entry_idx,
+ 						HINIC3_SET_MSIX_AUTO_MASK);
+@@ -164,6 +160,10 @@ int hinic3_qps_irq_init(struct net_device *netdev)
+ 		q_id--;
+ 		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
+ 		qp_del_napi(irq_cfg);
++		netif_queue_set_napi(irq_cfg->netdev, q_id,
++				     NETDEV_QUEUE_TYPE_RX, NULL);
++		netif_queue_set_napi(irq_cfg->netdev, q_id,
++				     NETDEV_QUEUE_TYPE_TX, NULL);
+ 		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
+ 				      HINIC3_MSIX_DISABLE);
+ 		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
+@@ -184,6 +184,10 @@ void hinic3_qps_irq_uninit(struct net_device *netdev)
+ 	for (q_id = 0; q_id < nic_dev->q_params.num_qps; q_id++) {
+ 		irq_cfg = &nic_dev->q_params.irq_cfg[q_id];
+ 		qp_del_napi(irq_cfg);
++		netif_queue_set_napi(irq_cfg->netdev, q_id,
++				     NETDEV_QUEUE_TYPE_RX, NULL);
++		netif_queue_set_napi(irq_cfg->netdev, q_id,
++				     NETDEV_QUEUE_TYPE_TX, NULL);
+ 		hinic3_set_msix_state(nic_dev->hwdev, irq_cfg->msix_entry_idx,
+ 				      HINIC3_MSIX_DISABLE);
+ 		hinic3_set_msix_auto_mask_state(nic_dev->hwdev,
+
+base-commit: 19e4175e997a5b85eab97d522f00cc99abd1873c
+-- 
+2.43.0
+
