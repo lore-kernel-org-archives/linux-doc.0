@@ -1,89 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A15E318B8E;
-	Thu, 22 Jan 2026 02:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4F03A7DF4
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 03:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769050223; cv=none; b=ocOSYrSxnjnUXLJvuFXncWoVSG7eyRNG6Y0AOBQvJdizCL+RBo8/15IM2uY2peQGu1EN35UND1S2ayt+iG83y4pkJK7GL85uZB1s7cvEosLY7HsPr2SEjQ6+FgJnSBQIWPRi19JwCh8Q+FUjCSiY6tWDe2N2W+MUFnhbEJNH4eo=
+	t=1769051480; cv=none; b=O4sL14nvrvMc55ugSsg43DFPo9r9K6k/CTtmw1wGp506NBJmobc51/VfiEJqqxVQJ+vXZJEUYNbwlNz+IFLjfHh8WRFsOeXqgvaWpYrVulXwNwWJv7gEfel6/pxMR9yqLB1t8zb17iUGjzeRI3ZNMamW1v4OY8VIb4PYfckWCw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769050223; c=relaxed/simple;
-	bh=2ZGZ7HwjSQzehUhUbNKlo5C6lCSrbNihlehB5Mznu04=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F5KOX5DlH78XZDW1Flu9BVmAIWGWhFts0FFqSgsfhxnK1QdezDWlr/r2kzeWHVp/x9YpFqjaTIZ1+XQ5KmZzSy7B6M5k+KGA/H5W0oVYj1ItLxkKWKJMPs+p+T9znutnohBkMAzCVZKWASkwfrZaEzNqEQnPkHp3YIqyRZNl37Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8Dl79Mf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769051480; c=relaxed/simple;
+	bh=ZQDnhhWuG4i8BpEog6Mk9tYJNSL01Pw6xxtVJ0xfuR8=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=hklDrk7hmILOGz6TJJDvWPA7ATDroPFcocWn67KFh7DA7TUI7yJui30BJFRXyOoo+PO+MeCEyz8nMFroIaWrqDLcdMoWbSFUaYmU6ylRbC5/NPt+v6isLrypPxKkaMLdyDzFbzLQ8ZP/fVPrZLin7fbiLjk4ZT+Y6aY6dpdlt9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UjCCfmCt; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8Dl79Mf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07C8AC4CEF1;
-	Thu, 22 Jan 2026 02:50:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769050223;
-	bh=2ZGZ7HwjSQzehUhUbNKlo5C6lCSrbNihlehB5Mznu04=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=V8Dl79MfY/EmKzAmcn+NJnFx4UFhm34bfAY0aHz1L3EnbDbtznByLv0o3Tz1Noc3P
-	 QKIIDmb9aY0CKF2atc5WmJ3hG14Bv2t9cMWT3shjuitmLxKk0UsrCYhl61/op8+QlO
-	 2gKVe6abrDiDSU5UrfGKjHkMRfdIKsGh8IjFFPCN3Fik4kKhoRIY82W1bYeCJSdMtE
-	 NGIc2gjltLI87+JSpAjY1eqlhJKrMEfq4MSk9Za5fzsY6Rpuapl4r+vjkLIeq5hHvF
-	 Sdm4f1EPhavF2YFwx04RyXPCc709kcBFXWVf2fZ1ZXmuoPlpA618vm1Nr63KWbSfCy
-	 WiBlBVgoSiRBg==
-Date: Wed, 21 Jan 2026 18:50:21 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn
- <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, David Ahern
- <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>, Arnd Bergmann
- <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, asml.silence@gmail.com,
- matttbe@kernel.org, skhawaja@google.com, Bobby Eshleman
- <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v10 4/5] net: devmem: document
- NETDEV_A_DMABUF_AUTORELEASE netlink attribute
-Message-ID: <20260121185021.446b00e8@kernel.org>
-In-Reply-To: <aXGNhEKOhkTHbJvw@devvm11784.nha0.facebook.com>
-References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
-	<20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-4-686d0af71978@meta.com>
-	<20260120163650.5a962648@kernel.org>
-	<aXBnqYQdomzH9bT/@devvm11784.nha0.facebook.com>
-	<20260121173512.748e2155@kernel.org>
-	<aXGNhEKOhkTHbJvw@devvm11784.nha0.facebook.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UjCCfmCt"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769051465;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xvA1wq0qreituDJh/hMPrxm5rJ40HKT6I2SwEUTel6w=;
+	b=UjCCfmCtXXXGGrvHicWu9/ktRUefIaFeWghRm+n3yZOagd0wHt22hJMOXGuVgKU6qMXd+3
+	2Koitgh292ACg/8cFqBNXbxbrz6i4oOm8eVGTfauPatCgZ+EoDa0GvPAuijwHr3f9fQZam
+	YEewmn01tWJrJotrZ7HlTldzd6KqBzI=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCHv4 07/14] mm/sparse: Check memmap alignment for
+ compound_info_has_mask()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260121162253.2216580-8-kas@kernel.org>
+Date: Thu, 22 Jan 2026 11:10:26 +0800
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <71F051F2-5F3B-40A5-9347-BA2D93F2FF3F@linux.dev>
+References: <20260121162253.2216580-1-kas@kernel.org>
+ <20260121162253.2216580-8-kas@kernel.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 21 Jan 2026 18:37:56 -0800 Bobby Eshleman wrote:
-> > > Show an example of the three steps: returning the tokens, unbinding, and closing the
-> > > sockets (TCP/NL)?  
-> > 
-> > TBH I read the doc before reading the code, which I guess may actually
-> > be better since we don't expect users to read the code first either..
-> > 
-> > Now after reading the code I'm not sure the doc explains things
-> > properly. AFAIU there's no association of token <> socket within the
-> > same binding. User can close socket A and return the tokens via socket
-> > B. As written the doc made me think that there will be a leak if socket
-> > is closed without releasing tokens, or that there may be a race with
-> > data queued but not read. Neither is true, really?  
-> 
-> That is correct, neither is true. If the two sockets share a binding the
-> kernel doesn't care which socket received the token or which one
-> returned it. No token <> socket association. There is no
-> queued-but-not-read race either. If any tokens are not returned, as long
-> as all of the binding references are eventually released and all sockets
-> that used the binding are closed, then all references will be accounted
-> for and everything cleaned up.
 
-Naming is hard, but I wonder whether the whole feature wouldn't be
-better referred to as something to do with global token accounting 
-/ management? AUTORELEASE makes sense but seems like focusing on one
-particular side effect.
+
+> On Jan 22, 2026, at 00:22, Kiryl Shutsemau <kas@kernel.org> wrote:
+>=20
+> If page->compound_info encodes a mask, it is expected that memmap to =
+be
+> naturally aligned to the maximum folio size.
+>=20
+> Add a warning if it is not.
+>=20
+> A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so the
+> kernel is still likely to be functional if this strict check fails.
+>=20
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> ---
+> include/linux/mmzone.h | 1 +
+> mm/sparse.c            | 5 +++++
+> 2 files changed, 6 insertions(+)
+>=20
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 390ce11b3765..7e4f69b9d760 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -91,6 +91,7 @@
+> #endif
+>=20
+> #define MAX_FOLIO_NR_PAGES (1UL << MAX_FOLIO_ORDER)
+> +#define MAX_FOLIO_SIZE (PAGE_SIZE << MAX_FOLIO_ORDER)
+>=20
+> enum migratetype {
+> MIGRATE_UNMOVABLE,
+> diff --git a/mm/sparse.c b/mm/sparse.c
+> index 17c50a6415c2..5f41a3edcc24 100644
+> --- a/mm/sparse.c
+> +++ b/mm/sparse.c
+> @@ -600,6 +600,11 @@ void __init sparse_init(void)
+> 	BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+> 	memblocks_present();
+>=20
+> + 	if (compound_info_has_mask()) {
+> + 		WARN_ON(!IS_ALIGNED((unsigned long)pfn_to_page(0),
+> +    			MAX_FOLIO_SIZE / sizeof(struct page)));
+
+I still have concerns about this. If certain architectures or =
+configurations,
+especially when KASLR is enabled, do not meet the requirements during =
+the
+boot stage, only specific folios larger than a certain size might end up =
+with
+incorrect struct page entries as the system runs. How can we detect =
+issues
+arising from either updating the struct page or making incorrect logical
+judgments based on information retrieved from the struct page?
+
+After all, when we see this warning, we don't know when or if a problem =
+will
+occur in the future. It's like a time bomb in the system, isn't it? =
+Therefore,
+I would like to add a warning check to the memory allocation place, for
+example:=20
+
+  WARN_ON(!IS_ALIGNED((unsigned long)&folio->page, folio_size / =
+sizeof(struct page)));
+
+However, in order to minimize the impact on the buddy allocator, I =
+personally
+suggest changing `WARN_ON` to `BUG_ON` here, and changing the checked =
+size from
+`MAX_FOLIO_SIZE` to the maximum size that the buddy can allocate, in =
+order to
+ensure the buddy allocator works fine. This check requirement is much =
+weaker
+than `MAX_FOLIO_SIZE`, so I think `BUG_ON` should not be easily =
+triggered and
+therefore should not be a problem. For non-buddy allocator interfaces =
+(such
+as `folio_alloc_gigantic` or `cma_alloc_folio`, etc.), we need to check =
+whether
+their struct page address is aligned as required. If it is not aligned, =
+return
+failure and print relevant prompt information to remind the reason.
+
+> + 	}
+> +
+> 	pnum_begin =3D first_present_section_nr();
+> 	nid_begin =3D sparse_early_nid(__nr_to_section(pnum_begin));
+>=20
+> --=20
+> 2.51.2
+>=20
+
