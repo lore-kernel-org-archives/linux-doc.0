@@ -1,279 +1,173 @@
-Received: from fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com [35.158.23.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5642EC54C;
-	Thu, 22 Jan 2026 18:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.158.23.94
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769105136; cv=none; b=MVRLUefGB+I/4eR+CrXR6w6iFYSnZtWbCUo5SCP200lybOUEVcjhpto0zIukNd9cus5T4XT9jsy4OzzK9vrTFoJClvnR8LfRXQTDpBf2Xa010Qg+A7sT3DNH9qDakJ1qX6ahuCMnBIdfzt6SPsBJOTGRcTth9xdRxLsLr2tMoWY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769105136; c=relaxed/simple;
-	bh=dzHIKT6pbpAcJntXJuY2LaAF2Sl4NHnNq8TAcpMKU5M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nkhCoj2YI77v8KnXBEEpV1KqioPrNfj73YB6Yc9x6qQOWAoGWu8YFpVvuyVudAGj6NQc6ZqMP8Rl1DaFr+79NWaAz6wKgy3yxKTwecSUbn5pbR722c/XAiTZqKtn3qRw1J++tu6VMm1eDn1Y8y9macKYietY/i4XlMCmDILgc9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=SRxR6z5n; arc=none smtp.client-ip=35.158.23.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CD6378826
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 18:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769106334; cv=pass; b=DfK/iUtWIPU0/G4vZvE3WbyKDZOHMMI6BheOnRYPTnxgbJQAjL+PIJMqpvEzxjIC82nuMVVQMzXzNLxGYJn9ZZ0AztbnEzwYjByeZR4Kvx+sa50QC9+6Mw4F0Dbh5Dnvjjnx/M/vGqPyqVdRwuYY4vftlKPKYbci17rpaGRRDHM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769106334; c=relaxed/simple;
+	bh=WFOd21OrOaTASX4uEQiNxUw/bfAFX0dnX3kSWacS/BI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jH7Qb51FyipN1hzdn+5+3wuBWdd8EA033jlFCaux0xG2wuwHEss4aHZrGcV/bOumx+IafVQovfjOp0bIqU0Xy7amlKs8EPBomjMPMqtMzMATejqjgg4DhCrlXuxbSKkV/pPd+PIPzkpT3U2Mhs3RmelhIkiTtXpd5OB6Ee7IevQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Q8iEFQfa; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="SRxR6z5n"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Q8iEFQfa"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6581af9c94aso2713912a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 10:25:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769106319; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eIDAcXyqfYnToJXlAVN1rXvoaxc6uI4MbAso2EbqqhNIkO/kgfgOXfAgFyAAnMVliM
+         Ppb5c1SCOxpZ4q/lyTXUyQPuGblEe08dW3S2SoYrjI6YprCfeRZbncpVF/77fsRzsnJT
+         Yl1incvGJl+ZVd74gtelQBqsNDt3V2XU8sKS78Z2JiuS6G1daT3UVu84PNlbJZrbqhr7
+         S18xXtJ83sxgtBzGVHabV+tnSWKtoGeubL72d9qi+RijHetcXkSrLak/u+vjAcFowKiO
+         iCYwzDqQZC9IUll54jCLLcT4xKA1IYRQ1QuycMTtDf8hQplk8M5uLjHQUzTY0A70rOFE
+         UoaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Sfl+s++fPRdzTiKMIVj4s7ehxijfWuV5r3RCr1G2vIk=;
+        fh=e7/qxCNug8bzkh6WpheZbsYIldsOLNwKPjc8DfuqB5c=;
+        b=kDXjS4VNXN9LL3BQKSSUwSY66yYdyUJweowgdUgkPQAMNAAjec8U8oqxqAhhe8whKq
+         QKhVlhTwduutt5z4TDwxRHj2JkcYgMy/OUSv+GQkxrZVBSJrVB6yMS1SbJe0yfDAjzRi
+         7Ohll97ounmRlwxFuCUd5u0Q8hjwYAqMXRaC4ikM/J3XCAV/NR3pOIQaQgYBA7ZHCKQ1
+         e2nkhQgJyFuD0Y55N52NTZM3StFLAoWVxF9W74fwNU5GCioJ9xKCjWLVfM16iJDBF0pD
+         Xu4Dt8iHGzsmqEaq3D60dgEr6zEHMd+Ta0SqyO00jIlC2ZokpWIyEqcDsTY1/3SSMPsu
+         /8og==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1769105124; x=1800641124;
-  h=message-id:date:mime-version:reply-to:subject:to:cc:
-   references:from:in-reply-to:content-transfer-encoding;
-  bh=/VQH+ZVpl7s1y6QFfIzvVBX/lOO8CFVE93gGifWyjYo=;
-  b=SRxR6z5nIjiIyOyK1erNw+yrYS+fip4pyc/8/mYHZSjI7wxKJ8eCWVo9
-   0h7mrdIpQRWsy1u5SK2+VUHT2qN+asQxEAAEy+RmGIliYgVe2jCujRXrk
-   ryl0LyjeqxfR0+l+LjMcqXGqJtOxkqOW0C487hYKs2R9Aj8sEjSMDT4Im
-   bYkNh5U+UxubALyZIIS57OoWgX1lSYtosdvoCY1nCFoCWTjckzp38zrBQ
-   HvXlCSewTJgxOuXuxtec1AJ1mwDCEy+MmwYbyDhXWVt18fSs5gvtVKujN
-   RDUefKLO16vWtZg2S8fARVJ+VDIvql0crImPNFhl2dw2qPgAVJFvI+Lcs
-   w==;
-X-CSE-ConnectionGUID: FzJfTE6DQPiBT8xS65L//g==
-X-CSE-MsgGUID: NWC2jrzvQJKPewYEWGLFVA==
-X-IronPort-AV: E=Sophos;i="6.21,246,1763424000"; 
-   d="scan'208";a="8303027"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 18:04:57 +0000
-Received: from EX19MTAEUB001.ant.amazon.com [54.240.197.234:24209]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.13.107:2525] with esmtp (Farcaster)
- id 3ec1e9f4-fd44-4c0b-b87e-d835b8518924; Thu, 22 Jan 2026 18:04:57 +0000 (UTC)
-X-Farcaster-Flow-ID: 3ec1e9f4-fd44-4c0b-b87e-d835b8518924
-Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
- EX19MTAEUB001.ant.amazon.com (10.252.51.26) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 22 Jan 2026 18:04:57 +0000
-Received: from [192.168.23.186] (10.106.82.17) by
- EX19D005EUB003.ant.amazon.com (10.252.51.31) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Thu, 22 Jan 2026 18:04:53 +0000
-Message-ID: <f2f2a6bd-5cb4-46c9-a0f8-3240670094b5@amazon.com>
-Date: Thu, 22 Jan 2026 18:04:51 +0000
+        d=soleen.com; s=google; t=1769106319; x=1769711119; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sfl+s++fPRdzTiKMIVj4s7ehxijfWuV5r3RCr1G2vIk=;
+        b=Q8iEFQfaYHLhdIprKd4U40dyiQC2dENg3PO0auDAXdHZrHtu9JGbu+Ue7zP3JM3M33
+         tesvzH7ninNGQxxl/NjNRkZ1LyS1k6oMus4p0CPUAD/KO3uRB9b4xydByyTq2ohyELPF
+         pdUyM6pLc38KNo6O6Nk9oRtGT7d/89xSwd0DJ3r4W8hUXtkCegek++Qu2kEKM48u1rw5
+         gBgoaoM4UeB1B5v1/jZQKyeHYcduMbn3HZOPNie7APglQJ93uY6P1AOW+AKCV2I+zG+O
+         HxcBglbag7H0IZFbtcDZ535lDUpxxfk17Cdj/i558mcX9BSrh0eb3qMIumzHw1EAPTVL
+         TDHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769106319; x=1769711119;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Sfl+s++fPRdzTiKMIVj4s7ehxijfWuV5r3RCr1G2vIk=;
+        b=nfxM48H/XcQb+KBiXb6Vos6HkRrP/8KgF0mHDKUdVjU+oDGBfQcd2Qq0T2LXdzXkVV
+         FFcHqCnbt2BvqzGgm+lyWcGIJclTbbxU7OEKYTxLRdxvP8VBn3rY2lxrq/nWqGnPuZoV
+         HO6esH6kfvPPxaMIg9+Vv6sudnKStgDznOn96Bcc+xD3JGR+PIRuCpSdRePPo/AJ+8t2
+         wzB4GRbHaVKeX7iCCJF6tJJ33jLnh1QzU3I82t6r003OEvxVw1aWoY7bFrdRZyPiz6Wq
+         TGohzlIupbN6DUocvOZAlwd9TJsajMPjLZZA5u9bayCx5b+nos+ScobBObycHwISld52
+         ZSEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXn185OLhsX+0zTwA15oGJ64F8O/vSd8hlWGyR53dOtsNdQX+r7Nn8x24k2Y06LZCPxc/XeUKLXCV8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1SZJlI+mfO2gfOMX8jNRIz1vXVdp0veQ1JAa/9cSFTL0ZxYu1
+	HYaqjudgMOcX59e2xgIZ7ykRnF8XYCSLcMIHfZljteL9Xg/b5Pf/W/yXXVlclDhnREVsyPmkxkn
+	oAkFtOKL9ZOkkNCxhNwtTkRekkcKfZPEE6PsobsURDg==
+X-Gm-Gg: AZuq6aKXptuxmNoXuFdyceIEuiiLeQYtqonDo6ujM1v5d5T9z5SUgE7Ys+kDzvi/nhC
+	nvlmVBe6NL+JP3SLauE0AMJwmcO7hmsmYQcYPA/QOnttm78rtpS49wLwgviZg8IMrO+ljXlFYYq
+	EF006bP3HtJ/gZmxpczuhk+CGcsV/lBbvjG7h51BsWpkOAY8lplk83DCKGBX13TfZTDZuBiV6Kt
+	OY55S/JSzLJ7s048l06odgymY9uZ+KX45KSG4D3SZm4IsYWFvErzjTSoJVUkSScP4kMOpWfyzEl
+	LQ7zaawodPfbLV1qo68sebkrsw==
+X-Received: by 2002:a05:6402:5202:b0:653:ae75:8d71 with SMTP id
+ 4fb4d7f45d1cf-658487626b5mr327872a12.8.1769106319440; Thu, 22 Jan 2026
+ 10:25:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <kalyazin@amazon.com>
-Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct
- map
-To: Ackerley Tng <ackerleytng@google.com>, "Kalyazin, Nikita"
-	<kalyazin@amazon.co.uk>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org"
-	<luto@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>,
-	"willy@infradead.org" <willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz"
-	<vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
-	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "ast@kernel.org"
-	<ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev"
-	<martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>,
-	"song@kernel.org" <song@kernel.org>, "yonghong.song@linux.dev"
-	<yonghong.song@linux.dev>, "john.fastabend@gmail.com"
-	<john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
-	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com"
-	<peterx@redhat.com>, "jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>, "shuah@kernel.org" <shuah@kernel.org>,
-	"riel@surriel.com" <riel@surriel.com>, "ryan.roberts@arm.com"
-	<ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>,
-	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org"
-	<kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>,
-	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, "maobibo@loongson.cn"
-	<maobibo@loongson.cn>, "prsampat@amd.com" <prsampat@amd.com>,
-	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com"
-	<jmattson@google.com>, "jthoughton@google.com" <jthoughton@google.com>,
-	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, "alex@ghiti.fr"
-	<alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-	"chenhuacai@kernel.org" <chenhuacai@kernel.org>, "dev.jain@arm.com"
-	<dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>,
-	"hca@linux.ibm.com" <hca@linux.ibm.com>, "Jonathan.Cameron@huawei.com"
-	<Jonathan.Cameron@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"pjw@kernel.org" <pjw@kernel.org>, "shijie@os.amperecomputing.com"
-	<shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>,
-	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com"
-	<wyihan@google.com>, "yang@os.amperecomputing.com"
-	<yang@os.amperecomputing.com>, "vannapurve@google.com"
-	<vannapurve@google.com>, "jackmanb@google.com" <jackmanb@google.com>,
-	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "patrick.roy@linux.dev"
-	<patrick.roy@linux.dev>, "Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri,
- Takahiro" <itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>,
-	"Cali, Marco" <xmarcalx@amazon.co.uk>
-References: <20260114134510.1835-1-kalyazin@amazon.com>
- <20260114134510.1835-8-kalyazin@amazon.com>
- <CAEvNRgEzVhEzr-3GWTsE7GSBsPdvVLq7WFEeLHzcmMe=R9S51w@mail.gmail.com>
- <a2b79af7-e5d1-4668-bff3-606f57d32dfc@amazon.com>
- <CAEvNRgF46M1jp0+eBu2wQMO7P1afyo00SOkENFwvB2KYX3dnFA@mail.gmail.com>
-Content-Language: en-US
-From: Nikita Kalyazin <kalyazin@amazon.com>
-Autocrypt: addr=kalyazin@amazon.com; keydata=
- xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
- JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
- BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
- IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
- CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
- ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
- ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
- i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
-In-Reply-To: <CAEvNRgF46M1jp0+eBu2wQMO7P1afyo00SOkENFwvB2KYX3dnFA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EX19D002EUC004.ant.amazon.com (10.252.51.230) To
- EX19D005EUB003.ant.amazon.com (10.252.51.31)
+References: <20260105165839.285270-1-rppt@kernel.org> <20260105165839.285270-6-rppt@kernel.org>
+ <2vxzy0lscks4.fsf@kernel.org> <aW_Mqp6HcqLwQImS@kernel.org> <2vxz5x8wcdv3.fsf@kernel.org>
+In-Reply-To: <2vxz5x8wcdv3.fsf@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 22 Jan 2026 13:24:43 -0500
+X-Gm-Features: AZwV_Qi2mnNh0d8uhfT7gi820V4jZHl3-8Ga9SArfokbd4YKFntrUQRwEGR-uHA
+Message-ID: <CA+CK2bB18ymLKh8YAyg8O44j5-7ttAfKC-Og-XMg5KQ=O_Xhwg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] kho: Relocate vmalloc preservation structure to KHO
+ ABI header
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Alexander Graf <graf@amazon.com>, Jason Miu <jasonmiu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jan 20, 2026 at 1:56=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
+> wrote:
+>
+> On Tue, Jan 20 2026, Mike Rapoport wrote:
+>
+> > On Tue, Jan 20, 2026 at 04:26:51PM +0000, Pratyush Yadav wrote:
+> >> On Mon, Jan 05 2026, Mike Rapoport wrote:
+> >>
+> >> > From: Jason Miu <jasonmiu@google.com>
+> >> >
+> >> > The `struct kho_vmalloc` defines the in-memory layout for preserving
+> >> > vmalloc regions across kexec. This layout is a contract between kern=
+els
+> >> > and part of the KHO ABI.
+> >> >
+> >> > To reflect this relationship, the related structs and helper macros =
+are
+> >> > relocated to the ABI header, `include/linux/kho/abi/kexec_handover.h=
+`.
+> >> > This move places the structure's definition under the protection of =
+the
+> >> > KHO_FDT_COMPATIBLE version string.
+> >> >
+> >> > The structure and its components are now also documented within the
+> >> > ABI header to describe the contract and prevent ABI breaks.
+> >> >
+> >> > Signed-off-by: Jason Miu <jasonmiu@google.com>
+> >> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> >> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> >> [...]
+> >> > +/* Helper macro to define a union for a serializable pointer. */
+> >> > +#define DECLARE_KHOSER_PTR(name, type)    \
+> >> > +  union {                        \
+> >> > +          u64 phys;              \
+> >> > +          type ptr;              \
+> >> > +  } name
+> >> > +
+> >> > +/* Stores the physical address of a serializable pointer. */
+> >> > +#define KHOSER_STORE_PTR(dest, val)               \
+> >> > +  ({                                        \
+> >> > +          typeof(val) v =3D val;              \
+> >> > +          typecheck(typeof((dest).ptr), v); \
+> >> > +          (dest).phys =3D virt_to_phys(v);    \
+> >> > +  })
+> >> > +
+> >> > +/* Loads the stored physical address back to a pointer. */
+> >> > +#define KHOSER_LOAD_PTR(src)                                       =
+       \
+> >> > +  ({                                                               =
+    \
+> >> > +          typeof(src) s =3D src;                                   =
+      \
+> >> > +          (typeof((s).ptr))((s).phys ? phys_to_virt((s).phys) : NUL=
+L); \
+> >> > +  })
+> >>
+> >> Nit: not a fan of exposing code internals to the ABI header. But witho=
+ut
+> >> this the definition of kho_vmalloc_hdr won't make any sense to someone
+> >> reading the doc without looking at the code. Dunno if we can do anythi=
+ng
+> >> better though...
+> >
+> > These might be actually useful for other KHO users.
 
+In my view, khoser definition belongs in the kernel implementation
+rather than the cross-kernel ABI. The ABI describes the preserved data
+format and should be independent of C types. However, this is a minor
+complaint compared to the overall effort of moving the preserved
+format into the ABI and making KHO stateless. For that reason, let's
+merge it.
 
-On 22/01/2026 16:34, Ackerley Tng wrote:
-> Nikita Kalyazin <kalyazin@amazon.com> writes:
-> 
-> Was preparing the reply but couldn't get to it before the
-> meeting. Here's what was also discussed at the guest_memfd biweekly on
-> 2026-01-22:
-> 
->>
->> [...snip...]
->>
->>>> @@ -423,6 +464,12 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
->>>>                 kvm_gmem_mark_prepared(folio);
->>>>         }
->>>>
->>>> +     err = kvm_gmem_folio_zap_direct_map(folio);
->>>
->>> Perhaps the check for gmem_flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP should
->>> be done here before making the call to kvm_gmem_folio_zap_direct_map()
->>> to make it more obvious that zapping is conditional.
->>
->> Makes sense to me.
->>
->>>
->>> Perhaps also add a check for kvm_arch_gmem_supports_no_direct_map() so
->>> this call can be completely removed by the compiler if it wasn't
->>> compiled in.
->>
->> But if it is compiled in, we will be paying the cost of the call on
->> every page fault?  Eg on arm64, it will call the following:
->>
->> bool can_set_direct_map(void)
->> {
->>
->> ...
->>
->>        return rodata_full || debug_pagealloc_enabled() ||
->>                arm64_kfence_can_set_direct_map() || is_realm_world();
->> }
->>
-> 
-> You're right that this could end up paying the cost on every page
-> fault. Please ignore this request!
-> 
->>>
->>> The kvm_gmem_folio_no_direct_map() check should probably remain in
->>> kvm_gmem_folio_zap_direct_map() since that's a "if already zapped, don't
->>> zap again" check.
->>>
->>>> +     if (err) {
->>>> +             ret = vmf_error(err);
->>>> +             goto out_folio;
->>>> +     }
->>>> +
->>>>         vmf->page = folio_file_page(folio, vmf->pgoff);
->>>>
->>>>    out_folio:
->>>> @@ -533,6 +580,8 @@ static void kvm_gmem_free_folio(struct folio *folio)
->>>>         kvm_pfn_t pfn = page_to_pfn(page);
->>>>         int order = folio_order(folio);
->>>>
->>>> +     kvm_gmem_folio_restore_direct_map(folio);
->>>> +
->>>
->>> I can't decide if the kvm_gmem_folio_no_direct_map(folio) should be in
->>> the caller or within kvm_gmem_folio_restore_direct_map(), since this
->>> time it's a folio-specific property being checked.
->>
->> I'm tempted to keep it similar to the kvm_gmem_folio_zap_direct_map()
->> case.  How does the fact it's a folio-speicific property change your
->> reasoning?
->>
-> 
-> This is good too:
-> 
->    if (kvm_gmem_folio_no_direct_map(folio))
->            kvm_gmem_folio_restore_direct_map(folio)
-
-It turns out we can't do that because folio->mapping is gone by the time 
-filemap_free_folio() is called so we can't inspect the flags.  Are you 
-ok with only having this check when zapping (but not when restoring)? 
-Do you think we should add a comment saying it's conditional here?
-
-> 
->>>
->>> Perhaps also add a check for kvm_arch_gmem_supports_no_direct_map() so
->>> this call can be completely removed by the compiler if it wasn't
->>> compiled in. IIUC whether the check is added in the caller or within
->>> kvm_gmem_folio_restore_direct_map() the call can still be elided.
->>
->> Same concern as the above about kvm_gmem_folio_zap_direct_map(), ie the
->> performance of the case where kvm_arch_gmem_supports_no_direct_map() exists.
->>
-> 
-> Please ignore this request!
-> 
->>>
->>>>         kvm_arch_gmem_invalidate(pfn, pfn + (1ul << order));
->>>>    }
->>>>
->>>> @@ -596,6 +645,9 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
->>>>         /* Unmovable mappings are supposed to be marked unevictable as well. */
->>>>         WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
->>>>
->>>> +     if (flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP)
->>>> +             mapping_set_no_direct_map(inode->i_mapping);
->>>> +
->>>>         GMEM_I(inode)->flags = flags;
->>>>
->>>>         file = alloc_file_pseudo(inode, kvm_gmem_mnt, name, O_RDWR, &kvm_gmem_fops);
->>>> @@ -807,6 +859,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
->>>>         if (!is_prepared)
->>>>                 r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
->>>>
->>>> +     kvm_gmem_folio_zap_direct_map(folio);
->>>> +
->>>
->>> Is there a reason why errors are not handled when faulting private memory?
->>
->> No, I can't see a reason.  Will add a check, thanks.
->>
->>>
->>>>         folio_unlock(folio);
->>>>
->>>>         if (!r)
->>>> --
->>>> 2.50.1
-
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
