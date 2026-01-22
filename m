@@ -1,173 +1,109 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CD6378826
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 18:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B839F33C19F
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 18:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769106334; cv=pass; b=DfK/iUtWIPU0/G4vZvE3WbyKDZOHMMI6BheOnRYPTnxgbJQAjL+PIJMqpvEzxjIC82nuMVVQMzXzNLxGYJn9ZZ0AztbnEzwYjByeZR4Kvx+sa50QC9+6Mw4F0Dbh5Dnvjjnx/M/vGqPyqVdRwuYY4vftlKPKYbci17rpaGRRDHM=
+	t=1769106390; cv=pass; b=XWoFlAjrLtN8IORUBjlfpzi/X5ASKedzwcfqwsQyAgTheMcmlFNfXMBRvsnJtD5VsxdUAqZI9oxzaWnkeEwDHF1kAzU51ek0PhHcPYE3ipLa6y03F/lhFlxMjjO0DiMWupsRMv7Whb/k+nx9FCLIrLI+uHCnFiDpmwmMDHD+PB4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769106334; c=relaxed/simple;
-	bh=WFOd21OrOaTASX4uEQiNxUw/bfAFX0dnX3kSWacS/BI=;
+	s=arc-20240116; t=1769106390; c=relaxed/simple;
+	bh=w9r8EjZfu+6WBBNKHZIudTdElM7NIcXhyZ7Jt0sf0KQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jH7Qb51FyipN1hzdn+5+3wuBWdd8EA033jlFCaux0xG2wuwHEss4aHZrGcV/bOumx+IafVQovfjOp0bIqU0Xy7amlKs8EPBomjMPMqtMzMATejqjgg4DhCrlXuxbSKkV/pPd+PIPzkpT3U2Mhs3RmelhIkiTtXpd5OB6Ee7IevQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Q8iEFQfa; arc=pass smtp.client-ip=209.85.208.52
+	 To:Cc:Content-Type; b=J0QmDBPSSek/WY3JUjCOBeqWvzUqMsNdA4jA2ymttNWjuKqcbOtu0womS4H5QWr6PJxUzsdR6h7G4KjW9F+PrLJwmtoIAlotj0OLXTZ/QY4Bn/Ee0tlHwygxMQrSB9qyoWwxvnqEyOHVIX6JJHrUttXC22KCht47r4Vo3vBHrKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=MDYLS3N2; arc=pass smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Q8iEFQfa"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6581af9c94aso2713912a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 10:25:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769106319; cv=none;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="MDYLS3N2"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-65807a2012fso2152900a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 10:26:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769106369; cv=none;
         d=google.com; s=arc-20240605;
-        b=eIDAcXyqfYnToJXlAVN1rXvoaxc6uI4MbAso2EbqqhNIkO/kgfgOXfAgFyAAnMVliM
-         Ppb5c1SCOxpZ4q/lyTXUyQPuGblEe08dW3S2SoYrjI6YprCfeRZbncpVF/77fsRzsnJT
-         Yl1incvGJl+ZVd74gtelQBqsNDt3V2XU8sKS78Z2JiuS6G1daT3UVu84PNlbJZrbqhr7
-         S18xXtJ83sxgtBzGVHabV+tnSWKtoGeubL72d9qi+RijHetcXkSrLak/u+vjAcFowKiO
-         iCYwzDqQZC9IUll54jCLLcT4xKA1IYRQ1QuycMTtDf8hQplk8M5uLjHQUzTY0A70rOFE
-         UoaA==
+        b=JiQZadVkMXN58DSyT3iAdqSNyD/eIUuM9+h9fQtlHmC9WK8rnXq/hJxT+FPeuR2oHl
+         MFAH2NAbkIE+h9PJbfKmOpuKyCkmqcnwTBdWw6CgA9reK9KpOlKvB8NRLh+xeaafvQLt
+         mfH23/122HKu4AP0WBjMYoTJWBGTkNe/qAS794PmcvPhhSDZkARh6Y1sUuvqabwzTRU0
+         2nl+AyLZjgqcw2FVKw15j2dUNSFMqRr+g1U9Agq7XMYjgkSBOfQ5sIn8Xgt8O0QH6igS
+         rrV2/TYKOn/GGYcZq6T9Y3iqvGReVoNQQPobOykLW31pa3VnEYnOFzXv/JTyAhuFsWUs
+         zJQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Sfl+s++fPRdzTiKMIVj4s7ehxijfWuV5r3RCr1G2vIk=;
-        fh=e7/qxCNug8bzkh6WpheZbsYIldsOLNwKPjc8DfuqB5c=;
-        b=kDXjS4VNXN9LL3BQKSSUwSY66yYdyUJweowgdUgkPQAMNAAjec8U8oqxqAhhe8whKq
-         QKhVlhTwduutt5z4TDwxRHj2JkcYgMy/OUSv+GQkxrZVBSJrVB6yMS1SbJe0yfDAjzRi
-         7Ohll97ounmRlwxFuCUd5u0Q8hjwYAqMXRaC4ikM/J3XCAV/NR3pOIQaQgYBA7ZHCKQ1
-         e2nkhQgJyFuD0Y55N52NTZM3StFLAoWVxF9W74fwNU5GCioJ9xKCjWLVfM16iJDBF0pD
-         Xu4Dt8iHGzsmqEaq3D60dgEr6zEHMd+Ta0SqyO00jIlC2ZokpWIyEqcDsTY1/3SSMPsu
-         /8og==;
+        bh=w9r8EjZfu+6WBBNKHZIudTdElM7NIcXhyZ7Jt0sf0KQ=;
+        fh=yAWc8HyCZRw7gjqBS8PppcOVg3vyGzYCe/W3AUiUmvU=;
+        b=RJjiCKTpDurp89AEs2SVuo2ECIl0GlFVIeBeZYTZ3BqBFiTWcxgoJJouXsyJa2L+XI
+         oGRkkcbE0v73NdlAUKovDpa7jGgRWMM58mkq8OuWQySKHRU7d0mHGYG6M8Kx8ENN93d1
+         s2zKV0Hbfth9bF/EdsZljF14K7awN+ojaPf/Ir5mA+WUkTPY+oHJ6zfiO0MAASzTRchu
+         7Pc0NjC4RCJkniH+deqREOGOP19szLFUIkdaS69VXGtUcSAKJhfguJuAhz2bV4CukdcG
+         /YfbdowKhZVJc0qH2DZVw2KuY17uBgQgXBfX8m70DzDpNgHECJNn/1xSpIXE6uwVMYZW
+         lbtA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1769106319; x=1769711119; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1769106369; x=1769711169; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sfl+s++fPRdzTiKMIVj4s7ehxijfWuV5r3RCr1G2vIk=;
-        b=Q8iEFQfaYHLhdIprKd4U40dyiQC2dENg3PO0auDAXdHZrHtu9JGbu+Ue7zP3JM3M33
-         tesvzH7ninNGQxxl/NjNRkZ1LyS1k6oMus4p0CPUAD/KO3uRB9b4xydByyTq2ohyELPF
-         pdUyM6pLc38KNo6O6Nk9oRtGT7d/89xSwd0DJ3r4W8hUXtkCegek++Qu2kEKM48u1rw5
-         gBgoaoM4UeB1B5v1/jZQKyeHYcduMbn3HZOPNie7APglQJ93uY6P1AOW+AKCV2I+zG+O
-         HxcBglbag7H0IZFbtcDZ535lDUpxxfk17Cdj/i558mcX9BSrh0eb3qMIumzHw1EAPTVL
-         TDHg==
+        bh=w9r8EjZfu+6WBBNKHZIudTdElM7NIcXhyZ7Jt0sf0KQ=;
+        b=MDYLS3N2M5hleC9gYxfGhbgGwODVxjxIlNtC+dODoLosCY7NDiWBlhJpDQv8MY8J5T
+         /x8z7gp4kE0QUaTgc5/VuR4LVfgehxm7fSKoQ4BAytcn4Y9t42ZmRgMLGRwAeBow9IzL
+         9erbHZalcemDP7qO3ADaXvTc4j2f4Ij2hr4yy/85OoNdzhEhefEo5HtVnfXU0QXaIlbD
+         wbIL1CO4apjWdC480ktOZIphXFILNjkJVyLwKg0sKj3jb45bTngVJdq4KMdBLxZmlZc6
+         mBA+/BmUQRMajmcrCg9iC8vdfqRHTE6SzQ7KeIPkqVGCyCWeLVn2hBV/SANSZ1YLh51l
+         lnCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769106319; x=1769711119;
+        d=1e100.net; s=20230601; t=1769106369; x=1769711169;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Sfl+s++fPRdzTiKMIVj4s7ehxijfWuV5r3RCr1G2vIk=;
-        b=nfxM48H/XcQb+KBiXb6Vos6HkRrP/8KgF0mHDKUdVjU+oDGBfQcd2Qq0T2LXdzXkVV
-         FFcHqCnbt2BvqzGgm+lyWcGIJclTbbxU7OEKYTxLRdxvP8VBn3rY2lxrq/nWqGnPuZoV
-         HO6esH6kfvPPxaMIg9+Vv6sudnKStgDznOn96Bcc+xD3JGR+PIRuCpSdRePPo/AJ+8t2
-         wzB4GRbHaVKeX7iCCJF6tJJ33jLnh1QzU3I82t6r003OEvxVw1aWoY7bFrdRZyPiz6Wq
-         TGohzlIupbN6DUocvOZAlwd9TJsajMPjLZZA5u9bayCx5b+nos+ScobBObycHwISld52
-         ZSEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXn185OLhsX+0zTwA15oGJ64F8O/vSd8hlWGyR53dOtsNdQX+r7Nn8x24k2Y06LZCPxc/XeUKLXCV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1SZJlI+mfO2gfOMX8jNRIz1vXVdp0veQ1JAa/9cSFTL0ZxYu1
-	HYaqjudgMOcX59e2xgIZ7ykRnF8XYCSLcMIHfZljteL9Xg/b5Pf/W/yXXVlclDhnREVsyPmkxkn
-	oAkFtOKL9ZOkkNCxhNwtTkRekkcKfZPEE6PsobsURDg==
-X-Gm-Gg: AZuq6aKXptuxmNoXuFdyceIEuiiLeQYtqonDo6ujM1v5d5T9z5SUgE7Ys+kDzvi/nhC
-	nvlmVBe6NL+JP3SLauE0AMJwmcO7hmsmYQcYPA/QOnttm78rtpS49wLwgviZg8IMrO+ljXlFYYq
-	EF006bP3HtJ/gZmxpczuhk+CGcsV/lBbvjG7h51BsWpkOAY8lplk83DCKGBX13TfZTDZuBiV6Kt
-	OY55S/JSzLJ7s048l06odgymY9uZ+KX45KSG4D3SZm4IsYWFvErzjTSoJVUkSScP4kMOpWfyzEl
-	LQ7zaawodPfbLV1qo68sebkrsw==
-X-Received: by 2002:a05:6402:5202:b0:653:ae75:8d71 with SMTP id
- 4fb4d7f45d1cf-658487626b5mr327872a12.8.1769106319440; Thu, 22 Jan 2026
- 10:25:19 -0800 (PST)
+        bh=w9r8EjZfu+6WBBNKHZIudTdElM7NIcXhyZ7Jt0sf0KQ=;
+        b=w538XowFg60gUeiAw3sQjblR54anjVmWvudW6uztdNiUpLhgae5Sl+3usM4Uqv3LvC
+         32fBChL/8HvTuINJXkTWKEpxbUgZxsrY9qSfEh+oJn9wWZ/ERNXTt8SGdKVoprWPPKu7
+         pf6xf54zbyAbcSkNCv0LQJD2s5FDLGW1e+T16Er6G2f8RO5W5j7udNybzXhJsVsBa4dU
+         GLVpRWVDX5iX6GEnHSudUfidG6jHofb0bS7Wg2n9AkCftuL6Au2X/QxgFwVh6KhnyLsL
+         yPPoBtA45rhwJGaymUxAkOi6MHKs/3Uz3iYl7Gx/JXUnkESEPI5uPijtEVY7YW4n41J/
+         1orA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlaWrMCj+CqMdR2Q4E1jEgmOvciLDvsSk62+Wj53OrAsJYBLdUuqStAOI7Q5/B/wbRVDJ4IE2mfhU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+ItEWAUOu/dsaIAlWeqYrD0CuoBm9X0bhHjxzcu0ln2IV/sxu
+	wNbRIvdV/+x5CRGikXnHlfP3xPZYK/4cFXey1c6yg7nBL4dwUVH1NwfS+hyEV2jhxapoITnyqVd
+	23MDRpL/AnhUKjTDTmfTp3NoZ/k7eU/wMxFwCFafasQ==
+X-Gm-Gg: AZuq6aLfofIlBEYlz5NF/igO9bFxFmE/51gyUZJNRJSoUId3Xeuxig+mbRHfI2EBVRf
+	0ZkYin4Ahr/HURhgKzjVso7RhC0t2uoNWYPcxYueN0OHL7ILUZBE6fJeCkq5KI1jDwCxF2aojs3
+	HYXFBzQz0bM1wBgCZHAQrQLiXLLs7+NhDv70I8HbNIpTEFhaafd5Hes4/JurnoBkAzg7O+anY4a
+	AxmMoEBc2hRcuT50MNmT4AXafBnslUNPl6tRO2P7w8Q+lvD0VTOxZiX+cJ8eF6eEltJDm1zSxCn
+	0mGT38kvzZo3il9xW7hFl9Ew4A==
+X-Received: by 2002:a05:6402:2745:b0:658:3c7b:5c3f with SMTP id
+ 4fb4d7f45d1cf-6584876232bmr343669a12.11.1769106368921; Thu, 22 Jan 2026
+ 10:26:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260105165839.285270-1-rppt@kernel.org> <20260105165839.285270-6-rppt@kernel.org>
- <2vxzy0lscks4.fsf@kernel.org> <aW_Mqp6HcqLwQImS@kernel.org> <2vxz5x8wcdv3.fsf@kernel.org>
-In-Reply-To: <2vxz5x8wcdv3.fsf@kernel.org>
+References: <20260105165839.285270-1-rppt@kernel.org> <20260105165839.285270-7-rppt@kernel.org>
+In-Reply-To: <20260105165839.285270-7-rppt@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 22 Jan 2026 13:24:43 -0500
-X-Gm-Features: AZwV_Qi2mnNh0d8uhfT7gi820V4jZHl3-8Ga9SArfokbd4YKFntrUQRwEGR-uHA
-Message-ID: <CA+CK2bB18ymLKh8YAyg8O44j5-7ttAfKC-Og-XMg5KQ=O_Xhwg@mail.gmail.com>
-Subject: Re: [PATCH 5/6] kho: Relocate vmalloc preservation structure to KHO
- ABI header
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Alexander Graf <graf@amazon.com>, Jason Miu <jasonmiu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+Date: Thu, 22 Jan 2026 13:25:32 -0500
+X-Gm-Features: AZwV_QiXDdGmSgod4IzeC1v1Mi9Wmeos0iKetVDkwL8LXL1nrc7MhMPUl8727d0
+Message-ID: <CA+CK2bBu=ThSf1nsrMWO6ij1cLB_TNrEK0dCCc8+kC-MtAXstQ@mail.gmail.com>
+Subject: Re: [PATCH 6/6] kho/abi: add memblock ABI header
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
+	Jason Miu <jasonmiu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Pratyush Yadav <pratyush@kernel.org>, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 20, 2026 at 1:56=E2=80=AFPM Pratyush Yadav <pratyush@kernel.org=
-> wrote:
+On Mon, Jan 5, 2026 at 11:59=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
 >
-> On Tue, Jan 20 2026, Mike Rapoport wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 >
-> > On Tue, Jan 20, 2026 at 04:26:51PM +0000, Pratyush Yadav wrote:
-> >> On Mon, Jan 05 2026, Mike Rapoport wrote:
-> >>
-> >> > From: Jason Miu <jasonmiu@google.com>
-> >> >
-> >> > The `struct kho_vmalloc` defines the in-memory layout for preserving
-> >> > vmalloc regions across kexec. This layout is a contract between kern=
-els
-> >> > and part of the KHO ABI.
-> >> >
-> >> > To reflect this relationship, the related structs and helper macros =
-are
-> >> > relocated to the ABI header, `include/linux/kho/abi/kexec_handover.h=
-`.
-> >> > This move places the structure's definition under the protection of =
-the
-> >> > KHO_FDT_COMPATIBLE version string.
-> >> >
-> >> > The structure and its components are now also documented within the
-> >> > ABI header to describe the contract and prevent ABI breaks.
-> >> >
-> >> > Signed-off-by: Jason Miu <jasonmiu@google.com>
-> >> > Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> >> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> >> [...]
-> >> > +/* Helper macro to define a union for a serializable pointer. */
-> >> > +#define DECLARE_KHOSER_PTR(name, type)    \
-> >> > +  union {                        \
-> >> > +          u64 phys;              \
-> >> > +          type ptr;              \
-> >> > +  } name
-> >> > +
-> >> > +/* Stores the physical address of a serializable pointer. */
-> >> > +#define KHOSER_STORE_PTR(dest, val)               \
-> >> > +  ({                                        \
-> >> > +          typeof(val) v =3D val;              \
-> >> > +          typecheck(typeof((dest).ptr), v); \
-> >> > +          (dest).phys =3D virt_to_phys(v);    \
-> >> > +  })
-> >> > +
-> >> > +/* Loads the stored physical address back to a pointer. */
-> >> > +#define KHOSER_LOAD_PTR(src)                                       =
-       \
-> >> > +  ({                                                               =
-    \
-> >> > +          typeof(src) s =3D src;                                   =
-      \
-> >> > +          (typeof((s).ptr))((s).phys ? phys_to_virt((s).phys) : NUL=
-L); \
-> >> > +  })
-> >>
-> >> Nit: not a fan of exposing code internals to the ABI header. But witho=
-ut
-> >> this the definition of kho_vmalloc_hdr won't make any sense to someone
-> >> reading the doc without looking at the code. Dunno if we can do anythi=
-ng
-> >> better though...
-> >
-> > These might be actually useful for other KHO users.
-
-In my view, khoser definition belongs in the kernel implementation
-rather than the cross-kernel ABI. The ABI describes the preserved data
-format and should be independent of C types. However, this is a minor
-complaint compared to the overall effort of moving the preserved
-format into the ABI and making KHO stateless. For that reason, let's
-merge it.
+> Introduce KHO ABI header describing preservation ABI for memblock's
+> reserve_mem regions and link the relevant documentation to KHO docs.
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
 Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
