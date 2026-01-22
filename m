@@ -1,192 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFB21FF7C8;
-	Thu, 22 Jan 2026 19:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769110405; cv=none; b=jbZPUAYIYTn4NvSosDUsctkOxW+kuQ3wjWhPmfdNUlLtbdJ0zx3LbIvskqde1+ICEupViYMFplFbqITJLVhh+ESo+ghrY5n1fB6MCEGgb3GgrXUsx8zTkVyz9iGAegwRNlwrkVF+IRlwAJ/7ws3HXGEV8TCsIFw0Z7ZetlgqT5E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769110405; c=relaxed/simple;
-	bh=7SgLk2UDB0FZRkvj2BvFR8LJLwcq8f+XoFkuLPLDdVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=omU2jqMKdn8NfZL6T4jDTdHGicUWZOXlUwVEThKHmPE/l6GwZ1ni6zCkXYQfvg8H+egUcfoNB0Pk+YvgmxjjlAeQXEzXIiJsVMIm9ZhCRXjGcIMGlZpXQVZ38cxoLunQSGnHBdvCm64nPsySvj9itDiXO20k90N3G6j1vpgFYHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnxDSKT6; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E9331A64
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 20:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769113868; cv=pass; b=uH1tb2unriOakNXrdcsqvc5vhOaAMELzpv9CynJMyE5XvEKmRmxldlmUNa11BXvtJ5zZvjvYY6/vSvGgbWjVBeVoCOmGt1FWgFRYMVVqFbGaaUnTWhsWVIJv51hd1LdmPuU7GCLZOs4tqKKOYQ2TnYpyJ3Rt/PQY0qmkwnCjJg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769113868; c=relaxed/simple;
+	bh=ASZplhRqMNnIuXI0Gmdw3pwrAxGsQ+x5dICWN1yZY84=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jqO374fi1cIUERXKuMo2ZBkuCBtMSl4rubNyR/l4v8hskLfK+S7JepCM9znpMmLPeDF1P7WYdjA0wzj48cXEBIMBot/UsWFJWnc0H1ZjhjNUTYurohAhMXlo2CkOAKs4g+kCV7YTBPnZIKRvsqc81Etnpy+80y4IHwDlDCTF7Nw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s9cWSTdk; arc=pass smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnxDSKT6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C694C116C6;
-	Thu, 22 Jan 2026 19:33:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769110404;
-	bh=7SgLk2UDB0FZRkvj2BvFR8LJLwcq8f+XoFkuLPLDdVo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TnxDSKT6W31tNcauhdZq7Ceg+ocFPLhOBPnJQJ7V4b9UXh2OSldzBbpzgfkzavZZJ
-	 LZOvczhZlGS275G6tQI6IfrmKgTwpvUs/QmlUmXAs+FeD47+rl0Dr9yLn1UUYs0SgP
-	 qq4S/Z15Vj27fTz7WJQakvB4lsWegvHtucW7J5dC61c8rhxj6Gw7lCZnvG3n/AFNKZ
-	 WmJSwYUcm/6VZWvzne2j//rWFa8iV6U0BhEzB7rDot5Y3VbJCMDpGB29G9uqO+2c83
-	 chpzbj+sJgd4x+ufdd0LgdYfOLQ6YZJpyu1AJx87zdHV4j/CyqCr2m3LJK1hfrkGl/
-	 3CX8qsVTL/cTg==
-Date: Thu, 22 Jan 2026 19:33:12 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Rodrigo Alencar 
- <455.rodrigo.alencar@gmail.com>, Andy Shevchenko
- <andy.shevchenko@gmail.com>, rodrigo.alencar@analog.com,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, David Lechner
- <dlechner@baylibre.com>, Andy Shevchenko	 <andy@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich	
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
-Message-ID: <20260122193312.0a84ac33@jic23-huawei>
-In-Reply-To: <99789eb34873eca976a3324c363a1dc70a2f0d3d.camel@gmail.com>
-References: <aW3dxuelYDM67pqZ@smile.fi.intel.com>
-	<texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
-	<aW40ylvMwVhqNQMw@smile.fi.intel.com>
-	<hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
-	<aW5kk6K30Izckvg5@smile.fi.intel.com>
-	<e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
-	<CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
-	<vvdk3whhwua73g63eetnmn46t2cpbpkzzkx7m6wsbverp7gcvs@mi7cipis3i4t>
-	<aW-Fai68pk1tAeyY@smile.fi.intel.com>
-	<kmdqcaewxxg7isappgfxuf5ode5fepbywrdriksmvrzmaykcjd@crpr27tt3bmf>
-	<aXChxvlZxKVrOMsW@smile.fi.intel.com>
-	<99789eb34873eca976a3324c363a1dc70a2f0d3d.camel@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s9cWSTdk"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5eeaae0289bso1091137137.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 12:30:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769113855; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RePurk4P6ypjGYdu93R7xHlr7m7dUI4i34x5d5+Idk5ZZaVoD3ysfMXdY8TVl7EEPu
+         bRVfCKjNInFvLQi2USe01LehMyZqPs5HZPUwYidA5wLq4PQtbX/C+QQrj9338H+9Fvi0
+         FuUnqwiyg3cdCKbrNjIMQimLsT1Mq280HkGVM1p5HOkU3Etc1eaK8VoU4mSYCKCe7Mps
+         Rz5u6i/njdvt0xOXURUlQGb09mWIv04RfSgOdCg79mIZCiSuFLzzyuadU6Pr3m3sGQRQ
+         vqHz/2hvEc+aXOSrqyXvn02pXOybK+4Gp5ZZIgBmr5my+whc+vwmJxy4v6yjNkRBWohr
+         dpNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=BQj97zlME5zzETPT7vCk6obWp/pKKcD8Mr+mou6nGos=;
+        fh=snTXLxdBdd5W0A8r/4GxD0NWc8KQjebsYqb3drClpjw=;
+        b=E9ZDC5iQY5F6nFUvqXS1pjQ+CJHP4EOpJsfquwl0HNwjBHzcngXyxa06i85Yw+TZz+
+         5ZXb5HExtm13MPYFmsKxqaK2y9/iJK/We0el2XW89qS6UfeACRcmTtUpPxCgcGk0tjo3
+         h48TunimN0xl1jsearyzg/7hz0HqLaRBKi+lYez5ie+2ukyn0Z3GHN9ZjPxomCjQqxBw
+         HiP8FIcF85ZLkdmtmEuQgl1m7yPtcEfZphN976FhHLWgtqGD+R/QEpVYeuDXExQoF5zC
+         qki5c6IPeiKrg899z2Y3nWe7ikn9HIHpQD55RyirydNcB7QIZ/VauXk8p0hSpiTiVTTD
+         KiGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769113855; x=1769718655; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BQj97zlME5zzETPT7vCk6obWp/pKKcD8Mr+mou6nGos=;
+        b=s9cWSTdkMw0DTkJpj9RD4xeqwJKTvnEuQS6o2lmxQr8yI+JxygOpcXlQyNkodNWeZN
+         QlKZDCW7kA5FN/zuUfMW+HDnPtJb7+ympe2kD78TTtBk3Ck2FvYXAReK2lt1XILLSw5H
+         QBh7wNT0aVnhZEGEA9qz8tOTHNL8dWPiJ/VwHvxBkQ4Iw8zhruQzF52rDb9aaAEUrJGQ
+         yps1d7pBZmraCX4fYe9cRXLfT55iWdDhZtRb8YG5PeNfs5p2Z5eKu/TyGz2PN2paNK5J
+         HBy8zc98eJILnjq8u5EUZT90+sZ4aSreI25/HQbyOqGmDODp8u4zcr2XsIp4ecAuBwL/
+         6qXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769113855; x=1769718655;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BQj97zlME5zzETPT7vCk6obWp/pKKcD8Mr+mou6nGos=;
+        b=e12GYfgZMBDJ+YIVS8Kfxs2XR3fV2pkegsbPsNzURzit3BQh1z9cK4WRCFAUVuV/eS
+         96+5jokclTPJX3gFkffxQ5KUqsdgNzj7kLcOKYXxt9Dmvk0CtEwwDBryjqN0B3LAC4At
+         xu1jocBNmDedbiVsjlXlg+95HbNDJISU+Nhkdl5ec7w58s66JyugTZ8RNLRezKv+0IrX
+         ikG7cHRvGAUsnJs02LpB4A3Voe6OWfjJkNNQiLxJynyMLxTUNQ+n8eVR2EQ0dnBN8bAf
+         XgXRXlaEApjrTvTdrX0xZgMJOdjxogBdxlQqOQLzD3eKHmAD7raKcIpv7OJgVjp9jL9x
+         9dXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnU0qoPTMSZv7+eoFv9h0RlSvxAZlmVByHh/49Bq5nUyNMY4yXYmtF1ehRWgdMFgqxwuZczkpKE2c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdwmZcfEnKl+WwItfKXi2mJEBI86GENz7T8ocjw90pmQsIXDOl
+	xF5Sz9gMS4oWalWkCT8k3wrRMuprGYJrPOu/qrEcGnKGDoLPALHNiadZPif6SHPA6OrnSU/ryIL
+	+kPNGgGkiAkn+JIClt/Y0/w9hHi1JgjyzdUTvsHqi
+X-Gm-Gg: AZuq6aJFGxx++DDkQ6xi2NwPc15xXl0ESPlDALVxqmJ7ATNQgj3gfCcEB32ruD+ZzKQ
+	R9JgkPSf9m9B0JlsHbFHWPafg7IjFMmJDVh9HOfUS4L4DogP5tBbSyyTORkPqf/ngzxL5qVBErQ
+	KLLk/0Pvxuj+lZ9UOv7T67ZpPJ9xHXQYheR44sJoKFFFIaFKRiVx2ASefK9ThuA92Tr58dAPoBN
+	nprnlJgQUlRQAP/WJEDdLhkgKYUDWuevkmC3wOXbKYuSsb20/gu1T8GAqp1dX8rw6aGlwbmUhus
+	VTGmlzQqhj5ImktTWclToULH
+X-Received: by 2002:a05:6102:d89:b0:5ee:a8c4:18d4 with SMTP id
+ ada2fe7eead31-5f54bd0c3f6mr359613137.35.1769113854610; Thu, 22 Jan 2026
+ 12:30:54 -0800 (PST)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jan 2026 12:30:53 -0800
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jan 2026 12:30:53 -0800
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <f2f2a6bd-5cb4-46c9-a0f8-3240670094b5@amazon.com>
+References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-8-kalyazin@amazon.com>
+ <CAEvNRgEzVhEzr-3GWTsE7GSBsPdvVLq7WFEeLHzcmMe=R9S51w@mail.gmail.com>
+ <a2b79af7-e5d1-4668-bff3-606f57d32dfc@amazon.com> <CAEvNRgF46M1jp0+eBu2wQMO7P1afyo00SOkENFwvB2KYX3dnFA@mail.gmail.com>
+ <f2f2a6bd-5cb4-46c9-a0f8-3240670094b5@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Jan 2026 12:30:53 -0800
+X-Gm-Features: AZwV_QhoTAbsDcZFNCQXVZ12J6m5MEBpBa-k8I2xwSPIY6AXvlNDgQnkgPrJ79I
+Message-ID: <CAEvNRgEd=Uh09dU_P7_vvzRpOyMYd=OKazpkxzr=VLe5HcQhGw@mail.gmail.com>
+Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct map
+To: kalyazin@amazon.com, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "kernel@xen0n.name" <kernel@xen0n.name>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, 
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
+	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>, 
+	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
+	"shuah@kernel.org" <shuah@kernel.org>, "riel@surriel.com" <riel@surriel.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>, 
+	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"coxu@redhat.com" <coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "prsampat@amd.com" <prsampat@amd.com>, 
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>, 
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, 
+	"alex@ghiti.fr" <alex@ghiti.fr>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
+	"hca@linux.ibm.com" <hca@linux.ibm.com>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+	"pjw@kernel.org" <pjw@kernel.org>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
+	"thuth@redhat.com" <thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, 
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com" <jackmanb@google.com>, 
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>, 
+	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>, 
+	"Manwaring, Derek" <derekmn@amazon.com>, "Cali, Marco" <xmarcalx@amazon.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 21 Jan 2026 14:21:00 +0000
-Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+Nikita Kalyazin <kalyazin@amazon.com> writes:
 
-> On Wed, 2026-01-21 at 11:52 +0200, Andy Shevchenko wrote:
-> > On Wed, Jan 21, 2026 at 09:41:25AM +0000, Rodrigo Alencar wrote: =20
-> > > On 26/01/20 03:38PM, Andy Shevchenko wrote: =20
-> > > > On Tue, Jan 20, 2026 at 01:07:49PM +0000, Rodrigo Alencar wrote: =20
-> > > > > On 26/01/20 01:24PM, Andy Shevchenko wrote: =20
-> > > > > > On Tue, Jan 20, 2026 at 12:43=E2=80=AFPM Rodrigo Alencar
-> > > > > > <455.rodrigo.alencar@gmail.com> wrote: =20
-> > > > > > > On 26/01/19 07:07PM, Andy Shevchenko wrote: =20
-> > > > > > > > On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar w=
-rote: =20
-> > > > > > > > > On 26/01/19 03:42PM, Andy Shevchenko wrote: =20
-> > > > > > > > > > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alenc=
-ar wrote: =20
-> > > > > > > > > > > On 26/01/19 09:31AM, Andy Shevchenko wrote: =20
-> > > > > > > > > > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo A=
-lencar via B4 Relay wrote: =20
-> >=20
-> > ...
-> >  =20
-> > > > > > > > > > > The current implementation is kind of a stripped vers=
-ion of
-> > > > > > > > > > > __iio_str_to_fixpoint(). Would you prefer something l=
-ike this, then?: =20
-> > > > > > > > > >=20
-> > > > > > > > > > Do they have most of the parts in common? If so, why ca=
-n't we use
-> > > > > > > > > > __iio_str_to_fixpoint() directly? Or why can't we sligh=
-tly refactor
-> > > > > > > > > > that to give us the results we need here? =20
-> > > > > > > > >=20
-> > > > > > > > > __iio_str_to_fixpoint() only parses "int" chunks, adf4151=
-3_parse_uhz
-> > > > > > > > > was modified to accomodate the u64 parsing removing unnec=
-essary stuff. =20
-> > > > > > > >=20
-> > > > > > > > But why? The fractional part most likely will be kept int (=
-it's up to 10=E2=81=BB=E2=81=B9).
-> > > > > > > > The integer can be bigger than 10=E2=81=B9? =20
-> > > > > > >=20
-> > > > > > > Correct, integer part of the frequency value goes up to 26.5 =
-GHz
-> > > > > > > (uint_max is approx 4.3 GHz). Also, with the dual modulus, th=
-e PLL can
-> > > > > > > achieve micro Hz resolution. =20
-> > > > > >=20
-> > > > > > =C2=B5Hz is not a problem since it's up to nHz.
-> > > > > > So, the difference so far is the integer part that can be 64-bi=
-t.
-> > > > > > Again, can we factor out something to be used for this and for =
-the
-> > > > > > __iio_str_to_fixpoint() cases? =20
-> > > > >=20
-> > > > > I am not sure what you are suggesting, =20
-> > > >=20
-> > > > To make changes to reuse the code.
-> > > >  =20
-> > > > > but I am avoiding changes to iio core at this point. =20
-> > > >=20
-> > > > Why? =20
-> > >=20
-> > > I understood that core changes would require more than one user
-> > > supporting the change. =20
-> >=20
-> > At least one. And we have tons of them as the callers of
-> > __iio_str_to_fixpoint() are not going to disappear. Basically it's a su=
-rgery in
-> > the middle of the existing chain of APIs. To me one user is enough just=
-ification
-> > for such a surgery. For the newly introduced API (imagine __iio_str_to_=
-fixpoint()
-> > as an example) it's indeed one user not enough.
-> >  =20
-> > > > > If any other user needs similar behavior,
-> > > > > I'd say we would need to have __iio_str_to_fixpoint() implementat=
-ion
-> > > > > modified, so to create a version of iio_str_to_fixpoint() that ha=
-ndles
-> > > > > long long variables. Possibly consuming simple_strtoull instead of
-> > > > > doing the manual parsing. =20
-> > > >=20
-> > > > That's the problem here. With Yet Another Cool Parser this all beco=
-mes
-> > > > unmaintainable very soon =20
-> > >=20
-> > > Considering that the need for a new parser for 64-bit parts is only d=
-riven
-> > > by this specific PLL driver, I wonder how things become that unmainta=
-inable. =20
-> >=20
-> > Because there is a duplication of the code (to some extent) and if we f=
-ound
-> > a bug in the one implementation it will be hard to fix (or even remeber=
-) about
-> > the other. =20
->=20
-> Agreed!
->=20
-> >  =20
-> > > > (basically as you said when new comer needs a third
-> > > > variant of it). This is not good. Instead better to create (amend, =
-expand)
-> > > > existing test cases, split out a foundation API that parses 64-bit =
-parts
-> > > > (maybe even for fractional as well, dunno) and evolve a needed (sub=
-)API
-> > > > from it. =20
-> > >=20
-> > > I don't disagree with you though, I suppose I will need a green light=
- to
-> > > move on with this? =20
-> >=20
-> > Fine with me, let's gather opinions of David, Nuno, Jonathan, and other=
-s. =20
->=20
->=20
-> Fine with me.
-Likewise. A common / foundational function with specialized wrappers would
-be good.
+>
+> [...snip...]
+>
+>>>>> @@ -533,6 +580,8 @@ static void kvm_gmem_free_folio(struct folio *folio)
+>>>>>         kvm_pfn_t pfn = page_to_pfn(page);
+>>>>>         int order = folio_order(folio);
+>>>>>
+>>>>> +     kvm_gmem_folio_restore_direct_map(folio);
+>>>>> +
+>>>>
+>>>> I can't decide if the kvm_gmem_folio_no_direct_map(folio) should be in
+>>>> the caller or within kvm_gmem_folio_restore_direct_map(), since this
+>>>> time it's a folio-specific property being checked.
+>>>
+>>> I'm tempted to keep it similar to the kvm_gmem_folio_zap_direct_map()
+>>> case.  How does the fact it's a folio-speicific property change your
+>>> reasoning?
+>>>
+>>
+>> This is good too:
+>>
+>>    if (kvm_gmem_folio_no_direct_map(folio))
+>>            kvm_gmem_folio_restore_direct_map(folio)
+>
+> It turns out we can't do that because folio->mapping is gone by the time
+> filemap_free_folio() is called so we can't inspect the flags.  Are you
+> ok with only having this check when zapping (but not when restoring)?
+> Do you think we should add a comment saying it's conditional here?
+>
 
->=20
-> - Nuno S=C3=A1
->=20
+I thought kvm_gmem_folio_no_direct_map() only reads folio->private,
+which I think should still be there at the point of
+filemap_free_folio().
 
+>>
+>> [...snip...]
+>>
