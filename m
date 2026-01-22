@@ -1,135 +1,109 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9F135EDBB;
-	Thu, 22 Jan 2026 06:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8452D73BC;
+	Thu, 22 Jan 2026 06:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769063451; cv=none; b=bjuIfjRhg1zmXzIxHK6dW9NUQojvw/8jIYtLjNIu3BZ8f1WgJ5lpKiWNAjysGnio5lQtOaBntG3GpGLLHcgM7txfsydRQYbnD+Xl6Wxo0fW5Oo2JRRsesSmRmmAOR5tjZyONrUhkJigT9FpkR7HLvoLjw7wV6qFj/Q0ZGUeOjlY=
+	t=1769063568; cv=none; b=Rycek5wRJOtMUz8a1msJs5lttNahAN43z+xaT7RhxO6ysbDojn+gIUNlWG/9t94GfY8V7Ke3oMCjVgfSbbmiP9dd1ynnBibHNBM3TYhApKn676Gb8ITIGbi682urNibn0ISslinticmx2BBweAD5w0bSAbcSVxH54/c2Ti/q5J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769063451; c=relaxed/simple;
-	bh=gI4VneopsdqVesCDKepfvDU9rL2mj/n7kdeCVIu3J5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IH86OUqR9rVBs1BLRs7iILCjpUKm8EYvqAU/Vcju5xzxMrUvlBPpSKq7lVi7F/bWOFqYsAtvm27esb0jfukmiJkSEwGKYrwPVgzh1IbZ6hZwvUsOUE+OXZoi0+Vf2Vw15vDn9oLj9W+bufAqPmtPunYursWKrg1yU4doeQeM+Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id F0E59227AA8; Thu, 22 Jan 2026 07:30:42 +0100 (CET)
-Date: Thu, 22 Jan 2026 07:30:42 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Bart Van Assche <bvanassche@acm.org>, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH tip/locking/core 0/6] compiler-context-analysis: Scoped
- init guards
-Message-ID: <20260122063042.GA24452@lst.de>
-References: <20260119094029.1344361-1-elver@google.com> <20260120072401.GA5905@lst.de> <20260120105211.GW830755@noisy.programming.kicks-ass.net>
+	s=arc-20240116; t=1769063568; c=relaxed/simple;
+	bh=8CK5jvCEjZaFYLQYoZXkEENe4Tnp4vbjlGczZ89edr4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=lAd3Kly0KczpGQQTr1if1PaNCFalB0bIrOkB3OdaWQa+Kf1lWcDnbcWk+yavpKgd8WS4B9CRow/gnopVZPmMC7dahgr5NfzHVYIdoog10dL9Pp7DxH7BkDHHBZDOQ2N8r1tr4Q3TBC3e/QMcFYAlASJXnfE0tE9YJvT0fJW6/BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AviskXnW; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AviskXnW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=8CK5jvCEjZaFYLQYoZXkEENe4Tnp4vbjlGczZ89edr4=; b=A
+	viskXnWYQ0DpZ3HeAt0DEjXT7KX5KRh0ZUetPugTt8Mz2JZ+b5R1Un+4YewTXuWF
+	Fy5XKZ6dX0VN6AHtif4EVGM85Cgq3eNuVnjibGsWGUsqUho0bHVzYmJg6sFiVFi9
+	6QrQFX1rjlcsWsaeCAPI1u4Qw6AiGv6mZ6zy4chWSI=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-107 (Coremail) ; Thu, 22 Jan 2026 14:30:33 +0800
+ (CST)
+Date: Thu, 22 Jan 2026 14:30:33 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
+Cc: "Harry Wentland" <harry.wentland@amd.com>, "Leo Li" <sunpeng.li@amd.com>,
+	"Rodrigo Siqueira" <siqueira@igalia.com>,
+	"Alex Deucher" <alexander.deucher@amd.com>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	"David Airlie" <airlied@gmail.com>,
+	"Simona Vetter" <simona@ffwll.ch>,
+	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+	"Maxime Ripard" <mripard@kernel.org>,
+	"Thomas Zimmermann" <tzimmermann@suse.de>,
+	"Andrzej Hajda" <andrzej.hajda@intel.com>,
+	"Neil Armstrong" <neil.armstrong@linaro.org>,
+	"Robert Foss" <rfoss@kernel.org>,
+	"Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+	"Jonas Karlman" <jonas@kwiboo.se>,
+	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
+	"Sandy Huang" <hjc@rock-chips.com>,
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+	"Andy Yan" <andy.yan@rock-chips.com>,
+	"Jani Nikula" <jani.nikula@linux.intel.com>,
+	"Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+	"Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+	"Tvrtko Ursulin" <tursulin@ursulin.net>,
+	"Dmitry Baryshkov" <lumag@kernel.org>,
+	"Sascha Hauer" <s.hauer@pengutronix.de>,
+	"Rob Herring" <robh@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+	kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re:[PATCH v7 09/22] drm/rockchip: Add YUV422 output mode constants
+ for VOP2
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <20260121-color-format-v7-9-ef790dae780c@collabora.com>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-9-ef790dae780c@collabora.com>
+X-CM-CTRLMSGS: VGsUV3BsdXM9MTc2OTA2MzQzMjEwNF80ZGY5MTA1NWM2ZGEzOWU1N2NiM2Y4Y
+ WE1NDkyMWViMA==
+X-NTES-SC: AL_Qu2dC/ydvEwo5SCeZekfmUgWjuw/WsG1v/Ul1YBSP556jCHp1zA+YHtOI0XuzsGkOiqykTu2XSVH2/VTe6Bkepsbla4s24V6ov96gBpNliJpeg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120105211.GW830755@noisy.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Message-ID: <ce42aa7.51d0.19be465c36f.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:aygvCgDXvwQJxHFpWHhcAA--.14313W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbCxQnpSGlxxAleLwAA3J
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-On Tue, Jan 20, 2026 at 11:52:11AM +0100, Peter Zijlstra wrote:
-> > So I think the first step is to avoid implying the safety of guarded
-> > member access by initialing the lock.  We then need to think how to
-> > express they are save, which would probably require explicit annotation
-> > unless we can come up with a scheme that makes these accesses fine
-> > before the mutex_init in a magic way.
-> 
-> But that is exactly what these patches do!
-> 
-> Note that the current state of things (tip/locking/core,next) is that
-> mutex_init() is 'special'. And I agree with you that that is quite
-> horrible.
-> 
-> Now, these patches, specifically patch 6, removes this implied
-> horribleness.
-> 
-> The alternative is an explicit annotation -- as you suggest.
-> 
-> 
-> So given something like:
-> 
-> struct my_obj {
-> 	struct mutex	mutex;
-> 	int		data __guarded_by(&mutex);
-> 	...
-> };
-> 
-> 
-> tip/locking/core,next:
-> 
-> init_my_obj(struct my_obj *obj)
-> {
-> 	mutex_init(&obj->mutex); // implies obj->mutex is taken until end of function
-> 	obj->data = FOO;	 // OK, because &obj->mutex 'held'
-> 	...
-> }
-> 
-> And per these patches that will no longer be true. So if you apply just
-> patch 6, which removes this implied behaviour, you get a compile fail.
-> Not good!
-> 
-> So patches 1-5 introduces alternatives.
-> 
-> So your preferred solution:
-> 
-> hch_my_obj(struct my_obj *obj)
-> {
-> 	mutex_init(&obj->mutex);
-> 	mutex_lock(&obj->mutex); // actually acquires lock
-> 	obj->data = FOO;
-> 	...
-> }
-> 
-> is perfectly fine and will work. But not everybody wants this. For the
-> people that only need to init the data fields and don't care about the
-> lock state we get:
-> 
-> init_my_obj(struct my_obj *obj)
-> {
-> 	guard(mutex_init)(&obj->mutex); // initializes mutex and considers lock
-> 					// held until end of function
-> 	obj->data = FOO;
-> 	...
-> }
-
-And this is just as bad as the original version, except it is now
-even more obfuscated.
-
-> And for the people that *reaaaaaly* hate guards, it is possible to write
-> something like:
-> 
-> ugly_my_obj(struct my_obj *obj)
-> {
-> 	mutex_init(&obj->mutex);
-> 	__acquire_ctx_lock(&obj->mutex);
-> 	obj->data = FOO;
-> 	...
-> 	__release_ctx_lock(&obj->mutex);
-> 
-> 	mutex_lock(&obj->lock);
-> 	...
-
-That's better.  What would be even better for everyone would be:
-
-	mutex_prepare(&obj->mutex); /* acquire, but with a nice name */
-	obj->data = FOO;
-	mutex_init_prepared(&obj->mutex); /* release, barrier, actual init */
-
-	mutex_lock(&obj->mutex); /* IFF needed only */
-
+CgpIZWxsbywKCkF0IDIwMjYtMDEtMjEgMjI6NDU6MTYsICJOaWNvbGFzIEZyYXR0YXJvbGkiIDxu
+aWNvbGFzLmZyYXR0YXJvbGlAY29sbGFib3JhLmNvbT4gd3JvdGU6Cj5UaGUgUm9ja2NoaXAgZGlz
+cGxheSBjb250cm9sbGVyIGhhcyBhIGdlbmVyYWwgWVVWNDIyIG91dHB1dCBtb2RlLCBhbmQKPnNv
+bWUgU29DLXNwZWNpZmljIGNvbm5lY3Rvci1zcGVjaWZpYyBvdXRwdXQgbW9kZXMgZm9yIFJLMzU3
+Ni4KPgo+QWRkIHRoZW0sIGJhc2VkIG9uIHRoZSB2YWx1ZXMgaW4gZG93bnN0cmVhbSBhbmQgdGhl
+IFRSTSAoZHNwX291dF9tb2RlIGluCj5SSzM1NzYgVFJNIFBhcnQgMiwgcmVnaXN0ZXIgUE9TVCpf
+Q1RSTF9QT1NUX0RTUF9DVFJMKS4KPgo+U2lnbmVkLW9mZi1ieTogTmljb2xhcyBGcmF0dGFyb2xp
+IDxuaWNvbGFzLmZyYXR0YXJvbGlAY29sbGFib3JhLmNvbT4KCiAgIFJldmlld2VkLWJ5OiBBbmR5
+IFlhbiA8YW5keXNocmtAMTYzLmNvbT4KCgo+LS0tCj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
+L3JvY2tjaGlwX2RybV9kcnYuaCB8IDQgKysrKwo+IDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
+bnMoKykKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9k
+cm1fZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5oCj5p
+bmRleCAyZTg2YWQwMDk3OWMuLjQ3MDVkYzZiOGJkNyAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmgKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9y
+b2NrY2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmgKPkBAIC0zMCwxMCArMzAsMTQgQEAKPiAjZGVmaW5l
+IFJPQ0tDSElQX09VVF9NT0RFX1A1NjUJCTIKPiAjZGVmaW5lIFJPQ0tDSElQX09VVF9NT0RFX0JU
+NjU2CQk1Cj4gI2RlZmluZSBST0NLQ0hJUF9PVVRfTU9ERV9TODg4CQk4Cj4rI2RlZmluZSBST0NL
+Q0hJUF9PVVRfTU9ERV9ZVVY0MjIJOQo+ICNkZWZpbmUgUk9DS0NISVBfT1VUX01PREVfUzg4OF9E
+VU1NWQkxMgo+ICNkZWZpbmUgUk9DS0NISVBfT1VUX01PREVfWVVWNDIwCTE0Cj4gLyogZm9yIHVz
+ZSBzcGVjaWFsIG91dGZhY2UgKi8KPiAjZGVmaW5lIFJPQ0tDSElQX09VVF9NT0RFX0FBQUEJCTE1
+Cj4rLyogU29DIHNwZWNpZmljIG91dHB1dCBtb2RlcyAqLwo+KyNkZWZpbmUgUk9DS0NISVBfT1VU
+X01PREVfWVVWNDIyX1JLMzU3Nl9EUAkxMgo+KyNkZWZpbmUgUk9DS0NISVBfT1VUX01PREVfWVVW
+NDIyX1JLMzU3Nl9IRE1JCTEzCj4gCj4gLyogb3V0cHV0IGZsYWdzICovCj4gI2RlZmluZSBST0NL
+Q0hJUF9PVVRQVVRfRFNJX0RVQUwJQklUKDApCj4KPi0tIAo+Mi41Mi4wCg==
