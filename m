@@ -1,104 +1,96 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DD943E9CA
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 11:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E8038E5C6;
+	Thu, 22 Jan 2026 11:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769082830; cv=none; b=qW8YHulh1gSzxce2MwE+tO4ihrSRagSxtvyDrMMzeykbblVs2Jph8fhiD2Lj1zORuCGnVOKdp2cHfR5XIlJvZ2XthuC8vtQTdZoa5bNNlHq89e2a2dGun3nc7cfnj52p7RS5Mdxmv58/tG2cDPgzdhHIypwKptrmNnDIBMcOI2U=
+	t=1769082989; cv=none; b=dLV2OuBKdlNi6aqqlbD15W/O16KrxjjwqdGQt5deHu/f0AGwy3fW69ZciHZaVWMm6a8YkffeJCmNmLVbuaAtoV+bTcA2Z8hn7eNb5INs9Vp+poZ/9mU/DHWiqi0hHOm6MyN0uuuf7COEp1UKap8jD164g9JPnMT1ZXIoTfiLoAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769082830; c=relaxed/simple;
-	bh=W+0PNDwpKCP1K7GPitxRdMQyZK5OR2n6ivu/JoUwlaA=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=S0QGdOZrYnFtWHNULbCgM15V7kOCYN7BjJQS92reypLrOkAOkgFewsrgCXbW1Ue9xbj6qDYmkDoykRTW7Y74DN+ZT/nWC+sB3L8VHHx5eG5iFRhhydoYS8tepAT81V7yDtWPWLoAfopY6ExTUVx6fqxhxcfsmyzhBbvqz2TtJCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EmMicMAr; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1769082989; c=relaxed/simple;
+	bh=Ab9DVgwqa8XSz6z9wvN2hCb/1Nx3l5mYG9zv7yZ9Poo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sJbn3hddL1QcJYsWFJpslbk3qmvDKmW0hBZtYKqpmXL4F+xkKSdiaQ84g+S7Hb/XDGHUUWlWM4YStwaoCxR6kOyqqmW/D1uow5aIMo0qFmQZ5OhpBlh0xVDKbBKX9O19xrXNWtMpE1/wVEcy5J1+DBTDEWOT8NuR1upLvCRby3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUp7odwN; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EmMicMAr"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769082815;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nK3lpHbFMGMoogUekcAz2kADIERYkYftxCT2FRmWKLQ=;
-	b=EmMicMArBlyYzb+D+vR715OwkPD0z9nzIGfjpZO5HTCVF4+7K2WAZKp+mM73BuLfQn4Xv4
-	22T0gI2wR4WjYujVh24UdlzeogLeCXt+8iHDSTqedMbRe3mTgBVoKxS3n25fpqRQM9r2b5
-	oHaf8RsTTbEpjH8slm6r/odSav0G6lk=
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUp7odwN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769082988; x=1800618988;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ab9DVgwqa8XSz6z9wvN2hCb/1Nx3l5mYG9zv7yZ9Poo=;
+  b=AUp7odwNBQl9gC6wJ+/bo2kslsn+qTBBW7p9arHAgDm3N5rAIwbMDOLP
+   S7IANHoMTlThRntOvfcYSmhc7Zd8gg/Tw6C3EIyRitNHn5O8NgvM7Zkfo
+   11vGbwcXfKQm6APEDCZBzhz9LiXlDLohg028nyhyGh+j0U91MFHBBfokJ
+   n6pJncvQ0Vupg1WdJmSmFbMODNzjrUEnlKlAMcsf3+EoI2/rWgPpvgrIj
+   ppIQF1JKM/5hH4w8B+tzXJkFQwzw/Oq2Pfs6jm5/TC2p9rx5e5Q27lQez
+   11A4txC6d26TUw/8090hRnjC3m5wgHTLfUSbG3ZUGRP0FNwPmFDqShahG
+   g==;
+X-CSE-ConnectionGUID: s2Ql9ZWVSm+kFoIKi9BL/A==
+X-CSE-MsgGUID: pLqmzWWYQR+xZz2K9HASeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="92987318"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="92987318"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 03:56:27 -0800
+X-CSE-ConnectionGUID: C4NGBJ3gSE+TyYdAbXwqhw==
+X-CSE-MsgGUID: SWVY34l4TaqlBZqkBXOFIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="206618265"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 03:56:25 -0800
+Date: Thu, 22 Jan 2026 13:56:23 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: development-process: add notice on testing
+Message-ID: <aXIQZ0cI_4GF5d_t@smile.fi.intel.com>
+References: <20260122111525.1112145-1-dmantipov@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCHv4 05/14] mm: Rework compound_head() for power-of-2
- sizeof(struct page)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <aXIKBhHd7IbaJkXg@thinkstation>
-Date: Thu, 22 Jan 2026 19:52:52 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>,
- Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baoquan He <bhe@redhat.com>,
- Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <85016E74-E7D6-4AA1-8754-24B86496CEFE@linux.dev>
-References: <20260121162253.2216580-1-kas@kernel.org>
- <20260121162253.2216580-6-kas@kernel.org>
- <EB8941D9-B6E0-41DD-9C44-038D21583E17@nvidia.com>
- <aXIKBhHd7IbaJkXg@thinkstation>
-To: Kiryl Shutsemau <kas@kernel.org>,
- Zi Yan <ziy@nvidia.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122111525.1112145-1-dmantipov@yandex.ru>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Thu, Jan 22, 2026 at 02:15:25PM +0300, Dmitry Antipov wrote:
+> Add testing notice to "Before creating patches" section.
 
+Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-> On Jan 22, 2026, at 19:29, Kiryl Shutsemau <kas@kernel.org> wrote:
->=20
-> On Wed, Jan 21, 2026 at 12:12:13PM -0500, Zi Yan wrote:
->>> @@ -1244,8 +1244,8 @@ void snapshot_page(struct page_snapshot *ps, =
-const struct page *page)
->>> again:
->>> memset(&ps->folio_snapshot, 0, sizeof(struct folio));
->>> memcpy(&ps->page_snapshot, page, sizeof(*page));
->>> - head =3D ps->page_snapshot.compound_info;
->>> - if ((head & 1) =3D=3D 0) {
->>> + info =3D ps->page_snapshot.compound_info;
->>> + if ((info & 1) =3D=3D 0) {
->>=20
->> This could be =E2=80=9Cif (!(info & 1))=E2=80=9D like =
-_compound_head(), right?
->=20
-> Right. But I don't see why it has to change.
+Thanks!
 
-Let me briefly explain my programming habits. I guess this might
-be Zi Yan's idea.
+I may confirm that lib/ is indeed a hotspot for treewide users and breaking
+anything in lib/ almost always break at least a couple of users sometimes in
+unexpected places. That's why the test cases are mandatory for a new feature
+that will be reside in lib/.
 
-When I use a variable as a boolean type, my habit is to use the
-"!var" operator to check if it is 0 (false). When I use a variable
-as a number (with a value range exceeding 0 and 1), and I need to
-check if this variable is 0, I usually use "var =3D=3D 0".
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
 
-The least significant bit here seems to be used as a boolean type.
+>   - Test the code to the extent that you can.  Make use of the kernel's
+>     debugging tools, ensure that the kernel will build with all reasonable
+>     combinations of configuration options, use cross-compilers to build for
+> -   different architectures, etc.
+> +   different architectures, etc. Add tests, likely using an existing
+> +   testing frameworks like KUnit, and include them as a separate member
+> +   of your series (see the next section on what about the series is).
+> +   Note that this may be mandatory when affecting some subsystems. For
+> +   example, library functions (resides under lib/) are extensively used
+> +   almost everywhere and expected to be tested appropriately.
 
->=20
->=20
-> --=20
->  Kiryl Shutsemau / Kirill A. Shutemov
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
