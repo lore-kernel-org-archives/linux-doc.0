@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC91039282F
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 19:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAD438BF98
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 19:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769110301; cv=none; b=iCYH1TEIC7TKAY1NA0UXFkmYm7qKqQfKw7y/Tw57jHQ2V4v84w41CfIKjhqkLkVtXrO1rur8UpY0d5Tebso96n4SHqStURtZhbNijKnFA1Mb2X6SQzt7G+xybdBpfSVWo7MLVvHcdjmvovO5QyQdiUrgWv1BlXOlKPXAjorGqzo=
+	t=1769110312; cv=none; b=u3L88mI7vWRIYVnHADkjbkSeRZ2v5EL147bOSC5aCClzIokjP1NZuuKGiStv0L3JC2QnCioQTbhxQ9gbDj9HW8G8ioMtfYFP6p7VRDSqx7BKce03Sg1iiGTv3SWOlZFa4o3QV6pCfhsySkKovZw+6jCV7gx2S5US4OSrDAHDbFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769110301; c=relaxed/simple;
-	bh=5N4LhNuGsMSpPBkqKPF2gC8sd4NXq5hk5L7EKBlu0Zk=;
+	s=arc-20240116; t=1769110312; c=relaxed/simple;
+	bh=XKDxFzCTgfvdwqS16TtnVlGAzIXYXev+dE6P4GLUfKI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fb6IG8PLCZiqZbcm3wci3DDBXQq1CrTgsdtwpneVEs8oSxFktB7dHOvtA/iC8Frkx4DN99N3d20eTLyIlMV/OUwqE14zUKwiIWYaR1GMAA7XZv3eFFj5ljrLJMjJEFVeNrngJEdJMCAH0w/yaNsINZ9n0WusPXoEvwN1zmqOq7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LdyJQep6; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=K7YQAWLbl1e9X3aH/o+hWBC5ZcO+BKBttkKzuHznhsZhT8E6+BArsSnq/GYwvs5mR+UqlP8ux7tDLHPUf0d3JwLOyZWrKEgpE1CWza7fP+aDpOL/UdmvltCvvuf/TW0yKX8b7sTiV5HkN3Ez7CRUWc7ipz6QLHMpdwnFwwPO9Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hd6dqVyV; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LdyJQep6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hd6dqVyV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769110277;
+	s=mimecast20190719; t=1769110305;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=z4E8ptoTH7R+DRn1I9NeMb51UC/7t3y9Bwu4ndN7kkE=;
-	b=LdyJQep6s6Qg/DhJp3+sc3qChiGh5lqd9RQS8oKl16BawO0RDH1fokMur8XmoXW1Ih/3p7
-	sMIMBeXAdPu1HRJ4OSrTqDjVjWLLheNEf9wsvyAoloup+uQchMioNOakC6Zcvo8ubvPvXZ
-	v7Tets88+zoGyAZ4yqSpsAJuY6IBZNg=
+	bh=vnTtNcQqLnyAtCjmCaSMz8Sgg0jhE6UAUhgK77mSITg=;
+	b=Hd6dqVyV8WNFx+V2ZVIpbtJfebQwNUx+UzexheZiXmsFxF/Bb8xhs1WHTp63k7+Ef6oPWu
+	2Z65mN6hJb55feHKOg1DtHvZF7HHM7mFNKvZmA3fPmQY6i78mq+D5d/5qJhcQ2oh9b8hZk
+	KI3ULdFbAzX18/oP3CHJrVo0srrS2/w=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-444-xQ83yP6HOn2kPmSKsmBhRA-1; Thu,
- 22 Jan 2026 14:31:14 -0500
-X-MC-Unique: xQ83yP6HOn2kPmSKsmBhRA-1
-X-Mimecast-MFC-AGG-ID: xQ83yP6HOn2kPmSKsmBhRA_1769110273
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-266-J4Z3VOGEMfuYKGVw5YZC6Q-1; Thu,
+ 22 Jan 2026 14:31:42 -0500
+X-MC-Unique: J4Z3VOGEMfuYKGVw5YZC6Q-1
+X-Mimecast-MFC-AGG-ID: J4Z3VOGEMfuYKGVw5YZC6Q_1769110301
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0751219775A5;
-	Thu, 22 Jan 2026 19:31:13 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9ED7D1955F2C;
+	Thu, 22 Jan 2026 19:31:41 +0000 (UTC)
 Received: from h1.redhat.com (unknown [10.22.88.59])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C07CA1958DC1;
-	Thu, 22 Jan 2026 19:31:03 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 44AFF1958DC6;
+	Thu, 22 Jan 2026 19:31:32 +0000 (UTC)
 From: Nico Pache <npache@redhat.com>
 To: linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
@@ -101,9 +101,9 @@ Cc: npache@redhat.com,
 	rdunlap@infradead.org,
 	hughd@google.com,
 	richard.weiyang@gmail.com
-Subject: [PATCH mm-unstable v14 07/16] khugepaged: introduce collapse_max_ptes_none helper function
-Date: Thu, 22 Jan 2026 12:28:32 -0700
-Message-ID: <20260122192841.128719-8-npache@redhat.com>
+Subject: [PATCH mm-unstable v14 10/16] khugepaged: add per-order mTHP collapse failure statistics
+Date: Thu, 22 Jan 2026 12:28:35 -0700
+Message-ID: <20260122192841.128719-11-npache@redhat.com>
 In-Reply-To: <20260122192841.128719-1-npache@redhat.com>
 References: <20260122192841.128719-1-npache@redhat.com>
 Precedence: bulk
@@ -115,99 +115,154 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-The current mechanism for determining mTHP collapse scales the
-khugepaged_max_ptes_none value based on the target order. This
-introduces an undesirable feedback loop, or "creep", when max_ptes_none
-is set to a value greater than HPAGE_PMD_NR / 2.
+Add three new mTHP statistics to track collapse failures for different
+orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
 
-With this configuration, a successful collapse to order N will populate
-enough pages to satisfy the collapse condition on order N+1 on the next
-scan. This leads to unnecessary work and memory churn.
+- collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
+	PTEs
 
-To fix this issue introduce a helper function that will limit mTHP
-collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-This effectively supports two modes:
+- collapse_exceed_none_pte: Counts when mTHP collapse fails due to
+  	exceeding the none PTE threshold for the given order
 
-- max_ptes_none=0: never introduce new none-pages for mTHP collapse.
-- max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
-  available mTHP order.
+- collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
+  	PTEs
 
-This removes the possiblilty of "creep", while not modifying any uAPI
-expectations. A warning will be emitted if any non-supported
-max_ptes_none value is configured with mTHP enabled.
+These statistics complement the existing THP_SCAN_EXCEED_* events by
+providing per-order granularity for mTHP collapse attempts. The stats are
+exposed via sysfs under
+`/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
+supported hugepage size.
 
-The limits can be ignored by passing full_scan=true, this is useful for
-madvise_collapse (which ignores limits), or in the case of
-collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
-collapse is available.
+As we currently dont support collapsing mTHPs that contain a swap or
+shared entry, those statistics keep track of how often we are
+encountering failed mTHP collapses due to these restrictions.
 
 Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 Signed-off-by: Nico Pache <npache@redhat.com>
 ---
- mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
+ include/linux/huge_mm.h                    |  3 +++
+ mm/huge_memory.c                           |  7 +++++++
+ mm/khugepaged.c                            | 16 ++++++++++++---
+ 4 files changed, 47 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+index c51932e6275d..eebb1f6bbc6c 100644
+--- a/Documentation/admin-guide/mm/transhuge.rst
++++ b/Documentation/admin-guide/mm/transhuge.rst
+@@ -714,6 +714,30 @@ nr_anon_partially_mapped
+        an anonymous THP as "partially mapped" and count it here, even though it
+        is not actually partially mapped anymore.
+ 
++collapse_exceed_none_pte
++       The number of collapse attempts that failed due to exceeding the
++       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
++       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
++       emit a warning and no mTHP collapse will be attempted. khugepaged will
++       try to collapse to the largest enabled (m)THP size; if it fails, it will
++       try the next lower enabled mTHP size. This counter records the number of
++       times a collapse attempt was skipped for exceeding the max_ptes_none
++       threshold, and khugepaged will move on to the next available mTHP size.
++
++collapse_exceed_swap_pte
++       The number of anonymous mTHP PTE ranges which were unable to collapse due
++       to containing at least one swap PTE. Currently khugepaged does not
++       support collapsing mTHP regions that contain a swap PTE. This counter can
++       be used to monitor the number of khugepaged mTHP collapses that failed
++       due to the presence of a swap PTE.
++
++collapse_exceed_shared_pte
++       The number of anonymous mTHP PTE ranges which were unable to collapse due
++       to containing at least one shared PTE. Currently khugepaged does not
++       support collapsing mTHP PTE ranges that contain a shared PTE. This
++       counter can be used to monitor the number of khugepaged mTHP collapses
++       that failed due to the presence of a shared PTE.
++
+ As the system ages, allocating huge pages may be expensive as the
+ system uses memory compaction to copy data around memory to free a
+ huge page for use. There are some counters in ``/proc/vmstat`` to help
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index 9941fc6d7bd8..e8777bb2347d 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -144,6 +144,9 @@ enum mthp_stat_item {
+ 	MTHP_STAT_SPLIT_DEFERRED,
+ 	MTHP_STAT_NR_ANON,
+ 	MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
++	MTHP_STAT_COLLAPSE_EXCEED_SWAP,
++	MTHP_STAT_COLLAPSE_EXCEED_NONE,
++	MTHP_STAT_COLLAPSE_EXCEED_SHARED,
+ 	__MTHP_STAT_COUNT
+ };
+ 
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 00fc92062d70..7c0b072fc6b2 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -639,6 +639,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLIT_FAILED);
+ DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
+ DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
+ DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PARTIALLY_MAPPED);
++DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
++DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXCEED_NONE);
++DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
++
+ 
+ static struct attribute *anon_stats_attrs[] = {
+ 	&anon_fault_alloc_attr.attr,
+@@ -655,6 +659,9 @@ static struct attribute *anon_stats_attrs[] = {
+ 	&split_deferred_attr.attr,
+ 	&nr_anon_attr.attr,
+ 	&nr_anon_partially_mapped_attr.attr,
++	&collapse_exceed_swap_pte_attr.attr,
++	&collapse_exceed_none_pte_attr.attr,
++	&collapse_exceed_shared_pte_attr.attr,
+ 	NULL,
+ };
+ 
 diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 0f68902edd9a..9b7e05827749 100644
+index 8bb70e1401ad..96f1c28646ba 100644
 --- a/mm/khugepaged.c
 +++ b/mm/khugepaged.c
-@@ -460,6 +460,44 @@ void __khugepaged_enter(struct mm_struct *mm)
- 		wake_up_interruptible(&khugepaged_wait);
- }
- 
-+/**
-+ * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
-+ * @order: The folio order being collapsed to
-+ * @full_scan: Whether this is a full scan (ignore limits)
-+ *
-+ * For madvise-triggered collapses (full_scan=true), all limits are bypassed
-+ * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
-+ *
-+ * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
-+ * khugepaged_max_ptes_none value.
-+ *
-+ * For mTHP collapses, we currently only support khugepaged_max_pte_none values
-+ * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and no mTHP
-+ * collapse will be attempted
-+ *
-+ * Return: Maximum number of empty PTEs allowed for the collapse operation
-+ */
-+static unsigned int collapse_max_ptes_none(unsigned int order, bool full_scan)
-+{
-+	/* ignore max_ptes_none limits */
-+	if (full_scan)
-+		return HPAGE_PMD_NR - 1;
+@@ -602,7 +602,9 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 				continue;
+ 			} else {
+ 				result = SCAN_EXCEED_NONE_PTE;
+-				count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
++				if (is_pmd_order(order))
++					count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
++				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
+ 				goto out;
+ 			}
+ 		}
+@@ -632,10 +634,17 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 			 * shared may cause a future higher order collapse on a
+ 			 * rescan of the same range.
+ 			 */
+-			if (!is_pmd_order(order) || (cc->is_khugepaged &&
+-			    shared > khugepaged_max_ptes_shared)) {
++			if (!is_pmd_order(order)) {
++				result = SCAN_EXCEED_SHARED_PTE;
++				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
++				goto out;
++			}
 +
-+	if (is_pmd_order(order))
-+		return khugepaged_max_ptes_none;
-+
-+	/* Zero/non-present collapse disabled. */
-+	if (!khugepaged_max_ptes_none)
-+		return 0;
-+
-+	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
-+		return (1 << order) - 1;
-+
-+	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %d\n",
-+		      HPAGE_PMD_NR - 1);
-+	return -EINVAL;
-+}
-+
- void khugepaged_enter_vma(struct vm_area_struct *vma,
- 			  vm_flags_t vm_flags)
- {
-@@ -548,7 +586,10 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
- 	int none_or_zero = 0, shared = 0, referenced = 0;
- 	enum scan_result result = SCAN_FAIL;
- 	const unsigned long nr_pages = 1UL << order;
--	int max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
-+	int max_ptes_none = collapse_max_ptes_none(order, !cc->is_khugepaged);
-+
-+	if (max_ptes_none == -EINVAL)
-+		return result;
- 
- 	for (_pte = pte; _pte < pte + nr_pages;
- 	     _pte++, addr += PAGE_SIZE) {
++			if (cc->is_khugepaged &&
++			    shared > khugepaged_max_ptes_shared) {
+ 				result = SCAN_EXCEED_SHARED_PTE;
+ 				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
++				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+ 				goto out;
+ 			}
+ 		}
+@@ -1082,6 +1091,7 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
+ 		 * range.
+ 		 */
+ 		if (!is_pmd_order(order)) {
++			count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+ 			pte_unmap(pte);
+ 			mmap_read_unlock(mm);
+ 			result = SCAN_EXCEED_SWAP_PTE;
 -- 
 2.52.0
 
