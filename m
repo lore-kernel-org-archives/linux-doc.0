@@ -1,127 +1,104 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31728354AF4
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 01:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAE22147E6;
+	Thu, 22 Jan 2026 01:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769045450; cv=none; b=IpmncePMDnPQCxkjej/3QVg4lC7uiiZwo6zegewMARL8MbRvIQDeMXGhv3TCYEp0fe55KqS0ICYVzHgIrSepMaSyXYjwTTnHVd09YbSlteQ8/q/GM4k9uLDkkIuq9uZgXU5gs5xfP0It2UdY/dk2GlM7AwS21iQP67RIjrjMWs0=
+	t=1769045716; cv=none; b=Qq4pBj6F7R+Oxv7VYCgIz4JzrR64Q/qcFhyfmM0XYvEsluyoU86IzL0engz/GQbhrPcH+QXY3K4nuJptQBlT8Bw4ZqwbRhvvM33+biFmdGuyMwa7LWeR7a9ojUMnQozHFx/W+bHxURKl6h7AihUUDredw+HZqwv2RoX4XuaNqeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769045450; c=relaxed/simple;
-	bh=SLEk1HlG2KbrZjOE6/l1NmcIEfJFonjsbxNe/cDOH/Y=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=kgaZY1wXS4/TLes+MlSffnGXtfR+/T/5yT+p3Xsow0TdE+tMejDyIe8qULI+9X7u8s29tTIL17FplED83e+FydarfLWr7QG7xTGzTunoA3NleUw7fuyP5Wr1gYhEu+kC1u+ATIs1SD6RzVF/sYqXiSwUzAkvZc2Z9gG8nQnrYjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FvS2215S; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1769045716; c=relaxed/simple;
+	bh=HGxtfHWe3WixENDmvXLbR55lrlOhLVAb+Q1rS7sz5ak=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QTwZjxjp5Tv6MFd4Q+NDwat7Ubppeu9wqL8fq+IOQjyoPoMCrjeUZPm8ojpNPz6r8tfp9krrVUZo1mPdYMOcFHij/XOMg1IvVJQzfFHyPCdLsNhmNYu86tp/q1YT+J+faUSNOwc8dn2B18NzmT3tve4lNLJW0qZ4nZHdL+2NahQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NR4tYdgU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FvS2215S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NR4tYdgU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B98EC4CEF1;
+	Thu, 22 Jan 2026 01:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769045714;
+	bh=HGxtfHWe3WixENDmvXLbR55lrlOhLVAb+Q1rS7sz5ak=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NR4tYdgUMwuBNbx6LKAkhYXEDJSjmJCXMBgPU9715glFq8CNYFkmKS+CowgJ3KAuV
+	 8DL9zHjrv1QW7M8eH6sC62Lf1oleho+yxAuyMDQoSaKczKQfgCqoEUPFRtWmOBznh3
+	 UXsVyhZIQgJb9wLLc5jkLbWJ8UGbVCyNskKSIWYT56c55VR9JXjnTlE66K6gkUIiZW
+	 nseJE9jzGs7kcYGmN7J5zRQwDzID3qV/9hfZeqOqBBsjEAJnzerk/Bp2QCHvYlR2lW
+	 JMAtNUFkbkE/te4lrM/ZrUusn1z7bn3DKYkd/ZhW7/XJkbROi4j+yXMiR8TAqIzMWG
+	 N/e6O/uOi7NvQ==
+Date: Wed, 21 Jan 2026 17:35:12 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn
+ <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, David Ahern
+ <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>, Arnd Bergmann
+ <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, asml.silence@gmail.com,
+ matttbe@kernel.org, skhawaja@google.com, Bobby Eshleman
+ <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v10 4/5] net: devmem: document
+ NETDEV_A_DMABUF_AUTORELEASE netlink attribute
+Message-ID: <20260121173512.748e2155@kernel.org>
+In-Reply-To: <aXBnqYQdomzH9bT/@devvm11784.nha0.facebook.com>
+References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
+	<20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-4-686d0af71978@meta.com>
+	<20260120163650.5a962648@kernel.org>
+	<aXBnqYQdomzH9bT/@devvm11784.nha0.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769045445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKl8Jno7lJhkwOUwcQTSrgeBn0gJ6jgSqCy+B19d98w=;
-	b=FvS2215SGQI3qb3MxlQhDug5Iwy0pKGdkZjE8IYX1wUcCvvUTVLSs6JXqKXQVILcdBQVcT
-	CHcTDiv58zSvLIoyTtyxj+VMlPducNqMBBXfjtMF2n/AlZ3mINeUXahO0xRMukNo3I33Rn
-	IdBPVprLxk0CZvf9fsB7j5FiweWlJXo=
-Date: Thu, 22 Jan 2026 01:30:42 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <bac18fc5600a0e8a2f0f5d1e46191ef1e6b64962@linux.dev>
-TLS-Required: No
-Subject: Re: [RFC PATCH 0/3] mm/lru_gen: add memory.lru_gen interface for
- cgroup v2
-To: "Shakeel Butt" <shakeel.butt@linux.dev>
-Cc: linux-mm@kvack.org, "Tejun Heo" <tj@kernel.org>, "Johannes Weiner"
- <hannes@cmpxchg.org>, "=?utf-8?B?TWljaGFsIEtvdXRuw70=?="
- <mkoutny@suse.com>, "Jonathan Corbet" <corbet@lwn.net>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Axel Rasmussen" <axelrasmussen@google.com>,
- "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>, "David
- Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>, "Mike
- Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>,
- "Michal Hocko" <mhocko@suse.com>, "Roman Gushchin"
- <roman.gushchin@linux.dev>, "Muchun Song" <muchun.song@linux.dev>, "Qi
- Zheng" <zhengqi.arch@bytedance.com>, cgroups@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <aXFPhnOn4oGllq_Q@linux.dev>
-References: <20260121123955.84806-1-jiayuan.chen@linux.dev>
- <aXFPhnOn4oGllq_Q@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-January 22, 2026 at 06:19, "Shakeel Butt" <shakeel.butt@linux.dev mailto:=
-shakeel.butt@linux.dev?to=3D%22Shakeel%20Butt%22%20%3Cshakeel.butt%40linu=
-x.dev%3E > wrote:
+On Tue, 20 Jan 2026 21:44:09 -0800 Bobby Eshleman wrote:
+> On Tue, Jan 20, 2026 at 04:36:50PM -0800, Jakub Kicinski wrote:
+> > On Thu, 15 Jan 2026 21:02:15 -0800 Bobby Eshleman wrote:  
+> > > +- Once a system-wide autorelease mode is selected (via the first binding),
+> > > +  all subsequent bindings must use the same mode. Attempts to create bindings
+> > > +  with a different mode will be rejected with -EBUSY.  
+> > 
+> > Why?
+> 
+> Originally I was using EINVAL, but when writing the tests I noticed this
+> might be a confusing case for users to interpret EINVAL (i.e., some
+> binding possibly made by someone else is in a different mode). I thought
+> EBUSY could capture the semantic "the system is locked up in a different
+> mode, try again when it isn't".
+> 
+> I'm not married to it though. Happy to go back to EINVAL or another
+> errno.
 
+My question was more why the system-wide policy exists, rather than
+binding-by-binding. Naively I'd think that a single socket must pick
+but system wide there could easily be multiple bindings not bothering
+each other, doing different things?
 
->=20
->=20On Wed, Jan 21, 2026 at 08:39:46PM +0800, Jiayuan Chen wrote:
->=20
->=20>=20
->=20> This patchset adds a memory.lru_gen interface to cgroup v2, allowin=
-g users
-> >  to interact with MGLRU directly on a specific cgroup without needing=
- to
-> >  know the internal memcg_id.
-> >=20
->=20Unfortunetely we don't want to expose reclaim implementation specific
-> interface to a cgroup.=20
->=20
-> >=20
->=20> Motivation
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >  Currently, the only way to perform aging or eviction on a specific m=
-emcg
-> >  is through the debugfs interface (/sys/kernel/debug/lru_gen), which
-> >  requires the memcg_id. However, there's no straightforward way to ge=
-t the
-> >  memcg_id for a given cgroup path. This makes it difficult for users =
-to
-> >  leverage MGLRU's proactive reclaim capabilities on specific cgroups.
-> >=20
->=20From the next kernel version, this memcg_id will be inode number of t=
-he
-> cgroup for this interface. So, a simple 'ls -id cgroup_path' would be
-> sufficient for your use-case.
->=20
->=20The relevant series [1] is in mm-tree at the moment and if you want, =
-you
-> can backport it to your kernels.
->=20
->=20[1] https://lkml.kernel.org/r/20251225232116.294540-1-shakeel.butt@li=
-nux.dev
->
+> > > +- Applications using manual release mode (autorelease=0) must ensure all tokens
+> > > +  are returned via SO_DEVMEM_DONTNEED before socket close to avoid resource
+> > > +  leaks during the lifetime of the dmabuf binding. Tokens not released before
+> > > +  close() will only be freed when all RX queues are unbound AND all sockets
+> > > +  that called recvmsg() are closed.  
+> > 
+> > Could you add a short example on how? by calling shutdown()?  
+> 
+> Show an example of the three steps: returning the tokens, unbinding, and closing the
+> sockets (TCP/NL)?
 
-Hi Shakeel,
+TBH I read the doc before reading the code, which I guess may actually
+be better since we don't expect users to read the code first either..
 
-Thanks for the review and the pointer to the inode-based memcg_id series.
-
-I agree that using the cgroup inode number as memcg_id will simplify the
-write operations (aging/eviction) through the debugfs interface.
-
-However, I'd like to point out that the read operation (viewing lru_gen
-info for a specific cgroup) is still not convenient. Currently, users
-would need to parse the full debugfs output and grep for the specific
-memcg_id, which can be cumbersome especially on systems with many cgroups=
-.
-
-Would it be acceptable to add a read-only command to /lru_gen that only d=
-isplays
-the lru_gen information for the specified cgroup?
-
-Alternatively, if exposing any lru_gen info in cgroup is not desired, I
-understand and will use the debugfs approach with scripting.
-
-Thanks,
-chenjiayuan
+Now after reading the code I'm not sure the doc explains things
+properly. AFAIU there's no association of token <> socket within the
+same binding. User can close socket A and return the tokens via socket
+B. As written the doc made me think that there will be a leak if socket
+is closed without releasing tokens, or that there may be a race with
+data queued but not read. Neither is true, really?
