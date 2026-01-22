@@ -1,113 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182F830C373;
-	Thu, 22 Jan 2026 08:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FE917BEBF;
+	Thu, 22 Jan 2026 08:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769069606; cv=none; b=l7ywujhEizq1YOad5tjW1ZxL4bauoiqBZn7JVenG62CiLt+RNSPNhWt611QEVp+YHRokzl8PHJAfyLx5WlbSw3JpuzRN/yRKDmsKJ44xD5TeiLuQXYeOFAqQzAIbsWOLUHiuwjXhAxpOXW/MIA6lgJdYILuRgslbjUM1MWJzzOQ=
+	t=1769070437; cv=none; b=JIuaCgOin5zYwCBQqTO6LtdIFnq59t7Qs3T/hEJVLJ1IT69AKRAx+j9vuA+cnA5cfItbL/8c/UJupqQvpU19d4djsbsz8Zu00uquNQJ51Yk2gaoHOlym+pkAE5NJZ15SRfRSEusZKIx21gq8pNhMl3EEhLwdK+yfKSxRqCIm42o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769069606; c=relaxed/simple;
-	bh=CAHeg8HSLTyL4u5efT4cjYDAE+GmmJmalQvHMcYAods=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F8UdaweQPEpBMv5uPPXHRmNk3QNwuSbPiqCyVO/HOrbComPlBnR0QoAuUseWy8gD8Oc/kUVIYq88rlZ3kYophenZ0W0yE0u24OoFcH3WlWlaQ/kmQV6YEBCXyVcR4A2NNIPBrq7SwdMCa++nWJg3vqVK30aXMoZPsVbLRIf8vmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h2dXxySR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769070437; c=relaxed/simple;
+	bh=4oCdp3L5Oc/h2mFCOwl6AVhYMe9ODqCGXT1MIJG4fOE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qeOapHjCpE2DEQvA6WvHcoKHs7NLCrD5JHF5N09uRWDnTO21cRjSs3TOh7AkqgpZsTiiKCVSTLgNZ7dI5k3+3BXvIQV3r/tXh6QY9EZQEfA9B0w3Xi5FPoobhCve1rbz0K7wxfatDJ+UBGuwAtjvdd48NQ5BXtxOttZCvo0Y5uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=NTGLDLbG; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h2dXxySR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13828C116C6;
-	Thu, 22 Jan 2026 08:13:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769069605;
-	bh=CAHeg8HSLTyL4u5efT4cjYDAE+GmmJmalQvHMcYAods=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h2dXxySR/ulwB4O7X4zV7anKO5F8kKbHAObixPR5JDllkA7RAVkwSd745KdZ1rRQF
-	 acf+kbH0tZ2KiO8tG+sXsJwplHshXKVKDZCv6gB4co/KcBTg9IrF3BU3FL9LBFbiGn
-	 vwExwVR6zwgxFi4mvK8sPm4OCwQS9o/ihgeYrrBIGVxaxkHCH2vA76zVMoPDvJ8CtY
-	 jrIFB1qCkwQnM891NCtn+gPzWACAf9BH/gxhMmDFF5WJ/1Zsk3ckCF7m36t1ADC47N
-	 2ptABpCDnb/jpi8Vemw850lf2kOsDFhOY8A718Sm0ndEI+bQ8JojBinYBAvep/5K+2
-	 WFsTGNuBD5okA==
-Date: Thu, 22 Jan 2026 09:13:23 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Almog Ben Shaul <almogbs@amazon.com>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, itamark@amazon.com, talel@amazon.com, 
-	farbere@amazon.com, ayalstei@amazon.com, dwmw@amazon.com
-Subject: Re: [PATCH 2/2] hwmon: Add JEDEC PMIC50x0 driver
-Message-ID: <20260122-adamant-stereotyped-bird-e7deec@quoll>
-References: <20260121151947.37719-1-almogbs@amazon.com>
- <20260121151947.37719-3-almogbs@amazon.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="NTGLDLbG"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=ycLwncsvVdmKPKvuy/F0Ic9J+vzT0coN7yOMb+BhP/s=;
+	b=NTGLDLbGBDs91hKTlNr7BOJSTW+kA+asoDQUhtlHfpC8gc/6VKkuSoqWoOJug2bPvIF8+FvN3
+	EXR8ZbmPASVRJO7yiJxvKQe2h6MiKWfNUFzCPgFelwvWWKDc7/Au/SQkj41uKgIG7dES6Ai4Zw6
+	6q9fFyzbUsEPiQ5qRDS7q7U=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4dxYxH3Cd0zLlZK;
+	Thu, 22 Jan 2026 16:23:47 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 27A6E40565;
+	Thu, 22 Jan 2026 16:27:11 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Jan
+ 2026 16:27:10 +0800
+Message-ID: <bd194325-784d-4b9d-b4ca-aaab16a2c596@huawei.com>
+Date: Thu, 22 Jan 2026 16:27:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260121151947.37719-3-almogbs@amazon.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/9] cpufreq: CPPC: Add generic helpers for sysfs
+ show/store
+To: Sumit Gupta <sumitg@nvidia.com>
+CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
+	<ionela.voinescu@arm.com>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <rdunlap@infradead.org>, <ray.huang@amd.com>,
+	<gautham.shenoy@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
+	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
+	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
+	<nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20260120145623.2959636-1-sumitg@nvidia.com>
+ <20260120145623.2959636-2-sumitg@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <20260120145623.2959636-2-sumitg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-On Wed, Jan 21, 2026 at 03:19:47PM +0000, Almog Ben Shaul wrote:
-> Add hardware monitoring driver for JEDEC PMIC50x0 compliant I2C DDR5
-> PMICs.
+On 2026/1/20 22:56, Sumit Gupta wrote:
+> Add generic helper functions for u64 sysfs attributes that follow the
+> common pattern of calling CPPC get/set APIs:
+> - cppc_cpufreq_sysfs_show_u64(): reads value and handles -EOPNOTSUPP
+> - cppc_cpufreq_sysfs_store_u64(): parses input and calls set function
 > 
-> The driver provides monitoring for voltage, current, power, and
-> temperature across multiple channels, along with comprehensive error
-> reporting.
+> Add CPPC_CPUFREQ_ATTR_RW_U64() macro to generate show/store functions
+> using these helpers, reducing boilerplate for simple attributes.
 > 
-> Signed-off-by: Almog Ben Shaul <almogbs@amazon.com>
-> Tested-by: Almog Ben Shaul <almogbs@amazon.com>
-
-Drop. You cannot send it untested, read submitting patches. The tag is
-for OTHER people to test, not create impression that all code is
-untested but here you did some testing.
-
+> Convert auto_act_window and energy_performance_preference_val to use
+> the new macro.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
 > ---
+>  drivers/cpufreq/cppc_cpufreq.c | 69 ++++++++++++----------------------
+>  1 file changed, 25 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index 36e8a75a37f1..c95dcd7719c3 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -863,73 +863,54 @@ static ssize_t store_auto_select(struct cpufreq_policy *policy,
+>  	return count;
+>  }
+>  
+> -static ssize_t show_auto_act_window(struct cpufreq_policy *policy, char *buf)
+> +static ssize_t cppc_cpufreq_sysfs_show_u64(unsigned int cpu,
+> +					   int (*get_func)(int, u64 *),
+> +					   char *buf)
+>  {
+>  	u64 val;
+> -	int ret;
+> -
+> -	ret = cppc_get_auto_act_window(policy->cpu, &val);
+> +	int ret = get_func((int)cpu, &val);
+>  
+> -	/* show "<unsupported>" when this register is not supported by cpc */
+>  	if (ret == -EOPNOTSUPP)
+>  		return sysfs_emit(buf, "<unsupported>\n");
+> -
 
-...
+I think it is better to keep this blank line. Apart from this
 
-> +
-> +static int pmic50x0_panic_callback(struct notifier_block *nb,
-> +				   unsigned long action, void *data)
-> +{
-> +	struct pmic50x0 *pmic50x0 = container_of(nb, struct pmic50x0, panic_notifier);
-> +
-> +	dev_emerg(pmic50x0->dev, "volt(mV): A=%ld, B=%ld, C=%ld, D=%ld\n",
-> +		  pmic50x0->last_voltage[0], pmic50x0->last_voltage[1],
-> +		  pmic50x0->last_voltage[2], pmic50x0->last_voltage[3]);
+Reviewed-by: Lifeng Zheng <zhenglifeng1@huawei.com>
 
-You did not Cc any maintainers, so maybe one of your 5 CCs from Amazon
-can explain me why exactly random hwmon driver should receive panic
-callbacks? Do you see such pattern in hwmon?
-
-> +
-> +	return NOTIFY_DONE;
-> +}
-> +
-> +static void pmic50x0_panic_notifier_unregister(void *data)
-> +{
-> +	struct pmic50x0 *pmic50x0 = data;
-> +
-> +	atomic_notifier_chain_unregister(&panic_notifier_list, &pmic50x0->panic_notifier);
-> +}
-> +
-> +static int pmic50x0_panic_notifier_register(struct pmic50x0 *pmic50x0)
-> +{
-> +	struct notifier_block *panic_notifier = &pmic50x0->panic_notifier;
-> +	struct device *dev = pmic50x0->dev;
-> +	int ret;
-> +
-> +	panic_notifier->notifier_call = pmic50x0_panic_callback;
-> +	panic_notifier->priority = 0;
-> +
-> +	ret = atomic_notifier_chain_register(&panic_notifier_list, panic_notifier);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register panic notifier (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return devm_add_action_or_reset(dev, pmic50x0_panic_notifier_unregister, pmic50x0);
-> +}
-
-Best regards,
-Krzysztof
+>  	if (ret)
+>  		return ret;
+>  
+>  	return sysfs_emit(buf, "%llu\n", val);
+>  }
+>  
+> -static ssize_t store_auto_act_window(struct cpufreq_policy *policy,
+> -				     const char *buf, size_t count)
+> +static ssize_t cppc_cpufreq_sysfs_store_u64(unsigned int cpu,
+> +					    int (*set_func)(int, u64),
+> +					    const char *buf, size_t count)
+>  {
+> -	u64 usec;
+> +	u64 val;
+>  	int ret;
+>  
+> -	ret = kstrtou64(buf, 0, &usec);
+> +	ret = kstrtou64(buf, 0, &val);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = cppc_set_auto_act_window(policy->cpu, usec);
+> -	if (ret)
+> -		return ret;
+> +	ret = set_func((int)cpu, val);
+>  
+> -	return count;
+> +	return ret ? ret : count;
+>  }
+>  
+> -static ssize_t show_energy_performance_preference_val(struct cpufreq_policy *policy, char *buf)
+> -{
+> -	u64 val;
+> -	int ret;
+> -
+> -	ret = cppc_get_epp_perf(policy->cpu, &val);
+> -
+> -	/* show "<unsupported>" when this register is not supported by cpc */
+> -	if (ret == -EOPNOTSUPP)
+> -		return sysfs_emit(buf, "<unsupported>\n");
+> -
+> -	if (ret)
+> -		return ret;
+> -
+> -	return sysfs_emit(buf, "%llu\n", val);
+> +#define CPPC_CPUFREQ_ATTR_RW_U64(_name, _get_func, _set_func)		\
+> +static ssize_t show_##_name(struct cpufreq_policy *policy, char *buf)	\
+> +{									\
+> +	return cppc_cpufreq_sysfs_show_u64(policy->cpu, _get_func, buf);\
+> +}									\
+> +static ssize_t store_##_name(struct cpufreq_policy *policy,		\
+> +			     const char *buf, size_t count)		\
+> +{									\
+> +	return cppc_cpufreq_sysfs_store_u64(policy->cpu, _set_func,	\
+> +					    buf, count);		\
+>  }
+>  
+> -static ssize_t store_energy_performance_preference_val(struct cpufreq_policy *policy,
+> -						       const char *buf, size_t count)
+> -{
+> -	u64 val;
+> -	int ret;
+> +CPPC_CPUFREQ_ATTR_RW_U64(auto_act_window, cppc_get_auto_act_window,
+> +			 cppc_set_auto_act_window)
+>  
+> -	ret = kstrtou64(buf, 0, &val);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = cppc_set_epp(policy->cpu, val);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return count;
+> -}
+> +CPPC_CPUFREQ_ATTR_RW_U64(energy_performance_preference_val,
+> +			 cppc_get_epp_perf, cppc_set_epp)
+>  
+>  cpufreq_freq_attr_ro(freqdomain_cpus);
+>  cpufreq_freq_attr_rw(auto_select);
 
