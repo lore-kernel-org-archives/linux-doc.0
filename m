@@ -1,135 +1,87 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E957132C939;
-	Thu, 22 Jan 2026 09:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685D532FA3F
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 09:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769073535; cv=none; b=mJxdEDf0kgTDso7jCSGAJhFIPlJtFRB7bzbux4rxM3eK5AxPZB3LMUliQUehdr/akcb0G2+K4FHA5Ure7KiYGU4AAb22UH2EmKQAyyPCJ0GKHErQ+VAjwRJRBVXo8gXTSvyfKTgJ20SKDeoDMeNpa7bvAOyJ8QLFI+d01fR6wTs=
+	t=1769074449; cv=none; b=Jx+HIH1BDPp3ZORHXcF2xazon+OBKjzi2DWHg/E6LWgP8WW+NtaoQraVv++V5aUXfdnbOMzC50MA42SgDksD93f/UQ0HfxH9+ErDwbJD2aycQkU8eH5hY8rRXcryx6TBjAy2VhNYD08B/7JwVhDvSG2yFzWlCKWRkE4UkdRI6fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769073535; c=relaxed/simple;
-	bh=k1vLCZxBh2pEce2WLUIty3WrFFC+IYh3CoHUZFCCAnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Iu28kwRN2ty90IaPyegBUH/dTQ5M1lmQCQgvqjEUHS3C4T3xpgMXCmb3qat3UOwyhgDiyyXEeZuYVkMfkI6rGxKF+hu3vp3sQAnGhiXFLK+VKV37mSU5Y85TOT0cAa2DEuPYblKtrRACp9kv1QJuSM16SgAt+NaPLB4FffGO9yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pfZWIrRg; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769074449; c=relaxed/simple;
+	bh=VI3KnFpkzVPIjMyrifZTTlbyrQk7VRd07T9Jofd0qTk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VbbvPOiWJdnhKl4AZ9ytY/YmM/VYlGN5iEdQEwW7wmN6oUz85t6o6xATfC3VykeFKoCxrnHAKzQM1s/Nv7clPI/Y5dK4eNtci4d4Bjo4P9Rqkpz3bTxZO9UoYvA5u4rrDE7pvBUqsOh1YervKCSI7zz+Y0ok0FUtLK+c7y2Cqco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu76sP7y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pfZWIrRg"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=hj5qo0VXuLVg7QUuygYodXkqi79esrBXG4hcCec4FkM=;
-	b=pfZWIrRgu0AWyxmJKowFYr1F8stIjaWf/j/sNCNQE5rf3Hrg7aEdLiSkGJlcUe9S5fc7gBUHF
-	3riCN1sKX9eUwmfl2raal9FImMtY/1FDR4hzCXzVwCGGG1Aa0qIuISwJYjlvRuMvljB6PpctSzB
-	lPUq7nKUTmLmoFACp3WpsuQ=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4dxb4l1jd5zmV69;
-	Thu, 22 Jan 2026 17:15:19 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3D42C40563;
-	Thu, 22 Jan 2026 17:18:44 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Jan
- 2026 17:18:43 +0800
-Message-ID: <a7a4d351-eed3-4ea6-a84f-e525b7ac13a6@huawei.com>
-Date: Thu, 22 Jan 2026 17:18:42 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu76sP7y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6643C116C6
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 09:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769074448;
+	bh=VI3KnFpkzVPIjMyrifZTTlbyrQk7VRd07T9Jofd0qTk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Tu76sP7yDq615nyNP0Sw5aJ8msOU5/iEhh0tGD9r9igMKQ4mKORhoT3fyZ2+Ks0C3
+	 o72m08gZHs7OdiCaYRnUXF10d3acvrMIt6N3EtI+tbysNqJx7OjGpjuL5aATSNDdP1
+	 PuFA0dsGgYMeuLUn/qlBhX15XlzfnvTBf1s5XGAoJUaUakwJSjy7Bd/vyvVNdsN51d
+	 thDO6upOWKvOLddn+y51/WNnOoajrLo1Kf6VhSp6aCSQ8rOrTZIY5EYVgaW0dN5mm2
+	 gfLxTdEVRrHcGma41Qzam1xjQgN8zRk1PNGLwcKsdXyeP9+V966GOiVdB2/aZOpj58
+	 FooXdWxGQo0RA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-383153e06d6so6519471fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 01:34:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWNUAVICc4mRlYeGe2scPlHg0sC3lcMu6xeuwaDCfC5XTmvEdlgPa/b5LWJiUj9BnwUqwckap4HfHE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6Cz+3N0yrDJYc13dvPlqiFKOknTTQgdV5cyXR/Cx7fgoUZbt6
+	ufTRH0uPb4WiNXZov7eVCqRU8vqf6FQXRLq/eNF8Nqr0Bcy1uxj5Hloo2eccJvTuZFt1JLjN4Jo
+	L0M96Q+Jh3bVw3yZKHj6L/DgsXwEzBwoXiFFWqKi1Wg==
+X-Received: by 2002:a2e:a589:0:b0:37f:d911:5941 with SMTP id
+ 38308e7fff4ca-385a546f058mr26782401fa.21.1769074447641; Thu, 22 Jan 2026
+ 01:34:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/9] ACPI: CPPC: Extend cppc_set_epp_perf() for
- FFH/SystemMemory
-To: Sumit Gupta <sumitg@nvidia.com>
-CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <rdunlap@infradead.org>, <ray.huang@amd.com>,
-	<gautham.shenoy@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
-	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
-	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
-	<nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20260120145623.2959636-1-sumitg@nvidia.com>
- <20260120145623.2959636-6-sumitg@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <20260120145623.2959636-6-sumitg@nvidia.com>
+References: <aUFX14nz8cQj8EIb@vaman> <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+ <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+ <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
+ <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+ <aWBndOfbtweRr0uS@vaman> <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
+ <CAMRc=MejA90TRue6F2JjQXHYo0AmFxc-gKkwNX0EKzP5scB14Q@mail.gmail.com>
+In-Reply-To: <CAMRc=MejA90TRue6F2JjQXHYo0AmFxc-gKkwNX0EKzP5scB14Q@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 22 Jan 2026 10:33:55 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Me7cZffQjtVtCX-cNtR_eKv6eJydaJMFEBpy3_CzzBZCQ@mail.gmail.com>
+X-Gm-Features: AZwV_QhTxZsMbBIptV61AxdCydQlt4fhsgrQnsF7LtUbiNRe0UrslhgUjBrTCVQ
+Message-ID: <CAMRc=Me7cZffQjtVtCX-cNtR_eKv6eJydaJMFEBpy3_CzzBZCQ@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf200001.china.huawei.com (7.202.181.227)
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/1/20 22:56, Sumit Gupta wrote:
-> Extend cppc_set_epp_perf() to write both auto_sel and energy_perf
-> registers when they are in FFH or SystemMemory address space.
-> 
-> This keeps the behavior consistent with PCC case where both registers
-> are already updated together, but was missing for FFH/SystemMemory.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/acpi/cppc_acpi.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
-> index de35aeb07833..45c6bd6ec24b 100644
-> --- a/drivers/acpi/cppc_acpi.c
-> +++ b/drivers/acpi/cppc_acpi.c
-> @@ -1562,6 +1562,8 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->  	struct cpc_register_resource *auto_sel_reg;
->  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
->  	struct cppc_pcc_data *pcc_ss_data = NULL;
-> +	bool autosel_ffh_sysmem;
-> +	bool epp_ffh_sysmem;
->  	int ret;
->  
->  	if (!cpc_desc) {
-> @@ -1572,6 +1574,11 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->  	auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
->  	epp_set_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
->  
-> +	epp_ffh_sysmem = CPC_SUPPORTED(epp_set_reg) &&
-> +		(CPC_IN_FFH(epp_set_reg) || CPC_IN_SYSTEM_MEMORY(epp_set_reg));
-> +	autosel_ffh_sysmem = CPC_SUPPORTED(auto_sel_reg) &&
-> +		(CPC_IN_FFH(auto_sel_reg) || CPC_IN_SYSTEM_MEMORY(auto_sel_reg));
-> +
->  	if (CPC_IN_PCC(epp_set_reg) || CPC_IN_PCC(auto_sel_reg)) {
->  		if (pcc_ss_id < 0) {
->  			pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
-> @@ -1597,11 +1604,22 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->  		ret = send_pcc_cmd(pcc_ss_id, CMD_WRITE);
->  		up_write(&pcc_ss_data->pcc_lock);
->  	} else if (osc_cpc_flexible_adr_space_confirmed &&
-> -		   CPC_SUPPORTED(epp_set_reg) && CPC_IN_FFH(epp_set_reg)) {
-> -		ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
-> +		   (epp_ffh_sysmem || autosel_ffh_sysmem)) {
-> +		if (autosel_ffh_sysmem) {
-> +			ret = cpc_write(cpu, auto_sel_reg, enable);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +		if (epp_ffh_sysmem) {
-> +			ret = cpc_write(cpu, epp_set_reg,
-> +					perf_ctrls->energy_perf);
-> +			if (ret)
-> +				return ret;
-> +		}
+On Wed, Jan 14, 2026 at 4:37=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
+>
+> >
+> > > But they might eventually right?
+> > >
+> >
+> > Yes, and they will already have the interface to do it - in the form
+> > of descriptor metadata.
+> >
+>
+> Hi! Have I answered all your questions? Can we proceed with this?
+>
+> Bartosz
 
-Don't know if such a scenario exists, but if one of them is in PCC and the
-other is in FFH or system memory, only the one in PCC will be updated
-based on your modifications.
+Ping.
 
->  	} else {
->  		ret = -ENOTSUPP;
-> -		pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
-> +		pr_debug("_CPC in PCC/FFH/SystemMemory are not supported\n");
->  	}
->  
->  	return ret;
-
+Bart
