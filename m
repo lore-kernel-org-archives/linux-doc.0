@@ -1,92 +1,138 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0B4346E70;
-	Thu, 22 Jan 2026 18:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769106554; cv=none; b=FFDUvMr5LfTSAWpk2N9zr9LeZkTUzB4AzS7TPElo8794PUgt2k4TxRvwMdr8dSMvUVAQ4KOHkHaSqBL7VdKn4mctWI9uX5UOj5vtGOOPCKstLWaZHXEb6NeTPA9AXZZZ9eaoSPOFcud7qOigDSDY0PehtYUrMUyYa7m4R8LStmQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769106554; c=relaxed/simple;
-	bh=ZUSvl05bK2wDQdhoH51krrPfZTVgqCoCo65mT6q4jZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q+yhaKKC05cQCUGAvhlTXKcNptKeJN7K7geUMgQpTARFPDpJepeAvxpNX1lm9yxUsH0EFr0A+/7u+e+NbVKJRhPoXiWaZDarAHjylDwkMXZf/C8B4QSv6dvtH1MZ8LWP+9njizVNzMXQ0m/V3WUmOn6urRaMSTE1GxjgRrfkZ2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OaoXckYO; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD52367F5D
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 18:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769106579; cv=pass; b=rXCmTrtI2ZfTcAac+rtmhDJeAFKE31aIro3OTPGQRP/Eji0YlKeA8T2aDUxfwMrIBRYK+Y4+MVldHZMrC/960BcVmT7kLZQ30XcuhaYiCjVkEwbTUWuEpL0/0TIwmaiPdPWpAKobb9zIF4sT9KZ54WZTjhfJaVVWBp854ivPpfs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769106579; c=relaxed/simple;
+	bh=njt2Q5+qsm7uTVdDYefn6ijZItM+C+8Z6iUPhwx9Yz4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Er6w2NI4/G4RDwDvN4eyKRN5I9pSnFrxllxf+AtEOjB7tzys8hjrn/ynt5Na8v1U538mxtx+kSxivgqXYuKTPGSPbYTdLS4XMAyJEkgltPJ6s4HBx1IEEIvry6vz8KSUIWG/i9tqrFu92ESfYYCeO76FzLhX153xnKD+5zs5cM8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Cu3j/GWZ; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OaoXckYO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yKKw+rB7Lag7BUDagtiVwP8Kf4vv0TdM2e/79p7B5aM=; b=OaoXckYOXZGQxb0fp32TyaquS4
-	2HtV5OLuV0YxYrs8XsaURNYyTjDRnzh8uCgg7aHb8mE0dYkeAlL4Jj83HFJQX85sgLUx+XfhVSUAx
-	jJnMyIMsPwpT+MCGN4XpytBGAnOm0g6JyeycusJMfV++vxBNmErBTChnDZuUY1oPkgNHcyocdlmyn
-	rgTPV5uV+BH9yDU1mK02560P2sCMRnNlnfNM2TX+fKBF8U+kcFsCltgMQPkCCN04ysem6e75DGUCN
-	DzDyU82A0xc1HPko8AWWZ+zWhpGk8zQiBQa3G2Ey3L9wweORr5vSV3nELoDevI3guc23RqXTYHjSP
-	QEhKQPSQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vizQM-00000007dPw-2F4G;
-	Thu, 22 Jan 2026 18:28:54 +0000
-Message-ID: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
-Date: Thu, 22 Jan 2026 10:28:54 -0800
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Cu3j/GWZ"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-65808bb859cso2224225a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 10:29:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769106566; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Xah852pMiwQj5bwMFlSHnolFZPrtomP6lV2UZcuX8NIy7Lyp2kw37M67/eZDEdGFSl
+         iOw1Ie1pr17vPA38U+SmfzSeldCMrn2cmkCqcEm0erBPbWV9i1+LSgGcU62DoL2G6XoQ
+         5P0uPmQvirSHSOIEJ0OkowBTBxeRe80SlcRVi0oNeQh3toiI2FMjKFFZd3f6XQxCkoVF
+         Gs8CvE1FJMmoezyO4MWL9yP6din3ZzU/BNEfS4MZeHn8bLIxFehcXZN/YMfB9WUBdfSE
+         UHaBlKqjlvn7krWz/jr+/08ahQhBBUZ6B/FBIdlOnPbn8HvWXw1pgEY6YCuYNcYvPWDh
+         vC2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hhM6KusIxk5pLuv1MBKQ22c+nR479iQtC12L+zVHy4k=;
+        fh=FaBJFa1hNi/V23XKeYriRYmyGjN4upEoNkXkP0d17wk=;
+        b=MZfrKgxd42nWN+YjH65N9cba+76ifx3Ykk3j3+JlPKkidR24Q/eaVZafkRlFB0k3BY
+         oU6g/l/Zz60BDijdZqTKZ7Gu9wjb5qZoyGmGqQGEpfuQPwMJt8vRkb0iSSHUXN3cuiHC
+         AHTOVtYcAWsa93fFutJS5/NmvebTGJU/4vIOnTphDuHgNDVBqkR/EdhahtMDX+0VBmrX
+         L32G3FjgKG7uznFRj0nw2y4co5PaBbfNdrHqJQYXq0blAoRNWMsse18oVG3/nQTblzCJ
+         ixGUlFHiTZQP8rBisXOZ3i8LnLMoHibUBkT5BmW2waiTX4pPU7kuFmJXAV//t6ux1OTg
+         aDKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1769106566; x=1769711366; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hhM6KusIxk5pLuv1MBKQ22c+nR479iQtC12L+zVHy4k=;
+        b=Cu3j/GWZdu2j4wvbEQnsoSLKC+eCX7Iyjat+7J0KakcfmLFMOIrUoUUiM9dKzo8LEh
+         N0Avdj0c6n/zFpIExopltDOTQWK7O4QGQ8IHLaTbNnGNbybLosR73ZdkCHuasJp6kjDs
+         EQizSxcPLO8euVqPCGCZK51tEykXvYE5Czy2b0FHgzWb5PLwDruU68Ba4DLToMmN6xbu
+         yCyTB1UZQqVPpJxIG69rkctV/yIVtIIa4YZyFzlM3Yym2ZMU1oOgy/yAikxve3DiuKHz
+         gtOLQ9PwwYNjMWVd6yc46T37o1uJV8068H9ruERkV/o85Jr4XnGMtuwE/5RLGrVkz1Lj
+         odRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769106566; x=1769711366;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hhM6KusIxk5pLuv1MBKQ22c+nR479iQtC12L+zVHy4k=;
+        b=K6CYU+/6OFjR6d6LYZUpwGkplY5BsBnb3nrXvJ4a8nCpzuhsipF7p2fNrv2rs5buJI
+         TEBAqGxRlq3+S+GssN1tnKngmgkQsWLqIimsg5E9f1F8c748VV1HQf/cGDjIhcX7tVqa
+         pqMwtivzn+jd8gyXdpXH52gdF4EtKqt8BAS0uzeArNqId5RE1Y8Mv6edQDjh5J6xLx1i
+         o6dVc0QhQ2OLXZRPIIwYAi4LVxIjwHc+QX+6xafxoPXOYZohEV1fgPoXklUUaHn/KgpM
+         BIIywWDQE/g7v0zupzuFQI3LBGZCgATuh0/sW+/LrjFsgFruzrxmT2Y6NQZX7LcxMkVZ
+         hDOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwnTq4U31/kGe87rA08pyMKkShibrYPf6tKXY4wMOUGk8oJBPcdz70t4RkguNo+2lkv0SM6uHZ2XI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIRcHEiKUcVZ9DLUfU233u6lU1E5SBAnFRJ0Ps1QyICPPhmib5
+	AGeJHcLufn8klEyIMgUVl63rLtPBECWdshSHE5C0Ru+AVRMkkY8VwAdeQGwPxLSANYipQDhzNmv
+	pk8E2nvE51yQNf+dr5p4KxIENuP1q/t/Nodq7egKOdQ==
+X-Gm-Gg: AZuq6aKz7Z1P74gquu4qkuuWsDe1UWdfqCwTRJJd9vMXenIjaTXWi5Im0pytTwDRJ7Y
+	aPwZHP4vHnKvCx9V+V1sq4lZb1xL9kn7xmmZYl6VMh9nDlPuF+fTz2VLc1KEFmc35SebYTh6DxU
+	yIW8Kp729Kh4mhop/hNk4HEIUeIRfJv/zEDPKMIDdkHAixg0CzS2ZONvay0VTRJtkrG3CfFapJK
+	TAzFaYG5ag6NZnUnRSpfmQ4UhNYX7Mw9RmDAXJVLibFkgnvRT78SkcULgBjmWkkgGz4AxKVXYMR
+	xTDFGKZ5xZy8tZzwwkQCwP4+qp504UlYHZO8v0GWCA71Nh0=
+X-Received: by 2002:a05:6402:268d:b0:658:31e0:4ab5 with SMTP id
+ 4fb4d7f45d1cf-658487626dcmr360840a12.11.1769106566431; Thu, 22 Jan 2026
+ 10:29:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: development-process: add notice on testing
-To: Dmitry Antipov <dmantipov@yandex.ru>,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260122111525.1112145-1-dmantipov@yandex.ru>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260122111525.1112145-1-dmantipov@yandex.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260105165839.285270-1-rppt@kernel.org> <20260105165839.285270-3-rppt@kernel.org>
+In-Reply-To: <20260105165839.285270-3-rppt@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 22 Jan 2026 13:28:50 -0500
+X-Gm-Features: AZwV_QiNfRhOr3LvFRxRYZiugzOXBGGS10OWpm02Kx5rrzXcYiqpJE34NwK_FC8
+Message-ID: <CA+CK2bAuY0rKenkEbaAfnwYd8q=ER=U38TGga_8CkqZze=9Yjg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] kho/abi: memfd: make generated documentation more coherent
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Graf <graf@amazon.com>, 
+	Jason Miu <jasonmiu@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Pratyush Yadav <pratyush@kernel.org>, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 1/22/26 3:15 AM, Dmitry Antipov wrote:
-> Add testing notice to "Before creating patches" section.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+On Mon, Jan 5, 2026 at 11:58=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
+>
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+>
+> memfd preservation ABI description starts with "This header defines"
+> which is fine in the header but reads weird in the generated html
+> documentation.
+>
+> Update it to make the generated documentation coherent.
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
->  Documentation/process/5.Posting.rst | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index 9999bcbdccc9..0271a4dc525e 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -40,7 +40,12 @@ sending patches to the development community.  These include:
->   - Test the code to the extent that you can.  Make use of the kernel's
->     debugging tools, ensure that the kernel will build with all reasonable
->     combinations of configuration options, use cross-compilers to build for
-> -   different architectures, etc.
-> +   different architectures, etc. Add tests, likely using an existing
-> +   testing frameworks like KUnit, and include them as a separate member
+>  include/linux/kho/abi/memfd.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/kho/abi/memfd.h b/include/linux/kho/abi/memfd.=
+h
+> index da7d063474a1..c211c31334a3 100644
+> --- a/include/linux/kho/abi/memfd.h
+> +++ b/include/linux/kho/abi/memfd.h
+> @@ -17,8 +17,8 @@
+>  /**
+>   * DOC: memfd Live Update ABI
+>   *
+> - * This header defines the ABI for preserving the state of a memfd acros=
+s a
+> - * kexec reboot using the LUO.
+> + * memfd uses the ABI defined below for preserving its state across a ke=
+xec
+> + * reboot using the LUO.
+>   *
+>   * The state is serialized into a packed structure `struct memfd_luo_ser=
+`
+>   * which is handed over to the next kernel via the KHO mechanism.
+> --
+> 2.51.0
+>
 
-              framework
-
-> +   of your series (see the next section on what about the series is).
-
-                     (see the next section for more about patch series).
-
-> +   Note that this may be mandatory when affecting some subsystems. For
-> +   example, library functions (resides under lib/) are extensively used
-> +   almost everywhere and expected to be tested appropriately.
->  
->   - Make sure your code is compliant with the kernel coding style
->     guidelines.
-
--- 
-~Randy
-
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
