@@ -1,203 +1,203 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32052D94A3
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 21:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECA53C0890
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 22:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769117217; cv=pass; b=dp5hidYcoaI3PcBWSxNP+C+pi22pFASNCtDsc+mdlJrBhjrPvdGbwU+nii2HKIQUrnAySUk6InuG4qOD/UqyTiywOXjaWBHOra5KQ+h8kKcpkrJltCRiiFFBbBLs2RJDLSkxibtWFynvkspX65oEKWnLypL8Vnuog0IO6ql0ito=
+	t=1769122064; cv=pass; b=hfSVwRKeJvceVZC/IT3g8BHKif0hurZDqD2UIl2mF9jFrQiSmWGKLPcHjk1cesn+aZ8agB6+FIUYHpR4dsO3Hc/qNMA+fhn61U95/I6TTjS6lPw/PhMtc7miEu2CkeCgdntmwEo5hMTve2c/GPdxWbIee/WgXONWpSvNvAGOMq4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769117217; c=relaxed/simple;
-	bh=BC8nFTG86vfd/JV3Ur3Vnv61JQ8TQGgb2hnHokTdwfs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cMcbDBF28+wkL61X3bAgJiKYk74VgYUx44t6PopWkLX5f+UzAHq7CofBJmIo+n/NBzYyzfjjy6KVGU6tpaeoU05MtdW/TbyKYIp+LFhxxNi7jh04FIYOatvxlEib3uTToxd6VDbTaZkt+rxtjRxBcnhTpI+UAiAMIL396K+MaLk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BCJ0AjLn; arc=pass smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1769122064; c=relaxed/simple;
+	bh=xs+dLd9PKnX16GE3/TgauaKHwwAlEIk3gXFN84JGCiE=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j2cm5IHqLCjA4kxUwI6aICidldSbzwE8V05soy2u+NK0AAJ94XEdMnuzN7hgSgv7/HauXj139I1IXfC2IpUE0rapi277VlN92ywkkniksUqhKZajBFF6wOARy7mw5hmUDDwnj2MbGm8ARUeFwT5IuY+ahkRGtL4uBd14HbBjSeg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=efb65WUp; arc=pass smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BCJ0AjLn"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64baa44df99so3158a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 13:26:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769117205; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="efb65WUp"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5f530da3a07so1499966137.1
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 14:47:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769122051; cv=none;
         d=google.com; s=arc-20240605;
-        b=UjgWUdozMmLz/rVD6gbcWz9stTELJobOyjkxXpsmWkk+1HukjM+nopyszcRns43BC7
-         jYZSK4ECnVcqZKMsSb5ns20qVfG/OA5F4SmrKP4/AXRKHhCUggUWEVLhLsmtu2BcX49n
-         siXAZ79exdLaE4dfNxNH9i4+h215e/X+75qR2ngHLOmhveNT0yKJj/srW43Yp0hh2Xy2
-         UbzQP4hiLeuYhgL0szdobGDuqP1IPhVkhrb51uluRmicBABpPqhyTIS0D2E4S5M/q9x2
-         paKxZB9qNF2H/t5EoXp1ZU93kLnuLJ77JbhDx/bhTpXZwGa6pQZdCxuA5nWmU4M7ubNf
-         o3gQ==
+        b=jttvvVgvgWYDvNFD57bMSaTecqcOwiGLcHknVZkjMMAZ0sFa9pUobCCdtaaM9crgoa
+         5FObmL/pYLOrOPr5MUwmeLC754ZMMkso0Z+u6K0zi2hOVSxAy9/lAwtL1h8+MM4e/VPB
+         2Wn1xAd1RIYrIKq7FRrEFFgqJMFHDIb0q3uqn1KQaEGCxQnjgBYaXL+6NvdUX10KfCF9
+         oIlrMF2yt/7BE7Ftd4bV4xTCLNdSQtK4wcUfj2QyHkUITJnEoMR2zmleAlWbMwyC8NAL
+         i2GgKCGNjvRD50vL+fnpVceEV8cO//9anLh/quhQxsC8Yn56p2TjcD82qUGeZ6tsUfML
+         MxkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=e/+D/s4bwsqNNaSjIaXHNf2UcfLo5UUZymlR0tqKlbQ=;
-        fh=94gqPYU+WkrsW6OCwajwT3pRT0gtrTn4D1CmxEmpbgg=;
-        b=eL0GTJJGiy4OnT7/jJobdioS+OVf76GjXorb3FBYJGxW8r9iRZ4Yn4HxdgVskXpW4h
-         7wrFzXyytMYU76uiuK2G+wG7Pq+vC+zoLP5nFKrhx1KR5VPFrY9W1tlKOTNpTu3FfPMy
-         RGIihLGRU8Ae3JQgbEfAYpq/Q6FW7vN/SLec8OhffK/hSP7g/g+mXKleyYC1SX1eo6to
-         fr/OWhDFaZ/z4NOyRGPQ1Cu9Fxs+ropnqoP8fX0hYyauTgRcR09gzCNVnhkRInUh3uTu
-         mcAR8VxGpZ7yuUHotEi+7rsLlWgewwId+zoofwZ8uEnYDIBrrZd2bJ+c1YmLs0nFdkE/
-         JK4Q==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=xs+dLd9PKnX16GE3/TgauaKHwwAlEIk3gXFN84JGCiE=;
+        fh=CxOQXGfEyZKSrFqnMJitqFCgEsWeJpRldAJ8R/nsCIM=;
+        b=Zt+NvEUSBmoStWqsvQhyLGDjHDhddO+ixZHKV1xLtDrz/V+ESCcTp9jciOjt1VjFbp
+         SpaC+MfVFhnGv00J7CDxaTiMFGTw+6YS5+R3pf8inpN7YAplmfCZWHiKc0JRhFb0TN1m
+         1xRaQnnZ8CT+4gcdUwgtAQp77cy1myoiLumN7TENy/lz8RllbjGGSgZl6BUkUchueT9Z
+         z0752rlVYuKgCiMAhWJCgHGOcw2XfHlHSIxhiIga9dY5irirZC4wGOoWbNdLf6AjdM0Q
+         GS/0D6708BhZs+JWMpzJNEg1BQ9mFFj14f+moLITq/Eug+KMu21G9prMPupJvvqA/Ssu
+         2YWQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769117205; x=1769722005; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e/+D/s4bwsqNNaSjIaXHNf2UcfLo5UUZymlR0tqKlbQ=;
-        b=BCJ0AjLn3+m4uTzW+3XHgZBfCM+s/Cdo4me9s8vFGRnzyWkS21yZBz2RJqPFJljAc1
-         DXO93QcdFh7XW3k9p6DPz+k3W4qx5NNtpdU1arYFW6y/P+CtpRs2xsqezHnLtmYZ3RZi
-         GmY9WLZdG8FSGvbnt6/kyEJNQbqpiuY+seIb2HpR53l9K9QjNAnt+PkmAUwWyQlf2A7J
-         JytiEWoBrQqaQKpYS36u9WORYuP73TfbRczcUX4PPlPdQ+0zjTqpMA5JR4taiFYXk+x/
-         atV0APikoAFqQhpWuaKgfp/f6Yj4iug6w0b2sKeKx5Uj3t8qtyzud4O71a/nchQcWdi7
-         hsLg==
+        d=google.com; s=20230601; t=1769122051; x=1769726851; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xs+dLd9PKnX16GE3/TgauaKHwwAlEIk3gXFN84JGCiE=;
+        b=efb65WUpsdnX9MYn5Ketl7Aqg/S+LI5Twe86EAN0CJTXTQi0SV6Bc272kwWB7FV0YN
+         VTMlkEUN8MS6bLkGYmILKii6n/XJ35CPl/ILj3DG7K3xM4+6SS49g6yrAvmzWytKVEOD
+         T5SY7G9OaavZfDvBTD8//I95ljshXWVriDkG6Ob3ZNbZhhRFOml4NIXTj6qn7LZyAWAQ
+         xVorS0Du0q+93wf+l2qMsTaHfD6Teinzsu04Csei+HRHvjEQI3gZYVMuVqWJCuRqmfuK
+         4swpPyoAFWCfix/BNwv0dlaxb0vbG3lHkKG0G4CbblEPQTn6grdmtf9GRYYV07o3eWEX
+         6TsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769117205; x=1769722005;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e/+D/s4bwsqNNaSjIaXHNf2UcfLo5UUZymlR0tqKlbQ=;
-        b=AP2tiWnkfYg2l1RThfLKtNuMEyGW1FgDKEEAHgg4i8+pdibEj5SBfeWsVCxcxDLYT2
-         GF5IpPYqMDtePpExG9G6k4gPDsWj1ZHuq8jw0lbZSIjUBLqkcVZ+hOrK5mhII2g/14+Z
-         sWk1mVZH7wZ5dS/yvdxi6b4Rad545Opol2pjCQSud+0ccdHX1RElf1v7NznOnvuTWDFS
-         qe0KS4h/MoeHs720d9FN5/LAaUiNTtVSTf8Goa9YAuYA1iY67u6arM7Z2NToYZ4Qvsdy
-         KptyRdeFA43dwcfIx/85B5uGPAKb3xiN0WXhgM8kCO2OA10KYZSe/gd5uS9OCW6S5Fpr
-         wh2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUHkD3VSXfk9pNnSPTilwHLalOSZI6FVu+PG5eOv8riGh+hEWuFVJ6RuMbLh6J2A29hb9oZmT8JRak=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyPt7eNgJj+UA3PY7xUFMdfbBh1eFrKniyJnMhYaeyCgFJcJZF
-	rR0SocrOcZQJGlePSOlseWAZB1ic8hpl+VMUY6BQcF7HzhxKBmTlsIg1WzxzP9L4E0dpo7KWxtP
-	LOm8zslvhLVRnrCIITNia3CKNvYOMzwBW2c0Y4fso
-X-Gm-Gg: AZuq6aK7kcDbiMFBjCYzpYrLyPW1wJakgCiyn9F/JdVQcrVabUNJ0JZlE206l4GOtsC
-	E5hatikiAJsPiDKtdsoC8+AajLKfuXG7/qKTgvHK1J5D7Stq9YhTXeMAu2QOvN/NrY2D+fDObD5
-	NIbtgAZd/6/1iB6XmoBBr5E0aLzh9wuh3wmuG92qQNFk0tbhd1HH1X8HeENQiHyfc0ekC5LxSh1
-	XvettxjFR1jNMsw+5Arhd+hk3OzxPdQwv8JgY6/zKi3UUDtRwIQEPwi0gWjf3h61P+J7COFoFWI
-	n0LT3A==
-X-Received: by 2002:aa7:c606:0:b0:658:e7a:6fa7 with SMTP id
- 4fb4d7f45d1cf-6584bfcad65mr10888a12.4.1769117205288; Thu, 22 Jan 2026
- 13:26:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769122051; x=1769726851;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xs+dLd9PKnX16GE3/TgauaKHwwAlEIk3gXFN84JGCiE=;
+        b=CE1SBIXTAKCLirgKVrKe9p1FN3d9CoHvdLYofYIOQWmlaynlAauwGQ6xXuMVxyJhdU
+         sQSCQbc1uHLxhOAFXelmVDELR6YQU8XBRYMrdOUwlppmkKRFegRd6HIB9NyPZ61k+lJi
+         BaUgNdBprFgUOTuIqRt8LYDf9AiDNOeWB24/V2ZVqVX8NJlzVrAx0bMcWYLIKTQtfTTL
+         Q4Ukjq6ntVxl1jDTnmD1Pz3hy/+r4XfVQa/MMYZ9W4lecP+v/yqa05o1u0TYfadHUX1j
+         8V5j97on7hmRUu7068zgs5HVkaiPTmZBgp3tRR+mlYlV6f8tf83My8blYCXRCrJBnT2s
+         o+Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvgtBks6HhiKFqbZh5oEzx78tkDI30syrQUuwlxPEy6cDx9rtz/26totu58OhbvLlhxxBZwUO+e5s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywrtx72aKFHBMH7Z+uAkmP0gPTmBRrxk1qxH5d/wGWuFFaY74E4
+	RAuFmbSw45TuFL7hsUPWaCxVEVeTn3KN7vhamDHcAIXOI3CFdZSPseyNYpSg7YTdIV0NEvo3Reh
+	QOyXyIt4aIvoyeBULxrr61PLsmeSOLzpFmmtuD5Xp
+X-Gm-Gg: AZuq6aJIbFYSnDG2/Lqku7FdXItyZoRvdppoMPgugOKt4GddkR2HrfnbXtC2j94U403
+	zlClF/+d+UWI7/bAG2PaWuzQYuVegsoKYO9w/HilDvovaQksIHyC2y4lyAuETI+MLez0CiTeXGJ
+	T2+KIxD+1zsqa7E/7GGpZJm/kSzCN1BRoYnu4GaKwB9i8aOuFregneIamCa9FNgIVLTVkhf46hT
+	JXf8BnYfrjnkb5ttgWdcqcTQmFndh8xsvVukReoqZ4o2FfWO0S7jWwvcvn5LT48AKIMCCDceAmp
+	JRnhYSfGduP3//nt4lLuqwrZ/Uh94lHuEqQ=
+X-Received: by 2002:a05:6102:3a12:b0:5ef:7220:bcb2 with SMTP id
+ ada2fe7eead31-5f54bc8224dmr480092137.28.1769122050230; Thu, 22 Jan 2026
+ 14:47:30 -0800 (PST)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jan 2026 14:47:29 -0800
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 22 Jan 2026 14:47:28 -0800
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <ee9c649eed3893d852c3d20fb96bdc4904b7c295.camel@intel.com>
+References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-8-kalyazin@amazon.com>
+ <ed01838830679880d3eadaf6f11c539b9c72c22d.camel@intel.com>
+ <CAGtprH_qGGRvk3uT74-wWXDiQyY1N1ua+_P2i-0UMmGWovaZuw@mail.gmail.com>
+ <8c1fb4092547e2453ddcdcfab97f06e273ad17d8.camel@intel.com>
+ <CAEvNRgEbG-RhCTsX1D8a3MgEKN2dfMuKj0tY0MZZioEzjw=4Xw@mail.gmail.com> <ee9c649eed3893d852c3d20fb96bdc4904b7c295.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260113225406.273373-1-jmattson@google.com> <aWbmXTJdZDO_tnvE@google.com>
- <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com>
-In-Reply-To: <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com>
-From: Jim Mattson <jmattson@google.com>
-Date: Thu, 22 Jan 2026 13:26:32 -0800
-X-Gm-Features: AZwV_QhQTOem4BLVo53HKT58urNX60REF_SUeJPvF_yxD4XbcC-SDKdt9bRc4xc
-Message-ID: <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com>
-Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 22 Jan 2026 14:47:28 -0800
+X-Gm-Features: AZwV_QhacTtf2zgQk3uMxNHfKwdT09Bqx79KDOGE5Z3VW9UujMTrgN_9VI-QiKU
+Message-ID: <CAEvNRgEz0+ic9uvcsWYqWgR5EV=TfY0SAGC39zAL+n19SoBXmw@mail.gmail.com>
+Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct map
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, "Annapurve, Vishal" <vannapurve@google.com>
+Cc: "david@kernel.org" <david@kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
+	"jgross@suse.com" <jgross@suse.com>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"surenb@google.com" <surenb@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>, 
+	"riel@surriel.com" <riel@surriel.com>, "pfalcato@suse.de" <pfalcato@suse.de>, "x86@kernel.org" <x86@kernel.org>, 
+	"rppt@kernel.org" <rppt@kernel.org>, "thuth@redhat.com" <thuth@redhat.com>, 
+	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "maz@kernel.org" <maz@kernel.org>, 
+	"palmer@dabbelt.com" <palmer@dabbelt.com>, "ast@kernel.org" <ast@kernel.org>, "pjw@kernel.org" <pjw@kernel.org>, 
+	"alex@ghiti.fr" <alex@ghiti.fr>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "hca@linux.ibm.com" <hca@linux.ibm.com>, 
+	"willy@infradead.org" <willy@infradead.org>, "wyihan@google.com" <wyihan@google.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, 
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, "jolsa@kernel.org" <jolsa@kernel.org>, 
+	"jmattson@google.com" <jmattson@google.com>, "luto@kernel.org" <luto@kernel.org>, 
+	"aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, "haoluo@google.com" <haoluo@google.com>, 
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "coxu@redhat.com" <coxu@redhat.com>, 
+	"mhocko@suse.com" <mhocko@suse.com>, 
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, 
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>, "song@kernel.org" <song@kernel.org>, 
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "oupton@kernel.org" <oupton@kernel.org>, 
+	"kernel@xen0n.name" <kernel@xen0n.name>, 
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "peterz@infradead.org" <peterz@infradead.org>, 
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "martin.lau@linux.dev" <martin.lau@linux.dev>, 
+	"jthoughton@google.com" <jthoughton@google.com>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
+	"Yu, Yu-cheng" <yu-cheng.yu@intel.com>, "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "shuah@kernel.org" <shuah@kernel.org>, 
+	"chenhuacai@kernel.org" <chenhuacai@kernel.org>, "prsampat@amd.com" <prsampat@amd.com>, 
+	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>, 
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, 
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "itazur@amazon.co.uk" <itazur@amazon.co.uk>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "yuzenghui@huawei.com" <yuzenghui@huawei.com>, 
+	"gor@linux.ibm.com" <gor@linux.ibm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "jackabt@amazon.co.uk" <jackabt@amazon.co.uk>, 
+	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, "andrii@kernel.org" <andrii@kernel.org>, 
+	"mingo@redhat.com" <mingo@redhat.com>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "joey.gouly@arm.com" <joey.gouly@arm.com>, 
+	"derekmn@amazon.com" <derekmn@amazon.com>, "xmarcalx@amazon.co.uk" <xmarcalx@amazon.co.uk>, 
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
+	"kalyazin@amazon.co.uk" <kalyazin@amazon.co.uk>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "sdf@fomichev.me" <sdf@fomichev.me>, 
+	"jackmanb@google.com" <jackmanb@google.com>, "bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "jannh@google.com" <jannh@google.com>, 
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "will@kernel.org" <will@kernel.org>, 
+	"seanjc@google.com" <seanjc@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 13, 2026 at 7:47=E2=80=AFPM Jim Mattson <jmattson@google.com> w=
-rote:
->
-> On Tue, Jan 13, 2026 at 4:42=E2=80=AFPM Sean Christopherson <seanjc@googl=
-e.com> wrote:
-> >
-> > On Tue, Jan 13, 2026, Jim Mattson wrote:
-> > > Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM to allow L1 to set
-> > > IA32_DEBUGCTL.FREEZE_IN_SMM in vmcs12 when using nested VMX.  Prior t=
-o
-> > > commit 6b1dd26544d0 ("KVM: VMX: Preserve host's
-> > > DEBUGCTLMSR_FREEZE_IN_SMM while running the guest"), L1 could set
-> > > FREEZE_IN_SMM in vmcs12 to freeze PMCs during physical SMM coincident
-> > > with L2's execution.  The quirk is enabled by default for backwards
-> > > compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRKS2 i=
-f
-> > > consistency with WRMSR(IA32_DEBUGCTL) is desired.
-> >
-> > It's probably worth calling out that KVM will still drop FREEZE_IN_SMM =
-in vmcs02
-> >
-> >         if (vmx->nested.nested_run_pending &&
-> >             (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS))=
- {
-> >                 kvm_set_dr(vcpu, 7, vmcs12->guest_dr7);
-> >                 vmx_guest_debugctl_write(vcpu, vmcs12->guest_ia32_debug=
-ctl &
-> >                                                vmx_get_supported_debugc=
-tl(vcpu, false)); <=3D=3D=3D=3D
-> >         } else {
-> >                 kvm_set_dr(vcpu, 7, vcpu->arch.dr7);
-> >                 vmx_guest_debugctl_write(vcpu, vmx->nested.pre_vmenter_=
-debugctl);
-> >         }
-> >
-> > both from a correctness standpoint and so that users aren't mislead int=
-o thinking
-> > the quirk lets L1 control of FREEZE_IN_SMM while running L2.
->
-> Yes, it's probably worth pointing out that the VM is now subject to
-> the whims of the L0 administrators.
->
-> While that makes some sense for the legacy vPMU, where KVM is just
-> another client of host perf, perhaps the decision should be revisited
-> in the case of the MPT vPMU, where KVM owns the PMU while the vCPU is
-> in VMX non-root operation.
->
-> > > diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-> > > index 0521b55d47a5..bc8f0b3aa70b 100644
-> > > --- a/arch/x86/kvm/vmx/nested.c
-> > > +++ b/arch/x86/kvm/vmx/nested.c
-> > > @@ -3298,10 +3298,24 @@ static int nested_vmx_check_guest_state(struc=
-t kvm_vcpu *vcpu,
-> > >       if (CC(vmcs12->guest_cr4 & X86_CR4_CET && !(vmcs12->guest_cr0 &=
- X86_CR0_WP)))
-> > >               return -EINVAL;
-> > >
-> > > -     if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) =
-&&
-> > > -         (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
-> > > -          CC(!vmx_is_valid_debugctl(vcpu, vmcs12->guest_ia32_debugct=
-l, false))))
-> > > -             return -EINVAL;
-> > > +     if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) {
-> > > +             u64 debugctl =3D vmcs12->guest_ia32_debugctl;
-> > > +
-> > > +             /*
-> > > +              * FREEZE_IN_SMM is not virtualized, but allow L1 to se=
-t it in
-> > > +              * L2's DEBUGCTL under a quirk for backwards compatibil=
-ity.
-> > > +              * Prior to KVM taking ownership of the bit to ensure P=
-MCs are
-> > > +              * frozen during physical SMM, L1 could set FREEZE_IN_S=
-MM in
-> > > +              * vmcs12 to freeze PMCs during physical SMM coincident=
- with
-> > > +              * L2's execution.
-> > > +              */
-> > > +             if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_VMCS12=
-_FREEZE_IN_SMM))
-> > > +                     debugctl &=3D ~DEBUGCTLMSR_FREEZE_IN_SMM;
-> > > +
-> > > +             if (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
-> > > +                 CC(!vmx_is_valid_debugctl(vcpu, debugctl, false)))
-> >
-> > I'm mildly tempted to say we should quirk the entire consistency check =
-instead of
-> > limiting it to FREEZE_IN_SMM, purely so that we don't have to add yet a=
-nother quirk
-> > if a different setup breaks on a different bit.  I suppose we could lim=
-it the quirk
-> > to bits that could have been plausibly set in hardware, because otherwi=
-se VM-Entry
-> > using L2 would VM-Fail, but that's still quite a few bits.
-> >
-> > I'm definitely not opposed to a targeted quirk though.
->
-> I have no preference.
->
-Sean -
+"Edgecombe, Rick P" <rick.p.edgecombe@intel.com> writes:
 
-Would you like me to post a v2?
+> On Thu, 2026-01-22 at 08:44 -0800, Ackerley Tng wrote:
+>>
+>> Can we disable direct map removal for errata systems using TDX only,
+>> instead of all TDX?
+>>
+>> If it's complicated to figure that out, we can disable direct map
+>> removal for TDX for now and figure that out later.
+>
+> In theory, but it still would require changes to TDX code since it does
+> the clflush unconditionally today. To know whether clflush is needed
+> (it's a different thing to the errata), you need to check a TDX module
+> flag. (CLFLUSH_BEFORE_ALLOC)
+>
+> Gosh, you know what, I should double check that we don't need the
+> clflush from the vm shutdown optimization. It should be a different
+> thing, but for we gave scrutiny to the whole Linux flow when we did
+> that. So I'd have to double check nothing relied on it. We can follow
+> up here.
+>
+>>
+>> > Then there is the clfush. It is not actually required for the most
+>> > part. There is a TDX flag to check to see if you need to do it, so
+>> > we could probably remove the direct map accesses for some systems
+>> > and avoid temporary mappings.
+>> >
+>> > So long term, I don't see a problem. For the old systems it would
+>> > have extra cost of temporary mappings at shutdown, but I would have
+>> > imagined direct map removal would have been costly too.
+>>
+>> Is there a way to check if the code is running on the errata system
+>> and set up the temporary mappings only for those?
+>
+> The TDX code today doesn't do any remapping because the direct map is
+> reliably present. There isn't a flag or anything to just do the
+> remapping automatically. We would have to do some vmalloc mapping or
+> temporary_mm or something.
+>
+> Can you explain what the use case is for unmapping encrypted TDX
+> private memory from the host direct map?
+
+There's no use case I can think of for unmapping TDX private memory from
+the host direct map, but Sean's suggestion
+https://lore.kernel.org/all/aWpcDrGVLrZOqdcg@google.com/ won't even let
+shared guest_memfd memory be unmapped from the direct map for TDX VMs.
+
+Actually, does TDX's clflush that assumes presence in the direct map
+apply only for private pages, or all pages?
+
+If TDX's clflush only happens for private pages, then we could restore
+private pages to the direct map, and then we'd be safe even for TDX?
