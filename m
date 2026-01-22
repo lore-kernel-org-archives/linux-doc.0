@@ -1,229 +1,192 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66C9364EA4
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 19:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFB21FF7C8;
+	Thu, 22 Jan 2026 19:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769110375; cv=none; b=sxiviHIsLYP97wasbYERfkWkC1SRyhEWqwskNfHNZsZ8pRG+40OrD87jbgdIwupemRuqLuKbL51jl7CTDsre/5diUjwGmtrwNiQTqqI8sfBAQLRwbYKFvNto0AIb1M+9wGRUGDJi/BrcpUsq3Bt7mQbXNi7ossY/PriFZ8Whejg=
+	t=1769110405; cv=none; b=jbZPUAYIYTn4NvSosDUsctkOxW+kuQ3wjWhPmfdNUlLtbdJ0zx3LbIvskqde1+ICEupViYMFplFbqITJLVhh+ESo+ghrY5n1fB6MCEGgb3GgrXUsx8zTkVyz9iGAegwRNlwrkVF+IRlwAJ/7ws3HXGEV8TCsIFw0Z7ZetlgqT5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769110375; c=relaxed/simple;
-	bh=fJQFJhsV9N1snwLdvZuqxTyBLA00iiQuoEqvG7XaMnE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l4NXyJOpboz/fhdwaqzl6pLRH+IoulnZD9cnXrnznmgm9XBAqi/Ao3ZSlFdifV2jIPXy8YbvX4/Z4aHt7qp50rrd1D/1WWpvRH8ARoice0cUYhuAubdVJxQGvAkb+GQ2VjmFJy1stnX4IJNydILCrKv+/nBZ+gd39F2IxSoMyhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cgax8tlL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1769110405; c=relaxed/simple;
+	bh=7SgLk2UDB0FZRkvj2BvFR8LJLwcq8f+XoFkuLPLDdVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=omU2jqMKdn8NfZL6T4jDTdHGicUWZOXlUwVEThKHmPE/l6GwZ1ni6zCkXYQfvg8H+egUcfoNB0Pk+YvgmxjjlAeQXEzXIiJsVMIm9ZhCRXjGcIMGlZpXQVZ38cxoLunQSGnHBdvCm64nPsySvj9itDiXO20k90N3G6j1vpgFYHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnxDSKT6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cgax8tlL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769110363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0STx4tkQ9bStzN9UXzB6G1L78sa7AJG1Aqo4I2ghBIY=;
-	b=Cgax8tlLtLi4ASeJ5DzFaqQheR5+Ii6+LrUnEYkndEH/MwTEXlOJZgBhDOyt1YgX5L0WIz
-	lLiuHoapH7tNkYKVYRrUTq9uxP+Cz/C32qKEmkHGO51UkAUMkyUzbaawyff/Y0RI4zq5dS
-	HYWON7/lweJXQiO2bKJxuX4dZtOIxY0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-375-rYmf73WYOpajfmo62rt9-w-1; Thu,
- 22 Jan 2026 14:32:42 -0500
-X-MC-Unique: rYmf73WYOpajfmo62rt9-w-1
-X-Mimecast-MFC-AGG-ID: rYmf73WYOpajfmo62rt9-w_1769110360
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7940B1955D4A;
-	Thu, 22 Jan 2026 19:32:39 +0000 (UTC)
-Received: from h1.redhat.com (unknown [10.22.88.59])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EFDE81958DC1;
-	Thu, 22 Jan 2026 19:32:29 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: npache@redhat.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	lorenzo.stoakes@oracle.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	vbabka@suse.cz,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	jannh@google.com,
-	pfalcato@suse.de,
-	jackmanb@google.com,
-	hannes@cmpxchg.org,
-	willy@infradead.org,
-	peterx@redhat.com,
-	wangkefeng.wang@huawei.com,
-	usamaarif642@gmail.com,
-	sunnanyong@huawei.com,
-	vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com,
-	yang@os.amperecomputing.com,
-	kas@kernel.org,
-	aarcange@redhat.com,
-	raquini@redhat.com,
-	anshuman.khandual@arm.com,
-	catalin.marinas@arm.com,
-	tiwai@suse.de,
-	will@kernel.org,
-	dave.hansen@linux.intel.com,
-	jack@suse.cz,
-	cl@gentwo.org,
-	jglisse@google.com,
-	zokeefe@google.com,
-	rientjes@google.com,
-	rdunlap@infradead.org,
-	hughd@google.com,
-	richard.weiyang@gmail.com,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH mm-unstable v14 16/16] Documentation: mm: update the admin guide for mTHP collapse
-Date: Thu, 22 Jan 2026 12:28:41 -0700
-Message-ID: <20260122192841.128719-17-npache@redhat.com>
-In-Reply-To: <20260122192841.128719-1-npache@redhat.com>
-References: <20260122192841.128719-1-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnxDSKT6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C694C116C6;
+	Thu, 22 Jan 2026 19:33:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769110404;
+	bh=7SgLk2UDB0FZRkvj2BvFR8LJLwcq8f+XoFkuLPLDdVo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TnxDSKT6W31tNcauhdZq7Ceg+ocFPLhOBPnJQJ7V4b9UXh2OSldzBbpzgfkzavZZJ
+	 LZOvczhZlGS275G6tQI6IfrmKgTwpvUs/QmlUmXAs+FeD47+rl0Dr9yLn1UUYs0SgP
+	 qq4S/Z15Vj27fTz7WJQakvB4lsWegvHtucW7J5dC61c8rhxj6Gw7lCZnvG3n/AFNKZ
+	 WmJSwYUcm/6VZWvzne2j//rWFa8iV6U0BhEzB7rDot5Y3VbJCMDpGB29G9uqO+2c83
+	 chpzbj+sJgd4x+ufdd0LgdYfOLQ6YZJpyu1AJx87zdHV4j/CyqCr2m3LJK1hfrkGl/
+	 3CX8qsVTL/cTg==
+Date: Thu, 22 Jan 2026 19:33:12 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Rodrigo Alencar 
+ <455.rodrigo.alencar@gmail.com>, Andy Shevchenko
+ <andy.shevchenko@gmail.com>, rodrigo.alencar@analog.com,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, David Lechner
+ <dlechner@baylibre.com>, Andy Shevchenko	 <andy@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich	
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v4 3/7] iio: frequency: adf41513: driver implementation
+Message-ID: <20260122193312.0a84ac33@jic23-huawei>
+In-Reply-To: <99789eb34873eca976a3324c363a1dc70a2f0d3d.camel@gmail.com>
+References: <aW3dxuelYDM67pqZ@smile.fi.intel.com>
+	<texwv5s2tvcy34bwr4iruj5xofmea663pwletmpqpuh66zulmv@m7qvjgqbhalv>
+	<aW40ylvMwVhqNQMw@smile.fi.intel.com>
+	<hgy3bcrqqsvt7pobhnzuvwzhb2taetpxltkaxpigmmlvmlirod@v6anhmrsvv2r>
+	<aW5kk6K30Izckvg5@smile.fi.intel.com>
+	<e5lcg5kkey3c6u2l4rlzzpolp7qkudhcofyzcx5s2tjbh2iwkg@js3fisv23zyj>
+	<CAHp75VepcSZo_E4_UxhKRfHrMFDd7huJg14m8=6zVo4ENKFXkA@mail.gmail.com>
+	<vvdk3whhwua73g63eetnmn46t2cpbpkzzkx7m6wsbverp7gcvs@mi7cipis3i4t>
+	<aW-Fai68pk1tAeyY@smile.fi.intel.com>
+	<kmdqcaewxxg7isappgfxuf5ode5fepbywrdriksmvrzmaykcjd@crpr27tt3bmf>
+	<aXChxvlZxKVrOMsW@smile.fi.intel.com>
+	<99789eb34873eca976a3324c363a1dc70a2f0d3d.camel@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Now that we can collapse to mTHPs lets update the admin guide to
-reflect these changes and provide proper guidance on how to utilize it.
+On Wed, 21 Jan 2026 14:21:00 +0000
+Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 48 +++++++++++++---------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+> On Wed, 2026-01-21 at 11:52 +0200, Andy Shevchenko wrote:
+> > On Wed, Jan 21, 2026 at 09:41:25AM +0000, Rodrigo Alencar wrote: =20
+> > > On 26/01/20 03:38PM, Andy Shevchenko wrote: =20
+> > > > On Tue, Jan 20, 2026 at 01:07:49PM +0000, Rodrigo Alencar wrote: =20
+> > > > > On 26/01/20 01:24PM, Andy Shevchenko wrote: =20
+> > > > > > On Tue, Jan 20, 2026 at 12:43=E2=80=AFPM Rodrigo Alencar
+> > > > > > <455.rodrigo.alencar@gmail.com> wrote: =20
+> > > > > > > On 26/01/19 07:07PM, Andy Shevchenko wrote: =20
+> > > > > > > > On Mon, Jan 19, 2026 at 04:37:09PM +0000, Rodrigo Alencar w=
+rote: =20
+> > > > > > > > > On 26/01/19 03:42PM, Andy Shevchenko wrote: =20
+> > > > > > > > > > On Mon, Jan 19, 2026 at 11:21:59AM +0000, Rodrigo Alenc=
+ar wrote: =20
+> > > > > > > > > > > On 26/01/19 09:31AM, Andy Shevchenko wrote: =20
+> > > > > > > > > > > > On Fri, Jan 16, 2026 at 02:32:22PM +0000, Rodrigo A=
+lencar via B4 Relay wrote: =20
+> >=20
+> > ...
+> >  =20
+> > > > > > > > > > > The current implementation is kind of a stripped vers=
+ion of
+> > > > > > > > > > > __iio_str_to_fixpoint(). Would you prefer something l=
+ike this, then?: =20
+> > > > > > > > > >=20
+> > > > > > > > > > Do they have most of the parts in common? If so, why ca=
+n't we use
+> > > > > > > > > > __iio_str_to_fixpoint() directly? Or why can't we sligh=
+tly refactor
+> > > > > > > > > > that to give us the results we need here? =20
+> > > > > > > > >=20
+> > > > > > > > > __iio_str_to_fixpoint() only parses "int" chunks, adf4151=
+3_parse_uhz
+> > > > > > > > > was modified to accomodate the u64 parsing removing unnec=
+essary stuff. =20
+> > > > > > > >=20
+> > > > > > > > But why? The fractional part most likely will be kept int (=
+it's up to 10=E2=81=BB=E2=81=B9).
+> > > > > > > > The integer can be bigger than 10=E2=81=B9? =20
+> > > > > > >=20
+> > > > > > > Correct, integer part of the frequency value goes up to 26.5 =
+GHz
+> > > > > > > (uint_max is approx 4.3 GHz). Also, with the dual modulus, th=
+e PLL can
+> > > > > > > achieve micro Hz resolution. =20
+> > > > > >=20
+> > > > > > =C2=B5Hz is not a problem since it's up to nHz.
+> > > > > > So, the difference so far is the integer part that can be 64-bi=
+t.
+> > > > > > Again, can we factor out something to be used for this and for =
+the
+> > > > > > __iio_str_to_fixpoint() cases? =20
+> > > > >=20
+> > > > > I am not sure what you are suggesting, =20
+> > > >=20
+> > > > To make changes to reuse the code.
+> > > >  =20
+> > > > > but I am avoiding changes to iio core at this point. =20
+> > > >=20
+> > > > Why? =20
+> > >=20
+> > > I understood that core changes would require more than one user
+> > > supporting the change. =20
+> >=20
+> > At least one. And we have tons of them as the callers of
+> > __iio_str_to_fixpoint() are not going to disappear. Basically it's a su=
+rgery in
+> > the middle of the existing chain of APIs. To me one user is enough just=
+ification
+> > for such a surgery. For the newly introduced API (imagine __iio_str_to_=
+fixpoint()
+> > as an example) it's indeed one user not enough.
+> >  =20
+> > > > > If any other user needs similar behavior,
+> > > > > I'd say we would need to have __iio_str_to_fixpoint() implementat=
+ion
+> > > > > modified, so to create a version of iio_str_to_fixpoint() that ha=
+ndles
+> > > > > long long variables. Possibly consuming simple_strtoull instead of
+> > > > > doing the manual parsing. =20
+> > > >=20
+> > > > That's the problem here. With Yet Another Cool Parser this all beco=
+mes
+> > > > unmaintainable very soon =20
+> > >=20
+> > > Considering that the need for a new parser for 64-bit parts is only d=
+riven
+> > > by this specific PLL driver, I wonder how things become that unmainta=
+inable. =20
+> >=20
+> > Because there is a duplication of the code (to some extent) and if we f=
+ound
+> > a bug in the one implementation it will be hard to fix (or even remeber=
+) about
+> > the other. =20
+>=20
+> Agreed!
+>=20
+> >  =20
+> > > > (basically as you said when new comer needs a third
+> > > > variant of it). This is not good. Instead better to create (amend, =
+expand)
+> > > > existing test cases, split out a foundation API that parses 64-bit =
+parts
+> > > > (maybe even for fractional as well, dunno) and evolve a needed (sub=
+)API
+> > > > from it. =20
+> > >=20
+> > > I don't disagree with you though, I suppose I will need a green light=
+ to
+> > > move on with this? =20
+> >=20
+> > Fine with me, let's gather opinions of David, Nuno, Jonathan, and other=
+s. =20
+>=20
+>=20
+> Fine with me.
+Likewise. A common / foundational function with specialized wrappers would
+be good.
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index eebb1f6bbc6c..67836c683e8d 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -63,7 +63,8 @@ often.
- THP can be enabled system wide or restricted to certain tasks or even
- memory ranges inside task's address space. Unless THP is completely
- disabled, there is ``khugepaged`` daemon that scans memory and
--collapses sequences of basic pages into PMD-sized huge pages.
-+collapses sequences of basic pages into huge pages of either PMD size
-+or mTHP sizes, if the system is configured to do so.
- 
- The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
- interface and using madvise(2) and prctl(2) system calls.
-@@ -219,10 +220,10 @@ this behaviour by writing 0 to shrink_underused, and enable it by writing
- 	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 
--khugepaged will be automatically started when PMD-sized THP is enabled
-+khugepaged will be automatically started when any THP size is enabled
- (either of the per-size anon control or the top-level control are set
- to "always" or "madvise"), and it'll be automatically shutdown when
--PMD-sized THP is disabled (when both the per-size anon control and the
-+all THP sizes are disabled (when both the per-size anon control and the
- top-level control are "never")
- 
- process THP controls
-@@ -264,11 +265,6 @@ support the following arguments::
- Khugepaged controls
- -------------------
- 
--.. note::
--   khugepaged currently only searches for opportunities to collapse to
--   PMD-sized THP and no attempt is made to collapse to other THP
--   sizes.
--
- khugepaged runs usually at low frequency so while one may not want to
- invoke defrag algorithms synchronously during the page faults, it
- should be worth invoking defrag at least in khugepaged. However it's
-@@ -296,11 +292,11 @@ allocation failure to throttle the next allocation attempt::
- The khugepaged progress can be seen in the number of pages collapsed (note
- that this counter may not be an exact count of the number of pages
- collapsed, since "collapsed" could mean multiple things: (1) A PTE mapping
--being replaced by a PMD mapping, or (2) All 4K physical pages replaced by
--one 2M hugepage. Each may happen independently, or together, depending on
--the type of memory and the failures that occur. As such, this value should
--be interpreted roughly as a sign of progress, and counters in /proc/vmstat
--consulted for more accurate accounting)::
-+being replaced by a PMD mapping, or (2) physical pages replaced by one
-+hugepage of various sizes (PMD-sized or mTHP). Each may happen independently,
-+or together, depending on the type of memory and the failures that occur.
-+As such, this value should be interpreted roughly as a sign of progress,
-+and counters in /proc/vmstat consulted for more accurate accounting)::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed
- 
-@@ -308,16 +304,19 @@ for each pass::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans
- 
--``max_ptes_none`` specifies how many extra small pages (that are
--not already mapped) can be allocated when collapsing a group
--of small pages into one large page::
-+``max_ptes_none`` specifies how many empty (none/zero) pages are allowed
-+when collapsing a group of small pages into one large page::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
- 
--A higher value leads to use additional memory for programs.
--A lower value leads to gain less thp performance. Value of
--max_ptes_none can waste cpu time very little, you can
--ignore it.
-+For PMD-sized THP collapse, this directly limits the number of empty pages
-+allowed in the 2MB region. For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1)
-+are supported. Any other value will emit a warning and no mTHP collapse
-+will be attempted.
-+
-+A higher value allows more empty pages, potentially leading to more memory
-+usage but better THP performance. A lower value is more conservative and
-+may result in fewer THP collapses.
- 
- ``max_ptes_swap`` specifies how many pages can be brought in from
- swap when collapsing a group of pages into a transparent huge page::
-@@ -337,6 +336,15 @@ that THP is shared. Exceeding the number would block the collapse::
- 
- A higher value may increase memory footprint for some workloads.
- 
-+.. note::
-+   For mTHP collapse, khugepaged does not support collapsing regions that
-+   contain shared or swapped out pages, as this could lead to continuous
-+   promotion to higher orders. The collapse will fail if any shared or
-+   swapped PTEs are encountered during the scan.
-+
-+   Currently, madvise_collapse only supports collapsing to PMD-sized THPs
-+   and does not attempt mTHP collapses.
-+
- Boot parameters
- ===============
- 
--- 
-2.52.0
+>=20
+> - Nuno S=C3=A1
+>=20
 
