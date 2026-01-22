@@ -1,96 +1,178 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E728E3BF300;
-	Thu, 22 Jan 2026 11:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3720410D35
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 11:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769082139; cv=none; b=c4jVjixY7vEMKiUUuaTXjzxkS7bOf+vkGtiZVByf4/dJpFs+KMwW9V3dJKN4XZVV+kfpmRSX4oyOtDrnmcQ/2l2jYi44RfTqZvGqtc4bxKXNeiQyx9AivhhyJVuFPco3Drj/M/ozTk6J066QvKuHHl2i00684ACPJ9cPM02nDvE=
+	t=1769082224; cv=none; b=mrn88AcDZltcAXKGx7APjNdLG9x5xRAztJ3l9uwLU3i0hF1OzYFL/ImFmNVsxf/CTdgiAtJCf0GrN8OJOCwMn0UJ+TKmccVYV/8qqsMsdeTv8nogTmGGQOesQJVyC5hLo9G2/9ZWqK6xl0W5ucxucmKUs76Se9OvAL4wFdpTrmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769082139; c=relaxed/simple;
-	bh=BzROj+qPjwn10Wcma/Olj18t2mzIjhUK3GYki215h+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HR3T6f+ioI5bVZfkcT+yavMfg72e7y4GqVg0KKiOvo3dBwQngY7CbDPo6yp2Etr7boOP0WLfwD+P07VdMr2w1qA4AuTq7mN5w+P6N8wRwZ62Tf23s0HKUJ+AphLz2G4ZkaGF32KzcBrzDSdod9NjgAluobQLnRorVBwE6T2OfGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=XC7a8yEZ; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769082224; c=relaxed/simple;
+	bh=5mti+cH+gIVHkhjhrlYIkIedLkXLfamyXpOSg9ale0I=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=KS6boxsRDAIq4mGxhsqXyNnmE93RIuWMiNZ7MDzRS1PYbGAHIHx+450Lur0eyrtjVAozS309w1+lSiYkB8JgPJNT7vnB66qj879iQ7tRjgbljN65EQVhYsY5vIlrl8b2AcaTbNQqPMA84alHTQKhDpgSjQyR5vrBd9nWODE15yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fLoqvw9Z; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="XC7a8yEZ"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=h5IO1II72SHvth+63/+3XlMGErqZm+GjmL10qJGkNv0=;
-	b=XC7a8yEZdC7zIgkgPK+S1MAfcQsfB27AFE7g5ZpXZyCtulOyzPlnTX6pwIVmtfOLGB/TCimUs
-	ct20hV+y4kPWZVNVF98vHQMjNQCOnpLFo7/dVYu2TIisB7QjQYMo11UgeCX7UUnkJ6LCYy4D1hN
-	zWYSjEQa9LNGQM7MYw6BYOw=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4dxfGB36X9z1prKl;
-	Thu, 22 Jan 2026 19:38:42 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id C8F2340569;
-	Thu, 22 Jan 2026 19:42:08 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 22 Jan
- 2026 19:42:07 +0800
-Message-ID: <0ea13064-be34-449c-9dd0-760333111da3@huawei.com>
-Date: Thu, 22 Jan 2026 19:42:07 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fLoqvw9Z"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769082209;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pzPuT7Y9eD4SMA4TJ/n5cBldWGtFSgOh9m5Kf01lyMo=;
+	b=fLoqvw9ZME5l4IcJ8t5qH63hRwLwGLgIU9ZwopRTmvSipSXBciTztEZcY4UUj/+HIo16ko
+	lk+A3QKMKCqa3AD2E6TXGTMLXKDLOx2zihvpvw4K15FZwFNM/vU3Jts5/GSTKoia7eUhHn
+	QYmBoKT1bGABgm+zyTu7XB4Id0N25vw=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/9] ACPI: CPPC: Add cppc_get_perf() API to read
- performance controls
-To: Pierre Gondois <pierre.gondois@arm.com>, Sumit Gupta <sumitg@nvidia.com>
-CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <ionela.voinescu@arm.com>,
-	<lenb@kernel.org>, <robert.moore@intel.com>, <corbet@lwn.net>,
-	<rdunlap@infradead.org>, <ray.huang@amd.com>, <gautham.shenoy@amd.com>,
-	<mario.limonciello@amd.com>, <perry.yuan@amd.com>, <zhanjie9@hisilicon.com>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<treding@nvidia.com>, <jonathanh@nvidia.com>, <vsethi@nvidia.com>,
-	<ksitaraman@nvidia.com>, <sanjayc@nvidia.com>, <nhartman@nvidia.com>,
-	<bbasu@nvidia.com>
-References: <20260120145623.2959636-1-sumitg@nvidia.com>
- <20260120145623.2959636-5-sumitg@nvidia.com>
- <7f0b280d-9c22-46dc-a924-a85591e1034d@huawei.com>
- <5afea521-7d80-4e72-8809-77af60b0d957@arm.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <5afea521-7d80-4e72-8809-77af60b0d957@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemf200001.china.huawei.com (7.202.181.227)
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCHv4 07/14] mm/sparse: Check memmap alignment for
+ compound_info_has_mask()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <35B81EA5-D719-4FC4-93C5-674DD5BFDA4F@linux.dev>
+Date: Thu, 22 Jan 2026 19:42:47 +0800
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <45434FC3-455E-4CE8-9F43-F398D5EC73A9@linux.dev>
+References: <20260121162253.2216580-1-kas@kernel.org>
+ <20260121162253.2216580-8-kas@kernel.org>
+ <71F051F2-5F3B-40A5-9347-BA2D93F2FF3F@linux.dev>
+ <aXIJY5irR0obgdQe@thinkstation>
+ <35B81EA5-D719-4FC4-93C5-674DD5BFDA4F@linux.dev>
+To: Kiryl Shutsemau <kas@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026/1/22 19:30, Pierre Gondois wrote:
-> 
-> On 1/22/26 09:56, zhenglifeng (A) wrote:
->> On 2026/1/20 22:56, Sumit Gupta wrote:
->>> +
->>> +    if (CPC_SUPPORTED(desired_perf_reg))
->>> +        cpc_read(cpu, desired_perf_reg, &desired_perf);
->>> +    perf_ctrls->desired_perf = desired_perf;
->> desired_perf_reg is not an optional one, so it has to be supported.
-> 
-> The ACPI spec seems to say it is optional under some circumstances.
-> 
-> Cf:
-> """
-> This register is optional when OSPM
-> indicates support for CPPC2 in the platform-wide _OSC
-> capabilities and the Autonomous Selection Enable reg-
-> ister is Integer 1
-> """
-> 
-> 
-> Maybe it is ok to let this check here and to a more complex verification
-> in acpi_cppc_processor_probe()
 
-Right. My mistake.
 
-> 
+> On Jan 22, 2026, at 19:33, Muchun Song <muchun.song@linux.dev> wrote:
+>=20
+>=20
+>=20
+>> On Jan 22, 2026, at 19:28, Kiryl Shutsemau <kas@kernel.org> wrote:
+>>=20
+>> On Thu, Jan 22, 2026 at 11:10:26AM +0800, Muchun Song wrote:
+>>>=20
+>>>=20
+>>>> On Jan 22, 2026, at 00:22, Kiryl Shutsemau <kas@kernel.org> wrote:
+>>>>=20
+>>>> If page->compound_info encodes a mask, it is expected that memmap =
+to be
+>>>> naturally aligned to the maximum folio size.
+>>>>=20
+>>>> Add a warning if it is not.
+>>>>=20
+>>>> A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so =
+the
+>>>> kernel is still likely to be functional if this strict check fails.
+>>>>=20
+>>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>>>> ---
+>>>> include/linux/mmzone.h | 1 +
+>>>> mm/sparse.c            | 5 +++++
+>>>> 2 files changed, 6 insertions(+)
+>>>>=20
+>>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+>>>> index 390ce11b3765..7e4f69b9d760 100644
+>>>> --- a/include/linux/mmzone.h
+>>>> +++ b/include/linux/mmzone.h
+>>>> @@ -91,6 +91,7 @@
+>>>> #endif
+>>>>=20
+>>>> #define MAX_FOLIO_NR_PAGES (1UL << MAX_FOLIO_ORDER)
+>>>> +#define MAX_FOLIO_SIZE (PAGE_SIZE << MAX_FOLIO_ORDER)
+>>>>=20
+>>>> enum migratetype {
+>>>> MIGRATE_UNMOVABLE,
+>>>> diff --git a/mm/sparse.c b/mm/sparse.c
+>>>> index 17c50a6415c2..5f41a3edcc24 100644
+>>>> --- a/mm/sparse.c
+>>>> +++ b/mm/sparse.c
+>>>> @@ -600,6 +600,11 @@ void __init sparse_init(void)
+>>>> BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+>>>> memblocks_present();
+>>>>=20
+>>>> +  if (compound_info_has_mask()) {
+>>>> +  WARN_ON(!IS_ALIGNED((unsigned long)pfn_to_page(0),
+>>>> +     MAX_FOLIO_SIZE / sizeof(struct page)));
+>>>=20
+>>> I still have concerns about this. If certain architectures or =
+configurations,
+>>> especially when KASLR is enabled, do not meet the requirements =
+during the
+>>> boot stage, only specific folios larger than a certain size might =
+end up with
+>>> incorrect struct page entries as the system runs. How can we detect =
+issues
+>>> arising from either updating the struct page or making incorrect =
+logical
+>>> judgments based on information retrieved from the struct page?
+>>>=20
+>>> After all, when we see this warning, we don't know when or if a =
+problem will
+>>> occur in the future. It's like a time bomb in the system, isn't it? =
+Therefore,
+>>> I would like to add a warning check to the memory allocation place, =
+for
+>>> example:=20
+>>>=20
+>>> WARN_ON(!IS_ALIGNED((unsigned long)&folio->page, folio_size / =
+sizeof(struct page)));
+>>=20
+>> I don't think it is needed. Any compound page usage would trigger the
+>> problem. It should happen pretty early.
+>=20
+> Why would you think it would be discovered early? If the alignment of =
+struct page
+> can only meet the needs of 4M pages (i.e., the largest pages that =
+buddy can
+> allocate), how can you be sure that there will be a similar path using =
+CMA
+> early on if the system allocates through CMA in the future (after all, =
+CMA
+> is used much less than buddy)?
+
+Suppose we are more aggressive. If the alignment requirement of struct =
+page
+cannot meet the needs of 2GB pages (which is an uncommon memory =
+allocation
+requirement), then users might not care about such a warning message =
+after
+the system boots. And if there is no allocation of pages greater than or
+equal to 2GB for a period of time in the future, the system will have no
+problems. But once some path allocates pages greater than or equal to =
+2GB,
+the system will go into chaos. And by that time, the system log may no
+longer have this warning message. Is that not the case?
+
+>=20
+>>=20
+>> --=20
+>> Kiryl Shutsemau / Kirill A. Shutemov
+
 
