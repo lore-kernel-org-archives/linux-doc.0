@@ -1,118 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971F63101C2;
-	Thu, 22 Jan 2026 10:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671B436AB4E;
+	Thu, 22 Jan 2026 10:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769076226; cv=none; b=LhljpbQ3DlV2vF/Snx5Nn8gwVEA742sQjzWVwebuP7UW526UeLIq7+7nUJWAufGGJertxnn8vpVdlgk82KLhe6uOkciM87XM2MyT2RvOCzYfARYbdseGJYQnCNJW4T7ImM6RsFpaETnU/CnYAB06EpEmMLz54vXEJCziq9yvlHg=
+	t=1769077442; cv=none; b=W304X6f6Vne24o1vQA2yYM/sXww318BC1kS571rUrkPjsGWld6IyjN41uDbYKrebr4X2HIQbJpd7N6gGJHWs41Fw+JfmugvAYDp7IKIVlzReLKH8dxURQMYc0kdMt3wHhObUK9fI7r22uOrSjUhp7C3zsw9K6ZDK0FRDtagTYds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769076226; c=relaxed/simple;
-	bh=yL/NrddG1CawfKhoy4ZH1/4SsxmbBqbip9rUrRWJ+qM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkGooIUBghGYSXWwU3nz+gSCgxr1vDk1uObdLHUQF5r2zbBhqitgYg7YOk90q0qgWcwRUJHDQ88GoERoT389y6wGrF4EvrINnHXay54owbE0A7RrClaUrsOJ9sJxZSP/M/bjRUP63ixR/v2Lmhc/4Tll8AKiyo31DMrM+ojc3ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpS+5mmu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769077442; c=relaxed/simple;
+	bh=+ponhCVn2cRUJSU87mwByby7CyGZivwMxVvrVozaoFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NFpXv/p5lLte5TOi9H4VFIDIWUguTwH0SGeYlTYlrhYfebKKBMqiaMNbYIQ/1bHW22z7awLsAxhbS9UD1M5fVw57TwYRLH1kdUmauw+v0hvehxfBm9bOrD82WsHcf9U9YczYLggw10YvwdzoQz4Obg1CUM8lKWcP/TzeAwHLKu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSd+0Z2A; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpS+5mmu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AFD1C116C6;
-	Thu, 22 Jan 2026 10:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769076226;
-	bh=yL/NrddG1CawfKhoy4ZH1/4SsxmbBqbip9rUrRWJ+qM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BpS+5mmuQZCe173jMQU+eRlim0YQxsGfPb0rhy4QSByTDjeNk8vcjdoLnBsMQNvay
-	 14sD4Tx+hYBzYuiyNWBJN+FO/l/8r5YhCtGPPaEHbFbNv/qJIlE1d3HZGTdnPdhmg5
-	 j2I3/qxwfyTlw5rqZ5Zg2Ypq5sspCPJkG9zibheIhO0NyR4janbnDOFA89yShhAnmI
-	 7kj42mLTLdODw95p3T+NQnWiX46ZgsffM1lsx39s3oj7TGKSGNlHg5SujnnMZUFKJe
-	 mxtWDvaFp8RXaYicrJb/h09nkogt17BpUo6tISRX0nO2e9QjaZ7VlIVfXqE9SoNJQI
-	 opFU4u9VTB2vg==
-Date: Thu, 22 Jan 2026 12:03:35 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Eugen Hristev <eugen.hristev@linaro.org>
-Cc: david@redhat.com, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
-	rdunlap@infradead.org, corbet@lwn.net, mhocko@suse.com,
-	tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hardening@vger.kernel.org, jonechou@google.com,
-	rostedt@goodmis.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org
-Subject: Re: [PATCH 18/26] mm/memblock: Add MEMBLOCK_INSPECT flag
-Message-ID: <aXH190NDVl7JAl7A@kernel.org>
-References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
- <20251119154427.1033475-19-eugen.hristev@linaro.org>
- <aVImIneFgOngYdSn@kernel.org>
- <4b8953ac-567b-4d68-9c25-72a69afdf1b3@linaro.org>
- <aVlsqdgXSBLIE9Xi@kernel.org>
- <ae85df64-b6b7-43d7-ba50-9c0525481299@linaro.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSd+0Z2A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769077440; x=1800613440;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+ponhCVn2cRUJSU87mwByby7CyGZivwMxVvrVozaoFs=;
+  b=GSd+0Z2AvDT6A4Do7T/Y+0Hib7Elks/cg68XJ/bCPJN/REFPO9b6BUSM
+   D6HkfQpDoHGVBw9ibBxYYUagz7D1++ISugUYEmFqZxfYNzuc0jODlMJx6
+   rrEtKEQsPw1PzKiXOOA87q1+R6Gak+eZPGhKJ0aDrnhWBqX8TsPfdiUR5
+   e3/JVi0oHYvzG2Lz/7OeuailoFar+76EmBTZzeXbiFHIylMM/V2VegGqw
+   pTdCURD+JNLqILkL3vAEqFpxS2/KN/90MXlDn0fTpiKp4qPZufkKL5LNf
+   kSF1WepDji+ySfpWG3VM8OXoicpIQj54+LqQB5HoW7CaTXOa+jFXy5mCF
+   A==;
+X-CSE-ConnectionGUID: 9GMYrpN8Rv+HexPXMSjWrA==
+X-CSE-MsgGUID: iWZJY7fjQ66Mm+s7cVCc9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="95790499"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="95790499"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 02:23:59 -0800
+X-CSE-ConnectionGUID: aWLxvmeNQy+6SwLF0x5R0A==
+X-CSE-MsgGUID: Z1nwToaFTriE2qZu9N4daA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
+   d="scan'208";a="206958325"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 22 Jan 2026 02:23:56 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id BAF2098; Thu, 22 Jan 2026 11:23:55 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Tony Lindgren <tony@atomide.com>
+Subject: [PATCH v1 1/2] serial: 8250_omap: Remove custom deprecated baud setting routine
+Date: Thu, 22 Jan 2026 11:19:47 +0100
+Message-ID: <20260122102349.2395423-2-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260122102349.2395423-1-andriy.shevchenko@linux.intel.com>
+References: <20260122102349.2395423-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae85df64-b6b7-43d7-ba50-9c0525481299@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 20, 2026 at 05:13:43PM +0200, Eugen Hristev wrote:
-> 
-> 
-> On 1/3/26 21:23, Mike Rapoport wrote:
-> > On Sat, Jan 03, 2026 at 08:36:40AM +0200, Eugen Hristev wrote:
-> >>
-> >>
-> >> On 12/29/25 08:56, Mike Rapoport wrote:
-> >>> Hi Eugen,
-> >>>
-> >>> On Wed, Nov 19, 2025 at 05:44:19PM +0200, Eugen Hristev wrote:
-> >>>> This memblock flag indicates that a specific block is registered
-> >>>> into an inspection table.
-> >>>> The block can be marked for inspection using memblock_mark_inspect()
-> >>>> and cleared with memblock_clear_inspect()
-> >>>
-> >>> Can you explain why memblock should treat memory registered for inspection
-> >>> differently?
-> >>
-> >> It should not, at a first glance.
-> >>
-> >> The purpose of the flag is to let memblock be aware of it.
-> >> The flag is there to have a "memblock way" of registering the memory,
-> >> which inside memblock , it can translate to a meminspect way of
-> >> registering the memory. It's just an extra layer on top of meminspect.
-> >> With this, it would be avoided to call meminspect all over the places it
-> >> would be required, but rather use the memblock API.
-> > 
-> > memblock APIs are not available after boot on many architectures, most
-> > notable being x86.
-> > 
-> > But regardless, I can't say I understand why using memblock APIs for
-> > meminspect is better than using meminspect directly.
-> > I'd imagine that using meminspect register APIs would actually make it more
-> > consistent and it would be easier to identify what memory is registered
-> > with meminspect.
-> > 
-> > In the end, memblock_alloc*() returns dynamically allocated memory, just
-> > like kmalloc(), the difference is that memblock is active very early at
-> > boot and disappears after core MM initialization.
-> 
-> Hi Mike,
-> 
-> Thanks for sharing your opinion.
-> 
-> David, what do you think, does it make sense to have this flag or we can
-> ditch it and use meminspect directly ?
-> 
-> Also, for some memory blocks, they do not disappear ever, e.g. the
-> printk log buffer, it's allocated early and never freed, so it's
-> required to have some memblocks marked for inspection.
+As comments mentioned this is old (and actually deprecated) interface
+to set custom baud rates. This interface has limitations as it only
+allows to set a single opaque value called "custom_divisor". If the HW
+needs more complex settings (like fractional divisor) it must somehow
+encode this. This is horrid interface that is very driver specific
+and not flexible. Meanwhile Linux has established way to set free
+baud rate settings via BOTHER [1]. With all this being said, remove
+deprecated interface for good.
 
-The allocated memory does not disappear, the memblock metadata does.
+Link: https://stackoverflow.com/questions/12646324/how-can-i-set-a-custom-baud-rate-on-linux [1]
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/tty/serial/8250/8250_omap.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-> Eugen
-
+diff --git a/drivers/tty/serial/8250/8250_omap.c b/drivers/tty/serial/8250/8250_omap.c
+index 4496f692b86b..427719c158b7 100644
+--- a/drivers/tty/serial/8250/8250_omap.c
++++ b/drivers/tty/serial/8250/8250_omap.c
+@@ -243,22 +243,6 @@ static void omap_8250_get_divisor(struct uart_port *port, unsigned int baud,
+ 	unsigned int div_13, div_16;
+ 	unsigned int abs_d13, abs_d16;
+ 
+-	/*
+-	 * Old custom speed handling.
+-	 */
+-	if (baud == 38400 && (port->flags & UPF_SPD_MASK) == UPF_SPD_CUST) {
+-		priv->quot = port->custom_divisor & UART_DIV_MAX;
+-		/*
+-		 * I assume that nobody is using this. But hey, if somebody
+-		 * would like to specify the divisor _and_ the mode then the
+-		 * driver is ready and waiting for it.
+-		 */
+-		if (port->custom_divisor & (1 << 16))
+-			priv->mdr1 = UART_OMAP_MDR1_13X_MODE;
+-		else
+-			priv->mdr1 = UART_OMAP_MDR1_16X_MODE;
+-		return;
+-	}
+ 	div_13 = DIV_ROUND_CLOSEST(uartclk, 13 * baud);
+ 	div_16 = DIV_ROUND_CLOSEST(uartclk, 16 * baud);
+ 
 -- 
-Sincerely yours,
-Mike.
+2.50.1
+
