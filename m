@@ -1,207 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD83325A2C9;
-	Thu, 22 Jan 2026 13:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEB8238C0F
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 13:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769089020; cv=none; b=ilbrRc0rhTUTxsxgkPHYlUbTcjWCz9T5L/4/eS8M0Qk3ahZ1bbP8+wsoGLdsK+u94DHa/K/6jGWXx9+0nqE8sqLdzVCLE2RpwG14CyBlS63okSoKt3SCMj2ehdXCS393edrCMroK/VRESo9bgjcc89AZ25MEafo2zpX8wTwsbJI=
+	t=1769090150; cv=none; b=ZNSa4ujD15zcwHNwn+WpVaqpcsjmZlrNVa3Fn3DeiUKBbuWu2N/Fu3BcbmEnTh0FoBVQ/t4SsZvU7Lvj4f+lZ2GRkohp2yb/8H6KIfm3gDMIeMliA/b/Cp5oqHfs6KF2J1h8B6RCipU3wIu4iIal5/RMBK39ySerzL2p4Ugsuqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769089020; c=relaxed/simple;
-	bh=2FDnlfFR2kuk4iGcDnZBPalyMLv3KJKOEs4Wqxxlk8s=;
+	s=arc-20240116; t=1769090150; c=relaxed/simple;
+	bh=2nXcGNysBiBdRcr6vy4ZStKKh5dYZxcbpIG7VnXq8as=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ETEErslF04DMSIglbjhclohjP6Q4uXr3sO/UZXA+1upKFOfCW1NmCl3VOgpoOhZQmRlS6rRbryoMxSo+6YwRFeVK9ld3lVkGz/jN7YvaVYiY9JuU8aQ8YpExtDgwgwxEVLWGyNDOv4A9sWOxkh12N2tGwq1PLYtgrAMA8iChJps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjYMTE/F; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JslvlAlrt0un6S0B5LVGKdM5xNpm8y8WkqfxGecz49H1qEnfA7+TwdVojqUFbFp4PHwGx5ILyNRB2ijUQNFhYIKPreYZFmbHITeQ/bWXzheYEW2/nrX7t/aA0POrUM7qQdEYHOWiFc9EHOSKTtcQsXgB5OgqaC87+/T3GZc5SUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hrh8Nqtz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mn8wNyGS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjYMTE/F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A39C116C6;
-	Thu, 22 Jan 2026 13:36:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769089019;
-	bh=2FDnlfFR2kuk4iGcDnZBPalyMLv3KJKOEs4Wqxxlk8s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OjYMTE/FBf92snO8Su/XNGJ1Hw4o9A3MYD/9s/TDdRZXHVy25Orqaif7WyFkJJtEp
-	 AwZXELH1wGDOk97JrJIv6S76n8cPsbFwE1zqmDR1S2QfMdArfx+k/e/Y6zpp4tcigr
-	 BuPpmiFS5dw1gMa7VOCo0VvJbCH00555zmo04XyJT0HWVDkFsSdl3QAaMvht2JwWua
-	 vmar0f5lDV5ISqAnfQ6+v06TR7Erkn0d9jTZRoaIdvRMHLCQJGyA60d/WRyaL2ecaM
-	 TXkOWerCs1ZfzjokKZ+vOqvWvUqfaMk0+IBABBFS/qs39afeGHD277SYyP0l2W80r+
-	 YrucdFWraLT9A==
-Date: Thu, 22 Jan 2026 14:36:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Francesco Valla <francesco@valla.it>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Jocelyn Falempe <jfalempe@redhat.com>, Javier Martinez Canillas <javierm@redhat.com>, 
-	Sam Ravnborg <sam@ravnborg.org>, Mario Limonciello <mario.limonciello@amd.com>, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-embedded@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/3] drm: client: add splash client
-Message-ID: <20260122-scallop-of-original-domination-3a554a@houat>
-References: <20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it>
- <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hrh8Nqtz";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mn8wNyGS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769090148;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F3Df56peZRg7yuOoU4r9j2z63CMqum3dw8Q62JAWFUY=;
+	b=hrh8NqtzKAS3i0VvegahIku82rxpVkFQodVwYjhobiC+dNwXxoY6s3O0TO0eGU2R4lMWre
+	9aB6I3TgAnp10wvMd5fLAsY/kIjlywGwvM866tATfqdkxnS5VbOZnQmAM5sicwoN1TgEYb
+	sSgy/qngvycZLVRTSc41L1Z69ZrAHVk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-171-cKJUgqZVMYGNcM7YhXy--Q-1; Thu, 22 Jan 2026 08:55:44 -0500
+X-MC-Unique: cKJUgqZVMYGNcM7YhXy--Q-1
+X-Mimecast-MFC-AGG-ID: cKJUgqZVMYGNcM7YhXy--Q_1769090143
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4358f90fe8dso673722f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 05:55:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1769090143; x=1769694943; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=F3Df56peZRg7yuOoU4r9j2z63CMqum3dw8Q62JAWFUY=;
+        b=mn8wNyGShfiU8zpLqqW1CJz3jW5+8fjwrYCHmBWgOVC4SJO3MbAFX2tfxro+yd5QDm
+         0JLhe+vvs1qJcHtRo5lchGrgx2BOnItYppZYoOf1ejrjs0iqcwJKkfjVOnvok/iEi/86
+         p00hhClju5EurMCdnC9TmH/KoYzMejAKc6UDpOHrcqhLVEgKNXCgjZvesK6pkPmZv0nP
+         9HQLX/OsK0ZRDVboJL7NcCOJBhUDrGOiOPRo763osNssreWFXsqpCbvstinNRJlH5wzo
+         RWu6dp12WnWtsVWBSIq9UrDeqfpnl38BDw726f1wR+ee8TSY3Fzc4yagJg0gWUo+5IuG
+         GlHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769090143; x=1769694943;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F3Df56peZRg7yuOoU4r9j2z63CMqum3dw8Q62JAWFUY=;
+        b=YjhBcSB8n/uHmwySr/nbvXeFmpnkCvJRml076h4y8qEUYSsRl4cmRFdI2j3y1z5R4t
+         w9VJU3KJ3KVANTSa64/7+NdUZ7u0CT/AiCneJwELDVB0yGstHshVyRVDlag7/ev8s6gd
+         4z5dYmNw+easr/SJok7mBp+JLEBTKd/V+sYyiKZLpuCcr1hyqwhPJGFIOKzIu5//SEGl
+         yjZEZFP5aL01JWw5ypMSo8lsDa74LEJ+1UBVCYGpqSo1AwmaXv39KPPAR3HUT1UQB1nb
+         nI22z9dvAEYqpHcxQ4/g8/P5IrUJfOlD5vEHxhBD0IJQX6Hyo72EEUvHaFW6OGv4QEs6
+         TXWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXlDLMSqDGeqV0cgHkREdUEd9D07zYho4KyLKvL5fdubaWJUhV2GQch0xggGeNgsp64FHYzn51d3uY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8NhCchp8FW40D/WVTpLHGcST2oFnqNVXbUbTGd2YdBK1gcqlK
+	f0EEJI9BKB/4UQMbv86waZ/JCXYHkT5BaEOT/vfLNwvpXPeYm5eOdahFffkt7Z3vRwj4Kjy6IMj
+	qfqMbpz2gW3iIFO3zE66nQ6SaBDVxbnoWM2oQyHPSKXm4PQtl5N6LaEXAgss57A==
+X-Gm-Gg: AZuq6aJGQOJWahrH5kRx3mwrlsDCuMvyreh0Pd5XQrUN0hkiFZrME0+ABoHc9odlEDl
+	W5x2wsfSRyZmFHt27D9g9XoQLBdEWia0XC7x1nxxHn+X6tzrwfbxrroXIwtk7Qn4bJcMJPUKZKZ
+	bNvj9v4OJMOTZnMRzL4Sv1X8TTOPksnfZ96bvCobiHHR8iIamCC/Vd0Cz/Lh9cySkgR4CFU3i3H
+	p6/y8h1fmYbjofjwZMycmBdk/s2PtqTRTgwSph0KfCc8or8CRtaO4GfLjN4+Dc14hrviasuMVSZ
+	Pidq1s/tWUm6OxeDs6zUdfMPN3Ay9gJZ/OGNM1l1RPAPNY2rrgmnTUJNKoY5r5JnH2HkMapzQyy
+	lT2TlAvbpPkBPR3CB5iJb+xw11AvhEesIl8/8W33ek9dBF4AILSkGLTfvRLY=
+X-Received: by 2002:adf:f812:0:b0:435:9e32:2b85 with SMTP id ffacd0b85a97d-435a5ff993cmr4488734f8f.29.1769090143511;
+        Thu, 22 Jan 2026 05:55:43 -0800 (PST)
+X-Received: by 2002:adf:f812:0:b0:435:9e32:2b85 with SMTP id ffacd0b85a97d-435a5ff993cmr4488677f8f.29.1769090143056;
+        Thu, 22 Jan 2026 05:55:43 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4359333b924sm18095487f8f.13.2026.01.22.05.55.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 05:55:42 -0800 (PST)
+Date: Thu, 22 Jan 2026 14:55:36 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>, 
+	linux-doc@vger.kernel.org, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v16 00/12] vsock: add namespace support to
+ vhost-vsock and loopback
+Message-ID: <aXH7YCgl0qI2dF1T@sgarzare-redhat>
+References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="nyep2vueegdcpefg"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20260106-drm_client_splash-v2-1-6e86a7434b59@valla.it>
+In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
 
+On Wed, Jan 21, 2026 at 02:11:40PM -0800, Bobby Eshleman wrote:
+>This series adds namespace support to vhost-vsock and loopback. It does
+>not add namespaces to any of the other guest transports (virtio-vsock,
+>hyperv, or vmci).
+>
+>The current revision supports two modes: local and global. Local
+>mode is complete isolation of namespaces, while global mode is complete
+>sharing between namespaces of CIDs (the original behavior).
+>
+>The mode is set using the parent namespace's
+>/proc/sys/net/vsock/child_ns_mode and inherited when a new namespace is
+>created. The mode of the current namespace can be queried by reading
+>/proc/sys/net/vsock/ns_mode. The mode can not change after the namespace
+>has been created.
+>
+>Modes are per-netns. This allows a system to configure namespaces
+>independently (some may share CIDs, others are completely isolated).
+>This also supports future possible mixed use cases, where there may be
+>namespaces in global mode spinning up VMs while there are mixed mode
+>namespaces that provide services to the VMs, but are not allowed to
+>allocate from the global CID pool (this mode is not implemented in this
+>series).
+>
+>Additionally, added tests for the new namespace features:
+>
+>tools/testing/selftests/vsock/vmtest.sh
+>1..25
+>ok 1 vm_server_host_client
+>ok 2 vm_client_host_server
+>ok 3 vm_loopback
+>ok 4 ns_host_vsock_ns_mode_ok
+>ok 5 ns_host_vsock_child_ns_mode_ok
+>ok 6 ns_global_same_cid_fails
+>ok 7 ns_local_same_cid_ok
+>ok 8 ns_global_local_same_cid_ok
+>ok 9 ns_local_global_same_cid_ok
+>ok 10 ns_diff_global_host_connect_to_global_vm_ok
+>ok 11 ns_diff_global_host_connect_to_local_vm_fails
+>ok 12 ns_diff_global_vm_connect_to_global_host_ok
+>ok 13 ns_diff_global_vm_connect_to_local_host_fails
+>ok 14 ns_diff_local_host_connect_to_local_vm_fails
+>ok 15 ns_diff_local_vm_connect_to_local_host_fails
+>ok 16 ns_diff_global_to_local_loopback_local_fails
+>ok 17 ns_diff_local_to_global_loopback_fails
+>ok 18 ns_diff_local_to_local_loopback_fails
+>ok 19 ns_diff_global_to_global_loopback_ok
+>ok 20 ns_same_local_loopback_ok
+>ok 21 ns_same_local_host_connect_to_local_vm_ok
+>ok 22 ns_same_local_vm_connect_to_local_host_ok
+>ok 23 ns_delete_vm_ok
+>ok 24 ns_delete_host_ok
+>ok 25 ns_delete_both_ok
+>SUMMARY: PASS=25 SKIP=0 FAIL=0
+>
+>Thanks again for everyone's help and reviews!
 
---nyep2vueegdcpefg
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC v2 1/3] drm: client: add splash client
-MIME-Version: 1.0
+Thank you for your hard work and patience!
 
-Hi,
+I think we've come up with an excellent solution that's also not too 
+invasive.
 
-On Tue, Jan 06, 2026 at 03:25:40PM +0100, Francesco Valla wrote:
-> Add a DRM client that draws a simple splash, with possibility to show:
->=20
->   - a colored background;
->   - a static BMP image (loaded as firmware);
->   - the logo provided by EFI BGRT.
->=20
-> The client is not meant to replace a full-featured bootsplash, but
-> rather to remove some complexity (and hopefully boot time) on small
-> embedded platforms or on systems with a limited scope (e.g: recovery
-> or manufacturing images).
->=20
-> The background color can be set either at build time from a dedicated
-> config option or at runtime through the drm_client_lib.splash_color
-> command line parameter. Any color in RGB888 format can be used.
->=20
-> If enabled, the static BMP image is loaded using the kernel firmware
-> infrastructure; a valid BMP image with 24bpp color and no compression
-> is expected. The name of the image can be set through the
-> drm_client_lib.splash_bmp kernel command line parameter, with the
-> default being 'drm_splash.bmp'.
->=20
-> Just like the existing DRM clients, the splash can be enabled from the
-> kernel command line using drm_client_lib.active=3Dsplash.
->=20
-> Signed-off-by: Francesco Valla <francesco@valla.it>
-> ---
->  drivers/gpu/drm/clients/Kconfig               |  79 ++-
->  drivers/gpu/drm/clients/Makefile              |   1 +
->  drivers/gpu/drm/clients/drm_client_internal.h |   9 +
->  drivers/gpu/drm/clients/drm_client_setup.c    |   8 +
->  drivers/gpu/drm/clients/drm_splash.c          | 883 ++++++++++++++++++++=
-++++++
->  5 files changed, 979 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kc=
-onfig
-> index 6096c623d9d5b1a3d4a40d986c45aad2f8277767..dd8cd6cacd1166932eb3890dd=
-816b9ae2d26330f 100644
-> --- a/drivers/gpu/drm/clients/Kconfig
-> +++ b/drivers/gpu/drm/clients/Kconfig
-> @@ -12,6 +12,7 @@ config DRM_CLIENT_LIB
->  config DRM_CLIENT_SELECTION
->  	tristate
->  	depends on DRM
-> +	select DRM_CLIENT_LIB if DRM_CLIENT_SPLASH
->  	select DRM_CLIENT_LIB if DRM_CLIENT_LOG
->  	select DRM_CLIENT_LIB if DRM_FBDEV_EMULATION
->  	help
-> @@ -85,10 +86,79 @@ config DRM_CLIENT_LOG
->  	  If you only need logs, but no terminal, or if you prefer userspace
->  	  terminal, say "Y".
-> =20
-> +config DRM_CLIENT_SPLASH
-> +	bool "Display graphic splash"
-> +	depends on DRM_CLIENT_SELECTION
-> +	select DRM_CLIENT
-> +	select DRM_CLIENT_SETUP
-> +	select DRM_DRAW
-> +	help
-> +	  This enables a splash drm client, able to display either a plain
-> +	  color or a static image until the userspace is ready to take over.
-> +	  The splash will be displayed on all screens available at boot, if
-> +	  any, or on the ones part of the first hotplug event.
-> +
-> +config DRM_CLIENT_SPLASH_BACKGROUND_COLOR
-> +	hex "Splash background color"
-> +	depends on DRM_CLIENT_SPLASH
-> +	default 0x000000
-> +	help
-> +	  The default splash background color, in RGB888 format.
-> +
-> +	  The color can be overridden through the drm_client_lib.splash_color
-> +	  kernel command line parameter.
-> +
-> +config DRM_CLIENT_SPLASH_BMP_SUPPORT
-> +	bool
-> +
-> +choice
-> +	prompt "Splash source"
-> +	depends on DRM_CLIENT_SPLASH
-> +	default DRM_CLIENT_SPLASH_SRC_COLOR
-> +	help
-> +	  Selects the source for the splash graphic.
-> +
-> +config DRM_CLIENT_SPLASH_SRC_COLOR
-> +	bool "Solid color"
-> +	help
-> +	  Use a solid color as splash. The color is selected through the
-> +	  DRM_CLIENT_SPLASH_BACKGROUND_COLOR config option.
-> +
-> +	  The image will be loaded using the firmware loading facility the
-> +	  kernel provides.
-> +
-> +config DRM_CLIENT_SPLASH_SRC_BMP
-> +	bool "BMP image"
-> +	select DRM_CLIENT_SPLASH_BMP_SUPPORT
-> +	select FW_LOADER
-> +	help
-> +	  Use a BMP (bitmap) image as splash. If the image is smaller than the
-> +	  display(s), it will be centered and the color specified through the
-> +	  DRM_CLIENT_SPLASH_BACKGROUND_COLOR config option will be used as
-> +	  background.
-> +
-> +	  The image will be loaded using the firmware loading facility the
-> +	  kernel provides; it shall use 24 bits per pixel and shall not be
-> +	  compressed. The name of the file can be set through the
-> +	  drm_client_lib.splash_bmp command line parameter, with the default
-> +	  being 'drm_splash.bmp'.
-> +
-> +config DRM_CLIENT_SPLASH_SRC_BGRT
-> +	bool "EFI BGRT"
-> +	select DRM_CLIENT_SPLASH_BMP_SUPPORT
-> +	depends on EFI
-> +	help
-> +	  Use the BGRT image provided by the EFI bootloader. If the image is
-> +	  smaller than the display(s), it will be centered and the color
-> +	  specified through the DRM_CLIENT_SPLASH_BACKGROUND_COLOR config
-> +	  option will be used as background.
-> +
-> +endchoice
+All the patches have my R-b, I've double-checked and tested this v16.
+Everything seems to be working fine (famous last words xD).
 
-I'm not sure we should consider it a xor choice. If we do, that means
-that it's effectively unusable by distros, since you don't know ahead of
-time if the platform it's going to boot on will have a BGRT or not.
+So this series is good to go IMO!
 
-Trying BGRT, and then falling back to either an image or a solid
-background would be easier to work with.
+Next step should be to update the vsock(7) namespace.
 
-Maxime
+Thanks,
+Stefano
 
---nyep2vueegdcpefg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaXIn8wAKCRAnX84Zoj2+
-dm5TAX4qxeetIbWWZPq42N6AH0KKAMadyxwoFv2Cdm6BkpV0rxZb5cqi8e/79tsr
-B+XVCnMBgJtLQ4XFJfQG13Ux502kUTUFkyNj/6ADaAvxxxnlnBVttXPNNHAKSi5t
-6hfcHl9UYQ==
-=JdxG
------END PGP SIGNATURE-----
-
---nyep2vueegdcpefg--
