@@ -1,178 +1,194 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEB8238C0F
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 13:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BA43093B2
+	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 14:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769090150; cv=none; b=ZNSa4ujD15zcwHNwn+WpVaqpcsjmZlrNVa3Fn3DeiUKBbuWu2N/Fu3BcbmEnTh0FoBVQ/t4SsZvU7Lvj4f+lZ2GRkohp2yb/8H6KIfm3gDMIeMliA/b/Cp5oqHfs6KF2J1h8B6RCipU3wIu4iIal5/RMBK39ySerzL2p4Ugsuqg=
+	t=1769090597; cv=none; b=G1jqh957PaueISSQszjtfBXETUATebtXSQbXV9mVYjz8qyf9ZnNG3cPlX1n9dllVL0TOrD3TQrzKRcndM5kCuR7JrmKZiGaZ6cI7xt2r1gVO1lUCfLfXF3zZ2PKK4ZDNVmHPaPoQnXuMpPo5Blw0uiSNdQe81h9v8Vft85vmeb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769090150; c=relaxed/simple;
-	bh=2nXcGNysBiBdRcr6vy4ZStKKh5dYZxcbpIG7VnXq8as=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JslvlAlrt0un6S0B5LVGKdM5xNpm8y8WkqfxGecz49H1qEnfA7+TwdVojqUFbFp4PHwGx5ILyNRB2ijUQNFhYIKPreYZFmbHITeQ/bWXzheYEW2/nrX7t/aA0POrUM7qQdEYHOWiFc9EHOSKTtcQsXgB5OgqaC87+/T3GZc5SUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hrh8Nqtz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mn8wNyGS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1769090597; c=relaxed/simple;
+	bh=uq13gSOoSiUEKCFe1FV0UXrXoGGcidHoF0PusZF7+6A=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=CpNjk9CocZBJQPZaBw5kHKJ6YO11PCm0YJH4tr8eo9CpCntJg2bmoK2WIBYAc96uHgQYsf9+wT/VSc5yjxcrTeCxpXDnwUswAR+9XTP3TgPp/Uy70hUC25r6nMnJ0P4mfJyQ6fdz7RqXHMGZa/A1XAyAlR6o5SQBaqi1y8lNbCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mH868Ya+; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hrh8Nqtz";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mn8wNyGS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769090148;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mH868Ya+"
+Content-Type: text/plain; charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769090592;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=F3Df56peZRg7yuOoU4r9j2z63CMqum3dw8Q62JAWFUY=;
-	b=hrh8NqtzKAS3i0VvegahIku82rxpVkFQodVwYjhobiC+dNwXxoY6s3O0TO0eGU2R4lMWre
-	9aB6I3TgAnp10wvMd5fLAsY/kIjlywGwvM866tATfqdkxnS5VbOZnQmAM5sicwoN1TgEYb
-	sSgy/qngvycZLVRTSc41L1Z69ZrAHVk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-171-cKJUgqZVMYGNcM7YhXy--Q-1; Thu, 22 Jan 2026 08:55:44 -0500
-X-MC-Unique: cKJUgqZVMYGNcM7YhXy--Q-1
-X-Mimecast-MFC-AGG-ID: cKJUgqZVMYGNcM7YhXy--Q_1769090143
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4358f90fe8dso673722f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 05:55:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1769090143; x=1769694943; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F3Df56peZRg7yuOoU4r9j2z63CMqum3dw8Q62JAWFUY=;
-        b=mn8wNyGShfiU8zpLqqW1CJz3jW5+8fjwrYCHmBWgOVC4SJO3MbAFX2tfxro+yd5QDm
-         0JLhe+vvs1qJcHtRo5lchGrgx2BOnItYppZYoOf1ejrjs0iqcwJKkfjVOnvok/iEi/86
-         p00hhClju5EurMCdnC9TmH/KoYzMejAKc6UDpOHrcqhLVEgKNXCgjZvesK6pkPmZv0nP
-         9HQLX/OsK0ZRDVboJL7NcCOJBhUDrGOiOPRo763osNssreWFXsqpCbvstinNRJlH5wzo
-         RWu6dp12WnWtsVWBSIq9UrDeqfpnl38BDw726f1wR+ee8TSY3Fzc4yagJg0gWUo+5IuG
-         GlHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769090143; x=1769694943;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F3Df56peZRg7yuOoU4r9j2z63CMqum3dw8Q62JAWFUY=;
-        b=YjhBcSB8n/uHmwySr/nbvXeFmpnkCvJRml076h4y8qEUYSsRl4cmRFdI2j3y1z5R4t
-         w9VJU3KJ3KVANTSa64/7+NdUZ7u0CT/AiCneJwELDVB0yGstHshVyRVDlag7/ev8s6gd
-         4z5dYmNw+easr/SJok7mBp+JLEBTKd/V+sYyiKZLpuCcr1hyqwhPJGFIOKzIu5//SEGl
-         yjZEZFP5aL01JWw5ypMSo8lsDa74LEJ+1UBVCYGpqSo1AwmaXv39KPPAR3HUT1UQB1nb
-         nI22z9dvAEYqpHcxQ4/g8/P5IrUJfOlD5vEHxhBD0IJQX6Hyo72EEUvHaFW6OGv4QEs6
-         TXWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXlDLMSqDGeqV0cgHkREdUEd9D07zYho4KyLKvL5fdubaWJUhV2GQch0xggGeNgsp64FHYzn51d3uY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8NhCchp8FW40D/WVTpLHGcST2oFnqNVXbUbTGd2YdBK1gcqlK
-	f0EEJI9BKB/4UQMbv86waZ/JCXYHkT5BaEOT/vfLNwvpXPeYm5eOdahFffkt7Z3vRwj4Kjy6IMj
-	qfqMbpz2gW3iIFO3zE66nQ6SaBDVxbnoWM2oQyHPSKXm4PQtl5N6LaEXAgss57A==
-X-Gm-Gg: AZuq6aJGQOJWahrH5kRx3mwrlsDCuMvyreh0Pd5XQrUN0hkiFZrME0+ABoHc9odlEDl
-	W5x2wsfSRyZmFHt27D9g9XoQLBdEWia0XC7x1nxxHn+X6tzrwfbxrroXIwtk7Qn4bJcMJPUKZKZ
-	bNvj9v4OJMOTZnMRzL4Sv1X8TTOPksnfZ96bvCobiHHR8iIamCC/Vd0Cz/Lh9cySkgR4CFU3i3H
-	p6/y8h1fmYbjofjwZMycmBdk/s2PtqTRTgwSph0KfCc8or8CRtaO4GfLjN4+Dc14hrviasuMVSZ
-	Pidq1s/tWUm6OxeDs6zUdfMPN3Ay9gJZ/OGNM1l1RPAPNY2rrgmnTUJNKoY5r5JnH2HkMapzQyy
-	lT2TlAvbpPkBPR3CB5iJb+xw11AvhEesIl8/8W33ek9dBF4AILSkGLTfvRLY=
-X-Received: by 2002:adf:f812:0:b0:435:9e32:2b85 with SMTP id ffacd0b85a97d-435a5ff993cmr4488734f8f.29.1769090143511;
-        Thu, 22 Jan 2026 05:55:43 -0800 (PST)
-X-Received: by 2002:adf:f812:0:b0:435:9e32:2b85 with SMTP id ffacd0b85a97d-435a5ff993cmr4488677f8f.29.1769090143056;
-        Thu, 22 Jan 2026 05:55:43 -0800 (PST)
-Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4359333b924sm18095487f8f.13.2026.01.22.05.55.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 05:55:42 -0800 (PST)
-Date: Thu, 22 Jan 2026 14:55:36 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
-	netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>, 
-	linux-doc@vger.kernel.org, Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v16 00/12] vsock: add namespace support to
- vhost-vsock and loopback
-Message-ID: <aXH7YCgl0qI2dF1T@sgarzare-redhat>
-References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
+	bh=Ag4pvlq0Xt7bkCn3IMv0eQk3VBjXmIBsOS9DJbsrrSM=;
+	b=mH868Ya+RRo/6e2/zo1l+T5Mc7oqXypqdF2i+4A0qDTVtEoGBoMiEizqwIhwipHS9mLGBL
+	SMcC08B0UYqDuGuKkgasiPm+PUmgui+ZfuWdruFQK4mVUfpC9jgKE8NsbWgHZ2gcirlmeb
+	cfA8IscdZhJOBr2jsRvWWyx5SCStBrM=
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCHv4 07/14] mm/sparse: Check memmap alignment for compound_info_has_mask()
+Date: Thu, 22 Jan 2026 22:02:24 +0800
+Message-Id: <554FD2AA-16B5-498B-9F79-296798194DF7@linux.dev>
+References: <aXIaHZ5kNFelmuJi@thinkstation>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+In-Reply-To: <aXIaHZ5kNFelmuJi@thinkstation>
+To: Kiryl Shutsemau <kas@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jan 21, 2026 at 02:11:40PM -0800, Bobby Eshleman wrote:
->This series adds namespace support to vhost-vsock and loopback. It does
->not add namespaces to any of the other guest transports (virtio-vsock,
->hyperv, or vmci).
->
->The current revision supports two modes: local and global. Local
->mode is complete isolation of namespaces, while global mode is complete
->sharing between namespaces of CIDs (the original behavior).
->
->The mode is set using the parent namespace's
->/proc/sys/net/vsock/child_ns_mode and inherited when a new namespace is
->created. The mode of the current namespace can be queried by reading
->/proc/sys/net/vsock/ns_mode. The mode can not change after the namespace
->has been created.
->
->Modes are per-netns. This allows a system to configure namespaces
->independently (some may share CIDs, others are completely isolated).
->This also supports future possible mixed use cases, where there may be
->namespaces in global mode spinning up VMs while there are mixed mode
->namespaces that provide services to the VMs, but are not allowed to
->allocate from the global CID pool (this mode is not implemented in this
->series).
->
->Additionally, added tests for the new namespace features:
->
->tools/testing/selftests/vsock/vmtest.sh
->1..25
->ok 1 vm_server_host_client
->ok 2 vm_client_host_server
->ok 3 vm_loopback
->ok 4 ns_host_vsock_ns_mode_ok
->ok 5 ns_host_vsock_child_ns_mode_ok
->ok 6 ns_global_same_cid_fails
->ok 7 ns_local_same_cid_ok
->ok 8 ns_global_local_same_cid_ok
->ok 9 ns_local_global_same_cid_ok
->ok 10 ns_diff_global_host_connect_to_global_vm_ok
->ok 11 ns_diff_global_host_connect_to_local_vm_fails
->ok 12 ns_diff_global_vm_connect_to_global_host_ok
->ok 13 ns_diff_global_vm_connect_to_local_host_fails
->ok 14 ns_diff_local_host_connect_to_local_vm_fails
->ok 15 ns_diff_local_vm_connect_to_local_host_fails
->ok 16 ns_diff_global_to_local_loopback_local_fails
->ok 17 ns_diff_local_to_global_loopback_fails
->ok 18 ns_diff_local_to_local_loopback_fails
->ok 19 ns_diff_global_to_global_loopback_ok
->ok 20 ns_same_local_loopback_ok
->ok 21 ns_same_local_host_connect_to_local_vm_ok
->ok 22 ns_same_local_vm_connect_to_local_host_ok
->ok 23 ns_delete_vm_ok
->ok 24 ns_delete_host_ok
->ok 25 ns_delete_both_ok
->SUMMARY: PASS=25 SKIP=0 FAIL=0
->
->Thanks again for everyone's help and reviews!
 
-Thank you for your hard work and patience!
 
-I think we've come up with an excellent solution that's also not too 
-invasive.
+> On Jan 22, 2026, at 20:43, Kiryl Shutsemau <kas@kernel.org> wrote:
+>=20
+> =EF=BB=BFOn Thu, Jan 22, 2026 at 07:42:47PM +0800, Muchun Song wrote:
+>>=20
+>>=20
+>>>> On Jan 22, 2026, at 19:33, Muchun Song <muchun.song@linux.dev> wrote:
+>>>=20
+>>>=20
+>>>=20
+>>>> On Jan 22, 2026, at 19:28, Kiryl Shutsemau <kas@kernel.org> wrote:
+>>>>=20
+>>>> On Thu, Jan 22, 2026 at 11:10:26AM +0800, Muchun Song wrote:
+>>>>>=20
+>>>>>=20
+>>>>>> On Jan 22, 2026, at 00:22, Kiryl Shutsemau <kas@kernel.org> wrote:
+>>>>>>=20
+>>>>>> If page->compound_info encodes a mask, it is expected that memmap to b=
+e
+>>>>>> naturally aligned to the maximum folio size.
+>>>>>>=20
+>>>>>> Add a warning if it is not.
+>>>>>>=20
+>>>>>> A warning is sufficient as MAX_FOLIO_ORDER is very rarely used, so th=
+e
+>>>>>> kernel is still likely to be functional if this strict check fails.
+>>>>>>=20
+>>>>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>>>>>> ---
+>>>>>> include/linux/mmzone.h | 1 +
+>>>>>> mm/sparse.c            | 5 +++++
+>>>>>> 2 files changed, 6 insertions(+)
+>>>>>>=20
+>>>>>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+>>>>>> index 390ce11b3765..7e4f69b9d760 100644
+>>>>>> --- a/include/linux/mmzone.h
+>>>>>> +++ b/include/linux/mmzone.h
+>>>>>> @@ -91,6 +91,7 @@
+>>>>>> #endif
+>>>>>>=20
+>>>>>> #define MAX_FOLIO_NR_PAGES (1UL << MAX_FOLIO_ORDER)
+>>>>>> +#define MAX_FOLIO_SIZE (PAGE_SIZE << MAX_FOLIO_ORDER)
+>>>>>>=20
+>>>>>> enum migratetype {
+>>>>>> MIGRATE_UNMOVABLE,
+>>>>>> diff --git a/mm/sparse.c b/mm/sparse.c
+>>>>>> index 17c50a6415c2..5f41a3edcc24 100644
+>>>>>> --- a/mm/sparse.c
+>>>>>> +++ b/mm/sparse.c
+>>>>>> @@ -600,6 +600,11 @@ void __init sparse_init(void)
+>>>>>> BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+>>>>>> memblocks_present();
+>>>>>>=20
+>>>>>> +  if (compound_info_has_mask()) {
+>>>>>> +  WARN_ON(!IS_ALIGNED((unsigned long)pfn_to_page(0),
+>>>>>> +     MAX_FOLIO_SIZE / sizeof(struct page)));
+>>>>>=20
+>>>>> I still have concerns about this. If certain architectures or configur=
+ations,
+>>>>> especially when KASLR is enabled, do not meet the requirements during t=
+he
+>>>>> boot stage, only specific folios larger than a certain size might end u=
+p with
+>>>>> incorrect struct page entries as the system runs. How can we detect is=
+sues
+>>>>> arising from either updating the struct page or making incorrect logic=
+al
+>>>>> judgments based on information retrieved from the struct page?
+>>>>>=20
+>>>>> After all, when we see this warning, we don't know when or if a proble=
+m will
+>>>>> occur in the future. It's like a time bomb in the system, isn't it? Th=
+erefore,
+>>>>> I would like to add a warning check to the memory allocation place, fo=
+r
+>>>>> example:
+>>>>>=20
+>>>>> WARN_ON(!IS_ALIGNED((unsigned long)&folio->page, folio_size / sizeof(s=
+truct page)));
+>>>>=20
+>>>> I don't think it is needed. Any compound page usage would trigger the
+>>>> problem. It should happen pretty early.
+>>>=20
+>>> Why would you think it would be discovered early? If the alignment of st=
+ruct page
+>>> can only meet the needs of 4M pages (i.e., the largest pages that buddy c=
+an
+>>> allocate), how can you be sure that there will be a similar path using C=
+MA
+>>> early on if the system allocates through CMA in the future (after all, C=
+MA
+>>> is used much less than buddy)?
+>=20
+> True.
+>=20
+>> Suppose we are more aggressive. If the alignment requirement of struct pa=
+ge
+>> cannot meet the needs of 2GB pages (which is an uncommon memory allocatio=
+n
+>> requirement), then users might not care about such a warning message afte=
+r
+>> the system boots. And if there is no allocation of pages greater than or
+>> equal to 2GB for a period of time in the future, the system will have no
+>> problems. But once some path allocates pages greater than or equal to 2GB=
+,
+>> the system will go into chaos. And by that time, the system log may no
+>> longer have this warning message. Is that not the case?
+>=20
+> It is.
+>=20
+> I expect the warning to be reported early if we have configurations that
+> do not satisfy the alignment requirement even in absence of the crash.
 
-All the patches have my R-b, I've double-checked and tested this v16.
-Everything seems to be working fine (famous last words xD).
+If you=E2=80=99re saying the issue was only caught during
+testing, keep in mind that with KASLR enabled the
+warning is triggered at run-time; you can=E2=80=99t assume it
+will never appear in production.
 
-So this series is good to go IMO!
+So I don't think the administrator will notice a
+warning in practice.=20
 
-Next step should be to update the vsock(7) namespace.
+>=20
+> Adding a check to the allocation path if way too high price for a
+> theoretical problem.
 
-Thanks,
-Stefano
+Not theoretical. It=E2=80=99s a problem indeed. We should
+ make the system works properly in production. And
+ I don=E2=80=99t think it=E2=80=99s too high price, as I said only adding
+ the check to CMA not buddy allocator, CMA
+ allocation is not supposed to be in a hot path=20
+(Please carefully read the reply plan I gave at the
+ very beginning.
+).=20
 
+>=20
+> --
+>  Kiryl Shutsemau / Kirill A. Shutemov
