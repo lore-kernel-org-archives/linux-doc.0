@@ -1,150 +1,133 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DF42C08B0
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 03:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769052340; cv=pass; b=QrE3zaXuUDeMKV104DZgiEsDNsIlvzwPKdnTTf/evxyV7WaB1iZK6F1UVRF6L3KCDJ+FDdE9I96+znE3mj9+Y1iZ0Xeywv6p0mZzu9ES6fXqkQIcj6OtcespHPTPrOwyFxG8hxnOzKMVgM5OL+pdGqD1zgD8UIKhcn9aV/NpGpk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769052340; c=relaxed/simple;
-	bh=RxcFmI2IAGkmYdnYkNa89B1ljCXr8uo8gHzSY3WvK9U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kK9655BHLXZzx9fbTKAzqNPmdmyTDsnTG3F5zyjbozuHUIcMQKn1QdoOtJzeOjyKEA7a5CdEEnhfB4BSMD3TXPLlvwa1EnFtOP6e6L23o2LtqHUTU9YE+BLcsksb0FHgFnEQeI8Qietq+zhHpdlOInIhFWpIGRPevnhv78/TuDw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kB0wlMIw; arc=pass smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3497C3D7D8D;
+	Thu, 22 Jan 2026 03:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769053199; cv=none; b=fT8+VcAKQ8pCLlgnBUUai36VuYxS94kzORUKnoC2qO0ra7VH9eZgiJ093/tQExxJ19EVHqVzZjityocylf4j88t0SiBk6fx0IAzbvgY4vvNELN0/L+nUsRD1B2/SGwdHJvBbcODaOPxzTxzQmr2g7IImH9pkSw7DNmrRyD7OfvM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769053199; c=relaxed/simple;
+	bh=N6sHJn1Tq8GbCXp9tT8/vfk/I88g3mmk+8HL0NEv2OE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ppsLdvMfnnDdGWSpisWd+LHObaG4DZLzVF8WZrn9Xr+ZC1qLGDQpX1Db4mujOvA0RRG9/LHOYUmy4+QtztBqRt7gilsM1tD5jOiqxUlWxmn42KSPqc9KZtchcuKcmSOjv2Vw+IBHrlNNkP7MybFX48QNrHGYvZCU/IqUfxm7KCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jjf7BFoS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kB0wlMIw"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7cfcbe7d176so185564a34.3
-        for <linux-doc@vger.kernel.org>; Wed, 21 Jan 2026 19:25:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769052337; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VuASWmoC1jrzIicKB7mW9EZk3wnYjTN+/K9Qk44hkqoo2qgUIymWXbwk0gXz4wlOFY
-         fmwTOYnw7Sl5yBVvTqdADBncg+3NUw6JeTJTvpOX0TSGOx91fJjrw8gg9GXMv6btgdoo
-         LIYCagrbERmHlRsYRRM1cOVlpq9pHRhALNDO/RUYwuCeoR4iRNf5LCo3+ct51K550Pxu
-         jaVhm+zVAUYNk9oYbZicX7+k4MSwZmXSzF6xMbYvgXsDousXzYmzkX/GJX8TxN9pAfEw
-         vBF8Z0kj9ffrP3mxNCstZ2fUWhh08dSv+wf54ERYus1Y/AVrFba/3XOtYCM+GJAu3tuO
-         hZMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RxcFmI2IAGkmYdnYkNa89B1ljCXr8uo8gHzSY3WvK9U=;
-        fh=zj1+s8JnkizEj7GNwxex6t/2/37Ik7H71F52KwpAFw8=;
-        b=PU1Tq8bQIZKNnDzmTV254/dwwPRLRkuO05+7vm2+F+h25JdSAk7xlyDD2i2KT3gAAz
-         fwxxuJbRlDvQg0zzECJ6TCtHdlyvyGduxqk1FnDBizsOooD7K1vLKN/Yeys844Ansj5x
-         3Vrpw6+RdCzkV56TuowDqUOjsOiq3XRt+YYTCrvZkBBxsn/WJJLqnyNdzHrs81pV7mjT
-         FriaVDHn8kJ/XZchvvSgAM8tXvrXinBrSWECY30ryWtNVkXUGGgHFZKiOlckjuKlQfb6
-         ot3t45buifZ55MWxdmQ3dprw0tIe4ulXoxtoLv+jf6PKD5MXmsrW443KdkK1QOGeregl
-         5SZQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769052337; x=1769657137; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RxcFmI2IAGkmYdnYkNa89B1ljCXr8uo8gHzSY3WvK9U=;
-        b=kB0wlMIwZft5yoNg9jtjL1qV9T3g5+odcXh8BHV6L57EOunzWzT0R7s6jr6GTMJali
-         0JTXluj+Iae80GCFb+QThteShLYywGJpUOH2zlOLMhZtEWD3cP2KjKzU6Jl4+C87aMFK
-         C+Ce3Nlua1Xpi83kjLQUwa32pwDB61/RdyKAswceMlhLqf6j9t2exJiHZITLUApzcgmM
-         nLW6Li6KFEnONjAIMNF4MGGiwOyuiJpZFj8hrhfOfmz4iPtWmjzMDrmSeU3neiUIFi5V
-         mlW220zxyihQifueyN8p752m/egF3QLsDG58+PuAIbvNBjAKZAqK0CQSI5OMNJjH4yt9
-         Fcqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769052337; x=1769657137;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RxcFmI2IAGkmYdnYkNa89B1ljCXr8uo8gHzSY3WvK9U=;
-        b=inCf7PPaFYYH4K14YDDA6+pJCnbVFutfNj9gUrO3Vb56xetx5PJfMq3FZfeGCQ6S5u
-         3TtIyJR3YBbLw2sKhCRlauZVT/6OwGE0gJQdo7FooGtLavvlf2vthTXSs3OMtx2fT1Ck
-         JPCOhCamFlFyDkRWSb5k//VeS7fnBCei5HCI/xsZehOlxi+BD6KOTS5Cze7Cbb6avnu8
-         eGTuQ0ZAnWnS1+VklNMf0yyWJRmu67tj0CnohfQLIwaAbaG48Fi2JLgLgC5HE/GhUbWb
-         rh5j7RvXucEDQFNij7F9veuK2DwzFWkBZbUPCtirlhW2MgTw4/O4jP/kwGTJ2cBfA2qD
-         VPfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX67JVTJoCF3HpCDnrStUiKc/vA8tGikKqygKhRRcBHpC0JkrDZymnHY+EFunKEfoCi5DBtGY6FsPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywejzfsfnX4PTtWMsvA/7FjkO5I62OWJ6wd1EYXvEo5CQXE4BQ
-	JY6sDLvglOOFHy8NvsBKGS8PtYw5Vhvj0K/tSEJMUvVRELq5h0yO8R2eiW1Mov8Nn+taPVx7LVk
-	vK3ZWPvTa4U/+0h6XgfvxQFCOv2+n84c=
-X-Gm-Gg: AZuq6aK3gaYxQ9NAxPZk7tAHyIyh0RCbCj/HY+NCXDucaXhC8SxilP0ZOGcOEDG+St5
-	amOf1bCMVzIHM+5MOMivefbKkiunefUQue/TnY7roK7HcpY8cOUI2NZzhjSFjL2SwT6DyD0ZGbS
-	xan1Y7mb4BGlu4bRReQkvoUEQRNnNO0Q7JVdIMtvxpwLrm4UGzD/+4Ig6Nzf4Hst8Y0plYfAwaz
-	HZUT7oCAFgbI9PJoNZe5pJ+7LcGh2ZZ6eGZ4YFM6LmCZMm5nZaGoUueYZLnDnMsLaM0n3SAVJR1
-	Q1mAwg==
-X-Received: by 2002:a05:6830:3982:b0:7cf:db69:5475 with SMTP id
- 46e09a7af769-7d140ab6895mr4490648a34.24.1769052337402; Wed, 21 Jan 2026
- 19:25:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jjf7BFoS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD49DC116C6;
+	Thu, 22 Jan 2026 03:39:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769053198;
+	bh=N6sHJn1Tq8GbCXp9tT8/vfk/I88g3mmk+8HL0NEv2OE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Jjf7BFoSKeRNt1Wt52b/yxNyTbyl9pX+6T+OE6Am5Wsh510EPfw63k3/9ZP/QtKwx
+	 1olGqG5kU5XSyt26weZ5QKBkJZepBKy/UcxswedwEAlZig8T+bLBHRbjrmJE7ymY0O
+	 +7U6T2SP70OV29VubqeZ17pz4ZBS30wdWaBjsAeMFRW1JKwUkHVhI4w7fVI8E1jIuW
+	 +6ynkg6i5eZEY7VsLQIKVNXAOlH71t2paatdl3VJKzF306Hc/yOAYLvl/eLoy38pQo
+	 uVVYV5GXzD6ld2ZHoJyDwhbSc7V20cbncq0KJoZ5/WPlX0iKbZg14MB+cB7Yut4gha
+	 NKeEKzbm41LgQ==
+From: Jakub Kicinski <kuba@kernel.org>
+To: tariqt@nvidia.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	cratiu@nvidia.com,
+	saeedm@nvidia.com,
+	cjubran@nvidia.com,
+	davem@davemloft.net,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	mbloch@nvidia.com,
+	moshe@nvidia.com,
+	jiri@nvidia.com,
+	edumazet@google.com,
+	gal@nvidia.com,
+	andrew+netdev@lunn.ch,
+	donald.hunter@gmail.com,
+	jiri@resnulli.us,
+	krzk@kernel.org,
+	pabeni@redhat.com,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org,
+	rdunlap@infradead.org,
+	leon@kernel.org,
+	corbet@lwn.net
+Subject: Re: [net-next,V5,06/15] devlink: Decouple rate storage from associated devlink object
+Date: Wed, 21 Jan 2026 19:39:57 -0800
+Message-ID: <20260122033957.2579085-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <1768895878-1637182-7-git-send-email-tariqt@nvidia.com>
+References: <1768895878-1637182-7-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
- <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-4-686d0af71978@meta.com>
- <20260120163650.5a962648@kernel.org> <aXBnqYQdomzH9bT/@devvm11784.nha0.facebook.com>
- <20260121173512.748e2155@kernel.org> <aXGNhEKOhkTHbJvw@devvm11784.nha0.facebook.com>
- <20260121185021.446b00e8@kernel.org>
-In-Reply-To: <20260121185021.446b00e8@kernel.org>
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Wed, 21 Jan 2026 19:25:27 -0800
-X-Gm-Features: AZwV_QjAIr5HWq1OvyaswWVCAIdwEzJFXqJ7idBVevJ43OdVoqWduskcsKDBYHI
-Message-ID: <CAKB00G2xNvfiV6J3RzKDs=GHMGZ7L16+VKUYLGjpZdOrLnSYKA@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 4/5] net: devmem: document
- NETDEV_A_DMABUF_AUTORELEASE netlink attribute
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, 
-	Mina Almasry <almasrymina@google.com>, Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, 
-	Donald Hunter <donald.hunter@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com, 
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 21, 2026 at 6:50=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Wed, 21 Jan 2026 18:37:56 -0800 Bobby Eshleman wrote:
-> > > > Show an example of the three steps: returning the tokens, unbinding=
-, and closing the
-> > > > sockets (TCP/NL)?
-> > >
-> > > TBH I read the doc before reading the code, which I guess may actuall=
-y
-> > > be better since we don't expect users to read the code first either..
-> > >
-> > > Now after reading the code I'm not sure the doc explains things
-> > > properly. AFAIU there's no association of token <> socket within the
-> > > same binding. User can close socket A and return the tokens via socke=
-t
-> > > B. As written the doc made me think that there will be a leak if sock=
-et
-> > > is closed without releasing tokens, or that there may be a race with
-> > > data queued but not read. Neither is true, really?
-> >
-> > That is correct, neither is true. If the two sockets share a binding th=
-e
-> > kernel doesn't care which socket received the token or which one
-> > returned it. No token <> socket association. There is no
-> > queued-but-not-read race either. If any tokens are not returned, as lon=
-g
-> > as all of the binding references are eventually released and all socket=
-s
-> > that used the binding are closed, then all references will be accounted
-> > for and everything cleaned up.
->
-> Naming is hard, but I wonder whether the whole feature wouldn't be
-> better referred to as something to do with global token accounting
-> / management? AUTORELEASE makes sense but seems like focusing on one
-> particular side effect.
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
 
-Good point. The only real use case for autorelease=3Don is for backwards
-compatibility... so I thought maybe DEVMEM_A_DMABUF_COMPAT_TOKEN
-or DEVMEM_A_DMABUF_COMPAT_DONTNEED would be clearer?
+For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
+---
+devlink: Decouple rate storage from associated devlink object
+
+This patch introduces the concept of a "rate node devlink" to allow rates
+from multiple devlink instances to be stored together. It updates all
+rate node manipulation code to filter by devlink during iteration and
+adds lock/unlock helpers (currently no-ops) for future locking support.
+
+> diff --git a/net/devlink/rate.c b/net/devlink/rate.c
+> index 0d68b5c477dc..ddbd0beec4b9 100644
+> --- a/net/devlink/rate.c
+> +++ b/net/devlink/rate.c
+
+[ ... ]
+
+> @@ -209,10 +235,12 @@ devlink_nl_rate_get_dump_one(struct sk_buff *msg, struct devlink *devlink,
+>  {
+>  	struct devlink_nl_dump_state *state = devlink_dump_state(cb);
+>  	struct devlink_rate *devlink_rate;
+> +	struct devlink *rate_devlink;
+>  	int idx = 0;
+>  	int err = 0;
+>
+> -	list_for_each_entry(devlink_rate, &devlink->rate_list, list) {
+> +	rate_devlink = devl_rate_lock(devlink);
+> +	list_for_each_entry(devlink_rate, &rate_devlink->rate_list, list) {
+>  		enum devlink_command cmd = DEVLINK_CMD_RATE_NEW;
+>  		u32 id = NETLINK_CB(cb->skb).portid;
+>
+> @@ -220,6 +248,9 @@ devlink_nl_rate_get_dump_one(struct sk_buff *msg, struct devlink *devlink,
+>  			idx++;
+>  			continue;
+>  		}
+> +		if (devlink_rate->devlink != devlink)
+> +			continue;
+
+When this filter skips a non-matching entry, idx is not incremented.
+However, state->idx is used to track position across netlink dump
+resumptions and expects idx to reflect the actual position in the list.
+
+Once cross-device rate nodes are enabled (later in this series), the list
+can contain entries from multiple devlinks. If the dump requires multiple
+netlink messages and non-matching entries exist between matching ones,
+the idx tracking becomes inconsistent with the list position. This can
+cause entries to be reported multiple times on dump resumption.
+
+Should this continue statement also increment idx to maintain correct
+position tracking?
+
+> +
+>  		err = devlink_nl_rate_fill(msg, devlink_rate, cmd, id,
+>  					   cb->nlh->nlmsg_seq, flags, NULL);
+>  		if (err) {
+> @@ -228,6 +259,7 @@ devlink_nl_rate_get_dump_one(struct sk_buff *msg, struct devlink *devlink,
+>  		}
+>  		idx++;
+>  	}
+> +	devl_rate_unlock(devlink);
+
+[ ... ]
+-- 
+pw-bot: cr
