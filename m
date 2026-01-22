@@ -1,176 +1,82 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAA935B651
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 16:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9713D5F59;
+	Thu, 22 Jan 2026 16:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769097694; cv=none; b=P0hD6Qb7/Hh+0Qj+hG9mtxmVL3i0EUJur4q4BZ9FXgeNLTmXa98DUrvckCG/N/BSJiFlUt1Km15M33WL58yxtR2Jg067YqywZb2+9xjgySDUeqmhRSQPKtCmXlWKkpKhMkGdrmuxF7JbwOhCiGfDtx0enq1IS/v/y0PlR24DdrI=
+	t=1769098222; cv=none; b=R1yCUn9m9n1vg+E6+sA/ONfCSTvKnqSSV2ypvBOUn6n2ZVuqEXWwCntfBNScgBLrVXwsT/zMLesJEXjJYO5Hml0sdUGrbW7+M0Ay+AdkDqDYfrSrF7DJd73AvZDxuruU6U2eE+tH1ZWTQSFkWJUnReGdRWL7eX7EwMQVK4iCb1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769097694; c=relaxed/simple;
-	bh=9JzOfqiTFO39kgxFQWVLYY5umNJRQRPCw/NtCy7HzoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HV/DQNf9yBgDVnRh3Iek12xicCSrYAcW2YiNKrBHMnN6CRAUPI3IYCHSkX9kjVf8Z+ZECUbsdMCS8R2B1EKhUccqblE9MdsqIQnU2mie3CN4DiYtqZTza3U0kRuaxXvDoGgj/sh97ZzeFj5KtiMMgA/QNok0gtpUcq7NNnhGFXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l2Rj+KiD; arc=none smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769098222; c=relaxed/simple;
+	bh=2bAlA9gFL5wt5NUhdfiV1QPinl/S38Ba+SkiCQ8JNnI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=eyO+SFZrKQyOas/9rFd5y7NdCA+MTxlHilnTZ5ezW1dIZPUOQaYhGtTmT8xBYPCPKFPiF/MNNRJUHtOb8OrjX7BnZ3kQJXWU6lkV9EB9HzUJ7RVSCqpg8tuJF0IbJHM94aDQ0oZ2oOUHTpw9i1JNZjFkaS0/WSZ4WkKfB8S6KIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p2d6uBIQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l2Rj+KiD"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-646d9eb45afso1164053d50.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 08:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769097688; x=1769702488; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4nNXaOW8SsH8VsbBiV479RmC0+eq7tMcFo5rcunlQoQ=;
-        b=l2Rj+KiDdtD2q2NtiGMA5033btXx9v484iJj7k8xvoYFUvON0uWN//Nj0B5cEZyYul
-         k8z+xwAcG4QnP/VahCqMOrvr3kNZJu14BB2o8opiF+eHpFAxpgElXJ6ycHbEVZkbIRD7
-         rpdBZZfPcAObZ4iovLDSomfuB/s4pjTq2lFUqlmgqWdE6oJy5RUYj5cZe9uGJHN0M494
-         llfIRIqnvzfZwBz14cODqAs3+Sa9Ytcpw6atLylFbOKCh0RbvLu7V39tzPsAij/QIppG
-         Kn19Zf7i/MnoUjTB2+4IWB1BZUNurieL8640i6M9ASZR7pjIn3vnLTbALhflJdeG896f
-         VXFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769097688; x=1769702488;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4nNXaOW8SsH8VsbBiV479RmC0+eq7tMcFo5rcunlQoQ=;
-        b=H5pX56EWzzmqflkqB2UGCo+nhbjZPbefQdI3tkX+cFXPOh1SC0N0MUDU+agliPWPMY
-         nW8iYlpY+kCRFI1vLT3adXbkEVNvPPDJlx6vrZ/9olmlpTl0wxU6ilsZ9st8FPkioj0z
-         CDY8jzdUaQfWrXYHCAlCKZmlg78jqUDJHQCRJ5R14XJRzEwSifkkPFx6koH7FXkxll78
-         f5gs/+Hb+5iItqR4doqseAje9CJYYSfBqiFYJARGTZwnXXa/J+qoOKPOGXmnBA/OK4sC
-         /flpOATKBuJ+RF185E7+6AW7xK8GQ/hLByRm7N8iet7MToTrU3i4KBn9QWtJiadWxPm0
-         iDEg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+uctHwLcNbtDJhNpMgXJ7zTazrUJNKMnMCfIA7v4LjsB/QgQKyw+nRwPleJGf1mRP/sn7SpG4UQk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9GsVZKJ8bU31aFONh3yumiDLagqi/k2mC6H8zftNdiGqrzMfg
-	51i4np5qPuVGDYQxS95tyB5B41n8NgS5tv4dWsuKmOoaswVS1CipFyu/
-X-Gm-Gg: AZuq6aIuxRzHhSmxRkgMGCQJzhkwoPc05S8mj0tgpPIz7faRs9e/4U5NFR1PfOUaFcx
-	ujSrDyt6R8UnjFbOkZ/dPozqt2izzdHM1eBeptiQ1mbwTZqT0GNtQ5LkxwAwCg35/r5bUmwvLCK
-	L1dDaHVnJl3HxgPxH8Bx4pVvpKG1KlwsCSfHoJqRox/tKueqoJdrZuFaDrohvx8OmN54fhXshBR
-	JYronMy/iPCJ/CxGxrje8tS2VRIJ3DfMcZvJGXCQKUxCG5uOgpnIWGlwAU4gQ7W7uz98JwRllHk
-	+eQTCOizS+/5EO3ud7UN+EY8lFGWTZjSKYaxWH0DjZ3hJK3dxuOeLw4u/VnQBfdot1xq8+cOaPj
-	aXIE4IT6QMIp4MzarsElD4z+Jz8kSHZLMKxN2TIuhM6O6lBHtbLwTc5EYX7tFtP1TUmwGsUfLxO
-	nNgCtnIyAwh7ywaBTJ1hbG2IMCvcab3BsZRw==
-X-Received: by 2002:a05:690e:d8b:b0:649:4689:c4a9 with SMTP id 956f58d0204a3-6494689c534mr4815658d50.89.1769097685513;
-        Thu, 22 Jan 2026 08:01:25 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:7::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-649170acbdbsm9523979d50.13.2026.01.22.08.01.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 08:01:24 -0800 (PST)
-Date: Thu, 22 Jan 2026 08:01:23 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Bryan Tan <bryan-bt.tan@broadcom.com>,
-	Vishnu Dasa <vishnu.dasa@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, netdev@vger.kernel.org,
-	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, berrange@redhat.com,
-	Sargun Dhillon <sargun@sargun.me>, linux-doc@vger.kernel.org,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v16 00/12] vsock: add namespace support to
- vhost-vsock and loopback
-Message-ID: <aXJJ0yjZB5mT162B@devvm11784.nha0.facebook.com>
-References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
- <aXH7YCgl0qI2dF1T@sgarzare-redhat>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p2d6uBIQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719E3C116C6;
+	Thu, 22 Jan 2026 16:10:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769098220;
+	bh=2bAlA9gFL5wt5NUhdfiV1QPinl/S38Ba+SkiCQ8JNnI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=p2d6uBIQCmFjqUdwPq632cM7oJwfvnore8iw8oZwSMsKI2L1yRCJhnSTiO5TcXm9a
+	 eECyLJZAZUTtmKHcaV8oN4bEUhNuVPpd6kHtYVV9p3vfHRN8f0b47bjL92aeJKQAgr
+	 ia5Aesm+98qXSYm3ND1Dl0Dtlc+l7YInj0mUlSYpO+x7g5KbWcM6ptAUQAYq37gumt
+	 euOKk2cEuzWSFsK/H5IgOymqghIRPFp2VkQguJyQtf2BD+dYkhiyL9c6YcQPALTmtp
+	 mH6sXFoBrfGJ/vwxoqTHpiTx2pY6isdsvtsmcf4t/nIcCimtdfO8hfTYSXIBuz/BOG
+	 sq7ZDre+kl5Ag==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 11AE13808200;
+	Thu, 22 Jan 2026 16:10:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXH7YCgl0qI2dF1T@sgarzare-redhat>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] hinic3: Fix netif_queue_set_napi queue_index input
+ parameter error
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176909821684.1785789.11855438020354968851.git-patchwork-notify@kernel.org>
+Date: Thu, 22 Jan 2026 16:10:16 +0000
+References: 
+ <7b8e4eb5c53cbd873ee9aaefeb3d9dbbaff52deb.1769070766.git.zhuyikai1@h-partners.com>
+In-Reply-To: 
+ <7b8e4eb5c53cbd873ee9aaefeb3d9dbbaff52deb.1769070766.git.zhuyikai1@h-partners.com>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: zhuyikai1@h-partners.com, netdev@vger.kernel.org, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ andrew+netdev@lunn.ch, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, luosifu@huawei.com, guoxin09@huawei.com,
+ zhoushuai28@huawei.com, wulike1@huawei.com, shijing34@huawei.com,
+ luoyang82@h-partners.com
 
-On Thu, Jan 22, 2026 at 02:55:36PM +0100, Stefano Garzarella wrote:
-> On Wed, Jan 21, 2026 at 02:11:40PM -0800, Bobby Eshleman wrote:
-> > This series adds namespace support to vhost-vsock and loopback. It does
-> > not add namespaces to any of the other guest transports (virtio-vsock,
-> > hyperv, or vmci).
-> > 
-> > The current revision supports two modes: local and global. Local
-> > mode is complete isolation of namespaces, while global mode is complete
-> > sharing between namespaces of CIDs (the original behavior).
-> > 
-> > The mode is set using the parent namespace's
-> > /proc/sys/net/vsock/child_ns_mode and inherited when a new namespace is
-> > created. The mode of the current namespace can be queried by reading
-> > /proc/sys/net/vsock/ns_mode. The mode can not change after the namespace
-> > has been created.
-> > 
-> > Modes are per-netns. This allows a system to configure namespaces
-> > independently (some may share CIDs, others are completely isolated).
-> > This also supports future possible mixed use cases, where there may be
-> > namespaces in global mode spinning up VMs while there are mixed mode
-> > namespaces that provide services to the VMs, but are not allowed to
-> > allocate from the global CID pool (this mode is not implemented in this
-> > series).
-> > 
-> > Additionally, added tests for the new namespace features:
-> > 
-> > tools/testing/selftests/vsock/vmtest.sh
-> > 1..25
-> > ok 1 vm_server_host_client
-> > ok 2 vm_client_host_server
-> > ok 3 vm_loopback
-> > ok 4 ns_host_vsock_ns_mode_ok
-> > ok 5 ns_host_vsock_child_ns_mode_ok
-> > ok 6 ns_global_same_cid_fails
-> > ok 7 ns_local_same_cid_ok
-> > ok 8 ns_global_local_same_cid_ok
-> > ok 9 ns_local_global_same_cid_ok
-> > ok 10 ns_diff_global_host_connect_to_global_vm_ok
-> > ok 11 ns_diff_global_host_connect_to_local_vm_fails
-> > ok 12 ns_diff_global_vm_connect_to_global_host_ok
-> > ok 13 ns_diff_global_vm_connect_to_local_host_fails
-> > ok 14 ns_diff_local_host_connect_to_local_vm_fails
-> > ok 15 ns_diff_local_vm_connect_to_local_host_fails
-> > ok 16 ns_diff_global_to_local_loopback_local_fails
-> > ok 17 ns_diff_local_to_global_loopback_fails
-> > ok 18 ns_diff_local_to_local_loopback_fails
-> > ok 19 ns_diff_global_to_global_loopback_ok
-> > ok 20 ns_same_local_loopback_ok
-> > ok 21 ns_same_local_host_connect_to_local_vm_ok
-> > ok 22 ns_same_local_vm_connect_to_local_host_ok
-> > ok 23 ns_delete_vm_ok
-> > ok 24 ns_delete_host_ok
-> > ok 25 ns_delete_both_ok
-> > SUMMARY: PASS=25 SKIP=0 FAIL=0
-> > 
-> > Thanks again for everyone's help and reviews!
-> 
-> Thank you for your hard work and patience!
-> 
-> I think we've come up with an excellent solution that's also not too
-> invasive.
+Hello:
 
-Thanks, and I appreciate all of the work you and other maintainers put
-into this as well! I think we honed in on a great solution too.
-> 
-> All the patches have my R-b, I've double-checked and tested this v16.
-> Everything seems to be working fine (famous last words xD).
-> 
-> So this series is good to go IMO!
-> 
-> Next step should be to update the vsock(7) namespace.
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Sounds good, I'll follow up with that and CC you + other reviewers that
-participated here.
+On Thu, 22 Jan 2026 17:41:55 +0800 you wrote:
+> Incorrectly transmitted interrupt number instead of queue number
+> when using netif_queue_set_napi. Besides, move this to appropriate
+> code location to set napi.
+> 
+> Remove redundant netif_stop_subqueue beacuase it is not part of the
+> hinic3_send_one_skb process.
+> 
+> [...]
 
-Thanks again,
-Bobby
+Here is the summary with links:
+  - [net] hinic3: Fix netif_queue_set_napi queue_index input parameter error
+    https://git.kernel.org/netdev/net/c/fb2bb2a1ebf7
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
