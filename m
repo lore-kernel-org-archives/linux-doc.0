@@ -1,181 +1,220 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4172D595D
-	for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 12:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769086107; cv=none; b=TtOXvHxmc2Ig+DP9J4qNnAZuSehQqDwPKhTR0dhbTUylzrtalf1ZjW3wkvmS8GLJibDl+5rWu13aPFaxysVxxt8rvEmETMCCYHvpRde4TdURapEelXhJYtGBj1okxP3rGyOYV0FB9jAVuywSiDkS1G/h2M2QvNzwDuWs5UP48Z4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769086107; c=relaxed/simple;
-	bh=XakBjuBXojiy+bHqbnq0M9HVpyzFj/6SSmtXTz/8WSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jYaro/Z2RnON9vovDLJSLuD8UTqYUjUOUmfCEKAIyl0+kNQetQuEAx+CinOT/z5UeqqKAv/eSheA5djdoUaxtZQklAzQEzh8aL+LBCr7y45au59CgFzAsD+9SryqfQZjql+p9/RTmrghmjOQDPOA96aIhnlGupXv5cIUm739RHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hwig5yiG; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48FD26A1AC;
+	Thu, 22 Jan 2026 13:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769086865; cv=pass; b=us+pg6EN3Pf33Z67AGoG3LMIIDgVrxObFlJbTdNpkGft1+P7Ofs8UDc2QAiIEOYpW3IMu3/RYLNdUFgxxAyM/ZZ3i0nXO1v/ne4cbbTKce9cyJ+fgggONXWlpNcjaqQPsEkBz0b2dR2aMza0wQaipj//4O3RHYmIfVAmjhw3FTo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769086865; c=relaxed/simple;
+	bh=7+C9lDKN1sXNrWrBRM9Kbzke7AXUFV6I/EMeh7mhVYs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uoPCIc6z84cADQ/BP8a12LBx1ZfckJV4f6bOmSQPvnjAYDdkGbcKKoZF05B867Pl3vSNxp1b+0urch500u2n3egWn1UswO/Qu0pLFCVCvPvO5/kVqy1ezkm+1tLhOavh7s9k/ZzK3/OBC7gtu1wMCbfg/0xumz5f5tqjcvoTUJM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=XQ+af+yj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hwig5yiG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98FACC116C6;
-	Thu, 22 Jan 2026 12:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769086107;
-	bh=XakBjuBXojiy+bHqbnq0M9HVpyzFj/6SSmtXTz/8WSY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hwig5yiGmNbF3J8rJf4aQHvL1/VhfY9YyNF1noSCKpZ/pOhmhddne9G2/Lo8nVNN/
-	 oVxxYWZMVVK+E97wikNkZPIbA6pz0Hb6AHB6iTOxQF1NhgHNut4c1Woh/QC/iiwGC0
-	 B1RC2M+doPnowNPdiYsr7AAYMKIf5sUctl4/w3ZDStOi38KfD+PJ6KkcFFkL3R5+pZ
-	 BV5P7N7FlH08HUS/u2NhXQfBcl8f0zz6+5k3tPBKU0N9VcYGzcMZTlETk1ojAW7voO
-	 KKf9ifSFoKK+kjqgbrqp0YaEbQXuqyWvHvpe62uH/N2l1rk7muuS/wIaDnbZ99UWrC
-	 1HML6ZmeEHEpA==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id BCC57F40068;
-	Thu, 22 Jan 2026 07:48:25 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 22 Jan 2026 07:48:25 -0500
-X-ME-Sender: <xms:mRxyaf07nYM300m4gkNaHVnaCjPgEtFG54FV7TczcMF-cpLZNeAefg>
-    <xme:mRxyaZf3Uh_Lg9hXAHRx9Iel3o11mcfhTLTMfHzPtYr3TJt-HskShKWJrxy4Rf-sm
-    dlAeXtq4mLb4v4tNgUG3vVSPxq9Yg-OQPTuXC_e8djrn3VwW-qyKDPJ>
-X-ME-Received: <xmr:mRxyaZQbqj6i1HzbnPIkL5N9JFggpUV3BLFbIrKjAvQjxiHukFUCWlXJl78LRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugeeivddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopeiiihihsehnvhhiughirgdrtghomhdprhgtphhtthhopegrkhhpmheslhhinhhugi
-    dqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhnghes
-    lhhinhhugidruggvvhdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopeifihhllhihsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuhhs
-    rghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhvughlsehgoh
-    hoghhlvgdrtghomhdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpdhr
-    tghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:mRxyacn9D7tHxO73dCr2PVDNBWZ_3BLr64tZA5QcxHz95v6v_ixPpw>
-    <xmx:mRxyadqPxkwzYfYU1oW30JieKjzGKsLbX2h47WA5BA-eaDKycsVn_g>
-    <xmx:mRxyacZFJl10uQZTwAGdk4Q2Aq7cYMSsUKEKoj_eS7XmjLUkmWSoCw>
-    <xmx:mRxyaZxjpdon9XMRbJpji66w0Ew4gdcXgBVa8klsNKcQUJrk50xCtQ>
-    <xmx:mRxyaRjsHZ97UOc1TLQZdQCca8gXkbDB_uuRCitETwpj-f8D15DbUN0z>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Jan 2026 07:48:25 -0500 (EST)
-Date: Thu, 22 Jan 2026 12:48:24 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCHv4 10/14] mm: Drop fake head checks
-Message-ID: <aXIblgtZ-b9SCp7O@thinkstation>
-References: <20260121162253.2216580-1-kas@kernel.org>
- <20260121162253.2216580-11-kas@kernel.org>
- <28A56ACE-55E9-48A9-9EB6-696695ABB254@nvidia.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XQ+af+yj"
+ARC-Seal: i=1; a=rsa-sha256; t=1769086792; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VKqPDXZqQscCYPdjRAFzVjNUl2wWtTJSvTiRTzEYXbg2KRiiyrzw7Fgd5F4aj/GqLRkPG52NFbg+LSpLjs4GAECVbS01LsWvA9Fz1NjwIAPPjcU/3BNCDvAgEzXUnKfZB2evUSGJlSirmL7GTIXm02Roe2I5pcvUy99ppcqfscg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1769086792; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=uaYzvb2XfnnkbyKx6FP5LwKsEl3/GXRkx9jsqA5CXcg=; 
+	b=RJCKftJsR+YMsCXvoJUwTAO3XJ8vrGzxjCCYZQmDVjdkydhhqR4Bgvb/ZHdXIutEzxgIJnul+AxHTbyPdvbqJo6hzUNsBlNrvzLsDYiCWTGUDpqGZqeaDwo+5XzzCEUSynNz4SiSmXQzIFLwIW+bzQeySP1wgm4RvmR24fr4xfU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769086792;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=uaYzvb2XfnnkbyKx6FP5LwKsEl3/GXRkx9jsqA5CXcg=;
+	b=XQ+af+yjMhxPFVDC94pM4PlfhBu+gM6eH/bwFiy44r2PfvdSy4/Aodursm5Hdrqi
+	VZ1oIeM9xzg5jXHXTAll2xKeZgInWMdf2dKrQIFjeVJqLYGJlLr9PJTsgJ/NoOlwVW6
+	ezT5oPGKFoHngWSi9Nrm67krvXYabnOVwbijhWko=
+Received: by mx.zohomail.com with SMTPS id 1769086791692511.35700158955376;
+	Thu, 22 Jan 2026 04:59:51 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 10/22] drm/rockchip: vop2: Fix YUV444 output
+Date: Thu, 22 Jan 2026 13:59:41 +0100
+Message-ID: <6631107.DvuYhMxLoT@workhorse>
+In-Reply-To: <7ab32c86.7542.19be4d21f69.Coremail.andyshrk@163.com>
+References:
+ <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-10-ef790dae780c@collabora.com>
+ <7ab32c86.7542.19be4d21f69.Coremail.andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28A56ACE-55E9-48A9-9EB6-696695ABB254@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Jan 21, 2026 at 01:16:23PM -0500, Zi Yan wrote:
-> On 21 Jan 2026, at 11:22, Kiryl Shutsemau wrote:
-> 
-> > With fake head pages eliminated in the previous commit, remove the
-> > supporting infrastructure:
+On Thursday, 22 January 2026 09:28:54 Central European Standard Time Andy Y=
+an wrote:
+>=20
+> Hello Nicolas=EF=BC=8C
+>=20
+> At 2026-01-21 22:45:17, "Nicolas Frattaroli" <nicolas.frattaroli@collabor=
+a.com> wrote:
+> >YUV444 (aka YCbCr444) output isn't working quite right on RK3588. The
+> >resulting image on the display, while identifying itself as YUV444, has
+> >some components swapped, even after adding the necessary DRM formats to
+> >the conversion functions.
 > >
-> >   - page_fixed_fake_head(): no longer needed to detect fake heads;
-> >   - page_is_fake_head(): no longer needed;
-> >   - page_count_writable(): no longer needed for RCU protection;
-> >   - RCU read_lock in page_ref_add_unless(): no longer needed;
+> >Judging by downstream, this is because YUV444 also needs an rb swap
+> >performed in the AFBC case.
 > >
-> > This substantially simplifies compound_head() and page_ref_add_unless(),
-> > removing both branches and RCU overhead from these hot paths.
+> >Add the DRM formats to the appropriate switch statements, and add a
+> >function for checking whether an rb swap needs to be performed in the
+> >AFBC case.
 > >
-> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> > Reviewed-by: Muchun Song <muchun.song@linux.dev>
-> > ---
-> >  include/linux/page-flags.h | 93 ++------------------------------------
-> >  include/linux/page_ref.h   |  8 +---
-> >  2 files changed, 4 insertions(+), 97 deletions(-)
+> >Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+> >Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> >---
+> > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 19 +++++++++++++++++++
+> > 1 file changed, 19 insertions(+)
 > >
-> > diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> > index e16a4bc82856..660f9154a211 100644
-> > --- a/include/linux/page-flags.h
-> > +++ b/include/linux/page-flags.h
-> > @@ -221,102 +221,15 @@ static __always_inline bool compound_info_has_mask(void)
-> >  	return is_power_of_2(sizeof(struct page));
-> >  }
-> >
-> > -#ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-> >  DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
-> >
-> > -/*
-> > - * Return the real head page struct iff the @page is a fake head page, otherwise
-> > - * return the @page itself. See Documentation/mm/vmemmap_dedup.rst.
-> > - */
-> > -static __always_inline const struct page *page_fixed_fake_head(const struct page *page)
-> > -{
-> > -	if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
-> > -		return page;
-> > -
-> > -	/* Fake heads only exists if compound_info_has_mask() is true */
-> > -	if (!compound_info_has_mask())
-> > -		return page;
-> > -
-> > -	/*
-> > -	 * Only addresses aligned with PAGE_SIZE of struct page may be fake head
-> > -	 * struct page. The alignment check aims to avoid access the fields (
-> > -	 * e.g. compound_info) of the @page[1]. It can avoid touch a (possibly)
-> > -	 * cold cacheline in some cases.
-> > -	 */
-> > -	if (IS_ALIGNED((unsigned long)page, PAGE_SIZE) &&
-> > -	    test_bit(PG_head, &page->flags.f)) {
-> > -		/*
-> > -		 * We can safely access the field of the @page[1] with PG_head
-> > -		 * because the @page is a compound page composed with at least
-> > -		 * two contiguous pages.
-> > -		 */
-> > -		unsigned long info = READ_ONCE(page[1].compound_info);
-> > -
-> > -		/* See set_compound_head() */
-> > -		if (likely(info & 1)) {
-> > -			unsigned long p = (unsigned long)page;
-> > -
-> > -			return (const struct page *)(p & info);
-> > -		}
-> > -	}
-> > -	return page;
-> > -}
-> > -
-> 
-> <snip>
-> 
-> >  static __always_inline unsigned long _compound_head(const struct page *page)
-> >  {
-> >  	unsigned long info = READ_ONCE(page->compound_info);
-> >
-> >  	/* Bit 0 encodes PageTail() */
-> >  	if (!(info & 1))
-> > -		return (unsigned long)page_fixed_fake_head(page);
-> > +		return (unsigned long)page;
-> 
-> Is this right? Assuming 64B struct page and 4KB page size, thus 64 struct pages
-> in a page, the 64th struct page (0-indexed) is mapped to the head page and
-> has !(info & 1). But _compound_head() should return page & info here.
-> Am I missing something? Thanks.
+> >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/=
+drm/rockchip/rockchip_drm_vop2.c
+> >index ec3b4fde10db..469c63dd97d5 100644
+> >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >@@ -176,6 +176,7 @@ static enum vop2_data_format vop2_convert_format(u32=
+ format)
+> > 	case DRM_FORMAT_ARGB2101010:
+> > 	case DRM_FORMAT_XBGR2101010:
+> > 	case DRM_FORMAT_ABGR2101010:
+> >+	case DRM_FORMAT_VUY101010:
+> > 		return VOP2_FMT_XRGB101010;
+> > 	case DRM_FORMAT_XRGB8888:
+> > 	case DRM_FORMAT_ARGB8888:
+> >@@ -184,6 +185,7 @@ static enum vop2_data_format vop2_convert_format(u32=
+ format)
+> > 		return VOP2_FMT_ARGB8888;
+> > 	case DRM_FORMAT_RGB888:
+> > 	case DRM_FORMAT_BGR888:
+> >+	case DRM_FORMAT_VUY888:
+> > 		return VOP2_FMT_RGB888;
+> > 	case DRM_FORMAT_RGB565:
+> > 	case DRM_FORMAT_BGR565:
+> >@@ -225,6 +227,7 @@ static enum vop2_afbc_format vop2_convert_afbc_forma=
+t(u32 format)
+> > 	case DRM_FORMAT_ARGB2101010:
+> > 	case DRM_FORMAT_XBGR2101010:
+> > 	case DRM_FORMAT_ABGR2101010:
+> >+	case DRM_FORMAT_VUY101010:
+> > 		return VOP2_AFBC_FMT_ARGB2101010;
+> > 	case DRM_FORMAT_XRGB8888:
+> > 	case DRM_FORMAT_ARGB8888:
+> >@@ -233,6 +236,7 @@ static enum vop2_afbc_format vop2_convert_afbc_forma=
+t(u32 format)
+> > 		return VOP2_AFBC_FMT_ARGB8888;
+> > 	case DRM_FORMAT_RGB888:
+> > 	case DRM_FORMAT_BGR888:
+> >+	case DRM_FORMAT_VUY888:
+>=20
+> How did you test this format? It seems tools like modetest don=E2=80=99t =
+support testing this pattern.
+>=20
 
-The point of removing fake heads is the we don't have head aliases
-anymore. 64-th struct page will be a tail page that. No special
-treatment is required.
+Hi Andy,
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+using the rest of this series, which implements the "color format"
+DRM property, and the corresponding weston MR that makes use of it[1].
+
+I create a ~/.config/weston.ini with the following contents:
+
+    [output]
+    name=3DHDMI-A-1
+    color-format=3Dyuv444
+
+This will make Weston try to set the output format to 10-bit YUV444. To
+limit it to 8-bit, you can add `max-bpc=3D8`. The monitor's EDID needs to
+report YUV444 support, otherwise that Weston version won't let you set
+this property.
+
+Link: https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1859 [=
+1]
+
+Kind regards,
+Nicolas Frattaroli
+
+>=20
+>=20
+> > 		return VOP2_AFBC_FMT_RGB888;
+> > 	case DRM_FORMAT_RGB565:
+> > 	case DRM_FORMAT_BGR565:
+> >@@ -270,6 +274,19 @@ static bool vop2_win_rb_swap(u32 format)
+> > 	}
+> > }
+> >=20
+> >+static bool vop2_afbc_rb_swap(u32 format)
+> >+{
+> >+	switch (format) {
+> >+	case DRM_FORMAT_NV24:
+> >+	case DRM_FORMAT_NV30:
+> >+	case DRM_FORMAT_VUY888:
+> >+	case DRM_FORMAT_VUY101010:
+> >+		return true;
+> >+	default:
+> >+		return false;
+> >+	}
+> >+}
+> >+
+> > static bool vop2_afbc_uv_swap(u32 format)
+> > {
+> > 	switch (format) {
+> >@@ -1291,6 +1308,7 @@ static void vop2_plane_atomic_update(struct drm_pl=
+ane *plane,
+> > 		 /* It's for head stride, each head size is 16 byte */
+> > 		stride =3D ALIGN(stride, block_w) / block_w * 16;
+> >=20
+> >+		rb_swap =3D vop2_afbc_rb_swap(fb->format->format);
+> > 		uv_swap =3D vop2_afbc_uv_swap(fb->format->format);
+> > 		/*
+> > 		 * This is a workaround for crazy IC design, Cluster
+> >@@ -1308,6 +1326,7 @@ static void vop2_plane_atomic_update(struct drm_pl=
+ane *plane,
+> > 			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+> > 		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+> > 		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+> >+		vop2_win_write(win, VOP2_WIN_AFBC_RB_SWAP, rb_swap);
+> > 		/*
+> > 		 * On rk3566/8, this bit is auto gating enable,
+> > 		 * but this function is not work well so we need
+> >
+>=20
+
+
+
+
