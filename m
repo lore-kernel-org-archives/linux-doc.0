@@ -1,193 +1,287 @@
-Received: from mail-yw1-f196.google.com (mail-yw1-f196.google.com [209.85.128.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1049E38F95D
-	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 04:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE13395253
+	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 05:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769144280; cv=none; b=qRwjGT0+BiLESzuG4VU8idhJwFw1Z8d0aGojTcuPN4fTH8WsGmRbPggFR++D8+VzgQV9kgSeuZG7BljM+/5ydLDthkviaWtlOmhWgycsO5UKP65cdH9CJoXNiJ+QtB8WkEazbbP/4ZBUIlTAIw89tQ0/ddMbaztSt/Rfy8s2zQE=
+	t=1769144878; cv=none; b=GfZwXYKLSOB6Ld0JqlIUkE/GdDwq2dg9v5TAsRL+9g5mTZW87n+D9e7Yut1tzw1lMyr+DsoGM9aueQxRbHUWhM8VjhXcixL4BWSfVt9dLSjrz6WXVD+pCwLx81rI9T2B0ExVYM12thirF0NQdGuIZ05vKTVPFN4aKlCi1j5lcac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769144280; c=relaxed/simple;
-	bh=+AOWSwl3iOQaWr6u6EF8dNnZr3QA8X8HEruWVBZRH4w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sneSL6GA9eAQNT8h5I1cPTS0wmjP6w2nbf31G4rPWj5Yx74sXoAfpsqEsi7NxlTNz/3fMsYpF2SxFEVKpV3pE2v9jIB/gFwyUaQuD0ypqAfrUXbSc4cAZVSnN1JlhvfbrsON60Cgj86/uo7e5/uKLVr69JIOYOPkBy1qBK57Z7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=COIiW0g7; arc=none smtp.client-ip=209.85.128.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769144878; c=relaxed/simple;
+	bh=l98DFZTkmOwoiuoBKjF0ek24tBD/mMIzuhsdftbo4gU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MD6EWg6MtU3hBgZmtXv0EsG5PcZtv/m5RFRGna5aBxJyl2qhh2o0v7C8y5fOXqFOkAdcXjKk226LVI1XCefrjPWGHZfZrsq26Xbp4mWuKegUWzSOA4N0B4P2qV0ubELpYgZSWEqWbFDZIOGGdJfIwab4dMOf34XCjrlgaiTkJ+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pdgnYyyX; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="COIiW0g7"
-Received: by mail-yw1-f196.google.com with SMTP id 00721157ae682-79430ef54c3so13882157b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 20:57:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769144266; x=1769749066; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1D+wUgUp3AIJjrSF87TlviSGACs4vs0t8FpLdk/Qkks=;
-        b=COIiW0g7pGS9dNwXAzI+Oq2ApeTYthU2XpwZvvQk8zQxm6hIgrdmjgh6mdL6EQ0bqR
-         No7LPCSxxlvUobxqfIxx5XLQh2LF9L29E9cqRiiNI7iQYHOvb56UUkYq6p7aKWAXrFCE
-         CMkCL813Ku8v0Lyn9AI92QW+FNNgiUb3b+KOAv2a5JTQKxSGNdBBdyZZvuG+EKWUk7EN
-         dTLOR1PtDOpLCbSUVjeltLWLdHjY1TK8Uvpay+pMwaTTViylDS8VCmw3TUcCwEDUGTTx
-         5iCe8yqSjEvlzP5qZ/ppdSAN7XvgmoC1gvawEGNwaCjhNfZrgjaknk22aFAB7vbRn+/U
-         MTmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769144266; x=1769749066;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1D+wUgUp3AIJjrSF87TlviSGACs4vs0t8FpLdk/Qkks=;
-        b=pbirdsXnIy4VAaLz58/7s/CGPXhZ4MJhOjQ5wLZnhTwR1nHrVuBaDf8L8hQwEPwgIl
-         nnOISa03ta7VF6zCnneTfNJ7egeWIFwQhMel4IM2YbwNmwBHOup8QXJbIYVtNf76ib8x
-         uMXlzXU8lS4lYP/XHuyo6AEO+rO2CHGKwQ50aSlDFIv05GNVC1FU0AR9yf8MQnFnwAq4
-         GzlZPIGX+eyHcq2lb8uQRO5CC3HsXQRvdSlOBZsIpDDcqyX2YbuaPD5z3ad4L8tuviST
-         NoGIEXrIjqFDenwkemTUkjoBndcGvwBARRNB6wh44zAHkdgAfSQN1ASjfQWYr0hPCds5
-         n+fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVTiFU8eV4ceWUTDKvFt9+ox4FARo5xIbs61W0zsBDJaIUytf8P97adDGbyTOwG/66cV9/umkppeMc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5gjFoOwuGDZs5Iz86M8NaYbfJWUEpRNEcrCMdfE+x9cQe3apJ
-	YmslEoyqcRSjtdMDvZh74yPELVKd/XWbMxSqkLpq2eWSEEOa6ncv6cTYbgDokLc=
-X-Gm-Gg: AZuq6aI5NJl2/nN2D2+9k/wmlj0zFQPFAu+F+I8scPmmZSHVcBt2hIlw8B9YfCyKiaY
-	FQOFLaKDFtw95IoWvWSaZhBwnQNXQA8C/1SMHu1C2sM7Dz1X3dy7F6h4RLto2McLFVY8mInUN6q
-	yNhDLD6GMta2XIBbotMojIvpYKMMx57DGrNbl7eNcTJ7HgnhExLszkGXQRJh17Lt4J0Ywi8d2Z/
-	xRpW6wtM6Z8Z7D36mckH8pV+6S7yTCJrLN67mkO2n6CfYkM67TPF2VEB/ySnY3gxJJ3urSaHaF5
-	QaZnszupjriNrDY80TrmxY/vbA1qn6trwwrNaGiH5xlWSDcrIL7Qc2+EhVHe91LK+dBlNlpfUuH
-	si4UVnMyIm2iRT8u4T18zcXSb8tG0y6IzBNIihLK9GvEZl87r4ptjm4x4/L7dPuFRxsH9RukVij
-	NXzMMhYCi1uQtZFuRL9zEAnVy271xJ6ifdJb+hZDmNwgUbbTO5DXLmRdNbhJmi1Q==
-X-Received: by 2002:a05:690c:630a:b0:793:c850:9e05 with SMTP id 00721157ae682-79439900187mr15750197b3.28.1769144265778;
-        Thu, 22 Jan 2026 20:57:45 -0800 (PST)
-Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7943b2d060esm6104507b3.56.2026.01.22.20.57.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 20:57:45 -0800 (PST)
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-To: damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: sj@kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Subject: [RFC PATCH 3/5] mm/damon/core: add new ops-specific goal metric
-Date: Thu, 22 Jan 2026 20:57:26 -0800
-Message-ID: <20260123045733.6954-4-ravis.opensrc@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260123045733.6954-1-ravis.opensrc@gmail.com>
-References: <20260123045733.6954-1-ravis.opensrc@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pdgnYyyX"
+Message-ID: <65dcf7ab-1299-411f-9cbc-438ae72ff757@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769144867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sFRsUB2fiki1rnBoFdqWSSWTb0H7HGcu8eMrImuExro=;
+	b=pdgnYyyX9QKwooSTwRL3gPwN0gQ6ctxRiNO92M2DPTle3a4TI9mETzpWXx0W/pUXyMNP8p
+	2tROMYwNQQa9BT2Xzq7S/r/SJtavAE/SZu358cQUx1El2Vxrjlt3RGLYyAP54+9awzmb/b
+	+F2Rv1n+PCL/fv20UtoAoh6IOcSqREY=
+Date: Fri, 23 Jan 2026 13:07:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH mm-unstable v14 03/16] introduce collapse_single_pmd to
+ unify khugepaged and madvise_collapse
+Content-Language: en-US
+To: Nico Pache <npache@redhat.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com,
+ ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, vbabka@suse.cz,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
+ byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com,
+ apopple@nvidia.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com,
+ hannes@cmpxchg.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
+ raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, zokeefe@google.com, rientjes@google.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+ David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
+References: <20260122192841.128719-1-npache@redhat.com>
+ <20260122192841.128719-4-npache@redhat.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20260122192841.128719-4-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Convert static functions in core.c to pass damon_ctx* and damos* down to
-`damos_set_quota_goal_current_value()`. This keeps all goal metrics (PSI,
-node_mem*, node_memcg*, and the new node_sys_bp) computed in one place,
-while core remains generic and ops-specific computation is delegated via
-ctx->ops.get_goal_metric().
 
-Only static functions in this file are touched; no external ABI changes.
 
-Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
----
- mm/damon/core.c | 34 +++++++++++++++++++++++++++-------
- 1 file changed, 27 insertions(+), 7 deletions(-)
+On 2026/1/23 03:28, Nico Pache wrote:
+> The khugepaged daemon and madvise_collapse have two different
+> implementations that do almost the same thing.
+> 
+> Create collapse_single_pmd to increase code reuse and create an entry
+> point to these two users.
+> 
+> Refactor madvise_collapse and collapse_scan_mm_slot to use the new
+> collapse_single_pmd function. This introduces a minor behavioral change
+> that is most likely an undiscovered bug. The current implementation of
+> khugepaged tests collapse_test_exit_or_disable before calling
+> collapse_pte_mapped_thp, but we weren't doing it in the madvise_collapse
+> case. By unifying these two callers madvise_collapse now also performs
+> this check. We also modify the return value to be SCAN_ANY_PROCESS which
+> properly indicates that this process is no longer valid to operate on.
+> 
+> We also guard the khugepaged_pages_collapsed variable to ensure its only
+> incremented for khugepaged.
+> 
+> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
 
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 84f80a20f233..d898bfcbef72 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -2119,8 +2119,20 @@ static unsigned long damos_get_node_memcg_used_bp(
- }
- #endif
- 
-+static unsigned long
-+damos_get_goal_metric_from_ops(struct damon_ctx *ctx, struct damos *scheme,
-+				       const struct damos_quota_goal *goal)
-+{
-+	if (!ctx || !goal)
-+		return 0;
-+	if (!ctx->ops.get_goal_metric)
-+		return 0;
-+	return ctx->ops.get_goal_metric(ctx, scheme, goal);
-+}
- 
--static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
-+static void damos_set_quota_goal_current_value(struct damon_ctx *ctx,
-+				       struct damos *scheme,
-+				       struct damos_quota_goal *goal)
- {
- 	u64 now_psi_total;
- 
-@@ -2141,19 +2153,25 @@ static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
- 	case DAMOS_QUOTA_NODE_MEMCG_FREE_BP:
- 		goal->current_value = damos_get_node_memcg_used_bp(goal);
- 		break;
-+	case DAMOS_QUOTA_NODE_SYS_BP:
-+		goal->current_value = damos_get_goal_metric_from_ops(ctx,
-+							scheme, goal);
-+		break;
- 	default:
- 		break;
- 	}
- }
- 
- /* Return the highest score since it makes schemes least aggressive */
--static unsigned long damos_quota_score(struct damos_quota *quota)
-+static unsigned long damos_quota_score(struct damon_ctx *ctx,
-+				       struct damos *scheme,
-+				       struct damos_quota *quota)
- {
- 	struct damos_quota_goal *goal;
- 	unsigned long highest_score = 0;
- 
- 	damos_for_each_quota_goal(goal, quota) {
--		damos_set_quota_goal_current_value(goal);
-+		damos_set_quota_goal_current_value(ctx, scheme, goal);
- 		highest_score = max(highest_score,
- 				goal->current_value * 10000 /
- 				goal->target_value);
-@@ -2165,7 +2183,9 @@ static unsigned long damos_quota_score(struct damos_quota *quota)
- /*
-  * Called only if quota->ms, or quota->sz are set, or quota->goals is not empty
-  */
--static void damos_set_effective_quota(struct damos_quota *quota)
-+static void damos_set_effective_quota(struct damon_ctx *ctx,
-+				      struct damos *scheme,
-+				      struct damos_quota *quota)
- {
- 	unsigned long throughput;
- 	unsigned long esz = ULONG_MAX;
-@@ -2176,7 +2196,7 @@ static void damos_set_effective_quota(struct damos_quota *quota)
- 	}
- 
- 	if (!list_empty(&quota->goals)) {
--		unsigned long score = damos_quota_score(quota);
-+		unsigned long score = damos_quota_score(ctx, scheme, quota);
- 
- 		quota->esz_bp = damon_feed_loop_next_input(
- 				max(quota->esz_bp, 10000UL),
-@@ -2227,7 +2247,7 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
- 	/* First charge window */
- 	if (!quota->total_charged_sz && !quota->charged_from) {
- 		quota->charged_from = jiffies;
--		damos_set_effective_quota(quota);
-+		damos_set_effective_quota(c, s, quota);
- 	}
- 
- 	/* New charge window starts */
-@@ -2240,7 +2260,7 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
- 		quota->charged_sz = 0;
- 		if (trace_damos_esz_enabled())
- 			cached_esz = quota->esz;
--		damos_set_effective_quota(quota);
-+		damos_set_effective_quota(c, s, quota);
- 		if (trace_damos_esz_enabled() && quota->esz != cached_esz)
- 			damos_trace_esz(c, s, quota);
- 	}
--- 
-2.43.0
+I think this patch introduces some functional changes compared to previous
+version[1] ...
+
+Maybe we should drop the r-b tags and let folks take another look?
+
+There might be an issue with the vma access in madvise_collapse(). See 
+below:
+
+[1] 
+https://lore.kernel.org/linux-mm/20251201174627.23295-3-npache@redhat.com/
+
+>   mm/khugepaged.c | 106 +++++++++++++++++++++++++++---------------------
+>   1 file changed, 60 insertions(+), 46 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index fefcbdca4510..59e5a5588d85 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -2394,6 +2394,54 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm, unsigned long a
+>   	return result;
+>   }
+>   
+> +/*
+> + * Try to collapse a single PMD starting at a PMD aligned addr, and return
+> + * the results.
+> + */
+> +static enum scan_result collapse_single_pmd(unsigned long addr,
+> +		struct vm_area_struct *vma, bool *mmap_locked,
+> +		struct collapse_control *cc)
+> +{
+> +	struct mm_struct *mm = vma->vm_mm;
+> +	enum scan_result result;
+> +	struct file *file;
+> +	pgoff_t pgoff;
+> +
+> +	if (vma_is_anonymous(vma)) {
+> +		result = collapse_scan_pmd(mm, vma, addr, mmap_locked, cc);
+> +		goto end;
+> +	}
+> +
+> +	file = get_file(vma->vm_file);
+> +	pgoff = linear_page_index(vma, addr);
+> +
+> +	mmap_read_unlock(mm);
+> +	*mmap_locked = false;
+> +	result = collapse_scan_file(mm, addr, file, pgoff, cc);
+> +	fput(file);
+> +
+> +	if (result != SCAN_PTE_MAPPED_HUGEPAGE)
+> +		goto end;
+> +
+> +	mmap_read_lock(mm);
+> +	*mmap_locked = true;
+> +	if (collapse_test_exit_or_disable(mm)) {
+> +		mmap_read_unlock(mm);
+> +		*mmap_locked = false;
+> +		return SCAN_ANY_PROCESS;
+> +	}
+> +	result = try_collapse_pte_mapped_thp(mm, addr, !cc->is_khugepaged);
+> +	if (result == SCAN_PMD_MAPPED)
+> +		result = SCAN_SUCCEED;
+> +	mmap_read_unlock(mm);
+> +	*mmap_locked = false;
+> +
+> +end:
+> +	if (cc->is_khugepaged && result == SCAN_SUCCEED)
+> +		++khugepaged_pages_collapsed;
+> +	return result;
+> +}
+> +
+>   static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *result,
+>   					    struct collapse_control *cc)
+>   	__releases(&khugepaged_mm_lock)
+> @@ -2466,34 +2514,9 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *
+>   			VM_BUG_ON(khugepaged_scan.address < hstart ||
+>   				  khugepaged_scan.address + HPAGE_PMD_SIZE >
+>   				  hend);
+> -			if (!vma_is_anonymous(vma)) {
+> -				struct file *file = get_file(vma->vm_file);
+> -				pgoff_t pgoff = linear_page_index(vma,
+> -						khugepaged_scan.address);
+> -
+> -				mmap_read_unlock(mm);
+> -				mmap_locked = false;
+> -				*result = collapse_scan_file(mm,
+> -					khugepaged_scan.address, file, pgoff, cc);
+> -				fput(file);
+> -				if (*result == SCAN_PTE_MAPPED_HUGEPAGE) {
+> -					mmap_read_lock(mm);
+> -					if (collapse_test_exit_or_disable(mm))
+> -						goto breakouterloop;
+> -					*result = try_collapse_pte_mapped_thp(mm,
+> -						khugepaged_scan.address, false);
+> -					if (*result == SCAN_PMD_MAPPED)
+> -						*result = SCAN_SUCCEED;
+> -					mmap_read_unlock(mm);
+> -				}
+> -			} else {
+> -				*result = collapse_scan_pmd(mm, vma,
+> -					khugepaged_scan.address, &mmap_locked, cc);
+> -			}
+> -
+> -			if (*result == SCAN_SUCCEED)
+> -				++khugepaged_pages_collapsed;
+>   
+> +			*result = collapse_single_pmd(khugepaged_scan.address,
+> +						      vma, &mmap_locked, cc);
+>   			/* move to next address */
+>   			khugepaged_scan.address += HPAGE_PMD_SIZE;
+>   			progress += HPAGE_PMD_NR;
+> @@ -2799,6 +2822,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>   			cond_resched();
+>   			mmap_read_lock(mm);
+>   			mmap_locked = true;
+> +			*lock_dropped = true;
+>   			result = hugepage_vma_revalidate(mm, addr, false, &vma,
+>   							 cc);
+>   			if (result  != SCAN_SUCCEED) {
+> @@ -2809,17 +2833,17 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>   			hend = min(hend, vma->vm_end & HPAGE_PMD_MASK);
+>   		}
+>   		mmap_assert_locked(mm);
+> -		if (!vma_is_anonymous(vma)) {
+> -			struct file *file = get_file(vma->vm_file);
+> -			pgoff_t pgoff = linear_page_index(vma, addr);
+>   
+> -			mmap_read_unlock(mm);
+> -			mmap_locked = false;
+> +		result = collapse_single_pmd(addr, vma, &mmap_locked, cc);
+> +
+> +		if (!mmap_locked)
+>   			*lock_dropped = true;
+> -			result = collapse_scan_file(mm, addr, file, pgoff, cc);
+>   
+> -			if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb &&
+> -			    mapping_can_writeback(file->f_mapping)) {
+> +		if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb) {
+> +			struct file *file = get_file(vma->vm_file);
+> +			pgoff_t pgoff = linear_page_index(vma, addr);
+
+
+After collapse_single_pmd() returns, mmap_lock might have been released. 
+Between
+that unlock and here, another thread could unmap/remap the VMA, making 
+the vma
+pointer stale when we access vma->vm_file?
+
+Would it be safer to get the file reference before calling 
+collapse_single_pmd()?
+Or we need to revalidate the VMA after getting the lock back?
+
+
+Thanks,
+Lance
+
+> +
+> +			if (mapping_can_writeback(file->f_mapping)) {
+>   				loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
+>   				loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
+>   
+> @@ -2829,26 +2853,16 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>   				goto retry;
+>   			}
+>   			fput(file);
+> -		} else {
+> -			result = collapse_scan_pmd(mm, vma, addr, &mmap_locked, cc);
+>   		}
+> -		if (!mmap_locked)
+> -			*lock_dropped = true;
+>   
+> -handle_result:
+>   		switch (result) {
+>   		case SCAN_SUCCEED:
+>   		case SCAN_PMD_MAPPED:
+>   			++thps;
+>   			break;
+> -		case SCAN_PTE_MAPPED_HUGEPAGE:
+> -			BUG_ON(mmap_locked);
+> -			mmap_read_lock(mm);
+> -			result = try_collapse_pte_mapped_thp(mm, addr, true);
+> -			mmap_read_unlock(mm);
+> -			goto handle_result;
+>   		/* Whitelisted set of results where continuing OK */
+>   		case SCAN_NO_PTE_TABLE:
+> +		case SCAN_PTE_MAPPED_HUGEPAGE:
+>   		case SCAN_PTE_NON_PRESENT:
+>   		case SCAN_PTE_UFFD_WP:
+>   		case SCAN_LACK_REFERENCED_PAGE:
 
