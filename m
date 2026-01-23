@@ -1,89 +1,89 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4348342C80;
-	Fri, 23 Jan 2026 11:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB71E7261D
+	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 11:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769167750; cv=none; b=VAryrxQFHprtH5U2oKr5pAmxQIUi685p5sRo5STZaXgoMLIpA55+l8U0bjjKk/iRfnXUpQ+2U9NU5CFqQFtCekzeGwFvcIBASi0Zir/KltiKz7aW5WHJebc13BhRXbGrq/IeEzZrbTFYr1+Mh+YBWpoz3hK0WUyscF8LTCHnyUE=
+	t=1769168143; cv=none; b=ObJPyAapZaKX29Wy9awk+XCcISLonEfwvFQZcVjTfj92xD06J3UG69nar+Zgdp1Aqfx7E91FbK9cislGAP4DOA1yFP10peVARoQbmiQBjTa2kX32PBrq5Xj+QpeTAFYTGLsjStLbPdo7NpbycvcCzBH1ynqZp7r3JZARKeBt0Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769167750; c=relaxed/simple;
-	bh=o//Yy/h1wLD7d4NpbTv1GBy8VAJdNSFupU+MpU9R9WQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gQi2/dPdPL1kR2cg040rTtcqEjmuMCk5Q2ISlCmf7X+F/cbIWN7/IVApPUB2AeJ4sLej0R63hJ4RoHdt6gPq8e+g3cP7RY7TODLxtItKcw/iv6NyczLrZfPpHJbkKRRktHSuTYORKqveljlY0rtgWNJePR1Fa4Hnqk2npU3e3wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KtmFhkBk; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769168143; c=relaxed/simple;
+	bh=5Xy66rF/JqaHQZQpJhb4zpyE05Dm+U483j+Vq1kFAZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SBs4YW2GlyJIih4/CV+YBuD712ExMyYR1EbsHXQiXhWjB0OEyWYitU1XwsTQ26R1eLe8m7tcDpFEoApQCfx9WsS2nt70sqH+NUTHsS6+FYjuMfyYiAah6I4x+V1Ng2LceNn4cggrTwZc5cWYBS7elSqOjOJ0kpiOxjDqJAET2nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pPEYJH2t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KtmFhkBk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=T6zr5jmxbD64PQutuhCPjXlkQksgf806zBwZpt7CAZw=; b=KtmFhkBkJQH6IFeT83rpw1ewa1
-	uvdHaLXJLWqfX3vvQjqeMT8EjzNXrG28bjBXQ/TPL0bn3tg7zieNQJPqZZFZDhEkEPBuBPiCdcytC
-	4/GFjyorm0kcjBxLwgR4pFv/g8EGA40vsMfKLMt5+6PnARzyaLILbTyzNi/FgwJLHqbl75q8MIJ9o
-	U2hQWCADPumNsi4gTznfA12UausEto/8ZCZ8eM6zPelW1cdqF2JjKRzri263VA7nDkmwLHTW+7hEO
-	JgtELxeKBjt0ZzSecrq8E5BTfCP+3h3QwdaEvW1/pWT5T+7hg+ZZ2elmuhwa5MyEAy/6USmmvRPbs
-	iDAMEyvA==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vjFLV-00000001gzA-3lmJ;
-	Fri, 23 Jan 2026 11:28:58 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D3A943007E1; Fri, 23 Jan 2026 12:28:56 +0100 (CET)
-Date: Fri, 23 Jan 2026 12:28:56 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-	Marco Elver <elver@google.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: linux-next: [DOCS] build warning after merge of the tip tree
-Message-ID: <20260123112856.GS166857@noisy.programming.kicks-ass.net>
-References: <20260107161548.45530e1c@canb.auug.org.au>
- <20260107215409.GB694817@noisy.programming.kicks-ass.net>
- <803d1946-6935-452d-953a-90f6e73d53a2@infradead.org>
- <91c5386a-2c1b-476a-b189-86d80c0d9e96@infradead.org>
- <20260123081126.3f0f152c@foz.lan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pPEYJH2t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C976C4CEF1;
+	Fri, 23 Jan 2026 11:35:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769168143;
+	bh=5Xy66rF/JqaHQZQpJhb4zpyE05Dm+U483j+Vq1kFAZE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pPEYJH2th2QEs7jPWhZk/jdkhRoPPqv61ToMQf+M4FJiiai1yEF/wkL7tcGw8RYwU
+	 S/ivh6PLG+N6SmW1+039nKLobXOI3adMsStqZcW6721cdICYdyx4mMzLaA0Bz59IEK
+	 8ZQIGvtqqFar3BWL9jtZvfP2NQ3UpoHDm5Cwm28wxkxvN8GOkk4Y5p5pPjreIoLyga
+	 aRzP+5Hfjkh8IkVe/zZAMs1Vcmr8nmbdFCxNBFmhfWIDa8/0Dw8Arwm0z3RxKDozJW
+	 tRk5QksGYNHhr9c5bcXhaQ6ysV8t3BN1bSt41XC8qXdOLpLGAViZ3VSnWOdURm6CSU
+	 gh+r4PI79WelA==
+Date: Fri, 23 Jan 2026 12:35:39 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: Passing SPHINXOPTS is broken
+Message-ID: <20260123123215.32f6c40a@foz.lan>
+In-Reply-To: <11148f49962022fde99058c15345add4935bbeff@intel.com>
+References: <db84b28d2997a1ce73ca9bc65c33e2d08a90aae8@intel.com>
+	<11148f49962022fde99058c15345add4935bbeff@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123081126.3f0f152c@foz.lan>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 23, 2026 at 08:11:26AM +0100, Mauro Carvalho Chehab wrote:
+On Fri, 23 Jan 2026 13:06:51 +0200
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-> >  tools/lib/python/kdoc/kdoc_parser.py |    1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > --- a/tools/lib/python/kdoc/kdoc_parser.py
-> > +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> > @@ -186,6 +186,7 @@ function_xforms  = [
-> >      (KernRe(r"__sched +"), ""),
-> >      (KernRe(r"_noprof"), ""),
-> >      (KernRe(r"__always_unused *"), ""),
-> > +    (KernRe(r"__cond_acquires\s*\(.*\)"), ""),
+> On Fri, 23 Jan 2026, Jani Nikula <jani.nikula@intel.com> wrote:
+> > I was trying to get the regular sphinx-build output.
+
+Just do:
+
+	$ make V=1 htmldocs
+
+or:
+	$ ./tools/docs/sphinx-build-wrapper -v htmldocs
+
+> > The monster sphinx-build-wrapper thing has this obnoxious and complex
+> > logic of forcing -q unless you specify verbose in SPHINXOPTS. You'd
+> > think those defaults should be specified in the Makefile. But no.
+
+It is like there to mimic what we used to have at Makefile.
+
+> > Anyway, setting SPHINXOPTS in the environment or on the make
+> > command-line doesn't work, because Documentation/Makefile overrides it
+> > to empty.  
 > 
-> Regex here is too broad, as it is greedy: it may drop more
-> than expected. Perhaps:
-> 
->     (KernRe(r"__cond_acquires\s*\([^\)]*\)"), ""),
+> Oh, it's more sad than just this. There is no way to use SPHINXOPTS to
+> get sphinx-build to produce the regular non-quiet output (that the
+> wrapper calls verbose).
+>
+> You have to use KBUILD_VERBOSE to make the damn wrapper not pass -q to
+> sphinx-build. 
 
-I have of course no idea what so ever how any of this works, but it
-occurs to me that __acquires() and __releases() are not in that same
-list, what happens to them?
+KBUILD_VERBOSE is the Makefile's env var that handles V=1.
 
-Also, there will 'soon' be an equivalent: __cond_releases():
+>The wrapper appends the -q overwriting anything the user
+> might want to pass on SPHINXOPTS. Which can't be passed anyway because
+> the Makefile overwrites it.
 
-  https://lkml.kernel.org/r/20260121111213.634625032@infradead.org
+It is like there to mimic what we used to have at Makefile: it was
+was always passing "-q", except when called with V=1.
+
+Thanks,
+Mauro
