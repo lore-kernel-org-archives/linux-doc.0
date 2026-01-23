@@ -1,63 +1,63 @@
-Received: from mail-yw1-f195.google.com (mail-yw1-f195.google.com [209.85.128.195])
+Received: from mail-yw1-f194.google.com (mail-yw1-f194.google.com [209.85.128.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD4B39524F
-	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 04:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F933933F5
+	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 04:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769144269; cv=none; b=tda/0k4o+Y5mMenGI9P18NwhHpWF7Hn2AgHq9LpgSurHFZn5sfmWtu5YIhoCNlKAC7k0yUy1QkDxkAuQac7fUATuWWrr1VZA3V9DrdkE6lGHCnXfIcdtCxcAYkJaYob0itT5A6ceIAmQ9tEHlKho8RRWsg/BHC6/N2O2OFF6lqA=
+	t=1769144272; cv=none; b=lOL+mnDxjIHqPuFXBeND7h4jNjcgnpel2+kPwATeczypO6mhRhLTL8xn+VGCZhlm7WX3f4xPfzegRSRU9i04lP1O51k0IZs+6JHJKPpjQIRdJ50VN0Ir1p4X1Y4ZbbPAGxNAtR7oC0mLz/0mzlc+zjLmRrLjoFrc814UbYcKkG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769144269; c=relaxed/simple;
-	bh=gNJCsIARzmkXf+EBb/WlklHpeUg8wMqbpfoVNXrZwnU=;
+	s=arc-20240116; t=1769144272; c=relaxed/simple;
+	bh=LPrYTrwnUWZ7ytHBL5nCDH6LuVnTbfijgy57EHaTEFE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LoOopl8y0qlWGbkfDixAVqQc/eIOtJIZ/HftdU1gXtdiAFse9TSgb16pnUr+pwVrNEGJEmavm6Z8h3I9Fw4wbgRlo37k8ziF4/kdTyi18NMyCId8EV+fKYGuMtpdRvhadnQ6eaPcd7cEah3qcLNoNp/PucI4B+/jM6mnNPGUjIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UAfnPcxf; arc=none smtp.client-ip=209.85.128.195
+	 MIME-Version; b=G5I5Q0cJQbGod/C7WesZ6BYVjX3Pf1Ky+7RKSAUyD15lp5yoSvAB+yQvm9OLS0IR99/UViyFbDv1gd1oLM1yAG6LT43Lp6rnyKXjah2xS1l8FPxUJH5f+k0iDVEgFm9U3prOiDOKiv9/W8wNqa9KXhwJNtnLhukVn3FGzrHgObA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J687YmJ6; arc=none smtp.client-ip=209.85.128.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAfnPcxf"
-Received: by mail-yw1-f195.google.com with SMTP id 00721157ae682-790884840baso17898407b3.0
-        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 20:57:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J687YmJ6"
+Received: by mail-yw1-f194.google.com with SMTP id 00721157ae682-78fb5764382so18751577b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Jan 2026 20:57:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769144262; x=1769749062; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769144264; x=1769749064; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zUE9K2FZw5Ls36EWUpBYNIoEjPdLY+PpGcwmuAyPWmY=;
-        b=UAfnPcxfvfE60Fb0LZgoT4W5QtwBlFogKyGXfpdqO3NbpKanIdIkK+Zbl4mzYXbKn8
-         j/toS1Ca5SSR02gcjQH45Q+jtRfGPTVZx6QPCX6m/X2t6p9CHVrQfl+NEslzH+un772V
-         XnTHc9dbHopkzi2FBLQcp5CdPeSLFBGv1hrU+ro3shhMrVcpeDgaHw0tN1/8R0MseNPn
-         ySqC2qCFdT3WKZX4gxmUHMxYuqdmsYpUS0/rpt6WrexFs/c28VOjJTCnEWqMSFphrmtU
-         9M//u8+Jrj1SLLIzwkAsUANIVls6H5aF9JzR7VvEUDoPloj2bXI8vv9BZSTpXZV0pP18
-         202g==
+        bh=K0i7a7403YgQyMlpi7E1tGdpNbWRUN7COl/lkLxdLS4=;
+        b=J687YmJ6+mAWFyfu1hh12msny+kJzcEuUoiKoWfs8fOmOhmFjKnlEd7iWfGsDW5GMq
+         yzZTuNF1bmp7nQ3wFaFLwewEjwYLhla+3zqbpkUU6DDenZ6mJV7CD5y+/YDySHpzs5Qu
+         ghOoq6WgTA0RllUzPJsjgqfANAj+aBvue3JfaCRsilIHbnEf2tP/HvhSrNJ4kqdHzKnM
+         6TQiSzuVCy33rOwXOUQGIuEmjWsW2upi5rPyXM2Vqod1OOFyxf+B2BGgioy3db8+xB/v
+         Y+dZWkOnMgiCyrvzuuEQuczgMfyQHWao6To2XEK7bpLjMPONB2Gg76ULKEBf4tjYlnrp
+         QFzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769144262; x=1769749062;
+        d=1e100.net; s=20230601; t=1769144264; x=1769749064;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zUE9K2FZw5Ls36EWUpBYNIoEjPdLY+PpGcwmuAyPWmY=;
-        b=BweTI2ko9GpA3EKCEV3wKJWdYnlSmiagzoTj0bUxAf4zPP5LF95xwgDs7RXl9gWwhL
-         OIkWVmh4EJmJJfyruQiShfg/g5Lx7CyuX22N41/9+lH3/W3S/6Hr9Zz816nMeNBSPknr
-         tK39AlVqYWTEgWKq1d//tKdIDMcJDrDJ45R7K7Q/X54GJVyXfv/JhzkBRcLKku7F2skY
-         cak2hcQoWQjCUtYCR7T+wkunwbDAKWGf7tcxRX0RvSLGj97u+W9N3n5qxNGza4lcYMMt
-         5U0o3rIafVhQZdIyM4/BS4aj2uuyu/V0LwCHOdbWCl10+CJvrrkP81vu4Chl/NpXSU+g
-         vJrw==
-X-Forwarded-Encrypted: i=1; AJvYcCWo+yySjmAb7pjNnp4ZeuFJ1BpNsNOQt4682DCYsh5KW6b7tqkmW+9t4Q/SldPRk/yhabZxXA0kwYc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzuji0XbEb40JcsQPM+Ub9deepwwEKH6D0hDTwqIo961wivqSIz
-	3NL2msblhDxlB69vR2tFfkxsByU6c81S9qB+2WZdPon57d4aUyuyn0U=
-X-Gm-Gg: AZuq6aJM0VslLvMKXrQ+Qs+J0YeAk3h5W+52hXke5Pffi6LKAxZJn/eaoE6PNlygUDf
-	/2GdFabTHSo2gaGQstJNKpmiU1aEyCtkZODKoWkoEilQmZ9fTDRHBKItOxytkvtxgedMsHYKPDJ
-	jm2BiJ1z7MfScJl2Kdj3S+yZotW3aBJDcplcl/fMrAwjk/xreYUVQpkpqlfA63wGlz8eiO2uF0U
-	4dKkczOSNZ3TteulkwcrSgu4MRsYqxJcNNfoGYgoZbb5iphalgYak+8YRhNmdLXy9KYUJiRBEQ4
-	zaeZ90E88covyDPZ8qnQHC8ZYLDdUdylrIlsMBOshMWeTt3yUtzbpJZHuZ54rvkrdjRIJ+ujRds
-	gWFitVXepsj+OK/eRw2BFW7daqqJ2hGp6KTXXQbexWy44zsiYTtaqZGuKHiJA5UXxA36/p2uOZT
-	TVCSI/MeSESq08NeLZqDzPLioJGeiQ/WJIBgoNCYaHasDq6jIaqlfB+F7upxtxsQ==
-X-Received: by 2002:a05:690c:39c:b0:794:4c3:65ec with SMTP id 00721157ae682-7943992fbf6mr17105327b3.22.1769144262401;
-        Thu, 22 Jan 2026 20:57:42 -0800 (PST)
+        bh=K0i7a7403YgQyMlpi7E1tGdpNbWRUN7COl/lkLxdLS4=;
+        b=DWaQZEwNdTNIxS770R17jc5u2YP7S8vz8/2czzRLgm2FLekfmWbu2GuTwT5bnnc60z
+         JGLKVEsfn2QwWb3/mhBMl/6MTsjSCGr8E9+Cybsg5PWkQ4RKhGw8s10PBIm38nKf/1Xp
+         Ur2absZdfB0PhLMs+yXAnADNZUO+OEIB4yhs1Sws/6aXTV6NiBNzm7T3S/GUn34p4Z8G
+         JG8CVLBKuNVOlpEqFofMvX55kP4zdQw74k5NA0qigZlAOVI5Nqctm2Von9uzSPMeJaC4
+         TmeTlWD5xMqOJ2C6YN9ZzaiEB9lSTgAl970ysup4ElkOZKVFp7/NBIkWpgci5VIyH8Jv
+         TofA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRgoNqmr0cIEOF3swB69CZTxmQjJh/QqJw0LPbsYZsPGV9dxJ42Tq8r+bMsVnp4mS1WLiCFjYOowk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR9iD9qyPFxD1IkQf30tdRffP/rJg/wvyYs1A9Wq4z34Wqt5Qy
+	VyuQ1aj3ha+FwKZnnuBgFi8zEOSGQiyqsD/alNpTYC3C4ZoiZUBz8ww=
+X-Gm-Gg: AZuq6aJW9frIZDj80oAG3+aMt6NjSWv1D++6MHlsKABwzS0gUzz0eXOKpl0jD4Pn2F2
+	TKyRUU2CwXmZz27mw0j0zUOXstS83T6HEpJn3xEdHZV6XNHYkueM3VfmiZHwrKqy1CooN8tL27w
+	letwF2ZpQyFjhS3ZzAJR8QxU+7gllZMDzcA/Xv7AxplWR6iGTwlR+YD019lOKJzhOCRJbpLvUdM
+	bjanX3QRc3CLTvo1ga9QknmdEJjHBDGR/bAAuaXpV0zCo3vq1y9S35Q/f5ZFPCVUUfvSZdiYAa9
+	Y9tt7iRPrUYUNF2wgOJvP94txiOs3BVXa8V6Si07bypF8Uw5CO3enW1apkuv4ckXkoYdX7JEY6N
+	USa8XXNu0fDnTxXbPDlztwnvw/FSr5+PxvCPdbDoRR+f4LY45GOmQKvYsBcQI5vXVcFytQf4ZVQ
+	PruAYVjAnDu4JQMT8Q9G+U42WHrC55HTUN43FLiYA3MVNjo+w+JkmrUY65vuS3YA==
+X-Received: by 2002:a05:690c:ed6:b0:787:b5ac:68e4 with SMTP id 00721157ae682-79440b4d2cbmr136867b3.48.1769144264173;
+        Thu, 22 Jan 2026 20:57:44 -0800 (PST)
 Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7943b2b9bfcsm6436687b3.38.2026.01.22.20.57.41
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7943af14163sm6332217b3.7.2026.01.22.20.57.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 20:57:42 -0800 (PST)
+        Thu, 22 Jan 2026 20:57:43 -0800 (PST)
 From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 To: damon@lists.linux.dev,
 	linux-mm@kvack.org,
@@ -69,9 +69,9 @@ Cc: sj@kernel.org,
 	bijan311@gmail.com,
 	ajayjoshi@micron.com,
 	Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Subject: [RFC PATCH 1/5] mm/damon/core: add DAMOS_QUOTA_NODE_SYS_BP metric
-Date: Thu, 22 Jan 2026 20:57:24 -0800
-Message-ID: <20260123045733.6954-2-ravis.opensrc@gmail.com>
+Subject: [RFC PATCH 2/5] mm/damon: add get_goal_metric() op and PA provider
+Date: Thu, 22 Jan 2026 20:57:25 -0800
+Message-ID: <20260123045733.6954-3-ravis.opensrc@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260123045733.6954-1-ravis.opensrc@gmail.com>
 References: <20260123045733.6954-1-ravis.opensrc@gmail.com>
@@ -83,37 +83,126 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a node-scoped "system bp" goal metric for PA-based migration
-control.
+Introduce an optional damon_operations callback `get_goal_metric()`
+that lets ops providers compute goal metrics requiring address-space
+knowledge.
 
-This metric represents basis points (bp, 1/10,000) for
-(scheme-eligible bytes on node nid) / (system total bytes)
+Provide a PA implementation that handles DAMOS_QUOTA_NODE_SYS_BP by
+iterating the monitored PFN regions and attributing bytes to the
+goal's nid.
+
+Core remains generic and asks ops only when needed.
 
 Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 ---
- include/linux/damon.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/damon.h |  3 +++
+ mm/damon/paddr.c      | 58 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+)
 
 diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 3813373a9200..ec5ed1a217fc 100644
+index ec5ed1a217fc..67233898c27c 100644
 --- a/include/linux/damon.h
 +++ b/include/linux/damon.h
-@@ -155,6 +155,7 @@ enum damos_action {
-  * @DAMOS_QUOTA_NODE_MEM_FREE_BP:	MemFree ratio of a node.
-  * @DAMOS_QUOTA_NODE_MEMCG_USED_BP:	MemUsed ratio of a node for a cgroup.
-  * @DAMOS_QUOTA_NODE_MEMCG_FREE_BP:	MemFree ratio of a node for a cgroup.
-+ * @DAMOS_QUOTA_NODE_SYS_BP:		Scheme-eligible bytes ratio of a node.
-  * @NR_DAMOS_QUOTA_GOAL_METRICS:	Number of DAMOS quota goal metrics.
-  *
-  * Metrics equal to larger than @NR_DAMOS_QUOTA_GOAL_METRICS are unsupported.
-@@ -166,6 +167,7 @@ enum damos_quota_goal_metric {
- 	DAMOS_QUOTA_NODE_MEM_FREE_BP,
- 	DAMOS_QUOTA_NODE_MEMCG_USED_BP,
- 	DAMOS_QUOTA_NODE_MEMCG_FREE_BP,
-+	DAMOS_QUOTA_NODE_SYS_BP,
- 	NR_DAMOS_QUOTA_GOAL_METRICS,
+@@ -649,6 +649,9 @@ struct damon_operations {
+ 	bool (*target_valid)(struct damon_target *t);
+ 	void (*cleanup_target)(struct damon_target *t);
+ 	void (*cleanup)(struct damon_ctx *context);
++	unsigned long (*get_goal_metric)(struct damon_ctx *ctx,
++				struct damos *scheme,
++				const struct damos_quota_goal *goal);
  };
  
+ /*
+diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+index 07a8aead439e..30e4e5663dcb 100644
+--- a/mm/damon/paddr.c
++++ b/mm/damon/paddr.c
+@@ -14,6 +14,8 @@
+ #include <linux/swap.h>
+ #include <linux/memory-tiers.h>
+ #include <linux/mm_inline.h>
++#include <linux/mm.h>
++#include <linux/mmzone.h>
+ 
+ #include "../internal.h"
+ #include "ops-common.h"
+@@ -148,6 +150,48 @@ static bool damon_pa_invalid_damos_folio(struct folio *folio, struct damos *s)
+ 	return false;
+ }
+ 
++/* System total RAM in bytes (denominator for bp computation) */
++static unsigned long damon_pa_totalram_bytes(void)
++{
++	return (unsigned long)totalram_pages() << PAGE_SHIFT;
++}
++
++/*
++ * Compute node-scoped system bp for PA contexts:
++ *   bp = (bytes attributed to goal->nid across monitored PA regions) /
++ *        (system total bytes) * 10000
++ */
++static unsigned long damon_pa_get_node_sys_bp(struct damon_ctx *ctx,
++					      struct damos *scheme,
++					      const struct damos_quota_goal *goal)
++{
++	int nid = goal ? goal->nid : -1;
++	unsigned long node_bytes = 0;
++	unsigned long total_bytes = damon_pa_totalram_bytes();
++	struct damon_target *t;
++	struct damon_region *r;
++
++	if (nid < 0 || !total_bytes)
++		return 0;
++
++	damon_for_each_target(t, ctx) {
++		damon_for_each_region(r, t) {
++			unsigned long start_pfn = r->ar.start >> PAGE_SHIFT;
++			unsigned long end_pfn   = r->ar.end   >> PAGE_SHIFT;
++			unsigned long pfn;
++
++			for (pfn = start_pfn; pfn < end_pfn; pfn++) {
++				if (!pfn_valid(pfn))
++					continue;
++				if (page_to_nid(pfn_to_page(pfn)) == nid)
++					node_bytes += PAGE_SIZE;
++			}
++		}
++	}
++
++	return div64_u64((u64)node_bytes * 10000ULL, total_bytes);
++}
++
+ static unsigned long damon_pa_pageout(struct damon_region *r,
+ 		unsigned long addr_unit, struct damos *s,
+ 		unsigned long *sz_filter_passed)
+@@ -344,6 +388,19 @@ static unsigned long damon_pa_apply_scheme(struct damon_ctx *ctx,
+ 	return 0;
+ }
+ 
++/* Generic goal-metric provider for PA */
++static unsigned long damon_pa_get_goal_metric(struct damon_ctx *ctx,
++					       struct damos *scheme,
++					       const struct damos_quota_goal *goal)
++{
++	switch (goal ? goal->metric : -1) {
++	case DAMOS_QUOTA_NODE_SYS_BP:
++		return damon_pa_get_node_sys_bp(ctx, scheme, goal);
++	default:
++		return 0;
++	}
++}
++
+ static int damon_pa_scheme_score(struct damon_ctx *context,
+ 		struct damon_target *t, struct damon_region *r,
+ 		struct damos *scheme)
+@@ -378,6 +435,7 @@ static int __init damon_pa_initcall(void)
+ 		.cleanup = NULL,
+ 		.apply_scheme = damon_pa_apply_scheme,
+ 		.get_scheme_score = damon_pa_scheme_score,
++		.get_goal_metric = damon_pa_get_goal_metric,
+ 	};
+ 
+ 	return damon_register_ops(&ops);
 -- 
 2.43.0
 
