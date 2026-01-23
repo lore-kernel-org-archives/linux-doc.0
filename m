@@ -1,197 +1,191 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F261AA7BF;
-	Fri, 23 Jan 2026 19:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D20D2DCBFD
+	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 20:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769195848; cv=none; b=dEYX3GQktk6tIP13oZ979Vq53+JtjYz1JM/woGt4DGkAOihzg0ZiX693D1+eUmNP5c96cNWkV3HCWhLbRs8DbGQvgob2nx+4XSvZHStmRxuDEgVGMnWyz2vWcVH1RCs/Qdf19aiLNW+K/LBIfLcSYvKntyF8Lc3rXzOK5NP1sWU=
+	t=1769200426; cv=none; b=Z/54j876ocG+GfLC5cpRNYSVFWSQhUiZ6P1sUQGi3d3IXOyLtjkUplEyglqdwhVfblJYgGX6uUlxonJV2NNBvudJaSpL6Caxn61iCTFrYoDu2rUrgsqKRtufKBcSpg/h8xpiyUnid094yTwyeL7TDnx7FZ8XIWioPxXHq3FXvHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769195848; c=relaxed/simple;
-	bh=aYIGL0hNq/fOe3+YvZE/s3N0bkMmp7Lqi8Cc0Nn/eZk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lIggzO2TM/1QypAqyRT6wI5JbR6q52xsA1smfGdH/L6sVeYtFJ1dj0zwUFU0+2GvLZXpDhxqh3HgUm/n1thn2EY0AX0nozA55MdltZBJeDj2gO7ZbnpMDv0QNYGCPOso0Ly2NE0RC6FXSIPCGwFyDR4vLaWo3DpqcDb4sLqOuO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=eNw73UWb; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1769200426; c=relaxed/simple;
+	bh=r+PFaU4JLe7ROo7kAS6snaIO/m6xBctZ5tOb6fr/plQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mx64ZOXULqTKqwMvBDrJNpl6A7Ms9CSZtmibns5LK9Ysfd6/BCXyt5Qm+6Zid5RV1C93hbYKKbIhSIB3QGg1ukejl02+uTmj3TXN43hzoMBNJwxk3hC1djKZNdJpBmlneccShdIQpQqln+ygzU6sf52gwWVn1oJGTa4ZMpJ8uOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TxHhYxxd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="eNw73UWb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1769195836; x=1769800636; i=w_armin@gmx.de;
-	bh=vIwGcj7ZdvaCLM2xlgpSGdeCmKP+wk65XTtRSoDN3I0=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=eNw73UWbotFJH1XPtMVtmi1MXVwD6b9j+W6HPIqW5edeR9W0clH4aMN4fEIB1nSm
-	 oK4NCyv8Iv1kJKAESBx8lsIzOyfgG6dXH33qfuQjbF0CXQVdOiTpX8EmlrhrbvjMr
-	 nDweuDIANYtoiRi3lZroU2+E6amCtI7gPj/GbzPcQsY0N3iEst5f3mHhDNe/2pV6Z
-	 aAW2gwQu02Qr7wwW1rfUHYbTglF+yEI8XRpdTkSV+QBdvDnX+qVgnwiVlq4JNQp7S
-	 UrxjQgfY2flPjYEw1eXL5cymobVa8+4OGbQohgzKXuIo6Z+PcKIr12YWJmuE1eSTG
-	 pm3+9BY8tLJXojGbCw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPGRz-1vQKlK2TGP-00NuRL; Fri, 23
- Jan 2026 20:17:15 +0100
-Message-ID: <218f7a67-9be2-4094-b400-1cfad3fd9d0a@gmx.de>
-Date: Fri, 23 Jan 2026 20:17:12 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TxHhYxxd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8129C4CEF1;
+	Fri, 23 Jan 2026 20:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769200425;
+	bh=r+PFaU4JLe7ROo7kAS6snaIO/m6xBctZ5tOb6fr/plQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TxHhYxxdAZHrVo4jBOadB5GjEdIj91wG4OLUUSLpiaHbrLcb+SmJ/2b2mX4kfy92C
+	 qOIjljRbqAAyYZAfe5czdUWGPFZfs4auIZhStDDrAGt5RJThOccRFxgjP6OXLfYpwr
+	 jW44EvlLcXak2dvzMVySrn+0Rg5gqRpIcyMMNNxOCXF9X+b+tAFkNLyvXgVyOo1Juz
+	 iTtDceiKh8mJI6fK4gyFL1CVm2//0SsYCSH+uHnv5P1PlinbsXMMl9AL9hN/iMUb0+
+	 nqMN/9Jf0zkyim4QVAPxRJ/P5HQNXKMW7KlQklwT+7wNjb7SL05lMVmfuvSjMqPj7k
+	 /ldSJ2Qx6fUDA==
+Date: Fri, 23 Jan 2026 21:33:41 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: Passing SPHINXOPTS is broken
+Message-ID: <20260123213341.5ce42561@foz.lan>
+In-Reply-To: <20260123160933.45ebb2bc@localhost>
+References: <db84b28d2997a1ce73ca9bc65c33e2d08a90aae8@intel.com>
+	<11148f49962022fde99058c15345add4935bbeff@intel.com>
+	<20260123123215.32f6c40a@foz.lan>
+	<233a2366263111e61700da07f3692a029fc51a50@intel.com>
+	<20260123151033.5acc515f@localhost>
+	<faac4df15ab5b87dc5795143ecafb9b725b9118e@intel.com>
+	<20260123160933.45ebb2bc@localhost>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/9] platform/wmi: Add kunit test for the string
- conversion code
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux@weissschuh.net, Dell.Client.Kernel@dell.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, llvm@lists.linux.dev
-References: <20260109214619.7289-1-W_Armin@gmx.de>
- <20260109214619.7289-5-W_Armin@gmx.de> <20260122234521.GA413183@ax162>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20260122234521.GA413183@ax162>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:Fqsx1eOjdnh+HC8OdJAqpt8fXbwQB9TBKwaFKiI0HKNI+Q8r7mt
- kCB8ZL1vboz/VJ2Z+j4dkHouEgHPe1E24n0lg49l5fRVHn+RsnpXv9acaPHAbUXhMAVhGVi
- b0cZby950hgcYZ96YatzYPhqVg60VmhAZC9zJeWgvHrsAyDw5/qoLDfg7GYsqleliifP+QY
- srC4pYehZJGmT2UWkWSMA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1pvuykjE6Gg=;DMXcgYjn58qZ7EIEnLV5tFXf+JX
- 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
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Am 23.01.26 um 00:45 schrieb Nathan Chancellor:
+On Fri, 23 Jan 2026 16:09:33 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Hi Armin,
->
-> On Fri, Jan 09, 2026 at 10:46:14PM +0100, Armin Wolf wrote:
->> The string conversion frunctions provided by the WMI driver core
->> have no dependencies on the remaining WMI API, making them suitable
->> for unit tests.
->>
->> Implement such a unit test using kunit. Those unit tests verify that
->> converting between WMI strings and UTF8 strings works as expected.
->> They also verify that edge cases are handled correctly.
->>
->> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ...
->> +++ b/drivers/platform/wmi/tests/string_kunit.c
-> ...
->> +static const u8 oversized_test_utf8_string[] = "TEST!";
-> ...
->> +static void wmi_string_to_utf8s_oversized_test(struct kunit *test)
->> +{
->> +	u8 result[sizeof(oversized_test_utf8_string)];
->> +	ssize_t ret;
->> +
->> +	ret = wmi_string_to_utf8s(&oversized_test_wmi_string, result, sizeof(result));
->> +
->> +	KUNIT_EXPECT_EQ(test, ret, sizeof(test_utf8_string) - 1);
->> +	KUNIT_EXPECT_MEMEQ(test, result, test_utf8_string, sizeof(test_utf8_string));
->> +}
-> After this change in -next as commit 0e1a8143e797 ("platform/wmi: Add
-> kunit test for the string conversion code"), I am seeing a warning from
-> clang around oversized_test_utf8_string:
->
->    drivers/platform/wmi/tests/string_kunit.c:108:17: error: variable 'oversized_test_utf8_string' is not needed and will not be emitted [-Werror,-Wunneeded-internal-declaration]
->      108 | static const u8 oversized_test_utf8_string[] = "TEST!";
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> oversized_test_utf8_string is only used in sizeof() in
-> wmi_string_to_utf8s_oversized_test(). clang warns because sizeof() is
-> evaluated at compile time, so oversized_test_utf8_string won't end up in
-> the final binary. This is typically a bug since the developer may have
-> intended to use the variable elsewhere but I was not able to easily
-> determine that in this case.
->
-> If it is intentional that this variable is only needed in sizeof(), it
-> could either be marked with __maybe_unused or eliminated in favor of a
-> direct 'sizeof("TEST!")', depending on maintainer/developer preference.
-> I am happy to send a patch.
->
-> Cheers,
-> Nathan
+> On Fri, 23 Jan 2026 16:28:37 +0200
+> Jani Nikula <jani.nikula@intel.com> wrote:
+>=20
+> > On Fri, 23 Jan 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> =
+wrote: =20
+> > > With Makefile, there isn't. This didn't change: it is just the same
+> > > behavior we used to have before the wrapper addition, after this
+> > > changeset (merged in 2022):
+> > >
+> > > 	c0d3b83100c8 ("kbuild: do not print extra logs for V=3D2")
+> > >
+> > > Now, currently it is possible to do that by calling the wrapper
+> > > directly:
+> > >
+> > > 	$ ./tools/docs/sphinx-build-wrapper -v htmldocs --sphinxdirs peci
+> > >
+> > > Here, "-v" instructs the wrapper to drop "-q" flag, but doesn't touch
+> > > KBUILD_VERBOSE, so you won't see kernel-doc debug messages.   =20
+> >=20
+> > I'm not really interested in using the wrapper directly. I use make O=3D
+> > builds, and I don't want to and I should not have to figure out how to
+> > do that with the wrapper.
+> >=20
+> > Again, it should be possible to pass user SPHINXOPTS to sphinx-build. =
+=20
+>=20
+> Agreed, but the problem is that, since a long time, "-q" was always=20
+> aways added when V=3D0, and we don't have V=3D2 for docs anymore.
+>=20
+> Unfortunately, Sphinx doesn't have a --no-quiet option. So, right now it
+> preserves the behavior it had for a long time:
+>=20
+> - if V=3D0, defaults to "-q"
+> - if V=3D1, defaults to not use "-q", but one can add SPHINXOPTS=3D-q
+>   to keep Sphinx build in quiet mode.
 
-Good catch, it seems that i forgot to add the test case that was supposed to use oversized_test_utf8_string.
-I will send a patch that adds this missing test case, fixing this warning in the process.
+Forgot to mention, but there's an obvious alternative: change the default
+to not be quiet, e.g.:
 
-Thanks,
-Armin Wolf
+	diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wra=
+pper
+	index 78ff7ac202ef..76f14101d134 100755
+	--- a/tools/docs/sphinx-build-wrapper
+	+++ b/tools/docs/sphinx-build-wrapper
+	@@ -179,7 +179,7 @@ class SphinxBuilder:
+	         # Build a list of sphinx args, honoring verbosity here if specifi=
+ed
+	         #
+=20
+	-        verbose =3D self.verbose
+	+        verbose =3D True
+	         sphinx_args, self.sphinxopts =3D parser.parse_known_args(sphinxop=
+ts)
+	         if sphinx_args.quiet is True:
+	             verbose =3D False
+
+This will change the behavior that we had since 2022 (at least), causing
+sphinx-build to always show its progress.
+
+=46rom my side, I'm perfectly fine with that, but it might cause side
+effects for CI. That's basically why I opted to preserve the original
+behavior.
+
+Yet, after thinking more carefully about that, IMO the best would
+be to use the "-v" argument, preserving the current behavior, but
+allowing it to be overridden using "-v".
+
+See the patch below.
+
+Regards,
+Mauro
+
+
+[PATCH] docs: sphinx-build-wrapper: allow -v override -q
+
+Documentation builds were using "-q" for a long time, but sometimes
+it is nice to see the Sphinx progress, without increasing build
+verbosity - which would also turn on kernel-doc verbosity.
+
+Instead of doing that, let's parse the sphinx-build already-existing
+-v: each time it is used, it increases the verbosity level.
+
+With that, if the default is to use -q, a single -v will disable
+quiet mode. Passing more -v will keep increasing its verbosity.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrap=
+per
+index 78ff7ac202ef..8080ace60680 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -168,6 +168,7 @@ class SphinxBuilder:
+         parser =3D argparse.ArgumentParser()
+         parser.add_argument('-j', '--jobs', type=3Dint)
+         parser.add_argument('-q', '--quiet', action=3D'store_true')
++        parser.add_argument('-v', '--verbose', default=3D0, action=3D'coun=
+t')
+=20
+         #
+         # Other sphinx-build arguments go as-is, so place them
+@@ -179,10 +180,14 @@ class SphinxBuilder:
+         # Build a list of sphinx args, honoring verbosity here if specified
+         #
+=20
+-        verbose =3D self.verbose
+         sphinx_args, self.sphinxopts =3D parser.parse_known_args(sphinxopt=
+s)
++
++        verbose =3D sphinx_args.verbose
++        if self.verbose:
++            verbose +=3D 1
++
+         if sphinx_args.quiet is True:
+-            verbose =3D False
++            verbose =3D 0
+=20
+         #
+         # If the user explicitly sets "-j" at command line, use it.
+@@ -195,8 +200,11 @@ class SphinxBuilder:
+         else:
+             self.n_jobs =3D None
+=20
+-        if not verbose:
++        if verbose < 1:
+             self.sphinxopts +=3D ["-q"]
++        else:
++            for i in range(1, sphinx_args.verbose):
++                self.sphinxopts +=3D ["-v"]
+=20
+     def __init__(self, builddir, venv=3DNone, verbose=3DFalse, n_jobs=3DNo=
+ne,
+                  interactive=3DNone):
+
 
