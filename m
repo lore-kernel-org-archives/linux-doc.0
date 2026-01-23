@@ -1,96 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087D732720D;
-	Fri, 23 Jan 2026 10:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C6E21ADCB
+	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 10:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769165433; cv=none; b=K8x/FWLPhA2zMbhsUROfBqQSkWAgcPmL52AVqB2peDQRrN5mHNuEc9zLtd+sULxiiNryYh7s59clOHmkotty8ed0uo3yEHrL1vqssZlPi4RhJ83AAdv5eFaYXRg/N0kl44glSrrDZNr9AV/DYFd24KcfMlRXU7VtHjUwm6muLK8=
+	t=1769165864; cv=none; b=Xlq0Zp9kha8PBCO7Cm5RYz3SmutbXQN4rBacBjyrCL7I5C/2iCuF2Jq1OmVX4uAEcbLuWG7Z0BQRXVXNA46Bwb9sozFEquexhthIWWp36bds84Sn6cL04fTzrkUyQ+XrpkeDIcdmnkzZRp5m2MFgpJ0Bj4YyTvyDhSe4eCKyXHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769165433; c=relaxed/simple;
-	bh=rrM9qmTUBrbLcDbyg77XmUJTtpHjDwog2vE1rLbOTr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AoA/cZlTgXJOa04eRz5wIYIfCs1uoV5UeUZPWBXyeahFui+S0YNHCBgXzEcJwh1ItnTBOTB6iufoTofcl/z03uVL3R8FQKMVXPK/QMt/XokbTPHtY8tx2YnD1f7CKsmXTSg783F8gd6AgM1aYsvd5oRbWhnX1f/fycLVM/PUmW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESDyHXeH; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1769165864; c=relaxed/simple;
+	bh=PCnn6/ynrPPiLxK7UHGmgM/b0Tx4YPkgeEcbZZIIEtc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n+NiLgkNFktq1gGZtXlxhH+/g4G61O6Hu3uKs+VYTPZxJe08Ge+AXHbLyQCnJ00Z2uwpVB7O9D13TEK///Xh3ka+u+HhO0zXl+497utOdQaq5kKCtbEaDLHtHw/9Wfb/3VFy28Ka8RTCDZEHkvkuKl8EE740vtoaJPdefjz0gd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YRxUB9CF; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESDyHXeH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YRxUB9CF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769165431; x=1800701431;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rrM9qmTUBrbLcDbyg77XmUJTtpHjDwog2vE1rLbOTr0=;
-  b=ESDyHXeHJnRl1Mj7InCSNLaIx3HaQU1H+bISHwujueTJ8lT5VTpV5qkX
-   wMoB8VPI9inB+75IOt7bL59Ht6iGHXIf4aiQQgpBaMrM7wtHtPt6CIk7Y
-   /4Y41VdMO6uThbNJDHl6YYQJFo31h12MBP8KB9++uMtuGc25H0bSnJpOR
-   GGweviVC3U8NIgD2KtKGWVyqU6SapEG/2j0pfc6nMQH+sQEtwOtystCmc
-   yApKrHHEDg2ZdZk8Rbm5yW/OAX6y2vLVrBW8pjcbi73l64X5W1Me+WQq3
-   WfiwyiFlODzs5+64oxZUD8Hr9rdGyOPeTfkrigg8oP7siLWpveDMSjb5x
+  t=1769165862; x=1800701862;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=PCnn6/ynrPPiLxK7UHGmgM/b0Tx4YPkgeEcbZZIIEtc=;
+  b=YRxUB9CFVNGSvbdjmqqA8z22if2lyZr+B+r9PFxs4Yw3sdTklBKkJr2n
+   PTALfZBJZH/ZEHgAnL8kkUeP3nm1ZJdzzYbzzpW9Aw/aKVrUfxioaDafh
+   GEsCOYH4nHJyMOZgCUTM6PUMPp1rV6NAUgLcS/AXBeZIz1aNoVASL1LpQ
+   //WBxflsK17jkEd/JqDS4Uhz/7bFaP0ZivhoQ4JNfkts0v3AIsqTTc6/P
+   McMUNt36atGDO4ilkJ7oNfSposBne9IjwmTzG8n6oKCDSbKkiQ9Pw+qvH
+   ws26H03HTz2VbUT6ExfpMhYwiaVakrxV+h77RXnsXQGF1/I6qiFs4OmHC
    A==;
-X-CSE-ConnectionGUID: R5FjFWGnSYyVMJjbCUP7KQ==
-X-CSE-MsgGUID: wXCpljUnTn+/3osdaHcp6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="70319091"
+X-CSE-ConnectionGUID: 3xuY4nifSmSje1nAIOHApg==
+X-CSE-MsgGUID: rhXfTejxThaREr9ufIDMuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="73005970"
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="70319091"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 02:50:30 -0800
-X-CSE-ConnectionGUID: FoOl+gshRTSiDccD9yXp+A==
-X-CSE-MsgGUID: 1c/NY979T2y0TZS8V8zKHQ==
+   d="scan'208";a="73005970"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 02:57:41 -0800
+X-CSE-ConnectionGUID: nKbzjsNmRVqZrJI/fEu3jQ==
+X-CSE-MsgGUID: JqLQzAQKSkSE38m+fKmnUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="206817139"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.112])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 02:50:28 -0800
-Date: Fri, 23 Jan 2026 12:50:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Antipov <dmantipov@yandex.ru>, Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] doc: development-process: add notice on testing
-Message-ID: <aXNScixKm5L2tQIv@smile.fi.intel.com>
-References: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
- <20260123071523.1392729-1-dmantipov@yandex.ru>
- <d9147abf-0b08-40e2-aa49-821c953f5fc7@infradead.org>
+   d="scan'208";a="211122386"
+Received: from aotchere-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.2])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 02:57:39 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Passing SPHINXOPTS is broken
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+Date: Fri, 23 Jan 2026 12:57:36 +0200
+Message-ID: <db84b28d2997a1ce73ca9bc65c33e2d08a90aae8@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9147abf-0b08-40e2-aa49-821c953f5fc7@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
 
-On Thu, Jan 22, 2026 at 11:19:48PM -0800, Randy Dunlap wrote:
-> On 1/22/26 11:15 PM, Dmitry Antipov wrote:
-> > Add testing notice to "Before creating patches" section.
-> > 
-> > Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> > Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Andy also Acked it. I think you could/should include
 
-s/could// --> should
+I was trying to get the regular sphinx-build output.
 
-> his Ack here as well.
+The monster sphinx-build-wrapper thing has this obnoxious and complex
+logic of forcing -q unless you specify verbose in SPHINXOPTS. You'd
+think those defaults should be specified in the Makefile. But no.
 
-Yes. Carrying on the given tags is the author's responsibility.
-Otherwise, you should explain clearly why the given tag is not
-taking into account.
+Anyway, setting SPHINXOPTS in the environment or on the make
+command-line doesn't work, because Documentation/Makefile overrides it
+to empty.
 
-For this time I do it myself again, but next time don't forget doing that,
-please.
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+BR,
+Jani.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
