@@ -1,117 +1,175 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0E634C139;
-	Fri, 23 Jan 2026 01:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E539832C326;
+	Fri, 23 Jan 2026 01:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769131889; cv=none; b=N6KCtnxsc+0EpeKsSzY+cTv6cEKbdxhlKS4OJJMhTLnjCQKlsJr16jZPnDHraLob2CZ7XLgDL423y0KLVyfH/HJ0HZpf8PMm2dQLLA0XXCv1ZZNReFyGSZgRnxQ1xgKZ7HMa69YYyAJ5YY8zj3RqfJc0iPfDgTzGyGlJjmycUV0=
+	t=1769131896; cv=none; b=VA4NUc4ZG96CrsuoRi9XIvdPDEN8hek1DtJbcAnMqGasZTsW5DRgc+vb40Ups/MrCPWMGvzJbbl5pK9xjQ+YcsDOfp4hTGypmCWWBUvMYXGglUV9e8xIV1qYajWx9MC99Tls9EDQiQB+2TdLwSydLffYh0Rdf6x0nE329HQQ5+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769131889; c=relaxed/simple;
-	bh=uf2rPNDQsmJEOmZ2YblpI/30vW4Z5pDMGgD1be4YNuY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=krIB+9UYR+ZabS1h08fmNwOqafvd6JOhJ6vUg7Uxu+Utw78JnANgCrw2ZvG2z2iMLu8NikADBYSbdid5tNn/4YJyrq68JcbVrFHyIzS+C4NYx2IljmqBuBnBG6Vys1wXPUtc64SJqSepnyAnIM03m+jFHE3qp99+bmNzCEMohz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tp27LJUC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769131896; c=relaxed/simple;
+	bh=IDmrmzU8GVAsBx6kHbOqrg6J/n9UwtIw2vmbYCZkFc0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=GPcFCRwSHmYtISL55DD4/+gPNxqF58zxVMqC7c5as+AcvjHh1jhXQCVAvq/f9SRWGMXOTJXk01cPRLKmrZWSFIKktQPlifFVVUsQi3YqxNFZdBCLJm34wOx4UNHumAUsAgZsSyqMVelOhPN1ibEg6fkW66f/E1MnPMCX8X6iQ9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=MVaTSDPr; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tp27LJUC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ix06gVywB2waC2wNUzplaOuqmAokM10i9mmzizx8WsE=; b=tp27LJUCWmFr32FOkvqbW0ca/f
-	DGKltpqaLWOM1w58J9+bIB7d9AGiXkE8xFyhoVeolPMntqIuViRP2+mcviilQdNyaNTLTBabUpR/O
-	9Zr48HvFWGLbqCAn7QRkmKwPFTbZLNRssHmLXcuyLU+sF80LLYOIVCL5+vgTadbejBHwWITP3Oc+u
-	n4k/ithyDnhHQgY6my3OVseeekVJuCTujgfQzbc/qvzSPWdbRFSgHmN4bvfDHjTcPlzr/+Lvgmwt8
-	1KgCEJVFTEIrsxR84m9YZNCIsBPKTMKzmdhN+Fvl2bEqzaDWG9uuK0H8HmZ/Lqw5M/Wmk6s1b6lfK
-	h/orXbhQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vj617-00000007y4S-3Efz;
-	Fri, 23 Jan 2026 01:31:17 +0000
-Message-ID: <9026b5ab-c796-44c9-9b18-0e020e5c4397@infradead.org>
-Date: Thu, 22 Jan 2026 17:31:16 -0800
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="MVaTSDPr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=IDmrmzU8GVAsBx6kHbOqrg6J/n9UwtIw2vmbYCZkFc0=; b=M
+	VaTSDPrQkR/we+uXwlBU1ShlJicqfekYMpbp1gn3mqVmFmd0ncRUt+BPM7JGQSF+
+	T0jctEvBSqdNjlKhka/TerLrndvh5njXHO5gnRzE7Q7B1YIuMKItLGYJkz2mJ9Xx
+	LTc0XBbO8H+tYC48szF3tKIzO1nvSy0Hhsf+KX6odc=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-107 (Coremail) ; Fri, 23 Jan 2026 09:29:02 +0800
+ (CST)
+Date: Fri, 23 Jan 2026 09:29:02 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
+Cc: "Harry Wentland" <harry.wentland@amd.com>, "Leo Li" <sunpeng.li@amd.com>,
+	"Rodrigo Siqueira" <siqueira@igalia.com>,
+	"Alex Deucher" <alexander.deucher@amd.com>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	"David Airlie" <airlied@gmail.com>,
+	"Simona Vetter" <simona@ffwll.ch>,
+	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+	"Maxime Ripard" <mripard@kernel.org>,
+	"Thomas Zimmermann" <tzimmermann@suse.de>,
+	"Andrzej Hajda" <andrzej.hajda@intel.com>,
+	"Neil Armstrong" <neil.armstrong@linaro.org>,
+	"Robert Foss" <rfoss@kernel.org>,
+	"Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+	"Jonas Karlman" <jonas@kwiboo.se>,
+	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
+	"Sandy Huang" <hjc@rock-chips.com>,
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+	"Andy Yan" <andy.yan@rock-chips.com>,
+	"Jani Nikula" <jani.nikula@linux.intel.com>,
+	"Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+	"Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+	"Tvrtko Ursulin" <tursulin@ursulin.net>,
+	"Dmitry Baryshkov" <lumag@kernel.org>,
+	"Sascha Hauer" <s.hauer@pengutronix.de>,
+	"Rob Herring" <robh@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+	kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re:Re: [PATCH v7 10/22] drm/rockchip: vop2: Fix YUV444 output
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <6631107.DvuYhMxLoT@workhorse>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-10-ef790dae780c@collabora.com>
+ <7ab32c86.7542.19be4d21f69.Coremail.andyshrk@163.com>
+ <6631107.DvuYhMxLoT@workhorse>
+X-CM-CTRLMSGS: z+OV+nBsdXM9MTc2OTEzMTczOTgxOF80MzRmZWVkYTljZjY4Yzg1OTEzZTE4Y
+ WQ1MmEzMjA4OQ==
+X-NTES-SC: AL_Qu2dC/2Yvk8v5COQZekfmUgWjuw/WsG1v/Ul1YBSP556jCHp1zA+YHtOI0XuzsGkOiqykTu2XSVH2/VTe6Bkepsb0K/+WIoMtVQodWYZZdLbNQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 net-next 01/15] net/nebula-matrix: add minimum nbl
- build framework
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>,
- dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
- linux-doc@vger.kernel.org, lorenzo@kernel.org, pabeni@redhat.com,
- horms@kernel.org, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
- hawk@kernel.org, ast@kernel.org, bpf@vger.kernel.org, sdf@fomichev.me,
- daniel@iogearbox.net, john.fastabend@gmail.com, edumazet@google.com,
- open list <linux-kernel@vger.kernel.org>
-References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
- <20260123011804.31263-2-illusion.wang@nebula-matrix.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260123011804.31263-2-illusion.wang@nebula-matrix.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Message-ID: <4c9ce287.fbb.19be87814b8.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:aygvCgCHr1LeznJpeANdAA--.16157W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbCxR7hQGlyzt4OBgAA35
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-Hi--
-
-On 1/22/26 5:17 PM, illusion.wang wrote:
-> diff --git a/drivers/net/ethernet/nebula-matrix/Kconfig b/drivers/net/ethernet/nebula-matrix/Kconfig
-> new file mode 100644
-> index 000000000000..14c27c63d7ec
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/Kconfig
-> @@ -0,0 +1,37 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Nebula-matrix network device configuration
-> +#
-> +
-> +config NET_VENDOR_NEBULA_MATRIX
-> +    bool "Nebula-matrix devices"
-> +    default y
-> +    help
-> +      If you have a network (Ethernet) card belonging to this class, say Y.
-> +
-> +      Note that the answer to this question doesn't directly affect the
-> +      kernel: saying N will just cause the configurator to skip all
-> +      the questions about Nebula-matrix cards. If you say Y, you will be
-> +      asked for your specific card in the following questions.
-> +
-> +if NET_VENDOR_NEBULA_MATRIX
-> +
-> +config NBL_CORE
-> +    tristate "Nebula-matrix Ethernet Controller m18100 Family support"
-> +    depends on 64BIT && PCI
-> +    default m
-> +    select PAGE_POOL
-> +    help
-> +      This driver supports Nebula-matrix Ethernet Controller m18100 Family of
-> +      devices.  For more information about this product, go to the product
-> +      description with smart NIC:
-> +
-> +      <http://www.nebula-matrix.com>
-> +
-> +      More specific information on configuring the driver is in
-> +      <file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18100.rst>.
-> +
-> +      To compile this driver as a module, choose M here. The module
-> +      will be called nbl_core.
-> +
-> +endif # NET_VENDOR_NEBULA_MATRIX
-
-There are lots of spaces used here for indentation.
-
-Please see Documentation/process/coding-style.rst, section
-10) Kconfig configuration files, for the correct indentation style
-for Kconfig files.
-
-
--- 
-~Randy
-
+CgpIZWxsbyBOaWNvbGFzLAoK5ZyoIDIwMjYtMDEtMjIgMjA6NTk6NDHvvIwiTmljb2xhcyBGcmF0
+dGFyb2xpIiA8bmljb2xhcy5mcmF0dGFyb2xpQGNvbGxhYm9yYS5jb20+IOWGmemBk++8mgo+T24g
+VGh1cnNkYXksIDIyIEphbnVhcnkgMjAyNiAwOToyODo1NCBDZW50cmFsIEV1cm9wZWFuIFN0YW5k
+YXJkIFRpbWUgQW5keSBZYW4gd3JvdGU6Cj4+IAo+PiBIZWxsbyBOaWNvbGFz77yMCj4+IAo+PiBB
+dCAyMDI2LTAxLTIxIDIyOjQ1OjE3LCAiTmljb2xhcyBGcmF0dGFyb2xpIiA8bmljb2xhcy5mcmF0
+dGFyb2xpQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+PiA+WVVWNDQ0IChha2EgWUNiQ3I0NDQpIG91
+dHB1dCBpc24ndCB3b3JraW5nIHF1aXRlIHJpZ2h0IG9uIFJLMzU4OC4gVGhlCj4+ID5yZXN1bHRp
+bmcgaW1hZ2Ugb24gdGhlIGRpc3BsYXksIHdoaWxlIGlkZW50aWZ5aW5nIGl0c2VsZiBhcyBZVVY0
+NDQsIGhhcwo+PiA+c29tZSBjb21wb25lbnRzIHN3YXBwZWQsIGV2ZW4gYWZ0ZXIgYWRkaW5nIHRo
+ZSBuZWNlc3NhcnkgRFJNIGZvcm1hdHMgdG8KPj4gPnRoZSBjb252ZXJzaW9uIGZ1bmN0aW9ucy4K
+Pj4gPgo+PiA+SnVkZ2luZyBieSBkb3duc3RyZWFtLCB0aGlzIGlzIGJlY2F1c2UgWVVWNDQ0IGFs
+c28gbmVlZHMgYW4gcmIgc3dhcAo+PiA+cGVyZm9ybWVkIGluIHRoZSBBRkJDIGNhc2UuCj4+ID4K
+Pj4gPkFkZCB0aGUgRFJNIGZvcm1hdHMgdG8gdGhlIGFwcHJvcHJpYXRlIHN3aXRjaCBzdGF0ZW1l
+bnRzLCBhbmQgYWRkIGEKPj4gPmZ1bmN0aW9uIGZvciBjaGVja2luZyB3aGV0aGVyIGFuIHJiIHN3
+YXAgbmVlZHMgdG8gYmUgcGVyZm9ybWVkIGluIHRoZQo+PiA+QUZCQyBjYXNlLgo+PiA+Cj4+ID5G
+aXhlczogNjA0YmU4NTU0N2NlICgiZHJtL3JvY2tjaGlwOiBBZGQgVk9QMiBkcml2ZXIiKQo+PiA+
+U2lnbmVkLW9mZi1ieTogTmljb2xhcyBGcmF0dGFyb2xpIDxuaWNvbGFzLmZyYXR0YXJvbGlAY29s
+bGFib3JhLmNvbT4KPj4gPi0tLQo+PiA+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hp
+cF9kcm1fdm9wMi5jIHwgMTkgKysrKysrKysrKysrKysrKysrKwo+PiA+IDEgZmlsZSBjaGFuZ2Vk
+LCAxOSBpbnNlcnRpb25zKCspCj4+ID4KPj4gPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+cm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9y
+b2NrY2hpcF9kcm1fdm9wMi5jCj4+ID5pbmRleCBlYzNiNGZkZTEwZGIuLjQ2OWM2M2RkOTdkNSAx
+MDA2NDQKPj4gPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9w
+Mi5jCj4+ID4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIu
+Ywo+PiA+QEAgLTE3Niw2ICsxNzYsNyBAQCBzdGF0aWMgZW51bSB2b3AyX2RhdGFfZm9ybWF0IHZv
+cDJfY29udmVydF9mb3JtYXQodTMyIGZvcm1hdCkKPj4gPiAJY2FzZSBEUk1fRk9STUFUX0FSR0Iy
+MTAxMDEwOgo+PiA+IAljYXNlIERSTV9GT1JNQVRfWEJHUjIxMDEwMTA6Cj4+ID4gCWNhc2UgRFJN
+X0ZPUk1BVF9BQkdSMjEwMTAxMDoKPj4gPisJY2FzZSBEUk1fRk9STUFUX1ZVWTEwMTAxMDoKPj4g
+PiAJCXJldHVybiBWT1AyX0ZNVF9YUkdCMTAxMDEwOwo+PiA+IAljYXNlIERSTV9GT1JNQVRfWFJH
+Qjg4ODg6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9BUkdCODg4ODoKPj4gPkBAIC0xODQsNiArMTg1
+LDcgQEAgc3RhdGljIGVudW0gdm9wMl9kYXRhX2Zvcm1hdCB2b3AyX2NvbnZlcnRfZm9ybWF0KHUz
+MiBmb3JtYXQpCj4+ID4gCQlyZXR1cm4gVk9QMl9GTVRfQVJHQjg4ODg7Cj4+ID4gCWNhc2UgRFJN
+X0ZPUk1BVF9SR0I4ODg6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9CR1I4ODg6Cj4+ID4rCWNhc2Ug
+RFJNX0ZPUk1BVF9WVVk4ODg6Cj4+ID4gCQlyZXR1cm4gVk9QMl9GTVRfUkdCODg4Owo+PiA+IAlj
+YXNlIERSTV9GT1JNQVRfUkdCNTY1Ogo+PiA+IAljYXNlIERSTV9GT1JNQVRfQkdSNTY1Ogo+PiA+
+QEAgLTIyNSw2ICsyMjcsNyBAQCBzdGF0aWMgZW51bSB2b3AyX2FmYmNfZm9ybWF0IHZvcDJfY29u
+dmVydF9hZmJjX2Zvcm1hdCh1MzIgZm9ybWF0KQo+PiA+IAljYXNlIERSTV9GT1JNQVRfQVJHQjIx
+MDEwMTA6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9YQkdSMjEwMTAxMDoKPj4gPiAJY2FzZSBEUk1f
+Rk9STUFUX0FCR1IyMTAxMDEwOgo+PiA+KwljYXNlIERSTV9GT1JNQVRfVlVZMTAxMDEwOgo+PiA+
+IAkJcmV0dXJuIFZPUDJfQUZCQ19GTVRfQVJHQjIxMDEwMTA7Cj4+ID4gCWNhc2UgRFJNX0ZPUk1B
+VF9YUkdCODg4ODoKPj4gPiAJY2FzZSBEUk1fRk9STUFUX0FSR0I4ODg4Ogo+PiA+QEAgLTIzMyw2
+ICsyMzYsNyBAQCBzdGF0aWMgZW51bSB2b3AyX2FmYmNfZm9ybWF0IHZvcDJfY29udmVydF9hZmJj
+X2Zvcm1hdCh1MzIgZm9ybWF0KQo+PiA+IAkJcmV0dXJuIFZPUDJfQUZCQ19GTVRfQVJHQjg4ODg7
+Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9SR0I4ODg6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9CR1I4
+ODg6Cj4+ID4rCWNhc2UgRFJNX0ZPUk1BVF9WVVk4ODg6Cj4+IAo+PiBIb3cgZGlkIHlvdSB0ZXN0
+IHRoaXMgZm9ybWF0PyBJdCBzZWVtcyB0b29scyBsaWtlIG1vZGV0ZXN0IGRvbuKAmXQgc3VwcG9y
+dCB0ZXN0aW5nIHRoaXMgcGF0dGVybi4KPj4gCj4KPkhpIEFuZHksCj4KPnVzaW5nIHRoZSByZXN0
+IG9mIHRoaXMgc2VyaWVzLCB3aGljaCBpbXBsZW1lbnRzIHRoZSAiY29sb3IgZm9ybWF0Igo+RFJN
+IHByb3BlcnR5LCBhbmQgdGhlIGNvcnJlc3BvbmRpbmcgd2VzdG9uIE1SIHRoYXQgbWFrZXMgdXNl
+IG9mIGl0WzFdLgo+Cj5JIGNyZWF0ZSBhIH4vLmNvbmZpZy93ZXN0b24uaW5pIHdpdGggdGhlIGZv
+bGxvd2luZyBjb250ZW50czoKPgo+ICAgIFtvdXRwdXRdCj4gICAgbmFtZT1IRE1JLUEtMQo+ICAg
+IGNvbG9yLWZvcm1hdD15dXY0NDQKPgo+VGhpcyB3aWxsIG1ha2UgV2VzdG9uIHRyeSB0byBzZXQg
+dGhlIG91dHB1dCBmb3JtYXQgdG8gMTAtYml0IFlVVjQ0NC4gVG8KPmxpbWl0IGl0IHRvIDgtYml0
+LCB5b3UgY2FuIGFkZCBgbWF4LWJwYz04YC4gVGhlIG1vbml0b3IncyBFRElEIG5lZWRzIHRvCj5y
+ZXBvcnQgWVVWNDQ0IHN1cHBvcnQsIG90aGVyd2lzZSB0aGF0IFdlc3RvbiB2ZXJzaW9uIHdvbid0
+IGxldCB5b3Ugc2V0Cj50aGlzIHByb3BlcnR5Lgo+CgoKVGhpcyBsb29rcyBhIGJpdCBzdHJhbmdl
+LiBZb3VyIGNvbW1pdCBtZXNzYWdlIGFuZCB0aGUgV2VzdG9uIGNvbmZpZ3VyYXRpb24gaGVyZSBi
+b3RoIHRhcmdldCB0aGUgb3V0cHV0IGZvcm1hdCwgCmJ1dCB0aGUgcGF0Y2ggbW9kaWZpZXMgdGhl
+IGZ1bmN0aW9ucyB2b3AyX2NvbnZlcnRfZm9ybWF0IGFuZCB2b3AyX2NvbnZlcnRfYWZiY19mb3Jt
+YXQsIHdoaWNoIGFyZSByZXNwb25zaWJsZSBmb3IKY29udmVydGluZyB0aGUgZGF0YSBmb3JtYXRz
+IG9mIHBsYW5lcy9mcmFtZWJ1ZmZlcnMgKGZiKeKAlHRoZXNlIGhhdmUgbm90aGluZyB0byBkbyB3
+aXRoIHRoZSBvdXRwdXQgZm9ybWF0LgoKCj5MaW5rOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3Rv
+cC5vcmcvd2F5bGFuZC93ZXN0b24vLS9tZXJnZV9yZXF1ZXN0cy8xODU5IFsxXQo+Cj5LaW5kIHJl
+Z2FyZHMsCj5OaWNvbGFzIEZyYXR0YXJvbGkKPgo+PiAKPj4gCj4+ID4gCQlyZXR1cm4gVk9QMl9B
+RkJDX0ZNVF9SR0I4ODg7Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9SR0I1NjU6Cj4+ID4gCWNhc2Ug
+RFJNX0ZPUk1BVF9CR1I1NjU6Cj4+ID5AQCAtMjcwLDYgKzI3NCwxOSBAQCBzdGF0aWMgYm9vbCB2
+b3AyX3dpbl9yYl9zd2FwKHUzMiBmb3JtYXQpCj4+ID4gCX0KPj4gPiB9Cj4+ID4gCj4+ID4rc3Rh
+dGljIGJvb2wgdm9wMl9hZmJjX3JiX3N3YXAodTMyIGZvcm1hdCkKPj4gPit7Cj4+ID4rCXN3aXRj
+aCAoZm9ybWF0KSB7Cj4+ID4rCWNhc2UgRFJNX0ZPUk1BVF9OVjI0Ogo+PiA+KwljYXNlIERSTV9G
+T1JNQVRfTlYzMDoKPj4gPisJY2FzZSBEUk1fRk9STUFUX1ZVWTg4ODoKPj4gPisJY2FzZSBEUk1f
+Rk9STUFUX1ZVWTEwMTAxMDoKPj4gPisJCXJldHVybiB0cnVlOwo+PiA+KwlkZWZhdWx0Ogo+PiA+
+KwkJcmV0dXJuIGZhbHNlOwo+PiA+Kwl9Cj4+ID4rfQo+PiA+Kwo+PiA+IHN0YXRpYyBib29sIHZv
+cDJfYWZiY191dl9zd2FwKHUzMiBmb3JtYXQpCj4+ID4gewo+PiA+IAlzd2l0Y2ggKGZvcm1hdCkg
+ewo+PiA+QEAgLTEyOTEsNiArMTMwOCw3IEBAIHN0YXRpYyB2b2lkIHZvcDJfcGxhbmVfYXRvbWlj
+X3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4gPiAJCSAvKiBJdCdzIGZvciBoZWFk
+IHN0cmlkZSwgZWFjaCBoZWFkIHNpemUgaXMgMTYgYnl0ZSAqLwo+PiA+IAkJc3RyaWRlID0gQUxJ
+R04oc3RyaWRlLCBibG9ja193KSAvIGJsb2NrX3cgKiAxNjsKPj4gPiAKPj4gPisJCXJiX3N3YXAg
+PSB2b3AyX2FmYmNfcmJfc3dhcChmYi0+Zm9ybWF0LT5mb3JtYXQpOwo+PiA+IAkJdXZfc3dhcCA9
+IHZvcDJfYWZiY191dl9zd2FwKGZiLT5mb3JtYXQtPmZvcm1hdCk7Cj4+ID4gCQkvKgo+PiA+IAkJ
+ICogVGhpcyBpcyBhIHdvcmthcm91bmQgZm9yIGNyYXp5IElDIGRlc2lnbiwgQ2x1c3Rlcgo+PiA+
+QEAgLTEzMDgsNiArMTMyNiw3IEBAIHN0YXRpYyB2b2lkIHZvcDJfcGxhbmVfYXRvbWljX3VwZGF0
+ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4gPiAJCQl2b3AyX3dpbl93cml0ZSh3aW4sIFZP
+UDJfV0lOX0FGQkNfRU5BQkxFLCAxKTsKPj4gPiAJCXZvcDJfd2luX3dyaXRlKHdpbiwgVk9QMl9X
+SU5fQUZCQ19GT1JNQVQsIGFmYmNfZm9ybWF0KTsKPj4gPiAJCXZvcDJfd2luX3dyaXRlKHdpbiwg
+Vk9QMl9XSU5fQUZCQ19VVl9TV0FQLCB1dl9zd2FwKTsKPj4gPisJCXZvcDJfd2luX3dyaXRlKHdp
+biwgVk9QMl9XSU5fQUZCQ19SQl9TV0FQLCByYl9zd2FwKTsKPj4gPiAJCS8qCj4+ID4gCQkgKiBP
+biByazM1NjYvOCwgdGhpcyBiaXQgaXMgYXV0byBnYXRpbmcgZW5hYmxlLAo+PiA+IAkJICogYnV0
+IHRoaXMgZnVuY3Rpb24gaXMgbm90IHdvcmsgd2VsbCBzbyB3ZSBuZWVkCj4+ID4KPj4gCj4KPgo+
+Cj4K
