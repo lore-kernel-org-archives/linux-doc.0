@@ -1,80 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC3F315D23
-	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 11:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4348342C80;
+	Fri, 23 Jan 2026 11:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769167503; cv=none; b=D3qn+b+UqkDcEmsBmX2BHl9IN7tKDEY6O5Z+Fbw8otYr0gJG+ZbYq14Qv7e84kKxURdMQ3yT053wBDarT6jxxd8ossaYDoFSMLPz7O0ZFWd4wOJGVEo06Dmnr7a5B++zQcnDAyolTrinLq4CgW2Pjhpve0a9vrmX78izy6sEeuQ=
+	t=1769167750; cv=none; b=VAryrxQFHprtH5U2oKr5pAmxQIUi685p5sRo5STZaXgoMLIpA55+l8U0bjjKk/iRfnXUpQ+2U9NU5CFqQFtCekzeGwFvcIBASi0Zir/KltiKz7aW5WHJebc13BhRXbGrq/IeEzZrbTFYr1+Mh+YBWpoz3hK0WUyscF8LTCHnyUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769167503; c=relaxed/simple;
-	bh=XH4nSX4LPoSkxa/PYwaKG8lQRqVVZ4EkQiKIGnDG4eA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XHJJrZWdrwcVnIn6Cnd3oEBJpxMgPV9HnVnoEsbW9Z+k8/s1Wa44nebpxnwmlt6/BErOROLFHDB5zPhJe7eO1ejHb7UU7Mcs9cZ5sKA8ddX36lMjhnQ4ut3P3MIsRJvEGqpntZn1MATPlWU8GE2WplVbF5J7UfdrZIsPPtRPgVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vImoSdZx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769167750; c=relaxed/simple;
+	bh=o//Yy/h1wLD7d4NpbTv1GBy8VAJdNSFupU+MpU9R9WQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gQi2/dPdPL1kR2cg040rTtcqEjmuMCk5Q2ISlCmf7X+F/cbIWN7/IVApPUB2AeJ4sLej0R63hJ4RoHdt6gPq8e+g3cP7RY7TODLxtItKcw/iv6NyczLrZfPpHJbkKRRktHSuTYORKqveljlY0rtgWNJePR1Fa4Hnqk2npU3e3wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KtmFhkBk; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vImoSdZx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5342EC2BCB6
-	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 11:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769167503;
-	bh=XH4nSX4LPoSkxa/PYwaKG8lQRqVVZ4EkQiKIGnDG4eA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vImoSdZxWuENWQ9XTIv4zgJJsA8xnMlR5GGWiXjXIaPNv6UDkKR8xE1Ul9Apoweiw
-	 ZLX9UJiM3jedkkbZgjIlcL2aaXWOlrxqd8Hcx3xGFnFOhUE7b0enizsjZwSnWZLDV2
-	 p5tD95NRqijpc70J13k+Ltty6ajJ72IOCKRsBxfITIOMXqDp1IbIWUPxyWgIkMcbOh
-	 owkVejI4dyylue5mbXIN8bYB+aDGBUeTsNCd7b/J9NUYK2ftdidUjtzJdgg393Xf2p
-	 crCCsf5H90xXKkgy0NJ2zV0xx6Hu5W1pI6ufxtwvjsijYTFFNfHKRdcg1AWZGqlO7q
-	 gxdjNo45oTTRg==
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-bde0f62464cso694178a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 03:25:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV1EsttQWSv5ZGIjZWcdwkbyWiafTR4xDHcWsbrqQWMim3T1+d9nq4uTwgXEFdmINYXGGohPDDArk8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwrLdYcDpJhNuUaFFfJx45BOLryt5pbGwAmUeP2PDiGw3pGU2U
-	IVD3KQRYgZ4LG2uZhp6YoDZCpVQ8f72fckg2A8WNCTv7lH0pAX+cDe2zm+3gBuFHjFlLv0Yb7oO
-	I2LRpPVx9UaUFs2tQ5K2VYbYSjaXAq98=
-X-Received: by 2002:a17:90b:180d:b0:34a:8e4b:5b52 with SMTP id
- 98e67ed59e1d1-3536701d1e7mr2303386a91.8.1769167502720; Fri, 23 Jan 2026
- 03:25:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KtmFhkBk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=T6zr5jmxbD64PQutuhCPjXlkQksgf806zBwZpt7CAZw=; b=KtmFhkBkJQH6IFeT83rpw1ewa1
+	uvdHaLXJLWqfX3vvQjqeMT8EjzNXrG28bjBXQ/TPL0bn3tg7zieNQJPqZZFZDhEkEPBuBPiCdcytC
+	4/GFjyorm0kcjBxLwgR4pFv/g8EGA40vsMfKLMt5+6PnARzyaLILbTyzNi/FgwJLHqbl75q8MIJ9o
+	U2hQWCADPumNsi4gTznfA12UausEto/8ZCZ8eM6zPelW1cdqF2JjKRzri263VA7nDkmwLHTW+7hEO
+	JgtELxeKBjt0ZzSecrq8E5BTfCP+3h3QwdaEvW1/pWT5T+7hg+ZZ2elmuhwa5MyEAy/6USmmvRPbs
+	iDAMEyvA==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vjFLV-00000001gzA-3lmJ;
+	Fri, 23 Jan 2026 11:28:58 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D3A943007E1; Fri, 23 Jan 2026 12:28:56 +0100 (CET)
+Date: Fri, 23 Jan 2026 12:28:56 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+	Marco Elver <elver@google.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: linux-next: [DOCS] build warning after merge of the tip tree
+Message-ID: <20260123112856.GS166857@noisy.programming.kicks-ass.net>
+References: <20260107161548.45530e1c@canb.auug.org.au>
+ <20260107215409.GB694817@noisy.programming.kicks-ass.net>
+ <803d1946-6935-452d-953a-90f6e73d53a2@infradead.org>
+ <91c5386a-2c1b-476a-b189-86d80c0d9e96@infradead.org>
+ <20260123081126.3f0f152c@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260123074820.310605-1-ruanjinjie@huawei.com> <aXM-vOUVbD8iwicr@gmail.com>
-In-Reply-To: <aXM-vOUVbD8iwicr@gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 23 Jan 2026 12:24:50 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHQKDMvrj-NUWVTN=AP0W5rUMdxXFzzp=OphxM7bE2PNQ@mail.gmail.com>
-X-Gm-Features: AZwV_Qi6WVvWtdcSAOAhjgAaETyZIPQoHF0jNjo-Svsw9pyXs6exzF62LuGjDdM
-Message-ID: <CAMj1kXHQKDMvrj-NUWVTN=AP0W5rUMdxXFzzp=OphxM7bE2PNQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: kexec: Add support for crashkernel CMA reservation
-To: Breno Leitao <leitao@debian.org>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net, catalin.marinas@arm.com, 
-	will@kernel.org, akpm@linux-foundation.org, bp@alien8.de, 
-	pawan.kumar.gupta@linux.intel.com, mingo@kernel.org, 
-	feng.tang@linux.alibaba.com, kees@kernel.org, elver@google.com, arnd@arndb.de, 
-	lirongqing@baidu.com, fvdl@google.com, bhelgaas@google.com, bhe@redhat.com, 
-	dave.hansen@linux.intel.com, rppt@kernel.org, ryan.roberts@arm.com, 
-	osandov@fb.com, jbohac@suse.cz, sourabhjain@linux.ibm.com, cfsworks@gmail.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123081126.3f0f152c@foz.lan>
 
-On Fri, 23 Jan 2026 at 10:30, Breno Leitao <leitao@debian.org> wrote:
->
-> Hello Jinjie,
->
-> On Fri, Jan 23, 2026 at 03:48:20PM +0800, Jinjie Ruan wrote:
-> > Extend crashkernel CMA reservation support to arm64.
->
-> This is awesome. I was waiting for this patch! Thanks for working on it.
->
+On Fri, Jan 23, 2026 at 08:11:26AM +0100, Mauro Carvalho Chehab wrote:
 
-That is great!
+> >  tools/lib/python/kdoc/kdoc_parser.py |    1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > --- a/tools/lib/python/kdoc/kdoc_parser.py
+> > +++ b/tools/lib/python/kdoc/kdoc_parser.py
+> > @@ -186,6 +186,7 @@ function_xforms  = [
+> >      (KernRe(r"__sched +"), ""),
+> >      (KernRe(r"_noprof"), ""),
+> >      (KernRe(r"__always_unused *"), ""),
+> > +    (KernRe(r"__cond_acquires\s*\(.*\)"), ""),
+> 
+> Regex here is too broad, as it is greedy: it may drop more
+> than expected. Perhaps:
+> 
+>     (KernRe(r"__cond_acquires\s*\([^\)]*\)"), ""),
 
-But the commit log contains no motivation whatsoever why this is such
-a good thing, so perhaps one of you can enlighten us? This endless
-fiddling with boot-time memory reservations doesn't make the system
-more robust, so having a good reason in the commit log why this change
-is needed is really needed.
+I have of course no idea what so ever how any of this works, but it
+occurs to me that __acquires() and __releases() are not in that same
+list, what happens to them?
+
+Also, there will 'soon' be an equivalent: __cond_releases():
+
+  https://lkml.kernel.org/r/20260121111213.634625032@infradead.org
