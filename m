@@ -1,118 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C513B2D6E76
-	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 15:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B97314A70;
+	Fri, 23 Jan 2026 15:19:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769180980; cv=none; b=JfmsdU4dunWkItiazL9gjoKaPm+WyzCnvTmXWQMMTjUEgN52IZareZP2QwvZ30xlEtM2yPwcTMPDrncFMDn6sqVU7J85iZ5rS8nDA+Of11QHQEH1YF7jNgiu/JhdiOXjR1dhqBhU8qu3+BGyigURkqD6MhIqvzhs5ARKdGokVlQ=
+	t=1769181553; cv=none; b=PBJv+Z60BmCdJMJbi/1DwJ91plLpN2VNqmHZTQ/CHblr/BO25Kh5IwQW/TkHZwBon86G3IUopAia//qavjOhlAS0wuNhEmiFowSvV8WxvRh0B21wHHd78UBFLV4eSAsXz7RnAw/YOKwd6ISCDV++S8L4fHmQaXGjxCxdbaeELH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769180980; c=relaxed/simple;
-	bh=FQE/mFeJxIcrHX8r4xDyKBhbxacwqV3LioVH8MLAdRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HmQgMXIWaGCN2/0KsYZyVYPaQOULVe+k+i/5kXiVGu4RjfSqUvqQvP+dAjwefltn6rRIwWFK5c3yMZv8f7Er4+oQVikcFfRydTzHZw9W0E3GdrvKTTsgWkmwMm53rizPbWaRfez65JUR5UKQayGdtGGvOLfvSYm3OnG+1NBCdjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu9RL3bU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769181553; c=relaxed/simple;
+	bh=+P3Rcia1pTCrHrxOYnPEPsvd3wtXXmCuRVCB1ZJyEl8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p3818+R53qLcufZLL3ecKZwiQZa2yo4o3HRhCK1fvqppTBxKn/em11txG334MfaoY9z7xrWTFU2J5ubTwCxxry0j1jqrWte26UDe4SiGWjoB08iGIZ5Cpm8wKM2jTTYOyLgHyupE1veT5e5zmaKFN+MtyA7iEIjmcUWe2XmBth4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=a/K4TfXn; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu9RL3bU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28464C4CEF1;
-	Fri, 23 Jan 2026 15:09:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769180978;
-	bh=FQE/mFeJxIcrHX8r4xDyKBhbxacwqV3LioVH8MLAdRs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Tu9RL3bUgkHra8xxw/KNcyVuVKMBwJdxzyAtWonoGKLrGR+zHO2jyPCFMSoqTCoNu
-	 OsPX264BlWSJ2CsNgxMqDDNz8Ank4+QFF+X9tWxyW6036WFXl38MFnOHw2+VkheK8H
-	 F295+xSMjV2iNuzbv/8rHZdJHv+4zICzbcYd0sxGcTKWkw1CVCDJTR8luvUp32ICks
-	 w/xbQGrIvaLUen3XL1UD757y1cLnIbpCYbYj2YtyaFJMpkuHkGtjunzgWkCosxaY84
-	 oNEHX5P2Izyxd6AjdQPfDLnH+chq37JQbnNEh+VnFFuFLi1oCzgY83slp5du0UkPic
-	 LUfgXieDv5wDA==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vjIn1-000000065kQ-3fb0;
-	Fri, 23 Jan 2026 16:09:36 +0100
-Date: Fri, 23 Jan 2026 16:09:33 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Mauro
- Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: Passing SPHINXOPTS is broken
-Message-ID: <20260123160933.45ebb2bc@localhost>
-In-Reply-To: <faac4df15ab5b87dc5795143ecafb9b725b9118e@intel.com>
-References: <db84b28d2997a1ce73ca9bc65c33e2d08a90aae8@intel.com>
-	<11148f49962022fde99058c15345add4935bbeff@intel.com>
-	<20260123123215.32f6c40a@foz.lan>
-	<233a2366263111e61700da07f3692a029fc51a50@intel.com>
-	<20260123151033.5acc515f@localhost>
-	<faac4df15ab5b87dc5795143ecafb9b725b9118e@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a/K4TfXn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=H+9TPL40B/w5FpgJRoR6T3+roWhl2AbFETa1CY6UQmg=; b=a/K4TfXndM/M6BecTHG+2qsr11
+	Zbvd+sTiXzab1tpVByVHypFspt3trfyuKgihGHM3Gr2dGyMBFWxaYDcPDcjik7cZoNhMW1SQeuV1q
+	mG454wy4aTFwv5NWhnWJRRGbG+kDk7SAstjuk8NadmzwmkfEA1XAuqyw0zBzw8WYQU59tn8zccij5
+	1X0H+tq+rzOiZJdBZj/zvb/3kI35vNzqxTk6OSOcEigsBE20eCNxkk8slmA3wBVNBMuFyhc0UCnGQ
+	HmWNRJgsD3oCgUnhtJmxLWNkjd2YmofmIIlLfuimTn4IGM4dJ42SOB/zbQwhoN2HR+RwG6uYCwfKQ
+	CkX6ogAA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vjIw5-00000002bVu-2yth;
+	Fri, 23 Jan 2026 15:18:57 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 6FCCB302FA1; Fri, 23 Jan 2026 16:18:56 +0100 (CET)
+Date: Fri, 23 Jan 2026 16:18:56 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+	Marco Elver <elver@google.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: linux-next: [DOCS] build warning after merge of the tip tree
+Message-ID: <20260123151856.GT166857@noisy.programming.kicks-ass.net>
+References: <20260107161548.45530e1c@canb.auug.org.au>
+ <20260107215409.GB694817@noisy.programming.kicks-ass.net>
+ <803d1946-6935-452d-953a-90f6e73d53a2@infradead.org>
+ <91c5386a-2c1b-476a-b189-86d80c0d9e96@infradead.org>
+ <20260123081126.3f0f152c@foz.lan>
+ <20260123112856.GS166857@noisy.programming.kicks-ass.net>
+ <20260123132054.2d46fb97@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123132054.2d46fb97@foz.lan>
 
-On Fri, 23 Jan 2026 16:28:37 +0200
-Jani Nikula <jani.nikula@intel.com> wrote:
+On Fri, Jan 23, 2026 at 01:20:54PM +0100, Mauro Carvalho Chehab wrote:
 
-> On Fri, 23 Jan 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > With Makefile, there isn't. This didn't change: it is just the same
-> > behavior we used to have before the wrapper addition, after this
-> > changeset (merged in 2022):
-> >
-> > 	c0d3b83100c8 ("kbuild: do not print extra logs for V=2")
-> >
-> > Now, currently it is possible to do that by calling the wrapper
-> > directly:
-> >
-> > 	$ ./tools/docs/sphinx-build-wrapper -v htmldocs --sphinxdirs peci
-> >
-> > Here, "-v" instructs the wrapper to drop "-q" flag, but doesn't touch
-> > KBUILD_VERBOSE, so you won't see kernel-doc debug messages.  
+> > I have of course no idea what so ever how any of this works, but it
+> > occurs to me that __acquires() and __releases() are not in that same
+> > list, what happens to them?
 > 
-> I'm not really interested in using the wrapper directly. I use make O=
-> builds, and I don't want to and I should not have to figure out how to
-> do that with the wrapper.
+> You mean in functions like those, for instance:
 > 
-> Again, it should be possible to pass user SPHINXOPTS to sphinx-build.
+> 	int device_links_read_lock(void) __acquires(&device_links_srcu)
+> 	{
+> 	        return srcu_read_lock(&device_links_srcu);
+> 	}
+> 
+> 	void device_links_read_unlock(int idx) __releases(&device_links_srcu)
+> 	{
+> 	        srcu_read_unlock(&device_links_srcu, idx);
+> 	}
+> 
+> Yeah, we need to add something for those as well.
 
-Agreed, but the problem is that, since a long time, "-q" was always 
-aways added when V=0, and we don't have V=2 for docs anymore.
+Yes those. They are pre-existing sparse annotations that have been
+co-opted and morphed into the clang thread-safety-analysis.
 
-Unfortunately, Sphinx doesn't have a --no-quiet option. So, right now it
-preserves the behavior it had for a long time:
+> > Also, there will 'soon' be an equivalent: __cond_releases():
+> > 
+> >   https://lkml.kernel.org/r/20260121111213.634625032@infradead.org
+> 
+> The table "function_xforms" is a set of regular expressions to replace 
+> macros into something that will be a pure C function declaration.
+> It should be able to handle most macros (*).
+> 
+> Each line in the table has two arguments:
+> 
+> 	- a regex
+> 	- a replace expression
+> 
+> In this specific case, if we remove __cond_acquires(.*) from the
+> function prototype, the remaining function will be a pure C 
+> prototype.
+> 
+> So, I'd say we need to have all 4 macros there:
+> 
+> 	(KernRe(r"__cond_acquires\s*\([^\)]*\)"), ""),
+> 	(KernRe(r"__cond_releases\s*\([^\)]*\)"), ""),
+> 	(KernRe(r"__acquires\s*\([^\)]*\)"), ""),
+> 	(KernRe(r"__releases\s*\([^\)]*\)"), ""),
+> 
+> to avoid any warnings related to such annotations.
 
-- if V=0, defaults to "-q"
-- if V=1, defaults to not use "-q", but one can add SPHINXOPTS=-q
-  to keep Sphinx build in quiet mode.
+There's also:
 
-What we could do is to add something like this:
+	__must_hold()
+	__must_not_hold()
+	__must_hold_shared()
 
-	diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-	index 7a5fcef25429..13731b478822 100755
-	--- a/tools/docs/sphinx-build-wrapper
-	+++ b/tools/docs/sphinx-build-wrapper
-	@@ -165,6 +165,7 @@ class SphinxBuilder:
-	         parser = argparse.ArgumentParser()
-	         parser.add_argument('-j', '--jobs', type=int)
-	         parser.add_argument('-q', '--quiet', action='store_true')
-	+        parser.add_argument('-n', '--not-quiet', action='store_true')
- 
-	         #
-	         # Other sphinx-build arguments go as-is, so place them
-	@@ -181,6 +182,9 @@ class SphinxBuilder:
-	         if sphinx_args.quiet is True:
-	             verbose = False
-	 
-	+        if sphinx_args.not_quiet is True:
-	+            verbose = True
-	+
-	         #
-	         # If the user explicitly sets "-j" at command line, use it.
-	         # Otherwise, pick it from SPHINXOPTS args
+	__acquires_shared()
+	__cond_acquires_shared()
+	__releases_shared()
 
-Regards,
-Mauro
+	__no_context_analysis
+
+On top of that, structure members can be annotated with:
+
+	__guarded_by()
+	__pt_guarded_by()
+
+
+Thanks!
