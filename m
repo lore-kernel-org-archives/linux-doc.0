@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FA830FC2E;
-	Fri, 23 Jan 2026 15:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6293101A2;
+	Fri, 23 Jan 2026 15:53:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769183639; cv=none; b=fM1HFXKfBUDefm4wAAWX8/W4JADxVVL2VMf1eZuraTr5MIO8r4NfLRlj8b6YYr3d9DtBAy2nrleT0GPXSrGEzXOZ7cp87svnFt8fLAKo+PMHhnNPuz758kFsl7ZdN8OPSaGfzCJ6dK0kEolYi7D//n0pXYZIr88Cd8tG9K8RZhw=
+	t=1769183639; cv=none; b=b9iiKBjcp/uSqS9mt5PLW1S9ajTdxc6p+EtlPciWl1/gTCFxzoL0Rph4GRxzPzWJ8yKLjdxbfsNlcZtxBaQqF3A64Xg+Bjw0Ly0VroG9R4X7Iu6D4P6uCgp1Dq+WyrKuPULc9iNnRSrose6Wqwkj8o3i6B1jc/yiqmDwGBIdzY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769183639; c=relaxed/simple;
-	bh=wAG7Z5cSEyYZ0CcWmfF6m6FfvPFffvd7M/S0m4cosQs=;
+	bh=kYnBn0hPZJrXUXTU31Ix0gevpfaNxn8AINHbROFMUOE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qPm6CwyTlr8HOGjMP5uCVIgeDVUQL+/gA16r9UTcBGPx+5Ys10RGfcH5reNxUnGv8iX5QnRhGmBa1MWx72A5b5itdHXf9TcCL/WQqYh5eB8sEHhMIecjWjsCMT9NSf1s7sXzLPpZOmEQJ29ZeW8WlqU8PpYcW0R3F/sIfKbRXQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aI8meRe2; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=FR+9DIkgW8iY7ic8D6lmbDH/a75c/VPNcSKo3wOJRn9fInfhOlzOPO/SWilT7vNfDTuVojm69WhynWITXTnLPYxbBP6d9zeb7vS0bjgA/eGj+EYl0TFKJMYvlqpe/dq8MtqdNguu8iqvNXX4o7MOqN2ONZfeu1AFEmSDCfN1lu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t7vr+Fos; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aI8meRe2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B1FACC2BCB3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t7vr+Fos"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D54C3C19423;
 	Fri, 23 Jan 2026 15:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769183638;
-	bh=wAG7Z5cSEyYZ0CcWmfF6m6FfvPFffvd7M/S0m4cosQs=;
+	bh=kYnBn0hPZJrXUXTU31Ix0gevpfaNxn8AINHbROFMUOE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=aI8meRe2Zm41QpL1fF6jlHU1HaC5RoFsDo1B9Rwj/wQh9wdBb7eqb7eOXxCDwueIp
-	 ocbqxdsLklPmnVLNfHqyzCNQk7f8H4a5AvItG0Dx85vhAUiThRutR7BAfv9jZOQAHS
-	 DvUHKpSWZ/HOKfSRBh7/yLc7IxP0ph8iunfC0Sd04MsEdutoXkBmxMppA0IxWUhWux
-	 7iBUIgctvmcKOwcpbw99azTKGJh1h3h0eZeQAY+lkLLyI1zg6OiCJjoDNIWHh4rMVO
-	 Mjp2V8w97hc6xehr7M1kqFbYo9cK8u9lnaLT8THtdN0yq5yKr5Mqf1z0JKe96DWJS8
-	 zi1Z+0+v99pbQ==
+	b=t7vr+FosHSGaXpKKxi/Mi2wHHwSGguT/fFQzm376tC8YoAPs/pVJoT2nMfLF+++sZ
+	 nkFiwOtW1wO2mHmvNyCyn6PFCB6gctMFHQ1JvCtjgYK6q198G+HjVJl1eKXKPNHjBx
+	 HdQqFWoPKZzlLHPKPWPW42HQEoSfh6Sq9BvGEBagWt4BTWmCBRnWFZxDTIrBvcHWBl
+	 NJyFn4uOVNyI93C3/RSxijva8P8PR3srXOrQTOaGExp3KG5Abz+v/v6Ug5v2zbHKuf
+	 QklzMqa81bE0tQovHgF6qy/U2iAs18Uyycu4YWXXR6OcLzwmxRDIGJMYNRbrf5uhy8
+	 inC5xF0M1rI2A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A91C5D74EF3;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA09FD74EED;
 	Fri, 23 Jan 2026 15:53:58 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Fri, 23 Jan 2026 15:53:11 +0000
-Subject: [PATCH v5 6/8] iio: frequency: adf41513: features on frequency
- change
+Date: Fri, 23 Jan 2026 15:53:13 +0000
+Subject: [PATCH v5 8/8] Documentation: ABI: testing: add common ABI file
+ for iio/frequency
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,8 +40,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260123-adf41513-iio-driver-v5-6-2dce812a2dda@analog.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260123-adf41513-iio-driver-v5-8-2dce812a2dda@analog.com>
 References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
 In-Reply-To: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
 To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
@@ -54,11 +54,11 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
  Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769183636; l=5626;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769183636; l=1731;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=4hbokyb0RGvwd8HLkFM6gMWD1P+J7htn3Rbiepnfkr8=;
- b=DR9k8oDU19SV9yInzGuRxF3HjN5vSRlZOtYKk16ywS5H29R+aCPnlIN7X6TcL1Quq3J7o0kew
- gqx2qO6ecTEBHX755jjz0n/tQ9BFGaR3gzTgl3/VQvBTQgimvjOLE4q
+ bh=67mGOWaw3wet6Ddy/uiN+nSBqKV1DJFYXkAQQXBO/tY=;
+ b=sY9hFkMvphekFdXeCxn6OC+rdNYYSYMjqKaoJPGl1x4jhVrFUJsz0W+oMP63vw6d6PqprB0o4
+ VRiABngTpexAYGbjNOkFOC4fD1ydbzYxtZdrOAv7b/QQwqrvHKDkWSC
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -68,172 +68,44 @@ Reply-To: rodrigo.alencar@analog.com
 
 From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Set Bleed current when PFD frequency changes (bleed enabled when in
-fractional mode). Set lock detector window size, handling bias and
-precision. Add phase resync support, setting clock dividers when
-PFD frequency changes.
+Add ABI documentation file for PLL/DDS devices with frequency_resolution
+sysfs entry attribute used by ADF4350 and ADF41513.
 
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- drivers/iio/frequency/adf41513.c | 100 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
+ Documentation/ABI/testing/sysfs-bus-iio-frequency | 11 +++++++++++
+ MAINTAINERS                                       |  1 +
+ 2 files changed, 12 insertions(+)
 
-diff --git a/drivers/iio/frequency/adf41513.c b/drivers/iio/frequency/adf41513.c
-index ddad4f4f1938..351965a575ff 100644
---- a/drivers/iio/frequency/adf41513.c
-+++ b/drivers/iio/frequency/adf41513.c
-@@ -20,6 +20,7 @@
- #include <linux/property.h>
- #include <linux/regulator/consumer.h>
- #include <linux/spi/spi.h>
-+#include <linux/time64.h>
- #include <linux/types.h>
- #include <linux/units.h>
- 
-@@ -212,6 +213,7 @@ struct adf41513_chip_info {
- struct adf41513_data {
- 	u64 power_up_frequency_hz;
- 	u64 freq_resolution_uhz;
-+	u32 phase_resync_period_ns;
- 	u32 charge_pump_voltage_mv;
- 	u32 lock_detect_count;
- 
-@@ -276,6 +278,16 @@ struct adf41513_state {
- 	__be32 buf __aligned(IIO_DMA_MINALIGN);
- };
- 
-+static const u16 adf41513_ld_window_x10_ns[] = {
-+	9, 12, 16, 17, 21, 28, 29, 35,			/* 0 - 7 */
-+	43, 47, 49, 52, 70, 79, 115,			/* 8 - 14 */
-+};
-+
-+static const u8 adf41513_ldp_bias[] = {
-+	0xC, 0xD, 0xE, 0x8, 0x9, 0x4, 0xA, 0x5,		/* 0 - 7 */
-+	0x0, 0x6, 0xB, 0x1, 0x2, 0x7, 0x3,		/* 8 - 14 */
-+};
-+
- static const char * const adf41513_power_supplies[] = {
- 	"avdd1", "avdd2", "avdd3", "avdd4", "avdd5", "vp",
- };
-@@ -583,9 +595,82 @@ static int adf41513_calc_pll_settings(struct adf41513_state *st,
- 	return 0;
- }
- 
-+static void adf41513_set_bleed_val(struct adf41513_state *st)
-+{
-+	u32 bleed_value, cp_index;
-+
-+	if (st->data.phase_detector_polarity)
-+		bleed_value = 90;
-+	else
-+		bleed_value = 144;
-+
-+	cp_index = 1 + FIELD_GET(ADF41513_REG5_CP_CURRENT_MSK,
-+				 st->regs[ADF41513_REG5]);
-+	bleed_value = div64_u64(st->settings.pfd_frequency_uhz * cp_index * bleed_value,
-+				1600ULL * MEGA * MICROHZ_PER_HZ);
-+
-+	FIELD_MODIFY(ADF41513_REG6_BLEED_CURRENT_MSK, &st->regs[ADF41513_REG6],
-+		     bleed_value);
-+}
-+
-+static void adf41513_set_ld_window(struct adf41513_state *st)
-+{
-+	/*
-+	 * The ideal lock detector window size is halfway between the max
-+	 * window, set by the phase comparison period t_PFD = (1 / f_PFD),
-+	 * and the minimum is set by (I_BLEED/I_CP) × t_PFD
-+	 */
-+	u16 ld_window_10x_ns = div64_u64(10ULL * NSEC_PER_SEC * MICROHZ_PER_HZ,
-+					 st->settings.pfd_frequency_uhz << 1);
-+	u8 ld_idx, ldp, ld_bias;
-+
-+	if (st->settings.mode != ADF41513_MODE_INTEGER_N) {
-+		/* account for bleed current (deduced from eq.6 and eq.7) */
-+		if (st->data.phase_detector_polarity)
-+			ld_window_10x_ns += 4;
-+		else
-+			ld_window_10x_ns += 6;
-+	}
-+
-+	ld_idx = find_closest(ld_window_10x_ns, adf41513_ld_window_x10_ns,
-+			      ARRAY_SIZE(adf41513_ld_window_x10_ns));
-+	ldp = (adf41513_ldp_bias[ld_idx] >> 2) & 0x3;
-+	ld_bias = adf41513_ldp_bias[ld_idx] & 0x3;
-+
-+	FIELD_MODIFY(ADF41513_REG6_LDP_MSK, &st->regs[ADF41513_REG6], ldp);
-+	FIELD_MODIFY(ADF41513_REG9_LD_BIAS_MSK, &st->regs[ADF41513_REG9], ld_bias);
-+}
-+
-+static void adf41513_set_phase_resync(struct adf41513_state *st)
-+{
-+	u32 total_div, clk1_div, clk2_div;
-+
-+	if (!st->data.phase_resync_period_ns)
-+		return;
-+
-+	/* assuming both clock dividers hold similar values */
-+	total_div = mul_u64_u64_div_u64(st->settings.pfd_frequency_uhz,
-+					st->data.phase_resync_period_ns,
-+					1ULL * MICROHZ_PER_HZ * NSEC_PER_SEC);
-+	clk1_div = clamp(int_sqrt(total_div), 1,
-+			 ADF41513_MAX_CLK_DIVIDER);
-+	clk2_div = clamp(DIV_ROUND_CLOSEST(total_div, clk1_div), 1,
-+			 ADF41513_MAX_CLK_DIVIDER);
-+
-+	FIELD_MODIFY(ADF41513_REG5_CLK1_DIV_MSK, &st->regs[ADF41513_REG5],
-+		     clk1_div);
-+	FIELD_MODIFY(ADF41513_REG7_CLK2_DIV_MSK, &st->regs[ADF41513_REG7],
-+		     clk2_div);
-+
-+	/* enable phase resync */
-+	st->regs[ADF41513_REG7] |= ADF41513_REG7_CLK_DIV_MODE_MSK;
-+}
-+
- static int adf41513_set_frequency(struct adf41513_state *st, u64 freq_uhz, u16 sync_mask)
- {
- 	struct adf41513_pll_settings result;
-+	bool pfd_change = false;
-+	bool mode_change = false;
- 	int ret;
- 
- 	ret = adf41513_calc_pll_settings(st, &result, freq_uhz);
-@@ -593,6 +678,8 @@ static int adf41513_set_frequency(struct adf41513_state *st, u64 freq_uhz, u16 s
- 		return ret;
- 
- 	/* apply computed results to pll settings */
-+	pfd_change = st->settings.pfd_frequency_uhz != result.pfd_frequency_uhz;
-+	mode_change = st->settings.mode != result.mode;
- 	st->settings = result;
- 
- 	dev_dbg(&st->spi->dev,
-@@ -634,6 +721,14 @@ static int adf41513_set_frequency(struct adf41513_state *st, u64 freq_uhz, u16 s
- 		st->regs[ADF41513_REG6] |= ADF41513_REG6_BLEED_ENABLE_MSK;
- 	}
- 
-+	if (pfd_change) {
-+		adf41513_set_bleed_val(st);
-+		adf41513_set_phase_resync(st);
-+	}
-+
-+	if (pfd_change || mode_change)
-+		adf41513_set_ld_window(st);
-+
- 	return adf41513_sync_config(st, sync_mask | ADF41513_SYNC_REG0);
- }
- 
-@@ -944,6 +1039,11 @@ static int adf41513_parse_fw(struct adf41513_state *st)
- 	st->data.phase_detector_polarity =
- 		device_property_read_bool(dev, "adi,phase-detector-polarity-positive-enable");
- 
-+	st->data.phase_resync_period_ns = 0;
-+	ret = device_property_read_u32(dev, "adi,phase-resync-period-ns", &tmp);
-+	if (!ret)
-+		st->data.phase_resync_period_ns = tmp;
-+
- 	st->data.logic_lvl_1v8_en = device_property_read_bool(dev, "adi,logic-level-1v8-enable");
- 
- 	tmp = ADF41513_LD_COUNT_MIN;
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency b/Documentation/ABI/testing/sysfs-bus-iio-frequency
+new file mode 100644
+index 000000000000..1ce8ae578fd6
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency
+@@ -0,0 +1,11 @@
++What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_resolution
++KernelVersion:	6.20
++Contact:	linux-iio@vger.kernel.org
++Description:
++		Stores channel Y frequency resolution/channel spacing in Hz for PLL
++		devices. The given value directly influences the operating mode when
++		fractional-N synthesis is required, as it derives values for
++		configurable modulus parameters used in the calculation of the output
++		frequency. It is assumed that the algorithm that is used to compute
++		the various dividers, is able to generate proper values for multiples
++		of channel spacing.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b9cc8ddcd624..ed39a275b7f6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1623,6 +1623,7 @@ M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Supported
+ W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/ABI/testing/sysfs-bus-iio-frequency
+ F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+ F:	Documentation/iio/adf41513.rst
+ F:	drivers/iio/frequency/adf41513.c
 
 -- 
 2.43.0
