@@ -1,137 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from forward201d.mail.yandex.net (forward201d.mail.yandex.net [178.154.239.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD00B356A2A;
-	Fri, 23 Jan 2026 07:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A8A361676;
+	Fri, 23 Jan 2026 07:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769152292; cv=none; b=Qvdv/coUjSnAGJDi+2Zs5s4yguMmgxj415579mWdwuc6fAQEV3RbddCTgE/X11HcMkP+kgfiNBNOVYYa9Jg60oLeBvyU99BnBTzUdiTcwjTXqQRN18Fygje4ta/8/lZn7otl8y52yjkuqgR4NebUgs7pyru8P8POxAdvUfMsnn8=
+	t=1769152558; cv=none; b=l5zVO2IsZXQxVWsnrO2lDrISYR9FgjYSOFpvUnNyl1Ql23t8KRgzf0JMTvpIXxpnMLuFrJBthoSvQn5b+ewRgjhsUX5r8xeC20BCj+f9TrAKfxOB59k17WO0qa5laGDxhYxx3uI8upjLpy+3y0nhVI62TMWQnhdfzLUr2uW2HYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769152292; c=relaxed/simple;
-	bh=s4M2leZWH/U5yK03tjgOG6QY0S2hqOvOrEBaFT8+gVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tgVtIzYgFj2WThwfnBJhJnguvaCJe+yhk+1GtSHSGA+UfkPqZI3vvE0f2dK6LK2cHjokVPZKkBiIjho+RXkSOrbQmq8JnsiZJwsYG40gqr5HHs93Wqfnt/lVWAEVW00RFlZYkbioutMd6VSypFBRMAVPd6dIwWt2LCKeDEsiubQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bawmFSm4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769152558; c=relaxed/simple;
+	bh=yruQGztw+Uk6JOJzabUK/CM+m6G/Vo7AI/dzJIww/4g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sA8/YNiCmmdSPrscnkW0Ti6lRWou+ZIdQWnb19DaZcvAi7xh9WzDNO1r7zk/tDYqbelCIPA5TaaO8A9V8wAKY17YaMrsei7VthT5mYAjQT9GAas9EpUY4mKMaGsIc1wI1XlfR4w/P/e/SskgBFDLmIb+Ao2Ai8AvNy242D7MLI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=nQEfy+PC; arc=none smtp.client-ip=178.154.239.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bawmFSm4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEB5BC116D0;
-	Fri, 23 Jan 2026 07:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769152292;
-	bh=s4M2leZWH/U5yK03tjgOG6QY0S2hqOvOrEBaFT8+gVQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bawmFSm4FOJBELGRn81I/LTPHEz/i+JbdRSYAWTBlZ3Fdpf/7jQN0zKwXs0Lgkzzd
-	 yxvlFRs/b068C9QdgnTqkjdjSiIgZSTr7yHfytqfcuI8UYvh/dI1D9boQ3O7yYt/0S
-	 31Lk3/x6f7yCxJFdDxWWe+IYN6AEN8Ssp3tPn2X/q46dzDP3uSnfS0s02AOlTz8Uao
-	 ITiPnoUk4sv0Z6/aGoUtAuo9e65CiE+hBzmqJiT2Pl+bOCYJ22XfqXNJEyDM0lixRj
-	 a+Dr5MukzhQKmEunPvPHaeMI8r03v+izR1vyJMog1YliuyT99qCP1fkUhIDUZLas5v
-	 TIQXrzuFYm5YA==
-Date: Fri, 23 Jan 2026 08:11:26 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Marco Elver
- <elver@google.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Subject: Re: linux-next: [DOCS] build warning after merge of the tip tree
-Message-ID: <20260123081126.3f0f152c@foz.lan>
-In-Reply-To: <91c5386a-2c1b-476a-b189-86d80c0d9e96@infradead.org>
-References: <20260107161548.45530e1c@canb.auug.org.au>
-	<20260107215409.GB694817@noisy.programming.kicks-ass.net>
-	<803d1946-6935-452d-953a-90f6e73d53a2@infradead.org>
-	<91c5386a-2c1b-476a-b189-86d80c0d9e96@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="nQEfy+PC"
+Received: from forward103d.mail.yandex.net (forward103d.mail.yandex.net [IPv6:2a02:6b8:c41:1300:1:45:d181:d103])
+	by forward201d.mail.yandex.net (Yandex) with ESMTPS id B95C681A5B;
+	Fri, 23 Jan 2026 10:15:42 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:489d:0:640:baa6:0])
+	by forward103d.mail.yandex.net (Yandex) with ESMTPS id DFBA8C46DF;
+	Fri, 23 Jan 2026 10:15:34 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id XFXe9q6GKKo0-k9H1c3RR;
+	Fri, 23 Jan 2026 10:15:34 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1769152534; bh=BYpLKvEhaHW+MgE8qDE7QPga6s3IKhwvOyWulm+8daw=;
+	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
+	b=nQEfy+PCfK13izzMIoECt5UAw8qkghhoWZ3+3g+hpb17IZYi/MAv9BmXL+KqEuieP
+	 V6T/oXJiykZOJyxbK66iOGhfFM1TjhRFJcG2k28zfcqn4bnZfNBrJ4GTbbLOeQ9OYd
+	 gFgZBFT5Ca2OVHEej/qYqVe9Env9xEncuACr4ldA=
+Authentication-Results: mail-nwsmtp-smtp-production-main-59.iva.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH v2] doc: development-process: add notice on testing
+Date: Fri, 23 Jan 2026 10:15:23 +0300
+Message-ID: <20260123071523.1392729-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
+References: <658caf3b-aeb6-49c7-9e5a-1eab175dd1b3@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 22 Jan 2026 17:06:28 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Add testing notice to "Before creating patches" section.
 
-> + linux-doc + Jon
-> 
-> On 1/7/26 2:10 PM, Randy Dunlap wrote:
-> > 
-> > 
-> > On 1/7/26 1:54 PM, Peter Zijlstra wrote:  
-> >> On Wed, Jan 07, 2026 at 04:15:48PM +1100, Stephen Rothwell wrote:  
-> >>> Hi all,
-> >>>
-> >>> After merging the tip tree, today's linux-next build (htmldocs) produced
-> >>> this warning:
-> >>>
-> >>> Documentation/core-api/kref:328: include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
-> >>>   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), str
-> >>> uct mutex *mutex) __cond_acquires(true# mutex)
-> >>>   ------------------------------------------------------------------------------------------------^
-> >>> Documentation/core-api/kref:328: include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
-> >>>   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
-> >>>   --------------------------------------------------------------------------------------------^
-> >>>
-> >>> Introduced by commit
-> >>>
-> >>>   5e256db9325e ("kref: Add context-analysis annotations")  
-> >>
-> >> I really have no clue what that thing is on about. The code is fine and
-> >> works as intended.
-> >>
-> >> My go-to fix for anything kdoc is to change '/**' into '/*' until it
-> >> goes away.  
-> > 
-> > Yes, that works.
-> > 
-> > I think that kernel-doc is just confused by the trailing __cond_acquires(true# lock).
-> > 
-> > Mauro, would you take a look, please?  
-> We can trivially ignore "__cond_acquires(.*)" in kernel-doc to
-> eliminate such build warnings.
-> 
-> Is that sufficient? Sure.
-> Is it the right thing to do? IDK.
-> Comments?
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+v2: adjust spelling and wording according to Randy
+---
+ Documentation/process/5.Posting.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-This fix sounds right to me. If not there at the patch,
-I would improve the include/linux/kref.h documentation to 
-describe __cond_requires() inside the kernel-doc documentation
-(or at kref.rst).
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 9999bcbdccc9..07d7dbed13ec 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -40,7 +40,12 @@ sending patches to the development community.  These include:
+  - Test the code to the extent that you can.  Make use of the kernel's
+    debugging tools, ensure that the kernel will build with all reasonable
+    combinations of configuration options, use cross-compilers to build for
+-   different architectures, etc.
++   different architectures, etc. Add tests, likely using an existing
++   testing framework like KUnit, and include them as a separate member
++   of your series (see the next section for more about patch series).
++   Note that this may be mandatory when affecting some subsystems. For
++   example, library functions (resides under lib/) are extensively used
++   almost everywhere and expected to be tested appropriately.
+ 
+  - Make sure your code is compliant with the kernel coding style
+    guidelines.
+-- 
+2.52.0
 
-> 
-> ~Randy
-> ---
->  tools/lib/python/kdoc/kdoc_parser.py |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -186,6 +186,7 @@ function_xforms  = [
->      (KernRe(r"__sched +"), ""),
->      (KernRe(r"_noprof"), ""),
->      (KernRe(r"__always_unused *"), ""),
-> +    (KernRe(r"__cond_acquires\s*\(.*\)"), ""),
-
-Regex here is too broad, as it is greedy: it may drop more
-than expected. Perhaps:
-
-    (KernRe(r"__cond_acquires\s*\([^\)]*\)"), ""),
-
-With that, feel free to add:
-
-	Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
->      (KernRe(r"__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +"), ""),
->      (KernRe(r"__(?:re)?alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\) +"), ""),
->      (KernRe(r"__diagnose_as\s*\(\s*\S+\s*(?:,\s*\d+\s*)*\) +"), ""),
-> 
-
-
-Thanks,
-Mauro
