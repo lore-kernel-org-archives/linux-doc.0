@@ -1,434 +1,1741 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011030.outbound.protection.outlook.com [40.107.130.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7280529E116;
-	Fri, 23 Jan 2026 15:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769183071; cv=fail; b=CPlT41rCXY6Ohb0Kb479OjwhaECXXpeC55AbQhstWSq1lGB3d3U1QskfHHVFJiRY47fihZ/0nHEjrERjMK4c3VpstqdhBvUuHcJBh5MDnhAg9zWviaNNcems9N8HoeLr4jcFijuKc7nv21w6gUI0TF43IFIZ1hINvH0g0F8fLjw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769183071; c=relaxed/simple;
-	bh=rKJ5UuaFuSoXw/2UX7gAjx6eeRhtccOlNgvMWPNOL5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=auPqJstbT5eYp5CogUPvBAsyci7hkQDzgKm5ZINFSitDq9u0hAwTTwlSxe/bqS+VQ47hM13fsKtMc7UvGkaMCZObsbBQBPLGDNihwm7Vba1kJq8pKFigMFwIkqIkMaRW4cQT9i0S1gtzipaqc7ffu8sGcr48DXbsdfRZbkbSMM8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=O+F/fIzF; arc=fail smtp.client-ip=40.107.130.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010141FE46D
+	for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 15:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769183579; cv=none; b=aIyIDjs76eBvS20rdvKAVCLlB8x4Aa6F0sEU3GM9Qa/tukoDn2jOfNE+WX/HfmghCSDKeSdMt5K4gReE9np9jlearRqzkaDxwhKX/uA/fhmoelv3DNJwE5e+U4QHozaw1tNSSYMt85PF+Bj7nMkXq2A+oSRT5UmSbiHgd7x2SBQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769183579; c=relaxed/simple;
+	bh=OCQmLoSg5J+pt90SuWfdBKu52JKfsyw+B+H9F7aMLp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jJHhRnTCWqoVYd7k3XtlZaxkgW6jZHiDERPcpEBBEaO7GCN9lTZ0MtOm1j/eY51KzJ5gLRW8UniahH9aPbMppehfPjJdJIOC3WOi9CfKczQz37tdoN1G91EfmjiNot+AfrLsYZAeZKGqHMla/hF1VxcfUkDjgPkky77yTQg38WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CFhi2iFg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="O+F/fIzF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wRM/+bm5XQihhkB5hjyqUqjCVOnTNiOKKn7ZdHCSEZpbVX69dJ6ZnPBtpcZsAOvEQECxYhR3cnwFpGse/1T6hf0y/JFJfQojnyoQOc/8OFQ3qSrtTq7voPxXB64b8+7m+NL1ia9jIl5hXYuUR2dia4USlaRizWKyz6njKKah/MPn9NoUIRGW/f6jQytJI9d3m8nSu1g8tGMWIOyU4jOUCVedRbTHYlQOr2IJCkg5Ao0Vrixdn0uDs3kRuYbksUP7IQPkNifk8ojLhGOzsAzZcHWfcNx3Llhk1g6XC1WfBDjNqSl4LgKgxovSTdYoNReDLxy6GL914ncdgnqT40e66Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VEQfaxLV5MEBoCeP7sZ3Nv2muYNLcFn2zU0whd1lgEw=;
- b=gAzCmOCa6BZzB+/KaDQdyT44QZzu8v9ZKdWIi7BrCFwSQR4tQaKQApo31n5/h/FbY6w8sf43eo1YIVhiI2Yjj4rGQjA3v715rCi1vIRMlpgCgMQX1uGW24yG/NFg+ywa4BXTN/nARMjgzWf4VNmzpdYhy4MiAbk36V1/qHTa9rYLJs2/7B64nEwlkG3S57uN+aIBymEIg/YvbZ7OeWxBB5O55EoxNaSpX6KZM+aGUtB7xcfnFuVzbffDpdEHpKCzESw5uaTdwa1PzOc3mH0JbPWt2yqTsG1zHju6xwATcNra0pXV3tMZnYCtTnGTdJmzeX3CnYyUkw5tWkz3bxLd3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VEQfaxLV5MEBoCeP7sZ3Nv2muYNLcFn2zU0whd1lgEw=;
- b=O+F/fIzFTfnUftOmScTvj2XQBqp3KmMAk/gJHPI5JeUbl7iC6H7uCcRB157EFaRVEHdSMm5yDrd7A6OFN+Nh9L5lDgZefoWyLtUoVYpv6PEoK7qNrIxM9WLjo6WMFcC/U7NVcM+DsViSr1X6ZVJ9VxKawcX5zfu3h20XUj7WQTA0cn7o5F2srcq7ao3h56sBwlgbP2FJZy6xPwREEztgZlEHXICn5r64IE7lNRl9Ra1Dm9yzOEMr62kuhyyOfSsuLUnx7YegM7kaUqeC8I60QVNznIplEwl+nYPmxO2ffdGVKPhQr5cLmdGF4ubL0MxGcDC8djcilO1a6BJ3ZtS/5Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8957.eurprd04.prod.outlook.com (2603:10a6:102:20c::5)
- by PAXPR04MB8877.eurprd04.prod.outlook.com (2603:10a6:102:20c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.4; Fri, 23 Jan
- 2026 15:44:24 +0000
-Received: from PAXPR04MB8957.eurprd04.prod.outlook.com
- ([fe80::9c5d:8cdf:5a78:3c5]) by PAXPR04MB8957.eurprd04.prod.outlook.com
- ([fe80::9c5d:8cdf:5a78:3c5%3]) with mapi id 15.20.9499.005; Fri, 23 Jan 2026
- 15:44:24 +0000
-Date: Fri, 23 Jan 2026 10:44:14 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Koichiro Den <den@valinux.co.jp>, dave.jiang@intel.com,
-	cassel@kernel.org, mani@kernel.org, kwilczynski@kernel.org,
-	kishon@kernel.org, bhelgaas@google.com, geert+renesas@glider.be,
-	robh@kernel.org, jdmason@kudzu.us, allenbh@gmail.com,
-	jingoohan1@gmail.com, lpieralisi@kernel.org,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-	iommu@lists.linux.dev, ntb@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, arnd@arndb.de,
-	gregkh@linuxfoundation.org, joro@8bytes.org, will@kernel.org,
-	robin.murphy@arm.com, magnus.damm@gmail.com, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	andriy.shevchenko@linux.intel.com, jbrunet@baylibre.com,
-	utkarsh02t@gmail.com
-Subject: Re: [RFC PATCH v4 02/38] dmaengine: dw-edma: Add per-channel
- interrupt routing control
-Message-ID: <aXOXTpWbJ4IxrjuC@lizhi-Precision-Tower-5810>
-References: <20260118135440.1958279-1-den@valinux.co.jp>
- <20260118135440.1958279-3-den@valinux.co.jp>
- <aW0SVx11WCxfTHoY@lizhi-Precision-Tower-5810>
- <32egn4uhx3dll5es4nzpivg5rdv3hvvrceyznsnnnbbyze7qxu@5z6w45v3jwyf>
- <aXD4ncvjZWljUyxe@vaman>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXD4ncvjZWljUyxe@vaman>
-X-ClientProxiedBy: SA9P221CA0020.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:806:25::25) To PAXPR04MB8957.eurprd04.prod.outlook.com
- (2603:10a6:102:20c::5)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CFhi2iFg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF6FC4CEF1;
+	Fri, 23 Jan 2026 15:52:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769183578;
+	bh=OCQmLoSg5J+pt90SuWfdBKu52JKfsyw+B+H9F7aMLp4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CFhi2iFg3ZX4TEg19eQN8RzS8QN9JWaB3P+KCvznd51RoehdAW6A6CBiaNBN2Vc53
+	 CX32CC8YGap9a4efAMVYktHOuSQMbYAjoTlqnmD56MzAKTcg+e2WUyoHbNZrnEhc8e
+	 iZDP4sqUZ3+an4C+KjKTQafEj2XtLzOBIOE8EniO/vpesBO5LUPaUHGxngf6vq9ZB7
+	 7Np4+cIMBv1J4/eWR1J2CNRoSK1rR1tu40n5b4gaRX0YR95x6tVfYLAfCf3k5v+C0W
+	 84Urh+0ZyNnWh5GjBDvSwj9VG6KyJuBmovoLUYn2jpKyxhP0vh8PBpRym5xY7SEJZU
+	 bkbGkMtPL8S2g==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vjJSx-000000066xf-0fjx;
+	Fri, 23 Jan 2026 16:52:56 +0100
+Date: Fri, 23 Jan 2026 16:52:54 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] Documentation: use a source-read extension for the
+ index link boilerplate
+Message-ID: <20260123165254.302ece56@localhost>
+In-Reply-To: <20260123143149.2024303-1-jani.nikula@intel.com>
+References: <20260123143149.2024303-1-jani.nikula@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8957:EE_|PAXPR04MB8877:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f6992a0-b806-48da-33a2-08de5a96485f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|366016|376014|1800799024|52116014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UCtihTFfhxUsu43l94ZAJKnSupKuMlLi35tK/ppjYm2hkagUqn5Dv6pe1eIv?=
- =?us-ascii?Q?eGZdDmg5Tp+oWccqBI1ojg60Eeltf4KBKC2iOXk3PZrDTaiAJxZrHKeo4YMO?=
- =?us-ascii?Q?Wbd/PsJIDC316hVcuXbSCRsUM/riJqm2MFfefoweYahOlNC0ljMonX5EAZZZ?=
- =?us-ascii?Q?8xFeYm9pe3vSu8mG4RcAFKX8Jis71XsUmKC5IZMLm8IdHKtlHQZDexkG17L3?=
- =?us-ascii?Q?wEBtfJFgls3etewFA4dDyzm+FWQhtXDqUUoMld2nLORl+dg77LmwH7PN0Fu+?=
- =?us-ascii?Q?QrGY/KovOvKUWESDdx/WqtfGJlI9qElP8yF0/Wuo6dXXcOlAoC8RqrIB1+3a?=
- =?us-ascii?Q?uBpKM4NDaZqb1q2qHpiE8MnxZP2GuG8eU6Q6D9Gb4sgipKz6WQnziPKPcGb6?=
- =?us-ascii?Q?O58c7By7Hq0OQ/L60Gpik+AYbA/tagTk3DzCJwW5mr7LSldYts5FS37NPvOY?=
- =?us-ascii?Q?I8LyvX+eq1G6xmk1+pbd35rZRoCjMR3N7aMmzZ8CoUcJMFrV5SJa1K9b5Msf?=
- =?us-ascii?Q?U/C7nVg4BEoB+wUgKQDRz8kFGhlBIAwI0/ZCMNtrEGTlSu9uHQSb/jYLjl+i?=
- =?us-ascii?Q?0DIE3JuqcXlyltzKjWkHE393N12u/SeG6OWtECDgbXgM/KXnA4UVhKSzr1NH?=
- =?us-ascii?Q?CFs5WIP43lKMLA2Wrp7bWDSLS8je3BP7NKCc/A8Q0WzB6NrUnl6UHhIYAQDj?=
- =?us-ascii?Q?ZJRg/0mJyAETIaFgOc1141CLp7px0HHUOn1bxEQeG4dqzxFdyC/5/EsGTsgO?=
- =?us-ascii?Q?YQK8h3YaQrZfSqF1tXVlYdALcPbloEv/Ldox6V3Wmps2D6z89DS+Vyvb2mMS?=
- =?us-ascii?Q?6Ir2nsqMucSsF/jr3Kuorv3XHMC/YHKMIMCOV7H0dKig0jMy93ZpdYX0ZNEw?=
- =?us-ascii?Q?IbBLI9dd5baf2LjNoV9ugS3uLJg3dg0ZiYmo4PQgHBFtc9qIXYL9IcvytUrT?=
- =?us-ascii?Q?2G8zURL8p77SZVmbNAagQ39Gc3H2fUyqdnEX1U0VqOctWjCeXbNUM6s6/pTd?=
- =?us-ascii?Q?acgmzdhBP4x9N+9WD2OLYTXqsl6YQyZXchTsSZRe66U6i5cA5A1Ktrh1N7f/?=
- =?us-ascii?Q?WZx4VN6awEhgPyi/xgcododV8FR8h8aViRro0f8nXwjAU8R01WPDPDIFqzKS?=
- =?us-ascii?Q?diQu5ng0NjKUhn+fawuL/9DUGO9kYDs6Mp/fwjZEH/GxWuL4ApvSXknGHWUS?=
- =?us-ascii?Q?vpOonX/joecm8oMUKwD+5F1Ta1sN0qJNRZozG0RbLexEsFwkuja5l7C6k957?=
- =?us-ascii?Q?wEWqt5HNG+SCey+DNdQ+zDybzVMdV0XdYVv/3jUlj7kI8nrmakcfI7KXtnsn?=
- =?us-ascii?Q?EuMaObqwfhnoQMRnDEaedT6RfyW27qVN0x33sEGMREvWV0ZKEw1HbeHl+cSm?=
- =?us-ascii?Q?qRAqizdCrKEah3zL+lWnWIDne1gWZwDpWaj7lCdl2M9IVJ4HX9rXW16OKqDJ?=
- =?us-ascii?Q?QOlyJI218FUKiO50D/0EJbounyCOmNz8111gfgF/Xj84aZ1uJgyXjuJHstZ5?=
- =?us-ascii?Q?DQGMYUtsHvOx4qLnO5+CZ8xtE8G1SObLTjRDDQli1C2z1FnLh9r2u3QG8e+l?=
- =?us-ascii?Q?ZYJbtcLW2AW6HsocuEXxWbcM0Z5oe4jquKemh6Qp390zOk+KmOf6ukQkmn+q?=
- =?us-ascii?Q?A6TXJjKyd7JmkfYV8wx0ILI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8957.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(1800799024)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1MW+vIYu8E1T+qDauSdZnORtB2M8aU9dPYublzZavxq3JACumEsXtT+ruXbU?=
- =?us-ascii?Q?0eRUmMRPtyb9Aq3eqkmgeyroMd574vFpjRT1TNEGqFOhYz3jarjgAYdejIrD?=
- =?us-ascii?Q?WrJBsdoEqtJXJlVnDFgyv1QUsloHPwSlS9bd6nQTn9AjiydJrj+EI/bhsl7e?=
- =?us-ascii?Q?c9kqc6xE8MbfvazSFDvq+qTs+ZD1zSTtsVXSndbnUNhXoezhaYwAN/6BbfBA?=
- =?us-ascii?Q?v7evsdsEVQl2EqWcjEVYgd8GnIGc+10YCuD5QkIGukv1QBOJYXjYNM18bc/T?=
- =?us-ascii?Q?GeGM6eJGbpKtybSvMvq784t9ceYIwLpOJWl3hkPkiKm4Yee2T3nLrhG2JBFB?=
- =?us-ascii?Q?2ho7d7U5iqYwMClxLC28mEuvWZ7pBlmkCWey4/qlZOOPRDOo+kjYCnwTdCUK?=
- =?us-ascii?Q?jIgr2u/tHKaTxXBgH31pXS6cYTIIYx7XF36eJoQsOdLIFh/kAy2wcAq7Sa90?=
- =?us-ascii?Q?w+5kRgXXjo4rnLDPMVO8BmQkRO+5woP7zq44HBt9yCqXvRZ/1vltbJ+uApZX?=
- =?us-ascii?Q?Ln26pdnsmeop9cywar7wchnF5XYjcptHMtPBdZzh03PIjcEQVCXbOkKVY292?=
- =?us-ascii?Q?j9NIMqv/yZXIraWErBH/I5zDhri/OsPIpIxVni/qUxogcgWfYu2GM5q7s5e9?=
- =?us-ascii?Q?Y3qXAOIZWhWfJxpZkn8KSdXrc2B6Gs7K6AYmUkK50LIZ6vykfSuoAuXQhNMT?=
- =?us-ascii?Q?eKiK54PIWO9bAUBJoN6BzyyMP1gJOh1qyflfsQnc6PHurw0tqJqIQbgOQCGv?=
- =?us-ascii?Q?qmhyM9NxYApzveeTb5BqcS53wtJYCiQvh5jinVkSZQzDWH8p+N0mpD22Tg//?=
- =?us-ascii?Q?c7jRUv7mMiX41p1kqHRSLZ1mvyfUOBiryv9Ug6JSDXY6QRwSxoyy4HBw8jbQ?=
- =?us-ascii?Q?FMwPB1Fe83dlRMwuEbQPjACVstU4JyD+Bj4276XnG6ckjejHCn5dcoTEco4X?=
- =?us-ascii?Q?huFHmMwmXZ71jNpTLLMUbuEDmxwpLjB4NfWCzQRFHi0epOVzWEo7syp9yGdN?=
- =?us-ascii?Q?5PTAzDfYLereNn4DNiBLiKcMWIATV4gpxvAdOS5/dlSeRLFgiwW31k4/1rjp?=
- =?us-ascii?Q?Bi0NlrB5/OzTmwvGIrkFMTq3D488KXkaqinuvMan2ST/4DkGj2x22Xz5gTWA?=
- =?us-ascii?Q?FcOxpm/hntgW4C3dQQWrphvFXjmoT1jy+IpY7/HctvJ6qEXaQa1XQI+lfbnD?=
- =?us-ascii?Q?6ZCDt47lPxPerfasgIzOxiTkJpcssD67z34Ij3YXJBAWdQT1Cn/WmBwbaf6H?=
- =?us-ascii?Q?JEn0wAob1DqMu8Qi5YHa2gKPICkD8jRSjdttKMukPG8fJDUu37F9AzE9DfJQ?=
- =?us-ascii?Q?pwp0UBfqWGxhcm3/Ryiozx4lYDgW5LpQU9jqriD8msJWbYGH8+eV1tWJElQ/?=
- =?us-ascii?Q?meAvORnOj3hzBZkZtxau5BmSgxbT61vvQFO9essuZHf7toFYE4Lk8yF4W2UH?=
- =?us-ascii?Q?HS3KaGvxXUNceqtZ+TzcyMnepuP22GkBIPbdH4du8rGncv/gdtElTObqqABo?=
- =?us-ascii?Q?YQyy9Z6Fmro1Mvxm4lBlgkeBXFRas9PkJmYlE7fm1Wo7YKX9RhWEi1wHQ18z?=
- =?us-ascii?Q?gwRr2RMyecPUfYqRcl6VCQidKCR9/Y++GHSK8u2fNS/X+kIGRCvFUqUERMY5?=
- =?us-ascii?Q?0Gcj68RCkQdafBcNclEiFIJON9p/VXYajqBVOEktxNmWjo3ZGsLTPFeGGSfO?=
- =?us-ascii?Q?mefEUYxvH1yGt7tx2oEVOK043ijQZ7rFc6mBjw/VPoWo1JCr?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f6992a0-b806-48da-33a2-08de5a96485f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8957.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 15:44:24.4352
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2hb8aXWOYbr5d7ROMFmv9nyiL2jsMw12uzjZQ7I8Uec2BqGsrtftH7nqJ2Yh8sK6fANoWGB+oUh/F2hUqXNPvQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8877
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 21, 2026 at 09:32:37PM +0530, Vinod Koul wrote:
-> On 19-01-26, 23:26, Koichiro Den wrote:
-> > On Sun, Jan 18, 2026 at 12:03:19PM -0500, Frank Li wrote:
-> > > On Sun, Jan 18, 2026 at 10:54:04PM +0900, Koichiro Den wrote:
-> > > > DesignWare EP eDMA can generate interrupts both locally and remotely
-> > > > (LIE/RIE). Remote eDMA users need to decide, per channel, whether
-> > > > completions should be handled locally, remotely, or both. Unless
-> > > > carefully configured, the endpoint and host would race to ack the
-> > > > interrupt.
-> > > >
-> > > > Introduce a per-channel interrupt routing mode and export small APIs to
-> > > > configure and query it. Update v0 programming so that RIE and local
-> > > > done/abort interrupt masking follow the selected mode. The default mode
-> > > > keeps the original behavior, so unless the new APIs are explicitly used,
-> > > > no functional changes.
-> > > >
-> > > > Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> > > > ---
-> > > >  drivers/dma/dw-edma/dw-edma-core.c    | 52 +++++++++++++++++++++++++++
-> > > >  drivers/dma/dw-edma/dw-edma-core.h    |  2 ++
-> > > >  drivers/dma/dw-edma/dw-edma-v0-core.c | 26 +++++++++-----
-> > > >  include/linux/dma/edma.h              | 44 +++++++++++++++++++++++
-> > > >  4 files changed, 116 insertions(+), 8 deletions(-)
-> > > >
-> > > > diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> > > > index b9d59c3c0cb4..059b3996d383 100644
-> > > > --- a/drivers/dma/dw-edma/dw-edma-core.c
-> > > > +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> > > > @@ -768,6 +768,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
-> > > >  		chan->configured = false;
-> > > >  		chan->request = EDMA_REQ_NONE;
-> > > >  		chan->status = EDMA_ST_IDLE;
-> > > > +		chan->irq_mode = DW_EDMA_CH_IRQ_DEFAULT;
-> > > >
-> > > >  		if (chan->dir == EDMA_DIR_WRITE)
-> > > >  			chan->ll_max = (chip->ll_region_wr[chan->id].sz / EDMA_LL_SZ);
-> > > > @@ -1062,6 +1063,57 @@ int dw_edma_remove(struct dw_edma_chip *chip)
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(dw_edma_remove);
-> > > >
-> > > > +int dw_edma_chan_irq_config(struct dma_chan *dchan,
-> > > > +			    enum dw_edma_ch_irq_mode mode)
-> > > > +{
-> > > > +	struct dw_edma_chan *chan;
-> > > > +
-> > > > +	switch (mode) {
-> > > > +	case DW_EDMA_CH_IRQ_DEFAULT:
-> > > > +	case DW_EDMA_CH_IRQ_LOCAL:
-> > > > +	case DW_EDMA_CH_IRQ_REMOTE:
-> > > > +		break;
-> > > > +	default:
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	if (!dchan || !dchan->device)
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	chan = dchan2dw_edma_chan(dchan);
-> > > > +	if (!chan)
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	chan->irq_mode = mode;
-> > > > +
-> > > > +	dev_vdbg(chan->dw->chip->dev, "Channel: %s[%u] set irq_mode=%u\n",
-> > > > +		 str_write_read(chan->dir == EDMA_DIR_WRITE),
-> > > > +		 chan->id, mode);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(dw_edma_chan_irq_config);
-> > > > +
-> > > > +bool dw_edma_chan_ignore_irq(struct dma_chan *dchan)
-> > > > +{
-> > > > +	struct dw_edma_chan *chan;
-> > > > +	struct dw_edma *dw;
-> > > > +
-> > > > +	if (!dchan || !dchan->device)
-> > > > +		return false;
-> > > > +
-> > > > +	chan = dchan2dw_edma_chan(dchan);
-> > > > +	if (!chan)
-> > > > +		return false;
-> > > > +
-> > > > +	dw = chan->dw;
-> > > > +	if (dw->chip->flags & DW_EDMA_CHIP_LOCAL)
-> > > > +		return chan->irq_mode == DW_EDMA_CH_IRQ_REMOTE;
-> > > > +	else
-> > > > +		return chan->irq_mode == DW_EDMA_CH_IRQ_LOCAL;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(dw_edma_chan_ignore_irq);
-> > > > +
-> > > >  MODULE_LICENSE("GPL v2");
-> > > >  MODULE_DESCRIPTION("Synopsys DesignWare eDMA controller core driver");
-> > > >  MODULE_AUTHOR("Gustavo Pimentel <gustavo.pimentel@synopsys.com>");
-> > > > diff --git a/drivers/dma/dw-edma/dw-edma-core.h b/drivers/dma/dw-edma/dw-edma-core.h
-> > > > index 71894b9e0b15..8458d676551a 100644
-> > > > --- a/drivers/dma/dw-edma/dw-edma-core.h
-> > > > +++ b/drivers/dma/dw-edma/dw-edma-core.h
-> > > > @@ -81,6 +81,8 @@ struct dw_edma_chan {
-> > > >
-> > > >  	struct msi_msg			msi;
-> > > >
-> > > > +	enum dw_edma_ch_irq_mode	irq_mode;
-> > > > +
-> > > >  	enum dw_edma_request		request;
-> > > >  	enum dw_edma_status		status;
-> > > >  	u8				configured;
-> > > > diff --git a/drivers/dma/dw-edma/dw-edma-v0-core.c b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > > index 2850a9df80f5..80472148c335 100644
-> > > > --- a/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > > +++ b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > > @@ -256,8 +256,10 @@ dw_edma_v0_core_handle_int(struct dw_edma_irq *dw_irq, enum dw_edma_dir dir,
-> > > >  	for_each_set_bit(pos, &val, total) {
-> > > >  		chan = &dw->chan[pos + off];
-> > > >
-> > > > -		dw_edma_v0_core_clear_done_int(chan);
-> > > > -		done(chan);
-> > > > +		if (!dw_edma_chan_ignore_irq(&chan->vc.chan)) {
-> > > > +			dw_edma_v0_core_clear_done_int(chan);
-> > > > +			done(chan);
-> > > > +		}
-> > > >
-> > > >  		ret = IRQ_HANDLED;
-> > > >  	}
-> > > > @@ -267,8 +269,10 @@ dw_edma_v0_core_handle_int(struct dw_edma_irq *dw_irq, enum dw_edma_dir dir,
-> > > >  	for_each_set_bit(pos, &val, total) {
-> > > >  		chan = &dw->chan[pos + off];
-> > > >
-> > > > -		dw_edma_v0_core_clear_abort_int(chan);
-> > > > -		abort(chan);
-> > > > +		if (!dw_edma_chan_ignore_irq(&chan->vc.chan)) {
-> > > > +			dw_edma_v0_core_clear_abort_int(chan);
-> > > > +			abort(chan);
-> > > > +		}
-> > > >
-> > > >  		ret = IRQ_HANDLED;
-> > > >  	}
-> > > > @@ -331,7 +335,8 @@ static void dw_edma_v0_core_write_chunk(struct dw_edma_chunk *chunk)
-> > > >  		j--;
-> > > >  		if (!j) {
-> > > >  			control |= DW_EDMA_V0_LIE;
-> > > > -			if (!(chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL))
-> > > > +			if (!(chan->dw->chip->flags & DW_EDMA_CHIP_LOCAL) &&
-> > > > +			    chan->irq_mode != DW_EDMA_CH_IRQ_LOCAL)
-> > > >  				control |= DW_EDMA_V0_RIE;
-> > > >  		}
-> > > >
-> > > > @@ -408,12 +413,17 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> > > >  				break;
-> > > >  			}
-> > > >  		}
-> > > > -		/* Interrupt unmask - done, abort */
-> > > > +		/* Interrupt mask/unmask - done, abort */
-> > > >  		raw_spin_lock_irqsave(&dw->lock, flags);
-> > > >
-> > > >  		tmp = GET_RW_32(dw, chan->dir, int_mask);
-> > > > -		tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > > > -		tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > > +		if (chan->irq_mode == DW_EDMA_CH_IRQ_REMOTE) {
-> > > > +			tmp |= FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > > > +			tmp |= FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > > +		} else {
-> > > > +			tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > > > +			tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > > +		}
-> > > >  		SET_RW_32(dw, chan->dir, int_mask, tmp);
-> > > >  		/* Linked list error */
-> > > >  		tmp = GET_RW_32(dw, chan->dir, linked_list_err_en);
-> > > > diff --git a/include/linux/dma/edma.h b/include/linux/dma/edma.h
-> > > > index ffad10ff2cd6..6f50165ac084 100644
-> > > > --- a/include/linux/dma/edma.h
-> > > > +++ b/include/linux/dma/edma.h
-> > > > @@ -60,6 +60,23 @@ enum dw_edma_chip_flags {
-> > > >  	DW_EDMA_CHIP_LOCAL	= BIT(0),
-> > > >  };
-> > > >
-> > > > +/*
-> > > > + * enum dw_edma_ch_irq_mode - per-channel interrupt routing control
-> > > > + * @DW_EDMA_CH_IRQ_DEFAULT:   LIE=1/RIE=1, local interrupt unmasked
-> > > > + * @DW_EDMA_CH_IRQ_LOCAL:     LIE=1/RIE=0
-> > > > + * @DW_EDMA_CH_IRQ_REMOTE:    LIE=1/RIE=1, local interrupt masked
-> > > > + *
-> > > > + * Some implementations require using LIE=1/RIE=1 with the local interrupt
-> > > > + * masked to generate a remote-only interrupt (rather than LIE=0/RIE=1).
-> > > > + * See the DesignWare endpoint databook 5.40, "Hint" below "Figure 8-22
-> > > > + * Write Interrupt Generation".
-> > > > + */
-> > > > +enum dw_edma_ch_irq_mode {
-> > > > +	DW_EDMA_CH_IRQ_DEFAULT	= 0,
-> > > > +	DW_EDMA_CH_IRQ_LOCAL,
-> > > > +	DW_EDMA_CH_IRQ_REMOTE,
-> > > > +};
-> > > > +
-> > > >  /**
-> > > >   * struct dw_edma_chip - representation of DesignWare eDMA controller hardware
-> > > >   * @dev:		 struct device of the eDMA controller
-> > > > @@ -105,6 +122,22 @@ struct dw_edma_chip {
-> > > >  #if IS_REACHABLE(CONFIG_DW_EDMA)
-> > > >  int dw_edma_probe(struct dw_edma_chip *chip);
-> > > >  int dw_edma_remove(struct dw_edma_chip *chip);
-> > > > +/**
-> > > > + * dw_edma_chan_irq_config - configure per-channel interrupt routing
-> > > > + * @chan: DMA channel obtained from dma_request_channel()
-> > > > + * @mode: interrupt routing mode
-> > > > + *
-> > > > + * Returns 0 on success, -EINVAL for invalid @mode, or -ENODEV if @chan does
-> > > > + * not belong to the DesignWare eDMA driver.
-> > > > + */
-> > > > +int dw_edma_chan_irq_config(struct dma_chan *chan,
-> > > > +			    enum dw_edma_ch_irq_mode mode);
-> > > > +
-> > > > +/**
-> > > > + * dw_edma_chan_ignore_irq - tell whether local IRQ handling should be ignored
-> > > > + * @chan: DMA channel obtained from dma_request_channel()
-> > > > + */
-> > > > +bool dw_edma_chan_ignore_irq(struct dma_chan *chan);
-> > > >  #else
-> > > >  static inline int dw_edma_probe(struct dw_edma_chip *chip)
-> > > >  {
-> > > > @@ -115,6 +148,17 @@ static inline int dw_edma_remove(struct dw_edma_chip *chip)
-> > > >  {
-> > > >  	return 0;
-> > > >  }
-> > > > +
-> > > > +static inline int dw_edma_chan_irq_config(struct dma_chan *chan,
-> > > > +					  enum dw_edma_ch_irq_mode mode)
-> > > > +{
-> > > > +	return -ENODEV;
-> > > > +}
-> > > > +
-> > > > +static inline bool dw_edma_chan_ignore_irq(struct dma_chan *chan)
-> > > > +{
-> > > > +	return false;
-> > > > +}
-> > >
-> > > I think it'd better go thought
-> > >
-> > > struct dma_slave_config {
-> > > 	...
-> > >         void *peripheral_config;
-> > > 	size_t peripheral_size;
-> > >
-> > > };
-> > >
-> > > So DMA consumer can use standard DMAengine API, dmaengine_slave_config().
-> >
-> > Using .peripheral_config wasn't something I had initially considered, but I
-> > agree that this is preferable in the sense that it avoids introducing the
-> > additional exported APIs. I'm not entirely sure whether it's clean to use
-> > it for non-peripheral settings in the strict sense, but there seem to be
-> > precedents such as stm32_mdma_dma_config, so I guess it seems acceptable.
-> > If I'm missing something, please correct me.
->
-> Strictly speaking slave config should be used for peripheral transfers.
-> For memcpy users (this seems more like that), I would argue slave config
-> does not make much sense.
+On Fri, 23 Jan 2026 16:31:49 +0200
+Jani Nikula <jani.nikula@intel.com> wrote:
 
-It is not memcpy because one side address is not visible. It is really
-hard to define the difference between memcpy and slave transfer because
-- some slave transfer use MMIO, both side address increase, not like
-tranditional FIFO. it makes more like memcpy.
-- althougth it look like memcpy, but some slave have limitation, like need
-4 bytpe alignment, there are limitation about burst length each time.
-Generally, memcpy have not such limitation (except from dmaengine itself).
-- slave address may not visialable at one side system.
+> The root document usually has a special :ref:`genindex` link to the
+> generated index. This is also the case for Documentation/index.rst. The
+> other index.rst files deeper in the directory hierarchy usually don't.
+> 
+> For SPHINXDIRS builds, the root document isn't Documentation/index.rst,
+> but some other index.rst in the hierarchy. Currently they have a
+> ".. only::" block to add the index link when doing SPHINXDIRS html
+> builds.
+> 
+> This is obviously very tedious and repetitive. The link is also added to
+> all index.rst files in the hierarchy for SPHINXDIRS builds, not just the
+> root document.
+> 
+> Put the boilerplate in a sphinx-includes/subproject-index.rst file, and
+> include it at the end of the root document for subproject builds in an
+> ad-hoc source-read extension defined in conf.py.
+> 
+> For now, keep having the boilerplate in translations, because this
+> approach currently doesn't cover translated index link headers.
 
-So dw-edma don't use prep_memcpy, which use prep_sg to do data transfer.
+Nice cleanup.
 
-Frank
->
-> --
-> ~Vinod
+I was able to build both "peci" and "userspace-api/media" using it.
+On both, the "indexes" were properly added.
+
+So:
+
+Tested-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  Documentation/RCU/index.rst                   |  7 ------
+>  Documentation/accel/index.rst                 |  7 ------
+>  Documentation/admin-guide/aoe/index.rst       |  7 ------
+>  .../admin-guide/auxdisplay/index.rst          |  7 ------
+>  Documentation/admin-guide/cgroup-v1/index.rst |  7 ------
+>  Documentation/admin-guide/cifs/index.rst      |  7 ------
+>  .../admin-guide/device-mapper/index.rst       |  7 ------
+>  Documentation/admin-guide/gpio/index.rst      |  7 ------
+>  Documentation/admin-guide/index.rst           |  7 ------
+>  Documentation/admin-guide/kdump/index.rst     |  7 ------
+>  Documentation/arch/arc/index.rst              |  7 ------
+>  Documentation/arch/arm/index.rst              |  8 -------
+>  Documentation/arch/arm64/index.rst            |  7 ------
+>  Documentation/arch/loongarch/index.rst        |  7 ------
+>  Documentation/arch/m68k/index.rst             |  7 ------
+>  Documentation/arch/mips/index.rst             |  7 ------
+>  Documentation/arch/openrisc/index.rst         |  7 ------
+>  Documentation/arch/parisc/index.rst           |  7 ------
+>  Documentation/arch/powerpc/index.rst          |  7 ------
+>  Documentation/arch/riscv/index.rst            |  7 ------
+>  Documentation/arch/s390/index.rst             |  7 ------
+>  Documentation/bpf/index.rst                   |  7 ------
+>  Documentation/cdrom/index.rst                 |  7 ------
+>  Documentation/conf.py                         | 24 ++++++++++++++++++-
+>  Documentation/core-api/index.rst              |  7 ------
+>  Documentation/core-api/kho/index.rst          |  2 --
+>  Documentation/dev-tools/index.rst             |  8 -------
+>  Documentation/doc-guide/index.rst             |  7 ------
+>  Documentation/driver-api/80211/index.rst      |  7 ------
+>  Documentation/driver-api/coco/index.rst       |  2 --
+>  Documentation/driver-api/crypto/iaa/index.rst |  7 ------
+>  Documentation/driver-api/crypto/index.rst     |  7 ------
+>  Documentation/driver-api/cxl/index.rst        |  2 --
+>  Documentation/driver-api/dmaengine/index.rst  |  7 ------
+>  .../driver-api/driver-model/index.rst         |  7 ------
+>  .../driver-api/early-userspace/index.rst      |  7 ------
+>  Documentation/driver-api/firmware/index.rst   |  7 ------
+>  Documentation/driver-api/index.rst            |  7 ------
+>  .../driver-api/memory-devices/index.rst       |  7 ------
+>  Documentation/driver-api/pci/index.rst        |  7 ------
+>  Documentation/driver-api/phy/index.rst        |  8 -------
+>  Documentation/driver-api/pm/index.rst         |  7 ------
+>  Documentation/driver-api/serial/index.rst     |  7 ------
+>  Documentation/driver-api/soundwire/index.rst  |  7 ------
+>  .../surface_aggregator/clients/index.rst      |  7 ------
+>  .../driver-api/surface_aggregator/index.rst   |  7 ------
+>  Documentation/driver-api/usb/index.rst        |  7 ------
+>  Documentation/driver-api/xilinx/index.rst     |  7 ------
+>  Documentation/fault-injection/index.rst       |  7 ------
+>  Documentation/fb/index.rst                    |  7 ------
+>  Documentation/fpga/index.rst                  |  7 ------
+>  Documentation/gpu/drivers.rst                 |  7 ------
+>  Documentation/gpu/index.rst                   |  7 ------
+>  Documentation/hwmon/index.rst                 |  7 ------
+>  Documentation/i2c/index.rst                   |  7 ------
+>  Documentation/infiniband/index.rst            |  7 ------
+>  Documentation/input/devices/index.rst         |  7 ------
+>  Documentation/input/index.rst                 |  7 ------
+>  Documentation/isdn/index.rst                  |  7 ------
+>  Documentation/kbuild/index.rst                |  7 ------
+>  Documentation/livepatch/index.rst             |  7 ------
+>  Documentation/locking/index.rst               |  7 ------
+>  Documentation/mhi/index.rst                   |  7 ------
+>  Documentation/netlabel/index.rst              |  7 ------
+>  .../networking/device_drivers/atm/index.rst   |  7 ------
+>  .../networking/device_drivers/can/index.rst   |  7 ------
+>  .../device_drivers/cellular/index.rst         |  7 ------
+>  .../device_drivers/ethernet/index.rst         |  7 ------
+>  .../ethernet/mellanox/mlx5/index.rst          |  7 ------
+>  .../networking/device_drivers/fddi/index.rst  |  7 ------
+>  .../device_drivers/hamradio/index.rst         |  7 ------
+>  .../networking/device_drivers/index.rst       |  7 ------
+>  .../networking/device_drivers/wifi/index.rst  |  7 ------
+>  .../networking/device_drivers/wwan/index.rst  |  7 ------
+>  Documentation/networking/diagnostic/index.rst |  7 ------
+>  Documentation/networking/index.rst            |  7 ------
+>  Documentation/pcmcia/index.rst                |  7 ------
+>  Documentation/peci/index.rst                  |  7 ------
+>  Documentation/power/index.rst                 |  7 ------
+>  Documentation/process/debugging/index.rst     |  9 -------
+>  Documentation/process/index.rst               |  7 ------
+>  Documentation/rust/index.rst                  |  7 ------
+>  Documentation/scheduler/index.rst             |  7 ------
+>  Documentation/sound/index.rst                 |  7 ------
+>  .../sphinx-includes/subproject-index.rst      |  7 ++++++
+>  Documentation/spi/index.rst                   |  7 ------
+>  Documentation/target/index.rst                |  7 ------
+>  Documentation/tee/index.rst                   |  7 ------
+>  Documentation/timers/index.rst                |  7 ------
+>  Documentation/tools/index.rst                 |  7 ------
+>  Documentation/tools/rtla/index.rst            |  7 ------
+>  Documentation/tools/rv/index.rst              |  7 ------
+>  Documentation/trace/index.rst                 |  7 ------
+>  Documentation/usb/index.rst                   |  7 ------
+>  Documentation/userspace-api/gpio/index.rst    |  7 ------
+>  Documentation/userspace-api/index.rst         |  7 ------
+>  Documentation/virt/index.rst                  |  7 ------
+>  Documentation/w1/index.rst                    |  7 ------
+>  Documentation/watchdog/index.rst              |  7 ------
+>  Documentation/wmi/devices/index.rst           |  7 ------
+>  Documentation/wmi/index.rst                   |  8 -------
+>  101 files changed, 30 insertions(+), 685 deletions(-)
+>  create mode 100644 Documentation/sphinx-includes/subproject-index.rst
+> 
+> diff --git a/Documentation/RCU/index.rst b/Documentation/RCU/index.rst
+> index ef26c78507d3..035871687ee2 100644
+> --- a/Documentation/RCU/index.rst
+> +++ b/Documentation/RCU/index.rst
+> @@ -28,10 +28,3 @@ RCU Handbook
+>     Design/Expedited-Grace-Periods/Expedited-Grace-Periods
+>     Design/Requirements/Requirements
+>     Design/Data-Structures/Data-Structures
+> -
+> -.. only:: subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
+> index d8fa332d60a8..cbc7d4c3876a 100644
+> --- a/Documentation/accel/index.rst
+> +++ b/Documentation/accel/index.rst
+> @@ -11,10 +11,3 @@ Compute Accelerators
+>     amdxdna/index
+>     qaic/index
+>     rocket/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/aoe/index.rst b/Documentation/admin-guide/aoe/index.rst
+> index d71c5df15922..564354bbce57 100644
+> --- a/Documentation/admin-guide/aoe/index.rst
+> +++ b/Documentation/admin-guide/aoe/index.rst
+> @@ -8,10 +8,3 @@ ATA over Ethernet (AoE)
+>      aoe
+>      todo
+>      examples
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/auxdisplay/index.rst b/Documentation/admin-guide/auxdisplay/index.rst
+> index e466f0595248..31eae08255fd 100644
+> --- a/Documentation/admin-guide/auxdisplay/index.rst
+> +++ b/Documentation/admin-guide/auxdisplay/index.rst
+> @@ -7,10 +7,3 @@ Auxiliary Display Support
+>  
+>      ks0108.rst
+>      cfag12864b.rst
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/cgroup-v1/index.rst b/Documentation/admin-guide/cgroup-v1/index.rst
+> index 99fbc8a64ba9..14897a8d32b3 100644
+> --- a/Documentation/admin-guide/cgroup-v1/index.rst
+> +++ b/Documentation/admin-guide/cgroup-v1/index.rst
+> @@ -22,10 +22,3 @@ Control Groups version 1
+>      net_prio
+>      pids
+>      rdma
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/cifs/index.rst b/Documentation/admin-guide/cifs/index.rst
+> index fad5268635f5..58ab58a71a82 100644
+> --- a/Documentation/admin-guide/cifs/index.rst
+> +++ b/Documentation/admin-guide/cifs/index.rst
+> @@ -12,10 +12,3 @@ CIFS
+>     todo
+>     changes
+>     authors
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/device-mapper/index.rst b/Documentation/admin-guide/device-mapper/index.rst
+> index f1c1f4b824ba..030d854628ac 100644
+> --- a/Documentation/admin-guide/device-mapper/index.rst
+> +++ b/Documentation/admin-guide/device-mapper/index.rst
+> @@ -40,10 +40,3 @@ Device Mapper
+>      verity
+>      writecache
+>      zero
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/gpio/index.rst b/Documentation/admin-guide/gpio/index.rst
+> index 712f379731cb..082646851029 100644
+> --- a/Documentation/admin-guide/gpio/index.rst
+> +++ b/Documentation/admin-guide/gpio/index.rst
+> @@ -12,10 +12,3 @@ GPIO
+>      gpio-sim
+>      gpio-virtuser
+>      Obsolete APIs <obsolete>
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index 259d79fbeb94..b734f8a2a2c4 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -189,10 +189,3 @@ A few hard-to-categorize and generally obsolete documents.
+>  
+>     ldm
+>     unicode
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/admin-guide/kdump/index.rst b/Documentation/admin-guide/kdump/index.rst
+> index 8e2ebd0383cd..cf5d7c868b74 100644
+> --- a/Documentation/admin-guide/kdump/index.rst
+> +++ b/Documentation/admin-guide/kdump/index.rst
+> @@ -11,10 +11,3 @@ information.
+>  
+>      kdump
+>      vmcoreinfo
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/arc/index.rst b/Documentation/arch/arc/index.rst
+> index 7b098d4a5e3e..10bf8c2701bf 100644
+> --- a/Documentation/arch/arc/index.rst
+> +++ b/Documentation/arch/arc/index.rst
+> @@ -8,10 +8,3 @@ ARC architecture
+>      arc
+>  
+>      features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/arm/index.rst b/Documentation/arch/arm/index.rst
+> index fd43502ae924..afe17db294c4 100644
+> --- a/Documentation/arch/arm/index.rst
+> +++ b/Documentation/arch/arm/index.rst
+> @@ -75,11 +75,3 @@ SoC-specific documents
+>     sti/overview
+>  
+>     vfp/release-notes
+> -
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/arm64/index.rst b/Documentation/arch/arm64/index.rst
+> index 6a012c98bdcd..af52edc8c0ac 100644
+> --- a/Documentation/arch/arm64/index.rst
+> +++ b/Documentation/arch/arm64/index.rst
+> @@ -33,10 +33,3 @@ ARM64 Architecture
+>      tagged-pointers
+>  
+>      features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/loongarch/index.rst b/Documentation/arch/loongarch/index.rst
+> index c779bfa00c05..df590b117240 100644
+> --- a/Documentation/arch/loongarch/index.rst
+> +++ b/Documentation/arch/loongarch/index.rst
+> @@ -13,10 +13,3 @@ LoongArch Architecture
+>     irq-chip-model
+>  
+>     features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/m68k/index.rst b/Documentation/arch/m68k/index.rst
+> index 0f890dbb5fe2..c334026e0ae1 100644
+> --- a/Documentation/arch/m68k/index.rst
+> +++ b/Documentation/arch/m68k/index.rst
+> @@ -11,10 +11,3 @@ m68k Architecture
+>     buddha-driver
+>  
+>     features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/mips/index.rst b/Documentation/arch/mips/index.rst
+> index 037f85a08fe3..703e195b933d 100644
+> --- a/Documentation/arch/mips/index.rst
+> +++ b/Documentation/arch/mips/index.rst
+> @@ -12,10 +12,3 @@ MIPS-specific Documentation
+>     ingenic-tcu
+>  
+>     features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/openrisc/index.rst b/Documentation/arch/openrisc/index.rst
+> index 6879f998b87a..79fe8b0c2c41 100644
+> --- a/Documentation/arch/openrisc/index.rst
+> +++ b/Documentation/arch/openrisc/index.rst
+> @@ -11,10 +11,3 @@ OpenRISC Architecture
+>     todo
+>  
+>     features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/parisc/index.rst b/Documentation/arch/parisc/index.rst
+> index 240685751825..15ccc787fd4f 100644
+> --- a/Documentation/arch/parisc/index.rst
+> +++ b/Documentation/arch/parisc/index.rst
+> @@ -11,10 +11,3 @@ PA-RISC Architecture
+>     registers
+>  
+>     features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
+> index 1be2ee3f0361..40419bea8e10 100644
+> --- a/Documentation/arch/powerpc/index.rst
+> +++ b/Documentation/arch/powerpc/index.rst
+> @@ -40,10 +40,3 @@ powerpc
+>      vpa-dtl
+>  
+>      features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arch/riscv/index.rst
+> index eecf347ce849..830fde0c8aa3 100644
+> --- a/Documentation/arch/riscv/index.rst
+> +++ b/Documentation/arch/riscv/index.rst
+> @@ -16,10 +16,3 @@ RISC-V architecture
+>      cmodx
+>  
+>      features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/arch/s390/index.rst b/Documentation/arch/s390/index.rst
+> index e75a6e5d2505..769434f0625b 100644
+> --- a/Documentation/arch/s390/index.rst
+> +++ b/Documentation/arch/s390/index.rst
+> @@ -22,10 +22,3 @@ s390 Architecture
+>      text_files
+>  
+>      features
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+> index 0bb5cb8157f1..0d5c6f659266 100644
+> --- a/Documentation/bpf/index.rst
+> +++ b/Documentation/bpf/index.rst
+> @@ -34,12 +34,5 @@ that goes into great technical depth about the BPF Architecture.
+>     other
+>     redirect
+>  
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> -
+>  .. Links:
+>  .. _BPF and XDP Reference Guide: https://docs.cilium.io/en/latest/bpf/
+> diff --git a/Documentation/cdrom/index.rst b/Documentation/cdrom/index.rst
+> index 3ac4f716612f..50050e219910 100644
+> --- a/Documentation/cdrom/index.rst
+> +++ b/Documentation/cdrom/index.rst
+> @@ -8,10 +8,3 @@ CD-ROM
+>      :maxdepth: 1
+>  
+>      cdrom-standard
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index cea4213baa88..f438c38ab528 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -40,7 +40,7 @@ exclude_patterns = []
+>  
+>  # List of patterns that contain directory names in glob format.
+>  dyn_include_patterns = []
+> -dyn_exclude_patterns = ["output"]
+> +dyn_exclude_patterns = ["output", "sphinx-includes"]
+>  
+>  # Currently, only netlink/specs has a parser for yaml.
+>  # Prefer using include patterns if available, as it is faster
+> @@ -584,7 +584,29 @@ pdf_documents = [
+>  
+>  kerneldoc_srctree = ".."
+>  
+> +# Add index link at the end of the root document for SPHINXDIRS builds.
+> +def add_subproject_index(app, docname, content):
+> +    # Only care about root documents
+> +    if docname != master_doc:
+> +        return
+> +
+> +    # Add the index link at the root of translations, but not at the root of
+> +    # individual translations. They have their own language specific links.
+> +    rel = os.path.relpath(app.srcdir, start=doctree).split('/')
+> +    if rel[0] == 'translations' and len(rel) > 1:
+> +        return
+> +
+> +    # Only add the link for SPHINXDIRS HTML builds
+> +    if not app.builder.tags.has('subproject') or not app.builder.tags.has('html'):
+> +        return
+> +
+> +    # The include directive needs a relative path from the srcdir
+> +    rel = os.path.relpath(os.path.join(doctree, 'sphinx-includes/subproject-index.rst'), start=app.srcdir)
+> +
+> +    content[0] += f'\n.. include:: {rel}\n\n'
+> +
+>  def setup(app):
+>      """Patterns need to be updated at init time on older Sphinx versions"""
+>  
+>      app.connect('config-inited', config_init)
+> +    app.connect('source-read', add_subproject_index)
+> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+> index 5eb0fbbbc323..51958aee20b2 100644
+> --- a/Documentation/core-api/index.rst
+> +++ b/Documentation/core-api/index.rst
+> @@ -140,10 +140,3 @@ Documents that don't fit elsewhere or which have yet to be categorized.
+>     librs
+>     liveupdate
+>     netlink
+> -
+> -.. only:: subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/core-api/kho/index.rst b/Documentation/core-api/kho/index.rst
+> index 0c63b0c5c143..51ea41c6a20d 100644
+> --- a/Documentation/core-api/kho/index.rst
+> +++ b/Documentation/core-api/kho/index.rst
+> @@ -9,5 +9,3 @@ Kexec Handover Subsystem
+>  
+>     concepts
+>     fdt
+> -
+> -.. only::  subproject and html
+> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+> index 4b8425e348ab..4fc9d15f91d0 100644
+> --- a/Documentation/dev-tools/index.rst
+> +++ b/Documentation/dev-tools/index.rst
+> @@ -38,11 +38,3 @@ Documentation/process/debugging/index.rst
+>     gpio-sloppy-logic-analyzer
+>     autofdo
+>     propeller
+> -
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
+> index 24d058faa75c..f078baddf0b7 100644
+> --- a/Documentation/doc-guide/index.rst
+> +++ b/Documentation/doc-guide/index.rst
+> @@ -13,10 +13,3 @@ How to write kernel documentation
+>     contributing
+>     maintainer-profile
+>     checktransupdate
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/80211/index.rst b/Documentation/driver-api/80211/index.rst
+> index af210859d3e1..62305e9c3113 100644
+> --- a/Documentation/driver-api/80211/index.rst
+> +++ b/Documentation/driver-api/80211/index.rst
+> @@ -8,10 +8,3 @@ Linux 802.11 Driver Developer's Guide
+>     cfg80211
+>     mac80211
+>     mac80211-advanced
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/coco/index.rst b/Documentation/driver-api/coco/index.rst
+> index af9f08ca0cfd..783c8b033547 100644
+> --- a/Documentation/driver-api/coco/index.rst
+> +++ b/Documentation/driver-api/coco/index.rst
+> @@ -8,5 +8,3 @@ Confidential Computing
+>     :maxdepth: 1
+>  
+>     measurement-registers
+> -
+> -.. only::  subproject and html
+> diff --git a/Documentation/driver-api/crypto/iaa/index.rst b/Documentation/driver-api/crypto/iaa/index.rst
+> index aa6837e27264..463f7da569c5 100644
+> --- a/Documentation/driver-api/crypto/iaa/index.rst
+> +++ b/Documentation/driver-api/crypto/iaa/index.rst
+> @@ -11,10 +11,3 @@ API.
+>     :maxdepth: 1
+>  
+>     iaa-crypto
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/crypto/index.rst b/Documentation/driver-api/crypto/index.rst
+> index fb9709b98bea..bba669014cb2 100644
+> --- a/Documentation/driver-api/crypto/index.rst
+> +++ b/Documentation/driver-api/crypto/index.rst
+> @@ -11,10 +11,3 @@ configuration.
+>     :maxdepth: 1
+>  
+>     iaa/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
+> index c1106a68b67c..ec8aae9ec0d4 100644
+> --- a/Documentation/driver-api/cxl/index.rst
+> +++ b/Documentation/driver-api/cxl/index.rst
+> @@ -50,5 +50,3 @@ that have impacts on each other.  The docs here break up configurations steps.
+>     allocation/page-allocator
+>     allocation/reclaim
+>     allocation/hugepages.rst
+> -
+> -.. only::  subproject and html
+> diff --git a/Documentation/driver-api/dmaengine/index.rst b/Documentation/driver-api/dmaengine/index.rst
+> index bdc45d8b4cfb..e74677c664ac 100644
+> --- a/Documentation/driver-api/dmaengine/index.rst
+> +++ b/Documentation/driver-api/dmaengine/index.rst
+> @@ -46,10 +46,3 @@ This book adds some notes about PXA DMA
+>     :maxdepth: 1
+>  
+>     pxa_dma
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/driver-model/index.rst b/Documentation/driver-api/driver-model/index.rst
+> index 4831bdd92e5c..abeb4b36636b 100644
+> --- a/Documentation/driver-api/driver-model/index.rst
+> +++ b/Documentation/driver-api/driver-model/index.rst
+> @@ -14,10 +14,3 @@ Driver Model
+>     overview
+>     platform
+>     porting
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/early-userspace/index.rst b/Documentation/driver-api/early-userspace/index.rst
+> index 149c1822f06d..ff459471258f 100644
+> --- a/Documentation/driver-api/early-userspace/index.rst
+> +++ b/Documentation/driver-api/early-userspace/index.rst
+> @@ -9,10 +9,3 @@ Early Userspace
+>  
+>      early_userspace_support
+>      buffer-format
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/firmware/index.rst b/Documentation/driver-api/firmware/index.rst
+> index 9d2c19dc8e36..86a3dd4bc3f8 100644
+> --- a/Documentation/driver-api/firmware/index.rst
+> +++ b/Documentation/driver-api/firmware/index.rst
+> @@ -10,10 +10,3 @@ Linux Firmware API
+>     request_firmware
+>     fw_upload
+>     other_interfaces
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+> index 1833e6a0687e..eaf7161ff957 100644
+> --- a/Documentation/driver-api/index.rst
+> +++ b/Documentation/driver-api/index.rst
+> @@ -149,10 +149,3 @@ Subsystem-specific APIs
+>     wmi
+>     xilinx/index
+>     zorro
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/memory-devices/index.rst b/Documentation/driver-api/memory-devices/index.rst
+> index 28101458cda5..3b6308113611 100644
+> --- a/Documentation/driver-api/memory-devices/index.rst
+> +++ b/Documentation/driver-api/memory-devices/index.rst
+> @@ -9,10 +9,3 @@ Memory Controller drivers
+>  
+>      ti-emif
+>      ti-gpmc
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/pci/index.rst b/Documentation/driver-api/pci/index.rst
+> index 9e1b801d0f74..1abfbecf6ce6 100644
+> --- a/Documentation/driver-api/pci/index.rst
+> +++ b/Documentation/driver-api/pci/index.rst
+> @@ -11,10 +11,3 @@ The Linux PCI driver implementer's API guide
+>     pci
+>     p2pdma
+>     tsm
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/phy/index.rst b/Documentation/driver-api/phy/index.rst
+> index 69ba1216de72..579cfe3b7b82 100644
+> --- a/Documentation/driver-api/phy/index.rst
+> +++ b/Documentation/driver-api/phy/index.rst
+> @@ -8,11 +8,3 @@ Generic PHY Framework
+>  
+>     phy
+>     samsung-usb2
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> -
+> diff --git a/Documentation/driver-api/pm/index.rst b/Documentation/driver-api/pm/index.rst
+> index c2a9ef8d115c..4d6c32e32a72 100644
+> --- a/Documentation/driver-api/pm/index.rst
+> +++ b/Documentation/driver-api/pm/index.rst
+> @@ -10,10 +10,3 @@ CPU and Device Power Management
+>     devices
+>     notifiers
+>     types
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/serial/index.rst b/Documentation/driver-api/serial/index.rst
+> index 03a55b987a1d..610744df5e8d 100644
+> --- a/Documentation/driver-api/serial/index.rst
+> +++ b/Documentation/driver-api/serial/index.rst
+> @@ -18,10 +18,3 @@ Serial drivers
+>  
+>      serial-iso7816
+>      serial-rs485
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/soundwire/index.rst b/Documentation/driver-api/soundwire/index.rst
+> index ef8d90dfbdde..f7abf4a95be7 100644
+> --- a/Documentation/driver-api/soundwire/index.rst
+> +++ b/Documentation/driver-api/soundwire/index.rst
+> @@ -11,10 +11,3 @@ SoundWire Documentation
+>     locking
+>     bra
+>     bra_cadence
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/surface_aggregator/clients/index.rst b/Documentation/driver-api/surface_aggregator/clients/index.rst
+> index 30160513afa5..c32313b8f3b7 100644
+> --- a/Documentation/driver-api/surface_aggregator/clients/index.rst
+> +++ b/Documentation/driver-api/surface_aggregator/clients/index.rst
+> @@ -14,10 +14,3 @@ on how to write client drivers.
+>     cdev
+>     dtx
+>     san
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/surface_aggregator/index.rst b/Documentation/driver-api/surface_aggregator/index.rst
+> index 6f3e1094904d..f0128fe59a32 100644
+> --- a/Documentation/driver-api/surface_aggregator/index.rst
+> +++ b/Documentation/driver-api/surface_aggregator/index.rst
+> @@ -12,10 +12,3 @@ Surface System Aggregator Module (SSAM)
+>     clients/index
+>     ssh
+>     internal
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/usb/index.rst b/Documentation/driver-api/usb/index.rst
+> index fcb24d0500d9..a32819963b99 100644
+> --- a/Documentation/driver-api/usb/index.rst
+> +++ b/Documentation/driver-api/usb/index.rst
+> @@ -22,10 +22,3 @@ Linux USB API
+>     typec
+>     typec_bus
+>     usb3-debug-port
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/driver-api/xilinx/index.rst b/Documentation/driver-api/xilinx/index.rst
+> index 13f7589ed442..c95bda55da6f 100644
+> --- a/Documentation/driver-api/xilinx/index.rst
+> +++ b/Documentation/driver-api/xilinx/index.rst
+> @@ -7,10 +7,3 @@ Xilinx FPGA
+>      :maxdepth: 1
+>  
+>      eemi
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/fault-injection/index.rst b/Documentation/fault-injection/index.rst
+> index a6ea1d190222..2a9e30b4202c 100644
+> --- a/Documentation/fault-injection/index.rst
+> +++ b/Documentation/fault-injection/index.rst
+> @@ -11,10 +11,3 @@ Fault-injection
+>      notifier-error-inject
+>      nvme-fault-injection
+>      provoke-crashes
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/fb/index.rst b/Documentation/fb/index.rst
+> index e2f7488b6e2e..fe9ca3570941 100644
+> --- a/Documentation/fb/index.rst
+> +++ b/Documentation/fb/index.rst
+> @@ -50,10 +50,3 @@ Driver documentation
+>     vesafb
+>     viafb
+>     vt8623fb
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/fpga/index.rst b/Documentation/fpga/index.rst
+> index 43c968871d99..c5a876165dab 100644
+> --- a/Documentation/fpga/index.rst
+> +++ b/Documentation/fpga/index.rst
+> @@ -8,10 +8,3 @@ FPGA
+>      :maxdepth: 1
+>  
+>      dfl
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+> index 78b80be17f21..2e13e0ad7e88 100644
+> --- a/Documentation/gpu/drivers.rst
+> +++ b/Documentation/gpu/drivers.rst
+> @@ -26,10 +26,3 @@ GPU Driver Documentation
+>     panthor
+>     zynqmp
+>     nova/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index 7dcb15850afd..2fafa1f35ef3 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -22,10 +22,3 @@ GPU Driver Developer's Guide
+>     implementation_guidelines
+>     todo
+>     rfc/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 85d7a686883e..fc9d39b098ef 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -281,10 +281,3 @@ Hardware Monitoring Kernel Drivers
+>     xdpe12284
+>     xdpe152c4
+>     zl6100
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/i2c/index.rst b/Documentation/i2c/index.rst
+> index 2b213d4ce89c..ccf13718ce70 100644
+> --- a/Documentation/i2c/index.rst
+> +++ b/Documentation/i2c/index.rst
+> @@ -66,10 +66,3 @@ Legacy documentation
+>     :maxdepth: 1
+>  
+>     old-module-parameters
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/infiniband/index.rst b/Documentation/infiniband/index.rst
+> index 5b4c24125f66..c11049d25703 100644
+> --- a/Documentation/infiniband/index.rst
+> +++ b/Documentation/infiniband/index.rst
+> @@ -15,10 +15,3 @@ InfiniBand
+>     ucaps
+>     user_mad
+>     user_verbs
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/input/devices/index.rst b/Documentation/input/devices/index.rst
+> index 95a453782bad..6de4365ad288 100644
+> --- a/Documentation/input/devices/index.rst
+> +++ b/Documentation/input/devices/index.rst
+> @@ -10,10 +10,3 @@ Linux kernel, their protocols, and driver details.
+>     :glob:
+>  
+>     *
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/input/index.rst b/Documentation/input/index.rst
+> index 35581cd18e91..fbde5bc9f641 100644
+> --- a/Documentation/input/index.rst
+> +++ b/Documentation/input/index.rst
+> @@ -10,10 +10,3 @@ Contents:
+>     input_uapi
+>     input_kapi
+>     devices/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/isdn/index.rst b/Documentation/isdn/index.rst
+> index 9622939fa526..d1125a16a746 100644
+> --- a/Documentation/isdn/index.rst
+> +++ b/Documentation/isdn/index.rst
+> @@ -12,10 +12,3 @@ ISDN
+>     m_isdn
+>  
+>     credits
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
+> index 3731ab22bfe7..f46233be82b9 100644
+> --- a/Documentation/kbuild/index.rst
+> +++ b/Documentation/kbuild/index.rst
+> @@ -24,10 +24,3 @@ Kernel Build System
+>      gendwarfksyms
+>  
+>      bash-completion
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/livepatch/index.rst b/Documentation/livepatch/index.rst
+> index cebf1c71d4a5..d2e7aa0f7f89 100644
+> --- a/Documentation/livepatch/index.rst
+> +++ b/Documentation/livepatch/index.rst
+> @@ -15,10 +15,3 @@ Kernel Livepatching
+>      system-state
+>      reliable-stacktrace
+>      api
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/locking/index.rst b/Documentation/locking/index.rst
+> index 6a9ea96c8bcb..9278d95b7dcb 100644
+> --- a/Documentation/locking/index.rst
+> +++ b/Documentation/locking/index.rst
+> @@ -24,10 +24,3 @@ Locking
+>      percpu-rw-semaphore
+>      robust-futexes
+>      robust-futex-ABI
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/mhi/index.rst b/Documentation/mhi/index.rst
+> index 1d8dec302780..0aa00482aa2e 100644
+> --- a/Documentation/mhi/index.rst
+> +++ b/Documentation/mhi/index.rst
+> @@ -9,10 +9,3 @@ MHI
+>  
+>     mhi
+>     topology
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/netlabel/index.rst b/Documentation/netlabel/index.rst
+> index 984e1b191b12..bb6ba7d5c200 100644
+> --- a/Documentation/netlabel/index.rst
+> +++ b/Documentation/netlabel/index.rst
+> @@ -12,10 +12,3 @@ NetLabel
+>      lsm_interface
+>  
+>      draft_ietf
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/atm/index.rst b/Documentation/networking/device_drivers/atm/index.rst
+> index 7b593f031a60..724552ca0be4 100644
+> --- a/Documentation/networking/device_drivers/atm/index.rst
+> +++ b/Documentation/networking/device_drivers/atm/index.rst
+> @@ -11,10 +11,3 @@ Contents:
+>     cxacru
+>     fore200e
+>     iphase
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/can/index.rst b/Documentation/networking/device_drivers/can/index.rst
+> index 6a8a4f74fa26..af4369989522 100644
+> --- a/Documentation/networking/device_drivers/can/index.rst
+> +++ b/Documentation/networking/device_drivers/can/index.rst
+> @@ -13,10 +13,3 @@ Contents:
+>     can327
+>     ctu/ctucanfd-driver
+>     freescale/flexcan
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/cellular/index.rst b/Documentation/networking/device_drivers/cellular/index.rst
+> index fc1812d3fc70..9690c3ba08ef 100644
+> --- a/Documentation/networking/device_drivers/cellular/index.rst
+> +++ b/Documentation/networking/device_drivers/cellular/index.rst
+> @@ -9,10 +9,3 @@ Contents:
+>     :maxdepth: 2
+>  
+>     qualcomm/rmnet
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
+> index bcc02355f828..142ac0bf781b 100644
+> --- a/Documentation/networking/device_drivers/ethernet/index.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/index.rst
+> @@ -64,10 +64,3 @@ Contents:
+>     wangxun/txgbevf
+>     wangxun/ngbe
+>     wangxun/ngbevf
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/index.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/index.rst
+> index 581a91caa579..56f3966de3f0 100644
+> --- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/index.rst
+> +++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/index.rst
+> @@ -16,10 +16,3 @@ Contents:
+>     switchdev
+>     tracepoints
+>     counters
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/fddi/index.rst b/Documentation/networking/device_drivers/fddi/index.rst
+> index 0b75294e6c8b..c7cf2347e215 100644
+> --- a/Documentation/networking/device_drivers/fddi/index.rst
+> +++ b/Documentation/networking/device_drivers/fddi/index.rst
+> @@ -10,10 +10,3 @@ Contents:
+>  
+>     defza
+>     skfp
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/hamradio/index.rst b/Documentation/networking/device_drivers/hamradio/index.rst
+> index 7e731732057b..6af481c5b020 100644
+> --- a/Documentation/networking/device_drivers/hamradio/index.rst
+> +++ b/Documentation/networking/device_drivers/hamradio/index.rst
+> @@ -10,10 +10,3 @@ Contents:
+>  
+>     baycom
+>     z8530drv
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+> index a254af25b7ef..1df51c9f7827 100644
+> --- a/Documentation/networking/device_drivers/index.rst
+> +++ b/Documentation/networking/device_drivers/index.rst
+> @@ -16,10 +16,3 @@ Contents:
+>     hamradio/index
+>     wifi/index
+>     wwan/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/wifi/index.rst b/Documentation/networking/device_drivers/wifi/index.rst
+> index fb394f5de4a9..29ba9ea64b25 100644
+> --- a/Documentation/networking/device_drivers/wifi/index.rst
+> +++ b/Documentation/networking/device_drivers/wifi/index.rst
+> @@ -10,10 +10,3 @@ Contents:
+>  
+>     intel/ipw2100
+>     intel/ipw2200
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/device_drivers/wwan/index.rst b/Documentation/networking/device_drivers/wwan/index.rst
+> index 370d8264d5dc..b768ae89f723 100644
+> --- a/Documentation/networking/device_drivers/wwan/index.rst
+> +++ b/Documentation/networking/device_drivers/wwan/index.rst
+> @@ -10,10 +10,3 @@ Contents:
+>  
+>     iosm
+>     t7xx
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/diagnostic/index.rst b/Documentation/networking/diagnostic/index.rst
+> index 86488aa46b48..592263a2713a 100644
+> --- a/Documentation/networking/diagnostic/index.rst
+> +++ b/Documentation/networking/diagnostic/index.rst
+> @@ -8,10 +8,3 @@ Networking Diagnostics
+>     :maxdepth: 2
+>  
+>     twisted_pair_layer1_diagnostics.rst
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+> index 75db2251649b..0f72de94b881 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -134,10 +134,3 @@ Contents:
+>     xfrm/index
+>     xdp-rx-metadata
+>     xsk-tx-metadata
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/pcmcia/index.rst b/Documentation/pcmcia/index.rst
+> index 8067236c51ab..89c004816140 100644
+> --- a/Documentation/pcmcia/index.rst
+> +++ b/Documentation/pcmcia/index.rst
+> @@ -11,10 +11,3 @@ PCMCIA
+>      devicetable
+>      locking
+>      driver-changes
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/peci/index.rst b/Documentation/peci/index.rst
+> index 930e75217c33..1443c31a0d18 100644
+> --- a/Documentation/peci/index.rst
+> +++ b/Documentation/peci/index.rst
+> @@ -7,10 +7,3 @@ PECI Subsystem
+>  .. toctree::
+>  
+>     peci
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/power/index.rst b/Documentation/power/index.rst
+> index ea70633d9ce6..b4581e4ae785 100644
+> --- a/Documentation/power/index.rst
+> +++ b/Documentation/power/index.rst
+> @@ -38,10 +38,3 @@ Power Management
+>      regulator/machine
+>      regulator/overview
+>      regulator/regulator
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/process/debugging/index.rst b/Documentation/process/debugging/index.rst
+> index 387d33d16f5e..357243e184e1 100644
+> --- a/Documentation/process/debugging/index.rst
+> +++ b/Documentation/process/debugging/index.rst
+> @@ -15,8 +15,6 @@ general guides
+>     kgdb
+>     userspace_debugging_guide
+>  
+> -.. only::  subproject and html
+> -
+>  subsystem specific guides
+>  -------------------------
+>  
+> @@ -25,13 +23,6 @@ subsystem specific guides
+>  
+>     media_specific_debugging_guide
+>  
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> -
+>  General debugging advice
+>  ========================
+>  
+> diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
+> index 9d1a73329007..7bea184b7338 100644
+> --- a/Documentation/process/index.rst
+> +++ b/Documentation/process/index.rst
+> @@ -110,10 +110,3 @@ developers:
+>  
+>     kernel-docs
+>     deprecated
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/rust/index.rst b/Documentation/rust/index.rst
+> index ec62001c7d8c..7a31843cd4a3 100644
+> --- a/Documentation/rust/index.rst
+> +++ b/Documentation/rust/index.rst
+> @@ -58,10 +58,3 @@ more details.
+>  
+>  You can also find learning materials for Rust in its section in
+>  :doc:`../process/kernel-docs`.
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+> index 5dd53e47bc0c..17ce8d76befc 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -25,10 +25,3 @@ Scheduler
+>      sched-debug
+>  
+>      text_files
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/sound/index.rst b/Documentation/sound/index.rst
+> index 51cd736f65b5..c075ca6e11eb 100644
+> --- a/Documentation/sound/index.rst
+> +++ b/Documentation/sound/index.rst
+> @@ -15,10 +15,3 @@ Sound Subsystem Documentation
+>     cards/index
+>     codecs/index
+>     utimers
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/sphinx-includes/subproject-index.rst b/Documentation/sphinx-includes/subproject-index.rst
+> new file mode 100644
+> index 000000000000..efffdb5fb017
+> --- /dev/null
+> +++ b/Documentation/sphinx-includes/subproject-index.rst
+> @@ -0,0 +1,7 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. This file is included in subproject root documents in conf.py
+> +
+> +Indices
+> +=======
+> +
+> +* :ref:`genindex`
+> diff --git a/Documentation/spi/index.rst b/Documentation/spi/index.rst
+> index 824ce42ed4f0..20d4a4185ab9 100644
+> --- a/Documentation/spi/index.rst
+> +++ b/Documentation/spi/index.rst
+> @@ -12,10 +12,3 @@ Serial Peripheral Interface (SPI)
+>     butterfly
+>     spi-lm70llp
+>     spi-sc18is602
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/target/index.rst b/Documentation/target/index.rst
+> index 4b24f81f747e..51fa8ebc652e 100644
+> --- a/Documentation/target/index.rst
+> +++ b/Documentation/target/index.rst
+> @@ -10,10 +10,3 @@ TCM Virtual Device
+>      tcmu-design
+>      tcm_mod_builder
+>      scripts
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
+> index 62afb7ee9b52..10c3cecde85d 100644
+> --- a/Documentation/tee/index.rst
+> +++ b/Documentation/tee/index.rst
+> @@ -12,10 +12,3 @@ TEE Subsystem
+>     amd-tee
+>     ts-tee
+>     qtee
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/timers/index.rst b/Documentation/timers/index.rst
+> index 4e88116e4dcf..c8352756b480 100644
+> --- a/Documentation/timers/index.rst
+> +++ b/Documentation/timers/index.rst
+> @@ -13,10 +13,3 @@ Timers
+>      no_hz
+>      timekeeping
+>      delay_sleep_functions
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/tools/index.rst b/Documentation/tools/index.rst
+> index 80488e290e10..27488bd3eb91 100644
+> --- a/Documentation/tools/index.rst
+> +++ b/Documentation/tools/index.rst
+> @@ -12,10 +12,3 @@ more additions are needed here:
+>  
+>     rtla/index
+>     rv/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/tools/rtla/index.rst b/Documentation/tools/rtla/index.rst
+> index 05d2652e4072..7664d6d0cb27 100644
+> --- a/Documentation/tools/rtla/index.rst
+> +++ b/Documentation/tools/rtla/index.rst
+> @@ -18,10 +18,3 @@ behavior on specific hardware.
+>     rtla-timerlat-hist
+>     rtla-timerlat-top
+>     rtla-hwnoise
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/tools/rv/index.rst b/Documentation/tools/rv/index.rst
+> index 64ba2efe2e85..fd42b0017d07 100644
+> --- a/Documentation/tools/rv/index.rst
+> +++ b/Documentation/tools/rv/index.rst
+> @@ -16,10 +16,3 @@ Runtime verification (rv) tool
+>     rv-mon-wip
+>     rv-mon-wwnr
+>     rv-mon-sched
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+> index b4a429dc4f7a..cfd8128ac56d 100644
+> --- a/Documentation/trace/index.rst
+> +++ b/Documentation/trace/index.rst
+> @@ -95,10 +95,3 @@ Additional Resources
+>  
+>  For more details, refer to the respective documentation of each
+>  tracing tool and framework.
+> -
+> -.. only:: subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
+> index 826492c813ac..605233febd7a 100644
+> --- a/Documentation/usb/index.rst
+> +++ b/Documentation/usb/index.rst
+> @@ -31,10 +31,3 @@ USB support
+>  
+>      usb-help
+>      text_files
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/userspace-api/gpio/index.rst b/Documentation/userspace-api/gpio/index.rst
+> index f258de4ef370..ac9c6ff9875c 100644
+> --- a/Documentation/userspace-api/gpio/index.rst
+> +++ b/Documentation/userspace-api/gpio/index.rst
+> @@ -9,10 +9,3 @@ GPIO
+>  
+>      Character Device Userspace API <chardev>
+>      Obsolete Userspace APIs <obsolete>
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+> index 8a61ac4c1bf1..6f0235ecc572 100644
+> --- a/Documentation/userspace-api/index.rst
+> +++ b/Documentation/userspace-api/index.rst
+> @@ -68,10 +68,3 @@ Everything else
+>     futex2
+>     perf_ring_buffer
+>     ntsync
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
+> index 7fb55ae08598..c1f0bbc37315 100644
+> --- a/Documentation/virt/index.rst
+> +++ b/Documentation/virt/index.rst
+> @@ -16,10 +16,3 @@ Virtualization Support
+>     coco/sev-guest
+>     coco/tdx-guest
+>     hyperv/index
+> -
+> -.. only:: html and subproject
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/w1/index.rst b/Documentation/w1/index.rst
+> index 156279f17553..2e7bd8afea84 100644
+> --- a/Documentation/w1/index.rst
+> +++ b/Documentation/w1/index.rst
+> @@ -12,10 +12,3 @@
+>     w1-netlink.rst
+>     masters/index
+>     slaves/index
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/watchdog/index.rst b/Documentation/watchdog/index.rst
+> index 4603f2511f58..1cea24681e6b 100644
+> --- a/Documentation/watchdog/index.rst
+> +++ b/Documentation/watchdog/index.rst
+> @@ -16,10 +16,3 @@ Watchdog Support
+>      watchdog-pm
+>      wdt
+>      convert_drivers_to_kernel_api
+> -
+> -.. only::  subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/wmi/devices/index.rst b/Documentation/wmi/devices/index.rst
+> index c08735a9d7df..b0a9b4229add 100644
+> --- a/Documentation/wmi/devices/index.rst
+> +++ b/Documentation/wmi/devices/index.rst
+> @@ -13,10 +13,3 @@ the Linux kernel, their protocols and driver details.
+>     :glob:
+>  
+>     *
+> -
+> -.. only:: subproject and html
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
+> diff --git a/Documentation/wmi/index.rst b/Documentation/wmi/index.rst
+> index fec4b6ae97b3..56016078fc79 100644
+> --- a/Documentation/wmi/index.rst
+> +++ b/Documentation/wmi/index.rst
+> @@ -10,11 +10,3 @@ WMI Subsystem
+>     acpi-interface
+>     driver-development-guide
+>     devices/index
+> -
+> -.. only::  subproject and html
+> -
+> -
+> -   Indices
+> -   =======
+> -
+> -   * :ref:`genindex`
