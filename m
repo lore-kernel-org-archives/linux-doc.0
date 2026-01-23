@@ -1,766 +1,249 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A773EBF00;
-	Fri, 23 Jan 2026 17:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCE019C553;
+	Fri, 23 Jan 2026 18:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769190948; cv=none; b=FaQrygkgHsZRST8eaTcRCqMeDmwrTI5JvxC9d1q75jx4/nGdy4sV8205j3iNstI0+s+wIXofZkN5kTUEnCcTlUmvPAuatQvfIbD9RxIEzfrkvi3/kJk1NIP9DDciXyrf6S3QvP8KGM905UTLp0Ep8bWd7K92NTr8jdIqe5rUxmU=
+	t=1769191677; cv=none; b=pwhTBGTVLG6jxD/IxiDqCGO2VlKQVq+PqkyIleYJUw2tBXhjsrITfh/sLau6cAM07k9yGTpQmHtvReu05qLDlUEtstq6BcH07/vFp0Yuxkrv3we//o+POk8xYqdTiOAGP9HnBf9D59mvf9n5FLidZG+CdIjYWhR77xjWzuGnRRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769190948; c=relaxed/simple;
-	bh=3wEL2xNwufCTPeN6S2nVbGUQMOZ5UyHc/xb7qHlbeD8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f/BlAokrdmCZLFm9GFnZM32yyUKe5f5+VLV3FgPcjhys6e0HpX/LpMa0DtjLrwL8Ua3d2WaIJPuSGCpPgLCQ9xF32fbp1QbixMSAwDpdB13vbL5vZ+CGnezEfKAUkClBizSK5eF0Fl/DKHDYe2+/bYBjNZV8mc0PIZiEYhAuKIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dyQZ96thszJ468m;
-	Sat, 24 Jan 2026 01:55:13 +0800 (CST)
-Received: from dubpeml500008.china.huawei.com (unknown [7.214.146.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id A0B4A40570;
-	Sat, 24 Jan 2026 01:55:43 +0800 (CST)
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.154.194) by
- dubpeml500008.china.huawei.com (7.214.146.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 23 Jan 2026 17:55:41 +0000
-From: <shiju.jose@huawei.com>
-To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
-	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
-	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
-	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
-	<mchehab@kernel.org>
-CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
-	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
-	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
-	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
-	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
-	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
-	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
-	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
-	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
-	<shiju.jose@huawei.com>
-Subject: [PATCH v16 2/2] ras: mem: Add ACPI RAS2 memory driver
-Date: Fri, 23 Jan 2026 17:55:08 +0000
-Message-ID: <20260123175512.2066-3-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20260123175512.2066-1-shiju.jose@huawei.com>
-References: <20260123175512.2066-1-shiju.jose@huawei.com>
+	s=arc-20240116; t=1769191677; c=relaxed/simple;
+	bh=/r6lygopbUnU7cK5yAYRsR5j1o88MtW9PB5XGJEBn64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eF79lC0fQGnEvcw5v22mQE8Iv68ywUiFHxIhkDCehwupFmZtkVXBwqY7eWmuYCqTu1pXDvqDxVe/4RxJEgXQnhY6PEhTATxvVDj2KDnB/JeJibRZxAkIIOifYHlYl4Y44jxUdZO+hy52NacHCmikO2GFzPhMxZaYnv5a//VMZNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+2AUX4l; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+2AUX4l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3A9C4CEF1;
+	Fri, 23 Jan 2026 18:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769191676;
+	bh=/r6lygopbUnU7cK5yAYRsR5j1o88MtW9PB5XGJEBn64=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L+2AUX4lkjr5sx9DnNiikD1yohr+5BLa0YKlgfnUBVX0GZguSesu+Gcrq6t1jXobh
+	 tZyYkgigLJDrzkZLHRumRZr5I074g8tg/Jj1h14TYabXO3MGjA9POmoE6wWBrZRW+6
+	 EgwSRJCBWmfAdhXV8wxrbKhNMCJ+rRqwXomceO+e2vAaVePBgZe/8u7gjmENPlWVZC
+	 EflTDBCWFBILncgO/UVsaei0WMRUydSeifitGPc4vsZs8KNJrYNJmDwiD9VKXbpMdF
+	 MhnMi0lQ5lPuICvP5d5rnmnJNv+OY4UgHv32C2Oz9keX5EADrOW3W+aAW5CplX6hNB
+	 NLwRGjnq8b7Pg==
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Frank.Li@nxp.com,
+	dlemoal@kernel.org,
+	Koichiro Den <den@valinux.co.jp>,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] PCI: endpoint: pci-epf-test: Allow overriding default BAR sizes
+Date: Fri, 23 Jan 2026 19:07:48 +0100
+Message-ID: <20260123180747.827357-2-cassel@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7140; i=cassel@kernel.org; h=from:subject; bh=/r6lygopbUnU7cK5yAYRsR5j1o88MtW9PB5XGJEBn64=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDKLd3x+fUF5mUbbwv1V+899/zNNT7tCqqKkJLllRojOV j+N/3GLOkpZGMS4GGTFFFl8f7jsL+52n3Jc8Y4NzBxWJpAhDFycAjCRU9MZ/ntyz1i2+twRnVOM 3bX3EkNWPA58ybFM6bbKmWmX1AtNQlwY/hkH/3+37titGvalbU8NNfYeY3gmVHd/1+41mksVN02 tmccEAA==
+X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml500008.china.huawei.com (7.214.146.94)
 
-From: Shiju Jose <shiju.jose@huawei.com>
+Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
+restricted to run pci-epf-test with the hardcoded BAR size values defined
+in pci-epf-test.c.
 
-ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
-Driver adds support for RAS2 feature table, which provides interfaces for
-platform RAS features, e.g., for HW-based memory scrubbing, and logical to
-PA translation service. RAS2 uses PCC channel subspace for communicating
-with the ACPI compliant HW platform.
+This code is shamelessly more or less copy pasted from pci-epf-vntb.c
 
-ACPI RAS2 auxiliary driver for the memory features binds to the auxiliary
-device, which is added by the RAS2 table parser in the ACPI RAS2 driver.
-
-Given the address range is not provided to userspace (and hence no
-chance of exposing misleading values), even in the presence
-of disjoint address ranges, use the start to end of the NUMA node
-with the expectation that a firmware will allow that to indicate that
-the full node will be scrubbed, skipping address ranges that are from
-other NUMA nodes but happen to lie within this range.
-
-Driver retrieves the PA range of the NUMA domain and use it as the
-'Requested Address Range', when send RAS2 command GET_PATROL_PARAMETERS
-to get parameters that apply to all addresses in the NUMA domain as well
-as when send command START_PATROL_SCRUBBER to start the demand scrubbing.
-
-Device with ACPI RAS2 scrub feature registers with EDAC device driver,
-which retrieves the scrub descriptor from EDAC scrub and exposes
-the scrub control attributes for RAS2 scrub instance to userspace in
-/sys/bus/edac/devices/acpi_ras_memX/scrub0/.
-
-Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
-the demand scrub, which is used in the RAS2 demand scrub control.
-When a demand scrub is started, any background scrub currently in progress
-will be stopped and then automatically restarted at the beginning when the
-demand scrub has completed.
-
-In the future, RAS2 driver may add support for the ‘addr’ and ‘size’ EDAC
-scrub-control attributes, to enable the user to set address range of the
-memory region to scrub.
-
-Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+Signed-off-by: Niklas Cassel <cassel@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-edac-scrub |  13 +-
- Documentation/edac/scrub.rst               |  60 +++
- drivers/edac/scrub.c                       |  12 +
- drivers/ras/Kconfig                        |  13 +
- drivers/ras/Makefile                       |   1 +
- drivers/ras/acpi_ras2.c                    | 402 +++++++++++++++++++++
- include/acpi/ras2.h                        |  17 +
- include/linux/edac.h                       |   4 +
- 8 files changed, 517 insertions(+), 5 deletions(-)
- create mode 100644 drivers/ras/acpi_ras2.c
+ Documentation/PCI/endpoint/pci-test-howto.rst | 16 ++++
+ drivers/pci/endpoint/functions/pci-epf-test.c | 92 ++++++++++++++++++-
+ 2 files changed, 106 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-edac-scrub b/Documentation/ABI/testing/sysfs-edac-scrub
-index ab6014743da5..3f68f63556f4 100644
---- a/Documentation/ABI/testing/sysfs-edac-scrub
-+++ b/Documentation/ABI/testing/sysfs-edac-scrub
-@@ -20,11 +20,7 @@ KernelVersion:	6.15
- Contact:	linux-edac@vger.kernel.org
- Description:
- 		(RW) The base address of the memory region to be scrubbed
--		for on-demand scrubbing. Setting address starts scrubbing.
--		The size must be set before that.
--
--		The readback addr value is non-zero if the requested
--		on-demand scrubbing is in progress, zero otherwise.
-+		for demand scrubbing.
+diff --git a/Documentation/PCI/endpoint/pci-test-howto.rst b/Documentation/PCI/endpoint/pci-test-howto.rst
+index dd66858cde46..71975721cfd5 100644
+--- a/Documentation/PCI/endpoint/pci-test-howto.rst
++++ b/Documentation/PCI/endpoint/pci-test-howto.rst
+@@ -84,6 +84,22 @@ device, the following commands can be used::
+ 	# echo 32 > functions/pci_epf_test/func1/msi_interrupts
+ 	# echo 2048 > functions/pci_epf_test/func1/msix_interrupts
  
- What:		/sys/bus/edac/devices/<dev-name>/scrubX/size
- Date:		March 2025
-@@ -34,6 +30,13 @@ Description:
- 		(RW) The size of the memory region to be scrubbed
- 		(on-demand scrubbing).
++By default, pci-epf-test uses the following BAR sizes::
++
++	# grep . functions/pci_epf_test/func1/pci_epf_test.0/bar?_size
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar0_size:512
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar1_size:512
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar2_size:1024
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar3_size:16384
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar4_size:131072
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar5_size:1048576
++
++The user can override a default value using e.g.::
++	# echo 1048576 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
++
++Note: Some endpoint controllers might have fixed size BARs, or reserved BARs,
++for such controllers, the corresponding BAR size in configfs will be ignored.
++
  
-+What:		/sys/bus/edac/devices/<dev-name>/scrubX/enable_demand
-+Date:		Jan 2026
-+KernelVersion:	6.19
-+Contact:	linux-edac@vger.kernel.org
-+Description:
-+		(RW) Start/Stop demand scrubbing if supported.
-+
- What:		/sys/bus/edac/devices/<dev-name>/scrubX/enable_background
- Date:		March 2025
- KernelVersion:	6.15
-diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
-index 2cfa74fa1ffd..deefc45116ab 100644
---- a/Documentation/edac/scrub.rst
-+++ b/Documentation/edac/scrub.rst
-@@ -340,3 +340,63 @@ controller or platform when unexpectedly high error rates are detected.
- 
- Sysfs files for scrubbing are documented in
- `Documentation/ABI/testing/sysfs-edac-ecs`
-+
-+3. ACPI RAS2 Hardware-based Memory Scrubbing
-+
-+3.1. On demand scrubbing for a specific memory region.
-+
-+3.1.1. Query the status of demand scrubbing
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_demand
-+
-+0
-+
-+3.1.2. Query what is device default/current scrub cycle setting.
-+
-+Applicable to both demand and background scrubbing. The unit of the
-+scrub cycle is seconds.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-+
-+36000
-+
-+3.1.3. Query the range of device supported scrub cycle for a memory region.
-+The unit of the scrub cycle range is seconds.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/min_cycle_duration
-+
-+3600
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/max_cycle_duration
-+
-+86400
-+
-+3.1.4. Program scrubbing for the memory region in RAS2 device to repeat every
-+43200 seconds (half a day).
-+
-+# echo 43200 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-+
-+3.1.5. Start 'demand scrubbing'.
-+
-+When a demand scrub is started, any background scrub currently in progress
-+will be stopped and then automatically restarted at the beginning when the
-+demand scrub has completed.
-+
-+# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_demand
-+
-+3.2. Background scrubbing the entire memory
-+
-+3.2.1. Query the status of background scrubbing.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
-+
-+0
-+
-+3.2.2. Program background scrubbing for RAS2 device to repeat in every 21600
-+seconds (quarter of a day).
-+
-+# echo 21600 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-+
-+3.2.3. Start 'background scrubbing'.
-+
-+# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
-diff --git a/drivers/edac/scrub.c b/drivers/edac/scrub.c
-index f9d02af2fc3a..f3b9a2f04950 100644
---- a/drivers/edac/scrub.c
-+++ b/drivers/edac/scrub.c
-@@ -14,6 +14,7 @@ enum edac_scrub_attributes {
- 	SCRUB_ADDRESS,
- 	SCRUB_SIZE,
- 	SCRUB_ENABLE_BACKGROUND,
-+	SCRUB_ENABLE_DEMAND,
- 	SCRUB_MIN_CYCLE_DURATION,
- 	SCRUB_MAX_CYCLE_DURATION,
- 	SCRUB_CUR_CYCLE_DURATION,
-@@ -55,6 +56,7 @@ static ssize_t attrib##_show(struct device *ras_feat_dev,			\
- EDAC_SCRUB_ATTR_SHOW(addr, read_addr, u64, "0x%llx\n")
- EDAC_SCRUB_ATTR_SHOW(size, read_size, u64, "0x%llx\n")
- EDAC_SCRUB_ATTR_SHOW(enable_background, get_enabled_bg, bool, "%u\n")
-+EDAC_SCRUB_ATTR_SHOW(enable_demand, get_enabled_od, bool, "%u\n")
- EDAC_SCRUB_ATTR_SHOW(min_cycle_duration, get_min_cycle, u32, "%u\n")
- EDAC_SCRUB_ATTR_SHOW(max_cycle_duration, get_max_cycle, u32, "%u\n")
- EDAC_SCRUB_ATTR_SHOW(current_cycle_duration, get_cycle_duration, u32, "%u\n")
-@@ -84,6 +86,7 @@ static ssize_t attrib##_store(struct device *ras_feat_dev,			\
- EDAC_SCRUB_ATTR_STORE(addr, write_addr, u64, kstrtou64)
- EDAC_SCRUB_ATTR_STORE(size, write_size, u64, kstrtou64)
- EDAC_SCRUB_ATTR_STORE(enable_background, set_enabled_bg, unsigned long, kstrtoul)
-+EDAC_SCRUB_ATTR_STORE(enable_demand, set_enabled_od, unsigned long, kstrtoul)
- EDAC_SCRUB_ATTR_STORE(current_cycle_duration, set_cycle_duration, unsigned long, kstrtoul)
- 
- static umode_t scrub_attr_visible(struct kobject *kobj, struct attribute *a, int attr_id)
-@@ -119,6 +122,14 @@ static umode_t scrub_attr_visible(struct kobject *kobj, struct attribute *a, int
- 				return 0444;
- 		}
- 		break;
-+	case SCRUB_ENABLE_DEMAND:
-+		if (ops->get_enabled_od) {
-+			if (ops->set_enabled_od)
-+				return a->mode;
-+			else
-+				return 0444;
-+		}
-+		break;
- 	case SCRUB_MIN_CYCLE_DURATION:
- 		if (ops->get_min_cycle)
- 			return a->mode;
-@@ -164,6 +175,7 @@ static int scrub_create_desc(struct device *scrub_dev,
- 		[SCRUB_ADDRESS] = EDAC_SCRUB_ATTR_RW(addr, instance),
- 		[SCRUB_SIZE] = EDAC_SCRUB_ATTR_RW(size, instance),
- 		[SCRUB_ENABLE_BACKGROUND] = EDAC_SCRUB_ATTR_RW(enable_background, instance),
-+		[SCRUB_ENABLE_DEMAND] = EDAC_SCRUB_ATTR_RW(enable_demand, instance),
- 		[SCRUB_MIN_CYCLE_DURATION] = EDAC_SCRUB_ATTR_RO(min_cycle_duration, instance),
- 		[SCRUB_MAX_CYCLE_DURATION] = EDAC_SCRUB_ATTR_RO(max_cycle_duration, instance),
- 		[SCRUB_CUR_CYCLE_DURATION] = EDAC_SCRUB_ATTR_RW(current_cycle_duration, instance)
-diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
-index fc4f4bb94a4c..a1e6aed8bcc8 100644
---- a/drivers/ras/Kconfig
-+++ b/drivers/ras/Kconfig
-@@ -46,4 +46,17 @@ config RAS_FMPM
- 	  Memory will be retired during boot time and run time depending on
- 	  platform-specific policies.
- 
-+config MEM_ACPI_RAS2
-+	tristate "Memory ACPI RAS2 driver"
-+	depends on ACPI_RAS2
-+	depends on EDAC
-+	depends on EDAC_SCRUB
-+	select NUMA_KEEP_MEMINFO
-+	help
-+	  The driver binds to the auxiliary device added by the ACPI RAS2
-+	  feature table parser. The driver uses a PCC channel subspace to
-+	  communicate with the ACPI-compliant platform and provides
-+	  control of the HW-based memory scrubber parameters to the user
-+	  through the EDAC scrub interface.
-+
- endif
-diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
-index 11f95d59d397..a0e6e903d6b0 100644
---- a/drivers/ras/Makefile
-+++ b/drivers/ras/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_RAS)	+= ras.o
- obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
- obj-$(CONFIG_RAS_CEC)	+= cec.o
-+obj-$(CONFIG_MEM_ACPI_RAS2)	+= acpi_ras2.o
- 
- obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
- obj-y			+= amd/atl/
-diff --git a/drivers/ras/acpi_ras2.c b/drivers/ras/acpi_ras2.c
-new file mode 100644
-index 000000000000..f1f024d12b92
---- /dev/null
-+++ b/drivers/ras/acpi_ras2.c
-@@ -0,0 +1,402 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * ACPI RAS2 memory driver
-+ *
-+ * Copyright (c) 2024-2026 HiSilicon Limited.
-+ *
-+ */
-+
-+#define pr_fmt(fmt)	"ACPI RAS2 MEMORY: " fmt
-+
-+#include <linux/bitfield.h>
-+#include <linux/delay.h>
-+#include <linux/edac.h>
-+#include <linux/kthread.h>
-+#include <linux/platform_device.h>
-+#include <acpi/ras2.h>
-+
-+#define RAS2_SUPPORT_HW_PARTOL_SCRUB BIT(0)
-+#define RAS2_TYPE_PATROL_SCRUB 0x0000
-+
-+#define RAS2_GET_PATROL_PARAMETERS 0x01
-+#define RAS2_START_PATROL_SCRUBBER 0x02
-+#define RAS2_STOP_PATROL_SCRUBBER 0x03
-+
-+/*
-+ * RAS2 patrol scrub
-+ */
-+#define RAS2_PS_SC_HRS_IN_MASK GENMASK(15, 8)
-+#define RAS2_PS_EN_BACKGROUND BIT(0)
-+#define RAS2_PS_SC_HRS_OUT_MASK GENMASK(7, 0)
-+#define RAS2_PS_MIN_SC_HRS_OUT_MASK GENMASK(15, 8)
-+#define RAS2_PS_MAX_SC_HRS_OUT_MASK GENMASK(23, 16)
-+#define RAS2_PS_FLAG_SCRUB_RUNNING BIT(0)
-+
-+#define RAS2_SCRUB_NAME_LEN 128
-+#define RAS2_HOUR_IN_SECS 3600
-+
-+struct acpi_ras2_ps_shared_mem {
-+	struct acpi_ras2_shmem common;
-+	struct acpi_ras2_patrol_scrub_param params;
-+};
-+
-+#define TO_ACPI_RAS2_PS_SHMEM(_addr) \
-+	container_of(_addr, struct acpi_ras2_ps_shared_mem, common)
-+
-+static int ras2_hw_scrub_set_enabled_bg(struct device *dev, void *drv_data, bool enable);
-+
-+static int ras2_is_patrol_scrub_support(struct ras2_mem_ctx *ras2_ctx)
-+{
-+	struct acpi_ras2_shmem __iomem *common = (void *)ras2_ctx->comm_addr;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	common->set_caps[0] = 0;
-+
-+	return common->features[0] & RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+}
-+
-+static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx *ras2_ctx)
-+{
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
-+		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	int ret;
-+
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	ps_sm->params.command = RAS2_GET_PATROL_PARAMETERS;
-+	ps_sm->params.req_addr_range[0] = ras2_ctx->base;
-+	ps_sm->params.req_addr_range[1] = ras2_ctx->size;
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(ras2_ctx->dev, "Failed to read patrol scrub parameters\n");
-+		return ret;
-+	}
-+
-+	ras2_ctx->min_scrub_cycle = FIELD_GET(RAS2_PS_MIN_SC_HRS_OUT_MASK,
-+					      ps_sm->params.scrub_params_out);
-+	ras2_ctx->max_scrub_cycle = FIELD_GET(RAS2_PS_MAX_SC_HRS_OUT_MASK,
-+					      ps_sm->params.scrub_params_out);
-+	ras2_ctx->scrub_cycle_hrs = FIELD_GET(RAS2_PS_SC_HRS_OUT_MASK,
-+					      ps_sm->params.scrub_params_out);
-+	if (ras2_ctx->bg_scrub) {
-+		ras2_ctx->od_scrub = false;
-+		return 0;
-+	}
-+
-+	if  (ps_sm->params.flags & RAS2_PS_FLAG_SCRUB_RUNNING)
-+		ras2_ctx->od_scrub = true;
-+	else
-+		ras2_ctx->od_scrub = false;
-+
-+	return 0;
-+}
-+
-+/* Context - PCC lock must be held */
-+static int ras2_get_demand_scrub_running(struct ras2_mem_ctx *ras2_ctx, bool *running)
-+{
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
-+		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	int ret;
-+
-+	if (!ras2_ctx->od_scrub) {
-+		*running = false;
-+		return 0;
-+	}
-+
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	ps_sm->params.command = RAS2_GET_PATROL_PARAMETERS;
-+	ps_sm->params.req_addr_range[0] = ras2_ctx->base;
-+	ps_sm->params.req_addr_range[1] = ras2_ctx->size;
-+
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(ras2_ctx->dev, "Failed to read patrol scrub parameters\n");
-+		return ret;
-+	}
-+
-+	*running = ps_sm->params.flags & RAS2_PS_FLAG_SCRUB_RUNNING;
-+	if (!(*running))
-+		ras2_ctx->od_scrub = false;
-+
-+	return 0;
-+}
-+
-+static int ras2_scrub_monitor_thread(void *p)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = (struct ras2_mem_ctx *)p;
-+	bool running;
-+	int ret;
-+
-+	while (!kthread_should_stop()) {
-+		if (!ras2_ctx->reenable_bg_scrub)
-+			return 0;
-+
-+		mutex_lock(ras2_ctx->pcc_lock);
-+		ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
-+		mutex_unlock(ras2_ctx->pcc_lock);
-+		if (ret)
-+			return ret;
-+
-+		if (!running)
-+			return ras2_hw_scrub_set_enabled_bg(ras2_ctx->dev, ras2_ctx, true);
-+
-+		msleep(1000);
-+	}
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_read_min_scrub_cycle(struct device *dev, void *drv_data, u32 *min)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*min = ras2_ctx->min_scrub_cycle * RAS2_HOUR_IN_SECS;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_read_max_scrub_cycle(struct device *dev, void *drv_data, u32 *max)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*max = ras2_ctx->max_scrub_cycle * RAS2_HOUR_IN_SECS;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_cycle_read(struct device *dev, void *drv_data, u32 *scrub_cycle_secs)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*scrub_cycle_secs = ras2_ctx->scrub_cycle_hrs * RAS2_HOUR_IN_SECS;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_cycle_write(struct device *dev, void *drv_data, u32 scrub_cycle_secs)
-+{
-+	u8 scrub_cycle_hrs = scrub_cycle_secs / RAS2_HOUR_IN_SECS;
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	bool running;
-+	int ret;
-+
-+	if (ras2_ctx->bg_scrub)
-+		return -EBUSY;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	if (running)
-+		return -EBUSY;
-+
-+	if (scrub_cycle_hrs < ras2_ctx->min_scrub_cycle ||
-+	    scrub_cycle_hrs > ras2_ctx->max_scrub_cycle)
-+		return -EINVAL;
-+
-+	ras2_ctx->scrub_cycle_hrs = scrub_cycle_hrs;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_get_enabled_bg(struct device *dev, void *drv_data, bool *enabled)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*enabled = ras2_ctx->bg_scrub;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_set_enabled_bg(struct device *dev, void *drv_data, bool enable)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm = TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	bool running;
-+	int ret;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	if (enable) {
-+		if (ras2_ctx->bg_scrub || running)
-+			return -EBUSY;
-+
-+		ps_sm->params.req_addr_range[0] = 0;
-+		ps_sm->params.req_addr_range[1] = 0;
-+		ps_sm->params.scrub_params_in &= ~RAS2_PS_SC_HRS_IN_MASK;
-+		ps_sm->params.scrub_params_in |= FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK,
-+							    ras2_ctx->scrub_cycle_hrs);
-+		ps_sm->params.command = RAS2_START_PATROL_SCRUBBER;
-+	} else {
-+		if (!ras2_ctx->bg_scrub)
-+			return -EPERM;
-+
-+		ps_sm->params.command = RAS2_STOP_PATROL_SCRUBBER;
-+	}
-+
-+	ps_sm->params.scrub_params_in &= ~RAS2_PS_EN_BACKGROUND;
-+	ps_sm->params.scrub_params_in |= FIELD_PREP(RAS2_PS_EN_BACKGROUND, enable);
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(dev, "Failed to %s background scrubbing\n",
-+			str_enable_disable(enable));
-+		return ret;
-+	}
-+
-+	ras2_ctx->bg_scrub = enable;
-+	if (enable)
-+		ras2_ctx->reenable_bg_scrub = false;
-+
-+	/* Update the cache to account for rounding of supplied parameters and similar */
-+	return ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+}
-+
-+static int ras2_hw_scrub_get_enabled_od(struct device *dev, void *drv_data, bool *enabled)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	bool running;
-+	int ret;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	*enabled = running;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_set_enabled_od(struct device *dev, void *drv_data, bool enable)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm = TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	struct task_struct *thrd;
-+	bool running;
-+	int ret;
-+
-+	if (!enable)
-+		return -EOPNOTSUPP;
-+
-+	/* Stop any background scrub currently in progress */
-+	if (ras2_ctx->bg_scrub) {
-+		ret = ras2_hw_scrub_set_enabled_bg(dev, drv_data, false);
-+		if (ret)
-+			return ret;
-+
-+		ras2_ctx->reenable_bg_scrub = true;
-+		thrd = kthread_run(ras2_scrub_monitor_thread, ras2_ctx,
-+				   "ras2_scrub_nid%d", ras2_ctx->sys_comp_nid);
-+		if (IS_ERR(thrd)) {
-+			ras2_ctx->reenable_bg_scrub = false;
-+			ras2_hw_scrub_set_enabled_bg(dev, drv_data, true);
-+			return PTR_ERR(thrd);
-+		}
-+	}
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	if (running)
-+		return -EBUSY;
-+
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	ps_sm->params.scrub_params_in &= ~RAS2_PS_SC_HRS_IN_MASK;
-+	ps_sm->params.scrub_params_in |= FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK,
-+						    ras2_ctx->scrub_cycle_hrs);
-+	ps_sm->params.req_addr_range[0] = ras2_ctx->base;
-+	ps_sm->params.req_addr_range[1] = ras2_ctx->size;
-+	ps_sm->params.scrub_params_in &= ~RAS2_PS_EN_BACKGROUND;
-+	ps_sm->params.command = RAS2_START_PATROL_SCRUBBER;
-+
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(dev, "Failed to start demand scrubbing rc(%d)\n", ret);
-+		if (ret != -EBUSY) {
-+			ps_sm->params.req_addr_range[0] = 0;
-+			ps_sm->params.req_addr_range[1] = 0;
-+			ras2_ctx->od_scrub = false;
-+		}
-+		return ret;
-+	}
-+
-+	ras2_ctx->od_scrub = enable;
-+
-+	return ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+}
-+
-+static const struct edac_scrub_ops ras2_scrub_ops = {
-+	.get_enabled_bg = ras2_hw_scrub_get_enabled_bg,
-+	.set_enabled_bg = ras2_hw_scrub_set_enabled_bg,
-+	.get_enabled_od = ras2_hw_scrub_get_enabled_od,
-+	.set_enabled_od = ras2_hw_scrub_set_enabled_od,
-+	.get_min_cycle = ras2_hw_scrub_read_min_scrub_cycle,
-+	.get_max_cycle = ras2_hw_scrub_read_max_scrub_cycle,
-+	.get_cycle_duration = ras2_hw_scrub_cycle_read,
-+	.set_cycle_duration = ras2_hw_scrub_cycle_write,
-+};
-+
-+static int ras2_probe(struct auxiliary_device *auxdev, const struct auxiliary_device_id *id)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
-+	struct edac_dev_feature ras_features;
-+	char scrub_name[RAS2_SCRUB_NAME_LEN];
-+	unsigned long start_pfn, size_pfn;
-+	int ret;
-+
-+	if (!ras2_is_patrol_scrub_support(ras2_ctx))
-+		return -EOPNOTSUPP;
-+
-+	/*
-+	 * Retrieve the PA range of the NUMA domain and use it as the
-+	 * 'Requested Address Range', when send RAS2 command
-+	 * GET_PATROL_PARAMETERS to get parameters that apply to all addresses
-+	 * in the NUMA domain as well as when send command START_PATROL_SCRUBBER
-+	 * to start the demand scrubbing.
-+	 */
-+	start_pfn = node_start_pfn(ras2_ctx->sys_comp_nid);
-+	size_pfn = node_spanned_pages(ras2_ctx->sys_comp_nid);
-+	if (!size_pfn) {
-+		pr_debug("Failed to find PA range of NUMA node(%u)\n", ras2_ctx->sys_comp_nid);
-+		return -EPERM;
-+	}
-+
-+	ras2_ctx->base = __pfn_to_phys(start_pfn);
-+	ras2_ctx->size = __pfn_to_phys(size_pfn);
-+	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+	if (ret)
-+		return ret;
-+
-+	sprintf(scrub_name, "acpi_ras_mem%d", auxdev->id);
-+
-+	ras_features.ft_type	= RAS_FEAT_SCRUB;
-+	ras_features.instance	= 0;
-+	ras_features.scrub_ops	= &ras2_scrub_ops;
-+	ras_features.ctx	= ras2_ctx;
-+
-+	return edac_dev_register(&auxdev->dev, scrub_name, NULL, 1, &ras_features);
-+}
-+
-+static const struct auxiliary_device_id ras2_mem_dev_id_table[] = {
-+	{ .name = RAS2_AUX_DEV_NAME "." RAS2_MEM_DEV_ID_NAME, },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(auxiliary, ras2_mem_dev_id_table);
-+
-+static struct auxiliary_driver ras2_mem_driver = {
-+	.name = RAS2_MEM_DEV_ID_NAME,
-+	.probe = ras2_probe,
-+	.id_table = ras2_mem_dev_id_table,
-+};
-+module_auxiliary_driver(ras2_mem_driver);
-+
-+MODULE_IMPORT_NS("ACPI_RAS2");
-+MODULE_DESCRIPTION("ACPI RAS2 memory driver");
-+MODULE_LICENSE("GPL");
-diff --git a/include/acpi/ras2.h b/include/acpi/ras2.h
-index f4574e8e0a12..1329eb8b7423 100644
---- a/include/acpi/ras2.h
-+++ b/include/acpi/ras2.h
-@@ -37,6 +37,15 @@ struct device;
-  *			is associated with. See ACPI spec 6.5 Table 5.80: RAS2
-  *			Platform Communication Channel Descriptor format,
-  *			Field: Instance
-+ * @base:		Base address of the memory region to scrub
-+ * @size:		Size of the memory region to scrub
-+ * @scrub_cycle_hrs:	Current scrub rate in hours
-+ * @min_scrub_cycle:	Minimum scrub rate supported
-+ * @max_scrub_cycle:	Maximum scrub rate supported
-+ * @od_scrub:		Status of demand scrubbing (memory region)
-+ * @bg_scrub:		Status of background patrol scrubbing
-+ * @reenable_bg_scrub:	Flag indicates restart background scrubbing after demand
-+ *			scrubbing is finished
-  */
- struct ras2_mem_ctx {
- 	struct auxiliary_device		adev;
-@@ -45,6 +54,14 @@ struct ras2_mem_ctx {
- 	void				*sspcc;
- 	struct mutex			*pcc_lock;
- 	u32				sys_comp_nid;
-+	u64				base;
-+	u64				size;
-+	u8				scrub_cycle_hrs;
-+	u8				min_scrub_cycle;
-+	u8				max_scrub_cycle;
-+	bool				od_scrub;
-+	bool				bg_scrub;
-+	bool				reenable_bg_scrub;
+ Binding pci-epf-test Device to EP Controller
+ --------------------------------------------
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index b785d488c284..fda257e46920 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -63,6 +63,7 @@ static struct workqueue_struct *kpcitest_workqueue;
+ struct pci_epf_test {
+ 	void			*reg[PCI_STD_NUM_BARS];
+ 	struct pci_epf		*epf;
++	struct config_group	group;
+ 	enum pci_barno		test_reg_bar;
+ 	size_t			msix_table_offset;
+ 	struct delayed_work	cmd_handler;
+@@ -76,6 +77,7 @@ struct pci_epf_test {
+ 	bool			dma_private;
+ 	const struct pci_epc_features *epc_features;
+ 	struct pci_epf_bar	db_bar;
++	size_t			bar_size[PCI_STD_NUM_BARS];
  };
  
- #ifdef CONFIG_ACPI_RAS2
-diff --git a/include/linux/edac.h b/include/linux/edac.h
-index fa32f2aca22f..2342ff38e9d5 100644
---- a/include/linux/edac.h
-+++ b/include/linux/edac.h
-@@ -680,6 +680,8 @@ enum edac_dev_feat {
-  * @write_size: set offset of the scrubbing range.
-  * @get_enabled_bg: check if currently performing background scrub.
-  * @set_enabled_bg: start or stop a bg-scrub.
-+ * @get_enabled_od: check if currently performing demand scrub.
-+ * @set_enabled_od: start or stop a demand-scrub.
-  * @get_min_cycle: get minimum supported scrub cycle duration in seconds.
-  * @get_max_cycle: get maximum supported scrub cycle duration in seconds.
-  * @get_cycle_duration: get current scrub cycle duration in seconds.
-@@ -692,6 +694,8 @@ struct edac_scrub_ops {
- 	int (*write_size)(struct device *dev, void *drv_data, u64 size);
- 	int (*get_enabled_bg)(struct device *dev, void *drv_data, bool *enable);
- 	int (*set_enabled_bg)(struct device *dev, void *drv_data, bool enable);
-+	int (*get_enabled_od)(struct device *dev, void *drv_data, bool *enable);
-+	int (*set_enabled_od)(struct device *dev, void *drv_data, bool enable);
- 	int (*get_min_cycle)(struct device *dev, void *drv_data,  u32 *min);
- 	int (*get_max_cycle)(struct device *dev, void *drv_data,  u32 *max);
- 	int (*get_cycle_duration)(struct device *dev, void *drv_data, u32 *cycle);
+ struct pci_epf_test_reg {
+@@ -102,7 +104,8 @@ static struct pci_epf_header test_header = {
+ 	.interrupt_pin	= PCI_INTERRUPT_INTA,
+ };
+ 
+-static size_t bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
++/* default BAR sizes, can be overridden by the user using configfs */
++static size_t default_bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
+ 
+ static void pci_epf_test_dma_callback(void *param)
+ {
+@@ -1070,7 +1073,7 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 		if (epc_features->bar[bar].type == BAR_FIXED)
+ 			test_reg_size = epc_features->bar[bar].fixed_size;
+ 		else
+-			test_reg_size = bar_size[bar];
++			test_reg_size = epf_test->bar_size[bar];
+ 
+ 		base = pci_epf_alloc_space(epf, test_reg_size, bar,
+ 					   epc_features, PRIMARY_INTERFACE);
+@@ -1142,6 +1145,87 @@ static void pci_epf_test_unbind(struct pci_epf *epf)
+ 	pci_epf_test_free_space(epf);
+ }
+ 
++#define PCI_EPF_TEST_BAR_SIZE_R(_name, _id)				\
++	static ssize_t pci_epf_test_##_name##_show(struct config_item *item,	\
++						   char *page)		\
++	{								\
++		struct config_group *group = to_config_group(item);	\
++		struct pci_epf_test *epf_test = container_of(group,	\
++					struct pci_epf_test, group);	\
++									\
++		return sprintf(page, "%zu\n", epf_test->bar_size[_id]);	\
++	}
++
++#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
++	static ssize_t pci_epf_test_##_name##_store(struct config_item *item, \
++						    const char *page, size_t len) \
++	{								\
++		struct config_group *group = to_config_group(item);	\
++		struct pci_epf_test *epf_test = container_of(group,	\
++					struct pci_epf_test, group);	\
++		int val;						\
++		int ret;						\
++									\
++		ret = kstrtouint(page, 0, &val);			\
++		if (ret)						\
++			return ret;					\
++									\
++		if (!is_power_of_2(val))				\
++			return -EINVAL;					\
++									\
++		epf_test->bar_size[_id] = val;				\
++									\
++		return len;						\
++	}
++
++PCI_EPF_TEST_BAR_SIZE_R(bar0_size, BAR_0)
++PCI_EPF_TEST_BAR_SIZE_W(bar0_size, BAR_0)
++PCI_EPF_TEST_BAR_SIZE_R(bar1_size, BAR_1)
++PCI_EPF_TEST_BAR_SIZE_W(bar1_size, BAR_1)
++PCI_EPF_TEST_BAR_SIZE_R(bar2_size, BAR_2)
++PCI_EPF_TEST_BAR_SIZE_W(bar2_size, BAR_2)
++PCI_EPF_TEST_BAR_SIZE_R(bar3_size, BAR_3)
++PCI_EPF_TEST_BAR_SIZE_W(bar3_size, BAR_3)
++PCI_EPF_TEST_BAR_SIZE_R(bar4_size, BAR_4)
++PCI_EPF_TEST_BAR_SIZE_W(bar4_size, BAR_4)
++PCI_EPF_TEST_BAR_SIZE_R(bar5_size, BAR_5)
++PCI_EPF_TEST_BAR_SIZE_W(bar5_size, BAR_5)
++
++CONFIGFS_ATTR(pci_epf_test_, bar0_size);
++CONFIGFS_ATTR(pci_epf_test_, bar1_size);
++CONFIGFS_ATTR(pci_epf_test_, bar2_size);
++CONFIGFS_ATTR(pci_epf_test_, bar3_size);
++CONFIGFS_ATTR(pci_epf_test_, bar4_size);
++CONFIGFS_ATTR(pci_epf_test_, bar5_size);
++
++static struct configfs_attribute *pci_epf_test_attrs[] = {
++	&pci_epf_test_attr_bar0_size,
++	&pci_epf_test_attr_bar1_size,
++	&pci_epf_test_attr_bar2_size,
++	&pci_epf_test_attr_bar3_size,
++	&pci_epf_test_attr_bar4_size,
++	&pci_epf_test_attr_bar5_size,
++	NULL,
++};
++
++static const struct config_item_type pci_epf_test_group_type = {
++	.ct_attrs	= pci_epf_test_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *pci_epf_test_add_cfs(struct pci_epf *epf,
++						 struct config_group *group)
++{
++	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
++	struct config_group *epf_group = &epf_test->group;
++	struct device *dev = &epf->dev;
++
++	config_group_init_type_name(epf_group, dev_name(dev),
++				    &pci_epf_test_group_type);
++
++	return epf_group;
++}
++
+ static const struct pci_epf_device_id pci_epf_test_ids[] = {
+ 	{
+ 		.name = "pci_epf_test",
+@@ -1154,6 +1238,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+ {
+ 	struct pci_epf_test *epf_test;
+ 	struct device *dev = &epf->dev;
++	enum pci_barno bar;
+ 
+ 	epf_test = devm_kzalloc(dev, sizeof(*epf_test), GFP_KERNEL);
+ 	if (!epf_test)
+@@ -1161,6 +1246,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+ 
+ 	epf->header = &test_header;
+ 	epf_test->epf = epf;
++	for (bar = BAR_0; bar < PCI_STD_NUM_BARS; bar++)
++		epf_test->bar_size[bar] = default_bar_size[bar];
+ 
+ 	INIT_DELAYED_WORK(&epf_test->cmd_handler, pci_epf_test_cmd_handler);
+ 
+@@ -1173,6 +1260,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+ static const struct pci_epf_ops ops = {
+ 	.unbind	= pci_epf_test_unbind,
+ 	.bind	= pci_epf_test_bind,
++	.add_cfs = pci_epf_test_add_cfs,
+ };
+ 
+ static struct pci_epf_driver test_driver = {
+
+base-commit: c0dbaab0524adbc90d693aa15ab84354dd71acb2
 -- 
-2.43.0
+2.52.0
 
