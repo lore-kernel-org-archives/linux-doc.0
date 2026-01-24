@@ -1,90 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4D019C542;
-	Sat, 24 Jan 2026 17:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B862080C1;
+	Sat, 24 Jan 2026 18:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769276776; cv=none; b=Mvcj117jC0FV/XITP4zy64m/yCAAnTQ/ZTMQzYO8vRZ9WTeUCJrdRmBxAhsird0Uxe3bHOAb8jn3EP12rYDJM3jjZdkYlA50awwe4JU80E6BweAUNLixqKKrQsPr/CQk87lEmxUi5NbrUw8gVe4oJazXXvQSV/FXSco1WBEgmmA=
+	t=1769279635; cv=none; b=TXQ662uYj6oogz2e0vqJBAv/q8XFNL8G0716OVA0E+6HZ0oAWJptjKeEE9LNCCDmX110XIN8x62iZ5+xjPLJSXeluw4lZecWaB1eyKWgcYB4hnAWolHOlkHPFfrd+rFaYjIhwVNpC4g167X3LzUocbeZWPblIfqy7tbGVAkvnv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769276776; c=relaxed/simple;
-	bh=FLi5x1Bv6Y+47RbLVUzrS+CBoJDWq6L3sQAn8KSrfCg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=q3GLeq98rPZHlwKbn4VihMrcgzciWt9XSLmAMB+uaWhMeO2CafsHyE/QfFjqBp88BJ2VlHOSkvxo5FaU7vhNN2FnzjIy4rnfX/u1VeAvETYaODemR7vAyR8qKqrKgypG73LkpCbl2NwZlGYAmfPOIfccAqJHjShkC9orSExfafU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E3B01MB7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769279635; c=relaxed/simple;
+	bh=t2nF+gD7H8+jpqbJmQmUbD70qwIMluN69XTjfEfv8rs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=UDF0krHTBnftW5dOTzdpzPrA/n0/uVaWT/Jd3WtUE6WUhKEY/he98mUplOfkUCWydpkBEzK46Vc/dHKOkiaRJ+cRU8cfGxWhNZqZ46/GW2Dmdlgfgo71mjVl18O/DOVHRy8ervu7fq9xy4gwXwhAwW7uokfEH4sCqTv66GfjQu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Y9ctNrw4; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3B01MB7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872F4C116D0;
-	Sat, 24 Jan 2026 17:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769276776;
-	bh=FLi5x1Bv6Y+47RbLVUzrS+CBoJDWq6L3sQAn8KSrfCg=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
-	b=E3B01MB7eYNo4vVpeJdjZ9jn2Sw06yqUAAeO2wqCCiAY+/wULR3WIMAdJQ0Pbq/BB
-	 bPX7TX+yQPpvpcTx1u+DimsqAda58ls+pgvHJENI4JTn2QOEWslPXzqpr8/n25hm7p
-	 TPuD/a8s/WvblrFLA+oynAybUN8c/EbBOJ9UkPmD+xWr2/DqqNR4ONE0miT9JUm5RD
-	 rd6VU4LxkBsCdV0zvaykpQfWieNcKc+UMhRet1b0DON9FTatlA1gih4cweSkPLb5y+
-	 0gldzaze81dcELRsHMH+I+0QuR3ZQT2r0h9AEnDUvY10BSYzfX6ivjOap4Y12CEAVf
-	 lvbPy8vAWXUPg==
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Y9ctNrw4"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60OIXceB1738906
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sat, 24 Jan 2026 10:33:38 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60OIXceB1738906
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026012301; t=1769279620;
+	bh=t2nF+gD7H8+jpqbJmQmUbD70qwIMluN69XTjfEfv8rs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=Y9ctNrw4tvWP8Ety7V4AQYAXfm4w1Mkyen4ZK474eHLEp0jd6QtvWyw+SbTQj9Vwo
+	 IGv5IhLbOrcw5L29p6C/xuHTRFTJyXa7YvqocHcqKA7hu8tllkwrdJ122lqtbqbLJ2
+	 DKGmSaZRLeYeucSErHr8ZtrbbV+6XAscjub/wttd41bXeTcfghJNqjppMYhK0U6WAB
+	 pIpm1E/9qdIg9O5634eEJFVjM0nR5e19ojDZA3ra5NsRKGGfvEyj2q06blK6Ua/3nG
+	 mPhIJlXkMimFFPpQ7bXXRtJXb2GFOC0wUN1B1C5DqyCDMQGNPe6IPs/oyLbFlyu2BM
+	 xa2NJC4t0MLJA==
+Date: Sat, 24 Jan 2026 10:33:31 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Askar Safin <safinaskar@gmail.com>
+CC: brauner@kernel.org, corbet@lwn.net, jack@suse.cz, lennart@poettering.net,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, systemd-devel@lists.freedesktop.org,
+        viro@zeniv.linux.org.uk
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_0/3=5D_Add_the_ability_to_moun?=
+ =?US-ASCII?Q?t_filesystems_during_initramfs_expansion?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20260124174150.974899-1-safinaskar@gmail.com>
+References: <20260124003939.426931-1-hpa@zytor.com> <20260124174150.974899-1-safinaskar@gmail.com>
+Message-ID: <5A5B4BD6-36BA-4D93-8584-9D0239068515@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 24 Jan 2026 18:46:11 +0100
-Message-Id: <DFX09S7L40VL.1HVC33VXNDDBW@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 3/3] Revert "revocable: Revocable resource management"
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>, "Bartosz
- Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>, "Linus Walleij"
- <linusw@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <shuah@kernel.org>, "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
- "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Simona Vetter"
- <simona.vetter@ffwll.ch>, "Dan Williams" <dan.j.williams@intel.com>, "Jason
- Gunthorpe" <jgg@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Johan Hovold" <johan@kernel.org>
-References: <20260124170535.11756-1-johan@kernel.org>
- <20260124170535.11756-4-johan@kernel.org>
-In-Reply-To: <20260124170535.11756-4-johan@kernel.org>
 
-On Sat Jan 24, 2026 at 6:05 PM CET, Johan Hovold wrote:
-> The revocable implementation uses two separate abstractions, struct
-> revocable_provider and struct revocable, in order to store the SRCU read
-> lock index which must be passed unaltered to srcu_read_unlock() in the
-> same context when a resource is no longer needed:
+On January 24, 2026 9:41:50 AM PST, Askar Safin <safinaskar@gmail=2Ecom> wr=
+ote:
+>"H=2E Peter Anvin" <hpa@zytor=2Ecom>:
+>> At Plumber's 2024, Lennart Poettering of the systemd project requested
+>> the ability to overmount the rootfs with a separate tmpfs before
+>> initramfs expansion, so the populated tmpfs can be unmounted=2E
 >
-> 	struct revocable {
-> 		struct revocable_provider *rp;
-> 		int idx;
-> 	};
+>This is already solved by [1] and [2]=2E They are in next=2E
 >
-> 	void *revocable_try_access(struct revocable *rev)
-> 	{
-> 		struct revocable_provider *rp =3D rev->rp;
+>[1] https://lore=2Ekernel=2Eorg/all/20251229-work-empty-namespace-v1-0-bf=
+b24c7b061f@kernel=2Eorg/
+>[2] https://lore=2Ekernel=2Eorg/all/20260112-work-immutable-rootfs-v2-0-8=
+8dd1c34a204@kernel=2Eorg/
 >
-> 		rev->idx =3D srcu_read_lock(&rp->srcu);
-> 		return srcu_dereference(rp->res, &rp->srcu);
-> 	}
->
-> 	void revocable_withdraw_access(struct revocable *rev)
-> 	{
-> 		struct revocable_provider *rp =3D rev->rp;
->
-> 		srcu_read_unlock(&rp->srcu, rev->idx);
-> 	}
->
-> Multiple threads may however share the same struct revocable and
-> therefore potentially overwrite the SRCU index of another thread which
-> can cause the SRCU synchronisation in revocable_provider_revoke() to
-> never complete.
 
-I think the easiest fix would be to just return the index to the caller and=
- let
-the corresponding revocable macro accessors handle it, such that it is stil=
-l
-transparent to the user.
+Well, all right then :)
