@@ -1,66 +1,33 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F463B1BD
-	for <linux-doc@vger.kernel.org>; Sat, 24 Jan 2026 06:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4D33EBF1E;
+	Sat, 24 Jan 2026 07:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769237811; cv=none; b=u1tjgoR5RoV7xfy11EHDqWM3wbHPRMmyKcqusa8GBDK2M0YmRdUlG7F1F3sVaPCSmlWsF8XS2sAfq/m+nGSZaEYhkKNHUkOQwlooQXtc2imGp1xY1eequQ2ff25Nsj7yYOEJO6gyhd5xEBli/DoSuGP+92luJIHrCC+c1ySNvd4=
+	t=1769239510; cv=none; b=RCn3nTu3Vp6FqP1I+g/WCusiDBn8vL3Ub6rXlPgMAwAYHKMLQYUGwvvfN5zhvVVkJK+AoSmLJkTr9WUfxvwZ3dQVjI6Jpnp8r+aHPukfjbxoSUNjnhDdkjJZg2dafAlfCKRhqQAANmmW8bkWSDE2D0aGFrKjJoou0xp5ACx7ix0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769237811; c=relaxed/simple;
-	bh=XWJhGhdSASYxWCvQzqZe/Sb9+Y3yqO0nUgrS3+60DFY=;
+	s=arc-20240116; t=1769239510; c=relaxed/simple;
+	bh=BpoHXPSY5AwaQmN6Xw7QMaOi0dRnd72osdnYD0X4kPY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LrIfby4cplkCF31VXlbXzvmLCbDiRRezqAi1Ad8GlYi1Ayb6HtB3TuxkK+h1oEfKe5Mb9FwKoCh3jEWpBatwMxZeMoxeYJTgyb3z1cGe2HRowViuY4Lva+dDPTYHqpWSOJje07g+kvGKqNgHj2OYbLowVhHGKGL6hpugcmLFhqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRbS5q+v; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=u8h2fI3SkxFHdgh4+lkqtwkih5keB9Jy8XTWqTRALpS177KkjszMcxLDe/0LGWjci0xx2psfMB79gh+Tk31eB0B2+G9Xym5QHA+ZtLBiQQmhpIdqX7kYuSVYVCufa1ZH0hxaxLczymbUt4Yqyrvt20v8j/3X3rqixZZ1TVBvfWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqCXsxeU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRbS5q+v"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-81ed3e6b8e3so1453362b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 22:56:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769237810; x=1769842610; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NgVczWZqjpDOEws1aiHHj0tzrDvYB7c+fHoQo0LOiQ8=;
-        b=JRbS5q+vcjUIF5AMzcibAif7stRPXM9kiQXPrg7iv4Xd8j3RVMjRBDKIte8zNebHwZ
-         Mcj3j6obEhGV+Phx3txy7swHAwFC/KXwzA8Uggp882ecuqvfj1Ps6k71R9+hvbE+A+g7
-         tnCz5dY3Yge7SZcJFmGOZcoLeHerLQIKUya5DFd7+XCN3U4uNqz0JHSrZcBwV0JHF+tk
-         I8FVdgGY2rzUAay4EoUykrBu6fL6FsgCr4IsZ9WRFlMFQ52Bfg7nxdQ1Ku4OZWLVoi3m
-         v5FsLXm/aQhmIIibJxfV/jf+oHVlu9m7o7E3hRXzdrgNiE9DPc3WckjioiK6piaGCOBi
-         mNuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769237810; x=1769842610;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NgVczWZqjpDOEws1aiHHj0tzrDvYB7c+fHoQo0LOiQ8=;
-        b=v+lrvoqmm89u/AFW4GUVoTOxkyzA3FsJGObvjuRpf1NNjXwoQzsiV8DHmHUe+T2/Id
-         NDnPeWGytLw0spI6ABxX12vDv2LcVd626K5kryW52FDmQ0xkx4t+bgDl2PgyE8LgJvF2
-         X2Kn7I4v8ZVGFk5AuN0o7/cShDPNo1nw/uaV1SKwgy+cV0fHyDTtHIvxugx6cMJXeshR
-         UfNSEcperxz5ZJYMVC8CjIY8DEi+SBvWQqc2L086iOonEhOKDOtdno1pIH3vlPAScwqN
-         /CSzzt57h4/V0gaM3liZeAOmWJZ0fL3+QiX1uU02kn1yuwG4O5lcNaiooOn6OJz8pKmk
-         ywMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVaunGBCsnqZGR4E+TJleab0WrqCifZi8XtqQ27hfaiwexRP+BOQwL4lhY9i3ZeKzkMqgBDjM5DNJA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXNjm8p7dFxoIyQqDKMtTZ51q3EUbG+fRKb6YjKDGEDdxhgJ0f
-	M5z2Bw4Ol6exwx2VcFBs0Ay4xvksR8+RzP2rAAPvtFVsgMX4eYXs1Is/
-X-Gm-Gg: AZuq6aK61oyqdz9SP9RperYcWDREfEVgLaWEYB7LhW4dzRZX9v7NqWaFi3xVSd9Ax2l
-	2rUX17iUYBFHJFbXp+JqytjmvrFc/OMg+g6KC3VRldfrpAdxSKIFighqPAPnOx9xMUURHeqkVIA
-	iATGGg21UmtCSadK9yXvVxZ9o2zd43rW2EpXpbTFJeK7tW5hSHHO0mvzKWc1v9lcCdKgT8Y5peb
-	9pRLcZQqj0WyNYHOryxhhL+NP7N1MxvaTkWROzq9Sk1pwN+OCcvhLCTPiicl/UMJWE3jrfT8Fss
-	/BtwCKki9N5m+I1rhJJqLTbrwuYU1IvL609sN+qWuU9tZG7cvcNQ4YCGZ6jyrYbl7pKjHFTMDGL
-	LZ0Q3Uojo4h+35diieOfzBSGDMc1tV69P+iQWx+k6bvP4FZJb7zvd5UajRtLBr3VUmYg3hERX73
-	KFvWj/KLRwYN+Bl15swBagm3y1JK0JPDfmzxtOi7vM8ngDTYLswku1RA/b
-X-Received: by 2002:a05:6a00:4c99:b0:7f1:d6e6:8f87 with SMTP id d2e1a72fcca58-82317d4d450mr4745749b3a.17.1769237809748;
-        Fri, 23 Jan 2026 22:56:49 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82318770179sm3801454b3a.67.2026.01.23.22.56.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jan 2026 22:56:49 -0800 (PST)
-Message-ID: <281c27c9-1c0a-4cdc-9250-b1fb6388c14e@gmail.com>
-Date: Sat, 24 Jan 2026 15:56:46 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqCXsxeU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DC9C116D0;
+	Sat, 24 Jan 2026 07:24:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769239510;
+	bh=BpoHXPSY5AwaQmN6Xw7QMaOi0dRnd72osdnYD0X4kPY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lqCXsxeURasvHP4unVWE7PgUKtV41NIhdpM5vvDoekklddO/E8dY6AGHT6g46ECmE
+	 jAqr/Ps7aGYp+PMRIA3YPw/Vwo9C+TpR/sdjlCknPM+8dAleph3X/4bU5wz1IumbJ4
+	 vsIyOm7lmyAqlf6I/LEv+1yiLfUCgQG5Qep86ZG9pnUsCEjekEe9P1WoWrrEtjnmQI
+	 QDhJCZSHNho0ytQ1vYlLxEHC3JmuX9H5jIR2xZzspstMFBwT5DWK5sGJiegpaS1O84
+	 ta04pSX1Y2X93B0O1gM0i3o07Wqvm66WeMTmtMVkp9TeOCvY9mMZIkCPgoXqmAL2FG
+	 PTBGII1HLujNQ==
+Message-ID: <8477da83-2441-440c-80f1-66dac9700523@kernel.org>
+Date: Sat, 24 Jan 2026 08:24:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,70 +35,77 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kdoc: Fix pdfdocs build for tools
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <1a60aea3155a2e7c5e7bb004952739652407fb8c.1769233717.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <1a60aea3155a2e7c5e7bb004952739652407fb8c.1769233717.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH net-next] net: ethernet: neterion: s2io: remove unused
+ driver
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Bjorn Helgaas <helgaas@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-s390@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ Jon Mason <jdmason@kudzu.us>, Jonathan Corbet <corbet@lwn.net>,
+ Linas Vepstas <linasvepstas@gmail.com>,
+ Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+ Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?Q?Martin_Kepplinger-Novakovi=C4=87?= <martink@posteo.de>,
+ Pavel Machek <pavel@ucw.cz>, MD Danish Anwar <danishanwar@ti.com>,
+ Mengyuan Lou <mengyuanlou@net-swift.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, Huacai Chen
+ <chenhuacai@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+ Takashi Iwai <tiwai@suse.de>, Eric Biggers <ebiggers@google.com>,
+ Madadi Vineeth Reddy <vineethr@linux.ibm.com>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Andrew Donnellan
+ <ajd@linux.ibm.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Dong Yibo <dong100@mucse.com>,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+ Vivian Wang <wangruikang@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@kernel.org>
+References: <20260123033233.16906-1-enelsonmoore@gmail.com>
+ <20260123181156.GA84531@bhelgaas>
+ <CADkSEUg5EqpKg2_X3LRc1CaQ2RVFNucJbuxDcHQxvjdLq1Qg1A@mail.gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <CADkSEUg5EqpKg2_X3LRc1CaQ2RVFNucJbuxDcHQxvjdLq1Qg1A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Sat, 24 Jan 2026 06:48:41 +0100, Mauro Carvalho Chehab wrote:
-> the "\1" inside a docstring requires proper scaping to not be
-> considered a hex character and break the build.
+
+
+Le 24/01/2026 à 03:01, Ethan Nelson-Moore a écrit :
+> [Vous ne recevez pas souvent de courriers de enelsonmoore@gmail.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
 > 
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Closes: https://lore.kernel.org/linux-doc/63e99049-cc72-4156-83af-414fdde34312@gmail.com/
-
-This doesn't look like working as expected.
-
-I see:
-
-    if r’1’ is used ...
-
-in both the HTML and PDF outputs.  I think what you expect is:
-
-    if r’\1’ is used ...
-
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  tools/lib/python/kdoc/kdoc_re.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Fri, Jan 23, 2026 at 10:11 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>> Not sure there's value in removing the IDs from pci_ids.h.  It may
+>> lead to unnecessary conflicts later for stable and other backports.
 > 
-> diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-> index 2816bd9f90f8..dae5a9136fbf 100644
-> --- a/tools/lib/python/kdoc/kdoc_re.py
-> +++ b/tools/lib/python/kdoc/kdoc_re.py
-> @@ -228,7 +228,7 @@ class NestedMatch:
->              yield line[t[0]:t[2]]
->  
->      def sub(self, regex, sub, line, count=0):
-> -        """
-> +        r"""
->          This is similar to re.sub:
->  
->          It matches a regex that it is followed by a delimiter,
+> Patches to remove drivers are generally not backported to stable
+> versions, even if the driver is broken, so I don't think this will be
+> an issue. There is no point in keeping unused IDs around.
 
-To get the expected "\1", I guess you also need:
+Yes and that's exactly the reason why removing unused IDs will be a problem.
 
-@@ -234,7 +234,7 @@ class NestedMatch:
-         It matches a regex that it is followed by a delimiter,
-         replacing occurrences only if all delimiters are paired.
- 
--        if r'\1' is used, it works just like re: it places there the
-+        if r'\\1' is used, it works just like re: it places there the
-         matched paired data with the delimiter stripped.
- 
-         If count is different than zero, it will replace at most count
+Let's take an exemple: some patch adds PCI_DEVICE_ID_ARECA_1682 after 
+PCI_DEVICE_ID_ARECA_1681 in pci_ids.h in the mainline. That patch needs 
+to be backported and it conflicts with PCI_VENDOR_ID_S2IO which is not 
+anymore in the mainline but is still in stable.
 
-as well.  No?
-
-Thanks, Akira
-
-
-
+Christophe
