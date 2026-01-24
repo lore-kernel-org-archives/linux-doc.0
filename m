@@ -1,64 +1,37 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8276243AA4
-	for <linux-doc@vger.kernel.org>; Sat, 24 Jan 2026 00:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9DD82866;
+	Sat, 24 Jan 2026 00:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769214712; cv=none; b=N1WL3utoQ3SK+v+AJcc3hHcET4pHXyoPLqG6oUTzI0hA/y68nWoSXG37WK8xcADVeoPfn7XPgLWL8lMJAn+eJZXmgbr07E/3Qz/dNIrNTzMv0IXtmXiRHkxYcSy2sHfY5+2Uq/aQxS12GW9uSSoxjALpOwgDEIVMLBDMscub1sY=
+	t=1769215032; cv=none; b=FoGNInuN3G78VvoKICPhSVt30mjp6s4hYkOQEdB5v8SABpI8kG6elR5qS75UNeTqpHCFMUI9wbRhSHcw6WShsI6BQBUGHZ9y0/omT/DVRxmUTc0LvNv9sIRQsi1FKxsglclqhljt6DWG0jn6+I8zl48/xKoNdp9R76NfqxWumfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769214712; c=relaxed/simple;
-	bh=QSW+5dqL884ti2B0pSppCQPPR/BJnhtxsPD90YktJ5w=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Vkubc+b5JmHHAnwju4Ow/I3YJFyKtAA172bbYyoxesD28jbVw5UOxScbmWqtTB1MwuA6JFHFq6nqqNhqxqv2jC34XKi7Ly8FSFFoAylHoTqJ+vF9qsa6AL4wO3sDqL8CRbrjJnDTnVFzUcyNQjrz8n+VuqwT9jX3eNqYQ/V9EU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QvQURA6u; arc=none smtp.client-ip=209.85.214.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769215032; c=relaxed/simple;
+	bh=wAXTvH1maN85hr3RfdeH9UsxVN0a60QJqdMB4yISpkU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FYTv0g7gC7Xu0cgQPzDHmcet5dTSO/NW5+A+yIfTor/c8SvVTN5E8hdFJ/fgTksy9o9JFq3WMNnks6ufBcKtn8/N1ZSgjTlXDeew18kMJpbi78PgGY3aMV1+dHkHToipWDufgl7a9oELO6+z/Mhg2FSG/jVTB5fLJSp2yKcXN3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yN2Q9Eh1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QvQURA6u"
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2a7aa9efc55so20794035ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 16:31:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769214711; x=1769819511; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XHhFuv+6ufFWS5++ieVo6f09Zd0Zk0x1xBr8gUhUdds=;
-        b=QvQURA6unBI5MthyXfw5BqYFEwaArK5AJLcgb6+v2eK9CjsGEpcSRTMnAPOXxcTci2
-         0X3ver+3ya39SsdfgjT1X+RWuLRgpOkltaKnWP0VujECe2YrEbtcqHDoGq8oNK8A8hGJ
-         ddr+eNwZ/slK8hoX8kLjExfYtnTF0tzNl8FGwmzudJVxAjCMNXglUYup6mpwmEFaL4CX
-         m9AQnTHWY84CE9qSLvgw8DFft85r40NV3xOw37NnW8Cx1AwydRf3P5DP3+CC07RzShXC
-         X8r2886+DYI8ujh1P6vgwhGPN7fijFTzxWxU55pfQc5nvNyMm6f4Cb5Z+kChzzxeWA52
-         brIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769214711; x=1769819511;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XHhFuv+6ufFWS5++ieVo6f09Zd0Zk0x1xBr8gUhUdds=;
-        b=ki89qJyJpLeacK7U67ZpgcuIolE+Mcp9yIlJkJpt1G9aIIcNn0oVZUxUlc6qFzFFXZ
-         n6h1dSsvy/XctOvfPATL06U6gLbvbl/RYaYeKtvQQf6+/vp6RzEOaopgOuuMSGSOA4HP
-         /bOFT9/+JhkiFNVQ6i3UXY6qoToDzZjwGOAqsvwV1eFfz2EYlmDE0ePy8Yxfk5cdIxp3
-         BDQqmO0dOZJ9cu/v9O8oyx/NpRV6Z4wvyu3OOzkQQV+jafuImeyyIBnLZJnZxioQ4ljy
-         KAJOCWDII1PlEA+aUD14yjTtRbCEbjEfkFWrST+KsLFNLj+qFMmmXlSAmbRElgIU313o
-         LKfA==
-X-Gm-Message-State: AOJu0YyIvUKeXru0ft46/ZjtktH9ZyCASxiLQJ1PSLhFHdQBnj/0BG7k
-	SM95mbh/R3lLE3vDhivLvLuD+KqikneqrPZFQ93qFLFF0Pp4Q0arTSWP
-X-Gm-Gg: AZuq6aJO0zJFUUmJ+t9azp3Cb03elqbj67NepuOxCSroF+TWQpuNvgKgraJiDHSl0ZJ
-	hcQwlHH0UgRJXLY04G9B7nq6e/ibMHndtRctfWN/bzM8qhfn6M+9DDReW9lV6lzyn29s3hmLhkx
-	neiAVFvcCNepNpeRY9TROmomnJEsXpdEKnDUSy3rBaEBJEBntUhPf1AaqxV2f9DrNgQbaxp1lEQ
-	AMEc6YVsS3Rvirv9mnmHvggw4AdroHqKRW9Hss1g3592KrPiiHumN24RWQ05N0kQatRznY4dQTI
-	hWqqlH5op12HIgiK7+QI1WE1ae80rw0QCI1g7dfnl/E0f4HO/qGFkvfhjSHnD0qnfD0MPKGgAUU
-	QSy/H5wlmi4mQnfo4k4veC+yJgtFhqRpSB51DSmbnYroYed6pNK6V+kOkfsak49WkprqnZnY55x
-	fkdH/cnA//i3I/UTtD0W4bo6EjIX9Vm+W7x7w0IQycxeF9e82FZXk4ALuY
-X-Received: by 2002:a17:903:3b88:b0:295:62d:5004 with SMTP id d9443c01a7336-2a7fe592de1mr44376445ad.26.1769214710787;
-        Fri, 23 Jan 2026 16:31:50 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802f978c7sm30040775ad.65.2026.01.23.16.31.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jan 2026 16:31:50 -0800 (PST)
-Message-ID: <63e99049-cc72-4156-83af-414fdde34312@gmail.com>
-Date: Sat, 24 Jan 2026 09:31:47 +0900
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yN2Q9Eh1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ZF3w+bfdsuVIG4y2ZxlqSkJ5Ys1l78zUshnxHSf11Og=; b=yN2Q9Eh1OuUIAiLrg0JA7kRHuk
+	0dwqAPzU7JXlYLuIhXabSnsXNgdSkzQXwXXVNQ/0XLEiPhMwWpYPZmvRvVM1nfYiuHi7bHWRN3SuJ
+	yHKMYhEj1BChK6nzlVSKZyWg5HALkz0bgC1FOerQIk7UqqI42vemTFOHsS/3oNL16U0TGs/sUUqIr
+	I9KhUf3ngGDv33WwUise0g44QE89ZuAqfTSwpExA8qpJ+kUG1RSNuABVY5wG7lLrPXsmrLdA/woTx
+	QkuqYabGqKTRGx0VEqYTIE8OLgE5Nfek0KMk4jOHml5QTpwQjkfw9E5epD2E7aEICa8Vf8uHzcyCw
+	QPhaUNuQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vjRe9-00000009dok-2xnO;
+	Sat, 24 Jan 2026 00:37:01 +0000
+Message-ID: <1ac1c25f-9f4a-45ea-8ce5-c4a381941d60@infradead.org>
+Date: Fri, 23 Jan 2026 16:37:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,109 +39,104 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: corbet@lwn.net, mchehab+huawei@kernel.org, mchehab@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- nfraprado@collabora.com, pvorel@suse.cz, rdunlap@infradead.org,
- skhan@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
-References: <87h5sc17zx.fsf@trenco.lwn.net>
-Subject: Re: [PATCH 00/25] Add tools/lib/python modules to Documentation/tools
+Subject: Re: linux-next: [DOCS] build warning after merge of the tip tree
+To: Peter Zijlstra <peterz@infradead.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Marco Elver <elver@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+References: <20260107161548.45530e1c@canb.auug.org.au>
+ <20260107215409.GB694817@noisy.programming.kicks-ass.net>
+ <803d1946-6935-452d-953a-90f6e73d53a2@infradead.org>
+ <91c5386a-2c1b-476a-b189-86d80c0d9e96@infradead.org>
+ <20260123081126.3f0f152c@foz.lan>
+ <20260123112856.GS166857@noisy.programming.kicks-ass.net>
+ <20260123132054.2d46fb97@foz.lan>
+ <20260123151856.GT166857@noisy.programming.kicks-ass.net>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87h5sc17zx.fsf@trenco.lwn.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260123151856.GT166857@noisy.programming.kicks-ass.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 23 Jan 2026 11:47:30 -0700, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+
+
+On 1/23/26 7:18 AM, Peter Zijlstra wrote:
+> On Fri, Jan 23, 2026 at 01:20:54PM +0100, Mauro Carvalho Chehab wrote:
 > 
->> Hi Jon,
+>>> I have of course no idea what so ever how any of this works, but it
+>>> occurs to me that __acquires() and __releases() are not in that same
+>>> list, what happens to them?
 >>
->> This is an extended version of:
->>     https://lore.kernel.org/linux-doc/cover.1768488832.git.mchehab+huawei@kernel.org/
+>> You mean in functions like those, for instance:
 >>
->> It basically adds everything we currently have inside libs/tool/python
->> to "tools" book inside documentation.
+>> 	int device_links_read_lock(void) __acquires(&device_links_srcu)
+>> 	{
+>> 	        return srcu_read_lock(&device_links_srcu);
+>> 	}
+>>
+>> 	void device_links_read_unlock(int idx) __releases(&device_links_srcu)
+>> 	{
+>> 	        srcu_read_unlock(&device_links_srcu, idx);
+>> 	}
+>>
+>> Yeah, we need to add something for those as well.
 > 
-> OK, I have applied the set, thanks.
-
-I've not have time to test this set, so just a quick report of a build error
-related to this set after the fact.
-
-I'm getting this error from "make SPHINXDIRS=tools pdfdocs":
-
----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-------------
-Running 'xelatex --no-pdf  -no-pdf -interaction=batchmode -no-shell-escape -recorder  "/<...>/Documentation/output/tools/latex/tools.tex"'
-------------
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex)
-entering extended mode
-Latexmk: Getting log file 'tools.log'
-Latexmk: Examining 'tools.fls'
-Latexmk: Examining 'tools.log'
-Latexmk: References changed.
-Latexmk: Missing input file 'tools.toc' message in .log file:
-  No file tools.toc.
-Latexmk: Missing input file 'tools.ind' message in .log file:
-  No file tools.ind.
-Latexmk: References changed.
-Latexmk: References changed.
-Latexmk: Log file says output to 'tools.xdv'
-Latexmk: Index file 'tools.idx' was written
-Latexmk: Using bibtex to make bibliography file(s).
-Latexmk: Summary of warnings from last run of *latex:
-  Latex failed to resolve 15 reference(s)
-Latexmk: ====Undefined refs and citations with line #s in .tex file:
-  Reference `kabi_parser:module-lib.python.abi.abi_parser' on page 75 undefined on input line 7092
-  Reference `kabi_regex:module-lib.python.abi.abi_regex' on page 75 undefined on input line 7093
-  Reference `kabi_helpers:module-lib.python.abi.helpers' on page 75 undefined on input line 7094
-  Reference `kabi_symbols:module-lib.python.abi.system_symbols' on page 75 undefined on input line 7095
-  Reference `feat:module-lib.python.feat.parse_features' on page 75 undefined on input line 7096
-  Reference `jobserver:module-lib.python.jobserver' on page 75 undefined on input line 7097
-  Reference `kdoc_ancillary:module-lib.python.kdoc.enrich_formatter' on page 75 undefined on input line 7098
- And 8 more --- see log file 'tools.log'
-Latexmk: Errors, so I did not complete making targets
-Collected error summary (may duplicate other messages):
-  xelatex: Command for 'xelatex' gave return code 1
-      Refer to 'tools.log' and/or above output for details
-
-Latexmk: Sometimes, the -f option can be used to get latexmk
-  to try to force complete processing.
-  But normally, you will need to correct the file(s) that caused the
-  error, and then rerun latexmk.
-  In some cases, it is best to clean out generated files before rerunning
-  latexmk after you've corrected the files.
-Error: Can't build 1 PDF file(s): tools/pdf/tools.pdf
-make[2]: *** [Documentation/Makefile:58: pdfdocs] Error 1
-make[1]: *** [/<...>/Makefile:1842: pdfdocs] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
-Excerpt from tools.log:
-
----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-! Text line contains an invalid character.
-l.5865 if r’^^A
-               ’ is used, it works just like re: it places there the
-A funny symbol that I can't read has just been input.
-Continue, and I'll forget that it ever happened.
----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
-, and from tools.tex:
-
---------
-\sphinxAtStartPar
-It matches a regex that it is followed by a delimiter,
-replacing occurrences only if all delimiters are paired.
-
-\sphinxAtStartPar
-if r’’ is used, it works just like re: it places there the  <-- 5865
-matched paired data with the delimiter stripped.
---------
-
-Mauro, can you please have a look?
-
-Thanks, Akira
-
+> Yes those. They are pre-existing sparse annotations that have been
+> co-opted and morphed into the clang thread-safety-analysis.
 > 
-> jon
+>>> Also, there will 'soon' be an equivalent: __cond_releases():
+>>>
+>>>   https://lkml.kernel.org/r/20260121111213.634625032@infradead.org
+>>
+>> The table "function_xforms" is a set of regular expressions to replace 
+>> macros into something that will be a pure C function declaration.
+>> It should be able to handle most macros (*).
+>>
+>> Each line in the table has two arguments:
+>>
+>> 	- a regex
+>> 	- a replace expression
+>>
+>> In this specific case, if we remove __cond_acquires(.*) from the
+>> function prototype, the remaining function will be a pure C 
+>> prototype.
+>>
+>> So, I'd say we need to have all 4 macros there:
+>>
+>> 	(KernRe(r"__cond_acquires\s*\([^\)]*\)"), ""),
+>> 	(KernRe(r"__cond_releases\s*\([^\)]*\)"), ""),
+>> 	(KernRe(r"__acquires\s*\([^\)]*\)"), ""),
+>> 	(KernRe(r"__releases\s*\([^\)]*\)"), ""),
+>>
+>> to avoid any warnings related to such annotations.
+> 
+> There's also:
+> 
+> 	__must_hold()
+> 	__must_not_hold()
+> 	__must_hold_shared()
+> 
+> 	__acquires_shared()
+> 	__cond_acquires_shared()
+> 	__releases_shared()
+> 
+> 	__no_context_analysis
+> 
+> On top of that, structure members can be annotated with:
+> 
+> 	__guarded_by()
+> 	__pt_guarded_by()
+
+I was aware of some of these but not all of them.
+Thanks for the list.
+I'll update my patch for one regex to include all of these.
+
+-- 
+~Randy
 
