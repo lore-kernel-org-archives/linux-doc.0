@@ -1,51 +1,82 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D6C1465B4;
-	Sat, 24 Jan 2026 00:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C036917A309
+	for <linux-doc@vger.kernel.org>; Sat, 24 Jan 2026 01:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769215224; cv=none; b=rUSZnP/GWvdqpeQ2vJ/jd4ZEMXj40zsL5EWEi8ILtsGcxcVV0+Wm56vYUFlLfOaJiIOmhJYsThss/pfVk3HF6JJ190Vvz1TbmNDyPjvM0Tcvo4e3LUvKDatiCh3gprM6MXJWf+y4UMXssE7dXRvbMXTAP23rfXALZVQLv1vZbRs=
+	t=1769219355; cv=none; b=HaRdelzw8y4UBTqXRpBInDDjzihfQPp/dvU5DHuQk1Yg/yf/GJfGWklNxwp5Dh0f/IsyZ0MMOMEOCzfAnGk6aO4J7TUsJgKaOxll7GLG9KXb5qjuTuO5dEUM03Ryq9hwqYrjCCMfZ76yAVloZjiUjGRb9wu0xVjiHFRZCI5BQ1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769215224; c=relaxed/simple;
-	bh=VIIxrbHBSOZTQZmk6RThUD6/XbYBdxSTBSmfqc2iAFA=;
+	s=arc-20240116; t=1769219355; c=relaxed/simple;
+	bh=9P2X6lBhLKEX370B2D3nfIFaS4rm86UkbX+g3x5l7u8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pAJLw2ZApL1eQMX0VGJ4By1jkTr7oQSfRimkyeJicYc9ftMqIyhq9v/ltrBm1eNQOXDVaNGM/2U6VpuhNY6PE1aIWoXYYkMzxzhORB7elyGCy/Z5AzwoGsTeSbLHETXN7asJ2dxL3GnZ8ff1ZOw2JzkGU7L5VOJiyhXTiISswN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=b2ZyWQEn; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	 MIME-Version; b=fVlLxBGfIlVzyMBHu6345XUmLuckSMQWdK0rzcz4NACIwPoav+V5oNs4m8ROobchtg6Q/7nsKf+TXoEiEMWzEW8bt6eJL4z62gWUy3Rb8nFcSSYg0ztu4I+utiAXeXO0jqZPyOfvaLQ/602ewQvHjX9ninvEVzMms6sqRwjk2FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ONnHl3n1; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="b2ZyWQEn"
-Received: from mail.zytor.com (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60O0dnvW1194278
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 23 Jan 2026 16:39:59 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60O0dnvW1194278
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025122301; t=1769215199;
-	bh=3gvBwig0hzF7NIxzN91ZTmQDDoHaKk76XYdPUXtLHtQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b2ZyWQEnLPMG+1UJZWR/Ow1pjzS/Djnc00LiKj1d8h1eCCB0mvoGq/eMeskUGvKmR
-	 i+L0UzZ9MF9M/AEZrKR4khIlkezkbOh6ureJXZPQFdkmFL/S5kyFUZzTsOWjuLPSAM
-	 wRhUm7ZLqGy7866RoXPT3inwZaUaIFjm1FADRY/0weXQmO6+dTCgWXqoiS9mKo0DZ2
-	 uvPc6pDsaSvbXEOnQnEuwtLYDby2QHhnHSNe5i2lCyubnw5EAaLWKLa9cHaQhR1hUm
-	 d0N9/aeQpWIvLiJI93yaJnBeEdhIWwImjbYMJ5App+xp2wtK/YDZhHtXe4q0mu7Wiw
-	 tv+TPgIMj/Ayw==
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>, "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lennart Poettering <lennart@poettering.net>,
-        systemd-devel@lists.freedesktop.org
-Subject: [RFC PATCH 1/3] fs/init: move creating the mount data_page into init_mount()
-Date: Fri, 23 Jan 2026 16:39:34 -0800
-Message-ID: <20260124003939.426931-2-hpa@zytor.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ONnHl3n1"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b0ea1edf11so4831165eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Jan 2026 17:49:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769219353; x=1769824153; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZF99/uWCYPK4U9PbgOwY3pTx4yNCxW3AAGZV8/M/3yc=;
+        b=ONnHl3n1R+KgAHPPumQ1QEM8Z0oAbLiL+loOTS5k3fPFHuy0bK3TWN/btHhbLDDaXW
+         zQt65McIZo5Kp4RKr8Wng1SW5F80+V3V60LCn7ClxVwEbmb0dlWCUTaQfBFhmCabTOVn
+         +jlYp30irZ9wcN7BiTXck1z3Awe2BW1x7BGx4nsIVNRZqgqhTLdvnQax3WrcMZE03OBw
+         Dbm5UT30Rj41BLYchXi2aTp1qbZ/te0/JEriiz50UP/hN7DqFeVLG4TSWl1wnDR5rr3t
+         RgIQTXVyv35/EJJ446u4mgJPEjo0uk0C++7LCHIWE1agg4ZS3b2yOV4+r5YDY2bxaW97
+         g1+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769219353; x=1769824153;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZF99/uWCYPK4U9PbgOwY3pTx4yNCxW3AAGZV8/M/3yc=;
+        b=qeLEum5FkJSDlrxIuUg52xh2MPO1Hqrlh8pqW5p4zCp9wF1MIN6Wo/lR0qtRZ93ePu
+         1ghURI/nH0cmA7iSeDlO7oQQj2rDB+qur6TURCB5yGBlPM9e8lDteSo4Wl3SwQrhS0iB
+         b27YtUnF3joRdhcfjWl+HDftCPRi5aKUoz/8FcYMtPP7lizvR0o//Xg7SsPAvgO0OhbQ
+         g9M5BNBupJ9hcH67Ew2bbag3yK/r9OpcLG7MS8km2vD4k3qu8J1d4uVwG4SlfIdOsohI
+         YbkIxV2XPpM74pK3jSGED2akN6aLnnOkKFNwydsVhHUFAJx6uWcxLulUlOuslLzojELM
+         KPfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW20i7daoywk097cg8i8KLrujQJGxTQogb/JKoKsZwm4KynEbl782/PhPu5dPDNDJclv+N3wWFa5x0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtbmi7RBXlOxLRWG5IcSam+hjDigmUoN41XG/ioDloY6+pb7Hk
+	AWDrFWJj3oh+q9O9rVBh4VhFCsyqahjkQukVwaNqfBbx2YxUN/1Z7MNp
+X-Gm-Gg: AZuq6aIYqwNR76nKIkGl6GpwTf+jYSqucadYVHLpqDIkYVOzbtDNbZvRfuk6OpPffn5
+	mm+vUZnXENnTpQFPX4xNe0JXE2Pdlcyh4fCDpz2ajoJyTOdoCxDFOOC5CPUk0xhldaDAYFsmPHP
+	7KJvbHMaj8BXeQlzepzP9xBB8/9rrLi0PsbKjxoKCX0CdpYiy4/Mfco6dDzlmF+t2K6k/3tC4wt
+	DdYPItnNgX1ZI89Bj/vjWC9ETGZZs23S3RdaKqhr9VHNIvJ8AUXj+f30W3naT7+mKJiDbdGIp4d
+	vbamSYTLkXWcYZO+KbIku9Ad985vKLJqF5v/vbdPXnr/dJztBNtLmNuzn8fw3lbPywCCZBrQC6H
+	4od5ZqaOUGouyAyPMc9jSIyrjh262pLs7FORj+FKcKPmW/qMIinBIAvMp4RaHZh0UsPmyTHB3as
+	++4Cup1u+86v92O8uAS+ccEB3M5ebMlrAYyATlrlSR9fTxcSrZAP0tDFP4waufTPujLkrRRGFRh
+	Q==
+X-Received: by 2002:a05:693c:2296:b0:2b7:19f2:6b59 with SMTP id 5a478bee46e88-2b73995f8c3mr3558092eec.9.1769219352977;
+        Fri, 23 Jan 2026 17:49:12 -0800 (PST)
+Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b73aa22707sm5160014eec.29.2026.01.23.17.49.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jan 2026 17:49:12 -0800 (PST)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 01/16] include: device.h: Add named device attributes
+Date: Sat, 24 Jan 2026 01:48:52 +0000
+Message-ID: <20260124014907.991265-2-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260124003939.426931-1-hpa@zytor.com>
-References: <20260124003939.426931-1-hpa@zytor.com>
+In-Reply-To: <20260124014907.991265-1-derekjohn.clark@gmail.com>
+References: <20260124014907.991265-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,112 +85,119 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-path_mount() wants the mount data if not NULL to be a whole
-page. Expanding a string onto an allocated page was done in
-do_mount_root(); move it instead into init_mount() so other users of
-init_mount() can leverage this same code.
+Adds DEVICE_ATTR_[RW|RO|WO]_NAMED macros for adding attributes that
+reuse the same sysfs name in a driver under separate subdirectories.
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+When dealing with some devices it can be useful to be able to reuse
+the same name for similar attributes under a different subdirectory.
+For example, a single logical HID endpoint may provide a configuration
+interface for multiple physical devices. In such a case it is useful to
+provide symmetrical attribute names under different subdirectories on
+the configuration device. The Lenovo Legion Go is one such device,
+providing configuration to a detachable left controller, detachable
+right controller, the wireless transmission dongle, and the MCU. It is
+therefore beneficial to treat each of these as individual devices in
+the driver, providing a subdirectory for each physical device in the
+sysfs. As some attributes are reused by each physical device, it
+provides a much cleaner interface if the same driver can reuse the same
+attribute name in sysfs while uniquely distinguishing the store/show
+functions in the driver, rather than repeat string portions.
+
+Example new WO attrs:
+ATTRS{left_handle/reset}=="(not readable)"
+ATTRS{right_handle/reset}=="(not readable)"
+ATTRS{tx_dongle/reset}=="(not readable)"
+
+vs old WO attrs in a subdir:
+ATTRS{left_handle/left_handle_reset}=="(not readable)"
+ATTRS{right_handle/right_handle_reset}=="(not readable)"
+ATTRS{tx_dongle/tx_dongle_reset}=="(not readable)"
+
+or old WO attrs with no subdir:
+ATTRS{left_handle_reset}=="(not readable)"
+ATTRS{right_handle_reset}=="(not readable)"
+ATTRS{tx_dongle_reset}=="(not readable)"
+
+While the third option is usable, it doesn't logically break up the
+physical devices and creates a device directory with over 80 attributes
+once all attrs are defined.
+
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
- fs/init.c                     | 23 ++++++++++++++++++++---
- include/linux/init_syscalls.h |  3 ++-
- init/do_mounts.c              | 17 ++---------------
- 3 files changed, 24 insertions(+), 19 deletions(-)
+ include/linux/device.h | 46 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/fs/init.c b/fs/init.c
-index e0f5429c0a49..1253bcc73e26 100644
---- a/fs/init.c
-+++ b/fs/init.c
-@@ -14,16 +14,33 @@
- #include "internal.h"
+diff --git a/include/linux/device.h b/include/linux/device.h
+index b031ff71a5bd..76f485e6b24c 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -189,6 +189,22 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR_ADMIN_RW(_name) \
+ 	struct device_attribute dev_attr_##_name = __ATTR_RW_MODE(_name, 0600)
  
- int __init init_mount(const char *dev_name, const char *dir_name,
--		const char *type_page, unsigned long flags, void *data_page)
-+		      const char *type_page, unsigned long flags,
-+		      const char *data_str)
- {
-+	struct page *data_page = NULL;
-+	char *data_buf = NULL;
- 	struct path path;
- 	int ret;
- 
-+	/* path_mount() wants a proper page for data */
-+	if (data_str && data_str[0]) {
-+		data_page = alloc_page(GFP_KERNEL);
-+		if (!data_page)
-+			return -ENOMEM;
-+		data_buf = page_address(data_page);
-+		strscpy_pad(data_buf, data_str, PAGE_SIZE);
++/**
++ * DEVICE_ATTR_RW_NAMED - Define a read-write device attribute with a sysfs name
++ * that differs from the function name.
++ * @_name: Attribute function preface
++ * @_attrname: Attribute name as it wil be exposed in the sysfs.
++ *
++ * Like DEVICE_ATTR_RW(), but allows for reusing names under separate paths in
++ * the same driver.
++ */
++#define DEVICE_ATTR_RW_NAMED(_name, _attrname)                            \
++	struct device_attribute dev_attr_##_name = {                      \
++		.attr = { .name = _attrname, .mode = 0644 }, \
++		.show = _name##_show,                                     \
++		.store = _name##_store,                                   \
 +	}
 +
- 	ret = kern_path(dir_name, LOOKUP_FOLLOW, &path);
- 	if (ret)
--		return ret;
--	ret = path_mount(dev_name, &path, type_page, flags, data_page);
-+		goto out;
+ /**
+  * DEVICE_ATTR_RO - Define a readable device attribute.
+  * @_name: Attribute name.
+@@ -207,6 +223,21 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR_ADMIN_RO(_name) \
+ 	struct device_attribute dev_attr_##_name = __ATTR_RO_MODE(_name, 0400)
+ 
++/**
++ * DEVICE_ATTR_RO_NAMED - Define a read-only device attribute with a sysfs name
++ * that differs from the function name.
++ * @_name: Attribute function preface
++ * @_attrname: Attribute name as it wil be exposed in the sysfs.
++ *
++ * Like DEVICE_ATTR_RO(), but allows for reusing names under separate paths in
++ * the same driver.
++ */
++#define DEVICE_ATTR_RO_NAMED(_name, _attrname)                            \
++	struct device_attribute dev_attr_##_name = {                      \
++		.attr = { .name = _attrname, .mode = 0444 }, \
++		.show = _name##_show,                                     \
++	}
 +
-+	ret = path_mount(dev_name, &path, type_page, flags, data_buf);
- 	path_put(&path);
+ /**
+  * DEVICE_ATTR_WO - Define an admin-only writable device attribute.
+  * @_name: Attribute name.
+@@ -216,6 +247,21 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR_WO(_name) \
+ 	struct device_attribute dev_attr_##_name = __ATTR_WO(_name)
+ 
++/**
++ * DEVICE_ATTR_WO_NAMED - Define a read-only device attribute with a sysfs name
++ * that differs from the function name.
++ * @_name: Attribute function preface
++ * @_attrname: Attribute name as it wil be exposed in the sysfs.
++ *
++ * Like DEVICE_ATTR_WO(), but allows for reusing names under separate paths in
++ * the same driver.
++ */
++#define DEVICE_ATTR_WO_NAMED(_name, _attrname)                            \
++	struct device_attribute dev_attr_##_name = {                      \
++		.attr = { .name = _attrname, .mode = 0200 }, \
++		.store = _name##_store,                                   \
++	}
 +
-+out:
-+	if (data_page)
-+		put_page(data_page);
- 	return ret;
- }
- 
-diff --git a/include/linux/init_syscalls.h b/include/linux/init_syscalls.h
-index 92045d18cbfc..804d3070ce73 100644
---- a/include/linux/init_syscalls.h
-+++ b/include/linux/init_syscalls.h
-@@ -1,7 +1,8 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- 
- int __init init_mount(const char *dev_name, const char *dir_name,
--		const char *type_page, unsigned long flags, void *data_page);
-+		      const char *type_page, unsigned long flags,
-+		      const char *data_str);
- int __init init_umount(const char *name, int flags);
- int __init init_chdir(const char *filename);
- int __init init_chroot(const char *filename);
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index defbbf1d55f7..87cf110a48e6 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -147,23 +147,12 @@ static int __init split_fs_names(char *page, size_t size)
- }
- 
- static int __init do_mount_root(const char *name, const char *fs,
--				 const int flags, const void *data)
-+				 const int flags, const char *data)
- {
- 	struct super_block *s;
--	struct page *p = NULL;
--	char *data_page = NULL;
- 	int ret;
- 
--	if (data) {
--		/* init_mount() requires a full page as fifth argument */
--		p = alloc_page(GFP_KERNEL);
--		if (!p)
--			return -ENOMEM;
--		data_page = page_address(p);
--		strscpy_pad(data_page, data, PAGE_SIZE);
--	}
--
--	ret = init_mount(name, "/root", fs, flags, data_page);
-+	ret = init_mount(name, "/root", fs, flags, data);
- 	if (ret)
- 		goto out;
- 
-@@ -177,8 +166,6 @@ static int __init do_mount_root(const char *name, const char *fs,
- 	       MAJOR(ROOT_DEV), MINOR(ROOT_DEV));
- 
- out:
--	if (p)
--		put_page(p);
- 	return ret;
- }
- 
+ /**
+  * DEVICE_ULONG_ATTR - Define a device attribute backed by an unsigned long.
+  * @_name: Attribute name.
 -- 
 2.52.0
 
