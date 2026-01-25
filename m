@@ -1,165 +1,90 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A979331BC84;
-	Sun, 25 Jan 2026 15:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA891C5F1B;
+	Sun, 25 Jan 2026 15:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769353523; cv=none; b=rPXfts7dP2MgK06HFf9AQpYg25tjPM/emUoY+1DyYeIXkgDjyD/cBxuBF7eB2aPusWlHf+hAL0btHwEheDBz8rQUgGrdZg3Va2MSjDRzEDQ2WPZge9Gb/p3SO5fgiQF7fV96441fF7Mua3UiNJpavxBgSiUqa3Dw71WNczNaP4E=
+	t=1769354207; cv=none; b=ElLHar9KNoucNaHfjcm3zO1Z4xyXZY59vIFs+465fxKvqmysFzG8YfWcUUE6NZdFbIssMj7kjShFQ9bhq0X/WDe4maAE2qzly2y6CPXLWrD9CF8N7Qz+NJkNxjxegR03+vv8n+unjQP/M/vo2aQ5/Koqy6OszgSzfIW2k5JKocQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769353523; c=relaxed/simple;
-	bh=+HYGC9MkxCv0GMPldzg0W9scvCudKS8glLZcufmFJuk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=erkvx0mHxOhvZyv1zdJxvwRYyNtsopNlW9o4NuJCyttiGqTMnpA8PH7RTsglKGozPbw5q/LXUU00nSAJRIZRSQFHuljPHaRz6buqddBeYkwLHkGj0e30es1A/hoKkwcP9ubwyTCSzwENJTcyXtfMN/ihR2b/zCihQ6e0XQXBOOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=QAoLzSNw; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1769354207; c=relaxed/simple;
+	bh=jMtqX+W5MjPFGnG7XorCa653Ix27UzzVbJ92NBBOj08=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pTdu+mGnOf4+Flk3rUnRjYgMTdYw5/oAscOQBG5T/8UhAdWrLSULji/CcQzvHNiV0urzSg42xG7QatHsjqXPq6dzuqF5Xu/qsfxgXuwcPTgxhREr5tBXopbLt/6UN/1V1Ga1svTgC/EeU7RkKXj4znfaNPDKXim4HR0gDdN27lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KVbXTAcQ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="QAoLzSNw"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1769353511; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=mf2rWU47N7BSYXT74kTz7Bi679iF6CzJnW0oUTiOa7k=;
-	b=QAoLzSNwAGDHd76qnbtyYwmEYEXPv/CphY9Wcqmp17ni/1E15qvVFvuy0a9tE3BLQvoDU/MceGpQLLwygrjPVeAA7L5sx2KOZQ/wpffa7NLoyAtHo2MSiZPPpmm8va7wEpH7IMn8XZFwT8ONVwGvhs5/n4wvhNMz9z3SmLm0Wqg=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WxlpgUb_1769353508 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sun, 25 Jan 2026 23:05:09 +0800
-From: fangyu.yu@linux.alibaba.com
-To: pbonzini@redhat.com,
-	corbet@lwn.net,
-	anup@brainfault.org,
-	atish.patra@linux.dev,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	radim.krcmar@oss.qualcomm.com,
-	andrew.jones@oss.qualcomm.com
-Cc: guoren@kernel.org,
-	ajones@ventanamicro.com,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Fangyu Yu <fangyu.yu@linux.alibaba.com>
-Subject: [PATCH v3 2/2] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
-Date: Sun, 25 Jan 2026 23:04:50 +0800
-Message-Id: <20260125150450.27068-3-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20260125150450.27068-1-fangyu.yu@linux.alibaba.com>
-References: <20260125150450.27068-1-fangyu.yu@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KVbXTAcQ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2B1B740425
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1769354199; bh=lkC0RWcquQrWhPJTrhi6kyL0NFESSkVNBV/HwVZm5V0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KVbXTAcQLRgw7JDql7Eugw8glAghD0o4JKp/XqsyuelvgvivaV71M8gYcVmR6Pix0
+	 QqJGUsjd8jktob7thhVQ3zuYk0mjWdaFpfJGk8ryrkOa7E29aIXvz3MC/sYZw/khrX
+	 D4HHlJG6/yPFAo+vRQw5Fh44V7dJUypsL0WgSAXYxIWVjK7B/IXvurZYsVS0QnfzLP
+	 Rx7Y+8CIwNEI1eUIV3vZFsQ6wZxG7Amgwe9BoWC3hinMbltbxxNS3vGZlHd6P2YRh3
+	 dfORjBZO/mxnMBh4e2aD+ZrRLEG3/CKhVXWGQjgh3z4VTsuzD172idPQ3ajkufxzMw
+	 ZdXPgq3Gxyo0g==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2B1B740425;
+	Sun, 25 Jan 2026 15:16:39 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: john ashrith6 <johnashrith6@gmail.com>, workflows@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] docs: clarify CC list guidance wording
+In-Reply-To: <CABoKZAAdwO=pm1-GsP=09PkCGs5HT8K=1Y72LJvKCRUFJD38JQ@mail.gmail.com>
+References: <CABoKZAAdwO=pm1-GsP=09PkCGs5HT8K=1Y72LJvKCRUFJD38JQ@mail.gmail.com>
+Date: Sun, 25 Jan 2026 08:16:38 -0700
+Message-ID: <87ikcpen8p.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+john ashrith6 <johnashrith6@gmail.com> writes:
 
-This capability allows userspace to explicitly select the HGATP mode
-for the VM. The selected mode must be less than or equal to the max
-HGATP mode supported by the hardware. This capability must be enabled
-before creating any vCPUs, and can only be set once per VM.
+> Removed the extra Signed-off-by so that only my real name remains.
+>
+> Thanks for the review.
+>
+>         From ed7f4bb8c6e46f76c1a02e91172402b7389ecb5d Mon Sep 17 00:00:00 2001
+> From: John Ashrith <johnashrith6@gmail.com>
+> Date: Sun, 25 Jan 2026 14:48:28 +0000
+> Subject: [PATCH] docs: clarify CC list guidance wording
 
-Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
----
- Documentation/virt/kvm/api.rst | 18 ++++++++++++++++++
- arch/riscv/kvm/vm.c            | 26 ++++++++++++++++++++++++--
- include/uapi/linux/kvm.h       |  1 +
- 3 files changed, 43 insertions(+), 2 deletions(-)
+The above stuff still needs to not be in the changelog body.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb..9d0794b174c7 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8765,6 +8765,24 @@ helpful if user space wants to emulate instructions which are not
- This capability can be enabled dynamically even if VCPUs were already
- created and are running.
- 
-+7.47 KVM_CAP_RISCV_SET_HGATP_MODE
-+---------------------------------
-+
-+:Architectures: riscv
-+:Type: VM
-+:Parameters: args[0] contains the requested HGATP mode
-+:Returns:
-+  - 0 on success.
-+  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
-+    hardware.
-+  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
-+    non-empty memslots, or if the capability has already been set for the VM.
-+
-+This capability allows userspace to explicitly select the HGATP mode for
-+the VM. The selected mode must be less than or equal to the maximum HGATP
-+mode supported by the hardware. This capability must be enabled before
-+creating any vCPUs, and can only be set once per VM.
-+
- 8. Other capabilities.
- ======================
- 
-diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
-index 4b2156df40fc..7bc9b193dcaa 100644
---- a/arch/riscv/kvm/vm.c
-+++ b/arch/riscv/kvm/vm.c
-@@ -202,6 +202,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_VM_GPA_BITS:
- 		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
- 		break;
-+	case KVM_CAP_RISCV_SET_HGATP_MODE:
-+		r = IS_ENABLED(CONFIG_64BIT) ? 1 : 0;
-+		break;
- 	default:
- 		r = 0;
- 		break;
-@@ -212,12 +215,31 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 
- int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
- {
-+	if (cap->flags)
-+		return -EINVAL;
-+
- 	switch (cap->cap) {
- 	case KVM_CAP_RISCV_MP_STATE_RESET:
--		if (cap->flags)
--			return -EINVAL;
- 		kvm->arch.mp_state_reset = true;
- 		return 0;
-+	case KVM_CAP_RISCV_SET_HGATP_MODE:
-+#ifdef CONFIG_64BIT
-+		if (cap->args[0] < HGATP_MODE_SV39X4 ||
-+		    cap->args[0] > kvm_riscv_gstage_mode(kvm_riscv_gstage_max_pgd_levels))
-+			return -EINVAL;
-+
-+		if (kvm->arch.gstage_mode_user_initialized || kvm->created_vcpus ||
-+		    !kvm_are_all_memslots_empty(kvm))
-+			return -EBUSY;
-+
-+		kvm->arch.gstage_mode_user_initialized = true;
-+		kvm->arch.kvm_riscv_gstage_pgd_levels =
-+				3 + cap->args[0] - HGATP_MODE_SV39X4;
-+		kvm_debug("VM (vmid:%lu) using SV%lluX4 G-stage page table format\n",
-+			  kvm->arch.vmid.vmid,
-+			  39 + (cap->args[0] - HGATP_MODE_SV39X4) * 9);
-+#endif
-+		return 0;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index dddb781b0507..00c02a880518 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -974,6 +974,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_GUEST_MEMFD_FLAGS 244
- #define KVM_CAP_ARM_SEA_TO_USER 245
- #define KVM_CAP_S390_USER_OPEREXEC 246
-+#define KVM_CAP_RISCV_SET_HGATP_MODE 247
- 
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
--- 
-2.50.1
+Also ... as long as you send HTML mail you will not reach the lists.
+Please work on sending to yourself until you get something that comes
+through correctly.
 
+> Signed-off-by: John Ashrith <johnashrith6@gmail.com>
+> ---
+>  Documentation/process/howto.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+> index 9438e03d6..5a29111d6 100644
+> --- a/Documentation/process/howto.rst
+> +++ b/Documentation/process/howto.rst
+> @@ -403,7 +403,7 @@ interacting with the list (or any list):
+>
+>  If multiple people respond to your mail, the CC: list of recipients may
+>  get pretty large. Don't remove anybody from the CC: list without a good
+> -reason, or don't reply only to the list address. Get used to receiving the
+> +reason, and don't reply only to the list address. Get used to receiving the
+>  mail twice, one from the sender and the one from the list, and don't try
+
+The change itself looks fine.
+
+Thanks,
+
+jon
