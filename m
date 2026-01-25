@@ -1,597 +1,149 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAEB22CBC0
-	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 18:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26968223323;
+	Sun, 25 Jan 2026 19:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769367129; cv=none; b=fWkaL3ZWt0KUQv7zFNJFUfi88icL6KcO0FfxZHxwgWr21JiuTENpfCxAoc5mCKBK08rLtdqyRD4Sx7Q7jxiR7NDNETGoN9bROywhdxbnRQanz5aEBHTUcbSoVPzOqhXgxIP5R8bOZVWj6Tj+SwASZN3ZLf0d6i6/v3Fg8pBnskM=
+	t=1769368070; cv=none; b=FfQa+zwlwcNskJaUkiT/28uayKFgWeTy47yxqCrsM05tVexa7VBilj9TxNdZEC6AiP4vB++cs8YaTGPZToFGFoYKAWLrDObj9f69QQCphDDBpujxIhdDunBStGmGxtBSrr4oMc+xLbksvhRV5NTLFr4Td4Y1TnmcbHmCiI3B5LA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769367129; c=relaxed/simple;
-	bh=+ZFxxMRGV+er1uLUbHWg8rtRWekQt6lAB9fazqpja64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UpsrvNViC0x3n6bs5eOrkw+VrgoX8cGASNOekM2cfuXUGLCd8EnHbdO0NURc72Vq/Ln74e3iyyx0YBW06SXMk7c67KjhHO18bIM4ka95LdHVuo0epglw3m+5g3qopweJITl3VFacknjZlszXkutA3uCuLdPfpbp92y+hg95TBt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=mGXwa/qK; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1769368070; c=relaxed/simple;
+	bh=gOabGOqylQEzWUFI9E2WI9zuCeUghVs8Jtc6PGUK2ts=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jaUK86GDM7+invnjbxm2lQV6QraEZxYQymwRplhsxNwMnIbaB4het3Y1tMU1BWeBmZttqo5SOzxSMN7pczUmWAHZCyJ/9Bi/Fj2bJan/vjJiX5j6UipaVkHtSWzlDIUT1SVikW0sgsuz9ibOo4UueG1KhqqVG06TIyWu0pkS52A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=eXHWiuKw; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="mGXwa/qK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=2i01eb/5KZjgjDIKy97zZFmKpp66oep0XQIYt28IYWU=; b=mGXwa/
-	qK5HINp7hvh+Mqu6YFodSCrhRbO4GYXO9l4XKuGAcYTfJuESBdPdyZNczNfDy7sA
-	P8a5Mnf+5qN3fHNvJXpQOwyMZGNonK9LCOYfbqgZBqIeAcQmNxnlvQK3NFDjNwb4
-	TmAImyhnKxBv+kLq31nNQb8Lu6VrsathR+o1VT4+GRGBWZCG44hVAvqAoJqPBM8D
-	LbvXgn7RP/wWKGCkYdvj9+X1Vo3cx9L9GuDzMlz/wqvNvQp+Ldl4oPhP+yrUvxRl
-	7eZtDncLrhjmt/syscDaPXWBD4zVV20mSX+y3itzE0CScbSXpsrpjQsVQx5SpMz/
-	U1PfFDVN8jKMuC4Q==
-Received: (qmail 2369592 invoked from network); 25 Jan 2026 19:51:51 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2026 19:51:51 +0100
-X-UD-Smtp-Session: l3s3148p1@BkUn4jpJWhBtKXAW
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Waiman Long <longman@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Linus Walleij <linusw@kernel.org>,
-	linux-remoteproc@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [RFC PATCH 2/4] hwspinlock: refactor existing headers into consumer.h
-Date: Sun, 25 Jan 2026 19:46:53 +0100
-Message-ID: <20260125184654.17843-8-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
-References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="eXHWiuKw"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 855FB28087;
+	Sun, 25 Jan 2026 20:07:39 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 4JwIcF_fh3ec; Sun, 25 Jan 2026 20:07:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1769368058; bh=gOabGOqylQEzWUFI9E2WI9zuCeUghVs8Jtc6PGUK2ts=;
+	h=From:Subject:Date:To:Cc;
+	b=eXHWiuKwZ523d2uk2ZJog7UW/jgoitjkna0p/pIvFqSs0yqx7eZ8ceXQ2tzD6E/73
+	 B717Vuv2CCJRgYD4j+iV06RzY8gXF5hISgE1nKF6AFKjYF1CyWDSsBjSDNK3urP0JO
+	 Deoalx+O1bEGYPLyFMzRZUsqIva3j4PXdB3NO4fGZgD0JwWGy7WRmXAklKeHNZvN98
+	 AAZr7WOknEFCR378HFSAV1GWBLlHvjAQyoTzI8vY8jKASLE68/k29kEb3Rf+X9z0yI
+	 E3KH2KG0BhNb8zzdkcNgbILaXm/+XkLTPxtz5A4B8tRy4Q7ggPnbuGtIC+PqAm4FgZ
+	 eVle/GMjxgyow==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v2 00/12] Support for Samsung S2MU005 PMIC and its
+ sub-devices
+Date: Mon, 26 Jan 2026 00:37:07 +0530
+Message-Id: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIANtpdmkC/1XMQQ6CMBCF4auQWVvTaQGFlfcwLGo7wCygpEWiI
+ b27lcSFy/8l79shUmCK0BY7BNo4sp9zqFMBdjTzQIJdblBSVYioRFTTU8pKLBNbIW196U39MFZ
+ byJclUM+vg7t3uUeOqw/vQ9/wu/6g8h/aUEjRkMZr6bSRtrk5jsH79ezDAF1K6QOTYUiRqgAAA
+ A==
+X-Change-ID: 20251112-s2mu005-pmic-0c67fa6bac3c
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
 
-The ultimate goal is to allow hwspinlock drivers outside of the
-hwspinlock directory. So, the public and the internal header get
-refactored into a more modern public provider/consumer pair. This patch
-creates the consumer header. It is a plain move without functional
-changes. Only the hwspinlock internal users are converted. The old
-headerfile still exists as a plain link to the new one until all users
-are converted. Documentation gets updated, too.
+S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+found in various devices manufactured by Samsung and others, including
+all Exynos 7870 devices. It is known to have the following features:
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+1. Two LED channels with adjustable brightness for use as a torch, or a
+   flash strobe.
+2. An RGB LED with 8-bit channels. Usually programmed as a notification
+   indicator.
+3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+   variant though, it measures the ID-GND resistance using an internal
+   ADC.
+4. A charger device, which reports if charger is online, voltage,
+   resistance, etc.
+
+This patch series implements a lot of these features. Naturally, this
+series touches upon a lot of subsystems. The 'parent' is the MFD driver,
+so the subsystems have some form of dependency to the MFD driver, so
+they are not separable.
+
+Here are the subsystems corresponding to the patch numbers:
+dt-bindings - 01, 02, 03, 04, 05
+mfd         - 05, 06, 07
+led         - 01, 02, 08, 09, 10
+extcon      - 03, 11
+power       - 04, 12
+
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- Documentation/locking/hwspinlock.rst          |   2 +-
- drivers/hwspinlock/hwspinlock_core.c          |   2 +-
- drivers/hwspinlock/u8500_hsem.c               |   2 +-
- include/linux/hwspinlock.h                    | 438 +-----------------
- .../{hwspinlock.h => hwspinlock/consumer.h}   |   8 +-
- 5 files changed, 11 insertions(+), 441 deletions(-)
- rewrite include/linux/hwspinlock.h (99%)
- copy include/linux/{hwspinlock.h => hwspinlock/consumer.h} (98%)
+Changes in v2:
+- Drop [v1 06/13], instead use regmap_irq_chip::get_irq_regs() 
+- Remove references to driver in devicetree commits (Conor Dooley)
+- Propagate errors of sec_pmic_store_rev() (André Draszik)
+- Fix documentation language errors (Randy Dunlap)
+- Link to v1: https://lore.kernel.org/r/20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org
 
-diff --git a/Documentation/locking/hwspinlock.rst b/Documentation/locking/hwspinlock.rst
-index a737c702a7d1..001bcab86690 100644
---- a/Documentation/locking/hwspinlock.rst
-+++ b/Documentation/locking/hwspinlock.rst
-@@ -306,7 +306,7 @@ Typical usage
- 
- ::
- 
--	#include <linux/hwspinlock.h>
-+	#include <linux/hwspinlock/consumer.h>
- 	#include <linux/err.h>
- 
- 	int hwspinlock_example(void)
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index 3ee4f4357e01..cafe204728f5 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -17,7 +17,7 @@
- #include <linux/err.h>
- #include <linux/jiffies.h>
- #include <linux/radix-tree.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/hwspinlock/provider.h>
- #include <linux/pm_runtime.h>
- #include <linux/mutex.h>
-diff --git a/drivers/hwspinlock/u8500_hsem.c b/drivers/hwspinlock/u8500_hsem.c
-index ff0730613929..de456b859ac7 100644
---- a/drivers/hwspinlock/u8500_hsem.c
-+++ b/drivers/hwspinlock/u8500_hsem.c
-@@ -18,7 +18,7 @@
- #include <linux/io.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/hwspinlock/provider.h>
- #include <linux/platform_device.h>
- 
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
-dissimilarity index 99%
-index 7f38960c7162..7220f7f2368b 100644
---- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock.h
-@@ -1,434 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Hardware spinlock public header
-- *
-- * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
-- *
-- * Contact: Ohad Ben-Cohen <ohad@wizery.com>
-- */
--
--#ifndef __LINUX_HWSPINLOCK_H
--#define __LINUX_HWSPINLOCK_H
--
--#include <linux/err.h>
--#include <linux/sched.h>
--
--/* hwspinlock mode argument */
--#define HWLOCK_IRQSTATE		0x01 /* Disable interrupts, save state */
--#define HWLOCK_IRQ		0x02 /* Disable interrupts, don't save state */
--#define HWLOCK_RAW		0x03
--#define HWLOCK_IN_ATOMIC	0x04 /* Called while in atomic context */
--
--struct device;
--struct device_node;
--struct hwspinlock;
--struct hwspinlock_device;
--struct hwspinlock_ops;
--
--/**
-- * struct hwspinlock_pdata - platform data for hwspinlock drivers
-- * @base_id: base id for this hwspinlock device
-- *
-- * hwspinlock devices provide system-wide hardware locks that are used
-- * by remote processors that have no other way to achieve synchronization.
-- *
-- * To achieve that, each physical lock must have a system-wide id number
-- * that is agreed upon, otherwise remote processors can't possibly assume
-- * they're using the same hardware lock.
-- *
-- * Usually boards have a single hwspinlock device, which provides several
-- * hwspinlocks, and in this case, they can be trivially numbered 0 to
-- * (num-of-locks - 1).
-- *
-- * In case boards have several hwspinlocks devices, a different base id
-- * should be used for each hwspinlock device (they can't all use 0 as
-- * a starting id!).
-- *
-- * This platform data structure should be used to provide the base id
-- * for each device (which is trivially 0 when only a single hwspinlock
-- * device exists). It can be shared between different platforms, hence
-- * its location.
-- */
--struct hwspinlock_pdata {
--	int base_id;
--};
--
--#ifdef CONFIG_HWSPINLOCK
--
--struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
--int hwspin_lock_free(struct hwspinlock *hwlock);
--int of_hwspin_lock_get_id(struct device_node *np, int index);
--int __hwspin_lock_timeout(struct hwspinlock *, unsigned int, int,
--							unsigned long *);
--int __hwspin_trylock(struct hwspinlock *, int, unsigned long *);
--void __hwspin_unlock(struct hwspinlock *, int, unsigned long *);
--int of_hwspin_lock_get_id_byname(struct device_node *np, const char *name);
--int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id);
--int devm_hwspin_lock_free(struct device *dev, struct hwspinlock *hwlock);
--struct hwspinlock *devm_hwspin_lock_request_specific(struct device *dev,
--						     unsigned int id);
--#else /* !CONFIG_HWSPINLOCK */
--
--/*
-- * We don't want these functions to fail if CONFIG_HWSPINLOCK is not
-- * enabled. We prefer to silently succeed in this case, and let the
-- * code path get compiled away. This way, if CONFIG_HWSPINLOCK is not
-- * required on a given setup, users will still work.
-- *
-- * Note: ERR_PTR(-ENODEV) will still be considered a success for NULL-checking
-- * users. Others, which care, can still check this with IS_ERR.
-- */
--static inline struct hwspinlock *hwspin_lock_request_specific(unsigned int id)
--{
--	return ERR_PTR(-ENODEV);
--}
--
--static inline int hwspin_lock_free(struct hwspinlock *hwlock)
--{
--	return 0;
--}
--
--static inline
--int __hwspin_lock_timeout(struct hwspinlock *hwlock, unsigned int to,
--					int mode, unsigned long *flags)
--{
--	return 0;
--}
--
--static inline
--int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
--{
--	return 0;
--}
--
--static inline
--void __hwspin_unlock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
--{
--}
--
--static inline int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id)
--{
--	return 0;
--}
--
--static inline int of_hwspin_lock_get_id(struct device_node *np, int index)
--{
--	return 0;
--}
--
--static inline
--int of_hwspin_lock_get_id_byname(struct device_node *np, const char *name)
--{
--	return 0;
--}
--
--static inline
--int devm_hwspin_lock_free(struct device *dev, struct hwspinlock *hwlock)
--{
--	return 0;
--}
--
--static inline
--struct hwspinlock *devm_hwspin_lock_request_specific(struct device *dev,
--						     unsigned int id)
--{
--	return ERR_PTR(-ENODEV);
--}
--
--#endif /* !CONFIG_HWSPINLOCK */
--
--/**
-- * hwspin_trylock_irqsave() - try to lock an hwspinlock, disable interrupts
-- * @hwlock: an hwspinlock which we want to trylock
-- * @flags: a pointer to where the caller's interrupt state will be saved at
-- *
-- * This function attempts to lock the underlying hwspinlock, and will
-- * immediately fail if the hwspinlock is already locked.
-- *
-- * Upon a successful return from this function, preemption and local
-- * interrupts are disabled (previous interrupts state is saved at @flags),
-- * so the caller must not sleep, and is advised to release the hwspinlock
-- * as soon as possible.
-- *
-- * Returns 0 if we successfully locked the hwspinlock, -EBUSY if
-- * the hwspinlock was already taken, and -EINVAL if @hwlock is invalid.
-- */
--static inline
--int hwspin_trylock_irqsave(struct hwspinlock *hwlock, unsigned long *flags)
--{
--	return __hwspin_trylock(hwlock, HWLOCK_IRQSTATE, flags);
--}
--
--/**
-- * hwspin_trylock_irq() - try to lock an hwspinlock, disable interrupts
-- * @hwlock: an hwspinlock which we want to trylock
-- *
-- * This function attempts to lock the underlying hwspinlock, and will
-- * immediately fail if the hwspinlock is already locked.
-- *
-- * Upon a successful return from this function, preemption and local
-- * interrupts are disabled, so the caller must not sleep, and is advised
-- * to release the hwspinlock as soon as possible.
-- *
-- * Returns 0 if we successfully locked the hwspinlock, -EBUSY if
-- * the hwspinlock was already taken, and -EINVAL if @hwlock is invalid.
-- */
--static inline int hwspin_trylock_irq(struct hwspinlock *hwlock)
--{
--	return __hwspin_trylock(hwlock, HWLOCK_IRQ, NULL);
--}
--
--/**
-- * hwspin_trylock_raw() - attempt to lock a specific hwspinlock
-- * @hwlock: an hwspinlock which we want to trylock
-- *
-- * This function attempts to lock an hwspinlock, and will immediately fail
-- * if the hwspinlock is already taken.
-- *
-- * Caution: User must protect the routine of getting hardware lock with mutex
-- * or spinlock to avoid dead-lock, that will let user can do some time-consuming
-- * or sleepable operations under the hardware lock.
-- *
-- * Returns 0 if we successfully locked the hwspinlock, -EBUSY if
-- * the hwspinlock was already taken, and -EINVAL if @hwlock is invalid.
-- */
--static inline int hwspin_trylock_raw(struct hwspinlock *hwlock)
--{
--	return __hwspin_trylock(hwlock, HWLOCK_RAW, NULL);
--}
--
--/**
-- * hwspin_trylock_in_atomic() - attempt to lock a specific hwspinlock
-- * @hwlock: an hwspinlock which we want to trylock
-- *
-- * This function attempts to lock an hwspinlock, and will immediately fail
-- * if the hwspinlock is already taken.
-- *
-- * This function shall be called only from an atomic context.
-- *
-- * Returns 0 if we successfully locked the hwspinlock, -EBUSY if
-- * the hwspinlock was already taken, and -EINVAL if @hwlock is invalid.
-- */
--static inline int hwspin_trylock_in_atomic(struct hwspinlock *hwlock)
--{
--	return __hwspin_trylock(hwlock, HWLOCK_IN_ATOMIC, NULL);
--}
--
--/**
-- * hwspin_trylock() - attempt to lock a specific hwspinlock
-- * @hwlock: an hwspinlock which we want to trylock
-- *
-- * This function attempts to lock an hwspinlock, and will immediately fail
-- * if the hwspinlock is already taken.
-- *
-- * Upon a successful return from this function, preemption is disabled,
-- * so the caller must not sleep, and is advised to release the hwspinlock
-- * as soon as possible. This is required in order to minimize remote cores
-- * polling on the hardware interconnect.
-- *
-- * Returns 0 if we successfully locked the hwspinlock, -EBUSY if
-- * the hwspinlock was already taken, and -EINVAL if @hwlock is invalid.
-- */
--static inline int hwspin_trylock(struct hwspinlock *hwlock)
--{
--	return __hwspin_trylock(hwlock, 0, NULL);
--}
--
--/**
-- * hwspin_lock_timeout_irqsave() - lock hwspinlock, with timeout, disable irqs
-- * @hwlock: the hwspinlock to be locked
-- * @to: timeout value in msecs
-- * @flags: a pointer to where the caller's interrupt state will be saved at
-- *
-- * This function locks the underlying @hwlock. If the @hwlock
-- * is already taken, the function will busy loop waiting for it to
-- * be released, but give up when @timeout msecs have elapsed.
-- *
-- * Upon a successful return from this function, preemption and local interrupts
-- * are disabled (plus previous interrupt state is saved), so the caller must
-- * not sleep, and is advised to release the hwspinlock as soon as possible.
-- *
-- * Returns 0 when the @hwlock was successfully taken, and an appropriate
-- * error code otherwise (most notably an -ETIMEDOUT if the @hwlock is still
-- * busy after @timeout msecs). The function will never sleep.
-- */
--static inline int hwspin_lock_timeout_irqsave(struct hwspinlock *hwlock,
--				unsigned int to, unsigned long *flags)
--{
--	return __hwspin_lock_timeout(hwlock, to, HWLOCK_IRQSTATE, flags);
--}
--
--/**
-- * hwspin_lock_timeout_irq() - lock hwspinlock, with timeout, disable irqs
-- * @hwlock: the hwspinlock to be locked
-- * @to: timeout value in msecs
-- *
-- * This function locks the underlying @hwlock. If the @hwlock
-- * is already taken, the function will busy loop waiting for it to
-- * be released, but give up when @timeout msecs have elapsed.
-- *
-- * Upon a successful return from this function, preemption and local interrupts
-- * are disabled so the caller must not sleep, and is advised to release the
-- * hwspinlock as soon as possible.
-- *
-- * Returns 0 when the @hwlock was successfully taken, and an appropriate
-- * error code otherwise (most notably an -ETIMEDOUT if the @hwlock is still
-- * busy after @timeout msecs). The function will never sleep.
-- */
--static inline
--int hwspin_lock_timeout_irq(struct hwspinlock *hwlock, unsigned int to)
--{
--	return __hwspin_lock_timeout(hwlock, to, HWLOCK_IRQ, NULL);
--}
--
--/**
-- * hwspin_lock_timeout_raw() - lock an hwspinlock with timeout limit
-- * @hwlock: the hwspinlock to be locked
-- * @to: timeout value in msecs
-- *
-- * This function locks the underlying @hwlock. If the @hwlock
-- * is already taken, the function will busy loop waiting for it to
-- * be released, but give up when @timeout msecs have elapsed.
-- *
-- * Caution: User must protect the routine of getting hardware lock with mutex
-- * or spinlock to avoid dead-lock, that will let user can do some time-consuming
-- * or sleepable operations under the hardware lock.
-- *
-- * Returns 0 when the @hwlock was successfully taken, and an appropriate
-- * error code otherwise (most notably an -ETIMEDOUT if the @hwlock is still
-- * busy after @timeout msecs). The function will never sleep.
-- */
--static inline
--int hwspin_lock_timeout_raw(struct hwspinlock *hwlock, unsigned int to)
--{
--	return __hwspin_lock_timeout(hwlock, to, HWLOCK_RAW, NULL);
--}
--
--/**
-- * hwspin_lock_timeout_in_atomic() - lock an hwspinlock with timeout limit
-- * @hwlock: the hwspinlock to be locked
-- * @to: timeout value in msecs
-- *
-- * This function locks the underlying @hwlock. If the @hwlock
-- * is already taken, the function will busy loop waiting for it to
-- * be released, but give up when @timeout msecs have elapsed.
-- *
-- * This function shall be called only from an atomic context and the timeout
-- * value shall not exceed a few msecs.
-- *
-- * Returns 0 when the @hwlock was successfully taken, and an appropriate
-- * error code otherwise (most notably an -ETIMEDOUT if the @hwlock is still
-- * busy after @timeout msecs). The function will never sleep.
-- */
--static inline
--int hwspin_lock_timeout_in_atomic(struct hwspinlock *hwlock, unsigned int to)
--{
--	return __hwspin_lock_timeout(hwlock, to, HWLOCK_IN_ATOMIC, NULL);
--}
--
--/**
-- * hwspin_lock_timeout() - lock an hwspinlock with timeout limit
-- * @hwlock: the hwspinlock to be locked
-- * @to: timeout value in msecs
-- *
-- * This function locks the underlying @hwlock. If the @hwlock
-- * is already taken, the function will busy loop waiting for it to
-- * be released, but give up when @timeout msecs have elapsed.
-- *
-- * Upon a successful return from this function, preemption is disabled
-- * so the caller must not sleep, and is advised to release the hwspinlock
-- * as soon as possible.
-- * This is required in order to minimize remote cores polling on the
-- * hardware interconnect.
-- *
-- * Returns 0 when the @hwlock was successfully taken, and an appropriate
-- * error code otherwise (most notably an -ETIMEDOUT if the @hwlock is still
-- * busy after @timeout msecs). The function will never sleep.
-- */
--static inline
--int hwspin_lock_timeout(struct hwspinlock *hwlock, unsigned int to)
--{
--	return __hwspin_lock_timeout(hwlock, to, 0, NULL);
--}
--
--/**
-- * hwspin_unlock_irqrestore() - unlock hwspinlock, restore irq state
-- * @hwlock: a previously-acquired hwspinlock which we want to unlock
-- * @flags: previous caller's interrupt state to restore
-- *
-- * This function will unlock a specific hwspinlock, enable preemption and
-- * restore the previous state of the local interrupts. It should be used
-- * to undo, e.g., hwspin_trylock_irqsave().
-- *
-- * @hwlock must be already locked before calling this function: it is a bug
-- * to call unlock on a @hwlock that is already unlocked.
-- */
--static inline void hwspin_unlock_irqrestore(struct hwspinlock *hwlock,
--							unsigned long *flags)
--{
--	__hwspin_unlock(hwlock, HWLOCK_IRQSTATE, flags);
--}
--
--/**
-- * hwspin_unlock_irq() - unlock hwspinlock, enable interrupts
-- * @hwlock: a previously-acquired hwspinlock which we want to unlock
-- *
-- * This function will unlock a specific hwspinlock, enable preemption and
-- * enable local interrupts. Should be used to undo hwspin_lock_irq().
-- *
-- * @hwlock must be already locked (e.g. by hwspin_trylock_irq()) before
-- * calling this function: it is a bug to call unlock on a @hwlock that is
-- * already unlocked.
-- */
--static inline void hwspin_unlock_irq(struct hwspinlock *hwlock)
--{
--	__hwspin_unlock(hwlock, HWLOCK_IRQ, NULL);
--}
--
--/**
-- * hwspin_unlock_raw() - unlock hwspinlock
-- * @hwlock: a previously-acquired hwspinlock which we want to unlock
-- *
-- * This function will unlock a specific hwspinlock.
-- *
-- * @hwlock must be already locked (e.g. by hwspin_trylock()) before calling
-- * this function: it is a bug to call unlock on a @hwlock that is already
-- * unlocked.
-- */
--static inline void hwspin_unlock_raw(struct hwspinlock *hwlock)
--{
--	__hwspin_unlock(hwlock, HWLOCK_RAW, NULL);
--}
--
--/**
-- * hwspin_unlock_in_atomic() - unlock hwspinlock
-- * @hwlock: a previously-acquired hwspinlock which we want to unlock
-- *
-- * This function will unlock a specific hwspinlock.
-- *
-- * @hwlock must be already locked (e.g. by hwspin_trylock()) before calling
-- * this function: it is a bug to call unlock on a @hwlock that is already
-- * unlocked.
-- */
--static inline void hwspin_unlock_in_atomic(struct hwspinlock *hwlock)
--{
--	__hwspin_unlock(hwlock, HWLOCK_IN_ATOMIC, NULL);
--}
--
--/**
-- * hwspin_unlock() - unlock hwspinlock
-- * @hwlock: a previously-acquired hwspinlock which we want to unlock
-- *
-- * This function will unlock a specific hwspinlock and enable preemption
-- * back.
-- *
-- * @hwlock must be already locked (e.g. by hwspin_trylock()) before calling
-- * this function: it is a bug to call unlock on a @hwlock that is already
-- * unlocked.
-- */
--static inline void hwspin_unlock(struct hwspinlock *hwlock)
--{
--	__hwspin_unlock(hwlock, 0, NULL);
--}
--
--#endif /* __LINUX_HWSPINLOCK_H */
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Temporary. Until all users are converted. */
-+
-+#include <hwspinlock/consumer.h>
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock/consumer.h
-similarity index 98%
-copy from include/linux/hwspinlock.h
-copy to include/linux/hwspinlock/consumer.h
-index 7f38960c7162..89a95e3d35c6 100644
---- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock/consumer.h
-@@ -1,14 +1,14 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Hardware spinlock public header
-+ * Hardware spinlock public header for consumers
-  *
-  * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
-  *
-  * Contact: Ohad Ben-Cohen <ohad@wizery.com>
-  */
- 
--#ifndef __LINUX_HWSPINLOCK_H
--#define __LINUX_HWSPINLOCK_H
-+#ifndef __LINUX_HWSPINLOCK_CONSUMER_H
-+#define __LINUX_HWSPINLOCK_CONSUMER_H
- 
- #include <linux/err.h>
- #include <linux/sched.h>
-@@ -431,4 +431,4 @@ static inline void hwspin_unlock(struct hwspinlock *hwlock)
- 	__hwspin_unlock(hwlock, 0, NULL);
- }
- 
--#endif /* __LINUX_HWSPINLOCK_H */
-+#endif /* __LINUX_HWSPINLOCK_CONSUMER_H */
+---
+Kaustabh Chakraborty (12):
+      dt-bindings: leds: document Samsung S2M series PMIC flash LED device
+      dt-bindings: leds: document Samsung S2M series PMIC RGB LED device
+      dt-bindings: extcon: document Samsung S2M series PMIC extcon device
+      dt-bindings: power: supply: document Samsung S2M series PMIC charger device
+      dt-bindings: mfd: s2mps11: add documentation for S2MU005 PMIC
+      mfd: sec: add support for S2MU005 PMIC
+      mfd: sec: store hardware revision in sec_pmic_dev and add S2MU005 support
+      leds: flash: add support for Samsung S2M series PMIC flash LED device
+      leds: rgb: add support for Samsung S2M series PMIC RGB LED device
+      Documentation: leds: document pattern behavior of Samsung S2M series PMIC RGB LEDs
+      extcon: add support for Samsung S2M series PMIC extcon devices
+      power: supply: add support for Samsung S2M series PMIC charger device
+
+ .../bindings/extcon/samsung,s2mu005-muic.yaml      |  35 ++
+ .../bindings/leds/samsung,s2mu005-flash.yaml       |  52 +++
+ .../bindings/leds/samsung,s2mu005-rgb.yaml         |  34 ++
+ .../devicetree/bindings/mfd/samsung,s2mps11.yaml   | 103 ++++-
+ .../power/supply/samsung,s2mu005-charger.yaml      |  35 ++
+ Documentation/leds/index.rst                       |   1 +
+ Documentation/leds/leds-s2m-rgb.rst                |  60 +++
+ drivers/extcon/Kconfig                             |  10 +
+ drivers/extcon/Makefile                            |   1 +
+ drivers/extcon/extcon-s2m.c                        | 351 ++++++++++++++++
+ drivers/leds/flash/Kconfig                         |  12 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-s2m-flash.c                | 410 ++++++++++++++++++
+ drivers/leds/rgb/Kconfig                           |  11 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-s2m-rgb.c                    | 460 +++++++++++++++++++++
+ drivers/mfd/sec-common.c                           |  57 ++-
+ drivers/mfd/sec-i2c.c                              |  12 +
+ drivers/mfd/sec-irq.c                              |  74 ++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/s2m-charger.c                 | 213 ++++++++++
+ include/linux/mfd/samsung/core.h                   |   2 +
+ include/linux/mfd/samsung/irq.h                    |  66 +++
+ include/linux/mfd/samsung/s2mu005.h                | 328 +++++++++++++++
+ 25 files changed, 2330 insertions(+), 11 deletions(-)
+---
+base-commit: ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+change-id: 20251112-s2mu005-pmic-0c67fa6bac3c
+
+Best regards,
 -- 
-2.47.3
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
