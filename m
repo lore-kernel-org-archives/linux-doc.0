@@ -1,108 +1,97 @@
-Received: from outbound.qs.icloud.com (p-east3-cluster5-host2-snip4-2.eps.apple.com [57.103.86.143])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDD331813A
-	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 12:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4531F1397;
+	Sun, 25 Jan 2026 12:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769345104; cv=none; b=cSDy5y28g1dI0iC6MEmIErm3Y1pxqiufEbanBC8tDqbURSGpzalvt16+bwUmdXFXaIPamda4ccGHa2xVjIir6/ZT+1Lx7pfzkUkch7Y8HQ9Fys6vRRK2R1t2SHWv3HIzOBHf+ZPtBNmoHv1ys7Zk5m4V6/M/p87IKTl0lOv4Ir8=
+	t=1769345238; cv=none; b=OLMPcheMSOgoEUFprQoEU84NR0y/RV1dEVC0Fb+/AKc5iLd4GYbcyHrbjdLyG6xSxhzexyCJMJh66DifJIz4ZFkis7WOFeBiyZ737OOwAwy3zRDFriBg90WSkxVtLMRP5Z7vTNZ/5uQI7/q7sKwDXAjpPfjhw5yjNxKJpMVrZnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769345104; c=relaxed/simple;
-	bh=HKQcMQap0+1U0DIot+idUkxFX8P0mS9duZWVdWiqVVM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cgmi4LmdRHqrIIeYaPAAiYXUiBRpxvb19YBq18hXtOYfz+1ylp8GV3GLyZHZzd2Cxl8DgZGdZQNSzp6aXyGqRey9hL5DTHJSh7lZ7d9PcPLELFYJ6aCfYYEn5ao1T/jNYTB8xcrP2LQybI16bvzh9qLGLi5CuHB/xafKj0EkKk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=bLQjDJuh; arc=none smtp.client-ip=57.103.86.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1769345238; c=relaxed/simple;
+	bh=3uG70ESRyxMfbSDXcNxQas2MwAsOYF8DO1fvC8Y+/UY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VI/aNR0+VVNmZjaO1AHU2b4rK2z9sES7lBFMv6ofmqet8FZ1HuDCs1opxpJFjZ81KgdiYk0OXCY1OS/0aZkGXGmAQizv2EOwmYIbxR3eWy3qFEiRc1aBmoO4unF4HcgrISGiN4Wjwoe1Q/62Rpvdq0EF3vbenJZ7yDs49TT4YPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MPVljPfK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="bLQjDJuh"
-Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-2d-20-percent-2 (Postfix) with ESMTPS id 9D7431800344;
-	Sun, 25 Jan 2026 12:44:59 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1769345101; x=1771937101; bh=OOrdWrqu5e7mJVtIxOujFcOimuHlCYN2cB/9N01k4Zo=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=bLQjDJuhOzbIsCJvwdCRXd6e/7Z/yrdYlAXrg7kNj2erywEbz01EZQab8BEYujYsFerti4aiI20YImtsnXYOkCiYFfg+Qb/Ju/+2hAf5rE5fc3NsXBFrJJ6e/mv63cqUQvFxPGMfxfuYXZb5klfUqCIxYx42CVg02owPnC3+PnBnzND47AfDkhjnCmh1E+QsWu6z6Y/JLSZ3VVTaLaKGCj+fzbwFCS4+7Sl2WfxgWL2oLLWGXjvnZBAbxNcFf5JhVbperjI6oEvCgrujxQqU9RosLImoaxgE4aFK5FGbUJgxgF6GgiB2LH/OqFPH+Av2EzCY9OnB53i5X5NgJuAFiw==
-Received: from dedsec-amd0.tail874668.ts.net (unknown [17.57.155.37])
-	by p00-icloudmta-asmtp-us-east-2d-20-percent-2 (Postfix) with ESMTPSA id 36B38180036A;
-	Sun, 25 Jan 2026 12:44:56 +0000 (UTC)
-From: Yulong Han <wheatfox17@icloud.com>
-To: mchehab@kernel.org
-Cc: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wheatfox <wheatfox17@icloud.com>
-Subject: [PATCH] docs: automarkup.py: Skip common English words as C identifiers
-Date: Sun, 25 Jan 2026 20:44:50 +0800
-Message-ID: <20260125124450.2005006-1-wheatfox17@icloud.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MPVljPfK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB7EC4CEF1;
+	Sun, 25 Jan 2026 12:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1769345237;
+	bh=3uG70ESRyxMfbSDXcNxQas2MwAsOYF8DO1fvC8Y+/UY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MPVljPfKum5CglT/wW4Md9gDsjH3AlzWuG7GvsqoI2MsaihiQIkuOUJivI8PYJYJh
+	 eEKJXeur3u1A9DUFi4mjDObA67nu3ffqvMO8CVnu572HMTJYRZc7vnTIvpPv0ljSpS
+	 C2feiDD4RcoaYFQKPVuFrqvTEdUku+hBIbTHDcno=
+Date: Sun, 25 Jan 2026 13:47:14 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <2026012554-chatty-policy-42a1@gregkh>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=D/xK6/Rj c=1 sm=1 tr=0 ts=6976104b
- cx=c_apl:c_apl_out:c_pps a=bsP7O+dXZ5uKcj+dsLqiMw==:117
- a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=vUbySO9Y5rIA:10 a=x7bEGLp0ZPQA:10
- a=wIqLKzeCRP0A:10 a=VkNPw1HP01LnGYTKEx00:22 a=v3ZZPjhaAAAA:8
- a=6DNX4KSEXEvrVo_5AQ0A:9 a=rA1zylPnuwYoWo2zmoT6:22 a=0pBa3l49qnM4LAj5lDSL:22
-X-Proofpoint-GUID: siDDQemm3Nz-rB3-YHQPL8OX9LxJGFTe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI1MDEwNSBTYWx0ZWRfXxJyIkr3eVYqE
- 3g7Fg9avm90D+9PtNhs3yICQJLYaFZdxkhUAbjSEBcoho38Fld1weqc/8MrZkosGhkhzapHS8Yq
- RUlqVH5YKFC0E7CUI5Jpk1uo7AK9B31ncdUGBUXYd55/HomN9a0hEM6pjIQeaTFhC/fkIDtgMRV
- smga6Z3X8p3v7o7UwZT9MhJ5QPawm8duNMyFPX5ZLuhJ9q0w8EH86Fkd6NoL/Aqoo4RtUdvVM5u
- dBOPFwb3A/i3m1RjDcikw23OCm07jurgZUTU5YhH40or+BrTQfrqn1t5wYIzkGRUkwP9W2KtmqJ
- QOjDFpre6vygmxPD0b8
-X-Proofpoint-ORIG-GUID: siDDQemm3Nz-rB3-YHQPL8OX9LxJGFTe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-25_03,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- adultscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0 spamscore=0
- bulkscore=0 malwarescore=0 phishscore=0 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2601250105
-X-JNJ: AAAAAAABkGRYqEK7eLxvYFqlaGllwTnqucfGPq0dCxYWH7qCAunOoB/izDhRf43lS1/8qXfBayk8MQH1ekDeYYsEgbvekYEydgcFNeJOqlld5dDNmeb3R6zTrftUNloJ4keMME+aTJGR61nsu08GI7xMwE+1zEpjjTuUrJSvuWmDJze/ql5fTza7h2JTRZnLp/E9/sr8oi9m6VV1KMibQ0xwCeNSV/974mW12mxO9dJOshwWXuq/XbS4vCn//c7h1TOA0oDw8nHL2dFBebqK3u8tP1UMdK8eH4vpgs4iF6XXCUvQSpcdb8N8MsnWpMqHWCDPe6I4H9KqLS6Vo3RO76jorQEQnBuGGJdMca0RSq3Loc6g0VS4mzsDsbHpxVHHgYbCJ+jjYCUMm1NaEg8mCHsYh5IuBjWaDDrzX9FydUm1aDqeeL62hIedyKVmfyO2pfZSSm2XWQqJw/QgcB4aZHm+vKvUESwVvuGlov2LN1f/MjOQHSJQGVrzRxrJVSnRhepQUFO7Xnv/sdibXgO7mErBR7RmAhBqgD51kDemD9kgtWus+x4mepIbKxLwXR2c1fB4NzvlsOm61LtGugM62K/JMv0N/SqRMqHgBTCVXpcTC5y0VUyP2ruHmx0Jr9dAvpUXEeDpfa1TgXXPklOg8xbSII1PzbVBNPGIoT1tthR+ewyJFk7nj69l0lkKww==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
 
-From: wheatfox <wheatfox17@icloud.com>
+On Sat, Jan 24, 2026 at 08:08:28PM +0100, Danilo Krummrich wrote:
+> On Sat Jan 24, 2026 at 6:05 PM CET, Johan Hovold wrote:
+> > this does not look like the right interface for the chardev unplug issue.
+> 
+> I think it depends, we should do everything to prevent having the issue in the
+> first place, e.g. ensure that we synchronize the unplug properly on device
+> driver unbind.
+> 
+> Sometimes, however, this isn't possible; this is where a revocable mechanism can
+> come in handy to prevent UAF of device resources -- DRM is a good example for
+> this.
 
-The automarkup extension incorrectly recognizes common English words
-as C identifiers when they follow struct/union/enum/typedef keywords,
-causing normal text like "... (a simple) struct that" (in `workqueue.rst`)
-to be rendered as code blocks.
+This is not "possible" for almost all real devices so we need something
+like this for almost all classes of devices, DRM just shows the extremes
+involved, v4l2 is also another good example.
 
-This patch adds Skipidentifiers list to filter out these words.
+Note, other OSes also have this same problem, look at all the work the
+BSDs are going through at the moment just to get closer to the place
+where we are in Linux today with removable devices and they have hit our
+same problems.
 
-Signed-off-by: Yulong Han <wheatfox17@icloud.com>
----
- Documentation/sphinx/automarkup.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> But to be fair, I also want to point out that there is a quite significant
+> difference regarding the usefulness of the revocable concept in C compared to in
+> Rust due to language capabilities.
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index 1d9dada40a74..c2227ab0a891 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -46,6 +46,12 @@ RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
- #
- Skipnames = [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
- 
-+#
-+# Common English words that should not be recognized as C identifiers
-+# when following struct/union/enum/typedef keywords.
-+# Example: "a simple struct that" in workqueue.rst should not be marked as code.
-+#
-+Skipidentifiers = [ 'that', 'which', 'where', 'whose' ]
- 
- #
- # Many places in the docs refer to common system calls.  It is
-@@ -163,6 +169,10 @@ def markup_c_ref(docname, app, match):
-     if c_namespace:
-         possible_targets.insert(0, c_namespace + "." + base_target)
- 
-+    # Skip common English words that match identifier pattern but are not C code.
-+    if base_target in Skipidentifiers:
-+        return target_text
-+
-     if base_target not in Skipnames:
-         for target in possible_targets:
-             if not (match.re == RE_function and target in Skipfuncs):
--- 
-2.47.3
+True, but we do need something.  I took these patches without a real
+user as a base for us to start working off of.  The rust implementation
+has shown that the design-pattern is a good solution for the problem,
+and so I feel we should work with it and try to get this working
+properly.  We've been sitting and talking about it for years now, and
+here is the first real code submission that is getting us closer to fix
+the problem properly.  It might not be perfict, but let's evolve it from
+here for what is found not to work correctly.
 
+So I don't want to take these reverts, let's try this out, by putting
+this into the driver core now, we have the base to experiment with in a
+"safe" way in lots of different driver subsytems at the same time.  If
+it doesn't work out, worst case we revert it in a release or two because
+it didn't get used.
+
+thanks,
+
+greg k-h
