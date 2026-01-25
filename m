@@ -1,146 +1,174 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525033009F6
-	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 20:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C702FFFB7;
+	Sun, 25 Jan 2026 20:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769372603; cv=none; b=B5BdGqHofsGVxpIFvxDKSOyDhFNXDHGGOHAvxVffai6tyPGMtlRsTXD51uhtGlk8DmhIlBkAjtZDilEzln0Z/T7aPj0WIlkhZzMx1R6uehQYvRoDD4DDWxl2hcMwgDj4iT03snzyfIw40laIBoDPPPK8pgleP1srxE71NhgfT/s=
+	t=1769374742; cv=none; b=T2bO7CFh+mVweRTqayeMNMv83JAxwDqmoHVT2p5hIz3fsmCNLJ94SkoDMiKdCNayJcgZY2IZ+9w2a996/t8zkLCopAgEbVAQeGafQGnJKxibW3A/vTvswfaHMCL2uunoWcTYl1UQ0I9kx6z5Npk9MnIkTE2PNGRc8BjKsXQtdos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769372603; c=relaxed/simple;
-	bh=kA4osmuywNGnfc/EW5DvQpt+uRvoP6E0fmnIPNpufnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gktcAXQstix4zPWozDb4U2lJoD0Yod31nV2uyiU805P6xIo3a97+i7q8UB2NzJYi0+t9/oM+H8iw9tlVXcvqPS7cwO5uch4fyIPYDz7JKZ5VTewclK1krczmFA2F/Y0Q32HFTxSUBdsodwtmkdshb0E5Y2kk46qoyPNgr1Jl9Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PsYGaSLy; arc=none smtp.client-ip=209.85.222.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769374742; c=relaxed/simple;
+	bh=uW3NnWbbioHf1Wwc1adwz85D6FdFfB4Hx+hudi0d1Bw=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=O3D77EMzchdrdSNRI/E/vaSjyHx4qkr2u7XgjLsfsvgYj/1RDdepOIk82YSqVPSqKzmf8DV4gh6KEueTiA9xaMWuKwFmolxS7ra6Yl7opPEhwPIXl4PjVAESSHY5EVjGGhHxUEyvA16RF6OtHxCHmuxEiF4nvTlVcV+cIXH2PvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvGOcKb2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PsYGaSLy"
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8c655e0ee70so511989985a.3
-        for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 12:23:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769372601; x=1769977401; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GVz+XHeZzWVROGlrmIWxthJXoXXHUDugP+jXUUa2fbw=;
-        b=PsYGaSLyE5wcIcqq/gJGs0mNYa5JLWRotsDc+sZtZ2tA7xmccL2e7OiNBw/cYE/Fwv
-         3Soc8iZ+vQNWLlscv3Sk4fohaE8lK5feYaSoIDgfXPj/JMJc7UA6haxWUTQHC38ZwRK4
-         0Cgl0PJ//gOJSkumLew7kHm/bQT4cQYYsqoYMo/8UAirF/uOWSTu5h40JqSBUVnCeAsN
-         MWTprOOgD9+ZBrkNfcFT6PKEMpALAT7bDF1CeStQ0rcay8G+D72x+43DviKOENSFBPxs
-         swOpwzo+o20wcoJE0Xzc8HalbJ5XFoXzfdwSVV38iLP0qYlUJdj6bgey6o2BFgm4cnG/
-         5yLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769372601; x=1769977401;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GVz+XHeZzWVROGlrmIWxthJXoXXHUDugP+jXUUa2fbw=;
-        b=EgKptgo5qtkkIGslS/DyxtMxuDW5E0iVqLdyLB845pTXGcoCM5n0vKBmqbfPkM9f/D
-         c8K+TiTB3QPOeAyU44fgqWM+49gmKmcvkvoLgVRj+8HDcHqL5C6OryLUBxlCXybkYYtv
-         d7ZZT7sl8r3GXvAvwzCuH9YKfQmSRHSYxmxtpHlQKKNSk3GbUlYar8UK7L2GnAl8p3Sr
-         VlX67QfjCvml/shiqrP5ifBn/YFtXYan68ZrL0JFbkbcf7DDRAd+gC0G9oPNdfLjQNMm
-         xkHRkHLEwO7k+T7IIgOmwMCrZIbXhxqk2tM3VMioa6bXYa73acau3bnhg37VrI9r9ZDv
-         YxlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0z0W6yKsEYW+ReLYI/pIzPUGeHpstBmQfTcjDMNl8OmsHvYn3KA0c5yxCuFA+k0zEUhUyxJNj7AA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS6cX150nzHd8tLXWpesImoAkEyTPkaQDTPbxayehULjwRekJU
-	FduAksmUGs0UM6/lJM804O26AB7Ove7ZJqwn7nt7upx80Ry2C4esMk8E
-X-Gm-Gg: AZuq6aJSxxfK/cHBODTWhiDX0ssjwbN38Y92YqGfWz381CPFF3WgT8rFWAVQPlQS6Hf
-	2yMDBz0dI5lNuFyy+V0wM0TOLyn1xlmwxw23LgjFZOr0U8cLlLS+uosduu0ExRZGRQ1wClYkwfx
-	PKtYfPPvOy+tuurbkh3dMxSom8UcyL/ymkbD6IOdbDQybtMVmsLfO8vMCkNPLkS268Qt4eR5Nsn
-	+m5GsaHX858ixdS1NGzAbi9KwugfW47+0F4F+f5PUS8BXnfJ2AZMHEljNtt/DlH7Xhx4nwJysIw
-	hVjS++wrbZqwLksGa9zw5lbn/v8BmfajMTnQgKJ9Chrz6coNROTaerAkgzR7Rz46S5vL8wtHROa
-	f7eoUitDyxebQZWMteoMKX9lA5pMjjrDm6fr8oVrNna3kcWSgEuLTvLcSKF8p/BGPhmELFj12AT
-	CMuP++e0kYxAp8ZjTqJTBHVTLauNTNEkfiV4rPtC7QIA==
-X-Received: by 2002:a05:620a:178e:b0:8c0:cec4:b6fa with SMTP id af79cd13be357-8c6f96bd886mr266639585a.65.1769372601285;
-        Sun, 25 Jan 2026 12:23:21 -0800 (PST)
-Received: from pc ([2600:4041:4491:2000:c864:93f:1893:5824])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e385490bsm813994185a.39.2026.01.25.12.23.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jan 2026 12:23:19 -0800 (PST)
-Date: Sun, 25 Jan 2026 15:23:17 -0500
-From: Seokwoo Chung <seokwoo.chung130@gmail.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: mhiramat@kernel.org, corbet@lwn.net, shuah@kernel.org, 
-	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 v5 1/3] docs: tracing/fprobe: Document list filters
- and :entry/:exit
-Message-ID: <wqpijkdwziafpuci6js5mtfzro46bre4z7une547crcdzrlm67@kd4fgea5m6ov>
-References: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
- <20260118011815.56516-2-seokwoo.chung130@gmail.com>
- <20260120155340.2dac7fab@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvGOcKb2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3534C4CEF1;
+	Sun, 25 Jan 2026 20:59:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769374741;
+	bh=uW3NnWbbioHf1Wwc1adwz85D6FdFfB4Hx+hudi0d1Bw=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=hvGOcKb2H9PIR981wUGt5u9bKNY1OfunMfiVBBc14Q5sxhVKuLYvRLQzdpVt0G1yq
+	 Sv08tgRklpt6fA5T2VGAlNp1Fd6f91B1b8qn7yjvF4utOnPxaPx3J8Y6jAj8oP1KFw
+	 qSrlTaClzTJhzRH2So4rPUF/IQv4SxYvobMAw4YGPLniYFqFrUukFoUiBWdxbWK2wn
+	 sV23na01oe7iBxC+NnftM1lZHlxNmpnljAFrnx02UfbmD1P1pmSbkUo4bqblzhN/UL
+	 pap2ZrK0r+4bRfTzTcDITRkCyBa7JWBgLXDaOrMTTBPL2eDaeOb2GkAwM7KvZZZUMs
+	 NCzkjKF+ziT7g==
+Date: Sun, 25 Jan 2026 14:59:00 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120155340.2dac7fab@gandalf.local.home>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Sebastian Reichel <sre@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-pm@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ linux-samsung-soc@vger.kernel.org, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, devicetree@vger.kernel.org, 
+ linux-leds@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+In-Reply-To: <20260126-s2mu005-pmic-v2-5-78f1a75f547a@disroot.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+ <20260126-s2mu005-pmic-v2-5-78f1a75f547a@disroot.org>
+Message-Id: <176937474094.3832173.10855555775312969664.robh@kernel.org>
+Subject: Re: [PATCH v2 05/12] dt-bindings: mfd: s2mps11: add documentation
+ for S2MU005 PMIC
 
-On Tue, Jan 20, 2026 at 03:53:40PM -0500, Steven Rostedt wrote:
-> On Sat, 17 Jan 2026 20:18:13 -0500
-> "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
-> 
-> > Update fprobe event documentation to describe comma-separated symbol lists,
-> > exclusions, and explicit suffixes.
-> 
-> Usually, the documentation updates comes *after* the changes.
-> 
-> -- Steve
-> 
-Thanks for the comment. As you noticed, I sent another patch since I forgot to
-put log. That said, please let me know if you want me to continue on this
-series. My apologies on the ordering. I noted after Masami mentioned but I
-misordered when sending. Thank you.
 
-Best regards,
-Ryan Chung
-> > 
-> > Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
-> > ---
-> >  Documentation/trace/fprobetrace.rst | 17 ++++++++++++++---
-> >  1 file changed, 14 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/trace/fprobetrace.rst b/Documentation/trace/fprobetrace.rst
-> > index b4c2ca3d02c1..bbcfd57f0005 100644
-> > --- a/Documentation/trace/fprobetrace.rst
-> > +++ b/Documentation/trace/fprobetrace.rst
-> > @@ -25,14 +25,18 @@ Synopsis of fprobe-events
-> >  -------------------------
-> >  ::
-> >  
-> > -  f[:[GRP1/][EVENT1]] SYM [FETCHARGS]                       : Probe on function entry
-> > -  f[MAXACTIVE][:[GRP1/][EVENT1]] SYM%return [FETCHARGS]     : Probe on function exit
-> > +  f[:[GRP1/][EVENT1]] SYM[%return] [FETCHARGS]		    : Single function
-> > +  f[:[GRP1/][EVENT1]] SYM[,[!]SYM[,...]][:entry|:exit] [FETCHARGS] :Multiple
-> > +  function
-> >    t[:[GRP2/][EVENT2]] TRACEPOINT [FETCHARGS]                : Probe on tracepoint
-> >  
-> >   GRP1           : Group name for fprobe. If omitted, use "fprobes" for it.
-> >   GRP2           : Group name for tprobe. If omitted, use "tracepoints" for it.
-> >   EVENT1         : Event name for fprobe. If omitted, the event name is
-> > -                  "SYM__entry" or "SYM__exit".
-> > +		  - For a single literal symbol, the event name is
-> > +		    "SYM__entry" or "SYM__exit".
-> > +		  - For a *list or any wildcard*, an explicit [GRP1/][EVENT1] is
-> > +		    required; otherwise the parser rejects it.
-> >   EVENT2         : Event name for tprobe. If omitted, the event name is
-> >                    the same as "TRACEPOINT", but if the "TRACEPOINT" starts
-> >                    with a digit character, "_TRACEPOINT" is used.
-> > @@ -40,6 +44,13 @@ Synopsis of fprobe-events
-> >                    can be probed simultaneously, or 0 for the default value
-> >                    as defined in Documentation/trace/fprobe.rst
-> >  
-> > + SYM		: Function name or comma-separated list of symbols.
-> > +		  - SYM prefixed with "!" are exclusions.
-> > +		  - ":entry" suffix means it probes entry of given symbols
-> > +		    (default)
-> > +		  - ":exit" suffix means it probes exit of given symbols.
-> > +		  - "%return" suffix means it probes exit of SYM (single
-> > +		    symbol).
-> >   FETCHARGS      : Arguments. Each probe can have up to 128 args.
-> >    ARG           : Fetch "ARG" function argument using BTF (only for function
-> >                    entry or tracepoint.) (\*1)
+On Mon, 26 Jan 2026 00:37:12 +0530, Kaustabh Chakraborty wrote:
+> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
+> USB Interface Controller), and flash and RGB LED controllers.
 > 
+> Since regulators are not supported by this device, unmark this property
+> as required and instead set this in a per-device basis for ones which
+> need it.
+> 
+> Add the compatible and documentation for the S2MU005 PMIC. Also, add an
+> example for nodes for supported sub-devices, i.e. charger, extcon,
+> flash, and rgb.
+> 
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+>  .../devicetree/bindings/mfd/samsung,s2mps11.yaml   | 103 ++++++++++++++++++++-
+>  1 file changed, 102 insertions(+), 1 deletion(-)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml: Unresolvable reference: /schemas/power/supply/samsung,s2m-charger.yaml
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
+    resource = registry._retrieve(uri)
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
+    return DRAFT201909.create_resource(self.schemas[uri])
+                                       ~~~~~~~~~~~~^^^^^
+KeyError: 'http://devicetree.org/schemas/power/supply/samsung,s2m-charger.yaml'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 682, in lookup
+    retrieved = self._registry.get_or_retrieve(uri)
+  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 435, in get_or_retrieve
+    raise exceptions.Unretrievable(ref=uri) from error
+referencing.exceptions.Unretrievable: 'http://devicetree.org/schemas/power/supply/samsung,s2m-charger.yaml'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 462, in _validate_reference
+    resolved = self._resolver.lookup(ref)
+  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 686, in lookup
+    raise exceptions.Unresolvable(ref=ref) from error
+referencing.exceptions.Unresolvable: /schemas/power/supply/samsung,s2m-charger.yaml
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-validate", line 8, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 158, in main
+    sg.check_dtb(filename)
+    ~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 95, in check_dtb
+    self.check_subtree(dt, subtree, False, "/", "/", filename)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 88, in check_subtree
+    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 88, in check_subtree
+    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 88, in check_subtree
+    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 83, in check_subtree
+    self.check_node(tree, subtree, disabled, nodename, fullname, filename)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 34, in check_node
+    for error in self.validator.iter_errors(node, filter=match_schema_file,
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            compatible_match=compatible_match):
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 448, in iter_errors
+    for error in self.DtValidator(schema, registry=self.registry).iter_errors(instance):
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 383, in iter_errors
+    for error in errors:
+                 ^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/jsonschema/_keywords.py", line 296, in properties
+    yield from validator.descend(
+    ...<4 lines>...
+    )
+  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 431, in descend
+    for error in errors:
+                 ^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/jsonschema/_keywords.py", line 275, in ref
+    yield from validator._validate_reference(ref=ref, instance=instance)
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 464, in _validate_reference
+    raise exceptions._WrappedReferencingError(err) from err
+jsonschema.exceptions._WrappedReferencingError: Unresolvable: /schemas/power/supply/samsung,s2m-charger.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260126-s2mu005-pmic-v2-5-78f1a75f547a@disroot.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
