@@ -1,174 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C702FFFB7;
-	Sun, 25 Jan 2026 20:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97BA130CDAE;
+	Sun, 25 Jan 2026 21:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769374742; cv=none; b=T2bO7CFh+mVweRTqayeMNMv83JAxwDqmoHVT2p5hIz3fsmCNLJ94SkoDMiKdCNayJcgZY2IZ+9w2a996/t8zkLCopAgEbVAQeGafQGnJKxibW3A/vTvswfaHMCL2uunoWcTYl1UQ0I9kx6z5Npk9MnIkTE2PNGRc8BjKsXQtdos=
+	t=1769376023; cv=none; b=II+2PYc69YdXeovZjjcM/Njsnkj+hx0OLUoqgstP7CGTM4tI1sVZu5Bdeo2u7YNh4XbgQovzwSxaoDwFq+rvewWarsR/rj14kxMInGC/2XPpQRyj+SMD4qguUrGjt5REbkgvTzZSL+SkYSe27oU9DpP7jeQwtuoGanpd4RRITtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769374742; c=relaxed/simple;
-	bh=uW3NnWbbioHf1Wwc1adwz85D6FdFfB4Hx+hudi0d1Bw=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=O3D77EMzchdrdSNRI/E/vaSjyHx4qkr2u7XgjLsfsvgYj/1RDdepOIk82YSqVPSqKzmf8DV4gh6KEueTiA9xaMWuKwFmolxS7ra6Yl7opPEhwPIXl4PjVAESSHY5EVjGGhHxUEyvA16RF6OtHxCHmuxEiF4nvTlVcV+cIXH2PvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvGOcKb2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769376023; c=relaxed/simple;
+	bh=ZPvEIbrdkyOksRW7uUxLFKxwuTsxzKXiKyTCaJX4QE8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=FDFrPd23rbcDU8m0ZlTkLd24P0F+gyN0rWY7AVkZ8nByQCC7UOhZpf3wybnGbFsro5wp2h3CBk/XQbt4SX3f5YfeDRqei0ibmZqmgezp8kPilvtt5G5iTlPoNS8uNiI1BVjctg4er9R/efn1Fja8CFXscIEdjbfF+DnoVd51hfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hN22mKuZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvGOcKb2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3534C4CEF1;
-	Sun, 25 Jan 2026 20:59:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hN22mKuZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30917C4CEF1;
+	Sun, 25 Jan 2026 21:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769374741;
-	bh=uW3NnWbbioHf1Wwc1adwz85D6FdFfB4Hx+hudi0d1Bw=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=hvGOcKb2H9PIR981wUGt5u9bKNY1OfunMfiVBBc14Q5sxhVKuLYvRLQzdpVt0G1yq
-	 Sv08tgRklpt6fA5T2VGAlNp1Fd6f91B1b8qn7yjvF4utOnPxaPx3J8Y6jAj8oP1KFw
-	 qSrlTaClzTJhzRH2So4rPUF/IQv4SxYvobMAw4YGPLniYFqFrUukFoUiBWdxbWK2wn
-	 sV23na01oe7iBxC+NnftM1lZHlxNmpnljAFrnx02UfbmD1P1pmSbkUo4bqblzhN/UL
-	 pap2ZrK0r+4bRfTzTcDITRkCyBa7JWBgLXDaOrMTTBPL2eDaeOb2GkAwM7KvZZZUMs
-	 NCzkjKF+ziT7g==
-Date: Sun, 25 Jan 2026 14:59:00 -0600
+	s=k20201202; t=1769376023;
+	bh=ZPvEIbrdkyOksRW7uUxLFKxwuTsxzKXiKyTCaJX4QE8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=hN22mKuZQyPSvbDUqstAQHm2PZ9++toc7aDQV5OvV4YoR3pvxSeke3VuzHbnm0CGF
+	 lIEw5u+SSsZhQ5jeYZRUlNF7reDhjS+ezeWMVIqm1YnUhRsFrYV7vUuXkiFeyenkFF
+	 yf9A07f4PF4rkyPt9QjUy3LWvgZH+NfAZhPEURB0rfDRQEGmw1LIhY1wt3K0znaTFU
+	 ghP7Xp9kLxMy0ifJtGjIaGKYUwExidx9tNJK+42DGJk2MoZ8CT+43MSqCMd4Xc2XIX
+	 VN/IV3rnieedu6Q55q1XQUP57KiRVLE+9StCvEH1L6fbgSeaRH0TIGuForAOc6CX1P
+	 yH5P4vKzsbahQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 4ECF63809A15;
+	Sun, 25 Jan 2026 21:20:19 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Sebastian Reichel <sre@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk@kernel.org>, linux-pm@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- linux-samsung-soc@vger.kernel.org, MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, devicetree@vger.kernel.org, 
- linux-leds@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-In-Reply-To: <20260126-s2mu005-pmic-v2-5-78f1a75f547a@disroot.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-5-78f1a75f547a@disroot.org>
-Message-Id: <176937474094.3832173.10855555775312969664.robh@kernel.org>
-Subject: Re: [PATCH v2 05/12] dt-bindings: mfd: s2mps11: add documentation
- for S2MU005 PMIC
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] Documentation: net: Fix typos in netdevices.rst
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176937601809.3588307.353607266893756801.git-patchwork-notify@kernel.org>
+Date: Sun, 25 Jan 2026 21:20:18 +0000
+References: <20260122225723.2368698-1-dimitri.daskalakis1@gmail.com>
+In-Reply-To: <20260122225723.2368698-1-dimitri.daskalakis1@gmail.com>
+To: Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
 
+Hello:
 
-On Mon, 26 Jan 2026 00:37:12 +0530, Kaustabh Chakraborty wrote:
-> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
-> USB Interface Controller), and flash and RGB LED controllers.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 22 Jan 2026 14:57:23 -0800 you wrote:
+> Fixes two minor typos. Specifically, on -> or and Devices -> Device.
 > 
-> Since regulators are not supported by this device, unmark this property
-> as required and instead set this in a per-device basis for ones which
-> need it.
-> 
-> Add the compatible and documentation for the S2MU005 PMIC. Also, add an
-> example for nodes for supported sub-devices, i.e. charger, extcon,
-> flash, and rgb.
-> 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> Signed-off-by: Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>
 > ---
->  .../devicetree/bindings/mfd/samsung,s2mps11.yaml   | 103 ++++++++++++++++++++-
->  1 file changed, 102 insertions(+), 1 deletion(-)
-> 
+>  Documentation/networking/netdevices.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Here is the summary with links:
+  - [net-next] Documentation: net: Fix typos in netdevices.rst
+    https://git.kernel.org/netdev/net-next/c/3085ff59fec5
 
-yamllint warnings/errors:
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml: Unresolvable reference: /schemas/power/supply/samsung,s2m-charger.yaml
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 428, in get_or_retrieve
-    resource = registry._retrieve(uri)
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 426, in retrieve
-    return DRAFT201909.create_resource(self.schemas[uri])
-                                       ~~~~~~~~~~~~^^^^^
-KeyError: 'http://devicetree.org/schemas/power/supply/samsung,s2m-charger.yaml'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 682, in lookup
-    retrieved = self._registry.get_or_retrieve(uri)
-  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 435, in get_or_retrieve
-    raise exceptions.Unretrievable(ref=uri) from error
-referencing.exceptions.Unretrievable: 'http://devicetree.org/schemas/power/supply/samsung,s2m-charger.yaml'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 462, in _validate_reference
-    resolved = self._resolver.lookup(ref)
-  File "/usr/local/lib/python3.13/dist-packages/referencing/_core.py", line 686, in lookup
-    raise exceptions.Unresolvable(ref=ref) from error
-referencing.exceptions.Unresolvable: /schemas/power/supply/samsung,s2m-charger.yaml
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-validate", line 8, in <module>
-    sys.exit(main())
-             ~~~~^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 158, in main
-    sg.check_dtb(filename)
-    ~~~~~~~~~~~~^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 95, in check_dtb
-    self.check_subtree(dt, subtree, False, "/", "/", filename)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 88, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 88, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 88, in check_subtree
-    self.check_subtree(tree, value, disabled, name, fullname + name, filename)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 83, in check_subtree
-    self.check_node(tree, subtree, disabled, nodename, fullname, filename)
-    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/dtb_validate.py", line 34, in check_node
-    for error in self.validator.iter_errors(node, filter=match_schema_file,
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                                            compatible_match=compatible_match):
-                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 448, in iter_errors
-    for error in self.DtValidator(schema, registry=self.registry).iter_errors(instance):
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 383, in iter_errors
-    for error in errors:
-                 ^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/jsonschema/_keywords.py", line 296, in properties
-    yield from validator.descend(
-    ...<4 lines>...
-    )
-  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 431, in descend
-    for error in errors:
-                 ^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/jsonschema/_keywords.py", line 275, in ref
-    yield from validator._validate_reference(ref=ref, instance=instance)
-               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/dist-packages/jsonschema/validators.py", line 464, in _validate_reference
-    raise exceptions._WrappedReferencingError(err) from err
-jsonschema.exceptions._WrappedReferencingError: Unresolvable: /schemas/power/supply/samsung,s2m-charger.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260126-s2mu005-pmic-v2-5-78f1a75f547a@disroot.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
