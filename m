@@ -1,332 +1,146 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333282F2604;
-	Sun, 25 Jan 2026 19:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525033009F6
+	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 20:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769368144; cv=none; b=Otj6TVbvXQsRDiVCgWr9a0uw8UOGq5qpd1g+MOuB4UXU4CL2WC46JDy6zVep2h7Pwg9ZpJAX+yDlV194HfCGdxeZ+ECUG0RBc0pidiKXpr/3HuekZjnSWaJDU01U1axS27xjBu3ob1o6BwKrl7IkxV+GtELApM1lycGIm6FNIgg=
+	t=1769372603; cv=none; b=B5BdGqHofsGVxpIFvxDKSOyDhFNXDHGGOHAvxVffai6tyPGMtlRsTXD51uhtGlk8DmhIlBkAjtZDilEzln0Z/T7aPj0WIlkhZzMx1R6uehQYvRoDD4DDWxl2hcMwgDj4iT03snzyfIw40laIBoDPPPK8pgleP1srxE71NhgfT/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769368144; c=relaxed/simple;
-	bh=zC/3rnQyt3mAnYw4WziZKdbnacGpu6rOWazsrIUSjWc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=peMXRoduiiTYx5WB6X+w1tb1O1CwgOI2JBV7ttArHJdsTLP48fvRTPV0VGt+fkxEnlTI99UzkUiaZABFGbtiFKdm0Uc9tbzaJ2fJacdOm5zFg0KpWTqFaAq4yTl64b/RlCa20pa2xEEBZh8QlGwO6zkNZ0UAvjwx51u9QAvStVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=SDuFiYaf; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1769372603; c=relaxed/simple;
+	bh=kA4osmuywNGnfc/EW5DvQpt+uRvoP6E0fmnIPNpufnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gktcAXQstix4zPWozDb4U2lJoD0Yod31nV2uyiU805P6xIo3a97+i7q8UB2NzJYi0+t9/oM+H8iw9tlVXcvqPS7cwO5uch4fyIPYDz7JKZ5VTewclK1krczmFA2F/Y0Q32HFTxSUBdsodwtmkdshb0E5Y2kk46qoyPNgr1Jl9Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PsYGaSLy; arc=none smtp.client-ip=209.85.222.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="SDuFiYaf"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id ED62527D96;
-	Sun, 25 Jan 2026 20:09:01 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 1tjh9D-EX7Wv; Sun, 25 Jan 2026 20:09:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1769368140; bh=zC/3rnQyt3mAnYw4WziZKdbnacGpu6rOWazsrIUSjWc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SDuFiYafpuryiQ5OYSeCkb5HVjaV3gpAE9JVGCtMh9fNEuLv0RcSWk5ikB24xqMef
-	 oE5Oe9Ne+V9dJWN3aymgTacoaU+C5kpjubn2LWi6his1GL+0fkNyS/kzRkJLxyMQ4j
-	 o211vuyxap48K1d3pfnB8v9ttWwQDtU37/S6eWOXEsrdnnofylwoCFaKwOADR4AoSV
-	 mii1WwIjSGNtBNp+Atx5c5P9TZDubDUFSqMq3ptWQK7wH6azuERQVb92iDz1cJg/VK
-	 lWKSD/PAoCXyin56BS45DVbb6C65M0kCM0YLl1XQa6V1USwl2oTnIoqPQT1XRdl78u
-	 OjgywB/MUPZlw==
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Mon, 26 Jan 2026 00:37:19 +0530
-Subject: [PATCH v2 12/12] power: supply: add support for Samsung S2M series
- PMIC charger device
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PsYGaSLy"
+Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8c655e0ee70so511989985a.3
+        for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 12:23:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769372601; x=1769977401; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GVz+XHeZzWVROGlrmIWxthJXoXXHUDugP+jXUUa2fbw=;
+        b=PsYGaSLyE5wcIcqq/gJGs0mNYa5JLWRotsDc+sZtZ2tA7xmccL2e7OiNBw/cYE/Fwv
+         3Soc8iZ+vQNWLlscv3Sk4fohaE8lK5feYaSoIDgfXPj/JMJc7UA6haxWUTQHC38ZwRK4
+         0Cgl0PJ//gOJSkumLew7kHm/bQT4cQYYsqoYMo/8UAirF/uOWSTu5h40JqSBUVnCeAsN
+         MWTprOOgD9+ZBrkNfcFT6PKEMpALAT7bDF1CeStQ0rcay8G+D72x+43DviKOENSFBPxs
+         swOpwzo+o20wcoJE0Xzc8HalbJ5XFoXzfdwSVV38iLP0qYlUJdj6bgey6o2BFgm4cnG/
+         5yLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769372601; x=1769977401;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GVz+XHeZzWVROGlrmIWxthJXoXXHUDugP+jXUUa2fbw=;
+        b=EgKptgo5qtkkIGslS/DyxtMxuDW5E0iVqLdyLB845pTXGcoCM5n0vKBmqbfPkM9f/D
+         c8K+TiTB3QPOeAyU44fgqWM+49gmKmcvkvoLgVRj+8HDcHqL5C6OryLUBxlCXybkYYtv
+         d7ZZT7sl8r3GXvAvwzCuH9YKfQmSRHSYxmxtpHlQKKNSk3GbUlYar8UK7L2GnAl8p3Sr
+         VlX67QfjCvml/shiqrP5ifBn/YFtXYan68ZrL0JFbkbcf7DDRAd+gC0G9oPNdfLjQNMm
+         xkHRkHLEwO7k+T7IIgOmwMCrZIbXhxqk2tM3VMioa6bXYa73acau3bnhg37VrI9r9ZDv
+         YxlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0z0W6yKsEYW+ReLYI/pIzPUGeHpstBmQfTcjDMNl8OmsHvYn3KA0c5yxCuFA+k0zEUhUyxJNj7AA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS6cX150nzHd8tLXWpesImoAkEyTPkaQDTPbxayehULjwRekJU
+	FduAksmUGs0UM6/lJM804O26AB7Ove7ZJqwn7nt7upx80Ry2C4esMk8E
+X-Gm-Gg: AZuq6aJSxxfK/cHBODTWhiDX0ssjwbN38Y92YqGfWz381CPFF3WgT8rFWAVQPlQS6Hf
+	2yMDBz0dI5lNuFyy+V0wM0TOLyn1xlmwxw23LgjFZOr0U8cLlLS+uosduu0ExRZGRQ1wClYkwfx
+	PKtYfPPvOy+tuurbkh3dMxSom8UcyL/ymkbD6IOdbDQybtMVmsLfO8vMCkNPLkS268Qt4eR5Nsn
+	+m5GsaHX858ixdS1NGzAbi9KwugfW47+0F4F+f5PUS8BXnfJ2AZMHEljNtt/DlH7Xhx4nwJysIw
+	hVjS++wrbZqwLksGa9zw5lbn/v8BmfajMTnQgKJ9Chrz6coNROTaerAkgzR7Rz46S5vL8wtHROa
+	f7eoUitDyxebQZWMteoMKX9lA5pMjjrDm6fr8oVrNna3kcWSgEuLTvLcSKF8p/BGPhmELFj12AT
+	CMuP++e0kYxAp8ZjTqJTBHVTLauNTNEkfiV4rPtC7QIA==
+X-Received: by 2002:a05:620a:178e:b0:8c0:cec4:b6fa with SMTP id af79cd13be357-8c6f96bd886mr266639585a.65.1769372601285;
+        Sun, 25 Jan 2026 12:23:21 -0800 (PST)
+Received: from pc ([2600:4041:4491:2000:c864:93f:1893:5824])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e385490bsm813994185a.39.2026.01.25.12.23.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jan 2026 12:23:19 -0800 (PST)
+Date: Sun, 25 Jan 2026 15:23:17 -0500
+From: Seokwoo Chung <seokwoo.chung130@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: mhiramat@kernel.org, corbet@lwn.net, shuah@kernel.org, 
+	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 v5 1/3] docs: tracing/fprobe: Document list filters
+ and :entry/:exit
+Message-ID: <wqpijkdwziafpuci6js5mtfzro46bre4z7une547crcdzrlm67@kd4fgea5m6ov>
+References: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
+ <20260118011815.56516-2-seokwoo.chung130@gmail.com>
+ <20260120155340.2dac7fab@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260126-s2mu005-pmic-v2-12-78f1a75f547a@disroot.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
-In-Reply-To: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260120155340.2dac7fab@gandalf.local.home>
 
-Add a driver for charger controllers found in certain Samsung S2M series
-PMICs. The driver has very basic support for the device, with only
-charger online reporting working.
+On Tue, Jan 20, 2026 at 03:53:40PM -0500, Steven Rostedt wrote:
+> On Sat, 17 Jan 2026 20:18:13 -0500
+> "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
+> 
+> > Update fprobe event documentation to describe comma-separated symbol lists,
+> > exclusions, and explicit suffixes.
+> 
+> Usually, the documentation updates comes *after* the changes.
+> 
+> -- Steve
+> 
+Thanks for the comment. As you noticed, I sent another patch since I forgot to
+put log. That said, please let me know if you want me to continue on this
+series. My apologies on the ordering. I noted after Masami mentioned but I
+misordered when sending. Thank you.
 
-The driver includes initial support for the S2MU005 PMIC charger.
-
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
----
- drivers/power/supply/Kconfig       |  11 ++
- drivers/power/supply/Makefile      |   1 +
- drivers/power/supply/s2m-charger.c | 213 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 225 insertions(+)
-
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 92f9f7aae92f2..b9a6bdf014586 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -229,6 +229,17 @@ config BATTERY_SAMSUNG_SDI
- 	  Say Y to enable support for Samsung SDI battery data.
- 	  These batteries are used in Samsung mobile phones.
- 
-+config CHARGER_S2M
-+	tristate "Samsung S2M series PMIC battery charger support"
-+	depends on EXTCON_S2M
-+	depends on MFD_SEC_CORE
-+	select REGMAP_IRQ
-+	help
-+	  This option enables support for charger devices found in
-+	  certain Samsung S2M series PMICs, such as the S2MU005. These
-+	  devices provide USB power supply information and also required
-+	  for USB OTG role switching.
-+
- config BATTERY_COLLIE
- 	tristate "Sharp SL-5500 (collie) battery"
- 	depends on SA1100_COLLIE && MCP_UCB1200
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index 4b79d5abc49a7..795ef40d95311 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -40,6 +40,7 @@ obj-$(CONFIG_BATTERY_PMU)	+= pmu_battery.o
- obj-$(CONFIG_BATTERY_QCOM_BATTMGR)	+= qcom_battmgr.o
- obj-$(CONFIG_BATTERY_OLPC)	+= olpc_battery.o
- obj-$(CONFIG_BATTERY_SAMSUNG_SDI)	+= samsung-sdi-battery.o
-+obj-$(CONFIG_CHARGER_S2M)	+= s2m-charger.o
- obj-$(CONFIG_BATTERY_COLLIE)	+= collie_battery.o
- obj-$(CONFIG_BATTERY_INGENIC)	+= ingenic-battery.o
- obj-$(CONFIG_BATTERY_INTEL_DC_TI) += intel_dc_ti_battery.o
-diff --git a/drivers/power/supply/s2m-charger.c b/drivers/power/supply/s2m-charger.c
-new file mode 100644
-index 0000000000000..c212bc59f93cc
---- /dev/null
-+++ b/drivers/power/supply/s2m-charger.c
-@@ -0,0 +1,213 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Battery Charger Driver for Samsung S2M series PMICs.
-+ *
-+ * Copyright (c) 2015 Samsung Electronics Co., Ltd
-+ * Copyright (c) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
-+ */
-+
-+#include <linux/devm-helpers.h>
-+#include <linux/extcon.h>
-+#include <linux/mfd/samsung/core.h>
-+#include <linux/mfd/samsung/s2mu005.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/power_supply.h>
-+#include <linux/regmap.h>
-+
-+struct s2m_chgr {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct power_supply *psy;
-+	struct extcon_dev *extcon;
-+	struct work_struct extcon_work;
-+	struct notifier_block extcon_nb;
-+};
-+
-+static int s2mu005_chgr_get_online(struct s2m_chgr *priv, int *value)
-+{
-+	u32 val;
-+	int ret = 0;
-+
-+	ret = regmap_read(priv->regmap, S2MU005_REG_CHGR_STATUS0, &val);
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to read register (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	*value = !!(val & S2MU005_CHGR_CHG);
-+
-+	return ret;
-+}
-+
-+static int s2mu005_chgr_get_property(struct power_supply *psy,
-+				     enum power_supply_property psp,
-+				     union power_supply_propval *val)
-+{
-+	struct s2m_chgr *priv = power_supply_get_drvdata(psy);
-+	int ret = 0;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		ret = s2mu005_chgr_get_online(priv, &val->intval);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
-+static void s2mu005_chgr_extcon_work(struct work_struct *work)
-+{
-+	struct s2m_chgr *priv = container_of(work, struct s2m_chgr,
-+						 extcon_work);
-+	int ret;
-+
-+	if (extcon_get_state(priv->extcon, EXTCON_USB_HOST) == true) {
-+		ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+					 S2MU005_CHGR_OP_MODE,
-+					 S2MU005_CHGR_OP_MODE_OTG);
-+		if (ret < 0)
-+			dev_err(priv->dev, "failed to set operation mode to OTG (%d)\n",
-+				ret);
-+
-+		goto psy_update;
-+	}
-+
-+	if (extcon_get_state(priv->extcon, EXTCON_USB) == true) {
-+		ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+					 S2MU005_CHGR_OP_MODE,
-+					 S2MU005_CHGR_OP_MODE_CHG);
-+		if (ret < 0)
-+			dev_err(priv->dev, "failed to set operation mode to charging (%d)\n",
-+				ret);
-+
-+		goto psy_update;
-+	}
-+
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				S2MU005_CHGR_OP_MODE);
-+	if (ret < 0)
-+		dev_err(priv->dev, "failed to clear operation mode (%d)\n", ret);
-+
-+psy_update:
-+	power_supply_changed(priv->psy);
-+}
-+
-+static const enum power_supply_property s2mu005_chgr_properties[] = {
-+	POWER_SUPPLY_PROP_ONLINE,
-+};
-+
-+static const struct power_supply_desc s2mu005_chgr_psy_desc = {
-+	.name = "s2mu005-charger",
-+	.type = POWER_SUPPLY_TYPE_USB,
-+	.properties = s2mu005_chgr_properties,
-+	.num_properties = ARRAY_SIZE(s2mu005_chgr_properties),
-+	.get_property = s2mu005_chgr_get_property,
-+};
-+
-+static int s2m_chgr_extcon_notifier(struct notifier_block *nb,
-+					unsigned long event, void *param)
-+{
-+	struct s2m_chgr *priv = container_of(nb, struct s2m_chgr, extcon_nb);
-+
-+	schedule_work(&priv->extcon_work);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int s2m_chgr_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct sec_pmic_dev *pmic_drvdata = dev_get_drvdata(dev->parent);
-+	struct s2m_chgr *priv;
-+	struct device_node *extcon_node;
-+	struct power_supply_config psy_cfg = {};
-+	const struct power_supply_desc *psy_desc;
-+	work_func_t extcon_work_func;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return dev_err_probe(dev, -ENOMEM, "failed to allocate driver private\n");
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->dev = dev;
-+	priv->regmap = pmic_drvdata->regmap_pmic;
-+
-+	switch (platform_get_device_id(pdev)->driver_data) {
-+	case S2MU005:
-+		psy_desc = &s2mu005_chgr_psy_desc;
-+		extcon_work_func = s2mu005_chgr_extcon_work;
-+		break;
-+	default:
-+		return dev_err_probe(dev, -ENODEV,
-+				     "device type %d is not supported by driver\n",
-+				     pmic_drvdata->device_type);
-+	}
-+
-+	psy_cfg.drv_data = priv;
-+	priv->psy = devm_power_supply_register(dev, psy_desc, &psy_cfg);
-+	if (IS_ERR(priv->psy))
-+		return dev_err_probe(dev, PTR_ERR(priv->psy),
-+				     "failed to register power supply subsystem\n");
-+
-+	/* MUIC is mandatory. If unavailable, request probe deferral */
-+	extcon_node = of_get_child_by_name(dev->parent->of_node, "extcon");
-+	priv->extcon = extcon_find_edev_by_node(extcon_node);
-+	if (IS_ERR(priv->extcon))
-+		return -EPROBE_DEFER;
-+
-+	ret = devm_work_autocancel(dev, &priv->extcon_work, extcon_work_func);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to initialize extcon work\n");
-+
-+	priv->extcon_nb.notifier_call = s2m_chgr_extcon_notifier;
-+	ret = devm_extcon_register_notifier_all(dev, priv->extcon, &priv->extcon_nb);
-+	if (ret)
-+		dev_err_probe(dev, ret, "failed to register extcon notifier\n");
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id s2m_chgr_id_table[] = {
-+	{ "s2mu005-charger", S2MU005 },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(platform, s2m_chgr_id_table);
-+
-+#ifdef CONFIG_OF
-+/*
-+ * Device is instantiated through parent MFD device and device matching
-+ * is done through platform_device_id.
-+ *
-+ * However if device's DT node contains proper compatible and driver is
-+ * built as a module, then the *module* matching will be done through DT
-+ * aliases. This requires of_device_id table. In the same time this will
-+ * not change the actual *device* matching so do not add .of_match_table.
-+ */
-+static const struct of_device_id s2m_chgr_of_match_table[] = {
-+	{
-+		.compatible = "samsung,s2mu005-charger",
-+		.data = (void *)S2MU005,
-+	}, {
-+		/* sentinel */
-+	},
-+};
-+MODULE_DEVICE_TABLE(of, s2m_chgr_of_match_table);
-+#endif
-+
-+static struct platform_driver s2m_chgr_driver = {
-+	.driver = {
-+		.name = "s2m-charger",
-+	},
-+	.probe = s2m_chgr_probe,
-+	.id_table = s2m_chgr_id_table,
-+};
-+module_platform_driver(s2m_chgr_driver);
-+
-+MODULE_DESCRIPTION("Battery Charger Driver For Samsung S2M Series PMICs");
-+MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
-+MODULE_LICENSE("GPL");
-
--- 
-2.52.0
-
+Best regards,
+Ryan Chung
+> > 
+> > Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+> > ---
+> >  Documentation/trace/fprobetrace.rst | 17 ++++++++++++++---
+> >  1 file changed, 14 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/Documentation/trace/fprobetrace.rst b/Documentation/trace/fprobetrace.rst
+> > index b4c2ca3d02c1..bbcfd57f0005 100644
+> > --- a/Documentation/trace/fprobetrace.rst
+> > +++ b/Documentation/trace/fprobetrace.rst
+> > @@ -25,14 +25,18 @@ Synopsis of fprobe-events
+> >  -------------------------
+> >  ::
+> >  
+> > -  f[:[GRP1/][EVENT1]] SYM [FETCHARGS]                       : Probe on function entry
+> > -  f[MAXACTIVE][:[GRP1/][EVENT1]] SYM%return [FETCHARGS]     : Probe on function exit
+> > +  f[:[GRP1/][EVENT1]] SYM[%return] [FETCHARGS]		    : Single function
+> > +  f[:[GRP1/][EVENT1]] SYM[,[!]SYM[,...]][:entry|:exit] [FETCHARGS] :Multiple
+> > +  function
+> >    t[:[GRP2/][EVENT2]] TRACEPOINT [FETCHARGS]                : Probe on tracepoint
+> >  
+> >   GRP1           : Group name for fprobe. If omitted, use "fprobes" for it.
+> >   GRP2           : Group name for tprobe. If omitted, use "tracepoints" for it.
+> >   EVENT1         : Event name for fprobe. If omitted, the event name is
+> > -                  "SYM__entry" or "SYM__exit".
+> > +		  - For a single literal symbol, the event name is
+> > +		    "SYM__entry" or "SYM__exit".
+> > +		  - For a *list or any wildcard*, an explicit [GRP1/][EVENT1] is
+> > +		    required; otherwise the parser rejects it.
+> >   EVENT2         : Event name for tprobe. If omitted, the event name is
+> >                    the same as "TRACEPOINT", but if the "TRACEPOINT" starts
+> >                    with a digit character, "_TRACEPOINT" is used.
+> > @@ -40,6 +44,13 @@ Synopsis of fprobe-events
+> >                    can be probed simultaneously, or 0 for the default value
+> >                    as defined in Documentation/trace/fprobe.rst
+> >  
+> > + SYM		: Function name or comma-separated list of symbols.
+> > +		  - SYM prefixed with "!" are exclusions.
+> > +		  - ":entry" suffix means it probes entry of given symbols
+> > +		    (default)
+> > +		  - ":exit" suffix means it probes exit of given symbols.
+> > +		  - "%return" suffix means it probes exit of SYM (single
+> > +		    symbol).
+> >   FETCHARGS      : Arguments. Each probe can have up to 128 args.
+> >    ARG           : Fetch "ARG" function argument using BTF (only for function
+> >                    entry or tracepoint.) (\*1)
+> 
