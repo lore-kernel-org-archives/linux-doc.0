@@ -1,202 +1,108 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013041.outbound.protection.outlook.com [40.93.201.41])
+Received: from outbound.qs.icloud.com (p-east3-cluster5-host2-snip4-2.eps.apple.com [57.103.86.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D25631D757;
-	Sun, 25 Jan 2026 11:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769340863; cv=fail; b=eIU87rCb0HGVPgTrNuZgXcHfhbe8ioiu7AMo6Gzkaf+wFjt1KrDPMtMIwVSWBv7+P86/8OafyrFDQFa1KHe8c1juQhr4UFRHTStA24hGnDTvVFz9nyYhD6SBviOY/nNrdUuEA7oDQ+005tvjFreBI6kmholMuT5rNEX/4oPRMsI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769340863; c=relaxed/simple;
-	bh=dxlh5YyTOfK4DvGzGWvL8KQu3ph2gkHdjwHoTnaU1oY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KH4p3zbuwBL/psP/PniAb3TJLua+lrfPMjdSvkoOpsiThggNDDXszoDsFlcBeZazxcTAxtdsRlBd6VBroLkxSQy1jyg0PyfrF8x+Vj0jtVmyTR8b2xHKT7+APb3semB4vuwyfNGtYxc/0yLnvZAk0mrltWa2r67O08GKArxoqJY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rxLNHXgg; arc=fail smtp.client-ip=40.93.201.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDD331813A
+	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 12:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.143
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769345104; cv=none; b=cSDy5y28g1dI0iC6MEmIErm3Y1pxqiufEbanBC8tDqbURSGpzalvt16+bwUmdXFXaIPamda4ccGHa2xVjIir6/ZT+1Lx7pfzkUkch7Y8HQ9Fys6vRRK2R1t2SHWv3HIzOBHf+ZPtBNmoHv1ys7Zk5m4V6/M/p87IKTl0lOv4Ir8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769345104; c=relaxed/simple;
+	bh=HKQcMQap0+1U0DIot+idUkxFX8P0mS9duZWVdWiqVVM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cgmi4LmdRHqrIIeYaPAAiYXUiBRpxvb19YBq18hXtOYfz+1ylp8GV3GLyZHZzd2Cxl8DgZGdZQNSzp6aXyGqRey9hL5DTHJSh7lZ7d9PcPLELFYJ6aCfYYEn5ao1T/jNYTB8xcrP2LQybI16bvzh9qLGLi5CuHB/xafKj0EkKk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=bLQjDJuh; arc=none smtp.client-ip=57.103.86.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rxLNHXgg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zMR+irsCesCoAMRH+XM1La0rV3z18ZkH6ByOJpvFjoQo6hNGkwBAaMiwa3IEHyv+GHAj+ajiQKjZmZwEH+QjQdptuVrHc5/XS06Rd/QCA2vnKy5GeB3fsEkARd/5bDZQz2r+A5JydOE3btULei5U1j1e78HVGK0a0OcELpP7ZHmKbVILQAWXCXGUqOcFY4YmzawOiuX4SV6JwLgXNr1TagpoJYI8BYWRPRskZPiUfPk202Fs+/DrdhN7ajBtzTHb2foOJrxlZQ7GB9HPT9S+mDo9A1V52XeV9p24CiQY2e+YTVwP+z9j7DBkJ4AsswWvj8282wev5pSX7YH+wvKufQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ce5dEHSjywL78gJeDDj9zyYKTZ+kGi8pLFLq/25zV0s=;
- b=GohlrJR7phP17KpOgDsCIdnqmxu1FAgby04FIId0I1rxnM3rwdMGePKlcH4famz4wfvHWhU9UkrtBEyPg+kQAthwvd1nbqtmWyOC0sZpY1gubrV8WdMt4Jd8/OrMUErHM6R102rqbkFI66CR5mU7uvViv8fZxMRne2nL6KfVHLPRAMLinBrLGaIQakLM0td67Ytys3oMR2kq3Ay5IdCSoYNAuvp53eTDa/2egnZ4hqy5RZ1d83DusJ9a1fIXdzrSlPpmTDCLvyXgzY5lbtQ3fPo1YO52dTmVVN62I97J16QTh6WhmYCJV1G+NfzeSezrHBhsX4DyjFbvZG+vEnhZ3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ce5dEHSjywL78gJeDDj9zyYKTZ+kGi8pLFLq/25zV0s=;
- b=rxLNHXggk0teYOn3jLUGJVzl6azeI0wJ+gWO7OYKyrjdALgQ4C7bzfKOos+xbd45JuPqLD1Aiy4WgEWspW2o2vm24/Q1GKsAEue3qRM8FajZmpdb/Gj6WOkSKF3ZMOMcVeRKkBzwQW+BxdG2w/LPxiZ+aXnao9ULz6oFUMzIW2rRUNhGe4MnhL+OLNwWGO6rcCmD2AjtQ1w8we4znkKoz+gH5C9G2OsJcbzfbS3zmU1Q+IUkUus3645kBpQ+R9/9nM8p891bjWs4NeZkVuCIeqL5fH4YBdq8I9xELgzmiGTax7QULdMHpCKG0YoAKFnuCTolL3a2xld6jytemOCTsA==
-Received: from SA0PR11CA0129.namprd11.prod.outlook.com (2603:10b6:806:131::14)
- by SJ1PR12MB6146.namprd12.prod.outlook.com (2603:10b6:a03:45b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.14; Sun, 25 Jan
- 2026 11:34:17 +0000
-Received: from SA2PEPF00003AE5.namprd02.prod.outlook.com
- (2603:10b6:806:131:cafe::1b) by SA0PR11CA0129.outlook.office365.com
- (2603:10b6:806:131::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.14 via Frontend Transport; Sun,
- 25 Jan 2026 11:33:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SA2PEPF00003AE5.mail.protection.outlook.com (10.167.248.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Sun, 25 Jan 2026 11:34:16 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 25 Jan
- 2026 03:34:06 -0800
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 25 Jan
- 2026 03:34:05 -0800
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Sun, 25
- Jan 2026 03:34:00 -0800
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Moshe Shemesh
-	<moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
-	<cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Randy Dunlap
-	<rdunlap@infradead.org>, Simon Horman <horms@kernel.org>, Krzysztof Kozlowski
-	<krzk@kernel.org>
-Subject: [PATCH net-next V6 14/14] net/mlx5: Document devlink rates
-Date: Sun, 25 Jan 2026 13:32:03 +0200
-Message-ID: <1769340723-14199-15-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <1769340723-14199-1-git-send-email-tariqt@nvidia.com>
-References: <1769340723-14199-1-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="bLQjDJuh"
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-20-percent-2 (Postfix) with ESMTPS id 9D7431800344;
+	Sun, 25 Jan 2026 12:44:59 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1769345101; x=1771937101; bh=OOrdWrqu5e7mJVtIxOujFcOimuHlCYN2cB/9N01k4Zo=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=bLQjDJuhOzbIsCJvwdCRXd6e/7Z/yrdYlAXrg7kNj2erywEbz01EZQab8BEYujYsFerti4aiI20YImtsnXYOkCiYFfg+Qb/Ju/+2hAf5rE5fc3NsXBFrJJ6e/mv63cqUQvFxPGMfxfuYXZb5klfUqCIxYx42CVg02owPnC3+PnBnzND47AfDkhjnCmh1E+QsWu6z6Y/JLSZ3VVTaLaKGCj+fzbwFCS4+7Sl2WfxgWL2oLLWGXjvnZBAbxNcFf5JhVbperjI6oEvCgrujxQqU9RosLImoaxgE4aFK5FGbUJgxgF6GgiB2LH/OqFPH+Av2EzCY9OnB53i5X5NgJuAFiw==
+Received: from dedsec-amd0.tail874668.ts.net (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-20-percent-2 (Postfix) with ESMTPSA id 36B38180036A;
+	Sun, 25 Jan 2026 12:44:56 +0000 (UTC)
+From: Yulong Han <wheatfox17@icloud.com>
+To: mchehab@kernel.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wheatfox <wheatfox17@icloud.com>
+Subject: [PATCH] docs: automarkup.py: Skip common English words as C identifiers
+Date: Sun, 25 Jan 2026 20:44:50 +0800
+Message-ID: <20260125124450.2005006-1-wheatfox17@icloud.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE5:EE_|SJ1PR12MB6146:EE_
-X-MS-Office365-Filtering-Correlation-Id: b67969c7-13ea-4a90-ad3b-08de5c05ac60
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4fONciB26mGnn8InAGnFhhsMiPEEHq4lSQuFSvIgW1JbAeer8LL0YDHQE/jU?=
- =?us-ascii?Q?7xFdqPb7K808ztqSBuV8UCq+5phY6jLR+9TUwGU1lrop2xUG1sHPnoszZ/k+?=
- =?us-ascii?Q?8yOSKujw5QeiMDv/jj6mAp+R/0fwpg96cAH0oOvoqZpFCdfnatXNYiEpDIGB?=
- =?us-ascii?Q?+ZS56S7+zm2d5P4bm6F6IGdWEqFgcV/c7wd8d0p4sIgfLHZRPbWAq2kDJswc?=
- =?us-ascii?Q?3ZkrtG/ksLUE1nXycywE6E+0k/S7L55sAZs6gB0mA72zZfenZ55jCsEev3I9?=
- =?us-ascii?Q?ji51DjWvb7BOze/chlbTPcuAJ3DBVSLjxy/Te+wCXZlsbHvcjGsgavkFk70D?=
- =?us-ascii?Q?zhV19YPY993/lvSOYf0wyQ39ot+f95IIY8UFjtBxpHGC+rBDKEwJ7smbHOKe?=
- =?us-ascii?Q?SFTsKE22rCnt71k15RnfniDjWNx+GzNCYtZXr1aG9wo0nicUZ6CsrU58d0An?=
- =?us-ascii?Q?LnUijARuSvWZXeVmuVGch/AR7tT6+Gconzf6983SQLLdrerr7biKDPZwsQ3Y?=
- =?us-ascii?Q?oRO+7kxRUbynBP7HZ3q237wK7GFpA6nuN6MtYLP0wAe5TY0TA6jYdumUDlMI?=
- =?us-ascii?Q?ZdGsz76PAc+gaD6JiiV/L6PKfJeMZQLnUR7SR/fEEkzyxqayO/+k5rOMd+Tk?=
- =?us-ascii?Q?iGVcCLcFSPCukGRJbtHjngfxyQRXjbJeoThHSF9LAnGmN5tm8AI/Kw4taiGl?=
- =?us-ascii?Q?CcRawjxdpnSahK8vQZ+sQq6pMiKgvx3zyK+N01uPygYgGsPyGyV4RxTTTS4B?=
- =?us-ascii?Q?t8VQ/DSvuLjJxI3Yj8ljqz+/klKuf8nD9OHradK4D6ectoKTwbA7XNaKW6IG?=
- =?us-ascii?Q?ADG9xOgyqXixUfQzY5hxQsPx6iea5gfKa41uI58PHJEdKRaBexXk3mMWCAdj?=
- =?us-ascii?Q?4mPSAOqHI+/ksEmzz0emSXwFvlMOG4iD5d8LxktGitsEtw3a0Y6Cyl3MB2oU?=
- =?us-ascii?Q?C3E9z7vcHZjG74DtAfZ1J///Z5vcANPC5e8kgWrNkGWgRVNjD/ja3Sb5cofq?=
- =?us-ascii?Q?TGiFaoJRDVxFA2SseE3ve17pB4F5w/XtwB0DXZogFhvHzTiRV5u1AgrDIye3?=
- =?us-ascii?Q?RTOpeSorflVouio5OTsWYr6TPtCeGva0SZe9+RyMOrFzOHfge6KbeBaR3CIR?=
- =?us-ascii?Q?AL0xe9C7s+qeM/jXbsyRB0E1HMvAsxePdn7pz5CAm+tjNoz9pCFi4JqLNOGy?=
- =?us-ascii?Q?JMWH752hAtCttsHkwQ8KoHf4Z6RouRQ9ZyalKmyjgbnr0Stk4dmgxJTpqlCQ?=
- =?us-ascii?Q?y4uLmRXz2xXG282Z5nm6i74qKk0PPYo7XgcjJtBNSgiSKHZ8XIH5PytXmdYj?=
- =?us-ascii?Q?SaPhFzPSeYvelKU1ytuqeuriPxLF7FKG1G+FysIxeqYT/ntkwHRJIfRbk3LH?=
- =?us-ascii?Q?xQOCKEoE1RxF3O25iEn5TPFEWTTYySSY9lUwgBfCvMXMvh7/5+SP461DUXgI?=
- =?us-ascii?Q?YSMa/ngxJHyzavfM4A5EDkZfUxp5ZlyxY8mdw5nwj+sTF8SbWTz5njO6KHxa?=
- =?us-ascii?Q?y6lF+Qd4Sg0OgD/P2A71V7PUbxyEaaAcRnMQVpAGbgZllrLIDSBv+CjCsQif?=
- =?us-ascii?Q?y+DJRgmRSV/WY/4DgqNiuk5btWsjm7eeaaOcAeanL/i/pU77/Javt0c9fpgT?=
- =?us-ascii?Q?Zr3qWN2nO3iKW8E/sZUO2WQx9Qpvo39Rv1PdDoq3PTTNhKIRDGKtsxnHXkN1?=
- =?us-ascii?Q?gS34pg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2026 11:34:16.8430
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b67969c7-13ea-4a90-ad3b-08de5c05ac60
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AE5.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6146
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=D/xK6/Rj c=1 sm=1 tr=0 ts=6976104b
+ cx=c_apl:c_apl_out:c_pps a=bsP7O+dXZ5uKcj+dsLqiMw==:117
+ a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=vUbySO9Y5rIA:10 a=x7bEGLp0ZPQA:10
+ a=wIqLKzeCRP0A:10 a=VkNPw1HP01LnGYTKEx00:22 a=v3ZZPjhaAAAA:8
+ a=6DNX4KSEXEvrVo_5AQ0A:9 a=rA1zylPnuwYoWo2zmoT6:22 a=0pBa3l49qnM4LAj5lDSL:22
+X-Proofpoint-GUID: siDDQemm3Nz-rB3-YHQPL8OX9LxJGFTe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI1MDEwNSBTYWx0ZWRfXxJyIkr3eVYqE
+ 3g7Fg9avm90D+9PtNhs3yICQJLYaFZdxkhUAbjSEBcoho38Fld1weqc/8MrZkosGhkhzapHS8Yq
+ RUlqVH5YKFC0E7CUI5Jpk1uo7AK9B31ncdUGBUXYd55/HomN9a0hEM6pjIQeaTFhC/fkIDtgMRV
+ smga6Z3X8p3v7o7UwZT9MhJ5QPawm8duNMyFPX5ZLuhJ9q0w8EH86Fkd6NoL/Aqoo4RtUdvVM5u
+ dBOPFwb3A/i3m1RjDcikw23OCm07jurgZUTU5YhH40or+BrTQfrqn1t5wYIzkGRUkwP9W2KtmqJ
+ QOjDFpre6vygmxPD0b8
+X-Proofpoint-ORIG-GUID: siDDQemm3Nz-rB3-YHQPL8OX9LxJGFTe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-25_03,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ adultscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2601250105
+X-JNJ: AAAAAAABkGRYqEK7eLxvYFqlaGllwTnqucfGPq0dCxYWH7qCAunOoB/izDhRf43lS1/8qXfBayk8MQH1ekDeYYsEgbvekYEydgcFNeJOqlld5dDNmeb3R6zTrftUNloJ4keMME+aTJGR61nsu08GI7xMwE+1zEpjjTuUrJSvuWmDJze/ql5fTza7h2JTRZnLp/E9/sr8oi9m6VV1KMibQ0xwCeNSV/974mW12mxO9dJOshwWXuq/XbS4vCn//c7h1TOA0oDw8nHL2dFBebqK3u8tP1UMdK8eH4vpgs4iF6XXCUvQSpcdb8N8MsnWpMqHWCDPe6I4H9KqLS6Vo3RO76jorQEQnBuGGJdMca0RSq3Loc6g0VS4mzsDsbHpxVHHgYbCJ+jjYCUMm1NaEg8mCHsYh5IuBjWaDDrzX9FydUm1aDqeeL62hIedyKVmfyO2pfZSSm2XWQqJw/QgcB4aZHm+vKvUESwVvuGlov2LN1f/MjOQHSJQGVrzRxrJVSnRhepQUFO7Xnv/sdibXgO7mErBR7RmAhBqgD51kDemD9kgtWus+x4mepIbKxLwXR2c1fB4NzvlsOm61LtGugM62K/JMv0N/SqRMqHgBTCVXpcTC5y0VUyP2ruHmx0Jr9dAvpUXEeDpfa1TgXXPklOg8xbSII1PzbVBNPGIoT1tthR+ewyJFk7nj69l0lkKww==
 
-From: Cosmin Ratiu <cratiu@nvidia.com>
+From: wheatfox <wheatfox17@icloud.com>
 
-It seems rates were not documented in the mlx5-specific file, so add
-examples on how to limit VFs and groups and also provide an example of
-the intended way to achieve cross-esw scheduling.
+The automarkup extension incorrectly recognizes common English words
+as C identifiers when they follow struct/union/enum/typedef keywords,
+causing normal text like "... (a simple) struct that" (in `workqueue.rst`)
+to be rendered as code blocks.
 
-Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
-Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+This patch adds Skipidentifiers list to filter out these words.
+
+Signed-off-by: Yulong Han <wheatfox17@icloud.com>
 ---
- Documentation/networking/devlink/mlx5.rst | 33 +++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ Documentation/sphinx/automarkup.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/networking/devlink/mlx5.rst b/Documentation/networking/devlink/mlx5.rst
-index 4bba4d780a4a..62c4d7bf0877 100644
---- a/Documentation/networking/devlink/mlx5.rst
-+++ b/Documentation/networking/devlink/mlx5.rst
-@@ -419,3 +419,36 @@ User commands examples:
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+index 1d9dada40a74..c2227ab0a891 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -46,6 +46,12 @@ RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
+ #
+ Skipnames = [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
  
- .. note::
-    This command can run over all interfaces such as PF/VF and representor ports.
++#
++# Common English words that should not be recognized as C identifiers
++# when following struct/union/enum/typedef keywords.
++# Example: "a simple struct that" in workqueue.rst should not be marked as code.
++#
++Skipidentifiers = [ 'that', 'which', 'where', 'whose' ]
+ 
+ #
+ # Many places in the docs refer to common system calls.  It is
+@@ -163,6 +169,10 @@ def markup_c_ref(docname, app, match):
+     if c_namespace:
+         possible_targets.insert(0, c_namespace + "." + base_target)
+ 
++    # Skip common English words that match identifier pattern but are not C code.
++    if base_target in Skipidentifiers:
++        return target_text
 +
-+Rates
-+=====
-+
-+mlx5 devices can limit transmission of individual VFs or a group of them via
-+the devlink-rate API in switchdev mode.
-+
-+User commands examples:
-+
-+- Print the existing rates::
-+
-+    $ devlink port function rate show
-+
-+- Set a max tx limit on traffic from VF0::
-+
-+    $ devlink port function rate set pci/0000:82:00.0/1 tx_max 10Gbit
-+
-+- Create a rate group with a max tx limit and adding two VFs to it::
-+
-+    $ devlink port function rate add pci/0000:82:00.0/group1 tx_max 10Gbit
-+    $ devlink port function rate set pci/0000:82:00.0/1 parent group1
-+    $ devlink port function rate set pci/0000:82:00.0/2 parent group1
-+
-+- Same scenario, with a min guarantee of 20% of the bandwidth for the first VFs::
-+
-+    $ devlink port function rate add pci/0000:82:00.0/group1 tx_max 10Gbit
-+    $ devlink port function rate set pci/0000:82:00.0/1 parent group1 tx_share 2Gbit
-+    $ devlink port function rate set pci/0000:82:00.0/2 parent group1
-+
-+- Cross-device scheduling::
-+
-+    $ devlink port function rate add pci/0000:82:00.0/group1 tx_max 10Gbit
-+    $ devlink port function rate set pci/0000:82:00.1/32769 parent pci/0000:82:00.0/group1
+     if base_target not in Skipnames:
+         for target in possible_targets:
+             if not (match.re == RE_function and target in Skipfuncs):
 -- 
-2.40.1
+2.47.3
 
