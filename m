@@ -1,118 +1,210 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967B918E025
-	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 16:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427AB23ABB0;
+	Sun, 25 Jan 2026 17:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769358109; cv=none; b=C635WcWzegX4hR2IJjk5ms/CF/pL3WIGJM+d8qDlCZ+9wuu4RO/CW0fsMdIOoLUz7xjNcfj62lvtPXKSHZxo98Od3iY+OV6G3cOpXmkyK+xzcbRu8v2aLLM4c7XR/yf48JxGQeWmbGvzp4UHq2CJHAkOfXO5ItsiiXLOo+1iEfA=
+	t=1769363601; cv=none; b=SoNr04UzhAftZkldvbHamd+slxREMHlZuydY9/RJB/JwQIsXI9CBkh3GC0Vw66wIt5/UNi63VpGkpmfVJMuFlkH8afJSFYUfM2DRIYFG074YpdUDAMBgU45ufMTHHHm6DjATDpPSnmVv6bpjhtoTZkYLEMad2ulK3nueLfJIr5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769358109; c=relaxed/simple;
-	bh=obQvDZorVnhQdKEsyrJSMxSCH0o4Jy+gXZBmk8QLb30=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=WPu2fzKsR4tpBYIe69rZ9acYqzRv2DjznEocVgKGH13w3/KkpBcnK01m4pZZM8vDuUGHF3tspB98fmFjOX2K+JSA7Va2F0Ex1n9SHumrciNFjNXTgBnCL6dhAM88FDNHKXKRZ6lSTTVKcSb4OhFrkReSB5DBYumy603U030+wms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4q8C4H1; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769363601; c=relaxed/simple;
+	bh=Ya143pLnp+mt64WgHf4q1czND9Wa21il7OcjnI5INsQ=;
+	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:Mime-Version:
+	 References:In-Reply-To; b=U8+FVxnIzxhPtywUNy4t6H4Z1A5Ywn00RFvBuhqqpISWBsIyOobQmNiBdUOksdIuq2X8yT6haxKI2t29z041yKl2YbO7ZWD5BGqRpf7Jq/DyaerX2ggR22eZYg3oMF3dJ240T2vWQGFps/qGjoMzVqvptc/+D2G5c59Hel44BsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3GCqhiQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4q8C4H1"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-81e8a9d521dso2183191b3a.2
-        for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 08:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769358108; x=1769962908; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=svQOTrlqjRD0OScRO/xUlvVvTCvnFrzLdgIETK8TZSk=;
-        b=G4q8C4H1webzeSgIWeG6KN762QR6h2a156ZUIWti+5HpqgG0iOWblr2ltgwJL7ASQZ
-         vU93Mp54wM1msQ7o0hXq0/NbppYrXuHpZjpHfiGf25N4RnjY8ww8TGtMK+xZDCea4T+q
-         35DWK19/o6JIzVgJi92aYylfK4wv+ElyD4uvlAoYXgx8ecdebqaELJm4H/7iCc2CgUiD
-         HZv/lSuj/ex0D0CY19jzPNiGzAfFB9w5nbKI+vG6i35VtK6wy066Rtal03YUga4XRIzO
-         w8ZCHMS5pgnHhJAAN6fMI9GbxJ8bHZfyxsfTckht02q5dHvaWLgWAiGpSxyYl6LunM9O
-         uUww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769358108; x=1769962908;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=svQOTrlqjRD0OScRO/xUlvVvTCvnFrzLdgIETK8TZSk=;
-        b=wKVQAf0Ilq8yIUxt7Cu1VBwcCEnf75HE1vkfSPIEGEnXiXW44W3KCOWj06D/CgYtyc
-         n3bZ+Puul6PU2PiVQlUex92qXldupTCVl/RcnWXouEQERof3uKsT6e10/cCTrKP0UTnd
-         OIWlpujj5hAnWelQtd2JWeRtbpugqpMBwp03HiOQaAUR47RUBtPPdZQzOG9q+nT7R2RE
-         zN6uVQgvLUSWuU4kA1iilKfEfie+1rGffyr3nqj+VhTy64bW6DRHo3Pez2/E/e97fVlp
-         65cY0Jq4eMwaUWXoDzX3Ukh9nxyb5UJf+T5PWLk0VEMiRPfzfApk82iuQtUzWgAmep/Y
-         qrhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWIc3+MZ/uObFSbnE3BkD+2Cwdj5u+ZXnuI7U0ob9xnBf18BK7wXsvqDeJN1Kw7I8LV9Vpuv5U5O9Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvJ5ALWw+in672mOKVtQGLAsevCchu938odeCqL/X4lHFelwSx
-	XYmZgEjgbTM0yAIU3Lbtv7n4Iq09Swdcr34/oFd5ejYWN3FAoHseXWOS
-X-Gm-Gg: AZuq6aKj+SkLCd1b2OdhhF6pbiBVcPuhInkaEKTriioLsDLnHORkAhS5C09WnZTggAy
-	64jRxzrGt9dFQZivdC+toTSlXHbzePb2X6BVZk+FHbk8/Ehs60NnD7sQIhPiDdayp7uucSAKbYI
-	Wqzy5BzRGIKoDImB/LQQPlpOFvbUfPUYEJR1/MVo96slM8ZWWHvao6m23x8pFvE8xIRlvPCx1u7
-	kU+Z7Fij7lytQiwKtKAGYJ6xvm6ICVrT8g91GO1PVJJ7sxGNDPiKQLwv/RKrPqMQ0MYf6ok3iLm
-	2c6IDHn6rGrGzRfvZ3v9jfrgd+gpVcXiz4AEZDk+riIr9+x8fU3Iw7tbJOoKxjAn0cgMo+AY1vL
-	k/S2vUyJmxqsFQrYLCQCVJ6xOKsh5qw5346+pgM9BMzrLv/hHFQZfTT/Dw3jixbyEOvlIonH4rM
-	oeBcaO3VBMfw6DH+PxOuy8PpOIfE9l0QjmU5bNJCFRgwj6FGuzK8XxwtsvVCrU1uRY3s8jVp2tY
-	xOZtKBNel8BNyw+lbPuTw==
-X-Received: by 2002:a05:6a21:a345:b0:38e:87b7:5f88 with SMTP id adf61e73a8af0-38e9f1458dfmr1479709637.27.1769358107744;
-        Sun, 25 Jan 2026 08:21:47 -0800 (PST)
-Received: from ?IPV6:2405:201:c005:c1:348e:c3fc:376b:7a6a? ([2405:201:c005:c1:348e:c3fc:376b:7a6a])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c635a43f11csm6520227a12.35.2026.01.25.08.21.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jan 2026 08:21:47 -0800 (PST)
-Message-ID: <0bb5ad12-dd5a-4280-bf6e-7d1ddb59dd9e@gmail.com>
-Date: Sun, 25 Jan 2026 21:51:43 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3GCqhiQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CC2C4CEF1;
+	Sun, 25 Jan 2026 17:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769363600;
+	bh=Ya143pLnp+mt64WgHf4q1czND9Wa21il7OcjnI5INsQ=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+	b=e3GCqhiQeIm5xovvXbiG3RAEPcRyiAPSgOxptRKcPChegT/8XpB/NL6NiTKkNERgg
+	 4LtKHnWKlQsw7WvWG7oGbwsvmqfn+dkebZKOhV/vvfAqwgnXMFmve94dZyyOZvq1nm
+	 mYdrwUUkxrFvMppXVhkrDdLJYmdsoA7heAsRSz5dxoaxA4Hy8G8PLC0JTON5S9rg1O
+	 bzHv5JToGTvrn0TxPDyQQLQlFbZSbCns/UoFvS0Q5HQU4dbhT7keqbQVVEoYB1KPUf
+	 Scq+i0ociiBdhfMk4zt37JPbe1jo8SmhoA3+Cu/B9csQy3E9rUO4QF1aNNFfWTzDW2
+	 fcYg3zWBH72/w==
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 25 Jan 2026 18:53:15 +0100
+Message-Id: <DFXV1QMQMTRK.2W8SWGVHS2K69@kernel.org>
+Cc: "Johan Hovold" <johan@kernel.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Tzung-Bi Shih" <tzungbi@kernel.org>, "Bartosz
+ Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>, "Linus Walleij"
+ <linusw@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <shuah@kernel.org>, "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Simona Vetter"
+ <simona.vetter@ffwll.ch>, "Dan Williams" <dan.j.williams@intel.com>, "Jason
+ Gunthorpe" <jgg@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: workflows@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, corbet@lwn.net, linux-doc@vger.kernel.org
-From: John Ashrith <johnashrith6@gmail.com>
-Subject: [PATCH v4] docs: clarify CC list guidance wording
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+In-Reply-To: <2026012554-chatty-policy-42a1@gregkh>
+X-TUID: cc8RHMit42Rm
 
-Changes since v3:
-- Add proper changelog text
-- Move version notes below the --- line
-- Send as plain text to avoid mail client mangling
+On Sun Jan 25, 2026 at 1:47 PM CET, Greg Kroah-Hartman wrote:
+> On Sat, Jan 24, 2026 at 08:08:28PM +0100, Danilo Krummrich wrote:
+>> But to be fair, I also want to point out that there is a quite significa=
+nt
+>> difference regarding the usefulness of the revocable concept in C compar=
+ed to in
+>> Rust due to language capabilities.
+>
+> True, but we do need something.  I took these patches without a real
+> user as a base for us to start working off of.  The rust implementation
+> has shown that the design-pattern is a good solution for the problem,
+> and so I feel we should work with it and try to get this working
+> properly.
 
- From 1de01779d580e104bea0148409c3c8c76d204c41 Mon Sep 17 00:00:00 2001
-From: John Ashrith <johnashrith6@gmail.com>
-Date: Sun, 25 Jan 2026 14:48:28 +0000
-Subject: [PATCH] docs: clarify CC list guidance wording
+I agree, it's a matter of figuring out the best way to adopt this pattern. =
+(For
+those reading along, [1] details the Rust implementation to illustrate why =
+it
+may not make sense to adopt it in the same way).
 
-Clarify that recipients should not be removed from the CC list without a
-good reason, and that replies should not be sent only to the list address.
-This avoids ambiguity in the guidance.
+> So I don't want to take these reverts, let's try this out, by putting thi=
+s
+> into the driver core now, we have the base to experiment with in a "safe"=
+ way
+> in lots of different driver subsytems at the same time.
 
-Signed-off-by: John Ashrith <johnashrith6@gmail.com>
----
-v4:
-- Add changelog text to the commit message
-- Ensure patch is sent as text/plain without mail client mangling
-- Place version notes below the --- line
+I also don't think this should be reverted -- I think it makes sense to sta=
+rt
+experimenting to figure out what's the best way to adopt this pattern.
 
-  Documentation/process/howto.rst | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+I think DRM has already shown interest in adopting this, and I think I have=
+ also
+seen patch series doing preparation work to be able to adopt this pattern a=
+s
+well.
 
-diff --git a/Documentation/process/howto.rst 
-b/Documentation/process/howto.rst
-index 9438e03d6..5a29111d6 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -403,7 +403,7 @@ interacting with the list (or any list):
-
-  If multiple people respond to your mail, the CC: list of recipients may
-  get pretty large. Don't remove anybody from the CC: list without a good
--reason, or don't reply only to the list address. Get used to receiving the
-+reason, and don't reply only to the list address. Get used to receiving the
-  mail twice, one from the sender and the one from the list, and don't try
-  to tune that by adding fancy mail-headers, people will not like it.
+Perhaps, to address some of the concerns, a good middle ground could be to =
+mark
+the feature as experimental with a separate Kconfig in the meantime?
 
 --
-2.43.0
 
+[1] Revocable in Rust
+
+In Rust (most) device resources are only ever handed out to drivers within =
+an
+opaque container type specific for device resources, hence it is named
+Devres<T>.
+
+The Devres container type uses the Revocable type internally to protect the
+actual device resource; the resource is released automatically once the
+corresponding device is unbound from the driver (for which it uses the "nor=
+mal"
+devres infrastructure).
+
+There are mainly two ways to access a device resource with a Devres contain=
+er:
+Devres::access() and Devres::try_access().
+
+Devres::access() provides a zero-cost access to the inner device resource, =
+but
+requires a proof that it is called from a scope where it is guaranteed that=
+ the
+device remains bound. This is achieved by Devres::access() taking a
+&Device<Bound> argument, i.e. a reference (not reference count) of a device=
+ that
+is guaranteed to be bound for the entire lifetime of the reference.
+
+Let's have a look at an example with an IRQ handler:
+
+	struct MyIrqData {
+	    bar: Devres<pci::Bar>,
+	}
+
+	impl irq::Handler for MyIrqData {
+	    fn handle(&self, dev: &Device<Bound>) -> IrqReturn {
+	        // Directly access the inner `pci::Bar`; fails if the resource
+	        // did not originate from `dev`.
+	        //
+	        // (Internally, this is just a pointer comparison between `dev`
+	        // and the device the `Devres` container has been created with.)
+	        if let Ok(bar) =3D self.bar.access(dev) else {
+	            return IrqReturn::None;
+	        }
+
+	        // `bar` is a `&pci::Bar`; no (S)RCU read side critical section
+	        // involved.
+	        bar.write32(...);
+
+	        IrqReturn::Handled
+	    }
+	}
+
+Since the Rust IRQ handler always guarantees that it won't race with device
+unbind, we can provide a &Device<Bound> cookie and hence directly access th=
+e
+device resource with no cost. Due to the type system representation of the
+device context state, this is checked at compile time.
+
+We can do this for anything that guarantees a scope where the device must b=
+e
+bound. For instance, if we guarantee that a workqueue is torn down on devic=
+e
+unbind, we can provide a &Device<Bound> cookie for all work items scheduled=
+ on
+this workqueue. The same applies to subsystem and filesystem callbacks etc.
+
+But, if we are in a scope where we don't have a &Device<Bound>, it means th=
+at
+this may be executed after device unbind. Consequently, drivers can't call
+Devres::access() for direct access of the device resource (because it may b=
+e a
+UAF) and, instead, have to fall back to Devres::try_access() and friends.
+
+Let's take some DRM IOCTL for instance:
+
+	struct MyDriver {
+	    bar: Devres<pci::Bar>,
+	}
+
+	fn ioctl_vm_create(
+	    drm: &drm::Device<MyDriver>,
+	    req: &mut uapi::drm_mydriver_vm_create,
+	    file: &drm::File<MyDriverFile>,
+	) -> Result<u32> {
+	    // Runs the closure in an (S)RCU read side critical section if the
+	    // resource is available, returns ENXIO otherwise.
+	    drm.bar.try_access_with(|bar| {
+	        // (S)RCU read side critical section starts here.
+
+	        bar.write32(...);
+
+	        // (S)RCU read side critical section ends here.
+	    }).ok_or(ENXIO)?;
+
+	    Ok(0)
+	}
+
+I think those examples make it obvious why a revocable implementation on th=
+e C
+side can't provide the same value and ergonomics due to language limitation=
+s,
+yet I think it makes sense to start experimenting how subsystems can adopt =
+this
+design-pattern in C.
+
+One additional note, while this overall can come across a bit paranoid, it
+achieves a clear goal: It becomes impossible for drivers to mess this up an=
+d
+create memory safety bugs, while at the same time causing zero overhead in =
+hot
+paths, that can be proven to not have a potential for such bugs in the firs=
+t
+place.
