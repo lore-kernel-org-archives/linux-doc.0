@@ -1,225 +1,295 @@
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012019.outbound.protection.outlook.com [52.101.48.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FD2311960;
-	Sun, 25 Jan 2026 05:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.35.219
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769320355; cv=none; b=RBctnoGXXyYWbEj8ekdo86PNqta6K2NJcGm/IFAa5qjXu0wnYoDaPCu8L2mvgeGABg4hHID1KdfiWTJ48sjCRn+wwQFytMPQpEdPmKEyIzpuJWygWnWTZj45QR09RmD1FeHJUEKfWQ1VtdS/rqrQd1Dc+WH0Ii8piKat/k0Htu4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769320355; c=relaxed/simple;
-	bh=Vm3XpbxQjg8eNNf05oSuTwoCh2D+UTbeYUaTvqCtz/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cp5ENtpBrL5N2GUakXqPKL+Py9IBNn+1BZjiXgZBX+83mPAkooaB8x8vqiC4L/LQIQapR6zokgPgzaO0KMYK+Qd1hb8XbJEujWYan2xvS5JIHXxZ3rGiU1WMLPV9kZqS4iciSkta6NUL6yA1ff0EVBHJb7t3jmMs3iLYklkNOvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=BUZHRdST; arc=none smtp.client-ip=51.81.35.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEAC1D88B4;
+	Sun, 25 Jan 2026 11:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769340779; cv=fail; b=C+8bNp/03TdL4LulpYEFdK7zliCPDs60EV0iCH8vJmLHq36xqAW/N9nGd64fZnR/nqfVV4jnhXxFNS4M7lAUKSAF1OAPYun73Xw5aoDVbYRh7pYNtbtgn8U2M9ISweHC5k7GdKRaCDcIgKaLolEZUU6juF5xQX40NIdiRk8DJp0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769340779; c=relaxed/simple;
+	bh=SixM0S8dj089ipMBzvHuNO0x0uFu/e0Z/G1TecCCsdA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pJeRZbLl1MWqSyRkNcwzPMbzAJHQgg/WIkG/87dOPBTOCda5Ta93sp43l7KZaXFOMnHVsp3A+N385pGi5s9Ma4xrh6X0JRdlctG+sj8Y/oO883cWBJP8F3e7jSCBjCmPt1XdK5sb7iUB0CVLGVhapQk2IIS1zu4zZeV6rCqNZqM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ssqimojS; arc=fail smtp.client-ip=52.101.48.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="BUZHRdST"
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
-	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 0DF9D2021B;
-	Sun, 25 Jan 2026 05:44:09 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.156])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 2414720233;
-	Sun, 25 Jan 2026 05:44:00 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id 2614F2073A;
-	Sun, 25 Jan 2026 05:43:51 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id 1CBC540073;
-	Sun, 25 Jan 2026 05:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1769319828; bh=Vm3XpbxQjg8eNNf05oSuTwoCh2D+UTbeYUaTvqCtz/0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BUZHRdSTk9aVp5GdKTYJNz5juygpyljFqCUvnAZAnFzJl/VmPjln88e3Nlw+N+FnC
-	 kvrU1actQ4DJsx9Ea7YHCWSLtLS0cVvdvcDNkTfJrLAXbL0J6EzcJQkOdyFyYPdESd
-	 NmnufOu/yHhemlfXPlOC9k5lh7/Iwqei8snTjCJg=
-Received: from liushuyu-p15 (unknown [117.151.124.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id BDBE24097F;
-	Sun, 25 Jan 2026 05:43:35 +0000 (UTC)
-From: Zixing Liu <liushuyu@aosc.io>
-To: WANG Xuerui <kernel@xen0n.name>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Bibo Mao <maobibo@loongson.cn>
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Zixing Liu <liushuyu@aosc.io>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH 1/1] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-Date: Sun, 25 Jan 2026 13:43:22 +0800
-Message-ID: <20260125054322.1237687-1-liushuyu@aosc.io>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ssqimojS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K3G3ulLSjNDQCUg94tbKcTuVO78p9Fp54Uz7KOum5dWLWhIUmZ32sV2E72VEh3NjiEG391t5BXFjv4thlTCRI+zjLq8lAxe+EqqS9EjO0D/9+L5f3WRMqd5weL/eSo0WnspkAO/Z5cE7EYMllTGGjVwSDIbL41u02sDvQX7u/xMT2bm6UrowCV4Gn0bW8ei0D32BnPMvQILdiRc7n0ZHXtUm2J/3HuEVmIxfN5EsUzdLwP052ahrci7Kso5qHqxcQlWzW1vgLhBmKjMci52xlvwEwQO+lpu2PKjF0x3wj8j6s2WG7caMNXTzPRbcu4o5VdINFpC7xAjXN1jSGVpl1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9KYUNjEX2M7+evT4u556zHqvVOIfB9aLc8PlatASMk4=;
+ b=BarOkHNZH7nx5o8n5xLALfIKTXzbari6NwxqnWyGFWuVyTMKgwuQHOgMUXBqFb85SJDTsHtLS0UIlZhRSuDJrJ+B8lCGIwP6iFmsEV4o78baU/XToKk3/5I+y4dOpx/egNY213D1P3ZWFYGbhSopXf8zV4VHlKhpd+rA/CqE1x0baW/IGerKuTfsXaHBalktXhHHqpihuRaRpfancDUwchbAzguYS6/QnQCOPhzWknkvav6ycGXaDCCS5pA25Fh6DWNwvFK52++XjFn36CqY69EPawai713wpR2ZP+O7yRa4+7cVNGAVFZCSuB/ZFSM97LtD8XVymPT7LrONgyFEIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9KYUNjEX2M7+evT4u556zHqvVOIfB9aLc8PlatASMk4=;
+ b=ssqimojSNi+uESufsK9PsJ1JR56ljmncdwn47xnpkcMeEdkkUCor5nHNgeDyfSGt1qHZBBJkhjn3ZOQRcue4bt1SESgmoaY8eOVHmOLbuWEYs7GfYzCM5HWoPSAIiBgcqNFonYp3WksqjVAS//PbAsae1lHbofJ8Y8ah5l1UfYYlxpHMp+0Vtny23+jw1IKhWcr2iAX0gFD8mcUYIlT5bAt3Go4coA1b7v0Nex3Xp63VIpWebm14HqI/I+6TFvXWrbpaRX8YhRlZZgfzSHh1Etws5BGYhiioi5z3j2Mm0cNHcno/8Td9iVCm25dvoJ/5Z9R3n1NJOBKY+x9nhL5Ecg==
+Received: from MN2PR06CA0027.namprd06.prod.outlook.com (2603:10b6:208:23d::32)
+ by MN0PR12MB6149.namprd12.prod.outlook.com (2603:10b6:208:3c7::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.14; Sun, 25 Jan
+ 2026 11:32:54 +0000
+Received: from BN2PEPF000044AA.namprd04.prod.outlook.com
+ (2603:10b6:208:23d:cafe::b4) by MN2PR06CA0027.outlook.office365.com
+ (2603:10b6:208:23d::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.15 via Frontend Transport; Sun,
+ 25 Jan 2026 11:32:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN2PEPF000044AA.mail.protection.outlook.com (10.167.243.105) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Sun, 25 Jan 2026 11:32:54 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 25 Jan
+ 2026 03:32:44 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 25 Jan
+ 2026 03:32:44 -0800
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.8)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Sun, 25
+ Jan 2026 03:32:38 -0800
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
+ Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+	<mbloch@nvidia.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Moshe Shemesh
+	<moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
+	<cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Randy Dunlap
+	<rdunlap@infradead.org>, Simon Horman <horms@kernel.org>, Krzysztof Kozlowski
+	<krzk@kernel.org>
+Subject: [PATCH net-next V6 00/14] devlink and mlx5: Support cross-function rate scheduling
+Date: Sun, 25 Jan 2026 13:31:49 +0200
+Message-ID: <1769340723-14199-1-git-send-email-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.8.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1CBC540073
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.90 / 10.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[aosc.io,redhat.com,lwn.net,loongson.cn,kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	RCVD_COUNT_ONE(0.00)[1];
-	TO_DN_SOME(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	SURBL_MULTI_FAIL(0.00)[mail20.mymailcheap.com:server fail];
-	URIBL_BLOCKED(0.00)[aosc.io:mid,aosc.io:from_mime,aosc.io:from_smtp,aosc.io:email,mail20.mymailcheap.com:helo,mail20.mymailcheap.com:rdns];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044AA:EE_|MN0PR12MB6149:EE_
+X-MS-Office365-Filtering-Correlation-Id: 191d6d63-47de-4ecf-01cd-08de5c057b0b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700013|30052699003|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?UB63sshcQmudHgGSBzQu3vAA3jEKv+FRO6nuFdp5fjafNN94sEirUSMhwwAU?=
+ =?us-ascii?Q?uTmGkixUQdkHgxcAqUnLoVK4FUUbB+h1vgOWPSEmrxPLEM0xlmsFoo4Nn/Ip?=
+ =?us-ascii?Q?wuNvqsCtfBWnt8FiDw8yDmtXlIL8ENms6xpdogIWWn57oJh75+hPwoZcjCfy?=
+ =?us-ascii?Q?G2b3umN/LUEB4y1Suc6Q0K0i0miscABTnOPw+D/X0ucqYZydENg/clhG9NSS?=
+ =?us-ascii?Q?DDSl46BpWGZD0mKpGiw7zvHg5CTcKCHmKJqLJAu1mEvAi+OQQazhAptJdp61?=
+ =?us-ascii?Q?9X6VQ0+n1bxQkhbWr7+WvHRDL3zm7NaeskaaI9lljpYCDVfFDHI02YHDvPK+?=
+ =?us-ascii?Q?XRlSYB8wj0vEpF0ant3cCHmeEuqlswPouX0v8i+m6WVlhSK3nA7Ni90SKf0e?=
+ =?us-ascii?Q?UzKigu0OqFRVSmsY0VusL2Eut8kxQUZtLvS1NgFAD8QrbeXCbwfcsKEFzYXk?=
+ =?us-ascii?Q?joI1UvlD/5Ubaqih+ZFriuHlamMsfSUDbVIiq+JAzqsrUs/J4ax1z0mBapDF?=
+ =?us-ascii?Q?m+eGTB/cseYDW5PelpMe2hx3E4FxgDwoyVzdBlcuIuX1sZ9HpzbOuypfmfW+?=
+ =?us-ascii?Q?qqBJPt0qs5ybi0ZT0gtWMH5N/+mEpGHjdAq0D52XRJw4AoWKKgPqR+dyVS8/?=
+ =?us-ascii?Q?7npI8iSs87XOGx6L5KHVDYMfIOizjmIZPLj/Ou/i+9zkOZ9usmuCLmTXh97J?=
+ =?us-ascii?Q?HaH3GM3LWOOHzVuuM2liyZUzIgkzoYu3r0wptThu6AWf9LGaft52RAZQKXsk?=
+ =?us-ascii?Q?yxiiIh/NFGcF4mS/h7g8UUvlZ/FxpiFW+tgi5v6xNxB8vaQ7GbUZ82xs7BZe?=
+ =?us-ascii?Q?cz07ILr8zrkrx5XZ8OTHLsbYAdzhNU65jV62foig7KHo9eCgUFmua72CtdOX?=
+ =?us-ascii?Q?2d2k897aiUh47vU78zS2Xr5zIjph8i97kHNW0BkAZh0lqzzwFWJnhAS0oQVr?=
+ =?us-ascii?Q?q0E9UL9Cy/y9/n48/E8hXg7OxWVGQB5O3JNCi4T/oO6CKYUPr0v/SNwfeuSK?=
+ =?us-ascii?Q?6jSYfdseu/eosNsMiw9i0u2e+B6ILU43jxA51PsLCCQ7QUxuST5KTjK0D4du?=
+ =?us-ascii?Q?SdUbocp+iagpVgkFYjm/6g8DY+NNfe5/zOy8MteBfTIUgH6RCYDIDGPSaA8U?=
+ =?us-ascii?Q?xTgTUtx6R4HzjoDsKL9vQ3GBiCe+/q6oZLxyo5VT6x6fHZfAJZY/spiuM/Eb?=
+ =?us-ascii?Q?2gPZ+1SCPl+RAxsAhBig2DKA7X8L34kqc0cUuB2n6dEqu4/oIvUeHs/HS5IW?=
+ =?us-ascii?Q?Jhodp7TvDREl3bBMHU+fGpsEeNXxGY7EExDYw1SyVSOVgxAj3eDudZLi3vZZ?=
+ =?us-ascii?Q?8yavqqAhOEH2f5X1Ikw2gIag+unebwy/RIwtaf93dfsYMiaoz7kEG2pTaidH?=
+ =?us-ascii?Q?4f64oHos+ImAjbNWVDCOeosQxJ2nAwsvTAyrb/jFMS7WfdSPX/y4NyNUpIH3?=
+ =?us-ascii?Q?s+RwuzxKzReDwcgFcCf1rSV2Z4aAO87kbx7rlcvPCXTSC0iRoWnRqTaEGsj9?=
+ =?us-ascii?Q?MbelZn8ESPT17Una8p35rnBSslHWUgzgrR/BKHIcUPhTBKFCwjvY4KuajbEV?=
+ =?us-ascii?Q?8CwIXtg3EFYA1LrSe6X/pil3858giQBweFJFOob+AXPz1AKrrzT9WUnGwv9m?=
+ =?us-ascii?Q?LqfVm+8QRnb8Esi03BfvtIceQj/AS5fhlvNCc8gMuduB72McXb63vyZ3qHKO?=
+ =?us-ascii?Q?fftlYA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700013)(30052699003)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2026 11:32:54.0310
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 191d6d63-47de-4ecf-01cd-08de5c057b0b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000044AA.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6149
 
-This ioctl can be used by userspace applications to determine which
-(special) registers are get/set-able.
+Hi,
 
-This can be very useful for cross-platform VMMs so that they do not have
-to hardcode register indices for each supported architectures.
+This series by Cosmin and Jiri adds support for cross-function rate
+scheduling in devlink and mlx5.
+See detailed explanation by Cosmin below [1].
 
-Signed-off-by: Zixing Liu <liushuyu@aosc.io>
----
+Regards,
+Tariq
 
-For example, this ioctl could be used by rust-vmm/rust-kvm or maybe
-VirtualBox-kvm in the future.
 
- Documentation/virt/kvm/api.rst |  2 +-
- arch/loongarch/kvm/vcpu.c      | 69 ++++++++++++++++++++++++++++++++++
- 2 files changed, 70 insertions(+), 1 deletion(-)
+[1]
+devlink objects support rate management for TX scheduling, which
+involves maintaining a tree of rate nodes that corresponds to TX
+schedulers in hardware. 'man devlink-rate' has the full details.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb..f46dd8be282f 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -3603,7 +3603,7 @@ VCPU matching underlying host.
- ---------------------
- 
- :Capability: basic
--:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
-+:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
- :Type: vcpu ioctl
- :Parameters: struct kvm_reg_list (in/out)
- :Returns: 0 on success; -1 on error
-diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
-index 656b954c1134..b884eb9c76aa 100644
---- a/arch/loongarch/kvm/vcpu.c
-+++ b/arch/loongarch/kvm/vcpu.c
-@@ -1186,6 +1186,57 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_vcpu *vcpu,
- 	return ret;
- }
- 
-+static unsigned long kvm_loongarch_num_lbt_regs(void)
-+{
-+	/* +1 for the LBT_FTOP flag (inside arch.fpu) */
-+	return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + 1;
-+}
-+
-+static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
-+{
-+	/* +1 for the KVM_REG_LOONGARCH_COUNTER register */
-+	unsigned long res = CSR_MAX_NUMS + KVM_MAX_CPUCFG_REGS + 1;
-+
-+	if (kvm_guest_has_lbt(&vcpu->arch))
-+		res += kvm_loongarch_num_lbt_regs();
-+
-+	return res;
-+}
-+
-+static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
-+					  u64 __user *uindices)
-+{
-+	u64 reg;
-+	unsigned int i;
-+
-+	for (i = 0; i < CSR_MAX_NUMS; i++) {
-+		reg = KVM_IOC_CSRID(i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
-+		reg = KVM_IOC_CPUCFG(i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	reg = KVM_REG_LOONGARCH_COUNTER;
-+	if (put_user(reg, uindices++))
-+		return -EFAULT;
-+
-+	if (!kvm_guest_has_lbt(&vcpu->arch))
-+		return 0;
-+
-+	for (i = 1; i <= kvm_loongarch_num_lbt_regs(); i++) {
-+		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	return 0;
-+}
-+
- long kvm_arch_vcpu_ioctl(struct file *filp,
- 			 unsigned int ioctl, unsigned long arg)
- {
-@@ -1251,6 +1302,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
- 		r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
- 		break;
- 	}
-+	case KVM_GET_REG_LIST: {
-+		struct kvm_reg_list __user *user_list = argp;
-+		struct kvm_reg_list reg_list;
-+		unsigned n;
-+
-+		r = -EFAULT;
-+		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
-+			break;
-+		n = reg_list.n;
-+		reg_list.n = kvm_loongarch_num_regs(vcpu);
-+		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
-+			break;
-+		r = -E2BIG;
-+		if (n < reg_list.n)
-+			break;
-+		r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
-+		break;
-+	}
- 	default:
- 		r = -ENOIOCTLCMD;
- 		break;
+The tree of rate nodes is maintained per devlink object, protected by
+the devlink lock.
+
+There exists hardware capable of instantiating TX scheduling trees
+spanning multiple functions of the same physical device (and thus
+devlink objects) and therefore the current API and locking scheme is
+insufficient.
+
+This patch series changes the devlink rate implementation and API to
+allow supporting such hardware and managing TX scheduling trees across
+multiple functions of a physical device.
+
+Modeling this requires having devlink rate nodes with parents in other
+devlink objects. A naive approach that relies on the current
+one-lock-per-devlink model is impossible, as it would require in some
+cases acquiring multiple devlink locks in the correct order.
+
+The solution proposed in this patch series consists of two parts:
+
+1. Representing the underlying physical NIC as a shared devlink object
+   on the faux bus and nesting all its PF devlink instances in it.
+
+2. Changing the devlink rate implementation to store rates in this
+   shared devlink object, if it exists, and use its lock to protect
+   against concurrent changes of the scheduling tree.
+
+With these in place, cross-esw scheduling support is added to mlx5.
+The neat part about this approach is that it works for SFs as well,
+which are already nested in their parent PF instances. So with this
+series, complex scheduling trees spanning multiple SFs across multiple
+PFs of the same NIC can now be supported.
+
+V1 of this patch series was sent a long time ago [2], using a different
+approach of storing rates in a shared rate domain with special locking
+rules. This new approach uses standard devlink instances and nesting.
+
+Patches:
+
+devlink rate changes for cross-device TX scheduling:
+devlink: Reverse locking order for nested instances
+documentation: networking: add shared devlink documentation
+devlink: Add helpers to lock nested-in instances
+devlink: Refactor devlink_rate_nodes_check
+devlink: Decouple rate storage from associated devlink object
+devlink: Add parent dev to devlink API
+devlink: Allow parent dev for rate-set and rate-new
+devlink: Allow rate node parents from other devlinks
+devlink: introduce shared devlink instance for PFs on same chip
+
+mlx5 support for cross-device TX scheduling:
+net/mlx5: Add a shared devlink instance for PFs on same chip
+net/mlx5: Expose a function to clear a vport's parent
+net/mlx5: Store QoS sched nodes in the sh_devlink
+net/mlx5: qos: Support cross-esw tx scheduling
+net/mlx5: Document devlink rates and cross-esw scheduling
+
+[2] https://lore.kernel.org/netdev/20250213180134.323929-1-tariqt@nvidia.com/
+
+V6:
+- Really stopped using __free (Krzysztof Kozlowski).
+- Fixed incorrect state->idx usage in rate dump (AI tool).
+- Merged patches V5.12 and V5.14 to close a bisect bug (AI tool).
+- Link to V5: https://lore.kernel.org/all/1768895878-1637182-1-git-send-email-tariqt@nvidia.com/
+
+V5:
+- Made parts of shd generic devlink infra (Jakub).
+- Stopped using __free (Krzysztof Kozlowski).
+- Moved some generated netlink in the correct patch (Simon Horman).
+- Addressed cleanup bug (Jakub).
+- Clarified uses of shared devlink in documentation.
+
+V4:
+- Fix typo in documentation (Randy Dunlap).
+
+V3:
+- Remove mistakenly repeated devlink interface in docs (Jakub).
+- Add Jiri's review tags on ML.
+
+V2:
+- Rebase.
+- Add Jiri's review tags on ML.
+
+Cosmin Ratiu (11):
+  devlink: Reverse locking order for nested instances
+  devlink: Add helpers to lock nested-in instances
+  devlink: Refactor devlink_rate_nodes_check
+  devlink: Decouple rate storage from associated devlink object
+  devlink: Add parent dev to devlink API
+  devlink: Allow parent dev for rate-set and rate-new
+  devlink: Allow rate node parents from other devlinks
+  net/mlx5: Expose a function to clear a vport's parent
+  net/mlx5: Store QoS sched nodes in the sh_devlink
+  net/mlx5: qos: Support cross-device tx scheduling
+  net/mlx5: Document devlink rates
+
+Jiri Pirko (3):
+  documentation: networking: add shared devlink documentation
+  devlink: introduce shared devlink instance for PFs on same chip
+  net/mlx5: Add a shared devlink instance for PFs on same chip
+
+ Documentation/netlink/specs/devlink.yaml      |  22 +-
+ .../networking/devlink/devlink-port.rst       |   2 +
+ .../networking/devlink/devlink-shared.rst     |  94 +++++
+ Documentation/networking/devlink/index.rst    |   1 +
+ Documentation/networking/devlink/mlx5.rst     |  33 ++
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |   5 +-
+ .../net/ethernet/mellanox/mlx5/core/devlink.c |   1 +
+ .../mellanox/mlx5/core/esw/devlink_port.c     |   2 +-
+ .../net/ethernet/mellanox/mlx5/core/esw/qos.c | 332 ++++++++----------
+ .../net/ethernet/mellanox/mlx5/core/esw/qos.h |   3 -
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |   9 +-
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  14 +-
+ .../net/ethernet/mellanox/mlx5/core/main.c    |  17 +
+ .../ethernet/mellanox/mlx5/core/sh_devlink.c  |  99 ++++++
+ .../ethernet/mellanox/mlx5/core/sh_devlink.h  |  14 +
+ include/linux/mlx5/driver.h                   |   1 +
+ include/net/devlink.h                         |  13 +
+ include/uapi/linux/devlink.h                  |   2 +
+ net/devlink/Makefile                          |   2 +-
+ net/devlink/core.c                            |  48 ++-
+ net/devlink/dev.c                             |   7 +-
+ net/devlink/devl_internal.h                   |  11 +-
+ net/devlink/netlink.c                         |  67 +++-
+ net/devlink/netlink_gen.c                     |  23 +-
+ net/devlink/netlink_gen.h                     |   8 +
+ net/devlink/rate.c                            | 290 +++++++++++----
+ net/devlink/sh_dev.c                          | 163 +++++++++
+ 27 files changed, 984 insertions(+), 299 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-shared.rst
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
+ create mode 100644 net/devlink/sh_dev.c
+
+
+base-commit: eac026ff97a9447d34113dd7c4adbcd185185142
 -- 
-2.52.0
+2.40.1
 
