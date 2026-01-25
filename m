@@ -1,72 +1,166 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED32F068C;
-	Sun, 25 Jan 2026 18:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C3D22CBC0
+	for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 18:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769366432; cv=none; b=nR+67fF+skAYiZBD0bQ1BfhJlCEol8edp4H0pzMeeB++mCn84m83aLarN1mGYkpeJrjr1sV4OHiYOQTNM1eGNEbdIYV26/naqjpbdlHsd+/DhiqxGWR7KBV4JkvJ/0saOG4N6T/2KRNskdnwce+gRO+QYKFpVbWDDH53H1ZDWQ0=
+	t=1769367121; cv=none; b=ufNsj3e5O4yhAlVcRWeC5n6i2/le1OeGw991tkiSbaZxjwJBWM3osLEu3lH6zDf245LaFdND4+Rd6NF5A5ZkNGEDaTrqdACzcaS/tzLmyI4Sub9gmLwZCRCe+oMvTL6h4LhniEGWhAA3av+j/jExQ1WO72ghtw2CynPzIAfxhGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769366432; c=relaxed/simple;
-	bh=k0zIsDDirduC1T/Zy9Rie5eliNLSn89gCShZi0Glsp0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IUxnrs9tue6qRYB/DVSUPhjm5xXRUX4Dy/6Vmh7w68o/VDXIQoc97qzhL0qx+LdNSr0VPJmYSQZzpDWw9s+JriRKTmpqMarY+kTbmy9/GqMawUOyWCdCOZ/qGNsntfgqlRQ/HzIucYZtnkHr4nI/VcdOM6bak7LATFEYF7693B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fsASiqm+; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1769367121; c=relaxed/simple;
+	bh=zMaEvU68BWlhZpxDtfLltxRySkbC44HvvmZ1IlohbuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HuTurj0sP21aeCJZM/FZzVgQfLPjtKnffeBNpjSk+5Zz+mXbfDOpmBhcoB8OCaVayieIsJSd+GADK4h7BVdPYpuEpA3uVg9xeeXkEpXpM9NBVjfKDphb+AxZoqr5vgFnUilvBX5UZM7JR7J4OF2sYNo6F8H5wppJuP8doHvdyZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=GUb3b+DY; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fsASiqm+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C989A40B0C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1769366430; bh=EkqR8AfHdMFHnzuWmmZ2wY0NlPxqrI33UUDv9469iII=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fsASiqm+NqSRf6Nj0DG0yxe/1BXZrj0b1/WvlRubLD0LTWK2A27y6pczt2E0SlOYC
-	 4azJlPsS5GQMy7Bnk6amP/db3ciS1uVR5RT26IPP12cL+evmCOTkNUX/+OMHZ9VRdc
-	 3vxpdkM+KPlU9ST/A+0QAbsbHEenDkiZhoMh3sZAUU3nEHkLhmMHxWcGZ5fbVmiApR
-	 om08NjSscVBwPn1yCYGskho48cqeuzI76micC03f9MLAEeUe+9crju5yxmzzGJZnBP
-	 nPcWx9v74CvHJORKBLSipXFB6D76dKEaaKi0i/OmT5A+HgdPuI6+ayC3Y0cCQcbY0A
-	 3jsmybl13UnNQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C989A40B0C;
-	Sun, 25 Jan 2026 18:40:29 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: John Ashrith <johnashrith6@gmail.com>, workflows@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] docs: clarify CC list guidance wording
-In-Reply-To: <0bb5ad12-dd5a-4280-bf6e-7d1ddb59dd9e@gmail.com>
-References: <0bb5ad12-dd5a-4280-bf6e-7d1ddb59dd9e@gmail.com>
-Date: Sun, 25 Jan 2026 11:40:29 -0700
-Message-ID: <87ecndedsy.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="GUb3b+DY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=1cYkOR6p+28OeK
+	pILTeDYy1YUmgndRIsJrSEImzjWWs=; b=GUb3b+DY+9mJpJ7B3Rk9AyWsPIlsID
+	gYiUHWLfH4MhylfpJpW6wK1EEp4qmRvMXufRAsUMyjw3n6a7jZTjlMDlAiAJeytr
+	PDYusfLDkbrdpScgSILsNpYpTv9wxWk3n8sIRRm98T1X5yszKvRP0oq5bX6qilP5
+	LjHLu7d1lAZJzkgT7s2l3Qa9JZdRes785y0OH4j4PHwtTrndA/aCfpLOjcH1lb4z
+	BtZ0JoJOhdKJB5uQXdN4teK3yDzq+Q8ww2MIjkXg7v93zhNt8uES1joQCXP5zbLl
+	u9kPE+ySeVYAst58JG+Fjj7CLKQTVDUGyLh4C9GbhtN1nhxaNB2QPgsw==
+Received: (qmail 2369426 invoked from network); 25 Jan 2026 19:51:47 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jan 2026 19:51:47 +0100
+X-UD-Smtp-Session: l3s3148p1@Xefl4TpJKhBtKXAW
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [RFC PATCH 0/4] hwspinlock: refactor headers into public provider/consumer pair
+Date: Sun, 25 Jan 2026 19:46:51 +0100
+Message-ID: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-John Ashrith <johnashrith6@gmail.com> writes:
+TLDR: I want to create a hwspinlock provider outside of the hwspinlock
+directory. So, I refactored the headers into a provider/consumer pair.
+Which seems to me like a reasonable seperation anyhow. No functional
+changes. My build tests went fine and buildbots are happy, too.
 
-> Changes since v3:
-> - Add proper changelog text
-> - Move version notes below the --- line
-> - Send as plain text to avoid mail client mangling
->
->  From 1de01779d580e104bea0148409c3c8c76d204c41 Mon Sep 17 00:00:00 2001
-> From: John Ashrith <johnashrith6@gmail.com>
-> Date: Sun, 25 Jan 2026 14:48:28 +0000
-> Subject: [PATCH] docs: clarify CC list guidance wording
+Longer explanation:
 
-Again ... the above text should not be in the changelog.  I can
-certainly edit it out on applying the patch, but you really need to find
-a way to send patches that don't make maintainers do extra work.
+There is a device (MFIS) in newer Renesas SoCs which combines various
+things like hwspinlocks, mailboxes and other stuff. Sadly, these are not
+strictly separated. Registers are kind of mixed and its register
+unprotection scheme will need one of its own locks. I tried various
+paths to handle this device (MFD, auxiliary bus) but I concluded that
+the sub-device dependencies give enough reasons for a single driver in
+drivers/soc/. So, this series will allow me to instantiate a hwspinlock
+provider from the other directory.
 
-I'll say again: please practice sending to yourself until this comes out
-right, then resend your patch to the lists.
+Patches 1+2 do the actual refactoring with a fallback being in place. I
+used '-B' with git-format-patch in this RFC, so the actual changes are
+more visible when the headers are moved.
 
-Thanks,
+Patch 3 converts all the users. There are not many. We could try to get
+all the acks for this single patch. Or I can break it into single
+patches and send them to subsystems. I don't mind.
 
-jon
+Patch 4 simply removes the fallback.
+
+Looking forward to comments on this approach. If the hwspinlock
+maintainers like it as is, I would kindly propose to apply patches 1+2
+after 7.0-rc1 comes out. This might sound a bit hasty, but a) I want to
+avoid chasing a moving target and b) this would remove one dependency of
+the hwspinlock driver I originally intend to upstream, of course.
+
+I would take care of patches 3+4 as needed.
+
+A branch can be found here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-includes
+
+Patches are based on linux-next as of 2026-01-21.
+
+Opinions?
+
+Thanks and happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (4):
+  hwspinlock: refactor existing headers into provider.h
+  hwspinlock: refactor existing headers into consumer.h
+  treewide: convert hwspinlock users to the new consumer header file
+  hwspinlock: remove old header file
+
+ Documentation/locking/hwspinlock.rst          |  2 +-
+ MAINTAINERS                                   |  2 +-
+ drivers/base/regmap/regmap.c                  |  2 +-
+ drivers/hwspinlock/hwspinlock_core.c          |  5 +--
+ drivers/hwspinlock/omap_hwspinlock.c          |  4 +-
+ drivers/hwspinlock/qcom_hwspinlock.c          |  4 +-
+ drivers/hwspinlock/sprd_hwspinlock.c          |  4 +-
+ drivers/hwspinlock/stm32_hwspinlock.c         |  4 +-
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  4 +-
+ drivers/hwspinlock/u8500_hsem.c               |  5 +--
+ drivers/iio/adc/sc27xx_adc.c                  |  2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |  2 +-
+ drivers/mfd/syscon.c                          |  2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |  2 +-
+ drivers/nvmem/sprd-efuse.c                    |  2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |  2 +-
+ drivers/soc/qcom/smem.c                       |  2 +-
+ drivers/spi/spi-sprd-adi.c                    |  2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   | 22 ++--------
+ .../linux/hwspinlock/provider.h               | 40 ++++++++++++-------
+ 20 files changed, 49 insertions(+), 65 deletions(-)
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (94%)
+ rename drivers/hwspinlock/hwspinlock_internal.h => include/linux/hwspinlock/provider.h (78%)
+
+-- 
+2.47.3
+
