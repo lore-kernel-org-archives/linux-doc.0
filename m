@@ -1,157 +1,142 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1DD156F20
-	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 18:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4C9252904;
+	Mon, 26 Jan 2026 18:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769453126; cv=none; b=XGQO0pLeSthd7/QxQVzKkuVq2pOkeOAhJLFQk5Z0VpqX44k1wjPzh+Nqy8frLu6DRMijZkXNrzkp5g2cPSahN4YX7wFAZaZiEiu5ubHyfSy47Dsyn1dWO0hNipUTc0hlm6X04E4rbECrGOQ7ZiunqdztcqxLqUOXBdvNbLHOabQ=
+	t=1769453720; cv=none; b=a5kMJcFafY8QjK8WAMhGzxtQCzBkX3bLRimVxo0ov1021PCQPiF1PjQZyp2Ab77gMa+ZnptbDPxtdiVq0tNCuysOEJjqd1ltrIVPtf0+hY/Y/EMtUR+GVFGywj/6E6POhbUt5gFM0lA5MnaKi4K3soVZ6BEMx5zoLctu7Sw9uBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769453126; c=relaxed/simple;
-	bh=idn99UPqC0nF9uZDjKf0+iVfU/oqm91JSUXz9Edt4Tw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QtZ5EkoCUC25g2NmZg3eHF/S+Z5DVUcLj9bO36BkfES4RVZCYfgmq67VM1+H7X9CIEfLOSybsIv8alhyWt5etnW8YyM0z2wN6UR2zj3znNqybFAQjicx8hqNxrONM9uBgjBoOyZeMDwN2hK5SYjChy2TmfMT0JZKE4+VDMtho+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eXrxGeME; arc=none smtp.client-ip=74.125.224.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769453720; c=relaxed/simple;
+	bh=jMVk9CS2JBRNsS5GC6/yI2ZxOvdhUQdY4kP4Vs3jjqU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U1LdWPmSE5EV/wwkSS6C/sNX1XhD/h0erzyArhHo19CvXQl7xZCsNgooFFxCFnkPxGxw/v1mFZ4qxiHCViTDS73pUrt1R4jjDEsbGmWEbCNe9mIM/wWj6ZBOHhFsLkUeIKOMBUffctIWlzGFVH0aOB7tMnsHcxBELg7cChxkvgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=4b+R0ix5; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eXrxGeME"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-649605d3664so3118113d50.3
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 10:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769453124; x=1770057924; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LzUUHM37iqxpGKoml5d9xTIQ0EByiMn/P+sNGyQg1IY=;
-        b=eXrxGeMEXsjtWZ7u4xag9aNbizPGsfEfHTeHM2cN9OQjuh6B498ItE+xKomXNtnBRB
-         Oyt+/FtSaAseuhh3ByClTKY0G4OJ+oo8qPRSlf+rFJqluiLnKrLW5NdVbJnZP8PZwGP7
-         zX+RbnjSR9TtLFlcy5FzIkEdINbkCY2XllR/v8c1OaByJVEiljsZdF/rvufl1q4y0XOO
-         7s2k1RNRF90F18kXWUZ0mzGP7zdNpSceOafOnc754kGut2cCB5NdnfrnGxf8aJl+Icqc
-         5v87V4AiIAhlh4vIPVdMyyfQtCJpeEdkv5szcBofZeYMMjcaZUOVyUfOf5nRtLGxuZ8j
-         cDbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769453124; x=1770057924;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LzUUHM37iqxpGKoml5d9xTIQ0EByiMn/P+sNGyQg1IY=;
-        b=e8MlzqOg81vgecr23SERc7w43+ROsTxqNxllrHriwubiSeW+kMr3li9atNEHXUtxRp
-         K+h0yKHR32MyC4sVX+2MwCO3x1boUD9g8YsmZXO+S20BTuvwJdGf97bMxCjbTG9gWS6d
-         GaqbcE0iSHSoV+a5Bh1U8IOeAftpPhzNgLJ4YY+L3MCQzQzlEv5DEkYAXum9rsbENwTM
-         vRrWZCqJUt9XZCI9L4Gv5Ed4EYB24loVXeRONXFqMpNMSk0U+mxm9G7rl2GlWX9+8fvI
-         2lnrlexBCfbMNyh06QI303xHk/MnUrDkoXFPPjQczLtM5+yx7LDdjE22FCBFNTYwPj9d
-         IR+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUuANU+T/GhpUkwaTu1M9sPWhfN7u3Wk2DEIeksJIFJLMvT8sQh15a4QwY+1J3kE2KDseuf6Gh0Kl0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYT/7fh9ZvqRqCqqBVyLBT76d0dRQbwl4nybOzLrsV0yZWUU5v
-	EkOeXbLFwtzURLLlo1l6mhg7azJMgegoJKbT+i1a2oLUECzV4Difn9rS
-X-Gm-Gg: AZuq6aItfckjsTKPSGzM9D+5wjdR+ADMOr6LiE5PM/TuGgnPoTTWQTJDlb83WBkUT+7
-	QbMAfHejxArrvKNVcumHaL3E+PwG6zXDIUqxpmWm2IKiz10mlDMemT1BxEPm5VvNBCjh61Bc10R
-	stPm8gXq4OU54rCgtEf09OdjdhK2MgjAvVmbigPoa406aT08UIs3JQQ64QfinSe4ZQf036LI0j4
-	TVr0hIVmG0u5hd/COhXSDWzDgm7XmNRVS1cBqMVxrGyk6OMeXWgk45bLgNUQ7w5/K576lbZKJVZ
-	QxG2giMFyvGXJnvL6OaWeY+M5wdfGogCuuMGIMJEBnAYTiOC2BkQ3vw9xHhF/1B7c1X5NYEs3I6
-	2zYMvX6XvxxU0Z930DL5vDzvk7fRpcxkB+j5C4czsIcDmh/Isxyba58F8ONgKYOURX5oWI3zLBE
-	RVs10NNI/UHKqwZLEfKqPFJ/9iD/3YLottGA==
-X-Received: by 2002:a05:690e:11ce:b0:635:4ecd:5fcc with SMTP id 956f58d0204a3-64970c03363mr4264419d50.41.1769453124075;
-        Mon, 26 Jan 2026 10:45:24 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:3::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6495ce752f2sm5613399d50.1.2026.01.26.10.45.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 10:45:23 -0800 (PST)
-Date: Mon, 26 Jan 2026 10:45:22 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v10 0/5] net: devmem: improve cpu cost of RX
- token management
-Message-ID: <aXe2QhzL4DoVbesQ@devvm11784.nha0.facebook.com>
-References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
- <20260120170749.101e8bcc@kernel.org>
- <CAHS8izMZxM6rcF+7Lfw=KFv4dmbHGSUrQBPmxO+sYj=V3TRuwQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="4b+R0ix5"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4f0Hm56kBhzlgyGr;
+	Mon, 26 Jan 2026 18:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1769453709; x=1772045710; bh=lrmRnMiS7e8oDqS8sJHadbKN
+	aRE4y8/9HerN9jURAnw=; b=4b+R0ix5+Os0UdymHVdPefR75pAjuePHzZSBDv1T
+	PhKFA4FAC8OQc9TuXgMxSrv6ALYLM26zsK043txlRzxnGUh1OQAsqSN0foShyawt
+	pgoA82i8a3e56Az+c5yQ/FRzJRlVVV9ONPOmo5QZvE0Q0R6BZlDabDdSvqRaIrWq
+	5qv/o/SAv+5/3fRLam45SzREjjV6pc62GFn6nBiQJg3JMywlrNKvmQ7VlMyrTxAH
+	T23+3S/pU978iX4yw8ahY2EFo/8Xq0lczgH+hEk7oD3ExiVmcFff0tai2SlH7PR7
+	9U/uiA5vPsPPUdDSnrYljSKcp1+NnDZMaTuY+V/YB+pCTQ==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id vhOvcRL97NLm; Mon, 26 Jan 2026 18:55:09 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4f0Hlj4MJNzlh1T6;
+	Mon, 26 Jan 2026 18:54:57 +0000 (UTC)
+Message-ID: <8c1bbab4-4615-4518-b773-a006d1402b8b@acm.org>
+Date: Mon, 26 Jan 2026 10:54:56 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHS8izMZxM6rcF+7Lfw=KFv4dmbHGSUrQBPmxO+sYj=V3TRuwQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 15/36] srcu: Support Clang's context analysis
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+ Eric Dumazet <edumazet@google.com>, Frederic Weisbecker
+ <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>,
+ Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Triplett <josh@joshtriplett.org>, Justin Stitt
+ <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland
+ <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+ Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>,
+ kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+References: <20251219154418.3592607-1-elver@google.com>
+ <20251219154418.3592607-16-elver@google.com>
+ <dd65bb7b-0dac-437a-a370-38efeb4737ba@acm.org>
+ <aXez9fSxdfu5-Boo@elver.google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <aXez9fSxdfu5-Boo@elver.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 21, 2026 at 08:21:36PM -0800, Mina Almasry wrote:
-> On Tue, Jan 20, 2026 at 5:07 PM Jakub Kicinski <kuba@kernel.org> wrote:
-> >
-> > On Thu, 15 Jan 2026 21:02:11 -0800 Bobby Eshleman wrote:
-> > > This series improves the CPU cost of RX token management by adding an
-> > > attribute to NETDEV_CMD_BIND_RX that configures sockets using the
-> > > binding to avoid the xarray allocator and instead use a per-binding niov
-> > > array and a uref field in niov.
-> > >
-> > > Improvement is ~13% cpu util per RX user thread.
-> > >
-> > > Using kperf, the following results were observed:
-> > >
-> > > Before:
-> > >       Average RX worker idle %: 13.13, flows 4, test runs 11
-> > > After:
-> > >       Average RX worker idle %: 26.32, flows 4, test runs 11
-> > >
-> > > Two other approaches were tested, but with no improvement. Namely, 1)
-> > > using a hashmap for tokens and 2) keeping an xarray of atomic counters
-> > > but using RCU so that the hotpath could be mostly lockless. Neither of
-> > > these approaches proved better than the simple array in terms of CPU.
-> > >
-> > > The attribute NETDEV_A_DMABUF_AUTORELEASE is added to toggle the
-> > > optimization. It is an optional attribute and defaults to 0 (i.e.,
-> > > optimization on).
-> >
-> > IDK if the cmsg approach is still right for this flow TBH.
-> > IIRC when Stan talked about this a while back we were considering doing
-> > this via Netlink. Anything that proves that the user owns the binding
-> > would work. IIUC the TCP socket in this design just proves that socket
-> > has received a token from a given binding right?
+On 1/26/26 10:35 AM, Marco Elver wrote:
+> That being said, I don't think it's wrong to write e.g.:
 > 
-> Doesn't 'doing this via netlink' imply it's a control path operation
-> that acquires rtnl_lock or netdev_lock or some heavy lock expecting
-> you to do some config change? Returning tokens is a data-path
-> operation, IIRC we don't even lock the socket to do it in the
-> setsockopt.
+> 	spin_lock(&updater_lock);
+> 	__acquire_shared(ssp);
+> 	...
+> 	// writes happen through rcu_assign_pointer()
+> 	// reads can happen through srcu_dereference_check()
+> 	...
+> 	__release_shared(ssp);
+> 	spin_unlock(&updater_lock);
 > 
-> Is there precedent/path to doing fast data-path operations via netlink?
-> There may be value in not biting more than we can chew in one series.
-> Maybe an alternative non-setsockopt dontneeding scheme should be its
-> own patch series.
+> , given holding the updater lock implies reader access.
 > 
+> And given the analysis is opt-in (CONTEXT_ANALYSIS := y), I think
+> it's a manageable problem.
 
-I'm onboard with improving what we have since it helps all of us
-currently using this API, though I'm not opposed to discussing a
-redesign in another thread/RFC. I do see the attraction to locating the
-core logic in one place and possibly reducing some complexity around
-socket/binding relationships.
+I'd like to make context-analysis mandatory for the entire kernel tree.
 
-FWIW regarding nl, I do see it supports rtnl lock-free operations via
-'62256f98f244 rtnetlink: add RTNL_FLAG_DOIT_UNLOCKED' and routing was
-recently made lockless with that. I don't see / know of any fast path
-precedent. I'm aware there are some things I'm not sure about being
-relevant performance-wise, like hitting skb alloc an additional time
-every release batch. I'd want to do some minimal latency comparisons
-between that path and sockopt before diving head-first.
+> If you have a different idea how we can solve this, please let us know.
+> 
+> One final note, usage of srcu_dereference_check() is rare enough:
+> 
+> 	arch/x86/kvm/hyperv.c:	irq_rt = srcu_dereference_check(kvm->irq_routing, &kvm->irq_srcu,
+> 	arch/x86/kvm/x86.c:	kvm_free_msr_filter(srcu_dereference_check(kvm->arch.msr_filter, &kvm->srcu, 1));
+> 	arch/x86/kvm/x86.c:	kfree(srcu_dereference_check(kvm->arch.pmu_event_filter, &kvm->srcu, 1));
+> 	drivers/gpio/gpiolib.c:	label = srcu_dereference_check(desc->label, &desc->gdev->desc_srcu,
+> 	drivers/hv/mshv_irq.c:	girq_tbl = srcu_dereference_check(partition->pt_girq_tbl,
+> 	drivers/hwtracing/stm/core.c:	link = srcu_dereference_check(src->link, &stm_source_srcu, 1);
+> 	drivers/infiniband/hw/hfi1/user_sdma.c:	pq = srcu_dereference_check(fd->pq, &fd->pq_srcu,
+> 	fs/quota/dquot.c:			struct dquot *dquot = srcu_dereference_check(
+> 	fs/quota/dquot.c:				struct dquot *dquot = srcu_dereference_check(
+> 	fs/quota/dquot.c:		put[cnt] = srcu_dereference_check(dquots[cnt], &dquot_srcu,
+> 	fs/quota/dquot.c:		transfer_from[cnt] = srcu_dereference_check(dquots[cnt],
+> 	include/linux/kvm_host.h:	return srcu_dereference_check(kvm->memslots[as_id], &kvm->srcu,
+> 	virt/kvm/irqchip.c:	irq_rt = srcu_dereference_check(kvm->irq_routing, &kvm->irq_srcu,
+> 
+> , that I think it's easy enough to annotate these places with the above
+> suggestions in case you're trying out global enablement.
 
-Best,
-Bobby
+Has it ever been considered to add support in the clang compiler for a
+variant of __must_hold() that expresses that one of two capabilities
+must be held by the caller? I think that would remove the need to
+annotate SRCU update-side code with __acquire_shared(ssp) and
+__release_shared(ssp).
+
+Thanks,
+
+Bart.
