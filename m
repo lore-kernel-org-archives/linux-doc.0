@@ -1,271 +1,99 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+Received: from sender4-of-o52.zoho.com (sender4-of-o52.zoho.com [136.143.188.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC372FE074;
-	Mon, 26 Jan 2026 04:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769401393; cv=none; b=O9E6FyDefJbdB4IkdzvAKiQWKFsh2uN4nDD7h/FXrAPqUR1qtQHHjiLOtQfvFE7NxVb6R4xbdeSb1MIyM+nN5LfDc1iUH1cgQ+VyZ9lktM5SY+zAI/gTU5c7sf2ysha3REL6121thYQIatduZ0MaPV+GVDgV85pQwRscDAHoLxk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769401393; c=relaxed/simple;
-	bh=RcYHwyI32BEHw/TkJ87L802B+/oqw8tkQehkzjJ6zgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DkrMRirFHXvr6PqYJE2cDOYeLb6ZInmrs+ZpEmnjdcFzZPUlWnK7iyi91xzGSvEUWNV2hHuEGePflQqAdh2QsJqQJ7x/GiD7c0Qql9WgenTUWiC8gfiumk50mVXYDlzNqKxok5oB7AdzGD2OpM9pW1xvasUdMAZCEDfuzZgX9Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=GynOa++v; arc=none smtp.client-ip=159.100.248.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC6A304BB3
+	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 04:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769401440; cv=pass; b=n+jOjPq1UIM797GugueUBDmTfsOzBNZcVmRIYJsnPFq3k2IIdB7UXpdJIUyF99zKRLvioiQXa1icap+y+CaU7w5r71zKnOT7C6q3fqklV23J+Bn/ay6i6ujeufqrvAvBSGF832YN1FxCJpLhuc2qAjphkGrSRtHbwbITx7nkXxE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769401440; c=relaxed/simple;
+	bh=eXrb/4dlOsUzXI5mm1ZBd+ki8U7HV5k3hAFX5PdYHds=;
+	h=Date:From:To:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=dxr0IKNjOOhGo1iT5AIVsCJZWeIh4w8z3AkSw8z6mVV1vRvX8JfVzBRXIfrnKlVQo6nXD4c+lYyJoTwNu559tGGlX6fqoy74jDcG8bDhEqT/kAG0GqXQqA+q30a2PIBnPKg8XXw156D7/Hr11VCE7bYXom5kbOBT9H9E3Qg/nfE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=localizethedocs.org; spf=pass smtp.mailfrom=localizethedocs.org; dkim=pass (1024-bit key) header.d=localizethedocs.org header.i=hwhsu1231@localizethedocs.org header.b=j2vwPIN+; arc=pass smtp.client-ip=136.143.188.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=localizethedocs.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=localizethedocs.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="GynOa++v"
-Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [151.80.165.199])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 2D5CA26344;
-	Mon, 26 Jan 2026 04:23:10 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay2.mymailcheap.com (Postfix) with ESMTPS id C9B973E878;
-	Mon, 26 Jan 2026 04:23:00 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id 1697340408;
-	Mon, 26 Jan 2026 04:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1769401378; bh=RcYHwyI32BEHw/TkJ87L802B+/oqw8tkQehkzjJ6zgA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GynOa++vHBLhePi4NPGWXs5Jkdyy2eZ5sAsWFCWtNaInrTHUrhM5HTgCuus85w3or
-	 DNo7FBKi5u/CD9o8nUVbaW/ApBh6LjbzmGBsCOrxWmDHNx7ePjoja/42KX4WPeiwfC
-	 9fbkcMw1momYUVXh5+ut4b5r/cBrwnTdK/Lq5Cy0=
-Received: from [127.0.0.1] (unknown [117.151.13.225])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id C3F5B4097F;
-	Mon, 26 Jan 2026 04:22:50 +0000 (UTC)
-Message-ID: <2fa2dc72-b24e-4504-8c8e-e4ecacda02c4@aosc.io>
-Date: Mon, 26 Jan 2026 12:22:48 +0800
+	dkim=pass (1024-bit key) header.d=localizethedocs.org header.i=hwhsu1231@localizethedocs.org header.b="j2vwPIN+"
+ARC-Seal: i=1; a=rsa-sha256; t=1769401437; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XwvrjElLUpux83hW2j9sG1PdjDFVst8piNB3QuoDHLyLQXxhy5D7lgLa3KJkYo71vqKdfoY+qb6gKR0+vo/RGQvZQcnYQDZxRNlMfLWB1Vin2VYdAD7jqGyYuC4m/cm3r2ozvouM/t6KNqbLl1yS7ru0WpB67kUDZ35CWTOOKoc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1769401437; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=eXrb/4dlOsUzXI5mm1ZBd+ki8U7HV5k3hAFX5PdYHds=; 
+	b=Rpkj9WE/HjQer1pM4cOf89Z+T911jYiN83lPPfIPZJES9nw9/mPzM7CgC7sLfEKHR+irLE649iw/Yf5hFYAD3G6k8yvZrHKsH66gABtGzo5eYI5RzvfhvMOj285f9ANv2HswX49RKsL8JeICLqoxYVXEkFkK7IvN1LtTz+O6/pg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=localizethedocs.org;
+	spf=pass  smtp.mailfrom=hwhsu1231@localizethedocs.org;
+	dmarc=pass header.from=<hwhsu1231@localizethedocs.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769401437;
+	s=zmail; d=localizethedocs.org; i=hwhsu1231@localizethedocs.org;
+	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=eXrb/4dlOsUzXI5mm1ZBd+ki8U7HV5k3hAFX5PdYHds=;
+	b=j2vwPIN+bYTBDqe7HcG8Y4A39668RVM5DTm5l2TOaxHQOYbmDUMfH/LM7TWiIlL9
+	xgEVkgU12GE1oMAoFedlsavBVy/uq+KVWlF51C2Js2ntRNyr5lla97Y7YnOZeejaRjG
+	KmuH1dFkD+P7CpfkQXEg+b6nPfyH7gRRbIOr/R5U=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1769401436911588.5161727700752; Sun, 25 Jan 2026 20:23:56 -0800 (PST)
+Date: Mon, 26 Jan 2026 12:23:56 +0800
+From: Haowei Hsu <hwhsu1231@localizethedocs.org>
+To: "Linux Kernel Documentation" <linux-doc@vger.kernel.org>
+Message-ID: <19bf88b4ae1.1e3c4829279812.3907796406023498095@localizethedocs.org>
+In-Reply-To: 
+Subject: Localization of Linux Kernel Documentation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-Content-Language: en-US-large, en-US
-To: Bibo Mao <maobibo@loongson.cn>, WANG Xuerui <kernel@xen0n.name>,
- Huacai Chen <chenhuacai@kernel.org>
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
- rust-for-linux@vger.kernel.org
-References: <20260125054322.1237687-1-liushuyu@aosc.io>
- <4b504274-4241-0e3e-3ed3-7804b72b7ee8@loongson.cn>
- <972430be-d2f3-49b6-851b-a057ddfcafec@aosc.io>
- <29565e27-f153-c2c5-cbc3-e0457d45f094@loongson.cn>
-From: liushuyu <liushuyu@aosc.io>
-In-Reply-To: <29565e27-f153-c2c5-cbc3-e0457d45f094@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1697340408
-X-Spamd-Result: default: False [1.40 / 10.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_ONE(0.00)[1];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ALIAS_RESOLVED(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[aosc.io,redhat.com,lwn.net,loongson.cn,kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
-X-Rspamd-Server: nf2.mymailcheap.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-Hi Bibo,
+Hello, Linux Kernel Documentation Team,
 
->
->
-> On 2026/1/26 上午11:38, liushuyu wrote:
->> Hi Bibo,
->>>
->>>
->>> On 2026/1/25 下午1:43, Zixing Liu wrote:
->>>> This ioctl can be used by userspace applications to determine which
->>>> (special) registers are get/set-able.
->>>>
->>>> This can be very useful for cross-platform VMMs so that they do not
->>>> have
->>>> to hardcode register indices for each supported architectures.
->>>>
->>>> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
->>>> ---
->>>>
->>>> For example, this ioctl could be used by rust-vmm/rust-kvm or maybe
->>>> VirtualBox-kvm in the future.
->>>>
->>>>    Documentation/virt/kvm/api.rst |  2 +-
->>>>    arch/loongarch/kvm/vcpu.c      | 69
->>>> ++++++++++++++++++++++++++++++++++
->>>>    2 files changed, 70 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/virt/kvm/api.rst
->>>> b/Documentation/virt/kvm/api.rst
->>>> index 01a3abef8abb..f46dd8be282f 100644
->>>> --- a/Documentation/virt/kvm/api.rst
->>>> +++ b/Documentation/virt/kvm/api.rst
->>>> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
->>>>    ---------------------
->>>>      :Capability: basic
->>>> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
->>>> +:Architectures: arm64, loongarch, mips, riscv, x86 (if
->>>> KVM_CAP_ONE_REG)
->>>>    :Type: vcpu ioctl
->>>>    :Parameters: struct kvm_reg_list (in/out)
->>>>    :Returns: 0 on success; -1 on error
->>>> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
->>>> index 656b954c1134..b884eb9c76aa 100644
->>>> --- a/arch/loongarch/kvm/vcpu.c
->>>> +++ b/arch/loongarch/kvm/vcpu.c
->>>> @@ -1186,6 +1186,57 @@ static int kvm_loongarch_vcpu_set_attr(struct
->>>> kvm_vcpu *vcpu,
->>>>        return ret;
->>>>    }
->>>>    +static unsigned long kvm_loongarch_num_lbt_regs(void)
->>>> +{
->>>> +    /* +1 for the LBT_FTOP flag (inside arch.fpu) */
->>>> +    return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + 1;
->>>> +}
->>>> +
->>>> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
->>>> +{
->>>> +    /* +1 for the KVM_REG_LOONGARCH_COUNTER register */
->>>> +    unsigned long res = CSR_MAX_NUMS + KVM_MAX_CPUCFG_REGS + 1;
->>>> +
->>>> +    if (kvm_guest_has_lbt(&vcpu->arch))
->>>> +        res += kvm_loongarch_num_lbt_regs();
->>>> +
->>>> +    return res;
->>>> +}
->>>> +
->>>> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
->>>> +                      u64 __user *uindices)
->>>> +{
->>>> +    u64 reg;
->>>> +    unsigned int i;
->>>> +
->>>> +    for (i = 0; i < CSR_MAX_NUMS; i++) {
->>>> +        reg = KVM_IOC_CSRID(i);
->>>> +        if (put_user(reg, uindices++))
->>>> +            return -EFAULT;
->>>> +    }
->>> CSR_MAX_NUMS is max number of accessible CSR registers, instead only
->>> part of them is used by vCPU model. By my understanding, there will be
->>> no much meaning if CSR_MAX_NUMS is returned. And I think it will be
->>> better if real CSR register id and number is returned.
->>>
->> Did you mean we should only return the CSR registers initialized in this
->> function
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/loongarch/kvm/main.c?id=63804fed149a6750ffd28610c5c1c98cce6bd377#n48
->>
->> ?
->>
->> That looks like a very large list and the values of the register IDs are
->> not fully continuous. If that is the case, how do we maintain the
->> get/set-able CSR register list?
-> It will be better if CSR register list can be categorized, for example
-> with LoongArch CPU manual CSR register is split into 8 types from
-> chapter 7.4 -- 7.11
->
-> At the beginning, there is big array with size CSR_MAX_NUMS without
-> any category, it can be fine-gained in late. 
+I am the author of the Localize The Docs organization on GitHub. I would li=
+ke to introduce one of our localization projects closely related to the Lin=
+ux Kernel Documentation, =F0=9F=8E=89 linux-docs-l10n =F0=9F=8E=89:
 
-Does that mean in the new `kvm_loongarch_copy_reg_indices` function, it
-is also okay to embed this big list in there?
+=F0=9F=9A=80 Preview: https://projects.localizethedocs.org/linux-docs-l10n
+=F0=9F=8C=90 Crowdin: https://localizethedocs.crowdin.com/linux-docs-l10n
+=F0=9F=90=99 GitHub: https://github.com/localizethedocs/linux-docs-l10n
 
-Or do you want to extract the list from the `kvm_init_gcsr_flag`
-function and refactor both functions to share one single big list
-(probably in the kvm_host.h header)?
+The goal of this project is to translate the Linux Kernel Documentation [1]=
+ into multiple languages. Translations are contributed via the Crowdin plat=
+form, automatically synchronized with the GitHub repository, and can be pre=
+viewed on GitHub Pages.
 
-Because from what I could understand, your previous messages point to
-that we need to use this list to make out what CSR registers to return
-to the user space VMMs.
+While the official Linux Kernel repository does maintain its own translated=
+ documentation [2], the current approach involves maintaining translation c=
+opies directly within the document tree. This makes it challenging to keep =
+translated documents in sync with the original English content, resulting i=
+n significant maintenance overhead.
 
->
-> Regards
-> Bibo Mao
->>
->>> Regards
->>> Bibo Mao
->>>> +
->>>> +    for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
->>>> +        reg = KVM_IOC_CPUCFG(i);
->>>> +        if (put_user(reg, uindices++))
->>>> +            return -EFAULT;
->>>> +    }
->>>> +
->>>> +    reg = KVM_REG_LOONGARCH_COUNTER;
->>>> +    if (put_user(reg, uindices++))
->>>> +        return -EFAULT;
->>>> +
->>>> +    if (!kvm_guest_has_lbt(&vcpu->arch))
->>>> +        return 0;
->>>> +
->>>> +    for (i = 1; i <= kvm_loongarch_num_lbt_regs(); i++) {
->>>> +        reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
->>>> +        if (put_user(reg, uindices++))
->>>> +            return -EFAULT;
->>>> +    }
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>>    long kvm_arch_vcpu_ioctl(struct file *filp,
->>>>                 unsigned int ioctl, unsigned long arg)
->>>>    {
->>>> @@ -1251,6 +1302,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->>>>            r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
->>>>            break;
->>>>        }
->>>> +    case KVM_GET_REG_LIST: {
->>>> +        struct kvm_reg_list __user *user_list = argp;
->>>> +        struct kvm_reg_list reg_list;
->>>> +        unsigned n;
->>>> +
->>>> +        r = -EFAULT;
->>>> +        if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
->>>> +            break;
->>>> +        n = reg_list.n;
->>>> +        reg_list.n = kvm_loongarch_num_regs(vcpu);
->>>> +        if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
->>>> +            break;
->>>> +        r = -E2BIG;
->>>> +        if (n < reg_list.n)
->>>> +            break;
->>>> +        r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
->>>> +        break;
->>>> +    }
->>>>        default:
->>>>            r = -ENOIOCTLCMD;
->>>>            break;
->>>>
->>>
->> Thanks,
->> Zixing
->>
->
-Thanks,
-Zixing
+To address this issue, the linux-docs-l10n project leverages the "Internati=
+onalization with Gettext [3]" feature of Sphinx, integrated with the infras=
+tructure provided by the Localize The Docs organization, to achieve automat=
+ed updates for .pot files. Furthermore, these generated .pot files are uplo=
+aded to the Crowdin [4] platform, making it easier for translators to parti=
+cipate.
+
+I believe this project can play a crucial role in maintaining translations =
+of the Linux Kernel Documentation. We welcome volunteers interested in cont=
+ributing translations to participate. If your target language is not yet av=
+ailable, please apply by submitting an issue [5] to request a new language:
+
+[1] https://docs.kernel.org/
+[2] https://docs.kernel.org/translations/index.html
+[3] https://www.sphinx-doc.org/en/master/usage/advanced/intl.html
+[4] https://crowdin.com/
+[5] https://github.com/localizethedocs/linux-docs-l10n/issues/new?template=
+=3Dlanguage_request.yml
+
+---
+Haowei Hsu
+
