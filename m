@@ -1,55 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFC130E858;
-	Mon, 26 Jan 2026 13:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D24C33A00C;
+	Mon, 26 Jan 2026 13:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769433630; cv=none; b=XyqrLUhkWqWd8lp7Xl8J+lLmukSKr/GFb6r6vvwqx8vsnPmRhsoVV2O9SGoDopU4U9TJmad9TYVVdR9lZ1Tz/d2MmaClqPqxrOJNIDv0us8W5iMT2WY7FNgEqgutAj6dad0/Xn3EXC3aYwv8RL3OzOMWU5f95MQK3dXGmkxYmKc=
+	t=1769434542; cv=none; b=J4rLS/NMcO/7/pVqvunN81xQo1dvvhOZWITNAVS+Ai/2GbK+wsaHYn9pX/dhCykwQPuepHP/8CbsWmLA3LTeWCz38MduuUrxPGGr/OfTEPJgq/odf4fYI7Ot/yWNLi+ckSnUO0N0VTqPOoq4Jxpdx5oT5YubyIWaVez9y4FS4Yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769433630; c=relaxed/simple;
-	bh=8jZrnzUYDUUOoK8d6xFPyab6RoA9Bm07KKnPrG5m1/o=;
+	s=arc-20240116; t=1769434542; c=relaxed/simple;
+	bh=+F6fYbHMKoc4x2WxstoV/N1PVSE9Jur6Eo6X4yGUds0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mVRI3rGNzc1fxlmltU+3c4hkvrTp9kzNr/k3FkGB9w4SIsjokShml4kEby1blPfpFG8H26uDqrdZe3puHZKFVe0MMc4fRIkouN3wbTjb6NrRE4pppm18X1kyGRVGMNf6+4Xsh372BdFtBeYLYzfTFN23j7QKTwO+2YBPc8Z/ik0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDb8sAud; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=H7PfDjGHa8ezWdfwfzVMg1Y09FjPp3tGPfOiNf0fCUJ+npjivh8Xo6eqyRmL+bdzMqP2YWif+9Zsp+ZjM9fEsrHzCbp1zwyuxb8dcx33uXbjiiak2ghyZkFf44f2cnwQRPdk5/ueDmpy5wIeFfhMIA3xogZT2lVzGxLE8VuW3xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3QJqKXR; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDb8sAud"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF18AC116C6;
-	Mon, 26 Jan 2026 13:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769433629;
-	bh=8jZrnzUYDUUOoK8d6xFPyab6RoA9Bm07KKnPrG5m1/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kDb8sAud9TgQFi7+fJBqBhtKoaKp/dJWQjEfabG8ACJBNti1YBxIKRPZPFs7vOeSv
-	 hL1OezN3hl9rw1Hjjg6YJh5nVLqLy59VPZcjMaPKWsQ/kGvR3m99Xm6cb20a4pu3a3
-	 rvbx64x33oEZnpCacX7Ai/V5AFNCI85VMv2XCNdbAOITaAB77xk7ncrDlw/pHHuqHd
-	 PXtrwSF3cYmPIG1gcPzVF120aqnzTsOYobBqrRGsQth+BiY3WKYqxRBNpTo8fK0yP8
-	 AqpCK06kKc4xb01gg82EwuoY/kFH+Bg/fJB3BziiZEzDXA/+DznWfff0Q04548XKg4
-	 vk7n/Xx7h5NuA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vkMW0-000000004a3-0avc;
-	Mon, 26 Jan 2026 14:20:24 +0100
-Date: Mon, 26 Jan 2026 14:20:24 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] Revert "revocable: Revocable resource management"
-Message-ID: <aXdqGDYPZFXzO2ST@hovoldconsulting.com>
-References: <20260124170535.11756-1-johan@kernel.org>
- <20260124170535.11756-4-johan@kernel.org>
- <DFX09S7L40VL.1HVC33VXNDDBW@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3QJqKXR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769434540; x=1800970540;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+F6fYbHMKoc4x2WxstoV/N1PVSE9Jur6Eo6X4yGUds0=;
+  b=A3QJqKXR4pnhwCaZztC4TCtaDQPe+gZZlDAc8U6O21eis0gly7XvsoXC
+   lSpFM7nsdeEqG509fjC1GCsc0/Q+zQe8xIey5/dDb6Trvjfh0tBc89X09
+   v4PER+NU2INypT/aysjdsjSQfpQlbNbV7RwmfPYWyxSytUNcCtNBBd6xY
+   Aul3cvOQAW4CWk8Xv4JVRsTlOt0Kd2DpUJkISKyrTdqz8bMO/lNHjFDno
+   e0K4V/acaIru5qKFmEGQ3b5juJdW1P+ycgXB8dq4BgwITtAt8ldXWwUpT
+   514ScfDDzlQsYPIYAvH0RNLM+wuMrium9HzEsiASsafIgLw4qq90YCEhY
+   A==;
+X-CSE-ConnectionGUID: 0ddJiwRkQyOA76j2mxO4JQ==
+X-CSE-MsgGUID: CCzUsmkvTYW7vIzic8YkMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82042151"
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="82042151"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 05:35:40 -0800
+X-CSE-ConnectionGUID: CLCut5vYRsiTnTKyf1GvIQ==
+X-CSE-MsgGUID: IHKxvmhkR8upyYnpRiId9Q==
+X-ExtLoop1: 1
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 05:35:36 -0800
+Date: Mon, 26 Jan 2026 15:35:34 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
+References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
+ <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
+ <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
+ <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,50 +70,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DFX09S7L40VL.1HVC33VXNDDBW@kernel.org>
+In-Reply-To: <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Jan 24, 2026 at 06:46:11PM +0100, Danilo Krummrich wrote:
-> On Sat Jan 24, 2026 at 6:05 PM CET, Johan Hovold wrote:
-> > The revocable implementation uses two separate abstractions, struct
-> > revocable_provider and struct revocable, in order to store the SRCU read
-> > lock index which must be passed unaltered to srcu_read_unlock() in the
-> > same context when a resource is no longer needed:
-> >
-> > 	struct revocable {
-> > 		struct revocable_provider *rp;
-> > 		int idx;
-> > 	};
-> >
-> > 	void *revocable_try_access(struct revocable *rev)
-> > 	{
-> > 		struct revocable_provider *rp = rev->rp;
-> >
-> > 		rev->idx = srcu_read_lock(&rp->srcu);
-> > 		return srcu_dereference(rp->res, &rp->srcu);
-> > 	}
-> >
-> > 	void revocable_withdraw_access(struct revocable *rev)
-> > 	{
-> > 		struct revocable_provider *rp = rev->rp;
-> >
-> > 		srcu_read_unlock(&rp->srcu, rev->idx);
-> > 	}
-> >
-> > Multiple threads may however share the same struct revocable and
-> > therefore potentially overwrite the SRCU index of another thread which
-> > can cause the SRCU synchronisation in revocable_provider_revoke() to
-> > never complete.
+On Mon, Jan 26, 2026 at 12:42:53PM +0000, Rodrigo Alencar wrote:
+> On 26/01/26 01:49PM, Andy Shevchenko wrote:
+> > On Fri, Jan 23, 2026 at 03:53:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+
+...
+
+> > > +static int __iio_str_to_fixpoint64(const char *str, u64 fract_mult,
+> > > +				   s64 *integer, s64 *fract, bool scale_db)
+> > > +{
+> > > +	u64 i = 0, f = 0;
+> > > +	char *end;
+> > > +	int digit_count, precision = ffs(fract_mult);
+> > > +	bool negative = false;
+> > > +
+> > > +	if (str[0] == '-') {
+> > > +		negative = true;
+> > > +		str++;
+> > > +	} else if (str[0] == '+') {
+> > > +		str++;
+> > > +	}
+> > > +
+> > > +	i = simple_strtoull(str, &end, 10);
+> > > +	digit_count = end - str;
+> > > +	if (digit_count > 20)
+> > > +		return -EINVAL;
+> > 
+> > Not really. If we are talking about decimal (only) cases we need to also count
+> > leading 0:s.
+> > 
+> > 0000000000000000000000000000000025 is still 25, no overflow.
+> > 
+> > That's why I recommend to have a helper, maybe for now locally here, like
+> > 
+> > int safe_strtoull(..., unsigned long long *res)
+> > {
+> > 	...
+> > }
 > 
-> I think the easiest fix would be to just return the index to the caller and let
-> the corresponding revocable macro accessors handle it, such that it is still
-> transparent to the user.
+> Are you suggesting to not use simple_strtoull then?
 
-It can certainly be made to work, but it will be a very different API
-since there would no longer be any need for the non-intuitive
-revocable_provider and revocable split.
+Nope, I suggest to do an additional step before checking for the range.
 
-And that's not the kind of change that should be done incrementally
-as that makes it much harder to review (and it affects all of the
-current code; api, implementation, docs, tests).
+> Understood, leading zeros can be ignored only when parsing the integer 
+> part. Also, would be nice to have truncation of the fractional part
+> while doing the parsing. How about:
+> 
+> static int iio_safe_strtoull(const char *str, const char **end,
+> 			     size_t max_chars, u64 *res)
 
-Johan
+> - max_chars = 0: ignores leading 0's and process all digits
+> - max_chars > 0: process only initial max_chars digits and ignores the rest
+
+I'm not sure why we would need that. It should parse the whole line until the
+first invalid character or overflow.
+
+> on overflow of u64, the function would return -EOVERFLOW
+> 
+> > that will do all necessary checks and returns -EINVAL, -ERANGE, et cetera.
+> > In the below we would need check for the error codes respectively.
+> > 
+> > > +	if (precision && *end == '.') {
+> > > +		str = end + 1;
+> > > +		f = simple_strtoull(str, &end, 10);
+> > > +		digit_count = end - str;
+> > > +		if (!digit_count || digit_count > 20)
+> > > +			return -EINVAL;
+> > > +
+> > > +		if (digit_count > precision) {
+> > > +			digit_count -= precision;
+> > > +			f = div64_u64(f, int_pow(10, digit_count));
+> > > +		} else {
+> > > +			digit_count = precision - digit_count;
+> > > +			f *= int_pow(10, digit_count);
+> > > +		}
+> > > +	} else if (!digit_count) {
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	if (scale_db) {
+> > 
+> > > +		/* Ignore the dB suffix */
+> > > +		if (!strncmp(end, " dB", sizeof(" dB") - 1))
+> > > +			end += sizeof(" dB") - 1;
+> > > +		else if (!strncmp(end, "dB", sizeof("dB") - 1))
+> > > +			end += sizeof("dB") - 1;
+> > 
+> > Now we have strends()
+> 
+> strends() would not account for the acceptable '\n' before the end.
+
+Good point.
+
+> I don't think we would need to test for " dB", " dB\n", "dB" and "dB\n"
+
+Then you can try sysfs_eq() which does that check. But I think it requires
+the (end of the) string to be exact, and not something like 'dB   \n'.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
