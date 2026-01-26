@@ -1,67 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D24C33A00C;
-	Mon, 26 Jan 2026 13:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E9133A717;
+	Mon, 26 Jan 2026 13:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769434542; cv=none; b=J4rLS/NMcO/7/pVqvunN81xQo1dvvhOZWITNAVS+Ai/2GbK+wsaHYn9pX/dhCykwQPuepHP/8CbsWmLA3LTeWCz38MduuUrxPGGr/OfTEPJgq/odf4fYI7Ot/yWNLi+ckSnUO0N0VTqPOoq4Jxpdx5oT5YubyIWaVez9y4FS4Yw=
+	t=1769435411; cv=none; b=k5So2jAOWVBTfIoVFWVQAWNPk/DhSCdSlG+w8V9MSf2n7SosgAKIm3ZvwvOeWOc5lvmxphGho7wFzsLukNHph2IlCYuikdmolXO6GXYXtQ2l8Knul7utskYAvTcgFYh99kKamAjLOs0TiJgW9XAwzh+wdEemBU4sjbxuYE/v4LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769434542; c=relaxed/simple;
-	bh=+F6fYbHMKoc4x2WxstoV/N1PVSE9Jur6Eo6X4yGUds0=;
+	s=arc-20240116; t=1769435411; c=relaxed/simple;
+	bh=zBrbsQP9J+oLzGdQrppfak+W6VrVZPWPEARr1ajM104=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H7PfDjGHa8ezWdfwfzVMg1Y09FjPp3tGPfOiNf0fCUJ+npjivh8Xo6eqyRmL+bdzMqP2YWif+9Zsp+ZjM9fEsrHzCbp1zwyuxb8dcx33uXbjiiak2ghyZkFf44f2cnwQRPdk5/ueDmpy5wIeFfhMIA3xogZT2lVzGxLE8VuW3xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3QJqKXR; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=NCSbaYRiptw7oLLEzdPM2kfgTnbWHY3DNVHQEGDmXCga4AYoHnHvGkUqDrk23oM6DofXNoVAtlJ7ANmneAYD2m7B2KeLJMPBUWeit3MxBoTFcNB5//luUpOeW0cIcK7bNRlvrpG1JUDUPYwSDEgN0duVyoTm72XLJjJnqtWvu6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uh8ftwdp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3QJqKXR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769434540; x=1800970540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+F6fYbHMKoc4x2WxstoV/N1PVSE9Jur6Eo6X4yGUds0=;
-  b=A3QJqKXR4pnhwCaZztC4TCtaDQPe+gZZlDAc8U6O21eis0gly7XvsoXC
-   lSpFM7nsdeEqG509fjC1GCsc0/Q+zQe8xIey5/dDb6Trvjfh0tBc89X09
-   v4PER+NU2INypT/aysjdsjSQfpQlbNbV7RwmfPYWyxSytUNcCtNBBd6xY
-   Aul3cvOQAW4CWk8Xv4JVRsTlOt0Kd2DpUJkISKyrTdqz8bMO/lNHjFDno
-   e0K4V/acaIru5qKFmEGQ3b5juJdW1P+ycgXB8dq4BgwITtAt8ldXWwUpT
-   514ScfDDzlQsYPIYAvH0RNLM+wuMrium9HzEsiASsafIgLw4qq90YCEhY
-   A==;
-X-CSE-ConnectionGUID: 0ddJiwRkQyOA76j2mxO4JQ==
-X-CSE-MsgGUID: CCzUsmkvTYW7vIzic8YkMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82042151"
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="82042151"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 05:35:40 -0800
-X-CSE-ConnectionGUID: CLCut5vYRsiTnTKyf1GvIQ==
-X-CSE-MsgGUID: IHKxvmhkR8upyYnpRiId9Q==
-X-ExtLoop1: 1
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 05:35:36 -0800
-Date: Mon, 26 Jan 2026 15:35:34 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
-References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
- <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
- <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
- <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uh8ftwdp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A4CBC116C6;
+	Mon, 26 Jan 2026 13:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769435410;
+	bh=zBrbsQP9J+oLzGdQrppfak+W6VrVZPWPEARr1ajM104=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uh8ftwdpYc+lFJt/dBAfy7+4cLDK2vb7YZ1Y2CpSFzb/gRGm795qWcrYiQaDJdDS4
+	 nhaW0RSJuX4BlBxRckILLuLtNSKz2fcr/tyKs08cPWeLu8T3SKkjtNthMjhFLQAr7c
+	 wChAUHtyUT+mrQbQ1rM9DinRmyR4sLCl5yrveQgOWk6lFJP470CIlTG0461eZ/R4FO
+	 uRXaDLuImoOGViWAq8JiX0nKeT/seQT10ReUWAwbbkYBWF0gvfHNbeGLqNimPIa5w4
+	 NpDTnbOrvuWfDGVkf11wff/Cz0RfP+rXO4pH5EDV1gt8af7oDfGXles/B8iu+HaL2D
+	 5K5oTVMMr3NcA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vkMyi-000000005DZ-4AKa;
+	Mon, 26 Jan 2026 14:50:05 +0100
+Date: Mon, 26 Jan 2026 14:50:04 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,109 +58,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <2026012554-chatty-policy-42a1@gregkh>
 
-On Mon, Jan 26, 2026 at 12:42:53PM +0000, Rodrigo Alencar wrote:
-> On 26/01/26 01:49PM, Andy Shevchenko wrote:
-> > On Fri, Jan 23, 2026 at 03:53:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
-
-...
-
-> > > +static int __iio_str_to_fixpoint64(const char *str, u64 fract_mult,
-> > > +				   s64 *integer, s64 *fract, bool scale_db)
-> > > +{
-> > > +	u64 i = 0, f = 0;
-> > > +	char *end;
-> > > +	int digit_count, precision = ffs(fract_mult);
-> > > +	bool negative = false;
-> > > +
-> > > +	if (str[0] == '-') {
-> > > +		negative = true;
-> > > +		str++;
-> > > +	} else if (str[0] == '+') {
-> > > +		str++;
-> > > +	}
-> > > +
-> > > +	i = simple_strtoull(str, &end, 10);
-> > > +	digit_count = end - str;
-> > > +	if (digit_count > 20)
-> > > +		return -EINVAL;
+On Sun, Jan 25, 2026 at 01:47:14PM +0100, Greg Kroah-Hartman wrote:
+> On Sat, Jan 24, 2026 at 08:08:28PM +0100, Danilo Krummrich wrote:
+> > On Sat Jan 24, 2026 at 6:05 PM CET, Johan Hovold wrote:
+> > > this does not look like the right interface for the chardev unplug issue.
 > > 
-> > Not really. If we are talking about decimal (only) cases we need to also count
-> > leading 0:s.
+> > I think it depends, we should do everything to prevent having the issue in the
+> > first place, e.g. ensure that we synchronize the unplug properly on device
+> > driver unbind.
 > > 
-> > 0000000000000000000000000000000025 is still 25, no overflow.
-> > 
-> > That's why I recommend to have a helper, maybe for now locally here, like
-> > 
-> > int safe_strtoull(..., unsigned long long *res)
-> > {
-> > 	...
-> > }
+> > Sometimes, however, this isn't possible; this is where a revocable mechanism can
+> > come in handy to prevent UAF of device resources -- DRM is a good example for
+> > this.
 > 
-> Are you suggesting to not use simple_strtoull then?
+> This is not "possible" for almost all real devices so we need something
+> like this for almost all classes of devices, DRM just shows the extremes
+> involved, v4l2 is also another good example.
 
-Nope, I suggest to do an additional step before checking for the range.
+It's certainly possible to handle the chardev unplug issue without
+revocable as several subsystems already do. All you need is a refcount,
+a lock and a flag.
 
-> Understood, leading zeros can be ignored only when parsing the integer 
-> part. Also, would be nice to have truncation of the fractional part
-> while doing the parsing. How about:
+It may be possible to provide a generic solutions at the chardev level
+or some kind of helper implementation (similar to revocable) for
+subsystems to use directly.
+
+But revocable appears to be too fine grained for this as when the
+device goes away all operations must cease. There's no need to track
+mmio regions individually as was suggested. This may be the mental model
+for someone working with rust, but it isn't necessarily a good fit for
+the rest of the kernel.
+
+> > But to be fair, I also want to point out that there is a quite significant
+> > difference regarding the usefulness of the revocable concept in C compared to in
+> > Rust due to language capabilities.
 > 
-> static int iio_safe_strtoull(const char *str, const char **end,
-> 			     size_t max_chars, u64 *res)
+> True, but we do need something.  I took these patches without a real
+> user as a base for us to start working off of.  The rust implementation
+> has shown that the design-pattern is a good solution for the problem,
+> and so I feel we should work with it and try to get this working
+> properly.  We've been sitting and talking about it for years now, and
+> here is the first real code submission that is getting us closer to fix
+> the problem properly.  It might not be perfict, but let's evolve it from
+> here for what is found not to work correctly.
 
-> - max_chars = 0: ignores leading 0's and process all digits
-> - max_chars > 0: process only initial max_chars digits and ignores the rest
+It's a design pattern that's perhaps needed for rust, but not
+necessarily elsewhere. But either way there is no need to rush this. If
+it turns out to be usable, it can be merged along with a future user.
 
-I'm not sure why we would need that. It should parse the whole line until the
-first invalid character or overflow.
+Dropping the revocable_provider and revocable abstraction split should
+even make it more palatable.
 
-> on overflow of u64, the function would return -EOVERFLOW
-> 
-> > that will do all necessary checks and returns -EINVAL, -ERANGE, et cetera.
-> > In the below we would need check for the error codes respectively.
-> > 
-> > > +	if (precision && *end == '.') {
-> > > +		str = end + 1;
-> > > +		f = simple_strtoull(str, &end, 10);
-> > > +		digit_count = end - str;
-> > > +		if (!digit_count || digit_count > 20)
-> > > +			return -EINVAL;
-> > > +
-> > > +		if (digit_count > precision) {
-> > > +			digit_count -= precision;
-> > > +			f = div64_u64(f, int_pow(10, digit_count));
-> > > +		} else {
-> > > +			digit_count = precision - digit_count;
-> > > +			f *= int_pow(10, digit_count);
-> > > +		}
-> > > +	} else if (!digit_count) {
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	if (scale_db) {
-> > 
-> > > +		/* Ignore the dB suffix */
-> > > +		if (!strncmp(end, " dB", sizeof(" dB") - 1))
-> > > +			end += sizeof(" dB") - 1;
-> > > +		else if (!strncmp(end, "dB", sizeof("dB") - 1))
-> > > +			end += sizeof("dB") - 1;
-> > 
-> > Now we have strends()
-> 
-> strends() would not account for the acceptable '\n' before the end.
+And with a new interface and a non-trivial user we can see what the
+end-result looks like and decide where to go from there. 
 
-Good point.
+> So I don't want to take these reverts, let's try this out, by putting
+> this into the driver core now, we have the base to experiment with in a
+> "safe" way in lots of different driver subsytems at the same time.  If
+> it doesn't work out, worst case we revert it in a release or two because
+> it didn't get used.
 
-> I don't think we would need to test for " dB", " dB\n", "dB" and "dB\n"
+Please reconsider. Perhaps I didn't stress the point enough that the
+current API needs to be reworked completely since there's no longer any
+need for the two revocable abstractions.
 
-Then you can try sysfs_eq() which does that check. But I think it requires
-the (end of the) string to be exact, and not something like 'dB   \n'.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Johan
