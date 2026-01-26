@@ -1,200 +1,228 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.143.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34837344DAF
-	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 16:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A335934846A;
+	Mon, 26 Jan 2026 16:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.143.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769446526; cv=none; b=WcQcU5Ysjnm3zUrWiR5MskUa8dJ/m13FjXzy5FB2T6gDq7Pd0DIZcW5Sap0HS70/XR2X9SlQFjYXk4gAOL2txktwDqVZTcIbIGIWLT3Ro3Db3ljN8mo61FAdHH+fEIom4eI80HO3GyQPf9JUc2M0o/mqHfIUxfn1sQqH8xL1fRQ=
+	t=1769446600; cv=none; b=bqJjo7hjdmwMu35ryXPYYQBrZelDNDXhXIzLtBvPWf4IoBWW0Hd4ng/Iwgg42cgRbG0P/Uw6T3kIAuc/7fyM6fnZ3o1jQn0QbCjjoqPU+2nvLxqoNntweSLfjVhfwyd0gS7z4rcvfynqUq+VqBdCOE0fST6GxgnPlkK+G1O/Nyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769446526; c=relaxed/simple;
-	bh=rtDgVvG79SUCWzCaoQOfUDO1NplihBERrUqYdXin8Yw=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MJ9/K3IyX5hEEkKeHVC45TTFuRuCbFci08SmCDJKrGNt0ifGw0m5b4vai3YFkYyI+NALu4L4jUvdylBzkJYQPy23IjDKn8FQW5CFynmnpRAek6jC1ydV02N9kR/Pl/wH5DSnisALtGJh+8RZUG2hk+bFbjmrRwK7qrXmMxKx4ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0Erv/eU; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769446600; c=relaxed/simple;
+	bh=ukU/E1N/NHrpDBckIGLgNFAyQe4bWfQrJe2+TaF7Pt4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JoVPEr9fvWnfqVhA5UxMTpJv85l+9AVE+e00Z7/iPvWYF8QuHhyekGA72UOxpoBhi/sx9EKQk+YdBYXqGJw2c4q0C6p6XqpQnugC4956ljUmVRPkHoAVHg4pZPKydUVHAsCGuVdiqHm8qwD6+f8kIqMNl/Jdrm8Friyk8ohpExQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=Jnr8mIUb; arc=none smtp.client-ip=63.178.143.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0Erv/eU"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47f3b7ef761so34042325e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 08:55:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="Jnr8mIUb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769446523; x=1770051323; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rc+FUrxKc4cUAoTTGJRU58P89nBONYHsM5Js7trUOgI=;
-        b=Z0Erv/eUvMHVs1d/MEDVa+e2EfxT3uYF+eaxPuJWRWMSXluuPyiijRXAf1LtQmpNt3
-         oEXPKFXjQ/j5fp2OofmiKGyEOcdtTQTV7KwKUZ0oKLFU4zBljQfOWIrBdHwoLZLupqJS
-         DonRUMdTbFevCA2/1t5Z+xeyHwPywPUnj+z9uvad93eXzNqKpMWzbswT86Cz61gFzymK
-         kQiNl5VM3iyfK0X7JNluJjai2Gr1uMSWpxvUMpO3xZp1fz0gY0ubXJxCERSk6c4g7hUX
-         j/yjlwupvB6/S2K/HyntkIKlwEXzw8dFuDFe189aLAyaDboPEV6N9TcFmp7SAJQB5R8b
-         9bvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769446523; x=1770051323;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rc+FUrxKc4cUAoTTGJRU58P89nBONYHsM5Js7trUOgI=;
-        b=hkLCF69d6/7dlkuFqHtuYU1kHikJOTh+6opGIlPvDJ4GZ/jSGOUm8bHlyDOZ174eYp
-         Y547VCUHajlPRZOVtqT/ufIV3E662LY2TYsX/7R/hQPTLbdCe365uURVwQyuJ3II31C3
-         Ze1nPjFx11FbFxiedrPzjuOCL1RtewPHHFXgGvV2GkwMSHCOfST/67n26QXv+KKN6cqJ
-         /cFG0+BVuFPy5vxhty5HAGSrXYszbczxf61CMRhiyplsh4GBG//c/+r6Nni/D/NSsX9S
-         WKq2ASBN6WpjlLVmZrq3e09hHofAd6x+ME1E4RvNWavd6EF/wHq8WMokfu3jG/7/6fTZ
-         Uk7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXDLsAeNRGbaS2ZYrIaXmP2n+SBWYaqTwzsZjPXnhKQzjxvQanKMMKvivbiU3NFXIavUMUWN8BdkKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzNbtqNIZYumSvIK0bOgfxu400/kMWwsWUKCagu1al7mumyjgr
-	oxQLUKvxsQnNMijMpTylaZKsa2rvJ45iHWjX508g/WIg+5nRdkBdDdNt
-X-Gm-Gg: AZuq6aJ8lAaICG+BUxdmtCM23HpxgLfcF73UFygsRlclub/bifjJDQvoUAso3VyxhET
-	hLNShISCUvvr0oYRSKIMDLjRbYZcdQk0euyunrv802jE2gdlovjZCb39TvofKvtgqgmc3yEkrz3
-	D+u3Epq3YegS2fhBhU9WuKG+kZNcWwA3nrHOIDhEt9wSChDXjv4ULkLhCnLSe7PsNu2q9tTKxX5
-	nySGxkP5dKVbRgwuLnFM06MiGCChUkH9QYi/3xK2/L7YIE4OXnYENllEIDhC8B72ps0L6qbfUlN
-	TOHZVIOUImYrzgAOaGgnUIbXVHMZUHDWvopH0ihYrlfhnMBP1jKRs7NvE2Rok7gBeD0vcOowtaj
-	AE/XcCozraVoRsejNFanZahEB5fSWyXz1bZg3WfrX3Q+bpvcZCtcxbxlBCcOkKrFC0g7zK97bHy
-	VQ5HXDaGewJGs1KgAU1eZ9CvYqz0+VUvN5k+DOWqXuco/30WZpU7tJAWyP9YkvwcyGl6tWSSbmI
-	PSl
-X-Received: by 2002:a05:600c:4e56:b0:47b:deb9:15fb with SMTP id 5b1f17b1804b1-480628348c6mr42537495e9.33.1769446523357;
-        Mon, 26 Jan 2026 08:55:23 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066bfb59asm1306595e9.7.2026.01.26.08.55.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 08:55:22 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 26 Jan 2026 16:55:13 +0000
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <anhtxco52jz2ktmxlittsjuvfqybwrwgy76bjhni3j5dzx2rh2@hpzf3sfwe7hf>
-References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
- <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
- <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
- <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
- <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
- <ty6hptfh65k2rkqo6c6mg5z6vismuvyqsu3emvqarr2rbhpvcz@kn6tzjk5xi2o>
- <aXd_0uNVm8c_Fhwd@smile.fi.intel.com>
- <n2ms3esyxlegqibu4nluut3x4c4bkjxt5xrcd4gw35xxb2tipb@a2v73y25kroc>
- <shsikp7hinoxzj7pzxopvmvgpaak4dioekh4tyvns4kv6xp46f@z5vgnisqskco>
- <aXeRQ4AXmn1SxoNa@smile.fi.intel.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1769446598; x=1800982598;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=i1wNPmaVv8oAnx46s+pv/CwmAbOdzYrpQ/gTMvCUjdA=;
+  b=Jnr8mIUb9PqMlTRnZfWLuDCFinsXK/iikp5GVYjdFk0J3VD8rlqQ+xUC
+   1jei9tRzoZ0vQ13/OiK5T5d1GN1bL7b6LwQQtEu3k1Olcemwb4t96yPm1
+   0PDuK5BJlfjrKRZy54JLnA5T6dwUIZFzCANvZ0UgupXgTSJGfvh1Psqug
+   faqflUyTwfS0tQi/oY0b25bP+5ag2wS58w5PWwo8pSQwx3rNBezUNwVBE
+   5mSnHv+u2leHYnoJDuuT4thSe3gM68tuvX5QfqCrrFJiiyy+f9fTUj9q5
+   KIyMPRJ7ZOyTtJ1sdSpIg77UBbT65WAS0gvUP3/J5Zoh/+d2IHFjlxcBc
+   A==;
+X-CSE-ConnectionGUID: hG/nmz7vTNmceFnAp6G6SA==
+X-CSE-MsgGUID: 3E3qoK4vTpqzDoxpd4XG1Q==
+X-IronPort-AV: E=Sophos;i="6.21,255,1763424000"; 
+   d="scan'208";a="8357615"
+Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
+  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 16:56:36 +0000
+Received: from EX19MTAEUC001.ant.amazon.com [54.240.197.225:22549]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.9.185:2525] with esmtp (Farcaster)
+ id 8a3ce0b8-5cfe-49f5-b875-46094201b2e6; Mon, 26 Jan 2026 16:56:35 +0000 (UTC)
+X-Farcaster-Flow-ID: 8a3ce0b8-5cfe-49f5-b875-46094201b2e6
+Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
+ EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
+ Mon, 26 Jan 2026 16:56:30 +0000
+Received: from [192.168.25.27] (10.106.82.32) by EX19D005EUB003.ant.amazon.com
+ (10.252.51.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35; Mon, 26 Jan 2026
+ 16:56:11 +0000
+Message-ID: <afddc163-4b1e-46ee-920a-85de3b347291@amazon.com>
+Date: Mon, 26 Jan 2026 16:56:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXeRQ4AXmn1SxoNa@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct
+ map
+To: Ackerley Tng <ackerleytng@google.com>, "Edgecombe, Rick P"
+	<rick.p.edgecombe@intel.com>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, "kalyazin@amazon.co.uk"
+	<kalyazin@amazon.co.uk>, "kernel@xen0n.name" <kernel@xen0n.name>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
+CC: "david@kernel.org" <david@kernel.org>, "palmer@dabbelt.com"
+	<palmer@dabbelt.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"svens@linux.ibm.com" <svens@linux.ibm.com>, "jgross@suse.com"
+	<jgross@suse.com>, "surenb@google.com" <surenb@google.com>,
+	"riel@surriel.com" <riel@surriel.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+	"peterx@redhat.com" <peterx@redhat.com>, "x86@kernel.org" <x86@kernel.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "thuth@redhat.com" <thuth@redhat.com>,
+	"maz@kernel.org" <maz@kernel.org>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "ast@kernel.org" <ast@kernel.org>,
+	"vbabka@suse.cz" <vbabka@suse.cz>, "Annapurve, Vishal"
+	<vannapurve@google.com>, "borntraeger@linux.ibm.com"
+	<borntraeger@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
+	"pjw@kernel.org" <pjw@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"willy@infradead.org" <willy@infradead.org>, "hca@linux.ibm.com"
+	<hca@linux.ibm.com>, "wyihan@google.com" <wyihan@google.com>,
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jolsa@kernel.org"
+	<jolsa@kernel.org>, "yang@os.amperecomputing.com"
+	<yang@os.amperecomputing.com>, "jmattson@google.com" <jmattson@google.com>,
+	"luto@kernel.org" <luto@kernel.org>, "aneesh.kumar@kernel.org"
+	<aneesh.kumar@kernel.org>, "haoluo@google.com" <haoluo@google.com>,
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "coxu@redhat.com" <coxu@redhat.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "mlevitsk@redhat.com"
+	<mlevitsk@redhat.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "hpa@zytor.com"
+	<hpa@zytor.com>, "song@kernel.org" <song@kernel.org>, "oupton@kernel.org"
+	<oupton@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>,
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "Liam.Howlett@oracle.com"
+	<Liam.Howlett@oracle.com>, "jthoughton@google.com" <jthoughton@google.com>,
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "jhubbard@nvidia.com"
+	<jhubbard@nvidia.com>, "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "yonghong.song@linux.dev"
+	<yonghong.song@linux.dev>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+	"shuah@kernel.org" <shuah@kernel.org>, "prsampat@amd.com" <prsampat@amd.com>,
+	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "itazur@amazon.co.uk"
+	<itazur@amazon.co.uk>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>, "dev.jain@arm.com"
+	<dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>,
+	"jackabt@amazon.co.uk" <jackabt@amazon.co.uk>, "daniel@iogearbox.net"
+	<daniel@iogearbox.net>, "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+	"andrii@kernel.org" <andrii@kernel.org>, "mingo@redhat.com"
+	<mingo@redhat.com>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"joey.gouly@arm.com" <joey.gouly@arm.com>, "derekmn@amazon.com"
+	<derekmn@amazon.com>, "xmarcalx@amazon.co.uk" <xmarcalx@amazon.co.uk>,
+	"kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@fomichev.me"
+	<sdf@fomichev.me>, "jackmanb@google.com" <jackmanb@google.com>,
+	"bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
+	"jannh@google.com" <jannh@google.com>, "john.fastabend@gmail.com"
+	<john.fastabend@gmail.com>, "kas@kernel.org" <kas@kernel.org>,
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>
+References: <20260114134510.1835-1-kalyazin@amazon.com>
+ <20260114134510.1835-8-kalyazin@amazon.com>
+ <e619ded526a2f9a4cec4f74383cef31519624935.camel@intel.com>
+ <294bca75-2f3e-46db-bb24-7c471a779cc1@amazon.com>
+ <CAEvNRgEvd9tSwrkaYrQyibO2DP99vgVj6_zr=jBH5+zMnJwYbA@mail.gmail.com>
+Content-Language: en-US
+From: Nikita Kalyazin <kalyazin@amazon.com>
+Autocrypt: addr=kalyazin@amazon.com; keydata=
+ xjMEY+ZIvRYJKwYBBAHaRw8BAQdA9FwYskD/5BFmiiTgktstviS9svHeszG2JfIkUqjxf+/N
+ JU5pa2l0YSBLYWx5YXppbiA8a2FseWF6aW5AYW1hem9uLmNvbT7CjwQTFggANxYhBGhhGDEy
+ BjLQwD9FsK+SyiCpmmTzBQJnrNfABQkFps9DAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQr5LK
+ IKmaZPOpfgD/exazh4C2Z8fNEz54YLJ6tuFEgQrVQPX6nQ/PfQi2+dwBAMGTpZcj9Z9NvSe1
+ CmmKYnYjhzGxzjBs8itSUvWIcMsFzjgEY+ZIvRIKKwYBBAGXVQEFAQEHQCqd7/nb2tb36vZt
+ ubg1iBLCSDctMlKHsQTp7wCnEc4RAwEIB8J+BBgWCAAmFiEEaGEYMTIGMtDAP0Wwr5LKIKma
+ ZPMFAmes18AFCQWmz0MCGwwACgkQr5LKIKmaZPNTlQEA+q+rGFn7273rOAg+rxPty0M8lJbT
+ i2kGo8RmPPLu650A/1kWgz1AnenQUYzTAFnZrKSsXAw5WoHaDLBz9kiO5pAK
+In-Reply-To: <CAEvNRgEvd9tSwrkaYrQyibO2DP99vgVj6_zr=jBH5+zMnJwYbA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EX19D001EUB003.ant.amazon.com (10.252.51.38) To
+ EX19D005EUB003.ant.amazon.com (10.252.51.31)
 
-On 26/01/26 06:07PM, Andy Shevchenko wrote:
-> On Mon, Jan 26, 2026 at 03:30:44PM +0000, Rodrigo Alencar wrote:
-> > On 26/01/26 03:20PM, Rodrigo Alencar wrote:
-> > > On 26/01/26 04:53PM, Andy Shevchenko wrote:
-> > > > On Mon, Jan 26, 2026 at 02:26:20PM +0000, Rodrigo Alencar wrote:
+
+
+On 22/01/2026 18:37, Ackerley Tng wrote:
+> Nikita Kalyazin <kalyazin@amazon.com> writes:
 > 
-> ...
+>> On 16/01/2026 00:00, Edgecombe, Rick P wrote:
+>>> On Wed, 2026-01-14 at 13:46 +0000, Kalyazin, Nikita wrote:
+>>>> +static void kvm_gmem_folio_restore_direct_map(struct folio *folio)
+>>>> +{
+>>>> +     /*
+>>>> +      * Direct map restoration cannot fail, as the only error condition
+>>>> +      * for direct map manipulation is failure to allocate page tables
+>>>> +      * when splitting huge pages, but this split would have already
+>>>> +      * happened in folio_zap_direct_map() in kvm_gmem_folio_zap_direct_map().
 > 
-> > > > Why? Can you elaborate how checking amount of digits is different to
-> > > > check_mul_overflow()?
-> > > 
-> > > consider U64_MAX = 18_446_744_073_709_551_615 as the limit:
-> > > - 19_000_000_000_000_000_000 contains the same amount of digits but overflows.
-> > > - 18_446_744_073_710_000_000 contains the same amount of digits but overflows.
-> > > 
-> > > to catch those cases, we need to check for the overflow, everytime we read a
-> > > character and accumulate:
-> > > 
-> > > u64 acc;
-> > > 
-> > > while(isdigit(*str))
-> > > 	if (check_mul_overflow(acc, 10, &acc) ||
-> > > 	    check_add_overflow(acc, *str - '0', &acc))
-> > > 		return -EOVERFLOW;
-> > > 
-> > > *res = acc;
-> > > 
-> > > acc can get weird results if not checked. 
-> > 
-> > Thinking about it again, that check could be done only in the last step
-> > (20th for u64)
+> Do you know if folio_restore_direct_map() will also end up merging page
+> table entries to a higher level?
 > 
-> Does kstrto*() also perform only last check? I think they do for each
-> iteration.
+>>>> +      * Thus folio_restore_direct_map() here only updates prot bits.
+>>>> +      */
+>>>> +     if (kvm_gmem_folio_no_direct_map(folio)) {
+>>>> +             WARN_ON_ONCE(folio_restore_direct_map(folio));
+>>>> +             folio->private = (void *)((u64)folio->private & ~KVM_GMEM_FOLIO_NO_DIRECT_MAP);
+>>>> +     }
+>>>> +}
+>>>> +
+>>>
+>>> Does this assume the folio would not have been split after it was zapped? As in,
+>>> if it was zapped at 2MB granularity (no 4KB direct map split required) but then
+>>> restored at 4KB (split required)? Or it gets merged somehow before this?
+> 
+> I agree with the rest of the discussion that this will probably land
+> before huge page support, so I will have to figure out the intersection
+> of the two later.
+> 
+>>
+>> AFAIK it can't be zapped at 2MB granularity as the zapping code will
+>> inevitably cause splitting because guest_memfd faults occur at the base
+>> page granularity as of now.
+> 
+> Here's what I'm thinking for now:
+> 
+> [HugeTLB, no conversions]
+> With initial HugeTLB support (no conversions), host userspace
+> guest_memfd faults will be:
+> 
+> + For guest_memfd with PUD-sized pages
+>      + At PUD level or PTE level
+> + For guest_memfd with PMD-sized pages
+>      + At PMD level or PTE level
+> 
+> Since this guest_memfd doesn't support conversions, the folio is never
+> split/merged, so the direct map is restored at whatever level it was
+> zapped. I think this works out well.
+> 
+> [HugeTLB + conversions]
+> For a guest_memfd with HugeTLB support and conversions, host userspace
+> guest_memfd faults will always be at PTE level, so the direct map will
+> be split and the faulted pages have the direct map zapped in 4K chunks
+> as they are faulted.
+> 
+> On conversion back to private, put those back into the direct map
+> (putting aside whether to merge the direct map PTEs for now).
 
-It does the following:
+Makes sense to me.
 
-...
-		if (unlikely(res & (~0ull << 60))) {
-			if (res > div_u64(ULLONG_MAX - val, base))
-				rv |= KSTRTOX_OVERFLOW;
-		}
-...
+> 
+> 
+> Unfortunately there's no unmapping callback for guest_memfd to use, so
+> perhaps the principle should be to put the folios back into the direct
+> map ASAP - at unmapping if guest_memfd is doing the unmapping, otherwise
+> at freeing time?
 
-so overflow is checked when either one of the 4 MSbits are set.
+I'm not sure I fully understand what you mean here.  What would be the 
+purpose for hooking up to unmapping?  Why would making sure we put 
+folios back into the direct map whenever they are freed or converted to 
+private not be sufficient?
 
-for now, I am thinking of something like:
-
-static ssize_t iio_safe_strtou64(const char *str, const char **endp,
-				 size_t max_chars, u64 *result)
-{
-	u64 digit, acc = 0;
-	size_t idx = 0;
-
-	while (isdigit(*str) && idx < max_chars) {
-		digit = *str - '0';
-		if (unlikely(idx > 19)) {
-			if (check_mul_overflow(acc, 10, &acc) ||
-			    check_add_overflow(acc, digit, &acc))
-				return -EOVERFLOW;
-		} else {
-			acc = acc * 10 + digit;
-		}
-		str++;
-		idx++;
-	}
-
-	*endp = str;
-	*result = acc;
-	return idx;
-}
-
-which would help the truncation when parsing the fractional part
-with max_chars, avoiding a div64_u64() to adjust precision:
-
-...
-	digit_count = iio_safe_strtou64(str, &end, SIZE_MAX, &i);
-	if (digit_count < 0)
-		return digit_count;
-
-	if (precision && *end == '.') {
-		str = end + 1;
-		digit_count = iio_safe_strtou64(str, &end, precision, &f);
-		if (digit_count < 0)
-			return digit_count;
-
-		if (digit_count < precision) /* scale up */
-			f *= int_pow(10, precision - digit_count);
-
-		while (isdigit(*end)) /* truncate */
-			end++;
-	}
-...
-
-but I understand you would not like this approach, because it does not use
-simple_strtoull() or kstrtoull(). Problem is simple_strtoull() is not
-overflow-safe and kstrtoull() does not allow to track a pointer to end
-of the string.
-
-Given that the current implementation of iio_str_to_fixpoint() is not using
-simple_strtoull() I am not seeing an issue with this approach.
-
-Kind regards,
-
-Rodrigo Alencar
