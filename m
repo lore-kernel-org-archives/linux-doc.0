@@ -1,147 +1,168 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F30F26ED48;
-	Mon, 26 Jan 2026 14:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769437191; cv=pass; b=Y8MrtPmQQCKVIczymWSi3T6fKy9RnmRTnl2V/BRzPTrkTa6Xs2E6fw592zyy+8ae2Q4fikR4XtRj/4M5RXYvu8uaLrsjLwh6BllbozfhbM/JqmRe+pKpcCVVaSlxWKEt065DjjAePaVa+m+nbWXN/aeIcaNHgmNALZpU43ck/hs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769437191; c=relaxed/simple;
-	bh=cDY5DB10gPht+ACPeUYOXkW+5kML6uXTay8GzEkwM5Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rOCAA3T8ov0cyEW8gtCpib7etbH3aEWEhyrzyaj1DMmTj8Ig0gaOpkhXG5ptHyoKnIv4Fy6Nf4lTy7aXQ2s5jIQJgIHhXsvSMQdBNHfvpfz48eHo1pXeIz/NVddHqhfmZQEJ2JlqbFr0LHtA0vB6ZcAnr45hrTJeUXSHmLfvZ50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=g4D4O+bl; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E227933D6EA
+	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 14:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769437592; cv=none; b=rYo6O/zjAXy0HKbxWmeMYhYo4jlsQJlBIYZHcX6T8WDWVRDSUqs35fxBpYAJbrmYo7uKimGtz7MQMJUQm7P+RlrGd5mpJux6sbgQakJ7Sx8k1jKWV7RSVJKNGzAUsKztiIsL43Xb8gQ1HRdV2uNkEHqKl7zu2me1Bfa/aJc/2a4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769437592; c=relaxed/simple;
+	bh=xcQ1KHADsvCxonwjQYEr0+LsPyIEGsxcz7IdXN2xHoI=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RfzE8xxny+oS2AugGEFH1dlKNhze2CVtCPYexKt0DvAit05UuzO/5wTACgiCFyY0PLBU9v/wIw6UIwHPwTwFaw5BYlFRFAwHw+JPIC84CpnNAU5xLli9CXEBMJGmnyxmvAh1MDYXTmkCNPT8SMaxbQpZj1uhSbNiNRQzN9OoWss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JzHGVfxd; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="g4D4O+bl"
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 60QEJb2P058808
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 26 Jan 2026 23:19:38 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 4DEB2109F15C4;
-	Mon, 26 Jan 2026 23:19:37 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id WrI6P84p-gSq; Mon, 26 Jan 2026 23:19:33 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 4128F109F254B; Mon, 26 Jan 2026 23:19:33 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1769437173;
-	cv=none; b=YdtMN7AQD8oNM9EU+DBmgvQlr8hlsnibyHHG+Sc/0qkKd+f4trQJE6ewaGFGH85lJfnHMAsIfCMxRx8Ohbxje3OIuVTLyGcm95ZoWYes7JicFYOPjaLXu1qnESHT8FYRaV5pABSc5aSVPzp7kpZSJWTe1CWyml6NUinnHMe96+c=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1769437173; c=relaxed/relaxed;
-	bh=Jbt6e2zAjkvS09bN4XlCfTXjNKTNtky2swc8wMiwVrk=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=PbjOUsSAz7gH10ZFBFMvz+F6y/WdKt3XG25nagJEef9n4igiZ6VdfAi6LgrWr9Yw4+OpJKq/out4/SnuQkjkcgVRvHTJAJaRGu0a+R7vRyLij8LTUl1P9dNzLMkgBpfP9c1SR9afBDgel1Alp8RdIdKS+VmrTVy4JXDlherHCL0=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 4128F109F254B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1769437173;
-	bh=Jbt6e2zAjkvS09bN4XlCfTXjNKTNtky2swc8wMiwVrk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=g4D4O+blvr06Vkg2y+LvKlPLfrKgWhxd4AuSt4X0OD9liHJyyxxuJte1Fs1W9rP+H
-	 XKV/ETGYM/UAID7slIoOVOQLPs+zH0yAogeC98W6+beenh9rG4xiz+1qTJwE0rtCyQ
-	 PgYdpzaChZl076YX+ujzxpBgKQ4qOHmRmfh16cvU=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: corbet@lwn.net
-Cc: akiyks@gmail.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v2] docs: ja_JP: process: translate 'Obtain a current source tree'
-Date: Mon, 26 Jan 2026 23:19:31 +0900
-Message-ID: <20260126141931.3222463-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JzHGVfxd"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-652fdd043f9so7937428a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 06:26:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769437589; x=1770042389; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQfEhIs4nzCG/cpXL/L2bih36CfKuvFVEF2Nlki8CuY=;
+        b=JzHGVfxd91cB9qHDp6ECpotg6e1gMMdJI/dx90bQpTmvK73biWTXac7PGJbrTwkyDa
+         3LF/VI0pscEL6uv9hSzdSWFTqXqlRxHH62VD9vXySMjQ64xbGyf3ZNS55rxvHRo9eb+e
+         cvLaOwsd4FbzS58UNwrEnlKpGymr1gZurkiLeJyr8862kAjvgnXQq2Ngrq3g8SmZfeg1
+         TQhx3yq2TQOQl6BqJkW9fyAKzzjO0RU+xxx+hSL4c2HRWnsaY2YFLTN6Oz0Dd/vOZy7e
+         bC7nK2EzRuQkHW8voALiZ2FxpylquUhyj6wF622bHf785eloSZvccsASe25J/Cr7x/Ti
+         IbEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769437589; x=1770042389;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YQfEhIs4nzCG/cpXL/L2bih36CfKuvFVEF2Nlki8CuY=;
+        b=M1p9btHS+NCFQa52fGwNQurcXqWe5wCSJwYdK6FY8ATtmK7VDPQdfsi8IWgqlyWYDR
+         MKY1GWMK7eyUEbTtI1qjc4tz9uWWciWsAIzHJrfIZJDvB2L9v7ARZVOADMzFGM3aXQtQ
+         qpZfMPyoqEi/wIoFv8uVdjX6LcqODC0N2s8MQxTsgAFxAFdw7JNpIau8Q0dVoXwXoOOm
+         yJlbhG98CC7rwQWC+Jr66rdp68NE3DHSkFwH2OHqJRz7/tnYA3vF8IfodG48J0L+B4SJ
+         NRRCvnPc8nE27y2tNOEYANDFkX+Iy6bLwlXrgaUAVX7ON10lGIWp9qV1JK+ER/88jBJN
+         Bf3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWj82uMr/7b+1eosWjcEPYubI87LoTGs5IalU/BL4s1aFb34QW7atyYsDbdm+qRn9qG3VA8MqfWH0w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyb14+Tp17XiR6Mrkj6BBr5VP0Vq7RPO1c92oKJQPXp83BxqDm3
+	SQQXqDNtzrKnBOMrEg7clXOT0HLKbPzIncQUqIhaThTUPMTd1TSVPlrJ
+X-Gm-Gg: AZuq6aIa7U0v1JqOETDmwdwHl9hW53xHdi0CMiI39Xytj1IwG9Yl71b6XejGqHWdfPZ
+	M+Iegz6ZJKIEkT/eL8OIqmAOkpZjUorxi1p1eoKGBB+xaxO9ditb2xN/8m/vGsdOd1Gl1LtHVOn
+	O+xyvA4n4zs3QPoh5380obe32b6hQ0pRfUT079LLYBEc69hGMrU1609q4xTrV0YM3mxjxMfGwGd
+	ynpjhPOHPUFsIDwBNmSfUcAej3/ebew0JiyYI7oQI0gfjtdMuVxh6KJ2eY0x5/UOCgSO5cIwYXo
+	G8eLmJGvNwt/liisp/lGMrPLArQ2waJV31cX8Zg6r6gal1B5fPenDy63ddoQcRS5dl7G3X9Oelh
+	1XIfPIr8cO1uw7ZyjoqM547u+TxAlw0LXi78jVF9r9AXSvoFW5l4eJbSCflT9BZgG1oI31cE5XX
+	1DcVY6OWwy83UbWvLnOE8IkDn5JGrvyw45Bu/Q6oIWIiIJzMq8mFMN3H0fWo9mKMqNaz+niEo2z
+	CJu
+X-Received: by 2002:a05:6402:35ce:b0:64b:6e20:c92e with SMTP id 4fb4d7f45d1cf-658706b8ba8mr2823359a12.10.1769437589051;
+        Mon, 26 Jan 2026 06:26:29 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6584b3eac76sm4997626a12.13.2026.01.26.06.26.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 06:26:28 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 26 Jan 2026 14:26:20 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <ty6hptfh65k2rkqo6c6mg5z6vismuvyqsu3emvqarr2rbhpvcz@kn6tzjk5xi2o>
+References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
+ <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
+ <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
+ <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
+ <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
 
-Translate the "Obtain a current source tree" section in
-Documentation/translations/ja_JP/process/submitting-patches.rst.
+On 26/01/26 03:35PM, Andy Shevchenko wrote:
+> On Mon, Jan 26, 2026 at 12:42:53PM +0000, Rodrigo Alencar wrote:
+> > On 26/01/26 01:49PM, Andy Shevchenko wrote:
+> > > On Fri, Jan 23, 2026 at 03:53:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> 
+> ...
+> 
+> > > > +static int __iio_str_to_fixpoint64(const char *str, u64 fract_mult,
+> > > > +				   s64 *integer, s64 *fract, bool scale_db)
+> > > > +{
+> > > > +	u64 i = 0, f = 0;
+> > > > +	char *end;
+> > > > +	int digit_count, precision = ffs(fract_mult);
+> > > > +	bool negative = false;
+> > > > +
+> > > > +	if (str[0] == '-') {
+> > > > +		negative = true;
+> > > > +		str++;
+> > > > +	} else if (str[0] == '+') {
+> > > > +		str++;
+> > > > +	}
+> > > > +
+> > > > +	i = simple_strtoull(str, &end, 10);
+> > > > +	digit_count = end - str;
+> > > > +	if (digit_count > 20)
+> > > > +		return -EINVAL;
+> > > 
+> > > Not really. If we are talking about decimal (only) cases we need to also count
+> > > leading 0:s.
+> > > 
+> > > 0000000000000000000000000000000025 is still 25, no overflow.
+> > > 
+> > > That's why I recommend to have a helper, maybe for now locally here, like
+> > > 
+> > > int safe_strtoull(..., unsigned long long *res)
+> > > {
+> > > 	...
+> > > }
+> > 
+> > Are you suggesting to not use simple_strtoull then?
+> 
+> Nope, I suggest to do an additional step before checking for the range.
 
-Use a jp_ label (.. _jp_describe_changes:) to avoid a duplicate label.
+You mean, conditionally skip leading 0's when parsing the integer part?
+e.g.
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- .../ja_JP/process/submitting-patches.rst      | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+/*function entry and arg check */
+while(*str == '\0')
+	str++;
+/* then call simple_strtoull() */
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index 2ff887c86b2a..def262367055 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -36,3 +36,23 @@ Documentation/devicetree/bindings/submitting-patches.rst=
- =E3=82=92=E8=AA=AD=E3=82=93=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95
- =E3=81=84=E3=81=8F=E3=81=A4=E3=81=8B=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=
-=E3=82=B9=E3=83=86=E3=83=A0=E3=82=84=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=
-=83=84=E3=83=AA=E3=83=BC=E3=81=AB=E3=81=AF=E3=80=81=E5=90=84=E3=80=85=E3=81=
-=AE=E3=83=AF=E3=83=BC=E3=82=AF=E3=83=95=E3=83=AD=E3=83=BC=E3=82=84
- =E6=9C=9F=E5=BE=85=E4=BA=8B=E9=A0=85=E3=81=AB=E9=96=A2=E3=81=99=E3=82=8B=
-=E8=BF=BD=E5=8A=A0=E6=83=85=E5=A0=B1=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=
-=81=99=E3=80=82=E6=AC=A1=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=
-=8F=E3=81=A0=E3=81=95=E3=81=84:
- :ref:`Documentation/process/maintainer-handbooks.rst <maintainer_handbooks=
-_main>`.
-+
-+=E7=8F=BE=E5=9C=A8=E3=81=AE=E3=82=BD=E3=83=BC=E3=82=B9=E3=83=84=E3=83=AA=
-=E3=83=BC=E3=82=92=E5=85=A5=E6=89=8B=E3=81=99=E3=82=8B
-+----------------------------
-+
-+=E3=82=82=E3=81=97=E6=89=8B=E5=85=83=E3=81=AB=E6=9C=80=E6=96=B0=E3=81=AE=
-=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=82=BD=E3=83=BC=E3=82=B9=E3=81=AE=E3=
-=83=AA=E3=83=9D=E3=82=B8=E3=83=88=E3=83=AA=E3=81=8C=E3=81=AA=E3=81=91=E3=82=
-=8C=E3=81=B0=E3=80=81``git`` =E3=82=92=E4=BD=BF=E3=81=A3=E3=81=A6=E5=8F=96=
-=E5=BE=97=E3=81=97=E3=81=A6
-+=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=BE=E3=81=9A=E3=81=AF m=
-ainline =E3=81=AE=E3=83=AA=E3=83=9D=E3=82=B8=E3=83=88=E3=83=AA=E3=81=8B=E3=
-=82=89=E5=A7=8B=E3=82=81=E3=82=8B=E3=81=AE=E3=81=8C=E3=82=88=E3=81=84=E3=81=
-=A7=E3=81=97=E3=82=87=E3=81=86=E3=80=82=E3=81=93=E3=82=8C=E3=81=AF
-+=E6=AC=A1=E3=81=AE=E3=82=88=E3=81=86=E3=81=AB=E3=81=97=E3=81=A6=E5=8F=96=
-=E5=BE=97=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99::
-+
-+  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it
-+
-+=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81mainline =E3=81=AE=E3=83=84=E3=83=AA=
-=E3=83=BC=E3=82=92=E7=9B=B4=E6=8E=A5=E5=AF=BE=E8=B1=A1=E3=81=AB=E3=81=97=E3=
-=81=A6=E9=96=8B=E7=99=BA=E3=81=97=E3=81=9F=E3=81=8F=E3=81=AA=E3=81=84=E5=A0=
-=B4=E5=90=88=E3=82=82=E3=81=82=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AB=E6=B3=A8=
-=E6=84=8F
-+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E5=A4=9A=
-=E3=81=8F=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=
-=81=AE=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=AF=E3=81=9D=E3=82=8C=E3=81=
-=9E=E3=82=8C=E7=8B=AC=E8=87=AA=E3=81=AE=E3=83=84=E3=83=AA=E3=83=BC=E3=82=92=
-=E9=81=8B=E7=94=A8=E3=81=97=E3=81=A6=E3=81=8A=E3=82=8A=E3=80=81
-+=E3=81=9D=E3=81=AE=E3=83=84=E3=83=AA=E3=83=BC=E3=81=AB=E5=AF=BE=E3=81=97=
-=E3=81=A6=E4=BD=9C=E6=88=90=E3=81=97=E3=81=9F=E3=83=91=E3=83=83=E3=83=81=E3=
-=82=92=E8=A6=8B=E3=81=9F=E3=81=84=E3=81=A8=E8=80=83=E3=81=88=E3=81=A6=E3=81=
-=84=E3=81=BE=E3=81=99=E3=80=82=E8=A9=B2=E5=BD=93=E3=82=B5=E3=83=96=E3=82=B7=
-=E3=82=B9=E3=83=86=E3=83=A0=E3=81=AE
-+=E3=83=84=E3=83=AA=E3=83=BC=E3=81=AF MAINTAINERS =E3=83=95=E3=82=A1=E3=82=
-=A4=E3=83=AB=E5=86=85=E3=81=AE **T:** =E3=82=A8=E3=83=B3=E3=83=88=E3=83=AA=
-=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E8=A6=8B=E3=81=A4=E3=81=91=E3=
-=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=9D=E3=81=93=E3=81=AB=E6=8E=B2=E8=BC=89=E3=81=95=E3=82=8C=E3=81=A6=
-=E3=81=84=E3=81=AA=E3=81=84=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E3=83=A1=E3=
-=83=B3=E3=83=86=E3=83=8A=E3=81=AB=E5=95=8F=E3=81=84=E5=90=88=E3=82=8F=E3=81=
-=9B=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+.. _jp_describe_changes:
-+
-+=E5=A4=89=E6=9B=B4=E5=86=85=E5=AE=B9=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=99=
-=E3=82=8B
-+------------------
+simple_strtoull() is not overflow-safe, as it does not use
+check_mul_overflow() or check_add_overflow(), only checking the
+amount of digits is not enough. Previous implementation of fixpoint
+parsing didn't care about that. 
 
-base-commit: a592a36e49372172d7c7551ec19ed18184c935e1
---=20
-2.47.3
+> 
+> > Understood, leading zeros can be ignored only when parsing the integer 
+> > part. Also, would be nice to have truncation of the fractional part
+> > while doing the parsing. How about:
+> > 
+> > static int iio_safe_strtoull(const char *str, const char **end,
+> > 			     size_t max_chars, u64 *res)
+> 
+> > - max_chars = 0: ignores leading 0's and process all digits
+> > - max_chars > 0: process only initial max_chars digits and ignores the rest
+> 
+> I'm not sure why we would need that. It should parse the whole line until the
+> first invalid character or overflow.
 
+"process all digits" and "ignores the rest" would be for digits only, so it
+would stop until the first invalid character is found. I suppose proper
+overflow check is implemented with check_mul_overflow() and check_add_overflow(),
+while iterating over the characters and accumulating the value.
+
+Kind regards,
+
+Rodrigo Alencar
