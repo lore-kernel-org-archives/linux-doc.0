@@ -1,252 +1,200 @@
-Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.143.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A99534A78C;
-	Mon, 26 Jan 2026 16:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.143.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34837344DAF
+	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 16:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769446437; cv=none; b=k73S8D9YoSjuOqWG1VbOozk5oOXc3bubbmAs1VSDtB8Dfeq42JkBY+GMe5VSnWZIGvOCY1Q7FqKSZ9dRJYVWovmuDJhDtZSgjDfxjlyPlnIwkxWKKcWzVaQ0aq+cZ9jkYnOOG7KTKbA2hZIpPp/PRx8yaq731DXajwlCmIAH+lo=
+	t=1769446526; cv=none; b=WcQcU5Ysjnm3zUrWiR5MskUa8dJ/m13FjXzy5FB2T6gDq7Pd0DIZcW5Sap0HS70/XR2X9SlQFjYXk4gAOL2txktwDqVZTcIbIGIWLT3Ro3Db3ljN8mo61FAdHH+fEIom4eI80HO3GyQPf9JUc2M0o/mqHfIUxfn1sQqH8xL1fRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769446437; c=relaxed/simple;
-	bh=CfY0lpSCCusf0guumIaaTp6oo1XE7bsYy+BZCBBAICw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=gfgRwjIMt10D+SBBZZLBzNouT6YrylQXhFLk5GhTC3dphUhFEOsIPeBKZNqEJGRX8ECdi2ihiwCzImy1J6mSt3RzdNQwIYtdeixAdrAX3cGxrqeMJPJ/WwQlqgMYg1p1X0JH8zXLXqpe2flOMw7AmZzgMaMFvHNoesdiKPphv5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=IYaZWm5q; arc=none smtp.client-ip=63.178.143.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1769446526; c=relaxed/simple;
+	bh=rtDgVvG79SUCWzCaoQOfUDO1NplihBERrUqYdXin8Yw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MJ9/K3IyX5hEEkKeHVC45TTFuRuCbFci08SmCDJKrGNt0ifGw0m5b4vai3YFkYyI+NALu4L4jUvdylBzkJYQPy23IjDKn8FQW5CFynmnpRAek6jC1ydV02N9kR/Pl/wH5DSnisALtGJh+8RZUG2hk+bFbjmrRwK7qrXmMxKx4ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0Erv/eU; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="IYaZWm5q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0Erv/eU"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47f3b7ef761so34042325e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 08:55:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1769446436; x=1800982436;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=IZkODn83RzbQJlBtvngM/cf4CG/FWZhQcx+73Doqz/A=;
-  b=IYaZWm5q59RtoRkILPz1UH7Jr1kcQV3oZ57K3vxI9SykPIaxdLsVWxJd
-   IKBPHOLf8WII1cCPT90xr/cAOUNj5l9gWVrOCb6bE8JCSO/RApLskrVb0
-   IiGOw6ZfNm7QbvVF3x7H71RjVs9hgoLWpZhwIwMdVfM7ht+g64u9cVhyn
-   zgIPp7pPFuo3ewy8hsTOL1ShsCeGko8k7IuEgcf5tzPGZJPkTLi3Pd9Sb
-   cZCDh2gqjOSyw0F6c9D+F0QrBdPQmMSiXif6Aq1QMRa71IPsxPdq8ZTxS
-   9FV7WpO+G11E+5CZmbW2VmUeuZMor461Eef6JbPKtB2jwhtUchLHxwHSi
-   A==;
-X-CSE-ConnectionGUID: 2nORrr6YRC2G4fZW1A4I7Q==
-X-CSE-MsgGUID: +c9glS2LQGe9MdXD3TLgeA==
-X-IronPort-AV: E=Sophos;i="6.21,255,1763424000"; 
-   d="scan'208";a="8357402"
-Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
-  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 16:53:36 +0000
-Received: from EX19MTAEUC001.ant.amazon.com [54.240.197.233:21035]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.23.198:2525] with esmtp (Farcaster)
- id a8706c82-9dc2-42cd-ab2c-9b60461130fb; Mon, 26 Jan 2026 16:53:36 +0000 (UTC)
-X-Farcaster-Flow-ID: a8706c82-9dc2-42cd-ab2c-9b60461130fb
-Received: from EX19D005EUB002.ant.amazon.com (10.252.51.103) by
- EX19MTAEUC001.ant.amazon.com (10.252.51.155) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Mon, 26 Jan 2026 16:53:30 +0000
-Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
- EX19D005EUB002.ant.amazon.com (10.252.51.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Mon, 26 Jan 2026 16:53:30 +0000
-Received: from EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c]) by
- EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c%3]) with mapi id
- 15.02.2562.035; Mon, 26 Jan 2026 16:53:29 +0000
-From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "vbabka@suse.cz"
-	<vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
-	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "ast@kernel.org"
-	<ast@kernel.org>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"andrii@kernel.org" <andrii@kernel.org>, "martin.lau@linux.dev"
-	<martin.lau@linux.dev>, "eddyz87@gmail.com" <eddyz87@gmail.com>,
-	"song@kernel.org" <song@kernel.org>, "yonghong.song@linux.dev"
-	<yonghong.song@linux.dev>, "john.fastabend@gmail.com"
-	<john.fastabend@gmail.com>, "kpsingh@kernel.org" <kpsingh@kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>, "haoluo@google.com" <haoluo@google.com>,
-	"jolsa@kernel.org" <jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com"
-	<peterx@redhat.com>, "jannh@google.com" <jannh@google.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>, "shuah@kernel.org" <shuah@kernel.org>,
-	"riel@surriel.com" <riel@surriel.com>, "ryan.roberts@arm.com"
-	<ryan.roberts@arm.com>, "jgross@suse.com" <jgross@suse.com>,
-	"yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>, "kas@kernel.org"
-	<kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>,
-	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, "ackerleytng@google.com"
-	<ackerleytng@google.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>,
-	"prsampat@amd.com" <prsampat@amd.com>, "mlevitsk@redhat.com"
-	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com"
-	<gor@linux.ibm.com>, "hca@linux.ibm.com" <hca@linux.ibm.com>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
-	<thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>,
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com"
-	<urezki@gmail.com>, "zhengqi.arch@bytedance.com"
-	<zhengqi.arch@bytedance.com>, "gerald.schaefer@linux.ibm.com"
-	<gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com"
-	<jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>,
-	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org"
-	<pavel@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
-	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack"
-	<jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>,
-	"Manwaring, Derek" <derekmn@amazon.com>, "Cali, Marco"
-	<xmarcalx@amazon.co.uk>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-Subject: [PATCH v10 14/15] KVM: selftests: stuff vm_mem_backing_src_type into
- vm_shape
-Thread-Topic: [PATCH v10 14/15] KVM: selftests: stuff vm_mem_backing_src_type
- into vm_shape
-Thread-Index: AQHcjuRM7p/8/MtlVUCsx1GyifAAag==
-Date: Mon, 26 Jan 2026 16:53:29 +0000
-Message-ID: <20260126164445.11867-15-kalyazin@amazon.com>
-References: <20260126164445.11867-1-kalyazin@amazon.com>
-In-Reply-To: <20260126164445.11867-1-kalyazin@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20230601; t=1769446523; x=1770051323; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rc+FUrxKc4cUAoTTGJRU58P89nBONYHsM5Js7trUOgI=;
+        b=Z0Erv/eUvMHVs1d/MEDVa+e2EfxT3uYF+eaxPuJWRWMSXluuPyiijRXAf1LtQmpNt3
+         oEXPKFXjQ/j5fp2OofmiKGyEOcdtTQTV7KwKUZ0oKLFU4zBljQfOWIrBdHwoLZLupqJS
+         DonRUMdTbFevCA2/1t5Z+xeyHwPywPUnj+z9uvad93eXzNqKpMWzbswT86Cz61gFzymK
+         kQiNl5VM3iyfK0X7JNluJjai2Gr1uMSWpxvUMpO3xZp1fz0gY0ubXJxCERSk6c4g7hUX
+         j/yjlwupvB6/S2K/HyntkIKlwEXzw8dFuDFe189aLAyaDboPEV6N9TcFmp7SAJQB5R8b
+         9bvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769446523; x=1770051323;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rc+FUrxKc4cUAoTTGJRU58P89nBONYHsM5Js7trUOgI=;
+        b=hkLCF69d6/7dlkuFqHtuYU1kHikJOTh+6opGIlPvDJ4GZ/jSGOUm8bHlyDOZ174eYp
+         Y547VCUHajlPRZOVtqT/ufIV3E662LY2TYsX/7R/hQPTLbdCe365uURVwQyuJ3II31C3
+         Ze1nPjFx11FbFxiedrPzjuOCL1RtewPHHFXgGvV2GkwMSHCOfST/67n26QXv+KKN6cqJ
+         /cFG0+BVuFPy5vxhty5HAGSrXYszbczxf61CMRhiyplsh4GBG//c/+r6Nni/D/NSsX9S
+         WKq2ASBN6WpjlLVmZrq3e09hHofAd6x+ME1E4RvNWavd6EF/wHq8WMokfu3jG/7/6fTZ
+         Uk7A==
+X-Forwarded-Encrypted: i=1; AJvYcCXDLsAeNRGbaS2ZYrIaXmP2n+SBWYaqTwzsZjPXnhKQzjxvQanKMMKvivbiU3NFXIavUMUWN8BdkKY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzNbtqNIZYumSvIK0bOgfxu400/kMWwsWUKCagu1al7mumyjgr
+	oxQLUKvxsQnNMijMpTylaZKsa2rvJ45iHWjX508g/WIg+5nRdkBdDdNt
+X-Gm-Gg: AZuq6aJ8lAaICG+BUxdmtCM23HpxgLfcF73UFygsRlclub/bifjJDQvoUAso3VyxhET
+	hLNShISCUvvr0oYRSKIMDLjRbYZcdQk0euyunrv802jE2gdlovjZCb39TvofKvtgqgmc3yEkrz3
+	D+u3Epq3YegS2fhBhU9WuKG+kZNcWwA3nrHOIDhEt9wSChDXjv4ULkLhCnLSe7PsNu2q9tTKxX5
+	nySGxkP5dKVbRgwuLnFM06MiGCChUkH9QYi/3xK2/L7YIE4OXnYENllEIDhC8B72ps0L6qbfUlN
+	TOHZVIOUImYrzgAOaGgnUIbXVHMZUHDWvopH0ihYrlfhnMBP1jKRs7NvE2Rok7gBeD0vcOowtaj
+	AE/XcCozraVoRsejNFanZahEB5fSWyXz1bZg3WfrX3Q+bpvcZCtcxbxlBCcOkKrFC0g7zK97bHy
+	VQ5HXDaGewJGs1KgAU1eZ9CvYqz0+VUvN5k+DOWqXuco/30WZpU7tJAWyP9YkvwcyGl6tWSSbmI
+	PSl
+X-Received: by 2002:a05:600c:4e56:b0:47b:deb9:15fb with SMTP id 5b1f17b1804b1-480628348c6mr42537495e9.33.1769446523357;
+        Mon, 26 Jan 2026 08:55:23 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066bfb59asm1306595e9.7.2026.01.26.08.55.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 08:55:22 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 26 Jan 2026 16:55:13 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <anhtxco52jz2ktmxlittsjuvfqybwrwgy76bjhni3j5dzx2rh2@hpzf3sfwe7hf>
+References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
+ <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
+ <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
+ <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
+ <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
+ <ty6hptfh65k2rkqo6c6mg5z6vismuvyqsu3emvqarr2rbhpvcz@kn6tzjk5xi2o>
+ <aXd_0uNVm8c_Fhwd@smile.fi.intel.com>
+ <n2ms3esyxlegqibu4nluut3x4c4bkjxt5xrcd4gw35xxb2tipb@a2v73y25kroc>
+ <shsikp7hinoxzj7pzxopvmvgpaak4dioekh4tyvns4kv6xp46f@z5vgnisqskco>
+ <aXeRQ4AXmn1SxoNa@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXeRQ4AXmn1SxoNa@smile.fi.intel.com>
 
-From: Patrick Roy <patrick.roy@linux.dev>=0A=
-=0A=
-Use one of the padding fields in struct vm_shape to carry an enum=0A=
-vm_mem_backing_src_type value, to give the option to overwrite the=0A=
-default of VM_MEM_SRC_ANONYMOUS in __vm_create().=0A=
-=0A=
-Overwriting this default will allow tests to create VMs where the test=0A=
-code is backed by mmap'd guest_memfd instead of anonymous memory.=0A=
-=0A=
-Signed-off-by: Patrick Roy <patrick.roy@linux.dev>=0A=
-Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>=0A=
----=0A=
- .../testing/selftests/kvm/include/kvm_util.h  | 19 ++++++++++---------=0A=
- tools/testing/selftests/kvm/lib/kvm_util.c    |  2 +-=0A=
- tools/testing/selftests/kvm/lib/x86/sev.c     |  1 +=0A=
- .../selftests/kvm/pre_fault_memory_test.c     |  1 +=0A=
- 4 files changed, 13 insertions(+), 10 deletions(-)=0A=
-=0A=
-diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing=
-/selftests/kvm/include/kvm_util.h=0A=
-index 6689b43810c1..4bc4af9a40cf 100644=0A=
---- a/tools/testing/selftests/kvm/include/kvm_util.h=0A=
-+++ b/tools/testing/selftests/kvm/include/kvm_util.h=0A=
-@@ -192,7 +192,7 @@ enum vm_guest_mode {=0A=
- struct vm_shape {=0A=
- 	uint32_t type;=0A=
- 	uint8_t  mode;=0A=
--	uint8_t  pad0;=0A=
-+	uint8_t  src_type;=0A=
- 	uint16_t pad1;=0A=
- };=0A=
- =0A=
-@@ -200,14 +200,15 @@ kvm_static_assert(sizeof(struct vm_shape) =3D=3D size=
-of(uint64_t));=0A=
- =0A=
- #define VM_TYPE_DEFAULT			0=0A=
- =0A=
--#define VM_SHAPE(__mode)			\=0A=
--({						\=0A=
--	struct vm_shape shape =3D {		\=0A=
--		.mode =3D (__mode),		\=0A=
--		.type =3D VM_TYPE_DEFAULT		\=0A=
--	};					\=0A=
--						\=0A=
--	shape;					\=0A=
-+#define VM_SHAPE(__mode)				\=0A=
-+({							\=0A=
-+	struct vm_shape shape =3D {			\=0A=
-+		.mode	  =3D (__mode),			\=0A=
-+		.type	  =3D VM_TYPE_DEFAULT,		\=0A=
-+		.src_type =3D VM_MEM_SRC_ANONYMOUS	\=0A=
-+	};						\=0A=
-+							\=0A=
-+	shape;						\=0A=
- })=0A=
- =0A=
- #if defined(__aarch64__)=0A=
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/sel=
-ftests/kvm/lib/kvm_util.c=0A=
-index 28ee51253909..268a4520633b 100644=0A=
---- a/tools/testing/selftests/kvm/lib/kvm_util.c=0A=
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c=0A=
-@@ -467,7 +467,7 @@ struct kvm_vm *__vm_create(struct vm_shape shape, uint3=
-2_t nr_runnable_vcpus,=0A=
- 	if (is_guest_memfd_required(shape))=0A=
- 		flags |=3D KVM_MEM_GUEST_MEMFD;=0A=
- =0A=
--	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, 0, 0, nr_pages, fla=
-gs);=0A=
-+	vm_userspace_mem_region_add(vm, shape.src_type, 0, 0, nr_pages, flags);=
-=0A=
- 	for (i =3D 0; i < NR_MEM_REGIONS; i++)=0A=
- 		vm->memslots[i] =3D 0;=0A=
- =0A=
-diff --git a/tools/testing/selftests/kvm/lib/x86/sev.c b/tools/testing/self=
-tests/kvm/lib/x86/sev.c=0A=
-index c3a9838f4806..d920880e4fc0 100644=0A=
---- a/tools/testing/selftests/kvm/lib/x86/sev.c=0A=
-+++ b/tools/testing/selftests/kvm/lib/x86/sev.c=0A=
-@@ -164,6 +164,7 @@ struct kvm_vm *vm_sev_create_with_one_vcpu(uint32_t typ=
-e, void *guest_code,=0A=
- 	struct vm_shape shape =3D {=0A=
- 		.mode =3D VM_MODE_DEFAULT,=0A=
- 		.type =3D type,=0A=
-+		.src_type =3D VM_MEM_SRC_ANONYMOUS,=0A=
- 	};=0A=
- 	struct kvm_vm *vm;=0A=
- 	struct kvm_vcpu *cpus[1];=0A=
-diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/te=
-sting/selftests/kvm/pre_fault_memory_test.c=0A=
-index 93e603d91311..8a4d5af53fab 100644=0A=
---- a/tools/testing/selftests/kvm/pre_fault_memory_test.c=0A=
-+++ b/tools/testing/selftests/kvm/pre_fault_memory_test.c=0A=
-@@ -165,6 +165,7 @@ static void __test_pre_fault_memory(unsigned long vm_ty=
-pe, bool private)=0A=
- 	const struct vm_shape shape =3D {=0A=
- 		.mode =3D VM_MODE_DEFAULT,=0A=
- 		.type =3D vm_type,=0A=
-+		.src_type =3D VM_MEM_SRC_ANONYMOUS,=0A=
- 	};=0A=
- 	struct kvm_vcpu *vcpu;=0A=
- 	struct kvm_run *run;=0A=
--- =0A=
-2.50.1=0A=
-=0A=
+On 26/01/26 06:07PM, Andy Shevchenko wrote:
+> On Mon, Jan 26, 2026 at 03:30:44PM +0000, Rodrigo Alencar wrote:
+> > On 26/01/26 03:20PM, Rodrigo Alencar wrote:
+> > > On 26/01/26 04:53PM, Andy Shevchenko wrote:
+> > > > On Mon, Jan 26, 2026 at 02:26:20PM +0000, Rodrigo Alencar wrote:
+> 
+> ...
+> 
+> > > > Why? Can you elaborate how checking amount of digits is different to
+> > > > check_mul_overflow()?
+> > > 
+> > > consider U64_MAX = 18_446_744_073_709_551_615 as the limit:
+> > > - 19_000_000_000_000_000_000 contains the same amount of digits but overflows.
+> > > - 18_446_744_073_710_000_000 contains the same amount of digits but overflows.
+> > > 
+> > > to catch those cases, we need to check for the overflow, everytime we read a
+> > > character and accumulate:
+> > > 
+> > > u64 acc;
+> > > 
+> > > while(isdigit(*str))
+> > > 	if (check_mul_overflow(acc, 10, &acc) ||
+> > > 	    check_add_overflow(acc, *str - '0', &acc))
+> > > 		return -EOVERFLOW;
+> > > 
+> > > *res = acc;
+> > > 
+> > > acc can get weird results if not checked. 
+> > 
+> > Thinking about it again, that check could be done only in the last step
+> > (20th for u64)
+> 
+> Does kstrto*() also perform only last check? I think they do for each
+> iteration.
+
+It does the following:
+
+...
+		if (unlikely(res & (~0ull << 60))) {
+			if (res > div_u64(ULLONG_MAX - val, base))
+				rv |= KSTRTOX_OVERFLOW;
+		}
+...
+
+so overflow is checked when either one of the 4 MSbits are set.
+
+for now, I am thinking of something like:
+
+static ssize_t iio_safe_strtou64(const char *str, const char **endp,
+				 size_t max_chars, u64 *result)
+{
+	u64 digit, acc = 0;
+	size_t idx = 0;
+
+	while (isdigit(*str) && idx < max_chars) {
+		digit = *str - '0';
+		if (unlikely(idx > 19)) {
+			if (check_mul_overflow(acc, 10, &acc) ||
+			    check_add_overflow(acc, digit, &acc))
+				return -EOVERFLOW;
+		} else {
+			acc = acc * 10 + digit;
+		}
+		str++;
+		idx++;
+	}
+
+	*endp = str;
+	*result = acc;
+	return idx;
+}
+
+which would help the truncation when parsing the fractional part
+with max_chars, avoiding a div64_u64() to adjust precision:
+
+...
+	digit_count = iio_safe_strtou64(str, &end, SIZE_MAX, &i);
+	if (digit_count < 0)
+		return digit_count;
+
+	if (precision && *end == '.') {
+		str = end + 1;
+		digit_count = iio_safe_strtou64(str, &end, precision, &f);
+		if (digit_count < 0)
+			return digit_count;
+
+		if (digit_count < precision) /* scale up */
+			f *= int_pow(10, precision - digit_count);
+
+		while (isdigit(*end)) /* truncate */
+			end++;
+	}
+...
+
+but I understand you would not like this approach, because it does not use
+simple_strtoull() or kstrtoull(). Problem is simple_strtoull() is not
+overflow-safe and kstrtoull() does not allow to track a pointer to end
+of the string.
+
+Given that the current implementation of iio_str_to_fixpoint() is not using
+simple_strtoull() I am not seeing an issue with this approach.
+
+Kind regards,
+
+Rodrigo Alencar
