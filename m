@@ -1,108 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5388178372;
-	Mon, 26 Jan 2026 15:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FF933A9C5;
+	Mon, 26 Jan 2026 15:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769439995; cv=none; b=Tye9NoYq//G4PW+yBjXz69Gc/+80q+Eo12u7X7zALXfqtrUfC9M7vq+8/C85i0tEYA0l8S9EHCvqMghF+gC9f/Pl2+zsJvC+M7c/7Qx9pLwl9I+8Gi/dLHEfO0e67wvuRCtdcQYulGRuf2wvvWu1pMO9NztXFEvaxUoz/B5Nk9g=
+	t=1769440161; cv=none; b=fYasQ+h/R1nfhUUn32EK10AihouMyswCxa5IuV3U9D7x8O+6BOSVR4ICX/wHX3rkLrmbcyMysc/v8zJqpH0orA8enogf33pBFJzkQ4iGOjH6ipc4Oo8lNHBEwTHGXIEZz+QsFD/t6VxLcSX3K05qmupHkxPHWz5BWZTPVGvlDHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769439995; c=relaxed/simple;
-	bh=Tq+xqXHdYJEuF379M6efosfM3KbtbZxHtop2F74uvzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HK19bIb8cpjV/wyk7hOqMG27A+50MdHHojFlz2LHE5mTuAMkrhJ1CDhMgnsprAKhEdCaGV/Ba7Uc2bc8LLxm2iLFJPvWAKDYqDtxNJDR1PjWj+/tbDs1aOKcvUvkahuHDnXCABmiMkt6PClI2Y+4mIXd9f7VhzHFIMST5hMx3N0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8L8n9ll; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769440161; c=relaxed/simple;
+	bh=O7b+ioRsB97Y32ljXm5Io/Gt3sgHeua5ZHEKIXJqKsU=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=c3777hb4uwEFgKOG0KgomGDWx6jAFLLKoVwdBIvLQmol9ZpVMZcK6uMM2823CGsoZ8ri6TzGkzFTXAVWmjs5VWAdexCcRJ29XsnKihmcWmCZH73gwsdnZyFjxzbhgV1H7AfrI0STiGOBDx1AIfDjkrYgjaci3YnCOVsJzwitW4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=xixd4krr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8L8n9ll"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769439994; x=1800975994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tq+xqXHdYJEuF379M6efosfM3KbtbZxHtop2F74uvzE=;
-  b=Y8L8n9llxPOp3qd296BBNyZHMLPEU6CHtkGEQZ1+yjIT2Vt6LtRaNas9
-   +NXWP/R3VLEWQ9JVaWE5FXOTGwKA7lBjuYkT1q8MUcwjUujWODTKPJsqj
-   34YXBLxz6U21cZGDJk0rh8cMWadllx/UpmrZ+vQ9UQafm7oJ0ZU+9kW+Z
-   GllcB3M7GJ8wqgZS3p3vNEG2kO6Udq2W28yDMXb/AUjZi2ivfA8hdpVXu
-   1F7Qi+jO8eqVIfKAPTen9SAkWr0KeCuUX6vHzIDBwZ2fpY6Gq36l2/oKx
-   oF7uB67vhTshv1yZcu1ZFYm0EOEV/3bdSu+Cnbh+4bD1EywwOFVMpJpmC
-   Q==;
-X-CSE-ConnectionGUID: RPopneyVR8GFg4ZlG+1hXg==
-X-CSE-MsgGUID: lqqkA/dHRlqTloko4HQngw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81336521"
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="81336521"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 07:06:33 -0800
-X-CSE-ConnectionGUID: xI3zoVmPQYi0NEITP+0+NQ==
-X-CSE-MsgGUID: xb4M3optQoWw6kpUEnDTWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="207724098"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 07:06:29 -0800
-Date: Mon, 26 Jan 2026 17:06:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <aXeC8r71LqdpozDG@smile.fi.intel.com>
-References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
- <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
- <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
- <udbqdpfcarcngai23u2oo5zekjzvu6dptem732rdvlsxiry2vs@aeqvxjusdx5s>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="xixd4krr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F229BC116C6;
+	Mon, 26 Jan 2026 15:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1769440160;
+	bh=O7b+ioRsB97Y32ljXm5Io/Gt3sgHeua5ZHEKIXJqKsU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=xixd4krrAPZouZ0meDgc+WkiIS97gm5oqypKP5H+EOjYNxN051VuPeWvpH/140pYk
+	 T5d4RZEcxum1+pwa1SMhoya2y2u7TEAegzYymzqZCfTBGR4ibL0aN8cnbPWczQXG3w
+	 qeoSEliBViEK/73FvGyRlRB5jt+d4yaUqbCMZoYI=
+Date: Mon, 26 Jan 2026 07:09:18 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Lance Yang <lance.yang@linux.dev>, Nico Pache <npache@redhat.com>,
+ david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ baohua@kernel.org, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ linux-kernel@vger.kernel.org, matthew.brost@intel.com,
+ joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+ gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+ jannh@google.com, pfalcato@suse.de, jackmanb@google.com,
+ hannes@cmpxchg.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
+ raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, zokeefe@google.com, rientjes@google.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com, David
+ Hildenbrand <david@redhat.com>, linux-mm@kvack.org
+Subject: Re: [PATCH mm-unstable v14 03/16] introduce collapse_single_pmd to
+ unify khugepaged and madvise_collapse
+Message-Id: <20260126070918.cbbd532f4a8813e8a188108a@linux-foundation.org>
+In-Reply-To: <0e79a766-811d-477c-83ee-389db29d41bb@lucifer.local>
+References: <20260122192841.128719-1-npache@redhat.com>
+	<20260122192841.128719-4-npache@redhat.com>
+	<65dcf7ab-1299-411f-9cbc-438ae72ff757@linux.dev>
+	<0e79a766-811d-477c-83ee-389db29d41bb@lucifer.local>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <udbqdpfcarcngai23u2oo5zekjzvu6dptem732rdvlsxiry2vs@aeqvxjusdx5s>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 26, 2026 at 02:56:34PM +0000, Rodrigo Alencar wrote:
-> On 26/01/26 01:49PM, Andy Shevchenko wrote:
-> > On Fri, Jan 23, 2026 at 03:53:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+On Mon, 26 Jan 2026 11:40:21 +0000 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-...
-
-> > > + * @integer: The integer part of the number
-> > > + * @fract: The fractional part of the number
-> > 
-> > Can we use struct s64_fract? (Yes, you would need to add a couple of lines into
-> > math.h for that, but don't worry, I will Ack such a change immediately.)
+> Andrew - when this goes into mm-new if there isn't a respin between, please
+> drop all tags except any obviously sent re: the fix-patch.
 > 
-> Sorry, I missed this. s64_fract would be declared as:
-> 
-> struct s64_fract {
-> 	__s64 numerator;
-> 	__s64 denominator;
-> };
-> 
-> and numerator and denominator is not really applicable here. This type seems to be
-> used to declare fractions.
 
-Ah, good point. My memory (on fraction part) made a joke, I truly believed this
-is the same what we need.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+I've been believing this is next -rc1 material.  Was that mistaken?
