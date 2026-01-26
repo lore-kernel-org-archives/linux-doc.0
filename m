@@ -1,218 +1,150 @@
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.156])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B5F32D7F8;
-	Mon, 26 Jan 2026 09:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=137.74.80.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD29A329E49;
+	Mon, 26 Jan 2026 10:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769421338; cv=none; b=O6D48Fpa19ox13A5pcjgSn4z3njJljxVRmmrrWIXz9a4jb96Sd03UjovcX9fuWvIFLaEi0Wm1OWXGCS3Y5YTP4yiHrcAbIt54EUFDGVkEH9FrXwmUqngvD1a/rlXxJlm1STWgnSGz55QzHDw/j989EM+hRiSJl5gcz62HyhN/5A=
+	t=1769421603; cv=none; b=f5TTxjw1zFP4xgyUhEkICwuk8Vivt/LOkHaVxUmEFWq+8jnqFXoCQw9+AQ9YL22ppn2cYoH6xQ9vJ/7V5m9J7NQaQyxKSCmd7dtAur6ynGtIhYjQx7vxc+EbIpPE1zjzo6w73jc6tdTba2y1qi7B0V1NCaRhk3mCPHPzG4hm/vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769421338; c=relaxed/simple;
-	bh=oeog5iZO0tE/GpnDtWPS42chjSxxsQeVLLMswgVyFfc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dvSxps82qGz+3n4KqPVvWK2si1qMEqacttYYNwRcxc4RKSL7SrZSJapdOjCGmQ963c0VfdGOTYom9shd+D4NRZZxuM2oB7scD7YcaM2MHH4ZW3cv95x4VT0n7+oaXmCZ5cRV2m7QMMHpzUteOcmtFMTcApuAD6OWauG8NPD0VwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=tqeuu1Kt; arc=none smtp.client-ip=137.74.80.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	s=arc-20240116; t=1769421603; c=relaxed/simple;
+	bh=8+66ynW/UosBvC/E+PZZmULkSUQHS1YNGDIGs4shhqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kdf9+TAoWpIk49DpS7cfNTCLBKzzquI+QiPS+2PTAYY+MZ7nmjMtN8tMpeQoLWjGF+eOaDV6GQhXMyfqmhKjrLSvjQjSLHrxzmnl7biwqmBbWPxfva7seZUc+3ZXSxJUA3hTL38d4NNvZ43ykogIiM6uoq2MfDfI2x0P7AAoWcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmTer1ie; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="tqeuu1Kt"
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id 4CB21202EF;
-	Mon, 26 Jan 2026 09:55:29 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id EF3A840403;
-	Mon, 26 Jan 2026 09:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1769421326; bh=oeog5iZO0tE/GpnDtWPS42chjSxxsQeVLLMswgVyFfc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tqeuu1Kt2uJFT7G1pUaS6ZdAPeXlfvWIIf0w8EbHy5V3QKL8nzhygKAPP/WJPEmVW
-	 +oKxGgk4KXG9OjYW+8+c64R9CQyUj3AbLUPg4cIdA4o/8AoAvTPLdMRoBG5Qerq9zW
-	 M+LIQdIUZ8WkEZjI7+F4jY1pLeKafq0BxN7/WFns=
-Received: from liushuyu-p15 (unknown [117.151.13.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 89E6F41B82;
-	Mon, 26 Jan 2026 09:55:18 +0000 (UTC)
-From: Zixing Liu <liushuyu@aosc.io>
-To: WANG Xuerui <kernel@xen0n.name>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Bibo Mao <maobibo@loongson.cn>
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Zixing Liu <liushuyu@aosc.io>,
-	Paolo Bonzini <pbonzini@redhat.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmTer1ie"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769421601; x=1800957601;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8+66ynW/UosBvC/E+PZZmULkSUQHS1YNGDIGs4shhqw=;
+  b=NmTer1ieWlIOpTqEXaCTGgZnw9ZQIPsQJuCT/9TAvZLDhOVPiWmb4mP5
+   5qhmuU+nkBIbTt0wFvZXw/NDEPUJxxd2W5EUI1F3Fb3VQ5pOzri1Nf1H4
+   LE2u9+fCmG329hDGdp//fXII7iWOtpxY3Fet7vE+0nOVt26zABq//VZzq
+   zHT6O5NSpPB/E+QKfrlZBmk4VHstnxpXK8aujzLbLJlKwMKKnqdH/24Ni
+   m42psYQKb7w4zZA4AeaW6QJC2lequ7yxtE6vOoKyUAvbAstLaXVrX16xx
+   m+sesm6wT4CbTzeqsfGaOxAeCw2UqFfs34DZDZmuIhb+AcxglBJ7L3IQD
+   w==;
+X-CSE-ConnectionGUID: WhTd4SGrTlyoerr4iIgAVg==
+X-CSE-MsgGUID: k9B5vsF5RLKF7qsj6uSZxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="73183351"
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="73183351"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 01:59:55 -0800
+X-CSE-ConnectionGUID: XFLH6wX1QCeVh2rWVMlKBw==
+X-CSE-MsgGUID: lTttj+paRWeICoj+PaAr/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
+   d="scan'208";a="212501718"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 01:59:46 -0800
+Date: Mon, 26 Jan 2026 11:59:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v2] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-Date: Mon, 26 Jan 2026 17:55:03 +0800
-Message-ID: <20260126095504.473371-1-liushuyu@aosc.io>
-X-Mailer: git-send-email 2.52.0
+	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
+ provider/consumer pair
+Message-ID: <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
+References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: EF3A840403
-X-Spamd-Result: default: False [1.40 / 10.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED(0.00)[mail20.mymailcheap.com:helo,mail20.mymailcheap.com:rdns,aosc.io:mid,aosc.io:from_mime,aosc.io:from_smtp,aosc.io:email];
-	SPFBL_URIBL_EMAIL_FAIL(0.00)[liushuyu.aosc.io:server fail];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Rspamd-Action: no action
-X-Rspamd-Server: nf2.mymailcheap.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-This ioctl can be used by the userspace applications to determine which
-(special) registers are get/set-able in a meaningful way.
+On Sun, Jan 25, 2026 at 07:46:51PM +0100, Wolfram Sang wrote:
+> TLDR: I want to create a hwspinlock provider outside of the hwspinlock
+> directory. So, I refactored the headers into a provider/consumer pair.
+> Which seems to me like a reasonable seperation anyhow. No functional
+> changes. My build tests went fine and buildbots are happy, too.
+> 
+> Longer explanation:
+> 
+> There is a device (MFIS) in newer Renesas SoCs which combines various
+> things like hwspinlocks, mailboxes and other stuff. Sadly, these are not
+> strictly separated. Registers are kind of mixed and its register
+> unprotection scheme will need one of its own locks. I tried various
+> paths to handle this device (MFD, auxiliary bus) but I concluded that
+> the sub-device dependencies give enough reasons for a single driver in
+> drivers/soc/. So, this series will allow me to instantiate a hwspinlock
+> provider from the other directory.
+> 
+> Patches 1+2 do the actual refactoring with a fallback being in place. I
+> used '-B' with git-format-patch in this RFC, so the actual changes are
+> more visible when the headers are moved.
+> 
+> Patch 3 converts all the users. There are not many. We could try to get
+> all the acks for this single patch. Or I can break it into single
+> patches and send them to subsystems. I don't mind.
+> 
+> Patch 4 simply removes the fallback.
+> 
+> Looking forward to comments on this approach. If the hwspinlock
+> maintainers like it as is, I would kindly propose to apply patches 1+2
+> after 7.0-rc1 comes out. This might sound a bit hasty, but a) I want to
+> avoid chasing a moving target and b) this would remove one dependency of
+> the hwspinlock driver I originally intend to upstream, of course.
+> 
+> I would take care of patches 3+4 as needed.
+> 
+> A branch can be found here:
+> 
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-includes
+> 
+> Patches are based on linux-next as of 2026-01-21.
+> 
+> Opinions?
 
-This can be very useful for cross-platform VMMs so that they do not have
-to hardcode register indices for each supported architectures.
+I don't like the idea of sharing internal stuff. Why would we need to have
+a struct hwspinlock to be visible?
 
-Signed-off-by: Zixing Liu <liushuyu@aosc.io>
----
- Documentation/virt/kvm/api.rst |  2 +-
- arch/loongarch/kvm/vcpu.c      | 85 ++++++++++++++++++++++++++++++++++
- 2 files changed, 86 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb..f46dd8be282f 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -3603,7 +3603,7 @@ VCPU matching underlying host.
- ---------------------
- 
- :Capability: basic
--:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
-+:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
- :Type: vcpu ioctl
- :Parameters: struct kvm_reg_list (in/out)
- :Returns: 0 on success; -1 on error
-diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
-index 656b954c1134..ed11438f4544 100644
---- a/arch/loongarch/kvm/vcpu.c
-+++ b/arch/loongarch/kvm/vcpu.c
-@@ -1186,6 +1186,73 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_vcpu *vcpu,
- 	return ret;
- }
- 
-+static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user *uindices)
-+{
-+	unsigned int i, count;
-+
-+	for (i = 0, count = 0; i < CSR_MAX_NUMS; i++) {
-+		if (!(get_gcsr_flag(i) & (SW_GCSR | HW_GCSR)))
-+			continue;
-+		const u64 reg = KVM_IOC_CSRID(i);
-+		if (uindices && put_user(reg, uindices++))
-+			return -EFAULT;
-+		count++;
-+	}
-+
-+	return count;
-+}
-+
-+static unsigned long kvm_loongarch_num_lbt_regs(void)
-+{
-+	/* +1 for the LBT_FTOP flag (inside arch.fpu) */
-+	return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + 1;
-+}
-+
-+static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
-+{
-+	/* +1 for the KVM_REG_LOONGARCH_COUNTER register */
-+	unsigned long res =
-+		kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS + 1;
-+
-+	if (kvm_guest_has_lbt(&vcpu->arch))
-+		res += kvm_loongarch_num_lbt_regs();
-+
-+	return res;
-+}
-+
-+static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
-+					  u64 __user *uindices)
-+{
-+	u64 reg;
-+	unsigned int i;
-+
-+	i = kvm_loongarch_walk_csrs(vcpu, uindices);
-+	if (i < 0)
-+		return i;
-+	uindices += i;
-+
-+	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
-+		reg = KVM_IOC_CPUCFG(i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	reg = KVM_REG_LOONGARCH_COUNTER;
-+	if (put_user(reg, uindices++))
-+		return -EFAULT;
-+
-+	if (!kvm_guest_has_lbt(&vcpu->arch))
-+		return 0;
-+
-+	for (i = 1; i <= kvm_loongarch_num_lbt_regs(); i++) {
-+		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	return 0;
-+}
-+
- long kvm_arch_vcpu_ioctl(struct file *filp,
- 			 unsigned int ioctl, unsigned long arg)
- {
-@@ -1251,6 +1318,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
- 		r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
- 		break;
- 	}
-+	case KVM_GET_REG_LIST: {
-+		struct kvm_reg_list __user *user_list = argp;
-+		struct kvm_reg_list reg_list;
-+		unsigned n;
-+
-+		r = -EFAULT;
-+		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
-+			break;
-+		n = reg_list.n;
-+		reg_list.n = kvm_loongarch_num_regs(vcpu);
-+		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
-+			break;
-+		r = -E2BIG;
-+		if (n < reg_list.n)
-+			break;
-+		r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
-+		break;
-+	}
- 	default:
- 		r = -ENOIOCTLCMD;
- 		break;
 -- 
-2.52.0
+With Best Regards,
+Andy Shevchenko
+
 
