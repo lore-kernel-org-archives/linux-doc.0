@@ -1,159 +1,183 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B7A27A47F;
-	Mon, 26 Jan 2026 08:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAFF221FDE;
+	Mon, 26 Jan 2026 08:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769415061; cv=none; b=goBPBYRCXwZhtpUrMX+38B7IWdGAGJiF32vR5toAqWt7DfapGNN/nMp7SeIBTE0O/4ql+yuxZU9g7Vvgb67EoFUQxjQn0CGKajjSIdFKGO1/TTcp1XFRzrOYqsRmxF545X750xN/CuGUICFHj35esC16eYYbF7iGF36Bm4cw4Jk=
+	t=1769415175; cv=none; b=TkAFvMIOTwGQKOnrV7l8fyQMeFykDcxcQDqZHIS2ZdmJVl/A4CkWKyZPs8ki0JVBIjoGciEUDOZWqsDYtziOdQ054Be0iXlHd5whKjDC8l3JutOg1FSCK5+Ma3NheSHe1TBSqqsHt9xw2HOoDkBHsta2AeZxU9KNoYFQ+akXcm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769415061; c=relaxed/simple;
-	bh=GR3zckIVpt6LCL6jaARW/kyCfDLSF1sXbOxzIXTnr6Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kh9yCQxDGCchzxWtwl9tgmGpqCib/nH7n1artrh1m2wjLFrzGOdUP6kHA5qLRz458wVmUgA+hJ5efiVxuBYfSi6+u5GARecFURqu5OJfDrkr83KAdB6jGI4BPYx0Q9Wzpsu60luFqrBH7yLumI6c3ov/i2eifVIxynDIrixtA3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=LKNeZMbq; arc=none smtp.client-ip=113.46.200.227
+	s=arc-20240116; t=1769415175; c=relaxed/simple;
+	bh=PNt4Dwspyanr/4lHit01wv2QdLjJuOlP0GsozWGeP/k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f0IxdtLrWRQix5c0PeCxSN3ed0/NgbxXZHyi7a6R91a6sLEtPolcp2LvJae7PoYvr2ymrkY1vwYXvVQ3exDvHwNf9JfIEuc86BaxRjGuqL41f9EcsWbmCx+LZUS+R6GknxDvoT6i0elTk8i2Q4Ok3xq8yjILRs2NgtI1+cNqQ/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ajYJt/xU; arc=none smtp.client-ip=113.46.200.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="LKNeZMbq"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ajYJt/xU"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=YyYWratAnhyYvIsPU6aAB6x0/xonNgcbkzbNqPshYGQ=;
-	b=LKNeZMbqFLdvYz2YeBy0aAN1E+7l3nKA5q817rd/b/G3STx/GRuBXiAD5c861+osb+hPe8NUC
-	pvDYwKR//CrXuJwdmkMyKZGn2JYr8OLoJ3RAXiHnM6epBPN8ctp87YALoaZ/2SLjIRhOY7Er/YS
-	BmQvUpYiD+1CrPP+7DxOHXg=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4f01Mz3VmGznTVZ;
-	Mon, 26 Jan 2026 16:06:55 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8F6D740363;
-	Mon, 26 Jan 2026 16:10:50 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+	bh=ADFUkeLGfumOrsISzPrnqn6aITpYElOPV7eypZJ2jfw=;
+	b=ajYJt/xUNSYhnfJB7rgvEHiK2VJ0ocO+Zo3ae35fXopKE7swtDOOBjFmjzKbfLg0TeaGVc8yX
+	hxTnb5MrqPuqnqBh5nPVuS2Q9M25/z/aPa48OtYJkMsinrys6ZXIvUGmzGC47gW6sHcfIaU93AS
+	iXAOa+Wp3Dr1KnSzkjn69WY=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4f01Qq4fVxzmV6g;
+	Mon, 26 Jan 2026 16:09:23 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0E3694055B;
+	Mon, 26 Jan 2026 16:12:51 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
+ (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 26 Jan
- 2026 16:10:49 +0800
-Message-ID: <7e86cdbe-f16c-4fe8-92c5-e6fb89f49811@huawei.com>
-Date: Mon, 26 Jan 2026 16:10:49 +0800
+ 2026 16:12:49 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <ardb@kernel.org>, <leitao@debian.org>, <corbet@lwn.net>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <akpm@linux-foundation.org>,
+	<bp@alien8.de>, <mingo@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
+	<feng.tang@linux.alibaba.com>, <kees@kernel.org>, <elver@google.com>,
+	<arnd@arndb.de>, <fvdl@google.com>, <lirongqing@baidu.com>,
+	<bhelgaas@google.com>, <bhe@redhat.com>, <dave.hansen@linux.intel.com>,
+	<rppt@kernel.org>, <cfsworks@gmail.com>, <osandov@fb.com>,
+	<sourabhjain@linux.ibm.com>, <jbohac@suse.cz>, <ryan.roberts@arm.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH v2] arm64: kexec: Add support for crashkernel CMA reservation
+Date: Mon, 26 Jan 2026 16:13:34 +0800
+Message-ID: <20260126081334.699147-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/9] ACPI: CPPC: Extend cppc_set_epp_perf() for
- FFH/SystemMemory
-To: Sumit Gupta <sumitg@nvidia.com>
-CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <rdunlap@infradead.org>, <ray.huang@amd.com>,
-	<gautham.shenoy@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
-	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
-	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
-	<nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20260120145623.2959636-1-sumitg@nvidia.com>
- <20260120145623.2959636-6-sumitg@nvidia.com>
- <a7a4d351-eed3-4ea6-a84f-e525b7ac13a6@huawei.com>
- <86303677-6124-424f-999d-c420eac0cceb@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <86303677-6124-424f-999d-c420eac0cceb@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf200001.china.huawei.com (7.202.181.227)
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On 2026/1/25 4:08, Sumit Gupta wrote:
-> 
-> On 22/01/26 14:48, zhenglifeng (A) wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> On 2026/1/20 22:56, Sumit Gupta wrote:
->>> Extend cppc_set_epp_perf() to write both auto_sel and energy_perf
->>> registers when they are in FFH or SystemMemory address space.
->>>
->>> This keeps the behavior consistent with PCC case where both registers
->>> are already updated together, but was missing for FFH/SystemMemory.
->>>
->>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->>> ---
->>>   drivers/acpi/cppc_acpi.c | 24 +++++++++++++++++++++---
->>>   1 file changed, 21 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
->>> index de35aeb07833..45c6bd6ec24b 100644
->>> --- a/drivers/acpi/cppc_acpi.c
->>> +++ b/drivers/acpi/cppc_acpi.c
->>> @@ -1562,6 +1562,8 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->>>        struct cpc_register_resource *auto_sel_reg;
->>>        struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
->>>        struct cppc_pcc_data *pcc_ss_data = NULL;
->>> +     bool autosel_ffh_sysmem;
->>> +     bool epp_ffh_sysmem;
->>>        int ret;
->>>
->>>        if (!cpc_desc) {
->>> @@ -1572,6 +1574,11 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->>>        auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
->>>        epp_set_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
->>>
->>> +     epp_ffh_sysmem = CPC_SUPPORTED(epp_set_reg) &&
->>> +             (CPC_IN_FFH(epp_set_reg) || CPC_IN_SYSTEM_MEMORY(epp_set_reg));
->>> +     autosel_ffh_sysmem = CPC_SUPPORTED(auto_sel_reg) &&
->>> +             (CPC_IN_FFH(auto_sel_reg) || CPC_IN_SYSTEM_MEMORY(auto_sel_reg));
->>> +
->>>        if (CPC_IN_PCC(epp_set_reg) || CPC_IN_PCC(auto_sel_reg)) {
->>>                if (pcc_ss_id < 0) {
->>>                        pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
->>> @@ -1597,11 +1604,22 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
->>>                ret = send_pcc_cmd(pcc_ss_id, CMD_WRITE);
->>>                up_write(&pcc_ss_data->pcc_lock);
->>>        } else if (osc_cpc_flexible_adr_space_confirmed &&
->>> -                CPC_SUPPORTED(epp_set_reg) && CPC_IN_FFH(epp_set_reg)) {
->>> -             ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
->>> +                (epp_ffh_sysmem || autosel_ffh_sysmem)) {
->>> +             if (autosel_ffh_sysmem) {
->>> +                     ret = cpc_write(cpu, auto_sel_reg, enable);
->>> +                     if (ret)
->>> +                             return ret;
->>> +             }
->>> +
->>> +             if (epp_ffh_sysmem) {
->>> +                     ret = cpc_write(cpu, epp_set_reg,
->>> +                                     perf_ctrls->energy_perf);
->>> +                     if (ret)
->>> +                             return ret;
->>> +             }
->> Don't know if such a scenario exists, but if one of them is in PCC and the
->> other is in FFH or system memory, only the one in PCC will be updated
->> based on your modifications.
-> The current code handles mixed cases correctly.
-> When either register is in PCC, the first if block executes and calls
-> cpc_write() for both registers. The cpc_write() internally handles
-> each register's type (PCC, FFH, or SystemMemory)
+Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
+crashkernel= command line option") and commit ab475510e042 ("kdump:
+implement reserve_crashkernel_cma") added CMA support for kdump
+crashkernel reservation.
 
-Yes, I was wrong.
+Crash kernel memory reservation wastes production resources if too
+large, risks kdump failure if too small, and faces allocation difficulties
+on fragmented systems due to contiguous block constraints. The new
+CMA-based crashkernel reservation scheme splits the "large fixed
+reservation" into a "small fixed region + large CMA dynamic region": the
+CMA memory is available to userspace during normal operation to avoid
+waste, and is reclaimed for kdump upon crash—saving memory while
+improving reliability.
 
-According to the first if block, cpc_wite() is OK to be called for a
-register not in PCC. So it looks like this 'else if' is unnecessary. Only
-CPC_SUPPORTED is needed to be checked before calling cpc_write(), isn't it?
+So extend crashkernel CMA reservation support to arm64. The following
+changes are made to enable CMA reservation:
 
-> 
-> 
-> Thank you,
-> Sumit Gupta
-> 
-> 
-> 
->>>        } else {
->>>                ret = -ENOTSUPP;
->>> -             pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
->>> +             pr_debug("_CPC in PCC/FFH/SystemMemory are not supported\n");
->>>        }
->>>
->>>        return ret;
+- Parse and obtain the CMA reservation size along with other crashkernel
+  parameters.
+- Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
+- Include the CMA-reserved ranges for kdump kernel to use.
+- Exclude the CMA-reserved ranges from the crash kernel memory to
+  prevent them from being exported through /proc/vmcore.
+
+Update kernel-parameters.txt to document CMA support for crashkernel on
+arm64 architecture.
+
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+v2:
+- Free cmem in prepare_elf_headers()
+- Add the mtivation.
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 +-
+ arch/arm64/kernel/machine_kexec_file.c          | 15 ++++++++++++++-
+ arch/arm64/mm/init.c                            |  5 +++--
+ 3 files changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1058f2a6d6a8..36bb642a7edd 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1119,7 +1119,7 @@ Kernel parameters
+ 			It will be ignored when crashkernel=X,high is not used
+ 			or memory reserved is below 4G.
+ 	crashkernel=size[KMG],cma
+-			[KNL, X86, ppc] Reserve additional crash kernel memory from
++			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
+ 			CMA. This reservation is usable by the first system's
+ 			userspace memory and kernel movable allocations (memory
+ 			balloon, zswap). Pages allocated from this memory range
+diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+index 410060ebd86d..ef6ce9aaba80 100644
+--- a/arch/arm64/kernel/machine_kexec_file.c
++++ b/arch/arm64/kernel/machine_kexec_file.c
+@@ -48,7 +48,7 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+ 	u64 i;
+ 	phys_addr_t start, end;
+ 
+-	nr_ranges = 2; /* for exclusion of crashkernel region */
++	nr_ranges = 2 + crashk_cma_cnt; /* for exclusion of crashkernel region */
+ 	for_each_mem_range(i, &start, &end)
+ 		nr_ranges++;
+ 
+@@ -64,6 +64,12 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+ 		cmem->nr_ranges++;
+ 	}
+ 
++	for (i = 0; i < crashk_cma_cnt; i++) {
++		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
++		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
++		cmem->nr_ranges++;
++	}
++
+ 	/* Exclude crashkernel region */
+ 	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+ 	if (ret)
+@@ -75,6 +81,13 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+ 			goto out;
+ 	}
+ 
++	for (i = 0; i < crashk_cma_cnt; ++i) {
++		ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
++					      crashk_cma_ranges[i].end);
++		if (ret)
++			goto out;
++	}
++
+ 	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+ 
+ out:
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index 524d34a0e921..28165d94af08 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -96,8 +96,8 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
+ 
+ static void __init arch_reserve_crashkernel(void)
+ {
++	unsigned long long crash_base, crash_size, cma_size = 0;
+ 	unsigned long long low_size = 0;
+-	unsigned long long crash_base, crash_size;
+ 	bool high = false;
+ 	int ret;
+ 
+@@ -106,11 +106,12 @@ static void __init arch_reserve_crashkernel(void)
+ 
+ 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+ 				&crash_size, &crash_base,
+-				&low_size, NULL, &high);
++				&low_size, &cma_size, &high);
+ 	if (ret)
+ 		return;
+ 
+ 	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
++	reserve_crashkernel_cma(cma_size);
+ }
+ 
+ static phys_addr_t __init max_zone_phys(phys_addr_t zone_limit)
+-- 
+2.34.1
 
