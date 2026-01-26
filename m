@@ -1,122 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB63629E0E7;
-	Mon, 26 Jan 2026 16:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F3B2D47E1;
+	Mon, 26 Jan 2026 16:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769443660; cv=none; b=SfmQEGPDL4ACriXs976Kq6oWB6noG+tgdjhT2KvCdTmQCF/qJWeXpFV4GxTgEkadhrjrdmrCQiWFegM87YhDHbT94vR4goM6p0O2oPIXtFzyvsw2Rr4aVSvNLOyt1LLB/xP0+6thH5fFnqyyONcuO32kpOEz5MT8kAGlb+BdQSo=
+	t=1769443705; cv=none; b=Inpbhc8te8OP77dnfQ65EtM2d8AV7eDvkUUlBnO+Z344w0wWwRpEPYr4fLuTExKZazelGP3a0pqON/2YWHxzlzAHsT2pwW1fRb2Yj49zDYdLwfnddXSfABaqjXH0qZ6GCLxylohL25J1g2uWOilFsmlxiKqA9Kpo4ftnLHWpQVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769443660; c=relaxed/simple;
-	bh=+/rUO9seL0e9+Zk1utxQiFfJLe8+T44OlW/g/uuuIQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iVpMp1xY32EYUKqtakDAG0X2GyqXho+tRpCFsVg5cQOwHafPss3znBIBNn/bDiZOZBQc0DO7I9hvCM9zKwiQiPp86l3TSm2AVR6rOssPD0l95wSMBVgEzNaCNDV4ohDh3CQ9SL7TieEByNHqC5PJjOYvhJkruXhIMDtjzmUE2j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRo7fIlc; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769443705; c=relaxed/simple;
+	bh=cE9bdmoIZvSsIl5vl+7x+yoqNT1kYkQq4l+F5aZ8ERA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=OE9YZQK5aaNMOy9TWinVqkc3B0aPskxh9ba0umRooBrdSSex1erqW1yv5jG1DdHYxKAYcbzvVvS57DFyLyjsT7ctSyPEQZCxOgXuqFG8mX/X07xx3n6i6ztvpTznYvA6mWGljlhK6fBfHEFXVMO8n83nGdrOm9qYrOjOM4SaSLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kK1zUPcn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRo7fIlc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769443659; x=1800979659;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+/rUO9seL0e9+Zk1utxQiFfJLe8+T44OlW/g/uuuIQY=;
-  b=iRo7fIlcuIaUfpDuSl4fNpSUrua7v2v1n5rOns4qe9eVhp7qucNI2Mlq
-   lMu6jrJ7e7YP00f0Q9QsGL4tBW4qd8vLxOp4nuF3w2/UOHMfUN9gjdzfl
-   r3KuyTKX7yvUEebZJkhWW83K5OBkBP/P6K6i5hG+SztWHpRGrPWwbTtLz
-   rfvTKefUY/yrmkTWOqMlFynFsvysb/+649mBYgdHVv+s9YkOGb1La1hQl
-   aRzQ+LTONf4hbK+zqNJcCo+gbCrtzOrhvLPTXx4ZToU9kMelesqHOP7Sc
-   qukxuuvnugcJe02nqCJh+0lgn74nN/IE52wxBe/B8d4zdEF3l459qS+/y
-   g==;
-X-CSE-ConnectionGUID: eSWra88xQvKocCl2tSj3gA==
-X-CSE-MsgGUID: mGKpk7PMTpaZLSc3HBiB7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="73207851"
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="73207851"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 08:07:38 -0800
-X-CSE-ConnectionGUID: +1r2TUbGSla1JjHWgV1y5A==
-X-CSE-MsgGUID: RThrSbgqTOGyVlGHFlc5xg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="207773414"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 08:07:34 -0800
-Date: Mon, 26 Jan 2026 18:07:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v5 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <aXeRQ4AXmn1SxoNa@smile.fi.intel.com>
-References: <20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com>
- <20260123-adf41513-iio-driver-v5-2-2dce812a2dda@analog.com>
- <aXdUvRZ9NmP5Nh95@smile.fi.intel.com>
- <byitgzjli5gsq5v66topve7ip3inkk2udwhuihjdp6bknnkmos@tv226l7tek7s>
- <aXdtpkL5QUhhB_hh@smile.fi.intel.com>
- <ty6hptfh65k2rkqo6c6mg5z6vismuvyqsu3emvqarr2rbhpvcz@kn6tzjk5xi2o>
- <aXd_0uNVm8c_Fhwd@smile.fi.intel.com>
- <n2ms3esyxlegqibu4nluut3x4c4bkjxt5xrcd4gw35xxb2tipb@a2v73y25kroc>
- <shsikp7hinoxzj7pzxopvmvgpaak4dioekh4tyvns4kv6xp46f@z5vgnisqskco>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kK1zUPcn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89E2C16AAE;
+	Mon, 26 Jan 2026 16:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769443704;
+	bh=cE9bdmoIZvSsIl5vl+7x+yoqNT1kYkQq4l+F5aZ8ERA=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+	b=kK1zUPcnc6lpR2flLONsVoIrrvoP9MKAkvV/8n9AoCsr00ab0v713pOs2DY4In9dj
+	 TWJc3yfQIonsE8mqbP9ukDIP22nfAasdQXYeDs7EguAwSI7hUZWLFRCG6jBjwEqCwO
+	 3svQNMoOueF2aNT42ECAcOtw6XTiNskUKTy5zwq5jGgFN93hNDkIZt71ZARWF5SSJX
+	 pV3GCiQ70gG58SDAd1uqyzodvY6SSwBs7WO19IVWT5qAS0Aq42C4Pd/h9JkiJW8jgn
+	 DOkGPiGnEMp1jYA+QX2VEPaB6+Ww8TRTjbnggtZZnDCpDkoMvUFAeECEsfRzXBZ4Sa
+	 FEYx4h6Rt5New==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <shsikp7hinoxzj7pzxopvmvgpaak4dioekh4tyvns4kv6xp46f@z5vgnisqskco>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 26 Jan 2026 17:08:20 +0100
+Message-Id: <DFYNFXYTXBIW.314K249BPTA1Z@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Johan Hovold"
+ <johan@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, "Tzung-Bi
+ Shih" <tzungbi@kernel.org>, "Bartosz Golaszewski"
+ <bartosz.golaszewski@oss.qualcomm.com>, "Linus Walleij"
+ <linusw@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <shuah@kernel.org>, "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Simona Vetter"
+ <simona.vetter@ffwll.ch>, "Dan Williams" <dan.j.williams@intel.com>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Jason Gunthorpe" <jgg@nvidia.com>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <DFXV1QMQMTRK.2W8SWGVHS2K69@kernel.org>
+ <20260126000730.GI1134360@nvidia.com>
+In-Reply-To: <20260126000730.GI1134360@nvidia.com>
 
-On Mon, Jan 26, 2026 at 03:30:44PM +0000, Rodrigo Alencar wrote:
-> On 26/01/26 03:20PM, Rodrigo Alencar wrote:
-> > On 26/01/26 04:53PM, Andy Shevchenko wrote:
-> > > On Mon, Jan 26, 2026 at 02:26:20PM +0000, Rodrigo Alencar wrote:
+On Mon Jan 26, 2026 at 1:07 AM CET, Jason Gunthorpe wrote:
+> That's the whole issue with DRM right there - allowing driver code to
+> run after the driver has unregistered from the subsystem is
+> *dangerous* and creates all these bugs.
 
-...
+Unfortunately, it is necessary (at least to a certain extend) in DRM. I thi=
+nk
+there is space for improvements, but I don't think we can get rid of this
+entirely, especially on the KMS side AFAIK.
 
-> > > Why? Can you elaborate how checking amount of digits is different to
-> > > check_mul_overflow()?
-> > 
-> > consider U64_MAX = 18_446_744_073_709_551_615 as the limit:
-> > - 19_000_000_000_000_000_000 contains the same amount of digits but overflows.
-> > - 18_446_744_073_710_000_000 contains the same amount of digits but overflows.
-> > 
-> > to catch those cases, we need to check for the overflow, everytime we read a
-> > character and accumulate:
-> > 
-> > u64 acc;
-> > 
-> > while(isdigit(*str))
-> > 	if (check_mul_overflow(acc, 10, &acc) ||
-> > 	    check_add_overflow(acc, *str - '0', &acc))
-> > 		return -EOVERFLOW;
-> > 
-> > *res = acc;
-> > 
-> > acc can get weird results if not checked. 
-> 
-> Thinking about it again, that check could be done only in the last step
-> (20th for u64)
+(KMS is not exactly my core competence, so it would be better for someone e=
+lse
+to explain the details.)
 
-Does kstrto*() also perform only last check? I think they do for each
-iteration.
+> From a rust perspective I would argue you should be looking at every
+> one of those try_access_with() sites in drivers as a code smell that
+> says something is questionable in the driver or subsystem.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Agreed, if that is necessary it requires special attention and justificatio=
+n.
 
+> In many other subsystems a driver should *never* use "try_access_with".
+> Unfortunately the rust solution forces synchronize_srcu()'s anyway (which
+> Bartoz rightly pointed out as an unacceptable performance issue).
 
+I'm already working on patches that get this down to a single
+synchronize_{s}rcu() call on driver unbind, which is not a hot path at all.=
+ So,
+this should be fine. This should work for C code as well.
+
+> IMHO since rust has the Device<Bound> stuff the revocable should have use=
+d
+> rwsem, because the expectation should be that the majority uses access, n=
+ot
+> try_access.
+
+Yes, the majority of uses is access(), not try_access(); not sure if rwsem =
+is
+the better solution though.
