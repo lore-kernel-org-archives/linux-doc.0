@@ -1,99 +1,173 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258841D8DFB;
-	Mon, 26 Jan 2026 01:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C65038DF9;
+	Mon, 26 Jan 2026 01:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769389601; cv=none; b=sglKkuZqHfGHAcj/IPxvdQvrBaC8FwvrJ3B36ZulA6gJrdNMWIYkZtFgO9fL0hfp7nWslf/YMWXIzphNzRSNoOMLZK4qpa9yusEtv1CcEGa4rpMpS13vnuzwMZ2tmENPv3r3K9OERKEtf0bXqPY98IjT7idM7hGRzumTUPAWT9I=
+	t=1769390767; cv=none; b=TwXkZpg3cc0po5IIyLcWTDCo9eMFhuSxe82kuAwYOOGkdd9H3qw9eRSBbYA+WzJa2+V98OAChYEiusJupet+45/4Yt0+diiLbwOgy5fG0hLUt3c/X59q+nO6rTbNNzZJfH2dAVLB7WbN0ACIAVqWPSeLxx2J7Xj+aulsQBipN7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769389601; c=relaxed/simple;
-	bh=EABVssCM123G7jWb1K2EzG7DAOvkk0hnvjBy1LCXY/0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KFyiYkFtxuWq63kpdzur5ms2wahwOvO1oAVgXRPxhm8ML/jMqdOgY+RpkOpNg3KTpUAujTRIQthqftwOdPLpvzo27TRkrUXSeHi7i+3EhuHw1GE238eTnXLaDtSV/+XnEq7kQguUWcZBhLgyOV7UVA7VKOOP6y01yqHypKK9VxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pFH6JFXL; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769390767; c=relaxed/simple;
+	bh=Yb+JP07ijQn7cCb91p7u5ScNQqG1qvqytVfflQQb5SE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=td8TYE9olcPBM+cEA+J2keS9aYJjmS6sh8EbHCV2CknslQVN+scI17xT8u6FyQOyfqJEPl4sspTbOcBA5NeZDAtCK1huYpvb/UN3X60kFliZrqmPvKPB7rbG/SwA6BevjfEH6dh1+xMmhRQOlJhrnuzWQOIikZa7+Px5d+gTMkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=mT9+RuJ+; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pFH6JFXL"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=RyoonJga84J5TYM1qUcca+lnnVeYd8lqRPR77Y61Dr4=;
-	b=pFH6JFXLbQyoXthbYVtnz8XH05nCtt8/a74b8NqgOmA90cMyIz71b1r684czZpqvGBTqii1gw
-	EwJT6JaTFJUWUDxgaSf1e1NybnJQos/F8513ZI0oGkqz2qtv4KwI2v6VtbBasEwh68HEcD/2BUk
-	07caBsoVuxLI1MLC5DEUvhk=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4dzqyx1ZZfz1cypq;
-	Mon, 26 Jan 2026 09:03:05 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4C35D40563;
-	Mon, 26 Jan 2026 09:06:31 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Mon, 26 Jan 2026 09:06:29 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
-Subject: [PATCH net-next v02 3/4] hinic3: Use array_size instead of multiplying
-Date: Mon, 26 Jan 2026 09:03:33 +0800
-Message-ID: <a68f989c1ee8ae1c505be156ba0b7ac35aca64ef.1769142701.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1769142701.git.zhuyikai1@h-partners.com>
-References: <cover.1769142701.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="mT9+RuJ+"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1769390756; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=gCARNgGUNLhCd1rBcVoXKGTchR8utjxKY5PDBVlWowc=;
+	b=mT9+RuJ+dE2lBCVbMGH1jgRMsyN8jLeg5/XdxzWjfqp6V3dy8SV6E9im1q9/XX5+pHqMJg3uTaD6m6Z6s46iC7zn28DoCJ1r5mqPj7Rti1gY9vjsX33+yNgX/UxBEp7ni++/jHb2dsbZrRafg6xHj0USifklf19p0we2CIJsY84=
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WxmmVCv_1769390752 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 26 Jan 2026 09:25:54 +0800
+From: fangyu.yu@linux.alibaba.com
+To: fangyu.yu@linux.alibaba.com
+Cc: ajones@ventanamicro.com,
+	alex@ghiti.fr,
+	andrew.jones@oss.qualcomm.com,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	atish.patra@linux.dev,
+	corbet@lwn.net,
+	guoren@kernel.org,
+	kvm-riscv@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com,
+	pbonzini@redhat.com,
+	pjw@kernel.org,
+	radim.krcmar@oss.qualcomm.com
+Subject: Re: [PATCH v3 2/2] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE 
+Date: Mon, 26 Jan 2026 09:25:50 +0800
+Message-Id: <20260126012550.38206-1-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20260125150450.27068-3-fangyu.yu@linux.alibaba.com>
+References: <20260125150450.27068-3-fangyu.yu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemf100013.china.huawei.com (7.202.181.12)
 
-According to comment of patch 03, check codes that were merged and
-use array_size instead of multiplying.
+>From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>
+>This capability allows userspace to explicitly select the HGATP mode
+>for the VM. The selected mode must be less than or equal to the max
+>HGATP mode supported by the hardware. This capability must be enabled
+>before creating any vCPUs, and can only be set once per VM.
+>
+>Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>---
+> Documentation/virt/kvm/api.rst | 18 ++++++++++++++++++
+> arch/riscv/kvm/vm.c            | 26 ++++++++++++++++++++++++--
+> include/uapi/linux/kvm.h       |  1 +
+> 3 files changed, 43 insertions(+), 2 deletions(-)
+>
+>diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+>index 01a3abef8abb..9d0794b174c7 100644
+>--- a/Documentation/virt/kvm/api.rst
+>+++ b/Documentation/virt/kvm/api.rst
+>@@ -8765,6 +8765,24 @@ helpful if user space wants to emulate instructions which are not
+> This capability can be enabled dynamically even if VCPUs were already
+> created and are running.
+> 
+>+7.47 KVM_CAP_RISCV_SET_HGATP_MODE
+>+---------------------------------
+>+
+>+:Architectures: riscv
+>+:Type: VM
+>+:Parameters: args[0] contains the requested HGATP mode
+>+:Returns:
+>+  - 0 on success.
+>+  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
+>+    hardware.
+>+  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
+>+    non-empty memslots, or if the capability has already been set for the VM.
+>+
+>+This capability allows userspace to explicitly select the HGATP mode for
+>+the VM. The selected mode must be less than or equal to the maximum HGATP
+>+mode supported by the hardware. This capability must be enabled before
+>+creating any vCPUs, and can only be set once per VM.
+>+
+Hi Andrew:
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+In v3，no changes were made here, as KVM_CAP_RISCV_SET_HGATP_MODE might be
+appropriate, just like the no5lvl and no4lvl in the kernel.
+If you think it's needed, I'm happy to discuss this further.
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index b6cc7bb7bb0c..44abccf9cb29 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -23,7 +23,8 @@ static int hinic3_feature_nego(struct hinic3_hwdev *hwdev, u8 opcode,
- 	feature_nego.func_id = hinic3_global_func_id(hwdev);
- 	feature_nego.opcode = opcode;
- 	if (opcode == MGMT_MSG_CMD_OP_SET)
--		memcpy(feature_nego.s_feature, s_feature, size * sizeof(u64));
-+		memcpy(feature_nego.s_feature, s_feature,
-+		       array_size(size, sizeof(u64)));
- 
- 	mgmt_msg_params_init_default(&msg_params, &feature_nego,
- 				     sizeof(feature_nego));
-@@ -37,7 +38,8 @@ static int hinic3_feature_nego(struct hinic3_hwdev *hwdev, u8 opcode,
- 	}
- 
- 	if (opcode == MGMT_MSG_CMD_OP_GET)
--		memcpy(s_feature, feature_nego.s_feature, size * sizeof(u64));
-+		memcpy(s_feature, feature_nego.s_feature,
-+		       array_size(size, sizeof(u64)));
- 
- 	return 0;
- }
--- 
-2.43.0
-
+Thanks,
+Fangyu
+> 8. Other capabilities.
+> ======================
+> 
+>diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
+>index 4b2156df40fc..7bc9b193dcaa 100644
+>--- a/arch/riscv/kvm/vm.c
+>+++ b/arch/riscv/kvm/vm.c
+>@@ -202,6 +202,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+> 	case KVM_CAP_VM_GPA_BITS:
+> 		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
+> 		break;
+>+	case KVM_CAP_RISCV_SET_HGATP_MODE:
+>+		r = IS_ENABLED(CONFIG_64BIT) ? 1 : 0;
+>+		break;
+> 	default:
+> 		r = 0;
+> 		break;
+>@@ -212,12 +215,31 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+> 
+> int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
+> {
+>+	if (cap->flags)
+>+		return -EINVAL;
+>+
+> 	switch (cap->cap) {
+> 	case KVM_CAP_RISCV_MP_STATE_RESET:
+>-		if (cap->flags)
+>-			return -EINVAL;
+> 		kvm->arch.mp_state_reset = true;
+> 		return 0;
+>+	case KVM_CAP_RISCV_SET_HGATP_MODE:
+>+#ifdef CONFIG_64BIT
+>+		if (cap->args[0] < HGATP_MODE_SV39X4 ||
+>+		    cap->args[0] > kvm_riscv_gstage_mode(kvm_riscv_gstage_max_pgd_levels))
+>+			return -EINVAL;
+>+
+>+		if (kvm->arch.gstage_mode_user_initialized || kvm->created_vcpus ||
+>+		    !kvm_are_all_memslots_empty(kvm))
+>+			return -EBUSY;
+>+
+>+		kvm->arch.gstage_mode_user_initialized = true;
+>+		kvm->arch.kvm_riscv_gstage_pgd_levels =
+>+				3 + cap->args[0] - HGATP_MODE_SV39X4;
+>+		kvm_debug("VM (vmid:%lu) using SV%lluX4 G-stage page table format\n",
+>+			  kvm->arch.vmid.vmid,
+>+			  39 + (cap->args[0] - HGATP_MODE_SV39X4) * 9);
+>+#endif
+>+		return 0;
+> 	default:
+> 		return -EINVAL;
+> 	}
+>diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+>index dddb781b0507..00c02a880518 100644
+>--- a/include/uapi/linux/kvm.h
+>+++ b/include/uapi/linux/kvm.h
+>@@ -974,6 +974,7 @@ struct kvm_enable_cap {
+> #define KVM_CAP_GUEST_MEMFD_FLAGS 244
+> #define KVM_CAP_ARM_SEA_TO_USER 245
+> #define KVM_CAP_S390_USER_OPEREXEC 246
+>+#define KVM_CAP_RISCV_SET_HGATP_MODE 247
+> 
+> struct kvm_irq_routing_irqchip {
+> 	__u32 irqchip;
+>-- 
+>2.50.1
