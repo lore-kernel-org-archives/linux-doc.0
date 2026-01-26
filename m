@@ -1,65 +1,44 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E573EBF2D
-	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 04:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC372FE074;
+	Mon, 26 Jan 2026 04:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769401365; cv=none; b=BuumT5xMhVqI3D6jmZR+S2q4VNDJY6xnWPAXKtlIOErd4CAsFpPXD6K/9IQSG95TkWJt3AGPydXqFr5bZ/B67FlMUdMiRJziy92Ow3lQVsf/gLLgp2tmjlwn3qsAwAmE8y8TYNtpmZLietN4pEvttH+rxIbCWu5FHkMibIL0Rls=
+	t=1769401393; cv=none; b=O9E6FyDefJbdB4IkdzvAKiQWKFsh2uN4nDD7h/FXrAPqUR1qtQHHjiLOtQfvFE7NxVb6R4xbdeSb1MIyM+nN5LfDc1iUH1cgQ+VyZ9lktM5SY+zAI/gTU5c7sf2ysha3REL6121thYQIatduZ0MaPV+GVDgV85pQwRscDAHoLxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769401365; c=relaxed/simple;
-	bh=e4QsZET6UZ+1H0vD+BcRDTxGDlM0hhs4k8to6PScDKU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=p/lWLdhZsnYpVlhrdPp9MK4ikEo8eK7c/xHk8Ylm++4rdYgFlYH72LMtgHim6dC3+E3fhz64yoM+pQV6p4D6kQFCVoECRJl6/mk8lcFCzQZvvA4RoxcGMKXiiR6cjoAhg+SfColMB3Ncg5Ju3MGS6c6D0ipczbKu54lZywpFZzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IxFGad10; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769401393; c=relaxed/simple;
+	bh=RcYHwyI32BEHw/TkJ87L802B+/oqw8tkQehkzjJ6zgA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DkrMRirFHXvr6PqYJE2cDOYeLb6ZInmrs+ZpEmnjdcFzZPUlWnK7iyi91xzGSvEUWNV2hHuEGePflQqAdh2QsJqQJ7x/GiD7c0Qql9WgenTUWiC8gfiumk50mVXYDlzNqKxok5oB7AdzGD2OpM9pW1xvasUdMAZCEDfuzZgX9Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=GynOa++v; arc=none smtp.client-ip=159.100.248.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IxFGad10"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82307c6902eso1771362b3a.3
-        for <linux-doc@vger.kernel.org>; Sun, 25 Jan 2026 20:22:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769401364; x=1770006164; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y+XJK0+ARuYa5Ty9ZZI1bj6RQjF63ZwhVPzjpjM2zqE=;
-        b=IxFGad101gbEB+Wf7c7drR+/yTScDX2F2o60ZEq/Ib6KaDxU9Tw9lq/Nz5/F81h56l
-         848zWn8Ns+3fea2CB9z3t9ioquxzckEeZQJbil7i4mZXwhPA76e6p+TZu6JSPE58XVEq
-         t2v155oWnGZ2wPH7DsuKJc6sajUGudj8AahyvEtCMJ+Jv0/o7OwTjWlTblbXsR60bOy8
-         30Wn/B9/ekVm66GosJ8ZPkDtdWrsqVFe1DztiMDe0IWTiS2s222onJkHy895qbaafguB
-         NyTjnKrY1lljRODuJxAMFsAUNoyG7EU/YWHrvVlJQnoyqC4E3GDODTtp2FcHhYhVfgzm
-         sBVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769401364; x=1770006164;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y+XJK0+ARuYa5Ty9ZZI1bj6RQjF63ZwhVPzjpjM2zqE=;
-        b=HX1WsmAKo2OxhH+FSn6uofCZx0sAni0FahEI1IC6/02r8tmCb3DRx6bLFfjcDr6Ef+
-         EbW/PiQjaCh7h+ZfkDKs1nSulDQK/ub4S4o+yRKWhjewlk7sP6+xiP52CvQHGoG56RDv
-         jfoh44FZuO3gvuCdW0sqN8fpH2EBRyHL8I4d/P6VSJzSfkiGBS+llVDEILYue2g6CDSO
-         KSs6cliJACZuUK3D9mbcQg7vKBFUyxgOe8P1fnoB7M+qymg7RYkX5d4UGqc1co/kY3rR
-         WJiLhZ7nAM/OPZAWpQmrO1mQjocNipFsio1h9p8upvKjah424vGyiF/EscrgzfzI7eYz
-         0WTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWD5vLtvQp0gp0N6B4L4aMhXPRFh9ifZ2my2mWoSwwgXor6hihWkHC2rHfSV37y5rk4BTt+8S/O2VU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+1fCVkt3aqY2Nti5xyWr9+W+N/inD1npU6plkpOyEZHL2OP/S
-	G9bBYN6iL+CWzQN1GwfCq6+duepz2bnhKBsdPpSiffTvjdvX1ZePHI61
-X-Gm-Gg: AZuq6aLzx6dHRtZHTsl9HfX9QOUO87mUacRH+pohKVykxOc7HWo7wPjsiiEfwS2cYNB
-	q19t/U6yUq5rolUjYrlPEzDS0RXUraHr+uDYsG1FV95/r0RVDOcjwQMXAk0r0CgwCJrxh2fARLd
-	iiP3UuzyJaVnBzEraKcDQAoHzhrsOjWQnKDStGwyZ5rS8ojZIQwBQ6+6QCdP+RshBZ00p95i7Wx
-	L9D6Z7AAi/39nSXP5gfEAADv1d/Rx9tdwFy4w63StKi5DcJ1AfKbTF/Ej/GenWyZiFg2/OL3Sxt
-	rDP6KWE5N3VT2yDWhtGb8bwHSFlGq9oRPg0lukr3WA+QYO5+7NMm/oudpNKLUE4LOAyjcaGFaBm
-	b2BHwQd1q2DPjazSuQgLHSeGa4GmelHVaUzHMH1J1nfECiBGHVwAel28pASLOBZkzyR642DDVM5
-	H4AQwGbOBO6LiGQogZ3n83amCGv0NLD53twAg1X3hwdranvYsKf2NNq1Ez9XMAUliLtRIKVwwUR
-	Qr5rDiPrZDnzzlqwChGew==
-X-Received: by 2002:a05:6a00:ab87:b0:81f:4164:79b0 with SMTP id d2e1a72fcca58-82341259667mr2641917b3a.31.1769401363753;
-        Sun, 25 Jan 2026 20:22:43 -0800 (PST)
-Received: from ?IPV6:2405:201:c005:c1:4125:1b86:6db5:52c1? ([2405:201:c005:c1:4125:1b86:6db5:52c1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873e903sm8111036b3a.51.2026.01.25.20.22.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jan 2026 20:22:43 -0800 (PST)
-Message-ID: <58223eae-e0e8-4d3e-be1a-7f48b337299d@gmail.com>
-Date: Mon, 26 Jan 2026 09:52:39 +0530
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="GynOa++v"
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [151.80.165.199])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 2D5CA26344;
+	Mon, 26 Jan 2026 04:23:10 +0000 (UTC)
+Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
+	by relay2.mymailcheap.com (Postfix) with ESMTPS id C9B973E878;
+	Mon, 26 Jan 2026 04:23:00 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf2.mymailcheap.com (Postfix) with ESMTPSA id 1697340408;
+	Mon, 26 Jan 2026 04:22:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1769401378; bh=RcYHwyI32BEHw/TkJ87L802B+/oqw8tkQehkzjJ6zgA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GynOa++vHBLhePi4NPGWXs5Jkdyy2eZ5sAsWFCWtNaInrTHUrhM5HTgCuus85w3or
+	 DNo7FBKi5u/CD9o8nUVbaW/ApBh6LjbzmGBsCOrxWmDHNx7ePjoja/42KX4WPeiwfC
+	 9fbkcMw1momYUVXh5+ut4b5r/cBrwnTdK/Lq5Cy0=
+Received: from [127.0.0.1] (unknown [117.151.13.225])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id C3F5B4097F;
+	Mon, 26 Jan 2026 04:22:50 +0000 (UTC)
+Message-ID: <2fa2dc72-b24e-4504-8c8e-e4ecacda02c4@aosc.io>
+Date: Mon, 26 Jan 2026 12:22:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,47 +46,226 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: workflows@vger.kernel.org
-Cc: jonathan@lwn.net, gregkh@linuxfoundation.org, linux-doc@vger.kernel.org
-From: John Ashrith <johnashrith6@gmail.com>
-Subject: [PATCH v4] docs: clarify CC list guidance wording
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/1] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+Content-Language: en-US-large, en-US
+To: Bibo Mao <maobibo@loongson.cn>, WANG Xuerui <kernel@xen0n.name>,
+ Huacai Chen <chenhuacai@kernel.org>
+Cc: Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ rust-for-linux@vger.kernel.org
+References: <20260125054322.1237687-1-liushuyu@aosc.io>
+ <4b504274-4241-0e3e-3ed3-7804b72b7ee8@loongson.cn>
+ <972430be-d2f3-49b6-851b-a057ddfcafec@aosc.io>
+ <29565e27-f153-c2c5-cbc3-e0457d45f094@loongson.cn>
+From: liushuyu <liushuyu@aosc.io>
+In-Reply-To: <29565e27-f153-c2c5-cbc3-e0457d45f094@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1697340408
+X-Spamd-Result: default: False [1.40 / 10.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[aosc.io,redhat.com,lwn.net,loongson.cn,kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,protonmail.com];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Server: nf2.mymailcheap.com
 
- From 1de01779d580e104bea0148409c3c8c76d204c41 Mon Sep 17 00:00:00 2001
-From: John Ashrith <johnashrith6@gmail.com>
-Date: Sun, 25 Jan 2026 14:48:28 +0000
-Subject: [PATCH] docs: clarify CC list guidance wording
+Hi Bibo,
 
-Clarify that recipients should not be removed from the CC list without a
-good reason, and that replies should not be sent only to the list address.
-This avoids ambiguity in the guidance.
+>
+>
+> On 2026/1/26 上午11:38, liushuyu wrote:
+>> Hi Bibo,
+>>>
+>>>
+>>> On 2026/1/25 下午1:43, Zixing Liu wrote:
+>>>> This ioctl can be used by userspace applications to determine which
+>>>> (special) registers are get/set-able.
+>>>>
+>>>> This can be very useful for cross-platform VMMs so that they do not
+>>>> have
+>>>> to hardcode register indices for each supported architectures.
+>>>>
+>>>> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
+>>>> ---
+>>>>
+>>>> For example, this ioctl could be used by rust-vmm/rust-kvm or maybe
+>>>> VirtualBox-kvm in the future.
+>>>>
+>>>>    Documentation/virt/kvm/api.rst |  2 +-
+>>>>    arch/loongarch/kvm/vcpu.c      | 69
+>>>> ++++++++++++++++++++++++++++++++++
+>>>>    2 files changed, 70 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/virt/kvm/api.rst
+>>>> b/Documentation/virt/kvm/api.rst
+>>>> index 01a3abef8abb..f46dd8be282f 100644
+>>>> --- a/Documentation/virt/kvm/api.rst
+>>>> +++ b/Documentation/virt/kvm/api.rst
+>>>> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
+>>>>    ---------------------
+>>>>      :Capability: basic
+>>>> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+>>>> +:Architectures: arm64, loongarch, mips, riscv, x86 (if
+>>>> KVM_CAP_ONE_REG)
+>>>>    :Type: vcpu ioctl
+>>>>    :Parameters: struct kvm_reg_list (in/out)
+>>>>    :Returns: 0 on success; -1 on error
+>>>> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
+>>>> index 656b954c1134..b884eb9c76aa 100644
+>>>> --- a/arch/loongarch/kvm/vcpu.c
+>>>> +++ b/arch/loongarch/kvm/vcpu.c
+>>>> @@ -1186,6 +1186,57 @@ static int kvm_loongarch_vcpu_set_attr(struct
+>>>> kvm_vcpu *vcpu,
+>>>>        return ret;
+>>>>    }
+>>>>    +static unsigned long kvm_loongarch_num_lbt_regs(void)
+>>>> +{
+>>>> +    /* +1 for the LBT_FTOP flag (inside arch.fpu) */
+>>>> +    return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + 1;
+>>>> +}
+>>>> +
+>>>> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +    /* +1 for the KVM_REG_LOONGARCH_COUNTER register */
+>>>> +    unsigned long res = CSR_MAX_NUMS + KVM_MAX_CPUCFG_REGS + 1;
+>>>> +
+>>>> +    if (kvm_guest_has_lbt(&vcpu->arch))
+>>>> +        res += kvm_loongarch_num_lbt_regs();
+>>>> +
+>>>> +    return res;
+>>>> +}
+>>>> +
+>>>> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
+>>>> +                      u64 __user *uindices)
+>>>> +{
+>>>> +    u64 reg;
+>>>> +    unsigned int i;
+>>>> +
+>>>> +    for (i = 0; i < CSR_MAX_NUMS; i++) {
+>>>> +        reg = KVM_IOC_CSRID(i);
+>>>> +        if (put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +    }
+>>> CSR_MAX_NUMS is max number of accessible CSR registers, instead only
+>>> part of them is used by vCPU model. By my understanding, there will be
+>>> no much meaning if CSR_MAX_NUMS is returned. And I think it will be
+>>> better if real CSR register id and number is returned.
+>>>
+>> Did you mean we should only return the CSR registers initialized in this
+>> function
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/loongarch/kvm/main.c?id=63804fed149a6750ffd28610c5c1c98cce6bd377#n48
+>>
+>> ?
+>>
+>> That looks like a very large list and the values of the register IDs are
+>> not fully continuous. If that is the case, how do we maintain the
+>> get/set-able CSR register list?
+> It will be better if CSR register list can be categorized, for example
+> with LoongArch CPU manual CSR register is split into 8 types from
+> chapter 7.4 -- 7.11
+>
+> At the beginning, there is big array with size CSR_MAX_NUMS without
+> any category, it can be fine-gained in late. 
 
-Signed-off-by: John Ashrith <johnashrith6@gmail.com>
----
-v4:
-- Add changelog text to the commit message
-- Ensure patch is sent as text/plain without mail client mangling
-- Place version notes below the --- line
+Does that mean in the new `kvm_loongarch_copy_reg_indices` function, it
+is also okay to embed this big list in there?
 
-  Documentation/process/howto.rst | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+Or do you want to extract the list from the `kvm_init_gcsr_flag`
+function and refactor both functions to share one single big list
+(probably in the kvm_host.h header)?
 
-diff --git a/Documentation/process/howto.rst 
-b/Documentation/process/howto.rst
-index 9438e03d6..5a29111d6 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -403,7 +403,7 @@ interacting with the list (or any list):
+Because from what I could understand, your previous messages point to
+that we need to use this list to make out what CSR registers to return
+to the user space VMMs.
 
-  If multiple people respond to your mail, the CC: list of recipients may
-  get pretty large. Don't remove anybody from the CC: list without a good
--reason, or don't reply only to the list address. Get used to receiving the
-+reason, and don't reply only to the list address. Get used to receiving the
-  mail twice, one from the sender and the one from the list, and don't try
-  to tune that by adding fancy mail-headers, people will not like it.
-
---
-2.43.0
-
+>
+> Regards
+> Bibo Mao
+>>
+>>> Regards
+>>> Bibo Mao
+>>>> +
+>>>> +    for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
+>>>> +        reg = KVM_IOC_CPUCFG(i);
+>>>> +        if (put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +    }
+>>>> +
+>>>> +    reg = KVM_REG_LOONGARCH_COUNTER;
+>>>> +    if (put_user(reg, uindices++))
+>>>> +        return -EFAULT;
+>>>> +
+>>>> +    if (!kvm_guest_has_lbt(&vcpu->arch))
+>>>> +        return 0;
+>>>> +
+>>>> +    for (i = 1; i <= kvm_loongarch_num_lbt_regs(); i++) {
+>>>> +        reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
+>>>> +        if (put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>>    long kvm_arch_vcpu_ioctl(struct file *filp,
+>>>>                 unsigned int ioctl, unsigned long arg)
+>>>>    {
+>>>> @@ -1251,6 +1302,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>>>>            r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
+>>>>            break;
+>>>>        }
+>>>> +    case KVM_GET_REG_LIST: {
+>>>> +        struct kvm_reg_list __user *user_list = argp;
+>>>> +        struct kvm_reg_list reg_list;
+>>>> +        unsigned n;
+>>>> +
+>>>> +        r = -EFAULT;
+>>>> +        if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
+>>>> +            break;
+>>>> +        n = reg_list.n;
+>>>> +        reg_list.n = kvm_loongarch_num_regs(vcpu);
+>>>> +        if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
+>>>> +            break;
+>>>> +        r = -E2BIG;
+>>>> +        if (n < reg_list.n)
+>>>> +            break;
+>>>> +        r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
+>>>> +        break;
+>>>> +    }
+>>>>        default:
+>>>>            r = -ENOIOCTLCMD;
+>>>>            break;
+>>>>
+>>>
+>> Thanks,
+>> Zixing
+>>
+>
+Thanks,
+Zixing
