@@ -1,204 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2343612F1
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 16:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2022531328C;
+	Tue, 27 Jan 2026 16:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769531089; cv=none; b=B82QrvNLZmmCV6knINd6W7cbjWaY3374Nq/NsQIwzx7mLybOCzyt1RU/6x8NqBJjenPkFVVTlJ0ozRV0N7ibHTv0JlPTX+dZkSRikIOJaEniMmTGCWpoIgLi+qZu5IJgszKv0D5B1Nz1ft3hwe7GzYl26uHqTv2bjmO2uf1mcug=
+	t=1769531119; cv=none; b=QsNFDJPEbpv/uwQEZcB0RW8rF7jNy/RjhxmS7ZWU2ezRdGB/5fkGMHrTcD+IRVGKO1gg+2gJ79ZWQNgaFhI1lAMvqAt/iAg0VdOsaiqGvK/9qTaaK2qP1yZgcCQUv+Ga2cM/p0KKyoKPgZrv6mO1e32ABdaaXnFmbtrroby5hY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769531089; c=relaxed/simple;
-	bh=Mm7PNHjxKBBGvZCLiHpXhTyu74qmhr7ObXdQIYvFD28=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cMXCOW15qPdlfjJZxPf6ABwGnawgmXhnK/BghQyypndO1NcoZ31v1V/xDNeOcPVfIiZeRqBjZjS7AtTeZcS5cackGrmUgMJeWFgAQsFx4LD19wFJHmROBNhCBAqHnI+a9i2w+bAf9+V/hNpWHB2+p61xAXKhgfLb0fu96qPHZB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eDHoZ7wz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769531119; c=relaxed/simple;
+	bh=E1NfJAp2pRZUFxTfTA8catDkh+kMmjU7cxx7FcIuLUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cs98nfd+xL3zRhuGnambTAb7/lYOxaW6gtgCRe2A2i+ZeZY7sRaK8Hd0sKB5+u7fXO3pXfMuFbJph/dzlD5Us9idKhvkp6J8J0jG/02dgaWkUaQ6iul5qzG4332q0R7D4E7Syj7QvfZCIEQsBZOG2j05uG2hJlqM7UnAaxHt0eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RmedgJQX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eDHoZ7wz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F844C16AAE
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 16:24:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RmedgJQX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F90C116C6;
+	Tue, 27 Jan 2026 16:25:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769531089;
-	bh=Mm7PNHjxKBBGvZCLiHpXhTyu74qmhr7ObXdQIYvFD28=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eDHoZ7wzov52VSRHiF8O0B+f4RfcehlRQcp9dNXea78RFjUTpz7fFO/LcDiBTKY+2
-	 YfLeL1ggHEYl+VgCSw8hwbpIDQ7m6vNgzXTPDw3hYHBVE95xBC4pZxLpeA+Sqni9XW
-	 r2iNwPsVohBqTnU9wNPLdX3TvVZixG2jJHDFSO9ZkcqEcFeEh/21J6Z6fRzlkHCbDQ
-	 W1IZStBzWGLECfsnXQ0IXHvDHajllPv43WklQ3HT9zWaWDs8gly/6SUcxNW3MQVUJ+
-	 78VyG6Vlbtk4kYTNswBjQVbhpDfM3fDFhCh77DKNF0IG0OYmq4nS1eosWIUFv1bcmI
-	 4B6bnjUQia6iA==
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-45c7f550f46so1804204b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 08:24:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWxEwV4XYI6qIIoTwat4X3ZckKA1CWC3CWFOPpCe5kheI3tkgx4FXy8x9/+SftfW3pJ+O9OT9JO1wg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7VtDLlS9oFh0S+IFzGzrcMu9+07419qYOERwEt5Cx5B1yVyEO
-	Ie8dByWQLoYWRoK+zYtJ6yH3BcC31iy3v/9RYNjZOrOv9B4BLG/GdyO+VFVS8o6vAyyGpRSbjHi
-	jcJOrTFefL/sBdldhcptZyrnFo9BS97c=
-X-Received: by 2002:a05:6808:1904:b0:450:ccef:c01f with SMTP id
- 5614622812f47-45efc65eef8mr1065605b6e.34.1769531087995; Tue, 27 Jan 2026
- 08:24:47 -0800 (PST)
+	s=k20201202; t=1769531118;
+	bh=E1NfJAp2pRZUFxTfTA8catDkh+kMmjU7cxx7FcIuLUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RmedgJQX5P3Wnvf4SB4ljWykErVE/oDxaOhwVm9GiClSgjqQVhIHGYUwiho+ilawz
+	 DCXUwxNqguAvhFnW4DUMcckLZx6kQ3kGgJc0impKTjdMyf9K3DI6aRMax/oXbXQbE3
+	 leu3F38rP43+rkUkG2JM8ugRXxhJJeZ8rUVUXF+cUvmJX6m+FhD+wknLAWp/dL2YJt
+	 y4C7+8cA+yhLGBZ/gaPsyZVTnOmotwYfWZt+a8u8c++9u0/jjCMif01h3GcAfMXNlE
+	 iCGjLZMi0kukzr7qp09OHDGpEGNDNIuGwOSLImDUqi46oQtZiEIg0/5ARIwJLOmC8D
+	 Jr6RgQppoxXcg==
+Date: Tue, 27 Jan 2026 16:25:13 +0000
+From: Simon Horman <horms@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, netdev@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>,
+	Wu Like <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>,
+	Luo Yang <luoyang82@h-partners.com>
+Subject: Re: [PATCH net-next v02 2/4] hinic3: Remove redundant defensive code
+Message-ID: <aXjm6fE7Vsv_0GTP@horms.kernel.org>
+References: <cover.1769142701.git.zhuyikai1@h-partners.com>
+ <5f2f3eb262f83613d276aa95a3384370a936ca90.1769142701.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260120145623.2959636-1-sumitg@nvidia.com> <20260120145623.2959636-2-sumitg@nvidia.com>
-In-Reply-To: <20260120145623.2959636-2-sumitg@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 27 Jan 2026 17:24:36 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0ipgGt7tetY6p0CW0jyOh9TVeWxgXpFzveTa2CaGB8ZpA@mail.gmail.com>
-X-Gm-Features: AZwV_Qg_oEiNndB5ZDCW_5HqO2fNprSPJkksUv7HA7IrMkSsJk1zm9cMtY4Gyck
-Message-ID: <CAJZ5v0ipgGt7tetY6p0CW0jyOh9TVeWxgXpFzveTa2CaGB8ZpA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/9] cpufreq: CPPC: Add generic helpers for sysfs show/store
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, pierre.gondois@arm.com, 
-	zhenglifeng1@huawei.com, ionela.voinescu@arm.com, lenb@kernel.org, 
-	robert.moore@intel.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com, 
-	perry.yuan@amd.com, zhanjie9@hisilicon.com, linux-pm@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com, 
-	vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com, 
-	nhartman@nvidia.com, bbasu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f2f3eb262f83613d276aa95a3384370a936ca90.1769142701.git.zhuyikai1@h-partners.com>
 
-On Tue, Jan 20, 2026 at 3:57=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wro=
-te:
->
-> Add generic helper functions for u64 sysfs attributes that follow the
-> common pattern of calling CPPC get/set APIs:
-> - cppc_cpufreq_sysfs_show_u64(): reads value and handles -EOPNOTSUPP
-> - cppc_cpufreq_sysfs_store_u64(): parses input and calls set function
->
-> Add CPPC_CPUFREQ_ATTR_RW_U64() macro to generate show/store functions
-> using these helpers, reducing boilerplate for simple attributes.
->
-> Convert auto_act_window and energy_performance_preference_val to use
-> the new macro.
->
-> No functional changes.
->
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/cpufreq/cppc_cpufreq.c | 69 ++++++++++++----------------------
->  1 file changed, 25 insertions(+), 44 deletions(-)
->
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufre=
-q.c
-> index 36e8a75a37f1..c95dcd7719c3 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -863,73 +863,54 @@ static ssize_t store_auto_select(struct cpufreq_pol=
-icy *policy,
->         return count;
->  }
->
-> -static ssize_t show_auto_act_window(struct cpufreq_policy *policy, char =
-*buf)
-> +static ssize_t cppc_cpufreq_sysfs_show_u64(unsigned int cpu,
-> +                                          int (*get_func)(int, u64 *),
-> +                                          char *buf)
->  {
->         u64 val;
-> -       int ret;
-> -
-> -       ret =3D cppc_get_auto_act_window(policy->cpu, &val);
-> +       int ret =3D get_func((int)cpu, &val);
->
-> -       /* show "<unsupported>" when this register is not supported by cp=
-c */
->         if (ret =3D=3D -EOPNOTSUPP)
->                 return sysfs_emit(buf, "<unsupported>\n");
-> -
->         if (ret)
->                 return ret;
->
->         return sysfs_emit(buf, "%llu\n", val);
->  }
->
-> -static ssize_t store_auto_act_window(struct cpufreq_policy *policy,
-> -                                    const char *buf, size_t count)
-> +static ssize_t cppc_cpufreq_sysfs_store_u64(unsigned int cpu,
-> +                                           int (*set_func)(int, u64),
-> +                                           const char *buf, size_t count=
-)
->  {
-> -       u64 usec;
-> +       u64 val;
->         int ret;
->
-> -       ret =3D kstrtou64(buf, 0, &usec);
-> +       ret =3D kstrtou64(buf, 0, &val);
->         if (ret)
->                 return ret;
->
-> -       ret =3D cppc_set_auto_act_window(policy->cpu, usec);
-> -       if (ret)
-> -               return ret;
-> +       ret =3D set_func((int)cpu, val);
->
-> -       return count;
-> +       return ret ? ret : count;
->  }
->
-> -static ssize_t show_energy_performance_preference_val(struct cpufreq_pol=
-icy *policy, char *buf)
-> -{
-> -       u64 val;
-> -       int ret;
-> -
-> -       ret =3D cppc_get_epp_perf(policy->cpu, &val);
-> -
-> -       /* show "<unsupported>" when this register is not supported by cp=
-c */
-> -       if (ret =3D=3D -EOPNOTSUPP)
-> -               return sysfs_emit(buf, "<unsupported>\n");
-> -
-> -       if (ret)
-> -               return ret;
-> -
-> -       return sysfs_emit(buf, "%llu\n", val);
-> +#define CPPC_CPUFREQ_ATTR_RW_U64(_name, _get_func, _set_func)          \
-> +static ssize_t show_##_name(struct cpufreq_policy *policy, char *buf)  \
-> +{                                                                      \
-> +       return cppc_cpufreq_sysfs_show_u64(policy->cpu, _get_func, buf);\
-> +}                                                                      \
-> +static ssize_t store_##_name(struct cpufreq_policy *policy,            \
-> +                            const char *buf, size_t count)             \
-> +{                                                                      \
-> +       return cppc_cpufreq_sysfs_store_u64(policy->cpu, _set_func,     \
-> +                                           buf, count);                \
->  }
->
-> -static ssize_t store_energy_performance_preference_val(struct cpufreq_po=
-licy *policy,
-> -                                                      const char *buf, s=
-ize_t count)
-> -{
-> -       u64 val;
-> -       int ret;
-> +CPPC_CPUFREQ_ATTR_RW_U64(auto_act_window, cppc_get_auto_act_window,
-> +                        cppc_set_auto_act_window)
->
-> -       ret =3D kstrtou64(buf, 0, &val);
-> -       if (ret)
-> -               return ret;
-> -
-> -       ret =3D cppc_set_epp(policy->cpu, val);
-> -       if (ret)
-> -               return ret;
-> -
-> -       return count;
-> -}
-> +CPPC_CPUFREQ_ATTR_RW_U64(energy_performance_preference_val,
-> +                        cppc_get_epp_perf, cppc_set_epp)
->
->  cpufreq_freq_attr_ro(freqdomain_cpus);
->  cpufreq_freq_attr_rw(auto_select);
-> --
+On Mon, Jan 26, 2026 at 09:03:32AM +0800, Fan Gong wrote:
+> According to comment of patch 03, check codes that were merged and
+> remove redundant defensive codes.
+> 
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
 
-It looks like this patch could be applied independently of the other
-patches in the series.
+Hi,
 
-Do you want me to do so?
+I agree that defensive coding is unnecessary in Networking drivers.
+But I'm unsure what "codes that were merged" and "patch 03" refers to.
+Could you clarify this?
+
+Likewise in patch 3/4 of this series.
